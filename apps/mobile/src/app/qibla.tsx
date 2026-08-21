@@ -13,6 +13,7 @@
 // 0 by 45° off) drives a graded indigo→brass transition on the beam, the Kaaba
 // glow, the needle and the index — so you feel yourself closing in *before* the
 // hard ≤4° lock, not just a binary on/off.
+import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 import { router, useFocusEffect } from 'expo-router';
@@ -67,6 +68,12 @@ function hexToRgba(hex: string, a: number): string {
 }
 
 export default function Qibla() {
+  // Aligning with the qibla is the one thing in this app you do by holding the phone
+  // perfectly still and looking at it — which is exactly what the display-sleep timer reads
+  // as "nobody is here". Being dimmed out mid-turn, on the screen whose entire job is to be
+  // watched while you rotate, is the sort of small betrayal that makes an app feel unfinished.
+  // Scoped to this screen: the hook releases on unmount, and the sheet unmounts on dismiss.
+  useKeepAwake();
   const { coords, label, source } = useLocation();
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);

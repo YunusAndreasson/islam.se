@@ -21,7 +21,7 @@
 import { computePrayerTimes, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { DEFAULT_COORDS } from '@/lib/settings/types';
-import { startOfStockholmDay, stockholmDayLength, stockholmPrayerDate } from '@/lib/stockholm-time';
+import { startOfZoneDay, zoneDayLength, zonePrayerDate } from '@/lib/zone-time';
 import type { PrayerLineData } from '@/components/map/skia/SolarSkiaOverlay';
 import { buildGrid, buildLines, type PrayerLineLabel } from './field';
 import { lineGridSettings } from './grid-cache';
@@ -90,8 +90,8 @@ const formatDemoTime = (d: Date): string => TIME_FMT.format(d).replace('.', ':')
 export function demoDayStart(year: number, monthIndex: number): number {
   // Midday UTC on the target date, then snapped to the Stockholm day it falls in — a
   // noon anchor, so no DST transition can push it onto the neighbouring date. Same trick
-  // addStockholmDays uses, and for the same reason.
-  return startOfStockholmDay(Date.UTC(year, monthIndex, SAMPLE_DAY_OF_MONTH, 12, 0, 0));
+  // addZoneDays uses, and for the same reason.
+  return startOfZoneDay(Date.UTC(year, monthIndex, SAMPLE_DAY_OF_MONTH, 12, 0, 0));
 }
 
 // Keyed by `${dayStart}|${signature}`, capped at one year's frames. A compute-affecting
@@ -125,8 +125,8 @@ export function demoFrame(
   const hit = cache.get(key);
   if (hit) return hit;
 
-  const prayerDate = stockholmPrayerDate(dayStart);
-  const dayLength = stockholmDayLength(dayStart);
+  const prayerDate = zonePrayerDate(dayStart);
+  const dayLength = zoneDayLength(dayStart);
 
   // The event the frame is anchored on. Computed with the user's OWN settings (this is a
   // real time, shown to the user), unlike the grid below.

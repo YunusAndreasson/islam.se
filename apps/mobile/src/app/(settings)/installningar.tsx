@@ -34,6 +34,7 @@ import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { OptionGroup } from '@/components/settings/OptionGroup';
+import { SegmentedChoice } from '@/components/settings/SegmentedChoice';
 import { Icon } from '@/components/ui/Icon';
 import { PreviewStrip } from '@/components/settings/PreviewStrip';
 import { SettingSection } from '@/components/settings/SettingSection';
@@ -60,6 +61,7 @@ import {
   THEME_OPTIONS,
 } from '@/lib/settings/options';
 import {
+  openNotificationSettings,
   openSystemSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
@@ -239,7 +241,7 @@ export default function Installningar() {
                   </Text>
                 )}
                 <Text style={styles.rowValue} numberOfLines={1}>
-                  {source === 'gps' ? label : '—'}
+                  {source === 'gps' ? label : '–'}
                 </Text>
               </Pressable>
               {/* The footnote above names iOS-inställningar as the remedy; without this row
@@ -336,7 +338,7 @@ export default function Installningar() {
           />
           {notificationsBlocked ? (
             <Pressable
-              onPress={openSystemSettings}
+              onPress={openNotificationSettings}
               accessibilityRole="button"
               accessibilityLabel={openSystemSettingsA11yLabel('notiser')}
               style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
@@ -395,7 +397,11 @@ export default function Installningar() {
             Alone in its section now: with the map layers and the calendar offset moved
             out, "Utseende" finally means only what it says. */}
         <SettingSection title="Utseende" footnote="Påverkar kartan och hela appen.">
-          <OptionGroup
+          {/* The one control on this screen that is a segmented control everywhere else the
+              reader has ever met it — three short, exclusive, familiar options. The long
+              lists above stay as OptionGroup rows: their per-row descriptions are what makes
+              them choosable, and a segment fits a word. See SegmentedChoice. */}
+          <SegmentedChoice
             options={THEME_OPTIONS}
             value={settings.theme}
             onChange={(theme) => update({ theme })}

@@ -1,6 +1,6 @@
 // Persistence for PrayerSettings. Settings are a small JSON blob, so a single
-// AsyncStorage key is enough — no need for a heavier store.
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// storage key is enough — no need for a heavier store (see ../storage).
+import { storage } from '@/lib/storage';
 
 import {
   DEFAULT_SETTINGS,
@@ -232,7 +232,7 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
  */
 export async function loadSettings(): Promise<PrayerSettings> {
   try {
-    const raw = await AsyncStorage.getItem(STORAGE_KEY);
+    const raw = await storage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_SETTINGS;
     return sanitizeSettings(JSON.parse(raw));
   } catch {
@@ -241,5 +241,5 @@ export async function loadSettings(): Promise<PrayerSettings> {
 }
 
 export async function saveSettings(settings: PrayerSettings): Promise<void> {
-  await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+  await storage.setItem(STORAGE_KEY, JSON.stringify(settings));
 }

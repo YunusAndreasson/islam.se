@@ -26,7 +26,7 @@ import {
 import { completeIntro, type IntroStatus, loadIntroStatus } from './intro';
 
 interface IntroContextValue {
-  /** 'unknown' until the AsyncStorage read lands — the gate renders nothing on it. */
+  /** 'unknown' until the storage read lands — the gate renders nothing on it. */
   status: IntroStatus;
   /** The introduction finished or was skipped. Flips to 'done' immediately and persists
    *  behind it, so the map is never held back by a storage write. Also arms

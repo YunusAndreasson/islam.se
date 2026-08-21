@@ -137,6 +137,11 @@ const ICONS = {
   // Alerts
   notificationsOff: { ios: 'bell', android: 'notifications', ink: 0.81 },
   notificationsOn: { ios: 'bell.badge.fill', android: 'notifications_active', ink: 0.83 },
+  // The adhan preview in Påminnelser (lib/adhan-audio). No MaterialIcons predecessor to
+  // inherit from, so `ink` was MEASURED off the glyphs these would have replaced —
+  // play-arrow 0.58, stop 0.50, by the BoundsPen recipe in note 2 above. Do not guess these.
+  play: { ios: 'play.fill', android: 'play_arrow', ink: 0.58 },
+  stop: { ios: 'stop.fill', android: 'stop', ink: 0.5 },
   // Degraded-network notices on the map
   wifiOff: { ios: 'wifi.slash', android: 'wifi_off', ink: 0.92 },
   cloudOff: { ios: 'icloud.slash', android: 'cloud_off', ink: 1.0 },

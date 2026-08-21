@@ -76,14 +76,14 @@ const EMPTY: NightTimes = { middleOfNight: null, lastThird: null };
  * through here for free.
  *
  * SunnahTimes builds the next day internally with adhan's `dateByAddingDays`, which
- * preserves local hours. Every caller passes `stockholmPrayerDate(...)` (local noon), so
- * this is the same noon anchoring `addStockholmDays` uses in stockholm-time.ts — it
+ * preserves local hours. Every caller passes `zonePrayerDate(...)` (local noon), so
+ * this is the same noon anchoring `addZoneDays` uses in zone-time.ts — it
  * agrees with the DST invariant rather than working around it.
  *
  * THE GUARD IS THE POINT OF THIS FUNCTION. Two ways the raw values are unusable:
  *
  *  1. Non-finite — invalid coordinates, or polar resolution 'unresolved' above the Arctic
- *     circle. Same NaN story the rest of the app renders as '—'.
+ *     circle. Same NaN story the rest of the app renders as '–'.
  *
  *  2. At or before ʿIshāʾ. Under HighLatitudeRule.MiddleOfTheNight both fajr and isha are
  *     clamped toward the night's midpoint, so in a Swedish summer they converge and

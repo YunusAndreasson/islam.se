@@ -13,7 +13,9 @@
 // `userCoords` right there in scope, so passing them along would be a one-word change that
 // quietly breaks that promise. buildReportPayload takes a Mosque and nothing positional;
 // report.test.ts asserts the absence.
+import * as Application from 'expo-application';
 import Constants from 'expo-constants';
+import * as Network from 'expo-network';
 
 import type { Mosque } from './index';
 
@@ -113,7 +115,11 @@ export interface ReportPayload {
   app_version: string;
 }
 
-const APP_VERSION: string = Constants.expoConfig?.version ?? '';
+// The installed binary's version, not the OTA manifest's — a report that names a version
+// which was never shipped is a report that cannot be reproduced. See lib/about for the
+// longer note; the fallback is `expo start`, where there is no binary to ask.
+const APP_VERSION: string =
+  Application.nativeApplicationVersion ?? Constants.expoConfig?.version ?? '';
 
 export function buildReportPayload(
   mosque: Mosque,
@@ -193,6 +199,21 @@ interface ServerReply {
  * mosque dataset) is computed or bundled on device.
  */
 export async function submitMosqueReport(payload: ReportPayload): Promise<SubmitResult> {
+  // Ask the OS before asking the network. Offline, the fetch below does not fail fast — it
+  // sits there until the 15 s abort, and the reader watches a spinner for fifteen seconds to
+  // be told something the phone knew before they pressed the button. The answer is the same
+  // either way, so this only changes how long it takes to arrive.
+  //
+  // `=== false` on purpose: the field is optional, and an UNKNOWN reachability must fall
+  // through to the real attempt. Refusing to send on "we're not sure" would turn a working
+  // submission into a failure, which is far worse than a slow one.
+  try {
+    const { isInternetReachable } = await Network.getNetworkStateAsync();
+    if (isInternetReachable === false) return { ok: false, message: OFFLINE };
+  } catch {
+    // No connectivity answer is not a reason to refuse to try.
+  }
+
   // ⚠️ NOT AbortSignal.timeout(). React Native replaces the global AbortSignal with the
   // `abort-controller` polyfill (see RN's Libraries/Core/setUpXHR.js), which has no
   // static timeout() — calling it throws TypeError, and since everything here is wrapped

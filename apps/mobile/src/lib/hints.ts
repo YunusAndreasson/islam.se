@@ -12,7 +12,7 @@
 // then never again. A first-launch dismissal is often reflexive; one calm retry
 // recovers those users. `maxShowings` is the cap, whatever happens.
 //
-// Each hint lives in its OWN AsyncStorage key rather than as a field on
+// Each hint lives in its OWN storage key rather than as a field on
 // PrayerSettings, deliberately: "Återställ appens standard" wipes PrayerSettings
 // wholesale, and a factory reset should not resurrect a hint the user already
 // answered. (It also keeps the settings-shape drift guards in
@@ -21,7 +21,7 @@
 // This module is the shared policy; ./notification-hint and ./location-hint are its
 // two instantiations. It is a factory rather than a base class so each hint keeps its
 // own launch-count guard — a card being shown must never mark the other one as seen.
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storage } from './storage';
 
 export interface HintRecord {
   /** Cold launches counted so far (this one included). */
@@ -88,7 +88,7 @@ export interface HintStore {
 export function createHintStore(storageKey: string, policy: HintPolicy): HintStore {
   const loadRecord = async (): Promise<HintRecord> => {
     try {
-      const raw = await AsyncStorage.getItem(storageKey);
+      const raw = await storage.getItem(storageKey);
       return raw ? sanitize(JSON.parse(raw)) : EMPTY_HINT_RECORD;
     } catch {
       // A hint is a nicety — an unreadable record must never break the map screen.
@@ -100,7 +100,7 @@ export function createHintStore(storageKey: string, policy: HintPolicy): HintSto
 
   const save = async (record: HintRecord): Promise<HintRecord> => {
     try {
-      await AsyncStorage.setItem(storageKey, JSON.stringify(record));
+      await storage.setItem(storageKey, JSON.stringify(record));
     } catch {
       // Best-effort: an unwritable record means the hint may be offered again later.
     }

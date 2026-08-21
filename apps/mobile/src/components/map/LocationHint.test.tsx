@@ -59,7 +59,7 @@ describe('LocationHint', () => {
     expect(screen.getByText('Använd min plats')).toBeTruthy();
     // The privacy sentence is the reason a user says yes to a faith app reading their
     // position at all — it must not quietly disappear in a restyle.
-    expect(screen.getByText(/stannar i din enhet – inget skickas online/)).toBeTruthy();
+    expect(screen.getByText(/stannar i din enhet – inget skickas iväg/)).toBeTruthy();
   });
 
   // THE regression this file exists to prevent. If dismissing ever reached the OS, a user

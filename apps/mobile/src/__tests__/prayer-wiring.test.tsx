@@ -70,7 +70,7 @@ function snapshot(): Record<PrayerKey, string> {
 // "HH:MM" (sv-SE may use ':' or '.') → minutes since midnight, for ordering/delta checks.
 function toMin(hhmm: string): number {
   const [h, m] = hhmm.split(/[:.]/).map(Number);
-  // A screen that rendered '—' (an unresolvable polar slot) or a label instead of a time
+  // A screen that rendered '–' (an unresolvable polar slot) or a label instead of a time
   // used to flow through here as NaN, and NaN fails every ordering comparison silently —
   // the test went red saying "expected NaN to be greater than NaN", which names nothing.
   if (h === undefined || m === undefined || Number.isNaN(h) || Number.isNaN(m)) {

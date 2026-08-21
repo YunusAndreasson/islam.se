@@ -20,7 +20,10 @@
 // Explicitly NO haptic for: navigation & dismissal (opening / closing / back on any screen
 // or modal — the visual transition is the feedback), expanding/collapsing disclosure or FAQ
 // accordions (a content reveal, treated like navigation), and native controls that carry
-// their own platform affordance (the Switch in Toggle). Overusing haptics on routine
+// their own platform affordance — the Switch in Toggle, and every @expo/ui control, whose
+// SwiftUI / Jetpack Compose implementation feeds back on its own (SegmentedChoice, which is
+// a native segmented Picker, is silent here for exactly that reason even though the
+// OptionGroup it replaced on Utseende ticks). Overusing haptics on routine
 // transitions drains the signal value of the meaningful ones (Apple HIG).
 //
 // The introduction's step buttons look like they fall under that exclusion and do not:

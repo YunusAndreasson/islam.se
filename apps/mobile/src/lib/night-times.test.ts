@@ -14,7 +14,7 @@ import {
   NIGHT_SWEDISH_NAMES,
 } from './night-times';
 import { computePrayerTimes } from './prayer-times';
-import { addStockholmDays, startOfStockholmDay, stockholmPrayerDate } from './stockholm-time';
+import { addZoneDays, startOfZoneDay, zonePrayerDate } from './zone-time';
 import { DEFAULT_SETTINGS, type PrayerSettings } from './settings/types';
 
 const MALMO = { latitude: 55.605, longitude: 13.0038 };
@@ -143,7 +143,7 @@ describe('computeNightTimes — the ordering guard', () => {
 });
 
 // A Stockholm day is 23, 24 or 25 hours. adhan derives the next day with dateByAddingDays,
-// which preserves LOCAL hours — the same noon anchoring stockholm-time.ts uses. A refactor
+// which preserves LOCAL hours — the same noon anchoring zone-time.ts uses. A refactor
 // to `+ 86_400_000` anywhere in that path would break exactly one day a year, silently.
 describe('computeNightTimes — DST days', () => {
   it.each([
@@ -159,11 +159,11 @@ describe('computeNightTimes — DST days', () => {
   it('anchors the night to the day it BEGINS, across the 25-hour day', () => {
     // The last third belongs to the night that starts on the 25th, so it must fall inside
     // [maghrib(25th), fajr(26th)] — a naive +24 h step would land it in the wrong day.
-    const dayStart = startOfStockholmDay(new Date(2026, 9, 25, 12).getTime());
-    const times = computePrayerTimes(STOCKHOLM, stockholmPrayerDate(dayStart), settings());
+    const dayStart = startOfZoneDay(new Date(2026, 9, 25, 12).getTime());
+    const times = computePrayerTimes(STOCKHOLM, zonePrayerDate(dayStart), settings());
     const night = computeNightTimes(times);
-    const nextStart = addStockholmDays(dayStart, 1);
-    const nextFajr = computePrayerTimes(STOCKHOLM, stockholmPrayerDate(nextStart), settings()).fajr;
+    const nextStart = addZoneDays(dayStart, 1);
+    const nextFajr = computePrayerTimes(STOCKHOLM, zonePrayerDate(nextStart), settings()).fajr;
     expect(night.lastThird!.getTime()).toBeGreaterThan(times.maghrib.getTime());
     expect(night.lastThird!.getTime()).toBeLessThan(nextFajr.getTime());
   });

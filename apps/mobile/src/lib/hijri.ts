@@ -4,6 +4,7 @@
 // the offset is for: tabular dates can sit ±1 day from a local moon-sighting or the
 // Umm al-Qura announcement, so the user nudges `hijriOffset` to match their mosque.
 // Kept UI-free and pure so it's trivially testable and any screen can call it.
+import { getDisplayZone } from './zone-time';
 
 export interface HijriDate {
   year: number;
@@ -111,17 +112,31 @@ export function formatHijri(date: Date, offsetDays = 0): string {
 // per-call Intl.DateTimeFormat construction was wasted work — and day navigation added a
 // SECOND shape (with the year) that must not thrash the first. Each is cached null on a
 // runtime without full Intl, falling back to toDateString() exactly as before.
-const gregorianFmt: { [K in 'bare' | 'withYear']?: Intl.DateTimeFormat | null } = {};
+//
+// ⚠️ KEYED ON THE ZONE, and that is the whole point of the key. This used to pin
+// `timeZone: 'Europe/Stockholm'` with a comment saying it matched "the rest of the app" —
+// true until the display zone became the device's (see lib/zone-time). It stopped being
+// true silently, and the result is the one defect PrayerDock's own comment promises cannot
+// happen: its two date lines disagreeing.
+//
+// PrayerDock builds the Gregorian line from `dayStart + 12 h` and the Hijri line from
+// `zonePrayerDate(dayStart)`. Pin only the first to Stockholm and, for a reader far enough
+// west, that midday instant lands on the NEXT Stockholm day: in Honolulu (UTC−10) on
+// 15 July, the header reads "torsdag 16 juli" above a Hijri date and six prayer rows that
+// are all the 15th. Anywhere at UTC−10 or further west — Hawaii, Midway, Niue, Samoa,
+// western Alaska.
+const gregorianFmt: { [K in 'bare' | 'withYear']?: { zone: string; fmt: Intl.DateTimeFormat | null } } = {};
 function getGregorianFmt(withYear: boolean): Intl.DateTimeFormat | null {
   const slot = withYear ? 'withYear' : 'bare';
+  const zone = getDisplayZone();
   const cached = gregorianFmt[slot];
-  if (cached !== undefined) return cached;
+  if (cached?.zone === zone) return cached.fmt;
   let built: Intl.DateTimeFormat | null;
   try {
     built = new Intl.DateTimeFormat('sv-SE', {
-      // Pin to Swedish civil time like the rest of the app, so the dock's weekday/day
-      // can't roll to the wrong calendar day near midnight on a device in another zone.
-      timeZone: 'Europe/Stockholm',
+      // The reader's own civil day — the same one every prayer row and the Hijri line are
+      // computed for. The LOCALE stays sv-SE: this is a Swedish app wherever it is read.
+      timeZone: zone,
       weekday: 'long',
       day: 'numeric',
       month: 'long',
@@ -130,7 +145,7 @@ function getGregorianFmt(withYear: boolean): Intl.DateTimeFormat | null {
   } catch {
     built = null;
   }
-  gregorianFmt[slot] = built;
+  gregorianFmt[slot] = { zone, fmt: built };
   return built;
 }
 

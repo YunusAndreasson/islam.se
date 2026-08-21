@@ -102,7 +102,7 @@ export function useNotificationPermission(active = true): NotificationPermission
     : blocked
       ? `Notiser är blockerade. Öppna ${systemSettingsName()} för att tillåta dem.`
       : permission === 'granted'
-        ? 'Planeras lokalt på din enhet – inget skickas online.'
+        ? 'Planeras lokalt på din enhet – inget skickas iväg.'
         : undefined;
 
   return { permission, blocked, footnote, setEnabled };

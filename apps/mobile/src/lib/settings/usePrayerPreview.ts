@@ -29,7 +29,7 @@ import {
   PRAYER_ORDER,
   type LatLng,
 } from '@/lib/prayer-times';
-import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { zonePrayerDate } from '@/lib/zone-time';
 import type { PrayerSettings } from './types';
 
 export interface PrayerPreviewRow {
@@ -56,7 +56,7 @@ export function usePrayerPreview(
   now: Date,
 ): PrayerPreview {
   return useMemo(() => {
-    const prayerDate = stockholmPrayerDate(now.getTime());
+    const prayerDate = zonePrayerDate(now.getTime());
     const pt = computePrayerTimes(coords, prayerDate, settings);
     const night = computeNightTimes(pt);
     return {
@@ -77,7 +77,7 @@ export function usePrayerPreview(
         // night that BEGINS today (maghrib → next fajr), so they sit after ʿIshāʾ, and the
         // reader must be able to see where the obligations stop. Only when asked for.
         // computeNightTimes returns null where the times would be meaningless, and
-        // formatTime renders that as '—' exactly as it does an unresolved prayer.
+        // formatTime renders that as '–' exactly as it does an unresolved prayer.
         ...(settings.showNightTimes
           ? NIGHT_ORDER.map((key) => ({
               key,

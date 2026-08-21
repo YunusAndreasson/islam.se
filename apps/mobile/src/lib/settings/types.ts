@@ -1,6 +1,6 @@
 // User-tunable prayer-time settings and their defaults. These map onto adhan's
 // CalculationParameters (see ../prayer-times.ts) but stay framework-agnostic so
-// they can be JSON-serialised straight into AsyncStorage (see ./store.ts).
+// they can be JSON-serialised straight into storage (see ./store.ts).
 
 /** The 13 adhan calculation-method presets, keyed by their CalculationMethod factory name. */
 export type CalculationMethodKey =
@@ -238,7 +238,7 @@ export const DEFAULT_COORDS: NamedLocation = {
 
 /** Deep value-equality across the settings shape (plain objects, primitives, null — the
  *  blob has no arrays). Deliberately NOT `JSON.stringify(a) === JSON.stringify(b)`: that
- *  compares key ORDER too, and the order of a blob rehydrated from AsyncStorage is
+ *  compares key ORDER too, and the order of a blob rehydrated from storage is
  *  whatever the writer happened to use. A harmless reshuffle would then read as "the user
  *  changed something". */
 const sameValue = (a: unknown, b: unknown): boolean => {

@@ -1,11 +1,11 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
-import { addStockholmDays, startOfStockholmDay, stockholmParts } from '@/lib/stockholm-time';
+import { addZoneDays, startOfZoneDay, zoneParts } from '@/lib/zone-time';
 import { adjacentMonth, DayPicker, monthGrid } from './DayPicker';
 import { first } from '@/test-utils/at';
 
-const day = (y: number, m: number, d: number) => startOfStockholmDay(Date.UTC(y, m - 1, d, 12));
+const day = (y: number, m: number, d: number) => startOfZoneDay(Date.UTC(y, m - 1, d, 12));
 
 function renderPicker(dayStart: number, todayStart = dayStart) {
   const onPick = jest.fn();
@@ -22,8 +22,8 @@ describe('monthGrid', () => {
       const grid = monthGrid(day(2026, 7, d));
       const days = grid.cells.filter((c): c is number => c != null);
       expect(days).toHaveLength(31); // July
-      expect(stockholmParts(grid.first).d).toBe(1);
-      expect(stockholmParts(grid.last).d).toBe(31);
+      expect(zoneParts(grid.first).d).toBe(1);
+      expect(zoneParts(grid.last).d).toBe(31);
       expect(grid.title).toBe('juli 2026');
     }
   });
@@ -46,7 +46,7 @@ describe('monthGrid', () => {
     const days = october.cells.filter((c): c is number => c != null);
     expect(days).toHaveLength(31);
     expect(new Set(days).size).toBe(31);
-    expect(days.map((d) => stockholmParts(d).d)).toEqual(
+    expect(days.map((d) => zoneParts(d).d)).toEqual(
       Array.from({ length: 31 }, (_, i) => i + 1),
     );
   });
@@ -64,13 +64,13 @@ describe('adjacentMonth', () => {
     [day(2027, 2, 28), 3, 1],
   ])('steps off the end of the month, not 28 days along', (anchor, nextMo, prevMo) => {
     const grid = monthGrid(anchor);
-    expect(stockholmParts(adjacentMonth(grid, 1)).mo).toBe(nextMo);
-    expect(stockholmParts(adjacentMonth(grid, -1)).mo).toBe(prevMo);
+    expect(zoneParts(adjacentMonth(grid, 1)).mo).toBe(nextMo);
+    expect(zoneParts(adjacentMonth(grid, -1)).mo).toBe(prevMo);
   });
 
   it('crosses the year in both directions', () => {
-    expect(stockholmParts(adjacentMonth(monthGrid(day(2026, 12, 5)), 1)).y).toBe(2027);
-    expect(stockholmParts(adjacentMonth(monthGrid(day(2026, 1, 5)), -1)).y).toBe(2025);
+    expect(zoneParts(adjacentMonth(monthGrid(day(2026, 12, 5)), 1)).y).toBe(2027);
+    expect(zoneParts(adjacentMonth(monthGrid(day(2026, 1, 5)), -1)).y).toBe(2025);
   });
 
   it('always lands inside the adjacent month, never skipping one', () => {
@@ -79,7 +79,7 @@ describe('adjacentMonth', () => {
     let anchor = day(2026, 1, 15);
     const seen: number[] = [];
     for (let i = 0; i < 12; i++) {
-      seen.push(stockholmParts(anchor).mo);
+      seen.push(zoneParts(anchor).mo);
       anchor = adjacentMonth(monthGrid(anchor), 1);
     }
     expect(seen).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
@@ -126,7 +126,7 @@ describe('DayPicker', () => {
   // rather than letting the user wander into years where adhan's accuracy is a fiction.
   it('disables days and paging beyond the ±365-day rails', () => {
     const today = day(2026, 9, 14);
-    const lastMonth = monthGrid(addStockholmDays(today, 365));
+    const lastMonth = monthGrid(addZoneDays(today, 365));
     renderPicker(lastMonth.first, today);
 
     // The far rail falls inside this month, so paging forward is done.
@@ -138,7 +138,7 @@ describe('DayPicker', () => {
     ).toBe(false);
 
     // ...and the days past it are inert.
-    const beyond = stockholmParts(addStockholmDays(today, 366)).d;
+    const beyond = zoneParts(addZoneDays(today, 366)).d;
     expect(
       screen.getByRole('button', { name: new RegExp(`^${beyond} `) }).props.accessibilityState
         .disabled,

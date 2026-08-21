@@ -5,7 +5,7 @@
 // therefore a one-time gate in front of the map (src/app/valkommen.tsx), and this module
 // is the single fact that decides whether it runs.
 //
-// It lives in its OWN AsyncStorage key rather than as a field on PrayerSettings, for the
+// It lives in its OWN storage key rather than as a field on PrayerSettings, for the
 // same reason lib/hints.ts gives: "Återställ appens standard" wipes PrayerSettings
 // wholesale, and a factory reset must not drag a first-run wizard back in front of a
 // user who has been using the app for months. (It also keeps the settings-shape drift
@@ -18,7 +18,7 @@
 // persisted `prayerSettings:v1` blob is the evidence that this is not a fresh install,
 // so it counts as the intro already being done. They reach it deliberately instead, via
 // Inställningar → "Visa introduktionen igen" (which calls replayIntro).
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storage } from './storage';
 
 import { SETTINGS_STORAGE_KEY } from '@/lib/settings/store';
 
@@ -39,7 +39,7 @@ export function decideIntroStatus(
   introRaw: string | null,
   settingsRaw: string | null,
 ): 'pending' | 'done' {
-  // Any non-empty record means it has run. (AsyncStorage returns null for a missing key,
+  // Any non-empty record means it has run. (storage returns null for a missing key,
   // so an empty string can only be a failed half-write — treated as no record.)
   if (introRaw) return 'done';
   // No intro record, but settings already on disk → an install that predates the intro.
@@ -57,7 +57,7 @@ export async function loadIntroStatus(): Promise<'pending' | 'done'> {
     // platform module's promise, not ours, and a short array would make the nested
     // `[, settingsRaw]` pattern throw on undefined — landing in the catch below and
     // silently reporting 'done', i.e. skipping the intro for a first-time user.
-    const pairs = await AsyncStorage.multiGet([STORAGE_KEY, SETTINGS_STORAGE_KEY]);
+    const pairs = await storage.multiGet([STORAGE_KEY, SETTINGS_STORAGE_KEY]);
     return decideIntroStatus(pairs[0]?.[1] ?? null, pairs[1]?.[1] ?? null);
   } catch {
     return 'done';
@@ -68,7 +68,7 @@ export async function loadIntroStatus(): Promise<'pending' | 'done'> {
  *  means it may be offered once more, which is survivable. */
 export async function completeIntro(): Promise<void> {
   try {
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ completed: true }));
+    await storage.setItem(STORAGE_KEY, JSON.stringify({ completed: true }));
   } catch {
     // Ignored on purpose — see above.
   }

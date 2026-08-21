@@ -13,7 +13,7 @@ import { polarBoundaryFor } from './sun';
 // NaN (Invalid Date) rather than borrowing a neighbouring latitude's time.
 const LINE_SETTINGS = { ...DEFAULT_SETTINGS, polarCircleResolution: 'unresolved' as const };
 
-// adhan reads Y/M/D off the Date; a local-noon Date matches what stockholmPrayerDate feeds it.
+// adhan reads Y/M/D off the Date; a local-noon Date matches what zonePrayerDate feeds it.
 const dayFor = (y: number, mo1: number, d: number): Date => new Date(y, mo1 - 1, d, 12, 0, 0, 0);
 
 // Lowest latitude (scanning north) at which `key` becomes Invalid Date for the given day.

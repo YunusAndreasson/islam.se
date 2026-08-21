@@ -78,9 +78,9 @@ export function CompassButton({ active }: { active: boolean }) {
       rim={rim}
       accessibilityLabel={
         aligned
-          ? 'Qibla — du är vänd mot Mecka'
+          ? 'Qibla – du är vänd mot Mecka'
           : heading == null
-            ? 'Qibla — kompassen är inte tillgänglig'
+            ? 'Qibla – kompassen är inte tillgänglig'
             : 'Qibla'
       }
       onPress={() => router.navigate('/qibla')}

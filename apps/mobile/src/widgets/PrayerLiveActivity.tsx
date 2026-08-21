@@ -129,7 +129,7 @@ function PrayerLiveActivityLayout(
   const icon: SFSymbol = (typeof p.nextKey === 'string' ? SF[p.nextKey] : undefined) ?? SF_FALLBACK;
   const name = typeof p.nextArabic === 'string' && p.nextArabic ? p.nextArabic : 'Bönetider';
   const swedish = typeof p.nextSwedish === 'string' ? p.nextSwedish : '';
-  const time = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—';
+  const time = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '–';
   const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
   const startedAtMs = typeof p.startedAtMs === 'number' ? p.startedAtMs : null;
   const kindLabel = p.isMarker === true ? 'NÄSTA TID' : 'NÄSTA BÖN';
@@ -157,7 +157,7 @@ function PrayerLiveActivityLayout(
         ]}
       />
     ) : (
-      <Text modifiers={[font({ size, weight: 'semibold' }), foregroundStyle(color)]}>—</Text>
+      <Text modifiers={[font({ size, weight: 'semibold' }), foregroundStyle(color)]}>–</Text>
     );
 
   return {

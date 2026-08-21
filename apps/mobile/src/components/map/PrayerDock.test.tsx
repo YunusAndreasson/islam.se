@@ -11,7 +11,7 @@ import {
 import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
-import { startOfStockholmDay } from '@/lib/stockholm-time';
+import { startOfZoneDay } from '@/lib/zone-time';
 import { type DayMark, PrayerDock } from './PrayerDock';
 import { first } from '@/test-utils/at';
 
@@ -19,7 +19,7 @@ const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
 const NOW = Date.UTC(2026, 7, 1, 12, 0, 0);
 
 function dockProps(revealSchedule: boolean, clockOverrides: Partial<SolarClock> = {}) {
-  const dayStart = startOfStockholmDay(NOW);
+  const dayStart = startOfZoneDay(NOW);
   const times = computePrayerTimes(STOCKHOLM, new Date(NOW), DEFAULT_SETTINGS);
   const marks: DayMark[] = PRAYER_ORDER.map((key, i) => ({ key, fraction: i / PRAYER_ORDER.length }));
   return {
@@ -279,10 +279,10 @@ describe('PrayerDock night group', () => {
     render(<PrayerDock {...nightProps(true)} />);
     const times = computePrayerTimes(STOCKHOLM, new Date(NOW), DEFAULT_SETTINGS);
     const night = computeNightTimes(times);
-    const dayStart = startOfStockholmDay(NOW);
+    const dayStart = startOfZoneDay(NOW);
     const afterMidnight = NIGHT_ORDER.filter((key) => {
       const at = night[key];
-      return at !== null && startOfStockholmDay(at.getTime()) !== dayStart;
+      return at !== null && startOfZoneDay(at.getTime()) !== dayStart;
     });
     // Guard the guard: if the fixture day stops producing a post-midnight landmark, the
     // absence assertions below would pass vacuously.

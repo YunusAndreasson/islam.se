@@ -8,7 +8,7 @@ import type { PrayerTimes } from 'adhan';
 import type { LatLng } from '@/lib/prayer-times';
 import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
-import { addStockholmDays, startOfStockholmDay, stockholmPrayerDate } from '@/lib/stockholm-time';
+import { addZoneDays, startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
 import { buildPayloadAt, type WidgetPayload } from './payload';
 
 /** A WidgetKit timeline entry — matches expo-widgets' WidgetTimelineEntry shape. */
@@ -78,7 +78,7 @@ export function buildTimeline(
   // contribute (its slots before `now`'s time-of-day fall inside the horizon), and its
   // post-Isha boundary is the rollover entry that points at the following Fajr.
   for (let dayOffset = 0; dayOffset <= SPAN_DAYS; dayOffset++) {
-    const times = resolveDay(stockholmPrayerDate(now, dayOffset));
+    const times = resolveDay(zonePrayerDate(now, dayOffset));
     for (const key of PRAYER_ORDER) {
       const t = times[key].getTime();
       if (!Number.isFinite(t)) continue; // skip polar-unresolved slots
@@ -90,11 +90,11 @@ export function buildTimeline(
   // WidgetKit had was the one built just after YESTERDAY's Isha, so the medium
   // widget's schedule column, its Gregorian/Hijri footer and the "I MORGON" eyebrow
   // all kept showing the previous day for those three-odd hours. A Stockholm-midnight
-  // boundary rebuilds the payload on the new civil day. addStockholmDays is the
+  // boundary rebuilds the payload on the new civil day. addZoneDays is the
   // noon-anchored step — a naive +24 h lands at 23:00 on the 25-hour autumn day.
-  let dayStart = startOfStockholmDay(now);
+  let dayStart = startOfZoneDay(now);
   for (let d = 0; d < SPAN_DAYS + 1; d++) {
-    dayStart = addStockholmDays(dayStart, 1);
+    dayStart = addZoneDays(dayStart, 1);
     if (dayStart > horizon) break;
     add(dayStart);
   }

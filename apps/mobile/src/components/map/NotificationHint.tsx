@@ -23,7 +23,7 @@ import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-re
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { noteNotificationResolved } from '@/lib/notification-hint';
 import {
-  openSystemSettings,
+  openNotificationSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
   systemSettingsName,
@@ -144,7 +144,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
           <>
             <Text style={styles.body}>
               Få en notis när det är dags för bön. Tiderna räknas ut lokalt på din enhet – inget
-              skickas online.
+              skickas iväg.
             </Text>
             <Pressable
               onPress={onAllow}
@@ -166,7 +166,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
               Notiser är blockerade. Öppna {settingsName} för att tillåta dem.
             </Text>
             <Pressable
-              onPress={openSystemSettings}
+              onPress={openNotificationSettings}
               accessibilityRole="button"
               accessibilityLabel={openSystemSettingsA11yLabel('notiser')}
               style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}

@@ -160,7 +160,7 @@ export function LocationHint({ top, onClose }: Props) {
           <>
             <Text style={styles.body}>
               Bönetiderna räknas ut för din plats. Platsen stannar i din enhet – inget skickas
-              online.
+              iväg.
             </Text>
             <Pressable
               onPress={onAllow}

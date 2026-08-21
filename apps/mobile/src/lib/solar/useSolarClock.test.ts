@@ -4,12 +4,13 @@
 // 86_400_000 day length (scrubber marks drift an hour on the two DST-transition days).
 //
 // We freeze only the Date (timers stay real) so the hook's initial `Date.now()` and its
-// startOfStockholmDay() are deterministic regardless of the machine's own timezone — that
+// startOfZoneDay() are deterministic regardless of the machine's own timezone — that
 // device-independence is exactly the property under test.
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, renderHook } from '@testing-library/react-native';
 
 import { LIVE_TICK_MS, useSolarClock } from './useSolarClock';
+import { DEFAULT_ZONE, setDisplayZone, startOfZoneDay } from '@/lib/zone-time';
 
 const HOUR = 60 * 60 * 1000;
 
@@ -372,5 +373,66 @@ describe('useSolarClock defers a tick while the map is moving', () => {
     const before = result.current.now;
     act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
     expect(result.current.now).toBe(before + LIVE_TICK_MS);
+  });
+});
+
+// ── A zone change must move BOTH anchors, in every mode ──────────────────────────────────
+//
+// The clock carries two midnights: `todayStart` (the real today) and `dayStart` (the day
+// being viewed). The tick re-anchors `todayStart` in every mode but `dayStart` only while
+// live — correct while there is one zone, and quietly wrong the moment there are two. A
+// reader scrubbed to another day who lands in a new timezone would come back to today's
+// midnight measured in one zone and the viewed day's in another, and every value derived
+// from the gap between them is then nonsense at once.
+//
+// Full fake timers so the tick can be made to fire on demand.
+describe('useSolarClock across a display-zone change', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    freeze('2026-07-15T12:00:00Z');
+  });
+
+  afterEach(() => setDisplayZone(DEFAULT_ZONE));
+
+  it('keeps the viewed day when the zone moves under a scrubbed view', () => {
+    const { result } = renderHook(() => useSolarClock());
+    act(() => result.current.stepDay(1));
+    expect(result.current.dayOffset).toBe(1);
+
+    setDisplayZone('Asia/Riyadh');
+    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+
+    // Still tomorrow — the reader chose an OFFSET; only the instants expressing it move.
+    expect(result.current.dayOffset).toBe(1);
+    // And both anchors are now midnights in the new zone, which is what makes every
+    // derived value (dayLength, fraction, the DayPicker's cell equality) sound again.
+    expect(startOfZoneDay(result.current.dayStart)).toBe(result.current.dayStart);
+    expect(startOfZoneDay(result.current.todayStart)).toBe(result.current.todayStart);
+    expect(result.current.dayLength).toBe(24 * HOUR);
+  });
+
+  it('survives a shift big enough to round dayOffset to the wrong day', () => {
+    // The failure that makes this more than cosmetic. Stockholm→Midway is a 13 h swing, so
+    // a stale pair sits 13 h apart — and Math.round(11/24) is 0, i.e. the dock would label
+    // TOMORROW "i dag" while showing tomorrow's times.
+    const { result } = renderHook(() => useSolarClock());
+    act(() => result.current.stepDay(1));
+
+    setDisplayZone('Pacific/Midway');
+    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+
+    expect(result.current.dayOffset).toBe(1);
+  });
+
+  it('re-anchors a live view too, without stranding `now` outside the day', () => {
+    const { result } = renderHook(() => useSolarClock());
+    expect(result.current.mode).toBe('live');
+
+    setDisplayZone('Asia/Riyadh');
+    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+
+    expect(result.current.dayOffset).toBe(0);
+    expect(result.current.now).toBeGreaterThanOrEqual(result.current.dayStart);
+    expect(result.current.now).toBeLessThanOrEqual(result.current.dayStart + result.current.dayLength);
   });
 });

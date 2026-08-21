@@ -9,7 +9,7 @@
 // it in the OS's palette before it flipped to theirs.
 //
 // Now that decision happens BEHIND the splash: the gate below holds it until the two
-// AsyncStorage reads that pick the screen have landed, so the first thing ever drawn is the
+// storage reads that pick the screen have landed, so the first thing ever drawn is the
 // real one. The handoff is seamless because app.json's splash backgrounds ARE the palette's
 // `paper` on both themes (#f6f3ed / #161a26) — see theme/tokens.
 //

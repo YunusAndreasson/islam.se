@@ -59,7 +59,7 @@ import {
   type PrayerKey,
 } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
-import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { zonePrayerDate } from '@/lib/zone-time';
 import { nightColorFor, prayerColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
@@ -397,7 +397,7 @@ export function PrayerDock({
   //
   // Both lines label the STOCKHOLM calendar day. formatGregorian pins its own time
   // zone, so the midday instant is enough; formatHijri reads local date FIELDS, so it
-  // gets stockholmPrayerDate (a local Date carrying the Stockholm Y/M/D) — passing the
+  // gets zonePrayerDate (a local Date carrying the Stockholm Y/M/D) — passing the
   // instant would read the DEVICE's calendar day and let the two lines disagree by a
   // day on a phone far from Europe/Stockholm.
   // Which day is on screen, relative to the real today. Everything below that says
@@ -412,7 +412,7 @@ export function PrayerDock({
       const sameYear =
         midday.getFullYear() === new Date(clock.todayStart + DAY_MS / 2).getFullYear();
       return {
-        hijriLabel: formatHijri(stockholmPrayerDate(clock.dayStart), settings.hijriOffset),
+        hijriLabel: formatHijri(zonePrayerDate(clock.dayStart), settings.hijriOffset),
         gregorianLabel: formatGregorian(midday, { year: !sameYear }),
       };
     },
@@ -583,7 +583,7 @@ export function PrayerDock({
                     label={PRAYER_LABELS[key]}
                     icon={PRAYER_ICONS[key]}
                     iconColor={prayerColorFor(key, scheme)}
-                    time={valid ? formatTime(date) : '—'}
+                    time={valid ? formatTime(date) : '–'}
                     visible={expanded}
                     isNext={next?.key === key && !next.nextDay}
                     // The brass row is the answer to "which prayer is next" for a sighted
@@ -945,7 +945,7 @@ function NightGroup({
             label={NIGHT_LABELS[key]}
             icon={NIGHT_ICONS[key]}
             iconColor={nightColorFor(key, scheme)}
-            time={at === null ? '—' : time}
+            time={at === null ? '–' : time}
             muted
             visible={visible}
             accessibilityLabel={

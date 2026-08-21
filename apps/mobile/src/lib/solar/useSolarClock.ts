@@ -16,7 +16,7 @@
 // right and the 23 h day's "24:00" lands at 01:00 the next day).
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 
-import { addStockholmDays, startOfStockholmDay, stockholmDayLength } from '@/lib/stockholm-time';
+import { addZoneDays, getDisplayZone, startOfZoneDay, zoneDayLength } from '@/lib/zone-time';
 
 /** Live-mode tick interval. Exported so the map can glide the displayed instant
  *  CONTINUOUSLY between ticks (a linear ease toward the predicted next tick) instead
@@ -106,18 +106,31 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
   // (and on reset) so the view rolls over to the new day on its own — otherwise an app
   // left running across midnight keeps rendering yesterday: slider pinned at the far
   // right, stale times, "i morgon" mislabelling today's Fajr.
-  const [dayStart, setDayStart] = useState(() => startOfStockholmDay(Date.now()));
+  const [dayStart, setDayStart] = useState(() => startOfZoneDay(Date.now()));
   // The REAL today, tracked separately from the day being viewed. Without it "i dag" is
   // whatever day the app was opened on: park the view on tomorrow, leave the phone on the
   // table past midnight, and the dock would go on calling a day that is now today
   // "i morgon". It is also the anchor stepDay measures offsets from.
-  const [todayStart, setTodayStart] = useState(() => startOfStockholmDay(Date.now()));
+  const [todayStart, setTodayStart] = useState(() => startOfZoneDay(Date.now()));
+  // Which zone the two anchors above were computed in.
+  //
+  // ⚠️ THEY MUST NEVER BE MIDNIGHTS IN DIFFERENT ZONES, and without this they can be.
+  // `syncClock` re-anchors `todayStart` in EVERY mode but `dayStart` only while live, so a
+  // reader who is scrubbed to another day when the device zone changes (they land, the
+  // phone moves the clock, they reopen the app) ends up with today's midnight in Riyadh and
+  // the viewed day's midnight in Stockholm. Everything downstream is derived from the gap
+  // between them, so everything downstream breaks at once: `dayOffset` becomes round(23/24)
+  // — and for a shift of 13 h or more it rounds to zero, so the dock labels tomorrow
+  // "i dag"; `dayLength` measures 21 or 27 hours, so the scrubber's fraction clamps to a
+  // rail; and DayPicker builds its cells with `addZoneDays(todayStart, n)`, so none of them
+  // equals `dayStart` and the calendar shows no day selected at all.
+  const anchorZone = useRef(getDisplayZone());
 
   // The true length of the day starting at dayStart: probe ~26 h ahead to land firmly
   // inside the next calendar day (even a 25 h fall-back day is only 25 h), snap to ITS
   // midnight, and take the gap — 23 h, 24 h or 25 h. Recomputed only when the day rolls
   // over (dayStart changes), so the Intl work is once per day, not per render.
-  const dayLength = useMemo(() => stockholmDayLength(dayStart), [dayStart]);
+  const dayLength = useMemo(() => zoneDayLength(dayStart), [dayStart]);
 
   // Live mode follows the wall clock, re-anchoring the day when it rolls over — but
   // only while `active`. Off-screen the tick is paused (no background field rebuild);
@@ -126,7 +139,7 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
   // mode is untouched, so a scrubbed time survives navigating away and back.
   //
   // It no longer early-returns on scrub: `todayStart` is tracked in EVERY mode, and only
-  // `now`/`dayStart` are re-anchored while live. The cost is one startOfStockholmDay per
+  // `now`/`dayStart` are re-anchored while live. The cost is one startOfZoneDay per
   // 30 s in scrub mode (the Intl formatter is cached) plus a state update React bails out
   // of on all but one tick a day. What it buys is that parking on "i morgon" across real
   // midnight self-corrects to "i dag" instead of quietly lying. The `!active` pause — the
@@ -139,7 +152,21 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
 
   const syncClock = useEffectEvent(() => {
     const t = Date.now();
-    const today = startOfStockholmDay(t);
+    const today = startOfZoneDay(t);
+    // The zone moved under us. Re-anchor BOTH midnights together, in every mode, keeping the
+    // day the reader is actually looking at: the offset is what they chose, the instants
+    // expressing it are ours. Done before anything else so no derived value is ever read
+    // from a mismatched pair.
+    const zone = getDisplayZone();
+    if (zone !== anchorZone.current) {
+      anchorZone.current = zone;
+      // Effect Events see the latest committed state, so these are the current anchors.
+      const offset = Math.round((dayStart - todayStart) / 86_400_000);
+      setTodayStart(today);
+      setDayStart(addZoneDays(today, offset));
+      if (mode === 'live') setNow(t);
+      return;
+    }
     // Tracked in EVERY mode and NEVER deferred: this is the cheap half (React bails out on
     // all but one tick a day) and it is what re-labels a parked day when real midnight
     // passes. Holding it back would let the dock go on calling today "i morgon" for the
@@ -189,7 +216,7 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
     setNow(t);
     // Re-anchor in case the day rolled over while the user was scrubbing — or in case they
     // are on another day entirely, which is now the ordinary case.
-    const today = startOfStockholmDay(t);
+    const today = startOfZoneDay(t);
     setDayStart(today);
     setTodayStart(today);
   }, []);
@@ -236,13 +263,13 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
   const goToOffset = useCallback(
     (offset: number) => {
       const clamped = offset < -MAX_DAY_OFFSET ? -MAX_DAY_OFFSET : offset > MAX_DAY_OFFSET ? MAX_DAY_OFFSET : offset;
-      const nextStart = addStockholmDays(todayStart, clamped);
+      const nextStart = addZoneDays(todayStart, clamped);
       const f = clamp01((now - dayStart) / dayLength);
       // Deliberately does NOT return to live mode, even when landing back on today: the
       // user is at 18:00 today, not at now. The dock's "Nu" chip is one tap away.
       setMode('scrub');
       setDayStart(nextStart);
-      setNow(nextStart + f * stockholmDayLength(nextStart));
+      setNow(nextStart + f * zoneDayLength(nextStart));
     },
     [todayStart, dayStart, dayLength, now],
   );
@@ -254,7 +281,7 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
 
   const goToDay = useCallback(
     (instant: number) =>
-      goToOffset(Math.round((startOfStockholmDay(instant) - todayStart) / 86_400_000)),
+      goToOffset(Math.round((startOfZoneDay(instant) - todayStart) / 86_400_000)),
     [goToOffset, todayStart],
   );
 

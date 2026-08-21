@@ -16,7 +16,7 @@ import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanim
 import { hapticLight, hapticSelection } from '@/lib/haptics';
 import { relativeDayLabel } from '@/lib/relative-day';
 import { MAX_DAY_OFFSET } from '@/lib/solar/useSolarClock';
-import { addStockholmDays, stockholmParts } from '@/lib/stockholm-time';
+import { addZoneDays, zoneParts } from '@/lib/zone-time';
 import { motion, type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
@@ -51,8 +51,8 @@ interface Props {
   onClose: () => void;
 }
 
-/** Which Stockholm calendar month a day belongs to, and where in the grid it starts.
- *  Built from stockholmParts rather than a local Date so a phone in another timezone
+/** Which calendar month (in the display zone) a day belongs to, and where the grid starts.
+ *  Built from zoneParts rather than a local Date so a phone in another timezone
  *  cannot render a month offset by one day — the same pin the rest of the app uses. */
 export interface MonthGrid {
   title: string;
@@ -65,11 +65,11 @@ export interface MonthGrid {
 }
 
 export function monthGrid(anchor: number): MonthGrid {
-  const { y, mo, d } = stockholmParts(anchor);
-  // Step back to the 1st, then forward one day at a time. addStockholmDays throughout
+  const { y, mo, d } = zoneParts(anchor);
+  // Step back to the 1st, then forward one day at a time. addZoneDays throughout
   // rather than +24 h arithmetic: a month can contain a DST transition, and a naive step
-  // stalls on the 25-hour day (see stockholm-time).
-  const first = addStockholmDays(anchor, 1 - d);
+  // stalls on the 25-hour day (see zone-time).
+  const first = addZoneDays(anchor, 1 - d);
 
   // JS getUTCDay is Sunday-0; Swedish calendars are Monday-first, so rotate.
   const firstWeekday = (new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 6) % 7;
@@ -77,10 +77,10 @@ export function monthGrid(anchor: number): MonthGrid {
   const cells: (number | null)[] = Array.from({ length: firstWeekday }, () => null);
   let cursor = first;
   let last = first;
-  while (stockholmParts(cursor).mo === mo) {
+  while (zoneParts(cursor).mo === mo) {
     cells.push(cursor);
     last = cursor;
-    cursor = addStockholmDays(cursor, 1);
+    cursor = addZoneDays(cursor, 1);
   }
   return { title: `${MONTHS[mo - 1]} ${y}`, first, last, cells };
 }
@@ -93,7 +93,7 @@ export function monthGrid(anchor: number): MonthGrid {
  *  nothing. Stepping off the end of the current month is the only definition that holds
  *  for every month length, February and leap years included. */
 export function adjacentMonth(grid: MonthGrid, delta: 1 | -1): number {
-  return delta === 1 ? addStockholmDays(grid.last, 1) : addStockholmDays(grid.first, -1);
+  return delta === 1 ? addZoneDays(grid.last, 1) : addZoneDays(grid.first, -1);
 }
 
 export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
@@ -105,8 +105,8 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
   const [anchor, setAnchor] = useState(dayStart);
   const grid = useMemo(() => monthGrid(anchor), [anchor]);
 
-  const minDay = addStockholmDays(todayStart, -MAX_DAY_OFFSET);
-  const maxDay = addStockholmDays(todayStart, MAX_DAY_OFFSET);
+  const minDay = addZoneDays(todayStart, -MAX_DAY_OFFSET);
+  const maxDay = addZoneDays(todayStart, MAX_DAY_OFFSET);
 
   // Paging stops exactly where the range does: the adjacent month is reachable when the
   // day immediately outside this one still falls inside the rails.
@@ -181,7 +181,7 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
             const selected = day === dayStart;
             const isToday = day === todayStart;
             const outOfRange = day < minDay || day > maxDay;
-            const label = stockholmParts(day).d;
+            const label = zoneParts(day).d;
             return (
               <Pressable
                 key={day}

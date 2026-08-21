@@ -19,7 +19,7 @@ import {
   syncPrayerNotifications,
 } from '@/lib/notifications';
 import { formatTime } from '@/lib/prayer-times';
-import { stockholmParts } from '@/lib/stockholm-time';
+import { DEFAULT_ZONE, setDisplayZone, zoneParts } from '@/lib/zone-time';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 import { first } from '@/test-utils/at';
 
@@ -467,7 +467,7 @@ const scheduled = (): ScheduledCall[] =>
 /** How many distinct Stockholm calendar days the last sync covered. */
 function daysSpanned(): number {
   const days = scheduled().map((c) => {
-    const { y, mo, d } = stockholmParts(c.trigger.date.getTime());
+    const { y, mo, d } = zoneParts(c.trigger.date.getTime());
     return `${y}-${mo}-${d}`;
   });
   return new Set(days).size;
@@ -622,6 +622,26 @@ describe('notification horizon', () => {
       withUniformLead(0, { prayers: onlyPrayers('fajr', 'dhuhr', 'asr', 'maghrib') }),
     );
     expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+  });
+
+  it('re-syncs when the reader has moved to another timezone', async () => {
+    // Subtle, and the reason the display zone is in the stamp at all. The trigger INSTANTS
+    // do not move — those come from the coordinate and the calendar date, which have not
+    // changed. What moves is what the alert SAYS: its body is built with formatTime, so a
+    // notification written in Stockholm and delivered in Mecka would announce a Stockholm
+    // clock time for a prayer arriving on the Mecka one. Without the zone in the stamp that
+    // text stays wrong until the calendar date happens to roll over.
+    const settings = withUniformLead(0);
+    await syncPrayerNotifications(STOCKHOLM, settings);
+    scheduleMock.mockClear();
+
+    setDisplayZone('Asia/Riyadh');
+    try {
+      await syncPrayerNotifications(STOCKHOLM, settings);
+      expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+    } finally {
+      setDisplayZone(DEFAULT_ZONE);
+    }
   });
 });
 

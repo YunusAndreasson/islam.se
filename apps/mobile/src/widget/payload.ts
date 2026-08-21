@@ -17,7 +17,7 @@ import {
 } from '@/lib/prayer-times';
 import type { PrayerTimes } from 'adhan';
 import type { PrayerSettings, ThemePreference } from '@/lib/settings/types';
-import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { zonePrayerDate } from '@/lib/zone-time';
 
 /** Resolve the prayer times for a given Stockholm prayer-date. A timeline build passes
  *  a per-day-memoised resolver so the same calendar day isn't recomputed for each of
@@ -32,7 +32,8 @@ export interface WidgetPrayerRow {
   arabic: string;
   /** Swedish name, e.g. "Middagsbönen". */
   swedish: string;
-  /** 24-hour Europe/Stockholm clock time, or "—" if unresolved (polar night/day). */
+  /** 24-hour clock time in the app's display zone (lib/zone-time — the device's own,
+   *  Stockholm by default), or "—" if unresolved (polar night/day). */
   time: string;
   /** True for sunrise (Shurūq) — a time marker, not an obligatory prayer. */
   isMarker: boolean;
@@ -88,13 +89,13 @@ export function buildPayloadAt(
   // raw instant would read the DEVICE's calendar day instead: on a phone outside
   // Europe/Stockholm the Hijri line could disagree with the (Stockholm-pinned)
   // Gregorian line by a day around midnight.
-  const civilDay = stockholmPrayerDate(atMs);
+  const civilDay = zonePrayerDate(atMs);
   const times = compute(civilDay);
   const nextKey = nextPrayerKeyAt(times, atMs);
 
   let nextArabic = '';
   let nextSwedish = '';
-  let nextTime = '—';
+  let nextTime = '–';
   let nextAtMs: number | null = null;
   let nextIsTomorrow = false;
 
@@ -106,7 +107,7 @@ export function buildPayloadAt(
     nextAtMs = times[nextKey].getTime();
   } else {
     // Past today's Isha → the next event is tomorrow's Fajr.
-    const tomorrow = compute(stockholmPrayerDate(atMs, 1));
+    const tomorrow = compute(zonePrayerDate(atMs, 1));
     const fajr = tomorrow.fajr;
     if (fajr instanceof Date && !Number.isNaN(fajr.getTime())) {
       nextArabic = PRAYER_LABELS.fajr;

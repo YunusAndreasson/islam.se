@@ -5,7 +5,7 @@
 // settings, the location, or the app's foreground state change. No server, no
 // push — purely on-device, so it works offline.
 import * as Notifications from 'expo-notifications';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storage } from './storage';
 import { Platform } from 'react-native';
 
 import { brand } from '@/theme/tokens';
@@ -25,7 +25,7 @@ import type {
   PrayerSettings,
 } from './settings/types';
 import { notificationSignature } from './settings/compute-signature';
-import { stockholmParts, stockholmPrayerDate } from './stockholm-time';
+import { getDisplayZone, zoneParts, zonePrayerDate } from './zone-time';
 
 /** One of the five obligatory prayers — a slot key that is not the sunrise marker. */
 export type NotifyPrayerKey = ObligatoryPrayerKey;
@@ -270,7 +270,7 @@ export function nextAlertAt(
   // Two days is enough: every slot on day 0 that is still ahead fires before any slot on
   // day 1, and day 1 covers the case where day 0 has nothing left.
   for (let d = 0; d < 2; d++) {
-    const times = computePrayerTimes(coords, stockholmPrayerDate(now, d), settings);
+    const times = computePrayerTimes(coords, zonePrayerDate(now, d), settings);
     for (const key of PRAYER_ORDER) {
       if (!isAlertEnabled(n, key)) continue;
       const at = times[key];
@@ -410,7 +410,7 @@ export async function requestNotificationPermission(): Promise<NotificationPermi
 
 async function loadPrayerNotificationIds(): Promise<string[]> {
   try {
-    const raw = await AsyncStorage.getItem(PRAYER_NOTIFICATION_IDS_KEY);
+    const raw = await storage.getItem(PRAYER_NOTIFICATION_IDS_KEY);
     const parsed = raw ? JSON.parse(raw) : [];
     return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : [];
   } catch {
@@ -419,7 +419,7 @@ async function loadPrayerNotificationIds(): Promise<string[]> {
 }
 
 async function savePrayerNotificationIds(ids: readonly string[]): Promise<void> {
-  await AsyncStorage.setItem(PRAYER_NOTIFICATION_IDS_KEY, JSON.stringify(ids));
+  await storage.setItem(PRAYER_NOTIFICATION_IDS_KEY, JSON.stringify(ids));
 }
 
 async function cancelByIds(ids: readonly string[]): Promise<void> {
@@ -430,7 +430,7 @@ async function cancelByIds(ids: readonly string[]): Promise<void> {
  * Every pending alert THIS module is responsible for.
  *
  * The persisted id list is the fast path, not the truth. It can be missing while the
- * OS still holds the notifications: a failed AsyncStorage write, a crash between
+ * OS still holds the notifications: a failed storage write, a crash between
  * scheduling and persisting, a superseded sync that saved on the error path, or the
  * user clearing app storage (Android) — the alarms and UNNotificationRequests survive
  * all of those. Orphans are not cosmetic: the next sync would schedule a SECOND full
@@ -457,19 +457,27 @@ async function pendingPrayerNotificationIds(): Promise<string[]> {
 
 async function cancelPrayerNotifications(): Promise<void> {
   await cancelByIds(await pendingPrayerNotificationIds());
-  await AsyncStorage.removeItem(PRAYER_NOTIFICATION_IDS_KEY);
+  await storage.removeItem(PRAYER_NOTIFICATION_IDS_KEY);
 }
 
 /**
  * What the last successful sync covered. The day component makes the window roll
- * forward once per Stockholm calendar day; the signature and coordinate catch a real
+ * forward once per calendar day; the signature and coordinate catch a real
  * change. Coordinates are rounded to ~100 m — finer is meaningless for prayer times and
  * would defeat the stamp entirely on a device with jittery GPS.
+ *
+ * ⚠️ THE ZONE IS IN HERE FOR THE BODY TEXT, NOT THE TRIGGERS. A reader who lands in another
+ * country keeps the same trigger INSTANTS — those come from the coordinate and the calendar
+ * date, both of which the stamp already carries. What moves is what the alert SAYS: its body
+ * is built with formatTime, so a notification scheduled in Stockholm and delivered in Mecka
+ * would announce the Stockholm clock time for a prayer arriving on the Mecka one. Without
+ * the zone here that text stays wrong until the calendar date happens to roll over.
  */
 function syncStampFor(coords: LatLng, settings: PrayerSettings): string {
-  const { y, mo, d } = stockholmParts(Date.now());
+  const { y, mo, d } = zoneParts(Date.now());
   return JSON.stringify([
     `${y}-${mo}-${d}`,
+    getDisplayZone(),
     notificationSignature(settings),
     `${coords.latitude.toFixed(3)},${coords.longitude.toFixed(3)}`,
   ]);
@@ -503,7 +511,7 @@ export async function syncPrayerNotifications(
     // changed since the last SUCCESSFUL sync. A cold start always does the real thing.
     const stamp = syncStampFor(coords, settings);
     if (firstSyncDone) {
-      const previous = await AsyncStorage.getItem(SYNC_STAMP_KEY).catch(() => null);
+      const previous = await storage.getItem(SYNC_STAMP_KEY).catch(() => null);
       if (previous === stamp) return;
     }
 
@@ -532,11 +540,11 @@ export async function syncPrayerNotifications(
     const maxDays = Math.min(MAX_DAYS_AHEAD, horizonDays(perDay, budget) + 1);
 
     const now = Date.now();
-    // One Stockholm calendar resolve for the whole horizon: stockholmPrayerDate(now, d)
+    // One calendar resolve for the whole horizon: zonePrayerDate(now, d)
     // would re-derive the SAME Stockholm Y/M/D from `now` (an Intl format) on each
     // iteration. Resolve day 0 once and step the calendar locally — the Date constructor
     // rolls month/year boundaries exactly like the helper's own d+offset.
-    const day0 = stockholmPrayerDate(now);
+    const day0 = zonePrayerDate(now);
     for (let d = 0; d < maxDays; d++) {
       if (scheduledIds.length + 1 > budget) break;
       if (generation !== syncGeneration) {
@@ -633,7 +641,7 @@ export async function syncPrayerNotifications(
     }
     await savePrayerNotificationIds(scheduledIds);
     // Stamp only on the success path, so a failed or bailed run always re-syncs.
-    await AsyncStorage.setItem(SYNC_STAMP_KEY, stamp).catch(() => undefined);
+    await storage.setItem(SYNC_STAMP_KEY, stamp).catch(() => undefined);
     firstSyncDone = true;
   } catch {
     // Notifications are a best-effort enhancement — never let a scheduling failure

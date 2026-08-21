@@ -2,7 +2,6 @@
 // settings: an explicit manual city, or the device's GPS position with graceful
 // fallbacks (cached fix → Stockholm) so times are always shown, even offline or
 // before a permission prompt is answered.
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
 import {
   createContext,
@@ -20,9 +19,8 @@ import { isValidLatLng } from '@/lib/coordinates';
 import { useSettings } from '@/lib/settings/context';
 import type { LatLng } from '@/lib/prayer-times';
 import type { SwedishPlace } from '@/lib/places/data';
+import { readCachedFix, writeCachedFix } from './gps-cache';
 import { type LocationSource, resolveLocation } from './resolve';
-
-const GPS_CACHE_KEY = 'lastGpsCoords:v1';
 
 type PermissionStatus = 'undetermined' | 'granted' | 'denied';
 
@@ -89,7 +87,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       const next = { latitude: current.coords.latitude, longitude: current.coords.longitude };
       if (!isValidLatLng(next)) return 'error';
       setGpsCoords(next);
-      void AsyncStorage.setItem(GPS_CACHE_KEY, JSON.stringify(next));
+      writeCachedFix(next);
       return 'ok';
     } catch {
       // Services off / timeout: keep whatever we have (cached or default).
@@ -147,19 +145,9 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   // Seed from the cached fix on mount so GPS mode shows times before a new fix.
   useEffect(() => {
     let active = true;
-    AsyncStorage.getItem(GPS_CACHE_KEY)
-      .then((raw) => {
-        if (!active || !raw) return;
-        try {
-          const parsed: unknown = JSON.parse(raw);
-          if (isValidLatLng(parsed)) setGpsCoords((prev) => prev ?? parsed);
-        } catch {
-          // ignore corrupt cache
-        }
-      })
-      .catch(() => {
-        // ignore unreadable cache; a fresh fix will repopulate it
-      });
+    void readCachedFix().then((cached) => {
+      if (active && cached) setGpsCoords((prev) => prev ?? cached);
+    });
     return () => {
       active = false;
     };

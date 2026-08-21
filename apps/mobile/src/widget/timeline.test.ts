@@ -3,7 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 import { formatGregorian } from '@/lib/hijri';
 import { type LatLng, PRAYER_LABELS } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
-import { startOfStockholmDay } from '@/lib/stockholm-time';
+import { startOfZoneDay } from '@/lib/zone-time';
 import { oracleTimes } from '@/test-utils/prayer-oracle';
 import { buildTimeline, MAX_ENTRIES, SPAN_DAYS, SPAN_MS } from './timeline';
 import { at, first, last } from '@/test-utils/at';
@@ -61,7 +61,7 @@ describe('buildTimeline', () => {
     // three-odd hours after midnight the medium widget listed yesterday's schedule
     // under yesterday's Gregorian/Hijri footer, and the hero still said "I MORGON"
     // about a Fajr that had become today's.
-    const midnight = startOfStockholmDay(now) + 24 * 60 * 60 * 1000;
+    const midnight = startOfZoneDay(now) + 24 * 60 * 60 * 1000;
     const entry = entries.find((e) => e.date.getTime() > midnight && e.date.getTime() < midnight + 60_000);
     expect(entry).toBeDefined();
     // Its date line is the NEW day, and Fajr is today's — not tomorrow's.

@@ -33,10 +33,19 @@
 //
 // So this watcher answers "the map's server is not answering" (an outage, an expired key, a
 // captive portal, and on iOS also a plain offline device, whose NSURLSession fails the request
-// instead of deferring it) — NOT "this phone has no network". Closing that last gap needs a
-// connectivity signal we do not currently ship (expo-network / netinfo); until then, an
-// Android user in flight mode still sees the old silence, and that is a known hole rather
-// than a fixed one. Do not widen the copy to promise otherwise.
+// instead of deferring it) — NOT "this phone has no network".
+//
+// That last gap is now closed one level up rather than here: bonetider reads expo-network's
+// `useNetworkState` and shows an OFFLINE notice when the phone has no reachable internet and
+// the map has not yet painted. Two things about that are deliberate and should survive a
+// refactor. It does not live in this module, because this module is the LOG watcher and
+// folding an unrelated signal into it would make both harder to reason about. And it is
+// gated on the map never having painted: the ambient cache above means a returning reader
+// gets a complete map with no network at all, and an app that announced "du är offline" over
+// a perfectly good map would be complaining about nothing.
+//
+// So the copy here still may not promise to detect a missing tile on an offline Android.
+// Nothing can — the request is never made.
 import { LogManager } from '@maplibre/maplibre-react-native';
 
 // Which handler this module last installed into LogManager's single slot — see the

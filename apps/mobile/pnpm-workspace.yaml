@@ -76,6 +76,9 @@ minimumReleaseAgeExclude:
   - expo-modules-core@57.0.12
   - expo-modules-jsi@57.0.5
   - expo-linking@57.0.7
+  - expo-audio@57.0.4
+  - expo-background-task@57.0.12
+  - expo-task-manager@57.0.12
 
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.

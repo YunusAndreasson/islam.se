@@ -458,7 +458,7 @@ describe('tab screens', () => {
     });
 
     await waitFor(() =>
-      expect(screen.getByText('Planeras lokalt på din enhet – inget skickas online.')).toBeTruthy(),
+      expect(screen.getByText('Planeras lokalt på din enhet – inget skickas iväg.')).toBeTruthy(),
     );
   });
 

@@ -5,6 +5,7 @@ import {
   type MapRef,
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
+import { useNetworkState } from 'expo-network';
 import { useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
@@ -82,7 +83,7 @@ import { demoFrame, MAP_LESSON_EXAMPLES } from '@/lib/solar/demo-year';
 import { gridForDay } from '@/lib/solar/grid-cache';
 import { polarBoundaryFor } from '@/lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '@/lib/solar/useSolarClock';
-import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { zonePrayerDate } from '@/lib/zone-time';
 import { motion, radius, space, type } from '@/theme/tokens';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
@@ -392,12 +393,31 @@ export default function Bonetider() {
   // afterwards, and a cover that could come back would blink over the map on every pan.
   const [mapPainted, setMapPainted] = useState(false);
   const revealMap = useCallback(() => setMapPainted(true), []);
+  // Whether the basemap is currently rendered COMPLETELY — see noteFullRender for why this
+  // is not the same question as `mapPainted`.
+  //
+  // ⚠️ NOT A ONE-WAY LATCH, and it was one for a moment. Set true and left there, the offline
+  // notice can only ever appear before the first complete render — so a reader who opens the
+  // app online, then goes offline on a train and pans somewhere with no cached tiles, gets
+  // blank land and silence: the same hole this notice exists to close, moved from "cold
+  // launch" to "any time after the first good render". It is cleared again whenever the map
+  // MOVES while offline, which is exactly when tiles it does not hold can come into view;
+  // a settled full render then sets it back and the notice withdraws on its own.
+  const [mapComplete, setMapComplete] = useState(false);
   // Every tile in view has arrived and composited. That is the honest recovery signal for a
   // network failure — but only once the failures have stopped: the renderer can report a
   // finished frame while requests are still erroring, and clearing on that would blink the
   // notice off in front of a map that is still empty.
   const noteFullRender = useCallback(() => {
     revealMap();
+    // A SEPARATE latch from `mapPainted`, and the difference is the whole point of it.
+    // `mapPainted` is also set by the safety-net timeout below — "stop waiting and show
+    // what we have", which offline means empty land. This one is only ever set by the map
+    // telling us every tile in view actually arrived, which is the only evidence that the
+    // basemap is genuinely there. The offline notice reads THIS: conflating the two would
+    // have cleared the notice eight seconds into an outage, precisely when the reader is
+    // looking at a blank map and most needs to be told why.
+    setMapComplete(true);
     setMapTrouble((prev) => {
       if (prev !== 'network' || !troubleBurst.quiet(Date.now())) return prev;
       // Hand the counter a clean slate along with the notice, or the next outage would be
@@ -417,6 +437,29 @@ export default function Bonetider() {
     const timer = setTimeout(revealMap, MAP_REVEAL_TIMEOUT_MS);
     return () => clearTimeout(timer);
   }, [revealMap]);
+
+  // ⚠️ THE HOLE THE LOG WATCHER CANNOT SEE, closed here.
+  //
+  // lib/map/map-diagnostics says it outright, from a measured device session: offline on
+  // Android, MapLibre DEFERS its requests rather than failing them, so not one line is
+  // logged and `mapTrouble` never fires. The reader opening the app in a mosque basement —
+  // the exact situation the offline story exists for — got flat land, correct prayer lines
+  // floating on it, and no word about which half was broken.
+  //
+  // A connectivity read is the only channel that sees that, and it is used for two things
+  // and nothing more:
+  //
+  //   • the WORDS. "Kartan svarar inte" and "du är offline" are different problems with
+  //     different remedies, and the app knows which one it has.
+  //   • the one case the watcher misses: offline with a basemap that never completed. Once
+  //     it HAS completed, being offline is not news — the ambient cache means a returning
+  //     reader gets their whole map with no network at all, and a notice over a perfectly
+  //     good map would be the app complaining about nothing.
+  const { isInternetReachable } = useNetworkState();
+  const offline = isInternetReachable === false;
+
+  const trouble: 'style' | 'network' | 'offline' | null =
+    offline && (mapTrouble != null || !mapComplete) ? 'offline' : mapTrouble;
 
   // Let MapLibre keep the basemap it has already fetched instead of re-fetching it every
   // launch (see lib/map/offline for why this is a cache cap and not an offline download).
@@ -444,7 +487,7 @@ export default function Bonetider() {
   const noticeTop = insets.top + space.lg + MAP_ERROR_OFFSET;
   const hintTop = Math.max(
     insets.top + HINT_TOP_OFFSET,
-    mapTrouble != null && noticeHeight > 0 ? noticeTop + noticeHeight + space.sm : 0,
+    trouble != null && noticeHeight > 0 ? noticeTop + noticeHeight + space.sm : 0,
   );
 
   // Bumped on every camera publish. The projection guard samples it before asking MapLibre
@@ -712,7 +755,7 @@ export default function Bonetider() {
   // The user's own prayer times for today — drives the "next prayer", the day
   // marks under the slider, and the full list in the dock. Independent of the grid.
   const userTimes = useMemo(
-    () => computePrayerTimes(coords, stockholmPrayerDate(clock.dayStart), settings),
+    () => computePrayerTimes(coords, zonePrayerDate(clock.dayStart), settings),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sig + coords + day fully determine these
     [coords.latitude, coords.longitude, clock.dayStart, sig],
   );
@@ -736,7 +779,7 @@ export default function Bonetider() {
   // per (day, place, settings), NOT per tick — `next` re-runs every 30 s, and recomputing
   // a whole adhan day each tick all evening for a value that changes at midnight was waste.
   const nextDayFajrAt = useMemo(() => {
-    const fajr = computePrayerTimes(coords, stockholmPrayerDate(clock.dayStart, 1), settings).fajr;
+    const fajr = computePrayerTimes(coords, zonePrayerDate(clock.dayStart, 1), settings).fajr;
     const at = fajr instanceof Date ? fajr.getTime() : Number.NaN;
     return Number.isFinite(at) ? at : null;
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sig + coords + day fully determine this
@@ -816,6 +859,11 @@ export default function Bonetider() {
       // nothing was held back, so an ordinary pan does not rebuild the field on settle.
       mapMoving.current = false;
       flushClock();
+      // The reader has moved the map. Offline, whatever is now in view may be tiles the
+      // ambient cache never held, so stop claiming the basemap is complete until MapLibre
+      // says so again (noteFullRender). Online this is irrelevant — `trouble` reads it only
+      // when offline — so the ordinary pan pays one setState React bails out of.
+      if (offline) setMapComplete(false);
 
       const { zoom, bounds } = e.nativeEvent;
       const [west, south, east, north] = bounds;
@@ -913,7 +961,7 @@ export default function Bonetider() {
         Math.abs(vc.lon - init.lon) > 0.5;
       if (drifted !== moved) setMoved(drifted);
     },
-    [publishCamera, camState.width, camState.height, cameraReady, moved, flushClock],
+    [publishCamera, camState.width, camState.height, cameraReady, moved, flushClock, offline],
   );
 
   return (
@@ -1248,7 +1296,7 @@ export default function Bonetider() {
           Rendered outside GlassBackdropTarget, like the hint cards, so the glass samples
           the map rather than itself; `pointerEvents="none"` keeps the map draggable
           underneath. Sits below the reset chip's row so the two never collide. */}
-      {mapTrouble != null && (
+      {trouble != null && (
         <View
           style={[styles.mapErrorWrap, { top: noticeTop }]}
           pointerEvents="none"
@@ -1261,14 +1309,16 @@ export default function Bonetider() {
         >
           <GlassSurface style={styles.mapErrorNotice} borderRadius={radius.lg} tint={colors.cardGlass}>
             <Icon
-              name={mapTrouble === 'network' ? 'wifiOff' : 'cloudOff'}
+              name={trouble === 'style' ? 'cloudOff' : 'wifiOff'}
               size={16}
               color={colors.inkMuted}
             />
             <Text style={[styles.mapErrorText, { color: colors.inkMuted }]}>
-              {mapTrouble === 'network'
-                ? 'Ingen anslutning till kartan. Bönetiderna stämmer ändå.'
-                : 'Kartan kunde inte laddas. Bönetiderna stämmer ändå.'}
+              {trouble === 'offline'
+                ? 'Ingen internetanslutning. Kartan fylls i när du är uppkopplad igen. Bönetiderna stämmer ändå.'
+                : trouble === 'network'
+                  ? 'Ingen anslutning till kartan. Bönetiderna stämmer ändå.'
+                  : 'Kartan kunde inte laddas. Bönetiderna stämmer ändå.'}
             </Text>
           </GlassSurface>
         </View>

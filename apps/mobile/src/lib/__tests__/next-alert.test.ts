@@ -4,7 +4,7 @@ import { alertsPerDay, isAlertEnabled, nextAlertAt } from '@/lib/notifications';
 import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
 import { computeNightTimes } from '@/lib/night-times';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
-import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { zonePrayerDate } from '@/lib/zone-time';
 
 // Stockholm, and a latitude far enough north that the polar branch is reachable.
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
@@ -47,7 +47,7 @@ describe('nextAlertAt', () => {
     // Nothing enabled and unfired may sit earlier than what was chosen — the contract is
     // "the next one", not "an upcoming one".
     for (let d = 0; d < 2; d++) {
-      const times = computePrayerTimes(STOCKHOLM, stockholmPrayerDate(MIDDAY, d), settings);
+      const times = computePrayerTimes(STOCKHOLM, zonePrayerDate(MIDDAY, d), settings);
       for (const key of PRAYER_ORDER) {
         if (!isAlertEnabled(settings.notifications, key)) continue;
         const at = times[key];
@@ -109,7 +109,7 @@ describe('nextAlertAt', () => {
     // Fires exactly when the third begins — nothing to warn about in advance.
     expect(next!.fireAt.getTime()).toBe(next!.at.getTime());
     const expected = computeNightTimes(
-      computePrayerTimes(STOCKHOLM, stockholmPrayerDate(MIDDAY), settings),
+      computePrayerTimes(STOCKHOLM, zonePrayerDate(MIDDAY), settings),
     ).lastThird;
     expect(next!.at.getTime()).toBe(expected!.getTime());
   });
@@ -128,7 +128,7 @@ describe('nextAlertAt', () => {
     const midnightSun = Date.UTC(2026, 5, 21, 11, 0, 0);
     // Precondition, asserted so this test fails loudly if adhan ever starts resolving
     // these — otherwise it would keep passing while testing nothing.
-    const times = computePrayerTimes(KIRUNA, stockholmPrayerDate(midnightSun), settings);
+    const times = computePrayerTimes(KIRUNA, zonePrayerDate(midnightSun), settings);
     expect(Number.isNaN(times.fajr.getTime())).toBe(true);
     expect(Number.isNaN(times.isha.getTime())).toBe(true);
 

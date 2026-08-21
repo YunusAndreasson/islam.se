@@ -4,6 +4,7 @@
 //
 // Kept thin: only data + a few "open the right place, never crash" wrappers.
 // The screens themselves own their layout.
+import * as Application from 'expo-application';
 import Constants from 'expo-constants';
 import * as Updates from 'expo-updates';
 import { Linking } from 'react-native';
@@ -30,7 +31,21 @@ export const MAPTILER_URL = 'https://www.maptiler.com/copyright/';
 // from the vector tiles because it is a different project with its own data sources.
 export const AWS_TERRAIN_URL = 'https://github.com/tilezen/joerd/blob/master/docs/attribution.md';
 
-export const APP_VERSION: string = Constants.expoConfig?.version ?? '1.0.0';
+/**
+ * The version of the BINARY the reader installed — not of the JS running inside it.
+ *
+ * `Constants.expoConfig.version` reads the manifest, and after an OTA that is the UPDATE's
+ * manifest: a 1.0.8 binary carrying a 1.0.9 update reports 1.0.9, which is a version that
+ * exists in no store and matches nothing the reader can check. It sits two lines above
+ * OTA_LABEL, whose entire job is to say exactly what is running, so a number that quietly
+ * drifts from the installed app is the one thing this line must not be. expo-application
+ * reads it from the bundle itself, where an OTA cannot reach.
+ *
+ * The manifest stays as the fallback for the one place expo-application has no answer:
+ * `expo start`, where there is no installed binary to ask.
+ */
+export const APP_VERSION: string =
+  Application.nativeApplicationVersion ?? Constants.expoConfig?.version ?? '1.0.0';
 
 /**
  * Short, human-readable label for the JS bundle that's actually running, so the
@@ -74,7 +89,7 @@ export const FAQ: readonly {
   {
     question: 'Hur räknas bönetiderna ut?',
     answer:
-      'Tiderna beräknas med det öppna biblioteket adhan, som bygger på vedertagna astronomiska metoder. islam.se har inget eget uträkningssystem utan använder dessa etablerade metoder. Du väljer själv beräkningsmetod (Diyanet är appens standard), madhhab och hur höga breddgrader hanteras under Inställningar.',
+      'Tiderna beräknas med det öppna biblioteket adhan, som bygger på vedertagna astronomiska metoder. islam.se har inget eget uträkningssystem. Du väljer själv beräkningsmetod (Diyanet är appens standard), madhhab och hur höga breddgrader hanteras under Inställningar.',
   },
   {
     question: 'Stämmer det islamiska datumet?',
@@ -109,7 +124,7 @@ export const FAQ: readonly {
     legend: true,
     question: 'Vad betyder linjerna på kartan?',
     answer:
-      'Varje linje är en bön. Maghrib-linjen visar var i landet klockan just nu är exakt Maghrib – den vandrar västerut med jordens rotation, tänds, sveper över kartan och slocknar. Färgtoningen är något annat: solens höjd under horisonten, punkt för punkt, vilket är därför sommarnatten i söder är djupblå men aldrig svart. Norr om den streckade linjen går solen inte ner på sommaren (och inte upp på vintern) – där saknar Fajr och ʿIshāʾ tider, och deras linjer tonar bort. Du hittar hela genomgången under Inställningar → Visa introduktionen igen.',
+      'Varje linje är en bön. Maghrib-linjen visar var i landet klockan just nu är exakt Maghrib – den vandrar västerut med jordens rotation, tänds, sveper över kartan och slocknar. Färgtoningen är något annat: solens höjd under horisonten, punkt för punkt. Därför är sommarnatten i söder djupblå men aldrig svart. Norr om den streckade linjen går solen inte ner på sommaren (och inte upp på vintern) – där saknar Fajr och ʿIshāʾ tider, och deras linjer tonar bort. Du hittar hela genomgången under Inställningar → Visa introduktionen igen.',
   },
   {
     question: 'Varifrån kommer kartan?',

@@ -1,6 +1,6 @@
 // Day navigation, driven through the real map screen.
 //
-// The unit suites cover the parts: stockholm-time.test.ts the calendar arithmetic,
+// The unit suites cover the parts: zone-time.test.ts the calendar arithmetic,
 // useSolarClock.test.ts the clock contract, grid-cache.test.ts the memo, PrayerDock.test.tsx
 // the controls. What only shows up when they are wired together is the set of things that
 // must NOT happen when the user leaves today — because each of them is a subsystem that

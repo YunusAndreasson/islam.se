@@ -102,7 +102,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   const hijri = typeof p.hijri === 'string' ? p.hijri : '';
   const nextArabic = typeof p.nextArabic === 'string' ? p.nextArabic : '';
   const nextSwedish = typeof p.nextSwedish === 'string' ? p.nextSwedish : '';
-  const nextTime = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—';
+  const nextTime = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '–';
   const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
   const nextRow = rows.find((r) => r.isNext);
   const nextIcon: SFSymbol = (nextRow ? SF[nextRow.key] : undefined) ?? SF_FALLBACK;
@@ -146,7 +146,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     // A single system-styled line next to the clock — keep it terse.
     return (
       <Text modifiers={[font({ size: 13, weight: 'semibold' }), tabular]}>
-        {(nextArabic || 'Bönetider') + (nextTime !== '—' ? ` ${nextTime}` : '')}
+        {(nextArabic || 'Bönetider') + (nextTime !== '–' ? ` ${nextTime}` : '')}
       </Text>
     );
   }

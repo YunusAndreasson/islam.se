@@ -16,7 +16,7 @@
 //      visibly apart so it never reads as a sixth prayer.
 import { useIsFocused } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
@@ -25,7 +25,9 @@ import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Toggle } from '@/components/settings/Toggle';
+import { Icon } from '@/components/ui/Icon';
 import { ModalBar } from '@/components/ui/ModalBar';
+import { HAS_ADHAN_AUDIO, useAdhanPreview } from '@/lib/adhan-audio';
 import { useLocation } from '@/lib/location/context';
 import { alertsPerDay, nextAlertAt, NOTIFY_PRAYERS, type NotifyPrayerKey } from '@/lib/notifications';
 import { useNotificationPermission } from '@/lib/notifications-permission';
@@ -50,8 +52,12 @@ import {
   type NotificationSettings,
   type NotificationSoundKey,
 } from '@/lib/settings/types';
-import { startOfStockholmDay } from '@/lib/stockholm-time';
-import { systemSettingsName } from '@/lib/system-settings';
+import { startOfZoneDay } from '@/lib/zone-time';
+import {
+  openBatteryOptimizationSettings,
+  openNotificationSettings,
+  systemSettingsName,
+} from '@/lib/system-settings';
 import { space, type } from '@/theme/tokens';
 
 const LEAD_STEP = 5;
@@ -122,7 +128,7 @@ export default function Notiser() {
           ? 'Fajr-fönstret'
           : PRAYER_LABELS[next.key];
     const days = Math.round(
-      (startOfStockholmDay(next.fireAt.getTime()) - startOfStockholmDay(now)) / 86_400_000,
+      (startOfZoneDay(next.fireAt.getTime()) - startOfZoneDay(now)) / 86_400_000,
     );
     return `Nästa påminnelse: ${label} ${formatTime(next.fireAt)} ${relativeDayLabel(days)}.`;
   }, [blocked, coords, settings, now]);
@@ -161,6 +167,11 @@ export default function Notiser() {
               value={sharedSound}
               onChange={(sound) => patch({ sound: setAllSounds(sound) })}
             />
+            {/* Gated on the module constant, not inside the row: mounting the row runs
+                useAdhanPreview, which allocates a native player and subscribes to its
+                status. A build with no adhan should pay nothing for a control it cannot
+                draw. Constant, so this is not a conditional hook. */}
+            {HAS_ADHAN_AUDIO ? <AdhanPreviewRow styles={styles} colors={colors} /> : null}
           </SubGroup>
         </SettingSection>
 
@@ -250,8 +261,98 @@ export default function Notiser() {
             ) : null}
           </DisclosureGroup>
         </SettingSection>
+
+        <DeliveryTroubleshooting styles={styles} colors={colors} />
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+/**
+ * Hear the adhan before committing to it.
+ *
+ * Every other control on this screen can be judged on the spot — a lead time moves the
+ * "Nästa påminnelse" line above, a toggle changes what a summary says. The sound picker
+ * could not: the reader chose a NAME and found out what it meant days later, at Fajr, in
+ * the dark. Auditioning it is the smallest thing that closes that loop.
+ *
+ * Placed once, under the "Gäller alla" sound list rather than beside each of the four
+ * pickers: there is one adhan file in the build, so four buttons would offer the same
+ * thirty seconds four times.
+ *
+ * Renders NOTHING when the build carries no adhan — which is every build until an audio
+ * file ships. A disabled play button would be a promise of a feature that is not there.
+ */
+function AdhanPreviewRow({
+  styles,
+  colors,
+}: {
+  styles: ReturnType<typeof makeStyles>;
+  colors: SettingsColors;
+}) {
+  const { available, playing, toggle } = useAdhanPreview();
+  // Belt and braces: the call site already gates on HAS_ADHAN_AUDIO, so this only fires if
+  // someone renders the row directly.
+  if (!available) return null;
+  return (
+    <Pressable
+      onPress={toggle}
+      accessibilityRole="button"
+      accessibilityLabel={playing ? 'Stoppa uppspelningen av adhan' : 'Lyssna på adhan'}
+      style={({ pressed }) => [styles.row, styles.rowDivider, pressed && styles.rowPressed]}
+    >
+      <Text style={styles.rowAction}>{playing ? 'Stoppa' : 'Lyssna på adhan'}</Text>
+      <Icon name={playing ? 'stop' : 'play'} size={18} color={colors.accent} />
+    </Pressable>
+  );
+}
+
+/**
+ * The two Android settings that silently stop a correctly scheduled alert.
+ *
+ * Everything else on this screen configures what the app does. This configures what the OS
+ * is allowed to do with it, and it is here because on Android the app can be blameless and
+ * still fail: a channel muted from the notification shade leaves the permission granted and
+ * every switch above on, and an OEM battery manager drops exact alarms for an app the
+ * reader — by design, this being a notification they rely on — rarely opens.
+ *
+ * Neither is fixable from inside the app; both are one tap away in the OS, and until now
+ * there was nothing in the app that pointed at either. Android-only because iOS has neither
+ * mechanism, and an iOS reader shown a "battery optimisation" link would be sent looking for
+ * a setting that does not exist.
+ */
+function DeliveryTroubleshooting({
+  styles,
+  colors,
+}: {
+  styles: ReturnType<typeof makeStyles>;
+  colors: SettingsColors;
+}) {
+  if (Platform.OS !== 'android') return null;
+  return (
+    <SettingSection
+      title="Om påminnelser inte kommer fram"
+      footnote="Android kan tysta enskilda ljudkanaler och försätta appar i djup vila. Båda ligger i systemets inställningar."
+    >
+      <Pressable
+        onPress={openNotificationSettings}
+        accessibilityRole="button"
+        accessibilityLabel="Öppna Androids notisinställningar för appen"
+        style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+      >
+        <Text style={styles.rowAction}>Notiskanaler</Text>
+        <Icon name="externalLink" size={18} color={colors.accent} />
+      </Pressable>
+      <Pressable
+        onPress={openBatteryOptimizationSettings}
+        accessibilityRole="button"
+        accessibilityLabel="Öppna Androids batterioptimering"
+        style={({ pressed }) => [styles.row, styles.rowDivider, pressed && styles.rowPressed]}
+      >
+        <Text style={styles.rowAction}>Batterioptimering</Text>
+        <Icon name="externalLink" size={18} color={colors.accent} />
+      </Pressable>
+    </SettingSection>
   );
 }
 
@@ -346,5 +447,19 @@ function makeStyles(colors: SettingsColors) {
       paddingBottom: space.xs,
     },
     subDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
+    // Same metrics as the action rows on Inställningar — these lead out of the app in
+    // exactly the same way, and should not look like a different kind of control.
+    row: {
+      minHeight: 48,
+      paddingVertical: space.sm,
+      paddingHorizontal: space.lg,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: space.md,
+    },
+    rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
+    rowPressed: { opacity: 0.6 },
+    rowAction: { ...type.body, color: colors.accent, flexShrink: 0 },
   });
 }

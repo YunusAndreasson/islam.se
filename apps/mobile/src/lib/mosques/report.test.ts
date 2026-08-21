@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import * as fc from 'fast-check';
+import * as Network from 'expo-network';
 
 import type { Mosque } from './index';
 import {
@@ -211,5 +212,52 @@ describe('submitMosqueReport', () => {
     const result = await submitMosqueReport(buildReportPayload(MOSQUE, 'stangd', '', ''));
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.message).toMatch(/Ingen anslutning/);
+  });
+
+  describe('when the phone already knows it is offline', () => {
+    const networkState = Network.getNetworkStateAsync as unknown as jest.MockedFunction<
+      typeof Network.getNetworkStateAsync
+    >;
+
+    it('says so immediately instead of spending the 15 s timeout', async () => {
+      // The answer was always going to be "Ingen anslutning" — the only thing at stake is
+      // whether the reader watches a spinner for fifteen seconds first to be told something
+      // the OS knew before they pressed the button.
+      networkState.mockResolvedValueOnce({ isConnected: false, isInternetReachable: false });
+      const fetchMock = jest.fn();
+      (globalThis as { fetch: unknown }).fetch = fetchMock;
+
+      const result = await submitMosqueReport(buildReportPayload(MOSQUE, 'stangd', '', ''));
+
+      expect(result.ok).toBe(false);
+      if (!result.ok) expect(result.message).toMatch(/Ingen anslutning/);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('still tries when reachability is merely unknown', async () => {
+      // The field is optional and platforms do report `undefined`. Refusing to send on "not
+      // sure" would turn a working submission into a failure — much worse than a slow one.
+      networkState.mockResolvedValueOnce({ isConnected: true });
+      (globalThis as { fetch: unknown }).fetch = jest.fn(
+        async () => new Response(JSON.stringify({ ok: true, id: 7 }), { status: 200 }),
+      );
+
+      await expect(submitMosqueReport(buildReportPayload(MOSQUE, 'stangd', '', ''))).resolves.toEqual({
+        ok: true,
+        id: 7,
+      });
+    });
+
+    it('tries anyway when the connectivity check itself fails', async () => {
+      networkState.mockRejectedValueOnce(new Error('no network module'));
+      (globalThis as { fetch: unknown }).fetch = jest.fn(
+        async () => new Response(JSON.stringify({ ok: true, id: 8 }), { status: 200 }),
+      );
+
+      await expect(submitMosqueReport(buildReportPayload(MOSQUE, 'stangd', '', ''))).resolves.toEqual({
+        ok: true,
+        id: 8,
+      });
+    });
   });
 });

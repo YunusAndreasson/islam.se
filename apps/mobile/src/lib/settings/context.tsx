@@ -1,4 +1,4 @@
-// App-wide settings state, hydrated from AsyncStorage on mount and persisted on
+// App-wide settings state, hydrated from storage on mount and persisted on
 // every change. All tabs read/write through useSettings() so the (future)
 // Bönetider screen and the Inställningar screen share one source of truth.
 import {
@@ -73,7 +73,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   // Restore to DEFAULT_SETTINGS, deep-cloning the nested objects so the in-memory
   // state never shares a reference with the exported constant (a later in-place edit
   // would otherwise mutate the default for the whole app). The persist effect writes
-  // the cleared settings back to AsyncStorage like any other change.
+  // the cleared settings back to storage like any other change.
   const reset = useCallback(() => {
     setSettings({
       ...DEFAULT_SETTINGS,

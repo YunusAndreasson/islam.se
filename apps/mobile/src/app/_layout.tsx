@@ -1,13 +1,17 @@
+import { NavigationBar } from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import * as SystemUI from 'expo-system-ui';
 import { useEffect, useEffectEvent } from 'react';
 import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { useDisplayZone } from '@/lib/device-zone';
 import { IntroProvider } from '@/lib/intro-context';
 import { useLocation, LocationProvider } from '@/lib/location/context';
 import { subscribeNotificationRouting } from '@/lib/notification-routing';
+import { registerNotificationRefresh } from '@/lib/notification-refresh';
 import { syncPrayerNotifications } from '@/lib/notifications';
 import type { LatLng } from '@/lib/prayer-times';
 import { notificationSignature, widgetSignature } from '@/lib/settings/compute-signature';
@@ -26,15 +30,59 @@ import { useActiveScheme, useColors } from '@/theme/useColors';
 // themed screen so the fallback speaks the app's visual language.
 export { ErrorScreen as ErrorBoundary } from '@/components/ui/ErrorScreen';
 
-// Status-bar glyphs follow the APP's active scheme, not the OS. Mounted inside
-// the SettingsProvider so the user's Utseende override (Inställningar → Visning)
-// is honoured: locking the app to "Mörkt" while the phone is in light mode also
-// flips the status bar to light glyphs, so they read over the dark basemap. The
-// Bönetider screen mounts its own <StatusBar> on top — this is the fallback for
-// every other screen.
-function AppStatusBar() {
+// Both system bars, and the window behind them, follow the APP's active scheme rather than
+// the OS's. Mounted inside the SettingsProvider so the user's Utseende override
+// (Inställningar → Visning) is honoured: locking the app to "Mörkt" while the phone is in
+// light mode also flips the status bar to light glyphs, so they read over the dark basemap.
+// The Bönetider screen mounts its own <StatusBar> on top — this is the fallback for every
+// other screen.
+//
+// ⚠️ THE NAVIGATION BAR WAS THE HALF THAT WAS MISSING. Android is edge-to-edge (see
+// android/app/src/main/res/values/styles.xml, which makes both bars transparent), so the
+// map is drawn UNDER the gesture bar and the three-button row. Their tint was left to the
+// OS, which knows only the phone's theme — so the exact case the status bar was already
+// handling, an app locked to a scheme the phone is not in, left dark buttons sitting on the
+// dark basemap.
+//
+// ⚠️ `style` NAMES THE CONTENT, NOT THE BAR — the same convention as <StatusBar> one line
+// below, and the opposite of what the prop name suggests. NavigationBarModule.kt is explicit
+// about it: `val hasLightBackground = style == "dark" // dark content -> light background`.
+// So the two lines below are deliberately the SAME expression; passing `scheme` straight
+// through reads correct and inverts the thing this whole block exists to fix — dark glyphs
+// on the dark basemap, which is exactly the state the app is locked into on a light phone.
+//
+// This cannot be checked on the Android 15 emulator: expo-navigation-bar's own docs note the
+// call has no effect there, so the emulator shows Android's default and an inverted value
+// looks perfectly fine. It needs a physical device.
+//
+// The declarative form is used rather than the imperative setter because it is a no-op
+// component on iOS, so there is no platform branch to keep in step. It needs the plugin's
+// `enforceContrast: false` (app.json) to have any effect — with contrast enforcement on,
+// Android paints its own scrim behind the buttons and ignores the style.
+function AppSystemBars() {
   const scheme = useActiveScheme();
-  return <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} animated />;
+  const c = useColors();
+
+  // The window's own ground, below every React view, kept on the app's active palette so a
+  // screen transition never reveals the OS default (white on Android) behind an incoming
+  // page — and so it follows the reader's Utseende override rather than the phone's theme.
+  //
+  // ⚠️ THIS CANNOT COVER THE COLD-LAUNCH FRAME, whatever it looks like. An effect runs after
+  // the first commit, so the window background is still the OS default for exactly the
+  // frames before React paints. Nothing here can fix that — the mechanism for the launch
+  // frame is the native splash, which app.json already themes on both schemes, and which
+  // lib/splash holds up until the real screen is ready to draw. If a launch flash ever does
+  // appear, it is a splash problem, not this one.
+  useEffect(() => {
+    void SystemUI.setBackgroundColorAsync(c.paper).catch(() => undefined);
+  }, [c.paper]);
+
+  return (
+    <>
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} animated />
+      <NavigationBar style={scheme === 'dark' ? 'light' : 'dark'} />
+    </>
+  );
 }
 
 /**
@@ -50,6 +98,11 @@ function AppStatusBar() {
  */
 function useForegroundSync(key: string, sync: (settings: PrayerSettings) => void): void {
   const { settings, loaded } = useSettings();
+  // Folded in for every consumer rather than left to each caller: both the notification
+  // window and the widget timeline are cut into DAYS, and which instants those days start
+  // at is the zone's answer. A reader who lands in another country has a stale schedule
+  // for the same reason a reader who changes calculation method does.
+  const zone = useDisplayZone();
   const runSync = useEffectEvent(() => {
     sync(settings);
   });
@@ -64,7 +117,7 @@ function useForegroundSync(key: string, sync: (settings: PrayerSettings) => void
     // `key` is not read in the body — it IS the dependency, standing in for the
     // settings and coordinates the caller folded into it. Effect Events are deliberately
     // non-reactive and must not be listed as dependencies.
-  }, [loaded, key]);
+  }, [loaded, key, zone]);
 }
 
 /** A coordinate as a signature fragment. Full precision: any real move should re-sync,
@@ -80,6 +133,14 @@ function NotificationSync() {
   useForegroundSync(`${notificationSignature(settings)}|${coordKey(coords)}`, (s) => {
     void syncPrayerNotifications(coords, s);
   });
+  // And once, the standing request for the OS to do the same while the app is closed —
+  // without which the rolling window stops advancing for anyone who does not open the app
+  // (see @/lib/notification-refresh). Registration is idempotent and unconditional: the
+  // task itself checks whether reminders are on, so switching them on later needs no
+  // second registration, and switching them off leaves a task that correctly does nothing.
+  useEffect(() => {
+    void registerNotificationRefresh();
+  }, []);
   return null;
 }
 
@@ -162,7 +223,7 @@ export default function RootLayout() {
               <NotificationSync />
               <NotificationRouting />
               <WidgetSync />
-              <AppStatusBar />
+              <AppSystemBars />
             </LocationProvider>
           </IntroProvider>
         </SettingsProvider>

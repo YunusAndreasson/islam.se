@@ -241,7 +241,7 @@ describe('formatTime', () => {
     expect(formatTime(noon)).toMatch(/^12[:.]00$/);
     const afternoon = new Date(Date.UTC(2026, 2, 20, 13, 0)); // 14:00 local — never "2"
     expect(formatTime(afternoon)).toMatch(/14[:.]00/);
-    expect(formatTime(new Date(NaN))).toBe('—');
+    expect(formatTime(new Date(NaN))).toBe('–');
   });
 
   it('follows the daylight-saving shift into summer (CEST = UTC+2)', () => {

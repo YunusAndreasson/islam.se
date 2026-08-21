@@ -111,7 +111,7 @@ export default function Berakning() {
 
         <SettingSection
           title="Polcirkeln"
-          footnote="Vad som visas norr om polcirkeln (t.ex. Kiruna) under midnattssol, då Fajr/Isha annars saknar lösning."
+          footnote="Vad som visas norr om polcirkeln (t.ex. Kiruna) under midnattssol, då Fajr och Isha annars inte går att räkna ut."
         >
           <OptionGroup
             options={POLAR_OPTIONS}

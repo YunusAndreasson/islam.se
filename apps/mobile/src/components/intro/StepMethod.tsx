@@ -53,7 +53,7 @@ export function StepMethod() {
           directly beneath left-aligned prose reads as a stray. Tabular figures so the times
           don't jitter sideways as the user tries different methods. */}
       <Text style={styles.preview}>
-        I dag i {place}: Fajr {fajr?.time ?? '—'} · Maghrib {maghrib?.time ?? '—'}
+        I dag i {place}: Fajr {fajr?.time ?? '–'} · Maghrib {maghrib?.time ?? '–'}
       </Text>
 
       <SettingSection title="Beräkningsmetod">

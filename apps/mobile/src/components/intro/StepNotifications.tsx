@@ -22,7 +22,7 @@ import { useNotificationPermission } from '@/lib/notifications-permission';
 import { PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
 import {
-  openSystemSettings,
+  openNotificationSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
   systemSettingsName,
@@ -96,7 +96,7 @@ export function StepNotifications() {
           Notiser är blockerade. Öppna {settingsName} för att tillåta dem.
         </Text>
         <Pressable
-          onPress={openSystemSettings}
+          onPress={openNotificationSettings}
           accessibilityRole="button"
           accessibilityLabel={openSystemSettingsA11yLabel('notiser')}
           style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}

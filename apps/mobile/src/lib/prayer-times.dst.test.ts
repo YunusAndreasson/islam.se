@@ -9,9 +9,10 @@
 // Europe/Stockholm zone — a fully independent implementation from the fallback's hand
 // arithmetic. If the fallback agrees with Intl on every instant of the year, including
 // both transition weekends, its DST logic is correct.
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
 
 import { fallbackFormat, formatTime } from './prayer-times';
+import { DEFAULT_ZONE, setDisplayZone } from './zone-time';
 
 // sv-SE may render the time separator as ':' or '.' depending on the ICU build; the
 // fallback always uses ':'. Normalise both before comparing — we're testing the
@@ -82,5 +83,34 @@ describe('fallbackFormat — DST offset matches the IANA Europe/Stockholm zone',
       }
     }
     expect(mismatches).toEqual([]);
+  });
+});
+
+// ── formatTime follows the display zone ──────────────────────────────────────────────────
+//
+// The suite above compares the Sweden-hardcoded fallback against `formatTime`, which is
+// only a fair oracle while the display zone IS Sweden — its default. This block is the
+// other half: that the zone is genuinely consulted on every call, and not captured once in
+// a module-level formatter that keeps printing Stockholm for the rest of the session.
+describe('formatTime — the display zone', () => {
+  afterEach(() => setDisplayZone(DEFAULT_ZONE));
+
+  it('prints the same instant on whichever clock the reader is on', () => {
+    // 12:00 UTC on an ordinary summer day: 14:00 in Sweden (CEST), 15:00 in Riyadh (AST).
+    const instant = new Date(Date.UTC(2026, 6, 15, 12, 0, 0));
+
+    expect(norm(formatTime(instant))).toBe('14:00');
+
+    setDisplayZone('Asia/Riyadh');
+    // The regression this pins: a cached formatter built for the previous zone. It would
+    // still answer '14:00' here, and a reader in Mecka would see every prayer an hour off
+    // with nothing on screen to suggest why.
+    expect(norm(formatTime(instant))).toBe('15:00');
+  });
+
+  it('keeps the 24-hour Swedish shape abroad', () => {
+    setDisplayZone('America/New_York');
+    // Not '3:00 PM'. The locale is the app's, only the zone is the reader's.
+    expect(norm(formatTime(new Date(Date.UTC(2026, 6, 15, 19, 0, 0))))).toBe('15:00');
   });
 });

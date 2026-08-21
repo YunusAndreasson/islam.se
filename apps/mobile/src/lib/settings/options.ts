@@ -66,7 +66,7 @@ export const HIGHLAT_OPTIONS: readonly Option<HighLatitudeRuleKey>[] = [
 export const POLAR_OPTIONS: readonly Option<PolarCircleResolutionKey>[] = [
   { value: 'aqrabBalad', label: 'Närmaste lämpliga plats', description: 'Aqrab al-Balad' },
   { value: 'aqrabYaum', label: 'Närmaste lämpliga dag', description: 'Aqrab al-Yaum' },
-  { value: 'unresolved', label: 'Oberäknad', description: 'Visa ingen tid när den inte kan beräknas' },
+  { value: 'unresolved', label: 'Ingen tid', description: 'Visa ingen tid när den inte kan beräknas' },
 ];
 
 export const SHAFAQ_OPTIONS: readonly Option<Shafaq>[] = [

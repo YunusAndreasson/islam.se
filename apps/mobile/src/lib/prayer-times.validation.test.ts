@@ -32,7 +32,7 @@ describe('computePrayerTimes — invalid coordinates degrade to "—", never a w
         const shown = formatTime(times[key]);
         // The only acceptable output for garbage input is the em-dash placeholder. A real
         // HH:MM here would mean adhan computed a meaningless time from out-of-range input.
-        expect(shown).toBe('—');
+        expect(shown).toBe('–');
       }
     });
   }

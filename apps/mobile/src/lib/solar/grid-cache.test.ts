@@ -6,14 +6,14 @@ import { beforeEach, describe, expect, it } from '@jest/globals';
 
 import { computeSignature } from '@/lib/settings/compute-signature';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
-import { addStockholmDays, startOfStockholmDay } from '@/lib/stockholm-time';
+import { addZoneDays, startOfZoneDay } from '@/lib/zone-time';
 import { __resetGridCache, gridForDay } from './grid-cache';
 import { first, last } from '@/test-utils/at';
 
-const TODAY = startOfStockholmDay(Date.UTC(2026, 6, 15, 12));
+const TODAY = startOfZoneDay(Date.UTC(2026, 6, 15, 12));
 const SIG = computeSignature(DEFAULT_SETTINGS);
 
-const day = (offset: number) => addStockholmDays(TODAY, offset);
+const day = (offset: number) => addZoneDays(TODAY, offset);
 
 beforeEach(() => {
   __resetGridCache();
@@ -92,7 +92,7 @@ describe('the grid is always unresolved and unrounded', () => {
   // default) is discontinuous across the lattice, which made the Maghrib/Ishaʾ isolines
   // jagged and drew confident prayer lines through perpetual twilight.
   it('leaves the polar zone unresolved even when the user chose aqrabBalad', () => {
-    const winter = startOfStockholmDay(Date.UTC(2026, 11, 21, 12));
+    const winter = startOfZoneDay(Date.UTC(2026, 11, 21, 12));
     const aqrab: PrayerSettings = { ...DEFAULT_SETTINGS, polarCircleResolution: 'aqrabBalad' };
     const grid = gridForDay(winter, aqrab, computeSignature(aqrab));
 

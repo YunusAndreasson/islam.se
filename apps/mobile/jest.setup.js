@@ -68,6 +68,31 @@ jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 
+// expo-sqlite/kv-store is the store lib/storage.ts actually writes to, and it is mocked
+// onto the SAME object as AsyncStorage above — deliberately, not as a shortcut.
+//
+// On a device the two are separate databases and lib/storage.ts migrates between them.
+// Under test there is one store, which is the state the migration produces and the one
+// every assertion here is written against: a suite that seeds a key with
+// `AsyncStorage.setItem` and then renders a screen must see the screen read it back, and
+// a suite that injects a storage failure with `jest.mocked(AsyncStorage.multiGet)` must
+// see the code under test hit that failure. Two stores would silently break both, since
+// production reads kv-store first.
+//
+// The migration path itself therefore needs its own test with the two mocked APART —
+// see lib/storage.test.ts, which is the only place the fallback is actually exercised.
+jest.mock('expo-sqlite/kv-store', () => {
+  const shared = require('@react-native-async-storage/async-storage/jest/async-storage-mock');
+  return { __esModule: true, default: shared, Storage: shared, AsyncStorage: shared };
+});
+
+// expo-localization is native. Report Europe/Stockholm, which is both the app's default
+// and what every existing calendar assertion is written against — a suite that wants to be
+// somewhere else calls setDisplayZone directly rather than re-mocking this.
+jest.mock('expo-localization', () => ({
+  getCalendars: jest.fn(() => [{ timeZone: 'Europe/Stockholm' }]),
+}));
+
 // expo-location is native; mock the foreground-permission + position calls the
 // LocationProvider uses. Default: permission granted, a fixed Stockholm fix.
 jest.mock('expo-location', () => ({
@@ -344,6 +369,160 @@ jest.mock('expo-haptics', () => ({
     Segment_Frequent_Tick: 'segment-frequent-tick',
     Text_Handle_Move: 'text-handle-move',
   },
+}));
+
+// expo-audio is native. A player that reports "not playing" and records the calls made to
+// it, so the preview's own logic — start from the beginning, stop if already sounding, do
+// nothing at all when the build carries no adhan — is testable without an audio device or
+// an audio file. lib/adhan-audio.test.ts drives it.
+jest.mock('expo-audio', () => {
+  const player = {
+    playing: false,
+    play: jest.fn(),
+    pause: jest.fn(),
+    seekTo: jest.fn(async () => {}),
+    remove: jest.fn(),
+  };
+  return {
+    __player: player,
+    useAudioPlayer: jest.fn(() => player),
+    useAudioPlayerStatus: jest.fn(() => ({ playing: player.playing, isLoaded: true })),
+    createAudioPlayer: jest.fn(() => player),
+    setAudioModeAsync: jest.fn(async () => {}),
+  };
+});
+
+// @expo/ui renders real SwiftUI / Jetpack Compose views, which do not exist under jest.
+// The mock keeps the SHAPE — a row of selectable segments, each showing its label, each
+// pressable — so a test can still read and drive the control the way a reader does. It
+// deliberately does not try to imitate the platform's own look or animation; those are
+// exactly the things there is no point asserting off-device.
+//
+// Only the pieces components/settings/SegmentedChoice uses are mocked. Anything else
+// reaching for @expo/ui should fail loudly here rather than silently render nothing —
+// the widgets (src/widgets) are never mounted in a test, they are serialised as JSX.
+jest.mock('@expo/ui/swift-ui', () => {
+  const React = require('react');
+  const { Pressable, Text, View } = require('react-native');
+  return {
+    Host: ({ children, style }) => React.createElement(View, { style }, children),
+    // A SwiftUI Picker's options are its children, each tagged with its value; the mock
+    // reads that tag back off the modifier so pressing a segment selects the right thing.
+    Picker: ({ children, selection, onSelectionChange }) =>
+      React.createElement(
+        View,
+        { accessibilityRole: 'radiogroup' },
+        React.Children.map(children, (child) => {
+          const value = child?.props?.modifiers?.find((m) => m?.$type === 'tag')?.value;
+          return React.createElement(
+            Pressable,
+            {
+              accessibilityRole: 'radio',
+              accessibilityState: { selected: value === selection },
+              onPress: () => onSelectionChange?.(value),
+            },
+            React.createElement(Text, null, child?.props?.children),
+          );
+        }),
+      ),
+    Text: ({ children }) => React.createElement(Text, null, children),
+  };
+});
+
+jest.mock('@expo/ui/swift-ui/modifiers', () => ({
+  pickerStyle: (style) => ({ $type: 'pickerStyle', style }),
+  tag: (value) => ({ $type: 'tag', value }),
+}));
+
+jest.mock('@expo/ui/jetpack-compose', () => {
+  const React = require('react');
+  const { Pressable, Text, View } = require('react-native');
+  const SegmentedButton = ({ children, selected, onClick }) =>
+    React.createElement(
+      Pressable,
+      { accessibilityRole: 'radio', accessibilityState: { selected }, onPress: onClick },
+      children,
+    );
+  // ⚠️ Label PASSES ITS CHILDREN THROUGH rather than wrapping them in a <Text>, and that is
+  // the whole point of it. Compose's Label is a SLOT: handed a bare string it renders
+  // nothing and React Native logs "Text strings must be rendered within a <Text>
+  // component", which on a device looks like a segmented control with three blank segments.
+  // That shipped once, because the earlier mock helpfully wrapped the string and the test
+  // went green. A mock that is kinder than the platform is a mock that hides the bug.
+  SegmentedButton.Label = ({ children }) => children;
+  return {
+    Host: ({ children, style }) => React.createElement(View, { style }, children),
+    SingleChoiceSegmentedButtonRow: ({ children }) =>
+      React.createElement(View, { accessibilityRole: 'radiogroup' }, children),
+    SegmentedButton,
+    Text: ({ children }) => React.createElement(Text, null, children),
+  };
+});
+
+// expo-network is native. Default: online — the state every existing test was written in,
+// and the one in which the map notice and the report form behave exactly as before. A suite
+// that wants the offline path says so by overriding these two.
+jest.mock('expo-network', () => ({
+  useNetworkState: jest.fn(() => ({ isConnected: true, isInternetReachable: true })),
+  getNetworkStateAsync: jest.fn(async () => ({ isConnected: true, isInternetReachable: true })),
+  addNetworkStateListener: jest.fn(() => ({ remove: jest.fn() })),
+}));
+
+// expo-keep-awake is native; the Qibla screen holds the display on while you align.
+jest.mock('expo-keep-awake', () => ({
+  useKeepAwake: jest.fn(),
+  activateKeepAwakeAsync: jest.fn(async () => {}),
+  deactivateKeepAwake: jest.fn(),
+}));
+
+// expo-navigation-bar / expo-system-ui are native and mounted by the root layout. The
+// navigation bar is a no-op component on iOS in the real library too, so a null render is
+// the faithful mock rather than a convenience.
+jest.mock('expo-navigation-bar', () => ({
+  NavigationBar: () => null,
+  setStyle: jest.fn(),
+}));
+
+jest.mock('expo-system-ui', () => ({
+  setBackgroundColorAsync: jest.fn(async () => {}),
+  getBackgroundColorAsync: jest.fn(async () => null),
+}));
+
+// expo-application and expo-intent-launcher are native. The first supplies the installed
+// binary's version to the Om colophon and the mosque report; the second is how the Android
+// notification-channel and battery-optimisation hand-offs leave the app.
+jest.mock('expo-application', () => ({
+  applicationId: 'se.islam.mobile',
+  applicationName: 'islam.se',
+  nativeApplicationVersion: '1.0.8',
+  nativeBuildVersion: '20',
+}));
+
+jest.mock('expo-intent-launcher', () => ({
+  startActivityAsync: jest.fn(async () => ({ resultCode: -1 })),
+  ActivityAction: {
+    APP_NOTIFICATION_SETTINGS: 'android.settings.APP_NOTIFICATION_SETTINGS',
+    IGNORE_BATTERY_OPTIMIZATION_SETTINGS: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
+  },
+}));
+
+// expo-task-manager / expo-background-task are native. The refresh task registers itself
+// at module scope (see src/lib/notification-refresh), so `defineTask` has to exist as soon
+// as anything imports that module — including the root layout, which every screen test
+// mounts. Capturing the executor here is also how notification-refresh.test.ts gets hold of
+// the function the OS would call.
+jest.mock('expo-task-manager', () => ({
+  defineTask: jest.fn(),
+  isTaskRegisteredAsync: jest.fn(async () => true),
+  unregisterTaskAsync: jest.fn(async () => {}),
+}));
+
+jest.mock('expo-background-task', () => ({
+  getStatusAsync: jest.fn(async () => 2),
+  registerTaskAsync: jest.fn(async () => {}),
+  unregisterTaskAsync: jest.fn(async () => {}),
+  BackgroundTaskStatus: { Restricted: 1, Available: 2 },
+  BackgroundTaskResult: { Success: 1, Failed: 2 },
 }));
 
 // expo-notifications is native. Mock the surface src/lib/notifications uses so the

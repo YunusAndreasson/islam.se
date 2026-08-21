@@ -21,6 +21,7 @@ import {
   type PrayerSlotKey,
 } from './settings/types';
 import { isValidLatLng } from './coordinates';
+import { getDisplayZone } from './zone-time';
 
 export interface LatLng {
   latitude: number;
@@ -201,37 +202,43 @@ export const PRAYER_ICONS = {
   isha: 'weather-night',
 } as const satisfies Record<PrayerKey, string>;
 
-// Swedish locations all sit in Europe/Stockholm; formatting there (rather than the
-// device zone) keeps times correct even on an emulator pinned to another zone.
-const TIME_ZONE = 'Europe/Stockholm';
-
 /**
- * Format a prayer-time Date for display, in 24-hour Europe/Stockholm time (Sweden
- * uses the 24-hour clock exclusively). Returns '—' for slots adhan could not
- * compute (Invalid Date), which happens above the Arctic Circle when polar
- * resolution is 'unresolved'.
+ * Format a prayer-time Date for display, 24-hour, in the app's display zone (see
+ * lib/zone-time — the device's own zone, defaulting to Europe/Stockholm). Returns
+ * '–' for slots adhan could not compute (Invalid Date), which happens above the Arctic
+ * Circle when polar resolution is 'unresolved'.
+ *
+ * The LOCALE stays sv-SE regardless of where the phone is: this is a Swedish app, Sweden
+ * uses the 24-hour clock exclusively, and a reader abroad wants their prayer times in the
+ * same shape as the rest of the interface — not suddenly in AM/PM because the handset is
+ * set to en-US.
  */
 // Built once and reused: formatTime renders every prayer row and re-runs on each
 // clock tick (PrayerDock), so a per-call Intl.DateTimeFormat construction was pure
 // overhead. Cached null if the runtime lacks full Intl tz data, so fallbackFormat
 // still fires exactly as before.
-let timeFmt: Intl.DateTimeFormat | null | undefined;
+//
+// Keyed on the zone rather than a bare singleton, which is what makes setDisplayZone take
+// effect here: the cache invalidates itself the first time the zone it was built for is no
+// longer the zone in force. A plain `let timeFmt` would have gone on printing Stockholm
+// times for the rest of the session.
+let timeFmt: { zone: string; fmt: Intl.DateTimeFormat | null } | undefined;
 function getTimeFmt(): Intl.DateTimeFormat | null {
-  if (timeFmt !== undefined) return timeFmt;
+  const zone = getDisplayZone();
+  if (timeFmt?.zone === zone) return timeFmt.fmt;
   try {
-    timeFmt = new Intl.DateTimeFormat('sv-SE', {
-      timeZone: TIME_ZONE,
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    timeFmt = {
+      zone,
+      fmt: new Intl.DateTimeFormat('sv-SE', { timeZone: zone, hour: '2-digit', minute: '2-digit' }),
+    };
   } catch {
-    timeFmt = null;
+    timeFmt = { zone, fmt: null };
   }
-  return timeFmt;
+  return timeFmt.fmt;
 }
 
 export function formatTime(date: Date | null | undefined): string {
-  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '—';
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '–';
   const fmt = getTimeFmt();
   if (fmt) {
     try {
@@ -243,7 +250,10 @@ export function formatTime(date: Date | null | undefined): string {
       // fall through to the fixed-offset fallback below
     }
   }
-  // Hermes without full Intl tz data: fall back to a fixed Swedish offset.
+  // Hermes without full Intl tz data: fall back to a fixed Swedish offset. This one stays
+  // Sweden-shaped even for a reader abroad — there is no tz database to consult, so the
+  // only alternatives are the app's own readership or raw UTC, and UTC is nobody's clock.
+  // Unreachable on any runtime with ICU, which is every shipping build.
   return fallbackFormat(date);
 }
 
