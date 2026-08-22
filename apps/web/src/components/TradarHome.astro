@@ -23,3 +23,22 @@ if (limit) {
 	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" />
 	<ThreadList threads={threads} headingLevel={3} prefetch="viewport" />
 </section>
+
+<style>
+	/* THREE UP, NOT TWO — a rank correction rather than a taste.
+	   CardList's default --card-list-min of 26rem gives the 64rem canvas two
+	   tracks, which is exactly the grid the rank-2 essay cards use. So four threads
+	   rendered as four cards the same size as the two cards carrying the newest
+	   work, and a browse axis outweighed the thing it is an axis THROUGH. The lead
+	   still bled past the canvas, but everything under it had flattened into one
+	   plateau: two cards, six thumbnail rows, four more cards.
+
+	   18rem takes it to three tracks and the pictures down by about 40%. It pairs
+	   with `limit={3}` on the caller — four cards in a three-track grid left the
+	   fourth alone on a second row, and an orphan reads as a page that ran out
+	   rather than one that chose. Five threads exist, so "Alla trådar →" is
+	   telling the truth about what is behind it. */
+	.tradar-home {
+		--card-list-min: 18rem;
+	}
+</style>

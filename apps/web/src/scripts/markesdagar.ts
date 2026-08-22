@@ -1,0 +1,32 @@
+// Keeps every calendar list on the page honest about "upcoming".
+//
+// The rows are generated at build time and the site is deployed by hand, so a
+// list left alone starts showing observances that have already passed — §7.9's
+// standing caveat. Each list is re-filtered against the real Date.now() on load.
+//
+// ⚠️ This replaces an inline script in Markesdagar.astro that read
+// `document.querySelector(".md-list")` — FIRST match only — with a hard-coded
+// count of five. That was correct while exactly one such list could exist per
+// page, and stopped being correct the moment the front page grew a second one in
+// the news rail: the rail's three rows would have been governed by the year
+// page's five, or not refreshed at all depending on which list came first in the
+// DOM. Each list now declares its own `data-max` and every list gets walked.
+
+function uppdatera(): void {
+	// Local calendar date, not UTC: a reader in Stockholm just after midnight has
+	// crossed into the new day, and `toISOString()` would still say yesterday.
+	const now = new Date();
+	const idag = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+	for (const list of document.querySelectorAll<HTMLElement>(".md-list[data-max]")) {
+		const max = Number.parseInt(list.dataset.max ?? "0", 10);
+		let visade = 0;
+		for (const row of list.querySelectorAll<HTMLElement>("[data-end]")) {
+			const keep = (row.dataset.end ?? "") >= idag && visade < max;
+			row.hidden = !keep;
+			if (keep) visade++;
+		}
+	}
+}
+
+document.addEventListener("astro:page-load", uppdatera);

@@ -264,14 +264,25 @@ const DeptHeading = limit ? "h3" : "h2";
 	}
 
 	/* The archive row has never clamped its deck — on /amnen/ and /essaer/ the full
-	   deck IS the row. Next to a picture it needs a floor: the deck sets the height
+	   deck IS the row. Next to a picture it needs a ceiling: the deck sets the height
 	   of the text column, and one essay with a six-line deck would cut its
-	   photograph to twice the height of the row above it. Three lines is nearly the
-	   whole deck at this measure, and it keeps the six pictures of the module the
-	   same 3:2 as each other. */
+	   photograph to twice the height of the row above it.
+
+	   FIVE, AND ALL OF IT IS FREE — measured, not assumed. The picture is 16rem wide
+	   at 3:2, so it stands 171px tall, while title + meta + five lines of deck come
+	   to about 156px. The text has never been what sets this row's height; the
+	   photograph has, and the strut beneath the text absorbs the difference — so
+	   three lines, four or five, the module measures the same and only the amount
+	   the reader gets to read changes.
+
+	   It went 3 → 4 → 5 in one sitting, and the last step needed the row to be
+	   top-aligned first (layout.css): while the text was centred between two struts
+	   the slack was split into two invisible margins instead of being spent on the
+	   essay's own words. Six lines would land past 171px and start driving the row
+	   height, which is the one thing this clamp exists to prevent. */
 	.amne-dept--art :global(.archive-description) {
 		display: -webkit-box;
-		-webkit-line-clamp: 3;
+		-webkit-line-clamp: 5;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

@@ -182,13 +182,16 @@
 }
 
 /* ── The front-page sidolinje ─────────────────────────────────────────────
-   Two tracks around Ämnen alone: the departments in the wide one, the news in a
-   17rem column beside them. Ämnen is the partner because it is the tallest
+   Two tracks around Ämnen alone: the departments in the wide one, the sidolinje
+   in a 17rem column beside them. Ämnen is the partner because it is the tallest
    movement on the page — beside the whole act the rail left 1 990px of empty
-   column, and it cost the rank-2 essay cards a third of their width. The rail
-   is `hidden` until it has rows, and because it lives in its own grid track,
-   appearing costs the departments beside it no movement at all — the track
-   simply fills.
+   column, and it cost the rank-2 essay cards a third of their width.
+
+   That fix was only two thirds of one. Measured on the built page, the news ran
+   ~600px beside a ~2 000px Ämnen block: the void shrank from 1 990px to ~1 400px
+   and stayed the same shape. The track carries TWO blocks now — the news, then
+   the islamic year — which is what actually meets Ämnen's height, and does it
+   with content that cannot run short on a quiet news day.
 
    17rem is chosen against the row, not the canvas: a Swedish news headline of
    3–7 words wraps to two or three lines at --step--1, which is the density this
@@ -207,15 +210,15 @@
 }
 
 /* Both tracks start on the same line.
-   Each track's first child brings its own top margin — Ämnen φ, the rail φ² —
-   so the two section kickers sat 26px apart and the act opened on a step nobody
+   Each track's first child brings its own top margin — Ämnen φ, the sidolinje φ²
+   — so the two section kickers sat 26px apart and the act opened on a step nobody
    intended. The spacing now belongs to the act wrapper above, and the tracks
    start flush, which is what puts "— ÄMNEN" and "— VÄRLDEN JUST NU" on one
-   baseline. Only where there ARE two tracks: on one column the rail keeps its
-   own rhythm. */
+   baseline. Only where there ARE two tracks: on one column the sidolinje keeps
+   its own rhythm. */
 @media (width >= 60rem) {
 	.home-akt2 > .home-akt2-huvud > :first-child,
-	.home-akt2 > .nyheter-rail {
+	.home-akt2 > .home-sidolinje {
 		margin-block-start: 0;
 	}
 }
@@ -226,14 +229,14 @@
 	min-inline-size: 0;
 }
 
-/* On one column the rail comes FIRST, directly under the feature.
+/* On one column the sidolinje comes FIRST, directly under the feature.
    Source order puts it after the four movements it sits beside on a laptop,
    which on a phone is four screens down — the same "nobody finds it" problem
    the rail was built to solve, just relocated. Reordering is safe here because
-   the rail is a self-contained <aside> with its own heading: nothing above or
-   below it reads as continuing into it. */
+   each block in the track is self-contained with its own heading: nothing above
+   or below it reads as continuing into it. */
 @media (width < 60rem) {
-	.nyheter-rail {
+	.home-sidolinje {
 		order: -1;
 		margin-block: var(--space-phi);
 	}
@@ -244,16 +247,22 @@
 		grid-template-columns: minmax(0, 1fr) 17rem;
 	}
 
-	/* No news, no track. The rail is authored `hidden` and only reveals itself
-	   once it has rows, but an explicitly-declared 17rem column stays in the grid
-	   whether or not anything occupies it — so on a quiet day, or for a reader
-	   whose blocker stopped the fetch, the movements would sit squeezed against a
-	   17rem strip of nothing. */
-	.home-akt2:has(> .nyheter-rail[hidden]) {
-		grid-template-columns: minmax(0, 1fr);
-	}
+	/* THE COLLAPSE RULE IS GONE, AND ITS ABSENCE IS THE DECISION.
+	   It read `.home-akt2:has(> .nyheter-rail[hidden])` and dropped the track when
+	   the news had nothing in it, because an explicitly-declared 17rem column
+	   stays in the grid whether or not anything occupies it — a quiet day, or a
+	   blocker stopping a cross-origin request to a `.news` domain, and the
+	   departments would sit squeezed against a 17rem strip of nothing.
 
-	.nyheter-rail {
+	   The track is no longer capable of being nothing. The islamic year is
+	   generated at build time from the Hijri calendar; it is never empty, never
+	   fetched and never blocked. A reader whose blocker kills the news now gets a
+	   column with the calendar in it, which is content rather than a void — so the
+	   condition the rule existed to catch cannot arise, and a `:has()` that can
+	   never match is worse than no rule at all: the next person reads it as a
+	   guarantee still being enforced. */
+
+	.home-sidolinje {
 		/* Top-aligned in its track, and it follows the page rather than sticking:
 		   a column of somebody else's headlines pinned to the viewport while the
 		   reader works through an essay is the widget this site does not want. */
@@ -261,9 +270,9 @@
 		position: relative;
 	}
 
-	/* The rail's own hairline, so the two tracks read as separate columns rather
-	   than as one wide movement that happens to have a gap in it. */
-	.nyheter-rail::before {
+	/* The track's own hairline, so the two columns read as separate rather than as
+	   one wide movement that happens to have a gap in it. */
+	.home-sidolinje::before {
 		content: "";
 		position: absolute;
 		inset-block: 0;
@@ -273,11 +282,13 @@
 	}
 }
 
-.nyheter-rail {
+.home-sidolinje {
 	margin-block: var(--space-phi2);
 }
 
-.nyheter-rail-rubrik {
+/* Shared by both blocks in the track — the news and the islamic year — so the two
+   section labels are the same object seen twice rather than two near-misses. */
+.sidolinje-rubrik {
 	display: flex;
 	align-items: center;
 	gap: 0.7rem;
@@ -296,7 +307,7 @@
 
 /* The same warm tick the movement kickers carry, so the rail is legibly part of
    the same page rather than an inset advertisement. */
-.nyheter-rail-rubrik::before {
+.sidolinje-rubrik::before {
 	content: "";
 	flex: none;
 	/* The movement kickers carry a 1.6rem tick across a 40rem column. The same

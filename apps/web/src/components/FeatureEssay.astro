@@ -204,10 +204,18 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	   lands inside the first screen instead of running past the fold. Both terms
 	   resolve at layout time and neither depends on the file, so there is no shift
 	   when the image lands. (The <img> carries EssayImage's style scope, not ours;
-	   a plain scoped rule never reaches it — hence :global.) */
+	   a plain scoped rule never reaches it — hence :global.)
+
+	   52svh/34rem, tightened from 60/38. The old ceiling put the picture's bottom
+	   edge at 884px on a 1440×900 laptop and the deck's first line at 914 — the
+	   standfirst, the only prose a reader gets before deciding whether to open a
+	   1 500-word essay, began fourteen pixels below the fold. The opening screen
+	   was a headline and a photograph of something unnamed, which is a magazine
+	   COVER; a front page has to hand over a sentence too. Seventy-two pixels is
+	   the whole difference, and the spread loses nothing a reader can see. */
 	.feature-media :global(img) {
 		aspect-ratio: 16 / 9;
-		max-block-size: min(60svh, 38rem);
+		max-block-size: min(52svh, 34rem);
 	}
 
 	/* Deck and date as one caption row beneath the picture: the deck at the

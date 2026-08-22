@@ -502,13 +502,23 @@
 		margin-top: var(--space-phi);
 	}
 
-	/* Act grouping — the homepage falls into four movements-of-movements (det nya ·
-   arkivet · den årliga rytmen · avslut). Sections inside an act keep
-   the default phi2 rhythm; an act's opening section gets a phi3 top — the gap
-   ratio is φ itself — so the eye reads groups, not a flat ladder of equal blocks.
-   Openers are tagged by their root class. */
-	.home > .amnen,
-	.home > .markesdagar,
+	/* Act grouping — the homepage falls into four movements-of-movements. Sections
+   inside an act keep the default phi2 rhythm; an act's opening section gets a
+   phi3 top — the gap ratio is φ itself — so the eye reads groups, not a flat
+   ladder of equal blocks. Openers are tagged by their root class:
+
+     I   det nya          the feature, the second tier, ämnen + sidolinjen
+     II  vad är islam     .fakta-band, then fördjupning
+     III vägar in         .tradar-home, then tänkare
+     IV  avslut           .bookpod
+
+   Act I's opener is the feature, which needs no rule — it is first on the page.
+   Act I's own second half (.home-akt2) carries its φ³ in nyheter.css, because
+   Ämnen is nested inside that grid and a `.home > .amnen` child selector stopped
+   reaching it. .markesdagar is no longer in this list: the calendar moved into
+   the sidolinje and is not a homepage movement any more. */
+	.home > .fakta-band,
+	.home > .tradar-home,
 	.home > .bookpod {
 		margin-top: var(--space-phi3);
 	}
@@ -1579,18 +1589,29 @@
 	.archive-item--thumb a {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) var(--archive-thumb-w, 10rem);
-		/* Five rows: a 1fr strut, the three text rows, another 1fr strut. The struts
-	   split whatever height the picture has that the text does not use, so a row
-	   with a one-line deck sits CENTRED against its photograph instead of clinging
-	   to the top of it with 60px of nothing underneath. When the text is the taller
-	   of the two the struts resolve to zero and nothing moves.
+		/* Four rows: the three text rows, then ONE strut under them. The text is
+	   top-aligned, so the headline starts on the same line as the top edge of its
+	   photograph and whatever height the picture has left over collects at the
+	   bottom.
+
+	   It used to be a strut either side — 1fr auto auto auto 1fr — which centred
+	   the text, on the argument that a one-line deck would otherwise cling to the
+	   top of its picture with 60px of nothing underneath. Two things retired that.
+	   The deck is clamped now, so it does not run one line; and centring spent the
+	   slack on nothing. The picture stands 171px tall and title + meta + a four-line
+	   deck came to ~135px, so 36px was being split into two invisible margins
+	   instead of being handed to the deck. Top-aligned, that space is worth two more
+	   lines of every essay's own words — which is the whole argument for it.
+	   (Five lines lands at ~156px and still fits. Six would push past the picture
+	   and start driving the row height, which is what the clamp exists to prevent.)
+
 	   ⚠️ Declaring the rows is also the only reason `grid-row: 1 / -1` below works.
 	   In an implicit grid, row line -1 is the end of the *explicit* grid — line 1
 	   when no rows are declared — so `1 / -1` silently collapses to `1 / 1`, the
 	   picture sizes row one to its own height, and the stretched title box opens a
 	   45px hole between the headline and its date. (Measured in Gecko, which is
 	   where it was caught.) */
-		grid-template-rows: 1fr auto auto auto 1fr;
+		grid-template-rows: auto auto auto 1fr;
 		column-gap: clamp(1rem, 2vw, 1.5rem);
 		/* Fill the <li>. Grid stretches the two cells of a department to equal height,
 	   and this passes that height down so BOTH pictures in a row are cut to the
@@ -1598,9 +1619,10 @@
 		height: 100%;
 	}
 
-	/* Placed by hand into rows 2–4, between the two struts. Auto-placement would put
-   them in rows 1, 2, 3 — i.e. into the top strut — and the centring would be a
-   half-measure that only ever pushed the text down. */
+	/* Placed by hand into rows 1–3, above the strut. Auto-placement would land them
+   in the same three rows here, but the placement is written out because the
+   picture spans `1 / -1` and the relationship between the two is the whole
+   composition — leaving it implicit is how the next edit breaks it. */
 	.archive-item--thumb .archive-title,
 	.archive-item--thumb .archive-meta,
 	.archive-item--thumb .archive-description {
@@ -1608,11 +1630,11 @@
 	}
 
 	.archive-item--thumb .archive-title {
-		grid-row: 2;
+		grid-row: 1;
 	}
 
 	.archive-item--thumb .archive-meta {
-		grid-row: 3;
+		grid-row: 2;
 	}
 
 	/* ⚠️ `align-self: start` is load-bearing, not tidying. Should this row ever be
@@ -1620,14 +1642,14 @@
    -webkit-line-clamp box does NOT hide its overflow: the clamp still writes its
    ellipsis at the last allowed line, but the box is now tall enough to paint the
    next line underneath it. The row read "…för att be…. / Tillfrågad varför svarar
-   hon att". Sizing the deck to its own content keeps the slack in the struts. */
+   hon att". Sizing the deck to its own content keeps the slack in the strut. */
 	.archive-item--thumb .archive-description {
-		grid-row: 4;
+		grid-row: 3;
 		align-self: start;
 	}
 
-	/* Column two, spanning the struts and the text between them, and centred on that
-   span. ONE SIZE for every picture in the module: the crop is pinned to 3:2 below
+	/* Column two, spanning the text rows and the strut beneath them. ONE SIZE for
+   every picture in the module: the crop is pinned to 3:2 below
    rather than stretched to the height of the row it happens to sit in.
    That was the first attempt — `align-self: stretch` with a 3:2 min-height — and
    it measured 224×177, 224×199 and 224×221 down a single module, because the row
@@ -2010,6 +2032,34 @@
 			white-space: normal;
 		}
 	}
+
+	/* THE RAIL VARIANT — the same rows in a 17rem column on the front page.
+   The three-track agenda (11rem date · name · Hijri) is a wide-canvas
+   composition and there is no version of it that survives 17rem: the date
+   column alone is two thirds of the width. It takes the stack the narrow
+   viewport already uses, which is not a fallback but the same answer to the
+   same question — the row is too narrow to set three things across it.
+
+   The rows also run tighter here than on a phone. --space-unit of padding is
+   right where the list IS the page; in a rail it is a block of three dates
+   under a block of twelve headlines, and it has to read as an index. */
+	.md-list--rail .md-row {
+		grid-template-columns: 1fr;
+		gap: 0.2rem;
+		padding-block: var(--space-half);
+	}
+
+	.md-list--rail .md-hijri {
+		text-align: start;
+		white-space: normal;
+	}
+
+	/* The note is dropped from the markup in the rail variant, not merely hidden —
+   see MarkesdagList.astro. At 17rem "fastans månad; obligatorisk fasta från
+   gryning till solnedgång" is four lines under a one-line name, so three dates
+   would set as twelve lines of explanation and two of calendar. The name and
+   the date are the whole job here; the note is what /det-islamiska-aret is
+   for, and the block links straight to it. */
 
 	/* Two-column archive index on the wide canvas (one column on a phone),
    shared by Essäer, the Fakta hub and the collection pages — so every

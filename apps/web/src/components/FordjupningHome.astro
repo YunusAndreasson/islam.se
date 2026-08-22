@@ -1,0 +1,88 @@
+---
+import { getCollection } from "astro:content";
+import { resolveHero } from "../lib/fordjupning";
+import CardList, { type CardItem } from "./CardList.astro";
+import HomeHead from "./HomeHead.astro";
+
+// FÖRDJUPNING on the front page — the encyclopedic layer, which until now had no
+// presence on it at all.
+//
+// Fifteen pillar pages of 2 800–4 500 words, each the whole of one contested
+// topic — the sources, the scholarship, the history and the Swedish legal
+// position — and the only routes to them were the footer and the command
+// palette. They are the most substantial single thing the site publishes and the
+// front page did not know they existed.
+//
+// It sits directly under <FaktaBand>, which is the real relation between them:
+// the band names the five pillars and the six articles of faith and opens a short
+// answer for each; these are the same territory taken all the way down.
+
+// CURATED, not ranked. An earlier version chose by art and then by date, which is
+// the right instinct for a feed and the wrong one here: these four are the topics
+// a Swedish reader actually arrives with, and that is an editorial judgement no
+// sort key encodes. Three of the site's contested-practice pages — what a marriage
+// is, what the veil verse says, how "halal" became a certificate — and then the
+// one that is not about how to live but about how it ends, and where Sweden's own
+// burial law is the obstacle. Ordered as they read, two by two.
+//
+// Ramadan is deliberately absent: the sidolinje beside this page already opens on
+// it under "Det islamiska året", and the front page should not name the same thing
+// twice in two registers.
+const VALDA = ["aktenskap", "hijab", "halal", "doden"] as const;
+
+const alla = await getCollection("fordjupning");
+
+// Hard failure on a slug that names nothing, rather than a block that quietly
+// renders three cards. A curated list is exactly the kind of thing that rots
+// silently when a page is renamed, and the same reasoning already governs the
+// `related` and `essays` references on these pages: a stale slug fails the build.
+const valda = await Promise.all(
+	VALDA.map(async (slug) => {
+		const entry = alla.find((e) => e.id === slug);
+		if (!entry) {
+			throw new Error(
+				`FordjupningHome: ingen fördjupning med slug "${slug}". ` +
+					`Fanns: ${alla.map((e) => e.id).join(", ")}`,
+			);
+		}
+		// resolveHero() throws on a heroEssay naming no essay, so a broken art
+		// reference fails the build rather than silently rendering a card with a
+		// hole in it — the same contract /fordjupning/ relies on.
+		return { entry, hero: await resolveHero(entry) };
+	}),
+);
+
+// CARDS, not the index rows this began as. Standing beside Trådar — a browse axis
+// in full-dress cards with a picture each — a column of thin rows made the site's
+// most substantial writing look like the apparatus and the way-in look like the
+// work. The count line mirrors the threads' "6 essäer" exactly, because it is the
+// same fact about the same kind of thing: how much is behind this door.
+const rader: CardItem[] = valda.map(({ entry, hero }) => ({
+	href: `/fordjupning/${entry.id}/`,
+	title: entry.data.term,
+	description: entry.data.blurb ?? entry.data.seoDescription ?? entry.data.description,
+	meta: `${entry.data.related.length} frågor`,
+	image: hero && {
+		...(hero.src === undefined ? {} : { src: hero.src }),
+		...(hero.article === undefined ? {} : { article: hero.article }),
+		alt: hero.alt,
+	},
+}));
+---
+
+<section class="fordjupning-home home-movement" aria-labelledby="fordjupning-kicker">
+	<HomeHead
+		label="Fördjupning"
+		id="fordjupning-kicker"
+		href="/fordjupning/"
+		linkLabel={`Alla ${alla.length} fördjupningar`}
+	/>
+	{/* h3: the head-row above renders the movement's h2, so a topic is a level
+	    beneath it. Same reasoning AmnenHome uses for its department rows.
+
+	    Two up, where Trådar runs three: same cards, one rank apart. Act II is the
+	    encyclopedia and act III is a way through it, and if they render identically
+	    the φ³ boundary between them is the only thing left carrying the difference.
+	    Four topics fill the two tracks exactly — no orphan row. */}
+	<CardList items={rader} headingLevel={3} prefetch="viewport" />
+</section>

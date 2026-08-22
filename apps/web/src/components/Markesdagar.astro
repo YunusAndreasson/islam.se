@@ -2,66 +2,104 @@
 import MarkesdagList from "./MarkesdagList.astro";
 import SectionLink from "./SectionLink.astro";
 import { getMarkesdagar, gregorian } from "../lib/markesdagar";
+// For .sidolinje-rubrik, which both blocks in this track share. Nyheter.astro
+// imports the same sheet; Vite emits it once. Importing it here rather than
+// relying on that neighbour is what keeps this block's styling its own business —
+// and it costs no extra pages, since the sidolinje exists on the front page only.
+import "../styles/nyheter.css";
+
+// The front page's calendar block — the next three observances, in the news
+// rail's track rather than as a movement of its own.
+//
+// It used to be a full-width section near the foot of the page: five rows, each
+// with its explanatory note, plus two standing-fast paragraphs. That version is
+// gone and nothing was lost — both of those paragraphs already appear verbatim on
+// /det-islamiska-aret/ (see .md-standing / .md-also there), which this block
+// links straight to.
+//
+// Why the rail. The sidolinje was built for the news and paired with Ämnen on the
+// argument that Ämnen is the tallest movement on the page. It is, and it was still
+// three times the rail's height: the news ran ~600px beside a ~2 000px block, so a
+// third of the act was a narrow column of headlines with 1 400px of nothing under
+// it. The calendar is what fills that honestly — it is the site's other live
+// layer, it belongs beside the news rather than four screens below it, and unlike
+// more news rows it cannot run short on a quiet day.
+//
+// ⚠️ It keeps the SITE's voice, not the news column's. The block above it is set
+// in Source Sans as a deliberate register signal (nyheter.css: "the one
+// load-bearing decision") — that material is reported elsewhere. This is islam.se
+// speaking, so it sits under its own kicker with a rule between, and reads as a
+// second block in one track rather than as more of the first.
+
+const RADER = 3;
 
 const events = getMarkesdagar();
 const todayISO = new Date().toISOString().slice(0, 10);
 
-// Mark which events are upcoming at build time (the no-JS view); the client
+// Mark which events are upcoming at build time (the no-JS view); scripts/markesdagar
 // re-selects against the real Date.now() so the list never goes stale (§7.9).
 let buildShown = 0;
 const rows = events.map((e) => {
 	const endISO = e.endISO ?? e.startISO;
-	const upcoming = endISO >= todayISO && buildShown < 5;
+	const upcoming = endISO >= todayISO && buildShown < RADER;
 	if (upcoming) buildShown++;
 	return { ...e, endISO, hidden: !upcoming, gregorian: gregorian(e.startISO, e.endISO) };
 });
 ---
 
-<section class="markesdagar home-movement" aria-labelledby="markesdagar-kicker">
-	<h2 class="label home-kicker" id="markesdagar-kicker">Det islamiska året</h2>
+<section class="markesdagar-rail" aria-labelledby="markesdagar-kicker">
+	<h2 class="label sidolinje-rubrik" id="markesdagar-kicker">Det islamiska året</h2>
 
-	<MarkesdagList rows={rows} />
+	<MarkesdagList rows={rows} variant="rail" max={RADER} />
 
-	<p class="md-standing">
-		Därtill <em>de vita dagarna</em> (Ayyām al-bīḍ) — fasta den 13:e, 14:e och 15:e i varje månmånad.
-	</p>
-	<p class="md-also">
-		I <em>Shaʿbān</em>, månaden före Ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom Ramadan.
-	</p>
-
-	<p class="md-more"><SectionLink href="/det-islamiska-aret/">Se hela året</SectionLink></p>
+	<p class="md-more"><SectionLink class="label arrow-link" href="/det-islamiska-aret/">Se hela året</SectionLink></p>
 </section>
 
 <style>
 	/* Shared calendar-list rules (.md-list/.md-row/.md-greg/.md-body/.md-name/
-	   .md-note/.md-hijri/.md-standing/.md-also, plus the mobile stack) live in
-	   styles/layout.css — /det-islamiska-aret renders the same rows and used to
-	   carry an identical copy. Only this section's own spacing stays here. */
-	.md-list {
-		margin: var(--space-unit) 0 0;
+	   .md-hijri, the rail stack and the mobile stack) live in styles/layout.css —
+	   /det-islamiska-aret renders the same rows. Only this block's own spacing and
+	   its seam with the news above it stay here. */
+	.markesdagar-rail {
+		margin-top: var(--space-phi);
+		padding-top: var(--space-unit);
+		/* The seam. Two blocks in one 17rem track need to read as two, or the dates
+		   look like the last few news items. A full rule, not the kicker's warm tick
+		   alone — the tick marks a section on a wide canvas, and at this width it is
+		   too small a signal to carry a change of voice. */
+		border-top: 1px solid var(--color-rule);
 	}
 
-	.md-also {
-		margin: var(--space-half) 0 0;
+	/* NO NEWS, NO SEAM.
+	   The news block is authored `hidden` and reveals itself only once the fetch
+	   lands — a quiet moment, a blocker stopping a cross-origin request to a
+	   `.news` domain, or simply a reader who got here first. When it never appears
+	   this block is the top of the track, and a rule separating it from nothing is
+	   a line the page cannot explain. Caught in Gecko, where a headless render
+	   outran the fetch and showed exactly this.
+	   :global() on the sibling because it belongs to Nyheter.astro — a scoped
+	   selector would be rewritten with this component's id and never match.
+
+	   ⚠️ `~`, not `+`. Astro emits the news component's hoisted
+	   <script type="module"> between the </aside> and this <section> — in the dev
+	   server AND in the built output, verified in dist/index.html — so the
+	   adjacent-sibling combinator matches nothing at all and the bug survives in
+	   exactly the place someone would go looking for it. The general sibling
+	   combinator does not care what the bundler puts in the gap. */
+	:global(.nyheter-rail[hidden]) ~ .markesdagar-rail {
+		margin-top: 0;
+		padding-top: 0;
+		border-top: 0;
 	}
 
 	/* Placement only — the link inside is a `.section-link .arrow-link`. */
 	.md-more {
-		margin: var(--space-half) 0 0;
+		margin: var(--space-unit) 0 0;
 	}
 </style>
 
 <script>
-	document.addEventListener("astro:page-load", () => {
-		const list = document.querySelector(".md-list");
-		if (!list) return;
-		const today = new Date().toISOString().slice(0, 10);
-		let shown = 0;
-		for (const row of list.querySelectorAll<HTMLElement>("[data-end]")) {
-			const end = row.dataset.end ?? "";
-			const keep = end >= today && shown < 5;
-			row.hidden = !keep;
-			if (keep) shown++;
-		}
-	});
+	// Shared with /det-islamiska-aret's list; walks every .md-list[data-max] on the
+	// page, so this block's three rows and that page's five stay independent.
+	import "../scripts/markesdagar";
 </script>
