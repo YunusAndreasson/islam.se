@@ -39,7 +39,11 @@ try {
 // build date, not a frozen dataset constant — otherwise the DAILY changefreq we already
 // signal contradicts a weeks-old lastmod and Google discounts the freshness. Computed once
 // per build so every city URL shares one consistent timestamp.
-const BONETIDER_BUILD_LASTMOD = new Date().toISOString();
+// One timestamp per build, shared by every section whose content is regenerated
+// rather than authored — the city pages below, and /nyheter/, whose list is
+// injected fresh on every request.
+const BUILD_LASTMOD = new Date().toISOString();
+const BONETIDER_BUILD_LASTMOD = BUILD_LASTMOD;
 
 // Old WordPress URLs with no counterpart on the new site — 301'd to the homepage to
 // preserve SEO on the same domain. Emitted as a Cloudflare Pages `_redirects` file
@@ -998,6 +1002,18 @@ export default defineConfig({
 					item.lastmod = BONETIDER_BUILD_LASTMOD;
 					item.changefreq = ChangeFreqEnum.DAILY;
 					item.priority = 0.6;
+				} else if (slug === "nyheter") {
+					// The one news URL in the sitemap. The notices themselves have no
+					// pages and never enter it: they live a day, are rendered into this
+					// page at the edge, and minting a URL per item would put a few
+					// thousand machine-translated hard-news pages a year in front of a
+					// site whose actual asset is its doctrinal material.
+					// HOURLY because the injected list genuinely changes that often —
+					// zuhd publishes five times a day — while the standing copy around
+					// it does not, hence the modest priority.
+					item.lastmod = BUILD_LASTMOD;
+					item.changefreq = ChangeFreqEnum.HOURLY;
+					item.priority = 0.5;
 				} else if (slug === "moskeer") {
 					item.lastmod = new Date(MOSKEER_DATA_DATE).toISOString();
 					item.changefreq = ChangeFreqEnum.MONTHLY;

@@ -1,0 +1,157 @@
+---
+import CollectionIndexPage from "../components/CollectionIndexPage.astro";
+import SectionLink from "../components/SectionLink.astro";
+import { breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
+import "../styles/nyheter.css";
+
+// NYHETER — världsnyheter på svenska, från zuhd.news.
+//
+// The list on this page is NOT built here. There is no page per news item, no
+// sitemap entry per item and no content collection: the items live for a day
+// and are fetched live, so the only thing this file ships is the frame, the
+// standing copy around it, and an empty <ol>.
+//
+// `functions/nyheter/index.js` fills that <ol> at the edge, so a crawler and a
+// reader without JavaScript both get the real list in the served HTML.
+// `src/scripts/nyheter.ts` is the fallback for when that fetch failed, and
+// keeps the relative timestamps honest afterwards.
+//
+// Why it is built this way: a few thousand machine-translated hard-news pages a
+// year would be a domain-wide risk under Google's scaled-content policy, and
+// what this site is actually for is the material at /svar/ and /fordjupning/.
+// The news is a reader service, not a search play.
+
+// ⚠️ No longer promises "länk till varje händelse på kartan". It did, and the
+// links were removed when the news moved onto this page to be read here — a
+// description that offers something the page does not have is the one kind of
+// meta copy that actively costs trust.
+const description =
+	"Världsnyheter på svenska, levererade av zuhd.news och uppdaterade flera gånger om dagen. Det senaste dygnets rapportering, notis för notis.";
+---
+
+<CollectionIndexPage
+	title="Nyheter"
+	pageTitle="Nyheter — världen just nu på svenska — islam.se"
+	description={description}
+	ogImageAlt="Nyheter — islam.se"
+	mainClass="nyheter-index home"
+	jsonLd={[
+		collectionPageJsonLd({
+			name: "Nyheter",
+			description,
+			url: "/nyheter/",
+			essays: [],
+			// The items themselves carry no structured data: they are gone within a
+			// day, and a static ItemList naming articles that no longer exist is a
+			// worse signal than none. What is declared here is the provenance.
+			extra: {
+				provider: {
+					"@type": "Organization",
+					name: "zuhd.news",
+					url: "https://zuhd.news/",
+				},
+			},
+		}),
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Nyheter", url: "/nyheter/" },
+		]),
+	]}
+>
+	{/* A masthead credit, not an ingress.
+	    What stood here explained the page to the reader — that the notices are in
+	    full, that they are short on purpose, that they change during the day — and
+	    no news desk on earth describes its own format above its own front. DN does
+	    not tell you its articles are brief.
+	    Everything that copy said, the page now says by being itself: the h1 names
+	    it, the kicker names the area, the status line gives the count and the
+	    freshness, and the day rules show the window. The one fact structure cannot
+	    carry is whose reporting this is — a reference site about islam must not
+	    look like it is reporting drone strikes — so that is all the line does. */}
+	{/* ⚠️ A <span>, matching /svar/ and /fordjupning/. PageHead already wraps this
+	    slot in its own `<p class="lead lead--page">`, so the <p> that used to be
+	    here nested one paragraph inside another — which the parser splits, leaving
+	    an empty lead followed by a stray one. It looked right only because the
+	    inner <p> carried the same two classes. */}
+	<span slot="lead">
+		Världsnyheter på svenska, levererade av{" "}
+		<a href="https://zuhd.news/" rel="noopener">zuhd.news</a>.
+	</span>
+
+	<!-- ⚠️ Authored HIDDEN, which is what functions/nyheter/index.js already claims. The
+	     edge removes the attribute once it has filled the list, and the client script does
+	     the same when it renders. An empty news frame reads as a broken page on a reference
+	     site, so the section appears only when it has something in it. -->
+	<section id="nyheter-sektion" class="nyheter-sektion" aria-labelledby="nyheter-rubrik" hidden>
+		{/* The news-day masthead: what area, how much, how fresh.
+		    "Världen" is visible and named for the area rather than being a
+		    screen-reader-only "Det senaste dygnet" — Swedish news is coming to this
+		    page later as a second section beside this one, and a reader who lands
+		    here then has to be able to see which half they are reading.
+		    The status line beside it is the page's feedback: an unbounded column of
+		    notices gives the reader no way to judge how much is here or whether it
+		    is current, and those are the first two questions anyone asks of a news
+		    page. It is authored empty and hidden — the count is not knowable until
+		    the payload is. */}
+		<div class="nyheter-huvud">
+			<h2 id="nyheter-rubrik" class="label nyheter-omrade">Världen</h2>
+			<p id="nyheter-status" class="label nyheter-status" hidden></p>
+		</div>
+
+		{/* ⚠️ A <div>, not the <ol> it used to be. The list is cut into days now, and
+		    each day is its own <section><h3>+<ol>: a heading inside an ordered list
+		    is not a list item, and hanging one there would have made the day marks
+		    invisible to the structure a screen reader announces. */}
+		<div id="nyheter-lista" class="nyheter-dagar" data-nyheter="full" aria-busy="true"></div>
+
+		<p id="nyheter-passerad" class="nyheter-passerad" hidden>
+			Notisen du följde en länk till har lämnat dygnets fönster. Den finns kvar
+			på <a href="https://zuhd.news/" rel="noopener">zuhd.news</a>.
+		</p>
+
+		<!-- ⚠️ Authored HIDDEN. Shipped visible, this failure copy was the page's DEFAULT
+		     state: it flashed on every load until the fetch resolved, and it was shown
+		     verbatim on a quiet day when the feed was perfectly healthy and simply had
+		     nothing inside the 24h window. It is now shown only when a fetch actually
+		     failed. -->
+		<p id="nyheter-tom" class="nyheter-tom" hidden>
+			Nyheterna kunde inte hämtas just nu. De finns alltid att läsa på{" "}
+			<a href="https://zuhd.news/" rel="noopener">zuhd.news</a>.
+		</p>
+	</section>
+
+	{/* Two blocks, because they were doing two jobs at one rung.
+	    The provenance note is a disclaimer and belongs in the quiet register. The
+	    onward links are the most valuable thing on this page for a site whose
+	    actual subject is at /svar/ and /fordjupning/, and they were the faintest
+	    thing on it — three grey paragraphs deep, in the same ink as the machine-
+	    translation caveat. They now sit above the note, at the rung the rest of the
+	    site gives a section link. */}
+	<nav class="nyheter-vidare" aria-label="Vidare på islam.se">
+		<p class="label nyheter-vidare-rubrik">Vidare på islam.se</p>
+		<ul>
+			<li>
+				<SectionLink class="label arrow-link" href="/svar/">Frågor &amp; svar</SectionLink>
+				<span>Korta svar på det som faktiskt frågas — tron, reglerna, livet som muslim.</span>
+			</li>
+			<li>
+				<SectionLink class="label arrow-link" href="/fordjupning/">Fördjupning</SectionLink>
+				<span>Långa essäer om islams historia, tänkande och plats i Sverige.</span>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="nyheter-kolofon">
+		<p>
+			Rapporteringen kommer från{" "}
+			<a href="https://zuhd.news/" rel="noopener">zuhd.news</a>, som sammanställer
+			internationell nyhetsrapportering och visar varje händelse på en världskarta
+			med de källor notisen bygger på. Texterna är översatta maskinellt till
+			svenska. islam.se är ingen nyhetsredaktion och står inte bakom urvalet.
+		</p>
+	</div>
+</CollectionIndexPage>
+
+<script>
+	import "../scripts/nyheter";
+</script>

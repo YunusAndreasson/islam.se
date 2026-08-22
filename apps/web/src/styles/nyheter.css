@@ -1,0 +1,668 @@
+/* The news vocabulary.
+   ============================================================================
+   Global rather than component-scoped, because these rows are built in
+   JavaScript — in the browser for the front-page sidolinje, in a Worker for
+   /nyheter/ — and Astro's scoped styles key on a build-time attribute that a
+   `document.createElement` row will never carry.
+
+   Imported from the two surfaces that use it rather than from Base.astro:
+   `inlineStylesheets: "always"` puts every global stylesheet into every one of
+   the ~2 100 built pages, and a news column that appears on two of them has no
+   business in the bytes of the other 2 098.
+
+   ── The one load-bearing decision ─────────────────────────────────────────
+   The whole block is set in `--font-heading` (Source Sans 3), not the Literata
+   the site writes its own essays in. That is the register signal, and it is
+   doing the work a disclaimer would otherwise have to do: the reader should
+   know at a glance, without being told, that this material is reported
+   elsewhere and is not islam.se speaking. It also happens to be the face
+   zuhd.news sets its entire site in, so the column quotes its source visually. */
+
+.nyheter-lista {
+	font-family: var(--font-heading);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.nyhet {
+	padding-block: var(--space-unit);
+	border-top: 1px solid var(--color-divider);
+}
+
+.nyhet:first-child {
+	border-top: 0;
+	padding-top: 0;
+}
+
+/* Meta line — clock and category, on the sidolinje only.
+   ============================================================================
+   /nyheter/ no longer emits one: its clock moved into a column of its own (see
+   the news-day index below), which is a promotion this rung could not give it.
+   ============================================================================
+   These are three different kinds of fact and they are set as three, because
+   the first draft set them as one: `.label` put all of them in tracked
+   uppercase at the same size and ink, so a ten-row column carried twenty
+   equally-loud small-caps tokens and the reader had to read the whole line to
+   find the one they wanted.
+
+     clock      data      — tabular, untracked, the darkest of the three. It is
+                            the spine of a news-day index, and letterspacing
+                            digits makes numbers harder to read, not easier.
+     freshness  prose     — sentence case. "för 1 timme sedan" is a sentence,
+                            and setting it in caps makes it shout a detail.
+     category   label     — the only one that is genuinely a label, so it is the
+                            only one that keeps caps and tracking. Smallest and
+                            lightest: it is the least useful field when scanning
+                            a column that is already sorted by time. */
+.nyhet-meta {
+	margin: 0 0 0.35rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4ch;
+	align-items: baseline;
+	/* Override `.label`: the line is a composition of three registers now, and
+	   the class only supplies the family and the base size. */
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.nyhet-klocka {
+	font-variant-numeric: tabular-nums lining-nums;
+	color: var(--text-meta);
+}
+
+.nyhet-relativ {
+	color: var(--color-muted);
+}
+
+.nyhet-kategori {
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	font-feature-settings: "case";
+	/* --step--5, not an em fraction of the clock. The design system's own note
+	   says an off-scale literal is how the smallest type drifts off the ladder,
+	   and 0.92em of --step--4 lands on 10.9px, which is no rung at all. */
+	font-size: var(--step--5);
+	color: var(--color-muted);
+}
+
+.nyhet-skiljetecken {
+	color: var(--color-muted);
+}
+
+.nyhet-titel {
+	/* The sans ladder is cap-matched to the serif one (×1.0606), so this is the
+	   sans equivalent of --step-1 — the same rank as an archive title, which is
+	   what a news headline is here. Never the essay rank above it. */
+	font-family: var(--font-heading);
+	font-size: var(--step-1-sans);
+	font-weight: 600;
+	line-height: 1.2;
+	/* No negative tracking. --tracking-display is declared for --step-3 and
+	   above; a headline at 24px that tightens is off-system, and at the rail's
+	   17px it costs legibility for nothing. */
+	margin: 0 0 0.4rem;
+	color: var(--text-strong);
+	text-wrap: balance;
+}
+
+.nyhet p:not(.nyhet-meta):not(.nyhet-fot) {
+	font-family: var(--font-heading);
+	/* --step--2 is the token's own "dense prose: descriptions, table cells" rung,
+	   and it was wrong here: /nyheter/ is a reading surface, not a caption. The
+	   body sits one rung up, which also puts the headline-to-body ratio at 1.43
+	   (24.2 → 16.9) instead of 1.6 — close enough to read as one block of text
+	   rather than a title with a footnote under it. The rail keeps the smaller
+	   rungs; it is an index and shows no body at all. */
+	font-size: var(--step--1);
+	line-height: 1.55;
+	color: var(--text-body);
+	margin: 0 0 0.6rem;
+	max-inline-size: var(--content-width);
+}
+
+/* The foot carries a fact and a control, and they used to be typeset as the
+   same thing — »DEUTSCHE WELLE · DELA«, one rung, one ink, one register — so the
+   reader had to click one to learn which was which. The source is now plain
+   prose with no signifier on it at all; "Dela" keeps the underline, because an
+   underline in running text is the one signifier every reader already knows. */
+.nyhet-fot {
+	margin: var(--space-half) 0 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5ch;
+	align-items: baseline;
+	font-family: var(--font-heading);
+	font-size: var(--step--3);
+	color: var(--color-muted);
+}
+
+.nyhet-kalla {
+	font-style: normal;
+	color: var(--text-quiet);
+}
+
+/* The dateline. Swedish news sets the place in bold followed by a full stop —
+   »Kryvyj Rih.« — where the English wire uses »Kryvyj Rih — «. Weight and ink
+   only: it is the same sentence, and a size change would make it a heading. */
+.nyhet-plats {
+	/* Weight only — the ink is the paragraph's own.
+	   At --text-strong it was bold AND darker, two levers at once, directly under
+	   a 24.2px semibold headline: two full-strength semibolds stacked four lines
+	   apart, and the dateline read as a sub-headline rather than as the first
+	   words of the sentence it belongs to. A dateline is set inside the paragraph,
+	   not above it. */
+	font-weight: 600;
+	color: inherit;
+}
+
+/* Share. An anchor to the notice's own fragment, upgraded by script to a native
+   share or a clipboard copy — so it works, quietly, either way. */
+.nyhet-dela {
+	/* The same ink as the source beside it. It had been a rung lighter, which put
+	   the page's only per-notice control below its provenance note in the visual
+	   order — the underline is what separates them, not a difference in ink. */
+	color: var(--text-quiet);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+	transition: color 0.15s ease;
+	/* WCAG 2.5.8: the label sits at --step--3 and would otherwise be a ~17px
+	   target. The negative margin gives the padding back to the baseline. */
+	display: inline-flex;
+	align-items: center;
+	padding-block: 0.35rem;
+	margin-block: -0.35rem;
+}
+
+.nyhet-dela:hover,
+.nyhet-dela:focus-visible {
+	color: var(--color-brass);
+}
+
+/* ── The front-page sidolinje ─────────────────────────────────────────────
+   Two tracks around Ämnen alone: the departments in the wide one, the news in a
+   17rem column beside them. Ämnen is the partner because it is the tallest
+   movement on the page — beside the whole act the rail left 1 990px of empty
+   column, and it cost the rank-2 essay cards a third of their width. The rail
+   is `hidden` until it has rows, and because it lives in its own grid track,
+   appearing costs the departments beside it no movement at all — the track
+   simply fills.
+
+   17rem is chosen against the row, not the canvas: a Swedish news headline of
+   3–7 words wraps to two or three lines at --step--1, which is the density this
+   column is for. Wider and it competes with the essays; narrower and every
+   headline becomes four lines. */
+.home-akt2 {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-phi);
+	/* The act boundary, moved here from `.home > .amnen`.
+	   That selector gives the homepage's act openers their φ³ top margin, and it
+	   is a CHILD selector — nesting Ämnen inside this grid silently took it away,
+	   so the reference tail lost the gap that marks it as a new act. Restoring it
+	   on the wrapper keeps the page's four-act rhythm intact. */
+	margin-block: var(--space-phi3) var(--space-phi2);
+}
+
+/* Both tracks start on the same line.
+   Each track's first child brings its own top margin — Ämnen φ, the rail φ² —
+   so the two section kickers sat 26px apart and the act opened on a step nobody
+   intended. The spacing now belongs to the act wrapper above, and the tracks
+   start flush, which is what puts "— ÄMNEN" and "— VÄRLDEN JUST NU" on one
+   baseline. Only where there ARE two tracks: on one column the rail keeps its
+   own rhythm. */
+@media (width >= 60rem) {
+	.home-akt2 > .home-akt2-huvud > :first-child,
+	.home-akt2 > .nyheter-rail {
+		margin-block-start: 0;
+	}
+}
+
+.home-akt2-huvud {
+	/* The track must be allowed to shrink below its content's intrinsic width,
+	   or a wide card inside it pushes the rail off the canvas. */
+	min-inline-size: 0;
+}
+
+/* On one column the rail comes FIRST, directly under the feature.
+   Source order puts it after the four movements it sits beside on a laptop,
+   which on a phone is four screens down — the same "nobody finds it" problem
+   the rail was built to solve, just relocated. Reordering is safe here because
+   the rail is a self-contained <aside> with its own heading: nothing above or
+   below it reads as continuing into it. */
+@media (width < 60rem) {
+	.nyheter-rail {
+		order: -1;
+		margin-block: var(--space-phi);
+	}
+}
+
+@media (width >= 60rem) {
+	.home-akt2 {
+		grid-template-columns: minmax(0, 1fr) 17rem;
+	}
+
+	/* No news, no track. The rail is authored `hidden` and only reveals itself
+	   once it has rows, but an explicitly-declared 17rem column stays in the grid
+	   whether or not anything occupies it — so on a quiet day, or for a reader
+	   whose blocker stopped the fetch, the movements would sit squeezed against a
+	   17rem strip of nothing. */
+	.home-akt2:has(> .nyheter-rail[hidden]) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.nyheter-rail {
+		/* Top-aligned in its track, and it follows the page rather than sticking:
+		   a column of somebody else's headlines pinned to the viewport while the
+		   reader works through an essay is the widget this site does not want. */
+		align-self: start;
+		position: relative;
+	}
+
+	/* The rail's own hairline, so the two tracks read as separate columns rather
+	   than as one wide movement that happens to have a gap in it. */
+	.nyheter-rail::before {
+		content: "";
+		position: absolute;
+		inset-block: 0;
+		inset-inline-start: calc(var(--space-phi) / -2);
+		inline-size: 1px;
+		background: var(--color-rule);
+	}
+}
+
+.nyheter-rail {
+	margin-block: var(--space-phi2);
+}
+
+.nyheter-rail-rubrik {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	/* 0.3rem, and it is not a nudge: it is `.home-head-all`'s own `padding-block`.
+	   The movement kickers beside this one sit in a baseline-aligned flex row next
+	   to an "Alla X →" link, and that link's 0.3rem of vertical padding (added for
+	   the WCAG 2.5.8 target size) displaces the kicker by exactly that much. The
+	   rail's heading has no such neighbour, so it sat 5px high and the two section
+	   labels missed each other across the gutter.
+	   ⚠️ If `.home-head-all`'s padding changes, this must change with it. */
+	margin: 0.3rem 0 var(--space-half);
+	font-size: var(--step--2);
+	font-weight: 400;
+	letter-spacing: 0.09em;
+}
+
+/* The same warm tick the movement kickers carry, so the rail is legibly part of
+   the same page rather than an inset advertisement. */
+.nyheter-rail-rubrik::before {
+	content: "";
+	flex: none;
+	/* The movement kickers carry a 1.6rem tick across a 40rem column. The same
+	   tick in a 17rem one is proportionally two and a half times the mark, and
+	   reads as a bigger claim than the column is making. */
+	inline-size: 1rem;
+	block-size: 2px;
+	background: var(--color-warm);
+}
+
+/* A news-day row: time and category on one line, the headline under it. */
+.nyheter-rail .nyhet {
+	padding-block: var(--space-half);
+}
+
+.nyheter-rail .nyhet-meta {
+	margin-bottom: 0.15rem;
+	font-size: var(--step--4);
+}
+
+.nyheter-rail .nyhet-titel {
+	font-size: var(--step--1);
+	font-weight: 600;
+	line-height: 1.25;
+	margin: 0;
+}
+
+.nyheter-rail .nyhet-titel a {
+	color: var(--text-strong);
+	text-decoration: none;
+	transition: color 0.15s ease;
+}
+
+.nyheter-rail .nyhet-titel a:hover,
+.nyheter-rail .nyhet-titel a:focus-visible {
+	color: var(--color-brass);
+}
+
+.nyheter-rail-fot {
+	margin: var(--space-half) 0 0;
+	padding-top: var(--space-half);
+	border-top: 1px solid var(--color-rule);
+}
+
+/* Match `.home-head-all` exactly — 13.3px, not 15. The rail's onward link was
+   measuring a rung ABOVE every "Alla ämnen →" on the page, which made the
+   secondary column's call to action the loudest one in view. */
+.nyheter-rail-fot a {
+	font-size: var(--step--3);
+}
+
+/* ── /nyheter/ ──────────────────────────────────────────────────────────────
+   The news-day index.
+
+   What was here before was a stack: nine identical slabs, each a hairline, a
+   line of three grey meta tokens, a headline and four paragraphs, repeated. It
+   read as one undifferentiated column, and DESIGN.md's own test — blur the page
+   and you should still see the structure — returned nothing but grey. At the
+   volume this page is actually built for (~55 notices a day, some 20 000px of
+   scroll) that is not a taste problem, it is a page with no landmarks in it.
+
+   Three moves, in order of how much they carry:
+
+     1. The clock becomes the spine. It moves out of the meta line into its own
+        column at the left edge of the page, aligned with the lead and the day
+        headings above it, so the hours run straight down the margin and the
+        page can be scanned without reading a word of it. This is Nyhetsdygnet's
+        model, and Jakob's Law says to use it rather than invent one.
+     2. The day heading becomes the landmark, and fixes a real defect: a 24-hour
+        window crosses midnight, so the clock column runs 05:19, 00:03, 21:56
+        and the numbers appear to go backwards.
+     3. The hairline between notices goes. It was separating items that
+        whitespace separates perfectly well, which is what Principle 4 means by
+        "no borders unless encoding meaning" — and once every notice carried one,
+        the day rule had nothing left to distinguish it. Now the only rules on
+        the page are the day boundaries, which is exactly the structure.        */
+
+.nyheter-index {
+	/* The clock column. Wide enough for "VETENSKAP" at --step--4 under a
+	   tabular HH:MM, which is the widest thing it ever has to hold. */
+	--nyhet-tid-kolumn: 5rem;
+	/* The measure, and it is NOT --content-width.
+	   42rem of Literata at 19px is the ~68 characters DESIGN.md calls for. The
+	   same 42rem of Source Sans at 16.9px is nearer 88 — well past the band the
+	   house style calls non-negotiable — because the news is set in the sans and
+	   the sans is narrower. This column is the sans equivalent of the site's
+	   measure, not a different decision about measure. */
+	--nyhet-matt: 34rem;
+	--nyhet-block: calc(var(--nyhet-tid-kolumn) + var(--space-unit) + var(--nyhet-matt));
+}
+
+/* The masthead: area on the left, count and freshness on the right.
+   Deliberately the same shape as `.home-head` on the front page — kicker left,
+   "Alla X →" right — so the page opens in a pattern the reader has already met
+   twice before arriving here. */
+.nyheter-huvud {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.4rem var(--space-unit);
+	margin-bottom: var(--space-phi);
+	max-inline-size: var(--nyhet-block);
+}
+
+/* The area heading — "Världen" now, "Sverige" beside it later.
+   Set as a movement kicker so it reads as a section of the page rather than as
+   a headline competing with the notices under it. */
+.nyheter-omrade {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	margin: 0;
+	font-size: var(--step--2);
+	font-weight: 400;
+	letter-spacing: 0.09em;
+}
+
+.nyheter-omrade::before {
+	content: "";
+	flex: none;
+	inline-size: 1.6rem;
+	block-size: 2px;
+	background: var(--color-warm);
+}
+
+/* Sentence case, not a label. It is a statement of fact — "9 notiser · senast
+   för 4 minuter sedan" — and in tracked caps beside the area kicker the two
+   would have read as a pair of headings rather than as a heading and its
+   caption. */
+.nyheter-status {
+	margin: 0;
+	text-transform: none;
+	letter-spacing: 0;
+	color: var(--color-muted);
+}
+
+.nyheter-antal {
+	font-variant-numeric: tabular-nums lining-nums;
+	color: var(--text-meta);
+}
+
+.nyheter-sektion {
+	margin-block: var(--space-phi);
+}
+
+/* ── The day ──────────────────────────────────────────────────────────────── */
+
+.nyheter-dag + .nyheter-dag {
+	margin-top: var(--space-phi2);
+}
+
+/* The only rule on the page, and the only place caps and weight are spent.
+   It spans the whole block — clock column included — so it reads as a bar
+   across the day rather than as a label above the first notice. */
+.nyheter-dagrubrik {
+	display: flex;
+	align-items: baseline;
+	gap: 0.7rem;
+	margin: 0 0 var(--space-unit);
+	padding-bottom: var(--space-half);
+	border-bottom: 1px solid var(--color-rule);
+	max-inline-size: var(--nyhet-block);
+	font-family: var(--font-heading);
+	font-size: var(--step--2);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--text-strong);
+}
+
+/* The date is the same fact stated precisely, so it is set as an aside to the
+   word rather than beside it at equal weight: "IDAG" is what the reader
+   navigates by, "22 augusti" is what they check. */
+.nyheter-dagdatum {
+	margin-inline-start: auto;
+	font-weight: 400;
+	font-size: var(--step--3);
+	text-transform: none;
+	letter-spacing: 0;
+	color: var(--color-muted);
+}
+
+/* ── The notice ───────────────────────────────────────────────────────────── */
+
+.nyheter-index .nyhet {
+	display: grid;
+	grid-template-columns: var(--nyhet-tid-kolumn) minmax(0, var(--nyhet-matt));
+	gap: var(--space-unit);
+	/* No rule and no padding: the gap between notices is what separates them,
+	   and it is φ — larger than the space inside a notice by enough that the
+	   grouping is unambiguous without a line to help. */
+	padding-block: 0;
+	border-top: 0;
+}
+
+.nyheter-index .nyhet + .nyhet {
+	margin-top: var(--space-phi);
+}
+
+.nyhet-tid {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	/* Measured, not guessed: the clock and the headline are different sizes with
+	   different line-heights, so their boxes starting on the same grid line put
+	   their baselines 6px apart. This lands the time ON the headline's first
+	   baseline, which is what makes the column read as a stamp beside the words
+	   rather than as a label floating above them. */
+	padding-top: 0.575rem;
+}
+
+.nyheter-index .nyhet-klocka {
+	font-family: var(--font-heading);
+	/* Promoted two rungs, from --step--4 to --step--1, and out of --text-meta
+	   into the ink the body carries. It is the page's index now, and it was
+	   measurably LIGHTER than the prose beside it — an index the eye has to hunt
+	   for is not one. The 500 is what keeps it from reading as prose in turn:
+	   Source Sans 3 is variable 300–700, so the rung between regular and semibold
+	   is real rather than synthesised. Tabular so the colons line up down the
+	   column, which is the whole reason the spine scans. */
+	font-size: var(--step--1);
+	font-weight: 500;
+	line-height: 1.2;
+	color: var(--text-body);
+}
+
+.nyheter-index .nyhet-kategori {
+	font-size: var(--step--4);
+	line-height: 1.2;
+}
+
+.nyhet-kropp {
+	min-inline-size: 0;
+}
+
+/* Body copy takes its measure from the grid column, so the old per-paragraph
+   max-inline-size is gone — it was capping at --content-width, 8rem wider than
+   the column it now sits in, and therefore doing nothing at all. */
+.nyheter-index .nyhet p:not(.nyhet-fot) {
+	max-inline-size: none;
+}
+
+.nyheter-index .nyhet-titel {
+	margin-bottom: var(--space-half);
+}
+
+/* ── Provenance and the way onward ────────────────────────────────────────── */
+
+.nyheter-vidare {
+	margin-top: var(--space-phi2);
+	padding-top: var(--space-unit);
+	border-top: 1px solid var(--color-rule);
+	max-inline-size: var(--nyhet-block);
+}
+
+.nyheter-vidare-rubrik {
+	margin: 0 0 var(--space-half);
+	color: var(--color-muted);
+}
+
+/* Subgrid, so the two blurbs start on one line rather than each beginning
+   wherever its own link happens to end. A ragged left edge on two items reads as
+   an accident, and it is the cheapest kind of order to supply. */
+.nyheter-vidare ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	gap: var(--space-half) var(--space-unit);
+}
+
+.nyheter-vidare li {
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-column: span 2;
+	align-items: baseline;
+}
+
+.nyheter-vidare li span {
+	font-family: var(--font-heading);
+	font-size: var(--step--2);
+	color: var(--text-quiet);
+}
+
+.nyheter-tom,
+.nyheter-passerad {
+	font-family: var(--font-heading);
+	font-size: var(--step--2);
+	color: var(--text-quiet);
+	max-inline-size: var(--nyhet-matt);
+}
+
+.nyheter-passerad {
+	border-left: 2px solid var(--color-warm);
+	padding-left: var(--space-half);
+}
+
+/* A deep-linked notice, marked so the reader's eye lands where the link
+   promised. Warm tint rather than a border, so the row does not change size
+   when it is picked out — and the script takes the class off again on the
+   reader's first move, so it never becomes a permanent band nobody can explain.
+   The transition is on the way OUT only: it is dismissal feedback rather than an
+   entrance, which is the distinction DESIGN.md's "no animations on content" is
+   drawing. */
+.nyhet--utpekad {
+	transition:
+		background-color 0.4s ease,
+		box-shadow 0.4s ease;
+	background: color-mix(in srgb, var(--color-warm), transparent 88%);
+	box-shadow: 0 0 0 0.6rem color-mix(in srgb, var(--color-warm), transparent 88%);
+	border-radius: var(--radius-xs);
+}
+
+.nyheter-kolofon {
+	margin-top: var(--space-phi);
+	max-inline-size: var(--nyhet-block);
+}
+
+.nyheter-kolofon p {
+	margin: 0;
+	font-family: var(--font-heading);
+	font-size: var(--step--3);
+	color: var(--text-quiet);
+}
+
+/* ── Narrow ───────────────────────────────────────────────────────────────
+   The clock column cannot survive a phone: 5rem of a 20rem canvas is a quarter
+   of the measure spent on four characters. It folds back onto one line above
+   the headline — but the clock keeps its promoted rung and its ink, so the
+   spine is still the first thing on every notice, just horizontal. */
+@media (width < 46rem) {
+	.nyheter-index .nyhet {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0;
+	}
+
+	.nyhet-tid {
+		flex-direction: row;
+		align-items: baseline;
+		gap: 0.7ch;
+		padding-top: 0;
+		margin-bottom: 0.35rem;
+	}
+
+	.nyheter-dagdatum {
+		margin-inline-start: 0;
+	}
+
+	/* One column: at 20rem a max-content link column plus a blurb leaves the
+	   blurb four words wide. */
+	.nyheter-vidare ul {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-unit);
+	}
+
+	.nyheter-vidare li {
+		grid-column: auto;
+		gap: 0.2rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.nyhet-dela,
+	.nyhet--utpekad {
+		transition: none;
+	}
+}

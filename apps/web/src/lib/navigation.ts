@@ -64,6 +64,12 @@ const pages = {
 		menuSub: "Bönetider, påminnelser och qibla i fickan.",
 		sub: "Appen för iPhone och Android: bönetider, påminnelser och qibla.",
 	},
+	nyheter: {
+		href: "/nyheter/",
+		label: "Nyheter",
+		menuSub: "Världen just nu, på svenska.",
+		sub: "Världsnyheter på svenska, levererade av zuhd.news och uppdaterade flera gånger om dagen.",
+	},
 	podcast: {
 		href: "/podcast/",
 		label: "Podd",
@@ -140,6 +146,7 @@ export const PALETTE_TOOL_LINKS: PaletteNavLink[] = [
 	{ href: pages.mosques.href, label: pages.mosques.label, sub: pages.mosques.menuSub },
 	{ href: pages.app.href, label: pages.app.label, sub: pages.app.menuSub },
 	{ href: pages.podcast.href, label: pages.podcast.label, sub: pages.podcast.menuSub },
+	{ href: pages.nyheter.href, label: pages.nyheter.label, sub: pages.nyheter.menuSub },
 ];
 
 export const PALETTE_MINOR_LINKS: NavLink[] = [
@@ -153,6 +160,7 @@ export const PALETTE_MINOR_LINKS: NavLink[] = [
 
 export const FOOTER_LINKS: NavLink[] = [
 	pages.fordjupning,
+	pages.nyheter,
 	pages.amnen,
 	pages.tradar,
 	pages.tankare,
@@ -176,6 +184,7 @@ export const STANDING_PALETTE_PAGES: PalettePageLink[] = [
 	pages.mosques,
 	{ href: pages.app.href, label: pages.app.label, sub: pages.app.sub, alt: "Appen" },
 	pages.podcast,
+	pages.nyheter,
 	pages.about,
 	pages.ai,
 	pages.home,

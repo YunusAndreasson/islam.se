@@ -140,6 +140,16 @@ const DeptHeading = limit ? "h3" : "h2";
 		border-top: 0;
 	}
 
+	/* On the homepage the movement head-row sits directly above, and at 1.9rem the
+	   two head-rows read as one four-line block. The extra step separates the
+	   section from its first department without adding a rule — this department
+	   deliberately carries no border, so the space is the only boundary available.
+	   Scoped to the glimpse: on /amnen/ the first department follows the page
+	   ingress, which needs no such gap. */
+	.home-movement .amne-dept:first-of-type {
+		margin-top: var(--space-phi);
+	}
+
 	.amne-dept-head {
 		display: flex;
 		justify-content: space-between;
@@ -166,8 +176,16 @@ const DeptHeading = limit ? "h3" : "h2";
 		}
 	}
 
+	/* One rung under the movement's own "Alla ämnen →".
+	   The left edge of this block already carries two clear levels — a 15px
+	   tracked kicker over a 22.8px serif department name — but the right edge
+	   carried both links at --step--3, so "ALLA ÄMNEN →" and "ALLA 11 ESSÄER →"
+	   sat two centimetres apart at identical weight and size. Nothing said which
+	   one governed which. Demoting the department link mirrors the left edge:
+	   section above, department below, on both margins. */
 	.amne-dept-all {
 		flex-shrink: 0;
+		font-size: var(--step--4);
 		color: var(--color-muted);
 	}
 

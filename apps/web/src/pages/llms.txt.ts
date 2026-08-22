@@ -67,6 +67,7 @@ ${fordjupningSection}${svarSection}
 - [Fulltext för språkmodeller](${site}/llms-full.txt): hela essäarkivet i ett dokument
 - [Bönetider](${site}/bonetider/): bönetider för 2 100+ svenska orter, med [beräkningsmetod och källor](${site}/bonetider/metod/)
 - [Det islamiska året](${site}/det-islamiska-aret): kalender med islamiska högtider
+- [Nyheter](${site}/nyheter/): det senaste dygnets världsnyheter på svenska, levererade av zuhd.news (notiserna har inga egna sidor och lever ett dygn)
 - [RSS](${site}/rss.xml): nyaste essäerna som flöde
 - [Sitemap](${site}/sitemap-index.xml): samtliga URL:er
 - [MCP-server](${site}/ai): anslut en AI-assistent och sök, läs och citera essäerna direkt (${site.replace("https://", "https://mcp.")}/mcp)

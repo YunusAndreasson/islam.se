@@ -5,6 +5,7 @@ import EssayList from "../components/EssayList.astro";
 import FaktaBand from "../components/FaktaBand.astro";
 import FeatureEssay from "../components/FeatureEssay.astro";
 import Markesdagar from "../components/Markesdagar.astro";
+import Nyheter from "../components/Nyheter.astro";
 import TankareGroups from "../components/TankareGroups.astro";
 import TradarHome from "../components/TradarHome.astro";
 import { getImage } from "astro:assets";
@@ -111,6 +112,26 @@ const heroPreload = feature?.heroImage
 			</a>
 		</nav>
 
+		{/* Rank 3, and the act boundary — now paired with the sidolinje.
+
+		    The rail runs beside Ämnen and nothing else, which is a measurement
+		    rather than a preference. Beside the whole act it left 1 990px of empty
+		    column: the movements stack to 2 878px and a ten-row rail is 888px, so
+		    two thirds of the act was a narrow main column hugging the left edge of
+		    a 64rem canvas. It also cost the rank-2 essays a third of their width —
+		    two cards at ~310px each, decks truncated — which inverts the very
+		    hierarchy the rail is supposed to sit under.
+
+		    Ämnen is the right partner: it is the tallest movement on the page, so
+		    the two tracks end near each other, and its thumbnail rows carry their
+		    own right-hand whitespace, so a narrower measure costs them nothing.
+		    Trådar and Tänkare stay full width deliberately — Tänkare is a two-
+		    facing-column composition and squeezing it into 655px would break the
+		    device that makes it an argument.
+
+		    Under 60rem the grid collapses and the rail takes `order: -1`, landing
+		    directly under the feature: a 17rem column of headlines is a rail on a
+		    laptop and a cramped mess on a phone. */}
 		{/* Rank 2. Two, never auto-fill: a tier of four is a feed again. */}
 		{secondTier.length > 0 && (
 			<section class="home-second home-movement" aria-label="Fler essäer">
@@ -128,7 +149,13 @@ const heroPreload = feature?.heroImage
 		    rules above — the lead bleeds past the canvas, the tier runs two cards,
 		    and these are 7rem thumbs on a row — so the page does not flatten into
 		    three tiers of the same picture. */}
-		<AmnenHome limit={3} exclude={used} art />
+		<div class="home-akt2">
+			<div class="home-akt2-huvud">
+				<AmnenHome limit={3} exclude={used} art />
+			</div>
+
+			<Nyheter />
+		</div>
 
 		{/* The two curated axes through the corpus. Both are first-class authored data
 		    — the trådar carry framing prose, the tänkare are derived from the essay
