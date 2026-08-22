@@ -47,7 +47,7 @@ import {
   type PrayerLineData,
   SolarSkiaOverlay,
 } from '@/components/map/skia/SolarSkiaOverlay';
-import { MapNav, NAV_STACK_HEIGHT, NAV_TOP_GAP } from '@/components/nav/MapNav';
+import { MapNav, NAV_LANE_TOP } from '@/components/nav/MapNav';
 import {
   GlassBackdropProvider,
   GlassBackdropTarget,
@@ -198,17 +198,19 @@ const REVEAL_HOLD_MS = 2500;
 // Beat 3: the gap between the dock springing shut and the hint fading in, so the two
 // animations never overlap — the times land, the map returns, then the question arrives.
 const HINT_AFTER_REVEAL_MS = 700;
-// The hint clears the whole MapNav instrument column by a gap. It must not land at
-// insets.top + space.lg either — that row belongs to the Återställ chip. The numbers come
-// from MapNav rather than being written again here: this constant was already a hand-copy of
-// "one 46 dp disc at insets.top + 10", and the day a second disc went under the compass it
-// would have been silently wrong, with the hint card landing on top of the Moon.
-const HINT_TOP_OFFSET = NAV_TOP_GAP + NAV_STACK_HEIGHT + space.md;
-// The basemap-failure notice shares the Återställ chip's centred row, so it is pushed
+/** The Återställ chip's own height, near enough — paddingVertical 8 twice, a 1.5 ring twice
+ *  and an 18 dp line. Everything that has to stack under the chip counts in these. */
+const CHIP_HEIGHT = 34;
+// The hint clears the MapNav instrument row AND the Återställ chip's lane under it. The
+// numbers come from MapNav rather than being written again here: this constant was once a
+// hand-copy of "one 46 dp disc at insets.top + 10", and the day a second disc joined the
+// first it would have been silently wrong, with the hint card landing on top of the Moon.
+const HINT_TOP_OFFSET = NAV_LANE_TOP + CHIP_HEIGHT + space.md;
+// The basemap-failure notice shares the Återställ chip's centred lane, so it is pushed
 // one chip-height + gap below it: both states can be true at once (a failed style does
 // not stop the user panning), and stacked is the only arrangement where neither hides
 // the other.
-const MAP_ERROR_OFFSET = 34 + space.sm;
+const MAP_ERROR_OFFSET = CHIP_HEIGHT + space.sm;
 
 /** The offer queue's decision, as one async function so the gate effect below reads as a
  *  sequence rather than a nest of conditionals. Returns null when this launch has nothing
@@ -487,7 +489,7 @@ export default function Bonetider() {
   // independent (styleFailed comes from onDidFailLoadingMap; the offer queue only waits on
   // cameraReady), so the collision is not a corner case: it is what a first launch on a
   // weak connection looks like, which is exactly when both have something to say.
-  const noticeTop = insets.top + space.lg + MAP_ERROR_OFFSET;
+  const noticeTop = insets.top + NAV_LANE_TOP + MAP_ERROR_OFFSET;
   const hintTop = Math.max(
     insets.top + HINT_TOP_OFFSET,
     trouble != null && noticeHeight > 0 ? noticeTop + noticeHeight + space.sm : 0,
@@ -1236,8 +1238,8 @@ export default function Bonetider() {
           that fire the system dialogs, so dismissing either leaves that single lifetime
           prompt unspent. Rendered here, OUTSIDE GlassBackdropTarget (which closed above)
           — a glass surface inside the target would sample itself instead of the map. They
-          sit below the two nav discs, colliding with neither them nor the Återställ chip,
-          and share one `top` so the two cards are visually interchangeable. */}
+          sit below the nav row and below the Återställ chip's lane, colliding with
+          neither, and share one `top` so the two cards are visually interchangeable. */}
       {phase === 'hint-location' && (
         <LocationHint top={hintTop} onClose={() => setPhase('done')} />
       )}
@@ -1251,12 +1253,13 @@ export default function Bonetider() {
       )}
 
       {/* "Återställ" — appears only after the user has clearly panned/zoomed off the
-          initial framing. Tap to fitBounds back to the whole country. Sits between the
-          two nav discs at the top centre so it never collides with them. A clear ring
-          (border) + icon + haptic so it reads unmistakably as a button, not a label —
-          the old wordmark style was too quiet to invite a tap. */}
+          initial framing. Tap to fitBounds back to the whole country. Centred in the lane
+          BELOW the nav row (NAV_LANE_TOP): it used to share that row, which worked only
+          while the Moon sat under the compass rather than beside it. A clear ring (border)
+          + icon + haptic so it reads unmistakably as a button, not a label — the old
+          wordmark style was too quiet to invite a tap. */}
       {moved && (
-        <View style={[styles.resetWrap, { top: insets.top + space.lg }]} pointerEvents="box-none">
+        <View style={[styles.resetWrap, { top: insets.top + NAV_LANE_TOP }]} pointerEvents="box-none">
           <Pressable
             onPress={() => {
               hapticLight();
