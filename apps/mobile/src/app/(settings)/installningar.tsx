@@ -384,7 +384,6 @@ export default function Installningar() {
               independent check on the Qibla sheet. See skia/QiblaArc. */}
           <Toggle
             label="Visa qibla-riktning"
-            description="En linje på kartan mot Mecka från din plats."
             value={settings.showQibla}
             onValueChange={(showQibla) => update({ showQibla })}
             divider
@@ -396,7 +395,7 @@ export default function Installningar() {
             all swap together the instant the user picks a row, via useActiveScheme().
             Alone in its section now: with the map layers and the calendar offset moved
             out, "Utseende" finally means only what it says. */}
-        <SettingSection title="Utseende" footnote="Påverkar kartan och hela appen.">
+        <SettingSection title="Utseende">
           {/* The one control on this screen that is a segmented control everywhere else the
               reader has ever met it — three short, exclusive, familiar options. The long
               lists above stay as OptionGroup rows: their per-row descriptions are what makes

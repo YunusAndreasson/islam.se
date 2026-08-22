@@ -175,7 +175,7 @@ export default function Notiser() {
           </SubGroup>
         </SettingSection>
 
-        <SettingSection title="Varje bön" footnote="Sätt egen tid och eget ljud för varje bön.">
+        <SettingSection title="Varje bön">
           {NOTIFY_PRAYERS.map((key) => (
             <PrayerAlertGroup
               key={key}
