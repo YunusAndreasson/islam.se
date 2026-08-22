@@ -47,7 +47,7 @@ import {
   type PrayerLineData,
   SolarSkiaOverlay,
 } from '@/components/map/skia/SolarSkiaOverlay';
-import { MapNav } from '@/components/nav/MapNav';
+import { MapNav, NAV_STACK_HEIGHT, NAV_TOP_GAP } from '@/components/nav/MapNav';
 import {
   GlassBackdropProvider,
   GlassBackdropTarget,
@@ -198,9 +198,12 @@ const REVEAL_HOLD_MS = 2500;
 // Beat 3: the gap between the dock springing shut and the hint fading in, so the two
 // animations never overlap — the times land, the map returns, then the question arrives.
 const HINT_AFTER_REVEAL_MS = 700;
-// The hint clears the two 46 dp MapNav discs (pinned at insets.top + 10) by a gap. It
-// must not land at insets.top + space.lg either — that row belongs to the Återställ chip.
-const HINT_TOP_OFFSET = 10 + 46 + space.md;
+// The hint clears the whole MapNav instrument column by a gap. It must not land at
+// insets.top + space.lg either — that row belongs to the Återställ chip. The numbers come
+// from MapNav rather than being written again here: this constant was already a hand-copy of
+// "one 46 dp disc at insets.top + 10", and the day a second disc went under the compass it
+// would have been silently wrong, with the hint card landing on top of the Moon.
+const HINT_TOP_OFFSET = NAV_TOP_GAP + NAV_STACK_HEIGHT + space.md;
 // The basemap-failure notice shares the Återställ chip's centred row, so it is pushed
 // one chip-height + gap below it: both states can be true at once (a failed style does
 // not stop the user panning), and stacked is the only arrangement where neither hides

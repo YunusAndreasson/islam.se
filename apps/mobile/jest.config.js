@@ -19,6 +19,18 @@ module.exports = {
     'src/lib/prayer-times.ts',
     'src/lib/night-times.ts',
     'src/lib/hijri.ts',
+    // The Moon. Every one of these is pure and deterministic — the phase bands, the day
+    // marks, the crescent geometry, Odeh's criterion and the sentences built from them —
+    // and each is a place a silent miscalculation reaches the reader as a confident claim
+    // about the sky. lib/moon/ephemeris and lib/moon/hilal are deliberately NOT here: they
+    // are the astronomy-engine glue, held instead by their own external-reference anchors
+    // (ephemeris.anchors.test.ts, hilal.test.ts), where the thing worth proving is that we
+    // call the library correctly rather than that every line ran.
+    'src/lib/moon/month.ts',
+    'src/lib/moon/phase.ts',
+    'src/lib/moon/readout.ts',
+    'src/lib/moon/shape.ts',
+    'src/lib/moon/visibility.ts',
     'src/lib/qibla.ts',
     'src/lib/relative-day.ts',
     'src/lib/places/nearest.ts',

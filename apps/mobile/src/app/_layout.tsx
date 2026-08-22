@@ -202,6 +202,9 @@ export default function RootLayout() {
                     as the app visibly opening a second screen on its own first frame. */}
                 <Stack.Screen name="bonetider" options={{ animation: 'none' }} />
                 <Stack.Screen name="qibla" options={{ presentation: 'modal' }} />
+                {/* The map's other instrument. Same presentation as Qibla, from the disc
+                    directly under it — the two are a pair and must behave as one. */}
+                <Stack.Screen name="manen" options={{ presentation: 'modal' }} />
                 <Stack.Screen name="(settings)" options={{ presentation: 'modal', headerShown: false }} />
                 {/* Opened from the mosque detail card on the map, so it presents as a sheet
                     over it and dismissing returns to the map — same as Qibla and Settings. */}

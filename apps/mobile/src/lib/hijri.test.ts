@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from '@jest/globals';
 
-import { formatGregorian, formatHijri, HIJRI_MONTHS, toHijri } from './hijri';
+import { formatGregorian, formatHijri, formatShortDate, HIJRI_MONTHS, toHijri } from './hijri';
 import { DEFAULT_ZONE, setDisplayZone, startOfZoneDay, zonePrayerDate } from './zone-time';
 
 // The tabular Islamic calendar is deterministic; these anchors pin it to the civil
@@ -90,5 +90,28 @@ describe('formatGregorian and the display zone', () => {
       const fromGregorian = toHijri(new Date(2026, 6, gregorianDay, 12)).day;
       expect(fromGregorian).toBe(hijriDay);
     }
+  });
+});
+
+describe('formatShortDate — the compact form the Moon readout prints inside sentences', () => {
+  it('gives day and abbreviated month in the display zone', () => {
+    setDisplayZone(DEFAULT_ZONE);
+    expect(formatShortDate(new Date(Date.UTC(2026, 7, 28, 12)))).toMatch(/^28 aug/);
+  });
+
+  it('reads the date in Stockholm, not in UTC', () => {
+    // 28 August 2026 at 23:00 UTC is already 01:00 on the 29th in Stockholm (CEST, UTC+2).
+    // A formatter left on UTC would print "28 aug." here — the one value that separates the
+    // two, and the reason this is not simply asserted at midday.
+    setDisplayZone(DEFAULT_ZONE);
+    expect(formatShortDate(new Date(Date.UTC(2026, 7, 28, 23)))).toMatch(/^29 aug/);
+  });
+
+  it('follows the display zone across a date boundary, like every other date in the app', () => {
+    // 1 January 2027, 04:00 UTC is still 31 December in Honolulu. A formatter pinned to
+    // Sweden would print "1 jan." over a readout whose every other line said the 31st.
+    setDisplayZone('Pacific/Honolulu');
+    expect(formatShortDate(new Date(Date.UTC(2027, 0, 1, 4)))).toMatch(/^31 dec/);
+    setDisplayZone(DEFAULT_ZONE);
   });
 });

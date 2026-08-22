@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import {
   angleDelta,
+  compassPoint,
   deriveQiblaStatus,
   formatKm,
   greatCirclePoints,
@@ -272,5 +273,34 @@ describe('formatKm', () => {
     // sv-SE groups with a (thin/no-break) space, not a comma.
     expect(formatKm(412.4)).toMatch(/^412 km$/);
     expect(formatKm(4102).replace(/\s/g, ' ')).toMatch(/^4 ?102 km$/);
+  });
+});
+
+describe('compassPoint — a bearing, said out loud', () => {
+  it('names the eight points at their exact bearings', () => {
+    expect([0, 45, 90, 135, 180, 225, 270, 315].map(compassPoint)).toEqual([
+      'norr',
+      'nordost',
+      'öster',
+      'sydost',
+      'söder',
+      'sydväst',
+      'väster',
+      'nordväst',
+    ]);
+  });
+
+  it('rounds to the nearest point and wraps cleanly through north', () => {
+    // 337.5 and above belongs to north again: the last sector straddles 0°, which is the one
+    // place a naive floor(deg / 45) produces "nordväst" for a bearing of 359°.
+    expect(compassPoint(359)).toBe('norr');
+    expect(compassPoint(360)).toBe('norr');
+    expect(compassPoint(338)).toBe('norr');
+    expect(compassPoint(337)).toBe('nordväst');
+    expect(compassPoint(-45)).toBe('nordväst');
+  });
+
+  it('names every bearing, so no sentence can be built round an undefined', () => {
+    for (let deg = 0; deg < 360; deg += 0.5) expect(compassPoint(deg)).toBeTruthy();
   });
 });

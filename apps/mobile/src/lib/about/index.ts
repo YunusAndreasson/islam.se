@@ -107,6 +107,21 @@ export const FAQ: readonly {
       'Qibla-vyn visar riktningen till Kaba i Mecka från din plats, beräknad som den kortaste vägen längs jordens yta, och anger fågelvägen dit i kilometer. Saknar enheten kompass visas riktningen räknad från norr.',
   },
   {
+    question: 'Vad visar Månen-vyn?',
+    answer:
+      'Månen visar månens verkliga fas och hur den lutar sett från just din plats, var i den islamiska månaden vi är, samt månuppgång och månnedgång. Beräkningarna kommer från det öppna biblioteket astronomy-engine. Vyn avgör inte när en månad börjar – månaden börjar när nymånen ses, eller när föregående månad fyllt trettio dagar. Följer din moské ett annat datum justerar du Hijri-datum under Inställningar.',
+  },
+  {
+    question: 'Går nymånen att se härifrån?',
+    answer:
+      'När en ny månad närmar sig räknar appen ut om nymånen kan ses från din plats den kvällen, och när det är bäst att titta – oftast en stund efter solnedgången, medan månen ännu står kvar. Beräkningen följer Odehs kriterium, som bygger på tusentals verkliga observationer. Den säger vad ögat kan förvänta sig, inte vilket datum månaden börjar. På höga breddgrader kan svaret bli att nymånen inte går att se alls, och då säger appen det.',
+  },
+  {
+    question: 'Varför ser månadsringen ut som ett skuret trästycke?',
+    answer:
+      'Ringen är ritad som en runstav – den svenska evighetskalendern som skars i trä och användes in på 1700-talet. Runstaven bar månens gång i en egen rad av märken, och är därmed det nordiska redskap som ligger närmast en månkalender. Dagens märke är brett och mässingsfärgat, de tre vita dagarna står högre, och de dagar som gått är nedtonade.',
+  },
+  {
     question: 'Använder appen min plats?',
     answer:
       'Platsen används bara i din enhet för att räkna ut bönetider och qibla. Appen har inga konton och samlar inte in några uppgifter om dig. Du kan också ange en plats för hand under Inställningar.',

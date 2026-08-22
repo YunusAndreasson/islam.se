@@ -243,6 +243,27 @@ export function qiblaTurn(heading: number, bearing: number): QiblaTurn {
 }
 
 /** A distance formatted for Swedish display: "412 km" / "4 102 km" (thin-space groups). */
+/** The eight-point compass rose, Swedish. "Ost/öster" for east throughout, per the Swedish
+ *  cartographic convention the dial's O already follows. A bearing is a number; a direction
+ *  is where you turn your head, and the second is what a sentence wants. */
+const COMPASS_POINTS = [
+  'norr',
+  'nordost',
+  'öster',
+  'sydost',
+  'söder',
+  'sydväst',
+  'väster',
+  'nordväst',
+] as const;
+
+/** Name a bearing: 0° → "norr", 135° → "sydost". Rounds to the nearest of eight points, so
+ *  each name covers 45° centred on its own direction. */
+export function compassPoint(deg: number): string {
+  const i = Math.round((((deg % 360) + 360) % 360) / 45) % 8;
+  return COMPASS_POINTS[i] as string;
+}
+
 export function formatKm(km: number): string {
   const rounded = Math.round(km);
   return `${rounded.toLocaleString('sv-SE')} km`;

@@ -115,11 +115,12 @@ describe('tab screens', () => {
     MAP_RENDER_TIMEOUT,
   );
 
-  // Navigation is the floating MapNav overlay now (no hamburger): a Qibla compass on
-  // the left and a settings cog on the right, both on the map. Press the real controls
-  // so a missing handler or wrong route breaks the test, not just the label.
+  // Navigation is the floating MapNav overlay now (no hamburger): a column of instruments
+  // on the left — the Qibla compass and, under it, tonight's Moon — and a settings cog on
+  // the right. Press the real controls so a missing handler or wrong route breaks the test,
+  // not just the label.
   it(
-    'opens Qibla and Inställningar from the map nav controls',
+    'opens Qibla, Månen and Inställningar from the map nav controls',
     async () => {
       jest.clearAllMocks();
       await renderSettled(withProviders(<Bonetider />));
@@ -130,6 +131,11 @@ describe('tab screens', () => {
       // ROUTE, so pinning the exact wording would only make it break on a copy tweak.
       fireEvent.press(screen.getByRole('button', { name: /^Qibla/ }));
       expect(router.navigate).toHaveBeenCalledWith('/qibla');
+
+      // Same prefix trick for the Moon: its label carries tonight's phase and Hijri date, so
+      // pinning the whole string would break on every new moon rather than on a real fault.
+      fireEvent.press(screen.getByRole('button', { name: /^Månen –/ }));
+      expect(router.navigate).toHaveBeenCalledWith('/manen');
 
       fireEvent.press(screen.getByRole('button', { name: 'Inställningar' }));
       expect(router.navigate).toHaveBeenCalledWith('/installningar');

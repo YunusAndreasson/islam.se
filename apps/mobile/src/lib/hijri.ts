@@ -75,6 +75,66 @@ export function toHijri(date: Date, offsetDays = 0): HijriDate {
   return jdnToIslamic(jdn);
 }
 
+/** Proleptic Gregorian calendar date, as plain fields. Deliberately not a `Date`: these
+ *  are calendar FIELDS, and handing back a Date invites a caller to read them through a
+ *  time zone that is not the display zone (see the warning above `getGregorianFmt`). */
+export interface GregorianDate {
+  year: number;
+  /** 1–12. */
+  month: number;
+  /** 1–31. */
+  day: number;
+}
+
+/** JDN → proleptic Gregorian date. The inverse of {@link gregorianToJDN}, which the
+ *  Hijri month sheet needs to print "13 Rabīʿ al-awwal" next to its civil date: every
+ *  other direction in this file goes Gregorian → Hijri, and the sheet walks the other way.
+ *  (Fliegel–Van Flandern; hijri.props.test.ts pins the round trip.) */
+export function jdnToGregorian(jdn: number): GregorianDate {
+  const a = jdn + 32044;
+  const b = Math.floor((4 * a + 3) / 146097);
+  const c = a - Math.floor((146097 * b) / 4);
+  const d = Math.floor((4 * c + 3) / 1461);
+  const e = c - Math.floor((1461 * d) / 4);
+  const m = Math.floor((5 * e + 2) / 153);
+  return {
+    year: 100 * b + d - 4800 + Math.floor(m / 10),
+    month: m + 3 - 12 * Math.floor(m / 10),
+    day: e - Math.floor((153 * m + 2) / 5) + 1,
+  };
+}
+
+/**
+ * 29 or 30 — the length of a tabular Hijri month.
+ *
+ * ⚠️ The month-13 shortcut does not work here. `islamicToJDN(y, 13, 1)` and
+ * `islamicToJDN(y + 1, 1, 1)` are NOT the same day: the first carries `floor((3 + 11y)/30)`
+ * and the second `floor((14 + 11y)/30)`, which differ in exactly the eleven leap years of
+ * the 30-year cycle. Rolling the year over by hand is what makes Dhū al-ḥijja come out at
+ * 30 days in a leap year instead of 29.
+ */
+export function hijriMonthLength(year: number, month: number): number {
+  const next = month === 12 ? islamicToJDN(year + 1, 1, 1) : islamicToJDN(year, month + 1, 1);
+  return next - islamicToJDN(year, month, 1);
+}
+
+/** The civil day a Hijri date falls on, with the user's offset UNDONE — the inverse of
+ *  {@link toHijri}, so a day picked in the month sheet maps back to the same civil day the
+ *  dock would have labelled with it. */
+export function hijriToGregorian(h: HijriDate, offsetDays = 0): GregorianDate {
+  return jdnToGregorian(islamicToJDN(h.year, h.month, h.day) - offsetDays);
+}
+
+/** The Hijri month `delta` months away, rolling the year over. Months are 1-based and years
+ *  are not, which is the whole reason this is a function: the −1/+1 shuffle around the
+ *  boundary is easy to get subtly wrong inline, and a month sheet that lands on month 0 or
+ *  month 13 asks the calendar for a month that does not exist. Counted rather than walked, so
+ *  stepping a year costs the same as stepping a month. */
+export function addHijriMonths(year: number, month: number, delta: number): { year: number; month: number } {
+  const months = year * 12 + (month - 1) + delta;
+  return { year: Math.floor(months / 12), month: (months % 12) + 1 };
+}
+
 // Transliterated month names in the same academic style as PRAYER_LABELS
 // (DIN 31635 / ALA-LC): ʿ for ʿayn, macrons for long vowels, subdots on
 // emphatic consonants. So the Hijri date line under the Förhandsvisning
@@ -147,6 +207,30 @@ function getGregorianFmt(withYear: boolean): Intl.DateTimeFormat | null {
   }
   gregorianFmt[slot] = { zone, fmt: built };
   return built;
+}
+
+/** "28 aug." — a date compact enough to sit inside a sentence. Same display zone and same
+ *  sv-SE locale as the long form above, and cached the same way: the Moon screen prints
+ *  several of these in one readout and rebuilds them whenever its clock rolls. */
+let shortFmt: { zone: string; fmt: Intl.DateTimeFormat | null } | undefined;
+export function formatShortDate(date: Date): string {
+  const zone = getDisplayZone();
+  if (shortFmt?.zone !== zone) {
+    try {
+      shortFmt = {
+        zone,
+        fmt: new Intl.DateTimeFormat('sv-SE', { timeZone: zone, day: 'numeric', month: 'short' }),
+      };
+    } catch {
+      shortFmt = { zone, fmt: null };
+    }
+  }
+  if (!shortFmt.fmt) return date.toDateString();
+  try {
+    return shortFmt.fmt.format(date);
+  } catch {
+    return date.toDateString();
+  }
 }
 
 /**
