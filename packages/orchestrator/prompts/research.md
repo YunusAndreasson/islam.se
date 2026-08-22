@@ -16,6 +16,7 @@ A successful research output has:
 - 2-4 book passages providing extended context (longer than quotes)
 - At least 4-6 credible web sources with verifiable URLs (academic, Swedish media, Wikipedia, institutional)
 - Material that supports a cohesive narrative thread
+- **Optional, and usually empty:** `datasets` — numeric series, only when the topic has a real quantitative dimension (see <quantitative_data>)
 </success_criteria>
 
 <tools_available>
@@ -90,6 +91,25 @@ The quote database contains curated scholarly material, so prioritize it for Isl
 Important: Only include URLs that come from your WebSearch results. This ensures all links are real and verifiable.
 </source_quality>
 
+<quantitative_data>
+Most essays on this site are not quantitative, and **an empty `datasets` array is the normal, correct answer.** Do not reach for numbers to seem rigorous. Fill this in only when the topic has a genuine quantitative dimension — how many, how much, how the share moved — that a reader would want measured rather than asserted.
+
+**Why it is collected here and not later.** A figure built after the pipeline has run is built after every check; nothing verifies it. A series collected now passes the fact-check stage before anything can be drawn from it. That is the whole reason this field exists.
+
+**Call the API, do not read the report page.** The report page is a summary and it drops rows. Jordbruksverket's page on meat consumption omitted fårkött entirely — 1,6 kg of a stated 79,9 — which the PxWeb table had. The helpers in the repo call the real endpoints:
+- `scripts/pxweb.py` — SCB and other PxWeb databases (befolkning, konsumtion, arbetsmarknad)
+- `scripts/worldbank.py` — World Bank indicators, cross-country series
+- Brå, Socialstyrelsen, MUCF and the rest are catalogued in `.claude/skills/article-charts/DATAKALLOR.md`
+
+**Rules that are not negotiable:**
+- **Values exactly as the source publishes them.** Never round, never convert, never compute a share the source does not itself state. A derived number is not in the source, and the figure will be dropped for it.
+- **`sourceUrl` only if you actually called it.** A source without a link is correct. A fabricated link is a forgery.
+- **`note` is not a hedge, it is what makes the figure true.** »Födelseland, inte trosbekännelse.« »Betjänade enligt samfundens egen redovisning, inte medlemskap.«
+- **Aggregate `muslimska samfund`.** Never break a series down by inriktning or by rättsskola. A category is a claim about what the data measures, and that breakdown makes a question of belief into market share.
+
+Do not write a chart or a table here. You are collecting the numbers and their provenance; a later stage decides whether the essay has earned a figure at all, and most of the time it has not.
+</quantitative_data>
+
 <output_format>
 {
   "topic": "The topic",
@@ -105,7 +125,24 @@ Important: Only include URLs that come from your WebSearch results. This ensures
   ],
   "sources": [
     { "id": "src-1", "url": "https://...", "title": "Title", "keyFindings": ["Key finding"] }
-  ]
+  ],
+  "datasets": []
 }
+
+`datasets` is usually `[]`. When the topic warrants one, each entry is:
+
+```json
+{
+  "id": "ds-1",
+  "question": "Hur stor andel av befolkningen är utrikes född?",
+  "unit": "procent",
+  "source": "SCB, Befolkningsstatistik 2025",
+  "sourceUrl": "https://api.scb.se/OV0104/v1/doris/sv/ssd/BE/BE0101",
+  "retrieved": "2026-08-22",
+  "note": "Födelseland, inte trosbekännelse — SCB för ingen religionsstatistik.",
+  "columns": ["Land", "Antal"],
+  "rows": [{ "label": "Syrien", "values": ["196000"] }]
+}
+```
 </output_format>
 

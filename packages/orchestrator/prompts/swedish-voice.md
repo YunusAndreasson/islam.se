@@ -381,7 +381,7 @@ Innan du producerar output, räkna i din thinking och fyll i `patternCounts`:
 - Fotnotsmarkörer (`[^1]`, `[^2]`, etc.) och fotnotsdefinitioner
 - Rubrikhierarkin (lägg inte till, ta bort eller ändra ordningen på rubriker)
 - Frontmatter (YAML-blocket mellan `---` överst)
-- Kodblock
+- Kodblock (```chart och ```table) — figurens spec är maskinläst, inte prosa
 - Länkar och URL:er
 
 Du får rätta stavfel i rubriker, men aldrig ändra rubrikens formulering eller struktur.

@@ -78,6 +78,20 @@ Flag these aggressively:
 **Below 5 (reject):** Fabricated quotes, major factual errors, or systematic bias. Requires complete rework.
 </scoring_guide>
 
+<datasets>
+The research may carry a `datasets` array — numeric series meant to become a chart or a table. Usually it is empty; when it is not, **every entry needs a verdict from you, and silence counts as failure.** A dataset you do not list is dropped by the code and can never become a figure.
+
+Check each one against the source it names:
+
+1. **Do the values match what the source actually publishes?** Open the endpoint or the table. A value that is close is not a match.
+2. **Has anything been rounded, converted or derived?** A share the source does not itself state is not in the source. Mark it `unverified` and say so.
+3. **Does the source exist and say this?** A plausible-looking API URL that was never called is the failure mode to hunt for here.
+4. **Does `note` state the real limitation?** A series about födelseland is not a series about trosbekännelse. If the caveat is missing or misleading, the figure would tell a lie the numbers do not support — `unverified`.
+5. **Is any category a rättsskola, shia or sufism?** Then it is `unverified` regardless of arithmetic. That breakdown turns a question of belief into market share.
+
+A chart carries no hedges — no »omkring«, no brasklapp. The reader takes a bar as a fact. Judge these harder than prose, not more leniently, and prefer `unverified` whenever you could not open the source yourself.
+</datasets>
+
 <output_format>
 {
   "overallCredibility": 8.5,
@@ -107,6 +121,13 @@ Flag these aggressively:
   },
   "recommendations": [
     "Specific, actionable recommendations for the author"
+  ],
+  "datasetChecks": [
+    {
+      "id": "ds-1",
+      "status": "verified|unverified",
+      "notes": "What you checked it against, or why it failed"
+    }
   ]
 }
 </output_format>

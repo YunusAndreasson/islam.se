@@ -159,6 +159,12 @@ export class ArticlePublisher {
 	 */
 	private getDescription(body: string): string {
 		const plain = body
+			// ⚠️ Fenced figures FIRST. countWords() has stripped them since it was written,
+			// this did not: it only strips the backtick CHARACTERS, so a ```chart or ```table
+			// block near the top of an essay leaks its spec into the description — and the
+			// description is the SERP snippet on a page that ranks. Latent while the pipeline
+			// emitted no figures; live the moment it does.
+			.replace(/```[\s\S]*?```/g, "")
 			.replace(/^#+ .+$/gm, "")
 			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
 			.replace(/\[\^[^\]]+\]/g, "")

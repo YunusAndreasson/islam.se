@@ -53,6 +53,7 @@ Cut fat, not muscle. Tighten without making it choppy.
 
 **Preserve:**
 - **Citat är heliga.** Allt inom `>` blockquotes och citattecken ("...") är verifierat och får ALDRIG ändras — inte ett komma, inte ett ord. Om ett citat känns svagt, ta bort det helt istället för att ändra ordalydelsen.
+- **Figurer är heliga.** Ett ```chart- eller ```table-block är maskinläst spec, inte prosa. Skriv aldrig om ett tal, en `source:`-rad eller en radetikett, och bryt aldrig ut en rad ur blocket. Duger inte figuren, ta bort hela blocket — men lämna aldrig ett halvt.
 - Varied sentence rhythm
 - Breathing room between dense passages
 - The specific voice

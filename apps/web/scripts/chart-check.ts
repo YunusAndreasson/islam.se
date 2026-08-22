@@ -1,6 +1,6 @@
 /**
- * Fast per-chart gate. Parses, renders and describes every ```chart fence in the given
- * files — without building the site.
+ * Fast per-figure gate. Parses, renders and describes every ```chart and ```table fence in
+ * the given files — without building the site.
  *
  * Usage: pnpm chart:check data/fordjupning/abort.md [...]
  *        pnpm chart:check                 (every fence in the corpus)
@@ -12,7 +12,10 @@
  * shipping — it is the only thing that proves rehype-chart ran and Shiki did not eat the
  * fence — but it is a BATCH operation. Author every chart, then build once.
  *
- * What this catches (everything chart-specific except the plugin wiring):
+ * The name stays `pnpm chart:check`: it is in `pnpm verify` and in muscle memory, and a
+ * rename buys nothing a line of help text does not.
+ *
+ * What this catches (everything figure-specific except the plugin wiring):
  *   - a malformed spec, with its line number
  *   - a renderer crash, in web AND print mode
  *   - print-mode leaking `var(--…)`, web-mode leaking raw hex
@@ -20,7 +23,7 @@
  *   - an empty aria-label
  * What it cannot catch, and why the build still runs before shipping:
  *   - `syntaxHighlight.excludeLangs` regressing, so Shiki renders the fence as code
- *   - rehypeChart falling out of the rehypePlugins array
+ *   - rehypeChart or rehypeTable falling out of the rehypePlugins array
  *   - the markdown twin welding label to value
  * Those three are asserted by scripts/assert-full-build.mjs against real dist output.
  */
@@ -34,6 +37,8 @@ import {
 	renderChartSvg,
 } from "../src/lib/chart/render.ts";
 import { ChartSpecError, parseChartSpec } from "../src/lib/chart/spec.ts";
+import { renderTableMarkup, tableAltText, tableCaptionText } from "../src/lib/table/render.ts";
+import { parseTableSpec, TableSpecError } from "../src/lib/table/spec.ts";
 
 const REPO = fileURLToPath(new URL("../../../", import.meta.url));
 // ⚠️ The closing fence must own its line. This pattern once ended at `^``` ` without
@@ -43,7 +48,12 @@ const REPO = fileURLToPath(new URL("../../../", import.meta.url));
 // Markdown does not close a fence like that, so the page would have rendered the spec as
 // text. check-chart-sources.py was strict and caught it; this one said "inga fel", which
 // is worse than having no fast gate at all. Measured 2026-08-20 on ramadan.md.
-const FENCE = /^```chart[ \t]*\n([\s\S]*?)^```[ \t]*$/gm;
+const fencePattern = (lang: string) =>
+	new RegExp(`^\`\`\`${lang}[ \\t]*\\n([\\s\\S]*?)^\`\`\`[ \\t]*$`, "gm");
+const FENCES = [
+	{ lang: "chart", pattern: fencePattern("chart") },
+	{ lang: "table", pattern: fencePattern("table") },
+] as const;
 
 const files = process.argv.slice(2).length
 	? process.argv.slice(2)
@@ -64,55 +74,93 @@ for (const rel of files) {
 		continue;
 	}
 
-	FENCE.lastIndex = 0;
-	for (const m of text.matchAll(FENCE)) {
-		charts++;
-		// The line the fence opens on, so an error points where a human can look.
-		const line = text.slice(0, m.index ?? 0).split("\n").length;
-		const where = `${rel}:${line}`;
-		try {
-			const spec = parseChartSpec(m[1] ?? "");
-			const web = renderChartMarkup(spec, "web");
-			const print = renderChartSvg(spec);
+	for (const { lang, pattern } of FENCES) {
+		pattern.lastIndex = 0;
+		for (const m of text.matchAll(pattern)) {
+			charts++;
+			// The line the fence opens on, so an error points where a human can look.
+			const line = text.slice(0, m.index ?? 0).split("\n").length;
+			const where = `${rel}:${line}`;
+			try {
+				if (lang === "table") {
+					const spec = parseTableSpec(m[1] ?? "");
+					const web = renderTableMarkup(spec, "web");
+					const print = renderTableMarkup(spec, "print");
+					if (/var\(--/.test(print))
+						problems.push(
+							`${where}: print-läget läcker var(--…) — Typst och EPUB har inga CSS-variabler`,
+						);
+					if (/#[0-9a-f]{6}/i.test(web))
+						problems.push(`${where}: webbläget har rå hex i stället för en token`);
+					const alt = tableAltText(spec);
+					if (!alt.trim()) problems.push(`${where}: tom aria-label`);
 
-			if (/var\(--/.test(print))
-				problems.push(
-					`${where}: print-läget läcker var(--…) — Typst och EPUB har inga CSS-variabler`,
-				);
-			if (/#[0-9a-f]{6}/i.test(web))
-				problems.push(`${where}: webbläget har rå hex i stället för en token`);
-			const alt = chartAltText(spec);
-			if (!alt.trim()) problems.push(`${where}: tom aria-label`);
+					// The print markup lands in XHTML. Cheap well-formedness check.
+					const opens = (print.match(/<[a-z][^>]*?(?<!\/)>/g) ?? []).length;
+					const closes = (print.match(/<\/[a-z]+>/g) ?? []).length;
+					if (opens !== closes)
+						problems.push(
+							`${where}: tabellmarkeringen är inte välformad XML (${opens} öppnande, ${closes} stängande)`,
+						);
 
-			// The print SVG lands in XHTML. Cheap well-formedness check: every open tag
-			// is closed. A bare & would also be fatal but render.ts escapes it.
-			const opens = (print.match(/<[a-z][^>]*?(?<!\/)>/g) ?? []).length;
-			const closes = (print.match(/<\/[a-z]+>/g) ?? []).length;
-			if (opens !== closes)
-				problems.push(
-					`${where}: print-SVG:n är inte välformad XML (${opens} öppnande, ${closes} stängande)`,
-				);
+					console.log(
+						`\n\x1b[1m${where}\x1b[0m  tabell, ${spec.columns.length} kolumner, ${spec.rows.length} rader`,
+					);
+					console.log(`  alt      ${alt}`);
+					console.log(`  bildtext ${tableCaptionText(spec)}`);
+					if (!spec.sourceUrl)
+						console.log(
+							"  \x1b[33m·\x1b[0m källa utan länk — avsiktligt? en påhittad länk är en förfalskning",
+						);
+					continue;
+				}
 
-			console.log(`\n\x1b[1m${where}\x1b[0m  ${spec.type}, ${spec.data.length} poster`);
-			console.log(`  alt      ${alt}`);
-			console.log(`  bildtext ${chartCaptionText(spec)}`);
-			if (!spec.sourceUrl)
-				console.log(
-					"  \x1b[33m·\x1b[0m källa utan länk — avsiktligt? en påhittad länk är en förfalskning",
-				);
-		} catch (error) {
-			const at = error instanceof ChartSpecError ? `${rel}:${line + error.line}` : where;
-			problems.push(`${at}: ${(error as Error).message}`);
+				const spec = parseChartSpec(m[1] ?? "");
+				const web = renderChartMarkup(spec, "web");
+				const print = renderChartSvg(spec);
+
+				if (/var\(--/.test(print))
+					problems.push(
+						`${where}: print-läget läcker var(--…) — Typst och EPUB har inga CSS-variabler`,
+					);
+				if (/#[0-9a-f]{6}/i.test(web))
+					problems.push(`${where}: webbläget har rå hex i stället för en token`);
+				const alt = chartAltText(spec);
+				if (!alt.trim()) problems.push(`${where}: tom aria-label`);
+
+				// The print SVG lands in XHTML. Cheap well-formedness check: every open tag
+				// is closed. A bare & would also be fatal but render.ts escapes it.
+				const opens = (print.match(/<[a-z][^>]*?(?<!\/)>/g) ?? []).length;
+				const closes = (print.match(/<\/[a-z]+>/g) ?? []).length;
+				if (opens !== closes)
+					problems.push(
+						`${where}: print-SVG:n är inte välformad XML (${opens} öppnande, ${closes} stängande)`,
+					);
+
+				console.log(`\n\x1b[1m${where}\x1b[0m  ${spec.type}, ${spec.data.length} poster`);
+				console.log(`  alt      ${alt}`);
+				console.log(`  bildtext ${chartCaptionText(spec)}`);
+				if (!spec.sourceUrl)
+					console.log(
+						"  \x1b[33m·\x1b[0m källa utan länk — avsiktligt? en påhittad länk är en förfalskning",
+					);
+			} catch (error) {
+				const at =
+					error instanceof ChartSpecError || error instanceof TableSpecError
+						? `${rel}:${line + error.line}`
+						: where;
+				problems.push(`${at}: ${(error as Error).message}`);
+			}
 		}
 	}
 }
 
 console.log(`\n${"=".repeat(72)}`);
 if (problems.length > 0) {
-	console.log(`  ${charts} diagram — \x1b[31m${problems.length} fel\x1b[0m`);
+	console.log(`  ${charts} figurer — \x1b[31m${problems.length} fel\x1b[0m`);
 	for (const p of problems) console.log(`  • ${p}`);
 	console.log("=".repeat(72));
 	process.exit(1);
 }
-console.log(`  ${charts} diagram — inga fel. Bygget krävs ändå före leverans (se filhuvudet).`);
+console.log(`  ${charts} figurer — inga fel. Bygget krävs ändå före leverans (se filhuvudet).`);
 console.log("=".repeat(72));

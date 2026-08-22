@@ -57,9 +57,25 @@ def regions(raw: str) -> dict[str, list[str]]:
 
     blockquotes, headings, footnote_defs, footnote_refs = [], [], [], []
     verses: list[str] = []
+    figures: list[str] = []
 
+    # ⚠️ Figurblocken är skyddade i sin helhet, rad för rad. En ```chart- eller
+    # ```table-spec är maskinläst: ett omskrivet tal, en ändrad `source:`-rad eller en
+    # ombruten datarad är ett sakfel som inget språkpass har mandat att göra. Prompterna
+    # ber om det, men en prompt är en bön och det här är en kontroll.
+    in_fence = False
     for line in body:
         stripped = line.strip()
+        if not in_fence and re.match(r"^```(chart|table)\b", stripped):
+            in_fence = True
+            figures.append(norm(stripped))
+            continue
+        if in_fence:
+            figures.append(norm(stripped))
+            if stripped == "```":
+                in_fence = False
+            continue
+
         if stripped.startswith(">"):
             blockquotes.append(norm(stripped.lstrip("> ")))
             m = SVAR_VERSE.search(stripped)
@@ -85,6 +101,7 @@ def regions(raw: str) -> dict[str, list[str]]:
         "footnote-ref": footnote_refs,
         "inline-quote": inline_quotes,
         "quran-player-ref": verses,
+        "figure": figures,
     }
 
 
@@ -96,7 +113,19 @@ LABELS = {
     "footnote-ref": "fotnotsmarkör",
     "inline-quote": "citat i löptexten",
     "quran-player-ref": "versreferens som driver recitationsspelaren",
+    "figure": "figurblock (```chart/```table — maskinläst spec, inte prosa)",
 }
+
+
+# Områden där ett RENT TILLÄGG är tillåtet, medan en ändring eller strykning inte är det.
+#
+# ⚠️ Figurblocken hör hit därför att `pnpm produce figures` lägger till ett block med flit —
+# och utan undantaget fällde den här kontrollen garanterat den fil kommandot just skrivit.
+# Verktyget som skyddar figurer blockerade verktyget som lägger till dem, utan att kunna
+# skilja en infogning från en förvanskning. Ett tillägg rapporteras fortfarande, men fäller
+# inte: det som ska fällas är att en spec ÄNDRAS eller FÖRSVINNER, för det är då ett tal
+# eller en källrad har skrivits om av något som inte har mandat att göra det.
+ADDITIVE_OK = {"figure"}
 
 
 def diff_regions(before: dict, after: dict) -> list[dict]:
@@ -123,14 +152,20 @@ def diff_regions(before: dict, after: dict) -> list[dict]:
             findings.append({"region": key, "label": LABELS[key], "kind": "omordnad",
                              "removed": [], "added": []})
             continue
+        kind = "tillagd" if (not removed and key in ADDITIVE_OK) else "ändrad"
         findings.append({
             "region": key,
             "label": LABELS[key],
-            "kind": "ändrad",
+            "kind": kind,
             "removed": removed,
             "added": added,
         })
     return findings
+
+
+def is_violation(finding: dict) -> bool:
+    """Ett rent tillägg i ett additivt område är en notering, inte en överträdelse."""
+    return finding["kind"] != "tillagd"
 
 
 def git_show(repo_root: Path, ref: str, rel_path: str) -> str | None:
@@ -164,9 +199,10 @@ def check(path: Path, ref: str) -> dict:
         return {"file": str(path), "status": "oförändrad", "findings": []}
 
     findings = diff_regions(regions(baseline), regions(current))
+    violations = [f for f in findings if is_violation(f)]
     return {
         "file": str(path),
-        "status": "överträdelse" if findings else "ren",
+        "status": "överträdelse" if violations else "ren",
         "findings": findings,
     }
 
@@ -175,6 +211,13 @@ def print_report(result: dict) -> None:
     name = Path(result["file"]).name
     status = result["status"]
     if status == "ren":
+        added = [f for f in result["findings"] if not is_violation(f)]
+        if added:
+            # Värt att se, inte värt att fälla.
+            print(f"  OK   {name}  — prosaändringar; nytt innehåll i skyddat område:")
+            for f in added:
+                print(f"         + {f['label']} ({len(f['added'])} rader tillagda)")
+            return
         print(f"  OK   {name}  — prosaändringar, inga skyddade områden rörda")
         return
     if status != "överträdelse":
@@ -183,6 +226,8 @@ def print_report(result: dict) -> None:
 
     print(f"\nFEL  {name} — skyddade områden har ändrats")
     for f in result["findings"]:
+        if not is_violation(f):
+            continue
         print(f"       {f['label']}  [{f['kind']}]")
         for item in f["removed"]:
             print(f"         - {item[:150]}")

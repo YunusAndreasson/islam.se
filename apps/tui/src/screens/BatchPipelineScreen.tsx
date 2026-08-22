@@ -40,6 +40,7 @@ const STAGES = [
 	"deepen",
 	"ground",
 	"swedishVoice",
+	"figures",
 ] as const;
 const STAGE_ICONS: Record<(typeof STAGES)[number], string> = {
 	research: "📚",
@@ -50,6 +51,7 @@ const STAGE_ICONS: Record<(typeof STAGES)[number], string> = {
 	deepen: "🔬",
 	ground: "🌍",
 	swedishVoice: "🗣️",
+	figures: "📊",
 };
 
 function stageChar(info: StageInfo): string {

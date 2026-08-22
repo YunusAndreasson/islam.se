@@ -70,13 +70,32 @@ function extractMain(html: string): string {
 // the raw ```chart spec — strictly better than any prose rendering of it.
 const CHART_FIGURE = /<figure class="chart[^"]*"[^>]*>([\s\S]*?)<\/figure>/gi;
 
+/**
+ * The caption's sentences live in sibling <span>s that abut with no whitespace, so they
+ * must be separated before any HTML→markdown conversion.
+ *
+ * ⚠️ This runs on EVERY figure, including the ones flattenCharts hands back untouched.
+ * A ```table keeps its real <table> (see below), and without this its caption shipped as
+ * "…ursprungsländerna.Källa: SCB, 2025.Födelseland, inte trosbekännelse." — the same weld
+ * as the »Griskött29,3« defect, one level up, and invisible to the weldedTwins regex in
+ * assert-full-build.mjs because that one only matches label+number.
+ */
+function spaceCaptionSpans(html: string): string {
+	return html.replace(/<\/span><span/gi, "</span> <span");
+}
+
 function flattenCharts(fragment: string): string {
 	return fragment.replace(CHART_FIGURE, (whole, inner: string) => {
 		const aria = /aria-label="([^"]*)"/i.exec(inner)?.[1];
 		const caption = /<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/i.exec(inner)?.[1];
-		if (!aria) return whole; // shape changed — leave it rather than silently drop data
-		// The caption's sentences live in sibling <span>s that abut with no whitespace.
-		const spaced = caption?.replace(/<\/span><span/gi, "</span> <span") ?? "";
+		if (!aria) {
+			// No aria-label INSIDE the figure means this is a ```table: it carries its label
+			// on the <figure> element itself and its content in a real <table>, which
+			// node-html-markdown renders as a proper GFM table. Keeping the markup is
+			// therefore right — but the caption still has to be spaced.
+			return spaceCaptionSpans(whole);
+		}
+		const spaced = caption ? spaceCaptionSpans(caption) : "";
 		return `<p>${aria}</p>${spaced ? `<p>${spaced}</p>` : ""}`;
 	});
 }

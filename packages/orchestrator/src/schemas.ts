@@ -57,6 +57,54 @@ export const ResearchOutputSchema = z.object({
 			}),
 		)
 		.default([]),
+	/**
+	 * Numeric series, for the figures stage to draw a chart or a table from.
+	 *
+	 * ⚠️ WHY THIS LIVES IN RESEARCH AND NOT AT THE END. A figure added after the pipeline
+	 * has finished is added AFTER the fact-check gate, where nothing verifies it — the
+	 * position ground.md's Jokkmokk note describes, and a chart is worse there than a
+	 * sentence because a reader takes a bar as a fact with no hedge. Data collected here
+	 * passes the credibility gate before any figure can be built from it.
+	 *
+	 * Empty is the normal case. Most essays on this site are not quantitative, and an
+	 * invented series is far worse than no figure.
+	 */
+	datasets: z
+		.array(
+			z.object({
+				id: z.string(),
+				question: z.string().describe("The question this series answers, in one sentence"),
+				unit: z.string().describe('What the values measure — "procent", "personer"'),
+				source: z
+					.string()
+					.describe("Citable name, exactly as it should read in the figure's caption"),
+				sourceUrl: z
+					.string()
+					.optional()
+					.describe(
+						"Only if you actually called it. A source without a link is correct; a fabricated link is a forgery",
+					),
+				retrieved: z.string().describe("ISO date you called the endpoint"),
+				note: z
+					.string()
+					.optional()
+					.describe("What this data CANNOT say — the caveat that makes the figure true"),
+				columns: z
+					.array(z.string())
+					.default([])
+					.describe("Column headers when the series is a table rather than a single measure"),
+				rows: z
+					.array(z.object({ label: z.string(), values: z.array(z.string()) }))
+					.default([])
+					.describe("Values exactly as the source publishes them — never rounded or derived"),
+			}),
+		)
+		// ⚠️ .optional(), not .default([]). A default makes the field REQUIRED in the inferred
+		// output type, which then disagrees with the ResearchOutput interface that sibling
+		// producers build by hand — the /fordjupning/ pipeline reuses this schema and would
+		// no longer typecheck. Absent and empty mean the same thing here, and absent is the
+		// normal case: most topics have no quantitative dimension at all.
+		.optional(),
 });
 
 // Fact check output - adversarial verification
@@ -89,6 +137,24 @@ export const FactCheckOutputSchema = z.object({
 		highCredibility: z.number(),
 	}),
 	recommendations: z.array(z.string()).optional(),
+	/**
+	 * One verdict per dataset the research stage returned. Only datasets marked "verified"
+	 * are allowed to become a figure — an unattested series is dropped in the orchestrator,
+	 * the same way an unverified source URL is.
+	 */
+	datasetChecks: z
+		.array(
+			z.object({
+				id: z.string(),
+				status: z.enum(["verified", "unverified"]),
+				notes: z.string().optional(),
+			}),
+		)
+		// .optional() for the same reason ResearchOutputSchema.datasets is — a default makes
+		// the field required in the inferred type and breaks the sibling producers that build
+		// a FactCheckOutput by hand. Absent is read as "attested nothing", which is the safe
+		// reading: an unattested dataset can never become a figure.
+		.optional(),
 });
 
 // Draft output — full type (frontmatter + body combined in code)
@@ -183,6 +249,39 @@ export const SwedishVoiceFrontmatterSchema = z.object({
 });
 
 // Ground frontmatter — grounding abstract concepts in concrete moments
+/**
+ * The figures stage returns a PATCH, not a rewritten essay.
+ *
+ * Every other post-review stage hands back the whole body, because every other stage edits
+ * prose throughout. This one inserts about twelve lines. Returning the full text for that
+ * would put a 3 000-word drift surface behind a twelve-line change, and there is no gate
+ * downstream to catch what drifted. So the stage returns the fence and where it goes, and
+ * the orchestrator does the splicing.
+ */
+export const FiguresFrontmatterSchema = z.object({
+	verdict: z.enum(["none", "figure"]),
+	/** Why this figure carries the argument — or why no figure does. Always required. */
+	reasoning: z.string(),
+	figure: z
+		.object({
+			kind: z.enum(["chart", "table"]),
+			/** One clause: what the figure shows that the prose does not. */
+			carriesArgument: z.string(),
+			/** The last sentence of the paragraph to insert after, verbatim. */
+			anchorText: z.string(),
+			/** The fence BODY only — no ``` lines. */
+			spec: z.string(),
+			/** Where the numbers come from. "prose" reuses a footnote already on the page. */
+			provenance: z.enum(["prose", "dataset"]),
+			/** The footnote number whose source the figure reuses, when provenance is "prose". */
+			footnoteId: z.string().optional(),
+			/** The dataset id, when provenance is "dataset". */
+			datasetId: z.string().optional(),
+		})
+		.nullable(),
+	summary: z.string(),
+});
+
 export const GroundFrontmatterSchema = z.object({
 	verdict: z.enum(["clean", "grounded"]),
 	changesCount: z.number(),

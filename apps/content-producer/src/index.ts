@@ -7,9 +7,11 @@ import { fileURLToPath } from "node:url";
 import * as p from "@clack/prompts";
 import {
 	ArticlePublisher,
+	applyFigure,
 	ContentOrchestrator,
 	type EnrichedIdea,
 	type EnrichedIdeationOutput,
+	findDataDir,
 	type IdeaBrief,
 	IdeationService,
 	parseFrontmatter,
@@ -500,16 +502,49 @@ function printDiff(slug: string, original: string, updated: string, label: strin
 }
 
 /** Warn if blockquote or footnote counts changed between original and updated body. */
-function checkIntegrity(original: string, updated: string): void {
+/**
+ * ⚠️ Figures are counted here as well as quotes and footnotes, and the reason is that these
+ * retro-fit commands (`re-polish`, `ground`, `deepen`, `swedish-voice`) run over ALREADY
+ * PUBLISHED articles — some of which carry charts today. Every one of those prompts asks
+ * the model to leave a fence alone, but an instruction is a request. A count is a gate, and
+ * this is the only place in the retro-fit path that can be one.
+ *
+ * The body-text comparison is deliberately crude: number of fences, and the number of lines
+ * inside them. A model that rewrites a value keeps both counts, so this does not catch
+ * everything — scripts/check-protected-regions.py proves the stronger property against git.
+ */
+function checkIntegrity(original: string, updated: string, expectedFigureDelta = 0): void {
 	const origBq = (original.match(/^>/gm) || []).length;
 	const updBq = (updated.match(/^>/gm) || []).length;
 	const origFn = (original.match(/\[\^\d+\]/g) || []).length;
 	const updFn = (updated.match(/\[\^\d+\]/g) || []).length;
-	if (origBq === updBq && origFn === updFn) return;
+	const fences = (text: string) => text.match(/^```(?:chart|table)[\s\S]*?^```/gm) || [];
+	const origFig = fences(original);
+	const updFig = fences(updated);
+	const figLines = (blocks: string[]) => blocks.reduce((n, b) => n + b.split("\n").length, 0);
+	const origFigLines = figLines(origFig);
+	const updFigLines = figLines(updFig);
+	// ⚠️ `expectedFigureDelta` exists because `produce figures` ADDS a figure on purpose.
+	// Without it that command printed an INTEGRITY WARNING on every successful run, and a
+	// gate that cries wolf on the happy path is a gate the operator learns to click past —
+	// the precise failure this function's own comment warns about.
+	const figureDelta = updFig.length - origFig.length;
+	const figuresOk = figureDelta === expectedFigureDelta;
+	// Lines are only comparable when nothing was added; a new figure legitimately adds its own.
+	const figureLinesOk = expectedFigureDelta !== 0 || origFigLines === updFigLines;
+	if (origBq === updBq && origFn === updFn && figuresOk && figureLinesOk) {
+		return;
+	}
 	console.log("");
 	console.log("  INTEGRITY WARNING:");
 	if (origBq !== updBq) console.log(`     Blockquotes: ${origBq} → ${updBq}`);
 	if (origFn !== updFn) console.log(`     Footnote refs: ${origFn} → ${updFn}`);
+	if (!figuresOk)
+		console.log(
+			`     Figurer (chart/table): ${origFig.length} → ${updFig.length} (väntade ${expectedFigureDelta >= 0 ? "+" : ""}${expectedFigureDelta})`,
+		);
+	else if (!figureLinesOk)
+		console.log(`     Rader i figurblock: ${origFigLines} → ${updFigLines} — specen har ändrats`);
 	console.log("");
 }
 
@@ -1081,6 +1116,117 @@ program
 		console.log("\n══════════════════════════════════════════════════════════");
 		console.log(
 			`  Done. ${grounded} grounded, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("figures")
+	.description(
+		"Lägg till ett diagram eller en tabell i en publicerad essä, om den har förtjänat en",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "figures");
+		let processed = 0;
+		let added = 0;
+		let none = 0;
+		let refused = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running figures...");
+			let figuresResult: Awaited<ReturnType<typeof orchestrator.runFigures>>;
+			try {
+				// ⚠️ No datasets on the retro-fit path. A published essay has no research
+				// artifact to hand, so every number must come from the prose the article
+				// already ships — which is the stricter of the two provenance routes.
+				figuresResult = await orchestrator.runFigures(originalBody, []);
+			} catch (err) {
+				console.log(`  Figures crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(figuresResult.success && figuresResult.data)) {
+				console.log(`  Figures failed: ${figuresResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, reasoning, figure } = figuresResult.data;
+			console.log(`  Verdict: ${verdict}`);
+			console.log(`  ${reasoning}`);
+
+			if (!figure) {
+				none++;
+				continue;
+			}
+
+			const applied = applyFigure({
+				body: originalBody,
+				kind: figure.kind,
+				spec: figure.spec,
+				anchorText: figure.anchorText,
+				datasets: [],
+				repoRoot: join(findDataDir(), ".."),
+			});
+
+			if (!applied.body) {
+				console.log("  \x1b[31mFiguren refuserades — artikeln lämnas orörd:\x1b[0m");
+				for (const reason of applied.verdict.reasons) console.log(`    • ${reason}`);
+				refused++;
+				continue;
+			}
+
+			console.log(`\n  \x1b[36m${figure.kind}\x1b[0m — ${figure.carriesArgument}`);
+			for (const line of figure.spec.split("\n")) console.log(`    \x1b[32m│\x1b[0m ${line}`);
+			console.log(
+				"\n  \x1b[33m⚠️  Ingen grind har läst figuren. Kontrollera varje tal mot källan.\x1b[0m",
+			);
+
+			printDiff(articleSlug, originalBody, applied.body, "with figure");
+			// Exactly one figure added, and nothing else may change.
+			checkIntegrity(originalBody, applied.body, 1);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				applied.body,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else added++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${added} fick figur, ${none} behövde ingen, ${refused} refuserade, ${skipped} skipped out of ${processed}.`,
 		);
 		console.log("══════════════════════════════════════════════════════════\n");
 		process.exit(0);

@@ -33,6 +33,28 @@ SEVERITY_ORDER = {ERROR: 0, WARN: 1, INFO: 2}
 # Parsning
 # ──────────────────────────────────────────────
 
+def fence_lines(body: list[tuple[int, str]]) -> set[int]:
+    """Radnummer inne i ett ```chart- eller ```table-block, markörraderna inräknade.
+
+    Egen funktion och inte inlinad i Doc.__init__, därför att självtestets Doc byggs för
+    hand: när radklassen bara fanns i __init__ hade den harnessen ingen `fence` alls, och
+    varje regel som läser prose() hade kraschat i självtestet i stället för i produktion.
+    """
+    out: set[int] = set()
+    inside = False
+    for n, line in body:
+        stripped = line.strip()
+        if not inside and re.match(r"^```(chart|table)\b", stripped):
+            inside = True
+            out.add(n)
+            continue
+        if inside:
+            out.add(n)
+            if stripped == "```":
+                inside = False
+    return out
+
+
 class Doc:
     """En artikel uppdelad i de radklasser reglerna behöver skilja på."""
 
@@ -54,6 +76,8 @@ class Doc:
                 self.body = [(i + 1, l) for i, l in enumerate(lines)]
         else:
             self.body = [(i + 1, l) for i, l in enumerate(lines)]
+
+        self.fence: set[int] = fence_lines(self.body)
 
         norm = str(path).replace("\\", "/")
         # ⚠️ Fördjupningssidorna delar reglerna med svarssidorna, inte med essäerna: de är
@@ -97,14 +121,29 @@ class Doc:
         avgör den lika mycket som en mening i brödtexten. Med prose() passerade allt det
         här grinden orört.
         """
+        # ⚠️ Figurblocken räknas MED här. En radetikett i en tabell som heter »Jaʿfari« är
+        # ett trosbrott precis som meningen hade varit det, och kategorifällan i
+        # check-chart-sources.py är en grind till, inte i stället för den här.
         return [(n, line) for n, line in self.body if line.strip() not in ("", "---")]
 
     def prose(self) -> list[tuple[int, str]]:
-        """Författarens egen brödtext — inte citat, rubriker eller fotnoter."""
+        """Författarens egen brödtext — inte citat, rubriker, fotnoter eller figurblock.
+
+        ⚠️ Figurblocken sållas bort här och BEHÅLLS i doctrine(). Registerreglerna läser en
+        rad som en mening, och en tabellcell är ingen mening: `rule_du_tilltal` fäller ett
+        »du« i en cell, `rule_double_space` fäller kolumner som radats upp med blanksteg,
+        och `rule_dash_budget` räknade tankstrecken i ett diagrams `note:` mot sidans tak
+        på sex — vilket det gör på de fördjupningssidor som redan bär diagram.
+
+        Trosreglerna läser doctrine() och ser därför cellerna. Det är den delningen som gör
+        att man kan sluta läsa en cell som prosa utan att sluta läsa den som påstående.
+        """
         out = []
         for n, line in self.body:
             s = line.strip()
             if not s or s == "---":
+                continue
+            if n in self.fence:
                 continue
             if self.is_blockquote(line) or self.is_heading(line) or self.is_footnote_def(line):
                 continue
@@ -127,6 +166,11 @@ class Doc:
                 continue
             s = line.strip()
             if not s or self.is_blockquote(line) or self.is_heading(line) or self.is_footnote_def(line):
+                continue
+            # ⚠️ Utan det här blir en avslutande ``` avsnittets sista rad, och
+            # rule_seesaw_closers granskar den i stället för avsnittets sista MENING —
+            # alltså tystnar regeln för just det avsnittet utan att säga något.
+            if n in self.fence:
                 continue
             current.append((n, line))
         out.append((current_title, current))
@@ -619,12 +663,85 @@ DOCTRINE_CLEAN = [
 ]
 
 
+
+# ──────────────────────────────────────────────
+# Radklassen för figurblock, i båda riktningarna
+#
+# Delningen är hela poängen: doctrine() SER cellerna (en radetikett som heter »Jaʿfari« är
+# ett trosbrott), prose() gör det INTE (en cell är ingen mening, och registerreglerna
+# fällde tidigare tankstreck i ett diagrams `note:` mot sidans budget).
+# ──────────────────────────────────────────────
+
+FENCE_DOC = [
+    "Brödtext före.",
+    "",
+    "```table",
+    "source: Ibn Rushd, 1198",
+    "columns: Rättsskola | Hållning",
+    "note: Skillnaden gäller bevisläget – inte trosbekännelsen.",
+    "data:",
+    "  Hanafi: Tillåtet    med två blanksteg",
+    "```",
+    "",
+    "Brödtext efter.",
+]
+
+SHIA_IN_CELL = [
+    "Brödtext.",
+    "",
+    "```table",
+    "source: X, 2025",
+    "columns: Rättsskola | Hållning",
+    "data:",
+    "  Jaʿfari: Tillåtet",
+    "```",
+]
+
+
+def _fence_class_cases() -> list[tuple[bool, str]]:
+    """(ok, beskrivning) för radklassen."""
+    out = []
+
+    doc = _self_test_doc(FENCE_DOC)
+    prose_text = " ".join(l for _, l in doc.prose())
+    out.append((
+        "Hanafi" not in prose_text,
+        "prose() läser inte en tabellcell som en mening",
+    ))
+    out.append((
+        "Brödtext före." in prose_text and "Brödtext efter." in prose_text,
+        "prose() behåller brödtexten runt figuren",
+    ))
+    out.append((
+        not rule_double_space(doc),
+        "kolumner uppradade med blanksteg fäller inte dubbel-blanksteg",
+    ))
+    out.append((
+        not rule_dash_budget(doc),
+        "tankstreck i en figurs note: äter inte sidans tankstrecksbudget",
+    ))
+
+    doctrine_text = " ".join(l for _, l in doc.doctrine())
+    out.append((
+        "Hanafi" in doctrine_text,
+        "doctrine() ser cellerna — trosreglerna får inte tystna i en tabell",
+    ))
+
+    shia = _self_test_doc(SHIA_IN_CELL)
+    out.append((
+        any(h["rule"] in ("shia-sufi-omnamnande", "shia-lank") for h in rule_shia_sufi_mention(shia)),
+        "en shiitisk radetikett fälls fortfarande",
+    ))
+    return out
+
+
 def _self_test_doc(lines: list[str]) -> Doc:
     """En Doc över textrader, utan att röra disken."""
     doc = Doc.__new__(Doc)
     doc.path = Path("data/fordjupning/sjalvtest.md")
     doc.frontmatter = []
     doc.body = [(i + 1, l) for i, l in enumerate(lines)]
+    doc.fence = fence_lines(doc.body)
     doc.genre = "fordjupning"
     return doc
 
@@ -659,7 +776,14 @@ def self_test() -> int:
         if not ok:
             print(f"      fälldes av {[h['rule'] for h in rules]}")
 
-    total = len(DOCTRINE_CASES) + len(DOCTRINE_CLEAN)
+    # Byggs EN gång: räknades tidigare med ett andra anrop, vilket körde varje regel igen
+    # och lät rapporten och summan komma från olika körningar.
+    fence_cases = _fence_class_cases()
+    for ok, why in fence_cases:
+        failures += 0 if ok else 1
+        print(f"  {'OK ' if ok else 'FEL'} {'(radklass figur)':20s} {why}")
+
+    total = len(DOCTRINE_CASES) + len(DOCTRINE_CLEAN) + len(fence_cases)
     print()
     if failures:
         print(f"⛔ {failures} av {total} fall fel — rätta innan du litar på kontrollen")

@@ -92,15 +92,8 @@ export function joinSwedish(parts: string[]): string {
 }
 
 /**
- * House punctuation for author-written chart text.
- *
- * Prose gets its guillemets from remark-smartypants — but that plugin skips `code` nodes,
- * and a chart spec IS a code node. Without this, an author obeying the house rule (write
- * straight quotes; the pipeline converts them) would get "…" in the caption while the
- * paragraph above it got »…«. The alternative — telling authors to type »…« inside the
- * fence — makes scripts/check-house-style.py flag the file, and rightly so: the rule is
- * that the SOURCE uses straight quotes everywhere.
+ * House punctuation moved to src/lib/figure/caption.ts when the ```table fence started
+ * needing it too. Re-exported here because render.ts and the tests reach for it through
+ * ./format, and the move should not be visible to them.
  */
-export function housePunctuation(text: string): string {
-	return text.replace(/"([^"]*)"/g, "»$1«").replace(/(\w)'(\w)/g, "$1\u2019$2");
-}
+export { housePunctuation } from "../figure/caption";

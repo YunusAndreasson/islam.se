@@ -128,18 +128,24 @@ if (cities !== null && cities >= MIN_CITIES && pdfCount < 200) {
 	);
 }
 
-// Charts are the one content element whose rendering can fail SILENTLY and still build.
+// Figures are the one content element whose rendering can fail SILENTLY and still build.
 // rehypeShiki is registered above the user rehype plugins inside @astrojs/markdown-remark,
-// so if `syntaxHighlight.excludeLangs` in astro.config.ts ever loses "chart", every fence
-// becomes a syntax-highlighted code listing on the page instead of a figure — a defect the
-// reader sees and the build does not. Counted from source so it cannot drift.
+// so if `syntaxHighlight.excludeLangs` in astro.config.ts ever loses "chart" or "table",
+// every fence of that kind becomes a syntax-highlighted code listing on the page instead of
+// a figure — a defect the reader sees and the build does not. Counted from source so it
+// cannot drift. Both fences render to `<figure class="chart chart--…">`, which is why one
+// comparison covers them.
 const CORPORA = ["articles", "svar", "fordjupning"];
+const FENCE_LANGS = ["chart", "table"];
 let chartFences = 0;
 for (const corpus of CORPORA) {
 	const dir = new URL(`../../../data/${corpus}/`, import.meta.url).pathname;
 	if (!existsSync(dir)) continue;
 	for (const file of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
-		chartFences += (readFileSync(join(dir, file), "utf8").match(/^```chart$/gm) ?? []).length;
+		const src = readFileSync(join(dir, file), "utf8");
+		for (const lang of FENCE_LANGS) {
+			chartFences += (src.match(new RegExp(`^\`\`\`${lang}$`, "gm")) ?? []).length;
+		}
 	}
 }
 let chartFigures = 0;
@@ -152,7 +158,7 @@ const scanHtml = (dir) => {
 		else if (entry.name === "index.html") {
 			const html = readFileSync(full, "utf8");
 			chartFigures += (html.match(/<figure class="chart chart--/g) ?? []).length;
-			leakedFences += (html.match(/language-chart/g) ?? []).length;
+			leakedFences += (html.match(/language-(?:chart|table)/g) ?? []).length;
 		} else if (entry.name === "index.md") {
 			// The markdown twin is built from the rendered HTML, where a chart's label and
 			// value are adjacent inline spans. node-html-markdown joins them with nothing,
@@ -170,10 +176,10 @@ const scanHtml = (dir) => {
 if (existsSync(DIST)) scanHtml(DIST);
 if (chartFences > 0 && chartFigures < chartFences) {
 	failures.push(
-		`${chartFences} \`\`\`chart fences in data/, but only ${chartFigures} chart figures in dist.\n` +
-			"    rehype-chart did not run on all of them. Check that astro.config.ts still has\n" +
-			'    `syntaxHighlight: { type: "shiki", excludeLangs: ["chart"] }` and that rehypeChart\n' +
-			"    is in the rehypePlugins array.",
+		`${chartFences} chart/table fences in data/, but only ${chartFigures} figures in dist.\n` +
+			"    rehype-chart or rehype-table did not run on all of them. Check that astro.config.ts\n" +
+			'    still has `syntaxHighlight: { type: "shiki", excludeLangs: ["chart", "table"] }` and\n' +
+			"    that both rehypeChart and rehypeTable are in the rehypePlugins array.",
 	);
 }
 if (weldedTwins.length > 0) {
@@ -189,7 +195,7 @@ if (weldedTwins.length > 0) {
 }
 if (leakedFences > 0) {
 	failures.push(
-		`${leakedFences} chart fences reached dist as <code class="language-chart"> — the reader\n` +
+		`${leakedFences} fences reached dist as <code class="language-chart|table"> — the reader\n` +
 			"    is being shown the raw spec. See the note above.",
 	);
 }

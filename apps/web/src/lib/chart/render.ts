@@ -17,6 +17,17 @@
  * by position, and by brass-against-muted — never by hue. If a chart needs a third
  * colour, the chart is wrong; split it into small multiples.
  */
+
+import { figureCaptionNodes, figureCaptionText } from "../figure/caption";
+import {
+	escapeXml,
+	type FigureMode,
+	type HastElement,
+	type HastNode,
+	type HastText,
+	h,
+	hastToXml,
+} from "../figure/hast";
 import {
 	formatNumber,
 	formatShare,
@@ -28,38 +39,16 @@ import {
 import type { ChartDatum, ChartSpec } from "./spec";
 
 // ---------------------------------------------------------------------------
-// A minimal hast, so the rehype plugin, the EPUB and the .astro component can all
-// consume one tree. Same hand-built approach as src/plugins/rehype-quran-verse.ts.
+// The hast primitives and the figcaption builder are shared with the ```table fence —
+// see src/lib/figure/. Re-exported here so every existing import path keeps working:
+// chart.test.ts, chart-check.ts, generate-pdf.ts and generate-epub.ts all reach for
+// these through ./render and must continue to.
 // ---------------------------------------------------------------------------
+export type { HastElement, HastNode, HastText };
+export { escapeXml, hastToXml };
 
-export interface HastText {
-	type: "text";
-	value: string;
-}
-export interface HastElement {
-	type: "element";
-	tagName: string;
-	properties: Record<string, string | number | boolean | undefined>;
-	children: HastNode[];
-}
-export type HastNode = HastElement | HastText;
-
-export type ChartMode = "web" | "print";
-
-function h(
-	tagName: string,
-	properties: Record<string, string | number | boolean | undefined> = {},
-	children: (HastNode | string | null | false)[] = [],
-): HastElement {
-	return {
-		type: "element",
-		tagName,
-		properties,
-		children: children
-			.filter((c): c is HastNode | string => c !== null && c !== false)
-			.map((c) => (typeof c === "string" ? { type: "text" as const, value: c } : c)),
-	};
-}
+/** Web renders with CSS custom properties; print substitutes literals. */
+export type ChartMode = FigureMode;
 
 // ---------------------------------------------------------------------------
 // Palette
@@ -261,30 +250,11 @@ function unitLead(spec: ChartSpec): string | null {
  * web caption so a chart says the same thing on screen and on paper.
  */
 export function chartCaptionText(spec: ChartSpec): string {
-	const lead = spec.caption ?? unitLead(spec);
-	return housePunctuation([lead, `Källa: ${spec.source}.`, spec.note].filter(Boolean).join(" "));
+	return figureCaptionText(spec.caption ?? unitLead(spec), spec);
 }
 
 function captionNodes(spec: ChartSpec): HastNode[] {
-	const nodes: HastNode[] = [];
-	const lead = spec.caption ?? unitLead(spec);
-	if (lead) {
-		nodes.push(h("span", { className: "chart-cap-lead" }, [housePunctuation(lead)]));
-	}
-	const sourceChildren: (HastNode | string)[] = ["Källa: "];
-	if (spec.sourceUrl) {
-		sourceChildren.push(
-			h("a", { href: spec.sourceUrl, rel: "nofollow" }, [housePunctuation(spec.source)]),
-		);
-	} else {
-		sourceChildren.push(housePunctuation(spec.source));
-	}
-	sourceChildren.push(".");
-	nodes.push(h("span", { className: "chart-cap-source" }, sourceChildren));
-	if (spec.note) {
-		nodes.push(h("span", { className: "chart-cap-note" }, [housePunctuation(spec.note)]));
-	}
-	return nodes;
+	return figureCaptionNodes(spec.caption ?? unitLead(spec), spec);
 }
 
 // ---------------------------------------------------------------------------
@@ -926,33 +896,4 @@ export function renderChartMarkup(spec: ChartSpec, mode: ChartMode = "web"): str
 /** Just the <svg>, for embedding in Typst. Always print mode. */
 export function renderChartSvg(spec: ChartSpec): string {
 	return hastToXml(plot(spec, chartAltText(spec), "print"));
-}
-
-const VOID_TAGS = new Set(["rect", "circle", "line", "polyline", "path", "br", "img", "use"]);
-
-/** hast property name → serialised attribute name. */
-function attrName(key: string): string {
-	if (key === "className") return "class";
-	return key;
-}
-
-export function escapeXml(value: string): string {
-	return value
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;");
-}
-
-export function hastToXml(node: HastNode): string {
-	if (node.type === "text") return escapeXml(node.value);
-	const attrs = Object.entries(node.properties)
-		.filter(([, v]) => v !== undefined && v !== false && v !== "")
-		.map(([k, v]) => ` ${attrName(k)}="${escapeXml(String(v))}"`)
-		.join("");
-	if (node.children.length === 0 && VOID_TAGS.has(node.tagName)) {
-		return `<${node.tagName}${attrs} />`;
-	}
-	const inner = node.children.map(hastToXml).join("");
-	return `<${node.tagName}${attrs}>${inner}</${node.tagName}>`;
 }

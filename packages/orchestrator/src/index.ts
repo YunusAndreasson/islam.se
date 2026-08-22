@@ -13,6 +13,7 @@ import {
 	saveDomainTracker,
 	updateDomainTracker,
 } from "./domain-tracker.js";
+import { applyFigure, findFigureCandidates } from "./figure-guard.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
 	DeepenFrontmatterSchema,
@@ -20,6 +21,7 @@ import {
 	DraftOutputSchema,
 	EvalCorrectionFrontmatterSchema,
 	FactCheckOutputSchema,
+	FiguresFrontmatterSchema,
 	GroundFrontmatterSchema,
 	getFactCheckJsonSchema,
 	getResearchJsonSchema,
@@ -194,7 +196,8 @@ export type StageName =
 	| "polish"
 	| "deepen"
 	| "ground"
-	| "swedishVoice";
+	| "swedishVoice"
+	| "figures";
 
 export interface StageProgress {
 	stage: StageName;
@@ -269,6 +272,18 @@ export interface ResearchOutput {
 		title: string;
 		keyFindings: string[];
 	}>;
+	/** Numeric series for the figures stage. Empty on most essays — see ResearchOutputSchema. */
+	datasets?: Array<{
+		id: string;
+		question: string;
+		unit: string;
+		source: string;
+		sourceUrl?: string;
+		retrieved: string;
+		note?: string;
+		columns: string[];
+		rows: Array<{ label: string; values: string[] }>;
+	}>;
 }
 
 export interface FactCheckOutput {
@@ -292,6 +307,29 @@ export interface FactCheckOutput {
 		highCredibility: number;
 	};
 	recommendations?: string[];
+	/** One verdict per dataset. Only "verified" ones may become a figure. */
+	datasetChecks?: Array<{
+		id: string;
+		status: "verified" | "unverified";
+		notes?: string;
+	}>;
+}
+
+export interface FiguresOutput {
+	verdict: "none" | "figure";
+	reasoning: string;
+	figure: {
+		kind: "chart" | "table";
+		carriesArgument: string;
+		anchorText: string;
+		spec: string;
+		provenance: "prose" | "dataset";
+		footnoteId?: string;
+		datasetId?: string;
+	} | null;
+	summary: string;
+	/** Set by the orchestrator, not the model: why a returned figure was refused. */
+	refusedFor?: string[];
 }
 
 export interface DraftOutput {
@@ -418,6 +456,7 @@ export interface ProductionResult {
 		deepen?: StageResult<DeepenOutput>;
 		ground?: StageResult<GroundOutput>;
 		swedishVoice?: StageResult<SwedishVoiceOutput>;
+		figures?: StageResult<FiguresOutput>;
 	};
 	finalArticle?: string;
 	bibliography?: string;
@@ -697,6 +736,33 @@ export class ContentOrchestrator {
 
 	/**
 	 * Post-process research results: URL verification, source validation, reference tracking
+	 * Strip a dataset's link when it does not resolve, but keep the dataset.
+	 *
+	 * ⚠️ »En källa utan länk är korrekt. En påhittad länk är en förfalskning« — the rule
+	 * scripts/check-chart-sources.py states. So the URL goes and the named source stays, and
+	 * the fact-check stage then decides whether the numbers themselves survive. Dropping the
+	 * whole dataset here would hide a fabricated series behind a link error instead of
+	 * putting it in front of the gate that exists to judge it.
+	 */
+	private validateDatasetLinks(
+		rawDatasets: NonNullable<ResearchOutput["datasets"]>,
+		verifiedUrls: Set<string>,
+	): NonNullable<ResearchOutput["datasets"]> {
+		const validated = rawDatasets.map((dataset) => {
+			if (!dataset.sourceUrl || verifiedUrls.has(dataset.sourceUrl)) return dataset;
+			this.logger.log(
+				`   - ⚠️  Dataset »${dataset.id}« hade en länk som inte svarar (${dataset.sourceUrl}) — länken tas bort, källan behålls`,
+			);
+			const { sourceUrl: _dropped, ...rest } = dataset;
+			return rest;
+		});
+		if (validated.length > 0) {
+			this.logger.log(`   - ${validated.length} dataset för figursteget`);
+		}
+		return validated;
+	}
+
+	/**
 	 * Returns both the stage result and a formatted summary with timing breakdown.
 	 */
 	private async processResearchResult(
@@ -723,9 +789,16 @@ export class ContentOrchestrator {
 			summary: "Verifying URLs...",
 		});
 		const rawSources = rawResult.data.sources || [];
+		const rawDatasets = rawResult.data.datasets || [];
 		this.logger.log("   - Verifying URLs...");
 		const verifyStart = Date.now();
-		const urlsToVerify = rawSources.map((s) => s.url);
+		const urlsToVerify = [
+			...rawSources.map((s) => s.url),
+			// A dataset's endpoint gets the same liveness check a source URL gets. It is the
+			// cheapest test for the failure mode that matters here: a plausible-looking API
+			// URL that was never actually called.
+			...rawDatasets.flatMap((d) => (d.sourceUrl ? [d.sourceUrl] : [])),
+		];
 		const verification = await this.validator.verifyUrls(urlsToVerify);
 
 		if (verification.stats.failed > 0) {
@@ -752,6 +825,7 @@ export class ContentOrchestrator {
 				const validation = this.validator.validateSource(source.url);
 				return validation.credibility !== "rejected";
 			});
+		const validatedDatasets = this.validateDatasetLinks(rawDatasets, verifiedUrls);
 		const urlVerifyDuration = Date.now() - verifyStart;
 
 		// Quote verification
@@ -786,6 +860,7 @@ export class ContentOrchestrator {
 			sources: validatedSources,
 			quotes: rawQuotes,
 			bookPassages: rawResult.data.bookPassages || [],
+			datasets: validatedDatasets,
 		};
 
 		for (const source of data.sources) {
@@ -1532,6 +1607,87 @@ If the draft has anglicisms, fix them in the revised article.
 	}
 
 	/**
+	 * Run the figures stage — decide whether the finished essay has earned a chart or a
+	 * table, and if so, splice one in.
+	 *
+	 * ⚠️ THIS STAGE RUNS AFTER EVERY GATE. Nothing downstream reads what it writes, which is
+	 * the position ground.md's Jokkmokk note describes — and a figure is worse there than a
+	 * sentence, because a reader takes a bar as a fact with no hedge. Three things follow:
+	 *
+	 *   1. A deterministic pre-filter decides whether to call the model AT ALL. On a corpus
+	 *      measurement, exactly one essay in 57 has a chartable paragraph, so the common path
+	 *      must be free. No candidates and no verified datasets → no call.
+	 *   2. The model returns a PATCH, never a body. Twelve lines of change should not carry a
+	 *      3 000-word drift surface.
+	 *   3. Everything it returns is re-checked by figure-guard.ts and by the gates the BUILD
+	 *      runs. A failure drops the figure and keeps the essay, which is always survivable:
+	 *      the essay was publishable without one.
+	 */
+	async runFigures(
+		articleBody: string,
+		datasets: NonNullable<ResearchOutput["datasets"]>,
+	): Promise<StageResult<FiguresOutput>> {
+		const repoRoot = join(findDataDir(), "..");
+		const candidates = findFigureCandidates(articleBody, repoRoot);
+
+		if (candidates.chart.length === 0 && candidates.table.length === 0 && datasets.length === 0) {
+			// The common case, and it costs nothing.
+			this.logger.log("   📊 Figurer: inga kandidater och inga dataset — hoppar över");
+			return {
+				success: true,
+				data: {
+					verdict: "none",
+					reasoning: "Inga figurkandidater i texten och inga godkända dataset.",
+					figure: null,
+					summary: "Ingen figur (inget att pröva)",
+				},
+				duration: 0,
+			};
+		}
+
+		this.logger.log(
+			`   📊 Figurer: ${candidates.chart.length} diagram-, ${candidates.table.length} tabellkandidat(er), ${datasets.length} dataset`,
+		);
+
+		const systemPrompt =
+			"Du är bildredaktör på en litterär tidskrift. Du säger nej till nästan varje figur, och ja bara när figuren bär ett resonemang som prosan inte redan bär.";
+
+		const result = await this.executeClaudeStage<FiguresOutput>({
+			name: "Figures",
+			stage: "figures",
+			emoji: "📊",
+			promptFile: "figures.md",
+			systemPrompt,
+			userContent: [
+				`## ESSÄN\n\n${articleBody}`,
+				candidates.chart.length > 0
+					? `## KANDIDATSTYCKEN MED JÄMFÖRBARA TAL\n\n${JSON.stringify(candidates.chart, null, 1)}`
+					: "",
+				candidates.table.length > 0
+					? `## KANDIDATSTYCKEN MED PARALLELLA STÅNDPUNKTER\n\n${JSON.stringify(candidates.table, null, 1)}`
+					: "",
+				datasets.length > 0
+					? `## GODKÄNDA DATASET (faktagranskade)\n\n${JSON.stringify(datasets, null, 1)}`
+					: "",
+			]
+				.filter(Boolean)
+				.join("\n\n"),
+			markdownMode: {
+				frontmatterSchema: FiguresFrontmatterSchema,
+				// The body is discarded on purpose: this stage returns a patch, not an essay.
+				combine: (meta) => meta as unknown as FiguresOutput,
+			},
+			// high, not max. The stage's job is judgement about ONE inclusion, and every
+			// number it may use is fixed in advance — ambition buys nothing here and the
+			// deepen.md note explains what max costs on a stage with no grader downstream.
+			effort: "high",
+			timeout: 900000, // 15 min
+		});
+
+		return result;
+	}
+
+	/**
 	 * Run the eval-correction stage — fix the concrete issues flagged by the
 	 * deterministic prose evaluator (latinisms, anglicisms, AI-tic overuse,
 	 * em-dashes, footnote integrity, etc.). The machine report is passed verbatim
@@ -1772,6 +1928,23 @@ If the draft has anglicisms, fix them in the revised article.
 		}
 		result.stages.research = researchResult;
 		result.stages.factCheck = factCheckResult;
+
+		// Only datasets the fact-checker actually attested may become a figure. A series the
+		// checker did not speak to is treated exactly like an unverified source URL: dropped.
+		// The figures stage runs after every gate, so this is the last place anything can
+		// vouch for a number, and »the checker said nothing« must not read as »fine«.
+		const attested = new Map(
+			(factCheckResult.data.datasetChecks ?? []).map((c) => [c.id, c.status]),
+		);
+		const verifiedDatasets = (researchResult.data.datasets ?? []).filter(
+			(d) => attested.get(d.id) === "verified",
+		);
+		const droppedDatasets = (researchResult.data.datasets ?? []).length - verifiedDatasets.length;
+		if (droppedDatasets > 0) {
+			this.logger.log(
+				`   - ⚠️  ${droppedDatasets} dataset utan godkännande från faktakollen — de kan inte bli figurer`,
+			);
+		}
 
 		// Stage 3: Authoring
 		let authoringResult: StageResult<DraftOutput>;
@@ -2065,10 +2238,16 @@ If the draft has anglicisms, fix them in the revised article.
 			// The evaluator only reads prose from a file with YAML frontmatter, so
 			// wrap the body before measuring.
 			const writeEvalInput = (text: string): string => {
+				// ⚠️ Figures are stripped before measuring. scripts/evaluate-article.py has no
+				// fence awareness: it would read a spec's caption and note as prose, inflate
+				// totalIssues, and can push a clean essay past EVAL_CORRECTION_THRESHOLD — so a
+				// correction pass runs that was never needed, on a stage that may then edit the
+				// figure. Measure the prose, because the prose is what the evaluator judges.
+				const prose = text.replace(/```[\s\S]*?```/g, "");
 				saveOutput(
 					outputDir,
 					"eval-input.md",
-					`---\ntitle: ${JSON.stringify(currentDraft.title)}\n---\n\n${text}`,
+					`---\ntitle: ${JSON.stringify(currentDraft.title)}\n---\n\n${prose}`,
 				);
 				return join(outputDir, "eval-input.md");
 			};
@@ -2094,6 +2273,74 @@ If the draft has anglicisms, fix them in the revised article.
 					}
 				}
 			}
+		}
+
+		// Stage 10: Figures — a chart or a table, if the essay has earned one (non-fatal).
+		//
+		// ⚠️ LAST, AND THAT PLACEMENT IS LOAD-BEARING. Three reasons, in order of weight:
+		//   1. Number drift. Run earlier, a later prose pass could rewrite "196 000" to
+		//      "knappt 200 000" and the figure would then contradict the paragraph above it.
+		//      Running last means provenance is checked against the exact string that ships.
+		//   2. The eval loop. scripts/evaluate-article.py has no fence awareness, so a figure
+		//      present before the eval block would inflate totalIssues, could push a clean
+		//      essay past the correction threshold, and trigger a corrective pass that then
+		//      edits the fence. (writeEvalInput strips fences too — belt and braces.)
+		//   3. Only swedish-voice.md protected code fences before this change. All six prose
+		//      prompts now do, but placement is a guarantee and a prompt is a request.
+		//
+		// The cost is that the caption never gets a Swedish-voice pass. Accepted: the caption
+		// is assembled by the renderer from short formulaic fields, housePunctuation() fixes
+		// the quotes, and check-house-style.py still reads fence lines at doctrine level.
+		this.options.onStageChange?.({ stage: "figures", status: "running" });
+		const figuresResult = await this.runFigures(finalText, verifiedDatasets);
+		result.stages.figures = figuresResult;
+		if (figuresResult.success && figuresResult.data) {
+			const proposal = figuresResult.data.figure;
+			if (proposal) {
+				const applied = applyFigure({
+					body: finalText,
+					kind: proposal.kind,
+					spec: proposal.spec,
+					anchorText: proposal.anchorText,
+					datasets: verifiedDatasets,
+					repoRoot: join(findDataDir(), ".."),
+				});
+				if (applied.body) {
+					finalText = applied.body;
+					this.logger.log(`   - Figur (${proposal.kind}): ${proposal.carriesArgument}`);
+					// Logged in full, for the same reason Ground logs every addition: no gate
+					// upstream has read this, and a summary line would hide a bad figure.
+					for (const line of proposal.spec.split("\n")) this.logger.log(`     │ ${line}`);
+					this.logger.log(
+						"     ⚠️  Ingen grind har läst figuren. Kontrollera varje tal mot källan.",
+					);
+				} else {
+					figuresResult.data.refusedFor = applied.verdict.reasons;
+					this.logger.log("   - ⚠️  Figuren refuserades och essän behålls som den var:");
+					for (const reason of applied.verdict.reasons) this.logger.log(`     • ${reason}`);
+				}
+			} else {
+				this.logger.log(`   - Ingen figur: ${figuresResult.data.reasoning}`);
+			}
+			saveOutput(outputDir, "figures.json", figuresResult.data);
+			this.options.onStageChange?.({
+				stage: "figures",
+				status: "complete",
+				duration: figuresResult.duration,
+				summary: figuresResult.data.figure
+					? figuresResult.data.refusedFor
+						? "figur refuserad"
+						: `figur (${figuresResult.data.figure.kind})`
+					: "ingen figur",
+			});
+		} else {
+			this.options.onStageChange?.({
+				stage: "figures",
+				status: "failed",
+				duration: figuresResult.duration,
+				error: figuresResult.error,
+				summary: "skipped (non-fatal)",
+			});
 		}
 
 		saveOutput(outputDir, "final.md", finalText);
@@ -2122,6 +2369,7 @@ If the draft has anglicisms, fix them in the revised article.
 				deepen: deepenResult.duration,
 				ground: groundResult.duration,
 				swedishVoice: swedishVoiceResult.duration,
+				figures: figuresResult.duration,
 				total: Date.now() - startTime,
 			},
 		});
@@ -2262,6 +2510,9 @@ If the draft has anglicisms, fix them in the revised article.
 // Exposed for sibling producers (e.g. the svar answer-page producer) that drive
 // a single Claude stage directly instead of the full essay pipeline.
 export { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
+// Exposed for the retro-fit `produce figures` command, which proposes a figure for an
+// already-published essay and must run it through exactly the same guard the pipeline does.
+export { applyFigure, type GuardDataset, type GuardVerdict } from "./figure-guard.js";
 // Exposed for sibling producers that run a research stage of their own: the /fordjupning/
 // pipeline reuses this schema so its output is accepted by runFactCheck() unchanged, and
 // therefore passes the same code-enforced credibility gate the essays do.
@@ -2270,6 +2521,7 @@ export {
 	getResearchJsonSchema,
 	ResearchOutputSchema,
 } from "./schemas.js";
+export { findDataDir } from "./services/article-publisher.js";
 // Re-export services
 export {
 	ArticlePublisher,

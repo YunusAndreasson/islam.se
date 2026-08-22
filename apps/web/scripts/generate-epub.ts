@@ -37,6 +37,8 @@ import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { buildChartHast } from "../src/lib/chart/render";
 import { parseChartSpec } from "../src/lib/chart/spec";
+import { buildTableHast } from "../src/lib/table/render";
+import { parseTableSpec } from "../src/lib/table/spec";
 import { type Article, loadArticles, REPO_ROOT } from "./lib/essay-corpus";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
@@ -66,7 +68,8 @@ const renderer = unified()
 	// `allowDangerousHtml` is deliberately OFF: the essays contain a little inline HTML
 	// for the web (the honorific glyph, verse players) which has no meaning in a book and
 	// would be invalid XHTML besides. remark-rehype drops it, which is the wanted result.
-	// ⚠️ Without this handler a ```chart fence becomes a visible <pre><code> — the reader
+	// ⚠️ Without these handlers a ```chart or ```table fence becomes a visible <pre><code> —
+	// the reader
 	// of the book would be shown the raw spec where the figure belongs. Routed through the
 	// same renderer the website uses, in print mode: EPUB has no CSS custom properties, so
 	// var(--color-brass) would paint nothing at all.
@@ -76,10 +79,14 @@ const renderer = unified()
 				if (node.lang === "chart") {
 					return buildChartHast(parseChartSpec(node.value ?? ""), "print");
 				}
+				if (node.lang === "table") {
+					return buildTableHast(parseTableSpec(node.value ?? ""), "print");
+				}
 				// The plain <pre><code> remark-rehype would have produced, written out rather
 				// than imported: mdast-util-to-hast is remark-rehype's own dependency and pnpm's
 				// strict layout does not expose it here, and it is not worth a direct dependency
-				// for three lines. The corpus contains no code fences other than charts anyway.
+				// for three lines. The corpus contains no code fences other than charts and
+				// tables anyway.
 				return {
 					type: "element",
 					tagName: "pre",
@@ -254,6 +261,23 @@ h2 {
 .chapter-head { margin: 1em 0 2em; }
 .chapter-num { font-size: 0.8em; letter-spacing: 0.12em; margin: 0 0 0.6em; }
 .standfirst { font-size: 1.02em; font-style: italic; margin: 0 0 0.8em; }
+
+/* A table fence renders as real markup rather than an SVG, so unlike a chart it needs
+   rules here. Kept to the essentials an e-reader honours: it will re-flow and re-size
+   whatever this says, and fighting that is how an EPUB fights the device it is on.
+   (No backtick-fence notation in this comment — the stylesheet is a template literal.) */
+.chart--table { margin: 1.2em 0; }
+.chart-table { width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: left; }
+.chart-table th, .chart-table td { padding: 0.3em 0.6em 0.3em 0; vertical-align: top; }
+.chart-table thead th { font-weight: bold; border-bottom: 1px solid #ccc; }
+.chart-table tbody tr td, .chart-table tbody tr th { border-top: 1px solid #eee; }
+.chart-table-num { text-align: right; }
+/* One-vs-rest: without these the emphasised row is indistinguishable in the book, and the
+   figure means something different on paper than it does on the page. Literal colours —
+   an EPUB has no CSS custom properties. Mirrors the print palette in chart/render.ts. */
+.chart-table tbody tr.is-emphasis th, .chart-table tbody tr.is-emphasis td { color: #b8862f; }
+.chart-table tbody tr.is-dim th, .chart-table tbody tr.is-dim td { color: #776d61; }
+.chart-cap { font-size: 0.8em; color: #666; margin-top: 0.4em; }
 .chapter-date { font-size: 0.8em; margin: 0; }
 
 /* Swedish typographic paragraphs: no blank line, an indent from the second on. The

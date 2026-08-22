@@ -251,6 +251,78 @@
 		background: var(--color-muted);
 	}
 
+	/* ---- table: the ```table fence -------------------------------------- */
+
+	/* A table is not a chart, but it is the same kind of object on the page — a sourced
+	   figure with a caption — so it reuses .chart, .chart-plot and the whole .chart-cap
+	   apparatus, and only the grid itself is new. That is also why the markup says
+	   `chart chart--table`: assert-full-build.mjs counts it without a second rule.
+
+	   ⚠️ Like the SVG forms, a wide table scrolls inside its own box. The PAGE must never
+	   scroll sideways — that regression shipped once on .chart--slope, was found in Zen,
+	   and was invisible in headless Chromium. */
+	.chart--table .chart-plot {
+		max-width: 100%;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+	}
+
+	.chart-table {
+		width: 100%;
+		border-collapse: collapse;
+		/* --step--2 is the scale's designated size for table cells (DESIGN.md). */
+		font-size: var(--step--2);
+		line-height: 1.45;
+		text-align: left;
+	}
+
+	.chart-table th,
+	.chart-table td {
+		padding: 0.4rem 0.75rem 0.4rem 0;
+		vertical-align: top;
+		text-wrap: pretty;
+	}
+
+	.chart-table th:last-child,
+	.chart-table td:last-child {
+		padding-right: 0;
+	}
+
+	/* The header earns its hairline; the rows do not each earn one. A faint rule between
+	   rows only, so the eye can track across a wide row without the table becoming a grid
+	   of boxes. */
+	.chart-table thead th {
+		font-weight: 600;
+		color: var(--color-text);
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.chart-table tbody tr + tr > * {
+		border-top: 1px solid color-mix(in srgb, var(--color-divider), transparent 55%);
+	}
+
+	.chart-table tbody th {
+		font-weight: 400;
+		color: var(--color-text);
+	}
+
+	/* Numerals in a figure are a column of figures, not prose — the body default is
+	   oldstyle-nums, whose varying heights stop a column from lining up. */
+	.chart-table-num {
+		text-align: right;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	/* One-vs-rest, the same encoding the bar forms use: the emphasised row keeps the
+	   brass and everything else recedes. No hue is introduced. */
+	.chart-table tbody tr.is-emphasis > * {
+		color: var(--color-brass);
+	}
+
+	.chart-table tbody tr.is-dim > * {
+		color: var(--color-muted);
+	}
+
 	/* ---- caption -------------------------------------------------------- */
 
 	.chart-cap {
@@ -284,6 +356,17 @@
 
 		.chart--line .chart-legend {
 			display: flex;
+		}
+
+		/* Cells do not reflow usefully below a floor — a three-column table at 375 px would
+		   set two words per line. Give it a min-width and let .chart-plot scroll instead. */
+		.chart-table {
+			min-width: 22rem;
+		}
+
+		.chart-table th,
+		.chart-table td {
+			padding-right: 0.5rem;
 		}
 
 		.chart-bar-row {

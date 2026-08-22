@@ -126,6 +126,7 @@ Risken att vara uppmärksam på: att du *skapar* luckor för att ha något att f
 - Teologiskt innehåll eller argumentationsriktning (du *utvecklar* argumentet, du ändrar inte dess riktning)
 - Frontmatter
 - Befintlig prosa som redan argumenterar väl
+- Kodblock (```chart och ```table) — figurens spec är maskinläst. Ett omskrivet tal, en ändrad `source:`-rad eller en flyttad rad är ett sakfel, inte en stilförbättring.
 </sacred_boundaries>
 
 <output_format>

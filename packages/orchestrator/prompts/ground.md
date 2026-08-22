@@ -106,6 +106,7 @@ Det tillagda ögonblicket ska vara:
 - Rubrikordning eller rubrikformuleringar
 - Teologiskt innehåll eller argumentationsriktning
 - Frontmatter
+- Kodblock (```chart och ```table) — figurens spec är maskinläst. Ett omskrivet tal, en ändrad `source:`-rad eller en flyttad rad är ett sakfel, inte en stilförbättring.
 </sacred_boundaries>
 
 <output_format>

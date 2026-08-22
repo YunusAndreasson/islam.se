@@ -118,6 +118,7 @@ With silence:
 - Footnote content (the `[^N]:` lines at the bottom).
 - Section order or headings.
 - Theological content or argument direction.
+- Code fences (```chart and ```table) — a figure's spec is machine-parsed. Rewriting a number, editing the `source:` line or reflowing a row is a factual error, not a style fix.
 </sacred_boundaries>
 
 <pre_submission_audit>

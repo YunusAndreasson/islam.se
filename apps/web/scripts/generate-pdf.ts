@@ -15,6 +15,9 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chartCaptionText, renderChartSvg } from "../src/lib/chart/render";
 import { parseChartSpec } from "../src/lib/chart/spec";
+import { housePunctuation } from "../src/lib/figure/caption";
+import { numericColumns, tableCaptionText } from "../src/lib/table/render";
+import { parseTableSpec } from "../src/lib/table/spec";
 import { type Article, loadArticles, type MdastNode } from "./lib/essay-corpus";
 
 // ---------------------------------------------------------------------------
@@ -97,6 +100,55 @@ function blocksToTypst(nodes: MdastNode[], ctx: Ctx): string {
 		.join("\n\n");
 }
 
+/**
+ * A ```table fence as a Typst table.
+ *
+ * Numeric columns are right-aligned, the way they are on the web and for the same reason:
+ * a column of figures is read down. `#table` wants one flat cell list plus a column count,
+ * so the header and every row are flattened in order.
+ */
+function tableToTypst(source: string): string {
+	const spec = parseTableSpec(source);
+	const numeric = numericColumns(spec);
+	const align = numeric.map((n) => (n ? "right" : "left")).join(", ");
+	// One-vs-rest, carried into print with the same literal palette the chart SVGs use.
+	// Without this the emphasised row reads as an ordinary row in the book, and the figure
+	// says something different on paper than it does on the page.
+	const BRASS = "#b8862f";
+	const MUTED = "#776d61";
+	const cell = (text: string, fill?: string) => {
+		const inner = esc(housePunctuation(text));
+		return fill ? `[#text(fill: rgb("${fill}"))[${inner}]]` : `[${inner}]`;
+	};
+	const header = spec.columns.map((c) => `[*${esc(housePunctuation(c))}*]`).join(", ");
+	const body = spec.rows
+		.map((r) => {
+			const fill =
+				spec.emphasis === undefined ? undefined : r.label === spec.emphasis ? BRASS : MUTED;
+			return [r.label, ...r.cells].map((c) => cell(c, fill)).join(", ");
+		})
+		.join(",\n    ");
+	return [
+		"#block(breakable: false, above: 16pt, below: 4pt)[",
+		"  #set text(8.5pt)",
+		"  #set par(first-line-indent: 0pt, leading: 0.6em)",
+		"  #table(",
+		`    columns: ${spec.columns.length},`,
+		`    align: (${align}),`,
+		"    stroke: (x, y) => (top: if y <= 1 { 0.4pt } else { 0.2pt }),",
+		"    inset: (x: 6pt, y: 4pt),",
+		`    ${header},`,
+		`    ${body},`,
+		"  )",
+		"]",
+		"#block(above: 0pt, below: 16pt)[",
+		"  #set text(8pt, fill: luma(120))",
+		"  #set par(first-line-indent: 0pt, leading: 0.6em)",
+		`  ${esc(tableCaptionText(spec))}`,
+		"]",
+	].join("\n");
+}
+
 function blockToTypst(node: MdastNode, ctx: Ctx): string {
 	const children = node.children ?? [];
 	switch (node.type) {
@@ -149,6 +201,10 @@ function blockToTypst(node: MdastNode, ctx: Ctx): string {
 		// SVG is rendered in print mode (literal colours — Typst has no CSS variables) and
 		// written beside book.typ for image() to resolve.
 		case "code": {
+			// A ```table becomes a real Typst table. Without this branch it falls through to
+			// `return ""` exactly as a chart used to, and the figure vanishes from the printed
+			// book in silence while the prose around it goes on pointing at it.
+			if (node.lang === "table") return tableToTypst(node.value ?? "");
 			if (node.lang !== "chart") return "";
 			const spec = parseChartSpec(node.value ?? "");
 			const name = `chart-${chartFiles.length + 1}.svg`;
