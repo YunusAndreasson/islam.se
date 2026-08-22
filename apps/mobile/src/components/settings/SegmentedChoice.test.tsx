@@ -6,9 +6,14 @@
 // description line: a segment fits a word, so the sentence that tells the reader which
 // option they are choosing moves underneath and follows the selection. Deleting it would
 // look like simplification and would be a straight information loss.
-import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { Platform } from 'react-native';
+
+import { SETTINGS_STORAGE_KEY } from '@/lib/settings/store';
+import { SettingsProvider } from '@/lib/settings/context';
+import { DEFAULT_SETTINGS } from '@/lib/settings/types';
+import { storage } from '@/lib/storage';
 
 import { SegmentedChoice } from './SegmentedChoice';
 import type { Option } from './OptionGroup';
@@ -104,5 +109,52 @@ describe('SegmentedChoice on Android', () => {
       render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
       expect(screen.getByText('Rekommenderad')).toBeTruthy();
     });
+  });
+});
+
+// ── The native surface must be told which scheme to paint in ─────────────────────────────
+//
+// A Host renders real SwiftUI / Jetpack Compose, and left to itself that content reads the
+// PHONE's appearance — not the app's Utseende override, which is the very setting this
+// control changes. Locked to "Ljust" on a phone in dark mode, Material 3 chose its
+// dark-scheme on-surface ink (#a1a2ac) and painted it on the app's light paper: measured on
+// device at 2.50:1, where the two agreeing gives 16.9:1. The labels were there and could not
+// be read.
+//
+// Asserted through the app's OWN resolution (useActiveScheme via SettingsProvider) rather
+// than by mocking a hook, because the bug lives exactly in the gap between the two: the OS
+// says one thing, the reader's preference says another, and the Host must follow the reader.
+describe('SegmentedChoice tells the host which scheme to use', () => {
+  beforeEach(async () => {
+    await storage.removeItem(SETTINGS_STORAGE_KEY);
+  });
+
+  /** Renders inside the real provider with a theme preference on disk. Jest's OS scheme is
+   *  light, so 'dark' here is a genuine disagreement between phone and preference. */
+  async function renderWithTheme(theme: 'system' | 'light' | 'dark') {
+    await storage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({ ...DEFAULT_SETTINGS, theme }));
+    render(
+      <SettingsProvider>
+        <SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />
+      </SettingsProvider>,
+    );
+    await act(async () => {});
+  }
+
+  it('paints dark when the reader locked dark on a light phone', async () => {
+    await renderWithTheme('dark');
+    await waitFor(() => expect(screen.getByTestId('host-dark')).toBeTruthy());
+  });
+
+  it('paints light when the reader locked light', async () => {
+    await renderWithTheme('light');
+    await waitFor(() => expect(screen.getByTestId('host-light')).toBeTruthy());
+  });
+
+  it('never leaves the scheme unset', async () => {
+    // The regression itself: no colorScheme prop at all, so the native side falls back to
+    // the OS. The mock reports that as `host-unset`.
+    await renderWithTheme('system');
+    await waitFor(() => expect(screen.queryByTestId('host-unset')).toBeNull());
   });
 });

@@ -405,7 +405,12 @@ jest.mock('@expo/ui/swift-ui', () => {
   const React = require('react');
   const { Pressable, Text, View } = require('react-native');
   return {
-    Host: ({ children, style }) => React.createElement(View, { style }, children),
+    // The Host forwards `colorScheme` as a testID so a test can assert which scheme the
+    // native surface was told to paint in. Not decoration: left unset, real SwiftUI and
+    // Compose read the PHONE's appearance rather than the app's Utseende override, and the
+    // unselected labels drop to 2.5:1 on the app's own paper. See SegmentedChoice.
+    Host: ({ children, style, colorScheme }) =>
+      React.createElement(View, { style, testID: `host-${colorScheme ?? 'unset'}` }, children),
     // A SwiftUI Picker's options are its children, each tagged with its value; the mock
     // reads that tag back off the modifier so pressing a segment selects the right thing.
     Picker: ({ children, selection, onSelectionChange }) =>
@@ -451,7 +456,8 @@ jest.mock('@expo/ui/jetpack-compose', () => {
   // went green. A mock that is kinder than the platform is a mock that hides the bug.
   SegmentedButton.Label = ({ children }) => children;
   return {
-    Host: ({ children, style }) => React.createElement(View, { style }, children),
+    Host: ({ children, style, colorScheme }) =>
+      React.createElement(View, { style, testID: `host-${colorScheme ?? 'unset'}` }, children),
     SingleChoiceSegmentedButtonRow: ({ children }) =>
       React.createElement(View, { accessibilityRole: 'radiogroup' }, children),
     SegmentedButton,

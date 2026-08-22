@@ -11,6 +11,17 @@
 // So this is the platform's real control on both: SwiftUI's `Picker` with `.segmented` on
 // iOS, Material 3's `SingleChoiceSegmentedButtonRow` on Android.
 //
+// ⚠️ THE HOST MUST BE TOLD WHICH SCHEME TO PAINT IN. A Host renders real SwiftUI / Compose,
+// and left to itself that content reads the PHONE's appearance — not the app's Utseende
+// override, which is the very setting this control exists to change. Lock the app to "Ljust"
+// on a phone in dark mode and Material 3 picks its dark-scheme on-surface ink, a pale
+// #a1a2ac, and paints it on the app's light paper: measured at 2.50:1, against 16.9:1 when
+// the two agree. The unselected labels are legible only if you know what they say.
+//
+// It is the same failure as the navigation bar in app/_layout, from the same cause — a
+// native surface defaulting to the OS while the app is somewhere else — and it will happen
+// to every @expo/ui control added to this app. Pass `colorScheme`.
+//
 // ⚠️ THE DESCRIPTION IS NOT DROPPED. A segment fits a word, and some of these options carry
 // a line that tells the reader which one they are ("Rekommenderad"). That line moves BELOW
 // the control and follows the selection — the segmented-control-plus-footnote pattern — so
@@ -28,6 +39,7 @@ import { useMemo } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { space, type } from '@/theme/tokens';
+import { useActiveScheme } from '@/theme/useColors';
 import type { Option } from './OptionGroup';
 import { type SettingsColors, useSettingsColors } from './theme';
 
@@ -46,6 +58,7 @@ export function SegmentedChoice<T extends string>({
   onChange: (value: T) => void;
 }) {
   const colors = useSettingsColors();
+  const scheme = useActiveScheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const description = options.find((o) => o.value === value)?.description;
 
@@ -62,7 +75,11 @@ export function SegmentedChoice<T extends string>({
   return (
     <View style={styles.wrap}>
       {Platform.OS === 'ios' ? (
-        <SwiftHost style={styles.host} matchContents={{ vertical: false, horizontal: false }}>
+        <SwiftHost
+          style={styles.host}
+          colorScheme={scheme}
+          matchContents={{ vertical: false, horizontal: false }}
+        >
           <Picker
             selection={value}
             onSelectionChange={(next) => select(next)}
@@ -76,7 +93,7 @@ export function SegmentedChoice<T extends string>({
           </Picker>
         </SwiftHost>
       ) : (
-        <Host style={styles.host}>
+        <Host style={styles.host} colorScheme={scheme}>
           <SingleChoiceSegmentedButtonRow>
             {options.map((option) => (
               <SegmentedButton
