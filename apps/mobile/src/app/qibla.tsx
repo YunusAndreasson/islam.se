@@ -57,6 +57,7 @@ import {
   systemSettingsName,
 } from '@/lib/system-settings';
 import { deriveQiblaStatus, formatKm, headingReliable, normalizeHeading, qiblaBearing, qiblaDistanceKm, qiblaProximity, type QiblaStatus, type QiblaTurn, qiblaTurn, shortestTurn, type TurnDir } from '@/lib/qibla';
+import { DIAL_MAX, makeDialStyles, rotate as rot } from '@/theme/dial';
 import { mono, motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
@@ -79,11 +80,6 @@ const TICKS = Array.from({ length: 24 }, (_, i) => i * 15);
 // this is six times cheaper than the tick rate and costs the reader nothing. Paired with
 // the memoized `Dial` below, the whole instrument sits out these renders.
 const TURN_PUSH_MS = 100;
-
-// The dial never grows past this — see `dial` below, which otherwise takes whatever the
-// measured box allows. There is deliberately no lower bound: a floor that beat the height
-// clamp would push the instrument straight through the title and the status pill.
-const DIAL_MAX = 320;
 
 // Translucent colour from a palette hex — the beam, glow and chips tint the warm
 // face without hiding it (same trick as the kiswa band's rgba white).
@@ -771,8 +767,6 @@ const Dial = memo(function Dial({ size, bearing, calibrating, c, styles, roseDeg
   );
 });
 
-const rot = (deg: number) => ({ transform: [{ rotate: `${deg}deg` }] });
-
 // Where the fixed sight line starts, just under the cardinal letters (ticks end at 21,
 // the cardinal glyphs at ~46) — so the line reads index → tick → N → line → hub without
 // ever striking through the letter.
@@ -780,6 +774,10 @@ const SIGHT_TOP = 48;
 
 function makeStyles(c: Palette) {
   return StyleSheet.create({
+    // The face, the rose's ticks and letters, the aim index and the hub are the INSTRUMENT,
+    // and Månen draws the same one — so their geometry lives in theme/dial and is spread in
+    // here rather than written twice. Everything below is this screen's own drawing.
+    ...makeDialStyles(c),
     safe: { flex: 1, backgroundColor: c.paper },
     header: { paddingHorizontal: space.lg, paddingTop: space.xs },
     title: { ...type.title, color: c.ink },
@@ -788,23 +786,6 @@ function makeStyles(c: Palette) {
     compassArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     dialWrap: { alignItems: 'center', justifyContent: 'center' },
 
-    // Fixed face — warm gradient, a real (not hairline) border, lifted off the paper.
-    face: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      borderWidth: 1.5,
-      borderColor: c.border,
-      overflow: 'hidden',
-      ...shadow.card,
-    },
-    innerRing: {
-      position: 'absolute',
-      borderWidth: 1,
-      borderColor: c.hairline,
-    },
     sightWrap: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' },
     sight: { width: 2, height: '100%' },
 
@@ -823,15 +804,6 @@ function makeStyles(c: Palette) {
       borderLeftColor: 'transparent',
       borderRightColor: 'transparent',
     },
-
-    // A tick lives at the top of a full-size, rotated slot.
-    tickSlot: { position: 'absolute', top: 8, left: 0, right: 0, alignItems: 'center' },
-    tickMajor: { width: 2.5, height: 13, borderRadius: 1.5, backgroundColor: c.inkMuted },
-    tickMinor: { width: 1.5, height: 7, borderRadius: 1, backgroundColor: c.inkFaint },
-
-    cardinalSlot: { position: 'absolute', top: 24, left: 0, right: 0, alignItems: 'center' },
-    cardinal: { ...type.bodyStrong, fontWeight: '700', color: c.ink },
-    cardinalN: { color: c.accent },
 
     needleSlot: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' },
     // zIndex (+ the cube's own Android elevation) keeps the cube painted ABOVE the
@@ -880,25 +852,6 @@ function makeStyles(c: Palette) {
       borderRightColor: 'transparent',
       borderBottomColor: c.track,
     },
-
-    // The fixed aim sight at 12 o'clock — a slim, acute wedge (taller than it is wide) so it
-    // reads as a precise pointer to line the Kaaba up against, not a blunt arrowhead.
-    index: {
-      position: 'absolute',
-      top: -13,
-      width: 0,
-      height: 0,
-      borderLeftWidth: 7,
-      borderRightWidth: 7,
-      borderTopWidth: 16,
-      borderLeftColor: 'transparent',
-      borderRightColor: 'transparent',
-      borderTopColor: c.accent,
-    },
-    indexBrass: { borderTopColor: c.highlight },
-    hubWrap: { width: 16, height: 16 },
-    hub: { borderRadius: 8, backgroundColor: c.surface, borderWidth: 3, borderColor: c.accent },
-    hubBrass: { backgroundColor: 'transparent', borderColor: c.highlight },
 
     // paddingBottom is applied at the call site from the safe-area inset: a flat 32 sat
     // under the home indicator on every device that has one.
