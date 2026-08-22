@@ -29,8 +29,13 @@ import { useColors } from '@/theme/useColors';
 import { Icon } from '@/components/ui/Icon';
 import { GlassRoundButton } from './GlassRoundButton';
 
-/** Glyph size inside the 46 dp disc. */
-const GLYPH = 22;
+/** Glyph size inside the 46 dp disc.
+ *  26, not the 22 this used to be. A glyph inks only its own em coverage — `explore` 0.83,
+ *  `location.north.fill` 0.79 — so 22 put about 18 dp of ink inside a 46 dp disc: 38%,
+ *  against the ~50% the platform's own map controls sit at, and the disc read as mostly
+ *  empty air with a small mark floating in it. (The cog next to it was separately on 24
+ *  for no stated reason; both are 26 now, so the pair finally matches.) */
+export const GLYPH = 26;
 // A crisp, slightly springy lock so the arrow "snaps" gold when you hit the bearing.
 const LOCK_SPRING = { damping: 14, stiffness: 240, mass: 0.5 };
 

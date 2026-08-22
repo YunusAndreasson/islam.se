@@ -14,7 +14,7 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useColors } from '@/theme/useColors';
-import { CompassButton } from './CompassButton';
+import { CompassButton, GLYPH } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
 import { Icon } from '@/components/ui/Icon';
 
@@ -34,7 +34,8 @@ export function MapNav({ active }: { active: boolean }) {
           accessibilityLabel="Inställningar"
           onPress={() => router.navigate('/installningar')}
         >
-          <Icon name="settings" size={24} color={c.ink} />
+          {/* 26 to match the compass opposite — see CompassButton's GLYPH for the ratio. */}
+          <Icon name="settings" size={GLYPH} color={c.ink} />
         </GlassRoundButton>
       </View>
     </View>
