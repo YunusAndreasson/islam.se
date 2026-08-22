@@ -550,7 +550,13 @@ export function PrayerDock({
                   setPickingDay(true);
                 }}
                 accessibilityRole="button"
-                accessibilityLabel={`${gregorianLabel}. Välj dag.`}
+                // ⚠️ BOTH DATES, HIJRI FIRST — the order they are printed in. This label
+                // named only the Gregorian one, so a screen reader user of a Hijri-calendar
+                // app heard "Lördag 22 augusti" and never once heard "8 Rabīʿ al-awwal
+                // 1448" — the line directly above it, set in the heavier ink, and the
+                // reason the crown is there at all. The sighted reader gets the Hijri date
+                // first; so should everyone else.
+                accessibilityLabel={`${hijriLabel}, ${gregorianLabel}. Välj dag.`}
                 accessibilityHint="Öppnar en kalender – välj vilken dag du vill se."
                 style={({ pressed }) => [styles.dateTap, pressed && styles.pressed]}
               >

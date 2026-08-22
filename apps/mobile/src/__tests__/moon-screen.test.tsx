@@ -202,6 +202,16 @@ describe('Månen', () => {
     await waitFor(() =>
       expect(screen.getByText(/^(I |Under horisonten, i ).+ – räknat från norr$/)).toBeTruthy(),
     );
+
+    // The pill PRINTS the Moon's altitude and does not ANNOUNCE it. At the pinned instant
+    // the Moon stands 19° up, so the degrees really are on screen here — and the pill is a
+    // polite live region on a screen whose clock ticks every sixty seconds, so a rounded
+    // degree that rolls over every few minutes had TalkBack re-reading the whole line to a
+    // reader who had not touched anything. The compass point stays in the spoken form; it
+    // changes about once an hour.
+    expect(screen.getByText(/\d+° upp/)).toBeTruthy();
+    expect(screen.queryByLabelText(/°/)).toBeNull();
+    expect(screen.getByLabelText(/^I .+ – räknat från norr$/)).toBeTruthy();
   });
 
   it('offers the place picker instead of a confident reading when there is no real fix', async () => {

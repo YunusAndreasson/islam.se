@@ -301,12 +301,19 @@ export default function Manen() {
   // about the sky over this place — so it is stated on its own and the heading only decides
   // whether the DIAL can be trusted to be turned the right way round. It does not name the
   // Moon either: the pill carries a drawing of one beside the words.
-  const skyFact =
-    sky.altitude > 0
-      ? `I ${compassPoint(sky.azimuth)}, ${Math.round(sky.altitude)}° upp`
-      : `Under horisonten, i ${compassPoint(sky.azimuth)}`;
+  //
+  // TWO FORMS, and the second one is not a nicety. The pill is a polite live region, this
+  // screen's clock ticks every sixty seconds, and the Moon climbs about a quarter of a
+  // degree in that time — so `Math.round(altitude)` rolls over every few minutes and
+  // TalkBack re-read the whole line to a reader who had not touched anything. The compass
+  // point survives into the spoken form because it changes about once an hour; the degrees
+  // do not, because they are the only part that churns and the least useful part to hear.
+  const skyWhere =
+    sky.altitude > 0 ? `I ${compassPoint(sky.azimuth)}` : `Under horisonten, i ${compassPoint(sky.azimuth)}`;
+  const skyFact = sky.altitude > 0 ? `${skyWhere}, ${Math.round(sky.altitude)}° upp` : skyWhere;
 
-  const status =
+  /** The pill's line, given whichever form of the sky fact the caller wants in it. */
+  const statusWith = (fact: string): string =>
     mode === 'month'
       ? PHASE_NAMES[phase]
       : noCompass
@@ -314,7 +321,7 @@ export default function Manen() {
           // needle still carries the true bearing, so the reader loses the turn-with-you
           // behaviour and keeps every fact — which is worth saying rather than replacing the
           // whole line with an apology, as this screen first did.
-          `${skyFact} – räknat från norr`
+          `${fact} – räknat från norr`
         : heading == null
           ? // Live and permitted, but no reading has arrived yet — the first frames after the
             // switch. Telling the reader to figure-eight the phone here would be asking them
@@ -325,7 +332,10 @@ export default function Manen() {
             ? // "Kalibrera" and then the instruction is the label and the button both. The
               // instruction alone IS the calibration.
               'Rör telefonen i en åtta'
-            : skyFact;
+            : fact;
+
+  const status = statusWith(skyFact);
+  const spokenStatus = statusWith(skyWhere);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -409,7 +419,13 @@ export default function Manen() {
               one-line days and buys a dial that does not move when the switch above it is
               pressed. */}
           <View style={styles.statusSlot}>
-            <View style={styles.statusPill} accessible accessibilityRole="text" accessibilityLiveRegion="polite">
+            <View
+              style={styles.statusPill}
+              accessible
+              accessibilityRole="text"
+              accessibilityLiveRegion="polite"
+              accessibilityLabel={spokenStatus}
+            >
               <MoonDisc size={16} illumination={sky.illumination} tilt={sky.limbAngle} {...ink} />
               <Text style={styles.statusText} numberOfLines={2}>
                 {status}

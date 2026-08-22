@@ -199,6 +199,24 @@ describe('PrayerDock day navigation', () => {
     expect(screen.getByText('Inga fler böner i dag')).toBeTruthy();
   });
 
+  it('speaks BOTH dates from the date crown, Hijri first', () => {
+    // THE BUG THIS GUARDS: the crown's label named only the Gregorian date. The Hijri line
+    // is the one printed above it in the heavier ink — this is a Hijri-calendar app — so a
+    // screen reader user heard "Lördag 1 augusti. Välj dag." and never once heard which
+    // Hijri day they were on. The label follows the printed order: Hijri, then Gregorian.
+    render(<PrayerDock {...dockProps(true)} />);
+
+    // Both printed lines, in printed order, then the action — asserted whole, so a
+    // regression names the exact string that changed instead of "expected true".
+    expect(screen.getByRole('button', { name: /Välj dag/ }).props.accessibilityLabel).toBe(
+      '16 Ṣafar 1448, Lördag 1 augusti. Välj dag.',
+    );
+    // …and both halves really are on screen, so the label stays a reading of the crown
+    // rather than a sentence that drifted away from it.
+    expect(screen.getByText('16 Ṣafar 1448')).toBeTruthy();
+    expect(screen.getByText('Lördag 1 augusti')).toBeTruthy();
+  });
+
   // The date crown is the other half of the navigation the plan called for: chevrons for
   // nearby days, a calendar for distant ones.
   it('opens the calendar from the date header and jumps through the clock', () => {

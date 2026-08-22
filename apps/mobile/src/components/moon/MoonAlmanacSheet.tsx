@@ -21,7 +21,7 @@
 // every time someone opened this — the very jump this pass exists to remove. An overlay
 // reflows nothing at all.
 import { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -54,6 +54,18 @@ export function MoonAlmanacSheet({
   const ink = useMoonInk();
   const reduceMotion = useReducedMotion();
 
+  // ⚠️ THE CARD IS BOTTOM-ANCHORED AND SIZED BY ITS CONTENT, WHICH IS ONLY SAFE WITH A CEILING.
+  // With `bottom` set and no `top`, an over-tall card grows UPWARD past the top of the
+  // screen and is clipped there — taking the title and the first rows with it, and leaving
+  // nothing to scroll to reach them. Two to three rows is the ordinary day, but the day a
+  // hilāl, an eclipse and the calendar drift are all live it is five, some of them wrapping,
+  // and Dynamic Type multiplies the lot. MoonMonthSheet never had this because it pins BOTH
+  // edges; this one keeps its content sizing and takes a ceiling instead, with the rows
+  // scrolling inside it once they reach it.
+  const { height } = useWindowDimensions();
+  const bottom = Math.max(space.lg, insets.bottom + space.sm);
+  const maxHeight = height - bottom - insets.top - space.lg;
+
   return (
     <Animated.View
       entering={reduceMotion ? undefined : FadeIn.duration(motion.quick)}
@@ -73,13 +85,14 @@ export function MoonAlmanacSheet({
       {/* OPAQUE, for the reason the month sheet is: this covers the readout, and at any
           translucency the hero numeral and the phase line read straight through the rows. */}
       <GlassSurface
-        style={[styles.sheet, { bottom: Math.max(space.lg, insets.bottom + space.sm) }]}
+        style={[styles.sheet, { bottom, maxHeight }]}
         borderRadius={radius.xl}
         tint={c.surface}
       >
         <Text style={styles.title}>Almanacka</Text>
         <Text style={styles.facts}>{facts}</Text>
-        <View style={styles.rows}>
+        {/* The title and the way out stay put; only the rows move. */}
+        <ScrollView style={styles.rows} contentContainerStyle={styles.rowsContent}>
           {notes.map((note) => (
             <MoonNoteRow
               key={note.text}
@@ -93,7 +106,7 @@ export function MoonAlmanacSheet({
               hint="Öppnar Inställningar."
             />
           ))}
-        </View>
+        </ScrollView>
         {/* NO CAVEAT HERE. A draft of this card closed with "Månaden börjar när nymånen ses
             – följ din moské", which is the month sheet's line, said a second time, two taps
             apart, over a list of moonrise times it is not even about. The month sheet says
@@ -134,7 +147,10 @@ function makeStyles(c: Palette) {
     },
     title: { ...type.label, color: c.inkMuted },
     facts: { ...type.callout, color: c.ink, marginTop: 2, ...mono },
-    rows: { marginTop: space.md, gap: space.sm, marginBottom: space.sm },
+    // `flexShrink` is what lets the ceiling above bite: without it the ScrollView reports
+    // its full content height and pushes the card open again, ceiling or no ceiling.
+    rows: { flexShrink: 1, marginTop: space.md, marginBottom: space.sm },
+    rowsContent: { gap: space.sm },
     close: { alignSelf: 'center', minHeight: 44, justifyContent: 'center', paddingHorizontal: space.lg, marginTop: space.xs },
     closeText: { ...type.bodyStrong, color: c.accent },
     pressed: { opacity: 0.6 },
