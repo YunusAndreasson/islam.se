@@ -22,11 +22,13 @@
 // native surface defaulting to the OS while the app is somewhere else — and it will happen
 // to every @expo/ui control added to this app. Pass `colorScheme`.
 //
-// ⚠️ THE DESCRIPTION IS NOT DROPPED. A segment fits a word, and some of these options carry
-// a line that tells the reader which one they are ("Rekommenderad"). That line moves BELOW
-// the control and follows the selection — the segmented-control-plus-footnote pattern — so
-// choosing still explains itself. A version of this that silently discarded `description`
-// would read as tidier and would be a straight information loss.
+// A DESCRIPTION, IF AN OPTION CARRIES ONE, is rendered below the control and follows the
+// selection — the segmented-control-plus-footnote pattern — because a segment fits a word
+// and nothing else. No option set passed here has one today (Utseende's three labels say
+// everything they need to). The branch stays because the alternative is worse than dead
+// code: `Option.description` is the shared type OptionGroup renders, so a set that does
+// carry descriptions — MADHAB_OPTIONS, say, where the line is what tells a reader which
+// madhhab they are choosing — would lose them silently rather than visibly.
 import {
   Host,
   SegmentedButton,

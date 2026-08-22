@@ -91,9 +91,7 @@ export const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
 // for users who keep their phone on the other mode (a dark-phone reader who
 // still wants the warm parchment basemap for the daytime map, or vice versa).
 export const THEME_OPTIONS: readonly Option<ThemePreference>[] = [
-  // "Följ system" already says it tracks the OS automatically, so the description only
-  // carries the one extra signal — that this is the default to pick when unsure.
-  { value: 'system', label: 'Följ system', description: 'Rekommenderad' },
+  { value: 'system', label: 'Följ system' },
   { value: 'light', label: 'Ljust' },
   { value: 'dark', label: 'Mörkt' },
 ];
