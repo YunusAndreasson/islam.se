@@ -12,6 +12,8 @@ import {
   qiblaAligned,
   qiblaBearing,
   qiblaDistanceKm,
+  QIBLA_TURN_AROUND,
+  qiblaTurn,
 } from './qibla';
 import { at } from '@/test-utils/at';
 
@@ -132,6 +134,49 @@ describe('deriveQiblaStatus', () => {
     // to HOLD one already established — the gap that stops 4°-edge jitter from strobing it.
     expect(deriveQiblaStatus(BEARING + 6, 3, BEARING, false)).toEqual({ aligned: false, near: true, calibrating: false });
     expect(deriveQiblaStatus(BEARING + 6, 3, BEARING, true)).toEqual({ aligned: true, near: false, calibrating: false });
+  });
+});
+
+// The remaining turn, which the readout counts down and the status line names. Getting the
+// SIDE wrong is the worst failure here: it sends the reader turning away from Mecca while the
+// screen encourages them, and unlike a wrong magnitude it never self-corrects.
+describe('qiblaTurn', () => {
+  const BEARING = 148;
+
+  it('reports nothing left to turn when already aimed', () => {
+    expect(qiblaTurn(BEARING, BEARING)).toEqual({ deg: 0, dir: 'right' });
+  });
+
+  it('sends you RIGHT when the qibla is clockwise of your heading', () => {
+    // Facing north-east, qibla south-east: the short way round is clockwise = your right.
+    expect(qiblaTurn(45, BEARING)).toEqual({ deg: 103, dir: 'right' });
+  });
+
+  it('sends you LEFT when the qibla is anticlockwise of your heading', () => {
+    // Facing south-west, qibla south-east: the short way back is anticlockwise = your left.
+    expect(qiblaTurn(220, BEARING)).toEqual({ deg: 72, dir: 'left' });
+  });
+
+  it('takes the SHORT way across the 0/360 seam', () => {
+    // Heading 350°, qibla 10°: 20° to the right, not 340° to the left.
+    expect(qiblaTurn(350, 10)).toEqual({ deg: 20, dir: 'right' });
+    expect(qiblaTurn(10, 350)).toEqual({ deg: 20, dir: 'left' });
+  });
+
+  it('says "turn around" once the side stops meaning anything', () => {
+    // Near 180° off, left and right are the same journey and the sign is decided by sensor
+    // jitter — an un-banded readout would strobe "vrid åt höger" / "vrid åt vänster" every
+    // tick. Inside the band we stop naming a side at all.
+    expect(qiblaTurn(BEARING + 180, BEARING).dir).toBe('around');
+    expect(qiblaTurn(BEARING + QIBLA_TURN_AROUND, BEARING).dir).toBe('around');
+    // ...and one degree short of it still commits to a side. A heading CLOCKWISE of the
+    // bearing turns back anticlockwise, so overshooting to the right sends you left.
+    expect(qiblaTurn(BEARING + QIBLA_TURN_AROUND - 1, BEARING).dir).toBe('left');
+    expect(qiblaTurn(BEARING - QIBLA_TURN_AROUND + 1, BEARING).dir).toBe('right');
+  });
+
+  it('normalizes an out-of-range heading rather than reporting a wild turn', () => {
+    expect(qiblaTurn(45 + 720, BEARING)).toEqual({ deg: 103, dir: 'right' });
   });
 });
 

@@ -205,6 +205,43 @@ export function deriveQiblaStatus(
   return { aligned, near, calibrating };
 }
 
+// ── Which way to turn ───────────────────────────────────────────────────────────
+// The dial shows the direction; these two facts SAY it. The screen's loudest element
+// used to be the qibla bearing from north — a constant, which never moved while the
+// reader turned, so the one element they watched gave them no feedback at all. It now
+// counts down the remaining turn, and the status line names the side to turn toward.
+
+/** Past this many degrees off, "left" and "right" are the same journey and the sign is
+    decided by jitter — the reading would strobe between them every tick. Inside this
+    band we say "turn around" instead, which is both flicker-free and the truer
+    instruction. (Same motive as {@link QIBLA_ALIGN_RELEASE}'s hysteresis.) */
+export const QIBLA_TURN_AROUND = 165;
+
+/** Which way the shortest turn goes: clockwise (`right`), anticlockwise (`left`), or
+    far enough behind you that the side no longer means anything (`around`). */
+export type TurnDir = 'left' | 'right' | 'around';
+
+/** How far, and which way, to turn to face the qibla. */
+export interface QiblaTurn {
+  /** Wrap-aware magnitude 0–180 — identical to {@link angleDelta}. */
+  readonly deg: number;
+  /** The SHORT way round, or `around` past {@link QIBLA_TURN_AROUND}. */
+  readonly dir: TurnDir;
+}
+
+/** Fold a heading and the qibla bearing into the turn the reader still has to make.
+    Built on {@link shortestTurn}, so the sign is the short way by construction: positive
+    means the bearing is clockwise of the heading, which on a compass is your right. */
+export function qiblaTurn(heading: number, bearing: number): QiblaTurn {
+  // Normalize first: `shortestTurn` only lands inside [-180, 180) for inputs already in
+  // [0, 360), and a raw sensor heading is not guaranteed to be. Unnormalized, a 765°
+  // reading would report a 257° turn to the wrong side — the one failure mode here that
+  // actively sends the reader away from Mecca.
+  const signed = shortestTurn(normalizeHeading(heading), normalizeHeading(bearing));
+  const deg = Math.abs(signed);
+  return { deg, dir: deg >= QIBLA_TURN_AROUND ? 'around' : signed >= 0 ? 'right' : 'left' };
+}
+
 /** A distance formatted for Swedish display: "412 km" / "4 102 km" (thin-space groups). */
 export function formatKm(km: number): string {
   const rounded = Math.round(km);

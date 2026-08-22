@@ -134,6 +134,17 @@ const ICONS = {
   compassRose: { ios: 'safari', android: 'explore', ink: 0.83 },
   navigationArrow: { ios: 'location.north.fill', android: 'navigation', ink: 0.79 },
   compassCalibration: { ios: 'arrow.triangle.2.circlepath', android: 'compass_calibration', ink: 0.83 },
+  // Which way to turn to reach the qibla. A ROTATION glyph, not a chevron: a chevron
+  // says "go that way" (translate), and what the reader has to do is pivot in place.
+  // `turnAround` is deliberately side-less — it belongs to the state past
+  // QIBLA_TURN_AROUND, where left and right are the same journey, so a handed glyph
+  // would silently name a side the words refuse to.
+  // ink measured per note 2 (BoundsPen over MaterialIcons.ttf): rotate-right/left 0.789,
+  // u-turn-left 0.750. The method reproduces the existing entries exactly (explore 0.832,
+  // navigation 0.791, map 0.750), so these are on the same footing, not eyeballed.
+  rotateRight: { ios: 'arrow.clockwise', android: 'rotate_right', ink: 0.79 },
+  rotateLeft: { ios: 'arrow.counterclockwise', android: 'rotate_left', ink: 0.79 },
+  turnAround: { ios: 'arrow.uturn.left', android: 'u_turn_left', ink: 0.75 },
   // Alerts
   notificationsOff: { ios: 'bell', android: 'notifications', ink: 0.81 },
   notificationsOn: { ios: 'bell.badge.fill', android: 'notifications_active', ink: 0.83 },

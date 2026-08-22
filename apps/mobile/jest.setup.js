@@ -139,7 +139,17 @@ jest.mock('react-native-reanimated', () => {
   return {
     __esModule: true,
     default: { View, Text, createAnimatedComponent: (Component) => Component },
-    useSharedValue: (value) => ({ value }),
+    // Stable across renders, the way a real shared value is. It used to return a fresh
+    // object every render, which quietly broke every hook that lists one in its deps: the
+    // Qibla screen's heading callback was recreated on each render, so its focus effect
+    // tore down and re-subscribed the magnetometer three times per mount under test, and a
+    // state update landed by one subscription was wiped by the next one's cleanup.
+    useSharedValue: (value) => {
+      const React = require('react');
+      const ref = React.useRef(null);
+      if (ref.current === null) ref.current = { value };
+      return ref.current;
+    },
     useDerivedValue: (fn) => ({ value: fn() }),
     useAnimatedStyle: () => ({}),
     // No UI thread under test, so the reaction never fires — matches reanimated's own

@@ -17,6 +17,8 @@ import {
   qiblaBearing,
   qiblaDistanceKm,
   qiblaProximity,
+  QIBLA_TURN_AROUND,
+  qiblaTurn,
   shortestTurn,
 } from './qibla';
 import { at } from '@/test-utils/at';
@@ -226,6 +228,74 @@ describe('qiblaProximity — the "getting warmer" ramp', () => {
       fc.property(bearing, off, off, (b, d1, d2) => {
         const [near, far] = d1 <= d2 ? [d1, d2] : [d2, d1];
         expect(qiblaProximity(b + near, 3, b)).toBeGreaterThanOrEqual(qiblaProximity(b + far, 3, b) - 1e-9);
+      }),
+    );
+  });
+});
+
+describe('qiblaTurn — how far, and which way', () => {
+  it('reports exactly the magnitude angleDelta already agrees on', () => {
+    // Two independent formulas for the same quantity: if one drifts, the other objects.
+    fc.assert(
+      fc.property(bearing, bearing, (h, b) => {
+        expect(qiblaTurn(h, b).deg).toBeCloseTo(angleDelta(h, b), 9);
+      }),
+    );
+  });
+
+  it('never reports more than half a turn', () => {
+    fc.assert(
+      fc.property(bearing, bearing, (h, b) => {
+        expect(qiblaTurn(h, b).deg).toBeGreaterThanOrEqual(0);
+        expect(qiblaTurn(h, b).deg).toBeLessThanOrEqual(180);
+      }),
+    );
+  });
+
+  it('lands on the bearing when you actually make the turn it asks for', () => {
+    // The end-to-end contract, in the reader's terms: turn by `deg` toward `dir` and you are
+    // facing the qibla. (Clockwise is positive on a compass, which on the ground is your right.)
+    //
+    // This is deliberately the ONLY test of the side, and it is behavioural. Asserting
+    // `dir === (shortestTurn(h, b) >= 0 ? 'right' : 'left')` was tried and removed: it
+    // restates the implementation line for line, which CLAUDE.md forbids for good reason.
+    // This one catches the same inversion strictly harder — flip the sign inside qiblaTurn
+    // and `turned` lands 2·deg away from the bearing — while saying something a reader
+    // could check with their own feet.
+    fc.assert(
+      fc.property(bearing, bearing, (h, b) => {
+        const t = qiblaTurn(h, b);
+        if (t.dir === 'around') return;
+        const turned = normalizeHeading(h + (t.dir === 'right' ? t.deg : -t.deg));
+        expect(angleDelta(turned, b)).toBeCloseTo(0, 6);
+      }),
+    );
+  });
+
+  it('only stops naming a side when the two sides really are the same journey', () => {
+    // The behavioural half of the `around` band: whenever it declines to pick a side, going
+    // the other way costs at most 2·(180 − QIBLA_TURN_AROUND)° more — i.e. the choice was
+    // genuinely not worth making. (The exact boundary is pinned by example in qibla.test.ts.)
+    fc.assert(
+      fc.property(bearing, bearing, (h, b) => {
+        const t = qiblaTurn(h, b);
+        if (t.dir !== 'around') return;
+        expect(360 - t.deg - t.deg).toBeLessThanOrEqual(2 * (180 - QIBLA_TURN_AROUND) + 1e-9);
+      }),
+    );
+  });
+
+  it('is unmoved by a heading that arrives outside [0, 360)', () => {
+    // shortestTurn alone is only in range for normalized inputs; qiblaTurn normalizes so a
+    // sensor that hands over 725° or -30° can't produce a 250° turn to the wrong side.
+    fc.assert(
+      fc.property(bearing, bearing, fc.integer({ min: -3, max: 3 }), (h, b, laps) => {
+        // Magnitude compared with a tolerance, not exactly: adding whole laps to a double
+        // and taking it back mod 360 costs a few ulps, which is float noise, not a wrap bug.
+        const wrapped = qiblaTurn(h + laps * 360, b);
+        const plain = qiblaTurn(h, b);
+        expect(wrapped.deg).toBeCloseTo(plain.deg, 6);
+        expect(wrapped.dir).toBe(plain.dir);
       }),
     );
   });

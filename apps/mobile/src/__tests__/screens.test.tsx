@@ -21,6 +21,7 @@ import Qibla from '@/app/qibla';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
+import { qiblaBearing } from '@/lib/qibla';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { first } from '@/test-utils/at';
 import { LogManager } from '@maplibre/maplibre-react-native';
@@ -82,6 +83,27 @@ describe('tab screens', () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
     jest.clearAllMocks();
+    // Put expo-location back to jest.setup's defaults between tests. `mockReset` is the load
+    // -bearing call and `clearAllMocks` is NOT a substitute: clearAllMocks wipes recorded
+    // calls only, and `mockImplementation` does not drain a queued `mockResolvedValueOnce`
+    // either — verified directly, a one-shot queued in one test still answers the first call
+    // of the next. Two ways that bites here: the map screen's compass button starts a
+    // permission→subscribe chain that can still be in flight when a test ends, and several
+    // tests below queue a one-shot denial. Either straggler lands on whichever test asks
+    // next, which for the Qibla heading tests means the screen short-circuits to
+    // "Platsåtkomst nekad" and never subscribes at all.
+    jest.mocked(Location.watchHeadingAsync).mockReset();
+    jest
+      .mocked(Location.watchHeadingAsync)
+      .mockImplementation((async () => ({ remove: jest.fn() })) as never);
+    jest.mocked(Location.requestForegroundPermissionsAsync).mockReset();
+    jest
+      .mocked(Location.requestForegroundPermissionsAsync)
+      .mockImplementation((async () => ({ status: 'granted', granted: true })) as never);
+    jest.mocked(Location.getForegroundPermissionsAsync).mockReset();
+    jest
+      .mocked(Location.getForegroundPermissionsAsync)
+      .mockImplementation((async () => ({ status: 'granted', granted: true })) as never);
   });
 
   it(
@@ -379,6 +401,99 @@ describe('tab screens', () => {
     expect(screen.getByLabelText(/^Qibla \d+ grader från norr$/)).toBeTruthy();
   });
 
+  // ── The live readout ────────────────────────────────────────────────────────────
+  // jest.setup's expo-location mock returns a heading subscription that never emits, so
+  // every other test sees the screen's static fallback. These install their own emitter,
+  // which is the only way to exercise the half of the screen that exists for the moment a
+  // reader is actually turning.
+
+  /** The bearing the screen itself will compute — jest.setup fixes the position to
+   *  Stockholm. Derived rather than hardcoded so the tests say "40° off" and mean it,
+   *  whatever the qibla from Stockholm happens to be. */
+  const TEST_QIBLA = qiblaBearing({ latitude: 59.3293, longitude: 18.0686 });
+
+  /** Install a heading emitter for this test, and hand back the function that fires it.
+   *  `accuracy` is expo-location's calibration level 0–3; 3 is a trusted reading. */
+  function headingEmitter(): (heading: number, accuracy?: number) => Promise<void> {
+    type Emit = (h: { trueHeading: number; magHeading: number; accuracy: number }) => void;
+    let emit: Emit | null = null;
+    jest.mocked(Location.watchHeadingAsync).mockImplementation((async (cb: Emit) => {
+      emit = cb;
+      return { remove: jest.fn() };
+    }) as never);
+    return async (heading, accuracy = 3) => {
+      await waitFor(() => expect(emit).not.toBeNull());
+      await act(async () => {
+        emit?.({ trueHeading: heading, magHeading: heading, accuracy });
+      });
+    };
+  }
+
+  it('counts down the turn and names the side to turn toward', async () => {
+    const emit = headingEmitter();
+    await renderSettled(withProviders(<Qibla />));
+    // Facing 40° anticlockwise of the qibla: the short way back is clockwise — your right.
+    await emit(TEST_QIBLA - 40);
+
+    expect(screen.getByText('Vrid åt höger')).toBeTruthy();
+    expect(screen.getByText('40°')).toBeTruthy();
+    expect(screen.getByText('kvar att vrida')).toBeTruthy();
+    // The static bearing gives up the hero slot and keeps a quiet home on the facts line,
+    // so it appears exactly once on the screen rather than twice.
+    expect(screen.queryByText('från norr')).toBeNull();
+    expect(screen.getByText(/Mecka ·.*· qibla \d+°/)).toBeTruthy();
+    // ...and the whole instruction reaches a screen reader as one sentence, since the dial
+    // that carries it visually is hidden from assistive tech.
+    expect(screen.getByLabelText(/^40 grader kvar, vrid åt höger\. Qibla \d+ grader från norr$/)).toBeTruthy();
+  });
+
+  it('names the other side when the qibla is anticlockwise of you', async () => {
+    const emit = headingEmitter();
+    await renderSettled(withProviders(<Qibla />));
+    await emit(TEST_QIBLA + 40);
+
+    expect(screen.getByText('Vrid åt vänster')).toBeTruthy();
+    expect(screen.getByText('40°')).toBeTruthy();
+  });
+
+  it('confirms the lock rather than counting, once you are facing Mecca', async () => {
+    const emit = headingEmitter();
+    await renderSettled(withProviders(<Qibla />));
+    await emit(TEST_QIBLA);
+
+    expect(screen.getByText('Du är vänd mot Mecka')).toBeTruthy();
+    expect(screen.getByText('0°')).toBeTruthy();
+  });
+
+  it('withholds the count while the compass is still calibrating', async () => {
+    const emit = headingEmitter();
+    await renderSettled(withProviders(<Qibla />));
+    // A reading pointing DEAD at the qibla, but with the calibration level the OS uses to say
+    // "don't trust me". The same gate that hides the needle has to hide the number: a count
+    // ticking toward a bearing the dial is refusing to draw would be the screen contradicting
+    // itself, and would talk a reader into facing the wrong way with full confidence.
+    await emit(TEST_QIBLA, 0);
+
+    expect(screen.getByText('Kalibrera – rör telefonen i en åtta')).toBeTruthy();
+    expect(screen.queryByText('kvar att vrida')).toBeNull();
+    expect(screen.getByText('från norr')).toBeTruthy();
+    // The note says what actually fixes it, not just what to wave.
+    expect(screen.getByText(/metall och magnetiska fodral/)).toBeTruthy();
+  });
+
+  it('offers the map when the compass cannot be used at all', async () => {
+    jest
+      .mocked(Location.requestForegroundPermissionsAsync)
+      .mockResolvedValueOnce({ status: 'denied', granted: false } as never);
+    await renderSettled(withProviders(<Qibla />));
+
+    await waitFor(() => expect(screen.getByText(/Platsåtkomst nekad/)).toBeTruthy());
+    // Two ways forward, not a dead end: fix the permission, or read the direction off the
+    // map's great-circle arc, which needs no magnetometer at all.
+    expect(screen.getByRole('button', { name: /^Öppna/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Se qibla-riktningen på kartan' })).toBeTruthy();
+  });
+
   it(
     'renders the Inställningar screen once settings load',
     async () => {
@@ -395,9 +510,16 @@ describe('tab screens', () => {
   );
 
   it('uses platform-aware copy when GPS location permission is denied', async () => {
+    // Both halves, stated here rather than inherited: the provider READS the permission on
+    // mount (getForegroundPermissionsAsync) and only requests it from an explicit gesture.
+    // This used to mock the request alone and passed only because the map test above leaks a
+    // persistent denial into everything after it — so it was really asserting test order.
+    jest
+      .mocked(Location.getForegroundPermissionsAsync)
+      .mockResolvedValue({ status: 'denied', granted: false } as never);
     jest
       .mocked(Location.requestForegroundPermissionsAsync)
-      .mockResolvedValueOnce({ status: 'denied', granted: false } as never);
+      .mockResolvedValue({ status: 'denied', granted: false } as never);
 
     await withPlatform('android', async () => {
       await renderSettled(withProviders(<Installningar />));

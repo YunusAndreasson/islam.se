@@ -19,7 +19,7 @@
 // Theming: OS-themed via useColors (Apple Maps-style chrome; see MapNav).
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef } from 'react';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { hapticSuccess } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
@@ -47,11 +47,16 @@ export function CompassButton({ active }: { active: boolean }) {
   const aligned = reliable && heading != null && angleDelta(heading, bearing) <= QIBLA_ALIGN_TOL;
   const wasAligned = useRef(false);
   const lockScale = useSharedValue(1);
+  // The scale-pop is decoration on top of a colour change that already carries the whole
+  // signal, so Reduce Motion takes the spring and leaves the lock — the app-wide pattern
+  // (DisclosureGroup, FaqItem). The arrow's ROTATION is untouched: that is the instrument.
+  const reduceMotion = useReducedMotion();
   useEffect(() => {
     if (aligned && !wasAligned.current) hapticSuccess();
     wasAligned.current = aligned;
-    lockScale.value = withSpring(aligned ? 1.12 : 1, LOCK_SPRING);
-  }, [aligned, lockScale]);
+    const target = aligned ? 1.12 : 1;
+    lockScale.value = reduceMotion ? 1 : withSpring(target, LOCK_SPRING);
+  }, [aligned, lockScale, reduceMotion]);
 
   // Point the arrow at the qibla — the bearing minus the live heading, clockwise — on the
   // UI thread, so it tracks the phone smoothly without a React render per frame. The lock

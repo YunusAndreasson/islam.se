@@ -13,33 +13,50 @@
 // 0 by 45° off) drives a graded indigo→brass transition on the beam, the Kaaba
 // glow, the needle and the index — so you feel yourself closing in *before* the
 // hard ≤4° lock, not just a binary on/off.
+//
+// THE READOUT SAYS WHAT THE DIAL SHOWS. The big numeral used to be the qibla
+// bearing from north — a constant. It is the loudest thing on a screen whose whole
+// job is to respond while you turn, and it never moved: the reader watching it got
+// no feedback at all, and anyone arriving from Apple Compass (where that slot is
+// live) read it as their own heading and thought it was stuck. It now counts down
+// the turn you still have to make, and the status line names the side to turn
+// toward. When there is no heading we can trust, both fall back to the old static
+// reading — because that is genuinely all the screen can say.
 import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 import { router, useFocusEffect } from 'expo-router';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AccessibilityInfo,
+  type LayoutChangeEvent,
   Pressable,
   StyleSheet,
   Text,
   useWindowDimensions,
   View,
 } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated, {
+  type SharedValue,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ModalBar } from '@/components/ui/ModalBar';
-import { Icon } from '@/components/ui/Icon';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { hapticLight, hapticSuccess } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
+import { useSettings } from '@/lib/settings/context';
 import {
   openSystemSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
   systemSettingsName,
 } from '@/lib/system-settings';
-import { deriveQiblaStatus, formatKm, normalizeHeading, qiblaBearing, qiblaDistanceKm, qiblaProximity, type QiblaStatus, shortestTurn } from '@/lib/qibla';
+import { deriveQiblaStatus, formatKm, headingReliable, normalizeHeading, qiblaBearing, qiblaDistanceKm, qiblaProximity, type QiblaStatus, type QiblaTurn, qiblaTurn, shortestTurn, type TurnDir } from '@/lib/qibla';
 import { mono, motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
@@ -57,6 +74,17 @@ const CARDINALS: readonly { deg: number; label: string }[] = [
 ];
 const TICKS = Array.from({ length: 24 }, (_, i) => i * 15);
 
+// How often the remaining-turn numeral may re-enter React state. The magnetometer fires
+// ~60×/s; a decimal-free degree count changing faster than ~10 Hz is unreadable anyway, so
+// this is six times cheaper than the tick rate and costs the reader nothing. Paired with
+// the memoized `Dial` below, the whole instrument sits out these renders.
+const TURN_PUSH_MS = 100;
+
+// The dial never grows past this — see `dial` below, which otherwise takes whatever the
+// measured box allows. There is deliberately no lower bound: a floor that beat the height
+// clamp would push the instrument straight through the title and the status pill.
+const DIAL_MAX = 320;
+
 // Translucent colour from a palette hex — the beam, glow and chips tint the warm
 // face without hiding it (same trick as the kiswa band's rgba white).
 function hexToRgba(hex: string, a: number): string {
@@ -67,6 +95,44 @@ function hexToRgba(hex: string, a: number): string {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 }
 
+/** One row per direction, so the glyph, the sentence a sighted reader sees and the words a
+    screen-reader user hears can never drift apart — this is the one screen whose whole
+    purpose is a single unambiguous instruction, and two parallel switches over the same
+    three values is exactly how the two halves end up saying different things. */
+const TURN_CUES: Record<TurnDir, { icon: IconName; text: string; spoken: string }> = {
+  right: { icon: 'rotateRight', text: 'Vrid åt höger', spoken: 'vrid åt höger' },
+  left: { icon: 'rotateLeft', text: 'Vrid åt vänster', spoken: 'vrid åt vänster' },
+  // Side-less on purpose: past QIBLA_TURN_AROUND the words stop naming a side because the
+  // sign is decided by jitter, so a handed arrow here would name one anyway.
+  around: { icon: 'turnAround', text: 'Vänd dig om', spoken: 'vänd dig om' },
+};
+
+/** The status line: one icon and one sentence for whichever state the compass is in.
+    Pure and banded — it must NEVER carry the live degree count, because the pill it
+    renders into is an `accessibilityLiveRegion`, and a value changing ten times a second
+    would have TalkBack announcing continuously. Magnitude belongs in the numeral below,
+    which is read on demand rather than announced. */
+function statusLine(
+  status: QiblaStatus,
+  turn: QiblaTurn | null,
+  noCompass: boolean,
+  permissionDenied: boolean,
+): { icon: IconName; text: string } {
+  // The two "we cannot read a direction" states come FIRST. A lock is only reachable from a
+  // trusted heading, which clears both flags, so in practice they are exclusive — but if a
+  // stale `aligned` ever did survive alongside one of these, the screen must not go on
+  // claiming you are facing Mecca over a dial that is merely pointing north.
+  if (noCompass || permissionDenied) return { icon: 'compassRose', text: 'Qibla räknad från norr' };
+  if (status.aligned) return { icon: 'checkCircle', text: 'Du är vänd mot Mecka' };
+  if (status.calibrating) {
+    return { icon: 'compassCalibration', text: 'Kalibrera – rör telefonen i en åtta' };
+  }
+  // Live, trusted, but no reading folded in yet — the first frames after focus. The 2.5 s
+  // no-event timeout replaces this with the honest no-compass line if none ever arrives.
+  if (!turn) return { icon: 'navigationArrow', text: 'Söker riktning…' };
+  return TURN_CUES[turn.dir];
+}
+
 export default function Qibla() {
   // Aligning with the qibla is the one thing in this app you do by holding the phone
   // perfectly still and looking at it — which is exactly what the display-sleep timer reads
@@ -75,7 +141,9 @@ export default function Qibla() {
   // Scoped to this screen: the hook releases on unmount, and the sheet unmounts on dismiss.
   useKeepAwake();
   const { coords, label, source } = useLocation();
+  const { settings } = useSettings();
   const c = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => makeStyles(c), [c]);
   // A resolved place carries its own qualifier ("Stockholm (standard)") when it is the
   // fallback rather than a real fix. Stripping that produced a confident "Stockholm"
@@ -86,9 +154,23 @@ export default function Qibla() {
   const locationIsFallback = source === 'default';
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
   const settingsName = systemSettingsName();
-  const { width } = useWindowDimensions();
-  const dial = Math.min(width - space.xxl * 2, 320);
-  const r = dial / 2;
+
+  // The rose is sized from the box it actually gets, not from the window. A width-only
+  // clamp overflowed a short screen the moment the readout grew — large Dynamic Type, or
+  // the permission-denied note plus its two links — and the dial then ran under the text.
+  // The window is only the seed for the first frame: lib/map/projection-guard documents why
+  // useWindowDimensions is not a safe proxy for a view's real size on iOS.
+  const { width, height } = useWindowDimensions();
+  const [box, setBox] = useState<{ w: number; h: number } | null>(null);
+  const onAreaLayout = useCallback((e: LayoutChangeEvent) => {
+    const { width: w, height: h } = e.nativeEvent.layout;
+    setBox((prev) => (prev && Math.abs(prev.w - w) < 1 && Math.abs(prev.h - h) < 1 ? prev : { w, h }));
+  }, []);
+  const dial = useMemo(() => {
+    const w = box?.w ?? width;
+    const h = box?.h ?? height * 0.45;
+    return Math.max(0, Math.min(w - space.xxl * 2, h - space.lg * 2, DIAL_MAX));
+  }, [box, width, height]);
 
   const bearing = qiblaBearing(coords);
   const distanceKm = qiblaDistanceKm(coords);
@@ -99,14 +181,15 @@ export default function Qibla() {
   // calibration warm-up and dropping the lock on a moving device.
   const bearingRef = useRef(bearing);
 
-  // The ONLY heading-derived thing the React tree shows: the coarse status (the pill, and
-  // whether the direction overlays are drawn). We deliberately do NOT keep the raw heading
-  // in state — `watchHeadingAsync` fires up to ~60×/s, and storing the degree would re-render
-  // (reconciling all ~30 dial Views) on every tick, even though the degree is never shown.
-  // Instead the raw reading lives in refs, the rose rotation + brass warmth ride shared values
-  // on the UI thread, and React only re-renders when the user crosses a band (cold → on your
-  // way → locked). `noCompass` is its own flag (set by the no-event timeout / permission denial).
+  // The coarse status (the pill, and whether the direction overlays are drawn) plus the
+  // rounded remaining turn. We still do NOT keep the raw heading in state —
+  // `watchHeadingAsync` fires up to ~60×/s and storing the degree would reconcile the whole
+  // tree on every tick. What changed is that the *readout* now shows a live number, so a
+  // heading-derived value has to reach React somehow: it does at a throttled 10 Hz
+  // (TURN_PUSH_MS), rounded and deduped, and the ~30 dial Views sit it out behind `Dial`'s
+  // memo. Rotation and brass warmth still ride shared values on the UI thread.
   const [status, setStatus] = useState<QiblaStatus>(COLD);
+  const [turn, setTurn] = useState<QiblaTurn | null>(null);
   // Two DIFFERENT facts, kept apart. `noCompass` means the hardware never spoke (emulator,
   // a tablet without a magnetometer); `permissionDenied` means it would have, but heading
   // needs the location permission and the user said no. They used to share one flag, so a
@@ -120,6 +203,16 @@ export default function Qibla() {
   // "wrong at first, then right" warm-up — so we don't trust it for the lock.
   const headingRef = useRef<number | null>(null);
   const accRef = useRef<number | null>(null);
+  const lastTurnPush = useRef(0);
+  // A mirror of `status`, so a reading can be folded deterministically (hysteresis needs the
+  // previous lock) AND we can tell whether the band actually moved — which the turn throttle
+  // below needs, so the pill and the numeral can never be sampled a beat apart.
+  const statusRef = useRef<QiblaStatus>(COLD);
+  // Whether we are currently reading the sensor. A fresh GPS fix changes the bearing at any
+  // time, including while this sheet is blurred and unsubscribed; re-folding a minutes-old
+  // heading then would rebuild a direction from wherever the phone WAS pointing, and could
+  // fire the lock haptic and speak "Du är vänd mot Mecka" at a screen nobody is looking at.
+  const reading = useRef(false);
 
   // Continuous (unwrapped) rotation so 359°→1° eases the short way instead of
   // spinning 358° backwards. The rose's rotation lives on the UI thread.
@@ -130,17 +223,50 @@ export default function Qibla() {
   const lastRaw = useRef(0);
   const unwrapped = useRef(0);
   const wasAligned = useRef(false);
+  const wasCalibrating = useRef(false);
 
-  // Fold a heading reading into the coarse status (lib/qibla `deriveQiblaStatus`), bailing if
-  // the band is unchanged so the common case — holding roughly steady — costs zero renders.
-  const applyStatus = useCallback((norm: number, acc: number | null, brg: number) => {
-    setStatus((prev) => {
+  // Safe to close over directly, and safe in `onHeading`'s deps: reanimated's
+  // useReducedMotion returns a module constant sampled once at app start ("Changing the
+  // reduced motion system setting doesn't cause your components to rerender"), so it cannot
+  // change for the life of this screen and cannot churn the magnetometer subscription.
+  const reduceMotion = useReducedMotion();
+
+  // Fold a heading reading into the coarse status (lib/qibla `deriveQiblaStatus`) and the
+  // remaining turn, bailing whenever neither changed so the common case — holding roughly
+  // steady — costs zero renders. `force` skips the turn throttle, for the re-fold that a
+  // fresh GPS fix triggers while the phone is not moving.
+  const applyReading = useCallback(
+    (norm: number, acc: number | null, brg: number, force: boolean) => {
+      const prev = statusRef.current;
       const next = deriveQiblaStatus(norm, acc, brg, prev.aligned);
-      return prev.aligned === next.aligned && prev.near === next.near && prev.calibrating === next.calibrating
-        ? prev
-        : next;
-    });
-  }, []);
+      const bandMoved =
+        prev.aligned !== next.aligned || prev.near !== next.near || prev.calibrating !== next.calibrating;
+      if (bandMoved) {
+        statusRef.current = next;
+        setStatus(next);
+      }
+      // An untrusted reading has no turn to report: the same gate that hides the needle
+      // must hide the number, or the readout would count down toward a bearing the dial
+      // is refusing to draw.
+      if (!headingReliable(acc)) {
+        setTurn((p) => (p === null ? p : null));
+        return;
+      }
+      // performance.now(), not Date.now(): this is an interval, and a wall clock that steps
+      // backwards (NTP, or the reader changing the device time) would make every remaining
+      // reading look "too soon" and freeze the numeral while the dial kept turning.
+      const now = performance.now();
+      // A band change always pushes, throttle or not. Otherwise the pill (updated every tick)
+      // and the numeral (sampled at 10 Hz) can be up to 100 ms — nearly 20° in a brisk sweep —
+      // out of step, and the screen shows "Du är vänd mot Mecka" above "18° kvar att vrida".
+      if (!force && !bandMoved && now - lastTurnPush.current < TURN_PUSH_MS) return;
+      lastTurnPush.current = now;
+      const t = qiblaTurn(norm, brg);
+      const deg = Math.round(t.deg);
+      setTurn((p) => (p && p.deg === deg && p.dir === t.dir ? p : { deg, dir: t.dir }));
+    },
+    [],
+  );
 
   const onHeading = useCallback(
     (raw: number, acc: number | null) => {
@@ -154,15 +280,19 @@ export default function Qibla() {
       const p = qiblaProximity(norm, acc, bearingRef.current);
       // Idiomatic reanimated: drive the shared values from JS. The compiler's
       // immutability rule can't see that a SharedValue is meant to be mutated.
+      // Under Reduce Motion we jump instead of easing, the way DisclosureGroup and
+      // FaqItem do. The rose's ROTATION itself is the instrument and cannot be removed —
+      // what goes is the added easing on top of the sensor, and the glow's swell below.
+      const rose = -unwrapped.current;
       // eslint-disable-next-line react-hooks/immutability
-      roseDeg.value = withTiming(-unwrapped.current, { duration: motion.quick });
+      roseDeg.value = reduceMotion ? rose : withTiming(rose, { duration: motion.quick });
       // eslint-disable-next-line react-hooks/immutability
-      prox.value = withTiming(p, { duration: motion.quick });
-      applyStatus(norm, acc, bearingRef.current);
+      prox.value = reduceMotion ? p : withTiming(p, { duration: motion.quick });
+      applyReading(norm, acc, bearingRef.current, false);
       setNoCompass((v) => (v ? false : v));
       setPermissionDenied((v) => (v ? false : v));
     },
-    [roseDeg, prox, applyStatus],
+    [roseDeg, prox, applyReading, reduceMotion],
   );
 
   // Keep `bearingRef` current and re-fold the last reading when the bearing moves on a fresh
@@ -171,8 +301,10 @@ export default function Qibla() {
   // would re-subscribe the magnetometer on every fix, resetting its calibration warm-up.)
   useEffect(() => {
     bearingRef.current = bearing;
-    if (headingRef.current != null) applyStatus(headingRef.current, accRef.current, bearing);
-  }, [bearing, applyStatus]);
+    if (reading.current && headingRef.current != null) {
+      applyReading(headingRef.current, accRef.current, bearing, true);
+    }
+  }, [bearing, applyReading]);
 
   // Subscribe to the magnetometer only while the screen is focused (battery), and
   // fall back to a north-up dial if no heading arrives (emulator / no sensor).
@@ -181,6 +313,7 @@ export default function Qibla() {
       let sub: Location.LocationSubscription | null = null;
       let cancelled = false;
       let gotEvent = false;
+      reading.current = true;
       // Armed only AFTER the permission question is settled, never alongside it. Started
       // up front, this timer runs while the OS dialog is still on screen waiting for an
       // answer — and a reader who takes more than 2.5 s to decide was told, underneath
@@ -233,10 +366,24 @@ export default function Qibla() {
 
       return () => {
         cancelled = true;
+        reading.current = false;
         if (timer) clearTimeout(timer);
         sub?.remove();
+        // EVERYTHING heading-derived goes, not just the count. This sheet stays mounted
+        // across a blur (the header's "Välj plats" pushes over it), so a lock left standing
+        // would greet the returning reader with a brass-lit dial and "Du är vänd mot Mecka"
+        // — possibly for a city they changed while they were away — with the phone pointing
+        // anywhere. Clearing the count alone was worse than clearing nothing: it left the
+        // verdict on screen with the measurement that justified it removed.
+        headingRef.current = null;
+        accRef.current = null;
+        statusRef.current = COLD;
+        setStatus(COLD);
+        setTurn(null);
+        lastTurnPush.current = 0;
+        prox.value = 0;
       };
-    }, [onHeading]),
+    }, [onHeading, prox]),
   );
 
   // The coarse status drives the pill and which overlays draw. `calibrating` means we have a
@@ -257,17 +404,68 @@ export default function Qibla() {
     wasAligned.current = aligned;
   }, [aligned]);
 
-  const roseStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${roseDeg.value}deg` }] }));
-  // The brass layer (beam / cube fill / shaft / index / hub) fades in with proximity
-  // — the one shared style reused on every "live" overlay, so they warm together.
-  const brassStyle = useAnimatedStyle(() => ({ opacity: prox.value }));
-  // A warm halo behind the Kaaba that grows as you close in (a faked radial glow).
-  const glowStyle = useAnimatedStyle(() => ({
-    opacity: prox.value,
-    transform: [{ scale: 0.55 + prox.value * 0.55 }],
-  }));
+  // The other edge worth speaking: entering calibration takes the needle, the beam and the
+  // whole count off the screen at once. Sighted readers see that happen; without this a
+  // screen-reader user just stops being told anything, with no way to know why. (No haptic
+  // — lib/haptics' policy reserves those for outcomes the reader just caused.)
+  useEffect(() => {
+    if (!calibrating) {
+      wasCalibrating.current = false;
+      return;
+    }
+    if (wasCalibrating.current) return;
+    // Held for a beat before speaking. Unlike the lock, `calibrating` has NO hysteresis —
+    // deriveQiblaStatus cuts hard at HEADING_ACCURACY_MIN — and the OS-reported level
+    // oscillates across that line several times a second during warm-up. Announcing on
+    // every crossing would talk continuously over the very user this is for.
+    const t = setTimeout(() => {
+      wasCalibrating.current = true;
+      AccessibilityInfo.announceForAccessibility(
+        'Kompassen kalibreras – riktningen döljs tills den är tillförlitlig',
+      );
+    }, 900);
+    return () => clearTimeout(t);
+  }, [calibrating]);
 
-  const coneTop = r - 40; // beam apex at the hub, base 40px shy of the rim
+  const line = statusLine(status, turn, noCompass, permissionDenied);
+  const bearingDeg = Math.round(bearing);
+  // The hero numeral: the live remaining turn when we have a heading worth trusting, the
+  // static qibla bearing when we don't. The caption underneath always names which, so the
+  // number can never be misread as the other one.
+  const heroValue = turn ? turn.deg : bearingDeg;
+  // The caption stops giving an INSTRUCTION once the lock holds. `qiblaAligned` keeps a lock
+  // through QIBLA_ALIGN_RELEASE (7°), so at 6° off the pill rightly says you are facing Mecca
+  // while the numeral rightly says 6 — "6° kvar att vrida" under "Du är vänd mot Mecka" is the
+  // screen contradicting itself in two adjacent lines. "från qibla" turns the same number from
+  // an instruction into a measurement, which is what it is once you have arrived.
+  const heroLabel = turn ? (aligned ? 'från qibla' : 'kvar att vrida') : 'från norr';
+  // The bearing keeps a home in the quiet line while the hero is live — some readers
+  // cross-check it against a real compass — but never twice on the same screen.
+  const facts = `Mecka · ${formatKm(distanceKm)}${turn ? ` · qibla ${bearingDeg}°` : ''}`;
+  const factsA11y = turn
+    ? aligned
+      ? `${turn.deg} grader från qibla. Qibla ${bearingDeg} grader från norr`
+      : `${turn.deg} grader kvar, ${TURN_CUES[turn.dir].spoken}. Qibla ${bearingDeg} grader från norr`
+    : `Qibla ${bearingDeg} grader från norr`;
+  // The way forward out of the two dead-end states: the map already draws the great-circle
+  // qibla arc from the reader's own dot, and it needs no magnetometer at all. Only offered
+  // when that arc is actually switched on, so the link cannot promise something absent.
+  const mapEscape =
+    settings.showQibla ? (
+      <Pressable
+        // `navigate`, not `back()`: back returns to whatever is underneath, which is only the
+        // map when this sheet was opened from it. A control labelled "på kartan" has to land
+        // on the map however the reader got here. (It also stops this duplicating ModalBar's
+        // dismiss expression, which is a different decision that should stay in one place.)
+        onPress={() => router.navigate('/bonetider')}
+        accessibilityRole="button"
+        accessibilityLabel="Se qibla-riktningen på kartan"
+        style={({ pressed }) => [styles.link, pressed && styles.pressed]}
+      >
+        <Text style={styles.linkText}>Se riktningen på kartan</Text>
+        <Icon name="map" size={18} color={c.accent} />
+      </Pressable>
+    ) : null;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -283,7 +481,11 @@ export default function Qibla() {
               hapticLight();
               router.push('/(settings)/byt-plats');
             }}
-            hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
+            // 12 rather than 10 top/bottom: with the ~20 dp row that is exactly the 44 dp
+            // target the sibling settings link reserves with minHeight — bought here
+            // through hit area instead, so the header doesn't grow a gap in the state
+            // where this control is absent.
+            hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
             style={({ pressed }) => [styles.placePick, pressed && styles.pressed]}
             accessibilityRole="button"
             accessibilityLabel="Ingen plats vald – riktningen gäller standardplatsen. Tryck för att välja stad"
@@ -305,125 +507,27 @@ export default function Qibla() {
           hide it from accessibility. The status pill + bearing readout below carry the state. */}
       <View
         style={styles.compassArea}
+        onLayout={onAreaLayout}
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <View style={[styles.dialWrap, { width: dial, height: dial }]}>
-          {/* Fixed warm face — a gentle top-down sheen gives the instrument depth.
-              It does NOT rotate, so the "light" always falls from the top. */}
-          <LinearGradient colors={[c.surface, c.paperSunken]} style={[styles.face, { borderRadius: r }]} />
-          <View style={[styles.innerRing, { width: dial * 0.66, height: dial * 0.66, borderRadius: dial * 0.33 }]} pointerEvents="none" />
-          {/* Fixed sight line from the aim index down to the hub — shows the axis the
-              Kaaba must travel up to meet (the conceptual model, made visible). It starts
-              BELOW the cardinal band (the index wedge + 0° tick already carry the axis up
-              there) so it never strikes through the "N" letter; a short fade-in keeps the
-              start soft rather than a chopped end. */}
-          <View style={[styles.sightWrap, { top: SIGHT_TOP, height: r - SIGHT_TOP }]} pointerEvents="none">
-            <LinearGradient
-              colors={[hexToRgba(c.ink, 0), hexToRgba(c.ink, 0.16), hexToRgba(c.ink, 0)]}
-              locations={[0, 0.2, 1]}
-              style={styles.sight}
-            />
-          </View>
-
-          {/* The rotating rose: beam, ticks, cardinals, and the qibla needle. */}
-          <Animated.View style={[StyleSheet.absoluteFill, roseStyle]}>
-            {/* The qibla DIRECTION (beam + needle + tail) is hidden while `calibrating`:
-                when the OS reports the compass as unreliable (accuracy < 2) we refuse to
-                draw a direction we don't trust — only the orientation ring shows, and the
-                status pill/note tell the user to figure-8 the phone. The direction
-                reappears the instant the heading becomes reliable. */}
-            {!calibrating && (
-              <>
-                {/* Qibla beam — a soft cone, pinned at the bearing, widening to the Kaaba.
-                    Indigo by default; the brass twin fades in with proximity. */}
-                <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
-                  <View style={[styles.coneSlot, { height: r }]}>
-                    <View style={[styles.coneBase, { borderTopWidth: coneTop, borderTopColor: hexToRgba(c.accent, 0.14) }]} />
-                  </View>
-                </View>
-                <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
-                  <View style={[styles.coneSlot, { height: r }]}>
-                    <Animated.View
-                      style={[styles.coneBase, { borderTopWidth: coneTop, borderTopColor: hexToRgba(c.highlight, 0.22) }, brassStyle]}
-                    />
-                  </View>
-                </View>
-              </>
-            )}
-
-            {TICKS.map((deg) => {
-              const major = deg % 90 === 0;
-              return (
-                <View key={`t${deg}`} style={[StyleSheet.absoluteFill, rot(deg)]} pointerEvents="none">
-                  <View style={styles.tickSlot}>
-                    <View style={major ? styles.tickMajor : styles.tickMinor} />
-                  </View>
-                </View>
-              );
-            })}
-
-            {CARDINALS.map((card) => (
-              <View key={card.label} style={[StyleSheet.absoluteFill, rot(card.deg)]} pointerEvents="none">
-                <View style={styles.cardinalSlot}>
-                  {/* counter-rotate so each letter is upright when the rose faces north */}
-                  <Text style={[styles.cardinal, card.label === 'N' && styles.cardinalN, rot(-card.deg)]}>
-                    {card.label}
-                  </Text>
-                </View>
-              </View>
-            ))}
-
-            {!calibrating && (
-              <>
-                {/* Qibla needle — pinned at the bearing, so the rose's −heading rotation
-                    lands it on the real Mecca. */}
-                <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
-                  <View style={[styles.needleSlot, { height: r }]}>
-                    {/* The Kaaba — an abstract cube, fitting and quieter than any glyph,
-                        over a warm glow that swells as you align. It rides the needle's
-                        rotation (a needle ornament, not a screen-pinned marker), so the
-                        kiswa band stays perpendicular to the shaft with the belt toward
-                        Mecca — the cube visibly POINTS with the needle. */}
-                    <View style={styles.kaabaWrap}>
-                      <Animated.View style={[styles.glow, glowStyle]} />
-                      <View style={styles.kaaba}>
-                        <Animated.View style={[StyleSheet.absoluteFill, styles.kaabaBrass, brassStyle]} />
-                        <View style={styles.kaabaBand} />
-                      </View>
-                    </View>
-                    <View style={styles.shaftWrap}>
-                      <View style={styles.needleShaft} />
-                      <Animated.View style={[StyleSheet.absoluteFill, styles.needleShaftBrass, brassStyle]} />
-                    </View>
-                  </View>
-                </View>
-
-                {/* tail (south) of the needle — a quiet counterweight. Anchored to the
-                    slot bottom (the dial centre) so it grows out of the hub with no gap. */}
-                <View style={[StyleSheet.absoluteFill, rot(bearing + 180)]} pointerEvents="none">
-                  <View style={[styles.needleSlot, styles.tailSlot, { height: r }]}>
-                    <View style={[styles.needleTail, { borderBottomWidth: r * 0.48 }]} />
-                  </View>
-                </View>
-              </>
-            )}
-          </Animated.View>
-
-          {/* Fixed bits that do NOT rotate: the top index you aim at, and the hub. */}
-          <View style={styles.index} pointerEvents="none" />
-          <Animated.View style={[styles.index, styles.indexBrass, brassStyle]} pointerEvents="none" />
-          <View style={styles.hubWrap} pointerEvents="none">
-            <View style={[StyleSheet.absoluteFill, styles.hub]} />
-            <Animated.View style={[StyleSheet.absoluteFill, styles.hub, styles.hubBrass, brassStyle]} />
-          </View>
-        </View>
+        <Dial
+          size={dial}
+          bearing={bearing}
+          calibrating={calibrating}
+          c={c}
+          styles={styles}
+          roseDeg={roseDeg}
+          prox={prox}
+          reduceMotion={reduceMotion}
+        />
       </View>
 
       {/* Status + readout. */}
-      <View style={styles.readout}>
+      <View style={[styles.readout, { paddingBottom: Math.max(space.xxxl, space.lg + insets.bottom) }]}>
         {/* A polite live region so TalkBack re-announces the moment the state changes
-            (e.g. "Du är vänd mot Mecka" on lock) without the user re-focusing it. */}
+            (e.g. "Du är vänd mot Mecka" on lock) without the user re-focusing it. Its text
+            is banded on purpose — see `statusLine`. */}
         <View
           style={[styles.statusPill, near && styles.statusPillNear, aligned && styles.statusPillOn]}
           accessible
@@ -431,82 +535,241 @@ export default function Qibla() {
           accessibilityLiveRegion="polite"
         >
           <Icon
-            name={
-              aligned
-                ? 'checkCircle'
-                : calibrating
-                  ? 'compassCalibration'
-                  : noCompass || permissionDenied
-                    ? 'compassRose'
-                    : 'navigationArrow'
-            }
+            name={line.icon}
             size={16}
             color={aligned ? c.onHighlight : near ? c.highlightText : c.accent}
           />
           <Text style={[styles.statusText, near && styles.statusTextNear, aligned && styles.statusTextOn]}>
-            {aligned
-              ? 'Du är vänd mot Mecka'
-              : calibrating
-                ? 'Kalibrera – rör telefonen i en åtta'
-                : noCompass || permissionDenied
-                  ? 'Qibla räknat från norr'
-                  : near
-                    ? 'Du är på väg…'
-                    : 'Vrid tills nålen pekar uppåt'}
+            {line.text}
           </Text>
         </View>
 
-        {/* One accessible node so a screen reader speaks "Qibla 148 grader från norr"
-            instead of the split visual pieces ("148", "°", "från norr"). */}
-        <View
-          style={styles.facts}
-          accessible
-          accessibilityRole="text"
-          accessibilityLabel={`Qibla ${Math.round(bearing)} grader från norr`}
-        >
-          <View style={styles.bearingRow}>
-            {/* "148°" as ONE run of text: the typeface places the ° where a degree sign
-                belongs (small, top-right, at cap height) and it shares the numerals' ink —
-                a unit mark is part of the number, not an accent. (It used to be a separate
-                30px accent-coloured glyph bottom-nudged to the numerals' mid-height.) */}
-            <Text style={styles.bearingNum}>{Math.round(bearing)}°</Text>
-          </View>
-          <Text style={styles.factLabel}>från norr</Text>
+        {/* One accessible node so a screen reader speaks the whole instruction — "34 grader
+            kvar, vrid åt höger" — instead of the split visual pieces ("34", "°", "kvar att
+            vrida"). Read on demand rather than announced, so a label that moves with the
+            reading is free here in a way it would not be inside the live region above. */}
+        <View style={styles.factsRow} accessible accessibilityRole="text" accessibilityLabel={factsA11y}>
+          {/* The value as ONE run of text: the typeface places the ° where a degree sign
+              belongs (small, top-right, at cap height) and it shares the numerals' ink —
+              a unit mark is part of the number, not an accent. (It used to be a separate
+              30px accent-coloured glyph bottom-nudged to the numerals' mid-height.)
+              `maxFontSizeMultiplier` is a deliberate local exception to the app's
+              everything-scales default: this is a bespoke display numeral, not reading
+              text, and uncapped it takes the readout off the screen — while the label
+              above carries the same value in full for anyone who needs it spoken. */}
+          <Text style={styles.bearingNum} maxFontSizeMultiplier={1.6}>
+            {heroValue}°
+          </Text>
+          <Text style={styles.factLabel}>{heroLabel}</Text>
         </View>
-        <Text style={styles.distance} accessibilityLabel={`Avstånd till Mecka: ${formatKm(distanceKm)}`}>
-          Mecka · {formatKm(distanceKm)}
+        <Text
+          style={styles.distance}
+          numberOfLines={2}
+          accessibilityLabel={`Avstånd till Mecka: ${formatKm(distanceKm)}`}
+        >
+          {facts}
         </Text>
 
-        {permissionDenied ? (
-          <>
+        {/* The note slot. Its height is reserved so the instruction arriving and leaving —
+            it goes once you are closing in, having done its job — doesn't shift the
+            readout under the reader's eye. */}
+        <View style={styles.noteSlot}>
+          {permissionDenied ? (
+            <>
+              <Text style={styles.note}>
+                Platsåtkomst nekad – nålen visar qibla räknad från norr. Tillåt i {settingsName}.
+              </Text>
+              {/* The remedy the sentence above names, made reachable. Nothing is added to the
+                  healthy screen: this exists only in the state that needs it. */}
+              <Pressable
+                onPress={openSystemSettings}
+                accessibilityRole="button"
+                accessibilityLabel={openSystemSettingsA11yLabel('plats')}
+                style={({ pressed }) => [styles.link, pressed && styles.pressed]}
+              >
+                <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
+                <Icon name="externalLink" size={18} color={c.accent} />
+              </Pressable>
+              {mapEscape}
+            </>
+          ) : noCompass ? (
+            <>
+              <Text style={styles.note}>
+                Ingen kompass på den här enheten – nålen visar qibla räknad från norr.
+              </Text>
+              {mapEscape}
+            </>
+          ) : calibrating ? (
             <Text style={styles.note}>
-              Platsåtkomst nekad – nålen visar qibla räknad från norr. Tillåt i {settingsName}.
+              Rör telefonen i en åtta tills riktningen stabiliseras – då låser nålen mot Mecka.
+              Håll den borta från metall och magnetiska fodral.
             </Text>
-            {/* The remedy the sentence above names, made reachable. Nothing is added to the
-                healthy screen: this exists only in the state that needs it. */}
-            <Pressable
-              onPress={openSystemSettings}
-              accessibilityRole="button"
-              accessibilityLabel={openSystemSettingsA11yLabel('plats')}
-              style={({ pressed }) => [styles.link, pressed && styles.pressed]}
-            >
-              <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
-              <Icon name="externalLink" size={18} color={c.accent} />
-            </Pressable>
-          </>
-        ) : noCompass ? (
-          <Text style={styles.note}>
-            Ingen kompass på den här enheten – nålen visar qibla räknat från norr.
-          </Text>
-        ) : calibrating ? (
-          <Text style={styles.note}>
-            Rör telefonen i en åtta tills riktningen stabiliseras – då låser nålen mot Mecka.
-          </Text>
-        ) : null}
+          ) : !near && !aligned ? (
+            // The one thing every other qibla app says and this one never did. A tilted
+            // phone is the commonest cause of a confidently wrong reading, and the compass
+            // has no way to detect it — so it has to be said. It leaves once you are
+            // closing in, because by then the reader is plainly doing it right.
+            <Text style={styles.note}>Håll telefonen plant och vrid dig tills märket når toppen.</Text>
+          ) : null}
+        </View>
       </View>
     </SafeAreaView>
   );
 }
+
+interface DialProps {
+  size: number;
+  bearing: number;
+  calibrating: boolean;
+  c: Palette;
+  styles: ReturnType<typeof makeStyles>;
+  /** Unwrapped rose rotation (deg), written from the heading callback on the JS thread. */
+  roseDeg: SharedValue<number>;
+  /** "Getting warmer" 0..1 — 1 when pointing at the qibla. */
+  prox: SharedValue<number>;
+  reduceMotion: boolean;
+}
+
+// The instrument, memoized. Every prop is stable — primitives, a palette object that only
+// changes on a theme flip, `styles` from a useMemo keyed on it, and two shared values whose
+// identity never changes — so the ~30 Views that draw the face, the 24 ticks, the cardinals
+// and the needle reconcile only when the bearing, the calibration band or the size actually
+// moves. Never for the 10 Hz turn count in the readout below, which is the whole reason that
+// count is affordable at all. The animated styles are built HERE rather than passed in, so
+// the parent holds nothing but the shared values.
+const Dial = memo(function Dial({ size, bearing, calibrating, c, styles, roseDeg, prox, reduceMotion }: DialProps) {
+  const r = size / 2;
+  const coneTop = r - 40; // beam apex at the hub, base 40px shy of the rim
+
+  const roseStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${roseDeg.value}deg` }] }));
+  // The brass layer (beam / cube fill / shaft / index / hub) fades in with proximity
+  // — the one shared style reused on every "live" overlay, so they warm together.
+  const brassStyle = useAnimatedStyle(() => ({ opacity: prox.value }));
+  // A warm halo behind the Kaaba that grows as you close in (a faked radial glow). Under
+  // Reduce Motion it keeps the opacity ramp — a fade is not vestibular motion — but stops
+  // swelling, since a pulsing object under the reader's eye is exactly what the setting is
+  // asking us not to do.
+  const glowStyle = useAnimatedStyle(
+    () => ({
+      opacity: prox.value,
+      transform: [{ scale: reduceMotion ? 1 : 0.55 + prox.value * 0.55 }],
+    }),
+    [reduceMotion],
+  );
+
+  return (
+    <View style={[styles.dialWrap, { width: size, height: size }]}>
+      {/* Fixed warm face — a gentle top-down sheen gives the instrument depth.
+          It does NOT rotate, so the "light" always falls from the top. */}
+      <LinearGradient colors={[c.surface, c.paperSunken]} style={[styles.face, { borderRadius: r }]} />
+      <View style={[styles.innerRing, { width: size * 0.66, height: size * 0.66, borderRadius: size * 0.33 }]} pointerEvents="none" />
+      {/* Fixed sight line from the aim index down to the hub — shows the axis the
+          Kaaba must travel up to meet (the conceptual model, made visible). It starts
+          BELOW the cardinal band (the index wedge + 0° tick already carry the axis up
+          there) so it never strikes through the "N" letter; a short fade-in keeps the
+          start soft rather than a chopped end. */}
+      <View style={[styles.sightWrap, { top: SIGHT_TOP, height: r - SIGHT_TOP }]} pointerEvents="none">
+        <LinearGradient
+          colors={[hexToRgba(c.ink, 0), hexToRgba(c.ink, 0.16), hexToRgba(c.ink, 0)]}
+          locations={[0, 0.2, 1]}
+          style={styles.sight}
+        />
+      </View>
+
+      {/* The rotating rose: beam, ticks, cardinals, and the qibla needle. */}
+      <Animated.View style={[StyleSheet.absoluteFill, roseStyle]}>
+        {/* The qibla DIRECTION (beam + needle + tail) is hidden while `calibrating`:
+            when the OS reports the compass as unreliable (accuracy < 2) we refuse to
+            draw a direction we don't trust — only the orientation ring shows, and the
+            status pill/note tell the user to figure-8 the phone. The direction
+            reappears the instant the heading becomes reliable. */}
+        {!calibrating && (
+          <>
+            {/* Qibla beam — a soft cone, pinned at the bearing, widening to the Kaaba.
+                Indigo by default; the brass twin fades in with proximity. */}
+            <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
+              <View style={[styles.coneSlot, { height: r }]}>
+                <View style={[styles.coneBase, { borderTopWidth: coneTop, borderTopColor: hexToRgba(c.accent, 0.14) }]} />
+              </View>
+            </View>
+            <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
+              <View style={[styles.coneSlot, { height: r }]}>
+                <Animated.View
+                  style={[styles.coneBase, { borderTopWidth: coneTop, borderTopColor: hexToRgba(c.highlight, 0.22) }, brassStyle]}
+                />
+              </View>
+            </View>
+          </>
+        )}
+
+        {TICKS.map((deg) => {
+          const major = deg % 90 === 0;
+          return (
+            <View key={`t${deg}`} style={[StyleSheet.absoluteFill, rot(deg)]} pointerEvents="none">
+              <View style={styles.tickSlot}>
+                <View style={major ? styles.tickMajor : styles.tickMinor} />
+              </View>
+            </View>
+          );
+        })}
+
+        {CARDINALS.map((card) => (
+          <View key={card.label} style={[StyleSheet.absoluteFill, rot(card.deg)]} pointerEvents="none">
+            <View style={styles.cardinalSlot}>
+              {/* counter-rotate so each letter is upright when the rose faces north */}
+              <Text style={[styles.cardinal, card.label === 'N' && styles.cardinalN, rot(-card.deg)]}>
+                {card.label}
+              </Text>
+            </View>
+          </View>
+        ))}
+
+        {!calibrating && (
+          <>
+            {/* Qibla needle — pinned at the bearing, so the rose's −heading rotation
+                lands it on the real Mecca. */}
+            <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
+              <View style={[styles.needleSlot, { height: r }]}>
+                {/* The Kaaba — an abstract cube, fitting and quieter than any glyph,
+                    over a warm glow that swells as you align. It rides the needle's
+                    rotation (a needle ornament, not a screen-pinned marker), so the
+                    kiswa band stays perpendicular to the shaft with the belt toward
+                    Mecca — the cube visibly POINTS with the needle. */}
+                <View style={styles.kaabaWrap}>
+                  <Animated.View style={[styles.glow, glowStyle]} />
+                  <View style={styles.kaaba}>
+                    <Animated.View style={[StyleSheet.absoluteFill, styles.kaabaBrass, brassStyle]} />
+                    <View style={styles.kaabaBand} />
+                  </View>
+                </View>
+                <View style={styles.shaftWrap}>
+                  <View style={styles.needleShaft} />
+                  <Animated.View style={[StyleSheet.absoluteFill, styles.needleShaftBrass, brassStyle]} />
+                </View>
+              </View>
+            </View>
+
+            {/* tail (south) of the needle — a quiet counterweight. Anchored to the
+                slot bottom (the dial centre) so it grows out of the hub with no gap. */}
+            <View style={[StyleSheet.absoluteFill, rot(bearing + 180)]} pointerEvents="none">
+              <View style={[styles.needleSlot, styles.tailSlot, { height: r }]}>
+                <View style={[styles.needleTail, { borderBottomWidth: r * 0.48 }]} />
+              </View>
+            </View>
+          </>
+        )}
+      </Animated.View>
+
+      {/* Fixed bits that do NOT rotate: the top index you aim at, and the hub. */}
+      <View style={styles.index} pointerEvents="none" />
+      <Animated.View style={[styles.index, styles.indexBrass, brassStyle]} pointerEvents="none" />
+      <View style={styles.hubWrap} pointerEvents="none">
+        <View style={[StyleSheet.absoluteFill, styles.hub]} />
+        <Animated.View style={[StyleSheet.absoluteFill, styles.hub, styles.hubBrass, brassStyle]} />
+      </View>
+    </View>
+  );
+});
 
 const rot = (deg: number) => ({ transform: [{ rotate: `${deg}deg` }] });
 
@@ -588,7 +851,13 @@ function makeStyles(c: Palette) {
     kaabaBrass: { backgroundColor: c.highlight, borderRadius: 2 },
     // The kiswa's belt (the ḥizām) runs around the UPPER THIRD of the real Kaaba — that
     // asymmetry is what makes the icon recognisable, so the band sits there, not centred.
-    kaabaBand: { position: 'absolute', top: 5, width: 22, height: 3, backgroundColor: 'rgba(255,255,255,0.55)' },
+    // The colour is `onAccent` — the token that exists for "what reads on top of an accent
+    // fill" — rather than the flat white it used to be. White was correct on the light
+    // palette and nearly invisible on the dark one, where the cube fills with a PALE
+    // periwinkle accent (#adbcf8): the band disappeared, and with it the asymmetry that
+    // makes the cube read as a Kaaba at all. `onAccent` is white on light and deep navy on
+    // dark, and both read over the brass fill the lock swaps in.
+    kaabaBand: { position: 'absolute', top: 5, width: 22, height: 3, backgroundColor: hexToRgba(c.onAccent, 0.55) },
     // The negative top margin reaches the shaft up through the glow wrapper's dead space
     // so its tip touches the cube's bottom edge — without it the needle stopped ~21 px
     // short and the upright cube read as a separate, floating object off the needle line.
@@ -631,7 +900,9 @@ function makeStyles(c: Palette) {
     hub: { borderRadius: 8, backgroundColor: c.surface, borderWidth: 3, borderColor: c.accent },
     hubBrass: { backgroundColor: 'transparent', borderColor: c.highlight },
 
-    readout: { alignItems: 'center', paddingBottom: space.xxxl, paddingHorizontal: space.lg },
+    // paddingBottom is applied at the call site from the safe-area inset: a flat 32 sat
+    // under the home indicator on every device that has one.
+    readout: { alignItems: 'center', paddingHorizontal: space.lg },
     statusPill: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -642,23 +913,37 @@ function makeStyles(c: Palette) {
       backgroundColor: c.surface,
       borderWidth: 1,
       borderColor: hexToRgba(c.accent, 0.3),
+      // The longest line ("Kalibrera – rör telefonen i en åtta") ran off a narrow screen at
+      // large text sizes. Cap the pill and let the text wrap inside it instead.
+      maxWidth: '100%',
       ...shadow.button,
       shadowOpacity: 0.06,
     },
     // On your way → a warm brass tint. Locked on the qibla → a solid brass pill.
     statusPillNear: { backgroundColor: c.highlightSoft, borderColor: 'transparent' },
     statusPillOn: { backgroundColor: c.highlight, borderColor: 'transparent' },
-    statusText: { ...type.callout, fontWeight: '600', color: c.accent },
+    statusText: { ...type.callout, fontWeight: '600', color: c.accent, flexShrink: 1 },
     statusTextNear: { color: c.ink },
     statusTextOn: { color: c.onHighlight },
 
-    facts: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm, marginTop: space.xl },
-    bearingRow: { flexDirection: 'row', alignItems: 'flex-end' },
+    // Wraps rather than overflows once Dynamic Type pushes "kvar att vrida" past the
+    // numeral's shoulder.
+    factsRow: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+      gap: space.sm,
+      marginTop: space.xl,
+    },
     // Bearing readout — bespoke display numerals (a big instrument reading), not on the
-    // type scale; the 54/30px sizes are intentional and used nowhere else.
+    // type scale; the 54px size is intentional and used nowhere else.
     bearingNum: { fontSize: 54, fontWeight: '400', color: c.ink, letterSpacing: 0.5, ...mono },
-    factLabel: { ...type.body, color: c.inkMuted, marginBottom: 13 },
-    distance: { ...type.callout, color: c.inkMuted, marginTop: 2, ...mono },
+    factLabel: { ...type.body, color: c.inkMuted, marginBottom: 13, flexShrink: 1 },
+    distance: { ...type.callout, color: c.inkMuted, marginTop: 2, textAlign: 'center', ...mono },
+    // Height reserved for the two-line instruction so its arrival and departure don't
+    // shift the readout; the taller denied/no-compass blocks simply exceed the floor.
+    noteSlot: { alignSelf: 'stretch', alignItems: 'center', minHeight: 56 },
     note: { ...type.caption, color: c.inkFaint, textAlign: 'center', marginTop: space.lg, maxWidth: 300 },
     // The place-offer and the settings link — the two controls this screen grows only in
     // the states where it owes the reader a way forward. Both borrow the dock's and the

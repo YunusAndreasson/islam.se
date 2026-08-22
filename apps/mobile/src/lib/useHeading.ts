@@ -10,7 +10,7 @@
 // screen's focus) so the magnetometer isn't running while the screen is off-screen.
 import * as Location from 'expo-location';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { type SharedValue, useSharedValue, withTiming } from 'react-native-reanimated';
+import { type SharedValue, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { motion } from '@/theme/tokens';
 import { headingReliable, normalizeHeading, shortestTurn } from './qibla';
@@ -48,6 +48,10 @@ export function useHeading({ active, request }: Options): Heading {
   const rotation = useSharedValue(0);
   const lastRaw = useRef(0);
   const unwrapped = useRef(0);
+  // Safe in `onHeading`'s deps: reanimated's useReducedMotion returns a module constant
+  // sampled once at app start, so it cannot change for this hook's life and cannot churn
+  // the subscription.
+  const reduceMotion = useReducedMotion();
 
   const onHeading = useCallback(
     (raw: number, acc: number | null) => {
@@ -60,8 +64,13 @@ export function useHeading({ active, request }: Options): Heading {
       // `motion.quick` is the token that exists for exactly this — sensor tracking has
       // to follow the magnetometer near 1:1 or the needle feels laggy. The Qibla screen
       // eases its rose and proximity on the same token.
+      // Under Reduce Motion the needle jumps to the reading instead of easing into it —
+      // the app-wide pattern (DisclosureGroup, FaqItem). The rotation itself stays: it is
+      // the instrument, not decoration.
       // eslint-disable-next-line react-hooks/immutability
-      rotation.value = withTiming(unwrapped.current, { duration: motion.quick });
+      rotation.value = reduceMotion
+        ? unwrapped.current
+        : withTiming(unwrapped.current, { duration: motion.quick });
       // Coarse-gate the React state so the consumer (CompassButton) re-renders on a MEANINGFUL
       // heading change, not every magnetometer tick (~60/s). Its only heading-derived output is
       // the qibla lock, whose tolerance is several degrees, so sub-0.5° jitter — the steady-hand
@@ -74,7 +83,7 @@ export function useHeading({ active, request }: Options): Heading {
       setAccuracy((prev) => (prev === acc ? prev : acc));
       setNoCompass((v) => (v ? false : v));
     },
-    [rotation],
+    [rotation, reduceMotion],
   );
 
   useEffect(() => {
