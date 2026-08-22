@@ -63,6 +63,20 @@ describe.each(SCHEMES)('$name palette — text tiers on their real grounds', ({ 
     expect(wcagContrast(p.highlightText, p[ground])).toBeGreaterThanOrEqual(4.5);
   });
 
+  // The Moon dial's face is a gradient between `surface` and `paperSunken`, and since the
+  // month ring began printing today's number on it in brass — the one number on the rim, and
+  // the answer to the only question the ring is asked — that face carries TEXT.
+  //
+  // It was first written with `highlight`, the GRAPHIC brass the notch itself is cut in, and
+  // that measures Lc 46.6 / 2.67:1 on the light face: under every floor there is, and legible
+  // only because the number is at most two characters long. The split between `highlight` and
+  // `highlightText` exists for exactly this, and nothing enforced it on `paperSunken` because
+  // nothing had put words there before.
+  it.each(['surface', 'paperSunken'] as const)('highlightText carries the dial face on %s', (ground) => {
+    expect(lc(p.highlightText, p[ground])).toBeGreaterThanOrEqual(60);
+    expect(wcagContrast(p.highlightText, p[ground])).toBeGreaterThanOrEqual(4.5);
+  });
+
   it('white-on-accent fills stay legible', () => {
     expect(lc(p.onAccent, p.accent)).toBeGreaterThanOrEqual(62);
     expect(wcagContrast(p.onAccent, p.accent)).toBeGreaterThanOrEqual(4.5);

@@ -6,9 +6,23 @@
 //             marks on a runstav — the Swedish perpetual calendar stave, which carried the
 //             new moons of the nineteen-year cycle in its second row of marks and is, of all
 //             the things the Nordic countries made, the one closest in kind to a Hijri month.
-//             Day one sits under the index; the notches darken as the days are used up; the
-//             three white days stand taller in brass; today is the wide brass mark. The Moon
-//             is at the hub, at tonight's phase.
+//             Day one is the deep-cut head of the stave at the top; the notches darken as
+//             the days are used up; the three white days stand taller in brass; today is the
+//             wide brass mark, AND IT CARRIES ITS OWN NUMBER. The Moon is at the hub, at
+//             tonight's phase.
+//
+//             ⚠️ HOW FAR THE COMPASS ANALOGY GOES, AND WHERE IT STOPS. The first version
+//             wore the whole instrument: the aim index at twelve o'clock, and every fifth
+//             day numbered round the rim. Read off a real screen the verdict was "I don't
+//             immediately see that today is the 8th" — which is the only thing this ring
+//             exists to say. Two reasons, both of them the analogy pushed past its use:
+//             an index is a thing you AIM, and on a calendar ring it pointed at day one,
+//             which nobody aims at; and today was the one mark on the ring WITHOUT a
+//             number, so finding it meant counting notches from a label. So in month mode
+//             there is no index — day one is already the deepest cut — and the only numbers
+//             on the rim are today's, in brass on its own mark, and the last day's, which
+//             answers whether this month runs 29 or 30. The compass chrome stays where it
+//             is a compass.
 //
 //   PÅ HIMLEN the rim is the horizon, and this IS the qibla compass with a different target:
 //             the rose turns against the phone's heading and the needle carries the Moon to
@@ -21,14 +35,20 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { memo, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeOut,
+  type SharedValue,
+  useAnimatedStyle,
+  useReducedMotion,
+} from 'react-native-reanimated';
 
 import { MoonDisc } from '@/components/moon/MoonDisc';
 import { useMoonInk } from '@/components/moon/moonInk';
 import type { RingDay } from '@/lib/moon/month';
 import { skyReach } from '@/lib/moon/shape';
 import { makeDialStyles, rotate as rot } from '@/theme/dial';
-import { mono, type Palette, type } from '@/theme/tokens';
+import { mono, motion, type Palette, type } from '@/theme/tokens';
 
 export type MoonDialMode = 'month' | 'sky';
 
@@ -42,13 +62,12 @@ const CARDINALS: readonly { deg: number; label: string }[] = [
 ];
 const TICKS = Array.from({ length: 24 }, (_, i) => i * 15);
 
-/** Which day numbers get a printed label on the month ring. Every fifth, plus the last one
- *  whatever it is — a ring that stopped labelling at 25 would leave the one number a reader
- *  most wants (is this month 29 days or 30?) unwritten. */
-function labelledDays(length: number): ReadonlySet<number> {
-  const days = new Set<number>([length]);
-  for (let d = 5; d < length; d += 5) days.add(d);
-  return days;
+/** Which day numbers get a printed label besides today's own. Just the last one — the answer
+ *  to whether this month runs 29 days or 30, which is the only thing the rim is asked beyond
+ *  "where are we". Dropped when today is on it or beside it, where the two numbers would sit
+ *  on top of each other and today's is the one that matters. */
+function labelledDays(length: number, today: number | null): ReadonlySet<number> {
+  return new Set<number>(today != null && Math.abs(length - today) <= 1 ? [] : [length]);
 }
 
 interface Props {
@@ -91,6 +110,20 @@ export const MoonDial = memo(function MoonDial({
   c,
 }: Props) {
   const styles = useMemo(() => makeStyles(c), [c]);
+  const reduceMotion = useReducedMotion();
+  // Switching modes swaps a 0.34-size Moon at the centre for a 0.13-size Moon out on a
+  // needle — the largest thing on the screen changing size and position at once. Cut hard,
+  // that reads as a glitch rather than as an instrument changing what it is pointed at, and
+  // it was reported as one. A cross-fade is the whole fix; it costs nothing and it is the
+  // only thing that says the two drawings are the same instrument.
+  //
+  // ⚠️ THE KEYS ARE LOAD-BEARING. Both branches render an Animated.View, so without distinct
+  // keys React reconciles them as ONE element, updates it in place, and neither `entering`
+  // nor `exiting` ever fires — a silent no-op that looks exactly like the bug it was meant
+  // to fix.
+  const fade = reduceMotion
+    ? {}
+    : { entering: FadeIn.duration(motion.base), exiting: FadeOut.duration(motion.fast) };
   // The Moon goes brass on the white days, exactly as the map's nav disc does. Derived from
   // the ring rather than passed in, so the dial and its own notches cannot disagree about
   // which days those are.
@@ -102,7 +135,7 @@ export const MoonDial = memo(function MoonDial({
   // static one: `roseDeg` lives on the UI thread and a `rot(-something)` computed in render
   // cannot cancel a value that moves between renders. See the Moon on the needle below.
   const counterRoseStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${-roseDeg.value}deg` }] }));
-  const labelled = useMemo(() => labelledDays(ring.length), [ring.length]);
+  const labelled = useMemo(() => labelledDays(ring.length, today), [ring.length, today]);
   const below = altitude <= 0;
   // Sky mode is a dome seen from underneath: azimuth runs round the rim, ALTITUDE runs
   // inward, so low is out near the edge and the zenith is the centre. That turns the second
@@ -125,7 +158,12 @@ export const MoonDial = memo(function MoonDial({
       />
 
       {mode === 'month' ? (
-        <>
+        <Animated.View
+          key="month"
+          style={[StyleSheet.absoluteFill, styles.modeLayer]}
+          pointerEvents="none"
+          {...fade}
+        >
           {ring.map(({ day, mark }) => {
             // Day one under the index, the month running clockwise from it.
             const deg = ((day - 1) / ring.length) * 360;
@@ -139,29 +177,43 @@ export const MoonDial = memo(function MoonDial({
             return (
               <View key={day} style={[StyleSheet.absoluteFill, rot(deg)]} pointerEvents="none">
                 <View style={styles.notchSlot}>
-                  <View
-                    style={[
-                      styles.notch,
-                      day === 1 && styles.notchFirst,
-                      white && styles.notchWhite,
-                      past && styles.notchPast,
-                      isToday && styles.notchToday,
-                    ]}
-                  />
-                  {labelled.has(day) ? (
+                  {/* The notch sits at the top of a bed as tall as the tallest of them, so
+                      every label lands on ONE radius. Laid out in the flow instead, today's
+                      20 dp mark pushed its own number eleven points further out than the
+                      last day's, and the two numbers on the rim visibly disagreed about
+                      where the ring's text belongs. */}
+                  <View style={styles.notchBed}>
+                    <View
+                      style={[
+                        styles.notch,
+                        day === 1 && styles.notchFirst,
+                        white && styles.notchWhite,
+                        past && styles.notchPast,
+                        isToday && styles.notchToday,
+                      ]}
+                    />
+                  </View>
+                  {isToday || labelled.has(day) ? (
                     // Counter-rotated so the number is upright wherever it sits on the ring.
-                    <Text style={[styles.notchLabel, rot(-deg)]}>{day}</Text>
+                    <Text style={[styles.notchLabel, isToday && styles.notchLabelToday, rot(-deg)]}>
+                      {day}
+                    </Text>
                   ) : null}
                 </View>
               </View>
             );
           })}
           <View style={styles.moonHub} pointerEvents="none">
-            <MoonDisc size={Math.round(size * 0.34)} illumination={illumination} tilt={tilt} {...ink} detail />
+            <MoonDisc size={Math.round(size * 0.34)} illumination={illumination} tilt={tilt} {...ink} />
           </View>
-        </>
+        </Animated.View>
       ) : (
-        <>
+        <Animated.View
+          key="sky"
+          style={[StyleSheet.absoluteFill, styles.modeLayer]}
+          pointerEvents="none"
+          {...fade}
+        >
           {/* The rose. It turns against the phone when there is a heading to turn against,
               and stays north-up when there is not — the honest fallback Qibla uses, and the
               only state an emulator or a tablet without a magnetometer can ever show. */}
@@ -209,18 +261,18 @@ export const MoonDial = memo(function MoonDial({
               </View>
             </View>
           </Animated.View>
-        </>
-      )}
 
-      {/* Fixed: the index you aim at. The HUB is drawn only in sky mode — it is a needle's
-          pivot, and in month mode the centre belongs to the Moon, where a hub is not a pivot
-          but a hole punched through its face. */}
-      <View style={styles.index} pointerEvents="none" />
-      {mode === 'sky' ? (
-        <View style={styles.hubWrap} pointerEvents="none">
-          <View style={[StyleSheet.absoluteFill, styles.hub]} />
-        </View>
-      ) : null}
+          {/* The INDEX you aim at and the HUB the needle pivots on are compass parts, and
+              they are drawn here — inside the sky layer — rather than on the face, because
+              in month mode there is nothing to aim and nothing to pivot. See the note at the
+              top of this file. Inside the layer they also fade with the drawing they belong
+              to rather than blinking on their own. */}
+          <View style={styles.index} pointerEvents="none" />
+          <View style={styles.hubWrap} pointerEvents="none">
+            <View style={[StyleSheet.absoluteFill, styles.hub]} />
+          </View>
+        </Animated.View>
+      )}
     </View>
   );
 });
@@ -229,11 +281,18 @@ function makeStyles(c: Palette) {
   return StyleSheet.create({
     ...makeDialStyles(c),
     dialWrap: { alignItems: 'center', justifyContent: 'center' },
+    // Each mode's drawing gets its own full-face layer so the two can cross-fade. It must
+    // repeat dialWrap's centring: the hub Moon and the sky hub are laid out by their
+    // parent's alignment, and an absoluteFill wrapper without it drops both to the top-left
+    // corner.
+    modeLayer: { alignItems: 'center', justifyContent: 'center' },
 
     // ── The month ring. A notch is a carved mark, so it is a plain bar with a hard edge
     //    rather than the rounded pill the compass ticks use — the two rings must not be
     //    mistakable for each other at a glance. ──
     notchSlot: { position: 'absolute', top: 8, left: 0, right: 0, alignItems: 'center' },
+    // As tall as the tallest notch (today's), so every label sits on one radius.
+    notchBed: { height: 20, alignItems: 'center' },
     notch: { width: 2, height: 9, backgroundColor: c.inkFaint },
     // The first of the month is cut deepest, the way the head of a stave is.
     notchFirst: { width: 3, height: 16, backgroundColor: c.inkMuted },
@@ -242,7 +301,18 @@ function makeStyles(c: Palette) {
     // Days already used up. Quieter than the ones still to come, so the ring reads forward.
     notchPast: { backgroundColor: c.hairline },
     notchToday: { width: 5, height: 20, backgroundColor: c.highlight },
-    notchLabel: { ...type.caption, ...mono, color: c.inkFaint, marginTop: 3 },
+    notchLabel: { ...type.caption, ...mono, color: c.inkFaint, marginTop: 4 },
+    // Today's number, on today's mark. It is the answer to the question the ring is for, so
+    // it is the one thing on the rim set larger than a caption and the only thing on it that
+    // is not grey.
+    //
+    // ⚠️ `highlightText`, NOT `highlight`. The two are split on purpose — see theme/tokens:
+    // `highlight` is the GRAPHIC brass the notch itself is cut in, and it sits under the
+    // text floor in both schemes (#c89a48 measures Lc 50 on the dark face, and #b8862f is a
+    // fill value on cream). `highlightText` is the half that was split off to carry words.
+    // Written with the graphic token, this number was legible only because it is two
+    // characters long.
+    notchLabelToday: { ...type.bodyStrong, ...mono, color: c.highlightText },
 
     moonHub: { position: 'absolute', alignItems: 'center', justifyContent: 'center' },
 

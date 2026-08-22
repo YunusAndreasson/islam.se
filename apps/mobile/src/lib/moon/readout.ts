@@ -12,6 +12,24 @@ import type { EclipseNote, MoonRiseSet } from './ephemeris';
 import type { DecisiveEvening } from './hilal';
 import { HILAL_BAND_TEXT, HILAL_BAND_TEXT_PAST } from './visibility';
 
+/**
+ * How hard a row has earned its place on the screen itself, rather than behind the almanac's
+ * door. Every note here is TRUE; the tier is only about which question the reader came with.
+ *
+ *   `tonight`  A fact about the night they are standing in. One row, always shown.
+ *   `alert`    The reason someone opens this screen on this particular day: the crescent
+ *              question at a month's edge, an eclipse they can walk outside and see, or a
+ *              calendar that has drifted far enough from the sky to be worth correcting.
+ *              Rare by construction — most days produce none at all.
+ *   `almanac`  True, and reference. A conjunction a fortnight out, or an eclipse over
+ *              another hemisphere, is worth having and is not worth a permanent row on the
+ *              one surface someone opens to ask what day it is.
+ *
+ * The screen shows `tonight` and `alert`; everything else waits in the almanac sheet, which
+ * shows the whole list in order. Nothing is deleted — only deferred.
+ */
+export type MoonNoteTier = 'tonight' | 'alert' | 'almanac';
+
 /** One line of the readout: a small Moon at the phase the line is ABOUT, and the sentence.
  *  Every row leads with a moon rather than an icon — a column of little moons down the
  *  readout is what an almanac page looks like, and each one is true of its own row. */
@@ -23,6 +41,8 @@ export interface MoonNote {
    *  beside "Månen går upp…" and the same bullet three weeks later are one drawing. */
   waxing: boolean;
   text: string;
+  /** Where the row belongs — see MoonNoteTier. */
+  tier: MoonNoteTier;
   /** Set when the row is a door rather than a statement. */
   action?: 'hijriOffset';
 }
@@ -74,21 +94,26 @@ export function moonNotes(input: MoonNotesInput): MoonNote[] {
   const notes: MoonNote[] = [];
 
   // ── Tonight's Moon, and whether it is coming or going. ──
+  //
+  // NO ROW SAYS "MÅNEN". Every one of them leads with a small Moon at its own phase, and a
+  // column of sentences that each open by naming their subject under a drawing of that
+  // subject is the app reading its own bullet points aloud. What is left is almanac voice —
+  // "Upp 16:52 · ner 20:24" — which is also what it says on the page these rows come from.
   if (riseSet.alwaysUp) {
-    notes.push({ moon: illumination, waxing, text: 'Månen går inte ner i dag – den håller sig över horisonten hela dygnet.' });
+    notes.push({ moon: illumination, waxing, tier: 'tonight', text: 'Går inte ner i dag.' });
   } else if (riseSet.alwaysDown) {
-    notes.push({ moon: illumination, waxing, text: 'Månen kommer inte över horisonten i dag.' });
+    notes.push({ moon: illumination, waxing, tier: 'tonight', text: 'Kommer inte upp i dag.' });
   } else if (riseSet.rise && riseSet.set) {
     // Which comes first is not cosmetic: the Moon's day is 24 h 50 min long, so it drifts
     // later through the month and the pair genuinely swaps round.
     const [a, b] = riseSet.rise < riseSet.set
-      ? [`upp ${time(riseSet.rise)}`, `ner ${time(riseSet.set)}`]
-      : [`ner ${time(riseSet.set)}`, `upp ${time(riseSet.rise)}`];
-    notes.push({ moon: illumination, waxing, text: `Månen går ${a} och ${b}.` });
+      ? [`Upp ${time(riseSet.rise)}`, `ner ${time(riseSet.set)}`]
+      : [`Ner ${time(riseSet.set)}`, `upp ${time(riseSet.rise)}`];
+    notes.push({ moon: illumination, waxing, tier: 'tonight', text: `${a} · ${b}` });
   } else if (riseSet.rise) {
-    notes.push({ moon: illumination, waxing, text: `Månen går upp ${time(riseSet.rise)} och står kvar över midnatt.` });
+    notes.push({ moon: illumination, waxing, tier: 'tonight', text: `Upp ${time(riseSet.rise)} · kvar över midnatt` });
   } else if (riseSet.set) {
-    notes.push({ moon: illumination, waxing, text: `Månen går ner ${time(riseSet.set)}; den gick upp i går.` });
+    notes.push({ moon: illumination, waxing, tier: 'tonight', text: `Ner ${time(riseSet.set)} · uppe sedan i går` });
   }
 
   // ── The two instants the almanac prints. ──
@@ -105,6 +130,9 @@ export function moonNotes(input: MoonNotesInput): MoonNote[] {
       // only to keep every row the same shape.
       moon: soonestIsFull ? 1 : 0,
       waxing: true,
+      // Reference, not news. Which instant is next is on the ring already — day 30 is where
+      // the month ends — and a date a fortnight out changes nothing anyone does tonight.
+      tier: 'almanac',
       text: sentence(`Nästa: ${ordered.join(' · ')}`),
     });
   }
@@ -113,7 +141,9 @@ export function moonNotes(input: MoonNotesInput): MoonNote[] {
   if (input.hilal) {
     const { day, evening, when } = input.hilal;
     // A hilāl is by definition the first crescent of a new month: always waxing.
-    notes.push({ moon: 0.02, waxing: true, text: hilalText(day, evening, when, date, time) });
+    // The one row this whole screen exists for, and it only appears within a few days of a
+    // month's edge. When it is here it outranks everything else on the surface.
+    notes.push({ moon: 0.02, waxing: true, tier: 'alert', text: hilalText(day, evening, when, date, time) });
   }
 
   // ── An eclipse, and the prayer it calls for. ──
@@ -129,9 +159,12 @@ export function moonNotes(input: MoonNotesInput): MoonNote[] {
     notes.push({
       moon: 1,
       waxing: true,
+      // An eclipse you can go outside and look at calls for a prayer, which makes it a thing
+      // to do tonight. One over another hemisphere is a fact about the solar system.
+      tier: e.visibleHere ? 'alert' : 'almanac',
       text: e.visibleHere
-        ? `${kind} ${date(e.peak)}, synlig härifrån. Vid förmörkelse ber man ṣalāt al-khusūf.`
-        : sentence(`${kind} ${date(e.peak)} – men månen står under horisonten här då`),
+        ? `${kind} ${date(e.peak)}, synlig härifrån. Då ber man ṣalāt al-khusūf.`
+        : sentence(`${kind} ${date(e.peak)} – under horisonten här`),
     });
   }
 
@@ -143,10 +176,16 @@ export function moonNotes(input: MoonNotesInput): MoonNote[] {
       notes.push({
         moon: 1,
         waxing: true,
+        // A door, and the only row here that asks the reader to do something. It stays on
+        // the surface: a correction folded away behind a chevron is a correction nobody makes.
+        tier: 'alert',
         // Stated as an observation, never as a correction: the arithmetic date is not wrong,
         // it is arithmetic, and which date the month actually begins on is the mosque's to
         // announce. What the reader gets is the means to see the gap and the door to close it.
-        text: `Fullmånen infaller på ${full}:e i den räknade kalendern – vita dagarna är 13–15. Justera Hijri-datum`,
+        // "Räknad" is what carries the whole distinction — this is the arithmetic calendar's
+        // full moon, not the sky's — in one word, where the first draft spent six on
+        // "infaller på … i den räknade kalendern".
+        text: `Räknad fullmåne på ${full}:e – vita dagarna är 13–15. Justera Hijri-datum`,
         action: 'hijriOffset',
       });
     }
@@ -174,11 +213,11 @@ function hilalText(
             `${HILAL_BAND_TEXT_PAST[evening.verdict.band]} ${date(day)}, ${evening.lagMinutes} min efter solnedgången`,
           );
     case 'moonStaysUp':
-      return sentence(`Månen står över horisonten hela natten ${date(day)}`);
+      return sentence(`Över horisonten hela natten ${date(day)}`);
     case 'midnightSun':
-      return 'Solen går inte ner här nu, så nymånen går inte att söka på himlen.';
+      return 'Solen går inte ner här nu – nymånen går inte att söka.';
     case 'polarNight':
-      return 'Solen går inte upp här nu, så nymånen går inte att söka på himlen.';
+      return 'Solen går inte upp här nu – nymånen går inte att söka.';
   }
 }
 

@@ -35,7 +35,7 @@ const textOf = (input: Partial<MoonNotesInput> = {}) =>
 
 describe('moonNotes — tonight', () => {
   it('gives rise and set in the order they happen', () => {
-    expect(textOf()[0]).toBe('Månen går upp 16:52 och ner 20:24.');
+    expect(textOf()[0]).toBe('Upp 16:52 · ner 20:24');
   });
 
   it('puts set first on the nights it happens first', () => {
@@ -44,20 +44,20 @@ describe('moonNotes — tonight', () => {
     const swapped = textOf({
       riseSet: { ...NORMAL, rise: at('2026-08-22T22:00:00Z'), set: at('2026-08-22T04:00:00Z') },
     });
-    expect(swapped[0]).toBe('Månen går ner 04:00 och upp 22:00.');
+    expect(swapped[0]).toBe('Ner 04:00 · upp 22:00');
   });
 
   it('says so plainly when a civil day has no moonrise — which is ordinary, not polar', () => {
-    expect(textOf({ riseSet: { ...NORMAL, rise: null } })[0]).toContain('gick upp i går');
-    expect(textOf({ riseSet: { ...NORMAL, set: null } })[0]).toContain('står kvar över midnatt');
+    expect(textOf({ riseSet: { ...NORMAL, rise: null } })[0]).toContain('uppe sedan i går');
+    expect(textOf({ riseSet: { ...NORMAL, set: null } })[0]).toContain('kvar över midnatt');
   });
 
   it('states the two polar cases as themselves', () => {
     expect(textOf({ riseSet: { rise: null, set: null, alwaysUp: true, alwaysDown: false } })[0]).toContain(
-      'går inte ner',
+      'Går inte ner',
     );
     expect(textOf({ riseSet: { rise: null, set: null, alwaysUp: false, alwaysDown: true } })[0]).toContain(
-      'kommer inte över horisonten',
+      'Kommer inte upp',
     );
   });
 });
@@ -206,6 +206,52 @@ describe('moonNotes — the almanac handedness', () => {
     });
     expect(all.length).toBeGreaterThan(3);
     for (const note of all) expect(typeof note.waxing).toBe('boolean');
+  });
+});
+
+describe('moonNotes — what reaches the screen and what waits behind the door', () => {
+  // The tier is the whole information architecture of the screen: `tonight` and `alert` are
+  // printed under the dial, `almanac` is one tap away in the sheet. Get it wrong in the
+  // quiet direction and the crescent question — the reason this screen exists — is folded
+  // away on the one evening it matters; wrong in the loud direction and the readout goes
+  // back to being the five-sentence stack this pass took apart. Neither failure is visible
+  // in a screenshot of an ordinary day.
+  it('keeps tonight on the surface', () => {
+    expect(moonNotes(base)[0]).toMatchObject({ tier: 'tonight' });
+  });
+
+  it('defers the next instants, a fortnight out and unactionable', () => {
+    expect(moonNotes(base)[1]).toMatchObject({ tier: 'almanac' });
+  });
+
+  it('surfaces the crescent, which is the day someone opens this screen', () => {
+    const hilal = moonNotes({
+      ...base,
+      hilal: { day: at('2026-02-18T00:00:00Z'), evening: { kind: 'polarNight' }, when: 'coming' },
+    }).find((n) => n.text.includes('nymånen'));
+    expect(hilal).toMatchObject({ tier: 'alert' });
+  });
+
+  it('sorts an eclipse by whether the reader can walk outside and see it', () => {
+    const peak = at('2026-03-03T11:33:00Z');
+    const here = moonNotes({
+      ...base,
+      eclipse: { peak, kind: 'total', obscuration: 1, visibleHere: true },
+    }).find((n) => n.text.includes('förmörkelse'));
+    // It calls for ṣalāt al-khusūf, which makes it a thing to do tonight.
+    expect(here).toMatchObject({ tier: 'alert' });
+
+    const elsewhere = moonNotes({
+      ...base,
+      eclipse: { peak, kind: 'total', obscuration: 1, visibleHere: false },
+    }).find((n) => n.text.includes('förmörkelse'));
+    expect(elsewhere).toMatchObject({ tier: 'almanac' });
+  });
+
+  it('never folds the drift correction away — a door nobody sees is a door nobody opens', () => {
+    expect(moonNotes({ ...base, fullMoonHijriDay: 17 }).find((n) => n.action)).toMatchObject({
+      tier: 'alert',
+    });
   });
 });
 

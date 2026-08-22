@@ -86,8 +86,9 @@ describe('Månen', () => {
     expect(screen.getByRole('button', { name: 'Stäng' })).toBeTruthy();
     // 18 February 2026 is 1 Ramaḍān 1447 in the tabular calendar — and the sky says the
     // crescent is barely a day old, which is the agreement the whole screen is built to show.
-    expect(screen.getByText('Ramaḍān')).toBeTruthy();
-    expect(screen.getByText('1447')).toBeTruthy();
+    // Month and year share one line now — the year is a nested Text inside the month's, so
+    // the match is on the composed string rather than on two separate nodes.
+    expect(screen.getByText(/Ramaḍān\s*1447/)).toBeTruthy();
     // A waxing crescent, in the almanac's own words rather than a percentage.
     expect(screen.getByText('Tilltagande månskära')).toBeTruthy();
   });
@@ -95,9 +96,44 @@ describe('Månen', () => {
   it('says when the Moon rises and sets, and how much of it is lit', async () => {
     await renderSettled(withProviders(<Manen />));
 
-    expect(screen.getByText(/^Månen går (upp|ner) \d\d:\d\d/)).toBeTruthy();
+    expect(screen.getByText(/^(Upp|Ner) \d\d:\d\d/)).toBeTruthy();
+  });
+
+  it('keeps the reference almanac behind one tap, and gives all of it up when asked', async () => {
+    // The readout used to print every note the almanac produced — up to five sentences under
+    // a hero numeral, a status pill and a phase line, on a screen whose argument is a single
+    // drawing. What is left on the surface is tonight, plus anything asking to be acted on
+    // tonight; the rest is one tap away, in full. Both halves of that are load-bearing: a
+    // regression that surfaced everything again would look like the pass never happened, and
+    // one that swallowed the tonight row would hide the thing the reader came for.
+    await renderSettled(withProviders(<Manen />));
+
+    // A conjunction a fortnight out is not news, and does not get a permanent row.
+    expect(screen.queryByText(/^Nästa: (fullmåne|nymåne)/)).toBeNull();
+
+    await act(async () => {
+      // The tonight row IS the door: the rest of the almanac is more of the same sentence,
+      // and a separate "Almanacka ›" line under it said only what the chevron already says.
+      fireEvent.press(screen.getByText(/^(Upp|Ner) \d\d:\d\d/));
+    });
+
+    await waitFor(() => expect(screen.getByText(/^Nästa: (fullmåne|nymåne)/)).toBeTruthy());
+    // The two most opaque numbers on the screen — a percentage nobody acts on and an age in
+    // dygn that has to be explained — live in here now, not under the date.
     expect(screen.getByText(/% belyst/)).toBeTruthy();
-    expect(screen.getByText(/^Nästa: (fullmåne|nymåne)/)).toBeTruthy();
+    // The sheet shows the WHOLE list, including the row already on the surface — a door that
+    // hides what you could already see is a door you cannot trust.
+    expect(screen.getByText(/^(Upp|Ner) \d\d:\d\d/)).toBeTruthy();
+    // Two of that row exist, and only the sheet's is reachable: while this is up the readout
+    // behind it is out of the swipe order (accessibilityViewIsModal, as the month sheet
+    // does it), so a screen reader is not walking two copies of the same almanac.
+    const both = screen.getAllByText(/^(Upp|Ner) \d\d:\d\d/, { includeHiddenElements: true });
+    expect(both.length).toBe(2);
+
+    await act(async () => {
+      fireEvent.press(screen.getByRole('button', { name: 'Stäng almanackan' }));
+    });
+    await waitFor(() => expect(screen.queryByText(/^Nästa: (fullmåne|nymåne)/)).toBeNull());
   });
 
   it('answers the crescent question on an evening when someone would be asking it', async () => {
@@ -140,7 +176,7 @@ describe('Månen', () => {
     // the state before the first reading. It must NOT say "kalibrera" there: that asks the
     // reader to fix something that has not gone wrong yet.
     await waitFor(() => expect(screen.getByText('Söker riktning…')).toBeTruthy());
-    expect(screen.getByText('Ramaḍān')).toBeTruthy();
+    expect(screen.getByText(/Ramaḍān\s*1447/)).toBeTruthy();
   });
 
   it('keeps saying where the Moon is when there is no compass to turn the dial with', async () => {
@@ -158,8 +194,14 @@ describe('Månen', () => {
       fireEvent.press(screen.getByText('På himlen'));
     });
 
-    await waitFor(() => expect(screen.getByText(/räknat från norr$/)).toBeTruthy());
-    expect(screen.getByText(/^Månen (står|är under horisonten)/)).toBeTruthy();
+    // One line, asserted whole: the direction is still stated ("I sydost, 23° upp" /
+    // "Under horisonten, i sydost") AND it is qualified as measured from north rather than
+    // from the phone. Split into two matches, the leading "I " half also caught the date
+    // block's own "I dag · lördag …" — the two lines start alike now that neither of them
+    // names the Moon it is about.
+    await waitFor(() =>
+      expect(screen.getByText(/^(I |Under horisonten, i ).+ – räknat från norr$/)).toBeTruthy(),
+    );
   });
 
   it('offers the place picker instead of a confident reading when there is no real fix', async () => {

@@ -14,7 +14,7 @@
 // brightLimbAngle). At 59–68°N the same crescent leans quite differently than it does over
 // the classical Arab world, and a moon whose horns are always in the same place is wrong
 // everywhere except by accident.
-import { Canvas, Circle, Group, Path, Skia } from '@shopify/react-native-skia';
+import { Canvas, Path, Skia } from '@shopify/react-native-skia';
 import { useMemo } from 'react';
 import { View } from 'react-native';
 
@@ -23,17 +23,14 @@ import { crescentGeometry } from '@/lib/moon/shape';
 /** Room left inside the box for the rim stroke, so it is not clipped by the canvas edge. */
 const RIM_WIDTH = 1;
 
-/** The maria, as fractions of the radius from the disc centre: (x, y, r). Uneven in size and
- *  deliberately off-centre — three equal circles in a triangle read as a clover, or as holes
- *  punched in the disc, which is what the first attempt looked like. At the sizes this draws
- *  they are TEXTURE: the moment they are legible as geography they are wrong geography. */
-const MARIA: readonly (readonly [number, number, number])[] = [
-  [-0.34, -0.30, 0.26],
-  [-0.06, -0.44, 0.17],
-  [0.30, -0.10, 0.19],
-  [0.08, 0.16, 0.24],
-  [-0.28, 0.42, 0.14],
-];
+// NO MARIA. The dial's Moon used to carry five faint circles for the seas, clipped to the
+// lit shape and laid on at a tenth opacity. They were read off a real screen as a rendering
+// fault — "incorrect moon artifacts" — and that is the only verdict a decoration needs. Hard
+// circular edges at a tenth opacity land in the worst place available: dark enough to be
+// seen, too geometric to be a surface, and rotating with the tilt so they visibly travel
+// across the disc. The rest of this feature is a printed almanac — notched staves, flat
+// two-tone discs, tabular numerals — and a textured Moon was the one thing in it pretending
+// to be a photograph. One drawing at every size now, and the same drawing at every size.
 
 /**
  * The tilt to draw a Moon at when it is NOT being shown as part of the sky — a calendar
@@ -58,16 +55,14 @@ interface Props {
   tilt?: number;
   /** The lit limb. */
   lit: string;
-  /** The unlit disc. Also the maria, which are this colour laid faintly over the light. */
+  /** The unlit disc. */
   dark: string;
   /** Hairline rim. Without it a new moon is not a dark object but an absence, and the nav
    *  disc looks broken one night a month. */
   rim: string;
-  /** Draw the maria. Worth it from about 48 dp up; below that it is dirt on the glass. */
-  detail?: boolean;
 }
 
-export function MoonDisc({ size, illumination, tilt = 0, lit, dark, rim, detail }: Props) {
+export function MoonDisc({ size, illumination, tilt = 0, lit, dark, rim }: Props) {
   const paths = useMemo(() => {
     const centre = size / 2;
     const r = centre - RIM_WIDTH;
@@ -82,8 +77,6 @@ export function MoonDisc({ size, illumination, tilt = 0, lit, dark, rim, detail 
       g.terminatorHalfHeight * 2,
     );
     return {
-      radius: r,
-      centre,
       disc: Skia.Path.Circle(centre, centre, r),
       // Limb (left → top → right), then the terminator back (right → left). At exactly half
       // the ellipse is empty and Skia skips the arc — which is correct: `close` then draws
@@ -104,22 +97,6 @@ export function MoonDisc({ size, illumination, tilt = 0, lit, dark, rim, detail 
       <Canvas style={{ width: size, height: size }}>
         <Path path={paths.disc} color={dark} />
         <Path path={paths.lit} color={lit} />
-        {detail ? (
-          // Clipped to the lit shape, so the maria appear only where there is light to
-          // darken — on the night side they would be invisible anyway, but the clip is what
-          // keeps a gibbous Moon's terminator a clean edge instead of a smudged one.
-          <Group clip={paths.lit} opacity={0.1}>
-            {MARIA.map(([x, y, r]) => (
-              <Circle
-                key={`${x},${y}`}
-                cx={paths.centre + x * paths.radius}
-                cy={paths.centre + y * paths.radius}
-                r={r * paths.radius}
-                color={dark}
-              />
-            ))}
-          </Group>
-        ) : null}
         <Path path={paths.disc} style="stroke" strokeWidth={RIM_WIDTH} color={rim} />
       </Canvas>
     </View>
