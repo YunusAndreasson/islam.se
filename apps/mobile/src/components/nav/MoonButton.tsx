@@ -1,13 +1,15 @@
 // The map's second left-hand instrument: tonight's Moon, at tonight's phase, tilted the way
 // it actually leans over the reader's own horizon. Tapping opens Månen.
 //
-// It sits UNDER the qibla compass rather than beside it, so the left column reads as the
-// pair of instruments and the right-hand cog stays alone as the way out of the map. Beside
-// it would also have put a disc under the centred "Återställ" chip on a narrow screen.
+// It sits BESIDE the qibla compass, so the left row reads as the pair of instruments and
+// the right-hand cog stays alone as the way out of the map. (It used to sit under it; see
+// MapNav for what that cost the "Återställ" chip, and how it was paid.)
 //
 // The disc turns brass on the white days, the 13th to the 15th, and only then — see
 // components/moon/moonInk, which owns that rule and the reason the Moon's colours are the
-// one thing in the app that does not follow the semantic palette.
+// one thing in the app that does not follow the semantic palette. That pattern — neutral
+// disc by default, `highlightSoft` tint and a brass mark on the one state worth calling
+// out — is the one CompassButton now follows for its own aim lock.
 import { router } from 'expo-router';
 
 import { MoonDisc } from '@/components/moon/MoonDisc';

@@ -12,7 +12,7 @@
 // angle, including pointing back at you; the old peaked mark just looked broken upside
 // down, which is what made the rotating version feel wrong rather than the rotation itself.
 //
-// The signal, in one sentence: blue arrow turning with you → gold arrow in a lit disc
+// The signal, in one sentence: a plain arrow turning with you → a gold arrow in a lit disc
 // when you are aimed at Mecca, plus ONE haptic tap at the moment of transition (not every
 // frame while held) and a small spring scale-up so the lock feels physical.
 //
@@ -71,14 +71,21 @@ export function CompassButton({ active }: { active: boolean }) {
     transform: [{ rotate: `${bearing - rotation.value}deg` }, { scale: lockScale.value }],
   }));
 
-  // The brand pair, through the theme-aware tokens rather than the raw mark hexes:
-  // `accent` is the app's blue (#33437a light / #adbcf8 dark) and `highlightText` its
-  // gold. Reaching for `brand.blue` here — the mark's own #2a557f — would go nearly
-  // invisible on the dark chrome, which is exactly the split tokens.ts draws between the
-  // MARK's colours and the functional ones. This deliberately breaks the old "same ink as
-  // the settings cog" pairing — the cog is a destination, this is a live instrument, and
-  // it should look like one.
-  const arrowHue = aligned ? c.highlightText : c.accent;
+  // ⚠️ NEUTRAL UNTIL AIMED. The resting arrow was `accent`, the app's blue, on the argument
+  // that a live instrument should not wear the same ink as the settings cog it sits
+  // opposite. That argument was sound while the nav was one disc against one destination.
+  // It stopped being sound the day the Moon moved up beside this one, because MoonButton
+  // had already settled the question the other way: neutral disc by default, `highlightSoft`
+  // tint and `highlightText` mark on the one state worth calling out (the white days). Blue
+  // here made the compass the only member of a row of three not speaking that vocabulary.
+  //
+  // It also makes the lock LOUDER, which is the part worth keeping. Blue → gold is a hue
+  // shift between two saturated colours; ink → gold is neutral → saturated, and the eye
+  // reads that as something happening rather than as something changing shade. What says
+  // "live instrument" here was never the colour anyway — it is that the arrow TURNS.
+  // `highlight` is the token reserved for "this is live right now" (see theme/tokens), and
+  // spending it on the aim and nothing else is what keeps it worth anything.
+  const arrowHue = aligned ? c.highlightText : c.ink;
   const tint = aligned ? c.highlightSoft : c.cardGlass;
   const rim = aligned ? c.highlightText : c.hairline;
 
