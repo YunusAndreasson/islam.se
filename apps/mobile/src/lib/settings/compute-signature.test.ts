@@ -38,6 +38,10 @@ const COSMETIC_KEYS = [
   // reads no prayer time and changes none, so toggling it must NOT rebuild the 3752-point
   // grid — that would be a 40–70 ms JS-thread stall to hide one thin line.
   'showQibla',
+  // Cosmetic for the same reason again: the Moon disc in the map's nav row is a door, not
+  // a reading. Hiding it removes a button — it reads no prayer time and changes none, so it
+  // must not rebuild the grid.
+  'showMoon',
   // Cosmetic for the same reason: the night's midpoint and last third are derived from
   // the day adhan has ALREADY computed for the user's own position (see lib/night-times),
   // never from the country-wide lattice the signature invalidates. Revealing them changes
@@ -78,6 +82,7 @@ const ALT: PrayerSettings = {
   theme: 'dark',
   showMosques: false,
   showQibla: false,
+  showMoon: false,
   showNightTimes: true,
   haptics: false,
 };

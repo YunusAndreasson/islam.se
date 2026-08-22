@@ -27,6 +27,7 @@ const MUTATION: Partial<PrayerSettings> = {
   theme: 'dark',
   showMosques: false,
   showQibla: false,
+  showMoon: false,
   showNightTimes: true,
   haptics: false,
   locationMode: 'manual',

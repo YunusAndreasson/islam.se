@@ -23,6 +23,7 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useSettings } from '@/lib/settings/context';
 import { space } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { CompassButton, GLYPH } from './CompassButton';
@@ -50,12 +51,16 @@ export const NAV_LANE_TOP = NAV_TOP_GAP + NAV_ROW_HEIGHT + space.sm;
 export function MapNav({ active }: { active: boolean }) {
   const insets = useSafeAreaInsets();
   const c = useColors();
+  const { settings } = useSettings();
   const top = insets.top + NAV_TOP_GAP;
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
       <View style={[styles.left, { top }]} pointerEvents="box-none">
         <CompassButton active={active} />
-        <MoonButton />
+        {/* Optional, like the map's other two layers. Hiding it leaves the row one disc
+            wide; nothing else measures from the row's WIDTH, so the lane below and the
+            chip in it are unaffected either way. */}
+        {settings.showMoon && <MoonButton />}
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
         <GlassRoundButton

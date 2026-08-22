@@ -388,6 +388,18 @@ export default function Installningar() {
             onValueChange={(showQibla) => update({ showQibla })}
             divider
           />
+          {/* Månen — the disc beside the compass. It carries a DESCRIPTION where the qibla
+              toggle above needs none, because the two hide different kinds of thing: the
+              qibla arc is a decoration and its screen stays reachable from the compass,
+              while this disc is the only door to Månen. A reader turning it off should know
+              what leaves with it. */}
+          <Toggle
+            label="Visa månen"
+            description="Knappen bredvid kompassen, som öppnar månfasen och månadens dagar."
+            value={settings.showMoon}
+            onValueChange={(showMoon) => update({ showMoon })}
+            divider
+          />
         </SettingSection>
 
         {/* Tema — Apple Maps-style theme override; defaults to "Följ system" (the OS

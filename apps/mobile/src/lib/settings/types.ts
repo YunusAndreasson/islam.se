@@ -171,6 +171,13 @@ export interface PrayerSettings {
    *  is computed, which is why it belongs to COSMETIC_KEYS in ./compute-signature.
    *  See src/components/map/skia/QiblaArc.tsx. */
   showQibla: boolean;
+  /** Show the Moon disc beside the compass in the map's nav row — tonight's phase, and the
+   *  way in to the Månen screen. On by default. Unlike `showQibla`, which hides a decoration
+   *  and leaves its screen reachable from the compass, this hides the ONLY route to
+   *  /manen — which is why the toggle's description in Inställningar says what it opens.
+   *  Purely cosmetic in the ./compute-signature sense: it draws no prayer time and reads
+   *  none. See src/components/nav/MapNav.tsx. */
+  showMoon: boolean;
   /** Show the night's two voluntary landmarks — its midpoint and the start of its last
    *  third — as a separate group under the six prayer rows. Off by default: they are not
    *  prayer times, and a reader who has not asked for them should not have them appear in
@@ -222,6 +229,7 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   theme: 'system',
   showMosques: true,
   showQibla: true,
+  showMoon: true,
   showNightTimes: false,
   haptics: true,
 };
