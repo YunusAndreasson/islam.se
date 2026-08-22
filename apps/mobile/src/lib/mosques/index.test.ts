@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import {
+  formatMosqueAddress,
   formatMosqueDistance,
   getMosques,
   lanDisplay,
@@ -140,6 +141,91 @@ describe('locationLabel', () => {
   it('formats the card subtitle as "kommun · län"', () => {
     const m = { kommun: 'Botkyrka', lan: 'Stockholm' } as Mosque;
     expect(locationLabel(m)).toBe('Botkyrka · Stockholms län');
+  });
+});
+
+// Every case here is a REAL record from the vendored dataset. The address arrives from
+// OpenStreetMap as a reversed comma chain with the administrative tail attached, and the
+// card prints it under the mosque's name — so a formatting slip is a wrong street shown to
+// someone standing on a pavement trying to work out whether this is the right building.
+describe('formatMosqueAddress', () => {
+  const mosque = (address: string | undefined, city = 'Karlshamn', kommun = 'Karlshamn') =>
+    ({ address, city, kommun }) as Mosque;
+
+  it('writes the house number after the street, as Swedish does', () => {
+    expect(formatMosqueAddress(mosque('21, Fridhemsgatan, Högadal, Karlshamn'))).toBe(
+      'Fridhemsgatan 21, Högadal',
+    );
+  });
+
+  it('keeps an entrance letter attached to its number', () => {
+    expect(formatMosqueAddress(mosque('4c, Hårds väg, Törnrosen, Öster, Malmö', 'Malmö', 'Malmö'))).toBe(
+      'Hårds väg 4c, Törnrosen',
+    );
+  });
+
+  it('drops the kommun the card already prints under it', () => {
+    expect(formatMosqueAddress(mosque('Fabriksvägen, Buskelund, Mörrum', 'Mörrum', 'Karlshamn'))).toBe(
+      'Fabriksvägen, Buskelund',
+    );
+  });
+
+  it('drops a city that was written without a comma before it', () => {
+    // A third of the records are hand-entered as one unseparated string, so the
+    // comma-splitting rule cannot see the tail at all.
+    expect(formatMosqueAddress(mosque('Sockerbruksgatan 11 Lidköping', 'Lidköping', 'Lidköping'))).toBe(
+      'Sockerbruksgatan 11',
+    );
+  });
+
+  it('drops a dangling postal code', () => {
+    expect(formatMosqueAddress(mosque('Slåttervägen 44 46161', 'Borås', 'Borås'))).toBe('Slåttervägen 44');
+    expect(formatMosqueAddress(mosque('Vintergatan 1E 66132 Säffle', 'Säffle', 'Säffle'))).toBe(
+      'Vintergatan 1E',
+    );
+  });
+
+  it('keeps the building name when the record leads with one', () => {
+    expect(
+      formatMosqueAddress(
+        mosque('Tullportens konditori, 10B, Storgatan, Mellanholmen, Härnösand', 'Härnösand', 'Härnösand'),
+      ),
+    ).toBe('Tullportens konditori, Storgatan 10B');
+  });
+
+  it('survives an entrance RANGE instead of a house number', () => {
+    // THE BUG THIS GUARDS: one record is "1, 3, 5, … 23, Sikvägen, Bollmora". Pairing each
+    // number with whatever follows it turned that into "3 1, 7 5" — two numbers and no
+    // street, printed under the mosque's name. A number with no street after it is dropped.
+    expect(
+      formatMosqueAddress(
+        mosque('1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, Sikvägen, Bollmora', 'Tyresö', 'Tyresö'),
+      ),
+    ).toBe('Sikvägen 23, Bollmora');
+  });
+
+  it('stops before the administrative chain', () => {
+    expect(
+      formatMosqueAddress(
+        mosque('94, Sveavägen, Sibirien, Vasastaden, Norra innerstaden, Stockholm', 'Stockholm', 'Stockholm'),
+      ),
+    ).toBe('Sveavägen 94, Sibirien');
+  });
+
+  it('returns null when the dataset has no address, so the card omits the line', () => {
+    expect(formatMosqueAddress(mosque(undefined))).toBeNull();
+    expect(formatMosqueAddress(mosque('   '))).toBeNull();
+    // An address that is nothing BUT the kommun leaves nothing worth printing.
+    expect(formatMosqueAddress(mosque('Karlshamn'))).toBeNull();
+  });
+
+  it('never leaves a stray comma or a bare number on a real record', () => {
+    for (const m of getMosques()) {
+      const line = formatMosqueAddress(m);
+      if (line == null) continue;
+      expect(line).not.toMatch(/^[\s,]|[\s,]$/);
+      expect(line).not.toMatch(/^\d+[a-zA-Z]?(,|$)/);
+    }
   });
 });
 

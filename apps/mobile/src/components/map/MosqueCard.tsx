@@ -5,11 +5,17 @@
 // close disc as the rest of the app's chrome (GlassSurface / GlassRoundButton), so it
 // reads as one family with the dock and nav.
 //
-// What it shows comes straight from the vendored dataset: name, "kommun · län", how
-// far it is from you, and — only when known — the year it opened and its huvudman.
-// There is no denomination, phone or website in the data (by design), so the card
-// never promises more than the dataset holds. Directions hand off to the native maps
+// What it shows comes straight from the vendored dataset: name, the street, "kommun ·
+// län", how far it is from you, and — only when known — the year it opened and its
+// huvudman. There is no denomination, phone or website in the data (by design), so the
+// card never promises more than the dataset holds. Directions hand off to the native maps
 // app (see ../../lib/mosques/directions).
+//
+// THE STREET IS WHY THE CARD IS USEFUL AT THE KERB. It was missing for a long time — the
+// card named the place and its kommun, which tells a reader standing outside a building
+// nothing about whether it is THIS building. The dataset held the address the whole time;
+// it just needed formatting out of OpenStreetMap's reversed comma chain. See
+// formatMosqueAddress, which is where all of that reasoning lives.
 //
 // Below the directions button sits ONE secondary affordance: "Rapportera fel". The
 // dataset is a snapshot and the person reading this card is standing near the place, so
@@ -22,7 +28,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown, useReducedMotion } from 'react-native-reanimated';
 
 import { hapticLight } from '@/lib/haptics';
-import { type Mosque, formatMosqueDistance, locationLabel } from '@/lib/mosques';
+import { type Mosque, formatMosqueAddress, formatMosqueDistance, locationLabel } from '@/lib/mosques';
 import { openDirections } from '@/lib/mosques/directions';
 import { haversineKm } from '@/lib/places/nearest';
 import type { LatLng } from '@/lib/prayer-times';
@@ -50,6 +56,10 @@ export function MosqueCard({ mosque, userCoords, bottom, onClose }: Props) {
     haversineKm(userCoords.latitude, userCoords.longitude, mosque.lat, mosque.lng),
   );
 
+  // Null for the thirteen records with no address at all — the line is then simply absent,
+  // exactly as `opened` and `organisation` already behave.
+  const address = formatMosqueAddress(mosque);
+
   // "Öppnad 2007" and "Huvudman: …" only when the dataset actually has them.
   const meta: string[] = [];
   if (mosque.opened) meta.push(`Öppnad ${mosque.opened}`);
@@ -69,6 +79,14 @@ export function MosqueCard({ mosque, userCoords, bottom, onClose }: Props) {
             <Text style={styles.name} numberOfLines={2}>
               {mosque.name}
             </Text>
+            {/* Street first, then kommun — the order a Swedish address is written in, and
+                the order the question is asked in: which street is this, and is that the
+                municipality I think I am in. */}
+            {address != null && (
+              <Text style={styles.address} numberOfLines={1}>
+                {address}
+              </Text>
+            )}
             <Text style={styles.location} numberOfLines={1}>
               {locationLabel(mosque)}
               <Text style={styles.distance}>{`   ${distance}`}</Text>
@@ -146,6 +164,9 @@ function makeStyles(c: Palette) {
     },
     headerText: { flex: 1, gap: 2 },
     name: { ...type.headline, color: c.ink },
+    // A tier above `location`: the street is what identifies the building in front of you,
+    // the kommun only confirms you are in the right town.
+    address: { ...type.callout, color: c.ink },
     location: { ...type.caption, color: c.inkMuted },
     // Distance rides the end of the location line, tabular + a tier fainter.
     distance: { ...type.caption, ...mono, color: c.inkFaint },

@@ -121,6 +121,74 @@ export function locationLabel(m: Mosque): string {
   return `${m.kommun} · ${lanDisplay(m.lan)}`;
 }
 
+/** A bare house number, with or without an entrance letter: "12", "4c", "11B", "18 h". */
+const HOUSE_NUMBER = /^\d+\s*[A-Za-z]?$/;
+/** A Swedish postal code left dangling at the end of a comma-less address. */
+const TRAILING_POSTCODE = /\s+\d{3}\s?\d{2}$/;
+/** How many parts of the address the card prints — the street, and at most the district
+ *  around it. Past two the chain is administrative geography, and the card already says
+ *  which kommun and län this is. */
+const ADDRESS_PARTS = 2;
+
+/**
+ * The street, for the detail card — "Fridhemsgatan 21, Högadal".
+ *
+ * WHY THIS IS NOT JUST `m.address`. The card named the mosque, its kommun and its län, and
+ * a reader standing on a pavement asking "is this the one?" could not see the street. The
+ * dataset has had it all along (221 of 234 records), unrendered, because it arrives from
+ * OpenStreetMap as a comma-separated chain in reverse-Swedish order with the administrative
+ * tail attached: "21, Fridhemsgatan, Högadal, Karlshamn". Printed raw that reads as a
+ * different kind of thing to every other line on the card, and repeats the kommun sitting
+ * directly under it.
+ *
+ * So four rules, each earning itself against the real 234 records:
+ *
+ *   1. Drop trailing parts that repeat `city` or `kommun` — the card says that already.
+ *   2. Fold a bare house number onto the street that follows it, the way Swedish writes an
+ *      address. A number with no street after it is DROPPED: one record is a whole entrance
+ *      range, "1, 3, 5, 7, … 23, Sikvägen, Bollmora", and pairing blindly turned it into
+ *      the nonsense "3 1, 7 5" before this clause existed.
+ *   3. Keep at most ADDRESS_PARTS. Some records lead with the building's own name
+ *      ("Tullportens konditori, 10B, Storgatan, …"), which is worth keeping; the four
+ *      administrative levels after the street are not.
+ *   4. Strip a trailing city or postal code that never had a comma in front of it — a third
+ *      of the records are hand-entered as one string, "Sockerbruksgatan 11 Lidköping", and
+ *      rule 1 cannot see a part that was never separated.
+ *
+ * Returns null when the dataset has nothing, which is 13 of the 234 — the card then simply
+ * does not show the line, as it already does for `opened` and `organisation`.
+ */
+export function formatMosqueAddress(m: Mosque): string | null {
+  const raw = m.address?.trim();
+  if (!raw) return null;
+
+  const parts = raw.split(',').map((p) => p.trim()).filter(Boolean);
+  const tails = [m.city, m.kommun].filter(Boolean).map((t) => t.toLowerCase());
+  while (parts.length > 0 && tails.includes(parts[parts.length - 1]!.toLowerCase())) parts.pop();
+
+  const folded: string[] = [];
+  for (let i = 0; i < parts.length; i += 1) {
+    const part = parts[i]!;
+    if (!HOUSE_NUMBER.test(part)) {
+      folded.push(part);
+      continue;
+    }
+    const street = parts[i + 1];
+    // Only fold onto something that can BE a street. See rule 2.
+    if (street != null && !HOUSE_NUMBER.test(street)) {
+      folded.push(`${street} ${part.replace(/\s+/g, '')}`);
+      i += 1;
+    }
+  }
+
+  let line = folded.slice(0, ADDRESS_PARTS).join(', ');
+  for (const tail of tails) {
+    if (line.toLowerCase().endsWith(` ${tail}`)) line = line.slice(0, -(tail.length + 1));
+  }
+  line = line.replace(TRAILING_POSTCODE, '').replace(/[\s,]+$/, '');
+  return line || null;
+}
+
 /** A short distance for the detail card, Swedish-formatted. Finer-grained than the
  *  qibla screen's whole-km formatKm because mosques are often close: metres under a
  *  km ("480 m"), one decimal under 10 km ("2,3 km"), whole km beyond ("42 km"). */
