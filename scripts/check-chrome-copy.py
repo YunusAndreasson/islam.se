@@ -70,7 +70,10 @@ def copy_files() -> list[Path]:
     for p in list((WEB / "lib").rglob("*.ts")) + list((WEB / "pages").rglob("*.ts")):
         if not p.name.endswith((".test.ts", ".d.ts")):
             out.append(p)
-    return sorted(p for p in out if not any(d in p.as_posix() for d in SKIP_DIRS))
+    # p.is_file(): rglob("*.astro") matchar även KATALOGEN src/.astro — Astros
+    # genererade typkatalog, vars namn slutar i .astro. Den finns så fort dev-servern
+    # eller astro sync har kört, och read_text() på den fäller hela pnpm verify.
+    return sorted(p for p in out if p.is_file() and not any(d in p.as_posix() for d in SKIP_DIRS))
 
 
 def segments(text: str) -> list[str]:
