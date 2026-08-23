@@ -14,6 +14,7 @@ import {
 	findDataDir,
 	type IdeaBrief,
 	IdeationService,
+	loadSourceDocs,
 	parseFrontmatter,
 	slugify,
 } from "@islam-se/orchestrator";
@@ -25,6 +26,36 @@ import type { FordjupningResult } from "./fordjupning-producer.js";
 // Load environment variables from project root
 const __prodDir = dirname(fileURLToPath(import.meta.url));
 config({ path: join(__prodDir, "..", "..", "..", ".env") });
+
+/**
+ * Read a pre-decided angle from disk for `produce article --brief`.
+ *
+ * Without this the `article` command can only hand research a topic string, and
+ * `runResearch` is explicitly told to *develop* an angle from it — so an angle already
+ * settled with the human is re-litigated by the model, and the working title never
+ * reaches the author's CREATIVE DIRECTION block at all. The TUI has always driven the
+ * pipeline this way (`produce(topic, ctx, ideaBrief)`); the CLI simply had no flag for it.
+ *
+ * Validated here rather than trusted: a typo in `difficulty` silently falls back to the
+ * "standard" register 40 minutes into the run, and a missing `thesis` produces the string
+ * "undefined" in the research prompt.
+ */
+function readIdeaBrief(path: string): IdeaBrief {
+	const raw = JSON.parse(readFileSync(path, "utf-8"));
+	const difficulties = ["standard", "challenging", "expert"];
+	for (const field of ["title", "thesis", "angle"]) {
+		if (typeof raw[field] !== "string" || raw[field].trim() === "") {
+			throw new Error(`Briefen ${path} saknar fältet "${field}" (sträng, icke-tom).`);
+		}
+	}
+	if (!(Array.isArray(raw.keywords) && raw.keywords.length > 0)) {
+		throw new Error(`Briefen ${path} saknar "keywords" (icke-tom lista med strängar).`);
+	}
+	if (!difficulties.includes(raw.difficulty)) {
+		throw new Error(`Briefen ${path}: "difficulty" måste vara en av ${difficulties.join(", ")}.`);
+	}
+	return raw as IdeaBrief;
+}
 
 const program = new Command();
 
@@ -45,8 +76,18 @@ program
 		"-R, --resume",
 		"Resume from saved checkpoints (research.json, fact-check.json, draft-meta.json)",
 	)
+	.option(
+		"-b, --brief <path>",
+		"JSON file with a pre-decided angle {title, thesis, angle, keywords, difficulty} — research, authoring and review run from it instead of developing an angle from the topic alone",
+	)
+	.option(
+		"-s, --source-doc <path...>",
+		"Pre-validated briefing document(s) — .pdf, .md or .txt. Handed to research, fact-check and authoring as already source-checked material",
+	)
 	.action(async (topic: string, options) => {
 		const outputDir = resolve(options.output);
+		const sourceDocs = loadSourceDocs((options.sourceDoc ?? []).map((f: string) => resolve(f)));
+		const ideaBrief = options.brief ? readIdeaBrief(resolve(options.brief)) : undefined;
 
 		console.log("");
 		console.log("╔══════════════════════════════════════════════════════════╗");
@@ -59,6 +100,12 @@ program
 		if (options.resume) {
 			console.log("Resume: enabled (checkpoints will be reused)");
 		}
+		if (ideaBrief) {
+			console.log(`Brief: ${ideaBrief.title} (${ideaBrief.difficulty})`);
+		}
+		for (const doc of sourceDocs) {
+			console.log(`Briefing: ${doc.name} (${doc.text.length.toLocaleString("sv-SE")} tecken)`);
+		}
 		console.log("");
 
 		const orchestrator = new ContentOrchestrator({
@@ -66,10 +113,11 @@ program
 			model: options.model as "opus" | "sonnet",
 			qualityThreshold: Number.parseFloat(options.quality),
 			maxRevisions: Number.parseInt(options.revisions, 10),
+			sourceDocs,
 		});
 
 		try {
-			const result = await orchestrator.produce(topic, undefined, undefined, {
+			const result = await orchestrator.produce(topic, undefined, ideaBrief, {
 				resume: options.resume === true,
 			});
 

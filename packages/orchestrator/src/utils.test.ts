@@ -1,5 +1,8 @@
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { slugify } from "./utils.js";
+import { formatSourceDocs, loadSourceDocs, slugify } from "./utils.js";
 
 describe("slugify", () => {
 	it("converts basic text to slug", () => {
@@ -58,5 +61,44 @@ describe("slugify", () => {
 		const slug = slugify(input);
 		expect(slug.length).toBeLessThanOrEqual(50);
 		expect(slug).not.toMatch(/-$/);
+	});
+});
+
+describe("loadSourceDocs", () => {
+	const dir = mkdtempSync(join(tmpdir(), "briefing-"));
+
+	it("reads plain-text briefings verbatim", () => {
+		const path = join(dir, "lagesbild.md");
+		writeFileSync(path, "# Lägesbild\n\nSCB: 35 procent 2025.");
+		expect(loadSourceDocs([path])).toEqual([
+			{ name: "lagesbild.md", text: "# Lägesbild\n\nSCB: 35 procent 2025." },
+		]);
+	});
+
+	// A missing briefing must stop the run at the CLI, before ~2h of pipeline time is
+	// spent. The stages have no way to notice an absent document: an empty
+	// <briefing_documents> block reads as "nothing to add" and the essay is written
+	// around the hole with no gate ever firing.
+	it("throws on a path that does not exist rather than yielding an empty briefing", () => {
+		expect(() => loadSourceDocs([join(dir, "finns-inte.pdf")])).toThrow(/saknas/);
+	});
+});
+
+describe("formatSourceDocs", () => {
+	it("returns nothing at all when there are no documents", () => {
+		expect(formatSourceDocs([])).toBe("");
+	});
+
+	// The framing is the whole point of the block: without "attribuera till
+	// PRIMÄRKÄLLAN" the author cites the briefing file, which has no public URL and is
+	// stripped by the source gate — leaving a figure in the prose with no source at all.
+	it("carries the trust and attribution rules alongside every document", () => {
+		const block = formatSourceDocs([
+			{ name: "ai.pdf", text: "METR: fördubbling var fjärde månad." },
+		]);
+		expect(block).toContain("VERIFIERAT underlag");
+		expect(block).toContain("PRIMÄRKÄLLAN");
+		expect(block).toContain('<source_document name="ai.pdf">');
+		expect(block).toContain("METR: fördubbling var fjärde månad.");
 	});
 });

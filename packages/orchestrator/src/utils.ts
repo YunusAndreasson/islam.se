@@ -1,5 +1,6 @@
+import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { basename, extname, join } from "node:path";
 import { type PipelineModelTier, getModelId as resolveModelId } from "@islam-se/quotes";
 import type { ClaudeRunOptions } from "./claude-runner.js";
 
@@ -198,3 +199,93 @@ export const RESEARCH_ALLOWED_TOOLS = [
 	"WebFetch",
 	"Read",
 ];
+
+/** A pre-validated briefing document handed to the pipeline from disk. */
+export interface SourceDoc {
+	/** Label the stages see — the file's basename. */
+	name: string;
+	/** Plain text. PDFs are extracted with pdftotext -layout. */
+	text: string;
+}
+
+/**
+ * Read briefing documents (.pdf, .md, .txt) for the research, fact-check and author
+ * stages.
+ *
+ * ⚠️ WHY THE PIPELINE NEEDS THIS AT ALL. Research can only reach material it can find
+ * with WebSearch, and the three prompts all tell it in so many words that WebFetch
+ * "cannot read PDFs — returns binary garbage". A compiled report that the human has
+ * already checked was therefore unreachable: its figures could enter the essay only if
+ * the model happened to rediscover each one on the open web, and anything it missed was
+ * simply absent. Extraction happens HERE, on disk, before any model sees the file — so
+ * the stages get text, not a URL they are forbidden to fetch.
+ *
+ * These documents are handed to the stages as ALREADY VERIFIED. That is a deliberate
+ * choice by the caller, not an assumption: the briefings are compiled and source-checked
+ * by hand, and making the fact-checker re-derive every figure from the open web would
+ * fail the credibility gate on material that is better sourced than what the gate can
+ * reach. The gate still does its real job — catching fabrication in what the model adds.
+ */
+export function loadSourceDocs(paths: string[]): SourceDoc[] {
+	return paths.map((path) => {
+		if (!existsSync(path)) throw new Error(`Källdokument saknas: ${path}`);
+		const name = basename(path);
+		const ext = extname(path).toLowerCase();
+
+		if (ext !== ".pdf") return { name, text: readFileSync(path, "utf-8") };
+
+		// -layout keeps the tables and the two-column boxes readable. Without it the
+		// summary boxes interleave with body text and the numbers lose their labels.
+		let text: string;
+		try {
+			text = execFileSync("pdftotext", ["-layout", path, "-"], {
+				encoding: "utf-8",
+				maxBuffer: 64 * 1024 * 1024,
+			});
+		} catch (e) {
+			throw new Error(
+				`Kunde inte läsa PDF:en ${name} — pdftotext (poppler-utils) krävs. ${String(e)}`,
+			);
+		}
+		// A scanned PDF extracts to almost nothing. Failing here is far better than
+		// handing every stage an empty <source_document> it will quietly write around.
+		if (text.trim().length < 500) {
+			throw new Error(
+				`${name} gav bara ${text.trim().length} tecken text — troligen en skannad PDF utan textlager. OCR:a den först.`,
+			);
+		}
+		return { name, text };
+	});
+}
+
+/**
+ * Wrap briefing documents for a stage prompt.
+ *
+ * The framing matters more than the text: without it the model treats a compiled report
+ * as one more web hit to weigh, and either re-verifies figures it cannot reach or drops
+ * them. It is told the opposite — trust the figures, attribute to the primary source the
+ * report names, and never cite the briefing itself, which has no public URL and would be
+ * stripped by the source gate anyway.
+ */
+export function formatSourceDocs(docs: SourceDoc[]): string {
+	if (docs.length === 0) return "";
+	const bodies = docs
+		.map((d) => `<source_document name="${d.name}">\n${d.text.trim()}\n</source_document>`)
+		.join("\n\n");
+	return `<briefing_documents>
+Dessa rapporter är sammanställda och källgranskade för hand innan körningen. Behandla
+dem som VERIFIERAT underlag:
+
+- Siffror, datum, citat och rättsfall i dem får användas som de står. Du behöver inte
+  belägga dem på nytt, och de ska inte räknas som obelagda påståenden.
+- Attribuera till PRIMÄRKÄLLAN som rapporten namnger (SCB, METR, Högsta
+  förvaltningsdomstolen, regeringen, riksdagen …), aldrig till rapporten. Rapporternas
+  bilaga A namnger primärkällan för varje uppgift.
+- Lägg URL:en i \`sources\` bara när du faktiskt hämtat sidan. En källa utan länk är
+  korrekt; en påhittad länk är en förfalskning. Själva briefingfilerna har ingen publik
+  URL och hör aldrig hemma i \`sources\`.
+- Det som INTE står i dem gäller vanliga regler för: sök, hämta, belägg.
+
+${bodies}
+</briefing_documents>`;
+}

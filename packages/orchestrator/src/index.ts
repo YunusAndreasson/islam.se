@@ -36,10 +36,12 @@ import { SourceValidator } from "./source-validator.js";
 import {
 	createLogger,
 	formatDuration,
+	formatSourceDocs,
 	getModelId,
 	loadOutput,
 	pickSwedishAuthors,
 	RESEARCH_ALLOWED_TOOLS,
+	type SourceDoc,
 	saveOutput,
 	slugify,
 } from "./utils.js";
@@ -237,6 +239,10 @@ export interface OrchestratorOptions {
 	 *  with prompts written for its own register, and keep those prompts next to the
 	 *  producer that owns them instead of scattering them in here. */
 	promptOverrides?: Record<string, string>;
+	/** Pre-validated briefing documents (see `loadSourceDocs`), handed to research,
+	 *  fact-check and authoring. Empty/absent is the normal case: most essays are built
+	 *  from the corpus and the open web alone. */
+	sourceDocs?: SourceDoc[];
 }
 
 export type StageResult<T = unknown> =
@@ -518,8 +524,28 @@ export class ContentOrchestrator {
 			onPreview: options.onPreview,
 			onStageChange: options.onStageChange,
 			promptOverrides: options.promptOverrides,
+			sourceDocs: options.sourceDocs ?? [],
 		};
 		this.logger = createLogger(this.options.quiet);
+	}
+
+	/** The briefing block for a stage prompt, or "" when no documents were supplied.
+	 *  Goes in `userContent`, never in the system prompt: at ~30k tokens it would blow
+	 *  the cached prefix that every stage shares, and the runner already keeps bulk
+	 *  material out of --append-system-prompt for exactly this reason. */
+	private sourceDocsBlock(): string {
+		return formatSourceDocs(this.options.sourceDocs ?? []);
+	}
+
+	/** A pointer line for a stage's own guidance block. The briefing carries its rules
+	 *  with it, but three prompts actively tell the model that PDFs are unreadable and
+	 *  that unsourced figures are suspect — without a pointer here, those instructions
+	 *  win and the briefing is read as one more untrusted web hit. */
+	private briefingNote(): string {
+		const docs = this.options.sourceDocs ?? [];
+		if (docs.length === 0) return "";
+		const names = docs.map((d) => d.name).join(", ");
+		return `\n- A pre-validated briefing is attached below as <briefing_documents> (${names}). Its figures, dates and rulings are already source-checked — use them as given, attribute to the primary source the report names, and do NOT treat them as unsourced.`;
 	}
 
 	/**
@@ -933,7 +959,7 @@ Run multiple MCP searches in parallel, but do NOT mix WebFetch/WebSearch with MC
 IMPORTANT WebFetch limitations:
 - Skip URLs ending in .pdf — returns binary garbage.
 - Skip litteraturbanken.se — JavaScript SPA, returns empty shell HTML.
-- Skip any URL that returned empty/useless content on the first try.
+- Skip any URL that returned empty/useless content on the first try.${this.briefingNote()}
 </guidance>${blocklist}`;
 
 		if (idea.seedQuotes && idea.seedQuotes.length > 0) {
@@ -956,6 +982,7 @@ ${formatted}
 			emoji: "📚",
 			promptFile: "research.md",
 			systemPrompt,
+			userContent: this.sourceDocsBlock(),
 			allowedTools: RESEARCH_ALLOWED_TOOLS,
 			mcpConfig: mcpConfigPath,
 			schema: ResearchOutputSchema,
@@ -997,7 +1024,7 @@ Run multiple MCP searches in parallel, but do NOT mix WebFetch/WebSearch with MC
 IMPORTANT WebFetch limitations:
 - Skip URLs ending in .pdf — returns binary garbage.
 - Skip litteraturbanken.se — JavaScript SPA, returns empty shell HTML.
-- Skip any URL that returned empty/useless content on the first try.
+- Skip any URL that returned empty/useless content on the first try.${this.briefingNote()}
 </guidance>${blocklist}`;
 
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
@@ -1007,6 +1034,7 @@ IMPORTANT WebFetch limitations:
 			emoji: "📚",
 			promptFile: "research.md",
 			systemPrompt,
+			userContent: this.sourceDocsBlock(),
 			allowedTools: RESEARCH_ALLOWED_TOOLS,
 			mcpConfig: mcpConfigPath,
 			schema: ResearchOutputSchema,
@@ -1036,7 +1064,7 @@ Score fairly based on what you can actually verify:
 - Claims you cannot independently verify are NOT automatically unverified — they may simply be common scholarly knowledge
 - Only mark claims "unverified" if you find contradicting evidence or the claim is extraordinary and unsourced
 - The threshold to pass is ${this.options.qualityThreshold} — award that score if the research has no fabrications and reasonable sourcing
-- WebFetch cannot read PDFs (.pdf) or JS-rendered sites (litteraturbanken.se)
+- WebFetch cannot read PDFs (.pdf) or JS-rendered sites (litteraturbanken.se)${this.briefingNote()}
 </review_guidance>${reputation}`;
 
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
@@ -1046,6 +1074,7 @@ Score fairly based on what you can actually verify:
 			emoji: "🔍",
 			promptFile: "fact-checker.md",
 			systemPrompt,
+			userContent: this.sourceDocsBlock(),
 			allowedTools: [
 				"WebFetch",
 				"WebSearch",
@@ -1157,6 +1186,7 @@ ${recommendations}
 			emoji: "🔧",
 			promptFile: "research-reviser.md",
 			systemPrompt,
+			userContent: this.sourceDocsBlock(),
 			allowedTools: RESEARCH_ALLOWED_TOOLS,
 			mcpConfig: mcpConfigPath,
 			schema: ResearchOutputSchema,
@@ -1218,7 +1248,7 @@ Key requirements:
 - Let classical Islamic scholars shine
 - Swedish/Western authors strengthen the Islamic stance — for this article, consider weaving in ${pickSwedishAuthors(3).join(", ")} if the research material includes them
 - Use markdown blockquotes and footnotes
-- Write natural Swedish prose — avoid anglicisms like "i termer av", "adressera", "baserat på", calque constructions. Prefer Swedish idiom and rhythm (Axess/Respons register).`;
+- Write natural Swedish prose — avoid anglicisms like "i termer av", "adressera", "baserat på", calque constructions. Prefer Swedish idiom and rhythm (Axess/Respons register).${this.briefingNote()}`;
 
 		// Format quotes with metadata so author can prioritize the strongest material
 		if (research.quotes.length > 0) {
@@ -1295,6 +1325,7 @@ ${formatted}`;
 			emoji: "✍️ ",
 			promptFile: "author.md",
 			systemPrompt,
+			userContent: this.sourceDocsBlock(),
 			allowedTools: ["Read"],
 			markdownMode: {
 				frontmatterSchema: DraftFrontmatterSchema,
@@ -2555,4 +2586,4 @@ export {
 	searchQuotesComprehensive,
 } from "./services/index.js";
 export { SourceValidator } from "./source-validator.js";
-export { RESEARCH_ALLOWED_TOOLS, slugify } from "./utils.js";
+export { loadSourceDocs, RESEARCH_ALLOWED_TOOLS, type SourceDoc, slugify } from "./utils.js";
