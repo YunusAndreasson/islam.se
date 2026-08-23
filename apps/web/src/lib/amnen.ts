@@ -25,42 +25,39 @@ export const AMNEN: Amne[] = [
 		name: "Skapelsen",
 		slug: "skapelsen",
 		framing:
-			"Naturen, djuren och kosmos lästa som tecken – vägen till en skapare går genom det vi ser omkring oss.",
+			"Vägen till en skapare går genom det vi ser omkring oss. Naturen, djuren och kosmos lästa som tecken.",
 	},
 	{
 		name: "Skriften",
 		slug: "skriften",
-		framing:
-			"Koranen som text och budskap – vad den säger, hur dess språk bär och hur den uppenbarades och bevarades.",
+		framing: "Vad Koranen säger, hur dess språk bär och hur den uppenbarades och bevarades.",
 	},
 	{
 		name: "Själen",
 		slug: "sjalen",
 		framing:
-			"Människans inre liv – begäret och samvetet, sorgen och förlåtelsen, det som tär på en själ och det som läker den.",
+			"Begäret och samvetet, sorgen och förlåtelsen. Det som tär på en själ och det som läker den.",
 	},
 	{
 		name: "Rättvisa",
 		slug: "rattvisa",
-		framing:
-			"Rätt handling och lag – om rättvisa, makt och rättigheter, och vad vi är skyldiga varandra.",
+		framing: "Rätt handling och lag. Om makt, om rättigheter och om vad vi är skyldiga varandra.",
 	},
 	{
 		name: "Samhälle",
 		slug: "samhalle",
-		framing:
-			"Livet tillsammans – tron i det offentliga, och en gammal tradition som möter dagens Sverige.",
+		framing: "Tron i det offentliga, och en gammal tradition som möter dagens Sverige.",
 	},
 	{
 		name: "Sökandet",
 		slug: "sokandet",
 		framing:
-			"Den moderna människans sökande efter mening – och vad svenska tänkare och diktare anade på vägen.",
+			"Den moderna människans sökande efter mening, och vad svenska tänkare och diktare anade på vägen.",
 	},
 	{
 		name: "Norden",
 		slug: "norden",
-		framing: "Nordisk myt och gammalt svenskt arv – det nedärvda förflutna prövat i nytt ljus.",
+		framing: "Nordisk myt och gammalt svenskt arv, prövat i nytt ljus.",
 	},
 ];
 

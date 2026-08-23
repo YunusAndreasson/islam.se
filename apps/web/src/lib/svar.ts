@@ -33,8 +33,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		slug: "tron",
 		name: "Tro och tänkande",
 		short: "Tro",
-		intro:
-			"Djupare frågor om tron – Guds enhet (tawhid), meningen med skapelsen, bevisen för Gud och livet efter döden.",
+		intro: "Guds enhet (tawhid), meningen med skapelsen, bevisen för Gud och livet efter döden.",
 		ids: [
 			"vad-ar-tawhid",
 			"vad-sager-islam-om-livet-efter-doden",
@@ -48,7 +47,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		name: "Koranen och profeten Muhammed",
 		short: "Koranen",
 		intro:
-			"Uppenbarelsens källor – den heliga skriften, profetens liv och hans vägledande exempel (sunna).",
+			"Var uppenbarelsen kommer ifrån, hur profetens liv såg ut och vad hans exempel (sunna) betyder.",
 		ids: [
 			"vad-ar-koranen",
 			"vad-betyder-al-fatiha",
@@ -62,8 +61,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		slug: "pelarna-och-dyrkan",
 		name: "Dyrkan i praktiken",
 		short: "Dyrkan",
-		intro:
-			"Hur dyrkan utförs i vardagen – att bli muslim, rening före bön, moskén och de två högtiderna.",
+		intro: "Att bli muslim, rening före bön, moskén och de två högtiderna.",
 		ids: [
 			"hur-blir-man-muslim",
 			"tvagning-wudu",
@@ -79,7 +77,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		name: "Mat, vardag och kultur",
 		short: "Mat",
 		intro:
-			"Det tillåtna och förbjudna (halal och haram) i mat och vardag – och vad som hör till sed snarare än religion.",
+			"Det tillåtna och förbjudna (halal och haram) i mat och vardag, och vad som hör till sed mer än till religion.",
 		ids: [
 			"varfor-ater-muslimer-inte-griskott",
 			"vad-ar-halalslakt",
@@ -96,7 +94,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		name: "Familj och samhälle",
 		short: "Familj",
 		intro:
-			"Äktenskap, familjeliv och omdebatterade samhällsfrågor – vad islams källor faktiskt säger, bortom rubrikerna.",
+			"Äktenskap, familjeliv och de mest omdebatterade samhällsfrågorna, besvarade ur Koranen och sunna.",
 		ids: [
 			"aktenskap-i-islam",
 			"far-muslimska-man-ha-flera-fruar",
@@ -114,7 +112,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		name: "Begrepp och inriktningar",
 		short: "Begrepp",
 		intro:
-			"Ord som ofta missförstås: sharia, jihad och sufism – och skillnaden mellan sunni och shia.",
+			"Sharia, jihad och sufism är ord som ofta missförstås. Här står också vad som skiljer sunni från shia.",
 		ids: ["vad-ar-sharia", "vad-ar-jihad", "vad-ar-sufism", "sunni-och-shia"],
 	},
 	{
@@ -138,7 +136,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		name: "Historia",
 		short: "Historia",
 		intro:
-			"Från utvandringen till Medina till al-Andalus – händelserna och epokerna som format den muslimska världen.",
+			"Händelserna och epokerna som format den muslimska världen, från utvandringen till Medina till al-Andalus.",
 		ids: [
 			"vad-var-hijra",
 			"de-rattledda-kaliferna",

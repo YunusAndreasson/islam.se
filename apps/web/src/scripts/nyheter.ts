@@ -2,7 +2,7 @@
 //
 // It has two jobs, and which one it does depends on what the page already has:
 //
-//   /            renders the "Världen just nu" sidolinje from scratch. Nothing on
+//   /            renders the "Senaste nytt" sidolinje from scratch. Nothing on
 //                the front page is edge-injected — the homepage is this site's
 //                most important document and it does not get a fetch-dependent
 //                Function in front of it.

@@ -29,7 +29,7 @@ const pages = {
 	fordjupning: {
 		href: "/fordjupning/",
 		label: "Fördjupning",
-		menuSub: "Omdiskuterade ämnen tagna hela vägen.",
+		menuSub: "Omdiskuterade ämnen, från källorna till svensk rätt.",
 		sub: "Fördjupning: källorna, historien och det svenska rättsläget, ämne för ämne.",
 	},
 	amnen: {
@@ -67,14 +67,14 @@ const pages = {
 	nyheter: {
 		href: "/nyheter/",
 		label: "Nyheter",
-		menuSub: "Världen just nu, på svenska.",
+		menuSub: "Världsnyheter på svenska.",
 		sub: "Världsnyheter på svenska, levererade av zuhd.news och uppdaterade flera gånger om dagen.",
 	},
 	podcast: {
 		href: "/podcast/",
 		label: "Podd",
 		menuSub: "Essäerna inlästa.",
-		sub: "Andliga essäer, inlästa — i Apple Podcasts, Spotify eller via RSS.",
+		sub: "Andliga essäer, inlästa – i Apple Podcasts, Spotify eller via RSS.",
 	},
 	about: { href: "/om/", label: "Om", sub: "Om idén bakom islam.se." },
 	editorial: { href: "/om/redaktion/", label: "Redaktion" },
