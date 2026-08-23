@@ -32,12 +32,18 @@ const pages = {
 		menuSub: "Omdiskuterade ämnen, från källorna till svensk rätt.",
 		sub: "Fördjupning: källorna, historien och det svenska rättsläget, ämne för ämne.",
 	},
-	amnen: {
-		href: "/amnen/",
-		label: "Ämnen",
-		menuSub: "De sju ingångarna essäerna är ordnade efter.",
-		sub: "Ämnen: de sju ingångarna essäerna är ordnade efter, från skapelsen till Norden.",
-	},
+	// ÄMNEN ÄR INGET EGET MÅL LÄNGRE (2026-08). /amnen/ renderade <AmnenHome
+	// perDept={4} /> — samma sju ämnen, samma framing-rader, samma ordning som
+	// /essaer/ redan visar, fast avkortat till fyra essäer per grupp. Sidan bar
+	// dessutom backHref="/essaer/" med etiketten "Hela arkivet", och ämnessidornas
+	// brödsmula gick Hem → Essäer → {ämne} och nämnde aldrig /amnen/. Indexet var
+	// alltså redan föräldralöst från sina egna barn; bara menyerna höll det vid liv.
+	//
+	// /essaer/ ÄR ämnesindexet: det grupperar efter ämne, sätter varje amne.framing
+	// som ingress, ankrar varje grupp på #amne-{slug} och har ett Ämnen-filter.
+	// /amnen/{slug} står kvar och nås från de rubrikerna, från varje essäs kicker,
+	// från FeatureEssay, från EssayConnections och som sju egna rader i paletten.
+	// /amnen 301:ar till /essaer/ (se customRedirects i astro.config.ts).
 	tradar: { href: "/tradar/", label: "Trådar", sub: "Utvalda läsningar genom essäerna." },
 	tankare: { href: "/tankare/", label: "Tänkare", sub: "De röster essäerna återvänder till." },
 	calendar: {
@@ -138,7 +144,6 @@ export const PALETTE_READ_LINKS: PaletteNavLink[] = [
 		sub: pages.fordjupning.menuSub,
 	},
 	pages.essaer,
-	{ href: pages.amnen.href, label: pages.amnen.label, sub: pages.amnen.menuSub },
 ];
 
 export const PALETTE_TOOL_LINKS: PaletteNavLink[] = [
@@ -161,7 +166,6 @@ export const PALETTE_MINOR_LINKS: NavLink[] = [
 export const FOOTER_LINKS: NavLink[] = [
 	pages.fordjupning,
 	pages.nyheter,
-	pages.amnen,
 	pages.tradar,
 	pages.tankare,
 	{ href: pages.calendar.href, label: pages.calendar.footerLabel },
@@ -176,7 +180,6 @@ export const STANDING_PALETTE_PAGES: PalettePageLink[] = [
 	pages.pillars,
 	pages.svar,
 	pages.fordjupning,
-	pages.amnen,
 	pages.tradar,
 	pages.tankare,
 	pages.calendar,

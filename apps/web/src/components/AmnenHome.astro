@@ -99,7 +99,7 @@ const DeptHeading = limit ? "h3" : "h2";
 	class:list={["amnen", { "home-movement": limit }]}
 	aria-labelledby={limit ? "amnen-kicker" : null}
 >
-	{limit && <HomeHead label="Ämnen" id="amnen-kicker" href="/amnen/" linkLabel="Alla ämnen" />}
+	{limit && <HomeHead label="Ämnen" id="amnen-kicker" href="/essaer/" linkLabel="Hela arkivet" />}
 
 	{groups.map(({ amne, shown, total }) => (
 		<section class:list={["amne-dept", { "amne-dept--art": art }]} aria-labelledby={`amne-${amne.slug}`}>

@@ -330,6 +330,9 @@ const oldPaths = [
 // bönetider hub rather than wasting that signal on a homepage 301. (Both slash forms are
 // emitted by the redirect hook below, so list each path once.)
 const customRedirects: [string, string][] = [
+	// /amnen/ var ett avkortat /essaer/ och togs bort 2026-08; se navigation.ts.
+	// Ämnessidorna /amnen/{slug} lever kvar och är oberörda av den här raden.
+	["/amnen", "/essaer/"],
 	["/tag/bonetider", "/bonetider/"],
 	["/tag/bonetid", "/bonetider/"],
 	// Dead WordPress reference URLs that still rank → the new /svar/ pages that
