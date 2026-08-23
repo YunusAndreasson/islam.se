@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 108,
-      "ok": 107,
+      "total": 110,
+      "ok": 109,
       "failed": 1,
-      "lastChecked": "2026-08-14T19:04:24.897Z",
-      "publishedIn": 87,
-      "avgScore": 8.61034482758622,
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 88,
+      "avgScore": 8.609090909090922,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -165,12 +165,12 @@
       "avgScore": 8.7
     },
     "www.regeringen.se": {
-      "total": 4,
-      "ok": 4,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-08-14T19:04:24.897Z",
-      "publishedIn": 3,
-      "avgScore": 8.666666666666666
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 4,
+      "avgScore": 8.625
     },
     "www.folkhalsomyndigheten.se": {
       "total": 4,
@@ -243,12 +243,12 @@
       "avgScore": 8.6
     },
     "www.diva-portal.org": {
-      "total": 7,
-      "ok": 7,
+      "total": 11,
+      "ok": 11,
       "failed": 0,
-      "lastChecked": "2026-08-09T21:10:34.549Z",
-      "publishedIn": 4,
-      "avgScore": 8.600000000000001
+      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 7,
+      "avgScore": 8.642857142857142
     },
     "academia.edu": {
       "total": 1,
@@ -367,12 +367,12 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.svt.se": {
-      "total": 10,
-      "ok": 10,
+      "total": 16,
+      "ok": 16,
       "failed": 0,
-      "lastChecked": "2026-08-14T19:04:24.897Z",
-      "publishedIn": 8,
-      "avgScore": 8.5875
+      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 12,
+      "avgScore": 8.608333333333334
     },
     "www.genteknik.se": {
       "total": 1,
@@ -579,12 +579,12 @@
       "avgScore": 8.7
     },
     "www.riksdagen.se": {
-      "total": 16,
-      "ok": 16,
+      "total": 17,
+      "ok": 17,
       "failed": 0,
-      "lastChecked": "2026-08-14T19:04:24.897Z",
-      "publishedIn": 12,
-      "avgScore": 8.64166666666667
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 13,
+      "avgScore": 8.630769230769234
     },
     "www.tandfonline.com": {
       "total": 6,
@@ -1049,10 +1049,12 @@
       "avgScore": 8.649999999999999
     },
     "www.fokus.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-02-14T11:48:45.607Z"
+      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 2,
+      "avgScore": 8.65
     },
     "www.mucf.se": {
       "total": 2,
@@ -1346,12 +1348,12 @@
       "avgScore": 8.7
     },
     "sunnah.com": {
-      "total": 3,
-      "ok": 3,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-05-17T15:06:12.677Z",
-      "publishedIn": 3,
-      "avgScore": 8.566666666666666
+      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 4,
+      "avgScore": 8.625
     },
     "tillliv.se": {
       "total": 1,
@@ -1480,12 +1482,12 @@
       "avgScore": 8.5
     },
     "tidningensyre.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 2,
+      "ok": 2,
       "failed": 0,
-      "lastChecked": "2026-04-05T19:36:48.494Z",
-      "publishedIn": 1,
-      "avgScore": 8.7
+      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 2,
+      "avgScore": 8.75
     },
     "www.thinkingfaith.org": {
       "total": 1,
@@ -1532,11 +1534,11 @@
       "avgScore": 8.5
     },
     "www.altinget.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 2,
+      "ok": 2,
       "failed": 0,
-      "lastChecked": "2026-05-17T12:23:59.802Z",
-      "publishedIn": 1,
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 2,
       "avgScore": 8.5
     },
     "www.electrummagazine.com": {
@@ -2070,6 +2072,70 @@
       "lastChecked": "2026-08-14T19:04:24.897Z",
       "publishedIn": 1,
       "avgScore": 8.7
+    },
+    "fra.europa.eu": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 2,
+      "avgScore": 8.65
+    },
+    "metr.org": {
+      "total": 4,
+      "ok": 4,
+      "failed": 0,
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.aisi.gov.uk": {
+      "total": 4,
+      "ok": 4,
+      "failed": 0,
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.nyteknik.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.svensktnaringsliv.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "gapf.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 2,
+      "avgScore": 8.65
+    },
+    "pts.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-23T09:58:57.169Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.gp.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 1,
+      "avgScore": 8.8
     }
   }
 }
