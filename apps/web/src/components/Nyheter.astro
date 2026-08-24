@@ -13,6 +13,12 @@
 // reader had never heard of, under a label — »Se på kartan« — that named a
 // mechanism nobody could see.
 //
+// ⚠️ That credit IS the one outbound link, and it is meant to be. The rule above
+// is one exit, not none: a provenance note that names a publication without
+// letting the reader go and look at it is asking to be taken on trust. Same
+// markup as every other zuhd credit on the site (see pages/nyheter.astro), so
+// the treatment is the site's own and not a one-off.
+//
 // It renders a frame and nothing else: the rows arrive from
 // `src/scripts/nyheter.ts`, which fetches zuhd's Swedish payload in the browser.
 // The column is `hidden` until there is something in it — an empty frame with a
@@ -28,7 +34,9 @@ import "../styles/nyheter.css";
 	<p class="nyheter-rail-fot">
 		<SectionLink class="label arrow-link" href="/nyheter/">Alla nyheter</SectionLink>
 	</p>
-	<p class="label nyheter-avsandare">Nyheterna kommer från zuhd.news</p>
+	<p class="label nyheter-avsandare">
+		Nyheterna kommer från <a href="https://zuhd.news/" rel="noopener">zuhd.news</a>
+	</p>
 </aside>
 
 <style>
