@@ -8,7 +8,7 @@ module.exports = {
   // Coverage gates ONLY the pure, deterministic correctness core — the same modules
   // Stryker mutates. This is deliberate: these files are where a silent miscalculation
   // hides, and where 100%-meaningful coverage is achievable. IO/native/data glue
-  // (useHeading, about link launchers, the giant nordicStyle literal, GPS/settings
+  // (useAim, about link launchers, the giant nordicStyle literal, GPS/settings
   // context providers, generated place data) is intentionally NOT gated here — folding
   // it in would let untested native glue dilute the number and reward shallow coverage.
   // It's an explicit allow-list, not a wildcard, so adding a new pure module is a
@@ -31,6 +31,11 @@ module.exports = {
     'src/lib/moon/readout.ts',
     'src/lib/moon/shape.ts',
     'src/lib/moon/visibility.ts',
+    // The instrument's own maths — how far off, which way to turn, may this reading be
+    // trusted. It used to live in qibla.ts and was gated as part of it; splitting the file
+    // must not quietly drop it off this list, because it is the module where a sign error
+    // sends a reader the opposite way with full confidence.
+    'src/lib/aim.ts',
     'src/lib/qibla.ts',
     'src/lib/relative-day.ts',
     'src/lib/places/nearest.ts',

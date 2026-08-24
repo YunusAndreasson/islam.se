@@ -14,6 +14,7 @@
   "timeoutMS": 30000,
   "mutate": [
     "src/lib/hijri.ts",
+    "src/lib/aim.ts",
     "src/lib/qibla.ts",
     "src/lib/relative-day.ts",
     "src/lib/prayer-times.ts",

@@ -30,6 +30,15 @@
 //             are looking at the real thing — which is the only way anyone has ever settled
 //             the beginning of a month.
 //
+//             ⚠️ AND IT WARMS THE SAME WAY THE COMPASS DOES. The needle, the aim index and
+//             the hub all carry a brass twin faded in by `prox` — 1 when the phone is on the
+//             Moon's bearing, 0 by 45° off — over a halo behind the Moon that swells as you
+//             close in. That is not decoration: a binary lock gives the reader nothing to
+//             steer by until the instant they are already there, and Don Norman's argument
+//             for graded feedback is the same argument on both screens. Sharing the ramp
+//             (and its exact numbers, in lib/aim) is what makes the second instrument feel
+//             like the first one rather than like a different app's idea of a compass.
+//
 // The face, the ticks, the cardinal letters, the index and the hub all come from theme/dial,
 // so this and Qibla cannot drift apart. What is written here is only what is the Moon's.
 import { LinearGradient } from 'expo-linear-gradient';
@@ -45,9 +54,11 @@ import Animated, {
 
 import { MoonDisc } from '@/components/moon/MoonDisc';
 import { useMoonInk } from '@/components/moon/moonInk';
+import { DialSight } from '@/components/ui/DialSight';
 import type { RingDay } from '@/lib/moon/month';
 import { skyReach } from '@/lib/moon/shape';
-import { makeDialStyles, rotate as rot } from '@/theme/dial';
+import { makeDialStyles, rotate as rot, useBrassStyles } from '@/theme/dial';
+import { hexToRgba } from '@/theme/rgba';
 import { mono, motion, type Palette, type } from '@/theme/tokens';
 
 export type MoonDialMode = 'month' | 'sky';
@@ -84,8 +95,11 @@ interface Props {
   /** Sky mode: where the Moon stands. */
   azimuth: number;
   altitude: number;
-  /** Sky mode: the unwrapped rose rotation (−heading), written from the heading callback. */
-  roseDeg: SharedValue<number>;
+  /** Sky mode: the UNWRAPPED live heading (deg) from lib/useAim. The rose turns by MINUS
+   *  this, so a needle pinned inside it at the Moon's azimuth lands on the real Moon. */
+  rotation: SharedValue<number>;
+  /** Sky mode: "getting warmer" 0..1 — 1 when the phone is on the Moon's bearing. */
+  prox: SharedValue<number>;
   /** Sky mode: false when there is no trustworthy heading — the rose then stays north-up and
    *  the screen says so, rather than turning to a direction it does not have. */
   live: boolean;
@@ -105,7 +119,8 @@ export const MoonDial = memo(function MoonDial({
   tilt,
   azimuth,
   altitude,
-  roseDeg,
+  rotation,
+  prox,
   live,
   c,
 }: Props) {
@@ -130,11 +145,26 @@ export const MoonDial = memo(function MoonDial({
   const brass = ring.find((d) => d.day === today)?.mark?.kind === 'white';
   const ink = useMoonInk(brass);
   const r = size / 2;
-  const roseStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${roseDeg.value}deg` }] }));
+  // ⚠️ BOTH OF THESE ARE GATED ON `live`, and they have to move together. When there is no
+  // trustworthy heading the rose does not turn — but `rotation` keeps tracking the phone
+  // regardless, so a counter-rotation still applied would spin the Moon's own drawing inside
+  // a rose standing still, which is the crescent visibly leaning the wrong way while the
+  // screen says the direction cannot be trusted.
+  const roseStyle = useAnimatedStyle(
+    () => ({ transform: [{ rotate: `${live ? -rotation.value : 0}deg` }] }),
+    [live],
+  );
   // Undoes the rose's own turn for whatever it wraps. It has to be an ANIMATED style, not a
-  // static one: `roseDeg` lives on the UI thread and a `rot(-something)` computed in render
+  // static one: `rotation` lives on the UI thread and a `rot(-something)` computed in render
   // cannot cancel a value that moves between renders. See the Moon on the needle below.
-  const counterRoseStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${-roseDeg.value}deg` }] }));
+  const counterRoseStyle = useAnimatedStyle(
+    () => ({ transform: [{ rotate: `${live ? rotation.value : 0}deg` }] }),
+    [live],
+  );
+  // The brass twin every "you are on it" overlay shares — needle, index and hub warm as one
+  // thing rather than three — and the halo behind the Moon. Both from theme/dial, so this and
+  // the qibla dial cannot drift on a swell constant. See useBrassStyles.
+  const { brass: brassStyle, glow: glowStyle } = useBrassStyles(prox, reduceMotion);
   const labelled = useMemo(() => labelledDays(ring.length, today), [ring.length, today]);
   const below = altitude <= 0;
   // Sky mode is a dome seen from underneath: azimuth runs round the rim, ALTITUDE runs
@@ -214,10 +244,19 @@ export const MoonDial = memo(function MoonDial({
           pointerEvents="none"
           {...fade}
         >
+          {/* The axis the Moon has to travel up to meet — the same fixed sight the qibla dial
+              draws, and the thing that turns "a needle points somewhere" into "turn until it
+              reaches the top". BEFORE the rose, exactly as on Qibla: painted after it, this
+              2 dp hairline runs straight over the Moon and its halo, and does so most visibly
+              at the moment of alignment, when the needle sits under the sight at full brass. */}
+          <DialSight radius={r} c={c} />
+
           {/* The rose. It turns against the phone when there is a heading to turn against,
               and stays north-up when there is not — the honest fallback Qibla uses, and the
-              only state an emulator or a tablet without a magnetometer can ever show. */}
-          <Animated.View style={[StyleSheet.absoluteFill, live ? roseStyle : undefined]}>
+              only state an emulator or a tablet without a magnetometer can ever show. The
+              gate is inside `roseStyle`, not here: a style swapped in and out of the array
+              leaves the last frame's transform standing on the UI thread. */}
+          <Animated.View style={[StyleSheet.absoluteFill, roseStyle]}>
             {TICKS.map((deg) => (
               <View key={`t${deg}`} style={[StyleSheet.absoluteFill, rot(deg)]} pointerEvents="none">
                 <View style={styles.tickSlot}>
@@ -241,7 +280,24 @@ export const MoonDial = memo(function MoonDial({
                 the readout says which. */}
             <View style={[StyleSheet.absoluteFill, rot(azimuth), below && styles.belowHorizon]} pointerEvents="none">
               <View style={[styles.needleSlot, { height: r }]}>
-                <View style={[styles.needleMoon, { marginTop: moonInset }]}>
+                <View style={[styles.needleMoon, { width: moonSize, height: moonSize, marginTop: moonInset }]}>
+                  {/* The halo. Sized off the Moon rather than fixed, because the Moon on the
+                      needle is a fraction of the dial and a 60 dp circle behind a 30 dp Moon
+                      on a small phone is a blob with a Moon somewhere in it. Centred by the
+                      negative inset, which is cheaper than a wrapper and cannot mis-centre. */}
+                  <Animated.View
+                    style={[
+                      styles.glow,
+                      {
+                        width: moonSize * 2.2,
+                        height: moonSize * 2.2,
+                        borderRadius: moonSize * 1.1,
+                        top: -moonSize * 0.6,
+                        left: -moonSize * 0.6,
+                      },
+                      glowStyle,
+                    ]}
+                  />
                   {/* Counter-rotated out of BOTH turns it is nested inside — the rose's
                       −heading and the needle's azimuth — so the Moon leans by its bright-limb
                       angle and by nothing else.
@@ -257,7 +313,10 @@ export const MoonDial = memo(function MoonDial({
                     </View>
                   </Animated.View>
                 </View>
-                <View style={styles.needleShaft} />
+                <View style={styles.shaftWrap}>
+                  <View style={styles.needleShaft} />
+                  <Animated.View style={[StyleSheet.absoluteFill, styles.needleShaftBrass, brassStyle]} />
+                </View>
               </View>
             </View>
           </Animated.View>
@@ -268,8 +327,10 @@ export const MoonDial = memo(function MoonDial({
               top of this file. Inside the layer they also fade with the drawing they belong
               to rather than blinking on their own. */}
           <View style={styles.index} pointerEvents="none" />
+          <Animated.View style={[styles.index, styles.indexBrass, brassStyle]} pointerEvents="none" />
           <View style={styles.hubWrap} pointerEvents="none">
             <View style={[StyleSheet.absoluteFill, styles.hub]} />
+            <Animated.View style={[StyleSheet.absoluteFill, styles.hub, styles.hubBrass, brassStyle]} />
           </View>
         </Animated.View>
       )}
@@ -318,9 +379,17 @@ function makeStyles(c: Palette) {
 
     // ── The sky needle. ──
     needleSlot: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' },
-    // marginTop is set at the call site from the Moon's altitude — see `moonInset`.
-    needleMoon: { zIndex: 1 },
-    needleShaft: { flex: 1, width: 3, borderRadius: 2, backgroundColor: c.accent, marginBottom: 2 },
+    // marginTop and the box are set at the call site from the Moon's altitude and size — see
+    // `moonInset` / `moonSize`. zIndex keeps the Moon painted above the shaft that runs under
+    // it, and above its own halo.
+    needleMoon: { zIndex: 1, alignItems: 'center', justifyContent: 'center' },
+    // The halo behind the Moon. Its geometry is set at the call site; only the ink is here.
+    glow: { position: 'absolute', backgroundColor: hexToRgba(c.highlight, 0.45) },
+    // The shaft and its brass twin, stacked — the twin is faded in by `prox`, so the needle
+    // warms as you close in exactly as the qibla needle does.
+    shaftWrap: { flex: 1, width: 3, marginBottom: 2, alignItems: 'center' },
+    needleShaft: { flex: 1, width: 3, borderRadius: 2, backgroundColor: c.accent },
+    needleShaftBrass: { backgroundColor: c.highlight, borderRadius: 2 },
     belowHorizon: { opacity: 0.35 },
   });
 }

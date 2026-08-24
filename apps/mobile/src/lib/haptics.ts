@@ -5,8 +5,9 @@
 //
 // THE POLICY — the single source of truth for *when* to buzz. Haptics fire only
 // for these four classes of moment, and never otherwise:
-//   1. An OUTCOME is reached            → hapticSuccess  (qibla lock, GPS fix confirmed,
-//                                          finishing the introduction)
+//   1. An OUTCOME is reached            → hapticSuccess  (qibla lock, sighting the Moon on
+//                                          Månen's sky dial, GPS fix confirmed, finishing
+//                                          the introduction)
 //   2. A negative OUTCOME is reached    → hapticWarning  (GPS/permission denied, notifications
 //                                          blocked). Only for a discrete failure the user just
 //                                          triggered — never for a continuously-flipping state

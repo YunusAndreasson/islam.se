@@ -23,8 +23,8 @@ import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue, withSprin
 
 import { hapticSuccess } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
-import { angleDelta, QIBLA_ALIGN_TOL, qiblaBearing } from '@/lib/qibla';
-import { useHeading } from '@/lib/useHeading';
+import { qiblaBearing } from '@/lib/qibla';
+import { useAim } from '@/lib/useAim';
 import { useColors } from '@/theme/useColors';
 import { Icon } from '@/components/ui/Icon';
 import { GlassRoundButton } from './GlassRoundButton';
@@ -36,20 +36,35 @@ import { GlassRoundButton } from './GlassRoundButton';
  *  empty air with a small mark floating in it. (The cog next to it was separately on 24
  *  for no stated reason; both are 26 now, so the pair finally matches.) */
 export const GLYPH = 26;
-// A crisp, slightly springy lock so the arrow "snaps" gold when you hit the bearing.
-const LOCK_SPRING = { damping: 14, stiffness: 240, mass: 0.5 };
+/** A crisp, slightly springy lock so the mark "snaps" when you hit the bearing. Shared
+ *  with MoonButton: the two discs sit side by side and must arrive with one motion. */
+export const LOCK_SPRING = { damping: 14, stiffness: 240, mass: 0.5 };
 
 export function CompassButton({ active }: { active: boolean }) {
   const c = useColors();
   const { coords } = useLocation();
   const bearing = useMemo(() => qiblaBearing(coords), [coords]);
-  const { heading, reliable, rotation } = useHeading({ active, request: false });
-
-  // Lock ONLY when the heading is trustworthy (accuracy ≥ 2). During the magnetometer's
-  // warm-up the heading can be tens of degrees off, so an ungated lock would flash gold
-  // and buzz "you're facing Mecca" at the wrong orientation. The arrow still turns live
-  // meanwhile — showing an uncertain direction is honest, claiming a lock is not.
-  const aligned = reliable && heading != null && angleDelta(heading, bearing) <= QIBLA_ALIGN_TOL;
+  // The same instrument the Qibla screen and the Moon's sky dial run on (lib/useAim), asked
+  // the smallest of its questions: am I facing it, and which way is the phone pointing. It
+  // does NOT prompt — passive chrome on the home screen must never throw a permission dialog
+  // at a reader who only opened the map; the dedicated Qibla screen owns that question.
+  //
+  // `status.aligned` locks ONLY when the heading is trustworthy (calibration ≥ 2). During the
+  // magnetometer's warm-up the heading can be tens of degrees off, so an ungated lock would
+  // flash gold and buzz "you're facing Mecca" at the wrong orientation. The arrow still turns
+  // live meanwhile — showing an uncertain direction is honest, claiming a lock is not. It also
+  // brings the hysteresis this button never had: a heading sitting on the 4° edge used to
+  // strobe the disc gold and re-fire the haptic every tick.
+  // `countTurn: false` — like the Moon disc beside it, this reads the BAND and nothing else,
+  // so it opts out of the hook's 10 Hz remaining-turn push. The arrow's smoothness is
+  // untouched: that rides `rotation` on the UI thread.
+  const { status, rotation, hasReading } = useAim({
+    active,
+    request: false,
+    bearing,
+    countTurn: false,
+  });
+  const aligned = status.aligned;
   const wasAligned = useRef(false);
   const lockScale = useSharedValue(1);
   // The scale-pop is decoration on top of a colour change that already carries the whole
@@ -66,7 +81,7 @@ export function CompassButton({ active }: { active: boolean }) {
   // Point the arrow at the qibla — the bearing minus the live heading, clockwise — on the
   // UI thread, so it tracks the phone smoothly without a React render per frame. The lock
   // scale rides along in the same transform. `rotation` is the UNWRAPPED heading (see
-  // useHeading), so crossing north eases the short way instead of spinning 359°.
+  // lib/useAim), so crossing north eases the short way instead of spinning 359°.
   const needleStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${bearing - rotation.value}deg` }, { scale: lockScale.value }],
   }));
@@ -96,13 +111,13 @@ export function CompassButton({ active }: { active: boolean }) {
       accessibilityLabel={
         aligned
           ? 'Qibla – du är vänd mot Mecka'
-          : heading == null
+          : !hasReading
             ? 'Qibla – kompassen är inte tillgänglig'
             : 'Qibla'
       }
       onPress={() => router.navigate('/qibla')}
     >
-      {heading == null ? (
+      {!hasReading ? (
         // No sensor (emulator), or no heading yet. A compass ROSE, not the arrow: an
         // arrow always claims a direction, and an upright one here would claim "Mecca is
         // straight ahead" to anyone who happened to be facing north-ish. The rose says

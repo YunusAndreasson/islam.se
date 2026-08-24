@@ -9,9 +9,23 @@ import { router } from 'expo-router';
 import type { ReactElement, ReactNode } from 'react';
 
 import Manen from '@/app/manen';
+import { hapticSuccess } from '@/lib/haptics';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
+import { moonSky } from '@/lib/moon/ephemeris';
 import { SettingsProvider } from '@/lib/settings/context';
+
+// The sighting fires ONE confirming tap, and the policy in lib/haptics is the reason it may
+// (class 1, an outcome reached). Asserted at the cue rather than at the native call: under
+// jest-expo, which runs as iOS, an assertion on performAndroidHapticsAsync passes silently
+// whatever the app does. See the repo's "Jest Mock Stability" note.
+jest.mock('@/lib/haptics', () => ({
+  hapticSelection: jest.fn(),
+  hapticSuccess: jest.fn(),
+  hapticLight: jest.fn(),
+  hapticWarning: jest.fn(),
+  setHapticsEnabled: jest.fn(),
+}));
 
 // Only `Date` is faked; every timer API stays real so React Testing Library's async helpers
 // still work. Same recipe, and same reason, as day-navigation.test.tsx.
@@ -37,6 +51,30 @@ const REAL_TIMER_APIS = [
 // evening in the month when every part of this screen has something real to say. The
 // position comes from jest.setup's location mock (Stockholm).
 const PINNED_NOW = Date.UTC(2026, 1, 18, 14, 0, 0);
+
+/** Stockholm — the position jest.setup's location mock hands out. */
+const HERE = { latitude: 59.3293, longitude: 18.0686 };
+/** Where the Moon actually stands at the pinned instant. Derived rather than hardcoded, so a
+ *  test that says "40° off the Moon" means it whatever the ephemeris returns — the same trick
+ *  screens.test.tsx plays with TEST_QIBLA. */
+const MOON = moonSky(HERE, new Date(PINNED_NOW));
+
+/** Install a heading emitter for this test, and hand back the function that fires it.
+ *  `accuracy` is expo-location's calibration level 0–3; 3 is a trusted reading. */
+function headingEmitter(): (heading: number, accuracy?: number) => Promise<void> {
+  type Emit = (h: { trueHeading: number; magHeading: number; accuracy: number }) => void;
+  let emit: Emit | null = null;
+  jest.mocked(Location.watchHeadingAsync).mockImplementation((async (cb: Emit) => {
+    emit = cb;
+    return { remove: jest.fn() };
+  }) as never);
+  return async (heading, accuracy = 3) => {
+    await waitFor(() => expect(emit).not.toBeNull());
+    await act(async () => {
+      emit?.({ trueHeading: heading, magHeading: heading, accuracy });
+    });
+  };
+}
 
 function withProviders(node: ReactNode) {
   return (
@@ -79,18 +117,57 @@ describe('Månen', () => {
     jest.useRealTimers();
   });
 
-  it('shows the Hijri date, the phase and the place', async () => {
+  it('leads the switch with the mode it opens in', async () => {
+    // The order and the default are one decision, and TypeScript now holds them together
+    // (`INITIAL_MODE = MODES[0].value`). This asserts the half the compiler cannot: that the
+    // segment the reader lands on is the one their eye reaches first. A screen opening on the
+    // SECOND of two segments spends its first impression saying "you are not on the main one".
+    await renderSettled(withProviders(<Manen />));
+
+    const [first, second] = screen.getAllByRole('radio');
+    expect(first).toHaveTextContent('På himlen');
+    expect(second).toHaveTextContent('Månaden');
+    // ...and it is the one actually selected, so the order is not merely cosmetic.
+    expect(screen.getByRole('radio', { selected: true })).toHaveTextContent('På himlen');
+  });
+
+  it('opens on the sky, and keeps the date there', async () => {
+    // THE LANDING MODE IS PART OF THE ARGUMENT, not a default nobody chose. The month is
+    // reckoned FROM the sky, and this screen's own copy tells the reader the arithmetic is no
+    // part of the ruling — so opening on the calculated ring, with the observation one tap
+    // behind it, had those two the wrong way round. A regression to 'month' would read as a
+    // cosmetic difference and would quietly undo that.
     await renderSettled(withProviders(<Manen />));
 
     expect(screen.getByText('Månen')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Stäng' })).toBeTruthy();
+    // No heading event ever arrives from jest.setup's subscription, so the screen sits in the
+    // state before the first reading — which only sky mode has. It must NOT say "kalibrera"
+    // there: that asks the reader to fix something that has not gone wrong yet.
+    await waitFor(() => expect(screen.getByText('Söker riktning…')).toBeTruthy());
     // 18 February 2026 is 1 Ramaḍān 1447 in the tabular calendar — and the sky says the
     // crescent is barely a day old, which is the agreement the whole screen is built to show.
     // Month and year share one line now — the year is a nested Text inside the month's, so
     // the match is on the composed string rather than on two separate nodes.
     expect(screen.getByText(/Ramaḍān\s*1447/)).toBeTruthy();
-    // A waxing crescent, in the almanac's own words rather than a percentage.
-    expect(screen.getByText('Tilltagande månskära')).toBeTruthy();
+  });
+
+  it('names the phase, and keeps the sky, once the ring is asked for', async () => {
+    await renderSettled(withProviders(<Manen />));
+
+    await act(async () => {
+      fireEvent.press(screen.getByText('Månaden'));
+    });
+
+    // A waxing crescent, in the almanac's own words rather than a percentage. It is the month
+    // ring's line: in sky mode the pill belongs to the instrument.
+    await waitFor(() => expect(screen.getByText('Tilltagande månskära')).toBeTruthy());
+    // The hero stays the date whichever way the instrument is pointed.
+    expect(screen.getByText(/Ramaḍān\s*1447/)).toBeTruthy();
+    // ...and WHERE the Moon is stays on screen too. That line is a fact about the sky over
+    // this place, not a compass reading, so it does not belong to the mode it is read in —
+    // and reserving it in both is also what stops the switch moving the dial under the eye.
+    expect(screen.getByText(/^(I .+ · \d+° upp|Under horisonten, i .+)$/)).toBeTruthy();
   });
 
   it('says when the Moon rises and sets, and how much of it is lit', async () => {
@@ -163,55 +240,127 @@ describe('Månen', () => {
     expect(screen.getByText(/Månaden börjar när nymånen ses/)).toBeTruthy();
   });
 
-  it('switches the dial to the sky without losing the date', async () => {
+  it('names the side to turn toward, and counts the turn down', async () => {
+    // The half of this mode that makes it usable in the dark. The dial says the direction;
+    // these two say it in words — the same instruction, in the same words, as the qibla
+    // compass, because a reader who has found Mecca once should not have to learn a second
+    // vocabulary for the same gesture.
+    const emit = headingEmitter();
     await renderSettled(withProviders(<Manen />));
+    // Facing 40° anticlockwise of the Moon: the short way back is clockwise — your right.
+    await emit(MOON.azimuth - 40);
 
-    await act(async () => {
-      fireEvent.press(screen.getByText('På himlen'));
-    });
+    await waitFor(() => expect(screen.getByText('Vrid åt höger')).toBeTruthy());
+    // The pill speaks its own text and NOTHING else. Left to compose its label from its
+    // children, the leading glyph contributes an empty description and TalkBack reads
+    // ", Vrid åt höger" — a comma before every instruction. Only a device showed that; a
+    // query by text sails straight past it.
+    expect(screen.getByLabelText('Vrid åt höger')).toBeTruthy();
+    // The live count lives in the caption, NEVER in the pill: the pill is a polite live
+    // region and a value moving ten times a second would have TalkBack announcing over the
+    // reader continuously.
+    expect(screen.getByText(/40° kvar$/)).toBeTruthy();
+    expect(screen.getByLabelText(/40 grader kvar, vrid åt höger$/)).toBeTruthy();
+  });
 
-    // The hero stays the date: the switch changes what the instrument points at, not what
-    // the screen is about.
-    // No heading event ever arrives from jest.setup's subscription, so the screen sits in
-    // the state before the first reading. It must NOT say "kalibrera" there: that asks the
-    // reader to fix something that has not gone wrong yet.
-    await waitFor(() => expect(screen.getByText('Söker riktning…')).toBeTruthy());
-    expect(screen.getByText(/Ramaḍān\s*1447/)).toBeTruthy();
+  it('names the other side when the Moon is anticlockwise of you', async () => {
+    const emit = headingEmitter();
+    await renderSettled(withProviders(<Manen />));
+    await emit(MOON.azimuth + 40);
+
+    await waitFor(() => expect(screen.getByText('Vrid åt vänster')).toBeTruthy());
+  });
+
+  it('fires once when the phone comes onto the Moon', async () => {
+    // The moment the whole mode exists for. One confirming tap (not a buzz per frame while it
+    // is held), and the pill stops instructing and starts confirming — while the caption turns
+    // the same number from an instruction into a measurement, because the lock holds out to 7°
+    // and "5° kvar" printed under "Du ser mot månen" is the screen arguing with itself.
+    const emit = headingEmitter();
+    await renderSettled(withProviders(<Manen />));
+    await emit(MOON.azimuth);
+
+    await waitFor(() => expect(screen.getByText('Du ser mot månen')).toBeTruthy());
+    expect(screen.getByText(/0° från månen$/)).toBeTruthy();
+    expect(jest.mocked(hapticSuccess)).toHaveBeenCalledTimes(1);
+
+    // Still on it, a degree over — inside the hysteresis band, so the lock holds and does NOT
+    // re-fire. A tap on every frame while the phone is held is the failure this guards.
+    await emit(MOON.azimuth + 1);
+    expect(jest.mocked(hapticSuccess)).toHaveBeenCalledTimes(1);
+  });
+
+  it('withholds the direction while the compass is still calibrating', async () => {
+    const emit = headingEmitter();
+    await renderSettled(withProviders(<Manen />));
+    // A reading pointing DEAD at the Moon, but with the calibration level the OS uses to say
+    // "don't trust me". The same gate that stops the rose turning has to stop the count: a
+    // number ticking toward a bearing the dial is refusing to turn to would talk a reader into
+    // staring at the wrong patch of sky with full confidence.
+    await emit(MOON.azimuth, 0);
+
+    await waitFor(() => expect(screen.getByText('Rör telefonen i en åtta')).toBeTruthy());
+    expect(screen.queryByText(/kvar$/)).toBeNull();
+    expect(jest.mocked(hapticSuccess)).not.toHaveBeenCalled();
   });
 
   it('keeps saying where the Moon is when there is no compass to turn the dial with', async () => {
     // Refusing the permission is the fast, deterministic way into the state every emulator
-    // and every tablet without a magnetometer lands in. The screen must not answer it with
-    // an apology: where the Moon stands is a fact about the sky over this place, and the
-    // heading only decides whether the DIAL can be turned the right way round.
+    // and every tablet without a magnetometer lands in. The screen must not answer it with an
+    // apology: where the Moon stands is a fact about the sky over this place, and the heading
+    // only decides whether the DIAL can be turned the right way round.
+    //
+    // The two halves of that now sit in two places, which is the whole point of the split: the
+    // PILL says what the instrument can do (nothing but point north), the CAPTION says where
+    // the Moon is. Before, one line carried both and had to apologise mid-sentence.
+    //
+    // It is the CHECK that has to be denied, not the request: landing on this screen never
+    // prompts (see the note on useAim in manen.tsx), so a test that only refuses the prompt
+    // would sail past on jest.setup's granted check and never reach this state at all.
+    jest.mocked(Location.getForegroundPermissionsAsync).mockReset();
+    jest
+      .mocked(Location.getForegroundPermissionsAsync)
+      .mockImplementation((async () => ({ status: 'denied', granted: false, canAskAgain: true })) as never);
     jest.mocked(Location.requestForegroundPermissionsAsync).mockReset();
     jest
       .mocked(Location.requestForegroundPermissionsAsync)
-      .mockImplementation((async () => ({ status: 'denied', granted: false })) as never);
+      .mockImplementation((async () => ({ status: 'denied', granted: false, canAskAgain: true })) as never);
 
     await renderSettled(withProviders(<Manen />));
-    await act(async () => {
-      fireEvent.press(screen.getByText('På himlen'));
-    });
 
-    // One line, asserted whole: the direction is still stated ("I sydost, 23° upp" /
-    // "Under horisonten, i sydost") AND it is qualified as measured from north rather than
-    // from the phone. Split into two matches, the leading "I " half also caught the date
-    // block's own "I dag · lördag …" — the two lines start alike now that neither of them
-    // names the Moon it is about.
-    await waitFor(() =>
-      expect(screen.getByText(/^(I |Under horisonten, i ).+ – räknat från norr$/)).toBeTruthy(),
-    );
-
-    // The pill PRINTS the Moon's altitude and does not ANNOUNCE it. At the pinned instant
-    // the Moon stands 19° up, so the degrees really are on screen here — and the pill is a
-    // polite live region on a screen whose clock ticks every sixty seconds, so a rounded
-    // degree that rolls over every few minutes had TalkBack re-reading the whole line to a
-    // reader who had not touched anything. The compass point stays in the spoken form; it
-    // changes about once an hour.
+    await waitFor(() => expect(screen.getByText('Riktningen räknad från norr')).toBeTruthy());
+    // One line, asserted whole: the direction is still stated ("I sydost · 19° upp" /
+    // "Under horisonten, i sydost"). Anchored at both ends, because the leading "I " half also
+    // catches the date block's own "I dag · onsdag …" — the two start alike now that neither
+    // of them names the Moon it is about.
+    expect(screen.getByText(/^(I .+ · \d+° upp|Under horisonten, i .+)$/)).toBeTruthy();
+    // At the pinned instant the Moon stands ~19° up, so the degrees really are on screen —
+    // and they are NOT in the pill, which is a polite live region on a screen whose clock
+    // ticks every sixty seconds. A rounded altitude rolls over every few minutes, and had
+    // TalkBack re-reading the whole line to a reader who had not touched anything.
     expect(screen.getByText(/\d+° upp/)).toBeTruthy();
+    // The lock never fires from a dial that is only pointing north.
+    expect(jest.mocked(hapticSuccess)).not.toHaveBeenCalled();
+    // The refused state is not a dead end: the OS would still listen, so the screen offers
+    // the prompt it deliberately did not raise on its own. (Once the OS stops listening,
+    // `canAskAgain` false, this becomes the trip to the system settings instead.)
+    const offer = screen.getByRole('button', { name: /^Tillåt platsåtkomst/ });
+    // ...and it keeps asking. Android grants TWO refusals, so the reader who declines once and
+    // presses again must get a second dialog — the failure a boolean `skyChosen` produced, where
+    // the second press flipped an already-true flag and nothing happened at all.
+    expect(jest.mocked(Location.requestForegroundPermissionsAsync)).not.toHaveBeenCalled();
+    for (const expected of [1, 2]) {
+      await act(async () => {
+        fireEvent.press(offer);
+      });
+      await waitFor(() =>
+        expect(jest.mocked(Location.requestForegroundPermissionsAsync)).toHaveBeenCalledTimes(expected),
+      );
+    }
+    // The printed caption carries a degree sign; the SPOKEN one must not — a screen reader
+    // verbalises it, and Qibla's sibling label spells its units out in words. (Asserted over
+    // the whole screen, so a future label that reaches for `°` anywhere trips it.)
     expect(screen.queryByLabelText(/°/)).toBeNull();
-    expect(screen.getByLabelText(/^I .+ – räknat från norr$/)).toBeTruthy();
   });
 
   it('offers the place picker instead of a confident reading when there is no real fix', async () => {

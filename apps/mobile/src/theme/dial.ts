@@ -13,6 +13,7 @@
 // meaning — the qibla's beam, needle and Kaaba, the Moon's notched month ring — because
 // those are the drawings, not the instrument.
 import { StyleSheet } from 'react-native';
+import { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 import { type Palette, shadow, type } from './tokens';
 
@@ -75,3 +76,34 @@ export function makeDialStyles(c: Palette) {
     hubBrass: { backgroundColor: 'transparent', borderColor: c.highlight },
   });
 }
+
+/** The "getting warmer" overlays, shared by both instruments.
+ *
+ *  Every live part of a dial — the qibla's beam, cube, needle and index; the Moon's needle,
+ *  halo and index — fades in on ONE ramp so they warm as a single thing rather than as five.
+ *  It lives here, beside the geometry, for the reason stated at the top of this file: the two
+ *  dials are one instrument, and a swell constant that drifted on one screen and not the other
+ *  would turn a pair into two things that look nearly alike. These were written out twice,
+ *  character for character, before they were written once.
+ *
+ *  `brass` is the plain cross-fade. `glow` adds the halo's swell, which Reduce Motion drops —
+ *  a fade is not vestibular motion, but a thing pulsing under the reader's eye is exactly what
+ *  that setting is asking us not to do; the opacity ramp stays, so the signal survives.
+ */
+export function useBrassStyles(prox: SharedValue<number>, reduceMotion: boolean) {
+  const brass = useAnimatedStyle(() => ({ opacity: prox.value }));
+  const glow = useAnimatedStyle(
+    () => ({
+      opacity: prox.value,
+      transform: [{ scale: reduceMotion ? 1 : GLOW_REST + prox.value * GLOW_SWELL }],
+    }),
+    [reduceMotion],
+  );
+  return { brass, glow };
+}
+
+/** The halo at rest, and how much of the dial's radius it gains on the way to the lock. Set
+ *  so a cold halo is small enough to read as "not yet" and a locked one still sits inside the
+ *  mark it is behind. */
+const GLOW_REST = 0.55;
+const GLOW_SWELL = 0.55;
