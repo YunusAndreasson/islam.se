@@ -60,7 +60,7 @@ export function MapNav({ active }: { active: boolean }) {
         {/* Optional, like the map's other two layers. Hiding it leaves the row one disc
             wide; nothing else measures from the row's WIDTH, so the lane below and the
             chip in it are unaffected either way. */}
-        {settings.showMoon && <MoonButton />}
+        {settings.showMoon && <MoonButton active={active} />}
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
         <GlassRoundButton

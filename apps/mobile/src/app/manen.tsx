@@ -7,12 +7,25 @@
 // the way it actually leans over the reader's own horizon, on a ring that is the month.
 //
 // It is deliberately the qibla dial's TWIN — same face, same ticks, same index and hub, from
-// theme/dial — because they are two readings of the same instrument. That is also why the
-// second mode exists. `På himlen` turns the ring back into a horizon and swings the needle
-// to where the Moon actually is, so the phone can be held up and walked round until it
-// points at the real thing. Every month in this calendar has begun that way for fourteen
-// centuries; an app that only ever printed a computed number would be quietly replacing the
-// practice rather than serving it.
+// theme/dial; same instrument underneath, from lib/useAim — because they are two readings of
+// one device. `På himlen` turns the ring into a horizon and swings the needle to where the
+// Moon actually is, so the phone can be held up and walked round until it points at the real
+// thing. Every month in this calendar has begun that way for fourteen centuries; an app that
+// only ever printed a computed number would be quietly replacing the practice rather than
+// serving it.
+//
+// SO THE SCREEN OPENS THERE. `Månaden` was the landing mode while the sky was an extra the
+// switch could reveal, and that had the arithmetic — the part the reader is told never to
+// take as the ruling — greeting them first, with the observation they are actually asked to
+// make one tap behind it. Opening on `På himlen` puts the sky first and the reckoning second,
+// which is the order the religion puts them in.
+//
+// AND IT BEHAVES LIKE THE COMPASS. The same warmth ramp, the same instruction ("Vrid åt
+// höger"), the same single confirming tap at the moment you are on it — because a reader who
+// has found the qibla once already knows how to find the Moon, and being taught a second
+// vocabulary for the same gesture is a cost with nothing bought by it. What differs is only
+// what the words are ABOUT: a Moon under the horizon is a direction you can face and still
+// see nothing, and the screen says so rather than congratulating you.
 //
 // WHAT IS ON THE SURFACE. One instrument, one date, one line about tonight's Moon — and
 // then a door. The almanac this screen can compute is large (moonrise and moonset, the next
@@ -29,10 +42,19 @@
 // sky have drifted far enough for a reader to see it for themselves — the full moon landing
 // outside the white days — it says so as an observation and offers the offset. Which day the
 // month starts on stays where it belongs, with the reader's mosque.
+import { useKeepAwake } from 'expo-keep-awake';
 import { router, useIsFocused } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
-import { PixelRatio, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import { useDerivedValue } from 'react-native-reanimated';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  AccessibilityInfo,
+  PixelRatio,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { MoonAlmanacSheet } from '@/components/moon/MoonAlmanacSheet';
@@ -42,9 +64,13 @@ import { useMoonInk } from '@/components/moon/moonInk';
 import { MoonMonthSheet } from '@/components/moon/MoonMonthSheet';
 import { MoonNoteRow } from '@/components/moon/MoonNoteRow';
 import { SegmentedChoice } from '@/components/settings/SegmentedChoice';
-import { Icon } from '@/components/ui/Icon';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { ModalBar } from '@/components/ui/ModalBar';
-import { hapticLight, hapticSelection } from '@/lib/haptics';
+import { PlaceHeader } from '@/components/ui/PlaceHeader';
+import { type PillTone, StatusPill } from '@/components/ui/StatusPill';
+import { TURN_CUES } from '@/components/ui/turnCues';
+import { type AimStatus, type AimTurn, compassPoint } from '@/lib/aim';
+import { hapticLight, hapticSelection, hapticSuccess } from '@/lib/haptics';
 import {
   addHijriMonths,
   formatGregorian,
@@ -61,12 +87,16 @@ import { PHASE_NAMES, phaseKey } from '@/lib/moon/phase';
 import { moonFacts, moonNotes } from '@/lib/moon/readout';
 import { useCoarseNow, useMoonSky } from '@/lib/moon/useMoon';
 import { formatTime } from '@/lib/prayer-times';
-import { compassPoint } from '@/lib/qibla';
-import { useHeading } from '@/lib/useHeading';
+import {
+  openSystemSettings,
+  openSystemSettingsA11yLabel,
+  openSystemSettingsLabel,
+} from '@/lib/system-settings';
+import { useAim } from '@/lib/useAim';
 import { useSettings } from '@/lib/settings/context';
 import { startOfZoneDay, zoneDayLength, zonePrayerDate } from '@/lib/zone-time';
 import { DIAL_MAX } from '@/theme/dial';
-import { mono, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { mono, type Palette, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
 /** How often the screen's own clock rolls. A minute, rather than the ten the map's nav disc
@@ -108,10 +138,67 @@ const SWITCH_BLOCK = 44 + space.sm * 2;
  *  than pushing it off the bottom. */
 const INSTRUMENT_SHARE = 0.46;
 
-const MODES: readonly { value: MoonDialMode; label: string }[] = [
-  { value: 'month', label: 'Månaden' },
+/** ⚠️ THE ORDER FOLLOWS THE DEFAULT, and the two must move together. A segmented control is
+ *  read left to right, and its first segment is where every platform puts the state you land
+ *  in — so a screen that opens on `På himlen` while the switch leads with `Månaden` spends
+ *  its first impression telling the reader they are on the second of two things. It also
+ *  reads as an argument about precedence that this screen does not make: the sky is what the
+ *  month is reckoned FROM, not the runner-up to it. */
+const MODES = [
   { value: 'sky', label: 'På himlen' },
-];
+  { value: 'month', label: 'Månaden' },
+] as const satisfies readonly { value: MoonDialMode; label: string }[];
+
+/** The mode the screen opens in — and, per the note above, the FIRST entry in `MODES`. See
+ *  the top of the file for why it is the sky: the reader who wants the calendar is one tap
+ *  away, and the switch says so in plain words. */
+const INITIAL_MODE: MoonDialMode = MODES[0].value;
+
+/** The pill's line: one mark and one banded sentence for whichever state the instrument is
+ *  in. Banded is the operative word — this renders into an `accessibilityLiveRegion`, so a
+ *  value that moves with the sensor would have TalkBack announcing continuously. The live
+ *  degrees live in the caption underneath, which is read on demand. The qibla compass has the
+ *  same function, in the same order, with the same three fallbacks; only the target differs.
+ *
+ *  The Moon adds one state the qibla cannot have: you can be pointing exactly at it and see
+ *  nothing, because it is under the horizon. Congratulating the reader there would be the
+ *  screen claiming something they can check in one second and find false. */
+function statusLine(
+  mode: MoonDialMode,
+  phaseName: string,
+  status: AimStatus,
+  turn: AimTurn | null,
+  aloft: boolean,
+  noCompass: boolean,
+  permissionDenied: boolean,
+): { icon?: IconName; text: string; tone: PillTone } {
+  // In month mode the pill is not an instrument reading at all — it is what the Moon is
+  // doing tonight, said in the almanac's own words. No glyph: the caller puts a drawing of
+  // the Moon itself there, which says it better than any icon in the set.
+  if (mode === 'month') return { text: phaseName, tone: 'quiet' };
+  // The two "we cannot read a direction" states come FIRST — a lock is only reachable from a
+  // trusted heading, which clears both flags, but a stale one must never be left claiming
+  // you are looking at the Moon over a rose that is merely pointing north. The FACT (where
+  // the Moon stands) is not lost here: it moves to the caption, which is a fact about the sky
+  // over this place and holds whether or not the phone has a compass in it.
+  if (noCompass || permissionDenied) {
+    return { icon: 'compassRose', text: 'Riktningen räknad från norr', tone: 'quiet' };
+  }
+  if (status.aligned) {
+    return aloft
+      ? { icon: 'checkCircle', text: 'Du ser mot månen', tone: 'on' }
+      : { icon: 'checkCircle', text: 'Månen är hitåt – men under horisonten', tone: 'on' };
+  }
+  // "Kalibrera" and then the instruction is the label and the button both. The instruction
+  // alone IS the calibration.
+  if (status.calibrating) return { icon: 'compassCalibration', text: 'Rör telefonen i en åtta', tone: 'neutral' };
+  // Live and permitted, but no reading has arrived yet — the first frames after the switch.
+  // Telling the reader to figure-eight the phone here would be asking them to fix something
+  // that has not gone wrong; useAim's no-event timeout replaces this with the no-compass line
+  // if none ever comes.
+  if (!turn) return { icon: 'navigationArrow', text: 'Söker riktning…', tone: 'neutral' };
+  return { ...TURN_CUES[turn.dir], tone: status.near ? 'near' : 'neutral' };
+}
 
 /** The next lunar eclipse worth a line: one visible from here within the season, or any
  *  eclipse at all once it is close enough to be news. */
@@ -123,26 +210,25 @@ function relevantEclipse(coords: { latitude: number; longitude: number }, now: n
 }
 
 export default function Manen() {
-  const { coords, label, source } = useLocation();
+  // Finding the Moon is done by holding the phone up and standing still, which the
+  // display-sleep timer reads as "nobody is here" — the same betrayal Qibla refuses. It is
+  // held for the whole screen rather than for `sky` alone: the month ring is also a surface
+  // someone stands and reads, and the hook releases on unmount either way.
+  useKeepAwake();
+  const { coords } = useLocation();
   const { settings } = useSettings();
   const c = useColors();
   const insets = useSafeAreaInsets();
   const styles = useMemo(() => makeStyles(c), [c]);
   const focused = useIsFocused();
 
-  const [mode, setMode] = useState<MoonDialMode>('month');
+  const [mode, setMode] = useState<MoonDialMode>(INITIAL_MODE);
   const [pickingMonth, setPickingMonth] = useState(false);
   const [readingAlmanac, setReadingAlmanac] = useState(false);
   /** How many Hijri months the sheet has been stepped from the one we are living in. Kept as
    *  an OFFSET rather than a {year, month} so it resets itself the moment the real month
    *  rolls over — a stored pair would quietly leave the sheet in last month. */
   const [monthOffset, setMonthOffset] = useState(0);
-
-  // Same fallback-place treatment as Qibla: a resolved place carries its own qualifier
-  // ("Stockholm (standard)") when it is not a real fix, and a screen that quietly stripped it
-  // would print a confident moonrise for a city the reader may be nowhere near.
-  const locationIsFallback = source === 'default';
-  const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
 
   const now = useCoarseNow(TICK_MS);
   const sky = useMoonSky(coords, now);
@@ -151,17 +237,53 @@ export default function Manen() {
   // search below for a position that moved two metres.
   const { latitude, longitude } = coords;
 
-  // The heading, only in sky mode and only while focused — the magnetometer has no business
-  // running behind the month ring. `request: true`: opening this screen and asking where the
-  // Moon is IS the explicit intent that justifies the permission prompt, exactly as on Qibla.
-  const { heading, rotation, noCompass, reliable } = useHeading({
-    active: focused && mode === 'sky',
-    request: mode === 'sky',
-  });
-  // The rose turns AGAINST the phone, so a needle pinned inside it at the Moon's azimuth
-  // lands on the real Moon.
-  const roseDeg = useDerivedValue(() => -rotation.value);
-  const live = mode === 'sky' && !noCompass && reliable;
+  // The instrument — the same one the qibla compass runs on, aimed at the Moon's azimuth
+  // instead of at Mecca. Only in sky mode and only while focused: the magnetometer has no
+  // business running behind the month ring. `request` follows the mode because opening this
+  // screen ON the sky IS the explicit intent that justifies the permission prompt (the screen
+  // now lands there, so this is the ordinary path, exactly as it is on Qibla) — and flipping
+  // back to `Månaden` must not leave a prompt owed for an instrument nobody is looking at.
+  //
+  // ⚠️ AND THE PROMPT WAITS FOR A GESTURE — `request: false`, always, on this screen.
+  // lib/location/context's rule is that the OS location dialog may only be raised from an
+  // explicit one, and that file carries its own scar about a version which fired it from a
+  // mount. Qibla is allowed to prompt because opening it IS the request; landing here is not
+  // the same thing, because the map's Moon button is labelled with the phase and the date, and
+  // a reader who tapped it for tonight's date never asked for a compass. So the first sight of
+  // this screen only CHECKS, which is silent — and on the ordinary path, where location was
+  // granted long ago for the prayer times, is indistinguishable from asking.
+  //
+  // Every prompt then comes from `askPermission`, called from something the reader just
+  // pressed: `På himlen`, or the offer the refused state grows below. It is a call and not a
+  // flag because Android grants TWO refusals — a boolean would be already-true on the second
+  // press, re-run nothing, and leave the reader pressing a dead button.
+  const {
+    status,
+    turn,
+    noCompass,
+    permissionDenied,
+    canAskAgain,
+    askPermission,
+    hasReading,
+    rotation,
+    prox,
+  } = useAim({
+      active: focused && mode === 'sky',
+      request: false,
+      bearing: sky.azimuth,
+    });
+  // The rose may only turn against the phone when there is a heading worth turning against.
+  // Otherwise it stays north-up and the pill says so — the honest fallback, and the only
+  // state an emulator or a tablet without a magnetometer can ever show.
+  // ⚠️ `hasReading` IS LOAD-BEARING HERE. `status.calibrating` is false in the COLD state too
+  // — AIM_COLD is all-false — so a gate built on it alone reads "nothing read yet" as "read
+  // and trusted", which is the opposite of the `reliable` flag this replaced. The visible
+  // effect: leave sky mode and come back, and the rose swings to the pre-blur heading on the
+  // first frame while the pill underneath still says "Söker riktning…". `hasReading` survives
+  // a blur (it is a fact about the DEVICE), so returning keeps the rose where it was and a
+  // genuinely cold start still leaves it north-up.
+  const live =
+    mode === 'sky' && hasReading && !noCompass && !permissionDenied && !status.calibrating;
 
   // ⚠️ SIZED FROM THE WINDOW, NOT FROM THE BOX IT IS GIVEN. Qibla measures its own band and
   // clamps the dial to it, and this screen did the same — which works only while the band is
@@ -297,73 +419,128 @@ export default function Manen() {
   const ring = useMemo(() => monthRing(viewed.year, viewed.month), [viewed.year, viewed.month]);
   const onViewedMonth = viewed.year === hijri.year && viewed.month === hijri.month;
 
-  // Where the Moon is. This does not depend on the phone's compass at all — it is a fact
-  // about the sky over this place — so it is stated on its own and the heading only decides
-  // whether the DIAL can be trusted to be turned the right way round. It does not name the
-  // Moon either: the pill carries a drawing of one beside the words.
+  // WHERE THE MOON IS — a fact about the sky over this place, true whether or not the phone
+  // has a compass in it. That is why it lives in the caption and not in the pill: the pill
+  // says what the INSTRUMENT is doing, and there are three states in which the instrument has
+  // nothing to say while this line still does.
   //
-  // TWO FORMS, and the second one is not a nicety. The pill is a polite live region, this
-  // screen's clock ticks every sixty seconds, and the Moon climbs about a quarter of a
-  // degree in that time — so `Math.round(altitude)` rolls over every few minutes and
-  // TalkBack re-read the whole line to a reader who had not touched anything. The compass
-  // point survives into the spoken form because it changes about once an hour; the degrees
-  // do not, because they are the only part that churns and the least useful part to hear.
-  const skyWhere =
-    sky.altitude > 0 ? `I ${compassPoint(sky.azimuth)}` : `Under horisonten, i ${compassPoint(sky.azimuth)}`;
-  const skyFact = sky.altitude > 0 ? `${skyWhere}, ${Math.round(sky.altitude)}° upp` : skyWhere;
+  // It also has to sit outside the live region for a duller reason. The pill is announced
+  // politely, this screen's clock ticks every sixty seconds and the Moon climbs about a
+  // quarter of a degree in that time, so `Math.round(altitude)` rolls over every few minutes —
+  // and the remaining turn moves ten times a second. Either one inside the pill has TalkBack
+  // reading to someone who has not touched anything. Down here it is read on demand.
+  const aloft = sky.altitude > 0;
+  const skyBrief = aloft
+    ? `I ${compassPoint(sky.azimuth)} · ${Math.round(sky.altitude)}° upp`
+    : `Under horisonten, i ${compassPoint(sky.azimuth)}`;
+  // The remaining turn joins it once there is a heading worth trusting — the same countdown
+  // the qibla readout runs, in the same words, at the same 10 Hz. It changes to a MEASUREMENT
+  // once the lock holds: AIM_ALIGN_RELEASE keeps a lock to 7°, so "5° kvar" printed under
+  // "Du ser mot månen" would be the screen arguing with itself in two adjacent lines.
+  const caption = turn ? `${skyBrief} · ${turn.deg}° ${status.aligned ? 'från månen' : 'kvar'}` : skyBrief;
+  // The SPOKEN form is built from words, never from the printed one: `skyBrief` carries a
+  // degree sign and middots, and a screen reader verbalises those ("mittpunkt", "grader"
+  // — or nothing at all, depending on the engine). Qibla's `factsA11y` spells its units out
+  // for the same reason, and this is the line that has to match it.
+  const skySpoken = aloft
+    ? `Månen i ${compassPoint(sky.azimuth)}, ${Math.round(sky.altitude)} grader upp`
+    : `Månen under horisonten, i ${compassPoint(sky.azimuth)}`;
+  const captionA11y = turn
+    ? status.aligned
+      ? `${skySpoken}. ${turn.deg} grader från månen`
+      : `${skySpoken}. ${turn.deg} grader kvar, ${TURN_CUES[turn.dir].spoken}`
+    : skySpoken;
 
-  /** The pill's line, given whichever form of the sky fact the caller wants in it. */
-  const statusWith = (fact: string): string =>
-    mode === 'month'
-      ? PHASE_NAMES[phase]
-      : noCompass
-        ? // No magnetometer, or the permission was refused. The rose stays north-up and the
-          // needle still carries the true bearing, so the reader loses the turn-with-you
-          // behaviour and keeps every fact — which is worth saying rather than replacing the
-          // whole line with an apology, as this screen first did.
-          `${fact} – räknat från norr`
-        : heading == null
-          ? // Live and permitted, but no reading has arrived yet — the first frames after the
-            // switch. Telling the reader to figure-eight the phone here would be asking them
-            // to fix something that has not gone wrong; the 2.5 s no-event timeout inside
-            // useHeading replaces this with the no-compass line if none ever comes.
-            'Söker riktning…'
-          : !reliable
-            ? // "Kalibrera" and then the instruction is the label and the button both. The
-              // instruction alone IS the calibration.
-              'Rör telefonen i en åtta'
-            : fact;
+  const line = statusLine(mode, PHASE_NAMES[phase], status, turn, aloft, noCompass, permissionDenied);
 
-  const status = statusWith(skyFact);
-  const spokenStatus = statusWith(skyWhere);
+  // THE WAY OUT OF THE ONE STATE THIS SCREEN CAN FIX. Without the location permission the dial
+  // cannot turn with the phone, and the screen says so — but a sentence naming a remedy the
+  // reader cannot reach is only half of one, and this mode is now the one they land in. Which
+  // offer depends on whether the OS would still listen: `canAskAgain` means the dialog is ours
+  // to raise (arming `request` does exactly that, from a real gesture), and once it is false
+  // the system settings are all that is left. Nothing is added to the healthy screen — this
+  // exists only in the state that needs it, exactly as Qibla's does.
+  const permissionEscape =
+    mode === 'sky' && permissionDenied ? (
+      canAskAgain ? (
+        <Pressable
+          onPress={askPermission}
+          accessibilityRole="button"
+          accessibilityLabel="Tillåt platsåtkomst så att kompassen kan vrida ratten"
+          style={({ pressed }) => [styles.link, pressed && styles.pressed]}
+        >
+          <Text style={styles.linkText}>Tillåt platsåtkomst</Text>
+          <Icon name="place" size={18} color={c.accent} />
+        </Pressable>
+      ) : (
+        <Pressable
+          onPress={openSystemSettings}
+          accessibilityRole="button"
+          accessibilityLabel={openSystemSettingsA11yLabel('plats')}
+          style={({ pressed }) => [styles.link, pressed && styles.pressed]}
+        >
+          <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
+          <Icon name="externalLink" size={18} color={c.accent} />
+        </Pressable>
+      )
+    ) : null;
+
+  // ONE confirming tap at the moment you arrive, not a buzz every frame while you hold it —
+  // lib/haptics' class 1, an outcome reached, the same call the qibla lock makes. And the
+  // announcement, because the pill's polite live region is honoured on Android only: on iOS
+  // the single moment this mode exists for would otherwise pass in silence for a reader who
+  // cannot see the dial warm.
+  //
+  // The words follow the sky, not the compass. Facing a Moon that has not risen is a real
+  // achievement of aim and a real nothing to look at, and the screen has to say both.
+  const wasAligned = useRef(false);
+  useEffect(() => {
+    if (mode !== 'sky' || !status.aligned) {
+      wasAligned.current = false;
+      return;
+    }
+    if (wasAligned.current) return;
+    wasAligned.current = true;
+    hapticSuccess();
+    // ⚠️ NOT ON ANDROID. `accessibilityLiveRegion` is honoured on Android only, and the pill
+    // has just changed to this exact sentence — announcing it here as well has TalkBack say
+    // it twice at the one moment the mode exists for. This call exists for iOS, where the
+    // live region is ignored and the dial itself is hidden from assistive tech.
+    if (Platform.OS !== 'android') {
+      AccessibilityInfo.announceForAccessibility(
+        aloft ? 'Du ser mot månen' : 'Månen är hitåt, men under horisonten',
+      );
+    }
+  }, [mode, status.aligned, aloft]);
+
+  // The other edge worth speaking, and Qibla's twin of it: entering calibration freezes the
+  // rose mid-turn. A sighted reader sees that happen; without this a screen-reader user is
+  // simply not told, and the pill's own line ("Rör telefonen i en åtta") says what to do
+  // without saying what changed. Held for a beat first — `calibrating` has NO hysteresis
+  // (deriveAimStatus cuts hard at HEADING_ACCURACY_MIN) and the OS-reported level oscillates
+  // across that line several times a second during warm-up, so announcing on every crossing
+  // would talk continuously over the very reader this is for. It says something the pill does
+  // not, so it is not gated to iOS the way the lock above is.
+  const wasCalibrating = useRef(false);
+  useEffect(() => {
+    if (mode !== 'sky' || !status.calibrating) {
+      wasCalibrating.current = false;
+      return;
+    }
+    if (wasCalibrating.current) return;
+    const t = setTimeout(() => {
+      wasCalibrating.current = true;
+      AccessibilityInfo.announceForAccessibility(
+        'Kompassen kalibreras – rosen står still tills riktningen är tillförlitlig',
+      );
+    }, 900);
+    return () => clearTimeout(t);
+  }, [mode, status.calibrating]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="close" fallback="/bonetider" />
-      <View style={styles.header}>
-        <Text style={styles.title}>Månen</Text>
-        {locationIsFallback ? (
-          <Pressable
-            onPress={() => {
-              hapticLight();
-              router.push('/(settings)/byt-plats');
-            }}
-            hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
-            style={({ pressed }) => [styles.placePick, pressed && styles.pressed]}
-            accessibilityRole="button"
-            accessibilityLabel="Ingen plats vald – tiderna gäller standardplatsen. Tryck för att välja stad"
-          >
-            <Icon name="place" size={14} color={c.accent} />
-            <Text style={styles.placePickText} numberOfLines={1}>
-              Välj plats
-            </Text>
-          </Pressable>
-        ) : (
-          <Text style={styles.subtitle} numberOfLines={1}>
-            {placeLabel}
-          </Text>
-        )}
-      </View>
+      <PlaceHeader title="Månen" what="tiderna" />
 
       {/* THE INSTRUMENT, and the switch that says what it is pointed at, as one block. The
           switch used to head the readout, which left it floating forty points under the dial
@@ -384,7 +561,8 @@ export default function Manen() {
             tilt={sky.limbAngle}
             azimuth={sky.azimuth}
             altitude={sky.altitude}
-            roseDeg={roseDeg}
+            rotation={rotation}
+            prox={prox}
             live={live}
             c={c}
           />
@@ -396,6 +574,8 @@ export default function Manen() {
             value={mode}
             onChange={(next) => {
               hapticSelection();
+              // Choosing the sky IS the gesture that justifies the prompt.
+              if (next === 'sky') askPermission();
               setMode(next);
             }}
           />
@@ -410,27 +590,44 @@ export default function Manen() {
             `space.xl` between them. Proximity is the cheapest hierarchy there is, and it
             costs no ink at all. */}
         <View style={styles.todayGroup}>
-          {/* ⚠️ THE SLOT IS FIXED-HEIGHT AND THAT IS THE WHOLE POINT. The instrument above
-              and this readout share the screen's leftover height between them, so anything
-              in here that changes height moves the dial with it. `Tilltagande måne` is one
-              line and `Under horisonten, i sydost – räknat från norr` can be two — which is
-              how pressing the switch came to slide the whole instrument nine points and make
-              the Moon appear to jump. Reserving two lines costs a band of air on the
-              one-line days and buys a dial that does not move when the switch above it is
-              pressed. */}
+          {/* ⚠️ BOTH SLOTS BELOW ARE FIXED-HEIGHT AND THAT IS THE WHOLE POINT. The instrument
+              above and this readout share the screen's leftover height between them, so
+              anything in here that changes height moves the dial with it — which is how
+              pressing the switch came to slide the whole instrument nine points and make the
+              Moon appear to jump. Reserving the worst case costs a band of air on the short
+              days and buys a dial that does not move when the switch above it is pressed. */}
           <View style={styles.statusSlot}>
-            <View
-              style={styles.statusPill}
-              accessible
-              accessibilityRole="text"
-              accessibilityLiveRegion="polite"
-              accessibilityLabel={spokenStatus}
-            >
-              <MoonDisc size={16} illumination={sky.illumination} tilt={sky.limbAngle} {...ink} />
-              <Text style={styles.statusText} numberOfLines={2}>
-                {status}
-              </Text>
-            </View>
+            <StatusPill
+              icon={line.icon}
+              // Month mode has no glyph in the set worth using: a drawing of tonight's actual
+              // Moon says "waxing crescent" better than any icon could, and it is the same
+              // drawing the dial above is showing, at 16 dp.
+              leading={
+                line.icon ? undefined : (
+                  <MoonDisc size={16} illumination={sky.illumination} tilt={sky.limbAngle} {...ink} />
+                )
+              }
+              text={line.text}
+              tone={line.tone}
+              c={c}
+            />
+          </View>
+
+          {/* Where the Moon is, and how far there is left to turn. Reserved in BOTH modes so
+              the switch cannot move the dial: see the note on `statusSlot`. Read on demand
+              rather than announced, which is what lets a value that moves at 10 Hz live here
+              at all. */}
+          <View
+            style={styles.captionSlot}
+            accessible
+            accessibilityRole="text"
+            accessibilityLabel={captionA11y}
+          >
+            {/* Two lines, like the pill above it — at ordinary text sizes this is always
+                one, and at the sizes where it wraps the pill is wrapping too. */}
+            <Text style={styles.caption} numberOfLines={2}>
+              {caption}
+            </Text>
           </View>
 
           {/* The hero stays the DATE in both modes. The switch changes what the instrument is
@@ -486,6 +683,7 @@ export default function Manen() {
               hint={note.action ? 'Öppnar Inställningar.' : 'Öppnar almanackan.'}
             />
           ))}
+          {permissionEscape}
           {/* Only when the rise/set row is missing — a civil day at high latitude can produce
               neither — is the door left with nothing to ride on. */}
           {hasAlmanac && !surfaced.some((n) => n.tier === 'tonight') ? (
@@ -549,11 +747,6 @@ function makeStyles(c: Palette) {
     // the INSTRUMENT and are built inside MoonDial, which spreads them itself; this screen
     // draws none of them. (qibla.tsx does spread them, because its dial is written inline.)
     safe: { flex: 1, backgroundColor: c.paper },
-    header: { paddingHorizontal: space.lg, paddingTop: space.xs },
-    title: { ...type.title, color: c.ink },
-    subtitle: { ...type.callout, color: c.inkMuted, marginTop: 2 },
-    placePick: { flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 },
-    placePickText: { ...type.callout, color: c.accent, fontWeight: '600', flexShrink: 1 },
 
     // The dial is capped at DIAL_MAX so that it and Qibla's are the same instrument, which
     // on a tall phone leaves a hundred points of slack in this band whatever is done with
@@ -607,22 +800,18 @@ function makeStyles(c: Palette) {
     // Two lines of `callout` plus the pill's own padding and border. See the note at the
     // call site — this height is what stops the dial moving between modes.
     statusSlot: { alignSelf: 'stretch', minHeight: 62, alignItems: 'center', justifyContent: 'center' },
-
-    statusPill: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: space.sm,
-      paddingVertical: space.sm,
-      paddingHorizontal: space.lg,
-      borderRadius: radius.round,
-      backgroundColor: c.surface,
-      borderWidth: 1,
-      borderColor: c.hairline,
-      maxWidth: '100%',
-      ...shadow.button,
-      shadowOpacity: 0.06,
-    },
-    statusText: { ...type.callout, fontWeight: '600', color: c.ink, flexShrink: 1 },
+    // ⚠️ RESERVED IN BOTH MODES, and never conditional on having something to put in it. The
+    // instrument above and this readout share the screen's leftover height, so a row that
+    // exists in one mode and not the other moves the dial every time the switch is pressed —
+    // which is exactly the "moon jumps" the fixed status slot above was written to stop. The
+    // caption has something true to say in both modes anyway (where the Moon is tonight is
+    // not a fact about the compass), so nothing is being padded out with air here.
+    // TWO lines of `caption` (lineHeight 18) plus a little, because the Text inside is allowed
+    // two — and a slot that reserves one is a slot that moves the dial the first time a long
+    // reading wraps. `Under horisonten, i nordväst · 137° kvar` is about 310 dp of mono at
+    // the default size, which clears a 375 pt phone and does not clear a 320 pt one.
+    captionSlot: { alignSelf: 'stretch', minHeight: 40, alignItems: 'center', justifyContent: 'center' },
+    caption: { ...type.caption, color: c.inkMuted, textAlign: 'center', ...mono },
 
     dateTap: { minHeight: 44, justifyContent: 'center', alignItems: 'center' },
     civilLine: { ...type.callout, color: c.inkMuted, textAlign: 'center', marginTop: 2 },
@@ -647,6 +836,9 @@ function makeStyles(c: Palette) {
       paddingHorizontal: space.sm,
     },
     almanacText: { ...type.callout, fontWeight: '600', color: c.accent },
+    // The permission offer. Borrows Qibla's link shape rather than inventing a third.
+    link: { flexDirection: 'row', alignItems: 'center', gap: space.xs, minHeight: 44, paddingHorizontal: space.sm },
+    linkText: { ...type.bodyStrong, color: c.accent },
     pressed: { opacity: 0.6 },
   });
 }
