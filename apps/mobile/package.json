@@ -1,7 +1,7 @@
 {
   "name": "mobile",
   "main": "index.ts",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "private": true,
   "scripts": {
     "start": "expo start",
