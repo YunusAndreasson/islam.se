@@ -281,29 +281,23 @@ const heroPreload = feature?.heroImage
 		-webkit-line-clamp: 4;
 	}
 
-	/* HEADLINE BEFORE PICTURE, one rank down from the feature.
-	   The feature was inverted in 2026-07 for a reason that applies here too: a
-	   card that leads with its crop puts the reader's first look on a photograph
-	   of something not yet named. It matters most at the fold — this tier is what
-	   the eye meets as the lead scrolls away, and what crossed the boundary was
-	   the top edge of two images rather than two headlines.
+	/* PICTURE BEFORE HEADLINE — and no rule is needed to get it.
+	   This tier carried `order: -1` on the title from 2026-07, lifting the headline
+	   above its crop so the two cards mirrored the feature. Removed 2026-08: a card
+	   is not the feature. At 3rem with a bleeding spread the headline-first
+	   composition is a masthead; at --step-2 in a half-canvas card it just split
+	   each card's own text around its picture — title on top, deck and date
+	   underneath — so neither block of type read as one. Image-first is the DOM
+	   order (EssayArchiveItem.astro) and now the paint order too, here and in the
+	   identical `.essay-card` that renders the fördjupning band on /svar/.
+	   Do not put the `order` back.
 
-	   `.essay-card a` is a column flexbox (layout.css), so this is an order swap
-	   and nothing else; the DOM keeps image-then-title, which is also the order a
-	   screen reader wants. Scoped to `.home-second` deliberately — the identical
-	   `.essay-card` renders the fördjupning band on /svar/, and that one is a grid
-	   of pictures by design.
-
-	   ⚠️ ONE `order`, on the title alone. Setting the title to 0 and the media to 1
-	   looks like the same thing and is not: everything else in the card (deck, meta)
-	   also sits at the default 0, so a media of 1 sank the picture BELOW the meta
-	   line and the card read title-deck-date-photograph. A single negative order
-	   lifts the title over the rest and leaves the DOM sequence — media, deck, meta
-	   — intact beneath it. */
-	.home-second :global(.essay-card-title) {
-		order: -1;
-		margin-bottom: var(--space-half);
-	}
+	   The title's `margin-bottom: var(--space-half)` went with it. It existed to
+	   hold the headline off the picture below; under the picture it stacked with
+	   `.essay-card-desc`'s own 0.4rem top margin (flex items don't collapse
+	   margins) and opened 1.35rem between headline and deck. Spacing is the shared
+	   card rhythm from layout.css again: 0.85rem under the media, 0.4rem over the
+	   deck. */
 
 	@media (width <= 600px) {
 		.home-second :global(.essay-cards) {
