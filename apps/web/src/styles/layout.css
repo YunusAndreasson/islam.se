@@ -362,7 +362,13 @@
 		display: none;
 	}
 
-	/* Podcast action pill — used by the podcast page and the book/podcast promo. */
+	/* THE PILL. One shape for every small action the site offers: Apple Podcasts,
+   Spotify and RSS on /podcast/ and in the book/podcast promo, and the play control
+   on an episode row and above an essay (AudioPlayer.astro adds the two UA button
+   properties this rule has no reason to carry, since it is written for an <a>).
+   It lived in two copies until 2026-08 — the second had drifted a little in padding,
+   tracking and icon gap, and nobody could see it because the two had never appeared
+   on one screen until the podcast index put them there. */
 	:is(.podcast-action, .bookpod-action) {
 		display: inline-flex;
 		align-items: center;

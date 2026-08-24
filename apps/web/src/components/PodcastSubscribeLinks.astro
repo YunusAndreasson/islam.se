@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 ---
 
-<div class={className}>
+<div class:list={["subscribe-row", className]}>
 	<a class={actionClass} href={APPLE_PODCAST_URL} target="_blank" rel="noopener" aria-label={showLabels ? undefined : "Apple Podcasts"}>
 		<PodcastBrandIcon platform="apple" size={iconSize} />
 		{showLabels && "Apple Podcasts"}
@@ -36,3 +36,40 @@ const {
 		</a>
 	)}
 </div>
+
+<style>
+	/* ⚠️ THE ROW LAYOUT LIVES HERE, and it has to.
+	   Three callers have each written their own `display: flex; gap` rule for this
+	   wrapper — podcast.astro (.podcast-subscribe), BookPod (.bookpod-listen),
+	   FloatingPlayer (.fp-subscribe) — and all three were dead, for the same reason
+	   the RSS colour below was: the <div> is authored in THIS file, so it carries
+	   this component's scope id and nothing else's. A caller passes a class name;
+	   it does not get to style the element that name lands on. What every surface
+	   has actually been rendering is a block <div> of inline-flex anchors separated
+	   by collapsed whitespace — close enough to a row that nobody caught it.
+
+	   A caller tunes the gap through `--subscribe-gap`: a custom property inherits,
+	   so it is the one thing that DOES cross the scope boundary. */
+	.subscribe-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--subscribe-gap, 0.5rem);
+	}
+
+	/* RSS is the quieter, technical option — muted until hovered.
+
+	   ⚠️ It lives HERE, not on the page that asks for the feed link. This rule sat in
+	   podcast.astro for as long as the page has existed and never once applied: the
+	   <a> is authored in THIS component, so it carries this component's scope id and
+	   nothing else's, and a scoped selector written by the caller compiles to a
+	   selector that matches nothing. The RSS pill has been rendering at full accent
+	   strength beside Apple and Spotify the whole time. */
+	.podcast-action--feed {
+		color: var(--color-muted);
+	}
+
+	.podcast-action--feed:hover {
+		color: var(--color-text);
+	}
+</style>

@@ -5,13 +5,21 @@ interface Props {
 	src: string;
 	title?: string;
 	artwork?: string;
+	/** What the button says beside the glyph. The essay page's control stands alone
+	 *  above the article and says the verb. An episode row says the COST — "16 min" —
+	 *  because the row's title and deck have already said what it is, and the one
+	 *  thing a listener still weighs before pressing play is how long it takes. Same
+	 *  `.audio-trigger` hook and data attributes either way, so FloatingPlayer's
+	 *  `syncTriggers()` mirrors playing state onto both without knowing the
+	 *  difference. */
+	label?: string;
 }
 
-const { src, title, artwork } = Astro.props;
+const { src, title, artwork, label = "Lyssna" } = Astro.props;
 ---
 
 <button
-	class="audio-trigger"
+	class="audio-trigger podcast-action"
 	type="button"
 	data-audio-src={src}
 	data-audio-title={title}
@@ -19,44 +27,56 @@ const { src, title, artwork } = Astro.props;
 	aria-label={`Lyssna på ${title || 'essän'}`}
 >
 	<Play class="audio-trigger-icon-play" size={14} fill="currentColor" stroke-width={0} />
-	<Pause class="audio-trigger-icon-pause" size={14} fill="currentColor" stroke-width={0} style="display:none" />
-	Lyssna
+	<Pause class="audio-trigger-icon-pause" size={14} fill="currentColor" stroke-width={0} />
+	{label}
 </button>
 
 <style>
+	/* THE PILL IS `.podcast-action` (layout.css) — the same one Apple Podcasts, Spotify
+	   and RSS are drawn as, three rows above this button on /podcast/. It used to be
+	   redrawn here, and the copy had drifted: 0.4rem/0.875rem padding against 0.5/1.125,
+	   0.06em tracking against 0.05, 0.4em icon gap against 0.45. Nobody could see it
+	   because the two pills had never appeared on the same screen before this page put
+	   them there. Now they are one shape.
+
+	   What stays below is only what is genuinely this control's own: the two UA button
+	   properties `.podcast-action` has no reason to carry (it is written for an <a>),
+	   the playing state, and the glyph swap. */
 	.audio-trigger {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4em;
-		padding: 0.4rem 0.875rem;
-		border: 1px solid var(--color-divider);
-		border-radius: 1.25rem;
 		background: transparent;
-		color: var(--color-accent);
 		cursor: pointer;
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 500;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		font-feature-settings: "case";
-		transition: border-color 0.15s;
-		margin-bottom: var(--space-unit);
+		/* Page rhythm, not the control's own: the essay page needs air under a button
+		   that stands alone above an article, a row seated in a list needs none. A
+		   custom property because it INHERITS — the one kind of declaration that
+		   crosses an Astro scope boundary, so a caller can actually set it. */
+		margin-bottom: var(--audio-trigger-margin, var(--space-unit));
 	}
 
-	.audio-trigger:hover {
-		border-color: var(--color-accent);
-	}
-
+	/* The one place a play button outranks a link pill: while it is playing it is the
+	   page's live object, and it says so. */
 	.audio-trigger[data-playing] {
 		border-color: var(--color-accent);
+		color: var(--color-text);
 	}
 
-	.audio-trigger[data-playing] .audio-trigger-icon-play {
+	/* ⚠️ `:global()` on the icon half, and it is load-bearing. These are Lucide <svg>
+	   components, not markup this file writes, so a plain descendant selector compiles
+	   to `.audio-trigger-icon-pause[data-astro-cid-…]` and reaches nothing. The
+	   `.audio-trigger` half stays scoped, so this is still only ever our own buttons.
+
+	   The pause glyph used to be hidden with an inline `style="display:none"` instead
+	   of this rule — and an inline style outranks a stylesheet, so the rule below that
+	   was meant to reveal it never could. A playing button showed NO glyph at all: play
+	   hidden by the rule, pause hidden by the attribute. */
+	.audio-trigger :global(.audio-trigger-icon-pause) {
 		display: none;
 	}
 
-	.audio-trigger[data-playing] .audio-trigger-icon-pause {
+	.audio-trigger[data-playing] :global(.audio-trigger-icon-play) {
+		display: none;
+	}
+
+	.audio-trigger[data-playing] :global(.audio-trigger-icon-pause) {
 		display: inline;
 	}
 </style>

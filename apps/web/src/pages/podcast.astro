@@ -1,9 +1,10 @@
 ---
-import Base from "../layouts/Base.astro";
-import EssayImage from "../components/EssayImage.astro";
+import CollectionIndexPage from "../components/CollectionIndexPage.astro";
 import PodcastSubscribeLinks from "../components/PodcastSubscribeLinks.astro";
+import TextRowList from "../components/TextRowList.astro";
 import { formatDate, getArticles } from "../lib/articles";
 import { SITE_URL } from "../lib/config";
+import { CHIP_WIDTHS } from "../lib/hero";
 import { breadcrumbList, ORG_ID } from "../lib/jsonld";
 import {
 	APPLE_PODCAST_URL,
@@ -12,7 +13,6 @@ import {
 	PODCAST_FEED,
 	SPOTIFY_SHOW_URL,
 } from "../lib/podcast";
-import { CHIP_WIDTHS } from "../lib/hero";
 
 const SITE = SITE_URL;
 
@@ -30,13 +30,55 @@ function formatDuration(seconds?: number): string | null {
 	return `${min} min`;
 }
 
+// One row per episode, in the shape /fordjupning/ already renders: picture, title,
+// deck, quiet meta line. `episodes` is newest-first, so the ordinal counts down.
+//
+// The meta line is one string rather than the three spans it used to be. That costs
+// a <time datetime> the page never used — the machine-readable episode data is in
+// podcast.xml.ts, which is what Apple and Spotify actually read — and it buys the
+// row list, which is the point.
+const episodeRows = episodes.map((ep, i) => ({
+	href: `/${ep.slug}/`,
+	title: ep.title,
+	description: ep.description,
+	// No duration here any more — it is the play button's label, which is where a
+	// listener actually weighs it: attached to the control that spends it.
+	meta: `Avsnitt ${episodes.length - i} · ${formatDate(ep.publishedAt)}`,
+	image: ep.heroImage ? { article: ep, widths: CHIP_WIDTHS, sizes: "192px" } : null,
+	// The row plays where it stands. Same src/title/artwork contract the essay page's
+	// "Lyssna" pill uses, so the floating player treats a row exactly as it treats that
+	// button — including the saved position, which means starting an episode here
+	// resumes where the reader left it on the essay page, and vice versa.
+	audio: {
+		src: `/audio/${ep.audioFile}`,
+		title: ep.title,
+		...(ep.heroImage ? { artwork: ep.heroImage.src } : {}),
+		// The duration IS the button. An essay with no measured audio falls back to
+		// AudioPlayer's own "Lyssna".
+		...(formatDuration(ep.audioDuration) ? { label: formatDuration(ep.audioDuration)! } : {}),
+	},
+}));
+
 const description =
 	"islam.se: andliga essäer – podden där varje essä läses som ett samtal. Lyssna i Apple Podcasts, Spotify eller via RSS.";
 ---
 
-<Base
-	title="Podd — andliga essäer från islam.se"
+{/* The page is composed entirely from the shared index primitives now — PageHead via
+    CollectionIndexPage for the top, TextRowList for the episodes — so it opens and
+    reads like /fordjupning/ and /svar/ rather than approximating them.
+
+    What it used to be, and why none of it survived: a hand-rolled <Base> with its own
+    `.podcast-hero`, its own h1 margin and a `.podcast-lead` that was a full scale step
+    SMALLER and 6rem WIDER than every other index ingress on the site. layout.css names
+    `.podcast-lead` in its list of the fourteen lead classes that had drifted apart; this
+    was the last one still standing outside the family. The hero also carried a media
+    query setting `grid-template-columns` on an element that had not been a grid since
+    the cover tile was removed. */}
+<CollectionIndexPage
+	title="Andliga essäer"
+	pageTitle="Podd — andliga essäer från islam.se"
 	description={description}
+	lead={PODCAST_DESCRIPTION}
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
@@ -57,203 +99,51 @@ const description =
 		]),
 	]}
 >
-	<main id="main" class="home podcast-page">
-		<header class="podcast-hero">
-			<div class="podcast-hero-text">
-				<h1>Andliga essäer</h1>
-				<p class="lead podcast-lead">{PODCAST_DESCRIPTION}</p>
-				<PodcastSubscribeLinks class="podcast-subscribe" actionClass="podcast-action" iconSize={15} includeFeed />
-			</div>
-		</header>
+	{/* The action row, at the rung Essäer's filter pills occupy — first thing under the
+	    ingress. No wrapper class: the row layout is the component's own now (it has to
+	    be — see PodcastSubscribeLinks), and the space beneath it is carried by the count
+	    below, which this page does author. */}
+	<PodcastSubscribeLinks actionClass="podcast-action" iconSize={15} includeFeed />
 
-		<section class="podcast-episodes" aria-labelledby="episodes-heading">
-			<h2 id="episodes-heading" class="podcast-episodes-heading label">
-				<span class="podcast-episodes-count">{episodes.length}</span> avsnitt
-			</h2>
-			<ol class="podcast-list">
-				{episodes.map((ep, i) => {
-					const duration = formatDuration(ep.audioDuration);
-					return (
-						<li class="podcast-item">
-							<a class="podcast-item-link" href={`/${ep.slug}/`}>
-								<span class="podcast-item-art media-frame media-frame--sm">
-									{ep.heroImage ? (
-										<EssayImage article={ep} alt="" widths={CHIP_WIDTHS} sizes="6rem" />
-									) : (
-										<span class="podcast-item-num" aria-hidden="true">{episodes.length - i}</span>
-									)}
-								</span>
-								<span class="podcast-item-body">
-									<span class="podcast-item-title">{ep.title}</span>
-									<span class="podcast-item-desc">{ep.description}</span>
-									<span class="podcast-item-meta label">
-										<span>Avsnitt {episodes.length - i}</span>
-										<span class="nav-dot" aria-hidden="true">&middot;</span>
-										<time datetime={ep.publishedAt}>{formatDate(ep.publishedAt)}</time>
-										{duration && <span class="nav-dot" aria-hidden="true">&middot;</span>}
-										{duration && <span>{duration}</span>}
-									</span>
-								</span>
-							</a>
-						</li>
-					);
-				})}
-			</ol>
-		</section>
+	{/* The count as the shared `.collection-count`, the same quiet label the essay
+	    collections carry. It used to be an <h2> with a rule under it, which put a third
+	    hairline into a band where the list already draws one between every row — and
+	    made the episode titles h2s under an h2, a flat outline for no gain. The titles
+	    are the headings now, exactly as on /fordjupning/. */}
+	<p class="label collection-count podcast-count">{episodes.length} avsnitt</p>
 
-		<p class="podcast-note">
-			Avsnitten är essäerna inlästa – läs dem i stället på <a href="/essaer/">essäsidan</a>, eller
-			klistra in <a href={PODCAST_FEED}>RSS-flödet</a> i valfri poddspelare.
-		</p>
-	</main>
-</Base>
+	{/* One column, not two, and every row plays. The old grid cut each row to a 26rem track, which is what
+	    made the page feel tight: a 96px square, a title a step below the site's list
+	    rank, and a deck clamped to two lines a step below that. At the full canvas the
+	    row gets the family's own ranks — --step-1-sans title, --step--1 deck, unclamped —
+	    and the deck arrives whole. Ten episodes is a short page either way.
+
+	    The art is 3:2 at 12rem — the site's one crop, at the presence a row this tall
+	    can hold. It was 120px and square for a while; see TextRowList for why neither
+	    survived. */}
+	<TextRowList
+		class="podcast-list"
+		aria-label="Avsnitt"
+		items={episodeRows}
+		style="--text-row-list-margin: var(--space-half) 0 0; --text-row-media-separator: 1px solid var(--color-rule); --text-row-media-separator-padding: var(--space-unit); --text-row-thumb-width: 12rem; --text-row-meta-margin: var(--space-half)"
+	/>
+
+	<p class="podcast-note">
+		Avsnitten är essäerna inlästa – läs dem i stället på <a href="/essaer/">essäsidan</a>, eller
+		klistra in <a href={PODCAST_FEED}>RSS-flödet</a> i valfri poddspelare.
+	</p>
+</CollectionIndexPage>
 
 <style>
-	.podcast-page {
-		margin-block: var(--space-phi);
-	}
+	/* The count carries the space between the action row and the list, rather than the
+	   action row carrying it beneath itself. Not a preference — a scoped rule on the
+	   pills' wrapper cannot reach it (PodcastSubscribeLinks owns that element), and the
+	   page's old `.podcast-subscribe { margin-top: var(--space-phi) }` had in fact never
+	   applied for exactly that reason. This <p> is the page's own, so this works.
 
-	/* ---- Hero: show identity. The cover tile that used to sit here was the site's own
-	   wordmark glyph on a white square — it repeated the mast mark 40 px above it, on the
-	   one white surface of a warm-cream page, and it was the only such tile on any
-	   top-menu page. The art the page was missing belongs to the episodes; it is in the
-	   list below now. PODCAST_COVER is still shipped to the feed and the JSON-LD, which
-	   is where Apple and Spotify actually require it. ---- */
-	.podcast-hero-text h1 {
-		margin: var(--space-half) 0 0;
-	}
-
-	.podcast-lead {
-		--lead-measure: 40rem;
-		--lead-margin: var(--space-unit) 0 0;
-	}
-
-	.podcast-subscribe {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
+	   φ above, half below: the label belongs to the list it counts, not to the pills. */
+	.podcast-count {
 		margin-top: var(--space-phi);
-	}
-
-	/* RSS is the quieter, technical option — muted until hovered. */
-	.podcast-action--feed {
-		color: var(--color-muted);
-	}
-
-	/* ---- Episode list ---- */
-	.podcast-episodes {
-		margin-top: var(--space-phi);
-	}
-
-	.podcast-episodes-heading {
-		display: flex;
-		align-items: baseline;
-		gap: 0.5ch;
-		margin: 0 0 var(--space-unit);
-		padding-bottom: var(--space-half);
-		border-bottom: 1px solid var(--color-rule);
-	}
-
-	.podcast-episodes-count {
-		color: var(--color-muted);
-	}
-
-	/* Widened to the shared 64rem canvas (so the top-menu page width never jumps);
-	   the episode list flows as a two-column index on the wide canvas, one column
-	   on a phone — each row carries a bottom hairline (matches the Essäer archive),
-	   so the columns read as one even grid rather than offset border-top pairs. */
-	.podcast-list {
-		margin: 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
-		column-gap: clamp(1.75rem, 4vw, 3.5rem);
-	}
-
-	.podcast-item {
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.podcast-item-link {
-		display: grid;
-		grid-template-columns: 6rem 1fr;
-		gap: 1.25rem;
-		padding: var(--space-unit) 0.4rem;
-		margin-inline: -0.4rem;
-		border-radius: 8px;
-		text-decoration: none;
-		color: inherit;
-		transition: background-color 0.15s;
-
-		&:hover {
-			background: color-mix(in srgb, var(--color-warm) 9%, transparent);
-			text-decoration: none;
-		}
-
-	}
-
-	/* The episode's own art, square like a podcast app's row. Essays without a hero
-	   fall back to the ordinal in the same box, so the column never collapses and the
-	   two-column grid stays even. */
-	.podcast-item-art {
-		display: grid;
-		place-items: center;
-		aspect-ratio: 1 / 1;
-		overflow: hidden;
-	}
-
-	/* EssayImage renders a <picture>; without stretching that too the img fills only
-	   its intrinsic box and the frame's warm backdrop shows as a band above the photo. */
-	.podcast-item-art :global(picture) {
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-
-	.podcast-item-art :global(img) {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.podcast-item-num {
-		font-family: var(--font-heading);
-		font-size: var(--step-1-sans);
-		/* 300 was the site's only Light weight outside the book-cover artwork — one
-		   number in one list, carrying a weight nothing else uses. Muted colour
-		   already makes it recede. */
-		font-weight: 400;
-		color: var(--color-muted);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.podcast-item-title {
-		display: block;
-		font-family: var(--font-heading);
-		font-size: var(--step-0);
-		font-weight: 600;
-		line-height: 1.25;
-		color: var(--color-accent);
-	}
-
-	.podcast-item-desc {
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		line-height: 1.5;
-		color: var(--text-quiet);
-		margin-top: 0.3rem;
-	}
-
-	.podcast-item-meta {
-		display: flex;
-		align-items: center;
-		gap: 0.5ch;
-		margin-top: 0.5rem;
-		color: var(--color-muted);
 	}
 
 	/* No border-top: every episode row already ends in a hairline and the footer opens
@@ -271,18 +161,5 @@ const description =
 
 	.podcast-note a {
 		color: var(--color-accent);
-	}
-
-	@media (width <= 640px) {
-		.podcast-hero {
-			grid-template-columns: 1fr;
-			justify-items: start;
-			gap: var(--space-unit);
-		}
-
-		.podcast-item-link {
-			grid-template-columns: 4.5rem 1fr;
-			gap: 0.75rem;
-		}
 	}
 </style>

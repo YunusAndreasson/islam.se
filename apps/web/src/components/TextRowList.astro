@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import type { Article } from "../lib/articles";
+import AudioPlayer from "./AudioPlayer.astro";
 import EssayImage from "./EssayImage.astro";
 
 type TextRowImage = {
@@ -8,6 +9,14 @@ type TextRowImage = {
 	article?: Article;
 	widths: number[];
 	sizes: string;
+};
+
+type TextRowAudio = {
+	src: string;
+	title: string;
+	artwork?: string;
+	/** Overrides the button's word. A row passes its duration — see AudioPlayer. */
+	label?: string;
 };
 
 type TextRowItem = {
@@ -18,6 +27,11 @@ type TextRowItem = {
 	 *  rows carry no thumbnail, so this is what tells a reader how substantial the page is. */
 	meta?: string;
 	image?: TextRowImage | null;
+	/** Gives the row a play control. It renders as a SIBLING of the row link, never
+	 *  inside it: a <button> nested in an <a> is invalid markup, and the click would
+	 *  navigate instead of playing. The row keeps exactly one link and gains exactly
+	 *  one button, which is also what a screen reader wants to find there. */
+	audio?: TextRowAudio;
 	attrs?: HTMLAttributes<"li">;
 };
 
@@ -40,7 +54,7 @@ const Title = titleElement;
 
 <ul {...attrs} class:list={["text-row-list", `text-row-list--${variant}`, className]}>
 	{items.map((item) => (
-		<li {...item.attrs}>
+		<li {...item.attrs} class:list={[item.audio && "text-row-playable"]}>
 			<a href={item.href} data-astro-prefetch="viewport">
 				{item.image && (
 					<span class="text-row-thumb media-frame">
@@ -60,6 +74,16 @@ const Title = titleElement;
 					{item.meta && <span class="text-row-meta label">{item.meta}</span>}
 				</span>
 			</a>
+			{item.audio && (
+				<span class="text-row-action">
+					<AudioPlayer
+						src={item.audio.src}
+						title={item.audio.title}
+						{...(item.audio.artwork === undefined ? {} : { artwork: item.audio.artwork })}
+						{...(item.audio.label === undefined ? {} : { label: item.audio.label })}
+					/>
+				</span>
+			)}
 		</li>
 	))}
 </ul>
@@ -75,10 +99,9 @@ const Title = titleElement;
 		color: inherit;
 	}
 
-	/* Apparatus, not editorial. This component is used on exactly two surfaces —
-	   /fordjupning/ and /svar/ — which are the reference half of the site, where
-	   the heading voice is Source Sans. It is a list of encyclopedia entries, not
-	   of essays. */
+	/* Apparatus, not editorial. This component renders /fordjupning/, /svar/ and the
+	   podcast index — the reference half of the site, where the heading voice is
+	   Source Sans. It is a list of entries, not of essays. */
 	.text-row-title {
 		display: block;
 		margin: 0;
@@ -97,7 +120,7 @@ const Title = titleElement;
 
 	.text-row-meta {
 		display: block;
-		margin-top: 0.35rem;
+		margin-top: var(--text-row-meta-margin, 0.35rem);
 		color: var(--color-muted);
 		font-variant-numeric: lining-nums tabular-nums;
 	}
@@ -128,6 +151,61 @@ const Title = titleElement;
 
 	.text-row-list--media a:not(:has(.text-row-thumb)) {
 		grid-template-columns: 1fr;
+	}
+
+	/* A playable row carries a control that CANNOT live inside its link — a <button>
+	   nested in an <a> is invalid and would navigate instead of playing. So the <li>
+	   becomes a grid and the button is placed in it as the link's sibling.
+
+	   The track definition is deliberately the same expression the link uses inside
+	   itself. The link spans both columns and keeps its own picture|text grid; the
+	   control is placed in column TWO of the outer grid, which lands it exactly on the
+	   title's left edge rather than the picture's. Two grids, one measure, so the row
+	   reads as a single column of text with a picture beside it and the action at the
+	   foot of what it acts on.
+
+	   It was a circle pinned to the row's right edge first. On a 64rem canvas that put
+	   the button some six hundred pixels from the title it belonged to, across a gap
+	   the deck's own measure had already emptied — an isolated control floating in
+	   whitespace, which is what a podcast app does because a phone is 390px wide and
+	   this is not a phone. */
+	.text-row-list--media li.text-row-playable {
+		display: grid;
+		grid-template-columns: var(--text-row-columns, var(--text-row-thumb-width, 120px) 1fr);
+		column-gap: var(--text-row-thumb-gap, var(--space-unit));
+		/* The control is seated in a list; it does not carry the essay page's air. */
+		--audio-trigger-margin: 0;
+	}
+
+	.text-row-list--media li.text-row-playable > a {
+		grid-column: 1 / -1;
+	}
+
+	.text-row-list--media .text-row-action {
+		display: block;
+		grid-column: 2;
+		margin-top: var(--space-half);
+	}
+
+	/* 3:2, everywhere, no knob. The podcast index briefly cut its art 1:1 on the
+	   argument that an episode list is square wherever a reader has met one before.
+	   It is — in a music app, where the square IS the album. These episodes are the
+	   site's own essays read aloud and the picture is the essay's hero, composed 3:2;
+	   squaring it cropped the photograph to look like a record sleeve it is not, and
+	   made this the one list on the site with its own crop. */
+	/* The picture is centred against the row; the TEXT stays top-aligned. This is the
+	   composition `.archive-item--thumb` already uses on the front page, and it is there
+	   for the reason it is needed here: when a row is a good deal taller than its
+	   picture — an episode row runs a title, a four-line deck, a meta line and a control
+	   — a top-aligned crop sits in the upper-left corner with a hand's width of nothing
+	   under it, and reads as dropped onto the page rather than set into it. Centred, the
+	   picture has type on both sides of its midline and the row balances.
+
+	   A no-op for /fordjupning/ and /svar/, where the picture is the taller item and
+	   there is no slack to distribute — which is why it is stated once, here, rather
+	   than scoped to the rows that happen to need it today. */
+	.text-row-list--media .text-row-thumb {
+		align-self: center;
 	}
 
 	.text-row-list--media .text-row-thumb :global(img) {
@@ -178,6 +256,24 @@ const Title = titleElement;
 
 		.text-row-list--media .text-row-thumb {
 			display: none;
+		}
+
+		/* A playable row loses its picture here too, and that WAS tried the other way:
+		   keeping the art at chip size on a phone. It measured badly — an 88px picture
+		   beside a deck squeezed to a 275px measure runs the deck to ten lines, so the
+		   row became a tall narrow column of type with a stamp in the corner. Either
+		   the deck gets clamped or the art goes; the art goes, because the deck is the
+		   episode's own words and this list is only ten rows long. (If the art should
+		   come back here, it needs a clamp on the deck to come with it.)
+
+		   The outer grid still collapses: the control takes the whole measure under the
+		   row rather than staying indented past a column that is no longer there. */
+		.text-row-list--media li.text-row-playable {
+			grid-template-columns: 1fr;
+		}
+
+		.text-row-list--media .text-row-action {
+			grid-column: 1;
 		}
 	}
 </style>
