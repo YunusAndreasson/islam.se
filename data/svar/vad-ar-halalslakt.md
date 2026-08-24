@@ -1,9 +1,9 @@
 ---
 title: "Vad är halalslakt? Så går slakten till"
 question: "Vad är halalslakt och hur går den till?"
-description: "Halalslakt är den islamiska slaktmetoden: ett snitt över halsen medan Guds namn uttalas. Ett trubbigt blad eller ett medvetet utelämnat ord gör köttet haram."
+description: "Halalslakt är den islamiska slaktmetoden: ett snitt över halsen medan Guds namn uttalas. I Sverige är den laglig bara med bedövning – obedövad slakt är förbjuden."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-08-24T00:00:00Z"
 keywords:
   - "vad är halalslakt"
   - "hur går halalslakt till"
@@ -17,8 +17,8 @@ faq:
     a: "Ja. Slaktaren uttalar \"Bismillah\" (i Guds namn) över varje djur. Enligt den klassiska hanbalitiska hållningen, som Ibn Taymiyya företräder, är detta ett villkor för att köttet ska vara halal, men det ursäktas om man glömmer det av misstag."
   - q: "Är kött från judar och kristna halal för muslimer?"
     a: "Ja. Koranen 5:5 tillåter uttryckligen födan hos \"Bokens folk\" (ahl al-kitāb), alltså judar och kristna, så länge djuret slaktats och inte vigts åt någon annan än Gud."
-  - q: "Är halalslakt tillåten i Sverige?"
-    a: "Ja, men endast med bedövning. Svensk djurskyddslag kräver att alla djur bedövas före slakt, så obedövad slakt är förbjuden. Många samtida lärda godtar reversibel bedövning om djuret lever när snittet läggs och dör av blodtömningen, medan andra är mer restriktiva."
+  - q: "Är halalslakt laglig i Sverige?"
+    a: "Ja, men endast med bedövning. Halal i sig är inte olagligt i Sverige – det är den obedövade slakten som är förbjuden enligt djurskyddslagen. Många samtida lärda godtar reversibel bedövning om djuret lever när snittet läggs och dör av blodtömningen, medan andra är mer restriktiva."
   - q: "Är fisk halal utan halalslakt?"
     a: "Ja. Havets djur räknas som tillåtna utan dhabīḥa; reglerna om halssnitt och blodtömning gäller landdjur och fåglar, inte fisk."
 sources:
@@ -70,9 +70,9 @@ Ja. Vid snittet uttalas *tasmiya* över varje enskilt djur: "Bismillah", i Guds 
 
 Slaktaren ska vara en tillräknelig muslim eller någon ur *ahl al-kitāb*, "Bokens folk", det vill säga en jude eller kristen. Koranen tillåter uttryckligen deras mat: födan hos "dem som fick del av uppenbarelsen [i äldre tid]" är "tillåten för er" (Koranen 5:5). Det som väger är i vems namn djuret vigs, inte vem som håller kniven: kött som slaktats åt en avgud, ett helgon eller "för lyckans skull" faller under förbudet mot "ett annat namn än Guds". Därför kan en muslim äta vid en kristen grannes bord, men aldrig av det som offrats vid sidan av Gud.
 
-## Är halalslakt tillåten i Sverige?
+## Är halalslakt laglig i Sverige?
 
-Ja – men bara med bedövning. Svensk djurskyddslag kräver att alla djur bedövas före slakt, och [Jordbruksverket](https://jordbruksverket.se/djur/djurtransportorer-och-slakterier/religios-slakt) är tydligt med att djur ska bedövas i samband med slakt. Obedövad slakt är därmed förbjuden i landet. Frågan blir då om bedövning är förenlig med *dhabīha*, och där går de lärda isär. Många samtida auktoriteter och halalorgan godtar *reversibel* bedövning, en elstöt som inte i sig dödar, under villkoret att djuret skulle överleva om snittet uteblev och att döden orsakas av blodtömningen. Andra, däribland flera av de lärda som denna sida i övrigt hänvisar till, är betydligt mer restriktiva och avråder från bedövning över huvud taget, eftersom risken att djuret dör av bedövningen är svår att utesluta i praktiken. Alla är däremot eniga om gränsen: är djuret dött redan före kniven blir det "självdött" och därmed *harām*. I Sverige möts alltså två krav i samma snitt: lagen kräver bedövning, sharia att djuret lever när bladet går in och att blodet rinner ut.
+Ja – men bara med bedövning. Halal är alltså inte olagligt i Sverige; det är den obedövade slakten som är det. Svensk djurskyddslag kräver att alla djur bedövas före slakt, och [Jordbruksverket](https://jordbruksverket.se/djur/djurtransportorer-och-slakterier/religios-slakt) är tydligt med att djur ska bedövas i samband med slakt. Obedövad slakt är därmed olaglig i landet. Frågan blir då om bedövning är förenlig med *dhabīha*, och där går de lärda isär. Många samtida auktoriteter och halalorgan godtar *reversibel* bedövning, en elstöt som inte i sig dödar, under villkoret att djuret skulle överleva om snittet uteblev och att döden orsakas av blodtömningen. Andra, däribland flera av de lärda som denna sida i övrigt hänvisar till, är betydligt mer restriktiva och avråder från bedövning över huvud taget, eftersom risken att djuret dör av bedövningen är svår att utesluta i praktiken. Alla är däremot eniga om gränsen: är djuret dött redan före kniven blir det "självdött" och därmed *harām*. I Sverige möts alltså två krav i samma snitt: lagen kräver bedövning, sharia att djuret lever när bladet går in och att blodet rinner ut.
 
 ## Är all halalmärkt mat verkligen halal?
 
