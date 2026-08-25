@@ -69,6 +69,7 @@ import type { SFSymbol } from 'sf-symbols-typescript';
 import {
   Platform,
   StyleSheet,
+  useWindowDimensions,
   View,
   type ColorValue,
   type StyleProp,
@@ -172,6 +173,23 @@ type IconProps = {
 } & Omit<ViewProps, 'style'>;
 
 /**
+ * The size to ASK expo-symbols for on Android, so that what the OS finally draws is `size` dp.
+ *
+ * Exported for the test rather than for any call site: the branch that uses it is chosen by a
+ * module-scope `Platform.OS` read, which a test running under the preset's iOS platform cannot
+ * reach, and the arithmetic is the part worth pinning. `|| 1` covers a platform reporting 0 or
+ * NaN — an icon at its plain requested size is a far better failure than one of size Infinity.
+ */
+export function androidGlyphSize(size: number, fontScale: number): number {
+  // Every rejected value falls back to 1, i.e. to the plain requested size. Infinity matters as
+  // much as 0 here and is the easier one to miss: `size / Infinity` is 0, an invisible glyph in
+  // a correctly-sized box, which is a worse failure than the clipping this exists to prevent
+  // and far harder to spot in a screenshot.
+  const usable = Number.isFinite(fontScale) && fontScale > 0 ? fontScale : 1;
+  return size / usable;
+}
+
+/**
  * A single glyph from the app's chrome set. Accessibility props pass straight through —
  * most call sites are decoration beside a label and mark themselves hidden, which matters
  * more on Android (still a Text node holding a private-use codepoint) than on iOS, where
@@ -179,20 +197,57 @@ type IconProps = {
  */
 export function Icon({ name, size = 24, color, style, ...rest }: IconProps) {
   const icon = ICONS[name];
+  // Read reactively, not as a snapshot via PixelRatio.getFontScale(): nav/metrics.ts learns the
+  // same number from the same hook, and two mechanisms on one screen disagreeing about when
+  // they notice a change is how the pre-divide below silently goes stale. Android currently
+  // recreates the activity on a text-size change (its manifest does not list fontScale in
+  // configChanges), which would remount everything anyway — but that is a manifest edit away
+  // from being false, and a stale scale here draws the glyph at size × (new/old) inside a
+  // `size` box: exactly the clipping this arithmetic removes.
+  const { fontScale } = useWindowDimensions();
 
-  // Android already inks correctly (see note 2), so it renders exactly what it rendered
-  // when this was <MaterialIcons> — one node, no wrapper, verified on device.
-  if (!IOS) {
-    return <SymbolView name={icon} size={size} tintColor={color} style={style} {...rest} />;
-  }
-
-  // iOS: the symbol shrinks to its measured ink, then is centred inside a FULL `size` box.
-  // The footprint is what every row was laid out against, so only the ink moves — without
-  // the wrapper, `ink` would drag the layout in with it and every icon+label pair would
-  // retighten by a few points.
+  // Both platforms end up the same shape — the symbol centred inside a FULL `size` box that
+  // carries the caller's style and props. The footprint is what every row was laid out
+  // against, so only the ink ever moves. What differs is the number SymbolView has to be
+  // ASKED for in order to ink `size`, and the two reasons are unrelated:
+  //
+  //  • iOS shrinks to the measured `ink` (note 2). Without the wrapper, `ink` would drag the
+  //    layout in with it and every icon+label pair would retighten by a few points.
+  //  • Android has to UNDO the OS's font scaling. SymbolView draws the glyph there as a
+  //    <Text fontSize={size} lineHeight={size}>, and a React Native <Text> font-scales while
+  //    the <View> around it does not — so at the reader's text size the glyph was drawn at
+  //    size × fontScale inside a box still measuring size, and the box won. At Android's 1.6×
+  //    the date crown's 18 pt calendar came out as the top-left corner of a 29 pt glyph and
+  //    nothing else (seen on an emulator, 2026-08-25, and reported by a reader on that
+  //    screen). Dividing first means the OS multiplication lands back on exactly `size` —
+  //    what the prop has always claimed to mean, and what iOS, whose SymbolView is a native
+  //    image view that never font-scales, has always done. lineHeight rides the same factor.
+  //
+  //    Icons that SHOULD follow the reader's text size say so at the call site, where the
+  //    amount can be judged and capped: see nav/metrics.ts, which grows the map's discs and
+  //    their marks together. That mechanism was silently doubling up against this one, so at
+  //    1.6× the cog inked at 62 dp inside a 69 dp disc rather than the 39 dp it documents.
+  //
+  // ⚠️ THE ANDROID `style` OVERRIDE IS LOAD-BEARING AND MUST STAY ON THE SYMBOL, not move up
+  // to the wrapper with the rest. SymbolView sizes its own inner <View> from the `size` it was
+  // given — the DIVIDED one — so without this the glyph, drawn at the full `size`, overflows a
+  // box only `size / fontScale` across and the clipping comes straight back.
+  //
+  // The wrapper is what makes this component's promise below true. SymbolView's Android path
+  // renders `<View style={style}><Text/></View>` and spreads NOTHING, so every prop in
+  // `...rest` — accessibilityElementsHidden, importantForAccessibility, accessibilityLabel,
+  // testID — used to be dropped on the floor. The cost was real and invisible: settings/
+  // OptionGroup marks its check glyph decorative exactly that way, and on Android TalkBack
+  // reached the inner <Text> and read out the Material Symbols private-use codepoint after
+  // every selected option.
   return (
     <View style={[{ width: size, height: size }, styles.centre, style]} {...rest}>
-      <SymbolView name={icon} size={Math.round(size * icon.ink)} tintColor={color} />
+      <SymbolView
+        name={icon}
+        size={IOS ? Math.round(size * icon.ink) : androidGlyphSize(size, fontScale)}
+        tintColor={color}
+        style={IOS ? undefined : { width: size, height: size }}
+      />
     </View>
   );
 }
