@@ -26,32 +26,21 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSettings } from '@/lib/settings/context';
 import { space } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
-import { CompassButton, GLYPH } from './CompassButton';
+import { CompassButton } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
+import { useNavMetrics, NAV_TOP_GAP } from './metrics';
 import { MoonButton } from './MoonButton';
 import { Icon } from '@/components/ui/Icon';
 
-/** Disc diameter — GlassRoundButton's own default, restated here because the map measures
- *  its floating cards against this stack and must not have to guess at it. */
-const NAV_DISC = 46;
-/** Gap from the safe-area top to the first disc. */
-export const NAV_TOP_GAP = 10;
-/** Height of the left instrument row — one disc, since the Moon moved up beside the compass.
- *  Exported so anything that has to clear the nav reads the real number instead of
- *  re-deriving it. The hints drifted out of step with this once already, back when it was
- *  one disc, and again the day a second one went under it. */
-export const NAV_ROW_HEIGHT = NAV_DISC;
-
-/** The first full-width lane BELOW the instrument row, measured from the safe-area top.
- *  Everything centred across the map's top region stacks from here — the "Återställ" chip,
- *  the basemap-failure notice, the permission hints — because the discs now occupy the whole
- *  of the row above it. */
-export const NAV_LANE_TOP = NAV_TOP_GAP + NAV_ROW_HEIGHT + space.sm;
+// The disc diameter, the mark inside it and the lane below the row all live in
+// ./metrics — they scale with the reader's text size, and the map's floating cards
+// measure against the same numbers.
 
 export function MapNav({ active }: { active: boolean }) {
   const insets = useSafeAreaInsets();
   const c = useColors();
   const { settings } = useSettings();
+  const { disc, glyph } = useNavMetrics();
   const top = insets.top + NAV_TOP_GAP;
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
@@ -66,11 +55,12 @@ export function MapNav({ active }: { active: boolean }) {
         <GlassRoundButton
           tint={c.cardGlass}
           rim={c.hairline}
+          size={disc}
           accessibilityLabel="Inställningar"
           onPress={() => router.navigate('/installningar')}
         >
-          {/* 26 to match the compass opposite — see CompassButton's GLYPH for the ratio. */}
-          <Icon name="settings" size={GLYPH} color={c.ink} />
+          {/* Same disc and same mark as the compass opposite, at every text size. */}
+          <Icon name="settings" size={glyph} color={c.ink} />
         </GlassRoundButton>
       </View>
     </View>

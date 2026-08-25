@@ -158,7 +158,10 @@ export default function Berakning() {
               min={PRAYER_ADJUSTMENT_MIN}
               max={PRAYER_ADJUSTMENT_MAX}
               format={signedMinutes}
-              onChange={(v) => update({ adjustments: { ...settings.adjustments, [key]: v } })}
+              // Functional patch: a burst of stepper taps lands in ONE React batch, and a
+              // spread of this render's `settings.adjustments` would make each write undo
+              // the one before it.
+              onChange={(v) => update((prev) => ({ adjustments: { ...prev.adjustments, [key]: v } }))}
             />
           ))}
           {hasAdjustments ? (

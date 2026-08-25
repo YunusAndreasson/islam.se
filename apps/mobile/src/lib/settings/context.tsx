@@ -19,11 +19,21 @@ interface SettingsContextValue {
   settings: PrayerSettings;
   /** True once persisted settings have been read — guards against flashing defaults. */
   loaded: boolean;
-  /** Shallow-merge a patch into settings and persist the result. */
-  update: (patch: Partial<PrayerSettings>) => void;
+  /** Shallow-merge a patch into settings and persist the result.
+   *
+   *  Pass a FUNCTION whenever the patch is built from the settings it is replacing —
+   *  every nested record (`adjustments`, `notifications`) is, because a shallow merge
+   *  means the patch has to carry the whole sub-object. `{ adjustments: { ...settings
+   *  .adjustments, fajr: 4 } }` spreads the render's copy, so two writes landing in one
+   *  React batch (a burst of stepper taps, a toggle behind an awaited permission dialog)
+   *  make the second one silently undo the first. The function form is handed the latest
+   *  state instead. */
+  update: (patch: SettingsPatch | ((prev: PrayerSettings) => SettingsPatch)) => void;
   /** Restore every setting to the app's defaults (DEFAULT_SETTINGS) and persist. */
   reset: () => void;
 }
+
+type SettingsPatch = Partial<PrayerSettings>;
 
 const SettingsContext = createContext<SettingsContextValue | null>(null);
 
@@ -66,8 +76,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     void saveSettings(settings);
   }, [settings, loaded]);
 
-  const update = useCallback((patch: Partial<PrayerSettings>) => {
-    setSettings((prev) => ({ ...prev, ...patch }));
+  const update = useCallback((patch: SettingsPatch | ((prev: PrayerSettings) => SettingsPatch)) => {
+    setSettings((prev) => ({ ...prev, ...(typeof patch === 'function' ? patch(prev) : patch) }));
   }, []);
 
   // Restore to DEFAULT_SETTINGS, deep-cloning the nested objects so the in-memory

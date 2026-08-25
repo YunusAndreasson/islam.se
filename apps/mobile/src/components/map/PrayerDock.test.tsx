@@ -12,7 +12,7 @@ import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { startOfZoneDay } from '@/lib/zone-time';
-import { type DayMark, PrayerDock } from './PrayerDock';
+import { DOCK_COLLAPSED_BASE, type DayMark, PrayerDock } from './PrayerDock';
 import { first } from '@/test-utils/at';
 
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
@@ -333,5 +333,64 @@ describe('PrayerDock night group', () => {
     for (const key of NIGHT_ORDER) {
       expect(screen.getByLabelText(`${NIGHT_SWEDISH_NAMES[key]}, kan inte beräknas`)).toBeTruthy();
     }
+  });
+});
+
+// REGRESSION (found on an Android emulator at 1.5× and 2× text, 2026-08-25): the open
+// card's height was a constant (396 dp, +108 while the night group was on), so it could
+// not know the reader's text size. At 1.5× the rows grew, the bottom-pinned content slid
+// up past the card's top edge, and the Hijri line — the reason the crown exists — was
+// clipped away entirely while "Tisdag 25 augusti" collided with the grab handle.
+//
+// The open height is now COLLAPSED + whatever the schedule block measures, so it follows
+// the text size, the night group, and a longer month name in any future locale. The
+// height itself is a shared value the reanimated shim doesn't animate, so the observable
+// is the height the dock reports to its host — which is also the number the map uses for
+// its camera padding, and would frame the country wrongly if it drifted from the card.
+describe('PrayerDock open height follows the schedule it measured', () => {
+  function measure(height: number) {
+    // includeHiddenElements: while the dock is closed the block is hidden from assistive
+    // tech (that is the point — nothing behind the card should be announced), but it is
+    // still laid out, which is exactly how it can be measured before the first open.
+    fireEvent(screen.getByTestId('dock-schedule', { includeHiddenElements: true }), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 320, height } },
+    });
+  }
+
+  it('reports collapsed + measured schedule when it opens', () => {
+    const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
+    const { rerender } = render(
+      <PrayerDock {...dockProps(false)} onExpandedChange={onExpandedChange} />,
+    );
+    measure(260);
+    rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+
+    expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 260);
+  });
+
+  it('grows with the text size instead of clipping the date crown', () => {
+    const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
+    const { rerender } = render(
+      <PrayerDock {...dockProps(false)} onExpandedChange={onExpandedChange} />,
+    );
+    // What the same block measures at the OS's largest text size — every row taller, the
+    // crown two bigger lines. The old constant would have left ~150 dp of it above the
+    // card's top edge.
+    measure(430);
+    rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+
+    expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 430);
+  });
+
+  it('re-reports the height when the block changes size while open', () => {
+    const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
+    render(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+    measure(260);
+    // Turning the night group on adds two rows under an open card. Without the re-report
+    // the card would keep the old height and clip them (and the map would pad for a card
+    // that no longer exists).
+    measure(368);
+
+    expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 368);
   });
 });

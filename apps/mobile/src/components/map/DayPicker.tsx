@@ -60,9 +60,21 @@ export interface MonthGrid {
   first: number;
   /** Stockholm midnight of the last day. */
   last: number;
-  /** Leading nulls pad the row so the 1st lands under its weekday column. */
+  /** Leading nulls pad the row so the 1st lands under its weekday column; trailing nulls
+   *  fill the grid out to {@link GRID_CELLS}, so every month is the same six rows tall. */
   cells: (number | null)[];
 }
+
+/** Six weeks of seven days — the tallest a month can need (a 31-day month starting on a
+ *  Sunday pads six leading blanks), and therefore the height EVERY month is drawn at.
+ *
+ *  A ragged grid moves the controls. The sheet is anchored to the dock's bottom edge and
+ *  grows upward, so a five-row month sits 40 dp lower than a six-row one — and paging from
+ *  one to the other slides the ‹ › ✕ row up from under the reader's finger mid-tap. The
+ *  next tap then lands on the grid below the header, which PICKS a day and closes the
+ *  sheet: page through the year quickly and you arrive at a date you never chose. Padding
+ *  costs an empty row on short months, which is what every platform date picker does. */
+export const GRID_CELLS = 42;
 
 export function monthGrid(anchor: number): MonthGrid {
   const { y, mo, d } = zoneParts(anchor);
@@ -82,6 +94,7 @@ export function monthGrid(anchor: number): MonthGrid {
     last = cursor;
     cursor = addZoneDays(cursor, 1);
   }
+  while (cells.length < GRID_CELLS) cells.push(null);
   return { title: `${MONTHS[mo - 1]} ${y}`, first, last, cells };
 }
 
@@ -112,9 +125,21 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
   // day immediately outside this one still falls inside the rails.
   const canPageBack = adjacentMonth(grid, -1) >= minDay;
   const canPageForward = adjacentMonth(grid, 1) <= maxDay;
+  // Pages off the PENDING anchor, not the rendered `grid`. Both look equivalent and are
+  // not: re-rendering the sheet (42 cells) over the open dock takes long enough that taps
+  // arriving during it are delivered together the moment JS frees, React batches them into
+  // one render, and every call in the batch would read the same committed `grid` and ask
+  // for the same neighbouring month. Twelve taps on "Nästa månad" paged TWO months
+  // (measured on an emulator, 2026-08-25) — and paging a year ahead to find Ramadan is
+  // exactly what this control is for. The updater stays pure: monthGrid is a plain
+  // computation over the anchor, and the rails are re-checked inside it so a burst stops
+  // where the range does instead of running past it.
   const monthStep = (delta: 1 | -1): void => {
     hapticSelection();
-    setAnchor(adjacentMonth(grid, delta));
+    setAnchor((prev) => {
+      const next = adjacentMonth(monthGrid(prev), delta);
+      return next < minDay || next > maxDay ? prev : next;
+    });
   };
 
   return (
@@ -173,8 +198,9 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
         <View style={styles.grid}>
           {grid.cells.map((day, i) => {
             if (day == null) {
-              // Leading blanks before the 1st. Keyed by index because they carry no
-              // identity of their own; they are pure layout.
+              // Blanks: before the 1st, and after the last out to the fixed six rows.
+              // Keyed by index because they carry no identity of their own; they are pure
+              // layout — an empty cell holds the grid's height, nothing more.
               // biome-ignore lint/suspicious/noArrayIndexKey: padding cells have no id
               return <View key={`pad-${i}`} style={styles.cell} />;
             }

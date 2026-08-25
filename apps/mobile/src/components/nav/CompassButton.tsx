@@ -28,20 +28,17 @@ import { useAim } from '@/lib/useAim';
 import { useColors } from '@/theme/useColors';
 import { Icon } from '@/components/ui/Icon';
 import { GlassRoundButton } from './GlassRoundButton';
+import { useNavMetrics } from './metrics';
 
-/** Glyph size inside the 46 dp disc.
- *  26, not the 22 this used to be. A glyph inks only its own em coverage — `explore` 0.83,
- *  `location.north.fill` 0.79 — so 22 put about 18 dp of ink inside a 46 dp disc: 38%,
- *  against the ~50% the platform's own map controls sit at, and the disc read as mostly
- *  empty air with a small mark floating in it. (The cog next to it was separately on 24
- *  for no stated reason; both are 26 now, so the pair finally matches.) */
-export const GLYPH = 26;
+// The disc and the glyph inside it both scale with the reader's text size — see
+// ./metrics, which every disc in the nav row measures from so the three stay a set.
 /** A crisp, slightly springy lock so the mark "snaps" when you hit the bearing. Shared
  *  with MoonButton: the two discs sit side by side and must arrive with one motion. */
 export const LOCK_SPRING = { damping: 14, stiffness: 240, mass: 0.5 };
 
 export function CompassButton({ active }: { active: boolean }) {
   const c = useColors();
+  const { disc, glyph } = useNavMetrics();
   const { coords } = useLocation();
   const bearing = useMemo(() => qiblaBearing(coords), [coords]);
   // The same instrument the Qibla screen and the Moon's sky dial run on (lib/useAim), asked
@@ -115,6 +112,7 @@ export function CompassButton({ active }: { active: boolean }) {
             ? 'Qibla – kompassen är inte tillgänglig'
             : 'Qibla'
       }
+      size={disc}
       onPress={() => router.navigate('/qibla')}
     >
       {!hasReading ? (
@@ -122,10 +120,10 @@ export function CompassButton({ active }: { active: boolean }) {
         // arrow always claims a direction, and an upright one here would claim "Mecca is
         // straight ahead" to anyone who happened to be facing north-ish. The rose says
         // "compass" while pointing nowhere, which is the honest state.
-        <Icon name="compassRose" size={GLYPH} color={c.inkMuted} />
+        <Icon name="compassRose" size={glyph} color={c.inkMuted} />
       ) : (
         <Animated.View style={needleStyle}>
-          <Icon name="navigationArrow" size={GLYPH} color={arrowHue} />
+          <Icon name="navigationArrow" size={glyph} color={arrowHue} />
         </Animated.View>
       )}
     </GlassRoundButton>

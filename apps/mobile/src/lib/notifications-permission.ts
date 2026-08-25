@@ -67,7 +67,7 @@ export function useNotificationPermission(active = true): NotificationPermission
   const setEnabled = useCallback(
     async (next: boolean): Promise<NotificationPermissionState | null> => {
       if (!next) {
-        update({ notifications: { ...settings.notifications, enabled: false } });
+        update((prev) => ({ notifications: { ...prev.notifications, enabled: false } }));
         return null;
       }
       // Asked right here, awaited under the finger — one of only two places in the app
@@ -79,7 +79,10 @@ export function useNotificationPermission(active = true): NotificationPermission
       // Enable either way. On a refusal that is not a lie — it is what makes the status
       // row and the "Öppna …" recovery link appear, and it means a user who later allows
       // notifications in system settings starts receiving them on the next sync.
-      update({ notifications: { ...settings.notifications, enabled: true } });
+      // Functional: the OS dialog was up while this callback was suspended, so the
+      // `settings` this closure captured is from before the await. Spreading it would
+      // write back whatever the notification sub-settings were then.
+      update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }));
       // A discrete negative outcome the user just triggered — the haptics policy's
       // warning case. ANY answer that is not a grant counts: on Android the first refusal
       // leaves canAskAgain true, so it arrives as 'undetermined' even though the user
@@ -87,7 +90,10 @@ export function useNotificationPermission(active = true): NotificationPermission
       if (state !== 'granted') hapticWarning();
       return state;
     },
-    [settings.notifications, update],
+    // `settings` is deliberately absent: both writes are functional patches that read the
+    // latest state themselves, so this callback no longer goes stale when a notification
+    // sub-setting changes — and no longer churns identity on every one.
+    [update],
   );
 
   // Android's FIRST refusal leaves canAskAgain true — which reads as 'undetermined' — and

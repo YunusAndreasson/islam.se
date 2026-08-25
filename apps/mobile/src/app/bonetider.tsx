@@ -47,7 +47,8 @@ import {
   type PrayerLineData,
   SolarSkiaOverlay,
 } from '@/components/map/skia/SolarSkiaOverlay';
-import { MapNav, NAV_LANE_TOP } from '@/components/nav/MapNav';
+import { MapNav } from '@/components/nav/MapNav';
+import { useNavMetrics } from '@/components/nav/metrics';
 import {
   GlassBackdropProvider,
   GlassBackdropTarget,
@@ -202,10 +203,12 @@ const HINT_AFTER_REVEAL_MS = 700;
  *  and an 18 dp line. Everything that has to stack under the chip counts in these. */
 const CHIP_HEIGHT = 34;
 // The hint clears the MapNav instrument row AND the Återställ chip's lane under it. The
-// numbers come from MapNav rather than being written again here: this constant was once a
+// numbers come from MapNav rather than being written again here: this was once a
 // hand-copy of "one 46 dp disc at insets.top + 10", and the day a second disc joined the
 // first it would have been silently wrong, with the hint card landing on top of the Moon.
-const HINT_TOP_OFFSET = NAV_LANE_TOP + CHIP_HEIGHT + space.md;
+// It reads the lane at render time (not as a module constant) because the discs grow with
+// the reader's text size — a fixed copy would put the hint back over them at 1.5×.
+const hintTopOffset = (laneTop: number): number => laneTop + CHIP_HEIGHT + space.md;
 // The basemap-failure notice shares the Återställ chip's centred lane, so it is pushed
 // one chip-height + gap below it: both states can be true at once (a failed style does
 // not stop the user panning), and stacked is the only arrangement where neither hides
@@ -267,6 +270,10 @@ export default function Bonetider() {
   const isMapMoving = useCallback(() => mapMoving.current, []);
 
   const insets = useSafeAreaInsets();
+  // The nav discs grow with the reader's text size, so the lane under them does too —
+  // every floating card in the top region (the Återställ chip, the basemap notice, the
+  // permission hints) measures from this rather than from a baked-in 46 dp disc.
+  const { laneTop: navLaneTop } = useNavMetrics();
   const { width: screenW, height: screenH } = useWindowDimensions();
   // Space the floating dock occupies from the screen bottom = card height + the
   // safe-area inset + the float gap beneath it. The map reserves this much so
@@ -489,9 +496,9 @@ export default function Bonetider() {
   // independent (styleFailed comes from onDidFailLoadingMap; the offer queue only waits on
   // cameraReady), so the collision is not a corner case: it is what a first launch on a
   // weak connection looks like, which is exactly when both have something to say.
-  const noticeTop = insets.top + NAV_LANE_TOP + MAP_ERROR_OFFSET;
+  const noticeTop = insets.top + navLaneTop + MAP_ERROR_OFFSET;
   const hintTop = Math.max(
-    insets.top + HINT_TOP_OFFSET,
+    insets.top + hintTopOffset(navLaneTop),
     trouble != null && noticeHeight > 0 ? noticeTop + noticeHeight + space.sm : 0,
   );
 
@@ -1247,19 +1254,19 @@ export default function Bonetider() {
       {phase === 'hint-notifications' && (
         <NotificationHint
           top={hintTop}
-          onEnable={() => update({ notifications: { ...settings.notifications, enabled: true } })}
+          onEnable={() => update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }))}
           onClose={() => setPhase('done')}
         />
       )}
 
       {/* "Återställ" — appears only after the user has clearly panned/zoomed off the
           initial framing. Tap to fitBounds back to the whole country. Centred in the lane
-          BELOW the nav row (NAV_LANE_TOP): it used to share that row, which worked only
+          BELOW the nav row (see useNavMetrics): it used to share that row, which worked only
           while the Moon sat under the compass rather than beside it. A clear ring (border)
           + icon + haptic so it reads unmistakably as a button, not a label — the old
           wordmark style was too quiet to invite a tap. */}
       {moved && (
-        <View style={[styles.resetWrap, { top: insets.top + NAV_LANE_TOP }]} pointerEvents="box-none">
+        <View style={[styles.resetWrap, { top: insets.top + navLaneTop }]} pointerEvents="box-none">
           <Pressable
             onPress={() => {
               hapticLight();

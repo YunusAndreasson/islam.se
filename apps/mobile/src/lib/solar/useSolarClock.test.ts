@@ -9,7 +9,7 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, renderHook } from '@testing-library/react-native';
 
-import { LIVE_TICK_MS, useSolarClock } from './useSolarClock';
+import { LIVE_TICK_MS, MAX_DAY_OFFSET, useSolarClock } from './useSolarClock';
 import { DEFAULT_ZONE, setDisplayZone, startOfZoneDay } from '@/lib/zone-time';
 
 const HOUR = 60 * 60 * 1000;
@@ -148,6 +148,82 @@ describe('useSolarClock day navigation', () => {
     act(() => result.current.stepDay(-2));
     expect(result.current.dayOffset).toBe(-1);
     expect(result.current.dayStart).toBe(today - 24 * HOUR);
+  });
+
+  // REGRESSION (found on an emulator, 2026-08-25): tapping the day chevron ten times in a
+  // row advanced the dock four days, not ten. Every tap DID reach the handler — the field
+  // rebuild blocks JS for a few hundred ms, so the taps that land during it are delivered
+  // together the moment it frees up, and React batches them into ONE render. Each call in
+  // that batch read the SAME committed `dayOffset` and asked for `dayOffset + 1`, so a
+  // burst of four taps moved the day by one.
+  //
+  // Two steps in a single act() is that burst: the hook must count the calls, not the
+  // renders. Nothing in the earlier tests catches it — they all wrap each step in its own
+  // act(), which commits in between and hides the staleness.
+  it('counts every step in a batch, not just the last one', () => {
+    freeze(AUGUST);
+    const { result } = renderHook(() => useSolarClock());
+    const today = result.current.todayStart;
+
+    act(() => {
+      result.current.stepDay(1);
+      result.current.stepDay(1);
+      result.current.stepDay(1);
+    });
+    expect(result.current.dayOffset).toBe(3);
+    expect(result.current.dayStart).toBe(today + 3 * 24 * HOUR);
+
+    // Backwards through the same batching, and mixed directions cancel exactly.
+    act(() => {
+      result.current.stepDay(-1);
+      result.current.stepDay(-1);
+    });
+    expect(result.current.dayOffset).toBe(1);
+
+    act(() => {
+      result.current.stepDay(1);
+      result.current.stepDay(-1);
+    });
+    expect(result.current.dayOffset).toBe(1);
+  });
+
+  // The rails still hold when the burst runs past them, and a batch that overshoots does
+  // not leave a "debt" the next backward tap has to pay off before the day moves.
+  it('clamps a batch at the rail and steps straight back off it', () => {
+    freeze(AUGUST);
+    const { result } = renderHook(() => useSolarClock());
+
+    act(() => {
+      for (let i = 0; i < MAX_DAY_OFFSET + 5; i++) result.current.stepDay(1);
+    });
+    expect(result.current.dayOffset).toBe(MAX_DAY_OFFSET);
+
+    act(() => result.current.stepDay(-1));
+    expect(result.current.dayOffset).toBe(MAX_DAY_OFFSET - 1);
+  });
+
+  // A jump and a step in the same batch: the step must build on the jump, not on the day
+  // that was committed before it. (The date picker closes and the user taps the chevron.)
+  it('steps from the day a batched jump selected', () => {
+    freeze(AUGUST);
+    const { result } = renderHook(() => useSolarClock());
+    const today = result.current.todayStart;
+
+    act(() => {
+      result.current.goToDay(today + 10 * 24 * HOUR);
+      result.current.stepDay(1);
+    });
+    expect(result.current.dayOffset).toBe(11);
+
+    // …and "Nu" wins over a step queued behind it, because reset is the user asking for
+    // today explicitly.
+    act(() => {
+      result.current.stepDay(1);
+      result.current.reset();
+    });
+    expect(result.current.dayOffset).toBe(0);
+    act(() => result.current.stepDay(1));
+    expect(result.current.dayOffset).toBe(1);
   });
 
   // The scrubber thumb must not jump under the user's finger when the day changes, so a

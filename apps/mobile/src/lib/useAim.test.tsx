@@ -131,7 +131,14 @@ describe('useAim — one sensor, many instruments', () => {
 
     // A second instrument arrives, and the sensor stays silent from here on.
     view.rerender(<Pair second />);
-    await waitFor(() => expect(view.getAllByText('aimed')).toHaveLength(2));
+    // Flushed, not polled. The joiner's whole path — permission check, addHeadingListener,
+    // the replay — is a chain of already-resolved promises, so one act() drains it exactly.
+    // `waitFor` polls on a 50 ms timer against a 1 s budget instead, and on a loaded machine
+    // (the full suite runs 94 files across 8 workers) the event loop is starved past that
+    // budget: this test failed roughly one run in two under `nproc` busy loops, on a
+    // replay that had in fact already happened.
+    await act(async () => {});
+    expect(view.getAllByText('aimed')).toHaveLength(2);
     expect(jest.mocked(Location.watchHeadingAsync)).toHaveBeenCalledTimes(1);
   });
 

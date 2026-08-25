@@ -77,6 +77,21 @@ export interface SolarClock {
 
 const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
 
+/** The instant being shown and the Stockholm midnight it is measured from.
+ *
+ *  ONE state, not two, and that is load-bearing. Every operation here derives one from the
+ *  other — a step keeps the fraction through the day, a scrub is an offset from the day's
+ *  start — so an updater has to see BOTH previous values, which two separate `useState`s
+ *  can never give it. As two, `stepDay` had to read the committed render's day and add to
+ *  it, and a burst of chevron taps (delivered together once the field rebuild frees the JS
+ *  thread, then batched into one render) all read the same day and asked for the same next
+ *  one: ten taps moved the dock four days, measured on an emulator on 2026-08-25. As one,
+ *  every change is a pure function of the pending value, and a batch simply composes. */
+interface View {
+  now: number;
+  dayStart: number;
+}
+
 /**
  * @param active Whether the owning screen is on-screen. When false (the map is
  * behind another route), the live tick is paused so the whole-country solar field
@@ -100,13 +115,16 @@ const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
  * what keeps an ordinary pan from rebuilding the field on every settle.
  */
 export function useSolarClock(active = true, shouldDefer?: () => boolean): SolarClock {
-  const [now, setNow] = useState(() => Date.now());
   const [mode, setMode] = useState<ClockMode>('live');
-  // The Stockholm midnight the day slider spans from. Re-anchored at the live midnight
-  // (and on reset) so the view rolls over to the new day on its own — otherwise an app
-  // left running across midnight keeps rendering yesterday: slider pinned at the far
-  // right, stale times, "i morgon" mislabelling today's Fajr.
-  const [dayStart, setDayStart] = useState(() => startOfZoneDay(Date.now()));
+  // `dayStart` is re-anchored at the live midnight (and on reset) so the view rolls over to
+  // the new day on its own — otherwise an app left running across midnight keeps rendering
+  // yesterday: slider pinned at the far right, stale times, "i morgon" mislabelling today's
+  // Fajr.
+  const [view, setView] = useState<View>(() => {
+    const t = Date.now();
+    return { now: t, dayStart: startOfZoneDay(t) };
+  });
+  const { now, dayStart } = view;
   // The REAL today, tracked separately from the day being viewed. Without it "i dag" is
   // whatever day the app was opened on: park the view on tomorrow, leave the phone on the
   // table past midnight, and the dock would go on calling a day that is now today
@@ -160,11 +178,13 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
     const zone = getDisplayZone();
     if (zone !== anchorZone.current) {
       anchorZone.current = zone;
-      // Effect Events see the latest committed state, so these are the current anchors.
-      const offset = Math.round((dayStart - todayStart) / 86_400_000);
+      // Effect Events see the latest committed state, so this is the current anchor.
+      const wasToday = todayStart;
       setTodayStart(today);
-      setDayStart(addZoneDays(today, offset));
-      if (mode === 'live') setNow(t);
+      setView((v) => ({
+        dayStart: addZoneDays(today, Math.round((v.dayStart - wasToday) / 86_400_000)),
+        now: mode === 'live' ? t : v.now,
+      }));
       return;
     }
     // Tracked in EVERY mode and NEVER deferred: this is the cheap half (React bails out on
@@ -181,43 +201,42 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
       return;
     }
     heldBack.current = false;
-    setNow(t);
-    setDayStart((prev) => (prev === today ? prev : today));
+    setView((v) => (v.now === t && v.dayStart === today ? v : { now: t, dayStart: today }));
   });
 
   useEffect(() => {
     if (!active) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Effect Event reads the clock before updating state
     syncClock();
     const id = setInterval(syncClock, LIVE_TICK_MS);
     return () => clearInterval(id);
   }, [active]);
 
-  const setFraction = useCallback(
-    (f: number) => {
-      setMode('scrub');
-      setNow(dayStart + clamp01(f) * dayLength);
-    },
-    [dayStart, dayLength],
-  );
+  // All three of these read the PENDING view rather than the rendered one, so a jump and a
+  // step landing in the same React batch compose instead of the second overwriting the
+  // first. `zoneDayLength` is re-derived inside the updater for the same reason: the memo
+  // below belongs to the committed day, which may not be the one being replaced.
+  const setFraction = useCallback((f: number) => {
+    setMode('scrub');
+    setView((v) => ({ ...v, now: v.dayStart + clamp01(f) * zoneDayLength(v.dayStart) }));
+  }, []);
 
-  const setInstant = useCallback(
-    (ms: number) => {
-      setMode('scrub');
-      const end = dayStart + dayLength;
-      setNow(ms < dayStart ? dayStart : ms > end ? end : ms);
-    },
-    [dayStart, dayLength],
-  );
+  const setInstant = useCallback((ms: number) => {
+    setMode('scrub');
+    setView((v) => {
+      const end = v.dayStart + zoneDayLength(v.dayStart);
+      return { ...v, now: ms < v.dayStart ? v.dayStart : ms > end ? end : ms };
+    });
+  }, []);
 
   const reset = useCallback(() => {
     setMode('live');
     const t = Date.now();
-    setNow(t);
     // Re-anchor in case the day rolled over while the user was scrubbing — or in case they
-    // are on another day entirely, which is now the ordinary case.
+    // are on another day entirely, which is now the ordinary case. "Nu" is the user naming
+    // a day outright, so it REPLACES the view rather than deriving from it: a step queued
+    // behind it in the same batch is meant to be overruled.
     const today = startOfZoneDay(t);
-    setDayStart(today);
+    setView({ now: t, dayStart: today });
     setTodayStart(today);
   }, []);
 
@@ -239,15 +258,10 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
   useEffect(() => {
     // Skips the mount pass; from then on every bump is a tick somebody asked for.
     if (flushToken === 0) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Effect Event reads the clock before updating state
     syncClock();
   }, [flushToken]);
 
   const fraction = clamp01((now - dayStart) / dayLength);
-
-  // Exact: two Stockholm midnights n days apart differ by n·24 h ± 1 h, and ±1 h can never
-  // round to another whole day. So this is integer arithmetic in disguise, not an estimate.
-  const dayOffset = Math.round((dayStart - todayStart) / 86_400_000);
 
   // Move to another day, keeping the time of day the user is looking at.
   //
@@ -260,28 +274,47 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
   // The target is anchored on todayStart + offset, NOT dayStart + delta, which is what
   // makes stepping idempotent: 365 steps forward and 365 back land on today exactly,
   // because every step recomputes an absolute offset rather than accumulating.
+  //
+  // `resolve` is handed the PENDING view, so a step counts CALLS and not renders. Reading
+  // the rendered `dayOffset` and adding to it looks equivalent and is not: the field
+  // rebuild blocks JS for a few hundred milliseconds, the chevron taps that land during it
+  // are delivered together the moment it frees, and React batches them into one render
+  // where every call would see the same committed day. Ten taps moved the dock four days
+  // (measured on an emulator, 2026-08-25); a batched goToDay + step lost the jump entirely.
   const goToOffset = useCallback(
-    (offset: number) => {
-      const clamped = offset < -MAX_DAY_OFFSET ? -MAX_DAY_OFFSET : offset > MAX_DAY_OFFSET ? MAX_DAY_OFFSET : offset;
-      const nextStart = addZoneDays(todayStart, clamped);
-      const f = clamp01((now - dayStart) / dayLength);
+    (resolve: (v: View) => number) => {
       // Deliberately does NOT return to live mode, even when landing back on today: the
       // user is at 18:00 today, not at now. The dock's "Nu" chip is one tap away.
       setMode('scrub');
-      setDayStart(nextStart);
-      setNow(nextStart + f * zoneDayLength(nextStart));
+      setView((v) => {
+        const offset = resolve(v);
+        const clamped =
+          offset < -MAX_DAY_OFFSET ? -MAX_DAY_OFFSET : offset > MAX_DAY_OFFSET ? MAX_DAY_OFFSET : offset;
+        const nextStart = addZoneDays(todayStart, clamped);
+        const f = clamp01((v.now - v.dayStart) / zoneDayLength(v.dayStart));
+        return { dayStart: nextStart, now: nextStart + f * zoneDayLength(nextStart) };
+      });
     },
-    [todayStart, dayStart, dayLength, now],
+    [todayStart],
   );
 
+  /** The offset a view sits at, measured from the real today. Exact: two Stockholm
+   *  midnights n days apart differ by n·24 h ± 1 h, and ±1 h can never round to another
+   *  whole day — so this is integer arithmetic in disguise, not an estimate. */
+  const offsetOf = (start: number): number => Math.round((start - todayStart) / 86_400_000);
+
+  /** Which day is being VIEWED, relative to today. */
+  const dayOffset = offsetOf(dayStart);
+
   const stepDay = useCallback(
-    (delta: number) => goToOffset(dayOffset + delta),
-    [goToOffset, dayOffset],
+    (delta: number) => goToOffset((v) => offsetOf(v.dayStart) + delta),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- offsetOf is (todayStart) in disguise
+    [goToOffset, todayStart],
   );
 
   const goToDay = useCallback(
-    (instant: number) =>
-      goToOffset(Math.round((startOfZoneDay(instant) - todayStart) / 86_400_000)),
+    (instant: number) => goToOffset(() => offsetOf(startOfZoneDay(instant))),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- offsetOf is (todayStart) in disguise
     [goToOffset, todayStart],
   );
 

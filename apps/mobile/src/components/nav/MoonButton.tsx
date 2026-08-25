@@ -44,7 +44,8 @@ import { useSettings } from '@/lib/settings/context';
 import { useAim } from '@/lib/useAim';
 import { zonePrayerDate } from '@/lib/zone-time';
 import { useColors } from '@/theme/useColors';
-import { GLYPH, LOCK_SPRING } from './CompassButton';
+import { LOCK_SPRING } from './CompassButton';
+import { useNavMetrics } from './metrics';
 import { GlassRoundButton } from './GlassRoundButton';
 
 /** How often this disc re-reads where the Moon is. See the note at the call site: it is an
@@ -53,6 +54,7 @@ const AIM_TICK_MS = 60_000;
 
 export function MoonButton({ active }: { active: boolean }) {
   const c = useColors();
+  const { disc, glyph } = useNavMetrics();
   const { coords } = useLocation();
   const { settings } = useSettings();
   // One clock for both halves of this control. It is also the reason the date is not read
@@ -112,10 +114,11 @@ export function MoonButton({ active }: { active: boolean }) {
           ? `Månen – du ser mot månen, ${phase}, ${formatHijri(today, settings.hijriOffset)}`
           : `Månen – ${phase}, ${formatHijri(today, settings.hijriOffset)}`
       }
+      size={disc}
       onPress={() => router.navigate('/manen')}
     >
       <Animated.View style={lockStyle}>
-        <MoonDisc size={GLYPH} illumination={sky.illumination} tilt={sky.limbAngle} {...ink} />
+        <MoonDisc size={glyph} illumination={sky.illumination} tilt={sky.limbAngle} {...ink} />
       </Animated.View>
     </GlassRoundButton>
   );

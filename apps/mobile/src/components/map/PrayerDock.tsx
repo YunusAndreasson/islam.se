@@ -25,7 +25,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
-import { type ColorSchemeName, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  type ColorSchemeName,
+  type LayoutChangeEvent,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
@@ -106,19 +113,21 @@ export const DOCK_FLOAT = 6;
 // Kept as dense as the content allows (trimmed handle clearance + timeline height)
 // so the card's footprint over southern Sweden is minimal.
 export const DOCK_COLLAPSED_BASE = 136;
-// Expanded carries a date header (Gregorian + Hijri) above the schedule, so it's a
-// touch taller than the bare list needed. (No transport row — the day slider is the
-// only time control, so there's nothing to play or explain away.)
-// Because the content is bottom-pinned (flex-end), the date header sits at a fixed
-// distance from the dock bottom; the grab handle rides the dock's TOP edge. So this
-// height also sets the clearance between the handle and the date — kept generous
-// enough that the date never crowds the handle (handle-to-date gap ≈ EXPANDED − Hc − 44).
-const DOCK_EXPANDED_BASE = 396;
-// Added to the EXPANDED height only while `showNightTimes` is on: a hairline + the
-// "Natten" caption + two 36 dp rows. Growing the EXPANDED height is safe; growing
-// DOCK_COLLAPSED_BASE is not (see its comment above), which is why the night group lives
-// at the bottom of the schedule and never in the collapsed card.
-const NIGHT_GROUP_HEIGHT = 108;
+// Expanded = collapsed + the schedule block that unfolds above the hero (the date crown
+// and the rows), because the content is bottom-pinned: opening the card adds exactly that
+// block on top of the summary and scrubber, which never move.
+//
+// That block is MEASURED rather than declared. It was a constant (396 for the card, +108
+// while the night group was on), and a constant cannot know the reader's text size: at
+// Android's 1.5× the rows grew, the whole block slid up past the card's top edge, and the
+// Hijri date — the line the crown exists for — was clipped away entirely while "Tisdag 25
+// augusti" collided with the grab handle. Measuring also retires the night-group constant
+// and covers a longer month name in any future locale.
+//
+// The fallback is only for the frame before the first onLayout: the six rows and the two
+// date lines at the default text size, night group included when it is on.
+const SCHEDULE_FALLBACK = 260;
+const NIGHT_GROUP_FALLBACK = 108;
 /** Stable identity so the `night` memo doesn't hand a fresh object down every render
  *  while the group is off. */
 const EMPTY_NIGHT: NightTimes = { middleOfNight: null, lastThird: null };
@@ -214,7 +223,16 @@ export function PrayerDock({
   // The night group is opt-in, so the open card grows only for the readers who asked for
   // it. Everyone else sees the dock they had.
   const showNight = settings.showNightTimes;
-  const EXPANDED = DOCK_EXPANDED_BASE + (showNight ? NIGHT_GROUP_HEIGHT : 0);
+  // What the schedule block actually measures, once it has laid out. Rounded up to whole
+  // points: onLayout reports fractional heights, and letting that jitter through would
+  // re-render (and re-spring) the card for a third of a pixel.
+  const [scheduleHeight, setScheduleHeight] = useState<number | null>(null);
+  const onScheduleLayout = useCallback((e: LayoutChangeEvent) => {
+    const h = Math.ceil(e.nativeEvent.layout.height);
+    setScheduleHeight((prev) => (prev === h ? prev : h));
+  }, []);
+  const EXPANDED =
+    COLLAPSED + (scheduleHeight ?? SCHEDULE_FALLBACK + (showNight ? NIGHT_GROUP_FALLBACK : 0));
   const MID = (COLLAPSED + EXPANDED) / 2;
 
   const height = useSharedValue(COLLAPSED);
@@ -534,6 +552,8 @@ export function PrayerDock({
               fade/slide in bottom-up with the dock height (and the date crowns last),
               so nothing peeks while collapsed. Tap a row to ease the scrubber to it. */}
           <View
+            testID="dock-schedule"
+            onLayout={onScheduleLayout}
             pointerEvents={expanded ? 'auto' : 'none'}
             accessibilityElementsHidden={!expanded}
             importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { hapticLight } from '@/lib/haptics';
@@ -30,11 +30,23 @@ export function Stepper({
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const clamp = (n: number) => Math.max(min, Math.min(max, n));
+  // A step counts TAPS, not renders. Recomputing from the `value` prop looks equivalent
+  // and is not: the settings screens recompute a live prayer preview on every write, so a
+  // burst of taps arrives together once JS frees up, React batches them into one render,
+  // and every call in that batch reads the same `value`. Ten taps on "Öka Fajr" moved the
+  // offset four minutes (measured on an emulator, 2026-08-25).
+  //
+  // So the base is the value last ASKED for, remembered next to the `value` it was asked
+  // from: while that mark still matches we are inside one batch and the taps accumulate;
+  // once the prop moves, the parent's value is the truth again.
+  const requested = useRef({ value, from: value });
   // Light impact only when the clamped value actually moves — a discrete step snap.
   // No buzz at min/max (the button is also `disabled` there, so it's double-guarded).
   const stepBy = (delta: number) => {
-    const next = clamp(value + delta);
-    if (next !== value) hapticLight();
+    const base = requested.current.from === value ? requested.current.value : value;
+    const next = clamp(base + delta);
+    requested.current = { value: next, from: value };
+    if (next !== base) hapticLight();
     onChange(next);
   };
   const display = format ? format(value) : String(value);

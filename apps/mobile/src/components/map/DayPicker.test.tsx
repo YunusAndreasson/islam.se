@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import { addZoneDays, startOfZoneDay, zoneParts } from '@/lib/zone-time';
-import { adjacentMonth, DayPicker, monthGrid } from './DayPicker';
+import { adjacentMonth, DayPicker, GRID_CELLS, monthGrid } from './DayPicker';
 import { first } from '@/test-utils/at';
 
 const day = (y: number, m: number, d: number) => startOfZoneDay(Date.UTC(y, m - 1, d, 12));
@@ -32,6 +32,23 @@ describe('monthGrid', () => {
   it('pads the first row so the 1st lands under its weekday', () => {
     const grid = monthGrid(day(2026, 7, 15));
     expect(grid.cells.slice(0, 3)).toEqual([null, null, grid.first]);
+  });
+
+  // REGRESSION (found on an emulator, 2026-08-25): the grid was as tall as the month
+  // needed — four rows for a February starting on a Monday, six for a 31-day month
+  // starting on a Sunday. The sheet is anchored to the dock's bottom and grows upward, so
+  // paging between two such months slid the ‹ › ✕ row up to 80 dp up from under the
+  // reader's finger; the tap that followed landed in the grid, which PICKS a day and
+  // closes the sheet. Every month is six rows now, whatever it holds.
+  it('is always six rows tall, whatever the month', () => {
+    const shortest = monthGrid(day(2027, 2, 10)); // 28 days, starts Monday — 4 rows of days
+    const longest = monthGrid(day(2026, 11, 10)); // 30 days, starts Sunday — 6 rows of days
+    for (const grid of [shortest, longest, monthGrid(day(2026, 7, 15))]) {
+      expect(grid.cells).toHaveLength(GRID_CELLS);
+    }
+    // The padding is trailing blanks, not repeated or invented days.
+    expect(shortest.cells.filter((c) => c != null)).toHaveLength(28);
+    expect(first(shortest.cells.slice(-1), 'last cell')).toBeNull();
   });
 
   it('handles February, leap and common', () => {
@@ -120,6 +137,52 @@ describe('DayPicker', () => {
     fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
     fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
     expect(screen.getByText('augusti 2026')).toBeTruthy();
+  });
+
+  // REGRESSION (found on an emulator, 2026-08-25): twelve quick taps on "Nästa månad"
+  // paged TWO months. Every tap reached the handler — re-rendering the 42-cell sheet over
+  // the open dock takes long enough that the taps landing during it are delivered together
+  // once JS frees, and React batches them into one render, where every call read the same
+  // committed month and asked for the same neighbour. Paging a year ahead (to find
+  // Ramadan, say) is exactly what this pager is for.
+  //
+  // Each press in its own act() commits in between and hides it, which is why the presses
+  // below share one.
+  it('counts every tap in a batch, not just the last one', () => {
+    renderPicker(day(2026, 8, 25));
+
+    act(() => {
+      for (let i = 0; i < 12; i++) {
+        fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
+      }
+    });
+    expect(screen.getByText('augusti 2027')).toBeTruthy();
+
+    act(() => {
+      for (let i = 0; i < 5; i++) {
+        fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
+      }
+    });
+    expect(screen.getByText('mars 2027')).toBeTruthy();
+  });
+
+  // A burst that runs past the rail stops AT it — and leaves no debt behind, so the next
+  // tap back moves one month rather than unwinding an overshoot first.
+  it('stops a batch at the rail instead of running past it', () => {
+    const today = day(2026, 8, 25);
+    renderPicker(today, today);
+
+    act(() => {
+      for (let i = 0; i < 24; i++) {
+        fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
+      }
+    });
+    // +365 days from 25 Aug 2026 is 25 Aug 2027, so August 2027 is the last month with a
+    // reachable day in it.
+    expect(screen.getByText('augusti 2027')).toBeTruthy();
+
+    act(() => fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' })));
+    expect(screen.getByText('juli 2027')).toBeTruthy();
   });
 
   // The rails are ±365 days. A day outside them cannot be picked, and the pager stops
