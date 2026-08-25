@@ -147,13 +147,22 @@ describe('computeNightTimes — the ordering guard', () => {
   // Kiruna is the one city where this DOES trip, and by design: prayer-times.ts's own
   // chronological-order guard (found via live emulator QA, 2026-08-25 — adhan's AqrabBalad
   // polar substitution can borrow a different reference day per slot, occasionally landing
-  // ʿIshāʾ before its own Maghrib, or ʿAṣr days before its own Fajr) invalidates a slot
-  // rather than show an impossible schedule. Once ʿIshāʾ itself is one of those invalidated
-  // slots, computeNightTimes's `!Number.isFinite(isha)` bail-out — case 1 in the guard's own
-  // comment above — correctly suppresses the night division too: a "sista tredjedel"
-  // computed from a corrupted ʿIshāʾ would just be a second wrong number built on the first.
-  // Measured against the exact fixed set of days below (2026, Turkey/auto/aqrabBalad) so a
-  // regression that widens or narrows the set is caught, not just a raw count.
+  // ʿIshāʾ before its own Maghrib) invalidates a slot rather than show an impossible
+  // schedule. Once ʿIshāʾ itself is one of those invalidated slots, computeNightTimes's
+  // `!Number.isFinite(isha)` bail-out — case 1 in the guard's own comment above — correctly
+  // suppresses the night division too: a "sista tredjedel" computed from a corrupted ʿIshāʾ
+  // would just be a second wrong number built on the first. Measured against the exact fixed
+  // set of days below (2026, Turkey/auto/aqrabBalad) so a regression that widens or narrows
+  // the set is caught, not just a raw count.
+  //
+  // The three January days this list used to carry (7, 8 and 10 Jan 2026) are GONE, and
+  // their removal is the point of a later fix rather than a slackening here. Under the old
+  // left-to-right ordering guard a runaway ʿAṣr — the shadow-ratio search has nothing to
+  // find in polar winter — became the high-water mark that Maghrib and ʿIshāʾ were then
+  // measured against, so both were blanked for "regressing" past a value that belonged to
+  // another month, and the night division fell with them. Anchored on Ẓuhr, ʿAṣr can only
+  // invalidate itself; ʿIshāʾ survives on those three days, and so does the night. What
+  // remains is the genuine May–June set, where ʿIshāʾ really is unresolvable.
   it('Kiruna: the default settings only trip the guard on the days ʿIshāʾ itself is invalidated', () => {
     const suppressed: string[] = [];
     for (let i = 0; i < 365; i++) {
@@ -162,9 +171,6 @@ describe('computeNightTimes — the ordering guard', () => {
       if (!night.middleOfNight || !night.lastThird) suppressed.push(day.toDateString());
     }
     expect(suppressed).toEqual([
-      'Wed Jan 07 2026',
-      'Thu Jan 08 2026',
-      'Sat Jan 10 2026',
       'Tue May 26 2026',
       'Tue Jun 02 2026',
       'Sat Jun 06 2026',

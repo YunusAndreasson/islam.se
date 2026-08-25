@@ -24,7 +24,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import {
   type ColorSchemeName,
   type LayoutChangeEvent,
@@ -64,6 +64,7 @@ import {
   PRAYER_LABELS,
   PRAYER_ORDER,
   type PrayerKey,
+  type NextPrayer,
 } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { zonePrayerDate } from '@/lib/zone-time';
@@ -132,15 +133,35 @@ const NIGHT_GROUP_FALLBACK = 108;
  *  while the group is off. */
 const EMPTY_NIGHT: NightTimes = { middleOfNight: null, lastThird: null };
 
-export interface NextPrayer {
-  key: PrayerKey;
-  at: number;
-  /** True when this prayer belongs to the day AFTER the one being viewed — so it is not
-   *  in the schedule list above and needs naming in the hero. Called `nextDay` rather
-   *  than `tomorrow` because "tomorrow" is actively wrong once the user can view other
-   *  days: past Ishaʾ on a day three ahead, this is the day FOUR ahead. */
-  nextDay: boolean;
+// The schedule's reveal stagger, in ONE place because three worklets read it — the prayer rows,
+// the midnight rule between them, and the night group's caption. They must uncover together, so
+// a retiming that reached only two of the three would show exactly the drift the stagger exists
+// to avoid. Kept as module constants rather than props: worklets capture them by value.
+//
+// STAGGER_SPAN is how much of the open-fraction the start times are spread across, and
+// REVEAL_WINDOW how long each row takes once its turn arrives. Reversed by index at the call
+// site (bottom row first), so the growing bottom edge uncovers each row as it reaches it.
+const STAGGER_SPAN = 0.45;
+const REVEAL_WINDOW = 0.55;
+
+/** Where a row at `index` of `total` starts its reveal, as a fraction of the open progress. */
+function revealStart(index: number, total: number): number {
+  'worklet';
+  return ((total - 1 - index) / total) * STAGGER_SPAN;
 }
+
+// Re-exported, not redeclared: `selectNextPrayer` in lib/prayer-times is what BUILDS this
+// value, so the shape belongs beside it — as two structurally-identical declarations they were
+// bound only by inference, and a field added on one side would have surfaced at bonetider's
+// annotation rather than at the function that produces it. The name stays exported from here
+// because the dock's props are what call sites read.
+//
+// Spelled with the `from` clause rather than as `export type { NextPrayer }` over the local
+// import. The two are equivalent to tsc, but the bare form needs the imported binding to still
+// exist when the export is checked — and a type-only import is erased — so it is one babel
+// config away from "Export 'NextPrayer' is not defined". Metro said exactly that during an edit
+// that had added the export a moment before the import.
+export type { NextPrayer } from '@/lib/prayer-times';
 
 export interface DayMark {
   key: PrayerKey;
@@ -405,6 +426,35 @@ export function PrayerDock({
   // being last, are the first to appear as the growing bottom edge uncovers them.
   const rowCount = PRAYER_ORDER.length + (showNight ? NIGHT_ORDER.length : 0);
 
+  // Which calendar day each row's time actually falls on, relative to the day the card is
+  // headed with: −1 the evening before, 0 this day, +1 after midnight — and, per row, whether
+  // the list crosses a boundary just above it. See DayBreak for why the distinction has to be
+  // drawn at all.
+  //
+  // Plain arithmetic off the clock's own two numbers rather than a startOfZoneDay per row:
+  // every slot sits within ±14 h of its own solar noon, so there is at most one boundary each
+  // side, and this stays free of Intl. Memoised on the day rather than computed in the render
+  // body because the dock re-renders every 30 s for the countdown while the schedule beneath
+  // it changes only when the viewed day does.
+  const daySides = useMemo(() => {
+    const dayEnd = clock.dayStart + clock.dayLength;
+    let lastSide: number | null = null;
+    // Keyed by prayer rather than by position: the rows are rendered from PRAYER_ORDER, and a
+    // Record makes that lookup total where an array index would be `| undefined`.
+    const out = {} as Record<PrayerKey, { at: number; valid: boolean; side: number | null; crosses: boolean }>;
+    for (const key of PRAYER_ORDER) {
+      const date = times[key];
+      const at = date instanceof Date ? date.getTime() : Number.NaN;
+      const valid = Number.isFinite(at);
+      const side = valid ? (at < clock.dayStart ? -1 : at >= dayEnd ? 1 : 0) : null;
+      // Only a real time can move the boundary: a "–" belongs to no day.
+      const crosses = side !== null && lastSide !== null && side !== lastSide;
+      if (side !== null) lastSide = side;
+      out[key] = { at, valid, side, crosses };
+    }
+    return out;
+  }, [times, clock.dayStart, clock.dayLength]);
+
   const cd = next ? countdownParts(next.at - clock.now) : null;
 
   // The day being viewed (midday avoids any DST edge), labelled in both calendars.
@@ -594,31 +644,50 @@ export function PrayerDock({
 
             <View style={styles.list}>
               {PRAYER_ORDER.map((key, i) => {
-                const date = times[key];
-                const at = date instanceof Date ? date.getTime() : Number.NaN;
-                const valid = Number.isFinite(at);
+                const { at, valid, side, crosses } = daySides[key];
                 return (
-                  <ScheduleRow
-                    key={key}
-                    styles={styles}
-                    index={i}
-                    total={rowCount}
-                    dockHeight={height}
-                    collapsed={COLLAPSED}
-                    expanded={EXPANDED}
-                    label={PRAYER_LABELS[key]}
-                    icon={PRAYER_ICONS[key]}
-                    iconColor={prayerColorFor(key, scheme)}
-                    time={valid ? formatTime(date) : '–'}
-                    visible={expanded}
-                    isNext={next?.key === key && !next.nextDay}
-                    // The brass row is the answer to "which prayer is next" for a sighted
-                    // reader; without this it was the one thing the label never carried.
-                    accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? formatTime(date) : 'kan inte beräknas'}${
-                      next?.key === key && !next.nextDay ? ', nästa bön' : ''
-                    }`}
-                    onPress={valid ? () => scrubTo(at) : undefined}
-                  />
+                  <Fragment key={key}>
+                    {crosses ? (
+                      <DayBreak
+                        styles={styles}
+                        index={i}
+                        total={rowCount}
+                        dockHeight={height}
+                        collapsed={COLLAPSED}
+                        expanded={EXPANDED}
+                        visible={expanded}
+                      />
+                    ) : null}
+                    <ScheduleRow
+                      styles={styles}
+                      index={i}
+                      total={rowCount}
+                      dockHeight={height}
+                      collapsed={COLLAPSED}
+                      expanded={EXPANDED}
+                      label={PRAYER_LABELS[key]}
+                      icon={PRAYER_ICONS[key]}
+                      iconColor={prayerColorFor(key, scheme)}
+                      time={valid ? formatTime(times[key]) : '–'}
+                      visible={expanded}
+                      isNext={next?.key === key && !next.nextDay}
+                      // The brass row is the answer to "which prayer is next" for a sighted
+                      // reader; without this it was the one thing the label never carried.
+                      // A row past midnight says so in words: the rule above it is silent to
+                      // a screen reader, and "00:36" alone is exactly the ambiguity it exists
+                      // to remove.
+                      accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? formatTime(times[key]) : 'kan inte beräknas'}${
+                        side === 1 ? ', efter midnatt' : side === -1 ? ', kvällen innan' : ''
+                      }${next?.key === key && !next.nextDay ? ', nästa bön' : ''}`}
+                      // Only rows that land INSIDE the viewed day can be scrubbed to:
+                      // clock.setInstant clamps to that day, so tapping a 00:36 Maghrib
+                      // parked the thumb on the far rail at 24:00 and — where two slots sit
+                      // past midnight, as at Luleå in mid-June — lit up the EARLIER one as
+                      // current. The same reasoning already keeps the night landmarks
+                      // unpressable; see NightGroup.
+                      onPress={valid && side === 0 ? () => scrubTo(at) : undefined}
+                    />
+                  </Fragment>
                 );
               })}
 
@@ -826,8 +895,8 @@ function ScheduleRow({
   const reveal = useAnimatedStyle(() => {
     const p = (dockHeight.value - collapsed) / (expanded - collapsed);
     // Reversed: bottom row (highest index) starts at 0, top row last (~0.375).
-    const start = ((total - 1 - index) / total) * 0.45;
-    const local = interpolate(p, [start, start + 0.55], [0, 1], Extrapolation.CLAMP);
+    const start = revealStart(index, total);
+    const local = interpolate(p, [start, start + REVEAL_WINDOW], [0, 1], Extrapolation.CLAMP);
     return { opacity: local, transform: [{ translateY: interpolate(local, [0, 1], [10, 0]) }] };
   });
 
@@ -881,11 +950,81 @@ function ScheduleRow({
           // Not every row can be scrubbed to. A plain View (rather than a disabled
           // Pressable) is what stops a screen reader announcing "knapp, inaktiverad" for a
           // row that was never meant to be one.
-          <View accessible accessibilityLabel={accessibilityLabel} style={styles.listRow}>
+          //
+          // It still carries `listRowNext`. That used to be unreachable — every valid prayer
+          // row was pressable, so only the branch above ever needed it — and the moment
+          // post-midnight rows stopped being pressable it became the common case: at Kiruna
+          // in June the next prayer IS the 00:36 Maghrib for most of the evening. Without it
+          // the row got `nextEmphasis` on its text and no brass ground under it, which reads
+          // as a half-painted row rather than as the answer to "what's next".
+          <View
+            accessible
+            accessibilityLabel={accessibilityLabel}
+            style={[styles.listRow, isNext && styles.listRowNext]}
+          >
             {content}
           </View>
         )
       ) : null}
+    </Animated.View>
+  );
+}
+
+/**
+ * The hairline where the schedule crosses midnight.
+ *
+ * At these latitudes a prayer routinely lands on a different calendar day than the card is
+ * headed with, and the printed time gives no hint of it: at Kiruna on 14 June the sun does not
+ * set at all, adhan's substitution puts Maghrib at 00:36 the following morning, and the row
+ * read "Maghrib 00:36" directly under "ʿAṣr 17:41" — a number that looks like the small hours
+ * already gone, twelve hours before it actually arrives. Default settings, 179 Maghrib-days
+ * and 210 ʿIshāʾ-days a year across northern Sweden, and the same thing in reverse for a Fajr
+ * that falls before midnight (Karesuando, 17 July: Fajr 23:58 above Shurūq 00:21).
+ *
+ * A rule and a caption rather than a per-row marker, and the caption says only what it can
+ * defend. The three alternatives tried for the night group are all worse here for the same
+ * reasons they were worse there (see NightGroup): a bare "+1" presumes the reader knows what
+ * is incremented, a per-row weekday is noise on five rows to serve one, and naming the date
+ * puts a second weekday on a card that already carries one. "Efter midnatt" is true of every
+ * row below it in both directions — the ones that crossed forward, and the Fajr the rest of
+ * the list crossed away from — and contradicts nothing above it.
+ *
+ * Deliberately invisible to a screen reader: it is a visual grouping of rows that each carry
+ * the same fact in their own label, and announcing it as a heading would insert "efter
+ * midnatt" twice into one row's reading.
+ */
+function DayBreak({
+  styles,
+  index,
+  total,
+  dockHeight,
+  collapsed,
+  expanded,
+  visible,
+}: {
+  styles: DockStyles;
+  index: number;
+  total: number;
+  dockHeight: SharedValue<number>;
+  collapsed: number;
+  expanded: number;
+  visible: boolean;
+}) {
+  // Rides the window of the row it introduces, so the rule uncovers with it rather than
+  // hanging in the air above it — the same trick NightGroup uses for its caption.
+  const reveal = useAnimatedStyle(() => {
+    const p = (dockHeight.value - collapsed) / (expanded - collapsed);
+    const start = revealStart(index, total);
+    return { opacity: interpolate(p, [start, start + REVEAL_WINDOW], [0, 1], Extrapolation.CLAMP) };
+  });
+  return (
+    <Animated.View
+      style={[styles.dayBreak, reveal]}
+      pointerEvents="none"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+    >
+      {visible ? <Text style={styles.dayBreakCaption}>Efter midnatt</Text> : null}
     </Animated.View>
   );
 }
@@ -902,12 +1041,20 @@ function ScheduleRow({
  *     of the wrong day and light up ʿIshāʾ as "current" — a lie with no visible cause.
  *  2. **Muted label ink, tinted glyph only.** These are voluntary. Painting them at the
  *     same strength as the five obligations is the one thing this group must never do.
- *  3. **Nothing marks the midnight crossing.** These times routinely land after midnight
- *     under a card headed with the evening's date, and three ways of saying so were tried
- *     and removed: a bare "+1" (presumes the reader knows what is incremented), a per-row
- *     weekday, and a "Natten mot måndag" heading (two weekdays on one card reads as a
- *     contradiction). The clock face already answers it — 01:31 is plainly the small hours
- *     — so the group heading is just "Natten" and the row carries a name and a time.
+ *  3. **Nothing marks the midnight crossing — and these rows do NOT get the DayBreak rule the
+ *     six prayers above them now use.** That is an asymmetry, so it is worth stating plainly
+ *     rather than leaving to be discovered: these times routinely land after midnight under a
+ *     card headed with the evening's date, and three ways of saying so were tried and removed
+ *     (a bare "+1", which presumes the reader knows what is incremented; a per-row weekday;
+ *     and a "Natten mot måndag" heading, which puts two weekdays on one card and reads as a
+ *     contradiction). What settles it is the group heading: "Natten" has already told the
+ *     reader these belong to the night, so 01:31 needs no further gloss — whereas a Maghrib
+ *     of 00:36 sits in a list of daytime obligations with nothing framing it, which is exactly
+ *     the ambiguity DayBreak exists to remove. The rule marks a crossing the reader cannot
+ *     otherwise see; here the caption above the group has already marked it.
+ *
+ *     If that ever stops feeling right, the fix is to feed NIGHT_ORDER through the same
+ *     `daySides` computation rather than to bolt a second mechanism on beside it.
  */
 function NightGroup({
   styles,
@@ -934,8 +1081,8 @@ function NightGroup({
     // Rides the LAST row's window so the rule and caption uncover with the group they
     // introduce, rather than hanging in the air above it.
     const p = (dockHeight.value - collapsed) / (expanded - collapsed);
-    const start = ((total - 1 - firstIndex) / total) * 0.45;
-    return { opacity: interpolate(p, [start, start + 0.55], [0, 1], Extrapolation.CLAMP) };
+    const start = revealStart(firstIndex, total);
+    return { opacity: interpolate(p, [start, start + REVEAL_WINDOW], [0, 1], Extrapolation.CLAMP) };
   });
 
   return (
@@ -1307,6 +1454,13 @@ function DayChevron({
 // Styles built from the active OS palette. Layout geometry is fixed; colours come from
 // `c`, and typography/spacing snap to the design tokens (type.* / space.* / radius.*).
 function makeStyles(c: Palette) {
+  // The hairline both list divisions draw. Shared so a theme change to it cannot reach one
+  // and miss the other — see nightRule / dayBreak below for what each adds on top.
+  const GROUP_RULE = {
+    paddingTop: space.xs,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: c.hairline,
+  } as const;
   return StyleSheet.create({
     shadowWrap: {
       position: 'absolute',
@@ -1370,13 +1524,17 @@ function makeStyles(c: Palette) {
 
     // The night group's separator. Its own rule + caption rather than another list row,
     // so a glance can tell where the obligations stop and the voluntary times begin.
-    nightRule: {
-      marginTop: space.sm,
-      paddingTop: space.xs,
-      borderTopWidth: StyleSheet.hairlineWidth,
-      borderTopColor: c.hairline,
-    },
+    // One hairline-and-caption pair, used at both places the list is divided: above the night
+    // group (a change of CATEGORY — obligation to voluntary) and at the midnight crossing (the
+    // same list, a later day). Only the space above them differs, and that difference is the
+    // whole visual distinction between "a new group" and "the list continues".
+    nightRule: { ...GROUP_RULE, marginTop: space.sm },
     nightCaption: { ...type.caption, color: c.inkFaint, marginBottom: space.xs },
+    // The midnight crossing takes the same rule with less air above it: it interrupts a single
+    // list rather than introducing a new group, so the rows either side must still read as one
+    // block. Composed from nightRule so a change to the hairline reaches both.
+    dayBreak: { ...GROUP_RULE, marginTop: space.xs },
+    dayBreakCaption: { ...type.caption, color: c.inkFaint, marginBottom: space.xs },
     // The next prayer = brass everywhere (here, the countdown, the map pill), so
     // "what's coming" reads in one colour across the dock and the map.
     nextEmphasis: { color: c.highlightText, fontWeight: '700' },

@@ -75,7 +75,7 @@ import {
 } from '@/lib/notification-hint';
 import { getNotificationPermissionState } from '@/lib/notifications';
 import { lonLatOf, type LonLat } from '@/lib/coordinates';
-import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
+import { computePrayerTimes, PRAYER_ORDER, type PrayerKey, selectNextPrayer } from '@/lib/prayer-times';
 import { computeSignature } from '@/lib/settings/compute-signature';
 import { useSettings } from '@/lib/settings/context';
 import type { LocationMode } from '@/lib/settings/types';
@@ -797,14 +797,13 @@ export default function Bonetider() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sig + coords + day fully determine this
   }, [coords.latitude, coords.longitude, clock.dayStart, sig]);
 
-  const next = useMemo<NextPrayer | null>(() => {
-    // First prayer at-or-after the viewed instant (inclusive, so scrubbing exactly onto a
-    // prayer selects THAT prayer, not the next — see nextPrayerKeyAt).
-    const key = nextPrayerKeyAt(userTimes, clock.now);
-    if (key) return { key, at: userTimes[key].getTime(), nextDay: false };
-    // Past the viewed day's Ishaʾ → the next day's Fajr.
-    return nextDayFajrAt != null ? { key: 'fajr', at: nextDayFajrAt, nextDay: true } : null;
-  }, [userTimes, clock.now, nextDayFajrAt]);
+  // The viewed day's own next slot, or the following day's Fajr once ʿIshāʾ has passed. Both
+  // rules — the inclusive `>=` that makes a tapped prayer read as current, and the range check
+  // that keeps a next-day Fajr from pointing into the past — live in selectNextPrayer.
+  const next = useMemo<NextPrayer | null>(
+    () => selectNextPrayer(userTimes, nextDayFajrAt, clock.now),
+    [userTimes, clock.now, nextDayFajrAt],
+  );
 
   // The user's next prayer drives the emphasised line/pill on the map (only when
   // it's today — tomorrow's Fajr has no line sweeping the country yet).

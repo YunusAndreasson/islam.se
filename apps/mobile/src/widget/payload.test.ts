@@ -84,6 +84,26 @@ describe('buildPayloadAt — next prayer & schedule', () => {
     expect(p.rows.some((r) => r.isNext)).toBe(false);
   });
 
+  it('refuses a next-day Fajr that falls BEFORE the instant it would count down from', () => {
+    // `nextAtMs` drives a live relative countdown in the widget and the Live Activity, so an
+    // instant in the past does not merely read oddly — it counts UPWARDS until the next
+    // timeline entry replaces it. And "tomorrow's Fajr" is not automatically ahead: under the
+    // middle-of-the-night rule far north, Fajr sits at the middle of the night, which around
+    // the equinox lands just before midnight. At Treriksröset the Fajr belonging to 28 March
+    // falls at 23:59 on the 27th. This path had its own copy of the rollover and so was left
+    // behind when the map dock's copy learned to range-check; it now shares selectNextPrayer.
+    const TRERIKSROSET: LatLng = { latitude: 69.0601, longitude: 20.5486 };
+    const s = settings({ highLatitudeRule: 'middleOfTheNight' });
+    const nextFajr = computePrayerTimes(TRERIKSROSET, new Date(2026, 2, 28), s).fajr.getTime();
+    const now = new Date(2026, 2, 28, 0, 0, 0).getTime();
+    // Guard the guard: if adhan stops placing it before midnight this asserts nothing.
+    expect(nextFajr).toBeLessThan(now);
+
+    const p = buildPayloadAt(TRERIKSROSET, s, now, 'Treriksröset');
+    expect(p.nextAtMs).not.toBe(nextFajr);
+    if (p.nextAtMs !== null) expect(p.nextAtMs).toBeGreaterThanOrEqual(now);
+  });
+
   it('threads the Hijri offset into the displayed date', () => {
     const now = ref.dhuhr.getTime();
     const base = buildPayloadAt(STOCKHOLM, settings({ hijriOffset: 0 }), now, 'Stockholm');

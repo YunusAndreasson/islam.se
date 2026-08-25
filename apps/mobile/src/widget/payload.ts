@@ -14,6 +14,7 @@ import {
   PRAYER_ORDER,
   type PrayerKey,
   PRAYER_SWEDISH_NAMES,
+  selectNextPrayer,
 } from '@/lib/prayer-times';
 import type { PrayerTimes } from 'adhan';
 import type { PrayerSettings, ThemePreference } from '@/lib/settings/types';
@@ -91,32 +92,27 @@ export function buildPayloadAt(
   // Gregorian line by a day around midnight.
   const civilDay = zonePrayerDate(atMs);
   const times = compute(civilDay);
-  const nextKey = nextPrayerKeyAt(times, atMs);
 
-  let nextArabic = '';
-  let nextSwedish = '';
-  let nextTime = '–';
-  let nextAtMs: number | null = null;
-  let nextIsTomorrow = false;
+  // The same selector the map dock uses, rather than a second copy of the rollover rule —
+  // including its range check, which this path used to be missing. "Tomorrow's Fajr" is not
+  // automatically ahead of `atMs`: under the middle-of-the-night rule far north it can fall
+  // just before midnight (at Treriksröset the Fajr belonging to 28 March is at 23:59 on the
+  // 27th), and `nextAtMs` drives a LIVE relative countdown in the widget and the Live
+  // Activity — so a past instant does not merely read oddly, it counts upwards until the next
+  // timeline entry replaces it. See selectNextPrayer for the full reasoning.
+  //
+  // The next day is computed only once the viewed day is spent: a whole adhan day is the
+  // expensive part of building a payload, and buildTimeline builds many of them. The extra
+  // nextPrayerKeyAt call is six getTime()s.
+  const spent = nextPrayerKeyAt(times, atMs) === null;
+  const tomorrowFajrAt = spent ? compute(zonePrayerDate(atMs, 1)).fajr.getTime() : null;
+  const next = selectNextPrayer(times, tomorrowFajrAt, atMs);
 
-  if (nextKey) {
-    // nextPrayerKeyAt only returns a slot whose time is finite, so this is safe.
-    nextArabic = PRAYER_LABELS[nextKey];
-    nextSwedish = PRAYER_SWEDISH_NAMES[nextKey];
-    nextTime = formatTime(times[nextKey]);
-    nextAtMs = times[nextKey].getTime();
-  } else {
-    // Past today's Isha → the next event is tomorrow's Fajr.
-    const tomorrow = compute(zonePrayerDate(atMs, 1));
-    const fajr = tomorrow.fajr;
-    if (fajr instanceof Date && !Number.isNaN(fajr.getTime())) {
-      nextArabic = PRAYER_LABELS.fajr;
-      nextSwedish = PRAYER_SWEDISH_NAMES.fajr;
-      nextTime = formatTime(fajr);
-      nextAtMs = fajr.getTime();
-      nextIsTomorrow = true;
-    }
-  }
+  const nextArabic = next ? PRAYER_LABELS[next.key] : '';
+  const nextSwedish = next ? PRAYER_SWEDISH_NAMES[next.key] : '';
+  const nextTime = next ? formatTime(new Date(next.at)) : '–';
+  const nextAtMs = next ? next.at : null;
+  const nextIsTomorrow = next?.nextDay ?? false;
 
   const rows: WidgetPrayerRow[] = PRAYER_ORDER.map((key) => ({
     key,
@@ -124,7 +120,7 @@ export function buildPayloadAt(
     swedish: PRAYER_SWEDISH_NAMES[key],
     time: formatTime(times[key]),
     isMarker: key === 'sunrise',
-    isNext: !nextIsTomorrow && key === nextKey,
+    isNext: next != null && !next.nextDay && key === next.key,
   }));
 
   return {

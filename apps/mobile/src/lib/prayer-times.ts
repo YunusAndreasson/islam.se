@@ -114,40 +114,86 @@ export function computePrayerTimes(
 }
 
 /**
- * adhan's AqrabBalad polar-circle substitution (the default `polarCircleResolution`,
- * which borrows a nearby day's angle when the true one doesn't exist) resolves each slot
- * independently, so it can borrow a DIFFERENT reference day per slot. Near Kiruna's Arctic
- * Circle that occasionally lands a later-named slot before an earlier one — ʿIshāʾ before
- * Maghrib, or on the deepest polar-night days ʿAṣr before Ẓuhr and even before Fajr (swept
- * a full year at Kiruna: 37 of 365 days). A schedule that reads out of order breaks the
- * reader's trust in every number on the screen, which is worse than a gap, so any slot that
- * doesn't land at or after the last valid one before it is invalidated the same way an
- * already-unresolvable polar slot is — Invalid Date, which formatTime renders as "–".
+ * adhan's polar-circle substitution (the default `polarCircleResolution` is AqrabBalad, which
+ * borrows a nearby locality's angle when the true one doesn't exist) resolves each slot
+ * INDEPENDENTLY, so different slots can come back from different reference days — and right at
+ * the edge of the polar cutoff even the unsubstituted solvers return roots that are simply not
+ * of this day. A schedule that reads out of order breaks the reader's trust in every number on
+ * the screen, which is worse than a gap, so any slot that cannot be placed is invalidated the
+ * same way an already-unresolvable polar slot is — Invalid Date, which formatTime renders as "–".
  *
- * Sunrise, Ẓuhr, ʿAṣr and Maghrib run this chain in order. Fajr sits outside it and is
- * checked against Sunrise directly, never the other way round: Sunrise is plain geometry,
- * correct right up to adhan's own true polar cutoff, while Fajr rides the high-latitude
- * TWILIGHT RULE — an approximation that can wobble a few minutes past Sunrise right at the
- * edge of the rule's own validity (verified against `polar-boundary.test.ts`, which pins the
- * map's midnight-sun line to exactly where adhan's raw Sunrise goes NaN). Folding Fajr into
- * the same left-to-right chain would blank out a Sunrise that is still correct, one scan-step
- * before it needed to.
+ * **Ẓuhr is the anchor, and everything else is measured against it.** Ẓuhr is solar transit:
+ * it exists on every day of the year at every latitude, needs no search, no twilight angle and
+ * no substitution, and is therefore the only slot that is never wrong. Every other slot rides
+ * something that can fail:
+ *
+ *  • **Sunrise** is plain geometry, but the solver returns a bogus root on the day the sun
+ *    stops rising: at Kiruna on 11 December (polar resolution 'unresolved', a setting the
+ *    Beräkning screen offers) adhan gives Sunrise 14:18 — after that day's own solar noon of
+ *    11:37 — alongside a Maghrib of 01:03, in the small hours before it. So Sunrise must be
+ *    before Ẓuhr, and Maghrib after it.
+ *  • **Fajr** rides the high-latitude TWILIGHT RULE, an approximation that can wobble a few
+ *    minutes past Sunrise right at the edge of the rule's own validity (see
+ *    `polar-boundary.test.ts`, which pins the map's midnight-sun line to exactly where adhan's
+ *    raw Sunrise goes NaN). It is checked against Sunrise and never the other way round.
+ *  • **ʿAṣr** is the one slot found by a SHADOW-RATIO search, and in polar winter the sun never
+ *    climbs enough for the ratio to occur, so the search falls through and wanders.
+ *  • **ʿIshāʾ** rides the twilight rule like Fajr, so Maghrib bounds it, not the reverse.
+ *
+ * THE DIRECTION OF BLAME IS THE WHOLE POINT, and it is what the previous left-to-right chain
+ * got wrong. That chain walked Sunrise→Ẓuhr→ʿAṣr→Maghrib→ʿIshāʾ invalidating whichever slot
+ * regressed, which always meant the LATER one — so a single wanderer poisoned everything after
+ * it. Measured over 2026 across every place from Malmö to Treriksröset and every settings
+ * combination the app offers, ʿAṣr came back at 23:43 on a day whose sunset was 12:52
+ * (Jokkmokk, 24 Dec), at 09:37 the NEXT morning (Treriksröset, 16 Jan), and — hanafi at Kiruna,
+ * 9 Jan — THREE WEEKS later. In the chain, that runaway ʿAṣr became the high-water mark, and
+ * Maghrib and ʿIshāʾ were both blanked for "regressing" past it: at Kiruna on 9 January the raw
+ * library had Maghrib 13:03 and ʿIshāʾ 16:01 — correct, and exactly the two times a reader
+ * wants on a day with two hours of sun — and the guard threw them away to protect an ʿAṣr that
+ * belonged to another month. The dock showed "ʿAṣr 06:51" under "Ẓuhr 11:51" with both evening
+ * rows empty (confirmed on an emulator). Anchored on Ẓuhr, an unplaceable slot can only ever
+ * invalidate itself.
+ *
+ * ʿAṣr's upper bound is Maghrib, falling back to ʿIshāʾ when the day has no computable sunset.
+ * With neither there is no night for ʿAṣr to precede, nothing to bound the search, and the
+ * honest answer is the same gap the polar slots already show.
  */
 function enforceChronologicalOrder(times: PrayerTimes): PrayerTimes {
-  const CHAIN = ['sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const satisfies readonly PrayerSlotKey[];
-  let last = Number.NEGATIVE_INFINITY;
-  for (const key of CHAIN) {
-    const at = times[key].getTime();
-    if (Number.isNaN(at) || at < last) {
-      times[key] = new Date(Number.NaN);
-      continue;
-    }
-    last = at;
+  const blank = (key: PrayerSlotKey): number => {
+    times[key] = new Date(Number.NaN);
+    return Number.NaN;
+  };
+
+  // No transit, no day. Reachable only through invalid coordinates, which computePrayerTimes
+  // already forces down the Unresolved path — but anchoring on a value we have not checked is
+  // exactly how the old chain went wrong, so it is checked.
+  const dhuhr = times.dhuhr.getTime();
+  if (Number.isNaN(dhuhr)) {
+    for (const key of PRAYER_SLOT_KEYS) blank(key);
+    return times;
   }
-  const sunriseAt = times.sunrise.getTime();
-  const fajrAt = times.fajr.getTime();
-  if (Number.isNaN(fajrAt) || (!Number.isNaN(sunriseAt) && fajrAt > sunriseAt)) {
-    times.fajr = new Date(Number.NaN);
+
+  // Morning, working outwards from noon: Sunrise before Ẓuhr, then Fajr before Sunrise —
+  // or, on a day with no sunrise at all, before Ẓuhr.
+  let sunrise = times.sunrise.getTime();
+  if (Number.isNaN(sunrise) || sunrise > dhuhr) sunrise = blank('sunrise');
+  const dawnBound = Number.isNaN(sunrise) ? dhuhr : sunrise;
+  const fajr = times.fajr.getTime();
+  if (Number.isNaN(fajr) || fajr > dawnBound) blank('fajr');
+
+  // Evening: Maghrib after Ẓuhr, then ʿIshāʾ after Maghrib — or, with no sunset, after Ẓuhr.
+  let maghrib = times.maghrib.getTime();
+  if (Number.isNaN(maghrib) || maghrib < dhuhr) maghrib = blank('maghrib');
+  const nightStart = Number.isNaN(maghrib) ? dhuhr : maghrib;
+  let isha = times.isha.getTime();
+  if (Number.isNaN(isha) || isha < nightStart) isha = blank('isha');
+
+  // ʿAṣr last, because it is bounded on both sides by slots that have now been vetted: after
+  // Ẓuhr, and before the night that survived above.
+  const nightBound = Number.isNaN(maghrib) ? isha : maghrib;
+  const asr = times.asr.getTime();
+  if (Number.isNaN(asr) || Number.isNaN(nightBound) || asr < dhuhr || asr > nightBound) {
+    blank('asr');
   }
   return times;
 }
@@ -182,6 +228,45 @@ export function nextPrayerKeyAt(times: PrayerTimes, now: number): PrayerKey | nu
     if (Number.isFinite(at) && at >= now) return key;
   }
   return null;
+}
+
+export interface NextPrayer {
+  key: PrayerKey;
+  at: number;
+  /** True when this prayer belongs to the day AFTER the one being viewed — so it is not in
+   *  the schedule list above and needs naming in the hero. Called `nextDay` rather than
+   *  `tomorrow` because "tomorrow" is actively wrong once the user can view other days: past
+   *  ʿIshāʾ on a day three ahead, this is the day FOUR ahead. */
+  nextDay: boolean;
+}
+
+/**
+ * The prayer the dock counts down to: the first of the viewed day's slots at or after `now`,
+ * falling back to the NEXT day's Fajr once the day's own ʿIshāʾ has passed. Null when neither
+ * exists, which the dock renders as its empty copy ("Inga fler böner …").
+ *
+ * `nextDayFajr` is passed in rather than computed here because the caller memoises it per
+ * (day, place, settings) — `next` re-runs on every 30 s tick, and computing a whole adhan day
+ * each tick all evening for a value that only changes at midnight was waste.
+ *
+ * THE FALLBACK IS RANGE-CHECKED, and that is not defensive padding. "The next day's Fajr" is
+ * not automatically in the future: under the middle-of-the-night rule Fajr sits at the middle
+ * of the night, and far enough north around the equinox that lands just BEFORE midnight —
+ * swept over 2026, the Fajr belonging to 28 March at Treriksröset falls at 23:59 on the 27th.
+ * Handed onward unchecked it is a negative countdown, and the dock renders anything ≤ 0 as
+ * "nu": the hero would sit on "Fajr 23:59 · nu" at an instant when nothing is due and stay
+ * there. `nextPrayerKeyAt` cannot produce that — it filters on `at >= now` — so this fallback
+ * was the one path into the dock that skipped the check.
+ */
+export function selectNextPrayer(
+  times: PrayerTimes,
+  nextDayFajr: number | null,
+  now: number,
+): NextPrayer | null {
+  const key = nextPrayerKeyAt(times, now);
+  if (key) return { key, at: times[key].getTime(), nextDay: false };
+  if (nextDayFajr == null || !Number.isFinite(nextDayFajr) || nextDayFajr < now) return null;
+  return { key: 'fajr', at: nextDayFajr, nextDay: true };
 }
 
 // Prayer names in academic Arabic transliteration (DIN 31635 / ALA-LC style):

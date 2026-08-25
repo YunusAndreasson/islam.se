@@ -1,5 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 
 import {
@@ -8,10 +9,10 @@ import {
   NIGHT_ORDER,
   NIGHT_SWEDISH_NAMES,
 } from '@/lib/night-times';
-import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
+import { computePrayerTimes, PRAYER_LABELS, PRAYER_ORDER } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
-import { startOfZoneDay } from '@/lib/zone-time';
+import { startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
 import { DOCK_COLLAPSED_BASE, type DayMark, PrayerDock } from './PrayerDock';
 import { first } from '@/test-utils/at';
 
@@ -347,6 +348,100 @@ describe('PrayerDock night group', () => {
 // height itself is a shared value the reanimated shim doesn't animate, so the observable
 // is the height the dock reports to its host — which is also the number the map uses for
 // its camera padding, and would frame the country wrongly if it drifted from the card.
+// Above the Arctic Circle a prayer routinely belongs to a different calendar day than the
+// card is headed with, and hh:mm alone cannot say so. At Kiruna on 14 June 2026 the sun never
+// sets, adhan's aqrabBalad substitution puts Maghrib at 00:36 the NEXT morning, and the row
+// rendered "Maghrib 00:36" directly beneath "ʿAṣr 17:41" — reading as the small hours already
+// gone rather than twelve hours away. Found on an emulator, 2026-08-25.
+describe('PrayerDock midnight crossing', () => {
+  const KIRUNA = { latitude: 67.85572, longitude: 20.22513 };
+  // Midsummer, when Kiruna's Maghrib falls past midnight. Local noon so the calendar day is
+  // unambiguous whatever zone the suite runs in.
+  const MIDSUMMER = Date.UTC(2026, 5, 14, 10, 0, 0);
+
+  // ONE dockProps call. Two would build two independent sets of jest.fn()s, and which set the
+  // component received would rest on object-literal key precedence — reorder the keys and the
+  // assertions start reading a mock the component never got, which passes silently.
+  function polarProps() {
+    const base = dockProps(true);
+    const dayStart = startOfZoneDay(MIDSUMMER);
+    return {
+      ...base,
+      times: computePrayerTimes(KIRUNA, zonePrayerDate(dayStart), DEFAULT_SETTINGS),
+      clock: { ...base.clock, now: MIDSUMMER, dayStart, todayStart: dayStart },
+    };
+  }
+
+  it('marks where the schedule crosses midnight', () => {
+    const props = polarProps();
+    // Guard the guard: if adhan ever stops putting this day's Maghrib past midnight, every
+    // assertion below would pass vacuously.
+    const dayEnd = props.clock.dayStart + props.clock.dayLength;
+    expect(props.times.maghrib.getTime()).toBeGreaterThanOrEqual(dayEnd);
+
+    render(<PrayerDock {...props} />);
+    // includeHiddenElements because the rule is deliberately pruned from the accessibility
+    // tree: every row below it already carries "efter midnatt" in its own label, and
+    // announcing the caption too would read the fact twice for one row. It is a visual
+    // grouping, and this asserts it as one.
+    expect(screen.getByText('Efter midnatt', { includeHiddenElements: true })).toBeTruthy();
+  });
+
+  it('says it in words for a screen reader, which cannot see the rule', () => {
+    render(<PrayerDock {...polarProps()} />);
+    expect(screen.getByLabelText(/^Maghrib \d{2}:\d{2}, efter midnatt/)).toBeTruthy();
+    // The rows before the crossing are untouched — no qualifier, no noise.
+    expect(screen.getByLabelText(/^Ẓuhr \d{2}:\d{2}$/)).toBeTruthy();
+  });
+
+  it('does not offer a post-midnight row as a button', () => {
+    // clock.setInstant clamps to the viewed day, so this row can never be scrubbed to: the
+    // thumb would park on the far rail at 24:00, and where two slots sit past midnight the
+    // EARLIER one would light up as current. Same reasoning as the night landmarks.
+    const props = polarProps();
+    render(<PrayerDock {...props} />);
+    expect(screen.queryByRole('button', { name: /^Maghrib / })).toBeNull();
+    // Rows inside the day still scrub, so this is a difference and not a dead list.
+    fireEvent.press(screen.getByRole('button', { name: /^Ẓuhr / }));
+    expect(props.clock.setInstant).toHaveBeenCalled();
+  });
+
+  it('still paints the next-prayer row brass when it is the one past midnight', () => {
+    // The row that stopped being pressable is very often the NEXT one — at Kiruna in June the
+    // next prayer is the 00:36 Maghrib for most of the evening. The brass ground used to live
+    // only on the Pressable branch, where it was unreachable-by-accident, so making these rows
+    // plain Views left the text emphasised on no background: a half-painted row.
+    const base = polarProps();
+    const maghribRowBackground = (nextKey: 'maghrib' | 'asr') => {
+      const view = render(
+        <PrayerDock
+          {...base}
+          next={{ key: nextKey, at: base.times[nextKey].getTime(), nextDay: false }}
+        />,
+      );
+      const row = view.getByLabelText(/^Maghrib \d{2}:\d{2}, efter midnatt/);
+      const flat = StyleSheet.flatten(row.props.style) as { backgroundColor?: string };
+      view.unmount();
+      return flat.backgroundColor;
+    };
+    // Same row, same branch, only `isNext` differs — so the difference IS the highlight.
+    expect(maghribRowBackground('maghrib')).toBeTruthy();
+    expect(maghribRowBackground('asr')).toBeFalsy();
+  });
+
+  it('stays out of the way on an ordinary day', () => {
+    // Stockholm in August: every slot lands on the day the card is headed with, so the rule
+    // must not appear at all — it is a correction, not decoration.
+    render(<PrayerDock {...dockProps(true)} />);
+    // Same includeHiddenElements as above, or this would pass whether the rule rendered or
+    // not — the caption is invisible to the default query either way.
+    expect(screen.queryByText('Efter midnatt', { includeHiddenElements: true })).toBeNull();
+    for (const key of PRAYER_ORDER) {
+      expect(screen.queryByLabelText(new RegExp(`^${PRAYER_LABELS[key]} .*efter midnatt`))).toBeNull();
+    }
+  });
+});
+
 describe('PrayerDock open height follows the schedule it measured', () => {
   function measure(height: number) {
     // includeHiddenElements: while the dock is closed the block is hidden from assistive
