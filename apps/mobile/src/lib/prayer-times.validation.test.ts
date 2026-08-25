@@ -55,6 +55,46 @@ describe('computePrayerTimes — invalid coordinates degrade to "—", never a w
   });
 });
 
+describe('computePrayerTimes — chronological order never inverts (Kiruna polar season)', () => {
+  // Found live in the app (emulator QA pass, 2026-08-25): with the default settings
+  // (Turkey/Diyanet, highLatitudeRule 'auto', polarCircleResolution 'aqrabBalad'), adhan's
+  // AqrabBalad substitution resolves each of the six slots independently and can borrow a
+  // DIFFERENT reference day per slot. At Kiruna in the depth of polar night this produced
+  // 'Aṣr landing on 2026-01-07 while the same call's Fajr/Ẓuhr/Maghrib landed on 2026-01-09
+  // — 'Aṣr two days before its own Fajr. A year-long sweep at Kiruna found 37 of 365 days
+  // with some inversion (mostly 'Aṣr vs. Ẓuhr, or 'Ishāʾ vs. Maghrib, by minutes rather than
+  // days). Any of these renders as an impossible schedule ("Isha 00:32" before "Maghrib
+  // 00:36") if shown raw — worse than a "–" gap, because it makes the whole screen look
+  // untrustworthy, not just the one slot.
+  const KIRUNA = { latitude: 67.85572, longitude: 20.22513 };
+
+  it("does not show 'Aṣr before its own Ẓuhr (the exact regression: Kiruna, 9 Jan 2026)", () => {
+    const times = computePrayerTimes(KIRUNA, new Date(2026, 0, 9, 12, 0, 0), DEFAULT_SETTINGS);
+    const dhuhrAt = times.dhuhr.getTime();
+    const asrAt = times.asr.getTime();
+    // Either 'Aṣr was invalidated (honest gap) or it truly falls at/after Ẓuhr — never both
+    // real AND earlier, which is what shipped before this guard.
+    expect(Number.isNaN(asrAt) || asrAt >= dhuhrAt).toBe(true);
+  });
+
+  it('keeps every slot that IS shown in non-decreasing chronological order, across a full polar-season sweep', () => {
+    // Property, not a fixed example: for any date this library can be asked about, whatever
+    // subset of the six slots comes back as a real time must read left-to-right on the clock.
+    for (let month = 0; month < 12; month++) {
+      for (const day of [1, 9, 15, 25]) {
+        const times = computePrayerTimes(KIRUNA, new Date(2026, month, day, 12, 0, 0), DEFAULT_SETTINGS);
+        let last = Number.NEGATIVE_INFINITY;
+        for (const key of PRAYER_ORDER) {
+          const at = times[key].getTime();
+          if (Number.isNaN(at)) continue; // an honest gap breaks no invariant
+          expect(at).toBeGreaterThanOrEqual(last);
+          last = at;
+        }
+      }
+    }
+  });
+});
+
 describe('qibla & nearestPlace — bad coordinates fail explicitly', () => {
   it('qiblaBearing / qiblaDistanceKm reject NaN/out-of-range input instead of returning NaN', () => {
     for (const coords of BAD_COORDS) {

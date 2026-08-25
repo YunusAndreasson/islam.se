@@ -130,15 +130,48 @@ describe('computeNightTimes — the ordering guard', () => {
 
   // Every ordering assertion above is only meaningful if the guard is not simply
   // returning null everywhere. Sweep a year at every city and assert the default settings
-  // produce a usable night on every single day — the measurement the guard's comment cites.
-  it.each(CITIES)('%s: the default settings never trip the guard, all 365 days', (_name, coords) => {
+  // produce a usable night on almost every day — the measurement the guard's comment cites.
+  it.each(CITIES.filter(([name]) => name !== 'Kiruna'))(
+    '%s: the default settings never trip the guard, all 365 days',
+    (_name, coords) => {
+      const suppressed: string[] = [];
+      for (let i = 0; i < 365; i++) {
+        const day = new Date(2026, 0, 1 + i, 12);
+        const night = nightFor(coords, day);
+        if (!night.middleOfNight || !night.lastThird) suppressed.push(day.toDateString());
+      }
+      expect(suppressed).toEqual([]);
+    },
+  );
+
+  // Kiruna is the one city where this DOES trip, and by design: prayer-times.ts's own
+  // chronological-order guard (found via live emulator QA, 2026-08-25 — adhan's AqrabBalad
+  // polar substitution can borrow a different reference day per slot, occasionally landing
+  // ʿIshāʾ before its own Maghrib, or ʿAṣr days before its own Fajr) invalidates a slot
+  // rather than show an impossible schedule. Once ʿIshāʾ itself is one of those invalidated
+  // slots, computeNightTimes's `!Number.isFinite(isha)` bail-out — case 1 in the guard's own
+  // comment above — correctly suppresses the night division too: a "sista tredjedel"
+  // computed from a corrupted ʿIshāʾ would just be a second wrong number built on the first.
+  // Measured against the exact fixed set of days below (2026, Turkey/auto/aqrabBalad) so a
+  // regression that widens or narrows the set is caught, not just a raw count.
+  it('Kiruna: the default settings only trip the guard on the days ʿIshāʾ itself is invalidated', () => {
     const suppressed: string[] = [];
     for (let i = 0; i < 365; i++) {
       const day = new Date(2026, 0, 1 + i, 12);
-      const night = nightFor(coords, day);
+      const night = nightFor(KIRUNA, day);
       if (!night.middleOfNight || !night.lastThird) suppressed.push(day.toDateString());
     }
-    expect(suppressed).toEqual([]);
+    expect(suppressed).toEqual([
+      'Wed Jan 07 2026',
+      'Thu Jan 08 2026',
+      'Sat Jan 10 2026',
+      'Tue May 26 2026',
+      'Tue Jun 02 2026',
+      'Sat Jun 06 2026',
+      'Sat Jun 13 2026',
+      'Sun Jun 14 2026',
+      'Sun Jun 28 2026',
+    ]);
   });
 });
 

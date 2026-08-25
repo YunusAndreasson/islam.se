@@ -110,7 +110,46 @@ export function computePrayerTimes(
     : new Coordinates(Number.NaN, Number.NaN);
   const params = buildParams(settings, c);
   if (!valid) params.polarCircleResolution = PolarCircleResolution.Unresolved;
-  return new PrayerTimes(c, date, params);
+  return enforceChronologicalOrder(new PrayerTimes(c, date, params));
+}
+
+/**
+ * adhan's AqrabBalad polar-circle substitution (the default `polarCircleResolution`,
+ * which borrows a nearby day's angle when the true one doesn't exist) resolves each slot
+ * independently, so it can borrow a DIFFERENT reference day per slot. Near Kiruna's Arctic
+ * Circle that occasionally lands a later-named slot before an earlier one — ʿIshāʾ before
+ * Maghrib, or on the deepest polar-night days ʿAṣr before Ẓuhr and even before Fajr (swept
+ * a full year at Kiruna: 37 of 365 days). A schedule that reads out of order breaks the
+ * reader's trust in every number on the screen, which is worse than a gap, so any slot that
+ * doesn't land at or after the last valid one before it is invalidated the same way an
+ * already-unresolvable polar slot is — Invalid Date, which formatTime renders as "–".
+ *
+ * Sunrise, Ẓuhr, ʿAṣr and Maghrib run this chain in order. Fajr sits outside it and is
+ * checked against Sunrise directly, never the other way round: Sunrise is plain geometry,
+ * correct right up to adhan's own true polar cutoff, while Fajr rides the high-latitude
+ * TWILIGHT RULE — an approximation that can wobble a few minutes past Sunrise right at the
+ * edge of the rule's own validity (verified against `polar-boundary.test.ts`, which pins the
+ * map's midnight-sun line to exactly where adhan's raw Sunrise goes NaN). Folding Fajr into
+ * the same left-to-right chain would blank out a Sunrise that is still correct, one scan-step
+ * before it needed to.
+ */
+function enforceChronologicalOrder(times: PrayerTimes): PrayerTimes {
+  const CHAIN = ['sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const satisfies readonly PrayerSlotKey[];
+  let last = Number.NEGATIVE_INFINITY;
+  for (const key of CHAIN) {
+    const at = times[key].getTime();
+    if (Number.isNaN(at) || at < last) {
+      times[key] = new Date(Number.NaN);
+      continue;
+    }
+    last = at;
+  }
+  const sunriseAt = times.sunrise.getTime();
+  const fajrAt = times.fajr.getTime();
+  if (Number.isNaN(fajrAt) || (!Number.isNaN(sunriseAt) && fajrAt > sunriseAt)) {
+    times.fajr = new Date(Number.NaN);
+  }
+  return times;
 }
 
 /**
