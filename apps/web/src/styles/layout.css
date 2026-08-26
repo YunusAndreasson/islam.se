@@ -547,7 +547,9 @@
 	}
 
 	.home-head-all {
-		flex-shrink: 0;
+		min-width: 0;
+		text-align: end;
+		justify-content: flex-end;
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		text-decoration: none;
@@ -1163,6 +1165,8 @@
 		/* WCAG 2.5.8: these meta links sit at ~22px tall. Pad the hit area past 24px; the
 	   negative margin keeps the baseline-aligned colophon line at its original height. */
 		display: inline-block;
+		min-inline-size: 1.5rem;
+		text-align: center;
 		padding-block: 0.3rem;
 		margin-block: -0.3rem;
 	}

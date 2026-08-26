@@ -1,13 +1,14 @@
 import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
+import { siteOrigin } from "../lib/config";
 import { getSortedFordjupning } from "../lib/fordjupning";
 
 // llms.txt (https://llmstxt.org) — a curated, link-rich map of the site for
 // LLMs. Generated at build so the essay list is always current; the static
 // prose (about / citation guidance) lives here too, so there is one source.
 export async function GET(context: APIContext) {
-	const site = context.site?.href.replace(/\/$/, "") ?? "https://islam.se";
+	const site = siteOrigin(context.site);
 	const articles = await getArticles();
 
 	const essayLines = articles

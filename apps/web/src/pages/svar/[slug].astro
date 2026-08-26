@@ -13,7 +13,7 @@ import { requireBySlug } from "../../lib/content-refs";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { SVAR_CATEGORIES } from "../../lib/svar";
 import { pillarBySvar } from "../../lib/svar-fordjupning";
-import { ORG_ID, WEBSITE_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
+import { articleJsonLd, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 
 export async function getStaticPaths() {
@@ -106,29 +106,14 @@ const kicker = faktaCluster
 // Article carries it as mainEntityOfPage and the FAQ block (when present) earns the
 // FAQ rich-result eligibility for the long-tail variants.
 const jsonLd: Record<string, unknown>[] = [
-	{
-		"@context": "https://schema.org",
-		"@type": "Article",
+	articleJsonLd({
 		headline: data.title,
 		description: data.description,
-		inLanguage: "sv",
 		url,
-		mainEntityOfPage: url,
-		isPartOf: { "@id": WEBSITE_ID },
-		datePublished: data.publishedAt,
-		dateModified: data.updatedAt ?? data.publishedAt,
-		author: { "@id": ORG_ID },
-		publisher: { "@id": ORG_ID },
-		...(data.sources && data.sources.length > 0
-			? {
-					citation: data.sources.map((s) => ({
-						"@type": "CreativeWork",
-						name: s.name,
-						...(s.url ? { url: s.url } : {}),
-					})),
-				}
-			: {}),
-	},
+		publishedAt: data.publishedAt,
+		...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt }),
+		citations: data.sources ?? [],
+	}),
 	breadcrumbList([
 		{ name: "Hem", url: "/" },
 		isFakta

@@ -1,9 +1,22 @@
 ---
 import { Search, X } from "@lucide/astro";
 import { buildPaletteIndex } from "../lib/palette";
-import { PALETTE_MINOR_LINKS, PALETTE_READ_LINKS, PALETTE_TOOL_LINKS } from "../lib/navigation";
+import {
+	currentNavHref,
+	PALETTE_MINOR_LINKS,
+	PALETTE_READ_LINKS,
+	PALETTE_TOOL_LINKS,
+} from "../lib/navigation";
 import SectionLink from "./SectionLink.astro";
 import Wordmark from "./Wordmark.astro";
+
+interface Props {
+	/** Section to mark current for root-level essay URLs. */
+	activeHref?: string;
+}
+
+const { activeHref } = Astro.props;
+const path = Astro.url.pathname;
 
 // The command palette is the site's only navigation surface, and on touch it is
 // the whole site menu. Two panes share one shell:
@@ -36,6 +49,15 @@ const paletteThinkerGroups = [
 	{ heading: "Svenska och västerländska röster", links: western },
 ];
 
+const paletteHrefs = [
+	...paletteDestSections.flatMap((section) => section.links.map((link) => link.href)),
+	...paletteChipSections.flatMap((section) => section.links.map((link) => link.href)),
+	...paletteThinkerGroups.flatMap((group) => group.links.map((link) => link.href)),
+	...PALETTE_MINOR_LINKS.map((link) => link.href),
+];
+const currentHref = currentNavHref(path, paletteHrefs, activeHref);
+const here = (href: string) => href === currentHref;
+
 ---
 
 {/* A real <dialog>, opened with showModal(): the top layer gives the focus trap,
@@ -54,7 +76,7 @@ const paletteThinkerGroups = [
 	{/* The open menu covers the mast, and with it the only way home. The wordmark
 	    is repeated here, in the same corner it occupies underneath, so the overlay
 	    reads as the mast expanded rather than as a screen that replaced it. */}
-	<a class="palette-home" href="/">
+	<a class="palette-home" href="/" aria-current={path === "/" ? "page" : undefined}>
 		<Wordmark />
 	</a>
 	<button class="palette-close" type="button" aria-label="Stäng">
@@ -93,7 +115,7 @@ const paletteThinkerGroups = [
 					<ul class="palette-dests">
 						{section.links.map((d) => (
 							<li>
-								<a class="palette-dest" href={d.href} data-astro-prefetch="tap">
+								<a class="palette-dest" href={d.href} aria-current={here(d.href) ? "page" : undefined} data-astro-prefetch="tap">
 									<span class="palette-dest-label">{d.label}</span>
 									<span class="palette-dest-sub">{d.sub}</span>
 								</a>
@@ -108,7 +130,7 @@ const paletteThinkerGroups = [
 					<h2 class="palette-group-head label">{section.heading}</h2>
 					<div class="palette-chips">
 						{section.links.map((e) => (
-							<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
+							<a class="palette-chip" href={e.href} aria-current={here(e.href) ? "page" : undefined} data-astro-prefetch="tap">{e.label}</a>
 						))}
 					</div>
 				</section>
@@ -128,12 +150,12 @@ const paletteThinkerGroups = [
 							<p class="palette-group-head label">{group.heading}</p>
 							<div class="palette-chips">
 								{group.links.map((e) => (
-									<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
+									<a class="palette-chip" href={e.href} aria-current={here(e.href) ? "page" : undefined} data-astro-prefetch="tap">{e.label}</a>
 								))}
 							</div>
 						</>
 					))}
-					<SectionLink class="palette-fold-all" href="/tankare/">Alla tänkare</SectionLink>
+					<SectionLink class="palette-fold-all" href="/tankare/" aria-current={here("/tankare/") ? "page" : undefined}>Alla tänkare</SectionLink>
 				</div>
 			</details>
 
@@ -152,7 +174,7 @@ const paletteThinkerGroups = [
 				</fieldset>
 				<ul class="palette-minor">
 					{PALETTE_MINOR_LINKS.map((d) => (
-						<li><a href={d.href}>{d.label}</a></li>
+						<li><a href={d.href} aria-current={here(d.href) ? "page" : undefined}>{d.label}</a></li>
 					))}
 				</ul>
 			</div>
@@ -347,8 +369,13 @@ const paletteThinkerGroups = [
 	.palette-dest:hover { text-decoration: none; }
 
 	.palette-dest:hover,
-	.palette-dest:focus-visible {
+	.palette-dest:focus-visible,
+	.palette-dest[aria-current] {
 		background: color-mix(in srgb, var(--color-warm) 10%, transparent);
+	}
+
+	.palette-dest[aria-current] {
+		box-shadow: inset 2px 0 var(--color-warm);
 	}
 
 	.palette-dest:focus-visible {
@@ -399,7 +426,7 @@ const paletteThinkerGroups = [
 	.palette-chip:hover { text-decoration: none; }
 
 	.palette-chip:hover,
-	.palette-chip.is-active {
+	.palette-chip[aria-current] {
 		color: var(--color-accent);
 		border-color: color-mix(in srgb, var(--color-warm) 60%, var(--color-divider));
 		background: color-mix(in srgb, var(--color-warm) 8%, transparent);
@@ -543,6 +570,11 @@ const paletteThinkerGroups = [
 		text-decoration: none;
 
 		&:hover { color: var(--color-accent); }
+		&[aria-current] {
+			color: var(--color-accent);
+			text-decoration: underline;
+			text-underline-offset: 0.18em;
+		}
 	}
 
 	/* --- Search view: full-width rows, title + lead, with a type tag ----- */

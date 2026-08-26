@@ -11,6 +11,29 @@ export interface PalettePageLink extends PaletteNavLink {
 	alt?: string;
 }
 
+/** Whether `path` belongs to a navigation destination. Section links remain current
+ *  on their detail pages; the root destination is exact-only so it never claims the
+ *  whole site. `activeHref` lets a root-level essay opt into the Essäer section. */
+export function isNavCurrent(path: string, href: string, activeHref?: string): boolean {
+	const normalize = (value: string) => (value === "/" ? value : `${value.replace(/\/$/, "")}/`);
+	const destination = normalize(href);
+	if (activeHref) return destination === normalize(activeHref);
+	const current = normalize(path);
+	return destination === "/" ? current === "/" : current.startsWith(destination);
+}
+
+/** Pick one current destination from a navigation surface. When destinations
+ * overlap (for example /om/ and /om/redaktion/), the most specific match wins. */
+export function currentNavHref(
+	path: string,
+	hrefs: readonly string[],
+	activeHref?: string,
+): string | undefined {
+	if (activeHref) return hrefs.find((href) => isNavCurrent(path, href, activeHref));
+
+	return hrefs.filter((href) => isNavCurrent(path, href)).sort((a, b) => b.length - a.length)[0];
+}
+
 const pages = {
 	home: { href: "/", label: "Hem", sub: "Startsidan." },
 	pillars: {

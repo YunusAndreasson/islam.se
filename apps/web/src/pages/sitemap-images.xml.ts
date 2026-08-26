@@ -2,6 +2,7 @@ import { getImage } from "astro:assets";
 import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
+import { siteOrigin } from "../lib/config";
 import { resolveHero } from "../lib/fordjupning";
 import { escapeXml } from "../lib/xml";
 
@@ -15,7 +16,7 @@ import { escapeXml } from "../lib/xml";
 // Linked from public/robots.txt and submitted in Search Console.
 
 export async function GET(context: APIContext) {
-	const site = context.site?.href.replace(/\/$/, "") ?? "https://islam.se";
+	const site = siteOrigin(context.site);
 	const articles = await getArticles();
 
 	const entries: string[] = [];

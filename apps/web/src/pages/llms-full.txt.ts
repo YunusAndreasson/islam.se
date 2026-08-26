@@ -1,20 +1,19 @@
 import type { APIContext } from "astro";
 import { articleBody, getArticles } from "../lib/articles";
+import { siteOrigin } from "../lib/config";
+import { articleMarkdown } from "../lib/representations";
 
 // llms-full.txt — the entire essay corpus as one markdown document. Anthropic
 // (Claude) and Perplexity fetch llms.txt-family files; this hands them every
 // essay in full, in one cheap request. The curated, link-rich index lives in
 // /llms.txt; this is its full-content companion.
 export async function GET(context: APIContext) {
-	const site = context.site?.href.replace(/\/$/, "") ?? "https://islam.se";
+	const site = siteOrigin(context.site);
 	const articles = await getArticles();
 
-	const essays = articles.map((a) => {
-		const body = articleBody(a).trim();
-		const meta = [`Källa: ${site}/${a.slug}`, `Publicerad ${a.publishedAt.slice(0, 10)}`];
-		if (a.updatedAt) meta.push(`Uppdaterad ${a.updatedAt.slice(0, 10)}`);
-		return `# ${a.title}\n\n> ${a.description}\n\n*${meta.join(" · ")}*\n\n${body}`;
-	});
+	const essays = articles.map((article) =>
+		articleMarkdown({ ...article, body: articleBody(article) }, { site }),
+	);
 
 	const body = `# islam.se — fulltext
 

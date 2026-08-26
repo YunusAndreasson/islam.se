@@ -73,6 +73,14 @@ const SHOTS = [
 		margin-top: 0;
 	}
 
+	/* Grid items default to their min-content width. AppPromo's two-column feature
+	   list is wider than a phone, so without this the one-column mobile layout kept
+	   a desktop-width track and the page's overflow guard simply clipped it. */
+	.app-showcase-text,
+	.app-showcase-shots {
+		min-width: 0;
+	}
+
 	/* The hub is a reference page, so the heading takes the section rank rather than
 	   the larger one the /app landing gives itself. */
 	.app-showcase-text :global(.apppromo-heading) {

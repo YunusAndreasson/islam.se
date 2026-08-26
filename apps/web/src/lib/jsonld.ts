@@ -193,6 +193,50 @@ export function faqPageJsonLd(faqs: readonly { q: string; a: string }[]): Record
 	};
 }
 
+/** The common schema.org Article contract shared by essays, answers, pillar pages
+ *  and the Fakta hub. Page-specific facts (`about`, `image`, `wordCount`) remain
+ *  optional inputs; authorship, canonical URLs and editorial standards cannot drift. */
+export function articleJsonLd(opts: {
+	headline: string;
+	description: string;
+	url: string;
+	publishedAt: string;
+	updatedAt?: string;
+	wordCount?: number;
+	image?: string | Record<string, unknown>;
+	about?: Record<string, unknown>;
+	citations?: readonly { name: string; url?: string | undefined }[];
+}): Record<string, unknown> {
+	const url = pageUrl(opts.url);
+	return {
+		"@context": "https://schema.org",
+		"@type": "Article",
+		headline: opts.headline,
+		description: opts.description,
+		datePublished: opts.publishedAt,
+		dateModified: opts.updatedAt ?? opts.publishedAt,
+		...(opts.wordCount === undefined ? {} : { wordCount: opts.wordCount }),
+		inLanguage: "sv",
+		url,
+		mainEntityOfPage: url,
+		isPartOf: { "@id": WEBSITE_ID },
+		publishingPrinciples: `${SITE}/om/redaktion/`,
+		...(opts.image === undefined ? {} : { image: opts.image }),
+		author: { "@id": ORG_ID },
+		publisher: { "@id": ORG_ID },
+		...(opts.about === undefined ? {} : { about: opts.about }),
+		...(opts.citations && opts.citations.length > 0
+			? {
+					citation: opts.citations.map((citation) => ({
+						"@type": "CreativeWork",
+						name: citation.name,
+						...(citation.url === undefined ? {} : { url: citation.url }),
+					})),
+				}
+			: {}),
+	};
+}
+
 // ── Site entity graph ───────────────────────────────────────────────────────
 // One canonical Organization + WebSite node, referenced by `@id` from every
 // Article/AboutPage author/publisher instead of being re-declared inline. A

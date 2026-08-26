@@ -3,6 +3,7 @@ import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { getArticles } from "../lib/articles";
+import { siteOrigin } from "../lib/config";
 import { stripSidenotes } from "../lib/sidenotes";
 
 export async function GET(context: APIContext) {
@@ -29,7 +30,7 @@ export async function GET(context: APIContext) {
 	return rss({
 		title: "islam.se",
 		description: "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
-		site: context.site?.href ?? "https://islam.se",
+		site: siteOrigin(context.site),
 		items,
 		customData: "<language>sv-SE</language>",
 	});

@@ -7,7 +7,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import SearchOverlay from "../components/SearchOverlay.astro";
 import { APP_STORE_ID } from "../lib/app";
-import { ORG_ID, WEBSITE_ID, breadcrumbList, organization, webSite } from "../lib/jsonld";
+import { articleJsonLd, breadcrumbList, organization, webSite } from "../lib/jsonld";
 import "../styles/tokens.css";
 import "../styles/reset.css";
 import "../styles/typography.css";
@@ -85,6 +85,10 @@ const pageTitle = title.replace(/ — islam\.se$/, "").replace(/^islam\.se — /
 const resolvedOgImageAlt =
 	ogImageAlt ??
 	(articleMeta ? pageTitle : "islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv");
+const essaySectionHref = articleMeta ? "/essaer/" : undefined;
+const mastSectionHref =
+	essaySectionHref ??
+	(Astro.url.pathname.startsWith("/fordjupning/") ? "/svar/" : undefined);
 
 // Every page carries the canonical Organization + WebSite entity nodes; page-
 // and article-level blocks reference them by @id so all claims merge onto one
@@ -96,22 +100,13 @@ if (jsonLd) {
 }
 
 if (articleMeta) {
-	jsonLdBlocks.push({
-		"@context": "https://schema.org",
-		"@type": "Article",
+	jsonLdBlocks.push(articleJsonLd({
 		headline: title.replace(/ — islam\.se$/, ""),
 		description: articleMeta.description,
-		datePublished: articleMeta.publishedAt,
-		// Falls back to publishedAt so every essay carries a dateModified.
-		dateModified: articleMeta.updatedAt ?? articleMeta.publishedAt,
+		publishedAt: articleMeta.publishedAt,
+		...(articleMeta.updatedAt === undefined ? {} : { updatedAt: articleMeta.updatedAt }),
 		wordCount: articleMeta.wordCount,
-		inLanguage: "sv",
 		url: canonicalUrl.href,
-		mainEntityOfPage: canonicalUrl.href,
-		isPartOf: { "@id": WEBSITE_ID },
-		// Each essay links to the site's editorial standards (sourcing, process,
-		// review) — a direct E-E-A-T "How" signal. See /om/redaktion.
-		publishingPrinciples: new URL("/om/redaktion/", Astro.site).href,
 		// Prefer the clean hero ImageObject (Google Images / Licensable badge);
 		// fall back to the OG card URL so image-less essays still carry an image.
 		...(articleMeta.image
@@ -119,18 +114,8 @@ if (articleMeta) {
 			: ogImage
 				? { image: new URL(ogImage, Astro.site).href }
 				: {}),
-		author: { "@id": ORG_ID },
-		publisher: { "@id": ORG_ID },
-		...(articleMeta.citations && articleMeta.citations.length > 0
-			? {
-					citation: articleMeta.citations.map((c) => ({
-						"@type": "CreativeWork",
-						name: c.name,
-						url: c.url,
-					})),
-				}
-			: {}),
-	});
+		...(articleMeta.citations === undefined ? {} : { citations: articleMeta.citations }),
+	}));
 	jsonLdBlocks.push(
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
@@ -319,7 +304,7 @@ if (articleMeta) {
 		<a href="#main" class="skip-link">Hoppa till innehåll</a>
 		{/* Reading progress is an essay metaphor — browse pages get no bar. */}
 		{articleMeta && <div class="reading-progress" aria-hidden="true" data-slug={articleMeta.slug} />}
-		<Header />
+		<Header {...(mastSectionHref === undefined ? {} : { activeHref: mastSectionHref })} />
 		<slot />
 		<Footer />
 		<div class="fixed-actions">
@@ -404,6 +389,6 @@ if (articleMeta) {
 			});
 		</script>
 		<FloatingPlayer />
-		<SearchOverlay />
+		<SearchOverlay {...(essaySectionHref === undefined ? {} : { activeHref: essaySectionHref })} />
 	</body>
 </html>

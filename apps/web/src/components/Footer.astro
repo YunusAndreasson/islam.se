@@ -1,11 +1,12 @@
 ---
 import { gregorianToHijri } from "../lib/markesdagar";
-import { FOOTER_LINKS } from "../lib/navigation";
+import { currentNavHref, FOOTER_LINKS } from "../lib/navigation";
 import MarkDot from "./MarkDot.astro";
 
 const year = new Date().getFullYear();
 const path = Astro.url.pathname;
-const here = (p: string) => path === p || path === `${p}/`;
+const currentHref = currentNavHref(path, FOOTER_LINKS.map((link) => link.href));
+const here = (href: string) => href === currentHref;
 
 // A colophon date, not a feature version — the site has no release train, so a semver
 // triplet would just be three arbitrary-looking digits. The Hijri build date reads the

@@ -8,7 +8,7 @@ import QuranVerse from "../components/QuranVerse.astro";
 import TitledSection from "../components/TitledSection.astro";
 import { getArticles } from "../lib/articles";
 import { FAKTA_ART, FAKTA_CLUSTERS } from "../lib/fakta";
-import { ORG_ID, WEBSITE_ID, breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
+import { articleJsonLd, breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
 import Base from "../layouts/Base.astro";
 
 // The "Fakta" hub — the encyclopedic answer for the head term "islam" / "vad är
@@ -62,21 +62,13 @@ const cornerstoneEssays = cornerstone
 	.map((e) => ({ title: e.data.title, slug: `svar/${e.id}` }));
 
 const jsonLd = [
-	{
-		"@context": "https://schema.org",
-		"@type": "Article",
+	articleJsonLd({
 		headline: "Vad är islam?",
 		description,
-		inLanguage: "sv",
 		url,
-		mainEntityOfPage: url,
-		isPartOf: { "@id": WEBSITE_ID },
-		datePublished: published,
-		dateModified: published,
-		author: { "@id": ORG_ID },
-		publisher: { "@id": ORG_ID },
+		publishedAt: published,
 		about: { "@type": "Thing", name: "Islam" },
-	},
+	}),
 	collectionPageJsonLd({
 		name: "Islams fem pelare och sex trosartiklar",
 		description:

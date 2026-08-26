@@ -1,5 +1,7 @@
 import type { APIContext } from "astro";
-import { articleBody, getArticles } from "../lib/articles";
+import { type Article, articleBody, getArticles } from "../lib/articles";
+import { siteOrigin } from "../lib/config";
+import { articleMarkdown } from "../lib/representations";
 
 // Per-essay clean-markdown endpoint (/{slug}.md). Agents and AI crawlers get the
 // essay as compact markdown — the representation LLMs read most cheaply and quote
@@ -9,36 +11,16 @@ import { articleBody, getArticles } from "../lib/articles";
 // routes give every essay a canonical markdown address.
 export async function getStaticPaths() {
 	const articles = await getArticles();
-	return articles.map((article) => ({ params: { slug: article.slug } }));
+	return articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
 }
 
 export async function GET(context: APIContext) {
-	const site = context.site?.href.replace(/\/$/, "") ?? "https://islam.se";
-	const slug = context.params.slug as string;
-	// getStaticPaths generates exactly this page's paths from the same article list, so
-	// the lookup always succeeds on a static build.
-	const article = (await getArticles()).find((a) => a.slug === slug);
-	if (!article) throw new Error(`[slug].md.ts: no article for generated slug "${slug}"`);
-
-	const body = articleBody(article).trim();
-	const meta = [
-		`Källa: [islam.se](${site}/${slug})`,
-		`Publicerad ${article.publishedAt.slice(0, 10)}`,
-	];
-	if (article.updatedAt) meta.push(`Uppdaterad ${article.updatedAt.slice(0, 10)}`);
-
-	const markdown = [
-		`# ${article.title}`,
-		"",
-		`> ${article.description}`,
-		"",
-		`*${meta.join(" · ")}*`,
-		"",
-		"---",
-		"",
-		body,
-		"",
-	].join("\n");
+	const site = siteOrigin(context.site);
+	const { article } = context.props as { article: Article };
+	const markdown = `${articleMarkdown(
+		{ ...article, body: articleBody(article) },
+		{ site, linkedSource: true, bodyDivider: true },
+	)}\n`;
 
 	return new Response(markdown, {
 		headers: { "Content-Type": "text/markdown; charset=utf-8" },

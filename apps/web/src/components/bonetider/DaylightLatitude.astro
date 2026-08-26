@@ -141,4 +141,16 @@ const rows = TARGETS.map((t) => {
 		margin: var(--space-half) 0 0;
 		text-wrap: pretty;
 	}
+
+	@media (width <= 22rem) {
+		.dl-table {
+			table-layout: fixed;
+		}
+
+		.dl-table th,
+		.dl-table td {
+			padding-inline: 0.25rem;
+			white-space: normal;
+		}
+	}
 </style>

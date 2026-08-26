@@ -326,6 +326,20 @@ const description =
 		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
 	}
 
+	/* At the narrowest supported viewport the three no-wrap columns were 39px wider
+	   than the page. Let dates wrap within fixed columns instead of making the entire
+	   document pan sideways. */
+	@media (width <= 22rem) {
+		.md-fast-table {
+			table-layout: fixed;
+		}
+
+		.md-fast-table :is(th, td) {
+			padding-inline: 0.3rem;
+			white-space: normal;
+		}
+	}
+
 	.md-fast-lat {
 		/* The row header is a <th>, so this would inherit the UA's bold and be set
 		   heavier than the city name it annotates. It is the quietest thing in the

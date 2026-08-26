@@ -526,8 +526,8 @@ if (hasScb) {
 								<a href={`/moskeer/${m.citySlug}/#${m.id}`} class="bt-mosque-name">{m.name}</a>
 								<span class="bt-mosque-loc">{locationLabel(m)}{m.opened ? ` · öppnad ${m.opened}` : ""}</span>
 								<span class="bt-mosque-dir">
-									<a href={dir.apple}>Apple Maps</a>
-									<a href={dir.google}>Google Maps</a>
+									<a href={dir.apple} class="map-dir-btn">Apple Maps</a>
+									<a href={dir.google} class="map-dir-btn">Google Maps</a>
 								</span>
 							</li>
 						);
@@ -705,19 +705,6 @@ if (hasScb) {
 		display: flex;
 		gap: 0.75rem;
 		margin-top: 0.15rem;
-	}
-
-	.bt-mosque-dir a {
-		font-family: var(--font-heading);
-		font-size: var(--step--4);
-		font-weight: 600;
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.bt-mosque-dir a:hover {
-		text-decoration: underline;
-		text-underline-offset: 0.12em;
 	}
 
 </style>

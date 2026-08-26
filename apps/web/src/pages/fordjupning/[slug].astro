@@ -14,7 +14,7 @@ import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
 import { requireBySlug } from "../../lib/content-refs";
 import { resolveHero } from "../../lib/fordjupning";
-import { ORG_ID, WEBSITE_ID, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
+import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 
 export async function getStaticPaths() {
@@ -87,19 +87,12 @@ const crumbs = [
 ];
 
 const jsonLd: Record<string, unknown>[] = [
-	{
-		"@context": "https://schema.org",
-		"@type": "Article",
+	articleJsonLd({
 		headline: data.title,
 		description: data.description,
-		inLanguage: "sv",
 		url,
-		mainEntityOfPage: url,
-		isPartOf: { "@id": WEBSITE_ID },
-		datePublished: data.publishedAt,
-		dateModified: data.updatedAt ?? data.publishedAt,
-		author: { "@id": ORG_ID },
-		publisher: { "@id": ORG_ID },
+		publishedAt: data.publishedAt,
+		...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt }),
 		...(heroImageObject ? { image: heroImageObject } : {}),
 		// Grounds the page to the global entity so an LLM resolves "Hijab" here to the
 		// same thing Wikidata means by it. Organization.sameAs is still empty site-wide.
@@ -108,16 +101,8 @@ const jsonLd: Record<string, unknown>[] = [
 			name: data.about.name,
 			sameAs: data.about.sameAs,
 		},
-		...(data.sources.length > 0
-			? {
-					citation: data.sources.map((s) => ({
-						"@type": "CreativeWork",
-						name: s.name,
-						...(s.url ? { url: s.url } : {}),
-					})),
-				}
-			: {}),
-	},
+		citations: data.sources,
+	}),
 	breadcrumbList(crumbs),
 ];
 if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));

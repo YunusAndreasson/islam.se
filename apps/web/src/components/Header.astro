@@ -9,11 +9,20 @@ import {
 import Wordmark from "./Wordmark.astro";
 import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
-import { MAST_SECTION_LINKS, MAST_UTILITY_LINKS } from "../lib/navigation";
+import { currentNavHref, MAST_SECTION_LINKS, MAST_UTILITY_LINKS } from "../lib/navigation";
+
+interface Props {
+	/** Section to mark current when the URL alone cannot express it. */
+	activeHref?: string;
+}
+
+const { activeHref } = Astro.props;
 
 const path = Astro.url.pathname;
 const isHome = path === "/";
-const here = (p: string) => path === p || path === `${p}/`;
+const mastLinks = [...MAST_SECTION_LINKS, ...MAST_UTILITY_LINKS];
+const currentHref = currentNavHref(path, mastLinks.map((link) => link.href), activeHref);
+const here = (href: string) => href === currentHref;
 
 // Next-prayer chip in the mast: a build-time Stockholm baseline (no flash); the
 // client script (bonetider-field) recomputes it live for the real now and the
