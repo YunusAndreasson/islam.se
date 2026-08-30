@@ -147,6 +147,11 @@ export default function Qibla() {
 
   const bearing = qiblaBearing(coords);
   const distanceKm = qiblaDistanceKm(coords);
+  // Distance changes only with the selected coordinates, while `turn` intentionally pushes
+  // this screen through React at up to 10 Hz. Locale formatting is comparatively expensive
+  // on Hermes, so format it once per location and reuse the exact same string for visible
+  // and spoken output instead of paying for it twice on every compass tick.
+  const distance = useMemo(() => formatKm(distanceKm), [distanceKm]);
 
   // The instrument. Opening Qibla is the explicit intent that justifies the permission
   // prompt, so this is the `request: true` caller; the map's compass button is the other one
@@ -216,7 +221,7 @@ export default function Qibla() {
   const heroLabel = turn ? (aligned ? 'från qibla' : 'kvar att vrida') : 'från norr';
   // The bearing keeps a home in the quiet line while the hero is live — some readers
   // cross-check it against a real compass — but never twice on the same screen.
-  const facts = `Mecka · ${formatKm(distanceKm)}${turn ? ` · qibla ${bearingDeg}°` : ''}`;
+  const facts = `Mecka · ${distance}${turn ? ` · qibla ${bearingDeg}°` : ''}`;
   const factsA11y = turn
     ? aligned
       ? `${turn.deg} grader från qibla. Qibla ${bearingDeg} grader från norr`
@@ -294,7 +299,7 @@ export default function Qibla() {
         <Text
           style={styles.distance}
           numberOfLines={2}
-          accessibilityLabel={`Avstånd till Mecka: ${formatKm(distanceKm)}`}
+          accessibilityLabel={`Avstånd till Mecka: ${distance}`}
         >
           {facts}
         </Text>

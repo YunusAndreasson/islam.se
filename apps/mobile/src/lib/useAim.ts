@@ -200,6 +200,13 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
   const [permissionDenied, setPermissionDenied] = useState(false);
   const [hasReading, setHasReading] = useState(false);
   const [canAskAgain, setCanAskAgain] = useState(true);
+  // The raw sensor callback is much hotter than React's render cadence. Mirror these three
+  // one-way flags so a healthy reading does not enqueue three same-value state updates for
+  // every magnetometer event. The refs are updated at every write site below; React state
+  // remains the rendered source of truth.
+  const noCompassRef = useRef(false);
+  const permissionDeniedRef = useRef(false);
+  const hasReadingRef = useRef(false);
   // Bumped by `askPermission`; a dep of the subscribe effect, so every press re-runs it. The
   // ref records that the reader has asked at all, which upgrades this consumer's silent CHECK
   // into a real prompt from then on.
@@ -310,9 +317,18 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
       // eslint-disable-next-line react-hooks/immutability
       prox.value = reduceMotion ? p : withTiming(p, { duration: motion.quick });
       applyReading(norm, acc, bearingRef.current, false);
-      setHasReading((v) => (v ? v : true));
-      setNoCompass((v) => (v ? false : v));
-      setPermissionDenied((v) => (v ? false : v));
+      if (!hasReadingRef.current) {
+        hasReadingRef.current = true;
+        setHasReading(true);
+      }
+      if (noCompassRef.current) {
+        noCompassRef.current = false;
+        setNoCompass(false);
+      }
+      if (permissionDeniedRef.current) {
+        permissionDeniedRef.current = false;
+        setPermissionDenied(false);
+      }
     },
     [rotation, prox, applyReading, reduceMotion],
   );
@@ -364,6 +380,7 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
             : await Location.getForegroundPermissionsAsync();
         if (cancelled) return;
         if (!perm.granted) {
+          permissionDeniedRef.current = true;
           setPermissionDenied(true);
           setCanAskAgain(perm.canAskAgain !== false);
           return;
@@ -372,10 +389,14 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
         // reader who denies, walks to the OS settings, grants and comes back would otherwise
         // be stuck: no heading event ever fires, so nothing would retract the denial — leaving
         // a settings link for a permission the app already has.
+        permissionDeniedRef.current = false;
         setPermissionDenied(false);
         setCanAskAgain(true);
         timer = setTimeout(() => {
-          if (!gotEvent) setNoCompass(true);
+          if (!gotEvent) {
+            noCompassRef.current = true;
+            setNoCompass(true);
+          }
         }, NO_EVENT_MS);
         await addHeadingListener(listener);
         // The cleanup may have run while we were awaiting; it could not have removed a
@@ -383,6 +404,7 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
         if (cancelled) removeHeadingListener(listener);
         else listening = true;
       } catch {
+        noCompassRef.current = true;
         setNoCompass(true);
       }
     })();
