@@ -90,3 +90,25 @@ minimumReleaseAgeExclude:
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.
 nodeLinker: hoisted
+
+# `expo` declares `@expo/dom-webview` as an OPTIONAL peer; `@expo/log-box` (pulled in
+# by @expo/cli) declares the same peer as required. pnpm's autoInstallPeers therefore
+# installed it — and then never re-resolved it when log-box widened the range to ^57,
+# leaving 56.0.5 behind and failing expo-doctor's overridden-dependency check.
+#
+# That mismatch is more than a doctor nag: dom-webview ships `android/`, `ios/` and an
+# expo-module.config.json, and autolinking scans node_modules — so an SDK-56 native
+# module was being linked into an SDK-57 build.
+#
+# It exists solely to back Expo DOM components (`'use dom'`), require()d lazily by
+# expo/src/dom/webview/ExpoDOMWebView.ts. This is a native-only app with no web target
+# and no DOM components, so the peer is aligned with expo's own declaration and drops
+# out of the tree entirely. `peerDependencyRules.ignoreMissing` does NOT work here —
+# it silences the warning but pnpm 11 still auto-installs the package (verified).
+# Delete this block and run `npx expo install @expo/dom-webview --pnpm` if a `'use dom'`
+# component is ever added.
+packageExtensions:
+  '@expo/log-box':
+    peerDependenciesMeta:
+      '@expo/dom-webview':
+        optional: true
