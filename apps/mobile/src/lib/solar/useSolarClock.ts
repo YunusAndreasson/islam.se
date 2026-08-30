@@ -14,7 +14,7 @@
 // (23/24/25 h) rather than a fixed 86_400_000, so the slider stays aligned on the two
 // DST-transition days each year (otherwise the 25 h day clamps its last hour at the far
 // right and the 23 h day's "24:00" lands at 01:00 the next day).
-import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
+import { startTransition, useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 
 import { addZoneDays, getDisplayZone, startOfZoneDay, zoneDayLength } from '@/lib/zone-time';
 
@@ -285,14 +285,19 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
     (resolve: (v: View) => number) => {
       // Deliberately does NOT return to live mode, even when landing back on today: the
       // user is at 18:00 today, not at now. The dock's "Nu" chip is one tap away.
-      setMode('scrub');
-      setView((v) => {
-        const offset = resolve(v);
-        const clamped =
-          offset < -MAX_DAY_OFFSET ? -MAX_DAY_OFFSET : offset > MAX_DAY_OFFSET ? MAX_DAY_OFFSET : offset;
-        const nextStart = addZoneDays(todayStart, clamped);
-        const f = clamp01((v.now - v.dayStart) / zoneDayLength(v.dayStart));
-        return { dayStart: nextStart, now: nextStart + f * zoneDayLength(nextStart) };
+      // A day change invalidates the dock, prayer field, and map overlay together. It is
+      // interruptible work: rapid chevron taps should keep counting immediately instead
+      // of waiting behind a render for an intermediate day the user has already left.
+      startTransition(() => {
+        setMode('scrub');
+        setView((v) => {
+          const offset = resolve(v);
+          const clamped =
+            offset < -MAX_DAY_OFFSET ? -MAX_DAY_OFFSET : offset > MAX_DAY_OFFSET ? MAX_DAY_OFFSET : offset;
+          const nextStart = addZoneDays(todayStart, clamped);
+          const f = clamp01((v.now - v.dayStart) / zoneDayLength(v.dayStart));
+          return { dayStart: nextStart, now: nextStart + f * zoneDayLength(nextStart) };
+        });
       });
     },
     [todayStart],

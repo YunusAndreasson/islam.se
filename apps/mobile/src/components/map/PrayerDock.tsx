@@ -24,7 +24,17 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
-import { Fragment, useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
+import {
+  Fragment,
+  memo,
+  startTransition,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   type ColorSchemeName,
   type LayoutChangeEvent,
@@ -274,7 +284,10 @@ export function PrayerDock({
   const applyExpanded = useCallback(
     (open: boolean) => {
       if (open !== expanded) hapticLight();
-      setExpanded(open);
+      // The spring is already running on the UI thread. Treat mounting/unmounting the
+      // schedule as non-urgent so React can yield instead of making that animation wait
+      // behind the row subtree's first render.
+      startTransition(() => setExpanded(open));
       onExpandedChange?.(open, EXPANDED);
     },
     [expanded, onExpandedChange, EXPANDED],
@@ -329,7 +342,7 @@ export function PrayerDock({
   });
   const onReveal = useEffectEvent((open: boolean) => {
     springTo(open);
-    setExpanded(open);
+    startTransition(() => setExpanded(open));
   });
   useEffect(() => {
     // Skip the mount pass: `revealSchedule` starts false and the dock is already collapsed,
@@ -395,13 +408,15 @@ export function PrayerDock({
 
   // Returning to "now" is the one action offered in two places (preview badge +
   // expanded Now button); both go through here so both confirm with a tick.
+  const resetClock = clock.reset;
   const resetToNow = useCallback(() => {
     hapticSelection();
-    clock.reset();
-  }, [clock]);
+    resetClock();
+  }, [resetClock]);
 
   // Tapping a prayer in the list time-travels the scrubber to that prayer. The
   // thumb eases there (see Scrubber's reconcile effect), so the move is legible.
+  const setClockInstant = clock.setInstant;
   const scrubTo = useCallback(
     (at: number) => {
       if (!Number.isFinite(at)) return;
@@ -409,9 +424,9 @@ export function PrayerDock({
       // Land EXACTLY on the prayer's instant (not via a lossy fraction round-trip), so
       // the tapped prayer reads as "current" and highlights — see nextPrayerKeyAt. The
       // thumb still eases there off the derived `fraction`.
-      clock.setInstant(at);
+      setClockInstant(at);
     },
-    [clock],
+    [setClockInstant],
   );
 
   // The night that BEGINS on the viewed day. Derived from the same `times` object the
@@ -645,6 +660,10 @@ export function PrayerDock({
             <View style={styles.list}>
               {PRAYER_ORDER.map((key, i) => {
                 const { at, valid, side, crosses } = daySides[key];
+                // One Intl pass per row. This map runs again when the dock opens/closes,
+                // and formatting the same Date separately for the visible time and the
+                // spoken label doubled that work across all six rows.
+                const time = valid ? formatTime(times[key]) : '–';
                 return (
                   <Fragment key={key}>
                     {crosses ? (
@@ -668,7 +687,7 @@ export function PrayerDock({
                       label={PRAYER_LABELS[key]}
                       icon={PRAYER_ICONS[key]}
                       iconColor={prayerColorFor(key, scheme)}
-                      time={valid ? formatTime(times[key]) : '–'}
+                      time={time}
                       visible={expanded}
                       isNext={next?.key === key && !next.nextDay}
                       // The brass row is the answer to "which prayer is next" for a sighted
@@ -676,7 +695,7 @@ export function PrayerDock({
                       // A row past midnight says so in words: the rule above it is silent to
                       // a screen reader, and "00:36" alone is exactly the ambiguity it exists
                       // to remove.
-                      accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? formatTime(times[key]) : 'kan inte beräknas'}${
+                      accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? time : 'kan inte beräknas'}${
                         side === 1 ? ', efter midnatt' : side === -1 ? ', kvällen innan' : ''
                       }${next?.key === key && !next.nextDay ? ', nästa bön' : ''}`}
                       // Only rows that land INSIDE the viewed day can be scrubbed to:
@@ -685,7 +704,8 @@ export function PrayerDock({
                       // past midnight, as at Luleå in mid-June — lit up the EARLIER one as
                       // current. The same reasoning already keeps the night landmarks
                       // unpressable; see NightGroup.
-                      onPress={valid && side === 0 ? () => scrubTo(at) : undefined}
+                      at={valid && side === 0 ? at : undefined}
+                      onSelect={scrubTo}
                     />
                   </Fragment>
                 );
@@ -857,7 +877,7 @@ type DockStyles = ReturnType<typeof makeStyles>;
 // stagger (Isha, the bottom row, reveals first; Fajr, the top row, last) so each row
 // reaches full opacity exactly as the growing edge exposes it — no row ever sits
 // visible-but-blank then pops. Runs on the UI thread; tracks a half-open drag.
-function ScheduleRow({
+const ScheduleRow = memo(function ScheduleRow({
   styles,
   index,
   total,
@@ -871,7 +891,8 @@ function ScheduleRow({
   muted,
   visible,
   isNext,
-  onPress,
+  at,
+  onSelect,
   accessibilityLabel,
 }: {
   styles: DockStyles;
@@ -889,7 +910,8 @@ function ScheduleRow({
   visible: boolean;
   isNext?: boolean;
   /** Omitted = the row is not pressable. The night landmarks pass nothing (see NightGroup). */
-  onPress?: () => void;
+  at?: number;
+  onSelect?: (at: number) => void;
   accessibilityLabel: string;
 }) {
   const reveal = useAnimatedStyle(() => {
@@ -936,9 +958,9 @@ function ScheduleRow({
       importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
     >
       {visible ? (
-        onPress ? (
+        at !== undefined && onSelect ? (
           <Pressable
-            onPress={onPress}
+            onPress={() => onSelect(at)}
             style={({ pressed }) => [styles.listRow, isNext && styles.listRowNext, pressed && styles.listRowPressed]}
             accessibilityRole="button"
             accessibilityLabel={accessibilityLabel}
@@ -968,7 +990,7 @@ function ScheduleRow({
       ) : null}
     </Animated.View>
   );
-}
+});
 
 /**
  * The hairline where the schedule crosses midnight.
