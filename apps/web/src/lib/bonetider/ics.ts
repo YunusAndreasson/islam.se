@@ -11,7 +11,7 @@
 //
 // ⚠️ Filerna är statiska och innehåller innevarande månad. Den nattliga ombyggnaden
 // (scripts/deploy-bonetider-daily.sh) rullar dem vidare, så en prenumerant har alltid
-// den månad hen är i. Utan det jobbet slutar kalendern fyllas på.
+// den månad som pågår. Utan det jobbet slutar kalendern fyllas på.
 //
 // Men INTE dygnsvis: en månads bönetider är desamma den 1:a som den 28:e, så filen
 // behöver bara ändras när månaden vänder. Därför är utdata avsiktligt deterministiskt

@@ -47,7 +47,7 @@ export interface RamadanTimes {
  *
  * ⚠️ Läser tabellen relativt `now`, så en ortssida byggd i februari 2027 pekar på den
  * ramadan som pågår, inte på nästa år. Det är avsikten: den som söker mitt i månaden
- * ska se månaden hen är i.
+ * ska se den månad som pågår.
  */
 export function nextRamadan(now = new Date()): RamadanPeriod | null {
 	const todayISO = now.toISOString().slice(0, 10);
