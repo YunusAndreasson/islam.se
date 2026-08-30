@@ -468,6 +468,25 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 	   keyboard; customised list-style can suppress the UA focus ring, so make it
 	   explicit (matches .bt-search above). */
 
+	/* The place directory is 2 100+ anchors across 21 counties, and all 21 accordions
+	   ship CLOSED. Closed <details> content is not laid out, but Chrome still resolves
+	   style for every one of those elements on the initial pass and on any subsequent
+	   full invalidation — measured here by detaching the 21 accordions and re-running a
+	   forced style+layout: 4.15 ms with them, 0.89 ms without. Lighthouse's mobile
+	   profile applies 4x CPU throttling on top of that, and /bonetider/ pays it again
+	   on every countdown tick.
+
+	   content-visibility lets the browser skip style and layout for the accordions that
+	   are outside the viewport, while keeping all 2 100 links in the DOM — they stay
+	   crawlable, findable by Ctrl+F, and reachable by keyboard, which a JS-deferred list
+	   would not be. Every closed row measures exactly 2.93rem, so that is the
+	   contain-intrinsic-size placeholder; `auto` makes the browser remember the real
+	   height once a row has been rendered, so opening one never jumps the scrollbar. */
+	.bt-county {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 2.93rem;
+	}
+
 	.bt-county-list {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 7rem), 1fr));

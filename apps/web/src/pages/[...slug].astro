@@ -87,12 +87,21 @@ const structuredArticle = {
     result actually shows; `seoDescription` is the authored short form for the
     meta tag. Falls back to the deck, so an essay without one is unchanged. The
     JSON-LD keeps the full deck — it is a description of the work, not a snippet. */}
+{/* preloadTextFonts: half the essays carry no hero image at all (30 of 62 at the time
+    of writing). Base.astro withholds the Literata/Source Sans preload site-wide to keep
+    that bandwidth free for the LCP hero — but on an image-less essay there is no hero to
+    reserve it for, and the fonts then land AFTER first paint. The header (h1 + the
+    ~270-character deck) reflows on the swap and drags .article-body down with it:
+    measured CLS 0.151 on /alis-princip/, versus 0 once the two core faces (100 kB +
+    41 kB) are preloaded into otherwise idle bandwidth. Essays that DO have a hero keep
+    the old behaviour — there the contention Base.astro describes is real. */}
 <Base
 	title={`${article.title} — islam.se`}
 	description={article.seoDescription ?? article.description}
 	ogImage={`/og/${article.slug}.png`}
 	articleMeta={structuredArticle}
 	preloadArabicFont
+	preloadTextFonts={!article.heroImage}
 >
 	<main id="main" class="reading reading--notes">
 		<article>

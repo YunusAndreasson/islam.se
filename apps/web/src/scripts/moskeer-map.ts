@@ -793,6 +793,40 @@ function mapHref(s: string): string {
 // usually just inside the first viewport, so this normally fires straight away — the
 // gain is that the 978 kB bundle and its stylesheet are no longer part of the document's
 // critical path, and a reader who bounces never pays for them.
+/** Run `job` immediately after the browser has painted one frame. Two nested rAFs are
+ *  what actually clears the paint: the first fires BEFORE the frame it is scheduled in,
+ *  so a single rAF would still land ahead of the pixels.
+ *
+ *  Deliberately NOT requestIdleCallback. The obvious version of this waited for an idle
+ *  gap (timeout 1500 ms) and measured WORSE: the map canvas is far and away the largest
+ *  element on this page, so it is the LCP element, and on a page whose own map work
+ *  keeps the main thread busy for seconds the idle gap never arrives — every mount paid
+ *  the full 1500 ms cap. FCP improved 2.3 s -> 1.5 s but LCP went 2.3 s -> 3.3 s and the
+ *  Lighthouse score fell 65 -> 61. One frame is all the deferral that was ever needed:
+ *  it is enough to let the server-rendered mast, heading and county list paint first,
+ *  and it does not hold the LCP element hostage to a thread that is never quiet. */
+function afterFirstPaint(job: () => void): void {
+	let ran = false;
+	const run = () => {
+		if (ran) return;
+		ran = true;
+		job();
+	};
+	requestAnimationFrame(() => {
+		requestAnimationFrame(run);
+	});
+	// ⚠️ The rAF pair is the fast path, NOT a guarantee. Chrome suspends animation
+	// frames for a window it is not painting — including an OCCLUDED one, which still
+	// reports document.visibilityState === "visible" and document.hidden === false.
+	// Caught here by driving the built page from a non-focused window: rAF had not
+	// fired after two seconds, #moskeer-map never gained .is-ready, and the map simply
+	// never arrived — no canvas, no controls, no console error, exactly the silent
+	// failure mode the worker-URL note above describes. mount() used to be called
+	// straight from the observer and could not miss. This timeout restores that floor:
+	// whichever path wins first, the map mounts, and `ran` keeps it to one mount.
+	setTimeout(run, 1000);
+}
+
 // The search/län filter binds inside mount(), as it always has: it drives the map source
 // and the list together.
 function observe() {
@@ -802,8 +836,20 @@ function observe() {
 		(entries) => {
 			if (!entries.some((e) => e.isIntersecting)) return;
 			io.disconnect();
-			mount().catch(() => {
-				/* mount() already surfaces its own failure on the stage */
+			// The stage sits ~367 px down the page — well inside the first viewport at
+			// any width — so this observer fires during the initial layout, and the
+			// lazy import therefore deferred nothing in practice: ~1 MB of maplibre was
+			// parsed and initialised BEFORE the browser had painted the mast, the
+			// heading and the county list, all of which are server-rendered and ready
+			// to show. Handing the mount to the first idle slot after the first paint
+			// reorders those two: the reader gets the page, then the map arrives on top
+			// of it. The 1500 ms timeout is the cap — on a busy main thread the map
+			// must still come, and come soon.
+			afterFirstPaint(() => {
+				if (!stage.isConnected) return; // navigated away while we waited
+				mount().catch(() => {
+					/* mount() already surfaces its own failure on the stage */
+				});
 			});
 		},
 		{ rootMargin: "600px" },
