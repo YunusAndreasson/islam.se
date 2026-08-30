@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 110,
-      "ok": 109,
+      "total": 114,
+      "ok": 113,
       "failed": 1,
-      "lastChecked": "2026-08-23T09:58:57.169Z",
-      "publishedIn": 88,
-      "avgScore": 8.609090909090922,
+      "lastChecked": "2026-08-29T13:18:47.335Z",
+      "publishedIn": 92,
+      "avgScore": 8.617391304347837,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -77,12 +77,12 @@
       "lastChecked": "2026-02-10T22:24:32.198Z"
     },
     "plato.stanford.edu": {
-      "total": 6,
-      "ok": 6,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-03-26T09:57:16.335Z",
-      "publishedIn": 4,
-      "avgScore": 8.575
+      "lastChecked": "2026-08-29T13:18:47.335Z",
+      "publishedIn": 5,
+      "avgScore": 8.62
     },
     "islamqa.org": {
       "total": 1,
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 38,
-      "ok": 38,
+      "total": 40,
+      "ok": 40,
       "failed": 0,
-      "lastChecked": "2026-08-09T21:10:34.549Z",
-      "publishedIn": 30,
-      "avgScore": 8.619999999999997
+      "lastChecked": "2026-08-29T13:18:47.335Z",
+      "publishedIn": 32,
+      "avgScore": 8.631249999999998
     },
     "lifewithallah.com": {
       "total": 3,
@@ -485,12 +485,12 @@
       "avgScore": 8.5
     },
     "www.sciencedirect.com": {
-      "total": 3,
-      "ok": 3,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-02-14T19:50:47.526Z",
-      "publishedIn": 3,
-      "avgScore": 8.5
+      "lastChecked": "2026-08-29T13:18:47.335Z",
+      "publishedIn": 4,
+      "avgScore": 8.575
     },
     "aurora-institute.org": {
       "total": 1,
@@ -2134,6 +2134,30 @@
       "ok": 1,
       "failed": 0,
       "lastChecked": "2026-08-23T15:12:52.403Z",
+      "publishedIn": 1,
+      "avgScore": 8.8
+    },
+    "www.anthropic.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-08-29T13:18:47.335Z",
+      "publishedIn": 2,
+      "avgScore": 8.8
+    },
+    "arxiv.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-08-29T13:18:47.335Z",
+      "publishedIn": 1,
+      "avgScore": 8.8
+    },
+    "techcrunch.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-29T13:18:47.335Z",
       "publishedIn": 1,
       "avgScore": 8.8
     }
