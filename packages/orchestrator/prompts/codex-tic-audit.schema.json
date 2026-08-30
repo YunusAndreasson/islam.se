@@ -1,0 +1,29 @@
+{
+	"type": "object",
+	"properties": {
+		"verdict": { "type": "string", "enum": ["clean", "patches"] },
+		"summary": { "type": "string" },
+		"patches": {
+			"type": "array",
+			"maxItems": 12,
+			"items": {
+				"type": "object",
+				"properties": {
+					"original": { "type": "string", "minLength": 1 },
+					"replacement": { "type": "string" },
+					"category": {
+						"type": "string",
+						"enum": ["anglicism", "ai-pattern", "colloquial", "repetition", "rhythm", "word-choice"]
+					},
+					"reason": { "type": "string" },
+					"confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+					"semanticRisk": { "type": "boolean" }
+				},
+				"required": ["original", "replacement", "category", "reason", "confidence", "semanticRisk"],
+				"additionalProperties": false
+			}
+		}
+	},
+	"required": ["verdict", "summary", "patches"],
+	"additionalProperties": false
+}

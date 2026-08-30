@@ -4,6 +4,7 @@ import { dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getQuote } from "@islam-se/quotes";
 import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
+import { applyCodexTicAudit, type CodexTicAudit, CodexTicAuditor } from "./codex-tic-audit.js";
 import {
 	formatBlockedDomainsPrompt,
 	formatDomainReputation,
@@ -496,8 +497,47 @@ export interface IdeaBrief {
  */
 const MIN_ESSAY_FINAL_SCORE = 8;
 
+/** A numeric score never overrides the fact-checker's explicit safety verdict. */
+export function factCheckPassed(factCheck: FactCheckOutput, threshold: number): boolean {
+	return factCheck.verdict === "pass" && factCheck.overallCredibility >= threshold;
+}
+
+/** Publishing requires both halves of the review contract to agree. */
+export function reviewPassed(review: ReviewOutput): boolean {
+	return review.verdict === "publish" && review.finalScore >= MIN_ESSAY_FINAL_SCORE;
+}
+
+/** A post-review rewrite is only worth its drift risk when the measured result improves. */
+export function proseCorrectionImproved(before: number, after: number | undefined): boolean {
+	return after !== undefined && after < before;
+}
+
+/** Populate the transient bibliography from persisted research checkpoints. */
+export function trackResearchReferences(
+	tracker: ReferenceTracker,
+	research: Pick<ResearchOutput, "sources" | "quotes">,
+	accessDate?: string,
+): void {
+	for (const source of research.sources) {
+		tracker.addReference({
+			type: "web",
+			title: source.title,
+			url: source.url,
+			accessDate,
+		});
+	}
+	for (const quote of research.quotes) {
+		tracker.addReference({
+			type: "quote",
+			title: quote.source || "Unknown",
+			author: quote.author,
+		});
+	}
+}
+
 export class ContentOrchestrator {
 	private runner: ClaudeRunner;
+	private codexAuditor: CodexTicAuditor;
 	private validator: SourceValidator;
 	private references: ReferenceTracker;
 	private logger: ReturnType<typeof createLogger>;
@@ -509,6 +549,7 @@ export class ContentOrchestrator {
 
 	constructor(options: OrchestratorOptions) {
 		this.runner = new ClaudeRunner();
+		this.codexAuditor = new CodexTicAuditor();
 		this.validator = new SourceValidator();
 		this.references = new ReferenceTracker();
 		this.promptsDir = join(__dirname, "../prompts");
@@ -889,21 +930,7 @@ export class ContentOrchestrator {
 			datasets: validatedDatasets,
 		};
 
-		for (const source of data.sources) {
-			this.references.addReference({
-				type: "web",
-				title: source.title,
-				url: source.url,
-				accessDate: new Date().toISOString(),
-			});
-		}
-		for (const quote of data.quotes) {
-			this.references.addReference({
-				type: "quote",
-				title: quote.source || "Unknown",
-				author: quote.author,
-			});
-		}
+		trackResearchReferences(this.references, data, new Date().toISOString());
 
 		this.logger.log(`   - Found ${data.quotes.length} quotes, ${data.sources.length} sources`);
 
@@ -1756,6 +1783,29 @@ If the draft has anglicisms, fix them in the revised article.
 	}
 
 	/**
+	 * Give the finished essay to a second model for a deliberately narrow audit.
+	 * Codex may propose exact replacements, but cannot edit files or rewrite the
+	 * article wholesale; deterministic guards decide which patches are admissible.
+	 */
+	async runCodexTicAudit(
+		articleBody: string,
+		evalReport: string,
+	): Promise<StageResult<CodexTicAudit>> {
+		this.logger.log("   🔎 Codex: independent AI-tic audit");
+		return this.codexAuditor.run({
+			article: articleBody,
+			evalReport,
+			adapterPromptPath: join(this.promptsDir, "codex-tic-audit.md"),
+			definitionPaths: [
+				join(this.promptsDir, "swedish-voice.md"),
+				join(this.promptsDir, "eval-correction.md"),
+			],
+			schemaPath: join(this.promptsDir, "codex-tic-audit.schema.json"),
+			repoRoot: join(findDataDir(), ".."),
+		});
+	}
+
+	/**
 	 * Publish article and update idea status
 	 */
 	private publishArticle(
@@ -1838,6 +1888,7 @@ If the draft has anglicisms, fix them in the revised article.
 		if (cachedResearch && ResearchOutputSchema.safeParse(cachedResearch).success) {
 			this.logger.log("📚 Stage 1: Research — loaded from checkpoint");
 			researchResult = { success: true, data: cachedResearch, duration: 0 };
+			trackResearchReferences(this.references, cachedResearch);
 			this.options.onStageChange?.({
 				stage: "research",
 				status: "complete",
@@ -1884,7 +1935,7 @@ If the draft has anglicisms, fix them in the revised article.
 		if (
 			cachedFactCheck &&
 			FactCheckOutputSchema.safeParse(cachedFactCheck).success &&
-			cachedFactCheck.overallCredibility >= this.options.qualityThreshold
+			factCheckPassed(cachedFactCheck, this.options.qualityThreshold)
 		) {
 			this.logger.log("🔍 Stage 2: Quality Review — loaded from checkpoint");
 			factCheckResult = { success: true, data: cachedFactCheck, duration: 0 };
@@ -1909,7 +1960,7 @@ If the draft has anglicisms, fix them in the revised article.
 			let researchRevisionCount = 0;
 			while (
 				factCheckResult.data &&
-				factCheckResult.data.overallCredibility < this.options.qualityThreshold &&
+				!factCheckPassed(factCheckResult.data, this.options.qualityThreshold) &&
 				factCheckResult.data.verdict !== "reject" &&
 				researchRevisionCount < this.options.maxRevisions
 			) {
@@ -1938,15 +1989,26 @@ If the draft has anglicisms, fix them in the revised article.
 				}
 			}
 
-			if (!(factCheckResult.success && factCheckResult.data)) {
+			if (
+				!(
+					factCheckResult.success &&
+					factCheckResult.data &&
+					factCheckPassed(factCheckResult.data, this.options.qualityThreshold)
+				)
+			) {
+				const gateError = factCheckResult.data
+					? `Fact-check gate failed: ${factCheckResult.data.verdict} at ${factCheckResult.data.overallCredibility}/10`
+					: factCheckResult.error;
 				this.options.onStageChange?.({
 					stage: "factCheck",
 					status: "failed",
 					duration: factCheckResult.duration,
-					error: factCheckResult.error,
+					error: gateError,
 				});
 				result.stages.research = researchResult;
-				result.stages.factCheck = factCheckResult;
+				result.stages.factCheck = factCheckResult.data
+					? { ...factCheckResult, success: false, error: gateError ?? "Fact-check gate failed" }
+					: factCheckResult;
 				result.totalDuration = Date.now() - startTime;
 				return result;
 			}
@@ -2064,7 +2126,7 @@ If the draft has anglicisms, fix them in the revised article.
 			// bär information — utfallet är en etikett den kan slarva med.
 			if (reviewResult.data.verdict === "publish") {
 				const score = reviewResult.data.finalScore;
-				if (score < MIN_ESSAY_FINAL_SCORE && revisionCount < this.options.maxRevisions) {
+				if (!reviewPassed(reviewResult.data) && revisionCount < this.options.maxRevisions) {
 					this.logger.log(
 						`   ⚠️  Omdömet »publish« men poängen ${score}/10 < ${MIN_ESSAY_FINAL_SCORE} — kör ett varv till`,
 					);
@@ -2074,12 +2136,7 @@ If the draft has anglicisms, fix them in the revised article.
 						duration: reviewResult.duration,
 						summary: `${reviewSummary} (poäng under grind, reviderar)`,
 					});
-				} else {
-					if (score < MIN_ESSAY_FINAL_SCORE) {
-						this.logger.log(
-							`   ⚠️  PUBLICERAS PÅ ${score}/10, under grinden ${MIN_ESSAY_FINAL_SCORE} — revisionerna tog slut. Läs texten själv.`,
-						);
-					}
+				} else if (reviewPassed(reviewResult.data)) {
 					this.options.onStageChange?.({
 						stage: "review",
 						status: "complete",
@@ -2107,12 +2164,16 @@ If the draft has anglicisms, fix them in the revised article.
 			if (revisionCount >= this.options.maxRevisions) {
 				this.options.onStageChange?.({
 					stage: "review",
-					status: "complete",
+					status: "failed",
 					duration: reviewResult.duration,
-					summary: `${reviewSummary} (max revisions)`,
+					summary: `${reviewSummary} (max revisions, not publishable)`,
+					error: "Review gate failed",
 				});
-				this.logger.log(`   ⚠️  Max revisions (${this.options.maxRevisions}) reached`);
-				break;
+				this.logger.log(
+					`   ❌ Max revisions (${this.options.maxRevisions}) reached without a publishable review`,
+				);
+				result.totalDuration = Date.now() - startTime;
+				return result;
 			}
 
 			// Apply revisions if provided
@@ -2126,12 +2187,14 @@ If the draft has anglicisms, fix them in the revised article.
 			} else {
 				this.options.onStageChange?.({
 					stage: "review",
-					status: "complete",
+					status: "failed",
 					duration: reviewResult.duration,
 					summary: reviewSummary,
+					error: "Review requested revisions but supplied no revised text",
 				});
-				this.logger.log("   ⚠️  Revisions requested but no revised text provided");
-				break;
+				this.logger.log("   ❌ Revisions requested but no revised text provided");
+				result.totalDuration = Date.now() - startTime;
+				return result;
 			}
 		}
 
@@ -2258,12 +2321,13 @@ If the draft has anglicisms, fix them in the revised article.
 			});
 		}
 
-		// Stage 8: Eval-loop corrective pass — run the deterministic prose
-		// evaluator and, if the article scores above the gold-standard threshold,
-		// feed its concrete findings into one corrective pass. Non-fatal: any
-		// failure (no Python, script missing, parse error) is logged and skipped.
+		// Stage 9: independent Codex tic audit. Opus has already authored and edited
+		// the essay; using a second model here reduces same-model blind spots. Codex
+		// returns exact patches, never a wholesale rewrite. We accept only guarded,
+		// high-confidence changes that improve the deterministic prose score.
 		let evalBefore: number | undefined;
 		let evalAfter: number | undefined;
+		let codexAuditDuration: number | undefined;
 		const evalScript = findEvalScript();
 		if (evalScript) {
 			// The evaluator only reads prose from a file with YAML frontmatter, so
@@ -2290,17 +2354,44 @@ If the draft has anglicisms, fix them in the revised article.
 					`   📋 Prose eval: ${before.totalIssues} issues (correction threshold ${EVAL_CORRECTION_THRESHOLD})`,
 				);
 				if (before.totalIssues > EVAL_CORRECTION_THRESHOLD) {
-					const correction = await this.runEvalCorrection(finalText, before.report);
-					if (correction.success && correction.data) {
-						finalText = correction.data.body;
-						saveOutput(outputDir, "eval-correction.json", correction.data);
-						const after = evaluateProse(writeEvalInput(finalText), evalScript);
-						evalAfter = after?.totalIssues;
-						this.logger.log(
-							`   📋 Eval correction: ${before.totalIssues} → ${evalAfter ?? "?"} issues (${correction.data.changesCount} changes)`,
-						);
+					const audit = await this.runCodexTicAudit(finalText, before.report);
+					codexAuditDuration = audit.duration;
+					if (audit.success && audit.data) {
+						const application = applyCodexTicAudit(finalText, audit.data);
+						const candidateEval =
+							application.applied.length > 0
+								? evaluateProse(writeEvalInput(application.body), evalScript)
+								: undefined;
+						const candidateIssues = candidateEval?.totalIssues;
+						const accepted = proseCorrectionImproved(before.totalIssues, candidateIssues);
+						saveOutput(outputDir, "codex-tic-audit.json", {
+							...audit.data,
+							application: {
+								applied: application.applied,
+								rejected: application.rejected,
+							},
+							evaluation: {
+								before: before.totalIssues,
+								candidate: candidateIssues,
+								accepted,
+							},
+						});
+						if (accepted) {
+							finalText = application.body;
+							evalAfter = candidateIssues;
+							this.logger.log(
+								`   🔎 Codex audit accepted: ${before.totalIssues} → ${candidateIssues} issues (${application.applied.length} patches)`,
+							);
+						} else {
+							// The evaluator's scratch file should describe what will actually ship.
+							writeEvalInput(finalText);
+							evalAfter = before.totalIssues;
+							this.logger.warn(
+								`   ⚠️  Codex audit made no accepted improvement (${application.applied.length} admissible, ${application.rejected.length} rejected)`,
+							);
+						}
 					} else {
-						this.logger.warn(`   ⚠️  Eval correction skipped: ${correction.error}`);
+						this.logger.warn(`   ⚠️  Codex audit skipped: ${audit.error}`);
 					}
 				}
 			}
@@ -2400,6 +2491,7 @@ If the draft has anglicisms, fix them in the revised article.
 				deepen: deepenResult.duration,
 				ground: groundResult.duration,
 				swedishVoice: swedishVoiceResult.duration,
+				codexAudit: codexAuditDuration,
 				figures: figuresResult.duration,
 				total: Date.now() - startTime,
 			},
