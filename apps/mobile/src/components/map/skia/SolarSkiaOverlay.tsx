@@ -441,14 +441,12 @@ function PrayerLine({
 
   // Mount/visibility lifecycle: `rendered` keeps the paths mounted through the fade-out
   // so a vanished line dissolves (300 ms) instead of popping off. While inactive the
-  // line keeps its LAST geometry (the contour that just vanished). Both use the
-  // render-phase derived-state pattern (react.dev "storing information from previous
-  // renders") — the guarded setState re-renders just this component, synchronously.
+  // line keeps its LAST geometry (the contour that just vanished). `rendered` is real
+  // transition state; the previous geometry is only a committed-value cache, so keeping
+  // it in a ref avoids a second render for every active line on each live field update.
   const [rendered, setRendered] = useState(active);
   if (active && !rendered) setRendered(true);
-  const [lastGeom, setLastGeom] = useState(polylines);
-  if (active && lastGeom !== polylines) setLastGeom(polylines);
-  const drawPolylines = active ? polylines : lastGeom;
+  const drawPolylines = useLastActiveGeometry(active, polylines);
   const fade = useSharedValue(active ? 1 : 0);
   const reveal = useSharedValue(active ? 1 : 0);
 
@@ -602,4 +600,22 @@ function PrayerLine({
       </Path>
     </Group>
   );
+}
+
+/** Retain only the last COMMITTED non-empty geometry for the later fade-out frame.
+ *
+ * This tiny hook is deliberately outside Compiler analysis: reading a ref during render
+ * is normally suspect, but here the inactive render follows an active commit whose effect
+ * has already stored the exact geometry being displayed. The cache never drives an active
+ * frame and therefore needs no state update of its own. Keeping the exception here lets
+ * PrayerLine itself remain Compiler-optimized and removes six redundant state renders per
+ * live contour refresh. */
+function useLastActiveGeometry(active: boolean, polylines: LonLat[][]): LonLat[][] {
+  'use no memo';
+  const lastGeom = useRef(polylines);
+  useEffect(() => {
+    if (active) lastGeom.current = polylines;
+  }, [active, polylines]);
+  // eslint-disable-next-line react-hooks/refs -- committed snapshot; invariant above
+  return active ? polylines : lastGeom.current;
 }

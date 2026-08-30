@@ -21,6 +21,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   Easing,
   FadeOut,
+  type SharedValue,
   useReducedMotion,
   useSharedValue,
   withTiming,
@@ -124,6 +125,21 @@ const MAX_BOUNDS: [number, number, number, number] = [-20.0, 35.0, 60.0, 80.0];
 // Floor only. The ceiling stays open: the mosque layer and the qibla arc are drawn for
 // city zoom, and the projection handles zoom exactly.
 const MIN_ZOOM = 3;
+
+// Keep Reanimated's intentionally mutable `.value` writes behind small module helpers.
+// React Compiler can then optimize the screen around those imperative UI-thread bridges
+// without treating the whole component as a mutation hazard.
+function publishSharedCamera(camera: SharedValue<MapCamera>, next: MapCamera): void {
+  camera.value = next;
+}
+
+function resizeSharedCamera(
+  camera: SharedValue<MapCamera>,
+  width: number,
+  height: number,
+): void {
+  camera.value = { ...camera.value, width, height };
+}
 
 // The lat/lon at the geometric centre of the visible viewport, derived from the
 // reported bounds. We use this — NOT `event.nativeEvent.center` — because in
@@ -505,8 +521,7 @@ export default function Bonetider() {
     (next: MapCamera) => {
       // Both overlays project from this shared value, so publishing camera pose never
       // needs a React state update.
-      // eslint-disable-next-line react-hooks/immutability
-      cam.value = next;
+      publishSharedCamera(cam, next);
       publishSeq.current += 1;
     },
     [cam],
@@ -514,8 +529,7 @@ export default function Bonetider() {
 
   useEffect(() => {
     // Preserve the latest camera pose while updating only the dimensions React owns.
-    // eslint-disable-next-line react-hooks/immutability
-    cam.value = { ...cam.value, width: viewportSize.width, height: viewportSize.height };
+    resizeSharedCamera(cam, viewportSize.width, viewportSize.height);
   }, [viewportSize, cam]);
 
   // The displayed instant as a fraction of the Stockholm day, on the UI thread, so the
@@ -760,8 +774,7 @@ export default function Bonetider() {
   // marks under the slider, and the full list in the dock. Independent of the grid.
   const userTimes = useMemo(
     () => computePrayerTimes(coords, zonePrayerDate(clock.dayStart), settings),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- sig + coords + day fully determine these
-    [coords.latitude, coords.longitude, clock.dayStart, sig],
+    [coords, clock.dayStart, settings],
   );
 
   const marks = useMemo<DayMark[]>(() => {
@@ -786,8 +799,7 @@ export default function Bonetider() {
     const fajr = computePrayerTimes(coords, zonePrayerDate(clock.dayStart, 1), settings).fajr;
     const at = fajr instanceof Date ? fajr.getTime() : Number.NaN;
     return Number.isFinite(at) ? at : null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- sig + coords + day fully determine this
-  }, [coords.latitude, coords.longitude, clock.dayStart, sig]);
+  }, [coords, clock.dayStart, settings]);
 
   // The viewed day's own next slot, or the following day's Fajr once ʿIshāʾ has passed. Both
   // rules — the inclusive `>=` that makes a tapped prayer read as current, and the range check
