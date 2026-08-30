@@ -10,19 +10,10 @@
 // The stakes are higher here (without a fix the times are simply another city's), but
 // that argues for offering the card at the right MOMENT, not for asking more often —
 // and the user always has the manual city picker, which the card links to.
-import { createHintStore } from './hints';
+import { createSoftAskStore } from './hints';
 
 const STORAGE_KEY = 'locationHintSeen:v1';
-
-/** Launch at which the single retry becomes available, if the first showing went unanswered. */
-const RETRY_AFTER_LAUNCHES = 4;
-/** Hard cap on how many times the card may ever appear. */
-const MAX_SHOWINGS = 2;
-
-const store = createHintStore(STORAGE_KEY, {
-  retryAfterLaunches: RETRY_AFTER_LAUNCHES,
-  maxShowings: MAX_SHOWINGS,
-});
+const store = createSoftAskStore(STORAGE_KEY);
 
 export const noteLocationLaunch = store.noteLaunch;
 export const noteLocationShown = store.noteShown;

@@ -4,7 +4,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { hijriMonthLength } from '@/lib/hijri';
-import { dayMark, isSacredMonth, monthRing } from './month';
+import { dayMark, monthRing } from './month';
 
 describe('dayMark — the white days', () => {
   it('marks 13, 14 and 15 in an ordinary month', () => {
@@ -95,12 +95,5 @@ describe('monthRing', () => {
   it('carries the same mark the day-by-day function gives, for every day', () => {
     const ring = monthRing(1447, 12);
     for (const cell of ring) expect(cell.mark).toEqual(dayMark(12, cell.day));
-  });
-});
-
-describe('isSacredMonth', () => {
-  it('names the four of Qur’an 9:36 and no others', () => {
-    const sacred = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(isSacredMonth);
-    expect(sacred).toEqual([1, 7, 11, 12]);
   });
 });

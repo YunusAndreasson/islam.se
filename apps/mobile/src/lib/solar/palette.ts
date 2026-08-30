@@ -190,21 +190,3 @@ export const PRAYER_TEXT_COLORS: Record<PrayerKey, PrayerColors> = {
 export function prayerTextColorFor(prayer: PrayerKey, scheme: ColorSchemeName): string {
   return scheme === 'dark' ? PRAYER_TEXT_COLORS[prayer].dark : PRAYER_TEXT_COLORS[prayer].light;
 }
-
-function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t;
-}
-
-/** Component-wise blend of two RGBA colours. */
-export function mix(a: RGBA, b: RGBA, t: number): RGBA {
-  return [
-    Math.round(lerp(a[0], b[0], t)),
-    Math.round(lerp(a[1], b[1], t)),
-    Math.round(lerp(a[2], b[2], t)),
-    lerp(a[3], b[3], t),
-  ];
-}
-
-export function rgbaString([r, g, b, a]: RGBA): string {
-  return `rgba(${r},${g},${b},${a.toFixed(3)})`;
-}

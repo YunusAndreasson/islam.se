@@ -12,19 +12,10 @@
 // soft-ask queue, and an unprefixed `shouldShowHint` there both hid which card was
 // being decided and collided with ./hints' differently-shaped `shouldShowHint(record,
 // policy)`.
-import { createHintStore } from './hints';
+import { createSoftAskStore } from './hints';
 
 const STORAGE_KEY = 'notificationHintSeen:v1';
-
-/** Launch at which the single retry becomes available, if the first showing went unanswered. */
-const RETRY_AFTER_LAUNCHES = 4;
-/** Hard cap on how many times the card may ever appear. */
-const MAX_SHOWINGS = 2;
-
-const store = createHintStore(STORAGE_KEY, {
-  retryAfterLaunches: RETRY_AFTER_LAUNCHES,
-  maxShowings: MAX_SHOWINGS,
-});
+const store = createSoftAskStore(STORAGE_KEY);
 
 export const loadNotificationHintRecord = store.loadRecord;
 export const noteNotificationLaunch = store.noteLaunch;

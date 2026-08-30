@@ -39,6 +39,12 @@ export interface HintPolicy {
   maxShowings: number;
 }
 
+/** Shared cadence for the app's location and notification soft asks. */
+const SOFT_ASK_POLICY: HintPolicy = {
+  retryAfterLaunches: 4,
+  maxShowings: 2,
+};
+
 const EMPTY_HINT_RECORD: HintRecord = { launches: 0, shown: 0, resolved: false };
 
 /**
@@ -135,4 +141,9 @@ export function createHintStore(storageKey: string, policy: HintPolicy): HintSto
       launchCounted = false;
     },
   };
+}
+
+/** Create one of the app's standard soft asks with its shared retry cadence. */
+export function createSoftAskStore(storageKey: string): HintStore {
+  return createHintStore(storageKey, SOFT_ASK_POLICY);
 }

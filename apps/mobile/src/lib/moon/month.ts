@@ -12,10 +12,8 @@ import { hijriMonthLength } from '@/lib/hijri';
 
 /** Hijri months, 1-based, for the month arithmetic below to read as prose. */
 const MUHARRAM = 1;
-const RAJAB = 7;
 const RAMADAN = 9;
 const SHAWWAL = 10;
-const DHU_AL_QADA = 11;
 const DHU_AL_HIJJA = 12;
 
 export type MarkKind =
@@ -41,11 +39,6 @@ export interface DayMark {
    *  marking ʿīd and the tashrīq days, and an app that showed them as ordinary white days
    *  would be inviting the reader into exactly the fast they may not keep. */
   fast: 'fard' | 'sunna' | 'forbidden' | null;
-}
-
-/** The four sacred months of Qur'an 9:36, in which the ring's rim is drawn a shade warmer. */
-export function isSacredMonth(month: number): boolean {
-  return month === MUHARRAM || month === RAJAB || month === DHU_AL_QADA || month === DHU_AL_HIJJA;
 }
 
 /**
