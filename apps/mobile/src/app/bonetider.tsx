@@ -335,23 +335,16 @@ export default function Bonetider() {
 
   // The map camera, mirrored from MapLibre's region events. BOTH overlays — the Skia
   // field canvas and the RN marker/pill layer — now read the `cam` shared value and
-  // project on the UI thread, so a live pan moves them without a React render. camState
-  // survives only as the seed/settled mirror that carries the rendered width/height (see
-  // onLayout) into `cam`; we update it on the SETTLED region event and mirror it into cam
-  // in an effect — the lint-approved way to write a shared value (mutating one inside a
-  // plain JS callback trips react-hooks/immutability).
+  // project on the UI thread, so a live pan moves them without a React render. React only
+  // owns the rendered viewport size; camera pose stays in `cam`, including after a settled
+  // region event. Keeping settled lon/lat/zoom in state used to re-render this entire screen
+  // even though no React component consumed those values.
   // Camera state is seeded with the window dims so the first paint isn't blank, and the
   // Map's onLayout below replaces width/height with the actual rendered viewport so the
   // Skia overlay's projection matches the basemap (on iOS the Stack screen content area
   // can be smaller than the window — see the onLayout for why this matters).
   const cam = useSharedValue<MapCamera>({ lon: 17.4, lat: 62.1, zoom: 4, width: screenW, height: screenH });
-  const [camState, setCamState] = useState<MapCamera>({
-    lon: 17.4,
-    lat: 62.1,
-    zoom: 4,
-    width: screenW,
-    height: screenH,
-  });
+  const [viewportSize, setViewportSize] = useState({ width: screenW, height: screenH });
   // Gate the overlay (Skia field + RN markers) until the FIRST settled region event
   // lands — projecting against the seed camera (lat=62.1, zoom=4) puts every city far
   // off where the basemap actually rendered after fitBounds. By waiting for the first
@@ -509,22 +502,21 @@ export default function Bonetider() {
   const publishSeq = useRef(0);
 
   const publishCamera = useCallback(
-    (next: MapCamera, syncReact = true) => {
-      // Keep the Skia overlay glued to MapLibre immediately. React state is still
-      // updated for the RN marker/label layer, but the GPU wash/lines no longer wait
-      // for a React render before receiving live camera coordinates.
+    (next: MapCamera) => {
+      // Both overlays project from this shared value, so publishing camera pose never
+      // needs a React state update.
       // eslint-disable-next-line react-hooks/immutability
       cam.value = next;
       publishSeq.current += 1;
-      if (syncReact) setCamState(next);
     },
     [cam],
   );
 
   useEffect(() => {
+    // Preserve the latest camera pose while updating only the dimensions React owns.
     // eslint-disable-next-line react-hooks/immutability
-    cam.value = camState;
-  }, [camState, cam]);
+    cam.value = { ...cam.value, width: viewportSize.width, height: viewportSize.height };
+  }, [viewportSize, cam]);
 
   // The displayed instant as a fraction of the Stockholm day, on the UI thread, so the
   // wash shader redraws as the day is scrubbed without a React render or basemap re-tile.
@@ -852,14 +844,18 @@ export default function Bonetider() {
       if (zoom > 1) {
         const [west, south, east, north] = bounds;
         const c = viewportCentreFromBounds(west, south, east, north);
-        // syncReact=false: the Skia overlay AND the marker layer now both read the `cam`
-        // shared value on the UI thread, so a live pan no longer needs a per-frame React
-        // setState. The whole screen stays still during the pan; only the GPU/worklet
-        // layers move. camState catches up on the settled onRegionDidChange below.
-        publishCamera({ lon: c.lon, lat: c.lat, zoom, width: camState.width, height: camState.height }, false);
+        // The Skia overlay AND the marker layer both read `cam` on the UI thread, so a
+        // live pan needs no per-frame React state. Settling does not need a second copy.
+        publishCamera({
+          lon: c.lon,
+          lat: c.lat,
+          zoom,
+          width: viewportSize.width,
+          height: viewportSize.height,
+        });
       }
     },
-    [publishCamera, camState.width, camState.height],
+    [publishCamera, viewportSize.width, viewportSize.height],
   );
 
   const onRegionDidChange = useCallback(
@@ -887,8 +883,8 @@ export default function Bonetider() {
           lon: vc.lon,
           lat: vc.lat,
           zoom,
-          width: camState.width,
-          height: camState.height,
+          width: viewportSize.width,
+          height: viewportSize.height,
         };
         publishCamera(next);
         if (!cameraReady) setCameraReady(true);
@@ -972,7 +968,7 @@ export default function Bonetider() {
         Math.abs(vc.lon - init.lon) > 0.5;
       if (drifted !== moved) setMoved(drifted);
     },
-    [publishCamera, camState.width, camState.height, cameraReady, moved, flushClock, offline],
+    [publishCamera, viewportSize.width, viewportSize.height, cameraReady, moved, flushClock, offline],
   );
 
   return (
@@ -986,7 +982,7 @@ export default function Bonetider() {
       onLayout={(e) => {
         const { width, height } = e.nativeEvent.layout;
         if (width <= 0 || height <= 0) return;
-        setCamState((prev) =>
+        setViewportSize((prev) =>
           prev.width === width && prev.height === height ? prev : { ...prev, width, height },
         );
       }}
