@@ -15,9 +15,13 @@
 //   3. The finger moves through DISCRETE → hapticSelection (scrubber crossing a prayer,
 //      VALUES                              scrub-to-prayer, reset-to-now, OptionGroup change,
 //                                          picking a city, stepping the introduction)
-//   4. A custom CONTROL SNAPS under      → hapticLight    (dock open/close, scrubber
-//      direct manipulation                 grab/release, Stepper step, a command button
-//                                           whose result lands synchronously on the tap)
+//   4. A custom CONTROL SNAPS under      → hapticLight    (Stepper step, a command button
+//      direct manipulation                 whose result lands synchronously on the tap)
+//      …and two named cases of the same class, which exist only because Android has a
+//      constant that says precisely what they are:
+//                                          → hapticToggle  (the dock opening / closing)
+//                                          → hapticGrab /
+//                                            hapticRelease (the scrubber thumb, both ends)
 // Explicitly NO haptic for: navigation & dismissal (opening / closing / back on any screen
 // or modal — the visual transition is the feedback), expanding/collapsing disclosure or FAQ
 // accordions (a content reveal, treated like navigation), and native controls that carry
@@ -40,12 +44,18 @@
 // docs flag as "not recommended". So on Android we use `performAndroidHapticsAsync`, which
 // drives the OS's device-tuned semantic haptic engine (View.performHapticFeedback) and needs
 // no VIBRATE permission — the Android analogue of iOS's crisp taptics.
-//   selection → Clock_Tick,  light → Virtual_Key   (both universal: API 21 / API 5)
-//   success   → Confirm,     warning → Reject       (API 30+; below 30 those constants don't
-//                                                     exist, so we fall back to the Vibrator
-//                                                     notification so Android 7–10 still buzzes)
-// Clock_Tick/Virtual_Key are chosen over the semantically-closer but API-34-only Segment_Tick/
-// Toggle_* precisely so every supported device (minSdk 24) keeps its feedback.
+//   selection → Clock_Tick,  light  → Virtual_Key       (universal: API 21 / API 5)
+//   toggle    → Toggle_On/Off (API 34)   ┐ the semantically exact constants, each with a
+//   grab/rel  → Gesture_Start/End (API 30) ┘ FLOOR: below it they fall back to Virtual_Key
+//   success   → Confirm,     warning → Reject          (API 30+; below 30 those constants
+//                                                       don't exist, so we fall back to the
+//                                                       Vibrator notification so Android
+//                                                       7–10 still buzzes)
+// The floors are not defensive padding — they are required. expo-haptics resolves these
+// constants by REFLECTION and throws HapticsNotSupportedException for one the device lacks
+// (its own always-available set is Clock_Tick / Context_Click / Keyboard_Tap / Long_Press /
+// Virtual_Key — see HapticsRecord.kt in the package), and minSdk here is 24. An unguarded
+// Toggle_On on Android 11 is silence, not a graceful downgrade.
 //
 // Every helper is gated by the user's "Haptik" setting via the module-level `enabled`
 // flag below — see setHapticsEnabled.
@@ -81,6 +91,16 @@ function androidSemantic(
   }
 }
 
+// A semantic constant with a floor: below the API level that introduced it, fall back to
+// Virtual_Key, which every supported device has. See PLATFORM MAPPING above for why the floor
+// is mandatory. Distinct from androidSemantic() above, whose success/warning cases have no
+// universal haptic constant to land on and so fall back to the Vibrator instead.
+function androidSemanticOrKey(type: Haptics.AndroidHaptics, since: number): void {
+  const constant =
+    (Platform.Version as number) >= since ? type : Haptics.AndroidHaptics.Virtual_Key;
+  Haptics.performAndroidHapticsAsync(constant).catch(() => {});
+}
+
 /** A selection tick — the lightest feedback. Use for crossing a landmark
     (scrubber passing a prayer) or confirming a small state change. */
 export function hapticSelection(): void {
@@ -92,12 +112,48 @@ export function hapticSelection(): void {
   }
 }
 
-/** A light impact — use for a discrete snap (dock opening/closing, landing a
-    tap-to-scrub). Heavier than a selection tick but still subtle. */
+/** A light impact — use for a discrete snap that has no truer name below (landing a
+    tap-to-scrub, a Stepper step). Heavier than a selection tick but still subtle. */
 export function hapticLight(): void {
   if (!enabled) return;
   if (Platform.OS === 'android') {
     Haptics.performAndroidHapticsAsync(Haptics.AndroidHaptics.Virtual_Key).catch(() => {});
+  } else {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+  }
+}
+
+/** A toggle landing in its new position — the dock opening or closing, by drag or by tap.
+    Class 4 like hapticLight, split out only because Android has a constant that means exactly
+    this where Virtual_Key (a key press) does not. iOS has no toggle-specific generator, so
+    there this is the same light impact hapticLight gives. */
+export function hapticToggle(on: boolean): void {
+  if (!enabled) return;
+  if (Platform.OS === 'android') {
+    androidSemanticOrKey(
+      on ? Haptics.AndroidHaptics.Toggle_On : Haptics.AndroidHaptics.Toggle_Off,
+      34,
+    );
+  } else {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+  }
+}
+
+/** Taking hold of a control under direct manipulation — the scrubber thumb. Class 4. */
+export function hapticGrab(): void {
+  if (!enabled) return;
+  if (Platform.OS === 'android') {
+    androidSemanticOrKey(Haptics.AndroidHaptics.Gesture_Start, 30);
+  } else {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+  }
+}
+
+/** Letting go of it again — the other end of the same drag. Class 4. */
+export function hapticRelease(): void {
+  if (!enabled) return;
+  if (Platform.OS === 'android') {
+    androidSemanticOrKey(Haptics.AndroidHaptics.Gesture_End, 30);
   } else {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
   }

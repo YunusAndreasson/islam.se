@@ -48,6 +48,7 @@ import Animated, {
   Extrapolation,
   interpolate,
   type SharedValue,
+  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -57,7 +58,13 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { hapticLight, hapticSelection } from '@/lib/haptics';
+import {
+  hapticGrab,
+  hapticLight,
+  hapticRelease,
+  hapticSelection,
+  hapticToggle,
+} from '@/lib/haptics';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
 import {
   computeNightTimes,
@@ -109,6 +116,56 @@ const RULER_H = 13;
 // The app's one canonical snap spring (tokens.motion.spring), aliased locally so the
 // worklet call sites stay terse.
 const SPRING = motion.spring;
+
+// How far a finger must travel before a toggle gesture counts as a DRAG rather than a press
+// that wobbled. gesture-handler hands the pan priority over the tap the moment a touch clears
+// its own activation slop (~10 dp), and the pan then decided the outcome by height — which for
+// a barely-moved card reads "below MID, so closed", so it sprang the card back to exactly where
+// it already sat, changed no state and fired no haptic. A dead press, and the reason a
+// slightly-imprecise tap on the handle did nothing at all.
+//
+// The value is picked from what is at stake either side of it, not from feel. Guess too high
+// and a small deliberate drag toggles instead of snapping back — trivially undone. Guess too
+// low and the press is dead — indistinguishable, to the user, from a broken control. So it sits
+// well clear of the platform's own tap threshold (8 dp on Android, ~10 pt on iOS) while staying
+// an eighth of the ~200 dp the card actually travels: past this the finger has expressed a
+// direction, below it the card has moved a distance nobody can see.
+const TOGGLE_DRAG_SLOP = 24;
+/** Past this, a release is a fling and its DIRECTION decides — below it, the card's position does. */
+const FLING_VELOCITY = 350;
+
+/**
+ * Where a finished toggle gesture leaves the card: `true` to open, `false` to close.
+ *
+ * Pure, and exported so the rule can be exercised directly — each branch below is a distinct
+ * way the dock has misread a gesture, and none of them is visible from reading the caller.
+ */
+export function resolveToggle(g: {
+  /**
+   * Peak |finger travel| during the gesture, in points.
+   *
+   * NOT the card's travel: the card is clamped at both ends, so pushing DOWN on an
+   * already-closed dock moves it zero points, and a card-travel reading would call that a tap
+   * and open the very thing being pushed shut. NOT the final translation either: a drag that
+   * goes up and comes back to the origin ends at zero, and the user who changed their mind
+   * would have had it open on them.
+   */
+  travelled: number;
+  /** The card's height when the finger landed. */
+  startHeight: number;
+  /** Its height at release. */
+  height: number;
+  velocityY: number;
+  mid: number;
+}): boolean {
+  'worklet';
+  // A press that merely drifted is still a press — resolve it the way `tap` does, from where
+  // the gesture began rather than from a height that never meaningfully changed.
+  if (g.travelled <= TOGGLE_DRAG_SLOP) return g.startHeight < g.mid;
+  if (g.velocityY < -FLING_VELOCITY) return true;
+  if (g.velocityY > FLING_VELOCITY) return false;
+  return g.height > g.mid;
+}
 
 // Dock heights (excluding the bottom safe-area inset, which the screen adds). The
 // map reads these so it can frame Sweden *above* the dock in both states.
@@ -254,21 +311,54 @@ export function PrayerDock({
   // The night group is opt-in, so the open card grows only for the readers who asked for
   // it. Everyone else sees the dock they had.
   const showNight = settings.showNightTimes;
+
+  const [expanded, setExpanded] = useState(false);
+  // Whether the schedule subtree is in the tree AT ALL — deliberately not `expanded`. The
+  // rows reveal off `height` on the UI thread (see ScheduleRow), which can only track a
+  // half-open drag if they already exist while the finger is moving. Keyed to `expanded`
+  // they did not: the card grew an EMPTY box under the thumb and the whole list popped in at
+  // release, so the dock never finished opening until you let go of it. Driven by the
+  // reaction further down, off the card's own height.
+  const [mounted, setMounted] = useState(false);
+  // Which hero layer is mounted. Split from `expanded` for the same reason: the headline used
+  // to swap at release — the last thing a drag did, after the card had stopped moving. It now
+  // crosses under the finger, like the rows above it.
+  const [heroOpen, setHeroOpen] = useState(false);
+  // The gate the schedule actually renders behind. `expanded` alone is too LATE — it only
+  // flips at release, which is the whole bug this pair exists to fix — and `mounted` alone is
+  // too narrow, since it comes off a reaction that only speaks while the height is moving.
+  // Either one opens the window: the reaction opens it early, under the finger, and holds it
+  // through the closing spring; `expanded` guarantees it for every path that never animates
+  // at all (assistive-tech activation of the handle, and the test renderer).
+  const showSchedule = expanded || mounted;
+
   // What the schedule block actually measures, once it has laid out. Rounded up to whole
   // points: onLayout reports fractional heights, and letting that jitter through would
   // re-render (and re-spring) the card for a third of a pixel.
   const [scheduleHeight, setScheduleHeight] = useState<number | null>(null);
-  const onScheduleLayout = useCallback((e: LayoutChangeEvent) => {
-    const h = Math.ceil(e.nativeEvent.layout.height);
-    setScheduleHeight((prev) => (prev === h ? prev : h));
-  }, []);
+  const onScheduleLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      // ONLY a layout with the rows actually in it describes the open card. Before the first
+      // open this block holds nothing but the date crown, and letting THAT through set
+      // EXPANDED to a height with no schedule inside it: the card opened to a sliver, sat
+      // there under the thumb, and jumped to its real height only once release mounted the
+      // rows. That two-stage open is most of why the dock read as waiting for the finger to
+      // come off it. Gated on the same `showSchedule` the rows render behind, so the callback
+      // that receives a layout is always the one that was current for the render producing it.
+      if (!showSchedule) return;
+      const h = Math.ceil(e.nativeEvent.layout.height);
+      setScheduleHeight((prev) => (prev === h ? prev : h));
+    },
+    [showSchedule],
+  );
   const EXPANDED =
     COLLAPSED + (scheduleHeight ?? SCHEDULE_FALLBACK + (showNight ? NIGHT_GROUP_FALLBACK : 0));
   const MID = (COLLAPSED + EXPANDED) / 2;
 
   const height = useSharedValue(COLLAPSED);
   const startHeight = useSharedValue(COLLAPSED);
-  const [expanded, setExpanded] = useState(false);
+  // Peak finger travel within one toggle gesture — see TOGGLE_DRAG_SLOP.
+  const farthest = useSharedValue(0);
   // The calendar sheet. Local to the dock: it writes through clock.goToDay and holds no
   // state of its own beyond which month is being browsed.
   const [pickingDay, setPickingDay] = useState(false);
@@ -279,15 +369,49 @@ export function PrayerDock({
   // so every interpolate() below clamps. (Reanimated's canonical bottom-sheet pattern.)
   const progress = useDerivedValue(() => (height.value - COLLAPSED) / (EXPANDED - COLLAPSED));
 
+  // Both flags above follow the card's own height rather than any gesture callback, because
+  // the height is the one thing a drag, a tap, a fling and the launch reveal all agree on —
+  // and because a gesture that arms a flag has no matching event to disarm it (a tap cancels
+  // the pan that would have; a spring outlives the release that started it). The mirrors are
+  // shared values so the worklet never reads React state.
+  const mountedSV = useSharedValue(false);
+  const heroOpenSV = useSharedValue(false);
+  useAnimatedReaction(
+    () => progress.value,
+    (p) => {
+      // In the tree as soon as the card is off its seat (~1px of the travel), out again once
+      // it has settled back onto it — so rows are never torn out from under a moving edge.
+      const wantMounted = p > 0.004;
+      if (wantMounted !== mountedSV.value) {
+        mountedSV.value = wantMounted;
+        scheduleOnRN(setMounted, wantMounted);
+      }
+      // The headline swaps at the CROSSING, with a dead band either side so a thumb parked on
+      // the midpoint doesn't flicker the two layers against each other.
+      const wantHero = p > 0.55 ? true : p < 0.45 ? false : heroOpenSV.value;
+      if (wantHero !== heroOpenSV.value) {
+        heroOpenSV.value = wantHero;
+        scheduleOnRN(setHeroOpen, wantHero);
+      }
+    },
+  );
+
   // State change on the JS thread (from gesture worklets via scheduleOnRN): flip the flag,
   // tap a light haptic on a real open/close, and notify the host if it cares.
   const applyExpanded = useCallback(
     (open: boolean) => {
-      if (open !== expanded) hapticLight();
-      // The spring is already running on the UI thread. Treat mounting/unmounting the
-      // schedule as non-urgent so React can yield instead of making that animation wait
-      // behind the row subtree's first render.
-      startTransition(() => setExpanded(open));
+      if (open !== expanded) hapticToggle(open);
+      // The spring is already running on the UI thread. Treat the settled flags as
+      // non-urgent so React can yield instead of making that animation wait behind them.
+      // `setHeroOpen` here is the SETTLED truth about which hero layer belongs on screen;
+      // the reaction above only moves the swap earlier, to the crossing under the finger,
+      // so on a real drag this agrees with it and React bails. It is what keeps the two
+      // honest on every path that never animates — assistive-tech activation of the
+      // handle, and the test renderer.
+      startTransition(() => {
+        setExpanded(open);
+        setHeroOpen(open);
+      });
       onExpandedChange?.(open, EXPANDED);
     },
     [expanded, onExpandedChange, EXPANDED],
@@ -296,22 +420,34 @@ export function PrayerDock({
   // A drag that grows/shrinks the dock and snaps open/closed on release. Built by a
   // factory so the handle and the hero each get their OWN instance (gesture-handler
   // doesn't support sharing one gesture object across two GestureDetectors).
-  // NOT memoised on purpose: the worklets mutate shared values (height/startHeight),
-  // which react-hooks/immutability forbids inside useMemo/useCallback. Enabling React
-  // Compiler is the right way to memoise these (it understands worklet mutation);
-  // hand-memoising here would mean nine eslint-disables. Rebuild cost is three plain
-  // objects per render.
+  // NOT hand-memoised on purpose: the worklets mutate shared values (height / startHeight /
+  // farthest), which react-hooks/immutability forbids inside useMemo/useCallback — wrapping
+  // them would take nine eslint-disables. The React Compiler IS enabled for this app
+  // (app.json → experiments.reactCompiler); whether it chooses to memoise a factory that
+  // mutates shared values is its call and not a claim worth making here. Either way the cost
+  // of getting it wrong is three plain objects per render.
   const makeTogglePan = () =>
     Gesture.Pan()
       .onStart(() => {
         startHeight.value = height.value;
+        farthest.value = 0;
       })
       .onUpdate((e) => {
         const nextHeight = startHeight.value - e.translationY;
         height.value = Math.min(EXPANDED, Math.max(COLLAPSED, nextHeight));
+        // The FARTHEST the finger ever got, not where it ended: a gesture that goes up and
+        // comes back to the origin was a drag the user changed their mind about, and reading
+        // only the final translation would call it a tap and toggle the card open.
+        farthest.value = Math.max(farthest.value, Math.abs(e.translationY));
       })
       .onEnd((e) => {
-        const open = e.velocityY < -350 ? true : e.velocityY > 350 ? false : height.value > MID;
+        const open = resolveToggle({
+          travelled: farthest.value,
+          startHeight: startHeight.value,
+          height: height.value,
+          velocityY: e.velocityY,
+          mid: MID,
+        });
         height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
         scheduleOnRN(applyExpanded, open);
       });
@@ -342,7 +478,10 @@ export function PrayerDock({
   });
   const onReveal = useEffectEvent((open: boolean) => {
     springTo(open);
-    startTransition(() => setExpanded(open));
+    startTransition(() => {
+      setExpanded(open);
+      setHeroOpen(open);
+    });
   });
   useEffect(() => {
     // Skip the mount pass: `revealSchedule` starts false and the dock is already collapsed,
@@ -400,7 +539,7 @@ export function PrayerDock({
   useEffect(() => {
     heroFade.value = 0;
     heroFade.value = withTiming(1, { duration: motion.fast });
-  }, [expanded, heroFade]);
+  }, [heroOpen, heroFade]);
   const heroLayerStyle = useAnimatedStyle(() => ({
     opacity: heroFade.value,
     transform: [{ translateY: interpolate(heroFade.value, [0, 1], [6, 0]) }],
@@ -674,7 +813,7 @@ export function PrayerDock({
                         dockHeight={height}
                         collapsed={COLLAPSED}
                         expanded={EXPANDED}
-                        visible={expanded}
+                        mounted={showSchedule}
                       />
                     ) : null}
                     <ScheduleRow
@@ -688,6 +827,7 @@ export function PrayerDock({
                       icon={PRAYER_ICONS[key]}
                       iconColor={prayerColorFor(key, scheme)}
                       time={time}
+                      mounted={showSchedule}
                       visible={expanded}
                       isNext={next?.key === key && !next.nextDay}
                       // The brass row is the answer to "which prayer is next" for a sighted
@@ -723,6 +863,7 @@ export function PrayerDock({
                   dockHeight={height}
                   collapsed={COLLAPSED}
                   expanded={EXPANDED}
+                  mounted={showSchedule}
                   visible={expanded}
                   scheme={scheme}
                 />
@@ -743,7 +884,7 @@ export function PrayerDock({
                   layer may exist for assistive tech at a time — without the a11y
                   hiding, a screen reader announced the place + countdown twice (once
                   per layer), since visual opacity doesn't prune the a11y tree. */}
-              {!expanded ? <Animated.View
+              {!heroOpen ? <Animated.View
                 style={[styles.heroLayer, heroLayerStyle]}
                 pointerEvents="auto"
               >
@@ -796,7 +937,7 @@ export function PrayerDock({
                   collapsed layer (place left, brass countdown right) so the dock's
                   brightest element never jumps corners mid-crossfade — the countdown
                   holds the right edge in both states. */}
-              {expanded ? <Animated.View
+              {heroOpen ? <Animated.View
                 style={[styles.heroLayer, heroLayerStyle]}
                 pointerEvents="auto"
               >
@@ -889,6 +1030,7 @@ const ScheduleRow = memo(function ScheduleRow({
   iconColor,
   time,
   muted,
+  mounted,
   visible,
   isNext,
   at,
@@ -907,6 +1049,10 @@ const ScheduleRow = memo(function ScheduleRow({
   time: string;
   /** Render the label in the muted ink tier: this row is not an obligation. */
   muted?: boolean;
+  /** In the tree at all — true from the first pixel of a drag, so `reveal` above has
+   *  something to uncover. See `mounted` in PrayerDock. */
+  mounted: boolean;
+  /** Open: drives touch and assistive tech only, never the mount. */
   visible: boolean;
   isNext?: boolean;
   /** Omitted = the row is not pressable. The night landmarks pass nothing (see NightGroup). */
@@ -946,18 +1092,20 @@ const ScheduleRow = memo(function ScheduleRow({
   );
 
   return (
-    // Mounted only while the dock is open. accessibilityElementsHidden +
-    // no-hide-descendants is NOT enough on Android: measured on API 35, the collapsed dock
-    // still exposed "Maghrib 21:01" and "ʿIshāʾ 22:02" as buttons behind the closed card,
-    // so a screen reader read out a schedule that isn't on screen. Unmounting is the only
-    // thing that actually prunes them. The a11y props stay as the belt to that braces.
+    // Mounted while the card is off its collapsed height — which INCLUDES a drag still under
+    // the thumb, so the reveal above uncovers rows instead of an empty box.
+    // accessibilityElementsHidden + no-hide-descendants is NOT enough on Android: measured on
+    // API 35, the collapsed dock still exposed "Maghrib 21:01" and "ʿIshāʾ 22:02" as buttons
+    // behind the closed card, so a screen reader read out a schedule that isn't on screen.
+    // Unmounting is the only thing that actually prunes them, and `mounted` goes back to false
+    // the moment the closing spring lands. The a11y props stay as the belt to that braces.
     <Animated.View
       style={reveal}
       pointerEvents={visible ? 'auto' : 'none'}
       accessibilityElementsHidden={!visible}
       importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
     >
-      {visible ? (
+      {mounted ? (
         at !== undefined && onSelect ? (
           <Pressable
             onPress={() => onSelect(at)}
@@ -1022,7 +1170,7 @@ function DayBreak({
   dockHeight,
   collapsed,
   expanded,
-  visible,
+  mounted,
 }: {
   styles: DockStyles;
   index: number;
@@ -1030,7 +1178,7 @@ function DayBreak({
   dockHeight: SharedValue<number>;
   collapsed: number;
   expanded: number;
-  visible: boolean;
+  mounted: boolean;
 }) {
   // Rides the window of the row it introduces, so the rule uncovers with it rather than
   // hanging in the air above it — the same trick NightGroup uses for its caption.
@@ -1046,7 +1194,7 @@ function DayBreak({
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
     >
-      {visible ? <Text style={styles.dayBreakCaption}>Efter midnatt</Text> : null}
+      {mounted ? <Text style={styles.dayBreakCaption}>Efter midnatt</Text> : null}
     </Animated.View>
   );
 }
@@ -1086,6 +1234,7 @@ function NightGroup({
   dockHeight,
   collapsed,
   expanded,
+  mounted,
   visible,
   scheme,
 }: {
@@ -1096,6 +1245,7 @@ function NightGroup({
   dockHeight: SharedValue<number>;
   collapsed: number;
   expanded: number;
+  mounted: boolean;
   visible: boolean;
   scheme: ColorSchemeName;
 }) {
@@ -1119,7 +1269,7 @@ function NightGroup({
         accessibilityElementsHidden={!visible}
         importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
       >
-        {visible ? (
+        {mounted ? (
           <Text style={styles.nightCaption} accessibilityRole="header">
             Natten
           </Text>
@@ -1142,6 +1292,7 @@ function NightGroup({
             iconColor={nightColorFor(key, scheme)}
             time={at === null ? '–' : time}
             muted
+            mounted={mounted}
             visible={visible}
             accessibilityLabel={
               at === null
@@ -1257,14 +1408,14 @@ function SolarTimeline({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- follow is a stable shared-value ref
   }, [fraction]);
 
-  // NOT memoised: the worklets mutate shared values (prog/dragging/lastHaptic/lastSent),
-  // which react-hooks/immutability forbids inside useMemo. (React Compiler, once enabled,
-  // is the right way to skip the per-render rebuild here.)
+  // NOT hand-memoised: the worklets mutate shared values (prog/dragging/lastHaptic/lastSent),
+  // which react-hooks/immutability forbids inside useMemo. The React Compiler is enabled
+  // (app.json → experiments.reactCompiler); the per-render rebuild is one gesture object.
   const pan = Gesture.Pan()
     .minDistance(0)
     .onBegin((e) => {
       dragging.value = true;
-      scheduleOnRN(hapticLight);
+      scheduleOnRN(hapticGrab);
       if (trackW <= 0) return;
       const f = Math.max(0, Math.min(1, e.x / trackW));
       prog.value = f;
@@ -1294,7 +1445,7 @@ function SolarTimeline({
     })
     .onFinalize(() => {
       dragging.value = false;
-      scheduleOnRN(hapticLight);
+      scheduleOnRN(hapticRelease);
       scheduleOnRN(onScrub, prog.value);
     });
 

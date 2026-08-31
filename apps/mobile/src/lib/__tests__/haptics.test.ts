@@ -5,9 +5,12 @@ import { Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
 import {
+  hapticGrab,
   hapticLight,
+  hapticRelease,
   hapticSelection,
   hapticSuccess,
+  hapticToggle,
   hapticWarning,
   setHapticsEnabled,
 } from '@/lib/haptics';
@@ -156,6 +159,65 @@ describe('haptics on old Android fall back to the Vibrator for success/warning (
   });
 });
 
+// The three named class-4 helpers exist ONLY to reach an Android constant that says what the
+// moment actually is; on iOS they are deliberately indistinguishable from hapticLight. Both
+// halves are worth pinning: the Android half because a wrong constant is inaudible in review
+// (it still buzzes, just as the wrong thing), and the iOS half because "the same as
+// hapticLight" is a claim the next session could quietly break by reaching for Rigid or Soft.
+describe('the named class-4 helpers', () => {
+  it('reach the exact Android constant on a device that has it', () => {
+    setPlatform('android');
+    setAndroidVersion(34); // Android 14 — Toggle_* exist here and nowhere earlier
+    hapticToggle(true);
+    hapticToggle(false);
+    hapticGrab();
+    hapticRelease();
+    const P = Haptics.performAndroidHapticsAsync;
+    expect(P).toHaveBeenNthCalledWith(1, Haptics.AndroidHaptics.Toggle_On);
+    expect(P).toHaveBeenNthCalledWith(2, Haptics.AndroidHaptics.Toggle_Off);
+    expect(P).toHaveBeenNthCalledWith(3, Haptics.AndroidHaptics.Gesture_Start);
+    expect(P).toHaveBeenNthCalledWith(4, Haptics.AndroidHaptics.Gesture_End);
+  });
+
+  it('falls back to Virtual_Key rather than throwing on a device that lacks it', () => {
+    // Android 11: Gesture_* landed at API 30 and DO exist; Toggle_* are API 34 and do not.
+    // expo-haptics resolves by reflection and throws for a missing constant, so sending one
+    // here would be silence — the fallback is what keeps an old phone buzzing at all.
+    setPlatform('android');
+    setAndroidVersion(30);
+    hapticToggle(true);
+    hapticGrab();
+    const P = Haptics.performAndroidHapticsAsync;
+    expect(P).toHaveBeenNthCalledWith(1, Haptics.AndroidHaptics.Virtual_Key);
+    expect(P).toHaveBeenNthCalledWith(2, Haptics.AndroidHaptics.Gesture_Start);
+    // The constant this device does not have must never be sent: expo-haptics would throw,
+    // and the swallowed rejection would leave the toggle silent instead of merely plainer.
+    expect(P).not.toHaveBeenCalledWith(Haptics.AndroidHaptics.Toggle_On);
+  });
+
+  it('is the same light impact as hapticLight on iOS, which has no such constants', () => {
+    setPlatform('ios');
+    hapticToggle(true);
+    hapticGrab();
+    hapticRelease();
+    expect(Haptics.impactAsync).toHaveBeenCalledTimes(3);
+    expect(Haptics.impactAsync).toHaveBeenNthCalledWith(1, Haptics.ImpactFeedbackStyle.Light);
+    expect(Haptics.impactAsync).toHaveBeenNthCalledWith(2, Haptics.ImpactFeedbackStyle.Light);
+    expect(Haptics.impactAsync).toHaveBeenNthCalledWith(3, Haptics.ImpactFeedbackStyle.Light);
+    expect(Haptics.performAndroidHapticsAsync).not.toHaveBeenCalled();
+  });
+
+  it('is silenced by the user preference like every other helper', () => {
+    setPlatform('android');
+    setAndroidVersion(34);
+    setHapticsEnabled(false);
+    hapticToggle(true);
+    hapticGrab();
+    hapticRelease();
+    expect(Haptics.performAndroidHapticsAsync).not.toHaveBeenCalled();
+  });
+});
+
 // --- Policy guard: surfaces the 2026-06 consistency pass deliberately made haptic-free.
 // GlassRoundButton is the shared disc behind ALL navigation chrome (open Qibla / Settings,
 // modal ✕ / back ←), and the two accordions are content reveals. Re-introducing a haptic
@@ -168,7 +230,7 @@ describe('haptics on old Android fall back to the Vibrator for success/warning (
 // those files don't trip it.
 const SRC = path.join(__dirname, '../..'); // resolves to <app>/src
 const IMPORTS_HAPTICS = /import\s[^;]*from\s+['"][^'"]*\/haptics['"]/;
-const CALLS_HELPER = /haptic(?:Selection|Light|Success|Warning)\s*\(/;
+const CALLS_HELPER = /haptic(?:Selection|Light|Success|Warning|Toggle|Grab|Release)\s*\(/;
 const SILENCED = [
   'components/nav/GlassRoundButton.tsx',
   'components/settings/DisclosureGroup.tsx',

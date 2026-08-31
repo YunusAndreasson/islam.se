@@ -13,10 +13,14 @@ import { computePrayerTimes, PRAYER_LABELS, PRAYER_ORDER } from '@/lib/prayer-ti
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
-import { DOCK_COLLAPSED_BASE, type DayMark, PrayerDock } from './PrayerDock';
-import { first } from '@/test-utils/at';
+import { DOCK_COLLAPSED_BASE, type DayMark, PrayerDock, resolveToggle } from './PrayerDock';
+import { first, last } from '@/test-utils/at';
 
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
+// What PrayerDock assumes a schedule block is worth before it has measured a real one (its
+// SCHEDULE_FALLBACK, night group off). Duplicated rather than exported: the constant is an
+// internal guess, and a test that imported it would agree with the component by construction.
+const SCHEDULE_FALLBACK_HEIGHT = 260;
 const NOW = Date.UTC(2026, 7, 1, 12, 0, 0);
 
 function dockProps(revealSchedule: boolean, clockOverrides: Partial<SolarClock> = {}) {
@@ -442,11 +446,64 @@ describe('PrayerDock midnight crossing', () => {
   });
 });
 
+// How a finished drag on the handle is read. Driving a real gesture through the test renderer
+// would exercise gesture-handler's arbitration rather than this rule, so the rule is pure and
+// tested directly. `mid` is the halfway height; `startHeight`/`height` are card heights.
+describe('resolveToggle — what a finished toggle gesture means', () => {
+  const CLOSED = 100;
+  const OPEN = 400;
+  const MID = 250;
+  const at = (o: Partial<Parameters<typeof resolveToggle>[0]>) =>
+    resolveToggle({ travelled: 0, startHeight: CLOSED, height: CLOSED, velocityY: 0, mid: MID, ...o });
+
+  // THE BUG THIS PINS: gesture-handler gives the pan priority over the tap as soon as a touch
+  // clears its activation slop, so a press whose thumb wobbled a few points arrived here as a
+  // drag. Read by height, a card still sitting at its collapsed height is "below MID, so
+  // closed" — and the dock sprang back to exactly where it already was, with no state change
+  // and no haptic. To the user, pressing the handle simply did nothing, at random.
+  it('treats a press that merely drifted as a tap, and toggles', () => {
+    // 20 pt: past gesture-handler's ~10 dp activation slop, so this really does arrive as a
+    // pan — which is the whole trap — but nowhere near a deliberate pull.
+    expect(at({ travelled: 20, startHeight: CLOSED, height: CLOSED + 20 })).toBe(true);
+    expect(at({ travelled: 20, startHeight: OPEN, height: OPEN - 20 })).toBe(false);
+  });
+
+  // The other side of the same threshold: a pull the user thought better of still snaps back,
+  // rather than the fix turning every abandoned drag into a toggle.
+  it('still snaps back a small drag the user abandoned', () => {
+    expect(at({ travelled: 60, startHeight: CLOSED, height: CLOSED + 60 })).toBe(false);
+  });
+
+  // The card is clamped at both ends, so pushing DOWN on an already-closed dock moves it zero
+  // points. Measuring the CARD rather than the finger would score that as a no-travel press and
+  // open the very thing being pushed shut.
+  it('does not open a closed dock that was pushed further shut', () => {
+    expect(at({ travelled: 90, startHeight: CLOSED, height: CLOSED, velocityY: 600 })).toBe(false);
+  });
+
+  // Likewise a drag that went up and came back: its FINAL translation is zero, so reading that
+  // instead of the peak would open a card the user had just decided against.
+  it('does not open a drag the user took back to where it started', () => {
+    expect(at({ travelled: 120, startHeight: CLOSED, height: CLOSED })).toBe(false);
+  });
+
+  // Past the slop it is a real drag, and the ordinary rules apply.
+  it('lets a real drag be decided by fling direction, then by position', () => {
+    // A fling wins over position: released low, but thrown upward.
+    expect(at({ travelled: 60, height: CLOSED + 40, velocityY: -900 })).toBe(true);
+    // Thrown downward from high up.
+    expect(at({ travelled: 200, height: OPEN - 20, velocityY: 900 })).toBe(false);
+    // Slow releases go to the nearer end.
+    expect(at({ travelled: 200, height: MID + 1 })).toBe(true);
+    expect(at({ travelled: 200, height: MID - 1 })).toBe(false);
+  });
+});
+
 describe('PrayerDock open height follows the schedule it measured', () => {
   function measure(height: number) {
-    // includeHiddenElements: while the dock is closed the block is hidden from assistive
-    // tech (that is the point — nothing behind the card should be announced), but it is
-    // still laid out, which is exactly how it can be measured before the first open.
+    // includeHiddenElements: the block is hidden from assistive tech while the dock is shut
+    // (that is the point — nothing behind the card should be announced), but it is still in
+    // the tree and still laid out.
     fireEvent(screen.getByTestId('dock-schedule', { includeHiddenElements: true }), 'layout', {
       nativeEvent: { layout: { x: 0, y: 0, width: 320, height } },
     });
@@ -457,8 +514,8 @@ describe('PrayerDock open height follows the schedule it measured', () => {
     const { rerender } = render(
       <PrayerDock {...dockProps(false)} onExpandedChange={onExpandedChange} />,
     );
-    measure(260);
     rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+    measure(260);
 
     expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 260);
   });
@@ -468,13 +525,36 @@ describe('PrayerDock open height follows the schedule it measured', () => {
     const { rerender } = render(
       <PrayerDock {...dockProps(false)} onExpandedChange={onExpandedChange} />,
     );
+    rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
     // What the same block measures at the OS's largest text size — every row taller, the
     // crown two bigger lines. The old constant would have left ~150 dp of it above the
     // card's top edge.
     measure(430);
-    rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
 
     expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 430);
+  });
+
+  // THE BUG THIS PINS: the block is laid out while the dock is shut too, but the rows are
+  // NOT in it then — they are unmounted so a screen reader cannot read a schedule that is
+  // behind a closed card. Taking that measurement as the open height set EXPANDED to a
+  // number with no schedule inside it, and the dock then opened in two stages: a drag could
+  // only pull the card up to the sliver that height described, it sat there under the thumb
+  // however much further you pulled, and it reached its real height only after release —
+  // when mounting the rows re-laid the block out and the re-report sprang the card the rest
+  // of the way. That is what "the dock doesn't open until I let go" was.
+  it('ignores a layout taken while the rows are not in the block', () => {
+    const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
+    const { rerender } = render(
+      <PrayerDock {...dockProps(false)} onExpandedChange={onExpandedChange} />,
+    );
+    // A closed-dock layout: 74 dp is about what the date crown alone occupies.
+    measure(74);
+    rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+
+    const [open, reported] = last(onExpandedChange.mock.calls, 'onExpandedChange calls');
+    expect(open).toBe(true);
+    // Opened to the fallback, NOT to a card the height of its own date crown.
+    expect(reported).toBe(DOCK_COLLAPSED_BASE + SCHEDULE_FALLBACK_HEIGHT);
   });
 
   it('re-reports the height when the block changes size while open', () => {
