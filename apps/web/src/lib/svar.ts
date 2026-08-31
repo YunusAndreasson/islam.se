@@ -4,6 +4,45 @@ import { foldedWords } from "./search-text";
 
 type SvarEntry = CollectionEntry<"svar">;
 
+export interface SvarSeoMetadata {
+	title: string;
+	description: string;
+}
+
+// GSC, 1–28 August 2026: these pages already rank on page one but their generic
+// question titles fail to echo the wording that earns most impressions. Keep the
+// editorial H1/headline intact; this map is only the concise search-result promise.
+const SVAR_SEO_OVERRIDES = new Map<string, SvarSeoMetadata>([
+	[
+		"islams-fem-pelare",
+		{
+			title: "Islams fem pelare – vilka är de?",
+			description:
+				"Islams fem pelare är trosbekännelsen, bönen, zakat, fastan under ramadan och hajj. Se vad varje pelare betyder och vem den gäller.",
+		},
+	],
+	[
+		"vad-ar-kaba",
+		{
+			title: "Kaba – helgedomen i Mecka",
+			description:
+				"Kaba är den kubformade helgedomen i Mecka som muslimer vänder sig mot i bönen. Läs om Svarta stenen, hajj och varför Kaba inte dyrkas.",
+		},
+	],
+	[
+		"vad-ar-hajj",
+		{
+			title: "Hajj – islams vallfärd till Mecka",
+			description:
+				"Hajj är islams vallfärd till Mecka och den femte pelaren. Se vem som måste resa, vilka riter som ingår och skillnaden mellan hajj och umra.",
+		},
+	],
+]);
+
+export function svarSeoMetadata(id: string, fallback: SvarSeoMetadata): SvarSeoMetadata {
+	return SVAR_SEO_OVERRIDES.get(id) ?? fallback;
+}
+
 /** A themed section of the Q&A corpus, rendered on the Fakta hub
  *  (`/vad-ar-islam/`). The answer `.md` files carry no category field and the
  *  grouping is editorial, so the taxonomy lives here, next to the page that

@@ -14,10 +14,9 @@ import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/json
 import { nf0, nf1 } from "../../lib/format";
 import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
-import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION } from "../../lib/bonetider/places-index";
+import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION, searchTitlePlace } from "../../lib/bonetider/places-index";
 import { computePrayerTimes, formatTime, stockholmMonthLabel } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
-import { slugify } from "../../lib/bonetider/slug";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 import { hijriLabel } from "../../lib/markesdagar";
 import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ramadan";
@@ -211,11 +210,9 @@ const descTail = hasMosquePage
 const descPlace =
 	place.county && place.county !== place.name ? `${place.name} (${place.county})` : place.name;
 
-// ⚠️ A county-qualified slug means another town owns the bare one, so the two pages
-// carried the SAME title ("Bönetider i Alvik 2026" twice, 171 of them). Only these get
-// the county — every page that ranks today keeps its title byte-for-byte.
-const ambiguous = place.slug !== slugify(place.name);
-const titlePlace = ambiguous && place.county ? `${place.name} (${place.county})` : place.name;
+// Disambiguate same-name places without letting a county name steal a major city's
+// query (for example Äng in Nässjö previously rendered as "Äng (Jönköping)").
+const titlePlace = searchTitlePlace(place);
 // Lead with today's actual times. The query is answered in the snippet, which is the
 // only place left where a prayer-time page can win a click: Google answers most of
 // these on the results page itself, and the site's CTR at position 3 is 1,9 %. The

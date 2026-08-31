@@ -71,6 +71,25 @@ export function placeBySlug(slug: string): IndexedPlace | undefined {
 	return BY_SLUG.get(slug);
 }
 
+// Titles normally keep their established name/qualifier: changing all contested
+// localities would disturb pages that already rank. These overrides are backed by GSC
+// query/page data. Sandviken's head query split 111/67 impressions between two places;
+// Äng's county qualifier took 418 impressions from the Jönköping city query.
+const SEARCH_TITLE_QUALIFIERS = new Map<string, string>([
+	["sandviken", "Gävleborg"],
+	["ang-jonkoping", "Nässjö"],
+]);
+
+/** Place name for title/H1/snippet ownership on a city prayer-times page. */
+export function searchTitlePlace(place: IndexedPlace): string {
+	const override = SEARCH_TITLE_QUALIFIERS.get(place.slug);
+	if (override) return `${place.name} (${override})`;
+
+	if (place.slug === slugify(place.name)) return place.name;
+
+	return place.county ? `${place.name} (${place.county})` : place.name;
+}
+
 /** The population to display: the official SCB tätort figure when we matched one,
  *  otherwise the GeoNames estimate. Pair with `place.scbPopulation != null` to know
  *  which it is (and to decide whether to cite SCB / show the stat block). */

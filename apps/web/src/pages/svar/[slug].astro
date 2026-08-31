@@ -11,7 +11,7 @@ import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
 import { requireBySlug } from "../../lib/content-refs";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
-import { SVAR_CATEGORIES } from "../../lib/svar";
+import { SVAR_CATEGORIES, svarSeoMetadata } from "../../lib/svar";
 import { pillarBySvar } from "../../lib/svar-fordjupning";
 import { articleJsonLd, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
@@ -65,6 +65,7 @@ interface Props {
 
 const { entry, related, essays, pillar } = Astro.props;
 const { data } = entry;
+const seo = svarSeoMetadata(entry.id, { title: data.title, description: data.description });
 const { Content } = await render(entry);
 const url = `https://islam.se/svar/${entry.id}/`;
 const sourceItems = (data.sources ?? []).map((s) => ({
@@ -126,8 +127,8 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 ---
 
 <Base
-	title={`${data.title} — islam.se`}
-	description={data.description}
+	title={`${seo.title} — islam.se`}
+	description={seo.description}
 	ogImageAlt={data.title}
 	jsonLd={jsonLd}
 	preloadTextFonts

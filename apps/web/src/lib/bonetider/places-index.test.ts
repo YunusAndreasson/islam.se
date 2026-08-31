@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { INDEXED_PLACES, placeBySlug } from "./places-index";
+import { INDEXED_PLACES, placeBySlug, searchTitlePlace } from "./places-index";
 import { slugify } from "./slug";
+
+function requirePlace(slug: string) {
+	const place = placeBySlug(slug);
+	expect(place, `no place owns the slug "${slug}"`).toBeDefined();
+	if (!place) throw new Error(`no place owns the slug "${slug}"`);
+	return place;
+}
 
 // /bonetider/[stad] carries ~86 % of the site's search clicks, and which place owns a
 // contested slug is decided implicitly by population order. Nothing asserted it, so
@@ -47,6 +54,25 @@ describe("contested bönetider slugs", () => {
 			}
 		}
 		expect(stolen, `a smaller place holds a bare slug:\n${stolen.join("\n")}`).toEqual([]);
+	});
+
+	it("keeps duplicate-place qualifiers out of another city's search title", () => {
+		const ang = requirePlace("ang-jonkoping");
+		const jonkoping = requirePlace("jonkoping");
+		expect(searchTitlePlace(ang)).toBe("Äng (Nässjö)");
+		expect(searchTitlePlace(jonkoping)).toBe("Jönköping");
+	});
+
+	it("disambiguates both Sandviken results after their GSC query conflict", () => {
+		const gavleborg = requirePlace("sandviken");
+		const sodermanland = requirePlace("sandviken-sodermanland");
+		expect(searchTitlePlace(gavleborg)).toBe("Sandviken (Gävleborg)");
+		expect(searchTitlePlace(sodermanland)).toBe("Sandviken (Södermanland)");
+	});
+
+	it("does not rewrite an unaffected contested bare title", () => {
+		const husby = requirePlace("husby");
+		expect(searchTitlePlace(husby)).toBe("Husby");
 	});
 });
 

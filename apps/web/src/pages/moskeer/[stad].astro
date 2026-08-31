@@ -112,6 +112,14 @@ const descPlace = lan === city ? city : `${city} (${lanLabel})`;
 // The title already says "Moské i Gävle" where there is one; the description said
 // "Moskéer i Gävle" beside it. Same noun in both, decided by the same count.
 const mosqueNoun = n === 1 ? "Moské" : "Moskéer";
+// GSC showed a unique three-way ownership conflict for the bare "bönetider
+// Jönköping" query: the prayer page, Äng's former county-qualified title, and this
+// mosque page. Keep the useful times and the mosque+times long-tail coverage in the
+// description/body, but reserve the document-title head term for /bonetider/jonkoping/.
+const pageTitle =
+	citySlug === "jonkoping"
+		? `${mosqueNoun} i ${city} — adress, öppningsår och vägbeskrivning — islam.se`
+		: `${mosqueNoun} i ${city} — bönetider, adress och vägbeskrivning — islam.se`;
 const description = hasTimes
 	// ~62 of the ~155 characters Google renders are the five times, so everything else is
 	// on a budget: the town is named once (not twice), and the county parenthetical is
@@ -154,7 +162,7 @@ if (oldest?.opened) {
 ---
 
 <Base
-	title={`${n === 1 ? "Moské" : "Moskéer"} i ${city} — bönetider, adress och vägbeskrivning — islam.se`}
+	title={pageTitle}
 	description={description}
 	jsonLd={[
 		{
