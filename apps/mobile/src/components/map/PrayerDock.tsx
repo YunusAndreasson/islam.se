@@ -1634,6 +1634,18 @@ function makeStyles(c: Palette) {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: c.hairline,
   } as const;
+  // Both captions LABEL the rows beneath them, so both must sit closer to those rows than to
+  // the ones they were separated from. They did the opposite. Measured on the open card: the
+  // midnight caption had ~8 dp of air above it (marginTop 4 + paddingTop 4) and ~11 dp below
+  // (marginBottom 4 + the next row's paddingVertical 7) — so by proximity it read as a footer
+  // on the row above, which is exactly backwards, and worst on the day it matters most: when
+  // the row above is the brass next-prayer row, its filled container draws a hard edge that
+  // pulls the caption further up still. Zero margin below is not tight — `type.caption` leads
+  // 18 over 13, so ~2.5 dp of that line box sits under the glyphs before the row's own 7 dp
+  // of padding begins. The two rules keep their 4 dp difference in air above (see nightRule /
+  // dayBreak); that gap is the whole visual distinction between "a new group" and "the list
+  // continues", and it survives unchanged. Net height cost of the correction: zero.
+  const GROUP_CAPTION_BOTTOM = 0;
   return StyleSheet.create({
     shadowWrap: {
       position: 'absolute',
@@ -1701,13 +1713,13 @@ function makeStyles(c: Palette) {
     // group (a change of CATEGORY — obligation to voluntary) and at the midnight crossing (the
     // same list, a later day). Only the space above them differs, and that difference is the
     // whole visual distinction between "a new group" and "the list continues".
-    nightRule: { ...GROUP_RULE, marginTop: space.sm },
-    nightCaption: { ...type.caption, color: c.inkFaint, marginBottom: space.xs },
+    nightRule: { ...GROUP_RULE, marginTop: space.md },
+    nightCaption: { ...type.caption, color: c.inkFaint, marginBottom: GROUP_CAPTION_BOTTOM },
     // The midnight crossing takes the same rule with less air above it: it interrupts a single
     // list rather than introducing a new group, so the rows either side must still read as one
     // block. Composed from nightRule so a change to the hairline reaches both.
-    dayBreak: { ...GROUP_RULE, marginTop: space.xs },
-    dayBreakCaption: { ...type.caption, color: c.inkFaint, marginBottom: space.xs },
+    dayBreak: { ...GROUP_RULE, marginTop: space.sm },
+    dayBreakCaption: { ...type.caption, color: c.inkFaint, marginBottom: GROUP_CAPTION_BOTTOM },
     // The next prayer = brass everywhere (here, the countdown, the map pill), so
     // "what's coming" reads in one colour across the dock and the map.
     nextEmphasis: { color: c.highlightText, fontWeight: '700' },
