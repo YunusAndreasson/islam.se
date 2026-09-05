@@ -67,6 +67,10 @@ const audioDir = join(webRoot, "public/audio/quran");
 const qulSegmentsPath = join(__dirname, "data/qul-alnufais-segments.json");
 const articlesDir = join(webRoot, "../../data/articles");
 const svarDir = join(webRoot, "../../data/svar");
+// ⚠️ Pelarsidorna fotnoterar i samma form som essäerna, men saknades här tills
+// 2026-09-04: 84 av de 130 verser de citerar hade därför ingen recitationsspelare,
+// och felet var osynligt eftersom en vers utan post helt enkelt inte får någon.
+const fordjupningDir = join(webRoot, "../../data/fordjupning");
 
 // The Quran footnote form essays already use — "Koranen, <Name> S:A" (a few use
 // "sura <Name> S:A"). Mirrors src/lib/citations.ts so the set of verses we generate
@@ -95,12 +99,12 @@ function parseKey(key: string): { surah: number; from: number; to: number } {
 	return { surah: Number(m[1]), from, to: m[3] ? Number(m[3]) : from };
 }
 
-/** Every ayahKey cited in any essay footnote, de-duplicated. */
-async function citedKeys(): Promise<string[]> {
-	const files = (await readdir(articlesDir)).filter((f) => f.endsWith(".md"));
+/** Every ayahKey cited in a footnote under `dir`, de-duplicated. */
+async function footnoteKeys(dir: string): Promise<string[]> {
+	const files = (await readdir(dir)).filter((f) => f.endsWith(".md"));
 	const set = new Set<string>();
 	for (const f of files) {
-		const body = await readFile(join(articlesDir, f), "utf8");
+		const body = await readFile(join(dir, f), "utf8");
 		for (const m of body.matchAll(QURAN_FOOTNOTE)) set.add(`${m[1]}:${m[2]}`);
 	}
 	return [...set];
@@ -351,13 +355,15 @@ function bySurahAyah(a: string, b: string): number {
 
 async function main() {
 	const qulSegments: Record<string, QulVerse> = JSON.parse(await readFile(qulSegmentsPath, "utf8"));
-	const cited = await citedKeys();
+	const cited = await footnoteKeys(articlesDir);
+	const pillarCited = await footnoteKeys(fordjupningDir);
 	const svarQuoted = await svarQuotedKeys();
-	// Every verse a reader can meet — essay footnotes ∪ answer-page blockquotes.
-	const allKeys = [...new Set([...cited, ...svarQuoted])].sort(bySurahAyah);
+	// Every verse a reader can meet — essay ∪ pillar footnotes ∪ answer-page blockquotes.
+	const allKeys = [...new Set([...cited, ...pillarCited, ...svarQuoted])].sort(bySurahAyah);
 
 	console.log(
 		`Syncing ${allKeys.length} verses (${cited.length} cited in essays, ` +
+			`${pillarCited.length} in fördjupning, ` +
 			`${svarQuoted.length} quoted in svar) — Arabic via Tarteel, al-Nufais via QUL…`,
 	);
 
