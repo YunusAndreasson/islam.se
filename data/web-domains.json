@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 114,
-      "ok": 113,
+      "total": 115,
+      "ok": 114,
       "failed": 1,
-      "lastChecked": "2026-08-29T13:18:47.335Z",
-      "publishedIn": 92,
-      "avgScore": 8.617391304347837,
+      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "publishedIn": 93,
+      "avgScore": 8.618279569892485,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -77,12 +77,12 @@
       "lastChecked": "2026-02-10T22:24:32.198Z"
     },
     "plato.stanford.edu": {
-      "total": 7,
-      "ok": 7,
+      "total": 8,
+      "ok": 8,
       "failed": 0,
-      "lastChecked": "2026-08-29T13:18:47.335Z",
-      "publishedIn": 5,
-      "avgScore": 8.62
+      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "publishedIn": 6,
+      "avgScore": 8.633333333333333
     },
     "islamqa.org": {
       "total": 1,
@@ -165,12 +165,12 @@
       "avgScore": 8.7
     },
     "www.regeringen.se": {
-      "total": 6,
-      "ok": 6,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-08-23T09:58:57.169Z",
-      "publishedIn": 4,
-      "avgScore": 8.625
+      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "publishedIn": 5,
+      "avgScore": 8.64
     },
     "www.folkhalsomyndigheten.se": {
       "total": 4,
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 40,
-      "ok": 40,
+      "total": 43,
+      "ok": 43,
       "failed": 0,
-      "lastChecked": "2026-08-29T13:18:47.335Z",
-      "publishedIn": 32,
-      "avgScore": 8.631249999999998
+      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "publishedIn": 34,
+      "avgScore": 8.635294117647057
     },
     "lifewithallah.com": {
       "total": 3,
@@ -579,12 +579,12 @@
       "avgScore": 8.7
     },
     "www.riksdagen.se": {
-      "total": 17,
-      "ok": 17,
+      "total": 18,
+      "ok": 18,
       "failed": 0,
-      "lastChecked": "2026-08-23T09:58:57.169Z",
-      "publishedIn": 13,
-      "avgScore": 8.630769230769234
+      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "publishedIn": 14,
+      "avgScore": 8.63571428571429
     },
     "www.tandfonline.com": {
       "total": 6,
@@ -619,12 +619,12 @@
       "avgScore": 8.7
     },
     "www.gu.se": {
-      "total": 2,
-      "ok": 2,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-03-26T06:39:29.392Z",
-      "publishedIn": 2,
-      "avgScore": 8.649999999999999
+      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "publishedIn": 4,
+      "avgScore": 8.675
     },
     "svjt.se": {
       "total": 3,
@@ -2160,6 +2160,28 @@
       "lastChecked": "2026-08-29T13:18:47.335Z",
       "publishedIn": 1,
       "avgScore": 8.8
+    },
+    "www.val.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.statistikdatabasen.scb.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "api.scb.se": {
+      "total": 1,
+      "ok": 0,
+      "failed": 1,
+      "lastChecked": "2026-09-05T09:49:00.042Z"
     }
   }
 }
