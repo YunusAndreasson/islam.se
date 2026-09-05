@@ -1,0 +1,176 @@
+{
+  "overallCredibility": 7.7,
+  "verdict": "pass",
+  "summary": "Unusually well-sourced research whose central thesis survives adversarial checking intact. All 18 database quotes verified by direct ID lookup with correct author, work and exact text — no hallucinated attributions, and the research honestly self-flags which Ibn Khaldun items are paraphrases rather than translations. Sahih Muslim 1716 verified completely in the Arabic corpus (chapter heading, number, isnad, wording) and corroborated as muttafaq alayh via Ibn Qudama and al-Nawawi. The four Swedish legal authorities verified verbatim, including the non-obvious analytical points the argument depends on: NJA 2017 s. 168 turned on foravtal om bodelning rather than ordre public, and HFD 2022 ref. 51 rested on yttrandefriheten rather than religionsfriheten. Refah 119/123, Molla Sali, An-Naim's three quotes and nearly every Pew figure came back exact. Six defects found, none fabrications: (1) a factual error about a named Swedish organisation — Islamiska forbundet is a member of FIOE, not of the ECFR; (2) the 1990 Cairo Declaration is presented as current although it was revised and replaced by the 2020 OIC Declaration on Human Rights, which drops the sharia-subordination clause the research builds a section on; (3) an unsupported specific claim that al-Qurtubi lists six Hanafi positions on the marriage guardian; (4) an unverifiable statistic (556 marriages 2014-2021); (5) a false superlative about Swedish animal-welfare law being stricter than the rest of the EU, contradicted by the research's own Belgian source; (6) a compensation figure attributed to the wrong document. The defects sit in supporting illustration, not in the spine, and are all correctable without rework.",
+  "verifiedClaims": [
+    {
+      "claim": "All 18 quotes attributed to Umar, Ibn Khaldun, Rydberg, Strindberg, Soderberg, Geijer, Key, Runeberg and Lagerlof",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of all 18 IDs in a single call",
+      "notes": "Every ID resolved with matching author, work and exact text. Research's own warnings are accurate and should be honoured: quote-435 (Strindberg, Roda rummet) genuinely collapses two speakers in a dialogue and must be split or marked; quote-25844 is a paraphrase of Umar's letter to Abu Musa al-Ashari, not a translation; the five Ibn Khaldun items are paraphrases via English."
+    },
+    {
+      "claim": "Sahih Muslim 1716: the judge who exercises ijtihad and errs still receives one reward",
+      "status": "verified",
+      "method": "search_books in Arabic located the passage in the Sahih Muslim corpus text (ID 177200)",
+      "notes": "Chapter heading, hadith number 1716, isnad through Abu Qays mawla Amr ibn al-As from Amr ibn al-As, and exact wording all match. Independently corroborated as muttafaq alayh by Ibn Qudama in al-Mughni (ID 148116) and al-Nawawi in Riyad al-Salihin (ID 116973). Strongest single verification in the set."
+    },
+    {
+      "claim": "Quran 45:18 in Bernstrom's translation, and that the Arabic word is sharia",
+      "status": "verified",
+      "method": "WebFetch of quran.com/45/18?translations=48",
+      "notes": "Swedish text matches the research verbatim; Arabic confirmed as sharia in the phrase sharia min al-amr. The claim that this is the only Quranic occurrence of the word in this form is correct (related forms shira at 5:48, shara-a at 42:13 and 42:21)."
+    },
+    {
+      "claim": "NJA 2017 s. 168: mahr agreement of 690 gold coins (~1.5m SEK), case T 2415-15, 29 March 2017, invalid as a foravtal om bodelning rather than on ordre public grounds",
+      "status": "verified",
+      "method": "WebFetch of lagen.nu/dom/nja/2017s168",
+      "notes": "All details confirmed including the analytically crucial point that the Supreme Court applied a general Swedish rule (9 kap. 13 aktB, valid only when dissolution is imminent) rather than rejecting mahr as Islamic. This is the strongest legal claim in the research and it is correct."
+    },
+    {
+      "claim": "HFD 2022 ref. 51: municipal headscarf bans struck down on freedom-of-expression grounds, cases 4266-21 (Skurup) and 4120-21 (Staffanstorp), 8 December 2022",
+      "status": "verified",
+      "method": "WebFetch of lagen.nu/dom/hfd/2022:51",
+      "notes": "Confirmed that the court proceeded under 2 kap. 1 § regeringsformen rather than religious freedom, and that 1 kap. 6 § skollagen was held to address the huvudman rather than pupils' clothing. The research's emphasis on this distinction is well founded."
+    },
+    {
+      "claim": "Lag 1999:116 § 1 limits arbitration to matters parties may settle; § 33 voids awards on non-arbitrable questions or contrary to ordre public, with no time limit unlike § 34",
+      "status": "verified",
+      "method": "WebFetch of lagen.nu/1999:116",
+      "notes": "Both provisions quoted verbatim as the research states. The § 33 / § 34 distinction (no time limit vs two months) confirmed. This underpins the research's central point that family status is non-arbitrable in Sweden."
+    },
+    {
+      "claim": "Refah Partisi v Turkey § 123 describes sharia as 'stable and invariable'; § 119 contains the 'impartial organiser' formulation",
+      "status": "verified",
+      "method": "WebFetch of icnl.org Refah Partisi resource",
+      "notes": "Both phrases confirmed verbatim in the paragraphs claimed. The research's critical observation — that § 123's premise is contradicted by the classical fiqh literature on structural disagreement — is a legitimate analytical point, not a factual error."
+    },
+    {
+      "claim": "Molla Sali v Greece: unanimous violation of Art 14 with Art 1 of Protocol 1; Court declined to examine legitimacy; 'nobody is required to be subject to a particular regime without his/her consent' described as a 'cornerstone'",
+      "status": "verified",
+      "method": "WebFetch of strasbourgobservers.com Molla Sali analysis",
+      "notes": "All confirmed verbatim, including the Sevres/Lausanne finding. The compensation figure is the one element not in this source — see unverified claims."
+    },
+    {
+      "claim": "An-Naim: 'the coercive enforcement of Sharia by the state betrays the Koran's insistence on the voluntary acceptance of Islam'; 'I need a secular state'; 'ideas of human rights and citizenship are more consistent with Islamic principles'",
+      "status": "verified",
+      "method": "WebFetch of UNESCO Courier interview",
+      "notes": "All three quotes verbatim. Emory affiliation confirmed (Charles Howard Candler Professor of Law). Caveat: the interview does not cite Quran 2:256 — that linkage is the researcher's inference, defensible from An-Naim's book but not attributable to this source."
+    },
+    {
+      "claim": "Pew 2013 figures on sharia support: 8% Azerbaijan / 10% Kazakhstan to 99% Afghanistan; family-law application 87-95% vs 24-26% Balkans; 5 of 21 countries majority for applying to non-Muslims, Egypt 74%; 17 of 23 countries at least half call sharia revealed word of God; Tunisia 72% / Morocco 60% open to multiple interpretations",
+      "status": "verified",
+      "method": "WebFetch of the Pew sharia chapter",
+      "notes": "Essentially every figure confirmed against the source, with minor wording differences (Pew gives Egypt 95%, Jordan 93%, Malaysia 88%, Pakistan 87% — the research's '87-95%' range is accurate). The 38,000-interview methodology figure sits in Appendix C and was not visible, but is standard and uncontested. The research's own caveats about Western Muslims and the undefined term are appropriate and should be kept."
+    },
+    {
+      "claim": "NCK/Skatteverket statistics: 134 applications 2021-2023, 118 rejected, 16 registered; 169 cases of multiple registered spouses; 27 of 192 municipalities knew of 36 married children in 2019",
+      "status": "verified",
+      "method": "WebFetch of the NCK knowledge-bank page",
+      "notes": "All confirmed, as is the explicit caveat 'Hur manga som i Sverige lever i sadana aktenskap ar inte klarlagt', which the article must carry."
+    },
+    {
+      "claim": "Motion 2025/26:1712 by Ann-Sofie Alm (M), filed 2 October 2025, two yrkanden on criminalising parallel legal systems, both rejected",
+      "status": "verified",
+      "method": "WebFetch of riksdagen.se motion page",
+      "notes": "Submitter, date, both yrkanden and the 'det saknas tydlig lagstiftning' quote confirmed verbatim. Additional detail worth using: handled by Arbetsmarknadsutskottet, betankande 2025/26:AU8 Integration, avslag by both committee and chamber."
+    },
+    {
+      "claim": "Slaughter without stunning has been prohibited in Sweden since 1937",
+      "status": "verified",
+      "method": "WebSearch confirming lag 1937:313 om slakt av husdjur",
+      "notes": "Date and statute confirmed. The historical context the research notes (introduced four years after the equivalent Nazi German ban, with shechita as the primary target) is also documented and worth including — but see the unverified superlative about EU comparison."
+    },
+    {
+      "claim": "Flamman: Walving-Lundberg Business Court, founded by Mattias Walving-Lundberg, sharia division led by Rachid el Mounacifi; Kakabaveh's criticism; founder's 'secularising' defence; limited client base",
+      "status": "verified",
+      "method": "WebFetch of the Flamman article",
+      "notes": "All elements confirmed including the founder's own framing that the court 'removes judicial authority from imams'. The research is right that this is the strongest argument for formalised religious arbitration and should be given in that form."
+    },
+    {
+      "claim": "Egyptson thesis: 111 alleged errors assessed, no finding of research misconduct, ONEP referral for prosecution, preliminary investigation dropped",
+      "status": "verified",
+      "method": "Two independent WebSearches surfacing SVT, Forskning & Framsteg and Lundagard reporting",
+      "notes": "Substantially confirmed, but NOT by the portal.research.lu.se URL the research cites, which is only a publication record. Two nuances the research omits and must add: the prosecutor dropped the case on the technical ground that it could not be proven the research began after the law entered force, not on the merits; and the Lund board found the thesis should have undergone ethics review while clearing him of deviation from good research practice."
+    },
+    {
+      "claim": "Fiqh al-aqalliyyat: al-Alwani coined the term, 1994 FCNA fatwa permitting American Muslims to vote, adopted by ECFR in 1999 under al-Qaradawi, ECFR founded 1997",
+      "status": "verified",
+      "method": "WebFetch of the English Wikipedia article",
+      "notes": "All confirmed. One small correction: the ECFR was founded in London on 29-30 March 1997 and is Dublin-based, not 'founded in Dublin' as the research states."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Islamiska forbundet i Sverige ar medlem i det europeiska fatwaradet (ECFR), vilket ar den faktiska grunden for kopplingen mellan svenska muslimska organisationer och al-Qaradawi",
+      "status": "unverified",
+      "reason": "Contradicted. The cited Wikipedia page makes no mention of any Swedish organisation, and independent search indicates Islamiska forbundet is a member of FIOE (Federation of Islamic Organisations in Europe), not of the ECFR — which is a council of individual scholars that organisations do not join. This is a factual error about a named, living Swedish organisation and carries reputational risk. Either correct it to the accurate and still substantive claim (IFiS is a FIOE member; FIOE is closely associated with the ECFR, which al-Qaradawi chaired) with a proper source, or cut it."
+    },
+    {
+      "claim": "Kairodeklarationen (1990) art. 24 och 25 presented as the current OIC position and as 'den starkaste konkreta grunden' for Mayer's thesis",
+      "status": "unverified",
+      "reason": "Materially out of date. The Cairo Declaration was revised and replaced on 28 November 2020 by the OIC Declaration on Human Rights, which drops 'in Islam' from the title, does not invoke sharia as sole source, and strengthens non-discrimination provisions. Presenting the 1990 articles as current in a 2026 article is misleading. Compounding this, the Brookings analysis the research cites is itself about the 2020 declaration, so the source and the claim are mismatched. Note also that the 2020 revision is evidence FOR the article's thesis about mutability — this correction strengthens the piece."
+    },
+    {
+      "claim": "al-Qurtubi listar sex olika positioner om giftermalsformyndare bara mellan hanafiterna",
+      "status": "unverified",
+      "reason": "No support found. The cited al-Qurtubi passage is on 4:25 and argues the opposite direction ('la nikah illa bi-wali'). Targeted Arabic corpus search surfaced nothing enumerating six Hanafi positions. Either cite the exact volume and page of al-Jami li-ahkam al-Quran, or replace it with Ibn Rushd's Bidayat al-mujtahid (corpus ID 132790), which is in the database and documents the school disagreement on the wali — including the Hanafi weakening of the Aisha hadith — and does the same argumentative work with verifiable text."
+    },
+    {
+      "claim": "2014-2021 registrerades 556 aktenskap dar en av makarna var under 18 ar vid vigseln",
+      "status": "unverified",
+      "reason": "Not found on the NCK page when fetched, and not confirmed by independent search. The page's other four statistics all verified, so this one number stands out. Locate the primary Skatteverket source and cite it directly, or drop the figure — the verified 134/118/16 and 169 figures carry the argument without it."
+    },
+    {
+      "claim": "Djurskyddet ar det enda omrade dar svensk ratt ar MER restriktiv mot religios praxis an ovriga EU",
+      "status": "unverified",
+      "reason": "False as stated. Denmark (2014), Slovenia, and Belgium's Flemish (2017) and Walloon (2018) regions all prohibit slaughter without stunning — the last of which the research itself cites via the 2024 ECtHR judgment, so the source set contradicts the claim internally. Sweden is among the strictest and has held the position longest (since 1937), but is not stricter than the rest of the EU. Rewrite as 'among the strictest, and one of the earliest' and drop the 'only area' superlative unless it can be demonstrated."
+    },
+    {
+      "claim": "Grekland alades betala 41 103,36 euro (Molla Sali)",
+      "status": "unverified",
+      "reason": "Attributed to the Strasbourg Observers post, which explicitly defers the just-satisfaction question to a later judgment and does not contain the figure. The number appears to come from the separate 2020 just satisfaction judgment in Molla Sali v Greece. Re-source to that judgment or remove."
+    },
+    {
+      "claim": "An-Naims argument vilar pa 2:256",
+      "status": "unverified",
+      "reason": "The UNESCO Courier interview does not cite 2:256; An-Naim refers only to 'the Koran's insistence on the voluntary acceptance of Islam'. The linkage is defensible from Islam and the Secular State but is the researcher's inference. Present it as the author's reading, or cite the book where he makes the verse reference explicit."
+    },
+    {
+      "claim": "Den klassiska exegetiken laste kufr i 5:44 som kufr duna kufr",
+      "status": "unverified",
+      "reason": "Accurate as to Ibn Abbas via al-Tabari and it is the dominant Sunni reading, but 'den klassiska exegetiken' implies unanimity the tradition does not have — other classical readings apply the verse to non-Muslims, or to those who reject God's rule as a matter of conviction rather than practice. Qualify as the majority or dominant reading rather than the classical reading."
+    },
+    {
+      "claim": "Quran 42:13, 5:42, 42:40 and 2:178 given as Bernstrom",
+      "status": "unverified",
+      "reason": "The research honestly flags these four as taken from a printed corpus edition rather than quran.com, and I confirmed the corpus uses a materially different Swedish translation from Bernstrom (e.g. corpus 2:256 reads 'Tvang skall inte forekomma i religionen' against Bernstrom's 'i trosfragor'). Publishing these under a Bernstrom attribution would be a misattribution. Re-fetch all four from quran.com/...?translations=48 before setting them as block quotes, as the research itself instructs."
+    }
+  ],
+  "missingPerspectives": [
+    "The 2020 OIC Declaration on Human Rights, which revised and replaced the 1990 Cairo Declaration and removed the blanket sharia-subordination clause. This is the most significant omission: it corrects a dated claim AND supplies evidence for the article's own thesis that the sharia label is politically mutable rather than fixed.",
+    "al-Qurtubi's commentary on the very hadith the angle is built on (corpus ID 205451): the erring judge is rewarded only if genuinely qualified for ijtihad — 'man lam yakun mahallan li-l-ijtihad fa-huwa mutakallif la yudhar bi-l-khata fi-l-hukm' — and even then is not rewarded for the error, the sin is merely lifted. This is a classical argument against unqualified self-appointed arbitrators and directly serves the Flamman section. Omitting it leaves the piece weaker than its own sources allow.",
+    "No Swedish Muslim theological or organisational voice on whether a private sharia arbitration institute is religiously legitimate. The Flamman section has a secular critic (Kakabaveh) and the founder's defence, but nobody arguing the internal Islamic case for or against — which is precisely the register An-Naim occupies elsewhere in the piece.",
+    "The Jewish parallel. The get-refusal problem (agunah) is structurally identical to the imam-divorce problem in the SVT investigation, has a far longer legal literature, and has produced concrete legislative responses in the UK and elsewhere. Treating the 'chained wife' as an Islam-specific issue is a gap that a knowledgeable critic would spot immediately — and the 1937 slaughter ban already gives the article a Jewish-comparison thread to pick up.",
+    "Molla Sali's direct implication for the Flamman arbitration court is never drawn. The 'nobody subject to a particular regime without consent' principle is the obvious analytical bridge between the ECtHR section and the Swedish arbitration section, and it cuts both ways — it legitimises genuinely consensual arbitration while condemning community pressure to use it.",
+    "The claim that Denmark has commissioned inquiries into Islamic divorce while Sweden has not is asserted without a source. Either document it or drop it; as an unsourced national comparison it is the kind of detail a critic checks first."
+  ],
+  "sourceAssessment": {
+    "totalSources": 28,
+    "highCredibility": 22
+  },
+  "recommendations": [
+    "Correct the ECFR claim before anything else. Islamiska forbundet is a member of FIOE, not of the ECFR. State the accurate relationship with a source, or cut the sentence — it names a real organisation.",
+    "Update the Cairo Declaration section to the 2020 OIC Declaration on Human Rights. Keep the 1990 articles as historical evidence for Mayer's argument, but say plainly that the text was revised in 2020 and that the sharia-subordination clause was dropped. Check whether the Brookings analysis being cited is about the 2020 text, since it appears to be.",
+    "Replace the unsupported 'six Hanafi positions' claim with Ibn Rushd's Bidayat al-mujtahid material on the wali dispute (corpus ID 132790), which is verifiable in the database and makes the same point about structural disagreement.",
+    "Re-fetch Quran 42:13, 5:42, 42:40 and 2:178 from quran.com/...?translations=48 before setting them as block quotes. The corpus translation is demonstrably not Bernstrom, and publishing them under his name would be a misattribution.",
+    "Drop or qualify the 'only area stricter than the rest of the EU' superlative on animal welfare. Denmark, Slovenia and both Belgian regions have equivalent bans — the research's own 2024 ECtHR source proves it. 'Among the strictest, and in force longest' is defensible and still interesting.",
+    "Source the 556-marriages figure to a primary Skatteverket document or drop it. The other NCK statistics all verified and carry the section.",
+    "Re-source the 41 103,36 euro Molla Sali figure to the 2020 just satisfaction judgment, not the Strasbourg Observers blog post.",
+    "Cite SVT and Forskning & Framsteg for the Egyptson misconduct proceedings rather than the Lund publication-record page, and add the two nuances found: the prosecutor dropped the case on a technical temporal ground, and the Lund board held the thesis should have undergone ethics review. Given that living, named individuals are involved, this section needs the fullest and most neutral rendering in the article.",
+    "Add al-Qurtubi's qualification on Muslim 1716 — the reward attaches only to the qualified mujtahid. It is in the corpus, it is verifiable, and it strengthens the central argument.",
+    "Add the Jewish agunah parallel. It costs a paragraph and it forecloses the strongest criticism of the piece — that it treats a general problem of religious divorce as an Islamic one.",
+    "Keep every self-flagged caveat already in the research: the Strindberg two-speaker split, the Ibn Khaldun paraphrase warnings, the Pew non-Western-sample limitation, the SVT 'do not use ten as a prevalence figure' note, and the Rabb 'not to be used as apologetics' instruction. This editorial discipline is the strongest feature of the research and should survive into the article."
+  ],
+  "datasetChecks": []
+}

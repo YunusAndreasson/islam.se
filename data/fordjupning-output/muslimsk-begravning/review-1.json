@@ -1,0 +1,38 @@
+{
+  "finalScore": 7.6,
+  "verdict": "revise",
+  "revisedTextChars": 33775,
+  "summary": "Ovanligt välkällad text med ett svenskt avsnitt som verkligen bär sidan: lagrum, proposition med siffror, Europadomstolsmål med målnummer, kremationsstatistik med årtal. Rubrikerna är alla sju sökbara och bär ämnesordet, vilket är sällsynt. RÄKNING AV AVSNITTSAVSLUT: 1 av 7 följer de flaggade mönstren (avsnitt 7 slutar på en 'X, inte Y'-konstruktion). Övriga sex slutar rakt, utan semikolonpivot och utan em-streckskärpning. Inom budget, oförändrat i min revision. Streckräkning: inga em-streck i egen prosa utom blockcitatets attribution; en-strecken finns bara i källtitlar och årtalsintervall. Utkastet faller ändå under 8 på fyra punkter. (1) Idéhistorieavsnittets slutmening använde den svenska kremeringsstriden som argument mot invändningarna ('yngre än frågan om muslimska gravkvarter är gammal') och Söderbergframningen ställde svensk förbryllning mot 'fiqh-litteraturens genomreglerade gravrum'; båda är omskrivna till ren beskrivning. (2) Korns invändning återgavs i försvagad form: utkastet distingerade bort den utan att svara på hans faktiska premiss, att vägen via enskild begravningsplats står öppen även för muslimska församlingar. Premissen medges nu och besvaras rakt. (3) Två fiqhutelämnanden som faktagranskningen uttryckligen begärde saknades: hadithgraderingen bakom moskéstriden (Ibn Qudāma om Sālih mawlā al-Tawʾama, al-Nawawīs 'law thabata') och al-Nawawīs villkorade kistundantag. Utan dem framstod striden som symmetrisk och kollisionen som absolut; båda är införda. (4) Den största luckan, samtida europeisk muslimsk rättstillämpning, saknades helt; ett stycke om darūra, hāja och taysīr samt Europeiska fatwa- och forskningsrådet är tillagt. Därtill systematiska husstilsbrott: ett dussin underpunktstranslittereringar (farḍ, laḥd, Ṭā Hā, Ḥanīfa, qīrāṭ, Ṭālib, Bayḍāʾ, Qāḍī, nāʾiḥa, Riyāḍ), guillemeter i källan där raka citattecken ska stå, versalt 'Han' i egen prosa, 'sunnimuslimer' i läsartext, och fotnot 2 med namnfelet 'al-Nawābī'. Korancitaten är oförändrade, ord för ord.",
+  "strengths": [
+    "Alla sju rubriker bär ämnesordet och fungerar som fristående sökfraser; ingen av de underkända generiska rubrikerna förekommer.",
+    "Sverigeavsnittet har verkligt innehåll: 2 kap. 2 §, 5 kap. 10 §, 6 kap. 1 §, 7 kap. 5 §, prop. 2011/12:51 med väntetidssiffror (18,8/27,8/30,5 dagar), Polat mot Österrike med ansökningsnummer och domsdatum, repatrieringskostnader i kronor.",
+    "Blockcitaten stämmer mot de verifierade citaten: Söderberg (quote-3846) och Strindberg (quote-19) ordagrant, Bergman (quote-49993) korrekt inbäddat.",
+    "Haditherna är genomgående tillskrivna samlingarna med nummer, inte den lärde som citerar dem.",
+    "Fyra rättsskolor med namngivna företrädare, och skillnaderna är konkreta: al-Marghīnānī mot al-Shāfiʿī om nischgrav och införsel, Mālik mot Abū Hanīfa om putsade gravar, tre ståndpunkter om tvagning över könsgränsen.",
+    "Shiitisk ståndpunkt nämns endast där den klassiska hållningen svarar på den (al-Baqīʿ), aldrig som rättande balans.",
+    "Flera flaggor från faktagranskningen var redan åtgärdade i utkastet: 3:185 i Bernströms lydelse, ingen krematorieräkning, ingen ersättningssumma i Polat, årtalsmärkt kremationsandel, kistgravsbristen korrekt återgiven.",
+    "Streckdisciplinen är exemplarisk och de negativa fynden är bevarade (ingen kista i lagtexten, 0,5 procent som en församlings uppskattning från 2016)."
+  ],
+  "issues": [
+    "FALSK EKVIVALENS: slutmeningen i idéhistorieavsnittet ('Den svenska begravningsordning som i dag framstår som självklar är alltså yngre än frågan om muslimska gravkvarter är gammal') använde svensk kremeringshistoria som argument i sakfrågan. Ersatt med ren kronologi.",
+    "FALSK EKVIVALENS: Söderbergframningen ställde svensk förbryllning mot 'fiqh-litteraturens genomreglerade gravrum' och Bergmanraden generaliserade till 'vem som räknas till orten'. Båda omskrivna till beskrivning av respektive verk.",
+    "RÄTTVISA: Korns invändning besvarades utan att hans faktiska premiss medgavs. Nu redovisas att 3 kap. begravningslagen öppnar samma väg för muslimska församlingar, och svaret ges på den premissen. REDAKTIONEN BÖR VERIFIERA exakt paragraf och tillståndsmyndighet i 3 kap. mot SFS innan publicering.",
+    "Riksdagsutfallen saknades helt: Malms motion avslogs av kammaren och Forssmed försvarade den gällande ordningen i sitt svar till Möller. Båda tillagda; utan dem läste texten som momentum som inte finns.",
+    "Moskéstriden presenterades som två jämnstarka textbelägg. Ibn Qudāmas anmärkning om Sālih mawlā al-Tawʾama och al-Nawawīs förbehåll 'law thabata' är tillagda, liksom ordalydelsevarianten fa-lā ajra lahu / fa-lā shayʾa lahu.",
+    "al-Nawawīs villkorade kistundantag (fa-in taʿadhdhara ittukhidha al-tābūt) saknades, vilket gjorde kollisionen absolut i stället för villkorad. Tillagt.",
+    "STÖRSTA LUCKAN: ingen samtida europeisk muslimsk rättstillämpning. Ett stycke om darūra, hāja och taysīr samt Europeiska fatwa- och forskningsrådet är infört i Sverigeavsnittet. FOTNOT 36 BEHÖVER en exakt fatwahänvisning ur rådets samlade beslut, som redaktionen får fylla i.",
+    "Superlativen 'en av världens högsta kremationsandelar' var okällbelagd och är struken; ingressen anger nu andelen i klartext, och SKKF-siffran kompletteras med 2022 års utfall så att den stabila nivån framgår.",
+    "al-Layth b. Saʿd-attributionen var overifierad men tryckt. Namnet är flyttat till fotnot 15 med uttrycklig reservation; de tre ståndpunkterna står kvar i brödtexten.",
+    "Korantranslationen deklarerades ingenstans trots att Ibn Rushds bevis hänger på ordet kifātan. Fotnot 3 anger nu Bernström genomgående. Korancitaten är i övrigt oförändrade. VERSTEXTEN I 77:25–26 (versskiljetecknet '/' och lydelsen 'behållare') BÖR STÄMMAS AV mot den tryckta utgåvan av en människa; jag har inte rört ett ord i den.",
+    "HUSSTIL: ett dussin underpunktstranslittereringar rättade (farḍ, laḥd, Ṭā Hā, Ḥanīfa, Ḥusayn, Qāḍī, qīrāṭ, Ṭālib, Bayḍāʾ, nāʾiḥa, Riyāḍ, Ṣālih). Makronerna står kvar oförändrade.",
+    "HUSSTIL: guillemeter (» «) genomgående i källan, inklusive fotnoterna, konverterade till raka citattecken enligt byggkedjans krav.",
+    "HUSSTIL: versalt 'Han skall väcka henne' i artikelns egen parafras av 80:22 sänkt till gement; 'sunnimuslimer och shiamuslimer' omskrivet så att sunnietiketten inte står i läsartext.",
+    "Fotnot 2 hade namnfelet 'al-Nawābī [al-Nawawī]'; rättat.",
+    "Anglicism: 'Frågan är inte akademisk i Sverige' rättad till 'Frågan har praktisk betydelse'. Utnött rotmetafor ('slagit rot i landet') ersatt med 'blivit bofast'.",
+    "Kistgravsbristen konstaterades men mekanismen drogs inte. Nu framgår att icke-kremerande grupper konkurrerar om just den knappaste resursen.",
+    "Den operativa aktören saknades. En mening om kyrkogårdsförvaltningarnas faktiska beslutsutrymme är tillagd, MEN DEN ÄR OKÄLLBELAGD: en röst från SKKF eller Sveriges kyrkogårdschefer bör inhämtas, annars stryks meningen.",
+    "Endast en svensk muslimsk institutionell röst (Kalssom Kaleem, Göteborgs moské, om repatriering). Ingen muslimsk part uttalar sig om huvudmannaskapet eller gravplatsbristen, vilket är sidans kvarstående strukturella obalans.",
+    "Fotnot 17 anger 'avsnittet om gravläggningens obligatorium' som fundort för Mālik och al-Shāfiʿī om putsade gravar; lokaliseringen ser felplacerad ut och bör kontrolleras.",
+    "FRONTMATTER: kontrollera att sources-listan motsvarar prosan. IslamQA (fn 35), Vårdhandboken (fn 39) och Law & Religion UK (fn 40) förekommer bara i noter, inte namngivna i brödtexten."
+  ]
+}

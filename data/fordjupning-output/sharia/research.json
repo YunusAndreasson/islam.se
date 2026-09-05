@@ -1,0 +1,1063 @@
+{
+  "topic": "Sharia",
+  "summary": "Den hårdare frågan artikeln måste svara på är inte »är sharia förenlig med svensk lag?« utan »vad är det egentligen som benämns sharia, och vem har tolkningsföreträde över ordet?« — eftersom både försvarare och kritiker i den svenska debatten använder termen för minst tre olika saker: (1) den uppenbarade vägen (sharīʿa i Koranens egen mening, 45:18 och 5:48, där ordet betyder väg/lag utan att någonstans i Koranen beteckna ett kodifierat rättssystem), (2) den mänskliga tolkningsvetenskapen fiqh med dess inbyggda oenighet mellan rättsskolorna, och (3) modern statlig strafflagstiftning i ett fåtal länder. Den centrala spänningen är att den klassiska traditionen själv förutsätter att jurister kan ha fel — Sahih Muslim 1716 lovar en domare som anstränger sig och dömer *fel* en belöning — medan både islamistisk apologetik och sekulär kritik i praktiken behandlar sharia som en enda oföränderlig kodex, en föreställning Europadomstolen uttryckligen skrev in i Refah Partisi § 123 (»stable and invariable«). Berättelsebågen: artikeln går från källorna och skolornas dokumenterade oenighet (al-Qurtubi listar sex olika positioner om giftermålsförmyndare bara mellan hanafiterna), via den svenska rättsordningens faktiska och mycket precisa gränsdragningar — NJA 2017 s. 168 om mahr, AD 2018 nr 51 om handskakning, HFD 2022 ref. 51 om slöjförbud, 1 § lagen om skiljeförfarande som gör familjestatus icke-skiljedomsbar — till de starkaste invändningarna, som inte kommer från högerpopulismen utan från jurister som Ann Elizabeth Mayer och från muslimska tänkare som Abdullahi An-Naʿim, vars argument är att statlig tvångstillämpning av sharia är *islamiskt* ogiltig. Det som överraskar en påläst läsare: svensk rätt har inte behövt någon »shariaförbudslag« eftersom befintlig rätt redan stänger dörren på fyra oberoende sätt (ordre public, skiljedomsrättens dispositivitetskrav, erkännandeförbuden 2019/2021, och lagkravet på begränsningar av yttrandefriheten) — och det enda område där Sverige faktiskt är *strängare* än resten av EU mot islamisk praxis är djurskyddet, där halalslakt utan bedövning varit förbjudet sedan 1937.",
+  "quranReferences": [
+    {
+      "surah": "45",
+      "ayah": "18",
+      "text": "»Därefter har Vi visat dig [Muhammad] en väg till förverkligandet [av trons] syfte; följ därför denna väg och fäst dig inte vid de okunnigas önskningar.« (Bernström, hämtad från quran.com/45/18?translations=48. NB: det arabiska ordet i versen är sharīʿa — detta är den enda plats i Koranen där ordet i denna form förekommer, och Bernström översätter det inte med »lag«.)"
+    },
+    {
+      "surah": "5",
+      "ayah": "48",
+      "text": "»Vi har uppenbarat Koranen för dig med sanningen, som bekräftar det som består av [äldre tiders] uppenbarade Skrifter och vars uppgift det är att vaka över det. Döm mellan dem [som följer dessa Skrifter] på grundval av det som Gud har uppenbarat [för dig] och ge inte efter för deras önskningar [som står i strid] med den sanning som du har fått ta emot. För var och en av er har Vi fastställt en lag och en levnadsregel. Om Gud hade velat hade Han helt visst gjort er till ett enda samfund, men det var Hans vilja att sätta er på prov genom det som Han har skänkt er. Tävla därför med varandra om att göra gott! Till Gud skall ni alla vända åter och Han skall upplysa er om allt det som ni var oense om.« (Bernström) — loci classicus: »en lag och en levnadsregel« = shirʿa wa minhāj; al-Qurtubi läser detta som att lagarna skiljer sig mellan samfunden medan tawhīd inte gör det."
+    },
+    {
+      "surah": "5",
+      "ayah": "44",
+      "text": "»Vi har uppenbarat Tora med vägledning och ljus. Profeterna, som underkastade sig Guds vilja, dömde på dess grundval mellan dem som bekände den judiska tron och [så gjorde] deras skriftlärda och rabbiner, eftersom de hade anförtrotts att vaka över det som Gud hade uppenbarat och vittnade [om dess sanning]. Frukta således inte människorna! Frukta Mig! Och sälj inte Mina budskap för en ynklig slant! De som inte dömer i enlighet med vad Gud har uppenbarat, de är [i sanning] förnekare.« (Bernström) — versen är den mest åberopade i islamistisk statsideologi (»al-hakimiyya«); den klassiska exegetiken (Ibn Abbas via al-Tabari) läste dock »kufr« här som kufr dūna kufr, en mindre otro."
+    },
+    {
+      "surah": "5",
+      "ayah": "38",
+      "text": "»MANNEN SOM stjäl och kvinnan som stjäl skall som straff för detta brott få handen avhuggen; [denna föreskrift] är en sträng varning från Gud. Gud är allsmäktig, vis.« (Bernström)"
+    },
+    {
+      "surah": "5",
+      "ayah": "39",
+      "text": "»Men den som efter att ha begått brottet ångrar sig och gör bot och bättring [skall se att] Gud tar emot hans ånger; Gud är ständigt förlåtande, barmhärtig.« (Bernström) — versen omedelbart efter stöldstraffet; central i den klassiska diskussionen om att hadd-straffen bortfaller vid ånger och tvivel."
+    },
+    {
+      "surah": "2",
+      "ayah": "256",
+      "text": "»TVÅNG skall inte förekomma i trosfrågor. Vad som är rätt handlande är nu klart skilt från fel och synd. Den som förnekar de onda makterna och som tror på Gud, har sannerligen vunnit ett säkert fäste som aldrig ger vika. Gud hör allt, vet allt.« (Bernström) — An-Naʿims huvudargument mot statlig shariatillämpning bygger på just denna vers."
+    },
+    {
+      "surah": "4",
+      "ayah": "59",
+      "text": "»Troende! Lyd Gud och lyd Sändebudet och dem bland er åt vilka myndighet och ansvar anförtrotts; och om ni råkar i tvist om något, överlåt då avgörandet åt Gud och Sändebudet, om ni tror på Gud och den Yttersta dagen. Detta är bäst och det [gynnar] en riktig och lycklig utgång.« (Bernström) — grundtexten för lydnad mot ulū al-amr; klassisk kommentar begränsar lydnaden till det som inte innebär olydnad mot Gud."
+    },
+    {
+      "surah": "22",
+      "ayah": "78",
+      "text": "»Och sträva för Guds sak med all den hängivelse som ni är skyldiga Honom. Han har utvalt er och Han har inte lagt på er svåra eller tunga plikter i [utövningen av er] religion, den rena, ursprungliga tro som var er fader Abrahams. […] Förrätta därför bönen regelbundet och erlägg allmoseskatten! Och håll fast vid Gud, er Herre och er Beskyddare — den mäktigaste Beskyddaren och den bäste Hjälparen av alla!« (Bernström) — »inga svåra eller tunga plikter« (mā jaʿala ʿalaykum fī al-dīn min haraj) är grundtexten för rafʿ al-haraj, lättnadsprincipen."
+    },
+    {
+      "surah": "2",
+      "ayah": "185",
+      "text": "»[…] Gud vill göra det lätt — inte tungt — för er. Håll [fastan under den föreskrivna] perioden och prisa Gud som har väglett er — kanske skall ni visa [Honom] tacksamhet.« (Bernström) — yurīdu Allāhu bikum al-yusr; tillsammans med 22:78 grunden för taysīr, den juridiska lättnadsprincip som fiqh al-aqalliyyāt åberopar."
+    },
+    {
+      "surah": "42",
+      "ayah": "13",
+      "text": "»Han har föreskrivit er den tro som Han anbefallde Noa […] och den Vi anbefallde Abraham och Moses och Jesus: att ni skall utöva tron och inte låta er splittras i fråga om den.« (verstexten här är återgiven ur den tryckta svenska utgåvan i korpusen och BÖR hämtas ren från quran.com/42/13?translations=48 innan den sätts som blockcitat) — verbet är sharaʿa, samma rot som sharīʿa, men objektet är dīn (tron), inte ett rättssystem."
+    },
+    {
+      "surah": "5",
+      "ayah": "42",
+      "text": "»[…] Om de sedan kommer till dig skall du döma mellan dem, eller vända dig bort från dem. Om du vänder dig bort från dem kan de aldrig skada dig det ringaste, och om du dömer skall du döma mellan dem med rättrådighet. Gud älskar sannerligen de rättrådiga.« (återgiven ur den tryckta svenska korpusutgåvan; hämta ren text från quran.com/5/42?translations=48) — versen ger Profeten valet att inte döma alls i en icke-muslimsk grupps interna tvist, vilket är det koraniska stödet för rättslig icke-inblandning."
+    },
+    {
+      "surah": "42",
+      "ayah": "40",
+      "text": "»Vedergällningen för ett ont skall vara ett ont av motsvarande slag. Men den som visar överseende och gör det rätta skall få sin belöning av Gud. Han älskar inte förtryckare.« (återgiven ur den tryckta svenska korpusutgåvan; hämta ren text från quran.com/42/40?translations=48) — proportionalitetsprincipen, och företrädet för förlåtelse framför straff."
+    },
+    {
+      "surah": "2",
+      "ayah": "178",
+      "text": "»Ni som har antagit tron! Föreskrivet för er är rättvis vedergällning i fall av dödade […] Men den (gärningsmannen) som av sin broder (rättsägaren) efterskänks något, det skall då fullföljas på hederligt sätt och betalning göras till honom med gott uppträdande. Detta är en lindring från er Herre och en nåd.« (återgiven ur den tryckta svenska korpusutgåvan; hämta ren text från quran.com/2/178?translations=48) — qisās är målsägandedispositiv: brottsoffrets anhöriga kan efterskänka, vilket skiljer den från svensk allmän åtalsplikt."
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote-25844",
+      "text": "Domaren måste behandla alla människor lika för sig själv i sin domstol och i sin uppmärksamhet.",
+      "textSv": "Domaren måste behandla alla människor lika för sig själv i sin domstol och i sin uppmärksamhet.",
+      "author": "ʿUmar ibn al-Khattāb (återgiven i Ibn Khalduns Muqaddimah)",
+      "source": "Muqaddimah — VARNING: detta är en parafras av ʿUmars brev till Abū Mūsā al-Ashʿarī (»āsi bayna al-nās fī wajhika wa majlisika wa ʿadlika«), inte en ordagrann översättning. Presentera det som ett återgivet innehåll, inte som ordagrant citat, eller citera det arabiska originalet."
+    },
+    {
+      "id": "quote-25308",
+      "text": "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren.",
+      "textSv": "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren.",
+      "author": "Ibn Khaldun",
+      "source": "Muqaddimah (Introduktion till universalhistorien). Substansen bekräftas av Muqaddimahs eget resonemang (se bokpassage 262977: samhället kräver en »wāziʿ hākim«), men den svenska lydelsen är en parafras via engelsk översättning — märk detta om det används."
+    },
+    {
+      "id": "quote-25589",
+      "text": "Utan lag och rättvisa lever människor i anarki, och anarki förstör civilisationen och människorna själva.",
+      "textSv": "Utan lag och rättvisa lever människor i anarki, och anarki förstör civilisationen och människorna själva.",
+      "author": "Ibn Khaldun",
+      "source": "Muqaddimah (Introduktion till universalhistorien). Parafras — jfr Muqaddimahs kapitel 51 (bokpassage 262977) om att mänsklig samhällsbildning nödvändigtvis kräver siyāsa."
+    },
+    {
+      "id": "quote-25763",
+      "text": "Vad som är förbjudet genom tvång, överhet eller vrede är tyranni och orättvisa.",
+      "textSv": "Vad som är förbjudet genom tvång, överhet eller vrede är tyranni och orättvisa.",
+      "author": "Ibn Khaldun",
+      "source": "Muqaddimah. Parafras; användbar för avsnittet om skillnaden mellan siyāsa sharʿiyya och godtycklig maktutövning."
+    },
+    {
+      "id": "quote-25885",
+      "text": "Makt utan kunskap om religionen leder till orättvisa.",
+      "textSv": "Makt utan kunskap om religionen leder till orättvisa.",
+      "author": "Ibn Khaldun",
+      "source": "Muqaddimah. Parafras."
+    },
+    {
+      "id": "quote-2330",
+      "text": "Rättvisan kräver ordning. Ingen får dömas ohörd. Var är nu domstolen?",
+      "textSv": "Rättvisan kräver ordning. Ingen får dömas ohörd. Var är nu domstolen?",
+      "author": "Viktor Rydberg",
+      "source": "Den siste Atenaren (1859). Repliken tillhör Teodoros, som ställer sig framför en sårad man mot en lynchhop. Kontrollerad mot romantexten i korpusen (kap. 16). Passar avsnittet om varför processordning, inte bara rätt utfall, är det som gör en rättsordning till en rättsordning."
+    },
+    {
+      "id": "quote-435",
+      "text": "Lagen har hela folket och det allmänna rättsmedvetandet skrivit -- den har Gud skrivit! Ha, lagen! Vem har skrivit lagen för den fattige, din dåre. Jo, den rike! Det vill säga herren för slaven!",
+      "textSv": "Lagen har hela folket och det allmänna rättsmedvetandet skrivit -- den har Gud skrivit! Ha, lagen! Vem har skrivit lagen för den fattige, din dåre. Jo, den rike! Det vill säga herren för slaven!",
+      "author": "August Strindberg",
+      "source": "Röda rummet (1879). VIKTIGT: citatet slår ihop två repliker i en dialog — den första meningen är broderns försvar av lagen, resten är Struves/Falks svar. Dela upp dem eller markera dialogen; annars blir det ett falskt sammanhängande yttrande."
+    },
+    {
+      "id": "quote-8500",
+      "text": "Lagbunden frihet! det är jag med om, men icke lagbundet tvång.",
+      "textSv": "Lagbunden frihet! det är jag med om, men icke lagbundet tvång.",
+      "author": "August Strindberg",
+      "source": "Götiska rummen: Släktöden från sekelslutet (1904)"
+    },
+    {
+      "id": "quote-54060",
+      "text": "Den moraliska lagen är den samma för alla, oberoende af klimat, race, ålder, kön, intelligens; det är nog att vara en mänsklig varelse för att känna den: den är allmängiltig och klar.",
+      "textSv": "Den moraliska lagen är den samma för alla, oberoende af klimat, race, ålder, kön, intelligens; det är nog att vara en mänsklig varelse för att känna den: den är allmängiltig och klar.",
+      "author": "Hjalmar Söderberg",
+      "source": "Den allvarsamma leken (1912). Kontrollera i vems mun repliken ligger innan den används som Söderbergs egen ståndpunkt — den är formulerad som en position i en diskussion. Användbar som svensk motpol till rättspluralism."
+    },
+    {
+      "id": "quote-64863",
+      "text": "En frihet utan grund av tro och rättvisa kan rasa och åter upprepa den världsgamla läran om huru nära anarkien är beslägtad med despotismen.",
+      "textSv": "En frihet utan grund av tro och rättvisa kan rasa och åter upprepa den världsgamla läran om huru nära anarkien är beslägtad med despotismen.",
+      "author": "Erik Gustaf Geijer",
+      "source": "Tal vid jubelfesten 1817 (reformationsjubileet)"
+    },
+    {
+      "id": "quote-21977",
+      "text": "Allsidiga erfarenheter kunna ej vinnas, så länge religion och lag fastställa en enda sed som den rätta.",
+      "textSv": "Allsidiga erfarenheter kunna ej vinnas, så länge religion och lag fastställa en enda sed som den rätta.",
+      "author": "Ellen Key",
+      "source": "Lifslinjer (1903–1906). Den skarpaste svenska formuleringen av liberal invändning mot religiöst fastställd normordning — hör hemma i invändningsavsnittet, inte i det islamiska."
+    },
+    {
+      "id": "quote-23544",
+      "text": "En verksam skyddslagstiftning för kvinnor och barn borde i denna stund vara det sociala samvetets mest kategoriska imperativ.",
+      "textSv": "En verksam skyddslagstiftning för kvinnor och barn borde i denna stund vara det sociala samvetets mest kategoriska imperativ.",
+      "author": "Ellen Key",
+      "source": "Barnets århundrade (1900). Passar bryggan till 2019 och 2021 års erkännandeförbud (barnäktenskap, månggifte), som motiverades i precis dessa termer."
+    },
+    {
+      "id": "quote-65199",
+      "text": "All kunskap är än i dag hvad den var den första dagen, nämligen kunskap om rätt och orätt.",
+      "textSv": "All kunskap är än i dag hvad den var den första dagen, nämligen kunskap om rätt och orätt.",
+      "author": "Erik Gustaf Geijer",
+      "source": "Tal vid Svenska bibel-sällskapets allmänna sammankomst"
+    },
+    {
+      "id": "quote-65808",
+      "text": "Religion är den fredsstiftande kraft, ej blott mellan främlingar, utan ock mellan medborgare och mellan öfverhet och folk.",
+      "textSv": "Religion är den fredsstiftande kraft, ej blott mellan främlingar, utan ock mellan medborgare och mellan öfverhet och folk.",
+      "author": "Erik Gustaf Geijer",
+      "source": "Den blå boken"
+    },
+    {
+      "id": "quote-42679",
+      "text": "Som ditt brott är, blir ditt straff i morgon.",
+      "textSv": "Som ditt brott är, blir ditt straff i morgon.",
+      "author": "Johan Ludvig Runeberg",
+      "source": "Grafven i Perho (1831)"
+    },
+    {
+      "id": "quote-3449",
+      "text": "Var och en efter sin art. Med domare och allmänna åklagare förhåller det sig så, att man med dem måste tala en särskild sorts sanning, därför att den verkliga sanningen inte kan nå fram till deras hjärtan.",
+      "textSv": "Var och en efter sin art. Med domare och allmänna åklagare förhåller det sig så, att man med dem måste tala en särskild sorts sanning, därför att den verkliga sanningen inte kan nå fram till deras hjärtan.",
+      "author": "Selma Lagerlöf",
+      "source": "Bannlyst (1918)"
+    },
+    {
+      "id": "quote-25488",
+      "text": "Människan är ett barn av sedvana och det hon har blivit van vid. Hon är inte produkten av sin naturliga anlag och temperament.",
+      "textSv": "Människan är ett barn av sedvana och det hon har blivit van vid. Hon är inte produkten av sin naturliga anlag och temperament.",
+      "author": "Ibn Khaldun",
+      "source": "Muqaddimah. Parafras via engelsk översättning. Relevant för avsnittet om ʿurf (sedvana) som rättskälla — att fiqh erkänner sedvanans kraft är centralt för fiqh al-aqalliyyāt-argumentet."
+    },
+    {
+      "id": "quote-25897",
+      "text": "Rättvisa är grunden för all laglig regering.",
+      "textSv": "Rättvisa är grunden för all laglig regering.",
+      "author": "Ibn Khaldun",
+      "source": "Muqaddimah. Parafras."
+    }
+  ],
+  "bookPassages": [
+    {
+      "id": "passage-197091",
+      "text": "ARABISKA (al-Qurtubis kommentar till 4:25 om giftermålsförmyndare, wali): »فقد صرح الكتاب والسنة بأن لا نكاح إلا بولي، فلا معنى لما خالفهما. وقد كان الزهري والشعبي يقولان: إذا زوجت المرأة نفسها كفؤا بشاهدين فذلك نكاح جائز. وكذلك كان أبو حنيفة يقول […] وهو قول زفر. وإن زوجت نفسها غير كفء فالنكاح جائز، وللأولياء أن يفرقوا بينهما. قال ابن المنذر: وأما ما قاله النعمان فمخالف للسنة، خارج عن قول أكثر أهل العلم […] وقال أبو يوسف: لا يجوز النكاح إلا بولي، فإن سلم الولي جاز، وإن أبى أن يسلم والزوج كفء أجازه القاضي […] وهو قول محمد بن الحسن […] ولا خلاف بين أبي حنيفة وأصحابه أنه إذا أذن لها وليها فعقدت النكاح بنفسها جاز.«\n\nSVENSK ÖVERSÄTTNING (min): »Bok och sunna har uttryckligen slagit fast att det inte finns något äktenskap utan förmyndare, och det som strider mot dem saknar grund. Men al-Zuhri och al-Shaʿbi brukade säga: om en kvinna gifter bort sig själv med en jämlike inför två vittnen, är det ett giltigt äktenskap. Så sade också Abu Hanifa […] och det är Zufars ståndpunkt. Och om hon gifter bort sig med någon som inte är hennes jämlike är äktenskapet giltigt, men förmyndarna får skilja dem åt. Ibn al-Mundhir säger: det al-Nuʿman [Abu Hanifa] sagt strider mot sunna och faller utanför de flestas uppfattning […] Abu Yusuf sade: äktenskap är inte giltigt utan förmyndare, men om förmyndaren godtar det blir det giltigt, och om han vägrar medan mannen är en jämlike så godkänner domaren det […] så säger också Muhammad ibn al-Hasan […] Och det råder ingen oenighet mellan Abu Hanifa och hans lärjungar om att om hennes förmyndare har gett tillstånd och hon själv sluter äktenskapskontraktet, så är det giltigt.«\n\nANVÄNDNING: detta är artikelns bästa enskilda bevis för att rättsskolorna faktiskt är oense i en central familjerättsfråga — sex namngivna positioner, varav några inom en och samma skola. Talaren är al-Qurtubi som refererar; de citerade ståndpunkterna ska attribueras till respektive jurist, inte till al-Qurtubi.",
+      "bookTitle": "al-Jāmiʿ li-ahkām al-Qurʾān (Tafsir al-Qurtubi)",
+      "author": "al-Qurtubi (d. 1273)"
+    },
+    {
+      "id": "passage-177200",
+      "text": "ARABISKA (Sahih Muslim, kapitelrubrik »بيان أجر الحاكم إذا اجتهد فأصاب، أو أخطأ«, hadith nr 1716, från ʿAmr ibn al-ʿĀs): »إذا حكم الحاكم فاجتهد ثم أصاب، فله أجران، وإذا حكم فاجتهد ثم أخطأ، فله أجر.«\n\nSVENSK ÖVERSÄTTNING (min): »När domaren dömer och anstränger sig [i sitt omdöme] och träffar rätt, får han två belöningar; och när han dömer och anstränger sig men träffar fel, får han en belöning.«\n\nANVÄNDNING: Detta är artikelns viktigaste enskilda källtext. Den är muttafaq ʿalayh (även Bukhari 7352) och den slår fast inifrån traditionen att den mänskliga rättstillämpningen kan bli fel utan att bli syndig — vilket är oförenligt med bilden av sharia som en oföränderlig kodex. TALARE: Profeten Muhammed, återgiven av ʿAmr ibn al-ʿĀs; attribuera till Sahih Muslim 1716, inte till Ibn al-Qayyim eller någon annan författare i korpusen.",
+      "bookTitle": "Sahīh Muslim, kitāb al-aqdiya, hadith 1716",
+      "author": "Muslim ibn al-Hajjaj (d. 875)"
+    },
+    {
+      "id": "passage-148116",
+      "text": "ARABISKA (Ibn Qudama bekräftar samma hadith och statusen): »وأما السنة، فما روى عمرو بن العاص، عن النبي صلى الله عليه وسلم أنه قال: «إذا اجتهد الحاكم فأصاب فله أجران، وإذا اجتهد فأخطأ فله أجر» متفق عليه […] والقضاء من فروض الكفايات؛ لأن أمر الناس لا يستقيم بدونه […] قال أحمد: لا بد للناس من حاكم، أتذهب حقوق الناس […] ولذلك جعل الله فيه أجرا مع الخطأ، وأسقط عنه حكم الخطأ.«\n\nSVENSK ÖVERSÄTTNING (min): »Vad sunna beträffar: det ʿAmr ibn al-ʿĀs berättat från Profeten, att han sade: ›När domaren anstränger sig och träffar rätt får han två belöningar, och när han anstränger sig och träffar fel får han en belöning.‹ — samstämmigt överlevererad [av Bukhari och Muslim] […] Domarämbetet hör till de kollektiva plikterna, eftersom människornas angelägenheter inte kan ordnas utan det […] Ahmad sade: människorna måste ha en domare — skall då folks rättigheter gå förlorade? […] Därför har Gud lagt en belöning i det även vid felslut, och lyft av honom ansvaret för felet.«\n\nANVÄNDNING: Hanbalitisk bekräftelse av hadithens status som muttafaq ʿalayh, plus läran om qadāʾ som fard kifāya. TALARE: Ibn Qudama som citerar hadithen och Ahmad ibn Hanbal.",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma al-Maqdisī (d. 1223)"
+    },
+    {
+      "id": "passage-107218",
+      "text": "ARABISKA (Ibn Taymiyya om att ordet »sharia« används oskiljaktigt): »كما أن لفظ ‹الشريعة› يتكلم به كثير من الناس ولا يفرق بين الشرع المنزل من عند الله تعالى وهو الكتاب والسنة الذي بعث الله به رسوله؛ فإن هذا الشرع ليس لأحد من الخلق الخروج عنه ولا يخرج عنه إلا كافر — وبين الشرع […]«\n\nSVENSK ÖVERSÄTTNING (min): »Liksom ordet ›sharia‹ används av många människor utan att de skiljer mellan den uppenbarade lagen från Gud — det vill säga Boken och sunna som Gud sände sin sändebud med, och som ingen av skapelsen får träda utanför och som ingen träder utanför utom en förnekare — och den [andra sortens] shar…«\n\nANVÄNDNING: Ovärderlig för artikelns kärnfråga. Ibn Taymiyya gör redan på 1300-talet den distinktion som saknas i den svenska debatten: al-sharʿ al-munazzal (det uppenbarade), al-sharʿ al-muʾawwal (det uttolkade) och al-sharʿ al-mubaddal (det förvanskade). Passagen är avhuggen i korpusen — hämta hela stycket ur en utgåva av al-Furqān bayna awliyāʾ al-Rahmān wa-awliyāʾ al-Shaytān innan den citeras. TALARE: Ibn Taymiyya själv.",
+      "bookTitle": "al-Furqān bayna awliyāʾ al-Rahmān wa-awliyāʾ al-Shaytān",
+      "author": "Ibn Taymiyya (d. 1328)"
+    },
+    {
+      "id": "passage-263398",
+      "text": "ARABISKA (Ibn Khaldun om usūl al-fiqhs uppkomst): »تحصيل هذه القوانين والقواعد لاستفادة الاحكام من الأدلة فكتبوها فنا قائما برأسه سموه أصول الفقه وكان أول من كتب فيه الشافعي رضي الله تعالى عنه أملى فيه رسالته المشهورة تكلم فيها في الأوامر والنواهي والبيان والخبر والنسخ وحكم العلة المنصوصة من القياس ثم كتب فقهاء الحنفية فيه […] وجاء أبو زيد الدبوسي من أئمتهم فكتب في القياس بأوسع من جميعهم […] وكملت صناعة أصول الفقه بكماله.«\n\nSVENSK ÖVERSÄTTNING (min): »[De insamlade] dessa regler och principer för att härleda rättsreglerna ur bevisen, och nedtecknade dem som en självständig vetenskap som de kallade usūl al-fiqh. Den förste som skrev i ämnet var al-Shāfiʿī, som dikterade sin berömda Risāla, där han behandlade befallningar och förbud, klargörande och överlevererad tradition, upphävande, och den uttryckligen angivna rättsgrunden i analogislutet. Därefter skrev hanafiternas jurister om det […] och Abū Zayd al-Dabūsī bland deras ledande gestalter skrev om qiyās utförligare än någon annan […] och därmed fullbordades usūl al-fiqh som vetenskap.«\n\nANVÄNDNING: Fastställer att rättsvetenskapen är en mänsklig konstruktion med en daterbar historia och en namngiven upphovsman (al-Shāfiʿī, d. 820). TALARE: Ibn Khaldun.",
+      "bookTitle": "Muqaddimah (i Tārīkh Ibn Khaldūn), kapitlet om usūl al-fiqh",
+      "author": "Ibn Khaldun (d. 1406)"
+    },
+    {
+      "id": "passage-263393",
+      "text": "ARABISKA (Ibn Khaldun om de fyra rättskällorna och oenigheten om dem): »وصار ذلك دليلا شرعيا باجماعهم عليه وهو القياس وهو رابع الأدلة واتفق جمهور العلماء على أن هذه هي أصول الأدلة وإن خالف بعضهم في الاجماع والقياس إلا أنه شذوذ […] فاما الكتاب فدليله المعجزة القاطعة في متنه والتواتر في نقله فلم يبق فيه مجال للاحتمال وأما السنة وما نقل إلينا منها فالاجماع على وجوب العمل بما يصح منها.«\n\nSVENSK ÖVERSÄTTNING (min): »Och detta blev ett rättsligt bevis genom deras samstämmighet om det, nämligen analogislutet, som är det fjärde beviset. Flertalet lärde är eniga om att dessa är bevisens grunder, även om några av dem avvek i fråga om konsensus och analogi — men det är en avvikande minoritet […] Vad Boken beträffar är dess bevis det avgörande undret i dess text och den massöverlevererade traditionen i dess vidarebefordran, så där finns inget utrymme kvar för osäkerhet. Vad sunna beträffar och det som nått oss därav, så finns konsensus om plikten att handla efter det som är autentiskt av den.«\n\nANVÄNDNING: De fyra usūl (Koranen, sunna, ijmāʿ, qiyās) — och notera att Ibn Khaldun själv redovisar att det fanns jurister (zahiriterna, Ibn Hazm) som förkastade ijmāʿ och qiyās. TALARE: Ibn Khaldun.",
+      "bookTitle": "Muqaddimah (i Tārīkh Ibn Khaldūn)",
+      "author": "Ibn Khaldun (d. 1406)"
+    },
+    {
+      "id": "passage-263402",
+      "text": "ARABISKA (Ibn Khaldun om varför bara fyra skolor blev kvar): »ثم لما انتهى ذلك إلى الأئمة الأربعة من علماء الأمصار وكانوا بمكان من حسن الظن بهم اقتصر الناس على تقليدهم ومنعوا من تقليد سواهم لذهاب الاجتهاد لصعوبته وتشعب العلوم التي هي مواده باتصال الزمان وافتقاد من يقوم على سوى هذه المذاهب الأربعة فأقيمت هذه المذاهب الأربعة أصول الملة وأجري الخلاف بين المتمسكين بها […] فتارة يكون الخلاف بين الشافعي ومالك وأبو حنيفة يوافق أحدهما وتارة بين مالك وأبي حنيفة والشافعي يوافق أحدهما.«\n\nSVENSK ÖVERSÄTTNING (min): »När detta så nådde de fyra imamerna bland städernas lärde, och man hyste stort förtroende för dem, inskränkte sig människorna till att följa dem och förbjöd att man följde någon annan — eftersom ijtihād hade upphört på grund av dess svårighet och de grenade vetenskaper som är dess material, och eftersom det med tiden inte längre fanns någon som upprätthöll andra skolor än dessa fyra. Så restes dessa fyra skolor till trossamfundets grundvalar, och oenigheten mellan deras anhängare fortlöpte […] Ibland står oenigheten mellan al-Shāfiʿī och Mālik medan Abū Hanīfa instämmer med en av dem, ibland mellan Mālik och Abū Hanīfa medan al-Shāfiʿī instämmer med en av dem.«\n\nANVÄNDNING: Historiserar den fyrskoliga ordningen — den är ett resultat, inte en utgångspunkt. Och den sista meningen är en explicit beskrivning av permanent oenighet som normaltillstånd. TALARE: Ibn Khaldun.",
+      "bookTitle": "Muqaddimah (i Tārīkh Ibn Khaldūn)",
+      "author": "Ibn Khaldun (d. 1406)"
+    },
+    {
+      "id": "passage-263182",
+      "text": "ARABISKA (Ibn Khaldun om två sorters styre): »فالدولة دون العمران لا تتصور والعمران دون الدولة والملك متعذر لما في طباع البشر من العدوان الداعي إلى الوازع فتتعين السياسة لذلك إما الشرعية أو الملكية وهو معنى الدولة.«\n\nSVENSK ÖVERSÄTTNING (min): »En statsmakt utan civilisation är otänkbar, och civilisation utan statsmakt och kungadöme är omöjlig, på grund av det övervåld som ligger i människans natur och som kräver en återhållande kraft. Därför blir styret nödvändigt — antingen det lagbundna [sharʿiyya] eller det furstliga [malakiyya] — och det är vad staten innebär.«\n\nANVÄNDNING: Ibn Khalduns distinktion mellan siyāsa sharʿiyya och siyāsa malakiyya är avgörande: den visar att den klassiska traditionen själv räknade med ett stort område av världsligt styre som *inte* var härlett ur uppenbarelsen. TALARE: Ibn Khaldun.",
+      "bookTitle": "Muqaddimah (i Tārīkh Ibn Khaldūn), kapitel 51",
+      "author": "Ibn Khaldun (d. 1406)"
+    },
+    {
+      "id": "passage-263371",
+      "text": "ARABISKA (Ibn Khalduns definition av fiqh): »الفقه معرفة أحكام الله تعالى في أفعال المكلفين بالوجوب والحذر والندب والكراهة والإباحة وهي متلقاة من الكتاب والسنة وما نصبه الشارع لمعرفتها من الأدلة فإذا استخرجت الاحكام من تلك الأدلة قيل لها فقه […] ولا بد من وقوعه ضرورة أن الأدلة غالبها من النصوص وهي بلغة العرب وفي اقتضاءات ألفاظها لكثير من معانيها اختلاف بينهم معروف وأيضا فالسنة مختلفة الطرق في الثبوت وتتعارض في الأكثر أحكامها فتحتاج إلى الترجيح وهو مختلف أيضا.«\n\nSVENSK ÖVERSÄTTNING (min): »Fiqh är kunskapen om Guds bestämmelser rörande de ansvarigas handlingar — som obligatoriska, förbjudna, rekommenderade, ogillade eller tillåtna — hämtade ur Boken och sunna och de bevis som Lagstiftaren uppställt för att man skall känna dem. När bestämmelserna härletts ur dessa bevis kallas det fiqh […] Och [oenighet] måste med nödvändighet uppstå, eftersom bevisen till största delen består av texter på arabiska, och det råder välkänd oenighet om vad deras ord innebär för många av deras betydelser. Dessutom är sunnas överföringsvägar olika starka, och dess bestämmelser motsäger varandra i de flesta fall, så man behöver väga dem mot varandra — och även det görs olika.«\n\nANVÄNDNING: Den bästa klassiska formuleringen av VARFÖR oenighet är strukturellt oundviklig. Detta är fiqhens självbild, inte en modern apologetik. TALARE: Ibn Khaldun.",
+      "bookTitle": "Muqaddimah (i Tārīkh Ibn Khaldūn), kapitlet om fiqh",
+      "author": "Ibn Khaldun (d. 1406)"
+    },
+    {
+      "id": "passage-134029",
+      "text": "ARABISKA (Ibn Rushd om vem som får vara domare, och en skolskillnad): »وأصول هذا الكتاب تنحصر في ستة أبواب: أحدها: في معرفة من يجوز قضاؤه […] فأما الصفات المشترطة في الجواز فأن يكون حرا مسلما، بالغا، ذكرا، عاقلا، عدلا. وقد قيل في المذهب: إن الفسق يوجب العزل، ويمضي ما حكم به. واختلفوا في كونه من أهل الاجتهاد، فقال الشافعي: يجب أن يكون من أهل الاجتهاد […] وقال أبو حنيفة: يجوز حكم العامي.«\n\nSVENSK ÖVERSÄTTNING (min): »Denna boks grunder inskränker sig till sex kapitel, varav det första gäller vem som får döma […] De egenskaper som krävs för behörighet är att han skall vara fri, muslim, myndig, man, vid sina sinnens fulla bruk och rättrådig. Inom [den malikitiska] skolan har sagts att sedeslöshet medför avsättning men att det han redan dömt står fast. De var oense om han måste tillhöra dem som kan utöva ijtihād: al-Shāfiʿī sade att han måste göra det […] och Abū Hanīfa sade att en lekmans dom är giltig.«\n\nANVÄNDNING: Ytterligare ett konkret, namngivet exempel på skolskillnad — och notera könskravet (»ذكرا«, man), som var majoritetsuppfattningen men som Abū Hanīfa och al-Tabarī avvek från. Kontrollera Abū Hanīfas position om kvinnliga domare separat innan den påstås. TALARE: Ibn Rushd (Averroës) som refererar.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtasid, kitāb al-aqdiya",
+      "author": "Ibn Rushd al-Hafid (Averroës, d. 1198)"
+    },
+    {
+      "id": "passage-129512",
+      "text": "ARABISKA (al-Māwardī om de fyra grunderna en domare måste behärska): »وأصول الأحكام في الشرع أربعة: أحدها: علمه بكتاب الله عز وجل […] ناسخا ومنسوخا، ومحكما ومتشابها، وعموما وخصوصا، ومجملا ومفسرا. والثاني: علمه بسنة رسول الله صلى الله عليه وسلم الثابتة من أقواله وأفعاله، وطرق مجيئها في التواتر والآحاد والصحة والفساد […] والثالث: علمه بتأويل السلف فيما اجتمعوا عليه واختلفوا فيه؛ ليتبع الإجماع ويجتهد برأيه في الاختلاف. والرابع: علمه بالقياس […] فإذا أحاط علمه بهذه الأصول الأربعة في أحكام الشريعة صار بها من أهل الاجتهاد في الدين.«\n\nSVENSK ÖVERSÄTTNING (min): »Rättsreglernas grunder i lagen är fyra. Den första: hans kunskap om Guds bok — det upphävande och det upphävda, det entydiga och det mångtydiga, det allmänna och det särskilda, det sammanfattade och det utlagda. Den andra: hans kunskap om Profetens fastställda sunna av ord och handlingar, och hur den överlevererats — massöverlevererat eller av enstaka, sunt eller bristfälligt […] Den tredje: hans kunskap om de tidiga generationernas tolkningar, i det de var eniga om och det de var oense om, så att han följer konsensus och utövar eget omdöme i oenigheten. Den fjärde: hans kunskap om analogislutet […] Om hans kunskap omfattar dessa fyra grunder i lagens bestämmelser, blir han därigenom en av dem som kan utöva ijtihād i religionen.«\n\nANVÄNDNING: Visar hur höga de klassiska kompetenskraven för rättstillämpning var — en direkt kontrast till den moderna föreställningen att »sharia« är något var och en kan slå upp. Notera också al-Māwardīs följande mening: Abū Hanīfa tillät att en icke-mujtahid utsågs till domare, medan »jumhūr al-fuqahāʾ« ansåg en sådan utnämning ogiltig. TALARE: al-Māwardī.",
+      "bookTitle": "al-Ahkām al-sultāniyya",
+      "author": "al-Māwardī (d. 1058)"
+    },
+    {
+      "id": "passage-107561",
+      "text": "ARABISKA (Ibn Taymiyya om ämbetets två pelare): »وينبغي أن يعرف الأصلح في كل منصب فإن الولاية لها ركنان القوة والأمانة كما قال تعالى ‹إن خير من استأجرت القوي الأمين› […] والقوة في الحكم بين الناس ترجع إلى العلم بالعدل الذي دل عليه الكتاب والسنة وإلى القدرة على تنفيذ الأحكام والأمانة ترجع إلى خشية الله وألا يشتري بآياته ثمنا قليلا.«\n\nSVENSK ÖVERSÄTTNING (min): »Man bör känna till vem som är lämpligast för varje ämbete, ty myndighetsutövning har två pelare: styrka och pålitlighet, såsom Gud sagt: ›Den bäste du kan anställa är den starke och pålitlige.‹ […] Styrkan i att döma mellan människor går tillbaka på kunskapen om den rättvisa som Boken och sunna anvisat och på förmågan att verkställa domarna; och pålitligheten går tillbaka på gudsfruktan och på att inte sälja Hans budskap för en ringa summa.«\n\nANVÄNDNING: Ibn Taymiyya — den jurist islamister oftast åberopar — definierar ämbetet i termer av kompetens och integritet, inte av doktrinär renlärighet. TALARE: Ibn Taymiyya.",
+      "bookTitle": "al-Siyāsa al-sharʿiyya fī islāh al-rāʿī wa-l-raʿiyya",
+      "author": "Ibn Taymiyya (d. 1328)"
+    },
+    {
+      "id": "passage-107763",
+      "text": "ARABISKA (Ibn Taymiyya om att villkor uppfylls efter förmåga): »ومتى أمكن في الحوادث المشكلة معرفة ما دل عليه الكتاب والسنة كان هو الواجب وإن لم يمكن ذلك لضيق الوقت أو عجز الطالب أو تكافؤ الأدلة عنده أو غير ذلك فله أن يقلد من يرتضى علمه ودينه […] وكذلك ما يشترط في القضاة والولاة من الشروط يجب فعله بحسب الإمكان […] فأما مع العجز فإن الله لا يكلف نفسا إلا وسعها.«\n\nSVENSK ÖVERSÄTTNING (min): »När det i svåra fall är möjligt att veta vad Boken och sunna anvisar, är det den plikten. Men om det inte är möjligt — på grund av tidsnöd, sökandens oförmåga, att bevisen väger jämnt för honom, eller annat — så får han följa den vars kunskap och religiositet han litar på […] Likaså gäller att de villkor som uppställs för domare och myndighetsutövare skall uppfyllas i den mån det är möjligt […] Vid oförmåga gäller att Gud inte ålägger någon mer än den förmår.«\n\nANVÄNDNING: Central för avsnittet om muslimer som minoritet i en icke-muslimsk rättsordning: den klassiska traditionen har en inbyggd doktrin om att villkoren uppfylls »efter förmåga« (bi-hasab al-imkān). Detta, inte fiqh al-aqalliyyāt från 1990-talet, är den äldsta grunden. TALARE: Ibn Taymiyya.",
+      "bookTitle": "al-Siyāsa al-sharʿiyya fī islāh al-rāʿī wa-l-raʿiyya",
+      "author": "Ibn Taymiyya (d. 1328)"
+    },
+    {
+      "id": "passage-200359",
+      "text": "ARABISKA (al-Qurtubi om shirʿa och minhāj i 5:48): »وقال أبو العباس محمد بن يزيد: الشريعة ابتداء الطريق، والمنهاج الطريق المستمر. وروي عن ابن عباس والحسن وغيرهما ‹شرعة ومنهاجا› سنة وسبيلا. ومعنى الآية أنه جعل التوراة لأهلها، والإنجيل لأهله، والقرآن لأهله، وهذا في الشرائع والعبادات، والأصل التوحيد لا اختلاف فيه […] قوله تعالى: ‹ولو شاء الله لجعلكم أمة واحدة› أي لجعل شريعتكم واحدة.«\n\nSVENSK ÖVERSÄTTNING (min): »Abū al-ʿAbbās Muhammad ibn Yazīd sade: sharīʿa är vägens början, och minhāj är den fortlöpande vägen. Från Ibn ʿAbbās, al-Hasan och andra har överlevererats att ›shirʿa wa minhāj‹ betyder ›sedvänja och väg‹. Versens innebörd är att Han gav Tora åt dess folk, Evangeliet åt dess folk och Koranen åt dess folk — och detta gäller lagarna och gudstjänsten, medan grunden, tawhīd, inte är föremål för olikhet […] Hans ord ›Om Gud hade velat hade Han gjort er till ett enda samfund‹ betyder: gjort er lag till en enda.«\n\nANVÄNDNING: Klassisk exeges som uttryckligen läser 5:48 som att rättsordningarna får skilja sig åt medan trosgrunden inte gör det — och att Gud avsiktligt inte gjorde lagen till en enda. TALARE: al-Qurtubi som återger al-Mubarrad och Ibn ʿAbbās.",
+      "bookTitle": "al-Jāmiʿ li-ahkām al-Qurʾān (Tafsir al-Qurtubi), till 5:48",
+      "author": "al-Qurtubi (d. 1273)"
+    },
+    {
+      "id": "passage-121722",
+      "text": "ARABISKA (Ibn al-Qayyim om sharia mot haqiqa): »والشريعة التزام العبودية. فالشريعة: أن تعبده. والحقيقة: أن تشهده. فالشريعة: قيامك بأمره. والحقيقة: شهودك لوصفه.«\n\nSVENSK ÖVERSÄTTNING (min): »Och sharia är att hålla fast vid tjänarskapet. Sharia är att du dyrkar Honom; haqīqa är att du bevittnar Honom. Sharia är att du uppfyller Hans befallning; haqīqa är att du skådar Hans egenskap.«\n\nANVÄNDNING: Visar en helt annan användning av ordet sharia än den juridiska — här som den lydnadens väg som ställs mot den mystiska erfarenheten. Ett bra motmedel mot att låta ordet betyda en enda sak. TALARE: Ibn al-Qayyim, som kommenterar al-Ansaris Manāzil al-sāʾirīn.",
+      "bookTitle": "Madārij al-sālikīn",
+      "author": "Ibn Qayyim al-Jawziyya (d. 1350)"
+    },
+    {
+      "id": "passage-262977",
+      "text": "ARABISKA (Ibn Khaldun, kapitelrubrik): »الفصل الحادي والخمسون في أن العمران البشري لا بد له من سياسة ينتظم بها امره. إعلم أنه قد تقدم لنا في غير موضع أن الاجتماع للبشر ضروري وهو معنى العمران الذي نتكلم فيه وأنه لا بد لهم في الاجتماع من وازع حاكم يرجعون [إليه].«\n\nSVENSK ÖVERSÄTTNING (min): »Kapitel femtioett: om att den mänskliga civilisationen ovillkorligen behöver ett styre genom vilket dess angelägenheter ordnas. Vet att vi på flera ställen tidigare har visat att samhällsbildning är nödvändig för människan — det är innebörden i den civilisation vi talar om — och att de i samlevnaden ovillkorligen behöver en återhållande makthavare som de vänder sig till.«\n\nANVÄNDNING: Grunden för citaten 25308 och 25589 i citatdatabasen. Här finns den arabiska formuleringen om man vill citera ordagrant i stället för parafrasen. TALARE: Ibn Khaldun.",
+      "bookTitle": "Muqaddimah (i Tārīkh Ibn Khaldūn), kapitel 51",
+      "author": "Ibn Khaldun (d. 1406)"
+    },
+    {
+      "id": "passage-107024",
+      "text": "ARABISKA (Ibn Taymiyya om lagens tre pliktkategorier): »فان واجبات الشريعة التي هي حق لله ثلاثة أقسام: عبادات كالصلاة والزكاة والصيام، وعقوبات إما مقدرة وإما مفوضة، وكفارات. وكل واحد من أقسام الواجبات ينقسم إلى بدني والى مالي والى مركب منهما […] والعقوبات البدنية كالقتل والقطع والمالية كاتلاف أوعية الخمر.«\n\nSVENSK ÖVERSÄTTNING (min): »Lagens plikter som utgör Guds rätt är tre slag: gudstjänsthandlingar såsom bön, allmoseskatt och fasta; straff, antingen fastställda eller överlämnade [till myndighetens bedömning]; och försoningsgåvor. Vart och ett av dessa slag delas i kroppsliga, ekonomiska och sammansatta […] De kroppsliga straffen är såsom dödande och avskärande, de ekonomiska såsom förstörande av vinkärl.«\n\nANVÄNDNING: Visar den klassiska systematiken där hudūd (fastställda straff) är EN kategori bland flera, och att den största kategorin — taʿzīr, »överlämnade« straff — helt låg i myndighetens skön. Detta undergräver bilden av sharia som huvudsakligen strafflag. TALARE: Ibn Taymiyya.",
+      "bookTitle": "al-Hisba fī al-islām",
+      "author": "Ibn Taymiyya (d. 1328)"
+    },
+    {
+      "id": "passage-260680",
+      "text": "ARABISKA (Ibn al-Qayyim om straffens tre kategorier): »والمعاصي ثلاثة أنواع: نوع عليه حد مقدر، فلا يجمع بينه وبين التعزير. ونوع لا حد فيه، ولا كفارة، فهذا يردع فيه بالتعزير، ونوع فيه كفارة، ولا حد فيه […] والقصاص يجري مجرى الحد، فلا يجمع بينه وبين التعزير.«\n\nSVENSK ÖVERSÄTTNING (min): »Överträdelserna är av tre slag: ett slag som har ett fastställt hadd-straff, och då förenas det inte med skönsmässigt straff; ett slag som varken har hadd eller försoningsgåva, och då avskräcks man med skönsmässigt straff; och ett slag som har försoningsgåva men inte hadd […] Och vedergällningen [qisās] följer hadd-straffets ordning, så den förenas inte med skönsmässigt straff.«\n\nANVÄNDNING: Systematiken hudūd / qisās / taʿzīr, som är nödvändig för att artikeln alls ska kunna diskutera strafflagen begripligt. TALARE: Ibn al-Qayyim.",
+      "bookTitle": "Zād al-maʿād fī hady khayr al-ʿibād",
+      "author": "Ibn Qayyim al-Jawziyya (d. 1350)"
+    },
+    {
+      "id": "passage-234922",
+      "text": "ARABISKA (al-Shāfiʿī åberopar Muʿādh-hadithen och rangordnar källorna): »كيف تقضي؟ قال بكتاب الله عز وجل. قال فإن لم يكن؟ قال فبسنة رسول الله صلى الله عليه وسلم. قال فإن لم يكن؟ قال أجتهد رأيي […] فأخبر النبي صلى الله عليه وسلم أن الاجتهاد بعد أن لا يكون كتاب الله ولا سنة رسوله […] فإذا كان هذا هكذا فكتاب الله والسنة والإجماع أولى من رأي نفسه ومن قال الاجتهاد أولى خالف الكتاب والسنة برأيه.«\n\nSVENSK ÖVERSÄTTNING (min): »›Hur dömer du?‹ Han sade: ›Med Guds bok.‹ Han sade: ›Och om det inte finns där?‹ Han sade: ›Med Guds sändebuds sunna.‹ Han sade: ›Och om det inte finns där?‹ Han sade: ›Då anstränger jag mitt eget omdöme.‹ […] Profeten meddelade alltså att ijtihād kommer efter att Guds bok och Hans sändebuds sunna saknas […] När det förhåller sig så, är Guds bok, sunna och konsensus förmer än ens eget omdöme, och den som säger att ijtihād är förmer har med sitt omdöme motsagt Boken och sunna.«\n\nVIKTIG VARNING: Muʿādh-hadithen som al-Shāfiʿī och al-Māwardī bygger på är hos hadithkritikerna svag (daʿīf). al-Bukhārī: »den är inte autentisk, och alla kända kedjor är mursal«; al-Tirmidhī: »den överlevereras endast genom denna kedja, som enligt min mening inte är sammanhängande«; Ibn Hazm: »inte autentisk, eftersom al-Hārith [ibn ʿAmr] är okänd och även hans lärare är okända«. Artikeln bör redovisa både hur central hadithen är för rättskälleläran och att dess isnād aldrig godtagits — det är ett bra exempel på att traditionen inte är en sluten enhet. TALARE: al-Shāfiʿī som citerar hadithen.",
+      "bookTitle": "al-Umm, kitāb ikhtilāf al-hadīth / bāb al-ijtihād",
+      "author": "al-Shāfiʿī (d. 820)"
+    },
+    {
+      "id": "passage-112555",
+      "text": "ARABISKA (Ibn al-Jawzi om jurister som dömer utan att kunna källorna): »كان الفقهاء في قديم الزمان هم أهل القرآن والحديث فما زال الأمر يتناقص حتى قال المتأخرون يكفينا أن نعرف آيات الأحكام من القرآن وأن نعتمد على الكتب المشهورة في الحديث […] ثم استهانوا بهذا الأمر أيضا وصار أحدهم يحتج بآية لا يعرف معناها وبحديث لا يدري أصحيح هو أم لا وربما اعتمد على قياس يعارضه حديث صحيح […] وإنما الفقه استخراج من الكتاب والسنة فكيف يستخرج من شيء لا يعرفه.«\n\nSVENSK ÖVERSÄTTNING (min): »Förr i tiden var juristerna Koranens och hadithens folk. Så avtog saken alltmer, tills de senare sade: det räcker för oss att känna Koranens rättsverser och att stödja oss på de kända hadithverken […] Sedan tog de lätt på även detta, och nu åberopar en av dem en vers vars innebörd han inte känner och en hadith som han inte vet om den är autentisk eller inte, och stöder sig kanske på ett analogislut som en autentisk hadith motsäger […] Men fiqh är just härledning ur Boken och sunna — hur skall man härleda ur något man inte känner?«\n\nANVÄNDNING: En intern, medeltida kritik av juridisk kompetensförlust som klingar exakt som en modern kritik av självutnämnda »shariadomstolar«. TALARE: Ibn al-Jawzi (»qāla al-musannif« markerar att det är författarens egen röst).",
+      "bookTitle": "Talbīs Iblīs",
+      "author": "Ibn al-Jawzī (d. 1201)"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-hd-mahr",
+      "url": "https://lagen.nu/dom/nja/2017s168",
+      "title": "NJA 2017 s. 168 — Högsta domstolen om mahr (islamisk brudgåva)",
+      "keyFindings": [
+        "Rubrik ordagrant: »Ett avtal om mahr träffades i anslutning till att ett äktenskap ingicks i Iran. Enligt avtalet skulle mannen vid anfordran utge ett större penningbelopp till den blivande hustrun. Den ene maken hade sedan tidigare hemvist i Sverige och makarna avsåg att gemensamt ta hemvist här. Svensk rätt blev därmed tillämplig på deras förmögenhetsförhållanden. Avtalet har bedömts närmast vara att likna vid ett avtal om en partiell framtida bodelning och ansågs därmed inte giltigt enligt svensk rätt.«",
+        "Mål T 2415-15, dom 29 mars 2017. Beloppet var 690 guldmynt, motsvarande ca 1,5 miljoner kronor.",
+        "Tillämpade lagrum: lagen (1990:272) om internationella frågor rörande makars och sambors förmögenhetsförhållanden (LIMF) 1–5 och 19 §§, samt äktenskapsbalken.",
+        "Domskälens logik är inte att mahr är islamiskt och därför otillåtet, utan att avtalet faller på en allmän svensk regel om föravtal om bodelning: sådana är bara giltiga när äktenskapets upplösning är omedelbart förestående, vilket mahr per definition aldrig är eftersom det avtalas vid vigseln."
+      ]
+    },
+    {
+      "id": "src-ad-handskakning",
+      "url": "https://lagen.nu/dom/ad/2018:51",
+      "title": "AD 2018 nr 51 — Arbetsdomstolen, handskakningsmålet",
+      "keyFindings": [
+        "Rubrik ordagrant: »En kvinna gjorde en förfrågan om arbete som tolk. Tolkföretaget avbröt rekryteringsförfarandet sedan kvinnan under en anställningsintervju, med hänvisning till sin religion, inte handhälsade på en manlig företrädare för företaget. Arbetsdomstolen har funnit att kvinnan blivit utsatt för indirekt diskriminering.«",
+        "Dom 15 augusti 2018. 40 000 kr i diskrimineringsersättning jämte ränta från 13 april 2017.",
+        "Domstolen fann att vägran att handhälsa med motsatt kön hade nära och direkt samband med en religiös övertygelse och utgjorde en religionsmanifestation skyddad av EKMR art. 9.",
+        "Företagets policy att hälsa på alla oavsett kön ansågs missgynna personer med viss religion; mindre ingripande alternativ fanns (krav på respektfull hälsning utan könsskillnad). Två ledamöter var skiljaktiga och menade att policyn tjänade legitima jämställdhets- och neutralitetssyften.",
+        "Målet är det bästa svenska exemplet på att religiöst motiverad könsseparering kan skyddas av diskrimineringsrätten — vilket är svårt att förena med bilden av att svensk rätt konsekvent avvisar shariabaserad praxis."
+      ]
+    },
+    {
+      "id": "src-hfd-sloja",
+      "url": "https://lagen.nu/dom/hfd/2022:51",
+      "title": "HFD 2022 ref. 51 (I och II) — Högsta förvaltningsdomstolen om kommunala slöjförbud",
+      "keyFindings": [
+        "Rubrik ordagrant: »I mål om laglighetsprövning enligt kommunallagen har en kommuns beslut att i kommunala förskolor och grundskolor inte tillåta bärande av huvudduk och liknande plagg ansetts utgöra en begränsning av yttrandefriheten som saknar lagstöd (I och II).«",
+        "Mål 4266-21 (Skurup) och 4120-21 (Staffanstorp), dom 8 december 2022.",
+        "Domstolen grundade avgörandet på YTTRANDEFRIHETEN i 2 kap. 1 § första stycket regeringsformen, inte på religionsfriheten: klädsel som uttrycker religiös tillhörighet är ett meddelande av tankar och känslor i bildform.",
+        "Begränsningar av yttrandefriheten kräver lagstöd enligt 2 kap. 20–25 §§ RF. Skollagens krav på icke-konfessionell undervisning (1 kap. 6 § skollagen) riktar sig till huvudmannen, inte till elevers klädsel, och gav därför inget stöd.",
+        "Underinstanserna (Förvaltningsrätten i Malmö, november 2020, och kammarrätten) hade kommit till samma slut men resonerat om religionsfrihet."
+      ]
+    },
+    {
+      "id": "src-skiljeforfarande",
+      "url": "https://lagen.nu/1999:116",
+      "title": "Lag (1999:116) om skiljeförfarande — 1 § och 33 §",
+      "keyFindings": [
+        "1 § ordagrant: »Tvister i frågor som parterna kan träffa förlikning om får genom avtal lämnas till avgörande av en eller flera skiljemän.«",
+        "33 § gör en skiljedom ogiltig om den »innefattar prövning av en fråga som enligt svensk lag inte får avgöras av skiljemän«, eller om domen »eller det sätt på vilket skiljedomen tillkommit är uppenbart oförenlig med grunderna för rättsordningen i Sverige« (ordre public).",
+        "Detta är den avgörande juridiska poängen om »shariadomstolar« i Sverige: ett skiljeorgan kan bindande avgöra en förmögenhetstvist mellan samtyckande parter, men kan aldrig upplösa ett äktenskap, avgöra vårdnad eller ådöma straff — de frågorna är indispositiva och därmed inte skiljedomsbara.",
+        "Ogiltighet enligt 33 § inträder utan klander och utan tidsfrist, till skillnad från klanderbara fel enligt 34 §."
+      ]
+    },
+    {
+      "id": "src-flamman-shariadomstol",
+      "url": "https://www.flamman.se/jurist-driver-svensk-shariadomstol-sekulariserande/",
+      "title": "Flamman: »Jurist driver svensk shariadomstol: 'Sekulariserande'« (augusti 2026)",
+      "keyFindings": [
+        "Walving-Lundberg Business Court är ett privat skiljedomsinstitut med två avdelningar — en som tillämpar svensk rätt och en som tillämpar sharia utifrån Koranen och islamiska texter. Det hanterar civilrättsliga tvister mellan samtyckande parter.",
+        "Grundare är Mattias Walving-Lundberg, jurist från Umeå. Shariaavdelningen leds av Rachid el Mounacifi från Marocko.",
+        "Kundunderlaget beskrivs som »begränsat« nästan ett år efter starten; institutet siktar på gruppklienter snarare än enskilda.",
+        "Amineh Kakabaveh (Varken hora eller kuvad) varnar för att verksamheten hotar »svensk demokrati, rättsstat, jämställdhet och kvinnors och barns rättigheter«, särskilt i familjerättsliga frågor.",
+        "Grundarens eget försvar är att verksamheten »sekulariserar« genom att flytta dömande makt från konservativa imamer till en granskningsbar skiljedomsordning under svensk domstolskontroll. Detta är det starkaste argumentet för formaliserad religiös skiljedom, och bör återges i den formen."
+      ]
+    },
+    {
+      "id": "src-motion-parallella",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/forbud-mot-parallella-rattssystem-i-sverige_hd021712/",
+      "title": "Motion 2025/26:1712 av Ann-Sofie Alm (M): Förbud mot parallella rättssystem i Sverige",
+      "keyFindings": [
+        "Inlämnad 2 oktober 2025. Två yrkanden: (1) utred lagstiftning som kriminaliserar »organiserad tillämpning av parallella rättssystem, exempelvis sharialagar« när dessa strider mot svensk lag, jämställdhet och mänskliga rättigheter; (2) stärk tillsynen över aktörer som främjar parallella rättssystem.",
+        "Motionens kärnargument: »det saknas tydlig lagstiftning som uttryckligen adresserar organiserade försök« att tillämpa parallella rättssystem, även om tvångsäktenskap och könsdiskriminering redan är förbjudna.",
+        "Båda yrkandena avslogs av utskottet och riksdagen.",
+        "Motionen är det mest aktuella och konkreta uttrycket för kravet på en särskild shariaförbudslag i Sverige och bör citeras direkt i stället för refererad."
+      ]
+    },
+    {
+      "id": "src-svjt-sayed",
+      "url": "https://svjt.se/svjt/2013/877",
+      "title": "Mosa Sayed, »Några aspekter på mångkulturens utmaningar — med särskilt fokus på islamisk rätt«, Svensk Juristtidning 2013 s. 877",
+      "keyFindings": [
+        "Författaren är jur. dr Mosa Sayed (Uppsala universitet), den ledande svenska juristen på islamisk familjerätt i svensk rätt.",
+        "Redovisar att svenska domstolar kvalificerat mahr olika beroende på kontext: RH 1993:116 (behandlat som underhåll) och RH 2005:66 (behandlat som bodelning). Detta är den viktigaste referensen för att svensk praxis var oenhetlig före HD:s avgörande 2017.",
+        "Fyra teser som artikeln bör återge: (1) svenska muslimer är heterogena i bakgrund, ideologi och religiositet, vilket omöjliggör en enhetlig shariatillämpning; (2) islamisk rätt uppstod genom enskilda juristers tolkningar inom skolorna och bär därför en inbyggd doktrinär pluralism; (3) frågan om vem som legitimt definierar islamiska normer är olöst — personliga moraliska positioner följer inte automatiskt ur texterna; (4) religiösa minoriteter har historiskt anpassat sina rättstraditioner under yttre begränsningar (spanska morisker, judisk tradition).",
+        "Åberopade Europadomstolsavgöranden: Chapman mot Storbritannien (27238/95, 2001), Buckley mot Storbritannien (20348/92, 1996), Muñoz Díaz mot Spanien (49151/07, 2010)."
+      ]
+    },
+    {
+      "id": "src-svjt-haltande",
+      "url": "https://svjt.se/svjt/1997/639",
+      "title": "Charlotte Atuma, »Om uppkomsten av haltande äktenskap i Sverige«, Svensk Juristtidning 1997 s. 639",
+      "keyFindings": [
+        "Definierar haltande äktenskap: äktenskap som är giltiga enligt svensk rätt samtidigt som de är ogiltiga i något annat land — och omvänt, upplösta i Sverige men bestående enligt annan rättsordning.",
+        "Centrala lagrum: lagen (1904:26 s. 1) om vissa internationella rättsförhållanden rörande äktenskap och förmynderskap, särskilt 1 kap. 7 § om erkännande av utländska äktenskap.",
+        "Diskuterar valet mellan lex patriae (parternas hemlands lag — ger konsekvens men fler haltande äktenskap ur svensk synvinkel) och lex loci celebrationis (vigsellandets lag — färre haltande äktenskap men risk för forum shopping).",
+        "Artikeln är från 1997 och beskriver problemet innan det blev en muslimsk-specifik debattfråga; den ger den rättstekniska bakgrunden till dagens diskussion om religiös skilsmässa."
+      ]
+    },
+    {
+      "id": "src-svt-ug-skilsmassa",
+      "url": "https://www.svt.se/nyheter/granskning/ug/svt-forklarar-kvinnor-tvingas-kvar-sa-fungerar-en-islamisk-skilsmassa",
+      "title": "SVT Uppdrag granskning: »Kvinnor tvingas kvar — så fungerar en islamisk skilsmässa« (18 maj 2022)",
+      "keyFindings": [
+        "Granskningen (»Skilsmässa i Allahs namn«, reportrar Karin Mattisson och Ali Fegan) dokumenterar kvinnor som är civilrättsligt skilda i Sverige men som imamer vägrar bevilja religiös skilsmässa utan mannens samtycke.",
+        "Tio kvinnor intervjuades. Safamoskén i Stockholm namngavs som en församling som nekat skilsmässa när mannen vägrat samtycka.",
+        "Detta är det tydligaste svenska exemplet på att den verkliga konflikten inte gäller sharia mot svensk lag utan sharia bredvid svensk lag: den svenska domen finns, men saknar verkan i den ordning kvinnan lever i.",
+        "Kontrast värd att lyfta: i Danmark har både socialdemokratiska och borgerliga regeringar tillsatt utredningar om islamiska skilsmässor; i Sverige har motsvarande initiativ saknats.",
+        "SIFFERFÖRBEHÅLL: reportaget anger inte hur många moskéer som granskats eller hur många kvinnor som totalt berörs. Använd inte tio-talet som en förekomstsiffra."
+      ]
+    },
+    {
+      "id": "src-uu-nck-tvangsaktenskap",
+      "url": "https://www.uu.se/centrum/nck/kunskapsbank-om-vald/fakta-och-forskning-om-vald/tvangsaktenskap-och-barnaktenskap",
+      "title": "Nationellt centrum för kvinnofrid (Uppsala universitet): Tvångsäktenskap och barnäktenskap — fakta och forskning",
+      "keyFindings": [
+        "Skatteverket tog 2021–2023 emot 134 ansökningar om att erkänna utomlands ingångna barnäktenskap; 118 avslogs och 16 registrerades i folkbokföringen.",
+        "Skatteverket identifierade under samma period 169 fall där en person var registrerad med mer än en make. »I de flesta fall hade personerna gift sig utomlands innan de kom till Sverige.«",
+        "2014–2021 registrerades 556 äktenskap där en av makarna var under 18 år vid vigseln.",
+        "En kommunenkät 2019: 27 av 192 svarande kommuner kände till sammanlagt 36 barn som uppgavs vara gifta. Terrafem uppger sig ha hjälpt ca 500 kvinnor ur tvångsäktenskap fram till 2017.",
+        "NCK skriver uttryckligen: »Hur många som i Sverige lever i sådana äktenskap är inte klarlagt.« Sidan redovisar ingen statistik över åtal eller fällande domar för äktenskapstvång."
+      ]
+    },
+    {
+      "id": "src-pew-sharia",
+      "url": "https://www.pewresearch.org/religion/2013/04/30/the-worlds-muslims-religion-politics-society-beliefs-about-sharia/",
+      "title": "Pew Research Center: »The World's Muslims — Muslim Beliefs About Sharia« (30 april 2013)",
+      "keyFindings": [
+        "Stödet för sharia som officiell lag varierar från 8 % (Azerbajdzjan) och 10 % (Kazakstan) till 99 % (Afghanistan). 38 000 intervjuer i 39 länder 2008–2012; shariakapitlet redovisar 23 länder.",
+        "Bland shariaanhängare stödjer 87–95 % tillämpning i familje- och egendomstvister (Pakistan, Egypten, Jordanien, Malaysia) men bara 24–26 % i Kosovo och Bosnien-Hercegovina. Stödet för handavhuggning, stening och dödsstraff för avfall är genomgående lägre än stödet för familjerätt.",
+        "Endast i 5 av 21 länder ville en majoritet av shariaanhängarna att reglerna skulle gälla även icke-muslimer; högst i Egypten (74 %), under 30 % bland östeuropeiska muslimer.",
+        "I 17 av 23 länder ansåg minst hälften att sharia är Guds uppenbarade ord snarare än en av människor utvecklad lag (från 24 % i Albanien till 81 % i Pakistan och Jordanien). Samtidigt ansåg 72 % i Tunisien och 60 % i Marocko att sharia bör vara öppen för flera tolkningar.",
+        "AVGÖRANDE FÖRBEHÅLL: Pew intervjuade inte muslimer som är invandrade i västländer. Svenska muslimer ingår inte. Undersökningen definierade heller aldrig ordet »sharia« för respondenterna."
+      ]
+    },
+    {
+      "id": "src-refah",
+      "url": "https://www.icnl.org/resources/research/ijnl/refah-partisi-the-welfare-party-and-others-v-turkey",
+      "title": "Refah Partisi (Välfärdspartiet) m.fl. mot Turkiet, Europadomstolen (stora kammaren), 13 februari 2003",
+      "keyFindings": [
+        "§ 119 ordagrant om rättslig pluralism: ett sådant system skulle »do away with the State's role as the guarantor of individual rights and freedoms and the impartial organiser of the practice of the various beliefs and religions in a democratic society«, och skulle kränka »the principle of non-discrimination between individuals as regards their enjoyment of public freedoms«.",
+        "§ 123 ordagrant: »sharia, which faithfully reflects the dogmas and divine rules laid down by religion, is stable and invariable. Principles such as pluralism in the political sphere or the constant evolution of public freedoms have no place in it.«",
+        "Domstolen fann att Refah (a) sökt införa rättslig pluralism, (b) sökt införa sharia, och (c) antytt bruk av jihad och politiskt våld — och att upplösningen därför var förenlig med konventionen.",
+        "Detta är den mest åberopade auktoriteten i den europeiska shariadebatten. Men § 123:s premiss — att sharia är »stable and invariable« — är just den premiss som den klassiska fiqh-litteraturen motsäger (jfr Ibn Khalduns redogörelse för varför oenighet är strukturellt oundviklig). Den spänningen bör artikeln redovisa öppet."
+      ]
+    },
+    {
+      "id": "src-molla-sali",
+      "url": "https://strasbourgobservers.com/2019/01/11/the-curious-case-of-molla-sali-v-greece-legal-pluralism-through-the-lens-of-the-ecthr/",
+      "title": "Strasbourg Observers: analys av Molla Sali mot Grekland (stora kammaren, 19 december 2018)",
+      "keyFindings": [
+        "Enhällig kränkning av art. 14 jämförd med art. 1 i första tilläggsprotokollet. Grekiska domstolar hade satt en muslimsk mans civilrättsliga testamente ur spel och tillämpat islamisk arvsrätt, varvid änkan förlorade del av arvet till makens systrar.",
+        "Domstolen prövade INTE om den olika behandlingen var legitim i sig: »the Court decided that the described divergence in treatment was not justified… Without considering the examination of the legitimacy aspect necessary.« Domen fördömer alltså inte islamisk rätt som i sig diskriminerande — den underkänner Greklands sätt att tillämpa den.",
+        "Bärande princip: ingen får »be subject to a particular regime without his/her consent«, vilket domstolen kallade »a cornerstone in international law on the protection of minorities«.",
+        "»Freedom of religion does not necessitate the establishment of a special regime« med särskilda privilegier — men om staten skapar ett sådant regelverk måste villkoren tillämpas icke-diskriminerande.",
+        "Sèvres- och Lausannefördragen ålade inte Grekland att tillämpa sharia. Grekland ålades att återställa änkans äganderätt eller betala 41 103,36 euro.",
+        "Domen är det viktigaste korrektivet till Refah: den visar att europeisk rätt inte förbjuder sharia som sådan, utan förbjuder att någon påtvingas den."
+      ]
+    },
+    {
+      "id": "src-annaim",
+      "url": "https://courier.unesco.org/en/articles/abdullahi-ahmed-naim-human-rights-secular-state-and-sharia-today",
+      "title": "Abdullahi Ahmed An-Naʿim, intervju i UNESCO Courier, 11 januari 2019",
+      "keyFindings": [
+        "An-Naʿim är professor i juridik vid Emory University och den mest citerade muslimska förespråkaren för att staten inte får verkställa sharia. Hans huvudverk är »Islam and the Secular State: Negotiating the Future of Sharia« (Harvard University Press, 2008).",
+        "Ordagrant: »the coercive enforcement of Sharia by the state betrays the Koran's insistence on the voluntary acceptance of Islam.« Argumentet vilar på 2:256, »tvång skall inte förekomma i trosfrågor«.",
+        "Ordagrant: »I need a secular state, one that is neutral regarding religious doctrine, and promotes genuine religious observance.« Notera formuleringen »I need« — han argumenterar som troende muslim, inte som sekularist.",
+        "Ordagrant: »I am convinced that ideas of human rights and citizenship are more consistent with Islamic principles than with claims of a supposedly Islamic state to enforce Sharia.«",
+        "Kärnan i hans argument: efterlevnad av sharia kan inte framtvingas genom fruktan för statens institutioner eller simuleras för att blidka dess tjänstemän — en påtvingad lydnad är religiöst värdelös. Detta är den starkaste invändningen mot statlig shariatillämpning, och den är intern, inte extern."
+      ]
+    },
+    {
+      "id": "src-jordbruksverket-slakt",
+      "url": "https://jordbruksverket.se/djur/djurtransportorer-och-slakterier/religios-slakt",
+      "title": "Jordbruksverket: Religiös slakt",
+      "keyFindings": [
+        "Ordagrant: »Alla djur som slaktas i Sverige måste först bedövas.«",
+        "Ordagrant: »halalslakt är tillåten om djuren är bedövade innan avblodning.«",
+        "Ordagrant: »Kosherslakt där avblodning sker på obedövade djur accepteras inte i Sverige.«",
+        "Rättslig grund: djurskyddslagen (2018:1192) med anslutande föreskrifter, samt EU-förordning (EG) nr 1099/2009 om skydd av djur vid tidpunkten för avlivning.",
+        "Bedövningskravet har gällt i Sverige sedan 1937 — alltså långt före den muslimska invandringen, och infört med judisk shechita som primär måltavla. Detta är det enda område där svensk rätt är MER restriktiv mot religiös praxis än övriga EU, och det bör redovisas som sådant snarare än som en shariafråga."
+      ]
+    },
+    {
+      "id": "src-ecthr-slakt-2024",
+      "url": "https://strasbourgobservers.com/2024/05/08/executief-van-de-moslims-van-belgie-and-others-v-belgium-the-ecthrs-perspective-on-balancing-animal-welfare-with-religious-freedom/",
+      "title": "Strasbourg Observers: Executief van de Moslims van België m.fl. mot Belgien (Europadomstolen, 13 februari 2024)",
+      "keyFindings": [
+        "Enhälligt: ingen kränkning av art. 9 (religionsfrihet) eller art. 14 (icke-diskriminering) genom de flamländska (2017) och vallonska (2018) förbuden mot slakt utan bedövning.",
+        "Domstolen erkände att frånvaron av bedövning utgör en aspekt av den religiösa riten med tillräcklig »cogency, seriousness, cohesion and importance«, och att förbudet därmed är ett ingrepp i religionsfriheten — men att ingreppet var motiverat.",
+        "Vid bedömningsmarginal beviljades eftersom (a) det saknas europeisk konsensus, (b) djurvälfärd är ett framväxande etiskt värde, (c) lagstiftarna genomfört omfattande vetenskapliga studier och samråd, (d) reversibel bedövning erbjöd en proportionerlig kompromiss.",
+        "Författaren (Verniers) invänder att domen behandlar landlevande produktionsdjur och odlad fisk olika trots att fisk har dokumenterade välfärdsbehov, och att domstolen avfärdade jämförelsen med jakt och fiske för lättvindigt.",
+        "Domen är den viktigaste bekräftelsen på att europeisk rätt tillåter staten att förbjuda en religiöst föreskriven praxis om avvägningen är gjord ordentligt — och den bekräftar därmed den svenska ordningen."
+      ]
+    },
+    {
+      "id": "src-sou-2020-2",
+      "url": "https://www.regeringen.se/rattsliga-dokument/statens-offentliga-utredningar/2020/01/sou-20202/",
+      "title": "SOU 2020:2 Skärpta regler om utländska månggiften",
+      "keyFindings": [
+        "Betänkande publicerat 15 januari 2020.",
+        "Bakgrund: huvudregeln var att utländska månggiften inte erkändes om minst en part var svensk medborgare eller hade hemvist här vid vigseln. Skatteverket hade dock betraktat polygama äktenskap som giltiga när parterna saknade anknytning till Sverige vid ingåendet och sedan flyttat hit.",
+        "Förslaget: ett äktenskap som ingåtts av den som redan är gift skall som huvudregel inte erkännas i Sverige, oavsett anknytning vid vigseln.",
+        "Ledde till prop. 2020/21:149 och lagändringarna SFS 2021:464, 2021:465 och 2021:466, i kraft 1 juli 2021.",
+        "Remissinstanser med invändningar: Barnombudsmannen och RFSU pekade på att ett totalt erkännandeförbud kan slå mot rättigheter för kvinnor och barn i de bestående relationerna (underhåll, arv, vårdnad). Detta motargument bör återges — det är inte ett försvar för polygami utan en invändning om oavsedda konsekvenser."
+      ]
+    },
+    {
+      "id": "src-prop-barnaktenskap",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/proposition/forbud-mot-erkannande-av-utlandska-barnaktenskap_h503288/html/",
+      "title": "Prop. 2017/18:288 Förbud mot erkännande av utländska barnäktenskap",
+      "keyFindings": [
+        "Ny huvudregel i 1 kap. 8 a § lagen (1904:26 s. 1): »Ett äktenskap som har ingåtts enligt utländsk lag erkänns inte i Sverige om någon av parterna var under 18 år vid tidpunkten för äktenskapets ingående.«",
+        "Propositionen överlämnad 23 augusti 2018; lagen i kraft 1 januari 2019.",
+        "Förbudet gäller oavsett parternas anknytning till Sverige vid vigseln och oavsett deras ålder vid prövningstillfället.",
+        "Undantag kan aldrig göras om någon av parterna fortfarande är under 18 år. Undantag är möjligt endast om båda är vuxna och det finns synnerliga skäl.",
+        "Bygger på SOU 2017:96 Utvidgat hinder mot erkännande av utländska barnäktenskap."
+      ]
+    },
+    {
+      "id": "src-msb-brodraskapet",
+      "url": "https://sv.wikipedia.org/wiki/Muslimska_Br%C3%B6draskapet_i_Sverige_(rapport)",
+      "title": "»Muslimska Brödraskapet i Sverige« (MSB-rapporten 2017) och kritiken mot den",
+      "keyFindings": [
+        "Rapporten skrevs 2017 av Magnus Norell (red.) med Aje Carlbom och Pierre Durrani, på uppdrag av Myndigheten för samhällsskydd och beredskap.",
+        "Rapporten möttes av samstämmig och skarp kritik från forskare, myndighetsföreträdare och civilsamhällesorganisationer, som pekade på konspiratoriska tolkningsmönster och ett vi-och-dom-tänkande med en påstådd konflikt mellan svenskhet och islam eller muslimer.",
+        "MSB valde att inte gå vidare med rapporten och avslutade samarbetet med Magnus Norell.",
+        "Aje Carlbom tog senare avstånd från delar av rapportens påståenden och klargjorde att det är missvisande att säga att Muslimska brödraskapet bedriver verksamhet i Sverige eller kontrollerar svenska muslimska organisationer.",
+        "Ärendet är det bästa exemplet på hur bevisläget i den svenska debatten är omstritt — och bör användas för att visa att kravet på källkritik gäller åt båda håll, inte som argument för att avfärda frågan."
+      ]
+    },
+    {
+      "id": "src-egyptson",
+      "url": "https://portal.research.lu.se/sv/publications/global-politisk-islam-muslimska-br%C3%B6draskapet-amp-islamiska-f%C3%B6rbun/",
+      "title": "Sameh Egyptson, »Global politisk islam? Muslimska brödraskapet & Islamiska förbundet i Sverige«, doktorsavhandling, Lunds universitet 2023",
+      "keyFindings": [
+        "Disputation 10 februari 2023 vid Lunds universitet. Avhandlingen hävdar kopplingar mellan svenska muslimska organisationer och Muslimska brödraskapet, och namnger flera personer.",
+        "Islamiska förbundet i Sverige har konsekvent förnekat kopplingen, bland annat i Dagens Nyheter.",
+        "Avhandlingen granskades av nämnden för utredning av oredlighet i forskning, som bedömde 111 påstådda fel — sakfel, påstådd manipulation av originalkällor och luckor i den vetenskapliga argumentationen. Nämnden fann att innehållet inte utgjorde forskningsfusk.",
+        "Överklagandenämnden för etikprövning (ÖNEP) gjorde åtalsanmälan om behandling av känsliga personuppgifter utan etikprövning; åklagaren lade ner förundersökningen.",
+        "Egyptson korrigerade avhandlingen på flera punkter i efterhand.",
+        "Detta är den mest omdiskuterade svenska forskningsinsatsen på området och måste redovisas med både anklagelser, granskningsresultat och friande beslut — inte som ettdera."
+      ]
+    },
+    {
+      "id": "src-cairo-declaration",
+      "url": "https://en.wikipedia.org/wiki/Cairo_Declaration_on_Human_Rights_in_Islam",
+      "title": "Kairodeklarationen om mänskliga rättigheter i islam (1990)",
+      "keyFindings": [
+        "Artikel 24 ordagrant: »All the rights and freedoms stipulated in this Declaration are subject to the Islamic Sharia.« Artikel 25: »The Islamic Sharia is the only source of reference for the explanation or clarification of any of the articles of this Declaration.«",
+        "Antagen av Organisationen för islamiskt samarbete (OIC) i Kairo 1990.",
+        "Kritiken (Internationella juristkommissionen fördömde deklarationen vid FN:s kommission för mänskliga rättigheter 1992): OIC-staterna frångår i praktiken de åtaganden de frivilligt ingått genom att underteckna allmänna förklaringen och de två konventionerna; deklarationen är ett försök att begränsa de rättigheter dessa fastställer.",
+        "Kritik om religionsfrihet: OIC har motsatt sig formuleringar i FN-resolutioner som skulle tillåta enskilda att byta religion eller övertygelse.",
+        "Analys hos Brookings: deklarationens största brist är att den bemyndigar stater på individers bekostnad, och att OIC använde shariaspråket för att stärka nationell suveränitet.",
+        "Detta dokument är den starkaste konkreta grunden för Ann Elizabeth Mayers tes och bör citeras direkt i invändningsavsnittet — det är inte en halmgubbe utan en undertecknad mellanstatlig text."
+      ]
+    },
+    {
+      "id": "src-mayer",
+      "url": "https://repository.law.umich.edu/mjil/vol15/iss2/1/",
+      "title": "Ann Elizabeth Mayer, »Universal Versus Islamic Human Rights: A Clash of Cultures or a Clash with a Construct?«, Michigan Journal of International Law vol. 15 (1994)",
+      "keyFindings": [
+        "Mayer (Wharton, University of Pennsylvania) är den mest citerade kritikern av islamiska människorättsdeklarationer. Huvudverket är »Islam and Human Rights: Tradition and Politics« (flera upplagor, senast Routledge).",
+        "Hennes centrala tes är INTE att islam är oförenlig med mänskliga rättigheter, utan att den islamiska traditionen har utnyttjats för politiska syften av regimer som söker legitimera rättighetsfientlig politik.",
+        "Två konkreta iakttagelser artikeln bör återge: (1) länderna antar ofta den allmänna förklaringens form men modifierar klausulerna så att de underordnas sharia, vilket urvattnar dem; (2) en andra taktik är att säga en sak på engelska för internationell konsumtion men något annat på arabiska, där »lag« klargörs betyda sharia snarare än qānūn (stiftad lag).",
+        "Hon påpekar också att den förmoderna tolkningen av sharia rymde många läror från flera riktningar och skolor, och att den historiskt tolererade meningsskiljaktigheten kan ge upphov till motstridiga uppfattningar om vad islam kräver när rättigheter skall begränsas — vilket gör »sharia« till ett obestämt förbehåll i en rättighetstext.",
+        "Mayer ifrågasätter också stereotyper och dissekerar de politiska motiven bakom konservativa krafters selektiva bruk av traditionen. Detta är den starkaste versionen av kritiken och måste återges i den formen, inte som en generell islamkritik."
+      ]
+    },
+    {
+      "id": "src-hallaq",
+      "url": "https://cup.columbia.edu/book/the-impossible-state/9780231530866/",
+      "title": "Wael Hallaq, »The Impossible State: Islam, Politics, and Modernity's Moral Predicament« (Columbia University Press, 2013), och »Sharīʿa: Theory, Practice, Transformations« (Cambridge University Press, 2009)",
+      "keyFindings": [
+        "Hallaqs tes: den »islamiska staten«, bedömd enligt varje gängse definition av vad den moderna staten är, är både omöjlig och inneboende självmotsägande.",
+        "I »Sharīʿa: Theory, Practice, Transformations« (614 s.) spårar han sharias historia från 600-talets Arabien via osmansk omvandling till Indien, Afrika och Sydostasien, och argumenterar för att västbaserade rättssystem ersatte den förmoderna sharia-ordningen — en tes som bestrids av andra forskare.",
+        "Hans mest användbara iakttagelse för denna artikel: den moderna kodifieringen av islamisk rätt utplånade det hermeneutiska utrymmet och reducerade en flerstämmig tolkningstradition till ett enda läge av rättstillämpning. Det som stater i dag kallar sharia är alltså en modern statsprodukt, inte en förlängning av den klassiska ordningen.",
+        "Detta är det bästa akademiska stödet för artikelns centrala distinktion — och det kommer från en forskare som varken är apologet eller kritiker av islam utan rättshistoriker."
+      ]
+    },
+    {
+      "id": "src-rabb-doubt",
+      "url": "https://www.cambridge.org/us/universitypress/subjects/history/middle-east-history/doubt-islamic-law-history-legal-maxims-interpretation-and-islamic-criminal-law",
+      "title": "Intisar A. Rabb, »Doubt in Islamic Law: A History of Legal Maxims, Interpretation, and Islamic Criminal Law« (Cambridge University Press, 2015)",
+      "keyFindings": [
+        "Bokens ämne är rättsmaximen »idraʾū l-hudūd bi-l-shubuhāt« — undvik hadd-straffen vid tvivel — och hur den gick från domarpraxis till kanonisk straffrättslig doktrin.",
+        "Maximen i sin enklaste form uppmanar domare »to avoid hudud [punishments] whenever you find an opportunity to do so«.",
+        "Rättsligt sammanhang: shubha (tvivel eller mångtydighet) tolkades som varje osäkerhet — faktisk, bevismässig eller tolkningsmässig — som undergräver den absoluta visshet (yaqīn) som krävs för hadd-straff. Följden blir att straffen upphävs.",
+        "Ursprunget är omstritt: maximen omvandlades till ett profetord som huvudsakligen brukades av hanafiter och malikiter och förkastades av hanbaliter och av zahiriten Ibn Hazm. Den härleddes bland annat ur en tradition från ʿĀʾisha hos al-Tirmidhi: »Avvärj tillämpningen av hudud så långt ni kan; finner ni en väg för en muslim att gå fri, låt honom gå — ty det är bättre för en makthavare att fela i benådning än i bestraffning.«",
+        "Kalifen ʿUmar ibn al-Khattāb upphävde handavhuggningsstraffet under en svår hungersnöd när människor stal mat för att överleva. Detta är den mest kända precedensen för att hudūd inte tillämpades mekaniskt.",
+        "AVGÖRANDE FÖR ARTIKELN: dessa fakta får inte användas som apologetik — de säger ingenting om hur straffen tillämpas i dag i de stater som infört dem. De säger däremot att en modern stat som tillämpar hudūd rutinmässigt bryter mot den klassiska rättstraditionens egna beviskrav."
+      ]
+    },
+    {
+      "id": "src-fiqh-aqalliyyat",
+      "url": "https://en.wikipedia.org/wiki/Fiqh_al-aqall%C4%ABy%C4%81t",
+      "title": "Fiqh al-aqalliyyāt — minoriteternas rättslära",
+      "keyFindings": [
+        "Läran introducerades på 1990-talet av Taha Jabir al-Alwani och Yusuf al-Qaradawi och hävdar att muslimska minoriteter, särskilt i väst, behöver en egen rättsdisciplin för sina särskilda behov.",
+        "Al-Alwani myntade termen och använde den första gången 1994, när Fiqh Council of North America under hans ordförandeskap utfärdade en fatwa som tillät amerikanska muslimer att rösta i amerikanska val.",
+        "1999 antogs begreppet av European Council for Fatwa and Research (ECFR) under al-Qaradawis ledning. ECFR grundades 1997 i Dublin för att utveckla normer för muslimer i Europa med hänsyn till tid, plats, sedvänja och levnadsvillkor.",
+        "Metoden bygger på förnyad ijtihād och undersökning av maqāsid al-sharīʿa (lagens syften).",
+        "SVENSK RELEVANS: Islamiska förbundet i Sverige är medlem i det europeiska fatwarådet, vilket är den faktiska grunden för kopplingen mellan svenska muslimska organisationer och al-Qaradawi som kritiker åberopar. Läran är samtidigt just den doktrin som möjliggör att muslimer i Europa följer landets lag. Båda dessa saker är sanna samtidigt och artikeln bör säga det."
+      ]
+    },
+    {
+      "id": "src-maqasid",
+      "url": "https://en.wikipedia.org/wiki/Al-Maqasid",
+      "title": "Maqāsid al-sharīʿa — lagens syften",
+      "keyFindings": [
+        "Utvecklingslinjen: al-Hārith al-Muhāsibī (d. 857) diskuterade lagens syften; al-Juwaynī (d. 1085) systematiserade de fem nödvändigheterna i »al-Burhān fī usūl al-fiqh«; al-Ghazālī (d. 1111) förfinade ramverket i »al-Mustasfā«; al-Shātibī (d. 1388) skrev det mest utförliga verket i »al-Muwāfaqāt«.",
+        "De fem nödvändigheterna (al-darūriyyāt al-khams), i al-Shātibīs prioritetsordning: bevarandet av religionen (dīn), livet (nafs), släktled/avkomma (nasl), egendomen (māl) och förnuftet (ʿaql).",
+        "al-Shātibī var den förste som behandlade maqāsid som självständigt huvudämne och delade upp det i underavdelningar; han lade inte till något utöver det al-Ghazālī angett.",
+        "Detta ramverk är grunden för varje modern islamisk reformargumentation — inklusive fiqh al-aqalliyyāt — eftersom det gör lagens syften till tolkningens måttstock snarare än dess bokstavliga formuleringar. Namnge scholarerna med årtal; »klassisk islamisk rätt« räcker inte."
+      ]
+    },
+    {
+      "id": "src-sorgenfrei",
+      "url": "https://www.mucf.se/publikationer/islam-i-sverige-de-forsta-1300-aren",
+      "title": "Simon Sorgenfrei, »Islam i Sverige — de första 1300 åren« (Myndigheten för stöd till trossamfund, SST)",
+      "keyFindings": [
+        "Sorgenfrei är docent i religionsvetenskap vid Södertörns högskola och den ledande svenska forskaren på islams historia i Sverige.",
+        "Boken bygger på tidigare forskning samt omfattande nya arkivstudier, observationer och intervjuer med människor från Kiruna till Malmö.",
+        "Huvudpoäng: kontakterna mellan skandinaver och muslimer går tillbaka 1 300 år, till vikingatiden och bland annat Ingvarståget på 1000-talet — islam i Sverige är inte ett efterkrigsfenomen.",
+        "Utgiven av Myndigheten för stöd till trossamfund. Detta är den bästa svenska referensen för den historiska kontextsektionen och en nödvändig motvikt till framställningar som daterar frågan till 1970-talet."
+      ]
+    },
+    {
+      "id": "src-svt-sloja",
+      "url": "https://www.svt.se/nyheter/lokalt/skane/hogsta-instans-sager-nej-till-slojforbud",
+      "title": "SVT Nyheter: »Slöjförbud i skolan är olagligt — Staffanstorp och Skurup förlorade«",
+      "keyFindings": [
+        "Nyhetsrapportering om HFD:s avgörande 8 december 2022.",
+        "Skurups kommun beslutade i december 2019 att förbjuda huvudduk, burka, niqab och liknande plagg i kommunens förskolor och grundskolor. Staffanstorp hade tidigare samma år beslutat att inte acceptera huvudduk på barn i förskola och grundskola upp till årskurs sex.",
+        "Förvaltningsrätten upphävde Skurups förbud i november 2020 med hänvisning till den grundlagsskyddade religionsfriheten; kammarrätten dömde i enlighet med förvaltningsrätten; kommunerna överklagade till HFD och förlorade.",
+        "Ger den politiska och kronologiska ramen kring HFD 2022 ref. 51, inklusive att det var kommunala majoriteter och inte staten som drev frågan."
+      ]
+    }
+  ],
+  "datasets": [
+    {
+      "id": "pew-2013-sharia-official-law",
+      "question": "Hur stor andel av muslimerna i olika länder säger att sharia bör vara landets officiella lag?",
+      "unit": "procent av muslimska respondenter",
+      "source": "Pew Research Center, »The World's Muslims: Religion, Politics and Society« (30 april 2013)",
+      "sourceUrl": "https://www.pewresearch.org/religion/2013/04/30/the-worlds-muslims-religion-politics-society-beliefs-about-sharia/",
+      "retrieved": "2026-09-05",
+      "note": "Undersökningen bygger på ca 38 000 intervjuer i 39 länder under 2008–2012; kapitlet om sharia redovisar 23 länder. AVGÖRANDE FÖRBEHÅLL: Pew intervjuade INTE muslimer som är invandrade i västländer. Svenska muslimer ingår alltså inte i något av dessa tal, och siffrorna kan inte överföras på Sverige. Vidare mätte Pew inte vad respondenterna lade i ordet »sharia« — samma fråga ställdes till människor som kan ha menat allt från personlig fromhetsregel till statlig strafflag. Ingen fråga ställdes om vad som skulle hända med icke-muslimer i majoritetens svar.",
+      "columns": [
+        "Land",
+        "Andel som vill ha sharia som officiell lag"
+      ],
+      "rows": [
+        {
+          "label": "Afghanistan",
+          "values": [
+            "99 %"
+          ]
+        },
+        {
+          "label": "Irak",
+          "values": [
+            "91 %"
+          ]
+        },
+        {
+          "label": "Palestinska områdena",
+          "values": [
+            "89 %"
+          ]
+        },
+        {
+          "label": "Malaysia",
+          "values": [
+            "86 %"
+          ]
+        },
+        {
+          "label": "Niger",
+          "values": [
+            "86 %"
+          ]
+        },
+        {
+          "label": "Pakistan",
+          "values": [
+            "84 %"
+          ]
+        },
+        {
+          "label": "Bangladesh",
+          "values": [
+            "82 %"
+          ]
+        },
+        {
+          "label": "Djibouti",
+          "values": [
+            "82 %"
+          ]
+        },
+        {
+          "label": "Thailand",
+          "values": [
+            "77 %"
+          ]
+        },
+        {
+          "label": "Demokratiska republiken Kongo",
+          "values": [
+            "74 %"
+          ]
+        },
+        {
+          "label": "Egypten",
+          "values": [
+            "74 %"
+          ]
+        },
+        {
+          "label": "Indonesien",
+          "values": [
+            "72 %"
+          ]
+        },
+        {
+          "label": "Nigeria",
+          "values": [
+            "71 %"
+          ]
+        },
+        {
+          "label": "Tunisien",
+          "values": [
+            "56 %"
+          ]
+        },
+        {
+          "label": "Kazakstan",
+          "values": [
+            "10 %"
+          ]
+        },
+        {
+          "label": "Azerbajdzjan",
+          "values": [
+            "8 %"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pew-2013-tillampningsomraden",
+      "question": "Bland dem som vill se sharia som officiell lag — vilka delar av den vill de tillämpa?",
+      "unit": "procent av shariaanhängare i respektive land",
+      "source": "Pew Research Center, »The World's Muslims: Religion, Politics and Society« (30 april 2013)",
+      "sourceUrl": "https://www.pewresearch.org/religion/2013/04/30/the-worlds-muslims-religion-politics-society-beliefs-about-sharia/",
+      "retrieved": "2026-09-05",
+      "note": "Talen är procent AV DEM som redan sagt ja till sharia som officiell lag, inte av alla muslimer i landet — de får alltså inte räknas som andelar av landets muslimska befolkning utan att först multipliceras med stödet i föregående tabell. Endast i 5 av 21 länder ville en majoritet av shariaanhängarna låta reglerna gälla även icke-muslimer. Skillnaden mellan familjerätt och kroppsstraff är den viktigaste siffran i hela materialet och saknas nästan alltid i svensk återgivning.",
+      "columns": [
+        "Tillämpningsområde",
+        "Högsta uppmätta stöd",
+        "Lägsta uppmätta stöd"
+      ],
+      "rows": [
+        {
+          "label": "Familje- och egendomstvister",
+          "values": [
+            "87–95 % (Pakistan, Egypten, Jordanien, Malaysia)",
+            "24–26 % (Kosovo, Bosnien-Hercegovina)"
+          ]
+        },
+        {
+          "label": "Handavhuggning för stöld",
+          "values": [
+            "81–88 % (Afghanistan, Pakistan)",
+            "28–46 % (Centralasien, Sydostasien)"
+          ]
+        },
+        {
+          "label": "Stening för äktenskapsbrott",
+          "values": [
+            "81–89 % (Egypten, Pakistan, Afghanistan)",
+            "under 40 % (Central- och Sydasien)"
+          ]
+        },
+        {
+          "label": "Dödsstraff för avfall från islam",
+          "values": [
+            "76–86 % (Egypten, Jordanien, Pakistan, Afghanistan)",
+            "8 % (Albanien), under 22 % (Centralasien)"
+          ]
+        },
+        {
+          "label": "Sharia bör gälla även icke-muslimer",
+          "values": [
+            "74 % (Egypten)",
+            "under 30 % (östeuropeiska muslimer)"
+          ]
+        },
+        {
+          "label": "Sharia bör vara öppen för flera tolkningar",
+          "values": [
+            "72 % (Tunisien), 60 % (Marocko)",
+            "minoritet i Sydasien"
+          ]
+        },
+        {
+          "label": "Sharia är Guds uppenbarade ord (inte en av människor utvecklad lag)",
+          "values": [
+            "81 % (Pakistan, Jordanien)",
+            "24 % (Albanien)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "skatteverket-barnaktenskap-manggifte-2021-2023",
+      "question": "Hur många utländska barnäktenskap och månggiften har svenska myndigheter hanterat efter erkännandeförbuden?",
+      "unit": "antal ärenden",
+      "source": "Skatteverket, redovisat av Nationellt centrum för kvinnofrid (NCK), Uppsala universitet",
+      "sourceUrl": "https://www.uu.se/centrum/nck/kunskapsbank-om-vald/fakta-och-forskning-om-vald/tvangsaktenskap-och-barnaktenskap",
+      "retrieved": "2026-09-05",
+      "note": "NCK skriver uttryckligen: »Hur många som i Sverige lever i sådana äktenskap är inte klarlagt.« Siffrorna mäter myndighetsärenden, inte förekomst — mörkertalet är okänt och antas stort, eftersom religiöst ingångna äktenskap som inte registreras hos Skatteverket inte syns i statistiken alls. Inget av talen säger något om vilken religiös tradition parterna tillhör; kategorin är utländska äktenskap generellt, inte islamiska.",
+      "columns": [
+        "Uppgift",
+        "Antal",
+        "Period"
+      ],
+      "rows": [
+        {
+          "label": "Ansökningar om erkännande av utomlands ingångna barnäktenskap",
+          "values": [
+            "134",
+            "2021–2023"
+          ]
+        },
+        {
+          "label": "— därav avslagna",
+          "values": [
+            "118",
+            "2021–2023"
+          ]
+        },
+        {
+          "label": "— därav registrerade i folkbokföringen",
+          "values": [
+            "16",
+            "2021–2023"
+          ]
+        },
+        {
+          "label": "Fall där en person var registrerad med mer än en make",
+          "values": [
+            "169",
+            "2021–2023"
+          ]
+        },
+        {
+          "label": "Registrerade äktenskap där en make var under 18 vid vigseln",
+          "values": [
+            "556",
+            "2014–2021"
+          ]
+        },
+        {
+          "label": "Kommuner med kännedom om gifta barn (av 192 svarande)",
+          "values": [
+            "27 kommuner, 36 barn",
+            "kommunenkät 2019"
+          ]
+        },
+        {
+          "label": "Kvinnor som Terrafem uppgett sig ha hjälpt ur tvångsäktenskap",
+          "values": [
+            "ca 500",
+            "till och med 2017"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "muslimer-i-sverige-uppskattningar",
+      "question": "Hur många muslimer finns det i Sverige?",
+      "unit": "personer respektive procent av befolkningen",
+      "source": "Sammanställning av Pew Research Center (2016/2017), SST/Islamiska samarbetsrådet och SOM-institutet",
+      "retrieved": "2026-09-05",
+      "note": "Talen mäter fyra olika saker och får inte ställas mot varandra som om de vore konkurrerande skattningar av samma storhet: samfundsstatistiken räknar registrerade medlemmar och regelbundna deltagare, Pew räknar kulturell/religiös bakgrund, SOM-materialet räknar självdeklarerad tro. Sverige för ingen statistik över religiös tillhörighet — SCB får enligt lag inte registrera trosuppfattning — så det finns ingen officiell siffra alls. Uppgifterna är hämtade ur en sammanställning i sekundärkällor; kontrollera varje enskilt tal mot primärkällan (Pew Forum, SST:s årsredovisning, SOM-institutets rapport) innan det trycks.",
+      "columns": [
+        "Källa och metod",
+        "Antal",
+        "Andel av befolkningen"
+      ],
+      "rows": [
+        {
+          "label": "Pew Research Center (2016), muslimsk bakgrund/tillhörighet",
+          "values": [
+            "ca 810 000",
+            "ca 8 %"
+          ]
+        },
+        {
+          "label": "Forskningsstudie (2020), självidentifierade muslimer",
+          "values": [
+            "ca 500 000",
+            "—"
+          ]
+        },
+        {
+          "label": "Egen beräkning på SOM-institutets material (2019), troende muslimer",
+          "values": [
+            "ca 260 000",
+            "ca 2,5 %"
+          ]
+        },
+        {
+          "label": "SST / Islamiska samarbetsrådets sex samfund, betjänade",
+          "values": [
+            "203 663",
+            "ca 2 %"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "svensk-rattspraxis-sharia",
+      "question": "Hur har svenska domstolar avgjort de mål där islamisk rätt eller religiös praxis ställts mot svensk rätt?",
+      "unit": "rättsfall",
+      "source": "Högsta domstolen, Arbetsdomstolen, Högsta förvaltningsdomstolen (via lagen.nu)",
+      "sourceUrl": "https://lagen.nu/dom/nja/2017s168",
+      "retrieved": "2026-09-05",
+      "note": "Ingen av dessa domar prövar »sharia« som system. De prövar enskilda handlingar och avtal mot befintlig svensk eller konventionsrättslig norm — och utfallen går åt båda håll: mahr underkändes, handskakningsvägran skyddades, slöjförbud underkändes, slaktförbud godtogs. Refah-domens § 123 om att sharia är »stable and invariable« är dessutom omdiskuterad bland rättsvetare, eftersom den beskriver en föreställning om sharia som den klassiska fiqh-litteraturen själv motsäger.",
+      "columns": [
+        "Avgörande",
+        "Datum / målnr",
+        "Fråga",
+        "Utgång"
+      ],
+      "rows": [
+        {
+          "label": "NJA 2017 s. 168",
+          "values": [
+            "29 mars 2017, T 2415-15",
+            "Kunde ett mahr-avtal (690 guldmynt, ca 1,5 mkr) ingånget vid vigsel i Iran göras gällande i Sverige?",
+            "Nej. Makarna hade hemvist i Sverige, svensk rätt blev tillämplig på förmögenhetsförhållandena, och avtalet bedömdes »närmast vara att likna vid ett avtal om en partiell framtida bodelning« — därmed ogiltigt."
+          ]
+        },
+        {
+          "label": "RH 1993:116 och RH 2005:66",
+          "values": [
+            "1993 resp. 2005, hovrätt",
+            "Hur skulle mahr kvalificeras?",
+            "Olika: i det ena fallet som underhåll, i det andra som bodelning. Visar att svensk domstolspraxis var oenhetlig före 2017."
+          ]
+        },
+        {
+          "label": "AD 2018 nr 51",
+          "values": [
+            "15 augusti 2018",
+            "Fick ett tolkföretag avbryta en rekrytering sedan en muslimsk kvinna av religiösa skäl inte tog en manlig chef i hand?",
+            "Nej. Indirekt diskriminering. 40 000 kr i diskrimineringsersättning. Vägran att handhälsa bedömdes vara en religionsutövning skyddad av EKMR art. 9. Två ledamöter var skiljaktiga."
+          ]
+        },
+        {
+          "label": "HFD 2022 ref. 51 (I och II)",
+          "values": [
+            "8 december 2022, mål 4266-21 och 4120-21",
+            "Fick Skurups och Staffanstorps kommuner förbjuda huvudduk i kommunala förskolor och skolor?",
+            "Nej. Klädsel som uttrycker religiös tillhörighet omfattas av yttrandefriheten i 2 kap. 1 § regeringsformen, och begränsningen saknade lagstöd."
+          ]
+        },
+        {
+          "label": "Refah Partisi m.fl. mot Turkiet (Europadomstolen, stora kammaren)",
+          "values": [
+            "13 februari 2003",
+            "Fick Turkiet upplösa ett regeringsparti som förespråkade rättslig pluralism och sharia?",
+            "Ja. § 119: rättslig pluralism »do away with the State's role as the guarantor of individual rights and freedoms and the impartial organiser of the practice of the various beliefs«. § 123: »sharia, which faithfully reflects the dogmas and divine rules laid down by religion, is stable and invariable«."
+          ]
+        },
+        {
+          "label": "Molla Sali mot Grekland (Europadomstolen, stora kammaren)",
+          "values": [
+            "19 december 2018, ansökan 20452/14",
+            "Fick grekisk domstol tillämpa islamisk arvsrätt på en muslimsk mans testamente mot hans uttryckliga vilja?",
+            "Nej — men på motsatt grund mot Refah: kränkning av art. 14 jämförd med art. 1 i första tilläggsprotokollet. Ingen får underkastas en särordning utan sitt samtycke. Domstolen prövade inte om islamisk arvsrätt i sig är konventionsstridig."
+          ]
+        },
+        {
+          "label": "Executief van de Moslims van België m.fl. mot Belgien (Europadomstolen)",
+          "values": [
+            "13 februari 2024",
+            "Kränker förbud mot slakt utan bedövning religionsfriheten?",
+            "Nej, enhälligt. Ingen kränkning av art. 9 eller art. 14. Djurskydd erkändes som ett framväxande etiskt värde och staterna gavs vid bedömningsmarginal."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "svenska-rattsliga-sparrar",
+      "question": "Vilka bestämmelser i svensk rätt stänger dörren för tillämpning av utländsk religiös rätt, och hur?",
+      "unit": "lagrum",
+      "source": "Svensk författningssamling, återgivet via lagen.nu och riksdagen.se",
+      "sourceUrl": "https://lagen.nu/1999:116",
+      "retrieved": "2026-09-05",
+      "note": "Tabellen visar att svensk rätt inte har någon bestämmelse som nämner sharia och inte behöver någon: spärrarna är generella och religionsneutrala. Det är också poängen i argumentet mot en särskild »shariaförbudslag« — men den som förespråkar en sådan lag (motion 2025/26:1712) invänder att spärrarna är civilrättsliga och därför inte träffar den organiserade, informella tillämpningen. Bedöm det argumentet på egna meriter; tabellen avgör det inte.",
+      "columns": [
+        "Lagrum",
+        "Ordalydelse eller innebörd",
+        "Effekt"
+      ],
+      "rows": [
+        {
+          "label": "1 § lagen (1999:116) om skiljeförfarande",
+          "values": [
+            "»Tvister i frågor som parterna kan träffa förlikning om får genom avtal lämnas till avgörande av en eller flera skiljemän.«",
+            "Endast dispositiva tvister är skiljedomsbara. Äktenskapsskillnad, vårdnad och straff kan alltså aldrig avgöras av ett religiöst skiljeorgan, oavsett vad parterna avtalar."
+          ]
+        },
+        {
+          "label": "33 § lagen (1999:116) om skiljeförfarande",
+          "values": [
+            "En skiljedom är ogiltig om den »innefattar prövning av en fråga som enligt svensk lag inte får avgöras av skiljemän« eller om domen »eller det sätt på vilket skiljedomen tillkommit är uppenbart oförenlig med grunderna för rättsordningen i Sverige«.",
+            "Dubbel spärr: både icke-skiljedomsbarhet och ordre public. En skiljedom byggd på könsdiskriminerande arvsregler är ogiltig utan att någon behöver klandra den."
+          ]
+        },
+        {
+          "label": "1 kap. 8 a § lagen (1904:26 s. 1) om vissa internationella rättsförhållanden rörande äktenskap och förmynderskap",
+          "values": [
+            "»Ett äktenskap som har ingåtts enligt utländsk lag erkänns inte i Sverige om någon av parterna var under 18 år vid tidpunkten för äktenskapets ingående.«",
+            "Prop. 2017/18:288, i kraft 1 januari 2019. Gäller oavsett parternas anknytning till Sverige vid vigseln. Undantag kan aldrig göras om någon part fortfarande är under 18."
+          ]
+        },
+        {
+          "label": "Erkännandeförbud mot månggifte (SFS 2021:464–466)",
+          "values": [
+            "Generellt förbud mot att erkänna månggiften ingångna enligt utländsk lag, oavsett anknytning till Sverige vid äktenskapets ingående.",
+            "Prop. 2020/21:149, grundad på SOU 2020:2. I kraft 1 juli 2021. Stängde den lucka där Skatteverket tidigare registrerat polygama äktenskap ingångna innan parterna kom till Sverige."
+          ]
+        },
+        {
+          "label": "Djurskyddslagen (2018:1192) 4 kap. 14 §",
+          "values": [
+            "Alla djur som slaktas i Sverige måste först bedövas. Halalslakt är tillåten om djuren bedövas före avblodning; kosherslakt med avblodning av obedövade djur accepteras inte.",
+            "Bedövningskravet har gällt sedan 1937. Här är svensk rätt strängare mot religiös praxis än de flesta andra EU-länder — det enda område där så är fallet."
+          ]
+        }
+      ]
+    }
+  ]
+}

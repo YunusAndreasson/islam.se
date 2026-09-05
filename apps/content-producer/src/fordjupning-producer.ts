@@ -225,11 +225,83 @@ export function normaliseQuote(text: string): string {
  * resolved the id correctly when run by hand. Never let a model's self-report be the
  * only guard on a forgery.
  */
+/**
+ * A word too short for one damaged character to change its sense. Below this,
+ * a single edit turns »han« into »hon« and »all« into »all(t)«, so nothing is
+ * forgiven.
+ */
+const SCAN_SLIP_MIN_WORD = 5;
+
+/** Do two words differ by at most one insertion, deletion or substitution? */
+function withinOneEdit(a: string, b: string): boolean {
+	if (a === b) return true;
+	if (Math.abs(a.length - b.length) > 1) return false;
+	const [short, long] = a.length <= b.length ? [a, b] : [b, a];
+	let i = 0;
+	let j = 0;
+	let budget = 1;
+	while (i < short.length && j < long.length) {
+		if (short[i] === long[j]) {
+			i++;
+			j++;
+			continue;
+		}
+		if (budget-- === 0) return false;
+		if (short.length === long.length) i++;
+		j++;
+	}
+	return true;
+}
+
+/**
+ * Does the claimed wording appear in the stored wording — allowing scan damage,
+ * but never a changed, added or dropped word?
+ *
+ * `quotes.db` is OCR of printed Swedish, and the scans carry the damage: id
+ * 25308 stores »den övervakaen är härskaren«, one letter short of
+ * »övervakaren«. A plain substring test called that a rewritten quotation and
+ * aborted a 25-minute run over a character the research stage had silently
+ * repaired — while the same class of noise had already been diagnosed for the
+ * Arabic corpus, where `check-book-passages.py` compares consonant skeletons
+ * precisely because a naive comparison fails everything.
+ *
+ * Forgiving it wholesale would gut the gate, so the tolerance is deliberately
+ * narrow: word counts must agree and words must align in order, each pair
+ * either identical or one edit apart inside a word long enough that one
+ * character cannot flip its meaning. Inserting »inte«, dropping a clause or
+ * swapping »härskaren« for »domaren« all still fail — those change the word
+ * sequence, which is what a forgery does and what a scan never does.
+ *
+ * Returns "exact" for a clean match, "scan" for one that needed the tolerance
+ * (reported to the operator, never silent) and "no" for a real divergence.
+ */
+export function quoteRunMatch(claimed: string, actual: string): "exact" | "scan" | "no" {
+	if (actual.includes(claimed)) return "exact";
+	const claimedWords = claimed.split(" ").filter(Boolean);
+	const actualWords = actual.split(" ").filter(Boolean);
+	if (claimedWords.length === 0 || claimedWords.length > actualWords.length) return "no";
+
+	for (let start = 0; start <= actualWords.length - claimedWords.length; start++) {
+		let ok = true;
+		for (let k = 0; k < claimedWords.length; k++) {
+			const c = claimedWords[k] ?? "";
+			const a = actualWords[start + k] ?? "";
+			if (c === a) continue;
+			if (Math.min(c.length, a.length) >= SCAN_SLIP_MIN_WORD && withinOneEdit(c, a)) continue;
+			ok = false;
+			break;
+		}
+		if (ok) return "scan";
+	}
+	return "no";
+}
+
 export function verifyQuotesAgainstDb(
 	quotes: ReadonlyArray<{ id: string | number; text?: string; author?: string }>,
-): { missing: string[]; altered: string[]; reattributed: string[] } {
+): { missing: string[]; altered: string[]; repaired: string[]; reattributed: string[] } {
 	const missing: string[] = [];
 	const altered: string[] = [];
+	const repaired: string[] = [];
 	const reattributed: string[] = [];
 
 	for (const q of quotes) {
@@ -244,7 +316,11 @@ export function verifyQuotesAgainstDb(
 		// equality — but the words it does keep must be the stored words.
 		const claimed = normaliseQuote(q.text ?? "");
 		const actual = normaliseQuote(stored.text ?? "");
-		if (claimed.length >= 12 && !actual.includes(claimed)) altered.push(String(q.id));
+		if (claimed.length >= 12) {
+			const verdict = quoteRunMatch(claimed, actual);
+			if (verdict === "no") altered.push(String(q.id));
+			else if (verdict === "scan") repaired.push(String(q.id));
+		}
 
 		// Attribution differences are reported, never fatal: the author column is the
 		// BOOK's author, not the speaker, so correcting it is usually right — Boye's
@@ -254,7 +330,7 @@ export function verifyQuotesAgainstDb(
 			reattributed.push(`${q.id}: "${stored.author}" → "${claimedAuthor}"`);
 		}
 	}
-	return { missing, altered, reattributed };
+	return { missing, altered, repaired, reattributed };
 }
 
 /** True when two spellings plainly name the same person. */
@@ -272,6 +348,57 @@ export function looseNameMatch(a: string, b: string): boolean {
 
 type StageOk = { ok: true; fm: FordjupningFrontmatter; body: string };
 type StageErr = { ok: false; error: string; raw: string };
+
+/**
+ * Fold a string the way a slug is folded, so »Moskén« can match `vad-ar-en-moske.md`.
+ *
+ * Slugs are ASCII: moske, aktenskap, doden. Comparing an accented stem against them
+ * silently matched nothing — the coverage gate would have been inert on exactly the
+ * Swedish terms it exists for.
+ */
+function fold(text: string): string {
+	return text
+		.toLowerCase()
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "");
+}
+
+/** Swedish-ish stems of a head term, for matching it against page titles. */
+export function termStems(term: string): string[] {
+	return fold(term)
+		.split(/[\s-]+/)
+		.filter((word) => word.length > 3)
+		.map((word) => word.replace(/(en|et|erna|arna|ar|er|n|t)$/, ""));
+}
+
+/**
+ * Does an existing page's TITLE claim this term — as opposed to merely linking
+ * to a page that does?
+ *
+ * Matching the whole frontmatter looked equivalent and was not: thirteen answer
+ * pages list "vad-ar-sharia" under `related`, so a sharia run would have been
+ * told that the pages on smoking and alcohol were prior coverage of sharia, and
+ * steered away from the ground it was written to take. Only `title`, `term`,
+ * `seoDescription` and the `keywords` list count.
+ */
+export function coversTerm(
+	fileName: string,
+	frontmatter: string,
+	stems: readonly string[],
+): boolean {
+	const lines = frontmatter.split("\n");
+	const named = lines.filter((line, i) => {
+		if (/^(title|term|seoDescription|keywords):/.test(line)) return true;
+		if (!/^\s+- /.test(line)) return false;
+		for (let j = i - 1; j >= 0; j--) {
+			const previous = lines[j] ?? "";
+			if (/^\w/.test(previous)) return previous.startsWith("keywords:");
+		}
+		return false;
+	});
+	const haystack = fold(`${fileName} ${named.join(" ")}`);
+	return stems.some((stem) => haystack.includes(stem));
+}
 
 export class FordjupningProducer {
 	private readonly runner = new ClaudeRunner();
@@ -308,6 +435,64 @@ export class FordjupningProducer {
 		} catch {
 			return [];
 		}
+	}
+
+	/**
+	 * What the site already says about this term — headings, not prose.
+	 *
+	 * The author was previously given the *slugs* of every answer page and
+	 * nothing else, so it could not tell a topic it must build above from one
+	 * it would merely restate. On sharia that meant an existing 916-word
+	 * `/svar/` page owning the etymology, the two sources, the sharia/fiqh
+	 * distinction, the five ahkam and the maqasid — the five headings any
+	 * writer reaches for first. Re-deriving them is cannibalisation: two pages
+	 * competing for one query, both losing, which is already visible on
+	 * `islam` (homepage p9.9 vs /vad-ar-islam p39.1).
+	 *
+	 * Headings and the opening sentence are enough to steer around; the full
+	 * bodies would crowd out the corpus brief for no extra signal.
+	 */
+	private existingCoverage(term: string): string {
+		const stems = termStems(term);
+		if (stems.length === 0) return "";
+
+		const scan = (dir: string): string[] => {
+			let files: string[];
+			try {
+				files = readdirSync(join(this.opts.repoRoot, "data", dir)).filter((f) => f.endsWith(".md"));
+			} catch {
+				return [];
+			}
+			const out: string[] = [];
+			for (const file of files) {
+				const text = readFileSync(join(this.opts.repoRoot, "data", dir, file), "utf-8");
+				const [, frontmatter = "", body = ""] = text.split(/^---$/m);
+				if (!coversTerm(file, frontmatter, stems)) continue;
+				const headings = [...body.matchAll(/^## (.+)$/gm)].map((m) => (m[1] ?? "").trim());
+				if (headings.length === 0) continue;
+				const lede =
+					body
+						.split("\n")
+						.find((l) => l.startsWith("**"))
+						?.slice(0, 220) ?? "";
+				out.push(
+					`### /${dir}/${file.replace(/\.md$/, "")}/\n${lede}\n${headings.map((h) => `- ${h}`).join("\n")}`,
+				);
+			}
+			return out;
+		};
+
+		const covered = [...scan("fordjupning"), ...scan("svar")].slice(0, 6);
+		if (covered.length === 0) return "";
+		return [
+			"\n\n# REDAN PUBLICERAT OM DEN HÄR TERMEN — SKRIV INTE OM DET",
+			"Sidorna nedan finns redan och rankar redan. Din sida ska stå OVANFÖR dem,",
+			"inte bredvid: nämn det de äger i en mening och länka vidare, och lägg tyngden",
+			"där en kort svarssida inte når — härledningen, skolornas oenighet och dess skäl,",
+			"historien, svensk rätt. Två sidor som svarar på samma fråga tar ut varandra.",
+			"",
+			...covered,
+		].join("\n");
 	}
 
 	private existingEssaySlugs(): string[] {
@@ -555,7 +740,9 @@ export class FordjupningProducer {
 		// "not present in my tool list" and checked nothing — while the tools demonstrably
 		// worked when invoked with identical flags. Never let a model's self-report be the
 		// only guard. Compare the text here, in code.
-		const { missing, altered, reattributed } = verifyQuotesAgainstDb(research.quotes ?? []);
+		const { missing, altered, repaired, reattributed } = verifyQuotesAgainstDb(
+			research.quotes ?? [],
+		);
 		if (missing.length > 0) {
 			return {
 				research,
@@ -569,6 +756,11 @@ export class FordjupningProducer {
 				dropped,
 				fatal: `citat-id finns men texten stämmer inte med quotes.db: ${altered.join(", ")} — omskrivet citat, avbryter`,
 			};
+		}
+		if (repaired.length > 0) {
+			this.log(
+				`   ℹ️  Citat som matchar först efter skannings\u00ADtolerans (läs mot tryckt utgåva): ${repaired.join(", ")}`,
+			);
 		}
 		if (reattributed.length > 0) {
 			this.log(`   ℹ️  Omattribuerade citat (kontrollera för hand): ${reattributed.join("; ")}`);
@@ -591,6 +783,7 @@ export class FordjupningProducer {
 				briefText,
 				"\n\n# RESEARCHUNDERLAG\n",
 				JSON.stringify(research, null, 2),
+				this.existingCoverage(input.term),
 				`\n\n# GILTIGA \`related\`-SLUGS (endast dessa)\n${svarSlugs.join(", ")}`,
 				`\n\n# GILTIGA \`essays\`-SLUGS (endast dessa)\n${essaySlugs.join(", ")}`,
 				attempt > 1

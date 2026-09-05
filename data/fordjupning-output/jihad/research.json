@@ -1,0 +1,1008 @@
+{
+  "topic": "Jihad",
+  "summary": "Den hårdare frågan artikeln måste svara på är inte »betyder jihad heligt krig eller inre kamp?« utan: **varför har termen två läsningar, vem har haft makten över dem, och vad händer när båda är delvis sanna?** Den centrala spänningen är att den apologetiska svenska standardformeln (»jihad betyder egentligen strävan, den större jihad är mot själen«) vilar på en hadith som den klassiska traditionen själv förklarade svag — Ibn Rajab al-Hanbalī noterar uttryckligen »بإسناد ضعيف« om Jābir-varianten (passage 275147) — samtidigt som den motsatta läsningen (»jihad är i grunden erövringskrig«) bortser från att just de klassiska juristerna delade sig hårt: hanafiterna gjorde stridbarhet (ḥirāb), inte otro (kufr), till dödandets grund, medan Shāfiʿī i ett av sina uttalanden gick åt andra hållet (al-Marghīnānī, passage 162182); al-Thawrī kallade enligt al-Qurṭubī jihad frivillig (taṭawwuʿ) medan Ibn ʿAṭiyya rapporterade ijmāʿ om farḍ kifāya (passage 197004); och striden om huruvida 2:256 (»tvång skall inte förekomma«) upphävdes av »svärdsversen« 9:5 var öppen redan hos Ibn Kathīr (passage 183353). Berättelsebågen: artikeln bör visa hur en term med bred semantik i Koranen (25:52 befaller »stor jihad« med Koranen, i Mecka, före stridstillstånd) snävades in till en rättslig krigslära av fiqh-litteraturen med sina egna hårda begränsningar (förbud mot att döda kvinnor, barn, åldringar, munkar; föräldrars tillstånd; imamens auktoritet; hudna), hur den läran i modern tid vändes ut och in av Abdullah Azzam — som behöll det klassiska farḍ ʿayn/farḍ kifāya-schemat men lät försvarsplikten sprida sig »från öst till väst« och uttryckligen upphävde kravet på föräldrars tillstånd — och hur Sverige sedan mötte resultatet inte teologiskt utan straffrättsligt: livstidsdomar för terroristbrott begångna i Aleppo (Hovrätten för Västra Sverige, 30 mars 2016), en grundlagsändring av 2 kap. 24 § RF i kraft 1 januari 2023 som för första gången tillät inskränkning av föreningsfriheten för terroristorganisationer, och de första domarna för deltagande i terroristorganisation i februari 2025. Det som skulle överraska en påläst läsare: att den svenska rättsutvecklingen krävde en grundlagsändring — svensk föreningsfrihet var alltså så stark att deltagandebrottet var författningsvidrigt fram till 2023 — och att den mest auktoritativa muslimska vederläggningen av IS (Öppna brevet till al-Baghdadi, 2014) i sin tur kritiseras akademiskt för att vara historiskt ohållbar när den påstår att »jihad i islam är försvarskrig«. Artikeln måste täcka: (1) koranverserna i uppenbarelseordning och de fyra stadierna hos Ibn al-Qayyim, (2) hadithmaterialet med samling och gradering, inklusive den svaga »större jihad«-hadithen, (3) rättsskolornas faktiska skiljelinjer med namn, (4) svensk rätt, domstolspraxis, myndighetssiffror och Europadomstolens praxis, och (5) invändningarna i sin starkaste form — David Cook, Manfred Sing och den svenska MSB-kontroversen.",
+  "quranReferences": [
+    {
+      "surah": "2 (al-Baqara / Kon)",
+      "ayah": "190",
+      "text": "KÄMPA för Guds sak mot dem som för krig mot er, men var inte de första som griper till vapen; Gud älskar sannerligen inte angripare."
+    },
+    {
+      "surah": "2 (al-Baqara / Kon)",
+      "ayah": "193",
+      "text": "Och kämpa mot dem till dess allt förtryck upphör och all dyrkan kan ägnas Gud. Om de då slutar [strida] skall alla fientligheter upphöra utom [mot] de orättfärdiga [som vill kämpa vidare]."
+    },
+    {
+      "surah": "2 (al-Baqara / Kon)",
+      "ayah": "216",
+      "text": "DET ÄR en plikt för er att strida och detta är förhatligt för er. Men det kan hända att något är er förhatligt och [ändå] är detta ett gott för er; och det kan hända att ni älskar något och [ändå] är detta ett ont för er - Gud vet, men ni vet inte."
+    },
+    {
+      "surah": "2 (al-Baqara / Kon)",
+      "ayah": "256",
+      "text": "TVÅNG skall inte förekomma i trosfrågor. Vad som är rätt handlande är nu klart skilt från fel och synd. Den som förnekar de onda makterna och som tror på Gud, har sannerligen vunnit ett säkert fäste som aldrig ger vika. Gud hör allt, vet allt."
+    },
+    {
+      "surah": "4 (al-Nisāʾ / Kvinnorna)",
+      "ayah": "75",
+      "text": "Varför skulle ni inte kämpa för Guds sak och för de försvarslösa män, kvinnor och barn, som ropar: »Herre! För oss ut ur detta land av förtryck och sänd oss i Din nåd en beskyddare, ja, sänd oss i Din nåd en hjälpare!«"
+    },
+    {
+      "surah": "4 (al-Nisāʾ / Kvinnorna)",
+      "ayah": "90",
+      "text": "[...] Drar de sig tillbaka och vill undvika strid med er och erbjuder er fred, ger Gud er inte rätt att gå till angrepp mot dem."
+    },
+    {
+      "surah": "8 (al-Anfāl / Krigsbytena)",
+      "ayah": "61",
+      "text": "Men visar de sig villiga att sluta fred, var då själv beredd till det och lita till Gud; Han är Den som hör allt, vet allt."
+    },
+    {
+      "surah": "9 (al-Tawba / Ångern)",
+      "ayah": "5",
+      "text": "När de helgade månaderna gått till ända skall ni döda avgudadyrkarna, var ni än träffar på dem; tag dem till fånga och omringa dem och lägg er i försåt för dem. Men om de visar ånger och [villighet att] förrätta bönen och betala allmoseskatten, lämna dem då i fred - Gud är ständigt förlåtande, barmhärtig."
+    },
+    {
+      "surah": "9 (al-Tawba / Ångern)",
+      "ayah": "6",
+      "text": "Om någon bland avgudadyrkarna söker skydd hos dig, ge honom då ditt beskydd, så att han får höra Guds ord; för honom sedan till en plats där han är i trygghet. De är nämligen människor som inte vet [vad Islam innebär]."
+    },
+    {
+      "surah": "9 (al-Tawba / Ångern)",
+      "ayah": "29",
+      "text": "Kämpa mot dem som, trots att de [förr] fick ta emot en uppenbarad Skrift, varken tror på Gud eller på den Yttersta dagen och som inte anser som förbjudet det som Gud och Hans sändebud har förbjudit och inte iakttar den sanna religionens bud - [kämpa mot dem] till dess de erkänner sig besegrade och frivilligt betalar skyddsskatten."
+    },
+    {
+      "surah": "16 (al-Naḥl / Biet)",
+      "ayah": "125",
+      "text": "KALLA människorna, Muhammad, med kloka och goda ord att följa din Herres väg, och lägg fram argumenten på ett måttfullt och försynt sätt; din Herre vet bäst vem det är som avviker från Hans väg och Han vet bäst vem det är som följer Hans ledning."
+    },
+    {
+      "surah": "22 (al-Ḥajj / Vallfärden)",
+      "ayah": "39",
+      "text": "TILLÅTELSE [att kämpa] har de mot vilka ett orättfärdigt krig förs - och Gud har makt att ge dem stöd -"
+    },
+    {
+      "surah": "22 (al-Ḥajj / Vallfärden)",
+      "ayah": "40",
+      "text": "de som i strid mot all rätt jagas bort från sina hem därför att de säger: »Gud är vår Herre!«"
+    },
+    {
+      "surah": "25 (al-Furqān / Urskiljningen)",
+      "ayah": "52",
+      "text": "Men lyssna inte till vad förnekarna säger utan kämpa oförtröttligt mot dem med [Koranens hjälp]."
+    },
+    {
+      "surah": "29 (al-ʿAnkabūt / Spindeln)",
+      "ayah": "69",
+      "text": "Men dem som strävar och kämpar för Vår sak skall Vi sannerligen leda på de vägar som för till Oss. Gud är alltid med dem som gör det goda och det rätta."
+    },
+    {
+      "surah": "47 (Muḥammad)",
+      "ayah": "4",
+      "text": "DÅ NI möter förnekarna [i strid], låt [svärden] falla över deras huvuden till dess ni har tvingat dem på knä; tag därefter [de överlevande] till fånga."
+    },
+    {
+      "surah": "5 (al-Māʾida / Den himmelska måltiden)",
+      "ayah": "32",
+      "text": "Av denna orsak föreskrev Vi för Israels barn att om någon dödar en människa, som inte själv har dödat någon eller försökt störa ordningen på jorden och sprida sedefördärv, skall det anses som om han hade dödat hela människosläktet. Och om någon räddar ett liv, skall det anses som om han hade räddat hela människosläktet."
+    },
+    {
+      "surah": "60 (al-Mumtaḥana / Hon som sätts på prov)",
+      "ayah": "8",
+      "text": "Gud förbjuder er inte att visa godhet mot dem som inte bekämpar er på grund av [er] tro och inte driver ut er ur era hem, och [Han förbjuder er inte] att bemöta dem med rättvisa och opartiskhet - Gud älskar de opartiska."
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote-39585",
+      "text": "قدمتم من الجهاد الأصغر إلى الجهاد الأكبر... مجاهدة العبد هواه",
+      "textSv": "»Ni har kommit från den mindre jihad till den större jihad.« – »Och vad är den större jihad?« – »Tjänarens kamp mot sitt eget begär.«",
+      "author": "Tillskriven Profeten Muhammed",
+      "source": "Ibn al-Jawzī, Dhamm al-hawā. VARNING: detta är den berömda »större jihad«-traditionen. Ibn Rajab al-Ḥanbalī återger den i Jāmiʿ al-ʿulūm wa-l-ḥikam med orden »ويروى هذا مرفوعا من حديث جابر بإسناد ضعيف« – den återberättas som marfūʿ från Jābir MED SVAG KEDJA. Får aldrig presenteras som en autentisk profettradition."
+    },
+    {
+      "id": "quote-41363",
+      "text": "المجاهد من جاهد نفسه في الله",
+      "textSv": "»Den som verkligen kämpar är den som kämpar mot sin egen själ för Guds skull.«",
+      "author": "Profeten Muhammed",
+      "source": "Ibn Rajab al-Ḥanbalī, Jāmiʿ al-ʿulūm wa-l-ḥikam (kommentar till al-Nawawīs fyrtio hadither). Denna variant är den starka motsvarigheten till »större jihad«-traditionen; den återfinns i Tirmidhī och Ibn Ḥibbān."
+    },
+    {
+      "id": "quote-39583",
+      "text": "المجاهد من جاهد نفسه في الله عز وجل",
+      "textSv": "»Den som verkligen kämpar är den som kämpar mot sin egen själ för Guds, den Mäktiges och Upphöjdes, skull.«",
+      "author": "Profeten Muhammed",
+      "source": "Ibn al-Jawzī, Dhamm al-hawā"
+    },
+    {
+      "id": "quote-41669",
+      "text": "إن أول ما تغلبون عليه من الجهاد الجهاد بأيديكم، ثم الجهاد بألسنتكم، ثم الجهاد بقلوبكم",
+      "textSv": "»Det första ni kommer att förlora av jihad är jihad med era händer, sedan jihad med era tungor, sedan jihad med era hjärtan.«",
+      "author": "ʿAlī ibn Abī Ṭālib",
+      "source": "Ibn Rajab al-Ḥanbalī, Jāmiʿ al-ʿulūm wa-l-ḥikam. Visar att jihad redan i den tidiga traditionen graderades i hand–tunga–hjärta, inte enbart som väpnad strid."
+    },
+    {
+      "id": "quote-11159",
+      "text": "أفضل الجهاد كلمة عدل عند سلطان جائر",
+      "textSv": "»Den bästa jihad är ett rättvist ord inför en orättfärdig härskare.«",
+      "author": "Profeten Muhammed",
+      "source": "al-Nawawī, Riyāḍ al-ṣāliḥīn. Traditionen återfinns i Abū Dāwūd och Tirmidhī. Nyckelbelägg för att »afḍal al-jihād« i hadithlitteraturen inte automatiskt syftar på strid."
+    },
+    {
+      "id": "quote-11478",
+      "text": "لكن أفضل الجهاد: حج مبرور",
+      "textSv": "»Men den bästa jihad är en godtagen vallfärd.«",
+      "author": "Profeten Muhammed",
+      "source": "al-Nawawī, Riyāḍ al-ṣāliḥīn. Svar till ʿĀʾisha på frågan om kvinnor skall delta i jihad; återfinns i al-Bukhārī. Ställ mot Ibn Taymiyyas motsatta rangordning nedan."
+    },
+    {
+      "id": "quote-6950",
+      "text": "رأس الأمر الإسلام، وعموده الصلاة، وذروة سنامه الجهاد",
+      "textSv": "»Sakens huvud är islam, dess bärande pelare är bönen, och dess puckels topp är jihad.«",
+      "author": "Profeten Muhammed",
+      "source": "al-Nawawī, al-Arbaʿūn al-Nawawiyya, hadith 29 (från Muʿādh ibn Jabal; återfinns i Tirmidhī). Citeras av Ibn Taymiyya i både al-Siyāsa al-sharʿiyya och al-Risāla al-Nuṣayriyya."
+    },
+    {
+      "id": "quote-11508",
+      "text": "إن أبواب الجنة تحت ظلال السيوف",
+      "textSv": "»Paradisets portar ligger under svärdens skugga.«",
+      "author": "Profeten Muhammed",
+      "source": "al-Nawawī, Riyāḍ al-ṣāliḥīn (från Muslim). Citeras av Ibn al-Qayyim i Zād al-maʿād."
+    },
+    {
+      "id": "quote-11509",
+      "text": "ما اغبرت قدما عبد في سبيل الله فتمسه النار",
+      "textSv": "»Aldrig blir en tjänares fötter dammiga på Guds väg utan att elden förbjuds att röra dem.«",
+      "author": "Profeten Muhammed",
+      "source": "al-Nawawī, Riyāḍ al-ṣāliḥīn"
+    },
+    {
+      "id": "quote-11487",
+      "text": "الإيمان بالله، والجهاد في سبيله",
+      "textSv": "»Tro på Gud, och jihad på Hans väg.«",
+      "author": "Profeten Muhammed",
+      "source": "al-Nawawī, Riyāḍ al-ṣāliḥīn. Svar på frågan om vilken gärning som är förnämst."
+    },
+    {
+      "id": "quote-8066",
+      "text": "إن سياحة أمتي الجهاد في سبيل الله",
+      "textSv": "»Min gemenskaps vandring [siyāḥa, munkarnas kringvandrande askes] är jihad på Guds väg.«",
+      "author": "Profeten Muhammed",
+      "source": "Ibn al-Jawzī, Talbīs Iblīs. Citeras även av Ibn Taymiyya i al-Siyāsa al-sharʿiyya. Traditionen ersätter uttryckligen kristen eremitaskes med jihad."
+    },
+    {
+      "id": "quote-39247",
+      "text": "إنما الحرب خدعة فاصنع ما تريد",
+      "textSv": "»Kriget är list – gör därför vad du vill.«",
+      "author": "Profeten Muhammed",
+      "source": "Ibn al-Jawzī, al-Adhkiyāʾ. Grundtraditionen återfinns i al-Bukhārī och Muslim. Central för den klassiska krigsrättens gränsdragning mellan tillåten krigslist och otillåtet svek (ghadr)."
+    },
+    {
+      "id": "quote-61601",
+      "text": "من قتل قتيلا فله سلبه",
+      "textSv": "»Den som dödar en stupad fiende har rätt till hans utrustning.«",
+      "author": "Profeten Muhammed",
+      "source": "al-Māwardī, al-Aḥkām al-sulṭāniyya. Del av den klassiska bytesrätten (salab), som visar hur detaljreglerad krigföringen var i fiqh-litteraturen."
+    },
+    {
+      "id": "quote-60384",
+      "text": "الجهاد فرض على الكفاية الا أن يتعين فيكون فرضا على الاعيان",
+      "textSv": "»Jihad är en kollektiv plikt (farḍ kifāya), utom när den blir bestämd för den enskilde – då blir den en individuell plikt (farḍ ʿayn).«",
+      "author": "Ibn Taymiyya (d. 1328)",
+      "source": "al-Ḥisba fī l-islām. Den formel som Abdullah Azzam senare övertog och globaliserade."
+    },
+    {
+      "id": "quote-58693",
+      "text": "الجهاد المتعين بحسب الإمكان من الإيمان، وعدمه دليل على انتفاء حقيقة الإيمان",
+      "textSv": "»Den jihad som åligger den enskilde efter förmåga hör till tron, och dess frånvaro är ett tecken på att trons verklighet saknas.«",
+      "author": "Ibn Taymiyya (d. 1328)",
+      "source": "Kitāb al-Īmān"
+    },
+    {
+      "id": "quote-61178",
+      "text": "الجهاد أفضل من الحج والعمرة.",
+      "textSv": "»Jihad är förmer än hajj och umra.«",
+      "author": "Ibn Taymiyya (d. 1328)",
+      "source": "al-Risāla al-Nuṣayriyya. Står i direkt spänning med hadithen i Riyāḍ al-ṣāliḥīn ovan (quote-11478) där en godtagen vallfärd kallas den bästa jihad."
+    },
+    {
+      "id": "quote-56372",
+      "text": "النفس الأمارة بالسوء تقاتلك على كل عمل صالح، والجهاد بينك وبينها أعظم جهاد",
+      "textSv": "»Själen som befaller det onda strider mot dig vid varje god gärning, och kampen mellan dig och den är den största jihad.«",
+      "author": "Ibn Qayyim al-Jawziyya (d. 1350)",
+      "source": "Madārij al-sālikīn. Anmärkningsvärt: samme författare skrev det mest utförliga försvaret för väpnad jihad i Zād al-maʿād. De två läsningarna utesluter inte varandra hos honom."
+    },
+    {
+      "id": "quote-18958",
+      "text": "الجهاد والأمر بالمعروف والنهي عن المنكر تحت هذه الغيرة فإن خلت من القلب لم يجاهد",
+      "textSv": "»Jihad, och att påbjuda det rätta och förbjuda det orätta, ligger under denna nitälskan; är hjärtat tomt på den, kämpar man inte.«",
+      "author": "Ibn Qayyim al-Jawziyya (d. 1350)",
+      "source": "Rawḍat al-muḥibbīn"
+    },
+    {
+      "id": "quote-19187",
+      "text": "جهادك هواك",
+      "textSv": "»Din jihad är [kampen mot] ditt eget begär.«",
+      "author": "al-Ḥasan al-Baṣrī (d. 728)",
+      "source": "Återgivet av Ibn Qayyim al-Jawziyya i Rawḍat al-muḥibbīn. Svaret på frågan »Vilken jihad är bäst?«. Belägget är från 700-talet, alltså tidigt – vilket försvagar tesen att den inre läsningen enbart är modern apologetik."
+    },
+    {
+      "id": "quote-59150",
+      "text": "أفضل الجهاد جهاد الهوى",
+      "textSv": "»Den bästa jihad är kampen mot begäret.«",
+      "author": "al-Ḥasan al-Baṣrī (d. 728)",
+      "source": "Återgivet av al-Māwardī i Adab al-dunyā wa-l-dīn"
+    },
+    {
+      "id": "quote-39562",
+      "text": "أي الجهاد أفضل؟ قال: جهادك هواك",
+      "textSv": "»Vilken jihad är bäst?« Han svarade: »Din kamp mot ditt eget begär.«",
+      "author": "al-Ḥasan al-Baṣrī, återgiven av Ibn al-Jawzī (d. 1201)",
+      "source": "Dhamm al-hawā"
+    },
+    {
+      "id": "quote-10236",
+      "text": "مجاهدة النفس بالنفس افضل من مجاهدة الغير بالنفس.",
+      "textSv": "»Att kämpa mot sin egen själ med sin själ är förmer än att kämpa mot andra med sin själ.«",
+      "author": "Abū Bakr al-Shiblī (d. 946)",
+      "source": "Ibn al-Jawzī, Ṣifat al-ṣafwa"
+    },
+    {
+      "id": "quote-39594",
+      "text": "اقوى الفتوة غلبتك نفسك",
+      "textSv": "»Den starkaste manligheten (futuwwa) är att du besegrar dig själv.«",
+      "author": "al-Sarī al-Saqaṭī (d. ca 867)",
+      "source": "Ibn al-Jawzī, Dhamm al-hawā"
+    },
+    {
+      "id": "quote-11073",
+      "text": "ليس الشديد بالصرعة إنما الشديد الذي يملك نفسه عند الغضب.",
+      "textSv": "»Den starke är inte den som brottar ned andra; den starke är den som behärskar sig själv i vrede.«",
+      "author": "Profeten Muhammed",
+      "source": "al-Nawawī, Riyāḍ al-ṣāliḥīn (från al-Bukhārī och Muslim)"
+    },
+    {
+      "id": "quote-9658",
+      "text": "من يأخذ هذا السيف بحقه؟ فأحجم القوم. فقال أبو دجانة: أنا آخذه بحقه",
+      "textSv": "»Vem tar detta svärd med dess rätt?« Folket drog sig undan. Då sade Abū Dujāna: »Jag tar det med dess rätt.«",
+      "author": "Abū Dujāna (följeslagare, vid slaget vid Uhud)",
+      "source": "Ibn al-Jawzī, Ṣifat al-ṣafwa. Uttrycket »svärdets rätt« (ḥaqq al-sayf) är i sig ett vittnesbörd om att väpnad strid uppfattades som villkorad av rättsliga plikter."
+    },
+    {
+      "id": "quote-47242",
+      "text": "Kriget är den mänskliga lidelsen, ordnad i massor. Kriget är hat och mord. Kriget är nöd och död.",
+      "author": "Zacharias Topelius",
+      "source": "Stjärnornas kungabarn"
+    },
+    {
+      "id": "quote-47243",
+      "text": "Kriget hånar Guds lag och förtrampar människors.",
+      "author": "Zacharias Topelius",
+      "source": "Stjärnornas kungabarn"
+    },
+    {
+      "id": "quote-43986",
+      "text": "Yfs våldet med hotande arm, Står ondskan trygg, bryts lag i mitt rike, kränks Täckelig sed och fridlyst ordning, Sjunke i glömska Fjalar och Fjalars ed!",
+      "author": "Johan Ludvig Runeberg",
+      "source": "Kung Fjalar"
+    },
+    {
+      "id": "quote-3172",
+      "text": "Tålamod och mildhet segra över vrede.",
+      "author": "Viktor Rydberg",
+      "source": "Singoalla"
+    },
+    {
+      "id": "quote-23302",
+      "text": "Inom detta folk har fredsviljan släckt den nedärfda krigslidelsen och medborgaranda betyder där: att af sig själf göra det största möjliga värde",
+      "author": "Ellen Key",
+      "source": "Lifslinjer, Tredje delen"
+    },
+    {
+      "id": "quote-23139",
+      "text": "Men skönare människor skola strida skönare strider.",
+      "author": "Ellen Key",
+      "source": "Lifslinjer, Tredje delen"
+    },
+    {
+      "id": "quote-23456",
+      "text": "Värneplikten innebär sådana faror för lif och hälsa att, under de sista fem åren, i tyska hären i medeltal 9,000 om året måst afskedas som hel- och halfinvalider.",
+      "author": "Ellen Key",
+      "source": "Der Tag"
+    },
+    {
+      "id": "quote-23451",
+      "text": "Sätta in alla krafter på fredens bevarande, förklara krig mot kriget, död åt dödandet!",
+      "author": "Jean Jaurès, citerad av Ellen Key",
+      "source": "Lifslinjer, Tredje delen. OBS: citat i citat – Key återger Jaurès. Den franska ordalydelsen är inte kontrollerad mot Jaurès egna skrifter."
+    },
+    {
+      "id": "quote-23442",
+      "text": "Folkdöme och fredsrörelse hänga lika nödvändigt samman som krig och imperialism.",
+      "author": "Kurt Breysig, citerad av Ellen Key",
+      "source": "Lifslinjer, Tredje delen. OBS: citat i citat – Key återger Breysig i svensk översättning."
+    },
+    {
+      "id": "quote-65455",
+      "text": "De voro barn af en krigisk tid. Också sökte de kriget från den ena ändan af Europa till den andra. Äfven i freden var faran deras element.",
+      "author": "Erik Gustaf Geijer",
+      "source": "Verkets titel saknas i databasen (fältet anger »Unknown»); bör bestämmas innan citatet används med källhänvisning."
+    },
+    {
+      "id": "quote-25288",
+      "text": "Fördom och partiskhet är mänsklighetens största fiende i sökandet efter sanning.",
+      "author": "Ibn Khaldūn",
+      "source": "Muqaddima, svensk översättning. Ordalydelsen är översättarens, inte Ibn Khaldūns; behandla som parafras."
+    }
+  ],
+  "bookPassages": [
+    {
+      "id": "passage-275147",
+      "text": "الباطن، هو جهاد النفس والهوى، فإن جهادهما من أعظم الجهاد، كما قال النبي صلى الله عليه وسلم: «المجاهد من جاهد نفسه في الله». وقال عبد الله بن عمر لمن سأله عن الجهاد: ابدأ بنفسك، فجاهدها، وابدأ بنفسك، فاغزها. وقال بقية بن الوليد: أخبرنا إبراهيم بن أدهم، حدثنا الثقة عن علي بن أبي طالب، قال: أول ما تنكرون من جهادكم أنفسكم. وقال إبراهيم بن أبي علقمة لقوم جاءوا من الغزو: قد جئتم من الجهاد الأصغر، فما فعلتم في الجهاد الأكبر؟ قالوا: وما الجهاد الأكبر؟ قال: جهاد القلب. ويروى هذا مرفوعا من حديث جابر بإسناد ضعيف، ولفظه: «قدمتم من الجهاد الأصغر إلى الجهاد الأكبر» قالوا: وما الجهاد الأكبر؟ قال: «مجاهدة العبد لهواه». ويروى من حديث سعد بن سنان، عن أنس، عن النبي صلى الله عليه وسلم، قال: «ليس عدوك الذي إذا قتلك أدخلك الجنة، وإذا قتلته كان لك نورا، أعدى عدوك نفسك التي بين جنبيك»",
+      "bookTitle": "Jāmiʿ al-ʿulūm wa-l-ḥikam",
+      "author": "Ibn Rajab al-Ḥanbalī (d. 1393)"
+    },
+    {
+      "id": "passage-119836",
+      "text": "الثاني والثلاثون أن جهاد الهوى إن لم يكن أعظم من جهاد الكفار فليس بدونه. قال رجل للحسن البصري رحمه الله تعالى: يا أبا سعيد، أي الجهاد أفضل؟ قال: جهادك هواك. وسمعت شيخنا يقول: جهاد النفس والهوى أصل جهاد الكفار والمنافقين، فإنه لا يقدر على جهادهم حتى يجاهد نفسه وهواه أولا حتى يخرج إليهم",
+      "bookTitle": "Rawḍat al-muḥibbīn",
+      "author": "Ibn Qayyim al-Jawziyya (d. 1350) — »شيخنا« i passagen avser hans lärare Ibn Taymiyya"
+    },
+    {
+      "id": "passage-258918",
+      "text": "ثم فرض عليهم القتال بعد ذلك لمن قاتلهم دون من لم يقاتلهم فقال: {وقاتلوا في سبيل الله الذين يقاتلونكم}. ثم فرض عليهم قتال المشركين كافة، وكان محرما، ثم مأذونا به، ثم مأمورا به لمن بدأهم بالقتال، ثم مأمورا به لجميع المشركين، إما فرض عين على أحد القولين، أو فرض كفاية على المشهور. والتحقيق أن جنس الجهاد فرض عين إما بالقلب، وإما باللسان، وإما بالمال، وإما باليد، فعلى كل مسلم أن يجاهد بنوع من هذه الأنواع. أما الجهاد بالنفس ففرض كفاية",
+      "bookTitle": "Zād al-maʿād",
+      "author": "Ibn Qayyim al-Jawziyya (d. 1350)"
+    },
+    {
+      "id": "passage-197004",
+      "text": "قال ابن عطية: والذي استمر عليه الإجماع أن الجهاد على كل أمة محمد صلى الله عليه وسلم فرض كفاية، فإذا قام به من قام من المسلمين سقط عن الباقين، إلا أن ينزل العدو بساحة الإسلام فهو حينئذ فرض عين... وذكر المهدوي وغيره عن الثوري أنه قال: الجهاد تطوع",
+      "bookTitle": "al-Jāmiʿ li-aḥkām al-Qurʾān",
+      "author": "al-Qurṭubī (d. 1273). Passagen namnger tre positioner: al-Māwardī (referat om farḍ ʿayn), Ibn ʿAṭiyya (ijmāʿ om farḍ kifāya) och Sufyān al-Thawrī (taṭawwuʿ, frivilligt)"
+    },
+    {
+      "id": "passage-162182",
+      "text": "ولا يقتلوا امرأة ولا صبيا ولا شيخا فانيا ولا مقعدا ولا أعمى، لأن المبيح للقتل عندنا هو الحراب ولا يتحقق منهم... والشافعي رحمه الله تعالى يخالفنا في الشيخ الفاني والمقعد والأعمى لأن المبيح عنده الكفر والحجة عليه ما بينا. وقد صح أن النبي عليه الصلاة والسلام نهى عن قتل الصبيان والذراري، وحين رأى رسول الله صلى الله عليه وسلم امرأة مقتولة قال: «هذه ما كانت هذه تقاتل فلم قتلت؟»",
+      "bookTitle": "al-Hidāya fī sharḥ Bidāyat al-mubtadiʾ",
+      "author": "Burhān al-Dīn al-Marghīnānī (d. 1197), hanafitisk standardhandbok. DEN CENTRALA RÄTTSSKOLESKILLNADEN: hanafiterna gör stridbarhet (ḥirāb) till dödandets grund, al-Shāfiʿī otron (kufr)"
+    },
+    {
+      "id": "passage-147133",
+      "text": "ولا تقتل امرأة، ولا شيخ فان. وبذلك قال مالك، وأصحاب الرأي. وروي ذلك عن أبي بكر الصديق، ومجاهد. وروي عن ابن عباس في قوله تعالى {ولا تعتدوا} يقول: لا تقتلوا النساء والصبيان والشيخ الكبير. وقال الشافعي، في أحد قوليه، وابن المنذر: يجوز قتل الشيوخ... قال ابن المنذر: لا أعرف حجة في ترك قتل الشيوخ يستثنى بها من عموم قوله {فاقتلوا المشركين}",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma al-Maqdisī (d. 1223), hanbalitisk. Passagen redovisar meningsskiljaktigheten om åldringar med namn på båda sidor"
+    },
+    {
+      "id": "passage-147134",
+      "text": "ولنا، أن النبي صلى الله عليه وسلم قال: «لا تقتلوا شيخا فانيا، ولا طفلا، ولا امرأة». رواه أبو داود في سننه. وروي عن أبي بكر الصديق رضي الله عنه أنه وصى يزيد حين وجهه إلى الشام، فقال: لا تقتل صبيا، ولا امرأة، ولا هرما. وعن عمر، أنه وصى سلمة بن قيس، فقال: لا تقتلوا امرأة، ولا صبيا، ولا شيخا هرما... وقد أومأ النبي صلى الله عليه وسلم إلى هذه العلة في المرأة، فقال: «ما بال هذه قتلت، وهي لا تقاتل»",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma al-Maqdisī (d. 1223)"
+    },
+    {
+      "id": "passage-171338",
+      "text": "باب قتل النساء في الحرب. حدثنا إسحاق بن إبراهيم، قال: قلت لأبي أسامة، حدثكم عبيد الله، عن نافع، عن ابن عمر رضي الله عنهما، قال: وجدت امرأة مقتولة في بعض مغازي رسول الله صلى الله عليه وسلم، «فنهى رسول الله صلى الله عليه وسلم عن قتل النساء والصبيان»",
+      "bookTitle": "Ṣaḥīḥ al-Bukhārī, Kitāb al-jihād",
+      "author": "al-Bukhārī (d. 870). Traditionen har parallell i Ṣaḥīḥ Muslim (passage 177235, nr 1744)"
+    },
+    {
+      "id": "passage-182871",
+      "text": "ولهذا جاء في صحيح مسلم، عن بريدة أن رسول الله صلى الله عليه وسلم كان يقول: «اغزوا في سبيل الله، قاتلوا من كفر بالله، اغزوا ولا تغلوا، ولا تغدروا، ولا تمثلوا، ولا تقتلوا وليدا، ولا أصحاب الصوامع»... وعن ابن عباس قال: كان رسول الله صلى الله عليه وسلم إذا بعث جيوشه قال: «اخرجوا بسم الله، قاتلوا في سبيل الله من كفر بالله، لا تغدروا ولا تغلوا، ولا تمثلوا، ولا تقتلوا الولدان ولا أصحاب الصوامع»",
+      "bookTitle": "Tafsīr al-Qurʾān al-ʿaẓīm (kommentar till 2:190)",
+      "author": "Ibn Kathīr (d. 1373), som citerar Ṣaḥīḥ Muslim (Burayda) och Musnad Aḥmad (Ibn ʿAbbās)"
+    },
+    {
+      "id": "passage-183353",
+      "text": "وقد ذهب طائفة كثيرة من العلماء أن هذه محمولة على أهل الكتاب ومن دخل في دينهم قبل النسخ والتبديل إذا بذلوا الجزية. وقال آخرون: بل هي منسوخة بآية القتال وأنه يجب أن يدعى جميع الأمم إلى الدخول في الدين الحنيف دين الإسلام، فإن أبى أحد منهم الدخول فيه ولم ينقد له أو يبذل الجزية، قوتل حتى يقتل. وهذا معنى الإكراه",
+      "bookTitle": "Tafsīr al-Qurʾān al-ʿaẓīm (kommentar till 2:256, »lā ikrāha fī l-dīn«)",
+      "author": "Ibn Kathīr (d. 1373). DEN AVGÖRANDE KONTROVERSEN: redovisar båda positionerna om huruvida »tvång skall inte förekomma i religionen« är upphävd av stridsversen"
+    },
+    {
+      "id": "passage-183352",
+      "text": "وهكذا ذكر مجاهد وسعيد بن جبير والشعبي والحسن البصري وغيرهم: أنها نزلت في ذلك. وقال محمد بن إسحاق... عن ابن عباس قوله: {لا إكراه في الدين} قال: نزلت في رجل من الأنصار من بني سالم بن عوف يقال له: الحصيني، كان له ابنان نصرانيان، وكان هو رجلا مسلما فقال للنبي صلى الله عليه وسلم: ألا أستكرههما فإنهما قد أبيا إلا النصرانية؟ فأنزل الله فيه ذلك",
+      "bookTitle": "Tafsīr al-Qurʾān al-ʿaẓīm (uppenbarelseanledning till 2:256)",
+      "author": "Ibn Kathīr (d. 1373)"
+    },
+    {
+      "id": "passage-186945",
+      "text": "وهذه الآية الكريمة هي آية السيف التي قال فيها الضحاك بن مزاحم: إنها نسخت كل عهد بين النبي صلى الله عليه وسلم وبين أحد من المشركين، وكل عهد، وكل مدة. وقال العوفي، عن ابن عباس في هذه الآية: لم يبق لأحد من المشركين عهد ولا",
+      "bookTitle": "Tafsīr al-Qurʾān al-ʿaẓīm (kommentar till 9:5, »svärdsversen«)",
+      "author": "Ibn Kathīr (d. 1373), som återger al-Ḍaḥḥāk ibn Muzāḥims abrogationstes"
+    },
+    {
+      "id": "passage-107719",
+      "text": "وأبلغ الجهاد الواجب للكفار والممتنعين عن بعض الشرائع كمانعي الزكاة والخوارج ونحوهم يجب ابتداء ودفعا. فإذا كان ابتداء فهو فرض على الكفاية إذا قام به البعض سقط الفرض عن الباقين، وكان الفضل لمن قام به، كما قال الله تعالى {لا يستوي القاعدون من المؤمنين غير أولي الضرر}. فأما إذا أراد العدو الهجوم على المسلمين فإنه يصير دفعه واجبا على المقصودين كلهم وعلى غير المقصودين لإعانتهم",
+      "bookTitle": "al-Siyāsa al-sharʿiyya",
+      "author": "Ibn Taymiyya (d. 1328). Grundtexten för distinktionen mellan anfallsjihad (farḍ kifāya) och försvarsjihad (obligatorisk för alla) — den formel Abdullah Azzam senare globaliserade"
+    },
+    {
+      "id": "passage-107712",
+      "text": "وإذا كان أصل القتال المشروع هو الجهاد ومقصوده هو أن يكون الدين كله لله وأن تكون كلمة الله هي العليا، فمن منع هذا قوتل باتفاق المسلمين. وأما من لم يكن من أهل الممانعة والمقاتلة كالنساء والصبيان والراهب والشيخ الكبير والأعمى والزمن ونحوهم فلا يقتل عند جمهور العلماء إلا أن يقاتل بقوله أو فعله، وإن كان بعضهم يرى إباحة قتل الجميع لمجرد الكفر إلا النساء والصبيان لكونهم مالا للمسلمين. والأول هو الصواب، لأن القتال هو لمن يقاتلنا إذا أردنا إظهار دين الله، كما قال الله تعالى {وقاتلوا في سبيل الله الذين يقاتلونكم ولا تعتدوا}",
+      "bookTitle": "al-Siyāsa al-sharʿiyya",
+      "author": "Ibn Taymiyya (d. 1328). Viktig: Ibn Taymiyya tar uttryckligen avstånd från den position som gör enbart otro till dödandegrund"
+    },
+    {
+      "id": "passage-300225",
+      "text": "فأمره الله سبحانه وتعالى أن يجاهد الكفار بالقرآن جهادا كبيرا، وهذه السورة مكية نزلت بمكة، قبل أن يهاجر النبي صلى الله عليه وسلم وقبل أن يؤمر بالقتال، ولم يؤذن له، وإنما كان هذا الجهاد بالعلم والقلب والبيان والدعوة لا بالقتال... قال أبو محمد بن حزم: الجهاد ينقسم أقساما ثلاثة: أحدها الدعاء إلى الله تعالى باللسان، والثاني الجهاد عند الحرب بالرأي والتدبير، والثالث الجهاد باليد في الطعن والضرب",
+      "bookTitle": "Minhāj al-sunna al-nabawiyya",
+      "author": "Ibn Taymiyya (d. 1328), som citerar Ibn Ḥazm (d. 1064). Kommenterar 25:52: den »stora jihad« som befalls i Mecka sker med Koranen, inte med vapen"
+    },
+    {
+      "id": "passage-146828",
+      "text": "بر الوالدين فرض عين، والجهاد فرض كفاية، وفرض العين يقدم. فأما إن كان أبواه غير مسلمين، فلا إذن لهما. وبذلك قال الشافعي. وقال الثوري: لا يغزو إلا بإذنهما؛ لعموم الأخبار... قال: وإذا خوطب بالجهاد فلا إذن لهما",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma al-Maqdisī (d. 1223). Kravet på föräldrars tillstånd — den regel som Abdullah Azzam uttryckligen upphävde i Difāʿ ʿan arāḍī al-muslimīn"
+    },
+    {
+      "id": "passage-217395",
+      "text": "يا رسول الله، إني كنت أردت الجهاد معك، أبتغي بذلك وجه الله والدار الآخرة. قال: «ويحك! أحية أمك؟» قلت: نعم، قال: «ارجع فبرها»... قال: «ويحك! الزم رجلها، فثم الجنة»",
+      "bookTitle": "Sunan Ibn Māja, Kitāb al-jihād (nr 2781)",
+      "author": "Ibn Māja (d. 887). Traditionen om Jāhima al-Sulamī, textbelägget för föräldrarnas företräde framför jihad"
+    },
+    {
+      "id": "passage-147086",
+      "text": "ومعنى الهدنة، أن يعقد لأهل الحرب عقدا على ترك القتال مدة، بعوض وبغير عوض. وتسمى مهادنة وموادعة ومعاهدة، وذلك جائز، بدليل قول الله تعالى {براءة من الله ورسوله إلى الذين عاهدتم من المشركين}، وقال سبحانه {وإن جنحوا للسلم فاجنح لها}. وروى مروان، ومسور بن مخرمة، أن النبي صلى الله عليه وسلم صالح سهيل بن عمرو بالحديبية، على وضع القتال عشر سنين. ولأنه قد يكون بالمسلمين ضعف، فيهادنهم حتى يقوى المسلمون",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma al-Maqdisī (d. 1223). Vapenvilans (hudna) rättsgrund — och den restriktion som visar problemet: fördraget får inte vara på obestämd tid »eftersom det leder till att jihad överges helt«"
+    },
+    {
+      "id": "passage-232342",
+      "text": "حتى يسلموا أو يعطوا الجزية عن يد وهم صاغرون، فإذا أعطوها لم يكن للمسلمين قتلهم ولا إكراههم على غير دينهم، لقول الله عز وجل {قاتلوا الذين لا يؤمنون بالله ولا باليوم الآخر} الآية",
+      "bookTitle": "al-Umm",
+      "author": "al-Shāfiʿī (d. 820). Efter erlagd jizya upphör både dödandet och varje religiöst tvång"
+    },
+    {
+      "id": "passage-232037",
+      "text": "ثم أبان رسول الله صلى الله عليه وسلم مثل معنى كتاب الله عز وجل فأخذ الجزية من المحتلمين دون من دونهم ودون النساء، وأمر رسول الله صلى الله عليه وسلم أن لا تقتل النساء من أهل دار الحرب، ولا الولدان... ولا جزية على من لم يبلغ من الرجال، ولا على امرأة، وكذلك لا جزية على مغلوب على عقله",
+      "bookTitle": "al-Umm",
+      "author": "al-Shāfiʿī (d. 820)"
+    },
+    {
+      "id": "passage-205720",
+      "text": "لولا ما شرع الله للأنبياء والمؤمنين من قتال الأعداء، لاستولى أهل الشرك وعطلوا ما بينته أرباب الديانات من مواضع العبادات، ولكنه دفع بأن أوجب القتال ليتفرغ أهل الدين للعبادة. فالجهاد أمر متقدم في الأمم، وبه صلحت الشرائع واجتمعت المتعبدات... أي لولا هذا الدفع لهدم في زمن موسى الكنائس، وفي زمن عيسى الصوامع والبيع، وفي زمن محمد عليه السلام المساجد",
+      "bookTitle": "al-Jāmiʿ li-aḥkām al-Qurʾān (kommentar till 22:40)",
+      "author": "al-Qurṭubī (d. 1273). Den klassiska motiveringen: väpnad jihad legitimeras som skydd för ALLA religioners gudstjänstplatser, inte bara moskéer"
+    },
+    {
+      "id": "passage-262888",
+      "text": "وأصلها إرادة انتقام بعض البشر من بعض... وسبب هذا الانتقام في الأكثر إما غيرة ومنافسة، وإما عدوان، وإما غضب لله ولدينه، وإما غضب للملك وسعي في تمهيده. فالأول أكثر ما يجري بين القبائل المتجاورة والعشائر المتناظرة، والثاني وهو العدوان أكثر ما يكون من الأمم الوحشية... والثالث هو المسمى في الشريعة بالجهاد، والرابع هو حروب الدول مع الخارجين عليها والمانعين لطاعتها. فهذه أربعة أصناف من الحروب: الصنفان الأولان منها حروب بغي وفتنة، والصنفان الأخيران حروب جهاد وعدل",
+      "bookTitle": "Tārīkh (Muqaddima), kapitlet om krig",
+      "author": "Ibn Khaldūn (d. 1406). Sociologisk typologi: jihad är en av fyra krigstyper, och den enda som klassificeras tillsammans med statens ordningskrig som »rättfärdig«"
+    },
+    {
+      "id": "passage-107644",
+      "text": "فالعقوبة على ترك الواجبات وفعل المحرمات هو مقصود الجهاد في سبيل الله، وهو واجب على الأمة بالاتفاق كما دل عليه الكتاب والسنة، وهو من أفضل الأعمال. قال رجل: يا رسول الله دلني على عمل يعدل الجهاد في سبيل الله؟ قال: «لا تستطيعه»... قال: «هل تستطيع إذا خرج المجاهد أن تصوم ولا تفطر وتقوم ولا تفتر؟»... قال: «فذلك الذي يعدل الجهاد في سبيل الله». وقال: «إن في الجنة لمئة درجة بين الدرجة إلى الدرجة كما بين السماء والأرض، أعدها الله للمجاهدين في سبيله». كلاهما في الصحيحين",
+      "bookTitle": "al-Siyāsa al-sharʿiyya",
+      "author": "Ibn Taymiyya (d. 1328)"
+    },
+    {
+      "id": "passage-183018",
+      "text": "{كتب عليكم القتال وهو كره لكم} هذا إيجاب من الله تعالى للجهاد على المسلمين: أن يكفوا شر الأعداء عن حوزة الإسلام. وقال الزهري: الجهاد واجب على كل أحد، غزا أو قعد؛ فالقاعد عليه إذا استعين أن يعين، وإذا استغيث أن يغيث، وإذا استنفر أن ينفر، وإن لم يحتج إليه قعد... وقال عليه السلام يوم الفتح: «لا هجرة، ولكن جهاد ونية، إذا استنفرتم فانفروا»",
+      "bookTitle": "Tafsīr al-Qurʾān al-ʿaẓīm (kommentar till 2:216)",
+      "author": "Ibn Kathīr (d. 1373), som återger al-Zuhrī (d. 742)"
+    }
+  ],
+  "sources": [
+    {
+      "id": "terroristbrottslag-riksdagen",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/terroristbrottslag-2022666_sfs-2022-666/",
+      "title": "Terroristbrottslag (2022:666) — Sveriges riksdag, Svensk författningssamling",
+      "keyFindings": [
+        "4 a §: »För deltagande i en terroristorganisation döms den som deltar i verksamheten i en terroristorganisation på ett sätt som är ägnat att främja, stärka eller understödja organisationen.« Straff: fängelse högst fyra år; grovt brott 2–8 år; vid ledning 2–18 år eller livstid",
+        "10 §: »För resa för terrorism eller särskilt allvarlig brottslighet döms den som reser eller påbörjar en resa till ett annat land i avsikt att…« Straff högst två år; gäller inte svensk medborgare som reser till Sverige",
+        "Lagen är religiöst neutral och nämner varken islam eller jihad — det avgörande rekvisitet är terroristsyftet, inte motivets religiösa språkdräkt"
+      ]
+    },
+    {
+      "id": "lagen-nu-terroristbrottslag",
+      "url": "https://lagen.nu/2022:666",
+      "title": "Terroristbrottslag (2022:666) — Lagen.nu, med paragrafkommentarer",
+      "keyFindings": [
+        "Terroristbrott enligt 4 §: fängelse 4–18 år eller livstid; mindre grovt 2–6 år. Kräver att gärningen kan allvarligt skada ett land och begås för att injaga fruktan, tvinga ett offentligt organ eller destabilisera grundläggande strukturer",
+        "Samröre (5 §): vapen, ammunition, lokaler eller »annat liknande stöd«; högst 4 år, grovt 1 år 6 mån–7 år",
+        "Finansiering (6 §) högst 3 år / 1–6 år; rekrytering (8 §) och utbildning (9 §) samma skalor — utbildningsbrottet omfattar både att undervisa och att ta emot instruktioner"
+      ]
+    },
+    {
+      "id": "sou-2021-15",
+      "url": "https://lagen.nu/sou/2021:15",
+      "title": "SOU 2021:15, Föreningsfrihet och terroristorganisationer — betänkande av parlamentarisk kommitté",
+      "keyFindings": [
+        "Föreslog ändring av 2 kap. 24 § regeringsformen: »Föreningsfriheten får begränsas endast när det gäller sammanslutningar som ägnar sig åt eller understödjer terrorism…« — terrorism som ny begränsningsgrund vid sidan av militär verksamhet och rasistisk förföljelse",
+        "Kommittén betonade proportionalitet och skydd för den fria åsiktsbildningen; för sammanslutningar med blandad politisk, humanitär och terroristisk verksamhet krävs försiktig bedömning. Religionsfriheten kan överlappa föreningsfriheten",
+        "Lagrådet hade 2019 invänt att ett tidigare förslag om deltagandebrott begränsade föreningsfriheten otillåtet — det är därför grundlagsändringen behövdes"
+      ]
+    },
+    {
+      "id": "regeringen-grundlagsandring",
+      "url": "https://www.regeringen.se/pressmeddelanden/2022/12/grundlagsandring-ger-starkta-mojligheter-att-bekampa-terrorism/",
+      "title": "Grundlagsändring ger stärkta möjligheter att bekämpa terrorism — Regeringen.se, december 2022",
+      "keyFindings": [
+        "Ändringen trädde i kraft 1 januari 2023 och möjliggör bredare kriminalisering av deltagande i terroristorganisation eller förbud mot sådana organisationer",
+        "Bygger på prop. 2021/22:42; grundlagsändring krävde två likalydande riksdagsbeslut med ett val emellan",
+        "Pressmeddelandet återger inte den exakta nya lydelsen av 2 kap. 24 § RF — den måste hämtas ur författningstexten"
+      ]
+    },
+    {
+      "id": "nacka-tingsratt-2025",
+      "url": "https://www.domstol.se/nyheter/2025/02/dom-om-deltagande-i-terroristorganisation/",
+      "title": "Dom om deltagande i terroristorganisation — Nacka tingsrätt, mål B 1886-24, 17 februari 2025",
+      "keyFindings": [
+        "Fyra män dömda för deltagande i terroristorganisation, grovt brott: IS i Somalia. Straff 3 år till 6 år 6 månader",
+        "Deltagandet bestod i rekrytering, propagandaspridning, vapenträning och rådgivningsverksamhet",
+        "Ingen dömdes för förberedelse till terroristbrott — planen var enligt domstolen »inte tillräckligt tydligt konkretiserad«. Tre av de fyra dömdes även för grovt vapenbrott, vilket i hög grad påverkade straffmätningen"
+      ]
+    },
+    {
+      "id": "attunda-tingsratt-2025",
+      "url": "https://www.domstol.se/nyheter/2025/02/en-man-fran-vimmerby-doms-for-bland-annat-deltagande-i-terroristorganisation/",
+      "title": "En man från Vimmerby döms för bland annat deltagande i terroristorganisation — Attunda tingsrätt, mål B 6548-24, 14 februari 2025",
+      "keyFindings": [
+        "22-åring dömd till 3 år 3 månaders fängelse för deltagande i terroristorganisation (IS), finansiering av terrorism och tre fall av resa för terrorism",
+        "Samtliga tre resor påbörjades i Sverige med Somalia som slutdestination; mannen greps på Arlanda i juni 2024",
+        "Enligt Säkerhetspolisen var detta den första fällande domen för deltagande i terroristorganisation sedan brottet infördes 2023"
+      ]
+    },
+    {
+      "id": "svt-hovratten-goteborg",
+      "url": "https://www.svt.se/nyheter/lokalt/vast/dom-terrordomda-goteborgare",
+      "title": "Hovrätten fastställer terroristbrottdom — SVT Nyheter, 30 mars 2016",
+      "keyFindings": [
+        "Hovrätten för Västra Sverige fastställde livstidsdomarna mot Al Amin Sultan (30) och Hassan Mostafa Al-Mandlawi (32) för terroristbrott genom mord i Syrien 2013",
+        "Domstolen: »avsikten med morden har varit att injaga allvarlig fruktan hos de som inte har samma åsikt som gärningsmännen«. Hovrättsråd Niklas Wågnert: »det har varit tydligt att syftet med deras handlingar har varit att skapa skräck«",
+        "Bevisningen vilade på beslagtaget videomaterial; NFC bedömde med »extremt stor säkerhet« att de dömda var männen i filmen. Målet flyttades till Stockholm eftersom tingsrättens ordförande hade blivit hovrättspresident"
+      ]
+    },
+    {
+      "id": "cve-fhs-foreign-fighters",
+      "url": "https://cve.se/publikationer/swedishforeignfightersinsyriaandiraqananalysisofopensourceintelligenceandstatisticaldata.5.50aefefc1884c4074a4b74d9.html",
+      "title": "Swedish Foreign Fighters in Syria and Iraq — Försvarshögskolan för Center mot våldsbejakande extremism, 2017",
+      "keyFindings": [
+        "Ca 300 personer reste från Sverige till Syrien och Irak 2012–2016; forskningsurvalet omfattar 267 individer baserat på tidigare hemligstämplat material från Säkerhetspolisen",
+        "Studien analyserade utreseår, ålder, kön, hemvist i Sverige, medborgarskap, ursprungsland, tid i konfliktzon, dödsfall, aktivitet i sociala medier och finansieringsmönster",
+        "80 procent av de utresta kom från Västra Götaland, Stockholm, Skåne och Örebro"
+      ]
+    },
+    {
+      "id": "mucf-trossamfund-statistik",
+      "url": "https://www.mucf.se/rapporter-och-statistik/trossamfund-antal-betjanade",
+      "title": "Trossamfund — antal betjänade, MUCF (tidigare Myndigheten för stöd till trossamfund)",
+      "keyFindings": [
+        "2024: totalt 844 694 betjänade i samtliga statsbidragsberättigade trossamfund i Sverige",
+        "Muslimska riksorganisationer 2024: FIFS 61 350, SMF 50 479, ISS (shia) 35 388, IKUS 27 711, BIS (bosniakiska) 19 440, IFBS 9 295",
+        "»Betjänade« är myndighetens bidragsgrundande begrepp och inte detsamma som medlemmar eller troende; myndigheten skriver ned samfundens egna inrapporterade tal när underlaget inte bedöms tillförlitligt"
+      ]
+    },
+    {
+      "id": "pew-europe-muslim-population",
+      "url": "https://www.pewresearch.org/religion/2017/11/29/europes-growing-muslim-population/",
+      "title": "Europe's Growing Muslim Population — Pew Research Center, 29 november 2017",
+      "keyFindings": [
+        "Sverige 2016: 8 procent muslimsk befolkningsandel, ca 810 000 personer",
+        "Projektioner till 2050: 11,1 procent vid noll migration, 20,5 procent vid medelhög migration, 30,6 procent vid hög migration",
+        "Metod: demografisk analys byggd på folkräkning, surveydata och Eurostats migrationssiffror. Sverige projicerades ha Europas näst största muslimska andel 2050 i mediescenariot"
+      ]
+    },
+    {
+      "id": "letter-to-baghdadi",
+      "url": "https://en.wikipedia.org/wiki/Letter_to_Baghdadi",
+      "title": "Öppna brevet till al-Baghdadi (2014) — översikt över innehåll, undertecknare och kritik",
+      "keyFindings": [
+        "Publicerat september 2014, undertecknat av 122–126 muslimska lärda och presenterat i Washington, D.C. 24 punkter mot IS",
+        "Om jihad: »Jihad in Islam is defensive war« och »is not permissible without the right cause, the right purpose and without the right rules of conduct«. Om takfīr: förbjudet att förklara någon icke-muslim om denne inte öppet förnekar tron. Om oskyldiga: förbjudet att döda journalister, biståndsarbetare, sändebud och diplomater",
+        "KRITIKEN — viktig för avsnittet om invändningar: Manfred Sing invänder att brevet »does not explain the difference between legitimate and illegitimate acts of political violence«, saknar systematisk referens till begrepp som »våld« och »terrorism« och inte anger vilka institutioner som skulle utkräva ansvar"
+      ]
+    },
+    {
+      "id": "cook-understanding-jihad",
+      "url": "https://www.ucpress.edu/books/understanding-jihad/paper",
+      "title": "David Cook, Understanding Jihad (University of California Press, 1:a uppl. 2005, 2:a uppl. 2015)",
+      "keyFindings": [
+        "Cooks tes: läran om »den större jihad« är en innovation som är svagt underbyggd i Koranen, hadithlitteraturen och den islamiska rätten",
+        "Cook hävdar att jihad genom hela islams historia primärt förståtts som fysisk strid för islams sak, och att den inre läsningen inte var hur tidiga eller klassiska muslimer uppfattade begreppet",
+        "Hans normativa invändning: att åberopa »den större jihad« bör inte av islamforskare användas som BEVIS för att ickevåld har historiskt djup eller allmän acceptans i vare sig klassisk eller samtida islam. OBS: Cooks position är omstridd och bör i artikeln ställas mot al-Ḥasan al-Baṣrīs 700-talsbelägg (quote-19187) och Ibn Rajabs egen redovisning (passage-275147)"
+      ]
+    },
+    {
+      "id": "azzam-defence-muslim-lands",
+      "url": "https://english.religion.info/2002/02/01/document-defence-of-the-muslim-lands/",
+      "title": "Abdullah Azzam, Defence of the Muslim Lands (Difāʿ ʿan arāḍī al-muslimīn) — dokumenttext hos Religioscope",
+      "keyFindings": [
+        "Kärnargumentet: när icke-muslimer invaderar muslimskt land förvandlas försvarsjihad från farḍ kifāya till farḍ ʿayn — och sprider sig, om de närmaste inte förmår avvärja angreppet, »from the East to the West« tills den vilar på hela jorden",
+        "Azzam upphäver uttryckligen kravet på föräldrars tillstånd: »the child shall march forward without the permission of its parents« — en direkt vändning mot Ibn Qudāmas regel i al-Mughnī (passage-146828) och Ibn Mājas hadith om Jāhima (passage-217395)",
+        "Texten ÅBEROPAR stöd från bl.a. Ibn Bāz och Ibn ʿUthaymīn. Detta är dokumentets egen uppgift och måste behandlas som ett påstående, inte som verifierat — påstådda stöd från saudiska lärda är omtvistade och bör kontrolleras separat innan de återges"
+      ]
+    },
+    {
+      "id": "hrlr-glorification-terrorism",
+      "url": "https://academic.oup.com/hrlr/article/24/3/ngae017/7696469",
+      "title": "Glorification of Terrorist Violence at the European Court of Human Rights — Human Rights Law Review 24(3), 2024",
+      "keyFindings": [
+        "Leroy mot Frankrike (2008): fällande dom för apologi av terrorism efter en karikatyr av attacken mot World Trade Center — Europadomstolen fann ingen kränkning av artikel 10. Artikeln kritiserar avgörandet skarpt",
+        "Z.B. mot Frankrike (ansökan nr 46883/15, dom 2 september 2021): fransk fällande dom för en t-shirt till en treåring med texten »I am a bomb!« på framsidan och »Jihad, born on 11 September« på baksidan — barnets namn var Jihad och födelsedatum 11 september. Två månaders villkorligt fängelse och 4 000 euro i böter; ingen kränkning av artikel 10",
+        "Motsatt utgång i Erkizia Almandoz mot Spanien, där domstolen fann kränkning eftersom talet inte uppmanade till våld. Artikeln behandlar även Sürek nr 1 mot Turkiet, Şener mot Turkiet, Stomakhin mot Ryssland, Rouillan mot Frankrike och Müdür Duman mot Turkiet — visar att Europadomstolens gräns går vid uppvigling, inte vid ordet jihad i sig"
+      ]
+    },
+    {
+      "id": "hudoc-zb-france",
+      "url": "https://hudoc.echr.coe.int/eng?i=001-211600",
+      "title": "Z.B. c. FRANCE, ansökan nr 46883/15 — Europadomstolens databas HUDOC",
+      "keyFindings": [
+        "Domens primärkälla. Sidan är JavaScript-renderad och kan inte läsas maskinellt — domstexten måste hämtas manuellt",
+        "Sökanden dömdes för apologi av brott mot liv; barnet bar t-shirten till förskolan 25 september 2012, varpå rektorn underrättade skolmyndigheten och borgmästaren, som anmälde till åklagare",
+        "Europadomstolen fann att Frankrikes fällande dom inte kränkte artikel 10"
+      ]
+    },
+    {
+      "id": "svt-svensk-fatwa-terror",
+      "url": "https://www.svt.se/nyheter/inrikes/svensk-fatwa-mot-terrordadet",
+      "title": "Svensk fatwa mot terrordådet — SVT Nyheter, 15 december 2010 (efter självmordsattentatet i Stockholm)",
+      "keyFindings": [
+        "Hassan Moussa, ordförande i Sveriges imamråd och ledamot av det internationella muslimska fatwarådet, utfärdade en fatwa mot attentatet",
+        "Moussa: »Det som har hänt är förbjudet, brottsligt, det är en terrorhandling«; »Det är förbjudet att godkänna det som har hänt eller försöka rättfärdiga det«; »De som accepterar det eller rättfärdigar detta är lika skyldiga som gärningsmannen själv«",
+        "Han kallade dådet ett brott mot islamisk sharia och uppmanade övriga imamer att ansluta sig till fatwan samt att slå fast att Sverige skall betraktas som ett fredligt land — en position som juridiskt motsvarar den klassiska kategorin dār al-ʿahd/dār al-amn snarare än dār al-ḥarb"
+      ]
+    },
+    {
+      "id": "msb-brodraskapet-rapport",
+      "url": "https://sv.wikipedia.org/wiki/Muslimska_Br%C3%B6draskapet_i_Sverige_(rapport)",
+      "title": "Muslimska Brödraskapet i Sverige (MSB-rapporten 2017) — sammanfattning av rapport och forskarkritik",
+      "keyFindings": [
+        "Förstudie 2017 av Magnus Norell (red.) med Aje Carlbom och Pierre Durrani för Myndigheten för samhällsskydd och beredskap",
+        "Ett upprop initierat av Emin Poljarevic och undertecknat av ett tjugotal forskare kritiserade rapporten för bristande empiri, otillräckliga källhänvisningar, selektivt urval av tidigare forskning och »konspiratorisk språkdräkt«. Namngivna kritiker: Mattias Gardell, Mohammad Fazlhashemi, Jan Hjärpe, Eli Göndör, Jonas Svensson, Rashid Musa",
+        "MSB beslutade i juni 2017 att inte gå vidare med rapporten och avslutade samarbetet med Norell. Terrorforskaren Magnus Ranstorp menade att Durranis egen tidigare medlemskap höjde trovärdigheten men medgav att kritiken mot den akademiska kvaliteten kunde vara befogad. Fallet är den bästa svenska illustrationen av hur laddad frågan om islamistisk mobilisering är i svensk forskningsdebatt"
+      ]
+    },
+    {
+      "id": "skolverket-kontroversiella-fragor",
+      "url": "https://www.skolverket.se/kompetensutveckling/stod-i-arbetet/religion-att-hantera-kontroversiella-fragor-i-undervisningen",
+      "title": "Religion: Att hantera kontroversiella frågor i undervisningen — Skolverket",
+      "keyFindings": [
+        "Stödmaterialet tar upp polarisering mellan religioner, antisemitism, islamofobi och »komplexa frågor relaterade till våldsbejakande extremism«",
+        "Islam, terrorism, jihad och koranbränningar nämns INTE specifikt; det utarbetade fallexemplet rör i stället en lokal konflikt kring bygget av en frireligiös kyrka",
+        "Bygger på Europarådets material »Undervisa om kontroversiella frågor« (2016), forskning av Lynn Davies samt svenska statliga utredningar om våldsbejakande extremism. Svensk religionsundervisning är icke-konfessionell sedan 1960-talet — relevant för artikelns avsnitt om hur begreppet jihad faktiskt förmedlas i svensk skola"
+      ]
+    },
+    {
+      "id": "quran-api-bernstrom",
+      "url": "https://api.quran.com/api/v4/verses/by_key/2:190?translations=48",
+      "title": "Quran.com API v4, översättning 48 (Knut Bernström, Koranens budskap) — ren verstext",
+      "keyFindings": [
+        "Källan för de rena svenska verslydelserna i denna research; ersätter det OCR-skadade korpusmaterialet där ord är delade vid radbrytning och Bernströms noter ligger inklistrade i verstexten",
+        "Byt suranummer i URL:en för andra verser, t.ex. .../by_key/9:5?translations=48",
+        "Bernströms översättning är den som svenska islam.se-sidor normalt länkar; jämför alltid mot arabiskan när en juridisk poäng hänger på ordvalet — t.ex. att 2:190 hos Bernström lyder »var inte de första som griper till vapen« där arabiskans »walā taʿtadū« mer ordagrant är »överskrid inte [gränserna]«, en skillnad som är avgörande för debatten om anfallsjihad"
+      ]
+    }
+  ],
+  "datasets": [
+    {
+      "id": "svenska-utresande-syrien-irak",
+      "question": "Hur många personer reste från Sverige till Syrien och Irak för att ansluta sig till IS och liknande organisationer, och hur många har återvänt?",
+      "unit": "personer",
+      "source": "Försvarshögskolan (FHS) på uppdrag av Center mot våldsbejakande extremism (CVE), »Swedish Foreign Fighters in Syria and Iraq: An Analysis of open-source intelligence and statistical data«, 2017; underlagsmaterialet kommer från tidigare hemligstämplat material hos Säkerhetspolisen",
+      "sourceUrl": "https://cve.se/publikationer/swedishforeignfightersinsyriaandiraqananalysisofopensourceintelligenceandstatisticaldata.5.50aefefc1884c4074a4b74d9.html",
+      "retrieved": "2026-09-03",
+      "note": "Siffran »ca 300« är Säkerhetspolisens uppskattning, inte en räknad totalsumma; forskningsurvalet omfattar 267 individer, alltså »en stor del« men inte alla. Uppgiften om att ungefär hälften återvänt är en myndighetsuppskattning som varierar mellan rapporttillfällen och saknar publicerat konfidensintervall. Perioden är 2012–2016; inga av dessa siffror säger något om hur många av de utresta som var svenska medborgare, och de säger ingenting alls om hur många av Sveriges muslimer som delar de utrestas tolkning av jihad — det vore ett grovt felslut att läsa dem så.",
+      "columns": [
+        "Mått",
+        "Värde",
+        "Period"
+      ],
+      "rows": [
+        {
+          "label": "Uppskattat antal utresta från Sverige till konfliktområdet",
+          "values": [
+            "ca 300",
+            "2012–2016"
+          ]
+        },
+        {
+          "label": "Antal individer i forskningsurvalet (tidigare hemligt Säpo-material)",
+          "values": [
+            "267",
+            "2012–2016"
+          ]
+        },
+        {
+          "label": "Säkerhetspolisens uppskattning 2016 av antal utresta",
+          "values": [
+            "299",
+            "t.o.m. 2016"
+          ]
+        },
+        {
+          "label": "Andel utresta från Västra Götaland, Stockholm, Skåne och Örebro",
+          "values": [
+            "80 procent",
+            "2012–2016"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "muslimska-trossamfund-betjanade-2024",
+      "question": "Hur många personer betjänas av statsbidragsberättigade muslimska trossamfund i Sverige?",
+      "unit": "betjänade personer",
+      "source": "Myndigheten för ungdoms- och civilsamhällesfrågor (MUCF), bidragsgrundande statistik för trossamfund (uppgift tidigare hos Myndigheten för stöd till trossamfund, SST)",
+      "sourceUrl": "https://www.mucf.se/rapporter-och-statistik/trossamfund-antal-betjanade",
+      "retrieved": "2026-09-03",
+      "note": "»Betjänade« är inte detsamma som medlemmar och absolut inte detsamma som troende: begreppet avser personer som samfundet regelbundet betjänar, och SST/MUCF skriver ned samfundens egna inrapporterade siffror när underlaget inte bedöms tillförlitligt (2012 rapporterade de muslimska organisationerna själva 159 189 personer mot myndighetens 110 000). Siffrorna omfattar bara statsbidragsberättigade samfund — muslimer som inte är anslutna till någon församling saknas helt. Summan 203 663 är beräknad genom addition av de sex posterna och publiceras inte som totalsumma av källan; källsammanfattningen angav dessutom motstridigt att Islamiska Samarbetsrådet omfattar »fyra« organisationer men listade sex, vilket bör kontrolleras mot myndighetens tabell innan siffran används.",
+      "columns": [
+        "Riksorganisation",
+        "Antal betjänade",
+        "År"
+      ],
+      "rows": [
+        {
+          "label": "Förenade islamiska församlingar i Sverige (FIFS)",
+          "values": [
+            "61 350",
+            "2024"
+          ]
+        },
+        {
+          "label": "Sveriges muslimska förbund (SMF)",
+          "values": [
+            "50 479",
+            "2024"
+          ]
+        },
+        {
+          "label": "Islamiska Shiasamfunden i Sverige (ISS)",
+          "values": [
+            "35 388",
+            "2024"
+          ]
+        },
+        {
+          "label": "Islamiska Kulturcenter Unionen i Sverige (IKUS)",
+          "values": [
+            "27 711",
+            "2024"
+          ]
+        },
+        {
+          "label": "Bosniakiska Islamiska Samfundet (BIS)",
+          "values": [
+            "19 440",
+            "2024"
+          ]
+        },
+        {
+          "label": "Islamiska Fatwabyrån i Sverige (IFBS)",
+          "values": [
+            "9 295",
+            "2024"
+          ]
+        },
+        {
+          "label": "Samtliga trossamfund i Sverige (alla religioner)",
+          "values": [
+            "844 694",
+            "2024"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pew-muslimsk-andel-sverige",
+      "question": "Hur stor är den muslimska befolkningsandelen i Sverige och hur beräknas den utvecklas till 2050?",
+      "unit": "procent respektive personer",
+      "source": "Pew Research Center, »Europe's Growing Muslim Population«, publicerad 29 november 2017",
+      "sourceUrl": "https://www.pewresearch.org/religion/2017/11/29/europes-growing-muslim-population/",
+      "retrieved": "2026-09-03",
+      "note": "Detta är demografiska PROJEKTIONER, inte prognoser eller mätningar: Pew räknar »muslim« som självidentifierad religiös tillhörighet oberoende av praktik, tro eller församlingsanslutning, och skattningen för 2016 bygger på surveydata och Eurostats migrationsstatistik eftersom Sverige inte för religionsstatistik. Högmigrationsscenariot förutsätter fortsatt inflöde på 2014–2016 års nivå på obestämd tid, vilket inte inträffat. Siffrorna säger ingenting om religiös praktik och absolut ingenting om synen på jihad — de hör hemma i artikeln enbart som kontext för hur ofta de missbrukas i den svenska debatten.",
+      "columns": [
+        "Scenario",
+        "Muslimsk andel",
+        "Antal muslimer",
+        "År"
+      ],
+      "rows": [
+        {
+          "label": "Utgångsläge",
+          "values": [
+            "8 %",
+            "ca 810 000",
+            "2016"
+          ]
+        },
+        {
+          "label": "Noll ytterligare migration",
+          "values": [
+            "11,1 %",
+            "ca 1,3 miljoner",
+            "2050"
+          ]
+        },
+        {
+          "label": "Medelhög migration",
+          "values": [
+            "20,5 %",
+            "ca 2,5 miljoner",
+            "2050"
+          ]
+        },
+        {
+          "label": "Hög migration",
+          "values": [
+            "30,6 %",
+            "ca 4,5 miljoner",
+            "2050"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "terroristbrottslagen-straffskalor",
+      "question": "Vilka gärningar är straffbara enligt den svenska terroristbrottslagen och vilka är straffskalorna?",
+      "unit": "fängelse (år)",
+      "source": "Terroristbrottslag (2022:666), i lydelse efter SFS 2023:227 (4 a § i kraft 1 juni 2023)",
+      "sourceUrl": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/terroristbrottslag-2022666_sfs-2022-666/",
+      "retrieved": "2026-09-03",
+      "note": "Lagen använder aldrig ordet »jihad« och är religiöst neutral: samma bestämmelser träffar högerextrem, vänsterextrem och islamistisk terrorism. En rekvisitanalys krävs för varje enskild gärning — att åberopa jihad som motiv är i sig inte brottsligt i Sverige, det är gärningen och terroristsyftet som är det. Straffskalorna nedan är återgivna som de anges i lagtexten; för exakta rekvisit måste författningstexten läsas i sin helhet.",
+      "columns": [
+        "Paragraf",
+        "Brott",
+        "Normalstraff",
+        "Grovt brott"
+      ],
+      "rows": [
+        {
+          "label": "4 §",
+          "values": [
+            "Terroristbrott",
+            "fängelse 4–18 år eller livstid",
+            "mindre grovt: 2–6 år"
+          ]
+        },
+        {
+          "label": "4 a §",
+          "values": [
+            "Deltagande i terroristorganisation",
+            "fängelse högst 4 år",
+            "2–8 år; vid ledning 2–18 år eller livstid"
+          ]
+        },
+        {
+          "label": "5 §",
+          "values": [
+            "Samröre med terroristorganisation",
+            "fängelse högst 4 år",
+            "1 år 6 mån–7 år"
+          ]
+        },
+        {
+          "label": "6 §",
+          "values": [
+            "Finansiering av terrorism",
+            "fängelse högst 3 år",
+            "1–6 år"
+          ]
+        },
+        {
+          "label": "8 §",
+          "values": [
+            "Rekrytering",
+            "fängelse högst 3 år",
+            "1–6 år"
+          ]
+        },
+        {
+          "label": "9 §",
+          "values": [
+            "Utbildning för terrorism",
+            "fängelse högst 3 år",
+            "1–6 år"
+          ]
+        },
+        {
+          "label": "10 §",
+          "values": [
+            "Resa för terrorism",
+            "fängelse högst 2 år",
+            "—"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "svenska-terrordomar-jihadistmotiv",
+      "question": "Vilka avgöranden i svensk domstol rör väpnad kamp med jihadistiskt motiv, och vad blev utgången?",
+      "unit": "domar",
+      "source": "Sveriges Domstolar (domstol.se), pressmeddelanden och nyheter; SVT Nyheter",
+      "sourceUrl": "https://www.domstol.se/nyheter/2025/02/dom-om-deltagande-i-terroristorganisation/",
+      "retrieved": "2026-09-03",
+      "note": "Detta är ett urval av principiellt viktiga avgöranden, inte fullständig statistik — det saknas publicerad officiell statistik över antalet åtal och fällande domar enligt terroristbrottslagen (Brå:s kriminalstatistik redovisar inte brottstypen separat på ett sätt som svarar på frågan). Uppgifterna om Attunda-domen som den första enligt 4 a § kommer från Säkerhetspolisens pressmeddelande och bekräftas inte uttryckligen av domstolens egen nyhetstext. Domarna i februari 2025 kan ha överklagats; kontrollera lagakraftvinnande före publicering.",
+      "columns": [
+        "Domstol",
+        "Målnummer",
+        "Datum",
+        "Brott",
+        "Påföljd"
+      ],
+      "rows": [
+        {
+          "label": "Göteborgs tingsrätt",
+          "values": [
+            "—",
+            "2015-12-14",
+            "Terroristbrott (mord i Aleppo våren 2013)",
+            "Livstids fängelse för två män"
+          ]
+        },
+        {
+          "label": "Hovrätten för Västra Sverige (handlagd i Stockholm)",
+          "values": [
+            "B 5306-15",
+            "2016-03-30",
+            "Terroristbrott — tingsrättens dom fastställd",
+            "Livstids fängelse för Al Amin Sultan och Hassan Mostafa Al-Mandlawi"
+          ]
+        },
+        {
+          "label": "Attunda tingsrätt",
+          "values": [
+            "B 6548-24",
+            "2025-02-14",
+            "Deltagande i terroristorganisation (IS), finansiering av terrorism, tre fall av resa för terrorism",
+            "3 år 3 månaders fängelse"
+          ]
+        },
+        {
+          "label": "Nacka tingsrätt",
+          "values": [
+            "B 1886-24",
+            "2025-02-17",
+            "Deltagande i terroristorganisation, grovt brott (IS i Somalia) — rekrytering, propagandaspridning, vapenträning, rådgivning",
+            "3 till 6 år 6 månaders fängelse för fyra män"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grundlagsandring-foreningsfrihet",
+      "question": "Vilken grundlagsändring krävdes innan Sverige kunde kriminalisera deltagande i en terroristorganisation?",
+      "unit": "författningsändring",
+      "source": "Prop. 2021/22:42 »Föreningsfrihet och terroristorganisationer«, grundad på SOU 2021:15; regeringens pressmeddelande december 2022",
+      "sourceUrl": "https://www.regeringen.se/pressmeddelanden/2022/12/grundlagsandring-ger-starkta-mojligheter-att-bekampa-terrorism/",
+      "retrieved": "2026-09-03",
+      "note": "Grundlagsändringen ger endast BEFOGENHET att inskränka föreningsfriheten — den förbjuder ingen organisation och den kriminaliserar ingenting i sig. Regeringens pressmeddelande återger inte den exakta lydelsen av 2 kap. 24 § RF; den bör hämtas ur författningstexten före citering. Utredningen betonade att inskränkningar måste vara proportionerliga, skydda den fria åsiktsbildningen och hanteras försiktigt när en sammanslutning bedriver blandad politisk, humanitär och terroristisk verksamhet — och konstaterade att religionsfriheten kan överlappa föreningsfriheten. Lagrådet hade 2019 invänt mot ett tidigare deltagandebrott just på föreningsfrihetsgrund.",
+      "columns": [
+        "Steg",
+        "Innehåll",
+        "Datum"
+      ],
+      "rows": [
+        {
+          "label": "Utredning",
+          "values": [
+            "SOU 2021:15, parlamentarisk kommitté, föreslår ny begränsningsgrund i 2 kap. 24 § RF",
+            "2021"
+          ]
+        },
+        {
+          "label": "Riksdagens första beslut",
+          "values": [
+            "Bifall (grundlagsändring kräver två likalydande beslut med val emellan)",
+            "2022-04-06"
+          ]
+        },
+        {
+          "label": "Grundlagsändring i kraft",
+          "values": [
+            "Föreningsfriheten får inskränkas för sammanslutningar som ägnar sig åt eller understödjer terrorism",
+            "2023-01-01"
+          ]
+        },
+        {
+          "label": "Deltagandebrottet (4 a § terroristbrottslagen) i kraft",
+          "values": [
+            "Prop. 2022/23:73; SFS 2023:227",
+            "2023-06-01"
+          ]
+        }
+      ]
+    }
+  ]
+}

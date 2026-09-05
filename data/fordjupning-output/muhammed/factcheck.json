@@ -1,0 +1,147 @@
+{
+  "overallCredibility": 7.6,
+  "verdict": "pass",
+  "summary": "No fabricated quotes. All 14 database quote IDs verified by direct lookup — every author and work matches the research's claims, and the research's own caveats (parafras status, speaker attribution, the Runeberg warning) are accurate and unusually disciplined. Eight major web claims were confirmed verbatim: Lambertz's SvJT 2023 thesis, AD 2018 nr 51 (parties, 40 000 kr, the expert passage naming the Prophet), JK's 2007 reasoning, the Jomshof quotation, Säpo's 17 August 2023 decision, the Najem verdict, E.S. v. Austria's date, and Skolverket's omission of Muhammed. The Ibn Taymiyya ʿiṣma passages are verbatim in the book database, and the six/nine reports are genuinely in Bukhārī and Muslim. Three load-bearing claims nonetheless fail and must be fixed before publication. First, the Crone \"doktorandessä / vi var unga och visste ingenting\" quote is second-hand via Liaquat Ali Khan's claimed 2006 interview; Wikipedia records that Crone and Cook never publicly acknowledged it, and the documented Crone statement (NYT 2002) explicitly maintains the book's basic point. Since the research makes candour about this retraction a virtue claim, the error is self-indicting. Second, \"Ibn Kathīrs ingen meningsskiljaktighet\" is unsupported and contradicted by the research's own quoted Ibn Kathīr passage, which records a variant (\"وقيل: بثلاث\"); the sahih collections themselves record seven as well as six, which undercuts the consensus-versus-revisionism binary. Third, AD 2018 nr 51 is overstated: the court ruled on whether the practice was a protected manifestation, expressly noting the interpretation is contested and minority-held, and did not make sunna binding law. Two framing corrections are also required: the Skolverket absence is not Muhammed-specific (no founder is named in Lgr22), and the MUCF Muslim-congregation figure does not reconcile with the published table. The thesis and its four-field structure survive intact; every fix is sentence-level.",
+  "verifiedClaims": [
+    {
+      "claim": "All 14 quotes attributed to Ibn Khaldun, al-Ghazali, al-Suyuti, Söderblom, Topelius, Ellen Key, Runeberg and the Ibn Battuta preamble",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of all 14 IDs (25839, 25813, 25416, 25425, 25422, 25717, 24960, 11972, 12044, 26868, 63282, 48634, 23178, 42656)",
+      "notes": "Every ID exists; author and work fields match the research exactly. Quote 42656 is correctly flagged as Work: Unknown in the database, matching the research's own warning not to use it as Runeberg's own utterance. Quote 26868 is correctly attributed to 'Unknown (Invocation)', not to Ibn Battuta."
+    },
+    {
+      "claim": "Göran Lambertz argues in SvJT 2023 s. 312 that public Quran burning normally constitutes hets mot folkgrupp, and is protected neither by Swedish constitutional law nor by the ECHR",
+      "status": "verified",
+      "method": "WebFetch of svjt.se/svjt/2023/312",
+      "notes": "Verbatim confirmed: 'Det normalt utgör hets mot folkgrupp att offentligt bränna Koranen.' BrB 16:8, RF 2:1/2:21/2:23 and ECHR art. 9-10 all present, plus art. 17 and Norwood v. UK, which the research does not mention."
+    },
+    {
+      "claim": "AD 2018 nr 51: DO v. Almega and Semantix; 40 000 kr diskrimineringsersättning; expert testimony that the ban on cross-sex touching derives from a Quranic verse on women's oath of allegiance and that the Prophet according to some sources did not shake hands with women",
+      "status": "verified",
+      "method": "WebFetch of lagen.nu/dom/ad/2018:51",
+      "notes": "Passage confirmed verbatim. Also confirmed: 36 741 kr in legal costs, a detail the research omits. But see unverified claims — the research's characterisation of what this legally establishes is overstated."
+    },
+    {
+      "claim": "JK Göran Lambertz declined to prosecute Nerikes Allehanda in 2007; complaints from Sveriges Muslimska Förbund and Förenade Islamiska Föreningar; reasoning on 'missaktning' with 'viss försiktighet', 'vidsträckt utrymme' and 'fri och öppen debatt'",
+      "status": "verified",
+      "method": "WebFetch of svt.se article on the JK decision",
+      "notes": "All three quoted formulations confirmed verbatim, including 'bäst bemöts eller tillrättaläggs i en fri och öppen debatt, inte omfattas av kriminaliseringen'."
+    },
+    {
+      "claim": "Richard Jomshof described Islam as founded by 'krigsherren, massmördaren, slavhandlaren och rövaren Muhammed'; he chairs justitieutskottet and stood by the statement; Kristersson criticised him citing Sweden's security situation",
+      "status": "verified",
+      "method": "WebFetch of the SVT article plus independent WebSearch",
+      "notes": "Quotation confirmed verbatim and his refusal to retract confirmed ('Inget i det jag säger som är fel'). Note: the Kristersson response is NOT in the SVT page the research cites — it was made in Agenda and is confirmed via separate reporting. The research should cite a source that actually carries it."
+    },
+    {
+      "claim": "Säpo raised the terror threat level from 3 to 4 on a five-point scale on 17 August 2023; decision by Charlotte von Essen; Sweden moved from legitimate to prioritised target; linked to Quran burnings",
+      "status": "verified",
+      "method": "WebSearch (the Säpo page itself returned empty via WebFetch, likely JS-rendered)",
+      "notes": "17 August confirmed as the decision date, matching the Säpo URL slug. The regeringen.se date of 18 August appears to be the date of the government's own publication. The research's instinct to flag the discrepancy was right; the answer is that 17 August is correct for the Säpo decision."
+    },
+    {
+      "claim": "Salwan Najem convicted 3 February 2025 of hets mot folkgrupp; villkorlig dom and dagsböter; court held the conduct exceeded factual debate and criticism even if the motive was to criticise Islam; charges against Momika dropped after he was killed",
+      "status": "verified",
+      "method": "WebFetch of the SVT verdict article",
+      "notes": "Date, sentence, the missaktning/criticism boundary reasoning, and the dropping of Momika's charges all confirmed. The SVT page did not specify four counts — that detail rests on the Al Jazeera source. Research correctly notes the judgment is under appeal and not lagakraftvunnen."
+    },
+    {
+      "claim": "E.S. v. Austria: ECtHR upheld the Austrian conviction on 25 October 2018 for calling Muhammad a paedophile, citing lack of objectivity and historical context and the preservation of religious peace",
+      "status": "verified",
+      "method": "WebSearch confirming application no. 38450/12, Fifth Section, 25 October 2018 (BAILII, ECHR 891)",
+      "notes": "The research's date of 25 October is correct. The Europaportalen page rendered it as 26 October, which is internally inconsistent (25 Oct 2018 was the Thursday). Cite the judgment directly rather than the Swedish news notice. Seminars were 2009, conviction 2011 — the research states no seminar year, so no error, but avoid repeating Europaportalen's '2011 seminars'."
+    },
+    {
+      "claim": "Ibn Taymiyya states that no one after the Prophet is infallible, and that the prophets themselves made tawba, their ʿiṣma consisting in not being left to persist in sin",
+      "status": "verified",
+      "method": "search_books on the Arabic corpus",
+      "notes": "Verbatim in al-Tawba passage 107527 ('فقد أجمع جميع سلف المسلمين وأئمة الدين من جميع الطوائف أنه ليس بعد رسول الله صلى الله عليه وسلم أحد معصوم') and 107530 ('وعصمتهم هي من أن يقروا على الذنوب'). Minhāj al-sunna 298995 carries the explicit chapter heading. This is the most precisely verified theological claim in the research."
+    },
+    {
+      "claim": "The six/nine reports on Aisha's age are in al-Bukhari and Muslim",
+      "status": "verified",
+      "method": "search_books on the Arabic corpus",
+      "notes": "Confirmed in Bukhārī 5133, 5134, 5158 and Muslim 1422, plus Nasāʾī 3255 and Ibn al-Qayyim's Zād al-maʿād. IMPORTANT: the same collections also record seven — Muslim 1422 via al-Zuhrī/ʿUrwa has 'bint sabʿ sinīn', and Nasāʾī 3256/3257/3258 give seven and nine. This strengthens the New Lines account from the primary sources and weakens the research's consensus-versus-revisionism framing."
+    },
+    {
+      "claim": "Muhammed is never named in Skolverket's kursplan i religionskunskap (Lgr22)",
+      "status": "verified",
+      "method": "WebFetch of syllabuswebb.skolverket.se plus confirming WebSearch",
+      "notes": "Confirmed — but so are Jesus, Abraham and Buddha absent from the centralt innehåll. See missing perspectives: the observation is true but not Muhammed-specific, and the research's framing implies otherwise."
+    },
+    {
+      "claim": "MUCF total betjänade series 2020-2024 (844 694 / 847 961 / 848 908 / 927 164 / 917 193) and the statutory definition of 'betjänad'",
+      "status": "verified",
+      "method": "WebFetch of mucf.se",
+      "notes": "Total series and definition confirmed exactly. The Muslim-congregation subtotal does not reconcile — see unverified claims."
+    },
+    {
+      "claim": "The fitra hadith underlying quote 24960 is al-Bukhari 1358 / Muslim 2658, and 'the Prophet's character was the Quran' is Sahih Muslim 746",
+      "status": "verified",
+      "method": "Assessment against standard hadith references",
+      "notes": "Bukhari 1358 (Kitab al-Jana'iz) and Muslim 2658 (Kitab al-Qadar) are correct for fitra. Muslim 746 is the long night-prayer hadith containing Aisha's statement. The research already flags that Muslim's numbering varies by edition — retain that caveat."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Crone called Hagarism 'en doktorandessä' and said 'Vi var unga och visste ingenting. Boken var bara en hypotes, inte ett avgörande resultat' — presented as the authors having disowned the main thesis",
+      "status": "unverified",
+      "reason": "This is the most serious finding. The quote traces to Liaquat Ali Khan, who claimed to have interviewed Crone in April 2006; the Wikipedia article the research cites explicitly notes that Crone and Cook made no public acknowledgment of these criticisms. The documented, properly sourced Crone statement (Alexander Stille, New York Times, 2 March 2002) says something materially different: 'We were certainly wrong about quite a lot of things. But I stick to the basic point we made: that Islamic history did not arise as the classic tradition says it does.' The research builds an explicit integrity claim on this retraction ('Avgörande för hederligheten'), which makes relying on a contested second-hand quote while omitting the sourced one self-defeating. Either attribute the quote to Khan's account and mark it unconfirmed, or replace it with the NYT 2002 statement — which still supports the research's point that Hagarism cannot be cited as settled, while being accurate about what Crone actually conceded."
+    },
+    {
+      "claim": "Ibn Kathir stated there is 'ingen meningsskiljaktighet' (no disagreement) about Aisha's age, forming part of a classical consensus",
+      "status": "unverified",
+      "reason": "Targeted Arabic search of the book corpus for this formulation in connection with Aisha returned nothing. Worse, the research's own quoted Ibn Kathir passage from Tafsir al-Qur'an al-'azim records a variant — 'وقيل: بثلاث' (and it is said: three years before the hijra) — i.e. Ibn Kathir himself notes disagreement about the dating. Drop the phrase, or supply an exact citation (work, volume, page) for it. Note also that the sahih collections are not uniform: Muslim 1422 and Nasa'i 3256-3258 record seven, not six. The honest framing is that six/nine is the dominant classical report, not that it is undisputed."
+    },
+    {
+      "claim": "AD 2018 nr 51 shows a Swedish court making the Prophet's practice 'avgörande rättsfaktum' and going furthest in making his praxis into 'gällande rätt'",
+      "status": "unverified",
+      "reason": "Overstatement of what the judgment does. The court decided whether the refusal had a sufficiently close and direct link to a religious conviction to engage ECHR art. 9 — and, per the research's own summary of the judgment, expressly noted that the interpretation is contested and followed by a minority. The expert testimony established the coherence and sincerity of the belief, not its correctness; the court did not adjudicate what the Prophet actually did, and did not make sunna a source of Swedish law. Rewrite as: a Swedish court accepted expert evidence about prophetic practice as establishing that a contested minority interpretation still qualifies as a protected religious manifestation. That is genuinely striking and defensible; the current wording is not."
+    },
+    {
+      "claim": "MUCF 2024: muslimska samfund 194 368 betjänade out of a total of 844 694",
+      "status": "unverified",
+      "reason": "The total of 844 694 is confirmed, but the Muslim-congregation figure does not reconcile. The six congregations listed on the MUCF page under Islamiska Samarbetsrådet sum to 203 663 (Bosniakiska 19 440 + Förenade islamiska församlingar 61 350 + Islamiska Fatwabyrån 9 295 + Islamiska Kulturcenter Unionen 27 711 + Islamiska Shiasamfunden 35 388 + Sveriges muslimska förbund 50 479). The gap of 9 295 is exactly the Fatwabyrån line, suggesting the research's figure omits one congregation or uses a different grouping. This is a derived aggregate MUCF does not itself publish as a single number. Recompute against the table, state explicitly that it is a sum of listed congregations, and keep the 'betjänade' caveat — this counts bidragsgrundande served persons, not believers or self-identified Muslims."
+    },
+    {
+      "claim": "SST:s uppgifter övertogs av MUCF 1 januari 2026",
+      "status": "unverified",
+      "reason": "Not present on the MUCF statistics page I read. Plausible and likely documented elsewhere on mucf.se or in the relevant förordning, but source it separately before printing."
+    },
+    {
+      "claim": "Kister's article is the standard reference and 'når inte Arafats avfärdande slutsats' on Banu Qurayza",
+      "status": "unverified",
+      "reason": "The research itself notes the file is a PDF that WebFetch cannot read, so this characterisation is untested against the text. The substance is consistent with the scholarly record (Kister's article is a rebuttal of Arafat), but do not attribute specific conclusions to a document no one in the pipeline has read. Either obtain the text in readable form or cite a secondary source that summarises Kister's position."
+    },
+    {
+      "claim": "Quran 18:110 and 3:31 as quoted",
+      "status": "unverified",
+      "reason": "Minor but worth precision. Both verses in Bernström begin with 'Säg:' — the divine imperative to Muhammad — which the research's rendering drops. For 18:110 in particular this matters, since the article's central tension rests on the verse: it is not Muhammad volunteering that he is 'bara en vanlig människa', it is God commanding him to say so. Restore the imperative and the bracketed source marker."
+    }
+  ],
+  "missingPerspectives": [
+    "The Skolverket observation is presented as Muhammed-specific but is not. Lgr22's centralt innehåll names no religious founder at all — not Jesus, not Abraham, not Buddha. The syllabus is thematically rather than biographically organised. As written, the research implies a special avoidance of Muhammed's name that the document does not support. State the control case explicitly, or the sharpest Swedish observation in the article becomes its most easily rebutted claim.",
+    "The Lambertz 'omsvängning' framing omits the distinction the research's own JK source supplies. The 2007 decision concerned a drawing published in a newspaper under tryckfrihetsförordningen, where JK is sole prosecutor and the instruction is to read 'missaktning' restrictively; the 2023 article concerns street conduct under BrB 16:8 in the ordinary criminal order. These are different acts under different legal regimes, and a careful reader will notice. Address the distinction and the reversal becomes more interesting, not less — Lambertz can be read as consistent about print and changed about conduct.",
+    "Ibn Taymiyya's position on mawlid is presented flatly as classification as bid'a, though the research's own REMMM 2024 source argues it is more ambiguous than either camp allows. The angle summary flattens what the source list corrects. Let the ambiguity into the text.",
+    "No Swedish Muslim scholarly or devotional voice on what the Prophet means positively. The Swedish section is entirely law, security and politics, plus organisational statements condemning violence. The tasliya of 33:56, the mawlid, the Burda tradition and the sira as devotional literature all appear only through medieval Arabic sources, never through anyone living in Sweden. For an article whose home is the Swedish context, that is a structural gap.",
+    "The sahih collections' own internal variation on Aisha's age (seven in Muslim 1422 and Nasa'i 3256-3258 alongside six elsewhere) is stronger evidence for the research's point about intra-Islamic dispute than the New Lines secondary account, and it is sitting unused in the book corpus. Using it also prevents the false binary of a monolithic classical consensus against modern revisionism.",
+    "Shia perspectives appear only in the aniconism section. Given that Islamiska Shiasamfunden is the second-largest Muslim body in the MUCF figures the research cites, and that the 'isma question is precisely where Sunni and Shia doctrine diverge most sharply, the omission is conspicuous in a section built on Ibn Taymiyya — a polemicist against Shia positions whose Minhaj al-sunna is literally an anti-Shia refutation. Using him as the neutral voice on 'isma without noting that context is a fairness problem."
+  ],
+  "sourceAssessment": {
+    "totalSources": 40,
+    "highCredibility": 30
+  },
+  "recommendations": [
+    "Fix the Crone quote before anything else. Replace the 'doktorandessä / vi var unga' quotation with the sourced NYT 2002 statement, or explicitly attribute it to Liaquat Ali Khan's claimed interview and note that Crone never publicly confirmed it. The research's integrity claim about Hagarism currently rests on the weakest-sourced sentence in the file.",
+    "Delete or precisely source 'Ibn Kathirs ingen meningsskiljaktighet'. Replace the consensus framing with what the sources actually show: six/nine is the dominant report, recorded alongside a seven-year variant in Muslim and Nasa'i, with Ibn Kathir himself noting a disputed dating. This is more accurate and makes the intra-Islamic argument stronger.",
+    "Rewrite the AD 2018 nr 51 claim. The court held that a contested minority practice still counts as a protected religious manifestation under art. 9 — it did not determine what the Prophet did or make sunna binding. Drop 'gällande rätt' and 'avgörande rättsfaktum'; the accurate version is still the article's best Swedish find.",
+    "Add the control case to the Skolverket passage: no founder is named in Lgr22, Jesus and Buddha included. Then the observation becomes a point about how Swedish curriculum design handles religion generally, which is defensible, rather than a claim about Muhammed specifically, which is not.",
+    "Recompute the MUCF figure from the published table, label it as a sum of listed congregations rather than an official statistic, and keep the 'betjänade' caveat — bidragsgrundande served persons, not believers. If the figure appears near the Pew (810 000) and SOM (260 000) numbers, state plainly that the three count different things; presenting them in sequence without that will read as a contradiction.",
+    "Cite a source for Kristersson's response to Jomshof that actually contains it. The SVT page the research attributes it to does not; the statement was made in Agenda and is carried in other reporting.",
+    "Restore 'Säg:' to the quotations of 18:110 and 3:31. The article's central tension depends on who is speaking in 18:110.",
+    "Note that Minhaj al-sunna is an anti-Shia polemic when using Ibn Taymiyya on 'isma, and let the REMMM 2024 finding qualify the flat reading of his mawlid position. Both are small additions that pre-empt the obvious expert objection.",
+    "State the tryckfrihet/BrB distinction when presenting the Lambertz reversal, using the jk.se source already in the research. It strengthens the passage rather than defusing it.",
+    "Do not cite Kister's conclusions until the PDF has been read in some form, and keep the existing caveat that the Najem judgment is under appeal to Svea hovrätt and is not settled precedent."
+  ],
+  "datasetChecks": []
+}

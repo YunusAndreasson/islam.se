@@ -1,0 +1,121 @@
+{
+  "overallCredibility": 8.8,
+  "verdict": "pass",
+  "summary": "This is an unusually well-sourced piece for a topic this contested. All 36 database quotes verified exactly against get_quote_by_id (correct author, work, and text — no fabrications, and the research's own caveats about weak isnads, paraphrases, and missing titles match what the database actually shows). Two of the four most theologically load-bearing book passages were independently re-confirmed verbatim via search_books (al-Marghīnānī's Hanafi/Shafiʿi ḥirāb-vs-kufr split at ID 162182; al-Qurṭubī's three-way jihad classification at ID 197004). Ten separate legal, statistical and case-law claims were independently checked against primary or near-primary sources (riksdagen.se, domstol.se, regeringen.se, sv.wikipedia.org, Pew, en.wikipedia.org, and open web search) and every one held up, several essentially word-for-word: the Terroristbrottslag §4a text and its religious neutrality, the Nacka Somalia-IS verdict, the January 2023 constitutional amendment, the MSB/Norell controversy, the Pew 810,000/8% figure, the Attunda \"first conviction\" claim, Azzam's exact \"East to West\" and parental-permission-waiver language, the 2016 Hovrätten Aleppo case, the ECHR Z.B. v. France \"Jihad, born on 11 September\" t-shirt case, and the ~300/267 foreign-fighter statistic. The one item I could not pin down to the letter is the article's central pivot — Ibn Rajab's alleged verbatim \"بإسناد ضعيف\" grading of the Jābir chain — which is corroborated in substance (al-Bayhaqi is on record grading a related chain \"fihi da'f,\" and the broader \"greater jihad hadith is weak\" position is uncontroversial in hadith science) but not confirmed to the letter from a source I could read directly. David Cook's specific \"weak innovation\" framing was only generically corroborated. Neither is a red flag; both are worth a page-reference check before publication. The bigger structural gap is perspectival, not factual: an entirely Sunni four-madhhab treatment with no Twelver Shia jurisprudential position on jihad, despite the research's own MUCF data showing a substantial Swedish Shia population (ISS, 35,388 betjänade).",
+  "verifiedClaims": [
+    {
+      "claim": "All 36 quotes attributed to specific scholars/authors (Ibn al-Jawzī, Ibn Rajab, Ibn Taymiyya, Ibn al-Qayyim, al-Nawawī, al-Ḥasan al-Baṣrī, Ellen Key, Topelius, Runeberg, Rydberg, Geijer, Ibn Khaldūn, etc.) exist in the database with matching author, work, and exact text",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of all 36 IDs",
+      "notes": "No fabrications found. The research's own hedges (e.g. 'behandla som parafras' for the Ibn Khaldūn quote, 'Work: Unknown' for the Geijer quote) match the database's own limitations exactly, indicating honest handling rather than overclaiming."
+    },
+    {
+      "claim": "Hanafiterna gjorde stridbarhet (ḥirāb) till dödandets grund, medan al-Shāfiʿī otron (kufr) — for elderly, disabled and blind non-combatants",
+      "status": "verified",
+      "method": "search_books located the exact passage verbatim (ID 162182, al-Hidāya fī sharḥ Bidāyat al-mubtadiʾ by al-Marghīnānī)",
+      "notes": "Direct textual match to the passage quoted in the research."
+    },
+    {
+      "claim": "al-Qurṭubī reports three positions: al-Māwardī (farḍ ʿayn), Ibn ʿAṭiyya (ijmāʿ on farḍ kifāya), and al-Thawrī (taṭawwuʿ/voluntary)",
+      "status": "verified",
+      "method": "search_books located the exact passage verbatim (ID 197004, al-Jāmiʿ li-aḥkām al-Qurʾān)",
+      "notes": "All three named positions confirmed in one passage, matching the research's claim precisely."
+    },
+    {
+      "claim": "Letter to Baghdadi (2014) states 'Jihad in Islam is defensive war' and is criticized (by Manfred Sing) for not distinguishing legitimate from illegitimate political violence, lacking systematic reference to 'violence'/'terrorism,' and not naming accountability institutions",
+      "status": "verified",
+      "method": "fetch_wikipedia (full text) confirmed the quote verbatim and the critique almost word-for-word; WebSearch confirmed Manfred Sing authored 'Dis/connecting Islam and terror: the Open Letter to Al-Baghdadi and the pitfalls of condemning ISIS on Islamic grounds' (Journal of Religious and Political Practice, 2016)",
+      "notes": "Signatory count (122 initial signatories) also matches."
+    },
+    {
+      "claim": "Terroristbrottslag (2022:666) §4a criminalizes deltagande i terroristorganisation with penalties up to 4 years (standard), 2-8 years (grovt), 2-18 years or life (ledning); the law is religiously neutral and never mentions Islam or jihad",
+      "status": "verified",
+      "method": "WebFetch of riksdagen.se",
+      "notes": "Penalty tiers and religious-neutrality claim confirmed exactly."
+    },
+    {
+      "claim": "Nacka tingsrätt (Feb 2025): four men convicted of grovt deltagande i terroristorganisation (IS, Somalia), sentences 3-6.5 years, activities = recruitment/propaganda/weapons training/advice, no one convicted of förberedelse till terroristbrott because the plan wasn't concrete enough",
+      "status": "verified",
+      "method": "WebFetch of domstol.se",
+      "notes": "Matches research's description in full detail."
+    },
+    {
+      "claim": "Grundlagsändring of 2 kap. 24 § RF took effect 1 January 2023, enabling broader criminalization of participation in terrorist organizations",
+      "status": "verified",
+      "method": "WebFetch of regeringen.se",
+      "notes": "Effective date confirmed. The press release itself doesn't explicitly state this was the 'first time' such a restriction was constitutionally permitted — that inference relies on SOU 2021:15's account of Lagrådet's 2019 objection, which is a reasonable reading of the legislative history but is analytical synthesis rather than a single source's direct statement."
+    },
+    {
+      "claim": "MSB's 2017 Muslim Brotherhood report (Norell/Carlbom/Durrani) was criticized by ~20 researchers (incl. Mattias Gardell, Jan Hjärpe, Rashid Musa, Jonas Svensson) for poor sourcing and 'conspiratorial language'; MSB ended the collaboration with Norell in June 2017; Ranstorp acknowledged legitimate quality concerns",
+      "status": "verified",
+      "method": "WebFetch of sv.wikipedia.org",
+      "notes": "All named details confirmed."
+    },
+    {
+      "claim": "Pew Research: Sweden had 810,000 Muslims (8% of population) in 2016",
+      "status": "verified",
+      "method": "WebSearch",
+      "notes": "Exact figures confirmed. 2050 projection percentages (11.1/20.5/30.6) were echoed only as rounded whole numbers (11/21/31) in the search summary — likely just summary rounding, but worth a direct primary-source check before publication given the precision claimed."
+    },
+    {
+      "claim": "Attunda tingsrätt (Feb 2025): 22-year-old Vimmerby man sentenced to 3 years 3 months for deltagande, finansiering and three resor för terrorism; first conviction for deltagande since the offense was introduced in 2023",
+      "status": "verified",
+      "method": "WebSearch",
+      "notes": "The 'first conviction' claim is confirmed verbatim by multiple outlets."
+    },
+    {
+      "claim": "Abdullah Azzam's Defence of the Muslim Lands makes farḍ ʿayn jihad spread 'from the East to the West' and states the child marches 'without the permission of its parents'",
+      "status": "verified",
+      "method": "WebSearch of the primary text",
+      "notes": "Both phrases confirmed near-verbatim."
+    },
+    {
+      "claim": "Hovrätten för Västra Sverige (30 March 2016) upheld life sentences for Al Amin Sultan and Hassan Mostafa Al-Mandlawi for terrorist murders (throat-cutting) in Aleppo, 2013, reasoning the intent was to instill fear in those who disagreed",
+      "status": "verified",
+      "method": "WebSearch",
+      "notes": "Names, ages, sentence, and court reasoning all match."
+    },
+    {
+      "claim": "ECHR Z.B. v. France (application 46883/15): no Article 10 violation found in French conviction over a 3-year-old's T-shirt reading 'I am a bomb' / 'Jihad, born on 11 September' — the child's actual name was Jihad, born 11 September",
+      "status": "verified",
+      "method": "WebSearch",
+      "notes": "Confirmed in detail across multiple independent outlets (NBC, Fox, Global Freedom of Expression, LawEuro)."
+    },
+    {
+      "claim": "Around 300 people traveled from Sweden to Syria/Iraq 2012-2016 (Säkerhetspolisen figure); the CATS/Försvarshögskolan study analyzed 267 of them; most came from Västra Götaland, Stockholm, Skåne and Örebro",
+      "status": "verified",
+      "method": "WebSearch",
+      "notes": "Both the 300 and 267 figures, and the four-county concentration, confirmed exactly."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Ibn Rajab al-Ḥanbalī explicitly writes 'ويروى هذا مرفوعا من حديث جابر بإسناد ضعيف' in Jāmiʿ al-ʿulūm wa-l-ḥikam regarding the 'greater jihad' hadith",
+      "status": "unverified",
+      "reason": "This is the single most load-bearing claim in the whole angle (it's what lets the article say the standard apologetic formula rests on ground the tradition itself called weak). search_books semantic search did not surface this exact passage despite four targeted queries, and WebSearch found only parallel corroboration (al-Bayhaqi grading a related chain 'hadha isnadun fihi da'f,' and references to al-Ghumari's monograph on the hadith's grading) rather than Ibn Rajab's own sentence. The underlying fact (this hadith is widely graded weak) is not in doubt, but the author should confirm the exact Arabic wording against a critical edition (e.g. the Ibn Rajab commentary on hadith 39/hadith on jihad) before publication, since a misquote here would be the single most damaging error possible given how central it is to the argument."
+    },
+    {
+      "claim": "David Cook's Understanding Jihad argues that the 'greater jihad' reading is an 'innovation... weakly underpinned in the Quran, hadith literature and Islamic law'",
+      "status": "unverified",
+      "reason": "WebSearch confirmed the book exists and contains chapters on 'greater' and 'lesser' jihad, but did not corroborate the specific 'weak innovation' framing or locate the passage where Cook makes this argument. This is plausible and consistent with Cook's known scholarly reputation, but the research should cite a specific page/chapter rather than presenting the framing as an established, easily-checkable paraphrase."
+    }
+  ],
+  "missingPerspectives": [
+    "No Twelver Shia (Jaʿfarī) jurisprudential position on jihad is presented — classical Twelver doctrine ties offensive jihad to the presence/authorization of the infallible Imam (or his deputy during occultation), which is a substantively different structure from all four Sunni schools discussed. This is a real gap given the research's own MUCF source shows a sizeable Swedish Shia population (ISS, 35,388 betjänade) — an article for islam.se's general readership omitting this entirely risks presenting 'the Islamic position' as coextensive with the Sunni one.",
+    "The research shows Western academics (David Cook) and Salafi-jihadist strategists (Azzam) both engaging with the classical farḍ ʿayn/farḍ kifāya scheme, but never notes that jihadist propagandists themselves (not just critical Western scholars) routinely deploy the identical 'the greater-jihad hadith is weak' argument to delegitimize the spiritualized reading — this would make the article's 'who controls the meaning' framing symmetrical instead of one-sided toward academic critique.",
+    "Beyond Hassan Moussa's 2010 fatwa, there's no engagement with how Swedish Muslim umbrella organizations (SMF, FIFS, IKUS, named elsewhere in the research's own MUCF data) currently teach or discuss jihad — a 15-year-old fatwa issued after a single attack is thin grounding for describing the contemporary Swedish Muslim institutional position.",
+    "The gender dimension is present only as scattered quotes (ʿĀʾisha/ḥajj, Azzam's removal of the husband's-permission requirement) rather than a developed comparison of how classical jurists ruled on women's jihad obligations versus how Azzam's innovation changed that."
+  ],
+  "sourceAssessment": {
+    "totalSources": 19,
+    "highCredibility": 17
+  },
+  "recommendations": [
+    "Before publication, verify Ibn Rajab's exact Arabic wording on the Jābir chain against a critical print edition or a searchable full-text source (e.g. the Shuʿayb al-Arnaʾūṭ edition of Jāmiʿ al-ʿulūm wa-l-ḥikam) — this is the thesis's central pivot claim and deserves a page citation, not just a database entry.",
+    "Add a specific page/chapter citation for David Cook's 'weak innovation' argument rather than presenting the framing as a loose paraphrase.",
+    "If the MUCF 'muslimska riksorganisationer' figures (FIFS/SMF/ISS/IKUS/BIS/IFBS) are turned into a chart or table, do not carry over the '(shia)' label on ISS or '(bosniakiska)' on BIS without a clear caveat that 'betjänade' is an administrative headcount for state funding, not a survey of theological self-identification — visualized without that caveat, it silently converts an accounting category into a sect-demographic claim.",
+    "Add a short paragraph situating the Twelver Shia jurisprudential position on jihad alongside the four Sunni schools, given the article's own Swedish demographic data includes a Shia organization.",
+    "Present the Pew 2050 percentages (11.1/20.5/30.6%) explicitly as demographic scenarios/projections rather than predictions, and double check the precise decimal figures against pewresearch.org directly rather than a secondary summary.",
+    "Consider adding one sentence noting that jihadist ideologues themselves have historically argued the 'greater jihad' hadith is weak (for the opposite polemical purpose of Western critics like Cook) — this would strengthen the article's own framing about who has controlled the two readings."
+  ]
+}

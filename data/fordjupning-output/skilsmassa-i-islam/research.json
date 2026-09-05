@@ -1,0 +1,789 @@
+{
+  "topic": "Skilsmässa i islam",
+  "summary": "Frågan artikeln måste besvara är inte »får muslimer skilja sig?« utan **vem som äger utgången ur ett äktenskap** — och vad som händer när två rättsordningar ger olika svar på den frågan om samma par. Koranen reglerar skilsmässa mer detaljerat än nästan något annat civilrättsligt ämne (2:226–232, 2:236–237, 2:241, 4:35, 4:128–130, 33:49, 65:1–7), men den utpekar aldrig något förfarande; det gjorde juristerna, och de gjorde det olika. Den centrala spänningen är strukturell och inte anekdotisk: den klassiska fiqhen bygger äktenskapet som ett kontrakt där mannen förvärvar något, varför upplösningen (ṭalāq) är hans ensidiga och utomrättsliga rätt, medan hustruns väg ut går via hans samtycke (khulʿ, mot lösen) eller via en domare (faskh/tafrīq) — och skolorna skiljer sig skarpt i hur bred den domarvägen är. Ibn Rushd dokumenterar att Mālik, al-Shāfiʿī och Ahmad upplöser äktenskapet när mannen inte försörjer, medan Abū Hanīfa, al-Thawrī och zahiriterna vägrar; Ibn Qudāma dokumenterar att trippel-ṭalāq i ett andetag räknas som tre hos majoriteten men som en hos ʿAtāʾ, Tāwūs, Saʿīd b. Jubayr och ʿAmr b. Dīnār — och senare hos Ibn Taymiyya och Ibn al-Qayyim. Ämnet är alltså internt omtvistat sedan 700-talet, inte enigt.\n\n**Narrativ båge:** Koranen gör skilsmässa till en reglerad, uppskjutande och ekonomiskt kompenserad process med väntetid, skiljedom och två återkallelser innan bindningen blir slutgiltig — en broms mot förhastad upplösning. Fiqhen kodifierade bromsen men lade handen på den hos den ena parten, och det är den asymmetrin, inte skilsmässan som sådan, som moderna kodifieringar (Tunisien 1956, Egypten 2000, Marocko 2004/2024) och muslimska reformrörelser (Musawah, Mir-Hosseini, Kecia Ali) angriper. I Sverige uppstår problemet i en tredje och egen form: svensk rätt känner varken ṭalāq eller khulʿ, och resultatet är två spegelvända fällor — *haltande äktenskap*, där kvinnan är skild enligt äktenskapsbalken men religiöst bunden tills mannen eller en imam släpper henne, och *informella äktenskap*, där paret bara har nikah och kvinnan därför står helt utanför äktenskapsbalkens skydd vid separation.\n\n**Vad som skulle överraska en påläst läsare:** (1) Att den svenska konflikten inte handlar om att sharia tillämpas i svenska domstolar utan om raka motsatsen — HD slog i NJA 2017 s. 168 fast att ett mahr-avtal inte kan göras gällande enligt svensk rätt, vilket tar bort just den ekonomiska säkerhet som fiqhen byggde in som motvikt till mannens ensidiga skilsmässorätt. Den svenska rättsordningen plockar alltså isär ett system och behåller inte kompensationsdelen. (2) Att Stockholms moské offentligt bestred SVT:s bild och hävdade att en svensk tingsrättsdom i deras praxis upplöser äktenskapet även islamiskt — vilket flyttar frågan från doktrin till praxisvariation mellan svenska församlingar, ett fält Mosa Sayeds Uppsalaprojekt kartlagt empiriskt. (3) Att ʿUmar b. al-Khattāb själv ändrade regeln om trippel-ṭalāq (Muslim 1472) — den mest omdiskuterade regeln i hela ämnet är enligt sunnitisk egen hadithkanon en administrativ kalifåtgärd, inte en profetisk föreskrift.",
+  "quranReferences": [
+    {
+      "surah": "2 (al-Baqara)",
+      "ayah": "228",
+      "text": "I fall av skilsmässa skall kvinnan iaktta en väntetid omfattande tre månadsblödningar [innan hon får ingå nytt äktenskap] och det är inte tillåtet för henne – om hon tror på Gud och den Yttersta dagen – att dölja vad Gud har skapat i hennes sköte. Mannen har full rätt att låta [skilsmässan återgå och] hustrun återvända, om han önskar förlikning. Hustrun har, som sig bör, rättigheter [mot mannen] motsvarande [dem han har] mot henne; hans [rätt] ligger dock ett steg framför hennes. Gud är allsmäktig, vis. [Bernström, hämtad från quran.com/2/228?translations=48]"
+    },
+    {
+      "surah": "2 (al-Baqara)",
+      "ayah": "229",
+      "text": "Skilsmässa [får återkallas] två gånger; därefter skall makarna återuppta samlivet i hedersamma former eller äktenskapet upplösas i godo. [Bernström, quran.com/2/229?translations=48 — versens fortsättning, om att makarna inte får ta tillbaka vad de skänkt utom när båda fruktar att inte kunna iaktta Guds gränser, och om att hustrun då utan klander kan friköpa sig, är khulʿ-institutets koranrättsliga grund; hämta hela lydelsen från samma sida innan blockcitat sätts.]"
+    },
+    {
+      "surah": "2 (al-Baqara)",
+      "ayah": "230",
+      "text": "Om mannen [oåterkalleligen] skiljer sig från sin hustru, är det sedan inte tillåtet för honom att ta henne tillbaka, om hon inte först ingått äktenskap med en annan man. Skiljer sig denne därefter från henne, kan klander inte riktas mot någon av parterna [i det första äktenskapet] om de återgår till varandra, såvida de tror att de kan iaktta de av Gud [fastställda] gränserna. Dessa är Guds gränser som Han klargör för de insiktsfulla. [Bernström, quran.com/2/230?translations=48 — versen är grunden för den omtvistade halāla-praktiken.]"
+    },
+    {
+      "surah": "2 (al-Baqara)",
+      "ayah": "231",
+      "text": "Då ni har skilt er från er hustru och hennes vänteperiod närmar sig slutet, skall ni antingen ta henne tillbaka eller också ge henne fri, allt enligt god sed. Men ni får inte hålla henne kvar mot hennes vilja för att skada henne. Den som handlar så begår orätt mot sig själv. Tro inte att Guds budskap är något ni kan skämta om! Minns Guds godhet mot er och vad Han har uppenbarat för er av Skriften och visdomen i Hans varningar. Frukta därför Gud! Ni skall veta att Gud har kunskap om allt! [Bernström, quran.com/2/231?translations=48]"
+    },
+    {
+      "surah": "4 (al-Nisāʾ)",
+      "ayah": "35",
+      "text": "Om ni är rädda för oenighet mellan en man och hans hustru, utse då en skiljeman ur hans familj och en skiljeman ur hennes familj; om båda [innerst inne] vill försonas, skall Gud återställa det goda förhållandet mellan dem. Gud har kunskap om allt, är underrättad om allt. [Bernström, quran.com/4/35?translations=48 — hakamayn-versen; malikiterna bygger på den en rätt för skiljemännen att upplösa äktenskapet utan mannens samtycke, hanafiterna inte.]"
+    },
+    {
+      "surah": "4 (al-Nisāʾ)",
+      "ayah": "130",
+      "text": "Och om man och hustru [likväl] går skilda vägar, skall Gud i Sin rikedom ge dem båda ersättning [för deras förlust]; Gud når överallt och Hans vishet är oändlig. [Bernström, quran.com/4/130?translations=48]"
+    },
+    {
+      "surah": "65 (al-Talāq)",
+      "ayah": "1",
+      "text": "PROFET! När någon av er har för avsikt att skilja sig från sin hustru, skall han [iaktta] den föreskrivna väntetiden och beräkna denna tid [med all noggrannhet]. Och frukta Gud, er Herre! Mannen får inte tvinga [hustrun] att lämna hemmet och hon skall inte heller [självmant] lämna det annat än om hon gjort sig skyldig till en grovt oanständig [eller annan förkastlig] handling. [Bernström, quran.com/65/1?translations=48]"
+    },
+    {
+      "surah": "2 (al-Baqara)",
+      "ayah": "226–227",
+      "text": "[SAMMANFATTNING, EJ ORDAGRANN – hämta lydelsen från quran.com innan citat.] Den som svär att avhålla sig från sin hustru (īlāʾ) får en frist på fyra månader; därefter måste han antingen återuppta samlivet eller fullfölja skilsmässan. Versen upphäver en förislamisk praxis där mannen kunde hålla hustrun bunden på obestämd tid utan vare sig samlevnad eller skilsmässa – en direkt parallell till dagens haltande äktenskap."
+    },
+    {
+      "surah": "2 (al-Baqara)",
+      "ayah": "237 och 241",
+      "text": "[SAMMANFATTNING, EJ ORDAGRANN.] 2:237: vid skilsmässa före samlag utgår halva den avtalade brudgåvan (mahr). 2:241: åt frånskilda kvinnor skall underhåll (mutʿa) ges i tillbörlig mån – en skyldighet för de gudfruktiga. Dessa två verser är den ekonomiska motvikten till mannens ensidiga skilsmässorätt, och det är precis den motvikten som faller bort när svensk rätt underkänner mahr-avtal (NJA 2017 s. 168)."
+    },
+    {
+      "surah": "4 (al-Nisāʾ)",
+      "ayah": "128",
+      "text": "[SAMMANFATTNING, EJ ORDAGRANN.] Om en hustru fruktar avoghet eller försummelse från sin make är det ingen skuld för dem att sinsemellan träffa en förlikning – och förlikning är bättre. Versen åberopas av jurister som stöd för att makarna kan omförhandla villkoren, bl.a. genom att hustrun avstår ekonomiska rättigheter för att äktenskapet skall bestå eller upplösas."
+    },
+    {
+      "surah": "33 (al-Ahzāb)",
+      "ayah": "49",
+      "text": "[SAMMANFATTNING, EJ ORDAGRANN.] Vid skilsmässa före samlag gäller ingen väntetid (ʿidda); hustrun skall ges underhåll och släppas på ett värdigt sätt. Versen visar att ʿidda-institutet motiveras av härstamningsfrågan, inte av straff eller kontroll – ett argument som används mot utsträckta och osäkra väntetider."
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote-22355",
+      "text": "Du bör ej förnedra dig genom omdömen i en sak, där hvarken du eller några andra än makarna själfva kunna veta något! En skilsmässa afkunnas visserligen i domsalen — men den börjar alltid i sängkammaren.",
+      "textSv": "Du bör ej förnedra dig genom omdömen i en sak, där hvarken du eller några andra än makarna själfva kunna veta något! En skilsmässa afkunnas visserligen i domsalen — men den börjar alltid i sängkammaren.",
+      "author": "Ellen Key",
+      "source": "Lifslinjer, Första delen (1903)"
+    },
+    {
+      "id": "quote-22395",
+      "text": "Tvångsäktenskapet nödgar människor att fortsätta sitt samlif, att ge barn lifvet under ett själsuppror, som måste sätta märke i deras varelse och sålunda i deras framtida öden. Men detta är ej ett »välförtjänt straff» för ett misstag: det är den djupaste kränkning af personlighetens och af släktets helgd.",
+      "textSv": "Tvångsäktenskapet nödgar människor att fortsätta sitt samlif, att ge barn lifvet under ett själsuppror, som måste sätta märke i deras varelse och sålunda i deras framtida öden. Men detta är ej ett »välförtjänt straff» för ett misstag: det är den djupaste kränkning af personlighetens och af släktets helgd.",
+      "author": "Ellen Key",
+      "source": "Lifslinjer, Första delen (1903)"
+    },
+    {
+      "id": "quote-50549",
+      "text": "Utan stort skäl lämnar ingen hustru sin man. Därav följer endast olycka och skam.",
+      "textSv": "Utan stort skäl lämnar ingen hustru sin man. Därav följer endast olycka och skam.",
+      "author": "Gustaf af Geijerstam",
+      "source": "Nils Tufvesson och hans moder (1902)"
+    },
+    {
+      "id": "quote-23510",
+      "text": "Tvångets band har medfört äganderättskänslor, hvilka framkallat vårdslöshet i vården af kärleken; de tvångskraf, hvilka väckt fientlighet i själar.",
+      "textSv": "Tvångets band har medfört äganderättskänslor, hvilka framkallat vårdslöshet i vården af kärleken; de tvångskraf, hvilka väckt fientlighet i själar.",
+      "author": "Ellen Key",
+      "source": "Barnets århundrade (1900)"
+    },
+    {
+      "id": "quote-54395",
+      "text": "Att öfvertala Dagmar till skilsmässa var fruktlöst.",
+      "textSv": "Att öfvertala Dagmar till skilsmässa var fruktlöst.",
+      "author": "Hjalmar Söderberg",
+      "source": "Den allvarsamma leken (1912)"
+    },
+    {
+      "id": "quote-50069",
+      "text": "Äktenskapet blev emellertid för båda parterna en missräkning. Aposteln fordrade ofantligt mycket av sin hustru och då hennes icke alltför starka hälsa led därav, blev han otålig.",
+      "textSv": "Äktenskapet blev emellertid för båda parterna en missräkning. Aposteln fordrade ofantligt mycket av sin hustru och då hennes icke alltför starka hälsa led därav, blev han otålig.",
+      "author": "Hjalmar Bergman",
+      "source": "Vi Bookar, Krokar och Rothar (1912)"
+    },
+    {
+      "id": "quote-51243",
+      "text": "Hela den förnäma och rika verldens husliga missöden ha sin grund i det oproportionerliga förhållandet, att qvinnans frihet före äktenskapet är för liten och efter äktenskapet för stor.",
+      "textSv": "Hela den förnäma och rika verldens husliga missöden ha sin grund i det oproportionerliga förhållandet, att qvinnans frihet före äktenskapet är för liten och efter äktenskapet för stor.",
+      "author": "August Blanche",
+      "source": "Sonen af söder och nord"
+    },
+    {
+      "id": "quote-26211",
+      "text": "En god och ädel man är det förnämsta goda i äktenskapet.",
+      "textSv": "En god och ädel man är det förnämsta goda i äktenskapet.",
+      "author": "Fredrika Bremer",
+      "source": "Brev"
+    },
+    {
+      "id": "quote-26453",
+      "text": "Lycksaliga de, som inom äktenskapet förmå utveckla och behålla denna senare kärleken. Deras kärlek är född av Guds.",
+      "textSv": "Lycksaliga de, som inom äktenskapet förmå utveckla och behålla denna senare kärleken. Deras kärlek är född av Guds.",
+      "author": "Fredrika Bremer",
+      "source": "Brev och efterlemnade skrifter"
+    },
+    {
+      "id": "quote-4684",
+      "text": "Stöta bort eller draga till sig, det låg henne lika nära, ty båda delarne var att handla. Resignation, med händerna i skötet, var det enda som var henne främmande.",
+      "textSv": "Stöta bort eller draga till sig, det låg henne lika nära, ty båda delarne var att handla. Resignation, med händerna i skötet, var det enda som var henne främmande.",
+      "author": "Victoria Benedictsson",
+      "source": "Modern: En Berättelse"
+    },
+    {
+      "id": "quote-49057",
+      "text": "Aldrig i livet hade hon funderat över rösträtt eller likställighet med mannen, det låg något så komplett omöjligt i blotta tanken härpå.",
+      "textSv": "Aldrig i livet hade hon funderat över rösträtt eller likställighet med mannen, det låg något så komplett omöjligt i blotta tanken härpå.",
+      "author": "Ester Blenda Nordström",
+      "source": "En piga bland pigor (1914)"
+    },
+    {
+      "id": "quote-46819",
+      "text": "Ett barn, till och med i det oklanderligaste äktenskap, skulle vara ett mycket värre hinder för hennes framtid, om nämligen mannen vore fattig.",
+      "textSv": "Ett barn, till och med i det oklanderligaste äktenskap, skulle vara ett mycket värre hinder för hennes framtid, om nämligen mannen vore fattig.",
+      "author": "Karin Boye",
+      "source": "Astarte (1931)"
+    },
+    {
+      "id": "quote-50409",
+      "text": "Under möda och gamman hade de levat i äktenskap samman, med sveda och värk hade kvinnorna fött sina barn.",
+      "textSv": "Under möda och gamman hade de levat i äktenskap samman, med sveda och värk hade kvinnorna fött sina barn.",
+      "author": "Gustaf af Geijerstam",
+      "source": "Nils Tufvesson och hans moder (1902)"
+    },
+    {
+      "id": "quote-54187",
+      "text": "Därför att du inte vill gifta dig. Nästan alla äktenskap nu för tiden bli ju olyckliga.",
+      "textSv": "Därför att du inte vill gifta dig. Nästan alla äktenskap nu för tiden bli ju olyckliga.",
+      "author": "Hjalmar Söderberg",
+      "source": "Den allvarsamma leken (1912)"
+    }
+  ],
+  "bookPassages": [
+    {
+      "id": "passage-143974",
+      "text": "وإن طلق ثلاثا بكلمة واحدة، وقع الثلاث، وحرمت عليه حتى تنكح زوجا غيره، ولا فرق بين قبل الدخول وبعده. روي ذلك عن ابن عباس، وأبي هريرة، وابن عمر، وعبد الله بن عمرو، وابن مسعود، وأنس. وهو قول أكثر أهل العلم من التابعين والأئمة بعدهم. وكان عطاء، وطاوس، وسعيد بن جبير، وأبو الشعثاء، وعمرو بن دينار، يقولون: من طلق البكر ثلاثة فهي واحدة.\n\n[Svensk arbetsöversättning, ej auktoriserad: »Om han uttalar tre skilsmässor i ett enda yttrande faller alla tre, och hon blir otillåten för honom tills hon gift sig med en annan man; ingen skillnad görs mellan före och efter fullbordat äktenskap. Detta har återberättats från Ibn ʿAbbās, Abū Hurayra, Ibn ʿUmar, ʿAbdallāh b. ʿAmr, Ibn Masʿūd och Anas, och det är de flesta lärdes ståndpunkt bland efterföljarna och imamerna efter dem. Men ʿAtāʾ, Tāwūs, Saʿīd b. Jubayr, Abū al-Shaʿthāʾ och ʿAmr b. Dīnār brukade säga: den som skiljer sig från en jungfru med tre räknas som en.« Kontrollera lydelsen mot en tryckt utgåva av al-Mughnī, bok VII, innan blockcitat sätts – texten är OpenITI-råtext.]",
+      "bookTitle": "al-Mughnī (kitāb al-talāq)",
+      "author": "Ibn Qudāma al-Maqdisī (d. 620/1223)"
+    },
+    {
+      "id": "passage-132902",
+      "text": "وأما الإعسار بالنفقة: فقال مالك والشافعي، وأحمد، وأبو ثور، وأبو عبيد وجماعة: يفرق بينهما، وهو مروي عن أبي هريرة، وسعيد بن المسيب. وقال أبو حنيفة، والثوري: لا يفرق بينهما، وبه قال أهل الظاهر. وسبب اختلافهم: تشبيه الضرر الواقع من ذلك بالضرر الواقع من العنة\n\n[Svensk arbetsöversättning, ej auktoriserad: »Vad gäller oförmåga att betala underhåll sade Mālik, al-Shāfiʿī, Ahmad, Abū Thawr, Abū ʿUbayd och en grupp: äktenskapet upplöses mellan dem – och detta återberättas från Abū Hurayra och Saʿīd b. al-Musayyab. Abū Hanīfa och al-Thawrī sade: det upplöses inte, och detsamma sade zahiriterna. Orsaken till deras oenighet är huruvida den skada som uppstår därav skall liknas vid den skada som uppstår vid impotens.« Detta är den enskilt viktigaste skolskillnaden för hustruns möjlighet att komma ut ur ett äktenskap utan mannens samtycke. Kontrollera mot tryckt Bidāyat al-mujtahid, bok III, innan citat.]",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtasid",
+      "author": "Ibn Rushd (Averroes, d. 595/1198)"
+    },
+    {
+      "id": "passage-210878",
+      "text": "قال أبو حنيفة: ظاهر الآية يدل على أن الطلاق الثلاث والواحدة سواء. وهو مذهب الشافعي لولا قوله بعد ذلك: لا تدري لعل الله يحدث بعد ذلك أمرا. وهذا يبطل دخول الثلاث تحت الآية. وكذلك قال أكثر العلماء ... وقد احتج الشافعي في طلاق الثلاث بكلمة واحدة بما رواه الدارقطني ... أن عبد الرحمن بن عوف طلق امرأته تماضر بنت الأصبغ الكلبية ... ثلاث تطليقات في كلمة واحدة، فلم يبلغنا أن أحدا من أصحابه عاب ذلك.\n\n[Svensk arbetsöversättning, ej auktoriserad: al-Qurtubī refererar Abū Hanīfas och al-Shāfiʿīs argumentation kring 65:1 och trippel-talāq, och al-Shāfiʿīs stöd i en tradition om att ʿAbd al-Rahmān b. ʿAwf skilde sig från sin hustru Tumādir med tre uttalanden i ett andetag utan att någon av följeslagarna klandrade det. Kontrollera mot tryckt al-Jāmiʿ li-ahkām al-Qurʾān innan citat.]",
+      "bookTitle": "al-Jāmiʿ li-ahkām al-Qurʾān (kommentar till 65:1)",
+      "author": "al-Qurtubī (d. 671/1273)"
+    },
+    {
+      "id": "passage-132942",
+      "text": "الباب الثالث: في الخلع. واسم الخلع والفدية والصلح والمبارأة كلها تؤول إلى معنى واحد وهو: بذل المرأة العوض على طلاقها، إلا أن اسم الخلع يختص ببذلها له جميع ما أعطاها، والصلح ببعضه، والفدية بأكثره، والمبارأة بإسقاطها عنه حقا لها عليه ... الفصل الأول: في جواز وقوعه - فأما جواز وقوعه: فعليه أكثر العلماء. والأصل في ذلك الكتاب والسنة\n\n[Svensk arbetsöversättning, ej auktoriserad: Ibn Rushd definierar khulʿ, fidya, sulh och mubāraʾa som fyra grader av samma sak – att hustrun betalar ett vederlag för sin skilsmässa – och strukturerar diskussionen i fyra frågor: om det är tillåtet, vilka villkor som gäller, om det är talāq eller faskh, och vilka rättsverkningar som följer. Denna passage stod i korpusbriefen; kontrollera mot tryckt utgåva innan citat.]",
+      "bookTitle": "Bidāyat al-mujtahid (kitāb al-talāq, bāb al-khulʿ)",
+      "author": "Ibn Rushd (Averroes, d. 595/1198)"
+    },
+    {
+      "id": "passage-261426",
+      "text": "فإن حقها من الحضانة هو قرابتها الخاصة، وإنما عارضها مانع النكاح ... فإذا انقطع النكاح بموت أو فرقة زال المانع والمقتضي قائم، فترتب عليه أثره ... وقوله: (ما لم تنكحي) اختلف فيه، هل المراد به مجرد العقد، أو العقد مع الدخول؟ ... أحدهما: أن بمجرد العقد تزول حضانتها، وهو قول الشافعي وأبي حنيفة ... والثاني: أنها لا تزول إلا بالدخول، وهو قول مالك\n\n[Svensk arbetsöversättning, ej auktoriserad: Ibn al-Qayyim diskuterar varför modern förlorar vårdnaden (hadāna) vid omgifte och om hon återfår den vid ny skilsmässa; al-Shāfiʿī och Abū Hanīfa anser att blotta äktenskapskontraktet upphäver hennes vårdnad, Mālik att det krävs fullbordat äktenskap. Direkt relevant för konflikten mellan hadāna-reglerna och den svenska principen om barnets bästa. Passagen stod i korpusbriefen (Zād al-maʿād); kontrollera mot tryckt utgåva innan citat.]",
+      "bookTitle": "Zād al-maʿād fī hadyi khayr al-ʿibād",
+      "author": "Ibn Qayyim al-Jawziyya (d. 751/1350)"
+    }
+  ],
+  "sources": [
+    {
+      "id": "svt-ug-forklarar",
+      "url": "https://www.svt.se/nyheter/granskning/ug/svt-forklarar-kvinnor-tvingas-kvar-sa-fungerar-en-islamisk-skilsmassa",
+      "title": "SVT förklarar: Kvinnor tvingas kvar – så fungerar en islamisk skilsmässa (Uppdrag granskning)",
+      "keyFindings": [
+        "Uppdrag gransknings reportage »Skilsmässa i Allahs namn«, sänt 18 maj 2022, bygger på intervjuer med tio kvinnor som är skilda enligt svensk lag men förblir bundna i islamiska äktenskap eftersom imamer i Sverige inte upplöser äktenskapet utan mannens samtycke.",
+        "Reportrar: Karin Mattisson och Ali Fegan. Det är den enskilt mest omtalade svenska mediahändelsen i ämnet och den som utlöste den politiska processen om demokrativillkor för trossamfund.",
+        "Fallet »Safa« – en irakisk kvinna – nekades religiös skilsmässa tills mannen gav sitt samtycke i april 2022.",
+        "Artikeln är utgångspunkten för hela det svenska avsnittet, men den beskriver praxis i enskilda församlingar, inte islamisk rätt som system: SVT:s framställning bestreds av Islamiska Förbundet (se separat källa)."
+      ]
+    },
+    {
+      "id": "svt-ug-safa",
+      "url": "https://www.svt.se/nyheter/granskning/ug/har-nekar-stockholms-moske-safa-skilsmassa-for-att-mannen-sager-nej",
+      "title": "Här nekar Stockholms moské »Safa« skilsmässa – för att mannen säger nej",
+      "keyFindings": [
+        "Konkret dokumentation av hur en svensk moské hanterar en begäran om religiös skilsmässa när mannen motsätter sig.",
+        "Juristen Ada Alak (Alak advokatbyrå) beskriver problemet som generellt: det uppstår »i alla äktenskap där kvinnan begär skilsmässa och mannen inte vill medge det eller samtycka till det«.",
+        "Dåvarande migrationsminister Anders Ygeman (S) uttalade sig och öppnade för att dra in bidrag till samfund som inte ger kvinnor skilsmässa.",
+        "Observera terminologin: »Safa« är kvinnans pseudonym, inte moskéns namn. Moskén är Stockholms moské (Islamiska Förbundet)."
+      ]
+    },
+    {
+      "id": "stockholmsmoske-svar",
+      "url": "https://stockholmsmoske.se/reportage-skilsmassa/",
+      "title": "Pressmeddelande gällande reportage om islamisk skilsmässa – Islamiska Förbundet, Stockholms Moské",
+      "keyFindings": [
+        "Den anklagade partens egen replik – oundgänglig för balansen. Moskén hävdar att en kvinna inte behöver skilja sig islamiskt om skilsmässan redan genomförts i svensk domstol.",
+        "Moskéns direktör och imam Mahmoud Khalfi anför att om äktenskapet registrerats i Sverige och upplösts av svensk domstol upphör det automatiskt även islamiskt – en position som, om den tillämpas konsekvent, upplöser hela problemet på svensk mark.",
+        "Detta gör konflikten till en fråga om **praxisvariation mellan svenska församlingar och mellan enskilda imamer**, inte om en enhetlig islamisk doktrin. Artikeln bör läsas i sin helhet; WebFetch returnerade trunkerat innehåll."
+      ]
+    },
+    {
+      "id": "jamstalldhetsmyndigheten-rapport",
+      "url": "https://jamstalldhetsmyndigheten.se/aktuellt/publikationer/ett-liv-praglat-av-vald/",
+      "title": "Ett liv präglat av våld – Jämställdhetsmyndighetens slutredovisning (5 mars 2025)",
+      "keyFindings": [
+        "Regeringsuppdraget (A2023/01238, beslutat 14 september 2023) omfattade uttryckligen »svårigheter att få så kallad religiös skilsmässa«, brudpris, mansförmyndarskap och tillfälliga religiösa äktenskap.",
+        "Slutrapporten överlämnades till jämställdhetsminister Paulina Brandberg 5 mars 2025 av generaldirektör Lise Tamm.",
+        "Kartläggningen konstaterar att flickor och kvinnor är den mest utsatta gruppen och att svårigheten att lämna äktenskapet beror på våld, hot, ekonomiskt förtryck och utnyttjande av kvinnans barn.",
+        "Viktig lucka att redovisa i artikeln: rapporten kvantifierar **inte** religiös skilsmässa. Det finns alltså ingen officiell svensk siffra på fenomenets omfattning."
+      ]
+    },
+    {
+      "id": "jamst-nyhet-siffror",
+      "url": "https://jamstalldhetsmyndigheten.se/aktuellt/nyheter/stor-valdsutsatthet-nar-barn-och-kvinnor-tvingas-till-aktenskap/",
+      "title": "Stor våldsutsatthet när barn och kvinnor tvingas till äktenskap – Jämställdhetsmyndigheten",
+      "keyFindings": [
+        "556 registrerade äktenskap 2014–2021 där någon make var under 18 år vid vigseln.",
+        "Polisanmälningar om äktenskapstvång: 28–118 per år (2014–2021). Barnäktenskapsbrott: 46–87 per år (från 2021).",
+        "Om månggifte: »I de fall där månggifte förekommer rör det sig i vår kartläggning uteslutande om män som har flera fruar.«",
+        "Myndigheten betonar att siffrorna endast utgör en liten andel av verklig förekomst."
+      ]
+    },
+    {
+      "id": "regeringen-pm-2025",
+      "url": "https://www.regeringen.se/pressmeddelanden/2025/03/paulina-brandberg-har-tagit-emot-jamstalldhetsmyndighetens-rapport-om-barnaktenskap-tvangsaktenskap-och-manggifte-i-sverige/",
+      "title": "Paulina Brandberg har tagit emot Jämställdhetsmyndighetens rapport (Regeringskansliet, mars 2025)",
+      "keyFindings": [
+        "Bekräftar datum (5 mars 2025), mottagande statsråd och rapportens status som slutredovisning av regeringsuppdrag.",
+        "Pressmeddelandet lyfter »tillfälliga religiösa äktenskap för sexköp« som ett av uppdragets undersökningsområden – ett angränsande men distinkt fenomen (mutʿa/misyār) som artikeln bör hålla isär från ordinär skilsmässa."
+      ]
+    },
+    {
+      "id": "nja-2017-168",
+      "url": "https://lagen.nu/dom/nja/2017s168",
+      "title": "NJA 2017 s. 168 – Högsta domstolen om mahr (dom 29 mars 2017, mål T 2415-15)",
+      "keyFindings": [
+        "Det centrala svenska prejudikatet. HD: eftersom en make hade hemvist i Sverige med avsikt att etablera äktenskapet här tillämpades svensk rätt, och avtalets giltighet skulle bedömas »fullt ut enligt kraven i svensk rätt«.",
+        "HD fastslog att ett mahr-avtal inte kan utgöra ett giltigt äktenskapsförord, eftersom ett sådant enbart reglerar om egendom skall vara enskild eller giftorättsgods: »Det kan inte avse en konkret betalningsförpliktelse.«",
+        "Avtalet bedömdes närmast som en framtida partiell bodelning och var därmed inte verkställbart.",
+        "Konsekvensen är den paradox artikeln bör dröja vid: den ekonomiska säkerhet som fiqhen konstruerade som motvikt till mannens ensidiga skilsmässorätt (2:237, 2:241) faller bort i svensk rätt, medan den religiösa bindningen kan bestå."
+      ]
+    },
+    {
+      "id": "alltomjuridik-mahr",
+      "url": "https://www.alltomjuridik.se/nyheter/mahr-avtal-omfattas-inte-av-svansk-ratt/",
+      "title": "Mahr-avtal omfattas inte av svensk rätt (referat av Svea hovrätts avgörande, 2015)",
+      "keyFindings": [
+        "Underinstansens avgörande i samma måltyp: iranskt par, gift i Iran 1996 med mahr om 690 guldmynt (Bahar Azadi), skilsmässa i Sverige 2013.",
+        "Hovrätten: mahr »kan inte klassificeras som en rent förmögenhetsrättslig betalningsförpliktelse, ett gåvolöfte eller något annat svenskt rättsinstitut«.",
+        "Domstolen resonerade också att svensk familjerätts regler om bodelning och arv »ger tillräckligt ekonomiskt skydd för makar efter skilsmässa« – ett argument värt att pröva kritiskt, eftersom det förutsätter ett civilrättsligt giltigt äktenskap.",
+        "Jämför RH 2005:66, där domstolarna i stället tillämpade iransk rätt och dömde ut mahr – rättsläget före HD:s prejudikat var alltså inte enhetligt."
+      ]
+    },
+    {
+      "id": "ial-1904",
+      "url": "https://lagen.nu/1904:26_s.1",
+      "title": "Lag (1904:26 s. 1) om vissa internationella rättsförhållanden rörande äktenskap och förmynderskap (IÄL)",
+      "keyFindings": [
+        "3 kap. 7 §: ett utländskt beslut om äktenskapsskillnad gäller i Sverige »om det med hänsyn till makes medborgarskap eller hemvist eller annan anknytning förelåg skälig anledning att talan prövades i den främmande staten«.",
+        "Prövningen görs av Svea hovrätt sedan motparten fått tillfälle att yttra sig.",
+        "Erkännande vägras om det skulle vara uppenbart oförenligt med grunderna för den svenska rättsordningen (ordre public).",
+        "1 kap. 8 a § reglerar när ett utländskt äktenskap inte erkänns (tvång, släktskap, icke samtidig närvaro m.m.) – med undantag vid synnerliga skäl om båda är över 18 år.",
+        "Nyckelfråga för artikeln: en **privat** talāq utan medverkan av domstol eller myndighet är inte något »beslut meddelat i främmande stat« i paragrafens mening, vilket gör den svårerkänd."
+      ]
+    },
+    {
+      "id": "cjeu-sahyouni",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62016CJ0372",
+      "title": "EU-domstolen, mål C-372/16 Sahyouni mot Mamisch, dom 20 december 2017",
+      "keyFindings": [
+        "Prejudicerande för hela EU: Rom III-förordningen (1259/2010) om tillämplig lag vid äktenskapsskillnad omfattar **inte** privata skilsmässor.",
+        "Bakgrund: Raja Mamisch lät sitt ombud uttala skilsmässoformeln inför sharia-domstolen i Latakia, Syrien, 2013. Domstolen agerade endast konstaterande, inte konstitutivt – därför en privat skilsmässa.",
+        "Domstolens resonemang: hänvisningarna i förordningen till »domstol« och »förfarande« gör klart att endast skilsmässor beslutade av en statlig domstol eller en offentlig myndighet, eller under dess kontroll, omfattas.",
+        "Detta är det starkaste europeiska stödet för att en ren talāq-repudiation inte kan slussas in i europeisk rätt via lagvalsreglerna."
+      ]
+    },
+    {
+      "id": "molla-sali",
+      "url": "https://lawandreligionuk.com/2018/12/19/sharia-and-inheritance-in-western-thrace-the-grand-chamber-judgment-in-molla-sali/",
+      "title": "Molla Sali mot Grekland (Europadomstolen, stora kammaren, ansökan nr 20452/14, dom 19 december 2018)",
+      "keyFindings": [
+        "Europadomstolens ledande avgörande om tillämpning av islamisk familje- och arvsrätt inom Europarådsområdet.",
+        "Grekiska Areopagen hade satt en testamentator ur den muslimska minoriteten i Thrakien under muslimsk arvsrätt och därigenom berövat änkan tre fjärdedelar av arvet, trots att testamentet upprättats enligt grekisk civilrätt.",
+        "Domstolen fann kränkning av artikel 14 i förening med artikel 1 i första tilläggsprotokollet.",
+        "Principen är direkt överförbar på skilsmässa: religiös rätt får inte påtvingas en enskild som valt den civila ordningen. Ett skäligt-satisfaktionsavgörande följde 2020. Grekland avskaffade den tvingande sharia-jurisdiktionen i Thrakien 2018."
+      ]
+    },
+    {
+      "id": "riksdagen-forssmed",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svar-pa-skriftlig-fraga/stopp-for-statsstod-till-trossamfund-som-inte_hb12172/",
+      "title": "Skriftlig fråga 2023/24:172 och socialminister Jakob Forssmeds svar (8 november 2023)",
+      "keyFindings": [
+        "Lawen Redar (S) frågade vad ministern avser göra för att stoppa statsstöd till trossamfund som inte lever upp till demokratiska principer, och nämnde uttryckligen samfund som »förvägrat kvinnor att ingå äktenskap utan manlig förmyndare eller att ta ut skilsmässa«.",
+        "Forssmed (KD) svarade att regeringen avsåg lämna en proposition med nya villkor för stöd till trossamfund och civilsamhället, och att »det är högst angeläget att statsbidrag inte ges till organisationer eller trossamfund som agerar i strid med samhällets grundläggande värderingar«.",
+        "Detta är den dokumenterade politiska kopplingen mellan Uppdrag gransknings reportage och lagstiftningsprocessen. Notera att prop. 2021/22:272 återkallades (skr. 2022/23:14) och ersattes av prop. 2023/24:119."
+      ]
+    },
+    {
+      "id": "prop-2023-24-119",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/proposition/statens-stod-till-trossamfund-och-civilsamhallet-_hb03119/html/",
+      "title": "Prop. 2023/24:119, Statens stöd till trossamfund och civilsamhället – enhetliga och rättssäkra villkor",
+      "keyFindings": [
+        "Innehåller det demokrativillkor som skall gälla för statsbidrag till trossamfund: demokratisk styrning, respekt för mänskliga rättigheter, icke-diskriminering och jämställdhet.",
+        "Propositionen anger att hedersrelaterade strukturer inte hör hemma i ett jämställt och demokratiskt samhälle och att offentliga bidrag inte bör ges till organisationer som accepterar hedersrelaterad brottslighet.",
+        "Detta är den nu gällande svenska styrmedelslösningen: staten reglerar inte religiös skilsmässopraxis direkt, utan via bidragsvillkor. Artikeln bör pröva om det är en effektiv eller enbart symbolisk åtgärd – bidragsberoendet varierar kraftigt mellan samfund."
+      ]
+    },
+    {
+      "id": "svjt-haltande",
+      "url": "https://svjt.se/svjt/1997/639",
+      "title": "Charlotte Atuma, »Om uppkomsten av haltande äktenskap i Sverige«, Svensk Juristtidning 1997 s. 639",
+      "keyFindings": [
+        "Ger den svenska rättsvetenskapliga termen och definitionen: haltande äktenskap är relationer »giltiga enligt svensk rätt samtidigt som de är ogiltiga i något annat land, samt äktenskap som är ogiltiga enligt svensk rätt samtidigt som de är giltiga i något annat land«.",
+        "Behandlar ordre public och tolkningsproblem kring 1 kap. 7 § IÄL.",
+        "Viktig begränsning: artikeln behandlar inte talāq eller islamisk skilsmässa specifikt – den ger den rättsliga ramen, inte det religiösa innehållet. Termen »haltande äktenskap« har i den senare debatten fått en vidare, delvis annan betydelse: civilrättsligt skild men religiöst bunden."
+      ]
+    },
+    {
+      "id": "sayed-jamforelse",
+      "url": "http://juridiskpublikation.se/wp-content/uploads/2014/10/22010_Mosa-Sayed.pdf",
+      "title": "Mosa Sayed, »Svensk och islamisk familjerätt – en jämförelse«, Juridisk Publikation nr 2/2010",
+      "keyFindings": [
+        "Den mest tillgängliga svenskspråkiga rättsvetenskapliga jämförelsen av de två systemens familjerätt, skriven av Sveriges ledande specialist på området (jur.dr, Uppsala universitet).",
+        "Sayed leder också forskningsprojektet »Religiösa skilsmässor i en sekulär rättslig kontext« (Ragnar Söderbergs stiftelse, 3 504 610 kr, 2018), som bygger på kvalitativa intervjuer med företrädare för islamiska församlingar i Sverige och med individer som genomgått religiösa skilsmässoförfaranden.",
+        "Uppgift att kontrollera vidare: enligt projektbeskrivningen har omkring 50 svenska imamer vigselrätt genom Kammarkollegiet, vilket gör deras vigslar giltiga både civilrättsligt och islamiskt.",
+        "PDF – kan inte hämtas med WebFetch. Kontrollera lydelsen i det tryckta numret innan citat."
+      ]
+    },
+    {
+      "id": "ds-2015-3",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/departementsserien/trossamfundens-sociala-insatser_H3B43/html/",
+      "title": "Ds 2015:3, Trossamfundens sociala insatser",
+      "keyFindings": [
+        "Ger de enda officiella siffrorna på muslimska vigselförrättare: FIFS 18, BIS 7, SMF 6, ISS 5, IKUS 2 – totalt 38 (uppgifter från Kammarkollegiet 2013).",
+        "34 trossamfund hade vigselrätt 2013.",
+        "BIS förrättade 60 vigslar under 2013; fördelningen mellan övriga samfund är okänd.",
+        "Siffrorna är från 2013 och behöver kompletteras med aktuella uppgifter från Kammarkollegiet."
+      ]
+    },
+    {
+      "id": "kammarkollegiet-vigselratt",
+      "url": "https://www.kammarkollegiet.se/vara-tjanster/vigselratt/hitta-trossamfund-med-vigselratt",
+      "title": "Kammarkollegiet: Hitta trossamfund med vigselrätt",
+      "keyFindings": [
+        "Myndighetens aktuella register – används för att uppdatera Ds 2015:3-siffrorna.",
+        "Nyckelpoäng för artikeln: vigselrätten gäller **ingående** av äktenskap. Svensk rätt ger inget trossamfund någon behörighet att upplösa ett äktenskap; äktenskapsskillnad handläggs uteslutande av tingsrätt. Ett samfund kan alltså inte »ge« eller »neka« en skilsmässa i civilrättslig mening – bara i religiös."
+      ]
+    },
+    {
+      "id": "sou-2012-35",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/statens-offentliga-utredningar/starkt-skydd-mot-tvangsaktenskap-och-barnaktenskap_h0b335/html/",
+      "title": "SOU 2012:35, Stärkt skydd mot tvångsäktenskap och barnäktenskap",
+      "keyFindings": [
+        "Innehåller den etablerade svenska definitionen av informellt äktenskap: »ett från svensk synpunkt rättsligt sett icke-formaliserat förhållande mellan parterna som de själva eller deras omgivning likställer, helt eller delvis, med ett formaliserat och juridiskt giltigt äktenskap«.",
+        "Konstaterar att ett informellt äktenskap kan upplevas lika bindande som ett giltigt och drabba den utsatta lika hårt.",
+        "Rättsföljden är avgörande för artikeln: parterna i ett informellt äktenskap är inte makar utan på sin höjd sambor. De omfattas av sambolagens regler om bodelning av gemensam bostad och bohag – men **inte** av makars underhållsskyldighet och inte av giftorätten i övrigt.",
+        "Detta är den spegelvända fällan till haltande äktenskap: kvinnan i ett rent nikah-äktenskap står utanför äktenskapsbalkens skydd när förhållandet upphör."
+      ]
+    },
+    {
+      "id": "sou-2020-2",
+      "url": "https://lagen.nu/sou/2020:2",
+      "title": "SOU 2020:2, Skärpta regler om utländska månggiften",
+      "keyFindings": [
+        "Redovisar den svenska erkännandepolitiken för utländska äktenskap och de skärpningar som ledde fram till lagstiftning om månggifte.",
+        "Relevant för artikeln eftersom polygami och skilsmässa hänger samman rättsligt: möjligheten att ta ytterligare hustru är i klassisk fiqh ett alternativ till skilsmässa, och kan i praktiken användas som påtryckningsmedel.",
+        "Ger också bakgrund till hur svensk internationell privaträtt hanterar familjerättsliga institut som saknar motsvarighet i svensk rätt."
+      ]
+    },
+    {
+      "id": "pew-morality",
+      "url": "https://www.pewresearch.org/religion/2013/04/30/the-worlds-muslims-religion-politics-society-morality/",
+      "title": "Pew Research Center, »Muslim Views on Morality«, The World's Muslims (2013)",
+      "keyFindings": [
+        "Andel muslimer som anser skilsmässa moraliskt acceptabelt: Thailand 65 %, Turkiet 64 %, Libanon 64 %, Bangladesh 62 %, Tunisien 61 %, Bosnien-Hercegovina 60 %.",
+        "I 15 av 37 tillfrågade länder ansåg minst hälften att skilsmässa är moraliskt acceptabelt; i 10 länder ansåg minst hälften motsatsen.",
+        "Yngre muslimer var mer accepterande i Albanien (+14 procentenheter) och Kosovo (+12).",
+        "I fem av sex MENA-länder sade över en fjärdedel att skilsmässa antingen inte är en moralisk fråga eller att det beror på omständigheterna.",
+        "Bygger på över 38 000 personliga intervjuer på 80-plus språk. Sverige ingår inte; undersökningen kan inte användas om svenska muslimer."
+      ]
+    },
+    {
+      "id": "musawah-guide",
+      "url": "https://www.musawah.org/wp-content/uploads/2022/01/A-Feminist-Readers-Guide-MIC-Digital.pdf",
+      "title": "Musawah, A Feminist Reader's Guide (Musawah Islamic Curriculum)",
+      "keyFindings": [
+        "Invändningarna i sin starkaste, källnära form – från den globala muslimska rörelsen för jämlikhet i familjerätten, inte från utomstående kritiker.",
+        "Kärnargumentet (formulerat bl.a. av Ziba Mir-Hosseini): mannen har den ensidiga och utomrättsliga rätten att avsluta kontraktet genom talāq, medan hustrun bara kan avsluta det med hans samtycke eller genom domstolsingripande. Asymmetrin är inte en detalj utan följer av logiken »män försörjer, kvinnor lyder«, som också motiverar övriga rättsliga skillnader.",
+        "Musawah skiljer konsekvent mellan **sharia** (den gudomliga vägledningen) och **fiqh** (mänsklig rättsvetenskap) och riktar kritiken mot den senare – vilket gör den svårare att avfärda som antireligiös.",
+        "PDF – kan inte hämtas med WebFetch; hämta via nedladdning."
+      ]
+    },
+    {
+      "id": "kecia-ali",
+      "url": "https://www.jstor.org/stable/10.2979/jmiddeastwomstud.8.2.102",
+      "title": "Kecia Ali, Marriage and Slavery in Early Islam (Harvard University Press 2010) – recension i Journal of Middle East Women's Studies",
+      "keyFindings": [
+        "Den mest genomarbetade akademiska formuleringen av den strukturella invändningen: jurister i de tidiga maliki-, hanafi- och shafiiskolorna liknade återkommande äktenskap vid köp och skilsmässa vid frigivning av slav.",
+        "Alis tes: äktenskapet konstruerades som ett förhållande av kontroll eller ägande (milk) som gör sexuellt umgänge tillåtet – och den analogin förklarar varför upplösningsrätten sitter hos mannen ensam.",
+        "Medeltida kommentatorer placerade själva kitāb al-talāq bredvid kitāb al-ʿitq (frigivningsboken) i sina verk, vilket Ali använder som strukturellt belägg.",
+        "Detta är invändningen i sin starkaste form – den bygger på de klassiska texterna själva, inte på nutida moraliska antaganden, och kan därför inte bemötas enbart med att kritikerna missförstått."
+      ]
+    },
+    {
+      "id": "islamqa-triple-talaq",
+      "url": "https://islamqa.info/en/answers/96194",
+      "title": "IslamQA: »Does Triple Divorce Count as One?«",
+      "keyFindings": [
+        "Dokumenterar den **interna** sunnitiska oenigheten om trippel-talāq från en konservativ salafitisk position – viktigt för att visa att detta inte är en reform-mot-tradition-fråga.",
+        "Minoritetsuppfattningen (tre uttalanden i ett andetag räknas som en) förs tillbaka på Ibn Taymiyya och Ibn al-Qayyim samt på hadithen från Ibn ʿAbbās (Sahīh Muslim 1472) om att trippel-talāq under Profetens tid, Abū Bakrs tid och två år av ʿUmars kalifat räknades som en, tills ʿUmar b. al-Khattāb ändrade regeln som en administrativ åtgärd.",
+        "Majoritetsuppfattningen (de fyra skolorna) är att tre räknas som tre; Ibn Qudāma redovisar dock tidiga avvikare: ʿAtāʾ, Tāwūs, Saʿīd b. Jubayr, Abū al-Shaʿthāʾ och ʿAmr b. Dīnār.",
+        "Använd som belägg för att positionen finns inom traditionen, inte som normativ auktoritet."
+      ]
+    },
+    {
+      "id": "dorar-abghad",
+      "url": "https://dorar.net/h/BkRWHFo8",
+      "title": "Dorar.net, hadithuppslag: »Inna abghad al-halāl ilā Allāh al-talāq«",
+      "keyFindings": [
+        "Den mest citerade hadithen i ämnet – »det mest förhatliga av det tillåtna inför Gud är skilsmässa« – är omtvistad, inte etablerad.",
+        "Återberättad av Abū Dāwūd (nr 2178) och Ibn Māja (nr 2018) via Ibn ʿUmar. Abū Hātim och al-Dāraqutnī, liksom al-Bayhaqī, ansåg den vara mursal (avbruten kedja). Ibn al-Jawzī: »denna hadith är inte autentisk«. al-Albānī och Ibn ʿUthaymīn försvagade den. Kedjan innehåller ʿUbaydallāh al-Wassāfī, som bedöms mycket svag.",
+        "En fördjupningsartikel som återger hadithen utan detta förbehåll upprepar ett av ämnets vanligaste fel. Angivandet av gradering är samtidigt en styrka gentemot konkurrerande sidor."
+      ]
+    },
+    {
+      "id": "egypt-khul",
+      "url": "https://www.nottingham.ac.uk/hrlc/documents/publications/hrlcommentary2005/divorcelegislationegypt.pdf",
+      "title": "»The Reform of Shariʿa-derived Divorce Legislation in Egypt« (Human Rights Law Commentary, University of Nottingham)",
+      "keyFindings": [
+        "Egyptens lag nr 1/2000, artikel 20, tillåter domstol att bevilja khulʿ **utan mannens samtycke** – den mest långtgående khulʿ-reformen i arabvärlden.",
+        "Reformen motiverades inomislamiskt med hadithen om Thābit b. Qays hustru (al-Bukhārī 5273, kapitlet »al-khulʿ och hur skilsmässa ges genom den«), där Profetens formulering inte lämnar utrymme för antagandet att mannens samtycke krävdes.",
+        "Utlöste omfattande lärd och social kontrovers – utmärkt material för att visa att invändningarna mot majoritetspositionen förs inom, inte utanför, den islamiska rättstraditionen.",
+        "PDF – kan inte hämtas med WebFetch."
+      ]
+    },
+    {
+      "id": "ojlr-moroccan-women",
+      "url": "https://academic.oup.com/ojlr/article/12/2/253/7385752",
+      "title": "»Divorcing abroad, sharīʿah style: Legal reforms and Moroccan women«, Oxford Journal of Law and Religion 12:2 (2023)",
+      "keyFindings": [
+        "Behandlar exakt den situation som är kärnan i det europeiska problemet: marockanska kvinnor bosatta i Europa som behöver en skilsmässa som erkänns både i hemlandet och i bosättningslandet.",
+        "Ger den akademiska ramen för hur nationella reformer (Mudawwana 2004) fungerar och inte fungerar i diaspora.",
+        "Motsvarande empiri för Sverige saknas i publicerad form; artikeln är den bästa tillgängliga jämförelsepunkten och bör användas med explicit reservation för att den avser Marocko, inte Sverige."
+      ]
+    },
+    {
+      "id": "carnegie-moudawana",
+      "url": "https://carnegieendowment.org/posts/2025/07/morocco-family-law-moudawana-reform-governance?lang=en",
+      "title": "»What Morocco's Family Law Reform Process Shows About Governance in the Kingdom«, Carnegie Endowment (juli 2025)",
+      "keyFindings": [
+        "Aktuell översikt av den pågående revisionen av Mudawwana: kungen tillsatte en kommission i september 2023, som lämnade sitt förslag i april 2024.",
+        "Bakgrund: Mudawwanan antogs enhälligt i februari 2004 och infördes med domstolsövervakad skilsmässa genom ömsesidigt samtycke samt talāq al-shiqāq, där även hustrun kan initiera skilsmässa – men till skillnad från mannen måste hon ange skäl.",
+        "Kontrasten till Tunisien är det starkaste komparativa greppet: Tunisiens Code du statut personnel från 1956 erkänner ingen skilsmässa som ges utanför domstol, avskaffade den ensidiga manliga repudiationen och gav båda makar samma rättsliga vägar."
+      ]
+    },
+    {
+      "id": "uk-siddiqui",
+      "url": "https://lawandreligionuk.com/2018/02/01/sharia-in-england-and-wales-report-of-the-independent-review/",
+      "title": "»Sharia in England and Wales: report of the independent review« (Siddiqui-utredningen, februari 2018)",
+      "keyFindings": [
+        "Den enda större statliga utredningen i Europa som specifikt granskat religiösa skilsmässoinstanser. Panelen leddes av Mona Siddiqui, professor i islamiska och interreligiösa studier, Edinburgh.",
+        "Utredningen identifierade ett tiotal shariaråd i verksamhet (uppskattningsvis över trettio totalt) och fokuserade på två frågor: civilregistrering av nikah och shariarådens roll vid religiös skilsmässa.",
+        "Tre huvudrekommendationer: (1) lagändring så att civil vigsel sker före eller samtidigt med nikah, (2) kampanjer för civilregistrering, (3) statlig reglering av shariaråden genom en uppförandekod.",
+        "Regeringen avvisade regleringsförslaget med hänvisning till risken för att legitimera parallella rättssystem – exakt den avvägning Sverige nu står inför. Utmärkt jämförelsematerial och en varning för att den mest naturliga svenska lösningen redan prövats och förkastats i Storbritannien."
+      ]
+    },
+    {
+      "id": "aktenskapsbalken",
+      "url": "https://lagen.nu/1987:230",
+      "title": "Äktenskapsbalk (1987:230), 5 kap. om äktenskapsskillnad",
+      "keyFindings": [
+        "Den svenska ordningen är ren no-fault: vill bara den ena maken skiljas har den maken rätt till äktenskapsskillnad efter betänketid.",
+        "Betänketid krävs om makarna begär det, eller om någon av dem varaktigt bor med eget barn under 16 år som står under den makens vårdnad.",
+        "Betänketid krävs inte om makarna levt åtskilda sedan minst två år (5 kap. 4 §), och inte heller om det görs sannolikt att maken tvingats ingå äktenskapet eller ingick det före 18 års ålder.",
+        "Den strukturella kontrasten till fiqh är slående och bör dras ut: svensk rätt ger båda makarna en identisk, ovillkorlig och utomförhandlingsbar utgångsrätt, men kopplar ingen ekonomisk kompensation till skilsmässan som sådan (utöver bodelning) – medan fiqh ger asymmetrisk utgångsrätt men bygger in kompensation (mahr, mutʿa, ʿidda-underhåll)."
+      ]
+    },
+    {
+      "id": "sayed-uu",
+      "url": "https://www.uu.se/institution/juridiska/forskning/ytterligare-forskarportratt/mosa-sayed",
+      "title": "Mosa Sayed, forskarporträtt, Juridiska institutionen, Uppsala universitet",
+      "keyFindings": [
+        "Sveriges ledande forskare på mötet mellan islamisk och svensk familje- och arvsrätt; jur.dr i internationell privaträtt, verksam inom fältet »rätt och värdekonflikter«.",
+        "Författare till Islam och arvsrätt i det mångkulturella Sverige (Iustus) och till svjt-artikeln »Några aspekter på mångkulturens utmaningar – med särskilt fokus på islamisk rätt« (SvJT 2013 s. 877).",
+        "Leder projektet om religiösa skilsmässor i muslimska församlingar i Sverige – den enda systematiska svenska empirin på området. Kontrollera om slutrapport eller monografi publicerats sedan 2018 innan artikeln påstår att kunskapsläget är tomt."
+      ]
+    },
+    {
+      "id": "diva-mahr",
+      "url": "https://www.diva-portal.org/smash/get/diva2:958081/FULLTEXT01.pdf",
+      "title": "»Behandlingen av mahr i svensk rätt«, examensarbete, Juridiska institutionen, Stockholms universitet",
+      "keyFindings": [
+        "Systematisk genomgång av svensk rättspraxis om mahr fram till HD:s prejudikat, inklusive RH 2005:66 där hovrätten och tingsrätten tillämpade iransk rätt och dömde ut brudpengen (motsvarande ungefär en kvarts miljon kronor).",
+        "Visar att svensk underrättspraxis före NJA 2017 s. 168 var splittrad – vilket motsäger bilden av ett stabilt och principfast svenskt rättsläge.",
+        "Studentuppsats: använd som kartläggning av rättsfall, inte som auktoritativ rättskälla. PDF – kan inte hämtas med WebFetch."
+      ]
+    }
+  ],
+  "datasets": [
+    {
+      "id": "scb-skilsmassor",
+      "question": "Hur många skilsmässor registreras i Sverige per år, och hur länge har äktenskapen varat?",
+      "unit": "antal personer respektive antal skilsmässor och år",
+      "source": "SCB, Sverige i siffror: Skilsmässor i Sverige (uppdaterad 2026-02-24)",
+      "sourceUrl": "https://www.scb.se/hitta-statistik/sverige-i-siffror/manniskorna-i-sverige/skilsmassor-i-sverige/",
+      "retrieved": "2026-09-03",
+      "note": "Statistiken avser **civilrättsliga** äktenskapsskillnader i folkbokföringen. Den säger ingenting om religiös skilsmässa, om hur många av de skilda som därefter förblir religiöst bundna, eller om separationer i informella nikah-äktenskap – som per definition inte registreras och alltså inte ingår i något av talen. SCB för heller ingen statistik på trosbekännelse, så andelen muslimer bland de skilda går inte att härleda ur denna källa. Använd talen som allmän referensram för svensk skilsmässopraxis, aldrig som proxy för ämnets omfattning.",
+      "columns": [
+        "Mått",
+        "Värde",
+        "År"
+      ],
+      "rows": [
+        {
+          "label": "Registrerade skilsmässor",
+          "values": [
+            "21 561",
+            "2025"
+          ]
+        },
+        {
+          "label": "Kvinnor som skilde sig",
+          "values": [
+            "20 356",
+            "2025"
+          ]
+        },
+        {
+          "label": "Män som skilde sig",
+          "values": [
+            "19 924",
+            "2025"
+          ]
+        },
+        {
+          "label": "Genomsnittlig äktenskapslängd vid skilsmässa",
+          "values": [
+            "12,8 år",
+            "2025"
+          ]
+        },
+        {
+          "label": "Genomsnittlig äktenskapslängd vid dödsfall",
+          "values": [
+            "47,5 år",
+            "2025"
+          ]
+        },
+        {
+          "label": "Vanligaste ålder vid skilsmässa (40–44 år)",
+          "values": [
+            "6 863 personer",
+            "2025"
+          ]
+        },
+        {
+          "label": "Registrerade skilsmässor (jämförelse)",
+          "values": [
+            "21 672",
+            "2024"
+          ]
+        },
+        {
+          "label": "Registrerade skilsmässor (jämförelse)",
+          "values": [
+            "21 231",
+            "2023"
+          ]
+        },
+        {
+          "label": "Spann under 2000-talet",
+          "values": [
+            "ca 20 700–26 900 per år",
+            "2003–2024"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jamst-2025",
+      "question": "Vad vet svenska myndigheter om förekomsten av barnäktenskap, tvångsäktenskap och månggifte – de sammanhang där religiös skilsmässa aktualiseras?",
+      "unit": "antal registrerade äktenskap respektive antal polisanmälningar per år",
+      "source": "Jämställdhetsmyndigheten, »Ett liv präglat av våld«, slutredovisning av regeringsuppdrag A2023/01238, överlämnad 5 mars 2025",
+      "sourceUrl": "https://jamstalldhetsmyndigheten.se/aktuellt/publikationer/ett-liv-praglat-av-vald/",
+      "retrieved": "2026-09-03",
+      "note": "Myndigheten anger själv att siffrorna endast utgör en liten andel av den verkliga förekomsten, eftersom få utsatta anmäler. Uppdraget omfattade uttryckligen »svårigheter att få så kallad religiös skilsmässa«, men kartläggningen redovisar **ingen kvantifiering** av det fenomenet – det finns alltså ingen svensk officiell siffra på hur många kvinnor som sitter fast i haltande äktenskap. Om månggifte noterar rapporten att det framstod som ovanligare och att det i materialet uteslutande rörde män med flera hustrur. Talen får inte användas som mått på religiös skilsmässa; de mäter angränsande fenomen.",
+      "columns": [
+        "Mått",
+        "Värde",
+        "Period"
+      ],
+      "rows": [
+        {
+          "label": "Registrerade äktenskap där någon make var under 18 år vid vigseln",
+          "values": [
+            "556",
+            "2014–2021"
+          ]
+        },
+        {
+          "label": "Polisanmälningar om äktenskapstvång per år",
+          "values": [
+            "28–118",
+            "2014–2021"
+          ]
+        },
+        {
+          "label": "Polisanmälningar om barnäktenskapsbrott per år",
+          "values": [
+            "46–87",
+            "från 2021"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vigselratt-2013",
+      "question": "Hur många muslimska vigselförrättare med statlig behörighet finns i Sverige?",
+      "unit": "antal vigselförrättare respektive trossamfund",
+      "source": "Ds 2015:3, Trossamfundens sociala insatser (uppgifter från Kammarkollegiet, 2013)",
+      "sourceUrl": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/departementsserien/trossamfundens-sociala-insatser_H3B43/html/",
+      "retrieved": "2026-09-03",
+      "note": "Siffrorna är från 2013 och kan vara inaktuella – aktuell förteckning finns hos Kammarkollegiet. Vigselrätt säger **inget** om skilsmässopraxis: behörigheten gäller ingående av äktenskap, inte upplösning, och svensk rätt ger inget trossamfund någon roll vid äktenskapsskillnad. En imam utan vigselrätt kan ändå förrätta nikah – ett sådant äktenskap är civilrättsligt ogiltigt i Sverige, och antalet sådana ceremonier är okänt och ingår inte i tabellen.",
+      "columns": [
+        "Samfund",
+        "Antal vigselförrättare",
+        "År"
+      ],
+      "rows": [
+        {
+          "label": "Förenade Islamiska Föreningar i Sverige (FIFS)",
+          "values": [
+            "18",
+            "2013"
+          ]
+        },
+        {
+          "label": "Bosniakiska Islamiska Samfundet (BIS)",
+          "values": [
+            "7",
+            "2013"
+          ]
+        },
+        {
+          "label": "Svenska Muslimska Förbundet (SMF)",
+          "values": [
+            "6",
+            "2013"
+          ]
+        },
+        {
+          "label": "Islamiska Shiasamfunden i Sverige (ISS)",
+          "values": [
+            "5",
+            "2013"
+          ]
+        },
+        {
+          "label": "Islamiska Kulturcenterunionen i Sverige (IKUS)",
+          "values": [
+            "2",
+            "2013"
+          ]
+        },
+        {
+          "label": "Summa muslimska vigselförrättare",
+          "values": [
+            "38",
+            "2013"
+          ]
+        },
+        {
+          "label": "Antal trossamfund med vigselrätt totalt",
+          "values": [
+            "34",
+            "2013"
+          ]
+        },
+        {
+          "label": "Vigslar förrättade av BIS",
+          "values": [
+            "60",
+            "2013"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pew-2013-divorce",
+      "question": "Hur ser muslimer i olika länder på skilsmässa som moralisk fråga?",
+      "unit": "procent som säger att skilsmässa är moraliskt acceptabelt",
+      "source": "Pew Research Center, The World's Muslims: Religion, Politics and Society (30 april 2013)",
+      "sourceUrl": "https://www.pewresearch.org/religion/2013/04/30/the-worlds-muslims-religion-politics-society-morality/",
+      "retrieved": "2026-09-03",
+      "note": "Undersökningen bygger på över 38 000 personliga intervjuer på 80-plus språk, genomförda 2008–2012 och publicerade 2013 – den är alltså över tio år gammal och kan inte beskriva dagens läge. Den mäter **attityd**, inte praktik: höga acceptanssiffror säger inget om skilsmässofrekvens eller om kvinnors faktiska möjlighet att utverka skilsmässa. Sverige ingår inte i urvalet, och undersökningen kan därför inte användas för att beskriva svenska muslimer. I flera MENA-länder svarade över en fjärdedel att skilsmässa antingen inte är en moralisk fråga alls eller att det beror på omständigheterna – en kategori som försvinner om man bara redovisar »acceptabelt/fel«.",
+      "columns": [
+        "Land",
+        "Andel som säger att skilsmässa är moraliskt acceptabelt"
+      ],
+      "rows": [
+        {
+          "label": "Thailand",
+          "values": [
+            "65 %"
+          ]
+        },
+        {
+          "label": "Turkiet",
+          "values": [
+            "64 %"
+          ]
+        },
+        {
+          "label": "Libanon",
+          "values": [
+            "64 %"
+          ]
+        },
+        {
+          "label": "Bangladesh",
+          "values": [
+            "62 %"
+          ]
+        },
+        {
+          "label": "Tunisien",
+          "values": [
+            "61 %"
+          ]
+        },
+        {
+          "label": "Bosnien-Hercegovina",
+          "values": [
+            "60 %"
+          ]
+        },
+        {
+          "label": "Länder där minst hälften säger att det är moraliskt acceptabelt",
+          "values": [
+            "15 av 37 tillfrågade länder"
+          ]
+        },
+        {
+          "label": "Länder där minst hälften säger att det är moraliskt fel",
+          "values": [
+            "10 länder"
+          ]
+        },
+        {
+          "label": "Åldersskillnad (yngre mer accepterande), Albanien",
+          "values": [
+            "+14 procentenheter"
+          ]
+        },
+        {
+          "label": "Åldersskillnad (yngre mer accepterande), Kosovo",
+          "values": [
+            "+12 procentenheter"
+          ]
+        }
+      ]
+    }
+  ]
+}

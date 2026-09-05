@@ -2,9 +2,12 @@ import { describe, expect, it } from "vitest";
 import {
 	adoptRevision,
 	bodyAfterFrontmatter,
+	coversTerm,
 	looseNameMatch,
 	normaliseQuote,
+	quoteRunMatch,
 	reviewLoopFailure,
+	termStems,
 	UNVERIFIABLE_DEEP_LINK,
 } from "./fordjupning-producer.js";
 
@@ -164,5 +167,101 @@ describe("looseNameMatch", () => {
 		// to its character, not its author. Both are corrections worth a human's eye.
 		expect(looseNameMatch("Karin Boye", "Unknown")).toBe(false);
 		expect(looseNameMatch("Erik Gustaf Geijer", "Bedouin tradition")).toBe(false);
+	});
+});
+
+describe("coversTerm", () => {
+	// The author stage was given the SLUGS of every answer page and nothing else, so it
+	// could not tell a topic it had to build above from one it would merely restate. The
+	// sharia pillar (2026-09-05) was written over a 916-word /svar/ page that already owned
+	// the etymology, the two sources, the sharia/fiqh distinction, the five ahkam and the
+	// maqasid — the five headings any writer reaches for first. Two pages answering one
+	// query take each other out; that is already measurable on `islam`, where the homepage
+	// sits at p9,9 and /vad-ar-islam at p39,1.
+	const stems = termStems("Sharia");
+
+	it("matches the answer page whose title claims the term", () => {
+		expect(coversTerm("vad-ar-sharia.md", 'title: "Vad är sharia?"\n', stems)).toBe(true);
+	});
+
+	// The near-miss that made the first cut of this useless: matching the whole frontmatter
+	// reported thirteen unrelated answer pages as prior coverage, because they all list
+	// vad-ar-sharia under `related`. Steering the author away from those is worse than
+	// steering it away from nothing.
+	it("ignores a page that merely links to the term's page", () => {
+		const frontmatter = [
+			'title: "Får muslimer dricka alkohol?"',
+			"keywords:",
+			'  - "alkohol islam"',
+			"related:",
+			'  - "vad-ar-sharia"',
+			"",
+		].join("\n");
+		expect(coversTerm("far-muslimer-dricka-alkohol.md", frontmatter, stems)).toBe(false);
+	});
+
+	it("matches on a keyword when the title does not carry the term", () => {
+		const frontmatter = ['title: "Vad är en kadi?"', "keywords:", '  - "shariadomare"', ""].join(
+			"\n",
+		);
+		expect(coversTerm("vad-ar-en-kadi.md", frontmatter, stems)).toBe(true);
+	});
+
+	// Stemming has to survive Swedish inflection or the gate misses the page it exists for.
+	it("stems Swedish definite forms", () => {
+		expect(termStems("Moskén")).toEqual(["mosk"]);
+		expect(
+			coversTerm("vad-ar-en-moske.md", 'title: "Vad är en moské?"\n', termStems("Moskén")),
+		).toBe(true);
+	});
+
+	// Short words carry no signal and would match everything.
+	it("drops words too short to discriminate", () => {
+		expect(termStems("Hajj och umra")).toEqual(["hajj", "umra"]);
+	});
+});
+
+describe("quoteRunMatch", () => {
+	// The sharia run (2026-09-05) aborted after 25 minutes at the last gate before the
+	// author stage, over ONE character: quotes.db stores Ibn Khaldun id 25308 as "den
+	// övervakaen är härskaren", a scan of printed Swedish that dropped an r, and the
+	// research stage had silently repaired it. A plain substring test called that a
+	// rewritten quotation. The same class of OCR noise was already diagnosed for the
+	// Arabic corpus — check-book-passages.py compares consonant skeletons precisely
+	// because a naive comparison fails everything — but quotes.db never got the lesson.
+	const stored =
+		"rättvisa är en balans som upprättas bland människorna herren upprättade den och utsåg en övervakare för den och den övervakaen är härskaren";
+
+	it("accepts a quotation that repairs a one-letter scan slip", () => {
+		const claimed = stored.replace("övervakaen", "övervakaren");
+		expect(quoteRunMatch(claimed, stored)).toBe("scan");
+	});
+
+	it("reports an untouched quotation as exact, not as repaired", () => {
+		expect(quoteRunMatch(stored, stored)).toBe("exact");
+	});
+
+	// The tolerance must not become a licence. Each of these changes the word sequence,
+	// which is what fabrication does and what a scan cannot do.
+	it("still fails an inserted negation", () => {
+		expect(quoteRunMatch(stored.replace("är en balans", "är inte en balans"), stored)).toBe("no");
+	});
+
+	it("still fails a substituted word", () => {
+		expect(quoteRunMatch(stored.replace("härskaren", "domaren"), stored)).toBe("no");
+	});
+
+	it("still fails a dropped word", () => {
+		expect(quoteRunMatch(stored.replace("en balans ", ""), stored)).toBe("no");
+	});
+
+	// A short word carries too little redundancy: one edit turns han into hon.
+	it("does not forgive a one-letter difference in a short word", () => {
+		expect(quoteRunMatch("han bar hela ansvaret själv", "hon bar hela ansvaret själv")).toBe("no");
+	});
+
+	// Excerpting a longer entry is normal and must stay free.
+	it("accepts a contiguous excerpt of a longer entry", () => {
+		expect(quoteRunMatch("som upprättas bland människorna", stored)).toBe("exact");
 	});
 });

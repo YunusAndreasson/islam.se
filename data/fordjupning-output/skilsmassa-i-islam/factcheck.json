@@ -1,0 +1,141 @@
+{
+  "overallCredibility": 8.3,
+  "verdict": "pass",
+  "summary": "Unusually well-sourced research with no fabrications. All 14 database quotes verified by direct ID lookup — author and work match exactly in every case. All 11 Quran references verified correct against content. Four of five Arabic classical passages located verbatim in the book database (al-Mughni ID 143974/143975, Bidayat al-mujtahid ID 132902 and 132942, al-Qurtubi ID 210877/210878). Every web claim I fetched verified exactly, including the verbatim HD quote in NJA 2017 s. 168, the SVT broadcast details (18 May 2022, ten women, Mattisson/Fegan), all six Pew percentages plus the \"15 of 37\" figure and the Albania +14 / Kosovo +12 age gaps, and all three Jämställdhetsmyndigheten figures (556 / 28–118 / 46–87). Sahyouni C-372/16 confirmed including the Latakia facts. The Stockholm mosque rebuttal — the research's key balance element — was confirmed independently despite the page returning truncated.\n\nThree real problems, all correctable. (1) PRECISION ERROR: the research says Ibn Qudama documents that triple talaq counted as ONE for 'Ata', Tawus, Sa'id b. Jubayr and 'Amr b. Dinar. The actual al-Mughni text (ID 143975) restricts this to the virgin/unconsummated wife — \"من طلق البكر ثلاثة فهي واحدة\" — and Abu Dawud's wording (ID 219524) likewise says \"قبل أن يدخل بها\". The dissent is narrower than claimed. The research's own excerpt was truncated immediately before this qualifier. (2) ONE-SIDEDNESS on the article's flagship \"surprise\" — that 'Umar's change makes triple talaq an administrative measure rather than a prophetic rule. The classical majority rebuttal is sitting in the same database and is omitted: al-Qurtubi (ID 197230) and Ibn Qudama (ID 143975) both report that Ibn 'Abbas himself issued fatwas contradicting Tawus's narration from him, that most of his students narrated the opposite, and al-Qurtubi states he \"returned to the position of the majority and ijma' was concluded on it.\" (3) CURRENCY: Morocco's 2024 revision is listed alongside Tunisia 1956 and Egypt 2000 as an enacted codification; searches indicate it remained in the legislative process and was not confirmed ratified.\n\nThe core structural thesis — asymmetric exit rights in classical fiqh, and Swedish law dismantling the compensating mechanism while the religious bond can persist — is robustly supported and survives all three fixes.",
+  "verifiedClaims": [
+    {
+      "claim": "All 14 Swedish literary quotes attributed to Ellen Key, Geijerstam, Söderberg, Bergman, Blanche, Bremer, Benedictsson, Nordström and Boye",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of all 14 IDs in a single call",
+      "notes": "Author and work match exactly for every ID. No misattributions. Note quote-22355 is truncated in the research data — the full line ends '...En skilsmässa afkunnas visserligen i domsalen — men den börjar alltid i sängkammaren', which is the actual usable payload."
+    },
+    {
+      "claim": "NJA 2017 s. 168: a mahr agreement cannot constitute a valid äktenskapsförord; 'Det kan inte avse en konkret betalningsförpliktelse'",
+      "status": "verified",
+      "method": "WebFetch of lagen.nu case report",
+      "notes": "Verbatim match on the quoted sentence. Case number T 2415-15 and date 29 March 2017 confirmed. Swedish law applied because one spouse had hemvist in Sweden and both intended to settle here — exactly as the research states."
+    },
+    {
+      "claim": "Uppdrag granskning 'Skilsmässa i Allahs namn' broadcast 18 May 2022, ten women, reporters Karin Mattisson and Ali Fegan",
+      "status": "verified",
+      "method": "WebFetch of the SVT explainer page",
+      "notes": "All four details confirmed. Katia Wagner additionally listed as a contact."
+    },
+    {
+      "claim": "Stockholm mosque publicly contested SVT's account, with director Mahmoud Khalfi holding that a Swedish court divorce ends the marriage islamically too",
+      "status": "verified",
+      "method": "WebSearch after WebFetch returned truncated content",
+      "notes": "Confirmed independently. One additional detail worth using: the mosque also states it certifies Swedish court documents for embassies that only recognise religious divorce. This strengthens the research's practice-variation framing."
+    },
+    {
+      "claim": "Ibn Rushd: Malik, al-Shafi'i, Ahmad, Abu Thawr and Abu 'Ubayd dissolve the marriage for failure to maintain; Abu Hanifa, al-Thawri and the Zahiris refuse",
+      "status": "verified",
+      "method": "search_books located the passage verbatim, Bidayat al-mujtahid ID 132902",
+      "notes": "Exact match. Independently corroborated by al-Hidaya (ID 161898), which states the Hanafi position in its own words: 'ومن أعسر بنفقة امرأته لم يفرق بينهما'."
+    },
+    {
+      "claim": "Ibn Rushd on khul': khul', fidya, sulh and mubara'a all reduce to one meaning — the wife tendering compensation for her divorce",
+      "status": "verified",
+      "method": "search_books, Bidayat al-mujtahid ID 132942",
+      "notes": "Verbatim match including the distinctions between the four terms."
+    },
+    {
+      "claim": "al-Qurtubi on 65:1 quoting Abu Hanifa that the apparent sense equates triple and single talaq",
+      "status": "verified",
+      "method": "search_books, al-Jami li-ahkam al-Quran IDs 210877 and 210878",
+      "notes": "Verbatim match across the passage boundary."
+    },
+    {
+      "claim": "All 11 Quran verse references (2:226–232, 2:236–237, 2:241, 4:35, 4:128–130, 33:49, 65:1–7)",
+      "status": "verified",
+      "method": "search_quran cross-check of verse numbers against content",
+      "notes": "2:226 (ila', four months), 2:229 (two revocable divorces plus the khul' ransom clause), 2:237 (half mahr before consummation), 2:241 (mut'a), 4:35 (two arbiters) all confirmed. The database's own tafsir note on 2:226 independently corroborates the research's framing that the verse abolished a pre-Islamic practice of binding the wife indefinitely."
+    },
+    {
+      "claim": "Sahyouni v Mamisch C-372/16: Rome III does not apply to private divorces",
+      "status": "verified",
+      "method": "WebFetch of EUR-Lex",
+      "notes": "Confirmed including the Latakia facts and the reasoning that Article 1 covers only divorces pronounced by a national court or by/under supervision of a public authority. The research's characterisation of the Syrian court as declaratory rather than constitutive is accurate."
+    },
+    {
+      "claim": "Pew 2013 divorce-morality figures: Thailand 65, Turkey 64, Lebanon 64, Bangladesh 62, Tunisia 61, Bosnia 60; at least half in 15 of 37 countries; Albania +14, Kosovo +12",
+      "status": "verified",
+      "method": "WebFetch of the Pew report chapter",
+      "notes": "Every figure matches. The research's own caveat that Sweden is not in the survey is correct and must be preserved."
+    },
+    {
+      "claim": "Jämställdhetsmyndigheten: 556 registered marriages 2014–2021 with a spouse under 18; 28–118 äktenskapstvång reports per year; 46–87 barnäktenskapsbrott per year since 2021; polygamy exclusively men with multiple wives",
+      "status": "verified",
+      "method": "WebFetch of the myndighet news page",
+      "notes": "All figures match. The research's flag that the report does NOT quantify religious divorce is accurate and important — there is no official Swedish prevalence figure."
+    },
+    {
+      "claim": "UK government rejected the Siddiqui review's recommendation to regulate sharia councils, citing risk of legitimising a parallel legal system",
+      "status": "verified",
+      "method": "WebSearch",
+      "notes": "Confirmed. The Home Secretary's stated reasoning was that a state-facilitated scheme would 'add legitimacy to the perception of the existence of a parallel legal system'. The research's use of this as a warning for Sweden is well founded."
+    },
+    {
+      "claim": "Mosa Sayed's project on religious divorces, ~3.5 million kr from Ragnar Söderbergs stiftelse; around 50 Swedish imams hold vigselrätt via Kammarkollegiet",
+      "status": "verified",
+      "method": "WebSearch",
+      "notes": "Both confirmed. But see the discrepancy noted in recommendations: Ds 2015:3 gives 38 Muslim vigselförrättare for 2013, against ~50 imams here. These may count different things and should not be presented as a trend."
+    },
+    {
+      "claim": "The hadith 'abghad al-halal ila Allah al-talaq' is disputed rather than established",
+      "status": "verified",
+      "method": "WebSearch in Arabic on the isnad debate",
+      "notes": "Substantially confirmed — Abu Hatim, al-Daraqutni and al-Bayhaqi preferred the mursal; 'Ubaydallah al-Wassafi is graded weak; al-Albani weakened it in Irwa' al-Ghalil. But the picture is contested in BOTH directions, which the research omits: al-Hakim authenticated it, Ibn Baz holds the correct view is that it is connected and acceptable, and al-Wassafi has corroborating narrators. See unverified claims."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Ibn Qudama documents that triple talaq in one utterance counted as ONE for 'Ata', Tawus, Sa'id b. Jubayr and 'Amr b. Dinar",
+      "status": "unverified",
+      "reason": "OVERSTATED. The actual al-Mughni text (ID 143975) reads 'وكان عطاء، وطاوس، وسعيد بن جبير، وأبو الشعثاء، وعمرو بن دينار، يقولون: من طلق البكر ثلاثة فهي واحدة' — the position is restricted to al-bikr, the virgin/unconsummated wife, not triple talaq generally. Abu Dawud's version of the underlying report (ID 219524) carries the same restriction: 'إذا طلق امرأته ثلاثا قبل أن يدخل بها'. The research's own excerpt was truncated one clause before this qualifier, so the writer may not see it. Worse, there is an internal contradiction the article must not paper over: Ibn Rushd (ID 132928) lists Sa'id b. Jubayr and 'Amr b. Dinar among those who narrated the MAJORITY position from Ibn 'Abbas. Add the 'al-bikr' qualifier and drop the claim that the dissenter list is clean."
+    },
+    {
+      "claim": "'Umar b. al-Khattab himself changed the rule on triple talaq — per Sunni hadith canon it is an administrative caliphal measure, not a prophetic prescription",
+      "status": "unverified",
+      "reason": "NOT FALSE BUT PRESENTED ONE-SIDEDLY, and this is the article's flagship 'surprise'. The hadith (Muslim 1472, also Bukhari per Ibn Rushd ID 132928) exists and says what the research says. But the classical majority rebuttal is in the same database and is omitted: al-Qurtubi (ID 197230) argues the report means people used to pronounce ONE where they now pronounce three, notes 'Umar's own words ('the people have hastened in a matter in which they had respite') as proof the change was in popular practice not in law, and states that Ibn 'Abbas 'returned to the position of the majority and ijma' was concluded on it'. Ibn Qudama (ID 143975) reports that Sa'id b. Jubayr, 'Amr b. Dinar, Mujahid and Malik b. al-Harith narrated the OPPOSITE from Ibn 'Abbas, and that 'Ibn 'Abbas issued fatwas contradicting what Tawus narrated from him'. As written, the research offers the reformist reading as the plain sense of the canon. Present both, then argue."
+    },
+    {
+      "claim": "Morocco 2004/2024 listed among modern codifications alongside Tunisia 1956 and Egypt 2000",
+      "status": "unverified",
+      "reason": "CURRENCY PROBLEM. The 2004 Mudawwana was enacted; the 2024 revision was a royal commission proposal delivered April 2024 that, on the sources I could reach, had not completed parliamentary ratification. The research's own Carnegie source calls it a 'reform process', but the developed angle lists '2024' as though it were an enacted codification on a par with the other two. Verify the current status before publication and describe it as a proposed revision if it has not passed."
+    },
+    {
+      "claim": "The hadith 'the most hateful of the permitted to God is divorce' is disputed — weakeners listed only",
+      "status": "unverified",
+      "reason": "INCOMPLETE. The research lists only those who weakened it (Abu Hatim, al-Daraqutni, al-Bayhaqi, Ibn al-Jawzi, al-Albani, Ibn 'Uthaymin). It omits that al-Hakim authenticated it, that Ibn Baz holds the connected version to be the correct and acceptable one, and that al-Wassafi has corroborating narrators (mutaba'at). The research's conclusion that the hadith is 'omtvistad, inte etablerad' survives — but stating the grading dispute as running only one way repeats, in mirror image, the very error it accuses others of."
+    },
+    {
+      "claim": "Zad al-ma'ad cited as one of five supporting book passages",
+      "status": "unverified",
+      "reason": "The passage supplied concerns hadana (child custody after the mother remarries), not divorce procedure or the locus of the exit right. I confirmed Zad al-ma'ad is in the database and found Ibn al-Qayyim engaging the triple-talaq question there (ID 261081, where he rejects the majority's ta'wil of the Ibn 'Abbas report) — that passage is genuinely on-topic and would serve the argument. The custody passage is tangential to the stated angle and should not be presented as a divorce-law source."
+    }
+  ],
+  "missingPerspectives": [
+    "Shia law is entirely absent. The research covers four Sunni schools plus the Zahiris and nothing else. Twelver Shia divorce law differs materially — talaq requires two just witnesses (stricter than any Sunni school), triple talaq in one sitting is not counted as three, and khul'/mubarat rules differ. This is not an academic gap: the SVT case 'Safa' is described as Iraqi, and NJA 2017 s. 168 concerned an Iranian couple. An article about divorce among Muslims in Sweden that treats Sunni fiqh as the whole of Islamic law misdescribes the population it is about.",
+    "The classical majority's answer on triple talaq (al-Qurtubi ID 197230, Ibn Qudama ID 143975) — that Ibn 'Abbas contradicted the narration attributed to him, that most of his students narrated the opposite, and that the report describes a change in popular practice rather than in law. Omitting this makes the reformist reading look uncontested when it is the minority position it claims to be.",
+    "The mainstream self-description of the system, which the research's own Quran database supplies in the tafsir note to 2:226: scholars hold the man bears the unilateral divorce right AND the heavier responsibility for the marriage's durability, and that a wife refused divorce takes her case to judicial determination where the marriage can be dissolved. The research gestures at faskh/tafriq but frames the whole structure through the Musawah/Kecia Ali critique. Both are legitimate; only one is currently represented.",
+    "Evidence of Swedish congregations that DO grant religious divorce. The research has the Stockholm mosque rebuttal, but SVT's own Skåne reporting ('De hjälper muslimska kvinnor att skilja sig') documents actors helping women obtain them. Without this the ten-women sample reads as a prevalence claim, which it is not and which no Swedish source supports.",
+    "The counter-argument to the article's own central paradox: the Svea hovrätt reasoning that Swedish bodelning and arv rules 'ger tillräckligt ekonomiskt skydd'. The research notes this is 'värt att pröva kritiskt' but should actually stage the argument rather than only flag it — it is the strongest available answer to the claim that Swedish law strips out the compensation."
+  ],
+  "sourceAssessment": {
+    "totalSources": 31,
+    "highCredibility": 24
+  },
+  "recommendations": [
+    "Fix the al-bikr qualifier before anything else. Ibn Qudama's dissenters said 'من طلق البكر ثلاثة فهي واحدة' — the virgin/unconsummated wife. Abu Dawud's wording carries the same restriction. State the dissent at its actual width, and note that Ibn Rushd lists two of the same names (Sa'id b. Jubayr, 'Amr b. Dinar) on the majority side, so the list is contested.",
+    "Stage the triple-talaq dispute as a dispute. Quote al-Qurtubi's rebuttal and Ibn Qudama's note that Ibn 'Abbas ruled against the narration attributed to him, then give Ibn al-Qayyim's counter-rebuttal in Zad al-ma'ad (ID 261081), where he calls the majority's reading 'ilghaz wa-tahrif'. The article gets a better scene out of the argument than out of the assertion — and it becomes unfalsifiable by a hostile reader.",
+    "Downgrade Morocco 2024 to a proposed revision, or verify ratification before publication. Do not list it as an enacted codification beside Tunisia 1956 and Egypt 2000.",
+    "Balance the hadith grading. Add al-Hakim's authentication, Ibn Baz's defence of the connected version, and the corroborating narrators for al-Wassafi. The conclusion that the hadith is disputed holds; the one-directional presentation of the dispute does not.",
+    "Add Shia divorce law, at minimum a paragraph. Given the Iraqi and Iranian populations at the centre of both the SVT case and NJA 2017, treating Sunni fiqh as coextensive with Islamic law is a factual weakness a knowledgeable reader will catch immediately.",
+    "Do not merge the two vigselrätt figures. Ds 2015:3 gives 38 Muslim officiants (Kammarkollegiet 2013); the Sayed project gives ~50 imams. Different years, possibly different units of counting. Presenting them as a trend would be unsupported — get current figures from Kammarkollegiet or cite each with its own date and caveat.",
+    "Preserve the Atuma caveat explicitly. 'Haltande äktenskap' in SvJT 1997 means cross-border validity conflict; in the post-2022 debate it means civilly divorced but religiously bound. The research spots this. If the article lets the term slide between senses it commits an equivocation on its own key concept.",
+    "Use the fuller Ellen Key line (quote-22355) rather than the truncated version in the research data — 'En skilsmässa afkunnas visserligen i domsalen, men den börjar alltid i sängkammaren' is the sentence that earns its place.",
+    "Add the mosque's second claim from its rebuttal: it certifies Swedish court documents for embassies that recognise only religious divorce. This sharpens the practice-variation thesis and is a concrete mechanism rather than a doctrinal assertion."
+  ],
+  "datasetChecks": []
+}

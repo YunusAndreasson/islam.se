@@ -1,0 +1,984 @@
+{
+  "topic": "Det islamiska nyåret (1 muharram, hijra-kalenderns årsskifte)",
+  "summary": "Den hårdare frågan artikeln måste svara på är inte »hur firar muslimer nyår« utan »varför infaller det islamiska nyåret inte på hijras årsdag, och vad följer av det?« Hijra ägde rum i rabīʿ al-awwal — det står i Ibn Hishāms sīra och Ibn Kathīr refererar att Mālik (via al-Suhaylī) och Ibn Ḥazm därför räknade året från just den månaden. Att året ändå börjar 1 muḥarram är ett förislamiskt arabiskt månadsbruk som behölls av bokföringsskäl: Ibn Kathīr skriver rakt ut att jumhūr valde muḥarram »لئلا يختلط النظام« — för att ordningen inte skulle trassla till sig. Den centrala spänningen är alltså att den svenska skolboksformuleringen (SO-rummet: nyårsdagen »firas genom att berätta om olika händelser i Muhammeds liv och önska varandra ett gott nytt år«) beskriver något som varken är en hijra-årsdag eller en högtid som klassisk fiqh känner igen — och som två stora läger av dagens lärda uttryckligen bestrider: den saudiska ständiga kommittén, Ibn ʿUthaymīn och Islamweb säger att inget belägg finns hos salaf och att endast två ʿīd är stiftade, medan egyptiska Dār al-Iftāʾ (fatwa 3538) lika bestämt förklarar gratulationen tillåten och inte bidʿa. Därtill: för shiamuslimer — 35 388 betjänade i Sverige 2024 — är muḥarram en sorgemånad, vilket gör »gott nytt år« vid samma datum till ett problem i sig; Ibn Taymiyya fördömer i Minhāj al-sunna uttryckligen bägge nyheterna, både sorgeriten och den nāṣibitiska motfesten. Berättelsebågen: från Koranens förbud mot nasīʾ (9:37) — som gör året rent lunariskt och därmed 354 dagar långt — via ʿUmars retroaktiva kalenderbeslut och den klassiska tvisten om årets början, till den svenska konsekvensen: eftersom högtiden vandrar elva dagar per år genom det svenska solåret kan den till skillnad från julen aldrig bli en röd dag, vilket är den strukturella orsaken till att svensk rätt hanterar den genom rektorsbeslut (7 kap. 18 § skollagen), kollektivavtalade »flexibla helgdagar« och DO-praxis i stället för genom lagen (1989:253) om allmänna helgdagar. Det som överraskar en kunnig läsare är att den mest förödande invändningen mot »islamiskt nyår« inte kommer från sekulära svenska debattörer utan från Mālik, Ibn Ḥazm och Ibn Taymiyya — och att den äldsta daterade arabiska handlingen, papyrusen PERF 558 från jumādā I år 22 (25 april 643), skriver »år tjugotvå« utan att namnge eran alls.",
+  "quranReferences": [
+    {
+      "surah": "9",
+      "ayah": "36",
+      "text": "Antalet månader hos Allah är tolv månader, [stadgat] i Allahs skrift den dag Han skapade himlarna och jorden. Av dessa är fyra helgade – detta är den rätta religionen – därför får ni under dessa inte göra orätt mot er själva."
+    },
+    {
+      "surah": "9",
+      "ayah": "37",
+      "text": "Genom att lägga till [en månad] ger de mer kraft åt förnekandet av sanningen och därmed växer förnekarnas förvirring – ett år förklarar de detta är tillåtet och ett [annat] år förbjuder de det så att det stämmer överens med antalet av Gud helgade månader. På så sätt förgriper de sig på det som Gud har heligförklarat. De har förmåtts att se det onda de gör i ett fördelaktigt ljus, men Gud vägleder inte dem som förnekar sanningen. (Hämtad ordagrant från quran.com/9/37?translations=48. Detta är nasīʾ-förbudet: det är denna vers som gör hijra-året rent lunariskt och därmed vandrande genom solåret.)"
+    },
+    {
+      "surah": "2",
+      "ayah": "189",
+      "text": "De frågar dig om nymånarna. Säg: ”De är tidsbestämningar för människorna och vallfärden.” Och inte är fromhet att komma in i husen från deras baksidor, utan fromhet har den som visar gudsfruktan."
+    },
+    {
+      "surah": "2",
+      "ayah": "185",
+      "text": "Månaden ramadan är den i vilken Koranen sändes ned som vägledning för människorna och som tydliga bevis på vägledningen och urskiljningen. Den av er som bevittnar månaden skall fasta under den."
+    },
+    {
+      "surah": "2",
+      "ayah": "217",
+      "text": "De frågar dig om den helgade månaden, [om] att strida i den. Säg: ”Att strida i den är en stor sak.” (Bernströms not identifierar den helgade månaden som rajab, den sjunde i hijra-kalendern.)"
+    },
+    {
+      "surah": "9",
+      "ayah": "5",
+      "text": "Men när de helgade månaderna har löpt ut så döda avgudadyrkarna var ni än finner dem. (Bernströms not till versen anger de helgade månaderna som dhū al-ḥijja, dhū al-qaʿda och muḥarram – notera att rajab saknas här men finns i 2:217, vilket illustrerar att uppräkningen kommer från hadith och tafsīr, inte från versen själv.)"
+    },
+    {
+      "surah": "22",
+      "ayah": "32",
+      "text": "Så är det; och om någon visar aktning för Allahs symboler hör det sannerligen till hjärtats gudsfruktan. (Den vers som anförs av dem som försvarar markerandet av hijra-årsskiftet.)"
+    },
+    {
+      "surah": "6",
+      "ayah": "96",
+      "text": "Kontrollera denna vers separat mot quran.com/6/96?translations=48 innan användning – den om solen och månen som tidräkning nämns i Ibn Kathīrs kalenderavsnitt tillsammans med 10:5 och 17:12, men verstexten har inte hämtats i denna research."
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote-11468",
+      "text": "أفضل الصيام بعد رمضان شهر الله المحرم، وأفضل الصلاة بعد الفريضة صلاة الليل",
+      "textSv": "Den bästa fastan efter ramadan är Allahs månad muharram, och den bästa bönen efter den obligatoriska är nattbönen.",
+      "author": "Profeten Muhammed (ﷺ)",
+      "source": "Riyāḍ al-ṣāliḥīn (al-Nawawī). Verifierad mot Ṣaḥīḥ Muslim 1163a, berättad av Abū Hurayra. Detta är den enda kanoniska texten som ger muharram en särställning – och den handlar om fasta, inte om nyårsfirande."
+    },
+    {
+      "id": "quote-43304",
+      "text": "أفضل الصيام بعد شهر رمضان شهر الله الذي تدعونه المحرم",
+      "textSv": "Den bästa fastan efter månaden ramadan är Allahs månad, den som ni kallar muharram.",
+      "author": "Profeten Muhammed (ﷺ), återgiven av Ibn Rajab al-Ḥanbalī",
+      "source": "Laṭāʾif al-maʿārif (Ibn Rajab al-Ḥanbalī, d. 795/1393). OBS: databasens författarfält anger Ibn Rajab, men talaren är Profeten – attribuera till hadithen, med Ibn Rajab som förmedlande verk. Variantformuleringen »الذي تدعونه« är Ibn Rajabs lydelse."
+    },
+    {
+      "id": "quote-7647",
+      "text": "كل محدثة بدعة وكل بدعة ضلالة",
+      "textSv": "Varje nyhet är en innovation, och varje innovation är en villfarelse.",
+      "author": "Profeten Muhammed (ﷺ), återgiven av Ibn al-Jawzī",
+      "source": "Talbīs Iblīs (Ibn al-Jawzī, d. 597/1201). OBS: databasens författarfält anger Ibn al-Jawzī; talaren är Profeten. Detta är kärnargumentet hos dem som avvisar hijra-nyårsfirande."
+    },
+    {
+      "id": "quote-37083",
+      "text": "المهاجر من هجر السوء، والمجاهد من جاهد هواه",
+      "textSv": "Den som utvandrar är den som lämnar det onda, och den som kämpar är den som kämpar mot sitt eget begär.",
+      "author": "al-Ghazālī",
+      "source": "Bidāyat al-hidāya (al-Ghazālī, d. 505/1111). OBS: formuleringen bygger på profetord (jfr Bukhārī 10, »المهاجر من هجر ما نهى الله عنه«); al-Ghazālī återger den i sammansatt form. Central för den etiska omtolkningen av hijra som årsskiftets tema."
+    },
+    {
+      "id": "quote-67323",
+      "text": "اعتكف أوقاتك على الطاعة والعبادة، فإن أوقاتك عمرك وعمرك حياتك",
+      "textSv": "Ägna dina stunder åt lydnad och gudsdyrkan, ty dina stunder är din livstid, och din livstid är ditt liv.",
+      "author": "al-Ghazālī",
+      "source": "Bidāyat al-hidāya (al-Ghazālī, d. 505/1111)"
+    },
+    {
+      "id": "quote-59275",
+      "text": "أيها الناس إن الأيام تطوى، والأعمار تفنى، والأبدان تبلى",
+      "textSv": "Människor! Dagarna viks ihop, livstiderna tar slut och kropparna förmultnar.",
+      "author": "Profeten Muhammed (ﷺ), återgiven av al-Māwardī",
+      "source": "Adab al-dunyā wa-l-dīn (al-Māwardī, d. 450/1058). OBS: databasens författarfält anger Profeten; verket är al-Māwardīs. Kedjan är inte kontrollerad mot de sex samlingarna – använd som al-Māwardīs återgivning, inte som verifierad hadith."
+    },
+    {
+      "id": "quote-41778",
+      "text": "لم يزل الليل والنهار سريعين في نقص الأعمار وتقريب الآجال",
+      "textSv": "Natt och dag har aldrig upphört att snabbt minska livstiderna och föra dödsstunden närmare.",
+      "author": "al-Ḥasan al-Baṣrī",
+      "source": "Jāmiʿ al-ʿulūm wa-l-ḥikam (Ibn Rajab al-Ḥanbalī). Talaren är al-Ḥasan al-Baṣrī (d. 110/728); verket är Ibn Rajabs."
+    },
+    {
+      "id": "quote-10113",
+      "text": "بادر بادر فإن ساعات الليل والنهار تذهب الأعمار",
+      "textSv": "Skynda, skynda – nattens och dagens timmar tär bort livstiderna.",
+      "author": "Bishr b. al-Ḥārith al-Ḥāfī",
+      "source": "Ṣifat al-ṣafwa (Ibn al-Jawzī). Talaren är Bishr al-Ḥāfī (d. 227/841); verket är Ibn al-Jawzīs."
+    },
+    {
+      "id": "quote-38885",
+      "text": "الوقت أشرف شيء والواجب إنهاؤه بفعل الخير",
+      "textSv": "Tiden är det ädlaste av allt, och plikten är att fylla den till slut med goda gärningar.",
+      "author": "Ibn al-Jawzī",
+      "source": "Ṣayd al-khāṭir (Ibn al-Jawzī, d. 597/1201)"
+    },
+    {
+      "id": "quote-68169",
+      "text": "الهوى يسرق من العبد أحلى ساعاته وأعز أيامه",
+      "textSv": "Begäret stjäl från människan hennes ljuvaste stunder och hennes dyrbaraste dagar.",
+      "author": "Ibn al-Jawzī",
+      "source": "Dhamm al-hawā (Ibn al-Jawzī, d. 597/1201)"
+    },
+    {
+      "id": "quote-61541",
+      "text": "صلاة العيد راتبة وصلاة الخسوف والاستسقاء عارضة",
+      "textSv": "Högtidsbönen är fast återkommande, medan förmörkelse- och regnbönen är tillfälliga.",
+      "author": "al-Māwardī",
+      "source": "al-Aḥkām al-sulṭāniyya (al-Māwardī, d. 450/1058). Användbar för att visa att ʿīd i klassisk statsrätt är en institution med fastställd rit – vilket 1 muharram saknar."
+    },
+    {
+      "id": "quote-66621",
+      "text": "Våren, som ej bör mätas efter kalendarium utan efter klimatet och värmen.",
+      "author": "Carl von Linné",
+      "source": "Öländska resa (1745)"
+    },
+    {
+      "id": "quote-65666",
+      "text": "Det är denna fortgående tradition som utgör folkets oafbrutna medvetande af sig sjelf som nation.",
+      "author": "Erik Gustaf Geijer",
+      "source": "Verkstitel anges som »Unknown« i databasen – kontrollera mot Geijers Samlade skrifter innan blockcitat sätts."
+    },
+    {
+      "id": "quote-65687",
+      "text": "De göra ett afbrott i de gamla traditionerna och för folken öppna nya banor.",
+      "author": "Erik Gustaf Geijer",
+      "source": "Verkstitel anges som »Unknown« i databasen – kontrollera mot Geijers Samlade skrifter innan blockcitat sätts. Passar hijra som epokbrott."
+    },
+    {
+      "id": "quote-2140",
+      "text": "Så stor är minnets, namnets och vanans makt.",
+      "author": "Viktor Rydberg",
+      "source": "Den siste Atenaren (1859)"
+    },
+    {
+      "id": "quote-49523",
+      "text": "Det är som om det vore nyårsnatt, nyårsvaka. Det är, som om hon blott väntade på tolvslaget.",
+      "author": "Hjalmar Bergman",
+      "source": "Dansen på Frötjärn (1915)"
+    },
+    {
+      "id": "quote-54565",
+      "text": "Det gamla går, och nytt kommer - ja, det gamla går, det är egentligen det enda säkra, men hur länge kan man vara viss om att det kommer nytt i stället?",
+      "author": "Hjalmar Söderberg",
+      "source": "Martin Bircks ungdom (1901)"
+    },
+    {
+      "id": "quote-50056",
+      "text": "Mickelsmässan var alltjämt en syndens stora dag. Men jul och valborgsmässa och midsommar och Lucia hade blivit fromma, stillsamma dagar.",
+      "author": "Hjalmar Bergman",
+      "source": "Vi Bookar, Krokar och Rothar (1912). Utmärkt för avsnittet om hur högtiders karaktär förskjuts över tid."
+    },
+    {
+      "id": "quote-44823",
+      "text": "Tidens örn far upp i ringar, och hvar ring är ju ett år.",
+      "author": "Johan Ludvig Runeberg",
+      "source": "Verkstitel anges som »Unknown« i databasen – kontrollera mot Runebergs Samlade skrifter innan blockcitat sätts."
+    },
+    {
+      "id": "quote-49432",
+      "text": "Men vad hjälper det att önska! Almanacken visar slutet av september, skoljournalen slutet av terminen.",
+      "author": "Ester Blenda Nordström",
+      "source": "Kåtornas folk (1916)"
+    },
+    {
+      "id": "quote-46910",
+      "text": "Lika gärna kunde man vara munter och upprymd vid nattvarden eller inför Tronen på den yttersta dagen.",
+      "author": "Karin Boye",
+      "source": "Merit vaknar (1933). Användbar för kontrasten mellan festligt och allvarligt hållna heliga dagar – jfr shiitisk muharram."
+    },
+    {
+      "id": "quote-26739",
+      "text": "Man skall både dansa och ligga på halm om julen på landet, om det skall vara riktigt.",
+      "author": "Fredrika Bremer",
+      "source": "Fredrika Bremers Brev"
+    },
+    {
+      "id": "quote-25988",
+      "text": "Det ena året var det andra likt.",
+      "author": "Fredrika Bremer",
+      "source": "Fredrika Bremers Brev"
+    },
+    {
+      "id": "quote-48516",
+      "text": "Än är din tid, än kan Kristina omskrifva tideböckerna. Ett solhvarf ännu, och det skall vara för sent.",
+      "author": "Zacharias Topelius",
+      "source": "Stjärnornas kungabarn"
+    }
+  ],
+  "bookPassages": [
+    {
+      "id": "passage-246487",
+      "text": "سنة ست عشرة - كتب عمر بن الخطاب التأريخ، وهو أول من كتبه... وذلك أنه رفع إلى عمر صك مكتوب لرجل على آخر بدين يحل عليه في شعبان، فقال: أي شعبان؟ أمن هذه السنة أم التي قبلها، أم التي بعدها؟ ثم جمع الناس فقال: ضعوا للناس شيئا يعرفون فيه حلول ديونهم. فيقال إنهم أراد بعضهم أن يؤرخوا كما تؤرخ الفرس بملوكهم... ومنهم من قال: أرخوا بتاريخ الروم من زمان إسكندر فكرهوا ذلك، ولطوله أيضا. وقال قائلون: أرخوا من مولد رسول الله صلى الله عليه وسلم. وقال آخرون من مبعثه عليه السلام. وأشار علي بن أبي طالب وآخرون أن يؤرخ من هجرته من مكة إلى المدينة لظهوره لكل أحد فإنه أظهر من المولد والمبعث.",
+      "bookTitle": "al-Bidāya wa-l-nihāya",
+      "author": "Ibn Kathīr (d. 774/1373)"
+    },
+    {
+      "id": "passage-246488",
+      "text": "فأمر عمر أن يؤرخ من هجرة رسول الله صلى الله عليه وسلم وأرخوا من أول تلك السنة من محرمها، وعند مالك رحمه الله فيما حكاه عن السهيلي وغيره: أن أول السنة من ربيع الأول لقدومه عليه السلام إلى المدينة. والجمهور على أن أول السنة من المحرم، لأنه أضبط لئلا تختلف الشهور، فإن المحرم أول السنة الهلالية العربية.",
+      "bookTitle": "al-Bidāya wa-l-nihāya",
+      "author": "Ibn Kathīr (d. 774/1373)"
+    },
+    {
+      "id": "passage-241213",
+      "text": "وحكى السهيلي وغيره عن الإمام مالك أنه قال: أول السنة الإسلامية ربيع الأول لأنه الشهر الذي هاجر فيه رسول الله صلى الله عليه وسلم... ولا شك أن هذا الذي قاله الإمام مالك رحمه الله مناسب، ولكن العمل على خلافه، وذلك لأن أول شهور العرب المحرم فجعلوا السنة الأولى سنة الهجرة. وجعلوا أولها المحرم كما هو المعروف لئلا يختلط النظام.",
+      "bookTitle": "al-Bidāya wa-l-nihāya",
+      "author": "Ibn Kathīr (d. 774/1373)"
+    },
+    {
+      "id": "passage-259296",
+      "text": "ولعل الخلاف مبني على أول التاريخ، هل هو شهر ربيع الأول شهر مقدمه المدينة أو من المحرم في أول السنة؟ وللناس في هذا طريقان: فالجمهور على أن التاريخ وقع من المحرم، وأبو محمد بن حزم يرى أنه من شهر ربيع الأول حين قدم، (وكان أول من أرخ بالهجرة يعلى بن أمية باليمن) كما رواه الإمام أحمد بإسناد صحيح، وقيل: عمر بن الخطاب رضي الله عنه سنة ست عشرة من الهجرة.",
+      "bookTitle": "Zād al-maʿād",
+      "author": "Ibn al-Qayyim (d. 751/1350)"
+    },
+    {
+      "id": "passage-179960",
+      "text": "قدم رسول الله صلى الله عليه وسلم المدينة يوم الاثنين، حين اشتد الضحاء، وكادت الشمس تعتدل، لثنتي عشرة ليلة مضت من شهر ربيع الأول، وهو التاريخ",
+      "bookTitle": "al-Sīra al-nabawiyya",
+      "author": "Ibn Hishām (d. 218/833), efter Ibn Isḥāq"
+    },
+    {
+      "id": "passage-212805",
+      "text": "فكل هؤلاء قد نسأ في الجاهلية، والذي ينسأ لهم إذا أرادوا أن لا يحلوا المحرم قام بفناء الكعبة يوم الصدر، فقال: أيها الناس، لا تحلوا حرماتكم، وعظموا شعائركم، فإني أجاب ولا أعاب... وكان أهل الجاهلية يسمون المحرم صفرا الأول، وصفر صفر الآخر، فيقولون: صفران... فكان ينسأ الإنساء سنة ويترك سنة؛ ليحلوا الشهور المحرمة، ويحرموا الشهور التي ليست بمحرمة",
+      "bookTitle": "Akhbār Makka",
+      "author": "al-Azraqī (d. ca. 250/865)"
+    },
+    {
+      "id": "passage-202176",
+      "text": "قوله تعالى: (إنما النسيء زيادة في الكفر) هكذا يقرأ أكثر الأئمة... وهو مشتق من نسأه وأنسأه إذا أخره، حكى اللغتين الكسائي... قال الطبري: النسي بالهمزة معناه الزيادة، يقال: نسأ ينسأ إذا زاد.",
+      "bookTitle": "al-Jāmiʿ li-aḥkām al-Qurʾān",
+      "author": "al-Qurṭubī (d. 671/1273)"
+    },
+    {
+      "id": "passage-187040",
+      "text": "ذكر الشيخ علم الدين السخاوي في جزء جمعه سماه ”المشهور في أسماء الأيام والشهور“: أن المحرم سمي بذلك لكونه شهرا محرما، وعندي أنه سمي بذلك تأكيدا لتحريمه؛ لأن العرب كانت تتقلب به، فتحله عاما وتحرمه عاما... صفر: سمي بذلك لخلو بيوتهم منه، حين يخرجون للقتال والأسفار... قال: وكانت الشهور في حسابهم لا تدور.",
+      "bookTitle": "Tafsīr al-Qurʾān al-ʿaẓīm",
+      "author": "Ibn Kathīr (d. 774/1373)"
+    },
+    {
+      "id": "passage-297985",
+      "text": "وصار الشيطان بسبب قتل الحسين - رضي الله عنه - يحدث للناس بدعتين: بدعة الحزن والنوح يوم عاشوراء، من اللطم والصراخ والبكاء والعطش وإنشاد المراثي، وما يفضي إليه ذلك من سب السلف ولعنتهم... فإن هذا ليس واجبا ولا مستحبا باتفاق المسلمين، بل إحداث الجزع والنياحة للمصائب القديمة من أعظم ما حرمه الله ورسوله. وكذلك بدعة السرور والفرح.",
+      "bookTitle": "Minhāj al-sunna al-nabawiyya (kapitelrubrik i utgåvan: »أحدث الناس بدعتين يوم عاشوراء: بدعة الحزن والنوح وبدعة السرور والفرح«)",
+      "author": "Ibn Taymiyya (d. 728/1328)"
+    },
+    {
+      "id": "passage-248386",
+      "text": "يوم عاشوراء، ويذر الرماد والتبن في الطرقات والأسواق، وتعلق المسوح على الدكاكين، ويظهر الناس الحزن والبكاء، وكثير منهم لا يشرب الماء ليلتئذ موافقة للحسين لأنه قتل عطشانا... وقد عاكس الرافضة والشيعة يوم عاشوراء النواصب من أهل الشام، فكانوا إلى يوم عاشوراء يطبخون الحبوب ويغتسلون ويتطيبون ويلبسون أفخر ثيابهم ويتخذون ذلك اليوم عيدا يصنعون فيه أنواع الأطعمة، ويظهرون السرور والفرح، يريدون بذلك عناد الروافض ومعاكستهم.",
+      "bookTitle": "al-Bidāya wa-l-nihāya",
+      "author": "Ibn Kathīr (d. 774/1373)"
+    },
+    {
+      "id": "passage-157296",
+      "text": "قال أصحابنا: عاشوراء هو اليوم العاشر من المحرم، وتاسوعاء هو التاسع منه هذا مذهبنا، وبه قال جمهور العلماء، وقال ابن عباس: عاشوراء هو اليوم التاسع من المحرم، ثبت ذلك عنه في صحيح مسلم... واتفق أصحابنا وغيرهم على استحباب صوم عاشوراء وتاسوعاء.",
+      "bookTitle": "al-Majmūʿ sharḥ al-Muhadhdhab",
+      "author": "al-Nawawī (d. 676/1277)"
+    },
+    {
+      "id": "passage-195683",
+      "text": "اختلف في يوم عاشوراء هل هو التاسع من المحرم أو العاشر؟ فذهب الشافعي إلى أنه التاسع لحديث الحكم بن الأعرج... وذهب سعيد بن المسيب والحسن البصري ومالك وجماعة من السلف إلى أنه العاشر... وروي عن ابن عباس أنه قال: صوموا التاسع والعاشر وخالفوا اليهود. وبهذا الحديث يقول الشافعي وأحمد بن حنبل وإسحاق.",
+      "bookTitle": "al-Jāmiʿ li-aḥkām al-Qurʾān",
+      "author": "al-Qurṭubī (d. 671/1273)"
+    },
+    {
+      "id": "passage-132302",
+      "text": "أما المرغب فيه المتفق عليه: فصيام يوم عاشوراء. وأما المختلف فيه: فصيام يوم عرفة وست من شوال، والغرر من كل شهر... واختلفوا فيه هل هو التاسع أو العاشر. والسبب في ذلك اختلاف الآثار.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtaṣid",
+      "author": "Ibn Rushd (Averroes, d. 595/1198)"
+    },
+    {
+      "id": "passage-258209",
+      "text": "فظهر حكم هذه الأولوية في تعظيم هذا اليوم وفي تعيينه، وهم أخطئوا تعيينه لدورانه في السنة الشمسية، كما أخطأ النصارى في تعيين صومهم بأن جعلوه في فصل من السنة تختلف فيه الأشهر. وأما الإشكال الثاني، وهو أن قريشا كانت تصوم عاشوراء في الجاهلية... فلا ريب أن قريشا كانت تعظم هذا اليوم، وكانوا يكسون الكعبة فيه، وصومه من تمام تعظيمه، ولكن إنما كانوا يعدون بالأهلة، فكان عندهم عاشر المحرم",
+      "bookTitle": "Zād al-maʿād",
+      "author": "Ibn al-Qayyim (d. 751/1350). Central passage: Ibn al-Qayyim resonerar uttryckligen om skillnaden mellan lunarisk och solarisk tideräkning som orsak till dateringsfel."
+    },
+    {
+      "id": "passage-214615",
+      "text": "مالك، عن هشام بن عروة، عن أبيه، عن عائشة، زوج النبي صلى الله عليه وسلم أنها قالت: كان يوم عاشوراء يوما تصومه قريش في الجاهلية. وكان رسول الله صلى الله عليه وسلم يصومه في الجاهلية. فلما قدم رسول الله صلى الله عليه وسلم المدينة، صامه، وأمر بصيامه. فلما فرض رمضان، كان هو الفريضة. وترك يوم عاشوراء. فمن شاء صامه، ومن شاء تركه.",
+      "bookTitle": "al-Muwaṭṭaʾ (nr 1052/315 i den citerade utgåvan)",
+      "author": "Mālik b. Anas (d. 179/795)"
+    },
+    {
+      "id": "passage-176178",
+      "text": "أن عبد الله بن عمر رضي الله عنهما، حدثه أنه سمع رسول الله صلى الله عليه وسلم يقول في يوم عاشوراء: «إن هذا يوم كان يصومه أهل الجاهلية، فمن أحب أن يصومه فليصمه، ومن أحب أن يتركه فليتركه» وكان عبد الله رضي الله عنه لا يصومه، إلا أن يوافق صيامه",
+      "bookTitle": "Ṣaḥīḥ Muslim (nr 1126 i den citerade utgåvan)",
+      "author": "Muslim b. al-Ḥajjāj (d. 261/875)"
+    },
+    {
+      "id": "passage-219666",
+      "text": "باب فى صوم يوم عاشوراء... عن ابن عمر قال كان عاشوراء يوما نصومه فى الجاهلية فلما نزل رمضان قال رسول الله صلى الله عليه وسلم «هذا يوم من أيام الله فمن شاء صامه ومن شاء تركه»",
+      "bookTitle": "Sunan Abī Dāwūd (nr 2444–2446)",
+      "author": "Abū Dāwūd al-Sijistānī (d. 275/889)"
+    },
+    {
+      "id": "passage-112208",
+      "text": "من المحرم، ورجب وشعبان، وصوم الأشهر الحرم من الفضائل، وهي ذو القعدة وذو الحجة والمحرم ورجب، واحد فرد وثلاثة سرد، وهذه في السنة.",
+      "bookTitle": "Bidāyat al-hidāya",
+      "author": "al-Ghazālī (d. 505/1111). Ger de fyra helgade månaderna som »en ensam och tre i följd«."
+    },
+    {
+      "id": "passage-208150",
+      "text": "واعلم أن السنة منقسمة على أربعة فصول، لكل فصل سبعة منازل: فأولها الربيع، وأوله خمسة عشر يوما من آذار، وعدد أيامه اثنان وتسعون يوما، تقطع فيه الشمس ثلاثة بروج",
+      "bookTitle": "al-Jāmiʿ li-aḥkām al-Qurʾān",
+      "author": "al-Qurṭubī (d. 671/1273). Visar att klassiska mufassirūn parallellt behärskade och beskrev solårets indelning – den lunariska kalendern var ett medvetet val, inte okunskap."
+    },
+    {
+      "id": "passage-136295",
+      "text": "الأصل في صلاة العيد الكتاب والسنة والإجماع... وأجمع المسلمون على صلاة العيدين. وصلاة العيد فرض على الكفاية، في ظاهر المذهب... وقال أبو حنيفة: هي واجبة على الأعيان",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma (d. 620/1223). Rättsskolornas skillnad om ʿīd-bönens status – och att endast två ʿīd behandlas alls."
+    },
+    {
+      "id": "passage-136369",
+      "text": "قال أحمد، - رحمه الله -: ولا بأس أن يقول الرجل للرجل يوم العيد: تقبل الله منا ومنك. وقال حرب: سئل أحمد عن قول الناس في العيدين تقبل الله ومنكم. قال: لا بأس به، يرويه أهل الشام عن أبي أمامة.",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma (d. 620/1223). Aḥmad b. Ḥanbals hållning till högtidsgratulationer – används av båda sidor i dagens tvist om nyårshälsningar."
+    },
+    {
+      "id": "passage-139297",
+      "text": "ولو أسلم إلى عيد الفطر، أو النحر، أو يوم عرفة، أو عاشوراء، أو نحوها، جاز؛ لأنه معلوم بالأهلة. وإن جعل الأجل مقدرا بغير الشهور الهلالية، فذلك قسمان: أحدهما، ما يعرفه المسلمون، وهو بينهم مشهور ككانون وشباط، أو عيد لا يختلف كالنيروز والمهرجان عند من يعرفهما، فظاهر كلام الخرقي وابن أبي موسى، أنه لا يصح... وقال القاضي: يصح. وهو قول الأوزاعي، والشافعي.",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma (d. 620/1223). Utmärkt rättsskolejämförelse: får avtal dateras efter icke-lunariska kalendrar (nawrūz, mihrajān, kristna helger)? Ḥanbalī grundhållning nej, al-Awzāʿī och al-Shāfiʿī ja."
+    },
+    {
+      "id": "passage-222256",
+      "text": "سمعت معاوية، سأل زيد بن أرقم أشهدت مع رسول الله صلى الله عليه وسلم عيدين؟ قال: نعم، «صلى العيد من أول النهار، ثم رخص في الجمعة»... عن عائشة، أن رسول الله صلى الله عليه وسلم دخل عليها وعندها جاريتان تضربان بدفين، فانتهرهما أبو بكر، فقال النبي صلى الله عليه وسلم: «دعهن فإن لكل قوم عيدا»",
+      "bookTitle": "Sunan al-Nasāʾī",
+      "author": "al-Nasāʾī (d. 303/915). Hadithen »فإن لكل قوم عيدا« (varje folk har sin högtid) åberopas av dem som tillåter markerandet av nyåret."
+    },
+    {
+      "id": "passage-169961",
+      "text": "عن جابر بن عبد الله رضي الله عنهما، قال: «كان النبي صلى الله عليه وسلم إذا كان يوم عيد خالف الطريق»... لقول النبي صلى الله عليه وسلم: «هذا عيدنا أهل الإسلام»",
+      "bookTitle": "Ṣaḥīḥ al-Bukhārī",
+      "author": "al-Bukhārī (d. 256/870)"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-do-gra2016-31",
+      "url": "https://www.do.se/rattsfall-beslut-lagar-stodmaterial/tvister-domar-tillsynsbeslut/utbildning/skola-nekade-elev-aterkommande-ledighet-av-religiosa-skal",
+      "title": "DO, tillsynsbeslut GRA 2016-31: Skola nekade elev återkommande ledighet av religiösa skäl",
+      "keyFindings": [
+        "Beslutsdatum 5 juni 2017. Gällde återkommande ledighet för fredagsbön 12.30–14.00.",
+        "DO fann att vägran inte utgjorde direkt diskriminering: skolan tillämpade en generell regel mot återkommande frånvaroansökningar oavsett grund.",
+        "Prövat mot 1 kap. 4 § (direkt och indirekt diskriminering) och 2 kap. 5 § (förbud inom utbildningsområdet) diskrimineringslagen.",
+        "Detta är den närmaste svenska myndighetspraxis som finns om återkommande religiös frånvaro i skolan – den handlar dock om fredagsbön, inte om högtid."
+      ]
+    },
+    {
+      "id": "src-skolverket-ledighet",
+      "url": "https://www.skolverket.se/styrning-och-ansvar/regler-och-ansvar/ansvar-i-skolfragor/ledighet-i-skolan",
+      "title": "Skolverket: Ledighet i skolan",
+      "keyFindings": [
+        "Lagrum: 7 kap. 18 § skollagen (2010:800).",
+        "Skolverket skriver: »Exempel på enskilda angelägenheter kan enligt förarbetena vara vissa resor, familjehögtider eller religiösa högtider.«",
+        "Kortare ledighet upp till tio skoldagar per läsår; längre kräver synnerliga skäl.",
+        "Rektor beslutar; vid ledighet längre än tio dagar får beslutet inte delegeras. Beslut ska grundas på samlad bedömning av elevens situation."
+      ]
+    },
+    {
+      "id": "src-riksdagen-ku15",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/allmanna-helgdagar-m-m_h801ku15/html/",
+      "title": "Konstitutionsutskottets betänkande 2020/21:KU15, Allmänna helgdagar m.m.",
+      "keyFindings": [
+        "Behandlade ca 40 motioner om helgdagar, flaggdagar, nationalsymboler och märkesdagar från 2019/20 och 2020/21.",
+        "Utskottets ställningstagande: »Utskottet anser liksom tidigare att antalet helgdagar inte bör ändras.« Samtliga motioner avslogs.",
+        "Refererar lagen (1989:253) om allmänna helgdagar.",
+        "Tre helgdagsmotioner avslogs: annandag pingst (KD), 8 mars (S) och Forssells omreglering (L)."
+      ]
+    },
+    {
+      "id": "src-riksdagen-forssell",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/moderniserad-syn-pa-allmanna-helgdagar_H8022672/",
+      "title": "Motion 2020/21:2672 av Joar Forssell (L), Moderniserad syn på allmänna helgdagar",
+      "keyFindings": [
+        "Yrkande: »Riksdagen ställer sig bakom det som anförs i motionen om att utreda en omreglering av de s.k. röda dagarna och tillkännager detta för regeringen.«",
+        "Argument: Sverige har sedan 2000 varken statsreligion eller statskyrka, men detta är inte genomfört i praktiken; sex av åtta röda dagar är kristna.",
+        "Konstaterar att icke-kristna måste ansöka om semester för att fira eid, diwali eller chanukka.",
+        "Två alternativ föreslås utredas: individuell ledighetspott, eller förhandling mellan arbetsmarknadens parter.",
+        "Detta är den starkaste sekulära svenska invändningen i sin egen formulering – notera att den riktar sig mot kristna helgdagars särställning, inte mot muslimska anspråk."
+      ]
+    },
+    {
+      "id": "src-mucf-betjanade",
+      "url": "https://www.mucf.se/rapporter-och-statistik/trossamfund-antal-betjanade",
+      "title": "MUCF: Trossamfund – antal betjänade",
+      "keyFindings": [
+        "2024: islamiska samfund inom Islamiska samarbetsrådet redovisade 203 663 betjänade; samtliga trossamfund 844 694.",
+        "2023: islamiska samfund 213 383; samtliga trossamfund 847 961.",
+        "Islamiska Shiasamfunden i Sverige: 35 388 betjänade 2024.",
+        "Statistiken ska revisorsintygas och ligger till grund för organisationsbidrag.",
+        "Från 1 januari 2025 krävs minst 2 500 betjänade bosatta i Sverige för bidrag."
+      ]
+    },
+    {
+      "id": "src-pew-europa",
+      "url": "https://www.pewresearch.org/religion/2017/11/29/europes-growing-muslim-population/",
+      "title": "Pew Research Center: Europe's Growing Muslim Population (2017)",
+      "keyFindings": [
+        "Sverige 2016: ca 8,1 % muslimer, ca 810 000 personer.",
+        "2050-projektioner: 11,1 % (noll migration), 20,5 % (medel), 30,6 % (hög) – i det höga scenariot ca 4,5 miljoner.",
+        "Metod: folkräknings- och undersökningsdata kombinerat med Eurostat-migrationsdata, fertilitet, ålderstruktur och dödstal.",
+        "Pew betonar att detta är projektioner, inte prognoser; en central osäkerhet är att ca 970 000 muslimska asylsökande väntades få avslag."
+      ]
+    },
+    {
+      "id": "src-islamiskaforbundet-kalender",
+      "url": "https://www.islamiskaforbundet.se/vetenskapliga-seminariet-for-en-enad-hijri-kalender/",
+      "title": "Islamiska Förbundet: Vetenskapliga seminariet för en enad Hijri kalender (Stockholm 2017)",
+      "keyFindings": [
+        "Stockholm 14 maj 2017 (17 shaʿbān 1438), kl. 10–18; över 120 imamer och religiösa ledare från Sverige.",
+        "Arrangörer: Sveriges Imamråd, Islamiska Förbundet, Europeiska rådet för fatwa och forskning (ECFR) och turkiska Diyanet.",
+        "Internationella deltagare: prof. ʿAlī al-Qaradāghī (ECFR), dr Khālid Ḥanafī (ECFR, Tyskland), shaykh Amīn al-Ḥazmī (ECFR, Italien), Diyanet-företrädare, shaykh Khaled Eldeb (ordf. Sveriges Imamråd).",
+        "Slutsats: astronomisk beräkning som hjälpmedel jämte faktisk observation; rent skönsmässig metod avvisas.",
+        "Detta är kärnan i den svenska praktiska frågan: exakt när infaller 1 muharram i Sverige, och vem avgör det."
+      ]
+    },
+    {
+      "id": "src-dar-alifta-tahniya",
+      "url": "https://www.dar-alifta.org/ar/Fatwa/Details/13188",
+      "title": "Dār al-Iftāʾ al-Miṣriyya, fatwa nr 3538: التهنئة برأس السنة الهجرية",
+      "keyFindings": [
+        "Utfärdad 5 oktober 2012.",
+        "Slutsats ordagrant: »التهنئة بمناسبة رأس السنة الهجرية جائزة شرعًا ولا بدعة فيها« – gratulation vid det hijriska nyåret är rättsligt tillåten och innehåller ingen bidʿa.",
+        "Detta är den institutionella motpolen till den saudiska hållningen; båda är etablerade fatwa-organ, inte marginella röster."
+      ]
+    },
+    {
+      "id": "src-islamweb-145751",
+      "url": "https://www.islamweb.net/ar/fatwa/145751/",
+      "title": "Islamweb, fatwa nr 145751: حكم الاحتفال برأس السنة الهجرية وتعطيل العمل فيه",
+      "keyFindings": [
+        "Daterad tisdag 22 muharram 1432 (28 december 2010).",
+        "Slutsats: det är tillåtet att arbeta på nyårsdagen, eftersom den inte är en stiftad islamisk högtid.",
+        "Åberopar Anas b. Māliks hadith om att Gud ersatt de två förislamiska lekdagarna med två bättre: ʿīd al-aḍḥā och ʿīd al-fiṭr.",
+        "Historiskt argument: anledningen fanns i salafs tid, men de instiftade den aldrig som högtid – »hade det varit till nytta skulle de ha föregått oss däri«.",
+        "Skiljer uttryckligen nyårsdagen från den tionde (ashura), där fasta är rekommenderad enligt autentiska hadither."
+      ]
+    },
+    {
+      "id": "src-islamqa-101268",
+      "url": "https://islamqa.info/en/answers/101268",
+      "title": "IslamQA fatwa 101268: What the Shiʿa do on ʿĀshūrāʾ is bidʿa",
+      "keyFindings": [
+        "Argumenterar att Profeten och följeslagarna inte utförde dessa riter trots att många framstående sahaba dog under deras tid.",
+        "Åberopar Ibn Masʿūds hadith mot den som slår sina kinder, river sina kläder och ropar jāhiliyyas rop (anges som Bukhārī 1294 och Muslim 103).",
+        "Citerar Ibn Kathīr om innovationernas ursprung och Ibn Taymiyya om att ingen av de fyra imamerna godkände dem.",
+        "Åberopar även den shiitiske kritikern Mūsā al-Mūsawī om brittiskt inflytande över riterna.",
+        "Bör återges som den skarpaste polemiska hållningen – och balanseras mot Ibn Taymiyyas eget dubbla fördömande i Minhāj al-sunna."
+      ]
+    },
+    {
+      "id": "src-so-rummet",
+      "url": "https://www.so-rummet.se/fakta-artiklar/nagra-viktiga-muslimska-hogtider",
+      "title": "SO-rummet: Några viktiga muslimska högtider",
+      "keyFindings": [
+        "Text av Carsten Ryytty, tidigare SO-lärare; senast uppdaterad 29 april 2026.",
+        "Ordagrant: »Nyårsdagen inträffar den första dagen i månaden muharram (första månaden i den islamiska kalendern).«",
+        "Ordagrant: »Denna dag brukar inom islam firas genom att berätta om olika händelser i Muhammeds liv och önska varandra ett gott nytt år.«",
+        "Ordagrant: »Inom shiaislam är muharram en sorgemånad tillägnad Muhammeds dotterson Hussein som dog martyrdöden vid Karbala år 680.«",
+        "Detta är den beskrivning svenska elever möter – och den är precis vad både den saudiska ständiga kommittén och shiitisk praxis, på olika grunder, bestrider."
+      ]
+    },
+    {
+      "id": "src-kyrkanstidning",
+      "url": "https://www.kyrkanstidning.se/nyhet/nytt-ar-for-alla-muslimer/127115",
+      "title": "Kyrkans Tidning: Nytt år för alla muslimer (2010-12-07)",
+      "keyFindings": [
+        "Intervjuar Mahmoud Khalfi, ordförande för Stockholms moské.",
+        "Beskriver firandet som diskret: man skickar hälsningar och firar kanske med lite särskild mat hemma.",
+        "»Ingen särskild bön hålls idag i moskén«; imamen kan ta upp högtidens betydelse i fredagspredikan.",
+        "Khalfi beskriver det tunisiska sättet som »väldigt lågmält« – ingen fest av den typ kristna firar sitt nyår.",
+        "Detta motsäger delvis SO-rummets beskrivning av dagen som en firad högtid, vilket är en användbar svensk kontrast."
+      ]
+    },
+    {
+      "id": "src-imamali-ashura",
+      "url": "https://www.mynewsdesk.com/se/imam-ali-islamic-center/pressreleases/imam-hussein-manifestation-ashura-1228004",
+      "title": "Imam Ali Islamic Center: Imam Hussein Manifestation – Ashura (Stockholm 2015)",
+      "keyFindings": [
+        "Söndag 25 oktober 2015, kl. 14–16; samling Humlegården (Sturegatan), tåg till Sergels torg.",
+        "2 000–2 500 förväntade deltagare (arrangörens egen uppgift).",
+        "»De tio första dagarna i månaden muharram ägnas åt sorgeriter med den tionde som höjdpunkt.«",
+        "Refererar 10 muharram 680 e.Kr. och Husayns uppror mot umayyadhärskaren Yazid vid Karbala."
+      ]
+    },
+    {
+      "id": "src-shiasamfund",
+      "url": "https://shiasamfund.se/om-oss/",
+      "title": "Islamiska Shiasamfunden i Sverige – Om oss",
+      "keyFindings": [
+        "Bildat 1991, med medlemmar från Irak, Iran, Afghanistan, Pakistan och Libanon.",
+        "53 medlemsföreningar, ca 35 000 medlemmar; största föreningen i Järfälla, Stockholm.",
+        "Ett av sju islamiska samfund inom Islamiska samarbetsrådet.",
+        "Anger uttryckligen högtidlighållandet av muharram/ashura (åminnelse av imam Hussein) som centralt."
+      ]
+    },
+    {
+      "id": "src-magasink-flexibla",
+      "url": "https://magasink.se/2022/12/sa-funkar-flexibla-helgdagar/",
+      "title": "Magasin K (DIK): Så funkar flexibla helgdagar (16 december 2022)",
+      "keyFindings": [
+        "Flexibla helgdagar = anställd byter allmän röd dag mot annan dag, t.ex. för eid eller diwali.",
+        "Konkret exempel: Världskulturmuseerna (SMVK).",
+        "Förbundsjuristen Linnea Skagerberg (DIK) ger den juridiska vägledningen.",
+        "Avgörande: systemet är frivilligt och kräver lokalt kollektivavtal – utan avtal finns ingen automatisk rätt att byta röd dag."
+      ]
+    },
+    {
+      "id": "src-rattighetscenter",
+      "url": "https://rattighetscenter.se/risker-for-diskriminering-i-samband-med-religiosa-hogtider-hur-kan-de-forebyggas-i-utbildning-och-arbetsliv/",
+      "title": "Örebro Rättighetscenter: Risker för diskriminering i samband med religiösa högtider (20 mars 2024)",
+      "keyFindings": [
+        "Åberopar 3 kap. diskrimineringslagen om aktiva åtgärder: utbildningsanordnare och arbetsgivare ska fortlöpande motverka diskriminering.",
+        "Konkreta risker: begränsad bönemöjlighet, svårigheter kring lunch- och fikapauser under fasta, schemaläggning av prov, ledighet för högtid.",
+        "Nämner ramadan explicit som en period med ökad diskrimineringsrisk."
+      ]
+    },
+    {
+      "id": "src-kosteski",
+      "url": "https://www.lawpluralism.unimib.it/en/oggetti/229-kosteski-c-ex-repubblica-jugoslava-di-macedonia-n-55170-00-corte-edu-terza-sezione-13-luglio-2006",
+      "title": "Kosteski mot f.d. jugoslaviska republiken Makedonien, Europadomstolen nr 55170/00, dom 13 juli 2006",
+      "keyFindings": [
+        "Klaganden, muslim och anställd vid ett elbolag, uteblev från arbetet för att fira två islamiska högtider och bötfälldes.",
+        "Domstolen: artikel 9 garanterar inte i sig arbetstagarens rätt till ledighet på religiösa helgdagar.",
+        "När nationell rätt ger ett särskilt privilegium eller undantag för medlemmar av ett trossamfund strider det inte mot artikel 9 att kräva åtminstone minimal motivering av tillhörigheten.",
+        "Utgång: ingen kränkning av artikel 9, och ingen av artikel 14 i förening med artikel 9.",
+        "Detta är den europeiska rättsliga grundvalen för att svensk rätt inte behöver ge en rätt till ledighet vid det islamiska nyåret."
+      ]
+    },
+    {
+      "id": "src-officeholidays",
+      "url": "https://www.officeholidays.com/holidays/islamic-new-year",
+      "title": "Office Holidays: Islamic New Year around the world",
+      "keyFindings": [
+        "Länder som har islamiska nyåret som allmän helgdag omfattar bl.a. Algeriet, Bahrain, Brunei, Egypten, Indonesien, Irak, Jordanien, Kuwait, Libanon, Libyen, Malediverna, Marocko, Oman, Palestina, Somalia, Sudan, Syrien, Tunisien, Förenade Arabemiraten och Jemen.",
+        "Saudiarabien förekommer inte i listan – vilket är belysande, eftersom det är där den restriktiva fatwa-linjen är statligt sanktionerad.",
+        "Datum kan variera med upp till två dygn mellan länder, eftersom vissa använder faktisk månobservation.",
+        "Kontrollera Saudiarabiens status mot en primärkälla innan påståendet publiceras – frånvaron ur en listning är inte samma sak som ett belagt icke-firande."
+      ]
+    },
+    {
+      "id": "src-sensus-almanacka",
+      "url": "https://www.sensus.se/nyheter/multireligiosa-almanackan-fyller-20/",
+      "title": "Sensus: Multireligiösa almanackan fyller 20 år (2023)",
+      "keyFindings": [
+        "Ges ut av studieförbundet Sensus sedan 2004.",
+        "Över 120 högtider från sex religioner: buddhism, islam, hinduism, judendom, kristendom (inkl. ortodox) och sikhism.",
+        "Används »i skolor och på arbetsplatser för att hålla reda på elevers och anställdas religiösa högtider«.",
+        "Konkret svenskt institutionellt instrument för att hantera vandrande högtidsdatum."
+      ]
+    },
+    {
+      "id": "src-wikipedia-kalender",
+      "url": "https://sv.wikipedia.org/wiki/Muslimska_kalendern",
+      "title": "Muslimska kalendern (svenska Wikipedia)",
+      "keyFindings": [
+        "Tideräkningen börjar 16 juli 622, då Muhammed emigrerade från Mecka till Medina (hijra).",
+        "Året omfattar enligt Koranen 9:36 tolv månader om 29 eller 30 dagar, totalt 354 dagar; månaderna förskjuts därför gradvis mot årstiderna.",
+        "»Ett tillförande av en extra månad för att anpassa räkningen till ett solår fördöms som hedniskt av Koranen (9:37).«",
+        "Skillnaden mellan kalendrarna var ursprungligen 622 år men har minskat till ca 579.",
+        "Omräkningsformler: G ≈ H·(32/33) + 622 och H ≈ (33/32)·(G − 622).",
+        "Uppslagsverkskälla – bör verifieras mot en akademisk framställning innan sifferuppgifter publiceras."
+      ]
+    },
+    {
+      "id": "src-perf558",
+      "url": "https://en.wikipedia.org/wiki/PERF_558",
+      "title": "PERF 558 (engelska Wikipedia) – äldsta daterade arabiska papyrus",
+      "keyFindings": [
+        "Äldsta bevarade arabiska papyrus och äldsta daterade arabiska text med islamisk tideräkning; funnen i Herakleopolis, Egypten.",
+        "Bilingval arabisk-grekisk skattekvittens; publicerad av Adolf Grohmann 1932 och av Demiri & Römer 2009.",
+        "Anger datum både islamiskt (obestämd dag i jumādā I, år 22) och koptiskt (30 parmouti, 1:a indiktionen) = 25 april 643 i julianska kalendern.",
+        "Arabisk text: »شهر جمدى الاولى من سنة اثنين وعشرين« – »månaden jumādā al-ūlā år tjugotvå«. Eran NAMNGES INTE; det står inte »efter hijra«.",
+        "Innehåller de tidigast belagda diakritiska punkterna i arabisk skrift.",
+        "Kallar araberna »Magaritae« på grekiska, en term som tros hänga samman med arabiskans muhājir.",
+        "Detta är det hårda beviset för den historiska invändningen: eran användes tidigt, men dess benämning som hijra-era är i det äldsta materialet inte belagd."
+      ]
+    },
+    {
+      "id": "src-quran-937",
+      "url": "https://quran.com/9/37?translations=48",
+      "title": "Koranen 9:37 med Knut Bernströms svenska översättning (quran.com, translation 48)",
+      "keyFindings": [
+        "Ren lydelse av nasīʾ-versen hämtad härifrån – använd denna, inte den OCR-skadade texten ur korpusbriefen.",
+        "Versen är den rättsliga grunden för att hijra-kalendern inte får skottmånad och därmed vandrar genom solåret.",
+        "Samma källa bör användas för alla verscitat: quran.com/<sura>/<vers>?translations=48."
+      ]
+    },
+    {
+      "id": "src-hadith-bukhari4662",
+      "url": "https://hadithunlocked.com/bukhari:4662",
+      "title": "Ṣaḥīḥ al-Bukhārī 4662 – »Tiden har återvänt till sitt ursprungliga tillstånd«",
+      "keyFindings": [
+        "Arabisk text: »إن الزمان قد استدار كهيئته يوم خلق الله السماوات والأرض« – året är tolv månader, fyra av dem helgade.",
+        "Berättad av Abū Bakra; kedja: ʿAbdullāh b. ʿAbd al-Wahhāb > Ḥammād b. Zayd > Ayyūb > Muḥammad > Ibn Abī Bakra > Abū Bakra.",
+        "Placerad i Bukhārīs tafsīr-bok, till sura al-Tawba; uttalad i avskedsvallfärdens predikan.",
+        "De fyra helgade: dhū al-qaʿda, dhū al-ḥijja, muharram (tre i följd) samt rajab Muḍar mellan jumādā och shaʿbān.",
+        "Finns INTE i Ṣaḥīḥ Muslim; parallellt i Abū Dāwūd 1947, al-Bazzār 3056, al-Nasāʾīs Kubrā 4201.",
+        "Detta är hadithen som förklarar nasīʾ-praktikens upphävande – tiden har återgått till skapelseordningen."
+      ]
+    },
+    {
+      "id": "src-hadith-muslim1163",
+      "url": "https://hadithunlocked.com/muslim:1163",
+      "title": "Ṣaḥīḥ Muslim 1163a – bästa fastan efter ramadan är Allahs månad muharram",
+      "keyFindings": [
+        "Arabisk text: »أَفْضَلُ الصِّيَامِ بَعْدَ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ، وَأَفْضَلُ الصَّلاَةِ بَعْدَ الْفَرِيضَةِ صَلاَةُ اللَّيْلِ«",
+        "Berättad av Abū Hurayra; kedja via Ḥumayd b. ʿAbd al-Raḥmān al-Ḥimyarī > Abū Bishr > Abū ʿAwāna > Qutayba b. Saʿīd.",
+        "Graderad ṣaḥīḥ; finns även hos Abū Dāwūd, al-Tirmidhī, al-Nasāʾī, Ibn Māja och Aḥmad.",
+        "Avgörande för artikeln: den enda kanoniska texten som ger muharram särställning handlar om fasta, inte om nyårsfirande."
+      ]
+    },
+    {
+      "id": "src-hadith-bukhari2004",
+      "url": "https://hadithunlocked.com/bukhari:2004",
+      "title": "Ṣaḥīḥ al-Bukhārī 2004 – ashura och judarnas fasta i Medina",
+      "keyFindings": [
+        "Arabisk text: »قدم النبي ﷺ المدينة فرأى اليهود تصوم يوم عاشوراء فقال ما هذا قالوا هذا يوم صالح هذا يوم نجى الله بني إسرائيل«",
+        "Berättad av Ibn ʿAbbās; »muttafaq ʿalayh« – parallell i Muslim 1130a och 1130c.",
+        "Profeten svarade »Vi har större anspråk på Mūsā än ni«, fastade och befallde fasta.",
+        "Jämför Ibn al-Qayyims invändning (Zād al-maʿād): judarna »misstog sig om dagens bestämning eftersom den vandrar i solåret«."
+      ]
+    }
+  ],
+  "datasets": [
+    {
+      "id": "mucf-betjanade-islam",
+      "question": "Hur många personer betjänas av de islamiska trossamfund som får statsbidrag i Sverige, och hur fördelar de sig?",
+      "unit": "personer (»betjänade«, självrapporterade och revisorsintygade)",
+      "source": "MUCF (tidigare Myndigheten för stöd till trossamfund), bidragsgrundande statistik »Trossamfund – antal betjänade«",
+      "sourceUrl": "https://www.mucf.se/rapporter-och-statistik/trossamfund-antal-betjanade",
+      "retrieved": "2026-09-02",
+      "note": "»Betjänade« är inte medlemmar och inte troende. Talet är samfundens egen redovisning till bidragsmyndigheten, avgränsad till bidragsberättigade samfund. Muslimer utanför dessa samfund räknas inte alls, och dubbelräkning mellan samfund kan inte uteslutas. SCB registrerar inte religionstillhörighet, så det finns ingen officiell statistik att jämföra med. Från 1 januari 2025 krävs minst 2 500 betjänade bosatta i Sverige för bidrag, vilket i sig påverkar redovisningen.",
+      "columns": [
+        "Trossamfund",
+        "Betjänade 2024"
+      ],
+      "rows": [
+        {
+          "label": "Förenade islamiska församlingar i Sverige",
+          "values": [
+            "61 350"
+          ]
+        },
+        {
+          "label": "Sveriges muslimska förbund",
+          "values": [
+            "50 479"
+          ]
+        },
+        {
+          "label": "Islamiska Shiasamfunden i Sverige",
+          "values": [
+            "35 388"
+          ]
+        },
+        {
+          "label": "Islamiska Kulturcenter Unionen i Sverige",
+          "values": [
+            "27 711"
+          ]
+        },
+        {
+          "label": "Bosniakiska Islamiska Samfundet",
+          "values": [
+            "19 440"
+          ]
+        },
+        {
+          "label": "Islamiska Fatwabyrån i Sverige",
+          "values": [
+            "9 295"
+          ]
+        },
+        {
+          "label": "Summa islamiska samfund (Islamiska samarbetsrådet) 2024",
+          "values": [
+            "203 663"
+          ]
+        },
+        {
+          "label": "Summa islamiska samfund 2023",
+          "values": [
+            "213 383"
+          ]
+        },
+        {
+          "label": "Samtliga trossamfund, totalt 2024",
+          "values": [
+            "844 694"
+          ]
+        },
+        {
+          "label": "Samtliga trossamfund, totalt 2023",
+          "values": [
+            "847 961"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pew-muslimer-sverige",
+      "question": "Hur stor andel av Sveriges befolkning uppskattades vara muslimer 2016, och vad projicerar Pew för 2050?",
+      "unit": "procent av befolkningen respektive antal personer",
+      "source": "Pew Research Center, »Europe's Growing Muslim Population« (29 november 2017)",
+      "sourceUrl": "https://www.pewresearch.org/religion/2017/11/29/europes-growing-muslim-population/",
+      "retrieved": "2026-09-02",
+      "note": "Detta är projektioner, inte prognoser eller mätningar. Pew räknar »muslim« som självidentifikation, inte praktik, och bygger på folkräknings- och undersökningsdata plus Eurostat-migrationsdata – inte på svensk officiell statistik, som inte finns. En central osäkerhet Pew själv anger: omkring 970 000 muslimska asylsökande i Europa väntades få avslag, och deras faktiska kvarboende var okänt. Siffrorna är från 2016/2017 och alltså ett decennium gamla; de har fått betydande politisk spridning i Sverige lösryckta från detta förbehåll.",
+      "columns": [
+        "Scenario",
+        "Andel muslimer",
+        "Antal (ca)"
+      ],
+      "rows": [
+        {
+          "label": "Faktisk uppskattning 2016",
+          "values": [
+            "8,1 %",
+            "810 000"
+          ]
+        },
+        {
+          "label": "2050, noll ytterligare muslimsk migration",
+          "values": [
+            "11,1 %",
+            "1,1 miljoner"
+          ]
+        },
+        {
+          "label": "2050, medelmigration",
+          "values": [
+            "20,5 %",
+            "2,5 miljoner"
+          ]
+        },
+        {
+          "label": "2050, hög migration",
+          "values": [
+            "30,6 %",
+            "ca 4,5 miljoner"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hijra-nyar-datum",
+      "question": "När infaller det islamiska nyåret i Sverige, och hur snabbt vandrar det genom det gregorianska året?",
+      "unit": "datum respektive dagar per år",
+      "source": "Sammanställt av: sv.wikipedia »Muslimska kalendern« (kalenderns konstruktion), islamisktforum.se och muslimska kalendertjänster (datum för 1447/1448), Office Holidays (internationella helgdagsdatum)",
+      "sourceUrl": "https://sv.wikipedia.org/wiki/Muslimska_kalendern",
+      "retrieved": "2026-09-02",
+      "note": "Datum för 1 muharram kan variera ±1–2 dygn mellan länder och samfund beroende på om månen faktiskt siktats eller beräknats astronomiskt; de svenska datumen är därför uppskattningar tills nymånen bekräftats. Uppgifterna är hämtade från kalendertjänster och uppslagsverk, inte från ett svenskt trossamfunds officiella kungörelse – kontrollera mot Sveriges Imamråd inför publicering. Formeln G ≈ H·(32/33)+622 ger endast ungefärlig omräkning.",
+      "columns": [
+        "Storhet",
+        "Värde"
+      ],
+      "rows": [
+        {
+          "label": "Epok (år 1 AH, 1 muharram)",
+          "values": [
+            "16 juli 622 e.Kr."
+          ]
+        },
+        {
+          "label": "Årets längd",
+          "values": [
+            "354 dagar (12 lunarmånader om 29 eller 30 dagar)"
+          ]
+        },
+        {
+          "label": "Förskjutning mot solåret",
+          "values": [
+            "ca 11 dagar per år"
+          ]
+        },
+        {
+          "label": "1 muharram 1448 i Sverige",
+          "values": [
+            "ca 16–17 juni 2026"
+          ]
+        },
+        {
+          "label": "1 muharram 1449, internationellt",
+          "values": [
+            "ca 6 juni 2027"
+          ]
+        },
+        {
+          "label": "Skillnad gregorianskt/hijriskt årtal idag",
+          "values": [
+            "ca 579 år (ursprungligen 622, minskar eftersom hijra-året är kortare)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "svenska-helgdagar-religion",
+      "question": "Hur många av Sveriges allmänna helgdagar är religiöst grundade, och har riksdagen prövat att ändra dem?",
+      "unit": "antal dagar respektive riksdagsbeslut",
+      "source": "Lagen (1989:253) om allmänna helgdagar; riksdagens konstitutionsutskott, betänkande 2020/21:KU15; motion 2020/21:2672 av Joar Forssell (L)",
+      "sourceUrl": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/allmanna-helgdagar-m-m_h801ku15/html/",
+      "retrieved": "2026-09-02",
+      "note": "Uppgiften »sex av åtta röda dagar är kristna« är motionärens egen räkning, inte en officiell uppgift, och beror på hur man räknar (söndagar och nationaldagen behandlas olika). Utskottets avslag gällde alla helgdagsmotioner samlat – det fanns ingen enskild motion om en muslimsk helgdag i detta betänkande. Ingen svensk lag ger rätt till ledighet för religiös högtid.",
+      "columns": [
+        "Uppgift",
+        "Innehåll"
+      ],
+      "rows": [
+        {
+          "label": "Reglering",
+          "values": [
+            "Lagen (1989:253) om allmänna helgdagar: söndagar, nyårsdagen, trettondedag jul, långfredagen, påskdagen, annandag påsk, Kristi himmelsfärds dag, pingstdagen, midsommardagen, alla helgons dag, juldagen, annandag jul, 1 maj, nationaldagen 6 juni"
+          ]
+        },
+        {
+          "label": "Motionärens räkning (Forssell, L)",
+          "values": [
+            "sex av åtta röda dagar är kristna högtider"
+          ]
+        },
+        {
+          "label": "Konstitutionsutskottets ställningstagande 2020/21",
+          "values": [
+            "»Utskottet anser liksom tidigare att antalet helgdagar inte bör ändras« – samtliga ca 40 motioner avslogs"
+          ]
+        },
+        {
+          "label": "Tidigare politiskt initiativ",
+          "values": [
+            "2011: S-partisekreteraren Carin Jämtin ville utreda eid al-fitr som röd dag på bekostnad av en kristen helgdag (uppgift från sekundärkälla – kontrollera mot primärkälla)"
+          ]
+        },
+        {
+          "label": "Ersatt helgdag i modern tid",
+          "values": [
+            "annandag pingst ersattes av nationaldagen 6 juni från 2005"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "svensk-rattspraxis-hogtider",
+      "question": "Vilket rättsligt skydd finns i Sverige och Europa för ledighet vid religiös högtid?",
+      "unit": "rättskällor och avgöranden",
+      "source": "7 kap. 18 § skollagen (2010:800) via Skolverket; DO, tillsynsbeslut GRA 2016-31 (5 juni 2017); Europadomstolen, Kosteski mot f.d. jugoslaviska republiken Makedonien, nr 55170/00, dom 13 juli 2006; 3 kap. diskrimineringslagen (2008:567)",
+      "sourceUrl": "https://www.skolverket.se/styrning-och-ansvar/regler-och-ansvar/ansvar-i-skolfragor/ledighet-i-skolan",
+      "retrieved": "2026-09-02",
+      "note": "Ingen av dessa källor rör det islamiska nyåret specifikt – DO-ärendet gällde återkommande fredagsbön och Kosteski gällde en muslimsk högtid utan att domstolen preciserade vilken. Uppräkningen visar det rättsliga ramverk en muslimsk elev eller arbetstagare i Sverige faktiskt möter, inte praxis om 1 muharram. Sökningar efter ett svenskt Arbetsdomstolsavgörande specifikt om ledighet för muslimsk högtid gav inget träffsäkert resultat; frånvaron av sådan praxis bör inte utan vidare tolkas som att frågan är oomtvistad.",
+      "columns": [
+        "Instans/källa",
+        "Innebörd"
+      ],
+      "rows": [
+        {
+          "label": "7 kap. 18 § skollagen",
+          "values": [
+            "Elev får beviljas kortare ledighet (upp till tio skoldagar per läsår) för enskilda angelägenheter; förarbetena nämner uttryckligen religiösa högtider som exempel. Rektor beslutar och får inte delegera beslut om mer än tio dagar."
+          ]
+        },
+        {
+          "label": "DO GRA 2016-31 (2017)",
+          "values": [
+            "Skolans vägran att bevilja återkommande ledighet för fredagsbön 12.30–14.00 utgjorde inte direkt diskriminering, eftersom skolan tillämpade en generell regel mot återkommande frånvaroansökningar oavsett grund. Prövat mot 1 kap. 4 § och 2 kap. 5 § diskrimineringslagen."
+          ]
+        },
+        {
+          "label": "3 kap. diskrimineringslagen",
+          "values": [
+            "Aktiva åtgärder: arbetsgivare och utbildningsanordnare ska fortlöpande motverka diskrimineringsrisker – kan omfatta bönemöjlighet, pausanpassning under fasta och schemaläggning av prov."
+          ]
+        },
+        {
+          "label": "Europadomstolen, Kosteski (2006)",
+          "values": [
+            "Artikel 9 EKMR garanterar inte i sig rätt till ledighet på religiösa helgdagar. Det strider inte mot artikel 9 att kräva åtminstone minimal motivering av tillhörigheten när nationell rätt ger ett särskilt undantag. Ingen kränkning av artikel 9 eller artikel 14."
+          ]
+        },
+        {
+          "label": "Kollektivavtal",
+          "values": [
+            "»Flexibla helgdagar« – byte av röd dag mot t.ex. eid eller diwali – förekommer men kräver lokalt avtal; utan avtal finns ingen rätt. Exempel: Världskulturmuseerna (SMVK), fackförbundet DIK."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "islamisk-kalender-sverige-organisation",
+      "question": "Hur bestäms månadernas början – och därmed nyårsdagen – för muslimer i Sverige?",
+      "unit": "organisationer och metodval",
+      "source": "Islamiska Förbundet i Sverige, »Vetenskapliga seminariet för en enad Hijri kalender«, Stockholm 14 maj 2017",
+      "sourceUrl": "https://www.islamiskaforbundet.se/vetenskapliga-seminariet-for-en-enad-hijri-kalender/",
+      "retrieved": "2026-09-02",
+      "note": "Seminariet är från 2017; huruvida dess linje faktiskt tillämpas enhetligt av svenska moskéer idag har inte kontrollerats i denna research. Uppgifterna kommer från arrangörens egen redogörelse, inte från en oberoende granskning. Shiitiska samfund omfattas inte av ECFR och följer i regel egna marjaʿ.",
+      "columns": [
+        "Uppgift",
+        "Innehåll"
+      ],
+      "rows": [
+        {
+          "label": "Arrangörer",
+          "values": [
+            "Sveriges Imamråd (huvudansvarig), Islamiska Förbundet i Sverige, Europeiska rådet för fatwa och forskning (ECFR), turkiska Diyanet"
+          ]
+        },
+        {
+          "label": "Tid och plats",
+          "values": [
+            "Stockholm, 14 maj 2017 (17 shaʿbān 1438)"
+          ]
+        },
+        {
+          "label": "Deltagare",
+          "values": [
+            "över 120 imamer och religiösa ledare från Sverige samt internationella experter (bl.a. ʿAlī al-Qaradāghī, Khālid Ḥanafī, Amīn al-Ḥazmī, Khaled Eldeb)"
+          ]
+        },
+        {
+          "label": "Slutsats om metod",
+          "values": [
+            "astronomisk beräkning som hjälpmedel jämte faktisk observation; avvisande av rent skönsmässig metod"
+          ]
+        },
+        {
+          "label": "Kvarstående variation",
+          "values": [
+            "lokala råd kan fastställa dagen ±1 dygn utifrån faktisk observation, vilket gör att nyårsdatumet kan skilja sig mellan svenska moskéer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ashura-sverige",
+      "question": "Hur markeras muharram och ashura av shiamuslimer i Sverige?",
+      "unit": "antal deltagare, föreningar och betjänade",
+      "source": "Imam Ali Islamic Center, pressmeddelande om Imam Hussein-manifestationen (2015); Islamiska Shiasamfunden i Sverige (shiasamfund.se); MUCF bidragsgrundande statistik 2024",
+      "sourceUrl": "https://www.mynewsdesk.com/se/imam-ali-islamic-center/pressreleases/imam-hussein-manifestation-ashura-1228004",
+      "retrieved": "2026-09-02",
+      "note": "Deltagarsiffran 2 000–2 500 är arrangörens egen förväntan inför manifestationen 2015, inte en polisrapporterad eller journalistiskt kontrollerad siffra, och den är över tio år gammal. Ingen aktuell svensk statistik över ashura-deltagande har hittats. Uppgifterna beskriver den organiserade shiitiska minoriteten och säger inget om praxis bland sunnimuslimer i Sverige.",
+      "columns": [
+        "Uppgift",
+        "Innehåll"
+      ],
+      "rows": [
+        {
+          "label": "Manifestation Stockholm 2015",
+          "values": [
+            "söndag 25 oktober kl. 14–16, samling Humlegården (Sturegatan), tåg till Sergels torg; arrangör Imam Ali Islamic Center; 2 000–2 500 förväntade deltagare"
+          ]
+        },
+        {
+          "label": "Islamiska Shiasamfunden i Sverige (ISS)",
+          "values": [
+            "bildat 1991 (medlemmar med bakgrund i Irak, Iran, Afghanistan, Pakistan och Libanon); 53 medlemsföreningar; största föreningen i Järfälla"
+          ]
+        },
+        {
+          "label": "ISS betjänade 2024",
+          "values": [
+            "35 388"
+          ]
+        },
+        {
+          "label": "Historisk referens",
+          "values": [
+            "10 muharram år 61 AH / 680 e.Kr., Husayn b. ʿAlīs död vid Karbala"
+          ]
+        }
+      ]
+    }
+  ]
+}

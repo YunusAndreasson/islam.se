@@ -1,0 +1,813 @@
+{
+  "topic": "Muslimsk begravning",
+  "summary": "OMFÅNG: Artikeln måste täcka fyra saker som sällan står tillsammans. (1) Riternas källbelägg: tvagningen (ghusl), svepningen (kafan), begravningsbönen (salat al-janaza) och gravläggningen, med Koranens loci classici — 5:31 (korpen som visar Kain hur brodern göms i jorden), 20:55 (»av denna jord har Vi skapat er«), 77:25–26 (jorden som »behållare« för levande och döda — Ibn Rushds koranbelägg för att gravläggning är fard kifaya), 2:156 (istirjāʿ), 3:185 och 80:21. (2) Rättsskolornas skillnader, som är större än den svenska allmänbilden av »muslimsk begravning« antyder: är tvagningen fard eller sunna kifaya (Ibn Rushd redovisar båda som mālikiska positioner); vem får tvätta en avliden av motsatt kön (tre positioner, där al-Layth b. Saʿd säger att man begraver otvättad); ingång i graven från qibla-sidan (ḥanafitiskt, al-Marghīnānī) mot att skjutas in på längden (shāfiʿitiskt); och den skarpa striden om janāza-bön i moskén — al-Hidāya åberopar »ingen lön« åt den som ber i moskén, medan al-Nawawī åberopar ʿĀʾishas hadith om att Profeten bad över Ibn Bayḍāʾ i moskén.\n\nDEN VERKLIGA KONTROVERSEN LIGGER I SVERIGE, OCH DEN ÄR STRUKTURELL, INTE ATTITYDMÄSSIG. Tre klassiska ståndpunkter kolliderar med svensk begravningsrätt på punkter där ingen part agerar i ond tro. (a) Kistan: al-Nawawī skriver i al-Majmūʿ att gravläggning i tābūt är makrūh utom i lös eller fuktig mark, och kallar det »vår madhhab och alla lärdas madhhab, och jag tror det är ijmāʿ« — men svensk hantering, förvaring och gravsättning förutsätter i praktiken alltid kista. (b) Snabbheten: idealet är gravläggning inom ett dygn eller två; begravningslagen 5 kap. 10 § säger »snarast möjligt och senast en månad«, en frist som skärptes från två månader till en genom prop. 2011/12:51 — av miljö- och arbetsmiljöskäl, inte av religiösa. (c) Gravens bestånd: 7 kap. 5 § tillåter gravrätt »för viss tid, minst 15 och högst 50 år, eller för alltid«, och en återlämnad grav får återanvändas — medan graven i muslimsk och judisk tradition inte får återanvändas. Här ligger artikelns svåraste avsnitt, för invändningen mot undantag är inte främlingsfientlig utan en likhetsinvändning som restes redan i motion 1990/91:K622: om icke-kristna får evig gravfrid som kristna inte kan få, blir undantaget en ojämlikhet.\n\nINVÄNDNINGARNA I SIN STARKASTE FORM får inte förenklas. Dan Korn argumenterar inte att muslimer inte ska få gravplatser, utan att de judiska församlingarna byggde sina egna och att »ansträngning ger inträdesbiljetten till gemenskapen« — en integrationsinvändning som förtjänar ett svar, inte ett avfärdande. Mot den står Jan-Olof Aggedals hållning och den administrativa realiteten: alla folkbokförda betalar begravningsavgift, och 2 kap. 2 § ålägger huvudmannen att tillhandahålla särskilda gravplatser för dem som inte tillhör något kristet trossamfund. Att Svenska kyrkan är huvudman för ett obligatoriskt system som ska betjäna icke-kristna är i sig omtvistat från två håll samtidigt (Ola Möllers interpellation 2024/25:297 från vänster, Fredrik Malms motion 2025/26:710 från liberalt håll).\n\nVAD SOM SKULLE ÖVERRASKA EN PÅLÄST LÄSARE: att repatriering, som ofta antas vara normalfallet, enligt Göteborgs moské rör omkring 0,5 procent — den muslimska begravningen är en svensk fråga, inte en utrikesfråga. Att obduktionskonflikten har avgjorts i Europadomstolen (Polat mot Österrike, 12886/16, 20 juli 2021), där just omöjligheten att utföra ghusl på en vanställd kropp bar fram fällningen enligt artiklarna 8 och 9. Och att den skarpaste kontrasten är kremeringen: Sverige har en av världens högsta kremationsandelar (drygt 83 %), vilket betyder att hela infrastrukturen — 66 krematorier, urngravar, minneslundar — är byggd kring en praktik islam förbjuder. NEGATIVT FYND att redovisa ärligt: jag fann inget avgörande i Arbetsdomstolen om religiöst betingad ledighet för snabb begravning; ledighetsrätten regleras av kollektivavtal, inte av praxis om religionshänsyn. Fyll inte den luckan med ett påhittat mål.",
+  "quranReferences": [
+    {
+      "surah": "5",
+      "ayah": "31",
+      "text": "Och Gud sände en korp, som krafsade i jorden och visade honom hur han kunde dölja broderns nakna kropp. Och han utropade: 'Har jag, eländige stackare, blivit så svag att jag inte kan göra som denna korp och dölja min broders lik?' Och han greps av ånger. (Bernström, hämtad ren från quran.com/api, översättning 48)"
+    },
+    {
+      "surah": "20",
+      "ayah": "55",
+      "text": "Av denna [jord] har Vi skapat er och till den låter Vi er vända tillbaka och ur den skall Vi [kalla] er att stiga fram ännu en gång. (Bernström, ren lydelse)"
+    },
+    {
+      "surah": "77",
+      "ayah": "25-26",
+      "text": "Har Vi inte gjort jorden till en behållare [som rymmer] / levande och döda? (Bernström, ren lydelse.) VIKTIGT: detta är Ibn Rushds koranbelägg i Bidāyat al-mujtahid för att gravläggning är obligatorisk (fard kifāya) — versen saknades i korpusbriefen men är ämnets viktigaste rättsliga locus."
+    },
+    {
+      "surah": "2",
+      "ayah": "156",
+      "text": "för dem som när de drabbas av olycka och motgång säger: \"Vi tillhör Gud och till Honom skall vi återvända\" — (Bernström, ren lydelse. Grunden för istirjāʿ-formeln; al-Qurtubi ägnar den sex masāʾil i al-Jāmiʿ li-ahkām al-Qurʾān.)"
+    },
+    {
+      "surah": "80",
+      "ayah": "21",
+      "text": "Till sist låter Han henne dö och begravas, (Bernström, ren lydelse. Åberopas för att gravläggning är en gudomlig anordning, inte enbart en social sedvänja.)"
+    },
+    {
+      "surah": "3",
+      "ayah": "185",
+      "text": "Varje själ skall smaka döden. (Öppningsfrasen; hämta hela versens rena lydelse från quran.com/3/185?translations=48 innan blockcitat — briefens version bär radbrytningsfel.)"
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote-19",
+      "text": "Av jord är du kommen, jord skall du åter varda",
+      "textSv": "Av jord är du kommen, jord skall du åter varda. VARNING TILL FÖRFATTAREN: detta är INTE Strindbergs egna ord utan den svenska jordfästningsformeln (ytterst 1 Mos 3:19) återgiven i romanen. Attribuera som »jordfästningsformeln, så som den återges i Hemsöborna«, aldrig som ett Strindbergscitat. Värdefull just därför: den svenska kyrkliga formeln och Koranen 20:55 säger sakligt samma sak om jorden. Använd parallellen deskriptivt, som idéhistoria — aldrig som argument för att islams position är den svenska.",
+      "author": "August Strindberg",
+      "source": "Hemsöborna (1887)"
+    },
+    {
+      "id": "quote-16013",
+      "text": "Då nionde råder jag dig: begravning ge om du finner en fallen kropp, av sjukdom död eller död i havet, eller död av vapnens sår.",
+      "textSv": "Då nionde råder jag dig: begravning ge om du finner en fallen kropp, av sjukdom död eller död i havet, eller död av vapnens sår. Här är talaren korrekt angiven i databasen: Brynhild/Sigrdrífa i det eddiska kvädet. Användbar för att visa att plikten att begrava en okänd död är förkristen i Norden — samma kollektiva plikt som fard kifāya uttrycker. Deskriptiv parallell, inte likställande.",
+      "author": "Brynhild (Sigrdrífa)",
+      "source": "Sigrdrífumál, Poetiska Eddan"
+    },
+    {
+      "id": "quote-42568",
+      "text": "Ofta med ängslan såg jag på färder från socken till socken från landsvägen emot kyrkgårdarne: 'Du, hvar dig unnas en gång att hvila ditt tröttade hufvud, vet ej, och främling blir du i dödens gård som i lifvets.'",
+      "textSv": "Ofta med ängslan såg jag på färder från socken till socken från landsvägen emot kyrkgårdarne: 'Du, hvar dig unnas en gång att hvila ditt tröttade hufvud, vet ej, och främling blir du i dödens gård som i lifvets.' Det inre citattecknet visar att en gestalt talar, inte Runeberg. Verket är okänt i databasen — skriv »Runeberg« utan verktitel, eller kontrollera först. Sakligt den bästa svenska bryggan till diasporafrågan: att bli främling också på kyrkogården.",
+      "author": "Johan Ludvig Runeberg",
+      "source": "Verk ej angivet i databasen — ange ingen verktitel utan egen kontroll"
+    },
+    {
+      "id": "quote-3846",
+      "text": "Där under hade man alltså grävt ner någon som hade levat, och som nu var död. Besynnerligt...",
+      "textSv": "Där under hade man alltså grävt ner någon som hade levat, och som nu var död. Besynnerligt... En gestalts tanke, inte författarens tes. Användbar som kontrast: den sekulariserade svenska förbryllningen inför graven, mot fiqh-litteraturens genomreglerade gravrum.",
+      "author": "Hjalmar Söderberg",
+      "source": "Förvillelser (1895)"
+    },
+    {
+      "id": "quote-49993",
+      "text": "Döden hade givit dem en stor, dyster betydelse i samhället. Det var deras barn, som dogo, det var deras barn, som satte kyrkklockorna i rörelse.",
+      "textSv": "Döden hade givit dem en stor, dyster betydelse i samhället. Det var deras barn, som dogo, det var deras barn, som satte kyrkklockorna i rörelse. Om begravningen som markör för vem som räknas till orten — direkt relevant för avsnittet om gravkvarteret som tecken på att en grupp slagit rot.",
+      "author": "Hjalmar Bergman",
+      "source": "Vi Bookar, Krokar och Rothar (1912)"
+    },
+    {
+      "id": "quote-50330",
+      "text": "Som främlingar i främmande land möta varandra icke med varma känslor men beredvilliga att hjälpa varandra, därför att allt är främmande och svårt, på samma sätt böra vi människor hjälpa varandra utan glädje och hopp men i vördnad för det stora, främmande, okända.",
+      "textSv": "Som främlingar i främmande land möta varandra icke med varma känslor men beredvilliga att hjälpa varandra... Möjlig avslutningston för det svenska avsnittet. Kontrollera meningen mot romanen innan blockcitat — den är lång och kan vara sammandragen i databasen.",
+      "author": "Hjalmar Bergman",
+      "source": "Vi Bookar, Krokar och Rothar (1912)"
+    },
+    {
+      "id": "quote-8662",
+      "text": "Där är graven, där guds avbild lägges ner och djuret stiger opp!",
+      "textSv": "Där är graven, där guds avbild lägges ner och djuret stiger opp! Sannolikt en gestalts replik i en polemisk roman. Använd bara om avsnittet om kroppens värdighet efter döden skrivs ut; kontrollera talaren först.",
+      "author": "August Strindberg",
+      "source": "Götiska rummen: Släktöden från sekelslutet (1904)"
+    }
+  ],
+  "bookPassages": [
+    {
+      "id": "passage-155512",
+      "text": "قال المصنف في الفصل الثاني لما بعد هذا وسائر الأصحاب: يكره أن يدفن الميت في تابوت إلا إذا كانت الأرض رخوة أو ندية، قالوا: ولا تنفذ وصيته به إلا في مثل هذا الحال، قالوا: ويكون التابوت من رأس المال صرح به البغوي وغيره، وهذا الذي ذكرناه من كراهة التابوت مذهبنا ومذهب العلماء كافة وأظنه إجماعا — ARTIKELNS VIKTIGASTE FIQH-PASSAGE. al-Nawawī: kistan (tābūt) är avrådd utom i lös eller fuktig mark; en testamentarisk önskan om kista verkställs inte utom i det fallet; kostnaden tas ur boets huvudkapital (al-Baghawī m.fl.). »Detta är vår madhhab och alla lärdas madhhab, och jag tror det är ijmāʿ.« Ställ detta mot att svensk praxis i realiteten alltid kräver kista. Notera att al-Nawawī själv anger undantaget för fuktig mark — vilket ger utrymme för att svenska förhållanden ryms i den klassiska regeln.",
+      "bookTitle": "al-Majmūʿ sharh al-Muhadhdhab",
+      "author": "al-Nawawī (d. 676/1277)"
+    },
+    {
+      "id": "passage-155564",
+      "text": "الثالثة: في نقل الميت من بلد إلى بلد قبل دفنه، قال صاحب الحاوي: قال الشافعي رحمه الله تعالى: لا أحبه إلا أن يكون بقرب مكة أو المدينة أو بيت المقدس، فيختار أن ينقل إليها لفضل الدفن فيها. وقال البغوي والشيخ أبو نصر البندنيجي من العراقيين: يكره نقله، وقال القاضي حسين والدارمي والمتولي يحرم نقله — KÄLLBELÄGGET FÖR REPATRIERINGSFRÅGAN. Fyra namngivna hållningar om att föra kroppen till ett annat land före gravläggning: al-Shāfiʿī avråder utom nära Mekka, Medina eller Jerusalem; al-Baghawī och al-Bandanījī: makrūh; al-Qādī Husayn, al-Dārimī och al-Mutawallī: haram. Fortsättningen (passage 155565) tillägger att al-Qādī Husayn och al-Mutawallī anser ett testamente om hemtransport ogiltigt, och att detta är al-asahh, eftersom lagen bjuder skyndsam gravläggning. Detta är alltså inte en modern anpassning: den klassiska huvudfåran talar emot repatriering.",
+      "bookTitle": "al-Majmūʿ sharh al-Muhadhdhab",
+      "author": "al-Nawawī (d. 676/1277)"
+    },
+    {
+      "id": "passage-132083",
+      "text": "وأما من يجوز أن يغسل الميت، فإنهم اتفقوا على أن الرجال يغسلون الرجال، والنساء يغسلن النساء. واختلفوا في المرأة تموت مع الرجال، أو الرجل يموت مع النساء ما لم يكونا زوجين على ثلاثة أقوال: فقال قوم: يغسل كل واحد منهما صاحبه من فوق الثياب. وقال قوم: ييمم كل واحد منهما صاحبه، وبه قال الشافعي وأبو حنيفة وجمهور العلماء. وقال قوم: لا يغسل واحد منهما صاحبه ولا ييممه، وبه قال الليث بن سعد، بل يدفن من غير غسل — MADHHAB-SKILLNADER SVART PÅ VITT. Ibn Rushd redovisar tre positioner om vem som får tvätta en avliden av motsatt kön, och namnger dem: tvagning över kläderna; tayammum (al-Shāfiʿī, Abū Hanīfa, jumhūr); eller varken eller — begravning utan tvagning (al-Layth b. Saʿd). Han förklarar också orsaken till oenigheten: budet att tvätta står mot förbudet att se. Använd denna passage för att visa att »muslimsk begravning« inte är en enda ordning.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtasid",
+      "author": "Ibn Rushd (Averroës, d. 595/1198)"
+    },
+    {
+      "id": "passage-132079",
+      "text": "الفصل الأول: في حكم الغسل فأما حكم الغسل: فإنه قيل فيه إنه فرض على الكفاية. وقيل سنة على الكفاية. والقولان كلاهما في المذهب. والسبب في ذلك: أنه نقل بالعمل لا بالقول، والعمل ليس له صيغة تفهم الوجوب أو لا تفهمه — Ibn Rushd: även tvagningens grundstatus är omtvistad (fard kifāya eller sunna kifāya), och båda åsikterna finns INOM samma madhhab. Skälet han anger är metodologiskt: regeln överfördes genom handling, inte genom ord, och en handling har ingen språkform som visar om den är obligatorisk. Samma passage innehåller dessutom en märklig och citérbar detalj om drunknade: gravläggningen bör fördröjas av rädsla för skendöd, och al-Qādī tillägger att läkarna sade att medvetslösa inte borde begravas förrän efter tre dagar. Ett klassiskt belägg för att skyndsamhetsregeln aldrig var absolut — användbart mot den svenska obduktions- och väntetidsfrågan.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtasid",
+      "author": "Ibn Rushd (Averroës, d. 595/1198)"
+    },
+    {
+      "id": "passage-132127",
+      "text": "وأجمعوا على وجوب الدفن، والأصل فيه قوله تعالى: {ألم نجعل الأرض كفاتا} {أحياء وأمواتا}، وقوله {فبعث الله غرابا يبحث في الأرض}. وكره مالك والشافعي تجصيص القبور، وأجاز ذلك أبو حنيفة — Ibn Rushd anger konsensus om gravläggningens obligatorium OCH dess två koranbelägg: 77:25–26 och 5:31. Direkt därefter en madhhab-skillnad om gravens utsmyckning: Mālik och al-Shāfiʿī avråder från att gipsa/putsa gravar, Abū Hanīfa tillåter det. Relevant för svenska gravstensregler och för 5 kap. i begravningslagen om gravanordningars utformning.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtasid",
+      "author": "Ibn Rushd (Averroës, d. 595/1198)"
+    },
+    {
+      "id": "passage-161302",
+      "text": "ويحفر القبر ويلحد لقوله عليه الصلاة والسلام «اللحد لنا والشق لغيرنا» ويدخل الميت مما يلي القبلة خلافا للشافعي رحمه الله فإن عنده يسل سلا... ويوجه إلى القبلة... ويسجى قبر المرأة بثوب حتى يجعل اللبن على اللحد ولا يسجى قبر الرجل — HANAFITISK GRAVPRAKTIK, med uttrycklig markering »khilāfan li'l-Shāfiʿī«: kroppen förs in från qibla-sidan (hanafitiskt) mot att skjutas in på längden (shāfiʿitiskt). Här står också att ett tygstycke hålls över kvinnans grav men inte över mannens, och att bränt tegel och trä är avrått (يكره الآجر والخشب) — den sista detaljen hänger direkt ihop med kistfrågan.",
+      "bookTitle": "al-Hidāya fī sharh Bidāyat al-mubtadī",
+      "author": "al-Marghīnānī (d. 593/1197)"
+    },
+    {
+      "id": "passage-161299",
+      "text": "ولا يصلى على ميت في مسجد جماعة لقول النبي صلى الله عليه وسلم «من صلى على جنازة في المسجد فلا أجر له» ولأنه بني لأداء المكتوبات ولأنه يحتمل تلويث المسجد — HANAFITISKT FÖRBUD mot janāza-bön inne i moskén, med tre skäl: hadithen om att lönen uteblir, att moskén byggts för de föreskrivna bönerna, och risken att moskén orenas. STÄLL DETTA MOT al-Nawawī (passage 155305), som åberopar ʿĀʾishas ord i Muslim: »Guds sändebud bad förvisso över Ibn Bayḍāʾ i moskén«. Ibn al-Qayyim behandlar samma motsättning i Zād al-maʿād (passage 258084) och landar i att bön utanför moskén är det bättre men att båda är tillåtna. Detta är ämnets renaste exempel på en levande rättsskolestrid — och praktiskt avgörande i Sverige, där moskéer ofta saknar ceremonilokal.",
+      "bookTitle": "al-Hidāya fī sharh Bidāyat al-mubtadī",
+      "author": "al-Marghīnānī (d. 593/1197)"
+    },
+    {
+      "id": "passage-258084",
+      "text": "وكان من هديه صلى الله عليه وسلم تسجية الميت إذا مات وتغميض عينيه، وتغطية وجهه وبدنه. وكان ربما يقبل الميت كما قبل عثمان بن مظعون وبكى... وكان يأمر بغسل الميت ثلاثا أو خمسا أو أكثر بحسب ما يراه الغاسل ويأمر بالكافور في الغسلة الأخيرة وكان لا يغسل الشهداء قتلى المعركة... ويدفنهم في ثيابهم، ولم يصل عليهم — Ibn al-Qayyims sammanfattning av profetisk praxis: att täcka den döde, sluta ögonen, kyssa den döde (Uthmān b. Mazʿūn) och gråta; tvagning tre, fem eller fler gånger efter tvättarens bedömning, med kamfer i sista tvagningen; martyrer tvättas inte, svepes inte, begravs i sina kläder och bes inte över. ANVÄND MARTYRUNDANTAGET: det visar att riten har inbyggda undantag och att »kroppen i sina egna kläder utan tvagning« är en klassiskt erkänd form — relevant för rättsmedicinska fall.",
+      "bookTitle": "Zād al-maʿād fī hady khayr al-ʿibād",
+      "author": "Ibn al-Qayyim al-Jawziyya (d. 751/1350)"
+    },
+    {
+      "id": "passage-258087",
+      "text": "ومقصود الصلاة على الجنازة: هو الدعاء للميت... اللهم اغفر له وارحمه وعافه، واعف عنه وأكرم نزله، ووسع مدخله، واغسله بالماء والثلج والبرد، ونقه من الخطايا كما ينقى الثوب الأبيض من الدنس، وأبدله دارا خيرا من داره، وأهلا خيرا من أهله، وزوجا خيرا من زوجه، وأدخله الجنة وأعذه من عذاب القبر ومن عذاب النار — BEGRAVNINGSBÖNENS FAKTISKA INNEHÅLL, som artikeln bör återge på svenska. Ibn al-Qayyim slår fast att bönens syfte ÄR förbönen för den döde, och citerar den mest kända duʿān. Passage 258088 ger den kollektiva varianten (»förlåt vår levande och vår döde, vår unge och vår gamle...«). Nyöversätt själv; presentera aldrig som ordagrant citat utan kontroll mot en tryckt utgåva.",
+      "bookTitle": "Zād al-maʿād fī hady khayr al-ʿibād",
+      "author": "Ibn al-Qayyim al-Jawziyya (d. 751/1350)"
+    },
+    {
+      "id": "passage-155490",
+      "text": "دفن الميت فرض على الكفاية لأن في تركه على وجه الأرض هتكا لحرمته، ويتأذى الناس من رائحته، والدفن في المقبرة أفضل... ويجوز الدفن في البيت لأن النبي صلى الله عليه وسلم دفن في حجرة عائشة رضي الله عنها... ويستحب أن يجمع الأقارب في موضع واحد — al-Nawawī om gravläggningens grund: fard kifāya, motiverad av att lämna kroppen ovan jord kränker dess helgd. Begravning på begravningsplats är bättre än i hemmet, och det är önskvärt att samla släktingar på samma plats. Det sista är praktiskt relevant för svenska gravkvarter och för Helsingborgsfallet med gravar ovanpå varandra.",
+      "bookTitle": "al-Majmūʿ sharh al-Muhadhdhab",
+      "author": "al-Nawawī (d. 676/1277)"
+    },
+    {
+      "id": "passage-155571",
+      "text": "باب التعزية والبكاء على الميت... تعزية أهل الميت سنة لما روى ابن مسعود رضي الله عنه قال: قال رسول الله صلى الله عليه وسلم: من عزى مصابا فله مثل أجره... وأما وقت التعزية فقال أصحابنا هو من حين الموت إلى حين الدفن، وبعد الدفن إلى ثلاثة أيام — al-Nawawī om taʿziya (kondoleansen): den är sunna, och tiden för den löper från dödsfallet till gravläggningen och därefter tre dagar. Al-Juwaynī tillägger att tredagarsfristen är ungefärlig, inte en exakt gräns. Relevant för svensk arbetsrätt: den religiösa sorgeperioden är kort och tidigt placerad, medan svenska kollektivavtal ger ledighet knuten till begravningsdagen — som kan infalla veckor senare.",
+      "bookTitle": "al-Majmūʿ sharh al-Muhadhdhab",
+      "author": "al-Nawawī (d. 676/1277)"
+    },
+    {
+      "id": "passage-118666",
+      "text": "وكيف لا تكون هذه الخصال محرمة وهي مشتملة على التسخط على الرب وفعل ما يناقض الصبر والإضرار بالنفس من لطم الوجه وحلق الشعر ونتفه والدعاء عليها بالويل والثبور... وقال ابن عبد البر أجمع العلماء على أن النياحة لا تجوز للرجال ولا للنساء — Ibn al-Qayyim om niyāha (rituell klagan): förbjuden, med Ibn ʿAbd al-Barrs konsensuspåstående att den inte är tillåten för vare sig män eller kvinnor. Passage 118663 i samma verk drar dock den avgörande gränsen: gråt och sorg strider INTE mot sabr — »ögat tåras och hjärtat sörjer, men vi säger inget som misshagar Herren«. Artikeln bör återge båda, eftersom bilden av islamisk sorg som känslolös är en vanlig missuppfattning.",
+      "bookTitle": "ʿUddat al-sābirīn wa-dhakhīrat al-shākirīn",
+      "author": "Ibn al-Qayyim al-Jawziyya (d. 751/1350)"
+    },
+    {
+      "id": "passage-170154",
+      "text": "عن ابن عمر، عن أبيه رضي الله عنهما، عن النبي صلى الله عليه وسلم قال: «الميت يعذب في قبره بما نيح عليه»... وقال عمر رضي الله عنه: «دعهن يبكين على أبي سليمان ما لم يكن نقع أو لقلقة» والنقع: التراب على الرأس، واللقلقة: الصوت — Bukhārī, Kitāb al-janāʾiz. Hadithen om att den döde straffas för klagan över honom, MEN i samma kapitel ʿUmars ord: »låt dem gråta över Abū Sulaymān så länge det inte är naqʿ eller laqlaqa« — jord på huvudet eller högljutt skrik. Bukhārī ger alltså själv gränsdragningen. Notera att ʿĀʾisha uttryckligen bestred Ibn ʿUmars återgivning (se al-Nawawī passage 155585 och Tirmidhī 225361): »Gud förlåte Abū ʿAbd al-Rahmān, han ljög inte men han glömde eller misstog sig.« En hadithkritisk strid mellan följeslagare, återgiven i de kanoniska samlingarna — utmärkt material för att visa hur traditionen självkorrigerar.",
+      "bookTitle": "Sahīh al-Bukhārī, Kitāb al-janāʾiz",
+      "author": "al-Bukhārī (d. 256/870)"
+    },
+    {
+      "id": "passage-116533",
+      "text": "عن أبي هريرة رضي الله عنه قال: قال رسول الله صلى الله عليه وسلم: «من شهد الجنازة حتى يصلي عليها فله قيراط، ومن شهدها حتى تدفن فله قيراطان» قيل وما القيراطان؟ قال: «مثل الجبلين العظيمين» متفق عليه. وعن أم عطية رضي الله عنها قالت: «نهينا عن اتباع الجنائز، ولم يعزم علينا» متفق عليه — Riyād al-sālihīn, kapitel 155. Qīrāt-hadithen om lönen för att följa begravningen ända till gravläggningen. Direkt efter kommer Umm ʿAtiyyas ord om att kvinnor avråddes från att följa båren »men det ålades oss inte strängt« — al-Nawawī förklarar själv: förbudet skärptes inte som förbud mot det otillåtna skärps. KVINNORS NÄRVARO VID GRAVEN är en verklig och omdiskuterad fråga som artikeln inte får hoppa över; detta är det klassiska nyckelbelägget och det är uttryckligen mjukt formulerat.",
+      "bookTitle": "Riyād al-sālihīn",
+      "author": "al-Nawawī (d. 676/1277)"
+    },
+    {
+      "id": "passage-222479",
+      "text": "«ونهيتكم عن زيارة القبور، فمن أراد أن يزور فليزر، ولا تقولوا هجرا»... زار رسول الله صلى الله عليه وسلم قبر أمه، فبكى وأبكى من حوله، وقال: «استأذنت ربي عز وجل في أن أستغفر لها فلم يؤذن لي، واستأذنت في أن أزور قبرها فأذن لي، فزوروا القبور فإنها تذكركم الموت» — al-Nasāʾī: den uttryckliga upphävningen av förbudet mot gravbesök (»jag förbjöd er att besöka gravarna; den som vill besöka, låt honom besöka«) och berättelsen om Profetens besök vid sin mors grav. Grunden för gravbesökets tillåtlighet — och därmed för varför gravplatsens tillgänglighet i Sverige är en religiös och inte bara sentimental fråga.",
+      "bookTitle": "Sunan al-Nasāʾī",
+      "author": "al-Nasāʾī (d. 303/915)"
+    },
+    {
+      "id": "passage-258113",
+      "text": "كان إذا زار قبور أصحابه يزورها للدعاء لهم، والترحم عليهم، والاستغفار لهم، وهذه هي الزيارة التي سنها لأمته... السلام عليكم أهل الديار من المؤمنين والمسلمين، وإنا إن شاء الله بكم لاحقون، نسأل الله لنا ولكم العافية. فأبى المشركون إلا دعاء الميت والإشراك به — Ibn al-Qayyim skiljer skarpt mellan två slags gravbesök: bön FÖR den döde (sunna) och åkallan AV den döde (shirk). Ibn Taymiyya gör samma distinktion i Minhāj al-sunna (passage 296437) och i al-Istighātha (passage 108404), där han också åberopar Mālik: att stå och be vid Profetens grav är en bidʿa som varken följeslagarna eller efterföljarna gjorde. Detta är den interna muslimska stridsfrågan — salafitisk kritik mot gravkult — och artikeln bör redovisa den som en levande oenighet mellan muslimer, inte som en yttre kritik.",
+      "bookTitle": "Zād al-maʿād fī hady khayr al-ʿibād",
+      "author": "Ibn al-Qayyim al-Jawziyya (d. 751/1350)"
+    },
+    {
+      "id": "passage-136586",
+      "text": "والواجب في صلاة الجنازة النية، والتكبيرات، والقيام، وقراءة الفاتحة، والصلاة على النبي صلى الله عليه وسلم وأدنى دعاء للميت، وتسليمة واحدة. ويشترط لها شرائط المكتوبة، إلا الوقت... ويستحب أن يصف في الصلاة على الجنائز ثلاثة صفوف — Ibn Qudāma (hanbalitiskt) räknar upp janāza-bönens obligatoriska beståndsdelar: avsikt, takbīrerna, att stå, al-Fātiha, välsignelsen över Profeten, minst en bön för den döde, och en salām. Alla villkor för den föreskrivna bönen gäller UTOM tiden. Den sista klausulen är viktig i Sverige: bönen är inte bunden till bönetiderna och kan alltså hållas när en ceremonilokal är ledig.",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma al-Maqdisī (d. 620/1223)"
+    },
+    {
+      "id": "passage-136623",
+      "text": "لم يزل الصحابة والتابعون ومن بعدهم يقبرون في الصحاري. فإن قيل: فالنبي صلى الله عليه وسلم قبر في بيته، وقبر صاحباه معه؟ قلنا: قالت عائشة إنما فعل ذلك لئلا يتخذ قبره مسجدا. رواه البخاري — Ibn Qudāma om varför Profeten begravdes i hemmet och inte på al-Baqīʿ: enligt ʿĀʾisha just för att graven inte skulle göras till en moské. Ett belägg som både förklarar den klassiska motviljan mot gravmonument och underbygger den nyktra, lågmälda gravutformning som svenska muslimska gravkvarter i praktiken har.",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma al-Maqdisī (d. 620/1223)"
+    },
+    {
+      "id": "passage-228945",
+      "text": "وأحب لمن غسل الميت أن يغتسل، وليس بالواجب عندي... ولا بأس أن يغسل المسلم إذا قرابته من المشركين، ويتبع جنائزه، ويدفنه ولكن لا يصلي عليه، وذلك أن النبي صلى الله عليه وسلم أمر عليا رضي الله عنه بغسل أبي طالب. ولا بأس أن يعزى المسلم إذا مات — al-Shāfiʿī i egen person, och en passage med stor svensk relevans: en muslim får tvätta, följa och begrava sin icke-muslimska anhörige, men inte be janāza-bönen över honom — med Profetens befallning till ʿAlī att tvätta Abū Tālib som belägg. Och: en muslim får kondoleras när en icke-muslimsk förälder dör (al-Rabīʿ preciserar: »om hans far dog som otrogen«). I ett Sverige med religiöst blandade familjer är detta den mest praktiskt användbara klassiska texten i hela materialet.",
+      "bookTitle": "Kitāb al-Umm",
+      "author": "al-Shāfiʿī (d. 204/820)"
+    },
+    {
+      "id": "passage-229011",
+      "text": "وأكره النياحة على الميت بعد موته، وأن تندبه النائحة على الانفراد لكن يعزى بما أمر الله عز وجل من الصبر، والاسترجاع، وأكره المأتم، وهي الجماعة، وإن لم يكن لهم بكاء فإن ذلك يجدد الحزن، ويكلف المؤنة — al-Shāfiʿī avråder inte bara från klagan utan från al-maʾtam, sorgesamlingen som sådan, även utan gråt: den återuppväcker sorgen och medför kostnader. En sträng klassisk hållning som står i märkbar spänning med den utbredda samtida seden att hålla stora sorgemottagningar — värd att redovisa.",
+      "bookTitle": "Kitāb al-Umm",
+      "author": "al-Shāfiʿī (d. 204/820)"
+    },
+    {
+      "id": "passage-155426",
+      "text": "وأجمعوا على تحريم الصلاة على الكافر، ويجوز غسله وتكفينه ودفنه... أما إذا اختلط مسلمون بكفار، ولم يتميزوا، فقال أصحابنا: يجب غسل جميعهم وتكفينهم والصلاة عليهم، ودفنهم... ولا فرق عندنا أن يكون عدد المسلمين أكثر أو أقل حتى لو اختلط مسلم بمائة كافر وجب غسل الجميع وتكفينهم والصلاة عليهم ودفنهم — En anmärkningsvärd regel hos al-Nawawī: om muslimska och icke-muslimska döda inte kan skiljas åt måste ALLA tvättas, svepas, bes över och begravas — även om det rör sig om en muslim bland hundra icke-muslimer. Motiveringen är att plikten inte kan fullgöras på annat sätt. Ett klassiskt belägg för att osäkerhet ska lösas till förmån för att alla behandlas värdigt; användbart i avsnittet om katastrofer och oidentifierade döda.",
+      "bookTitle": "al-Majmūʿ sharh al-Muhadhdhab",
+      "author": "al-Nawawī (d. 676/1277)"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-begravningslagen-lagennu",
+      "url": "https://lagen.nu/1990:1144",
+      "title": "Begravningslag (1990:1144) — lagen.nu",
+      "keyFindings": [
+        "2 kap. 2 §: »Huvudmannen skall, inom det egna förvaltningsområdet eller inom ett närbeläget förvaltningsområde, tillhandahålla särskilda gravplatser för dem som inte tillhör något kristet trossamfund.« Notera formuleringen: negativt bestämd (»inte kristet«), inte positivt namngivna trossamfund.",
+        "5 kap. 10 §: »Stoftet efter en avliden eller en dödfödd som avses i 2 kap. 3 § första stycket ska kremeras eller gravsättas snarast möjligt och senast en månad efter dödsfallet.«",
+        "7 kap. 5 §: »En gravrätt får upplåtas för viss tid, minst 15 och högst 50 år, eller för alltid.« — evig gravrätt är alltså tillåten men inte obligatorisk; det är den valfriheten som skapar konflikten.",
+        "6 kap. 1 §: stoft eller aska som gravsatts får inte flyttas, men tillstånd kan ges om det finns särskilda skäl.",
+        "VIKTIGT NEGATIVT FYND: lagen innehåller INGEN uttrycklig bestämmelse om kista eller svepning. Kravet på kista följer av hanterings- och arbetsmiljöregler, inte av begravningslagen. Skriv inte att »lagen kräver kista«."
+      ]
+    },
+    {
+      "id": "src-begravningslagen-riksdagen",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/begravningslag-19901144_sfs-1990-1144/",
+      "title": "Begravningslag (1990:1144) — Sveriges riksdag (officiell SFS-text)",
+      "keyFindings": [
+        "Oberoende kontroll: ger ordagrant identisk lydelse av 2 kap. 2 §, 5 kap. 10 § och 7 kap. 5 § som lagen.nu. Båda källorna är alltså samstämmiga och lagtexten kan citeras med säkerhet.",
+        "Använd denna URL som primärkälla i noter; lagen.nu som läsvänligt komplement."
+      ]
+    },
+    {
+      "id": "src-prop-2011-12-51",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/proposition/nagra-begravningsfragor_gz0351/html/",
+      "title": "Proposition 2011/12:51 »Några begravningsfrågor« (framlagd 15 december 2011)",
+      "keyFindings": [
+        "HÄR KOM ENMÅNADSFRISTEN. Fristen för kremering eller gravsättning kortades från två månader till en månad. Riksdagen biföll propositionen 15 mars 2012.",
+        "MOTIVEN VAR INTE RELIGIÖSA. Regeringen anger snabbare hantering, minskat behov av balsamering, samt miljö- och arbetsmiljöskäl. Genomsnittstiden hade stigit till 18,8 dagar 2008, i Stockholm 27,8 dagar. Detta är en central poäng för artikeln: den svenska skärpningen råkade närma sig det muslimska idealet men gjordes av helt andra skäl.",
+        "Skärpta krav på begravningsombud, med uttryckligt krav på »kunskapen om och förståelse för olika religioner« vid lämplighetsbedömningen.",
+        "Bygger på Begravningsutredningens betänkande SOU 2009:79, som föreslog att begravningsombud särskilt ska granska hur huvudmannen fullgör skyldigheten att tillhandahålla särskilda gravplatser för icke-kristna."
+      ]
+    },
+    {
+      "id": "src-interpellation-2024-25-297",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/interpellation/ratten-till-begravning_hc10297/",
+      "title": "Interpellation 2024/25:297 »Rätten till begravning« av Ola Möller (S), 19 december 2024",
+      "keyFindings": [
+        "FÄRSKASTE PRIMÄRKÄLLAN PÅ SVENSK NIVÅ, och den mest konkreta. Helsingborgs muslimska gravplats är så överfull att man enligt Möller »begraver familjemedlemmar ovanpå varandra i djupare grävda gravar. Det är väldigt ovärdigt«.",
+        "En planerad ersättningsgravplats stoppades trots tidigare överenskommelser — bland invändningarna anfördes att de boende hade amalgamfyllningar i tänderna. Detta är en konkret, citérbar detalj som visar hur miljöargument används i lokala konflikter.",
+        "Möllers principfråga: alla betalar begravningsavgift och bör ha likvärdig rätt till begravning oavsett religion. Han ifrågasätter om Svenska kyrkans huvudmannaskap, som härrör från tiden före skiljandet från staten, fortfarande är ändamålsenligt.",
+        "Ger vänsterkritiken mot huvudmannaskapet — parallell till, men motsatt i slutsats mot, Fredrik Malms liberala kritik."
+      ]
+    },
+    {
+      "id": "src-motion-2025-26-710",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/begravningsavgift_hd02710/",
+      "title": "Motion 2025/26:710 »Begravningsavgift« av Fredrik Malm (L), 1 oktober 2025",
+      "keyFindings": [
+        "»Begravningsavgiften är ingen avgift – det är en skatt.« Malm menar att den inte uppfyller de rättsliga kriterierna för en avgift: den beräknas på inkomst, inte på faktisk kostnad eller mottagen tjänst.",
+        "Föreslår att avgiften »ska reformeras på så sätt att den görs till en del av det offentligt beslutade skatteuttaget«.",
+        "Anför Stockholms kommunala huvudmannaskap (7,0 öre) mot rikssnittet (27,7 öre) som bevis för bristande kostnadskontroll; nämner Kammarkollegiets felberäkning 2016.",
+        "Relevant för artikeln därför att den visar att kritiken mot systemet inte är religiöst betingad — den finns oberoende av frågan om muslimska gravplatser, vilket motverkar bilden av att detta enbart handlar om islam."
+      ]
+    },
+    {
+      "id": "src-motion-1990-91-K622",
+      "url": "https://data.riksdagen.se/dokument/GE02K622",
+      "title": "Motion 1990/91:K622 »Begravningslagen m.m.« av Lars Ahlmark (m)",
+      "keyFindings": [
+        "DEN ÄLDSTA OCH RENASTE FORMULERINGEN AV LIKHETSINVÄNDNINGEN, från själva lagstiftningsögonblicket: »Inom vissa andra religioner krävs att gravar inte återanvänds.« Ahlmark ser en ohållbar situation där icke-kristna trosriktningar skulle få bättre gravskydd än kristna.",
+        "Om de cirka 800 000 eviga gravrättsavtalen: »Det måste anses strida mot rättskänslan att eviga avtal på detta sätt bringas att upphöra.«",
+        "Föreslår att kommunerna, inte kyrkan, ska ansvara för icke-kristnas gravplatser — samma slutsats som Ola Möller når 34 år senare, från motsatt håll politiskt.",
+        "ANVÄND DENNA SOM DEN STARKASTE INVÄNDNINGEN i avsnittet om gravens bestånd. Den är en jämlikhetsinvändning, inte en fientlig invändning, och måste bemötas som sådan."
+      ]
+    },
+    {
+      "id": "src-sorgenfrei-sst",
+      "url": "https://www.mucf.se/publikationer/muslimska-begravningsseder-och-begravningscermonier",
+      "title": "Simon Sorgenfrei, »Muslimska begravningsseder och begravningsceremonier«, Myndigheten för stöd till trossamfund (SST), 2021",
+      "keyFindings": [
+        "DEN ENDA MYNDIGHETSUTGIVNA SVENSKA ÖVERSIKTEN över ämnet. Författare: Simon Sorgenfrei, religionsvetare vid Södertörns högskola. Utgiven 4 februari 2021 av SST (verksamheten har sedermera överförts till MUCF, vilket förklarar att skriften nu ligger på mucf.se).",
+        "Uttryckligt syfte enligt skriften: att »fungera som vägledning för dem som på olika sätt kommer i kontakt med begravningsfrågor« — kommuner, regioner, muslimska församlingar, Svenska kyrkan, kyrkogårdsförvaltningar och begravningsbyråer.",
+        "Behandlar mångfalden inom muslimska begravningsseder, teologiska aspekter och muslimska gravkvarter på begravningsplatser runt om i Sverige. Sorgenfrei framhåller att gravplatsen för muslimer och andra minoriteter blir en markör för att gruppen slagit rot i landet.",
+        "OBS FÖR FÖRFATTAREN: fulltexten är en PDF (3,26 MB) som inte kunde hämtas med de verktyg som stod till buds här. Landningssidan är verifierad; PDF-innehållet är refererat via sekundärkällor och landningssidans egen beskrivning. Citera inte ur PDF:en utan att först ha öppnat den."
+      ]
+    },
+    {
+      "id": "src-korn-bulletin",
+      "url": "https://bulletin.nu/korn-muslimsk-begravning-en-ansvarsfraga",
+      "title": "Dan Korn, »Muslimsk begravning – en ansvarsfråga«, Bulletin",
+      "keyFindings": [
+        "INVÄNDNINGEN I SIN STARKASTE FORM — hämta den härifrån, inte i en tillrättalagd version. Korn (chefredaktör, med judisk församlingsbakgrund) argumenterar INTE mot att muslimer ska begravas i Sverige, utan mot att särskilda gravplatser finansieras via den allmänna begravningsavgiften.",
+        "»Vill du ha en muslimsk begravningsplats ska du självklart få det, men varsågod att betala.«",
+        "»Genom att inte ställa krav underlättar Svenska kyrkan inte integration, utan försvårar den.«",
+        "»Ansträngning ger inträdesbiljetten till gemenskapen.«",
+        "Bär fram det historiska prejudikatet: judiska församlingar byggde och finansierade egna begravningsplatser genom medlemsavgifter. Artikeln måste bemöta detta sakligt — bland annat med att judiska begravningsplatser är enskilda begravningsplatser i lagens mening, medan 2 kap. 2 § ålägger huvudmannen en skyldighet mot alla folkbokförda oavsett samfundstillhörighet."
+      ]
+    },
+    {
+      "id": "src-svt-aggedal",
+      "url": "https://www.svt.se/nyheter/lokalt/skane/integration-kan-fungerar-aven-pa-en-begravningsplats",
+      "title": "»Religionsforskaren: Integration kan fungera även på en begravningsplats«, SVT Nyheter Skåne, 24 maj 2021",
+      "keyFindings": [
+        "MOTARGUMENTET till Korn, från Jan-Olof Aggedal, docent i teologi och kontraktsprost i Lunds stift.",
+        "»Det är förståligt att människor reagerar. Samtidigt gör vi allt i livet för att integreras med varandra.«",
+        "Aggedal framhåller att viljan att upprätthålla traditioner kring döden är allmänmänsklig och ger trygghet i övergången — muslimer värderar dem lika högt som kristna.",
+        "Lokal kontext: Börringe kyrka i Svedala kommun, där en muslimsk gravplats intill den kristna kyrkogården väckte protester med argumentet att endast kristna borde begravas vid en kristen kyrka."
+      ]
+    },
+    {
+      "id": "src-varldenidag-skane",
+      "url": "https://www.varldenidag.se/nyheter/muslimska-gravplatser-vid-kyrkor-ifragasatts/repues!MLVOlT@9S1SaAcYvzEwGig/",
+      "title": "Ingrid Byström, »Muslimska gravplatser vid kyrkor ifrågasätts«, Världen idag, 20 maj 2021",
+      "keyFindings": [
+        "Dokumenterar den lokala konflikten i Skåne: »Orsaken till de nya begravningsplatserna är att den muslimska begravningsplatsen på Östra Kyrkogården i Malmö är full.«",
+        "Malmö pastorat sade upp avtalen med kringliggande församlingar, som därmed tvingades ordna egna lösningar — kapacitetsbristen är alltså orsaken till att frågan sprids till mindre orter där den blir kontroversiell.",
+        "I Svedala kommun lämnades en namninsamling in till kyrkorådet.",
+        "OBS: artikeln är betalvägg-skyddad; endast ingressen kunde läsas. Ursprungskälla anges vara Sydsvenska Dagbladet. Kontrollera mot Sydsvenskan innan detaljer citeras."
+      ]
+    },
+    {
+      "id": "src-polat-lawandreligion",
+      "url": "https://lawandreligionuk.com/2021/07/30/invasive-post-mortems-and-religious-sensibilities-polat-v-austria/",
+      "title": "»Invasive post-mortems and religious sensibilities: Polat v Austria«, Law & Religion UK, 30 juli 2021",
+      "keyFindings": [
+        "DET AVGÖRANDE EUROPADOMSTOLSMÅLET. Polat mot Österrike, ansökan nr 12886/16, dom 20 juli 2021 (fjärde sektionen), citerad som [2021] ECHR 658. Domstolen fann kränkning av BÅDE artikel 8 och artikel 9.",
+        "Sakfrågan är exakt artikelns: föräldrarna motsatte sig obduktion av sitt nyfödda barn på religiös grund, eftersom de ville begrava sonen enligt muslimsk sed vilket krävde att kroppen förblev så oskadad som möjligt.",
+        "DEN AVGÖRANDE DETALJEN SOM KNYTER IHOP FIQH OCH EUROPARÄTT: modern hade förklarat att man enligt muslimsk tro ville tvätta kroppen före begravningen, och att olika tvagningsriter gäller för män och kvinnor. När kroppen vanställts kunde »the ritual washing could not take place« och begravningen fick ställas in. Ghusl-frågan i al-Majmūʿ och al-Umm är alltså samma fråga som Europadomstolen prövade 2021.",
+        "Domstolens grund för fällning: myndigheterna underlät att göra en avvägning mellan det vetenskapliga intresset av obduktionen och moderns religiösa intresse, och sjukhuset informerade henne inte om organuttaget. Ersättning omkring 38 800 euro.",
+        "Rättsprincipen att bära vidare: sättet att begrava sina döda är en väsentlig del av religionsutövningen och omfattas av rätten att utöva sin religion enligt artikel 9; uttag av organ eller vävnad utan samtycke faller inom de efterlevandes »privatliv« enligt artikel 8.",
+        "OBS: HUDOC-sidan (hudoc.echr.coe.int) är JavaScript-renderad och kunde inte hämtas — använd denna verifierade sammanfattning och slå upp domen i HUDOC på målnumret."
+      ]
+    },
+    {
+      "id": "src-vardhandboken-obduktion",
+      "url": "https://www.vardhandboken.se/vard-och-behandling/dodsfall-och-vard-i-livets-slutskede/obduktion-rutiner-och-beslut/religiosa-och-etniska-synpunkter/",
+      "title": "»Religiösa och etniska synpunkter« (obduktion), Vårdhandboken (utges av Inera)",
+      "keyFindings": [
+        "SVENSK VÅRDNORM, SVART PÅ VITT: »Muslimska församlingar undanber sig obduktion men kan göra undantag om det gäller medicinsk forskning som syftar till att minska lidandet för andra, när det gäller en mycket sällsynt sjukdom eller vid misstanke om brott.«",
+        "»Efter obduktionen ska alla organ återföras till den avlidnes kropp.«",
+        "Viktig nyansering för artikeln: den svenska vårdnormen erkänner alltså redan undantagen och organåterföringen. Konflikten i Polat mot Österrike gällde just att en sådan avvägning uteblev — inte att den vore omöjlig.",
+        "Vårdhandboken utges av Inera (ägt av regioner och kommuner) och är den praktiska normkällan för svensk vårdpersonal, vilket gör den till rätt källa för vad som faktiskt gäller vid en svensk sjukhusavdelning."
+      ]
+    },
+    {
+      "id": "src-svt-repatriering",
+      "url": "https://www.svt.se/nyheter/lokalt/vast/dyrt-och-krangligt-att-begravas-i-annat-land",
+      "title": "»Dyrt och krångligt att begravas i annat land«, SVT Nyheter Väst, 6 december 2016",
+      "keyFindings": [
+        "DEN SIFFRA SOM KULLKASTAR EN VANLIG FÖRESTÄLLNING: »Det är kanske 0,5 procent som skickar kroppen till hemlandet« — Kalssom Kaleem, medieansvarig vid Göteborgs moské. Muslimsk begravning är alltså i praktiken en svensk fråga, inte en repatrieringsfråga.",
+        "Kostnadsuppgifter: transport till Island cirka 25 000 kr; till Uganda 53 000 kr. Johan Mihailovici, handläggare vid Fonus: »Man får räkna med 150 kilo minimum, och det kan kosta över 100 kronor kilot så det blir rätt dyrt redan från början.«",
+        "OBS EN FÄLLA: allmänna källor anger kremering plus urntransport som det billiga alternativet vid hemtransport. Det alternativet står INTE öppet för muslimer, eftersom kremering är förbjuden. Kostnadströskeln slår därför hårdare mot muslimska familjer än mot andra.",
+        "Siffran är från 2016 och kommer från en enskild församlingsföreträdare, inte från registerdata. Ange den som en uppskattning från Göteborgs moské, inte som nationell statistik."
+      ]
+    },
+    {
+      "id": "src-kyrkanstidning-gravfrid",
+      "url": "https://www.kyrkanstidning.se/nyhet/evig-gravfrid-ifragasatts-ny-studie-granskar-framtidens-kyrkogardar",
+      "title": "»Evig gravfrid ifrågasätts – ny studie granskar framtidens kyrkogårdar«, Kyrkans Tidning, 21 juli 2025",
+      "keyFindings": [
+        "FÄRSK KÄLLA (2025) om det som är artikelns strukturella kärnkonflikt. Projektet »Härifrån till evigheten – En studie om hur evig gravfrid tolkas i praktiken« leds av Helena Nordh, professor i landskapsarkitektur vid SLU.",
+        "Nordh: »Gravrätten går att förlänga men återlämnas graven av de anhöriga får den återanvändas.« Evig gravfrid är alltså en svensk praxis snarare än en absolut rättsregel.",
+        "»För enligt samstämmiga rapporter från olika delar av begravningsväsendet kommer det inom kanske tio år att bli brist på gravplatser« i storstäderna.",
+        "Sverige avviker från många europeiska länder, där kvarlevor flyttas till benhus (ossuarier) när gravrätten löper ut — i Sverige hindras det av gravfriden.",
+        "VIKTIGT NEGATIVT FYND, redovisa ärligt: artikeln nämner INTE muslimska eller judiska krav. Kopplingen mellan platsbristen och de icke-kristna gravkvarteren är alltså artikelns egen analys och måste framställas som sådan, inte som studiens slutsats."
+      ]
+    },
+    {
+      "id": "src-wikipedia-islam-sverige",
+      "url": "https://sv.wikipedia.org/wiki/Islam_i_Sverige",
+      "title": "»Islam i Sverige«, svenskspråkiga Wikipedia (hämtad via Wikipedias REST-API)",
+      "keyFindings": [
+        "DATERINGEN AV DET FÖRSTA MUSLIMSKA GRAVKVARTERET: »På 1950-talet köptes de första begravningsplatserna för muslimer vid Skogskyrkogården i Stockholm.« Sveriges första muslimska kulturförening (Turk-Islam Föreningen) grundades i Stockholm 1949 av Ebrahim Umerkajeff, Akif Arhan, Osman Soukkan och Ali Zakerov. Gravplatsen kom alltså nästan omedelbart efter församlingen — ett belägg för Sorgenfreis tes att gravkvarteret är rotmarkören.",
+        "Statistikens spännvidd, som artikeln bör redovisa i stället för att välja en siffra: drygt 224 000 medlemmar eller registrerade regelbundna deltagare i statsbidragsberättigade islamiska församlingar (2021), mot cirka 110 000 år 2010. Uppskattningar av självidentifierade muslimer varierar mellan 260 000 (egen beräkning på SOM-institutet 2019), 500 000 (forskningsstudie 2020) och 810 000 (Pew 2017).",
+        "Metodologiskt avgörande: den sista folkräkningen där trosuppfattning efterfrågades var 1930 (då 15 personer uppgav sig vara muslimer). Statlig registrering av tro är numera olaglig — därför VET staten inte hur många troende muslimer som finns i Sverige. Detta måste sägas rakt ut i artikeln.",
+        "Mellan en femtedel och en tredjedel av »kulturella muslimer« uppskattas vara aktiva religionsutövare — relevant för hur många som faktiskt efterfrågar en religiöst reglerad begravning.",
+        "Sju islamiska riksorganisationer får stöd via SST, alla samlade i Islamiska samarbetsrådet.",
+        "OBS: Wikipedia är en tertiärkälla. Använd den för att strukturera och för att hitta primärkällorna (SST/MUCF:s bidragsstatistik, Pew 2017, SOM-institutet), inte som belägg i not."
+      ]
+    },
+    {
+      "id": "src-skkf-krematorier",
+      "url": "https://skkf.se/krematorieverksamheten/",
+      "title": "Krematorieverksamheten — SKKF (Sveriges kyrkogårds- och krematorieförbund)",
+      "keyFindings": [
+        "SKKF är den organisation som årligen samlar in kremationsstatistiken: »Varje år samlar SKKF in statistik över antalet kremerade i vårt land«, med angiven serie 2008–2025.",
+        "OBS FÖR FÖRFATTAREN: sidan indexerar statistiken men visar inte själva talen. Kremationsandelen på drygt 83 procent är hämtad ur sekundära sammanställningar som refererar SKKF, inte avläst direkt ur tabellen. Kontrollera siffran mot SKKF:s statistiksida eller kontakta kansliet innan ett exakt tal sätts i tryck.",
+        "Kremeringen är artikelns skarpaste strukturella kontrast: en av världens högsta kremationsandelar mot ett religiöst förbud — vilket betyder att svensk begravningsinfrastruktur är dimensionerad kring en praktik islam inte tillåter."
+      ]
+    },
+    {
+      "id": "src-sou-2009-79",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/statens-offentliga-utredningar/nagra-begravningsfragor_GXB379d2/html/",
+      "title": "SOU 2009:79 »Några begravningsfrågor« — Begravningsutredningens betänkande",
+      "keyFindings": [
+        "Betänkandet bakom prop. 2011/12:51, avlämnat i september 2009.",
+        "Föreslog att begravningsombud särskilt ska granska hur huvudmannen fullgör BÅDA skyldigheterna: att tillhandahålla ceremonilokal utan religiösa symboler OCH att tillhandahålla särskilda gravplatser för dem som inte tillhör något kristet trossamfund. Detta är den formella tillsynsmekanismen — artikeln bör nämna den, eftersom debatten annars framstår som helt oreglerad.",
+        "Utredningen tog också upp länsstyrelsernas tillsyn, variationen i begravningsavgiftens nivå och begravningsclearing.",
+        "OBS: denna URL kommer från sökresultat men hämtades inte i sin helhet under researcharbetet. Innehållet ovan bygger på sökreferat och på prop. 2011/12:51, som är verifierad. Öppna betänkandet innan sidhänvisningar anges."
+      ]
+    }
+  ],
+  "datasets": [
+    {
+      "id": "ds-muslimer-sverige",
+      "question": "Hur många muslimer finns det i Sverige, och varför skiljer sig siffrorna åt?",
+      "unit": "personer",
+      "source": "Sammanställning ur svenskspråkiga Wikipedia »Islam i Sverige«, som i sin tur refererar SST/MUCF:s bidragsstatistik, SOM-institutet, Pew Research Center och Leif Stenberg",
+      "sourceUrl": "https://sv.wikipedia.org/wiki/Islam_i_Sverige",
+      "retrieved": "2026-09-02",
+      "note": "Kan INTE användas för att ange hur många som efterfrågar en religiöst reglerad begravning. Sverige för ingen religionsstatistik sedan 1930-talet och statlig registrering av tro är olaglig — staten vet alltså inte antalet troende muslimer. Mellan en femtedel och en tredjedel av »kulturella muslimer« uppskattas vara aktiva religionsutövare, men även den andelen är en uppskattning. Måtten mäter olika saker och får aldrig ställas mot varandra som om de vore konkurrerande mätningar av samma storhet. Wikipedia är dessutom en tertiärkälla: gå till SST/MUCF, Pew och SOM-institutet innan siffror sätts i not.",
+      "columns": [
+        "Mått",
+        "Antal",
+        "År",
+        "Vad måttet faktiskt fångar"
+      ],
+      "rows": [
+        {
+          "label": "Medlemmar/registrerade regelbundna deltagare i statsbidragsberättigade islamiska församlingar",
+          "values": [
+            "drygt 224 000",
+            "2021",
+            "Snävast och mest verifierbart: församlingarnas egna uppgifter till bidragsmyndigheten"
+          ]
+        },
+        {
+          "label": "Samma mått tio år tidigare",
+          "values": [
+            "cirka 110 000",
+            "2010",
+            "Visar en fördubbling på ett decennium"
+          ]
+        },
+        {
+          "label": "Självidentifierade muslimer, beräkning på SOM-institutets data",
+          "values": [
+            "cirka 260 000",
+            "2019",
+            "Survey-baserad självidentifikation"
+          ]
+        },
+        {
+          "label": "Självidentifierade muslimer, forskningsstudie",
+          "values": [
+            "cirka 500 000",
+            "2020",
+            "Forskningsbaserad skattning"
+          ]
+        },
+        {
+          "label": "Muslimsk befolkning enligt Pew Research Center",
+          "values": [
+            "cirka 810 000",
+            "2017 (data per mitten av 2016)",
+            "Modellskattning; kritiserad för att inkludera icke-troende med muslimsk bakgrund"
+          ]
+        },
+        {
+          "label": "Personer med bakgrund och kulturell identitet i muslimska miljöer",
+          "values": [
+            "cirka 1 000 000",
+            "2016–2017",
+            "Härkomstbaserat, oavsett tro"
+          ]
+        },
+        {
+          "label": "Personer som uppgav sig vara muslimer i den sista folkräkning som frågade om tro",
+          "values": [
+            "15",
+            "1930",
+            "Historisk kuriositet som visar varför registerdata saknas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ds-begravningslagen-nyckelparagrafer",
+      "question": "Vilka bestämmelser i begravningslagen styr förutsättningarna för en muslimsk begravning i Sverige?",
+      "unit": "lagtext",
+      "source": "Begravningslag (1990:1144), SFS-text hos Sveriges riksdag, kontrollerad mot lagen.nu",
+      "sourceUrl": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/begravningslag-19901144_sfs-1990-1144/",
+      "retrieved": "2026-09-02",
+      "note": "Lagen innehåller INGEN bestämmelse om kista eller svepning. Skriv därför aldrig att »begravningslagen kräver kista« — kravet följer av regler om hantering, förvaring, transport och arbetsmiljö. Tabellen återger enskilda paragrafer utan deras undantag och följdbestämmelser och ersätter inte en läsning av hela kapitlen; den säger heller ingenting om hur bestämmelserna tillämpas i praktiken, vilket är där konflikterna uppstår.",
+      "columns": [
+        "Lagrum",
+        "Lydelse",
+        "Betydelse för muslimsk begravning"
+      ],
+      "rows": [
+        {
+          "label": "2 kap. 2 §",
+          "values": [
+            "Huvudmannen skall, inom det egna förvaltningsområdet eller inom ett närbeläget förvaltningsområde, tillhandahålla särskilda gravplatser för dem som inte tillhör något kristet trossamfund.",
+            "Rättslig grund för muslimska gravkvarter. Notera den negativa bestämningen och att skyldigheten kan fullgöras i ett NÄRBELÄGET förvaltningsområde — vilket är det som gör långa avstånd lagliga."
+          ]
+        },
+        {
+          "label": "5 kap. 10 §",
+          "values": [
+            "Stoftet efter en avliden eller en dödfödd som avses i 2 kap. 3 § första stycket ska kremeras eller gravsättas snarast möjligt och senast en månad efter dödsfallet.",
+            "Yttre tidsram. »Snarast möjligt« ger utrymme för det muslimska skyndsamhetsidealet; enmånadsgränsen är taket, inte normen."
+          ]
+        },
+        {
+          "label": "7 kap. 5 §",
+          "values": [
+            "En gravrätt får upplåtas för viss tid, minst 15 och högst 50 år, eller för alltid.",
+            "Evig gravrätt är TILLÅTEN men inte obligatorisk. Det är huvudmannens val, inte lagen, som avgör om kravet på en orörd grav kan tillgodoses."
+          ]
+        },
+        {
+          "label": "6 kap. 1 §",
+          "values": [
+            "Stoft eller aska som har gravsatts på en begravningsplats får inte flyttas från en gravplats för att gravsättas någon annanstans. Tillstånd får dock ges till en sådan flyttning, om det finns särskilda skäl för det.",
+            "Gravfriden är stark men inte absolut. Relevant både för hemtransport efter gravläggning och för frågan om återanvändning."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ds-tidsfrist-historik",
+      "question": "När och varför kortades den svenska fristen för gravsättning?",
+      "unit": "månader respektive dagar",
+      "source": "Proposition 2011/12:51 »Några begravningsfrågor«, framlagd 15 december 2011, bifallen av riksdagen 15 mars 2012",
+      "sourceUrl": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/proposition/nagra-begravningsfragor_gz0351/html/",
+      "retrieved": "2026-09-02",
+      "note": "Kan INTE användas för att påstå att skärpningen gjordes av hänsyn till muslimska eller andra religiösa krav. Regeringens angivna skäl var snabbare hantering, minskat behov av balsamering samt miljö- och arbetsmiljöskäl. Att ändringen råkade minska avståndet till det muslimska idealet är en sammanträffande effekt, och artikeln förlorar trovärdighet om den framställs som avsikt. Väntetidssiffrorna är rikssnitt från 2008 och säger inget om hur snabbt en enskild begravning kan ordnas idag.",
+      "columns": [
+        "Uppgift",
+        "Värde",
+        "Kommentar"
+      ],
+      "rows": [
+        {
+          "label": "Frist före ändringen",
+          "values": [
+            "2 månader",
+            "Gällde fram till 2012"
+          ]
+        },
+        {
+          "label": "Frist efter ändringen",
+          "values": [
+            "1 månad",
+            "Gäller sedan 2012, 5 kap. 10 §"
+          ]
+        },
+        {
+          "label": "Faktisk genomsnittlig väntetid i riket",
+          "values": [
+            "18,8 dagar",
+            "2008, det underlag regeringen åberopade"
+          ]
+        },
+        {
+          "label": "Faktisk genomsnittlig väntetid i Stockholm",
+          "values": [
+            "27,8 dagar",
+            "2008"
+          ]
+        },
+        {
+          "label": "Muslimskt ideal enligt svenska handböcker och begravningsbyråer",
+          "values": [
+            "inom cirka 24–36 timmar",
+            "Ideal, inte lagkrav"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ds-kremering",
+      "question": "Hur stor andel av de avlidna i Sverige kremeras?",
+      "unit": "procent",
+      "source": "SKKF (Sveriges kyrkogårds- och krematorieförbund), refererad i branschsammanställningar",
+      "sourceUrl": "https://skkf.se/krematorieverksamheten/",
+      "retrieved": "2026-09-02",
+      "note": "SVAGASTE DATASETET I DENNA LEVERANS — behandla det därefter. SKKF:s egen sida bekräftar att förbundet samlar in statistiken (serie 2008–2025) men visar inte talen; siffrorna ovan kommer från sekundära sammanställningar som refererar SKKF och är alltså inte avlästa ur primärtabellen. Årtal saknas för krematorieantalet. Kontrollera mot SKKF:s statistiksida innan något exakt tal trycks. Siffrorna säger heller ingenting om muslimer specifikt: de är rikssiffror för samtliga avlidna, och deras relevans är strukturell — de visar vilken praktik svensk begravningsinfrastruktur är dimensionerad för.",
+      "columns": [
+        "Mått",
+        "Värde",
+        "År"
+      ],
+      "rows": [
+        {
+          "label": "Kremationsandel i Sverige",
+          "values": [
+            "cirka 83 %",
+            "senaste åren"
+          ]
+        },
+        {
+          "label": "Kremationsandel",
+          "values": [
+            "82,8 %",
+            "2020"
+          ]
+        },
+        {
+          "label": "Kremationsandel",
+          "values": [
+            "15,2 %",
+            "1950"
+          ]
+        },
+        {
+          "label": "Kremationsandel i Stockholm",
+          "values": [
+            "närmare 88 %",
+            "senaste åren"
+          ]
+        },
+        {
+          "label": "Antal krematorier i Sverige",
+          "values": [
+            "66",
+            "uppgift utan angivet år"
+          ]
+        },
+        {
+          "label": "Andel begravningar enligt Svenska kyrkans ordning",
+          "values": [
+            "från 81 % till 65 %",
+            "2010 till 2020"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ds-repatriering",
+      "question": "Hur vanligt är det att en avliden muslim förs till ursprungslandet för begravning, och vad kostar det?",
+      "unit": "procent respektive kronor",
+      "source": "SVT Nyheter Väst, 6 december 2016; uppgiftslämnare Kalssom Kaleem (Göteborgs moské) och Johan Mihailovici (Fonus)",
+      "sourceUrl": "https://www.svt.se/nyheter/lokalt/vast/dyrt-och-krangligt-att-begravas-i-annat-land",
+      "retrieved": "2026-09-02",
+      "note": "Kan INTE användas som nationell statistik. Andelen är en muntlig uppskattning från en enskild församlingsföreträdare i Göteborg 2016, inte registerdata, och den kan skilja sig mellan orter och grupper. Kostnaderna är från 2016 och är inte inflationsjusterade. En fälla att undvika: allmänna guider anger kremering plus urntransport som billigt alternativ vid utlandsbegravning — det alternativet är stängt för muslimer, vilket gör kostnadströskeln reellt högre för dem än siffrorna antyder.",
+      "columns": [
+        "Uppgift",
+        "Värde",
+        "Källa i artikeln"
+      ],
+      "rows": [
+        {
+          "label": "Andel som skickar kroppen till hemlandet",
+          "values": [
+            "»kanske 0,5 procent«",
+            "Kalssom Kaleem, medieansvarig, Göteborgs moské"
+          ]
+        },
+        {
+          "label": "Transportkostnad till Island",
+          "values": [
+            "cirka 25 000 kr",
+            "SVT"
+          ]
+        },
+        {
+          "label": "Transportkostnad till Uganda",
+          "values": [
+            "53 000 kr",
+            "SVT"
+          ]
+        },
+        {
+          "label": "Flygfraktkostnad",
+          "values": [
+            "över 100 kr per kilo, minst 150 kilo för kista och emballage",
+            "Johan Mihailovici, Fonus"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ds-polat-mal",
+      "question": "Har Europadomstolen prövat konflikten mellan obduktion och muslimska begravningsriter?",
+      "unit": "domstolsavgörande",
+      "source": "Polat mot Österrike, Europadomstolen, refererad i Law & Religion UK 30 juli 2021",
+      "sourceUrl": "https://lawandreligionuk.com/2021/07/30/invasive-post-mortems-and-religious-sensibilities-polat-v-austria/",
+      "retrieved": "2026-09-02",
+      "note": "Målet gäller ÖSTERRIKE, inte Sverige, och rör ett kliniskt obduktionsbeslut vid ett sjukhus — inte en rättsmedicinsk obduktion beslutad av polis eller åklagare, där avvägningen mot brottsutredningsintresset ser annorlunda ut. Domen säger alltså inte att obduktion mot anhörigas religiösa vilja är konventionsstridig i sig; den säger att en avvägning måste GÖRAS och redovisas. Uppgifterna är hämtade ur en fackblogg eftersom HUDOC-sidan är JavaScript-renderad och inte kunde hämtas; slå upp domen på ansökningsnumret i HUDOC innan paragrafnummer citeras.",
+      "columns": [
+        "Uppgift",
+        "Värde"
+      ],
+      "rows": [
+        {
+          "label": "Målets namn",
+          "values": [
+            "Polat mot Österrike"
+          ]
+        },
+        {
+          "label": "Ansökningsnummer",
+          "values": [
+            "12886/16"
+          ]
+        },
+        {
+          "label": "Domsdatum",
+          "values": [
+            "20 juli 2021"
+          ]
+        },
+        {
+          "label": "Sammansättning",
+          "values": [
+            "Fjärde sektionen"
+          ]
+        },
+        {
+          "label": "Citeringsform",
+          "values": [
+            "[2021] ECHR 658"
+          ]
+        },
+        {
+          "label": "Utgång",
+          "values": [
+            "Kränkning av artikel 8 OCH artikel 9"
+          ]
+        },
+        {
+          "label": "Grund för fällning",
+          "values": [
+            "Myndigheterna gjorde ingen avvägning mellan det vetenskapliga intresset av obduktionen och moderns religiösa intresse; sjukhuset informerade henne inte om organuttaget"
+          ]
+        },
+        {
+          "label": "Avgörande sakomständighet",
+          "values": [
+            "Kroppen vanställdes så att den rituella tvagningen (ghusl) inte kunde utföras och begravningen fick ställas in"
+          ]
+        },
+        {
+          "label": "Tillerkänd ersättning",
+          "values": [
+            "cirka 38 800 euro"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ds-svensk-debatt-positioner",
+      "question": "Vilka positioner finns i den svenska debatten om muslimska gravplatser och huvudmannaskapet?",
+      "unit": "argument",
+      "source": "Riksdagsdokument (motion 1990/91:K622, interpellation 2024/25:297, motion 2025/26:710), Bulletin och SVT Nyheter Skåne",
+      "retrieved": "2026-09-02",
+      "note": "Kan INTE läsas som en opinionsmätning eller som representativ för hur vanliga positionerna är — det är enskilda röster, valda för att de formulerar argumenten skarpast. Notera särskilt att kritiken mot huvudmannaskapet kommer från både vänster och liberalt håll med motsatta slutsatser, och att den äldsta invändningen (Ahlmark 1990/91) restes innan frågan hade någon nämnvärd muslimsk laddning. Bilden av en enkel konfliktlinje mellan muslimska krav och svenskt motstånd håller inte. Uppgiften om Svedala bygger på en betalvägg-skyddad artikel där endast ingressen kunde läsas.",
+      "columns": [
+        "Företrädare",
+        "Position",
+        "Kärnargument",
+        "Källtyp"
+      ],
+      "rows": [
+        {
+          "label": "Lars Ahlmark (m), 1990/91",
+          "values": [
+            "Kritisk till kyrkligt huvudmannaskap för icke-kristnas gravplatser",
+            "»Inom vissa andra religioner krävs att gravar inte återanvänds« — icke-kristna riskerar få bättre gravskydd än kristna. Kommunerna bör ta över.",
+            "Riksdagsmotion"
+          ]
+        },
+        {
+          "label": "Dan Korn, Bulletin",
+          "values": [
+            "Emot skattefinansierade särskilda gravplatser",
+            "»Vill du ha en muslimsk begravningsplats ska du självklart få det, men varsågod att betala.« Judiska församlingar byggde sina egna; ansträngning ger inträdesbiljetten till gemenskapen.",
+            "Opinionsartikel"
+          ]
+        },
+        {
+          "label": "Jan-Olof Aggedal, docent i teologi",
+          "values": [
+            "Försvarar muslimska gravkvarter",
+            "»Det är förståligt att människor reagerar. Samtidigt gör vi allt i livet för att integreras med varandra.« Traditioner kring döden är allmänmänskliga.",
+            "Forskarkommentar i nyhetsartikel"
+          ]
+        },
+        {
+          "label": "Ola Möller (S), 2024/25",
+          "values": [
+            "Kritisk till kyrkligt huvudmannaskap, från jämlikhetshåll",
+            "Alla betalar begravningsavgift och bör ha likvärdig rätt till begravning. I Helsingborg begravs familjemedlemmar ovanpå varandra i djupare gravar — »väldigt ovärdigt«.",
+            "Riksdagsinterpellation"
+          ]
+        },
+        {
+          "label": "Fredrik Malm (L), 2025/26",
+          "values": [
+            "Vill omvandla begravningsavgiften till skatt",
+            "»Begravningsavgiften är ingen avgift – det är en skatt.« Systemet saknar proportionalitet och kostnadskontroll.",
+            "Riksdagsmotion"
+          ]
+        },
+        {
+          "label": "Boende i Svedala m.fl., 2021",
+          "values": [
+            "Emot muslimsk gravplats vid kristen kyrka",
+            "Endast kristna bör begravas vid en kristen kyrka. Namninsamling lämnades till kyrkorådet.",
+            "Nyhetsrapportering (betalvägg)"
+          ]
+        }
+      ]
+    }
+  ]
+}

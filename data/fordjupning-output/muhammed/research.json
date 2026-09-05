@@ -1,0 +1,993 @@
+{
+  "topic": "Profeten Muhammed",
+  "summary": "Den svårare frågan artikeln besvarar är inte »vem var Muhammed?« utan »hur långt sträcker sig en död mans person som rättskälla — och vad händer när den räckvidden möter svensk rätt?« Artikeln måste täcka fyra fält. (1) Källorna: Koranens Muhammed-verser (33:21, 33:40, 68:4, 21:107, 18:110, 3:31, 59:7, 33:56) mot sirans och haditens, med den avgörande spänningen mellan en koranisk figur som uttryckligen kallas »bara en människa« (18:110) och en traditionslitterär figur vars sätt att äta, hälsa och sova blir normerande. (2) Den inomislamiska striden, som inte gäller om Muhammed var profet utan hur mycket av honom som är bindande: mawlid-firandet (Ibn Taymiyya mot al-Suyūṭī och Ibn Ḥajar al-ʿAsqalānī), avbildningsfrågan (sunnitisk bildskepsis mot shiitisk och persisk bildtradition), ʿiṣma-lärans räckvidd — Ibn Taymiyya skriver uttryckligen att ingen efter Profeten är ofelbar och att profeterna själva gjorde tawba — samt Aishas ålder, där klassisk konsensus (al-Bukhārī, Muslim, Ibn Kathīrs »ingen meningsskiljaktighet«) står mot en modern intern revisionism som Yaqeen Institute bekämpar som eftergift åt samtiden. (3) Den svenska kontexten, som är artikelns egentliga hem och det ingen konkurrent kopplar till källorna: trosfridsbrottets avskaffande 1970, JK Göran Lambertz friande beslut om Nerikes Allehanda 2007, samme Lambertz motsatta tes i SvJT 2023 s. 312, Stockholms tingsrätts fällande dom mot Salwan Najem 3 februari 2025, och framför allt AD 2018 nr 51, där Arbetsdomstolen lät en sakkunnigutsaga om vad Profeten gjorde bli avgörande rättsfaktum i ett svenskt diskrimineringsmål. Därtill Säpos höjning av terrorhotnivån 17 augusti 2023 och Skolverkets kursplan, där Muhammed aldrig nämns vid namn. (4) Invändningarna i sin starkaste form: källkritiken (Ibn Isḥāq död ca 150 år efter händelserna; Crone och Cooks *Hagarism*, som Crone själv senare kallade en doktorandessä; Sean Anthony 2020 som den seriösa motpolen), Banu Qurayza, och den politiska kritiken från Richard Jomshof. Det som överraskar en påläst läsare: samme jurist, Göran Lambertz, står bakom både frikännandet 2007 och den tyngsta juridiska argumentationen för att samma slags handling är straffbar — och den svenska domstol som gått längst i att göra Profetens praxis till gällande rätt är inte en religiös instans utan Arbetsdomstolen.",
+  "quranReferences": [
+    {
+      "surah": "33 (al-Ahzāb)",
+      "ayah": "21",
+      "text": "I GUDS Sändebud har ni ett gott föredöme för alla som [med bävan och hopp] ser fram mot [mötet med] Gud och den Yttersta dagen och som ständigt har Gud för ögonen."
+    },
+    {
+      "surah": "33 (al-Ahzāb)",
+      "ayah": "40",
+      "text": "Troende! Muhammad är inte fader till någon av era män. Han är Guds Sändebud och Profetlängdens Sigill. Gud har kunskap om allt."
+    },
+    {
+      "surah": "33 (al-Ahzāb)",
+      "ayah": "56",
+      "text": "Gud och Hans änglar välsignar Profeten; be Gud välsigna honom, ni troende, och hälsa honom med en vördnadsfull hälsning!"
+    },
+    {
+      "surah": "21 (al-Anbiyā')",
+      "ayah": "107",
+      "text": "Vi har sänt dig [Muhammad] enbart av nåd till alla folk."
+    },
+    {
+      "surah": "68 (al-Qalam)",
+      "ayah": "4",
+      "text": "Ditt liv och ditt handlande är ett lysande [exempel],"
+    },
+    {
+      "surah": "18 (al-Kahf)",
+      "ayah": "110",
+      "text": "Jag är bara en vanlig människa som ni. Genom uppenbarelsen vet jag att er Gud är den Ende Guden. Var och en som med hopp ser fram mot mötet med sin Herre skall [sträva efter att] leva ett gott och rättskaffens liv och att inte göra någon delaktig av den dyrkan som han ägnar sin Herre!"
+    },
+    {
+      "surah": "3 (Āl ʿImrān)",
+      "ayah": "31",
+      "text": "Om ni älskar Gud, följ mig och Gud skall älska er och förlåta er era synder. Gud är ständigt förlåtande, barmhärtig."
+    },
+    {
+      "surah": "3 (Āl ʿImrān)",
+      "ayah": "159",
+      "text": "I Sin barmhärtighet lät Gud dig visa dem mildhet; om du hade varit sträng och hård och tillslutit ditt hjärta [för dem], skulle de helt säkert ha dragit sig ifrån dig. Glöm därför nu [deras fel] och be Gud förlåta dem. Inhämta deras råd i de angelägenheter [som är av vikt] och när du väl har fattat ditt beslut, sätt då din lit till Gud; Gud älskar dem som sätter sin lit till Honom."
+    },
+    {
+      "surah": "9 (al-Tawba)",
+      "ayah": "128",
+      "text": "ETT SÄNDEBUD har nu kommit till er, [en man] ur era [egna] led. [Tanken] att ni kan drabbas av straff tynger hans sinne, alla hans omsorger gäller er. Han ömmar för de troende, full av kärlek."
+    },
+    {
+      "surah": "59 (al-Hashr)",
+      "ayah": "7",
+      "text": "Det som Gud anvisar Sitt Sändebud av [det byte som tagits utan krig] av städernas folk tillhör Gud och Sändebudet, [hans] närmaste, de faderlösa och de behövande och vandringsmannen. Det får inte bli [en handelsvara], som cirkulerar mellan dem av er som lever i välstånd. Tag alltså emot vad [Hans] Sändebud ger er [av detta] och avstå [villigt] från det som han nekar er; och frukta Gud; Gud straffar med stränghet."
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote-25839",
+      "text": "Deras meningsskiljaktigheter var en källa till gudomlig barmhärtighet för senare muslimer.",
+      "textSv": "Deras meningsskiljaktigheter var en källa till gudomlig barmhärtighet för senare muslimer.",
+      "author": "Ibn Khaldūn",
+      "source": "Muqaddimah (svensk återgivning i husets citatdatabas; parafras, ej ordagrann översättning av arabiskan)"
+    },
+    {
+      "id": "quote-25813",
+      "text": "Skillnaderna mellan männen omkring Muhammad var inte mer än skillnader i tolkningen av religiösa problem.",
+      "textSv": "Skillnaderna mellan männen omkring Muhammad var inte mer än skillnader i tolkningen av religiösa problem.",
+      "author": "Ibn Khaldūn",
+      "source": "The Muqaddimah (svensk återgivning; parafras)"
+    },
+    {
+      "id": "quote-25416",
+      "text": "Profetens anseende bland sitt folk är ett tecken på hans sanning.",
+      "textSv": "Profetens anseende bland sitt folk är ett tecken på hans sanning.",
+      "author": "Ibn Khaldūn",
+      "source": "Muqaddimah (svensk återgivning; parafras av Ibn Khalduns kriterier för att pröva profetiska anspråk)"
+    },
+    {
+      "id": "quote-25425",
+      "text": "Profetian präglas av fullständig sanning och kan på inget sätt påverkas av falskt, medan spåmannen blandas av främmande föreställningar som trängde in i hans perception.",
+      "textSv": "Profetian präglas av fullständig sanning och kan på inget sätt påverkas av falskt, medan spåmannen blandas av främmande föreställningar som trängde in i hans perception.",
+      "author": "Ibn Khaldūn",
+      "source": "The Muqaddimah (svensk återgivning; parafras — Ibn Khalduns åtskillnad mellan nubuwwa och kihāna)"
+    },
+    {
+      "id": "quote-25422",
+      "text": "En profet som har vant sig vid uppenbarelsens process erfar gradvis lättnad, medan de tidigaste budskapen är kortare än de senare, eftersom vanan minskar svårigheten.",
+      "textSv": "En profet som har vant sig vid uppenbarelsens process erfar gradvis lättnad, medan de tidigaste budskapen är kortare än de senare, eftersom vanan minskar svårigheten.",
+      "author": "Ibn Khaldūn",
+      "source": "The Muqaddimah (svensk återgivning; parafras)"
+    },
+    {
+      "id": "quote-25717",
+      "text": "Araber vid tiden för Profeten och de tidiga kaliferna var ungefär 150 000 i antal. Efter detta växte befolkningen många gånger.",
+      "textSv": "Araber vid tiden för Profeten och de tidiga kaliferna var ungefär 150 000 i antal. Efter detta växte befolkningen många gånger.",
+      "author": "Ibn Khaldūn",
+      "source": "Muqaddimah, Introduktion (svensk återgivning; siffran är Ibn Khalduns egen uppskattning, ej modern demografi)"
+    },
+    {
+      "id": "quote-24960",
+      "text": "Profeten säger: 'Varje barn föds i rätt tillstånd, men hans föräldrar gör honom till en judé, kristen eller magier.'",
+      "textSv": "Profeten säger: 'Varje barn föds i rätt tillstånd, men hans föräldrar gör honom till en judé, kristen eller magier.'",
+      "author": "al-Ghazālī (citerar hadith; grundtexten är fitra-haditen, al-Bukhārī nr 1358 / Muslim nr 2658)",
+      "source": "Iḥyāʾ ʿulūm al-dīn (svensk återgivning; talaren i citatet är Profeten, ej al-Ghazali)"
+    },
+    {
+      "id": "quote-11972",
+      "text": "Profeten fråga de kuffar: 'Om detta var något människor kunde skapa, varför lyckas de inte att skapa ens en sådan sura?' Deras tystnad var sitt eget svar.",
+      "textSv": "Profeten fråga de kuffar: 'Om detta var något människor kunde skapa, varför lyckas de inte att skapa ens en sådan sura?' Deras tystnad var sitt eget svar.",
+      "author": "Jalāl al-Dīn al-Suyūṭī",
+      "source": "al-Itqān fī ʿulūm al-Qurʾān (svensk återgivning; parafras av iʿjāz-argumentet, ej ordagrant profetcitat — jfr Koranen 2:23)"
+    },
+    {
+      "id": "quote-12044",
+      "text": "De tre grunderna för islam – kunskap om Gud, erkännandet av profetens sanningar och tron på domens dag.",
+      "textSv": "De tre grunderna för islam – kunskap om Gud, erkännandet av profetens sanningar och tron på domens dag.",
+      "author": "Jalāl al-Dīn al-Suyūṭī",
+      "source": "al-Itqān fī ʿulūm al-Qurʾān (svensk återgivning; parafras)"
+    },
+    {
+      "id": "quote-26868",
+      "text": "Guds välsignelse vila över vår ledare och lärare Muhammad som gjorde en väg klar för mänskligheten och fick hans väglednings ljus att lysa framåt i strålglans.",
+      "textSv": "Guds välsignelse vila över vår ledare och lärare Muhammad som gjorde en väg klar för mänskligheten och fick hans väglednings ljus att lysa framåt i strålglans.",
+      "author": "Okänd (invokationen i verkets företal, ej Ibn Battuta själv)",
+      "source": "Travels of Ibn Battuta, företal (svensk återgivning) — exempel på den rituella ṣalawāt-formeln som inleder klassiska verk"
+    },
+    {
+      "id": "quote-63282",
+      "text": "Många religiösa stormän hafva varit tänkare, logiker, kritiker, forskare — Origenes, Augustinus, Pascal, Kierkegaard och många andra.",
+      "textSv": "Många religiösa stormän hafva varit tänkare, logiker, kritiker, forskare — Origenes, Augustinus, Pascal, Kierkegaard och många andra.",
+      "author": "Nathan Söderblom",
+      "source": "Uppenbarelse — användbar just därför att Muhammed INTE finns med i Söderbloms uppräkning; illustrerar den svenska religionshistoriska blindfläck som Tor Andræ senare fyllde"
+    },
+    {
+      "id": "quote-48634",
+      "text": "Här uppstå religionsstiftarne, profeterne, despoterne; här följa dem tallösa hjordar af blinde anhängare, hvilka i nästa generation förströs utan spår för att lämna plats åt en ny beundran.",
+      "textSv": "Här uppstå religionsstiftarne, profeterne, despoterne; här följa dem tallösa hjordar af blinde anhängare, hvilka i nästa generation förströs utan spår för att lämna plats åt en ny beundran.",
+      "author": "Zacharias Topelius",
+      "source": "Stjärnornas kungabarn — Topelius generella karakteristik av »Österlandets historia«; gäller inte Muhammed vid namn utan är ett exempel på 1800-talets svenska orientbild"
+    },
+    {
+      "id": "quote-23178",
+      "text": "Så fortfara fäderna att stena profeterna och sönerna att resa deras stöder. Förloppet har blifvit ett roterande, lika ändlöst som jordens om sin axel!",
+      "textSv": "Så fortfara fäderna att stena profeterna och sönerna att resa deras stöder. Förloppet har blifvit ett roterande, lika ändlöst som jordens om sin axel!",
+      "author": "Ellen Key",
+      "source": "Lifslinjer, tredje delen — allmän tes om profeters efterhandsupphöjning, ej om Muhammed specifikt"
+    },
+    {
+      "id": "quote-42656",
+      "text": "Därför fatta blott mod; en människa är ju ock turken.",
+      "textSv": "Därför fatta blott mod; en människa är ju ock turken.",
+      "author": "Johan Ludvig Runeberg",
+      "source": "Verk ej angivet i databasen; ordalydelsen är verifierad men repliken tillhör en gestalt (sannolikt i Runebergs tolkningar av serbiska folksånger), inte Runeberg som talare. Använd endast som exempel på »turken« som beteckning för muslimen i svensk 1800-talsdiktning, aldrig som Runebergs egen utsaga."
+    }
+  ],
+  "bookPassages": [
+    {
+      "id": "passage-107527",
+      "text": "والمقصود هنا ذكر العصمة فقد أجمع جميع سلف المسلمين وأئمة الدين من جميع الطوائف أنه ليس بعد رسول الله صلى الله عليه وسلم أحد معصوم ولا محفوظ لا من الذنوب ولا من الخطايا … ولهذا اتفقوا على أنه ما من الناس أحد إلا يؤخذ من قوله ويترك إلا رسول الله صلى الله عليه وسلم. — Svensk arbetsöversättning: »Vad som avses här är läran om ofelbarheten (ʿiṣma). Alla muslimernas företrädare och religionens ledare från samtliga riktningar är eniga om att ingen efter Guds sändebud är ofelbar eller bevarad, varken från synder eller från felsteg … Därför är de eniga om att av varje människas ord kan somligt tas emot och somligt förkastas — utom Guds sändebuds.«",
+      "bookTitle": "al-Tawba (Om ånger)",
+      "author": "Ibn Taymiyya"
+    },
+    {
+      "id": "passage-107530",
+      "text": "وقد اتفق سلف الأمة وأئمتها ومن اتبعهم على ما أخبر الله به في كتابه وما ثبت عن رسوله من توبة الأنبياء عليهم السلام من الذنوب التي تابوا منها وهذه التوبة رفع الله بها درجاتهم … وعصمتهم هي من أن يقروا على الذنوب والخطأ. — Svensk arbetsöversättning: »Samfundets företrädare och ledare är eniga om det Gud meddelat i sin bok och det som är bekräftat från hans sändebud, om profeternas ånger över de synder de ångrade; genom denna ånger höjde Gud deras rang … Deras ofelbarhet består i att de inte förblir kvar i synd och felsteg.« Passagen namnger också motparten: mutaziliterna och deras efterföljare, som hävdar att profeterna aldrig hade något att ångra.",
+      "bookTitle": "al-Tawba (Om ånger)",
+      "author": "Ibn Taymiyya"
+    },
+    {
+      "id": "passage-296459",
+      "text": "إلا غلوهم في عصمة الأنبياء فلم يوافقهم عليه أحد أيضا، حيث ادعوا أن النبي صلى الله عليه وسلم لا يسهو، فإن هذا لا يوافقهم عليه أحد فيما علمت. — Svensk arbetsöversättning: »… utom deras överdrift i fråga om profeternas ofelbarhet, vilken ingen annan instämmer i, då de påstått att Profeten aldrig kunde glömma eller förbise något; såvitt jag vet instämmer ingen i detta.« Nyckelpassage för hur långt ʿiṣma sträcker sig: gäller den även vardagliga misstag?",
+      "bookTitle": "Minhāj al-sunna al-nabawiyya",
+      "author": "Ibn Taymiyya"
+    },
+    {
+      "id": "passage-244906",
+      "text": "عن أبي الدرداء قال: سألت عائشة عن خلق رسول الله صلى الله عليه وسلم، فقالت: كان خلقه القرآن يرضى لرضاه ويسخط لسخطه … قلنا لعائشة يا أم المؤمنين كيف كان خلق رسول الله صلى الله عليه وسلم؟ قالت: كان خلق رسول الله صلى الله عليه وسلم القرآن. — Svensk arbetsöversättning: »Man frågade Aisha: 'Trons moder, hurdan var Guds sändebuds karaktär?' Hon svarade: 'Guds sändebuds karaktär var Koranen.'« Talaren är Aisha, inte Ibn Kathir. Grundhadithen finns i Sahih Muslim nr 746 och hos al-Nasa'i.",
+      "bookTitle": "al-Bidāya wa-l-nihāya",
+      "author": "Ibn Kathīr (återger hadith från Aisha)"
+    },
+    {
+      "id": "passage-277967",
+      "text": "وقالت أسماء بنت يزيد: توفي النبي صلى الله عليه وسلم، ودرعه مرهونة عند يهودي على شعير … وكان يأتي النساء، ويأكل اللحم، ويصوم، ويفطر، وينام، ويتطيب … ويأكل ما وجد، ويلبس ما وجد من غير تكلف … ويتختم في يمينه بخاتم فضة نقشه 'محمد رسول الله'. — Svensk arbetsöversättning: »Asmā' bint Yazīd sade: Profeten dog med sin brynja pantsatt hos en jude för korn … Han gick till sina hustrur, åt kött, fastade och bröt fastan, sov, använde parfym … åt vad som fanns och bar vad som fanns, utan konstlad omständlighet … Han bar en silverring på höger hand med inskriptionen 'Muhammad Guds sändebud'.« Locus classicus för shamā'il-genren: den vardagsnära Muhammed som blir normkälla in i detaljerna.",
+      "bookTitle": "Siyar aʿlām al-nubalāʾ",
+      "author": "al-Dhahabī"
+    },
+    {
+      "id": "passage-240015",
+      "text": "فشب رسول الله صلى الله عليه وسلم يكلؤه الله ويحفظه … حتى بلغ إن كان رجلا، أفضل قومه مروءة، وأحسنهم خلقا، وأكرمهم حسبا، وأحسنهم جوارا، وأعظمهم حلما، وأصدقهم حديثا، وأعظمهم أمانة، وأبعدهم من الفحش … حتى ما اسمه في قومه إلا الأمين. — Svensk arbetsöversättning: »Guds sändebud växte upp under Guds beskydd … tills han som vuxen man var sitt folks främste i heder, bäst i karaktär, förnämst i härkomst, bäst som granne, störst i tålamod, sannfärdigast i tal, största i pålitlighet och längst bort från det oanständiga … så att hans enda namn bland folket var al-Amīn, den pålitlige.« Talaren är Ibn Ishaq, återgiven av Ibn Kathir — alltså en källa nedtecknad ca 150 år efter händelserna, vilket är precis vad den moderna källkritiken angriper.",
+      "bookTitle": "al-Bidāya wa-l-nihāya",
+      "author": "Ibn Kathīr (citerar Muhammad ibn Isḥāq)"
+    },
+    {
+      "id": "passage-191048",
+      "text": "وتزوج الصديقة بنت الصديق عائشة بنت أبي بكر، رضي الله عنهما، وهي بنت ست سنين قبل الهجرة بسنتين، وقيل: بثلاث، وبنى بها بالمدينة أول مقدمه في السنة الأولى، وهي بنت تسع، ومات عنها وهي بنت ثمان عشرة. — Svensk arbetsöversättning: »Han gifte sig med Aisha, Abū Bakrs dotter, när hon var sex år, två år före hijra — enligt somliga tre — och äktenskapet fullbordades i Medina strax efter ankomsten under det första året, när hon var nio; han dog ifrån henne när hon var arton.« Detta är den klassiska ståndpunkt som modern intern revisionism ifrågasätter. Observera att Ibn Kathir själv redovisar variation (»enligt somliga tre«).",
+      "bookTitle": "Tafsīr al-Qurʾān al-ʿaẓīm",
+      "author": "Ibn Kathīr"
+    },
+    {
+      "id": "passage-279408",
+      "text": "عائشة أم المؤمنين … أفقه نساء الأمة على الإطلاق … هاجر بعائشة أبواها وتزوجها نبي الله قبل مهاجره بعد وفاة الصديقة خديجة بنت خويلد وذلك قبل الهجرة ببضعة عشر شهرا وقيل: بعامين ودخل بها في شوال سنة اثنتين منصرفه عليه الصلاة والسلام من غزوة بدر وهي ابنة تسع. — Svensk arbetsöversättning: »Aisha, trons moder … samfundets utan jämförelse mest lagkunniga kvinna … Guds profet gifte sig med henne före utvandringen, efter Khadījas död, drygt tio månader — enligt somliga två år — före hijra, och äktenskapet fullbordades i shawwāl år 2, vid hans återkomst från Badr, då hon var nio år.« al-Dhahabis kronologi avviker något från Ibn Kathirs; skillnaden i sig är ett argument i debatten om åldersuppgifternas fasthet.",
+      "bookTitle": "Siyar aʿlām al-nubalāʾ",
+      "author": "al-Dhahabī"
+    },
+    {
+      "id": "passage-276632",
+      "text": "وقال ابن إسحاق: ثم إن خديجة بنت خويلد رضي الله عنها وأبا طالب ماتا في عام واحد فتتابعت على رسول الله صلى الله عليه وسلم المصائب بهلاكهما. وكانت خديجة وزيرة صدق على الإسلام، كان يسكن إليها … قال الزبير بن بكار: كانت تدعى في الجاهلية الطاهرة. — Svensk arbetsöversättning: »Ibn Isḥāq sade: Khadīja bint Khuwaylid och Abū Ṭālib dog under samma år, och olyckorna följde tätt på Guds sändebud genom deras bortgång. Khadīja var en sanningens minister för islam; hos henne fann han ro … al-Zubayr ibn Bakkār sade: hon kallades under den förislamiska tiden 'den rena'.« Belägg för »sorgens år« och Khadījas ställning som första troende.",
+      "bookTitle": "Siyar aʿlām al-nubalāʾ",
+      "author": "al-Dhahabī (citerar Ibn Isḥāq och al-Zubayr ibn Bakkār)"
+    },
+    {
+      "id": "passage-179225",
+      "text": "قال ابن إسحاق: ولد رسول الله صلى الله عليه وسلم يوم الاثنين، لاثنتي عشرة ليلة خلت من شهر ربيع الأول، عام الفيل. — Svensk arbetsöversättning: »Ibn Isḥāq sade: Guds sändebud föddes en måndag, den tolfte natten av månaden rabīʿ al-awwal, under Elefantens år.« Detta datum är grunden för mawlid-firandet — och därmed för hela striden om huruvida ett årligt firande av det är bidʿa.",
+      "bookTitle": "al-Sīra al-nabawiyya",
+      "author": "Ibn Hishām (recension av Ibn Isḥāq)"
+    },
+    {
+      "id": "passage-179267",
+      "text": "وأصدقها رسول الله صلى الله عليه وسلم عشرين بكرة، وكانت أول امرأة تزوجها رسول الله صلى الله عليه وسلم، ولم يتزوج عليها غيرها حتى ماتت … فولدت لرسول الله صلى الله عليه وسلم ولده كلهم إلا إبراهيم. — Svensk arbetsöversättning: »Guds sändebud gav henne tjugo unga kamelston i brudgåva. Hon var den första kvinna han gifte sig med, och han tog ingen annan hustru vid sidan av henne så länge hon levde … Hon födde alla hans barn utom Ibrāhīm.« Central för den monogama Mecka-perioden — ett faktum som ofta försvinner i debatten om Profetens äktenskap.",
+      "bookTitle": "al-Sīra al-nabawiyya",
+      "author": "Ibn Hishām (recension av Ibn Isḥāq)"
+    },
+    {
+      "id": "passage-181247",
+      "text": "عن عائشة زوج النبي صلى الله عليه وسلم قالت: رجع رسول الله صلى الله عليه وسلم من البقيع، فوجدني وأنا أجد صداعا في رأسي، وأنا أقول: وا رأساه، فقال: بل أنا والله يا عائشة وا رأساه … وتتام به وجعه، وهو يدور على نسائه، حتى استعز به، وهو في بيت ميمونة، فدعا نساءه، فاستأذنهن في أن يمرض في بيتي، فأذن له. — Svensk arbetsöversättning: »Aisha berättade: Guds sändebud återvände från al-Baqīʿ och fann mig med huvudvärk, medan jag utropade 'åh, mitt huvud!' Han sade: 'Nej, vid Gud, Aisha — åh, MITT huvud!' … Hans sjukdom tilltog medan han turades om mellan sina hustrur, tills den blev övermäktig hemma hos Maymūna; då kallade han samman sina hustrur och bad om lov att vårdas i mitt hus, och de gav honom det.« Talaren är Aisha; hadithen finns även hos al-Bukhārī, Kitāb al-maghāzī, kap. om Profetens sjukdom och död.",
+      "bookTitle": "al-Sīra al-nabawiyya",
+      "author": "Ibn Hishām (återger Aishas berättelse via al-Zuhrī)"
+    },
+    {
+      "id": "passage-113493",
+      "text": "عن عائشة رضي الله عنها، قالت: … فلما ثقل رسول الله صلى الله عليه وسلم في مرضه الذي مات فيه أخذت بيده فجعلت أمسح بها وأقولها. قالت: فنزع يده مني وقال: 'رب اغفر لي وألحقني بالرفيق الأعلى' قالت: فكان هذا آخر ما سمعت من كلامه. — Svensk arbetsöversättning: »Aisha berättade: … När Guds sändebud blev tyngd av den sjukdom han dog i, tog jag hans hand och strök med den och läste bönen. Då drog han sin hand ur min och sade: 'Herre, förlåt mig och förena mig med det högsta sällskapet.' Det var det sista jag hörde honom säga.« Talaren är Aisha; hadithen är i al-Bukhārī och Muslim, som Ibn al-Jawzī själv anger (»akhrajāhu fī l-ṣaḥīḥayn«).",
+      "bookTitle": "Ṣifat al-ṣafwa",
+      "author": "Ibn al-Jawzī (återger hadith från Aisha)"
+    },
+    {
+      "id": "passage-118885",
+      "text": "عن علقمة عن عبدالله رضى الله عنه قال: نام رسول الله صلى الله عليه وسلم على حصير فقام وقد أثر فى جنبه فقلنا يا رسول الله لو اتخذنا لك وطاء فقال: 'ما لى وللدنيا ما أنا فى الدنيا الا كراكب استظل تحت شجرة ثم راح وتركها'. — Svensk arbetsöversättning: »ʿAbdallāh [ibn Masʿūd] berättade: Guds sändebud sov på en matta och steg upp med märken i sidan. Vi sade: 'Guds sändebud, låt oss skaffa dig en bädd.' Han svarade: 'Vad har jag med denna värld att göra? Jag är i denna värld inte annat än en ryttare som söker skugga under ett träd, för att sedan bryta upp och lämna det.'« Talaren är Profeten via Ibn Masʿūd, inte Ibn al-Qayyim; hadithen finns hos al-Tirmidhī och Ibn Māja.",
+      "bookTitle": "ʿUddat al-ṣābirīn",
+      "author": "Ibn al-Qayyim (återger hadith)"
+    },
+    {
+      "id": "passage-122307",
+      "text": "وحقيقتها: التأدب بآداب رسول الله صلى الله عليه وسلم باطنا وظاهرا. وتحكيمه باطنا وظاهرا. والوقوف معه حيث وقف بك. والمسير معه حيث سار بك … فتجعل الرسول شيخك وأستاذك، ومعلمك ومربيك ومؤدبك. — Svensk arbetsöversättning: »Dess verklighet är att anta Guds sändebuds seder, invärtes och utvärtes; att låta honom döma, invärtes och utvärtes; att stanna med honom där han stannat dig, och att gå med honom dit han fört dig … Du gör Sändebudet till din shaykh, din lärare, din uppfostrare och din fostrare i seder.« Den maximala sunna-positionen formulerad av en salafiskt orienterad klassiker — användbar just därför att den kommer från det håll som annars kritiserar överdriven vördnad.",
+      "bookTitle": "Madārij al-sālikīn",
+      "author": "Ibn al-Qayyim"
+    },
+    {
+      "id": "passage-109796",
+      "text": "ومحمد صلى الله عليه وسلم خاتم الأنبياء لا نبي بعده فعصم الله أمته أن تجتمع على ضلالة. وجعل فيها من تقوم به الحجة إلى يوم القيامة، ولهذا كان إجماعهم حجة كما كان الكتاب والسنة حجة. — Svensk arbetsöversättning: »Muhammad är profeternas insegel; ingen profet kommer efter honom. Därför bevarade Gud hans samfund från att enas om villfarelse och lät det rymma dem genom vilka beviset består till Uppståndelsens dag; av det skälet är deras samstämmighet (ijmāʿ) ett giltigt bevis, liksom Boken och sunna är det.« Visar hur khātam al-nabiyyīn (Koranen 33:40) omsätts i rättskälleläran.",
+      "bookTitle": "al-Waṣiyya al-kubrā",
+      "author": "Ibn Taymiyya"
+    },
+    {
+      "id": "passage-297734",
+      "text": "وذلك أنه من المعلوم أن كل واحدة من أزواج النبي صلى الله عليه وسلم يقال لها: 'أم المؤمنين' … وقد قال الله تعالى: {النبي أولى بالمؤمنين من أنفسهم وأزواجه أمهاتهم} … فهن أمهات المؤمنين في الحرمة والتحريم، ولسن أمهات المؤمنين في المحرمية. — Svensk arbetsöversättning: »Det är känt att var och en av Profetens hustrur kallas 'trons moder' … Gud har sagt: 'Profeten står de troende närmare än de själva, och hans hustrur är deras mödrar' [33:6] … De är alltså de troendes mödrar i fråga om vördnad och äktenskapsförbud, men inte i fråga om maḥram-status.« Precis juridisk avgränsning av vad en teologisk hedersbeteckning faktiskt medför.",
+      "bookTitle": "Minhāj al-sunna al-nabawiyya",
+      "author": "Ibn Taymiyya"
+    },
+    {
+      "id": "passage-159348",
+      "text": "ثم يسلم ولا يرفع صوته، بل يقصد فيقول: السلام عليك يا رسول الله، السلام عليك يا نبي الله … أشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أنك عبده ورسوله، وخيرته من خلقه وأشهد أنك بلغت الرسالة وأديت الأمانة ونصحت الأمة وجاهدت في الله حق جهاده. — Svensk arbetsöversättning: »Sedan hälsar han, utan att höja rösten, utan måttfullt: 'Frid vare med dig, Guds sändebud; frid vare med dig, Guds profet … Jag vittnar att det inte finns någon gud utom Gud, ensam och utan medhjälpare, och jag vittnar att du är hans tjänare och sändebud, hans utvalde bland skapelsen, och jag vittnar att du framförde budskapet, fullgjorde det anförtrodda, gav samfundet uppriktiga råd och kämpade för Gud såsom man bör kämpa.'« al-Nawawis anvisning för besök vid Profetens grav i Medina — en av de praktiker Ibn Taymiyya senare skulle problematisera; utmärkt belägg för rättsskolornas skilda hållning i ziyāra-frågan.",
+      "bookTitle": "al-Majmūʿ sharḥ al-Muhadhdhab",
+      "author": "al-Nawawī"
+    },
+    {
+      "id": "passage-264945",
+      "text": "أول ما بدئ به رسول الله صلى الله عليه وسلم من ذلك أن الله نعى إليه نفسه بقوله {إذا جاء نصر الله والفتح} … ثم جمع رسول الله صلى الله عليه وسلم أصحابه فرحب بهم وعيناه تدمعان ودعا لهم كثيرا وقال: أوصيكم بتقوى الله وأوصى الله بكم وأستخلفه عليكم … ألا تعلوا على الله في بلاده وعباده. — Svensk arbetsöversättning: »Det första som drabbade Guds sändebud var att Gud lät honom ana sin egen död genom orden 'När Guds hjälp och segern kommer' … Sedan samlade Guds sändebud sina följeslagare, hälsade dem välkomna med tårar i ögonen, bad mycket för dem och sade: 'Jag ålägger er gudsfruktan, och jag anförtror er åt Gud och sätter Honom till er beskyddare … Upphöj er inte över Gud i Hans land och bland Hans tjänare.'« Ibn Khaldun som sīra-berättare snarare än som teoretiker.",
+      "bookTitle": "Tārīkh Ibn Khaldūn",
+      "author": "Ibn Khaldūn"
+    },
+    {
+      "id": "passage-264752",
+      "text": "ثم استمر على أكمل الزكاء والطهارة في أخلاقه وكان يعرف بالأمين … ثم بدئ بالرؤيا الصالحة فكان لا يرى رؤيا الا جاءت مثل فلق الصبح … حتى جاء الوحي بحراء لأربعين سنة من مولده وقيل لثلاث وأربعين وهي حالة يغيب فيها عن جلسائه وهو كائن معهم. — Svensk arbetsöversättning: »Han förblev i den fullkomligaste renhet och fulländning i sin karaktär och var känd som al-Amīn … Det började med sanna drömmar; ingen dröm han såg kom annat än som gryningens klarhet … tills uppenbarelsen kom på Ḥirāʾ, fyrtio år efter hans födelse — enligt somliga fyrtiotre — ett tillstånd i vilket han försvann från dem som satt hos honom fastän han var kvar bland dem.« Ibn Khalduns fenomenologiska beskrivning av uppenbarelsetillståndet; jfr hans profetteori i Muqaddimah.",
+      "bookTitle": "Tārīkh Ibn Khaldūn",
+      "author": "Ibn Khaldūn"
+    },
+    {
+      "id": "passage-263929",
+      "text": "فقال له أبرهة: هلا سألت في البيت الذي هو دينك ودين آبائك وتركت البعير؟ فقال عبد المطلب: أنا رب الإبل وللبيت رب سيمنعه. — Svensk arbetsöversättning: »Abraha sade till honom: 'Varför bad du inte om huset, som är din och dina fäders religion, och lämnade kamelerna?' ʿAbd al-Muṭṭalib svarade: 'Jag är kamelernas herre, och huset har en herre som skall försvara det.'« Elefantens år — traditionen om Muhammeds födelseår (Koranen 105); talaren är ʿAbd al-Muṭṭalib, Profetens farfar.",
+      "bookTitle": "Tārīkh Ibn Khaldūn",
+      "author": "Ibn Khaldūn (citerar al-Ṭabarī)"
+    },
+    {
+      "id": "passage-223635",
+      "text": "عن عائشة، أن فاطمة أرسلت إلى أبي بكر تسأله ميراثها من النبي صلى الله عليه وسلم من صدقته، ومما ترك من خمس خيبر، قال أبو بكر: إن رسول الله صلى الله عليه وسلم قال: 'لا نورث'. — Svensk arbetsöversättning: »Aisha berättade att Fāṭima sände bud till Abū Bakr och begärde sitt arv efter Profeten ur hans allmosegods och ur det han lämnat av Khaybars femtedel. Abū Bakr sade: 'Guds sändebud sade: Vi lämnar inget arv.'« Talarna är Abū Bakr som citerar Profeten, via Aisha. Fadak-tvisten — den mest laddade skiljelinjen mellan sunnitisk och shiitisk läsning av Profetens efterlämnade auktoritet.",
+      "bookTitle": "Sunan al-Nasāʾī",
+      "author": "al-Nasāʾī"
+    },
+    {
+      "id": "passage-174768",
+      "text": "عن أنس عن النبي صلى الله عليه وسلم قال: 'ثلاث من كن فيه وجد بهن حلاوة الإيمان: من كان الله ورسوله أحب إليه مما سواهما، وأن يحب المرء لا يحبه إلا لله، وأن يكره أن يعود في الكفر بعد أن أنقذه الله منه، كما يكره أن يقذف في النار'. — Svensk arbetsöversättning: »Anas berättade att Profeten sade: 'Tre ting: den som har dem finner trons sötma — att Gud och Hans sändebud är honom kärare än allt annat; att han älskar en människa endast för Guds skull; och att han avskyr att återvända till otron sedan Gud räddat honom ur den, lika mycket som han avskyr att kastas i elden.'« Talaren är Profeten via Anas ibn Mālik; hadithen finns i både Sahih al-Bukhārī och Sahih Muslim (muttafaq ʿalayh). Grundtext för kärleken till Profeten som trosplikt.",
+      "bookTitle": "Ṣaḥīḥ Muslim",
+      "author": "Muslim ibn al-Ḥajjāj"
+    },
+    {
+      "id": "passage-223394",
+      "text": "عن عمرو بن شعيب، عن أبيه، عن جده قال: كنا عند رسول الله صلى الله عليه وسلم إذ أتته وفد هوازن … فقال رسول الله صلى الله عليه وسلم: 'أما ما كان لي ولبني عبد المطلب فهو لكم'. — Svensk arbetsöversättning: »… Vi var hos Guds sändebud när Hawāzins delegation kom … Guds sändebud sade: 'Vad som tillhör mig och ʿAbd al-Muṭṭalibs söner, det är ert.'« Talaren är Profeten. Belägg för frigivningen av Hawāzin-fångarna efter Ḥunayn — ett av de starkaste motexemplen mot bilden av Profeten som obeveklig krigsherre, och något som bör ställas mot Banu Qurayza-episoden snarare än ersätta den.",
+      "bookTitle": "Sunan al-Nasāʾī",
+      "author": "al-Nasāʾī"
+    },
+    {
+      "id": "passage-277714",
+      "text": "لما مات عبد الله بن أبي، أتى ابنه … فسأله أن يصلي عليه؛ فقام رسول الله صلى الله عليه وسلم يصلي عليه، فقام عمر فأخذ ثوبه، فقال: يا رسول الله، أتصلي عليه وقد نهاك الله عنه؟ قال: إن ربي خيرني … وسأزيد على السبعين. — Svensk arbetsöversättning: »När ʿAbdallāh ibn Ubayy dog kom hans son … och bad honom förrätta begravningsbönen. Guds sändebud reste sig för att göra det, men ʿUmar grep tag i hans mantel och sade: 'Guds sändebud, ber du för honom när Gud har förbjudit dig det?' Han svarade: 'Min Herre har gett mig valet … och jag skall gå utöver de sjuttio gångerna.'« Muttafaq ʿalayh. Profetens behandling av hycklarnas ledare — central för frågan om hans hållning till motståndare.",
+      "bookTitle": "Siyar aʿlām al-nubalāʾ",
+      "author": "al-Dhahabī (återger hadith i al-Bukhārī och Muslim)"
+    },
+    {
+      "id": "passage-117371",
+      "text": "محمد خاتم أنبيائه ورسله، وخيرته من بريته، وأمينه على وحيه، وسفيره بينه وبين عباده، فاتح أبواب الهدى، ومخرج الناس من الظلمات إلى النور بإذن ربهم … فأحيا به القلوب بعد مماتها، وأنارها بعد ظلماتها، وألف بينها بعد شتاتها. — Svensk arbetsöversättning: »Muhammad, inseglet på Hans profeter och sändebud, Hans utvalde bland skapelsen, den betrodde över Hans uppenbarelse, sändebudet mellan Honom och Hans tjänare, den som öppnade vägledningens portar och förde människorna ut ur mörkret till ljuset med deras Herres tillåtelse … Genom honom gav Gud hjärtan liv efter deras död, upplyste dem efter deras mörker och förenade dem efter deras splittring.« Klassisk devotionell prosa — visar tonläget i den vördnad som den svenska sekulära debatten sällan får syn på.",
+      "bookTitle": "al-Wābil al-ṣayyib",
+      "author": "Ibn al-Qayyim"
+    },
+    {
+      "id": "passage-257435",
+      "text": "وله أيضا من الأخلاق أطيبها وأزكاها، كالحلم والوقار والسكينة والرحمة والصبر والوفاء، وسهولة الجانب ولين العريكة والصدق، وسلامة الصدر من الغل والغش والحقد والحسد، والتواضع وخفض الجناح لأهل الإيمان، والعزة والغلظة على أعداء الله. — Svensk arbetsöversättning: »Han hade de renaste och ädlaste karaktärsdragen: tålamod, värdighet, sinneslugn, barmhärtighet, uthållighet och trohet; tillgänglighet, mildhet i lynnet och sannfärdighet; ett bröst fritt från agg, svek, hat och avund; ödmjukhet och sänkta vingar inför de troende — och styrka och stränghet mot Guds fiender.« Notera den avslutande dubbelheten: samma text som prisar mildheten föreskriver hårdhet mot fiender. Detta är precis den spänning artikeln måste behandla, inte dölja.",
+      "bookTitle": "Zād al-maʿād",
+      "author": "Ibn al-Qayyim"
+    }
+  ],
+  "sources": [
+    {
+      "id": "svjt-lambertz-2023",
+      "url": "https://svjt.se/svjt/2023/312",
+      "title": "Göran Lambertz, »Bränna Koranen är hets mot folkgrupp«, Svensk Juristtidning 2023 s. 312–334",
+      "keyFindings": [
+        "Samme Göran Lambertz som friade Nerikes Allehanda 2007 argumenterar här för att offentlig koranbränning normalt är straffbar hets mot folkgrupp — en av de mest citerbara omsvängningarna i svensk yttrandefrihetsdebatt",
+        "Traditionell rättskälleanalys med stöd i BrB 16:8, RF 2:1 samt 2:21 och 2:23, och EKMR art. 9 och 10",
+        "Bygger på NJA 1982 s. 128 (skylten vid campingplatsen), NJA 1996 s. 577 (nazistmärkena), NJA 2005 s. 805 (predikan i Borgholm — Åke Green), NJA 2006 s. 467 (flygbladen på skolan) och NJA 2020 s. 1083",
+        "Slutsats: koranbränningar skyddas varken av svensk grundlag eller av Europakonventionen"
+      ]
+    },
+    {
+      "id": "ad-2018-51",
+      "url": "https://lagen.nu/dom/ad/2018:51",
+      "title": "Arbetsdomstolen, AD 2018 nr 51 (handskakningsdomen), 15 augusti 2018",
+      "keyFindings": [
+        "Parter: Diskrimineringsombudsmannen mot Almega Tjänsteföretagen och Semantix Tolkjouren AB",
+        "AD fann att vägran att ta män i hand hade »sådan nära och direkt koppling till en religiös trosuppfattning« att den utgör skyddad religionsmanifestation enligt EKMR art. 9 — även om tolkningen är omtvistad och följs av en minoritet",
+        "Indirekt diskriminering enligt diskrimineringslagen (2008:567) 1 kap. 4 § 2 och 2 kap. 1 §; 40 000 kr i diskrimineringsersättning",
+        "Domskälen namnger uttryckligen Profeten Muhammed och sunna: sakkunnig (professor M.F., dvs. Mohammad Fazlhashemi) redogjorde för att förbudet mot kroppsberöring mellan könen har bakgrund i en koranvers om kvinnors trohetsförklaring till Profeten, som enligt vissa källor inte skakade hand med kvinnorna",
+        "Detta är det starkaste svenska exemplet på att Profetens praxis blivit avgörande rättsfaktum i en svensk domstol"
+      ]
+    },
+    {
+      "id": "jk-vilks-2007",
+      "url": "https://www.svt.se/nyheter/lokalt/orebro/muhammedhund-inte-hets-mot-folkgrupp",
+      "title": "SVT Nyheter: »Muhammedhund inte hets mot folkgrupp« (JK:s beslut 2007)",
+      "keyFindings": [
+        "JK Göran Lambertz beslutade att inte väcka åtal mot Nerikes Allehandas ansvarige utgivare Ulf Johansson",
+        "Anmälare: Sveriges Muslimska Förbund och Förenade Islamiska Föreningar i Sverige",
+        "Motivering: missaktningsbegreppet ska enligt tryckfrihetsförordningens förarbeten tolkas »med viss försiktighet«; »även för sådana yttranden som av en bred allmänhet uppfattas som stötande måste det finnas ett vidsträckt utrymme«",
+        "Yttranden som »bäst bemöts eller tillrättaläggs i en fri och öppen debatt« bör inte omfattas av kriminaliseringen"
+      ]
+    },
+    {
+      "id": "vilks-teckningar",
+      "url": "https://sv.wikipedia.org/wiki/Lars_Vilks_Muhammedteckningar",
+      "title": "Lars Vilks Muhammedteckningar (svenskspråkig översiktsartikel)",
+      "keyFindings": [
+        "Nerikes Allehanda publicerade teckningen 19 augusti 2007 tillsammans med ledaren »Rätten att förlöjliga en religion«",
+        "Verket hade dagen före utställningsöppningen avlägsnats från Tälleruds hembygdsgård av säkerhetsskäl",
+        "Irakisk organisation med påstådda al-Qaida-kopplingar utfäste 100 000 dollar för Vilks död, 150 000 om han »slaktades som ett lamm«",
+        "Protester i Pakistan 31 augusti 2007 där svenska flaggor och en docka föreställande statsminister Fredrik Reinfeldt brändes",
+        "2010: sju personer greps i Irland misstänkta för mordplaner; Vilks angreps 11 maj 2010 under en yttrandefrihetsföreläsning vid Uppsala universitet; mordbrandsförsök mot hans hem 14–15 maj",
+        "Flera svenska muslimska organisationer fördömde offentligt hoten"
+      ]
+    },
+    {
+      "id": "skr-gemensamt-uttalande",
+      "url": "https://www.skr.org/svenska-muslimer-och-kristna-i-gemensamt-uttalande-med-anledning-av-muhammedbilderna/",
+      "title": "Sveriges kristna råd: Svenska muslimer och kristna i gemensamt uttalande med anledning av Muhammedbilderna",
+      "keyFindings": [
+        "Sveriges Muslimska Råd, Svenska Islamiska Samfundet och Islamiska Shiasamfunden i Sverige tog tillsammans med SKR:s presidium avstånd både från publiceringarna och från det våld de utlöste",
+        "Formuleringen »Låt inte de krafter som vill skapa polarisering mellan religioner och folk få framgång«",
+        "Beskrev bruket av tryckfriheten för att kränka det som för andra är heligt som ett allvarligt missbruk — viktigt motexempel mot bilden av en enhetlig muslimsk reaktion i Sverige"
+      ]
+    },
+    {
+      "id": "najem-dom-2025",
+      "url": "https://www.svt.se/nyheter/lokalt/stockholm/nu-faller-domen-efter-koranbranningar-i-stockholm",
+      "title": "SVT Nyheter: Salwan Najem döms för hets mot folkgrupp efter koranbränningar i Stockholm",
+      "keyFindings": [
+        "Stockholms tingsrätt fällde Najem 3 februari 2025 i fyra fall av hets mot folkgrupp; villkorlig dom och dagsböter",
+        "Tingsrätten fann att även om motivet varit att kritisera religionen islam hade agerandet »med tydlig marginal« överskridit vad som är saklig debatt och kritik — den avgörande gränsdragningen mellan religionskritik och missaktning för en grupp",
+        "Åtalet mot Salwan Momika lades ned sedan han skjutits till döds i Södertälje 29 januari 2025, timmar före det planerade domsavkunnandet"
+      ]
+    },
+    {
+      "id": "najem-overklagan",
+      "url": "https://www.svt.se/nyheter/lokalt/stockholm/salwan-najem-overklagar-dom-efter-koranbranning",
+      "title": "SVT Nyheter: Salwan Najem överklagar dom efter koranbränning",
+      "keyFindings": [
+        "Överklagandet ingavs till Svea hovrätt i slutet av februari 2025 av advokat Mark Safaryan",
+        "Grunder: Najem har »endast använt sina grundlagsskyddade rättigheter« och demonstrationerna riktades inte mot någon etnisk grupp",
+        "Domen är alltså inte lagakraftvunnen — artikeln får inte framställa den som fastställd rättspraxis"
+      ]
+    },
+    {
+      "id": "sapo-terrorhot-2023",
+      "url": "https://www.sakerhetspolisen.se/ovriga-sidor/nyheter/nyheter/2023-08-17-hojning-av-terrorhotnivan-till-hogt-hot.html",
+      "title": "Säkerhetspolisen: Höjning av terrorhotnivån till högt hot (17 augusti 2023)",
+      "keyFindings": [
+        "Terrorhotnivån höjdes från 3 (förhöjt hot) till 4 (högt hot) på femgradig skala — den nivå 3 som gällt sedan 2010",
+        "Beslutet fattades av säkerhetspolischefen Charlotte von Essen",
+        "Motivering: Sverige har gått från att vara ett legitimt mål till ett prioriterat mål för terrordåd; kopplat bland annat till koranbränningar i flera länder",
+        "Regeringens egen artikel om samma beslut anger 18 augusti — datumdiskrepansen bör kontrolleras innan den trycks"
+      ]
+    },
+    {
+      "id": "regeringen-terrorhot",
+      "url": "https://www.regeringen.se/artiklar/2023/08/sakerhetspolisen-har-beslutat-om-hojd-terrorhotniva/",
+      "title": "Regeringen.se: Säkerhetspolisen har beslutat om höjd terrorhotnivå",
+      "keyFindings": [
+        "Regeringens redogörelse för höjningen till nivå 4",
+        "Anger datumet 18 augusti 2023, till skillnad från Säkerhetspolisens egen sida (17 augusti)"
+      ]
+    },
+    {
+      "id": "sapo-sankning-2025",
+      "url": "https://www.regeringen.se/pressmeddelanden/2025/05/sakerhetspolisen-har-beslutat-om-sankt-terrorhotniva/",
+      "title": "Regeringen.se: Säkerhetspolisen har beslutat om sänkt terrorhotnivå (maj 2025)",
+      "keyFindings": [
+        "Terrorhotnivån sänktes tillbaka till nivå 3 (förhöjt hot) i maj 2025",
+        "Ger artikeln en avslutning på den säkerhetspolitiska bågen 2023–2025 i stället för att lämna läsaren i det akuta läget"
+      ]
+    },
+    {
+      "id": "jomshof-islam-2023",
+      "url": "https://www.svt.se/nyheter/jomshof-sd-i-blasvader-efter-uttalande-om-islam",
+      "title": "SVT Nyheter: Richard Jomshof (SD) i blåsväder efter uttalande om islam",
+      "keyFindings": [
+        "Jomshof, ordförande i riksdagens justitieutskott, beskrev islam som grundad av »krigsherren, massmördaren, slavhandlaren och rövaren Muhammed«",
+        "Statsminister Ulf Kristersson kritiserade uttalandet med hänvisning till Sveriges säkerhetsläge; Jomshof stod fast och menade att inget i sak var fel",
+        "Den skarpaste svenska formuleringen av Muhammed-kritiken från en person i statlig maktposition — artikeln bör återge den ordagrant snarare än i tillrättalagd form"
+      ]
+    },
+    {
+      "id": "jomshof-misstroende",
+      "url": "https://www.socialdemokraterna.se/nyheter/nyheter/2023-08-14-en-samlad-opposition-kraver-att-jomshof-sd-lamnar-som-ordforande-i-justitieutskottet",
+      "title": "Socialdemokraterna: En samlad opposition kräver att Jomshof lämnar som ordförande i justitieutskottet (14 augusti 2023)",
+      "keyFindings": [
+        "S, V, C och MP begärde omröstning om förtroendet för Jomshof i justitieutskottet",
+        "Motiveringen var att uttalandena skadar Sverige och svenska intressen internationellt, med risk för allvarliga konsekvenser — dvs. en säkerhetspolitisk, inte en teologisk, invändning"
+      ]
+    },
+    {
+      "id": "es-mot-osterrike",
+      "url": "https://www.europaportalen.se/notis/2022/11/inte-yttrandefrihet-att-kalla-profeten-muhammed-pedofil",
+      "title": "Europaportalen: Inte yttrandefrihet att kalla profeten Muhammed för pedofil (E.S. mot Österrike)",
+      "keyFindings": [
+        "Europadomstolen godtog 25 oktober 2018 den österrikiska fällande domen mot en kvinna som vid seminarier kallat Muhammed pedofil med hänvisning till äktenskapet med Aisha",
+        "Domstolen fäste vikt vid att uttalandena saknade objektivitet och historisk kontext, och att inskränkningen var nödvändig för att bevara religionsfriden i Österrike",
+        "Domen är omdiskuterad och prövade österrikisk, inte svensk, rätt — den kan inte utan vidare överföras på svenska förhållanden"
+      ]
+    },
+    {
+      "id": "blasfemi-sverige",
+      "url": "https://sv.wikipedia.org/wiki/Blasfemi",
+      "title": "Hädelse / blasfemi — svensk rättshistorisk översikt",
+      "keyFindings": [
+        "Från 1951 års religionsfrihetslag talade svensk rätt inte längre om hädelse utan om brott mot trosfrid",
+        "1949 omformulerades bestämmelsen till »brott mot trosfrid« och kom att omfatta även andra religioner än kristendomen, med judeförföljelserna i färskt minne",
+        "Trosfridsbrottet avskaffades helt genom proposition 1970:125; motiveringen var att särskilt skydd för religionen inte motiverade inskränkningar i yttrandefriheten, och att fri och öppen debatt om religion gagnar samhället även när den såras",
+        "Nils Eklund anges som den siste som dömdes för hädelse i Sverige"
+      ]
+    },
+    {
+      "id": "signum-hadelse",
+      "url": "https://signum.se/hadelse-och-yttrandefrihet-ur-juridisk-synvinkel/",
+      "title": "Signum: Hädelse och yttrandefrihet ur juridisk synvinkel",
+      "keyFindings": [
+        "Katolsk kulturtidskrift som ger den juridiska översikten från ett icke-muslimskt religiöst perspektiv — nyttigt för att undvika att framställa frågan som en konflikt mellan islam och Sverige snarare än mellan religion och sekulär rätt"
+      ]
+    },
+    {
+      "id": "skanberg-interpellation",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/interpellation/lag-mot-religionskrankning_gt10257/",
+      "title": "Interpellation 2005/06:257 av Tuve Skånberg (kd): Lag mot religionskränkning",
+      "keyFindings": [
+        "Kristdemokratiskt förslag om att återinföra ett skydd mot religionskränkning efter trosfridsbrottets avskaffande",
+        "Visar att kravet på blasfemiskydd i svensk politik historiskt kommit från kristet håll, inte från muslimskt — ett faktum som bryter mot debattens vanliga uppställning"
+      ]
+    },
+    {
+      "id": "skolverket-kursplan-rel",
+      "url": "https://syllabuswebb.skolverket.se/compulsorycw/jsp/subject.htm?subjectCode=GRGRREL01&tos=gr",
+      "title": "Skolverket, kursplan i religionskunskap, grundskolan (Lgr22)",
+      "keyFindings": [
+        "Muhammed nämns aldrig vid namn i kursplanens centrala innehåll för någon årskurs",
+        "Åk 1–3: »Några högtider, symboler och berättelser inom kristendom, islam och judendom«",
+        "Åk 4–6: »Ritualer och religiöst motiverade levnadsregler samt heliga platser och rum i kristendom, islam och judendom«",
+        "Åk 7–9: »Centrala tankegångar inom kristendom, islam, judendom, hinduism och buddhism« samt »Likheter och skillnader i religiösa tolkningar och praktiker mellan och inom olika religioner«",
+        "Att styrdokumentet undviker namnet medan offentligheten inte talar om annat är en av artikelns skarpaste svenska observationer"
+      ]
+    },
+    {
+      "id": "skolverket-amnesinstruktioner",
+      "url": "https://www.skolverket.se/download/18.453ec2dd19a0a2d0a6b63069/1762417311232/%C3%84mnesspecifika%20instruktioner%20-%20Religionskunskap.pdf",
+      "title": "Skolverket, CRS-rapport nr 4: Ämnesspecifika instruktioner — religionskunskap",
+      "keyFindings": [
+        "Ämnesspecifika instruktioner för religionskunskap, daterade oktober 2025",
+        "PDF — WebFetch kan inte läsa den; innehållet måste kontrolleras manuellt innan det citeras"
+      ]
+    },
+    {
+      "id": "mucf-trossamfund",
+      "url": "https://www.mucf.se/rapporter-och-statistik/trossamfund-antal-betjanade",
+      "title": "MUCF: Trossamfund — antal betjänade",
+      "keyFindings": [
+        "Officiell svensk statistikkälla för bidragsgrundande medlems- och deltagarsiffror i trossamfund",
+        "2024: muslimska samfund 194 368 betjänade av totalt 844 694",
+        "Definition: »medlem i ett trossamfund eller person som regelbundet deltar i verksamhet som anordnas av ett trossamfund«",
+        "Totalserien: 2024 (844 694), 2023 (847 961), 2022 (848 908), 2021 (927 164), 2020 (917 193)",
+        "SST:s uppgifter övertogs av MUCF 1 januari 2026"
+      ]
+    },
+    {
+      "id": "islam-i-sverige",
+      "url": "https://sv.wikipedia.org/wiki/Islam_i_Sverige",
+      "title": "Islam i Sverige — översikt med källhänvisningar till SST och Pew",
+      "keyFindings": [
+        "Pew Research Center (rapport 2017, förhållanden 2016): ca 810 000 muslimer i Sverige",
+        "SOM-institutet 2019: ca 260 000 självidentifierade muslimer; SST 2021: 224 459 betjänade",
+        "1897: den tatariske affärsmannen Ebrahim Umerkajeff flyttade till Stockholm; 1949 grundades den första muslimska kulturföreningen i Stockholm; 1953 uppskattningsvis 500 muslimer i landet",
+        "1976: Nasirmoskén i Göteborg, Sveriges första purpose-built moské; 1983: Malmö moské; kring 2005 fanns ca 120 »källarmoskéer«",
+        "Använd som kartläggning av källor, inte som källa i sig — primärrapporterna från Pew, SOM och MUCF bör kontrolleras"
+      ]
+    },
+    {
+      "id": "litteraturbanken-koran",
+      "url": "https://litteraturbanken.se/%C3%B6vers%C3%A4ttarlexikon/artiklar/Svenska_Koran%C3%B6vers%C3%A4ttningar",
+      "title": "Svenskt översättarlexikon: Svenska Koranöversättningar",
+      "keyFindings": [
+        "Crusenstolpe 1843 (första fullständiga), Tornberg 1873–74, Zetterstéen 1917, Ohlmarks 1961, Ahmadiyya 1988, Bernström 1998",
+        "Ibn Hishams sira nämns inte som föreliggande i svensk översättning; artikeln refererar däremot äldre Muhammed-biografier av Nöldeke och Frants Buhl",
+        "Litteraturbanken är JS-renderad; sidan gick att hämta vid detta tillfälle men kan behöva kontrolleras manuellt"
+      ]
+    },
+    {
+      "id": "fokus-bernstrom",
+      "url": "https://fokus.se/2009/10/mohammed-knut-bernstrom",
+      "title": "Fokus: Mohammed Knut Bernström",
+      "keyFindings": [
+        "Porträtt av Bernström, diplomat som konverterade till islam vid mitten av 1980-talet",
+        "Koranens budskap (1998) betecknas som en tolkning snarare än en översättning, byggd på Muhammad Asads The Message of the Qur'ān (1980), vars kommentar återges bearbetad och kompletterad",
+        "Avgörande för hur svenska läsare möter Koranens Muhammed-verser: standardtexten är filtrerad genom en modernistisk kommentar"
+      ]
+    },
+    {
+      "id": "tor-andrae",
+      "url": "https://en.wikipedia.org/wiki/Tor_Andr%C3%A6",
+      "title": "Tor Andræ (1885–1947), svensk religionshistoriker och biskop i Linköping",
+      "keyFindings": [
+        "Muhammed: hans liv och hans tro (Stockholm 1930) — översatt till flera språk och länge ett standardverk, prisat för sin religionspsykologiska inlevelse",
+        "Andræs särskilda intresse gällde tidig islams judiska och kristna förutsättningar samt religionspsykologi",
+        "Tidigare arbete: Die Person Muhammeds in Lehre und Glauben seiner Gemeinde (1918) — om hur samfundets tro formade Muhammed-gestalten, vilket är precis artikelns huvudtema",
+        "Andræ citeras ännu av både muslimska och icke-muslimska forskare, till skillnad från hans lärare Nathan Söderblom vars syn på islam beskrivs som nedsättande"
+      ]
+    },
+    {
+      "id": "respons-andrae",
+      "url": "https://tidskriftenrespons.se/artikel/den-foraldralose-pojkensom-grundade-en-varldsreligion/",
+      "title": "Respons: Den föräldralöse pojken som grundade en världsreligion",
+      "keyFindings": [
+        "Recension/essä om Tor Andræs Muhammed-biografi",
+        "Påpekar att verket i sig är ett historiskt dokument över religionsvetenskapens utveckling sedan 1930 — viktigt att inte citera Andræ som aktuell forskning"
+      ]
+    },
+    {
+      "id": "filosofiska-rummet-muhammed",
+      "url": "https://www.sverigesradio.se/artikel/1362959",
+      "title": "Sveriges Radio, Filosofiska rummet: Om den historiske Muhammed",
+      "keyFindings": [
+        "Jan Hjärpe och Mohammad Fazlhashemi i samtal om den historiske Muhammed",
+        "Fazlhashemi är professor i islamisk teologi och filosofi (Uppsala; tidigare idéhistoria i Umeå) och är samme sakkunnige vars utsaga om Profetens hälsningspraxis återges i AD 2018 nr 51 — en direkt brygga mellan det akademiska och det rättsliga fältet"
+      ]
+    },
+    {
+      "id": "signum-perspektiv-muhammed",
+      "url": "https://signum.se/artikelarkiv/olika-perspektiv-pa-profeten-muhammeds-liv/",
+      "title": "Signum: Olika perspektiv på profeten Muhammeds liv",
+      "keyFindings": [
+        "Svenskspråkig översikt över de konkurrerande forskningsperspektiven på Muhammeds liv",
+        "Användbar som svensk ingång till källkritikdebatten utan att gå via polemisk litteratur"
+      ]
+    },
+    {
+      "id": "anthony-empires",
+      "url": "https://www.ucpress.edu/book/9780520340411/muhammad-and-the-empires-of-faith",
+      "title": "Sean W. Anthony, Muhammad and the Empires of Faith: The Making of the Prophet of Islam (University of California Press, 2020)",
+      "keyFindings": [
+        "Den seriösa mittpositionen i historicitetsdebatten: kritisk läsning av muslimska och icke-muslimska källor tillsammans, placerade i senantikens intellektuella värld",
+        "Slutsats: konvergensen mellan flera oberoende källor gör det alltmer osannolikt att Muhammed var en fiktiv konstruktion — men hans liv och verksamhet måste förstås skilt från senare mytologisering",
+        "Det verk artikeln bör luta sig mot när den behandlar källkritiken, i stället för att ställa Hagarism mot traditionen som om det vore de enda alternativen"
+      ]
+    },
+    {
+      "id": "hagarism",
+      "url": "https://en.wikipedia.org/wiki/Hagarism",
+      "title": "Hagarism: The Making of the Islamic World (Patricia Crone och Michael Cook, 1977)",
+      "keyFindings": [
+        "Rekonstruerar islams uppkomst enbart ur samtida icke-arabiska källor på armeniska, grekiska, arameiska och syriska",
+        "Tes: tidig islam uppstod ur en judisk-arabisk messiansk rörelse; de arabiska erövringarna 630–640-talen som återupprättat förbund snarare än utbredning av en färdig religion",
+        "Avgörande för hederligheten: författarna tog senare avstånd från huvudtesen. Crone kallade boken »en doktorandessä« och sade: »Vi var unga och visste ingenting. Boken var bara en hypotes, inte ett avgörande resultat«",
+        "En artikel som anför Hagarism utan att nämna Crones eget återtagande gör sig skyldig till samma selektivitet den kritiserar"
+      ]
+    },
+    {
+      "id": "kister-qurayza",
+      "url": "https://kister.huji.ac.il/sites/default/files/pdf/banu_qurayza.pdf",
+      "title": "M. J. Kister, »The Massacre of the Banū Qurayẓa: A Re-examination of a Tradition«",
+      "keyFindings": [
+        "Kister prövar W. N. Arafats tes att Ibn Ishaqs skildring av Banu Qurayza är opålitlig — Arafats huvudargument är att Ibn Ishaq dog 151 AH, 145 år efter händelsen",
+        "Standardreferensen i den akademiska debatten om episodens historicitet; Kister når inte Arafats avfärdande slutsats",
+        "PDF — WebFetch kan inte läsa den; innehållet måste kontrolleras i annan form innan det citeras. Artikeln bör redovisa att islamiska modernister ofta betvivlar berättelsen medan den är accepterad hos traditionalister, och att osäkerheten främst gäller antalet avrättade"
+      ]
+    },
+    {
+      "id": "newlines-aisha",
+      "url": "https://newlinesmag.com/essays/why-scholars-of-islam-disagree-about-the-age-of-the-prophet-muhammads-youngest-wife/",
+      "title": "New Lines Magazine: Why Scholars of Islam Disagree About the Age of the Prophet Muhammad's Youngest Wife",
+      "keyFindings": [
+        "Redovisar inkonsekvenserna: hadithspecialisten Ibn al-Athir (1300-talet) noterar att olika versioner anger sex respektive sju år, och att andra varianter placerar äktenskapskontraktet två år före hijra med senare fullbordan",
+        "Ibn Ishaq och Ibn Hisham räknar Aisha bland de tidigaste konvertiterna, vilket kräver högre ålder",
+        "Argument att de fyra eponyma rättsskolegrundarna — Malik, Abu Hanifa, al-Shafii och Ahmad ibn Hanbal — i stort inte åberopade sex/nio-uppgiften, som fick genomslag först via al-Bukhari och Muslim på 800-talet",
+        "Framställer alltså frågan som en INOMislamisk lärd tvist, inte som en yttre attack — vilket är den rättvisa framställningen"
+      ]
+    },
+    {
+      "id": "yaqeen-aisha",
+      "url": "https://yaqeeninstitute.org/read/paper/the-age-of-aisha-ra-rejecting-historical-revisionism-and-modernist-presumptions",
+      "title": "Yaqeen Institute: The Age of Aisha (ra): Rejecting Historical Revisionism and Modernist Presumptions",
+      "keyFindings": [
+        "Motpositionen inom samtida muslimskt lärt tänkande: försvarar den klassiska sex/nio-uppgiftens autenticitet och avvisar omdateringen som eftergift åt moderna förutsättningar",
+        "Nödvändig för att inte framställa den reviderande läsningen som det självklara muslimska svaret — den är omstridd inom samfundet, och båda sidor är muslimska"
+      ]
+    },
+    {
+      "id": "mana-mawlid",
+      "url": "https://manajustice.org/to-mawlid-or-not-to-mawlid/",
+      "title": "MANA: To Mawlid or Not to Mawlid",
+      "keyFindings": [
+        "Ibn Taymiyya klassade mawlid som bidʿa med argumentet att en god handling kräver textstöd",
+        "Bland dem som accepterade former av mawlid fanns Jalal al-Din al-Suyuti och Ibn Hajar al-Asqalani; al-Suyuti menade att en sammankomst med koranrecitation, berättelser om Profetens födelse och bespisning kan utgöra en berömvärd innovation",
+        "Motståndarargumentet i sin starkaste form: Profetens följeslagare och de tidiga generationerna älskade och hedrade honom mer än senare muslimer, och inrättade ändå ingen årlig högtid",
+        "Exakt den typ av rättsskolestrid artikeln behöver — och den går inte längs sunni/shia-linjen utan tvärs genom sunnitisk lärdom"
+      ]
+    },
+    {
+      "id": "remmm-mawlid-ibntaymiyya",
+      "url": "https://www.academia.edu/121960568/_Ambiguity_and_Confusion_around_the_Celebration_of_the_Mawlid_On_Ibn_Taymiyya_s_Position_and_its_Use_in_Contemporary_Religious_Debates_REMMM_155_1_2024_p_87_104_open_access_",
+      "title": "»Ambiguity and Confusion around the Celebration of the Mawlid: On Ibn Taymiyya's Position and its Use in Contemporary Religious Debates«, REMMM 155/1 (2024), s. 87–104",
+      "keyFindings": [
+        "Akademisk open access-artikel som visar att Ibn Taymiyyas position på mawlid är mer mångtydig än både anhängare och motståndare framställer den",
+        "Viktig korrigering: den moderna salafistiska användningen av Ibn Taymiyya i mawlid-frågan är en förenkling av vad han faktiskt skrev",
+        "Academia.edu kan kräva inloggning — kontrollera åtkomsten innan den anges som läsbar referens"
+      ]
+    },
+    {
+      "id": "abuamina-khuluq",
+      "url": "https://www.abuaminaelias.com/dailyhadithonline/2012/08/11/prophet-character-quran/",
+      "title": "Hadith: »Profetens karaktär var Koranen« (Aisha), Ṣaḥīḥ Muslim 746",
+      "keyFindings": [
+        "Qatada frågade Aisha om Guds sändebuds karaktär; hon svarade med en motfråga om han läst Koranen och sade sedan: »Guds profets karaktär var Koranen«",
+        "Arabisk lydelse: خُلُقَ نَبِيِّ اللَّهِ كَانَ الْقُرْآنَ; graderad sahih i Muslim",
+        "Ger den exakta samlingen och numret för det citat som annars florerar utan referens — verifiera numreringen mot sunnah.com eller tryckt utgåva, eftersom Muslims numrering varierar mellan utgåvor"
+      ]
+    },
+    {
+      "id": "depictions-aniconism",
+      "url": "https://en.wikipedia.org/wiki/Aniconism_in_Islam",
+      "title": "Aniconism in Islam — översikt över bildförbudets rättsliga grund",
+      "keyFindings": [
+        "Koranen innehåller inget direkt förbud mot bilder; förbudet härleds ur hadithlitteraturens fördömande av avbildningar av levande varelser",
+        "I klassisk sunnitisk fiqh är tredimensionella statyer otillåtna eftersom de efterliknar den gudomliga skapelsen, medan tvådimensionella framställningar tillåts under vissa villkor",
+        "De flesta shiitiska lärde accepterar vördnadsfulla avbildningar, som förekommer i böcker och arkitektonisk dekor",
+        "Persiska och osmanska illuminerade handskrifter från 1200-talet och framåt avbildar Muhammed, ofta med slöjat eller tomt ansikte eller omgiven av en flammande gloria — en kompromiss med bildskepsisen",
+        "Christiane Gruber har dokumenterat en betydande korpus av Muhammed-bilder från 1200-talet till modern tid",
+        "Detta upphäver den svenska debattens vanliga premiss att bildförbudet är entydigt och tidlöst"
+      ]
+    },
+    {
+      "id": "sorenoman-ad2018",
+      "url": "https://www.sorenoman.se/arbetsdomstolens-dom/ad-2018-nr-51/",
+      "title": "Sören Öman: AD 2018 nr 51 — rättsfallsreferat",
+      "keyFindings": [
+        "Alternativ ingång till handskakningsdomen med referat och kommentar från arbetsrättslig expertis",
+        "Nyttig för att kontrollera domens rättsliga betydelse och senare tillämpning"
+      ]
+    },
+    {
+      "id": "jk-tryckfrihet",
+      "url": "https://www.jk.se/tryck-och-yttrandefrihet/",
+      "title": "Justitiekanslern: Tryck- och yttrandefrihet",
+      "keyFindings": [
+        "JK är ensam åklagare i tryck- och yttrandefrihetsmål — förklarar varför anmälningarna mot Nerikes Allehanda 2007 avgjordes av JK och inte av allmän åklagare",
+        "Institutionell nyckel till varför en tryckt Muhammedbild och en koranbränning på gatan prövas enligt helt olika ordningar i svensk rätt"
+      ]
+    },
+    {
+      "id": "momika-killing",
+      "url": "https://en.wikipedia.org/wiki/Killing_of_Salwan_Momika",
+      "title": "Killing of Salwan Momika",
+      "keyFindings": [
+        "Momika sköts till döds i Södertälje 29 januari 2025 under en TikTok-livesändning, timmar före det planerade domsavkunnandet",
+        "Åtalet mot honom lades ned; medåtalade Salwan Najem dömdes påföljande dag",
+        "Kronologin är avgörande för att inte framställa domen som riktad mot Momika"
+      ]
+    },
+    {
+      "id": "aljazeera-najem",
+      "url": "https://www.aljazeera.com/news/2025/2/3/man-convicted-of-hate-crimes-over-quran-burnings-in-sweden",
+      "title": "Al Jazeera: Man convicted of hate crimes over Quran burnings in Sweden",
+      "keyFindings": [
+        "Internationell rapportering av domen 3 februari 2025 — visar hur svensk rättstillämpning i Muhammed- och koranfrågor läses utanför Sverige",
+        "Najem dömdes för att vid fyra tillfällen ha uttryckt missaktning för muslimer på grund av deras trosbekännelse; villkorlig dom och böter"
+      ]
+    },
+    {
+      "id": "islamofobi-sverige",
+      "url": "https://sv.wikipedia.org/wiki/Islamofobi_i_Sverige",
+      "title": "Islamofobi i Sverige — forskningsöversikt",
+      "keyFindings": [
+        "Ärkebiskop Nathan Söderblom, lärare och mentor för flera ledande svenska orientalister, beskrivs ha haft en nedsättande syn på islam med betydelse för den akademiska diskursen",
+        "Flera samtida svenska orientalister, däribland Tor Andræ och K. V. Zetterstéen, bedrev likväl vetenskapligt hållbart arbete; Andræs Muhammed-verk citeras än i dag av både muslimska och icke-muslimska forskare",
+        "Ger den svenska idéhistoriska bakgrund artikeln behöver — och den ska BESKRIVAS, inte användas för att argumentera för islams sanningsanspråk"
+      ]
+    }
+  ],
+  "datasets": [
+    {
+      "id": "mucf-betjanade-muslimska-2024",
+      "question": "Hur många personer betjänas av de statsbidragsberättigade muslimska trossamfunden i Sverige?",
+      "unit": "personer (betjänade)",
+      "source": "Myndigheten för ungdoms- och civilsamhällesfrågor (MUCF), statistik över trossamfund — antal betjänade, redovisningsår 2024",
+      "sourceUrl": "https://www.mucf.se/rapporter-och-statistik/trossamfund-antal-betjanade",
+      "retrieved": "2026-09-04",
+      "note": "Mäter INTE antalet muslimer i Sverige. »Betjänad« definieras som medlem i ett trossamfund eller person som regelbundet deltar i samfundets verksamhet, och siffran är bidragsgrundande — den som aldrig går till moskén räknas inte, och samfund utanför bidragssystemet saknas helt. Sverige för ingen religionsstatistik sedan folkräkningen 1930, så det finns ingen officiell motsvarighet. SST:s uppgifter övertogs av MUCF 1 januari 2026, vilket gör att äldre publikationer hänvisar till SST för samma serie. FIFS heter i äldre källor »Förenade islamiska föreningar i Sverige«, i MUCF:s tabell »Förenade islamiska församlingar i Sverige«. Svenska islamiska församlingarna (SIF) förekommer i äldre SST-redovisningar men saknas i 2024 års tabell.",
+      "columns": [
+        "Samfund",
+        "Betjänade 2024"
+      ],
+      "rows": [
+        {
+          "label": "Förenade islamiska församlingar i Sverige (FIFS)",
+          "values": [
+            "61 350"
+          ]
+        },
+        {
+          "label": "Sveriges muslimska förbund (SMF)",
+          "values": [
+            "50 479"
+          ]
+        },
+        {
+          "label": "Islamiska Shiasamfunden i Sverige (ISS)",
+          "values": [
+            "35 388"
+          ]
+        },
+        {
+          "label": "Islamiska Kulturcenter Unionen i Sverige (IKUS)",
+          "values": [
+            "27 711"
+          ]
+        },
+        {
+          "label": "Bosniakiska Islamiska Samfundet (BIS)",
+          "values": [
+            "19 440"
+          ]
+        },
+        {
+          "label": "Summa muslimska samfund",
+          "values": [
+            "194 368"
+          ]
+        },
+        {
+          "label": "Samtliga redovisade trossamfund (jämförelsetal)",
+          "values": [
+            "844 694"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "antal-muslimer-sverige-metoder",
+      "question": "Hur många muslimer finns det i Sverige — och varför skiljer sig svaren med en faktor fyra?",
+      "unit": "personer",
+      "source": "Sammanställning av publicerade uppskattningar (Pew Research Center; SOM-institutet; SST/MUCF), refererade i Wikipedia-artikeln »Islam i Sverige«",
+      "sourceUrl": "https://sv.wikipedia.org/wiki/Islam_i_Sverige",
+      "retrieved": "2026-09-04",
+      "note": "Siffrorna är INTE jämförbara: de mäter olika saker. Pews tal är en härkomstbaserad modellskattning som rymmer både praktiserande och helt sekulariserade personer med muslimsk bakgrund; SOM-institutets bygger på självidentifikation i enkät; SST/MUCF:s på bidragsgrundande medlemskap och deltagande. Ingen av dem är en folkräkning. Pews uppgift avser förhållandena vid mitten av 2016 och publicerades 2017 — den citeras ofta felaktigt som aktuell. Urvalsstorlekar för enkätunderlagen framgår inte av den sammanställande källan och bör kontrolleras mot primärrapporterna innan de anges i text.",
+      "columns": [
+        "Källa och metod",
+        "Uppskattning",
+        "Referensår"
+      ],
+      "rows": [
+        {
+          "label": "Pew Research Center, Europe's Growing Muslim Population (modellskattning på härkomst)",
+          "values": [
+            "ca 810 000 (ca 8 % av befolkningen)",
+            "2016 (publ. 2017)"
+          ]
+        },
+        {
+          "label": "Forskningsstudie refererad i sammanställningen",
+          "values": [
+            "ca 500 000",
+            "2020"
+          ]
+        },
+        {
+          "label": "SOM-institutet (självidentifikation i enkät)",
+          "values": [
+            "ca 260 000",
+            "2019"
+          ]
+        },
+        {
+          "label": "SST, betjänade i statsbidragsberättigade islamiska samfund",
+          "values": [
+            "224 459",
+            "2021"
+          ]
+        },
+        {
+          "label": "MUCF, betjänade i statsbidragsberättigade islamiska samfund",
+          "values": [
+            "194 368",
+            "2024"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tillvaxt-islamiska-samfund-sverige",
+      "question": "Hur har antalet betjänade i Sveriges islamiska trossamfund utvecklats sedan den första moskén byggdes?",
+      "unit": "personer (betjänade)",
+      "source": "SST/MUCF:s serie över betjänade i islamiska trossamfund, refererad i Wikipedia-artikeln »Islam i Sverige«; 2024 års tal från MUCF",
+      "sourceUrl": "https://sv.wikipedia.org/wiki/Islam_i_Sverige",
+      "retrieved": "2026-09-04",
+      "note": "Serien mäter registrerat deltagande i bidragsberättigade samfund, inte religiös övertygelse — nedgången 2021→2024 är därför inte belägg för att antalet muslimer minskat, utan speglar sannolikt ändrad redovisning och att SIF inte ingår i 2024 års tabell. Definitionen av »betjänad« har dessutom inte varit konstant över hela perioden. Serien är ett mått på institutionalisering, vilket är det artikeln kan använda den till.",
+      "columns": [
+        "År",
+        "Betjänade"
+      ],
+      "rows": [
+        {
+          "label": "1976 (samma år som Nasirmoskén i Göteborg, Sveriges första purpose-built moské, invigdes)",
+          "values": [
+            "ca 12 000"
+          ]
+        },
+        {
+          "label": "1991",
+          "values": [
+            "ca 50 000"
+          ]
+        },
+        {
+          "label": "2010",
+          "values": [
+            "ca 110 000"
+          ]
+        },
+        {
+          "label": "2016",
+          "values": [
+            "154 140"
+          ]
+        },
+        {
+          "label": "2021",
+          "values": [
+            "224 459"
+          ]
+        },
+        {
+          "label": "2024 (MUCF, exkl. SIF)",
+          "values": [
+            "194 368"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "svensk-rattspraxis-muhammed",
+      "question": "Hur har svenska rättstillämpare bedömt handlingar och praktiker som direkt rör Profeten Muhammed?",
+      "unit": "rättsliga avgöranden och beslut",
+      "source": "Justitiekanslerns beslut 2007 (refererat av SVT Nyheter); Arbetsdomstolen AD 2018 nr 51; Stockholms tingsrätts dom 3 februari 2025 (refererad av SVT Nyheter och Al Jazeera); Europadomstolen E.S. mot Österrike (2018)",
+      "sourceUrl": "https://lagen.nu/dom/ad/2018:51",
+      "retrieved": "2026-09-04",
+      "note": "Sammanställningen blandar instanser med mycket olika rättskraft: ett JK-beslut att inte väcka åtal är inte prejudikat, en tingsrättsdom är inte vägledande praxis och var vid tiden för sammanställningen överklagad till Svea hovrätt (överklagandet ingivet slutet av februari 2025; hovrättens och HD:s ställningstaganden är inte kontrollerade här). AD 2018 nr 51 är däremot ett avgörande i sista instans på arbetsrättens område. Europadomstolens dom i E.S. mot Österrike prövade österrikisk rätt, inte svensk, och kan inte utan vidare överföras. Datumet för Säpos höjning av terrorhotnivån anges som 17 augusti 2023 av Säkerhetspolisen själv men som 18 augusti i regeringens artikel — kontrollera mot Säpos egen sida innan datumet trycks.",
+      "columns": [
+        "Avgörande / beslut",
+        "År",
+        "Utgång"
+      ],
+      "rows": [
+        {
+          "label": "JK Göran Lambertz beslut om Nerikes Allehandas publicering av Lars Vilks rondellhund; anmälare Sveriges Muslimska Förbund och Förenade Islamiska Föreningar i Sverige",
+          "values": [
+            "2007",
+            "Inget åtal. Missaktningsbegreppet ska tolkas »med viss försiktighet«; även yttranden som en bred allmänhet uppfattar som stötande måste ha ett vidsträckt utrymme"
+          ]
+        },
+        {
+          "label": "Europadomstolen, E.S. mot Österrike (att kalla Muhammed pedofil vid seminarier)",
+          "values": [
+            "2018",
+            "Fällande österrikisk dom godtogs; inskränkningen ansågs nödvändig för att bevara religionsfriden"
+          ]
+        },
+        {
+          "label": "Arbetsdomstolen AD 2018 nr 51, DO mot Almega Tjänsteföretagen och Semantix Tolkjouren AB",
+          "values": [
+            "2018",
+            "Indirekt diskriminering. Vägran att ta män i hand ansågs ha så nära koppling till religiös övertygelse att den är en skyddad religionsmanifestation enligt EKMR art. 9. 40 000 kr i diskrimineringsersättning. Domskälen återger sakkunnigutsaga om att Profeten enligt vissa källor inte skakade hand med kvinnor"
+          ]
+        },
+        {
+          "label": "Stockholms tingsrätt, Salwan Najem (fyra koranbränningar sommaren 2023)",
+          "values": [
+            "2025",
+            "Fälld i fyra fall av hets mot folkgrupp; villkorlig dom och dagsböter. Överklagad till Svea hovrätt"
+          ]
+        },
+        {
+          "label": "Säkerhetspolisens höjning av terrorhotnivån från 3 till 4 på femgradig skala, med hänvisning bl.a. till koranbränningar",
+          "values": [
+            "2023",
+            "Sverige gick från »legitimt mål« till »prioriterat mål«. Sänkt tillbaka till nivå 3 i maj 2025"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "svenska-koranoversattningar",
+      "question": "Vilka svenska koranöversättningar finns, och vilken formar den svenska bilden av Profeten i dag?",
+      "unit": "utgåvor",
+      "source": "Svenskt översättarlexikon, artikeln »Svenska Koranöversättningar«, Litteraturbanken",
+      "sourceUrl": "https://litteraturbanken.se/%C3%B6vers%C3%A4ttarlexikon/artiklar/Svenska_Koran%C3%B6vers%C3%A4ttningar",
+      "retrieved": "2026-09-04",
+      "note": "Bernströms Koranens budskap (1998) beskrivs i facklitteraturen inte som en översättning utan som en tolkning byggd på Muhammad Asads engelska The Message of the Qur'ān (1980), vars kommentar återges bearbetad. Det betyder att den svenska standardtexten om Profeten är filtrerad genom en modernistisk 1900-talskommentar — vilket bör anges när Bernström citeras, inte döljas. Ibn Hishams sira finns enligt samma källa inte i svensk översättning; en svensk läsare som vill nå den klassiska Muhammed-biografin är alltså hänvisad till andra språk. Detta bör verifieras mot Libris innan det påstås kategoriskt.",
+      "columns": [
+        "Översättare",
+        "Utgivningsår"
+      ],
+      "rows": [
+        {
+          "label": "Fredrik Crusenstolpe (första fullständiga svenska översättningen)",
+          "values": [
+            "1843"
+          ]
+        },
+        {
+          "label": "Carl Johannes Tornberg",
+          "values": [
+            "1873–1874"
+          ]
+        },
+        {
+          "label": "Karl Vilhelm Zetterstéen",
+          "values": [
+            "1917"
+          ]
+        },
+        {
+          "label": "Åke Ohlmarks (parafras av valda delar)",
+          "values": [
+            "1961"
+          ]
+        },
+        {
+          "label": "Ahmadiyyarörelsen",
+          "values": [
+            "1988"
+          ]
+        },
+        {
+          "label": "Mohammed Knut Bernström, Koranens budskap",
+          "values": [
+            "1998"
+          ]
+        }
+      ]
+    }
+  ]
+}

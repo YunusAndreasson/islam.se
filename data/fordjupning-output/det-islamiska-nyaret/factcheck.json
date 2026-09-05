@@ -1,0 +1,168 @@
+{
+  "overallCredibility": 8.2,
+  "verdict": "pass",
+  "summary": "No fabrications found. All 14 database quotes verified by direct ID lookup with exact author/work matches, including the three the research itself flagged with caveats (hadith-in-Ibn-Rajab, supplication, anonymous poet) — the caveats are accurate, which is unusually disciplined. Every major web claim I tested was confirmed verbatim: the Kosteski Article 9 holding, both SO-rummet sentences, the Ibn Uthaymin/Imam Ahmad/al-Khudayr passages on IslamQA, the KU15 ställningstagande and its 4 Feb 2021 date, the MUCF shia figures, the IslamWeb end-of-year-duʿa fatwa, and the Islamiska Förbundet global-sighting method. The central historical thesis is confirmed in primary text: Ibn Kathir reports Malik holding the year begins in rabiʿ al-awwal, and states the reason muharram prevailed was administrative (لئلا يختلط النظام). Ibn Taymiyya's \"two bidʿas\" passage is confirmed word for word, including that both accused parties are Muslim factions — the research's most striking claim survives scrutiny. Four correctable problems: (1) the Kosteski judgment date is 13 April 2006, not 13 July as the research's single secondary source states; (2) Dar al-Ifta is corroborated at jāʾiz/\"not bidʿa\" but not at mustahabb, so \"rentav rekommenderad\" must come down; (3) attributing the Hanafi kohl practice to \"Husayns mördare\" misreads the sources, which name the Syrian Nawāṣib acting in spite of the Shia; (4) most seriously, the article's rhetorical climax — that the Swedish schoolbook's festive description matches nothing in either tradition — is contradicted by the research's own Wikipedia source, which documents living Sunni ashura festivity across the Maghreb and elsewhere. That last point is a framing error, not a sourcing failure, but it undercuts the piece's best line and a knowledgeable critic would catch it immediately.",
+  "verifiedClaims": [
+    {
+      "claim": "All 14 quotes attributed to Ibn Rajab, Ibn al-Jawzi, al-Ghazali, Linné, Söderberg, Bergman and Bremer",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of all 14 IDs",
+      "notes": "Exact author and work matches on every ID. The research's three attribution caveats are confirmed by the database: 43304 lists Ibn Rajab as book author (the text is the Abu Hurayra hadith), 43864 is categorised as supplication, 43811 is attributed to الشاعر. Handled honestly."
+    },
+    {
+      "claim": "Malik ibn Anas held the year should begin in rabi' al-awwal; muharram was chosen for practical/administrative reasons",
+      "status": "verified",
+      "method": "search_books located the Ibn Kathir passage (al-Bidaya wa-l-nihaya, ID 241213-241214) in primary text",
+      "notes": "Verbatim: 'وحكى السهيلي وغيره عن الإمام مالك أنه قال: أول السنة الإسلامية ربيع الأول لأنه الشهر الذي هاجر فيه رسول الله'. Ibn Kathir adds Malik's view is 'مناسب' but practice went otherwise 'لئلا يختلط النظام' — lest the system become confused. This is precisely the administrative-choice thesis. Strongest claim in the research."
+    },
+    {
+      "claim": "Ibn Taymiyya blames two innovations on Ashura — mourning and rejoicing — attributed to two Muslim factions, not Muslims vs non-Muslims",
+      "status": "verified",
+      "method": "search_books located Minhaj al-Sunna passage (ID 297985)",
+      "notes": "Verbatim: 'وصار الشيطان بسبب قتل الحسين يحدث للناس بدعتين: بدعة الحزن والنوح يوم عاشوراء... وكذلك بدعة السرور والفرح', naming the Kufan Shia under al-Mukhtar and the Nasiba. The research's 'surprising' claim holds."
+    },
+    {
+      "claim": "ECtHR: 'article 9 of the ECHR does not guarantee, as such, the right of the worker to take time off from work on religious holidays'",
+      "status": "verified",
+      "method": "WebFetch of the lawpluralism page plus independent WebSearch corroboration",
+      "notes": "Quote is verbatim, as is the 'at least a minimum justification of the reality of his belonging to this community' passage. Independent search also confirms the outcome (no violation, applicant having refused to corroborate his adherence) and the power-company employer. BUT see unverifiedClaims re: the judgment date."
+    },
+    {
+      "claim": "SO-rummet describes the Islamic new year as celebrated with storytelling, greetings, feasting and good food",
+      "status": "verified",
+      "method": "WebFetch of the SO-rummet page",
+      "notes": "Both sentences confirmed verbatim. The page also correctly notes muharram as a shia month of mourning for Husayn, killed at Karbala in 680 — so it is less one-sided than the research implies."
+    },
+    {
+      "claim": "Ibn Uthaymin: respond to but do not initiate Hijri new year greetings; the salaf did not regard 1 muharram as new year until Umar's caliphate",
+      "status": "verified",
+      "method": "WebFetch of islamqa.info/en/answers/21290",
+      "notes": "Both quotes verbatim, as are the Imam Ahmad passage ('neither Sunnah nor forbidden') and the al-Khudayr passage. The research presents the objection in its strongest non-caricatured form, which is fair."
+    },
+    {
+      "claim": "KU 2020/21:KU15 — 'Utskottet anser liksom tidigare att antalet helgdagar inte bör ändras...'; motion 2020/21:2672 by Joar Forssell (L); decided 4 February 2021",
+      "status": "verified",
+      "method": "WebFetch of the riksdagen betänkande",
+      "notes": "Ställningstagande verbatim, motion and date confirmed. See missingPerspectives for a framing caveat: no motion to ADD an Islamic holiday was before the committee."
+    },
+    {
+      "claim": "Islamiska Shiasamfunden i Sverige: 35 388 betjänade (2024), 39 723 (2023); definition of 'betjänade'",
+      "status": "verified",
+      "method": "WebFetch of MUCF statistics page",
+      "notes": "Shia figures confirmed exactly, and the statutory definition of 'betjänade' matches. The wider Islamiska samarbetsrådet series did not reconcile — see unverifiedClaims."
+    },
+    {
+      "claim": "IslamWeb fatwa 45049: the end-of-year du'a has no basis in the Sunnah collections; traceable only to Hashiyat al-Shaykh Kanun ala al-Bannani",
+      "status": "verified",
+      "method": "WebFetch of islamweb.net/ar/fatwa/45049",
+      "notes": "Confirmed including 'فلم نجد له ذكراً', the Kanun/Bannani citation, the 'كل بدعة ضلالة' conclusion, and the date 13 Muharram 1425 / 4 March 2004. This is the research's best-grounded critical point."
+    },
+    {
+      "claim": "Hijri calendar: epoch 16 July 622, twelve months of 29–30 days, 354-day year, year-number gap fallen from 622 to ~579, dates vary by a day regionally",
+      "status": "verified",
+      "method": "fetch_wikipedia (sv.wikipedia.org/wiki/Muslimska_kalendern, full text)",
+      "notes": "All figures and the 'kan skilja en dag beroende på region' wording confirmed. Article also states 'Nyårsdagen infaller den första dagen i månaden muharram', which supports the research's point that Swedish reference material frames it as a new year."
+    },
+    {
+      "claim": "Karbala: Husayn killed 10 Muharram 61 AH = 10 October 680; 'ashura' is Aramaic for 'tenth'; tatbir outlawed in some Shia communities",
+      "status": "verified",
+      "method": "fetch_wikipedia (en.wikipedia.org/wiki/Ashura, full text)",
+      "notes": "All confirmed. Same source, however, supplies the counter-evidence noted in missingPerspectives."
+    },
+    {
+      "claim": "Dar al-Ifta holds congratulation on the Hijri new year permissible and not a bid'a",
+      "status": "verified",
+      "method": "WebSearch in Arabic; multiple Egyptian outlets (Youm7, Masrawy, Akhbar el-Yom, Elbalad) quoting Dar al-Ifta and its Amin al-Fatwa",
+      "notes": "Substance corroborated at 'جائزة شرعًا ولا بدعة فيها'. The research's own warning not to quote the JS-rendered page verbatim is correct and should be honoured. The mustahabb upgrade is NOT corroborated."
+    },
+    {
+      "claim": "Islamiska Förbundet follows the European Fatwa Council, treating the whole earth as one place for moon sighting",
+      "status": "verified",
+      "method": "WebFetch of islamiskaforbundet.se",
+      "notes": "Confirmed including publication date 2025-02-10 and the astronomical-calculation rationale."
+    },
+    {
+      "claim": "Quran references 9:36, 9:37, 2:189, 10:5, 17:12, 2:217 match their quoted Swedish (Bernström) text",
+      "status": "verified",
+      "method": "Cross-checked verse numbers against quoted content; 9:36–37 independently corroborated by sv.wikipedia which cites 9:36 for twelve months/four sacred and 9:37 for the condemnation of intercalation",
+      "notes": "No mismatches. Verse selection is apt and the loci classici are correctly identified."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Kosteski v. former Yugoslav Republic of Macedonia was decided 13 July 2006",
+      "status": "unverified",
+      "reason": "CONTRADICTED. The research follows its single secondary source (lawpluralism.unimib.it), but the academic literature and standard citation form give the judgment as 13 April 2006. 13 July 2006 is most likely the date the judgment became final after the three-month Grand Chamber referral window. Correct to '13 april 2006' or cite as 'dom 13 april 2006, slutgiltig 13 juli 2006'. Getting a date wrong on the one European precedent the article leans on is exactly what a legally literate reader checks first."
+    },
+    {
+      "claim": "Dar al-Ifta declares the congratulation 'rentav rekommenderad' (mustahabb)",
+      "status": "unverified",
+      "reason": "Independent Arabic search corroborates jāʾiz sharʿan and 'not a forbidden bid'a', but not mustahabb. The research itself sourced this to a search summary and flagged that the page renders via JavaScript. Permissible is not the same as recommended, and the difference is the whole weight of the counter-position. Either open fatwa 13188 in a browser and quote the Arabic, or write only 'tillåten och ingen bid'a'."
+    },
+    {
+      "claim": "The Hanafi kohl practice derives from 'Husayns mördare'",
+      "status": "unverified",
+      "reason": "Misstates the sources. Ibn Taymiyya assigns the rejoicing-bid'a to the Nasiba, and Ibn Kathir (al-Bidaya, ID 248386) describes the Syrian Nawasib cooking grains, bathing, perfuming and wearing finery 'عناد الروافض' — in defiance of the Rafida — not as Karbala's killers. Even Ibn Taymiyya is making a polemical genealogy, not a historical identification. On a sectarian flashpoint this must be stated as 'the anti-Alid faction in Syria' with the attribution marked as Ibn Taymiyya's own."
+    },
+    {
+      "claim": "Hanafites consider it 'föreskrivet' to apply kohl on Ashura",
+      "status": "unverified",
+      "reason": "Overstates. al-Marghinani's wording in the research's own excerpt is 'وقد ندب النبي' — the Prophet recommended (nadb), i.e. mandub/mustahabb, not prescribed or obligatory. Change 'föreskrivet' to 'rekommenderat'. The contrast with Ibn Taymiyya survives intact and does not need the inflation."
+    },
+    {
+      "claim": "Islamiska samarbetsrådet: 194 663 (2024), 247 460 (2021), 278 533 (2020)",
+      "status": "unverified",
+      "reason": "I could not reconcile the aggregate series against the MUCF page; the member composition differs between years and my read of the 2020 total did not match 278 533. The shia figures the article actually needs are verified exactly. Either re-read the ISR columns directly or drop the aggregate time series — the research already notes the year-to-year swings are reorganisation artefacts, which makes the series near-meaningless as a trend anyway."
+    },
+    {
+      "claim": "SST supports ~10 000 members in shia congregations while ~200 000 have shia cultural background (via forskning.se)",
+      "status": "unverified",
+      "reason": "The research flags this itself: WebFetch of the forskning.se article returned no figures, and the numbers come from a search summary. The Larsson & Thurfjell report is a PDF that could not be fetched. Do not print these figures without reading the PDF."
+    },
+    {
+      "claim": "DO's analysis reports rectors who refuse leave for religious holidays but grant it for holiday travel",
+      "status": "unverified",
+      "reason": "The research flags this correctly: the DO document is a PDF that WebFetch cannot read, and the claim comes from a search summary. Attributing a specific finding to a myndighet on that basis is the kind of error that produces a correction. Read the PDF or cut the claim."
+    },
+    {
+      "claim": "2000–2500 participants at the Stockholm Ashura manifestation",
+      "status": "unverified",
+      "reason": "Not independently verifiable: it is the organiser's own estimate in a 2015 press release, i.e. a self-reported figure now eleven years old. Usable only with explicit attribution ('enligt arrangören, 2015'), never as a bare number."
+    },
+    {
+      "claim": "The Istanbul congress on hijri calendar unity was held in 2016 with al-Qaradawi's global-calendar proposal approved by vote",
+      "status": "unverified",
+      "reason": "Sole source is moonsighting.com, a self-published site whose own dating is internally inconsistent (18 February vs 30 May), and which gives neither vote counts nor objections. Verify against Diyanet's own proceedings or omit the specifics; the 8-degree elongation criterion can be stated as the congress's criterion only if the source is upgraded."
+    }
+  ],
+  "missingPerspectives": [
+    "THE BIG ONE: living Sunni Ashura festivity. The research's rhetorical climax is that SO-rummet's 'festar man och äter mycket god mat' matches neither Sunni scholarship nor Shia practice. The research's own Wikipedia source refutes this: Ashura is 'viewed as a day of thanksgiving (shukr) to God, a joyous occasion' and 'an important festival for many Sunnis'; in the Maghreb it is celebrated 'through fasting, almsgiving, honoring the dead, special dishes, jumping over bonfires, and carnivals'; and Ibn Taymiyya's own questioner describes people bathing, adorning themselves, shaking hands and cooking grains. The festivity is real and widespread — that is precisely why it needed a fatwa. The honest claim is that classical scholars condemned a living popular practice, not that the practice is a Swedish schoolbook invention. Reframe or the piece's best paragraph collapses under a single reader who has spent Ashura in Morocco.",
+    "The tripartite scheme (Sunni fast / Shia mourning / folk new year) is too clean. Wikipedia documents Sufi commemoration of Husayn's death, South Asian Sunnis participating in Shia rituals, and many Sunnis marking Karbala through sermons and remembrance. The categories blur in practice, and an article whose thesis is 'three irreconcilable usages' should say where they in fact reconcile.",
+    "Hijri dating may predate Umar. Ibn al-Qayyim's Zad al-Ma'ad — in the research's own book corpus — reports on an isnad Ahmad graded sahih that the first to date by the hijra was Ya'la ibn Umayya in Yemen, before Umar; and that Ibn Hazm too held the year begins in rabi' al-awwal. al-Dhahabi adds the calendar was instituted in year 16 'بمشورة علي', on Ali's counsel. The administrative-construction thesis survives but is stronger, not weaker, for acknowledging the Ya'la report rather than letting a reader find it.",
+    "Sources date Umar's institution of the calendar variously to 16, 17 and 18 AH (Ibn Kathir gives both 16 and 'سبع عشرة - أو ثماني عشرة'; al-Dhahabi gives 16). 'År 16–17 AH' silently narrows a three-way disagreement.",
+    "al-Shafi'i's position on whether Ashura is the 9th or 10th is unsettled in the research's own materials: al-Qurtubi attributes to him that it is the 9th (per Hakam b. al-A'raj), while al-Nawawi — the authoritative Shafi'i voice — treats Ashura as the 10th and tasu'a as the 9th. Presenting either as the settled madhhab position would be wrong; the disagreement itself is the fact.",
+    "KU15 framing: the committee refused to change the number of holidays, but no motion to ADD an Islamic holiday was before it. Forssell's motion argued for REMOVING religious holidays on neutrality grounds. Writing that riksdagen 'prövat och avvisat frågan' risks implying a rejection of something never proposed.",
+    "No Muslim voice arguing FOR observance from within the tradition beyond Dar al-Ifta's bare permissibility. The article stages Ibn Taymiyya and Ibn Uthaymin at full strength against a folk practice with no articulate defender. Dar al-Ifta's actual reasoning — remembrance of 'Guds dagar' and gratitude for renewed blessings — deserves to be quoted at the same length as the objection.",
+    "'Det enda samfundet' for which muharram is a month of mourning is true only within Islamiska samarbetsrådet's six members; shia organisations exist outside ISR. Drop the superlative or scope it."
+  ],
+  "sourceAssessment": {
+    "totalSources": 30,
+    "highCredibility": 21
+  },
+  "recommendations": [
+    "Correct the Kosteski date to 13 April 2006 (or state 'dom 13 april 2006, slutgiltig 13 juli 2006'). Do not rely on lawpluralism.unimib.it alone for the citation — it is the source of the error.",
+    "Downgrade Dar al-Ifta from 'rentav rekommenderad' to 'tillåten och ingen bid'a' unless fatwa 13188 is opened in a browser and the Arabic quoted directly. Then give its reasoning the same word count as Ibn Uthaymin's objection, so the disagreement is staged fairly.",
+    "Rewrite the 'Husayns mördare' phrase. The sources name the anti-Alid Nawasib of Syria acting in defiance of the Shia, and the genealogy is Ibn Taymiyya's polemic, not established history. Mark it as his attribution.",
+    "Change 'föreskrivet' to 'rekommenderat' for the Hanafi kohl position — al-Marghinani's word is nadb.",
+    "Rebuild the SO-rummet paragraph around what is actually true: the festive description matches a real and widespread Sunni Ashura practice that classical scholars condemned, and misdates it to 1 muharram rather than the 10th. That is a sharper and more defensible point than 'nobody does this', and it preserves the article's genuinely good observation that the most contested day in muharram is the tenth, not the first.",
+    "Add the Ya'la ibn Umayya report from Zad al-Ma'ad and note the 16/17/18 AH spread. Pre-empting the obvious objection costs two sentences and buys the whole thesis credibility.",
+    "Present the 9th-vs-10th question as an unresolved disagreement between al-Qurtubi's report of al-Shafi'i and al-Nawawi's al-Majmu'; do not let either stand as 'the Shafi'i position'.",
+    "Cut or verify the three PDF-derived claims (DO's analysis, Larsson & Thurfjell figures, forskning.se's 10 000/200 000). The research's own warnings on these are correct and must not be lost in drafting.",
+    "Attribute the 2000–2500 Ashura figure explicitly to the organiser and to 2015. Do not present it as current.",
+    "Either verify the Istanbul 2016 congress against Diyanet's proceedings or drop the date and vote claim; moonsighting.com is self-published and internally inconsistent.",
+    "Re-read the Islamiska samarbetsrådet columns directly or drop the aggregate series. The shia figures are solid and are all the argument needs.",
+    "Scope or remove 'det enda samfundet' — it holds only within ISR's membership.",
+    "Keep the Swedish calendar-crisis material (30 February 1712) strictly parallel and descriptive, exactly as the research instructs itself. It is a genuinely good bridge and would be ruined by being pressed into argument."
+  ],
+  "datasetChecks": []
+}

@@ -1,0 +1,180 @@
+{
+  "overallCredibility": 8.3,
+  "verdict": "pass",
+  "summary": "Unusually disciplined research. I found no fabrications. All 7 database quotes verified by direct ID lookup with exact author/work matches; all four begravningslagen paragraphs verified verbatim against the official SFS text at riksdagen.se; the Ahlmark, Korn, Malm, Möller, Aggedal, Kaleem and Fonus quotes all confirmed word-for-word at source; Quran 5:31 and 80:21 confirmed verbatim against quran.com translation 48 (Bernström). Two fiqh claims I expected to be loose paraphrase proved exact in the book database: al-Nawawi's tabut ruling including the phrase 'our madhhab and the madhhab of all scholars, and I think it is ijma', and the Aisha/Suhayl b. Bayda counter-hadith on janaza prayer in the mosque. The research's self-declared negative findings are all genuine and correctly stated (no 'kista' anywhere in begravningslagen; Kyrkans Tidning does not mention Muslim or Jewish requirements; the 0.5 percent figure is one mosque representative's estimate, not register data). Six problems, two substantive. (1) Theological accuracy: the mosque-janaza dispute is framed as a symmetric standoff between two textual proofs, but the book database itself shows both cited authorities questioning the Hanafi hadith's authenticity — Ibn Qudama flags the narrator Salih mawla al-Taw'ama as rejected for weakness by some, and al-Nawawi answers with 'law thabata' (if it were established). (2) Framing: al-Nawawi's own conditional escape valve on the coffin ('fa-in ta'adhdhara ittukhidha al-tabut') is omitted, which makes the coffin conflict look more intractable than the madhhab itself treats it. Plus: the 'drygt 83 %' cremation figure is not an SKKF number for any stated year, '66 krematorier' looks like a 2009 count, Quran 3:185 is misquoted as Bernström, and the al-Layth b. Sa'd attribution sits exactly at the point where the Ibn Rushd excerpt truncates. None of this undermines the thesis; all of it is fixable before publication.",
+  "verifiedClaims": [
+    {
+      "claim": "All seven database quotes (Strindberg x2, Brynhild/Sigrdrifumal, Runeberg, Söderberg, Bergman x2) exist under the claimed authors and works",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of IDs 19, 16013, 42568, 3846, 49993, 50330, 8662",
+      "notes": "Exact author and work matches on all seven. The research correctly flagged that quote-42568 (Runeberg) has work 'Unknown' in the database and instructed that no work title be given without independent control — that caution is warranted and should be kept."
+    },
+    {
+      "claim": "Begravningslag 2 kap. 2 §, 5 kap. 10 §, 7 kap. 5 § and 6 kap. 1 § read as quoted",
+      "status": "verified",
+      "method": "WebFetch of the official SFS text at riksdagen.se, requesting verbatim quotation of each paragraph",
+      "notes": "All four verbatim. 2:2 is indeed negatively defined ('inte tillhör något kristet trossamfund'), as the research notes."
+    },
+    {
+      "claim": "NEGATIVE FINDING: begravningslagen contains no coffin (kista) requirement and does not regulate svepning",
+      "status": "verified",
+      "method": "WebFetch with explicit instruction to search the statute text for the word 'kista'",
+      "notes": "Confirmed — the word does not appear. This is an important and correctly stated negative finding. The instruction 'skriv inte att lagen kräver kista' must be preserved in the article."
+    },
+    {
+      "claim": "Prop. 2011/12:51 shortened the deadline from two months to one, for environmental and work-environment reasons rather than religious ones; average time to burial had risen to 18,8 days in 2008 and 27,8 days in Stockholm; begravningsombud must be assessed on knowledge of different religions",
+      "status": "verified",
+      "method": "WebFetch of the proposition text at riksdagen.se",
+      "notes": "All four elements verified with verbatim quotes, including 'behovet av balsamering minskar, vilket måste bedömas som positivt från såväl miljö- som arbetsmiljömässiga utgångspunkter'. The research's central point — that Sweden moved toward the Muslim ideal for entirely unrelated reasons — holds."
+    },
+    {
+      "claim": "Motion 1990/91:K622 (Lars Ahlmark, m) contains the quoted passages on non-reuse of graves and on eternal contracts, cites ca 800 000 eviga gravrättsavtal, and proposes municipal responsibility",
+      "status": "verified",
+      "method": "WebFetch of data.riksdagen.se/dokument/GE02K622",
+      "notes": "All verified including 'Ca 800 000 avtal om evig gravrätt har ingåtts i vårt land.' The research's reading of this as an equality objection rather than a hostile one is fair to the text."
+    },
+    {
+      "claim": "Interpellation 2024/25:297 (Ola Möller, S, 19 dec 2024) describes family members buried on top of each other in deeper graves at Helsingborg, and amalgam fillings raised as an objection to a replacement site",
+      "status": "verified",
+      "method": "WebFetch of the interpellation at riksdagen.se",
+      "notes": "Both verified. NEW FACT the research omits: minister Jakob Forssmed (KD) answered that existing regulation works adequately and declined to change the system. The article should report the answer, not just the question."
+    },
+    {
+      "claim": "Motion 2025/26:710 (Fredrik Malm, L, 1 okt 2025): 'Begravningsavgiften är ingen avgift – det är en skatt'; Stockholm 7,0 öre vs rikssnitt 27,7 öre; Kammarkollegiet miscalculation 2016",
+      "status": "verified",
+      "method": "WebFetch of the motion at riksdagen.se",
+      "notes": "All verified, with more precision available than the research captured: Kammarkollegiet announced 29,6 öre, the Church's recalculation gave 24,6 öre, roughly 900 MSEK in erroneous collection. NEW FACT omitted: the Constitutional Committee recommended rejection and the chamber rejected the motion."
+    },
+    {
+      "claim": "Polat v. Austria, judgment 20 July 2021, violations of both Article 8 and Article 9, with the impossibility of ritual washing (ghusl) central to the reasoning",
+      "status": "verified",
+      "method": "WebFetch of the Law & Religion UK case summary",
+      "notes": "Verified verbatim, including 'the ritual washing could not take place (because there are different washing rituals for males and females) and the funeral had to be cancelled.' The link the research draws between the ghusl question in al-Majmu'/al-Umm and the ECtHR ruling is sound. The compensation figure was NOT confirmed on this page — see unverified claims."
+    },
+    {
+      "claim": "Dan Korn's three quotes, and the characterisation that he does not oppose Muslims being buried in Sweden",
+      "status": "verified",
+      "method": "WebFetch of the Bulletin article requesting verbatim quotation",
+      "notes": "All three quotes verbatim. The characterisation is accurate: his objection is to funding via the general begravningsavgift, not to Muslim burial as such. The research's insistence on presenting the objection in its strongest form is editorially correct and correctly executed."
+    },
+    {
+      "claim": "Repatriation is roughly 0,5 percent according to Göteborgs moské; transport costs to Iceland ca 25 000 kr and Uganda 53 000 kr; Fonus quote on 150 kg minimum at over 100 kr per kilo",
+      "status": "verified",
+      "method": "Two WebFetch calls to the SVT Väst article, the second specifically targeting the '150 kilo' wording",
+      "notes": "All verbatim, speaker correctly identified as Kalssom Kaleem, medieansvarig. The research's own caveat — a single congregation representative's estimate from 2016, not national register data — is the right framing and must survive into the article."
+    },
+    {
+      "claim": "Jan-Olof Aggedal's title and quote, and the Börringe/Svedala context",
+      "status": "verified",
+      "method": "WebFetch of the SVT Skåne article",
+      "notes": "Verified, including the source's own spelling 'förståligt', which the research preserved accurately."
+    },
+    {
+      "claim": "Kyrkans Tidning: Helena Nordh, professor of landscape architecture at SLU, leads the study; the grave-reuse quote; a shortage of gravplatser within ca ten years",
+      "status": "verified",
+      "method": "WebFetch of the Kyrkans Tidning article",
+      "notes": "Verified, and so is the research's honest negative finding that the article does not mention Muslim or Jewish requirements. Worth adding: the article specifies the coming shortage is for COFFIN graves specifically, which supports the article's argument by a different route than the research proposes."
+    },
+    {
+      "claim": "al-Nawawi in al-Majmu' holds burial in a tabut makruh except in loose or moist ground, calling it 'our madhhab and the madhhab of all scholars, and I think it is ijma'",
+      "status": "verified",
+      "method": "search_books targeted Arabic query; retrieved passages 155512 and 155513",
+      "notes": "Verified verbatim: 'وهذا الذي ذكرناه من كراهة التابوت مذهبنا ومذهب العلماء كافة وأظنه إجماعا', followed by al-Abdari's 'لا أعلم فيه خلافا'. Stronger than the research claimed. But see missing perspectives — the same chapter carries a conditional exception the research omits."
+    },
+    {
+      "claim": "al-Nawawi invokes Aisha's hadith that the Prophet prayed over Ibn Bayda in the mosque, against the Hanafi prohibition in al-Hidaya",
+      "status": "verified",
+      "method": "search_books Arabic query; retrieved al-Majmu' 155303-155305, Sunan al-Nasai 222448, al-Mughni 136589, al-Muwatta 214520",
+      "notes": "Verified across four independent classical sources. al-Nawawi cites the Muslim narration and rebuts the standard objections one by one. The hadith is from Sahih Muslim, so the collection standard is met."
+    },
+    {
+      "claim": "Ibn Rushd cites Q 77:25-26 and Q 5:31 as the scriptural basis for the obligation of burial",
+      "status": "verified",
+      "method": "Direct reading of the Bidayat al-mujtahid excerpt supplied in the research brief",
+      "notes": "The excerpt confirms it verbatim. Note a precision point: Ibn Rushd's wording is 'أجمعوا على وجوب الدفن' (consensus on the obligation), while the explicit 'fard kifaya' classification is al-Nawawi's ('دفن الميت فرض كفاية بالإجماع', al-Majmu' 155493, which I retrieved independently). Attribute each formulation to its own author rather than blending them."
+    },
+    {
+      "claim": "Quran 5:31 and 80:21 in Bernström's translation read as quoted",
+      "status": "verified",
+      "method": "WebFetch of api.quran.com translation 48 for each verse key",
+      "notes": "5:31 matches verbatim (with one additional bracket, '[Och] han utropade'). 80:21 matches exactly. Q 77:26 was separately confirmed as '[För både] levande och döda' via the internal Quran database."
+    },
+    {
+      "claim": "Wikipedia 'Islam i Sverige': first Muslim burial plots bought at Skogskyrkogården in the 1950s; Turk-Islam Föreningen founded 1949 by the four named men; 224 000 (2021) vs ca 110 000 (2010); estimates spanning 260 000 / 500 000 / 810 000; last faith census 1930 with 15 Muslims; state registration of faith now illegal; one fifth to one third of cultural Muslims religiously active",
+      "status": "verified",
+      "method": "fetch_wikipedia with full: true",
+      "notes": "Every element verified. The research's methodological point — that the state does not and cannot know how many believing Muslims live in Sweden — is stated in the source and is the right way to handle the statistics. Keep the range, do not pick a number. One caveat: the article says 'sju islamiska riksorganisationer' but names only six; check SST/MUCF's own list before printing the number."
+    },
+    {
+      "claim": "Simon Sorgenfrei's SST publication: author affiliation, publication date 4 February 2021, publisher, and stated purpose",
+      "status": "verified",
+      "method": "WebFetch of the MUCF landing page",
+      "notes": "Verified. The research's warning not to quote from the unopened PDF is correct and must be honoured — the landing page description is all that is currently sourced."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Sweden has a cremation rate of 'drygt 83 %'",
+      "status": "unverified",
+      "reason": "SKKF's own published figures do not support 'just over 83 percent' as a stable or current number. Their headline for 2020 is 82,8 % — just UNDER 83 — and their 2022 report gives 82,9 %, a DECREASE of 1,4 percentage points from 2021 (implying roughly 84,3 % in 2021). The rate fluctuates in the 82–84 % band and has fallen in some years, so an unstamped 'drygt 83 %' is not attributable to SKKF. Fix: open SKKF's statistics page (skkf.se/krematorieverksamheten/statistik/) or the most recent Kremationsstatistik PDF, and cite a specific year with its specific figure. Separately, 'en av världens högsta kremationsandelar' needs a comparative source — Japan is near 99 %, and several other countries exceed Sweden, so the superlative as phrased may not survive scrutiny."
+    },
+    {
+      "claim": "Sweden has 66 crematoria",
+      "status": "unverified",
+      "reason": "Independent search indicates 66 was the number of crematoria in operation in 2009. Presenting a sixteen-year-old count as the current state of the infrastructure would be an error, and the number carries argumentative weight in the research's 'infrastructure built around a forbidden practice' claim. Fix: get a current count from SKKF, or drop the specific number and describe the infrastructure qualitatively."
+    },
+    {
+      "claim": "Quran 3:185 opens 'Varje själ skall smaka döden' in Bernström's translation",
+      "status": "unverified",
+      "reason": "Bernström (quran.com translation 48) reads 'Varje MÄNNISKA skall smaka döden. Men först på Uppståndelsens dag skall ni få er fulla lön...' — not 'Varje själ'. The research already flagged that its own brief version of this verse carried errors and instructed that the clean text be fetched; that instruction is correct and the fetched text is now on record here. Do not print 'Varje själ' attributed to Bernström."
+    },
+    {
+      "claim": "Quran 77:25 reads 'Har Vi inte gjort jorden till en behållare [som rymmer]'",
+      "status": "unverified",
+      "reason": "Translation-edition conflict. The internal Quran database renders 77:25 as 'Har Vi inte gjort jorden till ett kärl,' and its 5:31 is a visibly different translation from Bernström's (it uses 'Allah' and 'Ve mig!' where Bernström has 'Gud' and 'Har jag, eländige stackare'). The article is therefore drawing on two different Swedish Quran translations. This matters more than usual here because the kifatan argument is lexical — 'behållare' versus 'kärl' is the interpretive hinge of Ibn Rushd's proof. Fix: pick one translation, name it in the note, and use it consistently for all six verses."
+    },
+    {
+      "claim": "al-Layth b. Sa'd held that a deceased person of the opposite sex is buried without being washed",
+      "status": "unverified",
+      "reason": "The Bidayat al-mujtahid excerpt in the research brief truncates at exactly 'فقال قوم: يغسل...' — immediately before any of the three positions is attributed to a named jurist. Two targeted Arabic book-database searches failed to surface the continuation. The existence of three positions is verified; the specific attribution to al-Layth b. Sa'd is not. Fix: open the full Kitab al-jana'iz section of Bidayat al-mujtahid and confirm the name before printing it, or attribute the position without naming the jurist."
+    },
+    {
+      "claim": "Compensation in Polat v. Austria was approximately EUR 38 800",
+      "status": "unverified",
+      "reason": "The Law & Religion UK page, which is the research's cited source for the case, does not state the amount — I asked for it explicitly and it was not present. The judgment date, article violations and ghusl reasoning are all verified; only the figure is not. Fix: confirm against HUDOC using application no. 12886/16 before printing, or omit the amount."
+    },
+    {
+      "claim": "Motions 2025/26:710 and interpellation 2024/25:297 as indicators of the state of the debate",
+      "status": "unverified",
+      "reason": "Not false, but incompletely reported in a way that overstates their standing. Malm's motion was rejected by the chamber on the Constitutional Committee's recommendation. Möller's interpellation was answered by minister Jakob Forssmed (KD), who defended the current arrangement and declined to change it. A motion is one MP's proposal, not a policy position; presenting both without their outcomes lets the reader infer institutional momentum that does not exist. Fix: state what happened to each."
+    }
+  ],
+  "missingPerspectives": [
+    "THE LARGEST GAP: no contemporary Muslim juristic voice mediates between the classical texts and Swedish law. The research sets al-Nawawi and al-Marghinani directly against begravningslagen, but practising European Muslim jurisprudence has addressed exactly these questions — darura and taysir doctrines, the European Council for Fatwa and Research on burial in non-Muslim lands, coffins, autopsy and delay. Without this the conflict reads as far more intractable than the people actually living it treat it. This is what a knowledgeable Muslim reader would notice first.",
+    "No Swedish Muslim institutional voice speaks in an article about Muslim burial. The debate is carried by Korn (critic), Aggedal (Church of Sweden), two MPs and a religious-studies scholar. Islamiska samarbetsrådet, a mosque burial association, or a Muslim funeral director should be heard — otherwise the group whose practice is the subject is described but never quoted.",
+    "al-Nawawi's own conditional exception on the coffin is omitted and it materially softens point (a) of the structural collision. al-Majmu' (passage 155530) states the karaha applies only where a coffin is avoidable — 'fa-in ta'adhdhara ittukhidha al-tabut' — and passage 155512 gives the loose-or-moist-ground exception. The madhhab accommodates the Swedish requirement on its own terms. Present the collision as conditional, not absolute.",
+    "The hadith grading dispute behind the mosque-janaza question is absent. Ibn Qudama in al-Mughni notes the Hanafi proof runs through Salih mawla al-Taw'ama, whom Ibn Abd al-Barr reports some scholars reject entirely for weakness after his mixing; al-Nawawi answers it with 'law thabata' — if it were established. Both cited authorities question its authenticity, so the standoff is not symmetric. Note also the wording variant: al-Hidaya has 'fa-la ajra lahu', al-Mughni reports 'fa-la shay'a lahu'.",
+    "The operational actor is unheard. Kyrkogårdsförvaltningarna and Svenska kyrkan as huvudman actually decide whether exceptions are granted, how quickly a grave can be opened, and whether a body can be interred without a coffin. SKKF or Sveriges kyrkogårdschefer would explain why the practical answer is often more flexible than the statute suggests.",
+    "The rebuttal to Korn is asserted but not sourced. The research answers him by saying Jewish burial grounds are enskilda begravningsplatser in the legal sense while 2 kap. 2 § binds the huvudman toward all folkbokförda. That is the right argument, but it needs the chapter of begravningslagen governing enskilda begravningsplatser cited — and it should acknowledge that this route is legally open to Muslim congregations too, which is precisely Korn's point and deserves a direct answer.",
+    "Kyrkans Tidning specifies that the coming shortage is of COFFIN graves. This strengthens the article's structural argument but by a different mechanism than the research proposes — non-cremating communities compete for the scarcest resource, not merely for permanence. Use the source's actual finding rather than the research's own extrapolation."
+  ],
+  "sourceAssessment": {
+    "totalSources": 17,
+    "highCredibility": 13
+  },
+  "recommendations": [
+    "Add the hadith grading to the mosque-janaza section. Note that Ibn Qudama flags the narrator Salih mawla al-Taw'ama as rejected for weakness by some scholars and that al-Nawawi answers with 'if it were established'. Presenting the dispute as two equal textual proofs misrepresents what the cited authorities themselves say.",
+    "Add al-Nawawi's conditional exception on the coffin ('fa-in ta'adhdhara ittukhidha al-tabut') alongside the ijma statement. The article is stronger and more honest for showing that the madhhab's own rule bends where a coffin is unavoidable — the collision is real but conditional, not absolute.",
+    "Replace 'drygt 83 %' with a year-stamped figure taken directly from SKKF's statistics page, and note that the rate has fallen in some years (82,9 % in 2022, down 1,4 points from 2021). Drop or independently source the 'one of the world's highest' superlative.",
+    "Verify the crematoria count before printing — 66 appears to be a 2009 figure. Either get a current number from SKKF or describe the infrastructure without a count.",
+    "Choose one Swedish Quran translation and name it in the notes. The internal database and Bernström differ on 77:25 ('ett kärl' vs 'behållare') and on 5:31 substantially. Since Ibn Rushd's proof turns on the word kifatan, the translation choice is doing argumentative work and must be declared. Correct 3:185 to Bernström's 'Varje människa skall smaka döden' if attributing to Bernström.",
+    "Check the al-Layth b. Sa'd attribution against the full Bidayat al-mujtahid before printing. The supplied excerpt truncates immediately before the jurists are named. If it cannot be confirmed, state the three positions without attaching the name.",
+    "Confirm the Polat compensation figure in HUDOC under application no. 12886/16, or omit the amount. Everything else about the case is verified.",
+    "Report the outcomes of both parliamentary items: Malm's motion was rejected by the chamber, and Forssmed (KD) answered Möller by defending the current system. Without outcomes the reader infers momentum that does not exist.",
+    "Quote at least one Swedish Muslim institutional voice. An article about Muslim burial in which no Muslim party speaks has a structural fairness problem independent of its accuracy.",
+    "Bring in contemporary European Muslim jurisprudence on necessity and burial in non-Muslim lands. This is the missing hinge between the classical texts and Swedish administrative reality, and its absence makes the conflict look more irreconcilable than it is in practice.",
+    "Source the rebuttal to Korn by citing the begravningslagen provisions on enskilda begravningsplatser, and answer directly the fact that this route is legally available to Muslim congregations as it was to Jewish ones.",
+    "Preserve every one of the research's self-declared negative findings — no 'kista' in the law, no Arbetsdomstolen case on religious leave, Kyrkans Tidning's silence on Muslim requirements, the unopened SST PDF, and the 0,5 percent as one congregation's 2016 estimate. I verified each of these and they are all genuine. The honesty of this brief is its main strength; do not let a later draft quietly fill the gaps."
+  ],
+  "datasetChecks": []
+}
