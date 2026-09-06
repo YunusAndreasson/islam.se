@@ -4,6 +4,8 @@ publishedAt: "2026-03-04T12:00:00.000Z"
 wordCount: 1234
 qualityScore: 8.7
 description: "Katedralen berättar. Helgon blickar ner från nischerna, glasmålningar upprepar frälsningshistorien scen efter scen, skulpturer gestikulerar i sina arkader. Väggarna talar – de förkunnar, förklarar, övertygar. Moskén tiger. Inga helgon. Ingen berättelse i sten. Ingen avbild av det heliga."
+imageAlt: "Kal vitkalkad vägg under ett valv, med ett mjukt ljusknippe och ingenting på väggen."
+imageCaption: "Katedralen berättar. Det andra rummet låter bli."
 category: "Skriften"
 ---
 Katedralen berättar. Helgon blickar ner från nischerna, glasmålningar upprepar frälsningshistorien scen efter scen, skulpturer gestikulerar i sina arkader. Väggarna talar – de förkunnar, förklarar, övertygar.

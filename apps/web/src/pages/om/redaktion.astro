@@ -223,6 +223,12 @@ const pipelineSteps: readonly PipelineStep[] = [
 	   in sync with the content. */
 	.pipeline {
 		--rail: 1.9rem;
+		/* Mirrors the shared values in styles/chart.css. Declared rather than inherited
+		   because that block scopes them to .chart-timeline/.tl, and this list is
+		   neither — it is a process, not a chronology. */
+		--tl-dot: 12px;
+		--tl-rail: 2px;
+		--tl-rail-color: var(--color-divider);
 		margin: var(--space-unit) 0 var(--space-phi);
 		padding: 0 0 0 var(--rail);
 		max-width: var(--content-width);
@@ -237,17 +243,22 @@ const pipelineSteps: readonly PipelineStep[] = [
 		padding-bottom: 0;
 	}
 
-	/* Node. */
+	/* Node. Geometry borrowed from the shared timeline vocabulary in styles/chart.css
+	   (--tl-dot / --tl-rail) so this reads as the same family as the chronologies on
+	   /moskeer/ and in the ```timeline fence. What is NOT borrowed is the fill: this
+	   list encodes process state, not dates, and hollow-vs-filled is what carries a
+	   gate. A brass dot on every step would erase that. */
 	.pipeline-step::before {
 		content: "";
 		position: absolute;
+		box-sizing: border-box;
 		left: calc(var(--rail) * -1);
 		top: 0.72em;
-		width: 9px;
-		height: 9px;
+		width: var(--tl-dot, 12px);
+		height: var(--tl-dot, 12px);
 		border-radius: 50%;
 		background: var(--color-bg);
-		border: 1px solid var(--color-muted);
+		border: 2px solid var(--color-muted);
 		transform: translateY(-50%);
 		z-index: 1;
 	}
@@ -256,11 +267,11 @@ const pipelineSteps: readonly PipelineStep[] = [
 	.pipeline-step::after {
 		content: "";
 		position: absolute;
-		left: calc(var(--rail) * -1 + 4px);
+		left: calc(var(--rail) * -1 + (var(--tl-dot, 12px) - var(--tl-rail, 2px)) / 2);
 		top: 0.72em;
 		bottom: -0.72em;
-		width: 1px;
-		background: var(--color-rule);
+		width: var(--tl-rail, 2px);
+		background: var(--tl-rail-color, var(--color-divider));
 	}
 
 	.pipeline-step:last-child::after {
@@ -271,8 +282,8 @@ const pipelineSteps: readonly PipelineStep[] = [
 	   two close tones would not, and the branch below says it in words anyway. */
 	.pipeline-step.is-gate::before,
 	.pipeline-step.is-end::before {
-		background: var(--color-text);
-		border-color: var(--color-text);
+		background: var(--color-brass);
+		border-color: var(--color-brass);
 	}
 
 	.pipeline-name {

@@ -21,20 +21,38 @@ const entries = await getCollection("svar");
 const bySlug = new Map(entries.map((e) => [e.id, e]));
 
 // The long reference articles. /svar/ is their only door — /fordjupning/ has no mast
-// entry of its own — so all nine are reachable from here, but in the shape Essäer
-// already uses for a set of things with pictures: up to three cards in the same
-// auto-fill grid, then the rest as text (`essaer.astro` does exactly this per ämne).
+// entry of its own — so all of them are reachable from here, in the shape Essäer
+// already uses for a set of things with pictures: cards in the auto-fill grid, then
+// the single link to the full index.
 //
-// ⚠️ Three cards, not nine. The art is dark and atmospheric and turns to mud at
-// thumbnail size, so the cards have to stay wide — and nine of them is most of a
-// screen standing between the reader and the questions this page exists for.
+// ⚠️ Six cards, not twenty-two. The ceiling is what survives a ~200px thumbnail, and
+// that is now measured rather than assumed: when this band was written only one of
+// nine heroes held up small, so it carried three cards. Every fördjupning has art now
+// and 13 of 22 hold up, which is what buys the extra row — not a change of mind about
+// chrome. A card is still ~1/3 screen on a phone, so a full grid would put most of a
+// screen between the reader and the questions this page exists for.
 const fordjupningar = await Promise.all(
 	(await getSortedFordjupning()).map(async (entry) => ({ entry, hero: await resolveHero(entry) })),
 );
 // Named, not sliced off the alphabetical list: the first three by letter are Abort,
 // Döden and Griskött — a macabre trio by accident, and the first thing a reader meets.
-// These are the everyday ones with the broadest reach: fasting, dress, food.
-const PELAR_KORT = ["ramadan", "hijab", "halal"];
+// The order answers a Swedish reader's arrival questions in turn — how did it get here,
+// then dress and food, then the book, the law and the man. Ramadan is deliberately not
+// here: fasting is a pillar, so it already has a card with art on Pelare & tro, and the
+// page's own intro sends readers there. Each of the six was also
+// checked at thumbnail size; a page whose art goes muddy small does not belong here
+// however common its question (Moskén and Sunni och shia both fail that test today).
+// ⚠️ Dropping a slug from this list removes its only direct link on /svar/. pelarRest
+// below is a COUNT GUARD, not a row list — everything not named here is reachable only
+// through the single "Alla N fördjupningar" link to /fordjupning/.
+const PELAR_KORT = [
+	"islam-i-sverige",
+	"hijab",
+	"halal",
+	"koranen",
+	"sharia",
+	"muhammed",
+];
 const pelarKort = PELAR_KORT.map((id) => {
 	const found = fordjupningar.find((f) => f.entry.id === id);
 	if (!found) {
@@ -127,7 +145,7 @@ const description =
 					<section class="svar-pelare" aria-labelledby="svar-pelare-rubrik">
 						<h2 class="label svar-pelare-label" id="svar-pelare-rubrik">Fördjupning</h2>
 						{/* The same card as Essäer's, class for class — see styles/layout.css. */}
-						<ul class="essay-cards svar-pelare-cards">
+						<ul class="essay-cards essay-cards--blurb svar-pelare-cards">
 							{pelarKort.map(({ entry: f, hero }) => (
 								<li class="archive-item essay-card">
 									<a href={`/fordjupning/${f.id}/`}>
@@ -250,7 +268,7 @@ const description =
 		);
 		const sections = Array.from(document.querySelectorAll<HTMLElement>(".svar-section"));
 		// The fördjupning band sits between the field and the results. At 390px its
-		// three cards stack to most of a screen, so a reader who types sees nothing
+		// six cards stack to more than a screen, so a reader who types sees nothing
 		// change without scrolling. It is a browsing affordance, not a result.
 		const pelare = document.querySelector<HTMLElement>(".svar-pelare");
 		// Same reasoning for the category framing sentences: they tell a browser what
@@ -512,10 +530,6 @@ const description =
 		&:focus-visible { border-radius: var(--radius-xs); }
 	}
 
-	/* The nine long-form topics as one line of terms. Deliberately NOT one of the
-	   global list primitives: both HairlineLinkList and DiamondList stack vertically,
-	   so nine of either would be ~22rem of rows — more chrome than the three image
-	   cards this replaced, not less. */
 	/* The long-form topics. No rules around the band — the photographs already mark it
 	   off as a different kind of thing. */
 	.svar-pelare {

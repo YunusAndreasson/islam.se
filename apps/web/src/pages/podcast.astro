@@ -118,14 +118,36 @@ const description =
 	    row gets the family's own ranks — --step-1-sans title, --step--1 deck, unclamped —
 	    and the deck arrives whole. Ten episodes is a short page either way.
 
-	    The art is 3:2 at 12rem — the site's one crop, at the presence a row this tall
+	    The art is 3:2 at 15rem — the site's one crop, at the presence a row this tall
 	    can hold. It was 120px and square for a while; see TextRowList for why neither
-	    survived. */}
+	    survived, and do not re-litigate the crop: squaring it was tried and reverted
+	    because the picture is the essay's hero, composed 3:2, not a record sleeve.
+
+	    The SIZE is a separate question from the crop, and 12rem answered it wrong. A
+	    row runs a title, a four-line deck, a meta line and a play control — about 180px
+	    of type. Against that, a 192×128 picture reads as a chip pinned beside the text
+	    rather than the row's other half, and the slack the centring distributes turns
+	    into air above and below it. At 15rem the picture is 240×160, which lands within
+	    20px of the type's own height, so the two sides of the row weigh the same.
+
+	    The text column is the MEASURE, not the leftover. With `1fr` the title ran the
+	    whole track while `.text-row-desc` stopped at its own `max-width: 42rem` — 754px
+	    against 672px at a 1440px window, two right edges 82px apart inside one block,
+	    which is what read as ragged. Naming the second track `minmax(0, 42rem)` gives
+	    the title and the deck one edge, and `minmax` rather than a bare `42rem` so the
+	    track may still shrink below the measure between 34rem and the point the canvas
+	    can afford it — a fixed track would overflow there instead.
+
+	    The list is capped to what those two tracks actually occupy. Without it the row
+	    keeps the full canvas and every hairline runs ~98px past the text it separates,
+	    which trades a ragged edge inside the block for a ragged edge around it. The
+	    calc restates the grid, so the three stay in step; --space-unit is the gap the
+	    component derives --text-row-thumb-gap from, and it steps down with the canvas. */}
 	<TextRowList
 		class="podcast-list"
 		aria-label="Avsnitt"
 		items={episodeRows}
-		style="--text-row-list-margin: var(--space-half) 0 0; --text-row-media-separator: 1px solid var(--color-rule); --text-row-media-separator-padding: var(--space-unit); --text-row-thumb-width: 12rem; --text-row-meta-margin: var(--space-half)"
+		style="--podcast-thumb: 15rem; --text-row-list-margin: var(--space-half) 0 0; --text-row-media-separator: 1px solid var(--color-rule); --text-row-media-separator-padding: var(--space-unit); --text-row-columns: var(--podcast-thumb) minmax(0, var(--content-width)); --text-row-meta-margin: var(--space-half); max-width: calc(var(--podcast-thumb) + var(--space-unit) + var(--content-width))"
 	/>
 
 	<p class="podcast-note">

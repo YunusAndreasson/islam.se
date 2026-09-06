@@ -84,8 +84,30 @@ function spaceCaptionSpans(html: string): string {
 	return html.replace(/<\/span><span/gi, "</span> <span");
 }
 
+/**
+ * A ```timeline keeps its entries — they ARE the figure, and its aria-label is a short
+ * orienting sentence that would throw them away. But its <ol> has to become a <ul> first.
+ *
+ * The year is the visible marker on the web (`list-style: none`), so an ordered list in
+ * the twin prints an index right in front of it and the reader gets "3. 943 Vikingar
+ * intar Berda'a" — two numbers, one of which is not a year. A bullet plus an en dash
+ * between year and event removes the ambiguity without losing anything.
+ */
+function flattenTimeline(whole: string): string {
+	return spaceCaptionSpans(
+		whole
+			.replace(/<ol class="chart-timeline">/i, "<ul>")
+			.replace(/<\/ol>/i, "</ul>")
+			.replace(
+				/<\/span><span class="chart-tl-event">/gi,
+				'</span> \u2013 <span class="chart-tl-event">',
+			),
+	);
+}
+
 function flattenCharts(fragment: string): string {
 	return fragment.replace(CHART_FIGURE, (whole, inner: string) => {
+		if (/class="chart chart--timeline"/i.test(whole)) return flattenTimeline(whole);
 		const aria = /aria-label="([^"]*)"/i.exec(inner)?.[1];
 		const caption = /<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/i.exec(inner)?.[1];
 		if (!aria) {

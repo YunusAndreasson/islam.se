@@ -1,6 +1,8 @@
 ---
+import { getImage } from "astro:assets";
 import DefinitionList from "../../components/DefinitionList.astro";
 import MosqueList from "../../components/moskeer/MosqueList.astro";
+import MosqueHero from "../../components/moskeer/MosqueHero.astro";
 import MosquePageHeader from "../../components/moskeer/MosquePageHeader.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import NearbyLinkList from "../../components/NearbyLinkList.astro";
@@ -13,7 +15,7 @@ import { nearbyPlaces, officialPopulation, placeBySlug } from "../../lib/bonetid
 import { computePrayerTimes, formatTime } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { nf0 } from "../../lib/format";
-import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
+import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import {
 	type MosqueCityGroup,
 	cityBySlug,
@@ -25,6 +27,7 @@ import {
 	pluralMoske,
 	siblingCityGroups,
 } from "../../lib/moskeer";
+import { credit, mosquePhoto } from "../../lib/moskeer/art";
 import { MOSKEER_DATA_DATE } from "../../lib/moskeer/meta";
 
 export function getStaticPaths() {
@@ -83,6 +86,46 @@ const nearbyCityLinks = nearbyCities.map((g) => ({ href: `/moskeer/${g.citySlug}
 const updated = formatDate(MOSKEER_DATA_DATE);
 
 const oldest = oldestMosque(mosques);
+
+// A photograph for the towns Wikimedia Commons actually covers. Most towns have
+// none and render no picture: see lib/moskeer/art.ts for why we never invent one
+// to fill the gap.
+const photo = mosquePhoto(citySlug);
+
+// The photograph is this page's share card and its representative image. Two
+// things follow from that and both are worth the dozen lines.
+//
+// og:image — a link to /moskeer/goteborg/ pasted into a chat should show the
+// mosque, not the site's default card. This is the one page in the pair that has
+// a real picture of the place being asked about.
+//
+// The ImageObject carries the LICENCE in machine-readable form. These are CC
+// photographs, and schema.org has the exact fields for saying so: `license`,
+// `acquireLicensePage`, `creditText`, `creator`. Google reads them for the
+// Licensable badge in Images, and more to the point it is simply the true and
+// complete statement of the terms we are using the picture under — the visible
+// figcaption says it to a reader, this says it to a machine.
+let photoObject: Record<string, unknown> | undefined;
+let ogImage: string | undefined;
+if (photo) {
+	const rendition = await getImage({ src: photo.src, width: 1200, format: "webp" });
+	ogImage = rendition.src;
+	photoObject = {
+		...imageObject({
+			contentUrl: new URL(rendition.src, Astro.site).href,
+			url: new URL(Astro.url.pathname, Astro.site).href,
+			name: photo.alt,
+			caption: `${photo.mosque}. ${credit(photo)}`,
+			width: 1200,
+			height: Math.round((1200 * photo.src.height) / photo.src.width),
+		}),
+		license: photo.licenceUrl,
+		acquireLicensePage: photo.source,
+		creditText: credit(photo),
+		copyrightNotice: `${photo.photographer} · ${photo.licence}`,
+		creator: { "@type": "Person", name: photo.photographer },
+	};
+}
 
 const whereKommun = kommun && kommun !== city ? `, ${kommun} kommun` : "";
 const popClause = hasScb ? ` ${city} har ${popText} invånare.` : "";
@@ -164,6 +207,9 @@ if (oldest?.opened) {
 <Base
 	title={pageTitle}
 	description={description}
+	{...(ogImage === undefined ? {} : { ogImage })}
+	{...(photo === undefined ? {} : { ogImageAlt: photo.alt })}
+	{...(ogImage === undefined ? {} : { ogImageWidth: 1200, ogImageHeight: 800 })}
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
@@ -192,6 +238,7 @@ if (oldest?.opened) {
 				// then merge onto one entity graph rather than describing rival City nodes.
 				containsPlace: mosques.map((m) => ({ "@id": mosqueUrl(m) })),
 			},
+			...(photoObject === undefined ? {} : { primaryImageOfPage: photoObject }),
 			// Reciprocal related-resource edge back to the town's prayer-times page.
 			relatedLink: `https://islam.se/bonetider/${citySlug}/`,
 			publisher: { "@id": ORG_ID },
@@ -215,6 +262,8 @@ if (oldest?.opened) {
 			updatedDate={MOSKEER_DATA_DATE}
 			updatedLabel={updated}
 		/>
+
+		{photo && <MosqueHero photo={photo} eager={true} />}
 
 		<MosqueList mosques={mosques} />
 

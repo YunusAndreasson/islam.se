@@ -2,7 +2,7 @@
 title: "Jihad: källorna, rättsläran och den svenska debatten"
 term: "Jihad"
 description: "Ordet bär två läsningar: den enskildes kamp mot sitt eget begär och den reglerade striden. Båda finns i källorna, båda har använts som slagträ, och sedan den 1 januari 2023 kan svensk grundlag inskränka föreningsfriheten för dem som understödjer terrorism."
-seoDescription: "Jihad i islam: koranverserna, rättsskolornas gränser för strid, den svaga hadithen om den större kampen och svensk terrorlagstiftning."
+seoDescription: "Jihad i islam: koranverserna, rättsskolornas gränser för vem som får dödas och vem som får utlysa strid, samt svensk terroristlagstiftning."
 blurb: "Den inre kampen, krigsrättens gränser och de svenska terrordomarna"
 publishedAt: "2026-09-03T00:00:00Z"
 keywords:
@@ -26,7 +26,7 @@ faq:
   - q: "Är hadithen om den större jihad autentisk?"
     a: "Den mest citerade varianten är det inte. Ibn Rajab al-Hanbalī skriver att Jābir-varianten återberättas med svag kedja. Den inre läsningen vilar däremot inte på den, utan på en stark hadith om den som kämpar mot sin egen själ och på al-Hasan al-Basrīs svar på 700-talet."
   - q: "Vem har rätt att förklara jihad enligt islamisk rätt?"
-    a: "Den muslimska statsmakten. Ibn Taymiyya skriver att om imamen utpekar vissa personer för jihad blir den bindande för dem. Undantaget är angreppet: slår fienden ned på muslimskt område blir plikten individuell utan att någon imam kallat ut. Tvisten gäller därför om det villkoret är uppfyllt, inte om det finns."
+    a: "Den muslimska statsmakten, aldrig en enskild grupp och aldrig en enskild person. Ibn Taymiyya skriver att om imamen utpekar vissa personer för jihad blir den bindande för dem. Rätten känner ett undantag för det fall att muslimskt område angrips, men om det läget har inträtt avgörs inte av den som åberopar det. Det är i den luckan de moderna väpnade rörelserna har arbetat."
   - q: "Upphävde svärdsversen förbudet mot tvång i religionen?"
     a: "Ibn Kathīr återger båda hållningarna, men al-Dahhāks abrogationsutsaga gäller enligt hans egen kommentar till 9:5 fördragen och inte tvångsförbudet. Nästa vers, 9:6, befaller att en avgudadyrkare som söker skydd ska få det och föras i trygghet."
   - q: "Är det brottsligt i Sverige att åberopa jihad?"
@@ -88,6 +88,7 @@ related:
   - "de-rattledda-kaliferna"
   - "erovringen-av-mecka"
   - "vad-var-hijra"
+imageAlt: "Ensam vandrare bakifrån på en brant snötäckt skogsstig i grått gryningsljus"
 essays:
   - "lejonet-i-hjartat"
   - "ormboet-i-hjartat"
@@ -98,7 +99,7 @@ essays:
 
 **Jihad** är det arabiska ordet för ansträngning och kamp för Guds sak, och betecknar i islamisk rätt både den enskilda människans strid mot sitt eget begär och den reglerade väpnade strid som en muslimsk statsmakt kan påbjuda. Båda betydelserna står i Koranen, båda står i de klassiska rättsböckerna, och de har genom historien vägt olika tungt beroende på vem som haft makten över ordet.
 
-Tvisten om jihad förs i Sverige oftast som en fråga om vad ordet egentligen betyder. Den formeln räcker inte. Den apologetiska svenska standardversionen, att jihad framför allt syftar på den inre kampen och att väpnad strid bara är "den mindre jihad", vilar på en hadith som traditionen själv förklarade svag långt före någon svensk debatt: Ibn Rajab al-Hanbalī noterar i sin kommentar till al-Nawawīs fyrtio hadither att Jābir-varianten återberättas med svag kedja. Den motsatta hållningen, att jihad i grunden är erövringskrig, förutsätter att de klassiska juristerna var eniga. De var det inte. Hanafiterna gjorde stridbarhet och inte otro till dödandets grund, al-Shāfiʿī gick i ett av sina uttalanden åt andra hållet, och Sufyān al-Thawrī kallade jihad frivillig i samma århundraden som Ibn ʿAtiyya rapporterade enighet om att den är en kollektiv plikt.
+Tvisten om jihad förs i Sverige oftast som en fråga om vad ordet egentligen betyder, och svaret stannar i en formel som inte håller. Den apologetiska svenska standardversionen hänger hela sitt fall på en enda hadith, den om "den mindre" och "den större jihad", och just den förklarade traditionen svag långt före någon svensk debatt: Ibn Rajab al-Hanbalī noterar i sin kommentar till al-Nawawīs fyrtio hadither att Jābir-varianten återberättas med svag kedja. Den inre kampen har starkare stöd än så, men det stödet står i Koranen och i en säker sunna, inte i den berättelsen. Den motsatta hållningen, att jihad i grunden är erövringskrig, förutsätter att de klassiska juristerna var eniga. De var det inte. Hanafiterna gjorde stridbarhet och inte otro till dödandets grund, al-Shāfiʿī gick i ett av sina uttalanden åt andra hållet, och Sufyān al-Thawrī kallade jihad frivillig i samma århundraden som Ibn ʿAtiyya rapporterade enighet om att den är en kollektiv plikt.
 
 ## Vad ordet jihad betyder
 
@@ -122,13 +123,15 @@ Nästa vers anger grunden: de som "i strid mot all rätt jagas bort från sina h
 
 > KÄMPA för Guds sak mot dem som för krig mot er, men var inte de första som griper till vapen; Gud älskar sannerligen inte angripare.[^9]
 
-Här förtjänar översättningen en anmärkning. Bernströms "var inte de första som griper till vapen" återger arabiskans wa-lā taʿtadū, som mer ordagrant betyder "överskrid inte", alltså ett förbud mot att gå över gränserna i striden. Skillnaden väger tungt i hela debatten om anfallskrigets tillåtlighet. 2:216 gör striden till en plikt och kallar den i samma andetag förhatlig för dem som åläggs den.[^10] 8:61 befaller fred när fienden söker den, och 60:8 förbjuder inte godhet och rättvisa mot dem som inte bekämpar de troende för deras tro.[^11]
+Bernströms "var inte de första som griper till vapen" återger arabiskans wa-lā taʿtadū, som mer ordagrant betyder "överskrid inte", alltså ett förbud mot att gå över gränserna i striden. Skillnaden väger tungt i hela debatten om anfallskrigets tillåtlighet. 2:216 gör striden till en plikt och kallar den i samma andetag förhatlig för dem som åläggs den.[^10] 8:61 befaller fred när fienden söker den, och 60:8 förbjuder inte godhet och rättvisa mot dem som inte bekämpar de troende för deras tro.[^11]
 
-Mest omtvistad är 9:5, som redan Ibn Kathīr kallar svärdsversen, āyat al-sayf:
+Mest omtvistad är 9:5, som redan Ibn Kathīr kallar svärdsversen, āyat al-sayf. Rättslitteraturen läser den aldrig ensam, utan tillsammans med versen närmast efter:
 
 > När de helgade månaderna gått till ända skall ni döda avgudadyrkarna, var ni än träffar på dem; tag dem till fånga och omringa dem och lägg er i försåt för dem. Men om de visar ånger och [villighet att] förrätta bönen och betala allmoseskatten, lämna dem då i fred - Gud är ständigt förlåtande, barmhärtig.[^12]
+>
+> Om någon bland avgudadyrkarna söker skydd hos dig, ge honom då ditt beskydd, så att han får höra Guds ord; för honom sedan till en plats där han är i trygghet. De är nämligen människor som inte vet [vad Islam innebär].[^13]
 
-Nästa vers, 9:6, befaller att en avgudadyrkare som söker skydd ska få det, höra Guds ord och därefter föras till en plats där han är i trygghet.[^13] 9:29 föreskriver strid mot skriftbesittarna till dess de erkänner sig besegrade och frivilligt betalar skyddsskatten, och 47:4 reglerar slagfältet och fångarna.[^14] Och 2:256 står kvar oberoende av allt detta:
+De två verserna står omedelbart efter varandra, och skyddet i den senare hör till befallningen i den förra. 9:29 föreskriver strid mot skriftbesittarna till dess de erkänner sig besegrade och frivilligt betalar skyddsskatten, varefter striden mot dem upphör, och 47:4 reglerar slagfältet och fångarna.[^14] Och 2:256 står kvar oberoende av allt detta:
 
 > TVÅNG skall inte förekomma i trosfrågor. Vad som är rätt handlande är nu klart skilt från fel och synd. Den som förnekar de onda makterna och som tror på Gud, har sannerligen vunnit ett säkert fäste som aldrig ger vika. Gud hör allt, vet allt.[^15]
 
@@ -140,11 +143,11 @@ Den mest konkreta gränsen framgår av mötet med en man som kom och sade att ha
 
 ## Rättsskolorna om jihad som plikt och dess gränser
 
-Den första frågan juristerna ställer är vem plikten vilar på. al-Qurtubī redovisar tre hållningar sida vid sida. Ibn ʿAtiyya rapporterar att enigheten stannat vid att jihad är fard kifāya, en kollektiv plikt: fullgör en tillräcklig del av muslimerna den, faller den från de övriga, utom när fienden slår ned på islams område, då den blir fard ʿayn och åligger var och en. al-Māwardī refereras för uppfattningen att den är fard ʿayn, och Sufyān al-Thawrī citeras för den motsatta ytterligheten, att jihad är tatawwuʿ, frivillig.[^24]
+Den första frågan juristerna ställer är vem plikten vilar på. al-Qurtubī redovisar tre hållningar sida vid sida. Ibn ʿAtiyya rapporterar att enigheten stannat vid att jihad är fard kifāya, en kollektiv plikt: fullgör en tillräcklig del av muslimerna den, faller den från de övriga, utom när fienden angriper islams område, då den blir fard ʿayn och åligger var och en. al-Māwardī refereras för uppfattningen att den är fard ʿayn, och Sufyān al-Thawrī citeras för den motsatta ytterligheten, att jihad är tatawwuʿ, frivillig.[^24]
 
-Ibn al-Qayyim skär igenom med en distinktion mellan handlingens slag och dess form. Jihad som sådan, skriver han, är en individuell plikt, antingen med hjärtat, med tungan, med förmögenheten eller med handen, och varje muslim är skyldig att utöva någon av dessa former. Jihad med sin egen person är däremot fard kifāya.[^4] Ibn Taymiyya formulerar samma sak i sin statsrättsliga skrift: den påbjudna striden mot dem som vägrar underkasta sig är kollektiv plikt när den inleds, men vill fienden anfalla muslimerna blir avvärjandet bindande både för dem angreppet riktas mot och för alla andra, i deras egenskap av hjälpare.[^25] Rätten att kalla ut hären ligger hos statsmakten: utpekar imamen bestämda personer för jihad blir den bindande för just dem.[^26]
+Ibn al-Qayyim löser upp motsättningen med en distinktion mellan handlingens slag och dess form. Jihad som sådan, skriver han, är en individuell plikt, antingen med hjärtat, med tungan, med förmögenheten eller med handen, och varje muslim är skyldig att utöva någon av dessa former. Jihad med sin egen person är däremot fard kifāya.[^4] Ibn Taymiyya formulerar samma sak i sin statsrättsliga skrift: den påbjudna striden mot dem som vägrar underkasta sig är kollektiv plikt när den inleds, men vill fienden anfalla muslimerna blir avvärjandet bindande både för dem angreppet riktas mot och för alla andra, i deras egenskap av hjälpare.[^25] Rätten att sända ut hären ligger hos statsmakten: utpekar imamen bestämda personer för jihad blir den bindande för just dem.[^26]
 
-Den verkliga skiljelinjen mellan skolorna handlar inte om plikten utan om vem som får dödas, och den går rakt genom rättslitteraturen. al-Marghīnānī skriver i den hanafitiska handboken al-Hidāya att man inte får döda en kvinna, ett barn, en orkeslös gammal man, en förlamad eller en blind, "eftersom det som hos oss gör dödandet tillåtet är stridbarheten, och den föreligger inte hos dem". Han tillägger att al-Shāfiʿī avviker just i fråga om den orkeslöse, den förlamade och den blinde, "eftersom det som gör dödandet tillåtet hos honom är otron".[^27] Två meningar, och hela den moderna tvisten om jihad ligger redan i dem.
+Den verkliga skiljelinjen mellan skolorna handlar inte om plikten utan om vem som får dödas, och den går rakt genom rättslitteraturen. al-Marghīnānī skriver i den hanafitiska handboken al-Hidāya att man inte får döda en kvinna, ett barn, en orkeslös gammal man, en förlamad eller en blind, "eftersom det som hos oss gör dödandet tillåtet är stridbarheten, och den föreligger inte hos dem". Han tillägger att al-Shāfiʿī avviker just i fråga om den orkeslöse, den förlamade och den blinde, "eftersom det som gör dödandet tillåtet hos honom är otron".[^27] Två meningar, och hela den moderna tvisten om jihad ligger redan i dem. Flertalet av de lärda följde den första.
 
 Ibn Qudāma redovisar samma oenighet med namn på båda sidor. Kvinnor och orkeslösa gamla får inte dödas, och så säger Mālik och de irakiska juristerna, med belägg hos Abū Bakr och ʿUmar, som båda instruerade sina härförare att inte döda barn, kvinnor eller ålderstigna. Men al-Shāfiʿī i ett av sina uttalanden och Ibn al-Mundhir tillåter dödandet av gamla män, och den senare invänder rakt ut att han inte känner något belägg för att undanta dem från den allmänna lydelsen i 9:5.[^17] Ibn Taymiyya tar ställning i frågan och gör det tydligt: den som inte tillhör dem som gör motstånd och deltar i striden, som kvinnorna, barnen, munken, den gamle mannen, den blinde och den orörlige, dödas inte enligt flertalet av de lärda om han inte strider med ord eller handling. Att enbart otron skulle göra dödandet tillåtet avvisar han uttryckligen, med hänvisning till just 2:190.[^25]
 
@@ -162,9 +165,9 @@ Korstågen vände förhållandet. Efter frankernas intagande av Jerusalem 1099 f
 
 Under 1800-talet blev jihad först och främst antikolonial. ʿAbd al-Qādir reste motståndet i Algeriet från 1832, imam Shamil i Kaukasus, och den mahdistiska resningen i Sudan från 1881, som fyra år senare blev en stat. Osmanska sultanen förklarade jihad i november 1914, med tysk uppmuntran och i uttalad förhoppning om resning i de brittiska och franska kolonierna. Resningen kom i allt väsentligt inte.
 
-Den moderna politiseringen skedde i tre steg. Sayyid Qutb, avrättad i Egypten 1966, omformulerade förhållandet mellan muslimer och stat. Muhammad ʿAbd al-Salām Faraj spred 1981 al-Farīda al-ghāʾiba, "den försummade plikten", inom den egna gruppen, och Sadat mördades den 6 oktober samma år; skriften fann polisen först vid utredningen. Och Abdullah Azzam skrev under Afghanistankriget på 1980-talet Difāʿ ʿan arādī al-muslimīn, den skrift som fick genomslag. Azzam ändrade ingenting i det klassiska schemat. Han hämtade båda satserna ur rättsböckerna och lade fram dem som de fyra skolornas enighet: att försvarsplikten sprider sig i ringar från de närmaste till de därnäst närmaste, en lydelse han citerar ur hanafiten Ibn ʿĀbidīn, och att det när plikten väl blivit individuell inte längre krävs tillstånd, varken av hustrun från maken, av barnet från föräldern eller av den skuldsatte från borgenären, vilket han belägger hos al-Dasūqī, al-Ramlī, Ibn Qudāma och Ibn Taymiyya.[^31]
+Den moderna politiseringen skedde i tre steg. Sayyid Qutb, avrättad i Egypten 1966, omformulerade förhållandet mellan muslimer och stat. Muhammad ʿAbd al-Salām Faraj spred 1981 al-Farīda al-ghāʾiba, "den försummade plikten", inom den egna gruppen, och Sadat mördades den 6 oktober samma år; skriften fann polisen först vid utredningen. Och Abdullah Azzam skrev under Afghanistankriget på 1980-talet Difāʿ ʿan arādī al-muslimīn, den skrift som fick genomslag. Azzam ändrade ingenting i schemats ordalydelse och allt i dess tillämpning. Han hämtade båda satserna ur rättsböckerna och lade fram dem som de fyra skolornas enighet: att försvarsplikten sprider sig i ringar från de närmaste till de därnäst närmaste, en lydelse han citerar ur hanafiten Ibn ʿĀbidīn, och att det när plikten väl blivit individuell inte längre krävs tillstånd, varken av hustrun från maken, av barnet från föräldern eller av den skuldsatte från borgenären, vilket han belägger hos al-Dasūqī, al-Ramlī, Ibn Qudāma och Ibn Taymiyya.[^31]
 
-Just den sista satsen är avgörande, och den är klassisk rätt. Azzam uppfann den inte. Greppet ligger i premissen: att Afghanistan 1980 utan vidare förklaras vara det fall där plikten redan blivit individuell. Undantaget står i rättsböckerna; villkoret för att nå dit avgör han på egen hand.
+Satsen om tillstånd är hämtad ur rättsböckerna och Azzam uppfann den inte, men där är den ett undantag som förutsätter ett läge någon annan har fastställt. Greppet ligger i premissen: att Afghanistan 1980 utan vidare förklaras vara det fall där plikten redan blivit individuell. Undantaget står i rättsböckerna; villkoret för att nå dit avgör han på egen hand, och det är just den befogenheten den klassiska rätten aldrig lade hos den enskilde.
 
 ## Jihad i svensk rätt och svensk debatt
 
@@ -184,13 +187,13 @@ Hur laddad den svenska forskningsfrågan är visade förstudien Muslimska Brödr
 
 ## Heligt krig i svensk idéhistoria
 
-Att jihad på svenska ofta återges som heligt krig är ett arv från europeisk begreppshistoria, inte från islamisk. Den historien följer sin egen bana, och den svenska delen av den redovisas här för sin egen skull, inte som stöd för någon islamisk hållning.
+Att jihad på svenska ofta återges som heligt krig är ett arv från europeisk begreppshistoria, inte från islamisk. Den historien följer sin egen bana, och den ger inget stöd åt någon islamisk hållning.
 
 Den medeltida kyrkan i Sverige ärvde Augustinus lära om det rättfärdiga kriget, och reformationen lade svärdet hos den världsliga makten och gjorde lydnaden mot den till en kristen plikt. Kyrkohandboken innehöll böner för hären. Gustav II Adolfs ingripande i trettioåriga kriget 1630 motiverades offentligt som ett försvar för den evangeliska tron, och historikerna är fortfarande oense om hur mycket trosskälen vägde mot maktpolitiken.
 
 Under 1800-talet läste den nationella romantiken den svenska förtiden som en krigisk tidsålder, och Erik Gustaf Geijer skrev om ett släkte som sökte kriget från Europas ena ände till den andra och för vilket faran var ett element också i freden. Hos Viktor Rydberg går tonen åt motsatt håll i samma århundrade: "Tålamod och mildhet segra över vrede."[^43]
 
-Omslaget kom inom ett par generationer, och det skedde med religiösa argument. Klas Pontus Arnoldson, frikyrklig och radikal från ungdomen, bildade 1883 Svenska freds- och skiljedomsföreningen och fick Nobels fredspris 1908 tillsammans med Fredrik Bajer; hans fredstanke var en trossats, det han själv kallade ljusets religion.[^44] Ellen Key räknade i Der Tag kallt på värnpliktens invalider och skrev i Lifslinjer om ett folk där fredsviljan släckt den nedärvda krigslidelsen. Samma bok ger den mest kända formuleringen av hennes hopp:[^45]
+Omslaget kom inom ett par generationer, och det skedde med religiösa argument. Klas Pontus Arnoldson, frikyrklig och radikal från ungdomen, bildade 1883 Svenska freds- och skiljedomsföreningen och fick Nobels fredspris 1908 tillsammans med Fredrik Bajer; hans fredstanke var en trossats, det han själv kallade ljusets religion.[^44] Ellen Key räknade i Der Tag kallt på värnpliktens invalider och skrev i *Lifslinjer* om ett folk där fredsviljan släckt den nedärvda krigslidelsen. Samma bok ger den mest kända formuleringen av hennes hopp:[^45]
 
 > Men skönare människor skola strida skönare strider.
 > — Ellen Key, *Lifslinjer*
@@ -207,7 +210,7 @@ Parallellen slutar där. Den svenska vägen från Gustav II Adolf till Söderblo
 
 **Att den moderna vederläggningen av IS är historiskt ohållbar.** Det öppna brevet till al-Baghdadi, undertecknat i september 2014 av över 120 lärda, slår fast att jihad i islam är försvarskrig och otillåten utan rätt sak, rätt syfte och rätt uppförandekod. Manfred Sing invänder att brevet aldrig förklarar skillnaden mellan rättmätig och orättmätig politisk våldsutövning, saknar systematisk behandling av begreppen våld och terrorism, och inte anger vilka institutioner som skulle utkräva ansvar.[^51] Invändningen träffar brevets centrala sats, och den träffar rätt: att jihad är försvarskrig är en modern sammanfattning utan motsvarighet i den klassiska rätten, för furūʿ-litteraturen kände en anfallskategori, en fard kifāya som utlystes av en kalif. Det som brevet däremot ville komma åt är något annat, och där är den klassiska rätten mer detaljerad än de moderna grupperna. Dödandet av icke-stridande är förbjudet, svek mot fördrag är förbjudet, vanställande av lik är förbjudet, och att förklara en muslim otrogen är förbjudet. Ibn Taymiyya avvisar uttryckligen att otron i sig gör dödandet tillåtet.[^25] De väpnade rörelserna bryter alltså mot rätten just på de punkter där den är som mest utarbetad.
 
-**Att svensk lag straffar en religiös övertygelse.** Den invändningen faller på lagtexten. Terroristbrottslagen nämner varken islam eller jihad, och Europadomstolens gräns går vid uppvigling. Kvar står däremot ett verkligt problem, och det är institutionellt. Den klassiska rätten lade befogenheten att kalla ut till jihad hos den muslimska statsmakten, och den lade tolkningen hos en domarkår med tvångsmakt. En organisation utan stat kan inte uppfylla det villkoret, och den kan inte heller själv förklara att angreppsundantaget inträtt; en imam i Sverige kan inte utkräva det; Hassan Moussas fatwa har moralisk tyngd men ingen tvångsmakt bakom sig. Det är den luckan de moderna ideologerna har arbetat i, och det är också därför deras anspråk saknar den auktoritet de utger sig för att ha.
+**Att svensk lag straffar en religiös övertygelse.** Den invändningen faller på lagtexten. Terroristbrottslagen nämner varken islam eller jihad, och Europadomstolens gräns går vid uppvigling. Kvar står däremot ett verkligt problem, och det är institutionellt. Den klassiska rätten lade befogenheten att utlysa jihad hos den muslimska statsmakten, och den lade tolkningen hos en domarkår med tvångsmakt. En organisation utan stat kan inte uppfylla det villkoret, och den kan inte heller själv förklara att angreppsundantaget inträtt. En imam i Sverige kan inte utkräva det. Hassan Moussas fatwa har moralisk tyngd men ingen tvångsmakt bakom sig. Det är den luckan de moderna ideologerna har arbetat i, och det är också därför deras anspråk saknar den auktoritet de utger sig för att ha.
 
 ---
 
@@ -255,7 +258,7 @@ Parallellen slutar där. Den svenska vägen från Gustav II Adolf till Söderblo
 [^42]: Jan Hjärpe, professor emeritus i islamologi vid Centrum för teologi och religionsvetenskap, Lunds universitet.
 [^43]: Viktor Rydberg, Singoalla.
 [^44]: Klas Pontus Arnoldson, född i Göteborg 1844, och Svenska freds- och skiljedomsföreningen, grundad 1883.
-[^45]: Ellen Key, Lifslinjer, tredje delen.
+[^45]: Ellen Key, *Lifslinjer*, tredje delen (1906).
 [^46]: Nathan Söderblom, ärkebiskop av Uppsala, Nobels fredspris 1930 för hans ekumeniska fredsarbete.
 [^47]: David Cook, Understanding Jihad, andra upplagan, University of California Press, 2015.
 [^48]: al-Hasan al-Basrī, återgiven av Ibn Qayyim al-Jawziyya i Rawdat al-muhibbīn och av al-Māwardī i Adab al-dunyā wa-l-dīn.

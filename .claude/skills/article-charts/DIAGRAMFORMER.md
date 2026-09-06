@@ -29,6 +29,33 @@ tabellen säger åt dig att göra det.
 `src/lib/bonetider/sweden-outline.ts`). Båda är billiga att lägga till. Ingendera behövdes
 för de första diagrammen, och en form som ingen har använt är en form ingen har testat.
 
+### Syskonformerna: ` ```table ` och ` ```timeline `
+
+Två figurer till delar samma grammatik och samma bildtextapparat, men är egna stängsel med
+egna parsers – de är inte `type:`-värden i ett diagram.
+
+| Stängsel | Ta det när | Ligger i |
+|---|---|---|
+| ` ```table ` | Du jämför sådant som **inte är storheter** – ståndpunkter, regler, steg, definitioner. Cellerna är strängar; kolumner där varje cell ser ut som ett tal högerställs automatiskt | `src/lib/table/` |
+| ` ```timeline ` | En **kronologi vars ojämnhet är själva poängen**. Punkterna ligger på en lodrät skena, årtalet till vänster och händelsen bredvid | `src/lib/timeline/` |
+
+`timeline` valdes framför en tabell med två kolumner just därför att en tabell ger varje
+rad samma höjd och därmed säger att händelserna är jämnt fördelade. Under `scale: time`
+(förvalt) sätts avståndet mellan två punkter av **kvadratroten** ur antalet år emellan –
+linjärt avstånd över tolv sekler trycker ihop hela nutiden till några pixlar, jämnt avstånd
+kastar bort upplysningen. Skalan är ett påstående, så bildtexten upplyser om den
+automatiskt och det går inte att stänga av. `scale: even` när jämna avstånd är ärligare.
+
+Övriga regler: minst tre punkter, högst 24, minst två med årtal, och kronologisk ordning
+(en punkt som går bakåt fäller bygget – det är nästan alltid ett skrivfel). Etiketten
+behöver inte vara ett rent årtal: »ca 870«, »900-talet« och »1709-1718« fungerar, och ett
+årsspann får sitt tankstreck automatiskt eftersom smartypants aldrig når in i ett stängsel.
+`emphasis:` tar en etikett och ger den mässing och en större punkt, som i övriga former.
+
+⚠️ **Kategorifällan gäller även här.** `check-chart-sources.py` läser en tidslinjes
+*högerled*, inte bara etiketten, eftersom en tidslinjes innehåll står i händelsetexten –
+»1991 grundades ISS som paraply för landets shiamuslimer« fälls, som sig bör.
+
 ---
 
 ## Grammatiken

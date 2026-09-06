@@ -87,6 +87,7 @@ related:
   - "vad-ar-sunna"
   - "vad-sager-islam-om-vidskepelse"
   - "vad-ar-hajj"
+imageAlt: "Nymånens tunna skära lågt över en frusen sjö i blå timme"
 essays:
   - "silvertarnans-hijra"
   - "nar-natten-inte-faller"
@@ -94,11 +95,11 @@ essays:
   - "samma-stjarnhimmel"
 ---
 
-**Det islamiska nyåret** är den första dagen i muharram, den första månaden i hijrakalendern, och inleder ett nytt år i den muslimska tideräkning som utgår från profeten Muhammeds utvandring från Mekka till Medina år 622. Kalendern har tolv månmånader om 29 eller 30 dagar och ett vanligt år på 354 dagar, vilket gör att dagen faller omkring elva dygn tidigare i den gregorianska almanackan för varje år som går.[^1] Den svenska kalendersidan Islamiskt forum anger datumet till den 16 juni 2026, med tillägget att det muslimska dygnet börjar vid solnedgången och att kvällen innan därför räknas till dagen.[^2]
+**Det islamiska nyåret** är den första dagen i muharram, den första månaden i hijrakalendern, och inleder ett nytt år i den muslimska tideräkning som utgår från profeten Muhammeds utvandring från Mecka till Medina år 622. Kalendern har tolv månmånader om 29 eller 30 dagar och ett vanligt år på 354 dagar, vilket gör att dagen faller omkring elva dygn tidigare i den gregorianska almanackan för varje år som går.[^1] Den svenska kalendersidan Islamiskt forum anger datumet till den 16 juni 2026, med tillägget att det muslimska dygnet börjar vid solnedgången och att kvällen innan därför räknas till dagen.[^2]
 
 Den svåra frågan gäller inte när dagen infaller utan vem som bestämt att den finns. Varken Koranen eller hadithsamlingarna nämner en nyårsdag, och de klassiska rättsböckerna har inget kapitel om saken. Själva tideräkningen är ett administrativt beslut från kalifen Umar ibn al-Khattabs tid, fattat för att skuldsedlar skulle kunna dateras. Profeten anlände till Medina i rabiʿ al-awwal, och Malik ibn Anas ansåg därför att året borde börja där. Att muharram valdes var en bokföringsfråga.
 
-Kring månaden har tre bruk vuxit fram som drar åt olika håll. I den klassiska traditionen är muharram en fastemånad, och den dag texterna faktiskt talar om är den tionde, ashura. Inom shiaislam inleder månaden sorgen över Husayn ibn Ali, som dödades vid Karbala år 680. I folklig praxis och i svenskt skolmaterial beskrivs dagen som ett nyårsfirande med gratulationer och god mat. Gränserna mellan bruken är i verkligheten suddigare än uppställningen antyder, och vilken beskrivning en läsare möter beror på vem som beskriver.
+Kring månaden möter en svensk läsare tre olika beskrivningar, och bara en av dem har stöd i texterna. I den klassiska traditionen är muharram en fastemånad, och den dag texterna faktiskt talar om är den tionde, ashura. Sorgeriterna kring Husayn ibn Alis död vid Karbala år 680 saknar den grunden. Det gör också bilden av dagen som ett nyårsfirande med gratulationer och god mat, som möter i folklig praxis och i svenskt skolmaterial.
 
 ## Orden bakom det islamiska nyåret: hijra, muharram och nasiʾ
 
@@ -160,7 +161,7 @@ Att uppgifterna spretar syns också i dateringen. Ibn Kathir placerar beslutet t
 
 Sorgen kring månaden har däremot ett bestämt datum. Husayn ibn Ali dödades vid Karbala den 10 muharram 61, den 10 oktober 680.[^28] I buyidernas Bagdad hade dagen blivit en offentlig sorgeakt: aska och halm ströddes på gator och torg, säckväv hängdes på bodarna, och många drack inget vatten den natten till minne av att Husayn dödades törstig. Ibn Kathir skildrar i samma andetag motrörelsen bland en del av Syriens folk, som på ashura kokade gryn, badade, parfymerade sig, tog på sig sina finaste kläder och gjorde dagen till en fest uttryckligen för att gå de andra emot.[^29] Han framställer alltså bruken som svar på varandra och underkänner dem båda: varken sorgeriterna eller festmåltiden har stöd i sunnan. Det förklarar inte allt firande av ashura, men det visar hur tidigt dagen blev en stridsfråga.
 
-I modern tid har striden om riterna flyttat in i shiaislam. Tatbir, att slå sig med knivar eller kedjor, är förbjudet i Iran och bland Libanons shiitiska samfund sedan mitten av 1990-talet och har fördömts av många lärda.[^30] Det motiveras där med att bruket saknar förebild hos imamerna. Den klassiska hållningen hade avvisat det redan på annan grund, med hadithen om den som slår sig för kinderna och river sönder sina kläder.
+I modern tid har striden om riterna flyttat in i shiaislam. Tatbir, att slå sig med knivar eller kedjor, är förbjudet i Iran och bland Libanons shiitiska samfund sedan mitten av 1990-talet, med motiveringen att bruket saknar förebild hos deras egna imamer.[^30] Den klassiska hållningen avvisar det på annan och äldre grund, med hadithen om den som slår sig för kinderna och river sönder sina kläder.
 
 Kalenderns förvaltning har samtidigt fått ett eget forum. Enligt en sammanställning hos moonsighting.com samlades den 18 februari 2016 en internationell kongress i Istanbul, där Yusuf al-Qaradawi, ordförande i Europeiska fatwarådet, föreslog en gemensam hijrakalender. Kriteriet blev att månen någonstans på jorden vid lokal solnedgång skall stå minst fem grader över horisonten med minst åtta graders elongation.[^31] Uppgiften kommer från en enskild källa och har inte kunnat stämmas av mot kongressens egna handlingar. Under alla omständigheter har kalendern inte genomförts överallt.
 
@@ -178,7 +179,7 @@ Hur många som berörs beror på vad som mäts. Pew Research Center uppskattade 
 
 Vilken dag nyåret infaller avgörs i praktiken av institutioner. Islamiska Förbundet i Sverige följer Europeiska fatwarådet och astronomisk beräkning, och rådets metod utgår från global månobservation, där hela jorden räknas som en enda plats när nymånen skall skådas.[^39] Det är hanbaliternas globala ståndpunkt framför al-Nawawis horisontregel, vilket är en av orsakerna till att två moskéer i samma svenska stad kan lägga 1 muharram på olika dagar.
 
-Skolmaterialet ger en tredje bild. SO-rummet beskriver dagen som ett tillfälle att berätta om händelser ur Muhammeds liv och önska varandra ett gott nytt år, och tillägger att man festar och äter mycket god mat.[^40] Samma sida noterar korrekt att muharram inom shiaislam är en sorgemånad för Husayn.
+Skolmaterialet ger en tredje bild. SO-rummet beskriver dagen som ett tillfälle att berätta om händelser ur Muhammeds liv och önska varandra ett gott nytt år, och tillägger att man festar och äter mycket god mat.[^40]
 
 Festbeskrivningen är inte gripen ur luften. Ashura räknas på många håll som en tacksägelsedag och en glädjens dag, och i Maghreb firas den med fasta, allmosor, hågkomst av de döda, särskilda rätter, eldar som man hoppar över och karnevaler. Bruket är gammalt: den som ställer frågan till Ibn Taymiyya beskriver hur folk badar, smyckar sig, hälsar på varandra och kokar gryn just den dagen.[^41] Det är därför fatwan finns. Skolmaterialets misstag är alltså inte att ingen firar, utan att firandet får fel datum och fel innebörd. Det bruk som beskrivs hör hemma på den tionde muharram, inte på den första, och det är just det som de ovan anförda lärda avvisar.
 

@@ -46,7 +46,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-FENCE = re.compile(r"^```(chart|table)[ \t]*\n(.*?)^```[ \t]*$", re.M | re.S)
+FENCE = re.compile(r"^```(chart|table|timeline)[ \t]*\n(.*?)^```[ \t]*$", re.M | re.S)
 # ⚠️ Historical sources carry historical years. This pattern matched only 1800–2099 and
 # so flagged »Årtalen som de anges i artikeln, 632–661« as undated. Accept any 3–4 digit
 # year, but not one welded to letters, so a table id like TAB6658 is not read as a date.
@@ -136,6 +136,24 @@ def category_labels(body: str) -> list[str]:
     return [x for x in out if x]
 
 
+def row_values(body: str) -> list[str]:
+    """Högerledet under `data:`.
+
+    För ett diagram är det ett tal och ointressant här. För en TIDSLINJE är det hela
+    händelsen — »1991 grundades ISS som paraply för landets shiamuslimer« — alltså den
+    enda plats där kategorifällan kan slå till. Radetiketten är bara ett årtal.
+    """
+    out: list[str] = []
+    in_data = False
+    for line in body.split("\n"):
+        if line.strip() == "data:":
+            in_data = True
+            continue
+        if in_data and line.startswith((" ", "\t")) and ":" in line:
+            out.append(line.split(":", 1)[1].strip())
+    return [x for x in out if x]
+
+
 def prose_fields(body: str) -> list[str]:
     """Bildtext och brasklapp — figurens egen prosa."""
     return [v for v in (scalar(body, "caption"), scalar(body, "note")) if v]
@@ -159,7 +177,7 @@ def check(path: Path, offline: bool, timeout: float) -> list[dict]:
     hits: list[dict] = []
 
     for line, lang, body in blocks(text):
-        kind = "tabellen" if lang == "table" else "diagrammet"
+        kind = {"table": "tabellen", "timeline": "tidslinjen"}.get(lang, "diagrammet")
         source = scalar(body, "source")
         if not source:
             hits.append({"sev": ERROR, "line": line, "rule": "saknad källa",
@@ -177,6 +195,9 @@ def check(path: Path, offline: bool, timeout: float) -> list[dict]:
         # svensk fras slutar matcha. Transkriptionsfällorna läser den vikta strängen,
         # de svenska fraserna den råa.
         raw = " | ".join(cats + prose_fields(body))
+        # En tidslinjes innehåll står i högerledet, inte i etiketten.
+        if lang == "timeline":
+            raw = " | ".join([raw] + row_values(body))
         everything = fold(raw)
 
         # Shia och sufism: blockerande var som helst i figuren, inte bara som kategori.

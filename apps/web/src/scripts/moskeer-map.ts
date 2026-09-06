@@ -178,6 +178,11 @@ async function mount() {
 	if (!(el && dataEl)) return;
 	if (el.dataset.mkMounted === "true") return;
 	el.dataset.mkMounted = "true";
+	// Hoisted out of the helpers below: those are function declarations, so TypeScript
+	// re-checks them without the `if (!el) return` narrowing above and `el` reads as
+	// possibly-null inside them. Resolving the stage once here is also one DOM query
+	// instead of one per selection.
+	const stage: HTMLElement = el.closest<HTMLElement>(".mk-stage") ?? el;
 
 	let data: MosqueDatum[];
 	try {
@@ -211,6 +216,10 @@ async function mount() {
 	const count = document.querySelector<HTMLElement>("#mk-count");
 	const callout = document.querySelector<HTMLElement>("#mk-callout");
 	const empty = document.querySelector<HTMLElement>("#mk-empty");
+	// Always-available escape from a filter, next to the controls that set it. The
+	// "Rensa filter" button inside #mk-empty only appears once a search has already
+	// failed, which is the one moment a reader does not need help getting back.
+	const resetBtn = document.querySelector<HTMLElement>("#mk-reset");
 	const clearBtn = document.querySelector<HTMLButtonElement>("#mk-clear");
 	const groups = Array.from(document.querySelectorAll<HTMLDetailsElement>(".mk-lan"));
 	const items = Array.from(document.querySelectorAll<HTMLElement>(".mk-item"));
@@ -235,25 +244,41 @@ async function mount() {
 		})),
 	});
 
-	const map = new maplibre.Map({
-		container: el,
-		style: "https://tiles.openfreemap.org/styles/positron",
-		bounds: SWEDEN_BOUNDS,
-		// Frame all of Sweden on load; padding keeps the far north/south off the edges.
-		fitBoundsOptions: { padding: 24 },
-		// No maxBounds: with this wide container, clamping the pan range also pins the
-		// minimum zoom, which cropped Sweden and disabled zoom-out. minZoom sits below
-		// the Sweden-fit zoom so the – button still has room.
-		minZoom: 2.6,
-		maxZoom: 17,
-		// Attribution is added manually (bottom-left) below so the bottom-right corner stays
-		// clear for the selection callout. Compact = a small ⓘ that expands on click.
-		attributionControl: false,
-		// Don't trap the page scroll: require ⌘/ctrl-scroll or two fingers to zoom.
-		cooperativeGestures: true,
-		// Swedish tooltips + cooperative-gesture overlay (see LOCALE above).
-		locale: LOCALE,
-	});
+	// The constructor is the one place a missing WebGL context surfaces, and it throws
+	// rather than firing `error` — so the handler below never saw it. Uncaught, the
+	// rejection was swallowed by `mount().catch()` in observe() and the reader was left
+	// with a 700px coloured rectangle and a search box, a län picker and a geo button
+	// that all look live and are wired to nothing, because every listener in mount() is
+	// registered after this line. WebGL is genuinely absent in the wild: blocked by a
+	// privacy extension, unavailable on old hardware, off in a hardened profile.
+	// `.is-error` is already styled on the container and says the list below still works.
+	let map: maplibregl.Map;
+	try {
+		map = new maplibre.Map({
+			container: el,
+			style: "https://tiles.openfreemap.org/styles/positron",
+			bounds: SWEDEN_BOUNDS,
+			// Frame all of Sweden on load; padding keeps the far north/south off the edges.
+			fitBoundsOptions: { padding: 24 },
+			// No maxBounds: with this wide container, clamping the pan range also pins the
+			// minimum zoom, which cropped Sweden and disabled zoom-out. minZoom sits below
+			// the Sweden-fit zoom so the – button still has room.
+			minZoom: 2.6,
+			maxZoom: 17,
+			// Attribution is added manually (bottom-left) below so the bottom-right corner stays
+			// clear for the selection callout. Compact = a small ⓘ that expands on click.
+			attributionControl: false,
+			// Don't trap the page scroll: require ⌘/ctrl-scroll or two fingers to zoom.
+			cooperativeGestures: true,
+			// Swedish tooltips + cooperative-gesture overlay (see LOCALE above).
+			locale: LOCALE,
+		});
+	} catch (err) {
+		el.classList.add("is-error");
+		delete el.dataset.mkMounted;
+		console.warn("[moskeer] kartan kunde inte skapas (saknad WebGL-kontext?):", err);
+		return;
+	}
 	// Without this, a failure at tiles.openfreemap.org just means `load` never fires:
 	// an empty rectangle, nothing logged. The list beside the map still works.
 	let mapFailed = false;
@@ -446,6 +471,34 @@ async function mount() {
 		lastTrigger = null;
 	}
 
+	/** Is the map actually on screen? A 100px sliver at the viewport edge is not enough
+	 *  to show a callout, so the margins are deliberately generous. */
+	function mapInView(): boolean {
+		const r = stage.getBoundingClientRect();
+		const vh = window.innerHeight || document.documentElement.clientHeight;
+		return r.bottom > 140 && r.top < vh - 140;
+	}
+
+	/** Bring the map back on screen when the selection came from elsewhere on the page.
+	 *  Returns whether it scrolled, so the caller can drop the competing row scroll.
+	 *
+	 *  ⚠️ `behavior: "instant"`, and it has to be. Measured in Chrome against the live
+	 *  page: called from inside the row's click, a scroll to the stage with "smooth"
+	 *  moves nothing at all, and so does "auto" — the site sets `scroll-behavior: smooth`
+	 *  on <html>, so "auto" resolves to smooth too. The animation is started and then
+	 *  killed by the click's own default action focusing the <button>. The identical
+	 *  call one tick later, outside the handler, scrolls fine, which is what made this
+	 *  look like the reveal was never running. "instant" jumps every time.
+	 *
+	 *  No reduced-motion branch: an instant jump IS the reduced-motion behaviour, and a
+	 *  1500 px glide down the page was never the nicer option anyway — the map's own
+	 *  flyTo is the animation the reader is meant to watch. */
+	function revealMap(): boolean {
+		if (mapInView()) return false;
+		stage.scrollIntoView({ block: "center", behavior: "instant" });
+		return true;
+	}
+
 	// `scrollList` defaults to `fly`: a list/geo/deep-link selection (fly=true) also brings
 	// the matching list row into view, but a tap on a map marker (fly=false) must NOT move
 	// the page — the reader stays on the map and just gets the callout.
@@ -454,6 +507,25 @@ async function mount() {
 		if (!m) return;
 		activeId = id;
 		setActiveRing(id);
+
+		// THE ANSWER HAS TO BE ON SCREEN. The län list runs a thousand-odd pixels below
+		// the map, so clicking a row used to fly the map, open the callout with the
+		// address, the opening year and both directions buttons — and leave every bit of
+		// that above the fold. From the reader's chair: you click a mosque and the page
+		// changes a border colour. "Hitta moské nära mig" had the same hole: press it
+		// while reading the list and your nearest mosque was announced off-screen.
+		//
+		// Only for selections that did NOT come from the map (fly=true). A tap on a
+		// marker must never move the page under the reader's finger — they are already
+		// looking at the answer.
+		// The row scroll would fight the map scroll; the map wins, because it is where
+		// the newly opened callout is. Written out rather than `scrollList && !(fly &&
+		// revealMap())`: that form only calls revealMap when scrollList happens to be
+		// true, so a future `selectMosque(id, true, false)` would silently lose the
+		// scroll-into-view this whole block exists for.
+		const mapScrolled = fly ? revealMap() : false;
+		const bringRowIntoView = scrollList && !mapScrolled;
+
 		if (fly) {
 			const target = {
 				center: [m.lng, m.lat] as [number, number],
@@ -463,17 +535,24 @@ async function mount() {
 			else map.flyTo({ ...target, speed: 1.2 });
 		}
 		if (callout) renderCallout(m);
+		markActiveRow(id, bringRowIntoView);
+	}
+
+	/** Move the list's highlight to one row, open the län it sits in, and — only for
+	 *  selections that did not come from the map — bring it into view. Lifted out of
+	 *  selectMosque to keep that function under the complexity ceiling; it also reads
+	 *  as what it is, which is the list's half of a selection. */
+	function markActiveRow(id: string, bringIntoView: boolean) {
 		for (const it of items) {
 			const active = it.dataset.id === id;
 			it.classList.toggle("is-active", active);
-			if (active) {
-				const details = it.closest("details");
-				if (details && !details.open) details.open = true;
-				// Only scroll the page to the row for non-map selections; a map tap keeps the
-				// viewport put (just highlights the row in place for when the reader scrolls down).
-				if (scrollList)
-					it.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
-			}
+			if (!active) continue;
+			const details = it.closest("details");
+			if (details && !details.open) details.open = true;
+			// A map tap keeps the viewport put (the row is just highlighted in place, for
+			// when the reader scrolls down to it later).
+			if (bringIntoView)
+				it.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
 		}
 	}
 
@@ -543,13 +622,47 @@ async function mount() {
 		return shown;
 	}
 
+	/** Mirror the filter into the URL. Without this the search and the län picker were
+	 *  the only state on the page that could not be linked, bookmarked or reloaded:
+	 *  "moskéer i Skåne" was something you could see but not send to anyone, Back did
+	 *  not undo a filter, and a refresh silently threw the reader back to all 234.
+	 *
+	 *  replaceState rather than pushState — a filter is not a page, and one history
+	 *  entry per keystroke would bury the Back button under the search field. The raw
+	 *  typed string goes in the URL, not the folded haystack form, so the link stays
+	 *  readable ("?q=malmö", not "?q=malmo"). */
+	function syncUrl(raw: string, lan: string) {
+		const url = new URL(location.href);
+		if (raw) url.searchParams.set("q", raw);
+		else url.searchParams.delete("q");
+		if (lan) url.searchParams.set("lan", lan);
+		else url.searchParams.delete("lan");
+		if (url.href !== location.href) history.replaceState(history.state, "", url);
+	}
+
 	function applyFilter() {
-		const q = fold(search?.value.trim() ?? "");
+		const raw = search?.value.trim() ?? "";
+		const q = fold(raw);
 		const lan = lanSelect?.value ?? "";
 		syncMap(q, lan);
 		const shown = syncList(q, lan);
 		if (count) count.textContent = `${shown} ${shown === 1 ? "moské" : "moskéer"}`;
 		if (empty) empty.hidden = shown !== 0;
+		if (resetBtn) resetBtn.hidden = raw === "" && lan === "";
+		syncUrl(raw, lan);
+	}
+
+	/** The other half of syncUrl: put a linked ?q=/?lan= back into the controls before
+	 *  the first filter pass, so the page opens showing what the link promised. An
+	 *  unknown län is ignored rather than silently blanking the picker. */
+	function restoreFilterFromUrl() {
+		const params = new URLSearchParams(location.search);
+		const q0 = params.get("q");
+		if (q0 && search) search.value = q0;
+		const lan0 = params.get("lan");
+		if (lan0 && lanSelect && Array.from(lanSelect.options).some((o) => o.value === lan0)) {
+			lanSelect.value = lan0;
+		}
 	}
 
 	// ── Wire events ──────────────────────────────────────────────────────────────────
@@ -697,6 +810,9 @@ async function mount() {
 			map.getCanvas().style.cursor = "";
 			hoverPopup?.remove();
 		});
+		// Re-run once the map has a source to filter. The first pass already happened
+		// outside this handler (see below) so the LIST is correct from the start; this
+		// one exists to push the same filter into the freshly created GeoJSON source.
 		applyFilter();
 
 		// Deep link from a Bönetider city page (/moskeer#<id>) → open that mosque.
@@ -722,16 +838,26 @@ async function mount() {
 	search?.addEventListener("input", applyFilter, { signal: sig });
 	lanSelect?.addEventListener("change", applyFilter, { signal: sig });
 
-	clearBtn?.addEventListener(
-		"click",
-		() => {
-			if (search) search.value = "";
-			if (lanSelect) lanSelect.value = "";
-			applyFilter();
-			search?.focus();
-		},
-		{ signal: sig },
-	);
+	// Restore a linked ?q=/?lan= and filter the list NOW, not inside map.on("load").
+	// Everything in that handler is hostage to WebGL: on a machine or a browser profile
+	// where the canvas never initialises — a blocked WebGL context, an extension, old
+	// hardware — the load event does not fire, and with the restore in there a shared
+	// link like /moskeer/?lan=Skåne silently opened as all 234. The list is plain DOM
+	// and owes the map nothing, so it filters immediately; syncMap's `getSource` is
+	// already optional-chained and simply no-ops until the map is ready.
+	restoreFilterFromUrl();
+	applyFilter();
+
+	// Both routes back to "all 234": the one beside the controls (always there while a
+	// filter is on) and the one inside the empty state (there when the search failed).
+	const clearFilter = () => {
+		if (search) search.value = "";
+		if (lanSelect) lanSelect.value = "";
+		applyFilter();
+		search?.focus();
+	};
+	clearBtn?.addEventListener("click", clearFilter, { signal: sig });
+	resetBtn?.addEventListener("click", clearFilter, { signal: sig });
 
 	// The labelled CTA drives the native GeolocateControl; the `geolocate` / `error`
 	// handlers wired at setup do the rest (user dot + accuracy ring, nearest-mosque snap,

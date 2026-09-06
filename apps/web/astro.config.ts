@@ -13,6 +13,7 @@ import { rehypeQuoteAttribution } from "./src/plugins/rehype-quote-attribution";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
 import { rehypeSidenotes } from "./src/plugins/rehype-sidenotes";
 import { rehypeTable } from "./src/plugins/rehype-table";
+import { rehypeTimeline } from "./src/plugins/rehype-timeline";
 import { remarkAbbr } from "./src/plugins/remark-abbr";
 
 // remark-smartypants resolves its own `unified` version, whose Plugin type does not
@@ -742,15 +743,15 @@ export default defineConfig({
 	markdown: {
 		// ⚠️ `excludeLangs` is load-bearing, not tidying. rehypeShiki is registered
 		// ABOVE the user rehypePlugins inside @astrojs/markdown-remark, so without this a
-		// ```chart or ```table fence reaches its plugin as <pre class="astro-code"> full of
-		// <span>s with `language-chart`/`language-table` already stripped — the plugin matches
+		// ```chart, ```table or ```timeline fence reaches its plugin as <pre class="astro-code">
+		// full of <span>s with its `language-…` class already stripped — the plugin matches
 		// nothing and the READER gets a syntax-highlighted code listing where the figure should
 		// be. Silent, and on the page. Every fence language this site renders belongs in this
-		// array; assert-full-build.mjs counts both fences against the figures in dist/ so a
+		// array; assert-full-build.mjs counts the fences against the figures in dist/ so a
 		// regression here fails the deploy rather than shipping.
 		// Passing `syntaxHighlight` here (a sibling of `processor`, not an option to it) works
 		// because unified() hands the rest of this config through to createMarkdownProcessor.
-		syntaxHighlight: { type: "shiki", excludeLangs: ["chart", "table"] },
+		syntaxHighlight: { type: "shiki", excludeLangs: ["chart", "table", "timeline"] },
 		// Astro 7 made Sätteri (Rust) the default Markdown processor, and deprecated the
 		// top-level `remarkPlugins`/`rehypePlugins` keys — they only still work through a
 		// compatibility shim that silently swaps in `unified()` and warns on every build.
@@ -788,10 +789,10 @@ export default defineConfig({
 			// rehypeQuranVerse in particular scans paragraph text to decide where a
 			// recitation player belongs, and would otherwise be reading note text that
 			// is not part of the paragraph at all.
-			// rehypeChart and rehypeTable run LAST, after rehypeSidenotes. Every pass before them
+			// The three figure passes run LAST, after rehypeSidenotes. Every pass before them
 			// reads a document shape that predates the figure, and a figure contains no prose for
 			// any of them to act on — no verse to find, no attribution to wrap, no footnote to
-			// relocate. Order between the two does not matter: they match disjoint language
+			// relocate. Order among the three does not matter: they match disjoint language
 			// classes, and each replaces its own fence outright.
 			rehypePlugins: [
 				rehypeHonorific,
@@ -800,6 +801,7 @@ export default defineConfig({
 				rehypeSidenotes,
 				rehypeChart,
 				rehypeTable,
+				rehypeTimeline,
 			],
 		}),
 	},

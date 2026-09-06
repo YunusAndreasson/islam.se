@@ -53,9 +53,12 @@
 	   that remain are both named `*-summary`.
 
 	   `.prose` lists are untouched — typography.css gives them `list-style: revert`
-	   in the `base` layer, which outranks this one. Checked across all 2263 built
-	   pages carrying `.prose`: no structural list is ever nested inside one, so the
-	   two rules never meet. */
+	   in the `base` layer, which outranks this one. That rule is scoped to
+	   `:not([class])` so the two never meet: an earlier audit concluded no
+	   structural list is ever nested inside `.prose`, and that stopped being true
+	   when the redaktion page put `<ol class="pipeline">` there. Gecko then drew
+	   `decimal` into the same 30 px strip the component draws its own nodes in.
+	   A component list inside prose is fine — just keep it classed. */
 	ul,
 	ol {
 		list-style: none;

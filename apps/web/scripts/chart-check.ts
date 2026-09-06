@@ -39,6 +39,12 @@ import {
 import { ChartSpecError, parseChartSpec } from "../src/lib/chart/spec.ts";
 import { renderTableMarkup, tableAltText, tableCaptionText } from "../src/lib/table/render.ts";
 import { parseTableSpec, TableSpecError } from "../src/lib/table/spec.ts";
+import {
+	renderTimelineMarkup,
+	timelineAltText,
+	timelineCaptionText,
+} from "../src/lib/timeline/render.ts";
+import { parseTimelineSpec, TimelineSpecError } from "../src/lib/timeline/spec.ts";
 
 const REPO = fileURLToPath(new URL("../../../", import.meta.url));
 // ⚠️ The closing fence must own its line. This pattern once ended at `^``` ` without
@@ -53,6 +59,7 @@ const fencePattern = (lang: string) =>
 const FENCES = [
 	{ lang: "chart", pattern: fencePattern("chart") },
 	{ lang: "table", pattern: fencePattern("table") },
+	{ lang: "timeline", pattern: fencePattern("timeline") },
 ] as const;
 
 const files = process.argv.slice(2).length
@@ -82,6 +89,38 @@ for (const rel of files) {
 			const line = text.slice(0, m.index ?? 0).split("\n").length;
 			const where = `${rel}:${line}`;
 			try {
+				if (lang === "timeline") {
+					const spec = parseTimelineSpec(m[1] ?? "");
+					const web = renderTimelineMarkup(spec, "web");
+					const print = renderTimelineMarkup(spec, "print");
+					if (/var\(--/.test(print))
+						problems.push(
+							`${where}: print-läget läcker var(--…) — Typst och EPUB har inga CSS-variabler`,
+						);
+					if (/#[0-9a-f]{6}/i.test(web))
+						problems.push(`${where}: webbläget har rå hex i stället för en token`);
+					const alt = timelineAltText(spec);
+					if (!alt.trim()) problems.push(`${where}: tom aria-label`);
+
+					const opens = (print.match(/<[a-z][^>]*?(?<!\/)>/g) ?? []).length;
+					const closes = (print.match(/<\/[a-z]+>/g) ?? []).length;
+					if (opens !== closes)
+						problems.push(
+							`${where}: tidslinjemarkeringen är inte välformad XML (${opens} öppnande, ${closes} stängande)`,
+						);
+
+					console.log(
+						`\n\x1b[1m${where}\x1b[0m  tidslinje, ${spec.entries.length} punkter, ${spec.scale}`,
+					);
+					console.log(`  alt      ${alt}`);
+					console.log(`  bildtext ${timelineCaptionText(spec)}`);
+					if (!spec.sourceUrl)
+						console.log(
+							"  \x1b[33m·\x1b[0m källa utan länk — avsiktligt? en påhittad länk är en förfalskning",
+						);
+					continue;
+				}
+
 				if (lang === "table") {
 					const spec = parseTableSpec(m[1] ?? "");
 					const web = renderTableMarkup(spec, "web");
@@ -146,7 +185,9 @@ for (const rel of files) {
 					);
 			} catch (error) {
 				const at =
-					error instanceof ChartSpecError || error instanceof TableSpecError
+					error instanceof ChartSpecError ||
+					error instanceof TableSpecError ||
+					error instanceof TimelineSpecError
 						? `${rel}:${line + error.line}`
 						: where;
 				problems.push(`${at}: ${(error as Error).message}`);

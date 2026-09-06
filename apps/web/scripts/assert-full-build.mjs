@@ -133,10 +133,10 @@ if (cities !== null && cities >= MIN_CITIES && pdfCount < 200) {
 // so if `syntaxHighlight.excludeLangs` in astro.config.ts ever loses "chart" or "table",
 // every fence of that kind becomes a syntax-highlighted code listing on the page instead of
 // a figure — a defect the reader sees and the build does not. Counted from source so it
-// cannot drift. Both fences render to `<figure class="chart chart--…">`, which is why one
-// comparison covers them.
+// cannot drift. All three fences render to `<figure class="chart chart--…">`, which is why
+// one comparison covers them.
 const CORPORA = ["articles", "svar", "fordjupning"];
-const FENCE_LANGS = ["chart", "table"];
+const FENCE_LANGS = ["chart", "table", "timeline"];
 let chartFences = 0;
 for (const corpus of CORPORA) {
 	const dir = new URL(`../../../data/${corpus}/`, import.meta.url).pathname;
@@ -158,7 +158,7 @@ const scanHtml = (dir) => {
 		else if (entry.name === "index.html") {
 			const html = readFileSync(full, "utf8");
 			chartFigures += (html.match(/<figure class="chart chart--/g) ?? []).length;
-			leakedFences += (html.match(/language-(?:chart|table)/g) ?? []).length;
+			leakedFences += (html.match(/language-(?:chart|table|timeline)/g) ?? []).length;
 		} else if (entry.name === "index.md") {
 			// The markdown twin is built from the rendered HTML, where a chart's label and
 			// value are adjacent inline spans. node-html-markdown joins them with nothing,
@@ -176,10 +176,10 @@ const scanHtml = (dir) => {
 if (existsSync(DIST)) scanHtml(DIST);
 if (chartFences > 0 && chartFigures < chartFences) {
 	failures.push(
-		`${chartFences} chart/table fences in data/, but only ${chartFigures} figures in dist.\n` +
-			"    rehype-chart or rehype-table did not run on all of them. Check that astro.config.ts\n" +
-			'    still has `syntaxHighlight: { type: "shiki", excludeLangs: ["chart", "table"] }` and\n' +
-			"    that both rehypeChart and rehypeTable are in the rehypePlugins array.",
+		`${chartFences} chart/table/timeline fences in data/, but only ${chartFigures} figures in dist.\n` +
+			"    A figure plugin did not run on all of them. Check that astro.config.ts still has\n" +
+			'    `syntaxHighlight: { type: "shiki", excludeLangs: ["chart", "table", "timeline"] }`\n' +
+			"    and that rehypeChart, rehypeTable and rehypeTimeline are all in rehypePlugins.",
 	);
 }
 if (weldedTwins.length > 0) {
@@ -195,11 +195,10 @@ if (weldedTwins.length > 0) {
 }
 if (leakedFences > 0) {
 	failures.push(
-		`${leakedFences} fences reached dist as <code class="language-chart|table"> — the reader\n` +
-			"    is being shown the raw spec. See the note above.",
+		`${leakedFences} fences reached dist as <code class="language-chart|table|timeline"> — the\n` +
+			"    reader is being shown the raw spec. See the note above.",
 	);
 }
-
 for (const [rel, note] of [
 	["sitemap-index.xml", "the sitemap Search Console is subscribed to"],
 	[

@@ -1,13 +1,16 @@
 ---
+import { getImage } from "astro:assets";
 import { ChevronDown, Crosshair, Search } from "@lucide/astro";
 import DefinitionList from "../components/DefinitionList.astro";
 import DisclosureGroup from "../components/DisclosureGroup.astro";
+import MosqueGallery from "../components/moskeer/MosqueGallery.astro";
 import SectionLink from "../components/SectionLink.astro";
 import TitledSection from "../components/TitledSection.astro";
 import Base from "../layouts/Base.astro";
 import { formatDate } from "../lib/articles";
 import { breadcrumbList, dataset, faqPageJsonLd } from "../lib/jsonld";
 import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan } from "../lib/moskeer";
+import { MOSQUE_PHOTOS } from "../lib/moskeer/art";
 import { MOSKEER_DATA_DATE } from "../lib/moskeer/meta";
 import { fold } from "../lib/search-text";
 // ⚠️ maplibre-gl.css is NOT imported here. In the frontmatter it joins the page's
@@ -46,6 +49,12 @@ const lanRanked = [...groups].sort((a, b) => b.mosques.length - a.mosques.length
 const lanMax = Math.max(1, ...lanRanked.map((g) => g.mosques.length));
 
 const updated = formatDate(MOSKEER_DATA_DATE);
+
+// Share card: the first mosque in the gallery rather than the site default. A
+// link to this page should preview as a Swedish mosque, which is the whole
+// claim the page makes.
+const cardPhoto = MOSQUE_PHOTOS[0];
+const card = cardPhoto ? await getImage({ src: cardPhoto.src, width: 1200, format: "webp" }) : undefined;
 
 // The per-mosque detail the map callout needs, looked up by id on click. Kept lean and
 // embedded once as JSON; `<` is escaped so a name can never break out of the script tag.
@@ -156,6 +165,9 @@ const faq = [
 <Base
 	title="Moskéer i Sverige — karta och adresser län för län — islam.se"
 	description={description}
+	{...(card === undefined ? {} : { ogImage: card.src })}
+	{...(cardPhoto === undefined ? {} : { ogImageAlt: cardPhoto.alt })}
+	{...(card === undefined ? {} : { ogImageWidth: 1200, ogImageHeight: 800 })}
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
@@ -198,13 +210,26 @@ const faq = [
 			<h1>Moskéer i Sverige</h1>
 			<p class="mk-intro">
 				En karta över moskéer och muslimska församlingar i hela Sverige – från källarmoskéer till
-				stora bönehus. Zooma och panorera, sök på namn eller ort, eller bläddra län för län. Välj en
-				moské för plats, öppningsår och vägbeskrivning.
+				stora bönehus.
 			</p>
 			<p class="mk-meta">
 				Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time> · {total} moskéer
 			</p>
 		</header>
+
+		<MosqueGallery />
+
+		{/* The half of the old intro that describes the tool, moved down to sit against
+		    it. It used to run on under the h1, which was fine when the search box came
+		    next — but with the gallery between them the sentence "zooma och panorera"
+		    was two blocks above the thing it referred to, and the search row read as
+		    though it belonged to the pictures. Splitting the paragraph at its own seam
+		    (what this page IS, then how to use it) puts each half beside what it
+		    describes and gives the map back its introduction. */}
+		<p class="mk-tool-lead">
+			Zooma och panorera, sök på namn eller ort, eller bläddra län för län. Välj en moské för
+			plats, öppningsår och vägbeskrivning.
+		</p>
 
 		<div class="mk-controls">
 			<div class="mk-search-wrap">
@@ -230,19 +255,29 @@ const faq = [
 				<Crosshair size={16} />
 				<span>Hitta moské nära mig</span>
 			</button>
+			{/* Gecko ritar inget rensningskryss i input[type=search] — och sajten verifieras
+			    i Zen. Utan den här knappen var enda vägen tillbaka från ett filter att tömma
+			    fältet för hand; "Rensa filter" fanns bara i tomläget, alltså först när sökningen
+			    redan gett noll träffar. Den visas när ett filter är aktivt och döljs annars. */}
+			<button type="button" id="mk-reset" class="mk-reset" hidden>Rensa</button>
 			<p id="mk-count" class="mk-count" aria-live="polite">{total} moskéer</p>
 		</div>
 		<p id="mk-geo-status" class="mk-geo-status" role="status"></p>
 
 		<div class="mk-stage">
-			<div id="moskeer-map" class="mk-map" role="application" aria-label="Karta över moskéer i Sverige"></div>
+			{/* role="region", inte "application". `application` säger åt skärmläsaren att lämna
+			    över ALLA tangenttryck till widgeten och stänga av sitt eget läsläge — rimligt
+			    för en redigerare, fel för en karta som inte har någon egen tangentmodell. Följden
+			    var att pil- och läskommandon slutade fungera i en 700 px hög ruta utan innehåll
+			    att läsa. `region` ger etiketten och landmärket utan att kapa tangentbordet. */}
+			<div id="moskeer-map" class="mk-map" role="region" aria-label="Karta över moskéer i Sverige"></div>
 			<aside id="mk-callout" class="mk-callout" aria-label="Vald moské" aria-live="polite" hidden></aside>
 		</div>
 		<noscript>
 			<p class="mk-noscript">Den interaktiva kartan kräver JavaScript. Alla moskéer finns i listan nedan, ordnade efter län.</p>
 		</noscript>
 
-		<TitledSection class="mk-section" id="mk-find" title="Hitta moské">
+		<TitledSection class="mk-section" id="mk-find" title="Moskéer län för län">
 			<p class="mk-lead">{total} moskéer, ordnade efter län. Välj en för plats, öppningsår och vägbeskrivning. Se även <a href="/bonetider/">bönetider för din ort</a>.</p>
 			<div class="mk-lan-groups">
 				{groups.map((g) => (
@@ -310,11 +345,14 @@ const faq = [
 			</dl>
 
 			<h3>Milstolpar</h3>
-			<ol class="mk-timeline">
+			{/* The shared milestone grammar — .tl/.tl-item/.tl-year/.tl-label live in
+			    styles/chart.css beside the ```timeline fence, so the two chronologies
+			    on this site share one rail, one dot and one year face. */}
+			<ol class="tl">
 				{timelineItems.map((item) => (
-					<li class="mk-tl-item">
-						<span class="mk-tl-year">{item.year}</span>
-						<p class="mk-tl-label">{item.label}</p>
+					<li class="tl-item">
+						<span class="tl-year">{item.year}</span>
+						<p class="tl-label">{item.label}</p>
 					</li>
 				))}
 			</ol>
@@ -451,6 +489,18 @@ const faq = [
 
 	/* Controls row above the map — one cohesive toolbar: the search field, län filter and
 	   the geolocation CTA share a pill shape, height and focus treatment. */
+	.mk-tool-lead {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.6;
+		color: var(--text-body);
+		/* φ above so the tool block breaks clearly away from the gallery — at the old
+		   spacing the bottom row of picture captions sat 8px off the search field. */
+		margin: var(--space-phi) 0 var(--space-unit);
+		max-width: var(--content-width);
+		text-wrap: pretty;
+	}
+
 	.mk-controls {
 		display: flex;
 		flex-wrap: wrap;
@@ -550,6 +600,25 @@ const faq = [
 	.mk-geo:focus-visible,
 	.mk-clear:focus-visible {
 		outline-offset: 1px;
+	}
+
+	.mk-reset {
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--color-muted);
+		background: transparent;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-pill);
+		cursor: pointer;
+		padding: 0.5rem 1rem;
+		transition:
+			color 0.15s,
+			border-color 0.15s;
+	}
+
+	.mk-reset:hover {
+		color: var(--color-accent);
+		border-color: var(--color-warm);
 	}
 
 	.mk-count {
@@ -875,72 +944,6 @@ const faq = [
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		margin-top: 0.25rem;
-	}
-
-	/* Vertical milestone timeline. The rail line is drawn per item (::before); the dot
-	   (::after) paints on top, centred both on the line and on the year row so the year
-	   label lines up exactly with its dot. */
-	.mk-timeline {
-		margin: var(--space-half) 0 var(--space-unit);
-		padding: 0;
-		max-width: 40rem;
-	}
-
-	.mk-tl-item {
-		position: relative;
-		padding: 0 0 var(--space-unit) 1.6rem;
-	}
-
-	.mk-tl-item::before {
-		content: "";
-		position: absolute;
-		left: 5px;
-		top: 0;
-		bottom: 0;
-		width: 2px;
-		background: var(--color-divider);
-	}
-
-	.mk-tl-item:first-child::before {
-		top: 3px;
-	}
-
-	.mk-tl-item:last-child::before {
-		display: none;
-	}
-
-	.mk-tl-item::after {
-		content: "";
-		position: absolute;
-		box-sizing: border-box;
-		left: 0;
-		/* dot is 12px tall; the year line-height is 1.2 × 0.9375rem (≈18px), so its centre
-		   sits ~9px down — top:3px puts the dot centre there too. */
-		top: 3px;
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		background: var(--color-brass);
-		border: 2px solid var(--color-bg);
-	}
-
-	.mk-tl-year {
-		display: block;
-		line-height: 1.2;
-		font-family: var(--font-heading);
-		font-weight: 600;
-		font-size: var(--step--2);
-		color: var(--color-accent);
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.mk-timeline .mk-tl-label {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		line-height: 1.5;
-		color: var(--text-body);
-		margin: 0.2rem 0 0;
-		max-width: 36rem;
 	}
 
 	/* Ranked county-distribution bars */

@@ -7,6 +7,8 @@ description: "En man går fram till Profeten ﷺ och ber att få ett uppdrag. Ha
 category: "Samhälle"
 imageAlt: "En man i fyrtioårsåldern sitter ensam vid ett bord bakom en vit valskärm i en dunkel vallokal; han håller en penna mot munnen och valsedeln framför honom är ännu oskriven, medan tomma valbås står i skuggan bakom."
 imageCaption: "En dunkel vallokal en eftermiddag i september. Handen vilar, och ingen ser den."
+audioFile: "rosten-ar-ingen-beloning.mp3"
+audioDuration: 952
 ---
 En man går fram till Profeten ﷺ och ber att få ett uppdrag. Han heter Abu Dharr, och bland följeslagarna är han känd för sin askes: den som äger minst, som fastar mest, vars fromhet ingen ifrågasätter. Svaret kommer med en hand lagd på hans axel.
 

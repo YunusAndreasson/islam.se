@@ -323,6 +323,178 @@
 		color: var(--color-muted);
 	}
 
+	/* ---- timeline: the ```timeline fence -------------------------------- */
+
+	/* A chronology against a vertical rail. Vertical because a dozen dated events must
+	   hold at 375 px, where a horizontal axis gives each label about two centimetres.
+	   Reuses .chart, .chart-plot and the whole .chart-cap apparatus for the same reason
+	   the table does, hence `chart chart--timeline`.
+
+	   The gap above each entry is an inline margin-top in rem, written by the renderer
+	   from the years elapsed. Everything positional therefore lives here and nothing
+	   chromatic lives there. */
+	.chart-timeline {
+		position: relative;
+		margin: 0;
+		padding: 0 0 0 var(--space-unit);
+		list-style: none;
+		font-size: var(--step--2);
+		line-height: 1.45;
+	}
+
+	/* ---- the shared timeline vocabulary --------------------------------
+	   ⚠️ THE RAIL, THE DOT AND THE YEAR ARE DEFINED ONCE, HERE, and reused by every
+	   chronology on the site — the ```timeline fence below and the milestone list on
+	   /moskeer/. They drifted into three looks (a 1px rule with a 5px muted dot here,
+	   a 2px divider with a 12px brass dot on /moskeer/, a 1px rule with a 9px hollow
+	   node on /om/redaktion/) purely because each was written where it was needed.
+	   /moskeer/ had the best of the three, so its values are the ones kept.
+
+	   What is NOT shared is the layout, and that is deliberate rather than unfinished.
+	   This fence sets the year in its own aligned column because its vertical gaps
+	   encode elapsed time (√Δyears — see lib/timeline/render.ts, and the caption says
+	   so), and a column of years is what lets a reader read that spacing. A milestone
+	   list makes no such claim and stacks the year above its label instead. One
+	   vocabulary, two grammars. */
+	.chart-timeline,
+	.tl {
+		--tl-dot: 12px;
+		--tl-dot-fill: var(--color-brass);
+		--tl-rail: 2px;
+		--tl-rail-color: var(--color-divider);
+	}
+
+	/* The year: heading face, lining tabular figures, accent colour. Lining figures are
+	   not decoration — the body default is oldstyle, and a column of years that does not
+	   line up is the one thing this form cannot afford. */
+	.chart-tl-year,
+	.tl-year {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: var(--step--2);
+		line-height: 1.2;
+		color: var(--color-accent);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	/* The rail. Inset by half a dot so the dots sit centred on it, and stopped short at
+	   both ends so it reads as a span of time rather than an arrow out of the figure. */
+	.chart-timeline::before {
+		content: "";
+		position: absolute;
+		inset: 0.5em auto 0.5em calc((var(--tl-dot) - var(--tl-rail)) / 2);
+		width: var(--tl-rail);
+		background: var(--tl-rail-color);
+	}
+
+	.chart-tl-item {
+		position: relative;
+		display: grid;
+		grid-template-columns: 5.5rem 1fr;
+		column-gap: 0.75rem;
+		align-items: baseline;
+		text-wrap: pretty;
+	}
+
+	/* The dot: filled brass with a background-coloured ring, so it reads as sitting on
+	   the rail rather than being pierced by it. */
+	.chart-tl-item::before,
+	.tl-item::after {
+		content: "";
+		position: absolute;
+		box-sizing: border-box;
+		width: var(--tl-dot);
+		height: var(--tl-dot);
+		border-radius: 50%;
+		background: var(--tl-dot-fill);
+		border: 2px solid var(--color-bg);
+	}
+
+	.chart-tl-item::before {
+		left: calc(-1 * var(--space-unit));
+		top: 0.15em;
+	}
+
+	.chart-tl-event {
+		color: var(--color-text);
+	}
+
+	/* One-vs-rest, the same encoding the bars and the table use: the emphasised entry
+	   keeps the brass and takes a filled dot; everything else recedes. No hue is added. */
+	.chart-tl-item.is-emphasis > *,
+	.chart-tl-item.is-emphasis .chart-tl-year {
+		color: var(--color-brass);
+	}
+
+	/* The emphasised entry keeps the brass; everything else recedes to the rule colour,
+	   so the one-vs-rest encoding survives the dot now being brass by default. */
+	.chart-tl-item:not(.is-emphasis)::before {
+		background: var(--color-rule);
+	}
+
+	/* ---- .tl: the milestone grammar ------------------------------------
+	   The second of the two chronology layouts (see the vocabulary note above). No
+	   proportional spacing and no claim about elapsed time, so the year stacks above
+	   its label and the entries are evenly spaced. Used by /moskeer/; available to any
+	   page that wants a plain list of dated milestones.
+
+	   The rail is drawn per item rather than once on the list, so the last entry can
+	   terminate it — a milestone list ends at its last milestone, where the fence's
+	   rail is a continuous span of time. */
+	.tl {
+		margin: var(--space-half) 0 var(--space-unit);
+		padding: 0;
+		max-width: 40rem;
+		list-style: none;
+	}
+
+	.tl-item {
+		position: relative;
+		padding: 0 0 var(--space-unit) 1.6rem;
+	}
+
+	.tl-item::before {
+		content: "";
+		position: absolute;
+		left: calc((var(--tl-dot) - var(--tl-rail)) / 2);
+		top: 0;
+		bottom: 0;
+		width: var(--tl-rail);
+		background: var(--tl-rail-color);
+	}
+
+	.tl-item:first-child::before {
+		top: 3px;
+	}
+
+	.tl-item:last-child::before {
+		display: none;
+	}
+
+	/* Dot geometry is shared (above); only its placement is local. 3px puts its centre
+	   on the year's optical centre — the year is 0.9375rem at line-height 1.2. */
+	.tl-item::after {
+		left: 0;
+		top: 3px;
+	}
+
+	.tl-year {
+		display: block;
+	}
+
+	.tl-label {
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: 1.5;
+		color: var(--text-body);
+		margin: 0.2rem 0 0;
+		max-width: 36rem;
+	}
+
+	.chart-tl-item.is-dim > * {
+		color: var(--color-muted);
+	}
+
 	/* ---- caption -------------------------------------------------------- */
 
 	.chart-cap {
@@ -399,6 +571,13 @@
 
 		.chart-col-label {
 			font-size: var(--step--5);
+		}
+
+		/* Below the floor the year moves above its event: a 5.5rem column plus a
+		   sentence leaves about fifteen characters a line. */
+		.chart-tl-item {
+			grid-template-columns: 1fr;
+			row-gap: 0.1rem;
 		}
 	}
 

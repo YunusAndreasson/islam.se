@@ -257,5 +257,15 @@ export async function renderOg(input: OgInput): Promise<Buffer> {
 		],
 	});
 
-	return sharp(Buffer.from(svg)).png().toBuffer();
+	// Quantised PNG, not the default truecolour one. The cards were averaging 476 kB
+	// and the worst reached 1,36 MB — over WhatsApp's 600 kB ceiling for a link
+	// preview, so the biggest essays were being shared with no image at all. A
+	// palette drops the same six cards from 7,1 MB to 1,9 MB (−73 %) with nothing
+	// visible lost: these are a photo under a heavy dark scrim plus flat white type,
+	// which is exactly the material 256 colours handles well. Staying on PNG keeps
+	// the /og/<slug>.png URL and its Content-Type, so already-scraped cards and the
+	// og-cache on disk stay valid — jpeg would be smaller again but moves the route.
+	return sharp(Buffer.from(svg))
+		.png({ compressionLevel: 9, palette: true, quality: 90 })
+		.toBuffer();
 }

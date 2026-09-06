@@ -1,0 +1,122 @@
+---
+import EssayImage from "../EssayImage.astro";
+import { CARD_WIDTHS } from "../../lib/hero";
+import { MOSQUE_PHOTOS } from "../../lib/moskeer/art";
+
+// The little gallery at the head of /moskeer/. Six photographs of six actual
+// mosques, each opening that town's page.
+//
+// Why a gallery and not one big picture: a single image of one mosque is a
+// claim about all of them, and whichever building you pick it is the wrong
+// one — Sweden's mosques run from Boberg's 1903 power station on Södermalm to a
+// gilded dome bolted onto a Gävle brick box. Six of them side by side say what
+// no single frame can, and they say it with photographs rather than assertion.
+// They are also small: this page's job is the map below, and the gallery must
+// not push it off the screen.
+//
+// No photo credit under the thumbnails. CC BY-SA 4.0 §3(a)(2) says attribution
+// may be satisfied "by providing a URI or hyperlink to a resource that includes
+// the required information", and every tile links to the town page, which names
+// the photographer and the licence in full. Repeating six bylines here buys no
+// extra compliance and turns a gallery into a rights notice.
+---
+
+{MOSQUE_PHOTOS.length > 0 && (
+	<section class="mk-gallery" aria-label="Moskéer i Sverige, i bild">
+		<ul>
+			{MOSQUE_PHOTOS.map((p, i) => (
+				<li>
+					<a href={`/moskeer/${p.citySlug}/`}>
+						{/* alt="" on purpose. The mosque's name sits inside this same link, so a
+						    described image would make the link announce itself twice — the
+						    convention EssayImage documents for the FAKTA cards. The full
+						    description lives on the town page, where the photo stands alone. */}
+						<div class="media-frame">
+							<EssayImage
+								src={p.src}
+								alt=""
+								widths={CARD_WIDTHS}
+								sizes="(max-width: 600px) 50vw, (max-width: 67rem) 33vw, 20rem"
+								loading={i < 3 ? "eager" : "lazy"}
+							/>
+						</div>
+						<span class="mk-gallery-name">{p.mosque}</span>
+						{/* "Stockholms moské / Stockholm" says the town twice. Only the odd
+						    one out — Al-Rashideen-moskén — needs telling where it is. */}
+						{!p.mosque.includes(p.city) && <span class="mk-gallery-meta">{p.city}</span>}
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
+)}
+
+<style>
+	.mk-gallery {
+		margin-top: var(--space-phi);
+	}
+
+	.mk-gallery ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-unit);
+		/* Explicit counts, not `auto-fit` + minmax — auto-fit would not resolve to
+		   anything but three columns here however small the track minimum went, so
+		   saying three is honest about what actually renders.
+
+		   Three across in two rows, NOT six across in one. Six was tried: it keeps
+		   the map on screen at a laptop height, and it is worse, because at ~140px a
+		   photograph of a building stops being a photograph of a building and turns
+		   into a swatch. The whole argument of this gallery is that these are real
+		   buildings standing in real Swedish towns, and it is an argument you have to
+		   be able to SEE. The map is one short scroll down and keeps its own
+		   introduction directly above it, which is what was actually broken before. */
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (min-width: 34rem) {
+		.mk-gallery ul {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.mk-gallery li {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.mk-gallery li > a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.mk-gallery :global(img) {
+		aspect-ratio: 3 / 2;
+		width: 100%;
+	}
+
+	.mk-gallery-name {
+		display: block;
+		font-size: var(--step--1);
+		color: var(--color-accent);
+		margin-top: var(--space-half);
+		text-wrap: balance;
+	}
+
+	.mk-gallery li > a:hover .mk-gallery-name {
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	.mk-gallery-meta {
+		display: block;
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		margin-top: 0.15rem;
+		text-wrap: pretty;
+	}
+
+</style>

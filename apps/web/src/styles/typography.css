@@ -493,8 +493,16 @@
 			text-indent: 1.618em;
 		}
 
-		ul,
-		ol {
+		/* ⚠️ UNCLASSED lists only — markdown the author wrote. A component that
+		   nests its own list inside .prose (the redaktion pipeline, for one) draws
+		   its own markers and must keep the reset's markerless string; `revert`
+		   here used to hand it back the UA's `decimal`, which then rendered in the
+		   same padding strip as the component's own nodes. reset.css's note that
+		   "no structural list is ever nested inside .prose" was an audit of the
+		   pages that existed when it was written, not an invariant — so scope the
+		   rule to what it actually means instead of relying on that holding. */
+		ul:not([class]),
+		ol:not([class]) {
 			list-style: revert;
 			padding-inline-start: 1.5em;
 			margin-bottom: var(--space-unit);

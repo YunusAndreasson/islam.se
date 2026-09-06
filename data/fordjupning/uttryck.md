@@ -85,6 +85,7 @@ related:
   - "vad-ar-odet-qadar"
   - "sa-ber-man-steg-for-steg"
   - "vad-ar-sunna"
+imageAlt: "Två gestalter bakifrån vid en busskur i vinterskymning, med andedräkten synlig i kylan"
 essays:
   - "tungans-fastning"
   - "det-tungan-inte-nar"

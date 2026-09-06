@@ -75,6 +75,8 @@ related:
   - "vad-ar-kaba"
   - "vad-var-hijra"
   - "islams-symboler"
+imageAlt: "Bönemattor rullade och ställda mot väggen i ett vanligt rum med element och fönster mot ett grått hus"
+imageCaption: "Sveriges Radio uppskattade 2005 antalet källarmoskéer i landet till omkring 120."
 essays:
   - "kompassnalens-moske"
   - "rosten-over-taken"

@@ -1580,6 +1580,15 @@
 		margin-top: 0.5rem;
 	}
 
+	/* Three lines instead of two, for card lists whose deck is a `blurb` — one finished
+	   sentence of 60–95 characters — rather than the opening clause of an essay's
+	   description. Two lines cut most blurbs mid-word ("…och en historia som är
+	   svenskar…"), which reads as breakage rather than as a deck running out of sight.
+	   Used by the fördjupning band on /svar/ and by the /fordjupning/ index. */
+	.essay-cards--blurb .essay-card .archive-description.essay-card-desc {
+		-webkit-line-clamp: 3;
+	}
+
 	/* Thumbnail row — the archive row with its hero run small down the right edge.
    Used by the homepage ämnen departments, where the two ranks above are art-led
    and the departments below them were the one wholly text module on the page.
@@ -1823,6 +1832,26 @@
 		   essay template shifted seven blocks by name while this rule centred
 		   thirteen, and .innehall was in one list and not the other. */
 		margin-inline: var(--reading-inline-start, auto) auto;
+	}
+
+	/* A quiet editorial caption under a hero — a descriptive line only (never a
+	   credit; photographer attribution lives in the ImageObject structured data).
+	   Reads as a plate caption, not a stock label: small, muted, lightly italic,
+	   set to the reading measure so it aligns with the prose under it rather than
+	   running the full width of the picture.
+
+	   ⚠️ Global, not per-template. This lived in the essay template's scoped block,
+	   so /fordjupning/ rendered the same figcaption.hero-caption with no type at all and its captions came out at body size. Both templates emit this
+	   class; one definition serves them. */
+	.hero-caption {
+		max-width: var(--content-width);
+		margin-inline: auto;
+		margin-top: 0.7rem;
+		font-size: var(--step--3);
+		line-height: 1.45;
+		font-style: italic;
+		color: var(--color-muted);
+		text-wrap: pretty;
 	}
 
 	/* ============================================================

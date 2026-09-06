@@ -4,6 +4,8 @@ publishedAt: "2025-11-01T12:00:00.000Z"
 wordCount: 1586
 qualityScore: 8.4
 description: "ʿUmar ibn al-Khaṭṭāb beklagade att den duglige saknar samvete och den samvetsgranne saknar kraft. Fjorton sekel senare byggde Försäkringskassan en algoritm som gav hans klagan kropp."
+imageAlt: "Tom väntsal på en svensk myndighet med rader av plaststolar och nedfälld lucka."
+imageCaption: "Väntsalen där beslutet redan är fattat någon annanstans."
 category: "Rättvisa"
 ---
 Den andre kalifen, ʿUmar ibn al-Khaṭṭāb – känd för att vandra Medinas gränder nattetid för att se med egna ögon hur undersåtarna levde – vände sig till Gud med orden: "Jag beklagar inför Dig den lastbares djärvhet och den pålitliges svaghet."[^1] Den som förmår vill inte rätt. Den som vill rätt förmår inte.

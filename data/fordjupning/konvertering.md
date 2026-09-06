@@ -89,6 +89,7 @@ related:
   - "tro-och-handling-i-islam"
   - "vad-ar-ghusl"
   - "aktenskap-i-islam"
+imageAlt: "Öppen dörr från en mörk hall ut mot blekt vinterljus, med en rock på kroken och skorna avställda innanför"
 essays:
   - "strindbergs-enda-steg"
   - "det-han-letade-efter"
@@ -132,7 +133,7 @@ Den svåraste versen för ämnet befaller en uppriktighetsprövning och anger sa
 
 > TROENDE! När troende kvinnor som har utvandrat kommer till er, förhör dem! Ingen utom Gud känner deras tro, men om ni har övertygat er om att de är troende, sänd då inte tillbaka dem till förnekarna av sanningen; deras män har inte [längre] rätt att leva med dem och de har inte rätt att leva med sina män. […] Detta är Guds dom; Han dömer [rättvist] mellan er [och de icke-troende]. Gud är allvetande, vis.[^10]
 
-Bernströms "Ingen utom Gud känner deras tro" är starkare än den arabiska lydelsen, som är jämförande: *allāhu aʿlam bi-īmānihinna*, Gud vet bäst vad de tror. Skillnaden spelar roll, eftersom versen i nästa sats ändå befaller de troende att övertyga sig. Måttet den anlägger är alltså inte en omöjlig prövning utan en mänsklig bedömning som fattas i medvetande om sin egen osäkerhet, och det är den kombinationen som gör versen användbar långt utanför sitt eget sammanhang.
+Bernströms "Ingen utom Gud känner deras tro" är starkare än den arabiska lydelsen, som är jämförande: *allāhu aʿlam bi-īmānihinna*, Gud vet bäst vad de tror. Skillnaden spelar roll, eftersom versen i nästa sats ändå befaller de troende att övertyga sig. Måttet den anlägger är alltså inte en omöjlig prövning utan en mänsklig bedömning som görs i medvetande om sin egen osäkerhet, och det är den kombinationen som gör versen användbar långt utanför sitt eget sammanhang.
 
 Till detta kommer hadithmaterialet. ʿAmr ibn al-ʿAs återger Profetens ord "islam river ned det som kom före den", en formulering som juristerna använt för att slå fast att konvertiten inte bär med sig något ansvar för sitt tidigare liv.[^11] I hadithen om Abd al-Qays delegation räknas tron upp som vittnesbördet, bönen, allmosan och en femtedel av krigsbytet, alltså som handlingar. al-Qurtubi anför den uppräkningen som bevis för att orden *islām* och *īmān* kan vara utbytbara när de nämns var för sig.[^12]
 
@@ -144,7 +145,7 @@ Oenigheten börjar vid formuleringen. Ibn Qudama noterar i *al-Mughni* att de tv
 
 Ibn al-Qayyim går ett steg längre och prövar om kunskap och erkännande över huvud taget är nog. Han pekar på de två rabbiner som sade "vi vittnar att du är en profet" men tillade att de fruktade att judarna skulle döda dem, och Abu Talib, som förklarade att brorsonens religion var den bästa av religioner utan att träda in i den. Slutsatsen är att islam är något utöver detta: kunskapen, erkännandet, fogligheten och åtagandet att lyda, yttre som inre.[^17]
 
-I fråga om den rituella tvagningen, *ghusl*, går skiljelinjen tvärs genom skolorna. Ibn Qudama redovisar den tydligast: obligatorisk enligt Malik, Abu Thawr och Ibn al-Mundhir, och enligt den mest kända överlämningen från Ahmad; rekommenderad enligt al-Shafii; och enligt Abu Hanifa aldrig obligatorisk.
+I fråga om den rituella tvagningen, *ghusl*, går skiljelinjen tvärs genom skolorna. Ibn Qudama redovisar den tydligast. Den är obligatorisk enligt Malik, Abu Thawr och Ibn al-Mundhir, och enligt den mest kända överlämningen från Ahmad. al-Shafii kallar den rekommenderad, och Abu Hanifa räknar den aldrig som obligatorisk.
 
 > Abu Hanifa ålade honom inte tvagning i något läge, eftersom stora skaror antog islam utan att Profeten befallde dem att bada — hade det varit obligatoriskt skulle han ha befallt det, ty det vore islams första plikt.
 >
@@ -152,7 +153,7 @@ I fråga om den rituella tvagningen, *ghusl*, går skiljelinjen tvärs genom sko
 
 al-Nawawi bekräftar bilden från shafiitiskt håll och tillägger motståndarsidans starkaste bevis: Thumama ibn Uthal, som efter sin frigivning gick till en närbelägen palmlund, badade och därefter trädde in i moskén och avlade bekännelsen.[^19] Moderna fatwaorgan följer i regel majoriteten och kallar tvagningen rekommenderad.
 
-Den fråga som får störst praktisk vikt i Sverige gäller äktenskapet. En muslimsk kvinna kan enligt de fyra skolorna inte förbli gift med en icke-muslimsk man; en muslimsk man får däremot vara gift med en judisk eller kristen kvinna. Malik lär i *al-Muwatta* att om hustrun antar islam och mannen därefter gör det, har han bättre rätt till henne så länge hon är kvar i sin väntetid, men att han förlorar varje anspråk när den löpt ut, och att ett senare giftermål mellan dem inte räknas som en skilsmässa eftersom det var islam som upplöste bandet utan skilsmässa.[^20] Ibn al-Qayyim invänder att bandet är vilande och inte upplöst, och stöder sig på att Profeten återlämnade sin dotter Zaynab till Abu al-As efter ett uppehåll som omöjligt kan rymmas inom en väntetid.[^21] Namnbyte hör inte till villkoren i någon av skolorna.
+Den fråga som får störst praktisk vikt i Sverige gäller äktenskapet. En muslimsk kvinna kan enligt de fyra skolorna inte förbli gift med en icke-muslimsk man; en muslimsk man får däremot vara gift med en judisk eller kristen kvinna. Malik lär i *al-Muwatta* att om hustrun antar islam och mannen därefter gör det, har han bättre rätt till henne så länge hon är kvar i sin väntetid, men att han förlorar varje anspråk när den löpt ut, och att ett senare giftermål mellan dem inte räknas som en skilsmässa eftersom det var islam som upplöste bandet och ingen skilsmässa behövdes.[^20] Ibn al-Qayyim invänder att bandet är vilande och inte upplöst, och stöder sig på att Profeten återlämnade sin dotter Zaynab till Abu al-As efter ett uppehåll som omöjligt kan rymmas inom en väntetid.[^21] Namnbyte hör inte till villkoren i någon av skolorna.
 
 ## Konverteringens historia från Medina till det moderna Europa
 
@@ -202,7 +203,7 @@ data:
   Nominerade av Vänsterpartiet: 15
 ```
 
-Att svårigheten är gammal framgår av en passage hos Ibn Qudama. al-Shafii skiljer där mellan en icke-muslim som ber i fiendeland och en som ber i muslimskt land: i det första fallet talar handlingen för att han blivit muslim, i det andra inte, eftersom han där kan tänkas ha bett för syns skull eller av försiktighet, *riyāʾ* och *taqiyya*.[^33] En klassisk jurist resonerar där om huruvida en yttre religiös handling, utförd på en plats där den ger fördelar, bevisar en inre förändring. Problemet att läsa av en inre förändring ur en yttre handling är alltså inte nytt.
+Att svårigheten är gammal framgår av en passage hos Ibn Qudama. al-Shafii skiljer där mellan en icke-muslim som ber i fiendeland och en som ber i muslimskt land: i det första fallet talar handlingen för att han blivit muslim, i det andra inte, eftersom han där kan tänkas ha bett för syns skull eller av försiktighet, *riyāʾ* och *taqiyya*.[^33] Frågan är densamma som Migrationsverkets: om en yttre handling, utförd där den ger fördelar, bevisar en inre förändring.
 
 Skyddet mot diskriminering gäller konvertiter på samma villkor som andra. Religion eller annan trosuppfattning är en av diskrimineringslagens sju grunder, och Europakonventionens artikel 9 är svensk lag sedan 1995. Kokkinakis mot Grekland 1993 brukar beskrivas som det första målet där Europadomstolen prövade artikel 9 i sak, en uppgift som går tillbaka på en domares särskilda anförande snarare än på domstolens egen text; konventionen är från 1950 och domstolen inrättades 1959. Domen drog gränsen mellan tillåten förkunnelse och otillbörlig proselytism vid erbjudanden om materiella eller sociala fördelar och vid påtryckningar mot människor i nöd.[^34] I Arbetsdomstolens dom 2018 nr 51 väckte Diskrimineringsombudsmannen talan sedan en muslimsk kvinna avbrutits i en rekrytering efter att av religiösa skäl ha avstått från att ta en manlig företrädare i hand; domstolen fann att hon utsatts för indirekt diskriminering och att hennes hållning hade så nära samband med en religiös övertygelse att den skyddas av artikel 9.[^35]
 
@@ -222,7 +223,7 @@ Argumentet mot tvång formulerades i Sverige på sekulärhumanistisk grund. Elle
 
 Hon drog slutsatsen att undervisning rätt ledd skulle odla religionskänslan och samtidigt bevara religionsfriheten.[^40] August Strindberg beskrev i *Inferno* sin egen förändring inifrån: "I själva verket har ett slags religion vuxit fram hos mig, ehuru jag icke skulle förmå uttrycka den i formler. Ett själstillstånd snarare än någon på teorier grundad åsikt."[^41] Formuleringen hör hemma i sekelskiftets svenska litteratur och besvarar en fråga som ställdes där.
 
-Den svenska rättshistorien står här som historia. Att Sverige landsförvisade konvertiter 1858 rättfärdigar ingenting i islamisk rätt och försvarar ingen av de regler som behandlas ovan. Den placerar frågan i tid och gör inte mer än så.
+Att Sverige landsförvisade konvertiter 1858 rättfärdigar ingenting i islamisk rätt och försvarar ingen av de regler som behandlas ovan. Det placerar frågan i tid och gör inte mer än så.
 
 ## Vanliga invändningar mot konvertering till islam
 
@@ -240,9 +241,9 @@ Ibn Rajab formulerade den princip som moderna omprövningar bygger på:
 
 Straffet gällde alltså ett pågående tillstånd och inte en begången gärning, och därav kravet på *istitāba*: syftet var återvändandet. Den mest utarbetade moderna omprövningen inifrån traditionen bygger vidare på samma iakttagelse och hävdar att regeln träffade ett offentligt och politiskt avfall, ett övergivande av gemenskapen som i den tidens ordning motsvarade landsförräderi eller väpnat uppror, *hirāba*, och inte ett enskilt byte av övertygelse. Läsningen har starka invändningar emot sig, framför allt att flera klassiska texter uttryckligen behandlar också den tyste avfällingen, men den förs fram av flera av de muslimska jurister som i dag omprövar frågan[^45].
 
-Majoritetens regel förutsatte dessutom en muslimsk stat med domstolar som ensamma ägde rätten att döma, och den var aldrig ett tillstånd för enskilda att handla på egen hand. I ett land utan sådan jurisdiktion är regeln utan tillämpning, och en svensk konvertit som senare lämnar islam möter inga rättsliga följder alls. Regeln står i den klassiska rätten som statens dom, aldrig som enskildas rätt att handla. En muslim i Sverige har därför ingen del i den, vare sig att verkställa eller att åberopa. Vad som återstår är socialt, och det kan väga tungt: brutna familjeband, utfrysning, i enskilda fall hot.
+Majoritetens regel förutsatte dessutom en muslimsk stat med domstolar som ensamma ägde rätten att döma, och den var aldrig ett tillstånd för enskilda att handla på egen hand. I ett land utan sådan jurisdiktion är regeln utan tillämpning, och en svensk konvertit som senare lämnar islam möter inga rättsliga följder alls. En muslim i Sverige har därför ingen del i den, vare sig att verkställa eller att åberopa. Vad som återstår är socialt, och det kan väga tungt: brutna familjeband, utfrysning, i enskilda fall hot.
 
-**Att bekännelsen är för billig.** Invändningen lyder att en formel på några sekunder inbjuder till konverteringar som i själva verket handlar om äktenskap, uppehållstillstånd eller familjefred. Juristerna har svarat att de dömer efter den yttre handlingen därför att bara den är åtkomlig för människor. Ibn Rajab urskiljer två slags uppsåt: juristernas *niyya*, som skiljer en handling från en annan, och det uppsåt de andligt lärda talar om, som avgör vem handlingen utförs för.[^47] Det första kan en domstol pröva, det andra inte. Ibn al-Qayyims krav på *inqiyād*, faktisk foglighet, riktar sig till den som konverterar och inte till den som ska bedöma honom. Koranen 49:14 sätter förhållandet på plats: den yttre tillhörigheten står kvar och belönas för sina handlingar, medan omdömet om hjärtat förbehålls Gud.
+**Att bekännelsen är för billig.** Invändningen lyder att en formel på några sekunder inbjuder till konverteringar som i själva verket handlar om äktenskap, uppehållstillstånd eller familjefred. Juristerna har svarat att de dömer efter den yttre handlingen därför att bara den är åtkomlig för människor. Ibn Rajab urskiljer två slags uppsåt: juristernas *niyya*, som skiljer en handling från en annan, och det uppsåt de andligt lärda talar om, som avgör vem handlingen utförs för.[^47] Det första kan en domstol pröva, det andra inte. Ibn al-Qayyims krav på *inqiyād*, faktisk foglighet, riktar sig till den som konverterar och inte till den som ska bedöma honom. Koranen 49:14 klargör förhållandet: den yttre tillhörigheten står kvar och belönas för sina handlingar, medan omdömet om hjärtat förbehålls Gud.
 
 **Att konvertiter söker underkastelse.** I svensk debatt har konvertering gång på gång förklarats psykologiskt. Religionssociologen Madeleine Sultán Sjöqvist har tolkat kvinnors konvertering som en reaktion mot den egna kulturens tvingande idé om frihet och menat att islam i konservativ form uppfattas ge en trygghet som en liberal demokrati saknar.[^48] Tolkningen är ett teoretiskt resonemang och vilar inte på egen statistik. Mot den har rests invändningen att den fråntar konvertiter deras eget omdöme genom att förklara bort deras skäl i stället för att pröva dem. Den klassiska traditionen ställer sig här på samma sida. Enligt Ibn al-Qayyim är kunskap och erkännande förutsättningar för att inträdet ska vara giltigt över huvud taget, vilket innebär att en trosövergång utan förståelse av vad orden betyder inte räknas som en konvertering alls.
 
@@ -286,7 +287,7 @@ Majoritetens regel förutsatte dessutom en muslimsk stat med domstolar som ensam
 [^37]: 1858 års dom mot sex kvinnor som övergått till katolicismen; uppgifterna om domen och om drottning Josefina bygger på sekundärlitteratur om antikatolicism i Sverige, där straffet anges som landsflykt.
 [^38]: Dissenterlagarna 1860 och 1873; religionsfrihetslag (1951:680), i kraft 1 januari 1952, upphävd 1 januari 2000 genom lagen (1998:1593) om trossamfund.
 [^39]: Zacharias Topelius, *Stjärnornas kungabarn* (1886–88).
-[^40]: Ellen Key, *Lifslinjer*, andra delen (1903).
+[^40]: Ellen Key, *Lifslinjer*, andra delen (1905).
 [^41]: August Strindberg, *Inferno* (1897).
 [^42]: Humanists International, "Apostasy laws in Muslim majority countries", muntligt uttalande till FN:s råd för mänskliga rättigheter, 34:e sessionen (2017). Sudan avskaffade straffet i juli 2020.
 [^43]: al-Bukhari, kitab istitabat al-murtaddin, från Ibn Abbas: *man baddala dīnahu fa-qtulūhu*.

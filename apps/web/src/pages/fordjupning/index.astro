@@ -1,7 +1,8 @@
 ---
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
-import TextRowList from "../../components/TextRowList.astro";
+import EssayImage from "../../components/EssayImage.astro";
 import { getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
+import { CARD_WIDTHS } from "../../lib/hero";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 
 // FORDJUPNING — the encyclopedic pillar pages. Each covers one broad topic in full
@@ -13,17 +14,53 @@ const sorted = await getSortedFordjupning();
 const entries = await Promise.all(
 	sorted.map(async (entry) => ({ entry, hero: await resolveHero(entry) })),
 );
-const fordjupningRows = entries.map(({ entry: e, hero }) => ({
-	href: `/fordjupning/${e.id}/`,
-	title: e.data.term,
-	description: e.data.blurb ?? e.data.seoDescription ?? e.data.description,
-	image: hero && {
-		...(hero.src === undefined ? {} : { src: hero.src }),
-		...(hero.article === undefined ? {} : { article: hero.article }),
-		widths: [200, 400],
-		sizes: "120px",
-	},
-}));
+
+// ⚠️ READING ORDER, NOT ALPHABETICAL. `getSortedFordjupning()` sorts by term, which
+// opened this page with Abort, Det islamiska nyåret, Döden and Griskött — an order that
+// says nothing about the collection and starts it on its three heaviest subjects. The
+// list below runs a reader from what islam is and where it came from, through what it
+// asks of a life, to the questions that are contested. It is also why the page is a card
+// grid rather than the text rows it used to be: every one of these topics carries art
+// now, and a directory of hairline rows was throwing that away.
+//
+// Anything not named here still renders — it falls to the end in the collection's own
+// term order — so adding a fördjupning can never make it disappear from its own index.
+const READING_ORDER = [
+	// What it is, and how it got here
+	"islam-i-sverige",
+	"koranen",
+	"muhammed",
+	"sharia",
+	"moske",
+	// What it asks of a life
+	"hijab",
+	"halal",
+	"ramadan",
+	"tvagning",
+	"kaba",
+	// The turns a life takes
+	"konvertering",
+	"aktenskap",
+	"skilsmassa",
+	"doden",
+	"muslimsk-begravning",
+	// The contested ground
+	"abort",
+	"griskott",
+	"jihad",
+	"kalifatet",
+	"sunni-och-shia",
+	// The rest of the vocabulary
+	"islamiskt-nyar",
+	"uttryck",
+];
+
+const rank = new Map(READING_ORDER.map((id, i) => [id, i]));
+const ordered = [...entries].sort(
+	(a, b) =>
+		(rank.get(a.entry.id) ?? Number.MAX_SAFE_INTEGER) -
+		(rank.get(b.entry.id) ?? Number.MAX_SAFE_INTEGER),
+);
 
 const description =
 	"Fördjupningsartiklar om omdiskuterade ämnen i islam – källorna, historien och det svenska rättsläget, ämne för ämne.";
@@ -38,9 +75,12 @@ const description =
 		collectionPageJsonLd({
 			name: "Fördjupning om islam",
 			description,
-			url: "/fordjupning/",
 			// `slug` is prefixed because the helper resolves it against the site root.
-			essays: sorted.map((e) => ({ title: e.data.title, slug: `fordjupning/${e.id}` })),
+			url: "/fordjupning/",
+			essays: ordered.map(({ entry: e }) => ({
+				title: e.data.title,
+				slug: `fordjupning/${e.id}`,
+			})),
 		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
@@ -56,18 +96,43 @@ const description =
 		<a href="/vad-ar-islam/">fakta om islam</a>.
 	</span>
 
-	{entries.length > 0 ? (
-		<TextRowList
-			class="fordjupning-list"
-			style="--text-row-list-margin: var(--space-phi) 0 0; --text-row-media-separator: 1px solid var(--color-rule); --text-row-media-separator-padding: var(--space-unit)"
-			items={fordjupningRows}
-		/>
+	{/* The same card as Essäer's and as the fördjupning band on /svar/, class for class
+	    — see styles/layout.css. `--blurb` gives the deck three lines instead of two,
+	    because these decks are finished sentences, not the head of a paragraph. */}
+	{ordered.length > 0 ? (
+		<ul class="essay-cards essay-cards--blurb fordjupning-cards">
+			{ordered.map(({ entry: f, hero }) => (
+				<li class="archive-item essay-card">
+					<a href={`/fordjupning/${f.id}/`}>
+						{hero && (
+							<div class="essay-card-media media-frame">
+								<EssayImage
+									{...(hero.src === undefined ? {} : { src: hero.src })}
+									{...(hero.article === undefined ? {} : { article: hero.article })}
+									alt=""
+									widths={CARD_WIDTHS}
+									sizes="(max-width: 600px) 100vw, 20rem"
+								/>
+							</div>
+						)}
+						<span class="archive-title essay-card-title">{f.data.term}</span>
+						<p class="archive-description essay-card-desc">
+							{f.data.blurb ?? f.data.seoDescription ?? f.data.description}
+						</p>
+					</a>
+				</li>
+			))}
+		</ul>
 	) : (
 		<p class="fordjupning-empty">Inga fördjupningar är publicerade än.</p>
 	)}
 </CollectionIndexPage>
 
 <style>
+	.fordjupning-cards {
+		margin-top: var(--space-phi);
+	}
+
 	.fordjupning-empty {
 		margin-top: var(--space-phi);
 		color: var(--color-muted);

@@ -357,20 +357,39 @@ export class PodcastService {
 
 		const coverPath = join(this.audioDir, `${slug}.jpg`);
 		try {
+			// Podcast directories require SQUARE art (Apple: 1400–3000px). Fill the
+			// 1400² box and crop the overflow — never `-crop 1024x1024` then `-resize`,
+			// which is what this did until 2026-09-06. ImageMagick clamps a crop to the
+			// source, so a hero shorter than 1024px (the 1672×941 generation) came out
+			// 1024×941, and `-resize 1400x1400` fits *inside* the box: 1400×1287. Three
+			// episodes shipped that way, and nothing downstream notices — the run still
+			// prints "✓ Episode cover".
 			execFileSync("magick", [
 				heroPath,
+				"-resize",
+				"1400x1400^",
 				"-gravity",
 				"center",
-				"-crop",
-				"1024x1024+0+0",
-				"+repage",
-				"-resize",
+				"-extent",
 				"1400x1400",
 				"-quality",
 				"90",
 				coverPath,
 			]);
-			console.log(`   ✓ Episode cover: ${coverPath}`);
+			// Read the result back rather than trusting the flags. The old crop failed
+			// silently — it printed the same ✓ whether the art was square or not, which
+			// is why three episodes shipped wrong. A directory rejects the art long after
+			// anyone would connect it to this run.
+			const geometry = execFileSync("magick", ["identify", "-format", "%wx%h", coverPath])
+				.toString()
+				.trim();
+			const [width, height] = geometry.split("x").map(Number);
+			if (width !== height) {
+				console.log(
+					`   ⚠ Episode cover is ${geometry}, not square — podcast directories require square art`,
+				);
+			}
+			console.log(`   ✓ Episode cover: ${coverPath} (${geometry})`);
 		} catch (err) {
 			console.log(`   ⚠ Episode cover failed: ${err instanceof Error ? err.message : String(err)}`);
 		}
