@@ -18,9 +18,11 @@ interface Props {
 	/** Names the place and day the times belong to. The hub needs it — its H1 is national
 	 *  but the times below it are one town's, which is unreadable in HTML without this. */
 	caption?: boolean;
+	/** Prioritize the schedule over the explanatory map on the national hub. */
+	scheduleFirst?: boolean;
 }
 
-const { location, variant = "home", fixed = false, caption = false } = Astro.props;
+const { location, variant = "home", fixed = false, caption = false, scheduleFirst = false } = Astro.props;
 
 // Build-time "today" with default settings — the no-JS / no-flash baseline. The client
 // recomputes live against the real now and the visitor's saved settings.
@@ -47,7 +49,7 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 
 <div
 	class="bonetider-field"
-	class:list={[`bf-${variant}`]}
+	class:list={[`bf-${variant}`, { "bf-schedule-first": scheduleFirst }]}
 	data-name={location.name}
 	data-lat={location.latitude}
 	data-lon={location.longitude}
@@ -94,7 +96,7 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 				class:list={{ "is-next": r.key === nextKey }}
 				style={`--prayer-line: ${r.line}`}
 			>
-				<span class="bf-t-name">{r.label}</span>
+				<span class="bf-t-name">{r.label}{scheduleFirst && <span class="bf-next-label">Nästa bön</span>}</span>
 				<span class="bf-t-sv">{r.sv}</span>
 				<span class="bf-t-time">{r.time}</span>
 			</li>
@@ -321,6 +323,27 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 	.bf-t.is-next .bf-t-name,
 	.bf-t.is-next .bf-t-time {
 		color: var(--color-accent);
+	}
+
+	/* On the hub, the answer comes before the map in both desktop and phone layouts. */
+	.bf-schedule-first {
+		grid-template-areas: "caption" "times" "map";
+		gap: 1rem;
+	}
+	.bf-schedule-first .bf-caption { grid-area: caption; margin: 0; }
+	.bf-schedule-first .bf-caption .bf-place { font-size: var(--step-1); font-weight: 600; color: var(--color-text); }
+	.bf-schedule-first .bf-times { grid-area: times; }
+	.bf-schedule-first .bf-stage { grid-area: map; aspect-ratio: 4 / 3; }
+	.bf-schedule-first .bf-t-time { font-family: var(--font-heading); font-size: var(--step-1); font-weight: 600; }
+	.bf-next-label { display: none; margin-inline-start: 0.7rem; font-size: var(--step--4); font-weight: 400; }
+	.is-next-today .bf-next-label { display: inline; }
+	@media (width >= 640px) {
+		.bf-schedule-first {
+			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+			grid-template-areas: "caption caption" "times map";
+			column-gap: clamp(1.5rem, 4vw, 3rem);
+		}
+		.bf-schedule-first .bf-stage { aspect-ratio: auto; }
 	}
 
 	@media (prefers-reduced-motion: reduce) {

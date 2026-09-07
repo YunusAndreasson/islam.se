@@ -73,6 +73,7 @@ const lengthFilterItems = [
 		<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
 		<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
 	</nav>
+	<p class="filter-status" role="status" data-length-status></p>
 
 	{/* Curated reading paths first — an inviting way in before the topical
 	    archive below; the /tradar index holds the rest. */}
@@ -134,7 +135,7 @@ const lengthFilterItems = [
 	<TankareGroups limit={6} />
 
 	{/* ---- Quiet filter overlay (one element, panels swapped by JS) ---- */}
-	<div slot="after-main" class="overlay" id="filter-overlay" hidden role="dialog" aria-modal="true" aria-label="Filter">
+	<dialog slot="after-main" class="overlay fullscreen-dialog" id="filter-overlay" aria-label="Filter">
 		<button class="overlay-close" type="button" aria-label="Stäng">
 			<X size={18} stroke-width={1.75} />
 		</button>
@@ -159,7 +160,7 @@ const lengthFilterItems = [
 				<FilterOverlayList items={lengthFilterItems} />
 			</div>
 		</div>
-	</div>
+	</dialog>
 </CollectionIndexPage>
 
 <style>
@@ -255,31 +256,26 @@ const lengthFilterItems = [
 		}
 	}
 
+	.filter-status {
+		color: var(--color-muted);
+		font-size: var(--step--1);
+	}
+
+	.filter-status:empty { margin: 0; }
+
 	/* ---- Quiet filter overlay ---- */
 	.overlay {
-		position: fixed;
-		inset: 0;
-		z-index: 60;
 		background: color-mix(in srgb, var(--color-bg) 96%, transparent);
 		/* No hand-written -webkit- twin: Lightning CSS treats the pair as duplicates
 	   and keeps only the later one, so the standard property is dropped from the
 	   build — and current Chrome no longer honours -webkit-backdrop-filter. It
 	   adds the prefix itself where a target still needs it. */
 		backdrop-filter: blur(8px);
-		display: flex;
 		align-items: center;
 		justify-content: center;
-		opacity: 0;
-		transition: opacity 0.2s ease;
 	}
 
-	.overlay[hidden] {
-		display: none;
-	}
-
-	.overlay[data-visible] {
-		opacity: 1;
-	}
+	.overlay[open] { display: flex; }
 
 	.overlay-close {
 		position: absolute;
@@ -317,41 +313,10 @@ const lengthFilterItems = [
 		color: var(--color-muted);
 	}
 
-	.overlay-list {
-		margin: 0;
-		padding: 0;
-	}
-
 	.overlay-cols {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: clamp(1.5rem, 5vw, 4rem);
-	}
-
-	.overlay-list li {
-		margin-bottom: 0.25rem;
-	}
-
-	.overlay-list a,
-	.overlay-jump,
-	.overlay-length {
-		display: inline-block;
-		font-family: var(--font-heading);
-		font-size: var(--step-0);
-		font-weight: 500;
-		color: var(--color-accent);
-		text-decoration: none;
-		background: transparent;
-		border: none;
-		padding: 0.4rem 0;
-		cursor: pointer;
-		text-align: start;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: 0.15em;
-		}
-
 	}
 
 	@media (width <= 768px) {
@@ -371,7 +336,7 @@ const lengthFilterItems = [
 		// (TS drops flow-narrowing across function boundaries).
 		const byAmne: HTMLElement = root;
 		const byYear = document.getElementById("by-year")!;
-		const overlay = document.getElementById("filter-overlay")!;
+		const overlay = document.getElementById("filter-overlay") as HTMLDialogElement;
 
 		const ctrl = new AbortController();
 		const { signal } = ctrl;
@@ -397,6 +362,11 @@ const lengthFilterItems = [
 				const m = +(item.dataset.minutes || 0);
 				item.toggleAttribute("data-filtered", m < lengthMin || m > lengthMax);
 			}
+			const status = document.querySelector<HTMLElement>("[data-length-status]");
+			const count = byAmne.querySelectorAll(".archive-item:not([data-filtered])").length;
+			if (status) status.textContent = lengthMin === 0 && lengthMax === 999 ? "" : count
+				? `${count} ${count === 1 ? "essä matchar" : "essäer matchar"} den valda längden.`
+				: "Inga essäer matchar den valda längden. Välj en annan längd eller Alla längder.";
 			// Hide sections left empty.
 			for (const section of document.querySelectorAll<HTMLElement>(".archive-section")) {
 				const visible = section.querySelectorAll(".archive-item:not([data-filtered])").length;
@@ -421,18 +391,14 @@ const lengthFilterItems = [
 		function openOverlay(panel: string, btn: HTMLButtonElement | null) {
 			for (const p of overlay.querySelectorAll<HTMLElement>(".overlay-panel"))
 				p.hidden = p.dataset.panel !== panel;
-			overlay.hidden = false;
-			requestAnimationFrame(() => overlay.setAttribute("data-visible", ""));
+			overlay.showModal();
 			overlay.querySelector<HTMLElement>(".overlay-inner")?.scrollTo(0, 0);
 			overlay.querySelector<HTMLElement>(".overlay-close")?.focus();
 			opener = btn;
 			btn?.setAttribute("aria-expanded", "true");
 		}
 		function closeOverlay() {
-			overlay.removeAttribute("data-visible");
-			const done = () => { overlay.hidden = true; };
-			overlay.addEventListener("transitionend", done, { once: true });
-			setTimeout(done, 250);
+			if (overlay.open) overlay.close();
 			opener?.setAttribute("aria-expanded", "false");
 			// preventScroll: a jump handler closes the overlay and then scrolls to the
 			// target — returning focus must not fight that.
@@ -445,8 +411,9 @@ const lengthFilterItems = [
 
 		overlay.querySelector(".overlay-close")?.addEventListener("click", closeOverlay, { signal });
 		overlay.addEventListener("click", (e) => { if (e.target === overlay) closeOverlay(); }, { signal });
-		document.addEventListener("keydown", (e) => {
-			if (e.key === "Escape" && !overlay.hidden) closeOverlay();
+		overlay.addEventListener("cancel", (e) => {
+			e.preventDefault();
+			closeOverlay();
 		}, { signal });
 
 		// Ämnen jump → scroll to the section (switching back to ämne view first).

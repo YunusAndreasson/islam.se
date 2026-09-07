@@ -1054,6 +1054,23 @@
 		}
 	}
 
+	@media (width < 480px) {
+		.site-nav {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+		}
+		.site-home {
+			flex: none;
+		}
+		.site-nav-end {
+			margin-left: auto;
+			max-width: 100%;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+		}
+	}
+
 	/* ============================================================
    Site footer — global, site-wide chrome (rendered from Base on every page).
    A quiet navigation row then the colophon. ONE row of links is the design —

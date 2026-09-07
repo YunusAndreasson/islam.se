@@ -46,7 +46,8 @@ const { code, copyLabel } = Astro.props;
 		}
 	}
 
-	.code-block:hover .copy-code {
+	.code-block:hover .copy-code,
+	.code-block:focus-within .copy-code {
 		opacity: 1;
 	}
 

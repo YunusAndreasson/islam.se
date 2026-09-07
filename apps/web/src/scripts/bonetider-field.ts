@@ -295,7 +295,13 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 			.get(key)
 			?.replaceChildren(document.createTextNode(formatTime(st.today[key])));
 	}
-	for (const [key, row] of inst.readout.rows) row.classList.toggle("is-next", key === st.nextKey);
+	for (const [key, row] of inst.readout.rows) {
+		row.classList.toggle("is-next", key === st.nextKey);
+		row.classList.toggle(
+			"is-next-today",
+			key === st.nextKey && st.target === st.today[key].getTime(),
+		);
+	}
 	if (inst.readout.nextName) inst.readout.nextName.textContent = PRAYER_LABELS[st.nextKey];
 	if (inst.readout.nextSub) inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[st.nextKey];
 	if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(st.today[st.nextKey]);
@@ -305,6 +311,9 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 			: "—";
 	}
 	if (inst.readout.place) inst.readout.place.textContent = location.name;
+	inst.el
+		.querySelector(".bf-times")
+		?.setAttribute("aria-label", `Bönetider för ${location.name} i dag`);
 	if (inst.readout.captionDate) {
 		const tz = { timeZone: "Europe/Stockholm" } as const;
 		inst.readout.captionDate.setAttribute("datetime", now.toLocaleDateString("sv-SE", tz));
@@ -332,13 +341,15 @@ function wireGeolocation(): void {
 		// Ignore re-clicks while a lookup is in flight (the button is dimmed via aria-busy).
 		if (!(btn && navigator.geolocation) || btn.getAttribute("aria-busy") === "true") return;
 		const label = btn.textContent ?? "";
+		const statusId = btn.getAttribute("aria-describedby");
+		const status = statusId ? document.getElementById(statusId) : null;
+		if (status) status.textContent = "Hämtar din plats …";
 		btn.setAttribute("aria-busy", "true");
-		// On failure the button has no adjacent status slot, so it speaks for itself:
-		// a brief message in place of its label, then back. Success needs no message —
-		// saveLocation fires the change event and every field repaints to the new place.
+		// Prefer persistent status feedback; older buttons fall back to a temporary label.
 		const finish = (message?: string): void => {
 			btn.removeAttribute("aria-busy");
-			if (message) {
+			if (status) status.textContent = message ?? "";
+			else if (message) {
 				btn.textContent = message;
 				window.setTimeout(() => {
 					btn.textContent = label;
@@ -347,29 +358,40 @@ function wireGeolocation(): void {
 		};
 		navigator.geolocation.getCurrentPosition(
 			async (pos) => {
-				// Load the 2 128-place dataset only on demand — it's far too big to ship in
-				// the initial bundle just to name a GPS fix.
-				const { INDEXED_PLACES } = await import("../lib/bonetider/places-index");
-				let best = INDEXED_PLACES[0];
-				if (!best) return finish("Platsregistret är tomt");
-				let bestD = Infinity;
-				for (const p of INDEXED_PLACES) {
-					// Great-circle distance, not flat lat/lon — degrees of longitude shrink fast
-					// toward northern Sweden, so a flat comparison misjudges "nearest" up there.
-					const d = haversineKm(pos.coords.latitude, pos.coords.longitude, p.lat, p.lon);
-					if (d < bestD) {
-						bestD = d;
-						best = p;
+				try {
+					// Load the 2 128-place dataset only on demand — it's far too big to ship in
+					// the initial bundle just to name a GPS fix.
+					const { INDEXED_PLACES } = await import("../lib/bonetider/places-index");
+					let best = INDEXED_PLACES[0];
+					if (!best) return finish("Platsregistret är tomt");
+					let bestD = Infinity;
+					for (const p of INDEXED_PLACES) {
+						// Great-circle distance, not flat lat/lon — degrees of longitude shrink fast
+						// toward northern Sweden, so a flat comparison misjudges "nearest" up there.
+						const d = haversineKm(pos.coords.latitude, pos.coords.longitude, p.lat, p.lon);
+						if (d < bestD) {
+							bestD = d;
+							best = p;
+						}
 					}
+					saveLocation({
+						name: best.name,
+						latitude: pos.coords.latitude,
+						longitude: pos.coords.longitude,
+					});
+					finish(status ? `Visar tider för ${best.name}.` : undefined);
+				} catch {
+					finish("Kunde inte läsa in orterna. Försök igen.");
 				}
-				saveLocation({
-					name: best.name,
-					latitude: pos.coords.latitude,
-					longitude: pos.coords.longitude,
-				});
-				finish();
 			},
-			() => finish("Hittade inte platsen"),
+			(error) =>
+				finish(
+					status
+						? error.code === 1
+							? "Platsåtkomst nekades. Sök efter din ort i stället."
+							: "Kunde inte hitta din plats. Sök efter din ort i stället."
+						: "Hittade inte platsen",
+				),
 			{ enableHighAccuracy: false, timeout: 8000, maximumAge: 600000 },
 		);
 	});
@@ -434,7 +456,13 @@ function updateCountdownOnly(inst: Instance, now: Date): void {
 	const location = resolveLocation(inst);
 	const st = ensureState(inst, now, location, settings);
 	if (inst.renderedNextKey !== st.nextKey) {
-		for (const [key, row] of inst.readout.rows) row.classList.toggle("is-next", key === st.nextKey);
+		for (const [key, row] of inst.readout.rows) {
+			row.classList.toggle("is-next", key === st.nextKey);
+			row.classList.toggle(
+				"is-next-today",
+				key === st.nextKey && st.target === st.today[key].getTime(),
+			);
+		}
 		if (inst.readout.nextName) inst.readout.nextName.textContent = PRAYER_LABELS[st.nextKey];
 		if (inst.readout.nextSub) inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[st.nextKey];
 		if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(st.today[st.nextKey]);

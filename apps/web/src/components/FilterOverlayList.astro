@@ -36,3 +36,37 @@ const { items } = Astro.props;
 		</li>
 	))}
 </ul>
+
+<style>
+	.overlay-list {
+		margin: 0;
+		padding: 0;
+	}
+
+	.overlay-list li {
+		margin-bottom: 0.25rem;
+	}
+
+	.overlay-list a,
+	.overlay-jump,
+	.overlay-length {
+		display: inline-block;
+		font-family: var(--font-heading);
+		font-size: var(--step-0);
+		font-weight: 500;
+		color: var(--color-accent);
+		text-decoration: none;
+		background: transparent;
+		border: none;
+		padding: 0.4rem 0;
+		cursor: pointer;
+		text-align: start;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+	}
+
+</style>

@@ -1,14 +1,15 @@
 ---
 import { getImage } from "astro:assets";
-import { ChevronDown, Crosshair, Search } from "@lucide/astro";
-import DefinitionList from "../components/DefinitionList.astro";
-import DisclosureGroup from "../components/DisclosureGroup.astro";
-import MosqueGallery from "../components/moskeer/MosqueGallery.astro";
+import { ChevronDown } from "@lucide/astro";
 import SectionLink from "../components/SectionLink.astro";
 import TitledSection from "../components/TitledSection.astro";
+import SearchInput from "../components/finder/SearchInput.astro";
+import PageHead from "../components/PageHead.astro";
+import LocationButton from "../components/finder/LocationButton.astro";
+import RelatedLinks from "../components/finder/RelatedLinks.astro";
 import Base from "../layouts/Base.astro";
 import { formatDate } from "../lib/articles";
-import { breadcrumbList, dataset, faqPageJsonLd } from "../lib/jsonld";
+import { breadcrumbList, dataset } from "../lib/jsonld";
 import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan } from "../lib/moskeer";
 import { MOSQUE_PHOTOS } from "../lib/moskeer/art";
 import { MOSKEER_DATA_DATE } from "../lib/moskeer/meta";
@@ -21,33 +22,6 @@ const mosques = getMosques();
 const groups = mosquesByLan();
 const total = mosques.length;
 const cityCount = new Set(mosques.map((m) => m.citySlug)).size;
-// Län with the most mosques, for the FAQ answer.
-const biggestLan = [...groups].sort((a, b) => b.mosques.length - a.mosques.length)[0];
-if (!biggestLan) throw new Error("The mosque dataset contains no county groups");
-
-// Founding-year growth: mosques with a known `opened` year, bucketed by decade. Drives the
-// inline bar chart in the history section. Computed from the data so it tracks any refresh.
-const openedYears = mosques
-	.map((m) => m.opened)
-	.filter((y): y is number => typeof y === "number");
-const withYearCount = openedYears.length;
-const growthDecades: { label: string; count: number }[] = [];
-if (openedYears.length) {
-	const start = Math.floor(Math.min(...openedYears) / 10) * 10;
-	const end = Math.floor(Math.max(...openedYears) / 10) * 10;
-	for (let d = start; d <= end; d += 10) {
-		growthDecades.push({
-			label: `${d}-tal`,
-			count: openedYears.filter((y) => Math.floor(y / 10) * 10 === d).length,
-		});
-	}
-}
-const growthMax = Math.max(1, ...growthDecades.map((d) => d.count));
-
-// Top-10 counties by mosque count, for the ranked distribution chart.
-const lanRanked = [...groups].sort((a, b) => b.mosques.length - a.mosques.length).slice(0, 10);
-const lanMax = Math.max(1, ...lanRanked.map((g) => g.mosques.length));
-
 const updated = formatDate(MOSKEER_DATA_DATE);
 
 // Share card: the first mosque in the gallery rather than the site default. A
@@ -66,6 +40,7 @@ const payload = mosques.map((m) => {
 		lng: m.lng,
 		lat: m.lat,
 		location: locationLabel(m),
+		address: m.address,
 		opened: m.opened,
 		organisation: m.organisation,
 		google: d.google,
@@ -77,89 +52,7 @@ const payloadJson = JSON.stringify(payload).replace(/</g, "\\u003c");
 
 const description = `Karta och katalog över ${total} moskéer i Sverige i ${cityCount} orter, med adress och ordnade län för län. Sök, filtrera och få vägbeskrivning till närmaste moské. Senast uppdaterad ${updated}.`;
 
-const timelineItems = [
-	{
-		year: "1949",
-		label:
-			"Sveriges första muslimska församling grundas i Stockholm, sunnimuslimsk, med Osman Soukkan som förste imam.",
-	},
-	{
-		year: "1984",
-		label:
-			"Malmö moské står klar vid Jägersro efter ett års bygge – en av landets första stora församlingsmoskéer.",
-	},
-	{
-		year: "1995",
-		label: "Uppsala moské uppförs på Kapellgärdet, en av de tidiga moskéerna utanför storstäderna.",
-	},
-	{
-		year: "2000",
-		label:
-			"Stockholms moské invigs den 8 juni i Katarinastationen på Södermalm, ett elverk från 1903 ritat av Ferdinand Boberg.",
-	},
-	{
-		year: "2007",
-		label:
-			"Fittja moské står färdig i Botkyrka med en kupol klädd i björkträ och en minaret på 32,5 meter.",
-	},
-	{
-		year: "2011",
-		label:
-			"Göteborgs moské invigs den 16 juni i Brämaregården på Hisingen, 2 000 kvadratmeter vid Ramberget.",
-	},
-	{
-		year: "2013",
-		label:
-			"Från Fittjas minaret hörs det första böneutropet från en minaret i Sverige, den 26 april.",
-	},
-	{
-		year: "I dag",
-		label: `Omkring ${total} moskéer och församlingar finns runt om i Sverige.`,
-	},
-];
 
-const faq = [
-	{
-		q: "Hur många moskéer finns i Sverige?",
-		a: `Vår karta visar ${total} moskéer och muslimska församlingar i Sverige, fördelade på ${cityCount} orter och ${groups.length} län. Uppgifterna kan vara ofullständiga.`,
-	},
-	{
-		q: "Hur hittar jag närmaste moské?",
-		a: "Använd knappen ”Hitta moské nära mig” ovanför kartan för att utgå från din position, eller sök på ortens namn. Välj en moské för adress, öppningsår och vägbeskrivning via Apple Maps eller Google Maps.",
-	},
-	{
-		q: "Vilket län har flest moskéer?",
-		a: `${biggestLan.lanLabel} har flest registrerade moskéer (${biggestLan.mosques.length} stycken). Du kan bläddra alla moskéer län för län längre ner på sidan.`,
-	},
-	{
-		q: "När kom de första muslimerna till Sverige?",
-		a: "Den första bofasta muslimen brukar räknas vara den tatariske pälshandlaren Ebrahim Umerkajeff, som kom till Stockholm 1897. Sveriges första muslimska församling, som var sunnimuslimsk, bildades 1949.",
-	},
-	{
-		q: "Vilka är Sveriges största moskéer?",
-		a: "Malmö moské vid Jägersro, uppförd 1983–84, Stockholms moské på Södermalm som invigdes 2000, Fittja moské i Botkyrka från 2007 och Göteborgs moské på Hisingen som invigdes 2011. De flesta av landets moskéer är betydligt mindre församlingslokaler.",
-	},
-	{
-		q: "Är alla moskéer byggda som moskéer?",
-		a: "Nej. De flesta moskéer i Sverige är församlingar som inrymts i befintliga lokaler, till exempel föreningslokaler eller ombyggda byggnader. Bara ett mindre antal är uppförda som moskébyggnader med kupol och minaret. Stockholms moské ligger i en före detta transformatorstation ritad av Ferdinand Boberg, medan Fittja moské och Göteborgs moské är byggda som moskéer från grunden.",
-	},
-	{
-		q: "Får man besöka en moské om man inte är muslim?",
-		a: "Ja. Moskéer tar emot besökare, och många ordnar öppet hus eller bokade studiebesök. Som besökare tar man av sig skorna, klär sig täckande och är tyst om en bön pågår. Man behöver varken vara muslim eller delta i bönen.",
-	},
-	{
-		q: "Vad finns inuti en moské?",
-		a: "Framför allt en öppen, mattbelagd bönehall utan stolar eller bänkar, eftersom man ber på golvet. I väggen mot Mecka finns en nisch, mihrab, som visar böneriktningen, och bredvid den en predikstol, minbar. I stället för bilder och statyer pryds moskén av geometriska mönster och kalligrafi.",
-	},
-	{
-		q: "Varför tar man av sig skorna i en moské?",
-		a: "För att hålla golvet rent, eftersom bönen sker direkt på mattan med pannan mot golvet. Det är samma omtanke om rena golv som när man tar av sig skorna i ett svenskt hem.",
-	},
-	{
-		q: "Vad betyder ordet moské?",
-		a: "Det kommer från arabiskans masjid, som betyder ungefär plats där man böjer sig ner i bön. Via franskans mosquée är ordet belagt i svenskan sedan 1600-talet.",
-	},
-];
 ---
 
 <Base
@@ -198,7 +91,6 @@ const faq = [
 				url: mosqueUrl(m),
 			})),
 		},
-		faqPageJsonLd(faq),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Moskéer i Sverige", url: "/moskeer" },
@@ -206,43 +98,11 @@ const faq = [
 	]}
 >
 	<main id="main" class="home moskeer">
-		<header class="mk-header">
-			<h1>Moskéer i Sverige</h1>
-			<p class="mk-intro">
-				En karta över moskéer och muslimska församlingar i hela Sverige – från källarmoskéer till
-				stora bönehus.
-			</p>
-			<p class="mk-meta">
-				Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time> · {total} moskéer
-			</p>
-		</header>
-
-		<MosqueGallery />
-
-		{/* The half of the old intro that describes the tool, moved down to sit against
-		    it. It used to run on under the h1, which was fine when the search box came
-		    next — but with the gallery between them the sentence "zooma och panorera"
-		    was two blocks above the thing it referred to, and the search row read as
-		    though it belonged to the pictures. Splitting the paragraph at its own seam
-		    (what this page IS, then how to use it) puts each half beside what it
-		    describes and gives the map back its introduction. */}
-		<p class="mk-tool-lead">
-			Zooma och panorera, sök på namn eller ort, eller bläddra län för län. Välj en moské för
-			plats, öppningsår och vägbeskrivning.
-		</p>
+		<PageHead title="Moskéer" />
+		<label class="sr-only" for="mk-search">Sök moské eller ort</label>
 
 		<div class="mk-controls">
-			<div class="mk-search-wrap">
-				<Search class="mk-search-icon" size={18} />
-				<input
-					type="search"
-					id="mk-search"
-					class="mk-search"
-					placeholder="Sök moské eller ort…"
-					aria-label="Sök efter moské eller ort"
-					autocomplete="off"
-				/>
-			</div>
+			<SearchInput id="mk-search" class="mk-search-wrap" placeholder="Sök moské eller ort" />
 			<label class="mk-lan-filter">
 				<span class="visually-hidden">Filtrera efter län</span>
 				<select id="mk-lan" aria-label="Filtrera efter län">
@@ -251,19 +111,16 @@ const faq = [
 				</select>
 				<ChevronDown class="mk-lan-chevron" size={16} />
 			</label>
-			<button type="button" id="mk-geo" class="mk-geo">
-				<Crosshair size={16} />
-				<span>Hitta moské nära mig</span>
-			</button>
-			{/* Gecko ritar inget rensningskryss i input[type=search] — och sajten verifieras
-			    i Zen. Utan den här knappen var enda vägen tillbaka från ett filter att tömma
-			    fältet för hand; "Rensa filter" fanns bara i tomläget, alltså först när sökningen
-			    redan gett noll träffar. Den visas när ett filter är aktivt och döljs annars. */}
-			<button type="button" id="mk-reset" class="mk-reset" hidden>Rensa</button>
+			<LocationButton id="mk-geo" class="mk-geo" aria-describedby="mk-geo-status">Nära mig</LocationButton>
+		</div>
+		<div class="mk-result-bar">
 			<p id="mk-count" class="mk-count" aria-live="polite">{total} moskéer</p>
+			<a class="mk-list-jump" href="#mk-find">Visa lista ↓</a>
+			<button type="button" id="mk-reset" class="mk-reset" hidden>Rensa filter</button>
 		</div>
 		<p id="mk-geo-status" class="mk-geo-status" role="status"></p>
 
+		<div class="mk-explorer">
 		<div class="mk-stage">
 			{/* role="region", inte "application". `application` säger åt skärmläsaren att lämna
 			    över ALLA tangenttryck till widgeten och stänga av sitt eget läsläge — rimligt
@@ -274,21 +131,14 @@ const faq = [
 			<aside id="mk-callout" class="mk-callout" aria-label="Vald moské" aria-live="polite" hidden></aside>
 		</div>
 		<noscript>
-			<p class="mk-noscript">Den interaktiva kartan kräver JavaScript. Alla moskéer finns i listan nedan, ordnade efter län.</p>
+			<p class="mk-noscript">Den interaktiva kartan kräver JavaScript. Alla moskéer finns i länslistan.</p>
 		</noscript>
 
-		<TitledSection class="mk-section" id="mk-find" title="Moskéer län för län">
-			<p class="mk-lead">{total} moskéer, ordnade efter län. Välj en för plats, öppningsår och vägbeskrivning. Se även <a href="/bonetider/">bönetider för din ort</a>.</p>
+		<TitledSection class="mk-results" id="mk-find" title="Län och moskéer">
 			<div class="mk-lan-groups">
 				{groups.map((g) => (
-					<DisclosureGroup
-						class="mk-lan"
-						data-lan={g.lan}
-						label={g.lanLabel}
-						count={g.mosques.length}
-						labelClass="mk-lan-name"
-						countClass="mk-lan-count"
-					>
+					<details class="mk-lan" data-lan={g.lan}>
+ <summary><span class="mk-lan-name">{g.lanLabel}</span><span class="mk-lan-count">{g.mosques.length}</span><ChevronDown size={16} aria-hidden="true" /></summary>
 						<ul class="mk-lan-list">
 							{g.mosques.map((m) => (
 								<li>
@@ -302,7 +152,7 @@ const faq = [
 										<span class="mk-item-name">{m.name}</span>
 										{m.address && <span class="mk-item-addr">{m.address}</span>}
 										<span class="mk-item-loc">
-											{locationLabel(m)}{m.opened ? ` · öppnad ${m.opened}` : ""}
+											{locationLabel(m)}
 										</span>
 									</button>
 								</li>
@@ -311,7 +161,7 @@ const faq = [
 						<SectionLink class="mk-lan-all" href={`/moskeer/lan/${lanSlug(g.lan)}/`}>
 							Alla moskéer i {g.lanLabel}
 						</SectionLink>
-					</DisclosureGroup>
+					</details>
 				))}
 			</div>
 			<div id="mk-empty" class="mk-empty" hidden>
@@ -320,136 +170,15 @@ const faq = [
 			</div>
 		</TitledSection>
 
-		<TitledSection class="mk-section mk-history" id="mk-history-h" title="Moskéernas långa historia i Sverige">
-			<p class="mk-history-lead">
-				Islam har en längre historia i Sverige än moskébyggnaderna antyder.
-			</p>
+		</div>
 
-			<dl class="mk-stats">
-				<div class="mk-stat">
-					<dt>moskéer</dt>
-					<dd>{total}</dd>
-				</div>
-				<div class="mk-stat">
-					<dt>orter</dt>
-					<dd>{cityCount}</dd>
-				</div>
-				<div class="mk-stat">
-					<dt>län</dt>
-					<dd>{groups.length}</dd>
-				</div>
-				<div class="mk-stat">
-					<dt>första församlingen</dt>
-					<dd>1949</dd>
-				</div>
-			</dl>
-
-			<h3>Milstolpar</h3>
-			{/* The shared milestone grammar — .tl/.tl-item/.tl-year/.tl-label live in
-			    styles/chart.css beside the ```timeline fence, so the two chronologies
-			    on this site share one rail, one dot and one year face. */}
-			<ol class="tl">
-				{timelineItems.map((item) => (
-					<li class="tl-item">
-						<span class="tl-year">{item.year}</span>
-						<p class="tl-label">{item.label}</p>
-					</li>
-				))}
-			</ol>
-
-			<h3>De första muslimerna</h3>
-			<p>
-				Kontakten mellan Norden och den muslimska världen är gammal – vikingatida arabiska silvermynt
-				ligger i svensk jord och runstenar nämner Särkland – men den handlade om handel, inte om
-				församlingar. Den muslimska närvaron i Sverige börjar med tatariska invandrare. Pälshandlaren
-				Ebrahim Umerkajeff kom till Stockholm 1897 och blev en av landets första bofasta muslimer.
-			</p>
-			<p>
-				År 1949 grundades Sveriges första muslimska församling i Stockholm, sunnimuslimsk och bildad av
-				tatarer och turkar, med Osman Soukkan som landets förste imam. Först därefter börjar den
-				historia som den här kartan visar: en moskérörelse som växte fram underifrån, lokal för lokal,
-				ungefär som de svenska frikyrkorna.
-			</p>
-
-			<h3>Allt fler moskéer</h3>
-			<p>
-				Antalet moskéer har vuxit stadigt sedan 1970-talet, i takt med att församlingarna blivit fler
-				och större.
-			</p>
-			<figure class="mk-growth">
-				<div
-					class="mk-growth-chart"
-					role="img"
-					aria-label={`Stapeldiagram över antal moskéer grundade per decennium, bland de ${withYearCount} med känt grundningsår.`}
-				>
-					{growthDecades.map((d) => (
-						<div class="mk-growth-col">
-							<div class="mk-growth-track">
-								<span class="mk-growth-val">{d.count}</span>
-								<div class="mk-growth-bar" style={`height:${Math.round((d.count / growthMax) * 100)}%`}></div>
-							</div>
-							<span class="mk-growth-lab">{d.label}</span>
-						</div>
-					))}
-				</div>
-				<figcaption class="mk-growth-cap">
-					Antal moskéer och församlingar som grundats per decennium, bland de {withYearCount} med känt
-					grundningsår. Underlaget är ofullständigt och det pågående decenniet ännu inte fullt.
-				</figcaption>
-			</figure>
-
-			<h3>Var finns moskéerna?</h3>
-			<figure class="mk-lanbars">
-				<div class="mk-lanbars-chart">
-					{lanRanked.map((g) => (
-						<div class="mk-lanbar-row">
-							<span class="mk-lanbar-name">{g.lan}</span>
-							<span class="mk-lanbar-track">
-								<span class="mk-lanbar-fill" style={`width:${Math.round((g.mosques.length / lanMax) * 100)}%`}></span>
-							</span>
-							<span class="mk-lanbar-val">{g.mosques.length}</span>
-						</div>
-					))}
-				</div>
-				<figcaption class="mk-growth-cap">
-					De tio län som har flest registrerade moskéer. Övriga län finns längre ner på sidan.
-				</figcaption>
-			</figure>
-
-			<h3>De stora moskéerna</h3>
-			<p>
-				Ett fåtal byggnader bär upp bilden av moskén i Sverige. Malmö moské vid Jägersro, uppförd
-				1983–84, är en av landets äldsta moskébyggnader. En del av centret förstördes i en brand i
-				april 2003 och byggdes upp igen på mindre än ett år. I Göteborg invigdes Göteborgs moské i
-				Brämaregården på Hisingen den 16 juni 2011: 2 000 kvadratmeter vid Ramberget, ritad av Björn
-				Sahlqvist.
-			</p>
-			<p>
-				De flesta moskéer är däremot inte uppförda som moskéer, utan inrymda i lokaler som byggts om.
-				Stockholms moské på Södermalm är det tydligaste exemplet. Den invigdes den 8 juni 2000 i
-				elverkets Katarinastation från 1903, ritad av Ferdinand Boberg – samme arkitekt som gav
-				Sverige Rosenbad och varuhuset NK. Bönesalen ligger i den gamla maskinhallen och tegelfasaderna
-				mot Kapellgränd står kvar. Stadsmuseet har blåmärkt byggnadens äldsta del, den högsta klassen,
-				som betecknar synnerligen högt kulturhistoriskt värde.
-			</p>
-			<p>
-				Där moskéer byggts från grunden möts ofta nordiskt och islamiskt. Fittja moské i Botkyrka, ritad
-				av den turkiske arkitekten Eray Ercan Aygün och klar 2007 efter tio års bygge, kröns av en
-				kupol klädd i björkträ och har en minaret på drygt trettio meter – en medveten förening av
-				osmansk form och svenskt material. Stockholms läns museum för upp moskén bland länets besöksmål
-				och den tar emot studiebesök. Därifrån hördes den 26 april 2013 det första böneutropet
-				från en minaret i Sverige, framfört live av imamen och begränsat till några minuter i veckan.
-				Kartan ovan visar var Sveriges moskéer finns i dag.
-			</p>
-		</TitledSection>
-
-		<TitledSection class="mk-section" id="mk-faq" title="Vanliga frågor">
-			<DefinitionList items={faq} />
-		</TitledSection>
+		<RelatedLinks label="Mer om moskéer" links={[
+			{href: "/moskeer/om/", label: "Om moskéer · historia & besök"},
+			{href: "/bonetider/", label: "Bönetider för din ort"},
+		]} />
 
 		<p class="mk-attrib">
-			Underlaget kan vara ofullständigt – vissa moskéer saknas, och uppgifter om öppningsår
-			eller huvudman är inte alltid kända. Adresser och positioner är ungefärliga.
+			Uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time>. Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
 		</p>
 	</main>
 
@@ -463,43 +192,13 @@ const faq = [
 <style>
 	.moskeer {
 		margin-block: var(--space-phi);
-		overflow-x: clip;
 	}
 
-	.mk-header h1 {
-		margin: var(--space-half) 0 0;
-	}
 
-	.mk-intro {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		margin: var(--space-half) 0 var(--space-half);
-		text-wrap: pretty;
-	}
 
-	.mk-meta {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		margin: 0 0 var(--space-unit);
-		font-variant-numeric: lining-nums tabular-nums;
-	}
 
 	/* Controls row above the map — one cohesive toolbar: the search field, län filter and
-	   the geolocation CTA share a pill shape, height and focus treatment. */
-	.mk-tool-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		/* φ above so the tool block breaks clearly away from the gallery — at the old
-		   spacing the bottom row of picture captions sat 8px off the search field. */
-		margin: var(--space-phi) 0 var(--space-unit);
-		max-width: var(--content-width);
-		text-wrap: pretty;
-	}
+	   the geolocation CTA share a shape, height and focus treatment. */
 
 	.mk-controls {
 		display: flex;
@@ -509,36 +208,9 @@ const faq = [
 		margin-bottom: var(--space-half);
 	}
 
-	.mk-search-wrap {
-		position: relative;
-		flex: 1 1 16rem;
-		max-width: 22rem;
-		display: flex;
-		align-items: center;
-	}
 
-	.mk-search-icon {
-		position: absolute;
-		left: 0.85rem;
-		color: var(--color-muted);
-		pointer-events: none;
-	}
 
-	.mk-search {
-		width: 100%;
-		font-family: var(--font-body);
-		/* 16px floor, not a scale step: below 16px iOS Safari auto-zooms the page on focus. */
-		font-size: 1rem;
-		color: var(--color-text);
-		background: var(--color-bg);
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-		padding: 0.55rem 1rem 0.55rem 2.5rem;
-	}
 
-	.mk-search::placeholder {
-		color: var(--color-muted);
-	}
 
 	.mk-lan-filter {
 		position: relative;
@@ -560,40 +232,14 @@ const faq = [
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
+		border-radius: var(--radius-sm);
 		padding: 0.55rem 2.4rem 0.55rem 1rem;
 		cursor: pointer;
 	}
 
-	.mk-geo {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4rem;
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
-		font-weight: 600;
-		color: var(--color-accent);
-		background: var(--color-bg);
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-		padding: 0.5rem 1.1rem;
-		cursor: pointer;
-		transition: border-color 0.15s ease;
-	}
 
-	.mk-geo svg {
-		color: var(--color-warm);
-		flex: none;
-	}
 
-	.mk-geo:hover {
-		border-color: var(--color-warm);
-	}
 
-	.mk-geo[aria-busy="true"] {
-		opacity: 0.6;
-		pointer-events: none;
-	}
 
 	.mk-search:focus-visible,
 	#mk-lan:focus-visible,
@@ -608,7 +254,7 @@ const faq = [
 		color: var(--color-muted);
 		background: transparent;
 		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
+		border-radius: var(--radius-sm);
 		cursor: pointer;
 		padding: 0.5rem 1rem;
 		transition:
@@ -651,8 +297,8 @@ const faq = [
 		/* Taller than wide-ish: Sweden is a portrait country, so give it vertical room
 		   (the dimension that bounds the fit) and it fills the frame instead of floating
 		   in sea. */
-		height: min(80vh, 760px);
-		min-height: 420px;
+		height: 540px;
+		min-height: 360px;
 		border-radius: var(--radius-lg);
 		overflow: hidden;
 		/* Anchors .is-error before maplibre sets it on the container itself. */
@@ -690,6 +336,8 @@ const faq = [
 		border-radius: var(--radius-lg);
 		background: color-mix(in srgb, var(--color-bg) 94%, transparent);
 		backdrop-filter: blur(10px);
+		max-height: 60%;
+		overflow-y: auto;
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 14px -4px rgb(0 0 0 / 0.45);
 		z-index: 2;
@@ -713,12 +361,6 @@ const faq = [
 		margin-top: var(--space-half);
 	}
 
-	.mk-lead {
-		font-family: var(--font-body);
-		color: var(--color-muted);
-		margin: var(--space-half) 0 var(--space-unit);
-		text-wrap: pretty;
-	}
 
 	.mk-lead a {
 		color: var(--color-accent);
@@ -757,20 +399,21 @@ const faq = [
 	}
 
 	.mk-item-name {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
+		font-family: var(--font-heading);
+		font-size: var(--step--1);
+		font-weight: 600;
 		color: var(--color-text);
 	}
 
 	.mk-item-addr {
 		font-family: var(--font-body);
-		font-size: var(--step--4);
-		color: var(--text-quiet);
+		font-size: var(--step--3);
+		color: var(--color-muted);
 	}
 
 	.mk-item-loc {
 		font-family: var(--font-body);
-		font-size: var(--step--4);
+		font-size: var(--step--3);
 		color: var(--color-muted);
 	}
 
@@ -798,7 +441,7 @@ const faq = [
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
+		border-radius: var(--radius-sm);
 		padding: 0.45rem 1.1rem;
 		cursor: pointer;
 		transition: border-color 0.15s ease;
@@ -808,194 +451,34 @@ const faq = [
 		border-color: var(--color-warm);
 	}
 
-	/* Editorial background section (Wikipedia-derived, fact-checked, neutral). */
-	.mk-history p {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.7;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-half) 0 0;
-		text-wrap: pretty;
-	}
 
-	.mk-history p.mk-history-lead {
-		color: var(--text-body);
-		line-height: 1.6;
-		margin-bottom: var(--space-unit);
-	}
+ .mk-result-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; min-height: 2.75rem; }
+ .mk-result-bar .mk-count { margin: 0; font-family: var(--font-heading); font-size: var(--step--2); }
+ .mk-result-bar .mk-reset { margin-left: auto; padding: .5rem 0; border: 0; text-decoration: underline; text-underline-offset: .2em; min-height: 2.75rem; }
+ .mk-list-jump { font-family: var(--font-heading); font-size: var(--step--2); padding-block: .5rem; }
+ @media (width >= 800px) { .mk-list-jump { display: none; } }
+ #mk-lan { min-height: 3rem; }
 
-	/* This page runs the compact register (.mk-section h2 is step-1), so its h3 sits
-	   one step below that at body size — never under it, which is where 1.05rem put
-	   it. Family and weight carry the rank the size no longer can. Not accent:
-	   accent is the link colour (DESIGN.md Principle 7), and a heading is not a link. */
-	.mk-history h3 {
-		font-size: var(--step-0);
-		margin: var(--space-unit) 0 var(--space-half);
-	}
-
-	/* Server-rendered founding-year bar chart (no JS, no chart lib). Brass bars echo the
-	   map markers; bar heights are inlined % of the tallest decade. */
-	.mk-growth {
-		margin: var(--space-half) 0 0;
-		max-width: 40rem;
-	}
-
-	.mk-growth-chart {
-		display: flex;
-		align-items: stretch;
-		gap: 0.5rem;
-		height: 200px;
-		margin: var(--space-half) 0;
-	}
-
-	.mk-growth-col {
-		flex: 1 1 0;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.4rem;
-		min-width: 0;
-	}
-
-	.mk-growth-track {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
-		align-items: center;
-		width: 100%;
-		flex: 1;
-	}
-
-	.mk-growth-val {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		font-variant-numeric: lining-nums tabular-nums;
-		margin-bottom: 0.25rem;
-	}
-
-	.mk-growth-bar {
-		width: 62%;
-		max-width: 2.6rem;
-		min-height: 3px;
-		background: var(--color-brass);
-		border-radius: 3px 3px 0 0;
-	}
-
-	.mk-growth-lab {
-		font-family: var(--font-body);
-		font-size: var(--step--4);
-		color: var(--color-muted);
-		font-variant-numeric: lining-nums tabular-nums;
-		white-space: nowrap;
-	}
-
-	.mk-growth-cap {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		line-height: 1.5;
-		color: var(--color-muted);
-		max-width: 40rem;
-	}
-
-	@media (width <= 480px) {
-		.mk-growth-val {
-			font-size: var(--step--4);
-		}
-
-		.mk-growth-lab {
-			font-size: var(--step--5);
-		}
-	}
-
-	/* Key-figures band */
-	.mk-stats {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-half) var(--space-unit);
-		margin: 0 0 var(--space-unit);
-		padding: 0;
-	}
-
-	.mk-stat {
-		display: flex;
-		flex-direction: column-reverse;
-	}
-
-	/* Brass is this page's data colour — map markers, the decade bars, the county
-	   bars. It earns its place there because it encodes something. On these four
-	   stat numbers it encoded nothing, made the site's largest non-heading numerals
-	   its lowest-contrast text (3.05:1, scraping the large-text floor), and put a
-	   fifth colour into a four-colour palette. The numbers are text; they read as
-	   text. */
-	.mk-stat dd {
-		margin: 0;
-		font-family: var(--font-heading);
-		font-weight: 620;
-		font-size: var(--step-2-sans);
-		line-height: 1;
-		color: var(--color-text);
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.mk-stat dt {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		margin-top: 0.25rem;
-	}
-
-	/* Ranked county-distribution bars */
-	.mk-lanbars {
-		margin: var(--space-half) 0 0;
-		max-width: 40rem;
-	}
-
-	.mk-lanbars-chart {
-		display: flex;
-		flex-direction: column;
-		gap: 0.45rem;
-		margin: var(--space-half) 0;
-	}
-
-	.mk-lanbar-row {
-		display: grid;
-		grid-template-columns: 8rem 1fr 1.8rem;
-		align-items: center;
-		gap: 0.6rem;
-	}
-
-	.mk-lanbar-name {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--text-body);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.mk-lanbar-track {
-		height: 0.7rem;
-		background: var(--color-divider);
-		border-radius: var(--radius-pill);
-		overflow: hidden;
-	}
-
-	.mk-lanbar-fill {
-		display: block;
-		height: 100%;
-		background: var(--color-brass);
-		border-radius: var(--radius-pill);
-	}
-
-	.mk-lanbar-val {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		font-variant-numeric: lining-nums tabular-nums;
-		text-align: right;
-	}
+ .mk-explorer { display: grid; gap: var(--space-unit); margin-top: var(--space-half); }
+ .mk-results { min-width: 0; padding: 1rem; border: 1px solid var(--color-divider); border-radius: var(--radius-lg); }
+ .mk-results :global(h2) { font-family: var(--font-heading); font-size: var(--step--2); font-weight: 500; color: var(--color-muted); margin: 0 0 .75rem; }
+ .mk-lan-groups { display: block; }
+ .mk-lan { margin-bottom: 0; padding-bottom: .25rem; }
+ .mk-lan summary { min-height: 2.75rem; align-items: center; font-size: var(--step--2); font-weight: 500; }
+ .mk-lan-list li + li { border-top: 1px solid var(--color-divider); }
+ .mk-lan-name { min-width: 0; overflow-wrap: anywhere; }
+ .mk-lan-count { margin-left: auto; flex: none; }
+ .mk-lan summary :global(svg) { flex: none; }
+ .mk-lan[open] summary :global(svg) { transform: rotate(180deg); }
+ .mk-item { min-height: 2.75rem; padding: .85rem .5rem; gap: .2rem; }
+ .mk-item:hover, .mk-item.is-active { background: color-mix(in srgb, var(--color-warm) 8%, transparent); }
+ @media (width >= 800px) {
+  .mk-explorer { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); align-items: start; }
+  .mk-stage { grid-column: 2; grid-row: 1; }
+  .mk-results { grid-column: 1; grid-row: 1; max-height: 540px; overflow-y: auto; padding-right: .75rem; scrollbar-gutter: stable; }
+ }
+ @media (width < 800px) { .mk-map { height: 420px; } }
+ @media (width < 480px) { .mk-search-wrap { flex-basis: 100%; } .mk-lan-filter { flex: 1 1 calc(50% - .5rem); } #mk-lan { width: 100%; max-width: 100%; } .mk-geo { flex: 1 1 calc(50% - .5rem); } }
 
 	.visually-hidden {
 		position: absolute;
@@ -1031,6 +514,8 @@ const faq = [
 		cursor: pointer;
 		padding: 0.1rem 0.3rem;
 	}
+
+	.moskeer .maplibregl-ctrl-scale { background: var(--color-bg); color: var(--color-text); border-color: var(--color-text); }
 
 	.mk-callout-close:hover {
 		color: var(--color-accent);
@@ -1117,13 +602,16 @@ const faq = [
 		background: color-mix(in srgb, var(--color-warm) 16%, transparent);
 	}
 
-	/* The built-in zoom/fullscreen icons are fixed dark SVG masks (not currentColor), so in
-	   dark mode they'd vanish on the dark control bg — invert them. Our reset button uses an
-	   inline currentColor SVG and is unaffected (it tracks the accent colour above). */
+	/* MapLibre's background-image icons cannot inherit currentColor. Follow the site's
+	   explicit theme first, falling back to the system preference, like our palette. */
 	@media (prefers-color-scheme: dark) {
-		.moskeer .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+		:root:not([data-theme="light"]) .moskeer :is(.maplibregl-ctrl-icon, .maplibregl-ctrl-attrib-button) {
 			filter: invert(1) brightness(1.4);
 		}
+	}
+
+	:root[data-theme="dark"] .moskeer :is(.maplibregl-ctrl-icon, .maplibregl-ctrl-attrib-button) {
+		filter: invert(1) brightness(1.4);
 	}
 
 	/* The labelled "Hitta moské nära mig" button is the visible geolocation trigger; hide

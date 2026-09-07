@@ -1,0 +1,40 @@
+/* Native modals share sizing, scroll locking and reduced-motion behavior.
+   The browser owns focus containment, background inertness and Escape. */
+.fullscreen-dialog {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: none;
+	color: var(--color-text);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	opacity: 0;
+	transition:
+		opacity 0.18s ease,
+		display 0.18s allow-discrete,
+		overlay 0.18s allow-discrete;
+}
+.fullscreen-dialog[open] {
+	opacity: 1;
+}
+@starting-style {
+	.fullscreen-dialog[open] {
+		opacity: 0;
+	}
+}
+.fullscreen-dialog::backdrop {
+	background: transparent;
+}
+html:has(.fullscreen-dialog[open]) {
+	overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+	.fullscreen-dialog {
+		transition: none;
+	}
+}

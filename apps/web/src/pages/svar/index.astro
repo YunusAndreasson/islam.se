@@ -1,5 +1,5 @@
 ---
-import { Search } from "@lucide/astro";
+import SearchInput from "../../components/finder/SearchInput.astro";
 import { getCollection } from "astro:content";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import EssayImage from "../../components/EssayImage.astro";
@@ -94,7 +94,7 @@ const description =
 ---
 
 <CollectionIndexPage
-	title="Frågor & svar om islam"
+	title="Frågor & svar"
 	pageTitle="Frågor och svar om islam — islam.se"
 	description={description}
 	ogImageAlt="Frågor och svar om islam — islam.se"
@@ -112,34 +112,21 @@ const description =
 		]),
 	]}
 >
-	<span slot="lead">
-		Källbelagda svar på vanliga frågor om islam, från tro och dyrkan till mat, familj, samhälle
-		och historia. Grunderna – de fem pelarna och de sex trosartiklarna – står med bild och
-		sammanhang på <a href="/vad-ar-islam/">Pelare &amp; tro</a>, och svarar även här på en sökning.
-	</span>
+
 
 
 		{groups.length > 0 ? (
 			<>
 				{/* Narrows this page only; ⌘K still searches the whole site. */}
-				<search><form class="svar-search field">
-					<Search class="svar-search-icon" size={18} stroke-width={1.75} />
-					<input
-						class="svar-search-input"
-						id="svar-q"
-						type="search"
-						name="q"
-						placeholder={`Sök bland ${searchable} frågor …`}
-						aria-label="Sök bland frågorna på denna sida"
-						aria-controls="svar-results"
-						autocomplete="off"
-						autocapitalize="off"
-						spellcheck="false"
-						enterkeyhint="search"
-					/>
-					<button class="svar-search-clear label" type="button" hidden>Rensa</button>
+				<search aria-label="Sök frågor och svar"><form class="svar-search">
+					<label class="sr-only" for="svar-q">Sök bland frågorna</label>
+					<SearchInput id="svar-q" placeholder={`Sök bland ${searchable} frågor`} controls="svar-results" />
 				</form></search>
-				<p class="svar-search-status label" role="status"></p>
+				<div class="svar-search-actions">
+					<p class="svar-search-status label" role="status"></p>
+					<button class="svar-search-clear label" type="button" hidden>Rensa</button>
+				</div>
+				<p class="svar-intro">Läs om grunderna på <a href="/vad-ar-islam/">Pelare &amp; tro</a>.</p>
 
 				{fordjupningar.length > 0 && (
 					<section class="svar-pelare" aria-labelledby="svar-pelare-rubrik">
@@ -273,7 +260,7 @@ const description =
 		const pelare = document.querySelector<HTMLElement>(".svar-pelare");
 		// Same reasoning for the category framing sentences: they tell a browser what
 		// a section holds, and only push the hits further down for a searcher.
-		const intros = Array.from(document.querySelectorAll<HTMLElement>(".svar-section-intro"));
+		const intros = Array.from(document.querySelectorAll<HTMLElement>(".svar-section-intro, .svar-intro"));
 		// Paired up front so the per-keystroke loop needs no lookups.
 		const chips = Array.from(document.querySelectorAll<HTMLElement>("[data-cat-item]")).map(
 			(el) => ({ el, section: document.getElementById(el.dataset.catItem ?? "") }),
@@ -442,51 +429,10 @@ const description =
 		margin-block: var(--space-phi);
 	}
 
-	/* A hairline under a line of type, like the palette's own field. Held to the
-	   reading measure, not the full canvas. */
-	.svar-search {
-		display: flex;
-		align-items: center;
-		gap: 0.6rem;
-		max-width: var(--content-width);
-		margin: 0 0 0.4rem;
-		padding-bottom: 0.5rem;
-		border-bottom: 1px solid var(--color-divider);
-		transition: border-color 0.15s;
-	}
-
-	.svar-search:focus-within {
-		border-bottom-color: var(--color-warm);
-	}
-
-	.svar-search-icon {
-		flex-shrink: 0;
-		color: var(--color-muted);
-	}
-
-	.svar-search-input {
-		flex: 1;
-		min-width: 0;
-		font-family: var(--font-heading);
-		font-size: var(--step-0);
-		color: var(--color-text);
-		background: transparent;
-		border: none;
-		/* The input itself is the tap target — the icon beside it is decorative and
-	   the hairline is the form's, not the field's. Keep it thumb-sized. */
-		min-height: 2.75rem;
-		padding: 0;
-		outline: none;
-	}
-
-	.svar-search-input::placeholder {
-		color: var(--color-muted);
-	}
-
-	/* The UA's grey ✕ ignores the page's colour; "Rensa" replaces it. */
-	.svar-search-input::-webkit-search-cancel-button {
-		-webkit-appearance: none;
-	}
+	.svar-search { display: flex; margin: 0; }
+	.svar-search-actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; margin-bottom: var(--space-half); }
+	.svar-index :global(.lead--page:empty) { display: none; }
+	.svar-intro { max-width: var(--content-width); margin: 0 0 var(--space-unit); color: var(--color-muted); }
 
 	.svar-search-clear {
 		flex-shrink: 0;
@@ -495,8 +441,8 @@ const description =
 		color: var(--color-muted);
 		cursor: pointer;
 		/* Padded past the 24px WCAG 2.5.8 target from a ~14px label. */
-		padding: 0.35rem 0.5rem;
-		margin-right: -0.5rem;
+		padding: 0.5rem 0;
+		min-height: 2.75rem;
 
 		&:hover { color: var(--color-accent); }
 		&:focus-visible { border-radius: var(--radius-xs); }
@@ -505,7 +451,7 @@ const description =
 	/* Reserves its line so nothing below shifts as the reader types. */
 	.svar-search-status {
 		min-height: 1.2em;
-		margin: 0 0 var(--space-half);
+		margin: 0;
 	}
 
 	.svar-empty {

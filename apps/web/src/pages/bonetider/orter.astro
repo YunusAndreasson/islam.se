@@ -1,0 +1,42 @@
+---
+import Base from "../../layouts/Base.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import TitledSection from "../../components/TitledSection.astro";
+import { ChevronDown } from "@lucide/astro";
+import { placesByCounty } from "../../lib/bonetider/places-index";
+const counties = placesByCounty();
+---
+<Base title="Alla orter – Bönetider — islam.se" description="Hitta din ort och dagens bönetider, län för län i Sverige.">
+ <main id="main" class="home directory">
+  <Breadcrumb items={[{name: "Bönetider", url: "/bonetider/"}, {name: "Alla orter", url: "/bonetider/orter/"}]} />
+  <h1>Alla orter</h1>
+  <a class="directory-search" href="/bonetider/#place-query">Sök efter ort →</a>
+		<TitledSection class="bh2-section" id="bh2-find" title="Välj län">
+
+			<div class="bt-counties">
+				{counties.map((g) => (
+					<details class="bt-county">
+ <summary><span>{g.county}</span><span class="county-count">{g.places.length}</span><ChevronDown size={16} aria-hidden="true" /></summary>
+						<ul class="bt-county-list">
+							{g.places.map((p) => (
+								<li>
+									<a href={`/bonetider/${p.slug}/`} data-name={p.name} data-county={g.county}>{p.name}</a>
+								</li>
+							))}
+						</ul>
+					</details>
+				))}
+			</div>
+		</TitledSection>
+ </main>
+</Base>
+<style>
+ .directory { margin-block: var(--space-phi); }
+ .directory-search { display: inline-block; padding-block: .75rem; }
+ .bt-county summary { display: flex; align-items: center; gap: .75rem; min-height: 2.75rem; cursor: pointer; }
+ .county-count { margin-left: auto; color: var(--color-muted); font-size: var(--step--2); }
+ .bt-county[open] summary :global(svg) { transform: rotate(180deg); }
+ .bt-county summary::-webkit-details-marker { display: none; }
+ .bt-county-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr)); gap: 0 1rem; }
+ .bt-county-list a { display: flex; align-items: center; min-height: 2.75rem; font-size: var(--step--2); }
+</style>

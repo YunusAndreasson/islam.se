@@ -714,6 +714,8 @@ export default defineConfig({
 	// nobody reads; fail the build instead.
 	prerenderConflictBehavior: "error",
 	experimental: {
+		// City routes supply date/prayer-aware keys; unkeyed routes still render every build.
+		incrementalBuild: true,
 		contentIntellisense: true,
 		// Upgrades the `prefetch` hover strategy from "fetch the HTML" to a real Speculation
 		// Rules prerender in supporting browsers (Chrome), falling back to plain prefetch

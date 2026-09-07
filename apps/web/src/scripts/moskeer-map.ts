@@ -39,6 +39,7 @@ interface MosqueDatum {
 	lng: number;
 	lat: number;
 	location: string;
+	address?: string;
 	opened?: number;
 	organisation?: string;
 	google: string;
@@ -302,8 +303,12 @@ async function mount() {
 		console.warn("[moskeer] kartan kunde inte laddas:", detail);
 	});
 	map.addControl(new maplibre.AttributionControl({ compact: true }), "bottom-left");
-	map.addControl(new maplibre.NavigationControl({ showCompass: false }), "top-right");
+	map.addControl(
+		new maplibre.NavigationControl({ showCompass: true, visualizePitch: true }),
+		"top-right",
+	);
 	map.addControl(new ResetViewControl(), "top-right");
+	map.addControl(new maplibre.ScaleControl({ maxWidth: 90, unit: "metric" }), "bottom-left");
 	// Fullscreen the whole .mk-stage (map + callout + controls) so the selection card
 	// doesn't get orphaned outside the fullscreen subtree.
 	map.addControl(
@@ -342,6 +347,10 @@ async function mount() {
 		// callout for the NEAREST mosque inherited whatever row was clicked earlier, and
 		// Esc then threw the reader down the list to an unrelated mosque.
 		if (best) {
+			if (search) search.value = "";
+			if (lanSelect) lanSelect.value = "";
+			applyFilter();
+			if (geoStatus) geoStatus.textContent = `Närmast dig: ${best.name}.`;
 			lastTrigger = null;
 			selectMosque(best.id, true);
 		}
@@ -349,7 +358,8 @@ async function mount() {
 	geolocate.on("error", () => {
 		geoBtn?.removeAttribute("aria-busy");
 		if (geoStatus)
-			geoStatus.textContent = "Kunde inte hämta din position. Tillåt platsåtkomst och försök igen.";
+			geoStatus.textContent =
+				"Kunde inte hämta din position. Sök efter en ort eller tillåt platsåtkomst och försök igen.";
 	});
 
 	// Which paint props to overwrite for a given Positron layer, keyed generically by
@@ -464,7 +474,10 @@ async function mount() {
 	 *  immediately after, and focus falls off the hidden element.) */
 	function closeCallout(restoreFocus = true) {
 		if (callout) callout.hidden = true;
-		for (const it of items) it.classList.remove("is-active");
+		for (const it of items) {
+			it.classList.remove("is-active");
+			it.removeAttribute("aria-current");
+		}
 		activeId = "";
 		setActiveRing("");
 		if (restoreFocus) lastTrigger?.focus();
@@ -494,7 +507,9 @@ async function mount() {
 	 *  1500 px glide down the page was never the nicer option anyway — the map's own
 	 *  flyTo is the animation the reader is meant to watch. */
 	function revealMap(): boolean {
-		if (mapInView()) return false;
+		const card = callout && !callout.hidden ? callout.getBoundingClientRect() : null;
+		const cardInView = !card || (card.top >= 100 && card.bottom <= window.innerHeight - 24);
+		if (mapInView() && cardInView) return false;
 		stage.scrollIntoView({ block: "center", behavior: "instant" });
 		return true;
 	}
@@ -523,18 +538,24 @@ async function mount() {
 		// revealMap())`: that form only calls revealMap when scrollList happens to be
 		// true, so a future `selectMosque(id, true, false)` would silently lose the
 		// scroll-into-view this whole block exists for.
+		if (callout) renderCallout(m);
 		const mapScrolled = fly ? revealMap() : false;
 		const bringRowIntoView = scrollList && !mapScrolled;
 
+		const offset: [number, number] = [
+			0,
+			-Math.min((callout?.offsetHeight ?? 0) / 2, stage.clientHeight / 4),
+		];
 		if (fly) {
 			const target = {
+				offset,
 				center: [m.lng, m.lat] as [number, number],
 				zoom: Math.max(map.getZoom(), 11),
 			};
 			if (reduceMotion) map.jumpTo(target);
 			else map.flyTo({ ...target, speed: 1.2 });
 		}
-		if (callout) renderCallout(m);
+		if (!fly) map.easeTo({ center: [m.lng, m.lat], offset, duration: reduceMotion ? 0 : 250 });
 		markActiveRow(id, bringRowIntoView);
 	}
 
@@ -546,13 +567,19 @@ async function mount() {
 		for (const it of items) {
 			const active = it.dataset.id === id;
 			it.classList.toggle("is-active", active);
+			if (active) it.setAttribute("aria-current", "true");
+			else it.removeAttribute("aria-current");
 			if (!active) continue;
 			const details = it.closest("details");
 			if (details && !details.open) details.open = true;
 			// A map tap keeps the viewport put (the row is just highlighted in place, for
 			// when the reader scrolls down to it later).
-			if (bringIntoView)
-				it.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+			const panel = it.closest<HTMLElement>(".mk-results");
+			if (bringIntoView && panel && getComputedStyle(panel).overflowY === "auto") {
+				const top =
+					it.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop;
+				panel.scrollTo({ top: Math.max(0, top - 16), behavior: reduceMotion ? "auto" : "smooth" });
+			}
 		}
 	}
 
@@ -566,6 +593,7 @@ async function mount() {
 		callout.innerHTML = `
 			<button type="button" class="mk-callout-close" aria-label="Stäng">×</button>
 			<p class="mk-callout-name">${escapeXml(m.name)}</p>
+			${m.address ? `<p class="mk-callout-meta">${escapeXml(m.address)}</p>` : ""}
 			<p class="mk-callout-meta">${facts.map(escapeXml).join(" · ")}</p>
 			${org}
 			<div class="mk-dir">
@@ -585,6 +613,22 @@ async function mount() {
 	// street addresses in addition to the name/location shown in the map payload.
 	const searchById = new Map(items.map((it) => [it.dataset.id, it.dataset.search ?? ""]));
 
+	let fittedQuery = "";
+
+	function fitSearchResults(q: string, lan: string, visible: MosqueDatum[]) {
+		const filterKey = q || lan ? JSON.stringify([q, lan]) : "";
+		if (filterKey !== fittedQuery) {
+			fittedQuery = filterKey;
+			if (!filterKey) {
+				map.fitBounds(SWEDEN_BOUNDS, { padding: 24, duration: reduceMotion ? 0 : 350 });
+			} else if (visible.length) {
+				const bounds = new maplibre.LngLatBounds();
+				for (const mosque of visible) bounds.extend([mosque.lng, mosque.lat]);
+				map.fitBounds(bounds, { padding: 48, maxZoom: 11, duration: reduceMotion ? 0 : 350 });
+			}
+		}
+	}
+
 	/** Map: filter the data array by query + län (län comes from the rendered list item). */
 	function syncMap(q: string, lan: string) {
 		const visible = data.filter((m) => {
@@ -597,6 +641,8 @@ async function mount() {
 		// setData is async in maplibre 6; nothing waits on it, but the rejection has
 		// to go somewhere.
 		const src = map.getSource("mosques") as GeoJSONSource | undefined;
+		if (src) fitSearchResults(q, lan, visible);
+
 		src?.setData(fc(visible)).catch(() => {
 			/* a dropped filter update leaves the previous points on the map */
 		});
@@ -615,6 +661,8 @@ async function mount() {
 				li.hidden = !hit;
 				if (hit) gShown++;
 			}
+			const groupCount = g.querySelector(".mk-lan-count");
+			if (groupCount) groupCount.textContent = String(gShown);
 			g.hidden = gShown === 0;
 			g.open = gShown > 0 && (q !== "" || lan !== "");
 			shown += gShown;
@@ -770,7 +818,7 @@ async function mount() {
 			try {
 				const zoom = await src.getClusterExpansionZoom(clusterId);
 				const coords = (f.geometry as { coordinates: [number, number] }).coordinates;
-				map.easeTo({ center: coords, zoom });
+				map.easeTo({ center: coords, zoom, duration: reduceMotion ? 0 : 350 });
 			} catch {
 				/* ignore */
 			}
@@ -865,7 +913,8 @@ async function mount() {
 	geoBtn?.addEventListener(
 		"click",
 		() => {
-			if (geoStatus) geoStatus.textContent = "";
+			if (geoBtn.getAttribute("aria-busy") === "true") return;
+			if (geoStatus) geoStatus.textContent = "Hämtar din position …";
 			geoBtn.setAttribute("aria-busy", "true");
 			geolocate.trigger();
 		},

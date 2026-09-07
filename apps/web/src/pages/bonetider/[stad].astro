@@ -20,6 +20,7 @@ import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 import { hijriLabel } from "../../lib/markesdagar";
 import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ramadan";
+import { prayerPageCacheKey } from "../../lib/bonetider/build-cache";
 
 // These 2 128 pages are 84 % of the whole build (75 s of 90 s). They only change when
 // the day rolls over, so `pnpm build:fast` sets BONETIDER_SAMPLE to build a handful
@@ -33,7 +34,12 @@ import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ram
 export function getStaticPaths() {
 	const sample = Number(process.env.BONETIDER_SAMPLE ?? 0);
 	const places = sample > 0 ? INDEXED_PLACES.slice(0, sample) : INDEXED_PLACES;
-	return places.map((place) => ({ params: { stad: place.slug }, props: { place } }));
+	const now = new Date();
+	return places.map((place) => ({
+		params: { stad: place.slug },
+		props: { place },
+		cacheKey: prayerPageCacheKey(place, now),
+	}));
 }
 
 interface Props {
