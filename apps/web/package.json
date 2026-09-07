@@ -4,6 +4,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
+		"deps:check": "bash scripts/update-deps.sh --check",
+		"deps:update": "bash scripts/update-deps.sh",
 		"dev": "astro dev",
 		"dev:bg": "astro dev --background",
 		"dev:status": "astro dev status",
