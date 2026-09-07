@@ -4,17 +4,40 @@
 // badges render server-side — crawlable and working without JS — then a small
 // client script narrows to the visitor's platform on mobile (Android → Google
 // Play only, iPhone → App Store only). Desktop / unknown shows both.
-import { APP_FEATURES, APP_STORE_URL, APP_TAGLINE, PLAY_STORE_URL } from "../lib/app";
+import { Image } from "astro:assets";
+import appKarta from "../assets/app/app-karta.png";
+import appQibla from "../assets/app/app-qibla.png";
+import appTider from "../assets/app/app-tider.png";
+import { APP_CITY_FEATURES, APP_FEATURES, APP_STORE_URL, APP_TAGLINE, PLAY_STORE_URL } from "../lib/app";
 
 interface Props {
-	/** section = full card (city pages); compact = one-line (metod); page = /app
-	 *  landing. The /bonetider hub uses <AppShowcase> instead. */
-	variant?: "section" | "compact" | "page";
+	/** section = full card; compact = one-line (metod); page = /app landing;
+	 *  city = the lead item of "Ta med tiderna" on the 2 128 prayer pages.
+	 *  The /bonetider hub uses <AppShowcase> instead. */
+	variant?: "section" | "compact" | "page" | "city";
 }
 const { variant = "section" } = Astro.props;
 const showHeading = variant !== "compact";
-// Features earn their place where there is room to read them: the /app landing.
-const showFeatures = variant === "page";
+// Features earn their place where there is room to read them: the /app landing, and
+// the city pages, where a bare badge was asking for a download without saying why.
+const showFeatures = variant === "page" || variant === "city";
+const features = variant === "city" ? APP_CITY_FEATURES : APP_FEATURES;
+// The city card sits inside a <TitledSection>, whose own h2 is "Ta med tiderna".
+const Heading = variant === "city" ? "h3" : "h2";
+// Show it, don't describe it. The first two are the same screen in two states — the
+// times listed over the map, and the sheet pulled down so the Maghrib and ʿIshāʾ
+// lines the reader has just watched on this page are visible with the day-scrubber
+// under them. That scrubber is the thing the web map cannot do: drag it and the
+// light moves. The compass is the third, and the plainest thing this page will
+// never offer.
+const CITY_SHOTS = [
+	{ src: appTider, alt: "Appens bönetidslista över kartan, med reglaget för dygnet." },
+	{ src: appKarta, alt: "Appens karta: Maghrib och ʿIshāʾ som linjer över Norden." },
+	{ src: appQibla, alt: "Appens kompass som pekar mot Kaba." },
+];
+const lead = variant === "city"
+	? "Kartan du nyss såg, live i fickan – och det den här sidan inte kan göra."
+	: APP_TAGLINE;
 
 ---
 
@@ -22,15 +45,22 @@ const showFeatures = variant === "page";
 	{/* No kicker: it said "Appen" above a heading that now says "Bönetidsappen". */}
 	<div class="apppromo-body">
 		<div class="apppromo-text">
-			{showHeading && <h2 class="apppromo-heading">Bönetidsappen</h2>}
+			{showHeading && <Heading class="apppromo-heading">Bönetidsappen</Heading>}
 			{variant === "compact" ? (
 				<p class="apppromo-lead"><strong>islam.se i mobilen.</strong> {APP_TAGLINE}</p>
 			) : (
-				<p class="apppromo-lead">{APP_TAGLINE}</p>
+				<p class="apppromo-lead">{lead}</p>
+			)}
+			{variant === "city" && (
+				<div class="apppromo-shots">
+					{CITY_SHOTS.map((s) => (
+						<Image class="apppromo-shot" src={s.src} alt={s.alt} widths={[150, 300, 450]} sizes="(max-width: 40rem) 27vw, 8rem" loading="lazy" />
+					))}
+				</div>
 			)}
 			{showFeatures && (
 				<ul class="apppromo-features">
-					{APP_FEATURES.map((f) => (
+					{features.map((f) => (
 						<li>
 							<span class="apppromo-feature-term">{f.term}</span>
 							<span class="apppromo-feature-gloss">{f.gloss}</span>
@@ -211,6 +241,39 @@ const showFeatures = variant === "page";
 
 	.apppromo--section .apppromo-heading {
 		font-family: var(--font-heading);
+	}
+
+	/* ---- city: the lead item of "Ta med tiderna" on the prayer pages. The same calm
+	   card as --section, but it names what the page cannot do rather than showing a
+	   badge pair on its own. It used to sit below the FAQ and the facts list. ---- */
+	.apppromo--city {
+		margin-block: 0 var(--space-unit);
+		padding: var(--space-half) var(--space-unit) var(--space-unit);
+		border: 1px solid var(--color-divider);
+		border-radius: 12px;
+		background: color-mix(in srgb, var(--color-text) 3%, var(--color-bg));
+	}
+
+	.apppromo--city .apppromo-heading {
+		font-family: var(--font-heading);
+		font-size: var(--step-1);
+		margin-top: var(--space-half);
+	}
+
+	/* The phones. Two, small, sitting in the card's own rhythm — not a hero band: the
+	   app does the same job the page just did, so it argues rather than interrupts. */
+	.apppromo-shots {
+		display: flex;
+		gap: .5rem;
+		margin-block: var(--space-half);
+	}
+
+	.apppromo-shot {
+		width: 27vw;
+		max-width: 8rem;
+		height: auto;
+		border-radius: 1.1rem;
+		border: 1px solid light-dark(var(--color-divider), var(--color-warm));
 	}
 
 	/* ---- compact: a quiet one-liner for the homepage teaser and the method page. ---- */

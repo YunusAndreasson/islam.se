@@ -1,6 +1,8 @@
 ---
 import {
 	computePrayerTimes,
+	dateForStockholmDay,
+	stockholmDateParts,
 	formatTime,
 	nextPrayerKeyAt,
 	PRAYER_LABELS,
@@ -20,9 +22,15 @@ interface Props {
 	caption?: boolean;
 	/** Prioritize the schedule over the explanatory map on the national hub. */
 	scheduleFirst?: boolean;
+	/** City pages lead with the map: it is the page's whole argument — these times come
+	 *  from the sun's real position over this spot, not from a table — and the app's
+	 *  signature screen. The stage is rendered AFTER the list so the six times stay
+	 *  first in the source on the template that carries the site's search traffic;
+	 *  grid-template-areas paints it above them. */
+	mapFirst?: boolean;
 }
 
-const { location, variant = "home", fixed = false, caption = false, scheduleFirst = false } = Astro.props;
+const { location, variant = "home", fixed = false, caption = false, scheduleFirst = false, mapFirst = false } = Astro.props;
 
 // Build-time "today" with default settings — the no-JS / no-flash baseline. The client
 // recomputes live against the real now and the visitor's saved settings.
@@ -44,23 +52,22 @@ const rows = PRAYER_ORDER.map((key) => ({
 	// light-dark() rather than duplicated per scheme.
 	line: `light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`,
 }));
-const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
+const todayNext = nextPrayerKeyAt(times, now.getTime());
+const nextKey = todayNext ?? "fajr";
+const { year, month, day } = stockholmDateParts(now);
+const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dateForStockholmDay(year, month, day + 1), DEFAULT_SETTINGS).fajr;
 ---
 
 <div
 	class="bonetider-field"
-	class:list={[`bf-${variant}`, { "bf-schedule-first": scheduleFirst }]}
+	class:list={[`bf-${variant}`, { "bf-schedule-first": scheduleFirst, "bf-map-first": mapFirst }]}
 	data-name={location.name}
 	data-lat={location.latitude}
 	data-lon={location.longitude}
 	data-variant={variant}
 	data-fixed={fixed ? "1" : "0"}
 >
-	{/* The floating readout is the home variant's ONLY schedule, so it stays there. On
-	    the full variant the list beside the map already carries every prayer and marks
-	    the next one, so the dock was repeating it — and reserving a band of map to do
-	    it. Dropped, which lets the stage run the full height of that list. */}
-	<div class="bf-stage">
+	{!mapFirst && <div class="bf-stage">
 		<canvas class="bf-canvas" aria-hidden="true"></canvas>
 		{variant === "home" && (
 			<div class="bf-overlay">
@@ -74,7 +81,7 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 				<p class="bf-place">{location.name}</p>
 			</div>
 		)}
-	</div>
+	</div>}
 
 	{
 		caption && (
@@ -102,6 +109,31 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 			</li>
 		))}
 	</ul>
+
+	{/* The map-first stage. Rendered here, last, so the times precede it in the source;
+	    .bf-map-first paints it above them. The dock carries the one fact the list cannot
+	    show — how long is left — which is why it repeats the next prayer at all. */}
+	{mapFirst && (
+		<div class="bf-stage">
+			<canvas class="bf-canvas" aria-hidden="true"></canvas>
+			<div class="bf-overlay">
+				<p class="bf-next">
+					<span class="bf-next-prayer">
+						<span class="bf-next-lead">Nästa bön</span>
+						<span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>
+						<span class="bf-next-sub">{PRAYER_SWEDISH_NAMES[nextKey]}</span>
+					</span>
+					<span class="bf-next-when">
+						<span class="bf-next-time">{formatTime(nextTime)}</span>
+						<span class="bf-countdown"></span>
+					</span>
+				</p>
+			</div>
+		</div>
+	)}
+	{mapFirst && (
+		<p class="bf-legend"><slot name="legend" /></p>
+	)}
 </div>
 
 <style>
@@ -345,6 +377,56 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		}
 		.bf-schedule-first .bf-stage { aspect-ratio: auto; }
 	}
+
+	/* City pages lead with the map — it is the page's argument and the app's signature
+	   screen, and it was previously a 342x256 diagram at position 6 of 12. Areas, not
+	   source order: the six times are written before the stage so the answer stays first
+	   in the document on the template that carries ~86% of the site's search clicks.
+	   Only the paint order changes. */
+	.bf-map-first {
+		grid-template-areas: "map" "legend" "times";
+		gap: 0.9rem;
+	}
+	.bf-map-first .bf-stage { grid-area: map; aspect-ratio: 4 / 3; }
+	.bf-map-first .bf-legend { grid-area: legend; margin: 0; font-size: var(--step--3); line-height: 1.5; color: var(--color-muted); text-wrap: pretty; }
+	.bf-map-first .bf-legend:empty { display: none; }
+	.bf-map-first .bf-times { grid-area: times; }
+	/* Match the hub: the time is apparatus, so it takes the sans face at a step up. */
+	.bf-map-first .bf-t-time { font-family: var(--font-heading); font-size: var(--step-1); font-weight: 600; }
+
+	/* The dock. The list below already names the next prayer and highlights its row, so
+	   the dock exists for the countdown — the one fact the list cannot carry. */
+	.bf-next-lead { font-family: var(--font-heading); font-size: var(--step--3); color: var(--color-muted); }
+	.bf-next-when { display: flex; flex-direction: column; align-items: flex-end; gap: 0.05rem; }
+	.bf-map-first .bf-next-time {
+		font-family: var(--font-heading);
+		font-size: var(--step-1);
+		font-weight: 600;
+		font-variant-numeric: tabular-nums lining-nums;
+		color: var(--color-text);
+		line-height: 1.1;
+	}
+	.bf-map-first .bf-countdown { font-size: var(--step--3); color: var(--color-muted); }
+
+	/* The dock hugs the bottom LEFT and stops short of half the frame. Full width, it
+	   sat over southern Sweden and hid Goteborg and Malmo behind the readout — on the
+	   two pages most likely to be read. Open sea and Norway are what it covers here. */
+	.bf-map-first .bf-overlay {
+		right: auto;
+		max-width: min(62%, 16rem);
+	}
+	.bf-map-first .bf-next { flex-direction: column; align-items: stretch; gap: 0.15rem; }
+	.bf-map-first .bf-next-when { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
+
+	@media (width >= 640px) {
+		.bf-map-first {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+			grid-template-areas: "map times" "legend times";
+			align-items: start;
+			column-gap: clamp(1.5rem, 4vw, 3rem);
+		}
+	}
+
 
 	@media (prefers-reduced-motion: reduce) {
 		.bf-canvas {

@@ -196,9 +196,29 @@ function mountOne(el: HTMLElement): void {
 		// cheap readout still paints now, so times/countdown are live immediately.
 		inst.visible = false;
 		visObserver.observe(el);
-		loadRenderer(inst, canvas, variant);
+		// ...and idle-gate the chunk itself. Until the city pages led with the map, every
+		// canvas on the site sat below the fold, so the observer alone kept the ~550ms
+		// contour build off the critical path. An above-the-fold stage intersects
+		// immediately, which would run that long task inside the initial load of all
+		// 2 128 city pages — 91 % of them on a phone. The stage holds its space with the
+		// flat SEA colour meanwhile and the times are already painted, so nothing the
+		// reader actually came for is waiting on this.
+		whenIdle(() => loadRenderer(inst, canvas, variant));
 	}
 	paint(inst, new Date());
+}
+
+type IdleWindow = Window &
+	typeof globalThis & {
+		requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+	};
+
+/** Run after the browser has finished the work the reader is waiting for. The timeout is
+ *  the backstop for a tab that never goes idle; Safari has no rIC, hence the fallback. */
+function whenIdle(fn: () => void): void {
+	const ric = (window as IdleWindow).requestIdleCallback;
+	if (ric) ric(fn, { timeout: 2000 });
+	else window.setTimeout(fn, 200);
 }
 
 /** Fetch the renderer alongside the readout paint, so it is normally in place before the
@@ -304,7 +324,7 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 	}
 	if (inst.readout.nextName) inst.readout.nextName.textContent = PRAYER_LABELS[st.nextKey];
 	if (inst.readout.nextSub) inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[st.nextKey];
-	if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(st.today[st.nextKey]);
+	if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(new Date(st.target));
 	if (inst.readout.countdown) {
 		inst.readout.countdown.textContent = Number.isFinite(st.target)
 			? formatCountdown(st.target - now.getTime())
@@ -379,6 +399,14 @@ function wireGeolocation(): void {
 						latitude: pos.coords.latitude,
 						longitude: pos.coords.longitude,
 					});
+					// A city page pins its own town (fixed={true}), so a stored location changes
+					// nothing on screen — the reader would press the button and watch Rinkeby's
+					// times stay Rinkeby's. Take them to the town they are standing in instead.
+					if (btn.dataset.nav === "1") {
+						finish(status ? `Öppnar ${best.name} …` : undefined);
+						window.location.href = `/bonetider/${best.slug}/`;
+						return;
+					}
 					finish(status ? `Visar tider för ${best.name}.` : undefined);
 				} catch {
 					finish("Kunde inte läsa in orterna. Försök igen.");
@@ -465,7 +493,7 @@ function updateCountdownOnly(inst: Instance, now: Date): void {
 		}
 		if (inst.readout.nextName) inst.readout.nextName.textContent = PRAYER_LABELS[st.nextKey];
 		if (inst.readout.nextSub) inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[st.nextKey];
-		if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(st.today[st.nextKey]);
+		if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(new Date(st.target));
 		inst.renderedNextKey = st.nextKey;
 	}
 	inst.readout.countdown.textContent = Number.isFinite(st.target)

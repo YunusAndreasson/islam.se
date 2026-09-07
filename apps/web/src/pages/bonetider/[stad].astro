@@ -1,12 +1,15 @@
 ---
+import { ChevronDown, Settings } from "@lucide/astro";
 import AppPromo from "../../components/AppPromo.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import NearbyLinkList from "../../components/NearbyLinkList.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
+import CityPrayerPlanning from "../../components/bonetider/CityPrayerPlanning.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import PrayerTable from "../../components/bonetider/PrayerTable.astro";
+import LocationButton from "../../components/finder/LocationButton.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
@@ -183,21 +186,6 @@ function ordinal(n: number): string {
 	return `${n}${suffix}`;
 }
 
-// Where the place sits, without repeating the name (Stockholm tätort = Stockholm
-// kommun) and without genitive-form guessing on county names.
-const whereParts: string[] = [];
-if (place.kommun && place.kommun !== place.name) whereParts.push(`${place.kommun} kommun`);
-if (place.county && place.county !== place.name && place.county !== place.kommun) whereParts.push(place.county);
-const where = whereParts.length ? ` i ${whereParts.join(", ")}` : "";
-
-// Direct-answer lead (AEO): a concise, true summary up top – no stale clock values.
-const popClause = hasScb ? ` Orten har ${popText} invånare (${SCB_SOURCE}).` : "";
-// When the town has its own mosque page, name it up front (real "moské i {stad}"
-// keyword, above the fold) and point to the addresses further down.
-const mosqueLead = hasMosquePage
-	? ` I ${place.name} finns också ${cityMosquePhrase} med adress och vägbeskrivning längre ned på sidan.`
-	: "";
-const lead = `Bönetider för ${place.name}${where}.${popClause} Tiderna för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ beräknas efter solens läge och uppdateras automatiskt varje dag.${mosqueLead}`;
 
 // Per-place daylight prose – what actually makes each page different by latitude.
 const daylightPara =
@@ -306,7 +294,7 @@ if (hasMosquePage) {
 	// the "Moskéer nära" section below carries the actual links).
 	faq.push({
 		q: `Finns det någon moské i ${place.name}?`,
-		a: `Ja. Enligt vår karta över moskéer i Sverige finns ${cityMosquePhrase} i ${place.name}. Adress, öppningsår och vägbeskrivning visas längre ned på sidan.`,
+		a: `Ja. Enligt vår karta över moskéer i Sverige finns ${cityMosquePhrase} i ${place.name}. Adress, öppningsår och vägbeskrivning finns i sidans moskéavsnitt.`,
 	});
 	// Everything else on this page answers when a prayer ENTERS. A reader heading for a
 	// mosque needs to know that is not when the congregation forms — and that we do not
@@ -377,91 +365,118 @@ if (hasScb) {
 			<Breadcrumb items={crumbs} />
 			{/* `titlePlace`, not `place.name`: 150 pages shared an H1 with the town that owns
 			    the bare slug (two "Bönetider i Alvik"), while their titles already differed. */}
-			<h1>Bönetider i {titlePlace} idag</h1>
-			<p class="bt-stad-sub">
-				{place.county ? `${place.county} · ` : ""}{lat1}° N, {lon1}° O
+			<h1 id="bt-city-title">Bönetider i {titlePlace} idag</h1>
+			{/* One meta line — the hub's caption device. It replaced a county line and a
+			    separate date line that between them said the same thing in three blocks. */}
+			<p class="meta-line bt-stad-when">
+				{place.county && <>{place.county}<span aria-hidden="true"> · </span></>}
+				<time datetime={todayIso} class="bt-today-date">{todayLabel}</time>
+				<span aria-hidden="true"> · </span><span class="bt-today-hijri">{hijriToday}</span>
 			</p>
-			<p class="bt-stad-lead">{lead}</p>
 		</header>
 
-		{/* PrayerField already renders today's six times beside the map, so the
-		    standalone list that used to sit under this heading printed the identical
-		    readout twice, ~200 px apart. The heading, date and note now frame that one
-		    readout instead of introducing a second copy. */}
-		<TitledSection class="bt-stad-section bt-stad-idag" id="bt-stad-idag" title={`Dagens bönetider i ${place.name}`}>
-			<p class="meta-line bt-stad-date">
-				I dag · <time datetime={todayIso} class="bt-today-date">{todayLabel}</time> · <span class="bt-today-hijri">{hijriToday}</span>
+		{/* The map leads (PrayerField mapFirst) because it is what this page argues: the
+		    times come from the sun over this spot, not from a table. The six times are
+		    still written before it in the source, and all of it is server-rendered. */}
+		<section class="bt-stad-section bt-stad-idag" id="bt-stad-idag" aria-labelledby="bt-city-title">
+			<PrayerField location={location} variant="full" fixed={true} mapFirst>
+				<Fragment slot="legend">
+					Linjerna visar var Maghrib och ʿIshāʾ går in över landet just nu. {place.name} ligger på {lat1}° nordlig bredd.
+				</Fragment>
+			</PrayerField>
+			<CityPrayerPlanning location={location} part="today" />
+			{/* Landed on the wrong town — common, since a bare "bönetider" search can drop a
+			    reader on any of 2 128 pages. The full PlaceSearch inlines every place as JSON
+			    and is hub-only for that reason; this is the cheap half of the same control. */}
+			<p class="bt-stad-switch">
+				<LocationButton class="bf-geo" data-nav="1" aria-describedby="bt-geo-status">Använd min plats</LocationButton>
+				<a href="/bonetider/orter/">Alla orter</a>
 			</p>
-			<PrayerField location={location} variant="full" fixed={true} />
+			<p id="bt-geo-status" class="bt-geo-status" role="status"></p>
+			<details id="bt-stad-settings" class="bt-city-settings">
+				<summary class="bt-settings-summary">
+					<Settings size={16} aria-hidden="true" />
+					Beräkningsinställningar
+					<ChevronDown class="settings-chevron" size={16} aria-hidden="true" />
+				</summary>
+				<div class="bt-settings-body"><PrayerSettings /></div>
+			</details>
+		</section>
+
+		{/* The reader who came for one number, got it, and would like to keep it. A
+		    subscription is the only thing on this page that requires a click and is still
+		    there tomorrow (see lib/bonetider/ics.ts), and the app is the only one of these
+		    that can wake someone for Fajr. All three used to be footnotes: the calendar and
+		    PDF as inline links in a muted paragraph under a 31-row table, the app in a card
+		    below the FAQ and the facts list, ~6 000 px down on the phone that 91 % of these
+		    readers are holding. */}
+		<TitledSection class="bt-stad-section bt-stad-take" id="bt-stad-ta-med" title="Ta med tiderna">
+			<AppPromo variant="city" />
+			<ul class="bt-take">
+				<li>
+					<a href={`webcal://islam.se/bonetider/${place.slug}/kalender.ics`}>
+						<span class="bt-take-title">Prenumerera i kalendern</span>
+						<span class="bt-take-gloss">Månadens fem böner i din egen kalender. Uppdateras varje natt.</span>
+					</a>
+				</li>
+				<li>
+					<a href={`/bonetider/${place.slug}/kalender.ics`} type="text/calendar">
+						<span class="bt-take-title">Hämta .ics-filen</span>
+						<span class="bt-take-gloss">Samma tider som en fil att spara eller skicka vidare.</span>
+					</a>
+				</li>
+				{hasPdf && (
+					<li>
+						<a href={`/bonetider/${place.slug}/kalender.pdf`} type="application/pdf">
+							<span class="bt-take-title">Månadens tider som PDF</span>
+							<span class="bt-take-gloss">Ett A4-ark att skriva ut för kylskåpsdörren eller moskéns farstu.</span>
+						</a>
+					</li>
+				)}
+			</ul>
+			<CityPrayerPlanning location={location} part="take" />
 			<p class="bt-stad-note">
-				Tiderna beräknas direkt i din webbläsare. Sveriges ljusa sommarnätter gör att Fajr och
-				ʿIshāʾ ligger nära varandra – kartan visar varför: solen sjunker bara en bit under
-				horisonten.
+				Standardmetod: Muslim World League. Egna inställningar följer inte med i kalendern{hasPdf ? " eller PDF:en" : ""}.
 			</p>
-		</TitledSection>
-
-		<AppPromo variant="section" />
-
-		{hasScb && (
-			<TitledSection class="bt-stad-section" id="bt-stad-fakta" title={`Fakta om ${place.name}`}>
-				<dl class="bt-facts">
-					{placeFactRows.map((row) => (
-						<div class="bt-fact">
-							<dt>{row.term}</dt>
-							<dd>
-								{row.value}
-								{row.note && <span class="bt-fact-note"> {row.note}</span>}
-							</dd>
-						</div>
-					))}
-				</dl>
-				<p class="bt-facts-src">Källa: {SCB_SOURCE} ({SCB_REF}).</p>
-			</TitledSection>
-		)}
-
-		<TitledSection class="bt-stad-section bt-prose" id="bt-stad-about" title={`Om bönetiderna i ${place.name}`}>
-			<p>
-				{place.name} ligger {place.county ? `i ${place.county}, ` : ""}på {lat1}° nordlig bredd.
-				Bönetiderna beräknas utifrån solens verkliga läge för just denna position – inte från en
-				tabell – så att de stämmer med dygnet på orten.
-			</p>
-			<p>{daylightPara}</p>
-			<p>
-				Tiderna gäller tidszonen Europe/Stockholm och växlar automatiskt mellan vinter- och
-				sommartid. Vill du finjustera mot din moské kan du byta metod och madhhab nedan, eller läsa
-				mer om <a href="/bonetider/metod/">hur tiderna beräknas</a>.
-			</p>
-		</TitledSection>
-
-		<TitledSection class="bt-stad-section" id="bt-stad-settings" title="Inställningar">
-			<PrayerSettings />
 		</TitledSection>
 
 		<TitledSection class="bt-stad-section" id="bt-stad-month" title={`Bönetider i ${place.name} – ${monthLabel}`}>
 			<PrayerTable location={location} labelledBy="bt-stad-month" />
-			{/* En prenumeration är det enda på den här sidan som kräver ett klick och
-			    finns kvar efteråt — allt annat kan Google svara på i resultatlistan.
-			    webcal:// får kalenderappen att ta över i stället för webbläsaren; .ics
-			    står kvar som länk för den som hellre sparar filen. */}
-			<p class="bt-stad-note bt-stad-kalender">
-				Ta med tiderna:
-				<a href={`webcal://islam.se/bonetider/${place.slug}/kalender.ics`}>Lägg till i kalendern</a>
-				<span aria-hidden="true"> · </span>
-				<a href={`/bonetider/${place.slug}/kalender.ics`} type="text/calendar">Hämta .ics-filen</a>
-				{hasPdf && (
-					<>
-						<span aria-hidden="true"> · </span>
-						<a href={`/bonetider/${place.slug}/kalender.pdf`} type="application/pdf">
-							Månadens tider som PDF
-						</a>
-					</>
-				)}
-				<br />
-				Kalendern rymmer månadens fem böner och fylls på varje natt; PDF:en är ett A4-ark
-				att skriva ut. Båda följer standardmetoden (Muslim World League) – egna
-				inställningar gäller på sidan, inte i filerna.
+			<p class="bt-stad-note">
+				Hela månaden, dag för dag. <a href="#bt-stad-ta-med">Ta med tiderna</a> i kalendern{hasPdf ? " eller som PDF" : ""}.
 			</p>
 		</TitledSection>
+
+		{featuredMosques.length > 0 && (
+			<TitledSection class="bt-stad-section" id="bt-stad-moske" title={featuredMosquesTitle}>
+				<p class="bt-stad-note">
+					{hasMosquePage
+						? `Moskéer i ${place.name} enligt vår `
+						: `Närmaste ${featuredMosques.length === 1 ? "registrerade moské" : "registrerade moskéer"} enligt vår `}
+					<a href="/moskeer/">karta över moskéer i Sverige</a>. Välj en för plats och vägbeskrivning. Tiderna ovan visar när bönen går in; kontakta moskén för tider för gemensam bön och fredagsbön.
+				</p>
+				<ul class="bt-mosques">
+					{featuredMosques.map((m) => {
+						const dir = directionsLinks(m);
+						return (
+							<li class="bt-mosque">
+								<a href={`/moskeer/${m.citySlug}/#${m.id}`} class="bt-mosque-name">{m.name}</a>
+								<span class="bt-mosque-loc">{locationLabel(m)}{m.opened ? ` · öppnad ${m.opened}` : ""}</span>
+								<span class="bt-mosque-dir">
+									<a href={dir.apple} class="map-dir-btn">Apple Maps</a>
+									<a href={dir.google} class="map-dir-btn">Google Maps</a>
+								</span>
+							</li>
+						);
+					})}
+				</ul>
+				<p class="bt-faq-more">
+					<SectionLink href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer/"}>
+						{hasMosquePage ? `Moskéer i ${place.name}` : "Alla moskéer i Sverige"}
+					</SectionLink>
+				</p>
+			</TitledSection>
+		)}
 
 		{ramadan && ramadanTider && (
 			<TitledSection
@@ -470,6 +485,7 @@ if (hasScb) {
 				title={`Ramadan ${ramadan.year} i ${place.name}`}
 			>
 				<p class="meta-line">{ramadanSpan} · {ramadan.hijriYear} e.H.</p>
+				<div class="bt-ramadan-scroll">
 				<table class="bt-ramadan-table">
 					<caption class="sr-only">
 						Suhūr, iftar och fastans längd i {place.name} under ramadan {ramadan.year}
@@ -497,14 +513,32 @@ if (hasScb) {
 						</tr>
 					</tbody>
 				</table>
+				</div>
 				<p class="bt-stad-note">
 					Suhūr slutar när Fajr går in och fastan bryts vid Maghrib – samma tider som
 					sidans egen tabell, dag för dag. Datumen följer Umm al-Qura; den första dagen
 					bekräftas genom månsiktning och kan skilja sig en dag.
+				</p>
+				<p class="bt-faq-more">
 					<SectionLink href="/bonetider/ramadan/">Ramadan {ramadan.year} i hela Sverige</SectionLink>
 				</p>
 			</TitledSection>
 		)}
+
+		<TitledSection class="bt-stad-section bt-prose" id="bt-stad-about" title={`Om bönetiderna i ${place.name}`}>
+			{/* The map moved to the top of the page — this prose keeps every word it had. */}
+			<p>
+				{place.name} ligger {place.county ? `i ${place.county}, ` : ""}på {lat1}° nordlig bredd.
+				Bönetiderna beräknas utifrån solens verkliga läge för just denna position – inte från en
+				tabell – så att de stämmer med dygnet på orten.
+			</p>
+			<p>{daylightPara}</p>
+			<p>
+				Tiderna gäller tidszonen Europe/Stockholm och växlar automatiskt mellan vinter- och
+				sommartid. Vill du finjustera mot din moské kan du byta metod och madhhab i inställningarna vid dagens tider, eller läsa
+				mer om <a href="/bonetider/metod/">hur tiderna beräknas</a>.
+			</p>
+		</TitledSection>
 
 		<TitledSection class="bt-stad-section" id="bt-stad-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
@@ -513,40 +547,29 @@ if (hasScb) {
 			</p>
 		</TitledSection>
 
-		{featuredMosques.length > 0 && (
-			<TitledSection class="bt-stad-section" id="bt-stad-moske" title={featuredMosquesTitle}>
-				<p class="bt-stad-note">
-					{hasMosquePage
-						? `Moskéer i ${place.name} enligt vår `
-						: `Närmaste ${featuredMosques.length === 1 ? "registrerade moské" : "registrerade moskéer"} enligt vår `}
-					<a href="/moskeer/">karta över moskéer i Sverige</a>. Välj en för plats och vägbeskrivning.
-				</p>
-				<ul class="bt-mosques">
-					{featuredMosques.map((m) => {
-						const dir = directionsLinks(m);
-						return (
-							<li class="bt-mosque">
-								<a href={`/moskeer/${m.citySlug}/#${m.id}`} class="bt-mosque-name">{m.name}</a>
-								<span class="bt-mosque-loc">{locationLabel(m)}{m.opened ? ` · öppnad ${m.opened}` : ""}</span>
-								<span class="bt-mosque-dir">
-									<a href={dir.apple} class="map-dir-btn">Apple Maps</a>
-									<a href={dir.google} class="map-dir-btn">Google Maps</a>
-								</span>
-							</li>
-						);
-					})}
-				</ul>
-				<p class="bt-faq-more">
-					<SectionLink href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer/"}>
-						{hasMosquePage ? `Moskéer i ${place.name}` : "Alla moskéer i Sverige"}
-					</SectionLink>
-				</p>
-			</TitledSection>
-		)}
-
 		{nearby.length > 0 && (
 			<TitledSection class="bt-stad-section" id="bt-stad-nearby" title="Bönetider i närliggande orter">
 				<NearbyLinkList class="bt-nearby" items={nearbyLinks} />
+				{/* /bonetider/orter/ is the only real city index and had exactly one inbound
+				    link on the whole site. From here it has 2 128. */}
+				<SectionLink href="/bonetider/orter/">Alla orter i Sverige</SectionLink>
+			</TitledSection>
+		)}
+
+		{hasScb && (
+			<TitledSection class="bt-stad-section" id="bt-stad-fakta" title={`Fakta om ${place.name}`}>
+				<dl class="bt-facts">
+					{placeFactRows.map((row) => (
+						<div class="bt-fact">
+							<dt>{row.term}</dt>
+							<dd>
+								{row.value}
+								{row.note && <span class="bt-fact-note"> {row.note}</span>}
+							</dd>
+						</div>
+					))}
+				</dl>
+				<p class="bt-facts-src">Källa: {SCB_SOURCE} ({SCB_REF}).</p>
 			</TitledSection>
 		)}
 
@@ -568,38 +591,96 @@ if (hasScb) {
 		overflow-x: clip;
 	}
 
+	.bt-stad-idag { margin-top: 1.25rem; }
+	.bt-stad-section { scroll-margin-top: 5rem; }
+
 	.bt-stad-header h1 {
 		margin: var(--space-half) 0 0;
 	}
 
-	.bt-stad-sub {
-		font-family: var(--font-body);
-		color: var(--color-muted);
+	/* Which place, which day, which hijri date — one line where three blocks used to
+	   stand between the H1 and the first prayer time. */
+	.bt-stad-when {
 		font-variant-numeric: lining-nums tabular-nums;
 		margin: var(--space-half) 0 0;
 	}
 
-	.bt-stad-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
-	}
+	/* Only the weekday takes a capital. `capitalize` here also hit the month, and
+	   Swedish months are lower case: "Mandag 7 September 2026". */
+	.bt-stad-when time { color: var(--color-text); }
+	.bt-stad-when time::first-letter { text-transform: uppercase; }
 
-	/* The lead paragraph used to butt straight into the map — measured 0 px where
-	   every neighbouring gap was 15–49 px, so proximity grouped the map with the
-	   header text instead of letting it open its own movement. The date line is the
-	   map's label and stays close to it; the map keeps a full step of air above. */
+	/* The map keeps a full step of air above it: proximity was grouping it with the
+	   header text instead of letting it open its own movement. */
 	.bt-stad-idag :global(.bonetider-field) {
 		margin-top: var(--space-unit);
 	}
 
-	.bt-stad-date time {
-		color: var(--color-text);
-		text-transform: capitalize;
+	/* Wrong town. Two controls, not the hub's full search: that one inlines all 2 128
+	   places as JSON, which no city page can afford. */
+	.bt-stad-switch {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: .75rem 1.25rem;
+		margin: var(--space-unit) 0 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+	}
+
+	.bt-geo-status { margin: .5rem 0 0; font-size: var(--step--2); color: var(--color-muted); }
+	.bt-geo-status:empty { margin: 0; }
+
+	/* Settings: the hub's disclosure, which was already the better one. */
+	.bt-city-settings { margin-block: var(--space-half); }
+	.bt-settings-summary {
+		display: flex;
+		align-items: center;
+		gap: .5rem;
+		width: fit-content;
+		min-height: 2.75rem;
+		cursor: pointer;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--color-muted);
+	}
+	.bt-settings-summary::-webkit-details-marker { display: none; }
+	.bt-city-settings[open] .bt-settings-summary { color: var(--color-text); }
+	.bt-city-settings[open] :global(.settings-chevron) { transform: rotate(180deg); }
+	.bt-settings-body { margin-block: var(--space-half); }
+
+	/* "Ta med tiderna" — the ruled rows the site already uses for a list of things to
+	   go and do, with a gloss under each so the choice is legible before the tap. */
+	.bt-take {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		max-width: var(--content-width);
+	}
+	.bt-take { border-top: 1px solid var(--color-rule); }
+	.bt-take li + li { border-top: 1px solid var(--color-rule); }
+	.bt-take a {
+		display: block;
+		padding-block: .85rem;
+		text-decoration: none;
+	}
+	.bt-take a:hover .bt-take-title,
+	.bt-take a:focus-visible .bt-take-title {
+		text-decoration: underline;
+		text-underline-offset: .15em;
+	}
+	.bt-take-title {
+		display: block;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: var(--step--1);
+		color: var(--color-accent);
+	}
+	.bt-take-gloss {
+		display: block;
+		font-size: var(--step--2);
+		color: var(--color-muted);
+		text-wrap: pretty;
 	}
 
 	.bt-stad-note {
@@ -608,6 +689,56 @@ if (hasScb) {
 		max-width: 40rem;
 		margin: var(--space-half) 0 var(--space-unit);
 		text-wrap: pretty;
+	}
+
+	/* Ramadan's two boundary days. This shipped as a bare <table>: no rules, no
+	   alignment, headers breaking mid-phrase ("Suhur / slutar", "Forsta / dagen") and
+	   the iftar column colliding with the fast length — while the month table two
+	   sections above had the full treatment. Same idiom as that one: hairline rules,
+	   the sans face for the apparatus, tabular figures, everything ranged left. */
+	.bt-ramadan-scroll {
+		overflow-x: auto;
+		margin: var(--space-half) 0 0;
+	}
+
+	.bt-ramadan-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-family: var(--font-body);
+		/* Same step as the month table: at --step--2 the fast-length column ran off the
+		   right edge of a 390px phone and had to be scrolled to. */
+		font-size: var(--step--3);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.bt-ramadan-table th,
+	.bt-ramadan-table td {
+		padding: .7rem .75rem .7rem 0;
+		text-align: start;
+		white-space: nowrap;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.bt-ramadan-table th:last-child,
+	.bt-ramadan-table td:last-child {
+		padding-inline-end: 0;
+	}
+
+	.bt-ramadan-table thead th {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-muted);
+		border-bottom-color: var(--color-rule);
+	}
+
+	.bt-ramadan-table tbody th {
+		color: var(--color-text);
+		font-weight: 600;
+	}
+
+	.bt-ramadan-table tbody tr:last-child th,
+	.bt-ramadan-table tbody tr:last-child td {
+		border-bottom: 0;
 	}
 
 	/* Official-stats block. Reserved, static layout → no CLS. */

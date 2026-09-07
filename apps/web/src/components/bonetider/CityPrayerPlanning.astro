@@ -1,0 +1,88 @@
+---
+import { cityPlanning } from "../../lib/bonetider/city-planning";
+import { formatTime, PRAYER_LABELS, PRAYER_ORDER } from "../../lib/bonetider/prayer-times";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+import { methodLabel, madhabLabel } from "../../lib/bonetider/settings-options";
+
+interface Props {
+	location: { name: string; latitude: number; longitude: number };
+	/** "today" rides with the day's times and carries only the fasting line, which is
+	 *  the most-wanted fact on the page for one month a year. "take" sits in the
+	 *  "Ta med tiderna" section with tomorrow and the method readout. Both render a
+	 *  .city-planning element; refreshPlanning() below updates whichever parts exist. */
+	part?: "today" | "take";
+}
+const { location, part = "take" } = Astro.props;
+const plan = cityPlanning(location, new Date(), DEFAULT_SETTINGS);
+const dateLabel = plan.tomorrow.toLocaleDateString("sv-SE", { day: "numeric", month: "long", timeZone: "Europe/Stockholm" });
+---
+
+<div class="city-planning" data-lat={location.latitude} data-lon={location.longitude}>
+	{part === "today" && (
+		<p class="city-ramadan" hidden={!plan.isRamadan}>
+			<strong>Fastan i dag:</strong> Suhūr slutar <span data-fasting="fajr">{formatTime(plan.today.fajr)}</span>
+			· Iftar <span data-fasting="maghrib">{formatTime(plan.today.maghrib)}</span>.
+			<a href="#bt-stad-ramadan">Om ramadans datum</a>
+		</p>
+	)}
+	{part === "take" && (
+		<>
+			<details class="city-tomorrow">
+				<summary>Bönetider i morgon · <span data-tomorrow-date>{dateLabel}</span></summary>
+				<dl class="city-tomorrow-times">
+					{PRAYER_ORDER.map((key) => (
+						<div><dt>{PRAYER_LABELS[key]}</dt><dd data-tomorrow-prayer={key}>{formatTime(plan.times[key])}</dd></div>
+					))}
+				</dl>
+			</details>
+			<p class="city-method">Metod: <span data-city-method>{methodLabel(DEFAULT_SETTINGS)} · {madhabLabel(DEFAULT_SETTINGS)}</span>. Tiderna gäller svensk lokal tid.</p>
+		</>
+	)}
+</div>
+
+<style>
+	.city-method { color: var(--color-muted); font-size: var(--step--2); margin-block: 1rem; }
+	summary { display: list-item; padding-block: .75rem; cursor: pointer; }
+	.city-tomorrow { margin-top: .5rem; border-top: 1px solid var(--color-rule); }
+	.city-tomorrow-times { margin: .5rem 0; max-width: 32rem; }
+	.city-tomorrow-times div { display: flex; justify-content: space-between; gap: 1rem; padding-block: .5rem; border-bottom: 1px solid var(--color-divider); }
+	dd { margin: 0; font-variant-numeric: tabular-nums; }
+	.city-ramadan { padding-block: .75rem; }
+</style>
+
+<script>
+	import { cityPlanning } from "../../lib/bonetider/city-planning";
+	import { formatTime, PRAYER_ORDER, stockholmDayKey } from "../../lib/bonetider/prayer-times";
+	import { methodLabel, madhabLabel } from "../../lib/bonetider/settings-options";
+	import { CHANGE_EVENT, loadSettings } from "../../lib/bonetider/storage";
+
+	function refreshPlanning() {
+		const now = new Date();
+		const settings = loadSettings();
+		const key = `${stockholmDayKey(now)}|${JSON.stringify(settings)}`;
+		for (const el of document.querySelectorAll<HTMLElement>(".city-planning")) {
+			if (el.dataset.rendered === key) continue;
+			el.dataset.rendered = key;
+			const plan = cityPlanning({ latitude: Number(el.dataset.lat), longitude: Number(el.dataset.lon) }, now, settings);
+			const method = el.querySelector("[data-city-method]");
+			if (method) method.textContent = `${methodLabel(settings)} · ${madhabLabel(settings)}`;
+			const date = el.querySelector("[data-tomorrow-date]");
+			if (date) date.textContent = plan.tomorrow.toLocaleDateString("sv-SE", { day: "numeric", month: "long", timeZone: "Europe/Stockholm" });
+			for (const prayer of PRAYER_ORDER) {
+				const time = el.querySelector(`[data-tomorrow-prayer="${prayer}"]`);
+				if (time) time.textContent = formatTime(plan.times[prayer]);
+			}
+			const fasting = el.querySelector<HTMLElement>(".city-ramadan");
+			if (fasting) fasting.hidden = !plan.isRamadan;
+			for (const prayer of ["fajr", "maghrib"] as const) {
+				const time = el.querySelector(`[data-fasting="${prayer}"]`);
+				if (time) time.textContent = formatTime(plan.today[prayer]);
+			}
+		}
+	}
+	document.addEventListener("astro:page-load", refreshPlanning);
+	window.addEventListener(CHANGE_EVENT, refreshPlanning);
+	document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshPlanning(); });
+	// One module-level timer across view transitions; calculations are cached by day/settings.
+	setInterval(() => { if (!document.hidden && document.querySelector(".city-planning")) refreshPlanning(); }, 60_000);
+</script>

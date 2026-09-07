@@ -16,23 +16,28 @@ export const PLAY_STORE_URL = `https://play.google.com/store/apps/details?id=${P
  *  sectarian framing). Rendered as the feature list on the /app page. */
 export const APP_FEATURES = [
 	{
+		key: "tider",
 		term: "Bönetider för din ort",
 		gloss: "Dygnets fem böner, ställda efter den metod din moské följer.",
 	},
 	{
+		key: "karta",
 		term: "Solens gång över landet",
 		gloss:
 			"En karta där ljuset vandrar över Sverige och visar hur långt det är kvar till nästa bön.",
 	},
 	{
+		key: "qibla",
 		term: "Qiblan",
 		gloss: "En kompass mot Kaba, räknad för platsen där du står.",
 	},
 	{
+		key: "paminnelse",
 		term: "Påminnelse före bön",
 		gloss: "En avisering när det närmar sig, och nästa bön på hem- och låsskärmen.",
 	},
 	{
+		key: "integritet",
 		term: "Ingen spårning",
 		gloss: "Inget konto, inga annonser. Orten du väljer stannar i telefonen.",
 	},
@@ -41,3 +46,14 @@ export const APP_FEATURES = [
 /** One line, shown under the heading everywhere the app is mentioned. No em dash. */
 export const APP_TAGLINE =
 	"Bönetider för hela Sverige, uträknade i telefonen och ritade efter solens gång över landet.";
+
+/** What the city prayer pages lead with: the three things that page cannot do for
+ *  itself. On a surface that is 91 % phones, naming them beats a bare badge pair —
+ *  the page has just answered "when is the prayer", so the app has to answer
+ *  something else to be worth a download. */
+const CITY_KEYS = ["paminnelse", "qibla", "karta"] as const;
+export const APP_CITY_FEATURES = CITY_KEYS.map((k) => {
+	const f = APP_FEATURES.find((x) => x.key === k);
+	if (!f) throw new Error(`APP_CITY_FEATURES: no APP_FEATURES entry keyed "${k}"`);
+	return f;
+});
