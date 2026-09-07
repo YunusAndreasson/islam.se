@@ -100,12 +100,15 @@ const here = (href: string) => href === currentHref;
 				spellcheck="false"
 				enterkeyhint="go"
 			/>
+			<button class="palette-clear" type="button" aria-label="Rensa sökning" hidden><X size={20} aria-hidden="true" /></button>
 		</div>
 		<p class="palette-hint label" aria-live="polite"></p>
 
 		{/* Typed results. Empty and hidden until the reader types — the listbox
 		    semantics belong here and nowhere else. */}
 		<div class="palette-results" id="palette-results" role="listbox" aria-label="Resultat" hidden></div>
+		<button class="palette-more" type="button" hidden>Visa fler</button>
+		<button class="palette-retry" type="button" hidden>Försök igen</button>
 
 		{/* The menu proper. Not a listbox: it is a set of links with headings, and
 		    Tab is the right way through it. */}
@@ -270,6 +273,10 @@ const here = (href: string) => href === currentHref;
 
 		&::placeholder { color: var(--color-muted); }
 	}
+
+	.palette-clear { flex-shrink: 0; min-width: 44px; min-height: 44px; display: grid; place-items: center; background: transparent; border: 0; color: var(--color-muted); cursor: pointer; }
+	.palette-clear[hidden] { display: none; }
+	.palette-more, .palette-retry { margin-block: 1rem; padding: .65rem 1rem; cursor: pointer; }
 
 	.palette-input::-webkit-search-cancel-button { -webkit-appearance: none; }
 
@@ -652,8 +659,13 @@ const here = (href: string) => href === currentHref;
 		const browse = dialog.querySelector<HTMLElement>(".palette-browse")!;
 		const closeBtn = dialog.querySelector<HTMLButtonElement>(".palette-close")!;
 
-		// Cache the fetch even when it fails or returns no entries; opening the
-		// palette should not repeatedly request an unavailable index.
+		const clearBtn = dialog.querySelector<HTMLButtonElement>(".palette-clear")!;
+		const moreBtn = dialog.querySelector<HTMLButtonElement>(".palette-more")!;
+		const retryBtn = dialog.querySelector<HTMLButtonElement>(".palette-retry")!;
+		let expanded = false;
+		let indexFailed = false;
+
+		// Cache successful loads; failed loads can be retried explicitly.
 		// The dialog is transition:persist, so this module is evaluated once per full page
 		// load and the fetch is not repeated across client-side navigations.
 		let search = createPaletteSearch([]);
@@ -661,10 +673,13 @@ const here = (href: string) => href === currentHref;
 		let indexPromise: Promise<void> | null = null;
 		function loadIndex(): Promise<void> {
 			indexPromise ??= fetch("/search-index.json")
-				.then((r) => (r.ok ? r.json() : []))
-				.then((d: unknown) => { search = createPaletteSearch(Array.isArray(d) ? (d as PaletteEntry[]) : []); })
-				.catch(() => { search = createPaletteSearch([]); })
-				.finally(() => { indexReady = true; });
+				.then((r) => { if (!r.ok) throw new Error("Search index unavailable"); return r.json(); })
+				.then((d: unknown) => {
+					if (!Array.isArray(d) || !d.every((e) => e && typeof e.label === "string" && typeof e.sub === "string" && typeof e.href === "string" && typeof e.type === "string" && (e.alt === undefined || typeof e.alt === "string"))) throw new Error("Invalid search index");
+					search = createPaletteSearch(d as PaletteEntry[]);
+					indexReady = true;
+				})
+				.catch(() => { indexFailed = true; });
 			return indexPromise;
 		}
 
@@ -701,14 +716,19 @@ const here = (href: string) => href === currentHref;
 			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${escapeXml(e.href)}" data-astro-prefetch="tap"><span class="palette-row-main"><span class="palette-row-label">${escapeXml(e.label)}</span><span class="palette-row-sub">${escapeXml(e.sub)}</span></span><span class="palette-row-type label">${escapeXml(e.type)}</span></a>`;
 		}
 
-		function renderSearch(q: string): { html: string; count: number } {
+		function renderSearch(q: string): { html: string; count: number; total: number; loose: boolean } {
 			let out = "";
 			let count = 0;
-			for (const { heading, entries: list } of search(q)) {
+			let total = 0;
+			let loose = false;
+			for (const section of search(q, expanded)) {
+				const { heading, entries: list } = section;
+				total += section.total;
+				loose = section.loose;
 				out += `<section class="palette-group"><p class="palette-group-head label">${heading}</p><div class="palette-rows">${list.map(row).join("")}</div></section>`;
 				count += list.length;
 			}
-			return { html: out, count };
+			return { html: out, count, total, loose };
 		}
 
 		// Two panes, one at a time: the menu is the resting state, results replace
@@ -716,6 +736,9 @@ const here = (href: string) => href === currentHref;
 		function render() {
 			const raw = input.value.trim();
 			const q = fold(raw);
+			clearBtn.hidden = !input.value;
+			moreBtn.hidden = true;
+			retryBtn.hidden = true;
 			if (!q) {
 				results.innerHTML = "";
 				results.hidden = true;
@@ -726,6 +749,18 @@ const here = (href: string) => href === currentHref;
 				setActive(-1);
 				return;
 			}
+			if (!indexReady) {
+				results.hidden = true;
+				browse.hidden = true;
+				opts = [];
+				setActive(-1);
+				input.setAttribute("aria-expanded", "false");
+			}
+			if (indexFailed) {
+				hint.textContent = "Sökningen kunde inte laddas.";
+				retryBtn.hidden = false;
+				return;
+			}
 			// Normally warmed by the tap that opened the palette, so this is a rare path.
 			if (!indexReady) {
 				hint.textContent = "Söker …";
@@ -733,11 +768,14 @@ const here = (href: string) => href === currentHref;
 				return;
 			}
 			n = 0;
-			const { html, count } = renderSearch(q);
+			const { html, count, total, loose } = renderSearch(q);
+			moreBtn.hidden = count >= total;
 			results.innerHTML = html || `<p class="palette-empty">Inga träffar för »${escapeXml(raw)}«.</p>`;
 			browse.hidden = true;
 			results.hidden = false;
-			hint.textContent = count ? `${count} ${count === 1 ? "träff" : "träffar"}` : "Inga träffar";
+			hint.textContent = count
+				? `${loose ? "Ingen exakt träff – visar liknande resultat. " : ""}${count < total ? `Visar ${count} av ${total} träffar` : `${total} ${total === 1 ? "träff" : "träffar"}`}`
+				: "Inga träffar";
 			input.setAttribute("aria-expanded", "true");
 			opts = Array.from(results.querySelectorAll<HTMLAnchorElement>(".palette-opt"));
 			setActive(opts.length ? 0 : -1);
@@ -750,15 +788,11 @@ const here = (href: string) => href === currentHref;
 		// On touch, focusing the input raises the on-screen keyboard over the menu
 		// the reader just opened — the "Meny" button must show a menu, not a keyboard.
 		//
-		// Opening is what resets the panes, not closing: a dialog can be dismissed
-		// half a dozen ways (Escape, the button, a link, a route change) and every
-		// one of them would have to remember to tidy up. Tidying on the way in
-		// happens exactly once, on the one path that matters.
+		// Keep the query when reopening so readers can try another result.
 		function open(focusField = !coarse()) {
 			if (dialog.open) return;
 			void loadIndex();
 			dialog.showModal();
-			input.value = "";
 			render();
 			(focusField ? input : dialog).focus();
 		}
@@ -776,9 +810,21 @@ const here = (href: string) => href === currentHref;
 
 		// --- wiring (once) -------------------------------------------------
 		// Nothing to do on close: the browser restores focus to whatever opened the
-		// dialog, the scroll lock is CSS reading [open], and the panes reset on the
-		// way back in.
-		input.addEventListener("input", render);
+		// dialog, and the scroll lock is CSS reading [open]. The query stays intact.
+		input.addEventListener("input", () => { expanded = false; render(); });
+		clearBtn.addEventListener("click", () => {
+			input.value = "";
+			expanded = false;
+			render();
+			input.focus();
+		});
+		moreBtn.addEventListener("click", () => { expanded = true; render(); input.focus(); });
+		retryBtn.addEventListener("click", () => {
+			indexFailed = false;
+			indexPromise = null;
+			render();
+			input.focus();
+		});
 		results.addEventListener("mouseover", (e) => {
 			const o = (e.target as HTMLElement).closest<HTMLElement>(".palette-opt");
 			if (o?.dataset.i) setActive(+o.dataset.i);
@@ -794,7 +840,7 @@ const here = (href: string) => href === currentHref;
 		// Enter drive the result list; in menu mode Tab is the right way through.
 		dialog.addEventListener("keydown", (e) => {
 			if (e.key === "Escape") { e.stopPropagation(); return; }
-			if (results.hidden) return;
+			if (results.hidden || e.target !== input || e.isComposing) return;
 			if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
 			else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
 			else if (e.key === "Enter") { e.preventDefault(); go(opts[active] ?? opts[0]); }

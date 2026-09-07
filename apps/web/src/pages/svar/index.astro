@@ -73,7 +73,6 @@ const grunderna = FAKTA_SVAR_ORDER.map((slug) => bySlug.get(slug)).filter((e) =>
 
 const groups = groupSvar(entries);
 const listed = groups.flatMap((g) => g.entries);
-const searchable = listed.length + grunderna.length;
 
 const svarRows = (items: typeof listed) =>
 	items.map((e) => ({
@@ -119,8 +118,8 @@ const description =
 			<>
 				{/* Narrows this page only; ⌘K still searches the whole site. */}
 				<search aria-label="Sök frågor och svar"><form class="svar-search">
-					<label class="sr-only" for="svar-q">Sök bland frågorna</label>
-					<SearchInput id="svar-q" placeholder={`Sök bland ${searchable} frågor`} controls="svar-results" />
+					<label class="sr-only" for="svar-q">Sök frågor och svar</label>
+					<SearchInput id="svar-q" placeholder="Sök frågor och svar" controls="svar-results" />
 				</form></search>
 				<div class="svar-search-actions">
 					<p class="svar-search-status label" role="status"></p>

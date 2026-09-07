@@ -78,7 +78,40 @@ describe("palette search", () => {
 		const original = structuredClone(entries);
 		const search = createPaletteSearch(entries);
 		expect(search("bön").map((s) => s.entries.length)).toEqual([8, 8]);
+		expect(search("bön").map((s) => s.total)).toEqual([12, 12]);
+		expect(search("bön", true).map((s) => s.entries.length)).toEqual([12, 12]);
 		expect(search("bön")).toEqual(search("BON"));
 		expect(entries).toEqual(original);
+	});
+
+	it("matches separate words across fields and ranks consecutive matches first", () => {
+		const search = createPaletteSearch([
+			entry("Fasta", { sub: "Under ramadan" }),
+			entry("Fasta ramadan"),
+			entry("Ramadan utan fasta"),
+			entry("Ramadan"),
+		]);
+		expect(labels(search, "fasta ramadan")).toEqual([
+			"Fasta ramadan",
+			"Fasta",
+			"Ramadan utan fasta",
+		]);
+		expect(labels(search, "ramadan, fasta")).toHaveLength(3);
+		expect(labels(search, "fasta   ramadan")).toHaveLength(3);
+		expect(search("?!")).toEqual([]);
+	});
+
+	it("uses typo tolerance only when there are no exact token matches", () => {
+		const search = createPaletteSearch([
+			entry("Ramadan"),
+			entry("Fastan under ramadan"),
+			entry("Ramadanmat"),
+		]);
+		expect(labels(search, "ramdaan")).toContain("Ramadan");
+		expect(search("ramdaan")[0]?.loose).toBe(true);
+		expect(labels(search, "ramadanmat")).toEqual(["Ramadanmat"]);
+		expect(search("ramadanmat")[0]?.loose).toBe(false);
+		expect(labels(search, "ramdaan fastan")).toEqual(["Fastan under ramadan"]);
+		expect(search("xyz")).toEqual([]);
 	});
 });

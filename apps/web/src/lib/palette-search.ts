@@ -1,4 +1,4 @@
-import { fold } from "./search-text";
+import { closeEnough, fold, foldedWords } from "./search-text";
 
 export type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
 
@@ -49,6 +49,8 @@ interface PreparedEntry {
 	label: string;
 	sub: string;
 	alt: string;
+	text: string;
+	words: string[];
 }
 
 function score(prepared: PreparedEntry, q: string): number {
@@ -80,6 +82,8 @@ export function createPaletteSearch(entries: readonly PaletteEntry[]) {
 		label: fold(entry.label),
 		sub: fold(entry.sub),
 		alt: fold(entry.alt ?? ""),
+		text: fold(`${entry.label} ${entry.sub} ${entry.alt ?? ""}`),
+		words: foldedWords(`${entry.label} ${entry.sub} ${entry.alt ?? ""}`),
 	}));
 	// Partition once too: results are ordered by section, so cross-section sorting
 	// and type score bonuses cannot affect the displayed ranking.
@@ -90,17 +94,42 @@ export function createPaletteSearch(entries: readonly PaletteEntry[]) {
 				entry.type === section.type && (!section.group || entry.group === section.group),
 		),
 	}));
-	return (query: string): { heading: string; entries: PaletteEntry[] }[] => {
+	return (
+		query: string,
+		expanded = false,
+	): { heading: string; entries: PaletteEntry[]; total: number; loose: boolean }[] => {
 		const q = fold(query.trim());
 		if (!q) return [];
+		const tokens = fold(query)
+			.split(/[^\p{L}\p{N}]+/u)
+			.filter(Boolean);
+		if (!tokens.length) return [];
+		const exact = (e: PreparedEntry) => tokens.every((token) => e.text.includes(token));
+		const loose = !prepared.some(exact);
 		return sections.flatMap((section) => {
 			const list = section.prepared
-				.map((e) => ({ e: e.entry, s: score(e, q) }))
+				.filter((e) =>
+					loose
+						? tokens.every(
+								(token) =>
+									e.text.includes(token) || e.words.some((word) => closeEnough(token, word)),
+							)
+						: exact(e),
+				)
+				.map((e) => ({ e: e.entry, s: score(e, q) || 50 }))
 				.filter((h) => h.s > 0)
 				.sort((a, b) => b.s - a.s)
-				.slice(0, section.limit)
 				.map((h) => h.e);
-			return list.length ? [{ heading: section.heading, entries: list }] : [];
+			return list.length
+				? [
+						{
+							heading: section.heading,
+							entries: expanded ? list : list.slice(0, section.limit),
+							total: list.length,
+							loose,
+						},
+					]
+				: [];
 		});
 	};
 }

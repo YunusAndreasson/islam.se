@@ -263,9 +263,10 @@ if (oldest?.opened) {
 			updatedLabel={updated}
 		/>
 
-		{photo && <MosqueHero photo={photo} eager={true} />}
 
 		<MosqueList mosques={mosques} />
+
+		{photo && <MosqueHero photo={photo} />}
 
 		{isSeat && siblings.length > 0 && (
 			<TitledSection class="mk-section" id="mk-stad-delar" title={`Moskéer i ${city}s stadsdelar`}>
@@ -290,7 +291,7 @@ if (oldest?.opened) {
 				id="mk-stad-tider"
 				title={`Bönetider i ${city} i dag`}
 			>
-				<PrayerField location={location} variant="full" fixed={true} caption={true} />
+				<PrayerField location={location} variant="full" fixed={true} caption={true} scheduleFirst={true} />
 				<p class="mk-stad-note">
 					Tiderna gäller när bönen går in, beräknat efter solens läge i {city}. Den
 					gemensamma bönen (jamāʿa) hålls oftast en stund senare – {n === 1 ? "moskén" : "varje moské"}
