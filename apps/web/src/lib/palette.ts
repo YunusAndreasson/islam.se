@@ -2,8 +2,10 @@ import { getCollection } from "astro:content";
 import { AMNEN } from "./amnen";
 import { getArticles } from "./articles";
 import { INDEXED_PLACES, officialPopulation } from "./bonetider/places-index";
+import { memoize } from "./cache";
 import { FAKTA_SLUGS } from "./fakta";
 import { STANDING_PALETTE_PAGES } from "./navigation";
+import type { PaletteEntry } from "./palette-search";
 // Folded here exactly as the client matcher folds it — a redundancy test below
 // only means anything if both ends agree on what "the same text" is.
 import { fold } from "./search-text";
@@ -12,30 +14,7 @@ import { fold } from "./search-text";
 // palette (SearchOverlay) is the sole navigation surface now that the mast is
 // wordmark-only, so this index must cover *everything* a reader can reach:
 // the standing pages, the three browse axes (ämnen/trådar/tänkare), and every
-// essay. Built once at build time and serialized into an inline JSON island.
-type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
-
-export interface PaletteEntry {
-	type: PaletteType;
-	/** What the reader matches against and what the row/chip shows. */
-	label: string;
-	/** A one-line gloss — framing prose or the essay lead; also searched. */
-	sub: string;
-	/** A cornerstone answer. Breaks score ties toward the canonical page, so
-	    "ramadan" opens "Vad är ramadan?" and not "Måste gravida fasta?". */
-	core?: true;
-	/** Extra wording matched but never shown. Answer pages carry the question in
-	    the reader's own words here, so typing the query the page was written for
-	    ("får muslimer dricka alkohol") finds it even when the title is phrased
-	    differently. */
-	alt?: string;
-	href: string;
-	/** Tänkare only: which tradition the thinker belongs to, so the palette can
-	    list the classical Islamic scholars apart from the Swedish/Western voices
-	    instead of interleaving the two — the same division the /tankare directory
-	    draws. */
-	group?: "sunni" | "western";
-}
+// essay. Built once and served as /search-index.json.
 
 /** How many localities ride along in the index. The largest few cover the queries people
  *  actually type, and the rest stay one click away via the hub. NOTE: the cap was set when
@@ -43,7 +22,7 @@ export interface PaletteEntry {
  *  /search-index.json, so raising it costs one page's worth of nothing. */
 const PLACE_ENTRIES = 30;
 
-export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
+export const buildPaletteIndex = memoize(async (): Promise<PaletteEntry[]> => {
 	const [tradar, tankare, svar, articles] = await Promise.all([
 		getCollection("tradar"),
 		getCollection("tankare"),
@@ -75,8 +54,8 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 
 	// The whole FRÅGOR & SVAR corpus, cornerstone FAKTA pages included: these are
 	// the site's most-searched destinations, so a reader typing "halal" or "tawhid"
-	// must reach the answer rather than "Inga träffar". The index is inlined into
-	// every page, so `question` is carried only when it isn't already spelled out
+	// must reach the answer rather than "Inga träffar". To keep the fetched index
+	// compact, `question` is carried only when it isn't already spelled out
 	// in the title or the gloss — for most answers the title opens with the
 	// question verbatim, and repeating it would be pure payload.
 	const svarEntries: PaletteEntry[] = svar.map((s) => {
@@ -95,9 +74,8 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 	// The prayer-time pages are the largest surface on the site — 2 128 localities
 	// — and none of them were reachable from the palette: typing "malmö" returned
 	// an essay that happens to mention it, while /bonetider/malmo/ stayed invisible.
-	// The whole index cannot go in (it is inlined into every page), so the largest
-	// PLACE_ENTRIES localities carry it. Everything below that is still reachable
-	// from the /bonetider/ hub, which the "Bönetider" page entry opens.
+	// The largest PLACE_ENTRIES localities keep the fetched index compact. The
+	// remaining places are reachable from the /bonetider/ hub.
 	const orter: PaletteEntry[] = [...INDEXED_PLACES]
 		.sort((a, b) => officialPopulation(b) - officialPopulation(a))
 		.slice(0, PLACE_ENTRIES)
@@ -105,7 +83,7 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 			type: "Ort" as const,
 			label: `Bönetider i ${p.name}`,
 			// The county disambiguates same-named localities and is what a reader
-			// scanning the list actually needs; keep it terse — this ships on every page.
+			// scanning the list actually needs; keep it terse for search results.
 			sub: p.county ? `${p.name}, ${p.county}.` : `${p.name}.`,
 			// So a bare "malmö" matches without the "Bönetider i " prefix in the way.
 			alt: p.name,
@@ -130,4 +108,4 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 		...tankareEntries,
 		...essays,
 	];
-}
+});

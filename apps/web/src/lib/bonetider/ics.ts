@@ -63,20 +63,22 @@ function fold(line: string): string {
 	return out + (out ? "\r\n " : "") + cur;
 }
 
+const LOCAL_STAMP_FORMAT = new Intl.DateTimeFormat("sv-SE", {
+	timeZone: TIME_ZONE,
+	year: "numeric",
+	month: "2-digit",
+	day: "2-digit",
+	hour: "2-digit",
+	minute: "2-digit",
+	second: "2-digit",
+	hour12: false,
+});
+
 /** Lokal tid som RFC 5545 DATE-TIME utan zonsuffix — zonen bärs av TZID-parametern.
  *  Läses ur Intl i Europe/Stockholm, så sommartidsskiftet sköter sig självt. */
 function localStamp(date: Date): string | null {
 	if (!Number.isFinite(date.getTime())) return null;
-	const parts = new Intl.DateTimeFormat("sv-SE", {
-		timeZone: TIME_ZONE,
-		year: "numeric",
-		month: "2-digit",
-		day: "2-digit",
-		hour: "2-digit",
-		minute: "2-digit",
-		second: "2-digit",
-		hour12: false,
-	}).formatToParts(date);
+	const parts = LOCAL_STAMP_FORMAT.formatToParts(date);
 	const get = (t: string) => parts.find((p) => p.type === t)?.value;
 	const [y, m, d, h, mi, s] = [
 		get("year"),

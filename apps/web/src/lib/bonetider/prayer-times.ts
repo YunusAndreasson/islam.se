@@ -103,6 +103,25 @@ function coordsValid(coords: LatLng): boolean {
 // build host's timezone decide which Swedish calendar day is being calculated.
 export const TIME_ZONE = "Europe/Stockholm";
 
+const STOCKHOLM_TIME_FORMAT = new Intl.DateTimeFormat("sv-SE", {
+	timeZone: TIME_ZONE,
+	hour: "2-digit",
+	minute: "2-digit",
+});
+const STOCKHOLM_MONTH_FORMAT = new Intl.DateTimeFormat("sv-SE", {
+	timeZone: TIME_ZONE,
+	month: "long",
+});
+const STOCKHOLM_WEEKDAY_FORMAT = new Intl.DateTimeFormat("sv-SE", {
+	timeZone: TIME_ZONE,
+	weekday: "short",
+});
+
+/** Abbreviated Swedish weekday, shared by static and refreshed prayer tables. */
+export function stockholmWeekdayLabel(date: Date): string {
+	return STOCKHOLM_WEEKDAY_FORMAT.format(date);
+}
+
 const STOCKHOLM_DATE_FORMAT = new Intl.DateTimeFormat("sv-SE", {
 	timeZone: TIME_ZONE,
 	year: "numeric",
@@ -155,9 +174,7 @@ export function dateForStockholmDay(year: number, month: number, day: number): D
  *  above it must name the same month, so both read it from here. */
 export function stockholmMonthLabel(date: Date): string {
 	const { year, month } = stockholmDateParts(date);
-	const name = new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, month: "long" }).format(
-		dateForStockholmDay(year, month, 15),
-	);
+	const name = STOCKHOLM_MONTH_FORMAT.format(dateForStockholmDay(year, month, 15));
 	return `${name} ${year}`;
 }
 
@@ -260,9 +277,5 @@ export const PRAYER_SWEDISH_NAMES: Record<PrayerKey, string> = {
  */
 export function formatTime(date: Date | null | undefined): string {
 	if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "—";
-	return new Intl.DateTimeFormat("sv-SE", {
-		timeZone: TIME_ZONE,
-		hour: "2-digit",
-		minute: "2-digit",
-	}).format(date);
+	return STOCKHOLM_TIME_FORMAT.format(date);
 }

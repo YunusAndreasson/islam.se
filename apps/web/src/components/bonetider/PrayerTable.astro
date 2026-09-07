@@ -6,7 +6,7 @@ import {
 	PRAYER_LABELS,
 	PRAYER_ORDER,
 	stockholmDateParts,
-	TIME_ZONE,
+	stockholmWeekdayLabel,
 } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 
@@ -23,8 +23,6 @@ const { location, labelledBy } = Astro.props;
 // field above reflects the visitor's own settings; this table is the SEO/no-JS baseline.
 const now = new Date();
 const { year, month, day: todayD } = stockholmDateParts(now);
-const fmt = (opts: Intl.DateTimeFormatOptions, d: Date) =>
-	new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, ...opts }).format(d);
 const daysInMonth = new Date(year, month + 1, 0).getDate();
 
 const rows = Array.from({ length: daysInMonth }, (_, i) => {
@@ -33,7 +31,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	const t = computePrayerTimes(location, date, DEFAULT_SETTINGS);
 	return {
 		d,
-		weekday: fmt({ weekday: "short" }, date),
+		weekday: stockholmWeekdayLabel(date),
 		iso: `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`,
 		times: PRAYER_ORDER.map((k) => formatTime(t[k])),
 	};
@@ -179,12 +177,10 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		formatTime,
 		PRAYER_ORDER,
 		stockholmDateParts,
-		TIME_ZONE,
+		stockholmWeekdayLabel,
+		stockholmMonthLabel,
 	} from "../../lib/bonetider/prayer-times";
 	import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
-
-	const fmt = (opts: Intl.DateTimeFormatOptions, d: Date): string =>
-		new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, ...opts }).format(d);
 
 	let renderedMonthKey = "";
 	let refreshTimer: number | undefined;
@@ -201,7 +197,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		const daysInMonth = new Date(year, month + 1, 0).getDate();
 		// The heading outside this table names the month, so it has to be renamed too. A
 		// static build that crosses a month boundary otherwise labels July's rows "juni".
-		const monthLabel = `${fmt({ month: "long" }, new Date(Date.UTC(year, month, 15, 12)))} ${year}`;
+		const monthLabel = stockholmMonthLabel(dateForStockholmDay(year, month, 15));
 		const headingId = fig.dataset.btHeading;
 		const label = headingId ? document.getElementById(headingId) : null;
 		if (label) label.textContent = `Bönetider i ${name} – ${monthLabel}`;
@@ -234,7 +230,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 				th.scope = "row";
 				const time = scope(document.createElement("time"));
 				time.dateTime = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-				time.textContent = `${fmt({ weekday: "short" }, new Date(Date.UTC(year, month, d, 12)))} ${d}`;
+				time.textContent = `${stockholmWeekdayLabel(date)} ${d}`;
 				th.append(time);
 				tr.append(th);
 

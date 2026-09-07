@@ -12,8 +12,10 @@
  * digits have varying heights and widths, so a stack of values will not align.
  */
 
-const PLAIN = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
-const ONE_DECIMAL = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 1 });
+import { nf0, nf1 } from "../format";
+
+// Charts reuse each fixed precision across every tick, value and caption.
+const FIXED_DECIMALS = new Map<number, Intl.NumberFormat>();
 const TWO_DECIMALS = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 2 });
 
 /**
@@ -25,15 +27,20 @@ const TWO_DECIMALS = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 2 }
 export function formatNumber(value: number, decimals?: number): string {
 	if (!Number.isFinite(value)) return "–";
 	if (decimals !== undefined) {
-		return new Intl.NumberFormat("sv-SE", {
-			minimumFractionDigits: decimals,
-			maximumFractionDigits: decimals,
-		}).format(value);
+		let formatter = FIXED_DECIMALS.get(decimals);
+		if (!formatter) {
+			formatter = new Intl.NumberFormat("sv-SE", {
+				minimumFractionDigits: decimals,
+				maximumFractionDigits: decimals,
+			});
+			FIXED_DECIMALS.set(decimals, formatter);
+		}
+		return formatter.format(value);
 	}
 	const magnitude = Math.abs(value);
-	if (Number.isInteger(value)) return PLAIN.format(value);
-	if (magnitude >= 100) return PLAIN.format(value);
-	if (magnitude >= 10) return ONE_DECIMAL.format(value);
+	if (Number.isInteger(value)) return nf0.format(value);
+	if (magnitude >= 100) return nf0.format(value);
+	if (magnitude >= 10) return nf1.format(value);
 	return TWO_DECIMALS.format(value);
 }
 
@@ -77,7 +84,7 @@ export function formatValue(value: number, unit?: string, decimals?: number): st
 /** A share of a whole, for `stack` segment labels and the alt text. */
 export function formatShare(part: number, total: number): string {
 	if (!(Number.isFinite(part) && total > 0)) return "–";
-	return `${ONE_DECIMAL.format((part / total) * 100)}\u00A0%`;
+	return `${nf1.format((part / total) * 100)}\u00A0%`;
 }
 
 /**

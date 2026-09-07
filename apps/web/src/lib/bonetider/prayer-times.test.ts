@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { computePrayerTimes, nextPrayerKeyAt, stockholmDayKey } from "./prayer-times";
+import {
+	computePrayerTimes,
+	formatTime,
+	nextPrayerKeyAt,
+	stockholmDayKey,
+	stockholmMonthLabel,
+	stockholmWeekdayLabel,
+} from "./prayer-times";
 import { DEFAULT_COORDS, DEFAULT_SETTINGS, type PrayerSettings } from "./settings";
 
 // Every instant here is written as an absolute UTC timestamp on purpose: the whole point of
@@ -90,5 +97,24 @@ describe("a day-keyed prayer cache agrees with recomputing from scratch", () => 
 			}
 		}
 		expect(drift, `${drift.length} instants where the cached next prayer was wrong`).toEqual([]);
+	});
+});
+
+describe("Stockholm display formatting", () => {
+	it("follows the spring and autumn clock changes", () => {
+		expect(formatTime(new Date("2026-03-29T00:59:00Z"))).toBe("01:59");
+		expect(formatTime(new Date("2026-03-29T01:00:00Z"))).toBe("03:00");
+		expect(formatTime(new Date("2026-10-25T00:59:00Z"))).toBe("02:59");
+		expect(formatTime(new Date("2026-10-25T01:00:00Z"))).toBe("02:00");
+	});
+	it("labels the Swedish day and month when UTC is still in the previous month", () => {
+		const date = new Date("2026-08-31T22:30:00Z");
+		expect(stockholmMonthLabel(date)).toBe("september 2026");
+		expect(stockholmWeekdayLabel(date)).toBe("tis");
+	});
+	it("preserves missing and unresolved prayer times as dashes", () => {
+		for (const value of [null, undefined, new Date(Number.NaN)]) {
+			expect(formatTime(value)).toBe("—");
+		}
 	});
 });

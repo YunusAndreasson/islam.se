@@ -683,54 +683,7 @@ const here = (href: string) => href === currentHref;
 	// than re-declared so the two can never drift apart.
 	import { fold } from "../lib/search-text";
 	import { escapeXml } from "../lib/xml";
-
-	type PType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
-	interface Entry { type: PType; label: string; sub: string; alt?: string; core?: true; href: string; group?: "sunni" | "western"; }
-
-	// Results render in sections, not raw types: Tänkare splits into its two
-	// traditions so the classical Islamic scholars never interleave with the
-	// Swedish/Western voices (the same division the /tankare directory draws).
-	// Each section is one heading + the entries it claims.
-	type SectionKey = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Sunni" | "Western" | "Essä";
-	const SECTION: Record<SectionKey, { heading: string; match: (e: Entry) => boolean }> = {
-		Sida:    { heading: "Sidor",  match: (e) => e.type === "Sida" },
-		Svar:    { heading: "Frågor & svar", match: (e) => e.type === "Svar" },
-		Ort:     { heading: "Bönetider", match: (e) => e.type === "Ort" },
-		Ämne:    { heading: "Ämnen",  match: (e) => e.type === "Ämne" },
-		Tråd:    { heading: "Trådar", match: (e) => e.type === "Tråd" },
-		Sunni:   { heading: "Den klassiska islamiska traditionen", match: (e) => e.type === "Tänkare" && e.group === "sunni" },
-		Western: { heading: "Svenska och västerländska röster",    match: (e) => e.type === "Tänkare" && e.group === "western" },
-		Essä:    { heading: "Essäer", match: (e) => e.type === "Essä" },
-	};
-	// Search ranks structure above essays, with the answer pages right below the
-	// standing pages: a bare noun query ("halal", "hijab") is nearly always someone
-	// looking for the answer, not the essay that alludes to it.
-	const SEARCH_ORDER: SectionKey[] = ["Sida", "Svar", "Ort", "Ämne", "Tråd", "Sunni", "Western", "Essä"];
-	const ESSAY_CAP = 8;
-	const SVAR_CAP = 8;
-	// Small tiebreak so structure edges out an essay at equal textual score.
-	const TYPE_BONUS: Record<PType, number> = { Sida: 5, Svar: 4, Ort: 4, Ämne: 3, Tråd: 2, Tänkare: 1, Essä: 0 };
-
-	function score(e: Entry, q: string): number {
-		const label = fold(e.label);
-		let base = 0;
-		if (label === q) base = 1000;
-		else if (label.startsWith(q)) base = 700;
-		else if (label.includes(` ${q}`)) base = 500; // start of a later word
-		else if (label.includes(q)) base = 300;
-		else if (e.alt && fold(e.alt) === q) base = 700; // a locality's bare name
-		else if (fold(e.sub).includes(q)) base = 120;
-		else if (e.alt && fold(e.alt).includes(q)) base = 110;
-		if (!base) return 0;
-		// Sub-point tiebreaks, deliberately smaller than any TYPE_BONUS step so they
-		// only separate entries that are otherwise dead level. "ramadan" hit both
-		// "Vad är ramadan?" and "Måste gravida fasta under ramadan?" at the same
-		// word-start score, and the broader page lost on array order alone.
-		const cornerstone = e.core ? 0.5 : 0;
-		// Shorter titles are the more canonical page for a bare-noun query.
-		const brevity = Math.max(0, 60 - e.label.length) / 1000;
-		return base + TYPE_BONUS[e.type] + cornerstone + brevity;
-	}
+	import { createPaletteSearch, type PaletteEntry } from "../lib/palette-search";
 
 	let bound = false;
 
@@ -744,18 +697,18 @@ const here = (href: string) => href === currentHref;
 		const browse = dialog.querySelector<HTMLElement>(".palette-browse")!;
 		const closeBtn = dialog.querySelector<HTMLButtonElement>(".palette-close")!;
 
-		// The index is fetched, not inlined. `indexReady` rather than `entries.length` is the
-		// guard: a failed fetch leaves an empty array, and length would re-trigger forever.
+		// Cache the fetch even when it fails or returns no entries; opening the
+		// palette should not repeatedly request an unavailable index.
 		// The dialog is transition:persist, so this module is evaluated once per full page
 		// load and the fetch is not repeated across client-side navigations.
-		let entries: Entry[] = [];
+		let search = createPaletteSearch([]);
 		let indexReady = false;
 		let indexPromise: Promise<void> | null = null;
 		function loadIndex(): Promise<void> {
 			indexPromise ??= fetch("/search-index.json")
 				.then((r) => (r.ok ? r.json() : []))
-				.then((d: unknown) => { entries = Array.isArray(d) ? (d as Entry[]) : []; })
-				.catch(() => { entries = []; })
+				.then((d: unknown) => { search = createPaletteSearch(Array.isArray(d) ? (d as PaletteEntry[]) : []); })
+				.catch(() => { search = createPaletteSearch([]); })
 				.finally(() => { indexReady = true; });
 			return indexPromise;
 		}
@@ -788,25 +741,16 @@ const here = (href: string) => href === currentHref;
 
 		// --- rendering -----------------------------------------------------
 		let n = 0;
-		function row(e: Entry): string {
+		function row(e: PaletteEntry): string {
 			const i = n++;
-			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${e.href}" data-astro-prefetch="tap"><span class="palette-row-main"><span class="palette-row-label">${escapeXml(e.label)}</span><span class="palette-row-sub">${escapeXml(e.sub)}</span></span><span class="palette-row-type label">${escapeXml(e.type)}</span></a>`;
+			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${escapeXml(e.href)}" data-astro-prefetch="tap"><span class="palette-row-main"><span class="palette-row-label">${escapeXml(e.label)}</span><span class="palette-row-sub">${escapeXml(e.sub)}</span></span><span class="palette-row-type label">${escapeXml(e.type)}</span></a>`;
 		}
 
 		function renderSearch(q: string): { html: string; count: number } {
-			const hits = entries
-				.map((e) => ({ e, s: score(e, q) }))
-				.filter((h) => h.s > 0)
-				.sort((a, b) => b.s - a.s);
 			let out = "";
 			let count = 0;
-			for (const key of SEARCH_ORDER) {
-				const sec = SECTION[key];
-				let list = hits.filter((h) => sec.match(h.e)).map((h) => h.e);
-				if (key === "Essä") list = list.slice(0, ESSAY_CAP);
-				if (key === "Svar") list = list.slice(0, SVAR_CAP);
-				if (!list.length) continue;
-				out += `<section class="palette-group"><p class="palette-group-head label">${sec.heading}</p><div class="palette-rows">${list.map(row).join("")}</div></section>`;
+			for (const { heading, entries: list } of search(q)) {
+				out += `<section class="palette-group"><p class="palette-group-head label">${heading}</p><div class="palette-rows">${list.map(row).join("")}</div></section>`;
 				count += list.length;
 			}
 			return { html: out, count };
