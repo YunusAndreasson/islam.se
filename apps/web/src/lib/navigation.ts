@@ -186,17 +186,31 @@ export const PALETTE_MINOR_LINKS: NavLink[] = [
 	pages.privacy,
 ];
 
-export const FOOTER_LINKS: NavLink[] = [
-	pages.fordjupning,
-	pages.nyheter,
-	pages.tradar,
-	pages.tankare,
-	{ href: pages.calendar.href, label: pages.calendar.footerLabel },
-	pages.about,
-	pages.editorial,
-	pages.ai,
-	pages.privacy,
+export const FOOTER_GROUPS: { heading: string; links: NavLink[] }[] = [
+	{
+		heading: "Läs",
+		links: [
+			pages.pillars,
+			pages.svar,
+			pages.essaer,
+			pages.fordjupning,
+			pages.tradar,
+			pages.tankare,
+		],
+	},
+	{
+		heading: "Praktiskt",
+		links: [
+			pages.prayerTimes,
+			pages.mosques,
+			{ ...pages.calendar, label: pages.calendar.footerLabel },
+			pages.podcast,
+			pages.nyheter,
+		],
+	},
+	{ heading: "Om islam.se", links: [pages.about, pages.editorial, pages.ai, pages.privacy] },
 ];
+export const FOOTER_LINKS: NavLink[] = FOOTER_GROUPS.flatMap((group) => group.links);
 
 export const STANDING_PALETTE_PAGES: PalettePageLink[] = [
 	pages.essaer,

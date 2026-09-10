@@ -149,10 +149,13 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 				</figure>
 			)}
 
+			<div class="reading-section">
 			<Innehall headings={headings} />
 
 			<div class="article-body fordjupning-body prose">
 				<Content />
+			</div>
+
 			</div>
 
 			{data.faq.length > 0 && (

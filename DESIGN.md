@@ -18,51 +18,19 @@ Every element must answer: *does this help the reader stay in the essay, or does
 
 ---
 
-## Principle 1: The Hero Image Is the Gateway
+## Principle 1: Artwork Opens the Publication
 
-When an article has a hero image, it is full-screen, full-bleed, covering the entire viewport. It is the first thing the reader sees. It sets the emotional register before a single word is read.
-
-This is editorial art direction, not decoration. Editorial art is made *for* this essay, encodes something about its argument or mood, and would not work on a different essay. The hero's color palette, texture, and mood should rhyme with the typographic palette of the essay — both surfaces must feel like one publication.
-
-Most articles launch without a hero image. The text-only experience — title, metadata, and prose on warm off-white — is the primary design surface and must feel complete on its own. A hero image elevates; its absence must not diminish.
+Artwork gives each essay its emotional register. Preserve the commissioned, essay-specific imagery and its Swedish cultural setting. Text-only essays must feel equally complete.
 
 ### The Startpage
 
-The startpage is a composed sequence of *movements* down one wide editorial canvas (`--home-width`, wider than the reading column) — not a single screen, not a table of contents, and not an infinite feed. It opens like a magazine cover: the most recent essay that carries a hero image takes a full-width signature spread with its title. It then descends through a fixed, curated order:
+Keep the current editorial sequence: lead essay, two secondary essays, topic departments with a news/calendar rail, facts about Islam, deeper explanations, reading threads, thinkers, and the book/podcast. The lead remains the dominant image. Mobile browsing links sit below it. Do not replace this publication with a generic promotional landing page or reorder its priorities without a product decision.
 
-1. **Feature** — the latest essay, full-width hero.
-2. **Daily verse** — one Quran verse, Arabic and Swedish (Principle 12).
-3. **Recent essays** — the next few, an image-led list.
-4. **Pull-quote** — a single rotating line from the corpus.
-5. **Ämnen** — the seven topics, image-led.
-6. **Trådar** — curated reading threads (capped to four here).
-7. **Tänkare** — a balanced glimpse of the two facing traditions.
-8. **Det islamiska året** — the recurring Islamic calendar (Principle 12).
-9. **Boken & podden** — the book and the podcast.
-10. **Om / AI** — two quiet text codas.
-11. **Hela arkivet** — one line to the full archive.
+Use three image roles: wide feature, 3:2 collection card, compact thumbnail. Keep consistent crops within each role. The photograph has its own space; titles and introductions remain readable outside it. Quiet tonal treatment is sufficient: no competing lift, zoom, and vignette animation.
 
-Each movement is a `.home-movement`: generous vertical breathing between them, a small warm `.home-kicker` tick that names the section, and a hairline rule only where one is genuinely earned. The page must read as *one composition* — modules share a left/right edge and an inner measure, so it feels like chapters, not a stack of widgets. The latest essay still leads, presented with conviction; everything below is an invitation deeper, never a content dump. Each non-feature module stays quiet: it names itself, shows a glimpse, and links onward.
+### Article Openings
 
-This reading-led front page deliberately supersedes the earlier "cover only, no scroll" startpage. The editorial confidence that the single screen used to signal now lives in the feature spread at the top — the rest of the page rewards the reader who keeps going.
-
-### The Article Hero
-
-On the essay page, the hero occupies the full viewport on load. The title is set over or immediately below the image. As the reader scrolls, the hero gives way to the essay text. The transition should feel like opening a book — the cover yields to the first page.
-
-The hero does not compete with the essay. Once the reader scrolls past it, it is gone. It does not sticky, parallax, shrink, or follow. It served its purpose: it created a mood. Now the typography takes over.
-
-### Art Production
-
-The art must be produced for each article. The style should be consistent across the site (a recognizable visual language) while varying per essay.
-
-The art is not illustrative in the literal sense — it does not depict what the essay describes. It evokes. An essay about sleep and death might have an image of deep twilight over water. An essay about the call to prayer might use geometric light. The reader should feel something before understanding what the essay is about.
-
-### The Homepage Image Treatment
-
-The front page and collection surfaces are image-led: an essay's hero image is reused, smaller, as the doorway into it. To keep many crops from reading as a grid of pasted rectangles, every such image sits in a shared `.media-frame` — a base tonal wash on the image itself, a faint film-grain layer, and a soft inset vignette that melts the crop into the warm page. On hover or keyboard focus the frame lifts on a soft shadow, the vignette opens, and the wash eases back to full colour with a gentle zoom. The treatment is entirely CSS; the images carry no extra weight, and with motion reduced the lift and zoom are dropped. Crops are uniform per content type (feature 16∶9, recent 4∶3, ämnen 3∶2) so the rhythm stays even down the page.
-
----
+Title, introduction, metadata, artwork, and optional listening controls lead into the prose. Heroes are responsive and optional; they do not occupy a mandatory full viewport. Caption spacing belongs to the image. Artwork never follows the reader down the page.
 
 ## Principle 2: Typography Is the Design
 
@@ -80,9 +48,9 @@ The scale has **two halves**, both in `tokens.css`. Reach for a token; never typ
 
 | token | px | role |
 |---|---|---|
-| `--step-4` | 41.8 | h1 |
-| `--step-2` | 29.0 | h2 (essay register) |
-| `--step-1` | 24.2 | h3, list and card titles, h2 in the compact reference register |
+| `--step-4` | 39.4 | essay h1 |
+| `--step-2` | 27.4 | h2 (essay register) |
+| `--step-1` | 22.8 | h3, list and card titles |
 | `--step-0` | 19 / 17 mobile | body prose |
 | `--step--1` | 16.9 | secondary prose: leads, blurbs, card copy |
 | `--step--2` | 15.0 | dense prose: descriptions, table cells |
@@ -98,7 +66,7 @@ Deliberate exceptions are allowed and must say so in a comment at the call site:
 
 **Line height** must give long-form prose room to breathe: 1.5–1.6 for body text.
 
-**Paragraph spacing:** Vertical spacing between paragraphs, not indentation. Never both.
+**Paragraph rhythm:** Preserve the existing literary paragraph indentation and spacing rules. Reference-page grouping and interface spacing must not alter the prose rhythm.
 
 ### The Typeface
 
@@ -111,7 +79,7 @@ Criteria:
 - **True italics** (not slanted roman — italics carry meaning in literary text)
 - **Multiple weights** for hierarchy (regular, medium/semibold, bold minimum)
 
-Headings may use a contrasting face (sans-serif against serif body, or a display serif) but only one. Two typefaces maximum across the entire site.
+Literata carries editorial headings and prose; Source Sans carries navigation, controls, and metadata. Amiri Quran is reserved for Arabic verse. Use the font roles and type scale in tokens.css.
 
 ### Vertical Rhythm
 
@@ -151,7 +119,7 @@ Every article uses footnotes (typically 5–12 per essay) for scholarly apparatu
 
 - **Invisible on first read.** Inline reference marks must not disrupt the line rhythm. They signal "there is a source here" without demanding attention.
 - **Findable on second read.** The footnote section at the bottom must be clearly separated from the essay body, with smaller and more muted type. The reader must be able to jump to a footnote and jump back without losing their place in the essay.
-- **No JavaScript.** Footnotes stay at the bottom of the page. No popovers, no expandable inline notes. The simplest implementation is the most reliable. Astro's built-in markdown processor handles GFM footnote syntax natively — no additional plugins needed.
+- **Progressive enhancement.** Preserve real footnote and return anchors. Desktop sidenotes and the existing popovers support source checking; footnotes remain accessible without JavaScript.
 
 ### What Gets No Hierarchy
 
@@ -200,9 +168,11 @@ The reader must be able to find essays without the interface competing with the 
 
 ### Navigation
 
-The mast is reduced to two things: the wordmark (home) and a single `Sök ⌘K` trigger. No nav links in the header, no mega-menus, no dropdowns. **All navigation lives in a ⌘K command palette** (`SearchOverlay`): opened from the trigger or the ⌘K / Ctrl-K shortcut, it shows a browse menu in its empty state and ranked search across every destination once the reader types — the standing pages, the three browse axes (ämnen, trådar, tänkare), and every essay. The mast is sticky and auto-hides on scroll-down, returning on scroll-up.
+At widths above 900px the header exposes Pelare & tro, Frågor & svar, and Essäer, followed by the quieter practical links, next prayer, and search. Width controls navigation availability; a touch-capable laptop must not lose its links. At compact widths show an explicit Meny control and a labeled next-prayer time.
 
-Because the palette is JavaScript, a **site-wide footer** carries the same standing destinations as real `<a>` links on every page — Essäer, Trådar, Tänkare, Om, AI — plus the colophon. This is the crawlable navigation backstop: from these hubs a crawler (or a reader without JS) reaches every ämne (via Essäer), thread, thinker and essay. Navigation the reader summons (the palette) and navigation that must always be reachable (the footer) are kept as two distinct surfaces, neither one cluttering the reading column.
+The search/menu dialog uses a bounded desktop panel with reading and utility columns. Mobile uses a full-height single column. The title bar, close control, and search field remain accessible while content scrolls. Preserve keyboard shortcuts, native dialog focus handling, query retention, fuzzy matching, and error/retry feedback.
+
+The footer groups real links under Läs, Praktiskt, and Om islam.se. It is the navigation backstop without JavaScript. Current-page markers use weight and a visible rule, not color alone.
 
 ### The Browse Axes
 
@@ -216,7 +186,7 @@ These are glimpsed on the startpage and browsable in full at `/amnen/…`, `/tra
 
 ### The Essäer Page
 
-The essay archive at `/essaer` lists every published essay — title, date, reading time, and description. No cards, no thumbnails: the titles do the work. By default the list is grouped by **ämne** in the canonical order (each heading links to its ämne page); one quiet toggle re-groups it **chronologically** by year. A filter row (ämnen / trådar / tänkare / längd) opens a calm overlay for jumping to a section or narrowing by length — none of it required to read the list. Essays the reader has finished shift value in place (a muted title and a "läst" mark) rather than splitting off into a separate section, and a small ring shows how much of the archive is read. All of this is `localStorage`, no account.
+The essay archive at `/essaer` lists every published essay — title, date, reading time, and description. Use the existing editorial card and row variants; titles, imagery, and metadata have a consistent hierarchy. By default the list is grouped by **ämne** in the canonical order (each heading links to its ämne page); one quiet toggle re-groups it **chronologically** by year. A filter row (ämnen / trådar / tänkare / längd) opens a calm overlay for jumping to a section or narrowing by length — none of it required to read the list. Essays the reader has finished shift value in place (a muted title and a "läst" mark) rather than splitting off into a separate section, and a small ring shows how much of the archive is read. All of this is `localStorage`, no account.
 
 The list is ordered newest-first within each group. No pagination — the full archive on one page. If it grows to hundreds of essays, reconsider — but not before.
 
@@ -224,11 +194,21 @@ The archive is accessible from the navigation ("Essäer") and from the end of ev
 
 ### Within an Essay
 
-The section headings serve as internal navigation. On longer essays, a minimal table of contents (a list of h2s) at the top can help — but only if it does not reduce the text column width or overlay the content. If in doubt, omit it.
+Keep the text column at its current comfortable measure. Deep-dive pages use their h2 contents list as a collapsed disclosure on mobile, an inline list at intermediate widths, and a sticky left rail at 90rem and above. The rail must not overlap the right-hand sidenotes or reduce prose width. Anchor offsets clear the header.
+
+The existing reading-resume offer identifies the essay and includes dismissal. It never scrolls automatically. Audio remains continuous through client navigation and all fixed controls respect its reserved space.
 
 ### After an Essay
 
-At the bottom of every essay, after the footnotes: the next essay (newer) and the previous essay (older) as simple text links with titles. One action to continue reading. No grid of cards.
+Keep onward-reading links, newer/older essays, sources, and correction links. Group them consistently with shared section spacing and hairline boundaries. Preserve source anchors and their return path.
+
+### Reference and Practical Pages
+
+Frågor & svar opens with search and category navigation followed by question groups. Its six illustrated deep dives follow the questions. Keep query URLs and filtering behavior.
+
+Mobile prayer pages show a compact next-prayer summary and today's schedule before the solar map. Wide layouts retain the map beside the schedule. Recompute visible and accessible labels together for the selected place and next-prayer target, including tomorrow's Fajr.
+
+The mosque directory retains its desktop list/map layout. Mobile has Lista/Karta controls, initially Lista. Switching views preserves filters and selection. Show map loading and failure states; the directory and links must work without MapLibre. Existing location feedback and query URLs remain available.
 
 ---
 
@@ -236,7 +216,7 @@ At the bottom of every essay, after the footnotes: the next essay (newer) and th
 
 ### Background
 
-Warm off-white or very light warm gray. Pure white (#fff) is harsh on screens. A subtle warmth (toward cream or parchment) reduces eye strain. The tint should be barely perceptible — visible only if compared side-by-side with pure white.
+Warm off-white or very light warm gray. Pure white (#fff) is harsh on screens. A subtle warmth (toward cream or parchment) reduces eye strain. The current light ground is visibly warm (#fff6e8); retain its relationship to the artwork. The dark ground is warm near-black (#1d1912).
 
 ### Text
 
@@ -263,7 +243,7 @@ A colour that encodes data (the brass on the mosque map's markers and bars) earn
 
 ### Dark Mode
 
-If implemented, it is not an inversion. Dark mode is a separate palette: dark warm background (not pure black), light warm text (not pure white), adjusted accent. The typographic scale, spacing, and hierarchy remain identical. Only the palette changes.
+Dark mode is implemented and is not an inversion. Dark mode is a separate palette: dark warm background (not pure black), light warm text (not pure white), adjusted accent. The typographic scale, spacing, and hierarchy remain identical. Only the palette changes.
 
 ---
 
@@ -315,7 +295,7 @@ The body text uses transliterated Arabic terms (tawakkul, ubudiyyah, dhikr). The
 
 ### Arabic script in block quotes
 
-Block quotes frequently contain Arabic script — Quran verses, hadith, and classical scholarly citations — typically followed by a Swedish translation in italic. The Arabic text renders inline (LTR context) without special direction attributes. This is acceptable because the Arabic passages are short, embedded quotations within a Swedish-language argument, not standalone Arabic content. No separate Arabic typeface is loaded; Literata's fallback chain handles Arabic glyphs via the system Arabic font.
+Block quotes frequently contain Arabic script — Quran verses, hadith, and classical scholarly citations — typically followed by a Swedish translation in italic. Preserve the Quran components, Amiri Quran font, and their Arabic direction and recitation behavior. Do not restyle Arabic verses as ordinary Swedish interface text.
 
 ---
 
@@ -332,34 +312,32 @@ When someone shares an article link, the preview is the first impression for mos
 
 ---
 
-## Principle 12: The Daily Verse and the Islamic Year
+## Principle 12: The Islamic Year
 
-Two recurring modules root the site in the living practice of the tradition, in the same restrained editorial voice as everything else. Neither is a widget; each is content.
+The homepage shows a quiet preview of upcoming observances; the calendar page contains the full year. Preserve the existing date calculations, source policy, and client date refresh. There is no daily-verse homepage module in the current composition.
 
-### The Daily Verse
+## Shared Implementation Contracts
 
-One Quran verse a day, drawn from a small committed rotation and chosen deterministically by date, so every visitor sees the same verse on the same day. It is set as a single left-anchored quote: the Arabic above — downsized and left-aligned — and the Swedish translation below, framed by text-coloured curly quotation marks. The verse is paired with the essay that cites it (a quiet "read on" link); it is never decorative. An optional audio recitation highlights each Arabic word as it is recited — a reading aid, not a gimmick, and entirely skippable. Every verse in the rotation must be cited by a published essay, or the build fails.
+Use tokens.css for values; editorial.css holds the shared UI presentation contracts that refine the existing layout and scoped components. The reading measure is 42rem, collection canvas 64rem, and artwork cap 76rem. The prose measure remains unchanged.
 
-### Det islamiska året
+Use --space-control for compact interface gaps, --space-group within related content, and --space-section between editorial sections. Retain the larger prose spacing tokens where they already carry meaning. Inputs are at least 16px; principal touch controls are at least 44px high. Focus indicators, selected states, loading, empty, and error states belong to the shared design.
 
-A quiet, editorial rendering of the Islamic year — the two Eids, Ramadan and Laylat al-Qadr, Ashura and Arafa, the recommended fasts, the days of Hajj — mapped to Gregorian dates from the platform's Umm al-Qura calendar. It is a list that sits in time, not a calendar UI: no countdowns, no urgency, no "today" badge. Only observances established in hadith appear; nothing contested. The client quietly surfaces the next several upcoming entries so the list never goes stale between deploys.
-
----
+Check 390px, 768px, and 1440px, both themes, long titles, absent images, Arabic, 200% zoom, reduced motion, keyboard navigation, failed third-party resources, and back navigation. Run repository verification before release. Compare representative loading and layout behavior with the previous version; do not add a framework or backend for presentation changes.
 
 ## Summary of Constraints
 
 | Element | Constraint |
 |---|---|
-| Typefaces | 2 maximum (1 serif body, 1 heading) |
+| Typefaces | Literata, Source Sans, and Amiri Quran for Arabic |
 | Colors | 4 maximum (text, background, accent, muted) |
 | Body font size | 18–20px desktop, 17–18px mobile |
 | Line length | 60–70 characters |
 | Line height | 1.5–1.6 body text |
-| Hero image | Optional per article, full-screen when present, produced art (not stock) |
+| Hero image | Optional, responsive, essay-specific artwork |
 | JS for reading | Zero required (prefetch-on-hover for fast navigation) |
 | Animations on content | None |
-| Sidebar | None |
+| Sidebar | Deep-dive contents on sufficiently wide screens; preserve sidenotes |
 | Startpage | A composed scroll of movements led by the latest essay's hero (not a single screen, not a feed) |
-| Navigation | Wordmark + ⌘K command palette; site-wide footer as the crawlable backstop |
+| Navigation | Width-based header, search/menu dialog, grouped footer |
 
 Performance and weight budgets are in `TECHNICAL_SPEC.md`.

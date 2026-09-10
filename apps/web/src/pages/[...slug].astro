@@ -177,7 +177,10 @@ const structuredArticle = {
 		<Rattelse />
 	</main>
 
-	<button class="resume-pill label" type="button" hidden>Fortsätt läsa</button>
+	<div class="resume-pill label" hidden>
+		<button class="resume-go" type="button">Fortsätt läsa<span class="resume-title">{article.title}</span></button>
+		<button class="resume-dismiss" type="button" aria-label="Stäng läsförslaget">×</button>
+	</div>
 </Base>
 
 <style>
@@ -239,6 +242,11 @@ const structuredArticle = {
 		transition: opacity 0.25s ease, transform 0.25s ease;
 	}
 
+	.resume-pill:not([hidden]) { display: flex; align-items: center; gap: .5rem; max-width: min(32rem, calc(100vw - 2rem)); padding: .25rem .5rem; }
+	.resume-pill button { min-height: 2.75rem; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+	.resume-go { min-width: 0; text-align: left; padding-inline: .5rem; }
+	.resume-title { display: block; font-size: var(--step--3); text-transform: none; letter-spacing: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.resume-dismiss { min-width: 2.75rem; }
 	.resume-pill[data-visible] {
 		opacity: 1;
 		transform: translateX(-50%) translateY(0);
@@ -280,7 +288,7 @@ const structuredArticle = {
 		// essay was left part-read. The pill scrolls there, then bows out; it also
 		// retires itself once the reader passes the saved spot on their own.
 		const resumeSlug = document.querySelector<HTMLElement>(".reading-progress")?.dataset.slug;
-		const pill = document.querySelector<HTMLButtonElement>(".resume-pill");
+		const pill = document.querySelector<HTMLElement>(".resume-pill");
 		if (resumeSlug && pill) {
 			const savedPct = +(localStorage.getItem(`rp:${resumeSlug}`) || 0);
 			if (savedPct > 0.06 && savedPct < 0.85) {
@@ -289,9 +297,10 @@ const structuredArticle = {
 					pill.removeAttribute("data-visible");
 					setTimeout(() => { pill.hidden = true; }, 280);
 				};
+				pill.querySelector(".resume-dismiss")?.addEventListener("click", retire, { signal: ctrl.signal });
 				// Hold off a beat so it reads as an offer, not a flash on load.
 				setTimeout(reveal, 600);
-				pill.addEventListener("click", () => {
+				pill.querySelector(".resume-go")?.addEventListener("click", () => {
 					const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 					const target = (document.documentElement.scrollHeight - window.innerHeight) * savedPct;
 					window.scrollTo({ top: target, behavior: reduced ? "instant" : "smooth" });

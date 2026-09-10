@@ -94,6 +94,22 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		)
 	}
 
+	{mapFirst && (
+			<div class="bf-summary">
+				<p class="bf-next">
+					<span class="bf-next-prayer">
+						<span class="bf-next-lead">Nästa bön</span>
+						<span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>
+						<span class="bf-next-sub">{PRAYER_SWEDISH_NAMES[nextKey]}</span>
+					</span>
+					<span class="bf-next-when">
+						<span class="bf-next-time">{formatTime(nextTime)}</span>
+						<span class="bf-countdown"></span>
+					</span>
+				</p>
+			</div>
+	)}
+
 	<ul class="bf-times" aria-label={`Bönetider för ${location.name} i dag`}>
 		{rows.map((r) => (
 			<li
@@ -116,19 +132,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	{mapFirst && (
 		<div class="bf-stage">
 			<canvas class="bf-canvas" aria-hidden="true"></canvas>
-			<div class="bf-overlay">
-				<p class="bf-next">
-					<span class="bf-next-prayer">
-						<span class="bf-next-lead">Nästa bön</span>
-						<span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>
-						<span class="bf-next-sub">{PRAYER_SWEDISH_NAMES[nextKey]}</span>
-					</span>
-					<span class="bf-next-when">
-						<span class="bf-next-time">{formatTime(nextTime)}</span>
-						<span class="bf-countdown"></span>
-					</span>
-				</p>
-			</div>
+
 		</div>
 	)}
 	{mapFirst && (
@@ -384,9 +388,11 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	   in the document on the template that carries ~86% of the site's search clicks.
 	   Only the paint order changes. */
 	.bf-map-first {
-		grid-template-areas: "map" "legend" "times";
+		grid-template-areas: "summary" "times" "map" "legend";
 		gap: 0.9rem;
 	}
+	.bf-summary { grid-area: summary; padding: var(--space-control) var(--space-group); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--color-warm) 8%, var(--color-bg)); }
+	.bf-map-first .bf-summary .bf-next { margin: 0; display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
 	.bf-map-first .bf-stage { grid-area: map; aspect-ratio: 4 / 3; }
 	.bf-map-first .bf-legend { grid-area: legend; margin: 0; font-size: var(--step--3); line-height: 1.5; color: var(--color-muted); text-wrap: pretty; }
 	.bf-map-first .bf-legend:empty { display: none; }
@@ -421,7 +427,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	@media (width >= 640px) {
 		.bf-map-first {
 			grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-			grid-template-areas: "map times" "legend times";
+			grid-template-areas: "summary summary" "map times" "legend times";
 			align-items: start;
 			column-gap: clamp(1.5rem, 4vw, 3rem);
 		}

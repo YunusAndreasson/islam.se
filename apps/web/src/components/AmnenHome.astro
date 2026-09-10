@@ -2,7 +2,6 @@
 import { type Amne, amnenWithEssays } from "../lib/amnen";
 import { type Article, essayCount, getArticles } from "../lib/articles";
 import EssayList from "./EssayList.astro";
-import HomeHead from "./HomeHead.astro";
 import SectionLink from "./SectionLink.astro";
 
 // The departments. Seven ämnen, each with an authored `framing` line that had been
@@ -99,7 +98,11 @@ const DeptHeading = limit ? "h3" : "h2";
 	class:list={["amnen", { "home-movement": limit }]}
 	aria-labelledby={limit ? "amnen-kicker" : null}
 >
-	{limit && <HomeHead label="Ämnen" id="amnen-kicker" href="/essaer/" linkLabel="Hela arkivet" />}
+	{limit && (
+		<div class="home-head">
+			<h2 class="label home-kicker" id="amnen-kicker">Ämnen</h2>
+		</div>
+	)}
 
 	{groups.map(({ amne, shown, total }) => (
 		<section class:list={["amne-dept", { "amne-dept--art": art }]} aria-labelledby={`amne-${amne.slug}`}>

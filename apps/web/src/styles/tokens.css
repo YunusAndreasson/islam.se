@@ -262,6 +262,12 @@
 	--radius-lg: 0.75rem; /* cards, popovers */
 	--radius-pill: 999px;
 
+	/* Shared UI rhythm; editorial prose keeps its existing larger spacing. */
+	--space-control: 0.75rem;
+	--space-group: 1.5rem;
+	--space-section: clamp(2.5rem, 5vw, 4rem);
+	--art-width: 76rem;
+
 	/* Layout */
 	--content-width: 42rem;
 	/* Home canvas — wider editorial frame the homepage modules share */

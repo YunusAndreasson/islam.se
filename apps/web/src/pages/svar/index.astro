@@ -127,42 +127,6 @@ const description =
 				</div>
 				<p class="svar-intro">Läs om grunderna på <a href="/vad-ar-islam/">Pelare &amp; tro</a>.</p>
 
-				{fordjupningar.length > 0 && (
-					<section class="svar-pelare" aria-labelledby="svar-pelare-rubrik">
-						<h2 class="label svar-pelare-label" id="svar-pelare-rubrik">Fördjupning</h2>
-						{/* The same card as Essäer's, class for class — see styles/layout.css. */}
-						<ul class="essay-cards essay-cards--blurb svar-pelare-cards">
-							{pelarKort.map(({ entry: f, hero }) => (
-								<li class="archive-item essay-card">
-									<a href={`/fordjupning/${f.id}/`}>
-									{hero && (
-										<div class="essay-card-media media-frame">
-											<EssayImage
-												{...(hero.src === undefined ? {} : { src: hero.src })}
-												{...(hero.article === undefined ? {} : { article: hero.article })}
-													alt=""
-													widths={CARD_WIDTHS}
-													sizes="(max-width: 600px) 100vw, 20rem"
-												/>
-											</div>
-										)}
-										<span class="archive-title essay-card-title">{f.data.term}</span>
-										<p class="archive-description essay-card-desc">
-											{f.data.blurb ?? f.data.seoDescription}
-										</p>
-									</a>
-								</li>
-							))}
-						</ul>
-						{pelarRest.length > 0 && (
-							<p class="svar-pelare-alla">
-								<SectionLink href="/fordjupning/">
-									Alla {fordjupningar.length} fördjupningar
-								</SectionLink>
-							</p>
-						)}
-					</section>
-				)}
 
 				<nav class="svar-nav" aria-label="Kategorier">
 					<ul>
@@ -220,6 +184,43 @@ const description =
 						<button class="svar-empty-all" type="button">Sök i hela sajten</button>
 					</p>
 				</div>
+				{fordjupningar.length > 0 && (
+					<section class="svar-pelare" aria-labelledby="svar-pelare-rubrik">
+						<h2 class="label svar-pelare-label" id="svar-pelare-rubrik">Fördjupning</h2>
+						{/* The same card as Essäer's, class for class — see styles/layout.css. */}
+						<ul class="essay-cards essay-cards--blurb svar-pelare-cards">
+							{pelarKort.map(({ entry: f, hero }) => (
+								<li class="archive-item essay-card">
+									<a href={`/fordjupning/${f.id}/`}>
+									{hero && (
+										<div class="essay-card-media media-frame">
+											<EssayImage
+												{...(hero.src === undefined ? {} : { src: hero.src })}
+												{...(hero.article === undefined ? {} : { article: hero.article })}
+													alt=""
+													widths={CARD_WIDTHS}
+													sizes="(max-width: 600px) 100vw, 20rem"
+												/>
+											</div>
+										)}
+										<span class="archive-title essay-card-title">{f.data.term}</span>
+										<p class="archive-description essay-card-desc">
+											{f.data.blurb ?? f.data.seoDescription}
+										</p>
+									</a>
+								</li>
+							))}
+						</ul>
+						{pelarRest.length > 0 && (
+							<p class="svar-pelare-alla">
+								<SectionLink href="/fordjupning/">
+									Alla {fordjupningar.length} fördjupningar
+								</SectionLink>
+							</p>
+						)}
+					</section>
+				)}
+
 			</>
 		) : (
 			<p>Inga frågor publicerade ännu.</p>

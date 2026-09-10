@@ -429,5 +429,9 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 	});
 
 	// Sync triggers on each page navigation
-	document.addEventListener("astro:page-load", () => { syncTriggers(); });
+	document.addEventListener("astro:page-load", () => {
+		syncTriggers();
+		// The player persists, but Astro replaces the root attributes on navigation.
+		document.documentElement.toggleAttribute("data-player-visible", el()?.hasAttribute("data-visible") ?? false);
+	});
 </script>

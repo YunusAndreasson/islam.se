@@ -331,6 +331,12 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 			: "—";
 	}
 	if (inst.readout.place) inst.readout.place.textContent = location.name;
+	if (inst.el.matches(".mast-prayer")) {
+		inst.el.setAttribute(
+			"aria-label",
+			`Nästa bön: ${PRAYER_LABELS[st.nextKey]} ${formatTime(new Date(st.target))}, ${location.name} – visa bönetider`,
+		);
+	}
 	inst.el
 		.querySelector(".bf-times")
 		?.setAttribute("aria-label", `Bönetider för ${location.name} i dag`);

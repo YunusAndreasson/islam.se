@@ -1,6 +1,6 @@
 ---
 import { gregorianToHijri } from "../lib/markesdagar";
-import { currentNavHref, FOOTER_LINKS } from "../lib/navigation";
+import { currentNavHref, FOOTER_GROUPS, FOOTER_LINKS } from "../lib/navigation";
 import MarkDot from "./MarkDot.astro";
 
 const year = new Date().getFullYear();
@@ -20,8 +20,11 @@ const buildStamp = `${buildHijri.y}.${pad2(buildHijri.m)}.${pad2(buildHijri.d)}`
 
 <footer class="site-footer">
 	<nav class="site-footer-nav" aria-label="Sidfotsnavigering">
-		{FOOTER_LINKS.map((l) => (
-			<a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a>
+		{FOOTER_GROUPS.map((group) => (
+			<section class="footer-group">
+				<h2 class="label">{group.heading}</h2>
+				<ul>{group.links.map((l) => <li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>)}</ul>
+			</section>
 		))}
 	</nav>
 

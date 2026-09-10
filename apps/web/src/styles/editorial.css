@@ -1,0 +1,298 @@
+/* Shared presentation contracts. Unlayered so Astro's scoped page styles and
+   shared styles have the same cascade rank; page-specific refinements stay local. */
+.page-head {
+	margin-block: 0 var(--space-group);
+}
+.page-head-title {
+	text-wrap: balance;
+}
+.site-header .site-nav {
+	max-width: var(--art-width);
+	margin-inline: auto;
+}
+.site-links a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
+}
+.site-links a[aria-current] {
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 0.55em;
+	text-decoration-thickness: 2px;
+}
+.search-trigger,
+.mast-prayer,
+.filter-chip {
+	min-height: 2.75rem;
+}
+.filter-chip[aria-current],
+.filter-chip[aria-pressed="true"],
+.filter-chip.is-active {
+	font-weight: 600;
+	box-shadow: inset 0 -2px var(--color-text);
+}
+.mast-prayer-label {
+	display: none;
+}
+.home .home-movement {
+	margin-block: var(--space-section);
+}
+.home .feature {
+	margin-top: var(--space-section);
+}
+.home .home-akt2 {
+	margin-top: var(--space-section);
+}
+.home .home-masthead {
+	margin-top: var(--space-group);
+}
+.home .feature-media {
+	max-width: var(--art-width);
+}
+.home .feature-caption {
+	gap: var(--space-group);
+}
+.home .home-pillars {
+	gap: 0;
+	border-block: 1px solid var(--color-rule);
+}
+.home .home-pillar {
+	padding-block: var(--space-control);
+}
+.home .home-second .essay-card-title {
+	font-size: var(--step-3);
+}
+.media-frame::after {
+	opacity: 0.025;
+}
+.media-frame::before {
+	opacity: 0.25;
+}
+a:hover .media-frame,
+a:focus-visible .media-frame {
+	box-shadow: none;
+}
+a:hover .media-frame img,
+a:focus-visible .media-frame img {
+	transform: none;
+}
+a:hover .media-frame::before,
+a:focus-visible .media-frame::before {
+	opacity: 0.1;
+}
+.essay-card-media,
+.card-media {
+	aspect-ratio: 3 / 2;
+}
+.archive-meta,
+.meta-line {
+	font-variant-numeric: tabular-nums;
+}
+.article-header h1,
+.svar-header h1,
+.fordjupning-header h1 {
+	text-wrap: balance;
+}
+.prose :is(h2, h3),
+.svar-section {
+	scroll-margin-top: calc(var(--mast-height, 5rem) + 1.5rem);
+}
+.svar-index .svar-intro {
+	margin-block: var(--space-group);
+}
+.svar-index .svar-pelare {
+	margin-top: var(--space-section);
+}
+.svar-index .svar-search-actions:has(.svar-search-status:empty):has(button[hidden]) {
+	display: none;
+}
+.svar-sources,
+.svar-related,
+.fordjupning-apparat,
+.fordjupning-vidare {
+	border-top: 1px solid var(--color-rule);
+	padding-top: var(--space-group);
+	margin-top: var(--space-section);
+}
+.site-footer .site-footer-nav {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--space-group);
+	text-align: left;
+	text-transform: none;
+	letter-spacing: 0;
+}
+.footer-group h2 {
+	margin-bottom: var(--space-control);
+}
+.footer-group ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.site-footer .footer-group a {
+	min-height: 2.75rem;
+	padding: 0;
+	font-size: var(--step--2);
+}
+.site-footer .footer-group a:hover,
+.site-footer .footer-group a[aria-current] {
+	text-decoration: underline;
+	text-underline-offset: 0.25em;
+}
+
+/* One scroll container: the menu's title bar and search field remain available. */
+.palette.fullscreen-dialog {
+	background: var(--color-bg);
+	backdrop-filter: none;
+}
+.palette .palette-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 4;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 4.5rem;
+	padding: 0.75rem var(--padding-inline);
+	background: var(--color-bg);
+}
+.palette-topbar .palette-home,
+.palette-topbar .palette-close {
+	position: static;
+}
+.palette .palette-inner {
+	max-width: none;
+	padding: 0 var(--padding-inline) var(--space-group);
+}
+.palette .palette-field {
+	position: sticky;
+	top: 4.5rem;
+	z-index: 3;
+	padding-block: var(--space-control);
+	background: var(--color-bg);
+}
+.palette .palette-input {
+	padding-bottom: 0;
+	font-size: var(--step-2);
+}
+.palette .palette-dest {
+	padding-block: var(--space-control);
+}
+.palette .palette-dest-sub {
+	font-size: var(--step--2);
+}
+.palette .palette-chip {
+	min-height: 2.75rem;
+}
+.palette .palette-browse {
+	margin-top: var(--space-group);
+}
+@media (width > 900px) {
+	.palette.fullscreen-dialog {
+		inset: 2rem 0;
+		width: min(56rem, calc(100% - 4rem));
+		height: fit-content;
+		max-height: calc(100dvh - 4rem);
+		margin-inline: auto;
+		border: 1px solid var(--color-rule);
+		border-radius: var(--radius-lg);
+		box-shadow: 0 1rem 4rem rgb(0 0 0 / 0.2);
+	}
+	.palette.fullscreen-dialog::backdrop {
+		background: rgb(0 0 0 / 0.35);
+	}
+	.palette .palette-browse {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-group) 2.5rem;
+	}
+	.palette .palette-browse[hidden] {
+		display: none;
+	}
+	.palette-browse .palette-group {
+		margin: 0;
+	}
+	.palette .palette-fold,
+	.palette .palette-foot {
+		grid-column: 1 / -1;
+	}
+}
+@media (width <= 900px) {
+	.site-header .mast-prayer-name,
+	.site-header .mast-prayer-icon {
+		display: none;
+	}
+	.site-header .mast-prayer-label {
+		display: inline;
+	}
+	.site-header .mast-prayer {
+		gap: 0.35rem;
+		font-size: var(--step--3);
+	}
+}
+@media (width <= 600px) {
+	.home .home-second .essay-card-title {
+		font-size: var(--step-2);
+	}
+	.home .home-pillars {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.home .home-pillar-title {
+		font-size: var(--step--1);
+	}
+	.site-footer .site-footer-nav {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.footer-group:last-child {
+		grid-column: 1 / -1;
+	}
+	.palette .palette-input {
+		font-size: var(--step-1);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.media-frame,
+	.media-frame::before,
+	.media-frame img {
+		transition: none;
+	}
+}
+@media print {
+	.palette.fullscreen-dialog {
+		display: none !important;
+	}
+}
+
+@media (width >= 90rem) {
+	.reading-section {
+		display: grid;
+		grid-template-columns: 0 minmax(0, 1fr);
+		max-width: var(--content-width);
+		margin-inline-start: var(--reading-inline-start, auto);
+		margin-inline-end: auto;
+	}
+	.reading-section .innehall {
+		position: sticky;
+		top: calc(var(--mast-height, 5rem) + 1rem);
+		align-self: start;
+		grid-column: 1;
+		grid-row: 1;
+		width: 11rem;
+		max-height: calc(100dvh - var(--mast-height, 5rem) - 2rem);
+		overflow-y: auto;
+		margin: 0 0 0 -13rem;
+		padding-block: var(--space-control);
+	}
+	.reading-section .innehall ol {
+		columns: 1;
+		font-size: var(--step--2);
+	}
+	.reading-section .article-body {
+		grid-column: 2;
+		grid-row: 1;
+		margin-inline: 0;
+		width: 100%;
+	}
+}

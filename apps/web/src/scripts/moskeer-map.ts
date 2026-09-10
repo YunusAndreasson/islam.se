@@ -480,7 +480,10 @@ async function mount() {
 		}
 		activeId = "";
 		setActiveRing("");
-		if (restoreFocus) lastTrigger?.focus();
+		if (restoreFocus && lastTrigger) {
+			document.dispatchEvent(new CustomEvent("mosques:show-list"));
+			lastTrigger.focus();
+		}
 		lastTrigger = null;
 	}
 
@@ -518,6 +521,8 @@ async function mount() {
 	// the matching list row into view, but a tap on a map marker (fly=false) must NOT move
 	// the page — the reader stays on the map and just gets the callout.
 	function selectMosque(id: string, fly = true, scrollList = fly) {
+		document.dispatchEvent(new CustomEvent("mosques:show-map"));
+		map.resize();
 		const m = byId.get(id);
 		if (!m) return;
 		activeId = id;
@@ -538,7 +543,13 @@ async function mount() {
 		// revealMap())`: that form only calls revealMap when scrollList happens to be
 		// true, so a future `selectMosque(id, true, false)` would silently lose the
 		// scroll-into-view this whole block exists for.
-		if (callout) renderCallout(m);
+		if (callout) {
+			renderCallout(m);
+			if (lastTrigger && matchMedia("(width < 800px)").matches)
+				callout
+					.querySelector<HTMLButtonElement>(".mk-callout-close")
+					?.focus({ preventScroll: true });
+		}
 		const mapScrolled = fly ? revealMap() : false;
 		const bringRowIntoView = scrollList && !mapScrolled;
 
@@ -872,7 +883,13 @@ async function mount() {
 	for (const it of items) {
 		it.addEventListener(
 			"click",
-			() => {
+			(event) => {
+				if (
+					event instanceof MouseEvent &&
+					(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+				)
+					return;
+				event.preventDefault();
 				const id = it.dataset.id;
 				if (id) {
 					lastTrigger = it;
@@ -930,6 +947,8 @@ async function mount() {
 		{ signal: sig },
 	);
 
+	el.dataset.interactive = "true";
+	document.addEventListener("mosques:view-changed", () => map.resize(), { signal: sig });
 	// OS theme change → recolor base + markers live.
 	const mq = window.matchMedia("(prefers-color-scheme: dark)");
 	const onScheme = () => {
@@ -1029,7 +1048,7 @@ function observe() {
 		},
 		{ rootMargin: "600px" },
 	);
-	io.observe(stage);
+	io.observe(stage.closest(".moskeer") ?? stage);
 	document.addEventListener("astro:before-swap", () => io.disconnect(), { once: true });
 }
 

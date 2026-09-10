@@ -17,9 +17,10 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 {
 	sections.length > 1 && (
 		<nav class="innehall" aria-labelledby={labelId}>
-			<p class="label" id={labelId}>
+			<details class="contents-disclosure" open>
+			<summary class="label" id={labelId}>
 				Innehåll
-			</p>
+			</summary>
 			<ol>
 				{sections.map((h) => (
 					<li>
@@ -27,6 +28,7 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 					</li>
 				))}
 			</ol>
+			</details>
 		</nav>
 	)
 }
@@ -102,4 +104,28 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 	.innehall a:focus-visible {
 		text-decoration-color: currentColor;
 	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const disclosure = document.querySelector<HTMLDetailsElement>(".contents-disclosure");
+		if (!disclosure) return;
+		const compact = matchMedia("(width <= 600px)");
+		const sync = () => { disclosure.open = !compact.matches; disclosure.querySelector("summary")?.setAttribute("tabindex", compact.matches ? "0" : "-1"); };
+		sync();
+		compact.addEventListener("change", sync);
+		disclosure.addEventListener("click", (event) => {
+			if (compact.matches && (event.target as Element).closest("a")) disclosure.open = false;
+		});
+		document.addEventListener("astro:before-swap", () => compact.removeEventListener("change", sync), { once: true });
+	});
+</script>
+<style>
+	.contents-disclosure summary { cursor: pointer; min-height: 2.75rem; display: flex; align-items: center; justify-content: space-between; }
+	.contents-disclosure summary::after { content: "+"; }
+	.contents-disclosure[open] summary::after { content: "−"; }
+	.contents-disclosure ol { margin-top: var(--space-control); }
+	@media (width > 600px) { .contents-disclosure summary { pointer-events: none; } .contents-disclosure summary::after { display: none; } }
+	@media (width >= 90rem) { .innehall ol { columns: 1; font-size: var(--step--2); } }
+	@media print { .contents-disclosure > ol { display: block; } }
 </style>

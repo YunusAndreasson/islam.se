@@ -69,12 +69,13 @@ const mastIsDay =
 				data-lon={DEFAULT_COORDS.longitude}
 				data-variant="strip"
 				data-fixed="0"
-				aria-label={`Nästa bön: ${PRAYER_LABELS[mastNextKey]} ${formatTime(mastTimes[mastNextKey])} – visa bönetider`}
+				aria-label={`Nästa bön: ${PRAYER_LABELS[mastNextKey]} ${formatTime(mastTimes[mastNextKey])}, ${DEFAULT_COORDS.name} – visa bönetider`}
 			>
 				<span class="bs-icon mast-prayer-icon" data-day={mastIsDay ? "true" : "false"} aria-hidden="true">
 					<Sun class="mp-sun" stroke-width={1.6} />
 					<Moon class="mp-moon" stroke-width={1.6} />
 				</span>
+				<span class="mast-prayer-label">Nästa bön</span>
 				<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNextKey]}</span>
 				<span class="bf-next-time mast-prayer-time">{formatTime(mastTimes[mastNextKey])}</span>
 			</a>

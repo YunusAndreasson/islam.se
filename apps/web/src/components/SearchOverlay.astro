@@ -77,12 +77,14 @@ const here = (href: string) => href === currentHref;
 	{/* The open menu covers the mast, and with it the only way home. The wordmark
 	    is repeated here, in the same corner it occupies underneath, so the overlay
 	    reads as the mast expanded rather than as a screen that replaced it. */}
+	<div class="palette-topbar">
 	<a class="palette-home" href="/" aria-current={path === "/" ? "page" : undefined}>
 		<Wordmark />
 	</a>
 	<button class="palette-close" type="button" aria-label="Stäng">
 		<X size={18} stroke-width={1.75} />
 	</button>
+	</div>
 	<div class="palette-inner">
 		<div class="palette-field">
 			<Search class="palette-field-icon" size={20} stroke-width={1.75} />
@@ -789,7 +791,7 @@ const here = (href: string) => href === currentHref;
 		// the reader just opened — the "Meny" button must show a menu, not a keyboard.
 		//
 		// Keep the query when reopening so readers can try another result.
-		function open(focusField = !coarse()) {
+		function open(focusField = !coarse() && !matchMedia("(width <= 900px)").matches) {
 			if (dialog.open) return;
 			void loadIndex();
 			dialog.showModal();
@@ -839,7 +841,7 @@ const here = (href: string) => href === currentHref;
 		// essay-page Escape→/essaer binding and the footnote popovers. Arrows and
 		// Enter drive the result list; in menu mode Tab is the right way through.
 		dialog.addEventListener("keydown", (e) => {
-			if (e.key === "Escape") { e.stopPropagation(); return; }
+			if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); return; }
 			if (results.hidden || e.target !== input || e.isComposing) return;
 			if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
 			else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
