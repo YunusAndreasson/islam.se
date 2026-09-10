@@ -1,11 +1,5 @@
 /* Shared presentation contracts. Unlayered so Astro's scoped page styles and
    shared styles have the same cascade rank; page-specific refinements stay local. */
-.page-head {
-	margin-block: 0 var(--space-group);
-}
-.page-head-title {
-	text-wrap: balance;
-}
 .site-header .site-nav {
 	max-width: var(--art-width);
 	margin-inline: auto;
@@ -98,14 +92,8 @@ a:focus-visible .media-frame::before {
 .svar-section {
 	scroll-margin-top: calc(var(--mast-height, 5rem) + 1.5rem);
 }
-.svar-index .svar-intro {
-	margin-block: var(--space-group);
-}
 .svar-index .svar-pelare {
-	margin-top: var(--space-section);
-}
-.svar-index .svar-search-actions:has(.svar-search-status:empty):has(button[hidden]) {
-	display: none;
+	margin-block: 0 var(--space-section);
 }
 .svar-sources,
 .svar-related,

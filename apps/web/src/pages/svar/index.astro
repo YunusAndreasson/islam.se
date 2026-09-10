@@ -1,16 +1,14 @@
 ---
-import SearchInput from "../../components/finder/SearchInput.astro";
 import { getCollection } from "astro:content";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import EssayImage from "../../components/EssayImage.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TextRowList from "../../components/TextRowList.astro";
 import TitledSection from "../../components/TitledSection.astro";
-import { FAKTA_SVAR_ORDER } from "../../lib/fakta";
 import { getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
 import { CARD_WIDTHS } from "../../lib/hero";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
-import { groupSvar, svarSearchTerms } from "../../lib/svar";
+import { groupSvar } from "../../lib/svar";
 
 // FRÅGOR & SVAR — the full, browsable question list. `groupSvar` arranges the
 // corpus into themed sections and drops the cornerstone Five Pillars + six Articles
@@ -18,7 +16,6 @@ import { groupSvar, svarSearchTerms } from "../../lib/svar";
 // hub never duplicate each other. A category jump-nav lets a reader go straight
 // to a theme, and an observer marks which one they are currently in.
 const entries = await getCollection("svar");
-const bySlug = new Map(entries.map((e) => [e.id, e]));
 
 // The long reference articles. /svar/ is their only door — /fordjupning/ has no mast
 // entry of its own — so all of them are reachable from here, in the shape Essäer
@@ -65,12 +62,6 @@ const pelarKort = PELAR_KORT.map((id) => {
 });
 const pelarRest = fordjupningar.filter((f) => !PELAR_KORT.includes(f.entry.id));
 
-// The cornerstone answers, kept OUT of the browsable list (the hub owns their art and
-// their sequence) but rendered as rows the on-page filter can reach. "vad är ramadan"
-// is the most ordinary thing a reader can type into a page called Frågor & svar, and
-// before this it matched nothing: `ödet` returned 0 rows, `vallfärd` and `zakat` 1 each.
-const grunderna = FAKTA_SVAR_ORDER.map((slug) => bySlug.get(slug)).filter((e) => e !== undefined);
-
 const groups = groupSvar(entries);
 const listed = groups.flatMap((g) => g.entries);
 
@@ -80,12 +71,7 @@ const svarRows = (items: typeof listed) =>
 		// Title only. It already carries the question AND its short answer ("Vad är
 		// tawhid? Guds enhet, namn och egenskaper"); `description` is the meta tag
 		// Google prints, 163 chars of it, and 51 of those made the list a river.
-		// ⚠️ It moves into `data-terms` — see svarSearchTerms.
 		title: e.data.title,
-		attrs: {
-			"data-svar-item": "",
-			"data-terms": svarSearchTerms(e) || undefined,
-		},
 	}));
 
 const description =
@@ -96,6 +82,7 @@ const description =
 	title="Frågor & svar"
 	pageTitle="Frågor och svar om islam — islam.se"
 	description={description}
+	lead="Frågor om tron, vardagen och livet som muslim. Här hittar du svar med stöd i Koranen, sunna och klassisk islamisk lärdom."
 	ogImageAlt="Frågor och svar om islam — islam.se"
 	mainClass="svar-index home"
 	jsonLd={[
@@ -116,74 +103,8 @@ const description =
 
 		{groups.length > 0 ? (
 			<>
-				{/* Narrows this page only; ⌘K still searches the whole site. */}
-				<search aria-label="Sök frågor och svar"><form class="svar-search">
-					<label class="sr-only" for="svar-q">Sök frågor och svar</label>
-					<SearchInput id="svar-q" placeholder="Sök frågor och svar" controls="svar-results" />
-				</form></search>
-				<div class="svar-search-actions">
-					<p class="svar-search-status label" role="status"></p>
-					<button class="svar-search-clear label" type="button" hidden>Rensa</button>
-				</div>
-				<p class="svar-intro">Läs om grunderna på <a href="/vad-ar-islam/">Pelare &amp; tro</a>.</p>
 
 
-				<nav class="svar-nav" aria-label="Kategorier">
-					<ul>
-						{groups.map((g) => (
-							<li data-cat-item={g.category.slug}>
-								<a href={`#${g.category.slug}`} data-cat={g.category.slug} class="filter-chip label">{g.category.short ?? g.category.name}</a>
-							</li>
-						))}
-					</ul>
-				</nav>
-
-				<div id="svar-results">
-					{/* Search-only: no chip points here, and the script re-hides it the
-					    moment the query is cleared. */}
-					{grunderna.length > 0 && (
-						<TitledSection
-							class="svar-section"
-							id="sc-grunderna"
-							sectionId="grunderna"
-							title="Grunderna"
-							data-search-only
-							hidden
-						>
-							<p class="lead svar-section-intro">
-								De fem pelarna och de sex trosartiklarna, med bild och sammanhang på{" "}
-								<a href="/vad-ar-islam/">Pelare &amp; tro</a>.
-							</p>
-							<TextRowList
-								class="svar-list"
-								variant="question"
-								items={svarRows(grunderna)}
-							/>
-						</TitledSection>
-					)}
-
-					{groups.map((g) => (
-						<TitledSection
-							class="svar-section"
-							id={`sc-${g.category.slug}`}
-							sectionId={g.category.slug}
-							title={g.category.name}
-						>
-							{g.category.intro && <p class="lead svar-section-intro">{g.category.intro}</p>}
-							<TextRowList
-								class="svar-list"
-								variant="question"
-								items={svarRows(g.entries)}
-							/>
-						</TitledSection>
-					))}
-
-					{/* The status line states the count; this is only the way out. */}
-					<p class="svar-empty" hidden>
-						Frågan kan ändå finnas bland essäerna eller på en annan sida.
-						<button class="svar-empty-all" type="button">Sök i hela sajten</button>
-					</p>
-				</div>
 				{fordjupningar.length > 0 && (
 					<section class="svar-pelare" aria-labelledby="svar-pelare-rubrik">
 						<h2 class="label svar-pelare-label" id="svar-pelare-rubrik">Fördjupning</h2>
@@ -221,6 +142,37 @@ const description =
 					</section>
 				)}
 
+				<nav class="svar-nav" aria-label="Kategorier">
+					<ul>
+						{groups.map((g) => (
+							<li data-cat-item={g.category.slug}>
+								<a href={`#${g.category.slug}`} data-cat={g.category.slug} class="filter-chip label">{g.category.short ?? g.category.name}</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+
+				<div id="svar-results">
+					{groups.map((g) => (
+						<TitledSection
+							class="svar-section"
+							id={`sc-${g.category.slug}`}
+							sectionId={g.category.slug}
+							title={g.category.name}
+						>
+							{g.category.intro && <p class="lead svar-section-intro">{g.category.intro}</p>}
+							<TextRowList
+								class="svar-list"
+								variant="question"
+								items={svarRows(g.entries)}
+							/>
+						</TitledSection>
+					))}
+
+
+				</div>
+
+
 			</>
 		) : (
 			<p>Inga frågor publicerade ännu.</p>
@@ -228,164 +180,6 @@ const description =
 </CollectionIndexPage>
 
 <script>
-	import { closeEnough, fold } from "../../lib/search-text";
-
-	// On-page filter. The haystack is read out of the DOM once (no index to fetch);
-	// `data-terms` carries everything the row doesn't print, description included.
-	// AND over tokens, both sides folded. No debounce — one pass over 63 rows is
-	// microseconds. A query with no exact hit is retried loosely (`closeEnough`).
-	function bindSvarSearch() {
-		const form = document.querySelector<HTMLFormElement>(".svar-search");
-		const input = document.querySelector<HTMLInputElement>("#svar-q");
-		const status = document.querySelector<HTMLElement>(".svar-search-status");
-		const clear = document.querySelector<HTMLButtonElement>(".svar-search-clear");
-		const empty = document.querySelector<HTMLElement>(".svar-empty");
-		if (!form || !input || !status || !clear || !empty) return;
-
-		const emptyAll = empty.querySelector<HTMLButtonElement>(".svar-empty-all");
-		const items = Array.from(document.querySelectorAll<HTMLLIElement>("[data-svar-item]")).map(
-			(el) => ({
-				el,
-				section: el.closest<HTMLElement>(".svar-section"),
-				link: el.querySelector<HTMLAnchorElement>("a"),
-				hay: `${fold(el.textContent ?? "")} ${el.dataset.terms ?? ""}`,
-				// Built lazily on the first loose pass only.
-				words: null as string[] | null,
-			}),
-		);
-		const sections = Array.from(document.querySelectorAll<HTMLElement>(".svar-section"));
-		// The fördjupning band sits between the field and the results. At 390px its
-		// six cards stack to more than a screen, so a reader who types sees nothing
-		// change without scrolling. It is a browsing affordance, not a result.
-		const pelare = document.querySelector<HTMLElement>(".svar-pelare");
-		// Same reasoning for the category framing sentences: they tell a browser what
-		// a section holds, and only push the hits further down for a searcher.
-		const intros = Array.from(document.querySelectorAll<HTMLElement>(".svar-section-intro, .svar-intro"));
-		// Paired up front so the per-keystroke loop needs no lookups.
-		const chips = Array.from(document.querySelectorAll<HTMLElement>("[data-cat-item]")).map(
-			(el) => ({ el, section: document.getElementById(el.dataset.catItem ?? "") }),
-		);
-		const total = items.length;
-		if (!total) return;
-
-		let visible = items.map((i) => i.link);
-
-		type Item = (typeof items)[number];
-
-		/** Loose pass: a token counts if any word in the row is close enough. */
-		function nearly(item: Item, token: string): boolean {
-			if (item.hay.includes(token)) return true;
-			item.words ??= item.hay.split(/[^\p{L}\p{N}]+/u).filter((w) => w.length > 1);
-			return item.words.some((w) => closeEnough(token, w));
-		}
-
-		/* Arrow const, not a `function` declaration — a hoisted one is created before
-		   the null-guard above and loses the narrowing of status/clear/empty. */
-		const apply = (raw: string): void => {
-			const query = raw.trim();
-			const tokens = fold(query).split(/\s+/).filter(Boolean);
-			const live = new Set<HTMLElement>();
-			let hits = 0;
-			visible = [];
-
-			// Exact first; loose only when that found nothing, so near-misses can
-			// never dilute a working query.
-			let on = items.map((item) => tokens.every((t) => item.hay.includes(t)));
-			const loose = tokens.length > 0 && !on.some(Boolean);
-			if (loose) on = items.map((item) => tokens.every((t) => nearly(item, t)));
-
-			for (const [i, item] of items.entries()) {
-				item.el.hidden = !on[i];
-				if (!on[i]) continue;
-				hits++;
-				visible.push(item.link);
-				if (item.section) live.add(item.section);
-			}
-
-			// Empty sections and their chips go too.
-			const filtering = tokens.length > 0;
-			for (const section of sections) {
-				// ⚠️ The search-only section (Grunderna) needs the inverted test, not the
-				// same one. With no query `tokens.every(...)` is vacuously true for every
-				// row, so `live` holds EVERY section — `!live.has(section)` alone would
-				// leave the cornerstone rows on screen at rest, which is the one state
-				// they must never be in.
-				section.hidden =
-					section.dataset.searchOnly !== undefined
-						? !filtering || !live.has(section)
-						: filtering && !live.has(section);
-			}
-			for (const chip of chips) {
-				chip.el.hidden = filtering && !(chip.section && live.has(chip.section));
-			}
-			if (pelare) pelare.hidden = filtering;
-			for (const intro of intros) intro.hidden = filtering;
-
-			clear.hidden = !query;
-			empty.hidden = !query || hits > 0;
-			// Name which pass answered.
-			status.textContent = !query
-				? ""
-				: hits === 0
-					? `Inga träffar bland sidans ${total} frågor`
-					: loose
-						? `Ingen exakt träff – visar ${hits} ${hits === 1 ? "snarlik fråga" : "snarlika frågor"}`
-						: `${hits} av ${total} frågor`;
-
-			// replaceState, not push: one entry per keystroke would wreck Back.
-			const url = query ? `?q=${encodeURIComponent(query)}` : location.pathname;
-			history.replaceState(history.state, "", url);
-		};
-
-		input.addEventListener("input", () => apply(input.value));
-
-		// The magnifier is an aria-hidden <svg> and the row's padding belongs to the
-		// form, so a tap that lands beside the input would otherwise hit nothing.
-		form.addEventListener("mousedown", (e) => {
-			if (e.target === input || (e.target as HTMLElement).closest?.("button")) return;
-			e.preventDefault();
-			input.focus();
-		});
-
-		// Enter on a single hit opens it.
-		form.addEventListener("submit", (e) => {
-			e.preventDefault();
-			if (visible.length === 1) visible[0]?.click();
-		});
-
-		input.addEventListener("keydown", (e) => {
-			if (e.key !== "Escape" || !input.value) return;
-			// Don't let the palette's global Escape also fire.
-			e.preventDefault();
-			e.stopPropagation();
-			input.value = "";
-			apply("");
-		});
-
-		clear.addEventListener("click", () => {
-			input.value = "";
-			apply("");
-			input.focus();
-		});
-
-		// Hand the query to the site-wide palette.
-		emptyAll?.addEventListener("click", () => {
-			const query = input.value.trim();
-			document.querySelector<HTMLButtonElement>(".search-trigger")?.click();
-			const field = document.querySelector<HTMLInputElement>(".palette-input");
-			if (!field) return;
-			field.value = query;
-			field.dispatchEvent(new Event("input", { bubbles: true }));
-		});
-
-		// Arriving on /svar/?q=… (a shared link, or the back button) lands filtered.
-		const initial = new URLSearchParams(location.search).get("q");
-		if (initial) {
-			input.value = initial;
-			apply(initial);
-		}
-	}
-
 	// Progressive enhancement: highlight the category chip whose section is in view.
 	// Plain anchors already work without this (jump + scroll-margin handle landing).
 	function bindSvarNav() {
@@ -419,62 +213,13 @@ const description =
 	}
 
 	document.addEventListener("astro:page-load", () => {
-		bindSvarSearch();
 		bindSvarNav();
 	});
 </script>
 
 <style>
-	.svar-index {
-		margin-block: var(--space-phi);
-	}
 
-	.svar-search { display: flex; margin: 0; }
-	.svar-search-actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; margin-bottom: var(--space-half); }
 	.svar-index :global(.lead--page:empty) { display: none; }
-	.svar-intro { max-width: var(--content-width); margin: 0 0 var(--space-unit); color: var(--color-muted); }
-
-	.svar-search-clear {
-		flex-shrink: 0;
-		border: none;
-		background: transparent;
-		color: var(--color-muted);
-		cursor: pointer;
-		/* Padded past the 24px WCAG 2.5.8 target from a ~14px label. */
-		padding: 0.5rem 0;
-		min-height: 2.75rem;
-
-		&:hover { color: var(--color-accent); }
-		&:focus-visible { border-radius: var(--radius-xs); }
-	}
-
-	/* Reserves its line so nothing below shifts as the reader types. */
-	.svar-search-status {
-		min-height: 1.2em;
-		margin: 0;
-	}
-
-	.svar-empty {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		color: var(--color-muted);
-		margin: var(--space-unit) 0 0;
-	}
-
-	.svar-empty-all {
-		font: inherit;
-		color: var(--color-accent);
-		background: transparent;
-		border: none;
-		padding: 0.35rem 0;
-		margin-left: 0.4rem;
-		cursor: pointer;
-		text-decoration: underline;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 0.15em;
-
-		&:focus-visible { border-radius: var(--radius-xs); }
-	}
 
 	/* The long-form topics. No rules around the band — the photographs already mark it
 	   off as a different kind of thing. */

@@ -1710,31 +1710,15 @@
 		}
 	}
 
-	/* Shared index header (Fakta / Essäer / Frågor & svar) — kicker + title + one
-   ingress paragraph, so the three knowledge pages open identically. Rendered by
-   PageHead.astro; styled globally because the ingress is slotted parent content. */
-	.page-head {
-		/* The shared section header owns its own top AND bottom rhythm, so every page
-	   that follows it (Essäer's filter pills, Frågor & svar's category nav, the
-	   collection lists) sits the same distance below the ingress — the page tops stay
-	   homogeneous without each page setting its own top margin. */
-		margin-top: var(--space-phi);
-		margin-bottom: var(--space-phi);
-	}
-	.page-head-title {
-		margin: 0;
-		text-wrap: balance;
-	}
-	/* The ingress is now `.lead.lead--page` (see the top of this file); PageHead
-   emits both classes. */
-
 	/* Filter / category chip — a small pill shared by Essäer's filter row and the
    Frågor & svar category nav, so both index pages divide their content the same way
    at the top (same shape, same padding above/below). Pair with `.label` for the
    tight uppercase look. Active = aria-pressed (Essäer buttons) or aria-current
    (Frågor & svar jump links). */
 	.filter-chip {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 		padding: 0.4rem 0.875rem;
 		/* --color-divider is a hairline for rules (1.28:1) and cannot carry a control
 	   boundary; --color-warm is the quietest token that clears WCAG 1.4.11's 3:1. */

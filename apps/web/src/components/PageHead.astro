@@ -4,8 +4,8 @@
 // the same way: one title and one ingress paragraph, nothing else. The title is the
 // page's navigation label (optionally extended, e.g. "Frågor & svar om islam"), so
 // landing on a page instantly confirms which menu entry you followed. The ingress is
-// a slot so each page can weave in its own links. Styling lives globally in
-// layout.css (.page-head*) since the slotted ingress text is owned by the parent.
+// a slot so each page can weave in its own links. This component owns the shared
+// page opening, including the surrounding main element’s vertical spacing.
 interface Props {
 	title: string;
 }
@@ -17,3 +17,20 @@ const { title } = Astro.props;
 	<h1 class="page-head-title">{title}</h1>
 	{Astro.slots.has("default") && <p class="lead lead--page"><slot /></p>}
 </header>
+
+<style>
+	/* Every index using PageHead shares one opening, regardless of its page class. */
+	:global(main:has(> .page-head, > article > .page-head)) {
+		margin-block: 0 var(--space-phi);
+		padding-block-start: var(--space-group);
+	}
+
+	.page-head {
+		margin: 0 0 var(--space-group);
+	}
+
+	.page-head-title {
+		margin: 0;
+		text-wrap: balance;
+	}
+</style>
