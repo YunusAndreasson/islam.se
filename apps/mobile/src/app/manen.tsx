@@ -463,10 +463,9 @@ export default function Manen() {
   // the qibla readout runs, in the same words, at the same 10 Hz. It changes to a MEASUREMENT
   // once the lock holds: AIM_ALIGN_RELEASE keeps a lock to 7°, so "5° kvar" printed under
   // "Du ser mot månen" would be the screen arguing with itself in two adjacent lines.
-  const monthBrief = `${ring.length} dagar i månaden`;
   const caption =
     mode === 'month'
-      ? monthBrief
+      ? ''
       : turn
         ? `${skyBrief} · ${turn.deg}° ${status.aligned ? 'från månen' : 'kvar'}`
         : skyBrief;
@@ -479,7 +478,7 @@ export default function Manen() {
     : `Månen under horisonten, i ${compassPoint(sky.azimuth)}`;
   const captionA11y =
     mode === 'month'
-      ? monthBrief
+      ? undefined
       : turn
         ? status.aligned
           ? `${skySpoken}. ${turn.deg} grader från månen`
@@ -653,12 +652,12 @@ export default function Manen() {
               rather than announced, which is what lets a value that moves at 10 Hz live here
               at all. */}
           <View
-            style={[styles.captionSlot, isNewMoon && mode !== 'month' && styles.captionSlotQuiet]}
-            accessible={!isNewMoon || mode === 'month'}
-            accessibilityRole={!isNewMoon || mode === 'month' ? 'text' : undefined}
-            accessibilityLabel={!isNewMoon || mode === 'month' ? captionA11y : undefined}
+            style={[styles.captionSlot, (isNewMoon || mode === 'month') && styles.captionSlotQuiet]}
+            accessible={!isNewMoon && mode !== 'month'}
+            accessibilityRole={!isNewMoon && mode !== 'month' ? 'text' : undefined}
+            accessibilityLabel={!isNewMoon && mode !== 'month' ? captionA11y : undefined}
           >
-            {!isNewMoon || mode === 'month' ? (
+            {!isNewMoon && mode !== 'month' ? (
               <Text style={styles.caption} numberOfLines={2}>
                 {caption}
               </Text>

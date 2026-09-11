@@ -167,7 +167,7 @@ describe('Månen', () => {
     // ...and WHERE the Moon is stays on screen too. That line is a fact about the sky over
     // this place, not a compass reading, so it does not belong to the mode it is read in —
     // and reserving it in both is also what stops the switch moving the dial under the eye.
-    expect(screen.getByText('30 dagar i månaden')).toBeTruthy();
+    expect(screen.queryByText('30 dagar i månaden')).toBeNull();
   });
 
   it('says when the Moon rises and sets, and how much of it is lit', async () => {
