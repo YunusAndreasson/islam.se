@@ -29,6 +29,7 @@ export function MoonNoteRow({
   c,
   onPress,
   hint,
+  compactText,
 }: {
   note: MoonNote;
   ink: MoonInk;
@@ -37,15 +38,18 @@ export function MoonNoteRow({
   onPress?: () => void;
   /** What that door opens, spoken after the row's own words. */
   hint?: string;
+  /** Short visual copy for a surfaced alert; the full note remains the spoken label. */
+  compactText?: string;
 }) {
   const styles = makeStyles(c);
   const mark = <MoonDisc size={BULLET} illumination={note.moon} tilt={almanacTilt(note.waxing)} {...ink} />;
+  const displayText = compactText ?? note.text;
 
   if (!onPress) {
     return (
       <View style={styles.row}>
         {mark}
-        <Text style={styles.text}>{note.text}</Text>
+        <Text style={styles.text}>{displayText}</Text>
       </View>
     );
   }
@@ -59,7 +63,7 @@ export function MoonNoteRow({
       style={({ pressed }) => [styles.row, styles.rowTap, pressed && styles.pressed]}
     >
       {mark}
-      <Text style={[styles.text, styles.link]}>{note.text}</Text>
+      <Text style={[styles.text, styles.link]}>{displayText}</Text>
       <Icon name="chevronRight" size={14} color={c.accent} />
     </Pressable>
   );

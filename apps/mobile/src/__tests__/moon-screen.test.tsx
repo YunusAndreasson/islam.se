@@ -219,7 +219,7 @@ describe('Månen', () => {
     // 1 Ramaḍān: the boundary is behind us, so the honest line is the evening the crescent
     // already in the sky first became visible here — the checkable form of "has the calendar
     // drifted", and the thing to hold the mosque's announcement against.
-    expect(screen.getByText(/Månadens nymåne kunde först ses/)).toBeTruthy();
+    expect(screen.getByText(/Nymåne syntes/)).toBeTruthy();
     // A new-moon edge can also have a moonrise row. Keep only the primary crescent message on
     // the screen so the dial and date remain the focus; the complete list is in Almanacka.
     expect(screen.queryByText(/^(Upp|Ner) \d\d:\d\d/)).toBeNull();

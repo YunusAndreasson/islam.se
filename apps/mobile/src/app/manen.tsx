@@ -209,6 +209,23 @@ function relevantEclipse(coords: { latitude: number; longitude: number }, now: n
   return e.peak.getTime() - now <= DISTANT_ECLIPSE_DAYS * 86_400_000 ? e : null;
 }
 
+/** The surfaced crescent alert keeps its decision, date and timing, but drops prose that is
+ * better suited to the almanac. The original note remains the accessibility label and the
+ * complete text shown in MoonAlmanacSheet. */
+function compactHilalText(text: string): string {
+  return text
+    .replace(/^Månadens nymåne kunde först ses med blotta ögat /, 'Nymåne syntes ')
+    .replace(/^Månadens nymåne kunde först skymtas med blotta ögat /, 'Nymåne skymtades ')
+    .replace(/^Månadens nymåne gick först att se med kikare /, 'Nymåne syntes med kikare ')
+    .replace(/^Månadens nymåne gick inte att se härifrån /, 'Nymåne syntes inte här ')
+    .replace(/^Nymånen bör synas med blotta ögat /, 'Nymåne: blotta ögat ')
+    .replace(/^Nymånen kan skymtas med blotta ögat vid klar horisont /, 'Nymåne: blotta ögat, klar horisont ')
+    .replace(/^Nymånen syns bara med kikare /, 'Nymåne: kikare ')
+    .replace(/^Nymånen går inte att se härifrån /, 'Nymåne: syns inte här ')
+    .replace(/\s+[–-]\s+bäst omkring\s+/, ' · ')
+    .replace(/, (\d+ min efter solnedgången)/, ' · $1');
+}
+
 export default function Manen() {
   // Finding the Moon is done by holding the phone up and standing still, which the
   // display-sleep timer reads as "nobody is here" — the same betrayal Qibla refuses. It is
@@ -687,6 +704,7 @@ export default function Manen() {
                 note.action ? openSettings : note.tier === 'tonight' && hasAlmanac ? openAlmanac : undefined
               }
               hint={note.action ? 'Öppnar Inställningar.' : 'Öppnar almanackan.'}
+              compactText={note.tier === 'alert' && /nymåne/i.test(note.text) ? compactHilalText(note.text) : undefined}
             />
           ))}
           {permissionEscape}
