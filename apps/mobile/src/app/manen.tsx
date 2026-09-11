@@ -463,7 +463,7 @@ export default function Manen() {
   // the qibla readout runs, in the same words, at the same 10 Hz. It changes to a MEASUREMENT
   // once the lock holds: AIM_ALIGN_RELEASE keeps a lock to 7°, so "5° kvar" printed under
   // "Du ser mot månen" would be the screen arguing with itself in two adjacent lines.
-  const monthBrief = onViewedMonth ? `Dag ${hijri.day} av ${ring.length}` : `${ring.length} dagar i månaden`;
+  const monthBrief = `${ring.length} dagar i månaden`;
   const caption =
     mode === 'month'
       ? monthBrief
