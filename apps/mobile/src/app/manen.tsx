@@ -463,7 +463,13 @@ export default function Manen() {
   // the qibla readout runs, in the same words, at the same 10 Hz. It changes to a MEASUREMENT
   // once the lock holds: AIM_ALIGN_RELEASE keeps a lock to 7°, so "5° kvar" printed under
   // "Du ser mot månen" would be the screen arguing with itself in two adjacent lines.
-  const caption = turn ? `${skyBrief} · ${turn.deg}° ${status.aligned ? 'från månen' : 'kvar'}` : skyBrief;
+  const monthBrief = onViewedMonth ? `Dag ${hijri.day} av ${ring.length}` : `${ring.length} dagar i månaden`;
+  const caption =
+    mode === 'month'
+      ? monthBrief
+      : turn
+        ? `${skyBrief} · ${turn.deg}° ${status.aligned ? 'från månen' : 'kvar'}`
+        : skyBrief;
   // The SPOKEN form is built from words, never from the printed one: `skyBrief` carries a
   // degree sign and middots, and a screen reader verbalises those ("mittpunkt", "grader"
   // — or nothing at all, depending on the engine). Qibla's `factsA11y` spells its units out
@@ -471,11 +477,14 @@ export default function Manen() {
   const skySpoken = aloft
     ? `Månen i ${compassPoint(sky.azimuth)}, ${Math.round(sky.altitude)} grader upp`
     : `Månen under horisonten, i ${compassPoint(sky.azimuth)}`;
-  const captionA11y = turn
-    ? status.aligned
-      ? `${skySpoken}. ${turn.deg} grader från månen`
-      : `${skySpoken}. ${turn.deg} grader kvar, ${TURN_CUES[turn.dir].spoken}`
-    : skySpoken;
+  const captionA11y =
+    mode === 'month'
+      ? monthBrief
+      : turn
+        ? status.aligned
+          ? `${skySpoken}. ${turn.deg} grader från månen`
+          : `${skySpoken}. ${turn.deg} grader kvar, ${TURN_CUES[turn.dir].spoken}`
+        : skySpoken;
 
   const line = statusLine(mode, PHASE_NAMES[phase], status, turn, aloft, noCompass, permissionDenied);
 
@@ -644,12 +653,12 @@ export default function Manen() {
               rather than announced, which is what lets a value that moves at 10 Hz live here
               at all. */}
           <View
-            style={[styles.captionSlot, isNewMoon && styles.captionSlotQuiet]}
-            accessible={!isNewMoon}
-            accessibilityRole={isNewMoon ? undefined : 'text'}
-            accessibilityLabel={isNewMoon ? undefined : captionA11y}
+            style={[styles.captionSlot, isNewMoon && mode !== 'month' && styles.captionSlotQuiet]}
+            accessible={!isNewMoon || mode === 'month'}
+            accessibilityRole={!isNewMoon || mode === 'month' ? 'text' : undefined}
+            accessibilityLabel={!isNewMoon || mode === 'month' ? captionA11y : undefined}
           >
-            {!isNewMoon ? (
+            {!isNewMoon || mode === 'month' ? (
               <Text style={styles.caption} numberOfLines={2}>
                 {caption}
               </Text>
@@ -664,8 +673,10 @@ export default function Manen() {
               setPickingMonth(true);
             }}
             accessibilityRole="button"
-            accessibilityLabel={`${hijri.day} ${HIJRI_MONTHS[hijri.month - 1]} ${hijri.year}, ${civilLine}. ${facts}. Visa hela månaden.`}
-            accessibilityHint="Öppnar månadens dagar."
+            accessibilityLabel={`${hijri.day} ${HIJRI_MONTHS[hijri.month - 1]} ${hijri.year}, ${civilLine}. ${facts}. ${
+              mode === 'month' ? 'Öppnar månadskalendern med alla dagar.' : 'Visa hela månaden.'
+            }`}
+            accessibilityHint={mode === 'month' ? 'Öppnar månadskalendern med alla dagar.' : 'Öppnar månadens dagar.'}
             style={({ pressed }) => [styles.dateTap, pressed && styles.pressed]}
           >
             <View style={styles.factsRow}>
