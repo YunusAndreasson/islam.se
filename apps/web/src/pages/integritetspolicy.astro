@@ -3,7 +3,7 @@ import ArticlePage from "../components/ArticlePage.astro";
 import SectionOrnament from "../components/SectionOrnament.astro";
 import { breadcrumbList } from "../lib/jsonld";
 
-const updated = "29 juli 2026";
+const updated = "11 september 2026";
 ---
 
 <ArticlePage
@@ -87,6 +87,26 @@ const updated = "29 juli 2026";
 				IP-adress begäran kommer ifrån. Vi skickar inte din exakta GPS-position
 				till dessa tjänster och kopplar inte sådana förfrågningar till dig som
 				person.
+			</p>
+
+			<h3>Felrapporter</h3>
+			<p>
+				Om appen kraschar eller stöter på ett oväntat fel skickar den en felrapport till
+				Sentry, en tjänst för felövervakning, så att vi kan hitta och rätta felet. Rapporten
+				innehåller tekniska uppgifter om felet och enheten, till exempel felmeddelandet, var i
+				koden felet uppstod, appens version och enhetens modell och operativsystem. Din
+				position och dina inställningar ingår aldrig.
+			</p>
+			<p>
+				Rapporter skickas bara när något har gått fel – så länge appen fungerar hör den inte
+				av sig till Sentry. Som vilken webbtjänst som helst ser Sentry den IP-adress en rapport
+				kommer ifrån, men den sparas inte. Rapporterna raderas automatiskt efter högst 90
+				dagar.
+			</p>
+			<p>
+				Sentry drivs av det amerikanska företaget Functional Software, Inc. och lagrar
+				rapporterna i USA. Överföringen dit sker med stöd av ramen för dataskydd mellan EU och
+				USA (EU–U.S. Data Privacy Framework), som Sentry har anslutit sig till.
 			</p>
 
 			<h2>Ingen spårning, inga konton, ingen reklam</h2>
