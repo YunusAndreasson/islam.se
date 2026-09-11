@@ -73,7 +73,15 @@ function makeStyles(c: Palette) {
   return StyleSheet.create({
     // minHeight keeps a one-line row and the bullet beside it on the same rhythm as a
     // wrapped two-line one, so a list of them does not breathe unevenly.
-    row: { flexDirection: 'row', alignItems: 'center', gap: space.sm, minHeight: 24 },
+    row: {
+      width: '100%',
+      maxWidth: 360,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: space.sm,
+      minHeight: 24,
+    },
     // A door has to be reachable by a thumb; a statement only has to be read.
     rowTap: { minHeight: 44 },
     // `inkMuted`, not `inkFaint`. The readout used to carry up to five of these at once and

@@ -849,7 +849,9 @@ function makeStyles(c: Palette) {
     // Centred as a BLOCK, with its rows sharing one left edge inside it. Stretched, the
     // single row under a centred pill, a centred date and a centred fact line was the one
     // thing on the readout hanging off the left margin.
-    notes: { alignSelf: 'center', gap: space.xs, marginTop: space.xl },
+    // Keep the note as a centred reading block. Without an explicit width/alignment the row
+    // stretches to the screen edge while its text stays left-anchored beside the bullet.
+    notes: { alignSelf: 'stretch', alignItems: 'center', gap: space.xs, marginTop: space.xl },
     // The door to the rest. Centred and quiet — it is an offer, not an instruction, and on
     // most days it is the last thing on the screen.
     almanacTap: {
