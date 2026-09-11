@@ -31,6 +31,15 @@ const MAP_REVEAL_TIMEOUT_MS = 8000;
 
 const OFFLINE_COPY = /Ingen internetanslutning/;
 
+// Every test here renders the whole Bönetider screen — MapLibre, the Skia solar overlay and
+// the map datasets — which is the heaviest render in the suite, and the same reason
+// screens.test.tsx gives its map tests headroom past jest's 5 s default. This file had been
+// living on that default and went red on 2026-09-12 with a timeout rather than a failed
+// assertion, on an unchanged commit, while a native build and an emulator were saturating
+// the machine. The budget is the sibling suite's; nothing about what is asserted changes.
+const MAP_RENDER_TIMEOUT = 20_000;
+jest.setTimeout(MAP_RENDER_TIMEOUT);
+
 const networkState = Network.useNetworkState as unknown as jest.MockedFunction<
   typeof Network.useNetworkState
 >;

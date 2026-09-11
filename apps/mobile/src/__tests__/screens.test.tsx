@@ -23,12 +23,43 @@ import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
 import { qiblaBearing, greatCirclePoints, KAABA } from '@/lib/qibla';
 import { project } from '@/lib/map/projection';
+import { __resetGridCache } from '@/lib/solar/grid-cache';
 import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { first } from '@/test-utils/at';
 import { LogManager } from '@maplibre/maplibre-react-native';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
+
+// Every test here mounts a whole screen — the map with MapLibre and the Skia overlay, or a
+// settings screen hydrating from storage — so jest's 5 s default measures how busy the
+// machine is rather than whether the app is correct. On 2026-09-12, with an emulator and two
+// native builds saturating the box, it tripped on the Notiser test, which asserts nothing
+// slow at all. The per-test MAP_RENDER_TIMEOUT arguments below are left in place as a record
+// of which renders are the heaviest.
+const SCREEN_RENDER_TIMEOUT = 20_000;
+jest.setTimeout(SCREEN_RENDER_TIMEOUT);
+
+// A fixed Stockholm midday, for the one test below that needs a prayer line to exist. Only
+// `Date` is faked; every timer API stays real so React Testing Library's async `act()` still
+// flushes — the same pattern, and the same reason, as day-navigation.test.tsx.
+const PINNED_MIDDAY = Date.UTC(2026, 4, 20, 11, 0, 0); // 20 May 2026, 13:00 Europe/Stockholm
+const REAL_TIMER_APIS = [
+  'setTimeout',
+  'clearTimeout',
+  'setInterval',
+  'clearInterval',
+  'setImmediate',
+  'clearImmediate',
+  'nextTick',
+  'queueMicrotask',
+  'requestAnimationFrame',
+  'cancelAnimationFrame',
+  'requestIdleCallback',
+  'cancelIdleCallback',
+  'performance',
+  'hrtime',
+] as const;
 
 // Replays one of MapLibre's own "could not fetch that" log lines — the shape mbgl emits when
 // a vector tile cannot be reached. The mocked LogManager in jest.setup holds whichever
@@ -80,7 +111,7 @@ describe('tab screens', () => {
   // The map screen is the heaviest render in the suite (MapLibre + the Skia solar
   // overlay + the floating MapNav), so it gets headroom past the 5 s default — under
   // parallel-worker CPU contention a heavy render legitimately runs a few seconds.
-  const MAP_RENDER_TIMEOUT = 20_000;
+  const MAP_RENDER_TIMEOUT = SCREEN_RENDER_TIMEOUT;
 
   beforeEach(async () => {
     await AsyncStorage.clear();
@@ -236,25 +267,40 @@ describe('tab screens', () => {
   }, MAP_RENDER_TIMEOUT);
 
   it('explains a tapped qibla arc and a prayer contour', async () => {
-    await renderSettled(withProviders(<Bonetider />));
-    const map = screen.getByTestId('sweden-map');
-    fireEvent(map, 'regionDidChange', { nativeEvent: {
-      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
-    } });
-    const overlay = screen.UNSAFE_getByType(SolarSkiaOverlay);
-    const props = overlay.props;
-    const from = { longitude: props.userPoint[0], latitude: props.userPoint[1] };
-    const arcPoint = greatCirclePoints(from, KAABA, 96)[5]!;
-    const qiblaPoint = project(arcPoint[0], arcPoint[1], props.camera.value);
-    fireEvent.press(map, { nativeEvent: { point: [qiblaPoint.x, qiblaPoint.y] } });
-    expect(screen.getByText(/Linjen visar qibla.*km/)).toBeTruthy();
+    // ⚠️ THIS TEST NEEDS A PRAYER TO BE HAPPENING SOMEWHERE IN SWEDEN. A prayer line is the
+    // level-0 contour of (prayerTime − now), so it exists only where that prayer falls at
+    // this instant: each one sweeps the country's longitudes in roughly fifty minutes and is
+    // absent in between. On the real wall clock the test therefore passed by day and failed
+    // at 00:25 on an unchanged commit (2026-09-12) — after ʿIshāʾ and before Fajr no line
+    // crosses the country, so the overlay had nothing to tap and was right not to. Pin the
+    // instant rather than weaken the assertion; midday is mid-Ẓuhr-sweep. The grid cache is
+    // keyed per day, and tests above have already filled it for the real one.
+    jest.useFakeTimers({ now: PINNED_MIDDAY, doNotFake: [...REAL_TIMER_APIS] });
+    __resetGridCache();
+    try {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+      fireEvent(map, 'regionDidChange', { nativeEvent: {
+        zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+      } });
+      const overlay = screen.UNSAFE_getByType(SolarSkiaOverlay);
+      const props = overlay.props;
+      const from = { longitude: props.userPoint[0], latitude: props.userPoint[1] };
+      const arcPoint = greatCirclePoints(from, KAABA, 96)[5]!;
+      const qiblaPoint = project(arcPoint[0], arcPoint[1], props.camera.value);
+      fireEvent.press(map, { nativeEvent: { point: [qiblaPoint.x, qiblaPoint.y] } });
+      expect(screen.getByText(/Linjen visar qibla.*km/)).toBeTruthy();
 
-    const line = props.lines.find((item: { polylines: number[][][] }) => item.polylines[0]?.length);
-    expect(line).toBeDefined();
-    const coordinate = line.polylines[0][1];
-    const prayerPoint = project(coordinate[0], coordinate[1], props.camera.value);
-    fireEvent.press(map, { nativeEvent: { point: [prayerPoint.x, prayerPoint.y] } });
-    expect(screen.getByText(/Linjen visar var.*vid kartans valda tid/)).toBeTruthy();
+      const line = props.lines.find((item: { polylines: number[][][] }) => item.polylines[0]?.length);
+      expect(line).toBeDefined();
+      const coordinate = line.polylines[0][1];
+      const prayerPoint = project(coordinate[0], coordinate[1], props.camera.value);
+      fireEvent.press(map, { nativeEvent: { point: [prayerPoint.x, prayerPoint.y] } });
+      expect(screen.getByText(/Linjen visar var.*vid kartans valda tid/)).toBeTruthy();
+    } finally {
+      jest.useRealTimers();
+      __resetGridCache();
+    }
   }, MAP_RENDER_TIMEOUT);
 
   // THE BUG THIS GUARDS: nothing stopped a fling from parking the camera in the Pacific,
