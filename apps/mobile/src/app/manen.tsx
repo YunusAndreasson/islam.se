@@ -397,6 +397,10 @@ export default function Manen() {
   const ink = useMoonInk(white);
   const noteInk = useMoonInk();
   const phase = phaseKey(sky.phaseAngle);
+  // At conjunction there is no visible Moon to locate in the sky. The direction/altitude
+  // caption is therefore secondary noise beside the nymåne message; the compass status and
+  // almanac still provide the useful context without another line competing with the dial.
+  const isNewMoon = phase === 'new' || sky.illumination < 0.005;
   // "73 % belyst · 9 dygn" — off the surface, into the almanac. It was the third line of the
   // hero block and the two most opaque numbers on the screen: a percentage nobody acts on,
   // and an age in dygn that has to be explained before it means anything. The pill above the
@@ -623,16 +627,16 @@ export default function Manen() {
               rather than announced, which is what lets a value that moves at 10 Hz live here
               at all. */}
           <View
-            style={styles.captionSlot}
-            accessible
-            accessibilityRole="text"
-            accessibilityLabel={captionA11y}
+            style={[styles.captionSlot, isNewMoon && styles.captionSlotQuiet]}
+            accessible={!isNewMoon}
+            accessibilityRole={isNewMoon ? undefined : 'text'}
+            accessibilityLabel={isNewMoon ? undefined : captionA11y}
           >
-            {/* Two lines, like the pill above it — at ordinary text sizes this is always
-                one, and at the sizes where it wraps the pill is wrapping too. */}
-            <Text style={styles.caption} numberOfLines={2}>
-              {caption}
-            </Text>
+            {!isNewMoon ? (
+              <Text style={styles.caption} numberOfLines={2}>
+                {caption}
+              </Text>
+            ) : null}
           </View>
 
           {/* The hero stays the DATE in both modes. The switch changes what the instrument is
@@ -666,9 +670,6 @@ export default function Manen() {
               </Text>
               <Icon name="calendar" size={18} color={c.accent} />
             </View>
-            <Text style={styles.civilLine} numberOfLines={1}>
-              {civilLine}
-            </Text>
           </Pressable>
         </View>
         {/* Tonight, and anything that asks for something tonight. Usually exactly one row —
@@ -816,10 +817,10 @@ function makeStyles(c: Palette) {
     // reading wraps. `Under horisonten, i nordväst · 137° kvar` is about 310 dp of mono at
     // the default size, which clears a 375 pt phone and does not clear a 320 pt one.
     captionSlot: { alignSelf: 'stretch', minHeight: 40, alignItems: 'center', justifyContent: 'center' },
+    captionSlotQuiet: { minHeight: 8 },
     caption: { ...type.caption, color: c.inkMuted, textAlign: 'center', ...mono },
 
     dateTap: { minHeight: 44, justifyContent: 'center', alignItems: 'center' },
-    civilLine: { ...type.callout, color: c.inkMuted, textAlign: 'center', marginTop: 2 },
     factsBalance: { width: 18 },
     factsRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.sm },
     dateLine: { ...type.headline, color: c.ink, textAlign: 'center', flexShrink: 1 },
