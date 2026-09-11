@@ -366,13 +366,18 @@ export default function Manen() {
     [almanac, sky.illumination, sky.waxing],
   );
 
-  // What the readout prints, and what waits behind the almanac's door. `tonight` is the one
-  // row about the night the reader is in; `alert` is the crescent question at a month's edge,
-  // an eclipse they can go outside and see, or a calendar drifted far enough to be worth
-  // correcting — rare by construction, and never folded away, because a correction nobody
-  // can see is a correction nobody makes.
-  const surfaced = useMemo(() => notes.filter((n) => n.tier !== 'almanac'), [notes]);
-  // No door when there is nothing new behind it.
+  // Keep the readout calm when several lunar events coincide. A new-moon day can otherwise
+  // show moonrise, the crescent forecast, a calendar drift and an eclipse beneath the dial —
+  // all true, but all competing for the same small space. One primary row is enough on the
+  // surface; the almanac remains the complete reference behind one tap.
+  const surfaced = useMemo(() => {
+    const candidates = notes.filter((n) => n.tier !== 'almanac');
+    const primary =
+      candidates.find((n) => n.action) ??
+      candidates.find((n) => n.tier === 'alert') ??
+      candidates.find((n) => n.tier === 'tonight');
+    return primary ? [primary] : [];
+  }, [notes]);
   const hasAlmanac = notes.length > surfaced.length;
 
   const openSettings = useCallback(() => {

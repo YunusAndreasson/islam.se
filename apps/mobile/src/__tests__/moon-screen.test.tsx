@@ -173,6 +173,9 @@ describe('Månen', () => {
   it('says when the Moon rises and sets, and how much of it is lit', async () => {
     await renderSettled(withProviders(<Manen />));
 
+    await act(async () => {
+      fireEvent.press(screen.getByRole('button', { name: 'Almanacka' }));
+    });
     expect(screen.getByText(/^(Upp|Ner) \d\d:\d\d/)).toBeTruthy();
   });
 
@@ -180,18 +183,15 @@ describe('Månen', () => {
     // The readout used to print every note the almanac produced — up to five sentences under
     // a hero numeral, a status pill and a phase line, on a screen whose argument is a single
     // drawing. What is left on the surface is tonight, plus anything asking to be acted on
-    // tonight; the rest is one tap away, in full. Both halves of that are load-bearing: a
-    // regression that surfaced everything again would look like the pass never happened, and
-    // one that swallowed the tonight row would hide the thing the reader came for.
+    // tonight; the rest is one tap away, in full. A new-moon edge is the stress case: the
+    // crescent alert stays primary while the almanac keeps every row.
     await renderSettled(withProviders(<Manen />));
 
     // A conjunction a fortnight out is not news, and does not get a permanent row.
     expect(screen.queryByText(/^Nästa: (fullmåne|nymåne)/)).toBeNull();
 
     await act(async () => {
-      // The tonight row IS the door: the rest of the almanac is more of the same sentence,
-      // and a separate "Almanacka ›" line under it said only what the chevron already says.
-      fireEvent.press(screen.getByText(/^(Upp|Ner) \d\d:\d\d/));
+      fireEvent.press(screen.getByRole('button', { name: 'Almanacka' }));
     });
 
     await waitFor(() => expect(screen.getByText(/^Nästa: (fullmåne|nymåne)/)).toBeTruthy());
@@ -201,11 +201,9 @@ describe('Månen', () => {
     // The sheet shows the WHOLE list, including the row already on the surface — a door that
     // hides what you could already see is a door you cannot trust.
     expect(screen.getByText(/^(Upp|Ner) \d\d:\d\d/)).toBeTruthy();
-    // Two of that row exist, and only the sheet's is reachable: while this is up the readout
-    // behind it is out of the swipe order (accessibilityViewIsModal, as the month sheet
-    // does it), so a screen reader is not walking two copies of the same almanac.
+    // The row only exists in the sheet now; the surface shows the primary crescent message.
     const both = screen.getAllByText(/^(Upp|Ner) \d\d:\d\d/, { includeHiddenElements: true });
-    expect(both.length).toBe(2);
+    expect(both.length).toBe(1);
 
     await act(async () => {
       fireEvent.press(screen.getByRole('button', { name: 'Stäng almanackan' }));
@@ -222,6 +220,10 @@ describe('Månen', () => {
     // already in the sky first became visible here — the checkable form of "has the calendar
     // drifted", and the thing to hold the mosque's announcement against.
     expect(screen.getByText(/Månadens nymåne kunde först ses/)).toBeTruthy();
+    // A new-moon edge can also have a moonrise row. Keep only the primary crescent message on
+    // the screen so the dial and date remain the focus; the complete list is in Almanacka.
+    expect(screen.queryByText(/^(Upp|Ner) \d\d:\d\d/)).toBeNull();
+    expect(screen.getByText('Almanacka')).toBeTruthy();
   });
 
   it('opens the month, with its sunnah days named', async () => {
