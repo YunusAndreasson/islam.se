@@ -21,7 +21,7 @@
 // every time someone opened this — the very jump this pass exists to remove. An overlay
 // reflows nothing at all.
 import { useMemo } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -53,6 +53,28 @@ export function MoonAlmanacSheet({
   const insets = useSafeAreaInsets();
   const ink = useMoonInk();
   const reduceMotion = useReducedMotion();
+  const sections = useMemo(() => {
+    const order = ['I natt', 'Nymåne', 'Kommande', 'Förmörkelser', 'Kalender'] as const;
+    const grouped = new Map<(typeof order)[number], MoonNote[]>();
+    for (const note of notes) {
+      const title = note.tier === 'tonight'
+        ? 'I natt'
+        : note.action
+          ? 'Kalender'
+          : /nymåne/i.test(note.text)
+            ? 'Nymåne'
+            : /förmörkelse/i.test(note.text)
+              ? 'Förmörkelser'
+              : 'Kommande';
+      const list = grouped.get(title) ?? [];
+      list.push(note);
+      grouped.set(title, list);
+    }
+    return order.flatMap((title) => {
+      const sectionNotes = grouped.get(title);
+      return sectionNotes?.length ? [{ title, notes: sectionNotes }] : [];
+    });
+  }, [notes]);
 
   // ⚠️ THE CARD IS BOTTOM-ANCHORED AND SIZED BY ITS CONTENT, WHICH IS ONLY SAFE WITH A CEILING.
   // With `bottom` set and no `top`, an over-tall card grows UPWARD past the top of the
@@ -90,21 +112,29 @@ export function MoonAlmanacSheet({
         tint={c.surface}
       >
         <Text style={styles.title}>Almanacka</Text>
+        <Text style={styles.factsLabel}>Månens fas</Text>
         <Text style={styles.facts}>{facts}</Text>
         {/* The title and the way out stay put; only the rows move. */}
         <ScrollView style={styles.rows} contentContainerStyle={styles.rowsContent}>
-          {notes.map((note) => (
-            <MoonNoteRow
-              key={note.text}
-              note={note}
-              ink={ink}
-              c={c}
-              // Only the drift row is a door in here. The tonight row IS a door on the
-              // screen — it is what opened this — and repeating that would send the reader
-              // in a circle.
-              onPress={note.action ? onAction : undefined}
-              hint="Öppnar Inställningar."
-            />
+          {sections.map((section) => (
+            <View key={section.title} style={styles.section}>
+              <Text style={styles.sectionTitle}>{section.title}</Text>
+              <View style={styles.sectionRows}>
+                {section.notes.map((note) => (
+                  <MoonNoteRow
+                    key={note.text}
+                    note={note}
+                    ink={ink}
+                    c={c}
+                    // Only the drift row is a door in here. The tonight row IS a door on the
+                    // screen — it is what opened this — and repeating that would send the reader
+                    // in a circle.
+                    onPress={note.action ? onAction : undefined}
+                    hint="Öppnar Inställningar."
+                  />
+                ))}
+              </View>
+            </View>
           ))}
         </ScrollView>
         {/* NO CAVEAT HERE. A draft of this card closed with "Månaden börjar när nymånen ses
@@ -146,11 +176,15 @@ function makeStyles(c: Palette) {
       ...shadow.card,
     },
     title: { ...type.label, color: c.inkMuted },
+    factsLabel: { ...type.caption, color: c.inkMuted, marginTop: space.md },
     facts: { ...type.callout, color: c.ink, marginTop: 2, ...mono },
     // `flexShrink` is what lets the ceiling above bite: without it the ScrollView reports
     // its full content height and pushes the card open again, ceiling or no ceiling.
     rows: { flexShrink: 1, marginTop: space.md, marginBottom: space.sm },
-    rowsContent: { gap: space.sm },
+    rowsContent: { gap: space.md, paddingBottom: space.xs },
+    section: { gap: space.xs },
+    sectionTitle: { ...type.label, color: c.inkMuted },
+    sectionRows: { gap: space.xs },
     close: { alignSelf: 'center', minHeight: 44, justifyContent: 'center', paddingHorizontal: space.lg, marginTop: space.xs },
     closeText: { ...type.bodyStrong, color: c.accent },
     pressed: { opacity: 0.6 },

@@ -195,6 +195,9 @@ describe('Månen', () => {
     });
 
     await waitFor(() => expect(screen.getByText(/^Nästa: (fullmåne|nymåne)/)).toBeTruthy());
+    expect(screen.getByText('I natt')).toBeTruthy();
+    expect(screen.getByText('Nymåne')).toBeTruthy();
+    expect(screen.getByText('Kommande')).toBeTruthy();
     // The two most opaque numbers on the screen — a percentage nobody acts on and an age in
     // dygn that has to be explained — live in here now, not under the date.
     expect(screen.getByText(/% belyst/)).toBeTruthy();
