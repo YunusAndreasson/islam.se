@@ -199,7 +199,7 @@ export function MoonMonthSheet({
             ) : (
               <View
                 key={cell.day}
-                style={[styles.cell, cell.civil.getTime() < todayStart && { opacity: 0.4 }, cell.day === today && styles.cellToday]}
+                style={[styles.cell, cell.civil.getTime() < todayStart && { opacity: 0.52 }, cell.day === today && styles.cellToday]}
                 accessible
                 accessibilityRole="text"
                 accessibilityLabel={`${cell.day} ${HIJRI_MONTHS[month - 1]}, ${cell.civil.getDate()}/${cell.civil.getMonth() + 1}${
