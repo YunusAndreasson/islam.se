@@ -703,7 +703,7 @@ export default function Manen() {
               onPress={
                 note.action ? openSettings : note.tier === 'tonight' && hasAlmanac ? openAlmanac : undefined
               }
-              hint={note.action ? 'Öppnar Inställningar.' : 'Öppnar almanackan.'}
+              hint={note.action ? 'Öppnar Inställningar.' : 'Öppnar månens detaljer.'}
               compactText={note.tier === 'alert' && /nymåne/i.test(note.text) ? compactHilalText(note.text) : undefined}
             />
           ))}
@@ -714,11 +714,11 @@ export default function Manen() {
             <Pressable
               onPress={openAlmanac}
               accessibilityRole="button"
-              accessibilityLabel="Almanacka"
+              accessibilityLabel="Månens detaljer"
               accessibilityHint="Upp- och nedgång, kommande faser och förmörkelser."
               style={({ pressed }) => [styles.almanacTap, pressed && styles.pressed]}
             >
-              <Text style={styles.almanacText}>Almanacka</Text>
+              <Text style={styles.almanacText}>Månens detaljer</Text>
               <Icon name="chevronRight" size={14} color={c.accent} />
             </Pressable>
           ) : null}

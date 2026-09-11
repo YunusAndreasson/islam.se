@@ -111,7 +111,7 @@ export function MoonAlmanacSheet({
         borderRadius={radius.xl}
         tint={c.surface}
       >
-        <Text style={styles.title}>Almanacka</Text>
+        <Text style={styles.title}>Månens detaljer</Text>
         <Text style={styles.factsLabel}>Månens fas</Text>
         <Text style={styles.facts}>{facts}</Text>
         {/* The title and the way out stay put; only the rows move. */}
@@ -148,7 +148,7 @@ export function MoonAlmanacSheet({
             onClose();
           }}
           accessibilityRole="button"
-          accessibilityLabel="Stäng almanackan"
+          accessibilityLabel="Stäng månens detaljer"
           style={({ pressed }) => [styles.close, pressed && styles.pressed]}
         >
           <Text style={styles.closeText}>Stäng</Text>

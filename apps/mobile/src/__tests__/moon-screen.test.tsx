@@ -174,7 +174,7 @@ describe('Månen', () => {
     await renderSettled(withProviders(<Manen />));
 
     await act(async () => {
-      fireEvent.press(screen.getByRole('button', { name: 'Almanacka' }));
+      fireEvent.press(screen.getByRole('button', { name: 'Månens detaljer' }));
     });
     expect(screen.getByText(/^(Upp|Ner) \d\d:\d\d/)).toBeTruthy();
   });
@@ -191,13 +191,13 @@ describe('Månen', () => {
     expect(screen.queryByText(/^Nästa: (fullmåne|nymåne)/)).toBeNull();
 
     await act(async () => {
-      fireEvent.press(screen.getByRole('button', { name: 'Almanacka' }));
+      fireEvent.press(screen.getByRole('button', { name: 'Månens detaljer' }));
     });
 
     await waitFor(() => expect(screen.getByText(/^Nästa: (fullmåne|nymåne)/)).toBeTruthy());
     expect(screen.getByText('I natt')).toBeTruthy();
     expect(screen.getByText('Nymåne')).toBeTruthy();
-    expect(screen.getByText('Kommande')).toBeTruthy();
+    expect(screen.getByText('Förmörkelser')).toBeTruthy();
     // The two most opaque numbers on the screen — a percentage nobody acts on and an age in
     // dygn that has to be explained — live in here now, not under the date.
     expect(screen.getByText(/% belyst/)).toBeTruthy();
@@ -209,7 +209,7 @@ describe('Månen', () => {
     expect(both.length).toBe(1);
 
     await act(async () => {
-      fireEvent.press(screen.getByRole('button', { name: 'Stäng almanackan' }));
+      fireEvent.press(screen.getByRole('button', { name: 'Stäng månens detaljer' }));
     });
     await waitFor(() => expect(screen.queryByText(/^Nästa: (fullmåne|nymåne)/)).toBeNull());
   });
@@ -226,7 +226,7 @@ describe('Månen', () => {
     // A new-moon edge can also have a moonrise row. Keep only the primary crescent message on
     // the screen so the dial and date remain the focus; the complete list is in Almanacka.
     expect(screen.queryByText(/^(Upp|Ner) \d\d:\d\d/)).toBeNull();
-    expect(screen.getByText('Almanacka')).toBeTruthy();
+    expect(screen.getByText('Månens detaljer')).toBeTruthy();
   });
 
   it('opens the month, with its sunnah days named', async () => {
