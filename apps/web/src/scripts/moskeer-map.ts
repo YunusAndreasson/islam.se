@@ -28,6 +28,7 @@ import maplibreCssUrl from "maplibre-gl/dist/maplibre-gl.css?url";
 // `?worker&url` makes Vite bundle the worker (resolving its own
 // ./maplibre-gl-shared.mjs import) and hand back the emitted href.
 import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
+import { BURIAL_GLYPH_GRID, BURIAL_GLYPH_PATH } from "../lib/begravningsplatser/glyph";
 import { SWEDEN_BBOX } from "../lib/bonetider/sweden-outline";
 import { haversineKm } from "../lib/geom";
 import { fold } from "../lib/search-text";
@@ -45,6 +46,23 @@ interface MosqueDatum {
 	google: string;
 	apple: string;
 	geo: string;
+}
+
+/** A Muslim burial ground — the map's second kind of place (see moskeer.astro). */
+interface BurialDatum {
+	id: string;
+	name: string;
+	/** The section's own name, or "Muslimskt gravkvarter" when the huvudman gives none. */
+	section: string;
+	lng: number;
+	lat: number;
+	lan: string;
+	location: string;
+	address?: string;
+	opened?: number;
+	source: string;
+	google: string;
+	apple: string;
 }
 
 type Scheme = "light" | "dark";
@@ -85,6 +103,34 @@ const PALETTE = {
 		clusterText: "#1d1912",
 	},
 } as const;
+
+/** The burial glyph's image id in the style, and its size in CSS px at icon-size 1. */
+const GRAVE_IMAGE = "mk-grave";
+const GRAVE_PX = 22;
+
+/** The shared burial glyph (lib/begravningsplatser/glyph) rasterised for MapLibre in the
+ *  marker palette: a brass grave inside a ring of the page ground — the pairing the mosque
+ *  dots already wear (brass fill, brassOn stroke), so the two kinds of place read as one
+ *  family and only the shape tells them apart. Drawn with Path2D from the path string rather
+ *  than loaded as an image: no request, nothing for a CSP to block, no decode to wait on. */
+function burialGlyph(p: (typeof PALETTE)[Scheme]): ImageData | null {
+	const ratio = 2;
+	const size = GRAVE_PX * ratio;
+	const canvas = document.createElement("canvas");
+	canvas.width = size;
+	canvas.height = size;
+	const ctx = canvas.getContext("2d");
+	if (!ctx) return null;
+	ctx.scale(size / BURIAL_GLYPH_GRID, size / BURIAL_GLYPH_GRID);
+	const path = new Path2D(BURIAL_GLYPH_PATH);
+	ctx.lineJoin = "round";
+	ctx.lineWidth = 2.4;
+	ctx.strokeStyle = p.brassOn;
+	ctx.stroke(path);
+	ctx.fillStyle = p.brass;
+	ctx.fill(path);
+	return ctx.getImageData(0, 0, size, size);
+}
 
 const [minLon, minLat, maxLon, maxLat] = SWEDEN_BBOX;
 const SWEDEN_BOUNDS: LngLatBoundsLike = [
@@ -209,6 +255,19 @@ async function mount() {
 		return;
 	}
 	const byId = new Map(data.map((m) => [m.id, m]));
+	// The burial grounds share the map but not the list (see moskeer.astro). A missing or
+	// broken payload leaves this a mosque map rather than a broken one.
+	let burials: BurialDatum[] = [];
+	try {
+		burials = JSON.parse(document.getElementById("begravning-data")?.textContent || "[]");
+	} catch {
+		burials = [];
+	}
+	const burialById = new Map(burials.map((b) => [b.id, b]));
+	const burialSearch = new Map(
+		burials.map((b) => [b.id, fold(`${b.name} ${b.section} ${b.location} ${b.address ?? ""}`)]),
+	);
+	const gravesToggle = document.querySelector<HTMLInputElement>("#mk-graves");
 
 	const search = document.querySelector<HTMLInputElement>("#mk-search");
 	const lanSelect = document.querySelector<HTMLSelectElement>("#mk-lan");
@@ -236,7 +295,9 @@ async function mount() {
 		Parameters<GeoJSONSource["setData"]>[0],
 		{ type: "FeatureCollection" }
 	>;
-	const fc = (rows: MosqueDatum[]): FeatureCollection => ({
+	const fc = (
+		rows: readonly Pick<MosqueDatum, "id" | "name" | "lng" | "lat">[],
+	): FeatureCollection => ({
 		type: "FeatureCollection",
 		features: rows.map((m) => ({
 			type: "Feature",
@@ -430,6 +491,9 @@ async function mount() {
 
 	function applyMarkerColors() {
 		const p = PALETTE[scheme];
+		// The grave is a bitmap, so a theme flip redraws it instead of repainting a property.
+		const glyph = burialGlyph(p);
+		if (glyph && map.hasImage(GRAVE_IMAGE)) map.updateImage(GRAVE_IMAGE, glyph);
 		for (const [layer, prop, val] of [
 			["mk-clusters", "circle-color", p.brass],
 			["mk-clusters", "circle-stroke-color", p.brassOn],
@@ -438,6 +502,8 @@ async function mount() {
 			["mk-points-active", "circle-stroke-color", p.brass],
 			["mk-points", "circle-color", p.brass],
 			["mk-points", "circle-stroke-color", p.brassOn],
+			["mk-graves-active", "circle-color", p.brass],
+			["mk-graves-active", "circle-stroke-color", p.brass],
 		] as const) {
 			if (map.getLayer(layer)) {
 				try {
@@ -456,12 +522,18 @@ async function mount() {
 
 	// Drive the selected-mosque highlight ring; an empty id clears it.
 	function setActiveRing(id: string) {
-		if (!map.getLayer("mk-points-active")) return;
-		map.setFilter("mk-points-active", [
-			"all",
-			["!", ["has", "point_count"]],
-			["==", ["get", "id"], id],
-		] as never);
+		if (map.getLayer("mk-points-active")) {
+			map.setFilter("mk-points-active", [
+				"all",
+				["!", ["has", "point_count"]],
+				["==", ["get", "id"], id],
+			] as never);
+		}
+		// The graves' own ring. No id is both a mosque's and a grave's (the data test holds
+		// that), so at most one of the two rings ever finds its feature.
+		if (map.getLayer("mk-graves-active")) {
+			map.setFilter("mk-graves-active", ["==", ["get", "id"], id] as never);
+		}
 	}
 
 	/** `restoreFocus` returns focus to the row that opened the callout — right when the reader
@@ -523,7 +595,8 @@ async function mount() {
 	function selectMosque(id: string, fly = true, scrollList = fly) {
 		document.dispatchEvent(new CustomEvent("mosques:show-map"));
 		map.resize();
-		const m = byId.get(id);
+		// Either kind of place: mosques and graves share the callout, the rings and the fly.
+		const m = byId.get(id) ?? burialById.get(id);
 		if (!m) return;
 		activeId = id;
 		setActiveRing(id);
@@ -544,7 +617,8 @@ async function mount() {
 		// true, so a future `selectMosque(id, true, false)` would silently lose the
 		// scroll-into-view this whole block exists for.
 		if (callout) {
-			renderCallout(m);
+			if ("section" in m) renderBurialCallout(m);
+			else renderCallout(m);
 			if (lastTrigger && matchMedia("(width < 800px)").matches)
 				callout
 					.querySelector<HTMLButtonElement>(".mk-callout-close")
@@ -596,6 +670,7 @@ async function mount() {
 
 	function renderCallout(m: MosqueDatum) {
 		if (!callout) return;
+		callout.setAttribute("aria-label", "Vald moské");
 		const facts: string[] = [m.location];
 		if (m.opened) facts.push(`Öppnad ${m.opened}`);
 		const org = m.organisation
@@ -618,6 +693,34 @@ async function mount() {
 		callout.querySelector(".mk-callout-close")?.addEventListener("click", () => closeCallout());
 	}
 
+	/** The callout for a grave: the cemetery, which part of it is the Muslim one, and the
+	 *  page that confirms it — linked, because that page is also where the huvudman publishes
+	 *  opening hours and who to call. Only an https source becomes a link. */
+	function renderBurialCallout(b: BurialDatum) {
+		if (!callout) return;
+		callout.setAttribute("aria-label", "Valt gravkvarter");
+		const facts: string[] = [b.location];
+		if (b.opened) facts.push(`I bruk sedan ${b.opened}`);
+		const host = /^https:\/\/(?:www\.)?([^/?#]+)/.exec(b.source)?.[1];
+		const source = host
+			? `<p class="mk-callout-org"><a href="${escapeXml(b.source)}" rel="noopener">Källa: ${escapeXml(host)}</a></p>`
+			: "";
+		callout.innerHTML = `
+			<button type="button" class="mk-callout-close" aria-label="Stäng">×</button>
+			<p class="mk-callout-name">${escapeXml(b.name)}</p>
+			<p class="mk-callout-meta">${escapeXml(b.section)}</p>
+			${b.address ? `<p class="mk-callout-meta">${escapeXml(b.address)}</p>` : ""}
+			<p class="mk-callout-meta">${facts.map(escapeXml).join(" · ")}</p>
+			${source}
+			<div class="mk-dir">
+				<span class="label">Vägbeskrivning</span>
+				<a href="${escapeXml(mapHref(b.apple))}" class="map-dir-btn">Apple Maps</a>
+				<a href="${escapeXml(mapHref(b.google))}" class="map-dir-btn">Google Maps</a>
+			</div>`;
+		callout.hidden = false;
+		callout.querySelector(".mk-callout-close")?.addEventListener("click", () => closeCallout());
+	}
+
 	// ── Filtering: search + län drive the map source, the list, and the count together ──
 	const lanById = new Map(items.map((it) => [it.dataset.id, it.dataset.lan]));
 	// Reuse the server-rendered haystack for the map as well as the list. It includes
@@ -626,7 +729,11 @@ async function mount() {
 
 	let fittedQuery = "";
 
-	function fitSearchResults(q: string, lan: string, visible: MosqueDatum[]) {
+	function fitSearchResults(
+		q: string,
+		lan: string,
+		visible: readonly { lng: number; lat: number }[],
+	) {
 		const filterKey = q || lan ? JSON.stringify([q, lan]) : "";
 		if (filterKey !== fittedQuery) {
 			fittedQuery = filterKey;
@@ -640,23 +747,37 @@ async function mount() {
 		}
 	}
 
-	/** Map: filter the data array by query + län (län comes from the rendered list item). */
+	/** Map: filter both kinds of place by query + län. A mosque's län comes from its rendered
+	 *  list item; a grave has no list item and carries its own. */
 	function syncMap(q: string, lan: string) {
 		const visible = data.filter((m) => {
 			const okQ = q === "" || (searchById.get(m.id) ?? fold(`${m.name} ${m.location}`)).includes(q);
 			const okLan = lan === "" || lanById.get(m.id) === lan;
 			return okQ && okLan;
 		});
+		const visibleGraves = burials.filter(
+			(b) =>
+				(q === "" || (burialSearch.get(b.id) ?? "").includes(q)) && (lan === "" || b.lan === lan),
+		);
 		// The reader is typing — leave the caret where it is (see closeCallout).
-		if (activeId && !visible.some((m) => m.id === activeId)) closeCallout(false);
+		const stillShown =
+			visible.some((m) => m.id === activeId) || visibleGraves.some((b) => b.id === activeId);
+		if (activeId && !stillShown) closeCallout(false);
 		// setData is async in maplibre 6; nothing waits on it, but the rejection has
 		// to go somewhere.
 		const src = map.getSource("mosques") as GeoJSONSource | undefined;
-		if (src) fitSearchResults(q, lan, visible);
+		// Frame everything the filter found, graves included: "Kviberg" matches no mosque, and
+		// a search that finds only a cemetery should still bring it into view.
+		if (src) fitSearchResults(q, lan, [...visible, ...visibleGraves]);
 
 		src?.setData(fc(visible)).catch(() => {
 			/* a dropped filter update leaves the previous points on the map */
 		});
+		(map.getSource("burials") as GeoJSONSource | undefined)
+			?.setData(fc(visibleGraves))
+			.catch(() => {
+				/* as above */
+			});
 	}
 
 	/** List: hide non-matching items + empty groups; auto-open groups when searching.
@@ -740,6 +861,25 @@ async function mount() {
 			})
 		: null;
 
+	/** Pointer cursor + name chip for whatever is under the mouse — a mosque dot or a grave. */
+	function showHoverName(f: MapGeoJSONFeature | undefined) {
+		map.getCanvas().style.cursor = "pointer";
+		if (!(hoverPopup && f)) return;
+		const name = f.properties?.name as string | undefined;
+		if (!name) return;
+		const coords = (f.geometry as { coordinates: [number, number] }).coordinates;
+		hoverPopup
+			.setLngLat(coords)
+			.setHTML(`<span class="mk-hover-name">${escapeXml(name)}</span>`)
+			.addTo(map);
+		hoverPopup.getElement()?.setAttribute("aria-hidden", "true");
+	}
+
+	function hideHoverName() {
+		map.getCanvas().style.cursor = "";
+		hoverPopup?.remove();
+	}
+
 	map.on("load", () => {
 		recolorBase();
 		// Reveal the canvas now that the base is recolored — scheduled one frame on (so the
@@ -748,6 +888,46 @@ async function mount() {
 		// at opacity 0 (see moskeer.astro) over the .mk-map dark background, so dark mode fades
 		// in already-dark instead of flashing the light Positron base white.
 		requestAnimationFrame(() => el.classList.add("is-ready"));
+		// Graves first, so every mosque layer below draws over them: where a cemetery and a
+		// mosque meet at country scale, the mosque — what this page is for — stays in front.
+		// No clustering: some eighty sparse points never need it. Overlap is allowed, so a
+		// grave neither hides a cluster's count nor is hidden by one.
+		const glyph = burialGlyph(PALETTE[scheme]);
+		if (glyph) map.addImage(GRAVE_IMAGE, glyph, { pixelRatio: 2 });
+		map.addSource("burials", { type: "geojson", data: fc(burials) as never });
+		map.addLayer({
+			id: "mk-graves-active",
+			type: "circle",
+			source: "burials",
+			filter: ["==", ["get", "id"], ""],
+			paint: {
+				"circle-radius": 14,
+				"circle-color": PALETTE[scheme].brass,
+				"circle-opacity": 0.16,
+				"circle-stroke-width": 2,
+				"circle-stroke-color": PALETTE[scheme].brass,
+				"circle-stroke-opacity": 0.9,
+			},
+		});
+		if (glyph) {
+			map.addLayer({
+				id: "mk-graves",
+				type: "symbol",
+				source: "burials",
+				layout: {
+					"icon-image": GRAVE_IMAGE,
+					// Grows gently with zoom, like the mosque dots: small enough not to crowd the
+					// country view, comfortable to aim at once a region fills the frame.
+					"icon-size": ["interpolate", ["linear"], ["zoom"], 4, 0.6, 8, 0.8, 12, 1],
+					"icon-allow-overlap": true,
+					"icon-ignore-placement": true,
+				},
+			});
+			// The legend is only worth showing once there is a grave on the map to explain.
+			const legend = gravesToggle?.closest("label");
+			if (legend) legend.hidden = false;
+			setGravesVisible(gravesToggle?.checked ?? true);
+		}
 		map.addSource("mosques", {
 			type: "geojson",
 			data: fc(data) as never,
@@ -819,6 +999,21 @@ async function mount() {
 		// case setActiveRing() returned early because this layer did not exist yet.
 		setActiveRing(activeId);
 
+		// Grave click → select (no fly, as a dot). Registered BEFORE the mosque handlers:
+		// MapLibre fires every matching layer's handler in registration order, and on the rare
+		// click that meets both a grave and the mosque dot drawn over it, the dot's handler
+		// has to run last so the callout belongs to what the reader sees on top.
+		map.on("click", "mk-graves", (e) => {
+			const id = e.features?.[0]?.properties?.id as string | undefined;
+			if (id) {
+				lastTrigger = null;
+				selectMosque(id, false);
+			}
+		});
+		map.on("mousemove", "mk-graves", (e) =>
+			showHoverName(e.features?.[0] as MapGeoJSONFeature | undefined),
+		);
+		map.on("mouseleave", "mk-graves", hideHoverName);
 		// Cluster click → zoom to expand.
 		map.on("click", "mk-clusters", async (e) => {
 			const f = map.queryRenderedFeatures(e.point, { layers: ["mk-clusters"] })[0];
@@ -851,24 +1046,10 @@ async function mount() {
 			map.getCanvas().style.cursor = "";
 		});
 		// Hover a dot → pointer cursor + name tooltip (desktop only).
-		map.on("mousemove", "mk-points", (e) => {
-			map.getCanvas().style.cursor = "pointer";
-			if (!hoverPopup) return;
-			const f = e.features?.[0] as MapGeoJSONFeature | undefined;
-			if (!f) return;
-			const name = f.properties?.name as string | undefined;
-			if (!name) return;
-			const coords = (f.geometry as { coordinates: [number, number] }).coordinates;
-			hoverPopup
-				.setLngLat(coords)
-				.setHTML(`<span class="mk-hover-name">${escapeXml(name)}</span>`)
-				.addTo(map);
-			hoverPopup.getElement()?.setAttribute("aria-hidden", "true");
-		});
-		map.on("mouseleave", "mk-points", () => {
-			map.getCanvas().style.cursor = "";
-			hoverPopup?.remove();
-		});
+		map.on("mousemove", "mk-points", (e) =>
+			showHoverName(e.features?.[0] as MapGeoJSONFeature | undefined),
+		);
+		map.on("mouseleave", "mk-points", hideHoverName);
 		// Re-run once the map has a source to filter. The first pass already happened
 		// outside this handler (see below) so the LIST is correct from the start; this
 		// one exists to push the same filter into the freshly created GeoJSON source.
@@ -876,7 +1057,7 @@ async function mount() {
 
 		// Deep link from a Bönetider city page (/moskeer#<id>) → open that mosque.
 		const hash = decodeURIComponent(location.hash.replace(/^#/, ""));
-		if (hash && byId.has(hash)) selectMosque(hash, true);
+		if (hash && (byId.has(hash) || burialById.has(hash))) selectMosque(hash, true);
 	});
 
 	// List item click → select + fly.
@@ -902,6 +1083,20 @@ async function mount() {
 
 	search?.addEventListener("input", applyFilter, { signal: sig });
 	lanSelect?.addEventListener("change", applyFilter, { signal: sig });
+
+	/** Show or hide the graves — the legend's checkbox. Hiding the one whose callout is open
+	 *  closes it: a card for a mark no longer on the map points at nothing. */
+	function setGravesVisible(on: boolean) {
+		for (const layer of ["mk-graves", "mk-graves-active"]) {
+			if (map.getLayer(layer)) map.setLayoutProperty(layer, "visibility", on ? "visible" : "none");
+		}
+		if (!on && burialById.has(activeId)) closeCallout(false);
+	}
+	gravesToggle?.addEventListener(
+		"change",
+		(e) => setGravesVisible((e.currentTarget as HTMLInputElement).checked),
+		{ signal: sig },
+	);
 
 	// Restore a linked ?q=/?lan= and filter the list NOW, not inside map.on("load").
 	// Everything in that handler is hostage to WebGL: on a machine or a browser profile

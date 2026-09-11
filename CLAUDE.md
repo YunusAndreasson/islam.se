@@ -219,26 +219,34 @@ apps/
 - `data/extracted/` - Raw extraction outputs for review
 - `data/articles/` - Published articles with `index.json` metadata
 
-### Mosque dataset — one canonical file, one direction
+### Map datasets — canonical on the web, one direction
 
 ```
 apps/web/src/data/moskeer-sverige.csv     raw scrape (migrationskartan + OSM + muslimer.se)
                 │  pnpm tsx scripts/build-moskeer.ts   ← re-import ONLY; overwrites the JSON wholesale
                 ▼
-apps/web/src/data/moskeer-sverige.json    ★ CANONICAL — edit this one
-                │  pnpm sync:mosques      (run from apps/mobile)
+apps/web/src/data/moskeer-sverige.json             ★ CANONICAL — edit this one
+apps/web/src/data/begravningsplatser-sverige.json  ★ CANONICAL — hand-curated, no CSV behind it
+                │  pnpm sync:data         (run from apps/mobile)
                 ▼
-apps/mobile/src/lib/mosques/data.json     generated mirror — NEVER edit by hand
+apps/mobile/src/lib/mosques/data.json              generated mirrors — NEVER edit by hand
+apps/mobile/src/lib/burial-grounds/data.json
 ```
 
 **To remove or correct a mosque:** edit the web JSON, delete the matching row from the CSV
 as well (otherwise the next `build-moskeer` re-import resurrects it), then run
-`pnpm sync:mosques` from `apps/mobile`.
+`pnpm sync:data` from `apps/mobile`.
+
+**To add a burial ground** (the Muslim section of a cemetery): only with a `source` that
+confirms the section exists today — the huvudman's own page first, local news second, never
+a funeral-home list on its own, and never one that is only planned. `city`, `citySlug`,
+`kommun` and `lan` are the nearest bönetider place, the same rule `build-moskeer` uses;
+`apps/web/src/lib/begravningsplatser/index.test.ts` holds the list to that.
 
 The sync validates as it copies — required fields, unique ids, coordinates inside Sweden —
-and warns about duplicate names and pins under 150 m apart. `pnpm sync:mosques:check` and
-`apps/mobile/src/lib/mosques/sync.test.ts` (which runs in the normal suite) fail if the two
-files disagree. That guard exists because they silently diverged for three weeks in 2026-07
+and warns about duplicate names and pins under 150 m apart. `pnpm sync:data:check` and the
+two `sync.test.ts` files (`lib/mosques`, `lib/burial-grounds`), which run in the normal
+suite, fail if a mirror disagrees with its web file. That guard exists because they silently diverged for three weeks in 2026-07
 while the old `cp`-based script was simply never run: the app shipped seven duplicate
 mosques and one record whose coordinates put a Landskrona mosque in Göteborg.
 

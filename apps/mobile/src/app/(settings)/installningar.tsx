@@ -375,6 +375,16 @@ export default function Installningar() {
             value={settings.showMosques}
             onValueChange={(showMosques) => update({ showMosques })}
           />
+          {/* Gravkvarter — the Muslim sections of Swedish cemeteries, drawn the way the
+              mosques are: a glyph as you zoom into a town, a card with directions on tap.
+              On by default. See BurialGroundLayer. */}
+          <Toggle
+            label="Visa gravkvarter"
+            description="Muslimska gravkvarter visas på kartan när du zoomar in."
+            value={settings.showBurialGrounds}
+            onValueChange={(showBurialGrounds) => update({ showBurialGrounds })}
+            divider
+          />
           {/* Qibla — the great-circle direction to Mecca, drawn from your dot. On by
               default: it works where the compass doesn't (indoors, near metal) and is an
               independent check on the Qibla sheet. See skia/QiblaArc. */}

@@ -165,6 +165,11 @@ export interface PrayerSettings {
    *  city). On by default; off gives a pure solar field. See src/components/map/
    *  MosqueLayer.tsx. */
   showMosques: boolean;
+  /** Show the Muslim sections of Swedish cemeteries on the map, as the mosques are — a
+   *  glyph revealed as you zoom into a city, a card with directions on tap. On by default.
+   *  Cosmetic in the ./compute-signature sense: it draws a layer and computes nothing.
+   *  See src/components/map/BurialGroundLayer.tsx. */
+  showBurialGrounds: boolean;
   /** Draw the great-circle direction to Mecca from your position on the map. On by
    *  default: it is useful indoors where the magnetometer is unreliable, and it is an
    *  independent check on the compass sheet. Purely cosmetic — it changes nothing that
@@ -228,6 +233,7 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   manualLocation: null,
   theme: 'system',
   showMosques: true,
+  showBurialGrounds: true,
   showQibla: true,
   showMoon: true,
   showNightTimes: false,

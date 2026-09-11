@@ -219,6 +219,7 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
         : DEFAULT_SETTINGS.manualLocation,
     theme: enumValue(raw.theme, THEMES, DEFAULT_SETTINGS.theme),
     showMosques: booleanValue(raw.showMosques, DEFAULT_SETTINGS.showMosques),
+    showBurialGrounds: booleanValue(raw.showBurialGrounds, DEFAULT_SETTINGS.showBurialGrounds),
     showQibla: booleanValue(raw.showQibla, DEFAULT_SETTINGS.showQibla),
     showMoon: booleanValue(raw.showMoon, DEFAULT_SETTINGS.showMoon),
     showNightTimes: booleanValue(raw.showNightTimes, DEFAULT_SETTINGS.showNightTimes),

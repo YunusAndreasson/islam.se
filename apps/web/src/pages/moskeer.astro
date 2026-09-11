@@ -13,6 +13,8 @@ import { breadcrumbList, dataset } from "../lib/jsonld";
 import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan } from "../lib/moskeer";
 import { MOSQUE_PHOTOS } from "../lib/moskeer/art";
 import { MOSKEER_DATA_DATE } from "../lib/moskeer/meta";
+import { burialLocationLabel, getBurialGrounds, sectionLabel } from "../lib/begravningsplatser";
+import { BURIAL_GLYPH_GRID, BURIAL_GLYPH_PATH } from "../lib/begravningsplatser/glyph";
 import { fold } from "../lib/search-text";
 // ⚠️ maplibre-gl.css is NOT imported here. In the frontmatter it joins the page's
 // stylesheet graph, and `inlineStylesheets: "always"` then inlines 130 kB of it into
@@ -49,6 +51,29 @@ const payload = mosques.map((m) => {
 	};
 });
 const payloadJson = JSON.stringify(payload).replace(/</g, "\\u003c");
+
+// The Muslim burial grounds, drawn on the same map as a second kind of place (see
+// lib/begravningsplatser). The list beside the map stays the mosques': that is the directory
+// this page is, and a cemetery filed among the mosques of its län would be a wrong answer to
+// "which mosques are in Skåne". The map is where the two meet.
+const burialPayload = getBurialGrounds().map((b) => {
+	const d = directionsLinks(b);
+	return {
+		id: b.id,
+		name: b.name,
+		section: sectionLabel(b),
+		lng: b.lng,
+		lat: b.lat,
+		lan: b.lan,
+		location: burialLocationLabel(b),
+		address: b.address,
+		opened: b.opened,
+		source: b.source,
+		google: d.google,
+		apple: d.apple,
+	};
+});
+const burialJson = JSON.stringify(burialPayload).replace(/</g, "\\u003c");
 
 const description = `Karta och katalog över ${total} moskéer i Sverige i ${cityCount} orter, med adress och ordnade län för län. Sök, filtrera och få vägbeskrivning till närmaste moské. Senast uppdaterad ${updated}.`;
 
@@ -115,6 +140,14 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		</div>
 		<div class="mk-result-bar">
 			<p id="mk-count" class="mk-count" aria-live="polite">{total} moskéer</p>
+			{/* Legend and switch in one: the glyph says what the map's second kind of mark is,
+			    and the box hides them. Hidden until the map is up — without the map there is
+			    nothing for it to switch. */}
+			<label class="mk-graves" hidden>
+				<input type="checkbox" id="mk-graves" checked />
+				<svg class="mk-graves-glyph" viewBox={`0 0 ${BURIAL_GLYPH_GRID} ${BURIAL_GLYPH_GRID}`} aria-hidden="true"><path d={BURIAL_GLYPH_PATH} /></svg>
+				Muslimska gravkvarter
+			</label>
 			<div class="mk-view-switch" role="group" aria-label="Visning" hidden>
 				<button type="button" data-mk-view="list" aria-pressed="true" aria-controls="mk-results-pane">Lista</button>
 				<button type="button" data-mk-view="map" aria-pressed="false" aria-controls="mk-stage">Karta</button>
@@ -131,7 +164,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 			    för en redigerare, fel för en karta som inte har någon egen tangentmodell. Följden
 			    var att pil- och läskommandon slutade fungera i en 700 px hög ruta utan innehåll
 			    att läsa. `region` ger etiketten och landmärket utan att kapa tangentbordet. */}
-			<div id="moskeer-map" class="mk-map" role="region" aria-label="Karta över moskéer i Sverige"></div>
+			<div id="moskeer-map" class="mk-map" role="region" aria-label="Karta över moskéer och muslimska gravkvarter i Sverige"></div>
 			<aside id="mk-callout" class="mk-callout" aria-label="Vald moské" aria-live="polite" hidden></aside>
 		</div>
 		<noscript>
@@ -182,11 +215,12 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		]} />
 
 		<p class="mk-attrib">
-			Uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time>. Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
+			Uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time>. Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga. Varje gravkvarter på kartan länkar till källan som bekräftar det.
 		</p>
 	</main>
 
 	<script id="moskeer-data" type="application/json" is:inline set:html={payloadJson}></script>
+	<script id="begravning-data" type="application/json" is:inline set:html={burialJson}></script>
 </Base>
 
 <script>
@@ -456,6 +490,9 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 
  .mk-result-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; min-height: 2.75rem; }
  .mk-result-bar .mk-count { margin: 0; font-family: var(--font-heading); font-size: var(--step--2); }
+ .mk-graves:not([hidden]) { display: inline-flex; align-items: center; gap: .45rem; min-height: 2.75rem; font: var(--step--2) var(--font-heading); color: var(--color-muted); cursor: pointer; }
+ .mk-graves input { accent-color: var(--color-brass); width: 1rem; height: 1rem; margin: 0; }
+ .mk-graves-glyph { width: 1.15rem; height: 1.15rem; fill: var(--color-brass); flex: none; }
  .mk-result-bar .mk-reset { margin-left: auto; padding: .5rem 0; border: 0; text-decoration: underline; text-underline-offset: .2em; min-height: 2.75rem; }
  .mk-list-jump { font-family: var(--font-heading); font-size: var(--step--2); padding-block: .5rem; }
  @media (width >= 800px) { .mk-list-jump { display: none; } }

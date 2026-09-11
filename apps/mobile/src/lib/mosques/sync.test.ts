@@ -1,7 +1,7 @@
 // The drift guard.
 //
 // src/lib/mosques/data.json is a GENERATED MIRROR of apps/web/src/data/moskeer-sverige.json,
-// produced by `pnpm sync:mosques`. Nothing used to enforce that. The two silently diverged
+// produced by `pnpm sync:data`. Nothing used to enforce that. The two silently diverged
 // for three weeks in 2026: mobile was synced on 07-11, the web list was curated on 07-19
 // (11 records deleted, 9 renamed), and the app went on shipping the stale copy — including
 // seven duplicate mosques and one record whose coordinates put a Landskrona mosque in
@@ -11,7 +11,7 @@
 // silent data-quality decay into a red build. The failure message names the offending ids
 // and the one command that fixes it.
 //
-// If this fails: run `pnpm sync:mosques`. Do NOT hand-edit data.json to make it pass —
+// If this fails: run `pnpm sync:data`. Do NOT hand-edit data.json to make it pass —
 // hand-editing the mirror is precisely what caused the drift. Corrections go in the web
 // file (and in the CSV beside it, or the next `build-moskeer` re-import resurrects them).
 import { describe, expect, it } from '@jest/globals';

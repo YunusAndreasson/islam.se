@@ -94,7 +94,7 @@ const GLYPH_PX = 48;
 // 14 dp keeps a comfortable target (the glyph is ~19 dp wide at z7 and ~35 dp at z13, so
 // tapping the glyph itself always hits) while roughly halving the phantom reach. It is the
 // second half of the fix; which of several hits WINS is settled by mosqueForPress.
-const GLYPH_HITBOX = { top: 14, right: 14, bottom: 14, left: 14 } as const;
+export const GLYPH_HITBOX = { top: 14, right: 14, bottom: 14, left: 14 } as const;
 
 // Each mosque is one tiny, soft warm dot — a "snow" dusting, not a glow. A per-scheme colour +
 // master opacity (`peak`) is all the circle layer needs; radius / blur / the zoom crossfade live
@@ -116,6 +116,11 @@ const SNOW_DARK: DotStyle = { color: '#e8c894', peak: 0.5 };
 // is what settled the "does gold work in light mode too?" question: it does, but only at THIS
 // weight. The dark mode's pale gold would be 1.4:1 there, i.e. invisible.
 const SNOW_LIGHT: DotStyle = { color: '#967038', peak: 0.42 };
+
+/** The gold every place glyph on the map wears, per scheme: this layer's dust and glyph, and
+ *  BurialGroundLayer's selection ring. Its PNG pins are pre-rendered in these same two
+ *  colours by scripts/build-burial-pins.mjs — change them there too. */
+export const PLACE_GOLD = { light: SNOW_LIGHT.color, dark: SNOW_DARK.color } as const;
 
 interface Props {
   /** Tapped-mosque callback — the map screen lifts this into the detail card. */

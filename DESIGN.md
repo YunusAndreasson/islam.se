@@ -210,6 +210,8 @@ Mobile prayer pages show a compact next-prayer summary and today's schedule befo
 
 The mosque directory retains its desktop list/map layout. Mobile has Lista/Karta controls, initially Lista. Switching views preserves filters and selection. Show map loading and failure states; the directory and links must work without MapLibre. Existing location feedback and query URLs remain available.
 
+The same map carries Sweden's Muslim burial grounds (muslimska gravkvarter), on the web and in the app. They wear the mosques' brass and differ only in shape: a humped grave with one plain stone, never a crescent (`apps/web/src/lib/begravningsplatser/glyph.ts` holds the one path both maps draw). They draw beneath the mosque markers, so a mosque wins any overlap. They share the callout, search and län filter but not the list, which stays the mosque directory; a legend checkbox beside the count names them and hides them. Every burial ground links the source that confirms it.
+
 ---
 
 ## Principle 7: Color and Contrast

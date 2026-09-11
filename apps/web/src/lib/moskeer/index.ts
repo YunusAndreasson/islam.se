@@ -58,12 +58,12 @@ const LAN_DISPLAY: Record<string, string> = {
 	Norrbotten: "Norrbottens län",
 };
 
-function lanDisplay(county: string): string {
+export function lanDisplay(county: string): string {
 	return LAN_DISPLAY[county] ?? `${county} län`;
 }
 
 /** Where the mosque is, for the card/callout: "Botkyrka · Stockholms län". */
-export function locationLabel(m: Mosque): string {
+export function locationLabel(m: Pick<Mosque, "kommun" | "lan">): string {
 	return `${m.kommun} · ${lanDisplay(m.lan)}`;
 }
 
@@ -187,7 +187,7 @@ export interface DirectionsLinks {
 /** Deep links that open the NATIVE Maps app for turn-by-turn on mobile (and the web map
  *  on desktop). Google's `dir/?api=1` and Apple's `maps.apple.com` both hand off to the
  *  installed app; `geo:` is the Android fallback. */
-export function directionsLinks(m: Mosque): DirectionsLinks {
+export function directionsLinks(m: Pick<Mosque, "lat" | "lng" | "name">): DirectionsLinks {
 	const dest = `${m.lat},${m.lng}`;
 	const q = encodeURIComponent(m.name);
 	return {

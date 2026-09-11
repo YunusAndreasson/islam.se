@@ -43,6 +43,8 @@ import {
 import { MapLessonCard } from '@/components/map/MapLessonCard';
 import { Icon } from '@/components/ui/Icon';
 import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
+import { BurialGroundCard } from '@/components/map/BurialGroundCard';
+import { BurialGroundLayer } from '@/components/map/BurialGroundLayer';
 import { MosqueCard } from '@/components/map/MosqueCard';
 import { LocationHint } from '@/components/map/LocationHint';
 import { MosqueLayer } from '@/components/map/MosqueLayer';
@@ -71,6 +73,7 @@ import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection'
 import { createTroubleBurst, watchResourceFailures } from '@/lib/map/map-diagnostics';
 import { ensureBasemapCache } from '@/lib/map/offline';
 import { reportProjectionDrift } from '@/lib/map/projection-guard';
+import type { BurialGround } from '@/lib/burial-grounds';
 import type { Mosque } from '@/lib/mosques';
 import { basemapGroundFor, nordicMapStyleFor } from '@/lib/map/nordicStyle';
 import {
@@ -311,6 +314,17 @@ export default function Bonetider() {
   ], [coords.longitude, coords.latitude]);
   // The mosque whose detail card is open (tapped on the mosque POI layer), or null.
   const [selectedMosque, setSelectedMosque] = useState<Mosque | null>(null);
+  // The burial ground whose card is open, or null. The two cards share one slot above the
+  // dock, so choosing either kind of place closes the other's card.
+  const [selectedBurialGround, setSelectedBurialGround] = useState<BurialGround | null>(null);
+  const selectMosque = (mosque: Mosque) => {
+    setSelectedBurialGround(null);
+    setSelectedMosque(mosque);
+  };
+  const selectBurialGround = (ground: BurialGround) => {
+    setSelectedMosque(null);
+    setSelectedBurialGround(ground);
+  };
   // The dock glance only needs the place — drop status qualifiers like "(standard)"
   // or "(GPS)" that matter on the Inställningar screen but are noise here.
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
@@ -589,6 +603,7 @@ export default function Bonetider() {
   const armOffer =
     cameraReady &&
     !selectedMosque &&
+    !selectedBurialGround &&
     settingsLoaded &&
     // The introduction asks these same two questions with a screen's worth of context in
     // front of them, and it covers this one while it does. Arming here would spend a
@@ -1055,10 +1070,12 @@ export default function Bonetider() {
         preferredFramesPerSecond={120}
         // Tap the map to put the mosque card away. Until now its own × was the only way
         // out, which is not how a card floating over a map is expected to behave.
-        // A tap that HITS a mosque never gets here: MosqueLayer's source handler calls
-        // stopPropagation(), so a hit opens (or swaps) the card and a miss closes it.
+        // A tap that HITS a mosque or a burial ground never gets here: both layers' source
+        // handlers call stopPropagation(), so a hit opens (or swaps) a card and a miss
+        // closes it.
         onPress={(event) => {
           setSelectedMosque(null);
+          setSelectedBurialGround(null);
           if (!cameraReady || mapLessonPending) return;
           const [x, y] = event.nativeEvent.point;
           const point = { x, y };
@@ -1129,8 +1146,18 @@ export default function Bonetider() {
             hit-testing for free. It draws under the wash/lines above, which is right: a
             mosque is a place on the ground, not chrome floating over the sky. Off when
             the user hides it in Inställningar. */}
+        {/* The Muslim sections of Swedish cemeteries, drawn like the mosques. Mounted BEFORE
+            MosqueLayer on purpose: MapLibre gives the top layer first pick in the collision
+            pass, so where a grave and a mosque would overlap, the mosque keeps its place.
+            See BurialGroundLayer. */}
+        {settings.showBurialGrounds && (
+          <BurialGroundLayer
+            onSelect={selectBurialGround}
+            selectedId={selectedBurialGround?.id ?? null}
+          />
+        )}
         {settings.showMosques && (
-          <MosqueLayer onSelect={setSelectedMosque} selectedId={selectedMosque?.id ?? null} />
+          <MosqueLayer onSelect={selectMosque} selectedId={selectedMosque?.id ?? null} />
         )}
       </Map>
 
@@ -1286,6 +1313,17 @@ export default function Bonetider() {
           // bottom surfaces is actually showing instead of assuming it's always the dock.
           bottom={dockSlotBottom + DOCK_MARGIN}
           onClose={() => setSelectedMosque(null)}
+        />
+      )}
+
+      {/* Burial-ground card — the mosque card's slot and rules. Never shown alongside it:
+          selectMosque / selectBurialGround each close the other. */}
+      {settings.showBurialGrounds && selectedBurialGround && (
+        <BurialGroundCard
+          ground={selectedBurialGround}
+          userCoords={coords}
+          bottom={dockSlotBottom + DOCK_MARGIN}
+          onClose={() => setSelectedBurialGround(null)}
         />
       )}
 

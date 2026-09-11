@@ -34,6 +34,9 @@ const COSMETIC_KEYS = [
   'manualLocation',
   'theme',
   'showMosques',
+  // Cosmetic for the same reason as the mosques: a layer of places on the ground. It reads
+  // no prayer time and changes none.
+  'showBurialGrounds',
   // Cosmetic, deliberately: the qibla arc is a fixed direction drawn over the map. It
   // reads no prayer time and changes none, so toggling it must NOT rebuild the 3752-point
   // grid — that would be a 40–70 ms JS-thread stall to hide one thin line.
@@ -81,6 +84,7 @@ const ALT: PrayerSettings = {
   manualLocation: { name: 'Test', latitude: 60, longitude: 15 },
   theme: 'dark',
   showMosques: false,
+  showBurialGrounds: false,
   showQibla: false,
   showMoon: false,
   showNightTimes: true,
@@ -146,7 +150,7 @@ describe('notificationSignature', () => {
 
   it('ignores settings that cannot affect notification scheduling', () => {
     const base = notificationSignature(DEFAULT_SETTINGS);
-    for (const key of ['hijriOffset', 'locationMode', 'manualLocation', 'theme', 'showMosques', 'haptics'] as const) {
+    for (const key of ['hijriOffset', 'locationMode', 'manualLocation', 'theme', 'showMosques', 'showBurialGrounds', 'haptics'] as const) {
       const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
       expect(notificationSignature(mutated)).toBe(base);
     }

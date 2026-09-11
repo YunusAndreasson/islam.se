@@ -24,13 +24,16 @@ async function openFirst(primary: string, fallback?: string): Promise<void> {
   }
 }
 
+/** Anything with a position — a mosque or a burial ground. */
+type Destination = Pick<Mosque, 'lat' | 'lng'>;
+
 /** Directions destination as "lat,lng" — what every maps URL below wants. */
-function dest(m: Mosque): string {
+function dest(m: Destination): string {
   return `${m.lat},${m.lng}`;
 }
 
-/** Open driving directions to the mosque in the platform's native maps app. */
-export function openDirections(m: Mosque): void {
+/** Open driving directions to the place in the platform's native maps app. */
+export function openDirections(m: Destination): void {
   const d = dest(m);
   // Universal Google Maps directions link — opens the Google Maps app when
   // installed, otherwise the maps website. Serves as the cross-platform fallback.
