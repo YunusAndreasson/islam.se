@@ -386,9 +386,9 @@ export function PrayerDock({
         mountedSV.value = wantMounted;
         scheduleOnRN(setMounted, wantMounted);
       }
-      // The headline swaps at the CROSSING, with a dead band either side so a thumb parked on
-      // the midpoint doesn't flicker the two layers against each other.
-      const wantHero = p > 0.55 ? true : p < 0.45 ? false : heroOpenSV.value;
+      // Swap only after the collapsed headline is invisible; the dead band prevents
+      // flicker when the finger reverses direction.
+      const wantHero = p > 0.16 ? true : p < 0.04 ? false : heroOpenSV.value;
       if (wantHero !== heroOpenSV.value) {
         heroOpenSV.value = wantHero;
         scheduleOnRN(setHeroOpen, wantHero);
@@ -529,20 +529,12 @@ export function PrayerDock({
     transform: [{ translateY: interpolate(progress.value, [0.7, 1], [8, 0], Extrapolation.CLAMP) }],
   }));
 
-  // Exactly ONE hero layer is mounted at a time — Android kept the opacity-zero layer's
-  // text in its accessibility tree, so an always-mounted cross-fade announced the place
-  // and countdown twice. The consequence is that a layer mounts at the FAR end of
-  // `progress`, where the old cross-fade windows (0→0.3 out, 0.18→0.55 in) both evaluate
-  // to opacity 0: the card sat blank for a beat on every open while the height spring ran.
-  // A mounted layer therefore fades in from its OWN mount, so whatever exists is visible.
-  const heroFade = useSharedValue(1);
-  useEffect(() => {
-    heroFade.value = 0;
-    heroFade.value = withTiming(1, { duration: motion.fast });
-  }, [heroOpen, heroFade]);
+  // Fade the headline out in the first few points of travel, before swapping the
+  // accessible subtree. Opacity stays tied to the finger, even while JS is busy.
   const heroLayerStyle = useAnimatedStyle(() => ({
-    opacity: heroFade.value,
-    transform: [{ translateY: interpolate(heroFade.value, [0, 1], [6, 0]) }],
+    opacity: heroOpen
+      ? interpolate(progress.value, [0.16, 0.32], [0, 1], Extrapolation.CLAMP)
+      : interpolate(progress.value, [0, 0.12], [1, 0], Extrapolation.CLAMP),
   }));
 
   // Returning to "now" is the one action offered in two places (preview badge +
@@ -981,9 +973,15 @@ export function PrayerDock({
         <GestureDetector gesture={gesture}>
           <Animated.View
             style={styles.handleHit}
+            accessible
+            testID="prayer-dock-toggle"
             accessibilityRole="button"
             accessibilityLabel={expanded ? 'Dölj bönetider' : 'Visa alla bönetider'}
             accessibilityState={{ expanded }}
+            onAccessibilityTap={() => {
+              height.set(withSpring(expanded ? COLLAPSED : EXPANDED, SPRING));
+              applyExpanded(!expanded);
+            }}
           >
             {/* A single grab handle — the modern bottom-sheet signifier. (The old
                 rotating chevron was a second cue for the same gesture; one is clearer.) */}

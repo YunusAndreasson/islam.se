@@ -9,7 +9,7 @@
 // exactly that: a black gibbous blob on cream, which the eye reads as the shadow.
 //
 // So the pair is chosen per scheme, and it is chosen to hold ONE physical fact steady: the
-// lit limb is the palest surface the theme has, the shadow is its darkest, and a rim draws
+// lit limb is the palest surface the theme has, the shadow stays a visible grey, and a rim draws
 // the whole disc so a new Moon is a dark object rather than an absence.
 //
 // The brass exception is the white days — the ayyām al-bīḍ, named for the full moon they
@@ -33,11 +33,11 @@ export function useMoonInk(brass = false): MoonInk {
     const ink: MoonInk =
       scheme === 'dark'
         ? // A pale Moon over the deep navy ground — which is simply what one looks like.
-          { lit: c.ink, dark: c.paperSunken, rim: c.inkFaint }
+          { lit: c.ink, dark: '#626b80', rim: c.inkFaint }
         : // On cream the Moon cannot be brighter than the paper, so the drawing works the
           // way a printed almanac's does: the disc is the paper, the shadow is warm grey
           // ink, and the rim is what makes a circle of it.
-          { lit: c.surface, dark: c.inkMuted, rim: c.inkFaint };
+          { lit: c.surface, dark: '#a4a8b2', rim: c.inkFaint };
     return brass ? { ...ink, lit: c.highlight, rim: c.highlightText } : ink;
   }, [c, scheme, brass]);
 }

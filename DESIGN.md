@@ -194,7 +194,7 @@ The archive is accessible from the navigation ("Essäer") and from the end of ev
 
 ### Within an Essay
 
-Keep the text column at its current comfortable measure. Deep-dive pages use their h2 contents list as a collapsed disclosure on mobile, an inline list at intermediate widths, and a sticky left rail at 90rem and above. The rail must not overlap the right-hand sidenotes or reduce prose width. Anchor offsets clear the header.
+Keep the text column at its current comfortable measure. Essays, answers and deep-dives all render their h2 contents list through one shared `ArticleBody` component: a collapsed disclosure on mobile, an inline list at intermediate widths, and a sticky left rail at 90rem and above, where the section being read is marked (full text colour plus a short bar — never weight, which rewraps the rows). The rail must not overlap the right-hand sidenotes or reduce prose width. Anchor offsets clear the header.
 
 The existing reading-resume offer identifies the essay and includes dismissal. It never scrolls automatically. Audio remains continuous through client navigation and all fixed controls respect its reserved space.
 
@@ -336,7 +336,7 @@ Check 390px, 768px, and 1440px, both themes, long titles, absent images, Arabic,
 | Hero image | Optional, responsive, essay-specific artwork |
 | JS for reading | Zero required (prefetch-on-hover for fast navigation) |
 | Animations on content | None |
-| Sidebar | Deep-dive contents on sufficiently wide screens; preserve sidenotes |
+| Sidebar | Contents rail on every essay, answer and deep-dive on sufficiently wide screens; preserve sidenotes |
 | Startpage | A composed scroll of movements led by the latest essay's hero (not a single screen, not a feed) |
 | Navigation | Width-based header, search/menu dialog, grouped footer |
 

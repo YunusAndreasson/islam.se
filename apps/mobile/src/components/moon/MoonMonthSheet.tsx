@@ -78,6 +78,7 @@ export function MoonMonthSheet({
   // nowhere near an inset.
   const insets = useSafeAreaInsets();
   const ink = useMoonInk();
+  const todayStart = new Date().setHours(0, 0, 0, 0);
   const reduceMotion = useReducedMotion();
 
   const { cells, notes } = useMemo(() => {
@@ -198,7 +199,7 @@ export function MoonMonthSheet({
             ) : (
               <View
                 key={cell.day}
-                style={[styles.cell, cell.day === today && styles.cellToday]}
+                style={[styles.cell, cell.civil.getTime() < todayStart && { opacity: 0.4 }, cell.day === today && styles.cellToday]}
                 accessible
                 accessibilityRole="text"
                 accessibilityLabel={`${cell.day} ${HIJRI_MONTHS[month - 1]}, ${cell.civil.getDate()}/${cell.civil.getMonth() + 1}${
@@ -209,7 +210,7 @@ export function MoonMonthSheet({
                 {/* The ALMANAC tilt, not the real one: a calendar square is not the sky, and
                     thirty differently-leaning moons read as noise. Lit on the right while
                     waxing and on the left while waning is what makes the grid a lunation. */}
-                <MoonDisc size={16} illumination={cell.illumination} tilt={almanacTilt(cell.waxing)} {...ink} />
+                <MoonDisc size={16} illumination={cell.illumination} tilt={almanacTilt(cell.waxing)} {...(cell.civil.getTime() < todayStart ? { lit: c.inkFaint, dark: c.paperSunken, rim: c.inkFaint } : ink)} />
                 <Text style={styles.civil}>{cell.civil.getDate()}</Text>
                 {cell.mark ? (
                   <View

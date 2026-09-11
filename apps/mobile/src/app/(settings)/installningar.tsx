@@ -195,12 +195,8 @@ export default function Installningar() {
                 ? 'Kunde inte hämta din plats. Kontrollera att platstjänster är på.'
                 : permissionStatus === 'denied'
                   ? `Platsåtkomst nekad – visar standardplats. Tillåt i ${settingsName}.`
-                  : // "Använder enhetens plats." was printed here in every non-denied state —
-                    // including the one where no fix has landed and the row's value reads "—".
-                    // The card then claimed to be using a location while showing none. Say
-                    // which of the two is actually true.
-                    source === 'gps'
-                    ? 'Använder enhetens plats.'
+                  : source === 'gps'
+                    ? undefined
                     : 'Ingen plats hämtad ännu – visar standardplats.'
               : undefined
           }

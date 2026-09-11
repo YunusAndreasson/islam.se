@@ -169,7 +169,7 @@ describe('the map lesson', () => {
   );
 
   it(
-    'holds the map\'s own soft-ask sequence back until it is dismissed',
+    'opens the schedule after the lesson without immediately asking for permissions',
     async () => {
       await launchWithLessonPending();
       await runOfferSequence();
@@ -182,9 +182,10 @@ describe('the map lesson', () => {
       fireEvent.press(screen.getByLabelText('Stäng'));
       await runOfferSequence();
 
-      // Dismissing hands the screen straight to the sequence a skipped wizard step left
-      // waiting — the soft-ask asymmetry's "later, calmer chance", now redeemed.
-      expect(screen.queryByText('Visa tider för din plats')).toBeTruthy();
+      expect(screen.queryByText('Visa tider för din plats')).toBeNull();
+      expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
+      fireEvent(screen.getByLabelText('Dölj bönetider'), 'accessibilityTap');
+      expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
     },
     MAP_RENDER_TIMEOUT,
   );

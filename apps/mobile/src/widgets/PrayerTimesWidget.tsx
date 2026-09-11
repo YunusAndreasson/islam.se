@@ -27,6 +27,7 @@ import {
 } from '@expo/ui/swift-ui';
 import {
   containerBackground,
+  environment,
   font,
   foregroundStyle,
   kerning,
@@ -37,7 +38,7 @@ import type { SFSymbol } from 'sf-symbols-typescript';
 
 import type { WidgetPayload } from '@/widget/payload';
 
-function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetEnvironment) {
+function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: WidgetEnvironment) {
   'widget';
   // Everything below is INTENTIONALLY inline — see the file header. Do not lift any of
   // this to module scope or the widget goes black.
@@ -91,10 +92,10 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   // Null/partial-safe: WidgetKit renders a placeholder with null props before the app
   // pushes data; reading fields off null would throw → black.
   const p = (rawPayload ?? {}) as Partial<WidgetPayload>;
-  const mode = environment.widgetRenderingMode;
+  const mode = widgetEnvironment.widgetRenderingMode;
   const desaturated = mode === 'accented' || mode === 'vibrant';
   const theme =
-    p.theme === 'light' || p.theme === 'dark' ? p.theme : (environment.colorScheme ?? 'light');
+    p.theme === 'light' || p.theme === 'dark' ? p.theme : (widgetEnvironment.colorScheme ?? 'light');
   const c = desaturated ? MONO : theme === 'dark' ? DARK : LIGHT;
 
   const rows = Array.isArray(p.rows) ? p.rows : [];
@@ -142,7 +143,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   );
 
   // ── Lock screen (vibrant): one glanceable line/card per accessory family ─────────
-  if (environment.widgetFamily === 'accessoryInline') {
+  if (widgetEnvironment.widgetFamily === 'accessoryInline') {
     // A single system-styled line next to the clock — keep it terse.
     return (
       <Text modifiers={[font({ size: 13, weight: 'semibold' }), tabular]}>
@@ -150,7 +151,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
       </Text>
     );
   }
-  if (environment.widgetFamily === 'accessoryCircular') {
+  if (widgetEnvironment.widgetFamily === 'accessoryCircular') {
     return (
       <ZStack modifiers={[containerBackground('#00000000', 'widget')]}>
         <AccessoryWidgetBackground />
@@ -163,7 +164,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
       </ZStack>
     );
   }
-  if (environment.widgetFamily === 'accessoryRectangular') {
+  if (widgetEnvironment.widgetFamily === 'accessoryRectangular') {
     return (
       <VStack alignment="leading" spacing={1} modifiers={[containerBackground('#00000000', 'widget')]}>
         <HStack spacing={4} alignment="center">
@@ -184,7 +185,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
           <Text
             date={new Date(nextAtMs)}
             dateStyle="relative"
-            modifiers={[font({ size: 12 }), tabular, foregroundStyle(c.inkMuted)]}
+            modifiers={[environment('locale', 'sv_SE'), font({ size: 12 }), tabular, foregroundStyle(c.inkMuted)]}
           />
         ) : null}
       </VStack>
@@ -209,7 +210,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
 
   // ── Small (2×2): one focused message — next prayer, big time, countdown ──────────
   // Eyebrow pinned top, the name/time/countdown block centred, location pinned bottom.
-  if (environment.widgetFamily === 'systemSmall') {
+  if (widgetEnvironment.widgetFamily === 'systemSmall') {
     return (
       <VStack alignment="leading" spacing={3} modifiers={root}>
         {eyebrow(13, eyebrowNarrow)}
@@ -224,7 +225,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
           <Text
             date={new Date(nextAtMs)}
             dateStyle="relative"
-            modifiers={[font({ size: 13 }), tabular, foregroundStyle(c.inkMuted)]}
+            modifiers={[environment('locale', 'sv_SE'), font({ size: 13 }), tabular, foregroundStyle(c.inkMuted)]}
           />
         ) : null}
         <Spacer />
@@ -259,7 +260,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
             <Text
               date={new Date(nextAtMs)}
               dateStyle="relative"
-              modifiers={[font({ size: 12 }), tabular, foregroundStyle(c.inkMuted)]}
+              modifiers={[environment('locale', 'sv_SE'), font({ size: 12 }), tabular, foregroundStyle(c.inkMuted)]}
             />
           ) : null}
         </VStack>

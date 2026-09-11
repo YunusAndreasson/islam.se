@@ -21,7 +21,9 @@ import Qibla from '@/app/qibla';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
-import { qiblaBearing } from '@/lib/qibla';
+import { qiblaBearing, greatCirclePoints, KAABA } from '@/lib/qibla';
+import { project } from '@/lib/map/projection';
+import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { first } from '@/test-utils/at';
 import { LogManager } from '@maplibre/maplibre-react-native';
@@ -223,112 +225,37 @@ describe('tab screens', () => {
     MAP_RENDER_TIMEOUT,
   );
 
-  // THE BUG THIS GUARDS: "Återställ" was on screen at launch, on a map nobody had
-  // touched. Reported as "I see Återställ, which is unexpected after not having touched
-  // the map."
-  //
-  // The startup camera settles more than once and not always on the same frame: the
-  // initial fitBounds re-runs as `insets.bottom` lands (0 on the first render, real once
-  // the safe-area provider measures), onLayout remeasures the viewport, and MapLibre
-  // clamps to maxBounds/minZoom when the style loads. Measured against the frame sampled
-  // at mount, any of those clears the 0.5°/0.05 drift thresholds — so the chip claimed
-  // "you moved the map" about a move the app made itself.
-  //
-  // The gate is `userInteraction`: a settle the user did not cause is home, not drift.
-  // The second settle below is deliberately a long way off the first (5°, 0.4 zoom) —
-  // far past any threshold — so the test fails loudly if the gate is ever dropped.
-  it(
-    'never shows the reset chip for camera settles the user did not cause',
-    async () => {
-      await renderSettled(withProviders(<Bonetider />));
-      const map = screen.getByTestId('sweden-map');
-      const settle = async (bounds: number[], zoom: number, userInteraction = false) => {
-        await act(async () => {
-          fireEvent(map, 'regionDidChange', { nativeEvent: { zoom, bounds, userInteraction } });
-        });
-      };
+  it('offers a persistent position control instead of the reset chip', async () => {
+    await renderSettled(withProviders(<Bonetider />));
+    expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
+    const locate = screen.getByLabelText('Visa min position');
+    fireEvent.press(locate);
+    expect(screen.getByLabelText('Zooma ut till Sverige')).toBeTruthy();
+    fireEvent.press(screen.getByLabelText('Zooma ut till Sverige'));
+    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+  }, MAP_RENDER_TIMEOUT);
 
-      await settle([11.15, 55.35, 23.7, 69.0], 4.5);
-      // The app re-fitting itself once the insets/viewport land — no finger involved.
-      await settle([16.15, 60.35, 28.7, 74.0], 4.1);
+  it('explains a tapped qibla arc and a prayer contour', async () => {
+    await renderSettled(withProviders(<Bonetider />));
+    const map = screen.getByTestId('sweden-map');
+    fireEvent(map, 'regionDidChange', { nativeEvent: {
+      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+    } });
+    const overlay = screen.UNSAFE_getByType(SolarSkiaOverlay);
+    const props = overlay.props;
+    const from = { longitude: props.userPoint[0], latitude: props.userPoint[1] };
+    const arcPoint = greatCirclePoints(from, KAABA, 96)[5]!;
+    const qiblaPoint = project(arcPoint[0], arcPoint[1], props.camera.value);
+    fireEvent.press(map, { nativeEvent: { point: [qiblaPoint.x, qiblaPoint.y] } });
+    expect(screen.getByText(/Linjen visar qibla.*km/)).toBeTruthy();
 
-      expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
-
-      // And home has moved with it: a pan back to the ORIGINAL mount frame is now a
-      // real drift from where the map actually settled, so the chip appears.
-      await settle([11.15, 55.35, 23.7, 69.0], 4.5, true);
-      expect(screen.getByLabelText('Återställ kartan')).toBeTruthy();
-    },
-    MAP_RENDER_TIMEOUT,
-  );
-
-  // THE BUG THIS GUARDS: the "Återställ" chip came back the instant it was pressed.
-  //
-  // "Home" was a SAMPLE — the frame that happened to settle at mount — while pressing
-  // the chip runs a fresh fitBounds, and the two need not agree. Its padding is
-  // `collapsedDock + DOCK_MARGIN`, and collapsedDock carries `insets.bottom`, which is
-  // 0 on the first render and settles once the safe-area provider measures. So the
-  // reset lands slightly off the sample, `drifted` reads true again, and the settled
-  // event that ENDS the reset animation puts the chip straight back.
-  //
-  // The landing frame below is therefore deliberately NOT identical to the anchor —
-  // feeding back the exact same numbers would pass against the broken code and prove
-  // nothing. It is off by ~0.9° and 0.1 zoom: past the 0.5°/0.05 thresholds, i.e.
-  // exactly the "close but not equal" case a real fitBounds produces.
-  it(
-    'keeps the reset chip hidden once pressed, even if the camera lands slightly off home',
-    async () => {
-      await renderSettled(withProviders(<Bonetider />));
-      const map = screen.getByTestId('sweden-map');
-      const settle = async (bounds: number[], zoom: number, userInteraction = false) => {
-        await act(async () => {
-          fireEvent(map, 'regionDidChange', { nativeEvent: { zoom, bounds, userInteraction } });
-        });
-      };
-
-      // Mount fit — becomes the anchor. Then a pan far enough to raise the chip.
-      await settle([11.15, 55.35, 23.7, 69.0], 4.5);
-      await settle([20.0, 60.0, 32.0, 72.0], 4.5, true);
-      const chip = screen.getByLabelText('Återställ kartan');
-
-      await act(async () => {
-        fireEvent.press(chip);
-      });
-      // fitBounds settles — near home, but not on the exact frame recorded at mount.
-      await settle([12.05, 56.25, 24.6, 69.9], 4.4);
-
-      expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
-    },
-    MAP_RENDER_TIMEOUT,
-  );
-
-  // Re-anchoring must not swallow a real pan: after a reset, moving again has to bring
-  // the chip back, or the map becomes a screen you can never get home from twice.
-  it(
-    'brings the reset chip back when the map is moved again after a reset',
-    async () => {
-      await renderSettled(withProviders(<Bonetider />));
-      const map = screen.getByTestId('sweden-map');
-      const settle = async (bounds: number[], zoom: number, userInteraction = false) => {
-        await act(async () => {
-          fireEvent(map, 'regionDidChange', { nativeEvent: { zoom, bounds, userInteraction } });
-        });
-      };
-
-      await settle([11.15, 55.35, 23.7, 69.0], 4.5);
-      await settle([20.0, 60.0, 32.0, 72.0], 4.5, true);
-      await act(async () => {
-        fireEvent.press(screen.getByLabelText('Återställ kartan'));
-      });
-      await settle([12.05, 56.25, 24.6, 69.9], 4.4);
-      expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
-
-      await settle([25.0, 62.0, 37.0, 74.0], 4.4, true);
-
-      expect(screen.getByLabelText('Återställ kartan')).toBeTruthy();
-    },
-    MAP_RENDER_TIMEOUT,
-  );
+    const line = props.lines.find((item: { polylines: number[][][] }) => item.polylines[0]?.length);
+    expect(line).toBeDefined();
+    const coordinate = line.polylines[0][1];
+    const prayerPoint = project(coordinate[0], coordinate[1], props.camera.value);
+    fireEvent.press(map, { nativeEvent: { point: [prayerPoint.x, prayerPoint.y] } });
+    expect(screen.getByText(/Linjen visar var.*vid kartans valda tid/)).toBeTruthy();
+  }, MAP_RENDER_TIMEOUT);
 
   // THE BUG THIS GUARDS: nothing stopped a fling from parking the camera in the Pacific,
   // where the Skia overlay dutifully projects Sweden's prayer lines over open ocean and
@@ -586,7 +513,7 @@ describe('tab screens', () => {
     });
 
     await waitFor(() =>
-      expect(screen.getByText('Planeras lokalt på din enhet – inget skickas iväg.')).toBeTruthy(),
+      expect(screen.queryByText(/Notiser är blockerade/)).toBeNull(),
     );
   });
 

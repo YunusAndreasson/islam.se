@@ -1,0 +1,25 @@
+---
+import type { MarkdownHeading } from "astro";
+import Innehall from "./Innehall.astro";
+
+interface Props {
+	/** From `render(entry)` — the h2s become the contents list. */
+	headings: MarkdownHeading[];
+	/** A template's own hook on the prose element, e.g. `fordjupning-body`. */
+	class?: string;
+}
+
+const { headings, class: className } = Astro.props;
+---
+
+{/* The one place the reading templates emit contents + prose. At 90rem the contents
+    list becomes a sticky rail positioned against the body (`.reading-section`,
+    styles/editorial.css), so the pairing is structural: an essay, an answer and a
+    fördjupning must render the same wrapper or the rail lands somewhere else on each.
+    Innehall renders nothing below two sections, and the wrapper is then layout-neutral. */}
+<div class="reading-section">
+	<Innehall headings={headings} />
+	<div class:list={["article-body", "prose", className]}>
+		<slot />
+	</div>
+</div>

@@ -182,7 +182,7 @@ export default function Valkommen() {
             index={2}
             total={TOTAL_STEPS}
             title="Ska vi påminna dig?"
-            lead="Få en notis när det är dags för bön. Tiderna planeras lokalt på din enhet – inget skickas iväg."
+            lead="Få en notis när det är dags för bön."
             footnote="Du kan ändra det här när som helst under Inställningar → Notiser."
             nextLabel={settings.notifications.enabled ? 'Nästa' : 'Inte nu'}
             // Same reasoning as the location step: "Slå på påminnelser" owns the fill, and

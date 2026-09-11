@@ -1,19 +1,10 @@
 // The map's floating navigation, replacing the old single hamburger. Bönetider is home, so
 // the things you reach for live right on it as glanceable controls: a ROW OF INSTRUMENTS on
 // the left — the live Qibla compass and, beside it, the Moon at tonight's phase — and the
-// settings cog alone on the RIGHT, pinned just below the safe-area top. Each opens its
+// position control and settings cog on the RIGHT, pinned just below the safe-area top. Each opens its
 // screen as a sheet you dismiss back to the map (see the root _layout's modal
 // presentation). `box-none` everywhere so the map stays draggable across the whole top
 // edge — only the discs themselves intercept touches.
-//
-// ⚠️ THE ROW COSTS THE CHIP ITS LANE, AND THAT IS PAID FOR IN bonetider. The Moon sat UNDER
-// the compass because a second disc at the same height collides with the centred "Återställ"
-// chip on a narrow phone — at 320 dp the chip is about 116 wide, so it starts at x = 102,
-// and a row of two discs ends at x = 112. Ten points of overlap, invisible on any handset
-// wide enough to develop on. Side by side is what was asked for, so the chip moved out of
-// this row instead: `NAV_LANE_TOP` below is the first full-width lane clear of the discs,
-// and the chip, the basemap-failure notice and the hint cards all measure from it. Do not
-// put anything back at `insets.top + space.lg` — that is inside the discs now.
 //
 // Theming: Apple Maps-style, the discs follow the OS palette (useColors) — light glass on
 // the warm parchment basemap, dark glass on the deep-navy basemap. The earlier sun-driven
@@ -36,7 +27,7 @@ import { Icon } from '@/components/ui/Icon';
 // ./metrics — they scale with the reader's text size, and the map's floating cards
 // measure against the same numbers.
 
-export function MapNav({ active }: { active: boolean }) {
+export function MapNav({ active, onLocate, zoomed = false, locationIsFallback = false }: { active: boolean; onLocate?: () => void; zoomed?: boolean; locationIsFallback?: boolean }) {
   const insets = useSafeAreaInsets();
   const c = useColors();
   const { settings } = useSettings();
@@ -52,6 +43,10 @@ export function MapNav({ active }: { active: boolean }) {
         {settings.showMoon && <MoonButton active={active} />}
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
+        {onLocate && <GlassRoundButton tint={c.cardGlass} rim={c.hairline} size={disc}
+          accessibilityLabel={locationIsFallback ? 'Välj plats på kartan' : zoomed ? 'Zooma ut till Sverige' : 'Visa min position'} onPress={onLocate}>
+          <Icon name={zoomed ? 'zoomOut' : 'myLocation'} size={glyph} color={c.ink} />
+        </GlassRoundButton>}
         <GlassRoundButton
           tint={c.cardGlass}
           rim={c.hairline}
@@ -69,5 +64,5 @@ export function MapNav({ active }: { active: boolean }) {
 
 const styles = StyleSheet.create({
   left: { position: 'absolute', left: 12, flexDirection: 'row', gap: space.sm },
-  right: { position: 'absolute', right: 12 },
+  right: { position: 'absolute', right: 12, flexDirection: 'row', gap: space.sm },
 });

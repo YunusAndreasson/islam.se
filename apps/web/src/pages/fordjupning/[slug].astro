@@ -1,13 +1,13 @@
 ---
 import { getImage } from "astro:assets";
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import ArticleBody from "../../components/ArticleBody.astro";
 import ArticleMeta from "../../components/ArticleMeta.astro";
 import ArticleSection from "../../components/ArticleSection.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import DiamondList from "../../components/DiamondList.astro";
 import EssayImage from "../../components/EssayImage.astro";
-import Innehall from "../../components/Innehall.astro";
 import Rattelse from "../../components/Rattelse.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import Base from "../../layouts/Base.astro";
@@ -149,14 +149,9 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 				</figure>
 			)}
 
-			<div class="reading-section">
-			<Innehall headings={headings} />
-
-			<div class="article-body fordjupning-body prose">
+			<ArticleBody headings={headings} class="fordjupning-body">
 				<Content />
-			</div>
-
-			</div>
+			</ArticleBody>
 
 			{data.faq.length > 0 && (
 				<ArticleSection class="fordjupning-section" id="fordjupning-faq" title="Vanliga frågor">

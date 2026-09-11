@@ -34,10 +34,11 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 }
 
 <style>
+	/* No rules and no padding. The hairlines boxed the list into a band that read louder
+	   than the prose it indexes, and the padding only existed to hold the rows off them —
+	   without the rules it was just dead space. The margin alone separates it. */
 	.innehall {
 		margin-block: var(--space-phi);
-		padding-block: var(--space-unit);
-		border-block: 1px solid var(--color-rule);
 	}
 
 	.innehall .label {
@@ -75,10 +76,13 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 		counter-reset: toc;
 	}
 
+	/* Inset from the row's edge to leave room for the current-section bar below. The bar
+	   has to sit inside the row: the rail scrolls (overflow-y: auto), so anything hung
+	   off its left edge is clipped. Two digits still clear the 1.6rem title indent. */
 	.innehall li::before {
 		content: counter(toc);
 		position: absolute;
-		left: 0;
+		left: 0.5rem;
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		font-variant-numeric: tabular-nums;
@@ -91,33 +95,136 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 
 	   Padding + matching negative margin: a standalone row link measured 23px, under
 	   the 24px WCAG 2.5.8 floor, and the inline exception doesn't cover it. The negative
-	   margin gives the space back to the list rhythm. */
+	   margin gives the space back to the list rhythm.
+
+	   At rest the rows sit one tier down the text ramp (--text-quiet, tokens.css): the
+	   list is wayfinding, and at full accent it competed with the headline for the first
+	   look. Still above the APCA body-text floor in both schemes. Hover and focus bring
+	   the accent back, so the row being pointed at is the one that stands out. */
 	.innehall a {
 		display: inline-block;
 		padding-block: 0.25rem;
 		margin-block: -0.25rem;
-		color: var(--color-accent);
+		color: var(--text-quiet);
 		text-decoration-color: transparent;
+		transition: color 0.2s ease;
 	}
 
 	.innehall a:hover,
 	.innehall a:focus-visible {
+		color: var(--color-accent);
 		text-decoration-color: currentColor;
+	}
+
+	/* The section being read, set by the script below. Colour alone is one ramp tier —
+	   too quiet to find in peripheral vision from the rail while reading — so the row
+	   also takes a bar in the counter's gutter. No weight change: a bolder title rewraps
+	   and shifts every row under it. */
+	.innehall a[aria-current] {
+		color: var(--color-text);
+	}
+
+	.innehall li:has(> a[aria-current])::before {
+		color: var(--color-text);
+	}
+
+	.innehall li:has(> a[aria-current])::after {
+		content: "";
+		position: absolute;
+		inset-block: 0.2em;
+		left: 0;
+		width: 2px;
+		border-radius: 1px;
+		background: var(--color-accent);
 	}
 </style>
 
 <script>
 	document.addEventListener("astro:page-load", () => {
-		const disclosure = document.querySelector<HTMLDetailsElement>(".contents-disclosure");
-		if (!disclosure) return;
+		const nav = document.querySelector<HTMLElement>(".innehall");
+		const disclosure = nav?.querySelector<HTMLDetailsElement>(".contents-disclosure");
+		if (!nav || !disclosure) return;
+		const ctrl = new AbortController();
+		const { signal } = ctrl;
+		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
+
 		const compact = matchMedia("(width <= 600px)");
 		const sync = () => { disclosure.open = !compact.matches; disclosure.querySelector("summary")?.setAttribute("tabindex", compact.matches ? "0" : "-1"); };
 		sync();
-		compact.addEventListener("change", sync);
+		compact.addEventListener("change", sync, { signal });
 		disclosure.addEventListener("click", (event) => {
 			if (compact.matches && (event.target as Element).closest("a")) disclosure.open = false;
 		});
-		document.addEventListener("astro:before-swap", () => compact.removeEventListener("change", sync), { once: true });
+
+		// The current section: from the moment its heading crosses the reading line, a third
+		// of the way down, until the next heading does. Before the first heading nothing is
+		// current. "Last heading above the line", not "heading in view" — a long section
+		// spends most of its length with its own heading scrolled away.
+		// Measured on scroll (rAF-throttled, at most eleven rects, stopping at the first
+		// heading below the line) rather than by IntersectionObserver, which fires only on
+		// crossings and so never hears about the sections an End key or a far jump skips.
+		// ⚠️ Not CSS `scroll-target-group` + `:target-current`: Gecko does not support them
+		// (measured absent in Firefox 150), and Gecko is what Zen, the house browser, runs.
+		const rows = [...nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')].flatMap((link) => {
+			const heading = document.getElementById(link.getAttribute("href")?.slice(1) ?? "");
+			return heading ? [{ link, heading }] : [];
+		});
+		let current: HTMLAnchorElement | undefined;
+		const mark = (link: HTMLAnchorElement | undefined) => {
+			if (link === current) return;
+			current?.removeAttribute("aria-current");
+			link?.setAttribute("aria-current", "location");
+			current = link;
+			// A rail taller than the viewport scrolls; keep the marked row inside it. By hand,
+			// because scrollIntoView would scroll the page along with it.
+			if (link && nav.scrollHeight > nav.clientHeight) {
+				const box = nav.getBoundingClientRect();
+				const row = link.getBoundingClientRect();
+				if (row.top < box.top) nav.scrollTop -= box.top - row.top;
+				else if (row.bottom > box.bottom) nav.scrollTop += row.bottom - box.bottom;
+			}
+		};
+
+		let pinned = false;
+		let queued = false;
+		const spy = () => {
+			queued = false;
+			if (pinned) return;
+			const line = innerHeight / 3;
+			let next: HTMLAnchorElement | undefined;
+			for (const { link, heading } of rows) {
+				if (heading.getBoundingClientRect().top > line) break;
+				next = link;
+			}
+			mark(next);
+		};
+		const queue = () => {
+			if (queued) return;
+			queued = true;
+			requestAnimationFrame(spy);
+		};
+		addEventListener("scroll", queue, { passive: true, signal });
+		addEventListener("resize", queue, { passive: true, signal });
+		spy();
+
+		// A click names the section outright. Hold it until the smooth scroll lands, or the
+		// highlight walks through every section in between on its way there.
+		let release: ReturnType<typeof setTimeout> | undefined;
+		const unpin = () => {
+			clearTimeout(release);
+			pinned = false;
+			queue();
+		};
+		nav.addEventListener("click", (event) => {
+			const link = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
+			if (!link) return;
+			mark(link);
+			pinned = true;
+			addEventListener("scrollend", unpin, { once: true, signal });
+			// Covers a jump that never scrolled (already there) and engines without scrollend.
+			clearTimeout(release);
+			release = setTimeout(unpin, 1000);
+		}, { signal });
 	});
 </script>
 <style>
@@ -127,5 +234,6 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 	.contents-disclosure ol { margin-top: var(--space-control); }
 	@media (width > 600px) { .contents-disclosure summary { pointer-events: none; } .contents-disclosure summary::after { display: none; } }
 	@media (width >= 90rem) { .innehall ol { columns: 1; font-size: var(--step--2); } }
-	@media print { .contents-disclosure > ol { display: block; } }
+	/* Paper has no "where you are": a half-read page must not print one row marked. */
+	@media print { .contents-disclosure > ol { display: block; } .innehall li:has(> a[aria-current])::after { display: none; } }
 </style>

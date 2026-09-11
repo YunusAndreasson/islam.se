@@ -6,12 +6,11 @@ import {
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
 import { useNetworkState } from 'expo-network';
-import { useIsFocused } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import {
   type NativeSyntheticEvent,
-  Pressable,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -26,6 +25,11 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+
+import { MapLineToast } from '@/components/map/MapLineToast';
+import { distanceToLine } from '@/lib/map/line-hit';
+import { greatCirclePoints, KAABA, qiblaDistanceKm } from '@/lib/qibla';
+import { formatTime, PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
 
 import { hapticLight } from '@/lib/haptics';
 
@@ -298,6 +302,13 @@ export default function Bonetider() {
 
   const { settings, loaded: settingsLoaded, update } = useSettings();
   const { coords, label, source } = useLocation();
+  // Keep the normal Sweden framing, but allow the position control to reach travellers.
+  const cameraBounds = useMemo<[number, number, number, number]>(() => [
+    Math.max(-180, Math.min(MAX_BOUNDS[0], coords.longitude - 2)),
+    Math.max(-85, Math.min(MAX_BOUNDS[1], coords.latitude - 2)),
+    Math.min(180, Math.max(MAX_BOUNDS[2], coords.longitude + 2)),
+    Math.min(85, Math.max(MAX_BOUNDS[3], coords.latitude + 2)),
+  ], [coords.longitude, coords.latitude]);
   // The mosque whose detail card is open (tapped on the mosque POI layer), or null.
   const [selectedMosque, setSelectedMosque] = useState<Mosque | null>(null);
   // The dock glance only needs the place — drop status qualifiers like "(standard)"
@@ -497,6 +508,10 @@ export default function Bonetider() {
   // Flips true as soon as the user has noticeably panned or zoomed away from the
   // initial framing. Drives the floating "Visa hela Sverige" reset chip.
   const [moved, setMoved] = useState(false);
+  const [positionZoom, setPositionZoom] = useState(false);
+  const [lineMessage, setLineMessage] = useState<{ text: string; id: number } | null>(null);
+  const dismissLineMessage = useCallback(() => setLineMessage(null), []);
+  const [introduceDock, setIntroduceDock] = useState(false);
 
   // Where the top region's two full-width callouts sit. HINT_TOP_OFFSET only ever cleared
   // the nav discs and the Återställ chip's row; it never accounted for the basemap-failure
@@ -1042,7 +1057,37 @@ export default function Bonetider() {
         // out, which is not how a card floating over a map is expected to behave.
         // A tap that HITS a mosque never gets here: MosqueLayer's source handler calls
         // stopPropagation(), so a hit opens (or swaps) the card and a miss closes it.
-        onPress={() => setSelectedMosque(null)}
+        onPress={(event) => {
+          setSelectedMosque(null);
+          if (!cameraReady || mapLessonPending) return;
+          const [x, y] = event.nativeEvent.point;
+          const point = { x, y };
+          let distance = 22;
+          let message: string | null = null;
+          if (settings.showQibla) {
+            const arc = greatCirclePoints(coords, KAABA, 96).slice(0, 32);
+            const d = distanceToLine(point, arc, cam.value);
+            if (d < distance) {
+              distance = d;
+              message = `Linjen visar qibla – riktningen mot Kaba i Mecka. Från ${placeLabel}: ${Math.round(qiblaDistanceKm(coords)).toLocaleString('sv-SE')} km.`;
+            }
+          }
+          for (const line of prayerLines) {
+            for (const path of line.polylines) {
+              const d = distanceToLine(point, path, cam.value);
+              if (d < distance) {
+                distance = d;
+                const time = userTimes[line.prayer];
+                const localTime = Number.isFinite(time.getTime()) ? ` I ${placeLabel}: ${formatTime(time)}.` : '';
+                message = `${PRAYER_LABELS[line.prayer]} · ${PRAYER_SWEDISH_NAMES[line.prayer]}. Linjen visar var ${line.prayer === 'sunrise' ? 'solen går upp' : 'bönetiden börjar'} vid kartans valda tid.${localTime}`;
+              }
+            }
+          }
+          if (message) {
+            hapticLight();
+            setLineMessage({ text: message, id: Date.now() });
+          } else setLineMessage(null);
+        }}
         onRegionWillChange={onRegionWillChange}
         onRegionIsChanging={onRegionIsChanging}
         onRegionDidChange={onRegionDidChange}
@@ -1076,7 +1121,7 @@ export default function Bonetider() {
           // The leash, not the framing — see MAX_BOUNDS. The "Visa hela Sverige" chip
           // stays: this bounds how far wrong things can go, it does not replace the way
           // back from a merely-drifted view.
-          maxBounds={MAX_BOUNDS}
+          maxBounds={cameraBounds}
           minZoom={MIN_ZOOM}
         />
         {/* Sweden's mosques as quiet POIs on the basemap — a NATIVE source+layer (not a
@@ -1201,7 +1246,11 @@ export default function Bonetider() {
           atEnd={lessonIndex === MAP_LESSON_EXAMPLES.length - 1}
           onPrev={() => setLessonIndex((i) => Math.max(0, i - 1))}
           onNext={() => setLessonIndex((i) => Math.min(MAP_LESSON_EXAMPLES.length - 1, i + 1))}
-          onDismiss={dismissMapLesson}
+          onDismiss={() => {
+            introOfferDone.current = true;
+            setIntroduceDock(true);
+            dismissMapLesson();
+          }}
           // THE BUG THIS FIXES: this used to pass collapsedDock + DOCK_MARGIN — the
           // offset things floating ABOVE the dock use (MosqueCard). MapLessonCard
           // REPLACES the dock in the same slot instead, so it needs the dock's OWN
@@ -1218,9 +1267,9 @@ export default function Bonetider() {
           locationLabel={placeLabel}
           locationIsFallback={locationIsFallback}
           settings={settings}
-          // The middle beat of the launch introduction: the dock opens itself so the
-          // day's six times stagger in off its existing reveal, holds, then shuts again.
-          revealSchedule={phase === 'reveal'}
+          // Introduce the schedule once after onboarding; let the reader close it.
+          // Ordinary launches and permission reminders leave the dock collapsed.
+          revealSchedule={introduceDock}
         />
       )}
 
@@ -1244,7 +1293,24 @@ export default function Bonetider() {
           each opening its screen as a sheet over the map. `active` (the screen's focus)
           gates the compass's heading subscription so the magnetometer pauses when a
           sheet is up or the app is backgrounded. */}
-      <MapNav active={isFocused} />
+      <MapNav active={isFocused} zoomed={positionZoom} locationIsFallback={locationIsFallback} onLocate={() => {
+        if (locationIsFallback) { router.navigate('/byt-plats'); return; }
+        hapticLight();
+        setLineMessage(null);
+        if (positionZoom) {
+          resetPending.current = true;
+          cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
+            padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
+            duration: reduceMotion ? 0 : motion.slow,
+          });
+        } else {
+          cameraRef.current?.flyTo({ center: userPoint, zoom: 11,
+            duration: reduceMotion ? 0 : 900 });
+        }
+        setPositionZoom(!positionZoom);
+      }} />
+      {lineMessage && <MapLineToast key={lineMessage.id} message={lineMessage.text}
+        top={hintTop} onDismiss={dismissLineMessage} />}
 
       {/* The map's soft asks — at most ONE per launch, chosen by pickOffer above. Each
           appears only after the schedule reveal has settled and only while its OS
@@ -1264,47 +1330,6 @@ export default function Bonetider() {
           onEnable={() => update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }))}
           onClose={() => setPhase('done')}
         />
-      )}
-
-      {/* "Återställ" — appears only after the user has clearly panned/zoomed off the
-          initial framing. Tap to fitBounds back to the whole country. Centred in the lane
-          BELOW the nav row (see useNavMetrics): it used to share that row, which worked only
-          while the Moon sat under the compass rather than beside it. A clear ring (border)
-          + icon + haptic so it reads unmistakably as a button, not a label — the old
-          wordmark style was too quiet to invite a tap. */}
-      {moved && (
-        <View style={[styles.resetWrap, { top: insets.top + navLaneTop }]} pointerEvents="box-none">
-          <Pressable
-            onPress={() => {
-              hapticLight();
-              // Claim the settled event this animation will produce, so it re-anchors
-              // home rather than being compared against the frame recorded at mount.
-              resetPending.current = true;
-              cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
-                // Same padding as the initial fit, not dockSlotBottom — see the note at
-                // LESSON_CARD_HEIGHT.
-                padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
-                duration: motion.slow,
-              });
-              setMoved(false);
-            }}
-            accessibilityRole="button"
-            accessibilityLabel="Återställ kartan"
-            style={({ pressed }) => (pressed ? styles.chipPressed : null)}
-          >
-            <GlassSurface
-              style={[styles.resetChip, { borderColor: colors.accent }]}
-              borderRadius={radius.lg}
-              interactive
-              tint={colors.cardGlass}
-            >
-              <Icon name="recenter" size={16} color={colors.accent} />
-              <Text style={[styles.resetText, { color: colors.ink }]}>
-                Återställ
-              </Text>
-            </GlassSurface>
-          </Pressable>
-        </View>
       )}
 
       {/* The basemap could not be drawn — no network for its tiles, or (rarely) a style that
@@ -1359,26 +1384,6 @@ const styles = StyleSheet.create({
   // during a MapLibre style hot-swap is the same family as either basemap (warm parchment
   // sunken in light, deep navy sunken in dark) — no jarring colour pop on a theme flip.
   container: { flex: 1 },
-  // Centred row that hosts the chip — top inset already accounted for by `top`.
-  resetWrap: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
-  // The chip vanishes the moment it is tapped (setMoved(false)) while the camera flies
-  // home for motion.slow — so without a press state the only feedback for the tap was a
-  // haptic, invisible to anyone who turned haptics off.
-  chipPressed: { opacity: 0.6 },
-  // Pill-shaped Liquid Glass chip with a clear accent ring + icon, so it reads as a
-  // button (a one-word label alone read as a banner the user wasn't sure was tappable).
-  resetChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.sm,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    borderWidth: 1.5, // intentional accent ring weight — kept
-  },
-  // caption size, weighted up for a button label.
-  resetText: { ...type.caption, fontWeight: '700', letterSpacing: 0.2 },
-  // Same centred row as the reset chip, offset below it so the two can coexist — a
-  // basemap failure and a drifted camera are independent states and can both be true.
   mapErrorWrap: { position: 'absolute', left: space.lg, right: space.lg, alignItems: 'center' },
   // No ring, muted ink: this is a statement, not a control. Deliberately quieter than
   // the reset chip so it never competes with a real button for the same glance.

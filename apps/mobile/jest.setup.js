@@ -147,7 +147,11 @@ jest.mock('react-native-reanimated', () => {
     useSharedValue: (value) => {
       const React = require('react');
       const ref = React.useRef(null);
-      if (ref.current === null) ref.current = { value };
+      if (ref.current === null) ref.current = {
+        value,
+        get() { return this.value; },
+        set(next) { this.value = typeof next === 'function' ? next(this.value) : next; },
+      };
       return ref.current;
     },
     useDerivedValue: (fn) => ({ value: fn() }),

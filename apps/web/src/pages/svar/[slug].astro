@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import ArticleBody from "../../components/ArticleBody.astro";
 import ArticleMeta from "../../components/ArticleMeta.astro";
 import ArticleSection from "../../components/ArticleSection.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
@@ -66,7 +67,7 @@ interface Props {
 const { entry, related, essays, pillar } = Astro.props;
 const { data } = entry;
 const seo = svarSeoMetadata(entry.id, { title: data.title, description: data.description });
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const url = `https://islam.se/svar/${entry.id}/`;
 const sourceItems = (data.sources ?? []).map((s) => ({
 	label: s.name,
@@ -175,9 +176,9 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 				</div>
 			)}
 
-			<div class="article-body prose">
+			<ArticleBody headings={headings}>
 				<Content />
-			</div>
+			</ArticleBody>
 
 			{/* Up to the pillar page that covers this topic in full. Placed straight after
 			    the answer: the reader has just had the short version and is at the exact

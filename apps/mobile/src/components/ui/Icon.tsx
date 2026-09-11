@@ -112,6 +112,7 @@ const ICONS = {
   externalLink: { ios: 'arrow.up.forward.square', android: 'open_in_new', ink: 0.75 },
   settings: { ios: 'gearshape', android: 'settings', ink: 0.83 },
   settingsRestore: { ios: 'arrow.counterclockwise', android: 'settings_backup_restore', ink: 0.88 },
+  zoomOut: { ios: 'minus.magnifyingglass', android: 'zoom_out', ink: 0.85 },
   recenter: { ios: 'scope', android: 'center_focus_strong', ink: 0.75 },
   errorOutline: { ios: 'exclamationmark.circle', android: 'error_outline', ink: 0.83 },
   lock: { ios: 'lock', android: 'lock', ink: 0.88 },

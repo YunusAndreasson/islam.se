@@ -2,6 +2,7 @@
 import { getImage } from "astro:assets";
 import { render } from "astro:content";
 import AudioPlayer from "../components/AudioPlayer.astro";
+import ArticleBody from "../components/ArticleBody.astro";
 import ArticleHeader from "../components/ArticleHeader.astro";
 import ArticleMeta from "../components/ArticleMeta.astro";
 import EssayConnections from "../components/EssayConnections.astro";
@@ -34,7 +35,7 @@ interface Props {
 }
 
 const { article, prev, next } = Astro.props;
-const { Content } = await render(article.entry);
+const { Content, headings } = await render(article.entry);
 const amne = article.category ? amneByName.get(article.category) : undefined;
 
 // Quran verses this essay cites in its footnotes → machine-readable citation[] on
@@ -152,9 +153,9 @@ const structuredArticle = {
 				/>
 			)}
 
-			<div class="article-body prose">
+			<ArticleBody headings={headings}>
 				<Content />
-			</div>
+			</ArticleBody>
 		</article>
 
 		<EssayConnections slug={article.slug} />

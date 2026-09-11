@@ -23,13 +23,13 @@
 		"books": "pnpm run pdf && pnpm run epub"
 	},
 	"dependencies": {
-		"@astrojs/markdown-remark": "^7.3.0",
+		"@astrojs/markdown-remark": "^7.3.1",
 		"@astrojs/rss": "^4.0.19",
 		"@astrojs/sitemap": "^3.7.4",
-		"@lucide/astro": "^1.41.0",
+		"@lucide/astro": "^1.44.0",
 		"adhan": "^4.4.6",
-		"astro": "^7.3.1",
-		"maplibre-gl": "^6.7.0",
+		"astro": "^7.3.2",
+		"maplibre-gl": "^6.9.0",
 		"rehype-stringify": "^10.0.1",
 		"remark-rehype": "^11.1.2",
 		"remark-smartypants": "^3.0.3",

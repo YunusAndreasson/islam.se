@@ -143,8 +143,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
         {state === 'ask' ? (
           <>
             <Text style={styles.body}>
-              Få en notis när det är dags för bön. Tiderna räknas ut lokalt på din enhet – inget
-              skickas iväg.
+              Få en notis när det är dags för bön.
             </Text>
             <Pressable
               onPress={onAllow}
