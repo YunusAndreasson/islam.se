@@ -370,7 +370,7 @@ function makeStyles(c: Palette) {
     // Days already used up. Quieter than the ones still to come, so the ring reads forward.
     // Passed days remain part of the ring. Hairline was too close to the face colour in dark
     // mode, making them look deleted rather than completed.
-    notchPast: { backgroundColor: c.inkMuted, opacity: 0.85 },
+    notchPast: { backgroundColor: c.inkMuted, opacity: 0.48 },
     notchToday: { width: 5, height: 20, backgroundColor: c.highlight },
     notchLabel: { ...type.caption, ...mono, color: c.inkFaint, marginTop: 4 },
     // Today's number, on today's mark. It is the answer to the question the ring is for, so
@@ -384,7 +384,7 @@ function makeStyles(c: Palette) {
     // Written with the graphic token, this number was legible only because it is two
     // characters long.
     notchLabelToday: { ...type.bodyStrong, ...mono, color: c.highlightText },
-    notchLabelPast: { color: c.inkMuted, opacity: 0.9 },
+    notchLabelPast: { color: c.inkFaint, opacity: 0.62 },
 
     moonHub: { position: 'absolute', alignItems: 'center', justifyContent: 'center' },
 
