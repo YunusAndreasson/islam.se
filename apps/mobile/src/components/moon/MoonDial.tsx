@@ -203,7 +203,8 @@ export const MoonDial = memo(function MoonDial({
             // the others quietly grey out the white days and the head of the stave as the
             // month went on — so from the 16th onward the ring lost the three marks it exists
             // to show. Days that mean something keep their mark all month.
-            const past = today != null && day < today && !white && day !== 1;
+            const past = today != null && day < today;
+            const pastPlain = past && !white;
             return (
               <View key={day} style={[StyleSheet.absoluteFill, rot(deg)]} pointerEvents="none">
                 <View style={styles.notchSlot}>
@@ -218,14 +219,21 @@ export const MoonDial = memo(function MoonDial({
                         styles.notch,
                         day === 1 && styles.notchFirst,
                         white && styles.notchWhite,
-                        past && styles.notchPast,
+                        pastPlain && styles.notchPast,
                         isToday && styles.notchToday,
                       ]}
                     />
                   </View>
-                  {isToday || labelled.has(day) ? (
+                  {isToday || labelled.has(day) || past ? (
                     // Counter-rotated so the number is upright wherever it sits on the ring.
-                    <Text style={[styles.notchLabel, isToday && styles.notchLabelToday, rot(-deg)]}>
+                    <Text
+                      style={[
+                        styles.notchLabel,
+                        past && styles.notchLabelPast,
+                        isToday && styles.notchLabelToday,
+                        rot(-deg),
+                      ]}
+                    >
                       {day}
                     </Text>
                   ) : null}
@@ -362,7 +370,7 @@ function makeStyles(c: Palette) {
     // Days already used up. Quieter than the ones still to come, so the ring reads forward.
     // Passed days remain part of the ring. Hairline was too close to the face colour in dark
     // mode, making them look deleted rather than completed.
-    notchPast: { backgroundColor: c.inkMuted, opacity: 0.55 },
+    notchPast: { backgroundColor: c.inkMuted, opacity: 0.85 },
     notchToday: { width: 5, height: 20, backgroundColor: c.highlight },
     notchLabel: { ...type.caption, ...mono, color: c.inkFaint, marginTop: 4 },
     // Today's number, on today's mark. It is the answer to the question the ring is for, so
@@ -376,6 +384,7 @@ function makeStyles(c: Palette) {
     // Written with the graphic token, this number was legible only because it is two
     // characters long.
     notchLabelToday: { ...type.bodyStrong, ...mono, color: c.highlightText },
+    notchLabelPast: { color: c.inkMuted, opacity: 0.9 },
 
     moonHub: { position: 'absolute', alignItems: 'center', justifyContent: 'center' },
 

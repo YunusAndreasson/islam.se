@@ -21,6 +21,9 @@ import { motion, type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { Icon } from '@/components/ui/Icon';
+import { almanacTilt, MoonDisc } from '@/components/moon/MoonDisc';
+import { useMoonInk } from '@/components/moon/moonInk';
+import { moonPhaseAt } from '@/lib/moon/ephemeris';
 
 // Monday-first, as Swedish calendars are. Single letters would be ambiguous (måndag and
 // onsdag both start with m/o pairs that collide), so two letters — the standard Swedish
@@ -112,6 +115,7 @@ export function adjacentMonth(grid: MonthGrid, delta: 1 | -1): number {
 export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
+  const ink = useMoonInk();
   const reduceMotion = useReducedMotion();
   // The month being BROWSED, which drifts away from the selected day as the user pages.
   // Seeded from the viewed day so the sheet opens showing where they already are.
@@ -208,6 +212,7 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
             const isToday = day === todayStart;
             const outOfRange = day < minDay || day > maxDay;
             const label = zoneParts(day).d;
+            const phase = moonPhaseAt(new Date(day + 12 * 60 * 60 * 1000));
             return (
               <Pressable
                 key={day}
@@ -246,6 +251,13 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
                     {label}
                   </Text>
                 </View>
+                <MoonDisc
+                  size={12}
+                  illumination={phase.illumination}
+                  tilt={almanacTilt(phase.phaseAngle < 180)}
+                  {...ink}
+                  {...(outOfRange ? { lit: c.inkFaint, dark: c.paperSunken, rim: c.inkFaint } : {})}
+                />
               </Pressable>
             );
           })}
@@ -274,7 +286,7 @@ function makeStyles(c: Palette) {
     // whatever the screen width.
     weekday: { ...type.caption, color: c.inkFaint, width: `${100 / 7}%`, textAlign: 'center' },
     grid: { flexDirection: 'row', flexWrap: 'wrap' },
-    cell: { width: `${100 / 7}%`, alignItems: 'center', paddingVertical: 3 },
+    cell: { width: `${100 / 7}%`, alignItems: 'center', paddingVertical: 3, gap: 2 },
     // 34 keeps a 7-column grid comfortable on a 320 dp screen while staying a real target
     // once the row padding is counted.
     dayBubble: {
