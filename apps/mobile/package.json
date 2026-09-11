@@ -24,7 +24,8 @@
     "release:check": "./scripts/eas-release.sh --check all",
     "release:ios": "./scripts/eas-release.sh ios",
     "release:android": "./scripts/eas-release.sh android",
-    "release:all": "./scripts/eas-release.sh all"
+    "release:all": "./scripts/eas-release.sh all",
+    "sentry:sourcemaps": "sentry-expo-upload-sourcemaps dist"
   },
   "dependencies": {
     "@expo/metro-runtime": "~57.0.14",
@@ -32,6 +33,7 @@
     "@expo/vector-icons": "^15.1.1",
     "@maplibre/maplibre-react-native": "^11.3.7",
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@sentry/react-native": "~7.11.0",
     "@shopify/react-native-skia": "2.10.1",
     "adhan": "^4.4.4",
     "astronomy-engine": "^2.1.19",

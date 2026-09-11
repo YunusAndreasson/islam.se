@@ -1,4 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
+import * as Sentry from '@sentry/react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import { ErrorScreen } from './ErrorScreen';
@@ -19,5 +20,14 @@ describe('ErrorScreen (crash boundary fallback)', () => {
     render(<ErrorScreen error={new Error('boom')} retry={retry} />);
     fireEvent.press(screen.getByText('Försök igen'));
     expect(retry).toHaveBeenCalledTimes(1);
+  });
+
+  // The boundary swallows what it catches, so Sentry's global handler never sees a render
+  // crash. If this explicit report is ever dropped, crashes keep happening and the Sentry
+  // project goes quiet — which reads exactly like a healthy release.
+  it('reports the caught error to Sentry', () => {
+    const error = new Error('boom');
+    render(<ErrorScreen error={error} retry={jest.fn() as () => Promise<void>} />);
+    expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
 });

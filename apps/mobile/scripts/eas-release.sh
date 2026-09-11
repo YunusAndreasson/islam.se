@@ -79,6 +79,14 @@ for (const platform of selected) {
     }
   }
 }
+
+// An empty DSN builds cleanly and then ships with crash reporting switched off (see
+// src/lib/sentry.ts). Nothing downstream notices, so refuse here.
+if (!require('./app.json').expo.extra?.sentryDsn) {
+  throw new Error(
+    'expo.extra.sentryDsn is empty in app.json. Paste the DSN from Sentry → openarabic/islam-se → Project Settings → Client Keys',
+  );
+}
 NODE
 
 if [[ -f pnpm-lock.yaml ]]; then
@@ -92,6 +100,18 @@ echo "› Running full repository verification..."
 
 echo "› Validating resolved Expo configuration..."
 npx expo config --type public >/dev/null
+
+# Without this token the iOS build fails at its Sentry upload step — 20–40 minutes into a
+# cloud build — so check it exists before starting one. Secret values are masked in the
+# listing; only the name matters. Captured first rather than piped into `grep -q`, which
+# exits early, SIGPIPEs eas, and under pipefail reads as a missing token.
+echo "› Checking that EAS holds a Sentry auth token for production builds..."
+eas_production_env="$(eas env:list production --format short)"
+if ! grep -q '^SENTRY_AUTH_TOKEN=' <<<"$eas_production_env"; then
+  echo "error: SENTRY_AUTH_TOKEN is not set in the EAS production environment. Create an organization token in Sentry, then:" >&2
+  echo "  eas env:create --name SENTRY_AUTH_TOKEN --environment production --environment preview --visibility secret" >&2
+  exit 1
+fi
 
 PREFLIGHT_DIR="$(mktemp -d "${TMPDIR:-/tmp}/eas-release-preflight.XXXXXX")"
 trap 'rm -rf "$PREFLIGHT_DIR"' EXIT

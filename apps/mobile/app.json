@@ -125,7 +125,15 @@
           "microphonePermission": false
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "organization": "openarabic",
+          "project": "islam-se"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
@@ -139,6 +147,7 @@
       "policy": "appVersion"
     },
     "extra": {
+      "sentryDsn": "https://a3ad279e35fb34a58bfdf05b12bd7ca3@o1414696.ingest.us.sentry.io/4512069756977152",
       "router": {},
       "eas": {
         "projectId": "ae3f5ac8-8773-4205-b590-ecb11f9a097e"

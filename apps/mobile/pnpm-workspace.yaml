@@ -20,6 +20,13 @@ allowBuilds:
   msgpackr-extract: false
   # Rust-based module resolver used by lint tooling; native binary is preferred.
   unrs-resolver: true
+  # The sentry-cli binary that uploads source maps and debug symbols during the EAS
+  # build (pulled in by @sentry/react-native). Normally the postinstall only confirms
+  # that the platform package from optionalDependencies (@sentry/cli-linux-x64,
+  # -darwin, …) resolved; if it did not, it falls back to a checksum-validated download
+  # from Sentry's CDN. Denying it would turn that fallback into a build that silently
+  # ships without symbolicated crashes.
+  '@sentry/cli': true
 
   # --- @swmansion/argent's native deps (added 2026-08-10 with `argent init --local`).
   # init writes these as the literal string "set this to true or false", which makes
@@ -49,16 +56,16 @@ allowBuilds:
 # 2026-08-19 when the project moved to 0.21.0, which was already two days published and
 # needed no exemption at all.
 minimumReleaseAgeExclude:
-  - '@expo/cli@57.0.18'
-  - '@expo/fingerprint@0.20.10'
+  - '@expo/cli@57.0.24'
+  - '@expo/fingerprint@0.20.13'
   - '@expo/inline-modules@0.1.5'
   - '@expo/local-build-cache-provider@57.0.7'
   - '@expo/metro-config@57.0.10'
-  - '@expo/prebuild-config@57.0.14'
-  - expo-asset@57.0.14
-  - expo-constants@57.0.14
+  - '@expo/prebuild-config@57.0.16'
+  - expo-asset@57.0.17
+  - expo-constants@57.0.18
   - expo-server@57.0.2
-  - expo@57.0.16
+  - expo@57.0.22
   - '@expo/metro-runtime@57.0.13'
   - '@expo/ui@57.0.13'
   - expo-dev-client@57.0.15
@@ -72,8 +79,8 @@ minimumReleaseAgeExclude:
   - expo-widgets@57.0.12
   - jest-expo@57.0.4
   - '@expo/router-server@57.0.7'
-  - expo-file-system@57.0.5
-  - expo-modules-core@57.0.13
+  - expo-file-system@57.0.7
+  - expo-modules-core@57.0.18
   - expo-modules-jsi@57.0.5
   - expo-linking@57.0.7
   - expo-audio@57.0.4
@@ -85,18 +92,9 @@ minimumReleaseAgeExclude:
   - '@expo/metro-file-map@57.0.2'
   - '@expo/require-utils@57.0.5'
   - babel-preset-expo@57.0.8
-  - expo-modules-autolinking@57.0.11
-  - '@expo/cli@57.0.24'
-  - '@expo/fingerprint@0.20.13'
-  - '@expo/prebuild-config@57.0.16'
-  - expo-asset@57.0.17
-  - expo-constants@57.0.18
-  - expo-file-system@57.0.7
+  - expo-modules-autolinking@57.0.13
   - expo-font@57.0.4
   - expo-keep-awake@57.0.2
-  - expo-modules-autolinking@57.0.13
-  - expo-modules-core@57.0.18
-  - expo@57.0.22
 
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.

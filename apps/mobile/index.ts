@@ -20,6 +20,12 @@
 //
 // Relative rather than `@/`: this file is resolved before anything else in the app, and the
 // entry point is the one place not worth making depend on path-alias resolution.
+//
+// Crash reporting is initialised first, above even the task definition, for the same
+// reason: a headless background wake-up renders nothing, so a Sentry.init placed in the
+// layout would leave exactly the runs nobody watches unreported.
+import './src/lib/sentry';
+
 import './src/lib/notification-refresh';
 
 import 'expo-router/entry';

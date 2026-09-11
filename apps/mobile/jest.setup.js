@@ -545,6 +545,14 @@ jest.mock('expo-background-task', () => ({
   BackgroundTaskResult: { Success: 1, Failed: 2 },
 }));
 
+// @sentry/react-native is native, and src/lib/sentry calls `init` at module scope. The mock
+// keeps the real SDK and its bridge out of every suite: sentry.test.ts asserts on the options
+// object that module hands to `init`, ErrorScreen.test.tsx on `captureException`.
+jest.mock('@sentry/react-native', () => ({
+  init: jest.fn(),
+  captureException: jest.fn(),
+}));
+
 // expo-notifications is native. Mock the surface src/lib/notifications uses so the
 // module (which sets a handler at import time) loads, and screens that pull in its
 // constants render. Default: permission granted, scheduling is a resolved no-op.
