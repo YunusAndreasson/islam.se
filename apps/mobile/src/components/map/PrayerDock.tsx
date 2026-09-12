@@ -113,6 +113,31 @@ const TRACK_BAND_H = 30;
  *  deliberately spans it (band + ruler ≈ 43 px) so the scrubber clears the 44 dp touch
  *  minimum without adding a pixel to the dock. See the GestureDetector below. */
 const RULER_H = 13;
+
+/**
+ * The clearance between each day chevron and the scrubber track, and — not coincidentally —
+ * how far the track's touch area reaches back across it.
+ *
+ * The two controls used to sit flush, which made the last pixels of the track contested and
+ * the ends of the day effectively unreachable. The thumb is 18 wide and CENTRED on its
+ * fraction (`left: f * trackW - 9`), so at 00:00 and at 24:00 half the knob — the half the
+ * eye aims at — hung outside the track column, which is the only thing the pan is attached
+ * to. Worse at the right-hand end: DayChevron's ±11 dp hitSlop reached 11 px back into the
+ * track, and because that chevron is a LATER sibling than the GestureDetector it sat on top
+ * and took the touch. So a finger going for 24:00 did not merely miss the scrubber, it
+ * stepped to the next day.
+ *
+ * This gap is the room that lets both controls have their own pixels: the chevrons keep
+ * their whole 22 dp glyph and give up only the inward slop that the track was already
+ * covering at the left-hand end anyway, while the track reclaims the gap through hitSlop —
+ * so the knob is grabbable across its full width at both rails, and a touch past the rail
+ * clamps to exactly 00:00 / 24:00 instead of landing on nothing.
+ *
+ * Paid for out of the track's width: on a 375 pt screen it goes 247 → 227 px, about
+ * 6.3 min/px instead of 5.8. That is a scrubber for coarse travel — a prayer is landed on by
+ * tapping its row, not by pixel-hunting here — so the precision is not what was scarce.
+ */
+const TIMELINE_GAP = 10;
 // The app's one canonical snap spring (tokens.motion.spring), aliased locally so the
 // worklet call sites stay terse.
 const SPRING = motion.spring;
@@ -133,6 +158,21 @@ const SPRING = motion.spring;
 const TOGGLE_DRAG_SLOP = 24;
 /** Past this, a release is a fling and its DIRECTION decides — below it, the card's position does. */
 const FLING_VELOCITY = 350;
+
+/**
+ * How much of a pull PAST the open height the card actually travels.
+ *
+ * A hard stop at the limit reads as a broken control: the finger keeps moving and the card
+ * refuses, which is the one thing no native sheet does. Only the TOP end stretches. The card
+ * is bottom-pinned and clipped, so growing past EXPANDED simply opens a band of glass above
+ * the date crown — exactly what an iOS sheet does when you pull it past its largest detent —
+ * while shrinking below COLLAPSED would crop the scrubber off the bottom of its own card.
+ * The floor stays hard.
+ */
+const OVERDRAG_RESISTANCE = 0.12;
+
+/** Below this open-fraction the card counts as sitting on its collapsed seat. */
+const MOUNT_EPSILON = 0.004;
 
 /**
  * Where a finished toggle gesture leaves the card: `true` to open, `false` to close.
@@ -353,7 +393,25 @@ export function PrayerDock({
   );
   const EXPANDED =
     COLLAPSED + (scheduleHeight ?? SCHEDULE_FALLBACK + (showNight ? NIGHT_GROUP_FALLBACK : 0));
-  const MID = (COLLAPSED + EXPANDED) / 2;
+
+  /**
+   * EXPANDED as the GESTURES see it, and the reason it is a shared value rather than the plain
+   * constant they used to close over.
+   *
+   * gesture-handler will not swap a handler's config once it has begun, so a touch that is
+   * already in flight keeps the worklet it started with — including whatever EXPANDED was at
+   * that moment. That used to be harmless, because the schedule only mounted once the card was
+   * already moving and the measurement therefore landed after the gesture was over. Arming the
+   * mount at touch-down (see armSchedule) moves the first measurement INTO the gesture: the
+   * rows mount, the block lays out, EXPANDED jumps from the fallback to what it really is, and
+   * the finger lifts into a worklet still holding the old number. Measured on the emulator, the
+   * first open then settled ~50 dp short and stayed there — the date crown clipped under the
+   * grab handle — while every open after it was correct.
+   *
+   * Reading the target at spring time fixes that at the root, and covers the same staleness for
+   * the night group being toggled while a finger is down.
+   */
+  const expandedSV = useSharedValue(EXPANDED);
 
   const height = useSharedValue(COLLAPSED);
   const startHeight = useSharedValue(COLLAPSED);
@@ -376,12 +434,42 @@ export function PrayerDock({
   // shared values so the worklet never reads React state.
   const mountedSV = useSharedValue(false);
   const heroOpenSV = useSharedValue(false);
+  // Where the card is HEADED — which is not what its height says for the frame right after a
+  // release, because a spring that has just been handed a target has not moved yet. Only the
+  // disarm below reads it, and only to tell "this touch is over and the card is staying shut"
+  // from "this touch just aimed it open".
+  const targetOpen = useSharedValue(false);
+
+  // Mounting the schedule is the most expensive render the dock does, and keying it to the
+  // card's height meant paying it WHILE the finger was already dragging — on the very frames
+  // the gesture is judged by. `onBegin` fires when the pan starts receiving touches, before it
+  // has activated, so the rows go into the tree during the ~10 dp of travel gesture-handler
+  // needs before it will even call onUpdate. Nothing appears any earlier: the reveal is still
+  // driven entirely by `height`, and at rest every row interpolates to opacity 0.
+  const armSchedule = () => {
+    'worklet';
+    if (mountedSV.value) return;
+    mountedSV.value = true;
+    scheduleOnRN(setMounted, true);
+  };
+  // ...and give the rows back when that touch turns out not to have moved the card. The
+  // reaction below is the normal unmount path, but it only speaks when the height CHANGES, so
+  // a touch that never became a drag and never toggled anything — a tap on the hero's own "Nu"
+  // chip, a system-cancelled touch — would otherwise strand a full schedule behind a closed
+  // card, which is precisely the tree a screen reader must not find (see ScheduleRow).
+  const disarmScheduleIfIdle = () => {
+    'worklet';
+    if (!mountedSV.value || targetOpen.value || progress.value > MOUNT_EPSILON) return;
+    mountedSV.value = false;
+    scheduleOnRN(setMounted, false);
+  };
+
   useAnimatedReaction(
     () => progress.value,
     (p) => {
       // In the tree as soon as the card is off its seat (~1px of the travel), out again once
       // it has settled back onto it — so rows are never torn out from under a moving edge.
-      const wantMounted = p > 0.004;
+      const wantMounted = p > MOUNT_EPSILON;
       if (wantMounted !== mountedSV.value) {
         mountedSV.value = wantMounted;
         scheduleOnRN(setMounted, wantMounted);
@@ -428,33 +516,68 @@ export function PrayerDock({
   // of getting it wrong is three plain objects per render.
   const makeTogglePan = () =>
     Gesture.Pan()
+      .onBegin(armSchedule)
       .onStart(() => {
         startHeight.value = height.value;
         farthest.value = 0;
       })
       .onUpdate((e) => {
-        const nextHeight = startHeight.value - e.translationY;
-        height.value = Math.min(EXPANDED, Math.max(COLLAPSED, nextHeight));
+        const ceiling = expandedSV.value;
+        const raw = startHeight.value - e.translationY;
+        // Soft ceiling, hard floor — see OVERDRAG_RESISTANCE.
+        height.value =
+          raw > ceiling
+            ? ceiling + (raw - ceiling) * OVERDRAG_RESISTANCE
+            : Math.max(COLLAPSED, raw);
         // The FARTHEST the finger ever got, not where it ended: a gesture that goes up and
         // comes back to the origin was a drag the user changed their mind about, and reading
         // only the final translation would call it a tap and toggle the card open.
         farthest.value = Math.max(farthest.value, Math.abs(e.translationY));
       })
       .onEnd((e) => {
+        const ceiling = expandedSV.value;
         const open = resolveToggle({
           travelled: farthest.value,
           startHeight: startHeight.value,
           height: height.value,
           velocityY: e.velocityY,
-          mid: MID,
+          mid: (COLLAPSED + ceiling) / 2,
         });
-        height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
+        targetOpen.value = open;
+        // Hand the finger's own momentum to the spring. gesture-handler reports velocityY in
+        // POINTS PER SECOND and `height` is in points, so the only conversion needed is the
+        // sign: the card grows as the finger goes up, which is negative translationY. Without
+        // this the card stopped dead at the lift and the spring restarted from rest — a visible
+        // stall at the exact moment the finger leaves, and the one thing that read as "not a
+        // real sheet" however well the rest of the reveal tracked the drag.
+        //
+        // overshootClamping comes WITH it, not instead of it. Released from rest this spring
+        // (ζ ≈ 0.91) overshoots by about a third of a point and nobody could see it; carrying a
+        // hard flick's momentum, it has the energy to bounce a visible band of empty glass in
+        // above the date crown, or to crop the scrubber at the other end. The card is clipped
+        // to its own height, so there is nothing on either side for it to bounce into.
+        height.value = withSpring(open ? ceiling : COLLAPSED, {
+          ...SPRING,
+          velocity: -e.velocityY,
+          overshootClamping: true,
+        });
         scheduleOnRN(applyExpanded, open);
-      });
+      })
+      .onFinalize(disarmScheduleIfIdle);
 
+  // No velocity handoff here, and none in the two paths below: a tap, the launch reveal and an
+  // assistive-tech activation all start the card from rest, which is what the bare token means.
   const tap = Gesture.Tap().onEnd(() => {
-    const open = height.value < MID;
-    height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
+    const ceiling = expandedSV.value;
+    const open = height.value < (COLLAPSED + ceiling) / 2;
+    targetOpen.value = open;
+    // Re-arm rather than trust the pan's. Gesture.Exclusive lets this tap win only once the pan
+    // has FAILED, so the pan's onFinalize — and with it the disarm — has already run by the time
+    // we get here, on a card still sitting at its collapsed height. Without this the tap-to-open
+    // path would unmount the schedule and mount it again one frame later, spending the render
+    // onBegin exists to move out of the way.
+    armSchedule();
+    height.value = withSpring(open ? ceiling : COLLAPSED, SPRING);
     scheduleOnRN(applyExpanded, open);
   });
 
@@ -473,6 +596,7 @@ export function PrayerDock({
   // so it can also serve the height re-sync below, where the open/closed flag is already
   // correct and setting it again would only cascade a render.
   const springTo = useEffectEvent((open: boolean) => {
+    targetOpen.value = open;
     height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
     onExpandedChange?.(open, EXPANDED);
   });
@@ -493,17 +617,48 @@ export function PrayerDock({
     onReveal(revealSchedule);
   }, [revealSchedule]);
 
-  // `height` is a shared value seeded once, so toggling the night group while the dock is
-  // OPEN would leave the card at the old height and clip (or strand blank space under) the
-  // new rows. Re-spring to the new target — and tell the host, whose map padding is keyed
-  // to the expanded height. Goes through springTo rather than onReveal: the open/closed
-  // flag is already true here, and setting it again would only cascade a render.
+  // `height` is a shared value seeded once, so a schedule that measures a different height —
+  // the night group being switched on under an open card, the reader's text size, or simply
+  // the very first measurement replacing SCHEDULE_FALLBACK — would leave the card at the old
+  // height and clip (or strand blank space under) the new rows. Re-aim it.
+  //
+  // On the UI thread, off `targetOpen`, because that is the only account of where the card is
+  // headed that is already true when a gesture has just aimed it. A card that is closed or on
+  // its way closed wants no re-aim at all — which is also what keeps the first open quiet: the
+  // rows mount at touch-down now, so the measurement lands while the finger is still on the
+  // card, and `targetOpen` is still false until the release decides.
+  useAnimatedReaction(
+    () => expandedSV.value,
+    (next, prev) => {
+      if (prev === null || next === prev) return;
+      if (!targetOpen.value) return;
+      height.set(withSpring(next, SPRING));
+    },
+  );
+  // Tell the host too, whose map padding is keyed to the expanded height.
   const onExpandedHeightChange = useEffectEvent(() => {
-    if (expanded) springTo(true);
+    // Publish the new target, and nothing else. Re-aiming the card is the reaction above —
+    // this effect cannot do it, because the one case that needs it most is the case it cannot
+    // see: on the first open the measurement lands in the same breath as the gesture, and
+    // `expanded` is set inside a startTransition, so React is free to commit this render before
+    // that low-priority one. Gate the re-aim on the state here and it is false exactly when it
+    // matters, leaving the card at the pre-measurement fallback — ~50 dp short, date crown
+    // clipped under the grab handle. Measured on an emulator, every time.
+    expandedSV.set(EXPANDED);
+    if (expanded) onExpandedChange?.(true, EXPANDED);
   });
   useEffect(() => {
     onExpandedHeightChange();
-  }, [EXPANDED]);
+    // `expanded` as well as EXPANDED, and for the same reason the re-aim had to leave this
+    // effect: on the first open the two land in the wrong order. The measurement fires this
+    // effect while `expanded` is still false, so the report above is skipped — and the report
+    // that DID reach the host came from the applyExpanded instance the in-flight gesture
+    // captured, which closed over the pre-measurement fallback. Keyed on EXPANDED alone,
+    // nothing ever corrects it: by the time the transition commits `expanded`, EXPANDED has
+    // stopped changing. So the card landed on the measured height while the host was still
+    // padding its map for a dock ~50 dp shorter. Listing `expanded` costs one duplicate report
+    // per open — same value, on every path but that one — and buys a host that is never wrong.
+  }, [EXPANDED, expanded]);
 
   // Handle: drag OR tap toggles. Hero: drag-only — a Pan needs movement to activate,
   // so a tap on the hero's "Nu" chip (preview mode) still reaches its Pressable
@@ -979,6 +1134,7 @@ export function PrayerDock({
             accessibilityLabel={expanded ? 'Dölj bönetider' : 'Visa alla bönetider'}
             accessibilityState={{ expanded }}
             onAccessibilityTap={() => {
+              targetOpen.set(!expanded);
               height.set(withSpring(expanded ? COLLAPSED : EXPANDED, SPRING));
               applyExpanded(!expanded);
             }}
@@ -1411,6 +1567,14 @@ function SolarTimeline({
   // (app.json → experiments.reactCompiler); the per-render rebuild is one gesture object.
   const pan = Gesture.Pan()
     .minDistance(0)
+    // Android's half of the reach across TIMELINE_GAP. gesture-handler's own hitSlop can only
+    // SHRINK a target on iOS — UIKit hit-tests at the UIView level, so a recognizer never sees
+    // a touch its view did not receive — and can only grow it on Android, and no further than
+    // the parent view, which is why the gap has to be real rather than borrowed. The View
+    // prop on the detector's child below is the same reach for iOS. Both are needed; neither
+    // is redundant. `e.x` stays in the view's own coordinates either way, so a touch in the
+    // slop reads negative (or past trackW) and the existing clamp lands it on the rail.
+    .hitSlop({ left: TIMELINE_GAP, right: TIMELINE_GAP })
     .onBegin((e) => {
       dragging.value = true;
       scheduleOnRN(hapticGrab);
@@ -1500,6 +1664,11 @@ function SolarTimeline({
       <GestureDetector gesture={pan}>
         <View
           style={styles.timelineCol}
+          // iOS's half of the reach across TIMELINE_GAP — see the gesture's own hitSlop
+          // above for why it takes both. Horizontal only: the column already spans band
+          // plus ruler vertically, and reaching further up would put the scrubber over the
+          // hero's controls.
+          hitSlop={{ left: TIMELINE_GAP, right: TIMELINE_GAP }}
           onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}
           accessibilityRole="adjustable"
           accessibilityLabel="Dagens tidslinje"
@@ -1603,11 +1772,16 @@ function DayChevron({
         onPress(direction);
       }}
       disabled={disabled}
-      // The glyph box is 22 × TRACK_BAND_H (30); hitSlop lifts the target to 44 × 54
-      // without adding a pixel to the row, which would come straight out of the
-      // scrubber track. Left/right are 11 for exactly 44 — 8 left it at 38, under the
-      // minimum, on the two controls sitting closest to the screen edges.
-      hitSlop={{ top: 12, bottom: 12, left: 11, right: 11 }}
+      // The glyph box is 22 × TRACK_BAND_H (30); hitSlop lifts it to 33 × 54 — outward only.
+      //
+      // It used to reach 11 dp INWARD as well, for a round 44. That number was never real:
+      // the left chevron's inward slop lands under the track column, which is the later
+      // sibling and therefore on top, so that side has always been 33. Only the right-hand
+      // one collected on it, by sitting on top of the track and taking the last 11 px of the
+      // day — the asymmetry behind "the scrubber won't grab near the end", and the reason it
+      // stepped a day instead of doing nothing. So this gives up a width the two ends never
+      // both had, and TIMELINE_GAP is what keeps the 22 dp glyph itself uncontested.
+      hitSlop={{ top: 12, bottom: 12, left: forward ? 0 : 11, right: forward ? 11 : 0 }}
       accessibilityRole="button"
       accessibilityLabel={forward ? 'Nästa dag' : 'Föregående dag'}
       accessibilityState={{ disabled }}
@@ -1775,7 +1949,7 @@ function makeStyles(c: Palette) {
     // the band's height, so `justifyContent: center` inside each one puts its glyph on
     // the band's centre — which is where the track and thumb are centred too. The two
     // heights must stay equal; that is why they are one constant.
-    timelineRow: { flexDirection: 'row', alignItems: 'flex-start' },
+    timelineRow: { flexDirection: 'row', alignItems: 'flex-start', gap: TIMELINE_GAP },
     dayStep: { alignItems: 'center', justifyContent: 'center', width: 22, height: TRACK_BAND_H },
     dayStepOff: { opacity: 0.3 },
     // The no-location offer that replaces the place name. Accent (the app's "verbs are
@@ -1808,7 +1982,11 @@ function makeStyles(c: Palette) {
     // flex: 1 so it takes the row's whole remaining width once the two chevrons are laid
     // out — the pan's e.x / trackW maths reads THIS element's onLayout width, and the
     // gesture covers it end to end (band + ruler) for a 44-dp-class drag target.
-    timelineCol: { flex: 1 },
+    // zIndex so the track is on top of BOTH chevrons, not just the one it happens to be
+    // rendered after. Without it the fix depends on sibling order — move the forward chevron
+    // above the GestureDetector in the JSX for any unrelated reason and the right-hand end
+    // silently starts stealing touches again, which is precisely how it got there.
+    timelineCol: { flex: 1, zIndex: 1 },
     trackBase: {
       position: 'absolute',
       left: 0,
