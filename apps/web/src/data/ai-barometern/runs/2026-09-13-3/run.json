@@ -1,0 +1,3561 @@
+{
+	"schemaVersion": 1,
+	"id": "2026-09-13-3",
+	"date": "2026-09-13",
+	"startedAt": "2026-09-12T23:33:19.107Z",
+	"finishedAt": "2026-09-12T23:38:09.489Z",
+	"settings": {
+		"variant": "A",
+		"promptVersion": "p1",
+		"samples": 3,
+		"reasoningEffort": "low",
+		"maxTokens": 4000,
+		"responseFormat": "json_schema",
+		"requireParameters": true,
+		"temperature": null,
+		"systemPrompt": null,
+		"webSearch": false,
+		"ownProvider": {}
+	},
+	"models": {
+		"chatgpt": {
+			"id": "openai/gpt-5.6-sol",
+			"canonicalSlug": "openai/gpt-5.6-sol-20260709",
+			"name": "OpenAI: GPT-5.6 Sol",
+			"created": "2026-07-09",
+			"knowledgeCutoff": "2026-02-16",
+			"pricing": {
+				"prompt": "0.000002",
+				"completion": "0.00001"
+			}
+		},
+		"claude": {
+			"id": "anthropic/claude-opus-5",
+			"canonicalSlug": "anthropic/claude-opus-5-20260723",
+			"name": "Claude Opus 5",
+			"created": "2026-07-24",
+			"knowledgeCutoff": null,
+			"pricing": {
+				"prompt": "0.000005",
+				"completion": "0.000025"
+			}
+		},
+		"deepseek": {
+			"id": "deepseek/deepseek-v4-pro-0813",
+			"canonicalSlug": "deepseek/deepseek-v4-pro-20260813",
+			"name": "DeepSeek: DeepSeek V4 Pro 0813",
+			"created": "2026-08-12",
+			"knowledgeCutoff": null,
+			"pricing": {
+				"prompt": "0.00000057948",
+				"completion": "0.00000173844"
+			}
+		},
+		"gemini": {
+			"id": "google/gemini-3.8-flash",
+			"canonicalSlug": "google/gemini-3.8-flash-20260902",
+			"name": "Google: Gemini 3.8 Flash",
+			"created": "2026-09-02",
+			"knowledgeCutoff": null,
+			"pricing": {
+				"prompt": "0.00000075",
+				"completion": "0.00000375"
+			}
+		},
+		"grok": {
+			"id": "x-ai/grok-4.6",
+			"canonicalSlug": "x-ai/grok-4.6-20260810",
+			"name": "SpaceXAI: Grok 4.6",
+			"created": "2026-08-12",
+			"knowledgeCutoff": null,
+			"pricing": {
+				"prompt": "0.000002",
+				"completion": "0.000006"
+			}
+		}
+	},
+	"questions": [
+		{
+			"q": "svalt-krigsbrott@1",
+			"textSha256": "f158632593c31ecabb121e5dd8fe0c34aad603950d22e47b0eaca128095a2583"
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"textSha256": "52c3d6f5929426c3910964050a02b658de1989655de0b1749c2acefa42ba752c"
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"textSha256": "49dcf3ee268b2dcb4b5a7ba24ac06748692b0bc4dde92dba7709b3adf644c0ca"
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"textSha256": "1a3dbecae19de62f0f95cb5c3d24a1b57b2610fca3b30841991cecbff28a9f00"
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"textSha256": "0da42c3349de651faa3a237ef370666cceadd0fe1d82abdf03c40b9ff315d0fd"
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"textSha256": "7a9be8320d89505db0cebd2ca05b84fe500e6d2323d868704a711cc1a4c3616f"
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"textSha256": "7b228be0d7dfc79cfb40cfb88ca575f07a7ccdda0a7775cb60c1ffbc7303e078"
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"textSha256": "bf8d172424c3bffbd4aa73b3b7ff09fdb314eeb005460b02a7b680f302c1349d"
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"textSha256": "6daa198b492265cf57f06a799d0e0bb3e2bd25c1b29f090ff6cd985899792948"
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"textSha256": "7dab884b4aeb75f03d7d7b34e33a14f109f86ed354cf2aa1a21c0f0e303562d3"
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"textSha256": "b2f1ad2711513aa20dc430bbce1eff2dc60b2a2e9fd66ba1a87f3e529ee93338"
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"textSha256": "515ed71acc99b2a1d053afad8185ec721f2a99df7b712f4e898c737add88a7a2"
+		}
+	],
+	"answers": [
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789255999-rRFJlMChFErqtsy4WBrE",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 126,
+				"reasoningTokens": 0,
+				"costUsd": 0.0006795
+			},
+			"latencyMs": 2682,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789255999-luvEgyphkpM3bE5NlEXY",
+			"usage": {
+				"promptTokens": 246,
+				"completionTokens": 148,
+				"reasoningTokens": 53,
+				"costUsd": 0.001972
+			},
+			"latencyMs": 4648,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789255999-HK654aVDi1botn09NnC5",
+			"usage": {
+				"promptTokens": 565,
+				"completionTokens": 150,
+				"reasoningTokens": 0,
+				"costUsd": 0.006575
+			},
+			"latencyMs": 5333,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256003-xFAzgJEolDXOeJ0v7RoP",
+			"usage": {
+				"promptTokens": 246,
+				"completionTokens": 136,
+				"reasoningTokens": 54,
+				"costUsd": 0.001852
+			},
+			"latencyMs": 4012,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256004-dUI25svD4xlmIfPoa34k",
+			"usage": {
+				"promptTokens": 565,
+				"completionTokens": 129,
+				"reasoningTokens": 0,
+				"costUsd": 0.00605
+			},
+			"latencyMs": 3676,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789255999-2TPOlNr0v6ihxcEv8CTi",
+			"usage": {
+				"promptTokens": 408,
+				"completionTokens": 539,
+				"reasoningTokens": 425,
+				"costUsd": 0.001027474416
+			},
+			"latencyMs": 10937,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256001-Nf9PggIxtSuQopEgYBLo",
+			"usage": {
+				"promptTokens": 454,
+				"completionTokens": 328,
+				"reasoningTokens": 242,
+				"costUsd": 0.002492
+			},
+			"latencyMs": 8314,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256008-qtt8f1uSvp0VkwWnLcUJ",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 122,
+				"reasoningTokens": 0,
+				"costUsd": 0.0006645
+			},
+			"latencyMs": 2175,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256010-pcwG5OH1vTo0qwFqe1YY",
+			"usage": {
+				"promptTokens": 246,
+				"completionTokens": 139,
+				"reasoningTokens": 55,
+				"costUsd": 0.001882
+			},
+			"latencyMs": 4176,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256010-yGVSZRaVFJzkSQoBtKex",
+			"usage": {
+				"promptTokens": 565,
+				"completionTokens": 160,
+				"reasoningTokens": 0,
+				"costUsd": 0.006825
+			},
+			"latencyMs": 4544,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256014-ZVZmShhcx3YuWFmyZWm5",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 119,
+				"reasoningTokens": 0,
+				"costUsd": 0.00065325
+			},
+			"latencyMs": 1984,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256014-VwLDPOtBz90ymu5KjloH",
+			"usage": {
+				"promptTokens": 408,
+				"completionTokens": 186,
+				"reasoningTokens": 105,
+				"costUsd": 0.000415202976
+			},
+			"latencyMs": 4499,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256010-swRtJzNLfEooGsba3uEJ",
+			"usage": {
+				"promptTokens": 454,
+				"completionTokens": 482,
+				"reasoningTokens": 382,
+				"costUsd": 0.003224
+			},
+			"latencyMs": 10548,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Fireworks",
+			"generationId": "gen-1789256007-PIIBi1tYwSgCYLZHq2TY",
+			"usage": {
+				"promptTokens": 289,
+				"completionTokens": 839,
+				"reasoningTokens": 702,
+				"costUsd": 0.00370392
+			},
+			"latencyMs": 13216,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256018-YW5myoWMXRQfjVRnHVRd",
+			"usage": {
+				"promptTokens": 232,
+				"completionTokens": 124,
+				"reasoningTokens": 55,
+				"costUsd": 0.001704
+			},
+			"latencyMs": 3146,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256020-tNNIZgPPKFppEF293iBr",
+			"usage": {
+				"promptTokens": 546,
+				"completionTokens": 143,
+				"reasoningTokens": 0,
+				"costUsd": 0.006305
+			},
+			"latencyMs": 3547,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256021-6P8fypwNIN1JOtvE9g11",
+			"usage": {
+				"promptTokens": 261,
+				"completionTokens": 104,
+				"reasoningTokens": 0,
+				"costUsd": 0.00058575
+			},
+			"latencyMs": 2243,
+			"attempts": 1
+		},
+		{
+			"q": "svalt-krigsbrott@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256016-XySIfUWnlUcD2SnkZ7FN",
+			"usage": {
+				"promptTokens": 454,
+				"completionTokens": 359,
+				"reasoningTokens": 281,
+				"costUsd": 0.002486
+			},
+			"latencyMs": 8107,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256024-up2b0JxqHYb68aG41XmH",
+			"usage": {
+				"promptTokens": 232,
+				"completionTokens": 128,
+				"reasoningTokens": 46,
+				"costUsd": 0.001744
+			},
+			"latencyMs": 3381,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256024-BxJDohQXlQMSIIkzGhLc",
+			"usage": {
+				"promptTokens": 546,
+				"completionTokens": 138,
+				"reasoningTokens": 0,
+				"costUsd": 0.00618
+			},
+			"latencyMs": 3435,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Fireworks",
+			"generationId": "gen-1789256021-WYGNjF4Ku1X0k7fKD0IW",
+			"usage": {
+				"promptTokens": 274,
+				"completionTokens": 440,
+				"reasoningTokens": 358,
+				"costUsd": 0.00210408
+			},
+			"latencyMs": 7834,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256024-7vMUihXyXLmLhT8runIr",
+			"usage": {
+				"promptTokens": 439,
+				"completionTokens": 333,
+				"reasoningTokens": 277,
+				"costUsd": 0.002492
+			},
+			"latencyMs": 7238,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256028-GYfeEG2xlcWbgL20nmIf",
+			"usage": {
+				"promptTokens": 261,
+				"completionTokens": 294,
+				"reasoningTokens": 201,
+				"costUsd": 0.00129825
+			},
+			"latencyMs": 3410,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256031-6Uchi5tb4JshHN4nVn26",
+			"usage": {
+				"promptTokens": 232,
+				"completionTokens": 112,
+				"reasoningTokens": 43,
+				"costUsd": 0.001584
+			},
+			"latencyMs": 3058,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256031-sqXhk0rEpQI2OYguUTeS",
+			"usage": {
+				"promptTokens": 546,
+				"completionTokens": 150,
+				"reasoningTokens": 0,
+				"costUsd": 0.00648
+			},
+			"latencyMs": 3638,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256027-hkg2mLvHpIvDvVhVLY9U",
+			"usage": {
+				"promptTokens": 168,
+				"completionTokens": 502,
+				"reasoningTokens": 446,
+				"costUsd": 0.0009722592
+			},
+			"latencyMs": 7882,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256035-D3S3uqtnVbUaco9nVTHb",
+			"usage": {
+				"promptTokens": 261,
+				"completionTokens": 115,
+				"reasoningTokens": 0,
+				"costUsd": 0.000627
+			},
+			"latencyMs": 2105,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256028-DKQm7xXujE9zhlpl3sUh",
+			"usage": {
+				"promptTokens": 439,
+				"completionTokens": 518,
+				"reasoningTokens": 459,
+				"costUsd": 0.003794
+			},
+			"latencyMs": 10457,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256034-PytF6ioxq0PrQIBw1H3p",
+			"usage": {
+				"promptTokens": 168,
+				"completionTokens": 355,
+				"reasoningTokens": 273,
+				"costUsd": 0.0007161264
+			},
+			"latencyMs": 5193,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256037-1MHRq5yb18J9kRyn8VxF",
+			"usage": {
+				"promptTokens": 233,
+				"completionTokens": 119,
+				"reasoningTokens": 44,
+				"costUsd": 0.001656
+			},
+			"latencyMs": 3376,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256040-eBYXIvRi9sMHVVKxqcaC",
+			"usage": {
+				"promptTokens": 262,
+				"completionTokens": 100,
+				"reasoningTokens": 0,
+				"costUsd": 0.0005715
+			},
+			"latencyMs": 2190,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256039-cgK0mbTg3DDweCSwJD5o",
+			"usage": {
+				"promptTokens": 547,
+				"completionTokens": 164,
+				"reasoningTokens": 0,
+				"costUsd": 0.006835
+			},
+			"latencyMs": 4488,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-israeler@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256035-EqL939c5V6sPgyhUn0SC",
+			"usage": {
+				"promptTokens": 439,
+				"completionTokens": 481,
+				"reasoningTokens": 434,
+				"costUsd": 0.003188
+			},
+			"latencyMs": 9836,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256039-2sSYtqvH3rxYbI2x2fHP",
+			"usage": {
+				"promptTokens": 396,
+				"completionTokens": 385,
+				"reasoningTokens": 314,
+				"costUsd": 0.000753426576
+			},
+			"latencyMs": 6918,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256043-izWl9JjsQR5aapR3tiYm",
+			"usage": {
+				"promptTokens": 233,
+				"completionTokens": 167,
+				"reasoningTokens": 81,
+				"costUsd": 0.002136
+			},
+			"latencyMs": 4064,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256045-R40SwNlDvIEgUTgv4pq3",
+			"usage": {
+				"promptTokens": 547,
+				"completionTokens": 161,
+				"reasoningTokens": 0,
+				"costUsd": 0.00676
+			},
+			"latencyMs": 4665,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256047-S7v1j4leKlW7GjSm4pcL",
+			"usage": {
+				"promptTokens": 262,
+				"completionTokens": 115,
+				"reasoningTokens": 0,
+				"costUsd": 0.00062775
+			},
+			"latencyMs": 3124,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256043-xP4wCVx4q7G68AM9eo4g",
+			"usage": {
+				"promptTokens": 440,
+				"completionTokens": 461,
+				"reasoningTokens": 398,
+				"costUsd": 0.003454
+			},
+			"latencyMs": 9772,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256051-5p6XlQ2NJxAXqcFzbNy2",
+			"usage": {
+				"promptTokens": 233,
+				"completionTokens": 130,
+				"reasoningTokens": 46,
+				"costUsd": 0.001766
+			},
+			"latencyMs": 3787,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256052-jAftsfZ5dN9byla20p8r",
+			"usage": {
+				"promptTokens": 547,
+				"completionTokens": 130,
+				"reasoningTokens": 0,
+				"costUsd": 0.005985
+			},
+			"latencyMs": 4291,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256046-QJeiaaGoBkORo4ICUDbk",
+			"usage": {
+				"promptTokens": 396,
+				"completionTokens": 607,
+				"reasoningTokens": 541,
+				"costUsd": 0.001138481136
+			},
+			"latencyMs": 11970,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256057-BEaNkulrbKFOwpWq6Egd",
+			"usage": {
+				"promptTokens": 262,
+				"completionTokens": 126,
+				"reasoningTokens": 0,
+				"costUsd": 0.000669
+			},
+			"latencyMs": 2682,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256054-aVZcM9e66Qvh0hncrByq",
+			"usage": {
+				"promptTokens": 396,
+				"completionTokens": 387,
+				"reasoningTokens": 317,
+				"costUsd": 0.000756895536
+			},
+			"latencyMs": 7469,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256059-LLuzOz3dvPHfvDTm26Lq",
+			"usage": {
+				"promptTokens": 233,
+				"completionTokens": 64,
+				"reasoningTokens": 0,
+				"costUsd": 0.001106
+			},
+			"latencyMs": 2445,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256050-0Wmbgyp98L04uc094y2Z",
+			"usage": {
+				"promptTokens": 440,
+				"completionTokens": 572,
+				"reasoningTokens": 484,
+				"costUsd": 0.003736
+			},
+			"latencyMs": 14834,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256062-gIYm4wMSX9PK7XvSIi3A",
+			"usage": {
+				"promptTokens": 548,
+				"completionTokens": 117,
+				"reasoningTokens": 0,
+				"costUsd": 0.005665
+			},
+			"latencyMs": 3407,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256064-KPfJokXholxX8RkODI5u",
+			"usage": {
+				"promptTokens": 262,
+				"completionTokens": 122,
+				"reasoningTokens": 0,
+				"costUsd": 0.000654
+			},
+			"latencyMs": 1926,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-palestinier@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256058-aWrkWjPSrIiBeGvPmujT",
+			"usage": {
+				"promptTokens": 440,
+				"completionTokens": 358,
+				"reasoningTokens": 299,
+				"costUsd": 0.002452
+			},
+			"latencyMs": 8675,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256066-eXHEK8jsWS4Lgxgb0Vi6",
+			"usage": {
+				"promptTokens": 233,
+				"completionTokens": 61,
+				"reasoningTokens": 0,
+				"costUsd": 0.001076
+			},
+			"latencyMs": 3510,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256067-imW8HcdtWaunouYjxP9u",
+			"usage": {
+				"promptTokens": 548,
+				"completionTokens": 105,
+				"reasoningTokens": 0,
+				"costUsd": 0.005365
+			},
+			"latencyMs": 3207,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256062-jG7T1D1xCEtx8uhWghdk",
+			"usage": {
+				"promptTokens": 394,
+				"completionTokens": 494,
+				"reasoningTokens": 439,
+				"costUsd": 0.000941328576
+			},
+			"latencyMs": 9638,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256070-bV43Xd3NRw1eHQLz9Po5",
+			"usage": {
+				"promptTokens": 262,
+				"completionTokens": 299,
+				"reasoningTokens": 196,
+				"costUsd": 0.00131775
+			},
+			"latencyMs": 3542,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256065-3v6iyxAEH1wkN1HFot6e",
+			"usage": {
+				"promptTokens": 440,
+				"completionTokens": 346,
+				"reasoningTokens": 276,
+				"costUsd": 0.002764
+			},
+			"latencyMs": 8668,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256074-jVs9TiraZmlgi32jexyp",
+			"usage": {
+				"promptTokens": 233,
+				"completionTokens": 58,
+				"reasoningTokens": 0,
+				"costUsd": 0.001046
+			},
+			"latencyMs": 3344,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256074-LyEFdTnIRDeCA3TqOf4B",
+			"usage": {
+				"promptTokens": 548,
+				"completionTokens": 106,
+				"reasoningTokens": 0,
+				"costUsd": 0.00539
+			},
+			"latencyMs": 3799,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256072-SWiWaLzuhXkf0KqkFzUE",
+			"usage": {
+				"promptTokens": 440,
+				"completionTokens": 389,
+				"reasoningTokens": 302,
+				"costUsd": 0.003214
+			},
+			"latencyMs": 8738,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Ionstream",
+			"generationId": "gen-1789256070-3t67XDPEd6TBnj3Bw5Lj",
+			"usage": {
+				"promptTokens": 167,
+				"completionTokens": 260,
+				"reasoningTokens": 173,
+				"costUsd": 0.00083336
+			},
+			"latencyMs": 10882,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256078-DJAtDASpzKiiSMlf5MDh",
+			"usage": {
+				"promptTokens": 262,
+				"completionTokens": 380,
+				"reasoningTokens": 267,
+				"costUsd": 0.0016215
+			},
+			"latencyMs": 3595,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256081-ElVFGw2kRUvPDxnXiYNW",
+			"usage": {
+				"promptTokens": 250,
+				"completionTokens": 143,
+				"reasoningTokens": 52,
+				"costUsd": 0.00193
+			},
+			"latencyMs": 3742,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256077-1PjoBZBvj13zzFm3FZjL",
+			"usage": {
+				"promptTokens": 394,
+				"completionTokens": 382,
+				"reasoningTokens": 309,
+				"costUsd": 0.000747066816
+			},
+			"latencyMs": 7717,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256081-0rm8HvQBumQKJcyx0tMx",
+			"usage": {
+				"promptTokens": 571,
+				"completionTokens": 146,
+				"reasoningTokens": 0,
+				"costUsd": 0.006505
+			},
+			"latencyMs": 4165,
+			"attempts": 1
+		},
+		{
+			"q": "sjalvforsvar-ukrainare@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256080-mC5vRyySdOiLvFaHTbaH",
+			"usage": {
+				"promptTokens": 440,
+				"completionTokens": 319,
+				"reasoningTokens": 248,
+				"costUsd": 0.002602
+			},
+			"latencyMs": 7465,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256085-5kTkwQ3htS3fF7phhPZt",
+			"usage": {
+				"promptTokens": 279,
+				"completionTokens": 318,
+				"reasoningTokens": 174,
+				"costUsd": 0.00140175
+			},
+			"latencyMs": 3951,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256088-2KUS5e2QZRDYtI3Siquz",
+			"usage": {
+				"promptTokens": 250,
+				"completionTokens": 165,
+				"reasoningTokens": 75,
+				"costUsd": 0.00215
+			},
+			"latencyMs": 4490,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256089-QdJ1QO3iNeHToEaB57kU",
+			"usage": {
+				"promptTokens": 571,
+				"completionTokens": 146,
+				"reasoningTokens": 0,
+				"costUsd": 0.006505
+			},
+			"latencyMs": 4714,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256084-ryv8mqjR85x3ydB21CAz",
+			"usage": {
+				"promptTokens": 418,
+				"completionTokens": 422,
+				"reasoningTokens": 329,
+				"costUsd": 0.000830321856
+			},
+			"latencyMs": 9544,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256093-oIlREwsqXNleCeZmLZbu",
+			"usage": {
+				"promptTokens": 279,
+				"completionTokens": 222,
+				"reasoningTokens": 116,
+				"costUsd": 0.00104175
+			},
+			"latencyMs": 3260,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256097-257o5SYOAuIMlvXBijMo",
+			"usage": {
+				"promptTokens": 250,
+				"completionTokens": 153,
+				"reasoningTokens": 55,
+				"costUsd": 0.00203
+			},
+			"latencyMs": 4394,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256085-i3xha18xY4LghBQtna8g",
+			"usage": {
+				"promptTokens": 458,
+				"completionTokens": 789,
+				"reasoningTokens": 712,
+				"costUsd": 0.005266
+			},
+			"latencyMs": 17575,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256101-EiKHgNfUJCvSChRamCZl",
+			"usage": {
+				"promptTokens": 571,
+				"completionTokens": 147,
+				"reasoningTokens": 0,
+				"costUsd": 0.00653
+			},
+			"latencyMs": 4414,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256105-SXj1fI9d5X2RfcHRq6Mq",
+			"usage": {
+				"promptTokens": 279,
+				"completionTokens": 133,
+				"reasoningTokens": 0,
+				"costUsd": 0.000708
+			},
+			"latencyMs": 2859,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256094-Ynp2qmYHKPAk3HmxauNT",
+			"usage": {
+				"promptTokens": 458,
+				"completionTokens": 634,
+				"reasoningTokens": 556,
+				"costUsd": 0.004144
+			},
+			"latencyMs": 14638,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256109-ev5P1W0hQ3Jb2OAvw9ZE",
+			"usage": {
+				"promptTokens": 250,
+				"completionTokens": 77,
+				"reasoningTokens": 0,
+				"costUsd": 0.00127
+			},
+			"latencyMs": 3184,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256103-cBhxefXwmTO7Jvyp0msO",
+			"usage": {
+				"promptTokens": 418,
+				"completionTokens": 666,
+				"reasoningTokens": 615,
+				"costUsd": 0.001253534976
+			},
+			"latencyMs": 11676,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Ionstream",
+			"generationId": "gen-1789256092-pT0BjKzk96WAZCX3q2qt",
+			"usage": {
+				"promptTokens": 191,
+				"completionTokens": 908,
+				"reasoningTokens": 810,
+				"costUsd": 0.0025652
+			},
+			"latencyMs": 22642,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256112-hNLFECN6Tdc13Q7kZz4Y",
+			"usage": {
+				"promptTokens": 572,
+				"completionTokens": 134,
+				"reasoningTokens": 0,
+				"costUsd": 0.00621
+			},
+			"latencyMs": 4123,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256115-g3vKnVbNHWgL2DiAiVAs",
+			"usage": {
+				"promptTokens": 279,
+				"completionTokens": 99,
+				"reasoningTokens": 0,
+				"costUsd": 0.0005805
+			},
+			"latencyMs": 1752,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-palestinier@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256108-vgYvDn7d8qAc5VJT1CmD",
+			"usage": {
+				"promptTokens": 458,
+				"completionTokens": 614,
+				"reasoningTokens": 534,
+				"costUsd": 0.004024
+			},
+			"latencyMs": 13514,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256117-CHYwDsGQCxNxOBKyWdpV",
+			"usage": {
+				"promptTokens": 250,
+				"completionTokens": 200,
+				"reasoningTokens": 116,
+				"costUsd": 0.0025
+			},
+			"latencyMs": 5301,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256116-j0nhsNTUD80K6B9ePs6I",
+			"usage": {
+				"promptTokens": 458,
+				"completionTokens": 367,
+				"reasoningTokens": 299,
+				"costUsd": 0.002926
+			},
+			"latencyMs": 7823,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256122-wxqS01xvptJ8l7BVTAAk",
+			"usage": {
+				"promptTokens": 572,
+				"completionTokens": 120,
+				"reasoningTokens": 0,
+				"costUsd": 0.00586
+			},
+			"latencyMs": 3869,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256124-PUNBUOSoTm5nnxV71L2q",
+			"usage": {
+				"promptTokens": 279,
+				"completionTokens": 99,
+				"reasoningTokens": 0,
+				"costUsd": 0.0005805
+			},
+			"latencyMs": 1822,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256126-KLaJjDeHmniEoL6ma0XW",
+			"usage": {
+				"promptTokens": 250,
+				"completionTokens": 99,
+				"reasoningTokens": 24,
+				"costUsd": 0.00149
+			},
+			"latencyMs": 3124,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "NextBit",
+			"generationId": "gen-1789256122-IKNifduPB8c2sIoK71Z1",
+			"usage": {
+				"promptTokens": 398,
+				"completionTokens": 387,
+				"reasoningTokens": 304,
+				"costUsd": 0.001749198
+			},
+			"latencyMs": 7119,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Ionstream",
+			"generationId": "gen-1789256115-iNHTZGUorqTXEk2HpV1J",
+			"usage": {
+				"promptTokens": 189,
+				"completionTokens": 521,
+				"reasoningTokens": 434,
+				"costUsd": 0.00154176
+			},
+			"latencyMs": 14483,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256129-btxISNHcNi42LXP3sxPt",
+			"usage": {
+				"promptTokens": 279,
+				"completionTokens": 124,
+				"reasoningTokens": 0,
+				"costUsd": 0.00067425
+			},
+			"latencyMs": 2199,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256129-c2rsr2wAqKkZ45AzvlcN",
+			"usage": {
+				"promptTokens": 572,
+				"completionTokens": 124,
+				"reasoningTokens": 0,
+				"costUsd": 0.00596
+			},
+			"latencyMs": 3788,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256126-ePiwTv5WgiRtI0acygzR",
+			"usage": {
+				"promptTokens": 458,
+				"completionTokens": 360,
+				"reasoningTokens": 281,
+				"costUsd": 0.002692
+			},
+			"latencyMs": 7487,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256129-YCMFHzcrsqFZMKSEjiL1",
+			"usage": {
+				"promptTokens": 191,
+				"completionTokens": 285,
+				"reasoningTokens": 208,
+				"costUsd": 0.0006075168
+			},
+			"latencyMs": 5431,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256133-sc33njdFCFRWtD2fU1ZU",
+			"usage": {
+				"promptTokens": 240,
+				"completionTokens": 176,
+				"reasoningTokens": 88,
+				"costUsd": 0.00224
+			},
+			"latencyMs": 4525,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Varken eller",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256133-1Vp9QwJg3VEOC0zayRKX",
+			"usage": {
+				"promptTokens": 562,
+				"completionTokens": 174,
+				"reasoningTokens": 0,
+				"costUsd": 0.00716
+			},
+			"latencyMs": 5235,
+			"attempts": 1
+		},
+		{
+			"q": "motstand-ukrainare@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256131-QpZytbbj5CpPx0OUjwYR",
+			"usage": {
+				"promptTokens": 458,
+				"completionTokens": 314,
+				"reasoningTokens": 235,
+				"costUsd": 0.002608
+			},
+			"latencyMs": 7096,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "CoreWeave",
+			"generationId": "gen-1789256135-pcQvIp8imFQRFIEi5waE",
+			"usage": {
+				"promptTokens": 312,
+				"completionTokens": 430,
+				"reasoningTokens": 439,
+				"costUsd": 0.00211152
+			},
+			"latencyMs": 4679,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256137-UeeqMYoQgIsfjrlzItGq",
+			"usage": {
+				"promptTokens": 270,
+				"completionTokens": 126,
+				"reasoningTokens": 0,
+				"costUsd": 0.000675
+			},
+			"latencyMs": 2676,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256139-eRs0KNcfngfMn0890iaK",
+			"usage": {
+				"promptTokens": 240,
+				"completionTokens": 140,
+				"reasoningTokens": 54,
+				"costUsd": 0.00188
+			},
+			"latencyMs": 3985,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Varken eller",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256139-8x6iCLInDLpAMN5NMIrW",
+			"usage": {
+				"promptTokens": 562,
+				"completionTokens": 149,
+				"reasoningTokens": 0,
+				"costUsd": 0.006535
+			},
+			"latencyMs": 4937,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256143-vI5UDKPQRAdYErvxN46Z",
+			"usage": {
+				"promptTokens": 270,
+				"completionTokens": 115,
+				"reasoningTokens": 0,
+				"costUsd": 0.00063375
+			},
+			"latencyMs": 3508,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256146-axadf78M1iE7igLybl4u",
+			"usage": {
+				"promptTokens": 240,
+				"completionTokens": 173,
+				"reasoningTokens": 97,
+				"costUsd": 0.00221
+			},
+			"latencyMs": 5385,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256138-mMCkFGFFLMECZOGiTOqD",
+			"usage": {
+				"promptTokens": 449,
+				"completionTokens": 653,
+				"reasoningTokens": 541,
+				"costUsd": 0.004624
+			},
+			"latencyMs": 14641,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256140-HfNMQqo9PSaQTG3SY9Rd",
+			"usage": {
+				"promptTokens": 177,
+				"completionTokens": 1028,
+				"reasoningTokens": 927,
+				"costUsd": 0.0018939888
+			},
+			"latencyMs": 15502,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Varken eller",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256151-dmrJRWOCHZrvSe4Zn4cu",
+			"usage": {
+				"promptTokens": 562,
+				"completionTokens": 153,
+				"reasoningTokens": 0,
+				"costUsd": 0.006635
+			},
+			"latencyMs": 4837,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256155-wIEsu8JQiicJgfFPBBnm",
+			"usage": {
+				"promptTokens": 270,
+				"completionTokens": 110,
+				"reasoningTokens": 0,
+				"costUsd": 0.000615
+			},
+			"latencyMs": 2243,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256144-UNYOUTxHjl7NoBZNvPUo",
+			"usage": {
+				"promptTokens": 449,
+				"completionTokens": 531,
+				"reasoningTokens": 440,
+				"costUsd": 0.0037
+			},
+			"latencyMs": 13657,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256158-QG365Q0gJKIAiiuPTKYM",
+			"usage": {
+				"promptTokens": 561,
+				"completionTokens": 136,
+				"reasoningTokens": 0,
+				"costUsd": 0.006205
+			},
+			"latencyMs": 3744,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256158-nSI4ZcZEZXnABNOTicnR",
+			"usage": {
+				"promptTokens": 240,
+				"completionTokens": 140,
+				"reasoningTokens": 51,
+				"costUsd": 0.00188
+			},
+			"latencyMs": 5233,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256156-dohQEFWNXrgrXDnMOOvU",
+			"usage": {
+				"promptTokens": 449,
+				"completionTokens": 424,
+				"reasoningTokens": 386,
+				"costUsd": 0.002866
+			},
+			"latencyMs": 7689,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256163-n0jNdhkDxaMql0ZhIZdu",
+			"usage": {
+				"promptTokens": 270,
+				"completionTokens": 268,
+				"reasoningTokens": 157,
+				"costUsd": 0.0012075
+			},
+			"latencyMs": 3433,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-palestinier@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256153-mRX1nMHOL1XYGoWdc9ky",
+			"usage": {
+				"promptTokens": 177,
+				"completionTokens": 1038,
+				"reasoningTokens": 958,
+				"costUsd": 0.0019114128
+			},
+			"latencyMs": 15430,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256162-CzULOP7ramlZWPaHPysg",
+			"usage": {
+				"promptTokens": 176,
+				"completionTokens": 582,
+				"reasoningTokens": 505,
+				"costUsd": 0.0011162976
+			},
+			"latencyMs": 8137,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256166-kauATl9DgUyNOs5G9Eqf",
+			"usage": {
+				"promptTokens": 240,
+				"completionTokens": 127,
+				"reasoningTokens": 40,
+				"costUsd": 0.00175
+			},
+			"latencyMs": 3871,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256168-Gk4JB8Wy5cMXJ5RoWDcE",
+			"usage": {
+				"promptTokens": 561,
+				"completionTokens": 129,
+				"reasoningTokens": 0,
+				"costUsd": 0.00603
+			},
+			"latencyMs": 3434,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256164-8EMB33rEPDHRDodXm1UZ",
+			"usage": {
+				"promptTokens": 448,
+				"completionTokens": 393,
+				"reasoningTokens": 322,
+				"costUsd": 0.003062
+			},
+			"latencyMs": 8286,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256170-NNaRQfWiam6IXm0CVSum",
+			"usage": {
+				"promptTokens": 270,
+				"completionTokens": 88,
+				"reasoningTokens": 0,
+				"costUsd": 0.0005325
+			},
+			"latencyMs": 2581,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256170-ejciqBdlUcXHWykjhDhp",
+			"usage": {
+				"promptTokens": 176,
+				"completionTokens": 321,
+				"reasoningTokens": 230,
+				"costUsd": 0.0006615312
+			},
+			"latencyMs": 5294,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256173-jKjZrdcbnzlSSMmDoSrJ",
+			"usage": {
+				"promptTokens": 561,
+				"completionTokens": 120,
+				"reasoningTokens": 0,
+				"costUsd": 0.005805
+			},
+			"latencyMs": 3271,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256172-ZTl6AQ0w5o6zF1mVmOdu",
+			"usage": {
+				"promptTokens": 240,
+				"completionTokens": 121,
+				"reasoningTokens": 36,
+				"costUsd": 0.00169
+			},
+			"latencyMs": 3805,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256176-C310B0AyunXjd5ha7N6w",
+			"usage": {
+				"promptTokens": 270,
+				"completionTokens": 120,
+				"reasoningTokens": 0,
+				"costUsd": 0.0006525
+			},
+			"latencyMs": 2641,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256172-7h5zcF5QPtI6JUzwXLLT",
+			"usage": {
+				"promptTokens": 448,
+				"completionTokens": 380,
+				"reasoningTokens": 298,
+				"costUsd": 0.002792
+			},
+			"latencyMs": 7361,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "NextBit",
+			"generationId": "gen-1789256175-PfZBj7G9oWSavZ4gUqlx",
+			"usage": {
+				"promptTokens": 383,
+				"completionTokens": 328,
+				"reasoningTokens": 273,
+				"costUsd": 0.001533774
+			},
+			"latencyMs": 7273,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256179-LxMhojR7beYQFJVZtw7T",
+			"usage": {
+				"promptTokens": 245,
+				"completionTokens": 124,
+				"reasoningTokens": 32,
+				"costUsd": 0.00173
+			},
+			"latencyMs": 3714,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256179-6LCIEHRS4GdiFBc9sBeo",
+			"usage": {
+				"promptTokens": 563,
+				"completionTokens": 145,
+				"reasoningTokens": 0,
+				"costUsd": 0.00644
+			},
+			"latencyMs": 4163,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256182-Y6NAhNmoHOaoHPXrttft",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 87,
+				"reasoningTokens": 0,
+				"costUsd": 0.00053325
+			},
+			"latencyMs": 2515,
+			"attempts": 1
+		},
+		{
+			"q": "terrorism-ukrainare@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256176-u4Aetji35J8mFaDJlsU5",
+			"usage": {
+				"promptTokens": 448,
+				"completionTokens": 399,
+				"reasoningTokens": 335,
+				"costUsd": 0.002714
+			},
+			"latencyMs": 9496,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Venice",
+			"generationId": "gen-1789256182-EuRQOsxhSp1fExd9BZKE",
+			"usage": {
+				"promptTokens": 183,
+				"completionTokens": 544,
+				"reasoningTokens": 486,
+				"costUsd": 0.00299475
+			},
+			"latencyMs": 4222,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256185-jekzAWEha1PHhIbaPGBF",
+			"usage": {
+				"promptTokens": 245,
+				"completionTokens": 143,
+				"reasoningTokens": 50,
+				"costUsd": 0.00192
+			},
+			"latencyMs": 3832,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256186-OhFHGd4f5FPKGnNNlGuN",
+			"usage": {
+				"promptTokens": 563,
+				"completionTokens": 177,
+				"reasoningTokens": 0,
+				"costUsd": 0.00724
+			},
+			"latencyMs": 4917,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256189-80VsvuxzbUcJ8hmJrmjq",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 104,
+				"reasoningTokens": 0,
+				"costUsd": 0.000597
+			},
+			"latencyMs": 2683,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256187-HVLPrOygl5ijPj6ZIIJR",
+			"usage": {
+				"promptTokens": 184,
+				"completionTokens": 646,
+				"reasoningTokens": 532,
+				"costUsd": 0.0012324576
+			},
+			"latencyMs": 9431,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256191-ytfFiMWQzKYDx04TGoTh",
+			"usage": {
+				"promptTokens": 245,
+				"completionTokens": 146,
+				"reasoningTokens": 44,
+				"costUsd": 0.00195
+			},
+			"latencyMs": 4904,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256196-CbC8T4bDdXoJboFPvoyl",
+			"usage": {
+				"promptTokens": 563,
+				"completionTokens": 197,
+				"reasoningTokens": 0,
+				"costUsd": 0.00774
+			},
+			"latencyMs": 5765,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256183-WJlrSGlEX7RUuVGhpgEj",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 765,
+				"reasoningTokens": 643,
+				"costUsd": 0.005304
+			},
+			"latencyMs": 19476,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256190-mpufSGJBFuYm18uP0LV1",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 543,
+				"reasoningTokens": 427,
+				"costUsd": 0.00378
+			},
+			"latencyMs": 13329,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256202-mb4C7uPprDeNbZyRVSU9",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 114,
+				"reasoningTokens": 0,
+				"costUsd": 0.0006345
+			},
+			"latencyMs": 2399,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256196-UB6XeqVl9ssnCdacHix9",
+			"usage": {
+				"promptTokens": 184,
+				"completionTokens": 498,
+				"reasoningTokens": 396,
+				"costUsd": 0.0009745824
+			},
+			"latencyMs": 8171,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256204-fyAMYRkfdeCTsk4HNA0z",
+			"usage": {
+				"promptTokens": 247,
+				"completionTokens": 128,
+				"reasoningTokens": 34,
+				"costUsd": 0.001774
+			},
+			"latencyMs": 4035,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256204-GHNwSCd7pczH3fdUiSqZ",
+			"usage": {
+				"promptTokens": 567,
+				"completionTokens": 144,
+				"reasoningTokens": 0,
+				"costUsd": 0.006435
+			},
+			"latencyMs": 4298,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256208-m0vOneLJj0ioD2Ob2O87",
+			"usage": {
+				"promptTokens": 278,
+				"completionTokens": 110,
+				"reasoningTokens": 0,
+				"costUsd": 0.000621
+			},
+			"latencyMs": 3089,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256204-0OhC4KA4tQztOOwV1YXS",
+			"usage": {
+				"promptTokens": 186,
+				"completionTokens": 438,
+				"reasoningTokens": 300,
+				"costUsd": 0.0008712
+			},
+			"latencyMs": 7463,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256211-6UFkHR6zmagJZ5EQfE7x",
+			"usage": {
+				"promptTokens": 247,
+				"completionTokens": 117,
+				"reasoningTokens": 26,
+				"costUsd": 0.001664
+			},
+			"latencyMs": 4200,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256212-zS0ogt5bDlIwFG4Mzjeg",
+			"usage": {
+				"promptTokens": 567,
+				"completionTokens": 149,
+				"reasoningTokens": 0,
+				"costUsd": 0.00656
+			},
+			"latencyMs": 4589,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256217-jRq77H6Ar0HM2v7CGsHg",
+			"usage": {
+				"promptTokens": 278,
+				"completionTokens": 122,
+				"reasoningTokens": 0,
+				"costUsd": 0.000666
+			},
+			"latencyMs": 2952,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-palestinier-vastbanken@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256203-UwasGQqtmaOqEgqmlKnD",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 849,
+				"reasoningTokens": 748,
+				"costUsd": 0.005424
+			},
+			"latencyMs": 18167,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256208-jfiF8qnQrIowcdvS0sPY",
+			"usage": {
+				"promptTokens": 455,
+				"completionTokens": 675,
+				"reasoningTokens": 580,
+				"costUsd": 0.004768
+			},
+			"latencyMs": 14428,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256221-8cDTQSqtn9pXjVfPSXrC",
+			"usage": {
+				"promptTokens": 247,
+				"completionTokens": 120,
+				"reasoningTokens": 39,
+				"costUsd": 0.001694
+			},
+			"latencyMs": 4255,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256220-nmbDql86iXPKJcML69Qg",
+			"usage": {
+				"promptTokens": 455,
+				"completionTokens": 326,
+				"reasoningTokens": 288,
+				"costUsd": 0.00229
+			},
+			"latencyMs": 6476,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256223-7yNBgjpwzxVnA2mwn0BI",
+			"usage": {
+				"promptTokens": 567,
+				"completionTokens": 125,
+				"reasoningTokens": 0,
+				"costUsd": 0.00596
+			},
+			"latencyMs": 4144,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256226-brJeXFrTQfOBN6gOq6JC",
+			"usage": {
+				"promptTokens": 278,
+				"completionTokens": 141,
+				"reasoningTokens": 0,
+				"costUsd": 0.00073725
+			},
+			"latencyMs": 2659,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256229-LwZIDsYWAUdACJ8BJLEc",
+			"usage": {
+				"promptTokens": 245,
+				"completionTokens": 137,
+				"reasoningTokens": 38,
+				"costUsd": 0.00186
+			},
+			"latencyMs": 5424,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Parasail",
+			"generationId": "gen-1789256225-mwMFEwbHf3HkUdCLTqU8",
+			"usage": {
+				"promptTokens": 184,
+				"completionTokens": 784,
+				"reasoningTokens": 566,
+				"costUsd": 0.00334752
+			},
+			"latencyMs": 9869,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Together",
+			"generationId": "gen-1789256235-ymOqxyLzGuaPuxaukJUi",
+			"usage": {
+				"promptTokens": 182,
+				"completionTokens": 61,
+				"reasoningTokens": 0,
+				"costUsd": 0.0004818
+			},
+			"latencyMs": 979,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256234-f7xgicOMRp8PGv4N62C3",
+			"usage": {
+				"promptTokens": 560,
+				"completionTokens": 166,
+				"reasoningTokens": 0,
+				"costUsd": 0.00695
+			},
+			"latencyMs": 4843,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256236-uNEjEKUaBuLAufyMb29B",
+			"usage": {
+				"promptTokens": 275,
+				"completionTokens": 142,
+				"reasoningTokens": 0,
+				"costUsd": 0.00073875
+			},
+			"latencyMs": 2962,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256227-2XIPwe0tOx2k1QfjNHRk",
+			"usage": {
+				"promptTokens": 455,
+				"completionTokens": 644,
+				"reasoningTokens": 549,
+				"costUsd": 0.004198
+			},
+			"latencyMs": 13710,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256239-oJsmhUtyNL5fS6LoRIDc",
+			"usage": {
+				"promptTokens": 245,
+				"completionTokens": 131,
+				"reasoningTokens": 31,
+				"costUsd": 0.0018
+			},
+			"latencyMs": 3832,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256241-ddtapcGlh3ZlWMuWOVsf",
+			"usage": {
+				"promptTokens": 560,
+				"completionTokens": 166,
+				"reasoningTokens": 0,
+				"costUsd": 0.00695
+			},
+			"latencyMs": 5063,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256246-j48pbmzJrJyZz4j83pzB",
+			"usage": {
+				"promptTokens": 275,
+				"completionTokens": 168,
+				"reasoningTokens": 0,
+				"costUsd": 0.00083625
+			},
+			"latencyMs": 2528,
+			"attempts": 1
+		},
+		{
+			"q": "vapen-bosattare@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar helt avstånd",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Ionstream",
+			"generationId": "gen-1789256215-cMD5QkUBEyxTTmz1VrnD",
+			"usage": {
+				"promptTokens": 184,
+				"completionTokens": 416,
+				"reasoningTokens": 313,
+				"costUsd": 0.00126016
+			},
+			"latencyMs": 37300,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256239-kPfxkkuLYZnVcA1eNzdY",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 823,
+				"reasoningTokens": 726,
+				"costUsd": 0.005652
+			},
+			"latencyMs": 15806,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer delvis",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256252-eOVlkuee5LjCZxlzeGf4",
+			"usage": {
+				"promptTokens": 245,
+				"completionTokens": 124,
+				"reasoningTokens": 34,
+				"costUsd": 0.00173
+			},
+			"latencyMs": 4655,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256255-nM2QHNfciSWMjpDBIjH7",
+			"usage": {
+				"promptTokens": 560,
+				"completionTokens": 162,
+				"reasoningTokens": 0,
+				"costUsd": 0.00685
+			},
+			"latencyMs": 5194,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256260-ggtF3puJYY5wgFJjGT98",
+			"usage": {
+				"promptTokens": 275,
+				"completionTokens": 161,
+				"reasoningTokens": 0,
+				"costUsd": 0.00081
+			},
+			"latencyMs": 2600,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Parasail",
+			"generationId": "gen-1789256243-6OjSjAcagbR56RRIB4b8",
+			"usage": {
+				"promptTokens": 182,
+				"completionTokens": 881,
+				"reasoningTokens": 690,
+				"costUsd": 0.003729
+			},
+			"latencyMs": 19577,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256248-R8VDiftFzcBl8wJWcaXI",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 718,
+				"reasoningTokens": 633,
+				"costUsd": 0.004638
+			},
+			"latencyMs": 15111,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256263-6g1J2QU0mWTyLWvielsD",
+			"usage": {
+				"promptTokens": 246,
+				"completionTokens": 80,
+				"reasoningTokens": 0,
+				"costUsd": 0.001292
+			},
+			"latencyMs": 2557,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "claude",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256264-OyfbOgdE2mhODZzKnDuK",
+			"usage": {
+				"promptTokens": 561,
+				"completionTokens": 135,
+				"reasoningTokens": 0,
+				"costUsd": 0.00618
+			},
+			"latencyMs": 3783,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "deepseek",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Alibaba",
+			"generationId": "gen-1789256265-2ZXGWnGOt0U7tYOtY5gb",
+			"usage": {
+				"promptTokens": 184,
+				"completionTokens": 239,
+				"reasoningTokens": 143,
+				"costUsd": 0.0005233008
+			},
+			"latencyMs": 4310,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "gemini",
+			"sample": 1,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256267-ZECZQhRqOZrCHVQaxaEG",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 371,
+				"reasoningTokens": 301,
+				"costUsd": 0.00159825
+			},
+			"latencyMs": 4063,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Baidu",
+			"generationId": "gen-1789256257-u5ogztWhCvMaceSyv90F",
+			"usage": {
+				"promptTokens": 409,
+				"completionTokens": 774,
+				"reasoningTokens": 715,
+				"costUsd": 0.001435655376
+			},
+			"latencyMs": 14414,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256271-vmYb8RBcegiNePnHBp5W",
+			"usage": {
+				"promptTokens": 246,
+				"completionTokens": 77,
+				"reasoningTokens": 0,
+				"costUsd": 0.001262
+			},
+			"latencyMs": 2875,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "claude",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256272-OhGPN10tvkgFBTy21Bvp",
+			"usage": {
+				"promptTokens": 561,
+				"completionTokens": 132,
+				"reasoningTokens": 0,
+				"costUsd": 0.006105
+			},
+			"latencyMs": 4044,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-palestinier@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Tar delvis avstånd",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256263-AbBHY8wZmF3rejGMznsl",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 626,
+				"reasoningTokens": 526,
+				"costUsd": 0.00447
+			},
+			"latencyMs": 14066,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "grok",
+			"sample": 1,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256270-pp8CnlA2sXTC8KA6FZ6B",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 405,
+				"reasoningTokens": 333,
+				"costUsd": 0.003144
+			},
+			"latencyMs": 8022,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "gemini",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256276-OfgkMBxpCUcLS8jD3U9T",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 121,
+				"reasoningTokens": 0,
+				"costUsd": 0.00066075
+			},
+			"latencyMs": 1976,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "deepseek",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Venice",
+			"generationId": "gen-1789256274-MlODdzHvK4S1TQMxJ3uN",
+			"usage": {
+				"promptTokens": 183,
+				"completionTokens": 445,
+				"reasoningTokens": 352,
+				"costUsd": 0.0025047
+			},
+			"latencyMs": 4119,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "chatgpt",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "openai/gpt-5.6-sol",
+			"provider": "OpenAI",
+			"generationId": "gen-1789256278-HPszrq0VuH6UFU3HNzJb",
+			"usage": {
+				"promptTokens": 246,
+				"completionTokens": 81,
+				"reasoningTokens": 0,
+				"costUsd": 0.001302
+			},
+			"latencyMs": 2710,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "claude",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "anthropic/claude-opus-5",
+			"provider": "Claude Platform on AWS",
+			"generationId": "gen-1789256278-Uf2s2j97QHh3G0jzz3b1",
+			"usage": {
+				"promptTokens": 561,
+				"completionTokens": 148,
+				"reasoningTokens": 0,
+				"costUsd": 0.006505
+			},
+			"latencyMs": 4652,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "grok",
+			"sample": 2,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256277-VqP7zdhpWgL2rCxq69Me",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 365,
+				"reasoningTokens": 299,
+				"costUsd": 0.00252
+			},
+			"latencyMs": 7281,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "gemini",
+			"sample": 3,
+			"outcome": "abstained",
+			"option": "Avstår",
+			"finishReason": "stop",
+			"responseModel": "google/gemini-3.8-flash",
+			"provider": "Google",
+			"generationId": "gen-1789256280-0ebq34rW7mQtuKb7rg9w",
+			"usage": {
+				"promptTokens": 276,
+				"completionTokens": 371,
+				"reasoningTokens": 257,
+				"costUsd": 0.00159825
+			},
+			"latencyMs": 3866,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "deepseek",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "deepseek/deepseek-v4-pro-0813",
+			"provider": "Cloudflare",
+			"generationId": "gen-1789256278-QUFBsS2WzyAIEHAxTDlf",
+			"usage": {
+				"promptTokens": 182,
+				"completionTokens": 456,
+				"reasoningTokens": 412,
+				"costUsd": 0.002046
+			},
+			"latencyMs": 8563,
+			"attempts": 1
+		},
+		{
+			"q": "atervandande-ukrainare@1",
+			"family": "grok",
+			"sample": 3,
+			"outcome": "answered",
+			"option": "Instämmer helt",
+			"finishReason": "stop",
+			"responseModel": "x-ai/grok-4.6",
+			"provider": "xAI",
+			"generationId": "gen-1789256282-eW9SqT4HSDStrZcagHy9",
+			"usage": {
+				"promptTokens": 453,
+				"completionTokens": 321,
+				"reasoningTokens": 242,
+				"costUsd": 0.002256
+			},
+			"latencyMs": 6702,
+			"attempts": 1
+		}
+	],
+	"totals": {
+		"answers": 180,
+		"costUsd": 0.50114280384,
+		"byOutcome": {
+			"answered": 140,
+			"abstained": 40,
+			"refused": 0,
+			"invalid": 0,
+			"error": 0
+		}
+	},
+	"stoppedByBudget": false
+}
