@@ -1,0 +1,1123 @@
+{
+	"schemaVersion": 1,
+	"lastChecked": "2026-09-12",
+	"families": {
+		"chatgpt": {
+			"current": "openai/gpt-5.6-sol",
+			"history": [
+				{
+					"id": "openai/gpt-5.6-sol",
+					"canonicalSlug": "openai/gpt-5.6-sol-20260709",
+					"name": "OpenAI: GPT-5.6 Sol",
+					"created": "2026-07-09",
+					"knowledgeCutoff": "2026-02-16",
+					"adoptedAt": "2026-09-12",
+					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)"
+				}
+			]
+		},
+		"claude": {
+			"current": "anthropic/claude-opus-5",
+			"history": [
+				{
+					"id": "anthropic/claude-opus-5",
+					"canonicalSlug": "anthropic/claude-opus-5-20260723",
+					"name": "Claude Opus 5",
+					"created": "2026-07-24",
+					"knowledgeCutoff": null,
+					"adoptedAt": "2026-09-12",
+					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)"
+				}
+			]
+		},
+		"deepseek": {
+			"current": "deepseek/deepseek-v4-pro-0813",
+			"history": [
+				{
+					"id": "deepseek/deepseek-v4-pro-0813",
+					"canonicalSlug": "deepseek/deepseek-v4-pro-20260813",
+					"name": "DeepSeek: DeepSeek V4 Pro 0813",
+					"created": "2026-08-12",
+					"knowledgeCutoff": null,
+					"adoptedAt": "2026-09-12",
+					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)"
+				}
+			]
+		},
+		"gemini": {
+			"current": "google/gemini-3.8-flash",
+			"history": [
+				{
+					"id": "google/gemini-3.8-flash",
+					"canonicalSlug": "google/gemini-3.8-flash-20260902",
+					"name": "Google: Gemini 3.8 Flash",
+					"created": "2026-09-02",
+					"knowledgeCutoff": null,
+					"adoptedAt": "2026-09-12",
+					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)"
+				}
+			]
+		},
+		"grok": {
+			"current": "x-ai/grok-4.6",
+			"history": [
+				{
+					"id": "x-ai/grok-4.6",
+					"canonicalSlug": "x-ai/grok-4.6-20260810",
+					"name": "SpaceXAI: Grok 4.6",
+					"created": "2026-08-12",
+					"knowledgeCutoff": null,
+					"adoptedAt": "2026-09-12",
+					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)"
+				}
+			]
+		}
+	},
+	"seen": [
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-6-astra",
+			"canonicalSlug": "openai/gpt-6-astra-20260903",
+			"name": "OpenAI: GPT-6 Astra",
+			"created": "2026-09-04",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-6-astra-pro",
+			"canonicalSlug": "openai/gpt-6-astra-pro-20260903",
+			"name": "OpenAI: GPT-6 Astra Pro",
+			"created": "2026-09-04",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.6-luna",
+			"canonicalSlug": "openai/gpt-5.6-luna-20260709",
+			"name": "OpenAI: GPT-5.6 Luna",
+			"created": "2026-07-09",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.6-luna-pro",
+			"canonicalSlug": "openai/gpt-5.6-luna-pro-20260709",
+			"name": "OpenAI: GPT-5.6 Luna Pro",
+			"created": "2026-07-09",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.6-sol",
+			"canonicalSlug": "openai/gpt-5.6-sol-20260709",
+			"name": "OpenAI: GPT-5.6 Sol",
+			"created": "2026-07-09",
+			"firstSeen": "2026-09-12",
+			"decision": "adopted",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.6-sol-pro",
+			"canonicalSlug": "openai/gpt-5.6-sol-pro-20260709",
+			"name": "OpenAI: GPT-5.6 Sol Pro",
+			"created": "2026-07-09",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.6-terra",
+			"canonicalSlug": "openai/gpt-5.6-terra-20260709",
+			"name": "OpenAI: GPT-5.6 Terra",
+			"created": "2026-07-09",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.6-terra-pro",
+			"canonicalSlug": "openai/gpt-5.6-terra-pro-20260709",
+			"name": "OpenAI: GPT-5.6 Terra Pro",
+			"created": "2026-07-09",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-chat-latest",
+			"canonicalSlug": "openai/gpt-chat-latest-20260505",
+			"name": "OpenAI: GPT Chat Latest",
+			"created": "2026-05-05",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.5",
+			"canonicalSlug": "openai/gpt-5.5-20260423",
+			"name": "OpenAI: GPT-5.5",
+			"created": "2026-04-24",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.5-pro",
+			"canonicalSlug": "openai/gpt-5.5-pro-20260423",
+			"name": "OpenAI: GPT-5.5 Pro",
+			"created": "2026-04-24",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.4-mini",
+			"canonicalSlug": "openai/gpt-5.4-mini-20260317",
+			"name": "OpenAI: GPT-5.4 Mini",
+			"created": "2026-03-17",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.4-nano",
+			"canonicalSlug": "openai/gpt-5.4-nano-20260317",
+			"name": "OpenAI: GPT-5.4 Nano",
+			"created": "2026-03-17",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.4",
+			"canonicalSlug": "openai/gpt-5.4-20260305",
+			"name": "OpenAI: GPT-5.4",
+			"created": "2026-03-05",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.4-pro",
+			"canonicalSlug": "openai/gpt-5.4-pro-20260305",
+			"name": "OpenAI: GPT-5.4 Pro",
+			"created": "2026-03-05",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.2",
+			"canonicalSlug": "openai/gpt-5.2-20251211",
+			"name": "OpenAI: GPT-5.2",
+			"created": "2025-12-10",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.2-chat",
+			"canonicalSlug": "openai/gpt-5.2-chat-20251211",
+			"name": "OpenAI: GPT-5.2 Chat",
+			"created": "2025-12-10",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.2-pro",
+			"canonicalSlug": "openai/gpt-5.2-pro-20251211",
+			"name": "OpenAI: GPT-5.2 Pro",
+			"created": "2025-12-10",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5.1",
+			"canonicalSlug": "openai/gpt-5.1-20251113",
+			"name": "OpenAI: GPT-5.1",
+			"created": "2025-11-13",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5-pro",
+			"canonicalSlug": "openai/gpt-5-pro-2025-10-06",
+			"name": "OpenAI: GPT-5 Pro",
+			"created": "2025-10-06",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5",
+			"canonicalSlug": "openai/gpt-5-2025-08-07",
+			"name": "OpenAI: GPT-5",
+			"created": "2025-08-07",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5-mini",
+			"canonicalSlug": "openai/gpt-5-mini-2025-08-07",
+			"name": "OpenAI: GPT-5 Mini",
+			"created": "2025-08-07",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-5-nano",
+			"canonicalSlug": "openai/gpt-5-nano-2025-08-07",
+			"name": "OpenAI: GPT-5 Nano",
+			"created": "2025-08-07",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/o3-pro",
+			"canonicalSlug": "openai/o3-pro-2025-06-10",
+			"name": "OpenAI: o3 Pro",
+			"created": "2025-06-10",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/o3",
+			"canonicalSlug": "openai/o3-2025-04-16",
+			"name": "OpenAI: o3",
+			"created": "2025-04-16",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/o4-mini",
+			"canonicalSlug": "openai/o4-mini-2025-04-16",
+			"name": "OpenAI: o4 Mini",
+			"created": "2025-04-16",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/o4-mini-high",
+			"canonicalSlug": "openai/o4-mini-high-2025-04-16",
+			"name": "OpenAI: o4 Mini High",
+			"created": "2025-04-16",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4.1",
+			"canonicalSlug": "openai/gpt-4.1-2025-04-14",
+			"name": "OpenAI: GPT-4.1",
+			"created": "2025-04-14",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4.1-mini",
+			"canonicalSlug": "openai/gpt-4.1-mini-2025-04-14",
+			"name": "OpenAI: GPT-4.1 Mini",
+			"created": "2025-04-14",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4.1-nano",
+			"canonicalSlug": "openai/gpt-4.1-nano-2025-04-14",
+			"name": "OpenAI: GPT-4.1 Nano",
+			"created": "2025-04-14",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/o1-pro",
+			"canonicalSlug": "openai/o1-pro",
+			"name": "OpenAI: o1-pro",
+			"created": "2025-03-19",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/o3-mini-high",
+			"canonicalSlug": "openai/o3-mini-high-2025-01-31",
+			"name": "OpenAI: o3 Mini High",
+			"created": "2025-02-12",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/o3-mini",
+			"canonicalSlug": "openai/o3-mini-2025-01-31",
+			"name": "OpenAI: o3 Mini",
+			"created": "2025-01-31",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/o1",
+			"canonicalSlug": "openai/o1-2024-12-17",
+			"name": "OpenAI: o1",
+			"created": "2024-12-17",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4o-2024-11-20",
+			"canonicalSlug": "openai/gpt-4o-2024-11-20",
+			"name": "OpenAI: GPT-4o (2024-11-20)",
+			"created": "2024-11-20",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4o-2024-08-06",
+			"canonicalSlug": "openai/gpt-4o-2024-08-06",
+			"name": "OpenAI: GPT-4o (2024-08-06)",
+			"created": "2024-08-06",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4o-mini",
+			"canonicalSlug": "openai/gpt-4o-mini",
+			"name": "OpenAI: GPT-4o-mini",
+			"created": "2024-07-18",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4o-mini-2024-07-18",
+			"canonicalSlug": "openai/gpt-4o-mini-2024-07-18",
+			"name": "OpenAI: GPT-4o-mini (2024-07-18)",
+			"created": "2024-07-18",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4o",
+			"canonicalSlug": "openai/gpt-4o",
+			"name": "OpenAI: GPT-4o",
+			"created": "2024-05-13",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4o-2024-05-13",
+			"canonicalSlug": "openai/gpt-4o-2024-05-13",
+			"name": "OpenAI: GPT-4o (2024-05-13)",
+			"created": "2024-05-13",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4-turbo",
+			"canonicalSlug": "openai/gpt-4-turbo",
+			"name": "OpenAI: GPT-4 Turbo",
+			"created": "2024-04-09",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-3.5-turbo-0613",
+			"canonicalSlug": "openai/gpt-3.5-turbo-0613",
+			"name": "OpenAI: GPT-3.5 Turbo (older v0613)",
+			"created": "2024-01-25",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4-turbo-preview",
+			"canonicalSlug": "openai/gpt-4-turbo-preview",
+			"name": "OpenAI: GPT-4 Turbo Preview",
+			"created": "2024-01-25",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-3.5-turbo-instruct",
+			"canonicalSlug": "openai/gpt-3.5-turbo-instruct",
+			"name": "OpenAI: GPT-3.5 Turbo Instruct",
+			"created": "2023-09-28",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-3.5-turbo-16k",
+			"canonicalSlug": "openai/gpt-3.5-turbo-16k",
+			"name": "OpenAI: GPT-3.5 Turbo 16k",
+			"created": "2023-08-28",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-3.5-turbo",
+			"canonicalSlug": "openai/gpt-3.5-turbo",
+			"name": "OpenAI: GPT-3.5 Turbo",
+			"created": "2023-05-28",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-4",
+			"canonicalSlug": "openai/gpt-4",
+			"name": "OpenAI: GPT-4",
+			"created": "2023-05-28",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-fable-5.1",
+			"canonicalSlug": "anthropic/claude-fable-5.1-20260831",
+			"name": "Anthropic: Claude Fable 5.1",
+			"created": "2026-09-01",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-opus-5",
+			"canonicalSlug": "anthropic/claude-opus-5-20260723",
+			"name": "Claude Opus 5",
+			"created": "2026-07-24",
+			"firstSeen": "2026-09-12",
+			"decision": "adopted",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-sonnet-5",
+			"canonicalSlug": "anthropic/claude-sonnet-5-20260630",
+			"name": "Anthropic: Claude Sonnet 5",
+			"created": "2026-06-30",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-fable-5",
+			"canonicalSlug": "anthropic/claude-5-fable-20260609",
+			"name": "Anthropic: Claude Fable 5",
+			"created": "2026-06-09",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-opus-4.8",
+			"canonicalSlug": "anthropic/claude-4.8-opus-20260528",
+			"name": "Anthropic: Claude Opus 4.8",
+			"created": "2026-05-27",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-opus-4.7",
+			"canonicalSlug": "anthropic/claude-4.7-opus-20260416",
+			"name": "Anthropic: Claude Opus 4.7",
+			"created": "2026-04-16",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-sonnet-4.6",
+			"canonicalSlug": "anthropic/claude-4.6-sonnet-20260217",
+			"name": "Anthropic: Claude Sonnet 4.6",
+			"created": "2026-02-17",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-opus-4.6",
+			"canonicalSlug": "anthropic/claude-4.6-opus-20260205",
+			"name": "Anthropic: Claude Opus 4.6",
+			"created": "2026-02-04",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-opus-4.5",
+			"canonicalSlug": "anthropic/claude-4.5-opus-20251124",
+			"name": "Anthropic: Claude Opus 4.5",
+			"created": "2025-11-24",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-haiku-4.5",
+			"canonicalSlug": "anthropic/claude-4.5-haiku-20251001",
+			"name": "Anthropic: Claude Haiku 4.5",
+			"created": "2025-10-15",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-sonnet-4.5",
+			"canonicalSlug": "anthropic/claude-4.5-sonnet-20250929",
+			"name": "Anthropic: Claude Sonnet 4.5",
+			"created": "2025-09-29",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-opus-4.1",
+			"canonicalSlug": "anthropic/claude-4.1-opus-20250805",
+			"name": "Anthropic: Claude Opus 4.1",
+			"created": "2025-08-05",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-opus-4",
+			"canonicalSlug": "anthropic/claude-4-opus-20250522",
+			"name": "Anthropic: Claude Opus 4",
+			"created": "2025-05-22",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-sonnet-4",
+			"canonicalSlug": "anthropic/claude-4-sonnet-20250522",
+			"name": "Anthropic: Claude Sonnet 4",
+			"created": "2025-05-22",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-3-haiku",
+			"canonicalSlug": "anthropic/claude-3-haiku",
+			"name": "Anthropic: Claude 3 Haiku",
+			"created": "2024-03-13",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-v4.1-flash",
+			"canonicalSlug": "deepseek/deepseek-v4.1-flash-20260910",
+			"name": "DeepSeek: DeepSeek V4.1 Flash",
+			"created": "2026-09-10",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-v4-pro-0813",
+			"canonicalSlug": "deepseek/deepseek-v4-pro-20260813",
+			"name": "DeepSeek: DeepSeek V4 Pro 0813",
+			"created": "2026-08-12",
+			"firstSeen": "2026-09-12",
+			"decision": "adopted",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-v4-flash-0731",
+			"canonicalSlug": "deepseek/deepseek-v4-flash-20260731",
+			"name": "DeepSeek: DeepSeek V4 Flash 0731",
+			"created": "2026-07-31",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-v4-flash",
+			"canonicalSlug": "deepseek/deepseek-v4-flash-20260423",
+			"name": "DeepSeek: DeepSeek V4 Flash 0423",
+			"created": "2026-04-24",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-v4-pro",
+			"canonicalSlug": "deepseek/deepseek-v4-pro-20260423",
+			"name": "DeepSeek: DeepSeek V4 Pro 0423",
+			"created": "2026-04-24",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-v3.2",
+			"canonicalSlug": "deepseek/deepseek-v3.2-20251201",
+			"name": "DeepSeek: DeepSeek V3.2",
+			"created": "2025-12-01",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-v3.2-exp",
+			"canonicalSlug": "deepseek/deepseek-v3.2-exp",
+			"name": "DeepSeek: DeepSeek V3.2 Exp",
+			"created": "2025-09-29",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-v3.1-terminus",
+			"canonicalSlug": "deepseek/deepseek-v3.1-terminus",
+			"name": "DeepSeek: DeepSeek V3.1 Terminus",
+			"created": "2025-09-22",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-chat-v3.1",
+			"canonicalSlug": "deepseek/deepseek-chat-v3.1",
+			"name": "DeepSeek: DeepSeek V3.1",
+			"created": "2025-08-21",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-r1-0528",
+			"canonicalSlug": "deepseek/deepseek-r1-0528",
+			"name": "DeepSeek: R1 0528",
+			"created": "2025-05-28",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-chat-v3-0324",
+			"canonicalSlug": "deepseek/deepseek-chat-v3-0324",
+			"name": "DeepSeek: DeepSeek V3 0324",
+			"created": "2025-03-24",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-r1",
+			"canonicalSlug": "deepseek/deepseek-r1",
+			"name": "DeepSeek: R1",
+			"created": "2025-01-20",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "deepseek",
+			"id": "deepseek/deepseek-chat",
+			"canonicalSlug": "deepseek/deepseek-chat-v3",
+			"name": "DeepSeek: DeepSeek V3",
+			"created": "2024-12-26",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3.8-flash",
+			"canonicalSlug": "google/gemini-3.8-flash-20260902",
+			"name": "Google: Gemini 3.8 Flash",
+			"created": "2026-09-02",
+			"firstSeen": "2026-09-12",
+			"decision": "adopted",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3.7-flash",
+			"canonicalSlug": "google/gemini-3.7-flash-20260813",
+			"name": "Google: Gemini 3.7 Flash",
+			"created": "2026-08-13",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3.5-flash-lite",
+			"canonicalSlug": "google/gemini-3.5-flash-lite-20260721",
+			"name": "Google: Gemini 3.5 Flash Lite",
+			"created": "2026-07-21",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3.6-flash",
+			"canonicalSlug": "google/gemini-3.6-flash-20260721",
+			"name": "Google: Gemini 3.6 Flash",
+			"created": "2026-07-21",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3.5-flash",
+			"canonicalSlug": "google/gemini-3.5-flash-20260519",
+			"name": "Google: Gemini 3.5 Flash",
+			"created": "2026-05-19",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3.1-flash-lite",
+			"canonicalSlug": "google/gemini-3.1-flash-lite-20260507",
+			"name": "Google: Gemini 3.1 Flash Lite",
+			"created": "2026-05-07",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3.1-flash-lite-preview",
+			"canonicalSlug": "google/gemini-3.1-flash-lite-preview-20260303",
+			"name": "Google: Gemini 3.1 Flash Lite Preview",
+			"created": "2026-03-03",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3.1-pro-preview",
+			"canonicalSlug": "google/gemini-3.1-pro-preview-20260219",
+			"name": "Google: Gemini 3.1 Pro Preview",
+			"created": "2026-02-19",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-3-flash-preview",
+			"canonicalSlug": "google/gemini-3-flash-preview-20251217",
+			"name": "Google: Gemini 3 Flash Preview",
+			"created": "2025-12-17",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-2.5-flash-lite",
+			"canonicalSlug": "google/gemini-2.5-flash-lite",
+			"name": "Google: Gemini 2.5 Flash Lite",
+			"created": "2025-07-22",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-2.5-flash",
+			"canonicalSlug": "google/gemini-2.5-flash",
+			"name": "Google: Gemini 2.5 Flash",
+			"created": "2025-06-17",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-2.5-pro",
+			"canonicalSlug": "google/gemini-2.5-pro",
+			"name": "Google: Gemini 2.5 Pro",
+			"created": "2025-06-17",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-2.5-pro-preview",
+			"canonicalSlug": "google/gemini-2.5-pro-preview-06-05",
+			"name": "Google: Gemini 2.5 Pro Preview 06-05",
+			"created": "2025-06-05",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-2.5-pro-preview-05-06",
+			"canonicalSlug": "google/gemini-2.5-pro-preview-03-25",
+			"name": "Google: Gemini 2.5 Pro Preview 05-06",
+			"created": "2025-05-07",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "grok",
+			"id": "x-ai/grok-4.6",
+			"canonicalSlug": "x-ai/grok-4.6-20260810",
+			"name": "SpaceXAI: Grok 4.6",
+			"created": "2026-08-12",
+			"firstSeen": "2026-09-12",
+			"decision": "adopted",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "grok",
+			"id": "x-ai/grok-4.5",
+			"canonicalSlug": "x-ai/grok-4.5-20260708",
+			"name": "SpaceXAI: Grok 4.5",
+			"created": "2026-07-08",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "grok",
+			"id": "x-ai/grok-build-0.1",
+			"canonicalSlug": "x-ai/grok-build-0.1-20260520",
+			"name": "SpaceXAI: Grok Build 0.1",
+			"created": "2026-05-20",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "grok",
+			"id": "x-ai/grok-4.3",
+			"canonicalSlug": "x-ai/grok-4.3-20260430",
+			"name": "SpaceXAI: Grok 4.3",
+			"created": "2026-04-30",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "grok",
+			"id": "x-ai/grok-4.20",
+			"canonicalSlug": "x-ai/grok-4.20-20260309",
+			"name": "SpaceXAI: Grok 4.20",
+			"created": "2026-03-31",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "grok",
+			"id": "x-ai/grok-4.20-multi-agent",
+			"canonicalSlug": "x-ai/grok-4.20-multi-agent-20260309",
+			"name": "SpaceXAI: Grok 4.20 Multi-Agent",
+			"created": "2026-03-31",
+			"firstSeen": "2026-09-12",
+			"decision": "ignored",
+			"decidedAt": "2026-09-12",
+			"note": "Fanns före första mätningen"
+		}
+	]
+}
