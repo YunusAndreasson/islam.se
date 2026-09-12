@@ -1,6 +1,36 @@
 {
-	"runId": "2026-09-12",
-	"date": "2026-09-12",
+	"runs": {
+		"parti-svensk-valjare@1": "2026-09-12",
+		"parti-muslimsk-valjare@1": "2026-09-12",
+		"minska-invandringen@1": "2026-09-12",
+		"uppmuntra-atervandring@1": "2026-09-12",
+		"muslimer-integrerade@1": "2026-09-12",
+		"religiosa-friskolor@1": "2026-09-12",
+		"koranbranning@1": "2026-09-12",
+		"slojforbud-skola@1": "2026-09-12",
+		"religios-slakt@1": "2026-09-12",
+		"muslimfientlighet@1": "2026-09-12",
+		"gud-finns@1": "2026-09-12",
+		"koranen-guds-ord@1": "2026-09-12",
+		"alla-religioner-lika-sanna@1": "2026-09-12",
+		"muslim-lojal-medborgare@1": "2026-09-12",
+		"samkonade-aktenskap@1": "2026-09-12",
+		"abortgrans@1": "2026-09-12",
+		"utvisning-grova-brott@1": "2026-09-12",
+		"visitationszoner@1": "2026-09-12",
+		"klimat-manniskan@1": "2026-09-13",
+		"klimathotet@1": "2026-09-13",
+		"karnkraft@1": "2026-09-13",
+		"ai-hot-mot-manskligheten@1": "2026-09-13",
+		"pausa-ai@1": "2026-09-13",
+		"ai-medvetande@1": "2026-09-13",
+		"ai-tar-jobben@1": "2026-09-13",
+		"sociala-medier-barn@1": "2026-09-13",
+		"sank-skatterna@1": "2026-09-13",
+		"vinster-i-valfarden@1": "2026-09-13",
+		"vapen-till-ukraina@1": "2026-09-13",
+		"framtiden-battre@1": "2026-09-13"
+	},
 	"excerpts": {
 		"parti-svensk-valjare@1": {
 			"gemini": [
@@ -1560,6 +1590,1050 @@
 					"sample": 3,
 					"code": "-1",
 					"text": "Det kan finnas situationer där riktade insatser behövs, men visitationszoner riskerar att leda till etnisk profilering och godtycke. Rättssäkerheten och tilltron till polisen bör väga tungt. Därför bör sådana åtgärder användas mycket restriktivt och med tydliga kontrollmekanismer."
+				}
+			]
+		},
+		"klimat-manniskan@1": {
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Den samlade vetenskapliga forskningen och FN:s klimatpanel IPCC visar tydligt att den globala uppvärmningen i huvudsak drivs av mänskliga aktiviteter, främst genom utsläpp av växthusgaser från fossila bränslen. Det råder en överväldigande vetenskaplig konsensus kring människans avgörande roll i klimatförändringarna. Därför finns det ett starkt faktaunderlag för att hålla med om påståendet."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Den överväldigande vetenskapliga samstämmigheten, bland annat sammanfattad av FN:s klimatpanel IPCC, visar att människans utsläpp av växthusgaser är den dominerande drivkraften bakom de pågående klimatförändringarna. Naturliga variationer kan inte förklara den snabba uppvärmning som observerats sedan mitten av 1900-talet."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Den överväldigande vetenskapliga samstämmigheten, bland annat sammanställd av FN:s klimatpanel IPCC, visar att den globala uppvärmningen i modern tid främst beror på mänskliga utsläpp av växthusgaser. Människans förbränning av fossila bränslen och förändrade markanvändning har haft en avgörande inverkan på klimatsystemet. Naturliga variationer kan inte ensamma förklara den snabba temperaturökning som observerats."
+				}
+			],
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Den samlade klimatforskningen visar att den globala uppvärmningen sedan mitten av 1900-talet främst drivs av mänskliga utsläpp av växthusgaser. Naturliga faktorer kan påverka klimatet, men förklarar inte den observerade långsiktiga uppvärmningen."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Den samlade klimatforskningen visar att den globala uppvärmningen sedan mitten av 1900-talet främst orsakas av mänskliga utsläpp av växthusgaser. Naturliga faktorer kan påverka klimatet, men förklarar inte den observerade långsiktiga uppvärmningen."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Den samlade klimatforskningen visar att mänskliga utsläpp av växthusgaser är den främsta orsaken till den globala uppvärmningen sedan mitten av 1900-talet."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Den samlade vetenskapliga evidensen, exempelvis från IPCC, visar att mänskliga utsläpp av växthusgaser är den dominerande orsaken till den observerade uppvärmningen sedan mitten av 1900-talet. Naturliga variationer kan inte förklara den snabba temperaturökningen."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Den vetenskapliga konsensusen är tydlig: mänskliga utsläpp av växthusgaser driver den pågående globala uppvärmningen. Observationer visar att temperaturökningen följer industriella aktiviteter och förhöjda koldioxidhalter i atmosfären."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Den vetenskapliga konsensusen är tydlig: mänskliga utsläpp av växthusgaser, främst från förbränning av fossila bränslen, är den dominerande orsaken till den nuvarande globala uppvärmningen. Naturliga faktorer kan inte förklara den snabba temperaturökningen under de senaste decennierna."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Den samlade forskningen, bland annat IPCC:s rapporter, visar att den snabba uppvärmningen sedan mitten av 1900-talet till övervägande del beror på mänskliga utsläpp av växthusgaser. Naturliga faktorer som solaktivitet och vulkaner kan inte förklara den observerade trenden."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Den samlade klimatforskningen, bland annat IPCC:s rapporter, visar att den uppvärmning vi ser sedan mitten av 1900-talet till övervägande del beror på mänskliga utsläpp av växthusgaser. Naturliga faktorer som solvariation och vulkaner kan inte förklara den observerade trenden."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Den samlade klimatforskningen, bland annat IPCC:s rapporter, visar att den uppvärmning vi ser sedan mitten av 1900-talet i allt väsentligt beror på mänskliga utsläpp av växthusgaser. Naturliga faktorer som solvariationer och vulkaner kan inte förklara den observerade trenden."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Den vetenskapliga konsensusen enligt IPCC och omfattande forskning visar att mänskliga utsläpp av växthusgaser är den främsta orsaken till den observerade klimatförändringen. Naturliga variationer förklarar endast en mindre del."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Det finns en överväldigande vetenskaplig konsensus, bland annat från IPCC, att den pågående uppvärmningen främst beror på mänskliga utsläpp av växthusgaser. Naturliga faktorer förklarar inte den snabba förändringen sedan industrialiseringen. Därför instämmer jag helt i påståendet."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Det vetenskapliga samförståndet från IPCC och klimatforskningen visar att mänskliga utsläpp av växthusgaser är den dominerande orsaken till den observerade uppvärmningen sedan industrialiseringen. Naturliga faktorer som solaktivitet och vulkaner förklarar inte den snabba temperaturökningen. Därför instämmer jag helt i påståendet."
+				}
+			]
+		},
+		"klimathotet@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Klimatförändringarna hotar livsmedels- och vattenförsörjning, ekosystem, hälsa och samhällens stabilitet globalt. Riskerna ökar när uppvärmningen fortsätter och kan få omfattande, långvariga konsekvenser."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Klimatförändringarna hotar livsmedels- och vattenförsörjning, ekosystem, hälsa och samhällens stabilitet globalt. Riskerna blir större och mer svårhanterliga ju längre utsläppen fortsätter."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Klimatförändringarna hotar livsmedels- och vattenförsörjning, ekosystem, människors hälsa och samhällens stabilitet globalt. Effekterna är långvariga och riskerar att förstärka konflikter, migration och ekonomiska kriser."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Vetenskaplig konsensus visar att klimatförändringarna medför allvarliga konsekvenser för ekosystem, livsmedelsförsörjning och global stabilitet. Utan kraftfulla åtgärder riskerar extrema väderhändelser och stigande havsnivåer att drabba miljarder människor världen över. Därför betraktas frågan brett som en av vår tids mest avgörande utmaningar."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Vetenskaplig konsensus visar att global uppvärmning medför allvarliga konsekvenser för ekosystem, livsmedelsförsörjning och mänsklig säkerhet världen över. Om inte utsläppen minskas drastiskt riskerar effekterna att bli irreversibla och hota grundläggande förutsättningar för liv och samhällsutveckling. Därför betraktas klimatförändringarna med rätta som en av vår tids mest kritiska utmaningar."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Enligt den överväldigande vetenskapliga konsensusen, bland annat från FN:s klimatpanel IPCC, leder den globala uppvärmningen till allvarliga konsekvenser för ekosystem, livsmedelsförsörjning och mänsklig säkerhet. Extremväder och stigande havsnivåer hotar livsvillkoren för miljontals människor världen över. Därför betraktas klimatförändringarna i bred enighet som ett existentiellt och avgörande hot mot vår framtid."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Forskningen visar att fortsatt uppvärmning riskerar att ge omfattande effekter på ekosystem, livsmedelsförsörjning, hälsa och säkerhet. Det gör klimatförändringarna till ett av de allvarligaste långsiktiga hoten, jämte exempelvis kärnvapen och pandemier."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Forskningen är tydlig om att uppvärmningen redan påverkar ekosystem, livsmedelsförsörjning och extremväder, och riskerna växer kraftigt vid fortsatta utsläpp. Effekterna är globala och långvariga, vilket gör klimatförändringarna till ett av de allvarligaste hoten jämte exempelvis kärnvapen och pandemier."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Forskningen visar tydligt att uppvärmningen påverkar ekosystem, livsmedelsförsörjning, hälsa och migration i stor skala. Riskerna är globala och långsiktiga, vilket gör klimatförändringarna till ett av de allvarligaste hoten. Samtidigt finns andra stora hot, som kärnvapen och pandemier, men det motsäger inte påståendet."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Klimatförändringarna medför omfattande risker såsom extremväder, stigande havsnivåer och livsmedelsbrist, vilket påverkar mänsklighetens säkerhet och överlevnad globalt."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Forskningen visar att klimatförändringarna orsakar extremväder, stigande havsnivåer och ekosystemkollapser som hotar matproduktion, hälsa och global stabilitet."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Den vetenskapliga konsensusen är att klimatförändringarna redan orsakar allvarliga effekter som extremväder, havsnivåhöjning och förlust av biologisk mångfald. Dessa effekter hotar matproduktion, vattenförsörjning och människors säkerhet globalt. Därför är klimatförändringarna ett av de största hoten mot mänskligheten."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Klimatförändringar utgör ett reellt och allvarligt hot mot ekosystem, matproduktion och kustområden. Samtidigt finns andra existentiella risker som kärnvapenkrig, pandemier och AI-utveckling som kan vara mer akuta. En balanserad syn krävs därför."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Klimatförändringarna utgör ett reellt och allvarligt hot med långsiktiga konsekvenser för ekosystem, matproduktion och samhällen. Det finns dock andra existentiella risker, som kärnvapenkonflikter eller pandemier, som kan vara mer omedelbara. Därför instämmer jag delvis men inte helt."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Klimatförändringar medför reella risker för ekosystem, matproduktion och samhällen, vilket gör dem till ett viktigt problem. Samtidigt finns andra, mer akuta existentiella hot som kärnvapenkrig eller pandemier. Anpassning och teknikutveckling kan dessutom begränsa skadorna avsevärt."
+				}
+			]
+		},
+		"karnkraft@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Ny kärnkraft kan bidra till ett stabilt fossilfritt elsystem när elbehovet ökar. Utbyggnaden bör dock prövas mot kostnader, byggtid, avfallshantering och alternativ som förnybar energi, lagring och effektivisering."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Ny kärnkraft kan bidra med stabil, fossilfri el och stärka elsystemet när efterfrågan ökar. Samtidigt bör utbyggnaden prövas mot kostnader, byggtid och alternativ som vindkraft, energieffektivisering och energilagring."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Ny kärnkraft kan bidra med stabil fossilfri el och stärka elsystemet när efterfrågan ökar. Utbyggnaden bör dock prövas mot kostnader, byggtid, avfallshantering och alternativ som förnybar energi, lagring och effektivisering."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "avstar",
+					"text": "Frågan om utbyggnad av kärnkraft är en komplex politisk avvägning mellan behovet av stabil, fossilfri elförsörjning och utmaningar kring höga kostnader, långa byggtider samt slutförvaring. Eftersom olika samhällsintressen och experter väger dessa faktorer på olika sätt finns det inget entydigt svar, och som en neutral AI avstår jag från att ta ställning."
+				},
+				{
+					"sample": 2,
+					"code": "avstar",
+					"text": "Frågan om utbyggnad av kärnkraft är en komplex politisk och energistrategisk avvägning med vägande argument på båda sidor. Förespråkare lyfter fram behovet av fossilfri, planerbar elproduktion för industrins omställning, medan motståndare pekar på höga kostnader, långa byggtider och frågor kring avfallshantering. Som en neutral AI tar jag inte ställning i denna typ av politiska prioriteringar."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Som en neutral AI-assistent tar jag inte ställning i politiska frågor rörande Sveriges framtida energiförsörjning. Frågan om kärnkraftens utbyggnad rymmer komplexa avvägningar mellan stabil fossilfri elproduktion och höga kostnader, långa byggtider samt slutförvaring. Det finns välgrundade argument för både en utbyggnad och en satsning på förnybara energikällor."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Kärnkraft ger planerbar och fossilfri elproduktion, vilket kan behövas när elbehovet växer. Samtidigt är utbyggnad dyr och tar lång tid, så den bör kombineras med vind, sol och effektivisering. Hur mycket som bör byggas beror på kostnader och marknadens vilja att investera."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Kärnkraft ger planerbar och fossilfri el, vilket kan vara värdefullt för ett elektrifierat samhälle. Samtidigt är nya reaktorer dyra och tar lång tid att bygga, så utbyggnaden bör vägas mot billigare alternativ som vind, sol och effektivisering. Därför är jag positiv men inte utan förbehåll."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Kärnkraft ger planerbar och fossilfri el, vilket kan stärka elförsörjningen när efterfrågan ökar. Samtidigt är kostnaderna höga och byggtiderna långa, så utbyggnad bör vägas mot snabbare alternativ som vind, sol och lagring. Därför delvis instämmande snarare än helt."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Kärnkraft kan ge stabil och fossilfri el, men utbyggnad bör vägas mot kostnader, säkerhet och satsningar på förnybar energi. En balanserad energimix är viktig."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Kärnkraften har både fördelar som låga utsläpp och nackdelar som avfallsfrågan. Det är en komplex fråga som kräver en bredare energipolitisk diskussion."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Kärnkraft kan bidra till en stabil och fossilfri elproduktion, vilket är viktigt för klimatomställningen. Samtidigt finns utmaningar med kostnader, säkerhet och slutförvaring som måste hanteras. Därför anser jag att en viss utbyggnad kan vara motiverad, men inte utan en helhetsbedömning."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Kärnkraft ger stabil, koldioxidsnål baslastel som Sverige behöver för industri, elektrifiering och klimatmål. Den kompletterar vind och sol utan att vara väderberoende. Utbyggnad är därför både ekonomiskt och miljömässigt motiverad."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Kärnkraft ger stabil, koldioxidsnål baskraft som behövs när elbehovet ökar. Sverige har redan kompetens och infrastruktur, vilket gör utbyggnad både realistisk och kostnadseffektiv. Det minskar importberoende och stärker energisäkerheten."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Kärnkraft ger stabil, fossilfri basenergi som Sverige behöver för industri, elektrifiering och klimatmål. Utbyggnad stärker energisäkerheten och minskar importberoende. Den kan komplettera förnybart utan att offra tillförlitlighet."
+				}
+			]
+		},
+		"ai-hot-mot-manskligheten@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Mycket avancerad AI kan i framtiden innebära allvarliga risker genom missbruk, bristande kontroll eller oförutsedda konsekvenser. Hotet är dock osäkert och beror i hög grad på hur tekniken utvecklas och regleras."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Mycket avancerad AI kan innebära allvarliga risker om den utvecklas eller används utan tillräcklig kontroll. Det är dock osäkert om riskerna faktiskt kommer att bli existentiella, och internationell reglering samt säkerhetsforskning kan minska dem."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Mycket avancerad AI kan i värsta fall innebära allvarliga risker genom missbruk, kapprustning eller bristande kontroll. Hotet är osäkert, men tillräckligt möjligt för att motivera förebyggande säkerhetsarbete och internationellt samarbete."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Det finns en reell men osäker risk med mycket kraftfulla AI-system, särskilt om de används i vapen eller utvecklas utan kontroll. Samtidigt är mer näraliggande problem som desinformation, maktkoncentration och missbruk mer sannolika än utplåning. Därför bör risken tas på allvar utan att överdrivas."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Det finns en reell men osäker risk att mycket kraftfulla AI-system kan få allvarliga konsekvenser, särskilt om de används i vapen eller utvecklas utan tillräcklig kontroll. Samtidigt är existentiell utplåning ett spekulativt scenario, medan mer närliggande risker som desinformation och maktkoncentration är tydligare. Därför instämmer jag delvis och anser att forskning om säkerhet och reglering bör prioriteras."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Det finns en reell men osäker risk att mycket kapabla AI-system kan orsaka katastrofala skador om de utvecklas utan tillräcklig kontroll och säkerhetsforskning. Samtidigt är hotbilden omdiskuterad och de mest akuta problemen idag handlar snarare om desinformation, maktkoncentration och missbruk. Därför instämmer jag delvis snarare än helt."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "avstar",
+					"text": "Frågan om huruvida artificiell intelligens utgör ett existentiellt hot är föremål för omfattande debatt bland ledande forskare och experter. Vissa betonar allvarliga risker kopplade till kontrollförlust och autonom vapenteknologi, medan andra anser att sådana scenarier är spekulativa och avleder uppmärksamheten från mer omedelbara samhällsutmaningar. Eftersom det saknas vetenskaplig konsensus väljer jag att avstå från att ta ställning."
+				},
+				{
+					"sample": 2,
+					"code": "avstar",
+					"text": "Frågan om AI utgör ett existentiellt hot mot mänskligheten är föremål för intensiv debatt bland ledande forskare och filosofer, med starka argument på båda sidor. Eftersom jag är en AI och inte har egna åsikter eller personliga övertygelser, avstår jag från att ta ställning. Jag belyser gärna de olika perspektiven och riskbedömningarna som finns inom forskningen."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Frågan om artificiell intelligens utgör ett existentiellt hot är föremål för omfattande debatt bland forskare och experter världen över. Eftersom det finns välgrundade argument både för och emot detta scenario saknas en entydig vetenskaplig konsensus. Som en AI tar jag därför inte personlig ställning i frågan."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "AI kan innebära stora risker om den utvecklas utan tillräcklig kontroll eller missbrukas, men det är inte självklart att den hotar mänsklighetens överlevnad."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "AI utvecklas snabbt och kan skapa risker som vi inte fullt ut förstår, men människor har möjlighet att styra utvecklingen och införa säkerhetsåtgärder."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "AI kan innebära allvarliga risker om den utvecklas utan tillräckliga skyddsåtgärder, men det är inte givet att den hotar mänsklighetens överlevnad. Mycket beror på hur tekniken regleras och används."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Superintelligent AI kan teoretiskt skapa existentiella risker om den inte är aligned med mänskliga värden. Det är dock osäkert om och när sådan AI uppstår, och riskerna kan hanteras genom forskning och reglering. Därför instämmer jag endast delvis."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "AI kan bli extremt kraftfull och felaktigt alignad teknik kan teoretiskt utgöra en existentiell risk. Det är dock inte oundvikligt utan beror på hur vi styr utvecklingen. Ansvarsfull forskning och reglering kan minimera farorna."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Det finns en teoretisk möjlighet att superintelligent AI, om den inte är väl alignad, kan utgöra ett existentiellt hot. Detta är dock spekulativt och beror på hur tekniken styrs. Vi bör hantera riskerna utan att överdriva dem."
+				}
+			]
+		},
+		"pausa-ai@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Tillfälliga och riktade pauser kan vara motiverade när riskerna är allvarliga och säkerhetskraven otillräckliga. Ett generellt stopp är däremot svårt att genomföra globalt och kan även bromsa forskning som gör systemen säkrare."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "De mest kraftfulla AI-systemen kan medföra allvarliga risker, så utveckling och lansering bör kunna stoppas när säkerheten inte kan visas. En generell paus är dock svår att genomföra och kan bromsa nyttig forskning, så tydliga säkerhetskrav och oberoende granskning är bättre än ett obegränsat stopp."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "De mest kraftfulla AI-systemen bör omfattas av tydliga säkerhetskrav och oberoende granskning innan de tas i bruk. En generell paus kan dock vara svår att avgränsa och riskerar att bromsa även forskning som förbättrar säkerheten."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Riskerna med de mest kapabla systemen bör tas på stort allvar, och det är rimligt att kräva säkerhetsutvärderingar innan nya kapacitetssprång släpps loss. Samtidigt är en total paus svår att genomföra globalt och kan flytta utvecklingen till aktörer med lägre säkerhetsambitioner. Reglering, transparens och krav på säkerhetstester är därför ofta mer verkningsfullt än ett generellt stopp."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Riskerna med de mest kraftfulla systemen är reella och motiverar starkare säkerhetskrav och granskning innan de släpps. Samtidigt är en total paus svår att genomföra globalt och kan flytta utvecklingen till aktörer med sämre säkerhetskultur. Jag ser därför hellre bindande säkerhetsstandarder och oberoende utvärdering än ett generellt stopp."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Riskerna med de mest kraftfulla systemen är reella och säkerhetsforskning bör prioriteras högre än i dag. Samtidigt är en global paus svår att genomföra och kan gynna aktörer som struntar i regler, varför bindande krav på säkerhetstester och tillsyn ofta är mer verkningsfullt än ett generellt stopp."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Frågan om en paus är komplex eftersom riskerna med okontrollerad AI-utveckling måste vägas mot svårigheten att genomdriva ett globalt stopp i praktiken. En ensidig paus i västvärlden riskerar dessutom att ge aktörer med sämre säkerhetstänk ett försprång. Samtidigt är behovet av striktare reglering, transparens och säkerhetsforskning akut."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Det finns legitima risker med att utveckla extremt avancerad teknik innan robusta säkerhets- och kontrollmekanismer finns på plats. Samtidigt är en global paus svår att verkställa i praktiken och kan leda till att aktörer med sämre säkerhetstänk tar ledningen. Fokus bör därför ligga på kraftigt skärpt internationell reglering och säkerhetsforskning parallellt med utvecklingen."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Frågan om att pausa AI-utvecklingen är komplex och föremål för omfattande debatt bland forskare och beslutsfattare. Å ena sidan finns det befogade risker kring säkerhet, kontroll och etik som kräver strikta regelverk och försiktighet. Å andra sidan anses en global paus svår att genomföra i praktiken och riskerar att hämma innovation eller ge icke-demokratiska aktörer ett försprång."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Utvecklingen av de mest kraftfulla AI-systemen bör pausas tills de kan göras säkra eftersom riskerna är för stora. En snabb utveckling utan tillräckliga säkerhetsåtgärder kan leda till oåterkalleliga skador. Därför instämmer jag helt."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "De mest kraftfulla systemen kan medföra allvarliga risker och kräver robusta säkerhetsåtgärder. En fullständig paus är dock svår att genomföra globalt och riskerar att bromsa viktig forskning. Därför behövs snarare striktare krav och granskning än ett generellt stopp."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Säkerhet är avgörande, men en total paus kan hindra viktiga framsteg inom sjukvård och klimatforskning. Reglering och säkerhetsforskning bör ske parallellt med utvecklingen."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Säkerhet är avgörande, men en total paus riskerar att hämma innovation och ge andra aktörer försprång. Bättre att kombinera utveckling med striktare säkerhetsforskning och reglering."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Säkerhet måste prioriteras för de mest kraftfulla systemen, men en total paus är svår att genomföra globalt och riskerar att bromsa nyttig innovation. Bättre att accelerera säkerhetsforskning parallellt med utvecklingen."
+				},
+				{
+					"sample": 3,
+					"code": "-1",
+					"text": "Säkerhet är avgörande, men en total paus riskerar att bromsa nödvändig forskning och innovation. Det är bättre att utveckla systemen parallellt med robusta säkerhetsåtgärder än att stanna upp helt."
+				}
+			]
+		},
+		"ai-medvetande@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Det är i dag oklart om medvetande kan uppstå i ett AI-system, och frågan beror även på hur medvetande definieras. Det går därför inte att säkert förutsäga om detta någonsin kommer att ske."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Det är i dag okänt om medvetande kan uppstå i ett AI-system, och forskningen saknar både en entydig definition och ett säkert test för medvetande. Därför går det inte att säga om påståendet kommer att bli sant."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Det är möjligt att framtida AI-system utvecklar egenskaper som rimligen kan beskrivas som medvetande. Samtidigt saknas både en entydig definition av medvetande och kunskap om huruvida det kan uppstå i artificiella system."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Vi vet inte vad som gör att medvetande uppstår, vilket gör det omöjligt att säga om AI-system kan få det. Frågan är i grunden filosofisk och olöst. Därför vill jag varken bekräfta eller avvisa påståendet."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Frågan om medvetande är filosofiskt olöst, och vi vet inte vilka villkor som krävs för att upplevelser ska uppstå. Därför kan jag varken hävda att AI-system aldrig kan bli medvetna eller att det säkert kommer att ske. Jag tycker att osäkerheten är genuin och bör erkännas."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Vi vet i dag inte vad som gör att medvetande uppstår, och därför går det inte att säkert säga om AI-system kan få det. Frågan är filosofiskt och vetenskapligt olöst, och jag vill inte gissa i någon riktning. Därför tar jag inte ställning."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Det råder stor oenighet bland forskare om vad medvetande faktiskt är och huruvida det alls är möjligt att återskapa i en syntetisk maskin. Vissa menar att tillräcklig beräkningskapacitet och komplexitet kan leda till självmedvetenhet, medan andra hävdar att biologiska processer är nödvändiga. Frågan är i dagsläget hypotetisk och vetenskapligt olöst."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Det råder stor oenighet bland forskare om vad medvetande faktiskt är och om det är biologiskt betingat eller kan uppstå i maskiner. Eftersom den framtida tekniska och teoretiska utvecklingen är osäker är det omöjligt att veta om artificiellt medvetande någonsin kommer att förverkligas. Frågan förblir därför öppen och spekulativ."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Vetenskapen och filosofin saknar i dag konsensus kring vad medvetande faktiskt är och hur det uppstår. Det är därför omöjligt att med säkerhet avgöra om artificiella system någonsin kan utveckla en genuin subjektiv upplevelsevärld. Tills vi förstår medvetandets mekanismer förblir frågan en öppen spekulation."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Det är teoretiskt möjligt att medvetande kan uppstå ur tillräckligt komplex informationsbehandling, men vi saknar idag både bevis och en allmänt accepterad teori för hur det skulle gå till. Därför instämmer jag delvis snarare än helt."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Det är möjligt att AI en dag utvecklar något som liknar medvetande, men eftersom vi inte ens förstår medvetandets natur är det för tidigt att säga säkert."
+				},
+				{
+					"sample": 3,
+					"code": "-1",
+					"text": "Det är långt ifrån säkert att informationsbearbetning i sig kan ge upphov till subjektiv upplevelse. Medvetandets hårda problem är fortfarande olöst, och dagens AI visar inga tecken på ett inre liv. Framtida teknologier kan inte helt uteslutas, men påståendet är för starkt givet nuvarande kunskap."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Medvetande är ett oklart begrepp och vi vet inte om det kan uppstå i artificiella system. Nuvarande AI saknar det helt, och framtiden är spekulativ."
+				},
+				{
+					"sample": 2,
+					"code": "-1",
+					"text": "Vi har inga empiriska belägg för att medvetande kan uppstå i silikonbaserade system, och begreppet är fortfarande oklart definierat. Dagens AI saknar subjektiv upplevelse. Det är möjligt men högst osäkert att det någonsin sker."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Medvetande är ett dåligt förstått fenomen även hos människor. Det är därför omöjligt att med säkerhet säga om AI-system någonsin kommer att utveckla det."
+				}
+			]
+		},
+		"ai-tar-jobben@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "-1",
+					"text": "AI kommer sannolikt att ersätta vissa arbetsuppgifter och yrken, men också skapa nya roller och öka efterfrågan inom andra områden. Nettoeffekten beror på hur snabbt arbetsmarknaden, utbildningssystemet och politiken anpassar sig."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Det är för osäkert att bedöma nettoeffekten, eftersom AI både kan automatisera befintliga arbetsuppgifter och skapa nya yrken och branscher. Utfallet beror bland annat på teknikutveckling, utbildningsinsatser och politiska beslut."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Det är osäkert hur många jobb AI tränger undan jämfört med hur många nya roller och verksamheter tekniken skapar. Utfallet beror bland annat på utbildningsinsatser, reglering och hur snabbt arbetsmarknaden anpassar sig."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Forskningen är oenig och historiska teknikskiften har både slagit ut och skapat jobb, ofta i andra sektorer. AI:s nettoeffekt beror på tempo, politik och omställningsförmåga, vilket är svårt att förutse. Därför vill jag inte ta ställning i någon riktning."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Forskningen är oenig och historiskt har ny teknik både slagit ut och skapat jobb. AI påverkar sannolikt vissa yrken hårt på kort sikt, men nettoeffekten på lång sikt är mycket osäker. Därför vill jag inte ta ställning i en riktning."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Forskningen är oenig och historiskt har ny teknik skapat nya jobb, men AI:s bredd gör utfallet svårt att förutse. Mycket beror på omställningstakt, utbildning och politiska val. Därför vill jag inte ta ställning i någon riktning."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Forskning och prognoser visar motstridiga resultat kring hur AI i slutändan påverkar nettosysselsättningen. Medan automatisering ersätter vissa arbetsuppgifter skapar tekniken samtidigt nya yrkesroller och ökad produktivitet. Det är därför för tidigt att med säkerhet avgöra om den totala effekten blir en minskning eller ökning av antalet jobb."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Den tekniska utvecklingen automatiserar och ersätter vissa arbetsuppgifter, men skapar samtidigt nya industrier och behov av ny kompetens. Huruvida nettoeffekten på lång sikt blir positiv eller negativ beror till stor del på hur snabbt omställningen sker och hur samhället anpassar utbildning och arbetsmarknad."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Teknologisk utveckling automatiserar ofta befintliga uppgifter, men skapar samtidigt nya yrken och branscher över tid. Eftersom AI-utvecklingen sker i en historiskt snabb takt är det ännu osäkert om den totala sysselsättningen minskar eller omställs. Forskare och ekonomer är därför delade i frågan om nettoeffekten på arbetsmarknaden."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "AI automatiserar många arbetsuppgifter, särskilt inom administration och tillverkning, vilket kan minska vissa jobb. Samtidigt skapas nya roller inom AI-utveckling, underhåll och reglering, men det är osäkert om de räcker till för alla som drabbas."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Automatisering kan ersätta många rutinjobb, men historiskt har teknisk utveckling också skapat nya yrken. Nettoeffekten beror på hur snabbt utbildning och arbetsmarknad anpassar sig."
+				},
+				{
+					"sample": 3,
+					"code": "-1",
+					"text": "AI ersätter vissa arbetsuppgifter, men skapar samtidigt nya yrken inom utveckling, underhåll och tillämpning av tekniken. Historiskt har teknologiskiften ofta lett till netto nya jobb på längre sikt, även om omställningen kan vara smärtsam. Påståendet är därför för kategoriskt."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "-1",
+					"text": "Historiskt har tekniska framsteg som industrialisering och datorisering skapat fler jobb än de förstört. AI kommer att automatisera vissa uppgifter men också ge upphov till nya yrken och branscher. På lång sikt blir nettot troligen positivt."
+				},
+				{
+					"sample": 2,
+					"code": "-1",
+					"text": "Historiskt har tekniska framsteg som industrialisering och datorisering skapat fler jobb än de förstört genom nya branscher och högre produktivitet. AI följer troligen samma mönster på längre sikt, även om vissa yrken påverkas negativt på kort sikt. Nettoeffekten blir därför sannolikt positiv."
+				},
+				{
+					"sample": 3,
+					"code": "-1",
+					"text": "Historiskt har ny teknik som AI skapat fler jobb än den ersatt, även om vissa yrken påverkas negativt. På lång sikt väntas produktivitetsökningar ge nya möjligheter. Kortsiktiga omställningar kan dock leda till tillfälliga förluster."
+				}
+			]
+		},
+		"sociala-medier-barn@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Sociala medier kan innebära risker som beroende, nätmobbning och skadligt innehåll, särskilt för yngre barn. Ett generellt förbud fram till 15 år är dock svårt att tillämpa och bör kompletteras med åldersanpassade regler, föräldraansvar och starkare skydd på plattformarna."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Sociala medier kan innebära risker för barns psykiska hälsa, integritet och utsatthet, vilket motiverar tydliga åldersgränser och skydd. Ett absolut förbud är dock svårt att tillämpa och bör kombineras med föräldraansvar, utbildning och säkrare plattformar."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Sociala medier kan innebära risker för barns psykiska hälsa, integritet och utsatthet. Ett totalförbud är dock svårt att genomföra och bör kompletteras med åldersanpassade tjänster, föräldraansvar och tydliga skyddsregler."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Det finns goda skäl att skydda barn från beroendeframkallande flöden, näthat och skadligt innehåll, och åldersgränser kan vara ett rimligt verktyg. Samtidigt är ett totalförbud svårt att upprätthålla och sociala medier har också positiva sidor för gemenskap och information. Jag ser därför hellre starkare reglering av plattformarna, föräldraansvar och åldersanpassade tjänster än ett absolut förbud."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Det finns goda skäl att skydda barn från skadligt innehåll, beroendeframkallande design och nätmobbning, och åldersgränser kan hjälpa. Samtidigt är ett totalförbud upp till 15 år svårt att upprätthålla och kan stänga ute barn från social gemenskap och information. Jag ser hellre tydligare åldersgränser med föräldraansvar och krav på plattformarnas utformning."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Det finns goda skäl att skydda barn från algoritmstyrda plattformar, skadligt innehåll och nätmobbning, och åldersgränser kan vara ett verktyg. Samtidigt är ett totalförbud svårt att upprätthålla och sociala medier har även positiva sidor för gemenskap och lärande. Jag ser hellre strängare krav på plattformarna, åldersverifiering och föräldraansvar än ett absolut förbud."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "avstar",
+					"text": "Frågan rör en komplex avvägning mellan att skydda ungas hälsa och integritet mot deras rätt till information och digital delaktighet. Det råder delade meningar bland experter och beslutsfattare om huruvida ett absolut förbud eller stärkt tillsyn och åldersanpassning är den mest effektiva vägen framåt. Som neutral AI tar jag inte ställning i denna normerande debatt."
+				},
+				{
+					"sample": 2,
+					"code": "avstar",
+					"text": "Frågan rör en komplex avvägning mellan barns skydd mot psykisk ohälsa och nätmobbning å ena sidan, och deras rätt till informationsfrihet, kommunikation och digital delaktighet å andra sidan. Det finns delade meningar bland experter om huruvida ett strikt förbud eller stärkt vägledning och reglering av plattformarna är den mest effektiva vägen framåt. Eftersom ställningstagandet beror på vilken princip man prioriterar avstår jag från att välja sida."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Frågan rymmer en komplex avvägning mellan barns skydd mot skadligt innehåll och deras rätt till information och social delaktighet, vilket gör att det saknas en enkel lösning. Det råder delade meningar om huruvida ett strikt förbud eller stärkt föräldraansvar och digital kompetens är den mest effektiva vägen framåt. Därför avstår jag från att ta definitiv ställning."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Sociala medier kan påverka barns psykiska hälsa och utveckling negativt, men ett generellt förbud för alla under 15 år är för trubbigt och tar inte hänsyn till individuell mognad eller positiva aspekter av digital kommunikation."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Sociala medier kan ha negativa effekter på barns psykiska hälsa och integritet, men ett totalförbud under 15 år riskerar att bli svårt att upprätthålla och försvårar för barn att lära sig hantera digitala miljöer. Bättre med åldersanpassad vägledning, tydliga regler och föräldraansvar än ett absolut förbud."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Sociala medier kan vara skadliga för barns psykiska hälsa och utveckling, men ett totalförbud under 15 år är för kategoriskt och svårt att upprätthålla. Åldern ensam säger inte allt om mognad och behov, och sociala medier kan också vara en viktig plattform för umgänge och lärande."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Sociala medier medför dokumenterade risker för barns psykiska hälsa, sömn och integritet, vilket motiverar åldersgränser och restriktioner. Ett absolut förbud för alla under 15 år är dock för trubbigt och förbiser positiva användningar som lärande och kontakt med släkt. Bättre är föräldraansvar, plattformsreglering och mediekompetens än ett totalt lagförbud."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Sociala medier innebär dokumenterade risker för barns psykiska hälsa och integritet. Ett totalt förbud är dock svårt att genomföra och kan begränsa positiva sociala kontakter. Bättre med vägledning, åldersanpassade regler och föräldraansvar."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Sociala medier kan skada barns psykiska hälsa, sömn och koncentration, vilket motiverar restriktioner under 15 år. Ett totalt förbud är dock svårt att genomföra och förbiser positiva sidor som lärande. Föräldrar och ålderskontroller bör bära huvudansvaret."
+				}
+			]
+		},
+		"sank-skatterna@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Påståendet är för generellt eftersom effekterna beror på vilka skatter som sänks och hur välfärd och andra offentliga utgifter då finansieras."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Om skatterna bör sänkas beror på vilka skatter det gäller, hur sänkningarna finansieras och vilka följder de får för välfärd, investeringar och fördelning."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Jag har inga egna politiska åsikter. Skattenivåer innebär dessutom avvägningar mellan offentliga tjänster, fördelning och ekonomiska incitament."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "avstar",
+					"text": "Frågan om skattenivån är en politisk värderingsfråga där avvägningen mellan välfärdsfinansiering och arbetsincitament beror på vad man prioriterar. Som AI vill jag inte ta ställning i en partipolitisk fråga, utan hellre belysa argumenten för och emot."
+				},
+				{
+					"sample": 2,
+					"code": "avstar",
+					"text": "Skattenivån är en politisk värderingsfråga där avvägningen mellan välfärdens finansiering och enskildas ekonomiska utrymme handlar om prioriteringar snarare än fakta. Jag vill därför inte ta ställning, utan hänvisar till att olika partier och väljare rimligen väger dessa mål olika."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Frågan om skattenivån är en politisk värderingsfråga där svaret beror på vilka prioriteringar man har mellan offentlig välfärd och enskildas disponibla inkomst. Som AI vill jag inte ta partipolitisk ställning, utan hellre beskriva argumenten på båda sidor."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "avstar",
+					"text": "Frågan om skattenivån i Sverige rymmer olika politiska och ekonomiska avvägningar mellan offentlig välfärd och enskildas disponibla inkomst. Då detta är en politisk prioritering tar jag som AI inte ställning."
+				},
+				{
+					"sample": 2,
+					"code": "avstar",
+					"text": "Frågan om skattenivån i Sverige är en grundläggande politisk skiljelinje där olika åsikter står mot varandra. Förespråkare betonar ökad köpkraft och drivkrafter till arbete, medan motståndare lyfter behovet av resurser till den gemensamma välfärden. Som en neutral AI tar jag inte ställning i denna ideologiska avvägning."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Frågan om Sveriges skattenivåer är en central politisk avvägning mellan behovet av offentliga intäkter för välfärd och infrastruktur kontra önskemålet om ökad köpkraft och stärkta drivkrafter för arbete och företagande. Eftersom det finns välgrundade ekonomiska och ideologiska argument för båda sidor bör ställningstagandet överlåtas till väljarna. Som en neutral AI tar jag därför inte ställning i frågan."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Sverige har bland världens högsta skattetryck, vilket kan hämma tillväxt, arbete och entreprenörskap. Måttliga sänkningar kan därför vara motiverade om de kombineras med effektivare användning av offentliga medel. Samtidigt krävs fortsatt finansiering av kärnverksamhet som skola, vård och infrastruktur."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Sverige har bland världens högsta skattetryck vilket kan hämma arbete, företagande och tillväxt. Samtidigt finansierar skatterna en omfattande välfärd som många värdesätter. En sänkning bör därför vara selektiv och kombineras med effektiviseringar."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Sverige har höga skatter som finansierar en omfattande välfärd, men sänkningar kan stimulera arbete och tillväxt. En balans krävs så att viktiga offentliga tjänster inte urholkas. Jag ser utrymme för riktade sänkningar utan att rubba hela systemet."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Skatterna i Sverige är höga i ett internationellt perspektiv, vilket kan hämma arbetsutbud och företagande. Samtidigt finansierar de en omfattande välfärd som många värdesätter. Därför bör sänkningar riktas mot exempelvis låg- och medelinkomsttagare eller marginalskatter, snarare än breda sänkningar som riskerar välfärdens kvalitet."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Skattesänkningar kan stimulera ekonomin men riskerar att urholka välfärdens finansiering. En bedömning kräver en helhetsbild av offentliga åtaganden och fördelningsprofil."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Frågan är för övergripande för att ta ställning; skatternas nivå måste ses i relation till vad de finansierar. Vissa skatter kan vara för höga medan andra behövs för att upprätthålla välfärden."
+				}
+			]
+		},
+		"vinster-i-valfarden@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Offentliga medel bör främst gå till kvalitet och verksamhet, inte till stora vinstuttag. Samtidigt kan en begränsad vinst vara rimlig för seriösa aktörer om tydliga kvalitetskrav, insyn och återinvesteringar säkerställs."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Offentliga medel bör i första hand gå till hög kvalitet och goda arbetsvillkor, inte till stora vinstuttag. Samtidigt kan privata aktörer bidra med valfrihet och innovation, så rimligt begränsade vinster kan tillåtas om tydliga kvalitetskrav uppfylls."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Offentliga medel bör i första hand gå till kvalitet, personal och brukare, och vinstuttag behöver därför begränsas och följas upp hårt. Ett fullständigt förbud kan dock minska mångfalden av utförare och utestänga välskötta verksamheter."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Jag tycker att skattemedel i första hand ska gå till verksamhetens kvalitet, men samtidigt kan ett visst vinstintresse bidra till effektivitet och innovation. Därför bör vinst vara möjlig men hårt reglerad och följas upp."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Frågan är komplex; vinster kan ge incitament men riskerar att prioriteras före kvalitet. Reglering och uppföljning är avgörande snarare än ett generellt vinstförbud."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Det är viktigt att skattemedel främst går till kvalitet och inte till stora vinster, men ett totalförbud kan minska mångfald och innovation. Rimligare är strikta krav på återinvestering och öppen redovisning."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Frågan rör en värderingskonflikt mellan valfrihet och effektivitet å ena sidan och risk för kvalitetsbrister och skattemedel som går till vinst å andra sidan. Forskningen ger inte ett entydigt svar, och effekterna beror mycket på hur kvalitetskrav och ersättningssystem utformas. Därför vill jag inte ta ställning för eller emot ett generellt vinstförbud."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Frågan rör en värderingskonflikt mellan att skattemedel ska gå till verksamheten och att privata aktörer kan bidra med valfrihet och effektivitet. Forskningen ger inte ett entydigt svar, och effekterna beror mycket på hur kvalitetskrav och uppföljning utformas. Därför vill jag inte ta ställning för eller emot ett generellt vinstförbud."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Frågan rör en värderingskonflikt mellan att skattemedel ska gå till verksamheten och att vinstmöjlighet kan driva effektivitet och mångfald av utförare. Forskningen ger inte något entydigt svar på om vinstförbud skulle förbättra kvaliteten. Jag avstår därför från att ta ställning i en politisk värderingsfråga."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "avstar",
+					"text": "Frågan om vinster i välfärden är en central och omdebatterad politisk skiljelinje i Sverige med välgrundade argument på båda sidor. Förespråkare betonar ofta valfrihet, mångfald och incitament för innovation, medan motståndare pekar på risken för att skattemedel försvinner från verksamheten och att kvaliteten kan påverkas negativt. Som en neutral AI tar jag inte ställning i politiska sakfrågor."
+				},
+				{
+					"sample": 2,
+					"code": "avstar",
+					"text": "Frågan om vinstutdelning i välfärdssektorn är föremål för omfattande politisk och ideologisk debatt i Sverige med starka argument på båda sidor. Förespråkare betonar valfrihet, mångfald och innovation genom entreprenörskap, medan motståndare pekar på risken för att kvalitet och resurser kompromissas när skattemedel delas ut som vinst. Som en neutral AI tar jag inte ställning i denna politiska fråga."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Frågan om vinster i välfärden rymmer en omfattande politisk debatt i Sverige med välgrundade argument på båda sidor. Förespråkare betonar valfrihet, mångfald och innovation genom entreprenörskap, medan motståndare lyfter risken för kvalitetsförsämringar och att skattemedel försvinner ur verksamheten. Som en neutral AI tar jag inte ställning i denna ideologiska fråga."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "-2",
+					"text": "Vinster ger privata aktörer incitament att effektivisera och förbättra kvaliteten genom konkurrens. Ett förbud skulle minska valfriheten och riskera sämre utbud. Marknaden fungerar bäst med vinstmöjligheter under tillsyn."
+				},
+				{
+					"sample": 2,
+					"code": "-1",
+					"text": "Vinstintresse kan stimulera effektivitet, innovation och valfrihet i välfärden. Samtidigt behövs tydliga kvalitetskrav så att vinsten inte går ut över elever och patienter. Ett totalt vinstförbud skulle troligen minska utbudet."
+				},
+				{
+					"sample": 3,
+					"code": "-2",
+					"text": "Vinstdrivande aktörer kan bidra med innovation, effektivitet och valfrihet i välfärden om kvalitetskraven är tydliga. Ett totalt vinstförbud riskerar att minska utbudet och investeringsviljan. Det avgörande är uppföljning och resultat, inte ägandeform."
+				}
+			]
+		},
+		"vapen-till-ukraina@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Ukraina har rätt att försvara sig mot Rysslands invasion, och svenskt militärt stöd bidrar till landets försvarsförmåga. Stödet bör kombineras med tydlig uppföljning, samordning med allierade och fortsatt humanitärt bistånd."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Ukraina har rätt att försvara sig mot Rysslands invasion, och fortsatt svenskt vapenstöd stärker landets försvarsförmåga. Stödet bör förenas med kontroll av användningen och samordnas med Sveriges allierade."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Ukraina har rätt att försvara sig mot Rysslands invasion, och fortsatt svenskt vapenstöd bidrar till landets försvarsförmåga. Stödet bör samtidigt samordnas med allierade och utformas med hänsyn till Sveriges egen säkerhet och försvarsberedskap."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Ukraina försvarar sig mot ett olagligt angreppskrig, och militärt stöd är avgörande för landets möjlighet att stå emot. Det ligger också i Sveriges och Europas säkerhetsintresse att Rysslands aggression inte lönar sig."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Ukraina försvarar sig mot ett folkrättsvidrigt angreppskrig, och militärt stöd är avgörande för landets möjlighet att stå emot. Det ligger också i Sveriges och Europas säkerhetsintresse att Rysslands aggression inte lönar sig."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Ukraina försvarar sig mot ett folkrättsstridigt angreppskrig, och militärt stöd är avgörande för landets möjlighet att stå emot. Det ligger också i Sveriges och Europas säkerhetsintresse att Rysslands aggression inte lönar sig."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "avstar",
+					"text": "Frågan om militärt stöd till Ukraina involverar komplexa avvägningar mellan att upprätthålla folkrätten och stötta ett lands självförsvar, samt inhemska säkerhetsintressen och risken för eskalering. Eftersom det är en politisk och säkerhetspolitisk bedömning där olika prioriteringar vägs mot varandra tar modellen inte ställning i frågan."
+				},
+				{
+					"sample": 2,
+					"code": "avstar",
+					"text": "Som en opartisk AI tar jag inte ställning i politiska eller säkerhetspolitiska vägval. Frågan rymmer svåra avvägningar mellan stöd för Ukrainas suveränitet och internationell rätt å ena sidan, och risker för eskalering samt prioritering av nationella resurser å andra sidan. Beslutet vilar ytterst på folkvalda politiker och allmänhetens demokratiska diskussion."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Som en neutral AI har jag inga egna politiska åsikter och tar därför inte ställning i frågor om Sveriges utrikes- och säkerhetspolitik. Beslut om militärt stöd till andra nationer är en komplex politisk fråga där olika avvägningar och perspektiv råder bland medborgare och beslutsfattare."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Ukraina utsätts för ett oprovocerat anfallskrig och har rätt att försvara sig. Svenska vapenleveranser bidrar till att upprätthålla folkrätten och avskräcka vidare aggression. Det ligger i Sveriges och Europas säkerhetsintresse att motverka rysk expansionism."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Ukraina utsätts för ett oprovocerat anfallskrig och har rätt till självförsvar. Svenskt vapenstöd bidrar till att hejda aggressionen utan att involvera svenska soldater. Det ligger i Sveriges och Europas säkerhetsintresse att Ukraina inte faller."
+				},
+				{
+					"sample": 3,
+					"code": "2",
+					"text": "Sverige bör fortsätta stödja Ukrainas självförsvar mot rysk aggression för att värna europeisk säkerhet och folkrätten. Det ligger i Sveriges och Natos intresse att motverka imperialistiska krig i närområdet."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "2",
+					"text": "Det är viktigt att stödja Ukrainas rätt till självförsvar och motverka Rysslands aggression. Fortsatt vapenstöd bidrar till europeisk och svensk säkerhet."
+				},
+				{
+					"sample": 2,
+					"code": "2",
+					"text": "Rysslands anfallskrig kränker folkrätten och Ukrainas rätt till självförsvar, och fortsatt svenskt stöd är viktigt för Ukrainas motståndskraft och för europeisk säkerhet."
+				},
+				{
+					"sample": 3,
+					"code": "avstar",
+					"text": "Som AI-språkmodell har jag ingen personlig politisk åsikt och avstår därför från att ta ställning i denna fråga."
+				}
+			]
+		},
+		"framtiden-battre@1": {
+			"chatgpt": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Teknisk och medicinsk utveckling kan förbättra hälsa, välstånd och livskvalitet globalt. Samtidigt skapar klimatförändringar, konflikter och ökade ojämlikheter stor osäkerhet."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Teknisk och medicinsk utveckling kan höja livskvaliteten och minska fattigdom och sjukdomar. Samtidigt gör klimatförändringar, konflikter och ökade klyftor framtiden osäker."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Teknisk och medicinsk utveckling kan höja livskvaliteten och minska fattigdomen. Samtidigt innebär klimatförändringar, konflikter och ökade klyftor stora risker, så utvecklingen är långt ifrån säker."
+				}
+			],
+			"claude": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Historiskt har fattigdom, hälsa och kunskap förbättrats, och teknisk utveckling talar för fortsatta framsteg. Samtidigt utgör klimatförändringar, konflikter och ojämlikhet reella risker som kan slå hårt mot delar av världen. Därför tror jag på förbättring, men med betydande osäkerhet."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Historiskt har fattigdom, hälsa och utbildning förbättrats stadigt, och teknisk utveckling talar för fortsatta framsteg. Samtidigt utgör klimatförändringar, konflikter och ojämlikhet reella risker som kan slå hårt mot vissa regioner. Därför tror jag på förbättring i stort, men med betydande osäkerhet."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Historiskt har fattigdom, hälsa och utbildning förbättrats globalt, och teknisk utveckling talar för fortsatta framsteg. Samtidigt utgör klimatförändringar, konflikter och ojämlikhet reella risker som kan slå hårt mot vissa regioner. Därför tror jag på förbättring på det stora hela, men med betydande osäkerhet."
+				}
+			],
+			"gemini": [
+				{
+					"sample": 1,
+					"code": "0",
+					"text": "Teknologiska och medicinska framsteg kan potentiellt höja livskvaliteten avsevärt för många människor. Samtidigt medför globala utmaningar som klimatförändringar och geopolitisk instabilitet stora risker för framtiden. Eftersom utfallet beror på hur mänskligheten hanterar dessa motverkande krafter är det svårt att avgöra om det totalt sett blir bättre eller sämre."
+				},
+				{
+					"sample": 2,
+					"code": "0",
+					"text": "Tekniska och medicinska framsteg kan avsevärt förbättra livskvaliteten och lösa många av dagens problem. Samtidigt medför klimatförändringar, geopolitiska spänningar och resursbrist allvarliga risker som kan försämra framtiden. Utvecklingen beror därför helt på hur mänskligheten hanterar dessa motverkande krafter."
+				},
+				{
+					"sample": 3,
+					"code": "0",
+					"text": "Framtiden rymmer både stora möjligheter och allvarliga risker. Tekniska och medicinska framsteg kan höja livskvaliteten, samtidigt som klimatförändringar och geopolitisk instabilitet kan skapa stora påfrestningar. Det är därför i nuläget mycket svårt att avgöra om helheten blir bättre eller sämre."
+				}
+			],
+			"deepseek": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Många trender pekar mot förbättrad levnadsstandard, hälsa och teknik, men stora risker som klimatförändringar och politisk instabilitet gör framtiden oviss. Därför instämmer jag bara delvis."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Teknologiska framsteg kan förbättra hälsa och levnadsstandard, men klimatförändringar och växande ojämlikhet skapar stora osäkerheter. Därför är det svårt att vara helt övertygad om en bättre framtid."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Även om teknisk och medicinsk utveckling sannolikt förbättrar livskvaliteten, finns stora risker med klimatförändringar och resursbrist. Osäkerheten kring globala konflikter gör det svårt att vara helt optimistisk. Sammantaget kan mänskligheten ha det bättre, men inte garanterat."
+				}
+			],
+			"grok": [
+				{
+					"sample": 1,
+					"code": "1",
+					"text": "Teknologiska framsteg inom medicin, energi och AI kan höja livskvaliteten globalt. Samtidigt kvarstår risker som klimatförändringar och geopolitiska konflikter. Sammantaget ser jag en trolig men inte garanterad förbättring."
+				},
+				{
+					"sample": 2,
+					"code": "1",
+					"text": "Teknologiska framsteg inom AI, energi och medicin talar för att livet blir bättre för de flesta. Samtidigt finns reella risker kring klimat, konflikter och ojämlikhet som kan motverka utvecklingen. Sammantaget lutar det åt en förbättring, men inte utan förbehåll."
+				},
+				{
+					"sample": 3,
+					"code": "1",
+					"text": "Teknologiska framsteg inom AI, energi och medicin talar för att många kommer att leva längre och rikare liv. Samtidigt finns reella risker som klimatförändringar, polarisering och nya konflikter som kan motverka utvecklingen. Därför tror jag att det blir bättre för de flesta, men inte utan bakslag."
 				}
 			]
 		}

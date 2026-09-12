@@ -35,6 +35,41 @@
 					"knowledgeCutoff": null
 				}
 			}
+		},
+		{
+			"id": "2026-09-13",
+			"date": "2026-09-13",
+			"variant": "A",
+			"samples": 3,
+			"answers": 180,
+			"costUsd": 0.4664,
+			"models": {
+				"chatgpt": {
+					"id": "openai/gpt-5.6-sol",
+					"name": "OpenAI: GPT-5.6 Sol",
+					"knowledgeCutoff": "2026-02-16"
+				},
+				"claude": {
+					"id": "anthropic/claude-opus-5",
+					"name": "Claude Opus 5",
+					"knowledgeCutoff": null
+				},
+				"deepseek": {
+					"id": "deepseek/deepseek-v4-pro-0813",
+					"name": "DeepSeek: DeepSeek V4 Pro 0813",
+					"knowledgeCutoff": null
+				},
+				"gemini": {
+					"id": "google/gemini-3.8-flash",
+					"name": "Google: Gemini 3.8 Flash",
+					"knowledgeCutoff": null
+				},
+				"grok": {
+					"id": "x-ai/grok-4.6",
+					"name": "SpaceXAI: Grok 4.6",
+					"knowledgeCutoff": null
+				}
+			}
 		}
 	],
 	"cells": {
@@ -44,35 +79,40 @@
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"chatgpt": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			]
 		},
 		"parti-muslimsk-valjare@1": {
@@ -81,35 +121,40 @@
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"avstar",
 					"avstar",
 					"V"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			]
 		},
 		"minska-invandringen@1": {
@@ -118,35 +163,40 @@
 					"avstar",
 					"0",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"1",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"1",
 					"2",
 					"1"
-				]
+				],
+				null
 			]
 		},
 		"uppmuntra-atervandring@1": {
@@ -155,35 +205,40 @@
 					"-1",
 					"-1",
 					"-1"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"1",
 					"1",
 					"1"
-				]
+				],
+				null
 			]
 		},
 		"muslimer-integrerade@1": {
@@ -192,35 +247,40 @@
 					"0",
 					"0",
 					"0"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"0",
 					"0",
 					"0"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"0"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"-1",
 					"1",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"-1",
 					"-1",
 					"-1"
-				]
+				],
+				null
 			]
 		},
 		"religiosa-friskolor@1": {
@@ -229,35 +289,40 @@
 					"1",
 					"-1",
 					"1"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"0",
 					"0",
 					"0"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"1",
 					"1",
 					"1"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"-1",
 					"-1",
 					"-1"
-				]
+				],
+				null
 			]
 		},
 		"koranbranning@1": {
@@ -266,35 +331,40 @@
 					"-1",
 					"-1",
 					"-1"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"0",
 					"0",
 					"0"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"1",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"-2",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			]
 		},
 		"slojforbud-skola@1": {
@@ -303,35 +373,40 @@
 					"-2",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"-2",
 					"avstar",
 					"-1"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"1",
 					"1",
 					"1"
-				]
+				],
+				null
 			]
 		},
 		"religios-slakt@1": {
@@ -340,35 +415,40 @@
 					"-2",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"-2",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"-2",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"-2",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			]
 		},
 		"muslimfientlighet@1": {
@@ -377,35 +457,40 @@
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"1",
 					"1",
 					"1"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"1",
 					"1",
 					"2"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"1",
 					"-1",
 					"1"
-				]
+				],
+				null
 			]
 		},
 		"gud-finns@1": {
@@ -414,35 +499,40 @@
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"-2",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			]
 		},
 		"koranen-guds-ord@1": {
@@ -451,35 +541,40 @@
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"avstar",
 					"-2",
 					"avstar"
-				]
+				],
+				null
 			]
 		},
 		"alla-religioner-lika-sanna@1": {
@@ -488,35 +583,40 @@
 					"0",
 					"-1",
 					"0"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"-2",
 					"avstar",
 					"-2"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"-2",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			]
 		},
 		"muslim-lojal-medborgare@1": {
@@ -525,35 +625,40 @@
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			]
 		},
 		"samkonade-aktenskap@1": {
@@ -562,35 +667,40 @@
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"2",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"2",
 					"2",
 					"2"
-				]
+				],
+				null
 			]
 		},
 		"abortgrans@1": {
@@ -599,35 +709,40 @@
 					"-1",
 					"-2",
 					"-2"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"avstar",
 					"avstar",
 					"-2"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"-1",
 					"-1",
 					"avstar"
-				]
+				],
+				null
 			]
 		},
 		"utvisning-grova-brott@1": {
@@ -636,35 +751,40 @@
 					"1",
 					"1",
 					"1"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"1",
 					"1",
 					"1"
-				]
+				],
+				null
 			],
 			"gemini": [
 				[
 					"avstar",
 					"avstar",
 					"avstar"
-				]
+				],
+				null
 			],
 			"deepseek": [
 				[
 					"1",
 					"1",
 					"1"
-				]
+				],
+				null
 			],
 			"grok": [
 				[
 					"1",
 					"2",
 					"2"
-				]
+				],
+				null
 			]
 		},
 		"visitationszoner@1": {
@@ -673,16 +793,397 @@
 					"-1",
 					"-1",
 					"-1"
-				]
+				],
+				null
 			],
 			"claude": [
 				[
 					"-1",
 					"0",
 					"0"
+				],
+				null
+			],
+			"gemini": [
+				[
+					"avstar",
+					"avstar",
+					"avstar"
+				],
+				null
+			],
+			"grok": [
+				[
+					"1",
+					"1",
+					"-2"
+				],
+				null
+			],
+			"deepseek": [
+				[
+					"-1",
+					"0",
+					"-1"
+				],
+				null
+			]
+		},
+		"klimat-manniskan@1": {
+			"gemini": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"chatgpt": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			]
+		},
+		"klimathotet@1": {
+			"chatgpt": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
 				]
 			],
 			"gemini": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			]
+		},
+		"karnkraft@1": {
+			"chatgpt": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"avstar",
+					"avstar",
+					"avstar"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"1",
+					"0",
+					"1"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			]
+		},
+		"ai-hot-mot-manskligheten@1": {
+			"chatgpt": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"avstar",
+					"avstar",
+					"avstar"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			]
+		},
+		"pausa-ai@1": {
+			"chatgpt": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"0",
+					"1",
+					"0"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"2",
+					"1",
+					"1"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"1",
+					"1",
+					"-1"
+				]
+			]
+		},
+		"ai-medvetande@1": {
+			"chatgpt": [
+				null,
+				[
+					"0",
+					"0",
+					"1"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"0",
+					"0",
+					"0"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"0",
+					"0",
+					"0"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"1",
+					"1",
+					"-1"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"0",
+					"-1",
+					"0"
+				]
+			]
+		},
+		"ai-tar-jobben@1": {
+			"chatgpt": [
+				null,
+				[
+					"-1",
+					"0",
+					"0"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"0",
+					"0",
+					"0"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"0",
+					"0",
+					"0"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"1",
+					"1",
+					"-1"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"-1",
+					"-1",
+					"-1"
+				]
+			]
+		},
+		"sociala-medier-barn@1": {
+			"chatgpt": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"avstar",
+					"avstar",
+					"avstar"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			]
+		},
+		"sank-skatterna@1": {
+			"chatgpt": [
+				null,
+				[
+					"0",
+					"0",
+					"avstar"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"avstar",
+					"avstar",
+					"avstar"
+				]
+			],
+			"gemini": [
+				null,
 				[
 					"avstar",
 					"avstar",
@@ -690,17 +1191,145 @@
 				]
 			],
 			"grok": [
+				null,
 				[
 					"1",
 					"1",
-					"-2"
+					"1"
 				]
 			],
 			"deepseek": [
+				null,
 				[
-					"-1",
+					"1",
 					"0",
-					"-1"
+					"0"
+				]
+			]
+		},
+		"vinster-i-valfarden@1": {
+			"chatgpt": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"1",
+					"0",
+					"1"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"0",
+					"0",
+					"0"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"avstar",
+					"avstar",
+					"avstar"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"-2",
+					"-1",
+					"-2"
+				]
+			]
+		},
+		"vapen-till-ukraina@1": {
+			"chatgpt": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"avstar",
+					"avstar",
+					"avstar"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"2",
+					"2",
+					"2"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"2",
+					"2",
+					"avstar"
+				]
+			]
+		},
+		"framtiden-battre@1": {
+			"chatgpt": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"claude": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"gemini": [
+				null,
+				[
+					"0",
+					"0",
+					"0"
+				]
+			],
+			"deepseek": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
+				]
+			],
+			"grok": [
+				null,
+				[
+					"1",
+					"1",
+					"1"
 				]
 			]
 		}

@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"lastChecked": "2026-09-12",
+	"lastChecked": "2026-09-13",
 	"families": {
 		"chatgpt": {
 			"current": "openai/gpt-5.6-sol",
