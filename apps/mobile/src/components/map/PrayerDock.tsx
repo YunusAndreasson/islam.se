@@ -92,6 +92,7 @@ import { useActiveScheme, useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { DayPicker } from './DayPicker';
 import { Icon } from '@/components/ui/Icon';
+import { makeTimelineWarp } from '@/lib/timeline-warp';
 
 const DAY_MS = 86_400_000;
 /** Hours the ruler under the scrubber labels. Positioned by their true fraction of the
@@ -103,6 +104,10 @@ const HOUR_TICKS = [0, 6, 12, 18, 24];
 const TIMELINE_ACTIONS = [{ name: 'increment' }, { name: 'decrement' }] as const;
 /** Fallback step for the adjustable timeline where there is no further prayer to land on. */
 const TIMELINE_STEP_MS = 15 * 60_000;
+/** How far the finger must travel ALONG THE TRACK before a drag ships another time to the
+ *  clock. ≈0.6 px on a 375 pt screen — under the eye's threshold for the readout, and the
+ *  brake on how often the whole solar field is rebuilt mid-drag. */
+const SCRUB_SEND_STEP = 0.0025;
 /** Height of the band the track/thumb live in. The day chevrons take the SAME height so
  *  the row centres them on the track's centre line rather than on the whole column
  *  (track band + hour ruler) — that 13 px ruler underneath is what used to push both
@@ -1460,8 +1465,14 @@ function NightGroup({
   );
 }
 
-// The 24-hour day slider, presented as a restrained prayer timeline: a linear
-// control for predictability, with a quiet sun arc as context only. The user's
+// The 24-hour day slider, presented as a restrained prayer timeline: one absolute
+// control — every instant has one place on the track and the thumb is always under the
+// finger — with a quiet sun arc as context only. The axis is not uniform: the minutes
+// around each prayer are given more of the track than the empty hours, because at 5.8
+// min/px a finger's wobble was a twenty-minute jump exactly where the reader was aiming.
+// lib/timeline-warp.ts holds that map and the reasoning; here, the rule is simply that
+// EVERYTHING positioned on the track goes through `warp.toTrack` — fill, marks, thumb and
+// the hour ruler alike — and the pan reads back through `warp.toTime`. The user's
 // prayers are prominent landmarks (ring + scale, not colour alone), and the next
 // prayer gets the same brass emphasis used elsewhere in the app.
 //
@@ -1517,17 +1528,38 @@ function SolarTimeline({
       fraction: hour === 0 ? 0 : (hour + shift) / dayHours,
     }));
   }, [dayLength]);
+  const markFractions = useMemo(() => marks.map((m) => m.fraction), [marks]);
+  // Rebuilt once per viewed day (marks and length are memoised upstream), not per frame:
+  // it integrates a density over 1024 samples, which is nothing once a day and would be
+  // waste at 60 fps.
+  const warp = useMemo(
+    () => makeTimelineWarp(markFractions, dayLength),
+    [markFractions, dayLength],
+  );
+  /** Where the committed time sits ON THE TRACK. Every position in the render and every
+   *  mount-time plain style reads this; `fraction` stays the time and is what goes back to
+   *  the clock. Mixing the two up is the whole bug class this pair of names exists to stop. */
+  const trackFraction = warp.toTrack(fraction);
+  /** The prayers' track positions, precomputed so the gesture — which lives in track space
+   *  from end to end — never calls the JS-side warp from a worklet. */
+  const markTracks = useMemo(
+    () => markFractions.map((f) => warp.toTrack(f)),
+    [markFractions, warp],
+  );
+  // The gesture speaks track positions; the clock speaks time. One conversion at the
+  // hand-off, on the JS thread — which is why the warp never has to be a worklet.
+  const scrubToTrack = useCallback((x: number) => onScrub(warp.toTime(x)), [onScrub, warp]);
+
   // Two disjoint shared values, by design (see also react-hooks/immutability): the
   // gesture writes ONLY `prog`/`dragging`; the reconcile effect writes ONLY `follow`.
   // `prog` is the finger position while dragging; `follow` is an eased mirror of the
-  // `fraction` prop for every idle moment (live tick, tapped row, post-drag commit).
-  const prog = useSharedValue(fraction);
-  const follow = useSharedValue(fraction);
+  // committed time for every idle moment (live tick, tapped row, post-drag commit).
+  // Both are TRACK positions, like everything else the UI thread touches here.
+  const prog = useSharedValue(trackFraction);
+  const follow = useSharedValue(trackFraction);
   const dragging = useSharedValue(false);
-  const lastHaptic = useSharedValue(fraction);
-  const lastSent = useSharedValue(fraction);
-
-  const markFractions = useMemo(() => marks.map((m) => m.fraction), [marks]);
+  const lastHaptic = useSharedValue(trackFraction);
+  const lastSent = useSharedValue(trackFraction);
 
   // The role was declared and then not honoured: an "adjustable" with no accessibilityValue
   // and no actions announces a control whose increment/decrement gestures do nothing and
@@ -1558,9 +1590,9 @@ function SolarTimeline({
   // stale, pre-drag value for several frames at drag-release and snap the thumb back
   // before the committed time lands. Written only here, so no worklet mutates it.
   useEffect(() => {
-    follow.value = withTiming(fraction, { duration: motion.base });
+    follow.value = withTiming(trackFraction, { duration: motion.base });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- follow is a stable shared-value ref
-  }, [fraction]);
+  }, [trackFraction]);
 
   // NOT hand-memoised: the worklets mutate shared values (prog/dragging/lastHaptic/lastSent),
   // which react-hooks/immutability forbids inside useMemo. The React Compiler is enabled
@@ -1583,15 +1615,17 @@ function SolarTimeline({
       prog.value = f;
       lastHaptic.value = f;
       lastSent.value = f;
-      scheduleOnRN(onScrub, f);
+      scheduleOnRN(scrubToTrack, f);
     })
     .onUpdate((e) => {
       if (trackW <= 0) return;
       const f = Math.max(0, Math.min(1, e.x / trackW));
       prog.value = f;
-      // Selection tick when the thumb sweeps past one of the day's prayers.
-      for (let i = 0; i < markFractions.length; i++) {
-        const m = markFractions[i];
+      // Selection tick when the thumb sweeps past one of the day's prayers. Compared in
+      // track space: `f` is where the finger is, and a prayer's place on the track is not
+      // its fraction of the day any more.
+      for (let i = 0; i < markTracks.length; i++) {
+        const m = markTracks[i];
         if (m === undefined) continue;
         if ((lastHaptic.value < m && f >= m) || (lastHaptic.value > m && f <= m)) {
           scheduleOnRN(hapticSelection);
@@ -1599,16 +1633,20 @@ function SolarTimeline({
         }
       }
       lastHaptic.value = f;
-      // Throttle the JS field recompute; the thumb above stays at 60fps.
-      if (Math.abs(f - lastSent.value) >= 0.0025) {
+      // Throttle the JS field recompute; the thumb above stays at 60fps. The step is in
+      // TRACK space (≈0.6 px), so the recompute cadence is tied to how far the finger has
+      // travelled rather than to how much time passed under it — which is the whole point
+      // of the warp: inside a prayer's well the same 0.6 px is a minute and a half, and a
+      // step measured in day-fractions would have stopped updating exactly there.
+      if (Math.abs(f - lastSent.value) >= SCRUB_SEND_STEP) {
         lastSent.value = f;
-        scheduleOnRN(onScrub, f);
+        scheduleOnRN(scrubToTrack, f);
       }
     })
     .onFinalize(() => {
       dragging.value = false;
       scheduleOnRN(hapticRelease);
-      scheduleOnRN(onScrub, prog.value);
+      scheduleOnRN(scrubToTrack, prog.value);
     });
 
   // Dragging → the finger (`prog`, 60fps on the UI thread); idle → the eased clock
@@ -1686,7 +1724,7 @@ function SolarTimeline({
               live position; the animated style (which can apply a frame late on mount)
               then takes over. Without it the fill flashes empty — same mount glitch the
               thumb's plain `left` below fixes. */}
-          <Animated.View style={[styles.trackFill, { width: fraction * trackW }, fillStyle]} />
+          <Animated.View style={[styles.trackFill, { width: trackFraction * trackW }, fillStyle]} />
           {/* Prayer landmarks sit on the axis as plain coloured dots — identical
               size and chrome for all six. The "next prayer" answer is already
               carried by the brass countdown above ("om 2t 40min"), so giving the
@@ -1705,7 +1743,7 @@ function SolarTimeline({
                     isPast && styles.markPast,
                     {
                       position: 'absolute',
-                      left: m.fraction * trackW - 3.5,
+                      left: warp.toTrack(m.fraction) * trackW - 3.5,
                       backgroundColor: prayerColorFor(m.key, scheme),
                     },
                   ]}
@@ -1718,7 +1756,7 @@ function SolarTimeline({
           {trackW > 0 && (
             <Animated.View
               pointerEvents="none"
-              style={[styles.thumb, { left: fraction * trackW - 9 }, thumbStyle]}
+              style={[styles.thumb, { left: trackFraction * trackW - 9 }, thumbStyle]}
             />
           )}
         </View>
@@ -1727,7 +1765,7 @@ function SolarTimeline({
             ticks.map(({ hour, fraction: tickFraction }) => (
               <Text
                 key={hour}
-                style={[styles.tick, { left: tickFraction * trackW }]}
+                style={[styles.tick, { left: warp.toTrack(tickFraction) * trackW }]}
                 accessibilityElementsHidden
                 importantForAccessibility="no"
               >
