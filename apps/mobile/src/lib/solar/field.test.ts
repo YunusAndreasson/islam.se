@@ -6,10 +6,12 @@ import type { FeatureCollection } from 'geojson';
 
 import { computePrayerTimes } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
-import { buildGrid, buildLines, type SolarGrid } from './field';
+import { CAMERA_MAX_BOUNDS } from '@/lib/map/camera-bounds';
+import { buildGrid, buildLines, gradedAxis, type SolarGrid } from './field';
 
-// A coarse grid keeps these fast while still spanning the default bounds, which are
-// generous enough to cover the whole map viewport (lat 50→73, lon 0→34).
+// A coarse UNIFORM grid keeps these fast while still spanning the default bounds. Passing
+// steps opts out of the graded axis (see buildGrid), which is what lets a 1°/1.5° lattice
+// stand in for the real one here.
 const GRID_OPTS = { latStep: 1, lonStep: 1.5 };
 // Fixed local day so prayer instants are stable regardless of the runner's clock.
 const DATE = new Date(2026, 2, 21, 12, 0, 0); // 21 Mar 2026, around the equinox
@@ -25,11 +27,24 @@ function flattenCoords(fc: FeatureCollection): number[] {
 }
 
 describe('buildGrid', () => {
-  it('covers the configured bounds and computes ordered, valid times inland', () => {
+  // THE GAP THIS GUARDS. The lattice used to be a Sweden-shaped box (lat 50→73, lon 0→34)
+  // while the camera's leash was continental, so every sweeping line ended at an invisible
+  // rectangle in the North Sea that the reader could pan to but never past. The field must
+  // cover everything the camera can be pointed at — that is the whole contract between
+  // these two constants, and it is why DEFAULT_GRID_BOUNDS is derived from the leash
+  // rather than written out a second time.
+  it('covers every degree the camera can be pointed at', () => {
     const grid = buildGrid(DATE, DEFAULT_SETTINGS, GRID_OPTS);
-    expect(grid.lats[0]).toBe(50);
-    expect(grid.lats[grid.lats.length - 1]).toBeGreaterThanOrEqual(72);
-    expect(grid.lons[0]).toBe(0);
+    expect(first(grid.lons, 'grid.lons')).toBeLessThanOrEqual(CAMERA_MAX_BOUNDS[0]);
+    expect(first(grid.lats, 'grid.lats')).toBeLessThanOrEqual(CAMERA_MAX_BOUNDS[1]);
+    expect(last(grid.lons, 'grid.lons')).toBeGreaterThanOrEqual(CAMERA_MAX_BOUNDS[2]);
+    expect(last(grid.lats, 'grid.lats')).toBeGreaterThanOrEqual(CAMERA_MAX_BOUNDS[3]);
+  });
+
+  it('computes ordered, valid times inland', () => {
+    // Explicit bounds so lat 62 / lon 15 are actual samples: the default box starts at
+    // lon −26 now, and whether a given degree lands on a node is an accident of the step.
+    const grid = buildGrid(DATE, DEFAULT_SETTINGS, { bounds: [0, 50, 34, 73], ...GRID_OPTS });
 
     // A central-Sweden node: prayers must be finite and chronological. This is the
     // contract every line and wash relies on — out-of-order times would mean the
@@ -166,5 +181,140 @@ describe('buildLines', () => {
     const now = summer.getTime();
     const { lines } = buildLines(grid, now);
     expect(flattenCoords(lines).every((n) => Number.isFinite(n))).toBe(true);
+  });
+});
+
+// The lattice went from a Sweden-shaped box to the camera's whole leash, and two things
+// that were free inside one country stop being free across a continent: a calendar day is
+// no longer the same day everywhere on it, and a cell far from the core spans enough
+// ground that the field inside it is no longer a straight line. These pin both, plus the
+// accuracy the widening was NOT allowed to cost Sweden.
+describe('gradedAxis', () => {
+  const CORE_MIN = 50;
+  const CORE_MAX = 73;
+
+  it('keeps the core at its own step and coarsens outward', () => {
+    const a = gradedAxis(30, 85, CORE_MIN, CORE_MAX, 0.42, 4);
+    const stepAt = (v: number) => {
+      const i = a.findIndex((x) => x >= v);
+      return (a[i + 1] as number) - (a[i] as number);
+    };
+    // Inside the core the step is the core's own — this is the resolution every line over
+    // Sweden was tuned against, and the focus of this app is Sweden.
+    expect(stepAt(60)).toBeCloseTo(0.42, 6);
+    // Far outside it the step has reached the far value, so the far field costs rows
+    // instead of a whole extra lattice.
+    expect(stepAt(34)).toBeCloseTo(4, 6);
+  });
+
+  it('is strictly increasing and lands exactly on both bounds', () => {
+    const a = gradedAxis(30, 85, CORE_MIN, CORE_MAX, 0.42, 4);
+    // marchingSquares divides by the gap between neighbouring samples: a repeat would put
+    // an Infinity into a line, and a step backwards would fold the lattice over itself.
+    for (let i = 1; i < a.length; i++) expect(a[i] as number).toBeGreaterThan(a[i - 1] as number);
+    expect(first(a, 'axis')).toBe(30);
+    expect(last(a, 'axis')).toBe(85);
+  });
+
+  it('never jumps by more than the growth factor between neighbouring cells', () => {
+    // A cell nineteen times its neighbour would kink the line where the two meet, because
+    // marching squares interpolates linearly inside each.
+    const a = gradedAxis(30, 85, CORE_MIN, CORE_MAX, 0.42, 4);
+    for (let i = 2; i < a.length - 1; i++) {
+      const prev = (a[i] as number) - (a[i - 1] as number);
+      const next = (a[i + 1] as number) - (a[i] as number);
+      // The last cell on each side is a remainder and may be shorter; only growth is bounded.
+      expect(next / prev).toBeLessThan(1.7);
+    }
+  });
+
+  it('degenerates to the plain axis when the core covers everything', () => {
+    const a = gradedAxis(50, 52, 40, 60, 0.5, 4);
+    expect(a).toEqual([50, 50.5, 51, 51.5, 52]);
+  });
+});
+
+describe('buildLines across a continent', () => {
+  /** A feature's polylines, or none — the narrowing every geometry read here needs. */
+  const coordsOf = (f: FeatureCollection['features'][number] | undefined): [number, number][][] =>
+    f?.geometry.type === 'MultiLineString' ? (f.geometry.coordinates as [number, number][][]) : [];
+
+  // THE BUG THIS GUARDS, AND IT IS NOT A SMALL ONE. The lattice holds ONE calendar date,
+  // but a calendar date is longitude-dependent: at 18:30 UTC Fajr is breaking where the
+  // local date is already tomorrow, so "today's Fajr" there is twenty hours off and the
+  // level-0 contour does not exist at all. Measured on a global lattice before the fix,
+  // the Fajr line was MISSING and Dhuhr's was drawn 60° from where Dhuhr truly was.
+  it('finds the line at the far edge of the box, not a day away from it', () => {
+    const grid = buildGrid(DATE, DEFAULT_SETTINGS, GRID_OPTS);
+    const east = { latitude: 55, longitude: 60 };
+    const west = { latitude: 55, longitude: -20 };
+    for (const place of [east, west]) {
+      const t = computePrayerTimes(place, DATE, DEFAULT_SETTINGS);
+      const { lines } = buildLines(grid, t.maghrib.getTime());
+      const maghrib = lines.features.find(
+        (f) => (f.properties as { prayer?: string } | null)?.prayer === 'maghrib',
+      );
+      expect(maghrib).toBeDefined();
+      // and it passes within a degree of the place whose Maghrib it is
+      const near = coordsOf(maghrib).flat().some(
+        ([lon, lat]) => Math.abs(lon - place.longitude) < 1.5 && Math.abs(lat - place.latitude) < 3,
+      );
+      expect(near).toBe(true);
+    }
+  });
+
+  it('costs Sweden nothing: every vertex over the country is within a minute of adhan', () => {
+    // The oracle test. Widening the lattice was allowed to coarsen the far field; it was
+    // NOT allowed to move a line over Sweden, so each vertex there is handed back to adhan
+    // and asked what the prayer really is at that point. Before the widening this was 2 s.
+    const grid = buildGrid(DATE, DEFAULT_SETTINGS);
+    const central = computePrayerTimes({ latitude: 62, longitude: 15.5 }, DATE, DEFAULT_SETTINGS);
+    const now = central.maghrib.getTime();
+    const { lines } = buildLines(grid, now);
+    let checked = 0;
+    for (const f of lines.features) {
+      const prayer = (f.properties as { prayer: keyof ReturnType<typeof pointTimes> }).prayer;
+      for (const line of coordsOf(f)) {
+        for (const [lon, lat] of line) {
+          if (lon < 10 || lon > 25 || lat < 55 || lat > 69) continue;
+          const truth = pointTimes({ latitude: lat, longitude: lon })[prayer];
+          expect(Math.abs(truth - now)).toBeLessThan(60_000);
+          checked++;
+        }
+      }
+    }
+    // Guard the guard: an empty loop would pass silently.
+    expect(checked).toBeGreaterThan(20);
+    function pointTimes(c: { latitude: number; longitude: number }) {
+      const t = computePrayerTimes(c, DATE, DEFAULT_SETTINGS);
+      return {
+        fajr: t.fajr.getTime(),
+        sunrise: t.sunrise.getTime(),
+        dhuhr: t.dhuhr.getTime(),
+        asr: t.asr.getTime(),
+        maghrib: t.maghrib.getTime(),
+        isha: t.isha.getTime(),
+      };
+    }
+  });
+
+  it('anchors the label pill in the core, not at the centroid of a continental line', () => {
+    // A line running from the Sahara to Svalbard has its centroid over the Mediterranean,
+    // and representativePoint snaps to the point nearest it — so the pill would leave the
+    // screen the reader is actually looking at.
+    const grid = buildGrid(DATE, DEFAULT_SETTINGS);
+    const central = computePrayerTimes({ latitude: 62, longitude: 15.5 }, DATE, DEFAULT_SETTINGS);
+    const { lines, labels } = buildLines(grid, central.maghrib.getTime());
+    const maghribLine = lines.features.find(
+      (f) => (f.properties as { prayer?: string } | null)?.prayer === 'maghrib',
+    );
+    const span = coordsOf(maghribLine).flat().map(([, lat]) => lat);
+    // The line really does run well past the country in both directions...
+    expect(Math.min(...span)).toBeLessThan(50);
+    const label = labels.find((l) => l.prayer === 'maghrib');
+    expect(label).toBeDefined();
+    // ...and the pill is still up in the core.
+    expect(label?.lngLat[1]).toBeGreaterThanOrEqual(50);
+    expect(label?.lngLat[1]).toBeLessThanOrEqual(73);
   });
 });

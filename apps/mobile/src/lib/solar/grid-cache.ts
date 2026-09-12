@@ -1,13 +1,13 @@
-// The whole-country prayer-time lattice, cached per day.
+// The prayer-time lattice the map's sweeping lines are contoured from, cached per day.
 //
-// WHY A CACHE AT ALL. The grid is 56 × 67 = 3752 points, each one a `new PrayerTimes` —
-// measured at 40–72 ms on desktop Node, which on Hermes and a mid-range Android maps to a
-// 200–600 ms block of the JS thread. Before day navigation that cost was paid once per
+// WHY A CACHE AT ALL. The grid is 70 × 82 = 5740 points, each one a `new PrayerTimes` —
+// measured at ~72 ms on desktop Node, which on Hermes and a mid-range Android maps to a
+// ~300–900 ms block of the JS thread. Before day navigation that cost was paid once per
 // calendar day and nobody noticed. Stepping days makes it a cost per TAP, and stepping
 // forward then back would pay it twice for a grid that has not changed at all.
 //
 // A tiny insertion-ordered Map, holding the viewed day and its two neighbours. Each grid is
-// roughly 0.4–0.5 MB, so three is about 1.5 MB — worth it to make the back-step free, small
+// roughly 0.6–0.8 MB, so three is about 2 MB — worth it to make the back-step free, small
 // enough not to matter. Deliberately NOT prefetching ±1 eagerly: that would move the stall
 // rather than remove it, and the LRU should be measured on a real device first.
 //

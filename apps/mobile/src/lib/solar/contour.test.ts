@@ -496,3 +496,43 @@ describe('orientNorthFirst', () => {
     expect(orientNorthFirst([])).toEqual([]);
   });
 });
+
+describe('marchingSquares — maxSpread', () => {
+  // THE TWO SHAPES THIS CATCHES, both from the lattice growing past one country.
+  //
+  // A cell is contoured by interpolating LINEARLY between its corners, which is a claim
+  // that the field is smooth at this resolution. Half a world away the day-unwrap flips
+  // and one corner reads +11.9 h against its neighbour's −11.9 h; against the midsummer
+  // twilight boundary ʿIshāʾ races toward midnight and a coarse cell straddles a wall.
+  // Both straddle zero, so both draw a confident line through country the field never
+  // passed. Neither is detectable from a single corner — only from the spread.
+  const lats = [60, 61];
+  const lons = [10, 11];
+
+  it('skips a cell whose corners span more than the limit', () => {
+    const seam = [
+      [-11.9, -11.9],
+      [11.9, 11.9],
+    ];
+    expect(marchingSquares(lats, lons, seam, 0)).toHaveLength(1);
+    expect(marchingSquares(lats, lons, seam, 0, 6)).toHaveLength(0);
+  });
+
+  it('leaves an honest crossing alone', () => {
+    const honest = [
+      [-0.2, -0.1],
+      [0.1, 0.3],
+    ];
+    expect(marchingSquares(lats, lons, honest, 0, 6)).toHaveLength(1);
+  });
+
+  it('measures the spread against the level, not against zero', () => {
+    // A field contoured at a non-zero level is offset wholesale; the spread is a property
+    // of the cell, so it must not change when the level moves.
+    const field = [
+      [99.9, 100.1],
+      [100.2, 100.3],
+    ];
+    expect(marchingSquares(lats, lons, field, 100, 1)).toHaveLength(1);
+  });
+});

@@ -69,6 +69,7 @@ import {
   noteLocationShown,
   shouldShowLocationHint,
 } from '@/lib/location-hint';
+import { CAMERA_MAX_BOUNDS, CAMERA_MIN_ZOOM } from '@/lib/map/camera-bounds';
 import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection';
 import { createTroubleBurst, watchResourceFailures } from '@/lib/map/map-diagnostics';
 import { ensureBasemapCache } from '@/lib/map/offline';
@@ -112,26 +113,12 @@ const EAST = 23.7;
 const NORTH = 69.0;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
 
-// The furthest the camera may wander. SWEDEN_BOUNDS is the FIT target (what "Visa hela
-// Sverige" returns to); this is the leash, and it is deliberately continental. A user
-// looking across the Öresund at Denmark, up into Finnmark, over to Åland or down to the
-// Mediterranean is doing something reasonable — the solar geometry is correct
-// everywhere, so there is no cartographic reason to pen them into Sweden.
-//
-// What it stops is the far end of that freedom: nothing prevented a fling from parking
-// the camera in the Pacific, where the overlay dutifully projects Sweden's prayer lines
-// over open ocean and the reset chip is the only way home. A hard stop is kinder than a
-// chip, and cheaper — off-bounds panning still fetched tiles for a view nobody wants.
-//
-// WHY SO WIDE — this is sized against the SCREEN, not taste. maxBounds constrains the
-// viewport, so if the box is shorter than the visible map at MIN_ZOOM, MapLibre has to
-// clamp every frame and the map fights the finger. At z3 the tallest supported phone
-// (956 pt) shows 0.233 of the world vertically; this box spans 0.284, so it always has
-// room. Narrowing it means raising MIN_ZOOM to match — check both together.
-const MAX_BOUNDS: [number, number, number, number] = [-20.0, 35.0, 60.0, 80.0];
-// Floor only. The ceiling stays open: the mosque layer and the qibla arc are drawn for
-// city zoom, and the projection handles zoom exactly.
-const MIN_ZOOM = 3;
+// The furthest the camera may wander, and the floor it may zoom out to, both live in
+// lib/map/camera-bounds — because the prayer-time lattice has to cover exactly this box
+// (see DEFAULT_GRID_BOUNDS in solar/field), and when the two were written out separately
+// the lattice was the smaller of them and every line ended in mid-sea.
+const MAX_BOUNDS = CAMERA_MAX_BOUNDS;
+const MIN_ZOOM = CAMERA_MIN_ZOOM;
 
 // Keep Reanimated's intentionally mutable `.value` writes behind small module helpers.
 // React Compiler can then optimize the screen around those imperative UI-thread bridges

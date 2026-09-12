@@ -7,11 +7,19 @@
 // washShader.ts, with its CPU twin in skia/washColor.ts; this file only feeds the
 // sweeping prayer LINES.)
 //
+// There is exactly ONE approximation, and it is confined to nearestOccurrence: on the far
+// side of the box, where the calendar day the lattice was built for is not the local day
+// the reader's instant falls in, the neighbouring day's occurrence is taken to be 24 h from
+// this one's rather than computed. That costs the prayer's own day-over-day drift — a few
+// minutes, under a pixel at any zoom the camera allows — and it is never reached over
+// Sweden, where the whole box is one calendar day. Everything else is adhan's own number.
+//
 // We compute a grid of prayer times ONCE per (date, settings) — that's the only
 // expensive step — then per displayed instant it's cheap arithmetic on the cache.
 import type { Feature, FeatureCollection, MultiLineString } from 'geojson';
 
 import type { LonLat } from '@/lib/coordinates';
+import { CAMERA_MAX_BOUNDS, expandBounds } from '@/lib/map/camera-bounds';
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import {
@@ -24,17 +32,58 @@ import {
   smoothChain,
 } from './contour';
 
-// Generously larger than the camera's Sweden framing so the wash always covers the
-// whole viewport — at the locked zoom-out the visible map spills well past Sweden
-// (open sea west, Finland/Baltics east, the continent south), and a tighter grid
-// left those edges unwashed as a visible rectangular "box". Cells outside Sweden
-// carry the wash but need no detail, so the step can stay moderate.
-const DEFAULT_GRID_BOUNDS: [number, number, number, number] = [0.0, 50.0, 34.0, 73.0];
-// Moderate step: fine enough (with the wash shader's bilinear texture sampling) to read
-// as a smooth gradient over Sweden, coarse enough that covering the wider viewport keeps
-// the one-time grid build — memoised per (day, settings) — a brief one-off.
-const DEFAULT_LAT_STEP = 0.42;
-const DEFAULT_LON_STEP = 0.52;
+// THE LATTICE IS GRADED, AND IT COVERS EVERYWHERE THE CAMERA CAN LOOK.
+//
+// It used to be a Sweden-shaped box (lat 50→73, lon 0→34) while the camera's leash was
+// continental, so every sweeping line ended in mid-sea at an invisible rectangle the
+// reader could pan to but never past. A prayer line is not a Swedish object — at any
+// instant ʿIshāʾ is beginning somewhere — and it should run off the edge of the screen,
+// not stop inside it.
+//
+// WHY GRADED RATHER THAN SIMPLY WIDER. Measured against adhan itself, by handing back
+// every drawn vertex and asking what the prayer really is at that point, over Sweden:
+//
+//   lat 0.42  lon 0.52   1 s        lat 1    lon 0.52    3 s
+//   lat 0.42  lon 2      1 s        lat 2    lon 0.52    6 s
+//   lat 0.42  lon 8      2 s        lat 4    lon 0.52   15 s
+//
+// Longitude resolution is very nearly FREE: a prayer time shifts by exactly 4 minutes per
+// degree of longitude, and linear interpolation across a cell reproduces a linear field
+// exactly. Latitude is where the entire error lives, because that is the direction the
+// field curves in. So the two axes are graded independently, the core keeps the resolution
+// every line over Sweden was tuned against, and the far field is coarsened mostly in the
+// direction that costs nothing — which is what makes the wider box 5740 points against the
+// old 3752 (a 51 → 72 ms build on desktop Node) instead of several times that.
+const DEFAULT_GRID_BOUNDS: [number, number, number, number] = expandBounds(
+  CAMERA_MAX_BOUNDS,
+  6,
+  5,
+);
+/**
+ * The box the app is actually about: Sweden with the sea and neighbours around it. Two
+ * things are anchored to it — the core's fine step, and where a line's label pill is
+ * allowed to sit (see buildLines).
+ *
+ * Sized generously past the camera's Sweden framing so the whole viewport is at the fine
+ * step at the locked zoom-out; a tighter core left the edges visibly coarser.
+ */
+const CORE_BOUNDS: [number, number, number, number] = [0.0, 50.0, 34.0, 73.0];
+/** Inside CORE_BOUNDS — unchanged from when the lattice WAS the core, because this is the
+ *  resolution every line over Sweden was tuned against (see the smoothing note in
+ *  buildLines) and the focus of this app is Sweden. Measured after the widening: every
+ *  vertex over the country is still within 2 s of adhan, which field.test.ts pins. */
+const CORE_LAT_STEP = 0.42;
+const CORE_LON_STEP = 0.52;
+/** Outside it, once the ramp below has run out. Measured over the whole box, the far field
+ *  lands within a couple of minutes of adhan — well under a pixel at the zooms from which
+ *  any of it is visible, and the camera cannot leave Europe at all. */
+const FAR_LAT_STEP = 4.0;
+const FAR_LON_STEP = 8.0;
+/** How fast the step grows leaving the core. A jump straight from 0.52° to 8° would put a
+ *  1:15 cell ratio against the core's edge, and marching squares interpolates per cell —
+ *  so the line would visibly kink where the two met. Ramping keeps every cell within 1.6×
+ *  of its neighbour, and is short enough to cost only a handful of rows. */
+const AXIS_GROWTH = 1.6;
 
 /** Prayer + sun-event times (ms epoch; NaN where adhan can't resolve them) at one point. */
 export interface PointTimes {
@@ -73,15 +122,72 @@ function axis(min: number, max: number, step: number): number[] {
   return out;
 }
 
+/**
+ * One axis of the graded lattice: `coreStep` between `coreMin` and `coreMax`, then a step
+ * growing by `growth` per sample out to `farStep` on both sides, ending exactly on `min`
+ * and `max`.
+ *
+ * Monotone and duplicate-free by construction — marchingSquares divides by the gap between
+ * neighbouring samples, so a repeated or out-of-order value would put an Infinity into a
+ * line rather than merely a wrong vertex.
+ */
+export function gradedAxis(
+  min: number,
+  max: number,
+  coreMin: number,
+  coreMax: number,
+  coreStep: number,
+  farStep: number,
+  growth = AXIS_GROWTH,
+): number[] {
+  const lo = Math.max(min, Math.min(coreMin, max));
+  const hi = Math.min(max, Math.max(coreMax, min));
+  const round = (v: number) => Number(v.toFixed(4));
+  // Below the core, walked outward from its edge so the ramp starts at the core's own
+  // step, then reversed into ascending order.
+  const below: number[] = [];
+  let v = lo;
+  let step = coreStep;
+  while (v > min + 1e-9) {
+    step = Math.min(farStep, step * growth);
+    v = Math.max(min, v - step);
+    below.push(round(v));
+  }
+  below.reverse();
+  const core = axis(lo, hi, coreStep);
+  const out = [...below, ...core];
+  v = hi;
+  // Seeded from the core's LAST cell, not from coreStep. `axis` ends on the exact bound, so
+  // that cell is a remainder — 0.32° where the step is 0.42° — and ramping from the nominal
+  // step instead put a 2.1× jump right at the core's edge, the one place the grading exists
+  // to keep smooth.
+  const penultimate = core[core.length - 2];
+  step = penultimate === undefined ? coreStep : hi - penultimate;
+  while (v < max - 1e-9) {
+    step = Math.min(farStep, step * growth);
+    v = Math.min(max, v + step);
+    out.push(round(v));
+  }
+  return out;
+}
+
 /** Build the cached prayer-time lattice. Location-independent: it covers the whole map. */
 export function buildGrid(
   date: Date,
   settings: PrayerSettings,
   opts: GridOptions = {},
 ): SolarGrid {
+  // An explicit bounds/step pair means a caller wants a UNIFORM lattice of its own — the
+  // introduction's year demo builds twelve coarse ones, and the tests pin the axis contract
+  // on them. Only the default is graded.
+  const uniform = opts.bounds !== undefined || opts.latStep !== undefined || opts.lonStep !== undefined;
   const [w, s, e, n] = opts.bounds ?? DEFAULT_GRID_BOUNDS;
-  const lats = axis(s, n, opts.latStep ?? DEFAULT_LAT_STEP);
-  const lons = axis(w, e, opts.lonStep ?? DEFAULT_LON_STEP);
+  const lats = uniform
+    ? axis(s, n, opts.latStep ?? CORE_LAT_STEP)
+    : gradedAxis(s, n, CORE_BOUNDS[1], CORE_BOUNDS[3], CORE_LAT_STEP, FAR_LAT_STEP);
+  const lons = uniform
+    ? axis(w, e, opts.lonStep ?? CORE_LON_STEP)
+    : gradedAxis(w, e, CORE_BOUNDS[0], CORE_BOUNDS[2], CORE_LON_STEP, FAR_LON_STEP);
   const pt = lats.map((lat) =>
     lons.map((lon) => {
       const p = computePrayerTimes({ latitude: lat, longitude: lon }, date, settings);
@@ -116,6 +222,67 @@ export interface SolarLines {
 // pill's half-width plus the dot's glow, so the pill clears the dot and the city
 // name above it without sliding further along the line than it has to.
 const LABEL_AVOID_RADIUS = 0.9;
+
+const DAY_MS = 86_400_000;
+const HALF_DAY_MS = DAY_MS / 2;
+/**
+ * How far from `now` a cell may be and still take part in a line. Six hours is far more
+ * than any cell spans (the widest is 15° of longitude — one hour — and even the hard bend
+ * of Maghrib against the polar boundary stays well inside it), and it is what keeps the
+ * unwrap seam below from drawing a contour of its own.
+ */
+const FIELD_WINDOW_MS = 6 * 3_600_000;
+/**
+ * The most time a single cell may span and still be contoured. Marching squares walks a
+ * cell LINEARLY, which is a claim about the field being smooth at this resolution — and
+ * two places on a global lattice break that claim badly:
+ *
+ *  • THE UNWRAP SEAM. Half a world from the reader the unwrap flips, so one corner reads
+ *    +11.9 h and its neighbour −11.9 h. That cell straddles zero and would draw a line
+ *    down the middle of the Pacific that no prayer is anywhere near. Measured: these are
+ *    the bulk of the bad cells, and they cluster at a ~23 h spread — far outside anything
+ *    real, which is why one flat cap separates them so cleanly.
+ *  • THE TWILIGHT BOUNDARY. Past ~48.5° on midsummer the sun never reaches the ʿIshāʾ
+ *    angle at all, and just short of it ʿIshāʾ races toward midnight. A coarse cell
+ *    against that wall interpolates a crossing that is really 90 minutes away, drawn as a
+ *    confident east-west line across Europe.
+ *
+ * An hour is chosen from the measurement, not taste. Over four dates and the whole box, an
+ * honest crossing cell spans well under it — over Sweden the widest is under 10 minutes,
+ * so the core is nowhere near this bound — while the artifacts sit at 23 hours. With the
+ * cap in place ʿIshāʾ's worst midsummer vertex went from 91 minutes out to 3, and Sweden's
+ * own vertices did not move at all.
+ */
+const FIELD_MAX_SPREAD_MS = 3_600_000;
+
+/**
+ * The signed distance from `now` to the occurrence of this prayer NEAREST it — which is not
+ * always the one the lattice holds.
+ *
+ * A CALENDAR DAY IS LONGITUDE-DEPENDENT, AND THAT IS THE WHOLE PROBLEM WITH A GLOBAL FIELD.
+ * The lattice is built for one calendar date (it has to be — that is what the grid cache is
+ * keyed on, and what "the viewed day" means to the reader). But at 18:30 UTC, Fajr is
+ * breaking at longitude +141°, where the local date is already TOMORROW. The lattice holds
+ * that point's Fajr for today, twenty hours earlier, so `t − now` is −24 h there and the
+ * level-0 contour does not exist at all: measured before this, the Fajr line was simply
+ * MISSING from a global lattice while Dhuhr's was drawn 60° from where Dhuhr truly was.
+ *
+ * Unwrapping to ±12 h picks the neighbouring day's occurrence instead, approximating it as
+ * exactly 24 h away. The error that costs is the prayer's own day-over-day drift — a few
+ * minutes, under a couple of pixels at any zoom the camera allows, and it is paid only on
+ * the far side of the world; the Nordic core never wraps at all. Getting the exact
+ * neighbouring day instead would mean building the lattice three times over, for a
+ * correction smaller than the line is wide.
+ */
+function nearestOccurrence(at: number, now: number): number {
+  let d = at - now;
+  if (d > HALF_DAY_MS) d -= DAY_MS;
+  else if (d < -HALF_DAY_MS) d += DAY_MS;
+  // Past the window there is nothing a line could legitimately be made of, and the seam
+  // where the unwrap flips (|d| ≈ 12 h) would otherwise read as a 24-hour cliff — a
+  // contour drawn straight down the middle of the Pacific.
+  return Math.abs(d) > FIELD_WINDOW_MS ? Number.NaN : d;
+}
 
 /**
  * The sweeping prayer lines: for each prayer, the level-0 contour of
@@ -159,10 +326,10 @@ export function buildLines(
         // untouched would carry the previous prayer's value into this one's contour —
         // a line drawn at a moment nobody's day contains. NaN is what marchingSquares
         // already reads as "no data".
-        frow[j] = cell ? cell[prayer] - now : Number.NaN;
+        frow[j] = cell ? nearestOccurrence(cell[prayer], now) : Number.NaN;
       }
     }
-    const segments: Segment[] = marchingSquares(lats, lons, field, 0);
+    const segments: Segment[] = marchingSquares(lats, lons, field, 0, FIELD_MAX_SPREAD_MS);
     if (segments.length === 0) continue;
     // Chain the raw cell segments into paths; de-noise the coarse-grid waviness
     // (smoothChain) and then fit a smooth interpolating curve through each (centripetal
@@ -185,7 +352,21 @@ export function buildLines(
       properties: { prayer },
       geometry: { type: 'MultiLineString', coordinates: smoothed },
     });
-    const placement = labelPlacement(segments, avoid, LABEL_AVOID_RADIUS);
+    // The pill is placed from the segments that fall in the CORE, not from the whole line.
+    // representativePoint snaps to the point nearest the line's centroid, and the lattice
+    // now runs from the Sahara to Svalbard: a Maghrib line running that whole way has its
+    // centroid somewhere over the Mediterranean, so the pill — which used to sit on the
+    // line in Sweden because the line WAS Sweden — would quietly leave the screen the
+    // reader is looking at. Falls back to the whole line when none of it is in the core,
+    // which is the case where the pill is off-screen anyway and any anchor will do.
+    const inCore = ([lon, lat]: LonLat): boolean =>
+      lon >= CORE_BOUNDS[0] && lon <= CORE_BOUNDS[2] && lat >= CORE_BOUNDS[1] && lat <= CORE_BOUNDS[3];
+    const coreSegments = segments.filter(([a, b]) => inCore(a) || inCore(b));
+    const placement = labelPlacement(
+      coreSegments.length > 0 ? coreSegments : segments,
+      avoid,
+      LABEL_AVOID_RADIUS,
+    );
     if (placement) labels.push({ prayer, lngLat: placement.point, tangent: placement.tangent });
   }
   return { lines: { type: 'FeatureCollection', features }, labels };

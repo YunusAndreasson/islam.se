@@ -20,12 +20,20 @@ function crossing(p1: LonLat, v1: number, p2: LonLat, v2: number): LonLat {
  * crossing as independent segments (a MultiLineString's worth). Cells touching a
  * NaN corner are skipped — this is how polar points with undefined prayer times
  * (or the midnight sun) drop out of the line cleanly instead of corrupting it.
+ *
+ * `maxSpread` skips cells whose four corners span more than that — a cell the lattice
+ * cannot claim to resolve. Marching squares interpolates LINEARLY across a cell, which is
+ * a statement about the field being smooth at this resolution; where it is not, the cell
+ * still dutifully reports a crossing and draws a line through country the field never
+ * passed. See the note at FIELD_MAX_SPREAD_MS in solar/field.ts for the two shapes this
+ * actually catches. Default Infinity: a caller with a smooth field pays nothing.
  */
 export function marchingSquares(
   lats: number[],
   lons: number[],
   values: number[][],
   level = 0,
+  maxSpread = Number.POSITIVE_INFINITY,
 ): Segment[] {
   const segments: Segment[] = [];
   for (let i = 0; i < lats.length - 1; i++) {
@@ -81,6 +89,11 @@ export function marchingSquares(
       ) {
         continue;
       }
+
+      // The cell spans more time than the lattice can honestly interpolate across (see
+      // maxSpread above). Skipped whole, so the line stops at the last cell that is
+      // resolved rather than being dragged through the singular one.
+      if (Math.max(vTL, vTR, vBR, vBL) - Math.min(vTL, vTR, vBR, vBL) > maxSpread) continue;
 
       const TL: LonLat = [lonL, latT];
       const TR: LonLat = [lonR, latT];
