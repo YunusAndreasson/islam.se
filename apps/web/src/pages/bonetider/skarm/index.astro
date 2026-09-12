@@ -1,0 +1,556 @@
+---
+// The builder. A mosque configures its wall here, on a phone or a laptop, and leaves
+// with a QR code — because the real adoption barrier for a screen is typing a long URL
+// into a television remote, not understanding the settings.
+//
+// Everything it produces lives in the URL fragment, so this page needs no account, no
+// database and no server: it is a form that writes a link.
+//
+// THE ORGANISING FACT: exactly one field is required — which mosque. Every other
+// control already holds a working default, so a volunteer who answers the one question
+// has a finished screen. The page is built to make that impossible to miss: one
+// question, then the wall itself with the way to get it onto a television, and only
+// then the refinements — folded away, each one still stating what it currently holds.
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import PageHead from "../../../components/PageHead.astro";
+import PrayerSettings from "../../../components/bonetider/PrayerSettings.astro";
+import TitledSection from "../../../components/TitledSection.astro";
+import Base from "../../../layouts/Base.astro";
+import { IQAMA_KEYS } from "../../../lib/bonetider/screen-config";
+import { INDEXED_PLACES } from "../../../lib/bonetider/places-index";
+import { PRAYER_LABELS } from "../../../lib/bonetider/prayer-times";
+import { getMosques, type Mosque } from "../../../lib/moskeer";
+
+// Two ways in. The directory is the short list and carries each mosque's own
+// coordinates, so the marker lands on the building; the orter cover every böneplats
+// that is not in it. Both are inlined because the display page must never import
+// places-index — it is 438 kB of GeoNames, and a television should not download the
+// population of every hamlet in Sweden to look up two numbers.
+const mosques = getMosques().map((m: Mosque) => ({
+	n: m.name,
+	c: m.city,
+	s: m.citySlug,
+	lat: Number(m.lat.toFixed(4)),
+	lon: Number(m.lng.toFixed(4)),
+}));
+const places = INDEXED_PLACES.map((p) => ({
+	n: p.name,
+	c: p.county,
+	s: p.slug,
+	lat: Number(p.lat.toFixed(4)),
+	lon: Number(p.lon.toFixed(4)),
+}));
+
+const iqamaLabels: Record<string, string> = {
+	fajr: PRAYER_LABELS.fajr,
+	dhuhr: PRAYER_LABELS.dhuhr,
+	asr: PRAYER_LABELS.asr,
+	maghrib: PRAYER_LABELS.maghrib,
+	isha: PRAYER_LABELS.isha,
+};
+
+// ⚠️ Trailing slashes are load-bearing: the href is used raw and Cloudflare 308s
+// the slash-less form. Same shape as /bonetider/metod/ and /bonetider/ramadan/.
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "Bönetider", url: "/bonetider/" },
+	{ name: "Moskéskärm", url: "/bonetider/skarm/" },
+];
+---
+
+<Base
+	title="Moskéskärm – bönetider på storbild"
+	description="Ställ in en skärm som visar dagens bönetider, iqāma-tider och solkartan för din moské. Öppnas i helskärm på en tv i farstun."
+	noindex
+>
+	{/* `.home`, not a narrower column: layout.css states the rule outright — every page
+	    shares the 64rem canvas so the frame never changes width between pages. */}
+	<main id="main" class="home bonetider-skarm">
+		<Breadcrumb items={crumbs} />
+		<PageHead title="Moskéskärm">
+			En skärm för farstun: dagens sex tider, era egna iqāma-tider och kartan där
+			bönelinjen sveper in över Sverige. Välj moskén, öppna länken på tv:n och lämna
+			den igång.
+		</PageHead>
+
+		{/* Three children, two arrangements. Wide: questions in a left column, the wall
+		    sticky beside them, so every keystroke lands on a screen you can see. Narrow:
+		    plain document order — question, wall, refinements — which is why the wall sits
+		    BETWEEN them in the markup rather than after both. */}
+		<div class="sk-split">
+			<section class="sk-identity" aria-labelledby="sk-h-vilken">
+				<h2 class="sk-q" id="sk-h-vilken">
+					<label for="sk-mosque">Vilken moské?</label>
+				</h2>
+				<input
+					type="search"
+					id="sk-mosque"
+					class="sk-q-input"
+					list="sk-mosques"
+					placeholder={`Sök bland ${mosques.length} moskéer`}
+					autocomplete="off"
+				/>
+				<datalist id="sk-mosques"></datalist>
+
+				<details class="sk-fold sk-fold--manual">
+					<summary>
+						<span class="sk-fold-label">Står er moské inte i registret?</span>
+					</summary>
+					<div class="sk-fold-body">
+						<label class="sk-field">
+							<span>Ort</span>
+							<input type="search" id="sk-ort" list="sk-orter" placeholder="t.ex. Göteborg" autocomplete="off" />
+							<datalist id="sk-orter"></datalist>
+						</label>
+						<label class="sk-field">
+							<span>Namn på skärmen</span>
+							<input type="text" id="sk-name" maxlength="80" placeholder="Bellevue Moské" />
+						</label>
+						<label class="sk-field">
+							<span>Plats under namnet</span>
+							<input type="text" id="sk-place" maxlength="80" placeholder="Hisingen, Göteborg" />
+						</label>
+					</div>
+				</details>
+			</section>
+
+			{/* The payoff, kept in view. It is the live display page, not a mock-up of it:
+			    what the mosque is looking at while it configures IS the wall. */}
+			<aside class="sk-wall" aria-label="Skärmen och länken till den">
+				<div class="sk-preview">
+					<iframe id="sk-frame" title="Förhandsvisning av skärmen" src="/bonetider/skarm/visa/"></iframe>
+				</div>
+
+				{/* No QR here. A television has no camera, so a code can never carry a URL
+				    ONTO the wall — the link gets there by being pasted on whatever drives the
+				    screen, or by casting this tab. The code that IS worth printing lives on
+				    the screen itself, pointing at the app. */}
+				<div class="sk-go">
+					<a class="sk-primary" id="sk-open" href="/bonetider/skarm/visa/" target="_blank" rel="noopener">
+						Öppna skärmen
+					</a>
+					<button type="button" class="sk-secondary" id="sk-copy">Kopiera länk</button>
+				</div>
+				<p class="sk-url" id="sk-url"></p>
+			</aside>
+
+			<section class="sk-tune" aria-labelledby="sk-h-tune">
+				<h2 id="sk-h-tune">Finjustera</h2>
+
+				<details class="sk-fold">
+					<summary>
+						<span class="sk-fold-label">Iqāma-tider</span>
+						<span class="sk-fold-value" id="sk-sum-iqama"></span>
+					</summary>
+					<div class="sk-fold-body">
+						<p class="sk-hint">Minuter efter böneutropet – eller ett fast klockslag, som 21:00.</p>
+						<div class="sk-iqama">
+							{
+								IQAMA_KEYS.map((key) => (
+									<label class="sk-iq">
+										<span>{iqamaLabels[key]}</span>
+										<input type="text" inputmode="numeric" data-iqama={key} size="5" />
+									</label>
+								))
+							}
+						</div>
+						<label class="sk-field">
+							<span>Skärmen tystnar efter iqāma i (minuter)</span>
+							<input type="number" id="sk-quiet" min="0" max="60" step="1" size="4" />
+						</label>
+					</div>
+				</details>
+
+				<details class="sk-fold">
+					<summary>
+						<span class="sk-fold-label">Fredagsbön och anslag</span>
+						<span class="sk-fold-value" id="sk-sum-fredag"></span>
+					</summary>
+					<div class="sk-fold-body">
+						<label class="sk-field">
+							<span>Khutba (ersätter Ẓuhr på fredagar)</span>
+							<input type="text" id="sk-jumua" placeholder="13:00" size="6" />
+						</label>
+						<label class="sk-field">
+							<span>Anslag längst ned på skärmen</span>
+							<input type="text" id="sk-notice" maxlength="120" placeholder="Koranskola lördag 10.00" />
+						</label>
+					</div>
+				</details>
+
+				{/* ⚠️ No <form> wraps anything on this page. PrayerSettings renders its own,
+				    and a form inside a form is dropped by the HTML parser — silently, so the
+				    controls appear but never wire up. Bare labelled inputs behave identically
+				    here: nothing is ever submitted, the builder reads them directly. */}
+				<details class="sk-fold">
+					<summary>
+						<span class="sk-fold-label">Beräkning</span>
+						<span class="sk-fold-value" id="sk-sum-calc"></span>
+					</summary>
+					<div class="sk-fold-body">
+						<p class="sk-hint">Gäller bara den här skärmen – era inställningar på sajten rörs inte.</p>
+						<PrayerSettings mode="detached" />
+					</div>
+				</details>
+			</section>
+		</div>
+
+		{/* Numbered because this genuinely is a sequence, and it is the only sequence on
+		    the page. */}
+		<TitledSection id="sk-h-plats" title="På plats">
+			<ol class="sk-steps">
+				<li>Klistra in länken i tv:ns webbläsare, eller casta fliken dit. Tryck sedan <strong>Helskärm</strong>.</li>
+				<li>Slå av skärmsläckaren i tv:ns inställningar – webbläsaren håller skärmen vaken, men den kan inte stänga av tv:ns egen insomningstimer.</li>
+				<li>Låt tv:n vara uppkopplad. Skärmen räknar ut tiderna själv, men hämtar en ny version varje natt.</li>
+				<li>Byt inget mer. Skärmen byter dag, tid och ljus av sig själv.</li>
+			</ol>
+		</TitledSection>
+
+		{/* `<` escaped the way PlaceSearch.astro does it: a mosque name carrying "</script>"
+		    would otherwise end the block early and take the rest of the page with it. The
+		    data is ours, but it comes from a hand-edited JSON file. */}
+		<script id="sk-mosque-data" type="application/json" is:inline set:html={JSON.stringify(mosques).replace(/</g, "\\u003c")}></script>
+		<script id="sk-place-data" type="application/json" is:inline set:html={JSON.stringify(places).replace(/</g, "\\u003c")}></script>
+	</main>
+</Base>
+
+<style>
+	/* ── The two arrangements ─────────────────────────────────────────────
+	   Narrow: one column in document order — question, wall, refinements.
+	   Wide: the wall moves to its own column and sticks, so the answer to
+	   "what am I making?" never leaves the screen while you answer the rest. */
+	.sk-split {
+		display: grid;
+		gap: var(--space-group);
+	}
+
+	/* Stacked, the wall takes the reading measure rather than the whole 64rem frame:
+	   at full width a 16:9 preview is 474px tall and pushes the one action below the
+	   fold, which is the opposite of what the page is for. */
+	.sk-wall {
+		max-width: var(--content-width);
+	}
+
+	@media (width >= 62rem) {
+		.sk-split {
+			grid-template-columns: minmax(0, 23rem) minmax(0, 1fr);
+			/* The wall spans both rows and is the taller column, so its surplus has to
+			   land somewhere. `1fr` on the second row sends it below the refinements
+			   instead of distributing it evenly, which otherwise pushed a band of empty
+			   parchment between the one question and "Finjustera". */
+			grid-template-rows: min-content 1fr;
+			column-gap: var(--space-phi);
+			align-items: start;
+		}
+
+		.sk-identity {
+			grid-area: 1 / 1;
+		}
+
+		.sk-tune {
+			grid-area: 2 / 1;
+		}
+
+		.sk-wall {
+			max-width: none;
+			grid-area: 1 / 2 / span 2;
+			position: sticky;
+			top: calc(var(--mast-height, 5rem) + 1rem);
+		}
+	}
+
+	/* ── The one question ─────────────────────────────────────────────── */
+
+	/* Set as a heading, not a field label, because it is the only question on the
+	   page: everything else already has an answer. */
+	.sk-q {
+		margin: 0;
+		font-size: var(--step-1);
+	}
+
+	.sk-q label {
+		cursor: pointer;
+	}
+
+	.sk-q-input {
+		width: 100%;
+		margin-top: var(--space-control);
+		padding: 0.75rem 0.9rem;
+		border: 1px solid var(--color-warm);
+		border-radius: var(--radius-md);
+		background: transparent;
+		color: var(--color-text);
+		font-family: var(--font-body);
+		/* 16px floor: below it iOS Safari zooms the page on focus. */
+		font-size: max(16px, var(--step-0));
+	}
+
+	/* ── Disclosures ──────────────────────────────────────────────────────
+	   A closed row must still say what the screen will do — a fold that hides
+	   its own state is how a mosque ends up praying by the wrong method with
+	   nothing on the page admitting it. Hence the value beside every label. */
+	.sk-fold {
+		border-bottom: 1px solid var(--color-divider);
+		/* Smooth disclosure where supported; elsewhere it snaps, exactly as before. */
+		interpolate-size: allow-keywords;
+	}
+
+	.sk-fold::details-content {
+		height: 0;
+		overflow: clip;
+		transition:
+			height 0.25s ease,
+			content-visibility 0.25s allow-discrete;
+	}
+
+	.sk-fold[open]::details-content {
+		height: auto;
+	}
+
+	.sk-fold summary {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 var(--space-control);
+		padding-block: 0.85rem;
+		cursor: pointer;
+		/* The default marker cannot be placed by flex, so it is removed and the
+		   chevron drawn by ::after instead. */
+		list-style: none;
+	}
+
+	.sk-fold summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.sk-fold summary::after {
+		content: "";
+		flex: none;
+		width: 0.45rem;
+		height: 0.45rem;
+		border-right: 1.5px solid var(--color-muted);
+		border-bottom: 1.5px solid var(--color-muted);
+		transform: translateY(-0.2em) rotate(45deg);
+		transition: transform 0.2s ease;
+	}
+
+	.sk-fold[open] summary::after {
+		transform: translateY(0.1em) rotate(-135deg);
+	}
+
+	/* The auto margin, not the chevron's, so the values line up in a column against
+	   the right edge and can be scanned down without reading the labels. */
+	.sk-fold-label {
+		margin-right: auto;
+		font-family: var(--font-heading);
+		font-size: var(--step--1);
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.sk-fold-value {
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.sk-fold-body {
+		padding-bottom: var(--space-unit);
+	}
+
+	/* The escape hatch under the one question reads as an aside, not as a peer of
+	   the refinement rows, so it carries no rule and no value column. */
+	.sk-fold--manual {
+		margin-top: var(--space-control);
+		border-bottom: 0;
+	}
+
+	.sk-fold--manual summary {
+		padding-block: 0.35rem;
+	}
+
+	/* No value column here, so the chevron belongs beside the sentence rather than
+	   out at the right edge on its own. */
+	.sk-fold--manual .sk-fold-label {
+		margin-right: 0;
+		font-size: var(--step--2);
+		font-weight: 400;
+		color: var(--color-accent);
+	}
+
+	/* ── Fields ───────────────────────────────────────────────────────── */
+
+	.sk-field {
+		display: block;
+		margin-top: var(--space-control);
+	}
+
+	.sk-field > span {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+	}
+
+	.sk-field input {
+		width: 100%;
+		margin-top: 0.25rem;
+		padding: 0.5rem 0.65rem;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--color-text);
+		font: inherit;
+		font-size: max(16px, var(--step--2));
+	}
+
+	.sk-hint {
+		margin: 0.4rem 0 0;
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+	}
+
+	.sk-iqama {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
+		gap: var(--space-control);
+		margin-top: var(--space-control);
+	}
+
+	.sk-iq span {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+	}
+
+	.sk-iq input {
+		width: 100%;
+		margin-top: 0.25rem;
+		padding: 0.45rem 0.5rem;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--color-text);
+		font-size: max(16px, var(--step--2));
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.sk-tune h2 {
+		margin-top: 0;
+	}
+
+	/* ── The wall and the way onto the television ─────────────────────── */
+
+	/* 16:9, so the preview is the wall and not an approximation of it. */
+	.sk-preview {
+		aspect-ratio: 16 / 9;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-md);
+		overflow: hidden;
+	}
+
+	.sk-preview iframe {
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+
+	/* The page's one filled element, so the eye cannot land anywhere else first.
+	   Same ink pill /ratta uses for its submit — the site already had a
+	   strongest-affordance treatment and this is it. */
+	.sk-go {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-control);
+		margin-top: var(--space-unit);
+	}
+
+	.sk-primary,
+	.sk-secondary {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 3.25rem;
+		padding: 0 1.5rem;
+		border-radius: var(--radius-pill);
+		font-family: var(--font-heading);
+		font-size: var(--step-0);
+		font-weight: 600;
+		text-align: center;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	/* Two to one, so which of the pair is the point needs no saying. */
+	.sk-primary {
+		flex: 2 1 12rem;
+		border: 1px solid var(--color-text);
+		background: var(--color-text);
+		color: var(--color-bg);
+		letter-spacing: 0.01em;
+	}
+
+	.sk-primary:hover {
+		background: var(--color-muted);
+		border-color: var(--color-muted);
+	}
+
+	.sk-secondary {
+		flex: 1 1 9rem;
+		border: 1px solid var(--color-warm);
+		background: transparent;
+		color: var(--color-text);
+	}
+
+	.sk-secondary:hover {
+		border-color: var(--color-text);
+	}
+
+	.sk-url {
+		margin: var(--space-unit) 0 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		overflow-wrap: anywhere;
+	}
+
+	/* ── On site ──────────────────────────────────────────────────────── */
+
+	.sk-steps {
+		/* reset.css makes every list markerless site-wide (it swaps `none` for an
+		   empty-string marker so Safari keeps role=list). This is the one list on the
+		   page that is genuinely a sequence, so it asks for its numbers back. */
+		list-style: decimal;
+		max-width: var(--content-width);
+		margin: 0;
+		padding-left: 1.4rem;
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.6;
+		color: var(--text-body);
+	}
+
+	.sk-steps li {
+		margin-bottom: var(--space-control);
+		padding-left: 0.35rem;
+		text-wrap: pretty;
+	}
+
+	.sk-steps li::marker {
+		font-family: var(--font-heading);
+		font-variant-numeric: lining-nums tabular-nums;
+		color: var(--color-muted);
+	}
+
+	@media (hover: none), (pointer: coarse) {
+		.sk-fold summary {
+			padding-block: 1rem;
+		}
+	}
+</style>
+
+<script>
+	import "../../../scripts/bonetider-skarm-builder";
+</script>

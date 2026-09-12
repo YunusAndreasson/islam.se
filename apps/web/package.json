@@ -30,6 +30,7 @@
 		"adhan": "^4.4.6",
 		"astro": "^7.3.2",
 		"maplibre-gl": "^6.9.0",
+		"qrcode-generator": "^2.0.4",
 		"rehype-stringify": "^10.0.1",
 		"remark-rehype": "^11.1.2",
 		"remark-smartypants": "^3.0.3",

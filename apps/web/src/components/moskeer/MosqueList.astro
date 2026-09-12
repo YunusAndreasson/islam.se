@@ -4,6 +4,23 @@
 // a bönetider page) lands on the right card. On county pages the name links to the city
 // page (`cityLink`); on a city page the mosque IS the content, so the name is plain text.
 import { type Mosque, directionsLinks, locationLabel, mosqueUrl } from "../../lib/moskeer";
+import { encodeScreenConfig, DEFAULT_SCREEN_CONFIG } from "../../lib/bonetider/screen-config";
+
+/** A screen prefilled with this mosque — its name, its ort and its own coordinates, so
+ *  the marker lands on the building rather than the town centre. The mosque still has to
+ *  visit /bonetider/skarm/ to set its iqāma times, which is where this link points it
+ *  next; what it gets here is the thing working, at once, with its own name on it. */
+function screenHref(m: Mosque): string {
+	return `/bonetider/skarm/visa/#${encodeScreenConfig({
+		...DEFAULT_SCREEN_CONFIG,
+		ort: m.citySlug,
+		ortName: m.city,
+		name: m.name,
+		place: locationLabel(m),
+		lat: m.lat,
+		lon: m.lng,
+	})}`;
+}
 
 interface Props {
 	mosques: readonly Mosque[];
@@ -36,6 +53,7 @@ const { mosques, cityLink = false } = Astro.props;
 					<a href={dir.apple} class="map-dir-btn">Apple Maps</a>
 					<a href={dir.google} class="map-dir-btn">Google Maps</a>
 					<span class="mk-list-canon"><a href={mosqueUrl(m)}>Länk till moskén</a></span>
+					<span class="mk-list-canon"><a href={screenHref(m)}>Visa på storbild</a></span>
 				</p>
 			</li>
 		);

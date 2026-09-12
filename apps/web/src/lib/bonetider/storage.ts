@@ -56,7 +56,10 @@ function sanitizeAdjustments(value: unknown): PrayerAdjustments {
 	};
 }
 
-function sanitizeSettings(value: unknown): PrayerSettings {
+/** Exported so the moskéskärm can sanitise a config that arrived in a URL hash
+ *  through the same funnel as one that arrived from localStorage — one list of legal
+ *  values, not two kept in step by hand. */
+export function sanitizeSettings(value: unknown): PrayerSettings {
 	const parsed =
 		value && typeof value === "object"
 			? (value as Partial<Record<keyof PrayerSettings, unknown>>)
@@ -85,7 +88,19 @@ function sanitizeSettings(value: unknown): PrayerSettings {
 		hijriOffset: finiteOrDefault(parsed.hijriOffset, DEFAULT_SETTINGS.hijriOffset),
 		// The website has no notifications/haptics/map/theme prefs — keep the app shape
 		// intact but always use the inert defaults for those fields.
-		notifications: DEFAULT_SETTINGS.notifications,
+		//
+		// COPIED, not referenced. This is the branch loadSettings takes whenever localStorage
+		// actually holds something, so handing back the module singleton here re-opened the
+		// exact hole loadSettings' docblock describes — one mutation of `settings.notifications`
+		// anywhere rewrites DEFAULT_SETTINGS for the rest of the page, and the moskéskärm's
+		// encoder omits every field still "at its default". The two cloneSettings() calls down
+		// there only cover the empty and throwing branches, which are the two that storage.test
+		// can reach and therefore the two that looked fixed.
+		notifications: {
+			...DEFAULT_SETTINGS.notifications,
+			prayers: { ...DEFAULT_SETTINGS.notifications.prayers },
+		},
+		manualLocation: DEFAULT_SETTINGS.manualLocation ? { ...DEFAULT_SETTINGS.manualLocation } : null,
 	};
 }
 
@@ -106,14 +121,38 @@ function sanitizeLocation(value: unknown): NamedLocation | null {
 	return { name: input.name, latitude, longitude };
 }
 
-/** Settings merged over defaults, so a partial or older saved shape still computes. */
+/**
+ * A deep-enough copy to be safe to mutate. The nested objects matter as much as the top
+ * level: `adjustments` is the one callers actually reach into.
+ */
+export function cloneSettings(s: PrayerSettings): PrayerSettings {
+	return {
+		...s,
+		adjustments: { ...s.adjustments },
+		notifications: { ...s.notifications, prayers: { ...s.notifications.prayers } },
+		manualLocation: s.manualLocation ? { ...s.manualLocation } : null,
+	};
+}
+
+/**
+ * Settings merged over defaults, so a partial or older saved shape still computes.
+ *
+ * ⚠️ Always a FRESH object. Both fallback branches used to hand back the module-level
+ * DEFAULT_SETTINGS itself, and every caller mutates what it gets — `s.madhab = …` then
+ * `saveSettings(s)`. So on a visitor with nothing in localStorage, changing one setting
+ * rewrote DEFAULT_SETTINGS for the rest of the page. That is invisible where the result
+ * is only displayed, and not invisible at all where something later compares against the
+ * defaults to decide what is worth writing down: the moskéskärm's URL encoder omits every
+ * field still at its default, so a polluted default silently dropped the mosque's chosen
+ * calculation method out of the link.
+ */
 export function loadSettings(): PrayerSettings {
 	try {
 		const raw = localStorage.getItem(SETTINGS_KEY);
-		if (!raw) return DEFAULT_SETTINGS;
+		if (!raw) return cloneSettings(DEFAULT_SETTINGS);
 		return sanitizeSettings(JSON.parse(raw));
 	} catch {
-		return DEFAULT_SETTINGS;
+		return cloneSettings(DEFAULT_SETTINGS);
 	}
 }
 

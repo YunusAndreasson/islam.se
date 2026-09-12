@@ -385,6 +385,15 @@ if (hasScb) {
 				</Fragment>
 			</PrayerField>
 			<CityPrayerPlanning location={location} part="today" />
+			{/* The same map and the same times, sized for a wall. Placed here rather than in
+			    the footer because the reader who wants it is the one already looking at the
+			    map — usually somebody who helps run a mosque. */}
+			<p class="bt-stad-screen">
+				<a href={`/bonetider/skarm/visa/#ort=${place.slug}&ortnamn=${encodeURIComponent(place.name)}&lat=${place.lat.toFixed(4)}&lon=${place.lon.toFixed(4)}`}>
+					Visa {place.name}s tider på storbild
+				</a>{" "}
+				– en skärm för moskéns farstu. <a href="/bonetider/skarm/">Ställ in den</a>.
+			</p>
 			{/* Landed on the wrong town — common, since a bare "bönetider" search can drop a
 			    reader on any of 2 128 pages. The full PlaceSearch inlines every place as JSON
 			    and is hub-only for that reason; this is the cheap half of the same control. */}
@@ -618,6 +627,13 @@ if (hasScb) {
 
 	/* Wrong town. Two controls, not the hub's full search: that one inlines all 2 128
 	   places as JSON, which no city page can afford. */
+	.bt-stad-screen {
+		margin: var(--space-control) 0 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+	}
+
 	.bt-stad-switch {
 		display: flex;
 		flex-wrap: wrap;

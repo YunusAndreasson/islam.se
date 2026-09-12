@@ -75,6 +75,12 @@ const pages = {
 		footerLabel: "Kalender",
 		sub: "Islamiska högtider och fastedagar med datum.",
 	},
+	mosqueScreen: {
+		href: "/bonetider/skarm/",
+		label: "Moskéskärm",
+		menuSub: "Dagens tider på storbild i farstun.",
+		sub: "Dagens bönetider och iqāma på en skärm i moskén.",
+	},
 	prayerTimes: {
 		href: "/bonetider/",
 		label: "Bönetider",
@@ -203,6 +209,7 @@ export const FOOTER_GROUPS: { heading: string; links: NavLink[] }[] = [
 		links: [
 			pages.prayerTimes,
 			pages.mosques,
+			pages.mosqueScreen,
 			{ ...pages.calendar, label: pages.calendar.footerLabel },
 			pages.podcast,
 			pages.nyheter,

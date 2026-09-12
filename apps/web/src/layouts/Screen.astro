@@ -1,0 +1,69 @@
+---
+// The chrome-free shell for the moskéskärm. Base.astro is the wrong parent here: it
+// unconditionally renders the header (with its own prayer chip), the footer, the
+// floating audio player, the ⌘K palette, a skip link and a back-to-top button — every
+// one of which is furniture for a reader, and none of which belongs on a television
+// mounted three metres up a wall in a foyer.
+//
+// What is deliberately NOT here, and why:
+//
+//  • <ClientRouter /> — the page never navigates. View transitions would only add a
+//    router that re-stamps <html> attributes on a page that has no second page.
+//  • The pre-paint theme IIFE — the screen's palette follows the SUN over the mosque,
+//    not the reader's stored preference. bonetider-skarm.ts owns it.
+//  • Analytics, JSON-LD, Open Graph — nobody shares a wall display.
+//
+// What is kept: the fonts (preloaded, because there is no competing hero image and the
+// whole page is type), the token and reset stylesheets, and the viewport meta.
+import { Font } from "astro:assets";
+import "../styles/tokens.css";
+import "../styles/reset.css";
+import "../styles/typography.css";
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="sv">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		{/* The screen paints its own ground from the sun's position, so it must not be
+		    handed the OS palette underneath. */}
+		<meta name="color-scheme" content="light dark" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>{title}</title>
+
+		{/* Preloaded, unlike everywhere else on the site: there is no hero image to
+		    compete with for early bandwidth, and every pixel of this page is type. */}
+		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-heading" preload />
+
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</head>
+	<body class="screen-body">
+		<slot />
+		{/* The reload guard fetches this page and looks for this marker before it dares
+		    reload the wall. A 200 from a captive portal is not proof the page is
+		    reachable; this string is. See kiosk.ts proveOnline(). */}
+		<!--skarm-ok-->
+		<style is:global>
+			.screen-body {
+				margin: 0;
+				overflow: hidden;
+				background: var(--screen-bg, #fff6e8);
+			}
+			/* A wall display has no pointer. Hiding the cursor after it stops moving is
+			   the difference between a finished screen and someone's laptop. */
+			.screen-body[data-idle="1"] {
+				cursor: none;
+			}
+		</style>
+	</body>
+</html>

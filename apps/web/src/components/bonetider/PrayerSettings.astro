@@ -13,9 +13,21 @@ import {
 // nudges (matches the app, which adjusts the six computed slots minus the Shurūq marker).
 const adjustablePrayers = PRAYER_ORDER.filter((k) => k !== "sunrise");
 const withDesc = (label: string, desc?: string) => (desc ? `${label} – ${desc}` : label);
+
+interface Props {
+	/** `"storage"` (the default, and everything that exists today) reads and writes the
+	 *  visitor's own localStorage and emits `bonetider:change`, so every PrayerField on
+	 *  the page repaints. `"detached"` persists nothing and only emits
+	 *  `bt-settings-change` on the form — which is what the moskéskärm builder needs,
+	 *  because a mosque configuring a wall must not overwrite the settings of whoever is
+	 *  sitting at the laptop. */
+	mode?: "storage" | "detached";
+}
+
+const { mode = "storage" } = Astro.props;
 ---
 
-<form class="bt-settings" aria-label="Inställningar för bönetider">
+<form class="bt-settings" data-bt-mode={mode} aria-label="Inställningar för bönetider">
 	<div class="bt-set-grid">
 		<label class="bt-field">
 			<span class="bt-field-label">Beräkningsmetod</span>
@@ -208,53 +220,9 @@ const withDesc = (label: string, desc?: string) => (desc ? `${label} – ${desc}
 </style>
 
 <script>
-	import { loadSettings, saveSettings } from "../../lib/bonetider/storage";
-	import { highLatLabel, madhabLabel, methodLabel } from "../../lib/bonetider/settings-options";
-	import type { PrayerSettings } from "../../lib/bonetider/settings";
-
-	function updateSummary(s: PrayerSettings): void {
-		const el = document.querySelector<HTMLElement>(".bt-set-summary");
-		if (el)
-			el.textContent = `${methodLabel(s)} · ${madhabLabel(s)} · Höga latituder: ${highLatLabel(s)} · Tidszon Europe/Stockholm`;
-	}
-
-	function apply(form: HTMLFormElement): void {
-		const s = loadSettings();
-		const obj = s as unknown as Record<string, unknown>;
-		for (const el of form.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[data-setting]")) {
-			const key = el.dataset.setting;
-			if (key && key in obj) el.value = String(obj[key]);
-		}
-		for (const el of form.querySelectorAll<HTMLInputElement>("[data-adjust]")) {
-			const key = el.dataset.adjust as keyof PrayerSettings["adjustments"];
-			el.value = String(s.adjustments[key] ?? 0);
-		}
-		updateSummary(s);
-	}
-
-	function onChange(e: Event): void {
-		const el = e.target as HTMLInputElement | HTMLSelectElement;
-		const s = loadSettings();
-		if (el.dataset.setting) {
-			const key = el.dataset.setting;
-			if (key === "hijriOffset") s.hijriOffset = Number(el.value) || 0;
-			else (s as unknown as Record<string, unknown>)[key] = el.value;
-		} else if (el.dataset.adjust) {
-			s.adjustments = { ...s.adjustments, [el.dataset.adjust]: Number(el.value) || 0 };
-		} else return;
-		saveSettings(s); // persists + emits bonetider:change → every field repaints
-		updateSummary(s);
-	}
+	import { wireAllSettingsForms } from "../../scripts/bonetider-settings-form";
 
 	document.addEventListener("astro:page-load", () => {
-		const form = document.querySelector<HTMLFormElement>(".bt-settings");
-		if (!form || form.dataset.wired) return;
-		form.dataset.wired = "1";
-		apply(form);
-		// `change` only: selects commit on selection and the two number inputs commit
-		// on blur/Enter/spinner. Binding `input` too would re-save, re-announce the
-		// aria-live summary, and repaint every field's canvas on every keystroke while
-		// typing a minute adjustment – noisy for screen readers and wasteful.
-		form.addEventListener("change", onChange);
+		wireAllSettingsForms();
 	});
 </script>

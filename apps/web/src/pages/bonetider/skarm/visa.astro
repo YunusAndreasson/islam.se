@@ -1,0 +1,63 @@
+---
+// The wall itself. One static route for every mosque in Sweden: the config travels in
+// the URL hash, which never reaches the server, so this is a single file rather than a
+// second set of 2 128 pages on a build where the city pages are already 84 % of the time.
+import MosqueScreen from "../../../components/bonetider/MosqueScreen.astro";
+import Screen from "../../../layouts/Screen.astro";
+---
+
+<Screen title="Bönetider – skärm">
+	<main class="ms-frame">
+		<MosqueScreen />
+		<button class="ms-fullscreen" type="button">Helskärm</button>
+	</main>
+</Screen>
+
+<style>
+	.ms-frame {
+		position: relative;
+		width: 100vw;
+		height: 100dvh;
+		overflow: hidden;
+	}
+
+	/* The only control on the screen. It fades out with the cursor, because a wall
+	   display has no pointer and a button hanging in the corner for six months is
+	   furniture — but a browser will only grant fullscreen from a real gesture, so it
+	   cannot simply be asked for on load. */
+	.ms-fullscreen {
+		position: absolute;
+		inset-block-start: 1rem;
+		inset-inline-end: 1rem;
+		padding: 0.55rem 1rem;
+		border: 1px solid color-mix(in srgb, var(--screen-muted, #776d61), transparent 60%);
+		border-radius: var(--radius-pill);
+		background: color-mix(in srgb, var(--screen-bg, #fff6e8) 88%, transparent);
+		color: var(--screen-muted, #776d61);
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		letter-spacing: 0.04em;
+		cursor: pointer;
+		opacity: 1;
+		transition: opacity 400ms ease;
+	}
+
+	:global(body[data-idle="1"]) .ms-fullscreen {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	:global(body:fullscreen) .ms-fullscreen,
+	.ms-frame:fullscreen .ms-fullscreen {
+		opacity: 0;
+	}
+
+	/* A fullscreen element is painted on black by the UA unless it says otherwise. */
+	.ms-frame:fullscreen {
+		background: var(--screen-bg, #fff6e8);
+	}
+</style>
+
+<script>
+	import "../../../scripts/bonetider-skarm";
+</script>

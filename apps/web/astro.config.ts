@@ -995,6 +995,10 @@ export default defineConfig({
 			filter: (page) =>
 				!(
 					page.endsWith("/ratta/") ||
+					// The moskéskärm is a tool, not a page: the builder is noindex and the
+					// display carries no content of its own until a mosque puts its config in
+					// the fragment, which a crawler never sees.
+					page.includes("/bonetider/skarm") ||
 					oldPaths.some((p) => page.endsWith(`${p}/`) || page.endsWith(p))
 				),
 			serialize(item) {

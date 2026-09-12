@@ -18,6 +18,17 @@
 /og/*
   Cache-Control: public, max-age=86400
 
+# The moskéskärm hangs on a wall in a foyer and reloads itself in the small hours to pick
+# up a deploy. There is no service worker, so without this a reload during an outage — or
+# on a mosque's flaky wifi — lands on the browser's error page and the wall goes blank in
+# front of a congregation. stale-if-error serves the last good copy for a week instead, and
+# stale-while-revalidate keeps the reload instant. max-age stays short so a deploy is still
+# picked up the same night. One rule only: Pages MERGES the headers of every matching rule
+# and joins duplicates with a comma rather than picking a winner — and /* below
+# deliberately sets no Cache-Control, so there is nothing here to collide with.
+/bonetider/skarm/visa/
+  Cache-Control: public, max-age=600, stale-while-revalidate=604800, stale-if-error=604800
+
 # Baseline security headers for every response. (Cache-Control is intentionally left
 # to Cloudflare's default for HTML so content edits go live without a stale window.)
 #

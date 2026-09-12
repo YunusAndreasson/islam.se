@@ -456,19 +456,30 @@ function runTick(): void {
 	const minute = now.getHours() * 60 + now.getMinutes();
 	const repaint = minute !== lastMinute; // canvas + times only need per-minute refresh
 	lastMinute = minute;
-	// Iterate backwards so detached fields (after a view transition) can be pruned.
-	for (let i = instances.length - 1; i >= 0; i--) {
-		const inst = instances[i];
-		if (!inst) continue;
-		if (!inst.el.isConnected) {
-			visObserver?.unobserve(inst.el);
-			instances.splice(i, 1);
-			continue;
+	// The reschedule is in a `finally` because it is the clock's only heartbeat: this
+	// module is imported by the mast, so a single throw inside paint() — a font metric
+	// on a browser we have not seen, a canvas context lost to a GPU reset — would
+	// otherwise stop the next-prayer chip on EVERY page until the reader navigated,
+	// and a stopped clock showing a plausible time is indistinguishable from a
+	// working one. The throw still reaches window.onerror; only the silence is fixed.
+	// `lastMinute` is already consumed above, so a throwing paint is not retried 60
+	// times a minute — it is retried once, at the next minute boundary.
+	try {
+		// Iterate backwards so detached fields (after a view transition) can be pruned.
+		for (let i = instances.length - 1; i >= 0; i--) {
+			const inst = instances[i];
+			if (!inst) continue;
+			if (!inst.el.isConnected) {
+				visObserver?.unobserve(inst.el);
+				instances.splice(i, 1);
+				continue;
+			}
+			if (repaint) paint(inst, now);
+			else updateCountdownOnly(inst, now); // cheap per-second countdown (cached state)
 		}
-		if (repaint) paint(inst, now);
-		else updateCountdownOnly(inst, now); // cheap per-second countdown (cached state)
+	} finally {
+		scheduleTick();
 	}
-	scheduleTick();
 }
 
 function startClock(): void {

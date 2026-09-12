@@ -1,0 +1,485 @@
+---
+// The moskéskärm: today's prayer times for one mosque, on a 16:9 wall.
+//
+// THE COMPOSITION. Six prayers stand as one vertical rank, and the prayer that is next
+// is set about two and a half times larger IN PLACE, carrying its iqāma and its
+// countdown. Over the day the large row travels down the list and wraps back to Fajr.
+// Nothing is stated twice — there is no separate "next prayer" card repeating a row
+// below it — and the size difference is what lets the same screen be read at eight
+// metres while walking past and at three metres while waiting for the iqāma.
+//
+// Every other prayer-times display on the market renders six identical rounded cards.
+// This one has no cards, no boxes and no shadows: the rank is bare rows separated by
+// air, per DESIGN.md Principle 5, and the only rule on the whole screen is the hairline
+// under the date.
+//
+// THE MAP IS NOT DECORATION. Each row carries a left rule in that prayer's own colour
+// from solar/palette.ts — the exact stroke colour of its line on the canvas beside it.
+// So the eye links the swelling ʿAṣr row to the amber line sweeping across Sweden: the
+// map is the same data in another projection, keyed by colour. PrayerField.astro
+// already establishes this idiom for the small card.
+//
+// WHY THE MAP IS A TALL PANEL and not a full-bleed background or a bottom band:
+// neighbors-outline.ts is clipped to VIEW_BBOX [-8, 50, 30, 72], whose Mercator aspect
+// is about 0.68 — taller than wide. A wide band would either crop Sweden to a sliver or
+// float it in empty sea. The geometry is also the better design: a tall frame shows the
+// north–south extent that makes Swedish prayer times interesting at all, and the prayer
+// lines run roughly north–south, so a tall frame shows a line's whole length.
+//
+// SIZING IS IN CONTAINER-QUERY UNITS, not vh. That is what lets this exact component
+// render as a live miniature inside the setup page — the mosque sees what the wall will
+// show while it configures, which is the most useful thing the builder can do.
+import qrcode from "qrcode-generator";
+import { PRAYER_LABELS, PRAYER_ORDER, PRAYER_SWEDISH_NAMES } from "../../lib/bonetider/prayer-times";
+import { PRAYER_COLORS } from "../../lib/bonetider/solar/palette";
+
+interface Props {
+	/** The preview inside the builder is not the wall, and must not grab the wake lock,
+	 *  hide the cursor or schedule a reload. */
+	preview?: boolean;
+}
+
+const { preview = false } = Astro.props;
+
+// The one code on the screen that a phone can actually scan. A television has no
+// camera, so a QR is worthless for getting a URL ONTO the wall — but a foyer full of
+// people waiting for the iqāma is the best place on the internet to hand a Swedish
+// muslim a prayer-times app. It points at /app, which sends iOS and Android on to their
+// own stores, so one code serves both.
+//
+// Baked at build time into a single <path>: the URL never changes, and a wall display
+// that has been up for three weeks must not need a library, a canvas or a network to
+// draw it.
+const APP_URL = "https://islam.se/app";
+const qr = qrcode(0, "M");
+qr.addData(APP_URL);
+qr.make();
+const qrCount = qr.getModuleCount();
+let qrPath = "";
+for (let r = 0; r < qrCount; r++)
+	for (let c = 0; c < qrCount; c++) if (qr.isDark(r, c)) qrPath += `M${c} ${r}h1v1h-1z`;
+
+// Shurūq is in PRAYER_ORDER and takes a row — it is when Fajr ends, which a mosque
+// wants on the wall — but it is not prayed in congregation, so it never gets an iqāma.
+const rows = PRAYER_ORDER.map((key) => ({
+	key,
+	label: PRAYER_LABELS[key],
+	sv: PRAYER_SWEDISH_NAMES[key],
+	line: `light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`,
+}));
+---
+
+<div class="ms" class:list={{ "ms-preview": preview }} data-ready="0" data-preview={preview ? "1" : "0"}>
+	<header class="ms-id">
+		<p class="ms-mosque"></p>
+		<p class="ms-place"></p>
+	</header>
+
+	<p class="ms-when">
+		<time class="ms-date"></time>
+		<span class="ms-hijri"></span>
+	</p>
+
+	<ol class="ms-rank">
+		{
+			rows.map((r) => (
+				<li class="ms-row" data-prayer={r.key} style={`--prayer-line: ${r.line}`}>
+					<span class="ms-name">{r.label}</span>
+					<span class="ms-sv">{r.sv}</span>
+					<span class="ms-adhan"></span>
+					<span class="ms-iqama"></span>
+					<span class="ms-count"></span>
+				</li>
+			))
+		}
+	</ol>
+
+	<div class="ms-stage">
+		<canvas class="ms-canvas" aria-hidden="true"></canvas>
+	</div>
+
+	<p class="ms-notice"></p>
+
+	{/* The foot: the way to take the times home, and the one place the site names
+	    itself. A wall display is seen by people who have never heard of islam.se, and
+	    the mark is how they find it — but both stay the quietest things on the screen,
+	    because the times are why anyone looks. */}
+	<div class="ms-foot">
+		<div class="ms-app">
+			{/* Dark modules on a light tile in BOTH grounds. Inverting the code at night
+			    would be prettier against the near-black, and some scanners refuse an
+			    inverted code — ʿIshāʾ is exactly when the foyer is full, so this one is
+			    not worth the elegance. */}
+			<svg class="ms-qr" viewBox={`-2 -2 ${qrCount + 4} ${qrCount + 4}`} aria-hidden="true">
+				<rect x="-2" y="-2" width={qrCount + 4} height={qrCount + 4} rx="2" fill="#f4f1e8"></rect>
+				<path d={qrPath} fill="#1a1914"></path>
+			</svg>
+			<span class="ms-app-label">Bönetider<br />i mobilen</span>
+		</div>
+		<p class="ms-mark" aria-label="islam.se">
+			islam<svg class="ms-dot" viewBox="0 0 20 20" aria-hidden="true">
+				<circle cx="10" cy="10" r="9" fill="var(--mark-blue)"></circle>
+				<circle cx="10" cy="10" r="6.364" fill="var(--mark-gold)"></circle>
+			</svg>se
+		</p>
+	</div>
+
+	{/* Never a blank wall: a mangled URL says so, in Swedish, with the way back. */}
+	<p class="ms-issue" hidden></p>
+</div>
+
+<style>
+	/* The screen paints its own ground, tracking the sun over THIS mosque: parchment
+	   while the sun is up, warm near-black once it has set. These four are registered
+	   with @property so they can actually be transitioned — the site's palette is built
+	   on light-dark(), which keys off color-scheme and cannot be animated, so a bare
+	   theme swap would snap the whole wall between two grounds in one frame. Ninety
+	   seconds makes it imperceptible; what the room notices is that the screen is dark
+	   after maghrib, not the moment it changed.
+
+	   Values are the site's own: tokens.css --color-bg / --color-text / --color-muted /
+	   --color-brass, both halves. They are literals here for the same reason
+	   moskeer-map.ts holds literals — an animatable registered property needs a real
+	   initial value, not a reference. */
+	@property --screen-bg {
+		syntax: "<color>";
+		inherits: true;
+		initial-value: #fff6e8;
+	}
+	@property --screen-ink {
+		syntax: "<color>";
+		inherits: true;
+		initial-value: #1a1914;
+	}
+	@property --screen-muted {
+		syntax: "<color>";
+		inherits: true;
+		initial-value: #776d61;
+	}
+	@property --screen-brass {
+		syntax: "<color>";
+		inherits: true;
+		initial-value: #b8862f;
+	}
+
+	.ms {
+		container-type: size;
+		position: relative;
+		display: grid;
+		/* Asymmetric on purpose. The map takes 45 % of the width, which at 16:9 gives it
+		   almost exactly the 0.8 aspect VIEW_BBOX wants — so the panel reproduces the
+		   framing the site already draws on its city pages instead of cropping it. */
+		grid-template-columns: minmax(0, 1fr) 45%;
+		grid-template-rows: auto auto minmax(0, 1fr) auto;
+		grid-template-areas:
+			"id     stage"
+			"when   stage"
+			"rank   stage"
+			"notice brand";
+		column-gap: 4cqw;
+		row-gap: 0;
+		width: 100%;
+		height: 100%;
+		padding: 4cqh 4cqw;
+		background: var(--screen-bg);
+		color: var(--screen-ink);
+		font-family: var(--font-body);
+		/* Only the ground and the ink cross-fade. Everything else is instant, because
+		   the only other change on this screen is the rank's one reflow per prayer. */
+	}
+
+	/* A wall display shows the same layout for months. Stepping the whole composition
+	   through a few integer pixels once a minute is a compositor transform — the canvas
+	   never re-renders — and it is what stops an OLED panel retaining the rank. */
+	.ms {
+		transform: translate(var(--ms-shift-x, 0px), var(--ms-shift-y, 0px));
+		transition-property: --screen-bg, --screen-ink, --screen-muted, --screen-brass, transform;
+		/* --ms-fade starts at 0s and the engine raises it to 90s once the first ground is
+		   on screen. Otherwise a screen booted after maghrib starts parchment-bright in a
+		   dark prayer hall and spends a minute and a half fading down — the cross-fade is
+		   for the sun crossing the horizon, not for page load. */
+		transition-duration: var(--ms-fade, 0s), var(--ms-fade, 0s), var(--ms-fade, 0s),
+			var(--ms-fade, 0s), 2s;
+		transition-timing-function: linear, linear, linear, linear, ease-in-out;
+	}
+
+	/* One clean paint. The config lives in the URL hash, so the server cannot know which
+	   mosque this is; showing placeholder times for the wrong town for a frame would be
+	   worse than showing nothing for one. */
+	.ms[data-ready="0"] :is(.ms-id, .ms-when, .ms-rank, .ms-notice) {
+		visibility: hidden;
+	}
+
+	/* --- identity ------------------------------------------------------------ */
+
+	.ms-id {
+		grid-area: id;
+	}
+
+	.ms-mosque {
+		margin: 0;
+		font-size: 5.2cqh;
+		font-weight: 600;
+		line-height: 1.05;
+		letter-spacing: var(--tracking-display);
+		text-wrap: balance;
+	}
+
+	.ms-place {
+		margin: 0.6cqh 0 0;
+		font-family: var(--font-heading);
+		font-size: 2.4cqh;
+		font-weight: 400;
+		color: var(--screen-muted);
+	}
+
+	.ms-when {
+		grid-area: when;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0 1.6cqw;
+		align-items: baseline;
+		margin: 3.4cqh 0 0;
+		padding-bottom: 2.6cqh;
+		/* The only rule on the screen. Everything else is separated by air. */
+		border-bottom: 1px solid color-mix(in srgb, var(--screen-muted), transparent 70%);
+		font-family: var(--font-heading);
+		font-size: 2.5cqh;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.ms-hijri {
+		color: var(--screen-muted);
+	}
+
+	/* --- the rank of six ----------------------------------------------------- */
+
+	.ms-rank {
+		grid-area: rank;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0;
+		/* minmax(0,1fr) above lets the track shrink; this lets the flex column shrink
+		   inside it. Without both, six rows — one of them 11.5cqh tall — push the notice
+		   and the islam.se mark off the bottom of the wall. */
+		min-height: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.ms-row {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		grid-template-areas:
+			"name  .      adhan"
+			"sv    .      iqama"
+			"count count  count";
+		align-items: baseline;
+		column-gap: 2cqw;
+		padding: 1.15cqh 0 1.15cqh 1.6cqw;
+		/* The row's own prayer colour, the same stroke the canvas draws for it. This is
+		   the whole link between the two halves of the screen. */
+		border-left: 0.35cqh solid var(--prayer-line);
+		/* The one reflow on the screen, once per prayer: the rank re-proportions as the
+		   emphasis travels down it. It is not decoration — it IS the status change. */
+		transition:
+			padding 800ms ease,
+			opacity 600ms ease;
+	}
+
+	.ms-name {
+		grid-area: name;
+		font-size: 3.4cqh;
+		font-weight: 500;
+		line-height: 1.1;
+	}
+
+	.ms-sv,
+	.ms-count {
+		display: none;
+	}
+
+	.ms-adhan {
+		grid-area: adhan;
+		font-size: 4.2cqh;
+		font-weight: 500;
+		font-variant-numeric: lining-nums tabular-nums;
+		line-height: 1.05;
+	}
+
+	.ms-iqama {
+		grid-area: iqama;
+		font-family: var(--font-heading);
+		font-size: 2.4cqh;
+		font-variant-numeric: lining-nums tabular-nums;
+		/* Brass is the site's data colour and this is the one number on the screen that
+		   is the mosque's own decision rather than the sun's. */
+		color: var(--screen-brass);
+		text-align: right;
+	}
+
+	.ms-iqama:empty {
+		display: none;
+	}
+
+	/* The next prayer. Everything that makes it the hero happens here, in place. */
+	.ms-row[data-next="1"] {
+		padding-block: 2.4cqh;
+	}
+
+	.ms-row[data-next="1"] .ms-name {
+		font-size: 7cqh;
+		font-weight: 600;
+		letter-spacing: var(--tracking-display);
+	}
+
+	.ms-row[data-next="1"] .ms-sv {
+		display: block;
+		grid-area: sv;
+		font-family: var(--font-heading);
+		font-size: 2.3cqh;
+		color: var(--screen-muted);
+	}
+
+	.ms-row[data-next="1"] .ms-adhan {
+		font-size: 11.5cqh;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+	}
+
+	.ms-row[data-next="1"] .ms-iqama {
+		font-size: 4.6cqh;
+	}
+
+	.ms-row[data-next="1"] .ms-count {
+		display: block;
+		grid-area: count;
+		margin-top: 0.8cqh;
+		font-family: var(--font-heading);
+		font-size: 3cqh;
+		color: var(--screen-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	/* --- the map ------------------------------------------------------------- */
+
+	.ms-stage {
+		grid-area: stage;
+		position: relative;
+		min-width: 0;
+		min-height: 0;
+	}
+
+	.ms-canvas {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border-radius: var(--radius-md);
+	}
+
+	/* --- the foot ------------------------------------------------------------ */
+
+	.ms-notice,
+	.ms-foot {
+		margin: 3cqh 0 0;
+		font-family: var(--font-heading);
+		font-size: 2.2cqh;
+		color: var(--screen-muted);
+	}
+
+	.ms-notice {
+		grid-area: notice;
+		align-self: end;
+	}
+
+	.ms-foot {
+		grid-area: brand;
+		align-self: end;
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 2cqw;
+	}
+
+	.ms-app {
+		display: flex;
+		align-items: center;
+		gap: 1.2cqw;
+	}
+
+	/* Small enough to stay an offer rather than an advert — about 4 cm on a 55-inch
+	   panel, which a phone reads from across the farstun. */
+	.ms-qr {
+		width: 8cqh;
+		height: 8cqh;
+		flex: none;
+		/* 25 modules across ~86 px: without this the module edges land on fractions of
+		   a pixel, the code greys at its own scale and a phone hunts for it. */
+		shape-rendering: crispEdges;
+	}
+
+	.ms-app-label {
+		font-size: 1.8cqh;
+		line-height: 1.25;
+		letter-spacing: 0.02em;
+	}
+
+	.ms-mark {
+		margin: 0;
+		display: inline-flex;
+		align-items: baseline;
+		letter-spacing: 0.08em;
+		font-weight: 500;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+	}
+
+	.ms-dot {
+		width: 0.82em;
+		height: 0.82em;
+		margin-inline: 0.15em;
+		/* Derived from Source Sans 3's 0.660em cap height — recompute if the size moves
+		   (the same note layout.css keeps on .wordmark-dot). */
+		transform: translateY(0.08em);
+	}
+
+	/* --- the quiet state ----------------------------------------------------- */
+
+	/* At the iqāma the row being prayed simply stays where it is and says so, while the
+	   rest of the rank falls back to a whisper. An overlay was tried first and was
+	   wrong twice over: it printed the prayer's name a second time on a screen whose
+	   whole premise is that nothing is stated twice, and it landed on top of the
+	   receded rank. Doing it in place needs no new element, cannot collide, and keeps
+	   the reading "this row is the one that matters" that the screen already teaches. */
+	.ms[data-quiet="1"] .ms-row:not([data-praying="1"]) {
+		opacity: 0.12;
+	}
+
+	/* Nothing offers anybody anything while the room is praying. */
+	.ms[data-quiet="1"] .ms-app {
+		opacity: 0.12;
+	}
+
+	/* --- when something was wrong with the link ------------------------------ */
+
+	.ms-issue {
+		position: absolute;
+		inset-block-end: 1cqh;
+		inset-inline-start: 4cqw;
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: 1.9cqh;
+		color: var(--screen-muted);
+	}
+
+	/* A screen is watched by people who did not choose to watch it. */
+	@media (prefers-reduced-motion: reduce) {
+		.ms,
+		.ms-row,
+		.ms-rank {
+			transition: none;
+		}
+	}
+</style>
