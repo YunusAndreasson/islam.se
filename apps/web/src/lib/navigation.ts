@@ -105,6 +105,12 @@ const pages = {
 		menuSub: "Världsnyheter på svenska.",
 		sub: "Världsnyheter på svenska, levererade av zuhd.news och uppdaterade flera gånger om dagen.",
 	},
+	aiBarometern: {
+		href: "/ai-barometern/",
+		label: "AI-barometern",
+		menuSub: "Vad AI-modellerna svarar, mätning för mätning.",
+		sub: "Vad ChatGPT, Claude, Gemini, Grok och DeepSeek svarar om klimatet, AI, krig och tro, varje månad.",
+	},
 	podcast: {
 		href: "/podcast/",
 		label: "Podd",
@@ -153,16 +159,50 @@ const pages = {
  *  second tier is that this one stays short enough to read at a glance. */
 export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.essaer];
 
-/** The utility group — what the site DOES for you. Errands, not reading. Same row
- *  as the sections, set quieter and behind a hairline, so the mast reads as one
+/** The utility group — what the site DOES for you rather than an essay to read. Same
+ *  row as the sections, set quieter and behind a hairline, so the mast reads as one
  *  line with two registers rather than two rows of unequal length.
+ *
+ *  AI-barometern is here and not in tier 1: it is a standing instrument, measured
+ *  every month, and the three sections above stay about presenting Islam.
+ *
+ *  PODD LEFT THE MAST (2026-09-13) to make that room. The row is still three and
+ *  three: one link was exchanged, so no page lost a path. A listener finds the
+ *  podcast where they already are — beside »Lyssna« on every read essay, in the
+ *  book-and-podcast close of the front page — and it keeps its footer and palette
+ *  links on every page.
  *
  *  App is NOT here. The app IS prayer times — that is its whole first screen — and
  *  <AppPromo> already runs on /bonetider/, on all 2 128 city pages and on
  *  /bonetider/metod/. A standing mast link sent the reader to a promo page for
  *  something the page they were already on offers them. It keeps its page, its
  *  palette entry and those promos. */
-export const MAST_UTILITY_LINKS: NavLink[] = [pages.prayerTimes, pages.mosques, pages.podcast];
+export const MAST_UTILITY_LINKS: NavLink[] = [pages.prayerTimes, pages.mosques, pages.aiBarometern];
+
+/** The front page's doorways (index.astro), which touch screens and narrow windows get under the
+ *  lead essay in place of the mast's inline links. Built FROM the mast arrays, so the two cannot
+ *  disagree: the hand-typed row this replaces still listed Podd's old neighbours after
+ *  AI-barometern took Podd's place in the mast. */
+const PAGE_BY_HREF = new Map<string, (typeof pages)[keyof typeof pages]>(
+	Object.values(pages).map((page) => [page.href, page]),
+);
+
+export const HOME_DOORWAYS: PaletteNavLink[] = [...MAST_SECTION_LINKS, ...MAST_UTILITY_LINKS].map(
+	(link) => {
+		const page = PAGE_BY_HREF.get(link.href);
+		const sub = page ? ("menuSub" in page ? page.menuSub : "sub" in page ? page.sub : "") : "";
+		return { href: link.href, label: link.label, sub };
+	},
+);
+
+/** The front page's »Praktiskt« movement (PraktisktHome.astro): what the site does for a reader
+ *  besides the reading, including the two the mast has no room for. */
+export const HOME_TOOL_LINKS: PaletteNavLink[] = [
+	pages.prayerTimes,
+	pages.mosques,
+	pages.mosqueScreen,
+	pages.app,
+].map(({ href, label, menuSub }) => ({ href, label, sub: menuSub }));
 
 export const PALETTE_READ_LINKS: PaletteNavLink[] = [
 	{ href: pages.pillars.href, label: pages.pillars.label, sub: pages.pillars.menuSub },
@@ -178,6 +218,12 @@ export const PALETTE_READ_LINKS: PaletteNavLink[] = [
 export const PALETTE_TOOL_LINKS: PaletteNavLink[] = [
 	{ href: pages.prayerTimes.href, label: pages.prayerTimes.label, sub: pages.prayerTimes.menuSub },
 	{ href: pages.mosques.href, label: pages.mosques.label, sub: pages.mosques.menuSub },
+	// Third, as in the mast, so the menu a phone opens lists what the desktop row shows.
+	{
+		href: pages.aiBarometern.href,
+		label: pages.aiBarometern.label,
+		sub: pages.aiBarometern.menuSub,
+	},
 	{ href: pages.app.href, label: pages.app.label, sub: pages.app.menuSub },
 	{ href: pages.podcast.href, label: pages.podcast.label, sub: pages.podcast.menuSub },
 	{ href: pages.nyheter.href, label: pages.nyheter.label, sub: pages.nyheter.menuSub },
@@ -213,6 +259,7 @@ export const FOOTER_GROUPS: { heading: string; links: NavLink[] }[] = [
 			{ ...pages.calendar, label: pages.calendar.footerLabel },
 			pages.podcast,
 			pages.nyheter,
+			pages.aiBarometern,
 		],
 	},
 	{ heading: "Om islam.se", links: [pages.about, pages.editorial, pages.ai, pages.privacy] },
@@ -232,6 +279,7 @@ export const STANDING_PALETTE_PAGES: PalettePageLink[] = [
 	{ href: pages.app.href, label: pages.app.label, sub: pages.app.sub, alt: "Appen" },
 	pages.podcast,
 	pages.nyheter,
+	{ ...pages.aiBarometern, alt: "AI barometer ChatGPT Claude Gemini Grok DeepSeek" },
 	pages.about,
 	pages.ai,
 	pages.home,

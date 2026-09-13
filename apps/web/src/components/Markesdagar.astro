@@ -80,13 +80,18 @@ const rows = events.map((e) => {
 	   :global() on the sibling because it belongs to Nyheter.astro — a scoped
 	   selector would be rewritten with this component's id and never match.
 
-	   ⚠️ `~`, not `+`. Astro emits the news component's hoisted
-	   <script type="module"> between the </aside> and this <section> — in the dev
+	   ⚠️ `~`, not `+`. Astro emits the news component's hoisted module script
+	   between its closing aside and this section — in the dev
 	   server AND in the built output, verified in dist/index.html — so the
 	   adjacent-sibling combinator matches nothing at all and the bug survives in
 	   exactly the place someone would go looking for it. The general sibling
-	   combinator does not care what the bundler puts in the gap. */
-	:global(.nyheter-rail[hidden]) ~ .markesdagar-rail {
+	   combinator does not care what the bundler puts in the gap.
+
+	   The AI-barometern block (BarometerRail.astro) sits between the two when it has a
+	   finding, and then IT is the top of the track: this block keeps its seam, which is
+	   what the :not() says. Wholly :global so the scoping pass never has to rewrite a
+	   complex selector inside :not(). */
+	:global(.nyheter-rail[hidden] ~ .markesdagar-rail:not(.barometer-rail ~ .markesdagar-rail)) {
 		margin-top: 0;
 		padding-top: 0;
 		border-top: 0;

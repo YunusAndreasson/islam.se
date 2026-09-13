@@ -146,11 +146,14 @@ const structuredArticle = {
 			)}
 
 			{article.audioFile && (
-				<AudioPlayer
-					src={`/audio/${article.audioFile}`}
-					title={article.title}
-					{...(article.heroImage ? { artwork: article.heroImage.src } : {})}
-				/>
+				<div class="article-listen">
+					<AudioPlayer
+						src={`/audio/${article.audioFile}`}
+						title={article.title}
+						{...(article.heroImage ? { artwork: article.heroImage.src } : {})}
+					/>
+					<a class="article-listen-more" href="/podcast/">Fler upplästa essäer i podden</a>
+				</div>
 			)}
 
 			<ArticleBody headings={headings}>
@@ -220,6 +223,36 @@ const structuredArticle = {
 		.article-hero {
 			margin-bottom: var(--space-unit);
 		}
+	}
+
+	/* The listen control, and beside it the way to the rest of the podcast. The mast's
+	   Podd link moved here (2026-09-13, see MAST_UTILITY_LINKS): this is the one place a
+	   reader has just shown that they listen. The row carries the spacing the button
+	   had on its own. */
+	.article-listen {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem 1.25rem;
+		margin-block-end: var(--space-unit);
+	}
+
+	.article-listen :global(.audio-trigger) {
+		margin: 0;
+	}
+
+	.article-listen-more {
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--text-quiet);
+		text-decoration: underline;
+		text-decoration-color: var(--color-divider);
+		text-underline-offset: 0.2em;
+	}
+
+	.article-listen-more:hover {
+		color: var(--color-text);
+		text-decoration-color: currentColor;
 	}
 
 	/* "Continue where you left off" — appears only when this essay was left

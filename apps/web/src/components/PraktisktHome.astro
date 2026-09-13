@@ -1,0 +1,118 @@
+---
+// PRAKTISKT — what the site does for a reader besides the reading, as the front page's last
+// movement before the book.
+//
+// Text only, and that is the design rather than a shortfall. Everything above it is one
+// photograph after another, and the tools keep their pictures where they are used: the solar
+// map on /bonetider/, the mosque map, the wall display. A prayer map on the front page was built
+// once and removed (PrayerStrip and BonetiderHome, e9d511d) — the mast's prayer chip carries the
+// live time on every page — so this movement names the four tools and gives each one line.
+//
+// Without it a desktop reader met the moskéskärm and the app only in the footer: the mast has
+// room for Bönetider and Moskéer and nothing else from this list.
+//
+// The Bönetider line is live without any new script. It is a `.bonetider-strip`, which
+// scripts/bonetider-field.ts (loaded by the Header on every page) mounts beside the mast chip
+// and rewrites for the reader's saved place and the real now. The build writes the same
+// Stockholm baseline the mast does, so the served HTML is already a true sentence.
+import { getBurialGrounds } from "../lib/begravningsplatser";
+import {
+	computePrayerTimes,
+	formatTime,
+	nextPrayerKeyAt,
+	PRAYER_LABELS,
+} from "../lib/bonetider/prayer-times";
+import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
+import { getMosques } from "../lib/moskeer";
+import { HOME_TOOL_LINKS } from "../lib/navigation";
+
+const now = new Date();
+const times = computePrayerTimes(DEFAULT_COORDS, now, DEFAULT_SETTINGS);
+const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
+
+const count = new Intl.NumberFormat("sv-SE");
+// The map's two layers, counted from the same data the map draws.
+const mapLine = `${count.format(getMosques().length)} moskéer och ${count.format(getBurialGrounds().length)} muslimska gravkvarter på en karta.`;
+---
+
+<section class="praktiskt-home home-movement" aria-labelledby="praktiskt-home-rubrik">
+	<h2 class="label home-kicker" id="praktiskt-home-rubrik">Praktiskt</h2>
+
+	<ul class="praktiskt-lista">
+		{
+			HOME_TOOL_LINKS.map((tool) => (
+				<li class="praktiskt-rad">
+					<a class="praktiskt-namn" href={tool.href}>
+						{tool.label}
+					</a>
+					{tool.href === "/bonetider/" ? (
+						<p
+							class="praktiskt-text bonetider-strip"
+							data-name={DEFAULT_COORDS.name}
+							data-lat={DEFAULT_COORDS.latitude}
+							data-lon={DEFAULT_COORDS.longitude}
+							data-variant="strip"
+							data-fixed="0"
+						>
+							Nästa bön <span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>{" "}
+							<span class="bf-next-time">{formatTime(times[nextKey])}</span> i{" "}
+							<span class="bf-place">{DEFAULT_COORDS.name}</span>.
+						</p>
+					) : (
+						<p class="praktiskt-text">{tool.href === "/moskeer/" ? mapLine : tool.sub}</p>
+					)}
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	/* Two by two where there is room, one column on a phone. Not auto-fit: across the 64rem
+	   canvas an 18rem minimum makes three tracks, and four tools in three tracks leaves one
+	   alone on a row. */
+	.praktiskt-lista {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		column-gap: clamp(1.75rem, 4vw, 3.5rem);
+		margin: 0;
+		padding: 0;
+	}
+
+	@media (width >= 40rem) {
+		.praktiskt-lista {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	/* A hairline under each row, the reference idiom FaktaBand's lists already use. */
+	.praktiskt-rad {
+		padding-block: var(--space-half);
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.praktiskt-namn {
+		font-size: var(--step-0);
+		font-weight: 600;
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.praktiskt-namn:hover {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+	}
+
+	.praktiskt-text {
+		margin: 0.15rem 0 0;
+		font-size: var(--step--2);
+		line-height: 1.45;
+		color: var(--text-quiet);
+		text-wrap: pretty;
+	}
+
+	.bf-next-time {
+		font-variant-numeric: tabular-nums;
+	}
+</style>

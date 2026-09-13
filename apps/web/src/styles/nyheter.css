@@ -201,12 +201,11 @@
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: var(--space-phi);
-	/* The act boundary, moved here from `.home > .amnen`.
-	   That selector gives the homepage's act openers their φ³ top margin, and it
-	   is a CHILD selector — nesting Ämnen inside this grid silently took it away,
-	   so the reference tail lost the gap that marks it as a new act. Restoring it
-	   on the wrapper keeps the page's four-act rhythm intact. */
-	margin-block: var(--space-phi3) var(--space-phi2);
+	/* One movement gap either side: the --space-section every `.home-movement` gets
+	   from editorial.css. This carried φ³ above and φ² below as an act boundary;
+	   editorial.css overrode the top and left the bottom, so the grid alone sat a
+	   larger step off the page's rhythm below it. */
+	margin-block: var(--space-section);
 }
 
 /* Both tracks start on the same line.
@@ -239,6 +238,17 @@
 	.home-sidolinje {
 		order: -1;
 		margin-block: var(--space-phi);
+	}
+}
+
+/* Five headlines on one column, where the rail stands ABOVE the departments instead
+   of beside them: twelve rows plus the two blocks under them came to 1 383px of
+   phone before the first ämne. The column is a selection either way, and »Alla
+   nyheter« sits directly under it. The rows are `li.nyhet--rail`, written straight
+   into the <ol> by functions/nyheter/_nyheter.js. */
+@media (width < 60rem) {
+	.home-sidolinje .nyhet--rail:nth-child(n + 6) {
+		display: none;
 	}
 }
 

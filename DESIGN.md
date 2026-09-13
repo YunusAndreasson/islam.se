@@ -24,7 +24,7 @@ Artwork gives each essay its emotional register. Preserve the commissioned, essa
 
 ### The Startpage
 
-Keep the current editorial sequence: lead essay, two secondary essays, topic departments with a news/calendar rail, facts about Islam, deeper explanations, reading threads, thinkers, and the book/podcast. The lead remains the dominant image. Mobile browsing links sit below it. Do not replace this publication with a generic promotional landing page or reorder its priorities without a product decision.
+Keep the current editorial sequence: lead essay, two secondary essays, topic departments with a rail beside them, facts about Islam, deeper explanations, reading threads, thinkers, the practical tools, and the book/podcast. The lead remains the dominant image. The rail runs by cadence: the last day's news, the month's AI-barometern finding (drawn with the barometer's own chips, never a finding about the classical position), then the islamic year. The practical tools (bönetider with the reader's next prayer, moskéer and gravkvarter, moskéskärm, app) are one text-only row, with no map or canvas. Both were added by product decision on 2026-09-13. Mobile browsing links sit below it. Do not replace this publication with a generic promotional landing page or reorder its priorities without a product decision.
 
 Use three image roles: wide feature, 3:2 collection card, compact thumbnail. Keep consistent crops within each role. The photograph has its own space; titles and introductions remain readable outside it. Quiet tonal treatment is sufficient: no competing lift, zoom, and vignette animation.
 

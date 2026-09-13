@@ -1,5 +1,6 @@
 ---
 import AmnenHome from "../components/AmnenHome.astro";
+import BarometerRail from "../components/ai-barometern/BarometerRail.astro";
 import BookPod from "../components/BookPod.astro";
 import EssayList from "../components/EssayList.astro";
 import FaktaBand from "../components/FaktaBand.astro";
@@ -7,6 +8,7 @@ import FeatureEssay from "../components/FeatureEssay.astro";
 import FordjupningHome from "../components/FordjupningHome.astro";
 import Markesdagar from "../components/Markesdagar.astro";
 import Nyheter from "../components/Nyheter.astro";
+import PraktisktHome from "../components/PraktisktHome.astro";
 import TankareGroups from "../components/TankareGroups.astro";
 import TradarHome from "../components/TradarHome.astro";
 import { getImage } from "astro:assets";
@@ -14,6 +16,7 @@ import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
 import { dagstampel } from "../lib/dagstampel";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
+import { HOME_DOORWAYS } from "../lib/navigation";
 
 const articles = await getArticles();
 
@@ -97,71 +100,43 @@ const heroPreload = feature?.heroImage
 			</p>
 		</div>
 
-		{/* Four acts, in this order and for this reason:
+		{/* The sequence, in this order and for this reason (DESIGN.md, »The Startpage«):
 
-		      I   det nya        the lead, the second tier, the departments and the
-		                         sidolinje beside them — what has happened here and
-		                         in the world since the reader last looked
-		      II  vad är islam   the pillars and the articles of faith, then the
-		                         fördjupningar — the encyclopedia, which is the
-		                         larger half of the site and used to be its tail
-		      III vägar in       trådar and tänkare: ways THROUGH the corpus, which
-		                         only mean something once the corpus has been shown
-		      IV  avslut         the book and the podcast
+		      det nya        the lead, the second tier, the departments and the rail
+		                     beside them — what has happened here and in the world
+		                     since the reader last looked
+		      vad är islam   the pillars and the articles of faith, then the
+		                     fördjupningar — the encyclopedia, which is the larger
+		                     half of the site and used to be its tail
+		      vägar in       trådar and tänkare: ways THROUGH the corpus, which only
+		                     mean something once the corpus has been shown
+		      avslut         what the site does besides the reading, then the book
+		                     and the podcast
 
-		    Everything else is reached from the doorways, the mast and the palette. */}
+		    Every movement is one --space-section apart (editorial.css); the groups
+		    read by their kickers and their content, not by a larger gap. Everything
+		    else is reached from the doorways, the mast and the palette. */}
 		{feature && <FeatureEssay article={feature} />}
 
 		{/* Below the feature, not above it. These render only where the mast's inline
-		    links are hidden — i.e. on touch — and there the descriptions are hidden too,
-		    so what a phone actually got was four bare labels stacked under a mast that
-		    already carries a MENY trigger 40 px above them: a menu rendered as content,
-		    duplicating an adjacent affordance, ahead of the photograph. The orientation
-		    line above still tells a cold visitor what this is; wayfinding follows the
-		    thesis. (Desktop is unchanged — they were never displayed there.) */}
+		    links are hidden — i.e. on touch and under 900px — and there the mast
+		    already carries a MENY trigger 40 px above them, so they follow the
+		    thesis rather than stand as a menu ahead of the photograph. (Desktop is
+		    unchanged — they were never displayed there.)
+
+		    Built from HOME_DOORWAYS, which navigation.ts derives from the mast's own
+		    two link groups. The hand-typed row that stood here still listed five
+		    doorways after AI-barometern joined the mast, so a phone was the one
+		    place the section could not be found without opening the menu. */}
 		<nav class="home-pillars" aria-label="Sajtens huvudingångar">
-			<a class="home-pillar" href="/vad-ar-islam/">
-				<span class="home-pillar-title">Pelare &amp; tro</span>
-				<span class="home-pillar-desc">Vad är islam – tron och de fem pelarna</span>
-			</a>
-			<a class="home-pillar" href="/svar/">
-				<span class="home-pillar-title">Frågor &amp; svar</span>
-				<span class="home-pillar-desc">Svar på vanliga frågor om islam</span>
-			</a>
-			<a class="home-pillar" href="/essaer/">
-				<span class="home-pillar-title">Essäer</span>
-				<span class="home-pillar-desc">Islamisk tradition och svenskt kulturarv</span>
-			</a>
-			<a class="home-pillar" href="/bonetider/">
-				<span class="home-pillar-title">Bönetider</span>
-				<span class="home-pillar-desc">Dagens tider för hela Sverige</span>
-			</a>
-			<a class="home-pillar" href="/moskeer/">
-				<span class="home-pillar-title">Moskéer</span>
-				<span class="home-pillar-desc">Karta över Sveriges moskéer</span>
-			</a>
+			{HOME_DOORWAYS.map((link) => (
+				<a class="home-pillar" href={link.href}>
+					<span class="home-pillar-title">{link.label}</span>
+					<span class="home-pillar-desc">{link.sub}</span>
+				</a>
+			))}
 		</nav>
 
-		{/* Rank 3, and the act boundary — now paired with the sidolinje.
-
-		    The rail runs beside Ämnen and nothing else, which is a measurement
-		    rather than a preference. Beside the whole act it left 1 990px of empty
-		    column: the movements stack to 2 878px and a ten-row rail is 888px, so
-		    two thirds of the act was a narrow main column hugging the left edge of
-		    a 64rem canvas. It also cost the rank-2 essays a third of their width —
-		    two cards at ~310px each, decks truncated — which inverts the very
-		    hierarchy the rail is supposed to sit under.
-
-		    Ämnen is the right partner: it is the tallest movement on the page, so
-		    the two tracks end near each other, and its thumbnail rows carry their
-		    own right-hand whitespace, so a narrower measure costs them nothing.
-		    Trådar and Tänkare stay full width deliberately — Tänkare is a two-
-		    facing-column composition and squeezing it into 655px would break the
-		    device that makes it an argument.
-
-		    Under 60rem the grid collapses and the rail takes `order: -1`, landing
-		    directly under the feature: a 17rem column of headlines is a rail on a
-		    laptop and a cramped mess on a phone. */}
 		{/* Rank 2. Two, never auto-fill: a tier of four is a feed again. */}
 		{secondTier.length > 0 && (
 			<section class="home-second home-movement" aria-label="Fler essäer">
@@ -169,31 +144,44 @@ const heroPreload = feature?.heroImage
 			</section>
 		)}
 
-		{/* Rank 3, and the act boundary. The seven ämnen have carried an authored
-		    framing line since the taxonomy was built and no reader has ever seen one:
-		    the front page named no section at all. Three departments here, the rest
-		    behind /amnen/.
+		{/* Rank 3: three departments, and the rail beside them.
 
-		    `art` runs the rows with their hero thumbnails and lets a department
-		    prefer its illustrated essays. Rank is still carried by size and by the
-		    rules above — the lead bleeds past the canvas, the tier runs two cards,
-		    and these are 7rem thumbs on a row — so the page does not flatten into
-		    three tiers of the same picture. */}
+		    The seven ämnen have carried an authored framing line since the taxonomy
+		    was built; three departments show here and the rest are grouped on
+		    /essaer/. `art` runs the rows with their hero thumbnails and lets a
+		    department prefer its illustrated essays. Rank is still carried by size —
+		    the lead bleeds past the canvas, the tier runs two cards, and these are
+		    thumbs on a row — so the page does not flatten into three tiers of the
+		    same picture.
+
+		    The rail runs beside Ämnen and nothing else, which is a measurement rather
+		    than a preference. Beside the whole act it left 1 990px of empty column
+		    and cost the rank-2 essays a third of their width. Ämnen is the tallest
+		    movement on the page, so the two tracks end near each other; Trådar and
+		    Tänkare stay full width, since Tänkare is a two-facing-column composition
+		    that 655px would break.
+
+		    Under 60rem the grid collapses and the rail takes `order: -1`, landing
+		    directly under the second tier: a 17rem column of headlines is a rail on
+		    a laptop and a cramped mess on a phone. */}
 		<div class="home-akt2">
 			<div class="home-akt2-huvud">
 				<AmnenHome limit={3} exclude={used} art />
 			</div>
 
-			{/* The sidolinje: two blocks, one track. The news is quoted material and
-			    the calendar is ours — see Markesdagar.astro for why they sit together
-			    and how the seam between them is drawn. */}
+			{/* The rail, by cadence: the last day's news, this month's AI-barometern
+			    finding, the islamic year. The news is quoted material and speaks in the
+			    sans; the other two are the site's own and each sits under its own kicker
+			    and rule. The seams, and why a hidden news block must not leave a rule
+			    above nothing, are in Markesdagar.astro and BarometerRail.astro. */}
 			<div class="home-sidolinje">
 				<Nyheter />
+				<BarometerRail />
 				<Markesdagar />
 			</div>
 		</div>
 
-		{/* AKT II — the encyclopedic half, and the page's second thesis.
+		{/* The encyclopedic half, and the page's second thesis.
 
 		    This band used to stand at position six of eight, below Trådar and
 		    Tänkare, on the argument that "the opening screen is a composed spread
@@ -208,8 +196,9 @@ const heroPreload = feature?.heroImage
 		    A reader arriving cold from "vad är islam" met a magazine and had to
 		    scroll past most of it to reach the encyclopedia. That is not a balance
 		    between the site's two halves; it is one half with the other in a
-		    footnote. The act boundary above (φ³, see layout.css) is what now marks
-		    the turn from the newest work to what Islam is. */}
+		    footnote. Nothing new may go above this band without measuring that
+		    again — which is why AI-barometern joined the rail instead of standing
+		    as a movement of its own. */}
 		<FaktaBand />
 
 		{/* Fördjupning had NO front-page presence whatsoever — fifteen pillar pages
@@ -219,11 +208,11 @@ const heroPreload = feature?.heroImage
 		    taken all the way down. */}
 		<FordjupningHome />
 
-		{/* AKT III — the two curated axes through the corpus. Both are first-class
-		    authored data — the trådar carry framing prose, the tänkare are derived
-		    from the essay bodies — and both were reachable only from the footer.
+		{/* The two curated axes through the corpus. Both are first-class authored
+		    data — the trådar carry framing prose, the tänkare are derived from the
+		    essay bodies — and both were reachable only from the footer.
 
-		    Below the reference act now, which is where a way-through belongs: the
+		    Below the reference movements, which is where a way-through belongs: the
 		    reader has to have been shown the work before a path through it means
 		    anything. */}
 		<TradarHome limit={3} />
@@ -234,11 +223,18 @@ const heroPreload = feature?.heroImage
 		    argument. It owns its own movement and head-row when `limit` is set. */}
 		<TankareGroups limit={6} />
 
-		{/* AKT IV — the coda. `Det islamiska året` used to stand here; it moved into
-		    the news rail, where the page's live layer belongs and where it fills a
-		    column that was 1 400px of nothing. Nothing was lost in the move: both of
-		    its authored standing-fast lines already appear verbatim on
-		    /det-islamiska-aret/, which the rail links straight to. */}
+		{/* The close, first half: what the site does besides the reading — bönetider
+		    with the reader's own next prayer, the map of mosques and burial grounds,
+		    the moskéskärm and the app. At desktop widths the mast names only the first
+		    two, so a reader who never opened the menu met the other two in the footer.
+		    Text only; see PraktisktHome.astro for why there is no map here. */}
+		<PraktisktHome />
+
+		{/* The close, second half: the book and the podcast. The podcast left the mast
+		    on 2026-09-13 to make room for AI-barometern; this is its place on the front
+		    page. `Det islamiska året` used to stand here too; it moved into the rail,
+		    where the page's live layer belongs, and both of its authored standing-fast
+		    lines already appear verbatim on /det-islamiska-aret/. */}
 		<BookPod count={articles.length} variant="home" />
 	</main>
 </Base>
@@ -275,7 +271,7 @@ const heroPreload = feature?.heroImage
 	   the median deck (~270 characters) about four fifths of the way through, which
 	   is the worst place to stop: long enough that the reader commits to the
 	   sentence, short enough that it never arrives. The fourth line costs ~25px of
-	   a card that has nothing under it but the act boundary. */
+	   a card that has nothing under it but the rule of the next movement. */
 	.home-second :global(.essay-card .essay-card-desc) {
 		font-size: var(--step--1);
 		-webkit-line-clamp: 4;
@@ -311,8 +307,8 @@ const heroPreload = feature?.heroImage
 	   .site-header::after lays a 1.5rem background-to-transparent fade over the top
 	   of <main>, and anything flush against it gets washed out.
 
-	   No bottom margin, because it would never be seen — the feature's own φ²
-	   top margin collapses through it. Which is also why the day-stamp is close to
+	   No bottom margin, because it would never be seen — the feature's own top
+	   margin collapses through it. Which is also why the day-stamp is close to
 	   free: the block grows by the stamp's own line and nothing more. */
 	.home-masthead {
 		margin: var(--space-unit) 0 0;
@@ -352,18 +348,20 @@ const heroPreload = feature?.heroImage
 		text-wrap: balance;
 	}
 
-	/* Primary doorways — a calm four-up of the site's highest-intent destinations,
-	   set in the site voice (heading link + a muted line), whitespace-grouped rather
-	   than boxed. The feature's own φ² top margin carries the gap down to it.
+	/* The doorways — the mast's six destinations, set in the site voice (heading
+	   link + a muted line), whitespace-grouped rather than boxed.
 
 	   Shown ONLY where the mast's inline links are hidden — on touch/coarse pointers
 	   and below 900px, the same conditions the header uses to collapse its nav into
 	   the "Meny" trigger. On a wide pointer screen those links are already visible in
 	   the mast, so this row would just echo the menu directly beneath it; there it is
-	   hidden. (The links stay in the DOM either way, so crawlers still see them.) */
+	   hidden. (The links stay in the DOM either way, so crawlers still see them.)
+
+	   Three to a row, two on a phone — never auto-fit: six doorways at an 11rem
+	   minimum drew five on a tablet and left the sixth alone on a row. */
 	.home-pillars {
 		display: none;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: var(--space-unit) clamp(1.25rem, 3vw, 2.75rem);
 		margin: 0;
 	}
@@ -385,6 +383,12 @@ const heroPreload = feature?.heroImage
 		}
 	}
 
+	@media (width <= 600px) {
+		.home-pillars {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
 	.home-pillar {
 		display: flex;
 		flex-direction: column;
@@ -395,8 +399,8 @@ const heroPreload = feature?.heroImage
 		padding-block: 0.2rem;
 	}
 
-	/* These four are the whole navigation on a phone (the mast drops .site-links),
-   so they carry the full thumb target rather than the 2.5.8 floor. */
+	/* These six are the whole navigation on a phone (the mast drops .site-links),
+	   so they carry the full thumb target rather than the 2.5.8 floor. */
 	@media (hover: none), (pointer: coarse) {
 		.home-pillar {
 			min-height: 2.75rem;
@@ -430,20 +434,6 @@ const heroPreload = feature?.heroImage
 		outline-offset: 3px;
 		border-radius: 2px;
 	}
-
-	/* Two-up on tablets, single column on the narrowest phones. */
-	@media (width <= 768px) {
-		.home-pillars {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (width <= 26rem) {
-		.home-pillars {
-			grid-template-columns: 1fr;
-		}
-	}
-
 </style>
 
 <script>

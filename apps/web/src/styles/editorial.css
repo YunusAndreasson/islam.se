@@ -47,15 +47,14 @@
 .home .feature-caption {
 	gap: var(--space-group);
 }
+/* Top rule only: the second tier's own border-top closes the row, and a bottom
+   rule here drew a second hairline 40px above it. */
 .home .home-pillars {
 	gap: 0;
-	border-block: 1px solid var(--color-rule);
+	border-top: 1px solid var(--color-rule);
 }
 .home .home-pillar {
 	padding-block: var(--space-control);
-}
-.home .home-second .essay-card-title {
-	font-size: var(--step-3);
 }
 .media-frame::after {
 	opacity: 0.025;
@@ -221,9 +220,6 @@ a:focus-visible .media-frame::before {
 	}
 }
 @media (width <= 600px) {
-	.home .home-second .essay-card-title {
-		font-size: var(--step-2);
-	}
 	.home .home-pillars {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
