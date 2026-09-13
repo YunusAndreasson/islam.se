@@ -24,6 +24,11 @@
    every chip also prints a glyph (−−, −, 0, +, ++) whose ink clears 4.5:1 on its
    fill, and every cell carries its label in text for screen readers. */
 
+/* The layer order, restated from tokens.css. Cascade layers rank by FIRST mention and the
+   build inlines stylesheets in module-graph order, so whichever layered file comes first
+   has to carry the whole order — see layer-order.test.ts. */
+@layer reset, base, primitives, layout, components;
+
 @layer components {
 	.abm {
 		--abm-n2: light-dark(#2a557f, #4b739d);

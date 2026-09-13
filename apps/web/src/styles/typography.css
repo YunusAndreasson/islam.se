@@ -1,3 +1,8 @@
+/* The layer order, restated from tokens.css. Cascade layers rank by FIRST mention and the
+   build inlines stylesheets in module-graph order, so whichever layered file comes first
+   has to carry the whole order — see layer-order.test.ts. */
+@layer reset, base, primitives, layout, components;
+
 @layer base {
 	/* Anchor arrivals must clear the sticky mast, whose padding is fluid and whose
 	   height is therefore not a number a stylesheet can state. Header.astro

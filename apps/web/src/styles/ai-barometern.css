@@ -8,6 +8,11 @@
    themselves in ai-barometern-chips.css, which every page importing this file
    imports first. */
 
+/* The layer order, restated from tokens.css. Cascade layers rank by FIRST mention and the
+   build inlines stylesheets in module-graph order, so whichever layered file comes first
+   has to carry the whole order — see layer-order.test.ts. */
+@layer reset, base, primitives, layout, components;
+
 @layer components {
 	/* Section prose keeps the reading measure; only the figures use the wide canvas. */
 	.abm section > p {
