@@ -1,0 +1,125 @@
+---
+// One statement, every model: each sample is a dot in its column on the scale, so a reader
+// sees the position and whether the model gave the same answer every time. Disagreement
+// runs left, agreement right; the column heads carry the matrix's colours as a thin rule
+// to tie the two views together, while the dots themselves stay in the site's brass.
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import { modelPath } from "../../lib/ai-barometern/site";
+import type { Family } from "../../lib/ai-barometern/types";
+import ModelLogo from "./ModelLogo.astro";
+
+interface Props {
+	/** `own`: the statement concerns this model's own maker (a control question). */
+	rows: readonly { family: Family; model: string; cell: ScaleCell; own?: boolean }[];
+	caption: string;
+	source: string;
+	/** The classical position on this scale (Question.classicalPosition): a last row, set apart,
+	 *  with a diamond in its column that leads to the note at the foot of the page. */
+	classical?: number | undefined;
+}
+
+const { rows, caption, source, classical } = Astro.props;
+
+const COLUMNS = [
+	{ v: -2, label: "Tar helt avstånd" },
+	{ v: -1, label: "Tar delvis avstånd" },
+	{ v: 0, label: "Varken eller" },
+	{ v: 1, label: "Instämmer delvis" },
+	{ v: 2, label: "Instämmer helt" },
+] as const;
+
+const at = (cell: ScaleCell, v: number) => cell.values.filter((x) => x === v).length;
+const without = (cell: ScaleCell) => cell.abstained + cell.refused;
+---
+
+<figure class="chart abm-figure">
+	<div class="abm-scroll">
+		<table class="abm-strip">
+			<caption class="sr-only">{caption}</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">Modell</span></th>
+					{
+						COLUMNS.map((c) => (
+							<th scope="col" data-v={c.v}>
+								<span class="abm-colhead">{c.label}</span>
+							</th>
+						))
+					}
+					<th scope="col">
+						<span class="abm-colhead">Avstår eller vägrar</span>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{
+					rows.map((r) => (
+						<tr>
+							<th scope="row">
+								<span class="abm-rowmodel">
+									<ModelLogo family={r.family.key} />
+									<a href={modelPath(r.family.key)}>{r.family.label}</a>
+								</span>
+								<span class="abm-model">{r.model}</span>
+								{r.own && <span class="abm-own">Eget företag</span>}
+							</th>
+							{COLUMNS.map((c) => {
+								const n = at(r.cell, c.v);
+								return (
+									<td>
+										{n > 0 && (
+											<>
+												<span class="abm-dots" aria-hidden="true">
+													{Array.from({ length: n }, () => (
+														<span class="abm-dot" />
+													))}
+												</span>
+												<span class="sr-only">{`${c.label}: ${n} av ${r.cell.codes.length} svar`}</span>
+											</>
+										)}
+									</td>
+								);
+							})}
+							<td>
+								{without(r.cell) > 0 && (
+									<>
+										<span class="abm-dots" aria-hidden="true">
+											{Array.from({ length: without(r.cell) }, () => (
+												<span class="abm-dot abm-dot--none" />
+											))}
+										</span>
+										<span class="sr-only">{`Avstod eller vägrade: ${without(r.cell)} av ${r.cell.codes.length} svar`}</span>
+									</>
+								)}
+							</td>
+						</tr>
+					))
+				}
+				{
+					classical !== undefined && (
+						<tr class="abm-strip-classical">
+							<th scope="row">
+								<a href="#klassisk-hallning">Den klassiska hållningen</a>
+							</th>
+							{COLUMNS.map((c) => (
+								<td>
+									{c.v === classical && (
+										<>
+											<span class="abm-diamond" aria-hidden="true" />
+											<span class="sr-only">{c.label}</span>
+										</>
+									)}
+								</td>
+							))}
+							<td />
+						</tr>
+					)
+				}
+			</tbody>
+		</table>
+	</div>
+	<figcaption class="chart-cap">
+		<span class="chart-cap-lead">{caption}</span>
+		<span>{source}</span>
+	</figcaption>
+</figure>

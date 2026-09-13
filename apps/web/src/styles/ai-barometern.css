@@ -1,0 +1,1317 @@
+/* AI-barometern.
+   ============================================================================
+   Imported only by the /ai-barometern/ pages (like nyheter.css): every global
+   stylesheet is inlined into all ~2 500 built pages, and these rules serve four.
+
+   The chip palette, its validation and the one deliberate break from DESIGN.md
+   (a second hue, --mark-blue, for the disagree pole) live with the chips
+   themselves in ai-barometern-chips.css, which every page importing this file
+   imports first. */
+
+@layer components {
+	/* Section prose keeps the reading measure; only the figures use the wide canvas. */
+	.abm section > p {
+		max-inline-size: var(--content-width);
+	}
+
+	.abm-own {
+		display: block;
+		font-size: var(--step--3);
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	/* One row on a wide screen: compact keys, short labels, and only the marks this run uses.
+	   It wraps only where the width genuinely runs out. */
+	.abm-legend {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		margin-block-end: var(--space-unit);
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--text-quiet);
+	}
+	.abm-legend-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem 0.6rem;
+	}
+	.abm-legend-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+	.abm-legend .abm-chip {
+		inline-size: 1.35rem;
+		block-size: 1.1rem;
+	}
+
+	/* ---- overview matrix --------------------------------------------------- */
+
+	.abm-figure {
+		max-width: min(var(--home-width), 100%);
+	}
+
+	/* The page shells lay sections out as grid/flex items, whose min-width is their content:
+	   without these, a wide table widens its section and the PAGE scrolls sideways instead
+	   of the table's own box. */
+	.abm > *,
+	.abm section,
+	.abm-figure {
+		min-inline-size: 0;
+	}
+
+	/* position: relative makes the scroller the containing block of the .sr-only labels in
+	   the cells. Those are position: absolute; without this they escape the overflow clip,
+	   sit at their cell's offset outside the box, and widen the whole page (measured: a
+	   400 px viewport scrolled to 446 px on the hub). */
+	.abm-scroll {
+		position: relative;
+		overflow-x: auto;
+		max-inline-size: 100%;
+	}
+
+	.abm-matrix,
+	.abm-party-table,
+	.abm-strip {
+		border-collapse: separate;
+		border-spacing: 2px;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+	}
+
+	.abm-matrix thead th,
+	.abm-strip thead th,
+	.abm-party-table thead th {
+		font-size: var(--step--3);
+		font-weight: 600;
+		color: var(--text-quiet);
+		text-align: center;
+		padding-block-end: var(--space-half);
+		vertical-align: bottom;
+	}
+
+	.abm-matrix tbody th[scope="row"],
+	.abm-strip tbody th[scope="row"] {
+		text-align: start;
+		font-weight: 400;
+		padding-inline-end: var(--space-unit);
+		min-inline-size: 11rem;
+	}
+
+	.abm-matrix tbody th a {
+		color: var(--color-text);
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.2em;
+	}
+
+	.abm-matrix .abm-group th {
+		padding-block: var(--space-unit) 0.25rem;
+		text-align: start;
+		font-size: var(--step--3);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		font-weight: 600;
+	}
+	/* The column heads already separate the first group from the top of the table. */
+	.abm-matrix tbody:first-of-type .abm-group th {
+		padding-block-start: 0.25rem;
+	}
+
+	.abm-matrix td {
+		text-align: center;
+		padding: 1px;
+	}
+
+	/* ---- sticky model heads ------------------------------------------------ */
+
+	/* The matrix runs to some eighty rows, so its column heads stick below the site's mast
+	   and a reader deep in the table still sees which model a column is. Sticky needs the
+	   wrapper not to be a scroll container, so this one clips instead of scrolling: the
+	   narrow layout fits the viewport, and long labels break anywhere rather than widen it.
+	   Spacing moves from border-spacing into the cells, so no gap between the stuck heads
+	   lets a chip show through. Header.astro publishes the mast's height as --mast-height
+	   and marks <html> .mast-hidden while the mast is tucked away on scroll-down. */
+	.abm-scroll--sticky {
+		overflow-x: clip;
+	}
+	.abm-matrix {
+		border-spacing: 0;
+	}
+	.abm-matrix thead th {
+		position: sticky;
+		inset-block-start: 0;
+		z-index: 2;
+		padding-block: 0.5rem;
+		background: var(--color-bg);
+		box-shadow: 0 1px 0 var(--color-divider);
+		transition: inset-block-start 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	:root:not(.mast-hidden) .abm-matrix thead th {
+		inset-block-start: var(--mast-height, 0px);
+	}
+	.abm-modelhead {
+		display: grid;
+		justify-items: center;
+		gap: 0.3rem;
+	}
+	.abm-modelhead .abm-logo {
+		inline-size: 1.35rem;
+		block-size: 1.35rem;
+	}
+
+	/* Family names are wider than a chip; give each column room so the heads never touch. */
+	.abm-matrix thead th:not(:first-child) {
+		min-inline-size: calc(var(--abm-chip) + 1rem);
+		padding-inline: 0.25rem;
+	}
+
+	.abm-matrix tfoot th,
+	.abm-matrix tfoot td {
+		padding-block: 0.7rem 0;
+		border-block-start: 1px solid var(--color-rule);
+		font-size: var(--step--3);
+		color: var(--text-quiet);
+	}
+	.abm-matrix tfoot th {
+		text-align: start;
+		font-weight: 400;
+	}
+	.abm-matrix tfoot td {
+		text-align: center;
+		font-weight: 600;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	/* A question added since the last run: one dashed cell across the five columns, so the
+	   row reads as »coming«, never as five models that gave no answer. */
+	.abm-pending {
+		display: grid;
+		place-items: center;
+		block-size: 1.75rem;
+		border-radius: var(--radius-sm, 4px);
+		outline: 1px dashed var(--color-rule);
+		outline-offset: -1px;
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		white-space: nowrap;
+	}
+
+	/* ---- party grid -------------------------------------------------------- */
+
+	/* Start-aligned over start-aligned chips, and spaced like the cells below: with no
+	   inline padding the two question heads ran together (»väljareParti för …«). */
+	.abm-party-table thead th {
+		text-align: start;
+		padding-inline-end: var(--space-unit);
+	}
+
+	/* The row label shares the chip's line box, so »ChatGPT« sits level with its chips
+	   instead of floating at the middle of a cell made tall by the note below them. */
+	.abm-party-table tbody th[scope="row"] {
+		text-align: start;
+		font-weight: 400;
+		vertical-align: top;
+		padding-block: 0.35rem;
+		padding-inline-end: var(--space-unit);
+		line-height: 1.6rem;
+	}
+
+	.abm-party-table td {
+		padding: 0.35rem var(--space-unit) 0.35rem 0;
+		vertical-align: top;
+	}
+
+	.abm-parties {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+	}
+
+	.abm-party {
+		display: inline-grid;
+		place-items: center;
+		min-inline-size: 2rem;
+		padding-inline: 0.4rem;
+		block-size: 1.6rem;
+		border-radius: var(--radius-sm, 4px);
+		box-shadow: inset 0 0 0 1px var(--color-rule);
+		font-weight: 600;
+		color: var(--text-quiet);
+	}
+	.abm-party--modal {
+		background: var(--color-text);
+		box-shadow: none;
+		color: var(--color-bg);
+	}
+	.abm-party--none {
+		font-weight: 400;
+	}
+
+	.abm-party-note {
+		display: block;
+		margin-block-start: 0.2rem;
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	/* ---- position strip (question page) ----------------------------------- */
+
+	.abm-strip thead th[data-v] {
+		inline-size: 5.5rem;
+		border-block-end: 4px solid transparent;
+	}
+	.abm-strip thead th[data-v="-2"] {
+		border-color: var(--abm-n2);
+	}
+	.abm-strip thead th[data-v="-1"] {
+		border-color: var(--abm-n1);
+	}
+	.abm-strip thead th[data-v="0"] {
+		border-color: var(--abm-z);
+	}
+	.abm-strip thead th[data-v="1"] {
+		border-color: var(--abm-p1);
+	}
+	.abm-strip thead th[data-v="2"] {
+		border-color: var(--abm-p2);
+	}
+
+	.abm-strip td {
+		text-align: center;
+		block-size: 2.5rem;
+		border-block-end: 1px solid var(--color-divider);
+	}
+
+	.abm-rowmodel {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+	.abm-legend-models {
+		display: none;
+	}
+
+	.abm-model {
+		display: block;
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	.abm-dots {
+		display: inline-flex;
+		gap: 3px;
+	}
+
+	.abm-dot {
+		inline-size: 10px;
+		block-size: 10px;
+		border-radius: 50%;
+		background: var(--color-brass);
+		box-shadow: 0 0 0 2px var(--color-bg);
+	}
+	.abm-dot--none {
+		background: transparent;
+		box-shadow: inset 0 0 0 2px var(--color-muted);
+	}
+
+	/* The classical position under the models' rows: set apart by a heavier rule, and marked with
+	   a diamond in the text colour, a shape no model's answer uses. */
+	.abm-strip-classical > * {
+		border-block-start: 2px solid var(--color-rule);
+	}
+	.abm-strip-classical th a {
+		color: var(--color-text);
+		font-weight: 600;
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.2em;
+	}
+	.abm-diamond {
+		display: inline-block;
+		inline-size: 10px;
+		block-size: 10px;
+		background: var(--color-text);
+		transform: rotate(45deg);
+	}
+
+	/* ---- history small multiples ---------------------------------------------- */
+
+	.abm-multiples {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+		gap: var(--space-unit) var(--space-phi, 1.6rem);
+		margin-block: var(--space-unit);
+	}
+
+	.abm-multiple {
+		margin: 0;
+	}
+
+	.abm-multiple-title {
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		font-weight: 600;
+	}
+
+	.abm-trend {
+		display: block;
+		inline-size: 100%;
+		block-size: auto;
+		overflow: visible;
+	}
+
+	.abm-grid {
+		stroke: var(--color-divider);
+		stroke-width: 1;
+	}
+	.abm-grid--zero {
+		stroke: var(--color-rule);
+	}
+	.abm-line {
+		fill: none;
+		stroke: var(--color-brass);
+		stroke-width: 2;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+	}
+	.abm-point {
+		fill: var(--color-brass);
+		stroke: var(--color-bg);
+		stroke-width: 2;
+	}
+	.abm-point-none {
+		fill: var(--color-bg);
+		stroke: var(--color-muted);
+		stroke-width: 1.5;
+	}
+	.abm-switch {
+		stroke: var(--color-muted);
+		stroke-width: 1;
+	}
+	.abm-switch-label,
+	.abm-axis-label {
+		font-family: var(--font-heading);
+		font-size: 9px;
+		fill: var(--color-muted);
+	}
+
+	.abm-multiple-axis {
+		display: flex;
+		justify-content: space-between;
+		margin: 0.2rem 0 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	/* ---- text blocks ------------------------------------------------------- */
+
+	.abm-quotes {
+		display: grid;
+		gap: var(--space-unit);
+		max-inline-size: var(--content-width);
+		margin-block: var(--space-unit);
+		padding: 0;
+		list-style: none;
+	}
+
+	.abm-quote blockquote {
+		margin: 0.35rem 0 0;
+		padding-inline-start: var(--space-unit);
+		border-inline-start: 2px solid var(--color-rule);
+		font-family: var(--font-heading);
+		font-size: var(--step--1);
+		color: var(--text-body);
+	}
+
+	.abm-quote-head {
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.abm-quote-meta {
+		font-weight: 400;
+		color: var(--color-muted);
+	}
+
+	/* The answer the quoted motivation argues for, so the quote never floats free of it. */
+	.abm-answer {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		margin-inline-start: 0.4rem;
+		padding: 0.05rem 0.55rem;
+		border-radius: 999px;
+		box-shadow: inset 0 0 0 1px var(--color-rule);
+		font-size: var(--step--3);
+		font-weight: 600;
+		color: var(--color-text);
+		white-space: nowrap;
+	}
+	.abm-answer[data-v]::before {
+		content: "";
+		inline-size: 0.6rem;
+		block-size: 0.6rem;
+		border-radius: 2px;
+		background: var(--abm-z);
+		box-shadow: inset 0 0 0 1px color-mix(in oklab, currentColor 20%, transparent);
+	}
+	.abm-answer[data-v="-2"]::before {
+		background: var(--abm-n2);
+	}
+	.abm-answer[data-v="-1"]::before {
+		background: var(--abm-n1);
+	}
+	.abm-answer[data-v="1"]::before {
+		background: var(--abm-p1);
+	}
+	.abm-answer[data-v="2"]::before {
+		background: var(--abm-p2);
+	}
+
+	.abm-quote details {
+		margin-block-start: 0.35rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--text-quiet);
+	}
+	.abm-quote summary {
+		display: inline-block;
+		padding-block: 0.3rem;
+		font-size: var(--step--2);
+		cursor: pointer;
+	}
+	.abm-quote summary::before {
+		content: "▸ ";
+	}
+	.abm-quote details[open] summary::before {
+		content: "▾ ";
+	}
+
+	.abm-changes {
+		list-style: none;
+		padding: 0;
+		margin: var(--space-unit) 0;
+		font-family: var(--font-heading);
+	}
+	.abm-changes li {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.4rem 0.6rem;
+		padding-block: 0.6rem;
+		border-block-start: 1px solid var(--color-divider);
+	}
+
+	.abm-themes {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+		gap: 0 var(--space-phi);
+	}
+
+	/* The bank's four areas, each a closed disclosure: the hub leads with what the answers show,
+	   and the full matrix opens one area at a time (the model page's list of answers too). The
+	   summary is a ruled row, the area as its heading and its size beside it, so the four closed
+	   rows read as the list of what the bank covers. The marker turns as the area opens. The
+	   theme rows inside an area stay small caps, a step below these headings. */
+	.abm-area {
+		border-block-start: 1px solid var(--color-rule);
+	}
+	.abm-area:last-of-type {
+		border-block-end: 1px solid var(--color-rule);
+	}
+	.abm-area > summary {
+		display: flex;
+		align-items: baseline;
+		gap: 0.6rem;
+		padding-block: 0.85rem;
+		cursor: pointer;
+	}
+	.abm-area > summary::before {
+		content: "▸";
+		inline-size: 0.8em;
+		font-family: var(--font-heading);
+		color: var(--color-muted);
+	}
+	.abm-area[open] > summary::before {
+		content: "▾";
+	}
+	.abm-area-head {
+		margin: 0;
+	}
+	.abm-area > summary:hover .abm-area-head {
+		text-decoration: underline;
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.2em;
+	}
+	.abm-area-count {
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+	.abm-area[open] {
+		padding-block-end: var(--space-unit);
+	}
+
+	/* The hub's secondary sections, folded (MoreSection.astro): the comparisons, the abstention
+	   counts and why the site asks. Stacked, they share their rules, so the closed three read as
+	   one short list of what else there is. Each summary is the section's own h2 with a line under
+	   it saying what the section holds. */
+	.abm-more-group {
+		margin-block-start: var(--space-section, 3rem);
+	}
+	.abm-more-group > .abm-more {
+		margin-block: 0;
+		border-block-start: 1px solid var(--color-rule);
+	}
+	.abm-more-group > .abm-more:last-child {
+		border-block-end: 1px solid var(--color-rule);
+	}
+	.abm-more > details > summary {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		column-gap: 0.6rem;
+		align-items: baseline;
+		padding-block: 1rem;
+		cursor: pointer;
+	}
+	.abm-more > details > summary::before {
+		content: "▸";
+		font-family: var(--font-heading);
+		color: var(--color-muted);
+	}
+	.abm-more > details[open] > summary::before {
+		content: "▾";
+	}
+	.abm-more > details > summary h2 {
+		margin: 0;
+	}
+	.abm-more > details > summary:hover h2 {
+		text-decoration: underline;
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.2em;
+	}
+	.abm-more-hint {
+		grid-column: 2;
+		margin-block-start: 0.3rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+	}
+	.abm-more > details > p {
+		max-inline-size: var(--content-width);
+	}
+	.abm-more > details[open] {
+		padding-block-end: var(--space-unit);
+	}
+
+	.abm-head h1 {
+		margin-block: 0.4rem var(--space-half);
+	}
+
+	.abm-dek {
+		font-size: var(--step-0);
+		color: var(--text-body);
+		max-inline-size: var(--content-width);
+	}
+
+	/* The question page's answer in words leads the header; the line on how the models were
+	   asked steps down beneath it. */
+	.abm-dek-note {
+		max-inline-size: var(--content-width);
+		margin-block-start: var(--space-half);
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+	}
+
+	/* ---- hub: findings, twin overview, stance shares -------------------------- */
+
+	/* Computed sentences, each one a link to the chart that shows it. A ruled list, not bullets:
+	   every line is a whole finding, and the arrow says it leads somewhere. */
+	.abm-findings {
+		max-inline-size: var(--content-width);
+		margin: var(--space-unit) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.abm-findings li {
+		border-block-start: 1px solid var(--color-divider);
+	}
+	.abm-findings li:last-child {
+		border-block-end: 1px solid var(--color-divider);
+	}
+	/* Only the finding's own link: the lead chart inside the first item has row links of its own,
+	   and these rules gave them an arrow and a finding's padding. */
+	.abm-findings > li > a {
+		display: block;
+		padding-block: 0.7rem;
+		color: var(--color-text);
+		text-decoration: none;
+	}
+	.abm-findings > li > a::after {
+		content: " →";
+		color: var(--color-muted);
+	}
+	.abm-findings > li > a:hover {
+		text-decoration: underline;
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.2em;
+	}
+	.abm-findings-note {
+		margin-block-start: var(--space-half);
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	/* A twin overview cell says »same or different«, not a position, so it wears outlines and
+	   glyphs, never the agree/disagree fills. A difference gets the heavier ink; an abstention on
+	   one of the statements a dashed line, like the matrix's no-position chips. */
+	.abm-twin-chip {
+		background: transparent;
+		box-shadow: inset 0 0 0 1px var(--color-rule);
+		color: var(--text-quiet);
+	}
+	.abm-twin-chip[data-twin="gap"] {
+		box-shadow: inset 0 0 0 2px var(--color-text);
+		color: var(--color-text);
+	}
+	.abm-twin-chip[data-twin="selective"] {
+		box-shadow: none;
+		outline: 2px dashed var(--color-text);
+		outline-offset: -2px;
+		color: var(--color-text);
+	}
+	.abm-legend .abm-twin-chip {
+		inline-size: auto;
+		min-inline-size: 1.35rem;
+		padding-inline: 0.2rem;
+	}
+
+	.abm-share-table {
+		border-collapse: separate;
+		border-spacing: 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+	}
+	.abm-share-table thead th {
+		padding: 0 0.75rem 0.5rem 0;
+		font-size: var(--step--3);
+		font-weight: 600;
+		color: var(--text-quiet);
+		text-align: start;
+		vertical-align: bottom;
+	}
+	.abm-share-of {
+		display: block;
+		font-weight: 400;
+		color: var(--color-muted);
+	}
+	.abm-share-table tbody th {
+		padding: 0.55rem 1rem 0.55rem 0;
+		font-weight: 400;
+		text-align: start;
+		white-space: nowrap;
+		border-block-end: 1px solid var(--color-divider);
+	}
+	.abm-share-table td {
+		min-inline-size: 3.5rem;
+		padding: 0.55rem 0.75rem 0.55rem 0;
+		border-block-end: 1px solid var(--color-divider);
+	}
+	.abm-share-table [data-all] {
+		padding-inline-start: 0.75rem;
+		border-inline-start: 1px solid var(--color-rule);
+	}
+	.abm-share {
+		display: block;
+		font-weight: 600;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+	/* The bar: brass to the share, the divider tone for the rest. */
+	.abm-share::after {
+		content: "";
+		display: block;
+		block-size: 5px;
+		margin-block-start: 0.3rem;
+		border-radius: 3px;
+		background: linear-gradient(
+			to right,
+			var(--color-brass) calc(var(--share, 0) * 100%),
+			var(--color-divider) 0
+		);
+	}
+
+	/* ---- background and surveys (question page) ------------------------------ */
+
+	.abm-sources {
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	.abm-opinion + .abm-opinion {
+		margin-block-start: var(--space-phi);
+	}
+	.abm-opinion-q {
+		max-inline-size: var(--content-width);
+		margin-block: 0 0.6rem;
+		color: var(--text-body);
+	}
+	.abm-opinion-pollster {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+	/* 2px of ground between segments, so neighbouring shares never merge. */
+	.abm-opinion-bar {
+		display: flex;
+		gap: 2px;
+		max-inline-size: var(--content-width);
+		block-size: 1.1rem;
+	}
+	.abm-opinion-seg {
+		flex: var(--w) 0 0;
+		min-inline-size: 2px;
+		border-radius: 2px;
+	}
+	.abm-opinion-seg[data-v="2"],
+	.abm-opinion-swatch[data-v="2"] {
+		background: var(--abm-p2);
+	}
+	.abm-opinion-seg[data-v="1"],
+	.abm-opinion-swatch[data-v="1"] {
+		background: var(--abm-p1);
+	}
+	.abm-opinion-seg[data-v="0"],
+	.abm-opinion-swatch[data-v="0"] {
+		background: var(--abm-z);
+	}
+	.abm-opinion-seg[data-v="-1"],
+	.abm-opinion-swatch[data-v="-1"] {
+		background: var(--abm-n1);
+	}
+	.abm-opinion-seg[data-v="-2"],
+	.abm-opinion-swatch[data-v="-2"] {
+		background: var(--abm-n2);
+	}
+	.abm-opinion-seg[data-v="none"],
+	.abm-opinion-swatch[data-v="none"] {
+		background: transparent;
+		box-shadow: inset 0 0 0 1px var(--color-rule);
+	}
+	.abm-opinion-note {
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+	.abm-opinion-key {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem 1rem;
+		margin: 0.5rem 0 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+	}
+	.abm-opinion-key li {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+	.abm-opinion-swatch {
+		inline-size: 0.7rem;
+		block-size: 0.7rem;
+		border-radius: 2px;
+	}
+
+	/* ---- model page --------------------------------------------------------- */
+
+	.abm-model-link {
+		display: block;
+		margin-block-start: 0.2rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+	}
+	.abm-share-table tr[data-current] > * {
+		background: color-mix(in oklab, var(--color-muted) 9%, var(--color-bg));
+	}
+	.abm-share-table tr[data-current] th {
+		font-weight: 600;
+	}
+	/* Every answer from one model: the statement, then the answer as the pill the question pages
+	   use beside a quote, so the colour means the same thing everywhere in the section. */
+	.abm-model-answers,
+	.abm-own-list {
+		max-inline-size: var(--content-width);
+		margin: 0 0 var(--space-unit);
+		padding: 0;
+		list-style: none;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+	}
+	.abm-model-answers li,
+	.abm-own-list li {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.2rem 0.75rem;
+		padding-block: 0.45rem;
+		border-block-start: 1px solid var(--color-divider);
+	}
+	.abm-model-answers a {
+		color: var(--color-text);
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.2em;
+	}
+	.abm-model-answers .abm-answer,
+	.abm-own-list .abm-answer {
+		margin-inline-start: 0;
+	}
+	.abm-model-answers .abm-classical-link {
+		flex-basis: 100%;
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+	.abm-own-list li[data-own] {
+		font-weight: 600;
+	}
+	/* Beside the company's name, so the answer pills all end on the same edge. */
+	.abm-own-list .abm-own {
+		display: inline;
+		margin-inline-start: 0.4rem;
+		color: var(--text-quiet);
+	}
+
+	/* ---- hub: lead chart, roster ----------------------------------------------- */
+
+	/* The first finding drawn as chips, inside its list item: close under the sentence it shows,
+	   and filling the list's measure so the last chip column ends on the rules' right edge. Two
+	   rows scroll away before a stuck head could help, so these heads stay put, and a hairline
+	   under each row does the matrix's row-tracking at this size. */
+	.abm-findings .abm-lead-figure {
+		margin-block: 0 var(--space-unit);
+	}
+	.abm-lead-figure .abm-matrix {
+		inline-size: 100%;
+	}
+	.abm-lead-figure .abm-matrix thead th {
+		position: static;
+	}
+	/* Fixed model columns, so the five charts stacked in the findings line up column for column
+	   instead of each spreading its chips by the length of its own statements. */
+	.abm-lead-figure .abm-matrix {
+		table-layout: fixed;
+	}
+	.abm-lead-figure .abm-matrix thead th:not(:first-child) {
+		inline-size: calc(var(--abm-chip) + 1.5rem);
+	}
+	.abm-lead-figure tbody > tr > * {
+		padding-block: 0.3rem;
+		border-block-end: 1px solid var(--color-divider);
+	}
+
+	/* The five findings share one key above them, which names the models, so each chart's heads
+	   keep only the logos. The names stay in the heads for screen readers. */
+	.abm-lead-figure .abm-colname {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+	.abm-legend--models .abm-legend-models {
+		display: flex;
+	}
+
+	/* Which area of the bank a finding comes from, above its sentence: the five are picked across
+	   the areas, and the label lets the reader see that they are. */
+	.abm-finding-area {
+		margin: var(--space-half) 0 0;
+	}
+	.abm-findings > li > .abm-finding-area + a {
+		padding-block-start: 0.2rem;
+	}
+
+	/* The classical position under the models' rows, set apart by a heavier rule as on the
+	   question page, and marked with the same diamond. */
+	.abm-lead-classical > * {
+		border-block-start: 2px solid var(--color-rule);
+	}
+	.abm-lead-classical th a {
+		font-weight: 600;
+	}
+	.abm-lead-classical td {
+		text-align: start;
+	}
+	.abm-lead-classical-mark {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding-inline-start: 0.6rem;
+		font-weight: 600;
+	}
+
+	/* Each family under its logo, as everywhere else in the section, and in its maker's own
+	   casing: the site's caps term labels turned »DeepSeek« into »DEEPSEEK«. */
+	.abm-roster {
+		max-inline-size: var(--content-width);
+		margin: var(--space-unit) 0 0;
+		border-block-start: 1px solid var(--color-rule);
+		font-size: var(--step--2);
+	}
+	.abm-roster > div {
+		display: grid;
+		grid-template-columns: 11rem 1fr;
+		gap: 0.2rem 1.5rem;
+		padding-block: 0.65rem;
+		border-block-end: 1px solid var(--color-divider);
+	}
+	.abm-roster dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+	}
+	.abm-roster dd {
+		margin: 0;
+		color: var(--text-body);
+	}
+
+	/* An empty list stays a step below the heading it sits under. */
+	.abm-empty {
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+	}
+
+	/* ---- twin sets (question page) ------------------------------------------ */
+
+	/* The strip turned on its side (ScaleSpread.astro): the models' logos sit in the column of the
+	   answer they gave, one row per statement. Up to five logos share a cell, so they wrap. */
+	.abm-twin {
+		margin-block-start: var(--space-phi);
+	}
+	.abm-twin h3 {
+		margin-block: 0 0.3rem;
+	}
+	.abm-twin-look {
+		max-inline-size: var(--content-width);
+		margin-block: 0 var(--space-unit);
+		color: var(--text-body);
+	}
+	.abm-strip tbody th a,
+	.abm-spread tbody th a {
+		color: var(--color-text);
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.2em;
+	}
+	.abm-spread-current {
+		font-weight: 600;
+	}
+	.abm-spread td {
+		padding: 0.3rem 0.15rem;
+	}
+	.abm-spread-logos {
+		display: inline-flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 2px;
+		max-inline-size: 4.4rem;
+		vertical-align: middle;
+	}
+	.abm-spread-mark {
+		display: inline-grid;
+		place-items: center;
+		inline-size: 1.4rem;
+		block-size: 1.4rem;
+		border-radius: 50%;
+	}
+	.abm-spread-mark .abm-logo {
+		inline-size: 1.05rem;
+		block-size: 1.05rem;
+	}
+	/* A model judging its own maker, as in the matrix. */
+	.abm-spread-mark[data-own] {
+		box-shadow: inset 0 0 0 2px var(--color-text);
+	}
+	.abm-spread-mark--key {
+		inline-size: 1.1rem;
+		block-size: 1.1rem;
+	}
+	.abm-twin-lines {
+		max-inline-size: var(--content-width);
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-body);
+	}
+	.abm-twin-lines li {
+		padding-block: 0.35rem;
+		border-block-start: 1px solid var(--color-divider);
+	}
+
+	/* The other questions in the theme, between the classical note and the pager. */
+	.abm-siblings {
+		max-inline-size: var(--content-width);
+		margin-block-start: var(--space-section, 3rem);
+	}
+	.abm-siblings ~ .abm-pager,
+	.abm-readmore ~ .abm-siblings {
+		margin-block-start: var(--space-phi);
+	}
+
+	.abm-subhead {
+		margin-block: var(--space-unit) var(--space-half);
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+
+	.abm-note {
+		margin-block: var(--space-section, 3rem) 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+		max-inline-size: var(--content-width);
+	}
+
+	.abm-classical {
+		margin-block-start: var(--space-section, 3rem);
+		padding-block-start: var(--space-unit);
+		border-block-start: 1px solid var(--color-rule);
+	}
+	/* The rule above already opens the section; the heading's own top margin doubled it. */
+	.abm-classical h2 {
+		margin-block-start: 0;
+	}
+
+	.abm-prompt {
+		max-inline-size: var(--content-width);
+		margin-block: var(--space-half) var(--space-unit);
+		white-space: pre-wrap;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		padding: var(--space-half) var(--space-unit);
+		border-inline-start: 2px solid var(--color-rule);
+		background: color-mix(in oklab, var(--color-muted) 6%, var(--color-bg));
+	}
+
+	/* The reset strips list markers site-wide; these limits are a real list of separate
+	   points, and without markers they ran together into one paragraph. */
+	.abm-limits {
+		max-inline-size: var(--content-width);
+		padding-inline-start: 1.2rem;
+		list-style-type: disc;
+	}
+	.abm-limits li + li {
+		margin-block-start: 0.6rem;
+	}
+	.abm-limits li::marker {
+		color: var(--color-muted);
+	}
+
+	.abm-runs {
+		border-collapse: collapse;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+	.abm-runs th,
+	.abm-runs td {
+		padding: 0.45rem 1.5rem 0.45rem 0;
+		text-align: start;
+		border-block-end: 1px solid var(--color-divider);
+	}
+	.abm-runs thead th {
+		font-size: var(--step--3);
+		font-weight: 600;
+		color: var(--text-quiet);
+	}
+	.abm-runs tbody th {
+		font-weight: 400;
+	}
+	.abm-runs .abm-num {
+		text-align: end;
+	}
+
+	.abm-pager {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+		gap: var(--space-half) var(--space-unit);
+		max-inline-size: var(--content-width);
+		margin-block: var(--space-section, 3rem) 0;
+		padding-block-start: var(--space-half);
+		border-block-start: 1px solid var(--color-divider);
+		font-family: var(--font-heading);
+	}
+	.abm-pager a {
+		display: block;
+		padding-block: 0.4rem;
+		color: var(--color-text);
+		text-decoration: none;
+	}
+	.abm-pager-next {
+		grid-column: -2;
+		text-align: end;
+	}
+	.abm-pager-dir {
+		display: block;
+		font-size: var(--step--3);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+	.abm-pager-title {
+		font-size: var(--step--1);
+		text-decoration: underline;
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.2em;
+	}
+	.abm-pager a:hover .abm-pager-title {
+		text-decoration-color: currentColor;
+	}
+	.abm-question > .meta-line {
+		margin-block-start: var(--space-unit);
+	}
+
+	/* Above tablet width the matrix fills the reading canvas, the same 64rem every page uses,
+	   so it lines up with the prose around it. The model columns get a fixed, roomier width
+	   and the statements take the rest; a hairline under each row and a hover tint keep the
+	   eye on the row it started from across the gap. */
+	@media (width > 768px) {
+		.abm-figure--matrix .abm-matrix,
+		.abm-share-table {
+			inline-size: 100%;
+		}
+		.abm-figure--matrix .abm-matrix thead th:not(:first-child) {
+			inline-size: 6.5rem;
+		}
+		.abm-figure--matrix .abm-matrix tbody tr:not(.abm-group) > * {
+			border-block-end: 1px solid color-mix(in oklab, var(--color-divider) 70%, transparent);
+		}
+		.abm-figure--matrix .abm-matrix tbody tr:not(.abm-group):hover > * {
+			background: color-mix(in oklab, var(--color-muted) 8%, var(--color-bg));
+		}
+	}
+
+	@media (width <= 768px) {
+		.abm-matrix tbody th[scope="row"],
+		.abm-strip tbody th[scope="row"] {
+			min-inline-size: 8rem;
+		}
+		.abm {
+			--abm-chip: 2.25rem;
+		}
+		.abm-strip thead th[data-v] {
+			inline-size: 3.4rem;
+			font-size: var(--step--4, 0.7rem);
+		}
+	}
+
+	/* A phone. Five family columns and a statement column do not fit side by side with
+	   horizontal heads: the table scrolled and Gemini and Grok sat off-screen. The heads
+	   turn to read upwards, so every column is as narrow as its chip and the whole matrix
+	   is visible at once. The writing mode sits on an inner span, so the strip's coloured
+	   rule stays on the bottom edge of the cell. */
+	@media (width <= 560px) {
+		.abm {
+			--abm-chip: 2rem;
+		}
+		/* Five logos fit where five names did not: the names move to a key above the table
+		   and stay in the heads for screen readers. */
+		.abm-modelhead .abm-colname {
+			position: absolute;
+			inline-size: 1px;
+			block-size: 1px;
+			overflow: hidden;
+			clip-path: inset(50%);
+			white-space: nowrap;
+		}
+		.abm-legend-models {
+			display: flex;
+		}
+		.abm-matrix tbody th[scope="row"] {
+			overflow-wrap: anywhere;
+			hyphens: auto;
+		}
+		.abm-colhead {
+			display: inline-block;
+			writing-mode: vertical-rl;
+			transform: rotate(180deg);
+			white-space: nowrap;
+		}
+		.abm-matrix thead th:not(:first-child),
+		.abm-strip thead th {
+			min-inline-size: 0;
+			padding-inline: 0;
+		}
+		.abm-matrix tbody th[scope="row"],
+		.abm-strip tbody th[scope="row"] {
+			min-inline-size: 0;
+			padding-inline-end: 0.6rem;
+		}
+		.abm-strip thead th[data-v] {
+			inline-size: auto;
+			font-size: var(--step--3);
+		}
+		.abm-strip td {
+			min-inline-size: 2rem;
+		}
+		.abm-dots {
+			gap: 2px;
+		}
+		/* Two logos a line in a narrow column: five stacked one by one made a row five logos tall. */
+		.abm-lead-figure .abm-matrix thead th:not(:first-child) {
+			inline-size: calc(var(--abm-chip) + 0.2rem);
+		}
+		.abm-spread td {
+			min-inline-size: 2.1rem;
+			padding-inline: 0;
+		}
+		.abm-spread-logos {
+			max-inline-size: 2.1rem;
+			gap: 1px;
+		}
+		.abm-share-table thead th,
+		.abm-share-table td {
+			min-inline-size: 0;
+			padding-inline-end: 0.5rem;
+		}
+		.abm-share-table tbody th {
+			padding-inline-end: 0.6rem;
+		}
+		.abm-share-table [data-all] {
+			padding-inline-start: 0.5rem;
+		}
+		.abm-spread-mark {
+			inline-size: 1rem;
+			block-size: 1rem;
+		}
+		.abm-spread-mark .abm-logo {
+			inline-size: 0.78rem;
+			block-size: 0.78rem;
+		}
+		.abm-dot {
+			inline-size: 8px;
+			block-size: 8px;
+		}
+		.abm-pager-next {
+			grid-column: auto;
+			text-align: start;
+		}
+	}
+}

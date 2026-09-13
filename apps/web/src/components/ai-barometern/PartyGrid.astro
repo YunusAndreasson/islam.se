@@ -1,0 +1,87 @@
+---
+// Which party each model recommended. Parties are nominal, so they get letter chips in the
+// site's own ink and no party colours: eight hues would break DESIGN.md, clash with the
+// agree/disagree scale on the same page, and put campaign colours on a religious site.
+// The filled chip is the party a majority of the samples chose.
+import { FAMILIES } from "../../lib/ai-barometern/families";
+import {
+	type PartyRow,
+	partyChips,
+	partyNote,
+	questionPath,
+} from "../../lib/ai-barometern/site";
+import ModelLogo from "./ModelLogo.astro";
+
+interface Props {
+	rows: readonly PartyRow[];
+	caption: string;
+	source: string;
+	linkQuestions?: boolean;
+}
+
+const { rows, caption, source, linkQuestions = true } = Astro.props;
+---
+
+<figure class="chart abm-figure">
+	<div class="abm-scroll">
+		<table class="abm-party-table">
+			<caption class="sr-only">{caption}</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">Modell</span></th>
+					{
+						rows.map((r) => (
+							<th scope="col">
+								{linkQuestions ? (
+									<a href={questionPath(r.question)}>{r.question.short}</a>
+								) : (
+									r.question.short
+								)}
+							</th>
+						))
+					}
+				</tr>
+			</thead>
+			<tbody>
+				{
+					FAMILIES.map((f) => (
+						<tr>
+							<th scope="row">
+								<span class="abm-rowmodel">
+									<ModelLogo family={f.key} />
+									{f.label}
+								</span>
+							</th>
+							{rows.map((r) => {
+								const cell = r.cells[f.key];
+								return (
+									<td>
+										<span class="abm-parties">
+											{partyChips(cell).map((chip) => (
+												<span
+													class:list={[
+														"abm-party",
+														{ "abm-party--modal": chip.modal, "abm-party--none": chip.none },
+													]}
+													title={chip.title}
+												>
+													<span aria-hidden="true">{chip.text}</span>
+													<span class="sr-only">{chip.title}</span>
+												</span>
+											))}
+										</span>
+										<span class="abm-party-note">{partyNote(cell)}</span>
+									</td>
+								);
+							})}
+						</tr>
+					))
+				}
+			</tbody>
+		</table>
+	</div>
+	<figcaption class="chart-cap">
+		<span class="chart-cap-lead">{caption}</span>
+		<span>{source}</span>
+	</figcaption>
+</figure>

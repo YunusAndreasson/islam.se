@@ -1,0 +1,358 @@
+---
+import AgreementMatrix from "../../components/ai-barometern/AgreementMatrix.astro";
+import FindingChips from "../../components/ai-barometern/FindingChips.astro";
+import ModelLogo from "../../components/ai-barometern/ModelLogo.astro";
+import MoreSection from "../../components/ai-barometern/MoreSection.astro";
+import PartyGrid from "../../components/ai-barometern/PartyGrid.astro";
+import ScaleLegend from "../../components/ai-barometern/ScaleLegend.astro";
+import StanceShare from "../../components/ai-barometern/StanceShare.astro";
+import TwinOverview from "../../components/ai-barometern/TwinOverview.astro";
+import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
+import SectionLink from "../../components/SectionLink.astro";
+import TitledSection from "../../components/TitledSection.astro";
+import { FAMILIES } from "../../lib/ai-barometern/families";
+import { latestFindings, stanceSpread } from "../../lib/ai-barometern/findings";
+import { codeLabel } from "../../lib/ai-barometern/options";
+import { activeQuestions } from "../../lib/ai-barometern/questions";
+import {
+	familyLabel,
+	HUB_SECTIONS,
+	hasComparison,
+	latestIndexOf,
+	latestRun,
+	METHOD_PATH,
+	modelPath,
+	matrixAreas,
+	modelShortName,
+	partyRows,
+	questionPath,
+	releaseLog,
+	roster,
+	scaleRow,
+	shownData,
+	stanceShares,
+	svDate,
+	svDateList,
+	topChanges,
+	twinRow,
+} from "../../lib/ai-barometern/site";
+import { describeRow } from "../../lib/ai-barometern/summary";
+import { TWIN_SETS } from "../../lib/ai-barometern/twins";
+import { collectionPageJsonLd, dataset } from "../../lib/jsonld";
+import "../../styles/ai-barometern-chips.css";
+import "../../styles/ai-barometern.css";
+
+// AI-BAROMETERN — what the big AI models answer, measurement by measurement.
+//
+// One hub and one page per question, never a page per run: a run is a data point in the
+// same stable pages, which is both the honest shape (a series) and the one that keeps the
+// section clear of Google's scaled-content policy (see src/pages/nyheter.astro).
+//
+// The hub puts what is most worth seeing first, and folds the rest:
+//   1. five findings, drawn, spread over the bank's areas (findings.ts)
+//   2. the models' answers to every statement, area by area, open; the party choice beside them
+//   3. folded: the double standards across the twin sets, how often each model takes a
+//      position, and why the site asks at all. Each summary says what the section holds.
+//   4. the models
+// Every question page is linked from a matrix row, so the hub keeps no separate list of them.
+
+const run = latestRun();
+const shown = shownData();
+const shownDates = svDateList(shown.runs.map((r) => r.date));
+const severalRuns = shown.runs.length > 1;
+const count = new Intl.NumberFormat("sv-SE");
+
+const description =
+	"Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek om klimatet, AI:s risker, kriget i Gaza, politiken och tron? AI-barometern ställer samma frågor till modellerna varje månad och visar hur svaren förändras.";
+const lead =
+	"Allt fler vänder sig till en AI-modell med frågor om klimatet och tekniken, om krig, politik och tro. AI-barometern ställer samma frågor till de fem stora modellfamiljerna varje månad och redovisar svaren som de lämnades.";
+
+const source = run
+	? `Källa: AI-barometern, ${severalRuns ? "mätningarna" : "mätningen"} ${shownDates}. Varje modell fick varje fråga ${run.samples} gånger.`
+	: "";
+
+const changes = topChanges(6);
+const releases = releaseLog();
+
+const areas = matrixAreas();
+const shares = stanceShares(areas);
+const spread = stanceSpread(shares);
+
+const twinRows = TWIN_SETS.map(twinRow);
+const hubFindings = latestFindings();
+// One key for all five charts, listing only the marks they use.
+const findingCells = hubFindings.flatMap((f) =>
+	f.rows.flatMap((r) => FAMILIES.map((family) => r.cells[family.key])),
+);
+const findingsOwn = hubFindings.some((f) => f.rows.some((r) => r.question.aboutFamily));
+// The company sets are the ringed diagonal in the matrix; the overview keeps to countries,
+// peoples, religions and principles.
+const overviewRows = twinRows.filter((row) => !row.members.every((m) => m.question.aboutFamily));
+// The closed comparisons section says in its summary how often each model answered differently.
+const measuredOverview = overviewRows.filter((row) => row.members.every((m) => m.measured));
+const twinsHint = `Svarade olika, av ${measuredOverview.length} jämförelser: ${FAMILIES.map(
+	(f) =>
+		`${f.label} ${measuredOverview.filter((row) => ["gap", "selective"].includes(row.byFamily[f.key].state)).length}`,
+).join(", ")}.`;
+
+// What the models themselves answer about their reliability on religion, for the section on
+// why the site asks them at all.
+const reliability = activeQuestions().find((q) => q.id === "ai-religiosa-svar");
+const reliabilityAnswer =
+	reliability && latestIndexOf(reliability) >= 0 ? describeRow(scaleRow(reliability)) : "";
+const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
+	? `a${reliabilityAnswer.slice(1)}`
+	: reliabilityAnswer;
+---
+
+<CollectionIndexPage
+	title="AI-barometern"
+	pageTitle="AI-barometern — vad svarar AI-modellerna? — islam.se"
+	description={description}
+	lead={lead}
+	ogImageAlt="AI-barometern — islam.se"
+	mainClass="abm abm-hub home"
+	jsonLd={[
+		collectionPageJsonLd({ name: "AI-barometern", description, url: "/ai-barometern/", essays: [] }),
+		dataset({
+			name: "AI-barometern",
+			description:
+				"Svar från ChatGPT, Claude, Gemini, Grok och DeepSeek på samma frågor om klimat, teknik, ekonomi, krig och folkrätt, politik och religion, insamlade vid återkommande mätningar.",
+			url: "/ai-barometern/",
+			creator: ["islam.se"],
+			spatialCoverage: "Sverige",
+		}),
+	]}
+>
+	{
+		run ? (
+			<p class="meta-line">
+				{severalRuns ? "Mätningarna" : "Senaste mätningen"} {shownDates}&nbsp;· {FAMILIES.length}
+				&nbsp;modeller&nbsp;· {count.format(shown.questions)}&nbsp;frågor&nbsp;·{" "}
+				{count.format(shown.answers)}&nbsp;svar&nbsp;· <a href={METHOD_PATH}>Så går mätningen till</a>
+			</p>
+		) : (
+			<p class="meta-line">
+				Den första mätningen har ännu inte publicerats. Frågorna och{" "}
+				<a href={METHOD_PATH}>metoden</a> finns redan på sidan.
+			</p>
+		)
+	}
+
+	{
+		hubFindings.length > 0 && (
+			<TitledSection id={HUB_SECTIONS.findings} title="Det här visar mätningen">
+				<p>
+					Mätningens tydligaste mönster, med högst två från samma område. Meningen leder till
+					jämförelsen och raderna till påståendenas egna sidor.
+				</p>
+				<ScaleLegend cells={findingCells} own={findingsOwn} compact models />
+				<ul class="abm-findings">
+					{hubFindings.map((f) => (
+						<li>
+							<p class="label abm-finding-area">{f.area.label}</p>
+							<a href={f.href}>
+								<strong>{f.lead}.</strong> {f.text}
+							</a>
+							<FindingChips
+								rows={f.rows}
+								caption={`${f.lead}. ${f.text}`}
+								classical={f.classical === undefined ? undefined : { value: f.classical, href: f.href }}
+							/>
+						</li>
+					))}
+				</ul>
+				<p class="abm-findings-note">
+					Rutorna visar den ställning som flest av modellens tre svar tog. Meningarna räknas fram ur
+					de senaste svaren och skrivs om när svaren ändras. {source}
+				</p>
+			</TitledSection>
+		)
+	}
+
+	{
+		run && (
+			<TitledSection id={HUB_SECTIONS.matrix} title="Så svarar modellerna">
+				<p>
+					Varje påstående ställs likadant till alla fem modellerna. Rutan visar hur modellen svarade, och
+					raden leder till modellernas egna motiveringar.
+				</p>
+				<AgreementMatrix
+					areas={areas}
+					caption="Den ställning som flest av modellens tre svar tog. Sista raden i varje tabell räknar de påståenden där modellen tog ställning."
+					source={source}
+				/>
+			</TitledSection>
+		)
+	}
+
+	{
+		run && (
+			<TitledSection id={HUB_SECTIONS.party} title="Partivalet">
+				<p>
+					Modellerna fick välja ett riksdagsparti att rekommendera, eller avstå. Partierna listades
+					i slumpvis ordning varje gång.
+				</p>
+				<PartyGrid
+					rows={partyRows()}
+					caption="Det parti modellen rekommenderade. Den fyllda bokstaven valdes i flest av de tre svaren."
+					source={source}
+				/>
+			</TitledSection>
+		)
+	}
+
+	{
+		hasComparison() && (
+			<TitledSection id={HUB_SECTIONS.changes} title="Störst förändring sedan förra mätningen">
+				{changes.length > 0 ? (
+					<ul class="abm-changes">
+						{changes.map((c) => (
+							<li>
+								<strong>{familyLabel(c.family)}</strong>
+								<a href={questionPath(c.question)}>{c.question.short}</a>
+								<span>
+									{codeLabel(String(c.from))} → {codeLabel(String(c.to))}
+								</span>
+								{c.modelChanged && <span class="label">ny modell</span>}
+								{!c.significant && <span class="label">osäker</span>}
+							</li>
+						))}
+					</ul>
+				) : (
+					<p>Ingen modell har ändrat ställning sedan förra mätningen.</p>
+				)}
+			</TitledSection>
+		)
+	}
+
+	{/* Secondary: opened when the findings and the answers raise a question. Each keeps its heading
+	    and one line on what it holds, so the three closed sections still say what is inside. */}
+	<div class="abm-more-group">
+		{
+			run && overviewRows.length > 0 && (
+				<MoreSection id={HUB_SECTIONS.twins} title="Samma påstående, olika svar" hint={twinsHint}>
+					<p>
+						Många påståenden ställs i par eller grupper där bara landet, folket eller religionen byts ut,
+						eller där en allmän princip prövas mot ett fall av den. Rutan visar om modellen svarade
+						likadant, och raden leder till jämförelsen med modellernas svar.
+					</p>
+					<TwinOverview
+						rows={overviewRows}
+						caption="Om modellen gav samma svar på jämförelsens påståenden. Sista raden räknar de jämförelser där modellen svarade olika."
+						source={source}
+					/>
+				</MoreSection>
+			)
+		}
+		{
+			run && (
+				<MoreSection
+					id={HUB_SECTIONS.stance}
+					title="Vem tar ställning?"
+					hint={spread ?? "Hur ofta varje modell tar ställning, område för område."}
+				>
+					<p>
+						Varje påstående kan besvaras med »Avstår«, och modellerna använder det mycket olika. Siffran
+						är antalet påståenden där modellen tog ställning, och stapeln visar hur stor del av
+						områdets påståenden det är.
+					</p>
+					<StanceShare
+						shares={shares}
+						caption="Antal påståenden där modellen tog ställning, per område."
+						source={source}
+					/>
+				</MoreSection>
+			)
+		}
+		<MoreSection
+			id={HUB_SECTIONS.why}
+			title="Varför islam.se frågar AI-modellerna"
+			hint="AI som källa till kunskap, och vad Koranen säger om att pröva det man hör."
+		>
+			<p>
+				Var tionde svensk har under det senaste året skrivit med en AI-tjänst om politik och
+				samhällsfrågor, enligt{" "}
+				<a href="https://svenskarnaochinternet.se/rapporter/svenskarna-och-internet-valspecial-2026/ai-i-politiken/"
+					>Internetstiftelsen</a
+				>. Samma tjänster får frågor om tro, om Koranen och om vad som är rätt och fel.
+			</p>
+			<p>
+				Koranen befaller den som inte vet att fråga dem som har kunskap (16:43) och de troende att
+				utreda en nyhet innan de handlar på den (49:6). AI-barometern prövar modellerna på det
+				sättet: samma frågor, ställda likadant varje gång, med varje svar sparat. Där en fråga rör en
+				religiös bestämmelse står den klassiska hållningen, som de lärda har formulerat den utifrån
+				Koranen och sunna, sist på frågans sida.
+			</p>
+			{
+				reliability && reliabilityClause && (
+					<p>
+						Modellerna har också fått påståendet{" "}
+						<a href={questionPath(reliability)}>»{reliability.text.replace(/\.$/, "")}«</a>:{" "}
+						{reliabilityClause}
+					</p>
+				)
+			}
+		</MoreSection>
+	</div>
+
+	<TitledSection id={HUB_SECTIONS.models} title="Modellerna">
+		<p>
+			Varje modellfamilj representeras av en av sina aktuella huvudmodeller. När en ny modell
+			släpps loggas den, och ett byte markeras i diagrammen.
+		</p>
+		<dl class="abm-roster">
+			{
+				roster().map(({ family, current }) => (
+					<div>
+						<dt>
+							<span class="abm-rowmodel">
+								<ModelLogo family={family.key} />
+								{family.label}
+							</span>
+						</dt>
+						<dd>
+							{current ? (
+								<>
+									{modelShortName(current.name)}
+									<span class="abm-model">
+										{current.id}, används sedan {svDate(current.adoptedAt)}
+									</span>
+									<a class="abm-model-link" href={modelPath(family.key)}>
+										Alla svar från {family.label}
+									</a>
+								</>
+							) : (
+								"Ingen modell vald"
+							)}
+						</dd>
+					</div>
+				))
+			}
+		</dl>
+		<h3 class="abm-subhead">Nya modeller sedan starten</h3>
+		{
+			releases.length > 0 ? (
+				<ul class="abm-changes">
+					{releases.map((r) => (
+						<li>
+							<strong>{familyLabel(r.family)}</strong>
+							<span>{modelShortName(r.name)}</span>
+							<span class="abm-model">
+								sågs {svDate(r.firstSeen)}, {r.decision === "adopted" ? "används" : "används inte"}
+							</span>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="abm-empty">Inga nya modeller har släppts sedan mätningarna började.</p>
+			)
+		}
+	</TitledSection>
+
+	<p class="abm-note">
+		Svaren är modellernas egna och återges som de lämnades. Där en fråga rör en religiös
+		bestämmelse redovisar islam.se den klassiska hållningen på frågans egen sida.
+	</p>
+	<p class="collection-back"><SectionLink href={METHOD_PATH}>Så går mätningen till</SectionLink></p>
+</CollectionIndexPage>

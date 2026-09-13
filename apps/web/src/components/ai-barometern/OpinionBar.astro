@@ -1,0 +1,53 @@
+---
+// One survey's answer as a single bar of 100 %, beside the models' chart and never inside it.
+// Each segment wears the matrix colour of the step it stands for on the statement's own scale
+// (opinion.ts places it), so brass still means agreement and blue disagreement; »ingen
+// uppfattning« is an outline. Every share is printed in the key too, so colour never carries it
+// alone.
+import type { Poll } from "../../lib/ai-barometern/opinion";
+
+interface Props {
+	poll: Poll;
+}
+
+const { poll } = Astro.props;
+const pct = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
+const summary = poll.shares.map((s) => `${s.label} ${pct.format(s.percent)} procent`).join(", ");
+const asked = [
+	poll.fieldwork,
+	poll.population,
+	poll.sample ? `${pct.format(poll.sample)} svarande` : "",
+]
+	.filter(Boolean)
+	.join(", ");
+---
+
+<figure class="chart abm-figure abm-opinion">
+	<p class="abm-opinion-q">
+		<span class="abm-opinion-pollster">{poll.pollster} frågade</span>
+		»{poll.wording}«{poll.translated && <span class="abm-opinion-note"> (islam.se:s översättning)</span>}
+	</p>
+	<div class="abm-opinion-bar" role="img" aria-label={summary}>
+		{
+			poll.shares.map((s) => (
+				<span class="abm-opinion-seg" data-v={s.v ?? "none"} style={`--w: ${s.percent}`} />
+			))
+		}
+	</div>
+	<ul class="abm-opinion-key">
+		{
+			poll.shares.map((s) => (
+				<li>
+					<span class="abm-opinion-swatch" data-v={s.v ?? "none"} aria-hidden="true" />
+					{s.label} <strong>{pct.format(s.percent)} %</strong>
+				</li>
+			))
+		}
+	</ul>
+	<figcaption class="chart-cap">
+		{poll.note && <span class="chart-cap-lead">{poll.note}</span>}
+		<span>
+			Källa: <a href={poll.url}>{poll.pollster}</a>, {asked}.
+		</span>
+	</figcaption>
+</figure>

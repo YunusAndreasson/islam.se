@@ -1,0 +1,292 @@
+---
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import DefinitionList from "../../components/DefinitionList.astro";
+import SectionLink from "../../components/SectionLink.astro";
+import TitledSection from "../../components/TitledSection.astro";
+import Base from "../../layouts/Base.astro";
+import { AI_BAROMETERN_DATA_DATE } from "../../lib/ai-barometern/meta";
+import { buildPrompt, optionsFor } from "../../lib/ai-barometern/prompt";
+import { activeQuestions } from "../../lib/ai-barometern/questions";
+import {
+	BASE_PATH,
+	getSeries,
+	METHOD_PATH,
+	modelShortName,
+	questionCountOf,
+	roster,
+	svDate,
+} from "../../lib/ai-barometern/site";
+import { breadcrumbList, ORG_ID } from "../../lib/jsonld";
+import "../../styles/ai-barometern-chips.css";
+import "../../styles/ai-barometern.css";
+
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "AI-barometern", url: BASE_PATH },
+	{ name: "Så går mätningen till", url: METHOD_PATH },
+];
+
+const description =
+	"Så fungerar AI-barometern: vilka modeller som frågas, exakt hur frågorna ställs, hur svaren räknas och vad mätningen inte kan visa.";
+
+const questions = activeQuestions();
+const scaleExample = questions.find((q) => q.id === "karnkraft") ?? questions.find((q) => q.kind === "scale");
+const partyExample = questions.find((q) => q.kind === "party");
+const scalePrompt = scaleExample ? buildPrompt(scaleExample, "A", optionsFor(scaleExample, "A")) : "";
+const partyPrompt = partyExample ? buildPrompt(partyExample, "A", optionsFor(partyExample, "A")) : "";
+
+const settings = [
+	{
+		term: "Svarsformat",
+		description: "Ett av de givna svarsalternativen och en kort motivering, som ett strukturerat svar.",
+	},
+	{
+		term: "Antal svar",
+		description: "Varje modell får varje fråga tre gånger, varje gång i en ny konversation utan tidigare sammanhang.",
+	},
+	{ term: "Systeminstruktion", description: "Ingen. Modellen får bara frågan." },
+	{ term: "Webbsökning", description: "Avstängd. Modellen svarar utifrån det den har lärt sig." },
+	{ term: "Resonemang", description: "Samma låga resonemangsnivå för alla modeller." },
+	{
+		term: "Temperatur",
+		description: "Modellens standardvärde. Flera av modellerna tillåter ingen annan inställning.",
+	},
+	{
+		term: "Partiernas ordning",
+		description: "Slumpas om inför varje svar, så att inget parti gynnas av att stå först i listan.",
+	},
+	{
+		term: "Åtkomst",
+		description:
+			"Anropen görs via OpenRouter, en tjänst som ger åtkomst till modeller från alla fem företagen. DeepSeeks svar kommer från värdar som kör DeepSeeks öppna modell, inte från DeepSeeks egen tjänst. Svaren visar alltså modellen själv, med den censur som eventuellt är inbyggd i den, men inte de filter som DeepSeek lägger till i sin egen app.",
+	},
+];
+
+const counting = [
+	{
+		term: "Tre svar per ruta",
+		description:
+			"En ruta visar den ställning som flest av modellens tre svar tog. Hamnar svaren på båda sidor av skalan utan att någon sida får flest, visas rutan som splittrad.",
+	},
+	{
+		term: "Två olika styrkor",
+		description:
+			"Ger två svar samma riktning men olika styrka, till exempel Instämmer helt och Instämmer delvis, visas den svagare.",
+	},
+	{
+		term: "Avstår och vägrar",
+		description:
+			"Att avstå är ett eget svarsalternativ. Att vägra är när modellen inte svarar alls. Båda redovisas, eftersom det är en uppgift i sig att en modell inte vill ta ställning.",
+	},
+	{
+		term: "Förändring",
+		description:
+			"En förändring räknas som tydlig när den är minst ett steg och när svaren i den nya mätningen inte överlappar svaren i den förra. Andra förändringar märks som osäkra.",
+	},
+];
+
+// How a comparison reads, model by model (twinCell in aggregate.ts, TwinOverview.astro).
+const twinStates = [
+	{
+		term: "Samma svar",
+		description: "Modellen tog samma ställning till alla påståenden i jämförelsen.",
+	},
+	{
+		term: "Steg isär",
+		description:
+			"Modellen tog ställning till alla påståenden, men inte samma. Siffran anger hur många steg på den femgradiga skalan som skiljer svaren åt.",
+	},
+	{
+		term: "Avstår om någon av dem",
+		description:
+			"Modellen tog ställning till något av påståendena men avstod eller vägrade svara på något annat. Det räknas som olika svar, eftersom att avstå är ett val.",
+	},
+	{
+		term: "Avstår om alla",
+		description: "Modellen tog inte ställning till något av påståendena.",
+	},
+	{
+		term: "Splittrat svar",
+		description:
+			"Modellens tre svar på något av påståendena gick åt olika håll, så jämförelsen går inte att läsa.",
+	},
+];
+
+const limits = [
+	"Modellen i tjänsten är inte appen. ChatGPT, Gemini och de andra apparna lägger till egna instruktioner, sökning och minne, så den som frågar i appen kan få ett annat svar.",
+	"Svaren speglar det modellen har lärt sig fram till sin kunskapsgräns, som anges för varje modell ovan när företaget har uppgett den.",
+	"Fasta svarsalternativ kan ge en tydligare ställning än modellen skulle ta i ett fritt samtal. Därför redovisas också när modellen avstår.",
+	"Tre svar per fråga är ett litet urval. Enstaka förändringar mellan två mätningar ska läsas med försiktighet.",
+	"Frågorna ställs på svenska. Samma fråga på engelska kan ge andra svar.",
+	"Motiveringar som bryter mot sajtens språkregler citeras inte på sidorna. De finns kvar i mätningens rådata.",
+];
+
+const series = getSeries();
+const models = roster();
+const USD = new Intl.NumberFormat("sv-SE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
+---
+
+<Base
+	title="Så går AI-barometern till — islam.se"
+	description={description}
+	ogImage="/ai-barometern/og.png"
+	ogImageAlt="AI-barometern — islam.se"
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "TechArticle",
+			headline: "Så går AI-barometern till",
+			description,
+			url: "https://islam.se/ai-barometern/metod/",
+			inLanguage: "sv",
+			datePublished: "2026-09-12",
+			dateModified: published,
+			author: { "@id": ORG_ID },
+			publisher: { "@id": ORG_ID },
+		},
+		breadcrumbList(crumbs),
+	]}
+>
+	<main id="main" class="home abm abm-method">
+		<header class="abm-head">
+			<Breadcrumb items={crumbs} />
+			<h1>Så går mätningen till</h1>
+			<p class="abm-dek">
+				AI-barometern ställer samma frågor till fem AI-modeller, på samma sätt varje gång, och
+				sparar varje svar. Här står exakt hur det går till och vad resultatet inte kan säga.
+			</p>
+		</header>
+
+		<TitledSection id="fragan" title="Så ställs frågorna">
+			<p>
+				Varje fråga skickas som ett enda meddelande, utan förklaring om vem som frågar eller
+				varför. Så här ser ett påstående ut när det når modellen:
+			</p>
+			<pre class="abm-prompt">{scalePrompt}</pre>
+			<p>Partifrågorna ställs på samma sätt, med partierna i slumpvis ordning:</p>
+			<pre class="abm-prompt">{partyPrompt}</pre>
+			<DefinitionList items={settings} />
+		</TitledSection>
+
+		<TitledSection id="modellerna" title="Vilka modeller som frågas">
+			<p>
+				Varje modellfamilj representeras av en av sina aktuella huvudmodeller, inte av de dyraste
+				specialversionerna. Före varje mätning kontrolleras vilka modeller som finns. En ny modell
+				loggas med datum, och ingen mätning görs förrän det är bestämt om den ska ersätta den gamla.
+			</p>
+			<ul class="abm-changes">
+				{
+					models.map(({ family, current, history }) => (
+						<li>
+							<strong>{family.label}</strong>
+							<span>{current ? modelShortName(current.name) : "Ingen modell vald"}</span>
+							{current && (
+								<span class="abm-model">
+									{current.canonicalSlug}, används sedan {svDate(current.adoptedAt)}
+									{current.knowledgeCutoff ? `, kunskapsgräns ${svDate(current.knowledgeCutoff)}` : ""}
+									{history.length > 1 ? `, ${history.length - 1} tidigare modeller` : ""}
+								</span>
+							)}
+						</li>
+					))
+				}
+			</ul>
+		</TitledSection>
+
+		<TitledSection id="rakningen" title="Så räknas svaren">
+			<DefinitionList items={counting} />
+		</TitledSection>
+
+		<TitledSection id="kontrollfragor" title="Kontrollfrågor och jämförelser">
+			<p>
+				Några frågor finns för att pröva modellerna själva. Påståendena om AI-bolagen ställs med
+				samma ordalydelse om alla fem företagen, så att det syns om en modell är mildare mot det
+				företag som har gjort den. I matrisen är de rutorna inringade.
+			</p>
+			<p>
+				Andra frågor ställs i par eller grupper som bara skiljer sig i vilket land, vilken religion
+				eller vilket företag de gäller, till exempel folkmordsfrågorna om Gaza, Xinjiang och Darfur.
+				Då syns det om modellerna mäter med samma måttstock. Frågan om Peking 1989 prövar om en
+				modell undviker fakta som en regering vill dölja.
+			</p>
+			<p>
+				Några jämförelser ställer i stället en allmän princip mot ett fall av den, till exempel att
+				det är ett krigsbrott att stänga av mat och vatten för en civilbefolkning mot att Israel har
+				använt svält som vapen i Gaza. Jämförelserna läses modell för modell:
+			</p>
+			<DefinitionList items={twinStates} />
+		</TitledSection>
+
+		<TitledSection id="religiosa-fragor" title="De religiösa frågorna">
+			<p>
+				Svaren är modellernas egna och återges som de lämnades. På frågor som rör en religiös
+				bestämmelse redovisar islam.se efter svaren den klassiska hållningen, som de lärda har
+				formulerat den utifrån Koranen och sunna.
+			</p>
+		</TitledSection>
+
+		<TitledSection id="bakgrund-och-opinion" title="Bakgrund och opinionsmätningar">
+			<p>
+				På en del frågesidor står en kort bakgrund före modellernas svar. Den bygger på domstolar,
+				FN-organ, svensk lag och myndigheter, med källorna utskrivna och det datum uppgifterna
+				kontrollerades. Där en domstol eller ett FN-organ har kommit fram till något om en stat står
+				statens egen hållning efter, på samma sätt för alla stater.
+			</p>
+			<p>
+				Där en seriös opinionsmätning har ställt samma eller en liknande fråga till svenskarna visas
+				svaren som en egen stapel, med mätningens egen fråga. Mätningen och modellerna står aldrig på
+				samma skala: en andel av befolkningen och en modells ställning är olika saker, och mätningens
+				fråga är sällan densamma som påståendet.
+			</p>
+		</TitledSection>
+
+		<TitledSection id="begransningar" title="Vad mätningen inte visar">
+			<ul class="abm-limits">
+				{limits.map((line) => <li>{line}</li>)}
+			</ul>
+		</TitledSection>
+
+		<TitledSection id="matningarna" title="Mätningarna">
+			<p>
+				Frågor som har tagits bort ur barometern ställs inte längre, men deras svar finns kvar i
+				mätningarnas rådata.
+			</p>
+			{
+				series.runs.length === 0 ? (
+					<p>Ingen mätning har publicerats ännu.</p>
+				) : (
+					<div class="abm-scroll">
+						<table class="abm-runs">
+							<caption class="sr-only">Alla mätningar med antal frågor, svar och kostnad</caption>
+							<thead>
+								<tr>
+									<th scope="col">Mätning</th>
+									<th scope="col" class="abm-num">Frågor</th>
+									<th scope="col" class="abm-num">Svar</th>
+									<th scope="col" class="abm-num">Kostnad</th>
+									<th scope="col">Rådata</th>
+								</tr>
+							</thead>
+							<tbody>
+								{series.runs.map((r, index) => ({ r, index })).reverse().map(({ r, index }) => (
+									<tr>
+										<th scope="row">{svDate(r.date)}</th>
+										<td class="abm-num">{questionCountOf(index)}</td>
+										<td class="abm-num">{r.answers}</td>
+										<td class="abm-num">{USD.format(r.costUsd)} USD</td>
+										<td>
+											<a href={`/ai-barometern/data/${r.id}.json`}>JSON</a>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				)
+			}
+		</TitledSection>
+
+		<p class="collection-back"><SectionLink href={BASE_PATH} direction="back">AI-barometern</SectionLink></p>
+	</main>
+</Base>

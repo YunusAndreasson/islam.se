@@ -1,0 +1,122 @@
+---
+// How one statement's answers moved, as five small charts: one per model family, one line
+// each, all in brass on the same −2 … +2 scale. Small multiples instead of five coloured
+// lines on one plot, which the site's palette cannot carry and a reader cannot untangle.
+//
+// A hairline marks the run where a family switched model, so a jump in the line can be read
+// against it. A ring below the scale is a run where the model took no position.
+import type { HistoryPoint } from "../../lib/ai-barometern/aggregate";
+import { cellLabel, modelShortName, svDate } from "../../lib/ai-barometern/site";
+import type { Family } from "../../lib/ai-barometern/types";
+
+interface Props {
+	series: readonly { family: Family; points: readonly HistoryPoint[] }[];
+}
+
+const { series } = Astro.props;
+
+const W = 240;
+const H = 96;
+const LEFT = 8;
+const RIGHT = 8;
+const TOP = 16;
+const SCALE_BOTTOM = 72;
+const NONE_LANE = 88;
+const LEVELS = [2, 1, 0, -1, -2] as const;
+
+const y = (v: number) => TOP + ((2 - v) * (SCALE_BOTTOM - TOP)) / 4;
+const x = (i: number, n: number) => (n <= 1 ? W / 2 : LEFT + (i * (W - LEFT - RIGHT)) / (n - 1));
+
+const SHORT = new Intl.DateTimeFormat("sv-SE", { day: "numeric", month: "short", timeZone: "UTC" });
+const shortDate = (iso: string) => SHORT.format(new Date(`${iso}T12:00:00Z`));
+
+/** Line segments, broken wherever a run has no position. */
+function segments(points: readonly HistoryPoint[]): string[] {
+	const out: string[] = [];
+	let d = "";
+	for (const [i, p] of points.entries()) {
+		if (p.cell.display === null) {
+			if (d) out.push(d);
+			d = "";
+			continue;
+		}
+		d += `${d ? "L" : "M"}${x(i, points.length).toFixed(1)} ${y(p.cell.display).toFixed(1)}`;
+	}
+	if (d) out.push(d);
+	return out;
+}
+
+function describe(label: string, points: readonly HistoryPoint[]): string {
+	const steps = points.map(
+		(p) => `${svDate(p.date)}: ${cellLabel(p.cell)}${p.switched ? ` (ny modell: ${modelShortName(p.modelName)})` : ""}`,
+	);
+	return `${label} över tid. ${steps.join("; ")}.`;
+}
+---
+
+<div class="abm-multiples">
+	{
+		series.map(({ family, points }) => {
+			const n = points.length;
+			const first = points[0];
+			const last = points.at(-1);
+			return (
+				<figure class="abm-multiple">
+					<figcaption class="abm-multiple-title">{family.label}</figcaption>
+					<svg
+						class="abm-trend"
+						viewBox={`0 0 ${W} ${H}`}
+						role="img"
+						aria-label={describe(family.label, points)}
+					>
+						{LEVELS.map((v) => (
+							<line
+								class:list={["abm-grid", { "abm-grid--zero": v === 0 }]}
+								x1={LEFT}
+								x2={W - RIGHT}
+								y1={y(v)}
+								y2={y(v)}
+							/>
+						))}
+						{points.map(
+							(p, i) =>
+								p.switched && (
+									<g>
+										<line class="abm-switch" x1={x(i, n)} x2={x(i, n)} y1={TOP - 4} y2={NONE_LANE} />
+										<text
+											class="abm-switch-label"
+											x={x(i, n) + (i >= n / 2 ? -3 : 3)}
+											y={TOP - 7}
+											text-anchor={i >= n / 2 ? "end" : "start"}
+										>
+											ny modell
+										</text>
+									</g>
+								),
+						)}
+						{segments(points).map((d) => (
+							<path class="abm-line" d={d} />
+						))}
+						{points.map((p, i) =>
+							p.cell.display === null ? (
+								<circle class="abm-point-none" cx={x(i, n)} cy={NONE_LANE} r="3.5">
+									<title>{`${svDate(p.date)}: ${cellLabel(p.cell)}`}</title>
+								</circle>
+							) : (
+								<circle class="abm-point" cx={x(i, n)} cy={y(p.cell.display)} r="4">
+									<title>{`${svDate(p.date)}: ${cellLabel(p.cell)} (${modelShortName(p.modelName)})`}</title>
+								</circle>
+							),
+						)}
+					</svg>
+					{first && last && (
+						<p class="abm-multiple-axis">
+							<span>{shortDate(first.date)}</span>
+							<span>{shortDate(last.date)}</span>
+						</p>
+					)}
+				</figure>
+			);
+		})
+	}
+</div>

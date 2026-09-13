@@ -1,0 +1,77 @@
+---
+// How often each model takes a position, area by area: the count, and under it a bar filled to
+// the share of the area's statements. One colour, because the bar measures one thing. The count
+// is the same one the matrix prints under each area's table (positionsTaken in site.ts).
+import type { StanceShare } from "../../lib/ai-barometern/site";
+import type { FamilyKey } from "../../lib/ai-barometern/types";
+import ModelLogo from "./ModelLogo.astro";
+
+interface Props {
+	shares: readonly StanceShare[];
+	caption: string;
+	source: string;
+	/** On a model's own page: its row is set off from the other four. */
+	current?: FamilyKey;
+}
+
+const { shares, caption, source, current } = Astro.props;
+const columns = [
+	...(shares[0]?.areas ?? []).map((a) => ({ key: a.key, label: a.label, total: a.total })),
+	{ key: "alla", label: "Alla områden", total: shares[0]?.total ?? 0 },
+].filter((c) => c.total > 0);
+
+const cellOf = (share: StanceShare, key: string) =>
+	key === "alla"
+		? { taken: share.taken, total: share.total }
+		: (share.areas.find((a) => a.key === key) ?? { taken: 0, total: 0 });
+---
+
+<figure class="chart abm-figure">
+	<div class="abm-scroll">
+		<table class="abm-share-table">
+			<caption class="sr-only">{caption}</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">Modell</span></th>
+					{
+						columns.map((c) => (
+							<th scope="col" data-all={c.key === "alla" ? "" : undefined}>
+								<span class="abm-colhead">{c.label}</span>
+								<span class="abm-share-of">av {c.total}</span>
+							</th>
+						))
+					}
+				</tr>
+			</thead>
+			<tbody>
+				{
+					shares.map((share) => (
+						<tr data-current={share.family.key === current ? "" : undefined}>
+							<th scope="row">
+								<span class="abm-rowmodel">
+									<ModelLogo family={share.family.key} />
+									{share.family.label}
+								</span>
+							</th>
+							{columns.map((c) => {
+								const { taken, total } = cellOf(share, c.key);
+								return (
+									<td data-all={c.key === "alla" ? "" : undefined}>
+										<span class="abm-share" style={`--share: ${total ? taken / total : 0}`} aria-hidden="true">
+											{taken}
+										</span>
+										<span class="sr-only">{`${c.label}: ${taken} av ${total}`}</span>
+									</td>
+								);
+							})}
+						</tr>
+					))
+				}
+			</tbody>
+		</table>
+	</div>
+	<figcaption class="chart-cap">
+		<span class="chart-cap-lead">{caption}</span>
+		<span>{source}</span>
+	</figcaption>
+</figure>

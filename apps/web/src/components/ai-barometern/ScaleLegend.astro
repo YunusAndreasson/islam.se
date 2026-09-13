@@ -1,0 +1,73 @@
+---
+// The key above a chart of answer chips. The model names come first; they show only on a phone,
+// where the column heads keep just the logos, unless `models` asks for them everywhere (the hub's
+// findings, whose heads keep only logos at every width). A no-position mark shows only when the
+// chart holds one, so the key never explains a mark the reader cannot find. The big matrix
+// always lists the five steps; a small chart (`compact`) lists only the steps it uses.
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import { FAMILIES } from "../../lib/ai-barometern/families";
+import { SCALE_LEGEND } from "../../lib/ai-barometern/site";
+import ModelLogo from "./ModelLogo.astro";
+
+interface Props {
+	cells: readonly ScaleCell[];
+	/** The chart rings a model's answer about its own maker. */
+	own?: boolean;
+	compact?: boolean;
+	models?: boolean;
+}
+
+const { cells, own = false, compact = false, models = false } = Astro.props;
+
+const states = new Set(cells.map((c) => c.state));
+const values = new Set(
+	cells.flatMap((c) => (c.state === "position" && typeof c.display === "number" ? [c.display] : [])),
+);
+const legend = SCALE_LEGEND.filter((item) =>
+	item.state === "position"
+		? !compact || (item.v !== undefined && values.has(item.v))
+		: states.has(item.state),
+);
+const anyMixed = cells.some((c) => c.state === "position" && !c.consistent);
+---
+
+<div class:list={["abm-legend", { "abm-legend--models": models }]} aria-hidden="true">
+	<div class="abm-legend-row abm-legend-models">
+		{
+			FAMILIES.map((f) => (
+				<span class="abm-legend-item">
+					<ModelLogo family={f.key} />
+					{f.label}
+				</span>
+			))
+		}
+	</div>
+	<div class="abm-legend-row">
+		{
+			legend.map((item) => (
+				<span class="abm-legend-item">
+					<span class="abm-chip" data-state={item.state} data-v={item.v}>
+						{item.glyph}
+					</span>
+					{item.label}
+				</span>
+			))
+		}
+		{
+			anyMixed && (
+				<span class="abm-legend-item">
+					<span class="abm-chip" data-v="0" data-mixed="" />
+					Olika svar
+				</span>
+			)
+		}
+		{
+			own && (
+				<span class="abm-legend-item">
+					<span class="abm-chip" data-v="0" data-own="" />
+					Eget företag
+				</span>
+			)
+		}
+	</div>
+</div>

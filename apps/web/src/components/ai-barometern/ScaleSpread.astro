@@ -1,0 +1,147 @@
+---
+// Several statements, every model: one row per statement, the scale across, and in each cell
+// the logos of the models that answered there. It is the position strip turned on its side, so
+// statements that differ only in the country or company they name sit one above the other, and a
+// model that moves between them, or drops into »Avstår« on one of them, is visible at a glance.
+// A real <table>: the markdown twin and a screen reader read each cell as a sentence.
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import { FAMILIES } from "../../lib/ai-barometern/families";
+import { svJoin } from "../../lib/ai-barometern/summary";
+import type { Family, FamilyKey } from "../../lib/ai-barometern/types";
+import ModelLogo from "./ModelLogo.astro";
+
+interface Props {
+	rows: readonly {
+		label: string;
+		href: string;
+		/** The statement of the page the chart is on: named, not linked. */
+		current: boolean;
+		/** The model whose own maker the statement names (a control question). */
+		own: FamilyKey | undefined;
+		measured: boolean;
+		cells: Record<FamilyKey, ScaleCell>;
+	}[];
+	caption: string;
+	source: string;
+	/** Print which logo is which model above the table: once per page is enough. */
+	showKey?: boolean;
+}
+
+const { rows, caption, source, showKey = false } = Astro.props;
+
+interface Column {
+	label: string;
+	v?: number;
+	holds: (cell: ScaleCell) => boolean;
+}
+
+const SCALE: Column[] = [
+	{ v: -2, label: "Tar helt avstånd" },
+	{ v: -1, label: "Tar delvis avstånd" },
+	{ v: 0, label: "Varken eller" },
+	{ v: 1, label: "Instämmer delvis" },
+	{ v: 2, label: "Instämmer helt" },
+].map((c) => ({ ...c, holds: (cell: ScaleCell) => cell.state === "position" && cell.display === c.v }));
+
+const anySplit = rows.some((r) => r.measured && FAMILIES.some((f) => r.cells[f.key].state === "split"));
+const columns: Column[] = [
+	...SCALE,
+	...(anySplit ? [{ label: "Splittrad", holds: (cell: ScaleCell) => cell.state === "split" }] : []),
+	{
+		label: "Avstår eller vägrar",
+		holds: (cell: ScaleCell) => cell.state === "abstain" || cell.state === "refused",
+	},
+];
+
+const anyOwn = rows.some((r) => r.own);
+const at = (cells: Record<FamilyKey, ScaleCell>, column: Column): Family[] =>
+	FAMILIES.filter((f) => column.holds(cells[f.key]));
+---
+
+<figure class="chart abm-figure">
+	{
+		showKey && (
+			<div class="abm-legend" aria-hidden="true">
+				<div class="abm-legend-row">
+					{FAMILIES.map((f) => (
+						<span class="abm-legend-item">
+							<ModelLogo family={f.key} />
+							{f.label}
+						</span>
+					))}
+					{anyOwn && (
+						<span class="abm-legend-item">
+							<span class="abm-spread-mark abm-spread-mark--key" data-own="" />
+							Eget företag
+						</span>
+					)}
+				</div>
+			</div>
+		)
+	}
+	<div class="abm-scroll">
+		<table class="abm-strip abm-spread">
+			<caption class="sr-only">{caption}</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">Påstående</span></th>
+					{
+						columns.map((c) => (
+							<th scope="col" data-v={c.v}>
+								<span class="abm-colhead">{c.label}</span>
+							</th>
+						))
+					}
+				</tr>
+			</thead>
+			<tbody>
+				{
+					rows.map((row) => (
+						<tr data-current={row.current ? "" : undefined}>
+							<th scope="row">
+								{row.current ? (
+									<span class="abm-spread-current">{row.label}</span>
+								) : (
+									<a href={row.href}>{row.label}</a>
+								)}
+							</th>
+							{row.measured ? (
+								columns.map((column) => {
+									const families = at(row.cells, column);
+									return (
+										<td>
+											{families.length > 0 && (
+												<>
+													<span class="abm-spread-logos" aria-hidden="true">
+														{families.map((f) => (
+															<span
+																class="abm-spread-mark"
+																title={`${f.label}${row.own === f.key ? ", om sitt eget företag" : ""}`}
+																data-own={row.own === f.key ? "" : undefined}
+															>
+																<ModelLogo family={f.key} />
+															</span>
+														))}
+													</span>
+													<span class="sr-only">{`${column.label}: ${svJoin(families.map((f) => f.label))}.`}</span>
+												</>
+											)}
+										</td>
+									);
+								})
+							) : (
+								<td colspan={columns.length}>
+									<span class="abm-pending">Ställs från nästa mätning</span>
+								</td>
+							)}
+						</tr>
+					))
+				}
+			</tbody>
+		</table>
+	</div>
+	<figcaption class="chart-cap">
+		<span class="chart-cap-lead">{caption}</span>
+		<span>{source}</span>
+	</figcaption>
+</figure>

@@ -1,0 +1,113 @@
+---
+// The overview: every scale statement × every model family, one chip per cell, in one table
+// per area of the bank. Each table has its own sticky model heads and its own count, so a
+// reader deep in »Krig och omvärld« still sees which column is which model. Real <table>s, so
+// a screen reader and the markdown twin read them row by row; the chip's colour is doubled
+// by a printed glyph and by a sentence in .sr-only text.
+//
+// The matrix follows the findings on the hub, so each area is a <details> that starts OPEN: the
+// answers are what the reader came for. The disclosure lets a reader fold an area of forty rows
+// away to reach the sections below. The summary names the area and its size.
+import { FAMILIES } from "../../lib/ai-barometern/families";
+import { type MatrixArea, positionsTaken, questionPath } from "../../lib/ai-barometern/site";
+import MatrixCell from "./MatrixCell.astro";
+import ModelLogo from "./ModelLogo.astro";
+import ScaleLegend from "./ScaleLegend.astro";
+
+interface Props {
+	areas: readonly MatrixArea[];
+	caption: string;
+	source: string;
+}
+
+const { areas, caption, source } = Astro.props;
+
+// A question added since the last run has a row, so the reader sees what is coming, but no
+// cells and no vote in the counts below.
+const measuredIn = (area: MatrixArea) =>
+	area.groups.flatMap((g) => g.rows.filter((r) => r.measured));
+const measuredRows = areas.flatMap(measuredIn);
+const cells = measuredRows.flatMap((r) => FAMILIES.map((f) => r.cells[f.key]));
+const anyOwn = measuredRows.some((r) => r.question.aboutFamily);
+const statementsIn = (area: MatrixArea) => area.groups.reduce((n, g) => n + g.rows.length, 0);
+---
+
+<figure class="chart abm-figure abm-figure--matrix">
+	<ScaleLegend cells={cells} own={anyOwn} />
+	{
+		areas.map((area) => {
+			const measured = measuredIn(area);
+			return (
+				<details class="abm-area" id={area.key} open>
+					<summary>
+						<h3 class="abm-area-head">{area.label}</h3>
+						<span class="abm-area-count">{statementsIn(area)} påståenden</span>
+					</summary>
+					<div class="abm-scroll abm-scroll--sticky">
+						<table class="abm-matrix">
+							<caption class="sr-only">{`${area.label}. ${caption}`}</caption>
+							<thead>
+								<tr>
+									<th scope="col">
+										<span class="sr-only">Påstående</span>
+									</th>
+									{FAMILIES.map((f) => (
+										<th scope="col">
+											<span class="abm-modelhead">
+												<ModelLogo family={f.key} />
+												<span class="abm-colname">{f.label}</span>
+											</span>
+										</th>
+									))}
+								</tr>
+							</thead>
+							{area.groups.map((group) => (
+								<tbody>
+									<tr class="abm-group">
+										<th scope="rowgroup" colspan={FAMILIES.length + 1}>
+											{group.label}
+										</th>
+									</tr>
+									{group.rows.map((row) => (
+										<tr>
+											<th scope="row">
+												<a href={questionPath(row.question)}>{row.question.short}</a>
+											</th>
+											{row.measured ? (
+												FAMILIES.map((f) => (
+													<MatrixCell
+														label={f.label}
+														cell={row.cells[f.key]}
+														own={row.question.aboutFamily === f.key}
+													/>
+												))
+											) : (
+												<td colspan={FAMILIES.length}>
+													<span class="abm-pending">Ställs från nästa mätning</span>
+												</td>
+											)}
+										</tr>
+									))}
+								</tbody>
+							))}
+							{measured.length > 0 && (
+								<tfoot>
+									<tr>
+										<th scope="row">Tog ställning, av {measured.length}</th>
+										{FAMILIES.map((f) => (
+											<td>{positionsTaken(measured, f.key)}</td>
+										))}
+									</tr>
+								</tfoot>
+							)}
+						</table>
+					</div>
+				</details>
+			);
+		})
+	}
+	<figcaption class="chart-cap">
+		<span class="chart-cap-lead">{caption}</span>
+		<span>{source}</span>
+	</figcaption>
+</figure>

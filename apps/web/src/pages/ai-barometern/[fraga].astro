@@ -1,0 +1,394 @@
+---
+import { getCollection } from "astro:content";
+import PartyGrid from "../../components/ai-barometern/PartyGrid.astro";
+import PositionStrip from "../../components/ai-barometern/PositionStrip.astro";
+import ModelLogo from "../../components/ai-barometern/ModelLogo.astro";
+import OpinionBar from "../../components/ai-barometern/OpinionBar.astro";
+import TrendMultiples from "../../components/ai-barometern/TrendMultiples.astro";
+import TwinCompare from "../../components/ai-barometern/TwinCompare.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import DiamondList from "../../components/DiamondList.astro";
+import HairlineLinkList from "../../components/HairlineLinkList.astro";
+import Honorific from "../../components/Honorific.astro";
+import TitledSection from "../../components/TitledSection.astro";
+import Base from "../../layouts/Base.astro";
+import { BACKGROUND, READ_MORE } from "../../lib/ai-barometern/context";
+import { FAMILIES, getFamily } from "../../lib/ai-barometern/families";
+import { codeLabel } from "../../lib/ai-barometern/options";
+import { pollsFor } from "../../lib/ai-barometern/opinion";
+import { activeQuestions, THEME_LABELS } from "../../lib/ai-barometern/questions";
+import {
+	BASE_PATH,
+	excerptsOf,
+	getSeries,
+	historyOf,
+	latestIndexOf,
+	latestRun,
+	METHOD_PATH,
+	modelShortName,
+	partyHistory,
+	partyRows,
+	questionPath,
+	scaleRow,
+	shownPartyCode,
+	shownScaleCode,
+	svDate,
+	twinRow,
+} from "../../lib/ai-barometern/site";
+import { describeRow } from "../../lib/ai-barometern/summary";
+import { twinSetsOf } from "../../lib/ai-barometern/twins";
+import type { Question } from "../../lib/ai-barometern/types";
+import { getArticles } from "../../lib/articles";
+import { requireBySlug } from "../../lib/content-refs";
+import { breadcrumbList } from "../../lib/jsonld";
+import "../../styles/ai-barometern-chips.css";
+import "../../styles/ai-barometern.css";
+
+// One question, all models. The classical note, when the question has one, is the last
+// content section on the page: CLAUDE.md gives the classical position the last word, and
+// a model's motivation must never be what the reader leaves on. Only navigation follows it.
+//
+// Above the chart the answer comes first in words (describeRow), so a reader who never reads a
+// chart still leaves with it. Below it, the statements asked in parallel with this one (twins.ts)
+// show whether the models answer them alike.
+
+export async function getStaticPaths() {
+	// »Läs mer på islam.se« (context.ts): an unknown slug fails the build rather than drop a link.
+	const svar = new Map((await getCollection("svar")).map((e) => [e.id, e.data.title]));
+	const fordjupning = new Map((await getCollection("fordjupning")).map((e) => [e.id, e.data.title]));
+	const essays = new Map((await getArticles()).map((a) => [a.slug, a.title]));
+	const refs = { sourceFile: "src/lib/ai-barometern/context.ts" };
+	return activeQuestions().map((question) => {
+		const links = READ_MORE[question.id];
+		const readMore = [
+			...requireBySlug(svar, links?.svar ?? [], { ...refs, field: `${question.id}.svar`, dataDir: "data/svar/" }).map(
+				(label, i) => ({ label, href: `/svar/${links?.svar?.[i]}/` }),
+			),
+			...requireBySlug(fordjupning, links?.fordjupning ?? [], {
+				...refs,
+				field: `${question.id}.fordjupning`,
+				dataDir: "data/fordjupning/",
+			}).map((label, i) => ({ label, href: `/fordjupning/${links?.fordjupning?.[i]}/` })),
+			...requireBySlug(essays, links?.essays ?? [], {
+				...refs,
+				field: `${question.id}.essays`,
+				dataDir: "data/articles/",
+			}).map((label, i) => ({ label, href: `/${links?.essays?.[i]}` })),
+		];
+		return { params: { fraga: question.id }, props: { question, readMore } };
+	});
+}
+
+interface Props {
+	question: Question;
+	readMore: { label: string; href: string }[];
+}
+
+const { question, readMore } = Astro.props;
+// The question's own latest measurement, which is not always the newest run: a run may ask
+// only the questions added since the last full one.
+const run = getSeries().runs[latestIndexOf(question)] ?? null;
+const anyRun = latestRun();
+const isScale = question.kind === "scale";
+
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "AI-barometern", url: BASE_PATH },
+	{ name: question.short, url: questionPath(question) },
+];
+
+const heading = isScale ? `»${question.text}«` : question.text;
+const scaleCells = scaleRow(question);
+const summary = run && isScale ? describeRow(scaleCells) : "";
+const description = isScale
+	? `Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek på påståendet »${question.text}«?${summary ? ` ${summary}` : ""} Svaren i AI-barometern, med modellernas egna motiveringar.`
+	: `${question.text} Så svarar ChatGPT, Claude, Gemini, Grok och DeepSeek i AI-barometern, med modellernas egna motiveringar.`;
+
+// A control question about one AI company: say whose model is judging its own maker.
+const ownFamily = question.aboutFamily ? getFamily(question.aboutFamily) : null;
+const ownNote = ownFamily
+	? ` Påståendet gäller ${ownFamily.maker}, företaget bakom ${ownFamily.label}.`
+	: "";
+
+const dek = `${
+	run
+		? `Så svarade fem AI-modeller i mätningen ${svDate(run.date)}. Varje modell fick frågan ${run.samples} gånger, varje gång i en ny konversation.`
+		: anyRun
+			? "Frågan är ny i AI-barometern. Den ställs till modellerna för första gången vid nästa mätning."
+			: "Den första mätningen har ännu inte publicerats."
+}${ownNote}`;
+
+const partyRow = partyRows().find((r) => r.question.id === question.id);
+const source = run ? `Källa: AI-barometern, mätning ${svDate(run.date)}.` : "";
+
+const quotes = FAMILIES.map((family) => {
+	const shown = isScale
+		? shownScaleCode(scaleCells[family.key])
+		: partyRow
+			? shownPartyCode(partyRow.cells[family.key])
+			: null;
+	return {
+		family,
+		model: run ? modelShortName(run.models[family.key].name) : "",
+		...excerptsOf(question, family.key, shown),
+	};
+});
+const hasQuotes = quotes.some((q) => q.lead || q.rest.length > 0);
+
+const history = historyOf(question);
+const partyRuns = isScale ? [] : partyHistory(question);
+const hasHistory = isScale ? history.some((h) => h.points.length >= 2) : partyRuns.length >= 2;
+const noteParts = question.classicalNote?.split("ﷺ") ?? [];
+
+/** The scale value behind an answer code, for the colour swatch beside a quoted answer. */
+const scaleV = (code: string) => (/^-?[0-2]$/.test(code) ? code : undefined);
+
+// Onward in the hub's own order, so a reader can walk every question without going back.
+const questions = activeQuestions();
+const at = questions.findIndex((q) => q.id === question.id);
+const prev = at > 0 ? questions[at - 1] : undefined;
+const next = at >= 0 ? questions[at + 1] : undefined;
+
+const twins = isScale ? twinSetsOf(question.id).map(twinRow) : [];
+const background = BACKGROUND[question.id];
+const polls = isScale ? pollsFor(question.id) : [];
+const siblings = questions.filter((q) => q.theme === question.theme && q.id !== question.id);
+---
+
+<Base
+	title={`${question.short} — AI-barometern — islam.se`}
+	description={description}
+	ogImage="/ai-barometern/og.png"
+	ogImageAlt="AI-barometern — islam.se"
+	jsonLd={[breadcrumbList(crumbs)]}
+>
+	<main id="main" class="home abm abm-question">
+		<header class="abm-head">
+			<Breadcrumb items={crumbs} />
+			<p class="label">AI-barometern · {THEME_LABELS[question.theme]}</p>
+			<h1>{heading}</h1>
+			{summary && <p class="abm-dek">{summary}</p>}
+			<p class:list={[summary ? "abm-dek-note" : "abm-dek"]}>
+				{dek}
+				{
+					question.classicalNote && (
+						<>
+							{" "}
+							<a href="#klassisk-hallning">Den klassiska hållningen</a> står sist på sidan.
+						</>
+					)
+				}
+			</p>
+		</header>
+
+		{
+			run && isScale && (
+				<PositionStrip
+					rows={FAMILIES.map((family) => ({
+						family,
+						model: modelShortName(run.models[family.key].name),
+						cell: scaleCells[family.key],
+						own: question.aboutFamily === family.key,
+					}))}
+					caption={`Varje punkt är ett av modellens svar. En ring betyder att modellen avstod eller vägrade.${question.classicalPosition === undefined ? "" : " Romben visar den klassiska hållningen, som förklaras sist på sidan."}`}
+					classical={question.classicalPosition}
+					source={source}
+				/>
+			)
+		}
+		{
+			run && !isScale && partyRow && (
+				<PartyGrid
+					rows={[partyRow]}
+					caption="Det parti modellen rekommenderade. Den fyllda bokstaven valdes i flest av svaren."
+					source={source}
+					linkQuestions={false}
+				/>
+			)
+		}
+
+		{
+			background && (
+				<TitledSection id="bakgrund" title="Bakgrund">
+					<p>{background.text}</p>
+					<p class="abm-sources">
+						Källor:{" "}
+						{background.sources.map((src, i) => (
+							<>
+								{i > 0 && ", "}
+								<a href={src.url}>{src.name}</a>
+							</>
+						))}
+						. Uppgifterna gäller {svDate(background.asOf)}.
+					</p>
+				</TitledSection>
+			)
+		}
+
+		{
+			polls.length > 0 && (
+				<TitledSection id="svenska-folket" title="Svenska folket">
+					<p>
+						{polls.length === 1 ? "En opinionsmätning" : "Opinionsmätningar"} har ställt samma eller en
+						liknande fråga till svenskarna. Mätningens egen fråga står med, eftersom den sällan är
+						densamma som påståendet ovan.
+					</p>
+					{polls.map((poll) => (
+						<OpinionBar poll={poll} />
+					))}
+				</TitledSection>
+			)
+		}
+
+		{
+			twins.length > 0 && (
+				<TitledSection id="jamfor" title="Jämför med liknande påståenden" class="abm-twins">
+					<p>
+						Påståenden som bara skiljer sig i vem de gäller, eller som prövar en princip mot ett
+						fall, visar om modellerna mäter med samma måttstock.
+					</p>
+					{twins.map((row, i) => (
+						<TwinCompare row={row} currentId={question.id} showKey={i === 0} />
+					))}
+				</TitledSection>
+			)
+		}
+
+		{
+			hasQuotes && (
+				<TitledSection id="motiveringar" title="Modellernas motiveringar">
+					<ul class="abm-quotes">
+						{quotes.map((q) => (
+							<li class="abm-quote">
+								<p class="abm-quote-head">
+									<span class="abm-rowmodel">
+										<ModelLogo family={q.family.key} />
+										{q.family.label}
+									</span>{" "}
+									<span class="abm-quote-meta">{q.model}</span>
+									{q.lead && (
+										<span class="abm-answer" data-v={scaleV(q.lead.code)}>
+											{codeLabel(q.lead.code)}
+										</span>
+									)}
+								</p>
+								{q.lead ? (
+									<blockquote>
+										<p>{q.lead.text}</p>
+									</blockquote>
+								) : (
+									<p class="abm-quote-meta">Inget citat för det svar som visas ovan.</p>
+								)}
+								{q.rest.length > 0 && (
+									<details>
+										<summary>{q.rest.length === 1 ? "Ett svar till" : `${q.rest.length} svar till`}</summary>
+										{q.rest.map((e) => (
+											<blockquote>
+												<p>
+													<strong>{codeLabel(e.code)}.</strong> {e.text}
+												</p>
+											</blockquote>
+										))}
+									</details>
+								)}
+							</li>
+						))}
+					</ul>
+				</TitledSection>
+			)
+		}
+
+		{
+			run && hasHistory && (
+				<TitledSection id="over-tid" title="Över tid">
+					{isScale ? (
+						<>
+							<p>
+								Linjen visar modellens svar vid varje mätning, med Instämmer helt överst och Tar helt
+								avstånd nederst.
+							</p>
+							<TrendMultiples series={history} />
+						</>
+					) : (
+						<div class="abm-scroll">
+							<table class="abm-party-table">
+								<caption class="sr-only">Rekommenderat parti vid varje mätning</caption>
+								<thead>
+									<tr>
+										<th scope="col">Mätning</th>
+										{FAMILIES.map((f) => (
+											<th scope="col">{f.label}</th>
+										))}
+									</tr>
+								</thead>
+								<tbody>
+									{partyRuns.map((row) => (
+										<tr>
+											<th scope="row">{svDate(row.run.date)}</th>
+											{FAMILIES.map((f) => (
+												<td>{row.cells[f.key].modal ?? "–"}</td>
+											))}
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+					)}
+				</TitledSection>
+			)
+		}
+
+		{
+			question.classicalNote && (
+				<section class="abm-classical" aria-labelledby="klassisk-hallning">
+					<h2 id="klassisk-hallning">Den klassiska hållningen</h2>
+					<p>{noteParts.map((part, i) => (i === 0 ? part : [<Honorific />, part]))}</p>
+				</section>
+			)
+		}
+
+		{
+			readMore.length > 0 && (
+				<nav class="abm-siblings abm-readmore" aria-labelledby="las-mer">
+					<h2 class="abm-subhead" id="las-mer">
+						Läs mer på islam.se
+					</h2>
+					<DiamondList items={readMore} nav />
+				</nav>
+			)
+		}
+
+		{
+			siblings.length > 0 && (
+				<nav class="abm-siblings" aria-labelledby="fler-fragor">
+					<h2 class="abm-subhead" id="fler-fragor">
+						Fler frågor: {THEME_LABELS[question.theme]}
+					</h2>
+					<HairlineLinkList items={siblings.map((q) => ({ label: q.short, href: questionPath(q) }))} />
+				</nav>
+			)
+		}
+
+		<nav class="abm-pager" aria-label="Fler frågor i AI-barometern">
+			{
+				prev && (
+					<a class="abm-pager-prev" href={questionPath(prev)} rel="prev">
+						<span class="abm-pager-dir">← Föregående fråga</span>
+						<span class="abm-pager-title">{prev.short}</span>
+					</a>
+				)
+			}
+			{
+				next && (
+					<a class="abm-pager-next" href={questionPath(next)} rel="next">
+						<span class="abm-pager-dir">Nästa fråga →</span>
+						<span class="abm-pager-title">{next.short}</span>
+					</a>
+				)
+			}
+		</nav>
+		<p class="meta-line">
+			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>Alla frågor i AI-barometern</a>
+		</p>
+	</main>
+</Base>

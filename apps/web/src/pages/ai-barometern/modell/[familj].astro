@@ -1,0 +1,294 @@
+---
+import ModelLogo from "../../../components/ai-barometern/ModelLogo.astro";
+import StanceShare from "../../../components/ai-barometern/StanceShare.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import TitledSection from "../../../components/TitledSection.astro";
+import Base from "../../../layouts/Base.astro";
+import { FAMILIES } from "../../../lib/ai-barometern/families";
+import { codeLabel } from "../../../lib/ai-barometern/options";
+import {
+	BASE_PATH,
+	cellLabel,
+	familyTwinParts,
+	METHOD_PATH,
+	matrixAreas,
+	modelPath,
+	modelShortName,
+	partyNote,
+	partyRows,
+	questionPath,
+	roster,
+	shownData,
+	stanceShares,
+	svDate,
+	svDateList,
+	twinRow,
+} from "../../../lib/ai-barometern/site";
+import { countWord } from "../../../lib/ai-barometern/summary";
+import { TWIN_SETS } from "../../../lib/ai-barometern/twins";
+import type { Family } from "../../../lib/ai-barometern/types";
+import { breadcrumbList } from "../../../lib/jsonld";
+import "../../../styles/ai-barometern-chips.css";
+import "../../../styles/ai-barometern.css";
+
+// One model, every answer. A reader who uses ChatGPT, or Gemini, gets the barometer from that
+// model's side: how often it takes a position, the comparisons it answers unevenly, what it says
+// about the AI companies, its own maker included, and its answer to every statement.
+//
+// Everything is computed from the same cells as the hub and the question pages. The religion
+// area comes last in AREAS, and each religious answer links to the classical note on its own
+// question page, so the page never leaves a model's answer as the last word on doctrine.
+
+export function getStaticPaths() {
+	return FAMILIES.map((family) => ({ params: { familj: family.key }, props: { family } }));
+}
+
+interface Props {
+	family: Family;
+}
+
+const { family } = Astro.props;
+const current = roster().find((r) => r.family.key === family.key)?.current ?? null;
+const name = current ? modelShortName(current.name) : family.label;
+
+const areas = matrixAreas();
+const statementsIn = (area: (typeof areas)[number]) =>
+	area.groups.reduce((n, g) => n + g.rows.length, 0);
+const shares = stanceShares(areas);
+const share = shares.find((s) => s.family.key === family.key);
+const shown = shownData();
+const source = shown.runs.length
+	? `Källa: AI-barometern, ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDateList(shown.runs.map((r) => r.date))}.`
+	: "";
+
+const twinRows = TWIN_SETS.map(twinRow).filter((row) => row.members.every((m) => m.measured));
+const isCompany = (row: (typeof twinRows)[number]) =>
+	row.members.every((m) => m.question.aboutFamily);
+const comparisons = twinRows.filter((row) => !isCompany(row));
+const uneven = comparisons.filter((row) =>
+	["gap", "selective"].includes(row.byFamily[family.key].state),
+);
+const companySets = twinRows.filter(isCompany);
+
+const summary = share
+	? `${family.label} tar ställning till ${share.taken} av ${share.total} påståenden och svarar olika i ${countWord(uneven.length)} av ${countWord(comparisons.length)} jämförelser där bara vem påståendet gäller byts ut.`
+	: "";
+
+const parties = partyRows();
+const at = FAMILIES.findIndex((f) => f.key === family.key);
+const prev = FAMILIES[at - 1];
+const next = FAMILIES[at + 1];
+
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "AI-barometern", url: BASE_PATH },
+	{ name: family.label, url: modelPath(family.key) },
+];
+const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur ofta modellen tar ställning, var den svarar olika om likadana påståenden och vad den säger om AI-företagen.`;
+---
+
+<Base
+	title={`${family.label} i AI-barometern — islam.se`}
+	description={description}
+	ogImage="/ai-barometern/og.png"
+	ogImageAlt="AI-barometern — islam.se"
+	jsonLd={[breadcrumbList(crumbs)]}
+>
+	<main id="main" class="home abm abm-question abm-modelpage">
+		<header class="abm-head">
+			<Breadcrumb items={crumbs} />
+			<p class="label">AI-barometern · Modell</p>
+			<h1>
+				<span class="abm-rowmodel">
+					<ModelLogo family={family.key} />
+					{family.label}
+				</span>
+			</h1>
+			{summary && <p class="abm-dek">{summary}</p>}
+			<p class="abm-dek-note">
+				{name} från {family.maker}
+				{current && `, i barometern sedan ${svDate(current.adoptedAt)}`}
+				{current?.knowledgeCutoff && `, kunskapsgräns ${svDate(current.knowledgeCutoff)}`}. Svaren är
+				modellens egna och återges som de lämnades.
+			</p>
+		</header>
+
+		{
+			share && (
+				<TitledSection id="tar-stallning" title="Hur ofta modellen tar ställning">
+					<p>
+						Varje påstående kan besvaras med »Avstår«. Tabellen jämför {family.label} med de fyra andra
+						modellerna, område för område.
+					</p>
+					<StanceShare
+						shares={shares}
+						current={family.key}
+						caption="Antal påståenden där modellen tog ställning, per område."
+						source={source}
+					/>
+				</TitledSection>
+			)
+		}
+
+		{
+			comparisons.length > 0 && (
+				<TitledSection id="jamforelser" title="Samma påstående, olika svar">
+					{uneven.length > 0 ? (
+						<>
+							<p>
+								Här svarade {family.label} olika på påståenden som bara skiljer sig i vilket land, folk
+								eller vilken religion de gäller, eller på en princip och ett fall av den.
+							</p>
+							<ul class="abm-twin-lines">
+								{uneven.map((row) => {
+									const first = row.members[0];
+									return (
+										<li>
+											<strong>
+												{first ? (
+													<a href={`${questionPath(first.question)}#jamfor-${row.set.key}`}>{row.set.title}</a>
+												) : (
+													row.set.title
+												)}
+											</strong>
+											{" – "}
+											{familyTwinParts(row, family.key).join("; ")}
+										</li>
+									);
+								})}
+							</ul>
+						</>
+					) : (
+						<p>{family.label} svarade likadant i alla jämförelser.</p>
+					)}
+				</TitledSection>
+			)
+		}
+
+		{
+			companySets.length > 0 && (
+				<TitledSection id="ai-foretagen" title="Om AI-företagen">
+					<p>
+						Samma påståenden ställs om alla fem företagen, {family.maker} inräknat. Så svarade{" "}
+						{family.label}:
+					</p>
+					{companySets.map((row) => (
+						<>
+							<h3 class="abm-subhead">{row.set.title}</h3>
+							<ul class="abm-own-list">
+								{row.members.map((m) => {
+									const cell = m.cells[family.key];
+									const own = m.question.aboutFamily === family.key;
+									return (
+										<li data-own={own ? "" : undefined}>
+											<span>
+												<a href={questionPath(m.question)}>{m.member.label}</a>
+												{own && <span class="abm-own">Eget företag</span>}
+											</span>
+											<span class="abm-answer" data-v={cell.display ?? undefined}>
+												{cellLabel(cell)}
+											</span>
+										</li>
+									);
+								})}
+							</ul>
+						</>
+					))}
+				</TitledSection>
+			)
+		}
+
+		<TitledSection id="alla-svar" title="Alla svar">
+			<p>Öppna ett område för att se modellens svar på varje påstående.</p>
+			{
+				areas.map((area) => (
+					<details class="abm-area" id={area.key}>
+						<summary>
+							<h3 class="abm-area-head">{area.label}</h3>
+							<span class="abm-area-count">{statementsIn(area)} påståenden</span>
+						</summary>
+						{area.groups.map((group) => (
+							<>
+								<h4 class="abm-subhead">{group.label}</h4>
+								<ul class="abm-model-answers">
+									{group.rows.map((row) => {
+										const cell = row.cells[family.key];
+										const q = row.question;
+										return (
+											<li>
+												<a href={questionPath(q)}>{q.short}</a>
+												{row.measured ? (
+													<span class="abm-answer" data-v={cell.display ?? undefined}>
+														{cellLabel(cell)}
+													</span>
+												) : (
+													<span class="abm-pending">Ställs från nästa mätning</span>
+												)}
+												{q.classicalNote && (
+													<a class="abm-classical-link" href={`${questionPath(q)}#klassisk-hallning`}>
+														Den klassiska hållningen
+														{q.classicalPosition !== undefined && `: ${codeLabel(String(q.classicalPosition))}`}
+													</a>
+												)}
+											</li>
+										);
+									})}
+								</ul>
+							</>
+						))}
+					</details>
+				))
+			}
+			{
+				parties.length > 0 && (
+					<details class="abm-area" id="partivalet">
+						<summary>
+							<h3 class="abm-area-head">Partivalet</h3>
+							<span class="abm-area-count">{parties.length} frågor</span>
+						</summary>
+						<ul class="abm-model-answers">
+							{parties.map((p) => {
+								const cell = p.cells[family.key];
+								return (
+									<li>
+										<a href={questionPath(p.question)}>{p.question.short}</a>
+										<span class="abm-answer">
+											{cell.modal ? codeLabel(cell.modal) : partyNote(cell)}
+										</span>
+									</li>
+								);
+							})}
+						</ul>
+					</details>
+				)
+			}
+		</TitledSection>
+
+		<p class="abm-note">
+			Där en fråga rör en religiös bestämmelse redovisar islam.se den klassiska hållningen på frågans
+			egen sida, efter modellernas svar.
+		</p>
+
+		<nav class="abm-pager" aria-label="Fler modeller i AI-barometern">
+			{
+				prev && (
+					<a class="abm-pager-prev" href={modelPath(prev.key)} rel="prev">
+						<span class="abm-pager-dir">← Föregående modell</span>
+						<span class="abm-pager-title">{prev.label}</span>
+					</a>
+				)
+			}
+			{
+				next && (
+					<a class="abm-pager-next" href={modelPath(next.key)} rel="next">
+						<span class="abm-pager-dir">Nästa modell →</span>
+						<span class="abm-pager-title">{next.label}</span>
+					</a>
+				)
+			}
+		</nav>
+		<p class="meta-line">
+			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>AI-barometern</a>
+		</p>
+	</main>
+</Base>

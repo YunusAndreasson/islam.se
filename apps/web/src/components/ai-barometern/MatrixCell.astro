@@ -1,0 +1,30 @@
+---
+// One model's answer as a chip in a table cell. The colour is doubled by a printed glyph, and the
+// full sentence goes to the tooltip and, as .sr-only text, to screen readers and the markdown twin.
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import { cellGlyph, cellTitle } from "../../lib/ai-barometern/site";
+
+interface Props {
+	label: string;
+	cell: ScaleCell;
+	/** The statement is about this model's own maker: the chip gets a ring. */
+	own?: boolean;
+}
+
+const { label, cell, own = false } = Astro.props;
+const title = `${cellTitle(label, cell)}${own ? ", om sitt eget företag" : ""}`;
+---
+
+<td title={title}>
+	<span
+		class="abm-chip"
+		data-state={cell.state}
+		data-v={cell.display ?? undefined}
+		data-mixed={cell.state === "position" && !cell.consistent ? "" : undefined}
+		data-own={own ? "" : undefined}
+		aria-hidden="true"
+	>
+		{cellGlyph(cell)}
+	</span>
+	<span class="sr-only">{title}</span>
+</td>

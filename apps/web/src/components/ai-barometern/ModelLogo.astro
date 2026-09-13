@@ -1,0 +1,24 @@
+---
+// A model family's logo, inline so the single-colour marks (OpenAI, Grok) take the text colour
+// in both themes. The SVGs are the companies' official marks as redrawn by lobehub/lobe-icons
+// (MIT, v1.95.0), stripped only of sizing attributes. They identify which model a column or
+// row is about; the marks themselves remain their companies' trademarks.
+import chatgpt from "../../assets/ai-barometern/logos/chatgpt.svg?raw";
+import claude from "../../assets/ai-barometern/logos/claude.svg?raw";
+import deepseek from "../../assets/ai-barometern/logos/deepseek.svg?raw";
+import gemini from "../../assets/ai-barometern/logos/gemini.svg?raw";
+import grok from "../../assets/ai-barometern/logos/grok.svg?raw";
+import { logoInstanceId } from "../../lib/ai-barometern/logo-ids";
+import type { FamilyKey } from "../../lib/ai-barometern/types";
+
+interface Props {
+	family: FamilyKey;
+}
+
+const SVG: Record<FamilyKey, string> = { chatgpt, claude, deepseek, gemini, grok };
+const { family } = Astro.props;
+const svg = SVG[family];
+const markup = svg.includes("__ID__") ? svg.replaceAll("__ID__", logoInstanceId()) : svg;
+---
+
+<span class="abm-logo" aria-hidden="true" set:html={markup} />

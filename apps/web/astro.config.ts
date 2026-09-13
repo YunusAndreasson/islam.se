@@ -5,6 +5,7 @@ import { type UnifiedProcessorOptions, unified } from "@astrojs/markdown-remark"
 import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
 import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
+import { AI_BAROMETERN_DATA_DATE } from "./src/lib/ai-barometern/meta";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
 import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeChart } from "./src/plugins/rehype-chart";
@@ -1045,6 +1046,12 @@ export default defineConfig({
 					item.lastmod = new Date(MOSKEER_DATA_DATE).toISOString();
 					item.changefreq = ChangeFreqEnum.MONTHLY;
 					item.priority = 0.5;
+				} else if (slug === "ai-barometern" || slug.startsWith("ai-barometern/")) {
+					// Every AI-barometern page is rebuilt from the latest measurement, so they all
+					// share its date; before the first one they fall back to the build date.
+					item.lastmod = new Date(AI_BAROMETERN_DATA_DATE ?? BUILD_LASTMOD).toISOString();
+					item.changefreq = ChangeFreqEnum.WEEKLY;
+					item.priority = slug === "ai-barometern" ? 0.6 : 0.5;
 				}
 				return item;
 			},

@@ -1,0 +1,23 @@
+---
+// A secondary section of the hub, folded. Its heading and one line on what it holds stay on the
+// page, and the reader opens it for the chart and the text. The heading keeps its id inside the
+// summary, so a link to the section lands on something visible even while it is closed.
+interface Props {
+	id: string;
+	title: string;
+	/** What the section holds, or its headline number, under the heading. */
+	hint: string;
+}
+
+const { id, title, hint } = Astro.props;
+---
+
+<section class="abm-more" aria-labelledby={id}>
+	<details>
+		<summary>
+			<h2 id={id}>{title}</h2>
+			<span class="abm-more-hint">{hint}</span>
+		</summary>
+		<slot />
+	</details>
+</section>

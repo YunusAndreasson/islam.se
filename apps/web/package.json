@@ -18,6 +18,7 @@
 		"library-figures": "tsx scripts/build-library-figures.ts",
 		"rattelser": "tsx scripts/rattelser.ts",
 		"sync-verses": "tsx scripts/sync-verses.ts",
+		"ai-barometern": "tsx scripts/ai-barometern.ts",
 		"build:fast": "BONETIDER_SAMPLE=12 astro build && tsx scripts/generate-markdown.ts",
 		"epub": "tsx scripts/generate-epub.ts",
 		"books": "pnpm run pdf && pnpm run epub"

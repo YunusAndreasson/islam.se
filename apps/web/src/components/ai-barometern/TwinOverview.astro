@@ -1,0 +1,151 @@
+---
+// Every twin set on one table: a row per set, a column per model, and in each cell whether the
+// model answered the set's statements alike. The chips are outlines with a glyph, never the
+// agree/disagree colours, because a cell here says »same or different«, not a position. The
+// foot counts, per model, the sets it answered differently. Each row leads to the full
+// comparison on its first statement's page.
+import type { TwinState } from "../../lib/ai-barometern/aggregate";
+import { FAMILIES } from "../../lib/ai-barometern/families";
+import { questionPath, type TwinRow } from "../../lib/ai-barometern/site";
+import { stancePhrase } from "../../lib/ai-barometern/summary";
+import type { FamilyKey } from "../../lib/ai-barometern/types";
+import ModelLogo from "./ModelLogo.astro";
+
+interface Props {
+	rows: readonly TwinRow[];
+	caption: string;
+	source: string;
+}
+
+const { rows, caption, source } = Astro.props;
+
+const LEGEND: readonly { state: TwinState; glyph: string; label: string }[] = [
+	{ state: "same", glyph: "=", label: "Samma svar" },
+	{ state: "gap", glyph: "1–4", label: "Steg isär på skalan" },
+	{ state: "selective", glyph: "A", label: "Avstår om någon av dem" },
+	{ state: "silent", glyph: "–", label: "Avstår om alla" },
+	{ state: "unclear", glyph: "?", label: "Splittrat svar" },
+];
+
+const measured = rows.filter((r) => r.members.every((m) => m.measured));
+const present = new Set(measured.flatMap((r) => FAMILIES.map((f) => r.byFamily[f.key].state)));
+const legend = LEGEND.filter((item) => present.has(item.state));
+
+const groups = [
+	{ label: "Samma påstående om olika fall", rows: measured.filter((r) => r.set.kind === "parallel") },
+	{ label: "En princip och ett fall", rows: measured.filter((r) => r.set.kind === "principle") },
+].filter((g) => g.rows.length > 0);
+
+const glyph = (row: TwinRow, key: FamilyKey) => {
+	const { state, steps } = row.byFamily[key];
+	if (state === "gap") return String(steps);
+	return LEGEND.find((item) => item.state === state)?.glyph ?? "";
+};
+
+const sentence = (row: TwinRow, key: FamilyKey, label: string) =>
+	`${label} – ${row.members
+		.map((m) => `${m.member.label}: ${stancePhrase(m.cells[key]) ?? "inget svar"}`)
+		.join("; ")}`;
+
+const differently = (key: FamilyKey) =>
+	measured.filter((r) => ["gap", "selective"].includes(r.byFamily[key].state)).length;
+---
+
+<figure class="chart abm-figure abm-figure--matrix">
+	<div class="abm-legend" aria-hidden="true">
+		<div class="abm-legend-row abm-legend-models">
+			{
+				FAMILIES.map((f) => (
+					<span class="abm-legend-item">
+						<ModelLogo family={f.key} />
+						{f.label}
+					</span>
+				))
+			}
+		</div>
+		<div class="abm-legend-row">
+			{
+				legend.map((item) => (
+					<span class="abm-legend-item">
+						<span class="abm-chip abm-twin-chip" data-twin={item.state}>
+							{item.glyph}
+						</span>
+						{item.label}
+					</span>
+				))
+			}
+		</div>
+	</div>
+	<div class="abm-scroll abm-scroll--sticky">
+		<table class="abm-matrix abm-overview">
+			<caption class="sr-only">{caption}</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">Jämförelse</span></th>
+					{
+						FAMILIES.map((f) => (
+							<th scope="col">
+								<span class="abm-modelhead">
+									<ModelLogo family={f.key} />
+									<span class="abm-colname">{f.label}</span>
+								</span>
+							</th>
+						))
+					}
+				</tr>
+			</thead>
+			{
+				groups.map((group) => (
+					<tbody>
+						<tr class="abm-group">
+							<th scope="rowgroup" colspan={FAMILIES.length + 1}>
+								{group.label}
+							</th>
+						</tr>
+						{group.rows.map((row) => {
+							const first = row.members[0];
+							return (
+								<tr>
+									<th scope="row">
+										{first ? (
+											<a href={`${questionPath(first.question)}#jamfor-${row.set.key}`}>{row.set.title}</a>
+										) : (
+											row.set.title
+										)}
+									</th>
+									{FAMILIES.map((f) => {
+										const text = sentence(row, f.key, f.label);
+										return (
+											<td title={text}>
+												<span class="abm-chip abm-twin-chip" data-twin={row.byFamily[f.key].state} aria-hidden="true">
+													{glyph(row, f.key)}
+												</span>
+												<span class="sr-only">{text}</span>
+											</td>
+										);
+									})}
+								</tr>
+							);
+						})}
+					</tbody>
+				))
+			}
+			{
+				measured.length > 0 && (
+					<tfoot>
+						<tr>
+							<th scope="row">Svarade olika, av {measured.length}</th>
+							{FAMILIES.map((f) => (
+								<td>{differently(f.key)}</td>
+							))}
+						</tr>
+					</tfoot>
+				)
+			}
+		</table>
+	</div>
+	<figcaption class="chart-cap">
+		<span class="chart-cap-lead">{caption}</span>
+		<span>{source}</span>
+	</figcaption>
+</figure>

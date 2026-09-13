@@ -1,0 +1,72 @@
+---
+// One hub finding, drawn: its statements as rows of the matrix's own answer chips, and for a
+// finding about the classical position a last row with the diamond the question pages use. The
+// hub prints one key above all the findings, so these heads keep only the logos.
+import { FAMILIES } from "../../lib/ai-barometern/families";
+import type { FindingRow } from "../../lib/ai-barometern/findings";
+import { codeLabel } from "../../lib/ai-barometern/options";
+import { questionPath } from "../../lib/ai-barometern/site";
+import MatrixCell from "./MatrixCell.astro";
+import ModelLogo from "./ModelLogo.astro";
+
+interface Props {
+	rows: readonly FindingRow[];
+	/** For the table's own caption, read by screen readers. */
+	caption: string;
+	classical?: { value: number; href: string } | undefined;
+}
+
+const { rows, caption, classical } = Astro.props;
+---
+
+<figure class="chart abm-figure abm-lead-figure">
+	<div class="abm-scroll">
+		<table class="abm-matrix">
+			<caption class="sr-only">{caption}</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">Påstående</span></th>
+					{
+						FAMILIES.map((f) => (
+							<th scope="col">
+								<span class="abm-modelhead">
+									<ModelLogo family={f.key} />
+									<span class="abm-colname">{f.label}</span>
+								</span>
+							</th>
+						))
+					}
+				</tr>
+			</thead>
+			<tbody>
+				{
+					rows.map((row) => (
+						<tr>
+							<th scope="row">
+								<a href={questionPath(row.question)}>{row.question.short}</a>
+							</th>
+							{FAMILIES.map((f) => (
+								<MatrixCell label={f.label} cell={row.cells[f.key]} own={row.question.aboutFamily === f.key} />
+							))}
+						</tr>
+					))
+				}
+				{
+					classical && (
+						<tr class="abm-lead-classical">
+							<th scope="row">
+								<a href={classical.href}>Den klassiska hållningen</a>
+							</th>
+							<td colspan={FAMILIES.length}>
+								<span class="abm-lead-classical-mark">
+									<span class="abm-diamond" aria-hidden="true" />
+									{codeLabel(String(classical.value))}
+								</span>
+							</td>
+						</tr>
+					)
+				}
+			</tbody>
+		</table>
+	</div>
+</figure>

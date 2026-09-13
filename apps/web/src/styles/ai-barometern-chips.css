@@ -1,0 +1,114 @@
+/* AI-barometern: the answer chips and the model logos.
+   ============================================================================
+   Split out of ai-barometern.css so a page outside the section can draw a
+   finding without inlining that whole stylesheet: the front page's rail block
+   (BarometerRail.astro) imports this file and nothing else. Every
+   /ai-barometern/ page imports it beside ai-barometern.css, which keeps every
+   rule that is not about a chip or a logo.
+
+
+   ── The one deliberate break from DESIGN.md ────────────────────────────────
+   The site charts in brass alone. A position on an agree↔disagree scale has two
+   directions, and one hue cannot show direction without making »Tar helt
+   avstånd« look like »Avstår«. So these charts add the site's own --mark-blue
+   as the second pole. Both hues already exist in tokens.css; nothing new enters
+   the palette, and the exception stays inside this file.
+
+   The five steps were validated with the dataviz skill's validator
+   (scripts/validate_palette.js) against both page grounds:
+     light  −2 #2a557f  −1 #7c93aa  0 #eee5d7  +1 #cea76c  +2 #b8862f
+     dark   −2 #4b739d  −1 #394d61  0 #2d2921  +1 #876935  +2 #c89a48
+   Each arm is monotone in lightness with its light end ≥ 2:1 on the ground; the
+   two »delvis« steps sit ΔE 16.4 (light) / 17.6 (dark) apart, clear of the 15
+   floor, and pass protan/deutan separation. Colour is never the only carrier:
+   every chip also prints a glyph (−−, −, 0, +, ++) whose ink clears 4.5:1 on its
+   fill, and every cell carries its label in text for screen readers. */
+
+@layer components {
+	.abm {
+		--abm-n2: light-dark(#2a557f, #4b739d);
+		--abm-n1: light-dark(#7c93aa, #394d61);
+		--abm-z: light-dark(#eee5d7, #2d2921);
+		--abm-p1: light-dark(#cea76c, #876935);
+		--abm-p2: light-dark(#b8862f, #c89a48);
+		--abm-ink-dark: #1a1914;
+		--abm-ink-light: #ffffff;
+		--abm-chip: 2.75rem;
+	}
+
+	/* ---- chips ---------------------------------------------------------- */
+
+	.abm-chip {
+		display: inline-grid;
+		place-items: center;
+		inline-size: var(--abm-chip);
+		block-size: 1.75rem;
+		border-radius: var(--radius-sm, 4px);
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 600;
+		font-variant-numeric: lining-nums;
+		line-height: 1;
+		position: relative;
+		color: var(--color-text);
+	}
+
+	.abm-chip[data-v="-2"] {
+		background: var(--abm-n2);
+		color: var(--abm-ink-light);
+	}
+	.abm-chip[data-v="-1"] {
+		background: var(--abm-n1);
+		color: light-dark(var(--abm-ink-dark), var(--abm-ink-light));
+	}
+	.abm-chip[data-v="0"] {
+		background: var(--abm-z);
+	}
+	.abm-chip[data-v="1"] {
+		background: var(--abm-p1);
+		color: light-dark(var(--abm-ink-dark), var(--abm-ink-light));
+	}
+	.abm-chip[data-v="2"] {
+		background: var(--abm-p2);
+		color: var(--abm-ink-dark);
+	}
+	/* No position: an outlined chip on the ground, so it reads as absence, never as a value. */
+	.abm-chip[data-state="abstain"],
+	.abm-chip[data-state="refused"],
+	.abm-chip[data-state="split"] {
+		background: transparent;
+		box-shadow: inset 0 0 0 1px var(--color-rule);
+		color: var(--text-quiet);
+	}
+	/* The three samples did not agree. */
+	.abm-chip[data-mixed]::after {
+		content: "";
+		position: absolute;
+		inset-block-start: 3px;
+		inset-inline-end: 3px;
+		inline-size: 4px;
+		block-size: 4px;
+		border-radius: 50%;
+		background: currentColor;
+		opacity: 0.8;
+	}
+
+	/* A model's answer about its own maker (the control questions): a ring inside the chip, so
+	   the diagonal of self-judgements reads at a glance without widening a column. It comes
+	   after the no-position rules so it also thickens an »Avstår« outline. */
+	.abm-chip[data-own] {
+		box-shadow: inset 0 0 0 2px var(--color-text);
+	}
+
+	/* A family's logo beside or above its name (ModelLogo.astro). */
+	.abm-logo {
+		display: inline-grid;
+		flex: none;
+		inline-size: 1.1em;
+		block-size: 1.1em;
+	}
+	.abm-logo svg {
+		inline-size: 100%;
+		block-size: 100%;
+	}
+}
