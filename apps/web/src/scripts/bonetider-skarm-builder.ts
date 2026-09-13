@@ -73,10 +73,10 @@ function iqamaSummary(config: ScreenConfig): string {
 }
 
 function fredagSummary(config: ScreenConfig): string {
-	if (config.jumua && config.notice) return `Khutba ${config.jumua} · anslag`;
+	if (config.jumua && config.notice) return `Khutba ${config.jumua} och anslag`;
 	if (config.jumua) return `Khutba ${config.jumua}`;
-	if (config.notice) return "Anslag satt";
-	return "Inget satt";
+	if (config.notice) return "Anslag";
+	return "Inget ifyllt";
 }
 
 function setText(id: string, text: string): void {
@@ -167,6 +167,39 @@ function boot(): void {
 		};
 	}
 
+	const status = el<HTMLElement>("#sk-mosque-status");
+
+	/** The line under the search box. Empty, it says the preview is a stand-in; with text
+	 *  that matches no mosque, it says so — because the config then silently keeps the last
+	 *  place it had, and a preview of the wrong mosque looks perfectly healthy.
+	 *
+	 *  `commit` is a change event (a pick, Enter, leaving the field). A non-match is only
+	 *  announced then: mid-word, every keystroke is one. Once shown it stays until the text
+	 *  matches or is cleared, so it does not flicker away on the next letter. */
+	function writeStatus(commit: boolean): void {
+		if (!(status && mosqueInput)) return;
+		const typed = mosqueInput.value.trim();
+		const manual = (ortInput?.value.trim() ?? "") !== "" || (nameInput?.value.trim() ?? "") !== "";
+		let state = "";
+		let text = "";
+		if (typed === "" && !manual) {
+			state = "empty";
+			text = `Skärmen visar ${DEFAULT_SCREEN_CONFIG.ortName} tills ni väljer en moské.`;
+		} else if (
+			typed !== "" &&
+			!byMosque.has(mosqueInput.value) &&
+			(commit || status.dataset.state === "nomatch")
+		) {
+			state = "nomatch";
+			text =
+				"Ingen moské i listan heter så. Välj ett av förslagen, eller lägg till er moské nedan.";
+		}
+		status.dataset.state = state;
+		if (status.textContent !== text) status.textContent = text;
+		if (state === "nomatch") mosqueInput.setAttribute("aria-invalid", "true");
+		else mosqueInput.removeAttribute("aria-invalid");
+	}
+
 	let settleTimer: number | undefined;
 
 	function sync(): void {
@@ -192,11 +225,16 @@ function boot(): void {
 			const frameUrl = `${VISA}#${hash}`;
 			if (frame.getAttribute("src") !== frameUrl) frame.setAttribute("src", frameUrl);
 		}, 400);
+
+		writeStatus(false);
 	}
 
 	/** Picking a mosque fills in the name and the place line, because a mosque that has
 	 *  to retype its own name will assume the picker did nothing. */
 	mosqueInput?.addEventListener("change", () => {
+		// Before the root's own change listener runs sync(), so a non-match is announced on
+		// this event and then merely kept by the sync that follows.
+		writeStatus(true);
 		const picked = byMosque.get(mosqueInput.value);
 		if (!picked) return;
 		if (nameInput && nameInput.value.trim() === "") nameInput.value = picked.n;
@@ -236,7 +274,8 @@ function boot(): void {
 		} catch {
 			// Clipboard blocked (an insecure context, or a browser that wants a permission).
 			// The URL is on screen and selectable, which is the fallback that always works.
-			copyBtn.textContent = "Markera och kopiera länken ovan";
+			// It sits under the buttons, so "nedan".
+			copyBtn.textContent = "Markera länken nedan";
 		}
 	});
 

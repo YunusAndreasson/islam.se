@@ -6,13 +6,15 @@
 // those is wrong on a wall: `document.hidden` on a kiosk usually means the panel blanked,
 // not that nobody cares, and the screen must be correct the instant it lights again.
 //
-// What it shares instead is the LIBRARY — computePrayerTimes, nextPrayerKeyAt,
-// stockholmDayKey, createFieldRenderer — so there is one prayer-time implementation on
-// the site and this file owns only the things a wall needs: a camera that moves, a ground
-// that follows the sun, a quiet state at the iqāma, and enough self-defence to run for
-// months with nobody watching.
+// What it shares instead is the LIBRARY — computePrayerTimes, stockholmDayKey,
+// createFieldRenderer — so there is one prayer-time implementation on
+// the site and this file owns only the things a wall needs: a camera that moves, the
+// prayer in progress at the iqāma, and enough self-defence to run for months with nobody
+// watching.
 
+import reliefUrl from "../assets/bonetider/relief-screen.webp?url";
 import {
+	type Camera,
 	type CameraSchedule,
 	cameraAround,
 	cameraAt,
@@ -20,18 +22,20 @@ import {
 	DEFAULT_SCHEDULE,
 } from "../lib/bonetider/camera";
 import {
+	clockStepMs,
 	driftMessage,
-	groundFor,
-	inQuietWindow,
+	type HeroMoment,
+	heroAt,
 	isReloadSafe,
+	nextSkewProbeMs,
 	nightlyReloadMinute,
 	pixelShiftAt,
+	skewAfterStep,
 } from "../lib/bonetider/kiosk";
 import {
 	computePrayerTimes,
 	dateForStockholmDay,
 	formatTime,
-	nextPrayerKeyAt,
 	PRAYER_LABELS,
 	PRAYER_ORDER,
 	PRAYER_SWEDISH_NAMES,
@@ -40,6 +44,8 @@ import {
 	stockholmDayKey,
 	TIME_ZONE,
 } from "../lib/bonetider/prayer-times";
+import { RELIEF_SCREEN } from "../lib/bonetider/relief-screen";
+import type { MapDetail } from "../lib/bonetider/render-field";
 import {
 	decodeClockOffset,
 	decodeScreenConfig,
@@ -48,15 +54,7 @@ import {
 	resolveIqama,
 	type ScreenConfig,
 } from "../lib/bonetider/screen-config";
-import { sunAltitudeDeg } from "../lib/bonetider/solar/sun";
 import { hijriLabel } from "../lib/markesdagar";
-
-/** The site's own palette, both halves, as literals — a registered @property needs a
- *  real colour, not a var() reference. Mirrors tokens.css; see MosqueScreen.astro. */
-const GROUNDS = {
-	day: { bg: "#fff6e8", ink: "#1a1914", muted: "#776d61", brass: "#b8862f" },
-	night: { bg: "#1d1912", ink: "#e8e5e0", muted: "#bdb6aa", brass: "#c89a48" },
-} as const;
 
 /** How wide the close camera frames the country around the mosque. Ten degrees of
  *  latitude is about Malmö to Stockholm: close enough that the line visibly arrives on
@@ -66,7 +64,6 @@ const CLOSE_SPAN_DEG = 10;
 const STORE_KEY = "bonetider:skarm";
 const LAST_RELOAD_KEY = "bonetider:skarm:lastReload";
 
-type Scheme = "light" | "dark";
 type Renderer = { render(cfg: Record<string, unknown>, now: Date): void };
 
 interface DayState {
@@ -76,6 +73,8 @@ interface DayState {
 	iqama: Map<IqamaKey, Date | null>;
 	/** Tomorrow's Fajr, so the countdown after ʿIshāʾ does not recompute every second. */
 	tomorrowFajr: number;
+	/** …and its iqāma: once the day is spent, the Fajr row shows tomorrow's times. */
+	tomorrowFajrIqama: Date | null;
 	/** Every instant the room cares about — what the reload guard checks against. */
 	moments: number[];
 }
@@ -109,13 +108,19 @@ function mount(root: HTMLElement): void {
 	const debugOffset = decodeClockOffset(hash, Date.now());
 	let skewMs = 0;
 	const now = (): Date => new Date(Date.now() + debugOffset + skewMs);
+	/** Both clocks as the last tick read them, to catch the device clock being set in between
+	 *  (watchClockStep). */
+	let lastWall = Date.now();
+	let lastMono = performance.now();
 
-	const bootedAt = Date.now();
+	// Monotonic: a clock set after boot must not make the screen look minutes or hours old.
+	const bootedMono = performance.now();
 	const els = collect(root);
 	let day: DayState | null = null;
 	let renderer: Renderer | null = null;
 	let lastMinute = -1;
-	let lastGround: Ground | "" = "";
+	/** The key of the prayer last written as the large row, or "tomorrow". */
+	let lastHero = "";
 	let lastShift = "";
 	let rafHandle = 0;
 	let tickTimer: number | undefined;
@@ -125,6 +130,8 @@ function mount(root: HTMLElement): void {
 
 	// ---- static copy -----------------------------------------------------
 	els.mosque.textContent = config.name || config.ortName;
+	// Read by MosqueScreen.astro, which sets a long name one step smaller so it keeps to two lines.
+	els.mosque.dataset.long = (config.name || config.ortName).length > 24 ? "1" : "0";
 	els.place.textContent = config.place || (config.name ? config.ortName : "");
 	els.notice.textContent = config.notice;
 	// Kept, because the clock message below shares this line and must not erase it. Of the
@@ -140,11 +147,29 @@ function mount(root: HTMLElement): void {
 	}
 	writeIssue();
 
+	// The marker takes the ORT, never the mosque's own name. Two reasons, and both are
+	// visible on a wall: the mosque name is already the largest thing on the screen and
+	// this display's whole premise is that nothing is stated twice; and a real name like
+	// "Islamiska Kulturföreningen i Kiruna" draws a pill wide enough to collide with the
+	// isoline labels beside it. The coordinates stay the mosque's, so the pin is still on
+	// the building rather than on the town centre.
 	const location = {
-		name: config.name || config.ortName,
+		name: config.ortName,
 		latitude: config.lat,
 		longitude: config.lon,
 	};
+
+	// Every mosque in the directory, lit on the map (render-field.ts drawLights). Baked into
+	// the page by MosqueScreen.astro and read once: the list does not change while it runs,
+	// and a wall that cannot parse it is still a working wall, only without its lights.
+	const lights: readonly (readonly [number, number])[] = (() => {
+		try {
+			const raw = root.querySelector(".ms-lights")?.textContent;
+			return raw ? (JSON.parse(raw) as [number, number][]) : [];
+		} catch {
+			return [];
+		}
+	})();
 
 	// ---- the day ---------------------------------------------------------
 	function ensureDay(at: Date): DayState {
@@ -168,7 +193,14 @@ function mount(root: HTMLElement): void {
 			dateForStockholmDay(year, month, dayOfMonth + 1),
 			config.settings,
 		);
-		day = { key, times, iqama, tomorrowFajr: tomorrow.fajr.getTime(), moments };
+		day = {
+			key,
+			times,
+			iqama,
+			tomorrowFajr: tomorrow.fajr.getTime(),
+			tomorrowFajrIqama: resolveIqama(config.iqama.fajr, tomorrow.fajr, TIME_ZONE),
+			moments,
+		};
 		return day;
 	}
 
@@ -180,14 +212,34 @@ function mount(root: HTMLElement): void {
 	 *  on every one of ~360 frames, on exactly the frames the move is judged by. Invalidated
 	 *  by the resize listener at the bottom of mount(). */
 	let schedule: CameraSchedule | null = null;
+	/** CSS px of the canvas under the type pane, measured with the schedule. */
+	let occludedLeft = 0;
 	function scheduleFor(): CameraSchedule {
 		if (schedule) return schedule;
 		const w = canvas.clientWidth || 1;
 		const h = canvas.clientHeight || 1;
-		const vp = { w, h, padX: w * 0.03, padTop: h * 0.03, padBottom: h * 0.03 };
+		// The canvas runs under the type pane (MosqueScreen.astro .ms-pane), so a camera frames
+		// only what the pane leaves open, and is then moved left by half the pane so that
+		// frame lands in the open part of the canvas rather than its middle.
+		const pane = root.querySelector<HTMLElement>(".ms-pane");
+		const covered = pane
+			? Math.max(
+					0,
+					Math.min(w, pane.getBoundingClientRect().right - canvas.getBoundingClientRect().left),
+				)
+			: 0;
+		occludedLeft = covered;
+		const open = w - covered;
+		const vp = { w: open, h, padX: open * 0.03, padTop: h * 0.03, padBottom: h * 0.03 };
+		const beside = (cam: Camera): Camera => ({ ...cam, cx: cam.cx - covered / 2 / cam.scale });
 		schedule = {
-			wide: cameraForBBox([-8, 50, 30, 72], vp),
-			close: cameraAround(config.lat, config.lon, CLOSE_SPAN_DEG, vp),
+			// Framed on Sweden, not on VIEW_BBOX. Height decides the fit here (the edge-to-edge
+			// stage is wider than any of these boxes), so the latitude range IS the zoom: 50–72
+			// left Sweden a narrow figure in a sea of neighbours once the map ran to the edges.
+			// 53.5–71 keeps Denmark to the south and sea north of Kiruna for the line labels,
+			// about 1.23x closer; the longitude only centres it, on Sweden's middle (17.5°E).
+			wide: beside(cameraForBBox([5, 53.5, 30, 71], vp)),
+			close: beside(cameraAround(config.lat, config.lon, CLOSE_SPAN_DEG, vp)),
 			...DEFAULT_SCHEDULE,
 		};
 		return schedule;
@@ -227,35 +279,58 @@ function mount(root: HTMLElement): void {
 	}
 
 	// ---- paint -----------------------------------------------------------
+	/** Today's congregation time for a prayer, or null where the mosque holds none. */
+	function iqamaOf(state: DayState, key: PrayerKey): Date | null {
+		return IQAMA_KEYS.includes(key as IqamaKey) ? (state.iqama.get(key as IqamaKey) ?? null) : null;
+	}
+
+	/** Which prayer holds the large row and what it counts towards (kiosk.ts heroAt). Null
+	 *  once the day is spent, when the large row is tomorrow's Fajr. */
+	function heroFor(state: DayState, nowMs: number): HeroMoment<PrayerKey> | null {
+		return heroAt(
+			nowMs,
+			PRAYER_ORDER,
+			(key) => state.times[key].getTime(),
+			(key) => iqamaOf(state, key)?.getTime() ?? null,
+			config.quietMinutes,
+		);
+	}
+
 	/** One prayer's row. Jumuʿa replaces Ẓuhr on Fridays, exactly as the printed month
-	 *  sheet already does (pdf.ts) — the mosque foyer's paper ancestor. */
+	 *  sheet already does (pdf.ts) — the mosque foyer's paper ancestor.
+	 *
+	 *  `tomorrow` is set on the Fajr row once the day is spent. That row used to keep
+	 *  today's Fajr while its countdown ran to tomorrow's, so after ʿIshāʾ the wall showed
+	 *  one time and counted to another a few minutes away. */
 	function writeRow(
 		row: RowEls,
 		key: PrayerKey,
 		state: DayState,
 		friday: boolean,
 		isNext: boolean,
+		tomorrow: boolean,
 	): void {
-		const isJumua = friday && key === "dhuhr" && config.jumua !== "";
-		row.name.textContent = isJumua ? "Jumuʿa" : PRAYER_LABELS[key];
-		row.sv.textContent = isJumua ? "Fredagsbönen" : PRAYER_SWEDISH_NAMES[key];
-		row.adhan.textContent = formatTime(state.times[key]);
-		const iq = IQAMA_KEYS.includes(key as IqamaKey) ? state.iqama.get(key as IqamaKey) : null;
+		const isJumua = !tomorrow && friday && key === "dhuhr" && config.jumua !== "";
+		setMarked(row.name, isJumua ? "Jumuʿa" : PRAYER_LABELS[key]);
+		row.sv.textContent = tomorrow
+			? "i morgon"
+			: isJumua
+				? "Fredagsbönen"
+				: PRAYER_SWEDISH_NAMES[key];
+		row.adhan.textContent = formatTime(tomorrow ? new Date(state.tomorrowFajr) : state.times[key]);
+		const iq = tomorrow ? state.tomorrowFajrIqama : iqamaOf(state, key);
 		if (isJumua) row.iqama.textContent = `khutba ${config.jumua}`;
 		else row.iqama.textContent = iq ? `iqāma ${formatTime(iq)}` : "";
 		row.el.dataset.next = isNext ? "1" : "0";
 	}
 
-	function writeTimes(state: DayState, at: Date): void {
-		// While the congregation is in progress the emphasis stays on the prayer being
-		// prayed, not on the one after it — nextPrayerKeyAt has already moved on by then.
-		const praying = prayingNow(state, at.getTime());
-		const nextKey = praying ?? nextPrayerKeyAt(state.times, at.getTime()) ?? "fajr";
+	function writeTimes(state: DayState, at: Date, hero: HeroMoment<PrayerKey> | null): void {
 		const friday = isFriday(at);
-
 		for (const key of PRAYER_ORDER) {
 			const row = els.rows.get(key);
-			if (row) writeRow(row, key, state, friday, key === nextKey);
+			if (!row) continue;
+			const isNext = key === (hero?.key ?? "fajr");
+			writeRow(row, key, state, friday, isNext, hero === null && key === "fajr");
 		}
 
 		els.date.textContent = dateLabel(at);
@@ -267,80 +342,123 @@ function mount(root: HTMLElement): void {
 		// single night. dateForStockholmDay builds UTC noon of the Stockholm day, which
 		// is inside the intended day whatever the offset.
 		const { year: hy, month: hm, dayOfMonth: hd } = partsOf(at);
-		els.hijri.textContent = hijriLabel(
-			dateForStockholmDay(hy, hm, hd + config.settings.hijriOffset),
-		);
+		setMarked(els.hijri, hijriLabel(dateForStockholmDay(hy, hm, hd + config.settings.hijriOffset)));
 		root.dataset.ready = "1";
 	}
 
-	function writeCountdown(state: DayState, at: Date): void {
-		const praying = prayingNow(state, at.getTime());
-		if (praying) {
-			const row = els.rows.get(praying);
-			if (row) row.count.textContent = "pågår";
-			return;
-		}
-		const key = nextPrayerKeyAt(state.times, at.getTime());
-		const row = els.rows.get(key ?? "fajr");
+	/** The large row's third line. Counting to the adhān it is a bare countdown; waiting for
+	 *  the congregation it names what it counts to, »iqāma om 9 min«, since the time above
+	 *  it is already past; during the prayer it is »pågår«. data-phase gives the last two
+	 *  the congregation's brass (MosqueScreen.astro). */
+	function writeCountdown(state: DayState, at: Date, hero: HeroMoment<PrayerKey> | null): void {
+		const row = els.rows.get(hero?.key ?? "fajr");
 		if (!row) return;
-		const target = key ? state.times[key].getTime() : state.tomorrowFajr;
-		row.count.textContent = countdownLabel(target - at.getTime());
+		const phase = hero?.phase ?? "adhan";
+		const left = (hero ? hero.targetMs : state.tomorrowFajr) - at.getTime();
+		const text =
+			phase === "praying"
+				? "pågår"
+				: phase === "iqama"
+					? `iqāma ${countdownLabel(left)}`
+					: countdownLabel(left);
+		if (row.count.textContent !== text) row.count.textContent = text;
+		if (row.count.dataset.phase !== phase) row.count.dataset.phase = phase;
 	}
 
-	function applyGround(state: DayState, at: Date): void {
-		// The sun's real altitude, not a comparison against sunrise — because the ONLY time
-		// groundFor consults this argument is when sunrise is Invalid Date, and `NaN >= NaN`
-		// is false. So the old reading made the documented "if the sun never set, it is day"
-		// fallback unreachable: a Kiruna screen on polarCircleResolution=unresolved painted
-		// the near-black night ground straight through the midnight sun. kiosk.test.ts hands
-		// groundFor `sunUp: true` directly, so the contract was tested and the caller was not.
-		const sunUp = sunAltitudeDeg(config.lat, config.lon, at) > 0;
-		const ground = groundFor(at, state.times.sunrise, state.times.maghrib, sunUp);
-		if (ground === lastGround) return;
-		const first = lastGround === "";
-		lastGround = ground;
-		const g = GROUNDS[ground];
-		root.style.setProperty("--screen-bg", g.bg);
-		root.style.setProperty("--screen-ink", g.ink);
-		root.style.setProperty("--screen-muted", g.muted);
-		root.style.setProperty("--screen-brass", g.brass);
-		document.documentElement.style.colorScheme = ground === "night" ? "dark" : "light";
-		// The cross-fade belongs to the sun crossing the horizon, not to page load. Armed
-		// one frame after the first ground lands, so a screen booted at night comes up
-		// dark instead of spending ninety seconds dimming in a dark prayer hall.
-		if (first)
-			requestAnimationFrame(() => {
-				root.style.setProperty("--ms-fade", "90s");
-			});
+	/** The time now, from the same clock as everything else here — so it carries the
+	 *  server-skew correction, and the debug offset when a day is being stepped through. */
+	function writeClock(at: Date): void {
+		const [h = "", m = ""] = formatTime(at).split(":");
+		if (els.clockH.textContent !== h) els.clockH.textContent = h;
+		if (els.clockM.textContent !== m) els.clockM.textContent = m;
+		// The colon's beat (MosqueScreen.astro). UTC seconds are Stockholm's: the offset is
+		// whole hours.
+		els.clock.dataset.beat = String(at.getUTCSeconds() % 2);
 	}
 
-	/** Which prayer, if any, the room is praying right now. */
-	function prayingNow(state: DayState, nowMs: number): IqamaKey | null {
-		for (const key of IQAMA_KEYS) {
-			const iq = state.iqama.get(key);
-			if (inQuietWindow(nowMs, iq ? iq.getTime() : null, config.quietMinutes)) return key;
+	/** The detailed map — coast, islands, lakes, rivers, towns — fetched after first paint.
+	 *  The screen is correct without it (it is the same map, simplified), so its 2 MB never
+	 *  block the first frame, and after the first load the browser cache serves it. */
+	let detail: MapDetail | undefined;
+	/** The baked hillshade (build-screen-relief.mjs). A map without it is still the map.
+	 *
+	 *  Decoded once into an ImageBitmap the canvas owns. As an <img> the relief — 2 816 px
+	 *  square, 32 MB of pixels — is decoded on the main thread, and its decoded copy is the
+	 *  browser's to drop while the camera holds still and decode again inside the next ground
+	 *  repaint, which is the frame a move settles on. createImageBitmap decodes off the main
+	 *  thread into pixels no image cache can evict. The <img> stays for a browser without it. */
+	async function loadRelief(): Promise<MapDetail["relief"]> {
+		try {
+			if (typeof createImageBitmap === "function") {
+				const res = await fetch(reliefUrl);
+				if (res.ok) return { image: await createImageBitmap(await res.blob()), ...RELIEF_SCREEN };
+			}
+		} catch {
+			/* fall back to the <img> below */
 		}
-		return null;
+		const image = new Image();
+		image.src = reliefUrl;
+		try {
+			await image.decode();
+			return { image, ...RELIEF_SCREEN };
+		} catch {
+			return undefined;
+		}
+	}
+	async function loadDetail(): Promise<void> {
+		try {
+			const [d, relief] = await Promise.all([import("../lib/bonetider/map-detail"), loadRelief()]);
+			detail = {
+				sweden: d.SWEDEN_DETAIL,
+				neighbors: d.NEIGHBORS_DETAIL,
+				lakes: d.LAKES_DETAIL,
+				rivers: d.RIVERS_DETAIL,
+				islands: d.ISLANDS_DETAIL,
+				towns: d.TOWNS_DETAIL,
+				borders: d.BORDERS_DETAIL,
+				countries: d.COUNTRIES_DETAIL,
+				seas: d.SEAS_DETAIL,
+				cities: d.CITIES_DETAIL,
+				parks: d.PARKS_DETAIL,
+				relief,
+			};
+			const at = now();
+			paintCanvas(ensureDay(at), at);
+		} catch {
+			/* the coarse outline every other page uses is a perfectly good fallback */
+		}
 	}
 
-	function applyQuiet(state: DayState, at: Date): void {
-		const active = prayingNow(state, at.getTime());
-		root.dataset.quiet = active ? "1" : "0";
-		for (const [key, row] of els.rows) row.el.dataset.praying = key === active ? "1" : "0";
-	}
-
-	function paintCanvas(state: DayState, at: Date, moving: boolean): void {
+	function paintCanvas(state: DayState, at: Date): void {
 		if (!renderer) return;
 		const [focus, after] = focusPair(state, at.getTime());
-		const cam = cameraAt(at.getTime(), focus, after, scheduleFor());
+		const sched = scheduleFor();
+		const cam = cameraAt(at.getTime(), focus, after, sched);
+		// The camera's phase picks the renderer's path, never the caller. A move always begins
+		// on a minute boundary — its lead-in is whole minutes before an iqāma that is itself on
+		// the minute — so the minute tick landed on the first frame of every move and painted
+		// the full-detail map (relief, ~110 000 points, halos, a ground-cache copy) for a camera
+		// the next frame threw away: measured, a 350 ms stall in Zen and 600–700 ms in Chromium
+		// at the start of every move. Under reduced motion no in-between frames are drawn, so
+		// the one frame the tick does draw is the sharp one.
+		const moving = (cam.phase === "closing" || cam.phase === "opening") && !REDUCED_MOTION.matches;
 		renderer.render(
 			{
 				location,
 				settings: config.settings,
-				scheme: (lastGround === "night" ? "dark" : "light") satisfies Scheme,
+				// Always dark — see MosqueScreen.astro, where the ground is set.
+				scheme: "dark",
 				variant: "screen",
 				camera: cam.camera,
 				moving,
+				detail,
+				occludedLeft,
+				lights,
+				// The two cameras it holds still at, so the renderer can keep both finished.
+				frames: { wide: sched.wide, close: sched.close },
+				qibla: true,
+				// The rank already names Friday's Ẓuhr Jumuʿa; the line on the map says the same.
+				jumua: isFriday(at) && config.jumua !== "",
 			},
 			at,
 		);
@@ -350,18 +468,26 @@ function mount(root: HTMLElement): void {
 	// ---- the tick --------------------------------------------------------
 	function runTick(): void {
 		try {
+			if (!preview) watchClockStep();
 			const at = now();
 			const state = ensureDay(at);
+			const hero = heroFor(state, at.getTime());
+			const heroKey = hero?.key ?? "tomorrow";
 			const minute = Math.floor(at.getTime() / 60_000);
-			applyGround(state, at);
-			applyQuiet(state, at);
-			if (minute !== lastMinute) {
+			// A new minute, or the large row changing hands between two minute ticks — which a
+			// prayer time calculated without rounding does.
+			if (minute !== lastMinute || heroKey !== lastHero) {
+				// A hand-off, not the first write: at boot there is no earlier rank to move from.
+				const handOff = lastHero !== "" && heroKey !== lastHero;
 				lastMinute = minute;
-				writeTimes(state, at);
-				paintCanvas(state, at, false);
+				lastHero = heroKey;
+				if (handOff) morphRank(() => writeTimes(state, at, hero));
+				else writeTimes(state, at, hero);
+				paintCanvas(state, at);
 				if (!preview) driftShift(at);
 			}
-			writeCountdown(state, at);
+			writeCountdown(state, at, hero);
+			writeClock(at);
 			driveCamera(state);
 			if (!preview) maybeReload(state, at);
 			lastBeat = performance.now();
@@ -384,7 +510,10 @@ function mount(root: HTMLElement): void {
 			// nightly fetch multiplies). On a wall that runs for months it compounds without
 			// bound. bonetider-field.ts's scheduleTick, which this was modelled on, does clear.
 			if (tickTimer !== undefined) clearTimeout(tickTimer);
-			tickTimer = window.setTimeout(runTick, 1000);
+			// Aimed just past the next second boundary of the screen's own clock, not a flat
+			// 1000 ms: a timer drifts a few ms a tick, and with the clock's colon beating on the
+			// wall that drift showed as a beat skipped — or held for two — every few minutes.
+			tickTimer = window.setTimeout(runTick, 1020 - (now().getTime() % 1000));
 		}
 	}
 
@@ -396,14 +525,14 @@ function mount(root: HTMLElement): void {
 		if (rafHandle !== 0) return;
 		const phase = root.dataset.phase;
 		if (phase !== "closing" && phase !== "opening") return;
-		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+		if (REDUCED_MOTION.matches) return;
 		const step = (): void => {
 			rafHandle = 0;
-			const at = now();
-			paintCanvas(state, at, true);
+			// The last frame of a move finds the phase settled, and paintCanvas then draws the
+			// sharp map with its halos — the settle is this same call, not a second full paint.
+			paintCanvas(state, now());
 			const p = root.dataset.phase;
 			if (p === "closing" || p === "opening") rafHandle = window.requestAnimationFrame(step);
-			else paintCanvas(state, at, false); // settle: the real glow comes back
 		};
 		rafHandle = window.requestAnimationFrame(step);
 	}
@@ -426,7 +555,7 @@ function mount(root: HTMLElement): void {
 				guardBeforeMs: 20 * 60_000,
 				guardAfterMs: 10 * 60_000,
 				cameraMoving: root.dataset.phase === "closing" || root.dataset.phase === "opening",
-				uptimeMs: Date.now() - bootedAt,
+				uptimeMs: performance.now() - bootedMono,
 				minUptimeMs: 30 * 60_000,
 				lastReloadMs: readLastReload(),
 				minSinceLastReloadMs: 30 * 60_000,
@@ -488,7 +617,6 @@ function mount(root: HTMLElement): void {
 			// immediately and the screen just stalls again.
 			day = null;
 			lastMinute = -1;
-			lastGround = "";
 			runTick();
 			return;
 		}
@@ -517,7 +645,8 @@ function mount(root: HTMLElement): void {
 			const mod = await import("../lib/bonetider/render-field");
 			renderer = mod.createFieldRenderer(canvas) as unknown as Renderer;
 			const at = now();
-			paintCanvas(ensureDay(at), at, false);
+			paintCanvas(ensureDay(at), at);
+			loadDetail();
 		} catch {
 			/* the screen is still a working prayer-time board without the canvas */
 		}
@@ -527,12 +656,63 @@ function mount(root: HTMLElement): void {
 	/** A wall clock quietly showing the wrong Maghrib is a religious problem, not a
 	 *  cosmetic one, so the screen corrects itself against the server rather than
 	 *  trusting cheap signage hardware. */
-	async function applySkew(): Promise<void> {
-		const ms = await probeSkew();
-		if (ms === null) return;
+	let skewFailures = 0;
+	let skewTimer: number | undefined;
+	let probing = false;
+	/** Bumped whenever the device clock is seen being set, so a probe in flight across the step
+	 *  — one reading either side of it — is thrown away rather than applied. */
+	let clockSteps = 0;
+
+	function setSkew(ms: number): void {
 		skewMs = ms;
 		driftIssue = driftMessage(ms);
 		writeIssue();
+	}
+
+	function probeSkewIn(delayMs: number): void {
+		if (skewTimer !== undefined) clearTimeout(skewTimer);
+		skewTimer = window.setTimeout(applySkew, delayMs);
+	}
+
+	/** Measure the offset, then book the next measurement (kiosk.ts nextSkewProbeMs): an hour
+	 *  after an answer, seconds after a failure. */
+	async function applySkew(): Promise<void> {
+		if (probing) return;
+		probing = true;
+		const steps = clockSteps;
+		try {
+			const ms = await probeSkew();
+			if (clockSteps !== steps) {
+				// Measured across a step. The step asked for a probe while this one was in flight,
+				// and was turned away by `probing` — so it is asked for again here.
+				probeSkewIn(0);
+				return;
+			}
+			if (ms === null) skewFailures += 1;
+			else {
+				skewFailures = 0;
+				setSkew(ms);
+			}
+			probeSkewIn(nextSkewProbeMs(skewFailures));
+		} finally {
+			probing = false;
+		}
+	}
+
+	/** The device clock set between two ticks — NTP just after boot, most often (kiosk.ts
+	 *  clockStepMs). A correction is followed at once; anything else is checked with the server. */
+	function watchClockStep(): void {
+		const wall = Date.now();
+		const mono = performance.now();
+		const step = clockStepMs(wall - lastWall, mono - lastMono);
+		lastWall = wall;
+		lastMono = mono;
+		if (step === 0) return;
+		clockSteps += 1;
+		const corrected = skewAfterStep(skewMs, step);
+		if (corrected !== null) setSkew(corrected);
+		// Either way the server is asked now, not at the top of the next hour.
+		probeSkewIn(0);
 	}
 
 	if (preview) document.querySelector<HTMLElement>(".ms-fullscreen")?.remove();
@@ -540,13 +720,13 @@ function mount(root: HTMLElement): void {
 	runTick();
 	if (!preview) {
 		applySkew();
-		// ...and again every hour, because a single boot-time measurement does not meet the
-		// premise. The nightly reload is the only other thing that would re-run this, and it
-		// is conditional on isReloadSafe AND a successful reachability probe — a screen on a
-		// mosque's flaky wifi can skip it for days, and a screen whose clock is wrong enough
-		// never reaches its reload minute at all. Those are precisely the screens whose clock
-		// is drifting. The probe is one conditional GET of a page already in cache.
-		window.setInterval(applySkew, 60 * 60_000);
+		// ...and again every hour (applySkew books its own next run), because a single boot-time
+		// measurement does not meet the premise. The nightly reload is the only other thing that
+		// would re-run this, and it is conditional on isReloadSafe AND a successful reachability
+		// probe — a screen on a mosque's flaky wifi can skip it for days, and a screen whose clock
+		// is wrong enough never reaches its reload minute at all. Those are precisely the screens
+		// whose clock is drifting. The probe is one GET of this page, past the cache, so its Date
+		// header is the server's time now rather than a stored copy's.
 		keepAwake();
 		hideCursorWhenIdle();
 		wireFullscreen(root);
@@ -557,13 +737,25 @@ function mount(root: HTMLElement): void {
 		// live screen the same way.
 		window.location.reload();
 	});
-	window.addEventListener("resize", () => {
+	// The canvas's own box. When it changes size — going fullscreen, a rotated panel, the
+	// builder's frame — the map is redrawn in that same frame; the resize event only marked it
+	// stale and left the old bitmap stretched over the new box until the next second's tick.
+	// The tick still repaints either way, which is all a browser without ResizeObserver gets.
+	const invalidate = (): void => {
 		schedule = null;
 		lastMinute = -1;
-	});
+	};
+	if (typeof ResizeObserver === "function") {
+		new ResizeObserver(() => {
+			invalidate();
+			const at = now();
+			paintCanvas(ensureDay(at), at);
+		}).observe(canvas);
+	} else window.addEventListener("resize", invalidate);
 	window.addEventListener("beforeunload", () => {
 		clearInterval(watchdog);
 		if (tickTimer !== undefined) clearTimeout(tickTimer);
+		if (skewTimer !== undefined) clearTimeout(skewTimer);
 	});
 	document.addEventListener("visibilitychange", () => {
 		// Coming back can be hours later on a panel that blanked overnight.
@@ -577,8 +769,6 @@ function mount(root: HTMLElement): void {
 // ---------------------------------------------------------------------------
 // helpers
 // ---------------------------------------------------------------------------
-
-type Ground = "day" | "night";
 
 interface RowEls {
 	el: HTMLElement;
@@ -594,6 +784,9 @@ interface Els {
 	place: HTMLElement;
 	date: HTMLElement;
 	hijri: HTMLElement;
+	clock: HTMLElement;
+	clockH: HTMLElement;
+	clockM: HTMLElement;
 	notice: HTMLElement;
 	issue: HTMLElement;
 	rows: Map<PrayerKey, RowEls>;
@@ -620,6 +813,9 @@ function collect(root: HTMLElement): Els {
 		place: q(".ms-place"),
 		date: q(".ms-date"),
 		hijri: q(".ms-hijri"),
+		clock: q(".ms-clock"),
+		clockH: q(".ms-clock-h"),
+		clockM: q(".ms-clock-m"),
 		notice: q(".ms-notice"),
 		issue: q(".ms-issue"),
 		rows,
@@ -644,6 +840,49 @@ const CLOCK_FORMAT = new Intl.DateTimeFormat("en-GB", {
 	hourCycle: "h23",
 });
 
+/** Live: `matches` follows the OS setting as it changes, and reading it is free, where
+ *  matchMedia() parses its query afresh — which the camera loop did on every tick of a move. */
+const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+/**
+ * The large row changing hands, as one movement: every row glides to its new place and the
+ * next prayer swells into its own, where the rank used to jump from one layout to the next.
+ * It is the one reflow on the wall, six times a day, and the moment anyone looking up sees
+ * the screen change.
+ *
+ * A view transition, so the browser animates snapshots on the compositor rather than laying
+ * the rank out again on every frame. But nothing on this wall may wait on a frame (see
+ * runTick): the transition only runs its callback once it has captured one, which a panel
+ * behind an occluding window never gives it. So the same write is armed on a timer too, and
+ * whichever comes first applies it — the other finds it done.
+ */
+function morphRank(write: () => void): void {
+	let done = false;
+	const apply = (): void => {
+		if (done) return;
+		done = true;
+		write();
+	};
+	if (
+		typeof document.startViewTransition !== "function" ||
+		document.hidden ||
+		REDUCED_MOTION.matches
+	) {
+		apply();
+		return;
+	}
+	window.setTimeout(apply, 1000);
+	const vt = document.startViewTransition(apply);
+	// A skipped transition rejects both; that is not an error on a wall. A write that threw
+	// still reaches the console, through updateCallbackDone.
+	vt.ready.catch(() => {
+		/* skipped: the timer has applied the write */
+	});
+	vt.finished.catch(() => {
+		/* as above */
+	});
+}
+
 function isFriday(at: Date): boolean {
 	return WEEKDAY_FORMAT.format(at) === "Fri";
 }
@@ -655,6 +894,29 @@ function partsOf(at: Date): { year: number; month: number; dayOfMonth: number } 
 
 function dateLabel(at: Date): string {
 	return DATE_FORMAT.format(at);
+}
+
+/** Text with each ʿayn and hamza in a span of its own, which MosqueScreen.astro tightens.
+ *  Literata sets both marks as spacing letters with wide side bearings, so at the wall's
+ *  size a name read »ʿ Aṣr« and »Jumu ʿ a«; and Source Sans 3 has no glyph for them at
+ *  all, so the Hijri line borrowed one from whatever system font came next. */
+function setMarked(el: HTMLElement, text: string): void {
+	// Keyed on a data attribute, not textContent: the rank's names arrive server-rendered
+	// as plain text, so "ʿAṣr" already matched and was never split into its spans.
+	if (el.dataset.marked === text) return;
+	el.dataset.marked = text;
+	el.replaceChildren(
+		...text
+			.split(/([ʿʾ])/)
+			.filter((part) => part !== "")
+			.map((part) => {
+				if (part !== "ʿ" && part !== "ʾ") return document.createTextNode(part);
+				const mark = document.createElement("span");
+				mark.className = part === "ʿ" ? "ms-ayn" : "ms-hamza";
+				mark.textContent = part;
+				return mark;
+			}),
+	);
 }
 
 function stockholmClockMinutes(at: Date): number {
@@ -671,7 +933,8 @@ function countdownLabel(msLeft: number): string {
 	const mins = Math.round(total / 60);
 	if (mins < 60) return `om ${mins} min`;
 	const hours = Math.floor(mins / 60);
-	return `om ${hours} tim ${mins % 60} min`;
+	// "om 3 tim", never "om 3 tim 0 min".
+	return mins % 60 === 0 ? `om ${hours} tim` : `om ${hours} tim ${mins % 60} min`;
 }
 
 function readStoredHash(): string {
@@ -720,28 +983,30 @@ async function probeSkew(): Promise<number | null> {
 }
 
 function keepAwake(): void {
-	const nav = navigator as Navigator & {
-		wakeLock?: {
-			request(kind: "screen"): Promise<{ addEventListener(t: string, f: () => void): void }>;
-		};
-	};
-	if (!nav.wakeLock) return;
+	if (!("wakeLock" in navigator)) return;
+	let held: WakeLockSentinel | null = null;
+	let pending = false;
 	let backoff = 5000;
 	const take = async (): Promise<void> => {
-		if (document.hidden) return; // the request is rejected outright while hidden
+		// The request is rejected outright while hidden. And one lock, one request for it at a
+		// time: the release listener and the visibilitychange below both fire on the same wake,
+		// so a panel that blanked and woke inside a second took a lock from each, and a refused
+		// request's retry timer ran beside the next wake's attempt.
+		if (document.hidden || pending || (held !== null && !held.released)) return;
+		pending = true;
 		try {
-			const sentinel = await nav.wakeLock?.request("screen");
+			held = await navigator.wakeLock.request("screen");
 			backoff = 5000;
 			// The lock is dropped automatically whenever the page hides, and nothing
 			// re-takes it for you.
-			sentinel?.addEventListener("release", () => {
-				window.setTimeout(take, 1000);
-			});
+			held.addEventListener("release", () => window.setTimeout(take, 1000), { once: true });
 		} catch {
 			// Backed off rather than retried tight: a browser that refuses the lock while
 			// the panel is asleep would otherwise spin for as long as it stays asleep.
 			backoff = Math.min(backoff * 2, 300_000);
 			window.setTimeout(take, backoff);
+		} finally {
+			pending = false;
 		}
 	};
 	take();
@@ -759,7 +1024,18 @@ function hideCursorWhenIdle(): void {
 			document.body.dataset.idle = "1";
 		}, 4000);
 	};
+	// ⚠️ `pointermove` alone was a real trap on the one device this screen is FOR. A
+	// television is driven by a remote and never sends a pointer event, so four seconds
+	// after boot the idle state latched on and the screen's only control became
+	// unreachable: faded to nothing, pointer-events off, and no way to bring it back
+	// without plugging in a mouse. Any input at all counts as someone being there.
 	document.addEventListener("pointermove", wake, { passive: true });
+	document.addEventListener("pointerdown", wake, { passive: true });
+	document.addEventListener("keydown", wake, { passive: true });
+	// Leaving fullscreen is a state change the wall must not make silently — a nudged
+	// keyboard drops it out and it would otherwise sit windowed, showing browser chrome,
+	// until somebody happened to look. Waking puts the way back on screen.
+	document.addEventListener("fullscreenchange", wake);
 	wake();
 }
 
@@ -768,10 +1044,18 @@ function hideCursorWhenIdle(): void {
 function wireFullscreen(root: HTMLElement): void {
 	const btn = document.querySelector<HTMLButtonElement>(".ms-fullscreen");
 	if (!btn) return;
+	// No button where the browser cannot go fullscreen at all — Safari on an iPhone, a frame
+	// without allowfullscreen, many TV browsers. There it could only ever do nothing.
+	if (!document.fullscreenEnabled) {
+		btn.remove();
+		return;
+	}
 	btn.addEventListener("click", async () => {
 		try {
 			if (document.fullscreenElement) await document.exitFullscreen();
-			else await root.closest("main")?.requestFullscreen?.();
+			// "hide" asks for the immersive mode: a tablet or TV box is otherwise free to keep
+			// its own navigation bar across the bottom of the wall.
+			else await root.closest("main")?.requestFullscreen({ navigationUI: "hide" });
 		} catch {
 			// A browser may refuse — an iframe without allowfullscreen, or a gesture it
 			// did not trust. The screen is perfectly usable windowed, and the setup page

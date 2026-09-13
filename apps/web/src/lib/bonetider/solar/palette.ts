@@ -111,3 +111,15 @@ export const PRAYER_COLORS: Record<PrayerKey, PrayerColors> = {
 	maghrib: { light: "#cf7d5c", dark: "#eb9477" }, //   sunset terracotta — the hero line (lifted)
 	isha: { light: "#33437a", dark: "#94a2dd" }, //      Prussian night-indigo → periwinkle in dark (matches accent)
 };
+
+/** A prayer's colour as LABEL TEXT, the app's PRAYER_TEXT_COLORS (apps/mobile
+ *  src/lib/solar/palette.ts): the line hue brought to a legible lightness, so a name set
+ *  in its own line's colour still reads as text. The moskéskärm's pills use it. */
+export const PRAYER_TEXT_COLORS: Record<PrayerKey, PrayerColors> = {
+	fajr: { light: "#6971a5", dark: "#b6c0f2" },
+	sunrise: { light: "#9c692c", dark: "#e9b982" },
+	dhuhr: { light: "#7f7358", dark: "#cdc1a3" },
+	asr: { light: "#986b2e", dark: "#e8ba7c" },
+	maghrib: { light: "#ae5f3e", dark: "#ffae90" },
+	isha: { light: "#33437a", dark: "#adbcf8" },
+};

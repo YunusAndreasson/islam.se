@@ -282,7 +282,7 @@ export function decodeScreenConfig(hash: string): { config: ScreenConfig; issues
 		issues.push({
 			key: "lat/lon",
 			reason: "out-of-range",
-			message: `Okänd plats i länken – visar ${d.ortName}.`,
+			message: `Platsen i länken är ogiltig. Tiderna gäller ${d.ortName}.`,
 		});
 	const adjustTokens = (p.get(P.adjust) ?? "").split(",");
 	const adjustAt = (i: number): number => intOrDefault(adjustTokens[i] ?? null, 0, -120, 120);

@@ -390,9 +390,10 @@ if (hasScb) {
 			    map — usually somebody who helps run a mosque. */}
 			<p class="bt-stad-screen">
 				<a href={`/bonetider/skarm/visa/#ort=${place.slug}&ortnamn=${encodeURIComponent(place.name)}&lat=${place.lat.toFixed(4)}&lon=${place.lon.toFixed(4)}`}>
-					Visa {place.name}s tider på storbild
+					{/* Not "{place.name}s": Västerås, Borås and Kramfors take no genitive s. */}
+					Visa tiderna för {place.name} på storbild
 				</a>{" "}
-				– en skärm för moskéns farstu. <a href="/bonetider/skarm/">Ställ in den</a>.
+				– en skärm för moskéns entré. <a href="/bonetider/skarm/">Ställ in den</a>.
 			</p>
 			{/* Landed on the wrong town — common, since a bare "bönetider" search can drop a
 			    reader on any of 2 128 pages. The full PlaceSearch inlines every place as JSON
@@ -438,7 +439,7 @@ if (hasScb) {
 					<li>
 						<a href={`/bonetider/${place.slug}/kalender.pdf`} type="application/pdf">
 							<span class="bt-take-title">Månadens tider som PDF</span>
-							<span class="bt-take-gloss">Ett A4-ark att skriva ut för kylskåpsdörren eller moskéns farstu.</span>
+							<span class="bt-take-gloss">Ett A4-ark att skriva ut för kylskåpsdörren eller moskéns entré.</span>
 						</a>
 					</li>
 				)}

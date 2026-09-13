@@ -78,7 +78,7 @@ const pages = {
 	mosqueScreen: {
 		href: "/bonetider/skarm/",
 		label: "Moskéskärm",
-		menuSub: "Dagens tider på storbild i farstun.",
+		menuSub: "Dagens tider på storbild i moskéns entré.",
 		sub: "Dagens bönetider och iqāma på en skärm i moskén.",
 	},
 	prayerTimes: {

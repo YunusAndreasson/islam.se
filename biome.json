@@ -76,6 +76,7 @@
 			"!**/.wrangler",
 			"!**/articles-data.json",
 			"!**/verses.json",
+			"!**/bonetider/map-detail.ts",
 			"!.markdownlint-rules",
 			"!**/.claude/settings.local.json"
 		]

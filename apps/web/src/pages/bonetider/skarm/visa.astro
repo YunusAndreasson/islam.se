@@ -6,7 +6,7 @@ import MosqueScreen from "../../../components/bonetider/MosqueScreen.astro";
 import Screen from "../../../layouts/Screen.astro";
 ---
 
-<Screen title="Bönetider – skärm">
+<Screen title="Moskéskärm">
 	<main class="ms-frame">
 		<MosqueScreen />
 		<button class="ms-fullscreen" type="button">Helskärm</button>
@@ -30,10 +30,10 @@ import Screen from "../../../layouts/Screen.astro";
 		inset-block-start: 1rem;
 		inset-inline-end: 1rem;
 		padding: 0.55rem 1rem;
-		border: 1px solid color-mix(in srgb, var(--screen-muted, #776d61), transparent 60%);
+		border: 1px solid color-mix(in srgb, var(--screen-muted, #c1c6d4), transparent 60%);
 		border-radius: var(--radius-pill);
-		background: color-mix(in srgb, var(--screen-bg, #fff6e8) 88%, transparent);
-		color: var(--screen-muted, #776d61);
+		background: color-mix(in srgb, var(--screen-bg, #161a26) 88%, transparent);
+		color: var(--screen-muted, #c1c6d4);
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		letter-spacing: 0.04em;
@@ -47,14 +47,36 @@ import Screen from "../../../layouts/Screen.astro";
 		pointer-events: none;
 	}
 
+	/* In fullscreen the way out is Esc, which the browser owns and announces itself, so
+	   the button goes. `pointer-events: none` with it: opacity alone left an invisible
+	   but still clickable target in the corner of the wall — a control nobody can see
+	   and anybody can hit. */
 	:global(body:fullscreen) .ms-fullscreen,
 	.ms-frame:fullscreen .ms-fullscreen {
 		opacity: 0;
+		pointer-events: none;
+	}
+
+	/* …except for whoever is actually reaching for it. Every hiding rule above is repeated
+	   here with :focus-visible so this one out-specifies each of them — written out rather
+	   than relying on source order, because Astro adds its scope attribute per compound
+	   selector and a shorter override silently lost to `.ms-frame:fullscreen .ms-fullscreen`.
+	   Measured: focused in fullscreen, the button computed opacity 0.
+	   A control that can be focused and fired with Enter but cannot be seen fails WCAG
+	   2.4.7, and on a remote it is the only way to reach the screen's one control at all. */
+	.ms-fullscreen:focus-visible,
+	:global(body:fullscreen) .ms-fullscreen:focus-visible,
+	.ms-frame:fullscreen .ms-fullscreen:focus-visible,
+	:global(body[data-idle="1"]) .ms-fullscreen:focus-visible {
+		opacity: 1;
+		pointer-events: auto;
+		outline: 2px solid var(--screen-ink, #e8e3d8);
+		outline-offset: 3px;
 	}
 
 	/* A fullscreen element is painted on black by the UA unless it says otherwise. */
 	.ms-frame:fullscreen {
-		background: var(--screen-bg, #fff6e8);
+		background: var(--screen-bg, #161a26);
 	}
 </style>
 

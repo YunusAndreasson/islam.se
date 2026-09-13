@@ -128,6 +128,33 @@ function sunRisesAndSets(latDeg: number, declDeg: number): boolean {
 	return !(midnightSun || polarNight);
 }
 
+/*
+ * THE TWILIGHT SOLVER PICKS THE WRONG ROOT ON A SINGLE LATITUDE ROW, AND MARCHING
+ * SQUARES DRAWS THE JUMP AS A PRAYER LINE.
+ *
+ * Measured 2026-09-12 at 13:09, the whole lattice (lat 50–72, lon −8–30, 4 895
+ * samples): ʿIshāʾ came back 20:15–20:23 everywhere EXCEPT at lat 68.75, where all 55
+ * longitudes returned 05:03 — the same morning, not the coming evening. So the field
+ * ran +427 min, −486 min, +428 min across three adjacent rows.
+ *
+ * Marching squares is asked for the level-0 contour and finds two sign changes there:
+ * one going down into the spike and one coming back out. It drew a doubled horizontal
+ * line across the top of the map, labelled ʿIshāʾ, at 13:09 in the afternoon — when
+ * ʿIshāʾ was not happening anywhere on earth inside that frame. The giveaway is that
+ * the nearest sample to zero anywhere in the lattice was 408 MINUTES away; a real
+ * crossing has samples at zero (Ẓuhr's nearest was 1 minute).
+ *
+ * The invariant the solver broke is the one every day has: the night twilights bracket
+ * the solar day. Fajr comes before the sun is up and ʿIshāʾ after it is down, at every
+ * latitude and under every high-latitude rule — a substitute ʿIshāʾ is still an evening.
+ * A value on the wrong side of that is not a late line, it is a wrong root, and a
+ * sweeping line asserts an event is crossing the map right now. So it is marked NaN,
+ * which marchingSquares already drops cleanly, and the line simply has a 0.25° gap
+ * where the solver could not be trusted.
+ */
+const beforeOr = (t: number, limit: number): number => (t < limit ? t : Number.NaN);
+const afterOr = (t: number, limit: number): number => (t > limit ? t : Number.NaN);
+
 /** One latitude row of the lattice. Split out so the async builder can yield between rows. */
 function gridRow(
 	lat: number,
@@ -140,15 +167,17 @@ function gridRow(
 	const solarDay = sunRisesAndSets(lat, declDeg);
 	return lons.map((lon) => {
 		const p = computePrayerTimes({ latitude: lat, longitude: lon }, date, settings);
+		const sunrise = solarDay ? ms(p.sunrise) : Number.NaN;
+		const maghrib = solarDay ? ms(p.maghrib) : Number.NaN;
 		// Dhuhr and Asr survive the polar rows: the sun still culminates even when it
 		// never sets, so those two remain real events with real loci.
 		return {
-			fajr: solarDay ? ms(p.fajr) : Number.NaN,
-			sunrise: solarDay ? ms(p.sunrise) : Number.NaN,
+			fajr: beforeOr(solarDay ? ms(p.fajr) : Number.NaN, sunrise),
+			sunrise,
 			dhuhr: ms(p.dhuhr),
 			asr: ms(p.asr),
-			maghrib: solarDay ? ms(p.maghrib) : Number.NaN,
-			isha: solarDay ? ms(p.isha) : Number.NaN,
+			maghrib,
+			isha: afterOr(solarDay ? ms(p.isha) : Number.NaN, maghrib),
 			sunset: solarDay ? ms(p.sunset) : Number.NaN,
 		};
 	});

@@ -1,42 +1,19 @@
 import { describe, expect, it } from "vitest";
 import {
+	clockStepMs,
 	driftMessage,
 	driftVerdict,
-	groundFor,
+	heroAt,
 	inQuietWindow,
 	isReloadSafe,
+	nextSkewProbeMs,
 	nightlyReloadMinute,
 	pixelShiftAt,
 	type ReloadContext,
+	skewAfterStep,
 } from "./kiosk";
 
 const MIN = 60_000;
-
-describe("the ground follows the sun over the mosque", () => {
-	const sunrise = new Date(Date.UTC(2026, 8, 12, 3, 58));
-	const maghrib = new Date(Date.UTC(2026, 8, 12, 17, 12));
-
-	it("is parchment between sunrise and sunset, near-black outside it", () => {
-		expect(groundFor(new Date(Date.UTC(2026, 8, 12, 10, 0)), sunrise, maghrib, true)).toBe("day");
-		expect(groundFor(new Date(Date.UTC(2026, 8, 12, 20, 0)), sunrise, maghrib, false)).toBe(
-			"night",
-		);
-		expect(groundFor(new Date(Date.UTC(2026, 8, 12, 2, 0)), sunrise, maghrib, false)).toBe("night");
-	});
-
-	it("turns at the moment the sun actually sets, not on a clock hour", () => {
-		expect(groundFor(new Date(maghrib.getTime() - 1), sunrise, maghrib, true)).toBe("day");
-		expect(groundFor(maghrib, sunrise, maghrib, false)).toBe("night");
-	});
-
-	it("falls back to the sun's altitude under the midnight sun and the polar night", () => {
-		// Kiruna in June has no sunset and in December no sunrise, so adhan hands back
-		// Invalid Date and a naive comparison would silently pick "night" all summer.
-		const none = new Date(Number.NaN);
-		expect(groundFor(new Date(Date.UTC(2026, 5, 21, 23, 0)), none, none, true)).toBe("day");
-		expect(groundFor(new Date(Date.UTC(2026, 11, 21, 12, 0)), none, none, false)).toBe("night");
-	});
-});
 
 describe("the quiet state", () => {
 	const iqama = Date.UTC(2026, 8, 12, 14, 5);
@@ -54,6 +31,75 @@ describe("the quiet state", () => {
 
 	it("can be switched off entirely", () => {
 		expect(inQuietWindow(iqama, iqama, 0)).toBe(false);
+	});
+});
+
+describe("the large row", () => {
+	// Göteborg, 12 September 2026, in UTC: Ẓuhr 11:09 and ʿAṣr 14:34, iqāma 15 minutes after.
+	const order = ["dhuhr", "asr"] as const;
+	const adhan = { dhuhr: Date.UTC(2026, 8, 12, 11, 9), asr: Date.UTC(2026, 8, 12, 14, 34) };
+	const withIqama = { dhuhr: adhan.dhuhr + 15 * MIN, asr: adhan.asr + 15 * MIN };
+	const hero = (
+		now: number,
+		iqama: Record<"dhuhr" | "asr", number | null> = withIqama,
+		quiet = 10,
+	) =>
+		heroAt(
+			now,
+			order,
+			(k) => adhan[k],
+			(k) => iqama[k],
+			quiet,
+		);
+
+	it("belongs to the next adhān while that adhān is still ahead", () => {
+		expect(hero(adhan.dhuhr - 30 * MIN)).toEqual({
+			key: "dhuhr",
+			phase: "adhan",
+			targetMs: adhan.dhuhr,
+		});
+	});
+
+	it("stays with a prayer between its adhān and its iqāma", () => {
+		// The bug this replaces: six minutes after Ẓuhr's adhān the large row had already
+		// moved on to »ʿAṣr, om 3 tim 19 min«, while the foyer waited for Ẓuhr's iqāma.
+		expect(hero(adhan.dhuhr + 6 * MIN)).toEqual({
+			key: "dhuhr",
+			phase: "iqama",
+			targetMs: withIqama.dhuhr,
+		});
+	});
+
+	it("holds through the congregation and hands on when the window closes", () => {
+		expect(hero(withIqama.dhuhr + 4 * MIN)?.phase).toBe("praying");
+		expect(hero(withIqama.dhuhr + 10 * MIN)).toEqual({
+			key: "asr",
+			phase: "adhan",
+			targetMs: adhan.asr,
+		});
+	});
+
+	it("moves straight on after the adhān when the mosque holds no congregation", () => {
+		expect(hero(adhan.dhuhr + 1, { dhuhr: null, asr: null })?.key).toBe("asr");
+	});
+
+	it("is null once the day is spent, so the wall can show tomorrow's Fajr", () => {
+		expect(hero(withIqama.asr + 10 * MIN)).toBeNull();
+	});
+
+	it("never runs backwards through the day and never counts towards the past", () => {
+		let lastIndex = 0;
+		for (let t = adhan.dhuhr - 60 * MIN; t < adhan.asr + 60 * MIN; t += 30_000) {
+			const h = hero(t);
+			const index = h ? order.indexOf(h.key) : order.length;
+			expect(
+				index,
+				`the row stepped back to an earlier prayer at ${new Date(t).toISOString()}`,
+			).toBeGreaterThanOrEqual(lastIndex);
+			lastIndex = index;
+			if (h)
+				expect(h.targetMs, "a countdown aimed at a moment already gone").toBeGreaterThanOrEqual(t);
+		}
 	});
 });
 
@@ -155,12 +201,48 @@ describe("clock drift", () => {
 
 	it("corrects a drifting clock rather than displaying the wrong Maghrib", () => {
 		expect(driftVerdict(5 * MIN)).toBe("corrected");
-		expect(driftMessage(5 * MIN)).toContain("korrigerade");
+		expect(driftMessage(5 * MIN)).toContain("Tiderna visas ändå rätt");
 		expect(driftVerdict(-5 * MIN)).toBe("corrected");
 	});
 
 	it("asks for help when the clock is far enough out to be a broken NTP", () => {
 		expect(driftVerdict(3 * 60 * MIN)).toBe("broken");
-		expect(driftMessage(3 * 60 * MIN)).toContain("Ställ om klockan");
+		expect(driftMessage(3 * 60 * MIN)).toContain("Ställ klockan rätt");
+	});
+});
+
+describe("clock steps", () => {
+	it("sees the clock being set, either way, and nothing else", () => {
+		expect(clockStepMs(1000 + 10 * MIN, 1000)).toBe(10 * MIN);
+		expect(clockStepMs(1000 - 3 * MIN, 1000)).toBe(-3 * MIN);
+		// A tick that ran late — a throttled timer, a long task — moves both clocks together.
+		expect(clockStepMs(47_000, 47_000)).toBe(0);
+		expect(clockStepMs(1300, 1000)).toBe(0);
+	});
+
+	it("follows NTP correcting a clock the screen had already corrected for", () => {
+		// The bug: the box booted ten minutes slow, the probe measured +10 min and the wall was
+		// right. Then NTP set the clock, and the old offset added on top put every time on the
+		// wall ten minutes out for up to an hour, under a message blaming the now-correct clock.
+		const skew = 10 * MIN + 400;
+		expect(skewAfterStep(skew, clockStepMs(1000 + 10 * MIN, 1000))).toBe(400);
+	});
+
+	it("keeps the offset through a suspend, which looks like a forward step", () => {
+		expect(skewAfterStep(0, 3 * 60 * MIN)).toBeNull();
+		expect(skewAfterStep(5 * MIN, 40 * MIN)).toBeNull();
+		expect(skewAfterStep(20_000, 5 * MIN)).toBeNull();
+	});
+
+	it("asks again soon after a failure, backing off, and hourly once answered", () => {
+		expect(nextSkewProbeMs(0)).toBe(60 * MIN);
+		expect(nextSkewProbeMs(1)).toBe(30_000);
+		expect(nextSkewProbeMs(2)).toBe(60_000);
+		const delays = Array.from({ length: 12 }, (_, i) => nextSkewProbeMs(i + 1));
+		for (let i = 1; i < delays.length; i++)
+			expect(delays[i], "the retry got sooner after another failure").toBeGreaterThanOrEqual(
+				delays[i - 1] ?? 0,
+			);
+		expect(Math.max(...delays)).toBe(5 * MIN);
 	});
 });

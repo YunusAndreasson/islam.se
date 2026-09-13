@@ -1,7 +1,7 @@
 ---
 // The builder. A mosque configures its wall here, on a phone or a laptop, and leaves
-// with a QR code — because the real adoption barrier for a screen is typing a long URL
-// into a television remote, not understanding the settings.
+// with a link to open or copy — because the real adoption barrier for a screen is typing
+// a long URL into a television remote, not understanding the settings.
 //
 // Everything it produces lives in the URL fragment, so this page needs no account, no
 // database and no server: it is a form that writes a link.
@@ -14,7 +14,6 @@
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import PageHead from "../../../components/PageHead.astro";
 import PrayerSettings from "../../../components/bonetider/PrayerSettings.astro";
-import TitledSection from "../../../components/TitledSection.astro";
 import Base from "../../../layouts/Base.astro";
 import { IQAMA_KEYS } from "../../../lib/bonetider/screen-config";
 import { INDEXED_PLACES } from "../../../lib/bonetider/places-index";
@@ -60,7 +59,7 @@ const crumbs = [
 
 <Base
 	title="Moskéskärm – bönetider på storbild"
-	description="Ställ in en skärm som visar dagens bönetider, iqāma-tider och solkartan för din moské. Öppnas i helskärm på en tv i farstun."
+	description="Visa dagens bönetider och moskéns iqāma-tider på en tv i entrén. Välj moské, öppna skärmen och låt den stå på."
 	noindex
 >
 	{/* `.home`, not a narrower column: layout.css states the rule outright — every page
@@ -68,9 +67,8 @@ const crumbs = [
 	<main id="main" class="home bonetider-skarm">
 		<Breadcrumb items={crumbs} />
 		<PageHead title="Moskéskärm">
-			En skärm för farstun: dagens sex tider, era egna iqāma-tider och kartan där
-			bönelinjen sveper in över Sverige. Välj moskén, öppna länken på tv:n och lämna
-			den igång.
+			Visa dagens bönetider och era iqāma-tider på en tv i entrén. Välj moské, öppna
+			skärmen på tv:n och låt den stå på.
 		</PageHead>
 
 		{/* Three children, two arrangements. Wide: questions in a left column, the wall
@@ -89,12 +87,17 @@ const crumbs = [
 					list="sk-mosques"
 					placeholder={`Sök bland ${mosques.length} moskéer`}
 					autocomplete="off"
+					aria-describedby="sk-mosque-status"
 				/>
 				<datalist id="sk-mosques"></datalist>
+				{/* What the preview beside it is showing, and why. Empty it says the wall is a
+				    stand-in; with text that matches nothing it says so, because the builder then
+				    quietly keeps the last place it had and the preview looks perfectly plausible. */}
+				<p class="sk-status" id="sk-mosque-status" aria-live="polite"></p>
 
 				<details class="sk-fold sk-fold--manual">
 					<summary>
-						<span class="sk-fold-label">Står er moské inte i registret?</span>
+						<span class="sk-fold-label">Saknas er moské i listan?</span>
 					</summary>
 					<div class="sk-fold-body">
 						<label class="sk-field">
@@ -103,11 +106,11 @@ const crumbs = [
 							<datalist id="sk-orter"></datalist>
 						</label>
 						<label class="sk-field">
-							<span>Namn på skärmen</span>
+							<span>Moskéns namn</span>
 							<input type="text" id="sk-name" maxlength="80" placeholder="Bellevue Moské" />
 						</label>
 						<label class="sk-field">
-							<span>Plats under namnet</span>
+							<span>Plats</span>
 							<input type="text" id="sk-place" maxlength="80" placeholder="Hisingen, Göteborg" />
 						</label>
 					</div>
@@ -116,7 +119,7 @@ const crumbs = [
 
 			{/* The payoff, kept in view. It is the live display page, not a mock-up of it:
 			    what the mosque is looking at while it configures IS the wall. */}
-			<aside class="sk-wall" aria-label="Skärmen och länken till den">
+			<aside class="sk-wall" aria-label="Förhandsvisning och länk">
 				<div class="sk-preview">
 					<iframe id="sk-frame" title="Förhandsvisning av skärmen" src="/bonetider/skarm/visa/"></iframe>
 				</div>
@@ -143,7 +146,7 @@ const crumbs = [
 						<span class="sk-fold-value" id="sk-sum-iqama"></span>
 					</summary>
 					<div class="sk-fold-body">
-						<p class="sk-hint">Minuter efter böneutropet – eller ett fast klockslag, som 21:00.</p>
+						<p class="sk-hint">Minuter efter böneutropet, eller ett klockslag, till exempel 21:00.</p>
 						<div class="sk-iqama">
 							{
 								IQAMA_KEYS.map((key) => (
@@ -154,8 +157,8 @@ const crumbs = [
 								))
 							}
 						</div>
-						<label class="sk-field">
-							<span>Skärmen tystnar efter iqāma i (minuter)</span>
+						<label class="sk-field sk-field--short">
+							<span>Bönens längd i minuter</span>
 							<input type="number" id="sk-quiet" min="0" max="60" step="1" size="4" />
 						</label>
 					</div>
@@ -167,13 +170,13 @@ const crumbs = [
 						<span class="sk-fold-value" id="sk-sum-fredag"></span>
 					</summary>
 					<div class="sk-fold-body">
-						<label class="sk-field">
-							<span>Khutba (ersätter Ẓuhr på fredagar)</span>
+						<label class="sk-field sk-field--short">
+							<span>Khutba på fredagar</span>
 							<input type="text" id="sk-jumua" placeholder="13:00" size="6" />
 						</label>
 						<label class="sk-field">
-							<span>Anslag längst ned på skärmen</span>
-							<input type="text" id="sk-notice" maxlength="120" placeholder="Koranskola lördag 10.00" />
+							<span>Kort anslag</span>
+							<input type="text" id="sk-notice" maxlength="50" placeholder="Koranskola lördag 10.00" />
 						</label>
 					</div>
 				</details>
@@ -188,23 +191,12 @@ const crumbs = [
 						<span class="sk-fold-value" id="sk-sum-calc"></span>
 					</summary>
 					<div class="sk-fold-body">
-						<p class="sk-hint">Gäller bara den här skärmen – era inställningar på sajten rörs inte.</p>
+						<p class="sk-hint">Gäller bara skärmen.</p>
 						<PrayerSettings mode="detached" />
 					</div>
 				</details>
 			</section>
 		</div>
-
-		{/* Numbered because this genuinely is a sequence, and it is the only sequence on
-		    the page. */}
-		<TitledSection id="sk-h-plats" title="På plats">
-			<ol class="sk-steps">
-				<li>Klistra in länken i tv:ns webbläsare, eller casta fliken dit. Tryck sedan <strong>Helskärm</strong>.</li>
-				<li>Slå av skärmsläckaren i tv:ns inställningar – webbläsaren håller skärmen vaken, men den kan inte stänga av tv:ns egen insomningstimer.</li>
-				<li>Låt tv:n vara uppkopplad. Skärmen räknar ut tiderna själv, men hämtar en ny version varje natt.</li>
-				<li>Byt inget mer. Skärmen byter dag, tid och ljus av sig själv.</li>
-			</ol>
-		</TitledSection>
 
 		{/* `<` escaped the way PlaceSearch.astro does it: a mosque name carrying "</script>"
 		    would otherwise end the block early and take the rest of the page with it. The
@@ -370,6 +362,13 @@ const crumbs = [
 		padding-block: 0.35rem;
 	}
 
+	/* No rule follows this fold, so the air the refinement rows keep above their rule has
+	   nothing to hold apart here; open, it only pushed »Finjustera« further from the
+	   question it follows. */
+	.sk-fold--manual .sk-fold-body {
+		padding-bottom: 0;
+	}
+
 	/* No value column here, so the chevron belongs beside the sentence rather than
 	   out at the right edge on its own. */
 	.sk-fold--manual .sk-fold-label {
@@ -379,30 +378,95 @@ const crumbs = [
 		color: var(--color-accent);
 	}
 
-	/* ── Fields ───────────────────────────────────────────────────────── */
+	/* Chromium draws the search field's clear button in its own saturated blue: the one
+	   off-palette colour on the page, inside the page's most important control. */
+	.sk-q-input::-webkit-search-cancel-button {
+		appearance: none;
+		width: 0.75rem;
+		height: 0.75rem;
+		background: var(--color-muted);
+		-webkit-mask: var(--sk-cross) center / contain no-repeat;
+		mask: var(--sk-cross) center / contain no-repeat;
+		cursor: pointer;
+	}
+
+	.sk-q-input {
+		--sk-cross: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.5 1.5l9 9m0-9l-9 9' stroke='%23000' stroke-width='1.7' stroke-linecap='round'/%3E%3C/svg%3E");
+	}
+
+	/* Close under the field it describes, so it reads as the field's answer rather than
+	   as the next thing on the page. */
+	.sk-status {
+		margin: 0.45rem 0 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		line-height: 1.45;
+		color: var(--color-muted);
+		text-wrap: pretty;
+	}
+
+	.sk-status:empty {
+		display: none;
+	}
+
+	/* A sentence that asks for something steps up the text ramp. No hue: the site has no
+	   alarm colour — the map's failure state is a muted sentence too — and on this page a
+	   red would read as »broken« when all it means is »pick one of the suggestions«. */
+	.sk-status[data-state="nomatch"] {
+		color: var(--color-text);
+	}
+
+	.sk-q-input[aria-invalid="true"] {
+		border-color: var(--color-text);
+	}
+
+	/* ── Fields ───────────────────────────────────────────────────────────
+	   One field style for the whole form, and it is PrayerSettings' own. The calculation
+	   fold renders that component on this page, and the builder's fields disagreed with it
+	   on every property: regular labels in --text-quiet beside semibold ones in
+	   --color-muted, transparent boxes beside filled ones, and the iqāma boxes in the
+	   browser's system face because nothing set a font at all. Three label voices in one
+	   form read as three forms. */
+
+	.sk-field,
+	.sk-iq {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		min-width: 0;
+	}
 
 	.sk-field {
-		display: block;
 		margin-top: var(--space-control);
 	}
 
-	.sk-field > span {
-		display: block;
+	.sk-field > span,
+	.sk-iq > span {
 		font-family: var(--font-heading);
-		font-size: var(--step--2);
-		color: var(--text-quiet);
+		font-size: var(--step--3);
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		color: var(--color-muted);
 	}
 
-	.sk-field input {
+	.sk-field input,
+	.sk-iq input {
 		width: 100%;
-		margin-top: 0.25rem;
-		padding: 0.5rem 0.65rem;
+		padding: 0.45rem 0.6rem;
 		border: 1px solid var(--color-divider);
 		border-radius: var(--radius-sm);
-		background: transparent;
+		background: var(--color-bg);
 		color: var(--color-text);
-		font: inherit;
-		font-size: max(16px, var(--step--2));
+		font-family: var(--font-body);
+		/* 16px floor, not a scale step: below it iOS Safari zooms the page on focus. */
+		font-size: 1rem;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	/* A box as wide as its answer. A full-width field for »13:00« or »10« reads as a
+	   request for a sentence; the width is the first thing that says what is wanted. */
+	.sk-field--short input {
+		max-width: 7rem;
 	}
 
 	.sk-hint {
@@ -411,34 +475,49 @@ const crumbs = [
 		color: var(--text-quiet);
 	}
 
+	/* The five on one line, in prayer order — the row the fold's own summary already
+	   prints as »15 · 15 · 15 · 5 · 15 min«. auto-fit broke them three and two, which set
+	   Fajr, Ẓuhr and ʿAṣr apart from the evening as if that grouping meant something. */
 	.sk-iqama {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
-		gap: var(--space-control);
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: 0.5rem;
 		margin-top: var(--space-control);
 	}
 
-	.sk-iq span {
-		display: block;
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
-		color: var(--text-quiet);
+	.sk-iq input {
+		padding-inline: 0.45rem;
 	}
 
-	.sk-iq input {
-		width: 100%;
-		margin-top: 0.25rem;
-		padding: 0.45rem 0.5rem;
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-sm);
-		background: transparent;
-		color: var(--color-text);
-		font-size: max(16px, var(--step--2));
-		font-variant-numeric: lining-nums tabular-nums;
+	/* PrayerSettings closes with »Aktiva inställningar: Muslim World League · Standard«,
+	   which is the calculation fold's own summary repeated two lines under it. */
+	.sk-tune :global(.bt-set-summary) {
+		display: none;
+	}
+
+	/* ── The optional half ────────────────────────────────────────────────
+	   A group label, not a second question. It was set at the size and weight of
+	   »Vilken moské?«, so the page presented its one required answer and a group of
+	   optional ones as peers. Now it has the voice of every other group label on the site
+	   (layout.css .label, whose values these are), and the rule under it closes the list
+	   from above as the rows' own rules close it below. Written out rather than added as a
+	   class so that this one scoped rule holds the heading's whole look. */
+	.sk-tune {
+		margin-top: var(--space-unit);
 	}
 
 	.sk-tune h2 {
-		margin-top: 0;
+		margin: 0;
+		padding-bottom: var(--space-control);
+		border-bottom: 1px solid var(--color-divider);
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 600;
+		line-height: 1.2;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		color: var(--color-muted);
 	}
 
 	/* ── The wall and the way onto the television ─────────────────────── */
@@ -508,40 +587,18 @@ const crumbs = [
 		border-color: var(--color-text);
 	}
 
+	/* The link itself, for a television that cannot be cast to. A control's distance under
+	   the button that copies it rather than a paragraph's, and one click selects all of
+	   it — which is also the fallback the copy button points to when the clipboard is
+	   refused. */
 	.sk-url {
-		margin: var(--space-unit) 0 0;
+		margin: var(--space-control) 0 0;
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
+		line-height: 1.45;
 		color: var(--color-muted);
 		overflow-wrap: anywhere;
-	}
-
-	/* ── On site ──────────────────────────────────────────────────────── */
-
-	.sk-steps {
-		/* reset.css makes every list markerless site-wide (it swaps `none` for an
-		   empty-string marker so Safari keeps role=list). This is the one list on the
-		   page that is genuinely a sequence, so it asks for its numbers back. */
-		list-style: decimal;
-		max-width: var(--content-width);
-		margin: 0;
-		padding-left: 1.4rem;
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-	}
-
-	.sk-steps li {
-		margin-bottom: var(--space-control);
-		padding-left: 0.35rem;
-		text-wrap: pretty;
-	}
-
-	.sk-steps li::marker {
-		font-family: var(--font-heading);
-		font-variant-numeric: lining-nums tabular-nums;
-		color: var(--color-muted);
+		user-select: all;
 	}
 
 	@media (hover: none), (pointer: coarse) {

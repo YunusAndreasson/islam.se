@@ -29,17 +29,29 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
 			</details>
 		</div>
 
+		{/* Same placement and same reasoning as /bonetider/[stad]/: the reader who wants a
+		    wall display is the one already looking at this map, and that is usually somebody
+		    who helps run a mosque. It points at the builder rather than a prefilled screen
+		    because the hub's field follows whatever place the visitor has chosen, so there
+		    is no one town to bake into a link here. */}
+		<p class="bh2-screen">
+			<a href="/bonetider/skarm/">Visa tiderna på storbild</a> – en skärm för moskéns entré.
+		</p>
+
   </section>
   <RelatedLinks label="Mer om bönetider" links={[
    {href: "/bonetider/metod/", label: "Om tiderna & beräkningen"},
    {href: "/bonetider/aret/", label: "Bönetider under året"},
    {href: "/bonetider/ramadan/", label: "Ramadan · iftar & suhūr"},
+   {href: "/bonetider/skarm/", label: "Moskéskärm · tiderna på storbild"},
   ]} />
  </main>
 </Base>
 <style>
  .today { margin-top: var(--space-unit); }
  .bh2-actions { margin-top: .75rem; }
+ /* Knobs only — matches .bt-stad-screen on the city pages so the two read as one idiom. */
+ .bh2-screen { margin: var(--space-unit) 0 0; font-family: var(--font-heading); font-size: var(--step--2); color: var(--text-quiet); }
  .bh2-settings-summary { display: flex; align-items: center; gap: .5rem; min-height: 2.75rem; width: fit-content; cursor: pointer; font-family: var(--font-heading); font-size: var(--step--2); color: var(--color-muted); }
  .bh2-settings[open] :global(.settings-chevron) { transform: rotate(180deg); }
  .bh2-settings-summary::-webkit-details-marker { display: none; }

@@ -7,35 +7,12 @@
 // the screen must be able to notice it has stopped, recover without help, and never
 // take an action (a reload, most of all) that could leave the wall blank.
 
-/** Which ground the screen paints, from the sun's own position over this mosque. */
-export type Ground = "day" | "night";
-
-/**
- * Parchment while the sun is up over the mosque, warm near-black once it has set.
- *
- * The boundary is the mosque's own Shurūq and Maghrib rather than a clock hour, so the
- * screen darkens at the moment the sun actually sets over that building. That is the
- * honest mapping: the whole screen is about where the sun is.
- *
- * Both arguments may be Invalid Date — north of the Arctic Circle a day can have
- * neither a sunrise nor a sunset. The fallback is the one that cannot mislead: if the
- * sun never set, it is day; if it never rose, it is night; and altitude decides when
- * neither is known.
- */
-export function groundFor(now: Date, sunrise: Date, maghrib: Date, sunUp: boolean): Ground {
-	const rise = sunrise.getTime();
-	const set = maghrib.getTime();
-	if (!(Number.isFinite(rise) && Number.isFinite(set))) return sunUp ? "day" : "night";
-	const t = now.getTime();
-	return t >= rise && t < set ? "day" : "night";
-}
-
 /**
  * Is the congregation in progress?
  *
- * From the iqāma until the window closes the screen goes quiet: the rank recedes and
- * one line holds the wall. Returns false when the mosque holds no iqāma for this
- * prayer, and when the window is configured to zero.
+ * From the iqāma until the window closes the prayer being prayed keeps the large row
+ * and its countdown reads »pågår«. Returns false when the mosque holds no iqāma for
+ * this prayer, and when the window is configured to zero.
  */
 export function inQuietWindow(
 	nowMs: number,
@@ -44,6 +21,51 @@ export function inQuietWindow(
 ): boolean {
 	if (iqamaMs === null || quietMinutes <= 0) return false;
 	return nowMs >= iqamaMs && nowMs < iqamaMs + quietMinutes * 60_000;
+}
+
+/** What the large row is counting towards: the adhān, the iqāma after it, or nothing
+ *  because the congregation is praying. */
+export type HeroPhase = "adhan" | "iqama" | "praying";
+
+export interface HeroMoment<K extends string> {
+	key: K;
+	phase: HeroPhase;
+	/** The adhān, the iqāma, or the end of the congregation's window. */
+	targetMs: number;
+}
+
+/**
+ * Which prayer holds the wall's large row.
+ *
+ * NOT simply the next adhān. The minutes between a prayer's adhān and its iqāma are
+ * when the foyer is full and reading the wall, and "the next adhān" has moved on by
+ * then: at 13:15 with Ẓuhr's iqāma at 13:24, the large row read »ʿAṣr, om 3 tim 19 min«
+ * and the one time the room was waiting for sat in the small type of the row above. So
+ * a prayer keeps the row from its adhān, through the wait for its iqāma, to the end of
+ * the congregation, and only then hands it on.
+ *
+ * `order` is chronological. Returns null once the day is spent, where the caller shows
+ * tomorrow's Fajr.
+ */
+export function heroAt<K extends string>(
+	nowMs: number,
+	order: readonly K[],
+	adhanMs: (key: K) => number,
+	iqamaMs: (key: K) => number | null,
+	quietMinutes: number,
+): HeroMoment<K> | null {
+	for (const key of order) {
+		const adhan = adhanMs(key);
+		if (!Number.isFinite(adhan)) continue;
+		if (adhan >= nowMs) return { key, phase: "adhan", targetMs: adhan };
+		const iqama = iqamaMs(key);
+		if (iqama === null) continue;
+		if (nowMs < iqama) return { key, phase: "iqama", targetMs: iqama };
+		if (inQuietWindow(nowMs, iqama, quietMinutes)) {
+			return { key, phase: "praying", targetMs: iqama + quietMinutes * 60_000 };
+		}
+	}
+	return null;
 }
 
 // ---------------------------------------------------------------------------
@@ -150,6 +172,57 @@ export function driftMessage(skewMs: number): string {
 	if (verdict === "ok") return "";
 	const minutes = Math.round(Math.abs(skewMs) / 60_000);
 	if (verdict === "corrected")
-		return `Enhetens klocka går ${minutes} min fel – tiderna visas korrigerade.`;
-	return `Enhetens klocka går ${minutes} min fel. Ställ om klockan på skärmens enhet.`;
+		return `Skärmens klocka går ${minutes} min fel. Tiderna visas ändå rätt.`;
+	return `Skärmens klocka går ${minutes} min fel. Ställ klockan rätt på tv:n eller datorn.`;
+}
+
+// ---------------------------------------------------------------------------
+// Clock steps
+// ---------------------------------------------------------------------------
+
+/**
+ * How far the device's clock was SET between two readings, or 0.
+ *
+ * `performance.now()` is a monotonic clock that no setting can move, so between two readings
+ * it and `Date.now()` advance by the same amount, and a difference is the wall clock being
+ * set: NTP correcting a signage box that booted with a flat clock battery, or someone changing
+ * it by hand. A throttled timer cannot fake a step, because both clocks are read at the same
+ * instant. A system suspend can — the monotonic clock stands still while the box sleeps —
+ * which is why skewAfterStep does not simply subtract every step it is given.
+ */
+export function clockStepMs(wallDeltaMs: number, monoDeltaMs: number, thresholdMs = 2000): number {
+	const step = wallDeltaMs - monoDeltaMs;
+	return Math.abs(step) >= thresholdMs ? step : 0;
+}
+
+/**
+ * The server offset to use once the device clock has stepped, or null to keep the old one
+ * until the server has been asked again.
+ *
+ * A step that lands the device clock on the server's time — within the minute a Date header
+ * can resolve — is a correction, and the offset gives up exactly what the clock gained. Before
+ * this, the screen went on adding the old offset to a clock that no longer needed it: every
+ * time on the wall that many minutes out for up to an hour, under a message blaming a clock
+ * that was by then right.
+ *
+ * Any other step is ambiguous. A suspend looks exactly like a forward correction, and after one
+ * the old offset is still the right one. Those keep it, and the caller asks the server at once.
+ */
+export function skewAfterStep(skewMs: number, stepMs: number, toleranceMs = 60_000): number | null {
+	const corrected = skewMs - stepMs;
+	return Math.abs(corrected) <= toleranceMs && Math.abs(corrected) < Math.abs(skewMs)
+		? corrected
+		: null;
+}
+
+/**
+ * How long until the server is asked for the time again.
+ *
+ * An hour after an answer. After a failure, 30 s, doubling to a five-minute ceiling: a box that
+ * booted before the mosque's router came up used to wait out a whole hour on its own clock —
+ * which, on exactly the hardware that needs correcting, is the wrong one.
+ */
+export function nextSkewProbeMs(failures: number): number {
+	if (failures <= 0) return 60 * 60_000;
+	return Math.min(5 * 60_000, 30_000 * 2 ** (failures - 1));
 }

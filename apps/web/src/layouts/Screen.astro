@@ -9,8 +9,8 @@
 //
 //  • <ClientRouter /> — the page never navigates. View transitions would only add a
 //    router that re-stamps <html> attributes on a page that has no second page.
-//  • The pre-paint theme IIFE — the screen's palette follows the SUN over the mosque,
-//    not the reader's stored preference. bonetider-skarm.ts owns it.
+//  • The pre-paint theme IIFE — the screen is always dark, whatever the reader's
+//    stored preference. data-theme below pins it; MosqueScreen.astro says why.
 //  • Analytics, JSON-LD, Open Graph — nobody shares a wall display.
 //
 // What is kept: the fonts (preloaded, because there is no competing hero image and the
@@ -28,13 +28,13 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="sv">
+<html lang="sv" data-theme="dark">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-		{/* The screen paints its own ground from the sun's position, so it must not be
-		    handed the OS palette underneath. */}
-		<meta name="color-scheme" content="light dark" />
+		{/* Dark whatever the OS prefers, so the site tokens the screen borrows (the mark's
+		    blue and gold) resolve to the same half as its own ground. */}
+		<meta name="color-scheme" content="dark" />
 		<meta name="robots" content="noindex, nofollow" />
 		<title>{title}</title>
 
@@ -54,10 +54,18 @@ const { title } = Astro.props;
 		    reachable; this string is. See kiosk.ts proveOnline(). */}
 		<!--skarm-ok-->
 		<style is:global>
+			/* reset.css reserves a scrollbar gutter on every page so the site's column never
+			   jumps when a scrollbar appears. This page never scrolls, and the reserved strip
+			   was not painted: in the builder's iframe it showed as a 10 px band of the
+			   parchment page down the right edge of the preview, and a signage browser with
+			   classic scrollbars would draw the same band down the wall. */
+			html:has(> .screen-body) {
+				scrollbar-gutter: auto;
+			}
 			.screen-body {
 				margin: 0;
 				overflow: hidden;
-				background: var(--screen-bg, #fff6e8);
+				background: var(--screen-bg, #161a26);
 			}
 			/* A wall display has no pointer. Hiding the cursor after it stops moving is
 			   the difference between a finished screen and someone's laptop. */
