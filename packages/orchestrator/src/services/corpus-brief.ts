@@ -92,7 +92,7 @@ export interface CorpusBriefInput {
 }
 
 /** One angle's own ranking, kept intact. */
-export interface AngleResult<T> {
+interface AngleResult<T> {
 	query: string;
 	hits: T[];
 }
