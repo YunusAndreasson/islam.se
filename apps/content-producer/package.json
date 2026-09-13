@@ -13,17 +13,17 @@
 		"produce": "node --no-warnings dist/index.js"
 	},
 	"dependencies": {
-		"@clack/prompts": "^1.7.0",
+		"@clack/prompts": "^1.8.0",
 		"@islam-se/orchestrator": "workspace:*",
 		"@islam-se/quotes": "workspace:*",
 		"commander": "^15.0.0",
 		"diff": "^9.0.0",
 		"dotenv": "^17.4.2",
-		"yaml": "^2.9.0",
-		"zod": "^4.5.4"
+		"yaml": "^2.9.1",
+		"zod": "^4.6.2"
 	},
 	"devDependencies": {
-		"@types/node": "^26.4.1",
+		"@types/node": "^26.5.1",
 		"typescript": "^7.0.2"
 	}
 }
