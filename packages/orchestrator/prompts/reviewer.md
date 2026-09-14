@@ -122,7 +122,7 @@ These are recurring AI-generated patterns that make prose feel synthetic. Replac
 - "diagnos/diagnosticerar" (max 1) → beskriver, identifierar, pekar ut — reserve "diagnos" for medical contexts
 - "rymmer" (max 2) → bär, visar, döljer, pekar mot, öppnar
 - "avslöjar" (max 2) → visar, blottlägger, röjer, synliggör
-- "skarp/skarpare" (max 1) → precis, träffsäker, distinkt
+- "skarp/skarpare/skarpaste" (0) → say what makes it precise, or cut the framing; never swap in a sibling intensifier (starkaste, tydligaste)
 - "bortom" (max 2) → utanför, ovanför, över — or restructure
 - "häri ligger/bottnar" (0) → cut the transition entirely, just state the point
 - "alltjämt", "likväl", "förvisso" (max 1 each) → fine once for flavor, more signals a single voice
@@ -154,7 +154,7 @@ Before producing your final output, use the think tool to run a concrete audit o
    - "diagnos/diagnosticerar" (max 1)
    - "rymmer" (max 2)
    - "avslöjar" (max 2)
-   - "skarp/skarpare" (max 1)
+   - "skarp/skarpare/skarpaste" (0)
    - "bortom" (max 2)
    - same attribution verb 3+ times (sammanfattade, fastslog, fångade, etc.)
    If over the limits: rewrite the extras using varied constructions.

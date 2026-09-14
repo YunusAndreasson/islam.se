@@ -187,7 +187,7 @@ AI-text garderar sig istället för att påstå. "Kanske", "möjligen", "på sä
 AI använder "djup", "djupare", "djupt" som standardintensifierare: "djupare förståelse", "djupare mening", "djupt rotad", "på ett djupare plan". Det urholkar ordets kraft.
 
 **Regel:** Max 1 förekomst av "djup/djupare/djupt" i överförd bemärkelse per artikel. Ersätt övriga:
-- "djupare förståelse" → "skarpare förståelse" / "klarare insikt"
+- "djupare förståelse" → "klarare förståelse" / säg vad som blev förstått
 - "djupt rotad" → "fast förankrad" / "ingrodd"
 - "på ett djupare plan" → "i grunden" / "under ytan"
 
@@ -334,7 +334,7 @@ Den enskilt vanligaste AI-konstruktionen. Behåll de 2 starkaste. Alternativ: v�
 | diagnos / diagnosticerar | 1 | beskriver, identifierar, pekar ut (utom medicinsk kontext) |
 | rymmer | 2 | bär, visar, döljer, pekar mot, innehåller |
 | avslöjar | 2 | visar, blottlägger, röjer, synliggör |
-| skarp / skarpare | 1 | precis, träffsäker, distinkt — eller beskriv *vad* som gör det skarpt |
+| skarp / skarpare / skarpaste | 0 | beskriv *vad* som gör det precist, eller stryk ramningen; byt inte till en syskonförstärkare (starkaste, tydligaste) |
 | bortom | 2 | utanför, ovanför, över, bakom |
 | häri ligger / häri bottnar | 1 | stryk övergången, gå rakt på saken |
 | alltjämt | 1 | fortfarande, ännu, ständigt |
