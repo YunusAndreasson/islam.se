@@ -122,8 +122,18 @@ export function startOfZoneDay(epoch: number): number {
   return wallMidnightAsUTC - zoneOffsetMs(approx);
 }
 
+// Scrubbing asks for the pending state's day length on every update. Keep that
+// lookup correct across batched day changes without repeating three Intl calls
+// for the same midnight. One entry bounds memory; the zone is part of its key.
+let lastDayLength: { start: number; zone: string; length: number } | undefined;
+
 export function zoneDayLength(dayStart: number): number {
-  return startOfZoneDay(dayStart + 26 * 60 * 60 * 1000) - dayStart;
+  if (lastDayLength?.start === dayStart && lastDayLength.zone === zone) {
+    return lastDayLength.length;
+  }
+  const length = startOfZoneDay(dayStart + 26 * 60 * 60 * 1000) - dayStart;
+  if (Number.isFinite(length)) lastDayLength = { start: dayStart, zone, length };
+  return length;
 }
 
 /**

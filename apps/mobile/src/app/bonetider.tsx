@@ -10,6 +10,7 @@ import { router, useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  AppState,
   type NativeSyntheticEvent,
   StyleSheet,
   Text,
@@ -18,6 +19,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
+  cancelAnimation,
   Easing,
   FadeOut,
   type SharedValue,
@@ -35,13 +37,15 @@ import { hapticLight } from '@/lib/haptics';
 
 import {
   type DayMark,
-  DOCK_COLLAPSED_BASE,
   DOCK_FLOAT,
   type NextPrayer,
   PrayerDock,
+  type PrayerDockHandle,
 } from '@/components/map/PrayerDock';
 import { MapLessonCard } from '@/components/map/MapLessonCard';
 import { Icon } from '@/components/ui/Icon';
+import { dockMetrics } from '@/components/map/dock-metrics';
+import { LocationLayer } from '@/components/map/LocationLayer';
 import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
 import { BurialGroundCard } from '@/components/map/BurialGroundCard';
 import { BurialGroundLayer } from '@/components/map/BurialGroundLayer';
@@ -260,6 +264,7 @@ export default function Bonetider() {
   // camera-mirror bug is caught on the first settled frame instead of by a reader noticing
   // that Stockholm has moved. Compiled out of release builds; see the module's header.
   const mapRef = useRef<MapRef>(null);
+  const prayerDockRef = useRef<PrayerDockHandle>(null);
   // The initial framing — captured from the first settled region event after the
   // fitBounds-on-mount. Used as the comparison anchor for "has the user moved the
   // map?" (so the Reset chip appears when they have) and as the target the Reset
@@ -284,11 +289,11 @@ export default function Bonetider() {
   // every floating card in the top region (the Återställ chip, the basemap notice, the
   // permission hints) measures from this rather than from a baked-in 46 dp disc.
   const { laneTop: navLaneTop } = useNavMetrics();
-  const { width: screenW, height: screenH } = useWindowDimensions();
+  const { width: screenW, height: screenH, fontScale } = useWindowDimensions();
   // Space the floating dock occupies from the screen bottom = card height + the
   // safe-area inset + the float gap beneath it. The map reserves this much so
   // southern Sweden (Malmö) is never hidden behind the dock.
-  const collapsedDock = DOCK_COLLAPSED_BASE + insets.bottom + DOCK_FLOAT;
+  const collapsedDock = dockMetrics(fontScale).collapsed + insets.bottom + DOCK_FLOAT;
 
   const { settings, loaded: settingsLoaded, update } = useSettings();
   const { coords, label, source } = useLocation();
@@ -325,7 +330,13 @@ export default function Bonetider() {
   // Pause the clock's live tick while another route is on top, so the map's field
   // isn't rebuilt in the background (e.g. every 30 s while the user is on Inställningar).
   const isFocused = useIsFocused();
-  const clock = useSolarClock(isFocused, isMapMoving);
+  const [appActive, setAppActive] = useState(AppState.currentState === 'active');
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => setAppActive(state === 'active'));
+    return () => subscription.remove();
+  }, []);
+  const mapActive = isFocused && appActive;
+  const clock = useSolarClock(mapActive, isMapMoving);
   // Stable across renders (useSolarClock memoises it with no deps), unlike `clock` itself —
   // so the settled-camera handler below can depend on it without being rebuilt on every
   // tick and every scrub frame.
@@ -664,6 +675,10 @@ export default function Bonetider() {
     // eases linearly toward the PREDICTED next tick, so the wash and lines move at the
     // sun's real rate. A stale value (from a paused/backgrounded clock) is snapped first,
     // then glides. Scrub mode pins the value directly.
+    if (!mapActive) {
+      cancelAnimation(nowFraction);
+      return;
+    }
     if (clock.mode === 'live') {
       const staleBy = Math.abs(nowFraction.value - clock.fraction);
       if (staleBy > (2 * LIVE_TICK_MS) / clock.dayLength) nowFraction.value = clock.fraction;
@@ -675,7 +690,8 @@ export default function Bonetider() {
     } else {
       nowFraction.value = clock.fraction;
     }
-  }, [clock.fraction, clock.mode, clock.dayLength, nowFraction]);
+    return () => cancelAnimation(nowFraction);
+  }, [clock.fraction, clock.mode, clock.dayLength, mapActive, nowFraction]);
 
   const sig = computeSignature(settings);
 
@@ -684,7 +700,7 @@ export default function Bonetider() {
   // running the lesson's three examples through the live grid cache below would evict
   // today's grid and hand the map a rebuild stutter the instant the lesson closes.
   // `avoid` is the user's real coordinates, since their location dot is genuinely on
-  // screen here (MapMarkersOverlay draws it in both modes) — unlike the old standalone
+  // screen here (LocationLayer draws it in both modes) — unlike the old standalone
   // demo, which had no dot to keep a pill clear of.
   // One lookup, shared by the frame here and the card near the bottom of the tree.
   // Both stepper handlers clamp `lessonIndex`, so it is always in range — but holding
@@ -846,14 +862,14 @@ export default function Bonetider() {
   // bloom only matters while the map is watched.
   const [arrival, setArrival] = useState<PrayerArrival | null>(null);
   useEffect(() => {
-    if (!isFocused || clock.mode !== 'live' || !next || next.nextDay) return;
+    if (!mapActive || clock.mode !== 'live' || !next || next.nextDay) return;
     const delay = next.at - Date.now();
     if (delay < 0) return;
     const key = next.key;
     const at = next.at;
     const id = setTimeout(() => setArrival({ prayer: key, id: at }), delay);
     return () => clearTimeout(id);
-  }, [next, clock.mode, isFocused]);
+  }, [next, clock.mode, mapActive]);
 
   // The user is free to pan/zoom anywhere — there is no bounds enforcement. The
   // settled handler below only records the initial framing and drives the
@@ -1063,6 +1079,11 @@ export default function Bonetider() {
         onPress={(event) => {
           setSelectedMosque(null);
           setSelectedBurialGround(null);
+          // POI taps stop propagation; a map tap dismisses the dock before line hints.
+          if (prayerDockRef.current?.collapse()) {
+            setLineMessage(null);
+            return;
+          }
           if (!cameraReady || mapLessonPending) return;
           const [x, y] = event.nativeEvent.point;
           const point = { x, y };
@@ -1146,11 +1167,11 @@ export default function Bonetider() {
         {settings.showMosques && (
           <MosqueLayer onSelect={selectMosque} selectedId={selectedMosque?.id ?? null} />
         )}
+        <LocationLayer point={userPoint} showQibla={settings.showQibla && !mapLessonPending} />
       </Map>
 
-      {/* The reveal cover. Sits directly ON the basemap and UNDER everything the app
-          draws itself, which is the whole point of putting it here rather than over the
-          screen: the wash, the prayer lines and the markers come up on schedule against a
+      {/* The reveal cover. Sits directly ON the basemap and its native location layer,
+          beneath the solar field: the wash, prayer lines and their labels appear against
           calm ground, and the basemap's detail resolves beneath them. A cover over the
           whole screen would have hidden the app's own graphics too and turned the first
           seconds into a splash — this hides only the part that isn't ready.
@@ -1185,10 +1206,11 @@ export default function Bonetider() {
           dayStart={clock.dayStart}
           dayLength={clock.dayLength}
           nowFraction={nowFraction}
-          geometryNow={clock.now}
+          geometryNow={fieldNow}
+          preview={clock.mode === 'scrub'}
+          entranceEnabled={mapPainted && mapActive}
           camera={cam}
           lines={prayerLines}
-          showQibla={settings.showQibla}
           nextKey={nextKey}
           imminentKey={imminentKey}
           userPoint={userPoint}
@@ -1203,7 +1225,6 @@ export default function Bonetider() {
       {cameraReady && !mapLessonPending && (
         <MapMarkersOverlay
           camera={cam}
-          userCoords={coords}
           labels={solar.labels}
           nextKey={nextKey}
           polarBoundary={polarBoundary}
@@ -1225,9 +1246,9 @@ export default function Bonetider() {
             dayLength={lessonFrame.dayLength}
             nowFraction={lessonFraction}
             geometryNow={lessonFrame.instant}
+            entranceEnabled={false}
             camera={cam}
             lines={lessonFrame.lines}
-            showQibla={false}
             nextKey={null}
             imminentKey={null}
             userPoint={userPoint}
@@ -1236,7 +1257,6 @@ export default function Bonetider() {
           />
           <MapMarkersOverlay
             camera={cam}
-            userCoords={coords}
             labels={lessonFrame.labels}
             nextKey={null}
             polarBoundary={lessonFrame.polarBoundary}
@@ -1274,6 +1294,7 @@ export default function Bonetider() {
         />
       ) : (
         <PrayerDock
+          ref={prayerDockRef}
           clock={clock}
           times={userTimes}
           marks={marks}
@@ -1318,7 +1339,7 @@ export default function Bonetider() {
           each opening its screen as a sheet over the map. `active` (the screen's focus)
           gates the compass's heading subscription so the magnetometer pauses when a
           sheet is up or the app is backgrounded. */}
-      <MapNav active={isFocused} zoomed={positionZoom} locationIsFallback={locationIsFallback} onLocate={() => {
+      <MapNav active={mapActive} zoomed={positionZoom} locationIsFallback={locationIsFallback} onLocate={() => {
         if (locationIsFallback) { router.navigate('/byt-plats'); return; }
         hapticLight();
         setLineMessage(null);

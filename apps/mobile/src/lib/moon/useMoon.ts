@@ -23,23 +23,36 @@ import { moonAppearance, type MoonAppearance, moonSky, type MoonSky } from './ep
 const DEFAULT_PERIOD_MS = 10 * 60_000;
 
 /** An instant that advances in `periodMs` steps and jumps to now on every foreground. */
-export function useCoarseNow(periodMs: number = DEFAULT_PERIOD_MS): number {
+export function useCoarseNow(periodMs: number = DEFAULT_PERIOD_MS, active = true): number {
   // Quantised so the value is stable between ticks even if a re-render lands mid-period —
   // which is what makes the useMemo below actually hold rather than recompute on every
   // parent render that happens to arrive at a new millisecond.
   const [bucket, setBucket] = useState(() => Math.floor(Date.now() / periodMs));
   useEffect(() => {
+    if (!active) return;
     const sync = () => setBucket(Math.floor(Date.now() / periodMs));
-    sync();
-    const id = setInterval(sync, periodMs);
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const stop = () => {
+      if (timer !== undefined) clearInterval(timer);
+      timer = undefined;
+    };
+    const start = () => {
+      stop();
+      sync();
+      timer = setInterval(sync, periodMs);
+    };
+    // A mounted route can remain behind another screen, and a focused route can
+    // remain mounted while the app is backgrounded. Neither needs a lunar clock.
+    if (AppState.currentState === 'active') start();
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') sync();
+      if (state === 'active') start();
+      else stop();
     });
     return () => {
-      clearInterval(id);
+      stop();
       sub.remove();
     };
-  }, [periodMs]);
+  }, [periodMs, active]);
   return bucket * periodMs;
 }
 

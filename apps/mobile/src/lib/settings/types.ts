@@ -174,7 +174,7 @@ export interface PrayerSettings {
    *  default: it is useful indoors where the magnetometer is unreliable, and it is an
    *  independent check on the compass sheet. Purely cosmetic — it changes nothing that
    *  is computed, which is why it belongs to COSMETIC_KEYS in ./compute-signature.
-   *  See src/components/map/skia/QiblaArc.tsx. */
+   *  See src/components/map/LocationLayer.tsx. */
   showQibla: boolean;
   /** Show the Moon disc beside the compass in the map's nav row — tonight's phase, and the
    *  way in to the Månen screen. On by default. Unlike `showQibla`, which hides a decoration

@@ -1,22 +1,13 @@
 // The Skia field layer, rendered directly rather than through the map screen — so the two
 // branches that only appear on certain DATES or certain SETTINGS can be exercised on any
 // day, from any state, without driving MapLibre.
-import { describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react-native';
 
-import type { Camera } from '@/lib/map/projection';
+import * as reanimated from 'react-native-reanimated';
+import { Path, Skia } from '@shopify/react-native-skia';
+import { type Camera, project } from '@/lib/map/projection';
 import { SolarSkiaOverlay } from './SolarSkiaOverlay';
-
-// Every Skia draw node renders as null under the jest mock, so a path on the canvas is
-// invisible to a query. Standing the arc in as a host view is what makes "is it drawn?"
-// answerable at all — and it keeps this file about the OVERLAY's wiring. The arc's own
-// geometry is covered by QiblaArc.test.tsx and lib/qibla.test.ts.
-jest.mock('./QiblaArc', () => ({
-  // require, not import: jest.mock factories are hoisted above the imports, so the outer
-  // scope is not available to them yet.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  QiblaArc: () => require('react').createElement('qibla-arc', { testID: 'qibla-arc' }),
-}));
 
 const CAMERA = { lon: 17.4, lat: 62.1, zoom: 4.5, width: 390, height: 780 } satisfies Camera;
 const STOCKHOLM: [number, number] = [18.0686, 59.3293];
@@ -27,8 +18,8 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 // the overlay's worklets read — so the derived paths below really are built.
 const shared = <T,>(value: T) => ({ value }) as never;
 
-function renderOverlay(overrides: Partial<Parameters<typeof SolarSkiaOverlay>[0]> = {}) {
-  render(
+function overlay(overrides: Partial<Parameters<typeof SolarSkiaOverlay>[0]> = {}) {
+  return (
     <SolarSkiaOverlay
       dayStart={DAY_START}
       dayLength={DAY_MS}
@@ -36,31 +27,19 @@ function renderOverlay(overrides: Partial<Parameters<typeof SolarSkiaOverlay>[0]
       geometryNow={DAY_START + DAY_MS / 2}
       camera={shared(CAMERA)}
       lines={[]}
-      showQibla
       nextKey={null}
       imminentKey={null}
       userPoint={STOCKHOLM}
       arrival={null}
       polarBoundary={null}
       {...overrides}
-    />,
+    />
   );
 }
 
-describe('the qibla arc on the map', () => {
-  it('is drawn from the user position by default', () => {
-    renderOverlay();
-    expect(screen.getByTestId('qibla-arc')).toBeTruthy();
-  });
-
-  // Inställningar → Utseende → "Visa qibla-riktning". Turning it off has to remove the
-  // path, not merely make it invisible: an alpha-0 stroke still costs a path rebuild on
-  // every pan frame, and "off" that still draws is the kind of thing nobody notices.
-  it('is gone entirely when the setting is off', () => {
-    renderOverlay({ showQibla: false });
-    expect(screen.queryByTestId('qibla-arc')).toBeNull();
-  });
-});
+function renderOverlay(overrides: Partial<Parameters<typeof SolarSkiaOverlay>[0]> = {}) {
+  return render(overlay(overrides));
+}
 
 // THE regression this exists to prevent, and it is a seasonal one: polarBoundaryFor
 // returns null through the summer half of the year and a real boundary from roughly
@@ -80,5 +59,69 @@ describe('the polar boundary line', () => {
     expect(() =>
       renderOverlay({ polarBoundary: { lat: 66.56, kind: 'midnight-sun' } }),
     ).not.toThrow();
+  });
+});
+
+
+afterEach(() => { jest.restoreAllMocks(); });
+
+const LINE = [{ prayer: 'dhuhr' as const, polylines: [[[18, 59], [19, 60]]] as [number, number][][] }];
+const strokes = () => screen.UNSAFE_queryAllByType(Path).filter((node) => node.props.path && node.props.strokeJoin === 'round');
+
+describe('direct scrubbing contours', () => {
+  it('shows the complete new line immediately and removes it when its time passes', () => {
+    const view = renderOverlay({ preview: true });
+    view.rerender(overlay({ preview: true, lines: LINE }));
+    expect(strokes()).toHaveLength(2); // halo + core, no decorative comet pass
+    for (const node of strokes()) expect(node.props.end).toBe(1);
+    view.rerender(overlay({ preview: true, lines: [] }));
+    expect(strokes()).toHaveLength(0);
+    view.rerender(overlay({ preview: true, lines: LINE }));
+    expect(strokes()).toHaveLength(2);
+    for (const node of strokes()) expect(node.props.end).toBe(1);
+  });
+
+  it.each([true, false])('uses exact preview geometry but preserves live drift (preview=%s)', (preview) => {
+    const points: number[][] = [];
+    jest.spyOn(Skia.PathBuilder, 'Make').mockImplementation(() => {
+      const builder = {
+        moveTo: (x: number, y: number) => { points.push([x, y]); return builder; },
+        lineTo: () => builder,
+        detach: () => ({}),
+      };
+      return builder as never;
+    });
+    const camera = { ...CAMERA, zoom: 10 };
+    renderOverlay({ preview, camera: shared(camera), lines: LINE, geometryNow: DAY_START + DAY_MS / 2 - 45_000 });
+    const exact = project(18, 59, camera);
+    const expectedX = exact.x - (preview ? 0 : 512 * 2 ** camera.zoom * 45_000 / DAY_MS);
+    expect(points.length).toBeGreaterThan(0);
+    expect(points[0]?.[0]).toBeCloseTo(expectedX, 6);
+    expect(points[0]?.[1]).toBeCloseTo(exact.y, 6);
+  });
+});
+
+describe('upcoming prayer entrance', () => {
+  const twoLines = [...LINE, { ...LINE[0]!, prayer: 'asr' as const }];
+  it('arms only the upcoming prayer; other lines are complete on their first frame', () => {
+    renderOverlay({ lines: twoLines, nextKey: 'dhuhr' });
+    const cores = strokes().filter((node) => node.props.strokeWidth === 2 || node.props.strokeWidth === 3.4);
+    expect(cores).toHaveLength(2);
+    expect(cores.find((node) => node.props.strokeWidth === 3.4)?.props.end.value).toBe(0);
+    expect(cores.find((node) => node.props.strokeWidth === 2)?.props.end.value).toBe(1);
+  });
+
+  it('scrubbing interrupts a pending entrance and exposes the full current path', () => {
+    const view = renderOverlay({ lines: LINE, nextKey: 'dhuhr', entranceEnabled: false });
+    view.rerender(overlay({ lines: LINE, nextKey: 'dhuhr', preview: true }));
+    expect(strokes()).toHaveLength(2);
+    for (const node of strokes()) expect(node.props.end).toBe(1);
+  });
+
+  it('shows the full path immediately when reduced motion is enabled', () => {
+    jest.spyOn(reanimated, 'useReducedMotion').mockReturnValue(true);
+    renderOverlay({ lines: LINE, nextKey: 'dhuhr' });
+    expect(strokes()).toHaveLength(2);
+    for (const node of strokes()) expect(node.props.end.value).toBe(1);
   });
 });

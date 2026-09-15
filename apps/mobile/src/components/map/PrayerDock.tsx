@@ -25,6 +25,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
 import {
+  type Ref,
+  useImperativeHandle,
   Fragment,
   memo,
   startTransition,
@@ -39,6 +41,8 @@ import {
   type ColorSchemeName,
   type LayoutChangeEvent,
   Pressable,
+  ScrollView,
+  useWindowDimensions,
   StyleSheet,
   Text,
   View,
@@ -47,7 +51,6 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
   interpolate,
-  type SharedValue,
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
@@ -88,11 +91,15 @@ import { zonePrayerDate } from '@/lib/zone-time';
 import { nightColorFor, prayerColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { hexToRgba } from '@/theme/rgba';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { DayPicker } from './DayPicker';
 import { Icon } from '@/components/ui/Icon';
+import { useNavMetrics } from '@/components/nav/metrics';
+import { dockMetrics } from './dock-metrics';
 import { makeTimelineWarp } from '@/lib/timeline-warp';
+import { scrubGrabOffset } from '@/lib/map/scrub-grab';
 
 const DAY_MS = 86_400_000;
 /** Hours the ruler under the scrubber labels. Positioned by their true fraction of the
@@ -108,41 +115,8 @@ const TIMELINE_STEP_MS = 15 * 60_000;
  *  clock. ≈0.6 px on a 375 pt screen — under the eye's threshold for the readout, and the
  *  brake on how often the whole solar field is rebuilt mid-drag. */
 const SCRUB_SEND_STEP = 0.0025;
-/** Height of the band the track/thumb live in. The day chevrons take the SAME height so
- *  the row centres them on the track's centre line rather than on the whole column
- *  (track band + hour ruler) — that 13 px ruler underneath is what used to push both
- *  chevrons ~6 px below the line they flank. Track geometry is anchored to this band's
- *  BOTTOM (see trackBase/thumb), so changing it moves the band, not the line inside it. */
-const TRACK_BAND_H = 30;
-/** Height of the hour ruler under the track. Non-interactive labels — the pan target
- *  deliberately spans it (band + ruler ≈ 43 px) so the scrubber clears the 44 dp touch
- *  minimum without adding a pixel to the dock. See the GestureDetector below. */
-const RULER_H = 13;
-
-/**
- * The clearance between each day chevron and the scrubber track, and — not coincidentally —
- * how far the track's touch area reaches back across it.
- *
- * The two controls used to sit flush, which made the last pixels of the track contested and
- * the ends of the day effectively unreachable. The thumb is 18 wide and CENTRED on its
- * fraction (`left: f * trackW - 9`), so at 00:00 and at 24:00 half the knob — the half the
- * eye aims at — hung outside the track column, which is the only thing the pan is attached
- * to. Worse at the right-hand end: DayChevron's ±11 dp hitSlop reached 11 px back into the
- * track, and because that chevron is a LATER sibling than the GestureDetector it sat on top
- * and took the touch. So a finger going for 24:00 did not merely miss the scrubber, it
- * stepped to the next day.
- *
- * This gap is the room that lets both controls have their own pixels: the chevrons keep
- * their whole 22 dp glyph and give up only the inward slop that the track was already
- * covering at the left-hand end anyway, while the track reclaims the gap through hitSlop —
- * so the knob is grabbable across its full width at both rails, and a touch past the rail
- * clamps to exactly 00:00 / 24:00 instead of landing on nothing.
- *
- * Paid for out of the track's width: on a 375 pt screen it goes 247 → 227 px, about
- * 6.3 min/px instead of 5.8. That is a scrubber for coarse travel — a prayer is landed on by
- * tapping its row, not by pixel-hunting here — so the precision is not what was scarce.
- */
-const TIMELINE_GAP = 10;
+// Keep a generous vertical scrubbing target while using the entire content width.
+const TRACK_BAND_H = 48;
 // The app's one canonical snap spring (tokens.motion.spring), aliased locally so the
 // worklet call sites stay terse.
 const SPRING = motion.spring;
@@ -225,7 +199,7 @@ export const DOCK_FLOAT = 6;
 // time · place line) over the scrubber — so the map keeps most of the screen.
 // Kept as dense as the content allows (trimmed handle clearance + timeline height)
 // so the card's footprint over southern Sweden is minimal.
-export const DOCK_COLLAPSED_BASE = 136;
+export const DOCK_COLLAPSED_BASE = dockMetrics(1).collapsed;
 // Expanded = collapsed + the schedule block that unfolds above the hero (the date crown
 // and the rows), because the content is bottom-pinned: opening the card adds exactly that
 // block on top of the summary and scrubber, which never move.
@@ -244,23 +218,6 @@ const NIGHT_GROUP_FALLBACK = 108;
 /** Stable identity so the `night` memo doesn't hand a fresh object down every render
  *  while the group is off. */
 const EMPTY_NIGHT: NightTimes = { middleOfNight: null, lastThird: null };
-
-// The schedule's reveal stagger, in ONE place because three worklets read it — the prayer rows,
-// the midnight rule between them, and the night group's caption. They must uncover together, so
-// a retiming that reached only two of the three would show exactly the drift the stagger exists
-// to avoid. Kept as module constants rather than props: worklets capture them by value.
-//
-// STAGGER_SPAN is how much of the open-fraction the start times are spread across, and
-// REVEAL_WINDOW how long each row takes once its turn arrives. Reversed by index at the call
-// site (bottom row first), so the growing bottom edge uncovers each row as it reaches it.
-const STAGGER_SPAN = 0.45;
-const REVEAL_WINDOW = 0.55;
-
-/** Where a row at `index` of `total` starts its reveal, as a fraction of the open progress. */
-function revealStart(index: number, total: number): number {
-  'worklet';
-  return ((total - 1 - index) / total) * STAGGER_SPAN;
-}
 
 // Re-exported, not redeclared: `selectNextPrayer` in lib/prayer-times is what BUILDS this
 // value, so the shape belongs beside it — as two structurally-identical declarations they were
@@ -281,7 +238,13 @@ export interface DayMark {
   fraction: number;
 }
 
+export interface PrayerDockHandle {
+  /** Returns true when this tap dismissed an open dock. */
+  collapse: () => boolean;
+}
+
 interface Props {
+  ref?: Ref<PrayerDockHandle>;
   clock: SolarClock;
   /** The user's own prayer times for the viewed day, straight from adhan. Typed as the
    *  library's own object rather than a `Record<PrayerKey, Date>` projection because the
@@ -331,6 +294,7 @@ function countdownParts(ms: number): Countdown {
 }
 
 export function PrayerDock({
+  ref,
   clock,
   times,
   marks,
@@ -348,11 +312,15 @@ export function PrayerDock({
   // canvas), but the dock stays anchored to one OS theme.
   const c = useColors();
   const scheme = useActiveScheme();
-  const styles = useMemo(() => makeStyles(c), [c]);
+  const { fontScale, height: screenHeight } = useWindowDimensions();
+  const metrics = dockMetrics(fontScale);
+  const { laneTop } = useNavMetrics();
+  const styles = useMemo(() => makeStyles(c, fontScale), [c, fontScale]);
 
   // Card heights are the card itself; the float + safe-area inset live in the
   // position (bottom), so the card sits clear above the gesture bar.
-  const COLLAPSED = DOCK_COLLAPSED_BASE;
+  const COLLAPSED = metrics.collapsed;
+  const scheduleRoom = Math.max(96, screenHeight - insets.top - insets.bottom - DOCK_FLOAT - laneTop - 12 - COLLAPSED);
   // The night group is opt-in, so the open card grows only for the readers who asked for
   // it. Everyone else sees the dock they had.
   const showNight = settings.showNightTimes;
@@ -365,10 +333,6 @@ export function PrayerDock({
   // release, so the dock never finished opening until you let go of it. Driven by the
   // reaction further down, off the card's own height.
   const [mounted, setMounted] = useState(false);
-  // Which hero layer is mounted. Split from `expanded` for the same reason: the headline used
-  // to swap at release — the last thing a drag did, after the card had stopped moving. It now
-  // crosses under the finger, like the rows above it.
-  const [heroOpen, setHeroOpen] = useState(false);
   // The gate the schedule actually renders behind. `expanded` alone is too LATE — it only
   // flips at release, which is the whole bug this pair exists to fix — and `mounted` alone is
   // too narrow, since it comes off a reaction that only speaks while the height is moving.
@@ -381,10 +345,15 @@ export function PrayerDock({
   // points: onLayout reports fractional heights, and letting that jitter through would
   // re-render (and re-spring) the card for a third of a pixel.
   const [scheduleHeight, setScheduleHeight] = useState<number | null>(null);
+  const [headerHeight, setHeaderHeight] = useState(64);
+  const onHeaderLayout = (e: LayoutChangeEvent) => {
+    const h = Math.ceil(e.nativeEvent.layout.height);
+    setHeaderHeight((previous) => previous === h ? previous : h);
+  };
   const onScheduleLayout = useCallback(
     (e: LayoutChangeEvent) => {
       // ONLY a layout with the rows actually in it describes the open card. Before the first
-      // open this block holds nothing but the date crown, and letting THAT through set
+      // open the rows are absent, and accepting that empty layout would set
       // EXPANDED to a height with no schedule inside it: the card opened to a sliver, sat
       // there under the thumb, and jumped to its real height only once release mounted the
       // rows. That two-stage open is most of why the dock read as waiting for the finger to
@@ -397,7 +366,7 @@ export function PrayerDock({
     [showSchedule],
   );
   const EXPANDED =
-    COLLAPSED + (scheduleHeight ?? SCHEDULE_FALLBACK + (showNight ? NIGHT_GROUP_FALLBACK : 0));
+    COLLAPSED + Math.min(scheduleRoom, scheduleHeight === null ? SCHEDULE_FALLBACK + (showNight ? NIGHT_GROUP_FALLBACK : 0) : headerHeight + scheduleHeight);
 
   /**
    * EXPANDED as the GESTURES see it, and the reason it is a shared value rather than the plain
@@ -432,13 +401,12 @@ export function PrayerDock({
   // so every interpolate() below clamps. (Reanimated's canonical bottom-sheet pattern.)
   const progress = useDerivedValue(() => (height.value - COLLAPSED) / (EXPANDED - COLLAPSED));
 
-  // Both flags above follow the card's own height rather than any gesture callback, because
+  // The mounted flag follows the card's own height rather than any gesture callback, because
   // the height is the one thing a drag, a tap, a fling and the launch reveal all agree on —
   // and because a gesture that arms a flag has no matching event to disarm it (a tap cancels
   // the pan that would have; a spring outlives the release that started it). The mirrors are
-  // shared values so the worklet never reads React state.
+  // a shared value so the worklet never reads React state.
   const mountedSV = useSharedValue(false);
-  const heroOpenSV = useSharedValue(false);
   // Where the card is HEADED — which is not what its height says for the frame right after a
   // release, because a spring that has just been handed a target has not moved yet. Only the
   // disarm below reads it, and only to tell "this touch is over and the card is staying shut"
@@ -479,13 +447,7 @@ export function PrayerDock({
         mountedSV.value = wantMounted;
         scheduleOnRN(setMounted, wantMounted);
       }
-      // Swap only after the collapsed headline is invisible; the dead band prevents
-      // flicker when the finger reverses direction.
-      const wantHero = p > 0.16 ? true : p < 0.04 ? false : heroOpenSV.value;
-      if (wantHero !== heroOpenSV.value) {
-        heroOpenSV.value = wantHero;
-        scheduleOnRN(setHeroOpen, wantHero);
-      }
+
     },
   );
 
@@ -496,14 +458,8 @@ export function PrayerDock({
       if (open !== expanded) hapticToggle(open);
       // The spring is already running on the UI thread. Treat the settled flags as
       // non-urgent so React can yield instead of making that animation wait behind them.
-      // `setHeroOpen` here is the SETTLED truth about which hero layer belongs on screen;
-      // the reaction above only moves the swap earlier, to the crossing under the finger,
-      // so on a real drag this agrees with it and React bails. It is what keeps the two
-      // honest on every path that never animates — assistive-tech activation of the
-      // handle, and the test renderer.
       startTransition(() => {
         setExpanded(open);
-        setHeroOpen(open);
       });
       onExpandedChange?.(open, EXPANDED);
     },
@@ -587,7 +543,7 @@ export function PrayerDock({
   });
 
   // The launch schedule reveal: the host flips `revealSchedule` and the dock springs
-  // to match, so the day's times stagger in off the SAME `progress` a drag drives — no
+  // to match, so the schedule reveals off the SAME `progress` a drag drives — no
   // second animation to keep in sync with the first. Deliberately silent: hapticLight is
   // for a control snapping under the user's own finger (see lib/haptics), and this opens
   // on its own. The user is still free to grab the dock mid-reveal — the gesture worklets
@@ -609,7 +565,6 @@ export function PrayerDock({
     springTo(open);
     startTransition(() => {
       setExpanded(open);
-      setHeroOpen(open);
     });
   });
   useEffect(() => {
@@ -665,6 +620,10 @@ export function PrayerDock({
     // per open — same value, on every path but that one — and buys a host that is never wrong.
   }, [EXPANDED, expanded]);
 
+  useEffect(() => {
+    if (!targetOpen.get()) height.set(COLLAPSED);
+  }, [COLLAPSED, height, targetOpen]);
+
   // Handle: drag OR tap toggles. Hero: drag-only — a Pan needs movement to activate,
   // so a tap on the hero's "Nu" chip (preview mode) still reaches its Pressable
   // instead of being stolen by a toggle-tap.
@@ -680,21 +639,20 @@ export function PrayerDock({
   const gesture = Gesture.Exclusive(makeTogglePan(), tap);
   const heroGesture = makeTogglePan();
 
-  const heightStyle = useAnimatedStyle(() => ({ height: height.value }));
-  // The date header CROWNS the reveal — it sits at the very top of the content, so
-  // with the flex-end clip growing upward it's the last thing the edge uncovers. It
-  // fades in over the final stretch (0.70→1), settling as the dock finishes opening.
-  const dateReveal = useAnimatedStyle(() => ({
-    opacity: interpolate(progress.value, [0.7, 1], [0, 1], Extrapolation.CLAMP),
-    transform: [{ translateY: interpolate(progress.value, [0.7, 1], [8, 0], Extrapolation.CLAMP) }],
+  useImperativeHandle(ref, () => ({
+    collapse() {
+      if (!targetOpen.get() && !expanded) return false;
+      targetOpen.set(false);
+      height.set(withSpring(COLLAPSED, SPRING));
+      applyExpanded(false);
+      return true;
+    },
   }));
 
-  // Fade the headline out in the first few points of travel, before swapping the
-  // accessible subtree. Opacity stays tied to the finger, even while JS is busy.
-  const heroLayerStyle = useAnimatedStyle(() => ({
-    opacity: heroOpen
-      ? interpolate(progress.value, [0.16, 0.32], [0, 1], Extrapolation.CLAMP)
-      : interpolate(progress.value, [0, 0.12], [1, 0], Extrapolation.CLAMP),
+  const heightStyle = useAnimatedStyle(() => ({ height: height.value }));
+  // One reversible reveal for the whole schedule. The summary never fades or swaps.
+  const scheduleReveal = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0, 0.35], [0, 1], Extrapolation.CLAMP),
   }));
 
   // Returning to "now" is the one action offered in two places (preview badge +
@@ -728,10 +686,6 @@ export function PrayerDock({
     () => (showNight ? computeNightTimes(times) : EMPTY_NIGHT),
     [showNight, times],
   );
-  // Drives the reveal stagger, which is reversed (bottom row first) — so the night rows,
-  // being last, are the first to appear as the growing bottom edge uncovers them.
-  const rowCount = PRAYER_ORDER.length + (showNight ? NIGHT_ORDER.length : 0);
-
   // Which calendar day each row's time actually falls on, relative to the day the card is
   // headed with: −1 the evening before, 0 this day, +1 after midnight — and, per row, whether
   // the list crosses a boundary just above it. See DayBreak for why the distinction has to be
@@ -803,6 +757,8 @@ export function PrayerDock({
   // The "time left" / return-to-now control, shared by both hero layouts: live →
   // the countdown; scrubbed → a chip that taps back to now (the only such control,
   // so it's never duplicated or shown dead).
+  // Shared with the timeline's spoken value: one formatting pass per clock update.
+  const viewedTime = formatTime(new Date(clock.now));
   const aside =
     clock.mode === 'live' ? (
       cd ? (
@@ -834,19 +790,25 @@ export function PrayerDock({
       // far away the user is: on today it returns the time ("Nu"); on another day the
       // bigger fact is the date, so it says "I dag". Both land on live-mode now, which is
       // the same journey — only the name of the thing being restored changes.
-      <Pressable
-        onPress={resetToNow}
-        // This chip is the ONLY way out of scrub mode, and it is a 12 pt label in a hero
-        // whose height is fixed at 44 and must not grow — so the target is bought with
-        // slop, which costs no layout. Same reach as the "Välj plats" offer below.
-        hitSlop={{ top: 12, bottom: 12, left: 10, right: 10 }}
-        style={({ pressed }) => [styles.previewBadge, pressed && styles.pressed]}
-        accessibilityRole="button"
-        accessibilityLabel={onToday ? 'Återgå till nu' : 'Återgå till i dag'}
-      >
-        <Icon name={onToday ? 'restore' : 'today'} size={13} color={c.accent} />
-        <Text style={styles.previewBadgeText}>{onToday ? 'Nu' : 'I dag'}</Text>
-      </Pressable>
+      <View style={styles.previewControls}>
+        <Text style={styles.previewTime} testID="prayer-preview-time" numberOfLines={1}
+          accessibilityLabel={`Visad tid ${viewedTime}`}>
+          {viewedTime}
+        </Text>
+        <Pressable
+          onPress={resetToNow}
+          // This chip is the ONLY way out of scrub mode, and it is a 12 pt label in a hero
+          // whose height is fixed at 44 and must not grow — so the target is bought with
+          // slop, which costs no layout. Same reach as the "Välj plats" offer below.
+          hitSlop={{ top: 12, bottom: 12, left: 10, right: 10 }}
+          style={({ pressed }) => [styles.previewBadge, pressed && styles.pressed]}
+          accessibilityRole="button"
+          accessibilityLabel={onToday ? 'Återgå till nu' : 'Återgå till i dag'}
+        >
+          <Icon name={onToday ? 'restore' : 'today'} size={13} color={c.accent} />
+          <Text style={styles.previewBadgeText}>{onToday ? 'Nu' : 'I dag'}</Text>
+        </Pressable>
+      </View>
     );
 
   // The place, or — when there is no place, only the Stockholm fallback — an offer to
@@ -861,7 +823,7 @@ export function PrayerDock({
         router.push('/(settings)/byt-plats');
       }}
       // The row is only caption-height, so widen the target without touching layout —
-      // the hero's height is fixed at 44 and must not grow. Kept at 10: reaching further
+      // the hero shares a stable height between its two states. Kept at 10: reaching further
       // up sends this button's slop into `heroTop`, where the "Nu" chip sits, and heroSub
       // is the later sibling — so wherever the two line up horizontally on a narrow screen
       // a tap meant for the chip would land here and navigate away instead. The chip is
@@ -898,235 +860,191 @@ export function PrayerDock({
           style={StyleSheet.absoluteFill}
           borderRadius={radius.xl}
           interactive
-          tint={c.cardGlass}
+          tint={hexToRgba(c.surface, 0.97)}
         />
 
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
             needs its own internal breathing here — no system-inset clearance. */}
         <View style={[styles.content, { paddingBottom: space.sm }]} pointerEvents="box-none">
-          {/* Revealed when expanded: the date header + full day's schedule. The rows
-              fade/slide in bottom-up with the dock height (and the date crowns last),
-              so nothing peeks while collapsed. Tap a row to ease the scrubber to it. */}
-          <View
-            testID="dock-schedule"
-            onLayout={onScheduleLayout}
-            pointerEvents={expanded ? 'auto' : 'none'}
-            accessibilityElementsHidden={!expanded}
-            importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
-          >
-            {/* The date crown doubles as the way to any day: the chevrons beside the
-                scrubber handle nearby dates in one tap each, this handles "the 14th"
-                without twelve of them. Pressable rather than a separate button so the
-                expanded dock gains no new row — see DayPicker for why the calendar is a
-                sheet inside this card rather than a route. */}
-            <Animated.View style={[styles.dateHeader, dateReveal]}>
-              <Pressable
-                onPress={() => {
-                  hapticLight();
-                  setPickingDay(true);
-                }}
-                accessibilityRole="button"
-                // ⚠️ BOTH DATES, HIJRI FIRST — the order they are printed in. This label
-                // named only the Gregorian one, so a screen reader user of a Hijri-calendar
-                // app heard "Lördag 22 augusti" and never once heard "8 Rabīʿ al-awwal
-                // 1448" — the line directly above it, set in the heavier ink, and the
-                // reason the crown is there at all. The sighted reader gets the Hijri date
-                // first; so should everyone else.
-                accessibilityLabel={`${hijriLabel}, ${gregorianLabel}. Välj dag.`}
-                accessibilityHint="Öppnar en kalender – välj vilken dag du vill se."
-                style={({ pressed }) => [styles.dateTap, pressed && styles.pressed]}
+          {/* A native viewport clips every intermediate frame above the fixed summary. */}
+          <View testID="dock-schedule-viewport" style={[styles.scheduleViewport, { bottom: COLLAPSED - 48 }]}>
+            <Animated.View
+              style={[{ maxHeight: scheduleRoom, flexShrink: 0 }, scheduleReveal]}
+              pointerEvents={expanded ? 'auto' : 'none'}
+              accessibilityElementsHidden={!expanded}
+              importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
+            >
+              <View style={styles.dateHeader} testID="dock-calendar-header" onLayout={onHeaderLayout}>
+                <DayChevron
+                  styles={styles}
+                  direction={-1}
+                  disabled={clock.dayOffset <= -MAX_DAY_OFFSET}
+                  onPress={clock.stepDay}
+                />
+                <Pressable
+                  onPress={() => {
+                    hapticLight();
+                    setPickingDay(true);
+                  }}
+                  testID="prayer-dock-date"
+                  accessibilityRole="button"
+                  // ⚠️ BOTH DATES, HIJRI FIRST — the order they are printed in. This label
+                  // named only the Gregorian one, so a screen reader user of a Hijri-calendar
+                  // app heard "Lördag 22 augusti" and never once heard "8 Rabīʿ al-awwal
+                  // 1448" — the line directly above it, set in the heavier ink, and the
+                  // reason the crown is there at all. The sighted reader gets the Hijri date
+                  // first; so should everyone else.
+                  accessibilityLabel={`${hijriLabel}, ${gregorianLabel}. Välj dag.`}
+                  accessibilityHint="Öppnar en kalender – välj vilken dag du vill se."
+                  style={({ pressed }) => [styles.dateTap, pressed && styles.pressed]}
+                >
+                  <View style={styles.flex}>
+                    <Text style={styles.dateHijri} numberOfLines={2}>
+                      {hijriLabel}
+                    </Text>
+                    <Text style={styles.dateGreg} numberOfLines={2}>
+                      {gregorianLabel}
+                    </Text>
+                  </View>
+                  <Icon name="calendar" size={18} color={c.accent} />
+                </Pressable>
+                <DayChevron
+                  styles={styles}
+                  direction={1}
+                  disabled={clock.dayOffset >= MAX_DAY_OFFSET}
+                  onPress={clock.stepDay}
+                />
+              </View>
+              <ScrollView
+                testID="dock-schedule-scroll"
+                style={{ maxHeight: Math.max(48, scheduleRoom - headerHeight), flexGrow: 0, flexShrink: 0, marginHorizontal: -space.sm }}
+                contentContainerStyle={{ paddingHorizontal: space.sm }}
+                nestedScrollEnabled
+                scrollEnabled={expanded}
               >
-                <View style={styles.flex}>
-                  <Text style={styles.dateHijri} numberOfLines={1}>
-                    {hijriLabel}
-                  </Text>
-                  <Text style={styles.dateGreg} numberOfLines={1}>
-                    {gregorianLabel}
-                  </Text>
-                </View>
-                <Icon name="calendar" size={18} color={c.accent} />
-              </Pressable>
-            </Animated.View>
+                <View style={styles.list} testID="dock-schedule" onLayout={onScheduleLayout}>
+                  {PRAYER_ORDER.map((key) => {
+                    const { at, valid, side, crosses } = daySides[key];
+                    // One Intl pass per row. This map runs again when the dock opens/closes,
+                    // and formatting the same Date separately for the visible time and the
+                    // spoken label doubled that work across all six rows.
+                    const time = valid ? formatTime(times[key]) : '–';
+                    return (
+                      <Fragment key={key}>
+                        {crosses ? (
+                          <DayBreak
+                            styles={styles}
+                            mounted={showSchedule}
+                          />
+                        ) : null}
+                        <ScheduleRow
+                          styles={styles}
+                          label={PRAYER_LABELS[key]}
+                          icon={PRAYER_ICONS[key]}
+                          iconColor={prayerColorFor(key, scheme)}
+                          time={time}
+                          mounted={showSchedule}
+                          visible={expanded}
+                          isNext={next?.key === key && !next.nextDay}
+                          // The brass row is the answer to "which prayer is next" for a sighted
+                          // reader; without this it was the one thing the label never carried.
+                          // A row past midnight says so in words: the rule above it is silent to
+                          // a screen reader, and "00:36" alone is exactly the ambiguity it exists
+                          // to remove.
+                          accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? time : 'kan inte beräknas'}${
+                            side === 1 ? ', efter midnatt' : side === -1 ? ', kvällen innan' : ''
+                          }${next?.key === key && !next.nextDay ? ', nästa bön' : ''}`}
+                          // Only rows that land INSIDE the viewed day can be scrubbed to:
+                          // clock.setInstant clamps to that day, so tapping a 00:36 Maghrib
+                          // parked the thumb on the far rail at 24:00 and — where two slots sit
+                          // past midnight, as at Luleå in mid-June — lit up the EARLIER one as
+                          // current. The same reasoning already keeps the night landmarks
+                          // unpressable; see NightGroup.
+                          at={valid && side === 0 ? at : undefined}
+                          onSelect={scrubTo}
+                        />
+                      </Fragment>
+                    );
+                  })}
 
-            <View style={styles.list}>
-              {PRAYER_ORDER.map((key, i) => {
-                const { at, valid, side, crosses } = daySides[key];
-                // One Intl pass per row. This map runs again when the dock opens/closes,
-                // and formatting the same Date separately for the visible time and the
-                // spoken label doubled that work across all six rows.
-                const time = valid ? formatTime(times[key]) : '–';
-                return (
-                  <Fragment key={key}>
-                    {crosses ? (
-                      <DayBreak
-                        styles={styles}
-                        index={i}
-                        total={rowCount}
-                        dockHeight={height}
-                        collapsed={COLLAPSED}
-                        expanded={EXPANDED}
-                        mounted={showSchedule}
-                      />
-                    ) : null}
-                    <ScheduleRow
+                  {/* The night's two voluntary landmarks, when asked for. Set apart by a rule
+                      and a caption rather than merged into the list above: a reader glancing
+                      at this card must be able to see where the obligations stop. */}
+                  {showNight ? (
+                    <NightGroup
                       styles={styles}
-                      index={i}
-                      total={rowCount}
-                      dockHeight={height}
-                      collapsed={COLLAPSED}
-                      expanded={EXPANDED}
-                      label={PRAYER_LABELS[key]}
-                      icon={PRAYER_ICONS[key]}
-                      iconColor={prayerColorFor(key, scheme)}
-                      time={time}
+                      night={night}
                       mounted={showSchedule}
                       visible={expanded}
-                      isNext={next?.key === key && !next.nextDay}
-                      // The brass row is the answer to "which prayer is next" for a sighted
-                      // reader; without this it was the one thing the label never carried.
-                      // A row past midnight says so in words: the rule above it is silent to
-                      // a screen reader, and "00:36" alone is exactly the ambiguity it exists
-                      // to remove.
-                      accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? time : 'kan inte beräknas'}${
-                        side === 1 ? ', efter midnatt' : side === -1 ? ', kvällen innan' : ''
-                      }${next?.key === key && !next.nextDay ? ', nästa bön' : ''}`}
-                      // Only rows that land INSIDE the viewed day can be scrubbed to:
-                      // clock.setInstant clamps to that day, so tapping a 00:36 Maghrib
-                      // parked the thumb on the far rail at 24:00 and — where two slots sit
-                      // past midnight, as at Luleå in mid-June — lit up the EARLIER one as
-                      // current. The same reasoning already keeps the night landmarks
-                      // unpressable; see NightGroup.
-                      at={valid && side === 0 ? at : undefined}
-                      onSelect={scrubTo}
+                      scheme={scheme}
                     />
-                  </Fragment>
-                );
-              })}
-
-              {/* The night's two voluntary landmarks, when asked for. Set apart by a rule
-                  and a caption rather than merged into the list above: a reader glancing
-                  at this card must be able to see where the obligations stop. */}
-              {showNight ? (
-                <NightGroup
-                  styles={styles}
-                  night={night}
-                  firstIndex={PRAYER_ORDER.length}
-                  total={rowCount}
-                  dockHeight={height}
-                  collapsed={COLLAPSED}
-                  expanded={EXPANDED}
-                  mounted={showSchedule}
-                  visible={expanded}
-                  scheme={scheme}
-                />
-              ) : null}
-            </View>
+                  ) : null}
+                </View>
+              </ScrollView>
+              <View style={styles.scheduleDivider} pointerEvents="none" />
+            </Animated.View>
           </View>
 
-          {/* Persistent summary, never moves — and a drag affordance (the hero opens
-              the dock too, not just the handle). The collapsed headline carries
-              prayer + time · place; the expanded one carries the countdown + place,
-              the only facts the schedule above cannot say. Only the active layer is
-              mounted: Android retained opacity-zero text in its accessibility tree,
-              causing screen readers to announce the place and countdown twice. Both
-              layers occupy the same fixed-height box, so the timeline never reflows. */}
-          <GestureDetector gesture={heroGesture}>
-            <View style={styles.hero}>
-              {/* Layer A — collapsed headline. Fades/slides out first. Only ONE hero
-                  layer may exist for assistive tech at a time — without the a11y
-                  hiding, a screen reader announced the place + countdown twice (once
-                  per layer), since visual opacity doesn't prune the a11y tree. */}
-              {!heroOpen ? <Animated.View
-                style={[styles.heroLayer, heroLayerStyle]}
-                pointerEvents="auto"
-              >
-                <View style={styles.heroTop}>
-                  {next ? (
-                    <Text style={styles.heroPrayer} numberOfLines={1}>
-                      {PRAYER_LABELS[next.key]}
-                      {next.nextDay ? (
-                        <Text style={styles.heroNextDay}> {nextDayLabel}</Text>
-                      ) : null}
-                    </Text>
-                  ) : (
-                    <Text style={styles.heroNone} numberOfLines={1}>
-                      {emptyDayLabel}
-                    </Text>
-                  )}
-                  <View style={styles.flex} />
-                  {/* Unconditional, NOT `next ? aside : null`. When there is no next
-                      prayer the collapsed dock previously had NO way back to now — and
-                      day navigation makes that routine rather than exotic: one step onto
-                      a Kiruna polar-winter day is enough. Layer B already did this. */}
-                  {aside}
-                </View>
-
-                {next ? (
-                  <View style={styles.heroSub}>
-                    <Text style={styles.subTime}>{formatTime(new Date(next.at))}</Text>
-                    <Text style={styles.subSep}>·</Text>
-                    {/* The viewed day rides the sub-line rather than taking a row of its
-                        own — the hero's height is fixed at 44 and must not grow. It does
-                        not shrink, so a long place name truncates before the date does:
-                        "Stockho…" still tells you where, "i morg…" tells you nothing. */}
-                    {onToday ? null : (
-                      <>
-                        <Text style={styles.subDay} numberOfLines={1}>
-                          {viewedDayLabel}
-                        </Text>
-                        <Text style={styles.subSep}>·</Text>
-                      </>
-                    )}
-                    {place}
-                  </View>
-                ) : null}
-              </Animated.View> : null}
-
-              {/* Layer B — expanded facts. Fades in as the schedule appears; the list
-                  already names today's prayers + times, so this slims to countdown +
-                  place. When the next prayer is TOMORROW's it isn't in today's list, so
-                  name it here to give the countdown a referent. Sides mirror the
-                  collapsed layer (place left, brass countdown right) so the dock's
-                  brightest element never jumps corners mid-crossfade — the countdown
-                  holds the right edge in both states. */}
-              {heroOpen ? <Animated.View
-                style={[styles.heroLayer, heroLayerStyle]}
-                pointerEvents="auto"
-              >
-                <View style={styles.heroTop}>
-                  {next ? (
-                    <>
-                      {next.nextDay ? (
-                        <Text style={styles.heroPrayerExpanded} numberOfLines={1}>
-                          {PRAYER_LABELS[next.key]}
+          <View testID="dock-footer" style={styles.footer}>
+            {/* One persistent summary anchors both states and remains a drag affordance. */}
+            <GestureDetector gesture={heroGesture}>
+              <View style={styles.hero} testID="dock-summary">
+                <View style={styles.heroLayer} pointerEvents="auto">
+                  <View style={styles.heroTop}>
+                    {next ? (
+                      <Text style={styles.heroPrayer} numberOfLines={1}>
+                        {PRAYER_LABELS[next.key]}
+                        {next.nextDay ? (
                           <Text style={styles.heroNextDay}> {nextDayLabel}</Text>
-                        </Text>
-                      ) : null}
-                      <View style={styles.heroPlaceRow}>{place}</View>
-                      <View style={styles.flex} />
-                      {aside}
-                    </>
-                  ) : (
-                    <Text style={styles.heroNone} numberOfLines={1}>
-                      {emptyDayLabel}
-                    </Text>
-                  )}
-                </View>
-              </Animated.View> : null}
-            </View>
-          </GestureDetector>
+                        ) : null}
+                      </Text>
+                    ) : (
+                      <Text style={styles.heroNone} numberOfLines={1}>
+                        {emptyDayLabel}
+                      </Text>
+                    )}
+                    <View style={styles.flex} />
+                    {/* Unconditional, NOT `next ? aside : null`. When there is no next
+                        prayer the collapsed dock previously had NO way back to now — and
+                        day navigation makes that routine rather than exotic: one step onto
+                        a Kiruna polar-winter day is enough. */}
+                    {aside}
+                  </View>
 
-          <SolarTimeline
-            styles={styles}
-            fraction={clock.fraction}
-            marks={marks}
-            dayLength={clock.dayLength}
-            onScrub={clock.setFraction}
-            onStepDay={clock.stepDay}
-            dayOffset={clock.dayOffset}
-            dayStart={clock.dayStart}
-            scheme={scheme}
-          />
+                  {next ? (
+                    <View style={styles.heroSub}>
+                      <Text style={styles.subTime}>{formatTime(new Date(next.at))}</Text>
+                      <Text style={styles.subSep}>·</Text>
+                      {/* The viewed day rides the sub-line rather than taking a row of its
+                          own — the hero shares a stable height between its two states. It does
+                          not shrink, so a long place name truncates before the date does:
+                          "Stockho…" still tells you where, "i morg…" tells you nothing. */}
+                      {onToday ? null : (
+                        <>
+                          <Text style={styles.subDay} numberOfLines={1}>
+                            {viewedDayLabel}
+                          </Text>
+                          <Text style={styles.subSep}>·</Text>
+                        </>
+                      )}
+                      {place}
+                    </View>
+                  ) : null}
+                </View>
+
+              </View>
+            </GestureDetector>
+
+            <SolarTimeline
+              styles={styles}
+              fraction={clock.fraction}
+              marks={marks}
+              dayLength={clock.dayLength}
+              onScrub={clock.setFraction}
+              viewedTime={viewedTime}
+              scheme={scheme}
+            />
+          </View>
         </View>
 
         {/* Grab handle — the signifier that the dock opens. Drag or tap to toggle. */}
@@ -1171,19 +1089,9 @@ export function PrayerDock({
 
 type DockStyles = ReturnType<typeof makeStyles>;
 
-// One schedule row. Self-reveals from the dock height with an index-based stagger
-// that matches the GEOMETRY of the upward-growing flex-end clip: the bottom edge is
-// pinned and the box grows up, so the list is uncovered bottom-up. We REVERSE the
-// stagger (Isha, the bottom row, reveals first; Fajr, the top row, last) so each row
-// reaches full opacity exactly as the growing edge exposes it — no row ever sits
-// visible-but-blank then pops. Runs on the UI thread; tracks a half-open drag.
+// Rows share the parent schedule reveal, keeping their own layout and hit targets stable.
 const ScheduleRow = memo(function ScheduleRow({
   styles,
-  index,
-  total,
-  dockHeight,
-  collapsed,
-  expanded,
   label,
   icon,
   iconColor,
@@ -1197,11 +1105,6 @@ const ScheduleRow = memo(function ScheduleRow({
   accessibilityLabel,
 }: {
   styles: DockStyles;
-  index: number;
-  total: number;
-  dockHeight: SharedValue<number>;
-  collapsed: number;
-  expanded: number;
   label: string;
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
   iconColor: string;
@@ -1219,14 +1122,6 @@ const ScheduleRow = memo(function ScheduleRow({
   onSelect?: (at: number) => void;
   accessibilityLabel: string;
 }) {
-  const reveal = useAnimatedStyle(() => {
-    const p = (dockHeight.value - collapsed) / (expanded - collapsed);
-    // Reversed: bottom row (highest index) starts at 0, top row last (~0.375).
-    const start = revealStart(index, total);
-    const local = interpolate(p, [start, start + REVEAL_WINDOW], [0, 1], Extrapolation.CLAMP);
-    return { opacity: local, transform: [{ translateY: interpolate(local, [0, 1], [10, 0]) }] };
-  });
-
   const content = (
     <>
       {/* Sun-cycle glyph tinted in the prayer's solar colour — replaces the
@@ -1258,8 +1153,7 @@ const ScheduleRow = memo(function ScheduleRow({
     // behind the closed card, so a screen reader read out a schedule that isn't on screen.
     // Unmounting is the only thing that actually prunes them, and `mounted` goes back to false
     // the moment the closing spring lands. The a11y props stay as the belt to that braces.
-    <Animated.View
-      style={reveal}
+    <View
       pointerEvents={visible ? 'auto' : 'none'}
       accessibilityElementsHidden={!visible}
       importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
@@ -1295,7 +1189,7 @@ const ScheduleRow = memo(function ScheduleRow({
           </View>
         )
       ) : null}
-    </Animated.View>
+    </View>
   );
 });
 
@@ -1324,37 +1218,20 @@ const ScheduleRow = memo(function ScheduleRow({
  */
 function DayBreak({
   styles,
-  index,
-  total,
-  dockHeight,
-  collapsed,
-  expanded,
   mounted,
 }: {
   styles: DockStyles;
-  index: number;
-  total: number;
-  dockHeight: SharedValue<number>;
-  collapsed: number;
-  expanded: number;
   mounted: boolean;
 }) {
-  // Rides the window of the row it introduces, so the rule uncovers with it rather than
-  // hanging in the air above it — the same trick NightGroup uses for its caption.
-  const reveal = useAnimatedStyle(() => {
-    const p = (dockHeight.value - collapsed) / (expanded - collapsed);
-    const start = revealStart(index, total);
-    return { opacity: interpolate(p, [start, start + REVEAL_WINDOW], [0, 1], Extrapolation.CLAMP) };
-  });
   return (
-    <Animated.View
-      style={[styles.dayBreak, reveal]}
+    <View
+      style={styles.dayBreak}
       pointerEvents="none"
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
     >
       {mounted ? <Text style={styles.dayBreakCaption}>Efter midnatt</Text> : null}
-    </Animated.View>
+    </View>
   );
 }
 
@@ -1388,42 +1265,24 @@ function DayBreak({
 function NightGroup({
   styles,
   night,
-  firstIndex,
-  total,
-  dockHeight,
-  collapsed,
-  expanded,
   mounted,
   visible,
   scheme,
 }: {
   styles: DockStyles;
   night: NightTimes;
-  firstIndex: number;
-  total: number;
-  dockHeight: SharedValue<number>;
-  collapsed: number;
-  expanded: number;
   mounted: boolean;
   visible: boolean;
   scheme: ColorSchemeName;
 }) {
-  const reveal = useAnimatedStyle(() => {
-    // Rides the LAST row's window so the rule and caption uncover with the group they
-    // introduce, rather than hanging in the air above it.
-    const p = (dockHeight.value - collapsed) / (expanded - collapsed);
-    const start = revealStart(firstIndex, total);
-    return { opacity: interpolate(p, [start, start + REVEAL_WINDOW], [0, 1], Extrapolation.CLAMP) };
-  });
-
   return (
     <>
       {/* Announced as a heading, so a screen reader hears where the obligations stop —
           but only while the dock is open. The caption is unmounted when it is not, for the
           same measured reason ScheduleRow unmounts its rows: on Android the a11y props
           alone do not prune text behind a closed card. */}
-      <Animated.View
-        style={[styles.nightRule, reveal]}
+      <View
+        style={styles.nightRule}
         pointerEvents="none"
         accessibilityElementsHidden={!visible}
         importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
@@ -1433,19 +1292,14 @@ function NightGroup({
             Natten
           </Text>
         ) : null}
-      </Animated.View>
-      {NIGHT_ORDER.map((key, i) => {
+      </View>
+      {NIGHT_ORDER.map((key) => {
         const at = night[key];
         const time = formatTime(at);
         return (
           <ScheduleRow
             key={key}
             styles={styles}
-            index={firstIndex + i}
-            total={total}
-            dockHeight={dockHeight}
-            collapsed={collapsed}
-            expanded={expanded}
             label={NIGHT_LABELS[key]}
             icon={NIGHT_ICONS[key]}
             iconColor={nightColorFor(key, scheme)}
@@ -1489,9 +1343,7 @@ function SolarTimeline({
   marks,
   dayLength,
   onScrub,
-  onStepDay,
-  dayOffset,
-  dayStart,
+  viewedTime,
   scheme,
 }: {
   styles: DockStyles;
@@ -1499,14 +1351,9 @@ function SolarTimeline({
   marks: DayMark[];
   /** Real length of the viewed Stockholm day in ms — 23/24/25 h across DST. */
   dayLength: number;
-  /** Start of the viewed Stockholm day — with `dayLength`, turns `fraction` into a clock
-   *  time for the adjustable's spoken value. */
-  dayStart: number;
+  /** Shared visible/spoken time, formatted once by the dock. */
+  viewedTime: string;
   onScrub: (f: number) => void;
-  /** Move the viewed day by ±1. The chevrons flanking the track. */
-  onStepDay: (delta: number) => void;
-  /** Which day is on screen, so the chevrons can dim at the rails. */
-  dayOffset: number;
   scheme: ColorSchemeName;
 }) {
   const [trackW, setTrackW] = useState(0);
@@ -1560,6 +1407,7 @@ function SolarTimeline({
   const dragging = useSharedValue(false);
   const lastHaptic = useSharedValue(trackFraction);
   const lastSent = useSharedValue(trackFraction);
+  const grabOffset = useSharedValue(0);
 
   // The role was declared and then not honoured: an "adjustable" with no accessibilityValue
   // and no actions announces a control whose increment/decrement gestures do nothing and
@@ -1567,7 +1415,6 @@ function SolarTimeline({
   // tech. The value is the time being viewed; the steps walk the day's prayers, which are the
   // landmarks a listener is actually navigating between, and fall back to a quarter-hour past
   // the last one. Both go through the same `onScrub` the finger uses.
-  const viewedTime = formatTime(new Date(dayStart + fraction * dayLength));
   const stepTime = useCallback(
     (dir: 1 | -1) => {
       const ordered = markFractions.filter(Number.isFinite).sort((a, b) => a - b);
@@ -1599,19 +1446,12 @@ function SolarTimeline({
   // (app.json → experiments.reactCompiler); the per-render rebuild is one gesture object.
   const pan = Gesture.Pan()
     .minDistance(0)
-    // Android's half of the reach across TIMELINE_GAP. gesture-handler's own hitSlop can only
-    // SHRINK a target on iOS — UIKit hit-tests at the UIView level, so a recognizer never sees
-    // a touch its view did not receive — and can only grow it on Android, and no further than
-    // the parent view, which is why the gap has to be real rather than borrowed. The View
-    // prop on the detector's child below is the same reach for iOS. Both are needed; neither
-    // is redundant. `e.x` stays in the view's own coordinates either way, so a touch in the
-    // slop reads negative (or past trackW) and the existing clamp lands it on the rail.
-    .hitSlop({ left: TIMELINE_GAP, right: TIMELINE_GAP })
     .onBegin((e) => {
       dragging.value = true;
       scheduleOnRN(hapticGrab);
       if (trackW <= 0) return;
-      const f = Math.max(0, Math.min(1, e.x / trackW));
+      grabOffset.value = scrubGrabOffset(e.x, follow.value * trackW);
+      const f = Math.max(0, Math.min(1, (e.x + grabOffset.value) / trackW));
       prog.value = f;
       lastHaptic.value = f;
       lastSent.value = f;
@@ -1619,7 +1459,7 @@ function SolarTimeline({
     })
     .onUpdate((e) => {
       if (trackW <= 0) return;
-      const f = Math.max(0, Math.min(1, e.x / trackW));
+      const f = Math.max(0, Math.min(1, (e.x + grabOffset.value) / trackW));
       prog.value = f;
       // Selection tick when the thumb sweeps past one of the day's prayers. Compared in
       // track space: `f` is where the finger is, and a prayer's place on the track is not
@@ -1667,46 +1507,12 @@ function SolarTimeline({
 
   return (
     <View style={styles.timelineArea}>
-      {/* The day stepper lives in the timeline ROW rather than anywhere else in the dock,
-          for two reasons. First, geometry: the collapsed card has ~4 dp of spare vertical
-          space and the expanded one is already slightly over-subscribed, so no new row
-          fits — and raising DOCK_COLLAPSED_BASE would visibly zoom the whole-Sweden
-          framing out, since bonetider feeds it into the initial fitBounds padding.
-          Second, principle: this row is rendered once and visible in BOTH dock states, so
-          the time controls stay in one place that never moves — the same reason the
-          scrubber lives here.
-
-          The chevrons are SIBLINGS of the GestureDetector, never inside it, so the pan's
-          `e.x / trackW` maths and its onLayout keep measuring the track alone. On a 375 pt
-          screen that track goes 319 → 247 px (≈ 5.8 min/px), which is still comfortable
-          against an 18 px thumb. */}
       <View style={styles.timelineRow}>
-        <DayChevron
-          styles={styles}
-          direction={-1}
-          disabled={dayOffset <= -MAX_DAY_OFFSET}
-          onPress={onStepDay}
-        />
-      {/* Track and ruler share ONE column so the hours land on the axis they label. The
-          ruler used to be a sibling of this whole row, spanning the chevrons too: it came
-          out ~10% wider than the track, which put "00" under the ‹ chevron and "24" past
-          the › one — a constant stretch that read as over an hour of error at both ends
-          and zero at "12". */}
-      {/* The pan target is the WHOLE column — track band AND hour ruler — not just the
-          band. The band alone is 30 px tall, well under the 44 dp minimum, and the dock
-          has no spare height to grow into (raising DOCK_COLLAPSED_BASE zooms the map's
-          initial framing out). The ruler beneath it is 13 px of non-interactive labels
-          sitting exactly where a finger reaching for the knob tends to land low, so
-          handing those pixels to the gesture buys ≈43 px for free. `e.x / trackW` is
-          unchanged: this view has the same left edge and width as the band it replaces. */}
+      {/* The ruler and track share a width, so every hour stays on its real position. */}
       <GestureDetector gesture={pan}>
         <View
           style={styles.timelineCol}
-          // iOS's half of the reach across TIMELINE_GAP — see the gesture's own hitSlop
-          // above for why it takes both. Horizontal only: the column already spans band
-          // plus ruler vertically, and reaching further up would put the scrubber over the
-          // hero's controls.
-          hitSlop={{ left: TIMELINE_GAP, right: TIMELINE_GAP }}
+          accessible
           onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}
           accessibilityRole="adjustable"
           accessibilityLabel="Dagens tidslinje"
@@ -1775,21 +1581,12 @@ function SolarTimeline({
         </View>
         </View>
       </GestureDetector>
-        <DayChevron
-          styles={styles}
-          direction={1}
-          disabled={dayOffset >= MAX_DAY_OFFSET}
-          onPress={onStepDay}
-        />
       </View>
     </View>
   );
 }
 
-/** One end of the day stepper. Accent, not inkMuted: at the two ends of a scrubber a
- *  muted glyph reads as an end-cap rather than a button, and this is the app's one
- *  "verbs are accent" rule doing its job. Dimmed and inert at the rails so the limit is
- *  visible before it is hit. */
+/** Calendar day stepper, disabled at the supported date limits. */
 function DayChevron({
   styles,
   direction,
@@ -1810,16 +1607,8 @@ function DayChevron({
         onPress(direction);
       }}
       disabled={disabled}
-      // The glyph box is 22 × TRACK_BAND_H (30); hitSlop lifts it to 33 × 54 — outward only.
-      //
-      // It used to reach 11 dp INWARD as well, for a round 44. That number was never real:
-      // the left chevron's inward slop lands under the track column, which is the later
-      // sibling and therefore on top, so that side has always been 33. Only the right-hand
-      // one collected on it, by sitting on top of the track and taking the last 11 px of the
-      // day — the asymmetry behind "the scrubber won't grab near the end", and the reason it
-      // stepped a day instead of doing nothing. So this gives up a width the two ends never
-      // both had, and TIMELINE_GAP is what keeps the 22 dp glyph itself uncontested.
-      hitSlop={{ top: 12, bottom: 12, left: forward ? 0 : 11, right: forward ? 11 : 0 }}
+      // Real layout space keeps neighboring button and slider targets disjoint.
+      hitSlop={0}
       accessibilityRole="button"
       accessibilityLabel={forward ? 'Nästa dag' : 'Föregående dag'}
       accessibilityState={{ disabled }}
@@ -1836,7 +1625,8 @@ function DayChevron({
 
 // Styles built from the active OS palette. Layout geometry is fixed; colours come from
 // `c`, and typography/spacing snap to the design tokens (type.* / space.* / radius.*).
-function makeStyles(c: Palette) {
+function makeStyles(c: Palette, fontScale = 1) {
+  const metrics = dockMetrics(fontScale);
   // The hairline both list divisions draw. Shared so a theme change to it cannot reach one
   // and miss the other — see nightRule / dayBreak below for what each adds on top.
   const GROUP_RULE = {
@@ -1878,19 +1668,21 @@ function makeStyles(c: Palette) {
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: c.hairline,
     },
-    // paddingTop clears the grab-handle zone (handleHit is 34 tall) plus a gap, so
-    // the topmost content (the date header / hero) never sits cramped under the handle.
-    content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: space.lg, paddingTop: 36 },
+    // Reserve the complete 48 dp handle target above the content.
+    content: { flex: 1 },
+    scheduleViewport: { position: 'absolute', top: 48, left: space.lg, right: space.lg, overflow: 'hidden', justifyContent: 'flex-end' },
+    footer: { position: 'absolute', bottom: space.sm, left: space.lg, right: space.lg },
 
-    dateHeader: { marginBottom: space.md },
+    dateHeader: { flexDirection: 'row', alignItems: 'center', paddingBottom: space.md },
+    scheduleDivider: { position: 'absolute', bottom: 0, left: 0, right: 0, height: StyleSheet.hairlineWidth, backgroundColor: c.hairline },
     // The whole crown is the target; the row keeps the two date lines left and the
     // calendar glyph right, so the header's typography is untouched by becoming tappable.
-    dateTap: { flexDirection: 'row', alignItems: 'center', gap: space.sm, minHeight: 44 },
+    dateTap: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: space.sm, minHeight: 44 },
     // Date crown — bodyStrong weighted up to 700.
     dateHijri: { ...type.bodyStrong, fontWeight: '700', letterSpacing: 0.2, color: c.ink },
     dateGreg: { ...type.caption, color: c.inkMuted, marginTop: 1 }, // optical nudge
 
-    list: { marginBottom: space.sm },
+    list: { paddingBottom: space.sm },
     // Rows carry a symmetric bleed (padding in, margin out) so a row background can
     // extend past the text column without shifting any text: every row's label/time
     // stay aligned with the date header above, highlighted or not.
@@ -1898,7 +1690,8 @@ function makeStyles(c: Palette) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: space.sm,
-      paddingVertical: 7, // row touch-target height — kept (snapping would reflow the list)
+      paddingVertical: 7,
+      minHeight: 48,
       paddingHorizontal: space.sm,
       marginHorizontal: -space.sm,
       borderRadius: radius.md,
@@ -1936,18 +1729,12 @@ function makeStyles(c: Palette) {
 
     pressed: { opacity: 0.55 }, // same pressed step as listRowPressed — one dimming voice
 
-    // Hero holds two cross-fading layers (collapsed headline ↔ expanded facts). It has
-    // a FIXED height so swapping content never reflows the timeline pinned below it;
-    // both layers are absolutely positioned, so neither contributes layout height. 44
-    // clears the collapsed two-tier content (19px name + gap + 15px time·place line).
-    hero: { height: 44, marginBottom: space.xs, justifyContent: 'center' },
+    // Both hero states reserve the same font-scaled height, keeping the slider stationary.
+    hero: { height: metrics.hero, marginBottom: space.xs, justifyContent: 'center' },
     heroLayer: { position: 'absolute', left: 0, right: 0 },
     heroTop: { flexDirection: 'row', alignItems: 'center' },
-    heroPrayer: { ...type.headline, color: c.ink },
+    heroPrayer: { ...type.headline, color: c.ink, flexShrink: 1 },
     // Expanded hero name: a touch smaller than collapsed (the date header crowns the
-    // open dock), shown only when the next prayer is tomorrow's and thus absent from
-    // today's list.
-    heroPrayerExpanded: { ...type.bodyStrong, fontWeight: '700', letterSpacing: 0.2, color: c.ink, marginRight: space.sm },
     heroNone: { ...type.body, color: c.inkMuted },
     // ── Dock countdown numerals — intentionally bespoke, NOT on the type scale: a big
     //    tabular brass digit (18) with a flush small unit (12) and a quiet prefix (13),
@@ -1961,9 +1748,6 @@ function makeStyles(c: Palette) {
     // proximity that the old equal-weight string lacked.
     countdownUnit: { fontSize: 12, fontWeight: '600', color: c.highlightText },
     heroSub: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginTop: 2 }, // optical nudge
-    // Sits LEFT in the expanded hero (no leading margin — it aligns with the list
-    // column); when the tomorrow-name precedes it, that name carries the gap.
-    heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: space.xs, flexShrink: 1, minWidth: 0 },
     subTime: { ...type.caption, color: c.inkMuted, fontVariant: ['tabular-nums'] },
     subSep: { ...type.caption, color: c.inkMuted },
     // Same caption size as the time beside it — one quiet line, ONE size; the place
@@ -1975,20 +1759,9 @@ function makeStyles(c: Palette) {
     // "i morg…" says nothing at all. Muted rather than faint: on another day this is the
     // most important word on the line, since every time above it belongs to that day.
     subDay: { ...type.caption, color: c.inkMuted, flexShrink: 0 },
-    // The stepper row: chevron | track (flex) | chevron. The track keeps `flex: 1` so it
-    // absorbs whatever the two glyphs leave, on every screen width.
-    //
-    // THE BUG THIS FIXES: the two chevrons sat visibly below the line they flank. The row
-    // centred them on the whole column — track band (30) + hour ruler (13) = 43, so their
-    // centre landed at y≈21.5 while the track's is at y=15. Six px of droop, on the one
-    // row where three controls are meant to read as a single instrument.
-    //
-    // Fixed by anchoring both chevrons to the TOP of the column and giving them exactly
-    // the band's height, so `justifyContent: center` inside each one puts its glyph on
-    // the band's centre — which is where the track and thumb are centred too. The two
-    // heights must stay equal; that is why they are one constant.
-    timelineRow: { flexDirection: 'row', alignItems: 'flex-start', gap: TIMELINE_GAP },
-    dayStep: { alignItems: 'center', justifyContent: 'center', width: 22, height: TRACK_BAND_H },
+    // The three touch targets share the track's centreline. The ruler grows with text.
+    timelineRow: { flexDirection: 'row', alignItems: 'flex-start' },
+    dayStep: { alignItems: 'center', justifyContent: 'center', width: 48, height: TRACK_BAND_H },
     dayStepOff: { opacity: 0.3 },
     // The no-location offer that replaces the place name. Accent (the app's "verbs are
     // accent" rule) and semibold, so it reads as the one thing to tap on this line —
@@ -1998,6 +1771,8 @@ function makeStyles(c: Palette) {
     placePickText: { ...type.caption, color: c.accent, fontWeight: '600', flexShrink: 1 },
 
     flex: { flex: 1 },
+    previewControls: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, marginLeft: space.sm },
+    previewTime: { minWidth: 48, textAlign: 'right', fontSize: 16, fontWeight: '600', color: c.ink, fontVariant: ['tabular-nums'] },
     previewBadge: {
       marginLeft: space.sm,
       flexDirection: 'row',
@@ -2029,7 +1804,7 @@ function makeStyles(c: Palette) {
       position: 'absolute',
       left: 0,
       right: 0,
-      bottom: 13,
+      bottom: 22,
       height: 4,
       borderRadius: 2,
       backgroundColor: c.track,
@@ -2040,7 +1815,7 @@ function makeStyles(c: Palette) {
     trackFill: {
       position: 'absolute',
       left: 0,
-      bottom: 13,
+      bottom: 22,
       height: 4,
       borderRadius: 2,
       backgroundColor: c.trackFill,
@@ -2048,7 +1823,7 @@ function makeStyles(c: Palette) {
     },
     // Plain coloured dot on the axis. Same size/chrome for every prayer; past
     // dots draw at full opacity, future ones soften.
-    mark: { width: 7, height: 7, borderRadius: 4, bottom: 11, opacity: 0.7 },
+    mark: { width: 7, height: 7, borderRadius: 4, bottom: 20.5, opacity: 0.7 },
     markPast: { opacity: 1 },
     // The knob is the app mark in miniature: brand gold inside a brand blue ring (see
     // the scrubber block in theme/tokens.ts, which also explains why the RING is what
@@ -2058,7 +1833,7 @@ function makeStyles(c: Palette) {
       width: 18,
       height: 18,
       borderRadius: 9,
-      bottom: 6,
+      bottom: 15,
       backgroundColor: c.scrubberKnob,
       borderColor: c.scrubberRing,
       borderWidth: 2,
@@ -2070,16 +1845,17 @@ function makeStyles(c: Palette) {
     // Sits inside timelineCol, so its width IS the track's. Each label is absolutely
     // placed at its hour's fraction and centred on it, rather than evenly distributed —
     // even spacing silently assumed 24 equal hours, which is wrong on the two DST days.
-    ticks: { height: RULER_H, marginTop: 0 },
+    ticks: { height: metrics.ruler, marginTop: 0 },
     // Hour-axis tick — 10px tabular, deliberately below `micro`; the smallest label in
     // the app and bespoke to the timeline.
     tick: {
       position: 'absolute',
-      width: 28,
-      marginLeft: -14,
+      width: 44,
+      marginLeft: -22,
       textAlign: 'center',
-      fontSize: 10,
-      color: c.inkFaint,
+      fontSize: 11,
+      lineHeight: 16,
+      color: c.inkMuted,
       fontVariant: ['tabular-nums'],
     },
 
@@ -2088,7 +1864,7 @@ function makeStyles(c: Palette) {
       top: 0,
       left: 0,
       right: 0,
-      height: 34,
+      height: 48,
       alignItems: 'center',
       justifyContent: 'center',
       gap: 1,

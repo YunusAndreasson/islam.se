@@ -387,7 +387,7 @@ export default function Installningar() {
           />
           {/* Qibla — the great-circle direction to Mecca, drawn from your dot. On by
               default: it works where the compass doesn't (indoors, near metal) and is an
-              independent check on the Qibla sheet. See skia/QiblaArc. */}
+              independent check on the Qibla sheet. See map/LocationLayer. */}
           <Toggle
             label="Visa qibla-riktning"
             value={settings.showQibla}

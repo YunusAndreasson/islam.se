@@ -162,6 +162,7 @@ jest.mock('react-native-reanimated', () => {
     useReducedMotion: () => false,
     withSpring: (value) => value,
     withTiming: (value) => value,
+    cancelAnimation: () => {},
     withRepeat: (value) => value,
     withSequence: (...values) => values[values.length - 1],
     // Easing combinators only need to be callables returning callables under test —

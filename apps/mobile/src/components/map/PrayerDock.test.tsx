@@ -1,6 +1,7 @@
-import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen } from '@testing-library/react-native';
-import { StyleSheet } from 'react-native';
+import { createRef } from 'react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { act, fireEvent, render, screen, within } from '@testing-library/react-native';
+import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 
 import {
@@ -13,8 +14,12 @@ import { computePrayerTimes, PRAYER_LABELS, PRAYER_ORDER } from '@/lib/prayer-ti
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
-import { DOCK_COLLAPSED_BASE, type DayMark, PrayerDock, resolveToggle } from './PrayerDock';
+import { DOCK_COLLAPSED_BASE, type DayMark, type PrayerDockHandle, PrayerDock, resolveToggle } from './PrayerDock';
 import { first, last } from '@/test-utils/at';
+
+beforeEach(() => {
+  Dimensions.set({ window: { width: 411, height: 914, scale: 2.625, fontScale: 1 }, screen: { width: 411, height: 914, scale: 2.625, fontScale: 1 } });
+});
 
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
 // What PrayerDock assumes a schedule block is worth before it has measured a real one (its
@@ -61,6 +66,32 @@ function dockProps(revealSchedule: boolean, clockOverrides: Partial<SolarClock> 
 // toggle label is the observable proof of the open/closed state — the height itself is a
 // shared value the reanimated test shim doesn't animate.
 describe('PrayerDock schedule reveal', () => {
+  it('keeps the same summary and preview controls when opening and closing', () => {
+    const props = dockProps(false, { mode: 'scrub' });
+    const { rerender } = render(<PrayerDock {...props} />);
+    const summary = screen.getByTestId('dock-summary');
+    for (const revealSchedule of [true, false, true]) {
+      rerender(<PrayerDock {...props} revealSchedule={revealSchedule} />);
+      expect(screen.getByTestId('dock-summary')).toBe(summary);
+      expect(within(summary).getByText(PRAYER_LABELS.asr)).toBeTruthy();
+      expect(within(summary).getByText('Stockholm')).toBeTruthy();
+      expect(within(summary).getByTestId('prayer-preview-time').props.children).toBe('14:00');
+      expect(within(summary).getByLabelText('Återgå till nu')).toBeTruthy();
+    }
+  });
+
+  it('keeps the calendar outside the scrolling rows and reserves its measured height', () => {
+    render(<PrayerDock {...dockProps(true)} />);
+    const scroll = screen.getByTestId('dock-schedule-scroll');
+    expect(within(scroll).queryByTestId('prayer-dock-date')).toBeNull();
+    expect(within(screen.getByTestId('dock-calendar-header')).getByTestId('prayer-dock-date')).toBeTruthy();
+    const before = StyleSheet.flatten(scroll.props.style).maxHeight;
+    fireEvent(screen.getByTestId('dock-calendar-header'), 'layout', {
+      nativeEvent: { layout: { height: 104 } },
+    });
+    expect(StyleSheet.flatten(screen.getByTestId('dock-schedule-scroll').props.style).maxHeight).toBe(before - 40);
+  });
+
   it('stays collapsed by default', () => {
     render(<PrayerDock {...dockProps(false)} />);
     expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
@@ -119,22 +150,40 @@ describe('PrayerDock location fallback', () => {
 
 
 // Day navigation from the dock. The clock owns the arithmetic (useSolarClock.test.ts pins
-// that); what is guarded here is the SURFACE — that the controls exist while collapsed,
+// that); what is guarded here is the surface — that the controls live with the calendar,
 // that they say the right thing about a day that is not today, and that they call the
 // clock rather than reimplementing it.
 describe('PrayerDock day navigation', () => {
   const scrubbed = { mode: 'scrub' as const };
 
-  // The stepper lives in the timeline row precisely so it is present in BOTH dock states —
-  // putting it in the expanded schedule would have hidden the feature behind a drag.
-  it('offers both chevrons while collapsed', () => {
+  it('shows the selected time beside return, matching the timeline spoken time', () => {
+    const props = dockProps(false, scrubbed);
+    render(<PrayerDock {...props} />);
+    expect(screen.getByTestId('prayer-preview-time').props.children).toBe('14:00');
+    expect(screen.getByRole('adjustable').props.accessibilityValue.text).toBe('14:00');
+    fireEvent.press(screen.getByLabelText('Återgå till nu'));
+    expect(props.clock.reset).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the preview time out of live mode', () => {
     render(<PrayerDock {...dockProps(false)} />);
+    expect(screen.queryByTestId('prayer-preview-time')).toBeNull();
+  });
+
+  it('keeps day buttons out of the collapsed scrubber', () => {
+    render(<PrayerDock {...dockProps(false)} />);
+    expect(screen.queryByRole('button', { name: 'Nästa dag' })).toBeNull();
+    expect(screen.getByRole('adjustable', { name: 'Dagens tidslinje' })).toBeTruthy();
+  });
+
+  it('offers both chevrons alongside the calendar when expanded', () => {
+    render(<PrayerDock {...dockProps(true)} />);
     expect(screen.getByRole('button', { name: 'Föregående dag' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Nästa dag' })).toBeTruthy();
   });
 
   it('steps the clock by exactly one day in each direction', () => {
-    const props = dockProps(false);
+    const props = dockProps(true);
     render(<PrayerDock {...props} />);
 
     fireEvent.press(screen.getByRole('button', { name: 'Nästa dag' }));
@@ -150,7 +199,7 @@ describe('PrayerDock day navigation', () => {
     [MAX_DAY_OFFSET, 'Nästa dag', 'Föregående dag'],
     [-MAX_DAY_OFFSET, 'Föregående dag', 'Nästa dag'],
   ])('disables only the outward chevron at offset %s', (dayOffset, blocked, open) => {
-    render(<PrayerDock {...dockProps(false, { dayOffset, ...scrubbed })} />);
+    render(<PrayerDock {...dockProps(true, { dayOffset, ...scrubbed })} />);
     expect(screen.getByRole('button', { name: blocked }).props.accessibilityState.disabled).toBe(
       true,
     );
@@ -501,11 +550,14 @@ describe('resolveToggle — what a finished toggle gesture means', () => {
 
 describe('PrayerDock open height follows the schedule it measured', () => {
   function measure(height: number) {
+    fireEvent(screen.getByTestId('dock-calendar-header', { includeHiddenElements: true }), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 320, height: 64 } },
+    });
     // includeHiddenElements: the block is hidden from assistive tech while the dock is shut
     // (that is the point — nothing behind the card should be announced), but it is still in
     // the tree and still laid out.
     fireEvent(screen.getByTestId('dock-schedule', { includeHiddenElements: true }), 'layout', {
-      nativeEvent: { layout: { x: 0, y: 0, width: 320, height } },
+      nativeEvent: { layout: { x: 0, y: 0, width: 320, height: height - 64 } },
     });
   }
 
@@ -567,5 +619,39 @@ describe('PrayerDock open height follows the schedule it measured', () => {
     measure(368);
 
     expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 368);
+  });
+});
+
+// The schedule must remain reachable when large text exceeds the available map area.
+describe('PrayerDock accessible layout', () => {
+  it('gives large text more room while bounding the scrollable schedule on a small screen', () => {
+    Dimensions.set({ window: { width: 320, height: 640, scale: 2, fontScale: 2 }, screen: { width: 320, height: 640, scale: 2, fontScale: 2 } });
+    const onExpandedChange = jest.fn();
+    render(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+    fireEvent(screen.getByTestId('dock-schedule'), 'layout', { nativeEvent: { layout: { height: 900 } } });
+    const [, height] = last(onExpandedChange.mock.calls, 'height report');
+    expect(height).toBeLessThan(640);
+    expect(height).toBeGreaterThan(DOCK_COLLAPSED_BASE);
+    const scroll = screen.UNSAFE_getByType(ScrollView);
+    expect(scroll.props.scrollEnabled).toBe(true);
+    expect(StyleSheet.flatten(scroll.props.style).maxHeight).toBeLessThan(900);
+    expect(StyleSheet.flatten(screen.getByRole('button', { name: 'Nästa dag' }).props.style).width).toBeGreaterThanOrEqual(48);
+  });
+});
+
+
+describe('map dismissal', () => {
+  it('closes an open dock without changing the selected time and allows reopening', () => {
+    const ref = createRef<PrayerDockHandle>();
+    const props = dockProps(true);
+    render(<PrayerDock {...props} ref={ref} />);
+    act(() => { expect(ref.current?.collapse()).toBe(true); });
+    expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
+    expect(props.clock.reset).not.toHaveBeenCalled();
+    expect(props.clock.setFraction).not.toHaveBeenCalled();
+    act(() => { expect(ref.current?.collapse()).toBe(false); });
+    fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
+    expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
+    act(() => { expect(ref.current?.collapse()).toBe(true); });
   });
 });

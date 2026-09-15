@@ -247,7 +247,7 @@ export default function Manen() {
    *  rolls over — a stored pair would quietly leave the sheet in last month. */
   const [monthOffset, setMonthOffset] = useState(0);
 
-  const now = useCoarseNow(TICK_MS);
+  const now = useCoarseNow(TICK_MS, focused);
   const sky = useMoonSky(coords, now);
   // The ephemeris is keyed on the coordinate's NUMBERS, never the object: the location
   // context hands out a fresh one on every GPS fix, and an identity key would re-run every

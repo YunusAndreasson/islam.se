@@ -71,7 +71,7 @@ export function MoonButton({ active }: { active: boolean }) {
   // `sky.altitude > 0` is the same story at the horizon: ten minutes of lighting for a Moon
   // that has set, and refusing for one that has risen. One ephemeris pass a minute is a
   // millisecond or two; the claim is worth more than that.
-  const at = useCoarseNow(AIM_TICK_MS);
+  const at = useCoarseNow(AIM_TICK_MS, active);
   // The drawing-only half: this disc shows a phase and a tilt and never the Moon's age, and
   // the age is the expensive part (a walk over conjunctions, more than half the work). It is
   // on the map, which is the app's home screen, so that cost would land on first paint.

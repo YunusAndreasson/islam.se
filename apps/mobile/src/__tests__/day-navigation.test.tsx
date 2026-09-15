@@ -59,8 +59,17 @@ async function launchMap(): Promise<void> {
 }
 
 async function step(direction: 'Nästa dag' | 'Föregående dag'): Promise<void> {
+  // Day controls share the calendar header in the expanded schedule.
+  if (!screen.queryByRole('button', { name: direction })) {
+    await act(async () => {
+      fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
+    });
+  }
   await act(async () => {
     fireEvent.press(screen.getByRole('button', { name: direction }));
+  });
+  await act(async () => {
+    fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
   });
 }
 

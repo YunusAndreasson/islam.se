@@ -254,6 +254,60 @@ describe('chainSegments', () => {
 });
 
 describe('catmullRom', () => {
+  it('preserves every sample of the Barry–Goldman curve across irregular and closed paths', () => {
+    type Point = [number, number];
+    // Independent recursive pyramid: an allocation-heavy reference makes a change
+    // to knot weights/order observable even when endpoint and finiteness tests pass.
+    const reference = (line: Point[], samples: number): Point[] => {
+      const start = first(line, 'reference line');
+      const end = at(line, line.length - 1, 'reference line');
+      const closed = start[0] === end[0] && start[1] === end[1];
+      const pts = closed ? line.slice(0, -1) : line;
+      const m = pts.length;
+      const point = (i: number): Point =>
+        at(pts, closed ? ((i % m) + m) % m : Math.max(0, Math.min(m - 1, i)), 'control');
+      const out: Point[] = [start];
+      for (let span = 0; span < (closed ? m : m - 1); span++) {
+        const controls = [point(span - 1), point(span), point(span + 1), point(span + 2)];
+        const knots = [0];
+        for (let i = 1; i < 4; i++) {
+          const a = at(controls, i - 1, 'controls');
+          const b = at(controls, i, 'controls');
+          knots.push(at(knots, i - 1, 'knots') + Math.max(1e-9, Math.sqrt(Math.hypot(b[0] - a[0], b[1] - a[1]))));
+        }
+        const t1 = at(knots, 1, 'knots');
+        const t2 = at(knots, 2, 'knots');
+        for (let s = 1; s <= samples; s++) {
+          const t = t1 + ((t2 - t1) * s) / samples;
+          const blend = (level: number, i: number): Point => {
+            if (level === 0) return at(controls, i, 'controls');
+            const a = blend(level - 1, i);
+            const b = blend(level - 1, i + 1);
+            const lo = at(knots, level === 3 ? 1 : i, 'knots');
+            const hi = at(knots, level === 3 ? 2 : i + level, 'knots');
+            const w = (t - lo) / (hi - lo);
+            return [a[0] + (b[0] - a[0]) * w, a[1] + (b[1] - a[1]) * w];
+          };
+          out.push(blend(3, 0));
+        }
+      }
+      return out;
+    };
+    let seed = 4219;
+    const random = (): number => {
+      seed = (Math.imul(1664525, seed) + 1013904223) >>> 0;
+      return seed / 4294967296;
+    };
+    for (let n = 0; n < 40; n++) {
+      const line: Point[] = Array.from({ length: 4 + n }, () => [random() * 80 - 30, random() * 50 + 30]);
+      if (n % 3 === 0) line[1] = first(line, 'line'); // coincident crossings
+      if (n % 2 === 0) line.push(first(line, 'line')); // closed seam
+      for (const samples of [1, 3, 12]) {
+        expect(catmullRom(line, samples)).toEqual(reference(line, samples));
+      }
+    }
+  });
+
   it('interpolates the control points (curve passes through every input vertex)', () => {
     // Unlike corner-cutting, an interpolating spline must hit each source point. A
     // line that merely approximated them would drift inside the bends — the exact bug

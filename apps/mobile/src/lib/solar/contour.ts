@@ -10,9 +10,9 @@ export type Segment = [LonLat, LonLat];
 
 // Linear-interpolate the [lon,lat] point on the edge p1→p2 where the field
 // crosses `level`. Caller guarantees v1 and v2 straddle the level.
-function crossing(p1: LonLat, v1: number, p2: LonLat, v2: number): LonLat {
+function crossing(x1: number, y1: number, v1: number, x2: number, y2: number, v2: number): LonLat {
   const t = v1 / (v1 - v2);
-  return [p1[0] + (p2[0] - p1[0]) * t, p1[1] + (p2[1] - p1[1]) * t];
+  return [x1 + (x2 - x1) * t, y1 + (y2 - y1) * t];
 }
 
 /**
@@ -90,59 +90,82 @@ export function marchingSquares(
         continue;
       }
 
-      // The cell spans more time than the lattice can honestly interpolate across (see
-      // maxSpread above). Skipped whole, so the line stops at the last cell that is
-      // resolved rather than being dragged through the singular one.
-      if (Math.max(vTL, vTR, vBR, vBL) - Math.min(vTL, vTR, vBR, vBL) > maxSpread) continue;
-
-      const TL: LonLat = [lonL, latT];
-      const TR: LonLat = [lonR, latT];
-      const BR: LonLat = [lonR, latB];
-      const BL: LonLat = [lonL, latB];
-
       // 4-bit case: each corner contributes a bit when it is above the level.
       const code =
         (vTL > 0 ? 8 : 0) + (vTR > 0 ? 4 : 0) + (vBR > 0 ? 2 : 0) + (vBL > 0 ? 1 : 0);
       if (code === 0 || code === 15) continue;
 
-      // Edge crossings, computed lazily per case.
-      const top = () => crossing(TL, vTL, TR, vTR);
-      const right = () => crossing(TR, vTR, BR, vBR);
-      const bottom = () => crossing(BR, vBR, BL, vBL);
-      const left = () => crossing(BL, vBL, TL, vTL);
+      // Only crossing cells need the spread check or any coordinate allocation.
+      // The cell spans more time than the lattice can honestly interpolate across (see
+      // maxSpread above). Skipped whole, so the line stops at the last resolved cell.
+      if (Math.max(vTL, vTR, vBR, vBL) - Math.min(vTL, vTR, vBR, vBL) > maxSpread) continue;
+
+      // Pass scalar corners directly: four per-cell edge closures made Babel wrap this
+      // entire inner loop in a function call on Android. Only the emitted crossing
+      // points need arrays; their interpolation and endpoint order remain unchanged.
 
       switch (code) {
         case 1: // BL
         case 14:
-          segments.push([left(), bottom()]);
+          segments.push([
+            crossing(lonL, latB, vBL, lonL, latT, vTL),
+            crossing(lonR, latB, vBR, lonL, latB, vBL),
+          ]);
           break;
         case 2: // BR
         case 13:
-          segments.push([bottom(), right()]);
+          segments.push([
+            crossing(lonR, latB, vBR, lonL, latB, vBL),
+            crossing(lonR, latT, vTR, lonR, latB, vBR),
+          ]);
           break;
         case 3: // BR+BL
         case 12:
-          segments.push([left(), right()]);
+          segments.push([
+            crossing(lonL, latB, vBL, lonL, latT, vTL),
+            crossing(lonR, latT, vTR, lonR, latB, vBR),
+          ]);
           break;
         case 4: // TR
         case 11:
-          segments.push([top(), right()]);
+          segments.push([
+            crossing(lonL, latT, vTL, lonR, latT, vTR),
+            crossing(lonR, latT, vTR, lonR, latB, vBR),
+          ]);
           break;
         case 6: // TR+BR
         case 9:
-          segments.push([top(), bottom()]);
+          segments.push([
+            crossing(lonL, latT, vTL, lonR, latT, vTR),
+            crossing(lonR, latB, vBR, lonL, latB, vBL),
+          ]);
           break;
         case 7: // not TL
         case 8: // TL
-          segments.push([top(), left()]);
+          segments.push([
+            crossing(lonL, latT, vTL, lonR, latT, vTR),
+            crossing(lonL, latB, vBL, lonL, latT, vTL),
+          ]);
           break;
         case 5: // saddle (TR+BL)
-          segments.push([top(), left()]);
-          segments.push([bottom(), right()]);
+          segments.push([
+            crossing(lonL, latT, vTL, lonR, latT, vTR),
+            crossing(lonL, latB, vBL, lonL, latT, vTL),
+          ]);
+          segments.push([
+            crossing(lonR, latB, vBR, lonL, latB, vBL),
+            crossing(lonR, latT, vTR, lonR, latB, vBR),
+          ]);
           break;
         case 10: // saddle (TL+BR)
-          segments.push([top(), right()]);
-          segments.push([bottom(), left()]);
+          segments.push([
+            crossing(lonL, latT, vTL, lonR, latT, vTR),
+            crossing(lonR, latT, vTR, lonR, latB, vBR),
+          ]);
+          segments.push([
+            crossing(lonR, latB, vBR, lonL, latB, vBL),
+            crossing(lonL, latB, vBL, lonL, latT, vTL),
+          ]);
           break;
       }
     }
@@ -476,23 +499,25 @@ export function catmullRom(line: LonLat[], samples = 12): LonLat[] {
     // so consecutive segments join without duplicating the shared vertex.
     for (let s = 1; s <= samples; s++) {
       const t = t1 + ((t2 - t1) * s) / samples;
-      const lerp = (
-        ax: number,
-        ay: number,
-        bx: number,
-        by: number,
-        ta: number,
-        tb: number,
-      ): LonLat => {
-        const w = (t - ta) / (tb - ta);
-        return [ax + (bx - ax) * w, ay + (by - ay) * w];
-      };
-      const [a1x, a1y] = lerp(p0[0], p0[1], p1[0], p1[1], t0, t1);
-      const [a2x, a2y] = lerp(p1[0], p1[1], p2[0], p2[1], t1, t2);
-      const [a3x, a3y] = lerp(p2[0], p2[1], p3[0], p3[1], t2, t3);
-      const [b1x, b1y] = lerp(a1x, a1y, a2x, a2y, t0, t2);
-      const [b2x, b2y] = lerp(a2x, a2y, a3x, a3y, t1, t3);
-      out.push(lerp(b1x, b1y, b2x, b2y, t1, t2));
+      // Keep the Barry–Goldman arithmetic in scalars. The five intermediate points
+      // used to allocate arrays (and a lerp closure) for every sample; only the final
+      // point belongs in the curve. Operation order and sampling stay unchanged.
+      const w1 = (t - t0) / (t1 - t0);
+      const w2 = (t - t1) / (t2 - t1);
+      const w3 = (t - t2) / (t3 - t2);
+      const a1x = p0[0] + (p1[0] - p0[0]) * w1;
+      const a1y = p0[1] + (p1[1] - p0[1]) * w1;
+      const a2x = p1[0] + (p2[0] - p1[0]) * w2;
+      const a2y = p1[1] + (p2[1] - p1[1]) * w2;
+      const a3x = p2[0] + (p3[0] - p2[0]) * w3;
+      const a3y = p2[1] + (p3[1] - p2[1]) * w3;
+      const w4 = (t - t0) / (t2 - t0);
+      const w5 = (t - t1) / (t3 - t1);
+      const b1x = a1x + (a2x - a1x) * w4;
+      const b1y = a1y + (a2y - a1y) * w4;
+      const b2x = a2x + (a3x - a2x) * w5;
+      const b2y = a2y + (a3y - a2y) * w5;
+      out.push([b1x + (b2x - b1x) * w2, b1y + (b2y - b1y) * w2]);
     }
   }
   return out;

@@ -28,6 +28,8 @@ import { StyleSheet } from 'react-native';
 import {
   Easing,
   type SharedValue,
+  useAnimatedReaction,
+  useReducedMotion,
   useDerivedValue,
   useSharedValue,
   withRepeat,
@@ -38,11 +40,11 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { type PrayerKey } from '@/lib/prayer-times';
 import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
+import { visibleLineRange } from '@/lib/map/visible-line';
 import type { LonLat } from '@/lib/coordinates';
 import { prayerColorFor, washStopsFor } from '@/lib/solar/palette';
 import { type PolarBoundary, solarParams } from '@/lib/solar/sun';
 import { useActiveScheme } from '@/theme/useColors';
-import { QiblaArc } from './QiblaArc';
 import { buildWashSksl } from './washShader';
 
 /** One prayer's contour for this instant: its colour key + the smoothed lon/lat lines. */
@@ -69,12 +71,14 @@ interface Props {
    *  of it between live ticks; the gap drives the worklet drift that keeps the lines
    *  moving at the sun's true rate instead of stepping every tick. */
   geometryNow: number;
+  /** Direct time preview: full current contours, without live drift or entrance/exit effects. */
+  preview?: boolean;
+  /** Arm the upcoming line only once the map is painted and foregrounded. */
+  entranceEnabled?: boolean;
   /** Map camera (centre/zoom/viewport), updated from MapLibre region events. */
   camera: SharedValue<Camera>;
   /** The active prayer contours at this instant (0–7), from buildLines. */
   lines: PrayerLineData[];
-  /** Draw the great-circle direction to Mecca from `userPoint` (Inställningar → Utseende). */
-  showQibla: boolean;
   /** The user's next prayer — its line is drawn brighter/thicker. Null if tomorrow's. */
   nextKey: PrayerKey | null;
   /** The next prayer when it is IMMINENT (within the breathing window) — its halo
@@ -94,9 +98,10 @@ export function SolarSkiaOverlay({
   dayLength,
   nowFraction,
   geometryNow,
+  preview = false,
+  entranceEnabled = true,
   camera,
   lines,
-  showQibla,
   nextKey,
   imminentKey,
   userPoint,
@@ -142,10 +147,12 @@ export function SolarSkiaOverlay({
   // UI thread at the physically exact first-order rate: Δ(normalised-Mercator x) per ms
   // = −1 / 86 400 000. nowFraction glides ahead of geometryNow between live ticks (see
   // bonetider's predictive withTiming) and each 30 s rebuild re-anchors the true shape,
-  // so the lines move continuously — a glide, not a step. The drift is clamped to a
-  // little over one tick so the single render→effect frame after a big scrub (geometry
-  // already new, nowFraction still old) can never fling the lines across the map.
+  // so live lines move continuously between ticks. Preview uses exact geometry
+  // with no extrapolation; its geometry and shared clock update independently.
   const driftMerc = useDerivedValue(() => {
+    // Geometry and the shared clock can arrive a frame apart during a reversal.
+    // Preview must never extrapolate from that mismatched pair.
+    if (preview) return 0;
     const nowMs = dayStart + nowFraction.value * dayLength;
     const dt = nowMs - geometryNow;
     if (dt <= 0) return 0;
@@ -256,11 +263,6 @@ export function SolarSkiaOverlay({
         </Fill>
       )}
 
-      {/* Drawn first of the line work, so it reads as quieter ground beneath the glowing
-          prayer contours rather than competing with them. It is the one thing on this
-          canvas that does not move with the day — a fixed direction, always there. */}
-      {showQibla && <QiblaArc camera={camera} from={userPoint} />}
-
       {shownBoundaryLat != null && (
         <Path
           path={polarBoundaryPath}
@@ -294,6 +296,8 @@ export function SolarSkiaOverlay({
             polylines={byPrayer.get(prayer) ?? EMPTY}
             camera={camera}
             drift={driftMerc}
+            preview={preview}
+            entranceEnabled={entranceEnabled}
             isNext={prayer === nextKey}
             imminent={prayer === imminentKey}
             color={prayerColorFor(prayer, scheme)}
@@ -319,6 +323,8 @@ export function SolarSkiaOverlay({
           polylines={byPrayer.get(prayer) ?? EMPTY}
           camera={camera}
           drift={driftMerc}
+          preview={preview}
+          entranceEnabled={entranceEnabled}
           isNext={prayer === nextKey}
           imminent={prayer === imminentKey}
           color={prayerColorFor(prayer, scheme)}
@@ -353,8 +359,7 @@ const CROSSING_PRAYERS: PrayerKey[] = ['dhuhr', 'asr'];
 const DISSOLVE_PX = 28;
 const DISSOLVE_COLORS = ['black', 'transparent'];
 
-/** Drift ceiling (ms): a little over one live tick, so the one stale frame after a
- *  scrub can't displace the lines, while a normal tick-to-tick glide never clamps. */
+/** Drift ceiling (ms): slightly longer than one live tick; preview disables drift. */
 const MAX_DRIFT_MS = 45_000;
 
 /** Sweep-in reveal length. Long enough to read as a deliberate pour down the country
@@ -424,6 +429,8 @@ function PrayerLine({
   polylines,
   camera,
   drift,
+  preview,
+  entranceEnabled,
   isNext,
   imminent,
   color,
@@ -432,6 +439,8 @@ function PrayerLine({
   camera: SharedValue<Camera>;
   /** UI-thread solar drift (normalised-Mercator x) — see driftMerc in the parent. */
   drift: SharedValue<number>;
+  preview: boolean;
+  entranceEnabled: boolean;
   isNext: boolean;
   /** The next prayer inside the breathing window: the halo inhales/exhales gently. */
   imminent: boolean;
@@ -445,10 +454,17 @@ function PrayerLine({
   // transition state; the previous geometry is only a committed-value cache, so keeping
   // it in a ref avoids a second render for every active line on each live field update.
   const [rendered, setRendered] = useState(active);
-  if (active && !rendered) setRendered(true);
-  const drawPolylines = useLastActiveGeometry(active, polylines);
+  if (preview ? active !== rendered : active && !rendered) setRendered(active);
+  const retainedPolylines = useLastActiveGeometry(active, polylines);
+  const visible = preview ? active : rendered;
+  const drawPolylines = visible ? (preview ? polylines : retainedPolylines) : EMPTY;
   const fade = useSharedValue(active ? 1 : 0);
-  const reveal = useSharedValue(active ? 1 : 0);
+  const reveal = useSharedValue(1);
+  const entered = useSharedValue(false);
+  const entryStart = useSharedValue(0);
+  const entryEnd = useSharedValue(1);
+  const reduceMotion = useReducedMotion();
+  const animateEntrance = isNext && !preview && !reduceMotion;
 
   // The lon/lat → normalised-Mercator half of the projection is camera-independent, so
   // it runs ONCE per geometry change (here, JS thread) instead of per frame. The flat
@@ -457,8 +473,7 @@ function PrayerLine({
     () =>
       drawPolylines.map((line) => {
         const arr = new Float64Array(line.length * 2);
-        // forEach rather than an index loop — see QiblaArc for why: no indexed read to
-        // prove, and no way to leave a hole that projects to Mercator (0, 0).
+        // forEach visits each point without unchecked indexed reads or holes.
         line.forEach((p, i) => {
           arr[i * 2] = mercX(p[0]);
           arr[i * 2 + 1] = mercY(p[1]);
@@ -496,23 +511,64 @@ function PrayerLine({
     return b.detach();
   });
 
-  // Appear: sweep the line on with a trim 0 → 1, but only from the fully-faded-out
-  // state (`wasRendered` false) — a quick scrub back over a still-fading line fades it
-  // back up without replaying the sweep. Disappear: ease the whole group's opacity to
-  // 0, THEN unmount — unless reactivation cancels the timing first (its callback then
-  // lands with finished=false and the unmount is skipped).
-  const wasRendered = useRef(rendered);
-  useEffect(() => {
-    if (active) {
-      const fresh = !wasRendered.current;
-      fade.value = withTiming(1, { duration: 150 });
-      if (fresh) {
+  // Only inspect visibility while waiting for the current prayer to enter. Geometry
+  // projection/length measurement is not driven by the reveal progress itself.
+  const visibleRange = useDerivedValue(() => {
+    if (!animateEntrance || entered.value) return null;
+    const cam = camera.value;
+    const ws = worldSize(cam.zoom);
+    const ox = cam.width / 2 - mercX(cam.lon) * ws + drift.value * ws;
+    const oy = cam.height / 2 - mercY(cam.lat) * ws;
+    const projected = merc.map((line) => {
+      const points = new Array<number>(line.length);
+      for (let i = 0; i < line.length; i += 2) {
+        points[i] = (line[i] ?? 0) * ws + ox;
+        points[i + 1] = (line[i + 1] ?? 0) * ws + oy;
+      }
+      return points;
+    });
+    return visibleLineRange(projected, cam.width, cam.height);
+  });
+
+  useAnimatedReaction(
+    () => ({ ready: entranceEnabled, animate: animateEntrance, preview, range: visibleRange.value }),
+    ({ ready, animate, preview: scrubbing, range }) => {
+      if (!ready) {
+        entered.value = false;
+        reveal.value = 1;
+      } else if (scrubbing || !animate) {
+        // Direct manipulation cancels a pending or running entrance immediately.
+        reveal.value = 1;
+        if (scrubbing) entered.value = true;
+      } else if (!entered.value && range) {
+        entryStart.value = range.start;
+        entryEnd.value = range.end;
+        entered.value = true;
         reveal.value = 0;
         reveal.value = withTiming(1, {
           duration: REVEAL_MS,
           easing: Easing.inOut(Easing.cubic),
         });
       }
+    },
+  );
+  const trimStart = useDerivedValue(() =>
+    animateEntrance && reveal.value < 1 ? entryStart.value : 0,
+  );
+  const trimEnd = useDerivedValue(() => {
+    if (!animateEntrance) return 1;
+    if (!entered.value) return 0;
+    if (reveal.value >= 1) return 1;
+    return entryStart.value + (entryEnd.value - entryStart.value) * reveal.value;
+  });
+
+  // A live contour may dissolve when it disappears. Preview never retains old lines.
+  const wasRendered = useRef(rendered);
+  useEffect(() => {
+    if (preview) {
+      fade.value = active ? 1 : 0;
+    } else if (active) {
+      fade.value = 1;
     } else if (wasRendered.current) {
       fade.value = withTiming(0, { duration: 300 }, (finished) => {
         'worklet';
@@ -520,7 +576,7 @@ function PrayerLine({
       });
     }
     wasRendered.current = active || rendered;
-  }, [active, rendered, fade, reveal]);
+  }, [active, rendered, preview, fade]);
 
   // "Prayer is about to begin": while this line is the imminent next prayer, its halo
   // breathes — a slow sine inhale/exhale layered onto the steady glow. Calm by design
@@ -546,18 +602,20 @@ function PrayerLine({
   // The comet tip leading the sweep-in: a short, bright trim window riding just behind
   // the reveal's leading edge, melting into the line as the reveal completes. Pure path
   // trim — no per-frame contour measuring.
-  const tipStart = useDerivedValue(() => Math.max(0, reveal.value - TIP_SPAN));
+  const tipStart = useDerivedValue(() =>
+    Math.max(trimStart.value, trimEnd.value - (entryEnd.value - entryStart.value) * TIP_SPAN),
+  );
   const tipOpacity = useDerivedValue(() => {
     const r = reveal.value;
-    return r >= 1 ? 0 : 0.9 * (1 - r * r);
+    return !animateEntrance || !entered.value || r >= 1 ? 0 : 0.9 * (1 - r * r);
   });
 
-  if (!rendered) return null;
+  if (!visible) return null;
 
   return (
     // The group fade multiplies the per-path opacities below, so the halo/core balance
     // is preserved all the way through a dissolve.
-    <Group opacity={fade}>
+    <Group opacity={preview ? 1 : fade}>
       {/* Soft Gaussian halo — a truer glow than MapLibre's line-blur. */}
       <Path
         path={path}
@@ -567,8 +625,8 @@ function PrayerLine({
         color={color}
         strokeWidth={isNext ? 17 : 11}
         opacity={haloOpacity}
-        start={0}
-        end={reveal}
+        start={preview ? 0 : trimStart}
+        end={preview ? 1 : trimEnd}
       >
         <BlurMask blur={9} style="normal" />
       </Path>
@@ -581,23 +639,25 @@ function PrayerLine({
         color={color}
         strokeWidth={isNext ? 3.4 : 2}
         opacity={isNext ? 1 : 0.95}
-        start={0}
-        end={reveal}
+        start={preview ? 0 : trimStart}
+        end={preview ? 1 : trimEnd}
       />
       {/* Comet tip — only luminous while the reveal is running (opacity hits 0 at 1). */}
-      <Path
-        path={path}
-        style="stroke"
-        strokeCap="round"
-        strokeJoin="round"
-        color={color}
-        strokeWidth={isNext ? 6 : 4.5}
-        opacity={tipOpacity}
-        start={tipStart}
-        end={reveal}
-      >
-        <BlurMask blur={5} style="normal" />
-      </Path>
+      {animateEntrance && (
+        <Path
+          path={path}
+          style="stroke"
+          strokeCap="round"
+          strokeJoin="round"
+          color={color}
+          strokeWidth={isNext ? 6 : 4.5}
+          opacity={tipOpacity}
+          start={tipStart}
+          end={trimEnd}
+        >
+          <BlurMask blur={5} style="normal" />
+        </Path>
+      )}
     </Group>
   );
 }

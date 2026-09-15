@@ -127,6 +127,16 @@ describe('addZoneDays', () => {
 // that must move with the zone (the day boundary and the wall-clock parts) and the two that
 // must not (an unusable zone name, and the default itself).
 describe('display zone', () => {
+  it('does not reuse a day length from another zone for the same epoch', () => {
+    setDisplayZone(DEFAULT_ZONE);
+    expect(zoneDayLength(SPRING_FORWARD)).toBe(23 * HOUR);
+    setDisplayZone('UTC');
+    expect(zoneDayLength(SPRING_FORWARD)).toBe(
+      startOfZoneDay(SPRING_FORWARD + 26 * HOUR) - SPRING_FORWARD,
+    );
+    setDisplayZone(DEFAULT_ZONE);
+    expect(zoneDayLength(SPRING_FORWARD)).toBe(23 * HOUR);
+  });
   afterEach(() => setDisplayZone(DEFAULT_ZONE));
 
   it('defaults to Sweden', () => {

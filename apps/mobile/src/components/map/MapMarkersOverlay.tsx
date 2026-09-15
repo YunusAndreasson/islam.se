@@ -1,32 +1,10 @@
-// The point/label layer that rides ABOVE the Skia field canvas: the brass "you are
-// here" dot, and the prayer pills that name each active prayer line.
-//
-// History: this layer USED to also draw a curated set of Swedish city dots + labels
-// (Stockholm, Göteborg, Malmö, …). That curated overlay was retired 2026-05-29 —
-// the MapTiler basemap now ships rich place labels straight from the OpenMapTiles
-// `place` source-layer (see label_town in nordicStyle.ts), and a parallel overlay
-// just duplicated those names against the basemap labels. Now this layer carries
-// only what the basemap *can't* know: where the user is, and where the prayer
-// lines are sweeping right now.
-//
-// The user marker is a DOT, not a named label (Apple/Google Maps convention): when the
-// chosen location is a town the basemap already labels (e.g. Stockholm), a text label
-// here would print the name a second time right on top of the basemap's own — so the
-// place name lives in the dock hero + Settings instead, and the map just marks the spot.
-//
-// Positions come from project() (src/lib/map/projection.ts), the same projection the
-// Skia canvas and MapLibre basemap use, so the dot/pills land exactly on the map.
-// `pointerEvents="none"` so gestures fall straight through to the basemap.
-//
-// Theming: OS-themed (useColors). Apple Maps-style — the basemap and chrome share an
-// OS axis; the prayer-line hues are still sun-driven (the live sky), but the user
-// marker / pills follow the OS palette so the layer reads coherently against both
-// basemaps.
+// Prayer labels above the Skia field. The geographic user dot and qibla ray
+// live in LocationLayer so MapLibre moves them with its own camera.
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 import { type Camera, project } from '@/lib/map/projection';
-import { type LatLng, PRAYER_LABELS, type PrayerKey } from '@/lib/prayer-times';
+import { PRAYER_LABELS, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerLineLabel } from '@/lib/solar/field';
 import { prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
 import type { PolarBoundary } from '@/lib/solar/sun';
@@ -35,11 +13,10 @@ import { useActiveScheme, useColors } from '@/theme/useColors';
 
 interface Props {
   /** The LIVE camera shared value (same one the Skia canvas reads). Projecting against
-   *  it on the UI thread keeps the dot/pills glued to the basemap as it pans/zooms
+   *  it on the UI thread keeps the pills glued to the basemap as it pans/zooms
    *  WITHOUT a per-frame React render — the screen only re-renders when the prayer
    *  labels or theme change, not on every camera tick. */
   camera: SharedValue<Camera>;
-  userCoords: LatLng;
   /** Pill anchors from buildLines: where each active prayer line wants its label. */
   labels: PrayerLineLabel[];
   nextKey: PrayerKey | null;
@@ -50,38 +27,14 @@ interface Props {
 
 export function MapMarkersOverlay({
   camera,
-  userCoords,
   labels,
   nextKey,
   polarBoundary,
 }: Props) {
   const c = useColors();
   const scheme = useActiveScheme();
-  // Marker rim flips warm/dark by basemap so the dot always reads against the ground.
-  const rim = scheme === 'dark' ? 'rgba(225,232,255,0.9)' : '#ffffff';
-
-  // "You are here" — projected on the UI thread so it tracks the map live. Two layers
-  // (glow + dot) share one projection; each centres itself with its own offset.
-  const glowStyle = useAnimatedStyle(() => {
-    const p = project(userCoords.longitude, userCoords.latitude, camera.value);
-    return { left: p.x - 13, top: p.y - 13 };
-  }, [userCoords.longitude, userCoords.latitude]);
-  const dotStyle = useAnimatedStyle(() => {
-    const p = project(userCoords.longitude, userCoords.latitude, camera.value);
-    return { left: p.x - 6, top: p.y - 6 };
-  }, [userCoords.longitude, userCoords.latitude]);
-
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
-      {/* "You are here" — brass glow + dot, sized a touch larger than any basemap
-          place marker so it stays the unmistakable hero of the layer. No text label:
-          the place name lives in the dock + Settings, so the marker never duplicates
-          the basemap's own town label (see the file header). */}
-      <Animated.View style={[styles.userGlow, { backgroundColor: c.highlight }, glowStyle]} />
-      <Animated.View
-        style={[styles.userDot, { backgroundColor: c.highlight, borderColor: rim }, dotStyle]}
-      />
-
       {/* Prayer pills — each sits ON its line (centred on the line's anchor point), so the
           line reads straight through it: no leader to trace, and each prayer's pill rides
           its own distinct line, so Maghrib and Isha separate instead of stacking where the
@@ -192,10 +145,6 @@ function PrayerPill({
 }
 
 const styles = StyleSheet.create({
-  // "You are here" glow + dot. Static geometry lives here; the animated style supplies
-  // only the live-projected left/top, so these objects stay referentially stable.
-  userGlow: { position: 'absolute', width: 26, height: 26, borderRadius: 13, opacity: 0.16 },
-  userDot: { position: 'absolute', width: 12, height: 12, borderRadius: 6, borderWidth: 2 },
   // A quiet map annotation, not a floating UI chip: compact, medium-weight, with only
   // a whisper of shadow. The prayer field is the hero — the pill just names a line.
   pill: {

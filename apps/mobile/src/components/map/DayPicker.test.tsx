@@ -1,4 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
+import { Modal } from 'react-native';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import { addZoneDays, startOfZoneDay, zoneParts } from '@/lib/zone-time';
@@ -206,6 +207,14 @@ describe('DayPicker', () => {
       screen.getByRole('button', { name: new RegExp(`^${beyond} `) }).props.accessibilityState
         .disabled,
     ).toBe(true);
+  });
+
+  it('dismisses through Android Back and the backdrop without changing the selected day', () => {
+    const { onPick, onClose } = renderPicker(day(2026, 9, 14));
+    fireEvent(screen.UNSAFE_getByType(Modal), 'requestClose');
+    fireEvent.press(screen.getByTestId('calendar-backdrop', { includeHiddenElements: true }));
+    expect(onClose).toHaveBeenCalledTimes(2);
+    expect(onPick).not.toHaveBeenCalled();
   });
 
   it('closes without picking anything', () => {
