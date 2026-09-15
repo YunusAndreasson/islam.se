@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useReducedMotion,
@@ -34,6 +34,7 @@ export function DisclosureGroup({
   defaultExpanded?: boolean;
   children: ReactNode;
 }) {
+  const { width, fontScale } = useWindowDimensions();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const reduceMotion = useReducedMotion();
@@ -97,7 +98,7 @@ export function DisclosureGroup({
             <Animated.View style={[styles.summaryWrap, summaryStyle]}>
               <Text
                 style={styles.summary}
-                numberOfLines={2}
+                numberOfLines={width < 360 || fontScale > 1.3 ? undefined : 2}
                 onLayout={(e) => setSummaryHeight(e.nativeEvent.layout.height)}
               >
                 {summary}

@@ -36,6 +36,7 @@ import {
   AccessibilityInfo,
   type LayoutChangeEvent,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -251,6 +252,7 @@ export default function Qibla() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       {/* This screen is a sheet over the map — a persistent ✕ dismisses back to it. */}
       <ModalBar variant="close" fallback="/bonetider" />
+      <ScrollView contentContainerStyle={styles.content}>
       <PlaceHeader title="Qibla" what="riktningen" />
 
       {/* The dial is a purely visual instrument — its rotating letters (N/O/S/V) and ticks
@@ -347,6 +349,7 @@ export default function Qibla() {
           ) : null}
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -494,7 +497,8 @@ function makeStyles(c: Palette) {
     ...makeDialStyles(c),
     safe: { flex: 1, backgroundColor: c.paper },
 
-    compassArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    content: { flexGrow: 1 },
+    compassArea: { flex: 1, minHeight: 280, alignItems: 'center', justifyContent: 'center' },
     dialWrap: { alignItems: 'center', justifyContent: 'center' },
 
     // ── Dial instrument geometry below is deliberately bespoke (it's an instrument
@@ -588,7 +592,7 @@ function makeStyles(c: Palette) {
     // states where it owes the reader a way forward. Both borrow the dock's and the hint
     // cards' existing shapes rather than inventing a third.
     link: { flexDirection: 'row', alignItems: 'center', gap: space.xs, minHeight: 44, paddingHorizontal: space.sm },
-    linkText: { ...type.bodyStrong, color: c.accent },
+    linkText: { ...type.bodyStrong, color: c.accent, flexShrink: 1 },
     pressed: { opacity: 0.6 },
   });
 }

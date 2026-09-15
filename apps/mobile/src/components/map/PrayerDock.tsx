@@ -312,7 +312,9 @@ export function PrayerDock({
   // canvas), but the dock stays anchored to one OS theme.
   const c = useColors();
   const scheme = useActiveScheme();
-  const { fontScale, height: screenHeight } = useWindowDimensions();
+  const { fontScale, width: screenWidth, height: screenHeight } = useWindowDimensions();
+  const roomyDate = screenWidth < 360 || fontScale > 1.3;
+  const stackedSummary = fontScale > 1.3;
   const metrics = dockMetrics(fontScale);
   const { laneTop } = useNavMetrics();
   const styles = useMemo(() => makeStyles(c, fontScale), [c, fontScale]);
@@ -874,13 +876,13 @@ export function PrayerDock({
               accessibilityElementsHidden={!expanded}
               importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
             >
-              <View style={styles.dateHeader} testID="dock-calendar-header" onLayout={onHeaderLayout}>
-                <DayChevron
+              <View style={[styles.dateHeader, roomyDate && styles.dateHeaderRoomy]} testID="dock-calendar-header" onLayout={onHeaderLayout}>
+                {!roomyDate && <DayChevron
                   styles={styles}
                   direction={-1}
                   disabled={clock.dayOffset <= -MAX_DAY_OFFSET}
                   onPress={clock.stepDay}
-                />
+                />}
                 <Pressable
                   onPress={() => {
                     hapticLight();
@@ -896,18 +898,24 @@ export function PrayerDock({
                   // first; so should everyone else.
                   accessibilityLabel={`${hijriLabel}, ${gregorianLabel}. Välj dag.`}
                   accessibilityHint="Öppnar en kalender – välj vilken dag du vill se."
-                  style={({ pressed }) => [styles.dateTap, pressed && styles.pressed]}
+                  style={({ pressed }) => [styles.dateTap, roomyDate && styles.dateTapRoomy, pressed && styles.pressed]}
                 >
                   <View style={styles.flex}>
-                    <Text style={styles.dateHijri} numberOfLines={2}>
+                    <Text style={styles.dateHijri} numberOfLines={roomyDate ? undefined : 2}>
                       {hijriLabel}
                     </Text>
-                    <Text style={styles.dateGreg} numberOfLines={2}>
+                    <Text style={styles.dateGreg} numberOfLines={roomyDate ? undefined : 2}>
                       {gregorianLabel}
                     </Text>
                   </View>
                   <Icon name="calendar" size={18} color={c.accent} />
                 </Pressable>
+                {roomyDate && <DayChevron
+                  styles={styles}
+                  direction={-1}
+                  disabled={clock.dayOffset <= -MAX_DAY_OFFSET}
+                  onPress={clock.stepDay}
+                />}
                 <DayChevron
                   styles={styles}
                   direction={1}
@@ -990,7 +998,7 @@ export function PrayerDock({
             <GestureDetector gesture={heroGesture}>
               <View style={styles.hero} testID="dock-summary">
                 <View style={styles.heroLayer} pointerEvents="auto">
-                  <View style={styles.heroTop}>
+                  <View style={[styles.heroTop, stackedSummary && styles.heroTopStacked]}>
                     {next ? (
                       <Text style={styles.heroPrayer} numberOfLines={1}>
                         {PRAYER_LABELS[next.key]}
@@ -1003,7 +1011,7 @@ export function PrayerDock({
                         {emptyDayLabel}
                       </Text>
                     )}
-                    <View style={styles.flex} />
+                    {!stackedSummary && <View style={styles.flex} />}
                     {/* Unconditional, NOT `next ? aside : null`. When there is no next
                         prayer the collapsed dock previously had NO way back to now — and
                         day navigation makes that routine rather than exotic: one step onto
@@ -1670,10 +1678,18 @@ function makeStyles(c: Palette, fontScale = 1) {
     },
     // Reserve the complete 48 dp handle target above the content.
     content: { flex: 1 },
-    scheduleViewport: { position: 'absolute', top: 48, left: space.lg, right: space.lg, overflow: 'hidden', justifyContent: 'flex-end' },
+    // Leave room for the rows' 8dp highlight padding inside the clipping boundary.
+    scheduleViewport: {
+      position: 'absolute', top: 48,
+      left: space.lg - space.sm, right: space.lg - space.sm,
+      paddingHorizontal: space.sm,
+      overflow: 'hidden', justifyContent: 'flex-end',
+    },
     footer: { position: 'absolute', bottom: space.sm, left: space.lg, right: space.lg },
 
     dateHeader: { flexDirection: 'row', alignItems: 'center', paddingBottom: space.md },
+    dateHeaderRoomy: { flexWrap: 'wrap', justifyContent: 'space-between' },
+    dateTapRoomy: { width: '100%', flex: 0 },
     scheduleDivider: { position: 'absolute', bottom: 0, left: 0, right: 0, height: StyleSheet.hairlineWidth, backgroundColor: c.hairline },
     // The whole crown is the target; the row keeps the two date lines left and the
     // calendar glyph right, so the header's typography is untouched by becoming tappable.
@@ -1733,6 +1749,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     hero: { height: metrics.hero, marginBottom: space.xs, justifyContent: 'center' },
     heroLayer: { position: 'absolute', left: 0, right: 0 },
     heroTop: { flexDirection: 'row', alignItems: 'center' },
+    heroTopStacked: { flexDirection: 'column', alignItems: 'flex-start' },
     heroPrayer: { ...type.headline, color: c.ink, flexShrink: 1 },
     // Expanded hero name: a touch smaller than collapsed (the date header crowns the
     heroNone: { ...type.body, color: c.inkMuted },
@@ -1741,7 +1758,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     //    plus the 14px relative-day sibling. These numeric-display sizes are used nowhere
     //    else; tokenizing them would pollute the global scale for one component. ──
     heroNextDay: { fontSize: 14, fontWeight: '400', color: c.inkMuted },
-    countdown: { marginLeft: space.sm, fontSize: 18, fontWeight: '700', color: c.highlightText, fontVariant: ['tabular-nums'] },
+    countdown: { marginLeft: fontScale > 1.3 ? 0 : space.sm, fontSize: 18, fontWeight: '700', color: c.highlightText, fontVariant: ['tabular-nums'] },
     countdownPrefix: { fontSize: 13, fontWeight: '400', color: c.inkMuted },
     // Unit ("t" / "min") at ~65% of the digit size, medium-weight, same brass.
     // Flush against the digit (no inter-character space) — the hierarchy +
@@ -1771,7 +1788,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     placePickText: { ...type.caption, color: c.accent, fontWeight: '600', flexShrink: 1 },
 
     flex: { flex: 1 },
-    previewControls: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, marginLeft: space.sm },
+    previewControls: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, marginLeft: fontScale > 1.3 ? 0 : space.sm },
     previewTime: { minWidth: 48, textAlign: 'right', fontSize: 16, fontWeight: '600', color: c.ink, fontVariant: ['tabular-nums'] },
     previewBadge: {
       marginLeft: space.sm,

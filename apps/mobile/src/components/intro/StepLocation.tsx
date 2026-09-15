@@ -10,7 +10,9 @@
 // also why this step never blocks: the user can walk past it and the app falls back to
 // Stockholm (see lib/location/resolve), which the dock is honest about.
 import { useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useReducedMotion } from 'react-native-reanimated';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { PlacePicker } from '@/components/settings/PlacePicker';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
@@ -32,6 +34,7 @@ type Phase = 'ask' | 'granted' | 'denied' | 'error' | 'picking';
 
 export function StepLocation() {
   const c = useColors();
+  const reduceMotion = useReducedMotion();
   const styles = useMemo(() => makeStyles(c), [c]);
   const { settings, update } = useSettings();
   const { refresh } = useLocationStatus();
@@ -86,7 +89,26 @@ export function StepLocation() {
   };
 
   if (phase === 'picking') {
-    return <PlacePicker selected={settings.manualLocation} onPick={onPickPlace} />;
+    // Search owns the available height, including when the keyboard opens. Keeping
+    // it beneath the introduction's lead can leave the virtualized list zero height.
+    return (
+      <Modal animationType={reduceMotion ? 'none' : 'slide'} onRequestClose={() => setPhase('ask')}>
+        <SafeAreaProvider>
+          <SafeAreaView style={styles.picker}>
+            <KeyboardAvoidingView style={styles.fill} behavior="padding">
+              <View style={styles.pickerHeader}>
+                <Text style={styles.pickerTitle} accessibilityRole="header">Välj stad</Text>
+                <Pressable accessibilityRole="button" accessibilityLabel="Stäng stadsökning"
+                  onPress={() => setPhase('ask')} style={styles.close}>
+                  <Icon name="close" size={24} color={c.ink} />
+                </Pressable>
+              </View>
+              <PlacePicker selected={settings.manualLocation} onPick={onPickPlace} />
+            </KeyboardAvoidingView>
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </Modal>
+    );
   }
 
   const chosen =
@@ -173,6 +195,11 @@ export function StepLocation() {
 
 function makeStyles(c: Palette) {
   return StyleSheet.create({
+    fill: { flex: 1 },
+    picker: { flex: 1, backgroundColor: c.paper, paddingHorizontal: space.lg },
+    pickerHeader: { flexDirection: 'row', alignItems: 'center', gap: space.sm, paddingVertical: space.md },
+    pickerTitle: { ...type.title, color: c.ink, flex: 1 },
+    close: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
     wrap: { gap: space.md },
     cta: {
       flexDirection: 'row',

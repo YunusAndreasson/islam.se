@@ -92,6 +92,14 @@ export function MapLessonCard({
           </GlassRoundButton>
         </View>
 
+        <Text
+          style={styles.fact}
+          accessibilityLiveRegion="polite"
+          accessibilityLabel={`Exempel ${index + 1} av ${total}: ${fact}`}
+        >
+          {fact}
+        </Text>
+
         <View style={styles.stepper}>
           <GlassRoundButton
             onPress={() => {
@@ -107,13 +115,16 @@ export function MapLessonCard({
             <Icon name="chevronLeft" size={20} color={c.accent} />
           </GlassRoundButton>
 
-          <Text
-            style={styles.fact}
-            accessibilityLiveRegion="polite"
-            accessibilityLabel={`Exempel ${index + 1} av ${total}: ${fact}`}
-          >
-            {fact}
-          </Text>
+          {/* Small step dots — decorative only: the fact text's own accessibilityLabel
+              above already carries "Exempel X av Y" for a screen reader, so this is hidden
+              from it rather than read out as "circle circle". (The wizard's own progress
+              indicator, IntroMarkProgress, moved to the app's mark split into wedges —
+              this card's own three-step sequence stays simple dots.) */}
+          <View style={styles.dots} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+            {Array.from({ length: total }, (_, i) => (
+              <View key={i} style={[styles.dot, i === index && styles.dotOn]} />
+            ))}
+          </View>
 
           <GlassRoundButton
             onPress={() => {
@@ -128,17 +139,6 @@ export function MapLessonCard({
           >
             <Icon name={atEnd ? 'check' : 'chevronRight'} size={20} color={c.accent} />
           </GlassRoundButton>
-        </View>
-
-        {/* Small step dots — decorative only: the fact text's own accessibilityLabel
-            above already carries "Exempel X av Y" for a screen reader, so this is hidden
-            from it rather than read out as "circle circle". (The wizard's own progress
-            indicator, IntroMarkProgress, moved to the app's mark split into wedges —
-            this card's own three-step sequence stays simple dots.) */}
-        <View style={styles.dots} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-          {Array.from({ length: total }, (_, i) => (
-            <View key={i} style={[styles.dot, i === index && styles.dotOn]} />
-          ))}
         </View>
 
         <PrayerLegend />
@@ -172,6 +172,7 @@ function makeStyles(c: Palette) {
     },
     caption: {
       ...type.caption,
+      flex: 1,
       color: c.inkMuted,
       // Tabular figures so the clock doesn't jitter the caption's width example to
       // example.
@@ -179,10 +180,11 @@ function makeStyles(c: Palette) {
     },
     stepper: {
       flexDirection: 'row',
+      justifyContent: 'space-between',
       alignItems: 'center',
       gap: space.sm,
     },
-    fact: { ...type.body, color: c.ink, flex: 1, textAlign: 'center' },
+    fact: { ...type.body, color: c.ink, textAlign: 'center' },
     dots: {
       flexDirection: 'row',
       justifyContent: 'center',

@@ -170,8 +170,6 @@ export default function Valkommen() {
             // two controls that ran the identical line of code.
             onNext={next}
             onBack={back}
-            // The city list is a FlatList and must never be wrapped in a ScrollView.
-            scroll={false}
           >
             <StepLocation />
           </IntroStep>

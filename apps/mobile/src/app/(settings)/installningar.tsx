@@ -30,7 +30,7 @@
 // in height to simply stay open, and Beräkning now pins its own copy.
 import { router, useIsFocused } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { OptionGroup } from '@/components/settings/OptionGroup';
@@ -70,6 +70,8 @@ import {
 import { radius, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
+  const { width, fontScale } = useWindowDimensions();
+  const stackDetails = width < 360 || fontScale > 1.3;
   const { settings, loaded, update, reset } = useSettings();
   const { coords, label, source, permissionStatus } = useLocation();
   const { locating, refresh } = useLocationStatus();
@@ -287,11 +289,11 @@ export default function Installningar() {
           onPress={() => router.push('/(settings)/berakning')}
           accessibilityRole="button"
           accessibilityLabel={`Beräkning: ${calcSummary}. Tryck för att ändra.`}
-          style={({ pressed }) => [styles.card, styles.cardRow, pressed && styles.rowPressed]}
+          style={({ pressed }) => [styles.card, styles.cardRow, stackDetails && styles.stackedRow, pressed && styles.rowPressed]}
         >
           <Text style={styles.rowLabel}>Beräkning</Text>
-          <View style={styles.rowTrailing}>
-            <Text style={styles.rowValue}>{calcSummary}</Text>
+          <View style={[styles.rowTrailing, stackDetails && styles.stackedTrailing]}>
+            <Text style={[styles.rowValue, stackDetails && styles.stackedValue]}>{calcSummary}</Text>
             <Icon name="chevronRight" size={22} color={colors.textMuted} />
           </View>
         </Pressable>
@@ -352,11 +354,11 @@ export default function Installningar() {
               onPress={() => router.push('/(settings)/notiser')}
               accessibilityRole="button"
               accessibilityLabel={`Påminnelser: ${notificationSummary(settings)}. Tryck för att ändra.`}
-              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+              style={({ pressed }) => [styles.row, stackDetails && styles.stackedRow, pressed && styles.rowPressed]}
             >
               <Text style={styles.rowLabel}>Påminnelser</Text>
-              <View style={styles.rowTrailing}>
-                <Text style={styles.rowValue}>{notificationSummary(settings)}</Text>
+              <View style={[styles.rowTrailing, stackDetails && styles.stackedTrailing]}>
+                <Text style={[styles.rowValue, stackDetails && styles.stackedValue]}>{notificationSummary(settings)}</Text>
                 <Icon name="chevronRight" size={22} color={colors.textMuted} />
               </View>
             </Pressable>
@@ -608,6 +610,9 @@ function makeStyles(colors: SettingsColors) {
     // this prevents joined text such as "Uppdatera platsDin plats" on compact screens.
     rowValue: { ...type.body, color: colors.textMuted, flexShrink: 1, textAlign: 'right' },
     rowTrailing: { flexDirection: 'row', alignItems: 'center', gap: 2, flexShrink: 1 },
+    stackedRow: { flexDirection: 'column', alignItems: 'stretch', gap: space.xs },
+    stackedTrailing: { justifyContent: 'space-between' },
+    stackedValue: { flex: 1, textAlign: 'left' },
 
     // Single-row card variant for the Beräkning push.
     card: {

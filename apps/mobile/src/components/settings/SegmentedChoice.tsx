@@ -1,15 +1,6 @@
-// A native segmented control for the short, mutually-exclusive choices.
-//
-// The app's own OptionGroup — a vertical list with a check on the chosen row — is the right
-// shape for the long ones: Beräkningsmetod has twelve entries whose per-row descriptions ARE
-// the feature, and a segmented control could show none of them. It is the wrong shape for a
-// three-way switch like Utseende, which every reader has already used a hundred times as a
-// segmented control, in Inställningar, in Safari, in Photos. Rendering our own approximation
-// of it costs the platform's touch behaviour, its selection animation, its Dynamic Type
-// handling and its VoiceOver semantics, in exchange for a look we did not need to control.
-//
-// So this is the platform's real control on both: SwiftUI's `Picker` with `.segmented` on
-// iOS, Material 3's `SingleChoiceSegmentedButtonRow` on Android.
+// Native segmented choices when the available width and text size fit their labels.
+// Compact screens and large text use full-width radio rows with wrapping labels.
+// iOS uses SwiftUI Picker; Android uses Material 3 SingleChoiceSegmentedButtonRow.
 //
 // ⚠️ THE HOST MUST BE TOLD WHICH SCHEME TO PAINT IN. A Host renders real SwiftUI / Compose,
 // and left to itself that content reads the PHONE's appearance — not the app's Utseende
@@ -38,16 +29,14 @@ import {
 import { Host as SwiftHost, Picker, Text as SwiftText } from '@expo/ui/swift-ui';
 import { pickerStyle, tag } from '@expo/ui/swift-ui/modifiers';
 import { useMemo } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { space, type } from '@/theme/tokens';
 import { useActiveScheme } from '@/theme/useColors';
-import type { Option } from './OptionGroup';
+import { OptionGroup, type Option } from './OptionGroup';
 import { type SettingsColors, useSettingsColors } from './theme';
 
-/** Tall enough for the control at the largest text size the settings sheet allows without
- *  clipping, and the same on both platforms so the section's rhythm does not shift. Host
- *  needs a real height — SwiftUI is handed a proposed size, not measured from its content. */
+/** Native Host needs an explicit height. Large-text layouts use OptionGroup instead. */
 const CONTROL_HEIGHT = 44;
 
 export function SegmentedChoice<T extends string>({
@@ -59,6 +48,7 @@ export function SegmentedChoice<T extends string>({
   value: T;
   onChange: (value: T) => void;
 }) {
+  const { width, fontScale } = useWindowDimensions();
   const colors = useSettingsColors();
   const scheme = useActiveScheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
@@ -73,6 +63,12 @@ export function SegmentedChoice<T extends string>({
     if (next === value) return;
     onChange(next);
   };
+
+  // Native segments cannot grow vertically or wrap their labels reliably. Use
+  // the same choice rows as other settings when text needs more room.
+  if (width < 360 || fontScale > 1.3) {
+    return <OptionGroup options={options} value={value} onChange={select} />;
+  }
 
   return (
     <View style={styles.wrap}>

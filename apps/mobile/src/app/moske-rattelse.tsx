@@ -29,7 +29,6 @@ import { useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -166,9 +165,9 @@ export default function MoskeRattelse() {
       <ModalBar variant="close" fallback="/bonetider" />
       <KeyboardAvoidingView
         style={styles.flex}
-        // iOS lifts the whole view; on Android the OS already resizes the window, and
-        // adding padding on top of that double-counts and leaves a gap above the keyboard.
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        // Edge-to-edge Android does not resize this sheet above the IME. Reserve
+        // keyboard space on both platforms so multiline edits remain visible.
+        behavior="padding"
       >
         <ScrollView
           contentContainerStyle={styles.content}
@@ -214,6 +213,7 @@ export default function MoskeRattelse() {
               }
             >
               <TextInput
+                testID="mosque-report-description"
                 style={styles.textArea}
                 value={description}
                 onChangeText={setDescription}
@@ -246,6 +246,7 @@ export default function MoskeRattelse() {
             }
           >
             <TextInput
+              testID="mosque-report-email"
               style={styles.input}
               value={email}
               onChangeText={setEmail}

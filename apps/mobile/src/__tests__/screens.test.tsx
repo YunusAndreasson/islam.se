@@ -261,8 +261,34 @@ describe('tab screens', () => {
     expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
     const locate = screen.getByLabelText('Visa min position');
     fireEvent.press(locate);
-    expect(screen.getByLabelText('Zooma ut till Sverige')).toBeTruthy();
-    fireEvent.press(screen.getByLabelText('Zooma ut till Sverige'));
+    expect(screen.getByLabelText('Återställ kartan – visa hela Sverige')).toBeTruthy();
+    fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
+    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
+      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+    } });
+    // The initial event establishes the map anchor; the reset settle completes the return.
+    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
+      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+    } });
+    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+  }, MAP_RENDER_TIMEOUT);
+
+  it.each([
+    { zoom: 5, bounds: [11.15, 55.35, 23.7, 69.0] },
+    { zoom: 4.5, bounds: [13.15, 55.35, 25.7, 69.0] },
+  ])('offers reset after a manual camera change: %j', async (view) => {
+    await renderSettled(withProviders(<Bonetider />));
+    const settle = (zoom: number, bounds: number[], userInteraction: boolean) => {
+      fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+        nativeEvent: { zoom, bounds, userInteraction },
+      });
+    };
+    settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
+    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+    settle(view.zoom, view.bounds, true);
+    expect(screen.getByLabelText('Återställ kartan – visa hela Sverige')).toBeTruthy();
+    fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
+    settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
     expect(screen.getByLabelText('Visa min position')).toBeTruthy();
   }, MAP_RENDER_TIMEOUT);
 

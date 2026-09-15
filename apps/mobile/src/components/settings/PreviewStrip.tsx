@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { PRAYER_ORDER } from '@/lib/prayer-times';
 import type { PrayerPreview, PrayerPreviewRow } from '@/lib/settings/usePrayerPreview';
@@ -19,13 +19,15 @@ import { type SettingsColors, useSettingsColors } from './theme';
 // once a minute while focused, Beräkning captures one timestamp on mount. See
 // lib/settings/usePrayerPreview for why that ownership belongs to the caller.
 //
-// Layout: the six obligatory slots in a 3×2 grid (a third of the width each, so the
-// longest name — "Maghrib" — never truncates on a 320 pt screen), then the night's
+// Layout: six obligatory slots in a 3×2 grid, or two columns for compact/large
+// text layouts so prayer names remain readable, then the night's
 // voluntary landmarks as full-width rows underneath. They are NOT mixed into the grid:
 // their names run several times longer than any prayer's, and more importantly the
 // reader must be able to see where the obligations stop (the same rule
 // usePrayerPreview follows when it appends rather than merges them).
 export function PreviewStrip({ preview }: { preview: PrayerPreview }) {
+  const { width, fontScale } = useWindowDimensions();
+  const roomy = width < 360 || fontScale > 1.3;
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
@@ -43,13 +45,13 @@ export function PreviewStrip({ preview }: { preview: PrayerPreview }) {
 
   return (
     <View style={styles.wrap} accessible accessibilityLabel={spoken}>
-      <Text style={styles.caption} numberOfLines={1}>
+      <Text style={styles.caption} numberOfLines={roomy ? undefined : 1}>
         {preview.gregorian}
       </Text>
       <View style={styles.grid}>
         {prayers.map((p) => (
-          <View key={p.key} style={styles.cell}>
-            <Text style={[styles.label, p.muted && styles.mutedText]} numberOfLines={1}>
+          <View key={p.key} style={[styles.cell, roomy && styles.wideCell]}>
+            <Text style={[styles.label, p.muted && styles.mutedText]} numberOfLines={roomy ? undefined : 1}>
               {p.label}
             </Text>
             <Text
@@ -62,8 +64,8 @@ export function PreviewStrip({ preview }: { preview: PrayerPreview }) {
         ))}
       </View>
       {nights.map((p) => (
-        <View key={p.key} style={styles.nightRow}>
-          <Text style={[styles.nightLabel, styles.mutedText]} numberOfLines={1}>
+        <View key={p.key} style={[styles.nightRow, roomy && styles.stackedNight]}>
+          <Text style={[styles.nightLabel, styles.mutedText]} numberOfLines={roomy ? undefined : 1}>
             {p.label}
           </Text>
           <Text testID={`preview-time-${p.key}`} style={[styles.nightTime, styles.mutedText]}>
@@ -83,6 +85,8 @@ function makeStyles(colors: SettingsColors) {
     // A third of the width, so six slots read as two chronological rows of three
     // (left-to-right, top-to-bottom is already the order of the day).
     cell: { width: '33.333%', paddingBottom: space.sm },
+    wideCell: { width: '50%', paddingRight: space.sm },
+    stackedNight: { flexDirection: 'column', alignItems: 'flex-start', gap: space.xs },
     label: { ...type.micro, color: colors.textMuted },
     // Tabular figures: the whole point of the strip is that a time MOVES when an option
     // is tapped, and proportional digits would slide the neighbouring columns with it.

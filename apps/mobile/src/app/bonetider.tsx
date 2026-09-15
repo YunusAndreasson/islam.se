@@ -518,9 +518,8 @@ export default function Bonetider() {
   const [noticeHeight, setNoticeHeight] = useState(0);
 
   // Flips true as soon as the user has noticeably panned or zoomed away from the
-  // initial framing. Drives the floating "Visa hela Sverige" reset chip.
+  // initial framing. Switches the position button to a reset action.
   const [moved, setMoved] = useState(false);
-  const [positionZoom, setPositionZoom] = useState(false);
   const [lineMessage, setLineMessage] = useState<{ text: string; id: number } | null>(null);
   const dismissLineMessage = useCallback(() => setLineMessage(null), []);
   const [introduceDock, setIntroduceDock] = useState(false);
@@ -1339,21 +1338,22 @@ export default function Bonetider() {
           each opening its screen as a sheet over the map. `active` (the screen's focus)
           gates the compass's heading subscription so the magnetometer pauses when a
           sheet is up or the app is backgrounded. */}
-      <MapNav active={mapActive} zoomed={positionZoom} locationIsFallback={locationIsFallback} onLocate={() => {
-        if (locationIsFallback) { router.navigate('/byt-plats'); return; }
+      <MapNav active={mapActive} resetAvailable={moved} locationIsFallback={locationIsFallback} onLocate={() => {
+        if (!moved && locationIsFallback) { router.navigate('/byt-plats'); return; }
         hapticLight();
         setLineMessage(null);
-        if (positionZoom) {
+        if (moved) {
           resetPending.current = true;
           cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
             padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
             duration: reduceMotion ? 0 : motion.slow,
           });
         } else {
+          // Mark this before flying so the settled event cannot adopt the close-up as home.
+          setMoved(true);
           cameraRef.current?.flyTo({ center: userPoint, zoom: 11,
             duration: reduceMotion ? 0 : 900 });
         }
-        setPositionZoom(!positionZoom);
       }} />
       {lineMessage && <MapLineToast key={lineMessage.id} message={lineMessage.text}
         top={hintTop} onDismiss={dismissLineMessage} />}

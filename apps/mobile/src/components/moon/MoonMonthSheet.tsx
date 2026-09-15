@@ -165,7 +165,7 @@ export function MoonMonthSheet({
           >
             <Icon name="chevronLeft" size={22} color={c.accent} />
           </Pressable>
-          <Text style={styles.title} numberOfLines={1}>
+          <Text style={styles.title}>
             {HIJRI_MONTHS[month - 1]} {year}
           </Text>
           <Pressable
@@ -184,6 +184,7 @@ export function MoonMonthSheet({
           </Pressable>
         </View>
 
+        <ScrollView style={styles.body}>
         <View style={styles.weekRow}>
           {WEEKDAYS.map((d) => (
             <Text key={d} style={styles.weekday}>
@@ -224,7 +225,7 @@ export function MoonMonthSheet({
           )}
         </View>
 
-        <ScrollView style={styles.notes} contentContainerStyle={styles.notesContent}>
+        <View style={[styles.notes, styles.notesContent]}>
           {notes.map((run) => (
             <View key={`${run.mark.kind}${run.from}`} style={styles.noteRow}>
               <Text style={styles.noteDays}>{run.from === run.to ? run.from : `${run.from}–${run.to}`}</Text>
@@ -243,6 +244,7 @@ export function MoonMonthSheet({
             Månaden börjar när nymånen ses, eller när föregående månad fyllt trettio dagar. Datumen
             här är räknade – följ din moské, och justera vid behov Hijri-datum i Inställningar.
           </Text>
+        </View>
         </ScrollView>
 
         <Pressable
@@ -293,7 +295,8 @@ function makeStyles(c: Palette) {
     markDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: c.highlight, marginTop: 1 },
     markDotForbidden: { backgroundColor: c.accent },
     markDotSpacer: { width: 4, height: 4, marginTop: 1 },
-    notes: { flex: 1, marginTop: space.sm },
+    body: { flex: 1 },
+    notes: { marginTop: space.sm },
     notesContent: { paddingBottom: space.sm, gap: space.xs },
     noteRow: { flexDirection: 'row', gap: space.sm, alignItems: 'baseline' },
     noteDays: { ...type.caption, color: c.highlightText, fontWeight: '700', minWidth: 40 },

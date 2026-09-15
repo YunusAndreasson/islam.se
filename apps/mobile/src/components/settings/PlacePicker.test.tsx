@@ -6,9 +6,9 @@
 // screen said where it was, and the list always opened on Stockholm. `initialScrollIndex`
 // is what closes that, and it is only exact because getItemLayout gives the list a real
 // row pitch to count in, so both belong to this one behaviour.
-import { describe, expect, it, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { FlatList } from 'react-native';
+import { FlatList, useWindowDimensions } from 'react-native';
 
 import { PlacePicker } from './PlacePicker';
 import { PLACES } from '@/lib/places/data';
@@ -18,7 +18,46 @@ import { at } from '@/test-utils/at';
 // list opened there — not because it happened to fall in the first window.
 const DEEP = at(PLACES, 300, 'PLACES');
 
+jest.mock('react-native/Libraries/Utilities/useWindowDimensions', () => ({
+  __esModule: true, default: jest.fn(),
+}));
+
 describe('PlacePicker', () => {
+  beforeEach(() => {
+    jest.mocked(useWindowDimensions).mockReturnValue({
+      width: 411, height: 914, scale: 2.625, fontScale: 1,
+    });
+  });
+
+  it.each([{ width: 320, fontScale: 1 }, { width: 411, fontScale: 2 }])(
+    'keeps a deep selection reachable with measured rows at %j',
+    ({ width, fontScale }) => {
+      jest.mocked(useWindowDimensions).mockReturnValue({
+        width, height: 711, scale: 2.625, fontScale,
+      });
+      const onPick = jest.fn();
+      render(
+        <PlacePicker
+          selected={{ name: DEEP.name, latitude: DEEP.lat, longitude: DEEP.lon }}
+          onPick={onPick}
+        />,
+      );
+
+      const list = screen.UNSAFE_getByType(FlatList);
+      expect(list.props.data[0]).toBe(DEEP);
+      expect(list.props.getItemLayout).toBeUndefined();
+      expect(list.props.initialScrollIndex).toBeUndefined();
+
+      fireEvent.changeText(screen.getByLabelText('Sök stad'), 'Skanor');
+      expect(screen.queryByText(DEEP.name)).toBeNull();
+      fireEvent.press(screen.getByLabelText('Skanör med Falsterbo, Skåne'));
+      expect(onPick).toHaveBeenCalledWith(expect.objectContaining({ name: 'Skanör med Falsterbo' }));
+
+      fireEvent.press(screen.getByLabelText('Rensa sökning'));
+      expect(screen.getByText(DEEP.name)).toBeTruthy();
+    },
+  );
+
   it('opens on the already-chosen city instead of the top of the list', () => {
     render(
       <PlacePicker

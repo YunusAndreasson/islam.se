@@ -8,7 +8,7 @@
 // look like simplification and would be a straight information loss.
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 
 import { SETTINGS_STORAGE_KEY } from '@/lib/settings/store';
 import { SettingsProvider } from '@/lib/settings/context';
@@ -20,6 +20,13 @@ import type { Option } from './OptionGroup';
 
 type Theme = 'system' | 'light' | 'dark';
 
+jest.mock('react-native/Libraries/Utilities/useWindowDimensions', () => ({
+  __esModule: true, default: jest.fn(),
+}));
+beforeEach(() => {
+  jest.mocked(useWindowDimensions).mockReturnValue({ width: 411, height: 914, scale: 2.625, fontScale: 1 });
+});
+
 const OPTIONS: readonly Option<Theme>[] = [
   { value: 'system', label: 'Följ system', description: 'Rekommenderad' },
   { value: 'light', label: 'Ljust' },
@@ -27,6 +34,14 @@ const OPTIONS: readonly Option<Theme>[] = [
 ];
 
 describe('SegmentedChoice', () => {
+  it('offers readable radio choices at large text sizes', () => {
+    jest.mocked(useWindowDimensions).mockReturnValue({ width: 320, height: 711, scale: 2.625, fontScale: 2 });
+    const onChange = jest.fn();
+    render(<SegmentedChoice options={OPTIONS} value="system" onChange={onChange} />);
+    expect(screen.getByRole('radio', { name: 'Följ system, Rekommenderad', checked: true })).toBeTruthy();
+    fireEvent.press(screen.getByRole('radio', { name: 'Ljust' }));
+    expect(onChange).toHaveBeenCalledWith('light');
+  });
   it('shows every option', () => {
     render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
 

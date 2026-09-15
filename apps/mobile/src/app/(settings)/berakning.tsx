@@ -25,7 +25,7 @@
 // changing the method here recomputes everything that depends on it (the dock
 // countdown, the wash, the notifications schedule) without leaving the screen.
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { OptionGroup } from '@/components/settings/OptionGroup';
@@ -54,6 +54,8 @@ import { space, type } from '@/theme/tokens';
 const ZERO_ADJUSTMENTS = { fajr: 0, sunrise: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 } as const;
 
 export default function Berakning() {
+  const { width, fontScale } = useWindowDimensions();
+  const scrollPreview = width < 360 || fontScale > 1.3;
   const { settings, update } = useSettings();
   const { coords, label } = useLocation();
   const colors = useSettingsColors();
@@ -70,10 +72,11 @@ export default function Berakning() {
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="back" fallback="/installningar" />
-      <View style={styles.pinned}>
+      {!scrollPreview && <View style={styles.pinned}>
         <PreviewStrip preview={preview} />
-      </View>
+      </View>}
       <ScrollView contentContainerStyle={styles.content}>
+        {scrollPreview && <PreviewStrip preview={preview} />}
         <Text style={styles.header}>Beräkning</Text>
 
         <SettingSection

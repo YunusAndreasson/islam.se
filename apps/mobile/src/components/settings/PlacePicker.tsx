@@ -18,6 +18,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native';
 
@@ -59,6 +60,8 @@ interface Props {
 }
 
 export function PlacePicker({ selected, onPick }: Props) {
+  const { width, fontScale } = useWindowDimensions();
+  const flexibleRows = fontScale > 1 || width < 360;
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const [query, setQuery] = useState('');
@@ -92,6 +95,16 @@ export function PlacePicker({ selected, onPick }: Props) {
     return i >= 0 ? i : undefined;
   }, [selectedKey]);
 
+  // Wrapped text needs measured rows. Put the selected city first in this mode so
+  // opening a deep selection does not require guessing hundreds of row heights.
+  const data = useMemo(() => {
+    if (!flexibleRows || query.trim() || initialIndex === undefined || initialIndex === 0) {
+      return results;
+    }
+    const chosen = PLACES[initialIndex]!;
+    return [chosen, ...PLACES.slice(0, initialIndex), ...PLACES.slice(initialIndex + 1)];
+  }, [flexibleRows, query, initialIndex, results]);
+
   const renderItem = ({ item }: ListRenderItemInfo<SwedishPlace>): React.ReactElement => {
     const isSelected =
       keyFor({ name: item.name, latitude: item.lat, longitude: item.lon }) === selectedKey;
@@ -108,6 +121,7 @@ export function PlacePicker({ selected, onPick }: Props) {
         accessibilityState={{ selected: isSelected }}
         style={({ pressed }) => [
           styles.row,
+          flexibleRows && styles.flexibleRow,
           isSelected && styles.rowSelected,
           pressed && styles.rowPressed,
         ]}
@@ -159,11 +173,11 @@ export function PlacePicker({ selected, onPick }: Props) {
           : `${NUMBER_FMT.format(results.length)} ${results.length === 1 ? 'träff' : 'träffar'}`}
       </Text>
       <FlatList
-        data={results}
+        data={data}
         keyExtractor={(p) => `${p.name}|${p.lat}|${p.lon}`}
         renderItem={renderItem}
-        getItemLayout={(_, index) => ({ length: ROW_PITCH, offset: ROW_PITCH * index, index })}
-        initialScrollIndex={query ? undefined : initialIndex}
+        getItemLayout={flexibleRows ? undefined : (_, index) => ({ length: ROW_PITCH, offset: ROW_PITCH * index, index })}
+        initialScrollIndex={flexibleRows || query ? undefined : initialIndex}
         initialNumToRender={20}
         windowSize={11}
         keyboardShouldPersistTaps="handled"
@@ -207,6 +221,7 @@ function makeStyles(colors: SettingsColors) {
       borderColor: colors.border,
     },
     rowSelected: { backgroundColor: colors.highlightSoft, borderColor: colors.highlightText },
+    flexibleRow: { height: 'auto', minHeight: ROW_HEIGHT, paddingVertical: space.md },
     rowPressed: { backgroundColor: colors.accentSoft },
     rowText: { flex: 1 },
     rowName: { ...type.body, color: colors.text },

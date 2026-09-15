@@ -7,6 +7,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-
 import * as Location from 'expo-location';
 import { router } from 'expo-router';
 import type { ReactElement, ReactNode } from 'react';
+import { BackHandler, useWindowDimensions } from 'react-native';
 
 import Manen from '@/app/manen';
 import { hapticSuccess } from '@/lib/haptics';
@@ -14,6 +15,11 @@ import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { moonSky } from '@/lib/moon/ephemeris';
 import { SettingsProvider } from '@/lib/settings/context';
+
+jest.mock('react-native/Libraries/Utilities/useWindowDimensions', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 // The sighting fires ONE confirming tap, and the policy in lib/haptics is the reason it may
 // (class 1, an outcome reached). Asserted at the cue rather than at the native call: under
@@ -96,6 +102,9 @@ async function renderSettled(node: ReactElement): Promise<void> {
 
 describe('Månen', () => {
   beforeEach(async () => {
+    // Exercise the native segmented control here; compact radio choices have
+    // their own checked-state coverage in SegmentedChoice.test.tsx.
+    jest.mocked(useWindowDimensions).mockReturnValue({ width: 411, height: 914, scale: 2.625, fontScale: 1 });
     jest.useFakeTimers({ now: PINNED_NOW, doNotFake: [...REAL_TIMER_APIS] });
     await AsyncStorage.clear();
     jest.clearAllMocks();
@@ -140,7 +149,7 @@ describe('Månen', () => {
     await renderSettled(withProviders(<Manen />));
 
     expect(screen.getByText('Månen')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Stäng' })).toBeTruthy();
+    expect(screen.getByLabelText('Stäng')).toBeTruthy();
     // No heading event ever arrives from jest.setup's subscription, so the screen sits in the
     // state before the first reading — which only sky mode has. It must NOT say "kalibrera"
     // there: that asks the reader to fix something that has not gone wrong yet.
@@ -198,6 +207,8 @@ describe('Månen', () => {
     expect(screen.getByText('I natt')).toBeTruthy();
     expect(screen.getByText('Nymåne')).toBeTruthy();
     expect(screen.getByText('Förmörkelser')).toBeTruthy();
+    expect(screen.queryByLabelText('Stäng')).toBeNull();
+    expect(screen.queryByRole('radio', { name: 'På himlen' })).toBeNull();
     // The two most opaque numbers on the screen — a percentage nobody acts on and an age in
     // dygn that has to be explained — live in here now, not under the date.
     expect(screen.getByText(/% belyst/)).toBeTruthy();
@@ -212,6 +223,26 @@ describe('Månen', () => {
       fireEvent.press(screen.getByRole('button', { name: 'Stäng månens detaljer' }));
     });
     await waitFor(() => expect(screen.queryByText(/^Nästa: (fullmåne|nymåne)/)).toBeNull());
+  });
+
+  it.each([
+    { open: /Visa hela månaden/, close: 'Stäng månaden' },
+    { open: /^Månens detaljer$/, close: 'Stäng månens detaljer' },
+  ])('closes $close with Android back and restores the screen beneath it', async ({ open, close }) => {
+    const listen = jest.spyOn(BackHandler, 'addEventListener');
+    try {
+      await renderSettled(withProviders(<Manen />));
+      fireEvent.press(screen.getByRole('button', { name: open }));
+      expect(screen.getByRole('button', { name: close })).toBeTruthy();
+      expect(screen.queryByLabelText('Stäng')).toBeNull();
+      const handler = listen.mock.calls.filter(([event]) => event === 'hardwareBackPress').at(-1)?.[1];
+      expect(handler).toBeDefined();
+      await act(async () => { expect(handler?.({ type: 'hardwareBackPress', timeStamp: Date.now() })).toBe(true); });
+      expect(screen.queryByRole('button', { name: close })).toBeNull();
+      expect(screen.getByLabelText('Stäng')).toBeTruthy();
+    } finally {
+      listen.mockRestore();
+    }
   });
 
   it('answers the crescent question on an evening when someone would be asking it', async () => {

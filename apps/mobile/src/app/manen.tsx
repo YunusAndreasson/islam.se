@@ -47,9 +47,10 @@ import { router, useIsFocused } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AccessibilityInfo,
-  PixelRatio,
+  BackHandler,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -247,6 +248,21 @@ export default function Manen() {
    *  rolls over — a stored pair would quietly leave the sheet in last month. */
   const [monthOffset, setMonthOffset] = useState(0);
 
+  useEffect(() => {
+    if (!pickingMonth && !readingAlmanac) return;
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (pickingMonth) {
+        setMonthOffset(0);
+        setPickingMonth(false);
+      } else {
+        setReadingAlmanac(false);
+      }
+      return true;
+    });
+    return () => sub.remove();
+  }, [pickingMonth, readingAlmanac]);
+
+
   const now = useCoarseNow(TICK_MS, focused);
   const sky = useMoonSky(coords, now);
   // The ephemeris is keyed on the coordinate's NUMBERS, never the object: the location
@@ -313,13 +329,15 @@ export default function Manen() {
   // because the readout is the part that grows under Dynamic Type, and the instrument is the
   // part that can afford to give the room back — which is exactly what the measured version
   // did, and the reason it was written that way.
-  const { width, height } = useWindowDimensions();
+  const { width, height, fontScale } = useWindowDimensions();
   const dial = useMemo(() => {
     const byWidth = width - space.xxl * 2;
     const byHeight =
-      (height * INSTRUMENT_SHARE) / Math.max(1, PixelRatio.getFontScale()) - SWITCH_BLOCK - space.md;
-    return Math.max(0, Math.min(byWidth, byHeight, DIAL_MAX));
-  }, [width, height]);
+      (height * INSTRUMENT_SHARE) / Math.max(1, fontScale) - SWITCH_BLOCK - space.md;
+    // The drawing needs room for its labels. Let the page scroll rather than
+    // shrinking the instrument to an overlapping cluster at large text sizes.
+    return Math.max(0, Math.min(byWidth, Math.max(220, byHeight), DIAL_MAX));
+  }, [width, height, fontScale]);
 
   // ── The almanac: everything here answers a question about the DAY, not the minute ──────
   //
@@ -573,7 +591,12 @@ export default function Manen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
+      <View style={styles.background}
+        accessibilityElementsHidden={pickingMonth || readingAlmanac}
+        importantForAccessibility={pickingMonth || readingAlmanac ? 'no-hide-descendants' : 'auto'}
+        pointerEvents={pickingMonth || readingAlmanac ? 'none' : 'auto'}>
       <ModalBar variant="close" fallback="/bonetider" />
+      <ScrollView contentContainerStyle={styles.content}>
       <PlaceHeader title="Månen" what="tiderna" />
 
       {/* THE INSTRUMENT, and the switch that says what it is pointed at, as one block. The
@@ -735,6 +758,8 @@ export default function Manen() {
         </View>
       </View>
 
+      </ScrollView>
+      </View>
       {pickingMonth ? (
         <MoonMonthSheet
           year={viewed.year}
@@ -781,6 +806,8 @@ function makeStyles(c: Palette) {
     // the INSTRUMENT and are built inside MoonDial, which spreads them itself; this screen
     // draws none of them. (qibla.tsx does spread them, because its dial is written inline.)
     safe: { flex: 1, backgroundColor: c.paper },
+    background: { flex: 1 },
+    content: { flexGrow: 1 },
 
     // The dial is capped at DIAL_MAX so that it and Qibla's are the same instrument, which
     // on a tall phone leaves a hundred points of slack in this band whatever is done with
@@ -874,7 +901,7 @@ function makeStyles(c: Palette) {
     almanacText: { ...type.callout, fontWeight: '600', color: c.accent },
     // The permission offer. Borrows Qibla's link shape rather than inventing a third.
     link: { flexDirection: 'row', alignItems: 'center', gap: space.xs, minHeight: 44, paddingHorizontal: space.sm },
-    linkText: { ...type.bodyStrong, color: c.accent },
+    linkText: { ...type.bodyStrong, color: c.accent, flexShrink: 1 },
     pressed: { opacity: 0.6 },
   });
 }

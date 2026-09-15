@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { hapticLight } from '@/lib/haptics';
 import { radius, space, type } from '@/theme/tokens';
@@ -27,6 +27,8 @@ export function Stepper({
   format?: (value: number) => string;
   divider?: boolean;
 }) {
+  const { width, fontScale } = useWindowDimensions();
+  const stacked = width < 360 || fontScale > 1.3;
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const clamp = (n: number) => Math.max(min, Math.min(max, n));
@@ -55,12 +57,12 @@ export function Stepper({
     // screen reader never spoke — the buttons announce the ACTION, nothing announced the
     // RESULT. Naming the row and exposing the formatted value gives that reading back.
     <View
-      style={[styles.row, divider && styles.divider]}
+      style={[styles.row, stacked && styles.stackedRow, divider && styles.divider]}
       accessibilityLabel={label}
       accessibilityValue={{ text: display }}
     >
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.control}>
+      <Text style={[styles.label, stacked && styles.stackedLabel]}>{label}</Text>
+      <View style={[styles.control, stacked && styles.stackedControl]}>
         <Pressable
           onPress={() => stepBy(-step)}
           disabled={value <= min}
@@ -70,7 +72,7 @@ export function Stepper({
         >
           <Icon name="remove" size={20} color={value <= min ? colors.textMuted : colors.accent} />
         </Pressable>
-        <Text style={styles.value}>{display}</Text>
+        <Text style={[styles.value, stacked && styles.stackedValue]}>{display}</Text>
         <Pressable
           onPress={() => stepBy(step)}
           disabled={value >= max}
@@ -96,6 +98,10 @@ function makeStyles(colors: SettingsColors) {
       justifyContent: 'space-between',
     },
     divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
+    stackedRow: { flexDirection: 'column', alignItems: 'stretch', gap: space.xs },
+    stackedLabel: { flex: 0 },
+    stackedControl: { alignSelf: 'stretch' },
+    stackedValue: { flex: 1, minWidth: 0 },
     label: { ...type.body, color: colors.text, flex: 1 },
     control: { flexDirection: 'row', alignItems: 'center' },
     btn: {

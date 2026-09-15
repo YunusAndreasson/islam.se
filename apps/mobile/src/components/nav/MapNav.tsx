@@ -27,7 +27,7 @@ import { Icon } from '@/components/ui/Icon';
 // ./metrics — they scale with the reader's text size, and the map's floating cards
 // measure against the same numbers.
 
-export function MapNav({ active, onLocate, zoomed = false, locationIsFallback = false }: { active: boolean; onLocate?: () => void; zoomed?: boolean; locationIsFallback?: boolean }) {
+export function MapNav({ active, onLocate, resetAvailable = false, locationIsFallback = false }: { active: boolean; onLocate?: () => void; resetAvailable?: boolean; locationIsFallback?: boolean }) {
   const insets = useSafeAreaInsets();
   const c = useColors();
   const { settings } = useSettings();
@@ -44,8 +44,8 @@ export function MapNav({ active, onLocate, zoomed = false, locationIsFallback = 
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
         {onLocate && <GlassRoundButton tint={c.cardGlass} rim={c.hairline} size={disc}
-          accessibilityLabel={locationIsFallback ? 'Välj plats på kartan' : zoomed ? 'Zooma ut till Sverige' : 'Visa min position'} onPress={onLocate}>
-          <Icon name={zoomed ? 'zoomOut' : 'myLocation'} size={glyph} color={c.ink} />
+          accessibilityLabel={resetAvailable ? 'Återställ kartan – visa hela Sverige' : locationIsFallback ? 'Välj plats på kartan' : 'Visa min position'} onPress={onLocate}>
+          <Icon name={resetAvailable ? 'settingsRestore' : 'myLocation'} size={glyph} color={c.ink} />
         </GlassRoundButton>}
         <GlassRoundButton
           tint={c.cardGlass}
