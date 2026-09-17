@@ -121,3 +121,6 @@ packageExtensions:
     peerDependenciesMeta:
       '@expo/dom-webview':
         optional: true
+
+patchedDependencies:
+  expo-widgets@57.0.19: patches/expo-widgets@57.0.19.patch
