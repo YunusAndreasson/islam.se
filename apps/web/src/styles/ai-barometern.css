@@ -277,9 +277,18 @@
 
 	/* ---- position strip (question page) ----------------------------------- */
 
-	.abm-strip thead th[data-v] {
+	/* Every column head is one box: the same width, the same 4px under it — transparent where
+	   the column is not on the scale — so the labels end on one baseline instead of the right
+	   one hanging 4px below the rest with nothing under it. */
+	.abm-strip thead th[data-v],
+	.abm-strip thead th:last-child {
 		inline-size: 5.5rem;
 		border-block-end: 4px solid transparent;
+	}
+	/* Balance the break: »Avstår eller vägrar« split 2/1 against its neighbours' even halves. */
+	.abm-colhead {
+		display: block;
+		text-wrap: balance;
 	}
 	.abm-strip thead th[data-v="-2"] {
 		border-color: var(--abm-n2);
