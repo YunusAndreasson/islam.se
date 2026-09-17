@@ -924,6 +924,20 @@
 		padding-block: 0.3rem;
 		border-block-end: 1px solid var(--color-divider);
 	}
+	/* The hairline under the row already tracks the eye across to the chips, so the statement
+	   drops the underline it inherits from a link: the two ran a couple of pixels apart, and a
+	   finding of two statements drew five rules with the item's own divider. The finding's
+	   sentence, directly above, is already set this way — plain, underlined on hover. The full
+	   matrix keeps its underlines: its rows have no hairline, so there the underline is the
+	   only line. */
+	.abm-lead-figure .abm-matrix tbody th a {
+		text-decoration: none;
+	}
+	.abm-lead-figure .abm-matrix tbody th a:hover,
+	.abm-lead-figure .abm-matrix tbody th a:focus-visible {
+		text-decoration: underline;
+		text-decoration-color: var(--color-rule);
+	}
 
 	/* The five findings share one key above them, which names the models, so each chart's heads
 	   keep only the logos. The names stay in the heads for screen readers. */

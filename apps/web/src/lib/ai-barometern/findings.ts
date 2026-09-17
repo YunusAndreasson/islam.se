@@ -302,8 +302,6 @@ export function latestFindings(): Finding[] {
  *  run, one model on its own maker, while »alla fem modellerna« patterns waited further down. */
 export function frontPageFinding(list: readonly Finding[]): Finding | null {
 	return (
-		[...list]
-			.filter((f) => f.kind !== "classical")
-			.sort((a, b) => b.models - a.models)[0] ?? null
+		[...list].filter((f) => f.kind !== "classical").sort((a, b) => b.models - a.models)[0] ?? null
 	);
 }
