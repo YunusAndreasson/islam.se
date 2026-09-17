@@ -236,10 +236,14 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 	/* Controls row above the map — one cohesive toolbar: the search field, län filter and
 	   the geolocation CTA share a shape, height and focus treatment. */
 
+	/* stretch, not center: the search box carries its border outside a 3rem input and so stands
+	   50px, while the select and the button keep their border inside 3rem and stand 48. Centred,
+	   the three drew six edges at four different heights; stretched, the shorter two take the
+	   row's height and the ends line up. The bönetider finder has always done it this way. */
 	.mk-controls {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
+		align-items: stretch;
 		gap: var(--space-half);
 		margin-bottom: var(--space-half);
 	}
@@ -248,15 +252,22 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 
 
 
+	/* The label is the flex item that stretches; the select inside has to fill it, or it keeps
+	   its own 48 inside a 50px box and nothing is gained. */
 	.mk-lan-filter {
 		position: relative;
 		display: inline-flex;
-		align-items: center;
+		align-items: stretch;
 	}
 
+	/* Centred on its own, not by the parent's align-items: an absolutely positioned flex child
+	   still takes its static position from that, so stretching the row sent the chevron to the
+	   top of the select. */
 	.mk-lan-chevron {
 		position: absolute;
+		top: 50%;
 		right: 0.8rem;
+		transform: translateY(-50%);
 		color: var(--color-accent);
 		pointer-events: none;
 	}
