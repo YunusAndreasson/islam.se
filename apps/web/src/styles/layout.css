@@ -514,6 +514,16 @@
 		contain-intrinsic-size: auto 700px;
 	}
 
+	/* Print is not a viewport: nothing ever scrolls into view, so every movement
+	   still skipped at print time is laid out at the 700px placeholder and comes
+	   out blank. Five of the eight front-page movements printed as empty boxes
+	   before this. */
+	@media print {
+		.home-movement {
+			content-visibility: visible;
+		}
+	}
+
 	.home-movement:first-child {
 		margin-top: var(--space-phi);
 	}
