@@ -109,10 +109,19 @@
 		min-inline-size: 11rem;
 	}
 
+	/* A statement sits on its row's hairline, so it drops the underline a link inherits: the two
+	   ran a couple of pixels apart and drew every row twice. The hairline stays — it is what
+	   carries the eye from the statement across to five chip columns — and the link answers on
+	   hover and focus. */
 	.abm-matrix tbody th a {
 		color: var(--color-text);
-		text-decoration-color: var(--color-rule);
+		text-decoration: none;
 		text-underline-offset: 0.2em;
+	}
+	.abm-matrix tbody th a:hover,
+	.abm-matrix tbody th a:focus-visible {
+		text-decoration: underline;
+		text-decoration-color: var(--color-rule);
 	}
 
 	.abm-matrix .abm-group th {
@@ -649,11 +658,11 @@
 		padding: 0;
 		list-style: none;
 	}
-	.abm-findings li {
-		border-block-start: 1px solid var(--color-divider);
-	}
-	.abm-findings li:last-child {
-		border-block-end: 1px solid var(--color-divider);
+	/* No rule between findings: each already opens with its area in small caps, and the chart
+	   under it is ruled row by row, so a fence around the whole item only added a third kind of
+	   line to a column that has two. The space below each chart does the separating. */
+	.abm-findings li + li {
+		margin-block-start: var(--space-unit);
 	}
 	/* Only the finding's own link: the lead chart inside the first item has row links of its own,
 	   and these rules gave them an arrow and a finding's padding. */
@@ -927,20 +936,6 @@
 	.abm-lead-figure tbody > tr > * {
 		padding-block: 0.3rem;
 		border-block-end: 1px solid var(--color-divider);
-	}
-	/* The hairline under the row already tracks the eye across to the chips, so the statement
-	   drops the underline it inherits from a link: the two ran a couple of pixels apart, and a
-	   finding of two statements drew five rules with the item's own divider. The finding's
-	   sentence, directly above, is already set this way — plain, underlined on hover. The full
-	   matrix keeps its underlines: its rows have no hairline, so there the underline is the
-	   only line. */
-	.abm-lead-figure .abm-matrix tbody th a {
-		text-decoration: none;
-	}
-	.abm-lead-figure .abm-matrix tbody th a:hover,
-	.abm-lead-figure .abm-matrix tbody th a:focus-visible {
-		text-decoration: underline;
-		text-decoration-color: var(--color-rule);
 	}
 
 	/* The five findings share one key above them, which names the models, so each chart's heads
