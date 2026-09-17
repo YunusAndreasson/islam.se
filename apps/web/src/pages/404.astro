@@ -37,8 +37,10 @@ import Base from "../layouts/Base.astro";
 		padding-block: var(--space-phi2);
 	}
 
+	/* .label sets this at small-caps size, so it is small text and takes the
+	   4.5:1 tier. --color-warm is the 3:1 UI/border tier (3.01:1) and fails it. */
 	.notfound-code {
-		color: var(--color-warm);
+		color: var(--color-muted);
 		margin: 0 0 var(--space-half);
 	}
 

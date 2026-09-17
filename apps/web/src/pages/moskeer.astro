@@ -323,11 +323,14 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		font-variant-numeric: lining-nums tabular-nums;
 	}
 
-	/* Geolocation feedback (denial / errors). Collapses when empty so it never adds a gap. */
+	/* Geolocation feedback (denial / errors). Collapses when empty so it never adds a gap.
+	   --color-muted, not --color-warm: this is the only place the reader is told why
+	   "Nära mig" did nothing, set at --step--3, and --color-warm is the 3:1 UI/border
+	   tier (3.01:1) — under AA for text. */
 	.mk-geo-status {
 		font-family: var(--font-body);
 		font-size: var(--step--3);
-		color: var(--color-warm);
+		color: var(--color-muted);
 		margin: 0 0 var(--space-half);
 	}
 

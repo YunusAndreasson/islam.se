@@ -501,10 +501,15 @@
 	.home-movement {
 		margin-block: var(--space-phi2);
 		/* Modern-browser perf: skip layout/paint for movements still off-screen until
-	   the reader scrolls near them — a real win on this long, multi-movement page.
-	   `auto` remembers the actual height after first render so the scrollbar never
-	   jumps; 700px is only the pre-first-render placeholder estimate. The feature
-	   (first movement) is above the fold, so it renders immediately — no LCP cost. */
+	   the reader scrolls near them — worth ~60ms of FCP/LCP on this long,
+	   multi-movement page (measured 2026-09-17, 1440px, median of 5).
+	   `auto` is meant to remember the actual height after first render; in practice
+	   Chromium falls back to the placeholder whenever a movement goes off-screen
+	   again, so 700px is what the page is sized by most of the time. It is wrong at
+	   every width — the real movements measure 222–1934px at 1440 and 371–1950px at
+	   390 — so the document height still drifts as you scroll (−733px at 1440,
+	   +1634px at 390). Tuning it needs a per-module estimate per breakpoint, which
+	   nothing tests and every content change re-breaks; left as a known trade. */
 		content-visibility: auto;
 		contain-intrinsic-size: auto 700px;
 	}
@@ -1007,7 +1012,11 @@
 		padding: 0.15em 0.4em;
 		font-size: 0.72em;
 		letter-spacing: 0.02em;
-		color: var(--color-muted);
+		/* --color-muted is picked to clear 4.5:1 against --color-bg, but this chip
+		   does not sit on --color-bg: the 7% wash under it darkens the ground and
+		   took the pair to ~4.1:1. --text-meta is the same hue one step toward the
+		   text colour, which restores the margin the wash spends. */
+		color: var(--text-meta);
 		background: color-mix(in srgb, var(--color-text) 7%, transparent);
 		border-radius: 0.4rem;
 	}
@@ -1965,7 +1974,11 @@
 		.reading--notes .sidenote-num {
 			margin-right: 0.35em;
 			font-variant-numeric: lining-nums;
-			color: var(--color-warm);
+			/* --color-warm is the 3:1 UI/border tier (see tokens.css) and this is text:
+			   #998e7c measured 3.01:1 on the light ground at 11.9px, under AA's 4.5. The
+			   marker is how a reader pairs a note with its callout, so it is not
+			   decoration that may sit at the non-text floor. */
+			color: var(--color-muted);
 		}
 
 		/* Work titles inside a note keep the book face — the note is set in the

@@ -223,10 +223,13 @@ const lengthFilterItems = [
 	/* The filter pills are the shared global `.filter-chip` (+ `.label`), identical to
 	   the Frågor & svar category nav. */
 
-	/* Read/unread value-shift within the ämne group (§9) — not two sections. */
+	/* Read/unread value-shift within the ämne group (§9) — not two sections.
+	   Colour is --color-muted, not --color-warm: the flag renders the words
+	   "· läst", and --color-warm is the 3:1 UI/border tier (3.01:1), under AA
+	   for text this small. */
 	.read-flag {
 		display: none;
-		color: var(--color-warm);
+		color: var(--color-muted);
 	}
 
 	.archive-item[data-read] .archive-title {
