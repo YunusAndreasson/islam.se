@@ -138,6 +138,15 @@ const SWEDEN_BOUNDS: LngLatBoundsLike = [
 	[maxLon, maxLat],
 ];
 
+/* Sweden is tall, so a near-square container fits it on latitude and the south of the
+   country lands near the container floor — where the attribution pill used to sit,
+   covering the densest clusters on the map (Skåne and Malmö). Fixed by moving the
+   attribution to bottom-right (empty Baltic) rather than by padding the fit: padding
+   would buy the clearance with a zoom step, and the whole map pays for that in
+   sharpness. Bottom-left keeps the scale bar, which is narrow enough to sit beside
+   the data rather than on it. */
+const SWEDEN_FIT = { padding: 24 } as const;
+
 // Swedish UI strings for MapLibre's built-in controls + the cooperative-gesture overlay.
 // Set once on the Map; every control reads it via `_getUIString` when added, and the
 // cooperative-gesture hint pulls from it at render — so this one option localizes the
@@ -180,7 +189,7 @@ class ResetViewControl implements maplibregl.IControl {
 		btn.setAttribute("aria-label", "Visa hela Sverige");
 		btn.innerHTML = RESET_ICON;
 		btn.addEventListener("click", () => {
-			this.map?.fitBounds(SWEDEN_BOUNDS, { padding: 24 });
+			this.map?.fitBounds(SWEDEN_BOUNDS, { ...SWEDEN_FIT });
 		});
 		container.appendChild(btn);
 		this.container = container;
@@ -320,8 +329,9 @@ async function mount() {
 			container: el,
 			style: "https://tiles.openfreemap.org/styles/positron",
 			bounds: SWEDEN_BOUNDS,
-			// Frame all of Sweden on load; padding keeps the far north/south off the edges.
-			fitBoundsOptions: { padding: 24 },
+			// Frame all of Sweden on load; padding keeps the far north/south off the
+			// edges and the south clear of the scale bar and attribution pill.
+			fitBoundsOptions: { ...SWEDEN_FIT },
 			// No maxBounds: with this wide container, clamping the pan range also pins the
 			// minimum zoom, which cropped Sweden and disabled zoom-out. minZoom sits below
 			// the Sweden-fit zoom so the – button still has room.
@@ -363,7 +373,10 @@ async function mount() {
 		el.classList.add("is-error");
 		console.warn("[moskeer] kartan kunde inte laddas:", detail);
 	});
-	map.addControl(new maplibre.AttributionControl({ compact: true }), "bottom-left");
+	// Bottom-RIGHT: expanded, this pill is ~470px wide and bottom-left is where Skåne
+	// and Malmö land once Sweden is framed, so it sat on top of the densest clusters.
+	// Bottom-right is open Baltic at every zoom the Sweden fit produces.
+	map.addControl(new maplibre.AttributionControl({ compact: true }), "bottom-right");
 	map.addControl(
 		new maplibre.NavigationControl({ showCompass: true, visualizePitch: true }),
 		"top-right",
@@ -738,7 +751,7 @@ async function mount() {
 		if (filterKey !== fittedQuery) {
 			fittedQuery = filterKey;
 			if (!filterKey) {
-				map.fitBounds(SWEDEN_BOUNDS, { padding: 24, duration: reduceMotion ? 0 : 350 });
+				map.fitBounds(SWEDEN_BOUNDS, { ...SWEDEN_FIT, duration: reduceMotion ? 0 : 350 });
 			} else if (visible.length) {
 				const bounds = new maplibre.LngLatBounds();
 				for (const mosque of visible) bounds.extend([mosque.lng, mosque.lat]);

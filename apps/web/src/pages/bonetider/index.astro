@@ -39,11 +39,13 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
 		</p>
 
   </section>
+  {/* No /bonetider/skarm/ row here: .bh2-screen links the same URL a few lines
+      above, with the sentence that says what the screen is for. Two links to one
+      destination, 60px apart, taught the reader nothing the first did not. */}
   <RelatedLinks label="Mer om bönetider" links={[
    {href: "/bonetider/metod/", label: "Om tiderna & beräkningen"},
    {href: "/bonetider/aret/", label: "Bönetider under året"},
    {href: "/bonetider/ramadan/", label: "Ramadan · iftar & suhūr"},
-   {href: "/bonetider/skarm/", label: "Moskéskärm · tiderna på storbild"},
   ]} />
  </main>
 </Base>
