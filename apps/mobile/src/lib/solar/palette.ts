@@ -37,17 +37,43 @@ export interface WashStops {
   DAWN_WARM: RGBA;
 }
 
-// Light wash. Alpha encodes how much the overlay dims the warm parchment basemap.
-// NIGHT 0.88 is high ON PURPOSE: the basemap LAND is `#ece6d8` warm paper, so at a
-// gentler alpha a third of it bleeds through and muddies the night to a slate-grey
-// "dusk fog" rather than a true deep blue. At 0.88 the parchment is mostly drowned
-// and night reads as a clean deep night-blue (≈#2A2D43).
+// Light wash. Alpha encodes how much the overlay dims the warm parchment basemap —
+// and therefore how much of the basemap SURVIVES, which is the constraint that sets
+// every value here. The Skia canvas is a sibling native view above MapLibre, so the
+// only compositing available is straight alpha: there is no multiply/darken to reach
+// for. Whatever alpha this wash spends, it spends on the cartography.
+//
+// NIGHT used to be [13,20,54] @ 0.88, on the argument that anything gentler let the
+// warm paper bleed through and muddied night into a slate-grey "dusk fog". The
+// argument was right about the mud and wrong about the cause. At 0.88 only 12% of the
+// basemap survived, so land/sea contrast, hillshade and place labels all collapsed
+// into one flat slab (≈#282d49) — and that slab is within a few points of the DARK
+// theme's night composite (#191f37), which left the light theme dark everywhere but
+// its chrome.
+//
+// The lever against mud is SATURATION, not alpha. DUSK_WARM and DAWN_COOL already
+// prove it: both sit near 0.5 over the same parchment and both land on real colour
+// (≈#d19a86 and ≈#9bacca), because a saturated stop does not pass through grey on its
+// way in. So NIGHT is now a deep, saturated blue at an alpha in that same family: the
+// parchment reads through as texture rather than as a wash-out, night still composites
+// deeper and bluer than the dawn band either side of it, and a light-themed app stays
+// light-themed after sunset.
+//
+// ⚠️ ALPHA IS ALSO WHAT THE PLACE LABELS CAN AFFORD, and that is the tightest of the three
+// constraints. Labels are basemap SYMBOL layers, so they sit UNDER this wash — the Skia
+// canvas is one view above the whole map and nothing in the style can be drawn over it. A
+// wash of alpha `a` covers a label and the land beneath it alike, so the difference between
+// them survives only as `(1 − a)`: at 0.88 the city names kept 12% of their contrast and
+// went unreadable, at 0.6 they keep 40% and read cleanly. Raising this again without moving
+// the labels somewhere the wash cannot reach takes them straight back down.
 export const washStopsLight: WashStops = {
   DAY: [255, 255, 255, 0],
   DUSK_WARM: [183, 78, 52, 0.5],
-  // The deep night is a touch more saturated-blue (b 47→54) so it reads as a true
-  // indigo night, not a slate, once the 0.88 alpha drowns the warm parchment.
-  NIGHT: [13, 20, 54, 0.88],
+  // Deep saturated indigo rather than a near-black, at an alpha that leaves 40% of the
+  // basemap — and of its place labels — reading through. Composites to ≈#7a82a9 over
+  // `#ece6d8` land: darker and bluer than DAWN_COOL's ≈#9bacca, so the night band is still
+  // the deepest part of the cycle, without erasing the map under it.
+  NIGHT: [46, 64, 138, 0.6],
   // Dawn was a pale, desaturated periwinkle — next to the vivid terracotta dusk it
   // barely registered as a colour. Deepened to a richer cool cornflower and lifted
   // a touch in alpha (0.42→0.48) so the Fajr→sunrise band glows as a real BLUE,

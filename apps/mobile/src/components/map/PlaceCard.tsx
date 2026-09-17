@@ -19,6 +19,7 @@ import { formatMosqueDistance } from '@/lib/mosques';
 import { haversineKm } from '@/lib/places/nearest';
 import type { LatLng } from '@/lib/prayer-times';
 import { motion, mono, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
 import { GlassSurface } from '@/components/ui/GlassSurface';
@@ -57,6 +58,7 @@ export function PlaceCard({
   secondary,
 }: Props) {
   const c = useColors();
+  const sky = useSkyGlass();
   const styles = useMemo(() => makeStyles(c), [c]);
   const reduceMotion = useReducedMotion();
 
@@ -72,7 +74,7 @@ export function PlaceCard({
       style={[styles.wrap, { bottom }]}
       pointerEvents="box-none"
     >
-      <GlassSurface style={styles.card} borderRadius={radius.xl} tint={c.cardGlass}>
+      <GlassSurface style={styles.card} borderRadius={radius.xl} tint={sky.cardGlass}>
         <View style={styles.header}>
           <View style={styles.headerText}>
             <Text style={styles.name} numberOfLines={2}>
@@ -94,7 +96,7 @@ export function PlaceCard({
           <GlassRoundButton
             onPress={onClose}
             accessibilityLabel="Stäng"
-            tint={c.cardGlass}
+            tint={sky.cardGlass}
             rim={c.hairline}
             size={34}
           >

@@ -33,6 +33,7 @@ import {
   requestNotificationPermission,
 } from '@/lib/notifications';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
 import { GlassSurface } from '@/components/ui/GlassSurface';
@@ -54,6 +55,7 @@ type CardState = 'ask' | 'granted' | 'denied';
 
 export function NotificationHint({ top, onEnable, onClose }: Props) {
   const c = useColors();
+  const sky = useSkyGlass();
   const styles = useMemo(() => makeStyles(c), [c]);
   const reduceMotion = useReducedMotion();
   const [state, setState] = useState<CardState>('ask');
@@ -115,7 +117,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
       // the prop is inert on iOS, where the card is reachable by swipe as usual.)
       accessibilityLiveRegion="polite"
     >
-      <GlassSurface style={styles.card} borderRadius={radius.xl} tint={c.cardGlass}>
+      <GlassSurface style={styles.card} borderRadius={radius.xl} tint={sky.cardGlass}>
         <View style={styles.header}>
           <Icon
             name={state === 'granted' ? 'notificationsOn' : 'notificationsOff'}
@@ -132,7 +134,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
           <GlassRoundButton
             onPress={onClose}
             accessibilityLabel="Stäng"
-            tint={c.cardGlass}
+            tint={sky.cardGlass}
             rim={c.hairline}
             size={34}
           >

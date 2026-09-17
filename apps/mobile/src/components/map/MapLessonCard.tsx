@@ -23,6 +23,7 @@ import { GlassSurface } from '@/components/ui/GlassSurface';
 import { Icon } from '@/components/ui/Icon';
 import { hapticSelection } from '@/lib/haptics';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { PrayerLegend } from './PrayerLegend';
 
@@ -60,6 +61,7 @@ export function MapLessonCard({
   bottom,
 }: Props) {
   const c = useColors();
+  const sky = useSkyGlass();
   const styles = useMemo(() => makeStyles(c), [c]);
   const reduceMotion = useReducedMotion();
 
@@ -72,7 +74,7 @@ export function MapLessonCard({
       style={[styles.wrap, { bottom }]}
       pointerEvents="box-none"
     >
-      <GlassSurface style={styles.card} borderRadius={radius.xl} tint={c.cardGlass}>
+      <GlassSurface style={styles.card} borderRadius={radius.xl} tint={sky.cardGlass}>
         <View style={styles.header}>
           <Text style={styles.caption}>
             {monthLabel} · Maghrib i Stockholm {timeLabel}
@@ -84,7 +86,7 @@ export function MapLessonCard({
             // has learned that mapping elsewhere should not hit a different word here for
             // the identical icon. The ACTION is a skip; the LABEL matches the glyph.
             accessibilityLabel="Stäng"
-            tint={c.cardGlass}
+            tint={sky.cardGlass}
             rim={c.hairline}
             size={34}
           >
@@ -108,7 +110,7 @@ export function MapLessonCard({
             }}
             disabled={atStart}
             accessibilityLabel="Föregående exempel"
-            tint={c.cardGlass}
+            tint={sky.cardGlass}
             rim={c.hairline}
             size={34}
           >
@@ -133,7 +135,7 @@ export function MapLessonCard({
               else onNext();
             }}
             accessibilityLabel={atEnd ? 'Klart' : 'Nästa exempel'}
-            tint={c.cardGlass}
+            tint={sky.cardGlass}
             rim={c.hairline}
             size={34}
           >

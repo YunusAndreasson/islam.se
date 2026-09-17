@@ -44,9 +44,22 @@ describe('washStops — light vs dark', () => {
   it('dark NIGHT alpha is substantially lower than light NIGHT alpha', () => {
     const lightA = washStopsLight.NIGHT[3];
     const darkA = washStopsDark.NIGHT[3];
-    expect(lightA).toBeGreaterThan(0.7); // drowns warm parchment
+    // As a RATIO, not a gap. The failure mode named above is someone raising the DARK alpha
+    // to match light, and that is what this has to catch; the old `lightA - darkA > 0.3` also
+    // silently pinned light's own magnitude, so tuning light for label legibility tripped a
+    // test that has no opinion about light.
     expect(darkA).toBeLessThan(0.6); // hue-only veil on a navy basemap
-    expect(lightA - darkA).toBeGreaterThan(0.3);
+    expect(darkA / lightA).toBeLessThan(0.8); // meaningfully gentler than light, whatever light is
+  });
+
+  it('the light NIGHT alpha leaves the basemap and its labels readable', () => {
+    // The ceiling the old floor was missing. Place labels are basemap symbol layers UNDER the
+    // Skia wash, so a wash of alpha `a` leaves them only `(1 − a)` of their contrast: at 0.88
+    // the city names kept 12% and were unreadable, and the whole map flattened to one slab.
+    // Light still has to CARRY the night over warm parchment, so it stays the heavier of the
+    // two — but there is a real upper bound now, and it is this.
+    expect(washStopsLight.NIGHT[3]).toBeGreaterThan(washStopsDark.NIGHT[3]);
+    expect(washStopsLight.NIGHT[3]).toBeLessThanOrEqual(0.7);
   });
 
   it('dark DUSK and DAWN alphas are lower than light', () => {

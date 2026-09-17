@@ -92,9 +92,32 @@ export function polarBoundaryFor(date: Date, maxLat = 71): PolarBoundary | null 
  * two in step.
  */
 export function sunAltitudeDeg(latDeg: number, lonDeg: number, date: Date): number {
+  return sunPositionDeg(latDeg, lonDeg, date).altDeg;
+}
+
+/** Altitude AND hour angle at a place and instant, both in degrees. The wash needs the
+ *  pair — altitude sets how deep the twilight is, hour angle which side of midnight it
+ *  falls on (warm dusk vs cool dawn) — and the shader derives exactly these two per pixel
+ *  from its uniforms. Kept here so the geometry has one home. */
+export function sunPositionDeg(
+  latDeg: number,
+  lonDeg: number,
+  date: Date,
+): { altDeg: number; haDeg: number } {
   const { declRad, eotMin } = solarParams(date);
   const utcMin = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60;
-  return altitudeFrom(latDeg, lonDeg, utcMin, declRad, eotMin);
+  return {
+    altDeg: altitudeFrom(latDeg, lonDeg, utcMin, declRad, eotMin),
+    haDeg: hourAngleFrom(lonDeg, utcMin, eotMin),
+  };
+}
+
+/** NOAA true solar time → hour angle in degrees, 0 at solar noon, + through the afternoon,
+ *  normalised to [−180, 180). Mirrored in WASH_SKSL. */
+function hourAngleFrom(lonDeg: number, utcMin: number, eotMin: number): number {
+  const tst = utcMin + eotMin + 4 * lonDeg; // true solar time, minutes (4 min per ° east)
+  const ha = tst / 4 - 180;
+  return ha - 360 * Math.floor((ha + 180) / 360);
 }
 
 /** NOAA true-solar-time → hour angle → altitude. Mirrored in WASH_SKSL. */
@@ -105,9 +128,7 @@ function altitudeFrom(
   declRad: number,
   eotMin: number,
 ): number {
-  const tst = utcMin + eotMin + 4 * lonDeg; // true solar time, minutes (4 min per ° east)
-  let ha = tst / 4 - 180; // hour angle, degrees (0 at solar noon)
-  ha -= 360 * Math.floor((ha + 180) / 360); // normalise to [−180, 180)
+  const ha = hourAngleFrom(lonDeg, utcMin, eotMin);
   const latR = latDeg * DEG;
   const haR = ha * DEG;
   const sinAlt =

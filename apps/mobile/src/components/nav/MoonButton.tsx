@@ -43,6 +43,7 @@ import { useCoarseNow, useMoonAppearance } from '@/lib/moon/useMoon';
 import { useSettings } from '@/lib/settings/context';
 import { useAim } from '@/lib/useAim';
 import { zonePrayerDate } from '@/lib/zone-time';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { LOCK_SPRING } from './CompassButton';
 import { useNavMetrics } from './metrics';
@@ -54,6 +55,7 @@ const AIM_TICK_MS = 60_000;
 
 export function MoonButton({ active }: { active: boolean }) {
   const c = useColors();
+  const glass = useSkyGlass();
   const { disc, glyph } = useNavMetrics();
   const { coords } = useLocation();
   const { settings } = useSettings();
@@ -107,7 +109,7 @@ export function MoonButton({ active }: { active: boolean }) {
   const phase = PHASE_NAMES[phaseKey(sky.phaseAngle)].toLowerCase();
   return (
     <GlassRoundButton
-      tint={aimed ? c.highlightSoft : c.cardGlass}
+      tint={aimed ? c.highlightSoft : glass.cardGlass}
       rim={aimed ? c.highlightText : c.hairline}
       accessibilityLabel={
         aimed

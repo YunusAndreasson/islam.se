@@ -27,8 +27,12 @@ describe('washColorAt — the depression-based twilight wash', () => {
     expect(deep[3]).toBeCloseTo(NIGHT_A, 5);
 
     const malmo = washColorAt(-13, 178);
-    expect(malmo[3]).toBeGreaterThan(0.6); // clearly night-ish
-    expect(malmo[3]).toBeLessThanOrEqual(NIGHT_A + 1e-9); // but never past the deep-night veil
+    // Stated against the veil rather than as an absolute alpha. The depression ramp is
+    // `NIGHT.a · smoothstep(1, 14, d)`, so this point is a fixed FRACTION of NIGHT_A whatever
+    // that alpha happens to be — an absolute floor here was really a second copy of the 0.88
+    // the stop used to carry, and it failed the moment that value was tuned for legibility.
+    expect(malmo[3]).toBeGreaterThan(NIGHT_A * 0.9); // all but at the veil
+    expect(malmo[3]).toBeLessThan(NIGHT_A); // but never past it
     expect(malmo[2]).toBeGreaterThan(malmo[0]); // indigo, not black/grey: blue leads red
   });
 

@@ -6,16 +6,19 @@
 // presentation). `box-none` everywhere so the map stays draggable across the whole top
 // edge — only the discs themselves intercept touches.
 //
-// Theming: Apple Maps-style, the discs follow the OS palette (useColors) — light glass on
-// the warm parchment basemap, dark glass on the deep-navy basemap. The earlier sun-driven
-// flip was retired here too (see PrayerDock): chrome stays anchored to one OS theme so it
-// doesn't shift under the user's hand at dusk.
+// Theming: Apple Maps-style, the discs take their light/dark axis from the OS palette
+// (useColors), and that axis never follows the sun — see PrayerDock for why the sun-driven
+// theme flip was retired and stays retired. What DOES follow the sun is the glass they are
+// painted on: theme/skyChrome hands every card on the map one shared ground colour, so a disc
+// belongs to the sky behind it at every hour. Shared, because these four discs sampling their
+// own backdrops is exactly how the left and right ones came to disagree at dawn.
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSettings } from '@/lib/settings/context';
 import { space } from '@/theme/tokens';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { CompassButton } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
@@ -30,6 +33,8 @@ import { Icon } from '@/components/ui/Icon';
 export function MapNav({ active, onLocate, resetAvailable = false, locationIsFallback = false }: { active: boolean; onLocate?: () => void; resetAvailable?: boolean; locationIsFallback?: boolean }) {
   const insets = useSafeAreaInsets();
   const c = useColors();
+  // Discs take their ground from the sky, like the dock below them (theme/skyChrome).
+  const sky = useSkyGlass();
   const { settings } = useSettings();
   const { disc, glyph } = useNavMetrics();
   const top = insets.top + NAV_TOP_GAP;
@@ -43,12 +48,18 @@ export function MapNav({ active, onLocate, resetAvailable = false, locationIsFal
         {settings.showMoon && <MoonButton active={active} />}
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
-        {onLocate && <GlassRoundButton tint={c.cardGlass} rim={c.hairline} size={disc}
+        {/* The icon swap alone (myLocation → settingsRestore) reads as a different glyph at
+            a glance, not as a different CAPABILITY. `accent` is the app's "this is a verb"
+            ink (see PrayerDock's "Välj plats" rule) — spent here, not `highlight`, because
+            that gold is reserved for the one "this is live right now" state per screen
+            (CompassButton's lock, the dock's next prayer) and a second gold control would
+            compete with it rather than read as its own thing. */}
+        {onLocate && <GlassRoundButton tint={sky.cardGlass} rim={resetAvailable ? c.accent : c.hairline} size={disc}
           accessibilityLabel={resetAvailable ? 'Återställ kartan – visa hela Sverige' : locationIsFallback ? 'Välj plats på kartan' : 'Visa min position'} onPress={onLocate}>
-          <Icon name={resetAvailable ? 'settingsRestore' : 'myLocation'} size={glyph} color={c.ink} />
+          <Icon name={resetAvailable ? 'settingsRestore' : 'myLocation'} size={glyph} color={resetAvailable ? c.accent : c.ink} />
         </GlassRoundButton>}
         <GlassRoundButton
-          tint={c.cardGlass}
+          tint={sky.cardGlass}
           rim={c.hairline}
           size={disc}
           accessibilityLabel="Inställningar"

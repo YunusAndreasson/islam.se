@@ -99,6 +99,8 @@ import { polarBoundaryFor } from '@/lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '@/lib/solar/useSolarClock';
 import { zonePrayerDate } from '@/lib/zone-time';
 import { motion, radius, space, type } from '@/theme/tokens';
+import { skyChromeAt } from '@/lib/solar/sky-chrome';
+import { SkyChromeProvider } from '@/theme/skyChrome';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
 // Sweden bounding box, flat [west, south, east, north] (MapLibre GL JS style).
@@ -751,6 +753,20 @@ export default function Bonetider() {
   // two are always equal and this is exactly today's behaviour.
   const fieldNow =
     fieldDayStart === clock.dayStart ? clock.now : fieldDayStart + (clock.now - clock.dayStart);
+  // What the cards floating on this map are painted with. Derived from the sky at the
+  // reader's OWN location for the instant being viewed, so the dock and the nav discs belong
+  // to the ground under them at every hour instead of only at noon — see lib/solar/sky-chrome.
+  // Computed here, once, and handed to all of them: the whole point is that they cannot
+  // disagree with each other.
+  const sky = skyChromeAt(scheme, coords.latitude, coords.longitude, new Date(clock.now));
+  // Re-wrapped on the COLOURS rather than passed straight through. `clock.now` moves every
+  // tick and every scrub step, so the raw object would be a new identity on each one and
+  // re-render every card on the map for a colour that quantises to the same value anyway.
+  const skyChrome = useMemo(
+    () => ({ surface: sky.surface, cardGlass: sky.cardGlass }),
+    [sky.surface, sky.cardGlass],
+  );
+
   const grid = useMemo(
     () => gridForDay(fieldDayStart, settings, sig),
     // A cosmetic settings change re-runs this memo, but gridForDay returns the SAME
@@ -1017,6 +1033,7 @@ export default function Bonetider() {
 
   return (
     <GlassBackdropProvider>
+    <SkyChromeProvider value={skyChrome}>
     <View
       style={[styles.container, { backgroundColor: colors.paperSunken }]}
       // Capture the Map's true rendered viewport so the Skia overlay's projection
@@ -1421,6 +1438,7 @@ export default function Bonetider() {
           dissolving against navy. Same the other way round. */}
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} animated />
     </View>
+    </SkyChromeProvider>
     </GlassBackdropProvider>
   );
 }

@@ -14,13 +14,16 @@
 // eases the thumb to that moment (a deliberate travel, not a teleport) so the
 // time-travel reads as something you did.
 //
-// Theme: the dock is CHROME, so it follows the phone's OS light/dark setting via
-// useColors() — Apple Maps-style. The basemap is also OS-themed (see nordicStyle.ts:
-// NORDIC_LIGHT / NORDIC_DARK), so the dock and the map share temperature: light
-// glass over light parchment, dark glass over deep navy. The earlier sun-driven dock
-// flip was retired here — atmosphere comes from the basemap + wash, not from chrome
-// flipping under the user's hands. The wash and prayer-line colours are still
-// sun-driven (the map IS a live sky), but the dock stays anchored to one OS theme.
+// Theme: the dock is CHROME, so its light/dark axis follows the phone's OS setting via
+// useColors() — Apple Maps-style. The earlier sun-driven dock flip was retired and stays
+// retired: the THEME never follows the sun, because that axis is app-wide (the Stack ground,
+// every sheet) and would override a reader who locked Utseende: Ljust.
+//
+// Its GROUND does follow the sun, which is a different thing. `surface` was picked as a warm
+// white card on warm parchment land — true at noon, and the wash repaints that land blue for
+// half the day, which left a warm slab floating on a night sky. The tint now comes from
+// theme/skyChrome, one value shared with every other card on the map. Ink, accent and brass
+// are untouched: only the material under them changes temperature.
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
@@ -92,12 +95,13 @@ import { nightColorFor, prayerColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { hexToRgba } from '@/theme/rgba';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { DayPicker } from './DayPicker';
 import { Icon } from '@/components/ui/Icon';
 import { useNavMetrics } from '@/components/nav/metrics';
-import { dockMetrics } from './dock-metrics';
+import { DOCK_HANDLE_H, dockMetrics, TRACK_BAND_H } from './dock-metrics';
 import { makeTimelineWarp } from '@/lib/timeline-warp';
 import { scrubGrabOffset } from '@/lib/map/scrub-grab';
 
@@ -115,8 +119,6 @@ const TIMELINE_STEP_MS = 15 * 60_000;
  *  clock. ≈0.6 px on a 375 pt screen — under the eye's threshold for the readout, and the
  *  brake on how often the whole solar field is rebuilt mid-drag. */
 const SCRUB_SEND_STEP = 0.0025;
-// Keep a generous vertical scrubbing target while using the entire content width.
-const TRACK_BAND_H = 48;
 // The app's one canonical snap spring (tokens.motion.spring), aliased locally so the
 // worklet call sites stay terse.
 const SPRING = motion.spring;
@@ -306,12 +308,12 @@ export function PrayerDock({
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
-  // The dock is chrome, so it follows the OS theme: light glass over the parchment
-  // basemap (light OS), dark glass over the navy basemap (dark OS) — see Apple
-  // Maps. The wash and prayer-line colours are still sun-driven (they're map
-  // canvas), but the dock stays anchored to one OS theme.
+  // Ink, accent and brass: the OS theme's, never the sun's (see the header).
   const c = useColors();
   const scheme = useActiveScheme();
+  // The card's own ground follows the sky it floats on (see theme/skyChrome); everything
+  // else about the dock — ink, accent, brass — stays on the palette.
+  const sky = useSkyGlass();
   const { fontScale, width: screenWidth, height: screenHeight } = useWindowDimensions();
   const roomyDate = screenWidth < 360 || fontScale > 1.3;
   const stackedSummary = fontScale > 1.3;
@@ -862,14 +864,14 @@ export function PrayerDock({
           style={StyleSheet.absoluteFill}
           borderRadius={radius.xl}
           interactive
-          tint={hexToRgba(c.surface, 0.97)}
+          tint={hexToRgba(sky.surface, 0.97)}
         />
 
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
             needs its own internal breathing here — no system-inset clearance. */}
         <View style={[styles.content, { paddingBottom: space.sm }]} pointerEvents="box-none">
           {/* A native viewport clips every intermediate frame above the fixed summary. */}
-          <View testID="dock-schedule-viewport" style={[styles.scheduleViewport, { bottom: COLLAPSED - 48 }]}>
+          <View testID="dock-schedule-viewport" style={[styles.scheduleViewport, { bottom: COLLAPSED - DOCK_HANDLE_H }]}>
             <Animated.View
               style={[{ maxHeight: scheduleRoom, flexShrink: 0 }, scheduleReveal]}
               pointerEvents={expanded ? 'auto' : 'none'}
@@ -1676,11 +1678,11 @@ function makeStyles(c: Palette, fontScale = 1) {
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: c.hairline,
     },
-    // Reserve the complete 48 dp handle target above the content.
+    // Reserve the handle's clearance (DOCK_HANDLE_H) above the content.
     content: { flex: 1 },
     // Leave room for the rows' 8dp highlight padding inside the clipping boundary.
     scheduleViewport: {
-      position: 'absolute', top: 48,
+      position: 'absolute', top: DOCK_HANDLE_H,
       left: space.lg - space.sm, right: space.lg - space.sm,
       paddingHorizontal: space.sm,
       overflow: 'hidden', justifyContent: 'flex-end',
@@ -1881,7 +1883,7 @@ function makeStyles(c: Palette, fontScale = 1) {
       top: 0,
       left: 0,
       right: 0,
-      height: 48,
+      height: DOCK_HANDLE_H,
       alignItems: 'center',
       justifyContent: 'center',
       gap: 1,

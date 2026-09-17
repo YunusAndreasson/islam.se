@@ -25,6 +25,7 @@ import { hapticSuccess } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
 import { qiblaBearing } from '@/lib/qibla';
 import { useAim } from '@/lib/useAim';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { Icon } from '@/components/ui/Icon';
 import { GlassRoundButton } from './GlassRoundButton';
@@ -38,6 +39,7 @@ export const LOCK_SPRING = { damping: 14, stiffness: 240, mass: 0.5 };
 
 export function CompassButton({ active }: { active: boolean }) {
   const c = useColors();
+  const sky = useSkyGlass();
   const { disc, glyph } = useNavMetrics();
   const { coords } = useLocation();
   const bearing = useMemo(() => qiblaBearing(coords), [coords]);
@@ -98,7 +100,10 @@ export function CompassButton({ active }: { active: boolean }) {
   // `highlight` is the token reserved for "this is live right now" (see theme/tokens), and
   // spending it on the aim and nothing else is what keeps it worth anything.
   const arrowHue = aligned ? c.highlightText : c.ink;
-  const tint = aligned ? c.highlightSoft : c.cardGlass;
+  // Unlit, the disc is a card on the map and takes the sky's ground like the rest of the
+  // chrome (theme/skyChrome). Lit, `highlightSoft` owns it — the lock is the one thing on
+  // this screen allowed to ignore the weather.
+  const tint = aligned ? c.highlightSoft : sky.cardGlass;
   const rim = aligned ? c.highlightText : c.hairline;
 
   return (

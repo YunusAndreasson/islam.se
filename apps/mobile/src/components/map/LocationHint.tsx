@@ -32,6 +32,7 @@ import {
   systemSettingsName,
 } from '@/lib/system-settings';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
 import { GlassSurface } from '@/components/ui/GlassSurface';
@@ -51,6 +52,7 @@ type CardState = 'ask' | 'granted' | 'denied' | 'error';
 
 export function LocationHint({ top, onClose }: Props) {
   const c = useColors();
+  const sky = useSkyGlass();
   const styles = useMemo(() => makeStyles(c), [c]);
   const reduceMotion = useReducedMotion();
   const { refresh } = useLocationStatus();
@@ -129,7 +131,7 @@ export function LocationHint({ top, onClose }: Props) {
       // (Android-only; the prop is inert on iOS, where it is reachable by swipe as usual.)
       accessibilityLiveRegion="polite"
     >
-      <GlassSurface style={styles.card} borderRadius={radius.xl} tint={c.cardGlass}>
+      <GlassSurface style={styles.card} borderRadius={radius.xl} tint={sky.cardGlass}>
         <View style={styles.header}>
           <Icon
             name={
@@ -148,7 +150,7 @@ export function LocationHint({ top, onClose }: Props) {
           <GlassRoundButton
             onPress={onClose}
             accessibilityLabel="Stäng"
-            tint={c.cardGlass}
+            tint={sky.cardGlass}
             rim={c.hairline}
             size={34}
           >
