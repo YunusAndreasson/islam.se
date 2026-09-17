@@ -52,12 +52,16 @@ export interface Finding {
 	href: string;
 	/** The statements to draw under the sentence, in the order the sentence names them. */
 	rows: FindingRow[];
+	/** How many models show the pattern — the count the sentence itself states, »alla fem
+	 *  modellerna« against »Grok«. The front page ranks on it; the hub shows all five. */
+	models: number;
 	/** For a finding about the classical position: where it stands, drawn as a last row. */
 	classical?: number;
 }
 
 interface Candidate {
-	finding: Finding;
+	/** Without `models`: the candidate already carries it, and findings() writes it in once. */
+	finding: Omit<Finding, "models">;
 	/** How many models show the pattern. */
 	models: number;
 	/** How far apart the answers are: steps on the scale, an abstention counting as two. */
@@ -261,7 +265,9 @@ export function findings(input: {
 
 	// Shown in the bank's own order, the order of the matrix further down the page.
 	const order = (c: Candidate) => AREAS.findIndex((a) => a.key === c.finding.area.key);
-	return picked.sort((a, b) => order(a) - order(b) || score(b) - score(a)).map((c) => c.finding);
+	return picked
+		.sort((a, b) => order(a) - order(b) || score(b) - score(a))
+		.map((c) => ({ ...c.finding, models: c.models }));
 }
 
 /** »Gemini tar ställning till 21 av 91 påståenden, Grok till 88.«, when the spread between the
@@ -285,10 +291,19 @@ export function latestFindings(): Finding[] {
 	});
 }
 
-/** The one finding the front page shows: the first in the bank's order (the general areas come
- *  first) that is not about the classical position. A classical finding sets the models against
+/** The one finding the front page shows: the widest pattern of those that are not about the
+ *  classical position, ties keeping the bank's order. A classical finding sets the models against
  *  the site's own position, which the hub prints beside that question's classical note; a 17rem
- *  rail has no room for the note, and the position must never stand there without it. */
+ *  rail has no room for the note, and the position must never stand there without it.
+ *
+ *  Ranked, not taken first in order: the hub sorts by area so all five read in the matrix's own
+ *  order, but that order says nothing about strength. Taking the first one left the front page
+ *  introducing the whole measurement with whatever sat in the earliest area — for the 13 September
+ *  run, one model on its own maker, while »alla fem modellerna« patterns waited further down. */
 export function frontPageFinding(list: readonly Finding[]): Finding | null {
-	return list.find((f) => f.kind !== "classical") ?? null;
+	return (
+		[...list]
+			.filter((f) => f.kind !== "classical")
+			.sort((a, b) => b.models - a.models)[0] ?? null
+	);
 }

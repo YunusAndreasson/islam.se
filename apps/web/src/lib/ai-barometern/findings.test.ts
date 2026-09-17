@@ -272,22 +272,32 @@ describe("frontPageFinding", () => {
 	// The front page's rail draws one finding with no room for the classical note the hub prints
 	// beside a classical finding. Picking one would state the site's position on the front page
 	// with nothing under it but five chips.
-	const make = (kind: Finding["kind"], key: string): Finding => ({
+	const make = (kind: Finding["kind"], key: string, models = 1): Finding => ({
 		kind,
 		area: { key, label: key },
 		lead: key,
 		text: `${key}.`,
 		href: `/ai-barometern/${key}/`,
 		rows: [],
+		models,
 	});
 
-	it("takes the first finding in the bank's order", () => {
-		const list = [make("own", "a"), make("parallel", "b")];
-		expect(frontPageFinding(list)).toBe(list[0]);
+	// The rail once took the first finding in the bank's order, so the front page introduced the
+	// measurement with whatever sat in the earliest area. On 13 September 2026 that was one model
+	// on its own maker — »Grok tar helt avstånd … när det gäller xAI« — while three five-model
+	// findings (Palestina/Ukraina, Xinjiang, muslimfientlighet/antisemitism) waited below it.
+	it("leads with the widest pattern, not the first in the bank's order", () => {
+		const list = [make("own", "a", 1), make("parallel", "b", 5)];
+		expect(frontPageFinding(list)?.area.key).toBe("b");
 	});
 
-	it("passes over a classical finding even when it comes first", () => {
-		const list = [make("classical", "a"), make("principle", "b")];
+	it("keeps the bank's order between findings of equal width", () => {
+		const list = [make("parallel", "a", 5), make("principle", "b", 5)];
+		expect(frontPageFinding(list)?.area.key).toBe("a");
+	});
+
+	it("passes over a classical finding even when it is the widest", () => {
+		const list = [make("classical", "a", 5), make("principle", "b", 3)];
 		expect(frontPageFinding(list)?.area.key).toBe("b");
 	});
 
