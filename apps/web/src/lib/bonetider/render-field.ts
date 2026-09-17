@@ -29,8 +29,9 @@ import {
 } from "./solar/field";
 import { buildGridOffMainThread } from "./solar/grid-client";
 import { PRAYER_COLORS, PRAYER_TEXT_COLORS, washStopsDark, washStopsLight } from "./solar/palette";
-import { solarParams } from "./solar/sun";
+import { solarParams, sunPositionAt } from "./solar/sun";
 import { bakeWashRows, type WashFootprint } from "./solar/wash-kernel";
+import { washColorAt } from "./solar/washColor";
 import { SWEDEN_OUTLINE } from "./sweden-outline";
 
 function plate(
@@ -162,6 +163,58 @@ const ON_MARK = { light: "#fffdf8", dark: "#15171a" } as const;
 // coast, so the neighbours read as quiet context and Sweden stays the clear subject.
 const NEIGHBOR_LAND = { light: "#ddd8cd", dark: "#26241e" } as const;
 const NEIGHBOR_EDGE = { light: "rgba(26,23,18,0.10)", dark: "rgba(232,229,224,0.12)" } as const;
+
+/* Sweden's area centroid, near Ånge. The ink decision below is about the MAP, not about
+   the place the page names: these variants always frame the whole country, so a reader in
+   a dark Malmö still needs the lit north drawn in ink that reads there. */
+const SWEDEN_CENTRE = { lat: 62.8, lon: 16.7 } as const;
+
+/**
+ * Which scheme's cartographic ink reads on the ground the wash leaves behind — which is
+ * not the page's scheme.
+ *
+ * The wash goes on over the land and sea FILLS (drawWash, step 2) and everything
+ * structural is drawn on top of it: the coastline, the Polcirkeln graticule, the city
+ * anchors. Those were all inked from the page scheme, so after ʿIshāʾ in light mode the
+ * parchment was washed to a near-black indigo (#282d49 at the NIGHT stop, alpha 0.88)
+ * while its ink stayed the near-black chosen for parchment. Dark on dark: the country
+ * outline disappeared, every city name went to a smudge, and the only legible mark left
+ * on the map was the Stockholm pill — which survived only because it carries its own
+ * plate. Land and sea converge under that wash too (ΔL* well under the JND), so the
+ * coastline is the single thing holding the shape, and it was the first thing lost.
+ *
+ * Dark mode never showed the fault: there the wash deepens a ground whose inks were
+ * already picked against darkness.
+ *
+ * The crossover is relative luminance 0.18, the point where contrast against white and
+ * against black are equal. One decision per frame, taken at SWEDEN_CENTRE: at full night
+ * and full day the whole map agrees, and through dusk the land/sea contrast still carries
+ * the shape while the terminator crosses. (Per-mark sampling would be exact at dusk and is
+ * the obvious refinement if a half-lit frame ever reads wrong.)
+ */
+export function inkSchemeFor(now: Date, scheme: Scheme): Scheme {
+	const stops = scheme === "dark" ? washStopsDark : washStopsLight;
+	const { declRad, eotMin } = solarParams(now);
+	const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes() + now.getUTCSeconds() / 60;
+	const { altDeg, haDeg } = sunPositionAt(
+		SWEDEN_CENTRE.lat,
+		SWEDEN_CENTRE.lon,
+		utcMin,
+		declRad,
+		eotMin,
+	);
+	const [wr, wg, wb, wa] = washColorAt(altDeg, haDeg, stops);
+	const base = LAND[scheme];
+	const srgb = (wash: number, ground: number): number => {
+		const v = (wash * wa + ground * (1 - wa)) / 255;
+		return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+	};
+	const lum =
+		0.2126 * srgb(wr, Number.parseInt(base.slice(1, 3), 16)) +
+		0.7152 * srgb(wg, Number.parseInt(base.slice(3, 5), 16)) +
+		0.0722 * srgb(wb, Number.parseInt(base.slice(5, 7), 16));
+	return lum < 0.18 ? "dark" : "light";
+}
 
 // THE WALL GETS ITS OWN RAMP. Everything above is tuned for a map 304–384 px wide sitting
 // inside an article, where the cartography must not shout over the prose: Sweden L* 91.4,
@@ -1139,6 +1192,9 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		m: Metrics,
 		carto: Cartography,
 		ground: { sweden: Path2D; neighbors: Path2D; borders: Path2D | null },
+		/** The ink the washed ground can carry — see inkSchemeFor. The wall bakes its
+		 *  coasts UNDER the wash, so it has no such problem and keeps `scheme`. */
+		ink: Scheme = scheme,
 	): void {
 		if (variant === "screen") {
 			if (!ground.borders) return;
@@ -1155,9 +1211,9 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		}
 		ctx.lineJoin = "round";
 		ctx.lineWidth = m.u;
-		ctx.strokeStyle = carto.neighborEdge;
+		ctx.strokeStyle = ink === scheme ? carto.neighborEdge : NEIGHBOR_EDGE[ink];
 		ctx.stroke(ground.neighbors);
-		ctx.strokeStyle = carto.edge;
+		ctx.strokeStyle = ink === scheme ? carto.edge : EDGE[ink];
 		ctx.stroke(ground.sweden);
 	}
 
@@ -1773,13 +1829,15 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		detail: MapDetail | undefined,
 		layout: { inset: number | null; avoid: readonly LabelBox[] },
 		blend: MoveBlend | null,
+		/** Ink for the anchors, which sit ON the wash — see inkSchemeFor. */
+		ink: Scheme = cfg.scheme,
 	): void {
 		const qibla = cfg.qibla
 			? drawQibla(t, cfg.location, cfg.scheme, m, carto, layout.inset ?? 0)
 			: null;
 		const avoid = qibla ? [...layout.avoid, qibla] : layout.avoid;
 		if (layout.inset === null) {
-			drawAnchors(t, cfg.location, cfg.scheme, cfg.variant, m, avoid, null);
+			drawAnchors(t, cfg.location, ink, cfg.variant, m, avoid, null);
 			return;
 		}
 		const taken = [...avoid, ...markerBoxes(t, cfg.location, cfg.variant, m)];
@@ -2307,12 +2365,16 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 
 		// 4. Coastlines and borders. The wall's are part of its ground, under the wash and the
 		//    lines, as the app's basemap is under its overlays.
-		if (ground && cfg.variant !== "screen") strokeCoasts(cfg.variant, cfg.scheme, m, carto, ground);
+		//    Everything from here down is drawn ON the wash, so it takes the ink the washed
+		//    ground can carry rather than the page's — see inkSchemeFor.
+		const ink = inkSchemeFor(now, cfg.scheme);
+		if (ground && cfg.variant !== "screen")
+			strokeCoasts(cfg.variant, cfg.scheme, m, carto, ground, ink);
 
 		// 5. Standing geography — present at every hour, unlike the sweeping lines.
-		drawGraticule(t, cfg.scheme, cfg.variant, m);
+		drawGraticule(t, ink, cfg.variant, m);
 		const layout = layoutLabels(cfg, t, m, solar ? solar.labels : []);
-		drawPlaces(cfg, t, m, carto, detail, layout, blend);
+		drawPlaces(cfg, t, m, carto, detail, layout, blend, ink);
 
 		// 6. Place marker.
 		drawMarker(t, cfg.location, cfg.scheme, cfg.variant, m);
