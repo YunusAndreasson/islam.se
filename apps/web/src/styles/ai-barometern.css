@@ -28,10 +28,14 @@
 
 	/* One row on a wide screen: compact keys, short labels, and only the marks this run uses.
 	   It wraps only where the width genuinely runs out. */
+	/* Two keys stacked: who the models are, then what the marks mean. The gap between them has to
+	   beat the gap between the scale key's own wrapped lines, or the roster reads as that key's
+	   first line — which is what happened when both were 0.45rem, 29px top-to-top either way, and
+	   the scale key wraps to three lines by 520px. Keys apart, wrapped lines closer. */
 	.abm-legend {
 		display: flex;
 		flex-direction: column;
-		gap: 0.45rem;
+		gap: var(--space-half);
 		margin-block-end: var(--space-unit);
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
@@ -40,7 +44,7 @@
 	.abm-legend-row {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.45rem 0.6rem;
+		gap: 0.3rem 0.6rem;
 	}
 	.abm-legend-item {
 		display: inline-flex;
