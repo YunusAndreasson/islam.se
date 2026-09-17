@@ -300,7 +300,20 @@
 	.abm-strip td {
 		text-align: center;
 		block-size: 2.5rem;
+	}
+	/* The rule runs the whole row, label included. On the td alone it began at the first column,
+	   178px in, so every hairline floated free of the model it belonged to. */
+	.abm-strip tbody > tr > * {
 		border-block-end: 1px solid var(--color-divider);
+	}
+	/* The dots answer for the model named beside them, so they start from the same line. Both
+	   cells were centred instead, and since a label runs to two lines — three when it carries
+	   »Eget företag« — the marks sat 12px below the name, 23px on the taller row. */
+	.abm-strip tbody > tr > * {
+		vertical-align: top;
+	}
+	.abm-strip tbody td {
+		padding-block-start: 0.05rem;
 	}
 
 	.abm-rowmodel {
@@ -1026,11 +1039,20 @@
 		margin-block: 0 var(--space-unit);
 		color: var(--text-body);
 	}
+	/* As in the matrix: the row's hairline is the line, so the label drops the underline it
+	   inherits rather than drawing a second one a few pixels above it. */
 	.abm-strip tbody th a,
 	.abm-spread tbody th a {
 		color: var(--color-text);
-		text-decoration-color: var(--color-rule);
+		text-decoration: none;
 		text-underline-offset: 0.2em;
+	}
+	.abm-strip tbody th a:hover,
+	.abm-strip tbody th a:focus-visible,
+	.abm-spread tbody th a:hover,
+	.abm-spread tbody th a:focus-visible {
+		text-decoration: underline;
+		text-decoration-color: var(--color-rule);
 	}
 	.abm-spread-current {
 		font-weight: 600;
