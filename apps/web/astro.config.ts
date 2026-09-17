@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { type UnifiedProcessorOptions, unified } from "@astrojs/markdown-remark";
+import { rehypeHeadingIds, type UnifiedProcessorOptions, unified } from "@astrojs/markdown-remark";
 import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
 import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
@@ -9,6 +9,7 @@ import { AI_BAROMETERN_DATA_DATE } from "./src/lib/ai-barometern/meta";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
 import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeChart } from "./src/plugins/rehype-chart";
+import { rehypeHeadingAnchor } from "./src/plugins/rehype-heading-anchor";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
 import { rehypeQuoteAttribution } from "./src/plugins/rehype-quote-attribution";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
@@ -805,6 +806,16 @@ export default defineConfig({
 				rehypeChart,
 				rehypeTable,
 				rehypeTimeline,
+				// LAST, and the pair has to stay in this order. Astro adds the heading `id`s
+				// with rehypeHeadingIds, and it schedules that AFTER the whole user list — so
+				// a permalink plugin placed anywhere in this array walks headings that have no
+				// id yet, matches nothing, and ships no anchors at all, silently and on every
+				// page. (That is how it failed first time; rehype-heading-anchor.test.ts pins
+				// the symptom.) Naming rehypeHeadingIds here runs it early enough to be seen,
+				// and it is idempotent, so Astro's own later pass finds the ids already set and
+				// leaves them — the slugs, and every #fragment already shared, are unchanged.
+				rehypeHeadingIds,
+				rehypeHeadingAnchor,
 			],
 		}),
 	},

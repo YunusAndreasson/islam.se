@@ -226,19 +226,10 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 			slot.append(footnotes);
 		}
 
-		// Anchor links on every section heading. Deliberately client-side: the markdown
-		// `processor` in astro.config.ts is global, so a rehype plugin would rewrite all
-		// 54 essays and 63 answer pages too. The heading `id`s that SEO needs are already
-		// server-rendered by Astro's slugger.
-		for (const h of document.querySelectorAll<HTMLElement>(".fordjupning-body h2[id]")) {
-			if (h.querySelector(".heading-anchor")) continue;
-			const a = document.createElement("a");
-			a.className = "heading-anchor";
-			a.href = `#${h.id}`;
-			a.setAttribute("aria-label", `Länk till avsnittet ${h.textContent ?? ""}`.trim());
-			a.textContent = "#";
-			h.append(a);
-		}
+		// The section permalinks that used to be built here are server-rendered now, by
+		// src/plugins/rehype-heading-anchor.ts — on h3 as well as h2, without JS, and on
+		// the essays and answers that never had them. Styles live with .prose in
+		// editorial.css.
 
 		initFootnotePopovers();
 		initQuranPlayers();
@@ -334,25 +325,5 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		margin-top: var(--space-phi);
 	}
 
-	/* Revealed on heading hover/focus only — a permanent row of hashes would compete
-	   with the section titles themselves. */
-	.fordjupning-body :global(.heading-anchor) {
-		margin-inline-start: 0.4em;
-		font-size: 0.7em;
-		color: var(--color-muted);
-		text-decoration: none;
-		opacity: 0;
-		transition: opacity 0.15s ease;
-	}
-
-	.fordjupning-body :global(h2:hover .heading-anchor),
-	.fordjupning-body :global(.heading-anchor:focus-visible) {
-		opacity: 1;
-	}
-
-	@media (hover: none) {
-		.fordjupning-body :global(.heading-anchor) {
-			display: none;
-		}
-	}
+	/* .heading-anchor is styled once, with .prose, in editorial.css. */
 </style>

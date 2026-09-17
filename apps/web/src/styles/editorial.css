@@ -91,6 +91,46 @@ a:focus-visible .media-frame::before {
 .svar-section {
 	scroll-margin-top: calc(var(--mast-height, 5rem) + 1.5rem);
 }
+/* Section permalink (src/plugins/rehype-heading-anchor.ts). The mark hangs in the left
+   margin and is drawn only on hover: a standing column of hashes down the page would
+   compete with the section titles it indexes. The anchor is the LAST child of the
+   heading so a screen reader hears the section's own words before the permalink; only
+   the CSS puts it on the left. */
+.prose :is(h2, h3):has(> .heading-anchor) {
+	position: relative;
+}
+.prose .heading-anchor {
+	position: absolute;
+	inset-inline-end: 100%;
+	top: 0;
+	padding-inline-end: 0.25em;
+	color: var(--color-muted);
+	font-weight: 400;
+	text-decoration: none;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+.prose :is(h2, h3):hover > .heading-anchor,
+.prose .heading-anchor:focus-visible {
+	opacity: 1;
+}
+/* The reading measure is centred in a 64rem frame, so on a wide screen the margin the
+   mark hangs in is tens of pixels of empty page. Under that the frame's own gutter is
+   all there is (--padding-inline, 1.5rem) and the mark would sit on the page edge or
+   past it — so it comes back inside and trails the title instead. */
+@media (width < 52rem) {
+	.prose .heading-anchor {
+		position: static;
+		padding-inline: 0.35em 0;
+	}
+}
+/* No hover to reveal it with: quiet, but present, or a phone reader has no way at all
+   to link to a section — and a phone is where a link is usually shared. */
+@media (hover: none) {
+	.prose .heading-anchor {
+		opacity: 0.4;
+	}
+}
 .svar-index .svar-pelare {
 	margin-block: 0 var(--space-section);
 }
