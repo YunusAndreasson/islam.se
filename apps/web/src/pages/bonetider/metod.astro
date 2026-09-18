@@ -2,12 +2,34 @@
 import AppPromo from "../../components/AppPromo.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
+import AsrShadow from "../../components/bonetider/AsrShadow.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
+import SunDayCurve from "../../components/bonetider/SunDayCurve.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
+import { placeBySlug } from "../../lib/bonetider/places-index";
+import { dateForStockholmDay } from "../../lib/bonetider/prayer-times";
+
+// The figures are drawn for fixed reference days, never "today" — same reason
+// place-facts.ts fixes its year: a statically built page must not go stale, and each
+// panel only makes its point on its own day.
+const MIDWINTER = dateForStockholmDay(2025, 11, 21);
+const EQUINOX = dateForStockholmDay(2025, 2, 20);
+const MIDSUMMER = dateForStockholmDay(2025, 5, 21);
+
+// ⚠️ Malmö, NOT the site's default Stockholm — and not for looks. Under the default
+// settings, Stockholm's published Fajr is never on the 18° angle on any day of the
+// year: the seventh-of-the-night floor is later every time (deepest: −17,4°, late
+// January). Malmö is the one large city where the angle genuinely sets Fajr and
+// ʿIshāʾ, from about November to February, so it is the only honest place to draw
+// the definition working. The §m-latitud prose says so, and sun-day-curve.test.ts
+// pins both facts.
+const malmo = placeBySlug("malmo");
+if (!malmo) throw new Error("metod.astro: placeBySlug('malmo') missing — the figures need it");
+const FIGURE_PLACE = { name: malmo.name, latitude: malmo.lat, longitude: malmo.lon };
 
 // One array feeds both the visible trail and the JSON-LD, so they cannot drift apart.
 // ⚠️ Trailing slashes are load-bearing here: the visible href is used raw, and
@@ -43,7 +65,7 @@ const faq = [
 	},
 	{
 		q: "Hur hanteras Sveriges ljusa sommarnätter?",
-		a: "När solen inte sjunker de 18° under horisonten som krävs för Fajr och ʿIshāʾ används en regel för höga latituder – som standard närmaste lämpliga plats (Aqrab al-Balad) – så att tider ändå kan anges. Norr om polcirkeln är regeln nödvändig.",
+		a: "När solen inte sjunker de 18° under horisonten som krävs för Fajr och ʿIshāʾ används en regel för höga latituder – som standard sjundedel av natten, där Fajr sätts en sjundedel av natten före soluppgången och ʿIshāʾ lika långt efter solnedgången. Norr om polcirkeln, där solen delar av året inte går ner eller inte går upp alls, hämtas tiderna i stället från närmaste plats där de går att beräkna (Aqrab al-Balad).",
 	},
 	{
 		q: "Vilka källor bygger bönetiderna på?",
@@ -104,6 +126,12 @@ const prayerDefinitions = [
 				Varje bön är knuten till en bestämd solhöjd. Vi visar sex tidpunkter per dygn:
 			</p>
 			<DefinitionList items={prayerDefinitions} />
+			<SunDayCurve location={FIGURE_PLACE} date={MIDWINTER} dateLabel="midvinter">
+				Shurūq och Maghrib ligger på horisonten och Ẓuhr vid kurvans topp. Fajr och ʿIshāʾ hamnar
+				nere i skymningen, där solen står 18° respektive 17° under horisonten – de vinklar
+				standardmetoden Muslim World League räknar med. ʿAṣr bestäms inte av en vinkel utan av en
+				skugga; se <a href="#m-metoder">Beräkningsmetoder och madhhab</a>.
+			</SunDayCurve>
 		</TitledSection>
 
 		<TitledSection id="m-solen" title="Solens läge, inte en tabell">
@@ -129,17 +157,32 @@ const prayerDefinitions = [
 				enskilda böner med några minuter under Avancerat. Inställningarna sparas lokalt i din
 				webbläsare.
 			</p>
+			<AsrShadow location={FIGURE_PLACE} date={EQUINOX} dateLabel="vårdagjämningen">
+				islam.se visar som standard den tidigare tiden; den senare väljs i inställningarna.
+			</AsrShadow>
 		</TitledSection>
 
 		<TitledSection id="m-latitud" title="Höga latituder och ljusa nätter">
 			<p>
 				På svenska breddgrader blir sommarnatten ofta så ljus att solen aldrig sjunker de 18° under
 				horisonten som krävs för den vanliga vinkelberäkningen av Fajr och ʿIshāʾ. Då används en regel
-				för höga latituder – som standard <em>närmaste lämpliga plats</em> (Aqrab al-Balad) – så att
-				tider ändå kan anges på ett rimligt sätt. Norr om polcirkeln, där midnattssol och polarnatt
-				råder delar av året, är denna regel nödvändig. Inställningen väljs automatiskt utifrån orten,
-				men kan ändras manuellt.
+				för höga latituder – som standard <em>sjundedel av natten</em>, där Fajr sätts en sjundedel av
+				natten före soluppgången och ʿIshāʾ lika långt efter solnedgången. Norr om polcirkeln, där
+				midnattssol och polarnatt råder delar av året, finns ingen natt att dela; där hämtas tiderna
+				i stället från närmaste plats där de går att beräkna (Aqrab al-Balad). Inställningen väljs
+				automatiskt utifrån orten, men kan ändras manuellt.
 			</p>
+			<p>
+				Sjundedelen gäller dessutom som en gräns, inte bara när vinkeln saknas: skulle vinkeln ge
+				en Fajr tidigare än en sjundedel av natten före soluppgången, är det sjundedelen som
+				gäller. Ju längre norrut, desto oftare avgör den. I Malmö följer Fajr vinkeln ungefär från
+				november till februari; i Stockholm sätter sjundedelen Fajr året runt.
+			</p>
+			<SunDayCurve location={FIGURE_PLACE} date={MIDSUMMER} dateLabel="midsommar">
+				Jämför med midvinter ovan: här ger vinkeln varken Fajr eller ʿIshāʾ, så prickarna ligger i
+				stället en sjundedel av natten före soluppgången och efter solnedgången – ovanför den
+				streckade linjen, inte på den.
+			</SunDayCurve>
 		</TitledSection>
 
 		<TitledSection id="m-tid" title="Tidszon och sommartid">

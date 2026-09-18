@@ -1,0 +1,353 @@
+---
+// One day of sun altitude, with the six prayer times sitting where they fall on it.
+//
+// The figure that makes »en bestämd vinkel under horisonten« visible: Fajr and ʿIshāʾ
+// land in the twilight band, Shurūq and Maghrib on the horizon rule, Ẓuhr at the peak,
+// ʿAṣr partway down the afternoon. Rendered twice on /bonetider/metod/, for Malmö —
+// once at midwinter, where the curve dives through −18° and Fajr and ʿIshāʾ sit on
+// their angles, and once at midsummer, where it stops at −11° and the two
+// angle-defined prayers have no solution at all. Same component, same maths, same y
+// scale: the second panel is the first one's proof. (Why Malmö and not Stockholm:
+// see the note in metod.astro.)
+//
+// Build-time SVG, no client JS — the contract AnnualPrayerChart.astro and
+// PrayerTable.astro keep. The dots are placed from computePrayerTimes(), not from the
+// angles, so the picture can only ever show what the rest of the site publishes.
+import {
+	computePrayerTimes,
+	formatTime,
+	PRAYER_LABELS,
+	PRAYER_ORDER,
+	type PrayerKey,
+} from "../../lib/bonetider/prayer-times";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+import { PRAYER_COLORS } from "../../lib/bonetider/solar/palette";
+import {
+	altAt,
+	ASTRONOMICAL_NIGHT_DEG,
+	HORIZON_DEG,
+	minuteOnCurve,
+	sunDayCurve,
+} from "../../lib/bonetider/sun-day-curve";
+
+interface Props {
+	location: { name: string; latitude: number; longitude: number };
+	/** Reference date. Fixed, never `new Date()` — see the caption rule in place-facts.ts. */
+	date: Date;
+	/** Swedish date for the caption and the accessible description, e.g. "vårdagjämningen". */
+	dateLabel: string;
+}
+const { location, date, dateLabel } = Astro.props;
+
+const curve = sunDayCurve(location.latitude, location.longitude, date);
+const times = computePrayerTimes(location, date, DEFAULT_SETTINGS);
+
+// SVG geometry, in viewBox units; CSS scales the element.
+const W = 760;
+const H = 300;
+const padL = 32; // altitude labels
+const padR = 14;
+const padT = 24; // room for the Ẓuhr label above a midsummer peak near the top
+const padB = 26; // hour labels
+const plotW = W - padL - padR;
+const plotH = H - padT - padB;
+
+// A FIXED altitude domain across both renderings — the whole comparison rests on the
+// two panels sharing a scale, so the −18° rule sits at the same height in each and the
+// midsummer curve is visibly higher. ±60° holds every Swedish place south of the polar
+// circle at both solstices: Malmö reaches +58° at midsummer noon and −58° at midwinter
+// midnight. The path is clamped to the frame in case a caller goes further.
+const ALT_MAX = 60;
+const ALT_MIN = -60;
+
+// Stockholm wall-clock minutes — the clock the legend's times are printed in. See the
+// note in sun-day-curve.ts on why this is not CET like the annual chart.
+const x = (minute: number): number => padL + (minute / 1440) * plotW;
+const y = (altDeg: number): number => {
+	const clamped = Math.max(ALT_MIN, Math.min(ALT_MAX, altDeg));
+	return padT + ((ALT_MAX - clamped) / (ALT_MAX - ALT_MIN)) * plotH;
+};
+
+const path = curve.samples
+	.map((s, i) => `${i === 0 ? "M" : "L"} ${x(s.minuteOfDay).toFixed(1)} ${y(s.altDeg).toFixed(1)}`)
+	.join(" ");
+
+const yHorizon = y(HORIZON_DEG);
+const yNight = y(ASTRONOMICAL_NIGHT_DEG);
+const yBottom = y(ALT_MIN);
+
+// Each label goes in a quadrant the curve does not pass through. A rising curve (Fajr,
+// Shurūq) comes from the lower left and leaves to the upper right, so upper-left and
+// lower-right are clear; a falling one (ʿAṣr, Maghrib, ʿIshāʾ) the mirror image. Pairing
+// above with below also keeps the two tight pairs — Fajr/Shurūq and Maghrib/ʿIshāʾ, ~50
+// units apart at midsummer — clear of each other. Centred-below put ʿIshāʾ's label
+// squarely on the descending curve.
+type LabelSpot = { dx: number; dy: number; anchor: "start" | "middle" | "end" };
+const ABOVE = -9;
+const BELOW = 15;
+const LABEL_SPOT: Record<PrayerKey, LabelSpot> = {
+	fajr: { dx: -5, dy: ABOVE, anchor: "end" },
+	sunrise: { dx: 5, dy: BELOW, anchor: "start" },
+	dhuhr: { dx: 0, dy: ABOVE, anchor: "middle" },
+	asr: { dx: 4, dy: ABOVE, anchor: "start" },
+	maghrib: { dx: 4, dy: ABOVE, anchor: "start" },
+	isha: { dx: -5, dy: BELOW, anchor: "end" },
+};
+
+// A prayer adhan could not resolve is an Invalid Date (polar places, the Unresolved
+// rule). It gets no dot rather than a dot at NaN.
+const dots = PRAYER_ORDER.map((key) => {
+	const minute = minuteOnCurve(curve, times[key]);
+	if (!Number.isFinite(minute)) return null;
+	return {
+		key,
+		cx: x(minute),
+		cy: y(altAt(curve, minute)),
+		spot: LABEL_SPOT[key],
+		color: `light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`,
+	};
+}).filter((d): d is NonNullable<typeof d> => d !== null);
+
+const hours = [0, 6, 12, 18, 24].map((h) => ({ label: String(h).padStart(2, "0"), at: x(h * 60) }));
+// −18 sits on the axis beside its dashed rule rather than as a label at the rule's end:
+// the right edge of the plot is where the Maghrib and ʿIshāʾ labels land at midsummer.
+// A true minus (U+2212), not the hyphen String() produces.
+// On a phone only the horizon and the 18° rule keep their numbers (`minor` hides the rest).
+const altTicks = [60, 30, 0, ASTRONOMICAL_NIGHT_DEG, -45].map((a) => ({
+	label: a < 0 ? `−${-a}` : String(a),
+	at: y(a),
+	minor: a !== 0 && a !== ASTRONOMICAL_NIGHT_DEG,
+}));
+// Band names centred at noon — the one x where the sun is above the horizon on every
+// date this figure is drawn for, so the bands there are guaranteed empty. Anywhere
+// near either end, the midsummer curve runs through the twilight band.
+const xNoon = x(12 * 60);
+
+// How far below the horizon the sun gets at solar midnight — a positive number of degrees.
+const depression = Math.abs(curve.minAltDeg).toFixed(1).replace(".", ",");
+// The caption's factual sentence is derived from the curve, never typed by hand, so it
+// cannot contradict the picture above it. The page adds context through the slot.
+const lead = `Solens höjd under ett dygn i ${location.name} vid ${dateLabel}.`;
+const reach = curve.reachesAstronomicalNight
+	? `Vid midnatt står den ${depression}° under horisonten, djupare än de 18° vinkelberäkningen kräver.`
+	: `Vid midnatt står den bara ${depression}° under horisonten och når aldrig ned till 18°.`;
+const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta där de infaller på kurvan.`;
+---
+
+<figure class="sdc">
+	<svg class="sdc-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel}>
+		<!-- Twilight (horizon down to 18°) and true night below it. -->
+		<rect
+			x={padL}
+			y={yHorizon}
+			width={plotW}
+			height={yNight - yHorizon}
+			class="sdc-band sdc-band-twilight"
+		/>
+		<rect x={padL} y={yNight} width={plotW} height={yBottom - yNight} class="sdc-band sdc-band-night" />
+		<text x={xNoon} y={(yHorizon + yNight) / 2 + 3} class="sdc-band-name">skymning</text>
+		<text x={xNoon} y={(yNight + yBottom) / 2 + 3} class="sdc-band-name">natt</text>
+
+		<!-- Altitude ticks, in degrees above (+) or below (−) the horizon. -->
+		{altTicks.map((t) => (
+			<text x={padL - 5} y={t.at + 3} class:list={["sdc-axis sdc-axis-y", { "sdc-axis-minor": t.minor }]}>
+				{t.label}
+			</text>
+		))}
+
+		<!-- The horizon, and the 18° rule the standard Fajr/ʿIshāʾ angles need. -->
+		<line x1={padL} y1={yHorizon} x2={W - padR} y2={yHorizon} class="sdc-horizon" />
+		<line x1={padL} y1={yNight} x2={W - padR} y2={yNight} class="sdc-rule-18" />
+
+		<!-- Hour labels. -->
+		{hours.map((h) => <text x={h.at} y={H - 8} class="sdc-axis sdc-axis-x">{h.label}</text>)}
+
+		<!-- The sun's altitude across the day. -->
+		<path d={path} class="sdc-curve" />
+
+		<!-- Each prayer where it actually falls on the curve. -->
+		{dots.map((d) => (
+			<g>
+				<circle cx={d.cx} cy={d.cy} r="5.5" class="sdc-dot-halo" />
+				<circle cx={d.cx} cy={d.cy} r="3.4" style={`fill:${d.color}`} />
+				<text
+					x={d.cx + d.spot.dx}
+					y={d.cy + d.spot.dy}
+					text-anchor={d.spot.anchor}
+					class="sdc-dot-name"
+				>
+					{PRAYER_LABELS[d.key]}
+				</text>
+			</g>
+		))}
+	</svg>
+
+	<ul class="sdc-legend">
+		{PRAYER_ORDER.map((key) => (
+			<li>
+				<span
+					class="sdc-chip"
+					style={`background:light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`}
+					aria-hidden="true"></span>
+				<span class="sdc-chip-name">{PRAYER_LABELS[key]}</span>
+				<span class="sdc-chip-time">{formatTime(times[key])}</span>
+			</li>
+		))}
+	</ul>
+
+	<figcaption class="sdc-cap">{lead} {reach} <slot /></figcaption>
+</figure>
+
+<style>
+	.sdc {
+		margin: var(--space-unit) 0 0;
+		max-width: 46rem;
+	}
+
+	.sdc-svg {
+		width: 100%;
+		height: auto;
+		display: block;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-md);
+		background: var(--color-bg);
+		padding: 0.4rem 0.2rem;
+		/* Scaled-down SVG text in Chromium snaps glyph positions to the pixel grid
+		   and spaces letters apart (»Ma g hrib«); this keeps them where the font put them. */
+		text-rendering: geometricPrecision;
+	}
+
+	/* The same indigo the annual chart shades its nights with, so the two figures read
+	   as one family; twilight is the lighter half of the same wash. */
+	.sdc-band {
+		stroke: none;
+	}
+
+	.sdc-band-twilight {
+		fill: color-mix(in srgb, light-dark(#33437a, #94a2dd), transparent 94%);
+	}
+
+	.sdc-band-night {
+		fill: color-mix(in srgb, light-dark(#33437a, #94a2dd), transparent 86%);
+	}
+
+	.sdc-horizon {
+		stroke: var(--color-rule);
+		stroke-width: 1.25;
+	}
+
+	.sdc-rule-18 {
+		stroke: var(--color-muted);
+		stroke-width: 1;
+		stroke-dasharray: 5 4;
+	}
+
+	.sdc-curve {
+		fill: none;
+		stroke: var(--color-text);
+		stroke-width: 1.75;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+	}
+
+	/* Reads the dot as sitting ON the curve rather than being crossed by it. */
+	.sdc-dot-halo {
+		fill: var(--color-bg);
+	}
+
+	/* ⚠️ px, not a --step-- token — these live inside the viewBox, so 11px means 11 USER
+	   UNITS and stays in proportion to padL, the band heights and the gridline spacing
+	   as the figure scales. A rem token would resolve against the reader's root font
+	   size instead and break the layout at anything but a 16px default. Same reasoning
+	   as AnnualPrayerChart.astro; do not "snap these to the scale". */
+	.sdc-axis {
+		font-family: var(--font-body);
+		fill: var(--color-muted);
+		font-size: 11px;
+	}
+
+	.sdc-axis-y {
+		text-anchor: end;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.sdc-axis-x {
+		text-anchor: middle;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.sdc-band-name {
+		font-family: var(--font-body);
+		fill: var(--color-muted);
+		font-size: 10px;
+		text-anchor: middle;
+		letter-spacing: 0.04em;
+	}
+
+	.sdc-dot-name {
+		font-family: var(--font-heading);
+		fill: var(--color-text);
+		font-size: 11px;
+	}
+
+	.sdc-legend {
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem 0.9rem;
+	}
+
+	.sdc-legend li {
+		display: flex;
+		align-items: baseline;
+		gap: 0.3rem;
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+	}
+
+	.sdc-chip {
+		align-self: center;
+		width: 0.7rem;
+		height: 0.7rem;
+		border-radius: var(--radius-xs);
+		flex: none;
+	}
+
+	.sdc-chip-name {
+		color: var(--color-text);
+		font-weight: 600;
+	}
+
+	.sdc-chip-time {
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.sdc-cap {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		max-width: var(--content-width);
+		text-wrap: pretty;
+	}
+
+	/* On a phone the 760-unit viewBox scales to under half size, putting 11-unit labels
+	   near 5 CSS px — where Chromium visibly kerns them apart. The in-plot names go (the
+	   legend below carries every name and time, keyed by the same colours, in the same
+	   left-to-right order) and the axis is enlarged to stay legible. */
+	@media (width <= 30rem) {
+		.sdc-dot-name,
+		.sdc-band-name,
+		.sdc-axis-minor {
+			display: none;
+		}
+
+		/* 17 units: the widest label left, »−18«, just clears the 32-unit margin. */
+		.sdc-axis {
+			font-size: 17px;
+		}
+	}
+</style>

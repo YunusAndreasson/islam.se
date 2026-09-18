@@ -1,0 +1,250 @@
+---
+// The ʿAṣr shadow rule, drawn.
+//
+// An upright object, its shadow at noon, and the two points where ʿAṣr begins: once
+// the shadow has grown past its noon length by one object-length (Shāfiʿī, Mālikī,
+// Ḥanbalī) or by two (Ḥanafī). What a sentence cannot carry is that the noon shadow is
+// never zero in Sweden — it is already longer than the object at the equinox — so the
+// rule is always »noon shadow plus«, and the figure makes that the first thing you see.
+//
+// Composition: above the ground line the physics (the object, and the sun's rays
+// through its tip, flattening as the afternoon goes on); below it the measurement
+// (the lengths, and the clock times they correspond to). Keeping the two apart is
+// what lets the rays and the labels coexist without crossing.
+//
+// Geometry from asr-shadow.ts, clock times from computePrayerTimes() — and
+// asr-shadow.test.ts pins those two against each other, so the marks drawn here and
+// the times printed under them cannot drift apart. Build-time SVG, no client JS.
+import { asrShadow } from "../../lib/bonetider/asr-shadow";
+import { computePrayerTimes, formatTime } from "../../lib/bonetider/prayer-times";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+
+interface Props {
+	location: { name: string; latitude: number; longitude: number };
+	/** Reference date. Fixed, never `new Date()` — the figure must not go stale. */
+	date: Date;
+	/** Swedish date for the accessible description, e.g. "vårdagjämningen". */
+	dateLabel: string;
+}
+const { location, date, dateLabel } = Astro.props;
+
+const shadow = asrShadow(location.latitude, date);
+const shafi = computePrayerTimes(location, date, { ...DEFAULT_SETTINGS, madhab: "shafi" });
+const hanafi = computePrayerTimes(location, date, { ...DEFAULT_SETTINGS, madhab: "hanafi" });
+
+// SVG geometry, in viewBox units; CSS scales the element.
+const W = 520;
+const H = 232;
+const OX = 60; // the object's foot
+const GROUND = 150;
+// The Ḥanafī shadow tip must land at or before this x, whatever the date and place.
+const SPAN = 372;
+// Object height: as tall as fits, capped so a short midsummer shadow doesn't blow the
+// object up past the top of the frame. At the equinox in Stockholm it is exactly 100.
+const OH = Math.min(100, SPAN / shadow.hanafiRatio);
+const TOP = GROUND - OH;
+
+const tipNoon = OX + shadow.noonRatio * OH;
+const tipShafi = OX + shadow.shafiRatio * OH;
+const tipHanafi = OX + shadow.hanafiRatio * OH;
+
+// Each ray enters from the upper left, grazes the object's tip, and lands on the
+// shadow's tip. Extended back past the tip by a fixed length so it reads as incoming
+// light rather than a line drawn from the object.
+const BACK = 40;
+const ray = (tipX: number): string => {
+	const dx = tipX - OX;
+	const dy = GROUND - TOP;
+	const len = Math.hypot(dx, dy);
+	const sx = OX - (dx / len) * BACK;
+	const sy = TOP - (dy / len) * BACK;
+	return `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${tipX.toFixed(1)} ${GROUND}`;
+};
+
+// A 2-unit gap either side of each tick lets the segments read as separate lengths.
+const GAP = 2;
+const segment = (from: number, to: number) => ({ x1: from + GAP, x2: to - GAP, mid: (from + to) / 2 });
+const noonSeg = { x1: OX, x2: tipNoon - GAP, mid: (OX + tipNoon) / 2 };
+const plusOne = segment(tipNoon, tipShafi);
+const plusTwo = segment(tipShafi, tipHanafi);
+
+const ticks = [
+	{ at: tipNoon, time: `Ẓuhr ${formatTime(shafi.dhuhr)}`, who: "", asr: false },
+	{ at: tipShafi, time: `ʿAṣr ${formatTime(shafi.asr)}`, who: "Shāfiʿī, Mālikī, Ḥanbalī", asr: true },
+	{ at: tipHanafi, time: `ʿAṣr ${formatTime(hanafi.asr)}`, who: "Ḥanafī", asr: true },
+];
+
+const noonText = shadow.noonRatio.toFixed(1).replace(".", ",");
+const gapMin = Math.round((hanafi.asr.getTime() - shafi.asr.getTime()) / 60_000);
+// The caption's factual sentences come from the same numbers the figure is drawn from,
+// so they cannot disagree with it. The page adds context through the slot.
+const caption = `Ett upprätt föremål i ${location.name} vid ${dateLabel}. Redan vid middag är skuggan ${noonText} gånger så lång som föremålet, så regeln räknar från middagsskuggan (fayʾ az-zawāl) och inte från noll. De två tiderna skiljer sig här med ${gapMin} minuter.`;
+const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabel}. Ett upprätt föremål kastar vid middag en skugga som är ${noonText} gånger dess egen längd. När skuggan har vuxit med ytterligare en föremålslängd börjar ʿAṣr enligt shafiiter, malikiter och hanbaliter, klockan ${formatTime(shafi.asr)}; när den vuxit med två föremålslängder börjar ʿAṣr enligt hanafiter, klockan ${formatTime(hanafi.asr)}.`;
+---
+
+<figure class="asd">
+	<svg class="asd-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel}>
+		<!-- Sunlight: noon, then the two ʿAṣr moments, each grazing the object's tip. -->
+		<path d={ray(tipNoon)} class="asd-ray" />
+		<path d={ray(tipShafi)} class="asd-ray" />
+		<path d={ray(tipHanafi)} class="asd-ray" />
+
+		<!-- Ground, and the object. -->
+		<line x1={OX - 30} y1={GROUND} x2={W - 14} y2={GROUND} class="asd-ground" />
+		<line x1={OX} y1={GROUND} x2={OX} y2={TOP} class="asd-object" />
+		<text x={OX - 9} y={(GROUND + TOP) / 2 + 4} class="asd-object-name">föremål</text>
+
+		<!-- The shadow at noon, then the two object-lengths it grows by before ʿAṣr. -->
+		<line x1={noonSeg.x1} y1={GROUND} x2={noonSeg.x2} y2={GROUND} class="asd-shadow" />
+		<line x1={plusOne.x1} y1={GROUND} x2={plusOne.x2} y2={GROUND} class="asd-growth" />
+		<line x1={plusTwo.x1} y1={GROUND} x2={plusTwo.x2} y2={GROUND} class="asd-growth" />
+
+		<text x={noonSeg.mid} y={GROUND + 20} class="asd-seg-name">middagsskugga</text>
+		<!-- Two wordings: at phone sizes the long one outgrows its segment and runs
+		     through the ʿAṣr leader line. CSS shows exactly one. -->
+		<text x={plusOne.mid} y={GROUND + 20} class="asd-seg-name asd-wide">+ en föremålslängd</text>
+		<text x={plusOne.mid} y={GROUND + 20} class="asd-seg-name asd-narrow">+ en längd</text>
+		<text x={plusTwo.mid} y={GROUND + 20} class="asd-seg-name">+ en till</text>
+
+		<!-- Leaders down to the clock time each point corresponds to. -->
+		{ticks.map((t) => (
+			<g>
+				<line x1={t.at} y1={GROUND - 5} x2={t.at} y2={GROUND + 32} class={t.asr ? "asd-tick asd-tick-asr" : "asd-tick"} />
+				<text x={t.at} y={GROUND + 48} class="asd-time">{t.time}</text>
+				{/* 20 units below the time, not 15: at the phone sizes the two rows' line
+				    boxes otherwise touch. */}
+				{t.who && <text x={t.at} y={GROUND + 68} class="asd-who">{t.who}</text>}
+			</g>
+		))}
+	</svg>
+
+	<figcaption class="asd-cap">{caption} <slot /></figcaption>
+</figure>
+
+<style>
+	.asd {
+		margin: var(--space-unit) 0 0;
+		max-width: 38rem;
+	}
+
+	.asd-svg {
+		width: 100%;
+		height: auto;
+		display: block;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-md);
+		background: var(--color-bg);
+		padding: 0.4rem 0.2rem;
+		/* Scaled-down SVG text in Chromium snaps glyph positions to the pixel grid
+		   and spaces letters apart (»Ẓu h r«); this keeps them where the font put them. */
+		text-rendering: geometricPrecision;
+	}
+
+	.asd-narrow {
+		display: none;
+	}
+
+	.asd-ray {
+		fill: none;
+		stroke: var(--color-muted);
+		stroke-width: 1;
+		stroke-dasharray: 3 4;
+		opacity: 0.7;
+	}
+
+	.asd-ground {
+		stroke: var(--color-rule);
+		stroke-width: 1.25;
+	}
+
+	.asd-object {
+		stroke: var(--color-text);
+		stroke-width: 3.5;
+		stroke-linecap: round;
+	}
+
+	/* A shadow is dark: the text colour, softened so it reads as shade, not as ink. */
+	.asd-shadow {
+		stroke: color-mix(in oklab, var(--color-text) 45%, transparent);
+		stroke-width: 5;
+	}
+
+	/* Brass — the site's one accent for data marks — on the lengths the rule adds. */
+	.asd-growth {
+		stroke: var(--color-brass);
+		stroke-width: 5;
+	}
+
+	.asd-tick {
+		stroke: var(--color-muted);
+		stroke-width: 1;
+	}
+
+	.asd-tick-asr {
+		stroke: var(--color-brass);
+	}
+
+	/* ⚠️ px, not a --step-- token — text inside the viewBox is sized in user units so
+	   it stays in proportion to the geometry as the figure scales. See the longer note
+	   in AnnualPrayerChart.astro; do not "snap these to the scale". */
+	.asd-object-name,
+	.asd-seg-name,
+	.asd-who {
+		font-family: var(--font-body);
+		fill: var(--color-muted);
+		font-size: 10px;
+	}
+
+	.asd-object-name {
+		text-anchor: end;
+	}
+
+	.asd-seg-name,
+	.asd-who {
+		text-anchor: middle;
+	}
+
+	.asd-time {
+		font-family: var(--font-heading);
+		fill: var(--color-text);
+		font-size: 12px;
+		text-anchor: middle;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.asd-cap {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		max-width: var(--content-width);
+		text-wrap: pretty;
+	}
+
+	/* On a phone the viewBox scales to about two-thirds, so the text grows to stay
+	   legible. The madhhab row stops at 12: any larger and »Shāfiʿī, Mālikī, Ḥanbalī«,
+	   centred on its tick, reaches »Ḥanafī« on the next one. */
+	@media (width <= 30rem) {
+		.asd-object-name,
+		.asd-seg-name {
+			font-size: 13px;
+		}
+
+		.asd-wide {
+			display: none;
+		}
+
+		.asd-narrow {
+			display: inline;
+		}
+
+		.asd-who {
+			font-size: 12px;
+		}
+
+		.asd-time {
+			font-size: 15px;
+		}
+	}
+</style>
