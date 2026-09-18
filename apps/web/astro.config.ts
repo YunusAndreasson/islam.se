@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -677,6 +678,27 @@ const customRedirects: [string, string][] = [
 	//    the brand query "islam.se" — the homepage 301 is already the right answer.
 ];
 
+// Astro hashes the scripts it compiles, but not an `is:inline` one — it never touches those.
+// Base.astro has exactly one (the pre-paint theme stamp), so its hash is supplied here.
+// Derived from the source rather than pasted, because the compiler emits an inline body byte
+// for byte: edit the script and the next build hashes the edit. A stale hash would fail
+// silently, blocking the script and flashing the wrong palette. Hence the throw.
+// The `type="application/ld+json"` blocks don't match and don't need to — script-src governs
+// executable scripts, not data blocks.
+function inlineScriptHash(file: string): `sha256-${string}` {
+	const source = readFileSync(fileURLToPath(new URL(file, import.meta.url)), "utf-8");
+	const found = [...source.matchAll(/<script is:inline>([\s\S]*?)<\/script>/g)];
+	const body = found.length === 1 ? found[0]?.[1] : undefined;
+	if (body === undefined) {
+		throw new Error(
+			`CSP: expected exactly one <script is:inline> in ${file}, found ${found.length}. ` +
+				"Each one needs its own hash in security.csp.scriptDirective.hashes, or the " +
+				"browser will block it.",
+		);
+	}
+	return `sha256-${createHash("sha256").update(body, "utf8").digest("base64")}`;
+}
+
 export default defineConfig({
 	site: "https://islam.se",
 	output: "static",
@@ -715,6 +737,48 @@ export default defineConfig({
 	// counties colliding under /lan/). A warning in a 2500-page build log is a warning
 	// nobody reads; fail the build instead.
 	prerenderConflictBehavior: "error",
+	// Content-Security-Policy — the one baseline header public/_headers lacked. Astro hashes
+	// everything it compiles (bundled scripts, the sheets inlineStylesheets puts inline); only
+	// what it never sees is listed by hand.
+	//
+	// Emitted as <meta http-equiv>, so: frame-ancestors/report-uri/sandbox are ignored there
+	// (clickjacking cover stays with X-Frame-Options — moving it here would do nothing), and
+	// there is no report-only mode, so this was walked in Gecko before it landed. The hash set
+	// is site-wide by design: a ClientRouter navigation inserts the NEXT page's inline <style>
+	// into THIS document, so per-page hashes would break every second navigation.
+	security: {
+		csp: {
+			algorithm: "SHA-256",
+			directives: [
+				"default-src 'self'",
+				"base-uri 'self'",
+				"object-src 'none'",
+				"form-action 'self'",
+				// data: is the LQIP placeholder (lib/lqip.ts); openfreemap serves the map sprite.
+				"img-src 'self' data: https://tiles.openfreemap.org",
+				// openfreemap: tiles, glyphs, sprite JSON. zuhd.news: the news feed. Both already
+				// degrade to nothing when blocked, so a mistake here would be quiet.
+				"connect-src 'self' https://tiles.openfreemap.org https://zuhd.news",
+				// maplibre-gl 6 builds its worker from a bundled same-origin URL — no blob: needed.
+				"worker-src 'self'",
+				// Turnstile's widget iframe; the skärm builder previews itself in a same-origin one.
+				"frame-src 'self' https://challenges.cloudflare.com",
+				"manifest-src 'self'",
+				"media-src 'self'",
+			],
+			scriptDirective: {
+				// Listing resources REPLACES Astro's default, so 'self' has to be restated.
+				resources: ["'self'", "https://challenges.cloudflare.com"],
+				hashes: [inlineScriptHash("./src/layouts/Base.astro")],
+			},
+			styleDirective: {
+				// Twelve components pass a custom property through a style ATTRIBUTE, which cannot
+				// be hashed. `kind: "attribute"` confines 'unsafe-inline' to style-src-attr, so
+				// style-src stays hash-only and an injected <style> element is still refused.
+				resources: [{ resource: "'unsafe-inline'", kind: "attribute" }],
+			},
+		},
+	},
 	experimental: {
 		// City routes supply date/prayer-aware keys; unkeyed routes still render every build.
 		incrementalBuild: true,

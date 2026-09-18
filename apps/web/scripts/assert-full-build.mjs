@@ -10,6 +10,7 @@
 // directory becomes a 404 live. Every artefact below has already shipped once, so a
 // build that omits it is a regression, not a no-op. The daily cron makes that the
 // difference between an unattended refresh and an unattended outage.
+import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -208,6 +209,36 @@ for (const [rel, note] of [
 	["samlingsvolym.epub", "linked from BookPod; produced by `pnpm books`, which needs `zip`"],
 ]) {
 	if (!existsSync(join(DIST, rel))) failures.push(`dist/${rel} is missing — ${note}`);
+}
+
+// The pre-paint theme script is `is:inline`, so Astro cannot hash it for the CSP and
+// astro.config.ts does it from the source instead. Check both against the bytes that
+// actually shipped: if the hash is missing the browser blocks the script, the page paints
+// in the OS palette and then flips, and nothing else in the build says a word.
+const cspHtml = existsSync(join(DIST, "index.html"))
+	? readFileSync(join(DIST, "index.html"), "utf-8")
+	: null;
+if (cspHtml) {
+	const policy = cspHtml.match(
+		/<meta http-equiv="content-security-policy" content="([^"]*)"/i,
+	)?.[1];
+	const themeScripts = [...cspHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+		.map((m) => m[1])
+		.filter((s) => s.includes("theme-choice"));
+	if (!policy) {
+		failures.push("dist/index.html has no CSP meta — security.csp fell out of astro.config.ts.");
+	} else if (themeScripts.length !== 1) {
+		failures.push(
+			`expected one inline theme script in dist/index.html, found ${themeScripts.length}.`,
+		);
+	} else if (
+		!policy.includes(createHash("sha256").update(themeScripts[0], "utf8").digest("base64"))
+	) {
+		failures.push(
+			"the inline theme script is not covered by the CSP — the browser will block it and the\n" +
+				"    page will paint in the OS palette before flipping. See inlineScriptHash() in astro.config.ts.",
+		);
+	}
 }
 
 if (failures.length > 0) {
