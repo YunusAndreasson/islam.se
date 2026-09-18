@@ -199,23 +199,19 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		}
 	}
 
-	/* The crop. 16:9 is the shape; `svh` is the ceiling — on a short laptop the
-	   band tightens toward cinemascope so the whole spread, headline and all,
-	   lands inside the first screen instead of running past the fold. Both terms
-	   resolve at layout time and neither depends on the file, so there is no shift
-	   when the image lands. (The <img> carries EssayImage's style scope, not ours;
-	   a plain scoped rule never reaches it — hence :global.)
-
-	   52svh/34rem, tightened from 60/38. The old ceiling put the picture's bottom
-	   edge at 884px on a 1440×900 laptop and the deck's first line at 914 — the
-	   standfirst, the only prose a reader gets before deciding whether to open a
-	   1 500-word essay, began fourteen pixels below the fold. The opening screen
-	   was a headline and a photograph of something unnamed, which is a magazine
-	   COVER; a front page has to hand over a sentence too. Seventy-two pixels is
-	   the whole difference, and the spread loses nothing a reader can see. */
+	/* ⚠️ ONE fixed ratio, and it must stay one. This was `aspect-ratio: 16/9` plus
+	   `max-block-size: min(52svh, 34rem)`, meant to tighten the band on a short laptop
+	   so the standfirst cleared the fold. The width is set by the canvas and only the
+	   height tracked the viewport, so the cap always won and the COVER PHOTOGRAPH
+	   RESHAPED AS THE WINDOW RESIZED — 3.08:1 at 760px of height, 2.24:1 at 1080, with
+	   16/9 never governing on desktop at all. A crop that slides reads as a stretch.
+	   It did not even buy the fold: at 760 and 800 the standfirst still landed under it
+	   (y=788, y=809). The standfirst sits at 393 + hero height, so a fixed 517 puts it
+	   at 910 — inside the first screen from ~960px up, which is where the svh version
+	   actually worked too. Below that the front page scrolls, as it already did.
+	   (The <img> carries EssayImage's style scope, not ours — hence :global.) */
 	.feature-media :global(img) {
-		aspect-ratio: 16 / 9;
-		max-block-size: min(52svh, 34rem);
+		aspect-ratio: 2.35;
 	}
 
 	/* Deck and date as one caption row beneath the picture: the deck at the
