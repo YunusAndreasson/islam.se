@@ -6,17 +6,22 @@ import { ChevronDown } from "@lucide/astro";
 import { placesByCounty } from "../../lib/bonetider/places-index";
 const counties = placesByCounty();
 ---
-<Base title="Alla orter – Bönetider — islam.se" description="Hitta din ort och dagens bönetider, län för län i Sverige.">
- <main id="main" class="home directory">
-  <Breadcrumb items={[{name: "Bönetider", url: "/bonetider/"}, {name: "Alla orter", url: "/bonetider/orter/"}]} />
-  <h1>Alla orter</h1>
-  <a class="directory-search" href="/bonetider/#place-query">Sök efter ort →</a>
-		<TitledSection class="bh2-section" id="bh2-find" title="Välj län">
 
+<Base title="Alla orter – Bönetider — islam.se" description="Hitta din ort och dagens bönetider, län för län i Sverige.">
+	<main id="main" class="home directory">
+		<Breadcrumb items={[{ name: "Bönetider", url: "/bonetider/" }, { name: "Alla orter", url: "/bonetider/orter/" }]} />
+		<h1>Alla orter</h1>
+		{/* The way back to the search, set like the hub's »Alla orter« link that leads here. */}
+		<a class="directory-search arrow-link" href="/bonetider/#place-query">Sök efter ort</a>
+		<TitledSection class="bh2-section" id="bh2-find" title="Välj län">
 			<div class="bt-counties">
 				{counties.map((g) => (
 					<details class="bt-county">
- <summary><span>{g.county}</span><span class="county-count">{g.places.length}</span><ChevronDown size={16} aria-hidden="true" /></summary>
+						<summary>
+							<span>{g.county}</span>
+							<span class="bt-county-count">{g.places.length}</span>
+							<ChevronDown size={16} aria-hidden="true" />
+						</summary>
 						<ul class="bt-county-list">
 							{g.places.map((p) => (
 								<li>
@@ -28,15 +33,55 @@ const counties = placesByCounty();
 				))}
 			</div>
 		</TitledSection>
- </main>
+	</main>
 </Base>
+
 <style>
- .directory { margin-block: var(--space-phi); }
- .directory-search { display: inline-block; padding-block: .75rem; }
- .bt-county summary { display: flex; align-items: center; gap: .75rem; min-height: 2.75rem; cursor: pointer; }
- .county-count { margin-left: auto; color: var(--color-muted); font-size: var(--step--2); }
- .bt-county[open] summary :global(svg) { transform: rotate(180deg); }
- .bt-county summary::-webkit-details-marker { display: none; }
- .bt-county-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr)); gap: 0 1rem; }
- .bt-county-list a { display: flex; align-items: center; min-height: 2.75rem; font-size: var(--step--2); }
+	.directory {
+		margin-block: var(--space-phi);
+	}
+
+	.directory-search {
+		display: inline-block;
+		padding-block: 0.65rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+	}
+
+	.bt-county summary {
+		align-items: center;
+		gap: 0.75rem;
+		min-height: 2.75rem;
+	}
+
+	/* The count's face and tone come from the shared county-list rule in layout.css. */
+	.bt-county-count {
+		margin-left: auto;
+		flex: none;
+	}
+
+	.bt-county summary :global(svg) {
+		flex: none;
+	}
+
+	.bt-county[open] summary :global(svg) {
+		transform: rotate(180deg);
+	}
+
+	.bt-county summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.bt-county-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr));
+		gap: 0 1rem;
+	}
+
+	.bt-county-list a {
+		display: flex;
+		align-items: center;
+		min-height: 2.75rem;
+		font-size: var(--step--2);
+	}
 </style>

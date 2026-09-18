@@ -1,3 +1,4 @@
+import { escapeText, foldLine } from "../lib/ical";
 import { getUpcomingMarkesdagar } from "../lib/markesdagar";
 
 // iCal subscription feed for the Islamic year (§7.9). Static build artifact:
@@ -11,11 +12,6 @@ function dayAfter(iso: string): string {
 	return new Date(new Date(`${iso}T00:00:00Z`).getTime() + 86_400_000).toISOString().slice(0, 10);
 }
 
-/** Escape a TEXT value per RFC 5545 §3.3.11. */
-function esc(s: string): string {
-	return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
-}
-
 /** Stable, ASCII UID stem from the observance name (diacritics stripped). */
 function uidStem(name: string): string {
 	return name
@@ -24,27 +20,6 @@ function uidStem(name: string): string {
 		.toLowerCase()
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/^-|-$/g, "");
-}
-
-/** Fold a content line to ≤75 octets (RFC 5545 §3.1); continuations get a leading space. */
-function fold(line: string): string {
-	const enc = new TextEncoder();
-	let out = "";
-	let cur = "";
-	let bytes = 0;
-	for (const ch of line) {
-		const b = enc.encode(ch).length;
-		// 73 keeps the continuation's leading space within the 75-octet limit.
-		if (bytes + b > 73) {
-			out += (out ? "\r\n " : "") + cur;
-			cur = ch;
-			bytes = b;
-		} else {
-			cur += ch;
-			bytes += b;
-		}
-	}
-	return out + (out ? "\r\n " : "") + cur;
 }
 
 export async function GET() {
@@ -70,15 +45,15 @@ export async function GET() {
 			`DTSTAMP:${stamp}`,
 			`DTSTART;VALUE=DATE:${compact(e.startISO)}`,
 			`DTEND;VALUE=DATE:${compact(dayAfter(e.endISO ?? e.startISO))}`,
-			`SUMMARY:${esc(e.name)}`,
-			`DESCRIPTION:${esc(desc)}`,
+			`SUMMARY:${escapeText(e.name)}`,
+			`DESCRIPTION:${escapeText(desc)}`,
 			"TRANSP:TRANSPARENT",
 			"END:VEVENT",
 		);
 	}
 	lines.push("END:VCALENDAR");
 
-	const body = `${lines.map(fold).join("\r\n")}\r\n`;
+	const body = `${lines.map(foldLine).join("\r\n")}\r\n`;
 	return new Response(body, {
 		headers: {
 			"Content-Type": "text/calendar; charset=utf-8",

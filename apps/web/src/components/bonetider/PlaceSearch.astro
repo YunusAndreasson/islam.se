@@ -11,7 +11,7 @@ const entries = placesByCounty().flatMap(g => g.places.map(p => ({name: p.name, 
 		<SearchInput id="place-query" placeholder="Sök ort" controls="place-results" />
 		<LocationButton class="bf-geo place-geo" aria-describedby="place-location-status">Använd min plats</LocationButton>
 	</div>
-	<a class="place-directory" href="/bonetider/orter/">Alla orter →</a>
+	<a class="place-directory arrow-link" href="/bonetider/orter/">Alla orter</a>
 	<p id="place-location-status" class="place-status" role="status"></p>
 	<p class="place-status" id="place-result-status" role="status"></p>
 	<ul id="place-results" hidden aria-label="Orter som matchar"></ul>

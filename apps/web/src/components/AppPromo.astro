@@ -12,8 +12,7 @@ import { APP_CITY_FEATURES, APP_FEATURES, APP_STORE_URL, APP_TAGLINE, PLAY_STORE
 
 interface Props {
 	/** section = full card; compact = one-line (metod); page = /app landing;
-	 *  city = the lead item of "Ta med tiderna" on the 2 128 prayer pages.
-	 *  The /bonetider hub uses <AppShowcase> instead. */
+	 *  city = the lead item of "Ta med tiderna" on the 2 128 prayer pages. */
 	variant?: "section" | "compact" | "page" | "city";
 }
 const { variant = "section" } = Astro.props;
@@ -54,7 +53,7 @@ const lead = variant === "city"
 			{variant === "city" && (
 				<div class="apppromo-shots">
 					{CITY_SHOTS.map((s) => (
-						<Image class="apppromo-shot" src={s.src} alt={s.alt} widths={[150, 300, 450]} sizes="(max-width: 40rem) 27vw, 8rem" loading="lazy" />
+						<Image class="apppromo-shot" src={s.src} alt={s.alt} widths={[150, 300, 450]} sizes="(max-width: 40rem) 25vw, 8rem" loading="lazy" />
 					))}
 				</div>
 			)}
@@ -112,10 +111,6 @@ const lead = variant === "city"
 		font-family: var(--font-body);
 	}
 
-	.apppromo-kicker {
-		margin: 0 0 var(--space-half);
-	}
-
 	.apppromo-heading {
 		font-family: var(--font-heading);
 		font-size: var(--step-1-sans);
@@ -166,7 +161,9 @@ const lead = variant === "city"
 		margin-top: 0.15rem;
 		font-size: var(--step--2);
 		line-height: 1.45;
-		color: var(--color-muted);
+		/* --text-meta, not --color-muted: the card's 3 % tint takes muted to 4.44:1,
+		   under AA. The tier exists for exactly this — meta on a tinted panel. */
+		color: var(--text-meta);
 	}
 
 	/* The tick is its own grid cell, vertically centred on the term's line via
@@ -260,17 +257,20 @@ const lead = variant === "city"
 		margin-top: var(--space-half);
 	}
 
-	/* The phones. Two, small, sitting in the card's own rhythm — not a hero band: the
-	   app does the same job the page just did, so it argues rather than interrupts. */
+	/* The phones. Three, small, sitting in the card's own rhythm — not a hero band: the
+	   app does the same job the page just did, so it argues rather than interrupts.
+	   Sized by the card, not the viewport: at 27vw each, three phones and their gaps
+	   came to 81vw + 1rem, wider than the padded card on any phone, and the compass
+	   poked through the card's right border at 390px. */
 	.apppromo-shots {
-		display: flex;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 8rem));
 		gap: .5rem;
 		margin-block: var(--space-half);
 	}
 
 	.apppromo-shot {
-		width: 27vw;
-		max-width: 8rem;
+		width: 100%;
 		height: auto;
 		border-radius: 1.1rem;
 		border: 1px solid light-dark(var(--color-divider), var(--color-warm));

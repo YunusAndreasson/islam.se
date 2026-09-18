@@ -22,7 +22,7 @@ const dateLabel = plan.tomorrow.toLocaleDateString("sv-SE", { day: "numeric", mo
 		<p class="city-ramadan" hidden={!plan.isRamadan}>
 			<strong>Fastan i dag:</strong> Suhūr slutar <span data-fasting="fajr">{formatTime(plan.today.fajr)}</span>
 			· Iftar <span data-fasting="maghrib">{formatTime(plan.today.maghrib)}</span>.
-			<a href="#bt-stad-ramadan">Om ramadans datum</a>
+			{" "}<a href="#bt-stad-ramadan">Om ramadans datum</a>
 		</p>
 	)}
 	{part === "take" && (

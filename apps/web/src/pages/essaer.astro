@@ -331,6 +331,8 @@ const lengthFilterItems = [
 </style>
 
 <script>
+	import { readProgress } from "../scripts/reading-progress";
+
 	function initArchive() {
 		// Bail on non-archive pages (this listener fires on every navigation).
 		const root = document.getElementById("by-amne");
@@ -352,8 +354,7 @@ const lengthFilterItems = [
 			for (const item of document.querySelectorAll<HTMLElement>(".archive-item[data-slug]")) {
 				const slug = item.dataset.slug;
 				if (!slug) continue;
-				const pct = +(localStorage.getItem(`rp:${slug}`) || 0);
-				item.toggleAttribute("data-read", pct > 0.85);
+				item.toggleAttribute("data-read", readProgress(slug) > 0.85);
 			}
 		}
 

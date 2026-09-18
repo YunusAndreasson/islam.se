@@ -8,6 +8,7 @@ import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
 import { AI_BAROMETERN_DATA_DATE } from "./src/lib/ai-barometern/meta";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
+import { inlineHashes, widenPolicy } from "./src/lib/csp-site-wide";
 import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeChart } from "./src/plugins/rehype-chart";
 import { rehypeHeadingAnchor } from "./src/plugins/rehype-heading-anchor";
@@ -745,7 +746,12 @@ export default defineConfig({
 	// (clickjacking cover stays with X-Frame-Options — moving it here would do nothing), and
 	// there is no report-only mode, so this was walked in Gecko before it landed. The hash set
 	// is site-wide by design: a ClientRouter navigation inserts the NEXT page's inline <style>
-	// into THIS document, so per-page hashes would break every second navigation.
+	// into THIS document, so per-page hashes would break every second navigation. Astro emits
+	// them per page all the same, so the `site-wide-csp` integration below widens every page
+	// to the union after the build (src/lib/csp-site-wide.ts has the measurements).
+	// One refusal is expected and harmless: arriving at a page with an inline module script,
+	// the router appends an empty `data:` module as a sequencing sentinel, which script-src
+	// rightly refuses. Nothing waits on it; allowing `data:` scripts to hush it would not be.
 	security: {
 		csp: {
 			algorithm: "SHA-256",
@@ -795,6 +801,11 @@ export default defineConfig({
 		// es2022's, so less is transpiled, and it advances with Baseline instead of
 		// being re-guessed here.
 		build: { target: "baseline-widely-available" },
+		// dist-check is where a verification build goes while `dev:bg` is up (a build into
+		// dist/ fights the dev server over dist/.prerender). Unwatched, every such build had
+		// the dev server process each of its ~2 500 pages and assets as a source change.
+		// Merged with Vite's own defaults (node_modules, .git), not a replacement for them.
+		server: { watch: { ignored: ["**/dist-check/**"] } },
 		define: {
 			// src/lib/lqip.ts reads the original hero files with sharp at build time to
 			// inline a 20px placeholder behind the homepage spread. It cannot find them
@@ -1151,6 +1162,40 @@ export default defineConfig({
 					const legacy = oldPaths.filter((p) => !claimed.has(p)).flatMap((p) => both(p, "/"));
 					const body = `${[...custom, ...legacy].join("\n")}\n`;
 					writeFileSync(new URL("_redirects", dir), body);
+				},
+			},
+		},
+		// Every page's CSP gets every inline hash the build emitted — see the security.csp
+		// note above and src/lib/csp-site-wide.ts. Without it a click from one page to
+		// another rendered the second one unstyled.
+		{
+			name: "site-wide-csp",
+			hooks: {
+				"astro:build:done": ({ dir, logger }) => {
+					const root = fileURLToPath(dir);
+					const files = readdirSync(root, { recursive: true, encoding: "utf-8" })
+						.filter((f) => f.endsWith(".html"))
+						.map((f) => join(root, f));
+					const styles = new Set<string>();
+					const scripts = new Set<string>();
+					for (const file of files) {
+						const found = inlineHashes(readFileSync(file, "utf-8"));
+						for (const h of found.styles) styles.add(h);
+						for (const h of found.scripts) scripts.add(h);
+					}
+					const styleList = [...styles].sort();
+					const scriptList = [...scripts].sort();
+					let changed = 0;
+					for (const file of files) {
+						const html = readFileSync(file, "utf-8");
+						const widened = widenPolicy(html, styleList, scriptList);
+						if (widened === html) continue;
+						writeFileSync(file, widened);
+						changed++;
+					}
+					logger.info(
+						`${styleList.length} style and ${scriptList.length} script hashes made site-wide (${changed} pages widened)`,
+					);
 				},
 			},
 		},

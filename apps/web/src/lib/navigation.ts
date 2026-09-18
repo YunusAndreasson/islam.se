@@ -173,7 +173,7 @@ export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.e
  *  links on every page.
  *
  *  App is NOT here. The app IS prayer times — that is its whole first screen — and
- *  <AppPromo> already runs on /bonetider/, on all 2 128 city pages and on
+ *  <AppPromo> already runs on all 2 128 city pages, /bonetider/ramadan/ and
  *  /bonetider/metod/. A standing mast link sent the reader to a promo page for
  *  something the page they were already on offers them. It keeps its page, its
  *  palette entry and those promos. */

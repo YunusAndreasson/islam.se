@@ -37,11 +37,11 @@ const mastIsDay =
 		.altDeg >= 0;
 ---
 
-{/* ⚠️ transition:name, NOT transition:persist. Persisting keeps the original nav
-    node across swaps, which freezes the server-rendered aria-current on whichever
-    page was loaded first. Naming it lets Astro swap in the correct mast while
+{/* ⚠️ A view-transition-name (layout.css), NOT transition:persist. Persisting keeps the
+    original nav node across swaps, which freezes the server-rendered aria-current on
+    whichever page was loaded first. Naming it lets Astro swap in the correct mast while
     keeping it its own transition group, so it stays visually still. */}
-<header class="site-header" transition:name="mast">
+<header class="site-header">
 	<nav class="site-nav" aria-label="Huvudnavigering">
 		<a class="site-home" href="/" aria-current={isHome ? "page" : undefined}><Wordmark /></a>
 		{/* One row, two registers. The sections read at full strength; the utilities
@@ -108,9 +108,8 @@ const mastIsDay =
 	// once and only mounts elements it hasn't already.
 	import "../scripts/bonetider-field";
 
-	// The mast is wordmark + a single palette trigger now (navigation lives in
-	// the command palette). The only behaviour kept here is the auto-hide: the
-	// mast slides away on scroll-down, returns on scroll-up.
+	// The mast's links and palette trigger need no script. The only behaviour here is
+	// the auto-hide: the mast slides away on scroll-down, returns on scroll-up.
 	let scrollCtrl: AbortController | null = null;
 
 	function bindHeader() {

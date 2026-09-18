@@ -273,7 +273,7 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 			{
 				prev && (
 					<a class="abm-pager-prev" href={modelPath(prev.key)} rel="prev">
-						<span class="abm-pager-dir">← Föregående modell</span>
+						<span class="abm-pager-dir back-link">Föregående modell</span>
 						<span class="abm-pager-title">{prev.label}</span>
 					</a>
 				)
@@ -281,7 +281,7 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 			{
 				next && (
 					<a class="abm-pager-next" href={modelPath(next.key)} rel="next">
-						<span class="abm-pager-dir">Nästa modell →</span>
+						<span class="abm-pager-dir arrow-link">Nästa modell</span>
 						<span class="abm-pager-title">{next.label}</span>
 					</a>
 				)

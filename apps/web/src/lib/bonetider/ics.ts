@@ -6,8 +6,8 @@
 // efteråt. Konkurrenten islam.nu erbjuder en PDF; ingen svensk sida vi känner till
 // erbjuder .ics per ort.
 //
-// Formatet delar hjälpfunktioner med /det-islamiska-aret.ics, men innehållet skiljer
-// sig i sak: där all-day-VEVENT för högtider, här tidsatta händelser med tidszon.
+// Formatet delar hjälpfunktioner (lib/ical.ts) med /det-islamiska-aret.ics, men
+// innehållet skiljer sig i sak: där all-day-VEVENT för högtider, här tidsatta händelser med tidszon.
 //
 // ⚠️ Filerna är statiska och innehåller innevarande månad. Den nattliga ombyggnaden
 // (scripts/deploy-bonetider-daily.sh) rullar dem vidare, så en prenumerant har alltid
@@ -24,6 +24,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { escapeText, foldLine } from "../ical";
 import { computePrayerTimes, dateForStockholmDay, TIME_ZONE } from "./prayer-times";
 import { DEFAULT_SETTINGS } from "./settings";
 
@@ -36,32 +37,6 @@ const EVENT_PRAYERS = [
 	{ key: "maghrib", name: "Maghrib", sv: "Solnedgångsbönen" },
 	{ key: "isha", name: "ʿIshāʾ", sv: "Kvällsbönen" },
 ] as const;
-
-/** Escape a TEXT value per RFC 5545 §3.3.11. */
-function esc(s: string): string {
-	return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
-}
-
-/** Fold a content line to ≤75 octets (RFC 5545 §3.1); continuations get a leading space. */
-function fold(line: string): string {
-	const enc = new TextEncoder();
-	let out = "";
-	let cur = "";
-	let bytes = 0;
-	for (const ch of line) {
-		const b = enc.encode(ch).length;
-		// 73 keeps the continuation's leading space within the 75-octet limit.
-		if (bytes + b > 73) {
-			out += (out ? "\r\n " : "") + cur;
-			cur = ch;
-			bytes = b;
-		} else {
-			cur += ch;
-			bytes += b;
-		}
-	}
-	return out + (out ? "\r\n " : "") + cur;
-}
 
 const LOCAL_STAMP_FORMAT = new Intl.DateTimeFormat("sv-SE", {
 	timeZone: TIME_ZONE,
@@ -119,14 +94,17 @@ const VTIMEZONE = [
 
 // Cachen lever under node_modules/.astro, precis som OG-kortens (src/lib/og-cache.ts):
 // redan gitignorerad, redan bortstädad av den vanliga "radera node_modules". Generationen
-// hashas ur den här filens innehåll, så en ändring i formatet ogiltigförklarar varje
-// cachad kalender automatiskt i stället för att servera gamla byte i veckor.
+// hashas ur den här filens innehåll och ur lib/ical.ts, där escapning och radbrytning
+// bor, så en ändring i formatet ogiltigförklarar varje cachad kalender automatiskt i
+// stället för att servera gamla byte i veckor.
 const CACHE_DIR = join(process.cwd(), "node_modules/.astro/ics-cache");
 
 const generation = (() => {
 	try {
-		const self = join(process.cwd(), "src/lib/bonetider/ics.ts");
-		return createHash("sha256").update(readFileSync(self)).digest("hex").slice(0, 12);
+		const hash = createHash("sha256");
+		for (const file of ["src/lib/bonetider/ics.ts", "src/lib/ical.ts"])
+			hash.update(readFileSync(join(process.cwd(), file)));
+		return hash.digest("hex").slice(0, 12);
 	} catch {
 		// Går filen inte att läsa (oväntat) — använd ett värde per process, så cachen
 		// fortfarande fungerar inom ett bygge men aldrig överlever det.
@@ -205,8 +183,8 @@ function buildCalendar(
 		"PRODID:-//islam.se//Bonetider//SV",
 		"CALSCALE:GREGORIAN",
 		"METHOD:PUBLISH",
-		`X-WR-CALNAME:${esc(`Bönetider – ${place.name}`)}`,
-		`X-WR-CALDESC:${esc(`Bönetider för ${place.name}, beräknade efter solens läge. islam.se`)}`,
+		`X-WR-CALNAME:${escapeText(`Bönetider – ${place.name}`)}`,
+		`X-WR-CALDESC:${escapeText(`Bönetider för ${place.name}, beräknade efter solens läge. islam.se`)}`,
 		`X-WR-TIMEZONE:${TIME_ZONE}`,
 		// En prenumerant behöver inte hämta oftare än kalendern ändras, och den ändras
 		// när natten byggt om den.
@@ -240,7 +218,7 @@ function buildCalendar(
 					`DTSTAMP:${stamp}`,
 					`DTSTART;TZID=${TIME_ZONE}:${begin}`,
 					`DTEND;TZID=${TIME_ZONE}:${end}`,
-					`SUMMARY:${esc(`${p.name} – ${p.sv}`)}`,
+					`SUMMARY:${escapeText(`${p.name} – ${p.sv}`)}`,
 					// Ingen DESCRIPTION och ingen URL per händelse. De sade samma sak som
 					// SUMMARY och kalenderns egen X-WR-CALDESC, och kostade tillsammans ~175
 					// av 415 byte per post — gånger 150 poster gånger 2 128 orter är det
@@ -253,5 +231,5 @@ function buildCalendar(
 	}
 
 	lines.push("END:VCALENDAR");
-	return `${lines.map(fold).join("\r\n")}\r\n`;
+	return `${lines.map(foldLine).join("\r\n")}\r\n`;
 }

@@ -89,9 +89,12 @@ if (eidAdha)
 		a: `Eid al-adha infaller omkring ${gregorian(eidAdha.startISO)} (10 Dhū al-ḥijja) enligt Umm al-Qura-kalendern.`,
 	});
 
+// Dates only. It sits straight under the lead, which already says the dates follow
+// Umm al-Qura and can move a day with the moon; closing on that again read the same
+// sentence twice in two paragraphs. The FAQ answers above keep it for the JSON-LD.
 const leadSummary =
 	ramadan && eidFitr && eidAdha
-		? `Nästa Ramadan börjar omkring ${gregorian(ramadan.startISO)}, Eid al-fitr infaller omkring ${gregorian(eidFitr.startISO)} och Eid al-adha omkring ${gregorian(eidAdha.startISO)}. Datumen följer Umm al-Qura-kalendern; den exakta dagen bekräftas genom månsiktning.`
+		? `Nästa Ramadan börjar omkring ${gregorian(ramadan.startISO)}, Eid al-fitr infaller omkring ${gregorian(eidFitr.startISO)} och Eid al-adha omkring ${gregorian(eidAdha.startISO)}.`
 		: "";
 
 const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
@@ -182,9 +185,9 @@ const description =
 				</table>
 				<p class="md-fast-note">
 					Räknat från fajr till maghrib efter Muslim World League, samma inställningar som
-					<a href="/bonetider/"> bönetiderna</a> använder. Norr om polcirkeln är tiderna omtvistade och
+					{" "}<a href="/bonetider/">bönetiderna</a> använder. Norr om polcirkeln är tiderna omtvistade och
 					löses i praktiken med en regel för höga latituder eller en sydligare tidtabell.
-					<a href="/fordjupning/ramadan/">Fördjupningen om ramadan</a> går igenom hur den ordningen
+					{" "}<a href="/fordjupning/ramadan/">Fördjupningen om ramadan</a> går igenom hur den ordningen
 					kom till, och <a href="/bonetider/ramadan/">iftar och suhūr ort för ort</a> ger klockslagen
 					för fler orter än de fem här.
 				</p>
@@ -252,15 +255,19 @@ const description =
 			}
 		}
 
+		/* A faint underline at rest, as on the correction link: set in the label's
+		   muted caps with no underline, the page's two calendar actions read as a
+		   caption — and a touch screen has no hover to reveal otherwise. */
 		a {
 			color: var(--color-muted);
-			text-decoration: none;
+			text-decoration: underline;
+			text-decoration-color: color-mix(in oklab, var(--color-muted) 40%, transparent);
+			text-underline-offset: 0.2em;
 			padding-block: 0.4rem;
 
 			&:hover {
 				color: var(--color-accent);
-				text-decoration: underline;
-				text-underline-offset: 0.12em;
+				text-decoration-color: currentColor;
 			}
 
 			&:focus-visible {

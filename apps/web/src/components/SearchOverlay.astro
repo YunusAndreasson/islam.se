@@ -790,13 +790,20 @@ const here = (href: string) => href === currentHref;
 		// On touch, focusing the input raises the on-screen keyboard over the menu
 		// the reader just opened — the "Meny" button must show a menu, not a keyboard.
 		//
-		// Keep the query when reopening so readers can try another result.
+		// Keep the query when reopening so readers can try another result — selected, so
+		// that a reader who has moved on simply types over it. Unselected, ⌘K then »moské«
+		// searched for the old query with »moské« glued to its end.
 		function open(focusField = !coarse() && !matchMedia("(width <= 900px)").matches) {
 			if (dialog.open) return;
 			void loadIndex();
 			dialog.showModal();
 			render();
-			(focusField ? input : dialog).focus();
+			if (focusField) {
+				input.focus();
+				input.select();
+			} else {
+				dialog.focus();
+			}
 		}
 
 		function close() {

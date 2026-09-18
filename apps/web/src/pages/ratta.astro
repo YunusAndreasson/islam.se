@@ -46,22 +46,23 @@ const description =
 						placeholder="/svar/vad-ar-tawhid/"
 						autocomplete="off"
 						spellcheck="false"
+						aria-describedby="ratta-page-hint"
 					/>
-					<p class="ratta-hint">Adressen till sidan. Fylls i åt dig om du kom hit från en text.</p>
+					<p class="ratta-hint" id="ratta-page-hint">Adressen till sidan. Fylls i åt dig om du kom hit från en text.</p>
 				</div>
 
 				<div class="ratta-field">
 					<label for="ratta-passage">Stycket som är fel</label>
-					<textarea id="ratta-passage" name="passage" rows="3"></textarea>
-					<p class="ratta-hint">
+					<textarea id="ratta-passage" name="passage" rows="3" aria-describedby="ratta-passage-hint"></textarea>
+					<p class="ratta-hint" id="ratta-passage-hint">
 						Klistra in meningen ordagrant, så hittar vi den direkt i texten.
 					</p>
 				</div>
 
 				<div class="ratta-field">
 					<label for="ratta-description">Vad är fel?</label>
-					<textarea id="ratta-description" name="description" rows="5" required></textarea>
-					<p class="ratta-hint">
+					<textarea id="ratta-description" name="description" rows="5" required aria-describedby="ratta-description-hint"></textarea>
+					<p class="ratta-hint" id="ratta-description-hint">
 						Ett versnummer som inte stämmer, en hadith som tillskrivits fel samling, ett årtal, en
 						översättning – skriv så konkret du kan.
 					</p>
@@ -69,8 +70,8 @@ const description =
 
 				<div class="ratta-field">
 					<label for="ratta-source">Källa</label>
-					<input type="text" id="ratta-source" name="source" autocomplete="off" />
-					<p class="ratta-hint">
+					<input type="text" id="ratta-source" name="source" autocomplete="off" aria-describedby="ratta-source-hint" />
+					<p class="ratta-hint" id="ratta-source-hint">
 						Har du ett belägg – en vers, en hadith med samling och nummer, en bok eller en länk –
 						så nämn det här. Ett belägg avgör hur fort rättelsen går igenom.
 					</p>
@@ -78,8 +79,8 @@ const description =
 
 				<div class="ratta-field">
 					<label for="ratta-email">Din e-post <span class="ratta-optional">frivillig</span></label>
-					<input type="email" id="ratta-email" name="reporter_email" autocomplete="email" />
-					<p class="ratta-hint">
+					<input type="email" id="ratta-email" name="reporter_email" autocomplete="email" aria-describedby="ratta-email-hint" />
+					<p class="ratta-hint" id="ratta-email-hint">
 						Bara om du vill kunna få ett svar. Adressen används inte till något annat och lämnas
 						inte vidare.
 					</p>
@@ -145,6 +146,8 @@ const description =
 		const status = document.getElementById("ratta-status") as HTMLParagraphElement;
 		const done = document.getElementById("ratta-done") as HTMLParagraphElement;
 		const pageInput = document.getElementById("ratta-page") as HTMLInputElement;
+		const descriptionInput = document.getElementById("ratta-description") as HTMLTextAreaElement;
+		const emailInput = document.getElementById("ratta-email") as HTMLInputElement;
 		const submit = form.querySelector(".ratta-submit") as HTMLButtonElement;
 		const widget = form.querySelector(".cf-turnstile") as HTMLElement;
 
@@ -164,6 +167,26 @@ const description =
 		// The script may still be in flight on first paint.
 		window.addEventListener("load", renderWidget, { once: true });
 
+		// A message by the button alone does not say which field it means, and leaves
+		// focus on the button. Mark the field and take the reader to it.
+		const fieldFor: Partial<Record<keyof typeof ERRORS, HTMLInputElement | HTMLTextAreaElement>> = {
+			bad_page: pageInput,
+			description_too_short: descriptionInput,
+			bad_email: emailInput,
+		};
+		const fail = (code: keyof typeof ERRORS) => {
+			status.textContent = ERRORS[code];
+			status.dataset.tone = "error";
+			const field = fieldFor[code];
+			if (field) {
+				field.setAttribute("aria-invalid", "true");
+				field.focus();
+			}
+		};
+		form.addEventListener("input", (event) => {
+			(event.target as HTMLElement).removeAttribute("aria-invalid");
+		});
+
 		form.addEventListener("submit", async (event) => {
 			event.preventDefault();
 			const turnstile = (window as { turnstile?: TurnstileGlobal }).turnstile;
@@ -180,16 +203,10 @@ const description =
 				turnstile_token: token,
 			};
 
-			if (!isSitePath(body.page)) {
-				status.textContent = ERRORS.bad_page;
-				status.dataset.tone = "error";
-				return;
-			}
-			if (body.description.trim().length < 10) {
-				status.textContent = ERRORS.description_too_short;
-				status.dataset.tone = "error";
-				return;
-			}
+			if (!isSitePath(body.page)) return fail("bad_page");
+			if (body.description.trim().length < 10) return fail("description_too_short");
+			// The form is novalidate (the messages are ours), so ask the field directly.
+			if (!emailInput.checkValidity()) return fail("bad_email");
 
 			submit.disabled = true;
 			status.dataset.tone = "";
@@ -216,10 +233,12 @@ const description =
 					return;
 				}
 
-				status.dataset.tone = "error";
-				status.textContent =
-					(isErrorCode(resultRecord.error) ? ERRORS[resultRecord.error] : undefined) ??
-					"Något gick fel när rättelsen skulle skickas. Försök igen.";
+				if (isErrorCode(resultRecord.error)) {
+					fail(resultRecord.error);
+				} else {
+					status.dataset.tone = "error";
+					status.textContent = "Något gick fel när rättelsen skulle skickas. Försök igen.";
+				}
 				turnstile?.reset(widgetId);
 			} catch {
 				status.dataset.tone = "error";
@@ -314,6 +333,12 @@ const description =
 	.ratta-field input:hover,
 	.ratta-field textarea:hover {
 		border-color: var(--color-muted);
+	}
+
+	/* Flagged by the submit handler. The palette has no red: the field takes full ink,
+	   the same way the status line marks an error. */
+	.ratta-field [aria-invalid="true"] {
+		border-color: var(--color-text);
 	}
 
 	.ratta-hint {

@@ -373,7 +373,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 			{
 				prev && (
 					<a class="abm-pager-prev" href={questionPath(prev)} rel="prev">
-						<span class="abm-pager-dir">← Föregående fråga</span>
+						<span class="abm-pager-dir back-link">Föregående fråga</span>
 						<span class="abm-pager-title">{prev.short}</span>
 					</a>
 				)
@@ -381,7 +381,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 			{
 				next && (
 					<a class="abm-pager-next" href={questionPath(next)} rel="next">
-						<span class="abm-pager-dir">Nästa fråga →</span>
+						<span class="abm-pager-dir arrow-link">Nästa fråga</span>
 						<span class="abm-pager-title">{next.short}</span>
 					</a>
 				)

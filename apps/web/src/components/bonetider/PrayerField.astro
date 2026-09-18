@@ -414,6 +414,14 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	}
 	.bf-map-first .bf-countdown { font-size: var(--step--3); color: var(--color-muted); }
 
+	/* Meta on a tinted ground takes --text-meta, not --color-muted. On the summary's warm
+	   8 % and the next row's hue tint, muted measured 4.37–4.40:1 — under AA for this
+	   12–13px text on the template that carries most of the site's search traffic. */
+	.bf-summary .bf-next-lead,
+	.bf-summary .bf-next-sub,
+	.bf-summary .bf-countdown,
+	.bf-t.is-next .bf-t-sv { color: var(--text-meta); }
+
 	/* The dock hugs the bottom LEFT and stops short of half the frame. Full width, it
 	   sat over southern Sweden and hid Goteborg and Malmo behind the readout — on the
 	   two pages most likely to be read. Open sea and Norway are what it covers here. */

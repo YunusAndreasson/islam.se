@@ -138,7 +138,7 @@ if (articleMeta) {
 ---
 
 <!doctype html>
-<html lang="sv" transition:animate="none">
+<html lang="sv">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
@@ -317,7 +317,7 @@ if (articleMeta) {
 		{articleMeta && <div class="reading-progress" aria-hidden="true" data-slug={articleMeta.slug} />}
 		<Header {...(mastSectionHref === undefined ? {} : { activeHref: mastSectionHref })} />
 		<slot />
-		<Footer />
+		<Footer {...(essaySectionHref === undefined ? {} : { activeHref: essaySectionHref })} />
 		<div class="fixed-actions">
 			{articleMeta && (
 				<button class="share-btn label" type="button" aria-label="Dela essä" data-title={pageTitle} data-url={canonicalUrl.href}>Dela</button>
@@ -327,6 +327,8 @@ if (articleMeta) {
 			</button>
 		</div>
 		<script>
+			import { recordProgress } from "../scripts/reading-progress";
+
 			document.addEventListener("astro:page-load", () => {
 				const actions = document.querySelector<HTMLElement>(".fixed-actions");
 				const btn = document.querySelector<HTMLButtonElement>(".back-to-top");
@@ -344,14 +346,7 @@ if (articleMeta) {
 				}
 
 				const saveProgress = () => {
-					if (!slug) return;
-					const pct = scrollPct();
-					const prev = +(localStorage.getItem(`rp:${slug}`) || 0);
-					if (pct > prev) localStorage.setItem(`rp:${slug}`, pct.toFixed(3));
-					// Stamp the last time this essay was actively read, so the homepage
-					// can offer the *most recent* part-read essay to resume (rp is a max,
-					// not a timeline). Only once the reader is genuinely into the piece.
-					if (pct > 0.02) localStorage.setItem(`rt:${slug}`, String(Date.now()));
+					if (slug) recordProgress(slug, scrollPct());
 				};
 
 				window.addEventListener("scroll", () => {
@@ -362,7 +357,7 @@ if (articleMeta) {
 					}
 					if (progressBar) {
 						const pct = scrollPct();
-						progressBar.style.width = `${pct * 100}%`;
+						progressBar.style.transform = `scaleX(${pct})`;
 						if (slug && Date.now() - lastSave > 500) {
 							lastSave = Date.now();
 							saveProgress();
@@ -382,7 +377,13 @@ if (articleMeta) {
 						if (navigator.share) {
 							try { await navigator.share({ title, url }); } catch {}
 						} else {
-							await navigator.clipboard.writeText(url);
+							// writeText rejects without a secure context or clipboard permission;
+							// say nothing rather than claim a copy that did not happen.
+							try {
+								await navigator.clipboard.writeText(url);
+							} catch {
+								return;
+							}
 							shareBtn.textContent = "Kopierad";
 							setTimeout(() => { shareBtn.textContent = "Dela"; }, 2000);
 						}

@@ -296,7 +296,7 @@ if (oldest?.opened) {
 					Tiderna gäller när bönen går in, beräknat efter solens läge i {city}. Den
 					gemensamma bönen (jamāʿa) hålls oftast en stund senare – {n === 1 ? "moskén" : "varje moské"}
 					{" "}sätter sin egen iqāma-tid.
-					<SectionLink href={`/bonetider/${citySlug}/`}>Månadens alla bönetider i {city}</SectionLink>
+					{" "}<SectionLink href={`/bonetider/${citySlug}/`}>Månadens alla bönetider i {city}</SectionLink>
 				</p>
 			</TitledSection>
 		)}
@@ -329,7 +329,7 @@ if (oldest?.opened) {
 
 		<p class="mk-attrib">
 			Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
-			<a class="arrow-link" href="/moskeer/">Karta över alla moskéer i Sverige</a>
+			{" "}<a class="arrow-link" href="/moskeer/">Karta över alla moskéer i Sverige</a>
 		</p>
 	</main>
 </Base>

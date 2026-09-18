@@ -3,9 +3,16 @@ import { gregorianToHijri } from "../lib/markesdagar";
 import { currentNavHref, FOOTER_GROUPS, FOOTER_LINKS } from "../lib/navigation";
 import MarkDot from "./MarkDot.astro";
 
+interface Props {
+	/** Section to mark current when the URL alone cannot express it — an essay lives at
+	 *  the root, so only this tells the footer it belongs under Essäer. */
+	activeHref?: string;
+}
+
+const { activeHref } = Astro.props;
 const year = new Date().getFullYear();
 const path = Astro.url.pathname;
-const currentHref = currentNavHref(path, FOOTER_LINKS.map((link) => link.href));
+const currentHref = currentNavHref(path, FOOTER_LINKS.map((link) => link.href), activeHref);
 const here = (href: string) => href === currentHref;
 
 // A colophon date, not a feature version — the site has no release train, so a semver
@@ -30,8 +37,8 @@ const buildStamp = `${buildHijri.y}.${pad2(buildHijri.m)}.${pad2(buildHijri.d)}`
 
 	<div class="site-footer-colophon">
 		<p class="label site-footer-meta">
-			<span>Sverige, {year}</span>
-			<span class="nav-dot" aria-hidden="true">&middot;</span>
+			<span class="site-footer-place">Sverige, {year}</span>
+			<span class="nav-dot site-footer-place-dot" aria-hidden="true">&middot;</span>
 			<a href="https://islam.se">islam.se</a>
 			<span class="nav-dot" aria-hidden="true">&middot;</span>
 			<a href="mailto:support@islam.se">support@islam.se</a>
