@@ -213,11 +213,12 @@ const structuredArticle = {
 		margin: var(--space-unit) 0 var(--space-phi);
 	}
 
-	/* Cover fit is shared on .media-frame (layout.css); only the crop is per-page.
+	/* No aspect-ratio pin: the photograph keeps the shape it was composed in. A 3:2 pin
+	   here cropped 17 of the 45 heroes — 15.6 % off the sides of every 16:9 source, 11 %
+	   off the top and bottom of every 4:3 — and the homepage had just shown the same
+	   picture whole. Sizing comes from .media-frame (width + cover) plus the <img>'s own
+	   intrinsic width/height, so the box is still reserved before the file lands.
 	   No hover bloom here — the hero is a <figure>, not a link. */
-	.article-hero :global(img) {
-		aspect-ratio: 3 / 2;
-	}
 
 	@media (width <= 768px) {
 		.article-hero {

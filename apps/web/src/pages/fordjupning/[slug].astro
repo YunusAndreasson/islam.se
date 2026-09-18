@@ -258,18 +258,14 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		margin: var(--space-unit) 0 var(--space-phi);
 	}
 
-	/* ⚠️ 3/2 is the gentlest crop this set allows, and it was arrived at twice. The band
-	   was 21/9 to keep the table of contents above the fold; that discarded 43 % of a
-	   4:3 frame and cut the heads off the hijab and griskött portraits and the minaret
-	   tops off the Kaba. Six of the nine sources are 4:3 (hijab, kaba, griskött, halal,
-	   aktenskap, tvagning), two are 3:2 and ramadan is 16:9 — so at 3/2 the 4:3 files
-	   lose 11 % of their height, the 3:2 files nothing, and no subject reaches an edge.
-	   Do not tighten this again to win back fold space: the fold was never actually won
-	   (at a 976px reading frame even 21/9 pushed the contents 7px under it), and the
-	   photographs are the reason the page is worth opening. A centred crop is correct at
-	   11 % — the `object-position` bias that a tighter band needed is gone with it. */
+	/* ⚠️ No aspect-ratio pin, and do not reintroduce one to win back fold space. The band
+	   was 21/9 (43 % off a 4:3 frame — heads cut off the hijab and griskött portraits,
+	   minaret tops off the Kaba), then 3/2, which still cut 11 % off the 19 of 22 sources
+	   that are 4:3. The fold was never actually won anyway: at a 976px reading frame even
+	   21/9 pushed the contents 7px under it. The photographs are why the page is worth
+	   opening, so each one keeps the shape it was composed in; intrinsic width/height on
+	   the <img> reserves the box, so nothing shifts. */
 	.fordjupning-hero :global(img) {
-		aspect-ratio: 3 / 2;
 		width: 100%;
 	}
 

@@ -285,8 +285,9 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		/* Top gap comes from .svar-header; this is the gap down to the prose. */
 		margin-block: 0 var(--space-phi);
 	}
+	/* No aspect-ratio pin — this was the worst of the three reading pages: a 16/9 band
+	   cut 25 % off the 4:3 FAKTA artworks and 15.7 % off a borrowed 3:2 essay hero. */
 	.svar-hero :global(img) {
-		aspect-ratio: 16 / 9;
 		width: 100%;
 	}
 
