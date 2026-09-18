@@ -8,7 +8,6 @@ import { describe, expect, it } from '@jest/globals';
 
 import {
   computeNightTimes,
-  NIGHT_ICONS,
   NIGHT_LABELS,
   NIGHT_ORDER,
   NIGHT_SWEDISH_NAMES,
@@ -213,27 +212,6 @@ describe('the night tables', () => {
     for (const key of NIGHT_ORDER) {
       expect(NIGHT_LABELS[key]).toBeTruthy();
       expect(NIGHT_SWEDISH_NAMES[key]).toBeTruthy();
-      expect(NIGHT_ICONS[key]).toBeTruthy();
-    }
-  });
-
-  // ʿIshāʾ already renders `weather-night`, a crescent. If a night row took another
-  // crescent the dock would stack two near-identical glyphs and the pair would stop
-  // reading as "the night's own landmarks".
-  it('does not reuse a prayer glyph', () => {
-    expect(NIGHT_ICONS.middleOfNight).not.toBe(NIGHT_ICONS.lastThird);
-    expect(Object.values(NIGHT_ICONS)).not.toContain('weather-night');
-  });
-
-  // THE ICONS THIS REPLACED. A lunar pair (moon-full + moon-waning-crescent) reads as a
-  // MONTH passing, not a night: the two phases are a fortnight apart and can never both
-  // describe the night being listed. The dock renders the Hijri date directly above these
-  // rows, so the contradiction is on screen. These are fractions of a duration, so the
-  // glyphs depict a filling circle — true every night of the year.
-  it('depicts elapsed proportion, never a lunar phase', () => {
-    for (const key of NIGHT_ORDER) {
-      expect(NIGHT_ICONS[key]).not.toMatch(/moon|crescent/);
-      expect(NIGHT_ICONS[key]).toMatch(/^circle-/);
     }
   });
 });

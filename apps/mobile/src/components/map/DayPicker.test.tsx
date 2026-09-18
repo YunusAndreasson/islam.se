@@ -3,7 +3,7 @@ import { Modal } from 'react-native';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import { addZoneDays, startOfZoneDay, zoneParts } from '@/lib/zone-time';
-import { adjacentMonth, DayPicker, GRID_CELLS, monthGrid } from './DayPicker';
+import { adjacentMonth, DayPicker, GRID_CELLS, hijriSpan, monthGrid } from './DayPicker';
 import { first } from '@/test-utils/at';
 
 const day = (y: number, m: number, d: number) => startOfZoneDay(Date.UTC(y, m - 1, d, 12));
@@ -104,10 +104,29 @@ describe('adjacentMonth', () => {
   });
 });
 
+// The line under the sheet's title: which Hijri months the Gregorian month on screen spans.
+describe('hijriSpan', () => {
+  it('names both months and writes a shared year once', () => {
+    expect(hijriSpan(monthGrid(day(2026, 9, 10)))).toBe('Rabīʿ al-awwal – Rabīʿ al-ākhir 1448');
+  });
+
+  // June 2026 contains 1 Muḥarram 1448. Writing the year once there would put Dhū al-ḥijja in
+  // the wrong year — the one span where "month – month year" is simply false.
+  it('writes each year when the span crosses Muḥarram', () => {
+    expect(hijriSpan(monthGrid(day(2026, 6, 10)))).toBe('Dhū al-ḥijja 1447 – Muḥarram 1448');
+  });
+
+  // Same adjustment the dock's own Hijri line takes, so the sheet and the crown agree.
+  it('honours the reader’s Hijri offset', () => {
+    const grid = monthGrid(day(2026, 9, 10));
+    expect(hijriSpan(grid, 30)).not.toBe(hijriSpan(grid));
+  });
+});
+
 describe('DayPicker', () => {
   it('opens on the month of the day being viewed', () => {
     renderPicker(day(2026, 9, 14));
-    expect(screen.getByText('september 2026')).toBeTruthy();
+    expect(screen.getByText('September 2026')).toBeTruthy();
   });
 
   it('hands back the picked day', () => {
@@ -133,11 +152,11 @@ describe('DayPicker', () => {
     renderPicker(day(2026, 9, 14));
 
     fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
-    expect(screen.getByText('oktober 2026')).toBeTruthy();
+    expect(screen.getByText('Oktober 2026')).toBeTruthy();
 
     fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
     fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
-    expect(screen.getByText('augusti 2026')).toBeTruthy();
+    expect(screen.getByText('Augusti 2026')).toBeTruthy();
   });
 
   // REGRESSION (found on an emulator, 2026-08-25): twelve quick taps on "Nästa månad"
@@ -157,14 +176,14 @@ describe('DayPicker', () => {
         fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
       }
     });
-    expect(screen.getByText('augusti 2027')).toBeTruthy();
+    expect(screen.getByText('Augusti 2027')).toBeTruthy();
 
     act(() => {
       for (let i = 0; i < 5; i++) {
         fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
       }
     });
-    expect(screen.getByText('mars 2027')).toBeTruthy();
+    expect(screen.getByText('Mars 2027')).toBeTruthy();
   });
 
   // A burst that runs past the rail stops AT it — and leaves no debt behind, so the next
@@ -180,10 +199,10 @@ describe('DayPicker', () => {
     });
     // +365 days from 25 Aug 2026 is 25 Aug 2027, so August 2027 is the last month with a
     // reachable day in it.
-    expect(screen.getByText('augusti 2027')).toBeTruthy();
+    expect(screen.getByText('Augusti 2027')).toBeTruthy();
 
     act(() => fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' })));
-    expect(screen.getByText('juli 2027')).toBeTruthy();
+    expect(screen.getByText('Juli 2027')).toBeTruthy();
   });
 
   // The rails are ±365 days. A day outside them cannot be picked, and the pager stops

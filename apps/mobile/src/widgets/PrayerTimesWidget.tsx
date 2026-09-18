@@ -9,9 +9,8 @@
 // jsx runtime. Nothing from THIS module's scope is in that bundle. So the layout may
 // reference ONLY: its params, @expo/ui imports (VStack/Text/font/… — provided on
 // globalThis), and identifiers it defines INSIDE its own body. Any reference to a
-// module-level helper, constant, or imported value (palettes, an SF-symbol map, a shared
-// `normalize`) is undefined at render → ReferenceError → the widget renders BLACK (cf.
-// expo/expo#46200). Keep everything inline. Because the layout string lives in the app's
+// module-level helper, constant, or imported value (a palette, a shared `normalize`) is
+// undefined at render → ReferenceError → the widget renders BLACK (cf. expo/expo#46200). Keep everything inline. Because the layout string lives in the app's
 // MAIN JS bundle (written to the app group by createWidget at launch), fixes ship via EAS
 // Update (OTA) — no native rebuild. Only the @expo/ui runtime is build-time, and it's
 // already complete.
@@ -19,7 +18,6 @@ import {
   AccessoryWidgetBackground,
   Divider,
   HStack,
-  Image,
   Spacer,
   Text,
   VStack,
@@ -31,10 +29,11 @@ import {
   font,
   foregroundStyle,
   kerning,
+  lineLimit,
+  minimumScaleFactor,
   monospacedDigit,
 } from '@expo/ui/swift-ui/modifiers';
 import { createWidget, type WidgetEnvironment } from 'expo-widgets';
-import type { SFSymbol } from 'sf-symbols-typescript';
 
 import type { WidgetPayload } from '@/widget/payload';
 
@@ -49,7 +48,6 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
     ink: '#1a1712',
     inkMuted: '#6f6456',
     inkFaint: '#8c8170',
-    highlight: '#b8862f',
     highlightText: '#805b1f',
   };
   // Kept byte-for-byte in step with darkPalette — see the APCA note there for why these
@@ -59,7 +57,6 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
     ink: '#e8e3d8',
     inkMuted: '#c1c6d4',
     inkFaint: '#b1b8cd',
-    highlight: '#c89a48',
     highlightText: '#fad486',
   };
   // iOS 18 tinted home screens ('accented') and the Lock Screen ('vibrant') desaturate
@@ -70,25 +67,8 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
     ink: '#ffffff',
     inkMuted: '#ffffffbf',
     inkFaint: '#ffffff8c',
-    highlight: '#ffffff',
     highlightText: '#ffffff',
   };
-  // Keyed by PrayerKey, but typed as an UNTRUSTED lookup on purpose. `rows` below is
-  // cast from app-group JSON, never parsed, so a version-skewed payload — an OTA
-  // rollback putting older JS in front of newer stored data, or a slot key added later —
-  // can carry a `key` this map has never heard of. An undefined SF Symbol renders the
-  // widget blank, which is the worst failure a widget has. `| undefined` here makes the
-  // fallback below a type error to forget.
-  const SF: Record<string, SFSymbol | undefined> = {
-    fajr: 'moon.stars.fill',
-    sunrise: 'sunrise.fill',
-    dhuhr: 'sun.max.fill',
-    asr: 'sun.min.fill',
-    maghrib: 'sunset.fill',
-    isha: 'moon.fill',
-  };
-  const SF_FALLBACK: SFSymbol = 'moon.stars.fill';
-
   // Null/partial-safe: WidgetKit renders a placeholder with null props before the app
   // pushes data; reading fields off null would throw → black.
   const p = (rawPayload ?? {}) as Partial<WidgetPayload>;
@@ -106,7 +86,6 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
   const nextTime = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '–';
   const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
   const nextRow = rows.find((r) => r.isNext);
-  const nextIcon: SFSymbol = (nextRow ? SF[nextRow.key] : undefined) ?? SF_FALLBACK;
   const nextKindLabel = nextRow?.isMarker ? 'NÄSTA TID' : 'NÄSTA BÖN';
   // Post-Isha the hero shows tomorrow's Fajr — say so (app convention: "i morgon").
   // Two widths: the narrow families (small, accessoryRectangular) can't fit
@@ -130,17 +109,17 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
   // running app.
   const root = [containerBackground(c.paper, 'widget')];
 
-  // The eyebrow row: icon + "NÄSTA BÖN" / "NÄSTA TID" for sunrise. Keeping the
-  // icon HERE (not beside the name) lets the name, time and countdown below all
-  // share one clean leading edge.
-  const eyebrow = (iconSize: number, label: string) => (
-    <HStack spacing={5} alignment="center">
-      {nextArabic ? <Image systemName={nextIcon} size={iconSize} color={c.highlight} /> : null}
-      <Text modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(c.inkFaint)]}>
-        {label}
-      </Text>
-    </HStack>
+  // The eyebrow: "NÄSTA BÖN", or "NÄSTA TID" for sunrise. Text only — prayers carry no
+  // glyph anywhere in the app (see components/ui/Icon), so the name below is what says
+  // which prayer it is, and the eyebrow, name, time and countdown share one leading edge.
+  const eyebrow = (label: string) => (
+    <Text modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(c.inkFaint)]}>
+      {label}
+    </Text>
   );
+  // For the two families that cannot give way: a line that would not fit shrinks a little
+  // rather than wrapping or truncating the time.
+  const fit = [lineLimit(1), minimumScaleFactor(0.75)];
 
   // ── Lock screen (vibrant): one glanceable line/card per accessory family ─────────
   if (widgetEnvironment.widgetFamily === 'accessoryInline') {
@@ -152,12 +131,19 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
     );
   }
   if (widgetEnvironment.widgetFamily === 'accessoryCircular') {
+    // The time is the reason to glance here, so it takes the circle: big and bold, with the
+    // prayer's name as a small label over it (a glyph used to sit there, and a glyph could
+    // not tell Fajr from ʿIshāʾ at 14 pt anyway).
     return (
       <ZStack modifiers={[containerBackground('#00000000', 'widget')]}>
         <AccessoryWidgetBackground />
-        <VStack alignment="center" spacing={1}>
-          <Image systemName={nextIcon} size={14} color={c.ink} />
-          <Text modifiers={[font({ size: 11, weight: 'semibold' }), tabular, foregroundStyle(c.ink)]}>
+        <VStack alignment="center" spacing={0}>
+          {nextArabic ? (
+            <Text modifiers={[font({ size: 10, weight: 'semibold' }), foregroundStyle(c.inkMuted), ...fit]}>
+              {nextArabic}
+            </Text>
+          ) : null}
+          <Text modifiers={[font({ size: 17, weight: 'bold' }), tabular, foregroundStyle(c.ink), ...fit]}>
             {nextTime}
           </Text>
         </VStack>
@@ -167,12 +153,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
   if (widgetEnvironment.widgetFamily === 'accessoryRectangular') {
     return (
       <VStack alignment="leading" spacing={1} modifiers={[containerBackground('#00000000', 'widget')]}>
-        <HStack spacing={4} alignment="center">
-          {nextArabic ? <Image systemName={nextIcon} size={11} color={c.inkFaint} /> : null}
-          <Text modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(c.inkFaint)]}>
-            {eyebrowNarrow}
-          </Text>
-        </HStack>
+        {eyebrow(eyebrowNarrow)}
         <HStack spacing={6} alignment="firstTextBaseline">
           <Text modifiers={[font({ size: 15, weight: 'bold' }), foregroundStyle(c.ink)]}>
             {nextArabic || 'Bönetider'}
@@ -213,7 +194,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
   if (widgetEnvironment.widgetFamily === 'systemSmall') {
     return (
       <VStack alignment="leading" spacing={3} modifiers={root}>
-        {eyebrow(13, eyebrowNarrow)}
+        {eyebrow(eyebrowNarrow)}
         <Spacer />
         <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
           {nextArabic || 'Bönetider'}
@@ -245,7 +226,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
       <HStack spacing={14} alignment="center">
         {/* Hero (left) — eyebrow, prayer name (brass), big time, live countdown */}
         <VStack alignment="leading" spacing={3}>
-          {eyebrow(14, eyebrowWide)}
+          {eyebrow(eyebrowWide)}
           <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
             {nextArabic || 'Bönetider'}
           </Text>

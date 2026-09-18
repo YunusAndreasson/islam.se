@@ -6,6 +6,7 @@ import { render, screen } from '@testing-library/react-native';
 
 import * as reanimated from 'react-native-reanimated';
 import { Path, Skia } from '@shopify/react-native-skia';
+import { atZoom, DUST_RADIUS_STOPS } from '@/lib/map/dust';
 import { type Camera, project } from '@/lib/map/projection';
 import { SolarSkiaOverlay } from './SolarSkiaOverlay';
 
@@ -123,5 +124,80 @@ describe('upcoming prayer entrance', () => {
     renderOverlay({ lines: LINE, nextKey: 'dhuhr' });
     expect(strokes()).toHaveLength(2);
     for (const node of strokes()) expect(node.props.end.value).toBe(1);
+  });
+});
+
+// THE REPORT THIS ANSWERS: at Maghrib and ʿIshāʾ the reader could "hardly see" their own
+// position or a mosque. Both are native MapLibre layers UNDER this canvas, so the dusk and
+// night wash tinted them like the land. The wash is now erased (dstOut) exactly where they
+// sit. The shader is a native RuntimeEffect the jest mock never builds, so each test here
+// switches the wash on first — without it there is nothing to erase and nothing is drawn.
+describe('keeping the reader’s dot and the mosques clear of the wash', () => {
+  // On screen under CAMERA (Malmö is not: it sits below the test viewport's bottom edge).
+  const UPPSALA: [number, number] = [17.6389, 59.8586];
+  const LONDON: [number, number] = [-0.1276, 51.5072];
+
+  function recordHoles(): { x: number; y: number; r: number }[] {
+    const circles: { x: number; y: number; r: number }[] = [];
+    jest.spyOn(Skia.PathBuilder, 'Make').mockImplementation(() => {
+      const builder = {
+        moveTo: () => builder,
+        lineTo: () => builder,
+        addCircle: (x: number, y: number, r: number) => { circles.push({ x, y, r }); return builder; },
+        detach: () => ({}),
+      };
+      return builder as never;
+    });
+    return circles;
+  }
+
+  const withWash = () => jest.spyOn(Skia.RuntimeEffect, 'Make').mockReturnValue({} as never);
+  const erasers = () =>
+    screen.UNSAFE_root.findAll((node) => node.props.blendMode === 'dstOut' && typeof node.type !== 'string');
+
+  it('clears the reader’s dot, wherever it is on screen', () => {
+    withWash();
+    renderOverlay();
+    const dot = erasers().find((node) => node.props.r != null);
+    expect(dot).toBeDefined();
+    const at = project(STOCKHOLM[0], STOCKHOLM[1], CAMERA);
+    expect(dot!.props.cx.value).toBeCloseTo(at.x, 6);
+    expect(dot!.props.cy.value).toBeCloseTo(at.y, 6);
+  });
+
+  it('clears each mosque speck on screen, a little wider than the speck', () => {
+    withWash();
+    const holes = recordHoles();
+    renderOverlay({ mosquePoints: [STOCKHOLM, UPPSALA, LONDON] });
+    // London is off-frame: no hole is cut for a speck nobody can see.
+    expect(holes).toHaveLength(2);
+    const at = project(UPPSALA[0], UPPSALA[1], CAMERA);
+    const uppsala = holes.find((h) => Math.abs(h.x - at.x) < 1e-6 && Math.abs(h.y - at.y) < 1e-6);
+    expect(uppsala).toBeDefined();
+    expect(uppsala!.r).toBeGreaterThan(atZoom(DUST_RADIUS_STOPS, CAMERA.zoom));
+  });
+
+  it('stops clearing once the specks have handed over to the glyphs', () => {
+    // A hole past this point would uncover an empty patch of daylight, or one where
+    // collision has culled a glyph.
+    withWash();
+    const holes = recordHoles();
+    // Centred on Stockholm, so its speck WOULD be on screen — the zoom alone must stop it.
+    const cityView = { ...CAMERA, lon: STOCKHOLM[0], lat: STOCKHOLM[1], zoom: 9 };
+    renderOverlay({ mosquePoints: [STOCKHOLM, UPPSALA], camera: shared(cityView) });
+    expect(holes).toHaveLength(0);
+  });
+
+  it('cuts no mosque holes when the reader has hidden the mosques', () => {
+    withWash();
+    renderOverlay({ mosquePoints: [] });
+    expect(erasers().filter((node) => node.props.path != null)).toHaveLength(0);
+  });
+
+  it('draws nothing at all when there is no wash to erase', () => {
+    const holes = recordHoles();
+    renderOverlay({ mosquePoints: [STOCKHOLM] });
+    expect(erasers()).toHaveLength(0);
+    expect(holes).toHaveLength(0);
   });
 });

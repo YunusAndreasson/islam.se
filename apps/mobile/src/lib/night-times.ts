@@ -37,32 +37,6 @@ export const NIGHT_SWEDISH_NAMES: Record<NightKey, string> = {
   lastThird: 'Nattens sista tredjedel',
 };
 
-/**
- * MaterialCommunityIcons glyphs: a circle filling up, because that is literally what these
- * two times are — the night 1/2 and 2/3 elapsed.
- *  – Nattens mitt    → circle-half-full (exactly a half)
- *  – Sista tredjedel → circle-slice-5   (5/8; MDI has no thirds — see below)
- *
- * THIS REPLACED A LUNAR PAIR (moon-full + moon-waning-crescent), and the reason is worth
- * keeping so nobody reaches for the moon again. Each was individually true — a full moon
- * does culminate at the night's middle, a waning crescent does rise before dawn — but they
- * are phases of DIFFERENT nights, a fortnight apart, and can never both describe the night
- * being listed. Stacked in one group they read as a month passing, not a night. Worse here
- * than anywhere: the dock renders the Hijri date directly above these rows, so on
- * 2 Rabīʿ al-awwal (a thin waxing crescent) the card drew a full moon and a waning
- * crescent, and the audience for a prayer app is the audience that notices. ʿIshāʾ's
- * `weather-night` is a crescent too, two rows up, which made it worse still.
- *
- * The 5/8 approximation is deliberate and is the smaller sin: 0.625 against 0.667 is
- * sub-pixel at the 18 dp these render at, MDI offers no exact third, and the icon is not
- * the measurement — the time beside it is. An elapsed-proportion glyph is true every night
- * of the year, which is exactly what a lunar phase is not.
- */
-export const NIGHT_ICONS = {
-  middleOfNight: 'circle-half-full',
-  lastThird: 'circle-slice-5',
-} as const satisfies Record<NightKey, string>;
-
 /** Both landmarks for one night. `null` = the night has no meaningful division today. */
 export type NightTimes = Record<NightKey, Date | null>;
 

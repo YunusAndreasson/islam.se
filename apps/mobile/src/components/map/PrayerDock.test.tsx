@@ -253,17 +253,17 @@ describe('PrayerDock day navigation', () => {
     expect(screen.getByText('Inga fler böner i dag')).toBeTruthy();
   });
 
-  it('speaks BOTH dates from the date crown, Hijri first', () => {
-    // THE BUG THIS GUARDS: the crown's label named only the Gregorian date. The Hijri line
-    // is the one printed above it in the heavier ink — this is a Hijri-calendar app — so a
-    // screen reader user heard "Lördag 1 augusti. Välj dag." and never once heard which
-    // Hijri day they were on. The label follows the printed order: Hijri, then Gregorian.
+  it('speaks BOTH dates from the date crown, in printed order', () => {
+    // THE BUG THIS GUARDS: the crown's label named only the Gregorian date, so a screen
+    // reader user heard "Lördag 1 augusti. Välj dag." and never once heard which Hijri day
+    // they were on. The label follows the printed order: the Swedish date is the headline
+    // (the stepper and calendar move through civil days), the Hijri date the line under it.
     render(<PrayerDock {...dockProps(true)} />);
 
     // Both printed lines, in printed order, then the action — asserted whole, so a
     // regression names the exact string that changed instead of "expected true".
     expect(screen.getByRole('button', { name: /Välj dag/ }).props.accessibilityLabel).toBe(
-      '16 Ṣafar 1448, Lördag 1 augusti. Välj dag.',
+      'Lördag 1 augusti, 16 Ṣafar 1448. Välj dag.',
     );
     // …and both halves really are on screen, so the label stays a reading of the crown
     // rather than a sentence that drifted away from it.

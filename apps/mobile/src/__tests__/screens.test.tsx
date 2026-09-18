@@ -61,6 +61,20 @@ const REAL_TIMER_APIS = [
   'hrtime',
 ] as const;
 
+// The map leans toward the reader as a prayer approaches (lib/map/approach), so what the
+// camera does after the first settle now depends on the hour. A test about the reset chip
+// must not pass or fail on whether the suite happens to run near Maghrib: it runs at 09:00,
+// hours from every prayer in May. Same Date-only pattern as PINNED_MIDDAY.
+const PINNED_QUIET = Date.UTC(2026, 4, 20, 7, 0, 0); // 20 May 2026, 09:00 Europe/Stockholm
+async function atQuietHour(run: () => Promise<void>): Promise<void> {
+  jest.useFakeTimers({ now: PINNED_QUIET, doNotFake: [...REAL_TIMER_APIS] });
+  try {
+    await run();
+  } finally {
+    jest.useRealTimers();
+  }
+}
+
 // Replays one of MapLibre's own "could not fetch that" log lines — the shape mbgl emits when
 // a vector tile cannot be reached. The mocked LogManager in jest.setup holds whichever
 // handler the screen installed.
@@ -256,7 +270,7 @@ describe('tab screens', () => {
     MAP_RENDER_TIMEOUT,
   );
 
-  it('offers a persistent position control instead of the reset chip', async () => {
+  it('offers a persistent position control instead of the reset chip', () => atQuietHour(async () => {
     await renderSettled(withProviders(<Bonetider />));
     expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
     const locate = screen.getByLabelText('Visa min position');
@@ -271,12 +285,12 @@ describe('tab screens', () => {
       zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
     } });
     expect(screen.getByLabelText('Visa min position')).toBeTruthy();
-  }, MAP_RENDER_TIMEOUT);
+  }), MAP_RENDER_TIMEOUT);
 
   it.each([
     { zoom: 5, bounds: [11.15, 55.35, 23.7, 69.0] },
     { zoom: 4.5, bounds: [13.15, 55.35, 25.7, 69.0] },
-  ])('offers reset after a manual camera change: %j', async (view) => {
+  ])('offers reset after a manual camera change: %j', (view) => atQuietHour(async () => {
     await renderSettled(withProviders(<Bonetider />));
     const settle = (zoom: number, bounds: number[], userInteraction: boolean) => {
       fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
@@ -290,7 +304,7 @@ describe('tab screens', () => {
     fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
     settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
     expect(screen.getByLabelText('Visa min position')).toBeTruthy();
-  }, MAP_RENDER_TIMEOUT);
+  }), MAP_RENDER_TIMEOUT);
 
   it('explains a tapped qibla arc and a prayer contour', async () => {
     // ⚠️ THIS TEST NEEDS A PRAYER TO BE HAPPENING SOMEWHERE IN SWEDEN. A prayer line is the

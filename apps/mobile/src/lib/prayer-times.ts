@@ -307,26 +307,6 @@ export const PRAYER_SWEDISH_NAMES: Record<PrayerKey, string> = {
 };
 
 /**
- * MaterialCommunityIcons glyphs walking the solar cycle. Used in glance contexts
- * (Förhandsvisning) where a small icon adds scan-ability — the app's whole
- * visual identity is sun-driven, so a sun-cycle iconography fits the brand.
- *  – Fajr    → night-partly-cloudy   (night beginning to lift)
- *  – Shurūq  → sunset-up             (sun + arrow ↑, emerging)
- *  – Ẓuhr    → sunny                 (full disc, midday)
- *  – ʿAṣr    → partly-cloudy         (sun starting to descend, a softer glyph)
- *  – Maghrib → sunset-down           (sun + arrow ↓, dipping)
- *  – ʿIshāʾ  → night                 (crescent moon)
- */
-export const PRAYER_ICONS = {
-  fajr: 'weather-night-partly-cloudy',
-  sunrise: 'weather-sunset-up',
-  dhuhr: 'weather-sunny',
-  asr: 'weather-partly-cloudy',
-  maghrib: 'weather-sunset-down',
-  isha: 'weather-night',
-} as const satisfies Record<PrayerKey, string>;
-
-/**
  * Format a prayer-time Date for display, 24-hour, in the app's display zone (see
  * lib/zone-time — the device's own zone, defaulting to Europe/Stockholm). Returns
  * '–' for slots adhan could not compute (Invalid Date), which happens above the Arctic

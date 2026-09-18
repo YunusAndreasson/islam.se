@@ -157,6 +157,23 @@ export const HIJRI_MONTHS: readonly string[] = [
   'Dhū al-ḥijja',
 ];
 
+/** Swedish month names, lower-case as they are written mid-sentence. The two calendar sheets
+ *  (map/DayPicker, moon/MoonMonthSheet) both title and caption with these. */
+export const SWEDISH_MONTHS: readonly string[] = [
+  'januari',
+  'februari',
+  'mars',
+  'april',
+  'maj',
+  'juni',
+  'juli',
+  'augusti',
+  'september',
+  'oktober',
+  'november',
+  'december',
+];
+
 /** e.g. "9 Dhū al-ḥijja 1447". */
 export function formatHijri(date: Date, offsetDays = 0): string {
   const h = toHijri(date, offsetDays);

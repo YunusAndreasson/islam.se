@@ -1,8 +1,14 @@
 // The month grid behind the dock's date header — the second half of day navigation.
 //
-// The chevrons either side of the scrubber are for NEARBY days: one tap each. This is for
+// The day stepper in the dock's date crown is for NEARBY days: one tap each. This is for
 // "when is Fajr on the 14th", where stepping would be twelve taps. Together they cover
 // both distances, which is why the plan called for both rather than either alone.
+//
+// Laid out the way the crown is: the Swedish month is the title, on the sheet's leading
+// edge, with the Hijri months it spans quietly under it; the pager is the same stepper pill,
+// at the trailing edge. The viewed day is a small soft-tinted circle rather than a solid
+// accent disc — the grid is for choosing, and a full-strength fill on one number shouted
+// over the moon phases that are the other reason to open it.
 //
 // A modal sheet owns Back, outside-tap dismissal and accessibility focus while open.
 import { useMemo, useState } from 'react';
@@ -12,13 +18,15 @@ import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanim
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { hapticLight, hapticSelection } from '@/lib/haptics';
+import { HIJRI_MONTHS, SWEDISH_MONTHS, toHijri } from '@/lib/hijri';
 import { relativeDayLabel } from '@/lib/relative-day';
 import { MAX_DAY_OFFSET } from '@/lib/solar/useSolarClock';
-import { addZoneDays, zoneParts } from '@/lib/zone-time';
+import { addZoneDays, zonePrayerDate, zoneParts } from '@/lib/zone-time';
 import { motion, type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { Icon } from '@/components/ui/Icon';
+import { StepperPill } from '@/components/ui/StepperPill';
 import { almanacTilt, MoonDisc } from '@/components/moon/MoonDisc';
 import { useMoonInk } from '@/components/moon/moonInk';
 import { moonPhaseAt } from '@/lib/moon/ephemeris';
@@ -27,26 +35,18 @@ import { moonPhaseAt } from '@/lib/moon/ephemeris';
 // onsdag both start with m/o pairs that collide), so two letters — the standard Swedish
 // abbreviations without the trailing period a calendar header does not need.
 const WEEKDAYS = ['må', 'ti', 'on', 'to', 'fr', 'lö', 'sö'];
-const MONTHS = [
-  'januari',
-  'februari',
-  'mars',
-  'april',
-  'maj',
-  'juni',
-  'juli',
-  'augusti',
-  'september',
-  'oktober',
-  'november',
-  'december',
-];
+/** Each day's moon. Big enough to read the phase at a glance — at the old 12 dp a crescent
+ *  and a half moon were the same grey dot — and still well under the numeral above it. */
+const MOON_PX = 20;
 
 interface Props {
   /** Stockholm midnight of the day currently on screen. */
   dayStart: number;
   /** Stockholm midnight of the real today — drives the "i dag" ring and the rails. */
   todayStart: number;
+  /** The reader's Hijri adjustment (settings.hijriOffset), so the month line under the
+   *  title agrees with the Hijri date the dock prints. */
+  hijriOffset?: number;
   /** Pick a day: any instant inside it. */
   onPick: (instant: number) => void;
   onClose: () => void;
@@ -96,7 +96,7 @@ export function monthGrid(anchor: number): MonthGrid {
     cursor = addZoneDays(cursor, 1);
   }
   while (cells.length < GRID_CELLS) cells.push(null);
-  return { title: `${MONTHS[mo - 1]} ${y}`, first, last, cells };
+  return { title: `${SWEDISH_MONTHS[mo - 1]} ${y}`, first, last, cells };
 }
 
 /** The 1st of the next month, or the last day of the previous one — i.e. a day that is
@@ -110,7 +110,30 @@ export function adjacentMonth(grid: MonthGrid, delta: 1 | -1): number {
   return delta === 1 ? addZoneDays(grid.last, 1) : addZoneDays(grid.first, -1);
 }
 
-export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
+/**
+ * The Hijri month(s) a Gregorian month overlaps — "Rabīʿ al-awwal – Rabīʿ al-ākhir 1448".
+ *
+ * A Gregorian month always straddles two Hijri months (a lunar month is ~29.5 days) and at
+ * most three; naming the first and last is the honest short form. The year is written once
+ * when both ends share it and on each end when the span crosses Muḥarram. Each day goes
+ * through zonePrayerDate, the same civil-noon Date the dock's own Hijri line is built from,
+ * so the two can never disagree about which day is which.
+ */
+export function hijriSpan(grid: MonthGrid, offsetDays = 0): string {
+  const a = toHijri(zonePrayerDate(grid.first), offsetDays);
+  const b = toHijri(zonePrayerDate(grid.last), offsetDays);
+  const name = (m: number) => HIJRI_MONTHS[m - 1];
+  if (a.year === b.year && a.month === b.month) return `${name(a.month)} ${a.year}`;
+  if (a.year === b.year) return `${name(a.month)} – ${name(b.month)} ${a.year}`;
+  return `${name(a.month)} ${a.year} – ${name(b.month)} ${b.year}`;
+}
+
+/** "september 2026" → "September 2026": the grid title is a heading, so it opens with a
+ *  capital, the way the dock's "Fredag 18 september" does. Spoken labels keep the bare
+ *  lower-case month, because there it sits mid-sentence ("3 september 2026, i morgon"). */
+const heading = (title: string): string => title.charAt(0).toUpperCase() + title.slice(1);
+
+export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClose }: Props) {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
@@ -169,37 +192,32 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
           <GlassSurface style={styles.sheet} borderRadius={radius.xl} tint={c.surface}>
             <ScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
               <View style={styles.head}>
-                <Text style={[styles.title, { textAlign: 'left' }]} accessibilityRole="header">Välj dag</Text>
-                <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel="Stäng kalendern"
-                  style={({ pressed }) => [styles.pager, pressed && styles.pressed]}>
-                  <Icon name="close" size={22} color={c.inkMuted} />
-                </Pressable>
-              </View>
-              <View style={styles.head}>
+                <View style={styles.titleBlock}>
+                  <Text style={styles.title} numberOfLines={1} accessibilityRole="header">
+                    {heading(grid.title)}
+                  </Text>
+                  <Text style={styles.hijri} numberOfLines={2}>
+                    {hijriSpan(grid, hijriOffset)}
+                  </Text>
+                </View>
+                <StepperPill
+                  onStep={monthStep}
+                  canStepBack={canPageBack}
+                  canStepForward={canPageForward}
+                  backLabel="Föregående månad"
+                  forwardLabel="Nästa månad"
+                />
                 <Pressable
-                  onPress={() => monthStep(-1)}
-                  disabled={!canPageBack}
+                  onPress={onClose}
                   accessibilityRole="button"
-                  accessibilityLabel="Föregående månad"
-                  accessibilityState={{ disabled: !canPageBack }}
-                  style={({ pressed }) => [styles.pager, !canPageBack && styles.off, pressed && styles.pressed]}
+                  accessibilityLabel="Stäng kalendern"
+                  // The disc is 36; the slop takes it to a 44 target on every side but the
+                  // pill's, which is the neighbour it must not steal from.
+                  hitSlop={{ top: 4, bottom: 4, right: 4 }}
+                  style={({ pressed }) => [styles.close, pressed && styles.pressed]}
                 >
-                  <Icon name="chevronLeft" size={22} color={c.accent} />
+                  <Icon name="close" size={20} color={c.inkMuted} />
                 </Pressable>
-                <Text style={styles.title} numberOfLines={2}>
-                  {grid.title}
-                </Text>
-                <Pressable
-                  onPress={() => monthStep(1)}
-                  disabled={!canPageForward}
-                  accessibilityRole="button"
-                  accessibilityLabel="Nästa månad"
-                  accessibilityState={{ disabled: !canPageForward }}
-                  style={({ pressed }) => [styles.pager, !canPageForward && styles.off, pressed && styles.pressed]}
-                >
-                  <Icon name="chevronRight" size={22} color={c.accent} />
-                </Pressable>
-
               </View>
 
               <View style={styles.weekRow}>
@@ -249,8 +267,7 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
                           minimumFontScale={0.6}
                           style={[
                             styles.dayText,
-                            isToday && styles.dayToday,
-                            selected && styles.daySelectedText,
+                            (isToday || selected) && styles.dayMarked,
                             outOfRange && styles.off,
                           ]}
                         >
@@ -258,7 +275,7 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
                         </Text>
                       </View>
                       <MoonDisc
-                        size={12}
+                        size={MOON_PX}
                         illumination={phase.illumination}
                         tilt={almanacTilt(phase.phaseAngle < 180)}
                         {...ink}
@@ -290,30 +307,50 @@ function makeStyles(c: Palette) {
       padding: space.md,
       gap: space.sm,
     },
-    head: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
-    pager: { width: 48, alignItems: 'center', justifyContent: 'center', minHeight: 48 },
-    title: { ...type.bodyStrong, color: c.ink, flex: 1, textAlign: 'center' },
+    head: { flexDirection: 'row', alignItems: 'center', gap: space.sm, marginBottom: space.xs },
+    titleBlock: { flex: 1, minWidth: 0 },
+    // The same pair the dock's date crown uses: 18/700 Swedish, 14 muted Hijri under it.
+    title: { fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: 0.1, color: c.ink },
+    hijri: { fontSize: 14, lineHeight: 20, color: c.inkMuted, marginTop: 1 },
+    close: {
+      width: 36,
+      height: 36,
+      borderRadius: radius.round,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: c.paperSunken,
+    },
     weekRow: { flexDirection: 'row' },
     // Seven equal columns; each cell is 1/7 of the row so the grid aligns with the header
     // whatever the screen width.
     weekday: { ...type.caption, color: c.inkFaint, width: `${100 / 7}%`, textAlign: 'center' },
     grid: { flexDirection: 'row', flexWrap: 'wrap' },
-    cell: { width: `${100 / 7}%`, alignItems: 'center', paddingVertical: 4, paddingHorizontal: 3, gap: 2, minHeight: 56 },
-    // Fit the selection circle and its text inside the available calendar column.
+    // More air BELOW each moon than between a numeral and its own moon, so a moon reads as
+    // belonging to the date above it rather than to the one below — with even spacing the
+    // grid was an alternating stripe of numbers and discs that paired either way.
+    cell: { width: `${100 / 7}%`, alignItems: 'center', paddingTop: 2, paddingBottom: 8, paddingHorizontal: 2 },
+    // The circle is sized to the NUMERAL, not the column: at the column's full width (up to
+    // 44 dp) the viewed day's disc was the largest object on the sheet, twice the height of
+    // the moon under it. 32 hugs a two-digit 15 pt date with the same air a platform date
+    // picker gives it, and fits the narrowest column (≈35 dp on a 320 pt phone).
+    //
+    // Fixed width AND height — not width: '100%' + maxWidth + aspectRatio. Yoga resolves the
+    // aspect ratio from the UNCLAMPED percentage width, so that recipe drew a 32 × 46 capsule.
     dayBubble: {
-      width: '100%',
-      maxWidth: 44,
-      aspectRatio: 1,
+      width: 32,
+      height: 32,
       borderRadius: radius.round,
       alignItems: 'center',
       justifyContent: 'center',
     },
-    daySelected: { backgroundColor: c.accent },
-    dayText: { ...type.caption, width: '100%', textAlign: 'center', color: c.ink, fontVariant: ['tabular-nums'] },
-    // Today is marked by WEIGHT and accent ink, not a second filled bubble — one filled
-    // bubble on the grid means "the day you are looking at", and two fills would compete.
-    dayToday: { color: c.accent, fontWeight: '700' },
-    daySelectedText: { color: c.onAccent, fontWeight: '700' },
+    // Selection is a TINT, not a fill — the soft accent ground the app's chips wear, under an
+    // accent numeral. The platform date pickers mark the chosen day the same way.
+    daySelected: { backgroundColor: c.accentSoft },
+    dayText: { ...type.callout, width: '100%', textAlign: 'center', color: c.ink, fontVariant: ['tabular-nums'] },
+    // Today and the viewed day both set the numeral in bold accent; only the viewed day adds
+    // the tint. So today reads as "marked" wherever you have browsed to, and the tinted one is
+    // "where the dock is" — two states, one filled shape.
+    dayMarked: { color: c.accent, fontWeight: '700' },
     off: { opacity: 0.3 },
     pressed: { opacity: 0.6 },
   });

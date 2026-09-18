@@ -14,6 +14,13 @@
 // is not the sky, and a grid of thirty differently-tilted moons reads as noise. Drawn all
 // lit-side-up instead, which was the first attempt, the two halves of the month come out as
 // identical drawings and the grid reads as a disc filling from one end.
+//
+// Laid out like DayPicker's sheet, on purpose: title on the leading edge with the OTHER
+// calendar's months quietly under it, the same stepper pill and round ✕ at the trailing
+// edge, today as a small tinted circle behind the numeral, moons at the same 20 dp. Here the
+// title is the Hijri month — this sheet pages through Hijri months, and the date a control
+// changes is the one that heads it, which is the same rule that puts the Swedish date first
+// in the dock's crown.
 import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
@@ -21,16 +28,33 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { Icon } from '@/components/ui/Icon';
+import { StepperPill } from '@/components/ui/StepperPill';
 import { almanacTilt, MoonDisc } from '@/components/moon/MoonDisc';
 import { useMoonInk } from '@/components/moon/moonInk';
 import { hapticLight, hapticSelection } from '@/lib/haptics';
-import { HIJRI_MONTHS, hijriToGregorian } from '@/lib/hijri';
+import { HIJRI_MONTHS, hijriToGregorian, SWEDISH_MONTHS } from '@/lib/hijri';
 import { moonPhaseAt } from '@/lib/moon/ephemeris';
 import { type DayMark, MONTH_NOTES, monthRing } from '@/lib/moon/month';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 
 /** Monday-first, as Swedish calendars are — the same two-letter abbreviations DayPicker uses. */
 const WEEKDAYS = ['må', 'ti', 'on', 'to', 'fr', 'lö', 'sö'];
+/** Same moon size as DayPicker's grid. */
+const MOON_PX = 20;
+
+/** The civil month(s) a Hijri month spans — "Februari – mars 2026". A lunar month always
+ *  straddles two, so the first and last day's months are the whole answer; the year is written
+ *  once unless the span crosses New Year. Capitalised because it opens a line. */
+function civilSpan(first: Date, last: Date): string {
+  const m = (d: Date) => SWEDISH_MONTHS[d.getMonth()];
+  const text =
+    first.getMonth() === last.getMonth() && first.getFullYear() === last.getFullYear()
+      ? `${m(first)} ${first.getFullYear()}`
+      : first.getFullYear() === last.getFullYear()
+        ? `${m(first)} – ${m(last)} ${last.getFullYear()}`
+        : `${m(first)} ${first.getFullYear()} – ${m(last)} ${last.getFullYear()}`;
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
 /** What each fasting standing looks like. `forbidden` is deliberately the loudest of the
  *  three: it is the only one where acting on the wrong colour is acting wrongly. */
@@ -81,7 +105,7 @@ export function MoonMonthSheet({
   const todayStart = new Date().setHours(0, 0, 0, 0);
   const reduceMotion = useReducedMotion();
 
-  const { cells, notes } = useMemo(() => {
+  const { cells, notes, span } = useMemo(() => {
     const ring = monthRing(year, month);
     // Each day's civil date, its weekday column, and the Moon it had. Noon is used for the
     // phase because a day has one square and one moon, and midday is the least arbitrary
@@ -110,9 +134,12 @@ export function MoonMonthSheet({
       if (last && last.mark.kind === d.mark.kind && last.to === d.day - 1) last.to = d.day;
       else runs.push({ from: d.day, to: d.day, mark: d.mark });
     }
+    const first = days[0]?.civil;
+    const last = days.at(-1)?.civil;
     return {
       cells: [...Array.from({ length: lead }, () => null), ...days],
       notes: runs,
+      span: first && last ? civilSpan(first, last) : '',
     };
   }, [year, month, offsetDays]);
 
@@ -129,7 +156,7 @@ export function MoonMonthSheet({
     >
       {/* Tap-outside-to-close, for a thumb. Hidden from assistive tech on purpose: a
           full-screen invisible button ahead of the grid is a trap for a screen reader, and
-          the explicit "Stäng" below is the way out that gets announced. DayPicker solves the
+          the header's ✕ ("Stäng månaden") is the way out that gets announced. DayPicker solves the
           same problem by having no backdrop at all; this one covers more, so it keeps the
           convenience and drops it from the tree. */}
       <Pressable
@@ -151,36 +178,36 @@ export function MoonMonthSheet({
         tint={c.surface}
       >
         <View style={styles.header}>
+          <View style={styles.titleBlock}>
+            <Text style={styles.title} numberOfLines={1} accessibilityRole="header">
+              {HIJRI_MONTHS[month - 1]} {year}
+            </Text>
+            {span ? <Text style={styles.subtitle}>{span}</Text> : null}
+          </View>
+          <StepperPill
+            onStep={(step) => {
+              hapticLight();
+              onStepMonth(step);
+            }}
+            canStepBack={canStepBack}
+            canStepForward={canStepForward}
+            backLabel="Föregående månad"
+            forwardLabel="Nästa månad"
+          />
+          {/* The way out, in the header where DayPicker's is. It used to be a "Stäng" text
+              button under the notes; one close control per sheet, in the same place on both
+              sheets, is what makes the second one familiar. */}
           <Pressable
             onPress={() => {
-              hapticLight();
-              onStepMonth(-1);
+              hapticSelection();
+              onClose();
             }}
-            disabled={!canStepBack}
-            hitSlop={10}
             accessibilityRole="button"
-            accessibilityLabel="Föregående månad"
-            accessibilityState={{ disabled: !canStepBack }}
-            style={({ pressed }) => [pressed && styles.pressed, !canStepBack && styles.spent]}
+            accessibilityLabel="Stäng månaden"
+            hitSlop={{ top: 4, bottom: 4, right: 4 }}
+            style={({ pressed }) => [styles.close, pressed && styles.pressed]}
           >
-            <Icon name="chevronLeft" size={22} color={c.accent} />
-          </Pressable>
-          <Text style={styles.title}>
-            {HIJRI_MONTHS[month - 1]} {year}
-          </Text>
-          <Pressable
-            onPress={() => {
-              hapticLight();
-              onStepMonth(1);
-            }}
-            disabled={!canStepForward}
-            hitSlop={10}
-            accessibilityRole="button"
-            accessibilityLabel="Nästa månad"
-            accessibilityState={{ disabled: !canStepForward }}
-            style={({ pressed }) => [pressed && styles.pressed, !canStepForward && styles.spent]}
-          >
-            <Icon name="chevronRight" size={22} color={c.accent} />
+            <Icon name="close" size={20} color={c.inkMuted} />
           </Pressable>
         </View>
 
@@ -200,18 +227,20 @@ export function MoonMonthSheet({
             ) : (
               <View
                 key={cell.day}
-                style={[styles.cell, cell.civil.getTime() < todayStart && { opacity: 0.52 }, cell.day === today && styles.cellToday]}
+                style={[styles.cell, cell.civil.getTime() < todayStart && { opacity: 0.52 }]}
                 accessible
                 accessibilityRole="text"
                 accessibilityLabel={`${cell.day} ${HIJRI_MONTHS[month - 1]}, ${cell.civil.getDate()}/${cell.civil.getMonth() + 1}${
                   cell.mark ? `, ${cell.mark.label}${cell.mark.fast ? `, ${FAST_TEXT[cell.mark.fast]}` : ''}` : ''
                 }${cell.day === today ? ', i dag' : ''}`}
               >
-                <Text style={[styles.dayNum, cell.day === today && styles.dayNumToday]}>{cell.day}</Text>
+                <View style={[styles.dayBubble, cell.day === today && styles.dayBubbleToday]}>
+                  <Text style={[styles.dayNum, cell.day === today && styles.dayNumToday]}>{cell.day}</Text>
+                </View>
                 {/* The ALMANAC tilt, not the real one: a calendar square is not the sky, and
                     thirty differently-leaning moons read as noise. Lit on the right while
                     waxing and on the left while waning is what makes the grid a lunation. */}
-                <MoonDisc size={16} illumination={cell.illumination} tilt={almanacTilt(cell.waxing)} {...(cell.civil.getTime() < todayStart ? { lit: c.inkFaint, dark: c.paperSunken, rim: c.inkFaint } : ink)} />
+                <MoonDisc size={MOON_PX} illumination={cell.illumination} tilt={almanacTilt(cell.waxing)} {...(cell.civil.getTime() < todayStart ? { lit: c.inkFaint, dark: c.paperSunken, rim: c.inkFaint } : ink)} />
                 <Text style={styles.civil}>{cell.civil.getDate()}</Text>
                 {cell.mark ? (
                   <View
@@ -246,18 +275,6 @@ export function MoonMonthSheet({
           </Text>
         </View>
         </ScrollView>
-
-        <Pressable
-          onPress={() => {
-            hapticSelection();
-            onClose();
-          }}
-          accessibilityRole="button"
-          accessibilityLabel="Stäng månaden"
-          style={({ pressed }) => [styles.close, pressed && styles.pressed]}
-        >
-          <Text style={styles.closeText}>Stäng</Text>
-        </Pressable>
       </GlassSurface>
     </Animated.View>
   );
@@ -277,21 +294,38 @@ function makeStyles(c: Palette) {
       overflow: 'hidden',
       ...shadow.card,
     },
-    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
-    title: { ...type.bodyStrong, color: c.ink, flexShrink: 1, textAlign: 'center' },
+    header: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+    titleBlock: { flex: 1, minWidth: 0 },
+    // The same pair DayPicker's title uses: 18/700 over a 14 muted line.
+    title: { fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: 0.1, color: c.ink },
+    subtitle: { fontSize: 14, lineHeight: 20, color: c.inkMuted, marginTop: 1 },
+    close: {
+      width: 36,
+      height: 36,
+      borderRadius: radius.round,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: c.paperSunken,
+    },
     weekRow: { flexDirection: 'row', marginTop: space.md },
     weekday: { ...type.caption, color: c.inkFaint, flex: 1, textAlign: 'center' },
     grid: { flexDirection: 'row', flexWrap: 'wrap', marginTop: space.xs },
+    // More air under each square's contents than inside it, so the moon and civil date read as
+    // belonging to the Hijri numeral above them rather than to the row below.
     cell: {
       width: `${100 / 7}%`,
       alignItems: 'center',
-      paddingVertical: 3,
-      borderRadius: radius.sm,
+      paddingTop: 2,
+      paddingBottom: 8,
     },
-    cellToday: { backgroundColor: c.accentSoft },
-    dayNum: { ...type.caption, color: c.ink, fontWeight: '600' },
-    dayNumToday: { color: c.accent },
-    civil: { ...type.caption, fontSize: 10, color: c.inkFaint },
+    // Today: a small tinted circle behind the numeral, as in DayPicker — not the whole square,
+    // which tinted the moon and the civil date too and made today the largest object on the
+    // sheet. Fixed 32 × 32; see DayPicker's dayBubble for why not an aspect ratio.
+    dayBubble: { width: 32, height: 32, borderRadius: radius.round, alignItems: 'center', justifyContent: 'center' },
+    dayBubbleToday: { backgroundColor: c.accentSoft },
+    dayNum: { ...type.callout, color: c.ink, fontVariant: ['tabular-nums'] },
+    dayNumToday: { color: c.accent, fontWeight: '700' },
+    civil: { ...type.micro, fontWeight: '400', letterSpacing: 0, color: c.inkFaint, marginTop: 2 },
     markDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: c.highlight, marginTop: 1 },
     markDotForbidden: { backgroundColor: c.accent },
     markDotSpacer: { width: 4, height: 4, marginTop: 1 },
@@ -302,9 +336,6 @@ function makeStyles(c: Palette) {
     noteDays: { ...type.caption, color: c.highlightText, fontWeight: '700', minWidth: 40 },
     noteText: { ...type.caption, color: c.inkMuted, flexShrink: 1 },
     monthNote: { ...type.caption, color: c.inkFaint, marginTop: space.sm },
-    close: { alignSelf: 'center', minHeight: 44, justifyContent: 'center', paddingHorizontal: space.lg },
-    closeText: { ...type.bodyStrong, color: c.accent },
     pressed: { opacity: 0.6 },
-    spent: { opacity: 0.25 },
   });
 }

@@ -44,24 +44,20 @@
 //    To re-derive a number, measure the glyph, do not guess:
 //      fontTools → BoundsPen over MaterialIcons.ttf, max(width, height) / unitsPerEm.
 //
-// 3. What is deliberately NOT here, and why neither case is a matter of taste:
-//      • The dock's semantic glyphs — the prayer rows (PRAYER_ICONS in lib/prayer-times)
-//        and the night landmarks (NIGHT_ICONS in lib/night-times). MATERIAL SYMBOLS HAS NO
-//        SUNRISE OR SUNSET GLYPH — not one, in 4055 names; its whole vocabulary for the
-//        sun crossing the horizon is the single `wb_twilight`. SF Symbols has the clean
-//        `sunrise.fill`/`sunset.fill` pair, so moving this set would buy a nicer iOS at the
-//        cost of collapsing Shurūq and Maghrib into ONE glyph on Android — two rows of the
-//        dock that must never look alike. MaterialCommunityIcons can say it; the native
-//        libraries between them cannot. The night pair moves with them: those rows sit in
-//        the same list, and a half-migrated list would mix filled Material Icons with
-//        outlined Material Symbols in adjacent rows.
-//      • The mosque map pin (components/map/MosqueLayer). It rasterises a glyph to a
-//        bitmap for MapLibre via getImageSource; expo-symbols' equivalent
-//        (unstable_getMaterialSymbolSourceAsync) is a literal `return null` on iOS, and SF
-//        Symbols has no mosque glyph at all — only moon phases. It cannot move until the
-//        pin becomes a bundled asset.
-//    Those two are the whole remaining reason @expo/vector-icons is a dependency. Nothing
-//    else in the app should reach for it: if a new icon is needed, it belongs in ICONS.
+// 3. What is deliberately NOT here: the mosque map pin (components/map/MosqueLayer). It
+//    rasterises a glyph to a bitmap for MapLibre via getImageSource; expo-symbols'
+//    equivalent (unstable_getMaterialSymbolSourceAsync) is a literal `return null` on iOS,
+//    and SF Symbols has no mosque glyph at all — only moon phases. It cannot move until the
+//    pin becomes a bundled asset, and it is the whole remaining reason @expo/vector-icons is
+//    a dependency. Nothing else in the app should reach for it: if a new icon is needed, it
+//    belongs in ICONS.
+//
+//    Prayers deliberately have NO glyph anywhere — not in the dock, the widget or the Live
+//    Activity. They were MaterialCommunityIcons sun-cycle glyphs once; they went because a
+//    name and a time say it, and ink (brass = next, muted = not an obligation) carries the
+//    rest. If one comes back, know first that Material Symbols has no sunrise or sunset
+//    glyph at all (only `wb_twilight`), so Shurūq and Maghrib would collapse into ONE glyph
+//    on Android.
 import { loadAsync } from 'expo-font';
 import { SymbolView, type AndroidSymbol } from 'expo-symbols';
 import materialSymbolsRegular from 'expo-symbols/androidWeights/regular';

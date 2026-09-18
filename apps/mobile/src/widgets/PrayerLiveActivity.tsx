@@ -3,7 +3,7 @@
 //
 // ⚠️ SAME ARCHITECTURE CONSTRAINT AS PrayerTimesWidget.tsx — the `'widget'` layout is
 // serialised standalone and evaluated in a bare JSContext inside the widget extension.
-// Every palette, map and helper must live INSIDE the layout function body; a module-scope
+// Every palette and helper must live INSIDE the layout function body; a module-scope
 // reference is undefined at render and the activity renders blank/black.
 //
 // The countdown itself is `Text timerInterval … countsDown` — rendered live BY THE SYSTEM,
@@ -29,24 +29,26 @@
 // date without the app running. The cost is that ending also drops it from the Dynamic
 // Island immediately, and this layout serves a full Dynamic Island presentation
 // (compactLeading/compactTrailing/minimal/expanded*) — so it is a trade, not a free win.
-import { HStack, Image, Spacer, Text, VStack } from '@expo/ui/swift-ui';
+import { HStack, Spacer, Text, VStack } from '@expo/ui/swift-ui';
 import {
   font,
   foregroundStyle,
   kerning,
+  lineLimit,
+  minimumScaleFactor,
   monospacedDigit,
   multilineTextAlignment,
   padding,
 } from '@expo/ui/swift-ui/modifiers';
 import { createLiveActivity, type LiveActivityEnvironment } from 'expo-widgets';
-import type { SFSymbol } from 'sf-symbols-typescript';
 
 import type { PrayerKey } from '@/lib/prayer-times';
 
 /** Plain-JSON props for one activity — set once at start (or via update on foreground);
  *  the countdown needs no further updates because the system renders it. */
 export interface PrayerActivityProps {
-  /** Prayer slot key, for the SF-symbol icon. */
+  /** Prayer slot key. Not drawn — it is part of the activity's content identity (see
+   *  activityContentKey in widget/live-activity). */
   nextKey: PrayerKey;
   /** Transliterated name, e.g. "Maghrib". */
   nextArabic: string;
@@ -100,33 +102,17 @@ function PrayerLiveActivityLayout(
         ink: '#b8b2a6', // dimmed cream — primary numerals (the big target time)
         inkMuted: '#928a7c', // dimmed countdown + Swedish subtitle
         inkFaint: '#7c7466', // dimmed section label ("NÄSTA BÖN")
-        highlight: '#a07a39', // dimmed gold — the prayer icon
         highlightText: '#a47d3a', // dimmed gold — the prayer name
       }
     : {
         ink: '#f0ebe0', // bright cream — primary numerals (the big target time)
         inkMuted: '#c2b8a6', // warm light grey — countdown + Swedish subtitle
         inkFaint: '#a79d8b', // warm muted — the small section label ("NÄSTA BÖN")
-        highlight: '#d2a04c', // bright gold — the prayer icon
         highlightText: '#d8a44c', // bright gold — the prayer name
       };
-  // Untrusted lookup, exactly as in PrayerTimesWidget: `p` is cast from ActivityKit's
-  // stored props, so `nextKey` can be a slot this map does not carry. `| undefined`
-  // keeps the fallback below mandatory rather than merely customary.
-  const SF: Record<string, SFSymbol | undefined> = {
-    fajr: 'moon.stars.fill',
-    sunrise: 'sunrise.fill',
-    dhuhr: 'sun.max.fill',
-    asr: 'sun.min.fill',
-    maghrib: 'sunset.fill',
-    isha: 'moon.fill',
-  };
-  const SF_FALLBACK: SFSymbol = 'moon.stars.fill';
-
   // Null/partial-safe, like the widget: never throw inside the extension.
   const p = (rawProps ?? {}) as Partial<PrayerActivityProps>;
 
-  const icon: SFSymbol = (typeof p.nextKey === 'string' ? SF[p.nextKey] : undefined) ?? SF_FALLBACK;
   const name = typeof p.nextArabic === 'string' && p.nextArabic ? p.nextArabic : 'Bönetider';
   const swedish = typeof p.nextSwedish === 'string' ? p.nextSwedish : '';
   const time = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '–';
@@ -166,32 +152,33 @@ function PrayerLiveActivityLayout(
     // the prayer name's baseline and the countdown rides the Swedish subtitle's, so
     // every right-hand value lines up with its left-hand label instead of the right
     // column floating at the HStack's vertical centre against a taller left column.
+    //
+    // No leading glyph: the name says which prayer it is, and without the icon column the
+    // label, name and subtitle start on the banner's own inset — the same single leading
+    // edge the app's dock and the home-screen widget use.
     banner: (
-      <HStack spacing={14} alignment="center" modifiers={[padding({ all: 16 })]}>
-        <Image systemName={icon} size={26} color={C.highlight} />
-        <VStack alignment="leading" spacing={3}>
-          <Text
-            modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(C.inkFaint)]}>
-            {kindLabel}
+      <VStack alignment="leading" spacing={3} modifiers={[padding({ all: 16 })]}>
+        <Text
+          modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(C.inkFaint)]}>
+          {kindLabel}
+        </Text>
+        <HStack alignment="firstTextBaseline" spacing={10}>
+          <Text modifiers={[font({ size: 20, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
+            {name}
           </Text>
-          <HStack alignment="firstTextBaseline" spacing={10}>
-            <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
-              {name}
-            </Text>
-            <Spacer />
-            <Text modifiers={[font({ size: 22, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>
-              {time}
-            </Text>
-          </HStack>
-          <HStack alignment="firstTextBaseline" spacing={10}>
-            {swedish ? (
-              <Text modifiers={[font({ size: 12 }), foregroundStyle(C.inkMuted)]}>{swedish}</Text>
-            ) : null}
-            <Spacer />
-            {countdown(14, C.inkMuted)}
-          </HStack>
-        </VStack>
-      </HStack>
+          <Spacer />
+          <Text modifiers={[font({ size: 22, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>
+            {time}
+          </Text>
+        </HStack>
+        <HStack alignment="firstTextBaseline" spacing={10}>
+          {swedish ? (
+            <Text modifiers={[font({ size: 13 }), foregroundStyle(C.inkMuted)]}>{swedish}</Text>
+          ) : null}
+          <Spacer />
+          {countdown(15, C.inkMuted)}
+        </HStack>
+      </VStack>
     ),
     // The `small` activity family — CarPlay and the Apple Watch Smart Stack, which
     // render an activity started on the phone in a much narrower box. Without this the
@@ -201,7 +188,6 @@ function PrayerLiveActivityLayout(
     // supplying bannerSmall is the supported way to serve it.)
     bannerSmall: (
       <HStack spacing={8} alignment="center" modifiers={[padding({ all: 10 })]}>
-        <Image systemName={icon} size={16} color={C.highlight} />
         <Text modifiers={[font({ size: 15, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
           {name}
         </Text>
@@ -209,27 +195,36 @@ function PrayerLiveActivityLayout(
         {countdown(15, C.ink)}
       </HStack>
     ),
-    // Dynamic Island — compact: icon + prayer name ↔ ticking countdown around the
-    // camera. The name rides in the leading slot so the next prayer is identifiable
-    // at a glance without long-pressing to expand.
+    // Dynamic Island — compact: prayer name ↔ ticking countdown around the camera. The
+    // name rides in the leading slot so the next prayer is identifiable at a glance
+    // without long-pressing to expand.
     compactLeading: (
-      <HStack spacing={4} alignment="center">
-        <Image systemName={icon} size={14} color={C.highlight} />
-        <Text modifiers={[font({ size: 13, weight: 'semibold' }), foregroundStyle(C.highlightText)]}>
-          {name}
-        </Text>
-      </HStack>
+      <Text modifiers={[font({ size: 13, weight: 'semibold' }), foregroundStyle(C.highlightText)]}>
+        {name}
+      </Text>
     ),
     compactTrailing: countdown(13, C.ink),
-    minimal: <Image systemName={icon} size={13} color={C.highlight} />,
+    // Minimal (another app's activity shares the island): the prayer's clock time, in
+    // brass. A glyph used to sit here, and it could not say WHICH prayer; the countdown
+    // cannot fit, since a timer Text reserves its widest value ("1:00:00") and the slot is
+    // barely wider than "21:04".
+    minimal: (
+      <Text
+        modifiers={[
+          font({ size: 12, weight: 'bold' }),
+          tabular,
+          foregroundStyle(C.highlightText),
+          lineLimit(1),
+          minimumScaleFactor(0.7),
+        ]}>
+        {time}
+      </Text>
+    ),
     // Dynamic Island — expanded (long-press).
     expandedLeading: (
-      <HStack spacing={6} alignment="center">
-        <Image systemName={icon} size={16} color={C.highlight} />
-        <Text modifiers={[font({ size: 16, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
-          {name}
-        </Text>
-      </HStack>
+      <Text modifiers={[font({ size: 16, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
+        {name}
+      </Text>
     ),
     expandedTrailing: (
       <Text modifiers={[font({ size: 16, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>

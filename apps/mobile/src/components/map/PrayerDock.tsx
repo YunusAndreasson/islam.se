@@ -24,7 +24,6 @@
 // half the day, which left a warm slab floating on a night sky. The tint now comes from
 // theme/skyChrome, one value shared with every other card on the map. Ink, accent and brass
 // are untouched: only the material under them changes temperature.
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
 import {
@@ -74,7 +73,6 @@ import {
 import { formatGregorian, formatHijri } from '@/lib/hijri';
 import {
   computeNightTimes,
-  NIGHT_ICONS,
   NIGHT_LABELS,
   NIGHT_ORDER,
   NIGHT_SWEDISH_NAMES,
@@ -83,7 +81,6 @@ import {
 import { relativeDayLabel } from '@/lib/relative-day';
 import {
   formatTime,
-  PRAYER_ICONS,
   PRAYER_LABELS,
   PRAYER_ORDER,
   type PrayerKey,
@@ -91,7 +88,7 @@ import {
 } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { zonePrayerDate } from '@/lib/zone-time';
-import { nightColorFor, prayerColorFor } from '@/lib/solar/palette';
+import { prayerColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { hexToRgba } from '@/theme/rgba';
@@ -100,8 +97,9 @@ import { useActiveScheme, useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { DayPicker } from './DayPicker';
 import { Icon } from '@/components/ui/Icon';
+import { StepperPill } from '@/components/ui/StepperPill';
 import { useNavMetrics } from '@/components/nav/metrics';
-import { DOCK_HANDLE_H, dockMetrics, TRACK_BAND_H } from './dock-metrics';
+import { DOCK_FOOTER_PAD, DOCK_HANDLE_H, DOCK_HERO_GAP, dockMetrics, TRACK_BAND_H } from './dock-metrics';
 import { makeTimelineWarp } from '@/lib/timeline-warp';
 import { scrubGrabOffset } from '@/lib/map/scrub-grab';
 
@@ -122,6 +120,9 @@ const SCRUB_SEND_STEP = 0.0025;
 // The app's one canonical snap spring (tokens.motion.spring), aliased locally so the
 // worklet call sites stay terse.
 const SPRING = motion.spring;
+/** The scrubber knob's diameter. Its centre is what sits on the track, so every `left` that
+ *  places it subtracts half of this. */
+const THUMB = 16;
 
 // How far a finger must travel before a toggle gesture counts as a DRAG rather than a press
 // that wobbled. gesture-handler hands the pan priority over the tap the moment a touch clears
@@ -801,8 +802,8 @@ export function PrayerDock({
         </Text>
         <Pressable
           onPress={resetToNow}
-          // This chip is the ONLY way out of scrub mode, and it is a 12 pt label in a hero
-          // whose height is fixed at 44 and must not grow — so the target is bought with
+          // This chip is the ONLY way out of scrub mode, and it is an 11 pt label in a hero
+          // whose height is fixed (dockMetrics' `hero`) and must not grow — so the target is bought with
           // slop, which costs no layout. Same reach as the "Välj plats" offer below.
           hitSlop={{ top: 12, bottom: 12, left: 10, right: 10 }}
           style={({ pressed }) => [styles.previewBadge, pressed && styles.pressed]}
@@ -878,13 +879,13 @@ export function PrayerDock({
               accessibilityElementsHidden={!expanded}
               importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
             >
+              {/* Date left, stepper right — NOT a chevron either side of the date. Flanking it
+                  pushed both date lines in by a 48 dp button, so the crown sat on a different
+                  leading edge from every row beneath it and the forward glyph floated 13 dp in
+                  from the times' right edge: a card that looked misaligned at both margins.
+                  Now the date, the rows, the hero and the sub-line all start on the same
+                  edge, and the stepper's pill ends where the time column does. */}
               <View style={[styles.dateHeader, roomyDate && styles.dateHeaderRoomy]} testID="dock-calendar-header" onLayout={onHeaderLayout}>
-                {!roomyDate && <DayChevron
-                  styles={styles}
-                  direction={-1}
-                  disabled={clock.dayOffset <= -MAX_DAY_OFFSET}
-                  onPress={clock.stepDay}
-                />}
                 <Pressable
                   onPress={() => {
                     hapticLight();
@@ -892,37 +893,47 @@ export function PrayerDock({
                   }}
                   testID="prayer-dock-date"
                   accessibilityRole="button"
-                  // ⚠️ BOTH DATES, HIJRI FIRST — the order they are printed in. This label
-                  // named only the Gregorian one, so a screen reader user of a Hijri-calendar
-                  // app heard "Lördag 22 augusti" and never once heard "8 Rabīʿ al-awwal
-                  // 1448" — the line directly above it, set in the heavier ink, and the
-                  // reason the crown is there at all. The sighted reader gets the Hijri date
-                  // first; so should everyone else.
-                  accessibilityLabel={`${hijriLabel}, ${gregorianLabel}. Välj dag.`}
+                  // ⚠️ BOTH DATES, in the order they are printed. This label once named only
+                  // the Gregorian one, so a screen reader user heard "Lördag 22 augusti" and
+                  // never once heard "8 Rabīʿ al-awwal 1448". The Hijri date is the second
+                  // line now, but it is still on the card, so it is still in the label.
+                  accessibilityLabel={`${gregorianLabel}, ${hijriLabel}. Välj dag.`}
                   accessibilityHint="Öppnar en kalender – välj vilken dag du vill se."
                   style={({ pressed }) => [styles.dateTap, roomyDate && styles.dateTapRoomy, pressed && styles.pressed]}
                 >
-                  <View style={styles.flex}>
-                    <Text style={styles.dateHijri} numberOfLines={roomyDate ? undefined : 2}>
-                      {hijriLabel}
-                    </Text>
-                    <Text style={styles.dateGreg} numberOfLines={roomyDate ? undefined : 2}>
+                  {/* Swedish date on top. The stepper beside it and the calendar it opens
+                      both move through CIVIL days, so the date they change is the headline;
+                      the Hijri date is the quiet line under it.
+
+                      The disclosure chevron rides the title it opens, the way a picker title
+                      does on both platforms. It replaced a calendar glyph at the far end of
+                      the row, which put three accent glyphs side by side once the stepper
+                      moved over there. */}
+                  <View style={styles.dateTitle}>
+                    <Text style={styles.dateGreg} numberOfLines={roomyDate ? undefined : 1}>
                       {gregorianLabel}
                     </Text>
+                    <Icon
+                      name="chevronDown"
+                      size={20}
+                      color={c.accent}
+                      accessibilityElementsHidden
+                      importantForAccessibility="no"
+                    />
                   </View>
-                  <Icon name="calendar" size={18} color={c.accent} />
+                  <Text style={styles.dateHijri} numberOfLines={roomyDate ? undefined : 2}>
+                    {hijriLabel}
+                  </Text>
                 </Pressable>
-                {roomyDate && <DayChevron
-                  styles={styles}
-                  direction={-1}
-                  disabled={clock.dayOffset <= -MAX_DAY_OFFSET}
-                  onPress={clock.stepDay}
-                />}
-                <DayChevron
-                  styles={styles}
-                  direction={1}
-                  disabled={clock.dayOffset >= MAX_DAY_OFFSET}
-                  onPress={clock.stepDay}
+                <StepperPill
+                  onStep={(delta) => {
+                    hapticSelection();
+                    clock.stepDay(delta);
+                  }}
+                  canStepBack={clock.dayOffset > -MAX_DAY_OFFSET}
+                  canStepForward={clock.dayOffset < MAX_DAY_OFFSET}
+                  backLabel="Föregående dag"
+                  forwardLabel="Nästa dag"
                 />
               </View>
               <ScrollView
@@ -950,9 +961,12 @@ export function PrayerDock({
                         <ScheduleRow
                           styles={styles}
                           label={PRAYER_LABELS[key]}
-                          icon={PRAYER_ICONS[key]}
-                          iconColor={prayerColorFor(key, scheme)}
                           time={time}
+                          // Shurūq closes Fajr's window; nobody prays it. It takes the same
+                          // quieter ink as the night landmarks — the one tier that says "not an
+                          // obligation" now that no glyph is there to say it (a sunrise icon
+                          // used to). Same rule as the settings preview and the widget.
+                          muted={key === 'sunrise'}
                           mounted={showSchedule}
                           visible={expanded}
                           isNext={next?.key === key && !next.nextDay}
@@ -986,7 +1000,6 @@ export function PrayerDock({
                       night={night}
                       mounted={showSchedule}
                       visible={expanded}
-                      scheme={scheme}
                     />
                   ) : null}
                 </View>
@@ -1086,6 +1099,7 @@ export function PrayerDock({
         <DayPicker
           dayStart={clock.dayStart}
           todayStart={clock.todayStart}
+          hijriOffset={settings.hijriOffset}
           onPick={(instant) => {
             clock.goToDay(instant);
             setPickingDay(false);
@@ -1103,8 +1117,6 @@ type DockStyles = ReturnType<typeof makeStyles>;
 const ScheduleRow = memo(function ScheduleRow({
   styles,
   label,
-  icon,
-  iconColor,
   time,
   muted,
   mounted,
@@ -1116,10 +1128,8 @@ const ScheduleRow = memo(function ScheduleRow({
 }: {
   styles: DockStyles;
   label: string;
-  icon: keyof typeof MaterialCommunityIcons.glyphMap;
-  iconColor: string;
   time: string;
-  /** Render the label in the muted ink tier: this row is not an obligation. */
+  /** Render the row in the muted ink tier: this row is not an obligation. */
   muted?: boolean;
   /** In the tree at all — true from the first pixel of a drag, so `reveal` above has
    *  something to uncover. See `mounted` in PrayerDock. */
@@ -1132,20 +1142,13 @@ const ScheduleRow = memo(function ScheduleRow({
   onSelect?: (at: number) => void;
   accessibilityLabel: string;
 }) {
+  // Name and time only — no glyph column. The label starts on the card's own leading edge,
+  // the same one the date crown above and the hero below use, so the open card reads as one
+  // column of type rather than a gutter of icons with the words set in from it. What the
+  // glyphs used to say is carried by ink instead: brass for the next prayer, muted for the
+  // rows nobody is obliged to pray (Shurūq and the night group).
   const content = (
     <>
-      {/* Sun-cycle glyph tinted in the prayer's solar colour — replaces the
-          old 8x8 colour dot. Carries both meanings at once: shape says
-          "where in the day" (dawn / noon / sunset / night), colour preserves
-          the existing link with the map pills (PRAYER_COLORS, per-theme). */}
-      <MaterialCommunityIcons
-        name={icon}
-        size={18}
-        color={iconColor}
-        style={styles.listIcon}
-        accessibilityElementsHidden
-        importantForAccessibility="no"
-      />
       <Text style={[styles.listLabel, muted && styles.listLabelMuted, isNext && styles.nextEmphasis]}>
         {label}
       </Text>
@@ -1255,8 +1258,8 @@ function DayBreak({
  *     `clock.setInstant` clamps to the VIEWED day (see useSolarClock). The last third
  *     routinely falls after midnight, so a tap would silently land the scrubber on 23:59
  *     of the wrong day and light up ʿIshāʾ as "current" — a lie with no visible cause.
- *  2. **Muted label ink, tinted glyph only.** These are voluntary. Painting them at the
- *     same strength as the five obligations is the one thing this group must never do.
+ *  2. **Muted ink.** These are voluntary. Painting them at the same strength as the five
+ *     obligations is the one thing this group must never do.
  *  3. **Nothing marks the midnight crossing — and these rows do NOT get the DayBreak rule the
  *     six prayers above them now use.** That is an asymmetry, so it is worth stating plainly
  *     rather than leaving to be discovered: these times routinely land after midnight under a
@@ -1277,13 +1280,11 @@ function NightGroup({
   night,
   mounted,
   visible,
-  scheme,
 }: {
   styles: DockStyles;
   night: NightTimes;
   mounted: boolean;
   visible: boolean;
-  scheme: ColorSchemeName;
 }) {
   return (
     <>
@@ -1311,8 +1312,6 @@ function NightGroup({
             key={key}
             styles={styles}
             label={NIGHT_LABELS[key]}
-            icon={NIGHT_ICONS[key]}
-            iconColor={nightColorFor(key, scheme)}
             time={at === null ? '–' : time}
             muted
             mounted={mounted}
@@ -1456,6 +1455,10 @@ function SolarTimeline({
   // (app.json → experiments.reactCompiler); the per-render rebuild is one gesture object.
   const pan = Gesture.Pan()
     .minDistance(0)
+    // Down to the card's bottom edge, so the drag target is band + ruler + this = 48 dp
+    // (see TRACK_BAND_H). Downward only: above the band is the summary, which carries the
+    // dock's own toggle pan.
+    .hitSlop({ bottom: DOCK_FOOTER_PAD })
     .onBegin((e) => {
       dragging.value = true;
       scheduleOnRN(hapticGrab);
@@ -1510,7 +1513,7 @@ function SolarTimeline({
   const thumbStyle = useAnimatedStyle(() => {
     const f = dragging.value ? prog.value : follow.value;
     return {
-      left: f * trackW - 9,
+      left: f * trackW - THUMB / 2,
       transform: [{ scale: withSpring(dragging.value ? 1.16 : 1, SPRING) }],
     };
   });
@@ -1572,7 +1575,7 @@ function SolarTimeline({
           {trackW > 0 && (
             <Animated.View
               pointerEvents="none"
-              style={[styles.thumb, { left: trackFraction * trackW - 9 }, thumbStyle]}
+              style={[styles.thumb, { left: trackFraction * trackW - THUMB / 2 }, thumbStyle]}
             />
           )}
         </View>
@@ -1597,42 +1600,6 @@ function SolarTimeline({
 }
 
 /** Calendar day stepper, disabled at the supported date limits. */
-function DayChevron({
-  styles,
-  direction,
-  disabled,
-  onPress,
-}: {
-  styles: DockStyles;
-  direction: 1 | -1;
-  disabled: boolean;
-  onPress: (delta: 1 | -1) => void;
-}) {
-  const c = useColors();
-  const forward = direction === 1;
-  return (
-    <Pressable
-      onPress={() => {
-        hapticSelection();
-        onPress(direction);
-      }}
-      disabled={disabled}
-      // Real layout space keeps neighboring button and slider targets disjoint.
-      hitSlop={0}
-      accessibilityRole="button"
-      accessibilityLabel={forward ? 'Nästa dag' : 'Föregående dag'}
-      accessibilityState={{ disabled }}
-      style={({ pressed }) => [styles.dayStep, disabled && styles.dayStepOff, pressed && styles.pressed]}
-    >
-      <Icon
-        name={forward ? 'chevronRight' : 'chevronLeft'}
-        size={22}
-        color={c.accent}
-      />
-    </Pressable>
-  );
-}
-
 // Styles built from the active OS palette. Layout geometry is fixed; colours come from
 // `c`, and typography/spacing snap to the design tokens (type.* / space.* / radius.*).
 function makeStyles(c: Palette, fontScale = 1) {
@@ -1687,29 +1654,35 @@ function makeStyles(c: Palette, fontScale = 1) {
       paddingHorizontal: space.sm,
       overflow: 'hidden', justifyContent: 'flex-end',
     },
-    footer: { position: 'absolute', bottom: space.sm, left: space.lg, right: space.lg },
+    footer: { position: 'absolute', bottom: DOCK_FOOTER_PAD, left: space.lg, right: space.lg },
 
-    dateHeader: { flexDirection: 'row', alignItems: 'center', paddingBottom: space.md },
-    dateHeaderRoomy: { flexWrap: 'wrap', justifyContent: 'space-between' },
-    dateTapRoomy: { width: '100%', flex: 0 },
+    dateHeader: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingBottom: space.md },
+    // Large text or a narrow phone: the stepper drops under the date instead of squeezing it.
+    dateHeaderRoomy: { flexDirection: 'column', alignItems: 'flex-start', gap: space.sm },
+    dateTapRoomy: { alignSelf: 'stretch', flex: 0 },
     scheduleDivider: { position: 'absolute', bottom: 0, left: 0, right: 0, height: StyleSheet.hairlineWidth, backgroundColor: c.hairline },
-    // The whole crown is the target; the row keeps the two date lines left and the
-    // calendar glyph right, so the header's typography is untouched by becoming tappable.
-    dateTap: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: space.sm, minHeight: 44 },
-    // Date crown — bodyStrong weighted up to 700.
-    dateHijri: { ...type.bodyStrong, fontWeight: '700', letterSpacing: 0.2, color: c.ink },
-    dateGreg: { ...type.caption, color: c.inkMuted, marginTop: 1 }, // optical nudge
+    // Both date lines are the target, so the header's typography is untouched by being tappable.
+    dateTap: { flex: 1, justifyContent: 'center', minHeight: 44 },
+    dateTitle: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+    // Date crown. 18/700 — a step under the hero's 20 so the two bold lines on the open card
+    // don't compete, and a clear step over the 15 pt rows it heads. The Hijri line under it is
+    // one size up from `caption`: it is still read, not skimmed past.
+    dateGreg: { fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: 0.1, color: c.ink, flexShrink: 1 },
+    dateHijri: { fontSize: 14, lineHeight: 20, color: c.inkMuted, marginTop: 1 }, // optical nudge
 
     list: { paddingBottom: space.sm },
     // Rows carry a symmetric bleed (padding in, margin out) so a row background can
     // extend past the text column without shifting any text: every row's label/time
     // stay aligned with the date header above, highlighted or not.
+    // 44 is the row PITCH and therefore each row's whole touch target (a tap scrubs the
+    // timeline to that prayer, and the rows sit edge to edge, so slop has nowhere to go). With
+    // the glyph column gone 48 read as air between lines of text; 44 is the floor to keep.
     listRow: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: space.sm,
-      paddingVertical: 7,
-      minHeight: 48,
+      paddingVertical: 6,
+      minHeight: 44,
       paddingHorizontal: space.sm,
       marginHorizontal: -space.sm,
       borderRadius: radius.md,
@@ -1719,9 +1692,6 @@ function makeStyles(c: Palette, fontScale = 1) {
     // the same highlightSoft the qibla lock uses, so brass-tint still means "live now".
     listRowNext: { backgroundColor: c.highlightSoft },
     listRowPressed: { opacity: 0.55 },
-    // Same 18px width the old listDot occupied (8 + 10 gap) is now the icon's
-    // intrinsic size; rely on the row's `gap` for spacing.
-    listIcon: { width: 18, textAlign: 'center' },
     listLabel: { ...type.callout, flex: 1, color: c.ink },
     listTime: { ...type.callout, color: c.ink, fontVariant: ['tabular-nums'] },
     // Voluntary rows step down one ink tier. That difference IS the hierarchy: the five
@@ -1748,25 +1718,29 @@ function makeStyles(c: Palette, fontScale = 1) {
     pressed: { opacity: 0.55 }, // same pressed step as listRowPressed — one dimming voice
 
     // Both hero states reserve the same font-scaled height, keeping the slider stationary.
-    hero: { height: metrics.hero, marginBottom: space.xs, justifyContent: 'center' },
+    hero: { height: metrics.hero, marginBottom: DOCK_HERO_GAP, justifyContent: 'center' },
     heroLayer: { position: 'absolute', left: 0, right: 0 },
     heroTop: { flexDirection: 'row', alignItems: 'center' },
     heroTopStacked: { flexDirection: 'column', alignItems: 'flex-start' },
-    heroPrayer: { ...type.headline, color: c.ink, flexShrink: 1 },
+    // One step under `headline` (20/26): the collapsed card's lead line, sized so the whole
+    // summary fits the 42 dp hero with the same proportions it had at 48. The open card's
+    // date crown is also 18/700, so the two bold lines on the open card match.
+    heroPrayer: { fontSize: 18, lineHeight: 23, fontWeight: '700', color: c.ink, flexShrink: 1 },
     // Expanded hero name: a touch smaller than collapsed (the date header crowns the
-    heroNone: { ...type.body, color: c.inkMuted },
+    heroNone: { ...type.callout, color: c.inkMuted },
     // ── Dock countdown numerals — intentionally bespoke, NOT on the type scale: a big
-    //    tabular brass digit (18) with a flush small unit (12) and a quiet prefix (13),
-    //    plus the 14px relative-day sibling. These numeric-display sizes are used nowhere
+    //    tabular brass digit (16) with a flush small unit (11) and a quiet prefix (12),
+    //    plus the 13px relative-day sibling — each a step down from 18/12/13/14 with the
+    //    prayer name, so the digit still outranks its unit by the same ratio. These numeric-display sizes are used nowhere
     //    else; tokenizing them would pollute the global scale for one component. ──
-    heroNextDay: { fontSize: 14, fontWeight: '400', color: c.inkMuted },
-    countdown: { marginLeft: fontScale > 1.3 ? 0 : space.sm, fontSize: 18, fontWeight: '700', color: c.highlightText, fontVariant: ['tabular-nums'] },
-    countdownPrefix: { fontSize: 13, fontWeight: '400', color: c.inkMuted },
+    heroNextDay: { fontSize: 13, fontWeight: '400', color: c.inkMuted },
+    countdown: { marginLeft: fontScale > 1.3 ? 0 : space.sm, fontSize: 16, fontWeight: '700', color: c.highlightText, fontVariant: ['tabular-nums'] },
+    countdownPrefix: { fontSize: 12, fontWeight: '400', color: c.inkMuted },
     // Unit ("t" / "min") at ~65% of the digit size, medium-weight, same brass.
     // Flush against the digit (no inter-character space) — the hierarchy +
     // proximity that the old equal-weight string lacked.
-    countdownUnit: { fontSize: 12, fontWeight: '600', color: c.highlightText },
-    heroSub: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginTop: 2 }, // optical nudge
+    countdownUnit: { fontSize: 11, fontWeight: '600', color: c.highlightText },
+    heroSub: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginTop: 1 }, // optical nudge
     subTime: { ...type.caption, color: c.inkMuted, fontVariant: ['tabular-nums'] },
     subSep: { ...type.caption, color: c.inkMuted },
     // Same caption size as the time beside it — one quiet line, ONE size; the place
@@ -1780,18 +1754,16 @@ function makeStyles(c: Palette, fontScale = 1) {
     subDay: { ...type.caption, color: c.inkMuted, flexShrink: 0 },
     // The three touch targets share the track's centreline. The ruler grows with text.
     timelineRow: { flexDirection: 'row', alignItems: 'flex-start' },
-    dayStep: { alignItems: 'center', justifyContent: 'center', width: 48, height: TRACK_BAND_H },
-    dayStepOff: { opacity: 0.3 },
     // The no-location offer that replaces the place name. Accent (the app's "verbs are
     // accent" rule) and semibold, so it reads as the one thing to tap on this line —
     // against subPlace's faint ink, which reads as settled fact. Caption-sized like its
-    // siblings, so swapping one for the other never changes the hero's 44 dp height.
+    // siblings, so swapping one for the other never changes the hero's height.
     placePick: { flexDirection: 'row', alignItems: 'center', gap: 3, flexShrink: 1, minWidth: 0 },
     placePickText: { ...type.caption, color: c.accent, fontWeight: '600', flexShrink: 1 },
 
     flex: { flex: 1 },
     previewControls: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, marginLeft: fontScale > 1.3 ? 0 : space.sm },
-    previewTime: { minWidth: 48, textAlign: 'right', fontSize: 16, fontWeight: '600', color: c.ink, fontVariant: ['tabular-nums'] },
+    previewTime: { minWidth: 44, textAlign: 'right', fontSize: 15, fontWeight: '600', color: c.ink, fontVariant: ['tabular-nums'] },
     previewBadge: {
       marginLeft: space.sm,
       flexDirection: 'row',
@@ -1799,11 +1771,11 @@ function makeStyles(c: Palette, fontScale = 1) {
       gap: space.xs,
       borderRadius: radius.sm,
       paddingHorizontal: space.sm,
-      paddingVertical: space.xs,
+      paddingVertical: 3,
       backgroundColor: c.accentSoft,
     },
-    // Small brass-on-tint "Nu" badge — 12/700 is a deliberate compact chip label, kept local.
-    previewBadgeText: { fontSize: 12, fontWeight: '700', color: c.accent },
+    // Small brass-on-tint "Nu" badge — 11/700 is a deliberate compact chip label, kept local.
+    previewBadgeText: { fontSize: 11, fontWeight: '700', color: c.accent },
 
     timelineArea: {},
     // The band the track/thumb/pips are drawn in. Every child is absolutely positioned
@@ -1819,11 +1791,14 @@ function makeStyles(c: Palette, fontScale = 1) {
     // above the GestureDetector in the JSX for any unrelated reason and the right-hand end
     // silently starts stealing touches again, which is precisely how it got there.
     timelineCol: { flex: 1, zIndex: 1 },
+    // Band geometry (TRACK_BAND_H = 28): everything is centred on a line 16 dp above the
+    // band's bottom edge — the knob spans 8–24, the 4 dp track 14–18, the 7 dp pips 12.5–19.5 —
+    // leaving 4 dp of air over the knob and 8 dp under it before the hour ruler.
     trackBase: {
       position: 'absolute',
       left: 0,
       right: 0,
-      bottom: 22,
+      bottom: 14,
       height: 4,
       borderRadius: 2,
       backgroundColor: c.track,
@@ -1834,7 +1809,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     trackFill: {
       position: 'absolute',
       left: 0,
-      bottom: 22,
+      bottom: 14,
       height: 4,
       borderRadius: 2,
       backgroundColor: c.trackFill,
@@ -1842,17 +1817,17 @@ function makeStyles(c: Palette, fontScale = 1) {
     },
     // Plain coloured dot on the axis. Same size/chrome for every prayer; past
     // dots draw at full opacity, future ones soften.
-    mark: { width: 7, height: 7, borderRadius: 4, bottom: 20.5, opacity: 0.7 },
+    mark: { width: 7, height: 7, borderRadius: 4, bottom: 12.5, opacity: 0.7 },
     markPast: { opacity: 1 },
     // The knob is the app mark in miniature: brand gold inside a brand blue ring (see
     // the scrubber block in theme/tokens.ts, which also explains why the RING is what
     // carries this control's contrast).
     thumb: {
       position: 'absolute',
-      width: 18,
-      height: 18,
-      borderRadius: 9,
-      bottom: 15,
+      width: THUMB,
+      height: THUMB,
+      borderRadius: THUMB / 2,
+      bottom: 8,
       backgroundColor: c.scrubberKnob,
       borderColor: c.scrubberRing,
       borderWidth: 2,
@@ -1873,7 +1848,7 @@ function makeStyles(c: Palette, fontScale = 1) {
       marginLeft: -22,
       textAlign: 'center',
       fontSize: 11,
-      lineHeight: 16,
+      lineHeight: 14,
       color: c.inkMuted,
       fontVariant: ['tabular-nums'],
     },
