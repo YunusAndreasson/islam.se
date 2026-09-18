@@ -6,7 +6,7 @@ import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reani
 import { type Camera, project } from '@/lib/map/projection';
 import { PRAYER_LABELS, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerLineLabel } from '@/lib/solar/field';
-import { prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
+import { polarBoundaryColorFor, prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
 import type { PolarBoundary } from '@/lib/solar/sun';
 import { type Palette, radius, shadow, type } from '@/theme/tokens';
 import { useActiveScheme, useColors } from '@/theme/useColors';
@@ -73,25 +73,23 @@ function PolarBoundaryLabel({
   scheme: ReturnType<typeof useActiveScheme>;
 }) {
   const midnight = boundary.kind === 'midnight-sun';
-  const tint = midnight
-    ? scheme === 'dark'
-      ? 'rgba(255,224,168,0.62)'
-      : 'rgba(120,86,24,0.78)'
-    : scheme === 'dark'
-      ? 'rgba(170,206,255,0.66)'
-      : 'rgba(48,80,134,0.82)';
+  // The line's own hue, from the one table the Skia overlay paints the dashes from.
+  const tint = polarBoundaryColorFor(boundary.kind, scheme).text;
   const name = midnight ? 'Midnattssol' : 'Polarnatt';
   const why = midnight ? 'solen går inte ner' : 'solen går inte upp';
   // Anchored over central Sweden (lon ~16), away from the prayer pills that cluster on
   // the sweeping lines further south. Sits just above the line (small upward nudge).
+  // A translate, not `left`/`top` — see `anchor` in the styles for why.
   const posStyle = useAnimatedStyle(() => {
     const p = project(16, boundary.lat, camera.value);
-    return { left: p.x, top: p.y - 18 };
+    return { transform: [{ translateX: p.x }, { translateY: p.y - 18 }] };
   }, [boundary.lat]);
   return (
-    <Animated.View style={[styles.polarWrap, posStyle]}>
-      <Text style={[styles.polarName, { color: tint }]}>{name}</Text>
-      <Text style={[styles.polarWhy, { color: tint }]}>{why}</Text>
+    <Animated.View style={[styles.anchor, posStyle]}>
+      <View style={styles.polarWrap}>
+        <Text style={[styles.polarName, { color: tint }]}>{name}</Text>
+        <Text style={[styles.polarWhy, { color: tint }]}>{why}</Text>
+      </View>
     </Animated.View>
   );
 }
@@ -124,31 +122,41 @@ function PrayerPill({
   // been fixed on the border. Emphasis should not cost a pill its identity.
   const hue = prayerColorFor(label.prayer, scheme);
   const textHue = prayerTextColorFor(label.prayer, scheme);
+  // A translate, not `left`/`top` — see `anchor` in the styles for why.
   const posStyle = useAnimatedStyle(() => {
     const p = project(label.lngLat[0], label.lngLat[1], camera.value);
-    return { left: p.x, top: p.y };
+    return { transform: [{ translateX: p.x }, { translateY: p.y }] };
   }, [label.lngLat[0], label.lngLat[1]]);
   return (
-    <Animated.View
-      style={[
-        styles.pill,
-        { backgroundColor: colors.pillSurface, borderColor: hue },
-        isNext && styles.pillNext,
-        posStyle,
-      ]}
-    >
-      <Text style={[styles.pillLabel, { color: textHue }, isNext && styles.pillLabelNext]}>
-        {PRAYER_LABELS[label.prayer]}
-      </Text>
+    <Animated.View style={[styles.anchor, posStyle]}>
+      <View
+        style={[
+          styles.pill,
+          { backgroundColor: colors.pillSurface, borderColor: hue },
+          isNext && styles.pillNext,
+        ]}
+      >
+        <Text style={[styles.pillLabel, { color: textHue }, isNext && styles.pillLabelNext]}>
+          {PRAYER_LABELS[label.prayer]}
+        </Text>
+      </View>
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
+  // Every annotation is placed by moving THIS, a zero-size point at the map's origin, with
+  // a transform — never by animating `left`/`top` on the annotation itself. The camera
+  // shared value changes on every frame of every pan, pinch and fling, and a layout
+  // property changed on the UI thread costs a layout pass per frame per view (Reanimated's
+  // performance guide: prefer transform/opacity over top/left, which "require an additional
+  // step of layout recalculation on each animation frame"), while a transform goes through
+  // the fast path with no layout at all. The annotation inside centres itself on the point
+  // with a static percent translate, so its own size never has to be measured.
+  anchor: { position: 'absolute', left: 0, top: 0 },
   // A quiet map annotation, not a floating UI chip: compact, medium-weight, with only
   // a whisper of shadow. The prayer field is the hero — the pill just names a line.
   pill: {
-    position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
@@ -168,7 +176,6 @@ const styles = StyleSheet.create({
   pillLabelNext: { fontWeight: '700' },
   // Faint map caption (no chip): centred on its anchor, sitting just above the boundary.
   polarWrap: {
-    position: 'absolute',
     alignItems: 'center',
     transform: [{ translateX: '-50%' }, { translateY: '-100%' }],
   },

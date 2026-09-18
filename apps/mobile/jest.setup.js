@@ -182,6 +182,9 @@ jest.mock('react-native-reanimated', () => {
     // jest mock (NOOP). The daybreak line-replay it drives is exercised on-device.
     useAnimatedReaction: () => {},
     useReducedMotion: () => false,
+    // The per-animation reduce-motion switch (the map's clock glide and the wash's holes
+    // opt OUT of the system setting with it). Values as reanimated spells them.
+    ReduceMotion: { System: 'system', Always: 'always', Never: 'never' },
     withSpring: (value) => value,
     withTiming: (value) => value,
     cancelAnimation: () => {},

@@ -7,10 +7,13 @@ import { describe, expect, it } from '@jest/globals';
 
 import { lc, wcagContrast } from '@/test-utils/contrast';
 
+import { basemapGroundFor } from '@/lib/map/nordicStyle';
 import { PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 import {
+  POLAR_BOUNDARY_COLORS,
   PRAYER_COLORS,
   PRAYER_TEXT_COLORS,
+  polarBoundaryColorFor,
   prayerColorFor,
   prayerTextColorFor,
   washStopsDark,
@@ -248,5 +251,66 @@ describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue
       // And it must genuinely be DARKER, not merely different.
       expect(tr + tg + tb).toBeLessThan(lr + lg + lb);
     }
+  });
+});
+
+// The polar boundary's line and its caption come from ONE table. They used to be two
+// literals in two files — the line's rgb in the Skia overlay, the caption's rgba in the
+// marker layer — and nothing held a retune of one to the other. This pins what the table
+// promises: the caption is the line's own hue, and it still reads over the ground it is
+// set on at the alpha it is painted with.
+describe('POLAR_BOUNDARY_COLORS — the line and its caption are one hue', () => {
+  const KINDS = ['midnight-sun', 'polar-night'] as const;
+  const SCHEMES = ['light', 'dark'] as const;
+
+  const rgba = (s: string): [number, number, number, number] => {
+    const inner = s.match(/rgba?\(([^)]+)\)/)?.[1] ?? '';
+    const [r, g, b, a = '1'] = inner.split(',').map((v) => v.trim());
+    return [Number(r), Number(g), Number(b), Number(a)];
+  };
+  const hex = (r: number, g: number, b: number): string =>
+    `#${[r, g, b].map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')}`;
+  /** Straight-alpha composite of a translucent colour over an opaque hex ground. */
+  const over = ([r, g, b, a]: [number, number, number, number], ground: string): string => {
+    const gr = parseInt(ground.slice(1, 3), 16);
+    const gg = parseInt(ground.slice(3, 5), 16);
+    const gb = parseInt(ground.slice(5, 7), 16);
+    return hex(r * a + gr * (1 - a), g * a + gg * (1 - a), b * a + gb * (1 - a));
+  };
+  const order = (r: number, g: number, b: number) => [r >= g, g >= b, r >= b].join();
+
+  it.each(KINDS)('%s: the caption keeps the line’s channel order in both schemes', (kind) => {
+    for (const scheme of SCHEMES) {
+      const { line, text } = polarBoundaryColorFor(kind, scheme);
+      const [tr, tg, tb] = rgba(text);
+      expect(order(tr, tg, tb)).toBe(order(...line));
+    }
+  });
+
+  it.each(KINDS)('%s: the caption reads over the basemap land in both schemes', (kind) => {
+    for (const scheme of SCHEMES) {
+      const { text } = polarBoundaryColorFor(kind, scheme);
+      const land = basemapGroundFor(scheme);
+      // A tiny map caption, not body text — the graphic floor is what it must clear, and
+      // it is measured as it is actually seen: composited over the land at its own alpha.
+      expect(lc(over(rgba(text), land), land)).toBeGreaterThanOrEqual(45);
+    }
+  });
+
+  it('is quieter in dark, as the wash and the prayer lines are', () => {
+    for (const kind of KINDS) {
+      expect(POLAR_BOUNDARY_COLORS[kind].dark.lineAlpha).toBeLessThan(
+        POLAR_BOUNDARY_COLORS[kind].light.lineAlpha,
+      );
+    }
+  });
+
+  it('resolves an unsettled scheme to light, as the prayer pickers do', () => {
+    expect(polarBoundaryColorFor('polar-night', 'unspecified')).toBe(
+      POLAR_BOUNDARY_COLORS['polar-night'].light,
+    );
+    expect(polarBoundaryColorFor('midnight-sun', 'dark')).toBe(
+      POLAR_BOUNDARY_COLORS['midnight-sun'].dark,
+    );
   });
 });

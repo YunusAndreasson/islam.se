@@ -15,6 +15,8 @@ import type { ColorSchemeName } from 'react-native';
 
 import type { PrayerKey } from '@/lib/prayer-times';
 
+import type { PolarBoundary } from './sun';
+
 /** [r, g, b, a] with a in 0..1. */
 export type RGBA = [number, number, number, number];
 
@@ -187,4 +189,53 @@ export const PRAYER_TEXT_COLORS: Record<PrayerKey, PrayerColors> = {
 /** A prayer's colour for LABEL TEXT. See {@link PRAYER_TEXT_COLORS}. */
 export function prayerTextColorFor(prayer: PrayerKey, scheme: ColorSchemeName): string {
   return scheme === 'dark' ? PRAYER_TEXT_COLORS[prayer].dark : PRAYER_TEXT_COLORS[prayer].light;
+}
+
+/**
+ * The polar daylight boundary's colours: the dashed line the Skia overlay draws at the
+ * latitude past which the four polar prayers cease to exist, and the caption the marker
+ * layer sets just above it ("Midnattssol · solen går inte ner"). Warm gold for the midnight
+ * sun, cool blue for the polar night — each phenomenon's own light.
+ *
+ * ONE table for the line and its caption, because they were two. The line's rgb lived in
+ * SolarSkiaOverlay and the caption's rgba in MapMarkersOverlay, as literals, and nothing held
+ * a retune of one to the other: the two files could disagree about what colour "polar night"
+ * is and no test would say so. The caption is the line's hue a step deeper (light) or
+ * brighter (dark), as small text over the basemap has to be — the same relation
+ * PRAYER_TEXT_COLORS has to PRAYER_COLORS. palette.test.ts pins both halves.
+ */
+export interface PolarBoundaryColors {
+  /** The dashed line's hue as an rgb triplet — painted at `lineAlpha` through the middle of
+   *  the screen and faded to alpha 0 at its edges, which is why it is not a finished colour. */
+  line: [number, number, number];
+  lineAlpha: number;
+  /** The caption's finished colour. */
+  text: string;
+}
+
+export const POLAR_BOUNDARY_COLORS: Record<
+  PolarBoundary['kind'],
+  { light: PolarBoundaryColors; dark: PolarBoundaryColors }
+> = {
+  'midnight-sun': {
+    light: { line: [150, 108, 34], lineAlpha: 0.42, text: 'rgba(120,86,24,0.78)' },
+    // Caption alphas in dark were 0.62 / 0.66 and measured Lc 45 / 41 over the navy land —
+    // the polar-night one under APCA's floor for anything meant to be read at all. Lifted
+    // to sit together near Lc 50: still a whisper next to the light captions' 55 / 62, but
+    // a whisper that can be made out. Measured by palette.test.ts as composited, at alpha.
+    dark: { line: [255, 224, 168], lineAlpha: 0.34, text: 'rgba(255,224,168,0.70)' },
+  },
+  'polar-night': {
+    light: { line: [56, 92, 150], lineAlpha: 0.42, text: 'rgba(48,80,134,0.82)' },
+    dark: { line: [150, 196, 255], lineAlpha: 0.34, text: 'rgba(170,206,255,0.76)' },
+  },
+};
+
+/** The boundary's line and caption colours for a phenomenon and the active appearance. */
+export function polarBoundaryColorFor(
+  kind: PolarBoundary['kind'],
+  scheme: ColorSchemeName,
+): PolarBoundaryColors {
+  const pair = POLAR_BOUNDARY_COLORS[kind];
+  return scheme === 'dark' ? pair.dark : pair.light;
 }

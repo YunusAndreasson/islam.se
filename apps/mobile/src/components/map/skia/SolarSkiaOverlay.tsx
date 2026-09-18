@@ -27,6 +27,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
   Easing,
+  ReduceMotion,
   type SharedValue,
   useAnimatedReaction,
   useReducedMotion,
@@ -44,7 +45,7 @@ import { atZoom, DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS } from '@/lib/map/dust';
 import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
 import { visibleLineRange } from '@/lib/map/visible-line';
 import type { LonLat } from '@/lib/coordinates';
-import { prayerColorFor, washStopsFor } from '@/lib/solar/palette';
+import { polarBoundaryColorFor, prayerColorFor, washStopsFor } from '@/lib/solar/palette';
 import { type PolarBoundary, solarParams } from '@/lib/solar/sun';
 import { useActiveScheme } from '@/theme/useColors';
 import { buildWashSksl } from './washShader';
@@ -212,28 +213,17 @@ export function SolarSkiaOverlay({
   });
   // Dashed, no glow — reads as a *boundary*, deliberately unlike the glowing solid prayer
   // sweeps. Kept faint: a quiet reference line. Warm gold for midnight sun, cool blue for
-  // polar night, echoing each phenomenon's light. The stroke is painted by a horizontal
-  // gradient whose ends are the SAME hue at alpha 0 (not 'transparent' = black@0, which
-  // would interpolate a dark fringe), so the dashes breathe out at the screen edges
-  // instead of being cut by them.
-  const boundaryRgb =
-    shownBoundary?.kind === 'polar-night'
-      ? scheme === 'dark'
-        ? '150, 196, 255'
-        : '56, 92, 150'
-      : scheme === 'dark'
-        ? '255, 224, 168'
-        : '150, 108, 34';
-  const boundaryAlpha = scheme === 'dark' ? 0.34 : 0.42;
-  const boundaryColors = useMemo(
-    () => [
-      `rgba(${boundaryRgb}, 0)`,
-      `rgba(${boundaryRgb}, ${boundaryAlpha})`,
-      `rgba(${boundaryRgb}, ${boundaryAlpha})`,
-      `rgba(${boundaryRgb}, 0)`,
-    ],
-    [boundaryRgb, boundaryAlpha],
-  );
+  // polar night, echoing each phenomenon's light — the hues live in lib/solar/palette,
+  // beside the caption's, so the two cannot drift apart. The stroke is painted by a
+  // horizontal gradient whose ends are the SAME hue at alpha 0 (not 'transparent' =
+  // black@0, which would interpolate a dark fringe), so the dashes breathe out at the
+  // screen edges instead of being cut by them.
+  const boundaryPalette = polarBoundaryColorFor(shownBoundary?.kind ?? 'midnight-sun', scheme);
+  const boundaryColors = useMemo(() => {
+    const rgb = boundaryPalette.line.join(', ');
+    const alpha = boundaryPalette.lineAlpha;
+    return [`rgba(${rgb}, 0)`, `rgba(${rgb}, ${alpha})`, `rgba(${rgb}, ${alpha})`, `rgba(${rgb}, 0)`];
+  }, [boundaryPalette]);
   // The edge fade spans the live viewport width (the path is horizontal, so only x matters).
   const boundaryGradEnd = useDerivedValue(() => ({ x: camera.value.width, y: 0 }));
 
@@ -423,9 +413,20 @@ function WashClearings({
       const panY = (mercY(cam.lat) - mercY(prev.lat)) * ws;
       if (Math.hypot(panX, panY) <= MOTION_PX && Math.abs(cam.zoom - prev.zoom) <= MOTION_ZOOM) return;
       // Restarted by every moving frame, so it only gets to reopen once they stop coming.
+      //
+      // Runs under Reduce Motion too, on purpose. This is not a decoration: it is what keeps
+      // the hole from trailing the dot as a detached blob while the camera outruns the
+      // mirror. Left on the system setting, `withTiming` would return its target at once
+      // and `withDelay` would skip the wait (Reanimated's documented reduce-motion
+      // behaviour), so the holes would never close during a move — and the reader who
+      // asked for less motion would get the one artefact this exists to prevent.
       open.value = withSequence(
-        withTiming(0, { duration: 60 }),
-        withDelay(REOPEN_DELAY_MS, withTiming(1, { duration: REOPEN_MS })),
+        withTiming(0, { duration: 60, reduceMotion: ReduceMotion.Never }),
+        withDelay(
+          REOPEN_DELAY_MS,
+          withTiming(1, { duration: REOPEN_MS, reduceMotion: ReduceMotion.Never }),
+          ReduceMotion.Never,
+        ),
       );
     },
   );

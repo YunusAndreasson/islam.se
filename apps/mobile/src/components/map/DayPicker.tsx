@@ -23,6 +23,7 @@ import { relativeDayLabel } from '@/lib/relative-day';
 import { MAX_DAY_OFFSET } from '@/lib/solar/useSolarClock';
 import { addZoneDays, zonePrayerDate, zoneParts } from '@/lib/zone-time';
 import { motion, type Palette, radius, space, type } from '@/theme/tokens';
+import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { Icon } from '@/components/ui/Icon';
@@ -135,6 +136,11 @@ const heading = (title: string): string => title.charAt(0).toUpperCase() + title
 
 export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClose }: Props) {
   const c = useColors();
+  // The sheet opens out of the dock and sits in its slot over the map, so its ground is the
+  // dock's — the sky-tinted surface every card on the map shares (theme/skyChrome) — not
+  // the palette's noon card. Off the map (the Moon sheet's own picker, tests) there is no
+  // provider and this is exactly `c.surface`.
+  const sky = useSkyGlass();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const styles = useMemo(() => makeStyles(c), [c]);
@@ -189,7 +195,7 @@ export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClo
           style={[styles.wrap, { maxHeight: height - insets.top - insets.bottom - 2 * space.sm }]}
           accessibilityViewIsModal
         >
-          <GlassSurface style={styles.sheet} borderRadius={radius.xl} tint={c.surface}>
+          <GlassSurface style={styles.sheet} borderRadius={radius.xl} tint={sky.surface}>
             <ScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
               <View style={styles.head}>
                 <View style={styles.titleBlock}>

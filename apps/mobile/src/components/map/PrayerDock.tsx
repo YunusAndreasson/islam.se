@@ -1506,15 +1506,25 @@ function SolarTimeline({
   // mirror (`follow`). Both are shared values, so neither is hostage to JS-thread lag
   // the way reading `fraction` here was. trackW is captured at render, so the thumb
   // repositions when the track lays out.
+  //
+  // Both move by TRANSFORM, never by `width`/`left`. Those are layout properties, and a
+  // layout property animated on the UI thread costs a layout pass per frame (Reanimated's
+  // performance guide: prefer transform/opacity over top/left/width, which "require an
+  // additional step of layout recalculation on each animation frame") — paid here on every
+  // frame of a drag, while the JS thread is already busy rebuilding the field. The fill is
+  // a full-width bar slid left inside a clipping band (see trackFillClip), so its rounded
+  // end stays round instead of being squashed by a scaleX.
   const fillStyle = useAnimatedStyle(() => {
     const f = dragging.value ? prog.value : follow.value;
-    return { width: f * trackW };
+    return { transform: [{ translateX: (f - 1) * trackW }] };
   });
   const thumbStyle = useAnimatedStyle(() => {
     const f = dragging.value ? prog.value : follow.value;
     return {
-      left: f * trackW - THUMB / 2,
-      transform: [{ scale: withSpring(dragging.value ? 1.16 : 1, SPRING) }],
+      transform: [
+        { translateX: f * trackW - THUMB / 2 },
+        { scale: withSpring(dragging.value ? 1.16 : 1, SPRING) },
+      ],
     };
   });
 
@@ -1539,11 +1549,19 @@ function SolarTimeline({
         >
         <View style={styles.trackBand}>
           <View style={styles.trackBase} />
-          {/* Plain-style `width` first so the freshly-mounted fill already spans to the
+          {/* Plain-style transform first so the freshly-mounted fill already spans to the
               live position; the animated style (which can apply a frame late on mount)
               then takes over. Without it the fill flashes empty — same mount glitch the
-              thumb's plain `left` below fixes. */}
-          <Animated.View style={[styles.trackFill, { width: trackFraction * trackW }, fillStyle]} />
+              thumb's plain transform below fixes. */}
+          <View style={styles.trackFillClip} pointerEvents="none">
+            <Animated.View
+              style={[
+                styles.trackFill,
+                { transform: [{ translateX: (trackFraction - 1) * trackW }] },
+                fillStyle,
+              ]}
+            />
+          </View>
           {/* Prayer landmarks sit on the axis as plain coloured dots — identical
               size and chrome for all six. The "next prayer" answer is already
               carried by the brass countdown above ("om 2t 40min"), so giving the
@@ -1569,13 +1587,17 @@ function SolarTimeline({
                 />
               );
             })}
-          {/* Plain-style `left` first so a freshly-mounted thumb is already at the
+          {/* Plain-style transform first so a freshly-mounted thumb is already at the
               live position; the animated style (which can apply a frame late on mount)
               then takes over and drives the drag. Without it the thumb flashes at 0. */}
           {trackW > 0 && (
             <Animated.View
               pointerEvents="none"
-              style={[styles.thumb, { left: trackFraction * trackW - THUMB / 2 }, thumbStyle]}
+              style={[
+                styles.thumb,
+                { transform: [{ translateX: trackFraction * trackW - THUMB / 2 }] },
+                thumbStyle,
+              ]}
             />
           )}
         </View>
@@ -1806,11 +1828,26 @@ function makeStyles(c: Palette, fontScale = 1) {
     // The elapsed-day fill is deliberately quiet (a soft tint, not a bold bar): it is
     // context, and the prayer pips above are the content. Over-saturating it inverted
     // the hierarchy — the progress bar shouted louder than the prayers it marks.
+    //
+    // The band the fill is slid inside: the track's own rectangle, clipped. The fill is
+    // always the full track width and is translated left by the unelapsed part, so the
+    // drag animates a transform rather than a `width` (see fillStyle), and the clip's
+    // left corner is what rounds the fill's start.
+    trackFillClip: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 14,
+      height: 4,
+      borderRadius: 2,
+      overflow: 'hidden',
+    },
     trackFill: {
       position: 'absolute',
       left: 0,
-      bottom: 14,
-      height: 4,
+      top: 0,
+      bottom: 0,
+      width: '100%',
       borderRadius: 2,
       backgroundColor: c.trackFill,
       opacity: 0.5,
@@ -1822,8 +1859,10 @@ function makeStyles(c: Palette, fontScale = 1) {
     // The knob is the app mark in miniature: brand gold inside a brand blue ring (see
     // the scrubber block in theme/tokens.ts, which also explains why the RING is what
     // carries this control's contrast).
+    // Placed by transform from the track's left edge (see thumbStyle), so `left` stays 0.
     thumb: {
       position: 'absolute',
+      left: 0,
       width: THUMB,
       height: THUMB,
       borderRadius: THUMB / 2,
