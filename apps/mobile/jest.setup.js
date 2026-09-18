@@ -35,7 +35,29 @@ jest.mock('expo-router', () => ({
 // overlay: sources, layers, annotations) mounts in jsdom/node.
 jest.mock('@maplibre/maplibre-react-native', () => ({
   Map: 'Map',
-  Camera: 'Camera',
+  // Still a host 'Camera' element (screens.test finds it by that type), but with the
+  // imperative API behind its ref, so a test can see what the screen asked the camera to
+  // do. Each mounted Camera gets fresh spies; the latest is `Camera.__last`.
+  Camera: (() => {
+    const React = require('react');
+    const Camera = React.forwardRef(function MockCamera(props, ref) {
+      const api = React.useMemo(
+        () => ({
+          easeTo: jest.fn(),
+          jumpTo: jest.fn(),
+          flyTo: jest.fn(),
+          fitBounds: jest.fn(),
+          zoomTo: jest.fn(),
+          setStop: jest.fn(),
+        }),
+        [],
+      );
+      React.useImperativeHandle(ref, () => api, [api]);
+      Camera.__last = api;
+      return React.createElement('Camera', props);
+    });
+    return Camera;
+  })(),
   GeoJSONSource: 'GeoJSONSource',
   Layer: 'Layer',
   Images: 'Images',
@@ -164,6 +186,7 @@ jest.mock('react-native-reanimated', () => {
     withTiming: (value) => value,
     cancelAnimation: () => {},
     withRepeat: (value) => value,
+    withDelay: (_delay, value) => value,
     withSequence: (...values) => values[values.length - 1],
     // Easing combinators only need to be callables returning callables under test —
     // the with* shims above ignore easing entirely.
@@ -244,7 +267,7 @@ jest.mock('@shopify/react-native-skia', () => {
   const none = () => null;
   const stubBuilder = () => {
     const b = { detach: () => ({}), build: () => ({}) };
-    for (const m of ['moveTo', 'lineTo', 'quadTo', 'cubicTo', 'close', 'addArc', 'arcToOval']) {
+    for (const m of ['moveTo', 'lineTo', 'quadTo', 'cubicTo', 'close', 'addArc', 'arcToOval', 'addCircle']) {
       b[m] = () => b;
     }
     return b;

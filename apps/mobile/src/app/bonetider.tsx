@@ -8,7 +8,15 @@ import {
 import { useNetworkState } from 'expo-network';
 import { router, useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   AppState,
   type NativeSyntheticEvent,
@@ -73,20 +81,27 @@ import {
   noteLocationShown,
   shouldShowLocationHint,
 } from '@/lib/location-hint';
+import {
+  approachEaseMs,
+  APPROACH_MIN_STEP,
+  approachPose,
+  approachWindowEnd,
+  paddedCentre,
+} from '@/lib/map/approach';
 import { CAMERA_MAX_BOUNDS, CAMERA_MIN_ZOOM } from '@/lib/map/camera-bounds';
 import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection';
 import { createTroubleBurst, watchResourceFailures } from '@/lib/map/map-diagnostics';
 import { ensureBasemapCache } from '@/lib/map/offline';
 import { reportProjectionDrift } from '@/lib/map/projection-guard';
 import type { BurialGround } from '@/lib/burial-grounds';
-import type { Mosque } from '@/lib/mosques';
+import { getMosques, type Mosque } from '@/lib/mosques';
 import { basemapGroundFor, nordicMapStyleFor } from '@/lib/map/nordicStyle';
 import {
   noteNotificationLaunch,
   noteNotificationShown,
   shouldShowNotificationHint,
 } from '@/lib/notification-hint';
-import { getNotificationPermissionState } from '@/lib/notifications';
+import { getNotificationPermissionState, NOTIFY_PRAYERS } from '@/lib/notifications';
 import { lonLatOf, type LonLat } from '@/lib/coordinates';
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey, selectNextPrayer } from '@/lib/prayer-times';
 import { computeSignature } from '@/lib/settings/compute-signature';
@@ -126,6 +141,11 @@ const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORT
 const MAX_BOUNDS = CAMERA_MAX_BOUNDS;
 const MIN_ZOOM = CAMERA_MIN_ZOOM;
 
+// Every mosque's position, for the holes the wash leaves around their specks (see
+// WashClearings in SolarSkiaOverlay). The dataset is static, so this is built once.
+const MOSQUE_POINTS: readonly LonLat[] = getMosques().map((m) => [m.lng, m.lat]);
+const NO_MOSQUE_POINTS: readonly LonLat[] = [];
+
 // Keep Reanimated's intentionally mutable `.value` writes behind small module helpers.
 // React Compiler can then optimize the screen around those imperative UI-thread bridges
 // without treating the whole component as a mutation hazard.
@@ -157,6 +177,25 @@ function viewportCentreFromBounds(
     lon: (west + east) / 2,
     lat: invMercY((mercY(north) + mercY(south)) / 2),
   };
+}
+
+/** A settled camera pose, in the unpadded viewport-centre convention above. */
+interface Frame {
+  lon: number;
+  lat: number;
+  zoom: number;
+}
+
+// Whether two settled poses are the same view for the reader's purposes. Thresholds:
+// ~0.5° lat/lon (~50 km) or 0.05 zoom — enough to ignore floating-point drift and
+// MapLibre's own constraint nudges, small enough that any real pan or pinch exceeds them.
+function sameFrame(a: Frame, b: Frame | undefined): boolean {
+  return (
+    b !== undefined &&
+    Math.abs(a.zoom - b.zoom) <= 0.05 &&
+    Math.abs(a.lat - b.lat) <= 0.5 &&
+    Math.abs(a.lon - b.lon) <= 0.5
+  );
 }
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
 // clearly above it rather than pressed against its top edge. Only needs to clear
@@ -271,11 +310,32 @@ export default function Bonetider() {
   // fitBounds-on-mount. Used as the comparison anchor for "has the user moved the
   // map?" (so the Reset chip appears when they have) and as the target the Reset
   // button restores. The user is otherwise free to pan/zoom anywhere they like.
-  const initialFrame = useRef<{ lon: number; lat: number; zoom: number } | undefined>(undefined);
+  const initialFrame = useRef<Frame | undefined>(undefined);
   // Set while a reset's fitBounds is in flight, so the settled event that ends it
   // re-anchors `initialFrame` instead of being measured against it. See the comment
   // at the check in onRegionDidChange.
   const resetPending = useRef(false);
+  // THE LEAN — the map zooms gently toward the reader as a prayer approaches and back out
+  // after it (lib/map/approach; `reconcileLean` below decides when it may move). Home stays
+  // `initialFrame`, the whole-Sweden fit; `restFrame` is the pose the app is actually
+  // holding, home plus the current lean, and it is what "has the reader moved the map?" is
+  // measured against. Keeping the two apart is the whole trick: were the leaned pose ever
+  // adopted as home, the next tick would lean in on top of it, and the map would ratchet
+  // inward all the way to the prayer.
+  const restFrame = useRef<Frame | undefined>(undefined);
+  // The zoom delta the camera was last sent, so a tick that changes nothing sends nothing.
+  const appliedLean = useRef(0);
+  // Until when a settle the reader did not cause is taken to be the lean landing, not a
+  // re-fit of home. A deadline rather than a flag: a camera move that ends where it began
+  // may emit no settle at all, and a flag waiting for one would stick.
+  const leanLandsBy = useRef(0);
+  // After Återställ ("visa hela Sverige") during a lean: the reader asked for the whole
+  // country, so the map stays whole until this prayer's window has run out.
+  const leanSuspendedUntil = useRef(0);
+  // Bumped when a settle re-anchors home, so the lean is recomputed against the new home.
+  // State, not a direct call: the lean runs in an effect, and an effect event may only be
+  // called from effects.
+  const [homeEpoch, setHomeEpoch] = useState(0);
   // True from the first camera-move event until the camera comes to rest — a pan, a fling,
   // a pinch or one of our own fitBounds animations. The solar clock reads it to keep a
   // 30 s tick from landing mid-gesture: a tick rebuilds the whole-country field and
@@ -296,6 +356,15 @@ export default function Bonetider() {
   // safe-area inset + the float gap beneath it. The map reserves this much so
   // southern Sweden (Malmö) is never hidden behind the dock.
   const collapsedDock = dockMetrics(fontScale).collapsed + insets.bottom + DOCK_FLOAT;
+  // The camera's bottom padding for the Sweden framing — one value for the initial fit, the
+  // reset and the lean, so the three can never frame against different docks. Always the
+  // dock's (shorter) clearance, never dockSlotBottom — see the note at LESSON_CARD_HEIGHT
+  // for why reserving the taller card's height here would zoom the whole view out instead
+  // of just framing Sweden more tightly.
+  const fitPadding = useMemo(
+    () => ({ top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 }),
+    [collapsedDock],
+  );
 
   const { settings, loaded: settingsLoaded, update } = useSettings();
   const { coords, label, source } = useLocation();
@@ -886,6 +955,99 @@ export default function Bonetider() {
     return () => clearTimeout(id);
   }, [next, clock.mode, mapActive]);
 
+  // Every prayer the lean answers to — the five, never Shurūq (a marker closing Fajr's
+  // window, not a prayer) — from yesterday to tomorrow. Yesterday is not decoration: a
+  // prayer that falls after midnight belongs to yesterday's schedule, so `userTimes` drops
+  // it the moment the live day rolls over, and the map would snap out of its lean at 00:00
+  // with the prayer still twenty minutes away. Keyed to the REAL today, so stepping through
+  // days in the dock recomputes nothing.
+  const approachInstants = useMemo(() => {
+    const out: number[] = [];
+    for (const offset of [-1, 0, 1]) {
+      const times = computePrayerTimes(coords, zonePrayerDate(clock.todayStart, offset), settings);
+      for (const key of NOTIFY_PRAYERS) {
+        const at = times[key].getTime();
+        if (Number.isFinite(at)) out.push(at);
+      }
+    }
+    return out;
+  }, [coords, clock.todayStart, settings]);
+
+  // THE LEAN: bring the camera to where lib/map/approach says it should be right now, or
+  // leave it alone. Run on every live tick (so the lean advances one ≈1 % breath at a time)
+  // and whenever one of its gates changes.
+  //
+  // It holds still — sends nothing — unless the map is the reader's live view of today and
+  // the camera is the app's to move:
+  //   • live mode only. Scrubbing or another day holds the camera where it is; "Nu" brings
+  //     it back to the live pose. A camera pumping in and out under a dragging thumb would
+  //     make the lines unreadable exactly when the reader is reading them.
+  //   • never once the reader has moved the map (`moved`), and never mid-gesture or
+  //     mid-reset: their hand outranks the clock, always.
+  //   • never toward a place the reader did not choose (the Stockholm fallback), never
+  //     offline (a lean would ask for tiles the cache may not hold, for a decoration), and
+  //     not during the map lesson, whose tight Sweden framing is the point of it.
+  // Reduce Motion zeroes the lean rather than freezing it: a scale animation is precisely
+  // what that setting exists to stop, and a map already leaned in goes home without one.
+  const reconcileLean = useEffectEvent(() => {
+    const home = initialFrame.current;
+    const camera = cameraRef.current;
+    if (!home || !camera || !cameraReady || moved || resetPending.current) return;
+    if (!mapActive || clock.mode !== 'live' || mapLessonPending) return;
+    if (locationIsFallback || offline || mapMoving.current) return;
+    if (clock.now < leanSuspendedUntil.current) return;
+
+    const homeCam: MapCamera = { ...home, width: viewportSize.width, height: viewportSize.height };
+    const { delta, camera: target } = reduceMotion
+      ? { delta: 0, camera: homeCam }
+      : approachPose({
+          now: clock.now,
+          instants: approachInstants,
+          home: homeCam,
+          anchor: { lon: userPoint[0], lat: userPoint[1] },
+          bottomPad: collapsedDock,
+        });
+    const step = delta - appliedLean.current;
+    // A lean that has run out must land exactly home, however small the last step.
+    if (Math.abs(step) < APPROACH_MIN_STEP && !(delta === 0 && appliedLean.current !== 0)) return;
+
+    // No visible travel on a cold launch: while the reveal cover is still up the map opens
+    // already leaned in — the rule that retired the daybreak intro (REMOVED 2026-08-10, at
+    // the top of this file): opening the app shows the present, it does not travel to it.
+    const duration = !mapPainted || reduceMotion ? 0 : approachEaseMs(step);
+    appliedLean.current = delta;
+    restFrame.current = { lon: target.lon, lat: target.lat, zoom: target.zoom };
+    leanLandsBy.current = Date.now() + duration + 1500;
+    // v11's `center` is the PADDED target, so hand it the point that belongs above the
+    // dock padding — see paddedCentre and viewportCentreFromBounds.
+    const centre = paddedCentre(target, fitPadding.bottom);
+    camera.easeTo({
+      center: [centre.lon, centre.lat],
+      zoom: target.zoom,
+      padding: fitPadding,
+      duration,
+      easing: 'ease',
+    });
+  });
+  useEffect(() => {
+    reconcileLean();
+  }, [
+    clock.now,
+    clock.mode,
+    mapActive,
+    cameraReady,
+    moved,
+    mapLessonPending,
+    reduceMotion,
+    offline,
+    locationIsFallback,
+    approachInstants,
+    viewportSize,
+    userPoint,
+    collapsedDock,
+    homeEpoch,
+  ]);
+
   // The user is free to pan/zoom anywhere — there is no bounds enforcement. The
   // settled handler below only records the initial framing and drives the
   // "Återställ" reset chip when the user has drifted from it.
@@ -962,8 +1124,12 @@ export default function Bonetider() {
       }
       // The first qualifying settled event (zoom > 1) is the initial fit. Record it
       // as the comparison anchor for the "moved?" detector below; never enforce.
+      const frame: Frame = { lon: vc.lon, lat: vc.lat, zoom };
       if (initialFrame.current === undefined) {
-        if (zoom > 1) initialFrame.current = { lon: vc.lon, lat: vc.lat, zoom };
+        if (zoom > 1) {
+          initialFrame.current = frame;
+          restFrame.current = frame;
+        }
         return;
       }
 
@@ -989,7 +1155,12 @@ export default function Bonetider() {
           resetPending.current = false;
         } else {
           if (zoom > 1) {
-            initialFrame.current = { lon: vc.lon, lat: vc.lat, zoom };
+            initialFrame.current = frame;
+            restFrame.current = frame;
+            appliedLean.current = 0;
+            // The reader asked for the whole country; don't lean back in on the next tick.
+            // Nothing to suspend outside a window: this is then simply `now`.
+            leanSuspendedUntil.current = approachWindowEnd(Date.now(), approachInstants);
             resetPending.current = false;
             if (moved) setMoved(false);
           }
@@ -1012,23 +1183,54 @@ export default function Bonetider() {
       // to it. Only while the chip is down: a spontaneous settle arriving mid-drift must
       // not quietly adopt the view the user panned to as the new home (that is the same
       // trap the resetPending branch above guards).
+      //
+      // With ONE exception, and it is the lean's own landing (see `restFrame`). That settle
+      // is the app's doing too, but it must not become home: home would then be the leaned
+      // view, and the next tick would lean in on top of it. It is recognised by arriving
+      // while a lean is in flight, or by landing where the lean was aimed — the second
+      // covers a settle that turns up late. Neither re-anchors; the lean's pose is simply
+      // confirmed as the one the app is holding.
       if (!e.nativeEvent.userInteraction) {
-        if (!moved && zoom > 1) initialFrame.current = { lon: vc.lon, lat: vc.lat, zoom };
+        if (moved || zoom <= 1) return;
+        if (Date.now() < leanLandsBy.current || sameFrame(frame, restFrame.current)) {
+          // A lean landing well off its aim means either another camera move overtook it
+          // (harmless: the next tick re-aims from home) or the padded-centre maths disagrees
+          // with MapLibre's, which would put every lean in the wrong place. Say so in
+          // development, where the second can be told from the first.
+          if (__DEV__ && !sameFrame(frame, restFrame.current)) {
+            console.warn('[lean] landed off its aim', { aimed: restFrame.current, landed: frame });
+          }
+          leanLandsBy.current = 0;
+          restFrame.current = frame;
+          return;
+        }
+        initialFrame.current = frame;
+        restFrame.current = frame;
+        appliedLean.current = 0;
+        // A new home: work the lean out afresh against it.
+        setHomeEpoch((n) => n + 1);
         return;
       }
+      // The reader's own gesture. Whatever the lean had in flight is theirs now.
+      leanLandsBy.current = 0;
 
-      // Show the Reset chip as soon as the user has clearly moved off the initial
-      // framing. Thresholds: ~0.5° lat/lon (~50 km) or 0.05 zoom — enough to ignore
-      // floating-point drift, small enough that any real pan/zoom triggers it. If
-      // they pan/zoom BACK close to the initial framing the chip can disappear again.
-      const init = initialFrame.current;
-      const drifted =
-        Math.abs(zoom - init.zoom) > 0.05 ||
-        Math.abs(vc.lat - init.lat) > 0.5 ||
-        Math.abs(vc.lon - init.lon) > 0.5;
+      // Show the Reset chip as soon as the user has clearly moved off the view the app is
+      // holding — home plus the current lean, not bare home, or the lean itself would read
+      // as the reader having moved. If they pan/zoom BACK close to it the chip can
+      // disappear again. Thresholds are sameFrame's.
+      const drifted = !sameFrame(frame, restFrame.current);
       if (drifted !== moved) setMoved(drifted);
     },
-    [publishCamera, viewportSize.width, viewportSize.height, cameraReady, moved, flushClock, offline],
+    [
+      publishCamera,
+      viewportSize.width,
+      viewportSize.height,
+      cameraReady,
+      moved,
+      flushClock,
+      offline,
+      approachInstants,
+    ],
   );
 
   return (
@@ -1154,10 +1356,8 @@ export default function Bonetider() {
           ref={cameraRef}
           initialViewState={{
             bounds: SWEDEN_BOUNDS,
-            // Always the dock's (shorter) clearance, never dockSlotBottom — see the note
-            // at LESSON_CARD_HEIGHT for why reserving the taller card's height here would
-            // zoom the whole view out instead of just framing Sweden more tightly.
-            padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
+            // Always the dock's (shorter) clearance — see fitPadding.
+            padding: fitPadding,
           }}
           // The leash, not the framing — see MAX_BOUNDS. The "Visa hela Sverige" chip
           // stays: this bounds how far wrong things can go, it does not replace the way
@@ -1232,12 +1432,13 @@ export default function Bonetider() {
           userPoint={userPoint}
           arrival={arrival}
           polarBoundary={polarBoundary}
+          mosquePoints={settings.showMosques ? MOSQUE_POINTS : NO_MOSQUE_POINTS}
         />
       )}
 
-      {/* Point/label layer above the canvas: city dots + collision-managed labels (kept
-          legible above the wash), the brass "you are here" dot, and the prayer pills.
-          Same `cameraReady` gate — no point projecting cities against a stale camera. */}
+      {/* The prayer pills, above the canvas. (The reader's dot is not here: it is native, in
+          LocationLayer, and the wash leaves a hole for it — see WashClearings.) Same
+          `cameraReady` gate — no point projecting against a stale camera. */}
       {cameraReady && !mapLessonPending && (
         <MapMarkersOverlay
           camera={cam}
@@ -1270,6 +1471,7 @@ export default function Bonetider() {
             userPoint={userPoint}
             arrival={null}
             polarBoundary={lessonFrame.polarBoundary}
+            mosquePoints={settings.showMosques ? MOSQUE_POINTS : NO_MOSQUE_POINTS}
           />
           <MapMarkersOverlay
             camera={cam}
@@ -1362,7 +1564,7 @@ export default function Bonetider() {
         if (moved) {
           resetPending.current = true;
           cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
-            padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
+            padding: fitPadding,
             duration: reduceMotion ? 0 : motion.slow,
           });
         } else {

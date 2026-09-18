@@ -24,9 +24,15 @@
 // popping. (History: this layer used to render NOTHING below z7, which left the national
 // view with no mosque impression at all — the dust tier fixes exactly that.)
 //
-// It all draws UNDER the Skia wash by design: a mosque is a place on the ground, not
-// chrome floating above the sky, and the dots reading as warm specks THROUGH the cool
-// twilight is the point. The wash overlay is pointerEvents="none", so a tap falls
+// It all draws UNDER the Skia wash — a sibling view over the whole map, so nothing native
+// can draw above it. That used to be argued as the point ("warm specks THROUGH the cool
+// twilight"), and at Maghrib and ʿIshāʾ it simply drowned them: the reader could hardly see
+// a mosque. The wash now clears a soft hole around each speck instead (SolarSkiaOverlay),
+// so the specks keep their own colour at every hour while staying native — aligned with
+// the basemap to the pixel. The speck's zoom curves live in lib/map/dust for exactly that
+// reason: the hole has to match the speck it uncovers. The glyph tier is not cleared, since
+// collision hides an unknown subset of glyphs and a hole where one was culled would be an
+// empty patch of daylight. The wash overlay is pointerEvents="none", so a tap falls
 // straight through to the symbol layer and onPress fires (default 44×44 hitbox).
 //
 // ⚠️ TWO SOURCES over the same points, and the split is load-bearing: only the GLYPH tier
@@ -72,6 +78,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ImageSourcePropType, NativeSyntheticEvent } from 'react-native';
 
 import { hapticLight } from '@/lib/haptics';
+import { DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS, zoomExpression } from '@/lib/map/dust';
 import { type Mosque, mosqueForPress, toFeatureCollection } from '@/lib/mosques';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
@@ -214,26 +221,12 @@ export function MosqueLayer({ onSelect, selectedId }: Props) {
             'circle-color': snow.color,
             // Tiny — a snow fleck at national zoom, growing only slightly toward the glyph
             // handoff. Small enough that even 235 of them read as a light dusting, not clutter.
-            'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 1.2, 6, 1.7, 8, 2.6],
+            'circle-radius': zoomExpression(DUST_RADIUS_STOPS) as never,
             // A little blur turns each hard pixel into a soft speck (snow, not confetti).
             'circle-blur': 0.4,
-            // Crossfade: fade in by the national view (z4 — the fully zoomed-out state the layer
-            // exists to fix), hold through the regional view, then taper to 0 by ~z7.8 as the
-            // glyphs (minzoom 7) fade in — a dissolve, not a pop. A short lead-in below z4 keeps
-            // an even-further-out view (all of Scandinavia) from snapping on abruptly.
-            'circle-opacity': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              3.4,
-              0,
-              4,
-              snow.peak,
-              6.4,
-              snow.peak,
-              7.8,
-              0,
-            ],
+            // Crossfade: in by the national view, out by ~z7.8 as the glyphs fade in — a
+            // dissolve, not a pop. See DUST_PRESENCE_STOPS; the wash's holes follow it too.
+            'circle-opacity': zoomExpression(DUST_PRESENCE_STOPS, snow.peak) as never,
           }}
         />
         {/* The selection ring (see the header for why it lives on this source and not the

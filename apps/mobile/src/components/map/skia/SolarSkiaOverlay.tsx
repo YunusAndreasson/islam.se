@@ -32,6 +32,7 @@ import {
   useReducedMotion,
   useDerivedValue,
   useSharedValue,
+  withDelay,
   withRepeat,
   withSequence,
   withTiming,
@@ -39,6 +40,7 @@ import {
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { type PrayerKey } from '@/lib/prayer-times';
+import { atZoom, DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS } from '@/lib/map/dust';
 import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
 import { visibleLineRange } from '@/lib/map/visible-line';
 import type { LonLat } from '@/lib/coordinates';
@@ -91,6 +93,9 @@ interface Props {
   /** The polar daylight boundary for this date (null off-season) — a static dashed
    *  reference line marking where sunrise/fajr/maghrib/ishaʾ cease to exist. */
   polarBoundary: PolarBoundary | null;
+  /** The mosques ([lon, lat]) whose national-view specks the wash must leave clear — see
+   *  WashClearings. Empty when the reader has hidden the mosque layer. */
+  mosquePoints?: readonly LonLat[];
 }
 
 export function SolarSkiaOverlay({
@@ -107,6 +112,7 @@ export function SolarSkiaOverlay({
   userPoint,
   arrival,
   polarBoundary,
+  mosquePoints = NO_POINTS,
 }: Props) {
   // The wash composites onto the themed basemap, so its colour stops swap with
   // the active scheme — Apple Maps-style. `useActiveScheme()` is the user-aware
@@ -262,6 +268,11 @@ export function SolarSkiaOverlay({
           <Shader source={washEffect} uniforms={washUniforms} />
         </Fill>
       )}
+      {/* Straight after the wash and before anything else, so these erase the wash alone:
+          a prayer line crossing the reader's dot still draws over it. */}
+      {washEffect && (
+        <WashClearings camera={camera} userPoint={userPoint} mosquePoints={mosquePoints} />
+      )}
 
       {shownBoundaryLat != null && (
         <Path
@@ -348,6 +359,121 @@ export function SolarSkiaOverlay({
 }
 
 const EMPTY: [number, number][][] = [];
+const NO_POINTS: readonly LonLat[] = [];
+
+/** The reader's dot: its glow is 13 px (LocationLayer), cleared exactly, feathered — so the
+ *  dot and its halo keep their own colour at every hour without a hard disc of daylight. */
+const DOT_CLEAR_R = 13;
+const DOT_CLEAR_BLUR = 3;
+/** Each mosque speck: its own radius plus a hair, feathered — just enough to uncover the
+ *  speck's soft edge. Measured on the emulator at ʿIshāʾ: a 1.5 dp pad uncovered a disc three
+ *  times the speck's size, which read as a pale halo on land and a teal disc of raw sea colour
+ *  at every coastal mosque. The cost of keeping it tight is a sliver of tint at the speck's
+ *  edge while a pan outruns the camera mirror, which nobody sees on a 1 dp speck in motion. */
+const SPECK_CLEAR_PAD = 0.5;
+const SPECK_CLEAR_BLUR = 0.5;
+/** A camera step bigger than this (px of pan, or zoom levels) counts as the map MOVING. The
+ *  lean-in's own steps (lib/map/approach) stay far below both, so it never closes the holes. */
+const MOTION_PX = 1.5;
+const MOTION_ZOOM = 0.004;
+/** How long the camera must rest before the holes reopen, and how they come back. */
+const REOPEN_DELAY_MS = 150;
+const REOPEN_MS = 220;
+
+/**
+ * Holes in the wash where the reader's dot and the mosques are.
+ *
+ * Both are NATIVE MapLibre layers, so they sit under this canvas, and the wash tinted them
+ * with everything else. At noon that is invisible. At Maghrib and ʿIshāʾ the wash is a
+ * terracotta or a night blue at alpha 0.5–0.6, and the reader reported they could "hardly
+ * see" their own position or a mosque. Nothing native can draw above a sibling view, so
+ * instead the wash is erased (dstOut) exactly where they sit: they keep their own colour
+ * at every hour, and stay native — glued to the basemap, with the mosques' zoom gating
+ * intact. Only the hole follows the camera mirror, and a frame of lag there costs a sliver
+ * of tint at an edge, not a misplaced marker.
+ *
+ * The mosque holes track the SPECK tier only, through the same lib/map/dust curves the
+ * specks are drawn with, and vanish with it by ~z7.8. The glyph tier is left alone: its
+ * collision hides an unknown subset of mosques, and a hole where a glyph was culled would be
+ * an empty patch of daylight.
+ *
+ * THE LAG. The holes follow the camera MIRROR, which MapLibre feeds through JS a frame or
+ * more behind its own render. At rest the two coincide; in a fast move they do not — during
+ * the Återställ animation the dot's hole trailed the dot by ~30 px as a detached pale blob
+ * (seen on the emulator). So the holes close while the camera moves and reopen once it
+ * rests: in motion the dot and the specks are briefly tinted, which is how they always
+ * looked, and nothing is ever uncovered where they are not.
+ */
+function WashClearings({
+  camera,
+  userPoint,
+  mosquePoints,
+}: {
+  camera: SharedValue<Camera>;
+  userPoint: [number, number];
+  mosquePoints: readonly LonLat[];
+}) {
+  const open = useSharedValue(1);
+  useAnimatedReaction(
+    () => camera.value,
+    (cam, prev) => {
+      if (!prev) return;
+      const ws = worldSize(cam.zoom);
+      const panX = (mercX(cam.lon) - mercX(prev.lon)) * ws;
+      const panY = (mercY(cam.lat) - mercY(prev.lat)) * ws;
+      if (Math.hypot(panX, panY) <= MOTION_PX && Math.abs(cam.zoom - prev.zoom) <= MOTION_ZOOM) return;
+      // Restarted by every moving frame, so it only gets to reopen once they stop coming.
+      open.value = withSequence(
+        withTiming(0, { duration: 60 }),
+        withDelay(REOPEN_DELAY_MS, withTiming(1, { duration: REOPEN_MS })),
+      );
+    },
+  );
+
+  const lon = userPoint[0];
+  const lat = userPoint[1];
+  const dotX = useDerivedValue(() => project(lon, lat, camera.value).x);
+  const dotY = useDerivedValue(() => project(lon, lat, camera.value).y);
+
+  // Mercator once per point set, so each frame's work is plain arithmetic.
+  const mosqueMerc = useMemo(
+    () => mosquePoints.map(([mLon, mLat]) => [mercX(mLon), mercY(mLat)] as const),
+    [mosquePoints],
+  );
+  const speckPresence = useDerivedValue(
+    () => atZoom(DUST_PRESENCE_STOPS, camera.value.zoom) * open.value,
+  );
+  const speckHoles = useDerivedValue(() => {
+    const cam = camera.value;
+    const b = Skia.PathBuilder.Make();
+    if (atZoom(DUST_PRESENCE_STOPS, cam.zoom) <= 0) return b.detach();
+    const r = atZoom(DUST_RADIUS_STOPS, cam.zoom) + SPECK_CLEAR_PAD;
+    const ws = worldSize(cam.zoom);
+    const cx = mercX(cam.lon);
+    const cy = mercY(cam.lat);
+    for (let i = 0; i < mosqueMerc.length; i++) {
+      const p = mosqueMerc[i]!;
+      const x = (p[0] - cx) * ws + cam.width / 2;
+      const y = (p[1] - cy) * ws + cam.height / 2;
+      if (x < -r || y < -r || x > cam.width + r || y > cam.height + r) continue;
+      b.addCircle(x, y, r);
+    }
+    return b.detach();
+  });
+
+  return (
+    <>
+      <Circle cx={dotX} cy={dotY} r={DOT_CLEAR_R} blendMode="dstOut" opacity={open}>
+        <BlurMask blur={DOT_CLEAR_BLUR} style="normal" />
+      </Circle>
+      {mosqueMerc.length > 0 && (
+        <Path path={speckHoles} blendMode="dstOut" opacity={speckPresence}>
+          <BlurMask blur={SPECK_CLEAR_BLUR} style="normal" />
+        </Path>
+      )}
+    </>
+  );
+}
 
 // The prayers whose lines vanish past the polar boundary (no sunrise/sunset up there)
 // vs the two that legitimately cross it. Fixed arrays so the PrayerLine slots — and
