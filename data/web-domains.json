@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 43,
-      "ok": 43,
+      "total": 44,
+      "ok": 44,
       "failed": 0,
-      "lastChecked": "2026-09-05T09:49:00.042Z",
-      "publishedIn": 34,
-      "avgScore": 8.635294117647057
+      "lastChecked": "2026-09-18T16:48:56.732Z",
+      "publishedIn": 35,
+      "avgScore": 8.637142857142853
     },
     "lifewithallah.com": {
       "total": 3,
@@ -367,12 +367,12 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.svt.se": {
-      "total": 23,
-      "ok": 23,
+      "total": 25,
+      "ok": 25,
       "failed": 0,
-      "lastChecked": "2026-09-14T18:40:30.627Z",
-      "publishedIn": 18,
-      "avgScore": 8.605555555555554
+      "lastChecked": "2026-09-18T16:48:56.732Z",
+      "publishedIn": 20,
+      "avgScore": 8.614999999999998
     },
     "www.genteknik.se": {
       "total": 1,
@@ -1049,12 +1049,12 @@
       "avgScore": 8.649999999999999
     },
     "www.fokus.se": {
-      "total": 4,
-      "ok": 4,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-09-14T18:40:30.627Z",
-      "publishedIn": 3,
-      "avgScore": 8.633333333333333
+      "lastChecked": "2026-09-18T16:48:56.732Z",
+      "publishedIn": 4,
+      "avgScore": 8.649999999999999
     },
     "www.mucf.se": {
       "total": 2,
@@ -1724,12 +1724,12 @@
       "avgScore": 8.7
     },
     "www.islamweb.net": {
-      "total": 8,
-      "ok": 8,
+      "total": 9,
+      "ok": 9,
       "failed": 0,
-      "lastChecked": "2026-09-14T18:40:30.627Z",
-      "publishedIn": 6,
-      "avgScore": 8.633333333333333
+      "lastChecked": "2026-09-18T16:48:56.732Z",
+      "publishedIn": 7,
+      "avgScore": 8.642857142857142
     },
     "www.ncbi.nlm.nih.gov": {
       "total": 1,
@@ -2222,6 +2222,22 @@
       "lastChecked": "2026-09-14T18:40:30.627Z",
       "publishedIn": 1,
       "avgScore": 8.6
+    },
+    "www.100.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-18T16:48:56.732Z",
+      "publishedIn": 2,
+      "avgScore": 8.7
+    },
+    "www.tv4.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-18T16:48:56.732Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
     }
   }
 }
