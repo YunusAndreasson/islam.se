@@ -60,7 +60,12 @@ const LINE_RULES: LineRule[] = [
 	{
 		rule: "first-person",
 		kind: "fixable",
-		pattern: /\b(jag|mig|mej|min|mitt|mina)\b/gi,
+		// »mitt i«, »mitt på«, »mitt emot« … is the adverb »in the middle«, not »my«; the
+		// NAZA essay (2026-09-19) raised three false findings on »mitt i beslutet«.
+		// Letter lookarounds, not \b: without the u flag \b treats å/ä/ö as non-word, so
+		// »på\b« never matched.
+		pattern:
+			/(?<!\p{L})(jag|mig|mej|min|mitt(?!\s+(?:i|in|på|emot|under|ibland|bland|itu|över|framför|genom|uppe|ute|inne|för)(?!\p{L}))|mina)(?!\p{L})/giu,
 		message:
 			"Första person singular i essäns egen röst. Skriv opersonligt (»gränsen går«, »steget är kort«). En tänkt talare eller ett citat får stå.",
 		footnotes: true,

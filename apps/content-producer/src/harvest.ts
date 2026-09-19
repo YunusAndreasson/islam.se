@@ -28,11 +28,17 @@ export interface HarvestResult {
 	descriptionChanged?: { before?: string; after?: string };
 }
 
-/** Body paragraphs without frontmatter or the leading H1, for comparison. */
+/**
+ * Body paragraphs without frontmatter or the leading H1, for comparison. Each footnote
+ * definition is its own unit: final.md separates them with blank lines, the publisher
+ * writes them as one block, and the first harvest (»Talet före bomben«, 2026-09-19)
+ * counted 28 untouched footnotes as edits and reported 48 % unchanged instead of ~85 %.
+ */
 export function essayParagraphs(markdown: string): string[] {
 	return markdown
 		.replace(/^---\n[\s\S]*?\n---\n/, "")
 		.replace(/^#\s+.+\n+/, "")
+		.replace(/\n(?=\[\^[^\]\n]+\]:)/g, "\n\n")
 		.split(/\n\s*\n/)
 		.map((p) => p.replace(/\s+/g, " ").trim())
 		.filter((p) => p && p !== "---");

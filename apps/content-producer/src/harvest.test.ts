@@ -48,4 +48,18 @@ describe("harvestEdits", () => {
 	it("reports nothing when the essay shipped as produced", () => {
 		expect(harvestEdits(final, final).edits).toEqual([]);
 	});
+
+	// final.md puts a blank line between footnotes and the publisher writes them as one
+	// block. The first real harvest (»Talet före bomben«) counted every footnote as edited
+	// and reported 48 % unchanged; an untouched essay must come out at 100 %.
+	it("compares footnotes one by one, however the publisher spaced them", () => {
+		const spaced = "Ett stycke.[^1][^2]\n\n---\n\n[^1]: Första källan.\n\n[^2]: Andra källan.";
+		const packed =
+			'---\ntitle: "T"\n---\nEtt stycke.[^1][^2]\n\n---\n[^1]: Första källan.\n[^2]: Andra källan.';
+		expect(harvestEdits(spaced, packed).unchangedShare).toBe(1);
+		const edited = packed.replace("Andra källan.", "Andra källan, s. 12.");
+		expect(harvestEdits(spaced, edited).edits.map((e) => e.before)).toEqual([
+			"[^2]: Andra källan.",
+		]);
+	});
 });

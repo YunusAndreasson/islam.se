@@ -16,6 +16,19 @@ describe("checkHouseRules", () => {
 		expect(rules(body)).toEqual(["first-person", "first-person"]);
 	});
 
+	// The NAZA essay (2026-09-19) raised three first-person findings on »mitt i
+	// beslutet« and »mitt i uppräkningen«: »mitt i« is »in the middle of«, not »my«.
+	it("does not read the adverb »mitt i« as first person, but still finds »mitt eget«", () => {
+		const body = [
+			"Ett tal som godkänns i förväg ligger mitt i beslutet.",
+			"",
+			"Mitt på gatan och mitt emot skolan står husen kvar.",
+			"",
+			"Det var mitt eget steg.",
+		].join("\n");
+		expect(rules(body)).toEqual(["first-person"]);
+	});
+
 	it("leaves first person inside quotations and block quotes alone", () => {
 		const body = [
 			'Umar bad: "Gud, jag klagar inför Dig."',
