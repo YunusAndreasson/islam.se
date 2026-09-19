@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 116,
-      "ok": 115,
+      "total": 118,
+      "ok": 117,
       "failed": 1,
-      "lastChecked": "2026-09-14T18:40:30.627Z",
-      "publishedIn": 94,
-      "avgScore": 8.61808510638299,
+      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "publishedIn": 95,
+      "avgScore": 8.617894736842116,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -2238,6 +2238,92 @@
       "lastChecked": "2026-09-18T16:48:56.732Z",
       "publishedIn": 1,
       "avgScore": 8.7
+    },
+    "inreviewonline.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.972mag.com": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "publishedIn": 2,
+      "avgScore": 8.6
+    },
+    "www.democracynow.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.thenationalnews.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-19T18:55:11.464Z"
+    },
+    "forward.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-19T18:55:11.464Z"
+    },
+    "www.labiennale.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-19T18:55:11.464Z"
+    },
+    "www.aljazeera.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "publishedIn": 2,
+      "avgScore": 8.6
+    },
+    "www.amnesty.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.btselem.org": {
+      "total": 1,
+      "ok": 0,
+      "failed": 1,
+      "lastChecked": "2026-09-19T19:00:36.015Z"
+    },
+    "time.com": {
+      "total": 1,
+      "ok": 0,
+      "failed": 1,
+      "lastChecked": "2026-09-19T19:00:36.015Z"
+    },
+    "www.ohchr.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.euronews.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
     }
   }
 }
