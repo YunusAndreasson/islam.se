@@ -12,8 +12,8 @@
 //    under it. With the pill at the end of the row the title takes the leading edge, and the
 //    pill's outer edge is the row's trailing edge.
 //
-// No haptic here: both callers already fire their own, and a second one in the component
-// would double the tick.
+// No haptic here: every caller (the dock's day, DayPicker's and the Moon sheet's month) fires
+// its own hapticSelection, and a second one in the component would double the tick.
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 

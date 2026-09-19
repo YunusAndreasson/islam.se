@@ -28,7 +28,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MoonNoteRow } from '@/components/moon/MoonNoteRow';
 import { useMoonInk } from '@/components/moon/moonInk';
 import { GlassSurface } from '@/components/ui/GlassSurface';
-import { hapticSelection } from '@/lib/haptics';
 import type { MoonNote } from '@/lib/moon/readout';
 import { mono, motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 
@@ -143,10 +142,8 @@ export function MoonAlmanacSheet({
             it once because that is the surface that draws the days; repeating it here would
             only teach the reader to stop reading it. */}
         <Pressable
-          onPress={() => {
-            hapticSelection();
-            onClose();
-          }}
+          // Dismissal — no haptic (lib/haptics policy).
+          onPress={onClose}
           accessibilityRole="button"
           accessibilityLabel="Stäng månens detaljer"
           style={({ pressed }) => [styles.close, pressed && styles.pressed]}

@@ -65,7 +65,6 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import {
   hapticGrab,
-  hapticLight,
   hapticRelease,
   hapticSelection,
   hapticToggle,
@@ -549,7 +548,7 @@ export function PrayerDock({
 
   // The launch schedule reveal: the host flips `revealSchedule` and the dock springs
   // to match, so the schedule reveals off the SAME `progress` a drag drives — no
-  // second animation to keep in sync with the first. Deliberately silent: hapticLight is
+  // second animation to keep in sync with the first. Deliberately silent: hapticToggle is
   // for a control snapping under the user's own finger (see lib/haptics), and this opens
   // on its own. The user is still free to grab the dock mid-reveal — the gesture worklets
   // assign `height` directly, overwriting this spring.
@@ -823,10 +822,8 @@ export function PrayerDock({
   // chip works).
   const place = locationIsFallback ? (
     <Pressable
-      onPress={() => {
-        hapticLight();
-        router.push('/(settings)/byt-plats');
-      }}
+      // Navigation to byt-plats — no haptic (lib/haptics policy), same as PlaceHeader's link.
+      onPress={() => router.push('/(settings)/byt-plats')}
       // The row is only caption-height, so widen the target without touching layout —
       // the hero shares a stable height between its two states. Kept at 10: reaching further
       // up sends this button's slop into `heroTop`, where the "Nu" chip sits, and heroSub
@@ -887,10 +884,8 @@ export function PrayerDock({
                   edge, and the stepper's pill ends where the time column does. */}
               <View style={[styles.dateHeader, roomyDate && styles.dateHeaderRoomy]} testID="dock-calendar-header" onLayout={onHeaderLayout}>
                 <Pressable
-                  onPress={() => {
-                    hapticLight();
-                    setPickingDay(true);
-                  }}
+                  // Opens the day picker sheet — navigation, so no haptic (lib/haptics policy).
+                  onPress={() => setPickingDay(true)}
                   testID="prayer-dock-date"
                   accessibilityRole="button"
                   // ⚠️ BOTH DATES, in the order they are printed. This label once named only

@@ -12,7 +12,6 @@ import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Icon } from './Icon';
-import { hapticLight } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
 import { type Palette, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
@@ -37,10 +36,8 @@ export function PlaceHeader({ title, what }: Props) {
       <Text style={styles.title}>{title}</Text>
       {isFallback ? (
         <Pressable
-          onPress={() => {
-            hapticLight();
-            router.push('/(settings)/byt-plats');
-          }}
+          // Navigation to byt-plats — no haptic (lib/haptics policy).
+          onPress={() => router.push('/(settings)/byt-plats')}
           // 12 rather than 10 top/bottom: with the ~20 dp row that is exactly the 44 dp
           // target the sibling settings link reserves with minHeight — bought here through
           // hit area instead, so the header doesn't grow a gap in the state where this

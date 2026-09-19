@@ -17,7 +17,7 @@ import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanim
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { hapticLight, hapticSelection } from '@/lib/haptics';
+import { hapticSelection } from '@/lib/haptics';
 import { HIJRI_MONTHS, SWEDISH_MONTHS, toHijri } from '@/lib/hijri';
 import { relativeDayLabel } from '@/lib/relative-day';
 import { MAX_DAY_OFFSET } from '@/lib/solar/useSolarClock';
@@ -253,7 +253,9 @@ export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClo
                       key={day}
                       disabled={outOfRange}
                       onPress={() => {
-                        hapticLight();
+                        // Picking one day from the grid is a selection (class 3), like
+                        // PlacePicker's city — the tick lands before the sheet closes.
+                        hapticSelection();
                         onPick(day);
                       }}
                       accessibilityRole="button"

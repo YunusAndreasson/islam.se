@@ -31,7 +31,7 @@ import { Icon } from '@/components/ui/Icon';
 import { StepperPill } from '@/components/ui/StepperPill';
 import { almanacTilt, MoonDisc } from '@/components/moon/MoonDisc';
 import { useMoonInk } from '@/components/moon/moonInk';
-import { hapticLight, hapticSelection } from '@/lib/haptics';
+import { hapticSelection } from '@/lib/haptics';
 import { HIJRI_MONTHS, hijriToGregorian, SWEDISH_MONTHS } from '@/lib/hijri';
 import { moonPhaseAt } from '@/lib/moon/ephemeris';
 import { type DayMark, MONTH_NOTES, monthRing } from '@/lib/moon/month';
@@ -186,7 +186,8 @@ export function MoonMonthSheet({
           </View>
           <StepperPill
             onStep={(step) => {
-              hapticLight();
+              // Stepping through months: class 3, the same tick as DayPicker's month step.
+              hapticSelection();
               onStepMonth(step);
             }}
             canStepBack={canStepBack}
@@ -198,10 +199,8 @@ export function MoonMonthSheet({
               button under the notes; one close control per sheet, in the same place on both
               sheets, is what makes the second one familiar. */}
           <Pressable
-            onPress={() => {
-              hapticSelection();
-              onClose();
-            }}
+            // Dismissal — no haptic (lib/haptics policy).
+            onPress={onClose}
             accessibilityRole="button"
             accessibilityLabel="Stäng månaden"
             hitSlop={{ top: 4, bottom: 4, right: 4 }}

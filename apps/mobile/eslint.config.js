@@ -104,4 +104,27 @@ module.exports = defineConfig([
       // would let an empty string through as if it were a message.
     },
   },
+
+  // One door to the haptic engine. lib/haptics holds the written policy for WHEN the app
+  // may buzz, the user's "Haptik" gate, and the Android mapping that keeps every cue off
+  // the Vibrator (which ignores the system touch-feedback setting). A direct expo-haptics
+  // call anywhere else skips all three, and nothing but this rule would notice.
+  {
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    ignores: ['src/lib/haptics.ts', 'src/lib/__tests__/haptics.test.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'expo-haptics',
+              message:
+                'Import from @/lib/haptics — it owns the policy, the Haptik setting and the platform mapping.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ]);

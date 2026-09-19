@@ -130,9 +130,12 @@ export function MapLessonCard({
 
           <GlassRoundButton
             onPress={() => {
-              hapticSelection();
+              // The last press closes the card: a dismissal, so only the steps tick.
               if (atEnd) onDismiss();
-              else onNext();
+              else {
+                hapticSelection();
+                onNext();
+              }
             }}
             accessibilityLabel={atEnd ? 'Klart' : 'Nästa exempel'}
             tint={sky.cardGlass}

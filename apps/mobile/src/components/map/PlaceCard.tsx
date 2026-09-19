@@ -14,7 +14,6 @@ import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown, useReducedMotion } from 'react-native-reanimated';
 
-import { hapticLight } from '@/lib/haptics';
 import { formatMosqueDistance } from '@/lib/mosques';
 import { haversineKm } from '@/lib/places/nearest';
 import type { LatLng } from '@/lib/prayer-times';
@@ -111,12 +110,9 @@ export function PlaceCard({
         )}
 
         <Pressable
-          onPress={() => {
-            // A command whose result lands synchronously under the finger — the
-            // haptics policy's one allowed tap tick (opening a screen is silent).
-            hapticLight();
-            onDirections();
-          }}
+          // No haptic: directions hand the reader off to a maps app, which is navigation
+          // out of this one (lib/haptics policy).
+          onPress={onDirections}
           accessibilityRole="button"
           accessibilityLabel={`Vägbeskrivning till ${title}`}
           style={({ pressed }) => [styles.directions, pressed && styles.directionsPressed]}

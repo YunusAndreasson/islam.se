@@ -71,7 +71,7 @@ import { PlaceHeader } from '@/components/ui/PlaceHeader';
 import { type PillTone, StatusPill } from '@/components/ui/StatusPill';
 import { TURN_CUES } from '@/components/ui/turnCues';
 import { type AimStatus, type AimTurn, compassPoint } from '@/lib/aim';
-import { hapticLight, hapticSelection, hapticSuccess } from '@/lib/haptics';
+import { hapticSuccess } from '@/lib/haptics';
 import {
   addHijriMonths,
   formatGregorian,
@@ -415,12 +415,11 @@ export default function Manen() {
   }, [notes]);
   const hasAlmanac = notes.length > surfaced.length;
 
+  // No haptic on either: opening a screen or a sheet is navigation (lib/haptics policy).
   const openSettings = useCallback(() => {
-    hapticLight();
     router.push('/(settings)/installningar');
   }, []);
   const openAlmanac = useCallback(() => {
-    hapticLight();
     setReadingAlmanac(true);
   }, []);
 
@@ -630,7 +629,8 @@ export default function Manen() {
             options={MODES}
             value={mode}
             onChange={(next) => {
-              hapticSelection();
+              // No haptic: SegmentedChoice is a native control that feeds back on its own, and
+              // its narrow-screen OptionGroup fallback ticks by itself — a call here doubled it.
               // Choosing the sky IS the gesture that justifies the prompt.
               if (next === 'sky') askPermission();
               setMode(next);
@@ -690,10 +690,8 @@ export default function Manen() {
           {/* The hero stays the DATE in both modes. The switch changes what the instrument is
               pointed at, not what the screen is about. */}
           <Pressable
-            onPress={() => {
-              hapticLight();
-              setPickingMonth(true);
-            }}
+            // Opens the month sheet — navigation, so no haptic (lib/haptics policy).
+            onPress={() => setPickingMonth(true)}
             accessibilityRole="button"
             accessibilityLabel={`${hijri.day} ${HIJRI_MONTHS[hijri.month - 1]} ${hijri.year}, ${civilLine}. ${facts}. ${
               mode === 'month' ? 'Öppnar månadskalendern med alla dagar.' : 'Visa hela månaden.'

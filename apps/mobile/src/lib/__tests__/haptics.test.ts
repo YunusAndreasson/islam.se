@@ -97,7 +97,7 @@ describe('haptics on iOS reach the Taptic generators', () => {
 describe('haptics on Android reach the semantic engine (API 30+)', () => {
   beforeEach(() => {
     setPlatform('android');
-    setAndroidVersion(34); // Android 14 — Confirm/Reject available
+    setAndroidVersion(34); // Android 14 — Segment_Tick, Confirm and Reject all available
   });
 
   it('routes selection/light/success/warning to performAndroidHapticsAsync, never the Vibrator', () => {
@@ -105,9 +105,11 @@ describe('haptics on Android reach the semantic engine (API 30+)', () => {
     hapticLight();
     hapticSuccess();
     hapticWarning();
+    // Segment_Tick, not Clock_Tick: Android's constant for "switching between a series of
+    // potential choices" — what every class-3 moment is. Clock_Tick names a clock face.
     expect(Haptics.performAndroidHapticsAsync).toHaveBeenNthCalledWith(
       1,
-      Haptics.AndroidHaptics.Clock_Tick,
+      Haptics.AndroidHaptics.Segment_Tick,
     );
     expect(Haptics.performAndroidHapticsAsync).toHaveBeenNthCalledWith(
       2,
@@ -126,36 +128,67 @@ describe('haptics on Android reach the semantic engine (API 30+)', () => {
     expect(Haptics.impactAsync).not.toHaveBeenCalled();
     expect(Haptics.notificationAsync).not.toHaveBeenCalled();
   });
+
+  it('falls back to Clock_Tick for a selection on Android 13, which has no Segment_Tick', () => {
+    // Segment_Tick is API 34. expo-haptics resolves constants by reflection and throws for a
+    // missing one, so sending it to Android 13 would make every class-3 tick silent.
+    setAndroidVersion(33);
+    hapticSelection();
+    expect(Haptics.performAndroidHapticsAsync).toHaveBeenCalledWith(
+      Haptics.AndroidHaptics.Clock_Tick,
+    );
+    expect(Haptics.performAndroidHapticsAsync).not.toHaveBeenCalledWith(
+      Haptics.AndroidHaptics.Segment_Tick,
+    );
+  });
 });
 
-describe('haptics on old Android fall back to the Vibrator for success/warning (API < 30)', () => {
+// Below API 30 there is no Confirm or Reject. The fallback USED to be expo-haptics'
+// notificationAsync — a raw Vibrator waveform, which ignores the system touch-feedback
+// setting, so an Android 7–10 reader who had switched touch feedback off for the whole phone
+// was still buzzed on a GPS denial. It now stays on performHapticFeedback, which honours that
+// setting, and lands on constants every API level has.
+describe('haptics on old Android stay on the semantic engine (API < 30)', () => {
   beforeEach(() => {
     setPlatform('android');
-    setAndroidVersion(26); // Android 8 — Confirm/Reject don't exist, so notificationAsync fallback
+    setAndroidVersion(26); // Android 8 — no Confirm, Reject, Segment_Tick or Gesture_*
   });
 
-  it('keeps universal ticks on the semantic engine but falls back for Confirm/Reject', () => {
+  it('falls back to always-available constants for every helper', () => {
     hapticSelection();
     hapticLight();
     hapticSuccess();
     hapticWarning();
-    // Clock_Tick (API 21) and Virtual_Key (API 5) are universal — still the semantic engine.
-    expect(Haptics.performAndroidHapticsAsync).toHaveBeenCalledWith(
-      Haptics.AndroidHaptics.Clock_Tick,
-    );
-    expect(Haptics.performAndroidHapticsAsync).toHaveBeenCalledWith(
-      Haptics.AndroidHaptics.Virtual_Key,
-    );
-    // success/warning fall back to the Vibrator notification so pre-Android-11 still buzzes.
-    expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Success);
-    expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Warning);
-    // Confirm/Reject must NOT be sent to a device that doesn't have them.
-    expect(Haptics.performAndroidHapticsAsync).not.toHaveBeenCalledWith(
-      Haptics.AndroidHaptics.Confirm,
-    );
-    expect(Haptics.performAndroidHapticsAsync).not.toHaveBeenCalledWith(
-      Haptics.AndroidHaptics.Reject,
-    );
+    const P = Haptics.performAndroidHapticsAsync;
+    expect(P).toHaveBeenNthCalledWith(1, Haptics.AndroidHaptics.Clock_Tick);
+    expect(P).toHaveBeenNthCalledWith(2, Haptics.AndroidHaptics.Virtual_Key);
+    // success → a click; warning → Long_Press, the heavier click, so a failure still feels
+    // stronger than a success the way Reject does next to Confirm.
+    expect(P).toHaveBeenNthCalledWith(3, Haptics.AndroidHaptics.Virtual_Key);
+    expect(P).toHaveBeenNthCalledWith(4, Haptics.AndroidHaptics.Long_Press);
+    expect(P).not.toHaveBeenCalledWith(Haptics.AndroidHaptics.Confirm);
+    expect(P).not.toHaveBeenCalledWith(Haptics.AndroidHaptics.Reject);
+  });
+
+  it('never reaches the Vibrator on Android at any API level, for any helper', () => {
+    // A Vibrator buzz ignores the reader's system touch-feedback setting (see above). Walk
+    // every helper across the floors this module switches on and prove none of them gets there.
+    for (const version of [24, 29, 30, 33, 34, 36]) {
+      setAndroidVersion(version);
+      hapticSelection();
+      hapticLight();
+      hapticToggle(true);
+      hapticToggle(false);
+      hapticGrab();
+      hapticRelease();
+      hapticSuccess();
+      hapticWarning();
+    }
+    expect({
+      selectionAsync: jest.mocked(Haptics.selectionAsync).mock.calls.length,
+      impactAsync: jest.mocked(Haptics.impactAsync).mock.calls.length,
+      notificationAsync: jest.mocked(Haptics.notificationAsync).mock.calls.length,
+    }).toEqual({ selectionAsync: 0, impactAsync: 0, notificationAsync: 0 });
   });
 });
 
@@ -235,6 +268,11 @@ const SILENCED = [
   'components/nav/GlassRoundButton.tsx',
   'components/settings/DisclosureGroup.tsx',
   'components/about/FaqItem.tsx',
+  // 2026-09 pass: each of these only navigates or dismisses — the byt-plats link, the
+  // almanac sheet's close, and directions out to a maps app.
+  'components/ui/PlaceHeader.tsx',
+  'components/moon/MoonAlmanacSheet.tsx',
+  'components/map/PlaceCard.tsx',
 ] as const;
 
 describe('haptics policy — silenced surfaces stay haptic-free', () => {

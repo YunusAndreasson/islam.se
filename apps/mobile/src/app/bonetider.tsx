@@ -1582,7 +1582,8 @@ export default function Bonetider() {
           sheet is up or the app is backgrounded. */}
       <MapNav active={mapActive} resetAvailable={moved} locationIsFallback={locationIsFallback} onLocate={() => {
         if (!moved && locationIsFallback) { router.navigate('/byt-plats'); return; }
-        hapticLight();
+        // No haptic on reset or locate: both fly the camera, and moving the map is navigation —
+        // the flight is the feedback (lib/haptics policy).
         setLineMessage(null);
         // Both moves take their time from the distance they cover (lib/map/camera-travel):
         // a nudge back home is quick, the long way home takes as long as the flight in, and

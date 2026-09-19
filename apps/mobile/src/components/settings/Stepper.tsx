@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
-import { hapticLight } from '@/lib/haptics';
+import { hapticSelection } from '@/lib/haptics';
 import { radius, space, type } from '@/theme/tokens';
 import { Icon } from '@/components/ui/Icon';
 import { type SettingsColors, useSettingsColors } from './theme';
@@ -42,13 +42,14 @@ export function Stepper({
   // from: while that mark still matches we are inside one batch and the taps accumulate;
   // once the prop moves, the parent's value is the truth again.
   const requested = useRef({ value, from: value });
-  // Light impact only when the clamped value actually moves — a discrete step snap.
+  // A selection tick only when the clamped value actually moves — stepping through discrete
+  // values is class 3 in lib/haptics, the same tick as every other stepper in the app.
   // No buzz at min/max (the button is also `disabled` there, so it's double-guarded).
   const stepBy = (delta: number) => {
     const base = requested.current.from === value ? requested.current.value : value;
     const next = clamp(base + delta);
     requested.current = { value: next, from: value };
-    if (next !== base) hapticLight();
+    if (next !== base) hapticSelection();
     onChange(next);
   };
   const display = format ? format(value) : String(value);
