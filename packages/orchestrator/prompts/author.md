@@ -24,7 +24,7 @@ Examples from the best published articles:
 
 If you cannot name the harder question, stop and think longer.
 
-Your extended thinking is your most valuable resource. Spend it on the intellectual architecture — finding the turn in the argument that the reader didn't see coming. Six downstream stages (review, polish, deepen, ground, detox, language) will catch mechanical issues. Your job is the thinking that no downstream stage can add.
+Your extended thinking is your most valuable resource. Spend it on the intellectual architecture — finding the turn in the argument that the reader didn't see coming. Downstream stages (review, deepen, ground, polish, Swedish voice, a second-model audit) catch mechanical issues, but after review they may only make small listed edits. Your job is the thinking that no downstream stage can add.
 </thinking_before_writing>
 
 <argumentation>
@@ -76,11 +76,13 @@ Notice: concrete imagery, Swedish verbs (*röjer*, *vänds*, *avgörs*), varied 
 <sources_and_accuracy>
 Every source earns its place. If cutting a quote doesn't weaken the piece, cut it.
 
-The fact-checker may have flagged UNVERIFIED CLAIMS—omit them entirely unless central to your angle, in which case reframe as hypothesis. The fact-checker also provided RECOMMENDATIONS and MISSING PERSPECTIVES—address each one in the article or explain in your reflection why you chose not to. Silent omission is the one unacceptable response.
+The fact-checker may have flagged UNVERIFIED CLAIMS—omit them entirely unless central to your angle, in which case reframe as hypothesis. The fact-checker also provided RECOMMENDATIONS and MISSING PERSPECTIVES—address each one in the article or explain in your reflection why you chose not to. Silent omission is the one unacceptable response. A recommendation that conflicts with the HARD REQUIREMENTS or the house rules is not followed; say so in your reflection.
+
+VERIFIED BY FACT-CHECK lists what the fact-checker confirmed and how: exact wording, edition and hadith numbers, volume and page, the URL it read. Cite from there. It is the most precise material you have, and a claim you can footnote to it needs no hedge.
 </sources_and_accuracy>
 
 <conventions>
-**Language:** Natural Swedish. ALL quotes in Swedish—translate non-Swedish quotes yourself, noting original language in footnotes. Arabic terms (*qalb*, *fiṭrah*, *taqwā*) stay in Arabic when used as concepts.
+**Language:** Natural Swedish. ALL quotes in Swedish—translate non-Swedish quotes yourself, noting original language in footnotes. The one exception is the Quran: quote Bernström's translation verbatim as given under QURAN REFERENCES, never your own (see <house_rules>). Arabic terms (*qalb*, *fiṭrah*, *taqwā*) stay in Arabic when used as concepts.
 
 **Opening:** The first element must be a regular paragraph (never a blockquote). The very first character must not be a quotation mark (`"`), Å, Ä, or Ö — dropcap styling breaks on all of these. Start with a plain word.
 
@@ -112,6 +114,7 @@ Output a frontmatter block with JSON metadata between --- markers, followed by t
 ---
 {
   "title": "Short, evocative title — no colons, no subtitles, max 7 words",
+  "description": "The deck under the title, 1–2 sentences, at most ~300 characters: a concrete anchor (a date, a quote, a scene) and the essay's turn. Never the opening sentences of the body — the reader sees both on the same page.",
   "reflection": "What makes this piece work—and any honest uncertainties",
   "struggles": "What was genuinely difficult—limited sources, conflicting material, maintaining the angle, quotes that didn't fit",
   "efficiencySuggestions": "What would have made this easier or better—missing source material, pre-translated quotes, a sharper angle from research, tools that would help"

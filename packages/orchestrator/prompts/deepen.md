@@ -15,7 +15,7 @@ Det är denna rörelse du söker — och skapar där den saknas.
 </purpose>
 
 <what_came_before>
-Texten har passerat hela pipelinen: research, faktagranskning, författande, granskning, polering, svensk röst, korrekturläsning, aqeedah-granskning, elevate, brilliance, och fler. Den är klar.
+Texten har passerat research, faktagranskning, författande och granskning, och granskaren har godkänt den. Efter dig kommer förankring, polering och språkgranskning – men ingen grind som läser sakinnehåll. Det du lägger till går till läsaren oprövat, så lägg aldrig till en uppgift, ett namn, ett årtal eller en källa som inte redan står i texten.
 
 Du gör INTE om deras arbete. Du rör inte stil, ordval, rytm, stavning, teologi, fakta, fotnoter eller citat. Du gör en enda sak: du hittar avsnitt som illustrerar istället för argumenterar, och du skriver om dem så att de argumenterar.
 </what_came_before>
@@ -130,47 +130,46 @@ Risken att vara uppmärksam på: att du *skapar* luckor för att ha något att f
 </sacred_boundaries>
 
 <output_format>
-Output a frontmatter block with JSON metadata between --- markers, followed by the complete article text in markdown:
+Returnera ENDAST ett frontmatter-block med JSON mellan ---. Returnera INTE artikeln: koden
+byter varje `before` mot sitt `after`, och en ändring du inte listar sker inte.
 
 ---
 {
   "verdict": "clean|deepened",
-  "thesis": "The essay's central thesis in one sentence",
+  "thesis": "Essäns bärande tes i en mening",
   "argumentChain": [
-    "Step 1: ...",
-    "Step 2: ...",
-    "Step 3: ..."
+    "Steg 1: ...",
+    "Steg 2: ...",
+    "Steg 3: ..."
   ],
   "gaps": [
     {
-      "location": "Section name, paragraph N",
+      "location": "Avsnittets rubrik, stycke N",
       "type": "missing-step|decorative-illustration|undeveloped-consequence|flat-comparison",
-      "description": "What reasoning step is missing or what illustration replaced argumentation"
+      "description": "Vilket resonemangssteg som saknas, eller vilken illustration som ersatt ett argument"
     }
   ],
   "changes": [
     {
-      "location": "Section name, paragraph N",
+      "location": "Avsnittets rubrik, stycke N",
       "type": "added-step|sharpened-comparison|developed-consequence",
-      "before": "The exact original text (2-3 sentences of context)",
-      "after": "The replacement text with the deepening applied",
-      "reasoning": "One sentence: what argumentative step this adds that was missing"
+      "before": "Den exakta originaltexten, 1–3 hela meningar, ordagrant och unik i texten",
+      "after": "Samma stycke text som det ska lyda efter fördjupningen",
+      "reasoning": "En mening: vilket resonemangssteg som saknades"
     }
   ],
   "changesCount": 0,
-  "summary": "2-3 sentences: what was found and why changes were or weren't made"
+  "summary": "2–3 meningar: vad du fann och varför du ändrade eller lät bli"
 }
 ---
 
-# Article Title
-
-The complete article text in markdown...
-
-Set verdict to "clean" and changesCount to 0 when the essay already argues well (no gaps found worth filling). Set verdict to "deepened" when changes were made.
+Sätt verdict "clean" och changesCount 0 när essän redan argumenterar väl. Sätt "deepened" när du gör ändringar.
 </output_format>
 
 <output_instruction>
-Your output must be ONLY the frontmatter block and article — nothing else. No preamble, no reflection, no analysis before the frontmatter. Do all diagnosis and reasoning in your internal thinking.
+Din output är BARA frontmatter-blocket – ingen inledning, ingen artikeltext, ingen analys. Gör all diagnos i ditt interna tänkande.
 
-Your output starts with --- on the first line, followed by valid JSON metadata, then ---, then the complete article in markdown. Nothing before the opening ---.
+Den börjar med --- på första raden och slutar med den avslutande ---.
+
+`before` kopieras tecken för tecken ur texten och får aldrig börja eller sluta i ett blockcitat, en fotnotsdefinition eller en rubrik. Varje fotnotsmarkör, varje citat och varje tal i `before` ska stå oförändrat i `after` – annars avvisar koden ändringen.
 </output_instruction>

@@ -49,7 +49,7 @@ Return the complete corrected research object, in the exact same shape as the or
 {
   "topic": "The topic",
   "summary": "The developed angle — update only if a correction changes the argument itself, otherwise keep unchanged",
-  "quranReferences": [ { "surah": "Name", "ayah": "Number", "text": "Swedish translation" } ],
+  "quranReferences": [ { "surah": "Name", "ayah": "Number", "verseKey": "4:85", "text": "Swedish translation" } ],
   "quotes": [ { "id": "quote-12345", "text": "...", "textSv": "...", "author": "...", "source": "..." } ],
   "bookPassages": [ { "id": "passage-id", "text": "...", "bookTitle": "...", "author": "..." } ],
   "sources": [ { "id": "src-1", "url": "https://...", "title": "...", "keyFindings": ["..."] } ]

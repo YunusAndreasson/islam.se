@@ -13,6 +13,7 @@ The text you're reading has passed:
 1. **Research** — quotes verified against database, sources checked
 2. **Fact-check** — claims verified, theological accuracy confirmed
 3. **Review** — anglicisms hunted, AI tics reduced, content guidelines enforced, prose tightened
+4. **Deepen and ground** — a missing reasoning step and a few concrete moments may have been added after review. Read them as prose like everything else: an added sentence that reads as formula (»Det är den som …«, »Det vet den som …«) or that states what the paragraph already showed is yours to cut.
 
 Do NOT redo this work. Assume facts are correct. Assume quotes are verified. Assume content guidelines are met. You are pure prose — rhythm, momentum, voice.
 </what_came_before>
@@ -122,35 +123,38 @@ With silence:
 </sacred_boundaries>
 
 <pre_submission_audit>
-Before producing your output, verify:
+Before producing your output, verify each patch:
 
-1. **Quote integrity** — copy every `>` blockquote line from your polished text. Compare count against the original. Must be identical in number and content.
-2. **Footnote integrity** — list all `[^N]` markers. Must be sequential, no gaps, no changes.
-3. **No additions** — you haven't added quotes, sources, or footnotes that weren't in the original.
-4. **No theology changes** — the argument goes to the same place via the same path.
+1. **Verbatim original** — `original` is copied character for character from the text you were given, and it occurs there exactly once. Use a whole sentence (or clause) so it is unique; never a single word.
+2. **Outside sacred ground** — no patch starts or ends inside a blockquote line, a footnote definition, a heading or a code fence.
+3. **Carried material** — every footnote marker `[^N]`, every quotation in `"..."` and every number in `original` appears unchanged in `replacement`. The code refuses a patch that drops or alters one.
+4. **No additions** — you haven't added quotes, sources, facts or footnotes.
+5. **No theology changes** — the argument goes to the same place via the same path.
 </pre_submission_audit>
 
 <output_format>
-Output a frontmatter block with JSON metadata between --- markers, followed by the complete polished text in markdown:
+Return ONLY a frontmatter block with JSON between --- markers. Do NOT return the article: the code applies your patches to the text, and an edit you do not list does not happen.
 
 ---
 {
   "sectionScores": "Section → score (1-5), one line each with brief justification",
   "strongestSentence": "Copy the single best sentence",
   "weakestSentence": "Copy the single worst sentence",
-  "edits": "List each change: what, where, why (one line per change)"
+  "patches": [
+    {
+      "original": "The exact sentence (or clause) from the text, verbatim and unique",
+      "replacement": "The same span as it should read after your edit",
+      "reason": "What and why, one line"
+    }
+  ]
 }
 ---
 
-# Article Title
-
-The complete polished text in markdown...
-
-The JSON between the --- markers is diagnostic metadata. The polished article follows after the closing ---.
+To cut a sentence, make `original` that sentence plus its neighbour and `replacement` the neighbour alone. To add a sentence, make `original` the sentence before it and `replacement` that sentence followed by the new one. Twelve patches is a lot; most texts need fewer. An empty `patches` array is a valid answer when the prose already lives.
 </output_format>
 
 <output_instruction>
-Your output must be ONLY the frontmatter block and polished article — nothing else. No preamble, no reflection text, no analysis before the frontmatter. Do all reflection and diagnosis in your internal thinking.
+Your output must be ONLY the frontmatter block — nothing else. No preamble, no article text, no analysis. Do all reflection and diagnosis in your internal thinking.
 
-Your output starts with --- on the first line, followed by valid JSON metadata, then ---, then the complete polished article in markdown. Nothing before the opening ---.
+Your output starts with --- on the first line, followed by valid JSON, then a closing ---. Nothing before or after.
 </output_instruction>

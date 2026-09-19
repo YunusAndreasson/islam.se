@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 
 import { execSync } from "node:child_process";
-import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+	appendFileSync,
+	existsSync,
+	mkdirSync,
+	readdirSync,
+	readFileSync,
+	statSync,
+	writeFileSync,
+} from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as p from "@clack/prompts";
@@ -22,6 +30,7 @@ import { Command } from "commander";
 import { createPatch } from "diff";
 import { config } from "dotenv";
 import type { FordjupningResult } from "./fordjupning-producer.js";
+import { formatHarvest, harvestEdits } from "./harvest.js";
 
 // Load environment variables from project root
 const __prodDir = dirname(fileURLToPath(import.meta.url));
@@ -54,6 +63,9 @@ function readIdeaBrief(path: string): IdeaBrief {
 	if (!difficulties.includes(raw.difficulty)) {
 		throw new Error(`Briefen ${path}: "difficulty" måste vara en av ${difficulties.join(", ")}.`);
 	}
+	if (raw.requirements !== undefined && typeof raw.requirements !== "string") {
+		throw new Error(`Briefen ${path}: "requirements" måste vara en sträng om den finns.`);
+	}
 	return raw as IdeaBrief;
 }
 
@@ -78,12 +90,13 @@ program
 	)
 	.option(
 		"-b, --brief <path>",
-		"JSON file with a pre-decided angle {title, thesis, angle, keywords, difficulty} — research, authoring and review run from it instead of developing an angle from the topic alone",
+		"JSON file with a pre-decided angle {title, thesis, angle, keywords, difficulty, requirements?} — research, authoring and review run from it instead of developing an angle from the topic alone. `requirements` (or a »⚠️ KRAV SOM AVGÖR …« block at the end of `angle`) goes to every stage as hard rules",
 	)
 	.option(
 		"-s, --source-doc <path...>",
 		"Pre-validated briefing document(s) — .pdf, .md or .txt. Handed to research, fact-check and authoring as already source-checked material",
 	)
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: CLI entry point — banner, run, and a summary per outcome
 	.action(async (topic: string, options) => {
 		const outputDir = resolve(options.output);
 		const sourceDocs = loadSourceDocs((options.sourceDoc ?? []).map((f: string) => resolve(f)));
@@ -131,13 +144,20 @@ program
 				console.log("Status: ✅ SUCCESS");
 				console.log(`Output: ${result.outputDir}`);
 				console.log("");
-				console.log("Files created:");
-				console.log("  - final.md (article)");
-				console.log("  - references.md (bibliography)");
-				console.log("  - research.json");
-				console.log("  - fact-check.json");
-				console.log("  - review.json");
-				console.log("  - metadata.json");
+				console.log("Files:");
+				for (const name of readdirSync(result.outputDir).sort()) {
+					console.log(`  - ${name}`);
+				}
+				if (result.openIssuesPath) {
+					console.log("");
+					console.log(`Open issues: ${result.openIssuesPath}`);
+				}
+				if (result.publishedSlug) {
+					console.log("");
+					console.log(
+						`After editing the published essay, record what you changed: produce harvest ${result.outputDir}`,
+					);
+				}
 			} else {
 				console.log("Status: ❌ FAILED");
 				console.log("");
@@ -445,6 +465,82 @@ async function promptIdeaSelection(ideas: EnrichedIdea[]): Promise<number | "sav
 
 	return selection as number;
 }
+
+program
+	.command("harvest")
+	.description(
+		"Record what was changed by hand after a run: diff final.md against the published essay, write human-edits.md, append to data/pipeline-feedback.jsonl",
+	)
+	.argument("<run>", "A run's output directory, or its name under ./output")
+	.option(
+		"-a, --article <slug>",
+		"Published slug, when it is not the slug of the run's final title",
+	)
+	.action((run: string, options: { article?: string }) => {
+		const outputDir =
+			existsSync(run) && statSync(run).isDirectory() ? resolve(run) : resolve("output", run);
+		const finalPath = join(outputDir, "final.md");
+		if (!existsSync(finalPath)) {
+			console.error(`Ingen final.md i ${outputDir}`);
+			process.exit(1);
+		}
+		const meta = existsSync(join(outputDir, "metadata.json"))
+			? (JSON.parse(readFileSync(join(outputDir, "metadata.json"), "utf-8")) as {
+					title?: string;
+					description?: string;
+				})
+			: {};
+		const finalMd = readFileSync(finalPath, "utf-8");
+		const producedTitle = meta.title ?? finalMd.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? "";
+		const slug = options.article ?? slugify(producedTitle);
+		const articlePath = join(findDataDir(), "articles", `${slug}.md`);
+		if (!existsSync(articlePath)) {
+			console.error(`Ingen publicerad essä på ${articlePath} — ange --article <slug>`);
+			process.exit(1);
+		}
+		const publishedMd = readFileSync(articlePath, "utf-8");
+		const { data } = parseFrontmatter(publishedMd);
+		const result = harvestEdits(finalMd, publishedMd);
+		const publishedTitle = typeof data.title === "string" ? data.title : undefined;
+		const publishedDescription =
+			typeof data.description === "string" ? data.description : undefined;
+		if (publishedTitle && producedTitle && publishedTitle !== producedTitle) {
+			result.titleChanged = { before: producedTitle, after: publishedTitle };
+		}
+		if (publishedDescription !== meta.description) {
+			result.descriptionChanged = { before: meta.description, after: publishedDescription };
+		}
+
+		writeFileSync(
+			join(outputDir, "human-edits.md"),
+			formatHarvest(result, publishedTitle ?? slug),
+			"utf-8",
+		);
+		const clip = (s: string) => (s.length > 400 ? `${s.slice(0, 400)}…` : s);
+		appendFileSync(
+			join(findDataDir(), "pipeline-feedback.jsonl"),
+			`${JSON.stringify({
+				type: "human-edits",
+				harvestedAt: new Date().toISOString(),
+				slug,
+				outputDir,
+				unchangedShare: Math.round(result.unchangedShare * 1000) / 1000,
+				paragraphsChanged: result.edits.length,
+				titleChanged: result.titleChanged ?? null,
+				descriptionChanged: result.descriptionChanged ?? null,
+				edits: result.edits.map((e) => ({
+					words: e.words,
+					before: clip(e.before),
+					after: clip(e.after),
+				})),
+			})}\n`,
+			"utf-8",
+		);
+		console.log(
+			`${slug}: ${result.edits.length} stycken ändrade för hand, ${Math.round(result.unchangedShare * 100)} % oförändrat`,
+		);
+		console.log(`  ${join(outputDir, "human-edits.md")}`);
+	});
 
 program
 	.command("status")

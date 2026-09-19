@@ -14,6 +14,12 @@ artikeltext:
   nyans-, sak- eller argumentförändring med `semanticRisk: true`.
 - Den deterministiska rapporten ger kandidater, inte order. Avvisa falska positiva fynd:
   »dom« kan exempelvis betyda domslut och en upprepning kan vara avsiktlig.
+- Rapportens HUSREGLER-fynd väger tyngst. Första person i essäns egen röst skrivs om till
+  opersonlig form (»Därför drar jag gränsen« → »Gränsen dras därför«); ett citat eller en
+  tänkt talare (»Invändningen ligger nära: jag röstar ju …«) får stå. »skarp*«, »hen« och
+  skolnamn skrivs bort. Sådana ändringar är `semanticRisk: false` när påståendet är detsamma.
+- Rätta också ord- och prepositionsfel som rapporten inte ser (»ställer villkor till« →
+  »ställer villkor för«); de gör inte mätvärdet sämre och godtas därför.
 - Jaga inte mätvärdet och tvinga inte in idiom, inversion eller kulturreferenser.
 - Rör aldrig rubriker, citat, siffror, datum, namn, hänvisningar, fotnoter eller kodblock.
 

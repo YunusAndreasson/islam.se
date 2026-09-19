@@ -46,11 +46,46 @@ export interface ClaudeRunOptions {
 	userContent?: string;
 }
 
+/** What the CLI reports about a finished run: which model(s) answered, and the cost. */
+export interface ClaudeRunMeta {
+	/** Every model that produced tokens. More than one means --fallback-model fired. */
+	models: string[];
+	costUsd?: number;
+	turns?: number;
+}
+
 interface ClaudeRunResult {
 	success: boolean;
 	output?: string;
 	error?: string;
 	exitCode?: number;
+	meta?: ClaudeRunMeta;
+}
+
+/** Read model usage from a CLI `result` object (--output-format json, or the stream's last event). */
+function runMetaFrom(result: unknown): ClaudeRunMeta | undefined {
+	if (!(result && typeof result === "object")) return undefined;
+	const r = result as {
+		modelUsage?: Record<string, unknown>;
+		total_cost_usd?: number;
+		num_turns?: number;
+	};
+	if (!r.modelUsage || typeof r.modelUsage !== "object") return undefined;
+	return {
+		models: Object.keys(r.modelUsage),
+		costUsd: typeof r.total_cost_usd === "number" ? r.total_cost_usd : undefined,
+		turns: typeof r.num_turns === "number" ? r.num_turns : undefined,
+	};
+}
+
+function metaFromStdout(stdout: string): ClaudeRunMeta | undefined {
+	const trimmed = stdout.trim();
+	if (!trimmed.startsWith("{")) return undefined;
+	try {
+		return runMetaFrom(JSON.parse(trimmed));
+	} catch {
+		return undefined;
+	}
 }
 
 /** Strips ANTHROPIC_API_KEY so the CLI authenticates with the logged-in Claude Code
@@ -126,6 +161,7 @@ export class ClaudeRunner extends EventEmitter {
 						success: true,
 						output: stdout.trim(),
 						exitCode: code ?? undefined,
+						meta: metaFromStdout(stdout),
 					});
 				} else {
 					const error = timedOut
@@ -191,6 +227,7 @@ export class ClaudeRunner extends EventEmitter {
 			let fullOutput = "";
 			let stderr = "";
 			let lineBuffer = "";
+			let meta: ClaudeRunMeta | undefined;
 
 			// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: streaming event parser with multiple format branches
 			child.stdout?.on("data", (data) => {
@@ -221,6 +258,7 @@ export class ClaudeRunner extends EventEmitter {
 
 						// Capture final result - could be in different formats
 						if (event.type === "result") {
+							meta = runMetaFrom(event) ?? meta;
 							// Structured output from --json-schema
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
@@ -253,6 +291,7 @@ export class ClaudeRunner extends EventEmitter {
 					try {
 						const event = JSON.parse(lineBuffer);
 						if (event.type === "result") {
+							meta = runMetaFrom(event) ?? meta;
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
 							} else if (!options.jsonSchema && event.result) {
@@ -272,6 +311,7 @@ export class ClaudeRunner extends EventEmitter {
 						success: true,
 						output: fullOutput.trim(),
 						exitCode: code ?? undefined,
+						meta,
 					});
 				} else {
 					const error = timedOut
@@ -544,6 +584,35 @@ export class ClaudeRunner extends EventEmitter {
 			promptContent += `\n\n${options.userContent}`;
 		}
 		return promptContent;
+	}
+
+	/**
+	 * Run for free text (the markdown stages) but ask the CLI for its JSON envelope, so the
+	 * result says which model answered. Unwraps `result` back to the text the stage parses.
+	 */
+	public async runText(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
+		const result = await this.run({ ...options, outputFormat: "json" });
+		if (!(result.success && result.output)) return result;
+		try {
+			const cli = JSON.parse(result.output) as {
+				result?: unknown;
+				is_error?: boolean;
+				subtype?: string;
+			};
+			if (cli.is_error) {
+				return {
+					success: false,
+					error:
+						typeof cli.result === "string" ? cli.result : `CLI error: ${cli.subtype ?? "unknown"}`,
+					exitCode: result.exitCode,
+					meta: result.meta,
+				};
+			}
+			if (typeof cli.result === "string") return { ...result, output: cli.result.trim() };
+		} catch {
+			// Not the JSON envelope (an older CLI): the output is already the text.
+		}
+		return result;
 	}
 
 	/**

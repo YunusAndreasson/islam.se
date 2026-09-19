@@ -60,7 +60,8 @@ import {
  *  angle returns confident noise. Write them as full phrases in the language of the text
  *  being searched, never as bare terms. */
 export interface CorpusAngles {
-	/** Swedish queries for quran.db — the stored translation is Bernström's Swedish. */
+	/** Swedish queries for quran.db. The search runs over Wennerström's scanned translation
+	 *  (`text_swedish`); what the brief prints is Bernström's (`text_bernstrom`). */
 	quran: string[];
 	/** Thematic English queries for the Arabic classics in books.db. */
 	arabic: string[];
@@ -242,7 +243,9 @@ export async function buildCorpusBrief(input: CorpusBriefInput): Promise<CorpusB
 	for (const ref of input.pinnedVerses ?? []) {
 		const m = /^(\d{1,3}):(\d{1,3})$/.exec(ref.trim());
 		const verse = m ? getVerse(Number(m[1]), Number(m[2])) : null;
-		if (verse) pinnedVerses.push(verse);
+		// A verse the scan never had (16:69, 25:30, 26:54) is a row with empty text; with no
+		// Bernström either it is as absent as a bad reference.
+		if (verse && verseText(verse)) pinnedVerses.push(verse);
 		else missing.push(ref);
 	}
 
@@ -277,16 +280,20 @@ function tidyArabic(text: string): string {
 
 const oneLine = (s: string): string => s.replace(/\s+/g, " ").trim();
 
-/** ⚠️ The Swedish verse text in quran.db comes from a scan of the print edition and is
- *  NOT clean: words are split at the original line breaks ("dött rar" for döttrar,
- *  "kvinn folk" for kvinnfolk, "kläd nad" for klädnad) and Bernström's inline glosses are
- *  appended to the verse body, each opening with a repeat of the phrase it glosses.
- *
- *  Only the trailing translation sigla are stripped here. Rejoining split words would
- *  mean guessing where a space is legitimate, and a wrong guess corrupts scripture — so
- *  the rest is flagged for the author to repair against a clean source instead. */
+/** ⚠️ `text_swedish` in quran.db is NOT Bernström: it is Wennerström's translation from
+ *  a scan of the print edition, with glosses that were glued onto the verse. This comment
+ *  and the brief used to call it Bernström's. Since 2026-09-19 the table carries Bernström's
+ *  published text in `text_bernstrom` (scripts/quran-db.py), and that is what the brief
+ *  prints. The scan is only a fallback, marked as such, for a verse Bernström lacks. */
 function tidyVerse(text: string): string {
 	return oneLine(text).replace(/\s*\((?:[TBKÖ][^)]{0,12})\)\s*$/u, "");
+}
+
+function verseText(v: StoredVerse): string {
+	const bernstrom = v.textBernstrom?.trim();
+	if (bernstrom) return oneLine(bernstrom);
+	const scan = tidyVerse(v.textSwedish ?? "");
+	return scan ? `(ej Bernström — skannad text, citera inte) ${scan}` : "";
 }
 
 /** Render each angle's group with its own ranking intact. */
@@ -332,19 +339,16 @@ räkna med att en hel grupp kan vara oanvändbar.
 
 Dessa verser är ämnets loci classici och SKA behandlas i texten.
 
-⚠️ CITERA INTE VERSTEXTEN NEDAN ORDAGRANT. Den är inläst ur den tryckta utgåvan och
-bär spår av det: ord är delade vid den ursprungliga radbrytningen (»dött rar« för
-döttrar, »kvinn folk« för kvinnfolk, »kläd nad« för klädnad), och Bernströms
-förklarande noter ligger inklistrade efter versen, var och en inledd med en upprepning
-av det uttryck den förklarar. Hämta den rena lydelsen från
-quran.com/<sura>/<vers>?translations=48 (samma Bernström-översättning som svarssidorna
-länkar) innan du sätter ett blockcitat.
+Verstexten nedan är Knut Bernströms översättning, ordagrant ur quran.com
+(translations=48, samma som svarssidorna länkar). Den får citeras som den står; korta bara
+vid en meningsgräns och markera med […]. En vers märkt »ej Bernström« saknar husets
+lydelse och får inte sättas som blockcitat.
 
 ${brief.pinned.verses
 	.map(
 		(v) =>
 			`### ${v.surahNameSwedish} ${v.surahNumber}:${v.verseNumber}
-${tidyVerse(v.textSwedish)}`,
+${verseText(v)}`,
 	)
 	.join("\n\n")}
 ${
@@ -361,7 +365,7 @@ ${renderGroups(
 	brief.verses,
 	(v) =>
 		`### ${v.surahNameSwedish} ${v.surahNumber}:${v.verseNumber}
-${tidyVerse(v.textSwedish)}`,
+${verseText(v)}`,
 	"verser",
 )}
 `);

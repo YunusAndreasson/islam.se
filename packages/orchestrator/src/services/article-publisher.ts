@@ -276,7 +276,10 @@ export class ArticlePublisher {
 
 		let body = content.replace(/^#\s+.+\n+/, "");
 		body = this.normalizeFootnotes(body);
-		const description = this.getDescription(body);
+		// ⚠️ The pipeline's own description first. Cutting one from the body's opening
+		// sentences put the same ~270 characters twice on the page (30 of 61 essays): the
+		// fallback stays only for a caller that has none, and the essay pipeline flags that.
+		const description = metadata?.description?.trim() || this.getDescription(body);
 
 		const article: PublishedArticle = {
 			slug,

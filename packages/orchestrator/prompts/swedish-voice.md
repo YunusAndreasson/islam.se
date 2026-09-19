@@ -404,20 +404,21 @@ Skriv som Strindberg i sina brev: direkt, muskulöst, utan omsvep. Inte som en e
 </lagom_principle>
 
 <output_format>
-Output a frontmatter block with JSON metadata between --- markers, followed by the complete article body:
+Returnera ENDAST ett frontmatter-block med JSON mellan ---. Returnera INTE artikeltexten:
+koden byter varje `original` mot sin `correction`, och en rättelse du inte listar sker inte.
 
 ---
 {
   "verdict": "clean|corrected",
-  "correctedTitle": "Only if title was changed — the new title",
-  "correctedDescription": "Only if description was changed — the new description",
+  "correctedTitle": "Bara om titeln ändrats — den nya titeln",
+  "correctedDescription": "Bara om ingressen ändrats — den nya ingressen",
   "issuesFound": [
     {
       "type": "anglicism|rhetoric|repetition|overexplain|rhythm|idiom|hedging|connector|abstraction|nonexistent-word|gender|preposition|ai-phrase|inte-utan|vocabulary|attribution|convergence|em-dash|den-som|koranen-subject|modernity-strawman",
-      "location": "Section heading or paragraph reference (use 'Titel' or 'Ingress' for those)",
-      "original": "The exact text that was changed",
-      "correction": "The replacement text",
-      "reason": "Brief explanation of what made it sound non-Swedish or which pattern it fixes"
+      "location": "Avsnittets rubrik eller stycke (skriv 'Titel' eller 'Ingress' för dem)",
+      "original": "Den exakta texten som ändras — en hel mening eller sats, ordagrant ur texten och unik där",
+      "correction": "Samma textstycke som det ska lyda efter rättelsen",
+      "reason": "Kort: vad som lät osvenskt eller vilket mönster det åtgärdar"
     }
   ],
   "patternCounts": {
@@ -426,17 +427,17 @@ Output a frontmatter block with JSON metadata between --- markers, followed by t
     "emDashMax": { "before": 5, "after": 2 },
     "koranenSubject": { "before": 6, "after": 3 }
   },
-  "summary": "Brief summary: what patterns were found across all three layers, what was changed, overall assessment of how Swedish the text sounds"
+  "summary": "Kort sammanfattning: vilka mönster du fann i de tre lagren, vad du ändrade, hur svensk texten låter"
 }
 ---
 
-The complete article body with all fixes applied...
-
-If the article sounds naturally Swedish (no issues found), set verdict to "clean", issuesFound to [], and return the body unchanged.
+Om texten redan låter naturligt svensk: verdict "clean" och issuesFound [].
 </output_format>
 
 <output_instruction>
-Your output must be ONLY the frontmatter block and article body — nothing else. No preamble, no commentary, no drafting notes. Do all analysis in your internal thinking.
+Din output är BARA frontmatter-blocket – ingen inledning, ingen kommentar, ingen artikeltext. Gör all analys i ditt interna tänkande.
 
-Your output starts with --- on the first line, followed by valid JSON metadata, then ---, then the complete article body (everything after the article's original frontmatter). Nothing before the opening ---.
+Den börjar med --- på första raden och slutar med den avslutande ---.
+
+`original` kopieras tecken för tecken ur texten. Ett enstaka ord räcker inte – det finns oftast på flera ställen; ta med hela satsen så att strängen bara finns en gång. Poster med location 'Titel' eller 'Ingress' ändrar inte brödtexten; lägg den nya lydelsen i `correctedTitle` eller `correctedDescription`.
 </output_instruction>

@@ -1,9 +1,9 @@
 import { spawnSync } from "node:child_process";
-import { appendFileSync, existsSync, mkdirSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { getQuote } from "@islam-se/quotes";
-import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
+import { getBernstromRange, getQuote, resolveSurahNumber } from "@islam-se/quotes";
+import { type ClaudeRunMeta, ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
 import { applyCodexTicAudit, type CodexTicAudit, CodexTicAuditor } from "./codex-tic-audit.js";
 import {
 	formatBlockedDomainsPrompt,
@@ -15,6 +15,7 @@ import {
 	updateDomainTracker,
 } from "./domain-tracker.js";
 import { applyFigure, findFigureCandidates } from "./figure-guard.js";
+import { checkHouseRules, formatHouseFindings, type HouseFinding } from "./house-checks.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
 	DeepenFrontmatterSchema,
@@ -34,6 +35,15 @@ import {
 import { ArticlePublisher, findDataDir } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
 import { SourceValidator } from "./source-validator.js";
+import { newMisspellings } from "./spellguard.js";
+import {
+	applyTextPatches,
+	describePatch,
+	isCosmeticRewrite,
+	measureRewrite,
+	type PatchRejection,
+	type TextPatch,
+} from "./text-patches.js";
 import {
 	createLogger,
 	formatDuration,
@@ -51,10 +61,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 /**
- * Composite-issue count (from scripts/evaluate-article.py) above which the
- * eval-correction pass runs. The hand-edited gold standard averages ~10.4
- * issues/article (repetitions are inherent noise); 12 leaves headroom so we
- * only intervene on articles meaningfully worse than a typical edited one.
+ * Composite-issue count (from scripts/evaluate-article.py) above which the fördjupning
+ * producer's eval-correction pass runs. The hand-edited gold standard averages ~10.4
+ * issues/article (repetitions are inherent noise); 12 leaves headroom.
+ *
+ * ⚠️ The essay pipeline no longer gates on this total. On the runs of 2026-08/09 the
+ * total was 13–31 and 93–100 % of it was the repetition count, which the second-model
+ * audit rightly calls intentional motifs; anglicisms, latinisms and AI patterns were
+ * already 0 by then. So every essay crossed the threshold and the number told nothing.
+ * Essays gate on `actionableIssues` (the total without repetitions) plus the house
+ * checks instead — see produce().
  */
 const EVAL_CORRECTION_THRESHOLD = 12;
 
@@ -66,6 +82,8 @@ function findEvalScript(): string | null {
 
 export interface ProseEvalResult {
 	totalIssues: number;
+	/** totalIssues without the repetition check, which is mostly intentional motif. */
+	actionableIssues: number;
 	/** Human-readable per-dimension report — fed verbatim to the corrective prompt. */
 	report: string;
 }
@@ -88,16 +106,21 @@ function evaluateProse(filePath: string, scriptPath: string): ProseEvalResult | 
 		if (jsonRun.status !== 0) return null;
 
 		let totalIssues: number;
+		let repetitions: number;
 		try {
-			const parsed = JSON.parse(jsonRun.stdout) as Array<{ total_issues?: number }>;
+			const parsed = JSON.parse(jsonRun.stdout) as Array<{
+				total_issues?: number;
+				checks?: { repetitions?: { count?: number } };
+			}>;
 			totalIssues = parsed[0]?.total_issues ?? 0;
+			repetitions = parsed[0]?.checks?.repetitions?.count ?? 0;
 		} catch {
 			return null;
 		}
 
 		const reportRun = spawnSync(python, [scriptPath, filePath], opts);
 		const report = reportRun.status === 0 ? reportRun.stdout.trim() : "";
-		return { totalIssues, report };
+		return { totalIssues, actionableIssues: Math.max(0, totalIssues - repetitions), report };
 	}
 	return null;
 }
@@ -135,24 +158,52 @@ export function evaluateProseText(opts: {
 	return evaluateProse(filePath, scriptPath);
 }
 
+/** A quote id the database can answer for: "quote-123" or "123". Research also invents
+ *  ids for web and primary-text quotes ("primary-ibn-taymiyya-35-39"); those are not. */
+export function isDatabaseQuoteId(id: string): boolean {
+	return /^(?:quote-)?\d+$/.test(String(id).trim());
+}
+
 /**
  * Format research output for fact-checking — structured sections instead of raw JSON.
- * Includes quote IDs and short excerpts; fact-checker uses MCP tools for deeper lookup.
+ *
+ * ⚠️ Database quotes get an excerpt (the checker looks them up by id); every other quote
+ * gets its FULL text, because nothing else will ever show the checker the words past
+ * character 120 — and about half the quotes on the 2026-09 runs were web or primary-text
+ * quotes of 150–270 characters.
+ *
+ * ⚠️ Datasets are listed here or nowhere. The prompt asks for one `datasetChecks` verdict
+ * per dataset, but this formatter used to omit them, so every run returned
+ * `datasetChecks: []` and every dataset was dropped before the figures stage (»Sorgen vid
+ * Nilen« lost four: SCB, Kvartal, SVT, Järva).
  */
-function formatResearchForFactCheck(research: ResearchOutput): string {
+export function formatResearchForFactCheck(research: ResearchOutput): string {
 	const sections: string[] = [];
 
 	sections.push(`## Developed Angle\n${research.summary}`);
 
-	if (research.quotes.length > 0) {
-		const formatted = research.quotes
+	const dbQuotes = research.quotes.filter((q) => isDatabaseQuoteId(q.id));
+	const otherQuotes = research.quotes.filter((q) => !isDatabaseQuoteId(q.id));
+	if (dbQuotes.length > 0) {
+		const formatted = dbQuotes
 			.map((q) => {
 				const excerpt = q.text.length > 120 ? `${q.text.slice(0, 120)}…` : q.text;
 				return `- [${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${excerpt}"`;
 			})
 			.join("\n");
 		sections.push(
-			`## Quotes (${research.quotes.length}) — verify attributions with get_quote_by_id\n${formatted}`,
+			`## Database quotes (${dbQuotes.length}) — verify attributions with get_quote_by_id\n${formatted}`,
+		);
+	}
+	if (otherQuotes.length > 0) {
+		const formatted = otherQuotes
+			.map((q) => {
+				const sv = q.textSv && q.textSv !== q.text ? `\n  Swedish: "${q.textSv}"` : "";
+				return `- [${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${q.text}"${sv}`;
+			})
+			.join("\n");
+		sections.push(
+			`## Quotes NOT in the database (${otherQuotes.length}) — their ids are labels, not lookups; check each against its source (WebFetch, search_books, the briefing)\n${formatted}`,
 		);
 	}
 
@@ -188,7 +239,47 @@ function formatResearchForFactCheck(research: ResearchOutput): string {
 		);
 	}
 
+	const datasets = research.datasets ?? [];
+	if (datasets.length > 0) {
+		const formatted = datasets
+			.map((d) => {
+				const header = d.columns.length > 0 ? `  columns: ${d.columns.join(" | ")}\n` : "";
+				const rows = d.rows.map((r) => `  - ${r.label}: ${r.values.join(" | ")}`).join("\n");
+				return `- [${d.id}] ${d.question} (${d.unit})\n  source: ${d.source}${d.sourceUrl ? ` — ${d.sourceUrl}` : " (no link)"}; retrieved ${d.retrieved}${d.note ? `\n  note: ${d.note}` : ""}\n${header}${rows}`;
+			})
+			.join("\n");
+		sections.push(
+			`## Datasets (${datasets.length}) — one datasetChecks verdict per id; an unlisted dataset is dropped\n${formatted}`,
+		);
+	}
+
 	return sections.join("\n\n");
+}
+
+/**
+ * Quran references for the author and the reviewer, Bernström first.
+ *
+ * ⚠️ research.quranReferences[].text comes from quran.db, a scan of another translation
+ * with the translator's glosses glued on, and the author was told to translate every
+ * non-Swedish quote itself. The essays then quoted three different texts (87 blockquotes
+ * across 62 essays match no Bernström verse) while the svar and fördjupning pages quote
+ * Bernström verbatim. On »Marknaden i raden« fact-check verified 4:85 against the
+ * database text, and the verse that shipped was a new rendering tuned to the thesis. The
+ * house text is now handed over as the text to quote.
+ */
+export function formatQuranReferences(
+	refs: ResearchOutput["quranReferences"],
+	audience: "author" | "reviewer" = "author",
+): string {
+	const lines = refs.map((q) => {
+		const where = `${q.surah}${q.verseKey ? ` (${q.verseKey})` : ` ${q.ayah}`}`;
+		const note = `\n  Research note (not a quotable translation): "${q.text}"`;
+		if (q.bernstrom) return `- ${where} — Bernström, quote verbatim: "${q.bernstrom}"${note}`;
+		return audience === "author"
+			? `- ${where} — no Bernström text was found: do not set this verse as a blockquote; refer to it in prose.${note}`
+			: `- ${where} — no Bernström text on file: check any blockquote of this verse against quran.com/<sura>/<vers>?translations=48.${note}`;
+	});
+	return `## QURAN REFERENCES\nA Quran blockquote is Bernström's wording, verbatim; shorten only at a sentence boundary with […].\n${lines.join("\n")}`;
 }
 
 export type StageName =
@@ -247,10 +338,17 @@ export interface OrchestratorOptions {
 }
 
 export type StageResult<T = unknown> =
-	| { success: true; data: T; error?: undefined; duration?: number }
+	| { success: true; data: T; error?: undefined; duration?: number; meta?: ClaudeRunMeta }
 	// `output` is the model's raw text. It is already populated on a parse failure;
 	// exposing it lets callers checkpoint a stage they cannot parse instead of losing it.
-	| { success: false; error: string; data?: T; duration?: number; output?: string };
+	| {
+			success: false;
+			error: string;
+			data?: T;
+			duration?: number;
+			output?: string;
+			meta?: ClaudeRunMeta;
+	  };
 
 export interface ResearchOutput {
 	topic: string;
@@ -258,7 +356,11 @@ export interface ResearchOutput {
 	quranReferences: Array<{
 		surah: string;
 		ayah: string;
+		/** "4:85" or "30:31-32". Resolved from the surah name when research omits it. */
+		verseKey?: string;
 		text: string;
+		/** Knut Bernström's wording, filled in by the orchestrator — the text to quote. */
+		bernstrom?: string;
 	}>;
 	quotes: Array<{
 		id: string;
@@ -341,6 +443,8 @@ export interface FiguresOutput {
 
 export interface DraftOutput {
 	title: string;
+	/** The deck under the title. Written by the author, revisable by review and Swedish voice. */
+	description?: string;
 	body: string;
 	wordCount?: number;
 	reflection?: string;
@@ -355,13 +459,26 @@ export interface ReviewOutput {
 	strengths?: string[];
 	issues?: string[];
 	revisedText?: string | null;
+	/** Only when the reviewer rewrote the description. */
+	description?: string;
 }
 
-export interface PolishOutput {
+/**
+ * The four post-review stages return patches; the code applies them to the text it sent.
+ * `body` is that result, so callers that only read `.body` work unchanged, and `rejected`
+ * lists what the guards refused (see text-patches.ts).
+ */
+interface PatchedStage {
+	body: string;
+	rejected?: PatchRejection[];
+}
+
+export interface PolishOutput extends PatchedStage {
 	sectionScores: string;
 	strongestSentence: string;
 	weakestSentence: string;
-	body: string;
+	patches: TextPatch[];
+	/** One line per applied patch — what the old full-body format called `edits`. */
 	edits: string;
 }
 
@@ -402,6 +519,7 @@ export interface SwedishVoiceOutput {
 	patternCounts?: Record<string, { before: number | string; after: number | string }>;
 	summary: string;
 	body: string;
+	rejected?: PatchRejection[];
 }
 
 export interface GroundOutput {
@@ -415,6 +533,7 @@ export interface GroundOutput {
 	}>;
 	summary: string;
 	body: string;
+	rejected?: PatchRejection[];
 }
 
 export interface DeepenOutput {
@@ -436,6 +555,7 @@ export interface DeepenOutput {
 	changesCount: number;
 	summary: string;
 	body: string;
+	rejected?: PatchRejection[];
 }
 
 export interface EvalCorrectionOutput {
@@ -469,6 +589,8 @@ export interface ProductionResult {
 	bibliography?: string;
 	totalDuration?: number;
 	publishedSlug?: string;
+	/** The editor's list of what no gate resolved (see writeOpenIssues). */
+	openIssuesPath?: string;
 }
 
 export interface IdeaContext {
@@ -483,6 +605,35 @@ export interface IdeaBrief {
 	keywords: string[];
 	difficulty: "standard" | "challenging" | "expert";
 	seedQuotes?: Array<{ text: string; author: string; source?: string }>;
+	/**
+	 * Hard editorial requirements: what the essay must not do. Unlike thesis and angle,
+	 * which are direction the author may deviate from, these decide whether the essay can
+	 * be published, and every stage that edits text sees them. See splitBriefRequirements.
+	 */
+	requirements?: string;
+}
+
+/**
+ * Pull the hard requirements out of a brief's angle.
+ *
+ * The hand-written briefs carry them inside `angle`, after a marker line such as
+ * »⚠️ KRAV SOM AVGÖR OM SIDAN DUGER.« Left there, they reached only research and the
+ * author — and the author read the whole angle under the heading »creative compass, not
+ * handcuffs — deviate where the material demands it«. An explicit `requirements` field
+ * wins; otherwise the marker splits the angle.
+ */
+export function splitBriefRequirements(brief: Pick<IdeaBrief, "angle" | "requirements">): {
+	angle: string;
+	requirements?: string;
+} {
+	if (brief.requirements?.trim())
+		return { angle: brief.angle, requirements: brief.requirements.trim() };
+	const marker = brief.angle.search(/(?:⚠️\s*)?KRAV SOM AVGÖR/);
+	if (marker === -1) return { angle: brief.angle };
+	return {
+		angle: brief.angle.slice(0, marker).trim(),
+		requirements: brief.angle.slice(marker).trim(),
+	};
 }
 
 /**
@@ -497,6 +648,21 @@ export interface IdeaBrief {
  */
 const MIN_ESSAY_FINAL_SCORE = 8;
 
+/**
+ * Ground may add at most two sentences, and none that opens with the formula its old
+ * example taught: of 111 additions across the runs to 2026-09, 54 began »Det är«, 13
+ * »Den som« and 6 »Det vet den som« — the very openers Swedish voice counts as an AI
+ * pattern. Two essays in a row got someone standing »i hallen«.
+ */
+const GROUND_MAX_ADDITIONS = 2;
+const GROUND_FORMULA = /^(det är|den som|det vet|som när|så ser det ut)\b/i;
+
+/** Patch veto for the language stages: a correction may not make a known word unknown. */
+function vetMisspelling(patch: TextPatch): string | undefined {
+	const bad = newMisspellings(patch.original, patch.replacement);
+	return bad && bad.length > 0 ? `introduces unknown word(s): ${bad.join(", ")}` : undefined;
+}
+
 /** A numeric score never overrides the fact-checker's explicit safety verdict. */
 export function factCheckPassed(factCheck: FactCheckOutput, threshold: number): boolean {
 	return factCheck.verdict === "pass" && factCheck.overallCredibility >= threshold;
@@ -507,9 +673,18 @@ export function reviewPassed(review: ReviewOutput): boolean {
 	return review.verdict === "publish" && review.finalScore >= MIN_ESSAY_FINAL_SCORE;
 }
 
-/** A post-review rewrite is only worth its drift risk when the measured result improves. */
-export function proseCorrectionImproved(before: number, after: number | undefined): boolean {
-	return after !== undefined && after < before;
+/**
+ * Accept a guarded correction when the measured result is no worse.
+ *
+ * ⚠️ This used to demand a strict improvement, and the evaluator cannot see word choice:
+ * the Codex audit's correct fixes »ställer sina villkor till den som röstar« → »för«
+ * (»Sorgen vid Nilen«) and »samstämmighet i hemort« → »gemensam hemort« (»Rösten är ingen
+ * belöning«) left the count unchanged, were discarded, and shipped. The patches are
+ * already filtered to high-confidence, meaning-safe, protected-content-safe edits, so
+ * »not worse« is the right bar.
+ */
+export function proseCorrectionAcceptable(before: number, after: number | undefined): boolean {
+	return after !== undefined && after <= before;
 }
 
 /** Populate the transient bibliography from persisted research checkpoints. */
@@ -541,6 +716,15 @@ export class ContentOrchestrator {
 	private validator: SourceValidator;
 	private references: ReferenceTracker;
 	private logger: ReturnType<typeof createLogger>;
+	/** Hard requirements of the brief being produced (see splitBriefRequirements). */
+	private requirements?: string;
+	/** Every Claude call of the current run: which model answered and what it cost. */
+	private stageRuns: Array<{ stage: string; durationMs?: number } & ClaudeRunMeta> = [];
+	/** Things no gate resolved, collected for open-issues.md. */
+	private openIssues: Array<{ section: string; text: string }> = [];
+	private houseRulesCache?: string;
+	/** run.log of the production in progress; the logger appends every line to it. */
+	private logFile?: string;
 	private options: Required<
 		Omit<OrchestratorOptions, "onPreview" | "onStageChange" | "promptOverrides">
 	> &
@@ -567,7 +751,50 @@ export class ContentOrchestrator {
 			promptOverrides: options.promptOverrides,
 			sourceDocs: options.sourceDocs ?? [],
 		};
-		this.logger = createLogger(this.options.quiet);
+		this.logger = createLogger(this.options.quiet, () => this.logFile);
+	}
+
+	/** The house rules (prompts/house-rules.md), appended to every stage that writes text. */
+	private houseRules(): string {
+		if (this.houseRulesCache === undefined) {
+			const path = join(this.promptsDir, "house-rules.md");
+			this.houseRulesCache = existsSync(path) ? `\n\n${readFileSync(path, "utf-8").trim()}` : "";
+		}
+		return this.houseRulesCache;
+	}
+
+	/**
+	 * The brief's hard requirements, for every stage that edits text. They used to reach
+	 * research and the author only, so the passes after review never saw »INGEN
+	 * SEKULARISTISK GRUND« or »INGEN RÖSTREKOMMENDATION«.
+	 */
+	private requirementsBlock(): string {
+		if (!this.requirements) return "";
+		return `\n\n<hard_requirements source="brief">\nThese decide whether the essay can be published. They outrank style, rhythm and every other instruction; an edit that would break one is not made.\n\n${this.requirements}\n</hard_requirements>`;
+	}
+
+	private noteOpenIssue(section: string, text: string): void {
+		this.openIssues.push({ section, text });
+	}
+
+	/**
+	 * Record which model answered a stage. `--fallback-model sonnet` swaps silently when
+	 * Opus is overloaded, and nothing in a run said whether the essay's author was the
+	 * model it was meant to be.
+	 */
+	private recordRun(stage: string, meta: ClaudeRunMeta | undefined, durationMs?: number): void {
+		if (!meta) return;
+		this.stageRuns.push({ stage, durationMs, ...meta });
+		const requested = getModelId(this.options.model);
+		const fallback = getModelId("sonnet");
+		const fellBack =
+			!meta.models.includes(requested) ||
+			(requested !== fallback && meta.models.includes(fallback));
+		if (fellBack) {
+			const note = `${stage}: besvarades av ${meta.models.join(", ")} (begärd ${requested})`;
+			this.logger.warn(`   ⚠️  Reservmodell: ${note}`);
+			this.noteOpenIssue("Reservmodell", note);
+		}
 	}
 
 	/** The briefing block for a stage prompt, or "" when no documents were supplied.
@@ -663,6 +890,7 @@ export class ContentOrchestrator {
 				error?: string;
 				data?: T;
 				exitCode?: number;
+				meta?: ClaudeRunMeta;
 			};
 
 			if (useStreaming) {
@@ -675,18 +903,21 @@ export class ContentOrchestrator {
 				});
 
 				if (streamResult.success && streamResult.output) {
-					result =
-						isMarkdown && markdownMode
+					result = {
+						...(isMarkdown && markdownMode
 							? this.parseMarkdownResult(streamResult, markdownMode)
-							: this.parseJsonResult(streamResult, options.schema);
+							: this.parseJsonResult(streamResult, options.schema)),
+						meta: streamResult.meta,
+					};
 				} else {
 					result = streamResult;
 				}
 			} else if (isMarkdown && markdownMode) {
-				// Markdown mode: raw run, parse frontmatter+body
-				const rawResult = await this.runner.run(runOptions);
+				// Markdown mode: a text run inside the CLI's JSON envelope (for the model
+				// record), then parse frontmatter+body
+				const rawResult = await this.runner.runText(runOptions);
 				if (rawResult.success && rawResult.output) {
-					result = this.parseMarkdownResult(rawResult, markdownMode);
+					result = { ...this.parseMarkdownResult(rawResult, markdownMode), meta: rawResult.meta };
 				} else {
 					result = rawResult;
 				}
@@ -695,11 +926,13 @@ export class ContentOrchestrator {
 				result = await this.runner.runJSON<T>(runOptions, options.schema);
 			}
 
+			this.recordRun(options.name, result.meta, Date.now() - startTime);
 			if (result.success && result.data) {
 				return {
 					success: true,
 					data: result.data,
 					duration: Date.now() - startTime,
+					meta: result.meta,
 				};
 			}
 
@@ -904,21 +1137,22 @@ export class ContentOrchestrator {
 		const quoteVerifyStart = Date.now();
 		const rawQuotes = rawResult.data.quotes || [];
 		let verifiedCount = 0;
-		for (const quote of rawQuotes) {
+		// Web and primary-text quotes carry label ids ("primary-ibn-taymiyya-35-39"). They
+		// are not errors — fact-check reads them in full against their source — so they are
+		// counted on one line instead of a warning each.
+		const outsideDb = rawQuotes.filter((q) => !isDatabaseQuoteId(q.id));
+		for (const quote of rawQuotes.filter((q) => isDatabaseQuoteId(q.id))) {
 			const numericId = Number.parseInt(String(quote.id).replace(/^quote-/, ""), 10);
-			if (Number.isNaN(numericId)) {
-				this.logger.log(`   - ⚠️  Quote has invalid ID: ${quote.id}`);
+			if (getQuote(numericId)) {
+				verifiedCount++;
 			} else {
-				const dbQuote = getQuote(numericId);
-				if (dbQuote) {
-					verifiedCount++;
-				} else {
-					this.logger.log(`   - ⚠️  Quote ID ${quote.id} not found in database`);
-				}
+				this.logger.log(`   - ⚠️  Quote ID ${quote.id} not found in database`);
 			}
 		}
 		if (rawQuotes.length > 0) {
-			this.logger.log(`   - Verified ${verifiedCount}/${rawQuotes.length} quotes against database`);
+			this.logger.log(
+				`   - Verified ${verifiedCount}/${rawQuotes.length - outsideDb.length} database quotes; ${outsideDb.length} from web or primary texts go to fact-check in full`,
+			);
 		}
 		const quoteVerifyDuration = Date.now() - quoteVerifyStart;
 
@@ -964,7 +1198,12 @@ export class ContentOrchestrator {
 
 		const blocklist = formatBlockedDomainsPrompt(getBlockedDomains(loadDomainTracker()));
 
-		const suggestedAuthors = pickSwedishAuthors(4);
+		// ⚠️ No random Swedish authors here any more. pickSwedishAuthors() named four at
+		// random regardless of the angle, and the author stage then either forced one in
+		// (the reviewer cut Geijer from »Marknaden i raden«) or had to refuse (»Runeberg,
+		// Bergman och Levertin fanns inte i forskningsmaterialet och jag vägrade uppfinna
+		// citat«). An angle picks its own voices; runResearch() keeps the suggestion for a
+		// bare topic, where there is no angle to follow.
 		let systemPrompt = `Topic: ${idea.thesis}
 
 <context>
@@ -977,8 +1216,9 @@ Suggested keywords: ${idea.keywords.join(", ")}
 
 <guidance>
 Find the best material for this specific angle:
-- Quotes from scholars/authors — for Swedish voices, consider ${suggestedAuthors.join(", ")} alongside others
-- Quran verses relevant to the angle
+- Quotes from scholars/authors, including Swedish voices where the angle calls for them
+- For a classical Arabic source, search_books can filter by book and search the exact Arabic phrase (mode "text"); give volume:page from its \`page\` field when it has one
+- Quran verses relevant to the angle, with the numeric verseKey ("4:85")
 - Book passages for extended context
 - Web sources for contemporary perspectives
 
@@ -1001,6 +1241,7 @@ These quotes were pre-found during ideation as a starting point. Use them if rel
 ${formatted}
 </seed_material>`;
 		}
+		systemPrompt += this.requirementsBlock();
 
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
 		const result = await this.executeClaudeStage<ResearchOutput>({
@@ -1085,14 +1326,15 @@ IMPORTANT WebFetch limitations:
 		const systemPrompt = `Research data to review:\n${formatResearchForFactCheck(research)}
 
 <review_guidance>
-Score fairly based on what you can actually verify:
-- Claims backed by database quotes (with IDs) are pre-verified — count them as verified
+Score what you find, on the scoring guide — not toward the pass mark:
+- Only quotes with numeric ids (quote-12345) come from the database, and get_quote_by_id settles those. Every other id is a label research invented for a web or primary-text quote; check its wording against its source, and never count it as pre-verified
 - Claims from web sources you can fetch and confirm are verified
 - Claims you cannot independently verify are NOT automatically unverified — they may simply be common scholarly knowledge
 - Only mark claims "unverified" if you find contradicting evidence or the claim is extraordinary and unsourced
-- The threshold to pass is ${this.options.qualityThreshold} — award that score if the research has no fabrications and reasonable sourcing
+- In verifiedClaims, put in \`notes\` what the author will need to cite: the exact wording you confirmed, edition and number, volume:page, the URL you read. The author sees these notes; nobody else will find them again
+- Recommendations and missing perspectives must respect the house rules and any hard requirements below: never recommend shia, sufi or modernist "balance", or material a requirement excludes. If a requirement leaves a factual risk, name the risk instead
 - WebFetch cannot read PDFs (.pdf) or JS-rendered sites (litteraturbanken.se)${this.briefingNote()}
-</review_guidance>${reputation}`;
+</review_guidance>${reputation}${this.houseRules()}${this.requirementsBlock()}`;
 
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
 		const result = await this.executeClaudeStage<FactCheckOutput>({
@@ -1245,14 +1487,18 @@ ${recommendations}
 					"Write for specialists. Use technical vocabulary freely. The value is in the original synthesis, not in explaining established concepts.",
 			};
 
+			// ⚠️ Direction and requirements are split. Both used to arrive as one »angle« under
+			// »creative compass, not handcuffs — deviate where the material demands it«, which
+			// told the author that »INGEN RÖSTREKOMMENDATION« was negotiable.
+			const { angle } = splitBriefRequirements(ideaBrief);
 			systemPrompt += `## CREATIVE DIRECTION
-This is your creative compass, not handcuffs — deviate where the material demands it.
+Thesis and angle are your creative compass, not handcuffs — deviate where the material demands it. The HARD REQUIREMENTS further down are not direction: they are not negotiable.
 
 **Working title** (improve it if you find something sharper): ${ideaBrief.title}
 
 **Thesis:** ${ideaBrief.thesis}
 
-**Angle:** ${ideaBrief.angle}
+**Angle:** ${angle}
 
 **Register:** ${difficultyGuidance[ideaBrief.difficulty] ?? difficultyGuidance.standard}
 
@@ -1273,7 +1519,7 @@ Key requirements:
 - Let quotes and passages earn their place
 - Reference the Quran where relevant
 - Let classical Islamic scholars shine
-- Swedish/Western authors strengthen the Islamic stance — for this article, consider weaving in ${pickSwedishAuthors(3).join(", ")} if the research material includes them
+- Swedish/Western authors strengthen the Islamic stance — when the research has one that genuinely illuminates the argument, never as a checkbox
 - Use markdown blockquotes and footnotes
 - Write natural Swedish prose — avoid anglicisms like "i termer av", "adressera", "baserat på", calque constructions. Prefer Swedish idiom and rhythm (Axess/Respons register).${this.briefingNote()}`;
 
@@ -1289,12 +1535,8 @@ Key requirements:
 			systemPrompt += `\n\n## QUOTES\n${formatted}`;
 		}
 
-		// Format Quran references readably
 		if (research.quranReferences.length > 0) {
-			const formatted = research.quranReferences
-				.map((q) => `- ${q.surah} ${q.ayah}: "${q.text}"`)
-				.join("\n");
-			systemPrompt += `\n\n## QURAN REFERENCES\n${formatted}`;
+			systemPrompt += `\n\n${formatQuranReferences(research.quranReferences)}`;
 		}
 
 		// Format book passages with full text for weaving in
@@ -1322,6 +1564,21 @@ ${formatted}`;
 			systemPrompt += `\n\n## WEB SOURCES (for footnotes)\n${formatted}`;
 		}
 
+		// ⚠️ What the fact-checker CONFIRMED, with how. Only the flags used to be passed on,
+		// so the wording, edition numbers and URLs it had found were thrown away and the
+		// author hedged claims that were verified (»the fact-checker had it from search but I
+		// could not cite it«, pipeline-feedback 2026-08-23).
+		const verified = factCheck.verifiedClaims.filter((c) => c.method || c.notes);
+		if (verified.length > 0) {
+			const formatted = verified
+				.map(
+					(c) =>
+						`- ${c.claim}${c.method ? `\n  How: ${c.method}` : ""}${c.notes ? `\n  Notes: ${c.notes}` : ""}`,
+				)
+				.join("\n");
+			systemPrompt += `\n\n## VERIFIED BY FACT-CHECK\nCite from here: this is what was confirmed, and against what.\n${formatted}`;
+		}
+
 		// Pass actionable guidance from fact-checker
 		const guidance: string[] = [];
 		if (factCheck.unverifiedClaims && factCheck.unverifiedClaims.length > 0) {
@@ -1345,6 +1602,7 @@ ${formatted}`;
 		if (guidance.length > 0) {
 			systemPrompt += `\n\n## FACT-CHECK GUIDANCE\n${guidance.join("\n\n")}`;
 		}
+		systemPrompt += `${this.houseRules()}${this.requirementsBlock()}`;
 
 		const result = await this.executeClaudeStage<DraftOutput>({
 			name: "Stage 3: Authoring",
@@ -1403,27 +1661,28 @@ ${formatted}`;
 	): Promise<StageResult<ReviewOutput>> {
 		let systemPrompt = "";
 
-		// If this is a re-review after revision, provide focused context
+		// ⚠️ A re-review used to open with »You previously scored this article X/10 … If they
+		// are [resolved], the score should reflect the improvement. Do NOT re-discover the same
+		// issues«, while grading its own rewrite. Twelve runs in a row then ended at 8.5–8.8
+		// after one or two rounds, so the score carried no information. The earlier issues
+		// are still listed, to be checked; the earlier score is not.
 		if (previousReview) {
 			systemPrompt += `## REVISION CONTEXT
-This is a **re-review**. You previously scored this article ${previousReview.finalScore}/10 and requested revisions. Your edits have been applied to the text below.
+This text has been revised after an earlier review. Review it as you would any submission: score the text in front of you, not the improvement, and new problems count as much as old ones.
 
-**Your previous summary:** ${previousReview.summary}
-
-**Issues you flagged:**
-${(previousReview.issues || []).map((i) => `- ${i}`).join("\n")}
-
-**Your task now:** Evaluate whether your specific issues are resolved. If they are, the score should reflect the improvement. Do NOT re-discover the same issues — focus on whether the revised text addresses them. If the prose is now at publish quality, verdict "publish".
+**Issues the earlier review flagged** (check each; list any that remain in \`issues\`):
+${(previousReview.issues || []).map((i) => `- ${i}`).join("\n") || "- (none listed)"}
 
 `;
 		}
 
 		if (ideaBrief) {
+			const { angle } = splitBriefRequirements(ideaBrief);
 			systemPrompt += `## INTENDED DIRECTION
 Assess whether the draft delivers on this promise — or drifted into a generic overview.
 
 **Thesis:** ${ideaBrief.thesis}
-**Angle:** ${ideaBrief.angle}
+**Angle:** ${angle}
 
 `;
 		}
@@ -1432,14 +1691,30 @@ Assess whether the draft delivers on this promise — or drifted into a generic 
 
 **Title:** ${draft.title}
 
-${draft.body}`;
+${draft.body}
 
-		// Pass condensed research quotes for cross-referencing
+## DESCRIPTION
+${draft.description?.trim() || "(none — the author wrote no description; write one in `description`)"}`;
+
+		// ⚠️ Label what the code verified. Every quote used to arrive under »VERIFIED QUOTES«,
+		// including the half whose ids were labels research made up for web and primary texts.
 		if (research.quotes.length > 0) {
 			const quoteList = research.quotes
-				.map((q) => `- [ID ${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${q.text}"`)
+				.map((q) => {
+					const status = isDatabaseQuoteId(q.id)
+						? "database"
+						: "web/primary, checked by fact-check";
+					const sv = q.textSv && q.textSv !== q.text ? ` / sv: "${q.textSv}"` : "";
+					return `- [${q.id}, ${status}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${q.text}"${sv}`;
+				})
 				.join("\n");
-			systemPrompt += `\n\n## VERIFIED QUOTES (from research)\nCross-reference the article's blockquotes against this list. Flag any quoted passage not found here — it may be invented.\n\n${quoteList}`;
+			systemPrompt += `\n\n## RESEARCH QUOTES\nCross-reference the article's blockquotes against this list, the book passages and the briefing (both in the user message). Flag any quoted passage found in none of them — it may be invented.\n\n${quoteList}`;
+		}
+
+		// The fördjupning producer calls this stage with research that never passed through
+		// attachBernstrom(), so the lookup happens here too (a local database read).
+		if (research.quranReferences.length > 0) {
+			systemPrompt += `\n\n${formatQuranReferences(this.withBernstrom(research.quranReferences), "reviewer")}`;
 		}
 
 		// Pass fact-check flags so reviewer can verify author addressed them
@@ -1484,7 +1759,17 @@ This article is for a Swedish publication. Watch for and fix anglicisms — Engl
 - Stiff calque constructions: rephrase for natural Swedish prose rhythm
 - Prefer Swedish conjunctions and flow over English sentence patterns
 If the draft has anglicisms, fix them in the revised article.
-</language_quality>`;
+</language_quality>${this.houseRules()}${this.requirementsBlock()}`;
+
+		// ⚠️ The reviewer never saw the briefing or the book passages, and said so: on »Sorgen
+		// vid Nilen« it left news quotes »unconfirmed against … the briefing«. They go in the
+		// user message, where the other stages carry bulk material.
+		const bookPassages =
+			research.bookPassages.length > 0
+				? `<book_passages>\n${research.bookPassages
+						.map((p) => `### ${p.bookTitle} — ${p.author} [${p.id}]\n${p.text}`)
+						.join("\n\n---\n\n")}\n</book_passages>`
+				: "";
 
 		const result = await this.executeClaudeStage<ReviewOutput>({
 			name: "Stage 4: Review",
@@ -1492,6 +1777,7 @@ If the draft has anglicisms, fix them in the revised article.
 			emoji: "👁️ ",
 			promptFile: "reviewer.md",
 			systemPrompt,
+			userContent: [bookPassages, this.sourceDocsBlock()].filter(Boolean).join("\n\n"),
 			markdownMode: {
 				frontmatterSchema: ReviewFrontmatterSchema,
 				combine: (meta, body) =>
@@ -1527,10 +1813,9 @@ If the draft has anglicisms, fix them in the revised article.
 	async runPolish(articleBody: string): Promise<StageResult<PolishOutput>> {
 		this.logger.log("   🖊️  Polish: prose rhythm, momentum, voice");
 
-		const systemPrompt =
-			"Du är en erfaren svensk essäist och redaktör. Du läser den här texten som en krävande läsare, inte som en redigerare.";
+		const systemPrompt = `Du är en erfaren svensk essäist och redaktör. Du läser den här texten som en krävande läsare, inte som en redigerare.${this.houseRules()}${this.requirementsBlock()}`;
 
-		const result = await this.executeClaudeStage<PolishOutput>({
+		return this.executeClaudeStage<PolishOutput>({
 			name: "Stage 5: Polish",
 			stage: "polish",
 			emoji: "🖊️ ",
@@ -1539,16 +1824,24 @@ If the draft has anglicisms, fix them in the revised article.
 			userContent: `## TEXTEN\n\n${articleBody}`,
 			markdownMode: {
 				frontmatterSchema: PolishFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as PolishOutput,
+				combine: (meta) => {
+					const m = meta as Omit<PolishOutput, "body" | "edits" | "rejected">;
+					const applied = applyTextPatches(articleBody, m.patches, {
+						maxApplied: 15,
+						vet: vetMisspelling,
+					});
+					return {
+						...m,
+						body: applied.body,
+						edits: applied.applied
+							.map((x) => `${describePatch(x)}${x.reason ? ` — ${x.reason}` : ""}`)
+							.join("\n"),
+						rejected: applied.rejected,
+					};
+				},
 			},
 			effort: "high",
 		});
-
-		return result;
 	}
 
 	/**
@@ -1571,9 +1864,11 @@ If the draft has anglicisms, fix them in the revised article.
 			if (meta.description) metaSection += `**Ingress:** ${meta.description}\n`;
 		}
 
-		const systemPrompt = `Du granskar en publicerad artikel för islam.se. Detta är artikelns enda språkgranskning — åtgärda i ett svep det som avslöjar att texten tänkts på engelska, ord som inte är naturlig svenska, och de mätbara AI-mönster som prompten räknar.${metaSection}`;
+		const systemPrompt = `Du granskar en publicerad artikel för islam.se. Detta är artikelns enda språkgranskning — åtgärda i ett svep det som avslöjar att texten tänkts på engelska, ord som inte är naturlig svenska, och de mätbara AI-mönster som prompten räknar.${metaSection}${this.houseRules()}${this.requirementsBlock()}`;
 
-		const result = await this.executeClaudeStage<SwedishVoiceOutput>({
+		const isMetaLocation = (location: string) => /^(titel|ingress)\b/i.test(location.trim());
+
+		return this.executeClaudeStage<SwedishVoiceOutput>({
 			name: "Swedish Voice",
 			stage: "polish", // reuse polish stage type for streaming
 			emoji: "🇸🇪",
@@ -1582,26 +1877,43 @@ If the draft has anglicisms, fix them in the revised article.
 			userContent: `## TEXTEN\n\n${articleBody}`,
 			markdownMode: {
 				frontmatterSchema: SwedishVoiceFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as SwedishVoiceOutput,
+				combine: (meta) => {
+					const m = meta as Omit<SwedishVoiceOutput, "body" | "rejected">;
+					const bodyIssues = m.issuesFound.filter((i) => !isMetaLocation(i.location));
+					// A heading typo is this stage's to fix; the other stages may not touch headings.
+					const applied = applyTextPatches(
+						articleBody,
+						bodyIssues.map((i) => ({
+							original: i.original,
+							replacement: i.correction,
+							reason: i.reason,
+						})),
+						{ protectHeadings: false, vet: vetMisspelling },
+					);
+					const kept = new Set(applied.applied.map((a) => a.original));
+					const appliedIssues = bodyIssues.filter((i) => kept.has(i.original));
+					return {
+						...m,
+						issuesFound: [
+							...m.issuesFound.filter((i) => isMetaLocation(i.location)),
+							...appliedIssues,
+						],
+						body: applied.body,
+						rejected: applied.rejected,
+					};
+				},
 			},
 			effort: "high",
 			maxRetries: 3,
 		});
-
-		return result;
 	}
 
 	async runGround(articleBody: string): Promise<StageResult<GroundOutput>> {
 		this.logger.log("   🌱 Ground: anchoring abstract concepts in concrete human moments");
 
-		const systemPrompt =
-			"Du är en svensk essäredaktör specialiserad på att förankra abstrakt filosofi i konkreta mänskliga ögonblick. Du lägger till EN mening där ett begrepp svävar utan förankring — ingenting annat.";
+		const systemPrompt = `Du är en svensk essäredaktör specialiserad på att förankra abstrakt filosofi i konkreta mänskliga ögonblick. Du lägger till EN mening där ett begrepp svävar utan förankring — ingenting annat.${this.houseRules()}${this.requirementsBlock()}`;
 
-		const result = await this.executeClaudeStage<GroundOutput>({
+		return this.executeClaudeStage<GroundOutput>({
 			name: "Ground",
 			stage: "polish",
 			emoji: "🌱",
@@ -1610,17 +1922,37 @@ If the draft has anglicisms, fix them in the revised article.
 			userContent: `Här är texten att granska:\n\n${articleBody}`,
 			markdownMode: {
 				frontmatterSchema: GroundFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as GroundOutput,
+				combine: (meta) => {
+					const m = meta as Omit<GroundOutput, "body" | "rejected">;
+					const patches = m.changes.map((c) => ({
+						original: c.original,
+						replacement: `${c.original.trimEnd()} ${c.addition.trim()}`,
+						reason: c.why,
+					}));
+					const applied = applyTextPatches(articleBody, patches, {
+						maxApplied: GROUND_MAX_ADDITIONS,
+						vet: (patch) => {
+							const addition = patch.replacement.slice(patch.original.trimEnd().length).trim();
+							return GROUND_FORMULA.test(addition)
+								? `formula opener »${addition.split(/\s+/).slice(0, 3).join(" ")} …«`
+								: undefined;
+						},
+					});
+					const kept = new Set(applied.applied.map((a) => a.original));
+					const changes = m.changes.filter((c) => kept.has(c.original));
+					return {
+						...m,
+						verdict: changes.length > 0 ? "grounded" : "clean",
+						changes,
+						changesCount: changes.length,
+						body: applied.body,
+						rejected: applied.rejected,
+					};
+				},
 			},
 			effort: "high",
 			timeout: 900000,
 		});
-
-		return result;
 	}
 
 	/**
@@ -1638,15 +1970,32 @@ If the draft has anglicisms, fix them in the revised article.
 			stage: "polish",
 			emoji: "🔬",
 			promptFile: "deepen.md",
-			systemPrompt,
+			systemPrompt: `${systemPrompt}${this.houseRules()}${this.requirementsBlock()}`,
 			userContent: `## TEXTEN\n\n${articleBody}`,
 			markdownMode: {
 				frontmatterSchema: DeepenFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as DeepenOutput,
+				combine: (meta) => {
+					const m = meta as Omit<DeepenOutput, "body" | "rejected">;
+					const applied = applyTextPatches(
+						articleBody,
+						m.changes.map((c) => ({
+							original: c.before,
+							replacement: c.after,
+							reason: c.reasoning,
+						})),
+						{ maxApplied: 2 },
+					);
+					const kept = new Set(applied.applied.map((a) => a.original));
+					const changes = m.changes.filter((c) => kept.has(c.before));
+					return {
+						...m,
+						verdict: changes.length > 0 ? "deepened" : "clean",
+						changes,
+						changesCount: changes.length,
+						body: applied.body,
+						rejected: applied.rejected,
+					};
+				},
 			},
 			// xhigh rather than max, deliberately: Deepen runs after fact-check AND
 			// after the review gate, so nothing verifies what it writes. Its operation
@@ -1797,6 +2146,7 @@ If the draft has anglicisms, fix them in the revised article.
 			evalReport,
 			adapterPromptPath: join(this.promptsDir, "codex-tic-audit.md"),
 			definitionPaths: [
+				join(this.promptsDir, "house-rules.md"),
 				join(this.promptsDir, "swedish-voice.md"),
 				join(this.promptsDir, "eval-correction.md"),
 			],
@@ -1824,6 +2174,7 @@ If the draft has anglicisms, fix them in the revised article.
 			const publisher = new ArticlePublisher();
 			publisher.publish(outputDir, articleSlug, {
 				title: draft.title,
+				description: draft.description,
 				wordCount: finalWordCount,
 				qualityScore,
 			});
@@ -1854,6 +2205,82 @@ If the draft has anglicisms, fix them in the revised article.
 	}
 
 	/**
+	 * Knut Bernström's wording for each Quran reference, looked up in quran.db. The author is
+	 * told to quote this and nothing else (see formatQuranReferences).
+	 */
+	private attachBernstrom(research: ResearchOutput): ResearchOutput {
+		const quranReferences = this.withBernstrom(research.quranReferences);
+		const found = quranReferences.filter((r) => r.bernstrom).length;
+		if (quranReferences.length > 0) {
+			this.logger.log(
+				`   - Bernström: ${found}/${quranReferences.length} koranhänvisningar har husets lydelse`,
+			);
+		}
+		return { ...research, quranReferences };
+	}
+
+	private withBernstrom(
+		refs: ResearchOutput["quranReferences"],
+	): ResearchOutput["quranReferences"] {
+		return refs.map((ref) => {
+			if (ref.bernstrom) return ref;
+			const key = ref.verseKey ?? this.verseKeyFromName(ref.surah, ref.ayah);
+			const parsed = key?.match(/^(\d{1,3}):(\d{1,3})(?:\s*[-–]\s*(\d{1,3}))?$/);
+			if (!(key && parsed)) return ref;
+			const surah = Number(parsed[1]);
+			const from = Number(parsed[2]);
+			const to = parsed[3] ? Number(parsed[3]) : from;
+			let bernstrom: string | null = null;
+			try {
+				bernstrom = getBernstromRange(surah, from, to);
+			} catch {
+				bernstrom = null;
+			}
+			if (!bernstrom) return { ...ref, verseKey: key };
+			return { ...ref, verseKey: key, bernstrom };
+		});
+	}
+
+	private verseKeyFromName(surah: string, ayah: string): string | undefined {
+		let number: number | null = null;
+		try {
+			number = resolveSurahNumber(surah);
+		} catch {
+			number = null;
+		}
+		const range = ayah.replace(/[–—]/g, "-").replace(/\s+/g, "");
+		if (!(number && /^\d{1,3}(?:-\d{1,3})?$/.test(range))) return undefined;
+		return `${number}:${range}`;
+	}
+
+	/**
+	 * Run scripts/check-quran-quotes.py on the finished text. Returns one line per
+	 * blockquote that does not match Bernström, or null when the check could not run.
+	 */
+	private checkQuranQuotes(text: string, outputDir: string): string[] | null {
+		const script = join(findDataDir(), "..", "scripts", "check-quran-quotes.py");
+		if (!existsSync(script)) return null;
+		const input = join(outputDir, "quran-check-input.md");
+		saveOutput(outputDir, "quran-check-input.md", text);
+		for (const python of ["python3", "python"]) {
+			const run = spawnSync(python, [script, input], { encoding: "utf-8", timeout: 120_000 });
+			if (run.error) continue;
+			const lines = run.stdout.split("\n");
+			const findings: string[] = [];
+			lines.forEach((line, i) => {
+				if (!/^\s+(⛔|\?)\s/.test(line)) return;
+				const detail = lines
+					.slice(i + 1, i + 3)
+					.filter((l) => /^\s{4,}\S/.test(l))
+					.map((l) => l.trim());
+				findings.push([line.trim(), ...detail].join(" | "));
+			});
+			return findings;
+		}
+		return null;
+	}
+
+	/**
 	 * Run the complete content production pipeline
 	 * @param topic - The article topic
 	 * @param ideaContext - Optional context linking to source idea for status tracking
@@ -1869,6 +2296,21 @@ If the draft has anglicisms, fix them in the revised article.
 		const topicSlug = slugify(topic);
 		const outputDir = this.ensureOutputDir(topicSlug);
 		const resume = options?.resume ?? false;
+
+		// ⚠️ Every run writes its own log. Two of sixteen run directories had one, because
+		// only runs launched with a manual `tee` kept theirs — and the log was the only
+		// record of the first review round's score.
+		this.logFile = join(outputDir, "run.log");
+		this.logger.log(`\n══ ${new Date().toISOString()} — ${topic}${resume ? " (resume)" : ""}`);
+		this.stageRuns = [];
+		this.openIssues = [];
+		const brief = ideaBrief ? splitBriefRequirements(ideaBrief) : undefined;
+		this.requirements = brief?.requirements;
+		if (this.requirements) {
+			this.logger.log(
+				`   - Briefens hårda krav (${this.requirements.length} tecken) går till varje steg som skriver`,
+			);
+		}
 
 		const result: ProductionResult = {
 			success: false,
@@ -1887,20 +2329,21 @@ If the draft has anglicisms, fix them in the revised article.
 		const cachedResearch = resume ? loadOutput<ResearchOutput>(outputDir, "research.json") : null;
 		if (cachedResearch && ResearchOutputSchema.safeParse(cachedResearch).success) {
 			this.logger.log("📚 Stage 1: Research — loaded from checkpoint");
-			researchResult = { success: true, data: cachedResearch, duration: 0 };
-			trackResearchReferences(this.references, cachedResearch);
+			const enriched = this.attachBernstrom(cachedResearch);
+			researchResult = { success: true, data: enriched, duration: 0 };
+			trackResearchReferences(this.references, enriched);
 			this.options.onStageChange?.({
 				stage: "research",
 				status: "complete",
 				duration: 0,
-				summary: `${cachedResearch.sources.length} sources, ${cachedResearch.quotes.length} quotes (cached)`,
+				summary: `${enriched.sources.length} sources, ${enriched.quotes.length} quotes (cached)`,
 			});
 		} else {
 			this.options.onStageChange?.({ stage: "research", status: "running" });
 			const research = ideaBrief
 				? await this.runResearchFromIdea({
 						thesis: ideaBrief.thesis,
-						angle: ideaBrief.angle,
+						angle: brief?.angle ?? ideaBrief.angle,
 						keywords: ideaBrief.keywords,
 						seedQuotes: ideaBrief.seedQuotes,
 					})
@@ -1917,6 +2360,7 @@ If the draft has anglicisms, fix them in the revised article.
 				result.totalDuration = Date.now() - startTime;
 				return result;
 			}
+			researchResult = { ...researchResult, data: this.attachBernstrom(researchResult.data) };
 			this.options.onStageChange?.({
 				stage: "research",
 				status: "complete",
@@ -1978,7 +2422,7 @@ If the draft has anglicisms, fix them in the revised article.
 					this.logger.warn("   ⚠️  Research-revidering misslyckades — avbryter revideringar");
 					break;
 				}
-				researchResult = { ...researchResult, data: revision.result.data };
+				researchResult = { ...researchResult, data: this.attachBernstrom(revision.result.data) };
 				saveOutput(outputDir, "research.json", researchResult.data);
 				researchRevisionCount++;
 
@@ -2033,6 +2477,9 @@ If the draft has anglicisms, fix them in the revised article.
 			(d) => attested.get(d.id) === "verified",
 		);
 		const droppedDatasets = (researchResult.data.datasets ?? []).length - verifiedDatasets.length;
+		if (verifiedDatasets.length > 0) {
+			this.logger.log(`   - ${verifiedDatasets.length} dataset godkända för figursteget`);
+		}
 		if (droppedDatasets > 0) {
 			this.logger.log(
 				`   - ⚠️  ${droppedDatasets} dataset utan godkännande från faktakollen — de kan inte bli figurer`,
@@ -2089,7 +2536,10 @@ If the draft has anglicisms, fix them in the revised article.
 		const researchData = researchResult.data;
 		const factCheckData = factCheckResult.data;
 		let revisionCount = 0;
+		let reviewRound = 0;
 		let lastReviewData: ReviewOutput | undefined;
+		/** The text the last passing review read, plus whatever of its own edit survived. */
+		let reviewedText: string | undefined;
 
 		this.options.onStageChange?.({ stage: "review", status: "running" });
 
@@ -2115,7 +2565,23 @@ If the draft has anglicisms, fix them in the revised article.
 			}
 
 			lastReviewData = reviewResult.data;
+			reviewRound++;
+			// Every round is kept. review.json alone was overwritten each round, so the first
+			// round's score — the one that says how good the draft was — was lost.
+			saveOutput(outputDir, `review-round-${reviewRound}.json`, reviewResult.data);
 			saveOutput(outputDir, "review.json", reviewResult.data);
+			const reviewedDescription = reviewResult.data.description?.trim();
+			if (reviewedDescription) {
+				const bad = newMisspellings(currentDraft.description ?? "", reviewedDescription);
+				if (bad && bad.length > 0) {
+					this.noteOpenIssue(
+						"Språkgranskningens förslag som avvisades",
+						`Granskarens ingress: »${reviewedDescription}« (okända ord: ${bad.join(", ")})`,
+					);
+				} else {
+					currentDraft = { ...currentDraft, description: reviewedDescription };
+				}
+			}
 			const reviewSummary = `${reviewResult.data.finalScore}/10 — ${reviewResult.data.verdict}`;
 
 			// ⚠️ Omdömet ensamt räckte tidigare: `verdict === "publish"` bröt loopen utan att
@@ -2137,6 +2603,42 @@ If the draft has anglicisms, fix them in the revised article.
 						summary: `${reviewSummary} (poäng under grind, reviderar)`,
 					});
 				} else if (reviewPassed(reviewResult.data)) {
+					// ⚠️ A »publish« round still returns the whole text, and it used to ship
+					// unread. reviewer.md says »publish« means cosmetic edits; this checks it.
+					const revised = reviewResult.data.revisedText;
+					if (revised) {
+						const extent = measureRewrite(currentDraft.body, revised);
+						const size = `${Math.round(extent.changedRatio * 100)} % av orden, ${extent.newParagraphs.length} nya stycken`;
+						if (isCosmeticRewrite(extent)) {
+							reviewedText = revised;
+							this.logger.log(`   - Granskarens putsning godtas (${size})`);
+						} else if (revisionCount < this.options.maxRevisions) {
+							currentDraft = { ...currentDraft, body: revised };
+							revisionCount++;
+							this.logger.log(
+								`   ⚠️  »publish« men omskrivningen var inte kosmetisk (${size}) — granskas igen (varv ${revisionCount})`,
+							);
+							this.options.onStageChange?.({
+								stage: "review",
+								status: "complete",
+								duration: reviewResult.duration,
+								summary: `${reviewSummary} (omskrivning granskas igen)`,
+							});
+							continue;
+						} else {
+							// No rounds left: ship the text the passing review actually read.
+							reviewedText = currentDraft.body;
+							this.logger.warn(
+								`   ⚠️  »publish« men omskrivningen var inte kosmetisk (${size}) och inga varv återstår — den granskade texten publiceras, omskrivningen kasseras`,
+							);
+							for (const p of extent.newParagraphs) {
+								this.noteOpenIssue("Kasserat ur granskarens sista varv", p);
+							}
+							saveOutput(outputDir, "review-discarded-rewrite.md", revised);
+						}
+					} else {
+						reviewedText = currentDraft.body;
+					}
 					this.options.onStageChange?.({
 						stage: "review",
 						status: "complete",
@@ -2199,47 +2701,56 @@ If the draft has anglicisms, fix them in the revised article.
 		}
 
 		// After review loop — reject already returned early above, so we have text to polish + publish
-		if (!lastReviewData) {
+		if (!(lastReviewData && reviewedText !== undefined)) {
 			result.totalDuration = Date.now() - startTime;
 			return result;
 		}
 		const reviewData = lastReviewData;
-		let finalText = reviewData.revisedText ?? currentDraft.body;
+		let finalText = reviewedText;
+		let title = currentDraft.title;
+		let description = currentDraft.description;
 
-		// Stage 5: Polish — final prose refinement by a Swedish literary master
-		this.options.onStageChange?.({ stage: "polish", status: "running" });
-		const polishResult = await this.runPolish(finalText);
-		result.stages.polish = polishResult;
-		if (polishResult.success && polishResult.data) {
-			finalText = polishResult.data.body;
-			const editCount = polishResult.data.edits.split("\n").filter((l) => l.trim()).length;
-			this.logger.log(
-				`   - Polish: ${editCount} edits, weakest: "${polishResult.data.weakestSentence.slice(0, 60)}..."`,
-			);
-			saveOutput(outputDir, "polish.json", polishResult.data);
-			this.options.onStageChange?.({
-				stage: "polish",
-				status: "complete",
-				duration: polishResult.duration,
-				summary: `${editCount} edits`,
-			});
-		} else {
-			this.options.onStageChange?.({
-				stage: "polish",
-				status: "failed",
-				duration: polishResult.duration,
-				error: polishResult.error,
-				summary: "skipped (non-fatal)",
-			});
+		// What the reviewer deliberately left for a human. It used to vanish: on »Sorgen vid
+		// Nilen« the reviewer said the Ibn ʿUthaymīn quote translated نعيّن as »stödja« and
+		// »the translator must fix it before print«; final.md shipped »stödja«.
+		if ((reviewData.issues ?? []).length > 0) {
+			this.logger.log("   📌 Granskaren lämnade åt en människa:");
+			for (const issue of reviewData.issues ?? []) {
+				this.logger.log(`     • ${issue}`);
+				this.noteOpenIssue("Granskaren lämnade åt en människa", issue);
+			}
 		}
 
-		// Stage 6: Deepen — argument development, logical gaps (non-fatal)
+		// ⚠️ ORDER: deepen → ground → polish → Swedish voice. Polish used to run first, so the
+		// sentences deepen and ground added were never read for rhythm or formula. Every
+		// stage after review now returns patches that code applies (text-patches.ts): an edit
+		// a stage does not list does not ship, and each applied one is logged below.
+		const logPatches = (label: string, rejected: PatchRejection[] | undefined) => {
+			if (rejected && rejected.length > 0) {
+				this.logger.log(`     ${label}: ${rejected.length} ändring(ar) avvisade av vakterna`);
+				for (const r of rejected.slice(0, 6)) {
+					this.logger.log(`       ✗ ${r.reason}: ${describePatch(r.patch, 80)}`);
+				}
+			}
+		};
+
+		// Stage 5: Deepen — argument development, logical gaps (non-fatal)
 		this.options.onStageChange?.({ stage: "deepen", status: "running" });
 		const deepenResult = await this.runDeepen(finalText);
 		result.stages.deepen = deepenResult;
 		if (deepenResult.success && deepenResult.data) {
 			finalText = deepenResult.data.body;
 			this.logger.log(`   - Deepen: ${deepenResult.data.verdict}`);
+			for (const c of deepenResult.data.changes) {
+				this.logger.log(
+					`     ✍️  ${c.location}: ${describePatch({ original: c.before, replacement: c.after }, 160)}`,
+				);
+				this.noteOpenIssue(
+					"Tillagt efter granskningen (ingen grind har läst det)",
+					`Deepen, ${c.location}: ${c.after}`,
+				);
+			}
+			logPatches("Deepen", deepenResult.data.rejected);
 			saveOutput(outputDir, "deepen.json", deepenResult.data);
 			this.options.onStageChange?.({
 				stage: "deepen",
@@ -2248,6 +2759,7 @@ If the draft has anglicisms, fix them in the revised article.
 				summary: deepenResult.data.verdict,
 			});
 		} else {
+			this.logger.warn(`   ⚠️  Deepen hoppades över: ${deepenResult.error?.slice(0, 200)}`);
 			this.options.onStageChange?.({
 				stage: "deepen",
 				status: "failed",
@@ -2257,7 +2769,7 @@ If the draft has anglicisms, fix them in the revised article.
 			});
 		}
 
-		// Stage 7: Ground — anchor abstract concepts in concrete moments (non-fatal)
+		// Stage 6: Ground — anchor abstract concepts in concrete moments (non-fatal)
 		this.options.onStageChange?.({ stage: "ground", status: "running" });
 		const groundResult = await this.runGround(finalText);
 		result.stages.ground = groundResult;
@@ -2271,10 +2783,15 @@ If the draft has anglicisms, fix them in the revised article.
 			// »publish«. Additionerna skrivs därför alltid ut, en per rad.
 			for (const c of groundResult.data.changes ?? []) {
 				this.logger.log(`     ✍️  ${c.location}: ${c.addition}`);
+				this.noteOpenIssue(
+					"Tillagt efter granskningen (ingen grind har läst det)",
+					`Ground, ${c.location}: ${c.addition}`,
+				);
 			}
 			if ((groundResult.data.changes ?? []).length > 0) {
 				this.logger.log("     ⚠️  Ingen grind har läst dessa. Kontrollera varje namngiven uppgift.");
 			}
+			logPatches("Ground", groundResult.data.rejected);
 			saveOutput(outputDir, "ground.json", groundResult.data);
 			this.options.onStageChange?.({
 				stage: "ground",
@@ -2283,6 +2800,7 @@ If the draft has anglicisms, fix them in the revised article.
 				summary: groundResult.data.verdict,
 			});
 		} else {
+			this.logger.warn(`   ⚠️  Ground hoppades över: ${groundResult.error?.slice(0, 200)}`);
 			this.options.onStageChange?.({
 				stage: "ground",
 				status: "failed",
@@ -2292,11 +2810,40 @@ If the draft has anglicisms, fix them in the revised article.
 			});
 		}
 
-		// Stage 8: Swedish Voice — consolidated language pass. Fixes anglicisms,
-		// English-thinking rhetoric, word-level errors (formerly the Language stage),
-		// and measured AI-patterns (formerly the Detox stage) in one pass (non-fatal).
+		// Stage 7: Polish — prose rhythm, now over the deepened and grounded text (non-fatal)
+		this.options.onStageChange?.({ stage: "polish", status: "running" });
+		const polishResult = await this.runPolish(finalText);
+		result.stages.polish = polishResult;
+		if (polishResult.success && polishResult.data) {
+			finalText = polishResult.data.body;
+			const editCount = polishResult.data.edits.split("\n").filter((l) => l.trim()).length;
+			this.logger.log(
+				`   - Polish: ${editCount} edits, weakest: "${polishResult.data.weakestSentence.slice(0, 60)}..."`,
+			);
+			logPatches("Polish", polishResult.data.rejected);
+			saveOutput(outputDir, "polish.json", polishResult.data);
+			this.options.onStageChange?.({
+				stage: "polish",
+				status: "complete",
+				duration: polishResult.duration,
+				summary: `${editCount} edits`,
+			});
+		} else {
+			this.logger.warn(`   ⚠️  Polish hoppades över: ${polishResult.error?.slice(0, 200)}`);
+			this.options.onStageChange?.({
+				stage: "polish",
+				status: "failed",
+				duration: polishResult.duration,
+				error: polishResult.error,
+				summary: "skipped (non-fatal)",
+			});
+		}
+
+		// Stage 8: Swedish Voice — consolidated language pass over body, title and
+		// description. The title and description used to get no language check at all:
+		// the stage had the parameter and produce() never passed it (non-fatal).
 		this.options.onStageChange?.({ stage: "swedishVoice", status: "running" });
-		const swedishVoiceResult = await this.runSwedishVoice(finalText);
+		const swedishVoiceResult = await this.runSwedishVoice(finalText, { title, description });
 		result.stages.swedishVoice = swedishVoiceResult;
 		if (swedishVoiceResult.success && swedishVoiceResult.data) {
 			finalText = swedishVoiceResult.data.body;
@@ -2304,6 +2851,28 @@ If the draft has anglicisms, fix them in the revised article.
 			this.logger.log(
 				`   - Swedish Voice: ${issueCount} issues fixed (${swedishVoiceResult.data.verdict})`,
 			);
+			// The title and description get no patch guard (they are not in the body), so a
+			// correction that misspells is refused here and handed to a human instead.
+			const guarded = (label: string, before: string, after: string | undefined) => {
+				const next = after?.trim();
+				if (!next || next === before) return before;
+				const bad = newMisspellings(before, next);
+				if (bad && bad.length > 0) {
+					this.logger.warn(`     ⚠️  ${label}: rättelsen avvisad, okända ord: ${bad.join(", ")}`);
+					this.noteOpenIssue(
+						"Språkgranskningens förslag som avvisades",
+						`${label}: »${next}« (okända ord: ${bad.join(", ")})`,
+					);
+					return before;
+				}
+				this.logger.log(`     ${label}: »${before}« → »${next}«`);
+				return next;
+			};
+			title = guarded("Titel", title, swedishVoiceResult.data.correctedTitle);
+			description =
+				guarded("Ingress", description ?? "", swedishVoiceResult.data.correctedDescription) ||
+				undefined;
+			logPatches("Swedish voice", swedishVoiceResult.data.rejected);
 			saveOutput(outputDir, "swedish-voice.json", swedishVoiceResult.data);
 			this.options.onStageChange?.({
 				stage: "swedishVoice",
@@ -2312,6 +2881,9 @@ If the draft has anglicisms, fix them in the revised article.
 				summary: `${issueCount} issues`,
 			});
 		} else {
+			this.logger.warn(
+				`   ⚠️  Swedish voice hoppades över: ${swedishVoiceResult.error?.slice(0, 200)}`,
+			);
 			this.options.onStageChange?.({
 				stage: "swedishVoice",
 				status: "failed",
@@ -2321,80 +2893,148 @@ If the draft has anglicisms, fix them in the revised article.
 			});
 		}
 
-		// Stage 9: independent Codex tic audit. Opus has already authored and edited
-		// the essay; using a second model here reduces same-model blind spots. Codex
-		// returns exact patches, never a wholesale rewrite. We accept only guarded,
-		// high-confidence changes that improve the deterministic prose score.
-		let evalBefore: number | undefined;
-		let evalAfter: number | undefined;
-		let codexAuditDuration: number | undefined;
+		// Stage 9: the second-model audit, on what the deterministic checks can see.
+		//
+		// ⚠️ It used to run only when evaluate-article.py's TOTAL passed 12, and that total was
+		// 93–100 % repetition findings, so it said nothing; the patches it proposed were then
+		// kept only if the total fell, which word-choice fixes never make it do. It now always
+		// runs (it takes under a minute), its report adds the house checks, and a guarded patch
+		// set is kept when neither measure gets worse.
+		let evalAfter: ProseEvalResult | null = null;
 		const evalScript = findEvalScript();
-		if (evalScript) {
-			// The evaluator only reads prose from a file with YAML frontmatter, so
-			// wrap the body before measuring.
-			const writeEvalInput = (text: string): string => {
-				// ⚠️ Figures are stripped before measuring. scripts/evaluate-article.py has no
-				// fence awareness: it would read a spec's caption and note as prose, inflate
-				// totalIssues, and can push a clean essay past EVAL_CORRECTION_THRESHOLD — so a
-				// correction pass runs that was never needed, on a stage that may then edit the
-				// figure. Measure the prose, because the prose is what the evaluator judges.
-				const prose = text.replace(/```[\s\S]*?```/g, "");
-				saveOutput(
-					outputDir,
-					"eval-input.md",
-					`---\ntitle: ${JSON.stringify(currentDraft.title)}\n---\n\n${prose}`,
-				);
-				return join(outputDir, "eval-input.md");
-			};
+		const writeEvalInput = (text: string): string => {
+			// ⚠️ Figures are stripped before measuring. scripts/evaluate-article.py has no
+			// fence awareness: it would read a spec's caption and note as prose.
+			const prose = text.replace(/```[\s\S]*?```/g, "");
+			saveOutput(
+				outputDir,
+				"eval-input.md",
+				`---\ntitle: ${JSON.stringify(title)}\n---\n\n${prose}`,
+			);
+			return join(outputDir, "eval-input.md");
+		};
+		const measure = (text: string) => ({
+			prose: evalScript ? evaluateProse(writeEvalInput(text), evalScript) : null,
+			house: checkHouseRules(text, { description, checkDescription: true }),
+		});
+		const fixableCount = (findings: HouseFinding[]) =>
+			findings.filter((f) => f.kind === "fixable").length;
 
-			const before = evaluateProse(writeEvalInput(finalText), evalScript);
-			if (before) {
-				evalBefore = before.totalIssues;
+		const before = measure(finalText);
+		const evalBefore = before.prose;
+		const houseBefore = before.house;
+		this.logger.log(
+			`   📋 Mätning: ${evalBefore ? `${evalBefore.actionableIssues} åtgärdbara prosaproblem (${evalBefore.totalIssues} totalt, resten upprepningar)` : "evaluate-article.py saknas"} · husregler: ${fixableCount(houseBefore)} att rätta, ${houseBefore.length - fixableCount(houseBefore)} för en människa`,
+		);
+		const report = [
+			evalBefore?.report,
+			formatHouseFindings(houseBefore.filter((f) => f.kind === "fixable")),
+		]
+			.filter(Boolean)
+			.join("\n\n");
+
+		const accept = (
+			candidate: string,
+			applied: number,
+		): { ok: boolean; after: ReturnType<typeof measure> } => {
+			const after = measure(candidate);
+			const proseOk =
+				evalBefore === null ||
+				proseCorrectionAcceptable(evalBefore.actionableIssues, after.prose?.actionableIssues);
+			const houseOk = fixableCount(after.house) <= fixableCount(houseBefore);
+			return { ok: applied > 0 && proseOk && houseOk, after };
+		};
+
+		let houseAfter = houseBefore;
+		const audit = await this.runCodexTicAudit(finalText, report || "Inga deterministiska fynd.");
+		const codexAuditDuration = audit.duration;
+		if (audit.success && audit.data) {
+			const application = applyCodexTicAudit(finalText, audit.data);
+			const verdict = accept(application.body, application.applied.length);
+			saveOutput(outputDir, "codex-tic-audit.json", {
+				...audit.data,
+				application: { applied: application.applied, rejected: application.rejected },
+				evaluation: {
+					before: evalBefore?.actionableIssues,
+					candidate: verdict.after.prose?.actionableIssues,
+					houseBefore: fixableCount(houseBefore),
+					houseCandidate: fixableCount(verdict.after.house),
+					accepted: verdict.ok,
+				},
+			});
+			if (verdict.ok) {
+				finalText = application.body;
+				evalAfter = verdict.after.prose;
+				houseAfter = verdict.after.house;
+				this.logger.log(`   🔎 Codex: ${application.applied.length} ändring(ar) godtagna`);
+				for (const p of application.applied) this.logger.log(`     ✓ ${describePatch(p, 100)}`);
+			} else {
 				this.logger.log(
-					`   📋 Prose eval: ${before.totalIssues} issues (correction threshold ${EVAL_CORRECTION_THRESHOLD})`,
+					`   🔎 Codex: inget godtaget (${application.applied.length} möjliga, ${application.rejected.length} avvisade)`,
 				);
-				if (before.totalIssues > EVAL_CORRECTION_THRESHOLD) {
-					const audit = await this.runCodexTicAudit(finalText, before.report);
-					codexAuditDuration = audit.duration;
-					if (audit.success && audit.data) {
-						const application = applyCodexTicAudit(finalText, audit.data);
-						const candidateEval =
-							application.applied.length > 0
-								? evaluateProse(writeEvalInput(application.body), evalScript)
-								: undefined;
-						const candidateIssues = candidateEval?.totalIssues;
-						const accepted = proseCorrectionImproved(before.totalIssues, candidateIssues);
-						saveOutput(outputDir, "codex-tic-audit.json", {
-							...audit.data,
-							application: {
-								applied: application.applied,
-								rejected: application.rejected,
-							},
-							evaluation: {
-								before: before.totalIssues,
-								candidate: candidateIssues,
-								accepted,
-							},
-						});
-						if (accepted) {
-							finalText = application.body;
-							evalAfter = candidateIssues;
-							this.logger.log(
-								`   🔎 Codex audit accepted: ${before.totalIssues} → ${candidateIssues} issues (${application.applied.length} patches)`,
-							);
-						} else {
-							// The evaluator's scratch file should describe what will actually ship.
-							writeEvalInput(finalText);
-							evalAfter = before.totalIssues;
-							this.logger.warn(
-								`   ⚠️  Codex audit made no accepted improvement (${application.applied.length} admissible, ${application.rejected.length} rejected)`,
-							);
-						}
-					} else {
-						this.logger.warn(`   ⚠️  Codex audit skipped: ${audit.error}`);
-					}
+			}
+		} else if (report) {
+			// Codex is a second model family; when it is missing or fails, the Claude-side
+			// corrector takes the same report, and its changes go through the same guards.
+			this.logger.warn(
+				`   ⚠️  Codex-granskningen misslyckades (${audit.error?.slice(0, 160)}) — Claude rättar i stället`,
+			);
+			const fix = await this.runEvalCorrection(finalText, report);
+			if (fix.success && fix.data) {
+				const application = applyTextPatches(
+					finalText,
+					fix.data.changes.map((c) => ({
+						original: c.original,
+						replacement: c.replacement,
+						reason: c.category,
+					})),
+				);
+				const verdict = accept(application.body, application.applied.length);
+				saveOutput(outputDir, "eval-correction.json", {
+					...fix.data,
+					application: { applied: application.applied, rejected: application.rejected },
+					accepted: verdict.ok,
+				});
+				if (verdict.ok) {
+					finalText = application.body;
+					evalAfter = verdict.after.prose;
+					houseAfter = verdict.after.house;
+					this.logger.log(
+						`   📋 Eval-rättning: ${application.applied.length} ändring(ar) godtagna`,
+					);
 				}
 			}
+		}
+		// The scratch file should describe what ships.
+		if (evalScript) writeEvalInput(finalText);
+
+		// What no fixer resolved goes to a human, named.
+		for (const f of houseAfter) {
+			const where = f.line ? `rad ${f.line}` : "frontmatter";
+			this.logger.warn(`   ⚠️  [${f.rule}] ${where}: ${f.excerpt ? `»${f.excerpt}«` : f.message}`);
+			this.noteOpenIssue(
+				f.kind === "review" ? "Husregler — bedöm" : "Husregler — kvar efter rättning",
+				`[${f.rule}] ${where}: ${f.excerpt ? `»${f.excerpt}« — ` : ""}${f.message}`,
+			);
+		}
+
+		// The Quran quotes, against Bernström, on the exact text that ships.
+		const quranFindings = this.checkQuranQuotes(finalText, outputDir);
+		if (quranFindings === null) {
+			this.noteOpenIssue(
+				"Koranciteten",
+				"check-quran-quotes.py kunde inte köras — kontrollera blockcitaten mot Bernström för hand.",
+			);
+		} else if (quranFindings.length > 0) {
+			this.logger.warn(
+				`   ⛔ Koranciteten: ${quranFindings.length} blockcitat stämmer inte med Bernström`,
+			);
+			for (const f of quranFindings) {
+				this.logger.warn(`     ${f}`);
+				this.noteOpenIssue("Koranciteten — återställ mot Bernström", f);
+			}
+		} else {
+			this.logger.log("   - Koranciteten: alla blockcitat stämmer med Bernström");
 		}
 
 		// Stage 10: Figures — a chart or a table, if the essay has earned one (non-fatal).
@@ -2404,9 +3044,8 @@ If the draft has anglicisms, fix them in the revised article.
 		//      "knappt 200 000" and the figure would then contradict the paragraph above it.
 		//      Running last means provenance is checked against the exact string that ships.
 		//   2. The eval loop. scripts/evaluate-article.py has no fence awareness, so a figure
-		//      present before the eval block would inflate totalIssues, could push a clean
-		//      essay past the correction threshold, and trigger a corrective pass that then
-		//      edits the fence. (writeEvalInput strips fences too — belt and braces.)
+		//      present before the eval block would inflate totalIssues. (writeEvalInput strips
+		//      fences too — belt and braces.)
 		//   3. Only swedish-voice.md protected code fences before this change. All six prose
 		//      prompts now do, but placement is a guarantee and a prompt is a request.
 		//
@@ -2435,6 +3074,10 @@ If the draft has anglicisms, fix them in the revised article.
 					for (const line of proposal.spec.split("\n")) this.logger.log(`     │ ${line}`);
 					this.logger.log(
 						"     ⚠️  Ingen grind har läst figuren. Kontrollera varje tal mot källan.",
+					);
+					this.noteOpenIssue(
+						"Tillagt efter granskningen (ingen grind har läst det)",
+						`Figur (${proposal.kind}): ${proposal.carriesArgument} — kontrollera varje tal mot källan`,
 					);
 				} else {
 					figuresResult.data.refusedFor = applied.verdict.reasons;
@@ -2475,21 +3118,37 @@ If the draft has anglicisms, fix them in the revised article.
 
 		// Save metadata with stage timings
 		const finalWordCount = finalText.split(/\s+/).filter((w) => w.length > 0).length;
+		const models = [...new Set(this.stageRuns.flatMap((r) => r.models))];
+		const costUsd = this.stageRuns.reduce((sum, r) => sum + (r.costUsd ?? 0), 0);
 		saveOutput(outputDir, "metadata.json", {
 			topic,
 			producedAt: new Date().toISOString(),
+			title,
+			description,
 			qualityScore: reviewData.finalScore,
 			wordCount: finalWordCount,
 			revisionCount,
-			evaluation: { before: evalBefore, after: evalAfter, threshold: EVAL_CORRECTION_THRESHOLD },
+			reviewRounds: reviewRound,
+			evaluation: {
+				before: evalBefore?.totalIssues,
+				after: (evalAfter ?? evalBefore)?.totalIssues,
+				actionableBefore: evalBefore?.actionableIssues,
+				actionableAfter: (evalAfter ?? evalBefore)?.actionableIssues,
+				houseBefore: houseBefore.length,
+				houseAfter: houseAfter.length,
+			},
+			openIssues: this.openIssues.length,
+			models,
+			costUsd: Math.round(costUsd * 100) / 100,
+			stageRuns: this.stageRuns,
 			stageDurations: {
 				research: researchResult.duration,
 				factCheck: factCheckResult.duration,
 				authoring: authoringResult.duration,
 				review: result.stages.review?.duration,
-				polish: polishResult.duration,
 				deepen: deepenResult.duration,
 				ground: groundResult.duration,
+				polish: polishResult.duration,
 				swedishVoice: swedishVoiceResult.duration,
 				codexAudit: codexAuditDuration,
 				figures: figuresResult.duration,
@@ -2501,7 +3160,7 @@ If the draft has anglicisms, fix them in the revised article.
 		result.publishedSlug = this.publishArticle(
 			outputDir,
 			topicSlug,
-			currentDraft,
+			{ ...currentDraft, title, description },
 			reviewData.finalScore,
 			finalWordCount,
 			ideaContext,
@@ -2528,28 +3187,43 @@ If the draft has anglicisms, fix them in the revised article.
 		// the pipeline finds hard and whether the eval pass is helping.
 		const struggles = authoringResult.data?.struggles;
 		const efficiencySuggestions = authoringResult.data?.efficiencySuggestions;
-		if (struggles || efficiencySuggestions || evalBefore !== undefined) {
-			try {
-				const entry = {
-					producedAt: new Date().toISOString(),
-					slug: result.publishedSlug ?? topicSlug,
-					topic,
-					qualityScore: reviewData.finalScore,
-					wordCount: finalWordCount,
-					revisionCount,
-					evaluation: { before: evalBefore, after: evalAfter },
-					struggles: struggles ?? null,
-					efficiencySuggestions: efficiencySuggestions ?? null,
-				};
-				appendFileSync(
-					join(findDataDir(), "pipeline-feedback.jsonl"),
-					`${JSON.stringify(entry)}\n`,
-					"utf-8",
-				);
-			} catch (e) {
-				this.logger.warn(`   ⚠️  Failed to record pipeline feedback: ${e}`);
-			}
+		try {
+			const entry = {
+				producedAt: new Date().toISOString(),
+				slug: result.publishedSlug ?? topicSlug,
+				topic,
+				outputDir,
+				qualityScore: reviewData.finalScore,
+				reviewRounds: reviewRound,
+				wordCount: finalWordCount,
+				revisionCount,
+				evaluation: {
+					before: evalBefore?.actionableIssues,
+					after: (evalAfter ?? evalBefore)?.actionableIssues,
+					houseBefore: houseBefore.length,
+					houseAfter: houseAfter.length,
+				},
+				models,
+				openIssues: this.openIssues.length,
+				reviewerIssues: reviewData.issues ?? [],
+				struggles: struggles ?? null,
+				efficiencySuggestions: efficiencySuggestions ?? null,
+			};
+			appendFileSync(
+				join(findDataDir(), "pipeline-feedback.jsonl"),
+				`${JSON.stringify(entry)}\n`,
+				"utf-8",
+			);
+		} catch (e) {
+			this.logger.warn(`   ⚠️  Failed to record pipeline feedback: ${e}`);
 		}
+
+		// The editor's list: everything a person should look at before the essay goes live.
+		const openIssuesPath = this.writeOpenIssues(outputDir, title);
+		if (openIssuesPath) {
+			this.logger.log(`   📌 ${this.openIssues.length} öppna frågor — ${openIssuesPath}`);
+		}
+		result.openIssuesPath = openIssuesPath;
 
 		result.success = true;
 		result.finalArticle = finalText;
@@ -2558,8 +3232,27 @@ If the draft has anglicisms, fix them in the revised article.
 		result.totalDuration = Date.now() - startTime;
 
 		this.logger.log("✅ Content production complete!");
+		this.logFile = undefined;
 
 		return result;
+	}
+
+	/** open-issues.md, grouped by section; returns its path, or undefined when there is nothing. */
+	private writeOpenIssues(outputDir: string, title: string): string | undefined {
+		if (this.openIssues.length === 0) return undefined;
+		const sections = new Map<string, string[]>();
+		for (const issue of this.openIssues) {
+			sections.set(issue.section, [...(sections.get(issue.section) ?? []), issue.text]);
+		}
+		const body = [...sections]
+			.map(([section, items]) => `## ${section}\n\n${items.map((i) => `- [ ] ${i}`).join("\n")}`)
+			.join("\n\n");
+		saveOutput(
+			outputDir,
+			"open-issues.md",
+			`# Öppna frågor — ${title}\n\nInget av detta har någon grind avgjort. Gå igenom listan innan essän publiceras.\n\n${body}\n`,
+		);
+		return join(outputDir, "open-issues.md");
 	}
 
 	/**

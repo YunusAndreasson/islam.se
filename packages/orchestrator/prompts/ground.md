@@ -3,7 +3,8 @@
 <absolute_constraint>
 ⛔ **Ögonblicket ska vara ALLMÄNT, aldrig ett fall som utger sig för att vara verkligt.**
 
-Skriv »den som stänger fliken«, »hon som står i hallen på morgonen«. Skriv ALDRIG en
+Skriv ett allmänt ögonblick – ett svar som får ligga osänt till morgonen, en nyckel som
+vrids om efter en lång resa. Skriv ALDRIG en
 namngiven ort, person, klinik, myndighet eller händelse, och påstå aldrig något som en
 läsare skulle kunna slå upp och finna falskt.
 
@@ -46,7 +47,7 @@ En term introduceras (waqt, sabr, fitra, tawbah, mahabbah, 'ubudiyyah, dhikr...)
 
 **Före:** "Ibn Qayyim definierar sabr som att hålla själen borta från det som Gud förbjudit, att hålla tungan borta från klagan, att hålla kroppen ifrån att göra det passionen kräver."
 
-**Efter:** "Ibn Qayyim definierar sabr som att hålla själen borta från det som Gud förbjudit, att hålla tungan borta från klagan, att hålla kroppen ifrån att göra det passionen kräver. Det är den som sitter kvar vid bordet tills vreden sjunker. Den som stänger fliken."
+**Efter:** "Ibn Qayyim definierar sabr som att hålla själen borta från det som Gud förbjudit, att hålla tungan borta från klagan, att hålla kroppen ifrån att göra det passionen kräver. Svaret på det kränkande brevet får ligga osänt till morgonen."
 
 **Förankra INTE:**
 - Begrepp som redan har ett konkret ögonblick inom tre meningar
@@ -61,7 +62,7 @@ Längtan, avstånd, återkomst, klarhet, tyngd, frånvaro — dessa tillstånd a
 
 **Före:** "Distansen är nödvändig för att längtan ska vara möjlig."
 
-**Efter:** "Distansen är nödvändig för att längtan ska vara möjlig. Det vet alla som kommit hem efter en lång resa och förstår hemmet för första gången."
+**Efter:** "Distansen är nödvändig för att längtan ska vara möjlig. Hemmet syns först när nyckeln vrids om efter en lång resa."
 
 **Förankra INTE:**
 - Tillstånd som beskrivs med redan stark bildlighet
@@ -82,7 +83,19 @@ Längtan, avstånd, återkomst, klarhet, tyngd, frånvaro — dessa tillstånd a
 </operations>
 
 <calibration>
-Räkna med 3–8 ingrepp per artikel.
+Räkna med 0–2 ingrepp per artikel. De flesta essäer behöver ett eller inget, och `clean` är
+det vanligaste rätta svaret. Koden tar emot högst två tillägg.
+
+⛔ **Förankringen får inte bli en formel.** En tidigare version av den här prompten gav ett
+enda exempel av formen »Det är den som …«, och steget skrev sedan »Det är …«, »Den som …«
+eller »Det vet den som …« i två av tre tillägg – samma mening i essä efter essä, och två
+essäer i rad fick någon som står »i hallen«. Språkgranskningen räknar just de
+meningsöppnarna som AI-mönster. Därför:
+- Börja ALDRIG ett tillägg med »Det är«, »Den som«, »Det vet«, »Som när« eller »Så ser det
+  ut«. Koden avvisar dem.
+- Upprepa inte exemplens bilder (brevet, nyckeln, hallen). Hämta ögonblicket ur essäns eget
+  stoff.
+- Variera formen: ett konkret subjekt och ett verb, en inversion, ett kort fragment.
 
 Det tillagda ögonblicket ska vara:
 - Kortare eller lika långt som meningen det följer
@@ -110,33 +123,34 @@ Det tillagda ögonblicket ska vara:
 </sacred_boundaries>
 
 <output_format>
+Returnera ENDAST ett frontmatter-block med JSON mellan ---. Returnera INTE artikeln: koden
+sätter in varje tillägg direkt efter `original`, och ett tillägg du inte listar finns inte.
+
 ---
 {
   "verdict": "grounded",
-  "changesCount": 6,
+  "changesCount": 1,
   "changes": [
     {
-      "location": "Section name, paragraph N",
-      "original": "The last sentence before the grounding addition",
-      "addition": "The exact grounding sentence that was added",
-      "why": "One sentence: what concrete dimension this adds for the reader"
+      "location": "Avsnittets rubrik, stycke N",
+      "original": "Den hela meningen som tillägget ska följa, ordagrant ur texten och unik där",
+      "addition": "Den förankrande meningen, exakt som den ska stå",
+      "why": "En mening: vilken konkret dimension den ger läsaren"
     }
   ],
-  "summary": "2-3 sentences: what abstraction patterns were found and grounded"
+  "summary": "2–3 meningar: vilka abstraktioner du fann och varför du förankrade eller lät bli"
 }
 ---
-
-# Article Title
-
-The complete article text in markdown...
 </output_format>
 
 <output_instruction>
-Your output must be ONLY the frontmatter block and article — nothing else. No preamble, no reflection, no analysis before the frontmatter.
+Din output är BARA frontmatter-blocket – ingen inledning, ingen artikeltext, ingen analys.
 
-Output starts with --- on the first line. Nothing before it. The article body immediately follows the closing ---.
+Den börjar med --- på första raden och slutar med den avslutande ---.
 
-The article body starts with the original first line of the article. Do NOT add any headers like "# TEXTEN" or similar — output the article exactly as it was given, with only your grounding additions applied.
+`original` ska vara en hel mening kopierad tecken för tecken ur texten, med fotnotsmarkör om
+meningen har en, aldrig en rad ur ett blockcitat eller en fotnotsdefinition.
 
-Use verdict "clean" when no grounding was needed (changesCount: 0, changes: []). Use verdict "grounded" when additions were made.
+Använd verdict "clean" när ingen förankring behövs (changesCount: 0, changes: []), och
+"grounded" när du lägger till något.
 </output_instruction>

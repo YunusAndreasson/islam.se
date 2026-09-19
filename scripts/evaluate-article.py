@@ -77,7 +77,9 @@ AI_PATTERNS = {
     "diagnos": (r"\bdiagnos\w*\b", 1),
     "rymmer": (r"\brymmer\b", 2),
     "avslöjar": (r"\bavslöjar\b", 2),
-    "skarp": (r"\bskarp\w*\b", 1),
+    # Zero, like the prompts and check-language-tics.py since 0c98c98 — that commit missed
+    # this file, so the evaluator that feeds the correction pass still allowed one.
+    "skarp": (r"\bskarp\w*\b", 0),
     "bortom": (r"\bbortom\b", 2),
     "häri_ligger": (r"\bhäri\s+(?:ligger|bottnar)\b", 1),
     "nådde_samma": (r"\bnådde\s+samma\b", 1),
@@ -108,7 +110,13 @@ COLLOQUIAL = [
     r"\bjätte", r"\bsnacka\w*\b", r"\bprata\w*\b", r"\bfixar?\b",
     r"\bstrul\w*\b", r"\bjobba\w*\b", r"\bkäka\b", r"\btjej\b",
     r"\bkille\b", r"\basså\b", r"\bba\b", r"\bsåhär\b",
-    r"\bnånting\b", r"\bnån\b", r"\bdom\b",
+    r"\bnånting\b", r"\bnån\b",
+    # »dom« for de/dem, but not the noun »dom« (domslut): essays on law and elections use
+    # »en dom«, »ingen dom«, »dom över« constantly, and the evaluator flagged every one of
+    # them as colloquial — the second-model audit rejected the finding on four runs in a row.
+    r"(?<!\ben )(?<!\bEn )(?<!\bingen )(?<!\bIngen )(?<!\bsin )(?<!\bsamma )"
+    r"(?<!\bnågon )(?<!\bdenna )(?<!\bvarje )(?<!\bfällande )(?<!\bfriande )"
+    r"(?<!\bslutlig )(?<!\bmild )(?<!\bhård )(?<!\bGuds )\bdom\b(?! över)(?! i )(?! som )",
 ]
 
 # ──────────────────────────────────────────────

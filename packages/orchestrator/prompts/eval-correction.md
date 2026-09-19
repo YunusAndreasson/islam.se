@@ -67,8 +67,8 @@ Output a frontmatter block with JSON metadata between --- markers, followed by t
   "changes": [
     {
       "category": "latinism|anglicism|ai-pattern|em-dash|colloquial|idiom|repetition|footnote|italics|attribution",
-      "original": "The exact original word or phrase",
-      "replacement": "The replacement"
+      "original": "The exact original text, copied verbatim and long enough to be unique in the article (the whole clause or sentence, not a single word)",
+      "replacement": "The same span as it reads after your fix"
     }
   ],
   "summary": "1-2 sentences: what the report flagged and what you fixed"

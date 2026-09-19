@@ -115,7 +115,7 @@ Do not write a chart or a table here. You are collecting the numbers and their p
   "topic": "The topic",
   "summary": "Your developed angle. Must include: (1) The harder question this article answers — not 'What does Islam say about X' but the deeper question behind it. (2) The central tension or paradox that drives the essay. (3) A 2-3 sentence narrative arc: how the essay moves from problem to insight. (4) Why this angle would surprise a knowledgeable reader.",
   "quranReferences": [
-    { "surah": "Name", "ayah": "Number", "text": "Swedish translation" }
+    { "surah": "Name", "ayah": "Number", "verseKey": "4:85", "text": "Swedish translation, and any note on why the verse matters" }
   ],
   "quotes": [
     { "id": "quote-12345", "text": "إن الصبر عند أول صدمة", "textSv": "Tålamod visar sig i det första ögonblicket av prövning", "author": "Ibn Qayyim", "source": "Madarij al-Salikin" }

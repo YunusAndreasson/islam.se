@@ -17,6 +17,12 @@ export const ResearchOutputSchema = z.object({
 			z.object({
 				surah: z.string(),
 				ayah: z.string(),
+				// ⚠️ .optional() for the sibling producers that build this type by hand. The
+				// orchestrator resolves a missing key from the surah name.
+				verseKey: z
+					.string()
+					.optional()
+					.describe('Numeric verse key, "4:85", or a range, "30:31-32"'),
 				text: z.string().describe("Swedish translation of the verse"),
 			}),
 		)
@@ -160,6 +166,7 @@ export const FactCheckOutputSchema = z.object({
 // Draft output — full type (frontmatter + body combined in code)
 export const DraftOutputSchema = z.object({
 	title: z.string(),
+	description: z.string().optional(),
 	body: z.string(),
 	wordCount: z.number().optional(),
 	reflection: z.string().optional(),
@@ -170,6 +177,9 @@ export const DraftOutputSchema = z.object({
 // Draft frontmatter — validated from --- block (body comes from markdown)
 export const DraftFrontmatterSchema = z.object({
 	title: z.string(),
+	/** The deck under the title. Optional so a draft without one still parses; the house
+	 *  checks then flag it instead of the publisher cutting one from the lede. */
+	description: z.string().optional(),
 	reflection: z.string().optional(),
 	struggles: z.string().optional(),
 	efficiencySuggestions: z.string().optional(),
@@ -182,6 +192,15 @@ export const ReviewFrontmatterSchema = z.object({
 	summary: z.string(),
 	strengths: z.array(z.string()).optional(),
 	issues: z.array(z.string()).optional(),
+	/** Only when the reviewer rewrote the author's description. */
+	description: z.string().optional(),
+});
+
+/** A verbatim replacement a post-review stage asks the code to apply (see text-patches.ts). */
+const TextPatchSchema = z.object({
+	original: z.string(),
+	replacement: z.string(),
+	reason: z.string().optional(),
 });
 
 // Polish frontmatter — validated from --- block (body comes from markdown)
@@ -189,9 +208,7 @@ export const PolishFrontmatterSchema = z.object({
 	sectionScores: z.string(),
 	strongestSentence: z.string(),
 	weakestSentence: z.string(),
-	edits: z
-		.union([z.string(), z.array(z.string())])
-		.transform((v) => (Array.isArray(v) ? v.join("\n") : v)),
+	patches: z.array(TextPatchSchema),
 });
 
 // Swedish voice review frontmatter — validated from --- block (body comes from markdown).

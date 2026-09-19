@@ -126,6 +126,7 @@ pnpm produce article <topic>    # Full 4-stage pipeline
 pnpm produce research-only <topic>  # Research stage only
 pnpm produce ideate <topic>     # Generate 10 article ideas with quote enrichment
 pnpm produce status <path>      # Check article/idea status
+pnpm produce harvest <run>      # After hand-editing a published essay: record the diff vs final.md
 ```
 
 ## Web dev server (`apps/web`)

@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, extname, join } from "node:path";
 import { type PipelineModelTier, getModelId as resolveModelId } from "@islam-se/quotes";
 import type { ClaudeRunOptions } from "./claude-runner.js";
@@ -71,15 +71,27 @@ export function getModelId(model: PipelineModelTier): ClaudeRunOptions["model"] 
 }
 
 /**
- * Create a logger that respects quiet mode
+ * Create a logger that respects quiet mode, and appends every line to a run log when
+ * `logFile` names one — also in quiet (TUI) mode, where the console shows nothing.
  */
-export function createLogger(quiet: boolean) {
+export function createLogger(quiet: boolean, logFile?: () => string | undefined) {
+	const write = (msg: string) => {
+		const file = logFile?.();
+		if (!file) return;
+		try {
+			appendFileSync(file, `${msg}\n`, "utf-8");
+		} catch {
+			// A log that cannot be written must never stop a run.
+		}
+	};
 	return {
 		log: (msg: string) => {
 			if (!quiet) console.log(msg);
+			write(msg);
 		},
 		warn: (msg: string) => {
 			if (!quiet) console.warn(msg);
+			write(msg);
 		},
 	};
 }

@@ -171,6 +171,9 @@ Before producing your final output, use the think tool to run a concrete audit o
    Replace every latinism and anglicism found. This is a hard requirement — the article should read as if written by a native Swedish author, not translated from academic English.
 9. **Quotation mark consistency** — all inline quotes must use straight double quotes `"text"`. Replace any guillemets (`»«`, `»»`), curly quotes, or italic quotes (`*"text"*`). Blockquotes (`>`) should have no surrounding quote marks.
 10. **Title check** — copy the title. Is it ≤7 words? Does it contain a colon or dash subtitle? Does it use academic terms (kunskapsteori, perspektiv, analys)? If any of these fail, rewrite it: short, evocative, magazine-cover worthy.
+11. **House rules** — read the text against <house_rules>. Copy every sentence with »jag/min/mitt/mina« in the essay's own voice (footnotes included), every »skarp*«, »hen« and school label, and every mention of shia or sufism. Fix the first four. A shia or sufi mention stays only if the classical position answers it in the same section; otherwise cut it. For each objection section: does the classical position have the last word?
+12. **Quran quotes** — every Quran blockquote must match the Bernström text under QURAN REFERENCES word for word (shortening at a sentence boundary with […] is allowed). A retranslated verse is a factual error, not a style choice: restore it.
+13. **Description** — the author's draft description is under DESCRIPTION. It must not repeat the opening paragraph: a concrete anchor (a date, a quote) and the essay's turn, 1–2 sentences, at most ~300 characters. If it fails, write a better one in `description`.
 
 Fix all issues in the revised article before producing the final output.
 </pre_submission_audit>
@@ -184,7 +187,8 @@ Output a frontmatter block with JSON metadata between --- markers, followed by t
   "verdict": "revise",
   "summary": "What you changed and why (be specific: 'tightened opening, cut redundant quote in section 3, rewrote flat transition')",
   "strengths": ["Strong opening that hooks the reader", "Effective quote integration"],
-  "issues": ["Weak transition in section 3", "Two sections read as summary rather than essay"]
+  "issues": ["Weak transition in section 3", "Two sections read as summary rather than essay"],
+  "description": "Only if you rewrote the description — the new one"
 }
 ---
 
@@ -203,7 +207,9 @@ The complete revised article in markdown...
 
 **Verdict:** "publish" | "revise" | "reject"
 
-**Important:** First drafts almost never deserve "publish." If you made substantive changes (cut paragraphs, restructured sections, rewrote transitions), the verdict should be "revise" — your improvements need a second pair of eyes. Only "publish" if the original text needed nothing beyond light comma-level tweaks.
+**Important:** "publish" means your edits are cosmetic. If you made substantive changes (cut or added paragraphs, restructured sections, rewrote transitions, closed an argument gap), the verdict is "revise" — your improvements need a second pair of eyes. The pipeline measures the size of your edit: substantive changes returned under "publish" are sent back for another review round anyway, and on the last round they are discarded. Equally, don't return "revise" as a formality: a draft that needs only light edits is "publish".
+
+**`issues` on a "publish" verdict** are the things you deliberately left for a human (a translation to confirm, a page number to check). They are printed in the run log and written to the editor's list, so name each one concretely enough to act on.
 
 If verdict is "reject", the body after --- can be brief (just key issues). For "publish" or "revise", include the complete revised article.
 </output_format>
