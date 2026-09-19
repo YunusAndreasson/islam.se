@@ -20,3 +20,14 @@ https://raw.githubusercontent.com/OpenITI/0700AH/master/data/0676Nawawi/0676Nawa
 
 # al-Marghinani (d. 593 AH) — al-Hidaya fi sharh al-Bidaya (hanafitisk fiqh)
 https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0593BurhanDinFarghaniMarghinani/0593BurhanDinFarghaniMarghinani.HidayaFiSharhBidaya/0593BurhanDinFarghaniMarghinani.HidayaFiSharhBidaya.Shamela0011820-ara1
+
+# ── Primärtexter som essäpipelinen efterfrågat (tillagda 2026-09-19) ─────────────
+# Författarsteget bad om ordagrant utdrag med band:sida ur Majmūʿ (»band 35 och 11«)
+# och föll tillbaka på islamweb. Sidmarkörerna (PageV28P390) bevaras i passagerna och
+# `search_books` returnerar dem som »28:390«.
+
+# Ibn Taymiyya (d. 728 AH) — Majmu al-fatawa, Ibn Qasims utgåva (Majma al-Malik Fahd
+# 1416/1995), 35 band. Samma paginering som OpenITI:s primärversion JK000381 men renare
+# ortografi (hamza, skiljetecken, koranklamrar). Kontroll: »ولاية أمر الناس من أعظم
+# واجبات الدين« hamnar på 28:390, som den citeras. 29,2 MB, ~80 min
+https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.MajmucFatawa/0728IbnTaymiyya.MajmucFatawa.Shamela0007289-ara1

@@ -62,9 +62,25 @@ export {
 	summarizeExistingBook,
 } from "./importer.js";
 
+// Lookup by title/author, page references for stored passages
+export { type BookRef, findBooks, foldName, getPassagePages } from "./lookup.js";
+// Pages and display text
+export {
+	cleanPassageText,
+	findPageMarkers,
+	formatPageRef,
+	formatPageSpan,
+	type PageMarker,
+	type PassagePages,
+	type PassageSlice,
+	resolvePassagePages,
+} from "./pages.js";
 // Search
 export {
 	type BookInventory,
+	type BookPassageHit,
+	type BookPassageSearchOptions,
+	type BookPassageSearchResult,
 	type ConceptMatch,
 	type ConceptSearchOptions,
 	getBookInventory,
@@ -72,8 +88,10 @@ export {
 	type HybridSearchOptions,
 	type HybridSearchResult,
 	type PassageSearchOptions,
+	searchBookPassages,
 	searchBooks,
 	searchConcepts,
 	searchPassages,
 	searchPassagesText,
+	type TextSearchOptions,
 } from "./search.js";

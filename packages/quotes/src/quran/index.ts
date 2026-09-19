@@ -2,6 +2,15 @@
  * Quran database and extraction modules
  */
 
+// Bernström (house translation for quotes) and sura names
+export {
+	getBernstromRange,
+	getBernstromVerse,
+	resolveSurahNumber,
+	SURAH_NAMES,
+	type SurahName,
+} from "./bernstrom.js";
+
 // Database
 export {
 	cleanVerseText,

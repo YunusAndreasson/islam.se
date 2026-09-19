@@ -67,6 +67,8 @@
 # Master hadith scholar and commentator
 
 # Fath al-Bari - Commentary on Sahih al-Bukhari (SKIPPED - too large, 18.6M chars)
+# (Skipped for quote EXTRACTION only — too many claude calls. The book import is local and
+#  free; it is queued in data/urls-arabic-tafsir-hadith.txt. Keep it commented out here.)
 # https://raw.githubusercontent.com/OpenITI/0875AH/master/data/0852IbnHajarCasqalani/0852IbnHajarCasqalani.FathBari/0852IbnHajarCasqalani.FathBari.Shamela0001673-ara1
 
 # ══════════════════════════════════════════════════════════════

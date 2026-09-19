@@ -11,6 +11,8 @@
 
 import { generateLocalEmbedding } from "../embeddings/local.js";
 import { initBookDatabase, type PassageWithContext, type PassageWithScore } from "./database.js";
+import { type BookRef, findBooks, getPassagePages } from "./lookup.js";
+import { cleanPassageText } from "./pages.js";
 
 // ============================================================================
 // Types
@@ -23,6 +25,8 @@ export interface PassageSearchOptions {
 	minScore?: number;
 	/** Filter by book ID */
 	bookId?: number;
+	/** Filter by several book IDs (see findBooks) */
+	bookIds?: number[];
 	/** Filter by language */
 	language?: "sv" | "ar" | "en";
 }
@@ -51,6 +55,8 @@ export interface HybridSearchOptions {
 	minScore?: number;
 	/** Filter by book ID */
 	bookId?: number;
+	/** Filter by several book IDs (see findBooks) */
+	bookIds?: number[];
 	/** Filter by language */
 	language?: "sv" | "ar" | "en";
 	/** Weight for passage results vs concept results (default: 0.7) */
@@ -88,7 +94,8 @@ export async function searchPassages(
 	query: string,
 	options: PassageSearchOptions = {},
 ): Promise<PassageWithScore[]> {
-	const { limit = 10, minScore = 0.3, bookId, language } = options;
+	const { limit = 10, minScore = 0.3, bookId, bookIds, language } = options;
+	if (bookIds && bookIds.length === 0) return [];
 
 	const database = initBookDatabase();
 
@@ -117,6 +124,11 @@ export async function searchPassages(
 	if (bookId !== undefined) {
 		conditions.push("p.book_id = ?");
 		params.push(bookId);
+	}
+
+	if (bookIds !== undefined) {
+		conditions.push(`p.book_id IN (${bookIds.map(() => "?").join(", ")})`);
+		params.push(...bookIds);
 	}
 
 	if (language !== undefined) {
@@ -282,16 +294,18 @@ export async function searchBooks(
 		conceptLimit = 5,
 		minScore = 0.3,
 		bookId,
+		bookIds,
 		language,
 		passageWeight = 0.7,
 	} = options;
 
 	// Run both searches in parallel
-	const [passages, concepts] = await Promise.all([
+	const [passages, allConcepts] = await Promise.all([
 		searchPassages(query, {
 			limit: passageLimit * 2, // Get extra for re-ranking
 			minScore,
 			bookId,
+			bookIds,
 			language,
 		}),
 		searchConcepts(query, {
@@ -301,6 +315,7 @@ export async function searchBooks(
 			language,
 		}),
 	]);
+	const concepts = bookIds ? allConcepts.filter((c) => bookIds.includes(c.bookId)) : allConcepts;
 
 	// Create a book relevance map from concepts
 	const bookRelevance = new Map<number, number>();
@@ -423,20 +438,41 @@ export function getBookInventory(): BookInventory {
 	};
 }
 
+/** Query words for FTS5: quote characters and FTS5 syntax stripped, empties dropped. */
+function ftsTokens(query: string): string[] {
+	return query
+		.split(/\s+/)
+		.map((token) => token.replace(/["""(){}[\]:^~+\-!*]/g, "").trim())
+		.filter((token) => token.length > 0);
+}
+
 /**
- * Builds an FTS5 query from user input with prefix matching.
+ * Builds an FTS5 query from user input with prefix matching (every word, any order).
  */
 function buildBooksFts5Query(query: string): string {
-	const tokens = query.split(/\s+/).filter((t) => t.length > 0);
-	if (tokens.length === 0) return "";
-	return tokens
-		.map((token) => {
-			const cleaned = token.replace(/["""(){}[\]:^~+\-!]/g, "").trim();
-			if (!cleaned) return null;
-			return `"${cleaned}"*`;
-		})
-		.filter(Boolean)
+	return ftsTokens(query)
+		.map((token) => `"${token}"*`)
 		.join(" ");
+}
+
+/**
+ * Builds an FTS5 PHRASE query: the words consecutively, in order, no prefix matching.
+ * unicode61 splits on punctuation, so OpenITI's `~~` line joins between two words do not
+ * break a phrase; a page marker (PageV01P016) or milestone (ms002) between them does.
+ */
+function buildBooksFts5Phrase(query: string): string {
+	const tokens = ftsTokens(query);
+	return tokens.length > 0 ? `"${tokens.join(" ")}"` : "";
+}
+
+export interface TextSearchOptions {
+	limit?: number;
+	bookId?: number;
+	/** Filter by several book IDs (see findBooks) */
+	bookIds?: number[];
+	language?: "sv" | "ar" | "en";
+	/** Match the words as one consecutive phrase instead of all words anywhere (default: false) */
+	phrase?: boolean;
 }
 
 /**
@@ -445,12 +481,13 @@ function buildBooksFts5Query(query: string): string {
  */
 export function searchPassagesText(
 	query: string,
-	options: { limit?: number; bookId?: number } = {},
+	options: TextSearchOptions = {},
 ): PassageWithContext[] {
-	const { limit = 10, bookId } = options;
+	const { limit = 10, bookId, bookIds, language, phrase = false } = options;
+	if (bookIds && bookIds.length === 0) return [];
 	const database = initBookDatabase();
 
-	const ftsQuery = buildBooksFts5Query(query);
+	const ftsQuery = phrase ? buildBooksFts5Phrase(query) : buildBooksFts5Query(query);
 	if (!ftsQuery) return [];
 
 	let sql = `
@@ -474,8 +511,206 @@ export function searchPassagesText(
 		params.push(bookId);
 	}
 
+	if (bookIds !== undefined) {
+		sql += ` AND p.book_id IN (${bookIds.map(() => "?").join(", ")})`;
+		params.push(...bookIds);
+	}
+
+	if (language !== undefined) {
+		sql += " AND b.language = ?";
+		params.push(language);
+	}
+
 	sql += " ORDER BY rank LIMIT ?";
 	params.push(limit);
 
 	return database.prepare(sql).all(...params) as PassageWithContext[];
+}
+
+// ============================================================================
+// Filtered search with page references (the `search_books` MCP tool)
+// ============================================================================
+
+export interface BookPassageSearchOptions {
+	/** "semantic" (default): embedding similarity. "text": FTS5, exact words. */
+	mode?: "semantic" | "text";
+	/** Case-insensitive substring of the book title (or OpenITI title URI) */
+	book?: string;
+	/** Case-insensitive substring of the author name (romanized or Arabic script) */
+	author?: string;
+	languages?: ("sv" | "ar" | "en")[];
+	/** Number of passages to return (default: 5) */
+	limit?: number;
+	/** Cap on passages per author. Default 3 without a book/author filter, none with one. */
+	maxPerAuthor?: number;
+}
+
+export interface BookPassageHit {
+	id: number;
+	bookId: number;
+	bookTitle: string;
+	bookAuthor: string;
+	passageNumber: number;
+	/** OpenITI markup stripped (the database keeps the raw text). */
+	text: string;
+	/** Printed page where the passage begins, "volume:page" ("28:390"); null if the edition has none. */
+	page: string | null;
+	/** Pages the passage spans: "1:16", "1:16–17", "27:412–28:1". */
+	pages: string | null;
+	/** Text mode: page of the first matched word. */
+	matchPage?: string | null;
+	/** Semantic similarity (0–1); null in text mode. */
+	score: number | null;
+}
+
+export interface BookPassageSearchResult {
+	mode: "semantic" | "text";
+	hits: BookPassageHit[];
+	/** The books a book/author filter resolved to (null when no filter was given). */
+	books: BookRef[] | null;
+	/** Text mode: whether the hits contain the exact phrase or only all of its words. */
+	textMatch?: "phrase" | "all-words";
+	/** Semantic mode without filters: thematically matching books/chapters (summaries). */
+	concepts: ConceptMatch[];
+}
+
+/**
+ * Offset of the matched phrase in a raw passage (for the text-mode page). The words may
+ * be separated by OpenITI markup — a `~~` line join, a page marker, a milestone — so the
+ * gap between them is matched as any run of those. Falls back to the first word.
+ */
+function firstMatchOffset(text: string, query: string): number | undefined {
+	const tokens = ftsTokens(query);
+	const first = tokens[0];
+	if (!first) return undefined;
+	const escapeRe = (t: string) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	const gap = String.raw`(?:[\s~#|]|PageV\d+P\d+|ms\d+)+`;
+	const phrase = new RegExp(String.raw`(?<!\p{L})` + tokens.map(escapeRe).join(gap), "u");
+	const m = phrase.exec(text);
+	if (m) return m.index;
+	const i = text.indexOf(first);
+	return i === -1 ? undefined : i;
+}
+
+type Candidate = PassageWithContext & { score: number | null };
+type Language = "sv" | "ar" | "en" | undefined;
+
+/** Text mode: the exact phrase first; if it occurs nowhere, all of its words anywhere. */
+function textCandidates(
+	query: string,
+	langs: Language[],
+	limit: number,
+	bookIds: number[] | undefined,
+): { candidates: Candidate[]; textMatch: "phrase" | "all-words" } {
+	const run = (phrase: boolean): Candidate[] =>
+		langs.flatMap((language) =>
+			searchPassagesText(query, { limit: limit * 4, bookIds, language, phrase }).map((p) => ({
+				...p,
+				score: null,
+			})),
+		);
+	const phrase = run(true);
+	if (phrase.length > 0 || ftsTokens(query).length < 2) {
+		return { candidates: phrase, textMatch: "phrase" };
+	}
+	return { candidates: run(false), textMatch: "all-words" };
+}
+
+/** Semantic mode: the hybrid passage/concept search, merged across languages. */
+async function semanticCandidates(
+	query: string,
+	langs: Language[],
+	limit: number,
+	bookIds: number[] | undefined,
+): Promise<{ candidates: Candidate[]; concepts: ConceptMatch[] }> {
+	const results = await Promise.all(
+		langs.map((language) =>
+			searchBooks(query, { passageLimit: limit * 3, conceptLimit: 3, language, bookIds }),
+		),
+	);
+	const candidates: Candidate[] = results.flatMap((r) => r.combined);
+	candidates.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+	const seen = new Set<string>();
+	const concepts = results
+		.flatMap((r) => r.concepts)
+		.filter((c) => {
+			const key = `${c.type}:${c.entityId}`;
+			if (seen.has(key)) return false;
+			seen.add(key);
+			return true;
+		})
+		.sort((a, b) => b.score - a.score)
+		.slice(0, 5);
+	return { candidates, concepts };
+}
+
+/**
+ * The first `limit` usable candidates: no metadata, no overlapping neighbour of a passage
+ * already taken (consecutive passages share 200 characters — the same locus), at most
+ * `maxPerAuthor` per author.
+ */
+function pickCandidates(candidates: Candidate[], limit: number, maxPerAuthor: number): Candidate[] {
+	const taken = new Set<number>();
+	const perAuthor = new Map<string, number>();
+	const picked: Candidate[] = [];
+	for (const p of candidates) {
+		if (picked.length >= limit) break;
+		if (p.text.includes("#META#") || p.text.includes("DownloadSource")) continue;
+		if (taken.has(p.id) || taken.has(p.id - 1) || taken.has(p.id + 1)) continue;
+		const count = perAuthor.get(p.bookAuthor) ?? 0;
+		if (count >= maxPerAuthor) continue;
+		perAuthor.set(p.bookAuthor, count + 1);
+		taken.add(p.id);
+		picked.push(p);
+	}
+	return picked;
+}
+
+/**
+ * Passage search with optional book/author filter, semantic or exact-text mode, printed
+ * page references and cleaned text. Overlapping neighbours (passages share 200
+ * characters) are collapsed so one locus is not returned twice.
+ */
+export async function searchBookPassages(
+	query: string,
+	options: BookPassageSearchOptions = {},
+): Promise<BookPassageSearchResult> {
+	const { mode = "semantic", book, author, languages, limit = 5 } = options;
+	const filtered = Boolean(book || author);
+	const books = filtered ? findBooks({ book, author }) : null;
+	if (books && books.length === 0) {
+		return { mode, hits: [], books, concepts: [] };
+	}
+	const bookIds = books?.map((b) => b.id);
+	const maxPerAuthor = options.maxPerAuthor ?? (filtered ? Number.POSITIVE_INFINITY : 3);
+	const langs: Language[] = languages && languages.length > 0 ? languages : [undefined];
+
+	const found =
+		mode === "text"
+			? { ...textCandidates(query, langs, limit, bookIds), concepts: [] }
+			: { ...(await semanticCandidates(query, langs, limit, bookIds)), textMatch: undefined };
+
+	const hits: BookPassageHit[] = pickCandidates(found.candidates, limit, maxPerAuthor).map((p) => {
+		const pages = getPassagePages(p, mode === "text" ? firstMatchOffset(p.text, query) : undefined);
+		return {
+			id: p.id,
+			bookId: p.bookId,
+			bookTitle: p.bookTitle,
+			bookAuthor: p.bookAuthor,
+			passageNumber: p.passageNumber,
+			text: cleanPassageText(p.text),
+			page: pages.page,
+			pages: pages.pages,
+			...(mode === "text" ? { matchPage: pages.matchPage ?? null } : {}),
+			score: p.score,
+		};
+	});
+
+	return {
+		mode,
+		hits,
+		books,
+		textMatch: found.textMatch,
+		concepts: filtered ? [] : found.concepts,
+	};
 }

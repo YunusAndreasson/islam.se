@@ -40,3 +40,11 @@ https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali
 # biografierna över tre sekler lärde. Tjänar /tankare/-sidorna och essäernas personhistoria.
 # 21,94 MB, ~31 min
 https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0748Dhahabi/0748Dhahabi.SiyarAclamNubala/0748Dhahabi.SiyarAclamNubala.Shamela0022669-ara2
+
+# ── Tillagt 2026-09-19 ─────────────────────────────────────────────────────────
+
+# Ibn al-Qayyim (d. 751 AH) — al-Turuq al-hukmiyya fi al-siyasa al-shariyya. Domarens bevis-
+# medel, firasa och indicier, siyasa. En essä saknade den uttryckligen. Maktabat Dar al-Bayan,
+# 1 band. Inte JK000104 (primärversionen): den bär kollationsskräp »( ( ( يضلل ) ) )« mitt i
+# texten. 0,84 MB, ~2 min
+https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.TuruqHukmiyya/0751IbnQayyimJawziyya.TuruqHukmiyya.Shamela0011495-ara1

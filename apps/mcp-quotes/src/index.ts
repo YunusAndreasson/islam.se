@@ -11,13 +11,14 @@ import {
 	type FormattedQuoteWithId,
 	findQuotesByFilter,
 	generateLocalEmbedding,
+	getBookStats,
 	getCategories,
 	getInventory,
 	getQuote,
 	initBookDatabase,
 	initQuranDatabase,
 	preloadLocalModel,
-	searchBooks,
+	searchBookPassages,
 	searchQuotesHybrid,
 	searchQuotesText,
 	searchVersesSemantic,
@@ -30,9 +31,14 @@ import * as z from "zod";
 preloadLocalModel().catch(console.error);
 
 // Initialize book and quran databases (synchronous)
+let bookCounts = "";
 try {
 	initBookDatabase();
 	initQuranDatabase();
+	// Counted, not written into the description: it said "107k+ passages from 136 books"
+	// long after the corpus had passed 290k passages and 182 books.
+	const stats = getBookStats();
+	bookCounts = ` (${stats.totalPassages.toLocaleString("en-US")} passages from ${stats.totalBooks} books)`;
 } catch (e) {
 	console.error("Failed to initialize databases:", e);
 }
@@ -328,24 +334,45 @@ server.registerTool(
 	"search_books",
 	{
 		title: "Book Passage Search",
-		description: `Search for relevant passages from the book database (107k+ passages from 136 books).
+		description: `Search passages in the full-text book database${bookCounts}.
 
 The book database contains full texts from:
 - Swedish literature (Strindberg, Lagerlöf, Key, Bremer, etc.)
-- Arabic Islamic classics (Ibn Qayyim, al-Ghazali, Ibn Taymiyyah, etc.)
+- Arabic Islamic classics from OpenITI: the hadith collections (Bukhārī, Muslim, the four Sunan, Mālik, Aḥmad's Musnad), an-Nawawī's commentary on Ṣaḥīḥ Muslim (al-Minhāj), fiqh of all four schools, tafsīr (Ibn Kathīr, al-Qurṭubī), Ibn Taymiyya (incl. Majmūʿ al-fatāwā), Ibn al-Qayyim (incl. al-Ṭuruq al-ḥukmiyya), al-Māwardī's al-Aḥkām al-sulṭāniyya, history and biography.
 
-Use this for:
-- Finding extended context around a theme
-- Discovering passages that support your article's argument
-- Getting richer material than short quotes
+Each passage comes with its printed PAGE as "volume:page" (e.g. "28:390" = volume 28, page 390 of the edition OpenITI digitised) — cite it as such (»Majmūʿ al-fatāwā 28:390«). "Pages" gives the span when a passage crosses a page break. Page is "–" when the edition has no page numbers there (most of the Musnad: cite its hadith number, which stands in the text, e.g. »16 - حدثنا …«). Text is returned with OpenITI markup removed.
+
+Modes:
+- "semantic" (default): by meaning. Best for themes; weak on exact classical Arabic wording.
+- "text": exact words via the full-text index — use it for a known Arabic phrase or term (e.g. أهل الاختيار). Matches the phrase in order; if the phrase occurs nowhere, falls back to passages containing all the words (and says so). "Match page" is the page of the first matched word. Spelling variants (أ/ا, ة/ه) are NOT folded — try both.
+
+Filters: "book" and "author" (case-, diacritic- and article-insensitive substrings; "author" also matches the Arabic-script name of a romanized one, e.g. "Mawardi" → الماوردي). With a filter, there is no cap on passages per author.
 
 Examples:
-- "the nature of the soul and its purification" → finds relevant passages from Islamic psychology texts
-- "death and meaning in Swedish literature" → finds passages from Swedish authors on mortality`,
+- query "أهل الاختيار", mode "text", book "Ahkam Sultaniyya" → al-Māwardī on the electors, with pages
+- query "the qualifications of those who choose the caliph", author "Mawardi"
+- "the nature of the soul and its purification" → Islamic psychology texts
+- "death and meaning in Swedish literature" → Swedish authors on mortality`,
 		inputSchema: {
 			query: z
 				.string()
-				.describe('Descriptive search query (e.g., "spiritual struggle against the ego")'),
+				.describe(
+					'Search query: a description ("spiritual struggle against the ego") or, in text mode, the exact words',
+				),
+			mode: z
+				.enum(["semantic", "text"])
+				.optional()
+				.describe('"semantic" (default, by meaning) or "text" (exact words, FTS5)'),
+			book: z
+				.string()
+				.optional()
+				.describe(
+					'Only books whose title contains this, e.g. "Majmu al-fatawa", "Minhaj sharh Sahih Muslim", "AhkamSultaniyya"',
+				),
+			author: z
+				.string()
+				.optional()
+				.describe('Only books whose author contains this, e.g. "Ibn Taymiyya", "Nawawi"'),
 			languages: z
 				.array(z.enum(["sv", "ar", "en"]))
 				.optional()
@@ -355,72 +382,47 @@ Examples:
 			limit: z
 				.number()
 				.min(1)
-				.max(10)
+				.max(20)
 				.optional()
-				.describe("Number of results (default: 5, max: 10)"),
+				.describe("Number of results (default: 5, max: 20)"),
 		},
 	},
-	async ({ query, languages, limit }) => {
-		const requestedLimit = limit ?? 5;
+	async ({ query, mode, book, author, languages, limit }) => {
+		const result = await searchBookPassages(query, {
+			mode: mode ?? "semantic",
+			book,
+			author,
+			languages,
+			limit: limit ?? 5,
+		});
 
-		// Run parallel searches per language, then merge
-		const langs = languages && languages.length > 0 ? languages : [undefined];
-		const results = await Promise.all(
-			langs.map((lang) =>
-				searchBooks(query, {
-					passageLimit: requestedLimit * 3,
-					conceptLimit: 3,
-					language: lang,
-				}),
-			),
-		);
+		if (result.books && result.books.length === 0) {
+			const filter = [book && `book "${book}"`, author && `author "${author}"`]
+				.filter(Boolean)
+				.join(" and ");
+			return {
+				content: [{ type: "text", text: `No book matches ${filter}.` }],
+			};
+		}
 
-		// Merge results across languages, filtering out metadata noise and duplicates
-		const isMetadata = (text: string) => text.includes("#META#") || text.includes("DownloadSource");
-		const seenPassageIds = new Set<number>();
-		const allCombined = results
-			.flatMap((r) => r.combined)
-			.filter((p) => {
-				if (isMetadata(p.text) || seenPassageIds.has(p.id)) return false;
-				seenPassageIds.add(p.id);
-				return true;
-			});
-		const seenConceptKeys = new Set<string>();
-		const allConcepts = results
-			.flatMap((r) => r.concepts)
-			.filter((c) => {
-				const key = `${c.type}:${c.entityId}`;
-				if (seenConceptKeys.has(key)) return false;
-				seenConceptKeys.add(key);
-				return true;
-			});
-		allCombined.sort((a, b) => b.score - a.score);
-		allConcepts.sort((a, b) => b.score - a.score);
-
-		const result = {
-			combined: allCombined,
-			concepts: allConcepts.slice(0, 5),
-		};
-
-		if (result.combined.length === 0) {
+		if (result.hits.length === 0) {
 			return {
 				content: [{ type: "text", text: "No book passages found matching your query." }],
 			};
 		}
 
-		// Apply author diversity: max 3 passages per author
-		const authorCounts = new Map<string, number>();
-		const diverse: typeof result.combined = [];
-		for (const p of result.combined) {
-			const count = authorCounts.get(p.bookAuthor) ?? 0;
-			if (count >= 3) continue;
-			authorCounts.set(p.bookAuthor, count + 1);
-			diverse.push(p);
-			if (diverse.length >= requestedLimit) break;
-		}
-
-		// Show concept matches first for orientation
 		let output = "";
+		if (result.books) {
+			const listed = result.books
+				.slice(0, 8)
+				.map((b) => `${b.title} (${b.author})`)
+				.join("; ");
+			const more = result.books.length > 8 ? ` … and ${result.books.length - 8} more` : "";
+			output += `## Searched: ${listed}${more}\n\n`;
+		}
+		if (result.mode === "text" && result.textMatch === "all-words") {
+			output += "⚠️ The exact phrase occurs nowhere; these passages contain all of the words.\n\n";
+		}
 		if (result.concepts.length > 0) {
 			const conceptLines = result.concepts
 				.map((c) => `- ${c.bookTitle} by ${c.bookAuthor} (${c.type}, score: ${c.score.toFixed(3)})`)
@@ -428,15 +430,16 @@ Examples:
 			output += `## Thematically relevant books/chapters:\n${conceptLines}\n\n## Passages (ranked by hybrid relevance):\n\n`;
 		}
 
-		output += diverse
+		output += result.hits
 			.map((p, i) => {
-				return `[${i + 1}] ID: ${p.id}
-Book: ${p.bookTitle} by ${p.bookAuthor}
-Chapter: ${p.chapterTitle || "N/A"}
-
-"${p.text}"
-
-Score: ${p.score.toFixed(3)}`;
+				const lines = [
+					`[${i + 1}] ID: ${p.id}`,
+					`Book: ${p.bookTitle} by ${p.bookAuthor}`,
+					`Page: ${p.page ?? "–"}${p.pages && p.pages !== p.page ? ` (pages ${p.pages})` : ""}`,
+				];
+				if (result.mode === "text") lines.push(`Match page: ${p.matchPage ?? "–"}`);
+				if (p.score !== null) lines.push(`Score: ${p.score.toFixed(3)}`);
+				return `${lines.join("\n")}\n\n"${p.text}"`;
 			})
 			.join("\n\n---\n\n");
 
@@ -453,9 +456,12 @@ server.registerTool(
 		title: "Quran Verse Search",
 		description: `Search for relevant Quran verses by meaning.
 
-Use this to find Quranic support for themes in your article. Returns verses with Swedish translation.
+Use this to find Quranic support for themes in your article. Each verse is returned with:
+- "Bernström": Knut Bernström's Swedish translation — the HOUSE TRANSLATION. This is the text to QUOTE, verbatim (the site's quote check compares every quoted verse against it).
+- "Wennerström": Kent Asante Wennerström's translation, which is what the search runs on. It comes from a scan and is NOT for quoting; translator's notes follow it as "Notes".
+- "Arabic": the Uthmani text.
 
-IMPORTANT: The verse database is in Swedish. Always search in Swedish for best results.
+IMPORTANT: The search runs on Swedish text. Always search in Swedish for best results.
 
 Examples:
 - "tålamod och uthållighet" → finds verses about sabr
@@ -486,12 +492,13 @@ Examples:
 
 		const output = verses
 			.map((v, i) => {
-				return `[${i + 1}] ${v.surahNameSwedish} ${v.surahNumber}:${v.verseNumber}
-
-Arabic: ${v.textArabic}
-Swedish: ${v.textSwedish}
-
-Score: ${v.score.toFixed(3)}`;
+				const lines = [`[${i + 1}] ${v.surahNameSwedish} ${v.surahNumber}:${v.verseNumber}`, ""];
+				if (v.textArabic) lines.push(`Arabic: ${v.textArabic}`);
+				lines.push(`Bernström (house translation — quote this): ${v.textBernstrom ?? "–"}`);
+				lines.push(`Wennerström (search text, do not quote): ${v.textSwedish}`);
+				if (v.commentary) lines.push(`Notes (Wennerström): ${v.commentary}`);
+				lines.push("", `Score: ${v.score.toFixed(3)}`);
+				return lines.join("\n");
 			})
 			.join("\n\n---\n\n");
 

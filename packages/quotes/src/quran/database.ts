@@ -24,6 +24,12 @@ export interface QuranVerse {
 export interface StoredVerse extends QuranVerse {
 	id: number;
 	createdAt: string;
+	/**
+	 * Knut Bernström's translation (quran.com #48) — the house translation for QUOTED
+	 * verses. `textSwedish` is Kent Asante Wennerström's, from a scan, and is not what the
+	 * site quotes. Null only on a database the Bernström fill has not run on.
+	 */
+	textBernstrom?: string | null;
 }
 
 export interface VerseWithScore extends StoredVerse {
@@ -70,9 +76,17 @@ export function initQuranDatabase(): Database.Database {
 			commentary TEXT,
 			translator TEXT NOT NULL,
 			created_at TEXT DEFAULT (datetime('now')),
+			text_bernstrom TEXT,
 			UNIQUE(surah_number, verse_number, translator)
 		)
 	`);
+
+	// Bernström column on databases created before it existed (filled by
+	// scripts/quran-db.py bernstrom). Idempotent.
+	const columns = db.prepare("PRAGMA table_info(verses)").all() as { name: string }[];
+	if (!columns.some((c) => c.name === "text_bernstrom")) {
+		db.exec("ALTER TABLE verses ADD COLUMN text_bernstrom TEXT");
+	}
 
 	// Create indexes for efficient querying
 	db.exec(`
@@ -182,7 +196,7 @@ export function getVerse(surahNumber: number, verseNumber: number): StoredVerse 
 			id, surah_number as surahNumber, surah_name_arabic as surahNameArabic,
 			surah_name_swedish as surahNameSwedish, verse_number as verseNumber,
 			text_swedish as textSwedish, text_arabic as textArabic,
-			commentary, translator, created_at as createdAt
+			commentary, translator, created_at as createdAt, text_bernstrom as textBernstrom
 		FROM verses
 		WHERE surah_number = ? AND verse_number = ?
 	`);
@@ -201,7 +215,7 @@ export function getSurah(surahNumber: number): StoredVerse[] {
 			id, surah_number as surahNumber, surah_name_arabic as surahNameArabic,
 			surah_name_swedish as surahNameSwedish, verse_number as verseNumber,
 			text_swedish as textSwedish, text_arabic as textArabic,
-			commentary, translator, created_at as createdAt
+			commentary, translator, created_at as createdAt, text_bernstrom as textBernstrom
 		FROM verses
 		WHERE surah_number = ?
 		ORDER BY verse_number
@@ -221,7 +235,7 @@ export function getAllVerses(): StoredVerse[] {
 			id, surah_number as surahNumber, surah_name_arabic as surahNameArabic,
 			surah_name_swedish as surahNameSwedish, verse_number as verseNumber,
 			text_swedish as textSwedish, text_arabic as textArabic,
-			commentary, translator, created_at as createdAt
+			commentary, translator, created_at as createdAt, text_bernstrom as textBernstrom
 		FROM verses
 		ORDER BY surah_number, verse_number
 	`);
@@ -317,7 +331,7 @@ export function searchVerses(query: string, limit = 20): StoredVerse[] {
 			v.id, v.surah_number as surahNumber, v.surah_name_arabic as surahNameArabic,
 			v.surah_name_swedish as surahNameSwedish, v.verse_number as verseNumber,
 			v.text_swedish as textSwedish, v.text_arabic as textArabic,
-			v.commentary, v.translator, v.created_at as createdAt
+			v.commentary, v.translator, v.created_at as createdAt, v.text_bernstrom as textBernstrom
 		FROM verses_fts fts
 		JOIN verses v ON v.id = fts.rowid
 		WHERE verses_fts MATCH ?
@@ -354,10 +368,13 @@ export function searchVersesSemantic(
 			v.id, v.surah_number as surahNumber, v.surah_name_arabic as surahNameArabic,
 			v.surah_name_swedish as surahNameSwedish, v.verse_number as verseNumber,
 			v.text_swedish as textSwedish, v.text_arabic as textArabic,
-			v.commentary, v.translator, v.created_at as createdAt,
+			v.commentary, v.translator, v.created_at as createdAt, v.text_bernstrom as textBernstrom,
 			vec_distance_cosine(e.embedding, ?) as distance
 		FROM verse_embeddings e
 		JOIN verses v ON e.rowid = v.id
+		-- Three verses are missing from the Wennerström scan (16:69, 25:30, 26:54) and
+		-- carry an empty text_swedish: their embedding is of nothing, so keep them out.
+		WHERE v.text_swedish != ''
 		ORDER BY distance ASC
 		LIMIT ?
 	`);

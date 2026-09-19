@@ -27,3 +27,27 @@ https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0774IbnKathir/0774I
 # al-Qurtubi (d. 671 AH) — al-Jami' li-ahkam al-Quran. RÄTTSTAFSĪREN: exeges av just
 # de verser sidorna bygger regler på (abort 23:12–14, slöja 24:31, mat 5:3). 20,5 MB, ~57 min
 https://raw.githubusercontent.com/OpenITI/0675AH/master/data/0671AbuCabdAllahQurtubi/0671AbuCabdAllahQurtubi.JamicLiAhkamQuran/0671AbuCabdAllahQurtubi.JamicLiAhkamQuran.Shamela0020855-ara1
+
+# ── Kommentarerna och Musnad (tillagda 2026-09-19) ──────────────────────────────
+# Essäernas författarsteg bad uttryckligen om an-Nawawīs Sharḥ Ṣaḥīḥ Muslim, den
+# arabiska texten ur Musnad Aḥmad och Ibn Ḥajar »med volym och sida«.
+
+# al-Nawawi (d. 676 AH) — al-Minhaj sharh Sahih Muslim. Dar Ihya al-Turath al-Arabi,
+# 2:a uppl. 1392, 18 delar — den utgåva sidhänvisningarna avser. Samma paginering som
+# JK000137 (primärversionen) men med hamza och hadithnummer [56]. 7,3 MB, ~20 min
+https://raw.githubusercontent.com/OpenITI/0700AH/master/data/0676Nawawi/0676Nawawi.MinhajFiSharhMuslim/0676Nawawi.MinhajFiSharhMuslim.Shamela0001711-ara1
+
+# Ahmad ibn Hanbal (d. 241 AH) — al-Musnad, Muassasat al-Risala (al-Arnaut), 45 band.
+# OpenITI:s primärversion, .mARkdown. ⚠️ Sidmarkörerna är mest PageV00P000 (onumrerade),
+# så citera Musnad med HADITHNUMRET i texten (»16 - حدثنا …«), inte band:sida. 15,7 MB, ~44 min
+https://raw.githubusercontent.com/OpenITI/0250AH/master/data/0241IbnHanbal/0241IbnHanbal.Musnad/0241IbnHanbal.Musnad.Shamela0025794-ara1.mARkdown
+
+# Ibn Hajar (d. 852 AH) — Fath al-Bari. Dar al-Marifa, utg. Muhibb al-Din al-Khatib, 13 band.
+# Stod utkommenterad i urls-arabic.txt »too large, 18.6M chars« — det gällde CITATEXTRAKTIONEN
+# (import-arabic, ett claude-anrop per bit), inte bokimporten, som är lokal och gratis.
+# JK000166 (primärversionen) och inte Shamela0001673: Shamela lägger Hady al-Sari som
+# band 1 s. 3–492 och börjar sedan om på 1:1, så »1:7« blir tvetydigt. Kontroll: Ibn Hajars
+# kommentar till bröstets klyvning hamnar på 1:460 i båda. 30,5 MB, ~85 min
+# ⏳ KÖAD, INTE IMPORTERAD: omgången 2026-09-19 stoppades efter Musnad. Importera för sig:
+#    pnpm cli import-book <url nedan> --language ar   (utan --summarize)
+https://raw.githubusercontent.com/OpenITI/0875AH/master/data/0852IbnHajarCasqalani/0852IbnHajarCasqalani.FathBari/0852IbnHajarCasqalani.FathBari.JK000166-ara1
