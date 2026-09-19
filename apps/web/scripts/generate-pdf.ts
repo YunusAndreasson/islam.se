@@ -156,6 +156,12 @@ function blockToTypst(node: MdastNode, ctx: Ctx): string {
 			return blocksToTypst(children, ctx);
 
 		case "paragraph": {
+			// A photograph on its own line (rehype-photo-figure turns this into a <figure>
+			// on the web). The book is printed in one colour on uncoated paper and carries
+			// no photographs at all, so the picture is dropped — but the paragraph has to go
+			// with it, or Typst sets an empty block and the page gains a silent hole. The
+			// caption goes too: a caption under nothing describes nothing.
+			if (children.length === 1 && children[0]?.type === "image") return "";
 			const text = inlinesToTypst(children, ctx);
 			if (ctx.firstParagraph) {
 				ctx.firstParagraph = false;

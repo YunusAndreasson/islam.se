@@ -1970,6 +1970,36 @@
 		text-wrap: pretty;
 	}
 
+	/* A photograph inside the prose. Markdown has no figure, so an image on its own
+	   line arrives as <p><img></p>; src/plugins/rehype-photo-figure.ts lifts it to
+	   <figure class="prose-figure"> and writes the image's title out as the caption.
+
+	   The picture may breathe wider than the reading measure — that is the point of
+	   setting it apart from the text — while its caption keeps the measure, like the
+	   hero's, so the line under the picture aligns with the prose that follows it. */
+	.prose-figure {
+		margin: 2.4rem auto;
+		max-width: min(100%, calc(var(--content-width) + 8rem));
+	}
+
+	.prose-figure img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: var(--radius-xs);
+	}
+
+	.prose-figure-caption {
+		max-width: var(--content-width);
+		margin-inline: auto;
+		margin-top: 0.7rem;
+		font-size: var(--step--3);
+		line-height: 1.45;
+		font-style: italic;
+		color: var(--color-muted);
+		text-wrap: pretty;
+	}
+
 	/* ============================================================
    Sidenotes — the apparatus in the margin.
 

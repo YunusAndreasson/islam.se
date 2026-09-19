@@ -13,6 +13,7 @@ import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeChart } from "./src/plugins/rehype-chart";
 import { rehypeHeadingAnchor } from "./src/plugins/rehype-heading-anchor";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
+import { rehypePhotoFigure } from "./src/plugins/rehype-photo-figure";
 import { rehypeQuoteAttribution } from "./src/plugins/rehype-quote-attribution";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
 import { rehypeSidenotes } from "./src/plugins/rehype-sidenotes";
@@ -881,6 +882,11 @@ export default defineConfig({
 				rehypeChart,
 				rehypeTable,
 				rehypeTimeline,
+				// A photograph on its own line becomes a <figure> with its title as the visible
+				// caption. Same reasoning as the three above, and it must run after them: they
+				// replace a <pre> outright, and this one only ever looks at a <p> holding one
+				// <img>, so the passes cannot collide.
+				rehypePhotoFigure,
 				// LAST, and the pair has to stay in this order. Astro adds the heading `id`s
 				// with rehypeHeadingIds, and it schedules that AFTER the whole user list — so
 				// a permalink plugin placed anywhere in this array walks headings that have no

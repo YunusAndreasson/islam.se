@@ -77,6 +77,13 @@ const renderer = unified()
 	// var(--color-brass) would paint nothing at all.
 	.use(remarkRehype, {
 		handlers: {
+			// Photographs are web-only. An <img> whose src is a repo path resolves to
+			// nothing inside the EPUB container, so a reader would show a broken-image box
+			// and epubcheck would fail on the missing resource. Dropping the node leaves
+			// the empty <p> remark-rehype builds around it, which renders as nothing.
+			image() {
+				return undefined;
+			},
 			code(_state: unknown, node: { lang?: string; value?: string }) {
 				if (node.lang === "chart") {
 					return buildChartHast(parseChartSpec(node.value ?? ""), "print");
