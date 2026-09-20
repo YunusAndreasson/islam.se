@@ -120,6 +120,22 @@ describe('the map lesson', () => {
     MAP_RENDER_TIMEOUT,
   );
 
+  // A reader new to a map of prayer times gets the moment, one sentence and the stepper.
+  // The six-colour legend repeated what the pills on the lines already say, and "Maghrib i
+  // Stockholm" in the caption was the builder's anchor, not the reader's.
+  it(
+    'keeps the card to the moment, one sentence and the stepper',
+    async () => {
+      await launchWithLessonPending();
+
+      expect(screen.getByText(/^\d{1,2} \p{L}+ kl\. \d{2}:\d{2}$/u)).toBeTruthy();
+      expect(screen.queryByText(/Maghrib i Stockholm/)).toBeNull();
+      // PrayerLegend's items announce as "<label>, <Swedish name>" — none may be up.
+      expect(screen.queryByLabelText(/^Shurūq, /)).toBeNull();
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
   it(
     'steps forward and back through the curated examples',
     async () => {

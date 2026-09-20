@@ -15,6 +15,7 @@ import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
 import { DOCK_COLLAPSED_BASE, type DayMark, type PrayerDockHandle, PrayerDock, resolveToggle } from './PrayerDock';
+import { PRAYER_COLORS, PRAYER_TEXT_COLORS } from '@/lib/solar/palette';
 import { first, last } from '@/test-utils/at';
 
 beforeEach(() => {
@@ -174,6 +175,64 @@ describe('PrayerDock day navigation', () => {
     render(<PrayerDock {...dockProps(false)} />);
     expect(screen.queryByRole('button', { name: 'Nästa dag' })).toBeNull();
     expect(screen.getByRole('adjustable', { name: 'Dagens tidslinje' })).toBeTruthy();
+  });
+
+  it('writes each prayer NAME in its own hue, and the night rows in plain ink', () => {
+    // The removed prayer glyphs were tinted in each prayer's line colour, and that tint was
+    // the list's only link to the map lines, the pills and the timeline pips. The link now
+    // lives on the name itself, the way a line's pill on the map already wrote it (a dot
+    // beside the time was the first attempt and lasted a day). Two things are pinned here:
+    // the TEXT table, never the raw line colours (those fail contrast as small text — see
+    // lib/solar/palette), and the night landmarks staying uncoloured, since they have no
+    // line to point at.
+    render(<PrayerDock {...dockProps(true)} settings={{ ...DEFAULT_SETTINGS, showNightTimes: true }} />);
+    for (const key of PRAYER_ORDER) {
+      const row = screen.getByLabelText(new RegExp(`^${PRAYER_LABELS[key]} `));
+      const name = within(row).getByTestId('dock-row-name');
+      const { color } = StyleSheet.flatten(name.props.style) as { color?: string };
+      expect({ prayer: key, color }).toEqual({
+        prayer: key,
+        color: expect.stringMatching(
+          new RegExp(`^(${PRAYER_TEXT_COLORS[key].light}|${PRAYER_TEXT_COLORS[key].dark})$`, 'i'),
+        ),
+      });
+      // The line colour is for the map and the pip. If it ever reaches the name, contrast on
+      // the dock's sunlit card goes with it. Isha is the table's documented exception — its
+      // Prussian indigo was already legible as text, so in LIGHT the two are the same hex
+      // (palette.ts); every other prayer must differ from its line.
+      if (key !== 'isha') {
+        expect([PRAYER_COLORS[key].light, PRAYER_COLORS[key].dark]).not.toContain(color);
+      }
+    }
+    const nightRow = screen.getByLabelText(new RegExp(`^${NIGHT_SWEDISH_NAMES[first(NIGHT_ORDER)]} `));
+    const { color: nightColor } = StyleSheet.flatten(
+      within(nightRow).getByTestId('dock-row-name').props.style,
+    ) as { color?: string };
+    expect(screen.getByText('Natten')).toBeTruthy();
+    expect(Object.values(PRAYER_TEXT_COLORS).flatMap((c) => [c.light, c.dark])).not.toContain(
+      nightColor,
+    );
+  });
+
+  it('keeps the 00 and 24 hour labels inside the track, not hanging past its ends', () => {
+    // Centred on their hour, the two end labels overhung the track by half their width and
+    // sat ~9.5 dp from the card's rounded edge while the rest of the dock keeps 16. They now
+    // align inward, flush with the track's ends; the inner hours still centre on theirs.
+    render(<PrayerDock {...dockProps(false)} />);
+    fireEvent(screen.getByRole('adjustable', { name: 'Dagens tidslinje' }), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 300, height: 48 } },
+    });
+    const tick = (label: string) =>
+      StyleSheet.flatten(screen.getByText(label, { includeHiddenElements: true }).props.style) as {
+        left?: number;
+        right?: number;
+        marginLeft?: number;
+        textAlign?: string;
+      };
+    expect(tick('00')).toMatchObject({ left: 0, marginLeft: 0, textAlign: 'left' });
+    expect(tick('24')).toMatchObject({ right: 0, marginLeft: 0, textAlign: 'right' });
+    expect(tick('24').left).toBeUndefined();
+    expect(tick('12').textAlign).toBe('center');
   });
 
   it('offers both chevrons alongside the calendar when expanded', () => {

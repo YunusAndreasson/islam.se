@@ -25,7 +25,7 @@
 // changing the method here recomputes everything that depends on it (the dock
 // countdown, the wash, the notifications schedule) without leaving the screen.
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { OptionGroup } from '@/components/settings/OptionGroup';
@@ -33,6 +33,7 @@ import { PreviewStrip } from '@/components/settings/PreviewStrip';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
+import { useCompactLayout } from '@/components/settings/useCompactLayout';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { hapticLight } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
@@ -47,15 +48,14 @@ import {
   SHAFAQ_OPTIONS,
   signedMinutes,
 } from '@/lib/settings/options';
-import { PRAYER_ADJUSTMENT_MAX, PRAYER_ADJUSTMENT_MIN } from '@/lib/settings/types';
+import { DEFAULT_SETTINGS, PRAYER_ADJUSTMENT_MAX, PRAYER_ADJUSTMENT_MIN } from '@/lib/settings/types';
 import { usePrayerPreview } from '@/lib/settings/usePrayerPreview';
 import { space, type } from '@/theme/tokens';
 
 const ZERO_ADJUSTMENTS = { fajr: 0, sunrise: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 } as const;
 
 export default function Berakning() {
-  const { width, fontScale } = useWindowDimensions();
-  const scrollPreview = width < 360 || fontScale > 1.3;
+  const scrollPreview = useCompactLayout();
   const { settings, update } = useSettings();
   const { coords, label } = useLocation();
   const colors = useSettingsColors();
@@ -81,22 +81,26 @@ export default function Berakning() {
 
         <SettingSection
           title="Beräkningsmetod"
-          footnote="Diyanet är appens standard. Välj den metod som din moské eller församling följer."
+          // Not "Diyanet är appens standard" any more: the row's own tag says that.
+          footnote="Välj den metod som din moské eller församling följer."
         >
           <OptionGroup
             options={METHOD_OPTIONS}
             value={settings.calculationMethod}
+            standard={DEFAULT_SETTINGS.calculationMethod}
             onChange={(calculationMethod) => update({ calculationMethod })}
           />
         </SettingSection>
 
         <SettingSection
           title="Asr-metod (madhhab)"
-          footnote="Hanafi ger en senare Asr (skuggans dubbla längd). Alla andra rättsskolor ger samma, tidigare tid."
+          // Why the options differ, not which is later: the option rows already say that.
+          footnote="Asr börjar när ett föremåls skugga har vuxit lika mycket som föremålet är långt – för Hanafi dubbelt så mycket."
         >
           <OptionGroup
             options={MADHAB_OPTIONS}
             value={settings.madhab}
+            standard={DEFAULT_SETTINGS.madhab}
             onChange={(madhab) => update({ madhab })}
           />
         </SettingSection>
@@ -108,6 +112,7 @@ export default function Berakning() {
           <OptionGroup
             options={HIGHLAT_OPTIONS}
             value={settings.highLatitudeRule}
+            standard={DEFAULT_SETTINGS.highLatitudeRule}
             onChange={(highLatitudeRule) => update({ highLatitudeRule })}
           />
         </SettingSection>
@@ -119,6 +124,7 @@ export default function Berakning() {
           <OptionGroup
             options={POLAR_OPTIONS}
             value={settings.polarCircleResolution}
+            standard={DEFAULT_SETTINGS.polarCircleResolution}
             onChange={(polarCircleResolution) => update({ polarCircleResolution })}
           />
         </SettingSection>
@@ -128,6 +134,7 @@ export default function Berakning() {
             <OptionGroup
               options={SHAFAQ_OPTIONS}
               value={settings.shafaq}
+              standard={DEFAULT_SETTINGS.shafaq}
               onChange={(shafaq) => update({ shafaq })}
             />
           </SettingSection>
@@ -144,6 +151,7 @@ export default function Berakning() {
           <OptionGroup
             options={ROUNDING_OPTIONS}
             value={settings.rounding}
+            standard={DEFAULT_SETTINGS.rounding}
             onChange={(rounding) => update({ rounding })}
           />
         </SettingSection>

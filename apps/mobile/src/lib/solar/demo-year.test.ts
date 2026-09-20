@@ -18,9 +18,17 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 import { computeSignature } from '@/lib/settings/compute-signature';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
-import { __resetDemoCache, DEMO_FRAME_COUNT, demoDayStart, demoFrame } from './demo-year';
+import { computePrayerTimes, PRAYER_LABELS, PRAYER_ORDER } from '@/lib/prayer-times';
+import {
+  __resetDemoCache,
+  DEMO_FRAME_COUNT,
+  demoDayStart,
+  demoFrame,
+  MAP_LESSON_EXAMPLES,
+} from './demo-year';
 import { buildLines } from './field';
-import { __resetGridCache, gridForDay } from './grid-cache';
+import { __resetGridCache, gridForDay, lineGridSettings } from './grid-cache';
+import { polarBoundaryFor } from './sun';
 
 jest.mock('./field', () => {
   const actual: typeof import('./field') = jest.requireActual('./field');
@@ -134,5 +142,65 @@ describe('demoFrame', () => {
     demoFrame(5, TODAY, DEFAULT_SETTINGS, SIG);
 
     expect(buildLines).toHaveBeenCalledWith(expect.anything(), expect.any(Number), undefined);
+  });
+});
+
+describe('MAP_LESSON_EXAMPLES', () => {
+  // MapLessonCard prints each frame's date and clock time as a caption directly above the
+  // fact. The December fact once read "Maghrib kan komma redan
+  // vid 15" under a caption reading "Maghrib i Stockholm 14:54": the same news twice, the
+  // second copy rounded the wrong way. The caption follows the reader's method; a static
+  // string cannot, so a fact must never carry a clock time at all.
+  it.each(MAP_LESSON_EXAMPLES)('month $month states no clock time — the caption owns it', ({ fact }) => {
+    expect(fact).not.toMatch(/\b\d{1,2}[:.]\d{2}\b|\bvid \d{1,2}\b/);
+  });
+
+  // The lesson is for someone who has never seen prayer times on a map. The June fact once
+  // named three prayers in one sentence on top of a caption naming a fourth; each fact now
+  // carries one idea, and the pills on the map are what name the lines.
+  it.each(MAP_LESSON_EXAMPLES)('month $month names at most one prayer', ({ fact }) => {
+    const named = PRAYER_ORDER.filter((key) => fact.includes(PRAYER_LABELS[key]));
+    expect(named.length).toBeLessThanOrEqual(1);
+  });
+
+  // The December fact is a physical claim — the north gets Maghrib first, Umeå nearly two
+  // hours before Malmö — so it is checked against the same maths the map draws with. If
+  // the month or the towns change, this is what says the sentence stopped being true.
+  it('keeps the December claim true: Umeå’s Maghrib nearly two hours before Malmö’s', () => {
+    const december = MAP_LESSON_EXAMPLES.find((e) => e.month === 11);
+    expect(december?.fact).toMatch(/Umeå nästan två timmar före Malmö/);
+
+    const day = new Date(demoDayStart(2026, 11) + 12 * 3_600_000);
+    const umea = computePrayerTimes({ latitude: 63.8258, longitude: 20.263 }, day, DEFAULT_SETTINGS);
+    const malmo = computePrayerTimes({ latitude: 55.605, longitude: 13.0038 }, day, DEFAULT_SETTINGS);
+    const minutes = (malmo.maghrib.getTime() - umea.maghrib.getTime()) / 60_000;
+
+    expect(minutes).toBeGreaterThanOrEqual(95);
+    expect(minutes).toBeLessThan(120);
+  });
+
+  // The June fact is a physical claim too: Kiruna lies beyond the dashed midnight-sun line
+  // the frame draws, and there, with the settings the map's lines are built from, none of
+  // the three night prayers resolves. A draft of this fact claimed the prayer LINES end at
+  // that boundary; they do not (at the frame's instant there is no Fajr line at all), which
+  // is exactly the kind of claim this checks against the maths instead of the eye.
+  it('keeps the June claim true: Kiruna is past the midnight-sun line, with no night there', () => {
+    const june = MAP_LESSON_EXAMPLES.find((e) => e.month === 5);
+    expect(june?.fact).toMatch(/Kiruna ligger norr om den streckade linjen/);
+
+    const dayStart = demoDayStart(2026, 5);
+    const boundary = polarBoundaryFor(new Date(dayStart + 12 * 3_600_000));
+    const KIRUNA = { latitude: 67.8558, longitude: 20.2253 };
+    expect(boundary?.kind).toBe('midnight-sun');
+    expect(boundary!.lat).toBeLessThan(KIRUNA.latitude);
+
+    const times = computePrayerTimes(
+      KIRUNA,
+      new Date(dayStart + 12 * 3_600_000),
+      lineGridSettings(DEFAULT_SETTINGS),
+    );
+    for (const key of ['maghrib', 'isha', 'fajr'] as const) {
+      expect(Number.isNaN(times[key].getTime())).toBe(true);
+    }
   });
 });

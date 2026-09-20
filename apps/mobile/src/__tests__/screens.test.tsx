@@ -8,7 +8,7 @@ import { router } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import type { ReactElement, ReactNode } from 'react';
-import { AppState, type AppStateStatus, Platform } from 'react-native';
+import { AccessibilityInfo, AppState, type AppStateStatus, Platform } from 'react-native';
 
 import Bonetider from '@/app/bonetider';
 import Berakning from '@/app/(settings)/berakning';
@@ -26,7 +26,6 @@ import { project } from '@/lib/map/projection';
 import { __resetGridCache } from '@/lib/solar/grid-cache';
 import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
-import { first } from '@/test-utils/at';
 import { LogManager } from '@maplibre/maplibre-react-native';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
@@ -151,6 +150,11 @@ describe('tab screens', () => {
     jest
       .mocked(Location.getForegroundPermissionsAsync)
       .mockImplementation((async () => ({ status: 'granted', granted: true })) as never);
+    // The reader-abroad test moves the fix to Berlin; everyone else stands in Stockholm.
+    jest.mocked(Location.getCurrentPositionAsync).mockReset();
+    jest
+      .mocked(Location.getCurrentPositionAsync)
+      .mockImplementation((async () => ({ coords: { latitude: 59.3293, longitude: 18.0686 } })) as never);
   });
 
   it(
@@ -270,21 +274,64 @@ describe('tab screens', () => {
     MAP_RENDER_TIMEOUT,
   );
 
-  it('offers a persistent position control instead of the reset chip', () => atQuietHour(async () => {
+  // The right-hand disc used to be a permanent "Visa min position" whenever the map was at
+  // home — a location glyph beside the qibla arrow that read as a second compass. For a
+  // reader in Sweden it now exists only while there is something to reset (see MapAction
+  // in components/nav/MapNav).
+  it('shows a reader in Sweden no map control beside the cog on the home view', () => atQuietHour(async () => {
     await renderSettled(withProviders(<Bonetider />));
-    expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
-    const locate = screen.getByLabelText('Visa min position');
-    fireEvent.press(locate);
+    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
+      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+    } });
+    // The nav itself is up — so the two absences below are the disc's, not the whole row's.
+    expect(screen.getByLabelText('Inställningar')).toBeTruthy();
+    expect(screen.queryByLabelText('Visa min position')).toBeNull();
+    expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
+  }), MAP_RENDER_TIMEOUT);
+
+  // …but a reader abroad cannot see their dot on the Sweden home view at all, and before the
+  // position control came back for them the only way to it was panning across a continent.
+  it('offers a reader abroad the way to their own dot', () => atQuietHour(async () => {
+    jest.mocked(Location.getCurrentPositionAsync).mockResolvedValue({
+      coords: { latitude: 52.52, longitude: 13.405 }, // Berlin
+    } as never);
+    await renderSettled(withProviders(<Bonetider />));
+    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
+      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+    } });
+
+    await waitFor(() => expect(screen.getByLabelText('Visa min position')).toBeTruthy());
+    fireEvent.press(screen.getByLabelText('Visa min position'));
+    // The flight is under way, so the same disc now offers the way back.
     expect(screen.getByLabelText('Återställ kartan – visa hela Sverige')).toBeTruthy();
-    fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
-      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
-    } });
-    // The initial event establishes the map anchor; the reset settle completes the return.
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
-      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
-    } });
-    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+  }), MAP_RENDER_TIMEOUT);
+
+  // The reset disc leaves the screen the moment the camera lands home. A screen reader's
+  // focus was on it — so it is handed to the cog, or it falls to the top of the screen.
+  it('hands screen-reader focus to the cog when a pressed reset leaves the screen', () => atQuietHour(async () => {
+    const focus = jest.spyOn(AccessibilityInfo, 'sendAccessibilityEvent').mockImplementation(() => {});
+    try {
+      await renderSettled(withProviders(<Bonetider />));
+      const settle = (zoom: number, userInteraction: boolean) =>
+        fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+          nativeEvent: { zoom, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction },
+        });
+      settle(4.5, false);
+
+      // Panning back home by hand: the disc goes, but nobody's focus was on it.
+      settle(6, true);
+      settle(4.5, true);
+      expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
+      expect(focus).not.toHaveBeenCalled();
+
+      settle(6, true);
+      fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
+      settle(4.5, false);
+      expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
+      expect(focus).toHaveBeenCalledWith(expect.anything(), 'focus');
+    } finally {
+      focus.mockRestore();
+    }
   }), MAP_RENDER_TIMEOUT);
 
   it.each([
@@ -298,12 +345,12 @@ describe('tab screens', () => {
       });
     };
     settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
-    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+    expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
     settle(view.zoom, view.bounds, true);
     expect(screen.getByLabelText('Återställ kartan – visa hela Sverige')).toBeTruthy();
     fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
     settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
-    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+    expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
   }), MAP_RENDER_TIMEOUT);
 
   it('explains a tapped qibla arc and a prayer contour', async () => {
@@ -566,7 +613,9 @@ describe('tab screens', () => {
       await renderSettled(withProviders(<Installningar />));
       await waitFor(() =>
         expect(
-          screen.getByText('Notiser är blockerade. Öppna iOS-inställningar för att tillåta dem.'),
+          screen.getByText(
+            'Notiser är blockerade – inga påminnelser kommer fram. Tillåt dem i iOS-inställningar.',
+          ),
         ).toBeTruthy(),
       );
       expect(screen.getByRole('button', { name: 'Öppna iOS-inställningar för notiser' })).toBeTruthy();
@@ -643,13 +692,41 @@ describe('tab screens', () => {
     );
 
     await renderSettled(withProviders(<Notiser />));
-    // Each prayer's controls live inside a collapsed DisclosureGroup, so open one before
-    // querying — the same pattern the Förhandsvisning case above uses.
-    // "Fajr" also prefixes the Fajr-fönstret group's title, so take the first match —
-    // the per-prayer group, which renders above it.
-    await waitFor(() => expect(screen.getAllByRole('button', { name: /^Fajr/ }).length).toBeGreaterThan(0));
-    fireEvent.press(first(screen.getAllByRole('button', { name: /^Fajr/ }), 'Fajr buttons'));
-    expect(screen.getByLabelText('Påminnelse, Gryningsbönen')).toBeTruthy();
+    // WITHOUT OPENING ANYTHING. The Swedish name used to be the description of a toggle
+    // buried inside each prayer's collapsed group, so this test had to expand one first —
+    // which was the defect, not the setup: the switch a reader wants is the one the
+    // collapsed row was reporting on. It now rides on that switch's own spoken label.
+    await waitFor(() =>
+      expect(
+        screen.getByRole('switch', { name: 'Påminnelse för Fajr. Gryningsbönen' }),
+      ).toBeTruthy(),
+    );
+  });
+
+  // THE BUG THIS GUARDS: turning one prayer's reminder off took two taps and a hidden
+  // control — expand the group, then find a switch labelled "Påminnelse" inside it. The
+  // collapsed row said "Av" and offered no way to change it.
+  it('turns one prayer off from the collapsed row, without expanding it', async () => {
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({
+        ...DEFAULT_SETTINGS,
+        notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true },
+      }),
+    );
+
+    await renderSettled(withProviders(<Notiser />));
+    const fajr = await waitFor(() =>
+      screen.getByRole('switch', { name: 'Påminnelse för Fajr. Gryningsbönen' }),
+    );
+    expect(fajr.props.value).toBe(true);
+
+    fireEvent(fajr, 'valueChange', false);
+
+    await waitFor(async () => {
+      const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
+      expect(saved.notifications.prayers.fajr).toBe(false);
+    });
   });
 
   it('searches the city picker diacritic-insensitively', async () => {
@@ -720,9 +797,9 @@ describe('tab screens', () => {
 
     // On by default — the arc is a feature, not an opt-in.
     const toggle = screen.getByRole('switch', { name: /Visa qibla-riktning/ });
-    expect(toggle.props.value).toBe(true);
+    expect(toggle.props.accessibilityState.checked).toBe(true);
 
-    fireEvent(toggle, 'valueChange', false);
+    fireEvent.press(toggle);
 
     await waitFor(async () => {
       const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
@@ -740,9 +817,9 @@ describe('tab screens', () => {
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
     const toggle = screen.getByRole('switch', { name: /Visa nattens tider/ });
-    expect(toggle.props.value).toBe(false);
+    expect(toggle.props.accessibilityState.checked).toBe(false);
 
-    fireEvent(toggle, 'valueChange', true);
+    fireEvent.press(toggle);
 
     await waitFor(async () => {
       const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
@@ -765,8 +842,71 @@ describe('tab screens', () => {
     expect(screen.getByRole('switch', { name: /Visa nattens tider/ })).toBeTruthy();
     expect(screen.getByRole('switch', { name: /Haptisk återkoppling/ })).toBeTruthy();
     // The theme picker and the Hijri stepper likewise — both were behind the same fold.
+    // All three now share one "Appen" card rather than a titled section each; the pin is
+    // that they are on screen, not which heading they sit under. The stepper is
+    // "Hijri-dagar" since that merge: its section title used to supply the "Hijri", and a
+    // row called "Dagar" among a theme picker and a haptics switch names nothing.
     expect(screen.getByRole('radio', { name: /Följ system/ })).toBeTruthy();
-    expect(screen.getByLabelText('Dagar')).toBeTruthy();
+    expect(screen.getByLabelText('Hijri-dagar')).toBeTruthy();
+  });
+
+  // THE RULE THIS GUARDS: no line of copy on a screen may say what another line on that
+  // screen already says. These four were the surviving violations, and each was removed
+  // for a stated reason — restoring any of them is a regression, not a clarification.
+  it('says each thing once on Inställningar', async () => {
+    await renderSettled(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+
+    // A Toggle is ONE accessibility node, so its label and description are its accessible
+    // NAME — that is what to assert on, not loose text.
+    //
+    // The two place layers carried the same sentence with one noun swapped, each naming
+    // the switch above it. Both descriptions are gone: the names are now bare.
+    expect(screen.getByRole('switch', { name: 'Visa moskéer' })).toBeTruthy();
+    expect(screen.getByRole('switch', { name: 'Visa gravkvarter' })).toBeTruthy();
+    // The shared fact they were both circling is said once, below the card.
+    expect(
+      screen.getByText('Moskéer och gravkvarter ritas först när du zoomar in på en ort.'),
+    ).toBeTruthy();
+
+    // The night-times caption opened by naming the two rows it was about to add to the
+    // strip directly above it. Only the derivation survives.
+    expect(
+      screen.getByRole('switch', {
+        name: 'Visa nattens tider. Räknas från Maghrib till nästa Fajr.',
+      }),
+    ).toBeTruthy();
+
+    // Three sections that each held one control are now one card that can state itself.
+    expect(screen.getByText('Appen')).toBeTruthy();
+    for (const gone of ['Utseende', 'Haptik', 'Hijri-kalender']) {
+      expect(screen.queryByText(gone)).toBeNull();
+    }
+  });
+
+  it('says each thing once on Påminnelser', async () => {
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({
+        ...DEFAULT_SETTINGS,
+        notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true },
+      }),
+    );
+    await renderSettled(withProviders(<Notiser />));
+    await waitFor(() => expect(screen.getByText('Påminnelser')).toBeTruthy());
+
+    // First clause restated the section's own title, second restated the heading below it.
+    expect(
+      screen.queryByText('Ändrar alla böner på en gång. Du kan finjustera varje bön nedan.'),
+    ).toBeNull();
+
+    // Fajr-fönstret spent five strings on one boolean, three of them saying that sunrise
+    // ends Fajr. The two non-prayer alerts now share one section and one footnote.
+    expect(screen.queryByText('Påminn vid Shurūq')).toBeNull();
+    expect(screen.queryByText('Soluppgång – slutet på Fajr-tiden')).toBeNull();
+    expect(screen.queryByText('Påminn när sista tredjedelen börjar')).toBeNull();
+    expect(screen.queryByText('Notisen kommer exakt när tiden går in.')).toBeNull();
+    expect(screen.getByText('Inte bönetider')).toBeTruthy();
   });
 
   // THE BUG THIS GUARDS: Beräkning is where a user changes the method, the madhab, the

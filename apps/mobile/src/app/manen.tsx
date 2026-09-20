@@ -417,7 +417,11 @@ export default function Manen() {
 
   // No haptic on either: opening a screen or a sheet is navigation (lib/haptics policy).
   const openSettings = useCallback(() => {
-    router.push('/(settings)/installningar');
+    // `fokus=appen` scrolls Inställningar to the card holding the Hijri stepper. Without
+    // it this note read "Justera Hijri-datum" and then handed the reader a sheet whose
+    // Hijri control was several sections below the fold — a door that named its room and
+    // then opened onto the hallway.
+    router.push('/(settings)/installningar?fokus=appen');
   }, []);
   const openAlmanac = useCallback(() => {
     setReadingAlmanac(true);

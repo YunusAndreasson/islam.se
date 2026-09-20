@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
-import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { PRAYER_ORDER } from '@/lib/prayer-times';
 import type { PrayerPreview, PrayerPreviewRow } from '@/lib/settings/usePrayerPreview';
 import { mono, space, type } from '@/theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
+import { useCompactLayout } from './useCompactLayout';
 
 // The verifier, compact enough to stay on screen WHILE the settings it answers to are
 // being changed. The introduction's method step proved the principle with a one-line
@@ -26,8 +27,7 @@ import { type SettingsColors, useSettingsColors } from './theme';
 // reader must be able to see where the obligations stop (the same rule
 // usePrayerPreview follows when it appends rather than merges them).
 export function PreviewStrip({ preview }: { preview: PrayerPreview }) {
-  const { width, fontScale } = useWindowDimensions();
-  const roomy = width < 360 || fontScale > 1.3;
+  const roomy = useCompactLayout();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 

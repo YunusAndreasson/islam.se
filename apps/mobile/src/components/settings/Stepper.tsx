@@ -1,10 +1,11 @@
 import { useMemo, useRef } from 'react';
-import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { hapticSelection } from '@/lib/haptics';
 import { radius, space, type } from '@/theme/tokens';
 import { Icon } from '@/components/ui/Icon';
 import { type SettingsColors, useSettingsColors } from './theme';
+import { useCompactLayout } from './useCompactLayout';
 
 // A labelled −/value/+ stepper row for integer settings (minute adjustments,
 // Hijri day offset). Clamps to [min, max]; buttons are 44pt touch targets.
@@ -27,8 +28,7 @@ export function Stepper({
   format?: (value: number) => string;
   divider?: boolean;
 }) {
-  const { width, fontScale } = useWindowDimensions();
-  const stacked = width < 360 || fontScale > 1.3;
+  const stacked = useCompactLayout();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const clamp = (n: number) => Math.max(min, Math.min(max, n));

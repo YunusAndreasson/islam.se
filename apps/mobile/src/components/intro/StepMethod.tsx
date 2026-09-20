@@ -3,7 +3,7 @@
 // The riskiest step: to a beginner "Fajr 18°, Isha 17°" is noise, and a wizard that
 // demands a choice between six of those has taught nothing and cost trust. So the default
 // is already selected when the step opens, the copy says out loud that leaving it alone
-// is fine, and the live line underneath turns the abstraction into two numbers that
+// is fine ("behåll standarden" — which the "Standard" tag on that row makes findable), and the live line underneath turns the abstraction into two numbers that
 // visibly move when a row is tapped. A setting you can watch land is a setting you can
 // judge.
 //
@@ -17,6 +17,7 @@ import { SettingSection } from '@/components/settings/SettingSection';
 import { useLocation } from '@/lib/location/context';
 import { useSettings } from '@/lib/settings/context';
 import { MADHAB_OPTIONS, METHOD_OPTIONS } from '@/lib/settings/options';
+import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { usePrayerPreview } from '@/lib/settings/usePrayerPreview';
 import { type Palette, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
@@ -60,17 +61,22 @@ export function StepMethod() {
         <OptionGroup
           options={METHOD_OPTIONS}
           value={settings.calculationMethod}
+          standard={DEFAULT_SETTINGS.calculationMethod}
           onChange={(calculationMethod) => update({ calculationMethod })}
         />
       </SettingSection>
 
+      {/* The footnote says WHY the two options differ. It used to say "Hanafi ger en senare
+          Asr. Alla andra rättsskolor ger samma, tidigare tid" — which is what the two option
+          rows directly above it already read ("Tidigare Asr", "Senare Asr"). Same sentence as Inställningar → Beräkning. */}
       <SettingSection
         title="Asr-metod"
-        footnote="Hanafi ger en senare Asr. Alla andra rättsskolor ger samma, tidigare tid."
+        footnote="Asr börjar när ett föremåls skugga har vuxit lika mycket som föremålet är långt – för Hanafi dubbelt så mycket."
       >
         <OptionGroup
           options={MADHAB_OPTIONS}
           value={settings.madhab}
+          standard={DEFAULT_SETTINGS.madhab}
           onChange={(madhab) => update({ madhab })}
         />
       </SettingSection>

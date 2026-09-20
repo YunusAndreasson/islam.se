@@ -145,13 +145,13 @@ describe('the map leaning toward a prayer', () => {
     await launchMap();
     const leaned = camera().easeTo.mock.calls[0]![0].zoom;
 
-    // The lean lands. The app did this, so the position control must stay as it is…
+    // The lean lands. The app did this, so there is still nothing to reset…
     await settle(leaned, false);
-    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+    expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
     // …and a reader nudging the map without really moving it has not moved it either:
     // drift is measured from the leaned view the app holds, not from bare home.
     await settle(leaned, true);
-    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+    expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
 
     // Pinching back out to the plain home zoom IS moving away from what the app showed.
     await settle(HOME_ZOOM, true);
@@ -198,7 +198,7 @@ describe('the map leaning toward a prayer', () => {
     await settle(HOME_ZOOM, false);
 
     // The label promised "visa hela Sverige": the lean must not come straight back.
-    expect(screen.getByLabelText('Visa min position')).toBeTruthy();
+    expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
     expect(camera().easeTo).toHaveBeenCalledTimes(1); // only the launch lean, before the reset
   });
 

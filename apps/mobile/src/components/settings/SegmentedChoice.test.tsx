@@ -38,7 +38,9 @@ describe('SegmentedChoice', () => {
     jest.mocked(useWindowDimensions).mockReturnValue({ width: 320, height: 711, scale: 2.625, fontScale: 2 });
     const onChange = jest.fn();
     render(<SegmentedChoice options={OPTIONS} value="system" onChange={onChange} />);
-    expect(screen.getByRole('radio', { name: 'Följ system, Rekommenderad', checked: true })).toBeTruthy();
+    // OptionGroup's spoken form: label, then the description after a full stop (not a
+    // comma, which made a comma-list label run on into its description).
+    expect(screen.getByRole('radio', { name: 'Följ system. Rekommenderad', checked: true })).toBeTruthy();
     fireEvent.press(screen.getByRole('radio', { name: 'Ljust' }));
     expect(onChange).toHaveBeenCalledWith('light');
   });

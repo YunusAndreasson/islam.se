@@ -7,12 +7,19 @@
 //      compact strip, with the night-times switch in the same card so the toggle's
 //      effect appears directly above the control that caused it.
 //   4. Notiser           — local reminders per prayer.
-//   5. Karta             — the two map layers (moskéer, qibla).
-//   6. Utseende          — theme.
-//   7. Hijri-kalender    — the day offset for local moon sighting.
-//   8. Haptik            — app-wide haptic feedback.
-//   9. Stöd (untitled)   — Vanliga frågor / Kontakt / Om appen (clustered into one
+//   5. Karta             — the four map layers (moskéer, gravkvarter, qibla, månen).
+//   6. Appen             — theme, haptics, the Hijri day offset: the preferences that are
+//      about the app itself rather than about a place, a calculation, an alert or the map.
+//   7. Stöd (untitled)   — Vanliga frågor / Kontakt / Om appen (clustered into one
 //      list-style card, visually demoted with extra top air).
+//
+// Section 6 is a MERGE, and the opposite mistake to the one described below. Theme,
+// haptics and the Hijri offset each used to carry a titled section of their own holding
+// exactly one control ("Utseende", "Haptik", "Hijri-kalender"). A heading that names one
+// control names it twice, and three in a row spent two full section gaps saying nothing.
+// The test that tells this apart from the junk drawer is the same one: a group must be
+// able to state its own state. "Följ system · haptik på · Hijri ±0" does; "Utseende" over
+// six unrelated switches did not.
 //
 // No accordions here. Sections 3 and 5–7 used to be two DisclosureGroups: a folded
 // "Förhandsvisning" and an "Utseende" group that had quietly become a junk drawer —
@@ -28,11 +35,12 @@
 // introduction had already diagnosed and fixed for itself (components/intro/StepMethod:
 // "a setting you can watch land is a setting you can judge"). The strip is cheap enough
 // in height to simply stay open, and Beräkning now pins its own copy.
-import { router, useIsFocused } from 'expo-router';
+import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { NavRow } from '@/components/settings/NavRow';
 import { OptionGroup } from '@/components/settings/OptionGroup';
 import { SegmentedChoice } from '@/components/settings/SegmentedChoice';
 import { Icon } from '@/components/ui/Icon';
@@ -70,8 +78,6 @@ import {
 import { radius, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
-  const { width, fontScale } = useWindowDimensions();
-  const stackDetails = width < 360 || fontScale > 1.3;
   const { settings, loaded, update, reset } = useSettings();
   const { coords, label, source, permissionStatus } = useLocation();
   const { locating, refresh } = useLocationStatus();
@@ -79,6 +85,27 @@ export default function Installningar() {
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const isFocused = useIsFocused();
+
+  // ⚠️ A DOOR THAT DID NOT REACH ITS ROOM. Månen's almanac carries a note reading
+  // "Justera Hijri-datum" (lib/moon/readout), and pressing it pushed this screen and
+  // stopped there — dropping the reader at the top of a sheet with the control they were
+  // sent for several sections below the fold. `?fokus=appen` scrolls it into view instead.
+  // Deliberately a scroll and not a highlight: the reader asked to go somewhere, not to be
+  // told where it is.
+  const { fokus } = useLocalSearchParams<{ fokus?: string }>();
+  const scroller = useRef<ScrollView>(null);
+  const appSectionY = useRef(0);
+  const focused = useRef(false);
+  useEffect(() => {
+    if (fokus !== 'appen' || focused.current || !loaded) return;
+    focused.current = true;
+    // One frame after layout, so appSectionY holds a measured offset rather than 0.
+    const id = setTimeout(
+      () => scroller.current?.scrollTo({ y: Math.max(0, appSectionY.current - space.lg), animated: true }),
+      0,
+    );
+    return () => clearTimeout(id);
+  }, [fokus, loaded]);
 
   // Förhandsvisning's job is to show *how the current settings render* — not to be
   // a live next-prayer card (the dock + map already are). So no "nästa" highlight
@@ -184,7 +211,7 @@ export default function Installningar() {
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="close" fallback="/bonetider" />
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView ref={scroller} contentContainerStyle={styles.content}>
         <Text style={styles.header}>Inställningar</Text>
 
         <SettingSection
@@ -216,66 +243,48 @@ export default function Installningar() {
                   "Uppdaterad ✓" briefly so the user knows the tap landed: a fresh fix
                   often returns the SAME tätort and the muted value on the right would
                   look unchanged otherwise. Paired with a hapticSuccess in onRefreshTap. */}
-              <Pressable
-                onPress={() => void onRefreshTap()}
-                style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
-                accessibilityRole="button"
-                accessibilityLabel={
-                  locating
-                    ? 'Hämtar plats'
-                    : justUpdated
-                      ? 'Plats uppdaterad'
+              <NavRow
+                variant="action"
+                divider
+                leadingIcon={justUpdated && !locating ? 'checkCircle' : undefined}
+                label={
+                  justUpdated && !locating
+                    ? 'Uppdaterad'
+                    : locating
+                      ? 'Hämtar plats…'
                       : 'Uppdatera plats'
                 }
-              >
-                {justUpdated && !locating ? (
-                  <View style={styles.rowActionConfirm}>
-                    <Icon name="checkCircle" size={18} color={colors.accent} />
-                    <Text style={styles.rowAction}>Uppdaterad</Text>
-                  </View>
-                ) : (
-                  <Text style={styles.rowAction}>
-                    {locating ? 'Hämtar plats…' : 'Uppdatera plats'}
-                  </Text>
-                )}
-                <Text style={styles.rowValue} numberOfLines={1}>
-                  {source === 'gps' ? label : '–'}
-                </Text>
-              </Pressable>
+                value={source === 'gps' ? label : '–'}
+                onPress={() => void onRefreshTap()}
+                accessibilityLabel={
+                  locating ? 'Hämtar plats' : justUpdated ? 'Plats uppdaterad' : 'Uppdatera plats'
+                }
+              />
               {/* The footnote above names iOS-inställningar as the remedy; without this row
                   it named it and left the reader there. Meanwhile "Uppdatera plats" is a
                   button that CANNOT work once permission is denied — it re-asks, the OS
                   refuses silently, and the tap buys a warning buzz. This is the same row the
                   Notiser section below already uses for the same problem. */}
               {permissionStatus === 'denied' ? (
-                <Pressable
+                <NavRow
+                  variant="external"
+                  divider
+                  label={openSystemSettingsLabel()}
                   onPress={openSystemSettings}
-                  accessibilityRole="button"
                   accessibilityLabel={openSystemSettingsA11yLabel('plats')}
-                  style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
-                >
-                  <Text style={styles.rowAction}>{openSystemSettingsLabel()}</Text>
-                  <Icon name="externalLink" size={18} color={colors.accent} />
-                </Pressable>
+                />
               ) : null}
             </>
           ) : (
             // "Stad" is a label, not an action — ink, not accent. Value muted +
             // chevron on the right, like iOS's "Land · Sverige ›" pattern.
-            <Pressable
+            <NavRow
+              divider
+              label="Stad"
+              value={cityValue}
               onPress={() => router.push('/(settings)/byt-plats')}
-              accessibilityRole="button"
               accessibilityLabel={`Stad: ${cityValue}. Tryck för att byta.`}
-              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
-            >
-              <Text style={styles.rowLabel}>Stad</Text>
-              <View style={styles.rowTrailing}>
-                <Text style={styles.rowValue} numberOfLines={1}>
-                  {cityValue}
-                </Text>
-                <Icon name="chevronRight" size={22} color={colors.textMuted} />
-              </View>
-            </Pressable>
+            />
           )}
         </SettingSection>
 
@@ -285,18 +294,14 @@ export default function Installningar() {
             typography mirrors the Stad row inside Plats — label left, the current
             method body-weight right, chevron — because the *value* (which method
             is active) is what matters at a glance here, not a header. */}
-        <Pressable
-          onPress={() => router.push('/(settings)/berakning')}
-          accessibilityRole="button"
-          accessibilityLabel={`Beräkning: ${calcSummary}. Tryck för att ändra.`}
-          style={({ pressed }) => [styles.card, styles.cardRow, stackDetails && styles.stackedRow, pressed && styles.rowPressed]}
-        >
-          <Text style={styles.rowLabel}>Beräkning</Text>
-          <View style={[styles.rowTrailing, stackDetails && styles.stackedTrailing]}>
-            <Text style={[styles.rowValue, stackDetails && styles.stackedValue]}>{calcSummary}</Text>
-            <Icon name="chevronRight" size={22} color={colors.textMuted} />
-          </View>
-        </Pressable>
+        <SettingSection>
+          <NavRow
+            label="Beräkning"
+            value={calcSummary}
+            onPress={() => router.push('/(settings)/berakning')}
+            accessibilityLabel={`Beräkning: ${calcSummary}. Tryck för att ändra.`}
+          />
+        </SettingSection>
 
         {/* Förhandsvisning — the verifier, open. It answers the two sections above it:
             "given this place and this method, here is today." The night-times switch
@@ -310,9 +315,14 @@ export default function Installningar() {
               och en läsare som inte bett om dem ska inte få dem i en lista över
               förpliktelser. Visas som egna rader under de sex, aldrig blandade in bland
               dem. Se lib/night-times.ts. */}
+          {/* The description names only the DERIVATION. It used to open with "Nattens mitt
+              och sista tredjedel", which is exactly what the two rows appearing in the
+              strip above are about to be called — the caption spent its first clause
+              naming things the reader was one tap from reading for themselves. How they
+              are reckoned is the part no row can show. */}
           <Toggle
             label="Visa nattens tider"
-            description="Nattens mitt och sista tredjedel, räknat från Maghrib till Fajr."
+            description="Räknas från Maghrib till nästa Fajr."
             value={settings.showNightTimes}
             onValueChange={(showNightTimes) => update({ showNightTimes })}
             divider
@@ -335,45 +345,46 @@ export default function Installningar() {
             onValueChange={onNotificationsToggle}
           />
           {notificationsBlocked ? (
-            <Pressable
+            <NavRow
+              variant="external"
+              divider
+              label={openSystemSettingsLabel()}
               onPress={openNotificationSettings}
-              accessibilityRole="button"
               accessibilityLabel={openSystemSettingsA11yLabel('notiser')}
-              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
-            >
-              <Text style={styles.rowAction}>{openSystemSettingsLabel()}</Text>
-              <Icon name="externalLink" size={18} color={colors.accent} />
-            </Pressable>
+            />
           ) : null}
           {/* The per-alert detail — lead time and sound, per prayer, plus the
               Fajr-window marker — lives on its own screen. It is a Stad-style row:
               the VALUE (how many prayers, how early) is what matters at a glance, so
               it carries the summary and the chevron rather than a section header. */}
           {settings.notifications.enabled ? (
-            <Pressable
+            <NavRow
+              divider
+              label="Påminnelser"
+              value={notificationSummary(settings)}
               onPress={() => router.push('/(settings)/notiser')}
-              accessibilityRole="button"
               accessibilityLabel={`Påminnelser: ${notificationSummary(settings)}. Tryck för att ändra.`}
-              style={({ pressed }) => [styles.row, stackDetails && styles.stackedRow, pressed && styles.rowPressed]}
-            >
-              <Text style={styles.rowLabel}>Påminnelser</Text>
-              <View style={[styles.rowTrailing, stackDetails && styles.stackedTrailing]}>
-                <Text style={[styles.rowValue, stackDetails && styles.stackedValue]}>{notificationSummary(settings)}</Text>
-                <Icon name="chevronRight" size={22} color={colors.textMuted} />
-              </View>
-            </Pressable>
+            />
           ) : null}
         </SettingSection>
 
         {/* Karta — the two optional layers. Both toggles' own descriptions already say
             "på kartan", which is the clue that they never belonged under "Utseende":
             they are not how the app looks, they are what the map draws. */}
-        <SettingSection title="Karta">
+        {/* The two place layers used to carry a description each — "Moskéer visas på
+            kartan när du zoomar in." and "Muslimska gravkvarter visas på kartan när du
+            zoomar in." — which are the same sentence with one noun swapped, each saying
+            back the name of the switch it sat under. The one fact they shared (these
+            appear only once you are close enough) is worth keeping and is now said once,
+            below the card, where it also covers the qibla and moon rows. */}
+        <SettingSection
+          title="Karta"
+          footnote="Moskéer och gravkvarter ritas först när du zoomar in på en ort."
+        >
           {/* Moskéer — Sweden's mosques as quiet POIs, revealed as you zoom into a
               city. On by default; off leaves a pure solar field. See MosqueLayer. */}
           <Toggle
             label="Visa moskéer"
-            description="Moskéer visas på kartan när du zoomar in."
             value={settings.showMosques}
             onValueChange={(showMosques) => update({ showMosques })}
           />
@@ -382,7 +393,6 @@ export default function Installningar() {
               On by default. See BurialGroundLayer. */}
           <Toggle
             label="Visa gravkvarter"
-            description="Muslimska gravkvarter visas på kartan när du zoomar in."
             value={settings.showBurialGrounds}
             onValueChange={(showBurialGrounds) => update({ showBurialGrounds })}
             divider
@@ -410,53 +420,66 @@ export default function Installningar() {
           />
         </SettingSection>
 
-        {/* Tema — Apple Maps-style theme override; defaults to "Följ system" (the OS
-            Display setting decides). The dock, basemap, wash and prayer-line colours
-            all swap together the instant the user picks a row, via useActiveScheme().
-            Alone in its section now: with the map layers and the calendar offset moved
-            out, "Utseende" finally means only what it says. */}
-        <SettingSection title="Utseende">
-          {/* The one control on this screen that is a segmented control everywhere else the
-              reader has ever met it — three short, exclusive, familiar options. The long
-              lists above stay as OptionGroup rows: their per-row descriptions are what makes
-              them choosable, and a segment fits a word. See SegmentedChoice. */}
-          <SegmentedChoice
-            options={THEME_OPTIONS}
-            value={settings.theme}
-            onChange={(theme) => update({ theme })}
-          />
-        </SettingSection>
+        {/* APPEN — the three preferences that are about the app itself rather than about
+            a place, a calculation, an alert or the map. Each used to carry its own titled
+            section holding exactly one control: "Utseende" over a segmented picker,
+            "Hijri-kalender" over a stepper, "Haptik" over a switch. A heading that names
+            one control names it twice, and three of them in a row cost two full section
+            gaps to say nothing.
 
-        {/* Hijri-kalender — a ±2-day nudge so the app's Hijri date matches the local
-            moon sighting the reader follows. A calendar correction, never an appearance
-            one; the footnote shows the resulting date so the stepper has the same
-            watch-it-land feedback the strip gives the times. */}
-        <SettingSection
-          title="Hijri-kalender"
-          footnote={`I dag: ${preview.hijri}. Justera för att matcha lokal månsiktning.`}
-        >
-          <Stepper
-            label="Dagar"
-            value={settings.hijriOffset}
-            min={HIJRI_OFFSET_MIN}
-            max={HIJRI_OFFSET_MAX}
-            format={(v) => `${v > 0 ? '+' : ''}${v} d`}
-            onChange={(hijriOffset) => update({ hijriOffset })}
-          />
-        </SettingSection>
+            This is NOT the junk drawer the header comment above warns about. That group
+            failed its own test — it could only list the topics it contained, because no
+            value described it. This one states itself: "Följ system · haptik på · Hijri
+            ±0". Three independent preferences with values, not a word thrown over
+            unrelated machinery.
 
-        {/* Haptik — a single app-wide on/off for haptic feedback. Its own titled
-            section because it governs *feel*, not appearance, and is a set-once
-            preference worth surfacing. The Switch itself stays haptic-free: a native
-            control carries its own affordance. */}
-        <SettingSection title="Haptik">
-          <Toggle
-            label="Haptisk återkoppling"
-            description="Små vibrationer vid val, lås och dragning."
-            value={settings.haptics}
-            onValueChange={(haptics) => update({ haptics })}
-          />
-        </SettingSection>
+            Order matters: the Hijri stepper goes LAST so the live footnote below the card
+            — the resulting date, which moves as the stepper moves — still sits directly
+            under the control it answers to. */}
+        <View onLayout={(e) => { appSectionY.current = e.nativeEvent.layout.y; }}>
+          <SettingSection
+            title="Appen"
+            footnote={`I dag: ${preview.hijri}. Justera Hijri-dagar för att matcha lokal månsiktning.`}
+          >
+            {/* Tema — Apple Maps-style theme override; defaults to "Följ system" (the OS
+                Display setting decides). The dock, basemap, wash and prayer-line colours
+                all swap together the instant the user picks a row, via useActiveScheme().
+                A segmented control everywhere else the reader has ever met it — three
+                short, exclusive, familiar options. It is the one control here that cannot
+                name itself, so it takes the `label` prop; the section title used to do
+                that job. See SegmentedChoice. */}
+            <SegmentedChoice
+              label="Tema"
+              options={THEME_OPTIONS}
+              value={settings.theme}
+              onChange={(theme) => update({ theme })}
+            />
+            {/* Haptik — a single app-wide on/off. The description names WHERE the app
+                buzzes, which no switch can show. The Switch itself stays haptic-free: a
+                native control carries its own affordance (the row press does not — see
+                Toggle). */}
+            <Toggle
+              label="Haptisk återkoppling"
+              description="Små vibrationer vid val, lås och dragning."
+              value={settings.haptics}
+              onValueChange={(haptics) => update({ haptics })}
+              divider
+            />
+            {/* Hijri-kalender — a ±2-day nudge so the app's Hijri date matches the local
+                moon sighting the reader follows. A calendar correction, never a
+                calculation one: hijriOffset is read by the Hijri date, the moon screen and
+                the day picker, and never by the prayer-time math. */}
+            <Stepper
+              label="Hijri-dagar"
+              value={settings.hijriOffset}
+              min={HIJRI_OFFSET_MIN}
+              max={HIJRI_OFFSET_MAX}
+              format={(v) => `${v > 0 ? '+' : ''}${v} d`}
+              onChange={(hijriOffset) => update({ hijriOffset })}
+              divider
+            />
+          </SettingSection>
+        </View>
 
         {/* --- Stöd: secondary cluster. Visually demoted with extra top air and
             an untitled card of plain single-line rows. No subtitles on purpose:
@@ -472,9 +495,7 @@ export default function Installningar() {
                 existing settings blob as "already seen", so those users never got it
                 automatically). Dismiss the whole settings modal stack first, then open
                 it over the map: the flow is a root-level screen, not a settings page. */}
-            <LinkRow
-              styles={styles}
-              colors={colors}
+            <NavRow
               label="Visa introduktionen igen"
               onPress={() => {
                 replay();
@@ -482,9 +503,7 @@ export default function Installningar() {
                 router.navigate('/valkommen');
               }}
             />
-            <LinkRow
-              styles={styles}
-              colors={colors}
+            <NavRow
               label="Vanliga frågor"
               onPress={() => router.push('/(settings)/vanliga-fragor')}
               divider
@@ -493,20 +512,8 @@ export default function Installningar() {
                 the native mail composer directly (falls back to mailto: if no
                 composer is available). Opening a screen with a single mail row
                 was friction without payoff. */}
-            <LinkRow
-              styles={styles}
-              colors={colors}
-              label="Kontakt"
-              onPress={emailSupport}
-              divider
-            />
-            <LinkRow
-              styles={styles}
-              colors={colors}
-              label="Om appen"
-              onPress={() => router.push('/om')}
-              divider
-            />
+            <NavRow label="Kontakt" onPress={emailSupport} divider />
+            <NavRow label="Om appen" onPress={() => router.push('/om')} divider />
           </SettingSection>
         </View>
 
@@ -545,39 +552,6 @@ export default function Installningar() {
   );
 }
 
-// A list-style navigation row: single-line label + trailing chevron. Used in
-// the Stöd cluster at the bottom of Inställningar where the trio reads as one
-// quiet shelf. Sparse on purpose — honest labels don't need subtitles.
-function LinkRow({
-  styles,
-  colors,
-  label,
-  onPress,
-  divider = false,
-}: {
-  styles: ReturnType<typeof makeStyles>;
-  colors: SettingsColors;
-  label: string;
-  onPress: () => void;
-  divider?: boolean;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      style={({ pressed }) => [
-        styles.linkRow,
-        divider && styles.linkRowDivider,
-        pressed && styles.rowPressed,
-      ]}
-    >
-      <Text style={styles.linkLabel}>{label}</Text>
-      <Icon name="chevronRight" size={22} color={colors.textMuted} />
-    </Pressable>
-  );
-}
-
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.bg },
@@ -587,65 +561,12 @@ function makeStyles(colors: SettingsColors) {
     // Editorial screen title — same token as Qibla's title so the sibling sheets share rhythm.
     header: { ...type.title, color: colors.text, marginBottom: space.xl, marginTop: space.xs },
 
-    // --- Generic in-card row (used inside Plats, and as the Beräkning card) -
-    // 48pt min — comfortable touch target without feeling cramped.
-    row: {
-      borderTopWidth: StyleSheet.hairlineWidth,
-      borderTopColor: colors.separator,
-      paddingVertical: space.md,
-      paddingHorizontal: space.lg,
-      minHeight: 48,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      gap: space.md,
-    },
     rowPressed: { backgroundColor: colors.accentSoft },
-    rowLabel: { ...type.body, color: colors.text, flexShrink: 0 }, // labels: ink (not accent)
-    rowAction: { ...type.body, color: colors.accent, flexShrink: 0 }, // verbs: accent
-    // The momentary "Uppdaterad ✓" confirmation slot — icon + accent text in the same
-    // optical position as the verb, so the swap reads as the verb's success state.
-    rowActionConfirm: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-    // Trailing values yield before the leading label/action. Together with `row.gap`,
-    // this prevents joined text such as "Uppdatera platsDin plats" on compact screens.
-    rowValue: { ...type.body, color: colors.textMuted, flexShrink: 1, textAlign: 'right' },
-    rowTrailing: { flexDirection: 'row', alignItems: 'center', gap: 2, flexShrink: 1 },
-    stackedRow: { flexDirection: 'column', alignItems: 'stretch', gap: space.xs },
-    stackedTrailing: { justifyContent: 'space-between' },
-    stackedValue: { flex: 1, textAlign: 'left' },
-
-    // Single-row card variant for the Beräkning push.
-    card: {
-      backgroundColor: colors.card,
-      borderRadius: radius.md,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderColor: colors.border,
-      marginBottom: space.xxl,
-    },
-    cardRow: {
-      borderTopWidth: 0, // no separator: this is a standalone card, not a row inside one
-      paddingVertical: 14,
-      minHeight: 56,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      paddingHorizontal: space.lg,
-    },
 
     // --- Stöd cluster (FAQ / Kontakt / Om appen) --------------------------
     // Extra top air signals the IA gear-shift: above = configuration, below =
     // secondary support. SettingSection already wraps its own xxl bottom gap.
     supportTop: { marginTop: space.sm },
-    linkRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: space.md,
-      minHeight: 48,
-      paddingHorizontal: space.lg,
-      paddingVertical: space.md,
-    },
-    linkRowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-    linkLabel: { ...type.body, color: colors.text, flex: 1 },
 
     // Reset action: centred icon + MUTED label — the one control on the screen that
     // must not invite a tap, so it deliberately sits outside the "verbs are accent"

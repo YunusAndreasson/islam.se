@@ -29,11 +29,12 @@ import {
 import { Host as SwiftHost, Picker, Text as SwiftText } from '@expo/ui/swift-ui';
 import { pickerStyle, tag } from '@expo/ui/swift-ui/modifiers';
 import { useMemo } from 'react';
-import { Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { space, type } from '@/theme/tokens';
 import { useActiveScheme } from '@/theme/useColors';
 import { OptionGroup, type Option } from './OptionGroup';
+import { useCompactLayout } from './useCompactLayout';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 /** Native Host needs an explicit height. Large-text layouts use OptionGroup instead. */
@@ -43,13 +44,20 @@ export function SegmentedChoice<T extends string>({
   options,
   value,
   onChange,
+  label,
 }: {
   options: readonly Option<T>[];
   value: T;
   onChange: (value: T) => void;
+  /** Names the control when the card it sits in holds more than this one thing.
+   *  A segmented row is the one control here that cannot label itself — the section
+   *  title used to do that job, and on a shared card there is no longer a title per
+   *  control. Same `type.label` header shape the in-card SubGroups on Påminnelser use,
+   *  so a labelled segment and a labelled sound list read as one family. */
+  label?: string;
 }) {
-  const { width, fontScale } = useWindowDimensions();
   const colors = useSettingsColors();
+  const compact = useCompactLayout();
   const scheme = useActiveScheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const description = options.find((o) => o.value === value)?.description;
@@ -65,13 +73,23 @@ export function SegmentedChoice<T extends string>({
   };
 
   // Native segments cannot grow vertically or wrap their labels reliably. Use
-  // the same choice rows as other settings when text needs more room.
-  if (width < 360 || fontScale > 1.3) {
-    return <OptionGroup options={options} value={value} onChange={select} />;
+  // the same choice rows as other settings when text needs more room. The label rides
+  // along: the rows name the OPTIONS, never the setting they belong to.
+  if (compact) {
+    return (
+      <>
+        {label ? <Text style={styles.label}>{label}</Text> : null}
+        <OptionGroup options={options} value={value} onChange={select} />
+      </>
+    );
   }
 
   return (
-    <View style={styles.wrap}>
+    <>
+      {/* Outside `wrap`, which carries its own horizontal inset — nesting the label in it
+          would indent the header one step further than every other card header. */}
+      {label ? <Text style={styles.label}>{label}</Text> : null}
+      <View style={styles.wrap}>
       {Platform.OS === 'ios' ? (
         <SwiftHost
           style={styles.host}
@@ -113,7 +131,8 @@ export function SegmentedChoice<T extends string>({
         </Host>
       )}
       {description ? <Text style={styles.description}>{description}</Text> : null}
-    </View>
+      </View>
+    </>
   );
 }
 
@@ -121,6 +140,16 @@ function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     // Matches OptionGroup's row inset so a section mixing the two keeps one left edge.
     wrap: { paddingHorizontal: space.lg, paddingVertical: space.sm },
+    // Mirrors SettingSection's own card header (type.label) and the in-card SubGroup
+    // titles on Påminnelser, so a labelled control inside a shared card sits at the same
+    // rhythm as a titled one.
+    label: {
+      ...type.label,
+      color: colors.textMuted,
+      paddingHorizontal: space.lg,
+      paddingTop: 14,
+      paddingBottom: space.xs,
+    },
     host: { height: CONTROL_HEIGHT },
     description: { ...type.caption, color: colors.textMuted, marginTop: space.xs },
   });

@@ -8,8 +8,8 @@
 // (which is how left and right discs ended up disagreeing at dawn on the map). All
 // surfaces (map nav and modal bars alike) now pass the active OS palette's
 // `cardGlass / hairline` — Apple Maps-style chrome that follows the OS theme.
-import type { ReactNode } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import type { ReactNode, Ref } from 'react';
+import { Pressable, StyleSheet, type View } from 'react-native';
 
 import { shadow } from '@/theme/tokens';
 import { GlassSurface } from '@/components/ui/GlassSurface';
@@ -28,6 +28,9 @@ interface Props {
    *  card (MapLessonCard's "Föregående exempel" on the first example) rather than one
    *  that opens or closes a screen, which is what every other caller uses this for. */
   disabled?: boolean;
+  /** The pressable itself — for a caller that has to move screen-reader focus onto it
+   *  (MapNav, when the disc beside this one leaves the screen). */
+  ref?: Ref<View>;
 }
 
 export function GlassRoundButton({
@@ -38,10 +41,12 @@ export function GlassRoundButton({
   rim,
   size = 46,
   disabled,
+  ref,
 }: Props) {
   const radius = size / 2;
   return (
     <Pressable
+      ref={ref}
       // No haptic: every disc here is navigation chrome (open Qibla / Settings, modal
       // close ✕ / back ←). Routine transitions don't buzz — the screen change is the
       // feedback, and buzzing them all drains the signal value of the meaningful haptics

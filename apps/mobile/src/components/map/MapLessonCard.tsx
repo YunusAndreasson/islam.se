@@ -10,6 +10,21 @@
 // controls in the header/stepper row read as one obviously-tappable family instead of one
 // clear button (the X) and two quiet ones.
 //
+// WHAT THE CARD HOLDS, AND WHY SO LITTLE (2026-09-19, user: "too much and confusing … the
+// user never seen a map with prayer times before"). The reader is looking at something new:
+// a map with moving coloured lines, pills on them, a dashed boundary. The card's job is to
+// say ONE thing about it per example, so it holds exactly three: WHEN the map is showing (the
+// caption — needed, because it is not now), the one sentence, and the stepper. Two things
+// left it:
+//   - The six-colour legend (PrayerLegend). Every line on screen already carries a pill with
+//     its prayer's name, so the legend named the same lines a second time — plus four that
+//     were not on screen at all, as six transliterated Arabic names in a row. It stays in
+//     Vanliga frågor, where a reader looks a colour up on purpose.
+//   - "Maghrib i Stockholm" from the caption. It explained why the example sits at that
+//     minute, which is the builder's reason, not the reader's; to someone new it was a
+//     prayer, a city and a clock time to hold before the sentence even started. The caption
+//     is now just the moment: "15 juni kl. 22:13".
+//
 // Purely presentational: bonetider.tsx owns which example is showing (it needs the index
 // itself, to build the demoFrame that feeds the map's own overlay while this card is up)
 // and dismissal — there is no autoplay, so every example on screen is one the user tapped
@@ -25,13 +40,12 @@ import { hapticSelection } from '@/lib/haptics';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
-import { PrayerLegend } from './PrayerLegend';
 
 interface Props {
   fact: string;
   /** "15 juni" */
   monthLabel: string;
-  /** "22:13" — Maghrib i Stockholm, the instant on show. */
+  /** "22:13" — the instant on show (Maghrib in Stockholm, which the card no longer says). */
   timeLabel: string;
   index: number;
   total: number;
@@ -77,7 +91,7 @@ export function MapLessonCard({
       <GlassSurface style={styles.card} borderRadius={radius.xl} tint={sky.cardGlass}>
         <View style={styles.header}>
           <Text style={styles.caption}>
-            {monthLabel} · Maghrib i Stockholm {timeLabel}
+            {monthLabel} kl. {timeLabel}
           </Text>
           <GlassRoundButton
             onPress={onDismiss}
@@ -145,8 +159,6 @@ export function MapLessonCard({
             <Icon name={atEnd ? 'check' : 'chevronRight'} size={20} color={c.accent} />
           </GlassRoundButton>
         </View>
-
-        <PrayerLegend />
       </GlassSurface>
     </Animated.View>
   );

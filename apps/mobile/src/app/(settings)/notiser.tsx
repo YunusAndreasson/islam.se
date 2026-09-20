@@ -22,9 +22,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
 import { OptionGroup } from '@/components/settings/OptionGroup';
 import { SettingSection } from '@/components/settings/SettingSection';
-import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
-import { Toggle } from '@/components/settings/Toggle';
 import { Icon } from '@/components/ui/Icon';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { HAS_ADHAN_AUDIO, useAdhanPreview } from '@/lib/adhan-audio';
@@ -35,23 +33,19 @@ import { formatTime, PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-ti
 import { relativeDayLabel } from '@/lib/relative-day';
 import { useSettings } from '@/lib/settings/context';
 import {
-  MIXED_LABEL,
   SOUND_OPTIONS,
   commonPrayerLead,
   commonSound,
   leadLabel,
+  leadOptions as LEAD_OPTIONS,
   mixedPrayerLead,
   setAllPrayerLeads,
   setAllSounds,
   soundLabel,
   sunriseLeadLabel,
+  sunriseLeadOptions as SUNRISE_LEAD_OPTIONS,
 } from '@/lib/settings/options';
-import {
-  NOTIFICATION_LEAD_MAX,
-  NOTIFICATION_LEAD_MIN,
-  type NotificationSettings,
-  type NotificationSoundKey,
-} from '@/lib/settings/types';
+import type { NotificationSettings, NotificationSoundKey } from '@/lib/settings/types';
 import { startOfZoneDay } from '@/lib/zone-time';
 import {
   openBatteryOptimizationSettings,
@@ -59,8 +53,6 @@ import {
   systemSettingsName,
 } from '@/lib/system-settings';
 import { space, type } from '@/theme/tokens';
-
-const LEAD_STEP = 5;
 
 export default function Notiser() {
   const { settings, update } = useSettings();
@@ -144,22 +136,23 @@ export default function Notiser() {
           {nextReminder}
         </Text>
 
-        <SettingSection
-          title="Gäller alla"
-          footnote="Ändrar alla böner på en gång. Du kan finjustera varje bön nedan."
-        >
-          <Stepper
-            label="Påminn i förväg"
-            value={commonPrayerLead(n)}
-            min={NOTIFICATION_LEAD_MIN}
-            max={NOTIFICATION_LEAD_MAX}
-            step={LEAD_STEP}
-            // When the five disagree the stepper shows "Blandat" rather than picking one
-            // prayer's value and quietly presenting it as everyone's. Stepping from there
-            // writes the new value to all five, which is the point of a bulk control.
-            format={(v) => (mixedLead ? MIXED_LABEL : leadLabel(v))}
-            onChange={(minutes) => patch({ lead: setAllPrayerLeads(n.lead, minutes) })}
-          />
+        {/* No footnote. It read "Ändrar alla böner på en gång. Du kan finjustera varje bön
+            nedan." — the first clause is what "Gäller alla" already means, and the second
+            is the title of the section immediately below it. */}
+        <SettingSection title="Gäller alla">
+          <SubGroup styles={styles} title="Påminn i förväg">
+            {/* null when the five disagree, so no row is checked — the same honest mixed
+                state the sound list below uses, and the reason the old stepper needed a
+                "Blandat" label spliced into its formatter. Picking a row writes it to all
+                five, which is the point of a bulk control. */}
+            <OptionGroup
+              options={LEAD_OPTIONS(commonPrayerLead(n))}
+              value={mixedLead ? null : String(commonPrayerLead(n))}
+              onChange={(minutes) =>
+                patch({ lead: setAllPrayerLeads(n.lead, Number(minutes)) })
+              }
+            />
+          </SubGroup>
           <SubGroup styles={styles} title="Ljud" divider>
             <OptionGroup
               options={SOUND_OPTIONS}
@@ -187,78 +180,72 @@ export default function Notiser() {
           ))}
         </SettingSection>
 
-        {/* Kept in its own section so it never reads as a sixth prayer. Shurūq is a time
-            marker: it is when Fajr's window CLOSES, which is why the warning is useful
-            and why it is off by default. */}
+        {/* ONE section for the two alerts that are not prayers, where there used to be
+            two — and between them TEN strings for two booleans: a section title, a
+            footnote, a disclosure title, a toggle label and a toggle description each.
+            Three of the five on Fajr-fönstret said the same thing, that sunrise ends
+            Fajr's time.
+            
+            Four survive. The title says these are not prayers, the two rows name
+            themselves, and the footnote carries the only two facts no control can show:
+            what Shurūq closes, and that the last third is the voluntary night prayer's
+            hour rather than an obligation — with the one practical consequence of
+            switching it on, since the OS will only hold so many scheduled alerts.
+            
+            Kept visibly apart from the five above so neither can read as a sixth prayer.
+            Note the "Gäller alla" controls deliberately do NOT reach these: they say
+            "alla böner", and neither of these is one. */}
         <SettingSection
-          title="Fajr-fönstret"
-          footnote="Shurūq är soluppgången – då tar tiden för Fajr slut. Det är ingen bön, utan en påminnelse om att hinna be."
+          title="Inte bönetider"
+          footnote="Shurūq är soluppgången, då tiden för Fajr tar slut. Nattens sista tredjedel räknas från Maghrib till nästa Fajr – den tid de lärda framhåller för den frivilliga nattbönen. Varje påminnelse här tar en plats i notisbudgeten."
         >
           <DisclosureGroup
             title="Fajr-fönstret slutar"
             summary={
               n.fajrWindowEnd
                 ? `${sunriseLeadLabel(n.lead.sunrise)} · ${soundLabel(n.sound.sunrise)}`
-                : 'Av'
+                : ''
             }
+            toggle={{
+              value: n.fajrWindowEnd,
+              label: 'Påminnelse när Fajr-fönstret slutar. Vid soluppgången',
+              onValueChange: (fajrWindowEnd) => patch({ fajrWindowEnd }),
+            }}
           >
-            <Toggle
-              label="Påminn vid Shurūq"
-              description="Soluppgång – slutet på Fajr-tiden"
-              value={n.fajrWindowEnd}
-              onValueChange={(fajrWindowEnd) => patch({ fajrWindowEnd })}
-            />
-            {n.fajrWindowEnd ? (
-              <>
-                <Stepper
-                  label="Påminn i förväg"
-                  value={n.lead.sunrise}
-                  divider
-                  min={NOTIFICATION_LEAD_MIN}
-                  max={NOTIFICATION_LEAD_MAX}
-                  step={LEAD_STEP}
-                  format={sunriseLeadLabel}
-                  onChange={(minutes) => patch({ lead: { ...n.lead, sunrise: minutes } })}
-                />
-                <SubGroup styles={styles} title="Ljud" divider>
-                  <OptionGroup
-                    options={SOUND_OPTIONS}
-                    value={n.sound.sunrise}
-                    onChange={(sound) => patch({ sound: { ...n.sound, sunrise: sound } })}
-                  />
-                </SubGroup>
-              </>
-            ) : null}
+            <SubGroup styles={styles} title="Påminn i förväg">
+              <OptionGroup
+                options={SUNRISE_LEAD_OPTIONS(n.lead.sunrise)}
+                value={String(n.lead.sunrise)}
+                onChange={(minutes) =>
+                  patch({ lead: { ...n.lead, sunrise: Number(minutes) } })
+                }
+              />
+            </SubGroup>
+            <SubGroup styles={styles} title="Ljud" divider>
+              <OptionGroup
+                options={SOUND_OPTIONS}
+                value={n.sound.sunrise}
+                onChange={(sound) => patch({ sound: { ...n.sound, sunrise: sound } })}
+              />
+            </SubGroup>
           </DisclosureGroup>
-        </SettingSection>
-
-        {/* Its own section for the same reason Fajr-fönstret has one: it is not a prayer,
-            and nothing here may read as a sixth or seventh obligation. Note the "Gäller
-            alla" controls above deliberately do NOT reach this sound — their footnote says
-            "alla böner", and this is not one. */}
-        <SettingSection
-          title="Nattens sista tredjedel"
-          footnote="Nattens sista tredjedel räknas från Maghrib till nästa Fajr – den tid de lärda framhåller för den frivilliga nattbönen. Det är ingen bönetid, och påminnelsen fyller en plats i notisbudgeten."
-        >
           <DisclosureGroup
-            title="Påminn i nattens sista tredjedel"
-            summary={n.lastThird ? soundLabel(n.lastThirdSound) : 'Av'}
+            title="Nattens sista tredjedel"
+            // No lead list: this one fires exactly when the time comes in. See types.ts.
+            summary={n.lastThird ? soundLabel(n.lastThirdSound) : ''}
+            toggle={{
+              value: n.lastThird,
+              label: 'Påminnelse när nattens sista tredjedel börjar',
+              onValueChange: (lastThird) => patch({ lastThird }),
+            }}
           >
-            <Toggle
-              label="Påminn när sista tredjedelen börjar"
-              description="Notisen kommer exakt när tiden går in."
-              value={n.lastThird}
-              onValueChange={(lastThird) => patch({ lastThird })}
-            />
-            {n.lastThird ? (
-              <SubGroup styles={styles} title="Ljud" divider>
-                <OptionGroup
-                  options={SOUND_OPTIONS}
-                  value={n.lastThirdSound}
-                  onChange={(lastThirdSound) => patch({ lastThirdSound })}
-                />
-              </SubGroup>
-            ) : null}
+            <SubGroup styles={styles} title="Ljud">
+              <OptionGroup
+                options={SOUND_OPTIONS}
+                value={n.lastThirdSound}
+                onChange={(lastThirdSound) => patch({ lastThirdSound })}
+              />
+            </SubGroup>
           </DisclosureGroup>
         </SettingSection>
 
@@ -356,8 +343,12 @@ function DeliveryTroubleshooting({
   );
 }
 
-/** One prayer's alert: on/off, its own heads-up, its own sound. Collapsed to a single
- *  summary line until opened, so five of these read as one scannable list. */
+/** One prayer's alert: the switch on the row, its heads-up and sound behind the chevron.
+ *
+ *  The switch used to live INSIDE the fold, labelled "Påminnelse" — so a collapsed row
+ *  said "Av" and gave you no way to change it without expanding first. The Swedish name
+ *  ("Gryningsbönen") was that inner toggle's description; it now rides on the switch's own
+ *  spoken label, which is the only place it was ever doing work. */
 function PrayerAlertGroup({
   prayerKey,
   notifications: n,
@@ -373,39 +364,33 @@ function PrayerAlertGroup({
   return (
     <DisclosureGroup
       title={PRAYER_LABELS[prayerKey]}
-      summary={on ? `${leadLabel(n.lead[prayerKey])} · ${soundLabel(n.sound[prayerKey])}` : 'Av'}
+      // Nothing to say when it is off: the switch beside it already says so, and "Av"
+      // under a visibly-off switch is the same word twice.
+      summary={on ? `${leadLabel(n.lead[prayerKey])} · ${soundLabel(n.sound[prayerKey])}` : ''}
+      toggle={{
+        value: on,
+        label: `Påminnelse för ${PRAYER_LABELS[prayerKey]}. ${PRAYER_SWEDISH_NAMES[prayerKey]}`,
+        onValueChange: (value) => onPatch({ prayers: { ...n.prayers, [prayerKey]: value } }),
+      }}
     >
-      <Toggle
-        label="Påminnelse"
-        description={PRAYER_SWEDISH_NAMES[prayerKey]}
-        value={on}
-        onValueChange={(value) =>
-          onPatch({ prayers: { ...n.prayers, [prayerKey]: value } })
-        }
-      />
-      {on ? (
-        <>
-          <Stepper
-            label="Påminn i förväg"
-            value={n.lead[prayerKey]}
-            divider
-            min={NOTIFICATION_LEAD_MIN}
-            max={NOTIFICATION_LEAD_MAX}
-            step={LEAD_STEP}
-            format={leadLabel}
-            onChange={(minutes) => onPatch({ lead: { ...n.lead, [prayerKey]: minutes } })}
-          />
-          <SubGroup styles={styles} title="Ljud" divider>
-            <OptionGroup
-              options={SOUND_OPTIONS}
-              value={n.sound[prayerKey]}
-              onChange={(sound: NotificationSoundKey) =>
-                onPatch({ sound: { ...n.sound, [prayerKey]: sound } })
-              }
-            />
-          </SubGroup>
-        </>
-      ) : null}
+      <SubGroup styles={styles} title="Påminn i förväg">
+        <OptionGroup
+          options={LEAD_OPTIONS(n.lead[prayerKey])}
+          value={String(n.lead[prayerKey])}
+          onChange={(minutes) =>
+            onPatch({ lead: { ...n.lead, [prayerKey]: Number(minutes) } })
+          }
+        />
+      </SubGroup>
+      <SubGroup styles={styles} title="Ljud" divider>
+        <OptionGroup
+          options={SOUND_OPTIONS}
+          value={n.sound[prayerKey]}
+          onChange={(sound: NotificationSoundKey) =>
+            onPatch({ sound: { ...n.sound, [prayerKey]: sound } })
+          }
+        />
+      </SubGroup>
     </DisclosureGroup>
   );
 }

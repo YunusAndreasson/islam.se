@@ -87,7 +87,7 @@ import {
 } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { zonePrayerDate } from '@/lib/zone-time';
-import { prayerColorFor } from '@/lib/solar/palette';
+import { prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { hexToRgba } from '@/theme/rgba';
@@ -96,6 +96,7 @@ import { useActiveScheme, useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { DayPicker } from './DayPicker';
 import { Icon } from '@/components/ui/Icon';
+import { chipStyles } from '@/components/ui/chip';
 import { StepperPill } from '@/components/ui/StepperPill';
 import { useNavMetrics } from '@/components/nav/metrics';
 import { DOCK_FOOTER_PAD, DOCK_HANDLE_H, DOCK_HERO_GAP, dockMetrics, TRACK_BAND_H } from './dock-metrics';
@@ -122,6 +123,9 @@ const SPRING = motion.spring;
 /** The scrubber knob's diameter. Its centre is what sits on the track, so every `left` that
  *  places it subtracts half of this. */
 const THUMB = 16;
+/** The diameter of a prayer's pip on the timeline. The schedule above it carries the same
+ *  colours on the prayer NAMES, so the two read as one key without a second dot. */
+const PRAYER_DOT = 7;
 
 // How far a finger must travel before a toggle gesture counts as a DRAG rather than a press
 // that wobbled. gesture-handler hands the pan priority over the tap the moment a touch clears
@@ -214,9 +218,10 @@ export const DOCK_COLLAPSED_BASE = dockMetrics(1).collapsed;
 // and covers a longer month name in any future locale.
 //
 // The fallback is only for the frame before the first onLayout: the six rows and the two
-// date lines at the default text size, night group included when it is on.
+// date lines at the default text size, night group included when it is on (rule 12 + 4,
+// caption 18 + 4, two compact rows of 30 — see listRowCompact).
 const SCHEDULE_FALLBACK = 260;
-const NIGHT_GROUP_FALLBACK = 108;
+const NIGHT_GROUP_FALLBACK = 98;
 /** Stable identity so the `night` memo doesn't hand a fresh object down every render
  *  while the group is off. */
 const EMPTY_NIGHT: NightTimes = { middleOfNight: null, lastThird: null };
@@ -962,6 +967,7 @@ export function PrayerDock({
                           // obligation" now that no glyph is there to say it (a sunrise icon
                           // used to). Same rule as the settings preview and the widget.
                           muted={key === 'sunrise'}
+                          nameColor={valid ? prayerTextColorFor(key, scheme) : undefined}
                           mounted={showSchedule}
                           visible={expanded}
                           isNext={next?.key === key && !next.nextDay}
@@ -1114,6 +1120,8 @@ const ScheduleRow = memo(function ScheduleRow({
   label,
   time,
   muted,
+  compact,
+  nameColor,
   mounted,
   visible,
   isNext,
@@ -1126,6 +1134,13 @@ const ScheduleRow = memo(function ScheduleRow({
   time: string;
   /** Render the row in the muted ink tier: this row is not an obligation. */
   muted?: boolean;
+  /** Drop the 44 dp tap-target pitch. Only for rows that are never pressable AND sit in a
+   *  group of their own — the night landmarks. See listRowCompact. */
+  compact?: boolean;
+  /** The prayer's hue, worn by its NAME (PRAYER_TEXT_COLORS, not the raw line colour).
+   *  Omitted where there is nothing to connect to: the night landmarks (no line, no pip)
+   *  and a time that cannot be computed — those rows keep plain ink. */
+  nameColor?: string;
   /** In the tree at all — true from the first pixel of a drag, so `reveal` above has
    *  something to uncover. See `mounted` in PrayerDock. */
   mounted: boolean;
@@ -1137,14 +1152,40 @@ const ScheduleRow = memo(function ScheduleRow({
   onSelect?: (at: number) => void;
   accessibilityLabel: string;
 }) {
-  // Name and time only — no glyph column. The label starts on the card's own leading edge,
-  // the same one the date crown above and the hero below use, so the open card reads as one
-  // column of type rather than a gutter of icons with the words set in from it. What the
-  // glyphs used to say is carried by ink instead: brass for the next prayer, muted for the
-  // rows nobody is obliged to pray (Shurūq and the night group).
+  // No glyph column. The label starts on the card's own leading edge, the same one the date
+  // crown above and the hero below use, so the open card reads as one column of type rather
+  // than a gutter of icons with the words set in from it. What the glyphs said about RANK is
+  // carried by ink: brass for the next prayer, muted for the rows nobody is obliged to pray
+  // (Shurūq and the night group).
+  //
+  // What they said about IDENTITY went with them, and that was a loss (user, 2026-09-19:
+  // "now there is no natural connection"). Each glyph was tinted in its prayer's colour — the
+  // colour of that prayer's line on the map, its pill, and its pip on the timeline just below
+  // this list — and that tint was the list's only link to all three.
+  //
+  // It came back first as a dot beside the time, and that lasted one evening (user: "isn't it
+  // better UI to have the prayer name colored and remove the dot?"). It is: the dot was a
+  // legend swatch parked mid-row, so the reader had to tie a colour to the word beside it,
+  // while the MAP had already solved this — a prayer line's pill wears the prayer's name in
+  // the prayer's colour (MapMarkersOverlay). The list now says it the same way, and the row
+  // loses an element instead of gaining one.
+  //
+  // Three voices, one each: COLOUR is identity (the name, in PRAYER_TEXT_COLORS — never the
+  // raw line colour, which fails as small text); BRASS + bold + the soft ground is "next"
+  // (the same brass as the collapsed countdown, and it lands on the TIME, so emphasis never
+  // costs a name its identity — the rule the pills settled first); MUTED ink is "not an
+  // obligation" and now lives on the time, leaving Shurūq's name its own gold.
   const content = (
     <>
-      <Text style={[styles.listLabel, muted && styles.listLabelMuted, isNext && styles.nextEmphasis]}>
+      <Text
+        testID="dock-row-name"
+        style={[
+          styles.listLabel,
+          // No colour to wear (night landmarks, an uncomputable time) → the old ink tiers.
+          nameColor ? { color: nameColor } : muted && styles.listLabelMuted,
+          isNext && styles.nextWeight,
+        ]}
+      >
         {label}
       </Text>
       <Text style={[styles.listTime, muted && styles.listLabelMuted, isNext && styles.nextEmphasis]}>
@@ -1191,7 +1232,7 @@ const ScheduleRow = memo(function ScheduleRow({
           <View
             accessible
             accessibilityLabel={accessibilityLabel}
-            style={[styles.listRow, isNext && styles.listRowNext]}
+            style={[styles.listRow, compact && styles.listRowCompact, isNext && styles.listRowNext]}
           >
             {content}
           </View>
@@ -1309,6 +1350,7 @@ function NightGroup({
             label={NIGHT_LABELS[key]}
             time={at === null ? '–' : time}
             muted
+            compact
             mounted={mounted}
             visible={visible}
             accessibilityLabel={
@@ -1575,7 +1617,7 @@ function SolarTimeline({
                     isPast && styles.markPast,
                     {
                       position: 'absolute',
-                      left: warp.toTrack(m.fraction) * trackW - 3.5,
+                      left: warp.toTrack(m.fraction) * trackW - PRAYER_DOT / 2,
                       backgroundColor: prayerColorFor(m.key, scheme),
                     },
                   ]}
@@ -1601,7 +1643,13 @@ function SolarTimeline({
             ticks.map(({ hour, fraction: tickFraction }) => (
               <Text
                 key={hour}
-                style={[styles.tick, { left: warp.toTrack(tickFraction) * trackW }]}
+                style={
+                  hour === 0
+                    ? [styles.tick, styles.tickStart]
+                    : hour === 24
+                      ? [styles.tick, styles.tickEnd]
+                      : [styles.tick, { left: warp.toTrack(tickFraction) * trackW }]
+                }
                 accessibilityElementsHidden
                 importantForAccessibility="no"
               >
@@ -1621,6 +1669,7 @@ function SolarTimeline({
 // `c`, and typography/spacing snap to the design tokens (type.* / space.* / radius.*).
 function makeStyles(c: Palette, fontScale = 1) {
   const metrics = dockMetrics(fontScale);
+  const chip = chipStyles(c);
   // The hairline both list divisions draw. Shared so a theme change to it cannot reach one
   // and miss the other — see nightRule / dayBreak below for what each adds on top.
   const GROUP_RULE = {
@@ -1639,6 +1688,8 @@ function makeStyles(c: Palette, fontScale = 1) {
   // of padding begins. The two rules keep their 4 dp difference in air above (see nightRule /
   // dayBreak); that gap is the whole visual distinction between "a new group" and "the list
   // continues", and it survives unchanged. Net height cost of the correction: zero.
+  // (The night caption has since moved off this zero: its rows lost the 44 dp pitch whose
+  // padding the zero relies on — see nightCaption.)
   const GROUP_CAPTION_BOTTOM = 0;
   return StyleSheet.create({
     shadowWrap: {
@@ -1708,7 +1759,18 @@ function makeStyles(c: Palette, fontScale = 1) {
     // coming" reads as a place in the schedule, not just a recoloured line of text —
     // the same highlightSoft the qibla lock uses, so brass-tint still means "live now".
     listRowNext: { backgroundColor: c.highlightSoft },
+    // The night rows. 44 is a TAP-TARGET pitch, and these two are the rows nobody can tap
+    // (see NightGroup) — so at 44 they were paying for touch they never get, and the price
+    // was the group's shape: ~29 dp of air between the two times against ~17 dp between the
+    // caption and the first, so "Natten" and nattens mitt read as a pair and the last third
+    // floated alone under them (user report, 2026-09-19). At 4 dp a side the pitch is 30 —
+    // still a full 2× leading on 15 pt type — and the gap between the times (~15 dp) now
+    // matches the caption's own (see nightCaption). Shurūq and the post-midnight prayer rows
+    // are unpressable too, but they sit INSIDE the prayer list's rhythm and keep its pitch.
+    listRowCompact: { minHeight: 0, paddingVertical: space.xs },
     listRowPressed: { opacity: 0.55 },
+    // The default ink is for rows with no prayer hue to wear; the five obligations and
+    // Shurūq override the colour per row (see ScheduleRow's nameColor).
     listLabel: { ...type.callout, flex: 1, color: c.ink },
     listTime: { ...type.callout, color: c.ink, fontVariant: ['tabular-nums'] },
     // Voluntary rows step down one ink tier. That difference IS the hierarchy: the five
@@ -1722,7 +1784,10 @@ function makeStyles(c: Palette, fontScale = 1) {
     // same list, a later day). Only the space above them differs, and that difference is the
     // whole visual distinction between "a new group" and "the list continues".
     nightRule: { ...GROUP_RULE, marginTop: space.md },
-    nightCaption: { ...type.caption, color: c.inkFaint, marginBottom: GROUP_CAPTION_BOTTOM },
+    // space.xs under it, where the midnight caption has none: that caption heads 44 dp rows
+    // whose own padding supplies the air, while these head compact ones. With it, caption →
+    // first time and time → time are the same ~15 dp, so the group reads as one even block.
+    nightCaption: { ...type.caption, color: c.inkFaint, marginBottom: space.xs },
     // The midnight crossing takes the same rule with less air above it: it interrupts a single
     // list rather than introducing a new group, so the rows either side must still read as one
     // block. Composed from nightRule so a change to the hairline reaches both.
@@ -1731,6 +1796,10 @@ function makeStyles(c: Palette, fontScale = 1) {
     // The next prayer = brass everywhere (here, the countdown, the map pill), so
     // "what's coming" reads in one colour across the dock and the map.
     nextEmphasis: { color: c.highlightText, fontWeight: '700' },
+    // The name's half of "next": weight only, so the prayer keeps its own colour. Brass is
+    // the time's job (nextEmphasis above), where it answers "what's next" without costing
+    // the name the hue that says WHICH prayer it is.
+    nextWeight: { fontWeight: '700' as const },
 
     pressed: { opacity: 0.55 }, // same pressed step as listRowPressed — one dimming voice
 
@@ -1781,18 +1850,16 @@ function makeStyles(c: Palette, fontScale = 1) {
     flex: { flex: 1 },
     previewControls: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, marginLeft: fontScale > 1.3 ? 0 : space.sm },
     previewTime: { minWidth: 44, textAlign: 'right', fontSize: 15, fontWeight: '600', color: c.ink, fontVariant: ['tabular-nums'] },
+    // The "Nu" / "I dag" badge: the app's one small status chip (components/ui/chip, shared
+    // with the settings "Standard" tag), laid out here as an icon-and-label row.
     previewBadge: {
+      ...chip.box,
       marginLeft: space.sm,
       flexDirection: 'row',
       alignItems: 'center',
       gap: space.xs,
-      borderRadius: radius.sm,
-      paddingHorizontal: space.sm,
-      paddingVertical: 3,
-      backgroundColor: c.accentSoft,
     },
-    // Small brass-on-tint "Nu" badge — 11/700 is a deliberate compact chip label, kept local.
-    previewBadgeText: { fontSize: 11, fontWeight: '700', color: c.accent },
+    previewBadgeText: chip.text,
 
     timelineArea: {},
     // The band the track/thumb/pips are drawn in. Every child is absolutely positioned
@@ -1849,7 +1916,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     },
     // Plain coloured dot on the axis. Same size/chrome for every prayer; past
     // dots draw at full opacity, future ones soften.
-    mark: { width: 7, height: 7, borderRadius: 4, bottom: 12.5, opacity: 0.7 },
+    mark: { width: PRAYER_DOT, height: PRAYER_DOT, borderRadius: PRAYER_DOT / 2, bottom: 12.5, opacity: 0.7 },
     markPast: { opacity: 1 },
     // The knob is the app mark in miniature: brand gold inside a brand blue ring (see
     // the scrubber block in theme/tokens.ts, which also explains why the RING is what
@@ -1886,6 +1953,16 @@ function makeStyles(c: Palette, fontScale = 1) {
       color: c.inkMuted,
       fontVariant: ['tabular-nums'],
     },
+    // The two ends align INWARD rather than centring on their hour. Centred, "00" and "24"
+    // hung half their width past the track's ends — ~9.5 dp from the card's edge while every
+    // other line in the dock keeps 16, and down in the band where the 22 dp corner radius
+    // curves in, so the digits all but touched the rim (user report, 2026-09-19). Flush with
+    // the track's ends they sit on the same leading and trailing edge as the date crown, the
+    // rows and the hero. They still mark the right place: the track itself starts at 00 and
+    // ends at 24, on every day including the two DST days (both fractions are 0 and 1 by
+    // definition). The inner hours keep centring, since each marks a point along the line.
+    tickStart: { left: 0, marginLeft: 0, textAlign: 'left' },
+    tickEnd: { right: 0, marginLeft: 0, textAlign: 'right' },
 
     handleHit: {
       position: 'absolute',

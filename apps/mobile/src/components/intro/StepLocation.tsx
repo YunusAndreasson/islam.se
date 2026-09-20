@@ -111,8 +111,10 @@ export function StepLocation() {
     );
   }
 
+  // Lower-case "din plats": it lands mid-sentence below. The resolver's own label is the
+  // capitalised "Din plats", which is how this once read "…räknas ut för Din plats."
   const chosen =
-    settings.locationMode === 'manual' ? settings.manualLocation?.name : 'Din plats';
+    settings.locationMode === 'manual' ? settings.manualLocation?.name : 'din plats';
 
   return (
     <View style={styles.wrap}>

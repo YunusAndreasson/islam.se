@@ -8,6 +8,7 @@ import { describe, expect, it } from '@jest/globals';
 import { lc, wcagContrast } from '@/test-utils/contrast';
 
 import { basemapGroundFor } from '@/lib/map/nordicStyle';
+import { darkPalette, lightPalette } from '@/theme/tokens';
 import { PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 import {
   POLAR_BOUNDARY_COLORS,
@@ -20,6 +21,7 @@ import {
   washStopsFor,
   washStopsLight,
 } from './palette';
+import { skyChromeFor } from './sky-chrome';
 
 // Relative luminance per WCAG (0..1 perceptual brightness on linearised sRGB). Used to
 // pin "dark variant must be brighter than light variant" without depending on a specific
@@ -158,7 +160,8 @@ describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue
   // The measure that WCAG hides. Both schemes must clear the body-text floor, and — the
   // real invariant — the six labels must land at roughly ONE strength, because that is
   // what makes a row of pills read as one family instead of six unrelated inks. The light
-  // set has always done this (all Lc ≈ 71, derived by moving L only); dark did not until
+  // set has always done this (all Lc ≈ 75 since the 2026-09 deepening, derived by moving L
+  // only); dark did not until
   // 2026-08, when it ranged Lc 49–69 with three labels under the floor.
   it.each(PRAYER_ORDER)('%s clears the APCA text floor in both schemes', (prayer: PrayerKey) => {
     expect(lc(PRAYER_TEXT_COLORS[prayer].light, PILL_LIGHT)).toBeGreaterThanOrEqual(62);
@@ -250,6 +253,59 @@ describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue
       expect(order(tr, tg, tb)).toBe(order(lr, lg, lb));
       // And it must genuinely be DARKER, not merely different.
       expect(tr + tg + tb).toBeLessThan(lr + lg + lb);
+    }
+  });
+});
+
+// The dock's schedule paints each prayer's NAME in its text colour (PrayerDock's ScheduleRow,
+// 2026-09-19 — it replaced a coloured dot beside the time). That put the table on a second
+// substrate, and a far less forgiving one: the pill is a single fixed cream, while the dock's
+// card follows the sun through every tint skyChromeFor can produce. The old light values,
+// tuned for the pill alone, measured 4.12:1 on the dimmest of those — under the floor, in
+// exactly the daylight-to-dusk window when someone is most likely to be reading the schedule.
+//
+// Sweeping the surfaces (rather than asserting one hex) is the point: the card colour is
+// COMPUTED from altitude and hour angle, so a retune of the wash stops or the card's
+// lightness damping can move it without anyone editing a colour here at all.
+describe('PRAYER_TEXT_COLORS — legible on the dock card at every hour', () => {
+  const surfaces = (scheme: 'light' | 'dark'): string[] => {
+    const seen = new Set<string>();
+    for (let alt = -90; alt <= 90; alt += 1) {
+      for (let ha = -180; ha <= 180; ha += 15) seen.add(skyChromeFor(scheme, alt, ha).surface);
+    }
+    return [...seen];
+  };
+  const LIGHT = surfaces('light');
+  const DARK = surfaces('dark');
+
+  it.each(PRAYER_ORDER)('%s clears 4.5:1 on every dock surface, both schemes', (prayer: PrayerKey) => {
+    const worst = (fg: string, list: string[]) =>
+      list.reduce((min, bg) => Math.min(min, wcagContrast(fg, bg)), Infinity);
+    // Reported as an object so a failure names the scheme and the number, not just "< 4.5".
+    expect({
+      light: Number(worst(PRAYER_TEXT_COLORS[prayer].light, LIGHT).toFixed(2)) >= 4.5,
+      dark: Number(worst(PRAYER_TEXT_COLORS[prayer].dark, DARK).toFixed(2)) >= 4.5,
+    }).toEqual({ light: true, dark: true });
+  });
+
+  it.each(PRAYER_ORDER)('%s clears the APCA text floor on every dock surface', (prayer: PrayerKey) => {
+    const worst = (fg: string, list: string[]) =>
+      list.reduce((min, bg) => Math.min(min, lc(fg, bg)), Infinity);
+    expect(worst(PRAYER_TEXT_COLORS[prayer].light, LIGHT)).toBeGreaterThanOrEqual(62);
+    expect(worst(PRAYER_TEXT_COLORS[prayer].dark, DARK)).toBeGreaterThanOrEqual(62);
+  });
+
+  // The names must stay a tier BELOW the plain ink they sit among: ink is the schedule's
+  // voice, colour is identity. If a future lift made a coloured name the loudest thing in the
+  // row, the list would read as six competing labels rather than one column with a key.
+  it('never out-shouts the card ink it shares the row with', () => {
+    for (const scheme of ['light', 'dark'] as const) {
+      const list = scheme === 'light' ? LIGHT : DARK;
+      const ink = scheme === 'light' ? lightPalette.ink : darkPalette.ink;
+      for (const prayer of PRAYER_ORDER) {
+        const name = PRAYER_TEXT_COLORS[prayer][scheme];
+        for (const bg of list) expect(lc(name, bg)).toBeLessThan(lc(ink, bg));
+      }
     }
   });
 });

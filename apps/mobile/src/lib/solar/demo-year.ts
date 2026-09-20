@@ -32,16 +32,50 @@ import { type PolarBoundary, polarBoundaryFor } from './sun';
 export const DEMO_FRAME_COUNT = 12;
 const SAMPLE_DAY_OF_MONTH = 15;
 
-/** The map lesson's curated stops — a calm baseline, the "wow" (no Fajr or ʿIshāʾ under
- *  the midnight sun), then the dramatic other end of the year (an afternoon Maghrib). Not
- *  a tour of the whole year — three moments worth reading. Shared between bonetider.tsx
- *  (which needs the months, to build frames) and MapLessonCard (which needs the facts). */
+/** The map lesson's curated stops — a calm baseline, the "wow" (no night at all beyond the
+ *  midnight-sun line), then the other end of the year (the north now getting Maghrib first).
+ *  Not a tour of the whole year — three moments worth reading, for someone who has never
+ *  seen prayer times on a map: ONE idea per fact, naming at most one prayer (the map's own
+ *  pills name the lines). Shared between
+ *  bonetider.tsx (which needs the months, to build frames) and MapLessonCard (which needs
+ *  the facts).
+ *
+ *  A fact must say something the card's caption does not. The caption above it already
+ *  prints the month and Maghrib's clock time in Stockholm, so a fact that names a clock
+ *  time repeats it — and can contradict it, since the caption follows the reader's method
+ *  and this string cannot. The December fact once read "Maghrib kan komma redan vid 15"
+ *  directly under a caption reading "Maghrib i Stockholm 14:54". */
 export const MAP_LESSON_EXAMPLES: { month: number; fact: string }[] = [
   { month: 3, fact: 'Varje linje är en bön. Den här visar var i landet det just är Maghrib.' },
   // Named, not just "i norr": Kiruna is the real, recognisable place this is true of —
   // well north of the Arctic Circle, where the sun genuinely never sets in June.
-  { month: 5, fact: 'I Kiruna går solen aldrig ner i juni – där finns ingen Fajr eller ʿIshāʾ då.' },
-  { month: 11, fact: 'I december kan Maghrib komma redan vid 15 på eftermiddagen.' },
+  //
+  // One idea, no prayer names: the reader is new to the map, and the previous wording named
+  // three prayers and a reasoning chain in one sentence ("…ingen natt att räkna Maghrib,
+  // ʿIshāʾ och Fajr från"). "Ingen natt" is the fact; what it means for the night prayers
+  // follows for anyone who prays them, and the app's own polar setting handles it.
+  //
+  // The fact points at the dashed boundary, NOT at the prayer lines. A draft said "the lines
+  // for Fajr, Maghrib and ʿIshāʾ end south of the city" — but this frame is Maghrib in
+  // Stockholm (~22:13), and at that instant there is no Fajr line anywhere, while the
+  // Maghrib and ʿIshāʾ lines curve away near 63° and 61°N, nowhere near the boundary at
+  // ~66°N. The boundary is what is always on screen, and its own label already says the
+  // sun does not set ("Midnattssol · solen går inte ner"), so the fact gives the one thing
+  // the label does not: what that means for the prayers. No sunset is no night — nothing to
+  // take Maghrib from, and nothing for the rules that set ʿIshāʾ and Fajr to divide. (All
+  // three, which the old wording "ingen Fajr eller ʿIshāʾ" left Maghrib out of.) No "i
+  // juni": the caption directly above says the date.
+  {
+    month: 5,
+    fact: 'Kiruna ligger norr om den streckade linjen. Där blir det ingen natt alls.',
+  },
+  // Sunset on 15 December: Umeå ≈ 13:46, Malmö ≈ 15:36 — about 1 h 50 min apart, whatever
+  // the method, since every method's Maghrib follows sunset. In June the order is reversed
+  // (Umeå ≈ 23:04, Malmö ≈ 21:53), which is the point of the pair.
+  {
+    month: 11,
+    fact: 'I december kommer Maghrib tidigast i norr – i Umeå nästan två timmar före Malmö.',
+  },
 ];
 
 // Generously wider than Sweden so contours reach the edges of whatever's on screen
@@ -67,7 +101,8 @@ export interface DemoFrame {
   polarBoundary: PolarBoundary | null;
   /** "15 juni" */
   monthLabel: string;
-  /** "22:02" — Maghrib in Stockholm, the instant on show. */
+  /** "22:02" — Maghrib in Stockholm, the instant on show; MapLessonCard prints it as the
+   *  bare moment ("15 juni kl. 22:02"), without the anchor. */
   timeLabel: string;
 }
 

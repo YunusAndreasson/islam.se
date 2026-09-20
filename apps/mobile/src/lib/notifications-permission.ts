@@ -106,7 +106,7 @@ export function useNotificationPermission(active = true): NotificationPermission
   const footnote = !enabled
     ? undefined
     : blocked
-      ? `Notiser är blockerade. Öppna ${systemSettingsName()} för att tillåta dem.`
+      ? `Notiser är blockerade – inga påminnelser kommer fram. Tillåt dem i ${systemSettingsName()}.`
       : undefined;
 
   return { permission, blocked, footnote, setEnabled };

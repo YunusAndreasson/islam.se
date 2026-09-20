@@ -164,7 +164,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
           <>
             {/* Same sentence as Inställningar → Notiser, so the two surfaces agree word for word. */}
             <Text style={styles.body}>
-              Notiser är blockerade. Öppna {settingsName} för att tillåta dem.
+              Notiser är blockerade – inga påminnelser kommer fram. Tillåt dem i {settingsName}.
             </Text>
             <Pressable
               onPress={openNotificationSettings}

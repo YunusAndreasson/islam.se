@@ -142,7 +142,14 @@ export default function Valkommen() {
             title="Bönetider för Sverige"
             // The privacy line this lead used to open with now sits in StepWelcome, as one
             // of the three things the app promises — see that file for why.
-            lead="Tre korta frågor, sedan visar vi kartan."
+            //
+            // Not "sedan visar vi kartan" (user, 2026-09-19). A reader opening a prayer-times
+            // app is not expecting a map and has never seen this one; "kartan", in the
+            // definite form, presumes both. Same reasoning, and the same promise, as the last
+            // step's "Visa bönetider", which replaced "Öppna kartan". The map is introduced
+            // by the first row below as a thing it lets you DO, and taught on the map itself
+            // (MapLessonCard) once it is on screen.
+            lead="Tre korta frågor, sedan ser du dina bönetider."
             nextLabel="Kom igång"
             onNext={next}
             onSkip={finish}
@@ -156,8 +163,13 @@ export default function Valkommen() {
             index={1}
             total={TOTAL_STEPS}
             title="Var är du?"
-            lead="Bönetiderna beror på var du står. Appen kan använda din plats, eller så väljer du en stad."
-            footnote="Platsen stannar i din enhet."
+            // The lead used to end "Appen kan använda din plats, eller så väljer du en
+            // stad" — a narration of the two controls directly beneath it. What the
+            // reader cannot see from those controls is what the quiet "Nästa" does, so
+            // that is what the second sentence says instead.
+            lead="Bönetiderna beror på var du står. Utan plats visar appen tiderna för Stockholm."
+            // Om appen's promise, word for word, so the two never read as two policies.
+            footnote="Din plats lämnar aldrig enheten."
             nextLabel="Nästa"
             // The step's own "Använd min plats" is the filled action here; the footer only
             // means "move on". See IntroStep's note on one filled accent per screen.
@@ -180,8 +192,11 @@ export default function Valkommen() {
             index={2}
             total={TOTAL_STEPS}
             title="Ska vi påminna dig?"
-            lead="Få en notis när det är dags för bön."
-            footnote="Du kan ändra det här när som helst under Inställningar → Notiser."
+            // Not "Få en notis när det är dags för bön" — that was the title again, as a
+            // statement. The lead says what a yes actually buys (when, and for which
+            // prayers); the footnote says what else can be tuned and where.
+            lead="En notis när bönetiden börjar, för de böner du väljer."
+            footnote="Hur tidigt notisen kommer, och med vilket ljud, väljer du under Inställningar → Notiser."
             nextLabel={settings.notifications.enabled ? 'Nästa' : 'Inte nu'}
             // Same reasoning as the location step: "Slå på påminnelser" owns the fill, and
             // the quiet footer is the one way on. Before an answer, "Inte nu" names the
@@ -208,7 +223,15 @@ export default function Valkommen() {
             index={3}
             total={TOTAL_STEPS}
             title="Hur ska tiderna räknas ut?"
-            lead="Olika metoder använder olika vinklar för Fajr och ʿIshāʾ. Vet du inte vilken du ska välja är standarden ett tryggt val."
+            // The first sentence is what the degree figures in the options MEAN — a
+            // definition, deliberately not a claim that the methods differ in angles alone:
+            // Diyanet and Muslim World League share theirs (their rows name the margin that
+            // tells them apart), and Umm al-Qura's ʿIshāʾ is a fixed 90 minutes. A lead that
+            // said "the methods differ in how deep the sun is" made those two identical-angle
+            // rows look like one method listed twice. The second sentence is how to choose —
+            // the same advice Inställningar → Beräkning gives — and "standarden" is the row
+            // with the Standard tag.
+            lead="Gradtalen anger hur djupt solen står under horisonten när Fajr och ʿIshāʾ börjar. Välj din moskés metod, eller behåll standarden."
             footnote="Sveriges ljusa sommarnätter hanteras automatiskt."
             nextLabel="Visa bönetider"
             onNext={next}

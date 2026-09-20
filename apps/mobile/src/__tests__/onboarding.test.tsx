@@ -356,7 +356,9 @@ describe('the introduction', () => {
       await press('Använd min plats');
 
       expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(2);
-      expect(screen.getByText(/Tiderna räknas ut för/)).toBeTruthy();
+      // Exact, not a prefix: the GPS branch once borrowed the resolver's capitalised label
+      // and printed "…räknas ut för Din plats." mid-sentence.
+      expect(screen.getByText('Tiderna räknas ut för din plats.')).toBeTruthy();
     });
 
     it('leaves the map card its second chance when the step is walked past', async () => {

@@ -19,6 +19,7 @@ import type {
   Shafaq,
   ThemePreference,
 } from './types';
+import { DEFAULT_SETTINGS } from './types';
 
 // GPS vs manual city pick on the Plats section. Hoisted here with the other
 // *_OPTIONS so the Inställningar screen passes a stable reference (the inline literal
@@ -34,12 +35,25 @@ export const LOCATION_MODE_OPTIONS: readonly Option<LocationMode>[] = [
 // NOT shown — they are noise in a Sweden-focused list this important. They remain
 // in CalculationMethodKey for back-compat: a user with an older saved value still
 // computes correctly via adhan; they just can't re-pick that method from the picker.
+//
+// Which row is the default is NOT said here: OptionGroup's `standard` tag says it, fed
+// from DEFAULT_SETTINGS. The first two rows share their angles, so their descriptions
+// carry the one thing that tells them apart — Diyanet's temkin, the fixed safety minutes
+// adhan adds to its sunrise (−7), Dhuhr (+5), ʿAṣr (+4) and Maghrib (+7). They used to
+// read "Fajr 18°, Isha 17° · appens standard" and "Fajr 18°, Isha 17° · vanlig i
+// bönetidstjänster": two identical rows, the second of which sounded like the standard.
+// MWL says "utan Diyanets marginal", not "utan säkerhetsmarginal": adhan still gives MWL
+// (like Egyptian) +1 min on Dhuhr, so "no margin at all" would be false.
 export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
-  { value: 'Turkey', label: 'Turkiet (Diyanet)', description: 'Fajr 18°, Isha 17° · appens standard' },
+  {
+    value: 'Turkey',
+    label: 'Turkiet (Diyanet)',
+    description: 'Fajr 18°, Isha 17° · några minuters säkerhetsmarginal',
+  },
   {
     value: 'MuslimWorldLeague',
     label: 'Muslim World League',
-    description: 'Fajr 18°, Isha 17° · vanlig i bönetidstjänster',
+    description: 'Fajr 18°, Isha 17° · utan Diyanets marginal',
   },
   { value: 'UmmAlQura', label: 'Umm al-Qura (Mecka)', description: 'Fajr 18,5°, Isha 90 min efter Maghrib' },
   { value: 'Egyptian', label: 'Egyptiska myndigheten', description: 'Fajr 19,5°, Isha 17,5°' },
@@ -51,13 +65,16 @@ export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
   { value: 'NorthAmerica', label: 'Nordamerika (ISNA)', description: 'Fajr 15°, Isha 15°' },
 ];
 
+// Named by school, both of them. The first row used to be LABELLED "Standard", which on
+// the same screen as the method list's "Standard" tag made the word mean two things — and
+// cast one of the four madhabs as the deviation from a norm rather than as a school.
 export const MADHAB_OPTIONS: readonly Option<Madhab>[] = [
-  { value: 'shafi', label: 'Standard', description: 'Shafiʿi, Maliki, Hanbali – tidigare Asr' },
+  { value: 'shafi', label: 'Shafiʿi, Maliki, Hanbali', description: 'Tidigare Asr' },
   { value: 'hanafi', label: 'Hanafi', description: 'Senare Asr' },
 ];
 
 export const HIGHLAT_OPTIONS: readonly Option<HighLatitudeRuleKey>[] = [
-  { value: 'auto', label: 'Automatisk (rekommenderad)', description: 'Väljs efter platsens latitud' },
+  { value: 'auto', label: 'Automatisk', description: 'Väljs efter platsens latitud' },
   { value: 'middleOfTheNight', label: 'Nattens mitt' },
   { value: 'seventhOfTheNight', label: 'Sjundedel av natten' },
   { value: 'twilightAngle', label: 'Skymningsvinkel' },
@@ -135,6 +152,37 @@ export const sunriseLeadLabel = (v: number): string =>
 /** Shown by a bulk control when the per-prayer values disagree. */
 export const MIXED_LABEL = 'Blandat';
 
+/** The heads-up values worth offering.
+ *
+ *  This was a −/+ stepper over 0–60 in steps of five: thirteen taps from one end to the
+ *  other, on a screen that shows the control up to eight times. Nobody sets a
+ *  twenty-three-minute warning for Maghrib; the range was a range because a stepper needs
+ *  one, not because the values in the middle were wanted. As a list it also gains the
+ *  honest MIXED state for free — the bulk control passes `null` and no row is checked,
+ *  the same way the sound picker beside it already works. */
+export const LEAD_CHOICES = [0, 5, 10, 15, 30] as const;
+
+/** The lead list for a given current value.
+ *
+ *  ⚠️ CARRIES `current` WHEN IT IS NOT ONE OF THE FIVE. The stepper allowed every
+ *  multiple of five up to 60 and `sanitizeSettings` still accepts 0–60, so installs exist
+ *  sitting on 20, 25, 45 or 60. Dropping them to a fixed list would show those readers a
+ *  group with nothing checked and silently rewrite their choice on the first tap. The
+ *  saved value keeps its row until they pick another. */
+export const leadOptions = (current: number): readonly Option<string>[] => {
+  const minutes: number[] = [...LEAD_CHOICES];
+  if (!minutes.includes(current)) minutes.push(current);
+  minutes.sort((a, b) => a - b);
+  return minutes.map((m) => ({ value: String(m), label: leadLabel(m) }));
+};
+
+/** The same, for the Fajr-window marker, whose zero means "at sunrise" rather than
+ *  "at the prayer time". */
+export const sunriseLeadOptions = (current: number): readonly Option<string>[] =>
+  leadOptions(current).map((o) =>
+    o.value === '0' ? { ...o, label: sunriseLeadLabel(0) } : o,
+  );
+
 export const soundLabel = (key: NotificationSoundKey): string =>
   SOUND_OPTIONS.find((o) => o.value === key)?.label ?? 'Systemets standardljud';
 
@@ -199,9 +247,31 @@ export const methodLabel = (s: PrayerSettings): string =>
 
 export const madhabLabel = (s: PrayerSettings): string => labelOf(MADHAB_OPTIONS, s.madhab);
 
+// The method always, then every OTHER Beräkning control that is off its default, in the
+// screen's own order — so the row can never read like a fresh install while the times
+// are not a fresh install's. The madhab joined the "only when changed" rule once its
+// default row stopped being labelled "Standard": "Turkiet (Diyanet) · Shafiʿi, Maliki,
+// Hanbali" is a long way to say "nothing changed", while "· Hanafi" is exactly the fact a
+// Hanafi reader checks for. Shafaq counts only under Moonsighting Committee, the one method
+// it affects (the screen hides it otherwise). A bare "Uppåt" or "Närmaste lämpliga dag"
+// says nothing out of context, so those two carry their section's name.
 export const calculationSummary = (s: PrayerSettings): string => {
   const method = methodLabel(s) || s.calculationMethod;
-  const parts = [method, madhabLabel(s)];
-  if (s.highLatitudeRule !== 'auto') parts.push(labelOf(HIGHLAT_OPTIONS, s.highLatitudeRule));
+  const parts = [method];
+  if (s.madhab !== DEFAULT_SETTINGS.madhab) parts.push(madhabLabel(s));
+  if (s.highLatitudeRule !== DEFAULT_SETTINGS.highLatitudeRule) {
+    parts.push(labelOf(HIGHLAT_OPTIONS, s.highLatitudeRule));
+  }
+  if (s.polarCircleResolution !== DEFAULT_SETTINGS.polarCircleResolution) {
+    parts.push(`Polcirkeln: ${labelOf(POLAR_OPTIONS, s.polarCircleResolution).toLowerCase()}`);
+  }
+  if (s.calculationMethod === 'MoonsightingCommittee' && s.shafaq !== DEFAULT_SETTINGS.shafaq) {
+    parts.push(`Shafaq ${labelOf(SHAFAQ_OPTIONS, s.shafaq).toLowerCase()}`);
+  }
+  if (s.rounding !== DEFAULT_SETTINGS.rounding) {
+    parts.push(`Avrundning ${labelOf(ROUNDING_OPTIONS, s.rounding).toLowerCase()}`);
+  }
+  const adjusted = Object.values(s.adjustments).filter((m) => m !== 0).length;
+  if (adjusted > 0) parts.push(adjusted === 1 ? '1 justerad tid' : `${adjusted} justerade tider`);
   return parts.filter(Boolean).join(' · ');
 };

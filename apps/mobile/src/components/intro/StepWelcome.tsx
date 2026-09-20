@@ -13,6 +13,10 @@
 // read about an app they had not seen yet; as a row it is a promise among promises, which
 // is the right weight for it.
 //
+// No row may restate the title. The map row once read "Bönetider för hela Sverige, på en
+// karta" directly under "Bönetider för Sverige", so the card's first line told the reader
+// the heading again. It now says what the map DOES, which nothing else on the screen does.
+//
 // Deliberately NOT a lesson about the map's lines. That step existed here once and was
 // moved onto bönetider itself (MapLessonCard) because "kartan" means nothing to someone
 // who has not seen one yet — naming the map as a feature is fine, teaching its language
@@ -25,7 +29,7 @@ import { type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
 const POINTS: readonly { icon: IconName; text: string }[] = [
-  { icon: 'map', text: 'Bönetider för hela Sverige, på en karta' },
+  { icon: 'map', text: 'Se var i landet varje bön börjar, just nu' },
   { icon: 'notificationsOff', text: 'Påminnelser när du vill ha dem' },
   { icon: 'lock', text: 'Allt räknas ut på din enhet' },
 ];

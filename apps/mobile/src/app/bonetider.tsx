@@ -6,7 +6,7 @@ import {
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
 import { useNetworkState } from 'expo-network';
-import { router, useIsFocused } from 'expo-router';
+import { useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import {
   useCallback,
@@ -135,6 +135,9 @@ const SOUTH = 55.35;
 const EAST = 23.7;
 const NORTH = 69.0;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
+// Street scale, where "Visa min position" lands for a reader outside Sweden: their own
+// block, with the qibla ray leaving the dot.
+const LOCATE_ZOOM = 11;
 
 // The furthest the camera may wander, and the floor it may zoom out to, both live in
 // lib/map/camera-bounds — because the prayer-time lattice has to cover exactly this box
@@ -142,9 +145,6 @@ const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORT
 // the lattice was the smaller of them and every line ended in mid-sea.
 const MAX_BOUNDS = CAMERA_MAX_BOUNDS;
 const MIN_ZOOM = CAMERA_MIN_ZOOM;
-// Street scale, where "Visa min position" lands: the reader's own block, the nearest
-// mosques as glyphs with their names, the qibla ray leaving the dot.
-const LOCATE_ZOOM = 11;
 
 // Every mosque's position, for the holes the wash leaves around their specks (see
 // WashClearings in SolarSkiaOverlay). The dataset is static, so this is built once.
@@ -218,8 +218,10 @@ function sameFrame(a: Frame, b: Frame | undefined): boolean {
 const DOCK_MARGIN = space.lg;
 
 // MapLessonCard is a taller surface than the collapsed dock it replaces (a caption, a
-// fact sentence, a dot row and the legend, against the dock's one countdown line and a
-// scrubber) — roughly 360dp against the dock's ~140dp, measured on device. Used for
+// fact sentence and a dot row, against the dock's one countdown line and a scrubber) —
+// measured at roughly 360dp against the dock's ~140dp while it still carried the colour
+// legend (removed 2026-09-19), so 360 is now an upper bound. Only floating cards read it,
+// and a card sitting a little high over the lesson costs nothing. Used for
 // clearing floating UI elements (MosqueCard) above whichever surface is showing — NOT
 // for the camera's own framing (see the note at SWEDEN_BOUNDS's initialViewState): an
 // earlier version fed this into the initial fitBounds' bottom padding too, on the theory
@@ -875,6 +877,11 @@ export default function Bonetider() {
     () => lonLatOf({ latitude: userLat, longitude: userLon }),
     [userLat, userLon],
   );
+  // Outside the box the home view frames, so the dot is not on the map the reader opens to.
+  // Only a GPS fix can land here — every city in the picker is Swedish, and the no-location
+  // fallback is Stockholm. A dot just outside the box (Oslo) may still be in view past the
+  // fit's padding; offering the flight there anyway costs nothing.
+  const readerAbroad = userLon < WEST || userLon > EAST || userLat < SOUTH || userLat > NORTH;
   // The sweeping prayer lines for this instant — the level-0 contour of (prayerTime −
   // now) per prayer (appears/sweeps/vanishes on its own). Computed in JS here (cheap
   // arithmetic on the cached grid); the Skia overlay projects them to screen-space paths
@@ -1580,33 +1587,49 @@ export default function Bonetider() {
           each opening its screen as a sheet over the map. `active` (the screen's focus)
           gates the compass's heading subscription so the magnetometer pauses when a
           sheet is up or the app is backgrounded. */}
-      <MapNav active={mapActive} resetAvailable={moved} locationIsFallback={locationIsFallback} onLocate={() => {
-        if (!moved && locationIsFallback) { router.navigate('/byt-plats'); return; }
-        // No haptic on reset or locate: both fly the camera, and moving the map is navigation —
-        // the flight is the feedback (lib/haptics policy).
-        setLineMessage(null);
-        // Both moves take their time from the distance they cover (lib/map/camera-travel):
-        // a nudge back home is quick, the long way home takes as long as the flight in, and
-        // the same journey lasts the same in both directions.
-        const from = cam.value;
-        if (moved) {
-          resetPending.current = true;
-          const home = initialFrame.current;
-          cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
-            padding: fitPadding,
-            duration: reduceMotion ? 0 : home ? cameraTravelMs(from, home) : TRAVEL_MAX_MS,
-          });
-        } else {
-          // Mark this before flying so the settled event cannot adopt the close-up as home.
-          setMoved(true);
-          const target = { lon: userPoint[0], lat: userPoint[1], zoom: LOCATE_ZOOM };
-          cameraRef.current?.flyTo({
-            center: userPoint,
-            zoom: LOCATE_ZOOM,
-            duration: reduceMotion ? 0 : cameraTravelMs(from, target),
-          });
+      {/* The disc beside the cog: reset while the map is off home; for a reader whose
+          position lies outside the Sweden view (abroad), a way to their dot, which home
+          cannot show; otherwise nothing. See MapAction. */}
+      <MapNav
+        active={mapActive}
+        action={
+          moved
+            ? {
+                kind: 'reset',
+                // No haptic on reset or locate: both fly the camera, and moving the map is
+                // navigation — the flight is the feedback (lib/haptics policy).
+                onPress: () => {
+                  setLineMessage(null);
+                  // Both moves take their time from the distance they cover
+                  // (lib/map/camera-travel): a nudge back is quick, the long way home takes as
+                  // long as the flight out, and the same journey lasts the same both ways.
+                  resetPending.current = true;
+                  const home = initialFrame.current;
+                  cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
+                    padding: fitPadding,
+                    duration: reduceMotion ? 0 : home ? cameraTravelMs(cam.value, home) : TRAVEL_MAX_MS,
+                  });
+                },
+              }
+            : readerAbroad
+              ? {
+                  kind: 'locate',
+                  onPress: () => {
+                    setLineMessage(null);
+                    // Mark this before flying so the settled event cannot adopt the close-up
+                    // as home.
+                    setMoved(true);
+                    const target = { lon: userPoint[0], lat: userPoint[1], zoom: LOCATE_ZOOM };
+                    cameraRef.current?.flyTo({
+                      center: userPoint,
+                      zoom: LOCATE_ZOOM,
+                      duration: reduceMotion ? 0 : cameraTravelMs(cam.value, target),
+                    });
+                  },
+                }
+              : undefined
         }
-      }} />
+      />
       {lineMessage && <MapLineToast key={lineMessage.id} message={lineMessage.text}
         top={hintTop} onDismiss={dismissLineMessage} />}
 

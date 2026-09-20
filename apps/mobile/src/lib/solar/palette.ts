@@ -147,7 +147,8 @@ export function prayerColorFor(
 }
 
 /**
- * The same prayer hues, made legible as TEXT on the map pill's surface.
+ * The same prayer hues, made legible as TEXT — on the map pill, and on the dock's schedule,
+ * where since 2026-09-19 the prayer's NAME wears this colour and there is no swatch.
  *
  * Why a second table rather than reusing PRAYER_COLORS. Those are LINE colours, tuned to
  * glow over the basemap — measured as small text on the light pill (`#fffdf8`) they fail
@@ -158,8 +159,15 @@ export function prayerColorFor(
  *
  * The light values below are each derived from the line colour in OKLab by lowering L
  * ONLY, keeping a and b — so the hue and chroma are the line's, and just the lightness
- * moves. They land within 0.563 ± 0.007 L of each other, which is why the six labels read
+ * moves. They land within 0.535 ± 0.001 L of each other, which is why the six labels read
  * as one family rather than six unrelated inks.
+ *
+ * THE LIGHT SET WENT A STEP DEEPER (0.563 → 0.535) on 2026-09-19, when the dock's schedule
+ * started colouring prayer NAMES. The pill is one fixed cream (#fffdf8); the dock's card is
+ * not — its surface follows the sun through 27 distinct tints (see lib/solar/sky-chrome), and
+ * the dimmest of them left the old values at 4.12:1, just under the 4.5:1 that text needs.
+ * One shared L for all five keeps the family, and a darker label only helps the pill it also
+ * still sits on (now Lc 75 there). palette.test.ts measures both surfaces.
  *
  * DARK USED TO SKIP THIS STEP, and it was wrong to. The rule here was "every line colour
  * already clears 5.8:1 on the dark pill, so the label wears the line colour verbatim" —
@@ -178,12 +186,12 @@ export function prayerColorFor(
  * label below either threshold.
  */
 export const PRAYER_TEXT_COLORS: Record<PrayerKey, PrayerColors> = {
-  fajr: { light: '#6971a5', dark: '#b6c0f2' }, //     L 0.628 → 0.563 · dark Lc 55 → 65
-  sunrise: { light: '#9c692c', dark: '#e9b982' }, //  L 0.773 → 0.564 · dark Lc 69 → 65
-  dhuhr: { light: '#7f7358', dark: '#cdc1a3' }, //    L 0.738 → 0.559 · dark Lc 69 → 65
-  asr: { light: '#986b2e', dark: '#e8ba7c' }, //      L 0.734 → 0.563 · dark Lc 64 → 65
-  maghrib: { light: '#ae5f3e', dark: '#ffae90' }, //  L 0.670 → 0.570 · dark Lc 52 → 65
-  isha: { light: '#33437a', dark: '#adbcf8' }, //     light already at Lc 90 · dark Lc 49 → 65
+  fajr: { light: '#61699c', dark: '#b6c0f2' }, //     L 0.628 → 0.535 · dark Lc 55 → 65
+  sunrise: { light: '#936123', dark: '#e9b982' }, //  L 0.773 → 0.535 · dark Lc 69 → 65
+  dhuhr: { light: '#786c51', dark: '#cdc1a3' }, //    L 0.738 → 0.535 · dark Lc 69 → 65
+  asr: { light: '#8f6325', dark: '#e8ba7c' }, //      L 0.734 → 0.534 · dark Lc 64 → 65
+  maghrib: { light: '#a25534', dark: '#ffae90' }, //  L 0.670 → 0.535 · dark Lc 52 → 65
+  isha: { light: '#33437a', dark: '#adbcf8' }, //     light already at Lc 91 · dark Lc 49 → 65
 };
 
 /** A prayer's colour for LABEL TEXT. See {@link PRAYER_TEXT_COLORS}. */

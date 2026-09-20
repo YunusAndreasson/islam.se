@@ -14,9 +14,10 @@
 // actually required now lives as one muted footnote at the very bottom, where map
 // credits belong; everything above it is human-facing.
 import { useMemo } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { NavRow } from '@/components/settings/NavRow';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Icon } from '@/components/ui/Icon';
 import { ModalBar } from '@/components/ui/ModalBar';
@@ -90,8 +91,16 @@ export default function Om() {
             or rate the app. Rows, not floating links, so they read as one tidy shelf in
             the app's card language. */}
         <SettingSection title="Stöd">
-          <LinkRow colors={c} styles={styles} label="Besök islam.se" external onPress={() => openUrl(ISLAMSE_URL)} />
-          <LinkRow colors={c} styles={styles} label="Betygsätt appen" onPress={rateApp} divider />
+          {/* The website is the one row in the settings that is genuinely a LINK — it
+              opens a URL. "Betygsätt appen" raises the store's own review sheet, which is
+              an action on this device, so it stays a button. See NavRow's note. */}
+          <NavRow
+            variant="external"
+            role="link"
+            label="Besök islam.se"
+            onPress={() => openUrl(ISLAMSE_URL)}
+          />
+          <NavRow label="Betygsätt appen" onPress={rateApp} divider />
         </SettingSection>
 
         <Text style={styles.colophon}>islam.se · Version {APP_VERSION} · © 2026</Text>
@@ -128,41 +137,6 @@ export default function Om() {
         </Text>
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-// One outward row inside the Stöd card: a label and a trailing glyph. `external` rows
-// (a website) get an open-in-new arrow signalling "leaves the app"; the rest get a
-// chevron. Mirrors the LinkRow rhythm used in Inställningar so the rows read alike.
-function LinkRow({
-  colors,
-  styles,
-  label,
-  onPress,
-  external = false,
-  divider = false,
-}: {
-  colors: Palette;
-  styles: ReturnType<typeof makeStyles>;
-  label: string;
-  onPress: () => void;
-  external?: boolean;
-  divider?: boolean;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole={external ? 'link' : 'button'}
-      accessibilityLabel={label}
-      style={({ pressed }) => [styles.row, divider && styles.rowDivider, pressed && styles.rowPressed]}
-    >
-      <Text style={styles.rowLabel}>{label}</Text>
-      <Icon
-        name={external ? 'externalLink' : 'chevronRight'}
-        size={external ? 18 : 22}
-        color={colors.inkMuted}
-      />
-    </Pressable>
   );
 }
 
@@ -205,19 +179,6 @@ function makeStyles(c: Palette) {
     },
     integrityIcon: { marginTop: 1 },
     integrityBody: { ...type.body, color: c.ink, flex: 1 },
-
-    // --- Stöd rows ------------------------------------------------------
-    row: {
-      minHeight: 48,
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: space.md,
-      paddingHorizontal: space.lg,
-      paddingVertical: space.md,
-    },
-    rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: c.separator },
-    rowPressed: { backgroundColor: c.accentSoft },
-    rowLabel: { ...type.body, color: c.ink, flex: 1 },
 
     // --- Imprint + credits ----------------------------------------------
     // Faintest ink, no chrome — imprint position at the paper's edge. Mirrors

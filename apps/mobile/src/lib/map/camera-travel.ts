@@ -1,6 +1,9 @@
 // How long the camera takes to travel on its own — Återställ's fit back to the whole country
 // and the position control's flight in to the reader — from the distance it has to cover,
-// in one rule, so the two moves feel like one hand.
+// in one rule, so the two moves feel like one hand. (Since 2026-09-19 the position control
+// is offered only to a reader outside Sweden, whose dot the home view cannot show; see
+// MapAction in components/nav/MapNav. The rule is unchanged: a reader in Sweden's journey
+// out is now a pinch, and Återställ still brings them back on this clock.)
 //
 // They were two constants: the flight in took 900 ms and the reset took `motion.slow`
 // (350 ms), so the same journey ran two and a half times faster one way than the other,
@@ -20,7 +23,8 @@ import { type Camera, mercX, mercY, worldSize } from './projection';
 
 /** The shortest a camera move of its own may take — a small correction. */
 export const TRAVEL_MIN_MS = motion.slow;
-/** The longest — the flight from the whole country to the reader's street, and back. */
+/** The longest — whole country to street zoom or back: Återställ from a close-up, or a
+ *  reader abroad's flight to their dot. */
 export const TRAVEL_MAX_MS = 900;
 /** Time per zoom level crossed. */
 export const MS_PER_ZOOM_LEVEL = 85;

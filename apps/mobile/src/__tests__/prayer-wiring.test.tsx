@@ -251,7 +251,7 @@ describe('changing a setting recomputes the displayed times (the core user flow)
 // clock face.
 describe('the night times reach the preview only when asked for', () => {
   async function enableNightTimes(): Promise<void> {
-    fireEvent(screen.getByRole('switch', { name: /Visa nattens tider/ }), 'valueChange', true);
+    fireEvent.press(screen.getByRole('switch', { name: /Visa nattens tider/ }));
     await waitFor(() => expect(isShown('lastThird')).toBe(true));
   }
 

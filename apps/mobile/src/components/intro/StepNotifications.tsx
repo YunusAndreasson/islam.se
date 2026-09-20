@@ -92,8 +92,11 @@ export function StepNotifications() {
   if (notifications.blocked) {
     return (
       <View style={styles.wrap}>
+        {/* Same sentence as Inställningar → Notiser and the map's card. It says what the
+            block costs and what to do on the other side; the link under it does the
+            going, so the sentence no longer repeats that link's "Öppna …" word for word. */}
         <Text style={styles.problem}>
-          Notiser är blockerade. Öppna {settingsName} för att tillåta dem.
+          Notiser är blockerade – inga påminnelser kommer fram. Tillåt dem i {settingsName}.
         </Text>
         <Pressable
           onPress={openNotificationSettings}
@@ -112,7 +115,9 @@ export function StepNotifications() {
     <View style={styles.wrap}>
       <View style={styles.done}>
         <Icon name="checkCircle" size={20} color={c.highlight} />
-        <Text style={styles.doneText}>Du får en notis när det är dags för bön.</Text>
+        {/* A state, not a promise: the lead above already says what a reminder is, and
+            this line used to say it again in the second person. */}
+        <Text style={styles.doneText}>Påminnelserna är på.</Text>
       </View>
       {/* Sunrise is deliberately absent: Shurūq is a MARKER that closes Fajr's window,
           not a prayer, and its opt-in warning lives in Notiser where it can be explained.

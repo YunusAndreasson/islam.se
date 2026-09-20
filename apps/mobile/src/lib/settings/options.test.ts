@@ -8,6 +8,9 @@ import { describe, expect, it } from '@jest/globals';
 
 import {
   HIGHLAT_OPTIONS,
+  LEAD_CHOICES,
+  leadOptions,
+  sunriseLeadOptions,
   MADHAB_OPTIONS,
   METHOD_OPTIONS,
   POLAR_OPTIONS,
@@ -109,6 +112,28 @@ describe('OPTIONS — every typed key has exactly one labelled entry', () => {
     expect(METHOD_OPTIONS[0]?.value).toBe(DEFAULT_SETTINGS.calculationMethod);
   });
 
+  it('leaves naming the default to the Standard tag, not to a label or caption', () => {
+    // The default was once named only in a grey caption ("· appens standard") and the
+    // madhab default was LABELLED "Standard" — so the word meant two things on one screen
+    // and users could not tell which row was the default. OptionGroup's `standard` tag,
+    // fed from DEFAULT_SETTINGS, is now the one place that says it; a caption that says
+    // it too will drift the day the default moves again (it did once: MWL → Diyanet).
+    const groups = [METHOD_OPTIONS, MADHAB_OPTIONS, HIGHLAT_OPTIONS, POLAR_OPTIONS, SHAFAQ_OPTIONS, ROUNDING_OPTIONS];
+    for (const o of groups.flat()) {
+      expect(`${o.label} ${o.description ?? ''}`).not.toMatch(/standard|rekommenderad/i);
+    }
+  });
+
+  it('tells the two 18°/17° methods apart in their descriptions', () => {
+    // Diyanet and Muslim World League share their angles; what differs is Diyanet's
+    // temkin minutes. Two rows reading "Fajr 18°, Isha 17°" and nothing else look like a
+    // duplicate, and the reader cannot choose between them.
+    const [diyanet, mwl] = METHOD_OPTIONS;
+    expect(diyanet?.value).toBe('Turkey');
+    expect(mwl?.value).toBe('MuslimWorldLeague');
+    expect(diyanet?.description).not.toBe(mwl?.description);
+  });
+
 });
 
 describe('label helpers', () => {
@@ -130,8 +155,11 @@ describe('label helpers', () => {
     }
   });
 
-  it('summarises calculation settings beyond just the method', () => {
-    expect(calculationSummary(DEFAULT_SETTINGS)).toBe('Turkiet (Diyanet) · Standard');
+  it('summarises the method, then only what differs from the default', () => {
+    // The default madhab used to be LABELLED "Standard", so the summary read "Turkiet
+    // (Diyanet) · Standard" — which said nothing about Asr. Its row is now named by school,
+    // and the summary names the madhab only when it is the one a reader chose.
+    expect(calculationSummary(DEFAULT_SETTINGS)).toBe('Turkiet (Diyanet)');
     expect(
       calculationSummary({
         ...DEFAULT_SETTINGS,
@@ -141,9 +169,66 @@ describe('label helpers', () => {
     ).toBe('Turkiet (Diyanet) · Hanafi · Skymningsvinkel');
   });
 
+  it('never reads like a fresh install while any Beräkning control is off its default', () => {
+    // It once named only the method, madhab and high-latitude rule, so a reader with Fajr
+    // +10 min and rounding "up" saw "Turkiet (Diyanet)" — the same text as a fresh install
+    // — on the row that is meant to say what their times are built from.
+    const changed: Partial<PrayerSettings>[] = [
+      { polarCircleResolution: 'aqrabYaum' },
+      { rounding: 'up' },
+      { adjustments: { ...DEFAULT_SETTINGS.adjustments, fajr: 10 } },
+      { calculationMethod: 'MoonsightingCommittee', shafaq: 'ahmer' },
+    ];
+    for (const patch of changed) {
+      const summary = calculationSummary({ ...DEFAULT_SETTINGS, ...patch });
+      const method = methodLabel({ ...DEFAULT_SETTINGS, ...patch });
+      expect(summary).not.toBe(method);
+    }
+    expect(
+      calculationSummary({
+        ...DEFAULT_SETTINGS,
+        rounding: 'up',
+        adjustments: { ...DEFAULT_SETTINGS.adjustments, fajr: 10, isha: -5 },
+      }),
+    ).toBe('Turkiet (Diyanet) · Avrundning uppåt · 2 justerade tider');
+    // Shafaq is hidden, and has no effect, under every other method: it must not be listed.
+    expect(calculationSummary({ ...DEFAULT_SETTINGS, shafaq: 'abyad' })).toBe('Turkiet (Diyanet)');
+  });
+
   it('keeps a readable summary for persisted back-compat methods hidden from the picker', () => {
     expect(calculationSummary({ ...DEFAULT_SETTINGS, calculationMethod: 'Karachi' })).toBe(
-      'Karachi · Standard',
+      'Karachi',
+    );
+  });
+
+  // THE MIGRATION THIS GUARDS: "Påminn i förväg" used to be a stepper over 0–60 in
+  // steps of five, so installs exist sitting on 20, 25, 45 or 60. sanitizeSettings still
+  // accepts every one of them. If the new list only ever offered its own five values, a
+  // reader on 25 would open the screen to a group with NOTHING checked and have their
+  // choice silently rewritten by the first tap they made.
+  it('carries a persisted lead time that is not one of the offered five', () => {
+    const values = leadOptions(25).map((o) => Number(o.value));
+
+    expect(values).toContain(25);
+    expect(values).toEqual([...values].sort((a, b) => a - b)); // in time order, not appended
+    expect(new Set(values).size).toBe(values.length);
+  });
+
+  it('offers exactly the five choices when the saved value is already one of them', () => {
+    expect(leadOptions(15).map((o) => Number(o.value))).toEqual([...LEAD_CHOICES]);
+    // 0 is a real choice, not a missing value — it must not add a sixth row.
+    expect(leadOptions(0).map((o) => Number(o.value))).toEqual([...LEAD_CHOICES]);
+  });
+
+  // Zero means two different moments. At a prayer it is the prayer time; at the Fajr
+  // window it is sunrise, the moment the window SHUTS — "Vid bönetid" there would name a
+  // prayer that is already over.
+  it('names the zero lead for what it is on each list', () => {
+    expect(leadOptions(0).find((o) => o.value === '0')?.label).toBe('Vid bönetid');
+    expect(sunriseLeadOptions(0).find((o) => o.value === '0')?.label).toBe('Vid soluppgången');
+    // Every other row is the same in both lists.
+    expect(sunriseLeadOptions(0).find((o) => o.value === '15')?.label).toBe(
+      leadOptions(0).find((o) => o.value === '15')?.label,
     );
   });
 

@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useReducedMotion,
@@ -10,6 +10,7 @@ import Animated, {
 import { motion, radius, space, type } from '@/theme/tokens';
 import { Icon } from '@/components/ui/Icon';
 import { type SettingsColors, useSettingsColors } from './theme';
+import { useCompactLayout } from './useCompactLayout';
 
 // A collapsible card for advanced settings. Collapsed, it shows its category title
 // plus a one-line SUMMARY of the current value (recognition over recall) — so the
@@ -27,18 +28,44 @@ export function DisclosureGroup({
   title,
   summary,
   defaultExpanded = false,
+  toggle,
   children,
 }: {
   title: string;
   summary: string;
   defaultExpanded?: boolean;
+  /**
+   * Puts the thing's ON/OFF on the HEADER, beside the reveal.
+   *
+   * ⚠️ THE FIX THIS EXISTS FOR. Every alert on Påminnelser used to keep its switch
+   * INSIDE the fold: the collapsed row said "Av", and turning a prayer back on meant
+   * expanding the group and finding a switch labelled "Påminnelse" — two taps and a
+   * hidden control for the most common action on the screen. The row reported a state
+   * it would not let you change.
+   *
+   * The switch is a SIBLING of the header's Pressable, never a child of it: a Pressable
+   * is `accessible` by default and would swallow the switch into its own node, leaving a
+   * screen reader no way to reach it. Two controls, two nodes, two labels.
+   *
+   * When it is off there is no chevron and the header does not expand — a fold whose
+   * body renders nothing for an off alert is a dead affordance. Switch it on and the
+   * chevron appears with the detail behind it.
+   */
+  toggle?: {
+    value: boolean;
+    onValueChange: (value: boolean) => void;
+    /** Spoken name for the switch alone, e.g. "Påminnelse för Fajr. Gryningsbönen". */
+    label: string;
+  };
   children: ReactNode;
 }) {
-  const { width, fontScale } = useWindowDimensions();
+  const compact = useCompactLayout();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const reduceMotion = useReducedMotion();
 
+  // An alert that is off has nothing behind its fold, so it gets no fold.
+  const expandable = !toggle || toggle.value;
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [contentHeight, setContentHeight] = useState(0);
   // Seed with a one-line estimate (paddingTop 3 + callout lineHeight 21) so the value
@@ -49,9 +76,11 @@ export function DisclosureGroup({
   const open = useSharedValue(defaultExpanded ? 1 : 0);
 
   useEffect(() => {
-    const target = expanded ? 1 : 0;
+    // Switching the alert off takes its detail away with it, so the body closes rather
+    // than being left open over nothing.
+    const target = expanded && expandable ? 1 : 0;
     open.value = reduceMotion ? target : withTiming(target, { duration: motion.base });
-  }, [expanded, reduceMotion, open]);
+  }, [expanded, expandable, reduceMotion, open]);
 
   // contentHeight is captured by these worklets at render; a layout change re-renders
   // and reanimated re-evaluates the style with the new height (snaps to fit).
@@ -75,14 +104,20 @@ export function DisclosureGroup({
   return (
     <View style={styles.wrap}>
       <View style={styles.card}>
+        <View style={styles.headerRow}>
         <Pressable
           // No haptic: expanding a section is a content reveal, treated like navigation —
           // the animated open/close is the feedback. See the lib/haptics policy.
           onPress={() => setExpanded((v) => !v)}
+          disabled={!expandable}
           accessibilityRole="button"
           accessibilityState={{ expanded }}
-          accessibilityLabel={`${title}, ${summary}`}
-          style={({ pressed }) => [styles.header, pressed && styles.headerPressed]}
+          accessibilityLabel={summary ? `${title}, ${summary}` : title}
+          style={({ pressed }) => [
+            styles.header,
+            styles.headerGrow,
+            pressed && expandable && styles.headerPressed,
+          ]}
         >
           <View style={styles.headerText}>
             <Text style={styles.title}>{title}</Text>
@@ -98,7 +133,7 @@ export function DisclosureGroup({
             <Animated.View style={[styles.summaryWrap, summaryStyle]}>
               <Text
                 style={styles.summary}
-                numberOfLines={width < 360 || fontScale > 1.3 ? undefined : 2}
+                numberOfLines={compact ? undefined : 2}
                 onLayout={(e) => setSummaryHeight(e.nativeEvent.layout.height)}
               >
                 {summary}
@@ -109,16 +144,31 @@ export function DisclosureGroup({
               app-wide "pushes a screen" glyph (muted, 22), so an inline reveal needs
               its own form — same accent colour still marks it interactive. One glyph
               family per behaviour keeps the affordances predictable. */}
-          <Animated.View style={chevronStyle}>
-            <Icon name="chevronDown" size={22} color={colors.accent} />
-          </Animated.View>
+          {expandable ? (
+            <Animated.View style={chevronStyle}>
+              <Icon name="chevronDown" size={22} color={colors.accent} />
+            </Animated.View>
+          ) : null}
         </Pressable>
+        {toggle ? (
+          <View style={styles.headerSwitch}>
+            <Switch
+              value={toggle.value}
+              onValueChange={toggle.onValueChange}
+              accessibilityLabel={toggle.label}
+              trackColor={{ true: colors.accent, false: colors.track }}
+              thumbColor={colors.thumb}
+              ios_backgroundColor={colors.track}
+            />
+          </View>
+        ) : null}
+        </View>
 
         <Animated.View
           style={[styles.body, bodyStyle]}
-          accessibilityElementsHidden={!expanded}
-          importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
-          pointerEvents={expanded ? 'auto' : 'none'}
+          accessibilityElementsHidden={!(expanded && expandable)}
+          importantForAccessibility={expanded && expandable ? 'auto' : 'no-hide-descendants'}
+          pointerEvents={expanded && expandable ? 'auto' : 'none'}
         >
           <View
             style={styles.measure}
@@ -142,6 +192,11 @@ function makeStyles(colors: SettingsColors) {
       borderColor: colors.border,
       overflow: 'hidden',
     },
+    headerRow: { flexDirection: 'row', alignItems: 'center' },
+    headerGrow: { flex: 1 },
+    // Holds the switch off the card's right edge by the same inset the header uses, and
+    // keeps the 56 dp row height when the switch is the tallest thing in it.
+    headerSwitch: { paddingRight: space.lg, paddingLeft: space.sm, justifyContent: 'center' },
     header: {
       minHeight: 56, // touch target — paddingVertical 14 is the 56-min-height math, kept
       paddingVertical: 14,
