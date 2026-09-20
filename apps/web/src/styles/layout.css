@@ -1076,10 +1076,10 @@
 		padding: 0.15em 0.4em;
 		font-size: 0.72em;
 		letter-spacing: 0.02em;
-		/* --color-muted is picked to clear 4.5:1 against --color-bg, but this chip
-		   does not sit on --color-bg: the 7% wash under it darkens the ground and
-		   took the pair to ~4.1:1. --text-meta is the same hue one step toward the
-		   text colour, which restores the margin the wash spends. */
+		/* This chip does not sit on --color-bg: the 7 % wash under it darkens the
+		   ground. --color-muted now carries enough margin to clear AA there too
+		   (tokens.css), but a chip's label wants a touch more presence than a caption,
+		   and --text-meta is the tier for that. */
 		color: var(--text-meta);
 		background: color-mix(in srgb, var(--color-text) 7%, transparent);
 		border-radius: 0.4rem;

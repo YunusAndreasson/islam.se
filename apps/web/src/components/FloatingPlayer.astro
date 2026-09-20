@@ -174,13 +174,14 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		align-items: center;
 		justify-content: center;
 		padding: 0.9375rem;
-		color: var(--color-muted);
-		opacity: 0.5;
-		transition: opacity 0.15s, color 0.15s;
+		/* --color-warm is the palette's 3:1 tier for meaningful icons (tokens.css). These
+		   were --color-muted at 50 % opacity, which composites to ~1.9:1 on the ground —
+		   under WCAG 1.4.11 for a glyph that is the whole control. */
+		color: var(--color-warm);
+		transition: color 0.15s;
 	}
 
 	.fp-sub-link:hover {
-		opacity: 1;
 		color: var(--color-accent);
 	}
 

@@ -176,9 +176,12 @@
 	margin-block: -0.35rem;
 }
 
+/* Hover takes the accent, as every other interactive text on the site does. It
+   used to take the brass, which is the map's data mark: 3.02:1 on the light ground
+   (under AA for this 13px label) and the only hover on the site in a fifth colour. */
 .nyhet-dela:hover,
 .nyhet-dela:focus-visible {
-	color: var(--color-brass);
+	color: var(--color-accent);
 }
 
 /* ── The front-page sidolinje ─────────────────────────────────────────────
@@ -353,7 +356,7 @@
 
 .nyheter-rail .nyhet-titel a:hover,
 .nyheter-rail .nyhet-titel a:focus-visible {
-	color: var(--color-brass);
+	color: var(--color-accent);
 }
 
 .nyheter-rail-fot {

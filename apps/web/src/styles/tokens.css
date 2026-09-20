@@ -39,8 +39,10 @@
 }
 
 :root {
-	/* Hero overlay — channel-only for rgb() composition */
-	--hero-white: 245 240 232;
+	/* Hero overlay — channel-only for rgb() composition (frame vignettes and the
+	   drop shadow under a picture). The matching warm white, 245 240 232, is not a
+	   token because no stylesheet composes it; lib/og.ts carries it as the title ink
+	   on the photo share card, which is the one place text sits on a hero. */
 	--hero-black: 20 18 14;
 
 	/* Colors — 4 maximum per DESIGN.md */
@@ -49,7 +51,7 @@
 	   linen rather than paper.
 
 	   It is not a fifth colour. Measured in CIE Lab it sits at hue 85°, which is
-	   the palette's own warm axis: --hero-white 86°, --color-muted 78°,
+	   the palette's own warm axis: the hero white 86°, --color-muted 78°,
 	   --color-warm 73°. The page is simply the top step of that ramp. What changed
 	   is chroma, not hue: the old #faf8f5 was on the same axis at C* 1.7, so faint
 	   that the page read as white and all the warmth lived in the ink.
@@ -65,7 +67,8 @@
 	   Contrast IMPROVED. The red channel goes to 255, so lightness rises (L* 97.7
 	   → 97.2 is a rounding difference, not a darkening) and every tier gains:
 	   --color-muted, the most-used secondary and the one on the smallest text,
-	   goes 4.78 → 4.73:1 against a ground that is warmer, not darker. All four
+	   went 4.78 → 4.73:1 (at the #776d61 of the time) against a ground that is
+	   warmer, not darker. All four
 	   tiers clear AA; the top three clear AAA.
 
 	   Change EITHER ground and you change other files with it. Light: the light
@@ -82,16 +85,21 @@
 	   near-black and starts reading as sepia. */
 	--color-bg: light-dark(#fff6e8, #1d1912);
 	--color-accent: light-dark(#3a3830, #d9d4ce);
-	/* Light muted darkened from #847a6e (3.97:1) to clear WCAG AA (4.5:1) — it is
-	   the site's most-used secondary colour and lands on small text (.label,
-	   .archive-meta, captions). #776d61 = 4.78:1 on --color-bg, still a quiet warm
-	   taupe.
+	/* Light muted is the site's most-used secondary colour (~180 call sites) and
+	   lands on small text (.label, .archive-meta, captions). It went #847a6e
+	   (3.97:1) → #776d61 (4.73:1) to clear WCAG AA — and that left 0.2 of margin,
+	   which every tint under it spent: on --surface-1 it measured 4.43:1, on the
+	   hover wash 4.31:1, on a selected row 4.00:1. Two components had already
+	   patched around that with --text-meta (BookPod, the archive length chip).
+	   #6c6357 is 5.51:1 on the ground and ≥ 4.65:1 on every surface and wash
+	   below, so muted text may sit on a tint without a per-site workaround. L* 42.5,
+	   still a quiet warm taupe on the palette's own hue.
 
 	   Dark muted was #8a8278. It passed WCAG AA at 4.64:1 — and measured APCA Lc 35,
 	   which is the "non-text / disabled only" band, on 13.3px labels. WCAG 2's
 	   formula is known to misjudge light-on-dark and hid it. Every dark tier is set
 	   by APCA now (see the table below). */
-	--color-muted: light-dark(#776d61, #bdb6aa);
+	--color-muted: light-dark(#6c6357, #bdb6aa);
 	/* Not decoration: this is the selected/hover border on the filter chips,
 	   BookPod, podcast, MosqueList and PrayerField, and the mast's sun
 	   icon — all governed by WCAG 1.4.11's 3:1. It was 2.37:1 light / 2.77:1 dark and
@@ -103,6 +111,14 @@
 	   PALETTE.light.brass / PALETTE.dark.brass in scripts/moskeer-map.ts, which needs
 	   literals because WebGL paint properties cannot read a custom property. */
 	--color-brass: light-dark(#b8862f, #c89a48);
+	/* Brass as INK. The mark above measures 3.02:1 on the light ground — the
+	   non-text floor, not the text one — so it may fill a bar or a marker but must not
+	   set words. Where brass has to carry text (the emphasised row of a table figure,
+	   the emphasised entry of a timeline) it takes this darker cut of the same hue:
+	   4.85:1 light, 4.52:1 on --surface-1. Dark keeps the mark itself, which already
+	   reads 6.8:1 as text. Mirrored as a literal in scripts/generate-pdf.ts and
+	   generate-epub.ts, where the same rows are printed. */
+	--color-brass-ink: light-dark(#8c6624, #c89a48);
 	/* Two ranks of rule. The hairline is this site's only structural device, and it
 	   had ONE weight — so the line between two rows of a list looked exactly like the
 	   line between two movements of a page. The rule announced that a boundary existed
@@ -152,12 +168,15 @@
 	   the palette it was hiding. Every tier now clears APCA 60 (the body-text floor)
 	   in BOTH schemes, and the two spans match: 29.4 Lc light, 27.9 dark.
 
-	     tier          light Lc   dark Lc   role
-	     --color-text      99.6      89.9   body prose, titles
-	     --text-body       94.6      81.3   leads, decks, framing
-	     --text-quiet      84.8      72.2   descriptions, blurbs
-	     --text-meta       79.0      67.7   colophon meta on a tinted panel
-	     --color-muted     70.2      62.0   meta labels, captions */
+	     tier          light Lc   dark Lc   L* light   role
+	     --color-text      99.6      89.9      8.7     body prose, titles
+	     --text-body       95.4      81.1     18.8     leads, decks, framing
+	     --text-quiet      87.1      72.1     29.6     descriptions, blurbs
+	     --text-meta       82.2      67.8     35.0     meta on a tinted panel
+	     --color-muted     74.7      62.0     42.5     meta labels, captions
+
+	   (Light column re-measured 2026-09-18 when muted moved to #6c6357; the ramp is
+	   mixed from it, so every tier below body shifted 1–4 Lc darker.) */
 	--text-body: color-mix(in oklab, var(--color-text) 70%, var(--color-muted));
 	--text-quiet: color-mix(in oklab, var(--color-text) 38%, var(--color-muted));
 	/* `strong` prose (a lead that must not read as secondary) is simply full text —
@@ -167,6 +186,27 @@
 	/* Meta labels that need a touch more presence than --color-muted (used by the
 	   BookPod cover, which sits on its own tinted panel). */
 	--text-meta: color-mix(in oklab, var(--color-muted), var(--color-text) 22%);
+
+	/* Interactive washes — the translucent warm tint under a hovered row and under a
+	   selected control. Two ranks, and only two. The components used to carry 8, 10,
+	   16 and 18 % of --color-warm at different call sites for these same two states:
+	   below the eye's threshold between neighbours, yet visibly uneven across a page
+	   where a search row, a place result and a mosque row all hover differently.
+	   Translucent, over transparent rather than over --color-bg, because a row wash
+	   also lands on panels and glass. ΔL* against the ground: 3.6 / 6.5 light,
+	   3.8 / 6.7 dark. */
+	--wash-hover: color-mix(in srgb, var(--color-warm) 10%, transparent);
+	--wash-selected: color-mix(in srgb, var(--color-warm) 18%, transparent);
+
+	/* Raised surfaces — an opaque panel one step off the ground. --surface-1 is a
+	   card, an input, a book cover, a promo box, a quoted block; --surface-2 is a
+	   control or a marked table row sitting on such a panel. Mixed from --color-muted,
+	   not --color-text: a text mix is greyer and reads a touch cold on the warm ground.
+	   Six recipes (text 3 % and 4 %, muted 4, 6, 8 and 9 %) were doing these two jobs.
+	   In oklab so the step is the same size in both schemes: ΔL* 2.7 / 4.9 light,
+	   3.3 / 5.9 dark. Muted text clears 4.5:1 on both (see --color-muted). */
+	--surface-1: color-mix(in oklab, var(--color-muted) 5%, var(--color-bg));
+	--surface-2: color-mix(in oklab, var(--color-muted) 9%, var(--color-bg));
 
 	/* Type scale — 1.2 ratio (minor third) from 19px Literata base.
 

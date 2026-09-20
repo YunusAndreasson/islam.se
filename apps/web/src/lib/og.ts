@@ -13,11 +13,16 @@ const sourceSemibold = readFileSync(join(fontDir, "SourceSans3-SemiBold.ttf"));
 const sourceRegular = readFileSync(join(fontDir, "SourceSans3-Regular.ttf"));
 const literataItalic = readFileSync(join(fontDir, "Literata-RegularItalic.ttf"));
 
-// Warm palette, matching the site's light surface (tokens.css).
+// Warm palette, matching the site's light surface (tokens.css) — change both together.
 const BG = "#fff6e8";
 const TEXT = "#1a1914";
-const MUTED = "#847a6e";
+const MUTED = "#6c6357";
 const ACCENT = "#3a3830";
+// Over a photo the card composes in the hero's own channels (tokens.css --hero-black
+// and its warm white), never pure black and white: the site has no #fff anywhere,
+// and a share card is the site's face on someone else's page.
+const HERO_WHITE = "245,240,232";
+const HERO_BLACK = "20,18,14";
 
 export interface OgInput {
 	kicker: string;
@@ -195,8 +200,7 @@ function photoCard({ kicker, title, bgImage }: OgInput) {
 					width: 1200,
 					height: 630,
 					display: "flex",
-					backgroundImage:
-						"linear-gradient(180deg, rgba(20,18,16,0.15) 0%, rgba(20,18,16,0.30) 45%, rgba(20,18,16,0.86) 100%)",
+					backgroundImage: `linear-gradient(180deg, rgba(${HERO_BLACK},0.15) 0%, rgba(${HERO_BLACK},0.30) 45%, rgba(${HERO_BLACK},0.86) 100%)`,
 				},
 				[],
 			),
@@ -218,7 +222,7 @@ function photoCard({ kicker, title, bgImage }: OgInput) {
 							fontSize: 26,
 							fontWeight: 600,
 							letterSpacing: 4,
-							color: "rgba(255,255,255,0.82)",
+							color: `rgba(${HERO_WHITE},0.82)`,
 							marginBottom: 22,
 						},
 						kicker.toUpperCase(),
@@ -230,7 +234,7 @@ function photoCard({ kicker, title, bgImage }: OgInput) {
 							fontWeight: 600,
 							letterSpacing: -2,
 							lineHeight: 1.05,
-							color: "#ffffff",
+							color: `rgb(${HERO_WHITE})`,
 							maxWidth: 1024,
 						},
 						title,
@@ -238,7 +242,7 @@ function photoCard({ kicker, title, bgImage }: OgInput) {
 				],
 			),
 			el("div", { position: "absolute", top: 64, right: 88, display: "flex" }, [
-				wordmark(28, "rgba(255,255,255,0.82)", true),
+				wordmark(28, `rgba(${HERO_WHITE},0.82)`, true),
 			]),
 		],
 	);

@@ -28,7 +28,7 @@ const entries = placesByCounty().flatMap(g => g.places.map(p => ({name: p.name, 
 	#place-results { margin: 0.75rem 0 0; padding: 0; border: 1px solid var(--color-divider); border-radius: var(--radius-sm); }
 	#place-results :global(li + li) { border-top: 1px solid var(--color-divider); }
 	#place-results :global(a) { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; min-height: 2.75rem; padding: 0.7rem 1rem; text-decoration: none; font-family: var(--font-heading); }
-	#place-results :global(a:hover), #place-results :global(a:focus-visible) { background: color-mix(in srgb, var(--color-warm) 10%, transparent); }
+	#place-results :global(a:hover), #place-results :global(a:focus-visible) { background: var(--wash-hover); }
 	#place-results :global(span) { color: var(--color-muted); font-size: var(--step--2); text-align: end; }
 	@media (width < 480px) { .place-geo { width: 100%; } }
 </style>

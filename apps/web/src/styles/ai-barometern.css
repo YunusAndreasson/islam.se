@@ -882,7 +882,7 @@
 		font-size: var(--step--3);
 	}
 	.abm-share-table tr[data-current] > * {
-		background: color-mix(in oklab, var(--color-muted) 9%, var(--color-bg));
+		background: var(--surface-2);
 	}
 	.abm-share-table tr[data-current] th {
 		font-weight: 600;
@@ -1156,7 +1156,7 @@
 		font-size: var(--step--2);
 		padding: var(--space-half) var(--space-unit);
 		border-inline-start: 2px solid var(--color-rule);
-		background: color-mix(in oklab, var(--color-muted) 6%, var(--color-bg));
+		background: var(--surface-1);
 	}
 
 	/* The reset strips list markers site-wide; these limits are a real list of separate
@@ -1253,7 +1253,7 @@
 			border-block-end: 1px solid color-mix(in oklab, var(--color-divider) 70%, transparent);
 		}
 		.abm-figure--matrix .abm-matrix tbody tr:not(.abm-group):hover > * {
-			background: color-mix(in oklab, var(--color-muted) 8%, var(--color-bg));
+			background: var(--surface-2);
 		}
 	}
 

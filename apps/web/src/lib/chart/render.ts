@@ -57,11 +57,11 @@ export type ChartMode = FigureMode;
 /** Light-scheme literals for print. Mirrors tokens.css — change both together. */
 const PRINT = {
 	brass: "#b8862f",
-	muted: "#776d61",
+	muted: "#6c6357",
 	// --color-divider / --color-rule resolved against --color-bg #fff6e8, since neither
 	// color-mix() nor light-dark() survives outside a browser.
-	divider: "#e4dbcd",
-	rule: "#cbc2b5",
+	divider: "#e2d9cb",
+	rule: "#c7beb1",
 	bg: "#fff6e8",
 	// currentColor, not a literal: an EPUB reader in night mode recolours text but not an
 	// SVG fill, so a hard #1a1914 would leave the labels near-black on a black page. Typst

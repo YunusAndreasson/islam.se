@@ -38,10 +38,12 @@ const BUILD_DIR = "/tmp/islam-se-pdf";
 // scripts/generate-brand-assets.mjs, and a second copy here would silently drift
 // from the site the moment the mark changes.
 // ⚠️ The shipped ornament is white because the site uses it as a CSS mask, where the
-// channel is the alpha. Print needs a real grey.
+// channel is the alpha. Print needs a real tone: the site's --color-warm, the 3:1 tier
+// its ornaments and rules sit at on screen, rather than a neutral grey the palette
+// does not contain.
 const ORNAMENT_SVG = readFileSync(join(process.cwd(), "public/ornament.svg"), "utf8").replaceAll(
 	'"white"',
-	'"#999"',
+	'"#998e7c"',
 );
 const MARK_SVG = readFileSync(join(process.cwd(), "public/brand-mark.svg"), "utf8");
 
@@ -113,9 +115,11 @@ function tableToTypst(source: string): string {
 	const align = numeric.map((n) => (n ? "right" : "left")).join(", ");
 	// One-vs-rest, carried into print with the same literal palette the chart SVGs use.
 	// Without this the emphasised row reads as an ordinary row in the book, and the figure
-	// says something different on paper than it does on the page.
-	const BRASS = "#b8862f";
-	const MUTED = "#776d61";
+	// says something different on paper than it does on the page. The brass is the INK
+	// cut (tokens.css --color-brass-ink): the mark's #b8862f is 3.2:1 on paper, under AA
+	// for a table cell.
+	const BRASS = "#8c6624";
+	const MUTED = "#6c6357";
 	const cell = (text: string, fill?: string) => {
 		const inner = esc(housePunctuation(text));
 		return fill ? `[#text(fill: rgb("${fill}"))[${inner}]]` : `[${inner}]`;
@@ -424,7 +428,7 @@ function buildDocument(articles: Article[]): string {
 
 #show heading.where(level: 3): it => {
   v(20pt)
-  block(sticky: true, below: 10pt, text(font: "Source Sans 3", 11pt, weight: 600, fill: rgb("#333"), it.body))
+  block(sticky: true, below: 10pt, text(font: "Source Sans 3", 11pt, weight: 600, fill: rgb("#3a3830"), it.body))
 }
 
 // ============================================================

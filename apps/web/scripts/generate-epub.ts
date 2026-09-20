@@ -280,20 +280,23 @@ h2 {
    (No backtick-fence notation in this comment — the stylesheet is a template literal.) */
 .chart--table { margin: 1.2em 0; }
 .chart--timeline { margin: 1.2em 0; }
-.chart-timeline { list-style: none; margin: 0; padding: 0 0 0 1em; border-left: 1px solid #cbc2b5; }
+.chart-timeline { list-style: none; margin: 0; padding: 0 0 0 1em; border-left: 1px solid #c7beb1; }
 .chart-tl-item { display: block; }
 .chart-tl-year { display: block; font-weight: 600; }
 .chart-table { width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: left; }
 .chart-table th, .chart-table td { padding: 0.3em 0.6em 0.3em 0; vertical-align: top; }
-.chart-table thead th { font-weight: bold; border-bottom: 1px solid #ccc; }
-.chart-table tbody tr td, .chart-table tbody tr th { border-top: 1px solid #eee; }
+.chart-table thead th { font-weight: bold; border-bottom: 1px solid #c7beb1; }
+.chart-table tbody tr td, .chart-table tbody tr th { border-top: 1px solid #e2d9cb; }
 .chart-table-num { text-align: right; }
 /* One-vs-rest: without these the emphasised row is indistinguishable in the book, and the
    figure means something different on paper than it does on the page. Literal colours —
-   an EPUB has no CSS custom properties. Mirrors the print palette in chart/render.ts. */
-.chart-table tbody tr.is-emphasis th, .chart-table tbody tr.is-emphasis td { color: #b8862f; }
-.chart-table tbody tr.is-dim th, .chart-table tbody tr.is-dim td { color: #776d61; }
-.chart-cap { font-size: 0.8em; color: #666; margin-top: 0.4em; }
+   an EPUB has no CSS custom properties. Mirrors the print palette in chart/render.ts; the
+   rules above are the site's --color-rule and --color-divider resolved on the light
+   ground, and the brass is the ink cut (tokens.css --color-brass-ink), since the mark
+   itself is 3.2:1 on paper. */
+.chart-table tbody tr.is-emphasis th, .chart-table tbody tr.is-emphasis td { color: #8c6624; }
+.chart-table tbody tr.is-dim th, .chart-table tbody tr.is-dim td { color: #6c6357; }
+.chart-cap { font-size: 0.8em; color: #6c6357; margin-top: 0.4em; }
 .chapter-date { font-size: 0.8em; margin: 0; }
 
 /* Swedish typographic paragraphs: no blank line, an indent from the second on. The

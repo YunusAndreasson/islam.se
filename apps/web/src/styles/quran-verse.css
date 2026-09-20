@@ -103,7 +103,7 @@
 	}
 
 	.qv-play[data-playing] {
-		background: color-mix(in srgb, var(--color-warm), transparent 82%);
+		background: var(--wash-selected);
 		border-color: var(--color-warm);
 	}
 

@@ -319,9 +319,11 @@
 	}
 
 	/* One-vs-rest, the same encoding the bar forms use: the emphasised row keeps the
-	   brass and everything else recedes. No hue is introduced. */
+	   brass and everything else recedes. No hue is introduced — but this is TEXT, so
+	   it takes the ink cut of the brass: the mark itself is 3.02:1 on the light ground,
+	   under AA for a 15px cell (tokens.css, --color-brass-ink). */
 	.chart-table tbody tr.is-emphasis > * {
-		color: var(--color-brass);
+		color: var(--color-brass-ink);
 	}
 
 	.chart-table tbody tr.is-dim > * {
@@ -428,7 +430,8 @@
 	   keeps the brass and takes a filled dot; everything else recedes. No hue is added. */
 	.chart-tl-item.is-emphasis > *,
 	.chart-tl-item.is-emphasis .chart-tl-year {
-		color: var(--color-brass);
+		/* Ink, not the mark — see the table rule above. The dot stays --color-brass. */
+		color: var(--color-brass-ink);
 	}
 
 	/* The emphasised entry keeps the brass; everything else recedes to the rule colour,

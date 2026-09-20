@@ -524,7 +524,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
  .mk-lan summary :global(svg) { flex: none; }
  .mk-lan[open] summary :global(svg) { transform: rotate(180deg); }
  .mk-item { min-height: 2.75rem; padding: .85rem .5rem; gap: .2rem; }
- .mk-item:hover, .mk-item.is-active { background: color-mix(in srgb, var(--color-warm) 8%, transparent); }
+ .mk-item:hover, .mk-item.is-active { background: var(--wash-hover); }
  @media (width >= 800px) {
   .mk-explorer { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); align-items: start; }
   .mk-stage { grid-column: 2; grid-row: 1; }
@@ -665,7 +665,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 	}
 
 	.moskeer .maplibregl-ctrl-group button:hover {
-		background: color-mix(in srgb, var(--color-warm) 16%, transparent);
+		background: var(--wash-hover);
 	}
 
 	/* MapLibre's background-image icons cannot inherit currentColor. Follow the site's

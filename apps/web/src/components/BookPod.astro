@@ -71,7 +71,7 @@ const year = new Date().getFullYear();
 		aspect-ratio: 1 / 1.414;
 		padding: 12% 10% 9%;
 		color: var(--color-text);
-		background: color-mix(in srgb, var(--color-text) 4%, var(--color-bg));
+		background: var(--surface-1);
 		border: 1px solid var(--color-divider);
 		border-radius: 1px 3px 3px 1px;
 		box-shadow:
@@ -91,10 +91,10 @@ const year = new Date().getFullYear();
 		}
 	}
 
-	/* The cover sits on a 4%-text tint (a paper wash), which drops plain --color-muted
-	   to ~4.24:1 (dark) / ~4.42:1 (light) on the small cover text — just under AA. This
-	   nudge mixes muted toward --color-text, so it darkens in light mode and lightens in
-	   dark mode: ≥4.5:1 on the tint in both schemes while staying a quiet cover label. */
+	/* The cover sits on --surface-1 (a paper wash). --color-muted now clears AA on that
+	   tint in both schemes (5.1:1 light / 8.1:1 dark, tokens.css), so this is no longer a
+	   workaround — --text-meta is kept because a cover label wants a touch more presence
+	   than a caption, and that is the tier for it. */
 	.bookpod-cover {
 		--cover-label: var(--text-meta);
 	}

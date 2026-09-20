@@ -35,6 +35,10 @@ const { title } = Astro.props;
 		{/* Dark whatever the OS prefers, so the site tokens the screen borrows (the mark's
 		    blue and gold) resolve to the same half as its own ground. */}
 		<meta name="color-scheme" content="dark" />
+		{/* The screen's own navy (MosqueScreen.astro, --screen-bg): a tablet pinned to a
+		    home screen paints its status bar from this, and the site's parchment would be
+		    a cream strip across the top of a dark wall. */}
+		<meta name="theme-color" content="#161a26" />
 		<meta name="robots" content="noindex, nofollow" />
 		<title>{title}</title>
 

@@ -234,14 +234,29 @@ Secondary prose is not a new colour; it is a step down the same one. Four ranks,
 
 | token | role | light L\* | contrast |
 |---|---|---|---|
-| `--color-text` | body prose, titles | 8.7 | 16.6 |
-| `--text-body` | leads, decks, framing | 19.7 | 12.5 |
-| `--text-quiet` | descriptions, blurbs, captions | 30.7 | 8.6 |
-| `--color-muted` | meta labels | 46.6 | 4.8 |
+| `--color-text` | body prose, titles | 8.7 | 16.4 |
+| `--text-body` | leads, decks, framing | 18.8 | 12.7 |
+| `--text-quiet` | descriptions, blurbs, captions | 29.6 | 8.8 |
+| `--color-muted` | meta labels | 42.5 | 5.5 |
 
 Space the steps by **perceived lightness (L\*), not by mix percentage** — roughly ΔL\* 11 apart, which is what the eye actually reads. The earlier ramp mixed 88/80/72 % and the components hand-mixed 70/75/78/82/85 % besides, which put seven prose tiers inside ΔL\* 12.3 — steps of under 1 L\* in places, all beneath the just-noticeable difference. Nine shades that read as one, and then a 25-point void down to muted. Never hand-mix a new percentage at a call site; if a tier is missing, add it here and justify it in L\*.
 
-A colour that encodes data (the brass on the mosque map's markers and bars) earns its place by encoding something. The moment it is used for ordinary text it is just a fifth colour.
+Muted carries margin on purpose: at 5.5:1 it still clears AA on every tint the site puts under it (a raised surface, a hovered row, a selected control). It once sat at 4.7:1, and each of those tints pushed it under 4.5 — which is how two components came to carry private workarounds.
+
+A colour that encodes data (the brass on the mosque map's markers and bars) earns its place by encoding something. The moment it is used for ordinary text it is just a fifth colour. Where a figure *must* set words in brass — the emphasised row of a table, the emphasised entry of a timeline — it uses `--color-brass-ink`, a darker cut of the same hue that clears 4.5:1; the mark itself is 3:1 on the light ground and is a fill, never an ink. Hover and focus on ordinary text take the accent, everywhere.
+
+### Washes and Surfaces
+
+Two more families in `tokens.css`, and no percentages at call sites:
+
+| token | role |
+|---|---|
+| `--wash-hover` | the translucent warm tint under a hovered row or result |
+| `--wash-selected` | the same, under a selected control or the marked row |
+| `--surface-1` | an opaque panel one step off the ground: a card, an input, a book cover, a quoted block |
+| `--surface-2` | a control or a marked table row sitting on such a panel |
+
+Before these existed the components mixed 8, 10, 16 and 18 % of warm for the same two hover states, and six different recipes for a raised panel. None of those differences were visible on one screen; all of them were visible across two. `src/styles/tokens.test.ts` measures the palette in both schemes and fails if any text tier, wash or surface drops under its floor.
 
 ### Dark Mode
 

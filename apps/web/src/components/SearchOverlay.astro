@@ -335,7 +335,7 @@ const here = (href: string) => href === currentHref;
 	.palette-dest:hover,
 	.palette-dest:focus-visible,
 	.palette-dest[aria-current] {
-		background: color-mix(in srgb, var(--color-warm) 10%, transparent);
+		background: var(--wash-hover);
 	}
 
 	.palette-dest[aria-current] {
@@ -393,7 +393,7 @@ const here = (href: string) => href === currentHref;
 	.palette-chip[aria-current] {
 		color: var(--color-accent);
 		border-color: color-mix(in srgb, var(--color-warm) 60%, var(--color-divider));
-		background: color-mix(in srgb, var(--color-warm) 8%, transparent);
+		background: var(--wash-hover);
 	}
 
 	/* --- The folded tail ------------------------------------------------ */
@@ -511,7 +511,7 @@ const here = (href: string) => href === currentHref;
 
 	.theme-opt:has(:checked) {
 		color: var(--color-accent);
-		background: color-mix(in srgb, var(--color-warm) 16%, transparent);
+		background: var(--wash-selected);
 	}
 
 	.theme-opt:has(:focus-visible) {
@@ -561,7 +561,7 @@ const here = (href: string) => href === currentHref;
 
 	.palette-row.is-active,
 	.palette-row:hover {
-		background: color-mix(in srgb, var(--color-warm) 10%, transparent);
+		background: var(--wash-hover);
 	}
 
 	.palette-row-main { min-width: 0; }

@@ -229,8 +229,9 @@ note(join(MOBILE, "logo-mark.png"), "980, tintable silhouette");
 const fontDir = join(process.cwd(), "scripts/fonts");
 const semibold = readFileSync(join(fontDir, "SourceSans3-SemiBold.ttf"));
 const italic = readFileSync(join(fontDir, "Literata-RegularItalic.ttf"));
+// tokens.css --color-text / --color-muted (light) — change both together.
 const INK = "#1a1914";
-const MUTED = "#776d61";
+const MUTED = "#6c6357";
 
 const node = (type, style, children) => ({ type, props: { style, children } });
 
