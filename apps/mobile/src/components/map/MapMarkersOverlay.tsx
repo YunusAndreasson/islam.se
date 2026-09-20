@@ -3,13 +3,15 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
-import { type Camera, project } from '@/lib/map/projection';
+import { type Camera, mercX, mercY, project } from '@/lib/map/projection';
+import { visibleLineLabel } from '@/lib/map/visible-line-label';
 import { PRAYER_LABELS, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerLineLabel } from '@/lib/solar/field';
 import { polarBoundaryColorFor, prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
 import type { PolarBoundary } from '@/lib/solar/sun';
 import { type Palette, radius, shadow, type } from '@/theme/tokens';
 import { useActiveScheme, useColors } from '@/theme/useColors';
+import type { PrayerLineData } from './skia/SolarSkiaOverlay';
 
 interface Props {
   /** The LIVE camera shared value (same one the Skia canvas reads). Projecting against
@@ -19,6 +21,9 @@ interface Props {
   camera: SharedValue<Camera>;
   /** Pill anchors from buildLines: where each active prayer line wants its label. */
   labels: PrayerLineLabel[];
+  lines: PrayerLineData[];
+  topInset: number;
+  bottomInset: number;
   nextKey: PrayerKey | null;
   /** The polar daylight boundary for this date (null off-season) — labels the dashed
    *  reference line the Skia overlay draws at the same latitude. */
@@ -28,6 +33,9 @@ interface Props {
 export function MapMarkersOverlay({
   camera,
   labels,
+  lines,
+  topInset,
+  bottomInset,
   nextKey,
   polarBoundary,
 }: Props) {
@@ -44,6 +52,9 @@ export function MapMarkersOverlay({
         <PrayerPill
           key={`pill-${l.prayer}`}
           label={l}
+          polylines={lines.find((line) => line.prayer === l.prayer)?.polylines ?? []}
+          topInset={topInset}
+          bottomInset={bottomInset}
           camera={camera}
           colors={c}
           scheme={scheme}
@@ -99,12 +110,18 @@ function PolarBoundaryLabel({
  *  a .map() in the parent body). Positioned on the UI thread against the live camera. */
 function PrayerPill({
   label,
+  polylines,
+  topInset,
+  bottomInset,
   camera,
   colors,
   scheme,
   isNext,
 }: {
   label: PrayerLineLabel;
+  polylines: PrayerLineData['polylines'];
+  topInset: number;
+  bottomInset: number;
   camera: SharedValue<Camera>;
   colors: Palette;
   scheme: ReturnType<typeof useActiveScheme>;
@@ -122,11 +139,23 @@ function PrayerPill({
   // been fixed on the border. Emphasis should not cost a pill its identity.
   const hue = prayerColorFor(label.prayer, scheme);
   const textHue = prayerTextColorFor(label.prayer, scheme);
+  // Camera-independent projection; the compiler retains this until geometry changes.
+  // Per-frame clipping below then uses only scale/translate on the UI thread.
+  const mercLines = polylines.map((line) => {
+    const points = new Float64Array(line.length * 2);
+    line.forEach(([lon, lat], i) => {
+      points[i * 2] = mercX(lon);
+      points[i * 2 + 1] = mercY(lat);
+    });
+    return points;
+  });
   // A translate, not `left`/`top` — see `anchor` in the styles for why.
   const posStyle = useAnimatedStyle(() => {
-    const p = project(label.lngLat[0], label.lngLat[1], camera.value);
+    const cam = camera.value;
+    const anchor = project(label.lngLat[0], label.lngLat[1], cam);
+    const p = visibleLineLabel(anchor, mercLines, cam, topInset, bottomInset);
     return { transform: [{ translateX: p.x }, { translateY: p.y }] };
-  }, [label.lngLat[0], label.lngLat[1]]);
+  }, [label.lngLat[0], label.lngLat[1], mercLines, topInset, bottomInset]);
   return (
     <Animated.View style={[styles.anchor, posStyle]}>
       <View

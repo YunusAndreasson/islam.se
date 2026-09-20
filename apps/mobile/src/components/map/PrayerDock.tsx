@@ -104,10 +104,10 @@ import { makeTimelineWarp } from '@/lib/timeline-warp';
 import { scrubGrabOffset } from '@/lib/map/scrub-grab';
 
 const DAY_MS = 86_400_000;
-/** Hours the ruler under the scrubber labels. Positioned by their true fraction of the
+/** Hours the ruler under the scrubber marks; multiples of six also have labels. Positioned by their true fraction of the
  *  viewed day (see `ticks`) rather than spaced evenly, so the ruler agrees with the
  *  prayer marks and thumb — which have always been placed off the REAL 23/24/25 h day. */
-const HOUR_TICKS = [0, 6, 12, 18, 24];
+const HOUR_TICKS = [0, 3, 6, 9, 12, 15, 18, 21, 24];
 // The timeline declares accessibilityRole="adjustable"; these are the actions that role
 // promises. Module-level so the array identity is stable across renders.
 const TIMELINE_ACTIONS = [{ name: 'increment' }, { name: 'decrement' }] as const;
@@ -251,6 +251,9 @@ export interface PrayerDockHandle {
 }
 
 interface Props {
+  /** Other entry points open the dock's own calendar instead of a second picker. */
+  calendarRequested?: boolean;
+  onCalendarClose?: () => void;
   ref?: Ref<PrayerDockHandle>;
   clock: SolarClock;
   /** The user's own prayer times for the viewed day, straight from adhan. Typed as the
@@ -302,6 +305,8 @@ function countdownParts(ms: number): Countdown {
 
 export function PrayerDock({
   ref,
+  calendarRequested = false,
+  onCalendarClose,
   clock,
   times,
   marks,
@@ -1096,7 +1101,7 @@ export function PrayerDock({
       {/* Outside `clip`, so the sheet is not cropped by the card's rounded overflow, and
           after it, so it layers above. It is inside shadowWrap, which is the dock's own
           absolutely-positioned box — hence zero effect on the dock's height. */}
-      {pickingDay && (
+      {(pickingDay || calendarRequested) && (
         <DayPicker
           dayStart={clock.dayStart}
           todayStart={clock.todayStart}
@@ -1104,8 +1109,12 @@ export function PrayerDock({
           onPick={(instant) => {
             clock.goToDay(instant);
             setPickingDay(false);
+            onCalendarClose?.();
           }}
-          onClose={() => setPickingDay(false)}
+          onClose={() => {
+            setPickingDay(false);
+            onCalendarClose?.();
+          }}
         />
       )}
     </Animated.View>
@@ -1403,10 +1412,10 @@ function SolarTimeline({
   scheme: ColorSchemeName;
 }) {
   const [trackW, setTrackW] = useState(0);
-  // Where each labelled hour actually falls in the viewed day. The EU switches at
-  // 02:00/03:00 local, so by 06:00 a transition day has already gained or lost its whole
-  // hour — every tick from 06 on carries the full delta, and 00 is the day's start by
-  // definition. On an ordinary day the delta is 0 and this is plain quarters.
+  // Where each ruler hour actually falls in the viewed day. The EU switches at
+  // 02:00/03:00 local, so by 03:00 a transition day has already gained or lost its whole
+  // hour — every tick from 03 on carries the full delta, and 00 is the day's start by
+  // definition. On an ordinary day the delta is 0 and these are three-hour intervals.
   // Each labelled hour carries its own fraction rather than living in a second array
   // read back by index at render. Two arrays walked by a shared `i` is a standing
   // invitation: if they ever fall out of step the read is `undefined`, `undefined *
@@ -1640,7 +1649,14 @@ function SolarTimeline({
         </View>
         <View style={styles.ticks} pointerEvents="none">
           {trackW > 0 &&
-            ticks.map(({ hour, fraction: tickFraction }) => (
+            ticks.map(({ hour, fraction: tickFraction }) => hour % 6 !== 0 ? (
+              <View
+                key={hour}
+                style={[styles.minorTick, { left: warp.toTrack(tickFraction) * trackW }]}
+                accessibilityElementsHidden
+                importantForAccessibility="no"
+              />
+            ) : (
               <Text
                 key={hour}
                 style={
@@ -1941,6 +1957,16 @@ function makeStyles(c: Palette, fontScale = 1) {
     // placed at its hour's fraction and centred on it, rather than evenly distributed —
     // even spacing silently assumed 24 equal hours, which is wrong on the two DST days.
     ticks: { height: metrics.ruler, marginTop: 0 },
+    minorTick: {
+      position: 'absolute',
+      top: 4,
+      width: 1,
+      height: 6,
+      marginLeft: -0.5,
+      borderRadius: 0.5,
+      backgroundColor: c.inkMuted,
+      opacity: 0.45,
+    },
     // Hour-axis tick — 10px tabular, deliberately below `micro`; the smallest label in
     // the app and bespoke to the timeline.
     tick: {

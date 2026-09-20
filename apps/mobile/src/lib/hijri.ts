@@ -158,7 +158,7 @@ export const HIJRI_MONTHS: readonly string[] = [
 ];
 
 /** Swedish month names, lower-case as they are written mid-sentence. The two calendar sheets
- *  (map/DayPicker, moon/MoonMonthSheet) both title and caption with these. */
+ *  (map/DayPicker) uses these in its title and caption. */
 export const SWEDISH_MONTHS: readonly string[] = [
   'januari',
   'februari',

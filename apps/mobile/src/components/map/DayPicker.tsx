@@ -6,9 +6,8 @@
 //
 // Laid out the way the crown is: the Swedish month is the title, on the sheet's leading
 // edge, with the Hijri months it spans quietly under it; the pager is the same stepper pill,
-// at the trailing edge. The viewed day is a small soft-tinted circle rather than a solid
-// accent disc — the grid is for choosing, and a full-strength fill on one number shouted
-// over the moon phases that are the other reason to open it.
+// at the trailing edge. Today has an outline; the selected date has a filled circle.
+// Moon phases remain equally legible for past and future dates; only past numerals are muted.
 //
 // A modal sheet owns Back, outside-tap dismissal and accessibility focus while open.
 import { useMemo, useState } from 'react';
@@ -26,6 +25,7 @@ import { motion, type Palette, radius, space, type } from '@/theme/tokens';
 import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
+import { useCompactLayout } from '@/components/settings/useCompactLayout';
 import { Icon } from '@/components/ui/Icon';
 import { StepperPill } from '@/components/ui/StepperPill';
 import { almanacTilt, MoonDisc } from '@/components/moon/MoonDisc';
@@ -36,10 +36,7 @@ import { moonPhaseAt } from '@/lib/moon/ephemeris';
 // onsdag both start with m/o pairs that collide), so two letters — the standard Swedish
 // abbreviations without the trailing period a calendar header does not need.
 const WEEKDAYS = ['må', 'ti', 'on', 'to', 'fr', 'lö', 'sö'];
-/** Each day's moon. Big enough to read the phase at a glance — at the old 12 dp a crescent
- *  and a half moon were the same grey dot — and still well under the numeral above it. */
 const MOON_PX = 20;
-
 interface Props {
   /** Stockholm midnight of the day currently on screen. */
   dayStart: number;
@@ -143,8 +140,9 @@ export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClo
   const sky = useSkyGlass();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
-  const styles = useMemo(() => makeStyles(c), [c]);
+  const compact = useCompactLayout();
   const ink = useMoonInk();
+  const styles = useMemo(() => makeStyles(c), [c]);
   const reduceMotion = useReducedMotion();
   // The month being BROWSED, which drifts away from the selected day as the user pages.
   // Seeded from the viewed day so the sheet opens showing where they already are.
@@ -197,33 +195,35 @@ export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClo
         >
           <GlassSurface style={styles.sheet} borderRadius={radius.xl} tint={sky.surface}>
             <ScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
-              <View style={styles.head}>
-                <View style={styles.titleBlock}>
-                  <Text style={styles.title} numberOfLines={1} accessibilityRole="header">
+              <View style={[styles.head, compact && styles.headStacked]}>
+                <View style={[styles.titleBlock, compact && styles.titleBlockStacked]}>
+                  <Text style={styles.title} accessibilityRole="header">
                     {heading(grid.title)}
                   </Text>
-                  <Text style={styles.hijri} numberOfLines={2}>
+                  <Text style={styles.hijri}>
                     {hijriSpan(grid, hijriOffset)}
                   </Text>
                 </View>
-                <StepperPill
-                  onStep={monthStep}
-                  canStepBack={canPageBack}
-                  canStepForward={canPageForward}
-                  backLabel="Föregående månad"
-                  forwardLabel="Nästa månad"
-                />
-                <Pressable
-                  onPress={onClose}
-                  accessibilityRole="button"
-                  accessibilityLabel="Stäng kalendern"
-                  // The disc is 36; the slop takes it to a 44 target on every side but the
-                  // pill's, which is the neighbour it must not steal from.
-                  hitSlop={{ top: 4, bottom: 4, right: 4 }}
-                  style={({ pressed }) => [styles.close, pressed && styles.pressed]}
-                >
-                  <Icon name="close" size={20} color={c.inkMuted} />
-                </Pressable>
+                <View style={styles.controls}>
+                  <StepperPill
+                    onStep={monthStep}
+                    canStepBack={canPageBack}
+                    canStepForward={canPageForward}
+                    backLabel="Föregående månad"
+                    forwardLabel="Nästa månad"
+                  />
+                  <Pressable
+                    onPress={onClose}
+                    accessibilityRole="button"
+                    accessibilityLabel="Stäng kalendern"
+                    // The disc is 36; the slop takes it to a 44 target on every side but the
+                    // pill's, which is the neighbour it must not steal from.
+                    hitSlop={{ top: 4, bottom: 4, right: 4 }}
+                    style={({ pressed }) => [styles.close, pressed && styles.pressed]}
+                  >
+                    <Icon name="close" size={20} color={c.inkMuted} />
+                  </Pressable>
+                </View>
               </View>
 
               <View style={styles.weekRow}>
@@ -272,22 +272,24 @@ export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClo
                         <Text
                           numberOfLines={1}
                           adjustsFontSizeToFit
-                          minimumFontScale={0.6}
                           style={[
                             styles.dayText,
-                            (isToday || selected) && styles.dayMarked,
+                            day < todayStart && styles.dayPast,
+                            isToday && styles.dayMarked,
+                            selected && styles.daySelectedText,
                             outOfRange && styles.off,
                           ]}
                         >
                           {label}
                         </Text>
+                        {isToday && !selected ? <View pointerEvents="none" style={styles.dayToday} /> : null}
                       </View>
                       <MoonDisc
+                        staticIcon
                         size={MOON_PX}
                         illumination={phase.illumination}
                         tilt={almanacTilt(phase.phaseAngle < 180)}
                         {...ink}
-                        {...(outOfRange ? { lit: c.inkFaint, dark: c.paperSunken, rim: c.inkFaint } : {})}
                       />
                     </Pressable>
                   );
@@ -316,7 +318,10 @@ function makeStyles(c: Palette) {
       gap: space.sm,
     },
     head: { flexDirection: 'row', alignItems: 'center', gap: space.sm, marginBottom: space.xs },
+    headStacked: { flexDirection: 'column', alignItems: 'stretch' },
     titleBlock: { flex: 1, minWidth: 0 },
+    titleBlockStacked: { flex: 0 },
+    controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: space.sm },
     // The same pair the dock's date crown uses: 18/700 Swedish, 14 muted Hijri under it.
     title: { fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: 0.1, color: c.ink },
     hijri: { fontSize: 14, lineHeight: 20, color: c.inkMuted, marginTop: 1 },
@@ -333,17 +338,8 @@ function makeStyles(c: Palette) {
     // whatever the screen width.
     weekday: { ...type.caption, color: c.inkFaint, width: `${100 / 7}%`, textAlign: 'center' },
     grid: { flexDirection: 'row', flexWrap: 'wrap' },
-    // More air BELOW each moon than between a numeral and its own moon, so a moon reads as
-    // belonging to the date above it rather than to the one below — with even spacing the
-    // grid was an alternating stripe of numbers and discs that paired either way.
+    // Keep the moon close to its date, with more space between calendar rows.
     cell: { width: `${100 / 7}%`, alignItems: 'center', paddingTop: 2, paddingBottom: 8, paddingHorizontal: 2 },
-    // The circle is sized to the NUMERAL, not the column: at the column's full width (up to
-    // 44 dp) the viewed day's disc was the largest object on the sheet, twice the height of
-    // the moon under it. 32 hugs a two-digit 15 pt date with the same air a platform date
-    // picker gives it, and fits the narrowest column (≈35 dp on a 320 pt phone).
-    //
-    // Fixed width AND height — not width: '100%' + maxWidth + aspectRatio. Yoga resolves the
-    // aspect ratio from the UNCLAMPED percentage width, so that recipe drew a 32 × 46 capsule.
     dayBubble: {
       width: 32,
       height: 32,
@@ -351,13 +347,12 @@ function makeStyles(c: Palette) {
       alignItems: 'center',
       justifyContent: 'center',
     },
-    // Selection is a TINT, not a fill — the soft accent ground the app's chips wear, under an
-    // accent numeral. The platform date pickers mark the chosen day the same way.
-    daySelected: { backgroundColor: c.accentSoft },
-    dayText: { ...type.callout, width: '100%', textAlign: 'center', color: c.ink, fontVariant: ['tabular-nums'] },
-    // Today and the viewed day both set the numeral in bold accent; only the viewed day adds
-    // the tint. So today reads as "marked" wherever you have browsed to, and the tinted one is
-    // "where the dock is" — two states, one filled shape.
+    dayToday: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, borderRadius: radius.round, borderWidth: 1, borderColor: c.accent },
+    daySelected: { backgroundColor: c.accent },
+    dayPast: { color: c.inkMuted },
+    daySelectedText: { color: c.onAccent, fontWeight: '700' },
+    // Natural line height lets native fitting shrink the whole line, not just the glyphs.
+    dayText: { fontSize: type.callout.fontSize, fontWeight: type.callout.fontWeight, width: '100%', height: '100%', includeFontPadding: false, textAlign: 'center', textAlignVertical: 'center', color: c.ink, fontVariant: ['tabular-nums'] },
     dayMarked: { color: c.accent, fontWeight: '700' },
     off: { opacity: 0.3 },
     pressed: { opacity: 0.6 },

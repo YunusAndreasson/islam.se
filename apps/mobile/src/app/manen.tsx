@@ -62,7 +62,6 @@ import { MoonAlmanacSheet } from '@/components/moon/MoonAlmanacSheet';
 import { MoonDial, type MoonDialMode } from '@/components/moon/MoonDial';
 import { MoonDisc } from '@/components/moon/MoonDisc';
 import { useMoonInk } from '@/components/moon/moonInk';
-import { MoonMonthSheet } from '@/components/moon/MoonMonthSheet';
 import { MoonNoteRow } from '@/components/moon/MoonNoteRow';
 import { SegmentedChoice } from '@/components/settings/SegmentedChoice';
 import { Icon, type IconName } from '@/components/ui/Icon';
@@ -73,7 +72,6 @@ import { TURN_CUES } from '@/components/ui/turnCues';
 import { type AimStatus, type AimTurn, compassPoint } from '@/lib/aim';
 import { hapticSuccess } from '@/lib/haptics';
 import {
-  addHijriMonths,
   formatGregorian,
   formatShortDate,
   HIJRI_MONTHS,
@@ -119,14 +117,6 @@ const DISTANT_ECLIPSE_DAYS = 30;
  *  to begin, and the first days, when it just did. In between, nobody is looking for a
  *  hilāl, and a forecast for a fortnight away is noise. */
 const HILAL_TAIL_DAYS = 3;
-
-/** How far the month sheet may be walked from the month being lived. A year either way is
- *  enough to look ahead to Ramaḍān or back at last Muḥarram, and it keeps the sheet inside
- *  the span the ephemeris and the tabular calendar are both meant for. The rest of the app
- *  bounds this kind of navigation the same way (MAX_DAY_OFFSET in lib/solar/useSolarClock);
- *  left unbounded, holding a chevron walks into Hijri years where thirty small moons are
- *  computed per month for phases that mean nothing. */
-const MAX_MONTH_OFFSET = 12;
 
 /** What the mode switch occupies under the dial: SegmentedChoice's own 44 dp control plus
  *  the `space.sm` it pads above and below. Subtracted from the instrument's box so the dial
@@ -241,26 +231,15 @@ export default function Manen() {
   const focused = useIsFocused();
 
   const [mode, setMode] = useState<MoonDialMode>(INITIAL_MODE);
-  const [pickingMonth, setPickingMonth] = useState(false);
   const [readingAlmanac, setReadingAlmanac] = useState(false);
-  /** How many Hijri months the sheet has been stepped from the one we are living in. Kept as
-   *  an OFFSET rather than a {year, month} so it resets itself the moment the real month
-   *  rolls over — a stored pair would quietly leave the sheet in last month. */
-  const [monthOffset, setMonthOffset] = useState(0);
-
   useEffect(() => {
-    if (!pickingMonth && !readingAlmanac) return;
+    if (!readingAlmanac) return;
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (pickingMonth) {
-        setMonthOffset(0);
-        setPickingMonth(false);
-      } else {
-        setReadingAlmanac(false);
-      }
+      setReadingAlmanac(false);
       return true;
     });
     return () => sub.remove();
-  }, [pickingMonth, readingAlmanac]);
+  }, [readingAlmanac]);
 
 
   const now = useCoarseNow(TICK_MS, focused);
@@ -456,15 +435,7 @@ export default function Manen() {
   // so this line states its own rather than upper-casing someone else's label.
   const civilLine = `I dag · ${formatGregorian(almanac.civil).toLowerCase()}`;
 
-  // The month the RING shows: the one being lived, stepped by the sheet's chevrons. Counted
-  // in whole months rather than walked one at a time — the arithmetic is exact and the cost
-  // does not grow with the offset.
-  const viewed = useMemo(
-    () => addHijriMonths(hijri.year, hijri.month, monthOffset),
-    [hijri.year, hijri.month, monthOffset],
-  );
-  const ring = useMemo(() => monthRing(viewed.year, viewed.month), [viewed.year, viewed.month]);
-  const onViewedMonth = viewed.year === hijri.year && viewed.month === hijri.month;
+  const ring = useMemo(() => monthRing(hijri.year, hijri.month), [hijri.year, hijri.month]);
 
   // WHERE THE MOON IS — a fact about the sky over this place, true whether or not the phone
   // has a compass in it. That is why it lives in the caption and not in the pill: the pill
@@ -595,9 +566,9 @@ export default function Manen() {
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <View style={styles.background}
-        accessibilityElementsHidden={pickingMonth || readingAlmanac}
-        importantForAccessibility={pickingMonth || readingAlmanac ? 'no-hide-descendants' : 'auto'}
-        pointerEvents={pickingMonth || readingAlmanac ? 'none' : 'auto'}>
+        accessibilityElementsHidden={readingAlmanac}
+        importantForAccessibility={readingAlmanac ? 'no-hide-descendants' : 'auto'}
+        pointerEvents={readingAlmanac ? 'none' : 'auto'}>
       <ModalBar variant="close" fallback="/bonetider" />
       <ScrollView contentContainerStyle={styles.content}>
       <PlaceHeader title="Månen" what="tiderna" />
@@ -616,7 +587,7 @@ export default function Manen() {
             size={dial}
             mode={mode}
             ring={ring}
-            today={onViewedMonth ? hijri.day : null}
+            today={hijri.day}
             illumination={sky.illumination}
             tilt={sky.limbAngle}
             azimuth={sky.azimuth}
@@ -695,12 +666,10 @@ export default function Manen() {
               pointed at, not what the screen is about. */}
           <Pressable
             // Opens the month sheet — navigation, so no haptic (lib/haptics policy).
-            onPress={() => setPickingMonth(true)}
+            onPress={() => router.dismissTo({ pathname: '/bonetider', params: { calendar: 'open' } })}
             accessibilityRole="button"
-            accessibilityLabel={`${hijri.day} ${HIJRI_MONTHS[hijri.month - 1]} ${hijri.year}, ${civilLine}. ${facts}. ${
-              mode === 'month' ? 'Öppnar månadskalendern med alla dagar.' : 'Visa hela månaden.'
-            }`}
-            accessibilityHint={mode === 'month' ? 'Öppnar månadskalendern med alla dagar.' : 'Öppnar månadens dagar.'}
+            accessibilityLabel={`${hijri.day} ${HIJRI_MONTHS[hijri.month - 1]} ${hijri.year}, ${civilLine}. ${facts}. Öppna kalendern.`}
+            accessibilityHint="Öppnar samma kalender som i bönetiderna."
             style={({ pressed }) => [styles.dateTap, pressed && styles.pressed]}
           >
             <View style={styles.factsRow}>
@@ -762,28 +731,6 @@ export default function Manen() {
 
       </ScrollView>
       </View>
-      {pickingMonth ? (
-        <MoonMonthSheet
-          year={viewed.year}
-          month={viewed.month}
-          today={onViewedMonth ? hijri.day : null}
-          offsetDays={settings.hijriOffset}
-          onStepMonth={(step) =>
-            setMonthOffset((o) => Math.min(MAX_MONTH_OFFSET, Math.max(-MAX_MONTH_OFFSET, o + step)))
-          }
-          canStepBack={monthOffset > -MAX_MONTH_OFFSET}
-          canStepForward={monthOffset < MAX_MONTH_OFFSET}
-          onClose={() => {
-            // The ring goes back to the month being lived. A reader who wandered to Rajab and
-            // closed the sheet must not be left with a dial quietly showing someone else's
-            // month behind today's date.
-            setMonthOffset(0);
-            setPickingMonth(false);
-          }}
-          c={c}
-        />
-      ) : null}
-
       {readingAlmanac ? (
         <MoonAlmanacSheet
           notes={notes}

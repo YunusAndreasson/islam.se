@@ -16,7 +16,7 @@
 // everywhere except by accident.
 import { Canvas, Path, Skia } from '@shopify/react-native-skia';
 import { useMemo } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { crescentGeometry } from '@/lib/moon/shape';
 
@@ -47,6 +47,8 @@ export const almanacTilt = (waxing: boolean): number => (waxing ? 90 : 270);
 interface Props {
   /** Box size in dp; the disc fills it. */
   size: number;
+  /** Use native shapes for the many small, static calendar icons. */
+  staticIcon?: boolean;
   /** Illuminated fraction, 0–1. */
   illumination: number;
   /** Degrees clockwise from straight up to the middle of the bright limb, as seen from the
@@ -62,7 +64,7 @@ interface Props {
   rim: string;
 }
 
-export function MoonDisc({ size, illumination, tilt = 0, lit, dark, rim }: Props) {
+export function MoonDisc({ size, illumination, tilt = 0, lit, dark, rim, staticIcon = false }: Props) {
   const paths = useMemo(() => {
     const centre = size / 2;
     const r = centre - RIM_WIDTH;
@@ -88,6 +90,23 @@ export function MoonDisc({ size, illumination, tilt = 0, lit, dark, rim }: Props
         .build(),
     };
   }, [size, illumination]);
+
+  // A calendar can mount 30 canvases at once inside an animated sheet. Some Android
+  // texture surfaces stay blank. Native circles and an ellipse draw the same phase
+  // without separate GPU surfaces; keep the canvas for the larger sky illustrations.
+  if (staticIcon) {
+    const diameter = size - 2 * RIM_WIDTH;
+    const fraction = Math.max(0, Math.min(1, illumination));
+    return (
+      <View style={{ width: size, height: size, transform: [{ rotate: `${tilt}deg` }] }}>
+        <View style={{ position: 'absolute', left: RIM_WIDTH, top: RIM_WIDTH, width: diameter, height: diameter, borderRadius: diameter / 2, overflow: 'hidden', backgroundColor: dark }}>
+          <View style={{ position: 'absolute', width: diameter, height: diameter / 2, backgroundColor: lit }} />
+          <View style={{ ...StyleSheet.absoluteFill, width: diameter, height: diameter, borderRadius: diameter / 2, backgroundColor: fraction >= 0.5 ? lit : dark, transform: [{ scaleY: Math.abs(2 * fraction - 1) }] }} />
+        </View>
+        <View style={{ position: 'absolute', left: RIM_WIDTH / 2, top: RIM_WIDTH / 2, width: size - RIM_WIDTH, height: size - RIM_WIDTH, borderRadius: size / 2, borderWidth: RIM_WIDTH, borderColor: rim }} />
+      </View>
+    );
+  }
 
   return (
     // Rotated here rather than inside the canvas: the app already turns instruments with

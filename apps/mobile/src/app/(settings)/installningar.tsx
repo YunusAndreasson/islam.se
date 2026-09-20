@@ -357,15 +357,13 @@ export default function Installningar() {
               Fajr-window marker — lives on its own screen. It is a Stad-style row:
               the VALUE (how many prayers, how early) is what matters at a glance, so
               it carries the summary and the chevron rather than a section header. */}
-          {settings.notifications.enabled ? (
-            <NavRow
-              divider
-              label="Påminnelser"
-              value={notificationSummary(settings)}
-              onPress={() => router.push('/(settings)/notiser')}
-              accessibilityLabel={`Påminnelser: ${notificationSummary(settings)}. Tryck för att ändra.`}
-            />
-          ) : null}
+          <NavRow
+            divider
+            label="Påminnelser"
+            value={settings.notifications.enabled ? notificationSummary(settings) : 'Avstängda'}
+            onPress={() => router.push('/(settings)/notiser')}
+            accessibilityLabel={`Påminnelser: ${settings.notifications.enabled ? notificationSummary(settings) : 'Avstängda'}. Tryck för att ändra.`}
+          />
         </SettingSection>
 
         {/* Karta — the two optional layers. Both toggles' own descriptions already say
@@ -512,7 +510,7 @@ export default function Installningar() {
                 the native mail composer directly (falls back to mailto: if no
                 composer is available). Opening a screen with a single mail row
                 was friction without payoff. */}
-            <NavRow label="Kontakt" onPress={emailSupport} divider />
+            <NavRow label="Skicka e-post" variant="action" onPress={emailSupport} divider />
             <NavRow label="Om appen" onPress={() => router.push('/om')} divider />
           </SettingSection>
         </View>

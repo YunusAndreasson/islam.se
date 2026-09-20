@@ -345,6 +345,24 @@ describe('PrayerDock day navigation', () => {
     const goToDayCalls = (props.clock.goToDay as jest.Mock).mock.calls;
     expect(typeof first(first(goToDayCalls, 'goToDay calls'), 'goToDay arg')).toBe('number');
   });
+
+  it('uses the same calendar for an external request and consumes it on selection', () => {
+    const props = dockProps(false);
+    const onCalendarClose = jest.fn();
+    render(<PrayerDock {...props} calendarRequested onCalendarClose={onCalendarClose} />);
+    fireEvent.press(screen.getByRole('button', { name: /^15 / }));
+    expect(props.clock.goToDay).toHaveBeenCalledTimes(1);
+    expect(onCalendarClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('dismisses an external calendar request without changing the date', () => {
+    const props = dockProps(false);
+    const onCalendarClose = jest.fn();
+    render(<PrayerDock {...props} calendarRequested onCalendarClose={onCalendarClose} />);
+    fireEvent.press(screen.getByRole('button', { name: 'Stäng kalendern' }));
+    expect(props.clock.goToDay).not.toHaveBeenCalled();
+    expect(onCalendarClose).toHaveBeenCalledTimes(1);
+  });
 });
 
 // The night group. Everything asserted here is a deliberate DIFFERENCE from the six prayer

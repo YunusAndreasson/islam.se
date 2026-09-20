@@ -92,13 +92,13 @@ export default function Notiser() {
     return () => clearInterval(id);
   }, [isFocused]);
   const nextReminder = useMemo(() => {
-    if (blocked) return `Notiser är blockerade – inget schemaläggs förrän du tillåter dem i ${systemSettingsName()}.`;
     // The master switch is a different kind of silence from either an empty selection or
     // an unresolvable polar-day time. nextAlertAt correctly returns null while it is off;
     // name that state before interpreting the null as a calculation failure.
     if (!settings.notifications.enabled) {
       return 'Påminnelser är avstängda – ingenting schemaläggs.';
     }
+    if (blocked) return `Notiser är blockerade – inget schemaläggs förrän du tillåter dem i ${systemSettingsName()}.`;
     // Two different silences, told apart before they are described. Every slot switched
     // off is a choice the reader made and can see in the toggles below; no COMPUTABLE
     // time (Kiruna in June with polarCircleResolution 'unresolved', where Fajr and ʿIshāʾ
@@ -136,15 +136,11 @@ export default function Notiser() {
           {nextReminder}
         </Text>
 
-        {/* No footnote. It read "Ändrar alla böner på en gång. Du kan finjustera varje bön
-            nedan." — the first clause is what "Gäller alla" already means, and the second
-            is the title of the section immediately below it. */}
-        <SettingSection title="Gäller alla">
+        <SettingSection title="Gäller alla fem böner">
           <SubGroup styles={styles} title="Påminn i förväg">
-            {/* null when the five disagree, so no row is checked — the same honest mixed
-                state the sound list below uses, and the reason the old stepper needed a
-                "Blandat" label spliced into its formatter. Picking a row writes it to all
-                five, which is the point of a bulk control. */}
+            {mixedLead ? (
+              <Text style={styles.mixed}>Olika tider per bön. Välj här för att ändra alla fem.</Text>
+            ) : null}
             <OptionGroup
               options={LEAD_OPTIONS(commonPrayerLead(n))}
               value={mixedLead ? null : String(commonPrayerLead(n))}
@@ -154,11 +150,13 @@ export default function Notiser() {
             />
           </SubGroup>
           <SubGroup styles={styles} title="Ljud" divider>
+            {sharedSound === null ? (
+              <Text style={styles.mixed}>Olika ljud per bön. Välj här för att ändra alla fem.</Text>
+            ) : null}
             <OptionGroup
               options={SOUND_OPTIONS}
-              // null when the slots disagree → no row is checked, which is honest.
               value={sharedSound}
-              onChange={(sound) => patch({ sound: setAllSounds(sound) })}
+              onChange={(sound) => patch({ sound: setAllSounds(n.sound, sound) })}
             />
             {/* Gated on the module constant, not inside the row: mounting the row runs
                 useAdhanPreview, which allocates a native player and subscribes to its
@@ -424,6 +422,7 @@ function makeStyles(colors: SettingsColors) {
     // one block, and the section cards keep the same distance from the top as before.
     header: { ...type.title, color: colors.text, marginTop: space.xs },
     status: { ...type.callout, color: colors.textMuted, marginTop: space.xs, marginBottom: space.xl },
+    mixed: { ...type.callout, color: colors.textMuted, paddingHorizontal: space.lg, paddingBottom: space.sm },
     subTitle: {
       ...type.label,
       color: colors.textMuted,

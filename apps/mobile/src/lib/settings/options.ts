@@ -208,21 +208,19 @@ export const setAllPrayerLeads = (
   return next;
 };
 
-/** Write one sound across every slot — unlike lead times, a user picking "Tyst" means
- *  every prayer alert, the Fajr-window warning included. */
-export const setAllSounds = (value: NotificationSoundKey): PerPrayerSlot<NotificationSoundKey> => ({
-  fajr: value,
-  sunrise: value,
-  dhuhr: value,
-  asr: value,
-  maghrib: value,
-  isha: value,
-});
+/** Apply to the same five prayers as the bulk lead control; preserve sunrise. */
+export const setAllSounds = (
+  sound: PerPrayerSlot<NotificationSoundKey>,
+  value: NotificationSoundKey,
+): PerPrayerSlot<NotificationSoundKey> => {
+  const next = { ...sound };
+  for (const key of NOTIFY_PRAYERS) next[key] = value;
+  return next;
+};
 
-/** The common sound across every slot, or null when they disagree (the OptionGroup then
- *  renders no selection — see its `T | null` value prop). */
+/** The common sound across the five prayers, or null when they disagree. */
 export const commonSound = (n: NotificationSettings): NotificationSoundKey | null => {
-  const all = new Set(Object.values(n.sound));
+  const all = new Set(NOTIFY_PRAYERS.map((key) => n.sound[key]));
   return all.size === 1 ? ([...all][0] as NotificationSoundKey) : null;
 };
 

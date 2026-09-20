@@ -5,6 +5,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import { addZoneDays, startOfZoneDay, zoneParts } from '@/lib/zone-time';
 import { adjacentMonth, DayPicker, GRID_CELLS, hijriSpan, monthGrid } from './DayPicker';
 import { first } from '@/test-utils/at';
+import { MoonDisc } from '@/components/moon/MoonDisc';
 
 const day = (y: number, m: number, d: number) => startOfZoneDay(Date.UTC(y, m - 1, d, 12));
 
@@ -124,6 +125,19 @@ describe('hijriSpan', () => {
 });
 
 describe('DayPicker', () => {
+  it('keeps a visible moon phase for every date, including past dates', () => {
+    renderPicker(day(2026, 9, 20));
+    const moons = screen.UNSAFE_getAllByType(MoonDisc);
+    expect(moons).toHaveLength(30);
+    const todayMoon = moons[19]!;
+    for (const moon of moons) {
+      expect(moon.props.size).toBeGreaterThanOrEqual(20);
+      expect(moon.props.lit).toBe(todayMoon.props.lit);
+      expect(moon.props.dark).toBe(todayMoon.props.dark);
+      expect(moon.props.rim).toBe(todayMoon.props.rim);
+    }
+  });
+
   it('opens on the month of the day being viewed', () => {
     renderPicker(day(2026, 9, 14));
     expect(screen.getByText('September 2026')).toBeTruthy();

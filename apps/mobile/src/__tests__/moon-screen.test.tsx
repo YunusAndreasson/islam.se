@@ -226,7 +226,6 @@ describe('Månen', () => {
   });
 
   it.each([
-    { open: /Visa hela månaden/, close: 'Stäng månaden' },
     { open: /^Månens detaljer$/, close: 'Stäng månens detaljer' },
   ])('closes $close with Android back and restores the screen beneath it', async ({ open, close }) => {
     const listen = jest.spyOn(BackHandler, 'addEventListener');
@@ -260,20 +259,11 @@ describe('Månen', () => {
     expect(screen.getByText('Månens detaljer')).toBeTruthy();
   });
 
-  it('opens the month, with its sunnah days named', async () => {
+  it('opens the prayer dock calendar instead of a separate Hijri calendar', async () => {
     await renderSettled(withProviders(<Manen />));
-
-    await act(async () => {
-      fireEvent.press(screen.getByRole('button', { name: /Visa hela månaden/ }));
-    });
-
-    await waitFor(() => expect(screen.getByText(/^Ramaḍān 1447$/)).toBeTruthy());
-    // The white days are in every month; in Ramaḍān the last ten are too. Both come from
-    // lib/moon/month, so this is the wiring between the calendar and the sheet.
-    expect(screen.getByText(/Vita dagarna/)).toBeTruthy();
-    expect(screen.getByText(/Laylat al-qadr/)).toBeTruthy();
-    // Said on the surface that lists the days, because it is the thing that decides them.
-    expect(screen.getByText(/Månaden börjar när nymånen ses/)).toBeTruthy();
+    fireEvent.press(screen.getByRole('button', { name: /Öppna kalendern/ }));
+    expect(router.dismissTo).toHaveBeenCalledWith({ pathname: '/bonetider', params: { calendar: 'open' } });
+    expect(screen.queryByRole('button', { name: 'Stäng månaden' })).toBeNull();
   });
 
   it('names the side to turn toward, and counts the turn down', async () => {

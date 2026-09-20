@@ -682,6 +682,47 @@ describe('tab screens', () => {
     expect(screen.queryByText(/Ingen tid går att räkna ut/)).toBeNull();
   });
 
+  it('lets readers configure reminders without enabling delivery first', async () => {
+    await renderSettled(withProviders(<Installningar />));
+    fireEvent.press(screen.getByLabelText('Påminnelser: Avstängda. Tryck för att ändra.'));
+    expect(router.push).toHaveBeenCalledWith('/(settings)/notiser');
+    expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
+  });
+
+  it('explains mixed prayer settings and preserves separate alerts when applying bulk choices', async () => {
+    const n = DEFAULT_SETTINGS.notifications;
+    await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({
+      ...DEFAULT_SETTINGS,
+      notifications: {
+        ...n,
+        lead: { ...n.lead, fajr: 10, sunrise: 15 },
+        sound: { ...n.sound, fajr: 'silent', sunrise: 'silent' },
+        lastThirdSound: 'silent',
+      },
+    }));
+    await renderSettled(withProviders(<Notiser />));
+    expect(screen.getByText('Olika tider per bön. Välj här för att ändra alla fem.')).toBeTruthy();
+    expect(screen.getByText('Olika ljud per bön. Välj här för att ändra alla fem.')).toBeTruthy();
+
+    fireEvent.press(screen.getByRole('radio', { name: /^5\smin innan/ }));
+    fireEvent.press(screen.getByRole('radio', { name: /^Systemets standardljud/ }));
+
+    await waitFor(async () => {
+      const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
+      for (const key of ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']) {
+        expect(saved.notifications.lead[key]).toBe(5);
+        expect(saved.notifications.sound[key]).toBe('default');
+      }
+      expect(saved.notifications.lead.sunrise).toBe(15);
+      expect(saved.notifications.sound.sunrise).toBe('silent');
+      expect(saved.notifications.lastThirdSound).toBe('silent');
+      expect(saved.notifications.enabled).toBe(false);
+    });
+    expect(screen.queryByText(/Olika tider per bön/)).toBeNull();
+    expect(screen.queryByText(/Olika ljud per bön/)).toBeNull();
+    expect(screen.getByRole('radio', { name: /^Systemets standardljud/ }).props.accessibilityState.checked).toBe(true);
+  });
+
   it('announces Swedish prayer names on the alert detail screen', async () => {
     await AsyncStorage.setItem(
       SETTINGS_KEY,
@@ -985,7 +1026,7 @@ describe('tab screens', () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
-    fireEvent.press(screen.getByRole('button', { name: 'Kontakt' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Skicka e-post' }));
     await waitFor(() =>
       expect(MailComposer.composeAsync).toHaveBeenCalledWith({ recipients: ['support@islam.se'] }),
     );

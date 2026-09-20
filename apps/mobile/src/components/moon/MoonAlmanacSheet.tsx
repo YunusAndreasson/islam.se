@@ -47,8 +47,7 @@ export function MoonAlmanacSheet({
 }) {
   const styles = useMemo(() => makeStyles(c), [c]);
   // Read here, not inherited: this card is absolutely positioned, and an absolutely
-  // positioned child gets none of the padding its SafeAreaView parent applies — the same
-  // trap MoonMonthSheet documents, with the same fix.
+  // positioned child gets none of the padding its SafeAreaView parent applies.
   const insets = useSafeAreaInsets();
   const ink = useMoonInk();
   const reduceMotion = useReducedMotion();
@@ -80,8 +79,7 @@ export function MoonAlmanacSheet({
   // screen and is clipped there — taking the title and the first rows with it, and leaving
   // nothing to scroll to reach them. Two to three rows is the ordinary day, but the day a
   // hilāl, an eclipse and the calendar drift are all live it is five, some of them wrapping,
-  // and Dynamic Type multiplies the lot. MoonMonthSheet never had this because it pins BOTH
-  // edges; this one keeps its content sizing and takes a ceiling instead, with the rows
+  // and Dynamic Type multiplies the lot. Keep content sizing with a ceiling and the rows
   // scrolling inside it once they reach it.
   const { height } = useWindowDimensions();
   const bottom = Math.max(space.lg, insets.bottom + space.sm);

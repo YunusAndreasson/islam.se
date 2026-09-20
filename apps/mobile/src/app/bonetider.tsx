@@ -6,7 +6,7 @@ import {
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
 import { useNetworkState } from 'expo-network';
-import { useIsFocused } from 'expo-router';
+import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import {
   useCallback,
@@ -313,6 +313,7 @@ async function pickOffer(
 }
 
 export default function Bonetider() {
+  const { calendar } = useLocalSearchParams<{ calendar?: string }>();
   const scheme = useActiveScheme();
   const colors = useColors();
   const cameraRef = useRef<CameraRef>(null);
@@ -1001,7 +1002,7 @@ export default function Bonetider() {
   }, [coords, clock.todayStart, settings]);
 
   // THE LEAN: bring the camera to where lib/map/approach says it should be right now, or
-  // leave it alone. Run on every live tick (so the lean advances one ≈1 % breath at a time)
+  // leave it alone. Run on every live tick (with each scale change eased natively)
   // and whenever one of its gates changes.
   //
   // It holds still — sends nothing — unless the map is the reader's live view of today and
@@ -1033,6 +1034,7 @@ export default function Bonetider() {
           home: homeCam,
           anchor: { lon: userPoint[0], lat: userPoint[1] },
           bottomPad: collapsedDock,
+          topPad: insets.top + navLaneTop + 64,
         });
     const step = delta - appliedLean.current;
     // A lean that has run out must land exactly home, however small the last step.
@@ -1071,6 +1073,8 @@ export default function Bonetider() {
     viewportSize,
     userPoint,
     collapsedDock,
+    insets.top,
+    navLaneTop,
     homeEpoch,
   ]);
 
@@ -1473,6 +1477,9 @@ export default function Bonetider() {
         <MapMarkersOverlay
           camera={cam}
           labels={solar.labels}
+          lines={prayerLines}
+          topInset={insets.top + navLaneTop + 64}
+          bottomInset={collapsedDock + 24}
           nextKey={nextKey}
           polarBoundary={polarBoundary}
         />
@@ -1506,6 +1513,9 @@ export default function Bonetider() {
           <MapMarkersOverlay
             camera={cam}
             labels={lessonFrame.labels}
+            lines={lessonFrame.lines}
+            topInset={insets.top + navLaneTop + 64}
+            bottomInset={collapsedDock + 24}
             nextKey={null}
             polarBoundary={lessonFrame.polarBoundary}
           />
@@ -1543,6 +1553,8 @@ export default function Bonetider() {
       ) : (
         <PrayerDock
           ref={prayerDockRef}
+          calendarRequested={calendar === 'open'}
+          onCalendarClose={() => router.setParams({ calendar: undefined })}
           clock={clock}
           times={userTimes}
           marks={marks}

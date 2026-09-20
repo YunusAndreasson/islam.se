@@ -27,7 +27,7 @@ jest.mock('expo-router', () => ({
     React.useEffect(callback, [callback]);
   },
   useLocalSearchParams: jest.fn(() => ({})),
-  router: { navigate: jest.fn(), push: jest.fn(), back: jest.fn(), replace: jest.fn(), canGoBack: jest.fn(() => true) },
+  router: { dismissTo: jest.fn(), setParams: jest.fn(), navigate: jest.fn(), push: jest.fn(), back: jest.fn(), replace: jest.fn(), canGoBack: jest.fn(() => true) },
 }));
 
 // MapLibre is a native module with no JS implementation under test. Render its

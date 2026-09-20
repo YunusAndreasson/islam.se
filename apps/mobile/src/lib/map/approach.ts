@@ -7,14 +7,13 @@
 // time: 0 thirty minutes out, APPROACH_MAX_ZOOM at the prayer, 0 again twenty minutes
 // after. Linear in zoom LEVEL is linear in log-scale, which is how a change of scale is
 // perceived — so a straight ramp already reads as steady and proportional, and needs no
-// easing curve on top. At 0.75 levels the phone's home zoom (≈3.9) peaks near 4.65,
-// under every z5 threshold in the style (major roads, peaks): the map gets closer, it
-// does not change what it shows.
+// easing curve on top. At 1.5 levels the phone's home zoom (≈3.9) peaks near 5.4:
+// a regional view with enough scale change to make the current prayer prominent.
 //
-// THE PIVOT. The zoom turns on the reader's dot, which stays exactly where it was on
-// screen — the least motion a zoom can make, and at Δ = 0 it is the home frame to the
-// pixel. Recentring on the dot instead would slide the whole country sideways every
-// time a prayer came near.
+// THE PIVOT. Keep the reader’s horizontal position unless the line needs room. As the
+// zoom grows, gently bring edge cities into the middle half of the unobscured map.
+// This gives Malmö room above the dock and Kiruna room below navigation; at Δ = 0
+// the original whole-country frame is restored exactly.
 //
 // THE GUARD. Zooming in must never push out of frame the very thing the reader is
 // waiting for. At the reader's own latitude the approaching prayer's line is exactly
@@ -26,9 +25,8 @@
 //
 // Why the pivot and not the zoom: capping Δ instead was tried first. It made the lean wait
 // and then catch up with the line — 0.15 zoom levels in a single 30 s tick for Haparanda,
-// against the 0.0125 everyone else gets. Moving the pivot keeps the zoom the same steady
-// ramp everywhere; the cost is that an east-edge reader's dot drifts a few tens of points
-// west over several minutes, back home by the prayer. Slow enough to be invisible.
+// instead of a steady ramp. Moving the pivot keeps the zoom proportional everywhere;
+// an east-edge reader's dot drifts west over several minutes, back home by the prayer.
 
 import { type Camera, invMercY, mercX, mercY, project, unproject, worldSize } from './projection';
 
@@ -36,11 +34,11 @@ import { type Camera, invMercY, mercX, mercY, project, unproject, worldSize } fr
 export const APPROACH_LEAD_MS = 30 * 60_000;
 /** How long after a prayer the lean takes to return to the home frame. */
 export const APPROACH_RELEASE_MS = 20 * 60_000;
-/** Zoom levels added at the prayer itself — 2^0.75 ≈ 1.7×. */
-export const APPROACH_MAX_ZOOM = 0.75;
+/** Zoom levels added at the prayer itself — 2^1.5 ≈ 2.8×. */
+export const APPROACH_MAX_ZOOM = 1.5;
 /** Changes smaller than this (≈0.7 % in scale) are not worth a camera move. */
 export const APPROACH_MIN_STEP = 0.01;
-/** One step of the lean: a ≈1 % breath every 30 s tick, never a sweep. */
+/** Ease each 30 s update (about 1.7% scale inward, 2.6% outward). */
 export const APPROACH_EASE_MS = 1200;
 /** The longest a single catch-up may take — see {@link approachEaseMs}. */
 const APPROACH_EASE_MAX_MS = 2400;
@@ -146,8 +144,9 @@ export function approachPose(input: {
   home: Camera;
   anchor: LonLatPoint;
   bottomPad: number;
+  topPad?: number;
 }): { delta: number; camera: Camera } {
-  const { now, instants, home, anchor, bottomPad } = input;
+  const { now, instants, home, anchor, bottomPad, topPad = 0 } = input;
   const u = project(anchor.lon, anchor.lat, home);
   const inView =
     u.x >= ANCHOR_INSET &&
@@ -172,7 +171,15 @@ export function approachPose(input: {
     pivotX = Math.min(Math.max(u.x, needed), Math.max(u.x, edge));
   }
   const pivot = unproject(pivotX, u.y, home);
-  return { delta, camera: anchoredCamera(home, pivot, delta) };
+  const camera = anchoredCamera(home, pivot, delta);
+  // Only edge cities move vertically. Scale the clearance with the actual free map
+  // area so larger text/docks and smaller screens retain a balanced composition.
+  const freeHeight = Math.max(0, home.height - bottomPad - topPad);
+  const clearance = freeHeight / 4;
+  const targetY = Math.min(Math.max(u.y, topPad + clearance), topPad + freeHeight - clearance);
+  const y = u.y + (targetY - u.y) * (delta / APPROACH_MAX_ZOOM);
+  const centre = unproject(home.width / 2, home.height / 2 + u.y - y, camera);
+  return { delta, camera: { ...camera, lon: centre.lon, lat: centre.lat } };
 }
 
 /**
@@ -190,7 +197,7 @@ export function anchoredCamera(home: Camera, anchor: LonLatPoint, delta: number)
 }
 
 /**
- * How long a camera move of `step` zoom levels should take. A tick's step (≈0.0125) gets
+ * How long a camera move of `step` zoom levels should take. A tick's step (≈0.025) gets
  * the plain APPROACH_EASE_MS. A bigger one — coming back to the map after twenty minutes
  * on another screen, or tapping "Nu" after a scrub — is a catch-up, and gets more time in
  * proportion, so it arrives at the same unhurried pace instead of lunging.

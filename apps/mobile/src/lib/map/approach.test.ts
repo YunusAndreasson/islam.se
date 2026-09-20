@@ -181,8 +181,8 @@ describe('approachPose', () => {
   });
 
   it('never moves more than a breath between two 30 s ticks', () => {
-    // "Not exaggerated": the per-tick zoom step is the plain ramp's (0.75/60 on the way in,
-    // 0.75/40 on the way out), and the dot barely moves even where the pivot is shifting.
+    // The stronger regional zoom remains a steady ramp: max/60 inward, max/40 outward.
+    // Even at the eastern edge, each eased pivot adjustment stays below eight points.
     for (const [name, anchor] of Object.entries(CITIES)) {
       let prev = pose(T0 - APPROACH_LEAD_MS, anchor);
       for (let t = T0 - APPROACH_LEAD_MS + 30_000; t <= T0 + APPROACH_RELEASE_MS; t += 30_000) {
@@ -191,7 +191,7 @@ describe('approachPose', () => {
         const a = project(anchor.lon, anchor.lat, prev.camera);
         const b = project(anchor.lon, anchor.lat, next.camera);
         const dotStep = Math.hypot(b.x - a.x, b.y - a.y);
-        if (dz > 0.02 || dotStep > 4) {
+        if (dz > APPROACH_MAX_ZOOM / 40 + 1e-10 || dotStep > 8) {
           throw new Error(
             `${name} at ${((t - T0) / MIN).toFixed(1)} min: zoom step ${dz.toFixed(4)}, ` +
               `dot moved ${dotStep.toFixed(1)} px in one tick`,
@@ -202,13 +202,13 @@ describe('approachPose', () => {
     }
   });
 
-  it('keeps the dot put wherever the line is not at stake', () => {
+  it('keeps the horizontal position wherever the line is not at stake', () => {
     // Stockholm and Malmö have room east of them; after the prayer no line is approaching.
     for (const t of [T0 - 20 * MIN, T0 - 5 * MIN, T0, T0 + 10 * MIN]) {
       for (const anchor of [STOCKHOLM, MALMO]) {
         const before = project(anchor.lon, anchor.lat, HOME);
         const after = project(anchor.lon, anchor.lat, pose(t, anchor).camera);
-        expect(Math.hypot(after.x - before.x, after.y - before.y)).toBeLessThan(1e-6);
+        expect(after.x).toBeCloseTo(before.x, 6);
       }
     }
   });
@@ -240,8 +240,8 @@ describe('approachPose', () => {
     const lean = project(HAPARANDA.lon, HAPARANDA.lat, pose(t, HAPARANDA).camera);
     // Drifted west, because the pivot moved east of it — by a margin, not a pan.
     expect(home.x - lean.x).toBeGreaterThan(1);
-    expect(home.x - lean.x).toBeLessThan(40);
-    expect(lean.y).toBeCloseTo(home.y, 6); // and never vertically
+    expect(home.x - lean.x).toBeLessThan(60);
+    expect(lean.y).toBeCloseTo(home.y, 6); // This city already has vertical clearance.
   });
 
   it('leans toward Malmö, a few points above the dock', () => {
@@ -249,6 +249,24 @@ describe('approachPose', () => {
     // bottom edge once shut Sweden's third city out of the feature entirely.
     expect(project(MALMO.lon, MALMO.lat, HOME).y).toBeGreaterThan(H - PAD - 24);
     expect(pose(T0, MALMO).delta).toBeCloseTo(APPROACH_MAX_ZOOM, 10);
+  });
+
+  it('gives Malmö and Kiruna breathing room without changing the country view', () => {
+    const topPad = 100;
+    const clearance = (H - PAD - topPad) / 4;
+    for (const anchor of [MALMO, KIRUNA]) {
+      const input = { instants: [T0], home: HOME, anchor, bottomPad: PAD, topPad };
+      const peak = approachPose({ ...input, now: T0 });
+      const point = project(anchor.lon, anchor.lat, peak.camera);
+      expect(point.y).toBeGreaterThanOrEqual(topPad + clearance - 1e-6);
+      expect(point.y).toBeLessThanOrEqual(H - PAD - clearance + 1e-6);
+      for (const now of [T0 - APPROACH_LEAD_MS, T0 + APPROACH_RELEASE_MS]) {
+        expect(approachPose({ ...input, now }).camera).toEqual(HOME);
+      }
+      const halfway = approachPose({ ...input, now: T0 - APPROACH_LEAD_MS / 2 });
+      const start = project(anchor.lon, anchor.lat, HOME);
+      expect(project(anchor.lon, anchor.lat, halfway.camera).y).toBeCloseTo((start.y + point.y) / 2, 6);
+    }
   });
 
   it('eases back out after the prayer on the release clock', () => {

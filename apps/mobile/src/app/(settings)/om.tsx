@@ -100,7 +100,7 @@ export default function Om() {
             label="Besök islam.se"
             onPress={() => openUrl(ISLAMSE_URL)}
           />
-          <NavRow label="Betygsätt appen" onPress={rateApp} divider />
+          <NavRow label="Betygsätt appen" variant="action" onPress={rateApp} divider />
         </SettingSection>
 
         <Text style={styles.colophon}>islam.se · Version {APP_VERSION} · © 2026</Text>

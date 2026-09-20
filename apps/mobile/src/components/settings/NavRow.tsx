@@ -90,7 +90,7 @@ export function NavRow({
         pressed && styles.pressed,
       ]}
     >
-      <View style={styles.leading}>
+      <View style={[styles.leading, value === undefined && styles.labelOnlyLeading]}>
         {leadingIcon ? (
           <Icon
             name={leadingIcon}
@@ -141,8 +141,11 @@ function makeStyles(colors: SettingsColors) {
     divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     pressed: { backgroundColor: colors.accentSoft },
     leading: { flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 0 },
-    label: { ...type.body, color: colors.text, flexShrink: 0 },
-    action: { ...type.body, color: colors.accent, flexShrink: 0 },
+    // Rows without a value give the label the space left after the navigation icon.
+    // Otherwise long labels can push that icon beyond the card at large text sizes.
+    labelOnlyLeading: { flex: 1 },
+    label: { ...type.body, color: colors.text, flexShrink: 1 },
+    action: { ...type.body, color: colors.accent, flexShrink: 1 },
     // The value yields before the label, and `row.gap` keeps them from joining into
     // "Uppdatera platsDin plats" when both are long.
     value: { ...type.body, color: colors.textMuted, flexShrink: 1, textAlign: 'right' },
