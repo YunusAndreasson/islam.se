@@ -48,7 +48,9 @@
 		background-color: var(--color-bg);
 		font-optical-sizing: auto;
 		font-variant-numeric: oldstyle-nums;
-		font-variant-ligatures: discretionary-ligatures;
+		/* Standard ligatures only. Literata's discretionary set joins c‿h and s‿t, and
+		   Swedish prose has an »och« on nearly every line — as running text it read as
+		   a tic, not a flourish. The ornament stays on h1–h3 below and the feature title. */
 		-webkit-font-smoothing: antialiased;
 		text-wrap: auto;
 		hanging-punctuation: first last;
@@ -165,8 +167,8 @@
 		text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
 		text-decoration-thickness: from-font;
 		text-decoration-skip-ink: auto;
-		text-underline-offset: 0.18em;
-		transition: text-decoration-color 0.2s ease;
+		text-underline-offset: var(--underline-offset);
+		transition: text-decoration-color var(--dur-fast) ease;
 
 		/* Full strength on hover AND on keyboard focus — the second is not decoration,
 		   it is how a keyboard user sees which link they are on. */
@@ -617,7 +619,7 @@
 		opacity: 0.35;
 		text-decoration: none;
 		display: inline;
-		transition: opacity 0.2s;
+		transition: opacity var(--dur-fast) ease;
 	}
 
 	.prose a[href^="http"]:hover::after {

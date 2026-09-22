@@ -98,10 +98,11 @@ const mapLine = `${count.format(getMosques().length)} moskéer och ${count.forma
 		text-decoration: none;
 	}
 
-	.praktiskt-namn:hover {
+	.praktiskt-namn:hover,
+	.praktiskt-namn:focus-visible {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
-		text-underline-offset: 0.15em;
+		text-underline-offset: var(--underline-offset);
 	}
 
 	.praktiskt-text {

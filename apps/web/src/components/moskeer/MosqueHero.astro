@@ -60,7 +60,7 @@ const { photo, eager = false } = Astro.props;
 	.mk-hero figcaption a {
 		color: inherit;
 		text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
-		text-underline-offset: 0.15em;
+		text-underline-offset: var(--underline-offset);
 	}
 
 	.mk-hero figcaption a:hover {

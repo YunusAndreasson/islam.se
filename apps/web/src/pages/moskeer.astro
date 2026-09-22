@@ -305,8 +305,8 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		cursor: pointer;
 		padding: 0.5rem 1rem;
 		transition:
-			color 0.15s,
-			border-color 0.15s;
+			color var(--dur-fast),
+			border-color var(--dur-fast);
 	}
 
 	.mk-reset:hover {
@@ -433,7 +433,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 	.mk-item:focus-visible .mk-item-name {
 		color: var(--color-accent);
 		text-decoration: underline;
-		text-underline-offset: 0.12em;
+		text-underline-offset: var(--underline-offset);
 	}
 
 	.mk-item:focus-visible {
@@ -494,7 +494,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		border-radius: var(--radius-sm);
 		padding: 0.45rem 1.1rem;
 		cursor: pointer;
-		transition: border-color 0.15s ease;
+		transition: border-color var(--dur-fast) ease;
 	}
 
 	.mk-clear:hover {

@@ -33,7 +33,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		border-top: 1px solid var(--color-divider);
 		padding: 0.5rem var(--safe-right) calc(0.5rem + env(safe-area-inset-bottom, 0px)) var(--safe-left);
 		transform: translateY(100%);
-		transition: transform 0.25s ease;
+		transition: transform var(--dur-base) ease;
 	}
 
 	.fp[data-visible] {
@@ -64,7 +64,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		color: var(--color-accent);
 		cursor: pointer;
 		flex-shrink: 0;
-		transition: border-color 0.15s;
+		transition: border-color var(--dur-fast) ease;
 	}
 
 	.fp-play:hover:not(:disabled) {
@@ -154,7 +154,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		padding: 0.5rem 0.875rem;
 		cursor: pointer;
 		flex-shrink: 0;
-		transition: border-color 0.15s;
+		transition: border-color var(--dur-fast) ease;
 	}
 
 	.fp-speed:hover {
@@ -178,7 +178,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		   were --color-muted at 50 % opacity, which composites to ~1.9:1 on the ground —
 		   under WCAG 1.4.11 for a glyph that is the whole control. */
 		color: var(--color-warm);
-		transition: color 0.15s;
+		transition: color var(--dur-fast) ease;
 	}
 
 	.fp-sub-link:hover {
@@ -204,7 +204,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		color: var(--color-muted);
 		cursor: pointer;
 		flex-shrink: 0;
-		transition: color 0.15s;
+		transition: color var(--dur-fast) ease;
 	}
 
 	.fp-close:hover {

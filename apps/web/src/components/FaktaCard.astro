@@ -84,7 +84,7 @@ const imageSource = art ? { src: art } : image ? { article: image } : {};
 	.fakta-card:hover .fakta-card-label {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
-		text-underline-offset: 0.15em;
+		text-underline-offset: var(--underline-offset);
 	}
 
 	.fakta-card:focus-visible {

@@ -45,7 +45,7 @@
    verse settles into a quiet wash and the live word holds full strength. */
 	.qv-w,
 	.qv-waqf {
-		transition: color 0.25s ease;
+		transition: color var(--dur-fast) ease;
 	}
 
 	.qv-arabic[data-active] .qv-w,
@@ -93,9 +93,9 @@
 		color: var(--color-accent);
 		cursor: pointer;
 		transition:
-			border-color 0.15s,
-			background 0.15s,
-			color 0.15s;
+			border-color var(--dur-fast),
+			background var(--dur-fast),
+			color var(--dur-fast);
 	}
 
 	.qv-play:hover {

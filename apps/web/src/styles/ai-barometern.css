@@ -116,7 +116,7 @@
 	.abm-matrix tbody th a {
 		color: var(--color-text);
 		text-decoration: none;
-		text-underline-offset: 0.2em;
+		text-underline-offset: var(--underline-offset);
 	}
 	.abm-matrix tbody th a:hover,
 	.abm-matrix tbody th a:focus-visible {
@@ -366,7 +366,7 @@
 		color: var(--color-text);
 		font-weight: 600;
 		text-decoration-color: var(--color-rule);
-		text-underline-offset: 0.2em;
+		text-underline-offset: var(--underline-offset);
 	}
 	.abm-diamond {
 		display: inline-block;
@@ -586,7 +586,7 @@
 	.abm-area > summary:hover .abm-area-head {
 		text-decoration: underline;
 		text-decoration-color: var(--color-rule);
-		text-underline-offset: 0.2em;
+		text-underline-offset: var(--underline-offset);
 	}
 	.abm-area-count {
 		font-family: var(--font-heading);
@@ -634,7 +634,7 @@
 	.abm-more > details > summary:hover h2 {
 		text-decoration: underline;
 		text-decoration-color: var(--color-rule);
-		text-underline-offset: 0.2em;
+		text-underline-offset: var(--underline-offset);
 	}
 	.abm-more-hint {
 		grid-column: 2;
@@ -701,7 +701,7 @@
 	.abm-findings > li > a:hover {
 		text-decoration: underline;
 		text-decoration-color: var(--color-rule);
-		text-underline-offset: 0.2em;
+		text-underline-offset: var(--underline-offset);
 	}
 	.abm-findings-note {
 		margin-block-start: var(--space-half);
@@ -911,7 +911,7 @@
 	.abm-model-answers a {
 		color: var(--color-text);
 		text-decoration-color: var(--color-rule);
-		text-underline-offset: 0.2em;
+		text-underline-offset: var(--underline-offset);
 	}
 	.abm-model-answers .abm-answer,
 	.abm-own-list .abm-answer {
@@ -1054,7 +1054,7 @@
 	.abm-spread tbody th a {
 		color: var(--color-text);
 		text-decoration: none;
-		text-underline-offset: 0.2em;
+		text-underline-offset: var(--underline-offset);
 	}
 	.abm-strip tbody th a:hover,
 	.abm-strip tbody th a:focus-visible,
@@ -1228,7 +1228,7 @@
 		font-size: var(--step--1);
 		text-decoration: underline;
 		text-decoration-color: var(--color-rule);
-		text-underline-offset: 0.2em;
+		text-underline-offset: var(--underline-offset);
 	}
 	.abm-pager a:hover .abm-pager-title {
 		text-decoration-color: currentColor;

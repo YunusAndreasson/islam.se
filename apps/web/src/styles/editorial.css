@@ -108,7 +108,7 @@ a:focus-visible .media-frame::before {
 	font-weight: 400;
 	text-decoration: none;
 	opacity: 0;
-	transition: opacity 0.15s ease;
+	transition: opacity var(--dur-fast) ease;
 }
 .prose :is(h2, h3):hover > .heading-anchor,
 .prose .heading-anchor:focus-visible {

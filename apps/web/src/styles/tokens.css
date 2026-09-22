@@ -290,6 +290,20 @@
 	--space-phi2: 4.974rem; /* unit × φ² */
 	--space-phi3: 8.048rem; /* unit × φ³ — act boundaries on the homepage */
 
+	/* Motion. Hover and state changes were spread over 0.12/0.15/0.2/0.25s, so two
+	   links side by side answered the pointer at different speeds. --dur-fast is
+	   every colour/underline/opacity response to a pointer or focus; --dur-base is a
+	   thing that moves or opens. Slow set-pieces (the book, the moskéskärm clock,
+	   image blur-up) keep their own timings — they are choreography, not feedback. */
+	--dur-fast: 150ms;
+	--dur-base: 250ms;
+	--ease-out: cubic-bezier(0.2, 0, 0.1, 1); /* the house deceleration */
+	--ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+	/* Underline offset for plain text links. It had drifted between 0.12em and
+	   0.25em from one component to the next. */
+	--underline-offset: 0.18em; /* the base prose link (typography.css) */
+
 	/* Corner radii. These were 27 distinct hardcoded values across the codebase,
 	   including a `var(--radius, 0.5rem)` pointing at a property that was never
 	   defined. Named here so the shapes are a decision rather than an accident.

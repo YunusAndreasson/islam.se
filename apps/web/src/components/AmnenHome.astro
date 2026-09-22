@@ -173,9 +173,10 @@ const DeptHeading = limit ? "h3" : "h2";
 		color: var(--color-text);
 		text-decoration: none;
 
-		&:hover {
+		&:hover,
+		&:focus-visible {
 			text-decoration: underline;
-			text-underline-offset: 0.15em;
+			text-underline-offset: var(--underline-offset);
 		}
 	}
 

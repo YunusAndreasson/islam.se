@@ -110,7 +110,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 
 		&:hover {
 			text-decoration: underline;
-			text-underline-offset: 0.15em;
+			text-underline-offset: var(--underline-offset);
 		}
 
 		&:focus-visible {
@@ -158,7 +158,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	.feature-link:focus-visible .feature-title {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
-		text-underline-offset: 0.12em;
+		text-underline-offset: var(--underline-offset);
 	}
 
 	/* THE SIGNATURE SPREAD.

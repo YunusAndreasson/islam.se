@@ -38,7 +38,7 @@ const { code, copyLabel } = Astro.props;
 		border-radius: 0.25rem;
 		cursor: pointer;
 		opacity: 0;
-		transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+		transition: opacity var(--dur-fast) ease, color var(--dur-fast) ease, border-color var(--dur-fast) ease;
 
 		&:hover {
 			color: var(--color-accent);

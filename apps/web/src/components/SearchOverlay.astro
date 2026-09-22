@@ -250,7 +250,7 @@ const here = (href: string) => href === currentHref;
 		align-items: center;
 		gap: 0.6rem;
 		border-bottom: 1px solid var(--color-divider);
-		transition: border-color 0.15s;
+		transition: border-color var(--dur-fast) ease;
 
 		&:focus-within { border-bottom-color: var(--color-warm); }
 	}
@@ -324,7 +324,7 @@ const here = (href: string) => href === currentHref;
 		margin-inline: -0.6rem;
 		border-bottom: 1px solid var(--color-divider);
 		text-decoration: none;
-		transition: background-color 0.12s;
+		transition: background-color var(--dur-fast) ease;
 	}
 
 	/* Both states declared: these rules are unlayered and would otherwise let the
@@ -383,7 +383,7 @@ const here = (href: string) => href === currentHref;
 		color: var(--color-text);
 		border: 1px solid var(--color-divider);
 		border-radius: var(--radius-pill);
-		transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+		transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease, background-color var(--dur-fast) ease;
 	}
 
 	.palette-chip,
@@ -436,7 +436,7 @@ const here = (href: string) => href === currentHref;
 		border-bottom: 1.25px solid var(--color-muted);
 		rotate: 45deg;
 		translate: 0 -0.1rem;
-		transition: rotate 0.2s ease;
+		transition: rotate var(--dur-fast) ease;
 	}
 
 	.palette-fold[open] .palette-fold-summary::after {
@@ -496,7 +496,7 @@ const here = (href: string) => href === currentHref;
 		font-weight: 500;
 		color: var(--color-muted);
 		cursor: pointer;
-		transition: color 0.15s, background-color 0.15s;
+		transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
 	}
 
 	/* The radio stays in the accessibility tree and keeps the label's native
@@ -537,7 +537,7 @@ const here = (href: string) => href === currentHref;
 		&[aria-current] {
 			color: var(--color-accent);
 			text-decoration: underline;
-			text-underline-offset: 0.18em;
+			text-underline-offset: var(--underline-offset);
 		}
 	}
 
@@ -553,7 +553,7 @@ const here = (href: string) => href === currentHref;
 		margin-inline: -0.6rem;
 		border-radius: 8px;
 		color: inherit;
-		transition: background-color 0.12s;
+		transition: background-color var(--dur-fast) ease;
 	}
 
 	.palette-row,
@@ -772,8 +772,10 @@ const here = (href: string) => href === currentHref;
 			n = 0;
 			const { html, count, total, loose } = renderSearch(q);
 			moreBtn.hidden = count >= total;
-			results.innerHTML = html || `<p class="palette-empty">Inga träffar för »${escapeXml(raw)}«.</p>`;
-			browse.hidden = true;
+			results.innerHTML = html || `<p class="palette-empty">Inga träffar för »${escapeXml(raw)}«. Prova ett annat ord, eller gå vidare härifrån:</p>`;
+			// A miss keeps the menu on screen under the message, so the palette never
+			// ends in a dead end — it used to leave one grey line and nothing to press.
+			browse.hidden = !!html;
 			results.hidden = false;
 			hint.textContent = count
 				? `${loose ? "Ingen exakt träff – visar liknande resultat. " : ""}${count < total ? `Visar ${count} av ${total} träffar` : `${total} ${total === 1 ? "träff" : "träffar"}`}`
@@ -867,12 +869,12 @@ const here = (href: string) => href === currentHref;
 			if (e.key === "/" && !inField && !dialog.open) { e.preventDefault(); open(true); }
 		});
 		document.addEventListener("click", (e) => {
-			if ((e.target as HTMLElement).closest(".search-trigger")) { e.preventDefault(); open(); }
+			if ((e.target as HTMLElement).closest(".search-trigger, [data-open-search]")) { e.preventDefault(); open(); }
 		});
 		// Start the index fetch on the press, not the click: it buys the round trip back
 		// that inlining used to hide, so the results pane is ready before the first keypress.
 		document.addEventListener("pointerdown", (e) => {
-			if ((e.target as HTMLElement).closest?.(".search-trigger")) void loadIndex();
+			if ((e.target as HTMLElement).closest?.(".search-trigger, [data-open-search]")) void loadIndex();
 		}, { passive: true });
 	}
 

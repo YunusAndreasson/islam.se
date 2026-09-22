@@ -82,7 +82,7 @@
 
 	.section-link:hover {
 		text-decoration: underline;
-		text-underline-offset: 0.15em;
+		text-underline-offset: var(--underline-offset);
 	}
 
 	/* Arrow link — a heading/label link that grows a → on hover. The arrow inherits
@@ -96,7 +96,7 @@
 		content: "→";
 		display: inline-block;
 		margin-inline-start: 0.3em;
-		transition: translate 0.2s ease;
+		transition: translate var(--dur-fast) ease;
 	}
 
 	.arrow-link:hover::after,
@@ -113,7 +113,7 @@
 		content: "←";
 		display: inline-block;
 		margin-inline-end: 0.3em;
-		transition: translate 0.2s ease;
+		transition: translate var(--dur-fast) ease;
 	}
 
 	.back-link:hover::before,
@@ -189,7 +189,7 @@
 
 	.hairline-link-list a:hover {
 		text-decoration: underline;
-		text-underline-offset: 0.15em;
+		text-underline-offset: var(--underline-offset);
 	}
 
 	.hairline-link-list a:focus-visible {
@@ -312,7 +312,7 @@
 		border: 1px solid var(--color-divider);
 		border-radius: var(--radius-pill);
 		padding: 0.3rem 0.85rem;
-		transition: border-color 0.15s ease;
+		transition: border-color var(--dur-fast) ease;
 	}
 
 	:is(.mk-nearby, .bt-nearby) a:hover {
@@ -390,8 +390,8 @@
 		border-radius: 1.25rem;
 		text-decoration: none;
 		transition:
-			border-color 0.2s,
-			color 0.2s;
+			border-color var(--dur-fast),
+			color var(--dur-fast);
 	}
 
 	:is(.podcast-action, .bookpod-action):hover {
@@ -455,7 +455,7 @@
 		border: 1px solid var(--color-divider);
 		border-radius: var(--radius-pill);
 		padding: 0.45rem 0.95rem;
-		transition: border-color 0.15s ease;
+		transition: border-color var(--dur-fast) ease;
 	}
 
 	.map-dir-btn:hover {
@@ -505,17 +505,67 @@
 	   multi-movement page (measured 2026-09-17, 1440px, median of 5).
 	   `auto` is meant to remember the actual height after first render; in practice
 	   Chromium falls back to the placeholder whenever a movement goes off-screen
-	   again, so 700px is what the page is sized by most of the time. It is wrong at
-	   every width — the real movements measure 222–1934px at 1440 and 371–1950px at
-	   390 — so the document height still drifts as you scroll (−733px at 1440,
-	   +1634px at 390). Tuning it needs a per-module estimate per breakpoint, which
-	   nothing tests and every content change re-breaks; left as a known trade. */
+	   again, so the placeholder is what the page is sized by most of the time.
+	   One 700px for every movement was wrong at every width (real: 222–1935px) and
+	   the document drifted −733px at 1440 and +1634px at 390 as you scrolled — the
+	   scrollbar thumb jumped under the reader's hand. Each movement now carries its
+	   own --civ-h, measured below. A stale estimate only drifts back toward the old
+	   behaviour, so re-measure when a movement changes shape, not on every essay. */
 		content-visibility: auto;
-		contain-intrinsic-size: auto 700px;
+		contain-intrinsic-size: auto var(--civ-h, 700px);
+	}
+
+	/* Rendered heights, measured 2026-09-22 on the live page (Chromium, content-
+	   visibility forced visible). Desktop values hold from ~64rem down to ~48rem;
+	   the phone values are the one-column layouts at 390px. */
+	.home-second {
+		--civ-h: 540px;
+	}
+	.amnen.home-movement {
+		--civ-h: 1935px;
+	}
+	.fakta-band {
+		--civ-h: 590px;
+	}
+	.fordjupning-home {
+		--civ-h: 1070px;
+	}
+	.tradar-home {
+		--civ-h: 535px;
+	}
+	.tankare-home {
+		--civ-h: 350px;
+	}
+	.praktiskt-home {
+		--civ-h: 222px;
+	}
+
+	@media (max-width: 40rem) {
+		.home-second {
+			--civ-h: 870px;
+		}
+		.amnen.home-movement {
+			--civ-h: 1970px;
+		}
+		.fakta-band {
+			--civ-h: 885px;
+		}
+		.fordjupning-home {
+			--civ-h: 1730px;
+		}
+		.tradar-home {
+			--civ-h: 1485px;
+		}
+		.tankare-home {
+			--civ-h: 660px;
+		}
+		.praktiskt-home {
+			--civ-h: 370px;
+		}
 	}
 
 	/* Print is not a viewport: nothing ever scrolls into view, so every movement
-	   still skipped at print time is laid out at the 700px placeholder and comes
+	   still skipped at print time is laid out at its --civ-h placeholder and comes
 	   out blank. Five of the eight front-page movements printed as empty boxes
 	   before this. */
 	@media print {
@@ -558,7 +608,7 @@
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		text-decoration: none;
-		transition: color 0.15s ease;
+		transition: color var(--dur-fast) ease;
 		/* WCAG 2.5.8 (target size ≥24px): the small-caps label is only ~22px tall. Pad the
 	   hit area past 24px; the matching negative margin reclaims the space so the
 	   baseline head-row keeps its exact height. */
@@ -786,7 +836,7 @@
 			background: linear-gradient(to bottom, var(--color-bg), transparent);
 			pointer-events: none;
 			opacity: 0;
-			transition: opacity 0.2s ease;
+			transition: opacity var(--dur-fast) ease;
 		}
 
 		&.is-scrolled::after {
@@ -1000,7 +1050,7 @@
 	.site-nav a {
 		color: var(--color-text);
 		text-decoration: none;
-		transition: color 0.15s;
+		transition: color var(--dur-fast) ease;
 	}
 
 	.site-nav a:hover {
@@ -1049,8 +1099,8 @@
 		font-feature-settings: "case";
 		cursor: pointer;
 		transition:
-			color 0.15s,
-			border-color 0.15s;
+			color var(--dur-fast),
+			border-color var(--dur-fast);
 
 		&:hover {
 			color: var(--color-accent);
@@ -1206,7 +1256,7 @@
 	.site-footer-nav a {
 		color: var(--color-muted);
 		text-decoration: none;
-		transition: color 0.15s;
+		transition: color var(--dur-fast) ease;
 		/* WCAG 2.5.8 (target size ≥24px): short labels — "AI" was 14px wide, "Om" 23px —
 	   fell under 24px. Pad each link past 24×24; the trimmed nav gap above keeps the
 	   footer's spacing visually identical. */
@@ -1289,7 +1339,7 @@
 	.site-footer-colophon a {
 		color: var(--color-muted);
 		text-decoration: none;
-		transition: color 0.15s;
+		transition: color var(--dur-fast) ease;
 		/* WCAG 2.5.8: these meta links sit at ~22px tall. Pad the hit area past 24px; the
 	   negative margin keeps the baseline-aligned colophon line at its original height. */
 		display: inline-block;
@@ -1301,6 +1351,16 @@
 
 	.site-footer-colophon a:hover {
 		color: var(--color-accent);
+	}
+
+	/* On touch, 24px is the legal floor but not a thumb. Grow the hit area to 2.75rem
+	   the same way — padding out, margin back — so the line itself does not move. The
+	   links share one row at every width, so the taller boxes overlap nothing tappable. */
+	@media (hover: none), (pointer: coarse) {
+		.site-footer-colophon a {
+			padding-block: 0.7rem;
+			margin-block: -0.7rem;
+		}
 	}
 
 	/* Pressed feedback — touch has no hover, so a tap must answer immediately.
@@ -1404,8 +1464,8 @@
 		background: color-mix(in srgb, var(--color-bg) 80%, transparent);
 		cursor: pointer;
 		transition:
-			color 0.15s,
-			border-color 0.15s;
+			color var(--dur-fast),
+			border-color var(--dur-fast);
 
 		&:hover,
 		&:active {
@@ -1420,8 +1480,8 @@
 		color: var(--color-muted);
 		background: color-mix(in srgb, var(--color-bg) 80%, transparent);
 		transition:
-			color 0.15s,
-			border-color 0.15s;
+			color var(--dur-fast),
+			border-color var(--dur-fast);
 
 		&:hover,
 		&:active {
@@ -1640,7 +1700,7 @@
 			line-height: 1.45;
 			margin-top: 0.375rem;
 			overflow: hidden;
-			transition: color 0.2s;
+			transition: color var(--dur-fast) ease;
 
 			margin-bottom: 0;
 		}
@@ -1848,8 +1908,8 @@
 		text-decoration: none;
 		cursor: pointer;
 		transition:
-			border-color 0.15s,
-			color 0.15s;
+			border-color var(--dur-fast),
+			color var(--dur-fast);
 	}
 	.filter-chip:hover,
 	.filter-chip[aria-pressed="true"],

@@ -64,7 +64,7 @@ const { class: className, items, ...attrs } = Astro.props;
 
 	.ruled-facts a:hover {
 		text-decoration: underline;
-		text-underline-offset: 0.15em;
+		text-underline-offset: var(--underline-offset);
 	}
 
 	@media (width <= 30rem) {

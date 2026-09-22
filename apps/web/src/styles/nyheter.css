@@ -166,8 +166,8 @@
 	color: var(--text-quiet);
 	text-decoration: underline;
 	text-decoration-thickness: 1px;
-	text-underline-offset: 0.2em;
-	transition: color 0.15s ease;
+	text-underline-offset: var(--underline-offset);
+	transition: color var(--dur-fast) ease;
 	/* WCAG 2.5.8: the label sits at --step--3 and would otherwise be a ~17px
 	   target. The negative margin gives the padding back to the baseline. */
 	display: inline-flex;
@@ -351,7 +351,7 @@
 .nyheter-rail .nyhet-titel a {
 	color: var(--text-strong);
 	text-decoration: none;
-	transition: color 0.15s ease;
+	transition: color var(--dur-fast) ease;
 }
 
 .nyheter-rail .nyhet-titel a:hover,
