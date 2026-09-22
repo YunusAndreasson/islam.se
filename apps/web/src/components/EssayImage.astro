@@ -40,6 +40,14 @@ const {
 // aloud to a screen reader.
 const altText = alt ?? article?.imageAlt ?? article?.title ?? "";
 
+// `sizes="auto, …"` on a lazy image: a browser that supports it picks the file from
+// the width the image is actually painted at, so a grid change can no longer leave
+// a stale list fetching the wrong file. One that does not skips the unknown token
+// and reads the caller's list — which is why every caller still owes an honest one.
+// Eager images (the LCP heroes) must keep a plain list: `auto` is invalid there,
+// since the browser has to choose before layout.
+const sizesAttr = loading === "lazy" && !sizes.startsWith("auto") ? `auto, ${sizes}` : sizes;
+
 const hero = src ?? article?.heroImage;
 // Only use a mobile-specific crop when it is landscape-ish. Every card layout
 // (feature 3:2, recent 16:9, ämne lead 3:2) renders into a landscape box with
@@ -87,7 +95,7 @@ if (mobile && hero) {
 			{mobileSrcs.map((s) => (
 				<source media="(max-width: 768px) and (orientation: portrait)" type={s.type} srcset={s.srcset} sizes="100vw" />
 			))}
-			{desktopSrcs.map((s) => <source type={s.type} srcset={s.srcset} sizes={sizes} />)}
+			{desktopSrcs.map((s) => <source type={s.type} srcset={s.srcset} sizes={sizesAttr} />)}
 			<img
 				src={fallbackSrc}
 				width={hero.width}
@@ -106,7 +114,7 @@ if (mobile && hero) {
 			fallbackFormat="webp"
 			alt={altText}
 			widths={widths}
-			sizes={sizes}
+			sizes={sizesAttr}
 			loading={loading}
 			fetchpriority={fetchpriority}
 			decoding="async"

@@ -52,6 +52,10 @@ try {
 const BUILD_LASTMOD = new Date().toISOString();
 const BONETIDER_BUILD_LASTMOD = BUILD_LASTMOD;
 
+/** A sitemap URL as a bare slug — `https://islam.se/svar/x/` → `svar/x`. */
+const sitemapSlug = (url: string): string =>
+	url.replace("https://islam.se/", "").replace(/\/$/, "");
+
 // Old WordPress URLs with no counterpart on the new site — 301'd to the homepage to
 // preserve SEO on the same domain. Emitted as a Cloudflare Pages `_redirects` file
 // (true edge 301s) by the integration below, and excluded from the sitemap. Pages
@@ -1095,7 +1099,7 @@ export default defineConfig({
 					oldPaths.some((p) => page.endsWith(`${p}/`) || page.endsWith(p))
 				),
 			serialize(item) {
-				const slug = item.url.replace("https://islam.se/", "").replace(/\/$/, "");
+				const slug = sitemapSlug(item.url);
 				if (articleDates[slug]) {
 					item.lastmod = new Date(articleDates[slug]).toISOString();
 				} else if (slug === "bonetider") {
@@ -1146,6 +1150,21 @@ export default defineConfig({
 					item.priority = slug === "ai-barometern" ? 0.6 : 0.5;
 				}
 				return item;
+			},
+			// One file per section, so Search Console's page-indexing report can be
+			// filtered by sitemap. In one file the 2,133 bönetider URLs buried the ~90
+			// svar/fördjupning pages and the essays — the pages the redirect work above
+			// exists for. `serialize` runs first; these only sort its output. The
+			// predicates must stay disjoint: an item two chunks accept is written twice.
+			// Anything unmatched lands in sitemap-pages-0.xml.
+			chunks: {
+				bonetider: (item) => (sitemapSlug(item.url).startsWith("bonetider") ? item : undefined),
+				moskeer: (item) => (sitemapSlug(item.url).startsWith("moskeer") ? item : undefined),
+				"ai-barometern": (item) =>
+					sitemapSlug(item.url).startsWith("ai-barometern") ? item : undefined,
+				svar: (item) =>
+					/^(svar|fordjupning|vad-ar-islam)(\/|$)/.test(sitemapSlug(item.url)) ? item : undefined,
+				essaer: (item) => (articleDates[sitemapSlug(item.url)] ? item : undefined),
 			},
 		}),
 		// Emit a Cloudflare Pages `_redirects` file (true edge 301s) for the dead
