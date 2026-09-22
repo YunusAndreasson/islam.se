@@ -21,7 +21,13 @@ if (limit) {
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
 	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" />
-	<ThreadList threads={threads} headingLevel={3} prefetch="viewport" />
+	{/* Three 18rem tracks (see the style block); two below ~67rem, one on a phone. */}
+	<ThreadList
+		threads={threads}
+		headingLevel={3}
+		prefetch="viewport"
+		sizes="(min-width: 67rem) 18rem, (min-width: 40rem) 45vw, 100vw"
+	/>
 </section>
 
 <style>

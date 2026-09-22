@@ -117,7 +117,12 @@ const DeptHeading = limit ? "h3" : "h2";
 				)}
 			</div>
 			<p class="lead amne-dept-framing">{amne.framing}</p>
-			<EssayList articles={shown} showThumb={art} class="amne-dept-list" />
+			<EssayList
+				articles={shown}
+				showThumb={art}
+				class="amne-dept-list"
+				{...(art ? { thumbSizes: "(max-width: 600px) 7.5rem, 16rem" } : {})}
+			/>
 		</section>
 	))}
 </section>

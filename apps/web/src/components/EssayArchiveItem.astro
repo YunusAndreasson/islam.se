@@ -15,6 +15,13 @@ type Props = HTMLAttributes<"li"> & {
 	 *  Asking for one is not a promise of one — 28 of 55 essays carry art, so a
 	 *  row without a hero silently stays the plain full-width row. */
 	showThumb?: boolean;
+	/** `sizes` for the card picture / the row thumb. The caller owns the grid, so
+	 *  it owns the painted width — a `sizes` that under-states it makes the browser
+	 *  fetch a file too small for a 2× screen and the picture goes soft. The
+	 *  defaults match layout.css: the auto-fill .essay-cards track and the 10rem
+	 *  (7.5rem on a phone) --archive-thumb-w column. */
+	cardSizes?: string;
+	thumbSizes?: string;
 };
 
 const {
@@ -23,6 +30,8 @@ const {
 	showReadFlag = false,
 	showMinutesAttr = false,
 	showThumb = false,
+	cardSizes = "(max-width: 600px) 100vw, 20rem",
+	thumbSizes = "(max-width: 600px) 7.5rem, 10rem",
 	class: className,
 	...attrs
 } = Astro.props;
@@ -45,7 +54,7 @@ const hasThumb = !isCard && showThumb && !!article.heroImage;
 	<a href={`/${article.slug}`} data-astro-prefetch="viewport">
 		{isCard && article.heroImage && (
 			<div class="essay-card-media media-frame">
-				<EssayImage article={article} widths={CARD_WIDTHS} sizes="(max-width: 600px) 100vw, 20rem" />
+				<EssayImage article={article} widths={CARD_WIDTHS} sizes={cardSizes} />
 			</div>
 		)}
 		<span class:list={["archive-title", isCard && "essay-card-title"]}>{article.title}</span>
@@ -63,7 +72,7 @@ const hasThumb = !isCard && showThumb && !!article.heroImage;
 		    and a text browser both get the headline first. */}
 		{hasThumb && (
 			<div class="archive-thumb media-frame media-frame--sm">
-				<EssayImage article={article} widths={CHIP_WIDTHS} sizes="(max-width: 600px) 5.5rem, 7rem" />
+				<EssayImage article={article} widths={CHIP_WIDTHS} sizes={thumbSizes} />
 			</div>
 		)}
 	</a>

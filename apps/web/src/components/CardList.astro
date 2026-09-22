@@ -2,6 +2,7 @@
 import type { ImageMetadata } from "astro";
 import type { Article } from "../lib/articles";
 import EssayImage from "./EssayImage.astro";
+import { CARD_LIST_WIDTHS } from "../lib/hero";
 
 // The card grid — picture over title over a line of framing, with a quiet count
 // beneath and a hairline under each card.
@@ -35,7 +36,10 @@ interface Props {
 	items: readonly CardItem[];
 	headingLevel?: 2 | 3;
 	prefetch?: "tap" | "hover" | "viewport" | "load";
-	/** The caller knows how wide its column is; the default suits the two-up grid. */
+	/** The caller knows how wide its column is; the default suits the two-up grid
+	 *  of the default 26rem --card-list-min: two ~29rem tracks in the 61rem canvas,
+	 *  one full-width track below ~60rem. It said `26rem` — the track's MINIMUM,
+	 *  not its width — and at 728px on a tablet the browser was fetching for 416. */
 	sizes?: string;
 }
 
@@ -43,7 +47,7 @@ const {
 	items,
 	headingLevel = 2,
 	prefetch,
-	sizes = "(min-width: 48rem) 26rem, 100vw",
+	sizes = "(min-width: 67rem) 29rem, (min-width: 60rem) 45vw, 100vw",
 } = Astro.props;
 
 const Heading = `h${headingLevel}` as const;
@@ -59,7 +63,7 @@ const Heading = `h${headingLevel}` as const;
 							{...(item.image.src === undefined ? {} : { src: item.image.src })}
 							{...(item.image.article === undefined ? {} : { article: item.image.article })}
 							alt={item.image.alt ?? ""}
-							widths={[256, 512, 768]}
+							widths={CARD_LIST_WIDTHS}
 							sizes={sizes}
 							loading="lazy"
 						/>

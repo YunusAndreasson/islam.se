@@ -140,7 +140,12 @@ const heroPreload = feature?.heroImage
 		{/* Rank 2. Two, never auto-fill: a tier of four is a feed again. */}
 		{secondTier.length > 0 && (
 			<section class="home-second home-movement" aria-label="Fler essäer">
-				<EssayList articles={secondTier} itemVariant="card" class="essay-cards" />
+				<EssayList
+					articles={secondTier}
+					itemVariant="card"
+					class="essay-cards"
+					cardSizes="(max-width: 600px) 100vw, (min-width: 67rem) 30rem, 50vw"
+				/>
 			</section>
 		)}
 

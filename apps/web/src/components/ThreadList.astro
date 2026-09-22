@@ -14,9 +14,11 @@ interface Props {
 	threads: readonly ThreadEntry[];
 	headingLevel?: 2 | 3;
 	prefetch?: "tap" | "hover" | "viewport" | "load";
+	/** Forwarded to CardList — set it whenever the caller narrows --card-list-min. */
+	sizes?: string;
 }
 
-const { threads, headingLevel = 2, prefetch } = Astro.props;
+const { threads, headingLevel = 2, prefetch, sizes } = Astro.props;
 
 const items: CardItem[] = threads.map((thread) => {
 	const art = threadArt(thread.id);
@@ -32,4 +34,9 @@ const items: CardItem[] = threads.map((thread) => {
 
 {/* Conditional spread, not `prefetch={prefetch}`: exactOptionalPropertyTypes is on,
     so passing an explicit undefined is a type error rather than an omission. */}
-<CardList items={items} headingLevel={headingLevel} {...(prefetch === undefined ? {} : { prefetch })} />
+<CardList
+	items={items}
+	headingLevel={headingLevel}
+	{...(prefetch === undefined ? {} : { prefetch })}
+	{...(sizes === undefined ? {} : { sizes })}
+/>

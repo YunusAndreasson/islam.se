@@ -51,5 +51,10 @@ export const PAGE_HERO_WIDTHS = [768, 1024, 1456, 1672];
  *  ~192–320 on desktop and up to ~350 on a phone; these are its 1×/2×/3× steps. */
 export const CARD_WIDTHS = [320, 640, 960];
 
-/** The small square art: podcast episode (6rem) and the /svar/ index (120px). */
-export const CHIP_WIDTHS = [128, 256, 384];
+/** The small art: podcast episode (6rem), the /svar/ index (120px) and the
+ *  archive-row thumb — up to 16rem on the start page, hence the 512 (2×). */
+export const CHIP_WIDTHS = [128, 256, 384, 512];
+
+/** CardList (fördjupning, trådar). A one-column track on a tablet paints ~730px,
+ *  so the 2× step needs the top of the ladder. */
+export const CARD_LIST_WIDTHS = [320, 640, 960, 1280, 1600];
