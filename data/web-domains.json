@@ -54,10 +54,10 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 118,
-      "ok": 117,
+      "total": 119,
+      "ok": 118,
       "failed": 1,
-      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "lastChecked": "2026-09-23T18:22:10.566Z",
       "publishedIn": 95,
       "avgScore": 8.617894736842116,
       "lastError": "fetch failed"
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 44,
-      "ok": 44,
+      "total": 47,
+      "ok": 47,
       "failed": 0,
-      "lastChecked": "2026-09-18T16:48:56.732Z",
-      "publishedIn": 35,
-      "avgScore": 8.637142857142853
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 36,
+      "avgScore": 8.638888888888886
     },
     "lifewithallah.com": {
       "total": 3,
@@ -547,12 +547,12 @@
       "avgScore": 8.6
     },
     "runeberg.org": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-06-05T18:09:17.138Z",
-      "publishedIn": 2,
-      "avgScore": 8.85
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 3,
+      "avgScore": 8.799999999999999
     },
     "www.smonad.com": {
       "total": 1,
@@ -1380,12 +1380,12 @@
       "avgScore": 8.6
     },
     "hadeethenc.com": {
-      "total": 1,
-      "ok": 1,
+      "total": 2,
+      "ok": 2,
       "failed": 0,
-      "lastChecked": "2026-03-26T04:55:24.719Z",
-      "publishedIn": 1,
-      "avgScore": 8.6
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 2,
+      "avgScore": 8.649999999999999
     },
     "www.forskning.se": {
       "total": 2,
@@ -2324,6 +2324,60 @@
       "lastChecked": "2026-09-19T19:00:36.015Z",
       "publishedIn": 1,
       "avgScore": 8.6
+    },
+    "www.ingmarsspelen.se": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "slakthistoria.se": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "magasinhallungen.com": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "surahquran.com": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "binbaz.org.sa": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.alukah.net": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-09-23T19:06:38.633Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "mohammadbazmool.blogspot.com": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-09-23T19:06:38.633Z"
     }
   }
 }
