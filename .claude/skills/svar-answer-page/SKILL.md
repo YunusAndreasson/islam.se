@@ -28,7 +28,7 @@ human review + staggered publishing is the whole strategy.
      "Vad är sunna?" --slug vad-ar-sunna --legacy /pelare/sunna/
    ```
    Writes `data/svar/<slug>.md` and prints the redirect tuple to add. Defaults to
-   **Claude Opus 5 at `--effort xhigh`** (very high — pass `--effort max` for the hardest
+   **Claude Opus 5.5 at `--effort xhigh`** (very high — pass `--effort max` for the hardest
    topics, `--model sonnet` only to economize); re-run with `--overwrite` to regenerate.
    (~10–30 min; it spawns a headless Claude with web + MCP.) The `opus`/`sonnet` flags
    resolve through `MODEL_MAP` in `packages/quotes/src/models.ts` — the one place model
@@ -173,7 +173,7 @@ tail to the nearest relevant page/hub instead of writing thin pages. Top targets
   (Organization), not a named `Person`. Resolve with the user before scaling — a named,
   credentialed author/reviewer is a near-binary trust gate for YMYL religious content.
 
-## Prompt-engineering notes (Claude Opus 5 — the producer runs on it)
+## Prompt-engineering notes (Claude Opus 5.5 — the producer runs on it)
 
 Grounded in Anthropic's current docs (see the `claude-api` skill for the live model table) /
 `claude-4-best-practices`) + 2026 third-party playbooks. The producer prompts already apply:
