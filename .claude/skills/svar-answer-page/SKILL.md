@@ -41,6 +41,12 @@ human review + staggered publishing is the whole strategy.
      with a line-level punch-list. The author over-rates its own prose — the critic
      catches flat sections, invented words, terminology slips and missed citations.
      Synthesize both views; trust the harsher one on prose.
+   - **Verify citations against the local books DB, not the web.** `search_books` (MCP `quotes`)
+     holds the hadith collections, an-Nawawī's *al-Minhāj*, Ibn Kathīr, *Majmūʿ al-fatāwā* and
+     *al-Mughnī* with printed volume:page — use `mode: "text"` on the Arabic wording. Tell the critic
+     to do the same: on `vad-betyder-inshallah` (2026-09-24) a web-only critic reported seven claims
+     as "unverifiable" that the DB confirmed in minutes, and the DB caught two slips it missed (days
+     vs nights; a view attributed to Ibn Qudāma that he only reports).
    - Apply the AI-tic checklist (see [[essay_ai_tics_language_pass]]) and house terminology
      ([[terminology_and_design_sync]]: avoid "sunnitisk" in copy).
 4. **Improve** — apply the punch-list (hand-edit this page; and **fold every recurring

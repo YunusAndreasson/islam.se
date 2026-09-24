@@ -99,34 +99,28 @@ const leadSummary =
 
 const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
 
-// The whole SEO argument for this page in three lines. "ramadan <år>" is a
-// known-answer query: Google prints the date in the result list, which is why
-// position 3–4 still only converts 0,5 % of 13 354 impressions. A title and a
-// description that restate the date compete with an answer the searcher already
-// has. So the title carries the answer (exact-match relevance, and it is no
-// secret — every competitor's snippet shows it too) and the description carries
-// the one thing no date snippet can compute: how long the fast actually is where
-// the reader lives. The section below has to deliver that immediately, or the
-// click bounces straight back.
+// The whole SEO argument for this page. "ramadan <år>" is a known-answer query:
+// Google prints the date in the result list. From 2026-08-15 to 2026-09-24 the
+// title carried the full answer (start, end, Eid) on the theory that it bought
+// exact-match relevance at no cost. Measured, it cost the click: »när är ramadan
+// 2027« converted 3 of 1 080 impressions at position 3, 27 Aug–23 Sep. So the
+// title keeps only the start date, enough for relevance, and promises the one
+// thing no date snippet can compute: how long the fast is where the reader lives.
+// The section below has to deliver that immediately, or the click bounces back.
 const ramadanYear = ramadan?.startISO.slice(0, 4);
 const fast = ramadan ? fastRows(ramadan.startISO, ramadan.endISO ?? ramadan.startISO) : [];
 const fastSouth = fast[0];
 const fastNorth = fast.at(-1);
 
-const pageTitle =
-	ramadan && eidFitr
-		? `Ramadan ${ramadanYear}: ${gregorianShort(ramadan.startISO)}–${gregorianShort(
-				ramadan.endISO ?? ramadan.startISO,
-			)}, Eid ${gregorianShort(eidFitr.startISO)} — islam.se`
-		: "Det islamiska året — islam.se";
+const pageTitle = ramadan
+	? `Ramadan ${ramadanYear} börjar ${gregorianShort(ramadan.startISO)} – fastans längd i din stad — islam.se`
+	: "Det islamiska året — islam.se";
 
 const description =
-	ramadan && eidFitr && fastSouth && fastNorth
-		? `Ramadan ${ramadanYear} varar ${gregorianShort(ramadan.startISO)}–${gregorianShort(
-				ramadan.endISO ?? ramadan.startISO,
-			)} och Eid al-fitr infaller ${gregorianShort(eidFitr.startISO)}. Fastan är kortare i norr: ${
+	ramadan && fastSouth && fastNorth
+		? `Den första fastedagen i ramadan ${ramadanYear} varar ${fastSouth.first} i ${fastSouth.name} men ${
 				fastNorth.first
-			} i ${fastNorth.name} mot ${fastSouth.first} i ${fastSouth.name}.`
+			} i ${fastNorth.name}. Se fastans längd ort för ort, när ramadan slutar och när Eid al-fitr infaller.`
 		: "Ramadan, Eid al-fitr, Eid al-adha, Arafa, Ashura och hajj – datum i både gregoriansk och islamisk kalender (Umm al-Qura).";
 ---
 

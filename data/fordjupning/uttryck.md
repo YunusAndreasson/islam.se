@@ -78,6 +78,7 @@ sources:
   - name: "Ibn al-Jawzī, Ṣayd al-khāṭir"
 related:
   - "vad-betyder-alhamdulillah"
+  - "vad-betyder-inshallah"
   - "vad-betyder-al-fatiha"
   - "trosbekannelsen-shahada"
   - "islams-gudssyn"

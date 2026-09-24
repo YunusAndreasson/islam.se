@@ -165,7 +165,11 @@ def blockquotes(source: str) -> list[tuple[int, str]]:
 
 # Attributionsrad under ett blockcitat: "— Koranen 21:107" / "- Koranen, al-Anbiyā 21:107".
 # Svarssidorna attribuerar så i stället för med fotnot, och raden är INTE en del av versen.
-ATTRIBUTION = re.compile(r"\s*[-–—]\s*(?:Koranen|sura)[^\n]{0,60}?\d{1,3}:\d{1,3}\.?\s*$")
+# Ett versspann ("— Koranen 18:23–24") är också en attributionsrad: utan spannet i mönstret
+# blev raden kvar i citatet och varje citat över två verser flaggades som OMSKRIVET (2026-09).
+ATTRIBUTION = re.compile(
+    r"\s*[-–—]\s*(?:Koranen|sura)[^\n]{0,60}?\d{1,3}:\d{1,3}(?:\s*[-–]\s*\d{1,3})?\.?\s*$"
+)
 # Citattecken runt hela citatet är typografi, inte ordalydelse.
 WRAPPING_QUOTES = '"\'"«»„“”‘’ '
 
@@ -311,6 +315,11 @@ SELF_TEST_CASES = [
         "Gud är ständigt förlåtande, barmhärtig. — Koranen 2:173",
         "FÖRKORTAT",
         "attributionsrad under blockcitatet",
+    ),
+    (
+        "Gud är ständigt förlåtande, barmhärtig. — Koranen 2:172–173",
+        "FÖRKORTAT",
+        "attributionsrad med versspann",
     ),
     (
         "Vad Han har förbjudit er är kött av självdöda djur, blod och svinkött - det "

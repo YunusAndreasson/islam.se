@@ -89,6 +89,10 @@ bismillah, astaghfirullah, salam alaikum, takbir, jazakallah — plus when each 
 ⚠️ The `/svar/` backlog wanted to *split* the three-phrase page (its N4/N5). Don't do both: a pillar
 above it plus a split beneath it makes the cannibalisation unreadable. Pillar first, measure, then
 decide about the split.
+**Update 2026-09-24:** the pillar shipped 2026-08-16 (`/fordjupning/uttryck`) and the split has now
+followed it: `vad-betyder-inshallah`, with the combined page narrowed to alhamdulillah + mashallah and
+the new spoke added to the pillar's `related`. The pillar itself barely ranks (~60i in 90 days); the
+demand (~19 000i) lands on the `/svar/` spokes. Measure the split from 2026-10-22.
 
 ### P2 · Moskén som institution — 1 685i / 17c / p12 → **+30–50c**
 

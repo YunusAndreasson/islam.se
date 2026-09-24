@@ -624,6 +624,8 @@ const customRedirects: [string, string][] = [
 	["/islam/ett-liv-utan-religion", "/svar/vad-sager-islam-om-ateism/"],
 	["/religion/anledningar-till-att-religionen-avvisats", "/svar/vad-sager-islam-om-ateism/"],
 	["/islam/existensialism", "/svar/islam-deism-och-sekularism/"],
+	// GSC impressions on a URL that was never built (Sep 2026); the year page is the answer.
+	["/det-islamiska-aret/ramadan-2027", "/det-islamiska-aret/"],
 	["/religion/mysticism", "/svar/vad-ar-sufism/"],
 	["/featured/mangudemyten", "/svar/islam-och-polyteism/"],
 	["/islam/ar-islam-fatalistiskt", "/svar/vad-ar-odet-qadar/"],

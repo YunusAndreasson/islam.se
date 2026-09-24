@@ -12,6 +12,11 @@ export interface SvarSeoMetadata {
 // GSC, 1–28 August 2026: these pages already rank on page one but their generic
 // question titles fail to echo the wording that earns most impressions. Keep the
 // editorial H1/headline intact; this map is only the concise search-result promise.
+//
+// vad-ar-kaba had an entry here (»Kaba – helgedomen i Mecka«) until 2026-09-24. It chased
+// »helgedom i mecka«, 1 030 impressions and 0 clicks in 90 days — a crossword clue, not a
+// question: the searcher wants the four letters, and the result page gives them. The page
+// now carries its own question title and question-shaped H2s for the real queries.
 const SVAR_SEO_OVERRIDES = new Map<string, SvarSeoMetadata>([
 	[
 		"islams-fem-pelare",
@@ -22,19 +27,44 @@ const SVAR_SEO_OVERRIDES = new Map<string, SvarSeoMetadata>([
 		},
 	],
 	[
-		"vad-ar-kaba",
-		{
-			title: "Kaba – helgedomen i Mecka",
-			description:
-				"Kaba är den kubformade helgedomen i Mecka som muslimer vänder sig mot i bönen. Läs om Svarta stenen, hajj och varför Kaba inte dyrkas.",
-		},
-	],
-	[
 		"vad-ar-hajj",
 		{
 			title: "Hajj – islams vallfärd till Mecka",
 			description:
 				"Hajj är islams vallfärd till Mecka och den femte pelaren. Se vem som måste resa, vilka riter som ingår och skillnaden mellan hajj och umra.",
+		},
+	],
+	// GSC, 17–23 September 2026: the searches are »hur många fruar…«, not »får…«.
+	// Where the wording matched (»…får muslimer ha«) the page converted 10,5 %; the
+	// »…får en muslimsk man ha« variant, 4 964 impressions, only 1,4–4,6 %. The
+	// description is kept as it was: it names the number and withholds the condition.
+	[
+		"far-muslimska-man-ha-flera-fruar",
+		{
+			title: "Hur många fruar får en muslim ha? Fyra – på ett villkor",
+			description:
+				"Islam tillåter en man upp till fyra fruar – men bara på ett villkor som de flesta glömmer, och det avgör om äktenskapet är tillåtet eller en synd inför Gud.",
+		},
+	],
+	// GSC, 27 August–23 September 2026: »får muslimer dricka alkohol« converts 1 % at
+	// position 1,8 against a title that asks »varför« instead.
+	[
+		"far-muslimer-dricka-alkohol",
+		{
+			title: "Får muslimer dricka alkohol? Därför är det förbjudet",
+			description:
+				"Koranen förbjöd rusdrycker i tre steg: först en varning, sedan förbud mot att be berusad, till sist budet att hålla sig borta. Det som skyddas är människans förnuft.",
+		},
+	],
+	// GSC, 27 August–23 September 2026: »vad är halal slakt« converts 0,8 % at position
+	// 1,7. The old description was the whole answer, definition and law both, so the
+	// result page was enough. This one keeps the law question and leaves it open.
+	[
+		"vad-ar-halalslakt",
+		{
+			title: "Vad är halalslakt? Så går slakten till",
+			description:
+				"Halalslakt är laglig i Sverige – men bara på ett villkor, och där går de lärda isär. Så går slakten till, vad Guds namn över djuret kräver och när köttet ändå blir haram.",
 		},
 	],
 ]);
@@ -124,6 +154,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 			"ar-vinager-halal",
 			"far-muslimer-roka",
 			"vad-betyder-alhamdulillah",
+			"vad-betyder-inshallah",
 			"vad-sager-islam-om-vidskepelse",
 			"islams-symboler",
 		],

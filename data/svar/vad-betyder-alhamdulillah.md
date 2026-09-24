@@ -1,14 +1,13 @@
 ---
-title: "Vad betyder alhamdulillah, inshallah och mashallah?"
-question: "Vad betyder alhamdulillah, inshallah och mashallah?"
-description: "Alhamdulillah, inshallah och mashallah hörs i varje muslimsk vardag – men de tre fraserna döljer en enda lärosats som få förklarar rätt. Här är innebörden."
+title: "Vad betyder alhamdulillah och mashallah?"
+question: "Vad betyder alhamdulillah och mashallah?"
+description: "Alhamdulillah och mashallah hörs i varje muslimsk vardag, men båda bär en lärosats som få förklarar rätt – och den ena sägs för att skydda mot det onda ögat."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-24T00:00:00Z"
 keywords:
   - "vad betyder alhamdulillah"
-  - "vad betyder inshallah"
   - "vad betyder mashallah"
   - "alhamdulillah betydelse"
-  - "inshallah betyder"
   - "mashallah betydelse"
   - "subhanallah betydelse"
   - "muslimska uttryck"
@@ -16,34 +15,29 @@ keywords:
 faq:
   - q: "När säger man alhamdulillah?"
     a: "Man säger alhamdulillah som tack till Gud – vid goda nyheter, efter en måltid och när man nyser. Frasen inleder också Koranens första kapitel, al-Fatiha (1:2)."
-  - q: "Är det fel att säga inshallah om man ändå inte tänker göra något?"
-    a: "Att använda 'om Gud vill' som undanflykt strider mot dess innebörd. Frasen erkänner att framtiden ligger i Guds hand – den är inte en ursäkt för att slippa hålla ord."
   - q: "Vad svarar man på mashallah?"
     a: "Det finns inget fast svar; man kan tacka eller själv säga 'mashallah' eller 'BarakAllahu fik' (Gud välsigne dig). Mashallah är en lovprisning, inte en fråga."
-  - q: "Får icke-muslimer säga mashallah och inshallah?"
-    a: "Ja. Uttrycken är inte förbjudna för någon och bär samma betydelse – 'det Gud har velat' och 'om Gud vill' – oavsett vem som säger dem."
+  - q: "Får icke-muslimer säga mashallah och alhamdulillah?"
+    a: "Ja. Uttrycken är inte förbjudna för någon och bär samma betydelse – 'det Gud har velat' och 'lovprisningen tillhör Gud' – oavsett vem som säger dem."
   - q: "Vad betyder mashallah la quwwata illa billah?"
     a: "Det betyder 'det Gud har velat [har skett]; det finns ingen kraft utom hos Gud'. Det är den fullständiga frasen från Koranen 18:39, sagd för att tillskriva Gud allt gott."
 sources:
   - name: "Koranen 1:2"
     url: "https://quran.com/1/2?translations=48"
-  - name: "Koranen 18:23–24"
-    url: "https://quran.com/18/23-24?translations=48"
   - name: "Koranen 18:39"
     url: "https://quran.com/18/39?translations=48"
   - name: "Sahīh Muslim 223"
     url: "https://sunnah.com/muslim:223"
-  - name: "Sahīh al-Bukhārī 5242"
-    url: "https://sunnah.com/bukhari:5242"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Mā shāʾ Allāh och det onda ögat"
     url: "https://islamqa.info/en/answers/130786"
 related:
+  - "vad-betyder-inshallah"
   - "vad-ar-tawhid"
   - "trosbekannelsen-shahada"
   - "sa-ber-man-steg-for-steg"
 ---
 
-**Alhamdulillah betyder "allt lov och pris tillhör Gud", inshallah betyder "om Gud vill" och mashallah betyder "det Gud har velat" – tre korta arabiska fraser som muslimer väver in i vardagsspråket för att återföra allt gott, all framtid och all förmåga till Gud.** Alla tre har sin grund i Koranen, och alla tre vilar på *tawhīd*, tron på Guds enhet och Hans oinskränkta vilja.
+**Alhamdulillah betyder "allt lov och pris tillhör Gud" och mashallah betyder "det Gud har velat" – två korta arabiska fraser som muslimer väver in i vardagsspråket för att återföra allt gott och all förmåga till Gud.** Båda har sin grund i Koranen. Den tredje frasen i samma vardag, inshallah, "om Gud vill", gäller framtiden och har [en egen sida](/svar/vad-betyder-inshallah/).
 
 ## Vad betyder alhamdulillah?
 
@@ -53,15 +47,6 @@ related:
 > — Koranen 1:2
 
 En muslim säger alhamdulillah som svar på "hur mår du", efter en måltid, vid goda nyheter och när någon nyser, varpå den som hör svarar *yarhamuk Allāh*, "Gud förbarme sig över dig". Profeten Muhammed vägde frasens tyngd i ord: Abū Mālik al-Ashʿarī återger att han sade att "alhamdulillah fyller vågskålen" (Sahīh Muslim 223). Ett ord så lätt att säga väger alltså tyngst av allt på domens dag.
-
-## Vad betyder inshallah och när säger man det?
-
-*In shāʾ Allāh* (إن شاء الله) betyder "om Gud vill" och fogas till varje uttalande om framtiden: en resa, ett möte, ett löfte. Det är inte en artighetsfras utan en befallning i Koranen:
-
-> Säg aldrig under några omständigheter: "Detta skall jag göra i morgon" utan [att lägga till:] "om Gud vill"
-> — Koranen 18:23–24
-
-Bakgrunden är profeten Sulaymān (Salomo), som svor att han skulle få söner med alla sina hustrur men glömde säga "om Gud vill" – och ingen födde det utlovade barnet. Profeten Muhammed kommenterade att hade Sulaymān sagt *in shāʾ Allāh*, hade önskan uppfyllts (Sahīh al-Bukhārī 5242). Att säga "om Gud vill" är alltså inte att gardera sig – det är att lämna morgondagen åt den som äger den.
 
 ## Vad betyder mashallah?
 
@@ -74,12 +59,8 @@ Den fullständiga frasen lyder därför ofta *mā shāʾ Allāh, lā quwwata ill
 
 ## Vilka andra uttryck använder muslimer?
 
-De tre fraserna har syskon i samma vardagsspråk. *Subhān Allāh* ("fjärran från brister är Gud") sägs inför det som väcker förundran, och *Allāhu akbar* ("Gud är större") inleder bönen med påminnelsen att inget är större än Han. *Bismillāh* ("i Guds namn") föregår måltiden och varje påbörjat arbete; *astaghfirullāh* ("jag ber Gud om förlåtelse") följer på felsteget. Alla hör till *dhikr*, åminnelsen av Gud, och tillsammans med *lā ilāha illā Allāh*, trosbekännelsens kärna, ringar de in en muslims dygn. Var fras fångar ett ögonblick av tillvaron – förundran, storhet, början, ånger – och vänder det mot Gud.
+De två fraserna har syskon i samma vardagsspråk. *Subhān Allāh* ("fjärran från brister är Gud") sägs inför det som väcker förundran, och *Allāhu akbar* ("Gud är större") inleder bönen med påminnelsen att inget är större än Han. *Bismillāh* ("i Guds namn") föregår måltiden och varje påbörjat arbete; *astaghfirullāh* ("jag ber Gud om förlåtelse") följer på felsteget. Alla hör till *dhikr*, åminnelsen av Gud, och tillsammans med *lā ilāha illā Allāh*, trosbekännelsens kärna, ringar de in en muslims dygn. Var fras fångar ett ögonblick av tillvaron – förundran, storhet, början, ånger – och vänder det mot Gud.
 
 ## Varför återkommer dessa uttryck så ofta?
 
-Att fraserna sitter så löst beror på att de inte är fyllnadsord utan uttryck för *qadar*, Guds förutbestämmelse: ingenting i himlarna eller på jorden sker utom genom Hans vilja. Att tala så är profetens *sunna*, hans levda exempel, och en vana som bönen själv har format. *Al-Fatiha*, som öppnar med "Lov och pris tillkommer Gud", läses i varje *rakʿa*, och en muslim ber minst sjutton obligatoriska *rakaʿāt* per dygn (fajr 2, dhuhr 4, asr 4, maghrib 3, isha 4). Orden om Guds lov passerar alltså läpparna minst sjutton gånger innan vardagen ens börjat. Tre fraser, en enda lärosats: ingenting sker utom genom Gud.
-
-## Är inshallah ett sätt att slippa hålla löften?
-
-Ett vanligt missförstånd, även bland muslimer, är att "inshallah" i praktiken betyder "förmodligen inte", ett artigt nej. Den användningen är en förvrängning, inte frasens innebörd. Att svära att göra något och sedan gömma sig bakom "om Gud vill" är att missbruka Guds namn, inte att ära det; uppriktighet betyder att göra vad man kan och lämna utgången åt Gud. På samma sätt är mashallah ingen vidskeplig formel utan ett erkännande, och alhamdulillah ingen tom reflex utan tacksamhet med mening. Ett "inshallah" är inte ett nej i förklädnad – det är ett ja som vet sin plats.
+Att fraserna sitter så löst beror på att de inte är fyllnadsord utan uttryck för *qadar*, Guds förutbestämmelse: ingenting i himlarna eller på jorden sker utom genom Hans vilja. Att tala så är profetens *sunna*, hans levda exempel, och en vana som bönen själv har format. *Al-Fatiha*, som öppnar med "Lov och pris tillkommer Gud", läses i varje *rakʿa*, och en muslim ber minst sjutton obligatoriska *rakaʿāt* per dygn (fajr 2, dhuhr 4, asr 4, maghrib 3, isha 4). Orden om Guds lov passerar alltså läpparna minst sjutton gånger innan vardagen ens börjat. Två fraser, en enda lärosats: ingenting sker utom genom Gud.

@@ -3,7 +3,7 @@ title: "Vad är hijab? Om slöjan i islam"
 question: "Vad är hijab och vad säger islam om slöjan?"
 description: "Koranen har tre ord där svenskan har ett: hijab betyder förhänge, khimar är huvudduken och jilbab den täckande ytterdräkten. Vad påbudet omfattar, och var niqab och burka hör hemma."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-24T00:00:00Z"
 keywords:
   - "vad är hijab"
   - "hijab islam"
@@ -11,18 +11,23 @@ keywords:
   - "varför bär muslimska kvinnor slöja"
   - "är hijab obligatoriskt"
   - "skillnad hijab niqab jilbab"
+  - "skillnad på hijab och niqab"
+  - "niqab"
+  - "burka"
+  - "hijab regler"
+  - "hur ska en hijab se ut"
+  - "slöjförbud sverige"
+  - "står burka i koranen"
   - "slöjan i koranen"
 faq:
-  - q: "Är hijab obligatoriskt i islam?"
-    a: "Ja. De klassiska rättslärda är eniga om att det är ett påbud (fard) för den könsmogna kvinnan att täcka hår, hals och kroppens former inför män utanför den närmaste familjen, grundat på Koranen 24:31 och 33:59. Oenigheten gäller enbart om även ansiktet och händerna måste täckas."
-  - q: "Vad är skillnaden mellan hijab, khimar, niqab och jilbab?"
-    a: "Khimar är huvudduken, jilbab den vida ytterdräkten, niqab en slöja som även döljer ansiktet, och hijab används brett om hela det anständiga klädskicket. Ordet hijab betyder egentligen 'förhänge'."
-  - q: "Måste muslimska kvinnor täcka ansiktet?"
-    a: "Här är de lärda oense. Hanafi-, maliki- och shafii-skolorna håller att ansiktet inte hör till awra och får synas; hanbali-skolan räknar även ansiktet som awra, och samma linje följer Ibn Baz och den permanenta fatwakommittén, som håller täckandet av ansiktet för påbjudet inför främmande män."
-  - q: "Varför bär muslimska kvinnor slöja?"
-    a: "Främst som lydnad mot Gud och som uttryck för blygsamhet (haya). Slöjan döljer det som anses privat och markerar att kvinnans värde inte ligger i hennes utseende."
-  - q: "Står slöjan nämnd i Koranen?"
-    a: "Ja. Koranen 24:31 befaller kvinnor att fästa slöjan (khimar) över barmen, och 33:59 att svepa ytterplagget (jilbab) om sig. Ordet hijab i 33:53 syftar på ett förhänge."
+  - q: "Från vilken ålder bär en flicka hijab?"
+    a: "Påbudet gäller från könsmognaden (bulūgh), då flickan blir religiöst myndig. Före dess är slöjan ingen plikt, men många föräldrar låter flickan vänja sig vid den i förväg."
+  - q: "Måste muslimska män också täcka sig?"
+    a: "Ja, men mindre av kroppen. Koranen riktar uppmaningen att sänka blicken och lägga band på sin sinnlighet först till männen (24:30). Mannens ʿawra, det som alltid ska vara täckt inför andra, är enligt de flesta lärda området mellan navel och knä. Huvudduken är ett påbud för kvinnor."
+  - q: "Står burka i Koranen?"
+    a: "Nej. Ordet burka förekommer inte i Koranen. Koranen talar om khimār, huvudduken (24:31), och jilbāb, ytterdräkten (33:59). Burka är en regional dräkt, och frågan om ansiktet ska täckas avgörs av hur de lärda läser dessa verser, inte av ett plaggnamn."
+  - q: "Är slöjan förbjuden i Sverige?"
+    a: "Nej. Det finns inget förbud mot hijab, niqab eller burka i Sverige. När Skurup och Staffanstorp förbjöd slöja i förskola och grundskola slog Högsta förvaltningsdomstolen i december 2022 fast att kommunerna saknade lagstöd, eftersom klädsel som uttrycker religiös tillhörighet skyddas av yttrandefriheten. I maj 2026 svarade regeringen på en fråga om förbud mot heltäckande slöja genom att hänvisa till en ny straffbestämmelse som bland annat skyddar mot att tvingas bära religiös klädsel."
 sources:
   - name: "Koranen 24:30"
     url: "https://quran.com/24/30?translations=48"
@@ -34,6 +39,14 @@ sources:
     url: "https://quran.com/33/59?translations=48"
   - name: "Sahīh al-Bukhārī 4759"
     url: "https://sunnah.com/bukhari:4759"
+  - name: "Sahīh Muslim 2128, med an-Nawawīs kommentar (al-Minhāj 14:110)"
+    url: "https://sunnah.com/muslim:2128"
+  - name: "islamqa.info (efter al-Albānī) – Kraven på kvinnans klädsel"
+    url: "https://islamqa.info/en/answers/6991"
+  - name: "SVT Nyheter – Slöjförbud i skolan är olagligt (Högsta förvaltningsdomstolen, 2022)"
+    url: "https://www.svt.se/nyheter/lokalt/skane/hogsta-instans-sager-nej-till-slojforbud"
+  - name: "Riksdagen – Svar på skriftlig fråga 2025/26:802 om förbud mot heltäckande slöja"
+    url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svar-pa-skriftlig-fraga/forbud-mot-heltackande-sloja_hd12802/"
   - name: "al-ibadah.com – Kvinnans ʿawra i bönen (efter Ibn Bāz)"
     url: "https://al-ibadah.com/bon/kladseln/bara-tunna-klader-som-inte-tacker-awrahn-under-bon"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Är det påbjudet att täcka ansiktet?"
@@ -67,9 +80,17 @@ Ja. De klassiska rättslärda är eniga (*ijmāʿ*) om att täckandet är ett p�
 
 Slöjan gäller inför *icke-mahram*, män som kvinnan i princip skulle kunna gifta sig med. Inför sin *mahram* (make, far, bröder, söner och farbröder) och inför andra kvinnor behöver hon den inte; i hemmet och bland sina närmaste bär hon vad hon vill. Slöjan är alltså inte en mur runt kvinnan, utan en gräns som följer sällskapet – den åker på när en främling stiger in, och av igen bland hennes egna.
 
+## Hur ska en hijab se ut?
+
+Koranen anger vad som ska täckas men föreskriver ingen bestämd modell, färg eller snitt. De lärda har i stället sammanfattat de krav som klädseln måste uppfylla. islamqa.info återger dem i åtta punkter efter hadithlärde al-Albānī. Klädseln ska täcka hela kroppen utom det som är undantaget, och den får varken vara så tunn att huden syns igenom eller så trång att den tecknar kroppens former. Profeten varnade för kvinnor som är "klädda men nakna" (Sahīh Muslim 2128), och an-Nawawī förklarar uttrycket bland annat som tyg så tunt att det visar hudens färg. Plagget ska inte i sig vara en utsmyckning som drar till sig blickar, kvinnan ska inte bära parfym när hon går ut, och kläderna ska inte likna männens. Inom de ramarna väljer kvinnan själv. En svart sjal i Stockholm och en färgad i Jakarta uppfyller samma påbud.
+
+## Vad är skillnaden mellan hijab, niqab och burka?
+
+Skillnaden ligger i hur mycket plagget täcker. *Hijab* i dagligt tal är huvudduken, *khimār*, som täcker hår, hals och barm men lämnar ansiktet fritt. *Jilbāb* är den vida ytterdräkten som dras över kläderna när kvinnan går ut (33:59). *Niqāb* är en ansiktsslöja som bärs tillsammans med huvudduken och lämnar en springa för ögonen. *Burka* är ett helt plagg från hjässan till fötterna, med ett tygnät framför ögonen. Hijab och jilbab har sina namn direkt ur Koranen. Niqab är den form som de lärdas diskussion om ansiktet gäller. Burka är en regional sömnad av samma täckande och inget eget påbud. Hijab är med andra ord en av flera slöjor, och den vanligaste.
+
 ## Måste ansiktet täckas med niqab?
 
-Här går de lärda isär, och det är en verklig *ikhtilāf* mellan rättsskolorna. *Niqāb*, slöjan som döljer även ansiktet och lämnar ögonen fria, är inte detsamma som hijab. *Hanafī*, *mālikī* och *shāfiʿī* håller att ansiktet inte i sig hör till *ʿawra* och därför får synas, även om många senare lärda inom dessa skolor ändå påbjöd täckandet där det finns risk för frestelse (*fitna*). *Hanbalī*-skolan räknar hela kvinnan, ansiktet inbegripet, som *ʿawra* inför främmande män. Samma linje följer den fatwatradition som denna sida i övrigt lutar sig mot: Ibn Bāz och den permanenta fatwakommittén slår fast att ansiktet är *ʿawra* enligt den starkare av de två åsikterna, och att täckandet därför är påbjudet inför icke-*mahram*. *Burka*, med nät framför ögonen, är en regional plaggform och inget eget religiöst påbud. Vad som skiljer hijab från niqāb är var de lärda dragit *ʿawra*-gränsen, vid halsen eller vid ögonen – en fråga om bevis, inte ett mått på trons styrka.
+Här går de lärda isär, och det är en verklig *ikhtilāf* mellan rättsskolorna. *Niqāb*, slöjan som döljer även ansiktet och lämnar ögonen fria, är inte detsamma som hijab. *Hanafī*, *mālikī* och *shāfiʿī* håller att ansiktet inte i sig hör till *ʿawra* och därför får synas, även om många senare lärda inom dessa skolor ändå påbjöd täckandet där det finns risk för frestelse (*fitna*). *Hanbalī*-skolan räknar hela kvinnan, ansiktet inbegripet, som *ʿawra* inför främmande män. Samma linje följer den fatwatradition som denna sida i övrigt lutar sig mot: Ibn Bāz och den permanenta fatwakommittén slår fast att ansiktet är *ʿawra* enligt den starkare av de två åsikterna, och att täckandet därför är påbjudet inför icke-*mahram*. Vad som skiljer hijab från niqāb är var de lärda dragit *ʿawra*-gränsen, vid halsen eller vid ögonen – en fråga om bevis, inte ett mått på trons styrka.
 
 ## Varför bär muslimska kvinnor slöja?
 

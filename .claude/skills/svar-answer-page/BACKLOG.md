@@ -44,6 +44,63 @@ questions earning impressions with no page that answers them — not by orphaned
 
 ---
 
+## 2026-09-24 — what the »flera fruar« spike taught
+
+From 17 September, site clicks went ~300/day → 400–530/day, and ~95 % of the gain was one page:
+`far-muslimska-man-ha-flera-fruar` went **24c / 921i → 810c / 10 340i** week on week, p3.4 → p1.9.
+The page had not been touched since 2026-07-26: the searches themselves rose (»hur många fruar får
+muslimer ha«, 27i → 3 195i in a week, 97 % Sweden, 95 % mobile), probably from something in the
+news. The traffic halved within four days.
+
+1. **A good page published before a question trends is worth more than one written after.** It sat at
+   p3.5 for three months doing nothing; when the searches came, Google lifted it to #1. Outsiders'
+   »får muslimer…« / »hur många…« questions are the shape that trends.
+2. **A description that holds something back gets clicked; one that gives the whole answer doesn't.** At p1–2: flera fruar
+   (»upp till fyra – men bara på ett villkor som de flesta glömmer«) **10,5 %**; halalslakt (full
+   definition + law answer) **0,8 %**; `/det-islamiska-aret` (all dates in the title) **0,3 %** on
+   »när är ramadan 2027«.
+3. **The title has to say the question the way people search it.** »…får muslimer ha« (matches) 10,5 % vs »…får en
+   muslimsk man ha« 1,4–4,6 % on the same page.
+4. **Read CTR on the bare URL only.** Google shows the H2 jump links (`#…`) as separate results; each
+   gets impressions and ~0 clicks (≈3 000i on flera fruar alone), which drags page-level CTR down.
+
+### Title changes shipped 2026-09-24 — measure from 2026-10-22 (28 days)
+
+| page | change | baseline (27 Aug–23 Sep, bare URL) |
+|---|---|---|
+| `far-muslimska-man-ha-flera-fruar` | title → »Hur många fruar får en muslim ha? Fyra – på ett villkor« | »…får en muslimsk man ha« 4,6 % p1.9; »…får muslimer ha« 10,5 % p1.4 (spike-inflated — also watch this one doesn't fall) |
+| `far-muslimer-dricka-alkohol` | title »Varför dricker…« → »Får muslimer dricka alkohol? Därför är det förbjudet« | »får muslimer dricka alkohol« 1,0 % p1.8 |
+| `vad-ar-halalslakt` | description: the law answer is left open instead of stated | »vad är halal slakt« 0,8 % p1.7 |
+| `/det-islamiska-aret` | title: start date only + »fastans längd i din stad«; description leads with the fast | »när är ramadan 2027« 0,3 % p3.0 (3c / 1 080i) |
+| `vad-ar-kaba` | rescue: question title + six question H2s (vem byggde / när, Svarta stenen, vad finns inuti, dyrkar, hur många varv); crossword-chasing override removed | 90d: page 4 883i / 5c p8.8; »kaba« 2 246i p9.2; »vad är kaba« 157i p3.8 1c; »när/vem byggde kaba«, »vad finns i kaba« ~125i, 0c. Ignore »helgedom i mecka«, »här står kaba«, »kaba ort«, »sten i mecka«: crossword clues, unwinnable |
+| `vad-ar-hijab` | new H2s »Hur ska en hijab se ut?« (hijab regler / hur bär man / hur ser en hijab ut, ~180i over 16 months) and »Vad är skillnaden mellan hijab, niqab och burka?«; FAQ rebuilt so it no longer repeats H2s: ålder, män, burka i Koranen, slöjförbud i Sverige (HFD 2022, riksdagssvar maj 2026) | 90d: »niqab« 408i p3.1 4c; »skillnad på slöja/hijab« ~92i ~1c; »burka« 118i lands on `vad-ar-ghusl`. Page already growing (3 → 93 clicks/week Jul → Sep) — watch that the addition doesn't dent »vad säger koranen om slöja« (p1.2, 14 %) |
+
+All via `SVAR_SEO_OVERRIDES` (`apps/web/src/lib/svar.ts`) — the editorial H1 is untouched — except
+the Ramadan page (`apps/web/src/pages/det-islamiska-aret.astro`). Also wired: 301
+`/det-islamiska-aret/ramadan-2027` → `/det-islamiska-aret/` (GSC saw it; it 404'd).
+
+**New page 2026-09-24:** `vad-betyder-inshallah`, split out of `vad-betyder-alhamdulillah`
+(retitled »Vad betyder alhamdulillah och mashallah?«, inshallah H2s and keywords removed). Baseline,
+90d to 2026-09-23: inshallah queries ≈5 800i / ≈17c at p5.7–6.3 on the combined page. Measure from
+2026-10-22.
+
+### Candidates with the same shape — checked against 90d GSC before listing
+
+Most of the obvious follow-ups are **already owned** and are not new pages:
+interfaith marriage → `aktenskap-i-islam` (has the H2, p9.8 on »får en muslimsk kvinna gifta sig med
+en kristen man« — rescue with a title/H2 echo if it grows); divorce → `/fordjupning/skilsmassa`;
+»hur många gånger ber muslimer« → `sa-ber-man-steg-for-steg` + `/bonetider/`; »hur många muslimer
+finns det i Sverige« → `/fordjupning/islam-i-sverige` (19i landing on `vad-ar-hijab` instead — check why).
+
+Genuinely unwritten, zero measurable demand today (we don't rank, so GSC can't show it) — write only
+as ahead-of-the-wave pages, one per session:
+
+- `ar-musik-haram` — »får muslimer lyssna på musik« / »är musik haram« (1i each on unrelated pages)
+- `far-muslimer-ha-hund` — »islam hundar« (1i)
+- `far-muslimer-tatuera-sig` — no impressions at all
+
+---
+
 ## The demand map (90d, prayer-time / mosque / city / brand queries filtered out)
 
 | # | cluster | i | c | pos | who ranks today |
