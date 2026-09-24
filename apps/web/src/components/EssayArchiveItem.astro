@@ -51,7 +51,7 @@ const hasThumb = !isCard && showThumb && !!article.heroImage;
 	data-slug={article.slug}
 	data-minutes={showMinutesAttr ? article.readingTime : undefined}
 >
-	<a href={`/${article.slug}`} data-astro-prefetch="viewport">
+	<a href={`/${article.slug}/`} data-astro-prefetch="viewport">
 		{isCard && article.heroImage && (
 			<div class="essay-card-media media-frame">
 				<EssayImage article={article} widths={CARD_WIDTHS} sizes={cardSizes} />

@@ -53,7 +53,7 @@ const { data } = entry;
 const { Content, headings } = await render(entry);
 const url = `https://islam.se/fordjupning/${entry.id}/`;
 const relatedItems = related.map((r) => ({ label: r.question, href: `/svar/${r.slug}/` }));
-const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}` }));
+const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}/` }));
 const sourceItems = data.sources
 	.filter((s) => s.url)
 	.map((s) => ({ label: s.name, ...(s.url === undefined ? {} : { href: s.url }) }));
@@ -93,7 +93,7 @@ const jsonLd: Record<string, unknown>[] = [
 		url,
 		publishedAt: data.publishedAt,
 		...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt }),
-		...(heroImageObject ? { image: heroImageObject } : {}),
+		image: heroImageObject ?? new URL(`/fordjupning/${entry.id}/og.png`, Astro.site).href,
 		// Grounds the page to the global entity so an LLM resolves "Hijab" here to the
 		// same thing Wikidata means by it. Organization.sameAs is still empty site-wide.
 		about: {
@@ -111,7 +111,13 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 <Base
 	title={`${data.title} — islam.se`}
 	description={data.seoDescription ?? data.description}
+	ogImage={`/fordjupning/${entry.id}/og.png`}
 	ogImageAlt={data.term}
+	ogArticle={{
+		publishedAt: data.publishedAt,
+		...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt }),
+		section: "Fördjupning",
+	}}
 	jsonLd={jsonLd}
 	preloadArabicFont
 >

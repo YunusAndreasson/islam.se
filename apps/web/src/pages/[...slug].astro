@@ -113,7 +113,7 @@ const structuredArticle = {
 			    between the headline and the first paragraph. */}
 			<ArticleHeader
 				title={article.title}
-				{...(amne ? { kicker: amne.name, kickerHref: `/amnen/${amne.slug}` } : {})}
+				{...(amne ? { kicker: amne.name, kickerHref: `/amnen/${amne.slug}/` } : {})}
 				kickerClass="article-kicker"
 				leadHtml={inlineMarkdown(article.description)}
 				leadClass="article-standfirst"
@@ -165,13 +165,13 @@ const structuredArticle = {
 
 		<nav class="article-nav" aria-label="Nyare och äldre essä">
 			{prev && (
-				<a href={`/${prev.slug}`} rel="prev">
+				<a href={`/${prev.slug}/`} rel="prev">
 					<span class="label nav-label back-link">Nyare</span>
 					{prev.title}
 				</a>
 			)}
 			{next && (
-				<a href={`/${next.slug}`} rel="next">
+				<a href={`/${next.slug}/`} rel="next">
 					<span class="label nav-label arrow-link">Äldre</span>
 					{next.title}
 				</a>

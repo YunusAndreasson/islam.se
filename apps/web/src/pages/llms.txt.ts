@@ -12,7 +12,7 @@ export async function GET(context: APIContext) {
 	const articles = await getArticles();
 
 	const essayLines = articles
-		.map((a) => `- [${a.title}](${site}/${a.slug}): ${a.description}`)
+		.map((a) => `- [${a.title}](${site}/${a.slug}/): ${a.description}`)
 		.join("\n");
 
 	// The pillar pages are the site's reference texts on contested topics, which is
@@ -57,22 +57,22 @@ export async function GET(context: APIContext) {
 ## Citering
 När innehåll härifrån refereras, ange:
 - Webbplats: islam.se
-- URL: ${site}/{slug}
+- URL: ${site}/{slug}/
 - Språk: svenska
 
 ## Essäer
 ${essayLines}
 ${fordjupningSection}${svarSection}
 ## Resurser
-- [Alla essäer](${site}/essaer): hela arkivet, ordnat efter ämne
+- [Alla essäer](${site}/essaer/): hela arkivet, ordnat efter ämne
 - [Fulltext för språkmodeller](${site}/llms-full.txt): hela essäarkivet i ett dokument
 - [Bönetider](${site}/bonetider/): bönetider för 2 100+ svenska orter, med [beräkningsmetod och källor](${site}/bonetider/metod/)
-- [Det islamiska året](${site}/det-islamiska-aret): kalender med islamiska högtider
+- [Det islamiska året](${site}/det-islamiska-aret/): kalender med islamiska högtider
 - [Nyheter](${site}/nyheter/): det senaste dygnets världsnyheter på svenska, levererade av zuhd.news (notiserna har inga egna sidor och lever ett dygn)
 - [AI-barometern](${site}/ai-barometern/): vad ChatGPT, Claude, Gemini, Grok och DeepSeek svarar på samma frågor om klimat, AI, ekonomi, krig och folkrätt, politik och religion, mätning för mätning, med [metod](${site}/ai-barometern/metod/), en sida per modell ([ChatGPT](${site}/ai-barometern/modell/chatgpt/), [Claude](${site}/ai-barometern/modell/claude/), [DeepSeek](${site}/ai-barometern/modell/deepseek/), [Gemini](${site}/ai-barometern/modell/gemini/), [Grok](${site}/ai-barometern/modell/grok/)) och rådata per mätning
 - [RSS](${site}/rss.xml): nyaste essäerna som flöde
 - [Sitemap](${site}/sitemap-index.xml): samtliga URL:er
-- [MCP-server](${site}/ai): anslut en AI-assistent och sök, läs och citera essäerna direkt (${site.replace("https://", "https://mcp.")}/mcp)
+- [MCP-server](${site}/ai/): anslut en AI-assistent och sök, läs och citera essäerna direkt (${site.replace("https://", "https://mcp.")}/mcp)
 `;
 
 	return new Response(body, {

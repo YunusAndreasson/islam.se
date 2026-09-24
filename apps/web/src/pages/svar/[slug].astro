@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import ArticleBody from "../../components/ArticleBody.astro";
 import ArticleMeta from "../../components/ArticleMeta.astro";
@@ -14,7 +15,7 @@ import { requireBySlug } from "../../lib/content-refs";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { SVAR_CATEGORIES, svarSeoMetadata } from "../../lib/svar";
 import { pillarBySvar } from "../../lib/svar-fordjupning";
-import { articleJsonLd, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
+import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 
 export async function getStaticPaths() {
@@ -74,7 +75,7 @@ const sourceItems = (data.sources ?? []).map((s) => ({
 	...(s.url === undefined ? {} : { href: s.url }),
 }));
 const relatedItems = related.map((r) => ({ label: r.data.title, href: `/svar/${r.id}/` }));
-const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}` }));
+const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}/` }));
 
 // Cornerstone answers (the Five Pillars + six Articles of Faith) belong to the
 // FAKTA hub: they get a hero image so the page reads as an article, and they
@@ -91,6 +92,24 @@ const heroEssaySlug = heroArt ? undefined : FAKTA_IMAGE_BY_SVAR.get(entry.id);
 const heroArticle = heroEssaySlug
 	? (await getArticles()).find((a) => a.slug === heroEssaySlug)
 	: undefined;
+
+// The hero is the Article's representative image, as on the essays and fördjupning
+// pages. Without it Google has no image to show for these answers in Discover or as a
+// thumbnail; the OG title card below is the fallback for the ~55 answers with no hero.
+const heroSource = heroArt ?? heroArticle?.heroImage;
+const heroAlt = heroArticle?.imageAlt ?? data.title;
+let heroImageObject: Record<string, unknown> | undefined;
+if (heroSource) {
+	const rendition = await getImage({ src: heroSource, width: 1200, format: "webp" });
+	heroImageObject = imageObject({
+		contentUrl: new URL(rendition.src, Astro.site).href,
+		url,
+		name: heroAlt,
+		width: 1200,
+		height: Math.round((1200 * heroSource.height) / heroSource.width),
+	});
+}
+const ogImage = `/svar/${entry.id}/og.png`;
 
 // The section this answer sits in, for the header kicker. Cornerstone answers are
 // clustered in the FAKTA hub; every other question belongs to a /svar/ category.
@@ -114,6 +133,7 @@ const jsonLd: Record<string, unknown>[] = [
 		url,
 		publishedAt: data.publishedAt,
 		...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt }),
+		image: heroImageObject ?? new URL(ogImage, Astro.site).href,
 		citations: data.sources ?? [],
 	}),
 	breadcrumbList([
@@ -130,7 +150,13 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 <Base
 	title={`${seo.title} — islam.se`}
 	description={seo.description}
+	ogImage={ogImage}
 	ogImageAlt={data.title}
+	ogArticle={{
+		publishedAt: data.publishedAt,
+		...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt }),
+		...(kicker ? { section: kicker.name } : {}),
+	}}
 	jsonLd={jsonLd}
 	preloadTextFonts
 >
@@ -167,7 +193,7 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 					<EssayImage
 						{...(heroArt === undefined ? {} : { src: heroArt })}
 						{...(heroArticle === undefined ? {} : { article: heroArticle })}
-						alt=""
+						alt={heroArticle?.imageAlt ?? ""}
 						widths={PAGE_HERO_WIDTHS}
 						sizes={PAGE_HERO_SIZES}
 						loading="eager"

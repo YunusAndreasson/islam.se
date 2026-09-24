@@ -71,3 +71,6 @@ __pycache__/
 
 # local verification build output
 dist-check/
+
+# IndexNow: last ping + URLs already announced (apps/web/scripts/indexnow.ts)
+.indexnow-state.json

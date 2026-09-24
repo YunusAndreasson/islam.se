@@ -23,7 +23,7 @@ describe("articleMarkdown", () => {
 		expect(articleMarkdown(ARTICLE, { site: `${SITE_URL}/` })).toBe(
 			"# En essä\n\n" +
 				"> Essäns ingress.\n\n" +
-				`*Källa: ${SITE_URL}/en-essa · Publicerad 2026-01-02 · Uppdaterad 2026-03-04*\n\n` +
+				`*Källa: ${SITE_URL}/en-essa/ · Publicerad 2026-01-02 · Uppdaterad 2026-03-04*\n\n` +
 				"Själva **texten**.",
 		);
 	});
@@ -35,7 +35,7 @@ describe("articleMarkdown", () => {
 			bodyDivider: true,
 		});
 
-		expect(markdown).toContain(`*Källa: [islam.se](${SITE_URL}/en-essa)`);
+		expect(markdown).toContain(`*Källa: [islam.se](${SITE_URL}/en-essa/)`);
 		expect(markdown).toContain("\n\n---\n\nSjälva **texten**.");
 	});
 });

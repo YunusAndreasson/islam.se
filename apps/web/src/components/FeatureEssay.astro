@@ -31,7 +31,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	<p class="label home-kicker feature-kicker">
 		{amne ? <a href={`/amnen/${amne.slug}/`}>{amne.name}</a> : "Senast publicerat"}
 	</p>
-	<a class="feature-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
+	<a class="feature-link" href={`/${article.slug}/`} data-astro-prefetch="viewport">
 		<h2 id="feature-title" class="feature-title">{article.title}</h2>
 		<div
 			class="feature-media media-frame"

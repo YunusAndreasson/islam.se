@@ -81,7 +81,7 @@ export async function GET(_context: APIContext) {
     <atom:link href="${SITE}/podcast.xml" rel="self" type="application/rss+xml"/>
     <title>${SHOW.title}</title>
     <description><![CDATA[${SHOW.description}]]></description>
-    <link>${SITE}</link>
+    <link>${SITE}/</link>
     <language>${SHOW.language}</language>
     <itunes:author>${escapeXml(SHOW.author)}</itunes:author>
     <itunes:owner>

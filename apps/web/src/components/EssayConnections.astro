@@ -18,7 +18,7 @@ type ContextRow = {
 const contextRows = [
 	amne && {
 		label: "Ämne",
-		links: [{ href: `/amnen/${amne.slug}`, label: amne.name }],
+		links: [{ href: `/amnen/${amne.slug}/`, label: amne.name }],
 	},
 	tradar.length > 0 && {
 		label: tradar.length === 1 ? "Tråd" : "Trådar",

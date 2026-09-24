@@ -47,6 +47,15 @@ function appendVary(headers) {
 	if (!has) headers.set("vary", `${existing}, Accept`);
 }
 
+// A markdown twin fetched directly by its own URL (/slug.md, /path/index.md) is a
+// duplicate of an HTML page. Point search engines at that page with an HTTP canonical
+// rather than noindex, so AI agents that ask for the .md keep getting it.
+function htmlTwinOf(pathname) {
+	if (pathname.endsWith("/index.md")) return pathname.slice(0, -"index.md".length);
+	if (pathname.endsWith(".md")) return `${pathname.slice(0, -".md".length)}/`;
+	return null;
+}
+
 export async function onRequest(context) {
 	const { request, next, env } = context;
 	const isGetLike = request.method === "GET" || request.method === "HEAD";
@@ -75,6 +84,12 @@ export async function onRequest(context) {
 	// but tag every HTML page as negotiable so a shared cache keys on Accept and never
 	// serves HTML to a markdown request (or vice versa).
 	const res = await next();
+	const htmlTwin = isGetLike && res.ok ? htmlTwinOf(new URL(request.url).pathname) : null;
+	if (htmlTwin) {
+		const headers = new Headers(res.headers);
+		headers.append("link", `<${new URL(htmlTwin, request.url).href}>; rel="canonical"`);
+		return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+	}
 	if (!(isGetLike && (res.headers.get("content-type") || "").includes("text/html"))) return res;
 	const headers = new Headers(res.headers);
 	appendVary(headers);

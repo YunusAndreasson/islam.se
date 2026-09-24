@@ -21,7 +21,7 @@
 		"pdf": "pnpm books",
 		"rattelser": "pnpm --filter @islam-se/web run rattelser",
 		"ai-barometern": "pnpm --filter @islam-se/web run ai-barometern",
-		"ship": "pnpm build && pnpm books && cd apps/web && node scripts/assert-full-build.mjs && wrangler pages deploy dist --project-name islam-se --branch master --commit-dirty=true",
+		"ship": "pnpm build && pnpm books && cd apps/web && node scripts/assert-full-build.mjs && wrangler pages deploy dist --project-name islam-se --branch master --commit-dirty=true && npx tsx scripts/indexnow.ts",
 		"ship:mailer": "cd apps/web/workers/rattelse-mailer && wrangler deploy",
 		"deploy": "pnpm ship",
 		"test:checkers": "python3 scripts/check-quran-quotes.py --self-test && python3 scripts/check-book-passages.py --self-test && python3 scripts/check-house-style.py --self-test && python3 scripts/check-chart-sources.py --self-test && python3 scripts/check-chrome-copy.py --self-test",

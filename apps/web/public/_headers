@@ -39,3 +39,19 @@
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
   Link: </llms.txt>; rel="alternate"; type="text/plain"; title="llms.txt"
+
+# Machine-readable files with no search value of their own: calendar feeds, the client
+# search index and the AI-barometern raw data. Keep them out of the index so they never
+# compete with the pages that present them. (The markdown twins get an HTTP canonical
+# from functions/_middleware.js instead, so AI agents can still read them.)
+/bonetider/:stad/kalender.ics
+  X-Robots-Tag: noindex
+
+/det-islamiska-aret.ics
+  X-Robots-Tag: noindex
+
+/search-index.json
+  X-Robots-Tag: noindex
+
+/ai-barometern/data/*
+  X-Robots-Tag: noindex

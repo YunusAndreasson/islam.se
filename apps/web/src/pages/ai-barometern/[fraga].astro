@@ -73,7 +73,7 @@ export async function getStaticPaths() {
 				...refs,
 				field: `${question.id}.essays`,
 				dataDir: "data/articles/",
-			}).map((label, i) => ({ label, href: `/${links?.essays?.[i]}` })),
+			}).map((label, i) => ({ label, href: `/${links?.essays?.[i]}/` })),
 		];
 		return { params: { fraga: question.id }, props: { question, readMore } };
 	});

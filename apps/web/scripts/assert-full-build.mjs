@@ -241,6 +241,28 @@ if (cspHtml) {
 	}
 }
 
+// Internal links must use the canonical trailing-slash form. The slash-less URL 308s,
+// so every such link costs crawlers a redirect hop and passes link signals through
+// it. This was 16 of 90 links on the homepage and the ämne nav on every page
+// (2026-09). Only a warning: a stray link is worth fixing, not worth blocking a deploy.
+const slashless = new Map();
+for (const rel of readdirSync(DIST, { recursive: true, encoding: "utf-8" })) {
+	if (!rel.endsWith(".html")) continue;
+	for (const [, href] of readFileSync(join(DIST, rel), "utf-8").matchAll(
+		/href="(\/[^"#?]*[^/"#?])"/g,
+	)) {
+		if (/\.[a-z0-9]{2,5}$/i.test(href)) continue; // a file, not a page
+		slashless.set(href, (slashless.get(href) ?? 0) + 1);
+	}
+}
+if (slashless.size > 0) {
+	const top = [...slashless].sort((a, b) => b[1] - a[1]).slice(0, 10);
+	console.warn(
+		`⚠ ${slashless.size} internal href(s) without a trailing slash (each 308-redirects):\n` +
+			top.map(([href, n]) => `    ${href} (${n}×)`).join("\n"),
+	);
+}
+
 if (failures.length > 0) {
 	console.error("✗ deploy guard:");
 	for (const f of failures) console.error(`  • ${f}`);

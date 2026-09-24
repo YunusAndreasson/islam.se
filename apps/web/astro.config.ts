@@ -26,20 +26,33 @@ import { remarkAbbr } from "./src/plugins/remark-abbr";
 // alias lets us cast the plugin list to the type Astro's markdown config expects.
 type RemarkPlugins = NonNullable<UnifiedProcessorOptions["remarkPlugins"]>;
 
-const articlesDir = fileURLToPath(new URL("../../data/articles", import.meta.url));
-const articleDates: Record<string, string> = {};
-try {
-	for (const file of readdirSync(articlesDir).filter((f) => f.endsWith(".md"))) {
-		const content = readFileSync(join(articlesDir, file), "utf-8");
-		const match = content.match(/publishedAt:\s*"([^"]+)"/);
-		const publishedAt = match?.[1];
-		if (publishedAt) {
-			articleDates[file.replace(/\.md$/, "")] = publishedAt;
+// Sitemap <lastmod> for authored pages: the date the text last changed —
+// `updatedAt` when the page has been revised, otherwise `publishedAt`. Essays are
+// keyed by bare slug (they live at the root); svar and fördjupning under their
+// section. Pages with neither date simply get no lastmod.
+const contentDates: Record<string, string> = {};
+/** Essay slugs only — the essaer sitemap chunk is keyed on this set. */
+const essaySlugs = new Set<string>();
+const readContentDates = (dir: string, prefix: string, isEssay = false) => {
+	try {
+		const abs = fileURLToPath(new URL(`../../data/${dir}`, import.meta.url));
+		for (const file of readdirSync(abs).filter((f) => f.endsWith(".md"))) {
+			const content = readFileSync(join(abs, file), "utf-8");
+			const date =
+				content.match(/updatedAt:\s*"([^"]+)"/)?.[1] ??
+				content.match(/publishedAt:\s*"([^"]+)"/)?.[1];
+			if (!date) continue;
+			const slug = prefix + file.replace(/\.md$/, "");
+			contentDates[slug] = date;
+			if (isEssay) essaySlugs.add(slug);
 		}
+	} catch {
+		// content dir may not exist during first build
 	}
-} catch {
-	// articles dir may not exist during first build
-}
+};
+readContentDates("articles", "", true);
+readContentDates("svar", "svar/");
+readContentDates("fordjupning", "fordjupning/");
 
 // The 2,128 /bonetider/[stad] pages server-render *this day's* prayer times, so a fresh
 // build genuinely changes their content. Their sitemap <lastmod> must therefore track the
@@ -1102,8 +1115,8 @@ export default defineConfig({
 				),
 			serialize(item) {
 				const slug = sitemapSlug(item.url);
-				if (articleDates[slug]) {
-					item.lastmod = new Date(articleDates[slug]).toISOString();
+				if (contentDates[slug]) {
+					item.lastmod = new Date(contentDates[slug]).toISOString();
 				} else if (slug === "bonetider") {
 					item.lastmod = new Date(BONETIDER_DATA_DATE).toISOString();
 					item.changefreq = ChangeFreqEnum.WEEKLY;
@@ -1166,7 +1179,7 @@ export default defineConfig({
 					sitemapSlug(item.url).startsWith("ai-barometern") ? item : undefined,
 				svar: (item) =>
 					/^(svar|fordjupning|vad-ar-islam)(\/|$)/.test(sitemapSlug(item.url)) ? item : undefined,
-				essaer: (item) => (articleDates[sitemapSlug(item.url)] ? item : undefined),
+				essaer: (item) => (essaySlugs.has(sitemapSlug(item.url)) ? item : undefined),
 			},
 		}),
 		// Emit a Cloudflare Pages `_redirects` file (true edge 301s) for the dead
@@ -1227,7 +1240,7 @@ export default defineConfig({
 			},
 		},
 		// public/robots.txt declares two sitemaps; @astrojs/sitemap only knows about its
-		// own, so sitemap-index.xml listed sitemap-0.xml alone while sitemap-images.xml
+		// own, so sitemap-index.xml listed only its own chunks while sitemap-images.xml
 		// sat beside it unreferenced. Discovery still worked through robots.txt, but an
 		// index that omits a sitemap it ships is the kind of inconsistency that reads as a
 		// mistake in Search Console. Appending is safe: the integration writes the index

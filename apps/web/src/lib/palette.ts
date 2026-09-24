@@ -34,7 +34,7 @@ export const buildPaletteIndex = memoize(async (): Promise<PaletteEntry[]> => {
 		type: "Ämne",
 		label: a.name,
 		sub: a.framing,
-		href: `/amnen/${a.slug}`,
+		href: `/amnen/${a.slug}/`,
 	}));
 
 	const tradarEntries: PaletteEntry[] = tradar.map((t) => ({
@@ -94,7 +94,7 @@ export const buildPaletteIndex = memoize(async (): Promise<PaletteEntry[]> => {
 		type: "Essä",
 		label: a.title,
 		sub: a.description,
-		href: `/${a.slug}`,
+		href: `/${a.slug}/`,
 	}));
 
 	// Order mirrors the search group order (pages/structure first, essays last);
