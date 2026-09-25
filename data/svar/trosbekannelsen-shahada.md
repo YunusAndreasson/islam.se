@@ -57,30 +57,32 @@ related:
   - "vem-var-profeten-muhammed"
 ---
 
-**Trosbekännelsen, på arabiska *shahada*, är islams första pelare: vittnesmålet att det inte finns någon gud utom Gud och att Muhammed är Guds sändebud.** Den lyder på arabiska *Lā ilāha illā Allāh, Muhammadun rasūl Allāh* och består av två led – ett som förnekar och ett som bekräftar. Att uttala den med uppriktig övertygelse är att träda in i islam; den är porten in i tron och villkoret för de övriga fyra pelarna.
+**Trosbekännelsen, på arabiska *shahada*, är islams första pelare: vittnesmålet att det inte finns någon gud utom Gud och att Muhammed är Guds sändebud.** Den lyder på arabiska *Lā ilāha illā Allāh, Muhammadun rasūl Allāh* och består av två led: vittnesmålet om Guds enhet och vittnesmålet om hans sändebud. Uttalad med uppriktig övertygelse gör den människan till muslim, och de fyra övriga pelarna förutsätter den.
 
 ## Vad betyder shahada och hur lyder den?
 
-*Shahada* kommer av ett arabiskt verb för "att vittna": den troende avlägger ett vittnesmål om vad sanningen är. Samma ord används om ett vittnesmål inför domstol, och något av den handlingens allvar ligger i bekännelsen. Formeln rymmer två vittnesmål, på arabiska *ash-shahadatayn* – "Jag vittnar att det inte finns någon gud utom Gud" (*ashhadu an lā ilāha illā Allāh*) och "Jag vittnar att Muhammed är Guds sändebud" (*ashhadu anna Muhammadan rasūl Allāh*). Den som bekänner den kallas *muslim*, "en som underkastar sig". Som sammanhängande formel står den inte i Koranen, men båda leden har direkt koraniskt stöd: det första bland annat i sura 47:19, det andra i 48:29. Orden är få och enkla, men de sammanfattar religionens hela innehåll: vem som ensam ska dyrkas, och genom vem vägledningen har kommit.
+*Shahada* kommer av ett arabiskt verb för "att vittna": den troende avlägger ett vittnesmål om vad sanningen är. Samma ord används om ett vittnesmål inför domstol, och bekännelsen har något av samma allvar. Formeln består av två vittnesmål, på arabiska *ash-shahadatayn*: "Jag vittnar att det inte finns någon gud utom Gud" (*ashhadu an lā ilāha illā Allāh*) och "Jag vittnar att Muhammed är Guds sändebud" (*ashhadu anna Muhammadan rasūl Allāh*). Den som bekänner den kallas *muslim*, "en som underkastar sig".
+
+Som sammanhängande formel står trosbekännelsen inte i Koranen, men båda leden har direkt stöd där, det första bland annat i sura 47:19 och det andra i 48:29. Orden är få, men de sammanfattar hela religionen: vem som ensam ska dyrkas och genom vem vägledningen har kommit.
 
 ## Vad innebär "ingen gud utom Gud"?
 
-Det första ledet består av två steg. Först en förnekelse (*nafy*): allt som dyrkas vid sidan av Gud avvisas som falskt. Sedan en bekräftelse (*ithbāt*): dyrkan tillkommer Gud ensam. Detta är kärnan i *tawhīd*, läran om Guds enhet, och då särskilt enheten i dyrkan (*tawhīd al-ulūhiyya*), den av tawhīds tre delar som avguderiet kränker. Dess raka motsats är *shirk*: att ge åt något skapat den dyrkan som tillkommer Skaparen ensam.
+Det första ledet har två moment. Först en förnekelse (*nafy*): allt som dyrkas vid sidan av Gud avvisas som falskt. Sedan en bekräftelse (*ithbāt*): dyrkan tillkommer Gud ensam. Detta är kärnan i *tawhīd*, läran om Guds enhet, och närmare bestämt enheten i dyrkan (*tawhīd al-ulūhiyya*), den av tawhīds tre delar som avguderiet kränker. Dess raka motsats är *shirk*: att ge åt något skapat den dyrkan som tillkommer Skaparen ensam.
 
 > GUD [SJÄLV] vittnar – och [så gör] änglarna och de som har kunskap – att det inte finns en annan gud än Han, Upprätthållaren av rättvisa och jämvikt; ingen annan gud finns än Han, den Allsmäktige, den Vise.
 > — Koranen 3:18
 
-Den lärde Muhammad bin Sālih al-ʿUthaymīn förklarar att de "gudar" som dyrkas jämte Gud saknar all gudomlighet och all rätt till dyrkan: de är namn utan verklighet. Ibn al-Jawzi skriver om dem som tillbad stenbilder i *Talbīs Iblīs*:
+Den lärde Muhammad bin Sālih al-ʿUthaymīn förklarar att de "gudar" som dyrkas jämte Gud saknar all gudomlighet och all rätt till dyrkan: de är namn utan verklighet. I *Talbīs Iblīs* skriver Ibn al-Jawzi om dem som tillbad stenbilder:
 
 > En människa bör dyrka den som har gjort henne, inte det som hon själv har gjort.
 
 ## Vad innebär "Muhammed är Guds sändebud"?
 
-Det andra vittnesmålet binder den troende vid profeten Muhammed. Enligt al-ʿUthaymīn medför det fyra ting: att tro på allt han berättade, att lyda det han befallde, att hålla sig borta från det han förbjöd och att dyrka Gud endast på det sätt han föreskrev, det vill säga genom hans *sunna*. Denna efterföljd har också gett *ahl as-sunna*, sunnas folk, sitt namn. Koranen kallar Muhammed profeternas sigill (33:40): han är den siste i raden av sändebud, och hans föredöme förblir därför måttstocken för hur Gud ska dyrkas. Samtidigt är han själv en tjänare (*ʿabd*) och ett sändebud, aldrig ett föremål för dyrkan; genomgående framställs han som en budbärare utan egen makt över skada eller vägledning.
+Det andra vittnesmålet binder den troende vid profeten Muhammed. Enligt al-ʿUthaymīn medför det fyra ting: att tro på allt han berättade, att lyda det han befallde, att hålla sig borta från det han förbjöd och att dyrka Gud endast på det sätt han föreskrev, det vill säga genom hans *sunna*. Denna efterföljd har också gett *ahl as-sunna*, sunnas folk, sitt namn. Koranen kallar Muhammed profeternas sigill (33:40): han är den siste i raden av sändebud, och hans föredöme förblir därför måttstocken för hur Gud ska dyrkas. Han är ändå en tjänare (*ʿabd*) och ett sändebud, aldrig föremål för dyrkan, och i Koranen framställs han genomgående som en budbärare utan egen makt att skada eller vägleda.
 
 ## Hur blir man muslim genom shahada?
 
-Man blir muslim genom att uttala trosbekännelsen med både tunga och hjärta: orden ska sägas, och deras innebörd omfattas med övertygelse. Senare lärda har sammanställt sju villkor för att vittnesmålet ska vara giltigt (jämför Ibn Abī al-ʿIzz i hans kommentar till *at-Tahāwiyya*): att man vet vad orden betyder, är viss utan tvivel, menar dem uppriktigt och talar sanning, tar emot dem, underkastar sig dem och älskar dem. Ett vittnesmål som bara rör läpparna men inte hjärtat gör ingen till troende. Omvänt krävs ingen ceremoni och ingen mellanhand: den som med uppriktigt hjärta säger orden har trätt in i islam i samma stund. I praktiken sker inträdet ofta i en moské, där den nye muslimen uttalar orden högt och får hjälp med uttalet, men giltigheten avgörs av hjärtat och tungan.
+Man blir muslim genom att uttala trosbekännelsen med både tunga och hjärta: orden ska sägas, och deras innebörd omfattas med övertygelse. Senare lärda har ställt samman sju villkor för att vittnesmålet ska vara giltigt (jämför kommentaren till *at-Tahāwiyya* av Ibn Abī al-ʿIzz). Man ska veta vad orden betyder, vara viss utan tvivel, mena dem uppriktigt och tala sanning, ta emot dem, underkasta sig dem och älska dem. Ett vittnesmål som bara rör läpparna men inte hjärtat gör ingen till troende. Omvänt krävs ingen ceremoni och ingen mellanhand: den som med uppriktigt hjärta säger orden har trätt in i islam i samma stund. I praktiken sker inträdet ofta i en moské, där den nye muslimen säger orden högt och får hjälp med uttalet, men moskén är inget villkor.
 
 ## Varför är trosbekännelsen islams första pelare?
 
@@ -93,8 +95,8 @@ Vilken tyngd orden *lā ilāha illā Allāh* bär beskriver Ibn al-Qayyim i *ad-
 
 > Det är ordet som jorden och himlarna står på, det som Gud har skapat allt levande i enlighet med, det som trosgemenskapen har grundats på och som böneriktningen har rests för.
 
-Vittnesmålet genomsyrar sedan hela livet: det ropas ut i böneutropet (*adhān*), upprepas i varje föreskriven bön i *tashahhud* och viskas helst som en muslims sista ord.
+Vittnesmålet följer muslimen genom hela livet. Det ropas ut i böneutropet (*adhān*), upprepas i *tashahhud* i varje föreskriven bön och är helst det sista en muslim säger före döden.
 
-Att formeln är lika gammal som den är spridd går att se med egna ögon. I Klippdomen i Jerusalem (som står inom al-Aqsa) löper den i guldkufi längs arkaderna, i en inskrift som själv anger året 72 efter hijra, alltså 691–692. Tvåhundra år senare nådde den svensk jord: arabiska dirhemer, präglade med trosbekännelsen i kufisk skrift, är den vanligaste mynttypen i svenska vikingatida skattfynd, och i Spillingsskatten på Gotland utgör de merparten av omkring 14 300 mynt.
+I Klippdomen, som står inom al-Aqsa i Jerusalem, löper formeln i gyllene kufiska bokstäver längs arkaderna, i en inskrift som själv anger året 72 efter hijra, alltså 691–692. Tvåhundra år senare nådde den svensk jord: arabiska dirhemer, präglade med trosbekännelsen i kufisk skrift, är den vanligaste mynttypen i svenska vikingatida skattfynd, och i Spillingsskatten på Gotland utgör de merparten av omkring 14 300 mynt.
 
-Tretton sekler skiljer guldskriften i Jerusalem från den *tashahhud* som läses i en svensk moské i dag, och formeln är oförändrad. Bland världens omkring två miljarder muslimer är shahada den enda mening som alla delar, oavsett språk och rättsskola.
+Formeln har inte ändrats sedan dess, och samma ord läses i dag i *tashahhud* i svenska moskéer. Bland världens omkring två miljarder muslimer är shahada den mening som alla delar, oavsett språk och rättsskola.

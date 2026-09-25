@@ -46,7 +46,7 @@ related:
 > Lov och pris tillkommer Gud, världarnas Herre
 > — Koranen 1:2
 
-En muslim säger alhamdulillah som svar på "hur mår du", efter en måltid, vid goda nyheter och när någon nyser, varpå den som hör svarar *yarhamuk Allāh*, "Gud förbarme sig över dig". Profeten Muhammed vägde frasens tyngd i ord: Abū Mālik al-Ashʿarī återger att han sade att "alhamdulillah fyller vågskålen" (Sahīh Muslim 223). Ett ord så lätt att säga väger alltså tyngst av allt på domens dag.
+En muslim säger alhamdulillah som svar på "hur mår du", efter en måltid, vid goda nyheter och när han själv nyser, varpå den som hör svarar *yarhamuk Allāh*, "Gud förbarme sig över dig". Abū Mālik al-Ashʿarī återger att profeten Muhammed sade att "alhamdulillah fyller vågskålen" (Sahīh Muslim 223), den våg där människans gärningar vägs på domens dag.
 
 ## Vad betyder mashallah?
 
@@ -55,12 +55,12 @@ En muslim säger alhamdulillah som svar på "hur mår du", efter en måltid, vid
 > Om du bara hade sagt när du gick ut i din vingård: "Ske Guds vilja! Det finns ingen styrka utom hos Gud!"
 > — Koranen 18:39
 
-Den fullständiga frasen lyder därför ofta *mā shāʾ Allāh, lā quwwata illā bi-Llāh*, "det Gud har velat; det finns ingen kraft utom hos Gud". Klassiska lärda rekommenderar den för den som ser något gott, för att vända blicken från gåvan till Givaren (Muhammad Sālih al-Munajjid). Beundran utan mashallah är beröm som glömt var det kom ifrån.
+Den fullständiga frasen lyder därför ofta *mā shāʾ Allāh, lā quwwata illā bi-Llāh*, "det Gud har velat; det finns ingen kraft utom hos Gud". Klassiska lärda rekommenderar den för den som ser något gott, för att vända blicken från gåvan till Givaren (Muhammad Sālih al-Munajjid).
 
 ## Vilka andra uttryck använder muslimer?
 
-De två fraserna har syskon i samma vardagsspråk. *Subhān Allāh* ("fjärran från brister är Gud") sägs inför det som väcker förundran, och *Allāhu akbar* ("Gud är större") inleder bönen med påminnelsen att inget är större än Han. *Bismillāh* ("i Guds namn") föregår måltiden och varje påbörjat arbete; *astaghfirullāh* ("jag ber Gud om förlåtelse") följer på felsteget. Alla hör till *dhikr*, åminnelsen av Gud, och tillsammans med *lā ilāha illā Allāh*, trosbekännelsens kärna, ringar de in en muslims dygn. Var fras fångar ett ögonblick av tillvaron – förundran, storhet, början, ånger – och vänder det mot Gud.
+*Subhān Allāh* ("fjärran från brister är Gud") sägs inför det som väcker förundran, och *Allāhu akbar* ("Gud är större") inleder bönen med påminnelsen om att inget är större än han. *Bismillāh* ("i Guds namn") föregår måltiden och varje påbörjat arbete; *astaghfirullāh* ("jag ber Gud om förlåtelse") följer på felsteget. Alla hör till *dhikr*, åminnelsen av Gud, och tillsammans med *lā ilāha illā Allāh*, trosbekännelsens kärna, följer de en muslim genom hela dygnet.
 
 ## Varför återkommer dessa uttryck så ofta?
 
-Att fraserna sitter så löst beror på att de inte är fyllnadsord utan uttryck för *qadar*, Guds förutbestämmelse: ingenting i himlarna eller på jorden sker utom genom Hans vilja. Att tala så är profetens *sunna*, hans levda exempel, och en vana som bönen själv har format. *Al-Fatiha*, som öppnar med "Lov och pris tillkommer Gud", läses i varje *rakʿa*, och en muslim ber minst sjutton obligatoriska *rakaʿāt* per dygn (fajr 2, dhuhr 4, asr 4, maghrib 3, isha 4). Orden om Guds lov passerar alltså läpparna minst sjutton gånger innan vardagen ens börjat. Två fraser, en enda lärosats: ingenting sker utom genom Gud.
+Att fraserna återkommer så ofta beror på att de inte är fyllnadsord utan uttryck för *qadar*, Guds förutbestämmelse: ingenting i himlarna eller på jorden sker utom genom hans vilja. Att tala så är profetens *sunna*, hans levda exempel, och bönen har gjort det till en vana. *Al-Fatiha*, som öppnar med "Lov och pris tillkommer Gud", läses i varje *rakʿa*, och en muslim ber minst sjutton obligatoriska *rakaʿāt* per dygn (fajr 2, dhuhr 4, asr 4, maghrib 3, isha 4). Orden om Guds lov passerar alltså läpparna minst sjutton gånger om dagen.

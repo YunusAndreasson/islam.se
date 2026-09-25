@@ -38,37 +38,37 @@ related:
   - "vad-var-hijra"
 ---
 
-**Erövringen av Mecka (arabiska *Fath Makka*) var profeten Muhammeds nästan oblodiga intåg i sin födelsestad i ramadan år 8 e.H. (december 629/januari 630 e.Kr.).** Med omkring 10 000 man intog han staden, rensade Kaba från 360 avgudar och utfärdade allmän amnesti åt sina forna fiender. Framför allt var händelsen ett återställande av Kaba till dess ursprungliga syfte: dyrkan av den ende Guden, *tawhīd*.
+**Erövringen av Mecka (arabiska *Fath Makka*) var profeten Muhammeds nästan oblodiga intåg i sin födelsestad i ramadan år 8 e.H. (december 629/januari 630 e.Kr.).** Med omkring 10 000 man intog han staden, rensade Kaba från 360 avgudar och utfärdade allmän amnesti åt sina forna fiender. Framför allt fick Kaba tillbaka sitt ursprungliga syfte: dyrkan av den ende Guden, *tawhīd*.
 
 ## Varför marscherade muslimerna mot Mecka?
 
-Orsaken var ett brutet fredsavtal. Två år tidigare hade muslimerna och Quraysh slutit en tioårig vapenvila vid *Hudaybiyya* (år 6 e.H./628). Avtalet tillät de arabiska stammarna att ansluta sig till endera sidan, och Banu Khuzaʿa knöt sig till muslimerna medan Banu Bakr ställde sig på Qurayshs sida. När Banu Bakr, med dold uppbackning från Quraysh, överföll Khuzaʿa vid al-Watir var vapenvilan i praktiken upphävd. Muhammed krävde gottgörelse, men Quraysh vägrade och förklarade i stället avtalet ogiltigt, ett beslut de snart skulle ångra. Åtta år efter att profeten tvingats lämna staden i utvandringen (*hijra*) till Medina låg vägen tillbaka åter öppen.
+Orsaken var ett brutet fredsavtal. Två år tidigare hade muslimerna och Quraysh slutit en tioårig vapenvila vid *Hudaybiyya* (år 6 e.H./628). Avtalet tillät de arabiska stammarna att ansluta sig till endera sidan, och Banu Khuzaʿa slöt förbund med muslimerna medan Banu Bakr ställde sig på Qurayshs sida. När Banu Bakr, med hemligt stöd från Quraysh, överföll Khuzaʿa vid al-Watir var vapenvilan i praktiken upphävd. Muhammed krävde gottgörelse, men Quraysh vägrade och förklarade i stället avtalet ogiltigt. Åtta år efter att profeten tvingats lämna staden i utvandringen (*hijra*) till Medina låg vägen tillbaka öppen.
 
 ## Hur gick själva erövringen till?
 
-Erövringen skedde med överväldigande styrka men minimalt våld. Muhammed lät sin armé på cirka 10 000 man tända var sin lägereld utanför staden om natten, så att Quraysh skulle förstå att motstånd var hopplöst. En av stadens ledande män, Abu Sufyan ibn Harb, fördes till profetens läger, fann läget utsiktslöst och antog islam. Han fick i gengäld förkunna villkoren för amnesti: den som stannade i Abu Sufyans hus, sökte skydd i Kaba eller stängde sin dörr var trygg. Armén tågade in i fyra kolonner från olika håll. Endast Khalid ibn al-Walids kolonn mötte väpnat motstånd, och där stupade omkring tretton ur Quraysh och två i muslimernas led. Staden som en gång drivit ut profeten föll nu i hans händer på en enda morgon.
+Erövringen skedde med överväldigande styrka men minimalt våld. Muhammed lät sin armé på cirka 10 000 man tända var sin lägereld utanför staden om natten, så att Quraysh skulle förstå att motstånd var hopplöst. En av stadens ledande män, Abu Sufyan ibn Harb, fördes till profetens läger, fann läget utsiktslöst och antog islam. Han fick i gengäld förkunna villkoren för amnesti: den som stannade i Abu Sufyans hus, sökte skydd i Kaba eller stängde sin dörr var trygg. Armén tågade in i fyra kolonner från olika håll. Endast Khalid ibn al-Walids kolonn mötte väpnat motstånd, och där stupade omkring tretton ur Quraysh och två i muslimernas led.
 
 ## Vad hände med Kaba och avgudarna?
 
-Profeten rensade Guds hus från avgudadyrkan. Kaba, som enligt islam restes av Ibrahim (Abraham) åt den ende Guden, hade med tiden omringats av 360 avgudabilder, däribland den store Hubal. Vid intåget red Muhammed runt helgedomen och stötte ned bilderna en efter en. Följeslagaren Abdullah ibn Masʿud berättar att profeten samtidigt läste en vers ur Koranen (Sahīh al-Bukhārī 4287):
+Profeten rensade Guds hus från avgudadyrkan. Kaba, som enligt islam restes av Ibrahim (Abraham) åt den ende Guden, hade med tiden kommit att omges av 360 avgudabilder, däribland den store Hubal. Vid intåget red Muhammed runt helgedomen och stötte ned bilderna en efter en. Följeslagaren Abdullah ibn Masʿud berättar att profeten samtidigt läste en vers ur Koranen (Sahīh al-Bukhārī 4287):
 
 > Och säg: "Sanningen har kommit och då har lögnen vikit; ja, lögnen är dömd att vika!"
 > — Koranen 17:81
 
-Därefter steg Bilal ibn Rabah upp på Kabas tak och lät böneutropet (*adhān*) ljuda. Där trehundrasextio gudar nyss trängts kring helgedomen ropades nu en enda sanning ut över taken: att Gud är störst.
+Därefter steg Bilal ibn Rabah upp på Kabas tak och lät böneutropet (*adhān*) ljuda.
 
 ## Hur behandlade Muhammed dem som förföljt honom?
 
-Han mötte sina forna fiender med förlåtelse i stället för hämnd. Quraysh hade i tjugo år förföljt, bojkottat och bekrigat muslimerna och till sist drivit dem ur staden. När folket nu samlades framför honom väntade sig många blodig vedergällning. I stället frågade profeten vad de trodde att han skulle göra med dem, och upprepade sedan de ord som Josef (Yusuf) en gång gav sina bröder:
+Han mötte sina forna fiender med förlåtelse i stället för hämnd. Quraysh hade i tjugo år förföljt, bojkottat, fördrivit och bekrigat muslimerna. När folket nu samlades framför honom väntade sig många blodig vedergällning. I stället frågade profeten vad de trodde att han skulle göra med dem, och upprepade sedan de ord som Josef (Yusuf) en gång sade till sina bröder:
 
 > I dag skall ingen förebråelse riktas mot er.
 > — Koranen 12:92
 
-Han förklarade Meckaborna fria. Endast en handfull personer skyldiga till grova brott undantogs, och flera av dem benådades ändå när de sökte skydd. Staden vanns inte med svärd utan med förlåtelse.
+Han förklarade Meckaborna fria. Endast en handfull personer som gjort sig skyldiga till grova brott undantogs, och flera av dem benådades ändå när de sökte skydd.
 
 ## Vilken betydelse fick erövringen för islam?
 
-Erövringen blev vändpunkten som öppnade hela Arabien för islam. Med Mecka, Kabas stad och halvöns religiösa medelpunkt, i muslimernas händer föll motståndet snabbt, och den ena stammen efter den andra sände sina sändebud och antog tron. Traditionen knyter sura 110, *an-Nasr* ("Hjälpen"), till denna seger:
+Erövringen blev vändpunkten som öppnade hela Arabien för islam. När Mecka, Kabas stad och halvöns religiösa medelpunkt, väl var i muslimernas händer föll motståndet snabbt, och den ena stammen efter den andra skickade sändebud och antog tron. Traditionen knyter sura 110, *an-Nasr* ("Hjälpen"), till denna seger:
 
 > DÅ GUDS hjälp kommer med segern, och du ser människorna i oräkneliga skaror flocka sig till Guds religion, lova och prisa då din Herres namn och sök Hans förlåtelse! Han är alltid beredd att ta emot den [uppriktigt] ångerfulles ånger.
 > — Koranen 110:1–3

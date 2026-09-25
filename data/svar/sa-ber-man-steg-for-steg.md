@@ -53,15 +53,15 @@ essays:
   - "nar-natten-inte-faller"
 ---
 
-**Man ber i islam genom att först rena sig, vända sig mot Kaba i Mecka och sedan utföra bönen i en fast följd av ställningar – stående med recitation, bugning (*rukūʿ*), nedfallande (*sujūd*) och sittande – som upprepas i varje bönecykel.** Bönen, på arabiska *salāt*, är islams andra pelare och den handling som mest konkret binder den troende till Gud fem gånger om dygnet. Formen är fastlagd: den följer det mönster profeten Muhammed själv visade och som sedan dess utförts på samma sätt av muslimer världen över.
+**Man ber i islam genom att först rena sig, vända sig mot Kaba i Mecka och sedan utföra bönen i en fast följd av ställningar – stående med recitation, bugning (*rukūʿ*), nedfallande (*sujūd*) och sittande – som upprepas i varje bönecykel.** Bönen, på arabiska *salāt*, är islams andra pelare och den handling som mest konkret binder den troende till Gud fem gånger om dygnet. Formen är fastlagd och följer det mönster som profeten Muhammed själv visade.
 
 ## Vad måste man göra innan bönen börjar?
 
-Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt: var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten, räknat efter solens läge över den plats man befinner sig på – se [bönetider för orten](/bonetider/). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och bära rena kläder på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar avsikten, *niyya*, att be just denna bön – en avsikt som hålls i hjärtat och aldrig uttalas högt. I klassisk fiqh kallas de bönens giltighetsvillkor: är något av dem ogjort har bönen inte börjat, hur noggrant den än utförs.
+Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt. Var och en av de fem bönerna har sin bestämda tid, räknad efter solens läge där man befinner sig (se [bönetider för orten](/bonetider/)). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, ha rena kläder och be på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar avsikten, *niyya*, att be just denna bön. Avsikten hålls i hjärtat och uttalas aldrig högt. I klassisk fiqh kallas de bönens giltighetsvillkor: saknas något av dem är bönen ogiltig, hur noggrant den än utförs.
 
 ## Hur går bönen till steg för steg?
 
-Bönen inleds stående. Man höjer händerna och säger *takbīrat al-ihrām* – "Allāhu akbar", "Gud är större" – vilket öppnar bönen. Den takbiren sägs bara en gång. Därefter består bönen av *rakaʿāt*, likadana bönecykler, och varje cykel går samma väg:
+Bönen inleds stående. Man höjer händerna och öppnar bönen med *takbīrat al-ihrām*, "Allāhu akbar" ("Gud är större"). Den inledande takbiren sägs bara en gång. Resten av bönen består av *rakaʿāt*, likadana bönecykler, som var och en följer samma ordning:
 
 1. **Stående.** Man reciterar al-Fātiha, under de två första rakaʿāt följd av ytterligare ett stycke ur Koranen.
 2. **Bugning (*rukūʿ*).** Man böjer sig framåt med rak rygg och händerna på knäna, och lovprisar Gud.
@@ -69,9 +69,9 @@ Bönen inleds stående. Man höjer händerna och säger *takbīrat al-ihrām* �
 4. **Nedfall (*sujūd*).** Man faller ned så att panna och näsa, händerna, knäna och tårna rör marken.
 5. **Kort sittande (*julūs*).** Man reser sig till en kort sittande ställning och faller sedan ned i *sujūd* en andra gång.
 
-Därmed är en rakaʿa fullbordad och nästa börjar. I böner om tre eller fyra rakaʿāt sitter man i *tashahhud* även efter de två första cyklerna; efter den sista läses *tashahhud* på nytt, och bönen avslutas med *taslīm*: man vänder huvudet åt höger och åt vänster och säger "as-salāmu ʿalaykum".
+Därmed är en rakaʿa fullbordad och nästa börjar. I böner om tre eller fyra rakaʿāt sitter man i *tashahhud* redan efter de två första cyklerna. Efter den sista läses *tashahhud* på nytt, och bönen avslutas med *taslīm*: man vänder huvudet åt höger och åt vänster och säger "as-salāmu ʿalaykum".
 
-Rörelsen är densamma varje gång: kroppen sänks stegvis från stående ända till marken och reser sig igen. Varje ställning ska dessutom hinna bli stilla innan nästa börjar – lugnet kallas *tumaʾnīna* och räknas av flertalet rättsskolor som en nödvändig del av bönen. Kravet går tillbaka på en berömd händelse. En man bad i moskén, och profeten sände tillbaka honom tre gånger med orden "Gå tillbaka och be, för du har inte bett". Först därefter lärde han honom bönen moment för moment, och samma villkor upprepades vid varje moment: att buga tills kroppen kommit till ro, resa sig tills ryggen är rak, falla ned tills kroppen åter kommit till ro (Sahīh al-Bukhārī 757). Ibn Taymiyya förklarar varför i *al-Qawāʿid an-nūrāniyya*:
+Rörelsen är densamma varje gång: kroppen sänks stegvis från stående ända till marken och reser sig igen. I varje ställning ska kroppen dessutom hinna komma till ro innan nästa börjar. Lugnet kallas *tumaʾnīna* och räknas av flertalet rättsskolor som en nödvändig del av bönen. Kravet går tillbaka på en berömd händelse. En man bad i moskén, och profeten sände tillbaka honom tre gånger med orden "Gå tillbaka och be, för du har inte bett". Först då lärde han honom bönen, moment för moment, och upprepade samma villkor vid varje steg: att buga tills kroppen kommit till ro, resa sig tills ryggen är rak och falla ned tills kroppen åter är stilla (Sahīh al-Bukhārī 757). I *al-Qawāʿid an-nūrāniyya* förklarar Ibn Taymiyya varför:
 
 > Bönen är hjärtats föda liksom maten är kroppens föda. Och eftersom kroppen inte får någon näring av en smula mat, får hjärtat ingen näring av en bön som hackas fram – det krävs en fullgången bön för att hjärtan ska mättas.
 
@@ -79,7 +79,7 @@ Den som jäktar genom rörelserna har därför inte förrättat bönen fullt ut.
 
 ## Vad reciterar man i bönen?
 
-Kärnan i recitationen är al-Fātiha, Koranens öppningskapitel, som inleds "Lov och pris tillkommer Gud, världarnas Herre" (Koranen 1:2). Kapitlets sju verser rymmer lovprisning av Gud och en bön om vägledning på den raka vägen; de läses i sin helhet i varje enda rakaʿa. I Fajr och i kvällsbönernas första rakaʿāt sker recitationen högt, i Dhuhr och Asr tyst.
+Kärnan i recitationen är al-Fātiha, Koranens öppningskapitel, som inleds "Lov och pris tillkommer Gud, världarnas Herre" (Koranen 1:2). Kapitlets sju verser innehåller lovprisning av Gud och en bön om vägledning på den raka vägen, och de läses i sin helhet i varje rakaʿa. I Fajr och i kvällsbönernas första rakaʿāt sker recitationen högt, i Dhuhr och Asr tyst.
 
 I bugningen upprepas *subhāna rabbiya al-ʿazīm* ("ära åt min Herre, den Väldige") och i nedfallandet *subhāna rabbiya al-aʿlā* ("ära åt min Herre, den Högste"). I den avslutande sittställningen läses *tashahhud*, som innehåller trosbekännelsen att ingen har rätt att dyrkas utom Gud och att Muhammed är hans sändebud, följd av bönen om välsignelse över profeten och hans familj. Om al-Fātihas ställning lämnade profeten Muhammed inget tvivel: "Den som inte läser Bokens öppning har ingen bön" (Sahīh al-Bukhārī 756).
 
@@ -90,7 +90,7 @@ Islam föreskriver fem obligatoriska (*fard*) böner per dygn, var och en knuten
 > Bönen är alla troendes plikt, knuten till bestämda tider.
 > — Koranen 4:103
 
-Det ger sammanlagt sjutton obligatoriska rakaʿāt: Fajr i gryningen (2), Dhuhr efter middagshöjd (4), Asr på eftermiddagen (4), Maghrib strax efter solnedgången (3) och Isha på natten (4). Tiderna styrs av solens gång och skiftar över året och med platsen; därför räknas bönetabeller ut lokalt. Den som är på resa får korta bönerna med fyra rakaʿāt till två. Utöver de fem finns frivilliga böner (*nawāfil*), bland dem *witr* som avslutar natten och de regelbundna *sunna*-bönerna kring de föreskrivna, men de fem är pliktens kärna.
+Det ger sammanlagt sjutton obligatoriska rakaʿāt: Fajr i gryningen (2), Dhuhr efter middagshöjd (4), Asr på eftermiddagen (4), Maghrib strax efter solnedgången (3) och Isha på natten (4). Eftersom tiderna följer solen skiftar de med årstid och ort, och bönetabeller räknas ut lokalt. Den som är på resa får korta bönerna med fyra rakaʿāt till två. Utöver de fem finns frivilliga böner (*nawāfil*), bland dem *witr* som avslutar natten och de regelbundna *sunna*-bönerna före och efter de föreskrivna.
 
 ```chart
 type: line
@@ -121,4 +121,4 @@ Bönens form går tillbaka på profeten Muhammed själv. När han undervisade si
 > Jag är Gud; ingen gudom finns utom Jag. Dyrka Mig därför och förrätta bönen för att minnas Mig!
 > — Koranen 20:14
 
-Bönen är alltså inte i första hand en begäran om något, utan *dhikr*: att minnas Gud och ställa sig inför honom med hela kroppen. Någon präst eller mellanhand finns inte; varje muslim förrättar bönen på samma sätt och står själv inför sin Herre. Den som inte kan stå ber sittande, och den som inte kan sitta ber liggande; formen anpassas efter förmågan.
+Bönen är alltså inte i första hand en begäran om något, utan *dhikr*: att minnas Gud och ställa sig inför honom med hela kroppen. Någon präst eller mellanhand finns inte; varje muslim förrättar bönen på samma sätt och står själv inför sin Herre. Formen anpassas efter förmågan: kan man inte stå ber man sittande, och kan man inte sitta ber man liggande.

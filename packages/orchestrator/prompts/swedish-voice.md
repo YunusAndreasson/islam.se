@@ -317,7 +317,25 @@ Detta är den enda granskning som fångar fel på ordnivå. Läs som en infödd 
 - "navigera" abstrakt: "navigera komplexiteten" → "hantera", "finna sig till rätta i"
 - "verktyg" abstrakt: "verktyg för självinsikt" → "medel för", "väg till"
 
-**Räkna med 3–12 ingrepp på ordnivå per artikel. Flagga bara vad du är säker på är fel eller onaturligt.**
+#### Kollokationer — svenska ord i kombinationer svenskan inte gör
+Det vanligaste felet i hela korpusen (≈100 ingrepp på 18 sidor i september 2026, när varje
+mekanisk kontroll redan var grön). Varje ord är rätt; kombinationen är det inte.
+- **Abstrakt subjekt, fysiskt verb.** En abstraktion kan inte *bära*, *vila*, *hålla* eller
+  *spräcka*: "ett begrepp bär hela rättsfrågan" → "rättsfrågan hänger på begreppet";
+  "skolorna bär tolkningen" → "skolorna förvaltar tolkningen"; "tillåtelsen vilar på att" →
+  "tillåtelsen förutsätter att"; "formeln håller" → "formeln räcker".
+- **Idiom med fel subjekt.** "säga rakt ut" kräver en människa som övervinner ett motstånd; ett
+  förord eller en tradition gör det inte. Använd aldrig "rakt ut" i sajtens egen prosa.
+- **Engelska verbramar.** "de lärda har hållit att" (*hold that*) → "ansett att"; "vilket är
+  varför" (*which is why*) → "därför"; "handlar på den" (*act on*) → "handlar efter den";
+  "levererade av" (*delivered by*) → "från"; "med en faktor sju" → "sju gånger så".
+- **Metameningar** som bara meddelar att ett påstående kommer: "Skillnaden är inte akademisk",
+  "Det sista är ingen bisak", "Invändningen förtjänar att återges", "…än det låter". Test: stryk
+  meningen — försvann inget, var den meta. De sitter nästan alltid först eller sist i stycket.
+- **Sammanfattning med "alltså"** som upprepar vad stycket just sagt ("Sveriges mest kända moské
+  är alltså…"). Stryk den; stycket slutar redan på sitt sista faktum.
+
+**Räkna med 3–12 ingrepp på ordnivå per artikel. Flagga bara vad du är säker på är fel eller onaturligt.** En referenssida på 5 000 ord ger erfarenhetsmässigt 30–50.
 
 ### 18. Mätbara AI-mönster — räkna och begränsa
 

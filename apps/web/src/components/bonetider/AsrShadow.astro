@@ -78,7 +78,7 @@ const noonText = shadow.noonRatio.toFixed(1).replace(".", ",");
 const gapMin = Math.round((hanafi.asr.getTime() - shafi.asr.getTime()) / 60_000);
 // The caption's factual sentences come from the same numbers the figure is drawn from,
 // so they cannot disagree with it. The page adds context through the slot.
-const caption = `Ett upprätt föremål i ${location.name} vid ${dateLabel}. Redan vid middag är skuggan ${noonText} gånger så lång som föremålet, så regeln räknar från middagsskuggan (fayʾ az-zawāl) och inte från noll. De två tiderna skiljer sig här med ${gapMin} minuter.`;
+const caption = `Ett upprätt föremål i ${location.name} vid ${dateLabel}. Redan vid middag är skuggan ${noonText} gånger så lång som föremålet, så regeln räknar från middagsskuggan (fayʾ az-zawāl) och inte från noll. Här skiljer sig de två tiderna ${gapMin} minuter åt.`;
 const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabel}. Ett upprätt föremål kastar vid middag en skugga som är ${noonText} gånger dess egen längd. När skuggan har vuxit med ytterligare en föremålslängd börjar ʿAṣr enligt shafiiter, malikiter och hanbaliter, klockan ${formatTime(shafi.asr)}; när den vuxit med två föremålslängder börjar ʿAṣr enligt hanafiter, klockan ${formatTime(hanafi.asr)}.`;
 ---
 

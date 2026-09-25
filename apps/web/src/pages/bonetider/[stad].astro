@@ -14,13 +14,13 @@ import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
-import { nf0, nf1 } from "../../lib/format";
+import { genitive, nf0, nf1 } from "../../lib/format";
 import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
 import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION, searchTitlePlace } from "../../lib/bonetider/places-index";
 import { computePrayerTimes, formatTime, stockholmMonthLabel } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
-import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
+import { cityBySlug, directionsLinks, lanDisplay, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 import { hijriLabel } from "../../lib/markesdagar";
 import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ramadan";
 import { prayerPageCacheKey } from "../../lib/bonetider/build-cache";
@@ -163,7 +163,7 @@ const placeFactRows = [
 	place.county ? { term: "Län", value: place.county } : null,
 	place.landAreaKm2 != null ? { term: "Landareal", value: `${nf1.format(place.landAreaKm2)} km²` } : null,
 	place.densityPerKm2 != null ? { term: "Befolkningstäthet", value: `${nf0.format(place.densityPerKm2)} inv./km²` } : null,
-	place.scbRank != null ? { term: "Storleksrang", value: `Sveriges ${ordinal(place.scbRank)} största tätort` } : null,
+	place.scbRank != null ? { term: "Storleksrang", value: `Sveriges ${sizeRank(place.scbRank)} tätort` } : null,
 	{ term: "Koordinater", value: `${lat1}° N, ${lon1}° O` },
 ].filter((row): row is { term: string; value: string; note?: string } => row !== null);
 
@@ -186,12 +186,19 @@ function ordinal(n: number): string {
 	return `${n}${suffix}`;
 }
 
+/** "största", "näst största", "3:e största" — never "1:a största". */
+function sizeRank(n: number): string {
+	if (n === 1) return "största";
+	if (n === 2) return "näst största";
+	return `${ordinal(n)} största`;
+}
+
 
 // Per-place daylight prose – what actually makes each page different by latitude.
 const daylightPara =
 	facts.midnightSun || facts.polarNight
 		? `Så här långt norrut råder midnattssol kring midsommar – solen går inte ner alls – och polarnatt kring midvinter. Då går Fajr och ʿIshāʾ inte att beräkna med den vanliga vinkelmetoden, så regeln närmaste lämpliga plats (Aqrab al-Balad) används i stället.`
-		: `I ${place.name} är den ljusaste sommardagen omkring ${facts.summerDayText} och den mörkaste vinterdagen ${facts.winterDayText}. Vid sommarsolståndet sjunker solen som mest ${depText}° under horisonten – mindre än de 18° som krävs för astronomisk natt – vilket är varför Fajr och ʿIshāʾ ligger nära varandra i juni och beräknas med regeln för höga latituder.`;
+		: `I ${place.name} är den ljusaste sommardagen omkring ${facts.summerDayText} och den mörkaste vinterdagen ${facts.winterDayText}. Vid sommarsolståndet sjunker solen som mest ${depText}° under horisonten – mindre än de 18° som krävs för astronomisk natt. Därför ligger Fajr och ʿIshāʾ nära varandra i juni och beräknas med regeln för höga latituder.`;
 
 // Meta description: front-load the prayer keywords, then close with either the mosque
 // cross-sell (towns with a moské page) or the method CTA (everywhere else). Both stay
@@ -275,11 +282,11 @@ const faq = [
 		: []),
 	{
 		q: `När börjar Fajr i ${place.name}?`,
-		a: `Fajr är dagens första bön och inträder vid gryningen, strax före soluppgången (Shurūq). Dygnets längd i ${place.name} svänger kraftigt över året – kring midsommar ${midsummerDesc}, kring midvinter ${midwinterDesc} – så Fajr-tiden varierar mycket mellan sommar och vinter. Den exakta tiden räknas om automatiskt varje dygn och står högst upp under Dagens bönetider.`,
+		a: `Fajr är dagens första bön och inträder vid gryningen, strax före soluppgången (Shurūq). Dagens längd i ${place.name} skiftar kraftigt över året – kring midsommar ${midsummerDesc}, kring midvinter ${midwinterDesc} – så Fajr-tiden varierar mycket mellan sommar och vinter. Den exakta tiden räknas om automatiskt varje dygn och står högst upp under Dagens bönetider.`,
 	},
 	{
 		q: `När är Maghrib i ${place.name}?`,
-		a: `Maghrib är bönen direkt efter solnedgången och tiden då fastan bryts under ramadan. Tiden följer solnedgången och skiftar dag för dag – på ${place.name}s breddgrad (${lat1}° N) infaller den sent på kvällen kring midsommar och tidigt på eftermiddagen mitt i vintern. Aktuell Maghrib-tid för ${place.name} visas i listan över dagens bönetider ovan.`,
+		a: `Maghrib är bönen direkt efter solnedgången och tiden då fastan bryts under ramadan. Tiden följer solnedgången och skiftar dag för dag – på ${genitive(place.name)} breddgrad (${lat1}° N) infaller den sent på kvällen kring midsommar och tidigt på eftermiddagen mitt i vintern. Aktuell Maghrib-tid för ${place.name} visas i listan över dagens bönetider ovan.`,
 	},
 	{
 		q: `Varför ligger Fajr och ʿIshāʾ nära varandra på sommaren i ${place.name}?`,
@@ -307,7 +314,7 @@ if (hasMosquePage) {
 if (ramadan && ramadanTider) {
 	faq.push({
 		q: `När är ramadan ${ramadan.year} i ${place.name}?`,
-		a: `Ramadan ${ramadan.hijriYear} e.H. infaller ${ramadanSpan} enligt Umm al-Qura-kalendern. Första fastedagen i ${place.name} börjar suhūr-gränsen (Fajr) ${ramadanTider.first.suhur} och fastan bryts (Maghrib) ${ramadanTider.first.iftar}; sista dagen ${ramadanTider.last.suhur} respektive ${ramadanTider.last.iftar}. Den exakta första dagen bekräftas genom månsiktning och kan skilja sig en dag.`,
+		a: `Ramadan ${ramadan.hijriYear} e.H. infaller ${ramadanSpan} enligt Umm al-Qura-kalendern. Första fastedagen i ${place.name} slutar suhūr vid Fajr ${ramadanTider.first.suhur} och fastan bryts vid Maghrib ${ramadanTider.first.iftar}; sista dagen ${ramadanTider.last.suhur} respektive ${ramadanTider.last.iftar}. Den exakta första dagen bekräftas genom månsiktning och kan skilja sig en dag.`,
 	});
 	faq.push({
 		q: `Vilken tid är iftar i ${place.name} under ramadan ${ramadan.year}?`,
@@ -315,7 +322,7 @@ if (ramadan && ramadanTider) {
 	});
 	faq.push({
 		q: `Hur lång är fastan i ${place.name} under ramadan ${ramadan.year}?`,
-		a: `Från Fajr till Maghrib blir fastan ${ramadanTider.first.length} första dagen och ${ramadanTider.last.length} den sista. Eftersom ramadan ${ramadan.year} infaller på vinterhalvåret är fastan kortare ju längre norrut man kommer – tvärtemot sommarens ljusa dygn, då förhållandet är det omvända.`,
+		a: `Från Fajr till Maghrib blir fastan ${ramadanTider.first.length} första dagen och ${ramadanTider.last.length} den sista. Eftersom ramadan ${ramadan.year} infaller på vinterhalvåret är fastan kortare ju längre norrut man kommer. På sommaren är förhållandet det omvända.`,
 	});
 }
 if (hasScb) {
@@ -538,7 +545,7 @@ if (hasScb) {
 		<TitledSection class="bt-stad-section bt-prose" id="bt-stad-about" title={`Om bönetiderna i ${place.name}`}>
 			{/* The map moved to the top of the page — this prose keeps every word it had. */}
 			<p>
-				{place.name} ligger {place.county ? `i ${place.county}, ` : ""}på {lat1}° nordlig bredd.
+				{place.name} ligger {place.county ? `i ${lanDisplay(place.county)}, ` : ""}på {lat1}° nordlig bredd.
 				Bönetiderna beräknas utifrån solens verkliga läge för just denna position – inte från en
 				tabell – så att de stämmer med dygnet på orten.
 			</p>

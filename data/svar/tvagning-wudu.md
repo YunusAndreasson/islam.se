@@ -20,7 +20,7 @@ faq:
   - q: "Räcker det att tvätta varje kroppsdel en gång?"
     a: "Ja, en gång är obligatoriskt och fullt giltigt. Att upprepa tvättningen tre gånger är sunna, alltså en förtjänst men inte ett krav."
   - q: "Bryter det tvagningen att röra vid sin fru?"
-    a: "Rättsskolorna är oense. Hanafi-skolan säger nej, maliki och hanbali bryter tvagningen först om beröringen sker med begär, och shafii-skolan att beröringen i sig räcker. Ibn Taymiyya läser lamastum i Koranen 5:6 som samlag och håller att beröring inte bryter wudu."
+    a: "Rättsskolorna är oense. Hanafi-skolan säger nej. Enligt maliki och hanbali bryts tvagningen bara om beröringen sker med begär, och enligt shafii-skolan räcker beröringen i sig. Ibn Taymiyya läser lamastum i Koranen 5:6 som samlag och anser att beröring inte bryter wudu."
   - q: "Vad gör man om det inte finns vatten?"
     a: "Då utförs tayammum, en torr rening där man stryker händerna mot ren mark och sedan över ansikte och händer, enligt Koranen 5:6."
 sources:
@@ -42,11 +42,11 @@ related:
   - "vad-ar-sunna"
 ---
 
-**Wudu är den rituella tvättningen med rent vatten som föregår bönen: man tvättar ansiktet, armarna upp till och med armbågarna, stryker över huvudet och tvättar fötterna upp till anklarna – och den bryts av allt som lämnar kroppen framifrån eller bakifrån, av djup sömn och av att medvetandet släcks.**
+**Wudu är den rituella tvättningen med rent vatten som föregår bönen: man tvättar ansiktet, armarna upp till och med armbågarna, stryker över huvudet och tvättar fötterna upp till anklarna – och den bryts av allt som lämnar kroppen framifrån eller bakifrån, av djup sömn och annan medvetslöshet.**
 
 ## Vad är wudu och varför behövs den?
 
-*Wudu* utförs för att häva det mindre orenhetstillståndet *hadath* och göra muslimen redo för bönen. Den hör till läran om *tahāra* (renhet), som i klassisk islam är själva nyckeln till bönen: ingen *salāh* godtas utan giltig rening. Reningen är därför inget hygienpåbud utan ett villkor för att få träda fram inför Gud, och eftersom muslimen ber fem gånger om dygnet återkommer den som en daglig rytm. Att ställa sig ren inför sin Herre är *tawhīd* omsatt i handling – hela kroppen, inte bara tungan, böjs i Guds tjänst. Utan wudu finns ingen bön; reningen är inte förberedelsen inför tillbedjan utan dess första handling.
+*Wudu* utförs för att häva det mindre orenhetstillståndet *hadath* och göra muslimen redo för bönen. Den hör till läran om *tahāra* (renhet), som i klassisk islam är själva nyckeln till bönen: ingen *salāh* godtas utan giltig rening. Reningen är därför inget hygienpåbud utan ett villkor för att få träda fram inför Gud, och eftersom muslimen ber fem gånger om dygnet hör den till vardagen. Att ställa sig ren inför sin Herre är *tawhīd* omsatt i handling: hela kroppen, inte bara tungan, tas i Guds tjänst.
 
 ## Hur gör man wudu steg för steg?
 
@@ -64,11 +64,11 @@ Grunden är Koranen 5:6:
 > TROENDE! När ni går till bön, två då ansikte och händer samt armarna upp till armbågarna och stryk med [de våta] händerna över huvudet och [två] fötterna upp till fotknölarna.
 > — Koranen 5:6
 
-Profetens egen tvagning beskrevs av följeslagaren *Uthmān ibn ʿAffān* (Sahīh al-Bukhārī 159), som lät hämta vatten och visade, kroppsdel för kroppsdel, hur var och en tvättades tre gånger. Hela tvagningen tar knappt en minut och har inte ändrats på fjorton sekler: muslimen som öppnar kranen i dag upprepar de rörelser Uthmān visade vid profetens sida.
+Profetens egen tvagning beskrevs av följeslagaren *Uthmān ibn ʿAffān* (Sahīh al-Bukhārī 159), som lät hämta vatten och visade, kroppsdel för kroppsdel, hur var och en tvättades tre gånger. Hela tvagningen tar knappt en minut, och den görs i dag med samma rörelser som Uthmān visade.
 
 ## Vilka moment är obligatoriska och vilka rekommenderade?
 
-Här skiljer de lärda mellan det obligatoriska (*fard*) och det rekommenderade (*sunna*). Fyra tvättmoment är obligatoriska och hämtade direkt ur Koranen 5:6: att tvätta **ansiktet**, **armarna upp till armbågarna**, att **stryka över huvudet** (öronen räknas till huvudet) och att tvätta **fötterna upp till anklarna**. Till detta hör att hålla ordningen och utföra momenten i en följd utan långa avbrott. Allt övrigt är sunna: att säga *bismillāh*, tvätta händerna först, skölja mun och näsa, börja från höger och upprepa varje tvättning tre gånger. Därför är en enda tvättning av varje obligatorisk del fullt giltig – de tre gångerna skiljer inte rätt tvagning från fel, utan den goda från den fulländade.
+Här skiljer de lärda mellan det obligatoriska (*fard*) och det rekommenderade (*sunna*). Fyra tvättmoment är obligatoriska och hämtade direkt ur Koranen 5:6: att tvätta **ansiktet**, **armarna upp till armbågarna**, att **stryka över huvudet** (öronen räknas till huvudet) och att tvätta **fötterna upp till anklarna**. Till detta hör att hålla ordningen och utföra momenten i en följd utan långa avbrott. Allt övrigt är sunna: att säga *bismillāh*, tvätta händerna först, skölja mun och näsa, börja från höger och upprepa varje tvättning tre gånger. Därför är en enda tvättning av varje obligatorisk del fullt giltig, medan tre gånger är det fulländade sättet.
 
 ## Vad bryter tvagningen?
 
@@ -78,8 +78,8 @@ Tvagningen upphävs av sådant som lämnar kroppen och av att medvetandet släck
 - att förlora medvetandet, vare sig genom djup sömn, svimning, berusning eller sjukdom,
 - att äta kamelkött: på frågan om man måste tvätta sig på nytt efter kamelkött svarade profeten kort "Ja" (Sahīh Muslim 360, berättat av *Jābir ibn Samura*).
 
-Om beröring av en kvinna bryter tvagningen är däremot en klassisk tvistefråga, och den avgörs av hur ordet *lāmastum* i Koranen 5:6 läses. *Hanafī*-skolan håller att beröring inte bryter wudu alls. *Mālikī*- och *hanbalī*-skolorna bryter den vid beröring **med begär**, men inte annars. *Shāfiʿī*-skolan menar att beröringen i sig räcker, med eller utan begär. Ibn Taymiyya läser *lāmastum* som samlag och håller därför att beröring inte bryter tvagningen. Att ta sin hustru i handen bryter alltså ingen wudu enligt tre av de fyra skolorna – förutsatt att det sker utan begär. Den som är osäker på om reningen brutits utgår från att den består: en visshet som en gång vunnits rivs inte av ett senare tvivel.
+Om beröring av en kvinna bryter tvagningen är däremot en klassisk tvistefråga, och den avgörs av hur ordet *lāmastum* i Koranen 5:6 läses. *Hanafī*-skolan anser att beröring inte bryter wudu alls. Enligt *mālikī*- och *hanbalī*-skolorna bryts den vid beröring **med begär**, men inte annars. *Shāfiʿī*-skolan menar att beröringen i sig räcker, med eller utan begär. Ibn Taymiyya läser *lāmastum* som samlag och drar därför slutsatsen att beröring inte bryter tvagningen. Att ta sin hustru i handen bryter alltså ingen wudu enligt tre av de fyra skolorna – förutsatt att det sker utan begär. Den som är osäker på om reningen brutits utgår från att den består, eftersom en visshet inte upphävs av ett senare tvivel.
 
 ## Måste man göra ny tvagning inför varje bön?
 
-Nej. En giltig wudu håller tills något bryter den, och på en enda tvagning kan muslimen be flera böner i rad. Vid större orenhet (*janāba*), efter samlag, utlösning eller avslutad menstruation, räcker inte wudu: hela kroppen tvättas i *ghusl*. Och saknas vatten, eller kan det inte användas, föreskriver samma vers i stället *tayammum*: en torr rening där man stryker rena händer mot ren mark och sedan över ansikte och händer. Koranen 5:6 slutar med att Gud vill rena de troende, inte lägga bördor på dem – därför får en bön aldrig falla på att vattnet var slut.
+Nej. En giltig wudu gäller tills något bryter den, och på en enda tvagning kan muslimen be flera böner i rad. Vid större orenhet räcker inte wudu. Efter samlag eller utlösning (*janāba*) och efter avslutad menstruation tvättas hela kroppen i *ghusl*. Och saknas vatten, eller kan det inte användas, föreskriver samma vers i stället *tayammum*: en torr rening där man stryker rena händer mot ren mark och sedan över ansikte och händer. Koranen 5:6 slutar med att Gud vill rena de troende, inte lägga bördor på dem – därför får en bön aldrig falla på att vattnet var slut.

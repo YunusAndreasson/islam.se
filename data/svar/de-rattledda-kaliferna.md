@@ -14,11 +14,11 @@ faq:
   - q: "Vilken var den första kalifen i islam?"
     a: "Abu Bakr as-Siddiq, profeten Muhammeds nära vän, valdes till förste kalif år 632 och styrde till sin död 634."
   - q: "Hur länge varade de rättledda kalifernas tid?"
-    a: "Knappt trettio år, från Abu Bakrs val 632 till Ali ibn Abi Talibs död 661. Därefter övergick kalifatet till Umayyad-dynastins ärftliga kungadöme."
+    a: "Knappt trettio år, från Abu Bakrs val 632 till Ali ibn Abi Talibs död 661. Därefter övergick kalifatet till umayyadernas ärftliga kungadöme."
   - q: "Varför kallas kaliferna 'rättledda'?"
     a: "Därför att profeten enligt en autentisk hadith (Sunan Abī Dāwūd 4607) befallde muslimerna att följa 'de rättledda kalifernas sunna'. Deras föredöme har därför särskild auktoritet."
   - q: "Räknar shiamuslimer de fyra som rättledda kalifer?"
-    a: "Nej. Shia anser att Ali var den rättmätige efterträdaren direkt efter profeten och erkänner inte de tre första kalifernas legitimitet på samma sätt."
+    a: "Nej. Shia anser att Ali var den rättmätige efterträdaren direkt efter profeten och underkänner de tre första kaliferna. Ahl as-sunna avvisar detta: ingen autentisk text utser Ali till efterträdare, och Ali gav själv Abu Bakr sin trohetsed."
   - q: "Hur dog de fyra kaliferna?"
     a: "Abu Bakr dog av sjukdom; Umar, Uthman och Ali mördades alla tre – Umar 644, Uthman 656 och Ali 661."
 sources:
@@ -43,7 +43,7 @@ related:
   - "vad-ar-sunna"
 ---
 
-**De fyra rättledda kaliferna var Abu Bakr, Umar ibn al-Khattab, Uthman ibn Affan och Ali ibn Abi Talib** – de fyra följeslagare som efter profeten Muhammeds död ledde det muslimska samfundet (*umma*) från Medina åren 632–661. Tillsammans kallas de *al-khulafāʾ ar-rāshidūn*, "de rättledda kaliferna", och deras knappt trettio år räknas i klassisk islam som efterföljelsens renaste epok.
+**De fyra rättledda kaliferna var Abu Bakr, Umar ibn al-Khattab, Uthman ibn Affan och Ali ibn Abi Talib** – de fyra följeslagare som efter profeten Muhammeds död ledde det muslimska samfundet (*umma*) åren 632–661. Tillsammans kallas de *al-khulafāʾ ar-rāshidūn*, "de rättledda kaliferna", och deras knappt trettio år räknas i klassisk islam som den mest förebildliga tiden efter profetens egen.
 
 ## Vad är en kalif – och varför kallas just dessa fyra "rättledda"?
 
@@ -52,11 +52,11 @@ Ordet *kalif* kommer av arabiskans *khalīfa*, "efterträdare" eller "ställför
 > Gud har lovat dem bland er som tror och lever rättskaffens att Han skall göra dem till ställföreträdare på jorden – liksom Han gjorde dem till Sina ställföreträdare som levde före dem – och ge fasthet och styrka åt den religion som Han har godkänt för dem, och att Han i stället för den fruktan som de förut levde under skall skänka dem trygghet – [på villkor att] de ägnar Mig sin dyrkan och inte sätter något vid Min sida.
 > — Koranen 24:55
 
-Löftet är villkorat: makten tillfaller dem som dyrkar Gud allena utan att sätta något vid Hans sida: *tawhīd* är alltså kalifatets grundval, inte bara dess fromma ram. Att just dessa fyra dessutom kallas *rättledda* vilar på en hadith från följeslagaren Irbad ibn Sariya, där profeten förmanade de troende att hålla fast "vid min *sunna* och de rättledda, vägledda kalifernas sunna" (Sunan Abī Dāwūd 4607; Jāmiʿ at-Tirmidhī 2676, bedömd som autentisk av al-Albani). Att de var *rättledda* är därför ingen eftervärldens hyllning – det är profetens egen anvisning om vem man ska följa när han själv är borta.
+Löftet är villkorat: makten tillfaller dem som dyrkar Gud allena utan att sätta något vid hans sida. *Tawhīd* är alltså kalifatets grundval. Att just dessa fyra dessutom kallas *rättledda* bygger på en hadith från följeslagaren Irbad ibn Sariya, där profeten förmanade de troende att hålla fast "vid min *sunna* och de rättledda, vägledda kalifernas sunna" (Sunan Abī Dāwūd 4607; Jāmiʿ at-Tirmidhī 2676, bedömd som autentisk av al-Albani). Namnet går tillbaka på profetens egen anvisning om vem man ska följa när han själv är borta.
 
 ## Vilka var de fyra – och hur länge styrde var och en?
 
-**Abu Bakr** (632–634) höll samman umman genom *ridda*-upproren och lät påbörja insamlingen av Koranen i skrift. **Umar ibn al-Khattab** (634–644) ledde de stora erövringarna, då Egypten, Persien och stora delar av Levanten kom under muslimskt styre, och byggde en förvaltning med register, domare och den islamiska *hijrī*-kalendern. **Uthman ibn Affan** (644–656) lät sammanställa en enhetlig text av Koranen, den standardiserade *mushaf* som hela den muslimska världen läser i dag. **Ali ibn Abi Talib** (656–661) styrde under den första *fitnan*, det inbördeskrig som skakade samfundet inifrån. Tillsammans omfattade deras tid drygt 29 år. Tre av de fyra mördades – Umar, Uthman och Ali. Ledarskapet i tidig islam var ingen värdighet man bekläddes med, utan en post man dog på.
+**Abu Bakr** (632–634) höll samman umman under *ridda*-upproren och lät påbörja insamlingen av Koranen i skrift. **Umar ibn al-Khattab** (634–644) ledde de stora erövringarna, då Egypten, Persien och stora delar av Levanten kom under muslimskt styre, och byggde upp en förvaltning med register, domare och den islamiska *hijrī*-kalendern. **Uthman ibn Affan** (644–656) lät sammanställa en enhetlig text av Koranen, den standardiserade *mushaf* som hela den muslimska världen läser i dag. **Ali ibn Abi Talib** (656–661) styrde under den första *fitnan*, det inbördeskrig som skakade samfundet inifrån. Tillsammans omfattade deras tid drygt 29 år. Tre av de fyra mördades: Umar, Uthman och Ali.
 
 ```chart
 type: bars
@@ -73,8 +73,8 @@ data:
 
 ## Varför rankas de i ordningen Abu Bakr, Umar, Uthman, Ali?
 
-Ordningsföljden återspeglar deras rang, inte bara kronologin. Följeslagaren Ibn Umar berättade: "Vi brukade under profetens livstid räkna Abu Bakr som den främste, därefter Umar och därefter Uthman" (Sahīh al-Bukhārī 3655). Att Abu Bakr stod först bekräftades av att profeten under sin sista sjukdom befallde honom att leda bönen i hans ställe; när andra namn fördes på tal sade profeten att "Gud och de troende vägrar någon annan än Abu Bakr" (Sahīh al-Bukhārī 7217). Ali själv varnade skarpt dem som ville lyfta honom över Abu Bakr och Umar. Rangordningen uttalades alltså öppet medan följeslagarna ännu levde – och högst av alla bekräftades den av Ali.
+Ordningsföljden är också en rangordning. Följeslagaren Ibn Umar berättade: "Vi brukade under profetens livstid räkna Abu Bakr som den främste, därefter Umar och därefter Uthman" (Sahīh al-Bukhārī 3655). Att Abu Bakr stod först bekräftades av att profeten under sin sista sjukdom befallde honom att leda bönen i hans ställe. När andra namn fördes på tal sade profeten att "Gud och de troende vägrar någon annan än Abu Bakr" (Sahīh al-Bukhārī 7217). Ali själv varnade dem som ville lyfta honom över Abu Bakr och Umar.
 
 ## Varför ser shiamuslimer annorlunda på kaliferna?
 
-Skillnaden gäller successionen. Shia menar att profeten vid Ghadir Khumm utpekade Ali som sin omedelbara efterträdare, och betraktar därför de tre första kaliferna som orättmätiga. Den klassiska hållningen, formulerad av lärda som Ibn Baz, avvisar detta: det finns ingen autentisk text där profeten utser Ali, utan följeslagarna valde Abu Bakr genom samråd (*shūrā*), ett val Ali till sist själv slöt upp bakom och tjänade under. Inför striderna under *fitnan* och tvisterna följeslagarna emellan avhåller sig *ahl as-sunna* från att fördöma; man ber i stället om Guds nåd över dem alla. För *ahl as-sunna* är de fyra inte rivaler att välja mellan, utan en enda obruten kedja – att älska den ene är att hedra de tre andra.
+Skillnaden gäller successionen, och därmed imamatet och synen på följeslagarna, som är trosfrågor. Shia menar att profeten vid Ghadir Khumm utsåg Ali som sin omedelbara efterträdare, och betraktar därför de tre första kaliferna som orättmätiga. Den klassiska hållningen, företrädd av lärda som Ibn Baz, avvisar detta: vid Ghadir Khumm manade profeten till kärlek och lojalitet mot Ali (*mawlā*), men ingen autentisk text utser honom till efterträdare, och följeslagarna valde Abu Bakr genom samråd (*shūrā*). Ali ställde sig till sist själv bakom valet och tjänade under Abu Bakr. I fråga om striderna under *fitnan* och tvisterna mellan följeslagarna avstår *ahl as-sunna* från att fördöma någon av dem och ber i stället om Guds nåd över dem alla. För *ahl as-sunna* är de fyra inte rivaler att välja mellan, utan en enda obruten kedja – att älska den ene är att hedra de tre andra.

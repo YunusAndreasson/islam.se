@@ -18,7 +18,7 @@ faq:
   - q: "Kan en muslim vara sekulär?"
     a: "En muslim kan leva lojalt i ett sekulärt samhälle, men islam erkänner ingen uppdelning mellan heligt och världsligt: den troende underkastar sig Guds vägledning även i lag och samhälle."
   - q: "Är deism och sekularism former av otro?"
-    a: "Båda förnekar väsentliga delar av tawhīd – deismen förkastar uppenbarelse och profetskap, sekularismen Guds rätt att stifta lag. Klassiska lärde betraktar ett avvisande av detta som ett brott mot tron på Guds enhet."
+    a: "Båda förnekar väsentliga delar av tawhīd – deismen förkastar uppenbarelse och profetskap, sekularismen Guds rätt att stifta lag. Klassiska lärda betraktar ett avvisande av detta som ett brott mot tron på Guds enhet."
   - q: "Tror islam att Gud ingriper i världen?"
     a: "Ja. Till skillnad från deismens avlägsna urmakargud är Gud al-Qayyūm, den som ständigt uppehåller skapelsen, sänder budbärare och besvarar bön."
   - q: "Skiljer sig islams syn på sekularism från kristendomens?"
@@ -49,7 +49,7 @@ essays:
 
 ## Vad är deism och sekularism?
 
-Deism är tron, byggd enbart på det mänskliga förnuftet, på en gud som skapade världen men sedan inte ingriper i den, en avlägsen "urmakargud" som varken sänder uppenbarelse, gör under, reser profeter eller besvarar bön. Idén hör hemma i 1600- och 1700-talets Europa; Lord Herbert of Cherbury, vars *De Veritate* utkom 1624, brukar kallas den engelska deismens fader. Sekularism är något annat: principen att religionen ska hållas åtskild från statens och det gemensamma livets angelägenheter. Ordet myntades av den brittiske fritänkaren George Holyoake 1851. Deismen handlar om Gud, sekularismen om samhället. I grunden gör de ändå samma sak: de upphöjer människans eget förnuft till högsta domare, över både himmel och lagbok.
+Deism är tron på en gud som skapade världen men sedan inte ingriper i den, en avlägsen "urmakargud" som varken ger uppenbarelse, sänder profeter, gör under eller besvarar bön. Den tron bygger enbart på det mänskliga förnuftet. Idén hör hemma i 1600- och 1700-talets Europa, och Lord Herbert of Cherbury, vars *De Veritate* utkom 1624, brukar kallas den engelska deismens fader. Sekularism är något annat: principen att religionen ska hållas åtskild från statens och det gemensamma livets angelägenheter. Ordet myntades av den brittiske fritänkaren George Holyoake 1851. Deismen handlar om Gud, sekularismen om samhället. I grunden gör de ändå samma sak: de upphöjer människans eget förnuft till högsta domare.
 
 ## Varför förkastar islam deismen?
 
@@ -58,28 +58,28 @@ Deisten erkänner att en skapare finns, och i islamisk terminologi är detta *ta
 > Och om du frågar människorna: "Vem har skapat himlarna och jorden?" – svarar de helt visst: "Gud."
 > — Koranen 39:38
 
-Ändå kallar Koranen dem inte troende. Den klassiska läran, så som den formulerats av bland andra Ibn Taymiyya, skiljer herraväldets enhet från dyrkans enhet (*tawhīd al-ulūhiyya*), och det var i den senare som avgudadyrkarna gick vilse: de vägrade rikta sin dyrkan till Gud ensam. Deistens gud är, sedd genom Koranen, ingen annan än den som Quraysh redan bekände, och deras bekännelse gjorde dem aldrig till troende.
+Ändå kallar Koranen dem inte troende. Den klassiska läran, så som den formulerats av bland andra Ibn Taymiyya, skiljer herraväldets enhet från dyrkans enhet (*tawhīd al-ulūhiyya*), och det var i den senare som avgudadyrkarna gick vilse: de vägrade rikta sin dyrkan till Gud ensam. Deistens gud är i Koranens perspektiv ingen annan än den som Quraysh redan bekände.
 
 ## Vad säger islam om sekularism?
 
-I islam finns ingen skiljelinje mellan det heliga och det världsliga: *dīn*, tron, rymmer lika mycket bön och övertygelse som lag, handel och styre. Att lyfta ut Guds vägledning ur det offentliga och låta enbart mänskliga lagar råda krockar med grundsatsen att rätten att avgöra vad som är tillåtet och förbjudet tillhör Gud:
+I islam finns ingen skiljelinje mellan det heliga och det världsliga: *dīn*, tron, rymmer lika mycket bön och övertygelse som lag, handel och styre. Att lyfta ut Guds vägledning ur det offentliga och låta enbart mänskliga lagar råda strider mot grundsatsen att det är Gud som avgör vad som är tillåtet och förbjudet:
 
 > Vad ni dyrkar vid sidan av Honom är ingenting annat än namn som ni har tänkt ut, ni och era förfäder; Gud har inte gett er tillstånd till detta. Ingen dömer utom Gud; Han befaller er att dyrka Honom ensam. Detta är den evigt sanna tron, men de flesta människor har ingen kunskap [om detta].
 > — Koranen 12:40
 
-Samma helhet ligger i den troendes bekännelse, där ingenting i livet faller utanför Guds anspråk:
+Samma helhetssyn uttrycks i den troendes bekännelse, där ingenting i livet faller utanför Guds anspråk:
 
 > Säg: "Min bön och all min andakt, mitt liv och min död tillhör Gud, världarnas Herre."
 > — Koranen 6:162
 
-Sekularismen låter alltså Gud behålla himlen men avskedar Honom ur lagboken; just där, inte i förnekelsen av Hans existens, ligger dess brott mot *tawhīd*.
+Sekularismen förnekar inte att Gud finns. Dess brott mot *tawhīd* ligger i att den tar ifrån Honom rätten att stifta lag.
 
 ## Är deism och sekularism samma sak som ateism?
 
-Nej, och skillnaderna spelar roll. Ateismen förnekar att Gud över huvud taget finns. Deismen behåller Gud men berövar Honom uppenbarelsens röst och varje ingripande i världen. Sekularismen kan tillåta en privat tro men stänger ute den ur lag och samhälle. För islam är ingen av dessa en neutral medelväg: att erkänna en skapare men förneka att Han talar och stiftar lag når inte fram till *tawhīd al-ulūhiyya*. Graden skiljer dem åt: ateisten stryker Gud, deisten tystar Honom, sekularisten avsätter Honom som lagstiftare. Ingen av de tre når ända fram till att dyrka Gud som den ende.
+Nej. Ateismen förnekar att Gud över huvud taget finns. Deismen behåller Gud men berövar Honom uppenbarelsens röst och varje ingripande i världen. Sekularismen kan tillåta en privat tro men håller den utanför lag och samhälle. För islam är ingen av dessa en neutral medelväg: att erkänna en skapare men förneka att Han talar och stiftar lag når inte fram till *tawhīd al-ulūhiyya*.
 
-Här gäller samtidigt en klassisk försiktighetsregel som lätt glöms bort. *Ahl as-sunna* skiljer mellan domen över en **lära** och domen över en **människa**: att en ståndpunkt i sig strider mot *tawhīd* betyder inte att var och en som råkat omfatta den därmed är dömd. Innan ett sådant omdöme får fällas om en bestämd person krävs enligt Ibn Taymiyya att budskapet nått fram och att hindren undanröjts – okunnighet, feltolkning och tvång. Det är just denna åtskillnad som skiljer *ahl as-sunna* från *khawārij*, som fällde domen rakt över människor. Läran prövas hårt; den enskilde överlämnas åt Gud.
+Samtidigt skiljer *ahl as-sunna* mellan domen över en **lära** och domen över en **människa**: att en ståndpunkt i sig strider mot *tawhīd* betyder inte att var och en som råkat omfatta den därmed är dömd. Innan ett sådant omdöme får fällas om en bestämd person krävs enligt Ibn Taymiyya att budskapet nått fram och att hindren undanröjts – okunnighet, feltolkning och tvång. Det är på den punkten *ahl as-sunna* skiljer sig från *khawārij*, som fällde domen över enskilda människor utan en sådan prövning.
 
 ## Hur skiljer sig islams hållning från kristendomens?
 
-Frågan är rimlig, eftersom sekularismen växte fram i en kristen kulturkrets. Evangeliernas ord om att "ge kejsaren det som tillhör kejsaren och Gud det som tillhör Gud" har gett kristendomen ett inbyggt utrymme för åtskillnad mellan kyrka och stat. En muslim kan visserligen leva lojalt i ett sekulärt samhälle utan att göra sekularismen till livsåskådning, men någon motsvarande delning av själva tron känner islam inte. Profeten Muhammed var i Medina på en och samma gång budbärare, domare och statsöverhuvud, och i den förebilden finns ingen kejsare att lämna något åt.
+Sekularismen växte fram i en kristen kulturkrets. Evangeliernas ord om att "ge kejsaren det som tillhör kejsaren och Gud det som tillhör Gud" har gett kristendomen ett inbyggt utrymme för åtskillnad mellan kyrka och stat. En muslim kan visserligen leva lojalt i ett sekulärt samhälle utan att göra sekularismen till livsåskådning, men någon motsvarande delning av själva tron känner islam inte. Profeten Muhammed var i Medina på en och samma gång budbärare, domare och statsöverhuvud.

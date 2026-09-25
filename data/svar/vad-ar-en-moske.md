@@ -50,38 +50,38 @@ essays:
   - "tyst-teologi"
 ---
 
-**En moské är en muslimsk böneplats – ett hus rest enbart för dyrkan av Gud och för den gemensamma bönen.** Det arabiska namnet *masjid* betyder ordagrant "platsen för nedfall", och moskén är samtidigt de troendes självklara samlingspunkt: här hålls de fem dagliga bönerna, fredagsbönen, undervisningen och gemenskapen.
+**En moské är en muslimsk böneplats – ett hus rest enbart för dyrkan av Gud och för den gemensamma bönen.** Det arabiska namnet *masjid* betyder ordagrant "platsen för nedfall", och moskén är samtidigt de troendes självklara samlingspunkt: här hålls de fem dagliga bönerna, fredagsbönen och undervisningen, och här möts församlingen.
 
 ## Vad betyder ordet moské?
 
-Ordet *moské* kommer via spanskans *mezquita* från arabiskans *masjid*, bildat av roten *sajada*, "att falla ned i tillbedjan". En masjid är alltså bokstavligen "platsen där man faller ned", där pannan vidrör marken i *sujūd* (nedfall) under bönen. Begreppet är knutet till handlingen, inte till byggnaden. Profeten Muhammed sa: "Jorden har gjorts till en böneplats (*masjid*) och ett medel för rening för mig" (Sahīh al-Bukhārī 438), så att en muslim kan be var som helst där det är rent. Varje ren fläck är därmed en möjlig moské – men där bönen får ett fast hem reser muslimerna en byggnad åt ändamålet. En moské är inte helig av sten och kupol, utan av det som sker där: människan böjd mot marken inför sin Skapare.
+Ordet *moské* kommer via spanskans *mezquita* från arabiskans *masjid*, bildat av roten *sajada*, "att falla ned i tillbedjan". En masjid är alltså bokstavligen "platsen där man faller ned", med pannan mot marken i *sujūd* (nedfall) under bönen. Begreppet är knutet till handlingen, inte till byggnaden. Profeten Muhammed sa: "Jorden har gjorts till en böneplats (*masjid*) och ett medel för rening för mig" (Sahīh al-Bukhārī 438), så att en muslim kan be var som helst där det är rent. Varje ren plats är därmed en möjlig moské – men där bönen får ett fast hem reser muslimerna en byggnad åt ändamålet.
 
 ## Vad används en moské till?
 
-Moskéns kärnuppgift är de fem dagliga bönerna (*salāt*), som leds av en imam och inleds med böneutropet (*adhān*). Att be i församling väger tungt: profeten lärde att den gemensamma bönen ger tjugosju gånger större belöning än bön i ensamhet (Sahīh al-Bukhārī 645). En gång i veckan blir samlingen rentav en plikt för männen, fredagsbönen (*jumuʿa*):
+Moskéns kärnuppgift är de fem dagliga bönerna (*salāt*), som leds av en imam och inleds med böneutropet (*adhān*). Profeten lärde att den gemensamma bönen ger tjugosju gånger större belöning än bön i ensamhet (Sahīh al-Bukhārī 645). En gång i veckan blir samlingen rentav en plikt för männen, fredagsbönen (*jumuʿa*):
 
 > TROENDE! När böneutroparen kallar till fredagsbönen, lämna då handel och köpenskap och skynda er dit där Guds namn åkallas; detta är för er det bästa – om ni [bara] visste!
 > — Koranen 62:9
 
-Men moskén har aldrig varit enbart ett bönerum. Redan profetens moské i Medina var på samma gång skola, domstol, härbärge och fördelningsplats för allmosan (*zakāt*); i Sverige bär den därtill upp nyanlända och håller en gemenskap samman. Bönen reser moskén – men kring bönen har det alltid vuxit ett helt samhälle.
+Men moskén har aldrig varit enbart ett bönerum. Redan profetens moské i Medina var på samma gång skola, domstol, härbärge och fördelningsplats för allmosan (*zakāt*). I Sverige stöttar moskéerna dessutom nyanlända och håller samman sina församlingar.
 
 ## Hur ser en moské ut?
 
-En moské känns igen på några återkommande kännetecken. I bönesalen finns en nisch i väggen, *mihrāb*, som pekar ut *qibla*, riktningen mot Kaba i Mecka som varje muslim vänder sig mot. Bredvid står en predikstol, *minbar*, varifrån imamen håller fredagspredikan (*khutba*). Utvändigt reser sig ofta en eller flera minareter, tornen varifrån böneutropet traditionellt ropades. Golvet täcks av mattor, väggarna pryds av kalligrafi men aldrig av bilder på levande varelser, och den som träder in har först utfört tvagningen (*wudū*) och tagit av sig skorna. Allt i rummet lutar åt samma håll: mot en enda punkt på jorden.
+I bönesalen finns en nisch i väggen, *mihrāb*, som pekar ut *qibla*, riktningen mot Kaba i Mecka som varje muslim vänder sig mot. Bredvid står en predikstol, *minbar*, varifrån imamen håller fredagspredikan (*khutba*). Utvändigt reser sig ofta en eller flera minareter, tornen varifrån böneutropet traditionellt ropades. Golvet täcks av mattor, väggarna pryds av kalligrafi men aldrig av bilder på levande varelser, och den som träder in har först utfört tvagningen (*wudū*) och tagit av sig skorna.
 
 ## Vilken var den första moskén?
 
-När en följeslagare frågade vilken moské som restes först på jorden svarade profeten: den heliga moskén (*al-Masjid al-Harām*) kring Kaba i Mecka, och därefter al-Aqsa i Jerusalem fyrtio år senare (Sahīh al-Bukhārī 3366). Den första moské profeten själv lät bygga var Quba utanför Medina. Om den säger Koranen att den "från första dagen" vilade på gudsfruktan (Koranen 9:108). Strax därpå restes profetens moské (*al-Masjid an-Nabawī*) i Medina, som blev förebild för alla senare moskéer. Islams äldsta helgedomar är alltså inga sentida påfund; de är lika gamla som tron själv.
+När en följeslagare frågade vilken moské som restes först på jorden svarade profeten: den heliga moskén (*al-Masjid al-Harām*) kring Kaba i Mecka, och därefter, fyrtio år senare, al-Aqsa i Jerusalem (Sahīh al-Bukhārī 3366). Den första moské profeten själv lät bygga var Quba utanför Medina. Om den säger Koranen att den "från första dagen" grundades på gudsfruktan (Koranen 9:108). Strax därpå restes profetens moské (*al-Masjid an-Nabawī*) i Medina, som blev förebild för alla senare moskéer.
 
 ## Är en moské helig – och vad får ske där?
 
-En moské är invigd åt Gud och ska därför vårdas av dem som verkligen tillber Honom:
+En moské är invigd åt Gud och ska därför vårdas av dem som verkligen tillber honom:
 
 > Ingen skall besöka moskéerna, Guds hus, utom de som tror på Gud och den Yttersta dagen och som regelbundet förrättar bönen och ger åt de behövande och som inte fruktar någon annan än Gud.
 > — Koranen 9:18
 
-Helgden gäller dock dyrkan av Gud allena. Koranens ord om böneplatserna är otvetydigt: "All dyrkan tillkommer Gud; anropa därför ingen vid sidan av Honom!" (Koranen 72:18). Av samma skäl varnade profeten skarpt för att förvandla gravar till böneplatser: "Gud förbannade judarna och de kristna som tog sina profeters gravar till böneplatser" (Sahīh al-Bukhārī 1390). Den klassiska rättsläran förbjuder därför att man reser en moské över en grav eller riktar bönen mot en grav. En moské reses för att dyrka Skaparen – aldrig det skapade.
+Moskén är helgad åt dyrkan av Gud allena. Koranens ord om böneplatserna är otvetydigt: "All dyrkan tillkommer Gud; anropa därför ingen vid sidan av Honom!" (Koranen 72:18). Av samma skäl fördömde profeten att man gör gravar till böneplatser: "Gud förbannade judarna och de kristna som tog sina profeters gravar till böneplatser" (Sahīh al-Bukhārī 1390). Den klassiska rättsläran förbjuder därför att man reser en moské över en grav eller riktar bönen mot en grav.
 
 ## Hur många moskéer finns det i Sverige?
 
-Det finns ingen officiell räkning av moskéer i Sverige; Myndigheten för stöd till trossamfund för ingen sådan statistik. Egentliga, ändamålsbyggda moskéer med minaret och kupol är få – ett tiotal, beroende på hur man räknar. Desto fler är de enklare bönelokalerna (*musallā*), ofta inredda i källare, föreningslokaler eller industrifastigheter; uppskattningarna varierar kraftigt och är alla osäkra. Skillnaden mellan en påkostad moské och ett undanskymt källarrum betyder dock mindre än man tror: för den troende börjar moskén där pannan möter marken.
+Det finns ingen officiell räkning av moskéer i Sverige; Myndigheten för stöd till trossamfund för ingen sådan statistik. Egentliga, ändamålsbyggda moskéer med minaret och kupol är få – ett tiotal, beroende på hur man räknar. Desto fler är de enklare bönelokalerna (*musallā*), ofta inredda i källare, föreningslokaler eller industrifastigheter; uppskattningarna varierar kraftigt och är alla osäkra.

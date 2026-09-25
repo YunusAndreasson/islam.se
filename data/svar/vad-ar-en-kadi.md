@@ -50,15 +50,15 @@ related:
   - "det-muslimska-spanien-al-andalus"
 ---
 
-**En kadi är en domare i islamisk rätt** – en ämbetsman som utses av makthavaren för att avgöra tvister mellan parter och döma i mål enligt sharia. Till skillnad från den lärde som besvarar frågor har kadin verkställande makt bakom sig: hans avgörande binder båda parter. Ämbetet fanns redan under profeten Muhammeds livstid och blev under kalifatet den bärande institutionen för rättskipning i den muslimska världen.
+**En kadi är en domare i islamisk rätt** – en ämbetsman som utses av makthavaren för att avgöra tvister mellan parter och döma i mål enligt sharia. Till skillnad från den lärde som besvarar frågor har kadin verkställande makt bakom sig: hans avgörande binder båda parter. Ämbetet fanns redan under profeten Muhammeds livstid och blev under kalifatet den muslimska världens viktigaste rättsinstitution.
 
 ## Vad betyder ordet kadi, och vad gör en kadi?
 
-Ordet kommer av arabiskans *qādī*, av roten *qadāʾ*, som betyder att avgöra, avsluta och fullborda. Innebörden ligger i själva ordet: en kadi för en tvist till dess slut.
+Ordet kommer från arabiskans *qādī*, av roten *qadāʾ*, som betyder att avgöra, avsluta och fullborda: en kadi för en tvist till dess slut.
 
-Ibn Taymiyya ger ämbetet dess vidaste definition i *as-Siyāsa ash-sharʿiyya*: kadi är benämningen på var och en som dömer mellan två parter, vare sig han är kalif, sultan, ställföreträdare eller ståthållare. Uppgiften omfattade i praktiken mer än domstolssalen. Kadin förvaltade fromma stiftelser (*waqf*), verkställde testamenten, godkände vittnen och var förmyndare för föräldralösa barn.
+Den vidaste definitionen ger Ibn Taymiyya i *as-Siyāsa ash-sharʿiyya*: kadi är benämningen på var och en som dömer mellan två parter, vare sig han är kalif, sultan, ställföreträdare eller ståthållare. Uppgiften sträckte sig i praktiken utanför domstolssalen. Kadin förvaltade fromma stiftelser (*waqf*), verkställde testamenten, godkände vittnen och var förmyndare för föräldralösa barn.
 
-Rollen skiljer sig från muftins. Ibn al-Qayyim drar gränsen i *Iʿlām al-muwaqqiʿīn*: muftin meddelar vad rätten är, medan kadin ålägger en bestämd person att följa den. En fatwa kan man lämna därhän. En dom verkställs av makthavaren, med eller utan den dömdes samtycke. Muftin besvarar en fråga. Kadin gör slut på den.
+Rollen skiljer sig från muftins. Ibn al-Qayyim drar gränsen i *Iʿlām al-muwaqqiʿīn*: muftin meddelar vad rätten är, medan kadin ålägger en bestämd person att följa den. En fatwa kan man lämna därhän. En dom verkställs av makthavaren, med eller utan den dömdes samtycke.
 
 ## Vad säger Koranen och sunna om att döma mellan människor?
 
@@ -72,32 +72,32 @@ Det andra riktas till profeten David, som i Koranen framställs som förebilden 
 > David! Vi har gett dig makt och myndighet på jorden. Döm därför mellan människor med sanning och rättvisa och lyssna inte till [dina] önskningar och begär, så att de leder dig bort från Guds väg.
 > — Koranen 38:26
 
-Sunna skärper varningen. Buraida ibn al-Husaib återger att profeten delade in domarna i tre slag, ett i Paradiset och två i Elden: den som känner sanningen och dömer efter den, den som känner sanningen men dömer mot den, och den som dömer i okunnighet (Sunan Abi Dawud 3573). Två av de tre slagen hamnar i Elden. Det ena visste bättre.
+Sunnan varnar ännu strängare. Buraida ibn al-Husaib återger att profeten delade in domarna i tre slag, ett i Paradiset och två i Elden: den som känner sanningen och dömer efter den, den som känner sanningen men dömer mot den, och den som dömer i okunnighet (Sunan Abi Dawud 3573).
 
 ## Vilka krav ställer den klassiska rätten på en kadi?
 
-Ibn Qudāma slår i *al-Mughnī* fast att tillsättandet av domare är en kollektiv plikt, *fard kifāya*: samhällets angelägenheter kan inte ordnas utan domare, och plikten vilar därför på alla tills någon fullgör den. Han hänvisar till enighet bland de lärda om att rättskipning måste inrättas.
+Ibn Qudāma slår i *al-Mughnī* fast att det är en kollektiv plikt, *fard kifāya*, att tillsätta domare: samhällets angelägenheter kan inte ordnas utan domare, och plikten åligger därför alla tills någon fullgör den. Han hänvisar till de lärdas enighet om att rättskipning måste finnas.
 
-al-Māwardī beskriver i *al-Ahkām as-sultāniyya* hur ämbetet tillkommer. Kadin dömer inte i eget namn utan på uppdrag av kalifen eller hans ståthållare, och fullmakten anger vilket område och vilka måltyper den omfattar. Makten är lånad och kan tas tillbaka.
+al-Māwardī beskriver i *al-Ahkām as-sultāniyya* hur ämbetet tillsätts. Kadin dömer inte i eget namn utan på uppdrag av kalifen eller hans ståthållare, och fullmakten anger vilket område och vilka måltyper den omfattar. Makten är delegerad och kan återkallas.
 
-Villkoren för den enskilde är stränga. Kadin ska vara myndig muslim vid sina sinnen, känd för redbarhet (*ʿadāla*) och besitta sådan kunskap i *fiqh* att han kan utöva *ijtihād*, alltså självständig härledning ur Koranen och sunna. Ibn Taymiyya sammanfattar de bärande egenskaperna som styrka och trohet: styrkan är kunskap om rättvisan och förmåga att verkställa domar, troheten är gudsfruktan och att inte sälja Guds tecken för ett ringa pris. Domarstolen var ingen plats att lära sig yrket på.
+Villkoren för den enskilde är stränga. Kadin ska vara myndig muslim vid sina sinnen, känd för redbarhet (*ʿadāla*) och besitta sådan kunskap i *fiqh* att han kan utöva *ijtihād*, alltså självständig härledning ur Koranen och sunna. Ibn Taymiyya sammanfattar de viktigaste egenskaperna som styrka och trohet: styrkan är kunskap om rättvisan och förmåga att verkställa domar, troheten är gudsfruktan och att inte sälja Guds tecken för ett ringa pris.
 
 ## Hur gick en rättegång inför en kadi till?
 
-Den mest citerade instruktionen är kalifen Umar ibn al-Khattabs brev till sin domare Abu Musa al-Ashari, återgivet och kommenterat av Ibn al-Qayyim i *Iʿlām al-muwaqqiʿīn*. Umar skriver att domarämbetet är en fastställd plikt och en sunna som ska följas, och fortsätter: "behandla människorna lika i ditt ansikte, i din rättvisa och i din sittning, så att ingen förnäm hoppas på din partiskhet och ingen svag misströstar om din rättvisa". Därefter följer den regel som blivit islamisk rätts bevisrättsliga huvudsats: beviset åligger den som hävdar, eden den som förnekar.
+Den mest citerade instruktionen är kalifen Umar ibn al-Khattabs brev till sin domare Abu Musa al-Ashari, återgivet och kommenterat av Ibn al-Qayyim i *Iʿlām al-muwaqqiʿīn*. Umar skriver att domarämbetet är en fastställd plikt och en sunna som ska följas, och fortsätter: "behandla människorna lika i ditt ansikte, i din rättvisa och i din sittning, så att ingen förnäm hoppas på din partiskhet och ingen svag misströstar om din rättvisa". Därefter följer den regel som blivit huvudregeln i islamisk bevisrätt: beviset åligger den som hävdar, eden den som förnekar.
 
-Ash-Shāfiʿī beskriver i *al-Umm* själva förfarandet. Kadin ska sitta på en öppen plats, ta målen i den ordning parterna kommit, höra en motpart i taget och inte avkunna dom förrän saken står klar för honom. Han får inte döma i eget mål, och inte heller till förmån för sitt barn eller sin förälder. Den som inte kunde styrka sitt anspråk förlorade målet, hur sant det än var.
+Ash-Shāfiʿī beskriver i *al-Umm* själva förfarandet. Kadin ska sitta på en öppen plats, ta målen i den ordning parterna kommit, höra en part i taget och inte avkunna dom förrän saken står klar för honom. Han får inte döma i eget mål, och inte heller till förmån för sitt barn eller sin förälder. Den som inte kunde styrka sitt anspråk förlorade målet, hur sant det än var.
 
 ## Varför vägrade många lärda att bli kadi?
 
-Ämbetet betraktades som andligt livsfarligt. Abu Huraira återger profetens ord att den som satts att döma mellan människor har slaktats utan kniv (Sunan Abi Dawud 3571), och Ibn Qudāma noterar att de tidiga generationerna avvisade posten med kraft av fruktan för dess risker.
+Ämbetet betraktades som andligt livsfarligt. Abu Huraira återger profetens ord att den som satts att döma mellan människor har slaktats utan kniv (Sunan Abi Dawud 3571), och Ibn Qudāma noterar att de tidiga generationerna bestämt avböjde posten av fruktan för dess risker.
 
-Samtidigt fanns en motvikt. Amr ibn al-As återger att domaren som anstränger sig i sin bedömning och träffar rätt får två belöningar, och den som anstränger sig och missar får en (Sahīh al-Bukhārī 7352, Sahīh Muslim 1716). Ett ärligt misstag straffas alltså inte. Ibn Qudāma räknar upp vinsterna på andra sidan vågskålen: att påbjuda det rätta, hjälpa den förtryckte, ge var och en sin rätt och hindra förtryckaren.
+Samtidigt återger Amr ibn al-As att domaren som anstränger sig i sin bedömning och träffar rätt får två belöningar, och den som anstränger sig och träffar fel får en (Sahīh al-Bukhārī 7352, Sahīh Muslim 1716). Ibn Qudāma räknar också upp ämbetets förtjänster: att påbjuda det rätta, hjälpa den förtryckte, ge var och en sin rätt och hindra förtryckaren.
 
-Bedömningen blev tregradig, och den återges likadant av fatwasamlingar som islamqa.info i dag: ämbetet är förbjudet för den okunnige, tillåtet för den kunnige när andra kan ta platsen, och obligatoriskt för den kunnige när ingen annan kan fylla den. Ändå avböjde många. Abu Hanifa vägrade upprepade gånger att ta emot ämbetet och dog, enligt den klassiska traditionen, i fängelse i Bagdad. Han valde fängelset framför domarstolen.
+Den klassiska bedömningen är tredelad, och fatwasamlingar som islamqa.info återger den likadant i dag: ämbetet är förbjudet för den okunnige, tillåtet för den kunnige när andra kan ta platsen, och obligatoriskt för den kunnige när ingen annan kan fylla den. Ändå avböjde många. Abu Hanifa vägrade upprepade gånger att ta emot ämbetet och dog, enligt den klassiska traditionen, i fängelse i Bagdad.
 
 ## Finns det kadier i dag?
 
-Ämbetet växte fram under umayyaderna, när ståthållarna i det snabbt växande riket började delegera tvistemålen. Under abbasiderna skapades posten som överdomare, *qādī al-qudāt*, vars förste innehavare var Abu Yusuf, elev till Abu Hanifa. Mamluksultanatet i Egypten och Syrien (1250–1517) utsåg fyra överdomare, en för var och en av de klassiska rättsskolorna. I al-Andalus var domarämbetet en av de mest ansedda posterna; filosofen och juristen Ibn Rushd var kadi i Córdoba. Via osmanskans *kadı*, titeln på domaren i varje distrikt, kom ordet in i svenskan.
+Ämbetet byggdes ut under umayyaderna, när ståthållarna i det snabbt växande riket började delegera tvistemålen. Under abbasiderna skapades posten som överdomare, *qādī al-qudāt*, vars förste innehavare var Abu Yusuf, elev till Abu Hanifa. Mamluksultanatet i Egypten och Syrien (1250–1517) utsåg fyra överdomare, en för var och en av de klassiska rättsskolorna. I al-Andalus var domarämbetet en av de mest ansedda posterna; filosofen och juristen Ibn Rushd var kadi i Córdoba. Via osmanskans *kadı*, titeln på domaren i varje distrikt, kom ordet in i svenskan.
 
-Under 1800-talets rättsreformer trängdes kadidomstolarna undan av statliga lagböcker och sekulära domstolar, och fick samtidigt en instansordning de tidigare saknat: domar som förr var slutgiltiga kunde nu överklagas. I dag finns ämbetet kvar i Saudiarabien, och som familjerättsliga kadidomstolar för muslimska minoriteter i bland annat Israel och Kenya, där de är inskrivna i grundlagen från 2010. I Malaysia är kadin i första hand den som viger muslimska par. Namnet har överlevt längre än makten.
+Under 1800-talets rättsreformer trängdes kadidomstolarna undan av statliga lagböcker och sekulära domstolar, och fick samtidigt en instansordning de tidigare saknat: domar som förr var slutgiltiga kunde nu överklagas. I dag finns ämbetet kvar i Saudiarabien, och som familjerättsliga kadidomstolar för muslimska minoriteter i bland annat Israel och Kenya, i det senare landet inskrivna i grundlagen från 2010. I Malaysia är kadin i första hand den som viger muslimska par.

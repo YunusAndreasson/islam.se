@@ -21,7 +21,7 @@ faq:
   - q: "Räknas en agnostiker som otrogen i islam?"
     a: "Tro (īmān) kräver att man bekräftar Gud och Hans sändebud, så den som efter att budskapet nått honom vägrar tro saknar denna tro. Samtidigt skiljer islam på den uppriktige sökaren och den som avvisar, och den slutliga domen tillhör Gud allena."
   - q: "Vilka bevis för Gud lyfter islam fram?"
-    a: "Främst människans medfödda fitra och tecknen (āyāt) i skapelsen – ordningen i kosmos och i människan själv (Koranen 41:53). Klassiska lärde läste varje sådan ordning som ett bevis för en Skapare."
+    a: "Främst människans medfödda fitra och tecknen (āyāt) i skapelsen – ordningen i kosmos och i människan själv (Koranen 41:53). De klassiska lärda läste varje sådan ordning som ett bevis för en Skapare."
 sources:
   - name: "Koranen 2:2"
     url: "https://quran.com/2/2?translations=48"
@@ -51,20 +51,20 @@ related:
   - "tro-och-handling-i-islam"
 ---
 
-**Agnosticism är uppfattningen att man inte kan veta om Gud finns, och just den hållningen avvisar islam, eftersom Koranen lär att Skaparen kan kännas med visshet (*yaqīn*) genom människans medfödda natur (*fitra*) och tecknen i skapelsen.** Gudsfrågan går därmed att avgöra, en kunskap som ligger inom räckhåll för var och en som verkligen tänker efter.
+**Agnosticism är uppfattningen att man inte kan veta om Gud finns, och just den hållningen avvisar islam, eftersom Koranen lär att Skaparen kan kännas med visshet (*yaqīn*) genom människans medfödda natur (*fitra*) och tecknen i skapelsen.** Gudsfrågan går därmed att avgöra, och svaret ligger inom räckhåll för var och en som verkligen tänker efter.
 
 ## Vad är agnosticism, och hur skiljer den sig från ateism?
 
-Ordet *agnostiker* myntades av den brittiske naturvetaren Thomas Henry Huxley 1869, bildat av grekiskans *a-* ("utan") och *gnosis* ("kunskap"): den som menar att människan saknar förmåga att nå säker kunskap om Gud. Agnosticismen säger alltså ingenting om huruvida Gud finns, bara om vad vi kan veta om saken. Där skiljer den sig från ateismen, som rakt ut förnekar Guds existens medan agnostikern lämnar frågan öppen. Vissa skiljer dessutom mellan en mjuk agnosticism ("jag vet inte") och en stark ("ingen kan veta"). För islam blir slutsatsen densamma oavsett variant: båda avstår från den visshet om Skaparen som Koranen tvärtom bygger hela sin gudssyn på. I praktiken lever agnostikern ändå som ateisten, som om svaret redan vore nej.
+Ordet *agnostiker* myntades av den brittiske naturvetaren Thomas Henry Huxley 1869 och är bildat av grekiskans *a-* ("utan") och *gnosis* ("kunskap"). Det betecknar den som menar att människan saknar förmåga att nå säker kunskap om Gud. Agnosticismen säger alltså ingenting om huruvida Gud finns, bara om vad vi kan veta om saken. Där skiljer den sig från ateismen, som förnekar att Gud finns, medan agnostikern lämnar frågan öppen. Vissa skiljer dessutom mellan en mjuk agnosticism ("jag vet inte") och en stark ("ingen kan veta"). För islam spelar varianten ingen roll: båda avstår från den visshet om Skaparen som Koranens gudssyn bygger på. I praktiken lever agnostikern ändå som ateisten, som om svaret redan vore nej.
 
 ## Kan Guds existens verkligen vetas enligt islam?
 
-Ja. I klassisk islam är kunskapen om en Skapare ingen osäker slutsats, utan något nästan självklart som lagts ned i människans natur. Koranen kallar denna läggning *fitra*:
+Ja. I klassisk islam är kunskapen om en Skapare nästan självklar, eftersom den har lagts ned i människans natur. Den medfödda läggningen kallas *fitra* i Koranen:
 
 > GE DIG hän med hela din själ, [du som söker sanningen,] åt den rena, ursprungliga tron, den tro som Gud vid skapelsen lade ned som en naturens norm i människan
 > — Koranen 30:30
 
-Profeten Muhammed sade att varje barn föds i enlighet med *fitra* innan omgivningen formar det (Sahīh al-Bukhārī 1385; Sahīh Muslim 2658). Att Gud är Skapare och Herre kallas *tawhīd ar-rubūbiyya*, och till och med de avgudadyrkare som profeten bekämpade bekräftade just denna sanning. Quraysh i Mecka förnekade aldrig att Gud skapat dem. Striden stod om något helt annat: vem som förtjänade dyrkan.
+Profeten Muhammed sade att varje barn föds i enlighet med *fitra* innan omgivningen formar det (Sahīh al-Bukhārī 1385; Sahīh Muslim 2658). Att Gud ensam är Skapare och Herre kallas *tawhīd ar-rubūbiyya*, och till och med de avgudadyrkare som profeten bekämpade bekräftade just denna sanning. Quraysh i Mecka förnekade aldrig att Gud skapat dem. Striden stod om vem som förtjänade dyrkan.
 
 ## Vad säger Koranen om att bygga sin världsbild på antaganden?
 
@@ -73,11 +73,11 @@ Agnostikern framställer ofta sin hållning som intellektuell ödmjukhet, ett l�
 > De flesta av dem lyssnar bara till antaganden; men antaganden kan aldrig bli en ersättning för sanningen
 > — Koranen 10:36
 
-Samma dom faller över dem som krymper tillvaron till det jordiska: "Det finns inget liv utom livet på jorden ... Men om detta har de ingen kunskap – de rör sig bara med lösa antaganden" (Koranen 45:24). Mot denna ovisshet ställer Koranen sin egen utgångspunkt: "DENNA Skrift – här råder inget tvivel" (Koranen 2:2). Det agnostiska "kanske" är därför, med Koranens mått, inte ödmjukhet utan *zann*: en gissning klädd i försiktighet.
+Samma dom faller över dem som krymper tillvaron till det jordiska: "Det finns inget liv utom livet på jorden ... Men om detta har de ingen kunskap – de rör sig bara med lösa antaganden" (Koranen 45:24). Skriftens egen utgångspunkt är den motsatta: "DENNA Skrift – här råder inget tvivel" (Koranen 2:2). Med Koranens mått är det agnostiska "kanske" därför inte ödmjukhet utan *zann*, en gissning klädd i försiktighet.
 
 ## Är det synd att tvivla på Gud i islam?
 
-Islam skiljer mellan det plötsliga tvivlet och den valda otron. Att drabbas av en påträngande tanke, en *waswasa* eller viskning, är ingen synd. Profeten beskrev hur Shaytan kommer till människan och frågar "vem skapade det här? vem skapade det där?" ända tills han frågar "vem skapade Gud?"; den som drabbas ska söka tillflykt hos Gud och sluta grubbla (Sahīh al-Bukhārī 3276; Sahīh Muslim 134). Tvivlet behandlas som en prövning med ett botemedel, inte som ett avfall. Koranen inbjuder dessutom gång på gång till uppriktigt sökande och eftertanke, och ärliga frågor är välkomna. Det som räknas är vad människan gör med viskningen när den väl kommer.
+Islam skiljer mellan det plötsliga tvivlet och den valda otron. Att drabbas av en påträngande tanke, en *waswasa* eller viskning, är ingen synd. Profeten beskrev hur Shaytan kommer till människan och frågar "vem skapade det här? vem skapade det där?" ända tills han frågar "vem skapade Gud?" Den som drabbas ska då söka tillflykt hos Gud och sluta grubbla (Sahīh al-Bukhārī 3276; Sahīh Muslim 134). Tvivlet behandlas som en prövning med ett botemedel, inte som ett avfall. I Koranen återkommer dessutom uppmaningen till uppriktigt sökande och eftertanke, och ärliga frågor är välkomna. Det som räknas är vad människan gör med viskningen när den väl kommer.
 
 ## Hur bör en muslim möta en agnostiker?
 
@@ -86,4 +86,4 @@ Den klassiska hållningen skiljer på personen och ståndpunkten: tron kan aldri
 > Vi skall visa dem Våra tecken vid horisonten och inom dem själva, ända till dess [uppenbarelsens] sanning står klar för dem
 > — Koranen 41:53
 
-Metoden är att bjuda in snarare än att pressa, och ett ärligt sökande räknas redan som ett steg mot tron. Men allvaret är verkligt: den som låter sanningen nå sig och ändå vägrar att avgöra frågan har redan avgjort den.
+Metoden är att bjuda in snarare än att pressa, och ett ärligt sökande räknas redan som ett steg mot tron. Men allvaret är verkligt: den som har nåtts av sanningen och ändå vägrar att ta ställning har därmed vänt sig bort från den.

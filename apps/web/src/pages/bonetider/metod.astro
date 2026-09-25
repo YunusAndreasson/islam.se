@@ -61,15 +61,15 @@ const faq = [
 	},
 	{
 		q: "Vilken beräkningsmetod används som standard?",
-		a: "Muslim World League (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl. I inställningarna kan du byta till bland andra Diyanet, Umm al-Qurā, ISNA, Egyptiska myndigheten och Karachi.",
+		a: "Muslim World League (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl. I inställningarna kan du byta till bland andra Diyanet, Umm al-Qurā, ISNA, Egyptiska myndigheten och Moonsighting Committee.",
 	},
 	{
 		q: "Hur hanteras Sveriges ljusa sommarnätter?",
-		a: "När solen inte sjunker de 18° under horisonten som krävs för Fajr och ʿIshāʾ används en regel för höga latituder – som standard sjundedel av natten, där Fajr sätts en sjundedel av natten före soluppgången och ʿIshāʾ lika långt efter solnedgången. Norr om polcirkeln, där solen delar av året inte går ner eller inte går upp alls, hämtas tiderna i stället från närmaste plats där de går att beräkna (Aqrab al-Balad).",
+		a: "När solen inte sjunker de 18° under horisonten som krävs för Fajr och ʿIshāʾ används en regel för höga latituder – som standard sjundedelen av natten, där Fajr sätts en sjundedel av natten före soluppgången och ʿIshāʾ lika långt efter solnedgången. Norr om polcirkeln, där solen delar av året inte går ner eller inte går upp alls, hämtas tiderna i stället från närmaste plats där de går att beräkna (Aqrab al-Balad).",
 	},
 	{
 		q: "Vilka källor bygger bönetiderna på?",
-		a: `Beräkning med det öppna biblioteket adhan, orter och koordinater från GeoNames (CC BY 4.0) och befolkningsstatistik från ${SCB_SOURCE} (${SCB_REF}). islam.se driver inget eget system för månsiktning – helgdagar fastställs av officiell månsiktning.`,
+		a: `Beräkning med det öppna biblioteket adhan, orter och koordinater från GeoNames (CC BY 4.0) och befolkningsstatistik från ${SCB_SOURCE} (${SCB_REF}). islam.se driver inget eget system för månsiktning – ramadans början och högtiderna fastställs genom officiell månsiktning.`,
 	},
 	{
 		q: "Vad heter bönen och bönetiderna på arabiska?",
@@ -115,8 +115,8 @@ const prayerDefinitions = [
 			<Breadcrumb items={crumbs} />
 			<h1>Så beräknas bönetiderna</h1>
 			<p class="bt-metod-lead">
-				Bönetiderna på islam.se beräknas från solens verkliga läge för varje orts position – inte
-				hämtade från en färdig tabell. Här förklarar vi modellen, vilka beräkningsmetoder du kan
+				Bönetiderna på islam.se beräknas från solens verkliga läge vid varje ort och hämtas inte
+				ur en färdig tabell. Här förklarar vi modellen, vilka beräkningsmetoder du kan
 				välja, hur ljusa sommarnätter hanteras, och vilka källor vi använder.
 			</p>
 		</header>
@@ -145,10 +145,10 @@ const prayerDefinitions = [
 
 		<TitledSection id="m-metoder" title="Beräkningsmetoder och madhhab">
 			<p>
-				Olika institutioner använder lite olika vinklar för Fajr och ʿIshāʾ. Standard på islam.se är{" "}
+				Olika institutioner använder något olika vinklar för Fajr och ʿIshāʾ. Standard på islam.se är{" "}
 				<strong>Muslim World League</strong> (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl.
 				I inställningarna kan du byta till bland andra Diyanet (Turkiet), Umm al-Qurā (Mecka), ISNA
-				(Nordamerika), Egyptiska myndigheten och Karachi – kartan och tiderna uppdateras direkt.
+				(Nordamerika), Egyptiska myndigheten och Moonsighting Committee – kartan och tiderna uppdateras direkt.
 			</p>
 			<p>
 				För <strong>ʿAṣr</strong> kan du välja madhhab: standard (Shāfiʿī, Mālikī, Ḥanbalī) där skuggan
@@ -166,7 +166,7 @@ const prayerDefinitions = [
 			<p>
 				På svenska breddgrader blir sommarnatten ofta så ljus att solen aldrig sjunker de 18° under
 				horisonten som krävs för den vanliga vinkelberäkningen av Fajr och ʿIshāʾ. Då används en regel
-				för höga latituder – som standard <em>sjundedel av natten</em>, där Fajr sätts en sjundedel av
+				för höga latituder – som standard <em>sjundedelen av natten</em>, där Fajr sätts en sjundedel av
 				natten före soluppgången och ʿIshāʾ lika långt efter solnedgången. Norr om polcirkeln, där
 				midnattssol och polarnatt råder delar av året, finns ingen natt att dela; där hämtas tiderna
 				i stället från närmaste plats där de går att beräkna (Aqrab al-Balad). Inställningen väljs
@@ -188,7 +188,7 @@ const prayerDefinitions = [
 		<TitledSection id="m-tid" title="Tidszon och sommartid">
 			<p>
 				Alla tider visas i tidszonen Europe/Stockholm och växlar automatiskt mellan normaltid och
-				sommartid (DST). Tiderna gäller den valda ortens position, inte din webbläsares tidszon.
+				sommartid. Tiderna gäller den valda ortens position, inte din webbläsares tidszon.
 			</p>
 		</TitledSection>
 
@@ -196,8 +196,8 @@ const prayerDefinitions = [
 			<p>Varifrån uppgifterna kommer och hur de används:</p>
 			<ul class="bt-sources">
 				<li>
-					<strong>Beräkning:</strong> det öppna biblioteket <span lang="en">adhan</span>, en etablerad
-					beräkningsmodell för bönetider.
+					<strong>Beräkning:</strong> det öppna biblioteket <span lang="en">adhan</span>, ett etablerat
+					programbibliotek för beräkning av bönetider.
 				</li>
 				<li>
 					<strong>Orter och koordinater:</strong> GeoNames (CC BY 4.0).
@@ -216,9 +216,8 @@ const prayerDefinitions = [
 				</li>
 			</ul>
 			<p>
-				En upplysning: islam.se driver inget eget system för månsiktning. Bönetiderna beräknas
-				astronomiskt enligt ovan; helgdagar som ramadan och de två högtiderna fastställs av officiell
-				månsiktning och kan därför skilja sig något från ren uträkning.
+				islam.se driver inget eget system för månsiktning. Bönetiderna beräknas astronomiskt enligt
+				ovan, medan ramadans början och de två högtiderna fastställs genom officiell månsiktning och kan därför skilja sig något från ren uträkning.
 			</p>
 		</TitledSection>
 

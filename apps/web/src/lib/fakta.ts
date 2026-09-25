@@ -51,7 +51,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 		slug: "fem-pelarna",
 		name: "De fem pelarna",
 		intro:
-			"Det en muslim gör (arkan al-islam): de fem handlingar som bär trons liv – trosbekännelse, bön, allmosa, fasta och vallfärd.",
+			"Det en muslim gör (arkan al-islam): de fem handlingar som islam är byggd på – trosbekännelse, bön, allmosa, fasta och vallfärd.",
 		overview: "islams-fem-pelare",
 		overviewImage: "kompassnalens-moske",
 		items: [
@@ -69,25 +69,25 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "sa-ber-man-steg-for-steg",
 				label: "Bönen",
-				blurb: "De fem dagliga bönerna – trons ryggrad, bedda i riktning mot Kaba.",
+				blurb: "De fem dagliga bönerna, förrättade med ansiktet vänt mot Kaba.",
 				image: "nattbonens-ansikte",
 			},
 			{
 				svarSlug: "vad-ar-zakat",
 				label: "Allmosan",
-				blurb: "Den årliga gåvan som renar förmögenheten och bär samhället.",
+				blurb: "Den årliga plikten som renar förmögenheten och tillfaller de behövande.",
 				image: "ater-ni-var-for-sig",
 			},
 			{
 				svarSlug: "vad-ar-ramadan",
 				label: "Fastan",
-				blurb: "Ramadans fasta från gryning till solnedgång – kropp och själ i skola.",
+				blurb: "Fastan från gryning till solnedgång under hela ramadan.",
 				image: "forlatelsens-pris",
 			},
 			{
 				svarSlug: "vad-ar-hajj",
 				label: "Vallfärden",
-				blurb: "Resan till Mecka som varje muslim med möjlighet gör en gång i livet.",
+				blurb: "Resan till Mecka, en plikt en gång i livet för den som har möjlighet.",
 				// The arch shot, not an aerial of the Grand Mosque: pilgrims at eye level,
 				// people who have travelled, rather than a postcard of a monument.
 				image: "kompassnalens-moske",
@@ -103,13 +103,13 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "islams-gudssyn",
 				label: "Gud",
-				blurb: "Tron på en enda, oskapad Gud (tawhid) – islams hjärta.",
+				blurb: "Tron på en enda Gud, utan like och utan delägare (tawhid).",
 				image: "samma-stjarnhimmel",
 			},
 			{
 				svarSlug: "tror-muslimer-pa-anglar",
 				label: "Änglarna",
-				blurb: "Tron på Guds änglar, skapade av ljus för att bära hans vilja.",
+				blurb: "Tron på Guds änglar, skapade av ljus och alltid lydiga mot honom.",
 				image: "nar-natten-inte-faller",
 			},
 			{
@@ -135,7 +135,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "vad-ar-odet-qadar",
 				label: "Ödet",
-				blurb: "Tron på Guds förutvetande och vishet i allt som sker.",
+				blurb: "Tron på att ingenting sker utan Guds vetande och vilja.",
 				image: "guden-som-bokfor",
 			},
 		],

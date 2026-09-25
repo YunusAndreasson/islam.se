@@ -46,7 +46,7 @@ related:
 
 ## Varför är Kaba helig?
 
-Koranen ger Kaba en ställning som ingen annan byggnad har: den var den första plats som restes på jorden för dyrkan av Gud.
+Koranen ger Kaba en ställning som ingen annan byggnad har: den var det första hus som restes på jorden för dyrkan av Gud.
 
 > Det första tempel som restes för människornas bruk var helt visst Helgedomen i Bakkah, en välsignelse och en ledstjärna för hela världen.
 > — Koranen 3:96
@@ -60,7 +60,7 @@ Enligt Koranen reste profeten Abraham och hans son Ismael husets grund på Guds 
 > Och när Abraham och Ismael lade grunden till Helgedomen [bad de:] "Herre! Tag nådigt emot vår [möda]! Du är den som hör allt, vet allt."
 > — Koranen 2:127
 
-Sedan dess har byggnaden rivits och rests på nytt flera gånger. När Muhammed var trettiofem år, omkring år 605, byggde stammen Quraysh om den efter en brand. Det berättar Ibn Ishāq, som Ibn Kathīr återger i *al-Bidāya wa-n-nihāya*. Medlen räckte inte till hela Abrahams grund, och en del av ytan, *al-Hijr*, lämnades utanför murarna. Profeten sade senare till Aisha att han skulle ha rivit huset och rest det på Abrahams grund, om inte hennes folk nyss hade lämnat avgudadyrkan (Sahīh al-Bukhārī 1586, Sahīh Muslim 1333). Den hadithen fick Abdallah ibn az-Zubayr att bygga om Kaba på den gamla grunden år 64 efter hijra (683–684). Tio år senare återställde al-Hajjāj Qurayshs mått på kalifen Abd al-Maliks order, enligt krönikören al-Azraqī. Planen är deras. Murarna restes senast 1630, sedan en störtflod året innan hade rivit delar av dem.
+Sedan dess har byggnaden rivits och rests på nytt flera gånger. När Muhammed var trettiofem år, omkring år 605, byggde stammen Quraysh om den efter en brand. Det berättar Ibn Ishāq, som Ibn Kathīr återger i *al-Bidāya wa-n-nihāya*. Medlen räckte inte till hela Abrahams grund, och en del av ytan, *al-Hijr*, lämnades utanför murarna. Profeten sade senare till Aisha att han skulle ha rivit huset och rest det på Abrahams grund, om inte hennes folk nyss hade lämnat avgudadyrkan (Sahīh al-Bukhārī 1586, Sahīh Muslim 1333). Den hadithen fick Abdallah ibn az-Zubayr att bygga om Kaba på den gamla grunden år 64 efter hijra (683–684). Tio år senare återställde al-Hajjāj Qurayshs mått på kalifen Abd al-Maliks order, enligt krönikören al-Azraqī. Det är den planen Kaba har än i dag. Murarna restes senast 1630, sedan en störtflod året innan hade rivit delar av dem.
 
 ## Vad är Svarta stenen?
 
@@ -74,7 +74,7 @@ Kaba är i det närmaste tom. Innanför dörren, som sitter drygt två meter öv
 
 ## Dyrkar muslimer Kaba?
 
-Nej, och det är det vanligaste missförståndet. Muslimen tillber Gud ensam. Kaba är *qibla*, böneriktningen, som samlar alla bedjande mot en enda punkt. När en muslim i Kiruna och en muslim i Kapstaden vänder sig åt samma håll, blir riktningen ett synligt vittnesbörd om att de dyrkar en och samme Gud. Historien har prövat saken. År 930 förde qarmaterna, en upprorsrörelse från östra Arabien, bort Svarta stenen, och i drygt tjugo år gick pilgrimerna runt en Kaba utan sten. Vallfärden fortsatte som förut.
+Nej, och det är det vanligaste missförståndet. Muslimen tillber Gud ensam. Kaba är *qibla*, böneriktningen, som samlar alla bedjande mot en enda punkt. När en muslim i Kiruna och en muslim i Kapstaden vänder sig mot samma punkt, blir riktningen ett synligt vittnesbörd om att de dyrkar en och samme Gud. År 930 förde qarmaterna, en upprorsrörelse från östra Arabien, bort Svarta stenen, och i drygt tjugo år gick pilgrimerna runt en Kaba utan sten. Vallfärden fortsatte som förut.
 
 ## Hur många varv går man runt Kaba?
 

@@ -4,7 +4,7 @@
 		"name": "Ibn Qayyim al-Jawziyya",
 		"slug": "ibn-qayyim",
 		"tradition": "sunni",
-		"framing": "Damaskensisk teolog och Ibn Taymiyyas främste lärjunge (1292–1350). Hans kartläggning av hjärtats sjukdomar – begärets stadier, blickens dubbelhet, vanans långsamma infärgning – löper genom essäerna som en återkommande puls.",
+		"framing": "Damaskensisk teolog och Ibn Taymiyyas främste lärjunge (1292–1350). Hans kartläggning av hjärtats sjukdomar – begärets stadier, blickens dubbelhet, vanans långsamma infärgning – återkommer i essä efter essä.",
 		"match": ["Ibn Qayyim"],
 		"sameAs": [
 			"https://en.wikipedia.org/wiki/Ibn_Qayyim_al-Jawziyya",
@@ -16,7 +16,7 @@
 		"name": "Ibn Taymiyya",
 		"slug": "ibn-taymiyya",
 		"tradition": "sunni",
-		"framing": "Hanbalitisk lärd (1263–1328) vars stränga, systematiska tänkande om tro och handling återkommer som måttstock i essäerna – ofta genom sin lärjunge Ibn Qayyim.",
+		"framing": "Hanbalitisk lärd (1263–1328) vars stränga, systematiska tänkande om tro och handling återkommer som måttstock i essäerna, ofta genom hans lärjunge Ibn Qayyim.",
 		"match": ["Ibn Taymiyy"],
 		"sameAs": [
 			"https://sv.wikipedia.org/wiki/Ibn_Taymiyya",
@@ -49,7 +49,7 @@
 		"name": "al-Māwardī",
 		"slug": "al-mawardi",
 		"tradition": "sunni",
-		"framing": "Shafiitisk domare och statstänkare (972–1058); hans verk om styre och rättvisa bär essäernas frågor om makt och ansvar.",
+		"framing": "Shafiitisk domare och statstänkare (972–1058); hans verk om styre och rättvisa ligger bakom essäernas frågor om makt och ansvar.",
 		"match": ["Māwardī"],
 		"sameAs": ["https://en.wikipedia.org/wiki/Al-Mawardi", "https://www.wikidata.org/wiki/Q335635"]
 	},
@@ -67,7 +67,7 @@
 		"name": "Strindberg",
 		"slug": "strindberg",
 		"tradition": "western",
-		"framing": "Under Inferno-åren prövade han varje hållning han kunde nå, och ingen bar hans vikt – den svenska litteraturens närmaste motsvarighet till själens kris.",
+		"framing": "Under Inferno-åren prövade han varje hållning han kunde nå, och ingen bar hans vikt. Ingen svensk författare har skildrat själens kris på närmare håll.",
 		"match": ["Strindberg"],
 		"sameAs": [
 			"https://sv.wikipedia.org/wiki/August_Strindberg",
@@ -100,7 +100,7 @@
 		"name": "Ellen Key",
 		"slug": "ellen-key",
 		"tradition": "western",
-		"framing": "Det fjärde mest citerade namnet i hela korpusen; hennes sekulära livstro och syn på själ och uppfostran prövas mot den islamiska traditionens.",
+		"framing": "En av de röster essäerna citerar oftast; hennes sekulära livstro och syn på själ och uppfostran prövas mot den islamiska traditionens.",
 		"match": ["Ellen Key"],
 		"sameAs": ["https://sv.wikipedia.org/wiki/Ellen_Key", "https://www.wikidata.org/wiki/Q238443"]
 	},
@@ -109,7 +109,7 @@
 		"name": "Geijer",
 		"slug": "geijer",
 		"tradition": "western",
-		"framing": "Erik Gustaf Geijer – historiker, skald, den götiska väckelsens röst – bär det svenska arvets möte med det nya ljuset.",
+		"framing": "Erik Gustaf Geijer – historiker, skald och den götiska väckelsens röst – står för det svenska arv som essäerna läser i ett nytt ljus.",
 		"match": ["Geijer"],
 		"sameAs": [
 			"https://sv.wikipedia.org/wiki/Erik_Gustaf_Geijer",

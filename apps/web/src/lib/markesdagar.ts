@@ -86,7 +86,7 @@ const EVENTS: EventDef[] = [
 	},
 	{
 		name: "Ashura",
-		note: "Muharram är den bästa månaden för frivillig fasta efter Ramadan; den 10:e — till minne av att Gud räddade Mose — sonar det gångna året och fastas med den 9:e eller 11:e",
+		note: "Muharram är den bästa månaden för frivillig fasta efter ramadan. Fastan den 10:e, till minne av att Gud räddade Mose, sonar det gångna året och hålls tillsammans med den 9:e eller den 11:e",
 		start: [1, 10],
 	},
 	{
@@ -98,26 +98,26 @@ const EVENTS: EventDef[] = [
 	},
 	{
 		name: "De sista tio nätterna",
-		note: "natten då Koranens uppenbarelse inleddes (Laylat al-Qadr) sökes på de udda nätterna, ofta den 27:e",
+		note: "natten då Koranens uppenbarelse inleddes (Laylat al-Qadr) söks under de udda nätterna, ofta den 27:e",
 		start: [9, 21],
 		end: [10, 1],
 		endExclusive: true,
 	},
 	{
 		name: "Eid al-fitr",
-		note: "högtiden som avslutar Ramadan; firas med eid-bön och allmosan zakāt al-fitr",
+		note: "högtiden som avslutar ramadan; firas med eid-bön och allmosan zakāt al-fitr",
 		start: [10, 1],
 	},
 	{
 		name: "De sex dagarna i Shawwal",
-		note: "den rekommenderade fastan efter Ramadan",
+		note: "den rekommenderade fastan efter ramadan",
 		start: [10, 2],
 		end: [11, 1],
 		endExclusive: true,
 	},
 	{
 		name: "De tio första dagarna i Dhul-hijja",
-		note: "de dagar då goda gärningar är som mest älskade",
+		note: "de dagar då goda gärningar är Gud kärast",
 		start: [12, 1],
 		end: [12, 10],
 	},
@@ -128,7 +128,7 @@ const EVENTS: EventDef[] = [
 	},
 	{
 		name: "Eid al-adha",
-		note: "offerhögtiden under vallfärden; firas med eid-bön och ett offer (qurbān)",
+		note: "offerhögtiden, som infaller under vallfärden; firas med eid-bön och ett offer (qurbān)",
 		start: [12, 10],
 	},
 	{

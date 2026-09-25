@@ -87,13 +87,13 @@ const faq = [
 	},
 	{
 		q: "Räknas tiderna om varje dag?",
-		a: "Ja. Tiderna beräknas ur solens verkliga läge för varje orts position och räknas om varje dygn, så iftar flyttas fram några minuter dag för dag under månaden.",
+		a: "Ja. Tiderna beräknas ur solens verkliga läge vid varje ort och räknas om varje dygn, så iftar flyttas fram några minuter dag för dag under månaden.",
 	},
 ];
 
 const definitions = [
 	{ term: "Suhūr", description: "måltiden före gryningen. Den tar slut när Fajr går in." },
-	{ term: "Fajr", description: "gryningsbönen, och därmed fastans början varje dygn." },
+	{ term: "Fajr", description: "gryningsbönen, och därmed fastans början varje dag." },
 	{ term: "Maghrib", description: "bönen direkt efter solnedgången – tiden då fastan bryts." },
 	{ term: "Iftar", description: "måltiden som bryter fastan, vid Maghrib." },
 	{ term: "Tarāwīh", description: "de frivilliga nattbönerna under ramadan, efter ʿIshāʾ." },
@@ -137,7 +137,7 @@ const definitions = [
 			<h1>Ramadan {ramadan.year}</h1>
 			<p class="meta-line">{span} · {ramadan.hijriYear} e.H.</p>
 			<p class="bt-ramadan-lead">
-				Ramadan {ramadan.year} infaller {span}. Fastan varar från Fajr till Maghrib varje dygn:
+				Ramadan {ramadan.year} infaller {span}. Fastan varar från Fajr till Maghrib varje dag:
 				suhūr tar slut när Fajr går in, och fastan bryts vid Maghrib. Båda tiderna beror på var i
 				landet du är – välj din ort för tiderna dag för dag.
 			</p>
@@ -145,8 +145,8 @@ const definitions = [
 
 		<TitledSection class="bt-section" id="bt-ramadan-orter" title={`Iftar och fastans längd, ${first?.name} till ${last?.name}`}>
 			<p>
-				Tiderna gäller ramadans första och sista dag och är beräknade efter solens läge på varje
-				orts position. Eftersom ramadan {ramadan.year} infaller på vinterhalvåret blir fastan
+				Tiderna gäller ramadans första och sista dag och är beräknade efter solens läge vid varje
+				ort. Eftersom ramadan {ramadan.year} infaller på vinterhalvåret blir fastan
 				kortare ju längre norrut man kommer – tvärtemot sommarens ljusa dygn, då Norrland fastar
 				längst.
 			</p>
@@ -194,7 +194,7 @@ const definitions = [
 
 		<TitledSection class="bt-section" id="bt-ramadan-vidare" title="Läs vidare">
 			<p>
-				Den här sidan svarar på klockslagen. Vad fastan är, vem som är befriad från den och vad
+				Den här sidan ger klockslagen. Vad fastan är, vem som är befriad från den och vad
 				som bryter den hör hemma i texterna:
 			</p>
 			<p><SectionLink href="/fordjupning/ramadan/">Fördjupning: ramadan</SectionLink></p>

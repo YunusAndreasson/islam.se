@@ -14,7 +14,7 @@ import { SCB_POP_YEAR } from "../../lib/bonetider/meta";
 import { nearbyPlaces, officialPopulation, placeBySlug } from "../../lib/bonetider/places-index";
 import { computePrayerTimes, formatTime } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
-import { nf0 } from "../../lib/format";
+import { genitive, kommunLabel, nf0 } from "../../lib/format";
 import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import {
 	type MosqueCityGroup,
@@ -127,7 +127,7 @@ if (photo) {
 	};
 }
 
-const whereKommun = kommun && kommun !== city ? `, ${kommun} kommun` : "";
+const whereKommun = kommun && kommun !== city ? `, ${kommunLabel(kommun)}` : "";
 const popClause = hasScb ? ` ${city} har ${popText} invånare.` : "";
 
 // A kommun seat (Stockholm, Göteborg) hands off to its stadsdelar; a stadsdel points
@@ -178,8 +178,8 @@ const faq = [
 	{
 		q: `Var ligger ${firstMosque.name}?`,
 		a: firstMosque.address
-			? `${firstMosque.name} ligger på ${firstMosque.address}${firstMosque.postalCode ? `, ${firstMosque.postalCode}` : ""}, i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`
-			: `${firstMosque.name} ligger i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`,
+			? `${firstMosque.name} ligger i ${kommunLabel(kommun)} (${lanLabel}). Adress: ${firstMosque.address}${firstMosque.postalCode ? `, ${firstMosque.postalCode}` : ""}. På sidan finns vägbeskrivning via Apple Maps och Google Maps.`
+			: `${firstMosque.name} ligger i ${kommunLabel(kommun)} (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`,
 	},
 ];
 // The honest answer, and the one no calculator gives: our times are astronomical, the
@@ -269,9 +269,9 @@ if (oldest?.opened) {
 		{photo && <MosqueHero photo={photo} />}
 
 		{isSeat && siblings.length > 0 && (
-			<TitledSection class="mk-section" id="mk-stad-delar" title={`Moskéer i ${city}s stadsdelar`}>
+			<TitledSection class="mk-section" id="mk-stad-delar" title={`Moskéer i ${genitive(city)} stadsdelar`}>
 				<p class="mk-stad-note">
-					{pluralMoske(siblingTotal)} till i {kommun} kommun, ordnade efter stadsdel.
+					{pluralMoske(siblingTotal)} till i {kommunLabel(kommun)}, ordnade efter stadsdel.
 				</p>
 				{siblings.map((g) => (
 					<section class="mk-city-group" aria-label={`Moskéer i ${g.city}`}>
@@ -308,7 +308,7 @@ if (oldest?.opened) {
 			{seatGroup && (
 				<p>
 					<SectionLink href={`/moskeer/${seatGroup.citySlug}/`}>
-						Alla moskéer i {kommun} kommun
+						Alla moskéer i {kommunLabel(kommun)}
 					</SectionLink>
 				</p>
 			)}

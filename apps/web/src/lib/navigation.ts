@@ -103,7 +103,7 @@ const pages = {
 		href: "/nyheter/",
 		label: "Nyheter",
 		menuSub: "Världsnyheter på svenska.",
-		sub: "Världsnyheter på svenska, levererade av zuhd.news och uppdaterade flera gånger om dagen.",
+		sub: "Världsnyheter på svenska från zuhd.news, uppdaterade flera gånger om dagen.",
 	},
 	aiBarometern: {
 		href: "/ai-barometern/",

@@ -60,26 +60,26 @@ related:
   - "vad-ar-hajj"
 ---
 
-**Zakat är den obligatoriska allmosan i islam – en årlig avgift på vanligen 2,5 procent av en muslims sparade överskott, som ges till bestämda grupper av behövande.** Den är den tredje av islams fem pelare och nämns gång på gång i Koranen tillsammans med bönen. Ordet *zakat* betyder ungefär rening: att ge bort en del av förmögenheten renar resten. Zakat är ingen vanlig skatt: plikten räknas som gudstjänst och är lika bindande som bönen.
+**Zakat är den obligatoriska allmosan i islam – en årlig avgift på vanligen 2,5 procent av en muslims sparade överskott, som ges till bestämda grupper av behövande.** Den är den tredje av islams fem pelare och nämns gång på gång i Koranen tillsammans med bönen. Ordet *zakat* betyder ungefär rening, och tanken är att den del av förmögenheten man ger bort renar resten. Zakat är ingen vanlig skatt: plikten räknas som gudstjänst och är lika bindande som bönen.
 
 ## Vad betyder ordet zakat?
 
-Ordets rot rymmer två betydelser på en gång: rening och tillväxt (*namāʾ*). Koranen kallar själva avgiften för *sadaqa*, offergåva. De klassiska rättslärda, som al-Māwardī på 1000-talet i *al-Ahkām as-sultāniyya*, behandlar zakat och allmosa som två namn på samma plikt: en rening för den som ger och en hjälp för den som tar emot. Avgiften tas ur förmögenhet som är ämnad att förmera sig: sparade pengar, guld och silver, handelsvaror, boskap och jordens gröda. Koranen binder uttryckligen samman givandet med renandet:
+Ordets rot rymmer två betydelser på en gång: rening och tillväxt (*namāʾ*). Koranen kallar själva avgiften för *sadaqa*, offergåva. De klassiska rättslärda, som al-Māwardī på 1000-talet i *al-Ahkām as-sultāniyya*, behandlar zakat och allmosa som två namn på samma plikt: en rening för den som ger och en hjälp för den som tar emot. Avgiften betalas på förmögenhet som växer eller kan växa: sparade pengar, guld och silver, handelsvaror, boskap och jordens gröda. I Koranen hör givandet och renandet uttryckligen ihop:
 
 > Tag då emot något av dem som offergåva [Muhammad]; så renar du dem [från synd] och hjälper dem att växa [i rättfärdighet].
 > — Koranen 9:103
 
-Versen riktar sig till profeten Muhammed, som tog emot allmosan och fördelade den bland behövande; givandet och renandet beskrivs som ett och samma skeende. Vad hjärtat renas från preciserar Ibn al-Qayyim i *al-Wābil as-sayyib*, där han skiljer två närbesläktade fel åt:
+Versen riktar sig till profeten Muhammed, som tog emot allmosan och fördelade den bland de behövande. Vad hjärtat renas från preciserar Ibn al-Qayyim i *al-Wābil as-sayyib*, där han skiljer två närbesläktade fel åt:
 
 > Skillnaden mellan girigheten och snålheten är att girigheten är ett häftigt begär efter en sak, en enveten jakt på den och en glupsk lystnad efter att få den, medan snålheten är att vägra ge ut den när man väl fått den, att älska den och hålla den kvar. Människan är alltså girig innan hon har fått, och snål efter att hon har fått.
 
-Zakat riktar sig mot det senare: den lösgör en bestämd del ur en hand som redan slutit sig om den.
+Zakat riktar sig mot det senare, snålheten: en bestämd del ska lämna en hand som redan har slutit sig om rikedomen.
 
-Att rikedomen sviker sin ägare först visste också den fornnordiska diktningen. *Hávamál*, Den höges sång, räknar upp förlusterna i tur och ordning:
+Att egendom är förgänglig visste också den fornnordiska diktningen. *Hávamál*, Den höges sång, räknar upp förlusterna i tur och ordning:
 
 > Boskap dör, fränder dör, själv dör du likaså. Men ett gott namn dör aldrig för den som har vunnit sig ett.
 
-Kvädet ställer den riktiga frågan: vad av en människa överlever henne? Dess svar är eftermälet, det omdöme de efterlevande fäller. Islam ställer samma fråga och pekar på något annat. Profeten Muhammed sade att när en människa dör upphör hennes gärningar utom tre: en fortlöpande allmosa, kunskap som andra har nytta av och ett rättskaffens barn som ber för henne (Sahīh Muslim 1631). Det som överlever ägaren är alltså just den del han gav bort.
+Kvädet frågar vad som överlever en människa och svarar: eftermälet, det omdöme de efterlevande fäller. Islam ställer samma fråga men ger ett annat svar. Profeten Muhammed sade att när en människa dör upphör hennes gärningar utom tre: en fortlöpande allmosa, kunskap som andra har nytta av och ett rättskaffens barn som ber för henne (Sahīh Muslim 1631). Det som överlever ägaren är alltså just den del han gav bort.
 
 ## Är zakat obligatoriskt i islam?
 
@@ -92,17 +92,17 @@ Hadithen återges också i Sahīh Muslim 16. Plikten upprepas över trettio gån
 
 ## Hur mycket zakat ska man betala?
 
-Standardsatsen är 2,5 procent av det sparade överskottet per år – en fjärdedel av en tiondel. Men plikten inträder först när två villkor är uppfyllda. För det första måste förmögenheten nå *nisāb*, den minsta nivån: i klassisk rätt 20 gulddinarer eller 200 silverdirhamer, i dag omkring 85 gram guld eller 595 gram silver i värde. För det andra måste man ha ägt detta överskott i ett helt månår, en period som kallas *hawl*. Denna form, på pengar och förmögenhet, kallas *zakāt al-māl*, och beräkningen i detalj – på smycken, lön, handelsvaror och skulder – behandlas utförligt i den klassiska rättslitteraturen. Den som äger mindre än nisāb, eller nyss kommit över gränsen, är inte skyldig något alls. Först när båda villkoren är uppfyllda förfaller beloppet, och då som en skuld, inte som en gåva.
+Den vanliga satsen är 2,5 procent av det sparade överskottet per år, en fjärdedel av en tiondel. Plikten har två villkor. För det första måste förmögenheten nå *nisāb*, den minsta nivån: i klassisk rätt 20 gulddinarer eller 200 silverdirhamer, i dag omkring 85 gram guld eller 595 gram silver i värde. För det andra måste man ha ägt detta överskott i ett helt månår, en period som kallas *hawl*. Zakat på pengar och förmögenhet kallas *zakāt al-māl*. Hur den räknas på smycken, lön, handelsvaror och skulder behandlas utförligt i den klassiska rättslitteraturen. Den som äger mindre än nisāb, eller nyss kommit över gränsen, är inte skyldig något alls. Först när båda villkoren är uppfyllda förfaller beloppet, och då som en skuld, inte som en gåva.
 
 ## Vem får ta emot zakat?
 
-Mottagarna är inte fritt valda av givaren utan utpekade i Koranen själv. Åtta grupper (*asnāf*) räknas upp:
+Givaren kan inte välja mottagare fritt. Åtta grupper (*asnāf*) pekas ut i Koranen själv:
 
 > Offergåvorna är avsedda enbart för de fattiga och de nödställda och för dem som har hand om insamlandet av dem och för att vinna hjärtan [för tron] och för att friköpa människor ur fångenskap och slaveri och [för att lätta] de skuldtyngdas [bördor] och för [kampen för] Guds sak och för vandringsmannen.
 > — Koranen 9:60
 
-Uppräkningen är sluten: fler mottagare än dessa åtta finns inte. Zakat går därför inte till den som själv är förmögen och självförsörjande, och en muslim kan inte ge den till sina egna föräldrar eller barn, som man redan är försörjningsskyldig för. Ett undantag från förmögenhetsregeln är insamlarna själva: de får sin ersättning ur medlen för arbetets skull, oavsett egna tillgångar.
+Uppräkningen är sluten, och zakat går därför inte till den som själv är förmögen och självförsörjande. Inte heller kan en muslim ge den till sina egna föräldrar eller barn, eftersom han redan är skyldig att försörja dem. Ett undantag från förmögenhetsregeln är insamlarna själva: de får sin ersättning ur medlen för arbetets skull, oavsett egna tillgångar.
 
 ## Vad skiljer zakat från frivillig sadaqa?
 
-Zakat och *sadaqa* förväxlas ofta. Zakat är obligatorisk, med fast sats, fast tröskel och bestämda mottagare. *Sadaqa* är frivillig välgörenhet utan övre gräns, som kan ges när som helst till vem som helst. En tredje, närbesläktad plikt är *zakat al-fitr*, en liten avgift per familjemedlem som betalas före Eid-bönen vid ramadans slut. Att avstå frivillig sadaqa är bara en utebliven belöning. Att vägra själva zakat räknas i klassisk islam som ett svek mot tron. Profeten varnade för att den som äger förmögenhet och inte ger zakat på den ska på Uppståndelsens dag se sin skatt förvandlad till en väsande giftorm som slingrar sig kring hans hals och säger: "Jag är din rikedom, jag är din skatt" (Sahīh al-Bukhārī 1403). Att kalla den en rätt är ingen tolkning: Koranen talar om *haqq maʿlūm*, en fastställd rätt i den troendes egendom, tillkommande den som ber om hjälp och den som står utan (70:24–25).
+Zakat och *sadaqa* förväxlas ofta. Zakat är obligatorisk, med fast sats, fast tröskel och bestämda mottagare. *Sadaqa* är frivillig välgörenhet utan övre gräns, som kan ges när som helst till vem som helst. Närbesläktad med zakat är *zakat al-fitr*, en liten avgift per familjemedlem som betalas före Eid-bönen vid ramadans slut. Den som låter bli att ge sadaqa går bara miste om en belöning; att vägra zakat räknas i klassisk islam som ett svek mot tron. Profeten varnade för att den som äger förmögenhet och inte ger zakat på den ska på Uppståndelsens dag se sin skatt förvandlad till en väsande giftorm som slingrar sig kring hans hals och säger: "Jag är din rikedom, jag är din skatt" (Sahīh al-Bukhārī 1403). I Koranen är zakat en rätt, *haqq maʿlūm*: en fastställd rätt i den troendes egendom, som tillkommer den som ber om hjälp och den som står utan (70:24–25).

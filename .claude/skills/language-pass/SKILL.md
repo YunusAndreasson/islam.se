@@ -33,6 +33,18 @@ full tables from both rulebooks, not the narrow subset `evaluate-article.py`
 scores against. Run it first, then judge each hit by ear; the script proposes,
 you decide.
 
+**The fourth layer is the largest, and the script finds only a slice of it.**
+The September 2026 hub pass made ≈400 edits on 18 pages that the script had passed
+clean. Most were *kollokationer* — real Swedish words in combinations Swedish does
+not make (an abstraction that *bär*, *vilar på* or *håller*), metameningar that
+announce a claim instead of making it, sentences built for effect, and the same
+point restated three or four times. The script now flags the countable members of
+that family (`bär-abstrakt`, `vilar-på`, `rakt-ut`, `meta-*`, *hållit att*,
+*vilket är varför*), and `swedish-voice.md` §17 describes the rest. Budget for it:
+about ten edits on a 1 300-word answer page, 30–50 on a 5 000-word fördjupning.
+When the pass runs as parallel agents, read every agent's word diff before
+accepting it — merging two sentences is where the agents break logic.
+
 ## The house signature — protect it
 
 The corpus's best sentences share one form, the balanced semicolon antithesis:

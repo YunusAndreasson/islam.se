@@ -119,6 +119,29 @@ CANONICAL_FACTS = [
         "canonical": "23 år",
     },
     {
+        "id": "fifs-grundat",
+        "find": r"(?:Förenade islamiska föreningar i Sverige|FIFS)[^.]{0,40}?(?:grundades|bildades)\s+(?:år\s+)?(\d{4})",
+        "ok": r"1974",
+        "canonical": "FIFS grundades 1974",
+        "note": "Sorgenfrei kap. 5 och SOU 2018:18, oberoende av varandra; moske.md hade 1973 "
+                "efter svenskspråkiga Wikipedia (rättat 2026-09-25)",
+    },
+    {
+        "id": "forsta-gudstjanst-ort",
+        "find": r"(?:fribrev|fordringsägare)[^.]{0,160}?(Karls(?:hamn|krona))"
+                r"|(Karls(?:hamn|krona))[^.]{0,160}?(?:fribrev|fordringsägare)",
+        "ok": r"Karlshamn",
+        "canonical": "Karlshamn (Karl XII:s fordringsägare, 1717)",
+        "note": "Sorgenfrei: fordringsägarna fördes till Karlshamn och stannade tre år; "
+                "Karlskrona stod på två sidor och är fel",
+    },
+    {
+        "id": "koranoversattningar-fran-arabiska",
+        "find": r"(\w+)\s+(?:fullständiga\s+)?(?:koran)?översättningar\s+(?:gjorda\s+)?(?:direkt\s+)?från arabiskan",
+        "ok": r"fem",
+        "canonical": "fem (Crusenstolpe, Tornberg, Zetterstéen, Bernström, Wennerström); Sadiqa 1988 är från engelska",
+    },
+    {
         "id": "obligatoriska-rakaat",
         "find": r"(sjutton|17)\s*(?:obligatoriska\s*)?rakaʿāt",
         "ok": r"sjutton",

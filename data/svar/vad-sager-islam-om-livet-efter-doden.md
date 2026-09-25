@@ -13,7 +13,7 @@ keywords:
   - "själen efter döden islam"
 faq:
   - q: "Är livet efter döden en av islams trosartiklar?"
-    a: "Ja, tron på den Yttersta dagen är en av de sex trosartiklarna som nämns i Jibrīl-haditen (Sahīh Muslim 8), tillsammans med tron på Allah, änglarna, böckerna, sändebuden och ödet."
+    a: "Ja, tron på den Yttersta dagen är en av de sex trosartiklarna som nämns i Jibrīl-hadithen (Sahīh Muslim 8), tillsammans med tron på Allah, änglarna, böckerna, sändebuden och ödet."
   - q: "Vad är barzakh i islam?"
     a: "Barzakh är mellantillståndet mellan döden och uppståndelsen, där själen befinner sig i graven. Ordet betyder ungefär 'hinder' och nämns i Koranen 23:100."
   - q: "Vad händer i graven enligt islam?"
@@ -49,15 +49,15 @@ related:
   - "vad-ar-koranen"
 ---
 
-**Islam lär att döden inte är ett slut utan en övergång: själen lever vidare, kroppen återuppväcks på Uppståndelsens dag, och varje människa ställs till svars inför Allah för att sedan föras antingen till paradiset eller helvetet.** Livet efter detta kallas på arabiska *al-ākhira*, och övertygelsen om det är inte en utsmyckning i utkanten av tron utan en av islams sex trosartiklar. Allt en människa gör i detta liv betraktas som ett prov vars resultat redovisas i nästa.
+**Islam lär att döden inte är ett slut utan en övergång: själen lever vidare, kroppen återuppväcks på Uppståndelsens dag, och varje människa ställs till svars inför Allah för att sedan föras antingen till paradiset eller helvetet.** Livet efter detta kallas på arabiska *al-ākhira*, och tron på det är en av islams sex trosartiklar. Allt en människa gör i detta liv betraktas som ett prov vars resultat redovisas i nästa.
 
 ## Är livet efter döden en av islams trosartiklar?
 
-Ja. I den berömda *Jibrīl*-haditen, återgiven i Sahīh Muslim 8, räknar profeten Muhammed upp trons sex grundpelare (*arkān al-īmān*): tro på Allah, Hans änglar, Hans böcker, Hans sändebud, den Yttersta dagen och ödet (*qadar*). Tron på *al-ākhira* hör alltså till själva definitionen av att vara troende, och den vilar på *tawhīd*: att Allah ensam dömer och belönar. Koranen beskriver hela det jordiska livet som ett prov: Allah har "skapat döden och livet" för att pröva "vem av er som i sitt handlande är den bäste" (Koranen 67:2). Det jordiska livet är provet; den Yttersta dagen är när det rättas – och då går inga svar längre att sudda.
+Ja. I den berömda *Jibrīl*-hadithen, återgiven i Sahīh Muslim 8, räknar profeten Muhammed upp trons sex grundpelare (*arkān al-īmān*): tro på Allah, hans änglar, hans böcker, hans sändebud, den Yttersta dagen och ödet (*qadar*). Tron på *al-ākhira* hör alltså till själva definitionen av att vara troende, och den hänger samman med *tawhīd*: det är Allah ensam som dömer och belönar. Koranen beskriver hela det jordiska livet som ett prov: Allah har "skapat döden och livet" för att pröva "vem av er som i sitt handlande är den bäste" (Koranen 67:2).
 
 ## Vad händer med själen i graven (barzakh)?
 
-När den utsatta tiden är inne tar dödsängeln själen (jfr Koranen 32:11). Därefter inträder *barzakh*, mellantillståndet mellan döden och uppståndelsen; Koranen talar om ett hinder som skiljer de döda från återkomsten till världen ända till uppståndelsen (Koranen 23:100). I graven kommer två änglar, *Munkar* och *Nakīr*, och ställer den döde tre frågor: vem hans Herre var, vilken hans religion var och vem hans profet var. Enligt al-Barāʾ ibn ʿĀzibs hadith (Sunan Abī Dāwūd 4753) svarar den rättfärdige med trygghet och möter ro och ljus, medan förnekaren drabbas av gravens straff, *ʿadhāb al-qabr*. Ibn al-Qayyim ägnade ett helt verk, *Kitāb ar-Rūh*, åt själens tillstånd i detta skede. Graven är därför inget tyst väntrum – den är förhörssalen där domen redan har börjat.
+När den utsatta tiden är inne tar dödsängeln själen (jfr Koranen 32:11). Därefter inträder *barzakh*, mellantillståndet mellan döden och uppståndelsen; Koranen talar om ett hinder som skiljer de döda från återkomsten till världen ända till uppståndelsen (Koranen 23:100). I graven kommer två änglar, *Munkar* och *Nakīr*, och ställer den döde tre frågor: vem som är hans Herre, vilken som är hans religion och vem som är hans profet. Enligt al-Barāʾ ibn ʿĀzibs hadith (Sunan Abī Dāwūd 4753) svarar den rättfärdige utan att tveka och får ro och ljus i graven, medan förnekaren drabbas av gravens straff, *ʿadhāb al-qabr*. Ibn al-Qayyim ägnade ett helt verk, *Kitāb ar-Rūh*, åt själens tillstånd i detta skede.
 
 ## Vad innebär uppståndelsen och domedagen?
 
@@ -66,12 +66,12 @@ På *Yawm al-Qiyāma*, Uppståndelsens dag, blåses det i basunen, kropparna åt
 > På Uppståndelsens dag skall Vi ställa fram rättvisande vågar och ingen skall då lida den minsta orätt. [Allt,] till och med det som väger så litet som ett senapskorn, skall Vi dra fram i ljuset.
 > — Koranen 21:47
 
-Den som får sin bok i höger hand är räddad, den som får den i vänster går mot straffet. Till sist måste var och en passera bron *as-sirāt*, spänd över själva helvetet. Där hjälper varken börd, rikedom eller mäktiga vänner – var och en står ensam med sin egen bok i handen.
+Den som får sin bok i höger hand är räddad, och den som får den i vänster hand går mot straffet. Till sist måste var och en passera bron *as-sirāt*, spänd över själva helvetet. Där hjälper varken börd, rikedom eller mäktiga vänner.
 
 ## Hur ser paradiset och helvetet ut i islam?
 
-Domens utfall är två slutmål: paradiset, *al-Janna*, och helvetet, *an-Nār* (även kallat Jahannam). Paradiset skildras i Koranen som lustgårdar med porlande floder, bestående glädje och framför allt Allahs välbehag, medan Elden är straffet för förnekelse och orättfärdighet. "Varje själ skall smaka döden", säger Koranen, och full lön ges först på Uppståndelsens dag (Koranen 3:185). Klassiska lärda betonar att Allah är på en gång fullkomligt rättvis och oändligt barmhärtig: en troende som tyngs av synder kan efter en tid föras ut ur Elden genom förbön och Guds nåd, medan paradiset är evigt. Elden kan ta slut för den som bar så lite som ett senapskorn av tro, men paradiset tar aldrig slut; i islam får barmhärtigheten sista ordet.
+Domen leder till ett av två slutmål: paradiset, *al-Janna*, eller helvetet, *an-Nār* (även kallat Jahannam). Paradiset skildras i Koranen som lustgårdar med porlande floder, bestående glädje och framför allt Allahs välbehag, medan Elden är straffet för förnekelse och orättfärdighet. "Varje själ skall smaka döden", säger Koranen, och full lön ges först på Uppståndelsens dag (Koranen 3:185). Klassiska lärda betonar att Allah är på en gång fullkomligt rättvis och oändligt barmhärtig: en troende som tyngs av synder kan efter en tid föras ut ur Elden genom förbön och Guds nåd, och den som kommer in i paradiset stannar där för evigt.
 
 ## Varför är tron på livet efter döden så viktig?
 
-Därför att den ger det jordiska livet både mening och tyngd. Om ingen slutgiltig dom fanns skulle förtryckaren och den förtryckte till sist mötas av samma intet; tron på *al-ākhira* svarar att ingen orätt förblir oavgjord. Den binder samman *tawhīd*, moraliskt ansvar och hopp: människan är skapad för att prövas, hålls ansvarig för sina val och bärs av löftet om Guds barmhärtighet. Därför talas det i islam inte om döden i viskningar – den är gränsen där allt till sist vägs rätt.
+Därför att den ger det jordiska livet både mening och tyngd. Om ingen slutgiltig dom fanns skulle förtryckaren och den förtryckte till sist få samma slut. Tron på *al-ākhira* innebär att ingen orätt lämnas ogottgjord. Den binder samman *tawhīd*, moraliskt ansvar och hopp: människan är skapad för att prövas, hålls ansvarig för sina val och bärs av löftet om Guds barmhärtighet.

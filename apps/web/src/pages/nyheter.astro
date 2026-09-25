@@ -26,7 +26,7 @@ import "../styles/nyheter.css";
 // description that offers something the page does not have is the one kind of
 // meta copy that actively costs trust.
 const description =
-	"Världsnyheter på svenska, levererade av zuhd.news och uppdaterade flera gånger om dagen. Det senaste dygnets rapportering, notis för notis.";
+	"Världsnyheter på svenska från zuhd.news, uppdaterade flera gånger om dagen. Det senaste dygnets rapportering, notis för notis.";
 ---
 
 <CollectionIndexPage
@@ -74,7 +74,7 @@ const description =
 	    an empty lead followed by a stray one. It looked right only because the
 	    inner <p> carried the same two classes. */}
 	<span slot="lead">
-		Världsnyheter på svenska, levererade av{" "}
+		Världsnyheter på svenska från{" "}
 		<a href="https://zuhd.news/" rel="noopener">zuhd.news</a>.
 	</span>
 
@@ -105,7 +105,7 @@ const description =
 		<div id="nyheter-lista" class="nyheter-dagar" data-nyheter="full" aria-busy="true"></div>
 
 		<p id="nyheter-passerad" class="nyheter-passerad" hidden>
-			Notisen du följde en länk till har lämnat dygnets fönster. Den finns kvar
+			Notisen du följde en länk till är äldre än ett dygn och visas inte längre här. Den finns kvar
 			på <a href="https://zuhd.news/" rel="noopener">zuhd.news</a>.
 		</p>
 
@@ -136,7 +136,7 @@ const description =
 			</li>
 			<li>
 				<SectionLink class="label arrow-link" href="/fordjupning/">Fördjupning</SectionLink>
-				<span>Långa essäer om islams historia, tänkande och plats i Sverige.</span>
+				<span>Längre genomgångar av omdiskuterade ämnen, från källorna till svensk rätt.</span>
 			</li>
 		</ul>
 	</nav>

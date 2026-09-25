@@ -30,7 +30,7 @@ export const AMNEN: Amne[] = [
 	{
 		name: "Skriften",
 		slug: "skriften",
-		framing: "Vad Koranen säger, hur dess språk bär och hur den uppenbarades och bevarades.",
+		framing: "Vad Koranen säger, vad dess språk förmår och hur den uppenbarades och bevarades.",
 	},
 	{
 		name: "Själen",
@@ -57,7 +57,7 @@ export const AMNEN: Amne[] = [
 	{
 		name: "Norden",
 		slug: "norden",
-		framing: "Nordisk myt och gammalt svenskt arv, prövat i nytt ljus.",
+		framing: "Nordisk myt och gammalt svenskt arv, sedda i ett nytt ljus.",
 	},
 ];
 

@@ -64,7 +64,7 @@ essays:
 
 ## Vad betyder ödet (qadar) i islam?
 
-Ordet *qadar* betyder ett fastställt mått, och tillsammans med *qadāʾ* (Guds beslut) syftar det på att ingenting inträffar utan att Gud först känt, bestämt och skapat det. När ängeln Jibrīl (Gabriel) frågade profeten Muhammed om tron (*īmān*) räknade profeten upp sex ting: tron på Gud, hans änglar, hans böcker, hans sändebud, den yttersta dagen "och ödet, dess goda och dess onda" (Sahīh Muslim 8), en hadith som imamen an-Nawawī gjorde till den andra i sin berömda samling av fyrtio. Koranen knyter skapelsen själv till måttet:
+Ordet *qadar* betyder ett fastställt mått, och tillsammans med *qadāʾ* (Guds beslut) syftar det på att ingenting inträffar utan att Gud på förhand vetat om det, bestämt det och skapat det. När ängeln Jibrīl (Gabriel) frågade profeten Muhammed om tron (*īmān*) räknade profeten upp sex ting: tron på Gud, hans änglar, hans böcker, hans sändebud, den yttersta dagen "och ödet, dess goda och dess onda" (Sahīh Muslim 8). Imamen an-Nawawī tog in hadithen som nummer två i sin berömda samling av fyrtio. Koranen knyter skapelsen själv till måttet:
 
 > ALLT har Vi skapat med rätta mått
 > — Koranen 54:49
@@ -73,30 +73,30 @@ Ingenting i tillvaron faller alltså utanför Guds mått, inte heller det männi
 
 ## Vilka är de fyra nivåerna i tron på ödet?
 
-De lärda, däribland Ibn al-Qayyim i *Shifāʾ al-ʿalīl*, sammanfattar tron på ödet i fyra nivåer (*marātib al-qadar*). Den första är kunskapen (*ʿilm*): Gud vet i evighet allt som varit, är och kommer att bli. Den andra är nedskrivningen (*kitāba*) i den bevarade tavlan, *al-Lawh al-Mahfūz*. Profeten sade: "Det första Gud skapade var Pennan. Han sade till den: Skriv. Den sade: Vad skall jag skriva? Han sade: Skriv ned allt som är bestämt till dess timmen är inne" (Sunan Abī Dāwūd 4700; även Jāmiʿ at-Tirmidhī 2155). Den tredje nivån är viljan (*mashīʾa*), att inget rör sig utan att Gud vill det, och den fjärde är skapelsen (*khalq*): Gud har skapat allt, även människans gärningar. Koranen bekräftar nedskrivningen:
+De lärda, däribland Ibn al-Qayyim i *Shifāʾ al-ʿalīl*, sammanfattar tron på ödet i fyra nivåer (*marātib al-qadar*). Den första är kunskapen (*ʿilm*): Gud har från evighet vetat allt som har varit, är och kommer att bli. Den andra är nedskrivningen (*kitāba*) i den bevarade tavlan, *al-Lawh al-Mahfūz*. Profeten sade: "Det första Gud skapade var Pennan. Han sade till den: Skriv. Den sade: Vad skall jag skriva? Han sade: Skriv ned allt som är bestämt till dess timmen är inne" (Sunan Abī Dāwūd 4700; även Jāmiʿ at-Tirmidhī 2155). Den tredje nivån är viljan (*mashīʾa*), att inget rör sig utan att Gud vill det, och den fjärde är skapelsen (*khalq*): Gud har skapat allt, även människans gärningar. Om nedskrivningen står det i Koranen:
 
 > Ingen olycka drabbar jorden och inte heller er själva utan att den förts in i [Vår] bok, innan Vi sätter den i verket
 > — Koranen 57:22
 
 ## Har människan fri vilja om allt redan är skrivet?
 
-Här väljer *ahl as-sunna* medelvägen mellan två diken. *Qadariyya* förnekade att Gud förutbestämt och skapat människans handlingar, och överdrev därmed den fria viljan. *Jabriyya* förnekade människans vilja helt och gjorde henne till ett viljelöst redskap. Den klassiska läran, så som Ibn Taymiyya formulerade den, håller fast vid båda sanningarna samtidigt: människan har en verklig vilja och förmåga (*qudra*), men både viljan och förmågan är i sin tur skapade av Gud. Koranen ställer de två sanningarna intill varandra i två på varandra följande verser: den ena talar om den människa som vill gå den raka vägen (81:28), den andra säger att ingen kan vilja om inte Gud, världarnas Herre, vill (81:29). Viljan är verklig i den första satsen och skapad i den andra. Människan väljer och handlar i verklig mening, och bär därför fullt ansvar på domens dag, men aldrig utanför det Gud har skapat.
+Här går *ahl as-sunna* en medelväg mellan två villoläror. *Qadariyya* förnekade att Gud förutbestämt och skapat människans handlingar, och överdrev därmed den fria viljan. *Jabriyya* förnekade människans vilja helt och gjorde henne till ett viljelöst redskap. Den klassiska läran, så som Ibn Taymiyya formulerade den, håller fast vid båda sanningarna samtidigt: människan har en verklig vilja och förmåga (*qudra*), men både viljan och förmågan är i sin tur skapade av Gud. I Koranen står de sida vid sida, i två verser som följer på varandra: den ena talar om den människa som vill gå den raka vägen (81:28), den andra säger att ingen kan vilja om inte Gud, världarnas Herre, vill (81:29). Viljan är verklig i den första versen och skapad i den andra. Människan väljer och handlar i verklig mening och bär därför fullt ansvar på domens dag, men hennes val sker aldrig utanför det Gud har skapat.
 
 ## Får man skylla sina synder på ödet?
 
-Nej. Ödet åberopas inför det som drabbar människan utifrån – sjukdom, förlust, motgång – och möts då med tålamod; synden däremot är människans eget val och möts med ånger, aldrig med ursäkten "det var ödet". Ibn Taymiyya drar gränsen i *al-ʿUbūdiyya*:
+Nej. Det som drabbar människan utifrån, som sjukdom, förlust och motgång, bär hon med tålamod som Guds beslut; synden är hennes eget val och möts med ånger, aldrig med ursäkten "det var ödet". Ibn Taymiyya drar gränsen i *al-ʿUbūdiyya*:
 
 > Ödet har vi blivit befallda att finna oss i och att härda under vad det för med sig, i de olyckor som drabbar oss: fattigdom, sjukdom och fruktan.
 
-Att Pennan skrivit allt upphäver inte plikten att handla och söka medlen (*asbāb*); skiljelinjen mot ren ödestro går just där. Den fornnordiska hållningen kunde dra slutsatsen att försiktighet saknar mening; i *Njáls saga* avfärdar Gunnar på Hlíðarendi en varning med orden:
+Att Pennan skrivit allt upphäver inte plikten att handla och ta till de medel (*asbāb*) som står till buds. Just där går gränsen mot ren ödestro. I den fornnordiska ödestron kunde slutsatsen bli att försiktighet saknar mening. I *Njáls saga* avfärdar Gunnar på Hlíðarendi en varning med orden:
 
 > Döden kommer när den kommer, var jag än är, om det är mitt öde.
 
-Islam delar utgångspunkten att stunden är utsatt, men drar motsatt slutsats om medlen: också de är skrivna, och därför ska de sökas. När pesten härjade i Shām vände kalifen ʿUmar ibn al-Khattāb om hellre än att rida in i den drabbade staden. De som invände frågade om han flydde undan Guds beslut; han svarade att han flydde "från Guds beslut till Guds beslut" (Sahīh al-Bukhārī 5729; Sahīh Muslim 2219).
+Islam delar utgångspunkten att stunden är utsatt, men drar motsatt slutsats om medlen: också de är skrivna, och därför ska de användas. När pesten härjade i Shām vände kalifen ʿUmar ibn al-Khattāb om i stället för att rida in i det drabbade landet. De som invände frågade om han flydde undan Guds beslut; han svarade att han flydde "från Guds beslut till Guds beslut" (Sahīh al-Bukhārī 5729; Sahīh Muslim 2219).
 
 ## Vad ger tron på ödet den troende?
 
-Tron ger inre vila och förtröstan (*tawakkul*). Den som vet att ingen olycka når honom utom med Guds tillåtelse blir varken krossad av förlust eller högmodig i framgång. Det är just detta syfte Koranen anger, "för att ni inte skall sörja över det som ni har gått miste om, och inte heller jubla i övermod över det som Han har skänkt er" (Koranen 57:23). Den klassiska trosläran kallar förnöjsamheten (*ridā*) med Guds beslut för hjärtats ro. Ibn al-Jawzi beskriver i *Sayd al-khātir* hur den ron ser ut när den sätts på prov:
+Tron ger inre vila och förtröstan (*tawakkul*). Den som vet att ingen olycka når honom utom med Guds tillåtelse blir varken krossad av förlust eller högmodig i framgång. Just det syftet anges i versen efter den om nedskrivningen: "för att ni inte skall sörja över det som ni har gått miste om, och inte heller jubla i övermod över det som Han har skänkt er" (Koranen 57:23). Den klassiska trosläran kallar förnöjsamheten (*ridā*) med Guds beslut för hjärtats ro. Ibn al-Jawzi beskriver i *Sayd al-khātir* hur den ron ser ut när den sätts på prov:
 
 > Den vars tro är hel bär inget invändande i hjärtat och låter ingen viskning slå sig ner inför det som sker; ju hårdare prövningen blir, desto mer växer hans tro och desto fastare blir hans överlåtelse. Han kan be utan att se något svar och ändå vara oförändrad i sitt inre, eftersom han vet att han ägs, och att den som äger honom förfogar efter sin vilja.
 

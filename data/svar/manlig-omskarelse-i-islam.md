@@ -16,9 +16,9 @@ faq:
   - q: "Är omskärelse av pojkar obligatorisk i islam?"
     a: "Skolorna är oeniga. Shāfiʿī- och Hanbalī-skolorna ser den som obligatorisk (wājib) för män, medan Hanafī- och Mālikī-skolorna ser den som en starkt rekommenderad sunna. Ingen klassisk skola behandlar den som valfri."
   - q: "Står omskärelse i Koranen?"
-    a: "Nej, ingreppet nämns inte uttryckligen i Koranen. Seden vilar på profeten Muhammeds sunna och på påbudet att följa Abrahams rena gudstro (Koranen 16:123)."
+    a: "Nej, ingreppet nämns inte uttryckligen i Koranen. Seden bygger på profeten Muhammeds sunna och på påbudet att följa Abrahams rena gudstro (Koranen 16:123)."
   - q: "Vid vilken ålder omskärs muslimska pojkar?"
-    a: "Islam fastställer ingen exakt ålder. I praktiken sker det mellan födelsen och puberteten; de flesta lärde förordar tidig barndom, gärna innan pojken börjar be regelbundet."
+    a: "Islam fastställer ingen exakt ålder. I praktiken sker det mellan födelsen och puberteten; de flesta lärda förordar tidig barndom, gärna innan pojken börjar be regelbundet."
   - q: "Är manlig och kvinnlig omskärelse samma sak?"
     a: "Nej. De delar bara det arabiska ordet khitān. Manlig omskärelse är borttagandet av förhuden och är medicinskt erkänd; kvinnlig könsstympning är ett helt annat ingrepp med en annan rättslig ställning."
 sources:
@@ -48,27 +48,27 @@ related:
 
 ## Vad är omskärelse i islam, och varifrån kommer seden?
 
-Omskärelse i islam (*khitān*) är borttagandet av förhuden på pojkar, och seden vilar inte på en enskild koranvers utan på profeten Muhammeds *sunna*. Den klassiska grunden är en hadith där följeslagaren Abu Hurayra återger profetens ord:
+Omskärelse i islam (*khitān*) är borttagandet av förhuden på pojkar. Ingen koranvers nämner seden uttryckligen; den bygger på profeten Muhammeds *sunna*. Den klassiska grunden är en hadith där följeslagaren Abu Hurayra återger profetens ord:
 
 > Fem ting hör till den naturliga läggningen (*fitra*): omskärelsen, rakningen av könshåret, att klippa mustaschen, att klippa naglarna och att rycka bort håret under armarna.
 >
 > — Sahīh al-Bukhārī 5889; Sahīh Muslim 257
 
-Seden förknippas framför allt med Abraham. Profeten berättade att Abraham omskar sig själv vid åttio års ålder (al-Bukhārī 6298, Muslim 2370), och Koranen ålägger uttryckligen efterföljelse av hans rena gudstro:
+Seden förknippas framför allt med Abraham. Profeten berättade att Abraham omskar sig själv vid åttio års ålder (al-Bukhārī 6298, Muslim 2370), och Koranen befaller uttryckligen profeten att följa Abrahams rena gudstro:
 
 > Och tiden kom då Vi gav dig, [Muhammad, ingivelsen] att följa Abraham i hans rena, ursprungliga tro, han som inte var en sådan som ger avgudar sin dyrkan.
 >
 > — Koranen 16:123
 
-Det muslimen bär är därför inget sentida påfund, utan samma märke som Abraham en gång skar i sitt eget kött – ett arv lika gammalt som tron på en enda Gud.
+Muslimerna följer därmed en sed som går tillbaka på Abraham.
 
 ## Är omskärelse av pojkar obligatorisk eller en rekommendation?
 
-Här skiljer sig de fyra klassiska rättsskolorna åt. Hanafī- och Mālikī-skolorna ser omskärelsen som en starkt rekommenderad *sunna* (*sunna muʾakkada*) snarare än ett absolut krav. Shāfiʿī- och Hanbalī-skolorna betraktar den däremot som obligatorisk (*wājib*) för män. Den hanbalitiske rättslärde Ibn Qudāma räknar den som en plikt för männen, och Ibn Taymiyya och Ibn al-Qayyim lutade åt samma håll. Den samtida lärde Ibn al-ʿUthaymīn för samma linje: den mest korrekta uppfattningen är att omskärelsen är obligatorisk för mannen. Skolorna tvistar alltså inte om *huruvida* pojken ska omskäras, utan om *hur tungt* budet väger; "frivilligt" är ett svar ingen av dem ger.
+Här skiljer sig de fyra klassiska rättsskolorna åt. Hanafī- och Mālikī-skolorna ser omskärelsen som en starkt rekommenderad *sunna* (*sunna muʾakkada*) snarare än ett absolut krav. Shāfiʿī- och Hanbalī-skolorna betraktar den däremot som obligatorisk (*wājib*) för män. Den hanbalitiske rättslärde Ibn Qudāma räknar den som en plikt för männen, och Ibn Taymiyya och Ibn al-Qayyim lutade åt samma håll. Den samtida lärde Ibn al-ʿUthaymīn för samma linje: den mest korrekta uppfattningen är att omskärelsen är obligatorisk för mannen. Skolorna är oense om hur bindande budet är, men "frivilligt" är ett svar som ingen av dem ger.
 
 ## Varför omskärs muslimska pojkar?
 
-Tre skäl återkommer. Först renheten (*tahāra*): under förhuden kan urindroppar samlas och göra den fullständiga renhet som bönen kräver svår att uppnå. Därför knyter Shāfiʿī- och Hanbalī-skolorna ingreppet direkt till giltig bön. Sedan *fitra*: omskärelsen räknas som en del av människans ursprungliga, sunda läggning. Och slutligen tillhörigheten: den är ett synligt tecken på att höra till muslimernas gemenskap, i Abrahams efterföljd. Statistiskt avtecknar sig detta skarpt: enligt en studie från University of Sydney (2016) är omskärelse nära nog allmän i muslimska länder, omkring 100 procent i Iran, 99 procent i Irak och 93 procent i Indonesien, världens folkrikaste muslimska land, medan andelen globalt ligger kring 38 procent. Få trosseder ritar in sig så entydigt på kartan: där islam slår rot, följer omskärelsen med.
+Tre skäl återkommer. Först renheten (*tahāra*): under förhuden kan urindroppar samlas och göra den fullständiga renhet som bönen kräver svår att uppnå. Därför knyter Shāfiʿī- och Hanbalī-skolorna ingreppet direkt till giltig bön. Sedan *fitra*: omskärelsen räknas som en del av människans ursprungliga, sunda läggning. Och slutligen tillhörigheten: den är ett synligt tecken på att höra till muslimernas gemenskap, i Abrahams efterföljd. Enligt en studie från University of Sydney (2016) är omskärelse nära nog allmän i muslimska länder, med omkring 100 procent i Iran, 99 procent i Irak och 93 procent i Indonesien, världens folkrikaste muslimska land, medan andelen globalt ligger kring 38 procent.
 
 ```chart
 type: bars
@@ -86,8 +86,8 @@ data:
 
 ## När ska en pojke omskäras?
 
-Islam fastställer ingen exakt ålder. Källorna anger inget bestämt datum, och i praktiken sker omskärelsen någon gång mellan födelsen och puberteten beroende på land och familjetradition. De flesta lärda förordar tidig barndom, och gärna före den ålder då pojken börjar be regelbundet, så att han kan utföra bönen i full renhet; vissa pekar på sjunde dagen efter födelsen som en lämplig tidpunkt. Ofta firas dagen som en familjehögtid. Tidpunkten är vägledning, inte villkor: det avgörande är *att* pojken omskärs, inte exakt *när*.
+Islam fastställer ingen exakt ålder, och i praktiken sker omskärelsen någon gång mellan födelsen och puberteten beroende på land och familjetradition. De flesta lärda förordar tidig barndom, helst före den ålder då pojken börjar be regelbundet, så att han kan utföra bönen i full renhet. Vissa pekar på sjunde dagen efter födelsen som en lämplig tidpunkt. Ofta firas dagen som en familjehögtid.
 
 ## Är manlig omskärelse detsamma som kvinnlig omskärelse?
 
-Nej. De delar det arabiska ordet *khitān* men är två helt skilda ting. Manlig omskärelse, borttagandet av förhuden, är ett avgränsat ingrepp som erkänns inom sjukvården och som de klassiska skolorna är eniga om. Kvinnlig könsstympning (FGM), som Världshälsoorganisationen fördömer, har en helt annan rättslig och medicinsk ställning och behandlas separat i islamisk rätt och på en egen sida här. Att blanda samman dem är att låta ett gemensamt ord skymma två väsensskilda ingrepp; likheten ligger i namnet, inte i saken.
+Nej. De delar det arabiska ordet *khitān* men är två helt skilda ting. Manlig omskärelse, borttagandet av förhuden, är ett avgränsat ingrepp som erkänns inom sjukvården och som de klassiska skolorna är eniga om. Kvinnlig könsstympning (FGM), som Världshälsoorganisationen fördömer, har en helt annan rättslig och medicinsk ställning och behandlas separat i islamisk rätt och på en egen sida här.

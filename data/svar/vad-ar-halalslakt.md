@@ -14,7 +14,7 @@ keywords:
   - "halal kött regler"
 faq:
   - q: "Måste man säga Bismillah vid halalslakt?"
-    a: "Ja. Slaktaren uttalar \"Bismillah\" (i Guds namn) över varje djur. Enligt den klassiska hanbalitiska hållningen, som Ibn Taymiyya företräder, är detta ett villkor för att köttet ska vara halal, men det ursäktas om man glömmer det av misstag."
+    a: "Ja. Slaktaren uttalar \"Bismillah\" (i Guds namn) över varje djur. Enligt hanafiter, malikiter och den mest kända hanbalitiska hållningen är detta ett villkor för att köttet ska vara halal, men det ursäktas om man glömmer det. Ibn Taymiyya ansåg att det krävs även av den som glömmer."
   - q: "Är kött från judar och kristna halal för muslimer?"
     a: "Ja. Koranen 5:5 tillåter uttryckligen födan hos \"Bokens folk\" (ahl al-kitāb), alltså judar och kristna, så länge djuret slaktats och inte vigts åt någon annan än Gud."
   - q: "Är halalslakt laglig i Sverige?"
@@ -40,7 +40,7 @@ related:
   - "eid-al-fitr-och-eid-al-adha"
 ---
 
-**Halalslakt (arabiska *dhabīha*) är den islamiska metoden att slakta tillåtna landdjur och fåglar genom ett snabbt, djupt snitt över halsen medan Guds namn uttalas, så att blodet får rinna ut helt.** Ordet *halal* betyder helt enkelt "tillåtet", och slakten är det som gör skillnaden mellan kött en muslim får äta och kött som är haram, förbjudet.
+**Halalslakt (arabiska *dhabīha*) är den islamiska metoden att slakta tillåtna landdjur och fåglar genom ett snabbt, djupt snitt över halsen medan Guds namn uttalas, så att blodet får rinna ut helt.** Ordet *halal* betyder helt enkelt "tillåtet", och det är slakten som avgör om köttet är tillåtet för en muslim eller haram, förbjudet.
 
 ## Vad betyder halal och haram när det gäller kött?
 
@@ -50,30 +50,28 @@ related:
 >
 > — Koranen 5:3
 
-Härav följer halalslaktens kärna: djuret får inte vara självdött, blodet ska tömmas, svin är aldrig tillåtet, och slakten måste ske i Guds namn allena. Det avgörande är alltså inte vad djuret är, utan hur – och i vems namn – det dog.
+Härav följer halalslaktens kärna: djuret får inte vara självdött, blodet ska tömmas, svin är aldrig tillåtet, och slakten måste ske i Guds namn allena.
 
 ## Hur går en halalslakt till steg för steg?
 
-Slaktaren använder en mycket vass kniv och lägger ett enda snabbt snitt tvärs över strupen. Snittet ska skära av luftstrupen, matstrupen och de båda halspulsådrorna men lämna ryggraden intakt, så att hjärtat fortsätter pumpa ut blodet medan djuret snabbt förlorar medvetandet. Djuret ska vara levande och friskt i slaktögonblicket, hanteras lugnt och inte se kniven eller andra djur dödas. Profeten Muhammed band samman metod och barmhärtighet:
+Slaktaren använder en mycket vass kniv och lägger ett enda snabbt snitt tvärs över strupen. Snittet ska skära av luftstrupen, matstrupen och de båda halspulsådrorna men lämna ryggraden intakt, så att hjärtat fortsätter pumpa ut blodet medan djuret snabbt förlorar medvetandet. Djuret ska vara vid liv i slaktögonblicket, hanteras lugnt och inte se kniven eller andra djur dödas. Profeten Muhammed band samman metod och barmhärtighet:
 
 > Gud har föreskrivit *iḥsān* (att göra allt väl) i allt. När ni dödar, döda väl, och när ni slaktar, slakta väl; låt var och en av er slipa sitt blad och skona sitt djur.
 >
 > — Sahīh Muslim 1955
 
-En slö kniv eller en darrande hand förvandlar en gudstjänst till plåga – och köttet till haram.
-
 ## Måste slaktaren säga "Bismillah"?
 
-Ja. Vid snittet uttalas *tasmiya* över varje enskilt djur: "Bismillah", i Guds namn, gärna följt av "Allāhu akbar". Koranen är otvetydig: "ät inte av det som Guds namn inte har uttalats över" (Koranen 6:121). De klassiska skolorna skiljer sig i nyans: shafiiterna ser det som rekommenderat, medan hanafiter, malikiter och hanbaliter gör det till ett villkor. Den starkaste hållningen, företrädd av Ibn Taymiyya, är tydlig: ett medvetet utelämnande gör köttet haram, men den som bara glömmer är ursäktad (Muhammad Sālih al-Munajjid). Bakom regeln ligger *tawhīd*, Guds enhet: slaktarens "Bismillah" är ingen tom ritual utan en bekännelse om att livet togs med Skaparens tillstånd, inte människans godtycke.
+Ja. Vid snittet uttalas *tasmiya* över varje enskilt djur: "Bismillah", i Guds namn, gärna följt av "Allāhu akbar". Grunden är versen: "ät inte av det som Guds namn inte har uttalats över" (Koranen 6:121). De klassiska skolorna skiljer sig åt: shafiiterna ser det som rekommenderat, medan hanafiter, malikiter och hanbaliter gör det till ett villkor. Enligt deras mest kända hållning gör ett medvetet utelämnande köttet haram, medan den som bara glömmer är ursäktad (Muhammad Sālih al-Munajjid). Ibn Taymiyya höll en strängare hållning för den starkaste: Guds namn måste uttalas utan undantag, också av den som glömmer (*Majmūʿ al-fatāwā* 35:239). Bakom regeln ligger *tawhīd*, Guds enhet: slaktarens "Bismillah" är en bekännelse att livet togs med Skaparens tillstånd och inte efter människans godtycke.
 
 ## Vem får utföra halalslakt – och är annans kött halal?
 
-Slaktaren ska vara en tillräknelig muslim eller någon ur *ahl al-kitāb*, "Bokens folk", det vill säga en jude eller kristen. Koranen tillåter uttryckligen deras mat: födan hos "dem som fick del av uppenbarelsen [i äldre tid]" är "tillåten för er" (Koranen 5:5). Det som väger är i vems namn djuret vigs, inte vem som håller kniven: kött som slaktats åt en avgud, ett helgon eller "för lyckans skull" faller under förbudet mot "ett annat namn än Guds". Därför kan en muslim äta vid en kristen grannes bord, men aldrig av det som offrats vid sidan av Gud.
+Slaktaren ska vara en tillräknelig muslim eller någon ur *ahl al-kitāb*, "Bokens folk", det vill säga en jude eller kristen. Koranen tillåter uttryckligen deras mat: födan hos "dem som fick del av uppenbarelsen [i äldre tid]" är "tillåten för er" (Koranen 5:5). Lika avgörande är i vems namn djuret vigs: kött som slaktats åt en avgud, ett helgon eller "för lyckans skull" faller under förbudet mot "ett annat namn än Guds". Därför kan en muslim äta vid en kristen grannes bord, men aldrig av det som offrats vid sidan av Gud.
 
 ## Är halalslakt laglig i Sverige?
 
-Ja – men bara med bedövning. Halal är alltså inte olagligt i Sverige; det är den obedövade slakten som är det. Svensk djurskyddslag kräver att alla djur bedövas före slakt, och [Jordbruksverket](https://jordbruksverket.se/djur/djurtransportorer-och-slakterier/religios-slakt) är tydligt med att djur ska bedövas i samband med slakt. Obedövad slakt är därmed olaglig i landet. Frågan blir då om bedövning är förenlig med *dhabīha*, och där går de lärda isär. Många samtida auktoriteter och halalorgan godtar *reversibel* bedövning, en elstöt som inte i sig dödar, under villkoret att djuret skulle överleva om snittet uteblev och att döden orsakas av blodtömningen. Andra, däribland flera av de lärda som denna sida i övrigt hänvisar till, är betydligt mer restriktiva och avråder från bedövning över huvud taget, eftersom risken att djuret dör av bedövningen är svår att utesluta i praktiken. Alla är däremot eniga om gränsen: är djuret dött redan före kniven blir det "självdött" och därmed *harām*. I Sverige möts alltså två krav i samma snitt: lagen kräver bedövning, sharia att djuret lever när bladet går in och att blodet rinner ut.
+Ja – men bara med bedövning. Halal är alltså inte olagligt i Sverige; det är den obedövade slakten som är det. Svensk djurskyddslag kräver att alla djur bedövas före slakt, vilket [Jordbruksverket](https://jordbruksverket.se/djur/djurtransportorer-och-slakterier/religios-slakt) också framhåller på sin sida om religiös slakt. Frågan blir då om bedövning är förenlig med *dhabīha*, och där går de lärda isär. Många samtida auktoriteter och halalorgan godtar *reversibel* bedövning, en elstöt som inte i sig dödar, på villkor att djuret skulle överleva om snittet uteblev och att döden orsakas av blodtömningen. Andra, däribland flera av de lärda som denna sida i övrigt hänvisar till, är betydligt mer restriktiva och avråder från bedövning över huvud taget, eftersom risken att djuret dör av bedövningen är svår att utesluta i praktiken. Alla är däremot eniga om gränsen: är djuret dött redan före kniven blir det "självdött" och därmed *harām*.
 
 ## Är all halalmärkt mat verkligen halal?
 
-Inte automatiskt. En halalmärkning är bara så pålitlig som den kedja den vilar på: slaktmetod, *tasmiya* och att inget svin- eller blodtillsatt korsar vägen i förädlingen. Köttet är dessutom bara en del; samma logik gör alkohol och andra berusningsmedel förbjudna, eftersom det rena ska hållas skilt från det orena. Den årliga offerslakten vid *Eid al-Adha* (*qurbānī*) följer exakt samma regler som vardagens slakt och påminner om var köttet kommer ifrån. Halal är i grunden inte en stämpel på förpackningen utan en hållning: ett liv togs med Guds namn på läpparna och minsta möjliga lidande.
+Inte automatiskt. En halalmärkning är inte mer pålitlig än kedjan bakom den: slaktmetoden, *tasmiya* och att inga tillsatser av svin eller blod kommer in under förädlingen. Köttet är dessutom bara en del; samma logik gör alkohol och andra berusningsmedel förbjudna, eftersom det rena ska hållas skilt från det orena. Vid den årliga offerslakten under *Eid al-Adha* (*qurbānī*) gäller samma slaktregler som under resten av året.

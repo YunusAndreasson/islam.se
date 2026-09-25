@@ -62,7 +62,7 @@ essays:
   - "guden-som-bokfor"
 ---
 
-**Ja – muslimer tror på änglar, och tron på änglarna (*al-malāʾika*) är inte frivillig: den är en av islams sex trosartiklar (*arkān al-īmān*).** Änglarna är varelser av ljus, skapade av Gud utan egen vilja och oförmögna att någonsin trotsa honom. Tron på dem hör lika nära samman med *tawhīd*, Guds absoluta enhet, som tron på Gud själv; den tillhör själva trons grund.
+**Ja – muslimer tror på änglar, och tron på änglarna (*al-malāʾika*) är inte frivillig: den är en av islams sex trosartiklar (*arkān al-īmān*).** Änglarna är varelser av ljus, skapade av Gud utan egen vilja och oförmögna att någonsin trotsa honom.
 
 ## Är tron på änglar obligatorisk i islam?
 
@@ -71,11 +71,11 @@ Att tro på änglarna är den andra av de sex trosartiklarna, näst efter tron p
 > Sändebudet tror på vad hans Herre har uppenbarat för honom och de troende med honom. De tror alla på Gud och Hans änglar och Hans uppenbarelser och Hans sändebud …
 > — Koranen 2:285
 
-Den som däremot vänder änglarna ryggen får en sträng dom: den som förnekar Gud, hans änglar, hans uppenbarelser och sändebud "har drivit synden till dess yttersta gräns" (Koranen 4:136). Utan tron på änglarna finns alltså ingen fullständig *īmān*.
+Över den som förnekar dem är domen sträng: den som förnekar Gud, hans änglar, hans uppenbarelser och sändebud "har drivit synden till dess yttersta gräns" (Koranen 4:136). Utan tron på änglarna finns alltså ingen giltig *īmān*.
 
 ## Vad är änglarna skapade av, och kan de synda?
 
-Änglarna tillhör det fördolda (*al-ghayb*), det som människan inte kan se men ändå måste tro på. Profeten Muhammed sade att "änglarna skapades av ljus, jinnerna av rökfri eld, och Adam av det som har beskrivits för er" (Sahīh Muslim 2996). De har inget kön, de äter inte, dricker inte och tröttnar aldrig; de kan anta skilda skepnader och bär två, tre eller fyra vingpar:
+Änglarna tillhör det fördolda (*al-ghayb*), det som människan inte kan se men ändå måste tro på. Profeten Muhammed sade att "änglarna skapades av ljus, jinnerna av rökfri eld, och Adam av det som har beskrivits för er" (Sahīh Muslim 2996). De har inget kön, de äter inte, dricker inte och tröttnar aldrig. De kan anta skilda skepnader och har två, tre eller fyra vingpar:
 
 > Gud ske lov och pris, himlarnas och jordens Skapare, som sänder änglarna som Sina budbärare, försedda med två eller tre eller fyra vingpar.
 > — Koranen 35:1
@@ -88,20 +88,20 @@ Framför allt saknar änglarna egen vilja: de gör uteslutande vad Gud befaller 
 
 ## Vilka är de kända änglarna i islam?
 
-Flera änglar nämns vid namn, var och en med sin uppgift; de är inga poetiska bilder för naturkrafter eller samvete utan bestämda varelser med var sin post. **Jibrīl** (Gabriel) är uppenbarelsens ängel – han som under tjugotre år förmedlade hela Koranen till profeten Muhammed; Koranen säger uttryckligen att det är han som på Guds befallning sänt ned den till profetens hjärta (2:97). **Mikāʾīl** (Mikael) förknippas med regn och försörjning, och **Isrāfīl** ska blåsa i basunen när uppståndelsen inleds. Dödsängeln (*malak al-mawt*) tar själen när livet är slut, medan **Mālik** är Helvetets väktare. I graven förhör de två änglarna **Munkar** och **Nakīr** den döde om hans tro (Jāmiʿ at-Tirmidhī 1071). Och vid varje människa sitter två nedtecknande änglar, en på höger och en på vänster sida (Koranen 50:17), som Koranen kallar *kirāman kātibīn*, "ädla skrivare" (82:11):
+Flera änglar nämns vid namn, var och en med sin uppgift. De är bestämda varelser, inga poetiska bilder för naturkrafter eller samvete. **Jibrīl** (Gabriel) är uppenbarelsens ängel, som under tjugotre år förmedlade hela Koranen till profeten Muhammed. Det var han som på Guds befallning förde ned den till profetens hjärta (2:97). **Mikāʾīl** (Mikael) förknippas med regn och försörjning, och **Isrāfīl** ska blåsa i basunen när uppståndelsen inleds. Dödsängeln (*malak al-mawt*) tar själen när livet är slut, och **Mālik** vaktar Helvetet. I graven förhör de två änglarna **Munkar** och **Nakīr** den döde om hans tro (Jāmiʿ at-Tirmidhī 1071). Vid varje människa sitter slutligen två änglar som för bok över henne, en till höger och en till vänster (50:17). Koranen kallar dem *kirāman kātibīn*, "ädla skrivare" (82:11):
 
 > … kommer inte ett ord över hennes läppar utan att en övervakare är hos henne, färdig [att skriva].
 > — Koranen 50:18
 
 ## Är djävulen (Iblīs) en fallen ängel?
 
-Här skiljer sig islam tydligt från en utbredd västerländsk föreställning. Iblīs, Satan, är **inte** en fallen ängel, för änglarna trotsar aldrig Gud. Han är en *jinn*, skapad av eld, som vägrade lyda när Gud befallde alla att falla ned inför Adam:
+Nej, och här skiljer sig islam tydligt från en utbredd västerländsk föreställning. Iblīs, Satan, är **inte** en fallen ängel, för änglarna trotsar aldrig Gud. Han är en *jinn*, skapad av eld, som vägrade lyda när Gud befallde alla att falla ned inför Adam:
 
 > … alla föll ned utom [Iblīs]; han tillhörde skaran av osynliga väsen och han trotsade sin Herres befallning.
 > — Koranen 18:50
 
-De "osynliga väsen" som versen nämner är just jinnerna, och till skillnad från änglarna har de egen vilja och kan välja olydnad. Islam saknar därför berättelsen om ett uppror i änglarnas värld: olydnaden kom från en jinn som valde den.
+De "osynliga väsen" som versen nämner är just jinnerna, och till skillnad från änglarna har de egen vilja och kan välja olydnad. Islam har därför ingen berättelse om ett uppror bland änglarna; olydnaden kom från en jinn som själv valde den.
 
 ## Vad betyder tron på änglarna i praktiken?
 
-Tron på änglarna formar den troendes dagliga liv. Vetskapen om att *kirāman kātibīn* nedtecknar varje ord och handling gör människan medveten om att hon aldrig är ensam och alltid står till svars. Änglarna är samtidigt de troendes förespråkare: de som bär Guds tron lovprisar honom och ber om förlåtelse för dem som tror (40:7). Enligt profeten Muhammed avlöser änglar dessutom varandra hos människorna natt och dag och samlas vid gryningens och eftermiddagens böner, där de vittnar inför Gud om de bedjande (Sahīh al-Bukhārī 555). För muslimen är de osynliga väsendena därför ständigt närvarande – ett följe av vittnen från första andetaget till graven.
+Tron på änglarna formar den troendes dagliga liv. Eftersom *kirāman kātibīn* skriver ned varje ord och handling är människan aldrig ensam, och hon står alltid till svars. Änglarna är samtidigt de troendes förespråkare: de som bär Guds tron lovprisar honom och ber om förlåtelse för dem som tror (40:7). Enligt profeten Muhammed avlöser änglar dessutom varandra hos människorna natt och dag och samlas vid gryningens och eftermiddagens böner, där de vittnar inför Gud om de bedjande (Sahīh al-Bukhārī 555).
