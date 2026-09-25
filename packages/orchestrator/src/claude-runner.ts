@@ -62,6 +62,31 @@ interface ClaudeRunResult {
 	meta?: ClaudeRunMeta;
 }
 
+/**
+ * Choose the prose output of a streamed run: the stream's accumulated assistant text, or
+ * the `result` event's text.
+ *
+ * ⚠️ `result` carries only the LAST assistant text block. When a long answer is split
+ * across messages (an output-token continuation, or a tool call mid-answer), `result`
+ * starts mid-body and the frontmatter fence is gone. That failed the fördjupning review on
+ * »Artificiell intelligens« (2026-09-25) twice in a row: "no --- fenced block found",
+ * 35 812 and 24 340 chars, both starting mid-sentence, while the full text had streamed
+ * past as assistant events. Prefer the accumulation only in exactly that shape, so every
+ * answer that parsed before parses identically.
+ */
+export function pickProseOutput(accumulated: string, finalResult: string | undefined): string {
+	if (!finalResult) return accumulated;
+	const fence = /^---[ \t]*$/m;
+	if (
+		!fence.test(finalResult) &&
+		fence.test(accumulated) &&
+		accumulated.includes(finalResult.trim())
+	) {
+		return accumulated;
+	}
+	return finalResult;
+}
+
 /** Read model usage from a CLI `result` object (--output-format json, or the stream's last event). */
 function runMetaFrom(result: unknown): ClaudeRunMeta | undefined {
 	if (!(result && typeof result === "object")) return undefined;
@@ -264,7 +289,7 @@ export class ClaudeRunner extends EventEmitter {
 								fullOutput = JSON.stringify(event.structured_output);
 							} else if (!options.jsonSchema && event.result) {
 								// Only use prose result when no schema expected
-								fullOutput = event.result;
+								fullOutput = pickProseOutput(fullOutput, event.result);
 							}
 						}
 
@@ -295,7 +320,7 @@ export class ClaudeRunner extends EventEmitter {
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
 							} else if (!options.jsonSchema && event.result) {
-								fullOutput = event.result;
+								fullOutput = pickProseOutput(fullOutput, event.result);
 							}
 						}
 						if (event.type === "error" && event.error) {

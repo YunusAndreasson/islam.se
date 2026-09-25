@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { ClaudeRunner } from "./claude-runner.js";
+import { ClaudeRunner, pickProseOutput } from "./claude-runner.js";
 
 describe("ClaudeRunner", () => {
 	const runner = new ClaudeRunner();
@@ -361,5 +361,33 @@ describe("ClaudeRunner", () => {
 				"would not parse",
 			);
 		});
+	});
+});
+
+// Regression: the fördjupning review on »Artificiell intelligens« (2026-09-25) failed twice with
+// "no --- fenced block found". The CLI's `result` event holds only the LAST assistant text
+// block, so an answer split across messages lost its frontmatter half, and the runner
+// overwrote the full streamed text with that tail. A 25-minute review was thrown away each time.
+describe("pickProseOutput", () => {
+	const head = '---\n{"finalScore": 8.1, "verdict": "publish"}\n---\n\nFörsta halvan av texten.';
+	const tail = "Andra halvan av texten.[^1]\n\n[^1]: Koranen 45:13.";
+
+	it("keeps the streamed text when result is only the tail of a split answer", () => {
+		const out = pickProseOutput(`${head}\n${tail}`, tail);
+		expect(out.startsWith("---"), "the frontmatter half must survive the result event").toBe(true);
+		expect(out).toContain(tail);
+	});
+
+	it("uses result unchanged whenever result itself carries the fence", () => {
+		const whole = `${head}\n${tail}`;
+		expect(pickProseOutput(`Preamble ${whole}`, whole)).toBe(whole);
+	});
+
+	it("uses result when the accumulation does not contain it (not a split answer)", () => {
+		expect(pickProseOutput(head, "helt annan text")).toBe("helt annan text");
+	});
+
+	it("falls back to the accumulation when there is no result text", () => {
+		expect(pickProseOutput(head, undefined)).toBe(head);
 	});
 });
