@@ -7,6 +7,8 @@ type MarkesdagRow = {
 	gregorian: string;
 	hijriLabel: string;
 	hidden?: boolean;
+	/** Rail only: »om 136 dagar« on the first upcoming row, empty on the rest. */
+	until?: string;
 };
 
 interface Props {
@@ -30,7 +32,10 @@ const isRail = variant === "rail";
 <ul class:list={["md-list", isRail && "md-list--rail"]} data-max={max}>
 	{rows.map((e) => (
 		<li class="md-row" data-end={e.endISO ?? e.startISO} hidden={e.hidden}>
-			<p class="label md-greg"><time datetime={e.startISO}>{e.gregorian}</time></p>
+			<p class="label md-greg">
+				<time datetime={e.startISO}>{e.gregorian}</time>
+				{isRail && <span class="md-until" data-until>{e.until}</span>}
+			</p>
 			<div class="md-body">
 				<p class="md-name">{e.name}</p>
 				{e.note && !isRail && <p class="md-note">{e.note}</p>}

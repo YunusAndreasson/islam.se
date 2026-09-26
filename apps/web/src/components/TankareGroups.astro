@@ -1,15 +1,22 @@
 ---
-import { type Tankare, getTankare } from "../lib/tankare";
+import { type Tankare, getTankare, tankarePairs } from "../lib/tankare";
 import HomeHead from "./HomeHead.astro";
 import MarkDot from "./MarkDot.astro";
 
-// `limit` turns the full directory into a balanced homepage glimpse: the most-
-// present voices on each side, capped to equal-length columns so the facing
-// composition reads evenly (§7.8). The /tankare index renders it unbounded.
+// `limit` turns the full directory into a balanced glimpse: the most-present voices
+// on each side, capped to equal-length columns so the facing composition reads
+// evenly (§7.8), and drawn as a DIALOGUE — the lines between the columns. The
+// /tankare index renders it unbounded, as the plain directory it always was.
+//
+// `band` sets it on the front page's ink ground, full-bleed. Only index.astro passes
+// it: /essaer/ shows the same glimpse inside an ordinary 64rem canvas with no .front
+// container to bleed against, where a dark box would be a panel, not a change of
+// paper.
 interface Props {
 	limit?: number;
+	band?: boolean;
 }
-const { limit } = Astro.props;
+const { limit, band = false } = Astro.props;
 
 const thinkers = await getTankare();
 const sunni = thinkers.filter((t) => t.tradition === "sunni");
@@ -27,46 +34,189 @@ if (limit) {
 	const byEssays = (a: Tankare, b: Tankare) => b.essays.length - a.essays.length;
 	groups = groups.map((g) => ({ ...g, items: [...g.items].sort(byEssays).slice(0, cap) }));
 }
+
+const [classical, swedish] = groups as [(typeof groups)[0], (typeof groups)[0]];
+
+// THE DIALOGUE. Which classical voice meets which Swedish one, and how often — see
+// tankarePairs() for why this is each voice's strongest partner first and not simply
+// the twelve largest counts (which drew seven of twelve lines out of Ibn Qayyim and Strindberg
+// and none to four of the twelve names). Row indices, not slugs, go into the markup:
+// they are what the static hover rules below can match.
+const pairs = limit ? tankarePairs([...classical.items, ...swedish.items]) : [];
+const rowA = new Map(classical.items.map((t, i) => [t.slug, i]));
+const rowB = new Map(swedish.items.map((t, i) => [t.slug, i]));
+const nameOf = new Map(thinkers.map((t) => [t.slug, t.name]));
+const lines = pairs.flatMap((p) => {
+	const a = rowA.get(p.a);
+	const b = rowB.get(p.b);
+	return a === undefined || b === undefined ? [] : [{ ...p, ia: a, ib: b }];
+});
+const partnersOfA = (i: number) => lines.filter((l) => l.ia === i).map((l) => l.ib).join(" ");
+const partnersOfB = (i: number) => lines.filter((l) => l.ib === i).map((l) => l.ia).join(" ");
+
+// Row units: each row is 100 tall in the viewBox, so a name's centre is (i + ½) × 100.
+// The SVG is stretched to the lists' height with preserveAspectRatio="none"; the rows
+// are a fixed height in CSS, so the stretch is exact and the stroke, being
+// non-scaling, keeps its width.
+const rows = classical.items.length;
+const y = (i: number) => (i + 0.5) * 100;
+const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 ---
 
-<!-- On the homepage (limit set) this owns its movement: a head-row with the
-	 kicker + an "Alla tänkare" link, matching Trådar. On the /tankare index
-	 (no limit) it renders just the bare columns the page frames with its own h1. -->
-<section class:list={["tankare-home", { "home-movement": limit }]} aria-labelledby={limit ? "tankare-home-kicker" : null}>
-	{limit && <HomeHead label="Tänkare" id="tankare-home-kicker" href="/tankare/" linkLabel="Alla tänkare" />}
-	<div class="tankare-groups">
-		{/* The same khatam that breaks the axis at the foot of an essay (Motet.astro),
-		    here at full scale. One device, two sizes — the encounter between the two
-		    traditions is the site's argument, so it is drawn the same way wherever it
-		    appears rather than being restated in different terms. */}
-		<MarkDot class="tankare-mark" />
-		{groups.map((group) => (
-			<div class="tankare-group">
-				<p class="label tankare-group-label">{group.label}</p>
-				<ul class="tankare-list">
-					{group.items.map((t) => (
-						<li class="tankare-row">
-							<a href={`/tankare/${t.slug}/`} data-astro-prefetch="viewport">
-								<span class="tankare-name">{t.name}</span>
-								{/* The unit is visually carried by the column, but a bare "5" is
-								    meaningless read aloud — and `aria-label` on a role-less <span>
-								    is ignored by screen readers, so the word has to be real text. */}
-								<span class="tankare-count">
-									{t.essays.length}
-									<span class="sr-only"> essäer</span>
-								</span>
-							</a>
-						</li>
-					))}
-				</ul>
-			</div>
-		))}
-	</div>
-</section>
+{limit ? (
+	<section
+		class:list={["tankare-home", "tankare-dialogue-home", "home-movement", { bleed: band, "ground-ink": band }]}
+		aria-labelledby="tankare-home-kicker"
+	>
+		<HomeHead label="Tänkare" id="tankare-home-kicker" href="/tankare/" linkLabel="Alla tänkare" />
+		<div class="tankare-dialog">
+			<p class="label tankare-group-label tankare-label-a">{classical.label}</p>
+			{/* The khatam that breaks the axis at the foot of an essay (Motet.astro), set
+			    where the two column heads face each other: the meeting point, above the
+			    lines that show where the meetings happen. */}
+			<MarkDot class="tankare-meet" />
+			<p class="label tankare-group-label tankare-label-b">{swedish.label}</p>
+
+			<ul class="tankare-list tankare-col-a">
+				{classical.items.map((t, i) => (
+					<li class="tankare-row">
+						<a href={`/tankare/${t.slug}/`} data-astro-prefetch="viewport" data-a={i} data-pb={partnersOfA(i)}>
+							<span class="tankare-name">{t.name}</span>
+							{/* A bare "5" is meaningless read aloud, and aria-label on a role-less
+							    <span> is ignored — so the unit is real, visually hidden text. */}
+							<span class="tankare-count">
+								{t.essays.length}
+								<span class="sr-only"> essäer</span>
+							</span>
+						</a>
+					</li>
+				))}
+			</ul>
+
+			<svg
+				class="tankare-lines"
+				viewBox={`0 0 100 ${rows * 100}`}
+				preserveAspectRatio="none"
+				aria-hidden="true"
+				focusable="false"
+			>
+				{lines.map((l) => (
+					<path
+						class="tankare-line"
+						d={`M0 ${y(l.ia)} C50 ${y(l.ia)} 50 ${y(l.ib)} 100 ${y(l.ib)}`}
+						stroke-width={STROKE[l.tier]}
+						vector-effect="non-scaling-stroke"
+						data-a={l.ia}
+						data-b={l.ib}
+					/>
+				))}
+			</svg>
+
+			<ul class="tankare-list tankare-col-b">
+				{swedish.items.map((t, i) => (
+					<li class="tankare-row">
+						<a href={`/tankare/${t.slug}/`} data-astro-prefetch="viewport" data-b={i} data-pa={partnersOfB(i)}>
+							<span class="tankare-name">{t.name}</span>
+							<span class="tankare-count">
+								{t.essays.length}
+								<span class="sr-only"> essäer</span>
+							</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+
+		{/* The lines are drawing, and drawing is silent: the same facts, as text. */}
+		<ul class="sr-only" aria-label="Oftast i samma essäer">
+			{lines.map((l) => (
+				<li>{nameOf.get(l.a)} och {nameOf.get(l.b)}: {l.shared} essäer</li>
+			))}
+		</ul>
+	</section>
+) : (
+	<section class="tankare-home">
+		<div class="tankare-groups">
+			{/* The same khatam that breaks the axis at the foot of an essay (Motet.astro),
+			    here at full scale. One device, two sizes — the encounter between the two
+			    traditions is the site's argument, so it is drawn the same way wherever it
+			    appears rather than being restated in different terms. */}
+			<MarkDot class="tankare-mark" />
+			{groups.map((group) => (
+				<div class="tankare-group">
+					<p class="label tankare-group-label">{group.label}</p>
+					<ul class="tankare-list">
+						{group.items.map((t) => (
+							<li class="tankare-row">
+								<a href={`/tankare/${t.slug}/`} data-astro-prefetch="viewport">
+									<span class="tankare-name">{t.name}</span>
+									<span class="tankare-count">
+										{t.essays.length}
+										<span class="sr-only"> essäer</span>
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			))}
+		</div>
+	</section>
+)}
 
 <style>
-	/* Two facing columns — the composition itself shows the dialogue that
-	   defines the site, without declaring it (§7.8). A hairline marks the axis. */
+	/* ---- Shared by both variants ---------------------------------------------- */
+
+	.tankare-group-label {
+		margin-bottom: var(--space-half);
+	}
+
+	.tankare-list {
+		margin: 0;
+		padding: 0;
+	}
+
+	/* No per-row rules — the axis (or the lines) + row spacing carry the list; the
+	   count gives each row its own anchor. */
+	.tankare-row a {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem;
+		padding-block: 0.5rem;
+		text-decoration: none;
+		color: inherit;
+
+		&:hover .tankare-name,
+		&:focus-visible .tankare-name {
+			text-decoration: underline;
+			text-underline-offset: var(--underline-offset);
+		}
+	}
+
+	/* The names are the content — the two traditions ARE the argument — so they take
+	   the editorial face. The count stays in the apparatus face: it is data about the
+	   corpus, not part of the composition. */
+	.tankare-name {
+		font-family: var(--font-display);
+		font-size: var(--step--1);
+		font-weight: 500;
+		color: var(--color-accent);
+		letter-spacing: 0;
+	}
+
+	.tankare-count {
+		font-family: var(--font-heading);
+		font-variant-numeric: lining-nums tabular-nums;
+		font-size: var(--step--4);
+		color: var(--color-muted);
+		flex-shrink: 0;
+	}
+
+	/* ---- The directory (/tankare/) ---------------------------------------------- */
+
+	/* Two facing columns — the composition itself shows the dialogue that defines
+	   the site, without declaring it (§7.8). A hairline marks the axis. */
 	.tankare-groups {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -114,59 +264,184 @@ if (limit) {
 		}
 	}
 
-	.tankare-group-label {
-		margin-bottom: var(--space-half);
-	}
-
-	.tankare-list {
-		margin: 0;
-		padding: 0;
-	}
-
-	/* No per-row rules — the vertical axis divider + row spacing carry the list;
-	   the count on the right gives each row its own anchor. */
-	.tankare-row a {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 0.75rem;
-		padding-block: 0.5rem;
-		text-decoration: none;
-		color: inherit;
-
-		&:hover .tankare-name,
-		&:focus-visible .tankare-name {
-			text-decoration: underline;
-			text-underline-offset: var(--underline-offset);
-		}
-
-	}
-
-	/* The names are the content of this page — the two traditions ARE the argument —
-	   so they take the editorial face. The count beside them stays in the apparatus
-	   face: it is data about the corpus, not part of the composition. */
-	.tankare-name {
-		font-family: var(--font-display);
-		font-size: var(--step--1);
-		font-weight: 500;
-		color: var(--color-accent);
-		letter-spacing: 0;
-	}
-
-	.tankare-count {
-		font-family: var(--font-heading);
-		font-variant-numeric: lining-nums tabular-nums;
-		font-size: var(--step--4);
-		color: var(--color-muted);
-		flex-shrink: 0;
-	}
-
-	/* Keep the two facing columns + axis hairline through tablet widths; only fold
-	   to a single column on phones (≤600px), matching the trådar grid below. */
 	@media (width <= 600px) {
 		.tankare-groups {
 			grid-template-columns: 1fr;
 			gap: var(--space-unit);
+		}
+	}
+
+	/* ---- The dialogue (limit set: the front page, /essaer/) --------------------- */
+
+	/* Three tracks: the classical column, the gutter the lines are drawn in, the
+	   Swedish column. The columns FACE each other — the classical names are set flush
+	   right against the gutter, the Swedish flush left — so every line runs from a
+	   name to a name, and each count sits on its name's outer side, where no line crosses it.
+	   The hairline axis is gone: the lines are the axis now, and they say more. */
+	.tankare-dialog {
+		--row: 2.75rem;
+		--gutter: clamp(4.5rem, 12vw, 10rem);
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) var(--gutter) minmax(0, 1fr);
+		align-items: end;
+		/* A figure, centred, at the width it was drawn for: on the front page's 76rem
+		   canvas the counts drifted to the window's edges, a hand's width from their
+		   names. */
+		max-inline-size: 46rem;
+		margin: var(--space-unit) auto 0;
+		position: relative;
+	}
+
+	.tankare-label-a {
+		grid-column: 1;
+		text-align: end;
+	}
+
+	.tankare-label-b {
+		grid-column: 3;
+	}
+
+	:global(.tankare-meet) {
+		grid-column: 2;
+		justify-self: center;
+		width: 0.85rem;
+		height: 0.85rem;
+		/* On the labels' line, with their bottom margin, so the bead sits level with
+		   the column heads rather than on top of the first line. */
+		margin-bottom: calc(var(--space-half) + 0.2rem);
+	}
+
+	.tankare-col-a,
+	.tankare-col-b {
+		grid-row: 2;
+	}
+
+	.tankare-col-a {
+		grid-column: 1;
+	}
+
+	.tankare-col-b {
+		grid-column: 3;
+	}
+
+	/* EQUAL, FIXED rows in both columns — the one thing the drawing depends on. The
+	   SVG maps row i to (i + ½)/rows of its height; if a wrapped name made one row
+	   taller, every line below it would land between two names. So the height is set,
+	   not measured, and a name is held to two lines. */
+	/* The count beside its own name, not out on the column's far edge. At the edge a
+	   short name (Geijer, al-Ghazālī) stood 190–230px from its number, nearer the
+	   neighbouring row's than its own: a column of figures belonging to nobody. Packed
+	   against the name (row-reverse puts the classical count on the name's outer side),
+	   each pair reads as one thing, and neither count ever crosses a line. */
+	.tankare-dialog .tankare-row a {
+		height: var(--row);
+		padding-block: 0;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 0.6rem;
+	}
+
+	.tankare-col-a .tankare-row a {
+		flex-direction: row-reverse;
+		text-align: end;
+	}
+
+	.tankare-dialog .tankare-name {
+		font-size: var(--step-0);
+		line-height: 1.2;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+	}
+
+	/* Absolutely positioned INSIDE its grid area (the gutter, row 2): an abspos grid
+	   child takes that area as its containing block and adds nothing to the track
+	   sizes. In flow, the SVG sized itself from its viewBox's aspect ratio — 960px tall
+	   in a 160px gutter — and pushed the row open under 264px of names. */
+	.tankare-lines {
+		position: absolute;
+		/* Both ends explicit: for an abspos grid child an `auto` end line is the
+		   container's padding edge, not `span 1`, so `grid-column: 2` alone drew the
+		   lines across the Swedish column to the page edge. */
+		grid-column: 2 / 3;
+		grid-row: 2 / 3;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+	}
+
+	/* Brass: the palette's mark for data, and these are data — each line is a count
+	   of essays. Quiet at rest (twelve lines converge on the busiest names), lit on
+	   hover or focus. */
+	.tankare-line {
+		fill: none;
+		stroke: var(--color-brass);
+		stroke-opacity: 0.55;
+		stroke-linecap: round;
+		transition: stroke-opacity var(--dur-fast) ease;
+	}
+
+	/* HOVER AND FOCUS, WITHOUT SCRIPT. Pointing at (or tabbing to) a name dims every
+	   line, then relights that name's own and marks its partners across the gutter.
+	   The rules are written out per row index because :has() cannot compare two
+	   attributes; eight rows cover the glimpse (limit 6 on both pages that set it).
+	   A ninth row would still work as a link — it just would not light its lines. */
+	.tankare-dialog:has(a:is(:hover, :focus-visible)) .tankare-line {
+		stroke-opacity: 0.12;
+	}
+
+	.tankare-dialog:has(a:is(:hover, :focus-visible)) .tankare-name {
+		color: var(--color-muted);
+	}
+
+	.tankare-dialog:has(a[data-a="0"]:is(:hover, :focus-visible)) :is(.tankare-line[data-a="0"], [data-pa~="0"] .tankare-name),
+	.tankare-dialog:has(a[data-a="1"]:is(:hover, :focus-visible)) :is(.tankare-line[data-a="1"], [data-pa~="1"] .tankare-name),
+	.tankare-dialog:has(a[data-a="2"]:is(:hover, :focus-visible)) :is(.tankare-line[data-a="2"], [data-pa~="2"] .tankare-name),
+	.tankare-dialog:has(a[data-a="3"]:is(:hover, :focus-visible)) :is(.tankare-line[data-a="3"], [data-pa~="3"] .tankare-name),
+	.tankare-dialog:has(a[data-a="4"]:is(:hover, :focus-visible)) :is(.tankare-line[data-a="4"], [data-pa~="4"] .tankare-name),
+	.tankare-dialog:has(a[data-a="5"]:is(:hover, :focus-visible)) :is(.tankare-line[data-a="5"], [data-pa~="5"] .tankare-name),
+	.tankare-dialog:has(a[data-a="6"]:is(:hover, :focus-visible)) :is(.tankare-line[data-a="6"], [data-pa~="6"] .tankare-name),
+	.tankare-dialog:has(a[data-a="7"]:is(:hover, :focus-visible)) :is(.tankare-line[data-a="7"], [data-pa~="7"] .tankare-name),
+	.tankare-dialog:has(a[data-b="0"]:is(:hover, :focus-visible)) :is(.tankare-line[data-b="0"], [data-pb~="0"] .tankare-name),
+	.tankare-dialog:has(a[data-b="1"]:is(:hover, :focus-visible)) :is(.tankare-line[data-b="1"], [data-pb~="1"] .tankare-name),
+	.tankare-dialog:has(a[data-b="2"]:is(:hover, :focus-visible)) :is(.tankare-line[data-b="2"], [data-pb~="2"] .tankare-name),
+	.tankare-dialog:has(a[data-b="3"]:is(:hover, :focus-visible)) :is(.tankare-line[data-b="3"], [data-pb~="3"] .tankare-name),
+	.tankare-dialog:has(a[data-b="4"]:is(:hover, :focus-visible)) :is(.tankare-line[data-b="4"], [data-pb~="4"] .tankare-name),
+	.tankare-dialog:has(a[data-b="5"]:is(:hover, :focus-visible)) :is(.tankare-line[data-b="5"], [data-pb~="5"] .tankare-name),
+	.tankare-dialog:has(a[data-b="6"]:is(:hover, :focus-visible)) :is(.tankare-line[data-b="6"], [data-pb~="6"] .tankare-name),
+	.tankare-dialog:has(a[data-b="7"]:is(:hover, :focus-visible)) :is(.tankare-line[data-b="7"], [data-pb~="7"] .tankare-name) {
+		stroke-opacity: 1;
+		color: var(--color-text);
+	}
+
+	.tankare-dialog a:is(:hover, :focus-visible) .tankare-name {
+		color: var(--color-text);
+	}
+
+	/* Phone: the columns stay FACING — stacked, the drawing has nowhere to go and the
+	   section would be two lists again. The names drop to the secondary step and may
+	   take a second line, so the fixed row grows to hold two. The lines stay; the
+	   hover rules simply never fire on touch. */
+	@media (width <= 600px) {
+		.tankare-dialog {
+			--row: 3.25rem;
+			--gutter: 2.75rem;
+		}
+
+		.tankare-dialog .tankare-name {
+			font-size: var(--step--1);
+		}
+
+		.tankare-dialog .tankare-row a {
+			gap: 0.4rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.tankare-line {
+			transition: none;
 		}
 	}
 </style>

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { readProgress, recordProgress } from "./reading-progress";
+import { hasRead, READ_AT, readProgress, recordProgress } from "./reading-progress";
 
 /** An in-memory stand-in for window.localStorage — the two methods the module uses. */
 function memoryStorage() {
@@ -44,5 +44,26 @@ describe("reading progress", () => {
 		vi.stubGlobal("localStorage", blockedStorage());
 		expect(() => recordProgress("alis-princip", 0.5)).not.toThrow();
 		expect(readProgress("alis-princip")).toBe(0);
+	});
+});
+
+// /essaer/ marked a row »läst« past 0.85 with its own inline comparison; the trådar on
+// the front page fill a stop by the same rule. One helper, so the two surfaces cannot
+// disagree about whether the same essay has been read.
+describe("hasRead", () => {
+	it("counts an essay as read only once the reader is past READ_AT", () => {
+		vi.stubGlobal("localStorage", memoryStorage());
+		recordProgress("natten", READ_AT);
+		expect(hasRead("natten"), "exactly at the threshold is still »resume«, not »read«").toBe(false);
+		recordProgress("natten", 0.9);
+		expect(hasRead("natten")).toBe(true);
+	});
+
+	it("treats an essay never opened, or blocked storage, as unread instead of throwing", () => {
+		vi.stubGlobal("localStorage", memoryStorage());
+		expect(hasRead("tyst-teologi")).toBe(false);
+		vi.stubGlobal("localStorage", blockedStorage());
+		expect(() => hasRead("natten")).not.toThrow();
+		expect(hasRead("natten")).toBe(false);
 	});
 });

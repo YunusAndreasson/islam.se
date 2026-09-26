@@ -12,7 +12,9 @@ const year = new Date().getFullYear();
 ---
 
 <section class:list={["bookpod", `bookpod--${variant}`]} aria-labelledby="bookpod-heading">
-	{variant === "home" && <h2 class="label home-kicker" id="bookpod-heading">Boken &amp; podden</h2>}
+	{/* On the front page the podcast is promoted in the band under the cover
+	    (PoddAppHome); here it is the book alone, in that band's grammar — the object,
+	    and beside it the kicker, the title, one line, the ways in. /om keeps both. */}
 	<div class="bookpod-inner">
 		<a class="bookpod-cover" href="/samlingsvolym.pdf" download>
 			<span class="bookpod-cover-brand">islam.se</span>
@@ -22,10 +24,17 @@ const year = new Date().getFullYear();
 			<span class="bookpod-cover-year">{year}</span>
 		</a>
 		<div class="bookpod-text">
+			{variant === "home" && (
+				<>
+					<h2 class="label home-kicker bookpod-kicker" id="bookpod-heading">Boken</h2>
+					<h3 class="bookpod-titel">Samlade essäer</h3>
+				</>
+			)}
 			{variant === "about" && <h2 id="bookpod-heading" class="bookpod-about-heading">Boken &amp; podden</h2>}
 			<p class="bookpod-lead">
-				De {count} essäerna finns samlade i en bok – som e-bok för läsplattan, som PDF
-				för utskrift – och inlästa som podd.
+				{variant === "home"
+					? `De ${count} essäerna finns samlade i en bok – som e-bok för läsplattan och som PDF för utskrift.`
+					: `De ${count} essäerna finns samlade i en bok – som e-bok för läsplattan, som PDF för utskrift – och inlästa som podd.`}
 			</p>
 			<div class="bookpod-actions">
 				{/* Two formats, one book, and they are not interchangeable: the PDF is the
@@ -43,7 +52,7 @@ const year = new Date().getFullYear();
 						PDF
 					</a>
 				</span>
-				<PodcastSubscribeLinks class="bookpod-listen" actionClass="bookpod-action" />
+				{variant !== "home" && <PodcastSubscribeLinks class="bookpod-listen" actionClass="bookpod-action" />}
 			</div>
 		</div>
 	</div>
@@ -74,16 +83,18 @@ const year = new Date().getFullYear();
 		background: var(--surface-1);
 		border: 1px solid var(--color-divider);
 		border-radius: 1px 3px 3px 1px;
+		/* The spine stays (the inset); the float is a trace. A 2.5rem drop shadow was
+		   the last lifted card on a page that now separates by ground and space. */
 		box-shadow:
 			inset 0.4rem 0 0.6rem -0.55rem rgb(0 0 0 / 0.35),
-			0 1.25rem 2.5rem -1rem rgb(0 0 0 / 0.28);
+			0 0.6rem 1.2rem -0.9rem rgb(0 0 0 / 0.22);
 		transition: transform 0.4s cubic-bezier(0.2, 0, 0.1, 1), box-shadow 0.4s ease;
 
 		&:hover {
 			transform: translateY(-3px);
 			box-shadow:
 				inset 0.4rem 0 0.6rem -0.55rem rgb(0 0 0 / 0.35),
-				0 1.75rem 3rem -1rem rgb(0 0 0 / 0.34);
+				0 1rem 1.6rem -1rem rgb(0 0 0 / 0.26);
 		}
 
 		&:focus-visible {
@@ -108,13 +119,16 @@ const year = new Date().getFullYear();
 		color: var(--cover-label);
 	}
 
+	/* The book face's display cut, not Source Sans Light: set in the apparatus face at
+	   300 the cover read as a placeholder, a template's grey title block, on the one
+	   object on the page that is meant to look like a book. */
 	.bookpod-cover-title {
-		font-family: var(--font-heading);
-		font-size: 1.85rem;
-		font-weight: 300;
-		line-height: 1.05;
-		letter-spacing: 0;
-		margin-top: 1.1em;
+		font-family: var(--font-headline);
+		font-size: 2rem;
+		font-weight: 500;
+		line-height: 1.02;
+		letter-spacing: -0.01em;
+		margin-top: 1em;
 	}
 
 	.bookpod-cover-sub {
@@ -196,9 +210,61 @@ const year = new Date().getFullYear();
 	}
 
 
-	/* Match the homepage inter-movement rhythm (.home-movement). */
+	/* THE FRONT PAGE'S LAST MOVEMENT, set like the podcast and app band under the cover
+	   (PoddAppHome): the object at the size of those drawings' column, and beside it,
+	   from the object's top edge, the kicker, the title, one line and the ways in. It
+	   stood as a 240px cover with one sentence centred beside it and 60 % of the row
+	   empty, on the same paper as Praktiskt above — the only two movements on one
+	   ground, so the page's alternation of paper and tint stopped one short of the
+	   end. It now closes on the tint (editorial.css, »The page's grounds«), and the
+	   cover, which is drawn in the tint's own colour, is printed on the page's paper
+	   there instead, so it stands on the band as a book lies on a table. */
 	.bookpod--home {
-		margin-block: var(--space-phi2);
+		/* No margin under the last band: <main> is a container (layout containment), so
+		   it would not collapse into the footer's own and left a 190px hole of paper
+		   between the band's edge and the footer's first line. */
+		margin-block: var(--space-section) 0;
+	}
+
+	/* The drawings' column of PoddAppHome, to the rem, so »Boken« starts on the line
+	   »Podden« starts on eight screens up. */
+	.bookpod--home .bookpod-inner {
+		grid-template-columns: 10rem minmax(0, 1fr);
+		align-items: start;
+		gap: 1.75rem;
+	}
+
+	.bookpod--home .bookpod-cover {
+		width: 10rem;
+		padding: 13% 9% 9%;
+		background: var(--paper);
+	}
+
+	.bookpod--home .bookpod-cover-title {
+		font-size: 1.5rem;
+	}
+
+	/* At 10rem the subtitle would set as five lines of 10px: title, ornament and year
+	   are what a cover this size keeps. */
+	.bookpod--home .bookpod-cover-sub {
+		display: none;
+	}
+
+	.bookpod-kicker {
+		margin: 0;
+	}
+
+	.bookpod-titel {
+		margin: var(--space-half) 0 0;
+		font-size: var(--step-1);
+		font-weight: 600;
+		line-height: 1.25;
+	}
+
+	.bookpod--home .bookpod-lead {
+		max-inline-size: 32rem;
+		margin: 0.35rem 0 var(--space-unit);
+		line-height: 1.5;
 	}
 
 	/* The about-page variant lives in the 42rem reading column: smaller cover,
@@ -213,7 +279,7 @@ const year = new Date().getFullYear();
 
 	@media (width <= 768px) {
 		.bookpod-cover-title {
-			font-size: 1.3rem;
+			font-size: 1.5rem;
 		}
 
 		.bookpod-inner {
@@ -233,6 +299,32 @@ const year = new Date().getFullYear();
 
 		.bookpod-listen {
 			justify-content: center;
+		}
+
+		/* The front page keeps the band's grammar on a phone too, as PoddAppHome does:
+		   the object above the words at 7rem, flush left on their edge, not a centred
+		   poster. */
+		.bookpod--home .bookpod-inner {
+			grid-template-columns: minmax(0, 1fr);
+			justify-items: start;
+			gap: var(--space-unit);
+			text-align: start;
+		}
+
+		/* The padding in rem: percentages resolve against the containing block, which
+		   stacked is the whole column, and 13 % of it pushed the cover to 1:1.7. These
+		   are the 13 % / 9 % of the cover's own 7rem. */
+		.bookpod--home .bookpod-cover {
+			width: 7rem;
+			padding: 0.9rem 0.63rem 0.63rem;
+		}
+
+		.bookpod--home .bookpod-cover-title {
+			font-size: 1.05rem;
+		}
+
+		.bookpod--home .bookpod-actions {
+			justify-content: flex-start;
 		}
 	}
 </style>

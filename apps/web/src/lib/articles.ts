@@ -2,6 +2,7 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import type { ImageMetadata } from "astro";
 import type { AmneName } from "./amnen";
 import { memoize } from "./cache";
+import { swedishQuotes } from "./format";
 import { basename } from "./path";
 
 export interface Article {
@@ -102,9 +103,14 @@ async function buildArticles(): Promise<Article[]> {
 // the build+sort+per-entry shaping once and shares the one promise. See lib/cache.ts.
 export const getArticles = memoize(buildArticles);
 
-export function formatDate(dateStr: string): string {
-	return new Date(dateStr).toLocaleDateString("sv-SE", {
-		year: "numeric",
+/** »23 september«, and »23 september 2025« only when the year is not this one: the
+ *  current year on every date line was noise the reader already knows (user review,
+ *  2026-09-25). "This year" is the build's — the site rebuilds nightly, so a December
+ *  essay gains its year in the first January build. */
+export function formatDate(dateStr: string, now: Date = new Date()): string {
+	const date = new Date(dateStr);
+	return date.toLocaleDateString("sv-SE", {
+		...(date.getFullYear() === now.getFullYear() ? {} : { year: "numeric" }),
 		month: "long",
 		day: "numeric",
 	});
@@ -112,9 +118,10 @@ export function formatDate(dateStr: string): string {
 
 /** Convert inline markdown (*italic*, **bold**) to HTML. The surrounding text is
  *  HTML-escaped first so a stray `<` or `&` in an essay description renders as text,
- *  not as raw markup, when the result is piped through `set:html`. */
+ *  not as raw markup, when the result is piped through `set:html`. Straight double
+ *  quotes become »…« on the way (see swedishQuotes). */
 export function inlineMarkdown(text: string): string {
-	return text
+	return swedishQuotes(text)
 		.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")
 		.replace(/>/g, "&gt;")

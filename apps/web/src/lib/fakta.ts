@@ -27,6 +27,8 @@ interface FaktaItem {
 	label: string;
 	/** One calm line under the label. */
 	blurb: string;
+	/** The same term transliterated, with the site's academic diacritics. */
+	translit: string;
 	/** Essay slug whose hero photo is borrowed when this card has no bespoke art
 	 *  of its own in FAKTA_ART. Kept even once art lands — it is the fallback if
 	 *  a file is ever removed. */
@@ -58,6 +60,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "trosbekannelsen-shahada",
 				label: "Trosbekännelsen",
+				translit: "ash-shahāda",
 				blurb: "Vittnesbörden: ingen gud utom Gud, och Muhammed ﷺ är hans sändebud.",
 				// A man under the Nordic night sky, looking up. The shahāda is a
 				// witnessing, and this is what witnessing looks like. It replaced a
@@ -69,24 +72,28 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "sa-ber-man-steg-for-steg",
 				label: "Bönen",
+				translit: "aṣ-ṣalāt",
 				blurb: "De fem dagliga bönerna, förrättade med ansiktet vänt mot Kaba.",
 				image: "nattbonens-ansikte",
 			},
 			{
 				svarSlug: "vad-ar-zakat",
 				label: "Allmosan",
+				translit: "az-zakāt",
 				blurb: "Den årliga plikten som renar förmögenheten och tillfaller de behövande.",
 				image: "ater-ni-var-for-sig",
 			},
 			{
 				svarSlug: "vad-ar-ramadan",
 				label: "Fastan",
+				translit: "aṣ-ṣawm",
 				blurb: "Fastan från gryning till solnedgång under hela ramadan.",
 				image: "forlatelsens-pris",
 			},
 			{
 				svarSlug: "vad-ar-hajj",
 				label: "Vallfärden",
+				translit: "al-ḥajj",
 				blurb: "Resan till Mecka, en plikt en gång i livet för den som har möjlighet.",
 				// The arch shot, not an aerial of the Grand Mosque: pilgrims at eye level,
 				// people who have travelled, rather than a postcard of a monument.
@@ -103,30 +110,35 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "islams-gudssyn",
 				label: "Gud",
+				translit: "Allāh",
 				blurb: "Tron på en enda Gud, utan like och utan delägare (tawhid).",
 				image: "samma-stjarnhimmel",
 			},
 			{
 				svarSlug: "tror-muslimer-pa-anglar",
 				label: "Änglarna",
+				translit: "al-malāʾika",
 				blurb: "Tron på Guds änglar, skapade av ljus och alltid lydiga mot honom.",
 				image: "nar-natten-inte-faller",
 			},
 			{
 				svarSlug: "koranen-och-tidigare-skrifter",
 				label: "Skrifterna",
+				translit: "al-kutub",
 				blurb: "Tron på de uppenbarade skrifterna, fullbordade i Koranen.",
 				image: "bergen-som-vagrade",
 			},
 			{
 				svarSlug: "vem-var-profeten-muhammed",
 				label: "Sändebuden",
+				translit: "ar-rusul",
 				blurb: "Tron på profeternas kedja, beseglad med Muhammed ﷺ.",
 				image: "rosten-over-taken",
 			},
 			{
 				svarSlug: "vad-ar-domedagen",
 				label: "Domedagen",
+				translit: "al-yawm al-ākhir",
 				blurb: "Tron på uppståndelsen och räkenskapen inför Gud.",
 				// A figure waiting before a monumental clock — as-Sāʿah, the Hour, which
 				// is the Quran's own name for this day.
@@ -135,6 +147,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "vad-ar-odet-qadar",
 				label: "Ödet",
+				translit: "al-qadar",
 				blurb: "Tron på att ingenting sker utan Guds vetande och vilja.",
 				image: "guden-som-bokfor",
 			},

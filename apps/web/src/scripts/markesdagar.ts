@@ -12,6 +12,8 @@
 // page's five, or not refreshed at all depending on which list came first in the
 // DOM. Each list now declares its own `data-max` and every list gets walked.
 
+import { untilLabel } from "../lib/markesdagar";
+
 function uppdatera(): void {
 	// Local calendar date, not UTC: a reader in Stockholm just after midnight has
 	// crossed into the new day, and `toISOString()` would still say yesterday.
@@ -24,6 +26,13 @@ function uppdatera(): void {
 		for (const row of list.querySelectorAll<HTMLElement>("[data-end]")) {
 			const keep = (row.dataset.end ?? "") >= idag && visade < max;
 			row.hidden = !keep;
+			// The rail's countdown belongs to the first row still to come.
+			const until = row.querySelector<HTMLElement>("[data-until]");
+			if (until) {
+				const start = row.querySelector("time")?.getAttribute("datetime") ?? "";
+				until.textContent =
+					keep && visade === 0 && start ? untilLabel(start, row.dataset.end, idag) : "";
+			}
 			if (keep) visade++;
 		}
 	}

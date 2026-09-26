@@ -184,123 +184,105 @@
 	color: var(--color-accent);
 }
 
-/* ── The front-page sidolinje ─────────────────────────────────────────────
-   Two tracks around Ämnen alone: the departments in the wide one, the sidolinje
-   in a 17rem column beside them. Ämnen is the partner because it is the tallest
-   movement on the page — beside the whole act the rail left 1 990px of empty
-   column, and it cost the rank-2 essay cards a third of their width.
+/* ── The live row, then the departments ────────────────────────────────────
+   The sidolinje used to run as a 17rem track BESIDE Ämnen, sized so the two
+   columns would end near each other. They never stayed level: the news, the
+   barometer and the calendar change height by the day, and once each department
+   took one column-wide picture (2026-09-25) Ämnen ran 2 700px beside a 1 400px
+   rail — "unbalanced" in the user's review. Two independent columns cannot be
+   kept level, so the page stopped trying. The three live blocks are a row of
+   their own, and the departments below them are three columns: balanced by
+   construction, whatever the day brings.
 
-   That fix was only two thirds of one. Measured on the built page, the news ran
-   ~600px beside a ~2 000px Ämnen block: the void shrank from 1 990px to ~1 400px
-   and stayed the same shape. The track carries TWO blocks now — the news, then
-   the islamic year — which is what actually meets Ämnen's height, and does it
-   with content that cannot run short on a quiet news day.
-
-   17rem is chosen against the row, not the canvas: a Swedish news headline of
-   3–7 words wraps to two or three lines at --step--1, which is the density this
-   column is for. Wider and it competes with the essays; narrower and every
-   headline becomes four lines. */
+   The row comes FIRST at every width, directly under the second tier — the order
+   phones already had, for the reason they had it: the day's news four screens
+   down is news nobody finds. One order everywhere, so a reader who switches
+   devices finds the page the same. */
 .home-akt2 {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: var(--space-phi);
-	/* One movement gap either side: the --space-section every `.home-movement` gets
-	   from editorial.css. This carried φ³ above and φ² below as an act boundary;
-	   editorial.css overrode the top and left the bottom, so the grid alone sat a
-	   larger step off the page's rhythm below it. */
+	display: flex;
+	flex-direction: column;
 	margin-block: var(--space-section);
 }
 
-/* Both tracks start on the same line.
-   Each track's first child brings its own top margin — Ämnen φ, the sidolinje φ²
-   — so the two section kickers sat 26px apart and the act opened on a step nobody
-   intended. The spacing now belongs to the act wrapper above, and the tracks
-   start flush, which is what puts "— ÄMNEN" and "— VÄRLDEN JUST NU" on one
-   baseline. Only where there ARE two tracks: on one column the sidolinje keeps
-   its own rhythm. */
-@media (width >= 60rem) {
-	.home-akt2 > .home-akt2-huvud > :first-child,
-	.home-akt2 > .home-sidolinje {
-		margin-block-start: 0;
-	}
-}
-
 .home-akt2-huvud {
-	/* The track must be allowed to shrink below its content's intrinsic width,
-	   or a wide card inside it pushes the rail off the canvas. */
+	/* A flex item must be allowed to shrink below its content's intrinsic width,
+	   or a wide card inside it pushes past the canvas. */
 	min-inline-size: 0;
 }
 
-/* On one column the sidolinje comes FIRST, directly under the feature.
-   Source order puts it after the four movements it sits beside on a laptop,
-   which on a phone is four screens down — the same "nobody finds it" problem
-   the rail was built to solve, just relocated. Reordering is safe here because
-   each block in the track is self-contained with its own heading: nothing above
-   or below it reads as continuing into it. */
-@media (width < 60rem) {
-	.home-sidolinje {
-		order: -1;
-		margin-block: var(--space-phi);
-	}
+.home-sidolinje {
+	order: -1;
+	/* No margin below: the departments' own section margin is the gap after it. */
+	margin-block: 0;
 }
 
-/* Five headlines on one column, where the rail stands ABOVE the departments instead
-   of beside them: twelve rows plus the two blocks under them came to 1 383px of
-   phone before the first ämne. The column is a selection either way, and »Alla
-   nyheter« sits directly under it. The rows are `li.nyhet--rail`, written straight
-   into the <ol> by functions/nyheter/_nyheter.js. */
+/* The news closes its list by position, as the year under it closes its own
+   (»Se hela året«, no rule): a rule over one link was a line the other block does
+   not have — side by side on a wide screen, and stacked on a phone, where it put
+   two rules 110px apart between the last headline and the calendar's kicker. */
+.home-sidolinje .nyheter-rail-fot {
+	margin-top: var(--space-unit);
+	padding-top: 0;
+	border-top: 0;
+}
+
+/* Three headlines on a phone: every row is a row the reader scrolls past before
+   the first ämne. The rows are `li.nyhet--rail`, written into the <ol> by
+   functions/nyheter/_nyheter.js; »Alla nyheter« sits directly under them. */
 @media (width < 60rem) {
-	.home-sidolinje .nyhet--rail:nth-child(n + 6) {
+	.home-sidolinje .nyhet--rail:nth-child(n + 4) {
 		display: none;
 	}
 }
 
+/* THE ROW, in two. Three blocks abreast in the 64rem canvas were ~18rem each — the
+   barometer's sentence, matrix and key packed into a column narrower than a phone,
+   headlines breaking after three words — and read as "tight" in review
+   (2026-09-25). Now the day and the year share the first row at half the width
+   each, and the barometer runs the full width under them, split on the same
+   centre line (BarometerRail.astro), so the act has one vertical axis. */
 @media (width >= 60rem) {
-	.home-akt2 {
-		grid-template-columns: minmax(0, 1fr) 17rem;
-	}
-
-	/* THE COLLAPSE RULE IS GONE, AND ITS ABSENCE IS THE DECISION.
-	   It read `.home-akt2:has(> .nyheter-rail[hidden])` and dropped the track when
-	   the news had nothing in it, because an explicitly-declared 17rem column
-	   stays in the grid whether or not anything occupies it — a quiet day, or a
-	   blocker stopping a cross-origin request to a `.news` domain, and the
-	   departments would sit squeezed against a 17rem strip of nothing.
-
-	   The track is no longer capable of being nothing. The islamic year is
-	   generated at build time from the Hijri calendar; it is never empty, never
-	   fetched and never blocked. A reader whose blocker kills the news now gets a
-	   column with the calendar in it, which is content rather than a void — so the
-	   condition the rule existed to catch cannot arise, and a `:has()` that can
-	   never match is worse than no rule at all: the next person reads it as a
-	   guarantee still being enforced. */
-
 	.home-sidolinje {
-		/* Top-aligned in its track, and it follows the page rather than sticking:
-		   a column of somebody else's headlines pinned to the viewport while the
-		   reader works through an essay is the widget this site does not want. */
-		align-self: start;
-		position: relative;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: var(--grid-gutter);
+		align-items: start;
 	}
 
-	/* The track's own hairline, so the two columns read as separate rather than as
-	   one wide movement that happens to have a gap in it. */
-	.home-sidolinje::before {
-		content: "";
-		position: absolute;
-		inset-block: 0;
-		inset-inline-start: calc(var(--space-phi) / -2);
-		inline-size: 1px;
-		background: var(--color-rule);
+	/* Four shared rows — heading, list, onward link, credit — so both headings and
+	   both »Alla …« links sit on one line whichever list runs longer today.
+	   :not([hidden]): a `display` here would otherwise un-hide the empty news frame. */
+	.home-sidolinje > :is(.nyheter-rail:not([hidden]), .markesdagar-rail) {
+		display: grid;
+		grid-row: 1 / span 4;
+		grid-template-rows: subgrid;
+	}
+
+	/* Stacked on a phone each block opens with a rule and a φ step, the seam between
+	   two voices. Side by side, the gutter is the seam. */
+	.home .home-sidolinje > .markesdagar-rail {
+		margin-top: 0;
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.home .home-sidolinje > .barometer-rail {
+		grid-column: 1 / -1;
+	}
+
+	/* No news — a blocker, no JavaScript — and the year would stand alone beside an
+	   empty half. The barometer moves up beside it instead, in its narrow form. */
+	.home .home-sidolinje:has(> .nyheter-rail[hidden]) > .barometer-rail {
+		grid-column: 2;
+		grid-row: 1 / span 4;
+		margin-top: 0;
+		padding-top: 0;
+		border-top: 0;
 	}
 }
 
-.home-sidolinje {
-	margin-block: var(--space-phi2);
-}
-
-/* Shared by both blocks in the track — the news and the islamic year — so the two
-   section labels are the same object seen twice rather than two near-misses. */
+/* Shared by the three live blocks — the news, the barometer, the islamic year — so
+   their labels are the same object seen three times rather than near-misses. */
 .sidolinje-rubrik {
 	display: flex;
 	align-items: center;
@@ -318,17 +300,16 @@
 	letter-spacing: 0.09em;
 }
 
-/* The same warm tick the movement kickers carry, so the rail is legibly part of
-   the same page rather than an inset advertisement. */
+/* The same point the movement kickers carry (layout.css, .home-kicker), so the rail
+   is legibly part of the same page rather than an inset advertisement. A step
+   smaller, as the column is. */
 .sidolinje-rubrik::before {
 	content: "";
 	flex: none;
-	/* The movement kickers carry a 1.6rem tick across a 40rem column. The same
-	   tick in a 17rem one is proportionally two and a half times the mark, and
-	   reads as a bigger claim than the column is making. */
-	inline-size: 1rem;
-	block-size: 2px;
-	background: var(--color-warm);
+	inline-size: 0.4rem;
+	block-size: 0.4rem;
+	border-radius: 50%;
+	background: var(--color-brass);
 }
 
 /* A news-day row: time and category on one line, the headline under it. */
@@ -343,7 +324,9 @@
 
 .nyheter-rail .nyhet-titel {
 	font-size: var(--step--1);
-	font-weight: 600;
+	/* 500, not 600: quoted material from another desk, set a weight below the site's
+	   own headlines so the rail does not outshout the essays beside it. */
+	font-weight: 500;
 	line-height: 1.25;
 	margin: 0;
 }
@@ -365,12 +348,11 @@
 	border-top: 1px solid var(--color-rule);
 }
 
-/* Match `.home-head-all` exactly — 13.3px, not 15. The rail's onward link was
-   measuring a rung ABOVE every "Alla ämnen →" on the page, which made the
-   secondary column's call to action the loudest one in view. */
-.nyheter-rail-fot a {
-	font-size: var(--step--3);
-}
+/* The rail's onward link is a .section-link (15px) like every link that CLOSES a
+   block on the front page — »Se hela året« beside it, »Till AI-barometern« under it,
+   »Alla essäer« under the index. It was pinned to 13.3px while the news stood in a
+   side column next to the head-row links; in the live row it stood on one line with
+   »Se hela året« a rung smaller, the two blocks' last words visibly unequal. */
 
 /* ── /nyheter/ ──────────────────────────────────────────────────────────────
    The news-day index.

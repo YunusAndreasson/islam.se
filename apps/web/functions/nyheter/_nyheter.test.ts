@@ -267,11 +267,11 @@ describe("esc", () => {
 	});
 });
 
-// Ten two-line rows is a column the eye runs down. zuhd publishes ~55/day in
-// normal operation, so this is a selection — "Alla nyheter →" is what carries
-// the rest.
-it("keeps the sidolinje a column, not a feed", () => {
-	expect(RAIL_ANTAL).toBeLessThanOrEqual(12);
+// The rail is a glance at the day beside the essays, not a wire. At twelve bold
+// headlines it was the loudest thing on the front page (2026-09-25); zuhd
+// publishes ~55/day, and "Alla nyheter →" is what carries the rest.
+it("keeps the sidolinje a glance, not a feed", () => {
+	expect(RAIL_ANTAL).toBeLessThanOrEqual(5);
 });
 
 describe("nyhetsdygnet", () => {

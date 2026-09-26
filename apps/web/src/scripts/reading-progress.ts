@@ -17,13 +17,62 @@ export function readProgress(slug: string): number {
 	}
 }
 
+const LAST = "rp:last";
+
 /** Stores `pct` when it is further than what is stored: progress is a high-water mark,
- *  so scrolling back up to re-read a passage never loses the place. */
-export function recordProgress(slug: string, pct: number): void {
+ *  so scrolling back up to re-read a passage never loses the place. Also remembers
+ *  WHICH essay was read last, with its title, so the front page can offer to go back
+ *  to it without fetching anything (see unfinished()). */
+export function recordProgress(slug: string, pct: number, title?: string): void {
+	rememberLast(slug, title);
 	if (pct <= readProgress(slug)) return;
 	try {
 		localStorage.setItem(key(slug), pct.toFixed(3));
 	} catch {
 		// Blocked or full: the essay still reads, it just cannot offer to resume.
 	}
+}
+
+/** Past this fraction an essay counts as READ. It is the point where the essay page
+ *  stops offering to resume ([...slug].astro): what lies below it is notes, sources
+ *  and onward links, which few readers scroll through. One number, so the »läst« mark
+ *  on /essaer/ and a filled stop on a tråd can never disagree about the same essay. */
+export const READ_AT = 0.85;
+
+export function hasRead(slug: string): boolean {
+	return readProgress(slug) > READ_AT;
+}
+
+/** Below this an essay was opened, not read: the resume pill and the front page's
+ *  »Fortsätt läsa« both ignore it. */
+export const RESUME_FROM = 0.06;
+
+interface Last {
+	slug: string;
+	title: string;
+}
+
+function rememberLast(slug: string, title?: string): void {
+	if (!title) return;
+	try {
+		const next = JSON.stringify({ slug, title } satisfies Last);
+		if (localStorage.getItem(LAST) !== next) localStorage.setItem(LAST, next);
+	} catch {
+		// Blocked storage: nothing to offer later, which is the same as a new reader.
+	}
+}
+
+/** The essay the reader was last in, if it was left part-read — the front page's
+ *  »Fortsätt läsa«. Null for a new reader, a finished essay, a stored value this
+ *  version cannot read, or blocked storage. */
+export function unfinished(): (Last & { pct: number }) | null {
+	let last: Partial<Last> | null = null;
+	try {
+		last = JSON.parse(localStorage.getItem(LAST) ?? "null");
+	} catch {
+		return null;
+	}
+	if (!(last && typeof last.slug === "string" && typeof last.title === "string")) return null;
+	const pct = readProgress(last.slug);
+	return pct > RESUME_FROM && pct < READ_AT ? { slug: last.slug, title: last.title, pct } : null;
 }

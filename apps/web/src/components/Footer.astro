@@ -1,5 +1,5 @@
 ---
-import { gregorianToHijri } from "../lib/markesdagar";
+import { gregorianToHijri, stockholmNoon } from "../lib/markesdagar";
 import { currentNavHref, FOOTER_GROUPS, FOOTER_LINKS } from "../lib/navigation";
 import MarkDot from "./MarkDot.astro";
 
@@ -19,8 +19,10 @@ const here = (href: string) => href === currentHref;
 // triplet would just be three arbitrary-looking digits. The Hijri build date reads the
 // same shape (X.Y.Z) but every digit means something: which Hijri year, month and day
 // this was deployed. Zero-padded so the stamp holds a fixed width across every build —
-// "1447.02.06", never a jittery "1447.2.6".
-const buildHijri = gregorianToHijri(new Date());
+// "1447.02.06", never a jittery "1447.2.6". Anchored to noon of the Swedish day, since
+// gregorianToHijri reads its instant in UTC and a build between 00:00 and 02:00 Swedish
+// time would otherwise stamp the day before.
+const buildHijri = gregorianToHijri(stockholmNoon(new Date()));
 const pad2 = (n: number) => String(n).padStart(2, "0");
 const buildStamp = `${buildHijri.y}.${pad2(buildHijri.m)}.${pad2(buildHijri.d)}`;
 ---
@@ -53,10 +55,10 @@ const buildStamp = `${buildHijri.y}.${pad2(buildHijri.m)}.${pad2(buildHijri.d)}`
 	<MarkDot class="site-footer-mark" />
 
 	{/* A colophon date beneath the printer's device, not a UI element — deliberately
-	    quieter than the meta line above it. title carries the readable date for anyone
-	    who hovers; the digits alone are legible to no one who doesn't already know the
-	    scheme, which is the point. */}
-	<p class="site-footer-build" title={`Publicerad ${buildStamp} (den islamiska kalendern)`}>
-		{buildStamp}
+	    quieter than the meta line above it. It says WHICH date it is: bare, »1448.04.13«
+	    read as today's date, and sat a day or more behind the front page's horizon,
+	    which shows the real one — two islamic dates on one page, disagreeing. */}
+	<p class="site-footer-build" title={`Uppdaterad ${buildStamp} i den islamiska kalendern`}>
+		uppdaterad {buildStamp}
 	</p>
 </footer>

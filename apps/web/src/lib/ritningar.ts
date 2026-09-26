@@ -1,0 +1,60 @@
+// The site's drawings (src/assets/ritningar; how they are made is in its README), each a
+// pair: graphite on white for the light theme, white chalk on black for the dark. Drawn
+// by <Ritning>; where one may stand is in DESIGN.md, »The Drawings«. Things, buildings,
+// landscape and plants only — no people and no animals, as the classical position the
+// site takes holds for drawn images of living beings.
+import appenLjus from "../assets/ritningar/appen.webp";
+import appenMork from "../assets/ritningar/appen-mork.webp";
+import aretLjus from "../assets/ritningar/aret.webp";
+import aretMork from "../assets/ritningar/aret-mork.webp";
+import barometernLjus from "../assets/ritningar/barometern.webp";
+import barometernBredLjus from "../assets/ritningar/barometern-bred.webp";
+import barometernBredMork from "../assets/ritningar/barometern-bred-mork.webp";
+import barometernMork from "../assets/ritningar/barometern-mork.webp";
+import bonetiderLjus from "../assets/ritningar/bonetider.webp";
+import bonetiderMork from "../assets/ritningar/bonetider-mork.webp";
+import grundenLjus from "../assets/ritningar/grunden.webp";
+import grundenMork from "../assets/ritningar/grunden-mork.webp";
+import moskeerLjus from "../assets/ritningar/moskeer.webp";
+import moskeerMork from "../assets/ritningar/moskeer-mork.webp";
+import poddenLjus from "../assets/ritningar/podden.webp";
+import poddenMork from "../assets/ritningar/podden-mork.webp";
+import tankareLjus from "../assets/ritningar/tankare.webp";
+import tankareMork from "../assets/ritningar/tankare-mork.webp";
+import tradarLjus from "../assets/ritningar/tradar.webp";
+import tradarMork from "../assets/ritningar/tradar-mork.webp";
+import vilseLjus from "../assets/ritningar/vilse.webp";
+import vilseMork from "../assets/ritningar/vilse-mork.webp";
+
+export interface RitningPar {
+	ljus: ImageMetadata;
+	mork: ImageMetadata;
+}
+
+export const RITNINGAR = {
+	/** Headphones on an open book — the podcast. */
+	podden: { ljus: poddenLjus, mork: poddenMork },
+	/** A phone showing the app: the map with the day's arc, the prayer list. */
+	appen: { ljus: appenLjus, mork: appenMork },
+	/** A window at first light, a prayer rug on the sill — Bönetider's prose page, /bonetider/metod/. */
+	bonetider: { ljus: bonetiderLjus, mork: bonetiderMork },
+	/** A modest mosque among a Swedish town's roofs and birches. Not placed (DESIGN.md, »The Drawings«). */
+	moskeer: { ljus: moskeerLjus, mork: moskeerMork },
+	/** The new crescent at dusk over a lake shore — Det islamiska året. */
+	aret: { ljus: aretLjus, mork: aretMork },
+	/** A writing desk: open books, old volumes, inkwell, an oil lamp — Tänkare. */
+	tankare: { ljus: tankareLjus, mork: tankareMork },
+	/** Open books joined by one thread — Trådar. */
+	tradar: { ljus: tradarLjus, mork: tradarMork },
+	/** A Swedish farmhouse wall barometer, its needle in ochre — upright, for the front page's
+	 *  10rem column beside the AI-barometern's introduction. */
+	barometern: { ljus: barometernLjus, mork: barometernMork },
+	/** The same barometer beside a window, weather moving in over a lake — landscape, for the
+	 *  hub's opening: the space beside an opening is wider than tall, and upright the
+	 *  barometer stood 140px wide with a 400px empty field beside it (2026-09-26). */
+	barometernBred: { ljus: barometernBredLjus, mork: barometernBredMork },
+	/** An open Quran on a carved wooden stand by a window — Grunden, »Vad är islam?«. */
+	grunden: { ljus: grundenLjus, mork: grundenMork },
+	/** An empty bench by a forest path, a lantern on it — the 404 page. */
+	vilse: { ljus: vilseLjus, mork: vilseMork },
+} satisfies Record<string, RitningPar>;

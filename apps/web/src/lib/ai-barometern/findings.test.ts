@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { type ScaleCell, scaleCell, type TwinCell, twinCell } from "./aggregate";
 import { FAMILIES } from "./families";
-import { type Finding, findings, frontPageFinding, latestFindings, stanceSpread } from "./findings";
+import {
+	type Finding,
+	findings,
+	frontPageFindings,
+	latestFindings,
+	stanceSpread,
+} from "./findings";
 import { type MatrixRow, matrixAreas, type StanceShare, type TwinRow, twinRow } from "./site";
 import { TWIN_SETS, type TwinSet } from "./twins";
 import type { FamilyKey, Question } from "./types";
@@ -268,10 +274,10 @@ describe("the spread in how often models take a position", () => {
 	});
 });
 
-describe("frontPageFinding", () => {
-	// The front page's rail draws one finding with no room for the classical note the hub prints
-	// beside a classical finding. Picking one would state the site's position on the front page
-	// with nothing under it but five chips.
+describe("frontPageFindings", () => {
+	// The front page prints its findings as sentences with no room for the classical note the hub
+	// prints beside a classical finding. Picking one would state the site's position on the front
+	// page with nothing under it.
 	const make = (kind: Finding["kind"], key: string, models = 1): Finding => ({
 		kind,
 		area: { key, label: key },
@@ -288,25 +294,28 @@ describe("frontPageFinding", () => {
 	// findings (Palestina/Ukraina, Xinjiang, muslimfientlighet/antisemitism) waited below it.
 	it("leads with the widest pattern, not the first in the bank's order", () => {
 		const list = [make("own", "a", 1), make("parallel", "b", 5)];
-		expect(frontPageFinding(list)?.area.key).toBe("b");
+		expect(frontPageFindings(list, 1)[0]?.area.key).toBe("b");
 	});
 
 	it("keeps the bank's order between findings of equal width", () => {
 		const list = [make("parallel", "a", 5), make("principle", "b", 5)];
-		expect(frontPageFinding(list)?.area.key).toBe("a");
+		expect(frontPageFindings(list, 2).map((f) => f.area.key)).toEqual(["a", "b"]);
 	});
 
 	it("passes over a classical finding even when it is the widest", () => {
 		const list = [make("classical", "a", 5), make("principle", "b", 3)];
-		expect(frontPageFinding(list)?.area.key).toBe("b");
+		expect(frontPageFindings(list, 3).map((f) => f.area.key)).toEqual(["b"]);
 	});
 
-	it("returns null when there is nothing else to show", () => {
-		expect(frontPageFinding([])).toBeNull();
-		expect(frontPageFinding([make("classical", "a")])).toBeNull();
+	it("returns nothing when there is nothing else to show, and never more than asked", () => {
+		expect(frontPageFindings([], 3)).toEqual([]);
+		expect(frontPageFindings([make("classical", "a")], 3)).toEqual([]);
+		const many = ["a", "b", "c", "d"].map((k) => make("parallel", k, 5));
+		expect(frontPageFindings(many, 3)).toHaveLength(3);
 	});
 
-	it("never leads the front page with a classical finding from the committed answers", () => {
-		expect(frontPageFinding(latestFindings())?.kind).not.toBe("classical");
+	it("never puts a classical finding on the front page from the committed answers", () => {
+		const kinds = frontPageFindings(latestFindings(), 3).map((f) => f.kind);
+		expect(kinds, "a classical finding needs the hub's note beside it").not.toContain("classical");
 	});
 });

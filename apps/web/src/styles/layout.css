@@ -56,6 +56,15 @@
 		color: var(--color-muted);
 	}
 
+	/* A date-and-length line (ArticleMeta) is a statement, not wayfinding, so it
+	   reads in sentence case: »23 september 2026 · 21 min läsning«. In tracked caps
+	   it was twenty of the page's sixty-six shouting labels, and a month name in
+	   capitals is not Swedish typography anywhere else. Kickers keep their caps. */
+	.label.article-meta {
+		text-transform: none;
+		letter-spacing: 0.01em;
+	}
+
 	/* Meta line — date/status rows that are not small-caps labels. */
 	.meta-line {
 		font-family: var(--font-heading);
@@ -490,10 +499,64 @@
    reads as one composition rather than a stack (plan §11 gestalt).
    ============================================================ */
 	.home {
-		max-width: var(--home-width);
+		max-width: var(--canvas-width);
 		margin-inline: auto;
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
+	}
+
+	/* A page that is mostly running text but is built on the browse shell — the method
+	   pages, the Ramadan guide, the mosque guide — keeps the reading frame: its prose is
+	   held to the measure either way, and on the canvas it only left a wider empty
+	   margin beside it. */
+	.home.home--text {
+		max-width: var(--reading-frame);
+	}
+
+	/* ============================================================
+   The front page's shell (index.astro). <main class="front"> is a full-width
+   inline-size query container around the ordinary .home canvas, so a movement
+   can reach the window edge with cqi. vw cannot do it: vw counts the scrollbar,
+   and a vw bleed gives the whole page a horizontal scroll (FeatureEssay used to
+   step its spread at a media query for exactly that reason).
+
+   `container-type` also applies LAYOUT containment, which makes <main> the
+   containing block for fixed-position descendants. There are none inside the
+   front page's <main> — the player, the search dialog and the resume pill all
+   live in Base.astro. Keep it that way, or give such a thing its own portal.
+   ============================================================ */
+	.front {
+		container-type: inline-size;
+	}
+
+	/* Full bleed. The negative margin reaches both window edges; the padding puts
+   the content back on the canvas edge, so type inside a band keeps the page's
+   single left margin. 50% is half the .home content box, 50cqi half the window
+   without its scrollbar. */
+	.front .bleed {
+		margin-inline: calc(50% - 50cqi);
+		padding-inline: calc(50cqi - 50%);
+	}
+
+	/* The two grounds (tokens.css). A band is a movement with its own paper, so it
+   carries its own block padding: the section margin outside it, air inside it. */
+	.front .ground-tint,
+	.front .ground-ink {
+		padding-block: var(--space-phi2);
+	}
+
+	.ground-tint {
+		background: var(--ground-tint);
+	}
+
+	/* The ink band. Its scheme and ground are set in tokens.css (.ground-ink), where
+   the colour tokens are redeclared so they re-resolve in the dark scheme in the
+   production build too; here it only paints. --color-bg is the band's own ground,
+   which is what anything that paints "the ground" must match — a mask behind a
+   mark, a surface mixed from it. */
+	.ground-ink {
+		background: var(--color-bg);
+		color: var(--color-text);
 	}
 
 	/* A movement in the homepage sequence. Generous vertical breathing
@@ -515,52 +578,54 @@
 		contain-intrinsic-size: auto var(--civ-h, 700px);
 	}
 
-	/* Rendered heights, measured 2026-09-22 on the live page (Chromium, content-
-	   visibility forced visible). Desktop values hold from ~64rem down to ~48rem;
-	   the phone values are the one-column layouts at 390px. */
-	.home-second {
-		--civ-h: 540px;
+	/* Rendered heights, measured 2026-09-25 on the »Dagen och texten« page (Chromium,
+	   content-visibility forced visible): desktop at 1440px on the mast-wide canvas,
+	   tinted grounds' padding included; the phone values are the one-column layouts
+	   at 390px. Re-measure when a
+	   movement changes shape (scratchpad script: every .home-movement's height). */
+	.podd-app {
+		--civ-h: 348px;
 	}
 	.amnen.home-movement {
-		--civ-h: 1935px;
+		--civ-h: 1038px;
 	}
 	.fakta-band {
-		--civ-h: 590px;
+		--civ-h: 1188px;
 	}
 	.fordjupning-home {
-		--civ-h: 1070px;
+		--civ-h: 1380px;
 	}
 	.tradar-home {
-		--civ-h: 535px;
+		--civ-h: 407px;
 	}
 	.tankare-home {
-		--civ-h: 350px;
+		--civ-h: 512px;
 	}
 	.praktiskt-home {
-		--civ-h: 222px;
+		--civ-h: 330px;
 	}
 
 	@media (max-width: 40rem) {
-		.home-second {
-			--civ-h: 870px;
+		.podd-app {
+			--civ-h: 646px;
 		}
 		.amnen.home-movement {
-			--civ-h: 1970px;
+			--civ-h: 2457px;
 		}
 		.fakta-band {
-			--civ-h: 885px;
+			--civ-h: 1526px;
 		}
 		.fordjupning-home {
-			--civ-h: 1730px;
+			--civ-h: 579px;
 		}
 		.tradar-home {
-			--civ-h: 1485px;
+			--civ-h: 478px;
 		}
 		.tankare-home {
-			--civ-h: 660px;
+			--civ-h: 560px;
 		}
 		.praktiskt-home {
-			--civ-h: 370px;
+			--civ-h: 512px;
 		}
 	}
 
@@ -643,6 +708,10 @@
 		margin-bottom: var(--space-unit);
 		font-size: var(--step--2);
 		font-weight: 400;
+		/* The body's own leading, pinned for the same reason: a <p> kicker inherited
+		   1.618 and an <h2> one took the headings' 1.2, so two kickers set side by side
+		   (the lead's and the index's under the cover) missed each other by 3px. */
+		line-height: 1.618;
 		letter-spacing: 0.09em;
 		/* Colour comes from `.label` (--color-muted). The kicker used to darken it to
 		   a 65/35 mix, which put section ticks a full L* step ahead of every other
@@ -650,12 +719,19 @@
 		   and they all sit at the same rank. */
 	}
 
+	/* The wordmark's sun, not a rule. It was a 1.6rem warm dash — the same stroke
+	   as every hairline on the page, so the page opened ten movements with the
+	   device it also used to close forty-eight rows. A point reads as a mark
+	   rather than a boundary, and it is the site's own: ISLAM●SE. Brass, because
+	   the gold of the mark measures 1.75:1 on the light ground and would vanish at
+	   this size; brass is the palette's 3:1 non-text fill. */
 	.home-kicker::before {
 		content: "";
 		flex: none;
-		inline-size: 1.6rem;
-		block-size: 2px;
-		background: var(--color-warm);
+		inline-size: 0.45rem;
+		block-size: 0.45rem;
+		border-radius: 50%;
+		background: var(--color-brass);
 	}
 
 	/* Media frame — the shared art-directed container for every essay photo.
@@ -1224,13 +1300,30 @@
    if the list outgrows a line, cut it rather than let it wrap.
    ============================================================ */
 	.site-footer {
-		max-width: var(--home-width);
+		position: relative;
+		max-width: var(--canvas-width);
 		margin: var(--space-phi2) auto 0;
 		padding-block: var(--space-phi) var(--space-phi2);
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
-		border-top: 1px solid var(--color-rule);
 		text-align: center;
+	}
+
+	/* The rule over the footer spans the CONTENT, the mast's wordmark to its search
+	   button. As a border it ran across the padding too, 24px past both content edges
+	   on a wide window — the one line on every page wider than everything above it. */
+	.site-footer::before {
+		content: "";
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline: var(--safe-left) var(--safe-right);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	/* The front page ends on a tinted band (the book), and the band's edge is already
+	   the boundary: a hairline 80px under it was a second line saying the same thing. */
+	.front ~ .site-footer::before {
+		content: none;
 	}
 
 	.site-footer-nav {
@@ -1729,6 +1822,15 @@
 		gap: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.25rem, 3vw, 2.25rem);
 	}
 
+	/* Thirds, for a row that holds at most three (an ämne's picture cards on /essaer/)
+	   or six (the fördjupning band on /svar/). The auto-fill track makes four on the
+	   76rem canvas, which left three cards beside an empty slot and six as 4 + 2. */
+	@media (width >= 48rem) {
+		.essay-cards.essay-cards--thirds {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
 	.essay-card {
 		padding-block: 0;
 		border-bottom: none;
@@ -1958,22 +2060,22 @@
 	}
 
 	/* ============================================================
-   Reading & browse canvas — every single page now shares the home
-   canvas width (--home-width, 64rem) so the page frame never changes
-   width as you move between an index and an article: no "flicking".
+   Reading & browse frames (tokens.css, »Two frames«).
 
    • Browse pages (Essäer, the Fakta hub, the ämne / tråd / tänkare
-     collections) use `.home` and let the archive fill the frame as a
-     two-column index — promoted here from essaer.astro so every archive
-     shares one rule.
-   • Reading pages (a single essay or answer) use `.reading`: the same
-     64rem frame, but the running prose is held to the reading measure
-     (--content-width) and centred, while the hero spans the full frame —
-     so the page reads as wide as the index it came from, with lines that
-     stay comfortable. The approved layout: full-bleed hero, centred column.
+     collections, the directories and tools) use `.home`, on the mast's
+     canvas (--canvas-width), and let the archive fill it — promoted here
+     from essaer.astro so every archive shares one rule. They used to share
+     the 64rem reading frame so that nothing "flicked" between an index and
+     an article; the mast is what holds still now, and an index set 12rem
+     narrower than the menu over it looked shrunk (user review, 2026-09-26).
+   • Reading pages (a single essay, answer or fördjupning) use `.reading`:
+     the 64rem reading frame, the running prose held to the reading measure
+     (--content-width) and centred, the hero spanning the frame. The
+     approved layout: full-bleed hero, centred column.
    ============================================================ */
 	.reading {
-		max-width: var(--home-width);
+		max-width: var(--reading-frame);
 		margin-inline: auto;
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
@@ -2083,7 +2185,7 @@
 		display: none;
 	}
 
-	/* The gutter appears when .reading stops growing — viewport = --home-width, i.e.
+	/* The gutter appears when .reading stops growing — viewport = --reading-frame, i.e.
 	   64rem — and does not widen after. 65rem, not 64, is one rem of cushion for the
 	   classic-scrollbar discrepancy between engines (reset.css reserves the gutter
 	   with scrollbar-gutter: stable, so the media query and the layout box disagree
@@ -2100,7 +2202,7 @@
 			   Derived from the tokens rather than typed, so it cannot drift when one
 			   of them changes. Consumed by the .reading block list above. */
 			--reading-inline-start: calc(
-				var(--home-width) -
+				var(--reading-frame) -
 				2 *
 				var(--padding-inline) -
 				var(--content-width) -
@@ -2225,6 +2327,19 @@
 		font-feature-settings: normal;
 	}
 
+	/* The rail's countdown to the next observance: the one live number in the
+	   calendar block, set in brass INK (the token for words that must carry the
+	   brass), after the date it counts toward. Empty on every other row. */
+	.md-until:not(:empty) {
+		color: var(--color-brass-ink);
+		white-space: nowrap;
+	}
+
+	.md-until:not(:empty)::before {
+		content: " · ";
+		color: var(--color-muted);
+	}
+
 	.md-body {
 		min-width: 0;
 	}
@@ -2301,6 +2416,24 @@
 	.md-list--rail .md-hijri {
 		text-align: start;
 		white-space: normal;
+	}
+
+	/* The rail sits in the front page's live row, where the register is the signal:
+	   the news beside it is reported material and speaks in the sans; the year is
+	   islam.se's own, so its names take the editorial face at the size and weight of
+	   the barometer's findings under it (Markesdagar.astro says why). Set in the sans
+	   they read as three more headlines. The date steps back to the muted meta every
+	   other date line on the page wears; the countdown keeps its brass. */
+	.md-list--rail .md-name {
+		font-family: var(--font-display);
+		font-size: var(--step-0);
+		font-weight: 600;
+		line-height: 1.25;
+		color: var(--color-text);
+	}
+
+	.md-list--rail .md-greg {
+		color: var(--color-muted);
 	}
 
 	/* The note is dropped from the markup in the rail variant, not merely hidden —

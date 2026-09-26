@@ -314,7 +314,7 @@ const structuredArticle = {
 <script>
 	import { navigate } from "astro:transitions/client";
 	import { initFootnotePopovers } from "../scripts/footnote-popover";
-	import { readProgress } from "../scripts/reading-progress";
+	import { READ_AT, RESUME_FROM, readProgress } from "../scripts/reading-progress";
 
 	document.addEventListener("astro:page-load", () => {
 		if (!document.querySelector(".article-body")) return;
@@ -327,7 +327,7 @@ const structuredArticle = {
 		const pill = document.querySelector<HTMLElement>(".resume-pill");
 		if (resumeSlug && pill) {
 			const savedPct = readProgress(resumeSlug);
-			if (savedPct > 0.06 && savedPct < 0.85) {
+			if (savedPct > RESUME_FROM && savedPct < READ_AT) {
 				const reveal = () => { pill.hidden = false; requestAnimationFrame(() => pill.setAttribute("data-visible", "")); };
 				const retire = () => {
 					pill.removeAttribute("data-visible");

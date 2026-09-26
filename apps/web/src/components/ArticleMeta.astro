@@ -24,7 +24,7 @@ const updated =
 		: null;
 ---
 
-<p {...attrs} class:list={[className]}>
+<p {...attrs} class:list={[className, "article-meta"]}>
 	<time datetime={publishedAt.slice(0, 10)}>{formatDate(publishedAt)}</time>
 	{typeof readingTime === "number" && <> &middot; {readingTime} min läsning</>}
 	{updated && (

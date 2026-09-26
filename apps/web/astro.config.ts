@@ -1081,6 +1081,38 @@ export default defineConfig({
 			},
 		},
 		{
+			// Literata's DISPLAY cut — the same OFL family, instanced from the upstream
+			// variable font (google/fonts ofl/literata, Literata[opsz,wght].ttf v3.103)
+			// with the optical-size axis pinned at 72 and weight kept variable 400–700,
+			// then subset to the body core's own unicode ranges (50 kB woff2).
+			//
+			// Why a second file: the body files carry opsz only 12–24, so every headline
+			// above 24px was set in the TEXT design scaled up — loose fit, low contrast,
+			// the look of a paragraph enlarged. The opsz-72 masters are drawn for size:
+			// tighter spacing, finer hairlines, a crisper ear on the g. Used only where
+			// type is ≥ ~40px (--font-headline in tokens.css): the lead title, the
+			// movement titles and the Grunden numerals. Not preloaded — the lead title
+			// swaps in over a metric-matched fallback, and the hero image keeps the
+			// bandwidth. Regenerate with fonttools:
+			//   varLib.instancer Literata[opsz,wght].ttf opsz=72 wght=400:700
+			//   pyftsubset --unicodes=<the core ranges above> --layout-features='*' --flavor=woff2
+			// License: src/assets/fonts/OFL-Literata.txt.
+			provider: fontProviders.local(),
+			name: "Literata Display",
+			cssVariable: "--font-headline",
+			fallbacks: ["Georgia", "Times New Roman", "serif"],
+			display: "swap",
+			options: {
+				variants: [
+					{
+						weight: "400 700",
+						style: "normal",
+						src: ["./src/assets/fonts/literata-display.woff2"],
+					},
+				],
+			},
+		},
+		{
 			// Amiri Quran — a purpose-made mushaf naskh, subset to the Arabic
 			// blocks + harakat (45 kB woff2). Declared site-wide but not preloaded
 			// by default — the browser fetches it lazily when an Arabic glyph first

@@ -259,6 +259,7 @@ if (articleMeta) {
 		<Font cssVariable="--font-body-italic" />
 		{preloadTextFonts ? <Font cssVariable="--font-heading" preload /> : <Font cssVariable="--font-heading" />}
 		{preloadArabicFont ? <Font cssVariable="--font-arabic" preload /> : <Font cssVariable="--font-arabic" />}
+		<Font cssVariable="--font-headline" />
 		{preloadImageSrcset ? (
 			<link rel="preload" as="image" type={preloadImageType} imagesrcset={preloadImageSrcset} imagesizes={preloadImageSizes} fetchpriority="high" />
 		) : preloadImage ? (
@@ -324,7 +325,7 @@ if (articleMeta) {
 	<body>
 		<a href="#main" class="skip-link">Hoppa till innehåll</a>
 		{/* Reading progress is an essay metaphor — browse pages get no bar. */}
-		{articleMeta && <div class="reading-progress" aria-hidden="true" data-slug={articleMeta.slug} />}
+		{articleMeta && <div class="reading-progress" aria-hidden="true" data-slug={articleMeta.slug} data-title={pageTitle} />}
 		<Header {...(mastSectionHref === undefined ? {} : { activeHref: mastSectionHref })} />
 		<slot />
 		<Footer {...(essaySectionHref === undefined ? {} : { activeHref: essaySectionHref })} />
@@ -347,6 +348,7 @@ if (articleMeta) {
 				let shown = false;
 				const progressBar = document.querySelector<HTMLElement>(".reading-progress");
 				const slug = progressBar?.dataset.slug;
+				const title = progressBar?.dataset.title;
 				let lastSave = 0;
 				const shareBtn = document.querySelector<HTMLButtonElement>(".share-btn");
 
@@ -356,7 +358,7 @@ if (articleMeta) {
 				}
 
 				const saveProgress = () => {
-					if (slug) recordProgress(slug, scrollPct());
+					if (slug) recordProgress(slug, scrollPct(), title);
 				};
 
 				window.addEventListener("scroll", () => {

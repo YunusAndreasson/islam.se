@@ -59,7 +59,7 @@
 	/* ---- overview matrix --------------------------------------------------- */
 
 	.abm-figure {
-		max-width: min(var(--home-width), 100%);
+		max-width: min(var(--canvas-width), 100%);
 	}
 
 	/* The page shells lay sections out as grid/flex items, whose min-width is their content:
@@ -702,6 +702,32 @@
 		text-decoration: underline;
 		text-decoration-color: var(--color-rule);
 		text-underline-offset: var(--underline-offset);
+	}
+	/* Two columns on the hub from 72rem, read down then across: at the reading measure the
+	   findings made one long strip down the left of the 76rem canvas (2026-09-26). Padding
+	   under each, not a margin over the next, since a margin at a column's head is dropped
+	   in one engine and kept in another. */
+	@media (width >= 72rem) {
+		.abm-hub .abm-findings {
+			max-inline-size: none;
+			columns: 2;
+			column-gap: 3rem;
+		}
+
+		.abm-hub .abm-findings > li {
+			break-inside: avoid;
+			padding-block-end: var(--space-unit);
+		}
+
+		.abm-hub .abm-findings li + li {
+			margin-block-start: 0;
+		}
+
+		/* Same reason: the area label's own top margin survived in the first column and was
+		   dropped at the head of the second, so the two columns started 10px apart. */
+		.abm-hub .abm-findings > li > :first-child {
+			margin-block-start: 0;
+		}
 	}
 	.abm-findings-note {
 		margin-block-start: var(--space-half);

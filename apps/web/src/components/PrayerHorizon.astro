@@ -1,0 +1,188 @@
+---
+// THE HORIZON — the prayer day as a line, in the Bönetider row of the front page's Praktiskt.
+//
+// Today as one line from Swedish midnight to midnight. The six times are ticks on it, the
+// stretch between sunrise and maghrib is drawn heavier because that is when the sun is up,
+// and the sun itself is a point at the current minute: brass while it is above the
+// horizon, a ring once it has set. The islamic date is written ON the line: today's at the
+// start, the next one at the maghrib tick, because that is where the islamic day turns
+// over. No sentence explains it; the line shows it.
+//
+// It first stood at the top of the page as its dateline, with the gregorian date and the
+// place above the line. There it competed with the intro sentence, and the mast's chip
+// already shows the next prayer (user review, 2026-09-25), so it moved into Praktiskt, under
+// the row that names the place and the next prayer in words — which is why it carries no
+// date row of its own.
+//
+// Served true for Stockholm at build time; scripts/prayer-horizon.ts (mounted by
+// bonetider-field.ts, which the mast already loads on every page) moves it to the
+// reader's saved place and the real now, and repaints each minute. The sun is hidden
+// until then: a build-time sun is hours or days stale, and a wrong mark is worse than
+// none. Without JavaScript the reader gets the line, the ticks and the dates.
+//
+// ⚠️ SVG with PERCENTAGE coordinates and no viewBox — not HTML positioned with `left:`.
+// A server-rendered position would have to be a style attribute, which the production
+// CSP blocks; SVG presentation attributes are not styles. Percentages keep the text at
+// its real size (a viewBox would scale it) and the client updates them with setAttribute.
+import {
+	anchorFor,
+	horizon,
+	pct,
+} from "../lib/bonetider/horizon";
+import {
+	computePrayerTimes,
+	nextPrayerKeyAt,
+	PRAYER_LABELS,
+} from "../lib/bonetider/prayer-times";
+import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
+import { hijriAtLabel } from "../lib/markesdagar";
+
+const now = new Date();
+const times = computePrayerTimes(DEFAULT_COORDS, now, DEFAULT_SETTINGS);
+const next = nextPrayerKeyAt(times, now.getTime());
+const model = horizon(times, now, next);
+
+// Widths the build assumes for the Praktiskt list column; the client measures the real ones.
+const LINE_PX = 560;
+const LABEL_PX = 56;
+
+// Before maghrib: today's islamic date opens the line and the next one sits at maghrib.
+// The start label is always the date that began at LAST night's maghrib, i.e. the civil
+// date; the maghrib label is the one after it.
+const dayBefore = hijriAtLabel(new Date(times.maghrib.getTime() - 1), times.maghrib);
+const dayAfter = hijriAtLabel(times.maghrib, times.maghrib, false);
+const maghribX = model.maghrib;
+---
+
+<div
+	class="horizon bonetider-horizon"
+	data-name={DEFAULT_COORDS.name}
+	data-lat={DEFAULT_COORDS.latitude}
+	data-lon={DEFAULT_COORDS.longitude}
+	data-fixed="0"
+>
+	<svg class="horizon-line" width="100%" height="46" aria-hidden="true" focusable="false">
+		<text class="horizon-hijri" data-h="hijri-before" x="0" y="10">{dayBefore}</text>
+		{maghribX !== null && (
+			<text
+				class="horizon-hijri horizon-hijri-after"
+				data-h="hijri-after"
+				x={pct(maghribX)}
+				dx="6"
+				y="10"
+			>{dayAfter}</text>
+		)}
+		<line class="horizon-base" x1="0" x2="100%" y1="22" y2="22" />
+		{model.daylight && (
+			<line
+				class="horizon-daylight"
+				data-h="daylight"
+				x1={pct(model.daylight[0])}
+				x2={pct(model.daylight[1])}
+				y1="22"
+				y2="22"
+			/>
+		)}
+		{model.ticks.map((t) => (
+			<g class:list={["horizon-tick", `is-${t.state}`, { "is-maghrib": t.key === "maghrib" }]} data-h-tick={t.key}>
+				<line x1={pct(t.x)} x2={pct(t.x)} y1={t.key === "maghrib" ? 12 : 17} y2="27" />
+				<text x={pct(t.x)} y="42" text-anchor={anchorFor(t.x, LINE_PX, LABEL_PX)}>{PRAYER_LABELS[t.key]}</text>
+			</g>
+		))}
+		<circle class="horizon-sun" data-h="sun" cx={pct(model.sun)} cy="22" r="5" />
+	</svg>
+</div>
+
+<style>
+	.horizon {
+		margin: var(--space-half) 0 0;
+	}
+
+	.horizon-line {
+		display: block;
+		overflow: visible;
+	}
+
+	.horizon-base {
+		stroke: var(--color-rule);
+		stroke-width: 1;
+	}
+
+	/* Daylight: the only stretch drawn in ink. It is what makes a Swedish December
+	   (a short dash) and a Swedish June (almost the whole line) visibly different
+	   days, which no table of six times can show at a glance. */
+	.horizon-daylight {
+		stroke: var(--text-quiet);
+		stroke-width: 2;
+	}
+
+	.horizon-tick line {
+		stroke: var(--color-muted);
+		stroke-width: 1;
+	}
+
+	/* Maghrib's tick runs up into the date row: it is where one islamic date ends
+	   and the next begins, and the taller mark is the whole of that explanation. */
+	.horizon-tick.is-maghrib line {
+		stroke: var(--color-brass);
+	}
+
+	.horizon-tick text,
+	.horizon-hijri {
+		font-family: var(--font-heading);
+		font-size: var(--step--4);
+		fill: var(--color-muted);
+	}
+
+	.horizon-tick.is-next text {
+		fill: var(--color-text);
+		font-weight: 600;
+	}
+
+	.horizon-tick.is-next line {
+		stroke: var(--color-text);
+	}
+
+	/* Literata italic: the islamic dates are written in the book face, the way the
+	   site sets a transliteration, not in the apparatus face of the times. */
+	.horizon-hijri {
+		font-family: var(--font-body);
+		font-style: italic;
+		fill: var(--text-quiet);
+	}
+
+	/* The sun: the wordmark's point, at the current minute. Hidden until the browser
+	   has placed it (data-live), because the build's "now" is not the reader's. A ring
+	   once the sun is down — the same distinction the mast's sun/moon icon makes. */
+	.horizon-sun {
+		fill: var(--color-brass);
+		stroke: var(--color-bg);
+		stroke-width: 3;
+		paint-order: stroke;
+		visibility: hidden;
+	}
+
+	.horizon[data-live] .horizon-sun {
+		visibility: visible;
+	}
+
+	.horizon[data-night] .horizon-sun {
+		fill: var(--color-bg);
+		stroke: var(--color-brass);
+		stroke-width: 1.5;
+	}
+
+	/* A phone draws the line at a third of the width: the ticks stay, and the labels
+	   the client finds room for (always the next prayer's). Before the client runs,
+	   only the next prayer's label shows, which is what it would choose anyway. */
+	@media (width < 48rem) {
+		.horizon:not([data-live]) .horizon-tick:not(.is-next) text {
+			display: none;
+		}
+	}
+
+	.horizon-tick text[data-hidden],
+	.horizon-hijri[data-hidden] {
+		display: none;
+	}
+</style>

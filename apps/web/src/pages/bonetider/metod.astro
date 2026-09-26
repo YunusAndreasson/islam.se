@@ -5,12 +5,14 @@ import DefinitionList from "../../components/DefinitionList.astro";
 import AsrShadow from "../../components/bonetider/AsrShadow.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
 import SunDayCurve from "../../components/bonetider/SunDayCurve.astro";
+import Ritning from "../../components/Ritning.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeBySlug } from "../../lib/bonetider/places-index";
+import { RITNINGAR } from "../../lib/ritningar";
 import { dateForStockholmDay } from "../../lib/bonetider/prayer-times";
 
 // The figures are drawn for fixed reference days, never "today" — same reason
@@ -110,7 +112,9 @@ const prayerDefinitions = [
 		breadcrumbList(crumbs),
 	]}
 >
-	<main id="main" class="home bonetider-metod bt-prose">
+	<main id="main" class="home home--text bonetider-metod bt-prose">
+		{/* Bönetider's drawing opens the section's prose page, as a section's drawing
+		    opens its hub (PageHead): /bonetider/ itself opens on its tool. */}
 		<header class="bt-metod-header">
 			<Breadcrumb items={crumbs} />
 			<h1>Så beräknas bönetiderna</h1>
@@ -119,6 +123,9 @@ const prayerDefinitions = [
 				ur en färdig tabell. Här förklarar vi modellen, vilka beräkningsmetoder du kan
 				välja, hur ljusa sommarnätter hanteras, och vilka källor vi använder.
 			</p>
+			<div class="bt-metod-ritning">
+				<Ritning {...RITNINGAR.bonetider} fyll hojd={[4.5, 11]} bredd={[7.5, 16]} sizes="(min-width: 79rem) 31rem, (min-width: 48rem) calc(100vw - 49rem), 7rem" />
+			</div>
 		</header>
 
 		<TitledSection id="m-boner" title="De sex tiderna">
@@ -243,6 +250,67 @@ const prayerDefinitions = [
 
 	.bt-metod-header h1 {
 		margin: var(--space-half) 0 0;
+	}
+
+	/* PageHead's composition: the drawing as tall as the opening, the title's line to
+	   the ingress's last, on the frame's right edge; on a phone beside the title, the
+	   ingress under both. The breadcrumb stays above it all. */
+	.bt-metod-header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas:
+			"stig stig"
+			"titel ritning"
+			"ingress ingress";
+		column-gap: var(--space-unit);
+		align-items: end;
+	}
+
+	/* The breadcrumb carries the gap to the title, so the title's row starts on its top
+	   line and the drawing's cell with it. */
+	.bt-metod-header > :first-child {
+		grid-area: stig;
+		margin-bottom: var(--space-half);
+	}
+
+	.bt-metod-header h1 {
+		grid-area: titel;
+		margin-top: 0;
+	}
+
+	/* The lead's bottom margin (a global rule gives it 0.95rem) moves to the header's
+	   padding: in the row it lengthened the drawing's cell past the last line; as
+	   padding it keeps the gap to the first section as it was. */
+	.bt-metod-header {
+		padding-bottom: var(--space-half);
+	}
+
+	.bt-metod-header .bt-metod-lead {
+		grid-area: ingress;
+		margin-bottom: 0;
+	}
+
+	.bt-metod-ritning {
+		grid-area: ritning;
+	}
+
+	@media (width >= 48rem) {
+		.bt-metod-header {
+			grid-template-columns: minmax(0, var(--content-width)) minmax(8rem, 1fr);
+			grid-template-areas:
+				"stig stig"
+				"titel ritning"
+				"ingress ritning";
+			grid-template-rows: auto auto 1fr;
+			column-gap: var(--grid-gutter);
+			align-items: start;
+		}
+
+		.bt-metod-ritning {
+			position: relative;
+			align-self: stretch;
+			min-block-size: 7rem;
+		}
 	}
 
 	.bt-metod-lead {

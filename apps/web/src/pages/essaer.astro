@@ -77,7 +77,7 @@ const lengthFilterItems = [
 
 	{/* Curated reading paths first — an inviting way in before the topical
 	    archive below; the /tradar index holds the rest. */}
-	<TradarHome limit={3} />
+	<TradarHome limit={3} variant="cards" />
 
 	{/* ---- Default view: grouped by ämne, da'wah order. Each ämne opens with up to
 	    three image cards (like the start page), then the rest as the 2-col index.
@@ -102,7 +102,7 @@ const lengthFilterItems = [
 					{cards.length > 0 && (
 						<EssayList
 							articles={cards}
-							class="essay-cards"
+							class="essay-cards essay-cards--thirds"
 							itemVariant="card"
 							showReadFlag
 							showMinutesAttr
@@ -331,7 +331,7 @@ const lengthFilterItems = [
 </style>
 
 <script>
-	import { readProgress } from "../scripts/reading-progress";
+	import { hasRead } from "../scripts/reading-progress";
 
 	function initArchive() {
 		// Bail on non-archive pages (this listener fires on every navigation).
@@ -354,7 +354,7 @@ const lengthFilterItems = [
 			for (const item of document.querySelectorAll<HTMLElement>(".archive-item[data-slug]")) {
 				const slug = item.dataset.slug;
 				if (!slug) continue;
-				item.toggleAttribute("data-read", readProgress(slug) > 0.85);
+				item.toggleAttribute("data-read", hasRead(slug));
 			}
 		}
 

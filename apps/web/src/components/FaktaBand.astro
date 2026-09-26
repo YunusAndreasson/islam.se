@@ -1,122 +1,189 @@
 ---
 import { getCollection } from "astro:content";
 import { FAKTA_CLUSTERS } from "../lib/fakta";
+import { RITNINGAR } from "../lib/ritningar";
 import { groupSvar } from "../lib/svar";
-import HairlineLinkList from "./HairlineLinkList.astro";
+import Ritning from "./Ritning.astro";
 import SectionLink from "./SectionLink.astro";
 
 /**
- * The reference band on the homepage — the encyclopedic half of the site,
- * introduced on the page that until now showed only essays.
+ * GRUNDEN — the encyclopedic half of the site, on the front page that until 2026-08
+ * showed only essays.
  *
- * The homepage opened on the latest essay and closed on the book, with no route
- * into FAKTA or the Q&A anywhere on it: a visitor arriving cold from a search
- * for "vad är islam" or "fakta om islam" met a photograph and an essay title,
- * and the mast was the only way onward. This band is that route, and its <h2>
- * is the only visible heading on the page that carries the head term (the page
- * <h1> is sr-only by design).
+ * A visitor arriving cold from a search for "vad är islam" or "fakta om islam" met a
+ * photograph and an essay title. This band is the route in, and its <h2> is the only
+ * visible heading on the page that carries the head term (the page <h1> is sr-only by
+ * design).
  *
- * TEXT-FIRST, deliberately. Every module above this one is image-led; eleven
- * more cards at the foot of a 5 000px page would read as a second feed rather
- * than as reference matter, and would compete with the feature spread that is
- * the page's signature. The links carry the same words either way.
+ * It used to be the plainest module on the page: eleven words in two hairline lists,
+ * for the head term the page's <title> targets. Now it is set as a glossary: the five
+ * pillars as rows, each with its number, its Swedish name over the term transliterated,
+ * and the one line fakta.ts has always carried for it and the front page never showed;
+ * the six articles of faith beneath at a smaller rank. Still text-first — no
+ * photographs, the page has enough of them — but set like a glossary rather than a
+ * link list. It opens as the site's sections do (PageHead): the drawing of the series
+ * that belongs to it, an open Quran on its stand, on the canvas's right edge beside the
+ * heading, where the row stood empty.
  *
- * Placement is below the essay feed, not above it: the opening screen is a
- * composed spread and stays untouched.
+ * No Arabic script. Each term stood in Amiri at the end of its row for an evening; it
+ * added nothing the transliteration does not already say and left every row weighted
+ * to one side (user review, 2026-09-25).
  */
 
-// Count what /svar/ actually lists, not the collection total — groupSvar drops
-// the twelve cornerstones into the FAKTA hub, so "alla 63" would overpromise
-// what the link opens.
+// Count what /svar/ actually lists, not the collection total — groupSvar drops the
+// cornerstones into the FAKTA hub, so "alla 63" would overpromise what the link opens.
 const entries = await getCollection("svar");
 const listedCount = groupSvar(entries).reduce((n, g) => n + g.entries.length, 0);
+const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 ---
 
-<section class="fakta-band home-movement" aria-labelledby="fakta-band-title">
-	<p class="label home-kicker">Fakta om islam</p>
-
-	<h2 class="fakta-band-title" id="fakta-band-title">
-		<a href="/vad-ar-islam/">Vad är islam?</a>
-	</h2>
-
-	<p class="lead fakta-band-lead">
-		Fem pelare: det en muslim gör. Sex trosartiklar: det en muslim tror.
-		Var och en förklaras för sig, ur källorna.
-	</p>
-
-	<div class="fakta-band-cols">
-		{FAKTA_CLUSTERS.map((cluster) => (
-			<div class="fakta-band-col">
-				{/* The cluster heading links to its overview answer where one exists,
-				    exactly as the hub does — so the pillars overview is reachable from
-				    here too without an odd "Översikt" row in the list. */}
-				<p class="label fakta-band-col-head">
-					{cluster.overview
-						? <a href={`/svar/${cluster.overview}/`}>{cluster.name}</a>
-						: cluster.name}
-				</p>
-				<HairlineLinkList
-					class="fakta-band-list"
-					items={cluster.items.map((item) => ({
-						label: item.label,
-						href: `/svar/${item.svarSlug}/`,
-					}))}
-				/>
-			</div>
-		))}
+<section class="fakta-band grunden home-movement" aria-labelledby="fakta-band-title">
+	{/* No band, no display headline, no search field of its own. On its own tinted
+	    ground with a 3.4rem title and a search box it read as the top of a second
+	    website halfway down this one (2026-09-25); it is a movement like the others,
+	    under a kicker, and the mast already carries search. */}
+	<div class="grunden-head">
+		<p class="label home-kicker">Fakta om islam</p>
+		<h2 class="grunden-title" id="fakta-band-title">
+			<a href="/vad-ar-islam/">Vad är islam?</a>
+		</h2>
+		<p class="grunden-lead">
+			Fem pelare: det en muslim gör. Sex trosartiklar: det en muslim tror.
+			Var och en förklaras för sig, ur källorna.
+		</p>
+		<div class="grunden-ritning">
+			<Ritning {...RITNINGAR.grunden} fyll hojd={[4.5, 10]} bredd={[7, 14]} sizes="(min-width: 79rem) 31rem, (min-width: 48rem) calc(100vw - 49rem), 7rem" />
+		</div>
 	</div>
 
-	<p class="fakta-band-more">
+	{pelare && (
+		<div class="grunden-group" aria-labelledby="grunden-pelare">
+			<h3 class="label grunden-group-head" id="grunden-pelare">
+				{pelare.overview ? <a href={`/svar/${pelare.overview}/`}>{pelare.name}</a> : pelare.name}
+			</h3>
+			<ol class="grunden-pelare">
+				{pelare.items.map((item, i) => (
+					<li class="grunden-item">
+						<span class="grunden-num" aria-hidden="true">{i + 1}</span>
+						<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{item.label}</a>
+						<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
+						<p class="grunden-blurb">{item.blurb}</p>
+					</li>
+				))}
+			</ol>
+		</div>
+	)}
+
+	{trosartiklar && (
+		<div class="grunden-group" aria-labelledby="grunden-tro">
+			<h3 class="label grunden-group-head" id="grunden-tro">
+				{trosartiklar.overview ? <a href={`/svar/${trosartiklar.overview}/`}>{trosartiklar.name}</a> : trosartiklar.name}
+			</h3>
+			<ul class="grunden-tro">
+				{trosartiklar.items.map((item) => (
+					<li class="grunden-item">
+						<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{item.label}</a>
+						<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
+						<p class="grunden-blurb">{item.blurb}</p>
+					</li>
+				))}
+			</ul>
+		</div>
+	)}
+
+	<p class="grunden-more">
 		<SectionLink href="/svar/">Alla {listedCount} frågor och svar</SectionLink>
 	</p>
 </section>
 
 <style>
-	/* The band's own heading is a real h2, not the small-caps kicker: it is the
-	   page's only visible heading carrying "Vad är islam", and the kicker above it
-	   names the movement the way every other section on the page is named. Sized
-	   at --step-2 (the global h2) with the φ top margin suppressed — .home-kicker
-	   already opened the section. */
-	.fakta-band-title {
-		margin-top: 0;
-		margin-bottom: var(--space-half);
+	/* The kicker and the title beside the drawing, the lead under both on a phone;
+	   beside the lead too once there is room. */
+	.grunden-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas:
+			"kicker ritning"
+			"titel ritning"
+			"lead lead";
+		column-gap: var(--space-unit);
+		margin-bottom: var(--space-phi);
 	}
 
-	.fakta-band-title a {
+	.grunden-head > :global(.home-kicker) {
+		grid-area: kicker;
+	}
+
+	.grunden-title {
+		grid-area: titel;
+	}
+
+	.grunden-lead {
+		grid-area: lead;
+	}
+
+	.grunden-ritning {
+		grid-area: ritning;
+		align-self: end;
+	}
+
+	/* As the site's section openings are (PageHead): the drawing as tall as the opening,
+	   kicker to the lead's last line, in the column beyond the measure. */
+	@media (width >= 48rem) {
+		.grunden-head {
+			grid-template-columns: minmax(0, var(--content-width)) minmax(8rem, 1fr);
+			grid-template-areas:
+				"kicker ritning"
+				"titel ritning"
+				"lead ritning";
+			grid-template-rows: auto auto 1fr;
+			column-gap: var(--grid-gutter);
+		}
+
+		.grunden-ritning {
+			position: relative;
+			align-self: stretch;
+			min-block-size: 7rem;
+		}
+	}
+
+	/* The one visible heading on the page carrying the head term: a real h2 at the
+	   section-heading rung, in the text cut like every other heading on the page. */
+	.grunden-title {
+		font-size: var(--step-3);
+		margin: 0 0 var(--space-half);
+	}
+
+	.grunden-title a {
 		color: inherit;
 		text-decoration: none;
 
 		&:hover {
 			text-decoration: underline;
 			text-decoration-thickness: 1px;
-			text-underline-offset: var(--underline-offset);
-		}
-
-		&:focus-visible {
-			outline-offset: 3px;
-			border-radius: var(--radius-xs);
+			text-underline-offset: 0.12em;
 		}
 	}
 
-	.fakta-band-lead {
-		--lead-margin: 0 0 var(--space-phi);
+	.grunden-lead {
+		margin: 0;
+		max-width: 34em;
+		font-size: var(--step-0);
+		line-height: 1.55;
+		color: var(--text-body);
+		text-wrap: pretty;
 	}
 
-	/* Two columns that mirror the hub's two clusters. minmax(min(100%, 18rem), 1fr)
-	   collapses to one column on a phone without a breakpoint, the same way
-	   .fakta-grid does on the hub. */
-	.fakta-band-cols {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-		gap: var(--space-unit) clamp(1.75rem, 4vw, 3.5rem);
+	.grunden-group + .grunden-group {
+		margin-top: var(--space-phi2);
 	}
 
-	.fakta-band-col-head {
-		margin: 0 0 0.2rem;
-		color: var(--color-muted);
+	.grunden-group-head {
+		margin: 0 0 var(--space-group);
+		font-weight: 400;
 	}
 
-	.fakta-band-col-head a {
+	.grunden-group-head a {
 		color: inherit;
 		text-decoration: none;
 
@@ -125,15 +192,155 @@ const listedCount = groupSvar(entries).reduce((n, g) => n + g.entries.length, 0)
 			text-decoration: underline;
 			text-underline-offset: var(--underline-offset);
 		}
+	}
 
-		&:focus-visible {
-			border-radius: var(--radius-xs);
+	.grunden-pelare,
+	.grunden-tro {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-unit) var(--grid-gutter);
+	}
+
+	.grunden-num {
+		display: block;
+		font-family: var(--font-headline);
+		font-size: var(--step-4);
+		font-weight: 400;
+		line-height: 1;
+		color: var(--color-brass-ink);
+		font-variant-numeric: lining-nums;
+	}
+
+	.grunden-name {
+		display: block;
+		font-family: var(--font-display);
+		font-size: var(--step-1);
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--color-text);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: var(--underline-offset);
 		}
 	}
 
-	.fakta-band-more {
+	.grunden-pelare .grunden-name {
+		margin-top: var(--space-half);
+	}
+
+	.grunden-tr {
+		display: block;
+		margin-top: 0.2rem;
+		font-family: var(--font-body);
+		font-style: italic;
+		font-size: var(--step--2);
+		color: var(--color-muted);
+	}
+
+	.grunden-blurb {
+		margin: var(--space-control) 0 0;
+		font-size: var(--step--2);
+		line-height: 1.5;
+		color: var(--text-quiet);
+		text-wrap: pretty;
+	}
+
+	/* On a phone the articles run as a compact list without their glosses; the glosses
+	   are one tap away on /vad-ar-islam/, and the five acts keep theirs. */
+	@media (width < 48rem) {
+		.grunden-tro {
+			gap: var(--space-group);
+		}
+
+		/* A pillar on a phone: the numeral beside the name, the gloss beneath — five
+		   rows of a numeral alone would cost 450px of phone. */
+		.grunden-pelare .grunden-item {
+			display: grid;
+			grid-template-columns: auto minmax(0, 1fr);
+			grid-template-areas:
+				"num name"
+				"num tr"
+				".   blurb";
+			column-gap: 0.9rem;
+			align-items: baseline;
+		}
+
+		.grunden-pelare .grunden-num {
+			grid-area: num;
+			font-size: var(--step-2);
+		}
+
+		.grunden-pelare .grunden-name {
+			grid-area: name;
+			margin-top: 0;
+		}
+
+		.grunden-pelare .grunden-tr {
+			grid-area: tr;
+		}
+
+		.grunden-pelare .grunden-blurb {
+			grid-area: blurb;
+		}
+
+		.grunden-tro .grunden-blurb {
+			display: none;
+		}
+	}
+
+	/* WIDE. One grid of thirds under both groups. The six articles are three by two;
+	   each pillar is a row whose numeral and name fill the first third and whose gloss
+	   runs across the other two, starting on the same line as the second column of
+	   articles below. It was five columns of 173px first (too tight for the names and
+	   the glosses), then rows with the Arabic word at the right-hand end, which left
+	   every row weighted to one side (user reviews, 2026-09-25). On shared lines the
+	   two groups read as one table rather than two layouts stacked. */
+	@media (width >= 56rem) {
+		.grunden-tro {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			row-gap: var(--space-phi);
+		}
+
+		/* The first third is the numeral's 4.5rem plus the name's column: (100% − the
+		   articles' two 3rem gutters) / 3. The gloss's own 3rem margin is the gutter. */
+		.grunden-pelare .grunden-item {
+			display: grid;
+			grid-template-columns: 4.5rem calc((100% - 2 * var(--grid-gutter)) / 3 - 4.5rem) minmax(0, 1fr);
+			grid-template-areas:
+				"num name blurb"
+				"num tr   blurb";
+			align-items: baseline;
+		}
+
+		.grunden-pelare .grunden-num {
+			grid-area: num;
+		}
+
+		.grunden-pelare .grunden-name {
+			grid-area: name;
+			margin-top: 0;
+		}
+
+		.grunden-pelare .grunden-tr {
+			grid-area: tr;
+		}
+
+		.grunden-pelare .grunden-blurb {
+			grid-area: blurb;
+			margin: 0 0 0 var(--grid-gutter);
+			max-width: 44rem;
+			font-size: var(--step--1);
+		}
+	}
+
+	.grunden-more {
+		margin: var(--space-phi) 0 0;
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
-		margin: var(--space-unit) 0 0;
 	}
 </style>

@@ -1,15 +1,28 @@
 ---
 // PRAKTISKT — what the site does for a reader besides the reading, as the front page's last
-// movement before the book.
+// movement before the book: four tools, one line each, and a map of Sweden beside them.
 //
-// Text only, and that is the design rather than a shortfall. Everything above it is one
-// photograph after another, and the tools keep their pictures where they are used: the solar
-// map on /bonetider/, the mosque map, the wall display. A prayer map on the front page was built
-// once and removed (PrayerStrip and BonetiderHome, e9d511d) — the mast's prayer chip carries the
-// live time on every page — so this movement names the four tools and gives each one line.
+// THE MAP (2026-09-25, plan »Dagen och texten«). This movement used to argue for text only:
+// a prayer map built for the front page had been removed (PrayerStrip and BonetiderHome,
+// e9d511d), and the tools kept their pictures where they are used. That product decision was
+// overruled when the user asked for a front page that shows what only this site has. What
+// came back is not that map. It is a static SVG built at build time from the directory's own
+// data (lib/sverige-karta.ts): no canvas, no MapLibre, no script, a few kilobytes of markup.
+// It encodes one fact the list cannot — WHERE Sweden's mosques and Muslim burial grounds
+// are: the Mälardal and the three city regions dense, Norrland a scatter along the coast.
 //
-// Without it a desktop reader met the moskéskärm and the app only in the footer: the mast has
-// room for Bönetider and Moskéer and nothing else from this list.
+// Marks follow the standing rule for this site's maps: even points, no glow, density shown
+// as area rather than brightness — every mosque is one zero-length subpath of ONE path, so a
+// cluster merges instead of stacking. Burial grounds are the quieter layer beneath, as on
+// /moskeer: a warm ring, drawn as a warm dot with a land-coloured dot on top.
+//
+// The map is a pointer convenience into /moskeer/, hidden from the tab order and from
+// assistive tech the way the front page's cover picture is (FeatureEssay.astro): the
+// Moskéer row beside it is the real link and already says what the map shows, in words.
+//
+// Under it, the prayer day as a line (PrayerHorizon.astro): the six times as ticks, daylight
+// drawn heavier, the sun at the current minute, and the islamic date turning at maghrib. It
+// opened the page for an evening and moved here, beside the words it draws (2026-09-25).
 //
 // The Bönetider line is live without any new script. It is a `.bonetider-strip`, which
 // scripts/bonetider-field.ts (loaded by the Header on every page) mounts beside the mast chip
@@ -25,52 +38,120 @@ import {
 import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
 import { getMosques } from "../lib/moskeer";
 import { HOME_TOOL_LINKS } from "../lib/navigation";
+import PrayerHorizon from "./PrayerHorizon.astro";
+import { dotsPath, KARTA_HEIGHT, KARTA_WIDTH, outlinePath } from "../lib/sverige-karta";
 
 const now = new Date();
 const times = computePrayerTimes(DEFAULT_COORDS, now, DEFAULT_SETTINGS);
 const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 
+const mosques = getMosques();
+const burialGrounds = getBurialGrounds();
+
 const count = new Intl.NumberFormat("sv-SE");
 // The map's two layers, counted from the same data the map draws.
-const mapLine = `${count.format(getMosques().length)} moskéer och ${count.format(getBurialGrounds().length)} muslimska gravkvarter på en karta.`;
+const mapLine = `${count.format(mosques.length)} moskéer och ${count.format(burialGrounds.length)} muslimska gravkvarter på en karta.`;
+
+const land = outlinePath();
+const moskeer = dotsPath(mosques);
+const gravar = dotsPath(burialGrounds);
 ---
 
 <section class="praktiskt-home home-movement" aria-labelledby="praktiskt-home-rubrik">
-	<h2 class="label home-kicker" id="praktiskt-home-rubrik">Praktiskt</h2>
+	<div class="praktiskt-grid">
+		<h2 class="label home-kicker" id="praktiskt-home-rubrik">Praktiskt</h2>
 
-	<ul class="praktiskt-lista">
-		{
-			HOME_TOOL_LINKS.map((tool) => (
-				<li class="praktiskt-rad">
-					<a class="praktiskt-namn" href={tool.href}>
-						{tool.label}
-					</a>
-					{tool.href === "/bonetider/" ? (
-						<p
-							class="praktiskt-text bonetider-strip"
-							data-name={DEFAULT_COORDS.name}
-							data-lat={DEFAULT_COORDS.latitude}
-							data-lon={DEFAULT_COORDS.longitude}
-							data-variant="strip"
-							data-fixed="0"
-						>
-							Nästa bön <span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>{" "}
-							<span class="bf-next-time">{formatTime(times[nextKey])}</span> i{" "}
-							<span class="bf-place">{DEFAULT_COORDS.name}</span>.
-						</p>
-					) : (
-						<p class="praktiskt-text">{tool.href === "/moskeer/" ? mapLine : tool.sub}</p>
-					)}
-				</li>
-			))
-		}
-	</ul>
+		<ul class="praktiskt-lista">
+			{
+				HOME_TOOL_LINKS.map((tool) => (
+					<li class="praktiskt-rad">
+						<a class="praktiskt-namn" href={tool.href}>
+							{tool.label}
+						</a>
+						{tool.href === "/bonetider/" ? (
+							<>
+							<p
+								class="praktiskt-text bonetider-strip"
+								data-name={DEFAULT_COORDS.name}
+								data-lat={DEFAULT_COORDS.latitude}
+								data-lon={DEFAULT_COORDS.longitude}
+								data-variant="strip"
+								data-fixed="0"
+							>
+								Nästa bön <span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>{" "}
+								<span class="bf-next-time">{formatTime(times[nextKey])}</span> i{" "}
+								<span class="bf-place">{DEFAULT_COORDS.name}</span>.
+							</p>
+							<PrayerHorizon />
+							</>
+						) : (
+							<p class="praktiskt-text">{tool.href === "/moskeer/" ? mapLine : tool.sub}</p>
+						)}
+					</li>
+				))
+			}
+		</ul>
+
+		<a class="praktiskt-karta" href="/moskeer/" tabindex="-1" aria-hidden="true">
+			<svg
+				class="karta"
+				viewBox={`0 0 ${KARTA_WIDTH} ${KARTA_HEIGHT}`}
+				focusable="false"
+			>
+				<path class="karta-land" d={land} />
+				<path class="karta-grav" d={gravar} />
+				<path class="karta-grav-hal" d={gravar} />
+				<path class="karta-moske" d={moskeer} />
+			</svg>
+			<span class="karta-nyckel">
+				<span class="karta-nyckel-moske">moské</span>
+				<span class="karta-nyckel-grav">gravkvarter</span>
+			</span>
+		</a>
+	</div>
 </section>
 
 <style>
-	/* Two by two where there is room, one column on a phone. Not auto-fit: across the 64rem
-	   canvas an 18rem minimum makes three tracks, and four tools in three tracks leaves one
-	   alone on a row. */
+	/* The list and the map side by side at every width. Sweden is ~2.2 times taller than
+	   it is wide, so the map is a narrow column spanning the kicker's row AND the list's:
+	   its top sits level with the kicker, and kicker + list come out about as tall as the
+	   map, so neither column trails a hole. (Centring the list against the map left the
+	   kicker ~120px above its own content.) On a phone the map keeps a third of the width —
+	   at ~120px the coast and the southern clusters still read, and stacking it above the
+	   list would have doubled the movement for a picture of the same thing. */
+	.praktiskt-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(6.5rem, 34%);
+		grid-template-rows: auto 1fr;
+		column-gap: clamp(1.25rem, 5vw, 3.5rem);
+	}
+
+	.praktiskt-grid > .home-kicker {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.praktiskt-lista {
+		grid-column: 1;
+		grid-row: 2;
+		align-self: start;
+	}
+
+	.praktiskt-karta {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+		align-self: start;
+	}
+
+	@media (width >= 40rem) {
+		.praktiskt-grid {
+			grid-template-columns: minmax(0, 1fr) 8.5rem;
+		}
+	}
+
+	/* Two by two where there is room, one column on a phone. Not auto-fit: across the
+	   canvas an 18rem minimum makes three tracks, and four tools in three tracks leaves
+	   one alone on a row. */
 	.praktiskt-lista {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
@@ -79,16 +160,35 @@ const mapLine = `${count.format(getMosques().length)} moskéer och ${count.forma
 		padding: 0;
 	}
 
-	@media (width >= 40rem) {
+	@media (width >= 48rem) {
 		.praktiskt-lista {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 
-	/* A hairline under each row, the reference idiom FaktaBand's lists already use. */
+	/* ON THE PAGE'S CENTRE LINE. Two equal tracks in what the map leaves put the second
+	   tool at 647px on a 1440 window — on no line any other movement uses — where the
+	   podcast and app band, the live row, the barometer and Fördjupning all turn their
+	   second half at the canvas's centre plus half a gutter. With both gaps at the
+	   gutter, the first track is half the list plus half the map's column: exactly the
+	   centre line. The horizon under Bönetider gains the width it was drawn for. */
+	@media (width >= 60rem) {
+		.praktiskt-grid {
+			--karta-w: 8.5rem;
+			grid-template-columns: minmax(0, 1fr) var(--karta-w);
+			column-gap: var(--grid-gutter);
+		}
+
+		.praktiskt-lista {
+			grid-template-columns: calc(50% + var(--karta-w) / 2) minmax(0, 1fr);
+			column-gap: var(--grid-gutter);
+		}
+	}
+
+	/* No hairline under each row any more: whitespace separates them. The rule was the
+	   reference idiom of the old text-only row, and one of forty-eight on the page. */
 	.praktiskt-rad {
 		padding-block: var(--space-half);
-		border-bottom: 1px solid var(--color-divider);
 	}
 
 	.praktiskt-namn {
@@ -115,5 +215,100 @@ const mapLine = `${count.format(getMosques().length)} moskéer och ${count.forma
 
 	.bf-next-time {
 		font-variant-numeric: tabular-nums;
+	}
+
+	/* THE MAP. Every mark is a stroke with `vector-effect: non-scaling-stroke`, so a dot
+	   is the same few pixels whether the map is drawn 120px or 150px wide: the points stay
+	   even across widths instead of swelling with the silhouette. */
+	.praktiskt-karta {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.karta {
+		display: block;
+		inline-size: 100%;
+		block-size: auto;
+		overflow: visible;
+	}
+
+	.karta-land {
+		fill: var(--surface-2);
+	}
+
+	.karta-moske,
+	.karta-grav,
+	.karta-grav-hal {
+		fill: none;
+		stroke-linecap: round;
+		vector-effect: non-scaling-stroke;
+	}
+
+	.karta-moske {
+		stroke: var(--color-brass);
+		stroke-width: 3.4px;
+	}
+
+	/* A ring: the warm dot, then a land-coloured dot inside it. Drawn under the mosques,
+	   so where the two meet the mosque wins — the order the /moskeer map uses. */
+	.karta-grav {
+		stroke: var(--color-warm);
+		stroke-width: 4.6px;
+	}
+
+	.karta-grav-hal {
+		stroke: var(--surface-2);
+		stroke-width: 2.2px;
+	}
+
+	/* A narrower map packs the same 234 points closer; a smaller dot keeps the southern
+	   clusters reading as clusters rather than as one brass blot. */
+	@media (width < 40rem) {
+		.karta-moske {
+			stroke-width: 2.8px;
+		}
+
+		.karta-grav {
+			stroke-width: 4px;
+		}
+
+		.karta-grav-hal {
+			stroke-width: 1.9px;
+		}
+	}
+
+	/* The key, in the smallest rung: two marks, two words. */
+	.karta-nyckel {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.15rem 0.7rem;
+		margin-top: 0.6rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--5);
+		color: var(--color-muted);
+	}
+
+	.karta-nyckel > span {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.karta-nyckel > span::before {
+		content: "";
+		inline-size: 0.4rem;
+		block-size: 0.4rem;
+		border-radius: 50%;
+		box-sizing: border-box;
+	}
+
+	.karta-nyckel-moske::before {
+		background: var(--color-brass);
+	}
+
+	.karta-nyckel-grav::before {
+		border: 0.12rem solid var(--color-warm);
 	}
 </style>

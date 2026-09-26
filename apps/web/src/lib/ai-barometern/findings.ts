@@ -291,17 +291,21 @@ export function latestFindings(): Finding[] {
 	});
 }
 
-/** The one finding the front page shows: the widest pattern of those that are not about the
+/** The findings the front page shows: the widest patterns of those that are not about the
  *  classical position, ties keeping the bank's order. A classical finding sets the models against
- *  the site's own position, which the hub prints beside that question's classical note; a 17rem
- *  rail has no room for the note, and the position must never stand there without it.
+ *  the site's own position, which the hub prints beside that question's classical note; the front
+ *  page has no room for the note, and the position must never stand there without it.
  *
  *  Ranked, not taken first in order: the hub sorts by area so all five read in the matrix's own
  *  order, but that order says nothing about strength. Taking the first one left the front page
  *  introducing the whole measurement with whatever sat in the earliest area — for the 13 September
- *  run, one model on its own maker, while »alla fem modellerna« patterns waited further down. */
-export function frontPageFinding(list: readonly Finding[]): Finding | null {
-	return (
-		[...list].filter((f) => f.kind !== "classical").sort((a, b) => b.models - a.models)[0] ?? null
-	);
+ *  run, one model on its own maker, while »alla fem modellerna« patterns waited further down.
+ *
+ *  Several, not one: a single finding explained at length read as the barometer's one data
+ *  point rather than as an example of what it measures (user review, 2026-09-25). */
+export function frontPageFindings(list: readonly Finding[], count: number): Finding[] {
+	return [...list]
+		.filter((f) => f.kind !== "classical")
+		.sort((a, b) => b.models - a.models)
+		.slice(0, count);
 }

@@ -16,6 +16,7 @@ import MarkesdagList from "../components/MarkesdagList.astro";
 import TitledSection from "../components/TitledSection.astro";
 import { fastRows } from "../lib/fastelangd";
 import { breadcrumbList, faqPageJsonLd } from "../lib/jsonld";
+import { RITNINGAR } from "../lib/ritningar";
 import {
 	type Markesdag,
 	getUpcomingMarkesdagar,
@@ -126,6 +127,7 @@ const description =
 
 <CollectionIndexPage
 	title="Det islamiska året"
+	ritning={RITNINGAR.aret}
 	pageTitle={pageTitle}
 	description={description}
 	lead="De återkommande högtiderna och fastedagarna, räknade från utvandringen (hijra) till Medina år 622. Datumen följer Umm al-Qura-kalendern och visas här mot den gregorianska; eftersom varje månad inleds när nymånen har iakttagits kan ett datum hamna en dag tidigare eller senare. Endast det som har stöd i hadith tas upp."
@@ -216,10 +218,9 @@ const description =
 	/* The same quiet two-column rhythm as the homepage section (Markesdagar.astro),
 	   here extended to the full year and grouped under Hijri-year headings.
 
-	   The page sits on the shared 64rem canvas like every other index, so the
-	   frame doesn't narrow when you arrive here from the footer (layout.css
-	   "the 64rem canvas"). Prose is held to the reading measure separately —
-	   the wide canvas is for the date list, not for paragraphs. */
+	   The page sits on the mast's canvas like every other index (tokens.css, »Two
+	   frames«). Prose is held to the reading measure separately — the wide canvas
+	   is for the date list and the fast table, not for paragraphs. */
 	.md-page :is(.md-standing, .md-also) {
 		max-width: var(--content-width);
 	}
@@ -277,6 +278,29 @@ const description =
 	.md-fast {
 		margin: var(--space-unit) 0 var(--space-phi2);
 		max-width: var(--content-width);
+	}
+
+	/* From 72rem the table stands beside the question and its answer, not under them:
+	   held to the measure, the whole block left the right half of the 76rem canvas empty
+	   at the top of the page (2026-09-26). */
+	@media (width >= 72rem) {
+		.md-fast {
+			display: grid;
+			grid-template-columns: minmax(0, var(--content-width)) minmax(0, 1fr);
+			grid-template-rows: auto auto 1fr;
+			column-gap: 4rem;
+			max-width: none;
+		}
+
+		.md-fast > :not(.md-fast-table) {
+			grid-column: 1;
+		}
+
+		.md-fast-table {
+			grid-column: 2;
+			grid-row: 1 / -1;
+			align-self: start;
+		}
 	}
 
 	.md-fast-head {

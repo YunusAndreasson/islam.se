@@ -264,24 +264,27 @@ if (oldest?.opened) {
 		/>
 
 
-		<MosqueList mosques={mosques} />
-
-		{photo && <MosqueHero photo={photo} />}
+		<div class:list={["mk-stad-top", photo && "mk-stad-top--foto"]}>
+			<MosqueList mosques={mosques} />
+			{photo && <MosqueHero photo={photo} />}
+		</div>
 
 		{isSeat && siblings.length > 0 && (
 			<TitledSection class="mk-section" id="mk-stad-delar" title={`Moskéer i ${genitive(city)} stadsdelar`}>
 				<p class="mk-stad-note">
 					{pluralMoske(siblingTotal)} till i {kommunLabel(kommun)}, ordnade efter stadsdel.
 				</p>
-				{siblings.map((g) => (
-					<section class="mk-city-group" aria-label={`Moskéer i ${g.city}`}>
-						<h3 class="mk-city-head">
-							<a href={`/moskeer/${g.citySlug}/`}>{g.city}</a>
-							<span class="mk-city-count">{g.mosques.length}</span>
-						</h3>
-						<MosqueList mosques={g.mosques} cityLink={true} />
-					</section>
-				))}
+				<div class="mk-city-groups">
+					{siblings.map((g) => (
+						<section class="mk-city-group" aria-label={`Moskéer i ${g.city}`}>
+							<h3 class="mk-city-head">
+								<a href={`/moskeer/${g.citySlug}/`}>{g.city}</a>
+								<span class="mk-city-count">{g.mosques.length}</span>
+							</h3>
+							<MosqueList mosques={g.mosques} cityLink={true} />
+						</section>
+					))}
+				</div>
 			</TitledSection>
 		)}
 
@@ -359,6 +362,47 @@ if (oldest?.opened) {
 
 	.mk-city-group {
 		margin-top: var(--space-unit);
+	}
+
+	/* The town's own mosques and its photograph side by side, from 64rem: under the list
+	   at the full 76rem canvas the picture stood 800px tall and outweighed everything
+	   else on the page (2026-09-26). Without a photograph the list keeps its measure. */
+	@media (width >= 64rem) {
+		.mk-stad-top--foto {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			column-gap: 3rem;
+			align-items: start;
+		}
+
+		.mk-stad-top--foto > :global(.mk-hero) {
+			margin-top: var(--space-half);
+		}
+	}
+
+	/* The orter as a directory, in columns from 48rem (three from 72rem): read down,
+	   then across, like a printed index. One long column at the reading measure left
+	   two fifths of the 76rem canvas empty the whole way down (2026-09-26). Padding,
+	   not margin, between groups: a margin at the head of a column is dropped in one
+	   engine and kept in another. */
+	@media (width >= 48rem) {
+		.mk-city-groups {
+			columns: 2;
+			column-gap: 3rem;
+			margin-top: var(--space-phi);
+		}
+
+		.mk-city-groups .mk-city-group {
+			margin-top: 0;
+			padding-bottom: var(--space-phi);
+			break-inside: avoid;
+		}
+	}
+
+	@media (width >= 72rem) {
+		.mk-city-groups {
+			columns: 3;
+		}
 	}
 
 	.mk-city-head {

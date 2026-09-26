@@ -1,15 +1,21 @@
 ---
 import { getCollection } from "astro:content";
+import { type Article, getArticles } from "../lib/articles";
+import { leadSentences } from "../lib/format";
 import HomeHead from "./HomeHead.astro";
 import ThreadList from "./ThreadList.astro";
 
-// `limit` keeps the /essaer/ intro glimpse to its curated top few; the /tradar
-// index renders the collection unbounded. Lead with the threads carrying the
-// most essays (§7.7).
+// `limit` keeps the glimpse to its curated top few; the /tradar index renders the
+// collection unbounded. Lead with the threads carrying the most essays (§7.7).
+//
+// `variant`: the front page draws each tråd as a ROUTE (the default); /essaer/
+// keeps the picture cards it has always had, because there the trådar sit among
+// essay cards and a picture is what the archive reader scans for.
 interface Props {
 	limit?: number;
+	variant?: "routes" | "cards";
 }
-const { limit } = Astro.props;
+const { limit, variant = "routes" } = Astro.props;
 
 let threads = await getCollection("tradar");
 if (limit) {
@@ -17,34 +23,265 @@ if (limit) {
 		.sort((a, b) => b.data.essays.length - a.data.essays.length)
 		.slice(0, limit);
 }
+
+// Curated order, exactly as the thread page keeps it — a tråd is the only sequence
+// on the site, and the order IS the argument. A slug that no longer resolves drops
+// out of the route rather than leaving a stop with no title.
+const bySlug = new Map((await getArticles()).map((a) => [a.slug, a]));
+const routes = threads.map((thread) => {
+	const essays = thread.data.essays
+		.map((slug) => bySlug.get(slug))
+		.filter((a): a is Article => Boolean(a));
+	return {
+		id: thread.id,
+		title: thread.data.title,
+		// The opening sentence, whole: the full framing ran three routes to uneven
+		// heights, a clamp cut it mid-sentence (user reviews, 2026-09-25).
+		framing: leadSentences(thread.data.framing, 150),
+		essays,
+		minutes: essays.reduce((sum, a) => sum + a.readingTime, 0),
+	};
+});
 ---
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
 	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" />
-	{/* Three 18rem tracks (see the style block); two below ~67rem, one on a phone. */}
-	<ThreadList
-		threads={threads}
-		headingLevel={3}
-		prefetch="viewport"
-		sizes="(min-width: 67rem) 18rem, (min-width: 40rem) 45vw, 100vw"
-	/>
+	{variant === "cards" ? (
+		/* Three 18rem tracks (see the style block); two below ~67rem, one on a phone. */
+		<ThreadList
+			threads={threads}
+			headingLevel={3}
+			prefetch="viewport"
+			sizes="(min-width: 67rem) 18rem, (min-width: 40rem) 45vw, 100vw"
+		/>
+	) : (
+		/* TRÅDAR AS ROUTES. A tråd is an ordered path through five or six essays, and
+		   as a photo card it said so only in a count — »6 essäer« under one more
+		   lone figure in lamplight, the fifth such picture on the page. Drawn as a line
+		   with a stop per essay, the reader sees what a thread is: where it starts, the
+		   order it keeps, how far it goes, and — once the stops fill — how far along
+		   it they already are. Text and line only; the thread's own page keeps its art. */
+		<ul class="trad-routes">
+			{routes.map((route) => (
+				<li class="trad-route">
+					<h3 class="trad-title">
+						<a href={`/tradar/${route.id}/`} data-astro-prefetch="viewport">{route.title}</a>
+					</h3>
+					<p class="trad-framing">{route.framing}</p>
+					<p class="label article-meta trad-meta">
+						{route.essays.length} essäer · {route.minutes} min läsning
+						<span class="trad-progress" hidden></span>
+					</p>
+					<ol class="trad-stops" aria-label={`${route.title}, i läsordning`}>
+						{route.essays.map((essay) => (
+							<li class="trad-stop" data-slug={essay.slug}>
+								<a href={`/${essay.slug}/`}>{essay.title}</a>
+								<span class="sr-only trad-stop-flag" hidden>, läst</span>
+							</li>
+						))}
+					</ol>
+				</li>
+			))}
+		</ul>
+	)}
 </section>
 
-<style>
-	/* THREE UP, NOT TWO — a rank correction rather than a taste.
-	   CardList's default --card-list-min of 26rem gives the 64rem canvas two
-	   tracks, which is exactly the grid the rank-2 essay cards use. So four threads
-	   rendered as four cards the same size as the two cards carrying the newest
-	   work, and a browse axis outweighed the thing it is an axis THROUGH. The lead
-	   still bled past the canvas, but everything under it had flattened into one
-	   plateau: two cards, six thumbnail rows, four more cards.
+{/* Unconditional: a processed script is bundled once per component, not per
+    render, and it does nothing on a page without routes (the /essaer/ cards).
+    (Never write the tag itself in an .astro comment: Vite's dependency scanner
+    reads it as a real script and the dev server skips pre-bundling.) */}
+<script>
+	import "../scripts/trad-routes";
+</script>
 
-	   18rem takes it to three tracks and the pictures down by about 40%. It pairs
-	   with `limit={3}` on the caller — four cards in a three-track grid left the
-	   fourth alone on a second row, and an orphan reads as a page that ran out
-	   rather than one that chose. Five threads exist, so "Alla trådar →" is
-	   telling the truth about what is behind it. */
+<style>
+	/* THREE UP, NOT TWO — a rank correction rather than a taste. CardList's default
+	   --card-list-min of 26rem gives the 64rem canvas two tracks, the grid the rank-2
+	   essay cards use, so a browse axis outweighed the thing it is an axis THROUGH.
+	   18rem takes the cards to three tracks. Only the /essaer/ variant still uses it. */
 	.tradar-home {
 		--card-list-min: 18rem;
+	}
+
+	.trad-routes {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-unit) clamp(1.75rem, 4vw, var(--grid-gutter));
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	/* Title, framing, meta and stops on four rows the three routes share. */
+	.trad-route {
+		display: grid;
+		grid-row: span 4;
+		grid-template-rows: subgrid;
+		row-gap: 0;
+		align-content: start;
+		min-width: 0;
+	}
+
+	.trad-title {
+		margin: 0 0 0.35rem;
+		font-size: var(--step-1);
+		line-height: 1.2;
+	}
+
+	.trad-title a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover,
+		&:focus-visible {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: var(--underline-offset);
+		}
+	}
+
+	/* The framing's opening sentence, whole (leadSentences, above). The routes share
+	   rows too, so the stops begin on one line whichever sentence runs longest. */
+	.trad-framing {
+		margin: 0;
+		font-size: var(--step--2);
+		line-height: 1.45;
+		color: var(--text-quiet);
+		text-wrap: pretty;
+	}
+
+	.trad-meta {
+		margin: 0.5rem 0 0;
+	}
+
+	.trad-progress::before {
+		content: " · ";
+	}
+
+	/* THE LINE. Each stop draws its own dot and, below it, the segment to the next
+	   stop, so the line is exactly as long as the route and ends on its last essay —
+	   a list-wide border would run past the final stop into nothing. The dot sits in
+	   a fixed gutter left of the title; the title keeps the column's text edge. */
+	.trad-stops {
+		--dot: 0.6rem;
+		--gutter: 1.35rem;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.trad-stop {
+		position: relative;
+		padding: 0.3rem 0 0.3rem var(--gutter);
+		font-family: var(--font-display);
+		font-size: var(--step--1);
+		line-height: 1.3;
+	}
+
+	/* An unread stop is a ring in --color-warm (the palette's 3:1 non-text tier), open
+	   on the ground; a read one fills with brass, the colour this site keeps for marks
+	   that encode something. Centred on the title's first line, whatever it wraps to. */
+	.trad-stop::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: calc(0.3rem + 0.5lh - var(--dot) / 2);
+		inline-size: var(--dot);
+		block-size: var(--dot);
+		box-sizing: border-box;
+		border-radius: 50%;
+		border: 1.5px solid var(--color-warm);
+		background: var(--color-bg);
+		z-index: 1;
+	}
+
+	.trad-stop:not(:last-child)::after {
+		content: "";
+		position: absolute;
+		left: calc(var(--dot) / 2 - 0.5px);
+		top: calc(0.3rem + 0.5lh);
+		bottom: calc(-0.3rem - 0.5lh);
+		inline-size: 1px;
+		background: var(--color-rule);
+	}
+
+	.trad-stop[data-read]::before {
+		background: var(--color-brass);
+		border-color: var(--color-brass);
+	}
+
+	.trad-stop a {
+		display: inline-block;
+		color: var(--color-accent);
+		text-decoration: none;
+
+		&:hover,
+		&:focus-visible {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: var(--underline-offset);
+		}
+	}
+
+	/* A read stop steps back a rank, the way /essaer/ shows a finished essay: the
+	   title goes to muted, the filled dot says why. */
+	.trad-stop[data-read] a {
+		color: var(--color-muted);
+	}
+
+	/* The routes are the whole navigation of this movement on a touch screen, so
+	   each stop carries a full thumb target rather than the 2.5.8 floor. */
+	@media (pointer: coarse) {
+		.trad-stop {
+			padding-block: 0.55rem;
+		}
+
+		.trad-stop::before {
+			top: calc(0.55rem + 0.5lh - var(--dot) / 2);
+		}
+
+		.trad-stop:not(:last-child)::after {
+			top: calc(0.55rem + 0.5lh);
+			bottom: calc(-0.55rem - 0.5lh);
+		}
+	}
+
+	/* PHONE: one route at a time, in a row that scrolls sideways, with the next
+	   route's head showing at the right edge — three stacked routes were ~1 500px of
+	   scroll to pass one movement. The row runs to the screen edges (the negative
+	   margin undoes the canvas padding, the padding and scroll-padding put the first
+	   route back on the page's left edge), so the peeking route leaves the screen
+	   rather than stopping short at an invisible margin. The scrollbar is left as the
+	   platform draws it: tabbing through the stops scrolls each into view. */
+	@media (width < 48rem) {
+		.tradar-home {
+			/* Paint containment (content-visibility: auto on .home-movement) would clip
+			   the row at the canvas edge, i.e. exactly where the bleed begins. */
+			content-visibility: visible;
+		}
+
+		.trad-routes {
+			grid-template-columns: none;
+			grid-auto-flow: column;
+			grid-auto-columns: 85%;
+			gap: var(--space-unit);
+			overflow-x: auto;
+			overscroll-behavior-x: contain;
+			scroll-snap-type: x mandatory;
+			margin-inline: calc(var(--safe-left) * -1) calc(var(--safe-right) * -1);
+			padding-inline: var(--safe-left) var(--safe-right);
+			scroll-padding-inline: var(--safe-left);
+			padding-bottom: var(--space-half);
+		}
+
+		.trad-route {
+			scroll-snap-align: start;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.trad-routes {
+			scroll-behavior: smooth;
+		}
 	}
 </style>

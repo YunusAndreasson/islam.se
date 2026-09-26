@@ -9,6 +9,7 @@ import TitledSection from "../components/TitledSection.astro";
 import { getArticles } from "../lib/articles";
 import { FAKTA_ART, FAKTA_CLUSTERS } from "../lib/fakta";
 import { articleJsonLd, breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
+import { RITNINGAR } from "../lib/ritningar";
 import Base from "../layouts/Base.astro";
 
 // The "Fakta" hub — the encyclopedic answer for the head term "islam" / "vad är
@@ -93,34 +94,39 @@ const jsonLd = [
 >
 	<main id="main" class="pillar-page home">
 		<article>
-			<PageHead title="Pelare & tro">
+			{/* The opening is the title, the ingress and the verse, so the verse goes in
+			    PageHead's `efter` slot: the section's drawing — the Quran on its stand, the
+			    same as its movement's on the front page (Grunden) — is then as tall as all
+			    three, beside them, where a third of the page stood empty (user review,
+			    2026-09-26). */}
+			<PageHead title="Pelare & tro" ritning={RITNINGAR.grunden}>
 				Islam betyder <strong>underkastelse under Guds vilja</strong>. Religionen förkunnades på
 				600-talet genom profeten Muhammed{" "}
 				<Honorific />{" "}
 				och har i dag omkring två miljarder anhängare. Dess kärna
 				är <strong>de fem pelarna</strong>, det en muslim gör, och <strong>de sex trosartiklarna</strong>,
 				det en muslim tror. Båda har sin grund i Koranen och i profetens sunna.
-			</PageHead>
 
-			{/* Sura al-Ikhlās — the most concentrated statement of what a muslim
-			    believes, and so the shortest possible answer to the question this page
-			    asks. Paired with its Swedish exactly as the answer pages pair theirs:
-			    the reader meets the meaning first, then can hear it recited with each
-			    word lighting as it is read. Audio and word timing come from the same
-			    committed data the essays use. */}
-			<div class="pillar-verse">
-				<blockquote>
-					{/* <abbr> matches what the answer pages get: their markdown pipeline wraps
-					    an all-caps opener so it sets as small caps (typography.css). Written by
-					    hand here because that plugin only runs on markdown. */}
-					<p>
-						<abbr>SÄG</abbr>: »Han är Gud – En, Gud, den Evige, den av skapelsen Oberoende, av
-						vilken alla beror. Han har inte avlat och inte blivit avlad, och ingen finns som kan
-						liknas vid Honom.«
-					</p>
-				</blockquote>
-				<QuranVerse ayah="112:1-4" name="al-Ikhlās" />
-			</div>
+				{/* Sura al-Ikhlās — the most concentrated statement of what a muslim
+				    believes, and so the shortest possible answer to the question this page
+				    asks. Paired with its Swedish exactly as the answer pages pair theirs:
+				    the reader meets the meaning first, then can hear it recited with each
+				    word lighting as it is read. Audio and word timing come from the same
+				    committed data the essays use. */}
+				<div class="pillar-verse" slot="efter">
+					<blockquote>
+						{/* <abbr> matches what the answer pages get: their markdown pipeline wraps
+						    an all-caps opener so it sets as small caps (typography.css). Written by
+						    hand here because that plugin only runs on markdown. */}
+						<p>
+							<abbr>SÄG</abbr>: »Han är Gud – En, Gud, den Evige, den av skapelsen Oberoende, av
+							vilken alla beror. Han har inte avlat och inte blivit avlad, och ingen finns som kan
+							liknas vid Honom.«
+						</p>
+					</blockquote>
+					<QuranVerse ayah="112:1-4" name="al-Ikhlās" />
+				</div>
+			</PageHead>
 
 			{clusters.map((c) => (
 				<section class="fakta-cluster" id={c.slug} aria-labelledby={`fc-${c.slug}`}>
@@ -200,13 +206,22 @@ const jsonLd = [
 		--lead-margin: 0.4rem 0 0;
 	}
 
-	/* auto-fit fills the 64rem canvas with as many ~16rem cards as fit — 3 across on
-	   desktop, 2 on a tablet, 1 on a phone — so both the 5-card and 6-card cluster
-	   stay even without a breakpoint. */
+	/* auto-fit fills the canvas with as many ~16rem cards as fit — 3 across on a laptop,
+	   2 on a tablet, 1 on a phone. On the full 76rem canvas that made four (4 + 1 and
+	   4 + 2); five and six to a row made the pictures "very small and tight", and the
+	   last two pillars stretched to fill their row looked drawn out (user reviews,
+	   2026-09-26). So thirds from 64rem, every card one size: the pillars 3 + 2 and the
+	   articles 3 + 3, ranged left like every other card grid on the site. */
 	.fakta-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 		gap: var(--space-phi) clamp(1.25rem, 3vw, 2.5rem);
+	}
+
+	@media (width >= 64rem) {
+		.fakta-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
 	}
 
 	.pillar-more {

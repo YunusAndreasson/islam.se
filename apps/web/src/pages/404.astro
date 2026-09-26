@@ -1,8 +1,10 @@
 ---
 import { Search } from "@lucide/astro";
+import Ritning from "../components/Ritning.astro";
 import SectionOrnament from "../components/SectionOrnament.astro";
 import Base from "../layouts/Base.astro";
 import { MAST_SECTION_LINKS, MAST_UTILITY_LINKS } from "../lib/navigation";
+import { RITNINGAR } from "../lib/ritningar";
 
 // A miss should end somewhere: the search, then the doorways the mast offers. Built
 // from the mast arrays so the list cannot drift from the site's own navigation.
@@ -19,6 +21,8 @@ const onward = [{ href: "/", label: "Startsidan" }, ...MAST_SECTION_LINKS, MAST_
 	noindex={true}
 >
 	<main id="main" class="content-column notfound">
+		{/* An empty bench and a lantern by a path that turns away: the page went elsewhere. */}
+		<Ritning {...RITNINGAR.vilse} class="notfound-ritning" hojd={[7, 10]} bredd={[10, 14]} />
 		<p class="label notfound-code">404</p>
 		<h1 class="notfound-title">Sidan finns inte</h1>
 		<p class="notfound-lead">
@@ -48,6 +52,11 @@ const onward = [{ href: "/", label: "Startsidan" }, ...MAST_SECTION_LINKS, MAST_
 
 	/* .label sets this at small-caps size, so it is small text and takes the
 	   4.5:1 tier. --color-warm is the 3:1 UI/border tier (3.01:1) and fails it. */
+	.notfound-ritning {
+		align-self: center;
+		margin-bottom: var(--space-unit);
+	}
+
 	.notfound-code {
 		color: var(--color-muted);
 		margin: 0 0 var(--space-half);

@@ -48,15 +48,16 @@ export const FONSTER_H = 24;
 
 /** How many the sidolinje shows.
  *
- *  Twelve, measured rather than chosen: the rail runs beside Ämnen, which is
- *  1 047px tall, and ten rows came to 888px — the column stopped short and the
- *  act ended on 159px of empty rule. At ~78px a row, twelve closes that.
+ *  Five, a product decision (2026-09-25). It was twelve, measured to fill the rail
+ *  beside Ämnen to the last pixel — which made twelve bold world-politics headlines
+ *  the loudest thing beside the essays, on a page whose subject is not the news.
+ *  The rail is a glance at the day, not a wire; »Alla nyheter →« under it carries
+ *  the ~55 a day zuhd publishes. The rail now simply ends where its three blocks
+ *  end, and the departments beside it run on.
  *
- *  It is still a selection: zuhd publishes ~55 a day in normal operation, and
- *  "Alla nyheter →" at the foot is what carries the rest. On a thin day the
- *  window simply holds fewer and the column is shorter — which is honest, and
- *  is why the count is a ceiling rather than a target. */
-export const RAIL_ANTAL = 12;
+ *  On a thin day the window holds fewer and the column is shorter — which is
+ *  honest, and is why the count is a ceiling rather than a target. */
+export const RAIL_ANTAL = 5;
 
 export const KATEGORI_SV = {
 	politik: "Politik",

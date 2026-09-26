@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import type { RitningPar } from "../lib/ritningar";
 import PageHead from "./PageHead.astro";
 import SectionLink from "./SectionLink.astro";
 
@@ -13,6 +14,8 @@ interface Props {
 	backLabel?: string;
 	mainClass?: string;
 	ogImageAlt?: string;
+	/** The section's drawing, beside its title (PageHead). */
+	ritning?: RitningPar;
 }
 
 const {
@@ -25,6 +28,7 @@ const {
 	backLabel,
 	mainClass = "home",
 	ogImageAlt,
+	ritning,
 } = Astro.props;
 ---
 
@@ -35,9 +39,11 @@ const {
 	jsonLd={jsonLd}
 >
 	<main id="main" class={mainClass}>
-		<PageHead title={title}>
+		<PageHead title={title} {...(ritning ? { ritning } : {})}>
 			{lead}
 			<slot name="lead" />
+			{/* The rest of the opening, under the ingress: counted into the drawing's height. */}
+			{Astro.slots.has("efter") && <slot name="efter" slot="efter" />}
 		</PageHead>
 		<slot />
 		{backHref && backLabel && (

@@ -57,6 +57,59 @@ export function hijriLabel(date: Date): string {
 	return `${h.d} ${HIJRI_MONTHS[h.m]} ${h.y}`;
 }
 
+const STOCKHOLM_DATE = new Intl.DateTimeFormat("en-CA", {
+	timeZone: "Europe/Stockholm",
+	year: "numeric",
+	month: "numeric",
+	day: "numeric",
+});
+
+/** Noon UTC of the Swedish calendar day an instant falls on, shifted by whole days — the
+ *  safe argument for hijriLabel/gregorianToHijri, which read their instant in UTC. */
+export function stockholmNoon(instant: Date, dayOffset = 0): Date {
+	const parts = STOCKHOLM_DATE.formatToParts(instant);
+	const n = (type: string) => Number(parts.find((p) => p.type === type)?.value ?? 0);
+	return new Date(Date.UTC(n("year"), n("month") - 1, n("day") + dayOffset, 12));
+}
+
+/**
+ * The islamic date AT an instant, not on a calendar day: the islamic day begins at
+ * maghrib, so from sunset on a Swedish Friday it is already the date the Umm al-Qura
+ * calendar gives the Saturday. Before this, every date on the site turned over at
+ * midnight — the front page said »14 Rabīʿ al-thānī« at 19:00 on 25 September 2026,
+ * twenty minutes after the 15th had begun.
+ *
+ * `maghrib` is that Swedish day's sunset prayer time. A day without one (polar night in
+ * the far north) falls back to the civil date.
+ */
+export function hijriAt(instant: Date, maghrib: Date): Hijri {
+	const after = Number.isFinite(maghrib.getTime()) && instant.getTime() >= maghrib.getTime();
+	return gregorianToHijri(stockholmNoon(instant, after ? 1 : 0));
+}
+
+/** hijriAt spelled the site's way, with or without the year. */
+export function hijriAtLabel(instant: Date, maghrib: Date, withYear = true): string {
+	const h = hijriAt(instant, maghrib);
+	return withYear ? `${h.d} ${HIJRI_MONTHS[h.m]} ${h.y}` : `${h.d} ${HIJRI_MONTHS[h.m]}`;
+}
+
+/**
+ * How far off an observance is, in the rail's words: »pågår«, »i dag«, »i morgon«,
+ * »om 136 dagar«. Calendar days between ISO dates (YYYY-MM-DD), so it never flips at
+ * an odd hour. Shared by the build (Markesdagar.astro) and the client
+ * (scripts/markesdagar.ts), which corrects it against the reader's own today.
+ */
+export function untilLabel(startISO: string, endISO: string | undefined, todayISO: string): string {
+	const day = (iso: string) =>
+		Date.UTC(Number(iso.slice(0, 4)), Number(iso.slice(5, 7)) - 1, Number(iso.slice(8, 10)));
+	const days = Math.round((day(startISO) - day(todayISO)) / 86_400_000);
+	if (days > 1) return `om ${days} dagar`;
+	if (days === 1) return "i morgon";
+	if (days === 0) return "i dag";
+	// Already begun: a period still running, or nothing to count toward.
+	return endISO && todayISO <= endISO ? "pågår" : "";
+}
+
 type MonthDay = [month: number, day: number];
 
 interface EventDef {

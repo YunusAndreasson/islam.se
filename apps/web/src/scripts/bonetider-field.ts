@@ -19,6 +19,7 @@ import type { PrayerSettings } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
 import { CHANGE_EVENT, loadLocation, loadSettings, saveLocation } from "../lib/bonetider/storage";
 import { haversineKm } from "../lib/geom";
+import { paintHorizon } from "./prayer-horizon";
 
 interface PrayerState {
 	/** `day|settings|lat,lon` — the inputs the day's times depend on. */
@@ -205,6 +206,13 @@ function mountOne(el: HTMLElement): void {
 		// reader actually came for is waiting on this.
 		whenIdle(() => loadRenderer(inst, canvas, variant));
 	}
+	// The front page's horizon fits its labels to the line as drawn, so a resize (a phone
+	// turned, a window dragged) re-runs the fit instead of waiting for the minute tick.
+	if (el.classList.contains("bonetider-horizon")) {
+		new ResizeObserver(() => {
+			if (el.isConnected) paint(inst, new Date());
+		}).observe(el);
+	}
 	paint(inst, new Date());
 }
 
@@ -258,6 +266,12 @@ function paint(inst: Instance, now: Date): void {
 	// cheap readout below still updates so times are fresh the moment it scrolls in.
 	if (inst.visible) inst.render?.({ location, settings, scheme, variant: "home" }, now);
 	if (inst.readout.dayIcon) inst.readout.dayIcon.dataset.day = String(isDaylight(location, now));
+	if (inst.el.classList.contains("bonetider-horizon")) {
+		// Only a prayer still due TODAY is marked on the line; after Isha the target is
+		// tomorrow's Fajr, which the horizon does not draw.
+		const nextToday = st.target === st.today[st.nextKey].getTime() ? st.nextKey : null;
+		paintHorizon(inst.el, now, st.today, nextToday, isDaylight(location, now));
+	}
 	writeReadout(inst, now, st, location);
 }
 
@@ -543,7 +557,7 @@ function onThemeChange(): void {
 
 function mountAll(): void {
 	for (const el of document.querySelectorAll<HTMLElement>(
-		".bonetider-field, .bonetider-strip, .bonetider-mast",
+		".bonetider-field, .bonetider-strip, .bonetider-mast, .bonetider-horizon",
 	))
 		mountOne(el);
 }

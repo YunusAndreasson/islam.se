@@ -103,15 +103,17 @@ if (oldest?.opened) {
 			updatedLabel={updated}
 		/>
 
-		{cityGroups.map((g) => (
-			<section class="mk-city-group" aria-label={`Moskéer i ${g.city}`}>
-				<h2 class="mk-city-head">
-					<a href={`/moskeer/${g.citySlug}/`}>{g.city}</a>
-					<span class="mk-city-count">{g.mosques.length}</span>
-				</h2>
-				<MosqueList mosques={g.mosques} cityLink={true} />
-			</section>
-		))}
+		<div class="mk-city-groups">
+			{cityGroups.map((g) => (
+				<section class="mk-city-group" aria-label={`Moskéer i ${g.city}`}>
+					<h2 class="mk-city-head">
+						<a href={`/moskeer/${g.citySlug}/`}>{g.city}</a>
+						<span class="mk-city-count">{g.mosques.length}</span>
+					</h2>
+					<MosqueList mosques={g.mosques} cityLink={true} />
+				</section>
+			))}
+		</div>
 
 		<TitledSection class="mk-section" id="mk-lan-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
@@ -132,6 +134,31 @@ if (oldest?.opened) {
 
 	.mk-city-group {
 		margin-top: var(--space-phi);
+	}
+
+	/* The orter as a directory, in columns from 48rem (three from 72rem): read down,
+	   then across, like a printed index. One long column at the reading measure left
+	   two fifths of the 76rem canvas empty the whole way down (2026-09-26). Padding,
+	   not margin, between groups: a margin at the head of a column is dropped in one
+	   engine and kept in another. */
+	@media (width >= 48rem) {
+		.mk-city-groups {
+			columns: 2;
+			column-gap: 3rem;
+			margin-top: var(--space-phi);
+		}
+
+		.mk-city-groups .mk-city-group {
+			margin-top: 0;
+			padding-bottom: var(--space-phi);
+			break-inside: avoid;
+		}
+	}
+
+	@media (width >= 72rem) {
+		.mk-city-groups {
+			columns: 3;
+		}
 	}
 
 	.mk-city-head {

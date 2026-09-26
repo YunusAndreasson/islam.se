@@ -3,12 +3,15 @@ import { getCollection } from "astro:content";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import ThreadList from "../../components/ThreadList.astro";
 import { breadcrumbList } from "../../lib/jsonld";
+import { RITNINGAR } from "../../lib/ritningar";
 
 const threads = await getCollection("tradar");
 ---
 
 <CollectionIndexPage
+	mainClass="home tradar-index"
 	title="Trådar"
+	ritning={RITNINGAR.tradar}
 	description="Utvalda läsningar genom essäerna: hjärtats anatomi, tungan och sanningen, natten, maskinen och människan, Strindbergs kris."
 	lead="Essäer som hör ihop, samlade till trådar att följa."
 	backHref="/essaer/"
@@ -27,5 +30,14 @@ const threads = await getCollection("tradar");
 		]),
 	]}
 >
-	<ThreadList threads={threads} />
+	<ThreadList threads={threads} sizes="(min-width: 79rem) 24rem, (min-width: 48rem) 45vw, 100vw" />
 </CollectionIndexPage>
+
+<style>
+	/* Three across on the 76rem canvas (two below it): the five trådar as 3 + 2, where the
+	   default two-up track left the fifth alone on a row of its own. ⚠️ :global — the
+	   <main> is CollectionIndexPage's, and carries that component's scope id. */
+	:global(.tradar-index .card-list) {
+		--card-list-min: 22rem;
+	}
+</style>

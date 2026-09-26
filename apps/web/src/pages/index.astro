@@ -2,10 +2,10 @@
 import AmnenHome from "../components/AmnenHome.astro";
 import BarometerRail from "../components/ai-barometern/BarometerRail.astro";
 import BookPod from "../components/BookPod.astro";
-import EssayList from "../components/EssayList.astro";
 import FaktaBand from "../components/FaktaBand.astro";
 import FeatureEssay from "../components/FeatureEssay.astro";
 import FordjupningHome from "../components/FordjupningHome.astro";
+import PoddAppHome from "../components/PoddAppHome.astro";
 import Markesdagar from "../components/Markesdagar.astro";
 import Nyheter from "../components/Nyheter.astro";
 import PraktisktHome from "../components/PraktisktHome.astro";
@@ -14,34 +14,30 @@ import TradarHome from "../components/TradarHome.astro";
 import { getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
-import { dagstampel } from "../lib/dagstampel";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
 import { HOME_DOORWAYS } from "../lib/navigation";
 
 const articles = await getArticles();
 
-// Build-time value; the client corrects it on load. See lib/dagstampel.ts for
-// why a statically-shipped date cannot be left to stand on its own.
-const dagensDatum = dagstampel(new Date());
 
 // EDITORIAL RANK. The page used to run the newest essay with art and then eight
 // identical rows, so every piece after the lead carried the same weight and 55
 // essays read as an undifferentiated list. Three ranks now:
 //
-//   1. the lead      — bleeds past the canvas; nothing else on the page does
-//   2. the second tier — two art-led cards, one type step down
+//   1. the lead      — the newest essay with art: its photograph across the
+//                      canvas, its words directly under it
+//   2. the second tier — the next three as an index of titles beside the lead
 //   3. the departments — grouped under their ämne and its authored framing line
 //
-// The lead and the tier are drawn from the essays that carry art, because those two
-// ranks are art-led; the departments below are deliberately text-first (only 28 of
-// 55 essays have a hero, and Skriften has 1 of 6). Falls back to the most recent
-// essay if somehow none carry an image.
+// The lead is drawn from the essays that carry art, because it is art-led; falls
+// back to the most recent essay if somehow none carry an image.
 const withImage = articles.filter((a) => a.heroImage);
 const feature = withImage[0] ?? articles[0];
-const secondTier = withImage.filter((a) => a.slug !== feature?.slug).slice(0, 2);
+// The next three, pictures or not: an index of titles beside the lead's words.
+const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 3);
 
 // Everything already spent above, so a department cannot show the lead twice.
-const used = new Set([feature?.slug, ...secondTier.map((a) => a.slug)].filter(Boolean) as string[]);
+const used = new Set([feature?.slug, ...recent.map((a) => a.slug)].filter(Boolean) as string[]);
 
 const ogImage = feature?.heroImage;
 
@@ -72,29 +68,28 @@ const heroPreload = feature?.heroImage
 		? { preloadImageType: import.meta.env.DEV ? "image/webp" : "image/avif" }
 		: {})}
 >
-	<main id="main" class="home">
+	{/* .front is the full-width query container a band bleeds against (layout.css);
+	    .home is the canvas, here at the mast's 76rem (tokens.css) rather than the
+	    64rem every other collection page uses. */}
+	<main id="main" class="front">
+	<div class="home">
 		<h1 class="sr-only">islam.se — kunskap om islam på svenska</h1>
 
-		{/* The masthead: what day it is, then what this site is.
+		{/* The masthead: what this site is, and nothing competing with it.
 
-		    One line of orientation. The page otherwise opened straight on a
-		    photograph and an essay title, so a first-time visitor — most of whom
-		    arrive from a search for "vad är islam" or "fakta om islam" — was never
+		    The prayer-day horizon stood here for an evening (PrayerHorizon.astro) and
+		    was moved down into Praktiskt, beside the Bönetider row: above the intro it
+		    competed with the one sentence that says what the site is, and the mast's
+		    own chip already carries the next prayer in the top right corner (user
+		    review, 2026-09-25).
+
+		    One line of orientation. Most first-time visitors arrive from a
+		    search for "vad är islam" or "fakta om islam" and were otherwise never
 		    told what this site is. Deliberately one sentence in body type: the
-		    heavier three-pillar portal that stood here before was removed for
-		    being too much, and this is not an attempt to bring it back.
-
-		    The date STACKS above it rather than sharing its line, which is not the
-		    obvious composition and was arrived at by measuring. The sentence runs
-		    to roughly 950px and the canvas is 1024 — there is no room beside it for
-		    anything, so a two-ended row would have wrapped the one line the opening
-		    screen depends on. Nor can the date sit on the feature's own eyebrow row:
-		    beside "SAMHÄLLE" it reads as that essay's date, and the essay's real
-		    date (14 augusti, on a piece the reader meets on the 22nd) is six hundred
-		    pixels further down. Page-level facts belong above the feature. */}
+		    heavier three-pillar portal that stood here before was removed for being
+		    too much, and this is not an attempt to bring it back. */}
 		<div class="home-masthead">
-			<p class="label home-dagstampel" data-dagstampel>{dagensDatum}</p>
-			<p class="lead home-intro">
+			<p class="lead home-intro" data-fortsatt>
 				Islam på svenska, förklarad ur källorna – Koranen, sunna och de tidiga
 				generationernas lärda.
 			</p>
@@ -102,21 +97,22 @@ const heroPreload = feature?.heroImage
 
 		{/* The sequence, in this order and for this reason (DESIGN.md, »The Startpage«):
 
-		      det nya        the lead, the second tier, the departments and the rail
-		                     beside them — what has happened here and in the world
-		                     since the reader last looked
+		      det nya        the lead and its index, the podcast and app band, the
+		                     live row and the departments — what has happened here
+		                     and in the world since the reader last looked
 		      vad är islam   the pillars and the articles of faith, then the
 		                     fördjupningar — the encyclopedia, which is the larger
 		                     half of the site and used to be its tail
 		      vägar in       trådar and tänkare: ways THROUGH the corpus, which only
 		                     mean something once the corpus has been shown
 		      avslut         what the site does besides the reading, then the book
-		                     and the podcast
 
 		    Every movement is one --space-section apart (editorial.css); the groups
 		    read by their kickers and their content, not by a larger gap. Everything
 		    else is reached from the doorways, the mast and the palette. */}
-		{feature && <FeatureEssay article={feature} />}
+		{/* The lead and, beside its words, an index of the next three essays (rank 2)
+		    — one composition, FeatureEssay.astro. */}
+		{feature && <FeatureEssay article={feature} also={recent} />}
 
 		{/* Below the feature, not above it. These render only where the mast's inline
 		    links are hidden — i.e. on touch and under 900px — and there the mast
@@ -137,52 +133,42 @@ const heroPreload = feature?.heroImage
 			))}
 		</nav>
 
-		{/* Rank 2. Two, never auto-fill: a tier of four is a feed again. */}
-		{secondTier.length > 0 && (
-			<section class="home-second home-movement" aria-label="Fler essäer">
-				<EssayList
-					articles={secondTier}
-					itemVariant="card"
-					class="essay-cards"
-					cardSizes="(max-width: 600px) 100vw, (min-width: 67rem) 30rem, 50vw"
-				/>
-			</section>
-		)}
+		{/* The podcast and the app, promoted side by side in one short band
+		    (PoddAppHome.astro). After the doorways, so a phone keeps them near the top. */}
+		<PoddAppHome />
 
-		{/* Rank 3: three departments, and the rail beside them.
+
+		{/* Rank 3: the live row, then three departments.
 
 		    The seven ämnen have carried an authored framing line since the taxonomy
 		    was built; three departments show here and the rest are grouped on
-		    /essaer/. `art` runs the rows with their hero thumbnails and lets a
-		    department prefer its illustrated essays. Rank is still carried by size —
-		    the lead bleeds past the canvas, the tier runs two cards, and these are
-		    thumbs on a row — so the page does not flatten into three tiers of the
+		    /essaer/. `art` gives each department one 3:2 picture and lets it prefer
+		    its illustrated essays. Rank is still carried by size — the cover runs the
+		    whole canvas, the index is titles only, and these are three columns of a
+		    picture and two essays — so the page does not flatten into tiers of the
 		    same picture.
 
-		    The rail runs beside Ämnen and nothing else, which is a measurement rather
-		    than a preference. Beside the whole act it left 1 990px of empty column
-		    and cost the rank-2 essays a third of their width. Ämnen is the tallest
-		    movement on the page, so the two tracks end near each other; Trådar and
-		    Tänkare stay full width, since Tänkare is a two-facing-column composition
-		    that 655px would break.
-
-		    Under 60rem the grid collapses and the rail takes `order: -1`, landing
-		    directly under the second tier: a 17rem column of headlines is a rail on
-		    a laptop and a cramped mess on a phone. */}
+		    The live blocks (.home-sidolinje) render after the departments in the
+		    source but come first at every width (`order: -1`, nyheter.css »The live
+		    row«): the day's news four screens down is news nobody finds. It stood
+		    beside Ämnen as a 17rem rail until the departments took their pictures
+		    and the two columns could no longer be kept level (2026-09-25). */}
 		<div class="home-akt2">
 			<div class="home-akt2-huvud">
 				<AmnenHome limit={3} exclude={used} art />
 			</div>
 
-			{/* The rail, by cadence: the last day's news, this month's AI-barometern
-			    finding, the islamic year. The news is quoted material and speaks in the
-			    sans; the other two are the site's own and each sits under its own kicker
-			    and rule. The seams, and why a hidden news block must not leave a rule
-			    above nothing, are in Markesdagar.astro and BarometerRail.astro. */}
+			{/* The live blocks: the day's news and the islamic year side by side, then
+			    this month's AI-barometern finding under both at the full width (the
+			    layout is in nyheter.css, »The live row«). The news is quoted material
+			    and speaks in the sans; the other two are the site's own. The source
+			    order is the reading order at every width, so a phone stacks them the
+			    same way. Why a hidden news block must not leave a rule above nothing is
+			    in Markesdagar.astro. */}
 			<div class="home-sidolinje">
 				<Nyheter />
-				<BarometerRail />
 				<Markesdagar />
+				<BarometerRail />
 			</div>
 		</div>
 
@@ -219,117 +205,46 @@ const heroPreload = feature?.heroImage
 
 		    Below the reference movements, which is where a way-through belongs: the
 		    reader has to have been shown the work before a path through it means
-		    anything. */}
+		    anything. The trådar are drawn as routes — the only sequences on the
+		    site, shown as sequences, with the reader's own read stops filled in. */}
 		<TradarHome limit={3} />
 
 		{/* The site's thesis, shown rather than declared: the classical tradition and
-		    the Swedish voices in two facing columns, with counts derived from the
-		    corpus at build time. No explanatory paragraph — the composition is the
-		    argument. It owns its own movement and head-row when `limit` is set. */}
+		    the Swedish voices in two facing columns, and between them the lines of
+		    the essays in which they meet — derived from the corpus at build time. No
+		    explanatory paragraph; the composition is the argument. On the page's own
+		    ground: as a full-bleed dark band it read as a second site (2026-09-25). */}
 		<TankareGroups limit={6} />
 
 		{/* The close, first half: what the site does besides the reading — bönetider
 		    with the reader's own next prayer, the map of mosques and burial grounds,
 		    the moskéskärm and the app. At desktop widths the mast names only the first
 		    two, so a reader who never opened the menu met the other two in the footer.
-		    Text only; see PraktisktHome.astro for why there is no map here. */}
+		    Sweden is drawn beside them, dotted with its mosques (PraktisktHome.astro
+		    says why a static SVG is not the map that was removed). */}
 		<PraktisktHome />
 
-		{/* The close, second half: the book and the podcast. The podcast left the mast
-		    on 2026-09-13 to make room for AI-barometern; this is its place on the front
-		    page. `Det islamiska året` used to stand here too; it moved into the rail,
-		    where the page's live layer belongs, and both of its authored standing-fast
-		    lines already appear verbatim on /det-islamiska-aret/. */}
+		{/* The close, second half: the book, on the last tint, in the grammar of the
+		    podcast and app band under the cover (BookPod.astro) — so the page ends on
+		    the same kind of object it promoted at the top, and paper and tint
+		    alternate all the way to the footer. The podcast left this slot for that
+		    band on 2026-09-26. */}
 		<BookPod count={articles.length} variant="home" />
+	</div>
 	</main>
 </Base>
 
 <style>
-	/* RANK 2 — the second tier.
-	   ⚠️ :global() is not optional here. layout.css records that a page's scope id
-	   lands on the list root but NEVER on its <li>s, so `.essay-card` written plain
-	   in this block would compile to a selector that matches nothing. */
-	.home-second {
-		padding-top: var(--space-phi);
-		border-top: 1px solid var(--color-rule);
-	}
+	/* The masthead block: the orientation line.
 
-	/* Two, not auto-fill. The global .essay-cards grid fills the 64rem canvas with
-	   four 16rem tracks, and a rank of four is a feed — which is the thing this tier
-	   exists to stop being. */
-	.home-second :global(.essay-cards) {
-		grid-template-columns: 1fr 1fr;
-		/* .essay-cards carries --space-phi below itself for the pages where it is the
-		   whole content. Here the movement's own rhythm follows, and the two stacked
-		   into a hole. */
-		margin-bottom: 0;
-	}
-
-	/* One step above the archive card (--step-0) and well below the lead's 3rem: the
-	   tier is expressed by size and by the rule above it, never by a badge or a
-	   number. Nothing on this site is a sequence except a tråd. */
-	.home-second :global(.essay-card .archive-title) {
-		font-size: var(--step-2);
-	}
-
-	/* Four lines, up from three. At --step--1 in a half-canvas card three lines cut
-	   the median deck (~270 characters) about four fifths of the way through, which
-	   is the worst place to stop: long enough that the reader commits to the
-	   sentence, short enough that it never arrives. The fourth line costs ~25px of
-	   a card that has nothing under it but the rule of the next movement. */
-	.home-second :global(.essay-card .essay-card-desc) {
-		font-size: var(--step--1);
-		-webkit-line-clamp: 4;
-	}
-
-	/* PICTURE BEFORE HEADLINE — and no rule is needed to get it.
-	   This tier carried `order: -1` on the title from 2026-07, lifting the headline
-	   above its crop so the two cards mirrored the feature. Removed 2026-08: a card
-	   is not the feature. At 3rem with a bleeding spread the headline-first
-	   composition is a masthead; at --step-2 in a half-canvas card it just split
-	   each card's own text around its picture — title on top, deck and date
-	   underneath — so neither block of type read as one. Image-first is the DOM
-	   order (EssayArchiveItem.astro) and now the paint order too, here and in the
-	   identical `.essay-card` that renders the fördjupning band on /svar/.
-	   Do not put the `order` back.
-
-	   The title's `margin-bottom: var(--space-half)` went with it. It existed to
-	   hold the headline off the picture below; under the picture it stacked with
-	   `.essay-card-desc`'s own 0.4rem top margin (flex items don't collapse
-	   margins) and opened 1.35rem between headline and deck. Spacing is the shared
-	   card rhythm from layout.css again: 0.85rem under the media, 0.4rem over the
-	   deck. */
-
-	@media (width <= 600px) {
-		.home-second :global(.essay-cards) {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	/* The masthead block: the day-stamp over the orientation line.
-
-	   The top margin is not optional and lives here now rather than on the lead:
-	   .site-header::after lays a 1.5rem background-to-transparent fade over the top
-	   of <main>, and anything flush against it gets washed out.
+	   The top margin is not optional: .site-header::after lays a 1.5rem
+	   background-to-transparent fade over the top of <main>, and anything flush
+	   against it gets washed out.
 
 	   No bottom margin, because it would never be seen — the feature's own top
-	   margin collapses through it. Which is also why the day-stamp is close to
-	   free: the block grows by the stamp's own line and nothing more. */
+	   margin collapses through it. */
 	.home-masthead {
 		margin: var(--space-unit) 0 0;
-	}
-
-	/* Sentence case at a readable rung, not the tracked caps `.label` supplies.
-	   Two reasons, and the second is the real one: "8 ṢAFAR 1448" sets a
-	   transliteration with its diacritics shouting, which this site does not do
-	   anywhere else; and a folio line is a quiet statement of fact, not a piece of
-	   wayfinding. The register is the one `.nyheter-avsandare` already established
-	   for a line that states rather than directs. */
-	.home-dagstampel {
-		margin: 0 0 0.3rem;
-		font-size: var(--step--2);
-		text-transform: none;
-		letter-spacing: 0;
 	}
 
 	/* The orientation line: what this site is, for a visitor arriving cold from a
@@ -340,8 +255,13 @@ const heroPreload = feature?.heroImage
 	   and every module below it. It used to be centred, which made the one
 	   sentence on the opening screen the only centred thing on a left-aligned
 	   page — a stray line rather than the page's standfirst. Sharing the edge is
-	   what makes the opening read as one composed block — and the day-stamp above
-	   it shares that same edge for the same reason. */
+	   what makes the opening read as one composed block. */
+	.home-intro.is-fortsatt :global(a) {
+		color: inherit;
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--underline-offset);
+	}
+
 	.home-intro {
 		--lead-size: var(--step-0);
 		/* No measure: at body size the sentence still sits on ONE line inside the
@@ -442,15 +362,29 @@ const heroPreload = feature?.heroImage
 </style>
 
 <script>
-	// The day-stamp is rendered at build time so it is in the served HTML, and
-	// corrected here because the site is built statically and shipped by hand: the
-	// line would otherwise be a day stale every morning after a deploy. Same shape
-	// as the mast's prayer chip and the calendar list — server value first, client
-	// truth over the top, nothing flashing in between.
-	import { dagstampel } from "../lib/dagstampel";
+	// A returning reader who left an essay part-read is offered it back, in the slot the
+	// orientation sentence holds for a first visit — they know what this site is; what
+	// they want is the essay they were in. localStorage only (reading-progress.ts), no
+	// account, nothing fetched: the title was stored when the essay was read.
+	//
+	// The line keeps its height (min-height via CSSOM, which the CSP allows where a
+	// style attribute is not), so swapping one sentence for the other moves nothing
+	// on the opening screen.
+	import { unfinished } from "../scripts/reading-progress";
 
 	document.addEventListener("astro:page-load", () => {
-		const el = document.querySelector<HTMLElement>("[data-dagstampel]");
-		if (el) el.textContent = dagstampel(new Date());
+		const line = document.querySelector<HTMLElement>("[data-fortsatt]");
+		const last = unfinished();
+		if (!(line && last)) return;
+		line.style.minHeight = `${line.offsetHeight}px`;
+		const link = document.createElement("a");
+		link.href = `/${last.slug}/`;
+		link.textContent = `»${last.title}«`;
+		line.classList.add("is-fortsatt");
+		line.replaceChildren(
+			"Fortsätt läsa ",
+			link,
+			` – ${Math.round(last.pct * 100)}\u00a0% läst.`,
+		);
 	});
 </script>

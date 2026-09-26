@@ -11,8 +11,10 @@ const location = { name: DEFAULT_COORDS.name, latitude: DEFAULT_COORDS.latitude,
  <main id="main" class="home seasons">
   <Breadcrumb items={[{name: "Bönetider", url: "/bonetider/"}, {name: "Under året", url: "/bonetider/aret/"}]} />
   <h1>Bönetider under året</h1>
-  <section aria-labelledby="year-title"><h2 id="year-title">Året i Stockholm</h2><AnnualPrayerChart location={location} /></section>
-  <section aria-label="Dagsljus på olika breddgrader"><DaylightLatitude /></section>
+  <div class="seasons-pair">
+   <section class="seasons-year" aria-labelledby="year-title"><h2 id="year-title">Året i Stockholm</h2><AnnualPrayerChart location={location} /></section>
+   <section class="seasons-daylight" aria-label="Dagsljus på olika breddgrader"><DaylightLatitude /></section>
+  </div>
   <section aria-labelledby="map-title"><h2 id="map-title">Solens läge i Sverige i dag</h2><PrayerField location={location} variant="full" fixed caption /></section>
   <p><a class="arrow-link" href="/bonetider/metod/">Så beräknas tiderna</a></p>
  </main>
@@ -20,4 +22,32 @@ const location = { name: DEFAULT_COORDS.name, latitude: DEFAULT_COORDS.latitude,
 <style>
  .seasons { margin-block: var(--space-phi); }
  section { margin-block: var(--space-phi); }
+
+ /* The year's chart and the daylight table side by side from 72rem, the table's top on
+    the chart's: one under the other, the two held to 46 and 32rem left the right half
+    of the 76rem canvas empty for a screen and a half (2026-09-26). */
+ @media (width >= 72rem) {
+  .seasons-pair {
+   display: grid;
+   grid-template-columns: minmax(0, 46rem) minmax(0, 1fr);
+   grid-template-rows: auto auto;
+   column-gap: 3rem;
+   margin-block: var(--space-phi);
+  }
+
+  .seasons-pair section {
+   margin-block: 0;
+  }
+
+  .seasons-year {
+   display: grid;
+   grid-row: 1 / span 2;
+   grid-template-rows: subgrid;
+  }
+
+  .seasons-daylight {
+   grid-column: 2;
+   grid-row: 2;
+  }
+ }
 </style>

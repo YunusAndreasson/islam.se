@@ -1,0 +1,149 @@
+---
+// A DRAWING FROM THE SITE'S SERIES (src/assets/ritningar; how they are made is in its
+// README): graphite on white paper for the light theme, the same drawing in white chalk
+// on black paper for the dark. Each paper is blended away into whatever ground it
+// stands on — white multiplied, black screened — so the pencil and the chalk lie
+// straight on the page and neither theme has a frame. Inverting one drawing for both
+// themes made a negative, and a light sheet laid on the dark page "doesn't work"
+// (user review, 2026-09-26).
+//
+// The drawing is fitted into a box, [phone, from 48rem] in rem: by its height, unless
+// its width would pass the box's. The series runs from upright (0.87) to wide (1.51);
+// at one height the widest covered 1.7 times the area of the narrowest.
+//
+// `fyll` hands the box to the host from 48rem: the drawing fills the host's positioned
+// element (inset 0), held inside it, top right, and adds no height of its own — so it is
+// exactly as tall as the words the host sets it beside (PageHead). `hojd`/`bredd` then
+// only estimate the painted size for `sizes`; a host that knows better passes `sizes`.
+//
+// Only the theme's drawing is displayed, and both are lazy, so the other is never
+// fetched. Decorative: the words beside it carry the meaning.
+import { Image } from "astro:assets";
+
+interface Props {
+	ljus: ImageMetadata;
+	mork: ImageMetadata;
+	/** Box height in rem, [below 48rem, from 48rem]. */
+	hojd?: [number, number];
+	/** Box width in rem, [below 48rem, from 48rem]; defaults to 1.6 × the height. */
+	bredd?: [number, number];
+	/** Fill the host's positioned element instead of a box of its own. */
+	fyll?: boolean;
+	/** The painted width, when the host knows it better than the box. */
+	sizes?: string;
+	class?: string;
+}
+
+const {
+	ljus,
+	mork,
+	hojd = [7, 10],
+	bredd = [hojd[0] * 1.6, hojd[1] * 1.6],
+	fyll = false,
+	sizes,
+	class: className,
+	// The host's scope attribute (data-astro-cid-*), so the host's own styles reach it.
+	...rest
+} = Astro.props;
+
+// What the box paints for this drawing, so `sizes` asks for no more than is shown.
+const fit = (img: ImageMetadata, h: number, w: number) => Math.min(w, (h * img.width) / img.height);
+const bild = (img: ImageMetadata) => ({
+	src: img,
+	alt: "",
+	widths: [96, 160, 240, 320, 480, 640, 960].filter((x) => x <= img.width),
+	sizes:
+		sizes ??
+		`(min-width: 48rem) ${fit(img, hojd[1], bredd[1]).toFixed(2)}rem, ${fit(img, hojd[0], bredd[0]).toFixed(2)}rem`,
+});
+const box = `--ritning-h: ${hojd[0]}rem; --ritning-w: ${bredd[0]}rem; --ritning-h-bred: ${hojd[1]}rem; --ritning-w-bred: ${bredd[1]}rem`;
+---
+
+<span class:list={["ritning", fyll && "ritning--fyll", className]} style={box} aria-hidden="true" {...rest}>
+	<Image class="ritning-ljus" {...bild(ljus)} />
+	<Image class="ritning-mork" {...bild(mork)} />
+</span>
+
+<style>
+	/* The drawing carries its own ground to blend against: the page's --color-bg, which
+	   the tinted bands re-point to their tint. Blending needs something under it inside
+	   the same stacking context, and the front page's movements are each one of their
+	   own (content-visibility): on Grunden, a paper movement with no background of its
+	   own, the multiply met transparency and the white paper stood up as a square (and
+	   the chalk's black one in the dark theme). */
+	.ritning {
+		display: block;
+		inline-size: fit-content;
+		background: var(--color-bg);
+	}
+
+	/* Auto size from the file, then held inside the box: the height governs unless the
+	   width would pass the box's. */
+	.ritning img {
+		display: block;
+		inline-size: auto;
+		block-size: auto;
+		max-block-size: var(--ritning-h);
+		max-inline-size: var(--ritning-w);
+		mix-blend-mode: multiply;
+	}
+
+	@media (width >= 48rem) {
+		.ritning img {
+			max-block-size: var(--ritning-h-bred);
+			max-inline-size: var(--ritning-w-bred);
+		}
+	}
+
+	/* Filling the host, from 48rem: the host's element is the box, the drawing held
+	   inside it, top right. Below, where the drawing stands beside a title or above the
+	   words, it keeps its own box (hojd[0]). Last, so it outranks the box's limits. */
+	@media (width >= 48rem) {
+		.ritning--fyll {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-end;
+			inline-size: auto;
+		}
+
+		/* The whole box, the drawing contained in it: auto would take the image's
+		   natural size from `sizes` (an estimate), and a max-size only limits, so the
+		   drawing stopped at the estimate's 288px in a 519px opening. */
+		.ritning--fyll img {
+			inline-size: 100%;
+			block-size: 100%;
+			max-inline-size: none;
+			max-block-size: none;
+			object-fit: contain;
+			object-position: 100% 0;
+		}
+	}
+
+	/* The theme's drawing only, keyed as the site's other theme rules are: the toggle
+	   first, then the OS. The chalk at full strength; its midtones are lifted in the
+	   file, because thin strokes at this size read dimmer than solid text. */
+	.ritning img.ritning-mork {
+		display: none;
+		mix-blend-mode: screen;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:global(:root:not([data-theme="light"])) .ritning img.ritning-ljus {
+			display: none;
+		}
+
+		:global(:root:not([data-theme="light"])) .ritning img.ritning-mork {
+			display: block;
+		}
+	}
+
+	:global(:root[data-theme="dark"]) .ritning img.ritning-ljus {
+		display: none;
+	}
+
+	:global(:root[data-theme="dark"]) .ritning img.ritning-mork {
+		display: block;
+	}
+</style>

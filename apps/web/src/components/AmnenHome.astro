@@ -1,6 +1,9 @@
 ---
 import { type Amne, amnenWithEssays } from "../lib/amnen";
 import { type Article, essayCount, getArticles } from "../lib/articles";
+import { leadSentences } from "../lib/format";
+import { CARD_LIST_WIDTHS } from "../lib/hero";
+import EssayImage from "./EssayImage.astro";
 import EssayList from "./EssayList.astro";
 import SectionLink from "./SectionLink.astro";
 
@@ -9,14 +12,11 @@ import SectionLink from "./SectionLink.astro";
 // page showed a flat reverse-chronological feed and named no section at all.
 //
 // TEXT-FIRST BY DEFAULT, art-led on request (`art`). Only 28 of 55 essays carry a
-// hero and it is not spread evenly — Skriften has 1 of 6, Rättvisa 1 of 5 — so a
-// module that simply hung a thumbnail on every row would show two departments as
-// broken rows and quietly promote the well-illustrated ämnen. The `art` mode
-// answers both halves of that instead of ignoring them: within a department it
-// PREFERS the essays that carry art when choosing which few to show, and the row
-// itself only becomes a thumbnail row when the essay actually has one (the thumb
-// runs down the right, so an artless row keeps the same left edge). /amnen/, which
-// lists four per department and cannot cherry-pick that hard, stays text-first.
+// hero and it is not spread evenly — Skriften has 1 of 6, Rättvisa 1 of 5. The `art`
+// mode PREFERS the illustrated essays when choosing which few a department shows,
+// and gives the department ONE picture (the plate, below), never one per row; a
+// department with no illustrated essay simply has no plate and loses nothing.
+// /amnen/, which lists four per department and cannot cherry-pick, stays text-first.
 
 interface Props {
 	/** How many departments to show. Omitted → all of them (the /amnen/ index). */
@@ -27,8 +27,8 @@ interface Props {
 	 *  Keep it EVEN: .home .archive-list is a two-column grid, so an odd count
 	 *  always orphans one essay alone on a second row. */
 	perDept?: number;
-	/** Show hero thumbnails, and prefer illustrated essays when choosing which
-	 *  essays a department shows. The homepage only — see the note above. */
+	/** Give each department a plate picture, and prefer illustrated essays when
+	 *  choosing which essays it shows. The homepage only — see the note above. */
 	art?: boolean;
 }
 
@@ -60,6 +60,17 @@ let groups: Dept[] = amnenWithEssays(articles).map(({ amne, essays }) => {
 	const available = exclude ? essays.filter((e) => !exclude.has(e.slug)) : essays;
 	return { amne, shown: pick(available), total: essays.length };
 });
+
+// THE PLATE (art mode). One picture per department, full column width, above the
+// department's essays — not a thumbnail hung off every row. Six 256px boxes down the
+// right of the column read as a strip of little dark rectangles beside the text, the
+// one part of the page where the pictures looked pasted on (user review, 2026-09-25).
+// The pictured essay moves to the head of its list, so the picture always sits
+// directly above its own title.
+function withPlateFirst(shown: Article[]): { plate: Article | undefined; list: Article[] } {
+	const plate = art ? shown.find((e) => e.heroImage) : undefined;
+	return { plate, list: plate ? [plate, ...shown.filter((e) => e !== plate)] : shown };
+}
 
 // A department whose every essay is already on the page above has nothing left to
 // show; dropping it before the ranker is what stops it being *chosen* and then
@@ -95,7 +106,7 @@ const DeptHeading = limit ? "h3" : "h2";
     own h1 already says "Ämnen" and an "Alla ämnen" link would point at the page the
     reader is standing on. Same split TankareGroups makes, keyed on the same prop. */}
 <section
-	class:list={["amnen", { "home-movement": limit }]}
+	class:list={["amnen", { "home-movement": limit, "amnen--row": limit && art }]}
 	aria-labelledby={limit ? "amnen-kicker" : null}
 >
 	{limit && (
@@ -104,7 +115,9 @@ const DeptHeading = limit ? "h3" : "h2";
 		</div>
 	)}
 
-	{groups.map(({ amne, shown, total }) => (
+	{groups.map(({ amne, shown, total }) => {
+		const { plate, list } = withPlateFirst(shown);
+		return (
 		<section class:list={["amne-dept", { "amne-dept--art": art }]} aria-labelledby={`amne-${amne.slug}`}>
 			<div class="amne-dept-head">
 				<DeptHeading class="amne-dept-name" id={`amne-${amne.slug}`}>
@@ -117,14 +130,25 @@ const DeptHeading = limit ? "h3" : "h2";
 				)}
 			</div>
 			<p class="lead amne-dept-framing">{amne.framing}</p>
+			{/* A pointer convenience beside the real link, the title below it: hidden
+			    from the tab order and assistive tech so the essay is announced once. */}
+			{plate && (
+				<a class="amne-dept-plate media-frame" href={`/${plate.slug}/`} tabindex="-1" aria-hidden="true">
+					<EssayImage
+						article={plate}
+						widths={CARD_LIST_WIDTHS}
+						sizes="(min-width: 79rem) 24rem, (min-width: 60rem) 31vw, 100vw"
+						loading="lazy"
+					/>
+				</a>
+			)}
 			<EssayList
-				articles={shown}
-				showThumb={art}
+				articles={art ? list.map((a) => ({ ...a, description: leadSentences(a.description, 170) })) : list}
 				class="amne-dept-list"
-				{...(art ? { thumbSizes: "(max-width: 600px) 7.5rem, 16rem" } : {})}
 			/>
 		</section>
-	))}
+		);
+	})}
 </section>
 
 <style>
@@ -198,6 +222,13 @@ const DeptHeading = limit ? "h3" : "h2";
 		color: var(--color-muted);
 	}
 
+	/* On the front page there is no »Alla ämnen« above to rank under — the kicker row
+	   carries none — so the department's link takes the size every head-row link on the
+	   page has (.home-head-all: Fördjupning, Trådar, Tänkare), not a rung below it. */
+	.amnen--row .amne-dept-all {
+		font-size: var(--step--3);
+	}
+
 	/* The authored line. Knobs only — the .lead primitive owns the properties. */
 	.amne-dept-framing {
 		--lead-measure: 40rem;
@@ -223,14 +254,10 @@ const DeptHeading = limit ? "h3" : "h2";
 		margin-bottom: 0;
 	}
 
-	/* ART MODE — one essay per row, across the whole canvas.
-	   .home .archive-list packs an index two-up at a 24rem minimum, which is right
-	   for a column of titles and wrong the moment a photograph joins the row: a
-	   460px cell minus the picture leaves the headline about twenty characters of
-	   measure, so every head broke over two lines and every deck was cut mid-word.
-	   One column gives the text ~46rem and lets the picture be art rather than a
-	   stamp. The two-up grid stays exactly as it is for /amnen/, /essaer/ and the
-	   collection indexes, which have no art in the row.
+	/* ART MODE — one essay per row, under the department's plate. .home
+	   .archive-list packs an index two-up, which is right for /amnen/, /essaer/ and
+	   the collection indexes and wrong under a column-wide picture, where two narrow
+	   cells would each hang off half of it.
 
 	   :global() is not optional: the scope id lands on this <section>, never on the
 	   <ul>/<li>s EssayList and EssayArchiveItem render. Same split index.astro
@@ -241,28 +268,12 @@ const DeptHeading = limit ? "h3" : "h2";
 		grid-template-columns: 1fr;
 	}
 
-	.amne-dept--art :global(.archive-item--thumb a) {
-		--archive-thumb-w: 16rem;
-	}
-
-	/* THE MEASURE. The row is 61rem wide and the text column takes whatever the
-	   picture leaves — about 44rem — which sets the deck at roughly 110 characters
-	   a line. That is the thing that reads as thin: not the size of the headline
-	   (which is one rank below the second tier ON PURPOSE and must stay there), but
-	   a 15px deck run out to a measure no printed page would allow. Capped at 34rem
-	   the deck lands near 70 characters, the headline breaks where a sub-editor
-	   would break it, and the air that opens between the text and the picture is
-	   the gutter — the picture stays flush to the right edge of the canvas, in line
-	   with "ALLA 11 ESSÄER" above it and the rule beneath. */
+	/* THE MEASURE. Capped at 34rem the 15px deck lands near 70 characters and the
+	   headline breaks where a sub-editor would break it; uncapped it ran out to the
+	   column's full width, a measure no printed page would allow. */
 	.amne-dept--art :global(.archive-title),
 	.amne-dept--art :global(.archive-description) {
 		max-width: 34rem;
-	}
-
-	@media (width <= 600px) {
-		.amne-dept--art :global(.archive-item--thumb a) {
-			--archive-thumb-w: 7.5rem;
-		}
 	}
 
 	/* The two-up grid gives its last cell a hairline so the two columns close level
@@ -272,27 +283,101 @@ const DeptHeading = limit ? "h3" : "h2";
 		border-bottom: 0;
 	}
 
-	/* The archive row has never clamped its deck — on /amnen/ and /essaer/ the full
-	   deck IS the row. Next to a picture it needs a ceiling: the deck sets the height
-	   of the text column, and one essay with a six-line deck would cut its
-	   photograph to twice the height of the row above it.
-
-	   FIVE, AND ALL OF IT IS FREE — measured, not assumed. The picture is 16rem wide
-	   at 3:2, so it stands 171px tall, while title + meta + five lines of deck come
-	   to about 156px. The text has never been what sets this row's height; the
-	   photograph has, and the strut beneath the text absorbs the difference — so
-	   three lines, four or five, the module measures the same and only the amount
-	   the reader gets to read changes.
-
-	   It went 3 → 4 → 5 in one sitting, and the last step needed the row to be
-	   top-aligned first (layout.css): while the text was centred between two struts
-	   the slack was split into two invisible margins instead of being spent on the
-	   essay's own words. Six lines would land past 171px and start driving the row
-	   height, which is the one thing this clamp exists to prevent. */
-	.amne-dept--art :global(.archive-description) {
-		display: -webkit-box;
-		-webkit-line-clamp: 5;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
+	/* The plate: one picture per department, square-cut like every photograph on
+	   the site. 3:2 — the card shape of the second tier and Fördjupning — so the
+	   front page's photographs come in one shape beside the cover. */
+	.amne-dept-plate {
+		display: block;
+		margin: var(--space-group) 0 0;
 	}
+
+	.amne-dept-plate :global(img) {
+		display: block;
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+	}
+
+	/* THREE DEPARTMENTS SIDE BY SIDE on the front page (see nyheter.css, »The live
+	   row, then the departments«). Each is a column: name and framing, its plate,
+	   its two essays as text. The kicker spans the row; every column opens under its
+	   own rule at the same height, so the three read as one row of a newspaper. */
+	@media (width >= 60rem) {
+		.amnen--row {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			column-gap: var(--grid-gutter);
+			align-items: start;
+		}
+
+		.amnen--row > :global(.home-head) {
+			grid-column: 1 / -1;
+		}
+
+		/* Every column opens the same way — the first too, which the stacked layout
+		   exempts from its rule because the kicker already opens it. Side by side,
+		   one column without a rule sat 17px lower than its neighbours. */
+		.amnen--row .amne-dept,
+		.amnen--row .amne-dept:first-of-type {
+			margin-top: 0;
+			padding-top: var(--space-group);
+			border-top: 1px solid var(--color-rule);
+		}
+
+		/* One set of rows for all three columns (subgrid): name, framing, picture,
+		   and then one row PER ESSAY. A framing line of three lines beside one of two no
+		   longer drops that column's picture 27px below its neighbours'; a four-line deck
+		   beside a two-line one no longer drops the second essay's rule and title 20px
+		   (the list is a subgrid too, so the three second titles share a line). Placed
+		   explicitly, so a department with no illustrated essay leaves its picture row
+		   empty rather than pulling its essays up into it. */
+		.amnen--row .amne-dept {
+			display: grid;
+			grid-row: 2 / span 5;
+			grid-template-rows: subgrid;
+			row-gap: 0;
+		}
+
+		.amnen--row .amne-dept-head {
+			grid-row: 1;
+		}
+
+		.amnen--row .amne-dept-framing {
+			grid-row: 2;
+		}
+
+		.amnen--row .amne-dept-plate {
+			grid-row: 3;
+		}
+
+		.amnen--row :global(.amne-dept-list) {
+			grid-row: 4 / span 2;
+			grid-template-rows: subgrid;
+			row-gap: 0;
+		}
+
+		.amnen--row > :global(.home-head) {
+			margin-bottom: var(--space-group);
+		}
+
+		/* The name and its »Alla N essäer« share one line, the way every movement's
+		   kicker shares its line with its link. They were stacked when the column was
+		   19rem; on the 76rem canvas it is 23rem, and stacked, the link stood between
+		   the department's name and the sentence that describes it. The rows' titles
+		   step down to body. */
+		.amnen--row :global(.archive-title) {
+			font-size: var(--step-0);
+		}
+	}
+
+	/* The essays' date lines at the meta size every other essay on the page uses —
+	   the lead's, the index's (--step--3) — not the micro rung of the dense indexes,
+	   which made these six the only essays set a size smaller. Every width. */
+	.amnen--row :global(.archive-meta) {
+		font-size: var(--step--3);
+	}
+
+	/* The decks under a plate are the deck's opening sentence, whole (leadSentences in
+	   the markup above). A three-line clamp ended them mid-sentence in »…«; the full
+	   deck ran the three columns to uneven heights (user reviews, 2026-09-25). */
 </style>

@@ -2,10 +2,12 @@
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import TankareGroups from "../../components/TankareGroups.astro";
 import { breadcrumbList } from "../../lib/jsonld";
+import { RITNINGAR } from "../../lib/ritningar";
 ---
 
 <CollectionIndexPage
 	title="Tänkare"
+	ritning={RITNINGAR.tankare}
 	description="De återkommande samtalspartnerna: den klassiska islamiska traditionen och de svenska och västerländska rösterna som essäerna håller samman."
 	lead="De röster essäerna återvänder till: den klassiska islamiska traditionen, och de svenska och västerländska tänkare som läses tillsammans med den."
 	backHref="/essaer/"

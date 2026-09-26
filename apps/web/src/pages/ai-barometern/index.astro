@@ -39,6 +39,7 @@ import {
 import { describeRow } from "../../lib/ai-barometern/summary";
 import { TWIN_SETS } from "../../lib/ai-barometern/twins";
 import { collectionPageJsonLd, dataset } from "../../lib/jsonld";
+import { RITNINGAR } from "../../lib/ritningar";
 import "../../styles/ai-barometern-chips.css";
 import "../../styles/ai-barometern.css";
 
@@ -107,6 +108,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 
 <CollectionIndexPage
 	title="AI-barometern"
+	ritning={RITNINGAR.barometernBred}
 	pageTitle="AI-barometern — vad svarar AI-modellerna? — islam.se"
 	description={description}
 	lead={lead}
@@ -124,15 +126,17 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 		}),
 	]}
 >
+	{/* The measurement's line belongs to the opening, so the section's drawing is as
+	    tall as title, ingress and this line together (PageHead). */}
 	{
 		run ? (
-			<p class="meta-line">
+			<p class="meta-line" slot="efter">
 				{severalRuns ? "Mätningarna" : "Senaste mätningen"} {shownDates}&nbsp;· {FAMILIES.length}
 				&nbsp;modeller&nbsp;· {count.format(shown.questions)}&nbsp;frågor&nbsp;·{" "}
 				{count.format(shown.answers)}&nbsp;svar&nbsp;· <a href={METHOD_PATH}>Så går mätningen till</a>
 			</p>
 		) : (
-			<p class="meta-line">
+			<p class="meta-line" slot="efter">
 				Den första mätningen har ännu inte publicerats. Frågorna och{" "}
 				<a href={METHOD_PATH}>metoden</a> finns redan på sidan.
 			</p>

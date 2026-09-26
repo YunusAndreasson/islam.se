@@ -32,20 +32,59 @@
 .home .home-movement {
 	margin-block: var(--space-section);
 }
+/* A φ step, not a section gap: the intro line and the cover are one opening, and the
+   full-width picture needs the height to keep its headline above a laptop's fold. */
 .home .feature {
-	margin-top: var(--space-section);
+	margin-top: var(--space-unit);
 }
 .home .home-akt2 {
 	margin-top: var(--space-section);
 }
+
+/* THE PAGE'S GROUNDS. Every other movement under the cover sits on a paper one step
+   darker (--ground-tint, 5 % of the muted ink in the page colour), running to the window
+   edges while its content keeps the canvas: the podcast and app band, Ämnen,
+   Fördjupning, Tänkare and the book, so paper and tint alternate from the cover to the
+   footer. (The book stood on Praktiskt's paper until 2026-09-26, its cover drawn in the
+   tint's colour; the two last movements on one ground stopped the alternation one
+   short of the end. The cover is printed on --paper now, BookPod.astro.) Whitespace
+   and a kicker alone left eleven movements on one sheet with nothing to tell where one
+   ended (user review, 2026-09-25: "better when you had slightly different colors
+   between the different sections"). One tint, never a dark band: the ink ground this
+   page tried the same day made it read as two sites.
+
+   --color-bg is re-pointed so anything that paints "the ground" — the horizon's sun
+   ring, the map's burial-ground holes — matches the tint it sits on. 50% is half the
+   canvas, 50cqi half the window (.front is the container, layout.css). */
+.front
+	.home
+	:is(.podd-app, .amnen.home-movement, .fordjupning-home, .tankare-home, .bookpod--home) {
+	--color-bg: var(--ground-tint);
+	margin-inline: calc(50% - 50cqi);
+	padding-inline: calc(50cqi - 50%);
+	padding-block: var(--space-phi2);
+	background: var(--color-bg);
+}
+
+/* THE FRONT PAGE'S TITLES, one rank, one ink. A title under a picture or in a list is
+   content, not chrome, and the page's own movements (the index, Trådar, the barometer,
+   Praktiskt) set theirs in --color-text; the shared list and card components set theirs
+   in the link accent, one step lighter. Side by side that read as two kinds of title —
+   the Fördjupning and Ämnen titles looked washed out on the tint beside black ones on
+   the paper. Hover still underlines; the accent is not what makes them links. */
+.front .home :is(.archive-title, .card-list-title) {
+	color: var(--color-text);
+}
+
+/* Literata's discretionary ligatures (c‿h, s‿t) are an ornament of the display sizes —
+   the lead's headline keeps them. At card-title size they read as a rendering fault:
+   »inläs‿ta«, »mots‿tånd«, and an »oc‿h« in every other title on this page. */
+.front .home h3 {
+	font-variant-ligatures: common-ligatures;
+}
+
 .home .home-masthead {
 	margin-top: var(--space-group);
-}
-.home .feature-media {
-	max-width: var(--art-width);
-}
-.home .feature-caption {
-	gap: var(--space-group);
 }
 /* Top rule only: the second tier's own border-top closes the row, and a bottom
    rule here drew a second hairline 40px above it. */
@@ -319,4 +358,27 @@ a:focus-visible .media-frame::before {
 		margin-inline: 0;
 		width: 100%;
 	}
+}
+
+/* THE FRONT PAGE'S CASE AND RULE BUDGET (2026-09-25). Measured on the page: 66 labels
+   in tracked capitals and 48 hairlines. Capitals now name a movement (the kickers) and
+   nothing else; the »Alla … →« links, the card counts and the news categories read in
+   sentence case, the way the meta lines already do (.label.article-meta). Hairlines
+   stay where a boundary means something — the rail's edge, a movement's opening — and
+   leave the rows, where whitespace was already doing the separating. Budget: ≤ 20
+   capitalised labels, ≤ 16 rules. Count again before adding one. */
+.front :is(.section-link, .home-head-all, .card-list-count, .nyhet-kategori) {
+	text-transform: none;
+	letter-spacing: 0.01em;
+}
+/* The pills too — Apple Podcasts, App Store, E-bok: seven of them on this page, and
+   in capitals they took the count past the budget. A step up, since lower case at the
+   caps size reads a size smaller. */
+.front :is(.podcast-action, .bookpod-action) {
+	font-size: var(--step--2);
+	text-transform: none;
+	letter-spacing: 0.01em;
+}
+.front .nyhet--rail {
+	border-top: 0;
 }

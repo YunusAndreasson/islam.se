@@ -109,10 +109,15 @@ const over = (c: Color, ground: RGB): RGB =>
 
 type Scheme = "light" | "dark";
 
-/** Every `--name: value;` in the file's :root blocks, raw. */
+/** Every `--name: value;` in the file's :root blocks, raw. The ink band's own rule
+ *  (`.ground-ink { … }` on its own, not the shared `:root, .ground-ink` colour block)
+ *  re-points --color-bg for one subtree and is measured separately below. */
 function declarations(css: string): Map<string, string> {
 	const out = new Map<string, string>();
-	const stripped = css.replace(/\/\*[\s\S]*?\*\//g, "");
+	const stripped = css
+		.replace(/\/\*[\s\S]*?\*\//g, "")
+		// Not when it follows `:root,` — that is the shared colour block itself.
+		.replace(/(?<!,\s*)\n\.ground-ink\s*\{[^}]*\}/g, "\n");
 	for (const m of stripped.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) {
 		if (m[1] && m[2]) out.set(m[1], m[2].trim());
 	}
@@ -197,6 +202,31 @@ function palette(scheme: Scheme) {
 
 const schemes = [palette("light"), palette("dark")] as const;
 const [lightPalette, darkPalette] = schemes;
+
+// The ink band (tokens.css .ground-ink): the dark palette on --ground-ink, which on a
+// light page IS the dark ground (covered by the dark scheme above) and on a dark page
+// is lifted a surface step — a ground no other test sees.
+describe("the ink band on a dark page", () => {
+	const lifted = resolve("var(--ground-ink)", "dark", decls).rgb;
+	it.each([
+		["--color-text", 7],
+		["--text-body", 7],
+		["--text-quiet", 4.5],
+		["--color-muted", 4.5],
+		["--color-accent", 4.5],
+	] as const)("%s clears %s:1 on the lifted ground", (token, floor) => {
+		const r = ratio(darkPalette.on(token, lifted), lifted);
+		expect(
+			r,
+			`${token} is ${r.toFixed(2)}:1 on the band's ground ${rgbToHex(lifted)}; the band sets the Tänkare names and labels in these tiers`,
+		).toBeGreaterThanOrEqual(floor);
+	});
+
+	it("is visibly a band on the dark page, not the page ground again", () => {
+		const d = Math.abs(lstar(lifted) - lstar(darkPalette.bg));
+		expect(d, `the lifted ground is ΔL* ${d.toFixed(1)} off the dark page`).toBeGreaterThan(2);
+	});
+});
 
 const fmt = (n: number) => n.toFixed(2);
 

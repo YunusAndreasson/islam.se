@@ -673,6 +673,34 @@ if (hasScb) {
 	.bt-city-settings[open] :global(.settings-chevron) { transform: rotate(180deg); }
 	.bt-settings-body { margin-block: var(--space-half); }
 
+	/* "Ta med tiderna" in two halves from 64rem: the app card on the left, the calendar,
+	   the file and the PDF on the right. Stacked on the 76rem canvas, the card ran the
+	   full width with its content in the left half, and the rows under it stopped at the
+	   measure (2026-09-26). ⚠️ :global — the <section> is TitledSection's. */
+	@media (width >= 64rem) {
+		:global(.bt-stad-take) {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-rows: auto auto auto auto 1fr;
+			column-gap: 3rem;
+			align-items: start;
+		}
+
+		:global(.bt-stad-take > h2) {
+			grid-column: 1 / -1;
+		}
+
+		:global(.bt-stad-take > .apppromo) {
+			grid-column: 1;
+			grid-row: 2 / -1;
+			margin-bottom: 0;
+		}
+
+		:global(.bt-stad-take > :not(h2, .apppromo)) {
+			grid-column: 2;
+		}
+	}
+
 	/* "Ta med tiderna" — the ruled rows the site already uses for a list of things to
 	   go and do, with a gloss under each so the choice is legible before the tap. */
 	.bt-take {

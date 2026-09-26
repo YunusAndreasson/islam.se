@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { hijriLabel } from "./markesdagar";
+import { hijriLabel, untilLabel } from "./markesdagar";
 
 describe("hijriLabel", () => {
 	it("names the Umm al-Qura day with the site's own spelling", () => {
@@ -26,5 +26,26 @@ describe("hijriLabel", () => {
 		// /det-islamiska-aret table and the coming ramadan pages hang on.
 		expect(hijriLabel(new Date("2027-02-08T12:00:00Z"))).toBe("1 Ramaḍān 1448");
 		expect(hijriLabel(new Date("2027-02-07T12:00:00Z"))).toBe("30 Shaʿbān 1448");
+	});
+});
+
+// The rail counts down to the next observance. It must never count up, never say
+// »om 0 dagar«, and must say »pågår« through a period such as Ramadan rather than
+// falling silent on its second day.
+describe("untilLabel", () => {
+	it("counts calendar days to a coming observance", () => {
+		expect(untilLabel("2027-02-08", "2027-03-08", "2026-09-25")).toBe("om 136 dagar");
+		expect(untilLabel("2027-03-09", undefined, "2027-03-08")).toBe("i morgon");
+		expect(untilLabel("2027-03-09", "2027-03-09", "2027-03-09")).toBe("i dag");
+	});
+
+	it("says a period is under way from its second day to its last", () => {
+		expect(untilLabel("2027-02-08", "2027-03-08", "2027-02-20")).toBe("pågår");
+		expect(untilLabel("2027-02-08", "2027-03-08", "2027-03-08")).toBe("pågår");
+	});
+
+	it("says nothing once an observance is over", () => {
+		expect(untilLabel("2027-02-08", "2027-03-08", "2027-03-09")).toBe("");
+		expect(untilLabel("2027-03-09", "2027-03-09", "2027-03-10")).toBe("");
 	});
 });
