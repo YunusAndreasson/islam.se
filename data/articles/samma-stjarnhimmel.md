@@ -1,9 +1,9 @@
 ---
-title: "Samma stjärnhimmel"
+title: "Skapelsehymnen som slutar med ett kanske"
 publishedAt: "2026-06-05T22:52:56.907Z"
 wordCount: 1438
 qualityScore: 8.8
-description: "Tre tusen år innan någon brydde sig om att räkna åren satt en namnlös siare under den nordindiska natthimlen och försökte säga något sant om världens början. Han misslyckades med avsikt."
+description: "För tretusen år sedan frågade en indisk hymn om världen alls blev skapad och lät frågan stå öppen. Carl Sagan hörde vetenskapens ödmjukhet i den. Koranen ser samma himmel och kallar den ett tecken, men ett tecken för dem som tänker efter."
 imageAlt: "Vintergatan välver sig över en ring av höga barrträdstoppar mot en stjärnvimlande natthimmel."
 imageCaption: "Samma stjärnhimmel som siaren såg – Vintergatan över skogen."
 category: "Skapelsen"

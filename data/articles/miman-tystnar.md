@@ -1,9 +1,9 @@
 ---
-title: "Miman tystnar"
+title: "Ingen ropar ditt namn i Aniara"
 publishedAt: "2026-06-05T17:01:45.558Z"
 wordCount: 1494
 qualityScore: 8.9
-description: "En augustinatt 1953 riktade Harry Martinson ett teleskop mot stjärnbilden Andromeda och fann ett blekt ljus, knappt skönjbart, som ändå bar miljarder solar. Synen släppte honom aldrig."
+description: "I Aniara driver ett rymdskepp bort från jorden, och när skeppets tänkande maskin miman tystnar finns ingen röst kvar ombord. Koranen ser samma väldighet och kallar den ett tecken. Frågan är om någon talar till dig genom den."
 imageAlt: "Andromedagalaxen lyser i ett stjärnvimlande mörker medan ett litet rymdskepp driver bort mot djupet."
 imageCaption: "Skeppet på drift mot Andromeda, där Miman till sist tystnar."
 category: "Skapelsen"

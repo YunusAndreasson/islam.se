@@ -254,6 +254,8 @@ beslutet bara omfattade gymnasiet.
 **Säger en annan pelare samma sak annorlunda?** Två sidor som citerar en vers i två
 lydelser är en defekt oavsett vilken som är rätt.
 
+✅ **Sedan 2026-09 avgörs ägandet av rang i `related` (`lib/svar-fordjupning.ts`), lika rang alfabetiskt** — se SKILL.md. Kontrollera i bygget: `grep -o 'Fördjupning: [^<]*' dist-check/svar/<slug>/index.html`. En pelare utan egna svar skickas med `related: []`. Historik:
+
 ⚠️⚠️ **En ny pelare stjäl spokes från de gamla.** `svar/[slug].astro` bygger indexet med
 `if (!pillarBySvar.has(slug))` över en **alfabetiskt ordnad** kollektion — först i
 bokstavsordning vinner. Listar den nya sidan svar som hör till en annan pelare flyttas

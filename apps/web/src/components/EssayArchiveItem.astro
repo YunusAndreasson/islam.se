@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import type { Article } from "../lib/articles";
+import { leadSentences } from "../lib/format";
 import { inlineMarkdown } from "../lib/articles";
 import { CARD_WIDTHS, CHIP_WIDTHS } from "../lib/hero";
 import ArticleMeta from "./ArticleMeta.astro";
@@ -62,7 +63,7 @@ const hasThumb = !isCard && showThumb && !!article.heroImage;
 			<ArticleMeta class="label archive-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} showReadFlag={showReadFlag} />
 		)}
 		{article.description && (
-			<p class:list={["archive-description", isCard && "essay-card-desc"]} set:html={inlineMarkdown(article.description)} />
+			<p class:list={["archive-description", isCard && "essay-card-desc"]} set:html={inlineMarkdown(isCard ? leadSentences(article.description, 170) : article.description)} />
 		)}
 		{isCard && (
 			<ArticleMeta class="label archive-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} showReadFlag={showReadFlag} />

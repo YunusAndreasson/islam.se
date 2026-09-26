@@ -80,7 +80,7 @@ export function pickProseOutput(accumulated: string, finalResult: string | undef
 	if (
 		!fence.test(finalResult) &&
 		fence.test(accumulated) &&
-		accumulated.includes(finalResult.trim())
+		accumulated.includes(finalResult.trim().slice(-200))
 	) {
 		return accumulated;
 	}
@@ -253,6 +253,7 @@ export class ClaudeRunner extends EventEmitter {
 			let stderr = "";
 			let lineBuffer = "";
 			let meta: ClaudeRunMeta | undefined;
+			let cliError: string | undefined;
 
 			// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: streaming event parser with multiple format branches
 			child.stdout?.on("data", (data) => {
@@ -284,6 +285,12 @@ export class ClaudeRunner extends EventEmitter {
 						// Capture final result - could be in different formats
 						if (event.type === "result") {
 							meta = runMetaFrom(event) ?? meta;
+							if (event.is_error) {
+								cliError =
+									typeof event.result === "string"
+										? event.result
+										: `CLI error: ${event.subtype ?? "unknown"}`;
+							}
 							// Structured output from --json-schema
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
@@ -317,6 +324,12 @@ export class ClaudeRunner extends EventEmitter {
 						const event = JSON.parse(lineBuffer);
 						if (event.type === "result") {
 							meta = runMetaFrom(event) ?? meta;
+							if (event.is_error) {
+								cliError =
+									typeof event.result === "string"
+										? event.result
+										: `CLI error: ${event.subtype ?? "unknown"}`;
+							}
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
 							} else if (!options.jsonSchema && event.result) {
@@ -331,7 +344,9 @@ export class ClaudeRunner extends EventEmitter {
 					}
 				}
 
-				if (code === 0) {
+				if (code === 0 && cliError) {
+					resolve({ success: false, error: cliError, exitCode: code, meta });
+				} else if (code === 0) {
 					resolve({
 						success: true,
 						output: fullOutput.trim(),
@@ -612,32 +627,14 @@ export class ClaudeRunner extends EventEmitter {
 	}
 
 	/**
-	 * Run for free text (the markdown stages) but ask the CLI for its JSON envelope, so the
-	 * result says which model answered. Unwraps `result` back to the text the stage parses.
+	 * Run for free text (the markdown stages). Streams rather than asking for the JSON
+	 * envelope: the envelope's `result` holds only the LAST assistant text block, so a long
+	 * answer split across messages came back as its tail with the frontmatter gone (see
+	 * pickProseOutput). The stream sees every block, and its result event still carries the
+	 * model record and `is_error`.
 	 */
 	public async runText(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
-		const result = await this.run({ ...options, outputFormat: "json" });
-		if (!(result.success && result.output)) return result;
-		try {
-			const cli = JSON.parse(result.output) as {
-				result?: unknown;
-				is_error?: boolean;
-				subtype?: string;
-			};
-			if (cli.is_error) {
-				return {
-					success: false,
-					error:
-						typeof cli.result === "string" ? cli.result : `CLI error: ${cli.subtype ?? "unknown"}`,
-					exitCode: result.exitCode,
-					meta: result.meta,
-				};
-			}
-			if (typeof cli.result === "string") return { ...result, output: cli.result.trim() };
-		} catch {
-			// Not the JSON envelope (an older CLI): the output is already the text.
-		}
-		return result;
+		return this.runWithStreaming(options);
 	}
 
 	/**

@@ -1,0 +1,259 @@
+@layer reset, base, primitives, layout, components;
+
+@layer components {
+	.abm-report-context {
+		max-inline-size: 65ch;
+		font-size: var(--step--1);
+		color: var(--text-quiet);
+	}
+	.abm-report-nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem 1.5rem;
+		margin-block: 1.5rem 3rem;
+		font-family: var(--font-heading);
+		font-size: 1rem;
+	}
+	.abm-report-findings {
+		display: grid;
+		gap: 3.5rem;
+	}
+	.abm-report-finding {
+		min-inline-size: 0;
+	}
+	.abm-report-finding h3 {
+		margin-block: 0.4rem 0.75rem;
+		font-size: var(--step-1);
+	}
+	.abm-report-finding h3 a {
+		color: inherit;
+		text-decoration: none;
+	}
+	.abm-finding-takeaway {
+		max-inline-size: 65ch;
+		margin-block: 0 1.5rem;
+	}
+	.abm-labelled-comparison {
+		margin: 0;
+	}
+	.abm-labelled-comparison table,
+	.abm-distribution-table {
+		width: 100%;
+		border-collapse: collapse;
+		font: 0.95rem / 1.5 var(--font-heading);
+		text-align: start;
+	}
+	.abm-labelled-comparison th,
+	.abm-labelled-comparison td,
+	.abm-distribution-table th,
+	.abm-distribution-table td {
+		padding: 0.85rem 0.65rem;
+		vertical-align: top;
+		text-align: start;
+		border-block-end: 1px solid var(--color-divider);
+	}
+	.abm-labelled-comparison th:first-child,
+	.abm-distribution-table th:first-child {
+		padding-inline-start: 0;
+	}
+	.abm-labelled-comparison thead th {
+		min-inline-size: 9rem;
+		font-weight: 500;
+	}
+	.abm-labelled-comparison tbody th {
+		min-inline-size: 6rem;
+	}
+	.abm-labelled-comparison tbody tr[data-emphasis] {
+		background: var(--surface-2);
+	}
+	.abm-answer-summary {
+		display: block;
+	}
+	.abm-answer-summary > strong {
+		font-weight: 500;
+	}
+	.abm-sample-note {
+		display: block;
+		margin-block-start: 0.25rem;
+		font: 0.85rem / 1.5 var(--font-heading);
+		color: var(--text-quiet);
+	}
+	.abm-samples {
+		margin-block-start: 0.25rem;
+		font-size: 0.85rem;
+	}
+	.abm-samples summary {
+		cursor: pointer;
+		color: var(--text-quiet);
+	}
+	.abm-samples ul {
+		padding-inline-start: 1rem;
+		margin-block: 0.5rem;
+	}
+	.abm-extra-findings {
+		margin-block-start: 2rem;
+	}
+	.abm-extra-findings > summary,
+	.abm-distribution-detail > summary {
+		cursor: pointer;
+		padding-block: 0.75rem;
+		font: 1rem / 1.5 var(--font-heading);
+	}
+	.abm-extra-findings[open] > .abm-report-finding {
+		margin-block: 2rem;
+	}
+	.abm-comparison-mobile,
+	.abm-mobile-answers {
+		display: none;
+	}
+	.abm .abm-modelhead .abm-colname {
+		position: static;
+		inline-size: auto;
+		block-size: auto;
+		overflow: visible;
+		clip-path: none;
+		white-space: normal;
+		font-size: 0.85rem;
+	}
+	.abm .abm-legend-models {
+		display: none;
+	}
+	.abm .abm-matrix {
+		min-inline-size: 42rem;
+	}
+	.abm .abm-scroll--sticky {
+		overflow-x: auto;
+	}
+	.abm-area > .abm-legend {
+		margin-block: 1rem;
+	}
+	.abm-distribution {
+		margin: 2rem 0;
+	}
+	.abm-distribution-table th {
+		min-inline-size: 6rem;
+		font-weight: 500;
+	}
+	.abm-distribution-table th:first-child {
+		min-inline-size: 8rem;
+	}
+	.abm-distribution-table td {
+		text-align: center;
+		vertical-align: middle;
+	}
+	.abm-distribution-table .abm-dots {
+		display: flex;
+		justify-content: center;
+	}
+	.abm-sample-count {
+		display: block;
+		margin-block-start: 0.35rem;
+		font-size: 0.85rem;
+		white-space: nowrap;
+	}
+	.abm-zero {
+		color: var(--text-quiet);
+	}
+	.abm :is(summary, a, [tabindex]):focus-visible {
+		outline: 2px solid var(--color-text);
+		outline-offset: 4px;
+	}
+	@media (width <= 48rem) {
+		.abm-report-nav {
+			margin-block-end: 2rem;
+		}
+		.abm-report-findings {
+			gap: 2.5rem;
+		}
+		.abm-comparison-desktop {
+			display: none;
+		}
+		.abm-comparison-mobile {
+			display: block;
+			font: 0.95rem / 1.5 var(--font-heading);
+		}
+		.abm-comparison-mobile > details {
+			border-block-end: 1px solid var(--color-divider);
+		}
+		.abm-comparison-mobile > details > summary {
+			padding-block: 0.85rem;
+			cursor: pointer;
+			font-weight: 600;
+		}
+		.abm-comparison-mobile dl {
+			margin: 0;
+		}
+		.abm-comparison-mobile dl > div {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			gap: 1rem;
+			padding-block: 0.65rem;
+		}
+		.abm-comparison-mobile dd {
+			margin: 0;
+		}
+		.abm-comparison-mobile dt a {
+			color: var(--text-quiet);
+		}
+
+		.abm-mobile-answers {
+			display: block;
+			margin: 0;
+			font: 1rem / 1.5 var(--font-heading);
+		}
+		.abm-mobile-answers > dl > div {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+			gap: 1rem;
+			padding-block: 1rem;
+			border-block-end: 1px solid var(--color-divider);
+		}
+		.abm-mobile-answers > dl {
+			margin: 0;
+		}
+		.abm-mobile-answers dd {
+			margin: 0;
+		}
+	}
+}
+
+@layer components {
+	.abm-matrix-scroll-hint {
+		display: none;
+	}
+	@media (width > 48rem) {
+		.abm .abm-scroll--sticky {
+			overflow: visible;
+		}
+	}
+	@media (width <= 48rem) {
+		.abm-matrix-scroll-hint {
+			display: block;
+			font: 0.85rem / 1.5 var(--font-heading);
+			color: var(--text-quiet);
+		}
+		.abm-area .abm-scroll--sticky {
+			max-block-size: 70vh;
+			overflow: auto;
+		}
+		.abm-area .abm-matrix {
+			table-layout: fixed;
+			inline-size: 42rem;
+		}
+		.abm-area .abm-matrix thead th:first-child {
+			inline-size: 12rem;
+		}
+		.abm-area .abm-matrix thead th:not(:first-child) {
+			inline-size: 6rem;
+		}
+		:root .abm-area .abm-matrix thead th {
+			inset-block-start: 0;
+		}
+		.abm-area .abm-cell-reading {
+			min-inline-size: 0;
+			max-inline-size: none;
+			padding-inline: 0;
+			overflow-wrap: anywhere;
+		}
+	}
+}

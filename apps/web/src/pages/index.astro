@@ -95,35 +95,13 @@ const heroPreload = feature?.heroImage
 			</p>
 		</div>
 
-		{/* The sequence, in this order and for this reason (DESIGN.md, »The Startpage«):
-
-		      det nya        the lead and its index, the podcast and app band, the
-		                     live row and the departments — what has happened here
-		                     and in the world since the reader last looked
-		      vad är islam   the pillars and the articles of faith, then the
-		                     fördjupningar — the encyclopedia, which is the larger
-		                     half of the site and used to be its tail
-		      vägar in       trådar and tänkare: ways THROUGH the corpus, which only
-		                     mean something once the corpus has been shown
-		      avslut         what the site does besides the reading, then the book
-
-		    Every movement is one --space-section apart (editorial.css); the groups
-		    read by their kickers and their content, not by a larger gap. Everything
-		    else is reached from the doorways, the mast and the palette. */}
-		{/* The lead and, beside its words, an index of the next three essays (rank 2)
-		    — one composition, FeatureEssay.astro. */}
+		{/* New readers meet the introduction immediately after the editorial opening.
+		    The foundational facts and deeper reading stay together before the live row
+		    and departments; promotions close the page after the reading and tools. */}
 		{feature && <FeatureEssay article={feature} also={recent} />}
 
-		{/* Below the feature, not above it. These render only where the mast's inline
-		    links are hidden — i.e. on touch and under 900px — and there the mast
-		    already carries a MENY trigger 40 px above them, so they follow the
-		    thesis rather than stand as a menu ahead of the photograph. (Desktop is
-		    unchanged — they were never displayed there.)
-
-		    Built from HOME_DOORWAYS, which navigation.ts derives from the mast's own
-		    two link groups. The hand-typed row that stood here still listed five
-		    doorways after AI-barometern joined the mast, so a phone was the one
-		    place the section could not be found without opening the menu. */}
+		{/* Match the header's width-based navigation: these doorways appear only when
+		    the inline mast links are hidden, including on wide touch devices. */}
 		<nav class="home-pillars" aria-label="Sajtens huvudingångar">
 			{HOME_DOORWAYS.map((link) => (
 				<a class="home-pillar" href={link.href}>
@@ -133,81 +111,31 @@ const heroPreload = feature?.heroImage
 			))}
 		</nav>
 
-		{/* The podcast and the app, promoted side by side in one short band
-		    (PoddAppHome.astro). After the doorways, so a phone keeps them near the top. */}
-		<PoddAppHome />
+		{/* One tinted region distinguishes reference material from the editorial
+		    opening, and groups the introductory facts with deeper reading. */}
+		<div class="home-reference">
+			<FaktaBand />
+			<FordjupningHome />
+		</div>
 
-
-		{/* Rank 3: the live row, then three departments.
-
-		    The seven ämnen have carried an authored framing line since the taxonomy
-		    was built; three departments show here and the rest are grouped on
-		    /essaer/. `art` gives each department one 3:2 picture and lets it prefer
-		    its illustrated essays. Rank is still carried by size — the cover runs the
-		    whole canvas, the index is titles only, and these are three columns of a
-		    picture and two essays — so the page does not flatten into tiers of the
-		    same picture.
-
-		    The live blocks (.home-sidolinje) render after the departments in the
-		    source but come first at every width (`order: -1`, nyheter.css »The live
-		    row«): the day's news four screens down is news nobody finds. It stood
-		    beside Ämnen as a 17rem rail until the departments took their pictures
-		    and the two columns could no longer be kept level (2026-09-25). */}
+		{/* The live row precedes the departments in the DOM as well as on screen,
+		    so keyboard and assistive-technology reading order follow the composition.
+		    News and the Islamic year share a row on desktop, with AI-barometern below;
+		    the existing no-news fallback keeps the remaining blocks together. */}
 		<div class="home-akt2">
-			<div class="home-akt2-huvud">
-				<AmnenHome limit={3} exclude={used} art />
-			</div>
-
-			{/* The live blocks: the day's news and the islamic year side by side, then
-			    this month's AI-barometern finding under both at the full width (the
-			    layout is in nyheter.css, »The live row«). The news is quoted material
-			    and speaks in the sans; the other two are the site's own. The source
-			    order is the reading order at every width, so a phone stacks them the
-			    same way. Why a hidden news block must not leave a rule above nothing is
-			    in Markesdagar.astro. */}
 			<div class="home-sidolinje">
 				<Nyheter />
 				<Markesdagar />
 				<BarometerRail />
 			</div>
+			<div class="home-akt2-huvud">
+				<section class="home-essays" aria-labelledby="amnen-kicker">
+					<AmnenHome exclude={used} />
+					<TradarHome limit={3} nested />
+				</section>
+			</div>
 		</div>
 
-		{/* The encyclopedic half, and the page's second thesis.
-
-		    This band used to stand at position six of eight, below Trådar and
-		    Tänkare, on the argument that "the opening screen is a composed spread
-		    and stays as it is". The spread does stay as it is; what was wrong was
-		    everything between. Measured on the built page, "Vad är islam?" — the
-		    head term this site's <title> targets, the doorway to 64 answers and 15
-		    fördjupningar, more pages than the essay corpus has — began at 63% of
-		    the scroll on a laptop and 68% on a phone. Five modules of essays came
-		    first, two of which (Trådar, Tänkare) are not new work at all but ways
-		    THROUGH work the reader had already been shown three times.
-
-		    A reader arriving cold from "vad är islam" met a magazine and had to
-		    scroll past most of it to reach the encyclopedia. That is not a balance
-		    between the site's two halves; it is one half with the other in a
-		    footnote. Nothing new may go above this band without measuring that
-		    again — which is why AI-barometern joined the rail instead of standing
-		    as a movement of its own. */}
-		<FaktaBand />
-
-		{/* Fördjupning had NO front-page presence whatsoever — fifteen pillar pages
-		    of 2 800–4 500 words each, reachable only from the footer and the palette.
-		    It sits under FaktaBand because that is the real relation: the band names
-		    the pillars and the articles of faith, and these are the same territory
-		    taken all the way down. */}
-		<FordjupningHome />
-
-		{/* The two curated axes through the corpus. Both are first-class authored
-		    data — the trådar carry framing prose, the tänkare are derived from the
-		    essay bodies — and both were reachable only from the footer.
-
-		    Below the reference movements, which is where a way-through belongs: the
-		    reader has to have been shown the work before a path through it means
-		    anything. The trådar are drawn as routes — the only sequences on the
-		    site, shown as sequences, with the reader's own read stops filled in. */}
-		<TradarHome limit={3} />
 
 		{/* The site's thesis, shown rather than declared: the classical tradition and
 		    the Swedish voices in two facing columns, and between them the lines of
@@ -216,20 +144,17 @@ const heroPreload = feature?.heroImage
 		    ground: as a full-bleed dark band it read as a second site (2026-09-25). */}
 		<TankareGroups limit={6} />
 
-		{/* The close, first half: what the site does besides the reading — bönetider
-		    with the reader's own next prayer, the map of mosques and burial grounds,
-		    the moskéskärm and the app. At desktop widths the mast names only the first
-		    two, so a reader who never opened the menu met the other two in the footer.
-		    Sweden is drawn beside them, dotted with its mosques (PraktisktHome.astro
-		    says why a static SVG is not the map that was removed). */}
+		{/* Practical web tools: today's prayer times and their annual rhythm, the
+		    mosque directory and the mosque screen. The app belongs to the illustrated
+		    promotion below, so this section gives each space a distinct purpose. */}
 		<PraktisktHome />
 
-		{/* The close, second half: the book, on the last tint, in the grammar of the
-		    podcast and app band under the cover (BookPod.astro) — so the page ends on
-		    the same kind of object it promoted at the top, and paper and tint
-		    alternate all the way to the footer. The podcast left this slot for that
-		    band on 2026-09-26. */}
-		<BookPod count={articles.length} variant="home" />
+		{/* One common region for ways to take the publication and its tools elsewhere.
+		    The wrapper owns the tint and outer space; its two rows retain their headings. */}
+		<div class="home-promotions">
+			<PoddAppHome />
+			<BookPod count={articles.length} variant="home" />
+		</div>
 	</div>
 	</main>
 </Base>
@@ -276,8 +201,8 @@ const heroPreload = feature?.heroImage
 	/* The doorways — the mast's six destinations, set in the site voice (heading
 	   link + a muted line), whitespace-grouped rather than boxed.
 
-	   Shown ONLY where the mast's inline links are hidden — on touch/coarse pointers
-	   and below 900px, the same conditions the header uses to collapse its nav into
+	   Shown ONLY where the mast's inline links are hidden —
+	   at or below 900px, the same condition the header uses to collapse its nav into
 	   the "Meny" trigger. On a wide pointer screen those links are already visible in
 	   the mast, so this row would just echo the menu directly beneath it; there it is
 	   hidden. (The links stay in the DOM either way, so crawlers still see them.)
@@ -289,12 +214,6 @@ const heroPreload = feature?.heroImage
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: var(--space-unit) clamp(1.25rem, 3vw, 2.75rem);
 		margin: 0;
-	}
-
-	@media (hover: none), (pointer: coarse) {
-		.home-pillars {
-			display: grid;
-		}
 	}
 
 	@media (width <= 900px) {

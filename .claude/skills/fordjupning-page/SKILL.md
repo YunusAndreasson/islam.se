@@ -250,6 +250,39 @@ skriver ut varje strykning i grindrapporten. Regressionstest i
 du faktiskt öppnat), inte ur korpusbriefen. Den varaktiga lösningen är att importera
 furūʿ-verken med `pnpm cli import-books`.
 
+## Vad AI-sidan lärde (artificiell-intelligens, 2026-09-25)
+
+- ⚠️ **Faktakollen föll på 7,3 — och det gick att rädda utan att sänka grinden.** Dess
+  `unverifiedClaims` var exakta (felattribuerade madhhab-positioner, ett JO-beslut
+  beskrivet ett processteg för långt, en påstådd Muwaṭṭaʾ-passage med »قال ابن القاسم«).
+  Rätta `research.json` mot dess egna belägg, radera ingen grind, kör `--resume`:
+  research återanvänds och faktakollen körs om (7,8). Spara originalet bredvid.
+- ⚠️⚠️ **Granskarens svar kom tillbaka stympat, tre gånger.** `result` i CLI:ns
+  JSON-kuvert bär bara SISTA textblocket; ett långt svar som delas över meddelanden
+  tappade sitt frontmatter-block (»no --- fenced block found«, texten börjar mitt i en
+  mening). `runText` strömmar nu och `pickProseOutput` väljer den ackumulerade texten
+  (`packages/orchestrator/src/claude-runner.ts`, test i `claude-runner.test.ts`). Det
+  räddade varv 1 och 2, men **varv 3 stympades ändå** — orsaken är inte hittad. Lagra
+  rådata vid parsfel innan nästa försök att laga det. Varje `review-body-N.md` sparas;
+  kopiera den senaste över `draft-raw-1.md` (spara författarens utkast under ett annat
+  namn, t.ex. `author-draft-1.md`, så att diffen i VALIDERING §3 går att göra) och kör
+  `--resume`, eller avsluta med producentens egna steg (`languagePasses` →
+  `validateArticleSources` → `write`) från ett skript.
+- ⚠️ **URL-kontrollen stryker levande länkar vid timeout.** IMY:s sida »svarade inte«
+  men gav 200 med rätt titel när den hämtades för hand. Hämta varje struken URL själv
+  innan du godtar strykningen.
+- ⚠️ **Ett nytt ämne utan fiqh-tradition kräver analogi — och analogin glider över i
+  sidans egen röst.** Både granskaren och prosakritikern fångade »om man drar den
+  motsvarar al-Shāfiʿīs linje …« och »EU-rätten ligger närmast al-Shāfiʿī«: sidan drog
+  en qiyās som ingen jurist dragit, och gjorde EU-rätten till bekräftelse. Tillskriv
+  analogin den som faktiskt gjort den (här Yaqeen), annars stryk den.
+- ⚠️ **Agenterna `fordjupning-verifier` och `fordjupning-prose-critic` laddas inte i en
+  session som startats i `apps/web`** — de ligger i repo-rotens `.claude/agents/`. Kör
+  dem som general-purpose-agenter som först läser sin definitionsfil.
+- Arabisk vinkel som inte bar: »من أفتى بغير علم« (3 av 12), och en
+  »أجرؤكم على الفتيا«-omformulering gav 0. Fatwafrågan fick sina källor från webben
+  (IslamQA, Dar al-Iftāʾ) och från al-Mughnī 10:37 via research.
+
 ## Traps
 
 - ⚠️ **False equivalence in the intellectual-history section is the single biggest risk.**
@@ -267,7 +300,15 @@ furūʿ-verken med `pnpm cli import-books`.
 - ⚠️ **Semantic search misses the loci classici.** It never returned 33:59, the jilbāb
   verse, under any angle. Pin the central texts with `--verse`; search is for what you would
   not have thought to look for.
-- ⚠️⚠️ **En ny pelare STJÄL spokes från de gamla — omvända indexet är alfabetiskt.**
+- ✅ **RÄTTAT 2026-09-25: ägandet avgörs nu av RANG i `related`, inte av filnamn.**
+  `apps/web/src/lib/svar-fordjupning.ts` (`pillarBySvar`): den pelare som listar ett svar
+  på plats 0 äger det; lika rang avgörs alfabetiskt; ett svar som ≥3 pelare gör anspråk
+  på utan att någon leder det får ingen pelare. Beskrivningen nedan av alfabetisk
+  först-vinner är historik. Stöld sker fortfarande: AI-sidan listade `vad-ar-sharia`
+  FÖRST och tog den från sharia.md, eftersom »artificiell« < »sharia« vid lika rang.
+  **En pelare utan egna svar ska skickas med `related: []`** — kontrollera i bygget:
+  `grep -o 'Fördjupning: [^<]*' dist-check/svar/<slug>/index.html`.
+- ⚠️⚠️ **(Historik) En ny pelare STJÄL spokes från de gamla — omvända indexet är alfabetiskt.**
   `svar/[slug].astro` bygger `pillarBySvar` med `if (!pillarBySvar.has(svarSlug))`, och
   `getCollection("fordjupning")` kommer i id-ordning. **Först i bokstavsordning vinner.**
   Griskött-utkastet listade `vad-ar-halalslakt`, `ar-vinager-halal`,

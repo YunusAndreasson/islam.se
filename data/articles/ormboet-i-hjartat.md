@@ -1,5 +1,5 @@
 ---
-title: "Ormboet i hjärtat"
+title: "När någon annans lycka gör ont"
 publishedAt: "2025-09-17T12:00:00.000Z"
 wordCount: 1235
 qualityScore: 8.9

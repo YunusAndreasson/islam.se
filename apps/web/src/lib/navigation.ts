@@ -107,7 +107,7 @@ const pages = {
 	},
 	aiBarometern: {
 		href: "/ai-barometern/",
-		label: "AI-barometern",
+		label: "Barometer",
 		menuSub: "Vad AI-modellerna svarar, mätning för mätning.",
 		sub: "Vad ChatGPT, Claude, Gemini, Grok och DeepSeek svarar om klimatet, AI, krig och tro, varje månad.",
 	},
@@ -163,7 +163,7 @@ export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.e
  *  row as the sections, set quieter and behind a hairline, so the mast reads as one
  *  line with two registers rather than two rows of unequal length.
  *
- *  AI-barometern is here and not in tier 1: it is a standing instrument, measured
+ *  Barometer is here and not in tier 1: it is a standing instrument, measured
  *  every month, and the three sections above stay about presenting Islam.
  *
  *  PODD LEFT THE MAST (2026-09-13) to make that room. The row is still three and
@@ -182,7 +182,7 @@ export const MAST_UTILITY_LINKS: NavLink[] = [pages.prayerTimes, pages.mosques, 
 /** The front page's doorways (index.astro), which touch screens and narrow windows get under the
  *  lead essay in place of the mast's inline links. Built FROM the mast arrays, so the two cannot
  *  disagree: the hand-typed row this replaces still listed Podd's old neighbours after
- *  AI-barometern took Podd's place in the mast. */
+ *  Barometer took Podd's place in the mast. */
 const PAGE_BY_HREF = new Map<string, (typeof pages)[keyof typeof pages]>(
 	Object.values(pages).map((page) => [page.href, page]),
 );
@@ -195,13 +195,18 @@ export const HOME_DOORWAYS: PaletteNavLink[] = [...MAST_SECTION_LINKS, ...MAST_U
 	},
 );
 
-/** The front page's »Praktiskt« movement (PraktisktHome.astro): what the site does for a reader
- *  besides the reading, including the two the mast has no room for. */
+/** Practical web tools. On desktop, today's times and the annual chart share
+ *  one column; the mosque directory and mosque screen share the other.
+ *  The app has its own illustrated promotion immediately below this section. */
 export const HOME_TOOL_LINKS: PaletteNavLink[] = [
 	pages.prayerTimes,
 	pages.mosques,
+	{
+		href: "/bonetider/aret/",
+		label: "Bönetider under året",
+		menuSub: "Se hur bönetiderna och dagsljuset skiftar med årstiderna.",
+	},
 	pages.mosqueScreen,
-	pages.app,
 ].map(({ href, label, menuSub }) => ({ href, label, sub: menuSub }));
 
 export const PALETTE_READ_LINKS: PaletteNavLink[] = [
@@ -248,6 +253,9 @@ export const FOOTER_GROUPS: { heading: string; links: NavLink[] }[] = [
 			pages.fordjupning,
 			pages.tradar,
 			pages.tankare,
+			pages.podcast,
+			pages.nyheter,
+			pages.aiBarometern,
 		],
 	},
 	{
@@ -257,9 +265,6 @@ export const FOOTER_GROUPS: { heading: string; links: NavLink[] }[] = [
 			pages.mosques,
 			pages.mosqueScreen,
 			{ ...pages.calendar, label: pages.calendar.footerLabel },
-			pages.podcast,
-			pages.nyheter,
-			pages.aiBarometern,
 		],
 	},
 	{ heading: "Om islam.se", links: [pages.about, pages.editorial, pages.ai, pages.privacy] },

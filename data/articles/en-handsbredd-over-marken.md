@@ -3,7 +3,7 @@ title: "En handsbredd över marken"
 publishedAt: "2026-07-27T21:39:59.657Z"
 wordCount: 2578
 qualityScore: 8.6
-description: "Minneslunden är Sveriges vanligaste gravform och anonym av konstruktion: ingen punkt går att peka ut. Islam förbjuder gravmonumentet men behåller platsen – en handsbredd över marken, precis så mycket som behövs för att veta var någon ligger. Sverige har gjort tvärtom."
+description: "Minneslunden är Sveriges vanligaste gravform och är gjord för att ingen punkt ska gå att peka ut. Islam förbjuder gravmonumentet men behåller platsen – en handsbredd över marken, precis så mycket som behövs för att veta var någon ligger. Sverige har gjort tvärtom."
 seoDescription: "Minneslunden stryker platsen men behåller monumentet. Islam gör tvärtom – en handsbredd över marken, nog för en adress."
 imageAlt: "Rund stenplatta och gravlykta i en minneslund i skymningen, med klippta häckar, grusgång och kala björkar mot ett vinterfält."
 imageCaption: "En svensk minneslund. Den gemensamma stenen är det enda ställe blommorna kan läggas på."

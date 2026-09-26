@@ -1,9 +1,9 @@
 ---
-title: "Skapad ur ingenting"
+title: "Strindberg blev ateist, ockultist och alkemist"
 publishedAt: "2026-03-20T12:00:00.000Z"
 wordCount: 1188
 qualityScore: 8.9
-description: "Först ateismen. Sedan ockultismen, alkemin, spiritismen. Sedan Swedenborg. Under de år som omspänner Inferno prövade Strindberg varje hållning han kunde nå – och ingen bar hans vikt."
+description: "Under åren kring Inferno gick Strindberg från ateism till ockultism, alkemi och Swedenborg, och varje hållning föll ihop av sig själv. Tretton sekler tidigare ställde Koranen frågan i tre korta rader: skapades de ur ingenting, eller är de själva skaparna?"
 audioFile: "skapad-ur-ingenting.mp3"
 audioDuration: 512
 imageAlt: "Mörk siluett av en man vid en skogssjö om natten som blickar upp mot en stjärnströdd himmel och Vintergatan."

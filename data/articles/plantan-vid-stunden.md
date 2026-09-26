@@ -1,9 +1,9 @@
 ---
-title: "Plantan vid Stunden"
+title: "Plantera, även om världen går under"
 publishedAt: "2026-05-17T13:16:06.928Z"
 wordCount: 1909
 qualityScore: 8.5
-description: "Koloniföreningen Dalen i Enskede har odlats utan avbrott sedan tidigt nittonhundratal. Nu hotas den av rivning för bostadsbygge. I Göteborg planerar staden att omvandla över tusen lotter till åretruntboenden. Köerna till de återstående platserna är tio till tjugo år långa."
+description: "Kolonilotterna i Dalen i Enskede hotas av rivning, och i Göteborg ska över tusen lotter bli åretruntboenden. Profeten ﷺ sade att den som håller en planta i handen när Stunden kommer ska plantera den. En trädgård är ett anförtrott gods, inte mark som väntar på något bättre."
 audioFile: "plantan-vid-stunden.mp3"
 audioDuration: 783
 imageAlt: "Utblick genom ett gammalt fönster över en stadsodling i skymning, med ett blommande träd, kolonilotter och hyreshus i bakgrunden."

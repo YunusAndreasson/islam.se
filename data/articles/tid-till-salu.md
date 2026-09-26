@@ -1,9 +1,9 @@
 ---
-title: "Tid till salu"
+title: "Vad köper du när du betalar ränta?"
 publishedAt: "2026-03-13T12:00:00.000Z"
 wordCount: 1127
 qualityScore: 8.6
-description: "Vad köper du egentligen när du betalar ränta? Inte en vara, inte en tjänst, inte någons arbete. Du köper tid. Hela det moderna finanssystemet vilar på detta: tid har ett pris, och det priset kallas ränta. Det syns på kontoutdraget: en rad för skulden, en rad för väntan. Men vems tid säljs?"
+description: "Pengar är som en spegel, skrev al-Ghazālī: de visar tingens värde men har inget eget. Aristoteles, den medeltida kyrkan och Koranen förbjöd alla räntan. Koranen gav också skälet, och det gäller vem som äger morgondagen."
 imageAlt: "En människa står som siluett framför en väldig genomlyst tornursklocka med romerska siffror, en stad skymtar genom glaset i solnedgången."
 imageCaption: "Tiden bakom urtavlan – det enda räntan egentligen säljer."
 category: "Rättvisa"

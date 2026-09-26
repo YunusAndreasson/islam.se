@@ -22,12 +22,12 @@ import "../../styles/ai-barometern.css";
 
 const crumbs = [
 	{ name: "Hem", url: "/" },
-	{ name: "AI-barometern", url: BASE_PATH },
+	{ name: "Barometer", url: BASE_PATH },
 	{ name: "Så går mätningen till", url: METHOD_PATH },
 ];
 
 const description =
-	"Så fungerar AI-barometern: vilka modeller som frågas, exakt hur frågorna ställs, hur svaren räknas och vad mätningen inte kan visa.";
+	"Så fungerar Barometer: vilka modeller som frågas, exakt hur frågorna ställs, hur svaren räknas och vad mätningen inte kan visa.";
 
 const questions = activeQuestions();
 const scaleExample = questions.find((q) => q.id === "karnkraft") ?? questions.find((q) => q.kind === "scale");
@@ -128,15 +128,15 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 ---
 
 <Base
-	title="Så går AI-barometern till — islam.se"
+	title="Så går Barometer till — islam.se"
 	description={description}
 	ogImage="/ai-barometern/og.png"
-	ogImageAlt="AI-barometern — islam.se"
+	ogImageAlt="Barometer — islam.se"
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
 			"@type": "TechArticle",
-			headline: "Så går AI-barometern till",
+			headline: "Så går Barometer till",
 			description,
 			url: "https://islam.se/ai-barometern/metod/",
 			inLanguage: "sv",
@@ -153,7 +153,7 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 			<Breadcrumb items={crumbs} />
 			<h1>Så går mätningen till</h1>
 			<p class="abm-dek">
-				AI-barometern ställer samma frågor till fem AI-modeller, på samma sätt varje gång, och
+				Barometer ställer samma frågor till fem AI-modeller, på samma sätt varje gång, och
 				sparar varje svar. Här står exakt hur det går till och vad resultatet inte kan säga.
 			</p>
 		</header>
@@ -287,6 +287,6 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 			}
 		</TitledSection>
 
-		<p class="collection-back"><SectionLink href={BASE_PATH} direction="back">AI-barometern</SectionLink></p>
+		<p class="collection-back"><SectionLink href={BASE_PATH} direction="back">Barometer</SectionLink></p>
 	</main>
 </Base>

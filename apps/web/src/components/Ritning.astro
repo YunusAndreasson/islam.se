@@ -31,6 +31,8 @@ interface Props {
 	fyll?: boolean;
 	/** The painted width, when the host knows it better than the box. */
 	sizes?: string;
+	/** Which edge of the host the filling drawing stands on (default right). */
+	ankare?: "hoger" | "vanster";
 	class?: string;
 }
 
@@ -41,6 +43,7 @@ const {
 	bredd = [hojd[0] * 1.6, hojd[1] * 1.6],
 	fyll = false,
 	sizes,
+	ankare = "hoger",
 	class: className,
 	// The host's scope attribute (data-astro-cid-*), so the host's own styles reach it.
 	...rest
@@ -59,7 +62,7 @@ const bild = (img: ImageMetadata) => ({
 const box = `--ritning-h: ${hojd[0]}rem; --ritning-w: ${bredd[0]}rem; --ritning-h-bred: ${hojd[1]}rem; --ritning-w-bred: ${bredd[1]}rem`;
 ---
 
-<span class:list={["ritning", fyll && "ritning--fyll", className]} style={box} aria-hidden="true" {...rest}>
+<span class:list={["ritning", fyll && "ritning--fyll", fyll && ankare === "vanster" && "ritning--vanster", className]} style={box} aria-hidden="true" {...rest}>
 	<Image class="ritning-ljus" {...bild(ljus)} />
 	<Image class="ritning-mork" {...bild(mork)} />
 </span>
@@ -118,6 +121,15 @@ const box = `--ritning-h: ${hojd[0]}rem; --ritning-w: ${bredd[0]}rem; --ritning-
 			max-block-size: none;
 			object-fit: contain;
 			object-position: 100% 0;
+		}
+
+		/* On the host's left edge instead: a grid line the host lays it on (FaktaBand). */
+		.ritning--vanster {
+			justify-content: flex-start;
+		}
+
+		.ritning--vanster img {
+			object-position: 0 0;
 		}
 	}
 

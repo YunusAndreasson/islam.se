@@ -1,10 +1,10 @@
 ---
 import AgreementMatrix from "../../components/ai-barometern/AgreementMatrix.astro";
-import FindingChips from "../../components/ai-barometern/FindingChips.astro";
+import ReportFinding from "../../components/ai-barometern/ReportFinding.astro";
+import DisclosureLinks from "../../components/ai-barometern/DisclosureLinks.astro";
 import ModelLogo from "../../components/ai-barometern/ModelLogo.astro";
 import MoreSection from "../../components/ai-barometern/MoreSection.astro";
 import PartyGrid from "../../components/ai-barometern/PartyGrid.astro";
-import ScaleLegend from "../../components/ai-barometern/ScaleLegend.astro";
 import StanceShare from "../../components/ai-barometern/StanceShare.astro";
 import TwinOverview from "../../components/ai-barometern/TwinOverview.astro";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
@@ -42,21 +42,9 @@ import { collectionPageJsonLd, dataset } from "../../lib/jsonld";
 import { RITNINGAR } from "../../lib/ritningar";
 import "../../styles/ai-barometern-chips.css";
 import "../../styles/ai-barometern.css";
+import "../../styles/ai-barometern-report.css";
 
-// AI-BAROMETERN — what the big AI models answer, measurement by measurement.
-//
-// One hub and one page per question, never a page per run: a run is a data point in the
-// same stable pages, which is both the honest shape (a series) and the one that keeps the
-// section clear of Google's scaled-content policy (see src/pages/nyheter.astro).
-//
-// The hub puts what is most worth seeing first, and folds the rest:
-//   1. five findings, drawn, spread over the bank's areas (findings.ts)
-//   2. the models' answers to every statement, area by area, open; the party choice beside them
-//   3. folded: the double standards across the twin sets, how often each model takes a
-//      position, and why the site asks at all. Each summary says what the section holds.
-//   4. the models
-// Every question page is linked from a matrix row, so the hub keeps no separate list of them.
-
+// A guided report, followed by the complete question bank and supporting analyses.
 const run = latestRun();
 const shown = shownData();
 const shownDates = svDateList(shown.runs.map((r) => r.date));
@@ -64,12 +52,12 @@ const severalRuns = shown.runs.length > 1;
 const count = new Intl.NumberFormat("sv-SE");
 
 const description =
-	"Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek om klimatet, AI:s risker, kriget i Gaza, politiken och tron? AI-barometern ställer samma frågor till modellerna varje månad och visar hur svaren förändras.";
+	"Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek om klimatet, AI:s risker, kriget i Gaza, politiken och tron? Barometer ställer samma frågor till modellerna varje månad och visar hur svaren förändras.";
 const lead =
-	"Allt fler vänder sig till en AI-modell med frågor om klimatet och tekniken, om krig, politik och tro. AI-barometern ställer samma frågor till de fem stora modellfamiljerna varje månad och redovisar svaren som de lämnades.";
+	"Hur svarar AI-modellerna om klimat, krig, politik och tro? Vi ställer samma frågor till fem modellfamiljer och jämför svaren, mätning för mätning.";
 
 const source = run
-	? `Källa: AI-barometern, ${severalRuns ? "mätningarna" : "mätningen"} ${shownDates}. Varje modell fick varje fråga ${run.samples} gånger.`
+	? `Källa: Barometer, ${severalRuns ? "mätningarna" : "mätningen"} ${shownDates}. Varje modell fick varje fråga ${run.samples} gånger.`
 	: "";
 
 const changes = topChanges(6);
@@ -81,20 +69,12 @@ const spread = stanceSpread(shares);
 
 const twinRows = TWIN_SETS.map(twinRow);
 const hubFindings = latestFindings();
-// One key for all five charts, listing only the marks they use.
-const findingCells = hubFindings.flatMap((f) =>
-	f.rows.flatMap((r) => FAMILIES.map((family) => r.cells[family.key])),
-);
-const findingsOwn = hubFindings.some((f) => f.rows.some((r) => r.question.aboutFamily));
 // The company sets are the ringed diagonal in the matrix; the overview keeps to countries,
 // peoples, religions and principles.
 const overviewRows = twinRows.filter((row) => !row.members.every((m) => m.question.aboutFamily));
 // The closed comparisons section says in its summary how often each model answered differently.
 const measuredOverview = overviewRows.filter((row) => row.members.every((m) => m.measured));
-const twinsHint = `Svarade olika, av ${measuredOverview.length} jämförelser: ${FAMILIES.map(
-	(f) =>
-		`${f.label} ${measuredOverview.filter((row) => ["gap", "selective"].includes(row.byFamily[f.key].state)).length}`,
-).join(", ")}.`;
+const twinsHint = `${measuredOverview.length} jämförelser där ett land, en grupp eller ett fall byts ut.`;
 
 // What the models themselves answer about their reliability on religion, for the section on
 // why the site asks them at all.
@@ -107,17 +87,17 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 ---
 
 <CollectionIndexPage
-	title="AI-barometern"
+	title="Barometer"
 	ritning={RITNINGAR.barometernBred}
-	pageTitle="AI-barometern — vad svarar AI-modellerna? — islam.se"
+	pageTitle="Barometer — vad svarar AI-modellerna? — islam.se"
 	description={description}
 	lead={lead}
-	ogImageAlt="AI-barometern — islam.se"
+	ogImageAlt="Barometer — islam.se"
 	mainClass="abm abm-hub home"
 	jsonLd={[
-		collectionPageJsonLd({ name: "AI-barometern", description, url: "/ai-barometern/", essays: [] }),
+		collectionPageJsonLd({ name: "Barometer", description, url: "/ai-barometern/", essays: [] }),
 		dataset({
-			name: "AI-barometern",
+			name: "Barometer",
 			description:
 				"Svar från ChatGPT, Claude, Gemini, Grok och DeepSeek på samma frågor om klimat, teknik, ekonomi, krig och folkrätt, politik och religion, insamlade vid återkommande mätningar.",
 			url: "/ai-barometern/",
@@ -132,8 +112,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 		run ? (
 			<p class="meta-line" slot="efter">
 				{severalRuns ? "Mätningarna" : "Senaste mätningen"} {shownDates}&nbsp;· {FAMILIES.length}
-				&nbsp;modeller&nbsp;· {count.format(shown.questions)}&nbsp;frågor&nbsp;·{" "}
-				{count.format(shown.answers)}&nbsp;svar&nbsp;· <a href={METHOD_PATH}>Så går mätningen till</a>
+				&nbsp;modeller&nbsp;· {count.format(shown.questions)}&nbsp;frågor&nbsp;· <a href={METHOD_PATH}>Så går mätningen till</a>
 			</p>
 		) : (
 			<p class="meta-line" slot="efter">
@@ -143,47 +122,31 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 		)
 	}
 
-	{
-		hubFindings.length > 0 && (
-			<TitledSection id={HUB_SECTIONS.findings} title="Det här visar mätningen">
-				<p>
-					Mätningens tydligaste mönster, med högst två från samma område. Meningen länkar till
-					jämförelsen och raderna till påståendenas egna sidor.
-				</p>
-				<ScaleLegend cells={findingCells} own={findingsOwn} compact models />
-				<ul class="abm-findings">
-					{hubFindings.map((f) => (
-						<li>
-							<p class="label abm-finding-area">{f.area.label}</p>
-							<a href={f.href}>
-								<strong>{f.lead}.</strong> {f.text}
-							</a>
-							<FindingChips
-								rows={f.rows}
-								caption={`${f.lead}. ${f.text}`}
-								classical={f.classical === undefined ? undefined : { value: f.classical, href: f.href }}
-							/>
-						</li>
-					))}
-				</ul>
-				<p class="abm-findings-note">
-					Rutorna visar den ställning som flest av modellens tre svar tog. Meningarna räknas fram ur
-					de senaste svaren och skrivs om när svaren ändras. {source}
-				</p>
-			</TitledSection>
-		)
-	}
+	{run && <p class="abm-report-context">Varje fråga upprepas flera gånger i nya konversationer. Svaren kan variera. Resultaten beskriver svaren i testet, inte modellernas övertygelser eller hur korrekta svaren är.</p>}
+	<nav class="abm-report-nav" aria-label="På denna sida">
+		<a href={`#${HUB_SECTIONS.findings}`}>Resultat i korthet</a>
+		<a href={`#${HUB_SECTIONS.matrix}`}>Utforska frågorna</a>
+		<a href={METHOD_PATH}>Metod och data</a>
+	</nav>
+	{hubFindings.length > 0 && (
+		<TitledSection id={HUB_SECTIONS.findings} title="Resultat i korthet">
+			<div class="abm-report-findings">
+				{hubFindings.slice(0, 3).map((finding) => <ReportFinding finding={finding} />)}
+			</div>
+			{hubFindings.length > 3 && <details class="abm-extra-findings"><summary>Fler resultat</summary>{hubFindings.slice(3).map((finding) => <ReportFinding finding={finding} />)}</details>}
+			<p class="abm-findings-note">Resultaten väljs automatiskt ur mätningen och uppdateras när svaren ändras. {source} <a href={METHOD_PATH}>Läs om urval och begränsningar</a>.</p>
+		</TitledSection>
+	)}
 
 	{
 		run && (
-			<TitledSection id={HUB_SECTIONS.matrix} title="Så svarar modellerna">
+			<TitledSection id={HUB_SECTIONS.matrix} title="Utforska alla frågor">
 				<p>
-					Varje påstående ställs likadant till alla fem modellerna. Rutan visar hur modellen svarade, och
-					raden leder till modellernas egna motiveringar.
+					Välj ett ämne för att jämföra svaren. Varje påstående har en egen sida med alla svar och modellernas motiveringar.
 				</p>
 				<AgreementMatrix
 					areas={areas}
-					caption="Den ställning som flest av modellens tre svar tog. Sista raden i varje tabell räknar de påståenden där modellen tog ställning."
+					caption="Sammanfattade svar. Öppna en svarsruta för fördelningen mellan de upprepade svaren. Sista raden räknar de påståenden där modellen tog ställning."
 					source={source}
 				/>
 			</TitledSection>
@@ -192,7 +155,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 
 	{
 		run && (
-			<TitledSection id={HUB_SECTIONS.party} title="Partivalet">
+			<MoreSection id={HUB_SECTIONS.party} title="Partivalet" hint="Vilka partier modellerna rekommenderade, och när de avstod.">
 				<p>
 					Modellerna fick välja ett riksdagsparti att rekommendera, eller avstå. Partierna listades
 					i slumpvis ordning varje gång.
@@ -202,13 +165,13 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 					caption="Det parti modellen rekommenderade. Den fyllda bokstaven valdes i flest av de tre svaren."
 					source={source}
 				/>
-			</TitledSection>
+			</MoreSection>
 		)
 	}
 
 	{
 		hasComparison() && (
-			<TitledSection id={HUB_SECTIONS.changes} title="Störst förändring sedan förra mätningen">
+			<MoreSection id={HUB_SECTIONS.changes} title="Förändringar sedan förra mätningen" hint="Ändrade svar, med markeringar för osäkra skillnader och nya modeller.">
 				{changes.length > 0 ? (
 					<ul class="abm-changes">
 						{changes.map((c) => (
@@ -226,7 +189,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 				) : (
 					<p>Ingen modell har ändrat ställning sedan förra mätningen.</p>
 				)}
-			</TitledSection>
+			</MoreSection>
 		)
 	}
 
@@ -283,7 +246,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 			</p>
 			<p>
 				Koranen befaller den som inte vet att fråga dem som har kunskap (16:43) och de troende att
-				utreda en nyhet innan de handlar efter den (49:6). AI-barometern prövar modellerna på det
+				utreda en nyhet innan de handlar efter den (49:6). Barometer prövar modellerna på det
 				sättet: samma frågor, ställda likadant varje gång, med varje svar sparat. Där en fråga rör en
 				religiös bestämmelse står den klassiska hållningen, som de lärda har formulerat den utifrån
 				Koranen och sunna, sist på frågans sida.
@@ -358,5 +321,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 		Svaren är modellernas egna och återges som de lämnades. Där en fråga rör en religiös
 		bestämmelse redovisar islam.se den klassiska hållningen på frågans egen sida.
 	</p>
+	<p class="abm-note">Totalt {count.format(shown.answers)} insamlade svar i de visade mätningarna. <a href={METHOD_PATH}>Mätningar och nedladdningsbara data</a>.</p>
+	<DisclosureLinks />
 	<p class="collection-back"><SectionLink href={METHOD_PATH}>Så går mätningen till</SectionLink></p>
 </CollectionIndexPage>

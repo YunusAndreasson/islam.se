@@ -1,5 +1,5 @@
 ---
-title: "Chipet och riddjuret"
+title: "Att uppgradera en människa"
 publishedAt: "2025-10-17T12:00:00.000Z"
 wordCount: 1840
 qualityScore: 8.7

@@ -1,5 +1,5 @@
 ---
-title: "Marknaden i raden"
+title: "Ska moskén tala om hur du ska rösta?"
 publishedAt: "2026-09-18T18:42:56.565Z"
 wordCount: 2875
 qualityScore: 8.7

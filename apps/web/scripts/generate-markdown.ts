@@ -149,7 +149,9 @@ for await (const htmlPath of walkIndexHtml(DIST)) {
 		}
 		throw error;
 	}
-	const markdown = NodeHtmlMarkdown.translate(extractMain(html)).trim();
+	// Mobile layouts repeat the same evidence in a stacked form. Keep the complete
+	// desktop tables once in the Markdown representation.
+	const markdown = NodeHtmlMarkdown.translate(extractMain(html), { ignore: ["abm-mobile"] }).trim();
 	if (!markdown) {
 		skipped++;
 		continue;

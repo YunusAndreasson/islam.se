@@ -1,9 +1,9 @@
 ---
-title: "Rösten är ingen belöning"
+title: "En from människa kan vara en dålig ledare"
 publishedAt: "2026-09-05T10:47:11.333Z"
 wordCount: 2379
 qualityScore: 8.7
-description: "En man går fram till Profeten ﷺ och ber att få ett uppdrag. Han heter Abu Dharr, och bland följeslagarna är han känd för sin askes: den som äger minst, som fastar mest, vars fromhet ingen ifrågasätter. Svaret kommer med en hand lagd på hans axel."
+description: "Abu Dharr var känd för sin fromhet, men när han bad om ett uppdrag sade Profeten ﷺ nej. Ibn Taymiyya drog slutsatsen att ett ämbete ska gå till den som är kapabel och pålitlig, inte till den frommaste. Samma regel gäller den som röstar bakom draperiet."
 category: "Samhälle"
 imageAlt: "En man i fyrtioårsåldern sitter ensam vid ett bord bakom en vit valskärm i en dunkel vallokal; han håller en penna mot munnen och valsedeln framför honom är ännu oskriven, medan tomma valbås står i skuggan bakom."
 imageCaption: "En dunkel vallokal en eftermiddag i september. Handen vilar, och ingen ser den."

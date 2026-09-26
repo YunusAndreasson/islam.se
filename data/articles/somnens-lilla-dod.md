@@ -1,9 +1,9 @@
 ---
-title: "Sömnens lilla död"
+title: "Du ligger vaken för att du vill ha kontroll"
 publishedAt: "2026-03-11T12:00:00.000Z"
 wordCount: 952
 qualityScore: 8.9
-description: "Klockan tre på natten. Du ligger vaken. Kroppen är trött men tankarna kretsar – sluter aldrig sin bana. Telefonen lyser. Du vet att skärmljuset förvärrar allt."
+description: "Nästan varannan vuxen svensk har sömnbesvär, fast vi aldrig har vetat mer om hur sömnen fungerar. Profeten ﷺ lade sig varje kväll med en bön till den som äger själen. Koranen beskriver sömnen som ett slags död, där själen över natten ligger i Guds hand."
 audioFile: "somnens-lilla-dod.mp3"
 audioDuration: 410
 imageAlt: "En person sover i en bädd i ett nästan helmörkt rum, med svagt blått nattljus genom ett litet fönster."

@@ -279,7 +279,10 @@ export class ArticlePublisher {
 		// ⚠️ The pipeline's own description first. Cutting one from the body's opening
 		// sentences put the same ~270 characters twice on the page (30 of 61 essays): the
 		// fallback stays only for a caller that has none, and the essay pipeline flags that.
-		const description = metadata?.description?.trim() || this.getDescription(body);
+		// »…«, not ASCII: a frontmatter string never meets smartypants, so a quotation the
+		// pipeline typed here reached the front page, the share card and the feed straight.
+		// Same rule as apps/web/src/lib/format.ts swedishQuotes(), which guards hand edits.
+		const description = swedishQuotes(metadata?.description?.trim() || this.getDescription(body));
 
 		const article: PublishedArticle = {
 			slug,
@@ -400,4 +403,11 @@ export class ArticlePublisher {
 
 		return result;
 	}
+}
+
+/** Straight double quotes → Swedish »…«, pairwise; an odd one out is left as typed.
+ *  Mirrors apps/web/src/lib/format.ts swedishQuotes(), whose test also reads every
+ *  published description, so a regression here fails there. */
+function swedishQuotes(text: string): string {
+	return text.replace(/"([^"\n]*)"/g, "»$1«");
 }

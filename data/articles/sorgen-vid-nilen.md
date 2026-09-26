@@ -1,5 +1,5 @@
 ---
-title: "Sorgen vid Nilen"
+title: "Muslimerna bad för en kristen kung"
 publishedAt: "2026-09-14T21:11:46.014Z"
 wordCount: 2723
 qualityScore: 8.6

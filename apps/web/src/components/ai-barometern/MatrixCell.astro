@@ -2,6 +2,7 @@
 // One model's answer as a chip in a table cell. The colour is doubled by a printed glyph, and the
 // full sentence goes to the tooltip and, as .sr-only text, to screen readers and the markdown twin.
 import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import AnswerSummary from "./AnswerSummary.astro";
 import { cellGlyph, cellTitle } from "../../lib/ai-barometern/site";
 
 interface Props {
@@ -15,7 +16,9 @@ const { label, cell, own = false } = Astro.props;
 const title = `${cellTitle(label, cell)}${own ? ", om sitt eget företag" : ""}`;
 ---
 
-<td title={title}>
+<td>
+	<details class="abm-cell-detail">
+	<summary aria-label={title}>
 	<span
 		class="abm-chip"
 		data-state={cell.state}
@@ -26,5 +29,7 @@ const title = `${cellTitle(label, cell)}${own ? ", om sitt eget företag" : ""}`
 	>
 		{cellGlyph(cell)}
 	</span>
-	<span class="sr-only">{title}</span>
+	</summary>
+	<div class="abm-cell-reading"><strong>{label}</strong><AnswerSummary cell={cell} own={own} /></div>
+	</details>
 </td>

@@ -174,8 +174,8 @@ if (articleMeta) {
 		    `color-scheme`, so no colour is defined twice. No stored value means no
 		    attribute, which means the site follows the OS — we only override a
 		    system setting the reader has explicitly overridden themselves. The
-		    control itself is the segmented System/Ljust/Mörkt group in the palette's
-		    utility rail (components/SearchOverlay.astro). */}
+		    control itself is the System/Ljust/Mörkt group in the site footer
+		    (components/ThemePicker.astro). */}
 		<script is:inline>
 			(() => {
 				const KEY = "theme";
@@ -216,10 +216,7 @@ if (articleMeta) {
 				document.addEventListener("change", (e) => {
 					const t = e.target;
 					if (!t || t.name !== "theme-choice") return;
-					// Three states, not two. The switch used to live in the mast, where
-					// there was room for one glyph and therefore only light↔dark — no way
-					// back to "follow the system" once you had left it. In the palette each
-					// state carries its own word, so the default is reachable again.
+					// System removes the override and restores the reader’s OS preference.
 					try {
 						if (t.value === "system") localStorage.removeItem(KEY);
 						else localStorage.setItem(KEY, t.value);

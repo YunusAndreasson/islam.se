@@ -1,5 +1,5 @@
 ---
-// PODDEN OCH APPEN — what the site offers besides the page, in one band under the cover.
+// PODDEN OCH APPEN — what the site offers besides the page, in the closing promotion region beside the book.
 //
 // The podcast is "a big thing" the front page had missed (user review, 2026-09-25), so it
 // got a movement of its own here: the show's cover, a paragraph, and the three newest
@@ -72,7 +72,6 @@ const length =
 						class="podd-app-knappar"
 						actionClass="podcast-action"
 						iconSize={ICON}
-						includeFeed
 					/>
 				</div>
 			</section>
@@ -109,12 +108,15 @@ const length =
 	/* Two halves on the live row's centre line (its 3rem gutter); one above the other on a
 	   phone. Each half: the mark, and beside it the kicker, the title, one line, the links. */
 	.podd-app {
+		/* Content-box estimates; the closing wrapper now owns the tinted padding. */
+		--civ-h: 792px;
 		display: grid;
 		gap: var(--space-phi) var(--grid-gutter);
 	}
 
 	@media (width >= 48rem) {
 		.podd-app {
+			--civ-h: 450px;
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
@@ -127,13 +129,21 @@ const length =
 	.podd-app-del {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: auto 1fr;
 		row-gap: var(--space-unit);
 		align-items: start;
 	}
 
-	@media (width >= 48rem) {
+	/* At tablet widths a 10rem drawing beside the copy leaves only ~147px for
+	   words. Keep the drawing above until each half has a useful reading measure. */
+	@media (width >= 64rem) {
+		.podd-app {
+			--civ-h: 199px;
+		}
+
 		.podd-app-del {
 			grid-template-columns: 10rem minmax(0, 1fr);
+			grid-template-rows: auto;
 			column-gap: 1.75rem;
 		}
 	}
@@ -147,7 +157,7 @@ const length =
 		justify-self: start;
 	}
 
-	@media (width >= 48rem) {
+	@media (width >= 64rem) {
 		.podd-app-mark {
 			justify-self: end;
 		}

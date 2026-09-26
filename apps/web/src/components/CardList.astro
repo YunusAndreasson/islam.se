@@ -5,7 +5,7 @@ import EssayImage from "./EssayImage.astro";
 import { CARD_LIST_WIDTHS } from "../lib/hero";
 
 // The card grid — picture over title over a line of framing, with a quiet count
-// beneath and a hairline under each card.
+// beneath. Compact collection cards use whitespace between entries.
 //
 // It was ThreadList, and it was ThreadList's alone: the trådar on /tradar/, on
 // the front page and in the /essaer/ intro. Fördjupning arrived on the front page
@@ -35,6 +35,8 @@ export interface CardItem {
 interface Props {
 	items: readonly CardItem[];
 	headingLevel?: 2 | 3;
+	/** Compact cards for collection indexes and related reading. */
+	compact?: boolean;
 	prefetch?: "tap" | "hover" | "viewport" | "load";
 	/** The caller knows how wide its column is; the default suits the two-up grid
 	 *  of the default 26rem --card-list-min: two ~29rem tracks in the 61rem canvas,
@@ -46,6 +48,7 @@ interface Props {
 const {
 	items,
 	headingLevel = 2,
+	compact = false,
 	prefetch,
 	sizes = "(min-width: 67rem) 29rem, (min-width: 60rem) 45vw, 100vw",
 } = Astro.props;
@@ -53,7 +56,7 @@ const {
 const Heading = `h${headingLevel}` as const;
 ---
 
-<ul class="card-list">
+<ul class:list={["card-list", compact && "card-list--compact"]}>
 	{items.map((item) => (
 		<li class="card-list-item">
 			<a href={item.href} data-astro-prefetch={prefetch}>
@@ -85,7 +88,7 @@ const Heading = `h${headingLevel}` as const;
 		padding: 0;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--card-list-min, 26rem)), 1fr));
-		column-gap: clamp(1.75rem, 4vw, 3.5rem);
+		column-gap: var(--grid-gutter);
 	}
 
 	.card-list-item {
@@ -124,10 +127,11 @@ const Heading = `h${headingLevel}` as const;
 
 	.card-list-title {
 		font-family: var(--font-display);
+		font-variant-ligatures: common-ligatures;
 		font-weight: 600;
 		line-height: 1.2;
 		letter-spacing: 0;
-		color: var(--color-accent);
+		color: var(--color-text);
 		margin: 0;
 		font-size: var(--step-2);
 	}
@@ -142,6 +146,30 @@ const Heading = `h${headingLevel}` as const;
 	}
 
 	.card-list-count {
+		text-transform: none;
+		letter-spacing: 0.01em;
 		margin: 0.5rem 0 0;
+	}
+	.card-list--compact {
+		--card-list-min: 18rem;
+		margin: 0 0 var(--space-group);
+		row-gap: var(--space-group);
+	}
+
+	.card-list--compact .card-list-item {
+		border: 0;
+	}
+
+	.card-list--compact a {
+		padding: 0;
+	}
+
+	.card-list--compact .card-list-title {
+		font-size: var(--step-0);
+	}
+
+	.card-list--compact .card-list-framing {
+		font-size: var(--step--2);
+		line-height: 1.45;
 	}
 </style>

@@ -3,7 +3,7 @@ title: "Silvertärnans hijra"
 publishedAt: "2026-03-17T12:00:00.000Z"
 wordCount: 1335
 qualityScore: 8.9
-description: "Hundra gram. En hjärna stor som en ärta. Varje höst lämnar silvertärnan Arktis och flyger till Antarktis – 70 000 kilometer om året, den längsta kända flytten i djurriket. Under resan sover den troligen med halva hjärnan i taget: ett öga öppet mot horisonten, det andra slutet."
+description: "Silvertärnan väger hundra gram och flyger 70 000 kilometer om året. Sverige har byggt ett samhälle där varje risk ska försäkras bort, och tilliten har krympt i samma takt. Profeten ﷺ pekade på fåglarna, som ger sig av hungriga på morgonen och kommer hem mätta."
 audioFile: "silvertarnans-hijra.mp3"
 audioDuration: 566
 imageAlt: "En silvertärna med upplyfta vingar svävar över isflak och snöklädda berg i ett polart skymningsljus."

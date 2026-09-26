@@ -3,7 +3,7 @@ title: "Vikingarna hade inte ångest"
 publishedAt: "2026-03-23T12:00:00.000Z"
 wordCount: 1492
 qualityScore: 8.6
-description: "Gunnar på Hlíðarendi är dömd till landsflykt. När han vänder sig i sadeln och ser ut över ängarna, stiger han av och stannar – han vet att det kostar honom livet. Lugnet kom inte av okunskap. Det kom av att han visste var han stod."
+description: "Gunnar på Hlíðarendi vände om fast han visste att det skulle kosta honom livet, och han gjorde det utan ångest. Nornorna hade redan avgjort hans öde. Islam ger den troende samma ro, men den som har avgjort utgången är den Barmhärtige."
 audioFile: "vikingarna-hade-inte-angest.mp3"
 audioDuration: 411
 imageAlt: "Närbild på en ärrad vikingakrigare med flätat hår och pälsmantel, med långskepp och en dimmig fjord i bakgrunden."

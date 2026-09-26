@@ -112,6 +112,15 @@ const here = (href: string) => href === currentHref;
 		<button class="palette-more" type="button" hidden>Visa fler</button>
 		<button class="palette-retry" type="button" hidden>Försök igen</button>
 
+		<section class="palette-start" aria-label="Sök och hitta" hidden>
+			<p class="palette-start-help">Sök bland essäer, frågor, ämnen och sidor.</p>
+			<h2 class="palette-group-head label">Genvägar</h2>
+			<div class="palette-chips">
+				{PALETTE_READ_LINKS.map((link) => <a class="palette-chip" href={link.href}>{link.label}</a>)}
+			</div>
+			<button class="palette-browse-toggle" type="button">Bläddra på webbplatsen</button>
+		</section>
+
 		{/* The menu proper. Not a listbox: it is a set of links with headings, and
 		    Tab is the right way through it. */}
 		<nav class="palette-browse" aria-label="Meny">
@@ -165,19 +174,8 @@ const here = (href: string) => href === currentHref;
 				</div>
 			</details>
 
-			{/* Utility rail. The theme switch lives here rather than in the mast:
-			    it is a once-a-session choice that was occupying permanent space
-			    beside a per-visit one, and down here there is room for words — so
-			    it can offer the third state ("System") a 34px glyph could not. */}
+			{/* Secondary navigation stays separate from the browse categories. */}
 			<div class="palette-foot">
-				<fieldset class="theme-picker">
-					<legend class="theme-picker-legend label">Utseende</legend>
-					<div class="theme-picker-opts">
-						<label class="theme-opt"><input type="radio" name="theme-choice" value="system" checked /><span>System</span></label>
-						<label class="theme-opt"><input type="radio" name="theme-choice" value="light" /><span>Ljust</span></label>
-						<label class="theme-opt"><input type="radio" name="theme-choice" value="dark" /><span>Mörkt</span></label>
-					</div>
-				</fieldset>
 				<ul class="palette-minor">
 					{PALETTE_MINOR_LINKS.map((d) => (
 						<li><a href={d.href} aria-current={here(d.href) ? "page" : undefined}>{d.label}</a></li>
@@ -190,7 +188,7 @@ const here = (href: string) => href === currentHref;
 
 <!-- Global, not scoped: the result rows are built at runtime via innerHTML, so
      they never get Astro's scoped-style attribute. All selectors are
-     .palette*/.theme-*-namespaced, so there is no collision risk. -->
+     .palette*-namespaced, so there is no collision risk. -->
 <style is:global>
 	.palette {
 		background: color-mix(in srgb, var(--color-bg) 92%, transparent);
@@ -204,6 +202,10 @@ const here = (href: string) => href === currentHref;
 		top: var(--safe-top);
 		right: var(--safe-right);
 		display: flex;
+		min-width: 2.75rem;
+		min-height: 2.75rem;
+		align-items: center;
+		justify-content: center;
 		padding: 0.75rem;
 		border: none;
 		background: transparent;
@@ -295,7 +297,29 @@ const here = (href: string) => href === currentHref;
 	}
 
 	.palette-results[hidden],
+	.palette-start[hidden],
 	.palette-browse[hidden] { display: none; }
+
+	.palette-start { margin-top: var(--space-group); }
+	.palette-start-help {
+		margin: 0 0 var(--space-group);
+		font-size: var(--step--1);
+		color: var(--color-muted);
+	}
+	.palette-browse-toggle {
+		display: block;
+		min-height: 2.75rem;
+		margin-top: var(--space-group);
+		padding: 0;
+		border: none;
+		background: transparent;
+		font: inherit;
+		font-size: var(--step--2);
+		color: var(--color-accent);
+		text-decoration: underline;
+		text-underline-offset: var(--underline-offset);
+		cursor: pointer;
+	}
 
 	.palette-results,
 	.palette-browse { margin-top: var(--space-unit); }
@@ -318,11 +342,12 @@ const here = (href: string) => href === currentHref;
 		border-top: 1px solid var(--color-divider);
 	}
 
+	.palette-dests > li { border-bottom: 1px solid var(--color-divider); }
+
 	.palette-dest {
 		display: block;
 		padding: 0.75rem 0.6rem;
 		margin-inline: -0.6rem;
-		border-bottom: 1px solid var(--color-divider);
 		text-decoration: none;
 		transition: background-color var(--dur-fast) ease;
 	}
@@ -400,7 +425,7 @@ const here = (href: string) => href === currentHref;
 	/* Top rule only: the utility rail below closes the region with its own, and two
 	   hairlines a gap apart read as a mistake rather than a boundary. */
 	.palette-fold {
-		margin-bottom: var(--space-unit);
+		margin-bottom: 0;
 		border-top: 1px solid var(--color-divider);
 	}
 
@@ -457,66 +482,9 @@ const here = (href: string) => href === currentHref;
 		align-items: end;
 		justify-content: space-between;
 		gap: var(--space-half) var(--space-unit);
-		margin-top: var(--space-phi);
+		margin-top: 0;
 		padding-top: var(--space-half);
 		border-top: 1px solid var(--color-rule);
-	}
-
-	.theme-picker {
-		margin: 0;
-		padding: 0;
-		border: none;
-	}
-
-	.theme-picker-legend {
-		padding: 0;
-		margin-bottom: 0.55rem;
-	}
-
-	/* A segmented control: one hairline capsule, the chosen segment filled. Three
-	   states, because down here each one can carry its own word — "System" is the
-	   default the site has always honoured and now the reader can return to it. */
-	.theme-picker-opts {
-		display: inline-flex;
-		padding: 3px;
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-	}
-
-	.theme-opt {
-		position: relative;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 2rem;
-		padding-inline: 0.85rem;
-		border-radius: var(--radius-pill);
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 500;
-		color: var(--color-muted);
-		cursor: pointer;
-		transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
-	}
-
-	/* The radio stays in the accessibility tree and keeps the label's native
-	   activation; only its box is taken out of the layout. */
-	.theme-opt input {
-		position: absolute;
-		opacity: 0;
-		pointer-events: none;
-	}
-
-	.theme-opt:hover { color: var(--color-accent); }
-
-	.theme-opt:has(:checked) {
-		color: var(--color-accent);
-		background: var(--wash-selected);
-	}
-
-	.theme-opt:has(:focus-visible) {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 1px;
 	}
 
 	.palette-minor {
@@ -623,13 +591,6 @@ const here = (href: string) => href === currentHref;
 
 		.palette-fold-summary { padding-block: 1rem; }
 
-		.theme-opt {
-			flex: 1;
-			min-height: 2.75rem;
-		}
-
-		.theme-picker-opts { display: flex; }
-
 		.palette-minor { gap: 0.9rem 1.1rem; }
 
 		.palette-minor a {
@@ -659,6 +620,9 @@ const here = (href: string) => href === currentHref;
 		const hint = dialog.querySelector<HTMLElement>(".palette-hint")!;
 		const results = dialog.querySelector<HTMLElement>(".palette-results")!;
 		const browse = dialog.querySelector<HTMLElement>(".palette-browse")!;
+		const start = dialog.querySelector<HTMLElement>(".palette-start")!;
+		const browseBtn = dialog.querySelector<HTMLButtonElement>(".palette-browse-toggle")!;
+		let menuMode = false;
 		const closeBtn = dialog.querySelector<HTMLButtonElement>(".palette-close")!;
 
 		const clearBtn = dialog.querySelector<HTMLButtonElement>(".palette-clear")!;
@@ -733,19 +697,22 @@ const here = (href: string) => href === currentHref;
 			return { html: out, count, total, loose };
 		}
 
-		// Two panes, one at a time: the menu is the resting state, results replace
-		// it the moment there is a query and hand it back when the field empties.
+		// Search opens with a few shortcuts; the mobile menu opens the directory.
+		// Both share the same results once the reader types.
 		function render() {
 			const raw = input.value.trim();
 			const q = fold(raw);
 			clearBtn.hidden = !input.value;
 			moreBtn.hidden = true;
 			retryBtn.hidden = true;
+			start.hidden = true;
+			browse.hidden = true;
 			if (!q) {
 				results.innerHTML = "";
 				results.hidden = true;
 				hint.textContent = "";
-				browse.hidden = false;
+				browse.hidden = !menuMode;
+				start.hidden = menuMode;
 				input.setAttribute("aria-expanded", "false");
 				opts = [];
 				setActive(-1);
@@ -772,10 +739,9 @@ const here = (href: string) => href === currentHref;
 			n = 0;
 			const { html, count, total, loose } = renderSearch(q);
 			moreBtn.hidden = count >= total;
-			results.innerHTML = html || `<p class="palette-empty">Inga träffar för »${escapeXml(raw)}«. Prova ett annat ord, eller gå vidare härifrån:</p>`;
-			// A miss keeps the menu on screen under the message, so the palette never
-			// ends in a dead end — it used to leave one grey line and nothing to press.
-			browse.hidden = !!html;
+			results.innerHTML = html || `<p class="palette-empty">Inga träffar för »${escapeXml(raw)}«. Kontrollera stavningen eller prova ett annat sökord.</p>`;
+			// Shortcuts offer a way onward without replacing a miss with a full sitemap.
+			start.hidden = !!html;
 			results.hidden = false;
 			hint.textContent = count
 				? `${loose ? "Ingen exakt träff – visar liknande resultat. " : ""}${count < total ? `Visar ${count} av ${total} träffar` : `${total} ${total === 1 ? "träff" : "träffar"}`}`
@@ -786,7 +752,6 @@ const here = (href: string) => href === currentHref;
 		}
 
 		// --- open / close --------------------------------------------------
-		const coarse = () => matchMedia("(hover: none), (pointer: coarse)").matches;
 
 		// focusField=false lands the caret on the dialog instead of the search box.
 		// On touch, focusing the input raises the on-screen keyboard over the menu
@@ -795,8 +760,10 @@ const here = (href: string) => href === currentHref;
 		// Keep the query when reopening so readers can try another result — selected, so
 		// that a reader who has moved on simply types over it. Unselected, ⌘K then »moské«
 		// searched for the old query with »moské« glued to its end.
-		function open(focusField = !coarse() && !matchMedia("(width <= 900px)").matches) {
+		function open(focusField = !matchMedia("(width <= 900px)").matches) {
 			if (dialog.open) return;
+			menuMode = !focusField;
+			if (menuMode) input.value = "";
 			void loadIndex();
 			dialog.showModal();
 			render();
@@ -823,6 +790,12 @@ const here = (href: string) => href === currentHref;
 		// Nothing to do on close: the browser restores focus to whatever opened the
 		// dialog, and the scroll lock is CSS reading [open]. The query stays intact.
 		input.addEventListener("input", () => { expanded = false; render(); });
+		browseBtn.addEventListener("click", () => {
+			menuMode = true;
+			input.value = "";
+			render();
+			browse.querySelector<HTMLAnchorElement>("a")?.focus();
+		});
 		clearBtn.addEventListener("click", () => {
 			input.value = "";
 			expanded = false;

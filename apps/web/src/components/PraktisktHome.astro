@@ -112,13 +112,9 @@ const gravar = dotsPath(burialGrounds);
 </section>
 
 <style>
-	/* The list and the map side by side at every width. Sweden is ~2.2 times taller than
-	   it is wide, so the map is a narrow column spanning the kicker's row AND the list's:
-	   its top sits level with the kicker, and kicker + list come out about as tall as the
-	   map, so neither column trails a hole. (Centring the list against the map left the
-	   kicker ~120px above its own content.) On a phone the map keeps a third of the width —
-	   at ~120px the coast and the southern clusters still read, and stacking it above the
-	   list would have doubled the movement for a picture of the same thing. */
+	/* The map starts beside the kicker. On wide screens it accompanies the whole
+	   list; below 48rem it spans only the two location tools. Its narrow silhouette
+	   keeps the coast and clusters legible without pushing the tools down the page. */
 	.praktiskt-grid {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(6.5rem, 34%);
@@ -182,6 +178,30 @@ const gravar = dotsPath(burialGrounds);
 		.praktiskt-lista {
 			grid-template-columns: calc(50% + var(--karta-w) / 2) minmax(0, 1fr);
 			column-gap: var(--grid-gutter);
+		}
+	}
+
+	/* On smaller screens the map belongs to the two location tools. Subgrid
+	   preserves one semantic list while letting the remaining tools use the canvas. */
+	@media (width < 48rem) {
+		.praktiskt-lista {
+			grid-column: 1 / -1;
+			grid-row: 2 / span 4;
+			grid-template-columns: subgrid;
+			grid-template-rows: subgrid;
+			row-gap: 0;
+		}
+
+		.praktiskt-rad {
+			grid-column: 1;
+		}
+
+		.praktiskt-rad:nth-child(n + 3) {
+			grid-column: 1 / -1;
+		}
+
+		.praktiskt-karta {
+			grid-row: 1 / 4;
 		}
 	}
 

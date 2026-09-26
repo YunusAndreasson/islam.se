@@ -1,0 +1,19 @@
+---
+import type { Finding } from "../../lib/ai-barometern/findings";
+import { codeLabel } from "../../lib/ai-barometern/options";
+import { questionPath } from "../../lib/ai-barometern/site";
+import LabelledComparison from "./LabelledComparison.astro";
+interface Props { finding: Finding }
+const { finding: f } = Astro.props;
+---
+<article class="abm-report-finding">
+	<p class="label">{f.area.label}</p>
+	<h3><a href={f.href}>{f.lead}</a></h3>
+	<p class="abm-finding-takeaway">{f.text}</p>
+	<LabelledComparison
+		rows={f.rows.map((row) => ({ label: row.question.short, href: questionPath(row.question), own: row.question.aboutFamily, cells: row.cells }))}
+		caption={`${f.lead}. ${f.text}`}
+		emphasis={f.text}
+	/>
+	{f.classical !== undefined && <p class="abm-sample-note">Som jämförelse: <a href={f.href}>den klassiska hållningen enligt islam.se</a> — {codeLabel(String(f.classical))}.</p>}
+</article>

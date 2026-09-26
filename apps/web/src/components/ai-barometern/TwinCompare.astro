@@ -3,7 +3,7 @@
 // line per model that answered them differently. Headings are h3 under the page's »Jämför«
 // section, and each carries the anchor the hub links to.
 import { questionPath, svDateList, type TwinRow, twinLines } from "../../lib/ai-barometern/site";
-import ScaleSpread from "./ScaleSpread.astro";
+import LabelledComparison from "./LabelledComparison.astro";
 
 interface Props {
 	row: TwinRow;
@@ -11,31 +11,23 @@ interface Props {
 	showKey?: boolean;
 }
 
-const { row, currentId, showKey = false } = Astro.props;
+const { row } = Astro.props;
 const lines = twinLines(row);
 const dates = row.runs.map((r) => r.date);
 const several = new Set(dates.map((d) => d.slice(0, 10))).size > 1;
 const source = dates.length
-	? `Källa: AI-barometern, ${several ? "mätningarna" : "mätningen"} ${svDateList(dates)}.`
+	? `Källa: Barometer, ${several ? "mätningarna" : "mätningen"} ${svDateList(dates)}.`
 	: "";
 ---
 
 <div class="abm-twin">
 	<h3 id={`jamfor-${row.set.key}`}>{row.set.title}</h3>
 	<p class="abm-twin-look">{row.set.lookFor}</p>
-	<ScaleSpread
-		rows={row.members.map((m) => ({
-			label: m.question.short,
-			href: questionPath(m.question),
-			current: m.question.id === currentId,
-			own: m.question.aboutFamily,
-			measured: m.measured,
-			cells: m.cells,
-		}))}
-		caption="Varje logotyp står där modellen hamnade: den ställning som flest av modellens tre svar tog."
-		source={source}
-		showKey={showKey}
+	<LabelledComparison
+		rows={row.members.map((m) => ({ label: m.question.short, href: questionPath(m.question), own: m.question.aboutFamily, cells: m.cells }))}
+		caption={row.set.title}
 	/>
+	<p class="chart-cap">{source}</p>
 	{
 		lines.length > 0 && (
 			<ul class="abm-twin-lines">

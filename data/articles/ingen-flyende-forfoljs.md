@@ -1,9 +1,9 @@
 ---
-title: "Ingen flyende förföljs"
+title: "Var snapphanarna rövare eller rebeller?"
 publishedAt: "2026-08-09T22:06:44.942Z"
 wordCount: 2584
 qualityScore: 8.7
-description: "I augusti 1676 låg omkring hundrafemtio göingebönder och bonddrängar i bakhåll vid Loshult, nära den gamla riksgränsen, tillsammans med danskt kavalleri. De tog den svenska krigskassan. Bytet skiftades mellan bönderna och ryttarna. Så långt är händelsen oomstridd. Men vad var det som skedde?"
+description: "År 1678 gav Karl XI order om att Örkeneds socken skulle brännas och dess vapenföra män avrättas. Snapphanarna räknades som rövare, och med det ordet var straffet redan bestämt. Islamisk rätt skilde noga mellan stråtrövare och upprorsmän – den som flydde från ett uppror fick inte förföljas."
 seoDescription: "Snapphane eller friskytt? Muslimska rättslärde byggde ett prov som avgör saken utan att fråga vem som har rätt – och Karl XI:s Skåne saknade det."
 imageAlt: "Tre beväpnade män i trasiga kläder i en dimmig granskog; den främste sitter på huk bakom ett mossbevuxet stenblock med musköten i handen."
 imageCaption: "Beväpnade män i Göingeskogen. Vad de skulle kallas avgjordes någon annanstans."

@@ -1,5 +1,5 @@
 ---
-title: "Tungans fästning"
+title: "Du ansvarar också för det du inte säger"
 publishedAt: "2025-08-12T12:00:00.000Z"
 wordCount: 1350
 qualityScore: 8.9

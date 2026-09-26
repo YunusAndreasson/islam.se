@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { resolveHero } from "../lib/fordjupning";
+import CardList from "./CardList.astro";
+
+interface Props {
+	entries: readonly {
+		entry: CollectionEntry<"fordjupning">;
+		hero: Awaited<ReturnType<typeof resolveHero>>;
+	}[];
+	headingLevel?: 2 | 3;
+	compact?: boolean;
+	showCounts?: boolean;
+	sizes?: string;
+}
+
+const {
+	entries,
+	headingLevel = 2,
+	compact = true,
+	showCounts = false,
+	sizes = "(min-width: 79rem) 24rem, (min-width: 63rem) 30vw, (min-width: 42rem) 45vw, 100vw",
+} = Astro.props;
+const items = entries.map(({ entry, hero }) => ({
+	href: `/fordjupning/${entry.id}/`,
+	title: entry.data.term,
+	description: entry.data.blurb ?? entry.data.seoDescription ?? entry.data.description,
+	...(showCounts && entry.data.related.length > 0 ? { meta: `${entry.data.related.length} frågor` } : {}),
+	image: hero && {
+		...(hero.src === undefined ? {} : { src: hero.src }),
+		...(hero.article === undefined ? {} : { article: hero.article }),
+		alt: hero.alt,
+	},
+}));
+---
+
+<CardList items={items} headingLevel={headingLevel} compact={compact} sizes={sizes} prefetch="viewport" />

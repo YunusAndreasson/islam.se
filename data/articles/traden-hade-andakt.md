@@ -3,7 +3,7 @@ title: "Träden hade andakt"
 publishedAt: "2026-03-09T12:00:00.000Z"
 wordCount: 1275
 qualityScore: 8.7
-description: "Kolvaktaren sitter ensam i natten och lyssnar. Runt honom arbetar elden sakta under milan; ovanför honom står stjärnorna orörliga på sina banor. Och träden – träden har andakt."
+description: "I David Ramms arv avundas Dan Andersson träden, som har andakt medan människan bara har oro. Koranen håller med om att allt skapat prisar Gud. Men den ger också människan det Andersson saknade, ett sätt att själv svara."
 audioFile: "traden-hade-andakt.mp3"
 audioDuration: 498
 imageAlt: "En ensam kolare sitter vid en glödande, rykande kolmila i en skogsglänta under stjärnhimlen om natten."

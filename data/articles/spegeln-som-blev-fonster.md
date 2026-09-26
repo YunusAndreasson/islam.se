@@ -1,5 +1,5 @@
 ---
-title: "Spegeln som blev fönster"
+title: "Hijaben visar inte vad hon tror"
 publishedAt: "2026-08-23T16:06:58.611Z"
 wordCount: 2831
 qualityScore: 8.8

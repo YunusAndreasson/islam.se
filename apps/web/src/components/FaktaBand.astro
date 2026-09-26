@@ -6,29 +6,9 @@ import { groupSvar } from "../lib/svar";
 import Ritning from "./Ritning.astro";
 import SectionLink from "./SectionLink.astro";
 
-/**
- * GRUNDEN — the encyclopedic half of the site, on the front page that until 2026-08
- * showed only essays.
- *
- * A visitor arriving cold from a search for "vad är islam" or "fakta om islam" met a
- * photograph and an essay title. This band is the route in, and its <h2> is the only
- * visible heading on the page that carries the head term (the page <h1> is sr-only by
- * design).
- *
- * It used to be the plainest module on the page: eleven words in two hairline lists,
- * for the head term the page's <title> targets. Now it is set as a glossary: the five
- * pillars as rows, each with its number, its Swedish name over the term transliterated,
- * and the one line fakta.ts has always carried for it and the front page never showed;
- * the six articles of faith beneath at a smaller rank. Still text-first — no
- * photographs, the page has enough of them — but set like a glossary rather than a
- * link list. It opens as the site's sections do (PageHead): the drawing of the series
- * that belongs to it, an open Quran on its stand, on the canvas's right edge beside the
- * heading, where the row stood empty.
- *
- * No Arabic script. Each term stood in Amiri at the end of its row for an evening; it
- * added nothing the transliteration does not already say and left every row weighted
- * to one side (user review, 2026-09-25).
- */
+/** The homepage introduction: an illustrated opening, five actions in reading
+ * order, then six beliefs grouped at a quieter rank. Shared alignments and space
+ * carry the hierarchy without adding cards or rules to the editorial canvas. */
 
 // Count what /svar/ actually lists, not the collection total — groupSvar drops the
 // cornerstones into the FAKTA hub, so "alla 63" would overpromise what the link opens.
@@ -38,21 +18,26 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 ---
 
 <section class="fakta-band grunden home-movement" aria-labelledby="fakta-band-title">
-	{/* No band, no display headline, no search field of its own. On its own tinted
-	    ground with a 3.4rem title and a search box it read as the top of a second
-	    website halfway down this one (2026-09-25); it is a movement like the others,
-	    under a kicker, and the mast already carries search. */}
 	<div class="grunden-head">
 		<p class="label home-kicker">Fakta om islam</p>
 		<h2 class="grunden-title" id="fakta-band-title">
 			<a href="/vad-ar-islam/">Vad är islam?</a>
 		</h2>
 		<p class="grunden-lead">
-			Fem pelare: det en muslim gör. Sex trosartiklar: det en muslim tror.
-			Var och en förklaras för sig, ur källorna.
+			Islam bygger på tron på en enda Gud och på Muhammed ﷺ som hans sändebud.
+		</p>
+		<p class="grunden-intro-link">
+			<SectionLink href="/vad-ar-islam/">Läs introduktionen till islam</SectionLink>
 		</p>
 		<div class="grunden-ritning">
-			<Ritning {...RITNINGAR.grunden} fyll hojd={[4.5, 10]} bredd={[7, 14]} sizes="(min-width: 79rem) 31rem, (min-width: 48rem) calc(100vw - 49rem), 7rem" />
+			<Ritning
+				{...RITNINGAR.grunden}
+				fyll
+				ankare="vanster"
+				hojd={[4.5, 10]}
+				bredd={[7, 14]}
+				sizes="(min-width: 79rem) 23.3rem, (min-width: 48rem) calc((100vw - 10rem) / 3), 7rem"
+			/>
 		</div>
 	</div>
 
@@ -105,7 +90,8 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		grid-template-areas:
 			"kicker ritning"
 			"titel ritning"
-			"lead lead";
+			"lead lead"
+			"intro intro";
 		column-gap: var(--space-unit);
 		margin-bottom: var(--space-phi);
 	}
@@ -122,21 +108,31 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		grid-area: lead;
 	}
 
+	.grunden-intro-link {
+		grid-area: intro;
+		margin: var(--space-control) 0 0;
+		font-size: var(--step--2);
+	}
+
 	.grunden-ritning {
 		grid-area: ritning;
 		align-self: end;
 	}
 
 	/* As the site's section openings are (PageHead): the drawing as tall as the opening,
-	   kicker to the lead's last line, in the column beyond the measure. */
+	   kicker to the introduction link. Its column is the movement's own third, standing
+	   on the third line (x 950 at 1440) where »Skrifterna«, »Domedagen« and »Ödet« start
+	   below: on the canvas's edge it hung 400px from the words on a line nothing near it
+	   drew — the pillar rows are ragged and end 200px short (user review, 2026-09-26). */
 	@media (width >= 48rem) {
 		.grunden-head {
-			grid-template-columns: minmax(0, var(--content-width)) minmax(8rem, 1fr);
+			grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--grid-gutter)) / 3);
 			grid-template-areas:
 				"kicker ritning"
 				"titel ritning"
-				"lead ritning";
-			grid-template-rows: auto auto 1fr;
+				"lead ritning"
+				"intro ritning";
+			grid-template-rows: auto auto auto 1fr;
 			column-gap: var(--grid-gutter);
 		}
 
@@ -180,7 +176,9 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 
 	.grunden-group-head {
 		margin: 0 0 var(--space-group);
-		font-weight: 400;
+		font-size: var(--step--2);
+		font-weight: 600;
+		color: var(--text-quiet);
 	}
 
 	.grunden-group-head a {
@@ -205,12 +203,13 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 
 	.grunden-num {
 		display: block;
-		font-family: var(--font-headline);
-		font-size: var(--step-4);
+		/* Match the title's metrics so each ordinal reads as part of its row. */
+		font-family: var(--font-display);
+		font-size: var(--step-1);
 		font-weight: 400;
-		line-height: 1;
+		line-height: 1.2;
 		color: var(--color-brass-ink);
-		font-variant-numeric: lining-nums;
+		font-variant-numeric: lining-nums tabular-nums;
 	}
 
 	.grunden-name {
@@ -250,11 +249,12 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		text-wrap: pretty;
 	}
 
-	/* On a phone the articles run as a compact list without their glosses; the glosses
-	   are one tap away on /vad-ar-islam/, and the five acts keep theirs. */
-	@media (width < 48rem) {
+	/* Below the wide layout, keep every pillar as a numbered row and group the
+	   beliefs in pairs. Tablet widths retain their glosses; phones show the terms. */
+	@media (width < 56rem) {
 		.grunden-tro {
-			gap: var(--space-group);
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--space-group) var(--space-unit);
 		}
 
 		/* A pillar on a phone: the numeral beside the name, the gloss beneath — five
@@ -272,7 +272,6 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 
 		.grunden-pelare .grunden-num {
 			grid-area: num;
-			font-size: var(--step-2);
 		}
 
 		.grunden-pelare .grunden-name {
@@ -288,29 +287,28 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 			grid-area: blurb;
 		}
 
+		.grunden-tro .grunden-name {
+			font-size: var(--step-0);
+		}
+	}
+
+	@media (width < 48rem) {
 		.grunden-tro .grunden-blurb {
 			display: none;
 		}
 	}
 
-	/* WIDE. One grid of thirds under both groups. The six articles are three by two;
-	   each pillar is a row whose numeral and name fill the first third and whose gloss
-	   runs across the other two, starting on the same line as the second column of
-	   articles below. It was five columns of 173px first (too tight for the names and
-	   the glosses), then rows with the Arabic word at the right-hand end, which left
-	   every row weighted to one side (user reviews, 2026-09-25). On shared lines the
-	   two groups read as one table rather than two layouts stacked. */
+	/* Wide rows and the beliefs share column starts. Keep each numeral close to
+	   its name so proximity identifies the pair before the eye crosses to the gloss. */
 	@media (width >= 56rem) {
 		.grunden-tro {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 			row-gap: var(--space-phi);
 		}
 
-		/* The first third is the numeral's 4.5rem plus the name's column: (100% − the
-		   articles' two 3rem gutters) / 3. The gloss's own 3rem margin is the gutter. */
 		.grunden-pelare .grunden-item {
 			display: grid;
-			grid-template-columns: 4.5rem calc((100% - 2 * var(--grid-gutter)) / 3 - 4.5rem) minmax(0, 1fr);
+			grid-template-columns: 2.25rem max(15rem, calc((100% - 2 * var(--grid-gutter)) / 3 - 2.25rem)) minmax(0, 1fr);
 			grid-template-areas:
 				"num name blurb"
 				"num tr   blurb";
@@ -335,6 +333,16 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 			margin: 0 0 0 var(--grid-gutter);
 			max-width: 44rem;
 			font-size: var(--step--1);
+		}
+	}
+
+	@media (width < 23rem) {
+		.grunden-head {
+			column-gap: var(--space-half);
+		}
+
+		.grunden-title {
+			font-size: var(--step-2);
 		}
 	}
 

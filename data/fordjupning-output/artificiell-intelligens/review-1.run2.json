@@ -1,0 +1,42 @@
+{
+  "finalScore": 7.3,
+  "verdict": "revise",
+  "revisedTextChars": 38384,
+  "summary": "Poängen gäller utkastet som det lämnades. Utkastet är välkällat och välbyggt. Sverigeavsnittet har ovanligt mycket innehåll, och de tre blockcitaten ur Koranen återger Bernström ordagrant. Idéhistorieavsnittet är rent beskrivande och innehåller ingen falsk ekvivalens. Flera av faktagranskningens rekommendationer lämnades ändå obesvarade. Hadithen al-rijl jubar saknas. Mālik placeras under förutsebarhetskriteriet, fast hans kriterium är provokation. Att baksparksreglerna förs över på AI framställs som skolornas egen motsvarighet och inte som artikelns analogi. 37:96 används utan sitt sammanhang. Tafsirförbudet vilar enbart på Majmūʿ 13:370. SCB:s referensperiod är fel, bilaga I i omnibusförordningen saknas, villkor 3 är överdrivet och Sitiris och Busari nämns inte. Konvergenspåståendet i ingressen är fortfarande för starkt och kallar reglerna 'medeltida'. Två brott mot husreglerna: 'tydligaste' står två gånger och 'starkaste' en gång. Invändningen om fatwaförbuden var inte återgiven i sin starkaste form. Avsnittsavslut: inget av de sju slutar på ett strikt 'inte X, utan Y', en semikolonpivot eller en em-streckskärpning, men tre av sju (avsnitt 2, 5 och 7) slutar på en kontrasterande kicker av samma slag (en delad 'inte X. Y.', en 'men'-pivot och 'säger motsatsen'). Alla tre är omskrivna, så i revisionen slutar inget avsnitt så. Streck: ett tankstreck i prosan (hadithöversättningen) och två em-streck i blockcitatens attribution, alltså inom budget. Brödtexten ligger nu på omkring 4 600 ord, något över spannet.",
+  "strengths": [
+    "Sverigeavsnittet har verkligt innehåll: artikel 5 i AI-förordningen, artikel 9 i dataskyddsförordningen, SOU 2025:101, IMY:s tillsyn av Försäkringskassan, HFD mål 1485-24, Glukhin mot Ryssland och DO:s remissvar, allt med datum och siffror.",
+    "De tre blockcitaten ur Koranen återger Bernström ordagrant, och fragmenten i löptexten (96:4-5, 17:85, 74:38, 53:38, 37:96) stämmer med hans lydelse. Inga spår av rå korpusinläsning.",
+    "Blockcitaten ur Ibn Qudāma och Karin Boye stämmer mot det verifierade underlaget. Ellen Keys mening återges korrekt som den uppfattning hon angrep, inte som hennes egen.",
+    "Rättsskolornas oenighet om skador som djur orsakar redovisas med namngivna företrädare och primärkällor. Kontrasten mellan IslamQA och Islamweb visar verklig ikhtilaf inom traditionen.",
+    "Idéhistorieavsnittet är rent beskrivande och använder aldrig den svenska parallellen som argument.",
+    "Uppgifterna om uigurlarmet och Lavender återges tillsammans med motpartens bestridande."
+  ],
+  "issues": [
+    "Husregel: 'De tydligaste skiljelinjerna' (ingressen), 'ger det tydligaste svaret' (Fatwan) och 'Det starkaste argumentet' (invändning 5) är förbjudna ord. Alla tre är omskrivna.",
+    "Konvergenspåståendet i ingressen ('pekar ut samma lösning som EU:s AI-förordning') var fortfarande för starkt och kallade reglerna 'medeltida'. Ny lydelse: ansvaret kan inte läggas på maskinen, lika lite som på djuret, utan ligger hos en människa och i vissa fall hos ingen. AI-förordningen lägger skyldigheter på leverantörer och tillhandahållare men reglerar inte skadestånd.",
+    "'De tre andra skolorna drar gränsen vid det man kan skydda sig mot' är fel för Mālik, vars kriterium är provokation. Skolorna redovisas nu var för sig.",
+    "Hadithen al-rijl jubar saknades trots rekommendationen. Hanbaliterna anför den (al-Mughnī 9:190) och al-Shāfiʿī underkände den (Bidāya 4:200). Den är nu tillagd.",
+    "Överföringen av baksparksreglerna till AI framställdes som en motsvarighet hos skolorna själva. Den är nu uttryckligen artikelns egen analogi. Reglerna om djur som är kända för att skada och om skador nattetid (al-Nawawī 11:225) är tillagda som närmare analogi till system som arbetar på egen hand.",
+    "Tafsirförbudet vilade enbart på Majmūʿ 13:370. Det är nu förankrat i 17:36 och 13:371 ('eftersom han inte kom till saken genom dess dörr'), och fotnoten tar upp Buraydas hadith om domaren via al-Mughnī 10:37.",
+    "37:96 användes som stöd för ibaha utan sitt sammanhang, Abrahams fråga till dem som dyrkar bilder. Versen används nu för att visa att det tillverkade saknar egen auktoritet, med Ibn Kathīr 7:26. Tillåtelsen vilar på 45:13, 2:29 och Ibn Rajab.",
+    "Invändningen att fatwaförbuden skyddar en yrkeskår var inte återgiven i sin starkaste form. Den ställs nu med de senare juristernas godtagande av förmedlande muftier. Svaret bygger på kravet på rättrådighet (al-Qurtubī om 49:6), namngiven källa (Ibn Qudāma), laghw (al-Furqān) och synden hos den som gör svaret till sitt.",
+    "Hänvisningen till al-Qurtubī 11:272 som kommentaren till 16:43 stämmer sannolikt inte, eftersom sidan hör till kommentaren till 21:7 med samma ordalydelse. Meningen är struken ur den omskrivna invändningen. Kontrollera sidan innan den förs tillbaka.",
+    "Sitiris och Busari (2024) saknades helt. Ingressen ställde dessutom IIFA:s uppskov mot Yaqeens avvisande av moralisk agens som om de vore motsatser. Nu står det att båda förnekar moralisk agens och mänsklig rättskapacitet och att den öppna frågan gäller en rättslig fiktion.",
+    "Villkor 3 återgavs utan 'kränka', och påståendet att det saknar motsvarighet gällde hela EU:s regelverk. Påståendet gäller nu bara skyddet för religionerna och symbolerna som sådana och nämner att brottsbalken 16 kap. 8 § skyddar de troende som grupp.",
+    "Invändning 3 kallade 74:38 och 53:38 'samma princip' som reglerna om ryttaren, vilket blandar ihop synd och skadeståndsansvar. Stycket är omskrivet.",
+    "SCB-siffran gäller användning under de senaste tre månaderna vid mätningen 2025, inte hela året. Rättat i texten och i fotnoten.",
+    "Omnibusförordningen: uppskovet för bilaga I (2 augusti 2028) saknades, och de nya förbuden framställdes som ett enda. Rättat.",
+    "Undantaget i artikel 5.1 g återgavs inte ordagrant. Avsnittets slutmening kopplade det till DO:s tillsynsmandat, som gäller biometrisk fjärridentifiering (Ds 2025:32) och inte kategorisering. Stycket är omskrivet och Ds-numret tillagt.",
+    "Formuleringen 'i stället omfattar det nya produktansvarsdirektivet' antydde att direktivet ersatte AI-ansvarsdirektivet. Den är omskriven och anger tillämpningsdatumet 9 december 2026.",
+    "IMY-meningen är omskriven enligt rekommendationen: IMY meddelade den 18 november 2025 att tillsynen hade avslutats.",
+    "JO och Trelleborg: meningen om skärmdumpar och om att JO inte prövade automatiseringen gick inte att belägga och är struken. Den bör bara föras tillbaka med JO-beslutets diarienummer som källa, inte SVT.",
+    "IslamQA 540774: datumet (27 juli 2025) och lekmannens rätt att skaffa en första överblick är tillagda. IslamQA 432556: gränsen mellan godtagna fotografier på skärm och AI-generering, som räknas som teckning, är tillagd.",
+    "Abū Dāwūd nr 3657: numreringssystemet anges nu. Ibn Taymiyya 9:286: uppsåtet att eftersträva det som gagnar lyfts nu fram som det ett system saknar.",
+    "Ett empiriskt belägg för hallucinationer i frågor om fiqh (IslamicLegalBench, arXiv 2602.21226) är tillagt. Bara de samlade talen återges.",
+    "Rubriken 'Maskiner och tänkande datorer i svensk idéhistoria' bar inte ämnesordet och heter nu 'Tänkande maskiner och AI i svensk idéhistoria'.",
+    "Pronomen för namngivna nutida personer (Kronblad) och generiska 'han' i prosan är omformulerade bort.",
+    "Sadd al-dharaʾiʿ som svar på invändning 5 är inte tillagt, eftersom inget ställe har belagts ur bokdatabasen. Principen bör beläggas och läggas till i nästa varv.",
+    "Frontmatter: description saknas. Förslag: 'Är AI tillåtet i islam? Om IIFA:s resolution, rättsskolornas syn på ansvaret för AI-skador, fatwor och bilder från AI och vad EU:s AI-förordning betyder i Sverige.' I sources ska Sitiris och Busari (2024), IslamicLegalBench (2026), Ibn Kathīr 7:26, Majmūʿ al-fatāwā 13:371 och al-Furqān läggas till, och al-Qurtubī 11:272 och Majmūʿ 13:370 tas bort om de står där.",
+    "Fotnoterna är omnumrerade i ordning efter första hänvisning och är nu 71."
+  ]
+}

@@ -1,0 +1,29 @@
+---
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import { codeLabel } from "../../lib/ai-barometern/options";
+import { cellLabel } from "../../lib/ai-barometern/site";
+
+interface Props {
+	cell: ScaleCell;
+	own?: boolean | undefined;
+}
+const { cell, own = false } = Astro.props;
+const counts = [...new Set(cell.codes)].map((code) => ({
+	label: codeLabel(code),
+	n: cell.codes.filter((value) => value === code).length,
+}));
+const unit = cell.failed ? "försök" : "svar";
+---
+
+<div class="abm-answer-summary">
+	<strong>{cell.state === "split" ? "Splittrade svar" : cell.failed && cell.state === "missing" ? "Inget giltigt svar" : cellLabel(cell)}</strong>
+	{own && <span class="abm-sample-note">Om eget företag</span>}
+	{counts.length === 1 ? (
+		<span class="abm-sample-note">{cell.failed ? `${counts[0]?.label}: ` : ""}{counts[0]?.n} av {cell.codes.length} {unit}</span>
+	) : counts.length > 1 ? (
+		<details class="abm-samples">
+			<summary>Svaren varierade</summary>
+			<ul>{counts.map(({ label, n }) => <li>{label}: {n} av {cell.codes.length} {unit}</li>)}</ul>
+		</details>
+	) : <span class="abm-sample-note">Ingen mätning</span>}
+</div>

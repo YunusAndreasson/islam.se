@@ -1,9 +1,9 @@
 ---
-title: "Solen mörknar för ingen"
+title: "Solen sörjde inte Profetens ﷺ son"
 publishedAt: "2026-06-05T22:02:42.925Z"
 wordCount: 1106
 qualityScore: 8.8
-description: "Ingen har bringat världen i ordning så grundligt som Carl von Linné. Han gav arterna deras dubbla namn, fördelade det levande i klasser och ordningar och lärde Europa att läsa naturen som ett register. Ändå ägnade han sina sista årtionden, i det tysta, åt något som var taxonomins raka motsats."
+description: "Den dag Profetens ﷺ lille son Ibrahim dog förmörkades solen, och folket sade att himlen sörjde med honom. Profeten ﷺ rättade dem. Linné gick åt andra hållet och samlade i Nemesis divina hundratals öden där han såg Guds straff utdelas redan i detta liv."
 imageAlt: "Man i 1700-talsperuk skriver med gåspenna vid levande ljus, omgiven av pressade växter och handskrivna blad vid ett fönster mot en mörk sjö."
 imageCaption: "Vid stearinljuset förde han räkenskap över rättvisan som mörknar för ingen."
 category: "Skapelsen"

@@ -1,9 +1,9 @@
 ---
-title: "Passionens klängväxt"
+title: "Arabiskan har nästan sextio ord för kärlek"
 publishedAt: "2026-03-12T12:00:00.000Z"
 wordCount: 1673
 qualityScore: 8.7
-description: "I *Doktor Glas* skiljer Hjalmar Söderberg kärleken från drömmen om den, men svenskan ger honom bara ett ord att arbeta med. Redan på 1300-talet hade den damascenske juristen Ibn Qayyim al-Jawziyyah kartlagt närmare sextio arabiska namn, ordnade inte som synonymer utan som stadier, symptom och prognoser."
+description: "Hjalmar Söderberg visste att kärleken och drömmen om den är två olika saker, men svenskan gav honom bara ett ord. Ibn Qayyim ordnade de arabiska orden som en läkare ordnar symtom, efter vart de leder den som drabbas."
 imageAlt: "Vitkalkad spiraltrappa fotograferad uppifrån, där trappsteg och ledstång virar sig i allt tätare varv mot ett mörkt centrum."
 imageCaption: "Passionen som klängväxt – den virar sig uppåt i allt trängre varv."
 category: "Själen"

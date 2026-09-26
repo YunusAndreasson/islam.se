@@ -38,27 +38,14 @@
 	margin-top: var(--space-unit);
 }
 .home .home-akt2 {
-	margin-top: var(--space-section);
+	margin-block: var(--space-section) 0;
 }
 
-/* THE PAGE'S GROUNDS. Every other movement under the cover sits on a paper one step
-   darker (--ground-tint, 5 % of the muted ink in the page colour), running to the window
-   edges while its content keeps the canvas: the podcast and app band, Ämnen,
-   Fördjupning, Tänkare and the book, so paper and tint alternate from the cover to the
-   footer. (The book stood on Praktiskt's paper until 2026-09-26, its cover drawn in the
-   tint's colour; the two last movements on one ground stopped the alternation one
-   short of the end. The cover is printed on --paper now, BookPod.astro.) Whitespace
-   and a kicker alone left eleven movements on one sheet with nothing to tell where one
-   ended (user review, 2026-09-25: "better when you had slightly different colors
-   between the different sections"). One tint, never a dark band: the ink ground this
-   page tried the same day made it read as two sites.
-
-   --color-bg is re-pointed so anything that paints "the ground" — the horizon's sun
-   ring, the map's burial-ground holes — matches the tint it sits on. 50% is half the
-   canvas, 50cqi half the window (.front is the container, layout.css). */
-.front
-	.home
-	:is(.podd-app, .amnen.home-movement, .fordjupning-home, .tankare-home, .bookpod--home) {
+/* A single tint groups the illustrated reference, department and thinker sections.
+   The closing promotions share one continuous ground: the wrapper owns the bleed
+   and outer padding so the podcast/app and book read as a related group.
+   50% is half the canvas; 50cqi is half the window (.front is the container). */
+.front .home :is(.home-reference, .home-essays, .tankare-home, .home-promotions) {
 	--color-bg: var(--ground-tint);
 	margin-inline: calc(50% - 50cqi);
 	padding-inline: calc(50cqi - 50%);
@@ -66,21 +53,36 @@
 	background: var(--color-bg);
 }
 
-/* THE FRONT PAGE'S TITLES, one rank, one ink. A title under a picture or in a list is
-   content, not chrome, and the page's own movements (the index, Trådar, the barometer,
-   Praktiskt) set theirs in --color-text; the shared list and card components set theirs
-   in the link accent, one step lighter. Side by side that read as two kinds of title —
-   the Fördjupning and Ämnen titles looked washed out on the tint beside black ones on
-   the paper. Hover still underlines; the accent is not what makes them links. */
-.front .home :is(.archive-title, .card-list-title) {
-	color: var(--color-text);
+.home .home-reference,
+.home .home-essays,
+.home .home-promotions {
+	display: grid;
+	row-gap: var(--space-section);
+	margin-block: var(--space-section);
 }
 
-/* Literata's discretionary ligatures (c‿h, s‿t) are an ornament of the display sizes —
-   the lead's headline keeps them. At card-title size they read as a rendering fault:
-   »inläs‿ta«, »mots‿tånd«, and an »oc‿h« in every other title on this page. */
-.front .home h3 {
-	font-variant-ligatures: common-ligatures;
+.home .home-promotions {
+	margin-block: var(--space-section) 0;
+}
+
+/* Essays, threads and their thinkers share a continuous reading region.
+   Put the section gap inside its tint, rather than exposing a white strip
+   between two identical backgrounds. Practical tools begin the next region. */
+.front .home .home-essays {
+	margin-bottom: 0;
+	padding-bottom: var(--space-section);
+}
+
+.front .home .home-akt2 + .tankare-home {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+.home .home-reference > .home-movement,
+.home .home-essays > .home-movement,
+.home .home-promotions > :is(.podd-app, .bookpod--home) {
+	margin: 0;
+	min-inline-size: 0;
 }
 
 .home .home-masthead {
@@ -183,14 +185,25 @@ a:focus-visible .media-frame::before {
 }
 .site-footer .site-footer-nav {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: var(--space-group);
 	text-align: left;
 	text-transform: none;
 	letter-spacing: 0;
 }
+/* The larger reading group gets two columns, preserving a short footer. */
+.footer-group:first-child {
+	grid-column: span 2;
+}
+.footer-group:first-child ul {
+	columns: 2;
+	column-gap: var(--space-group);
+}
+.footer-group li {
+	break-inside: avoid;
+}
 .footer-group h2 {
-	margin-bottom: var(--space-control);
+	margin: 0 0 var(--space-control);
 }
 .footer-group ul {
 	list-style: none;
@@ -212,6 +225,8 @@ a:focus-visible .media-frame::before {
 .palette.fullscreen-dialog {
 	background: var(--color-bg);
 	backdrop-filter: none;
+	/* Keep keyboard-selected results below the sticky title and search bars. */
+	scroll-padding-block: 10rem 1rem;
 }
 .palette .palette-topbar {
 	position: sticky;
@@ -256,6 +271,9 @@ a:focus-visible .media-frame::before {
 	margin-top: var(--space-group);
 }
 @media (width > 900px) {
+	.palette {
+		--padding-inline: 2rem;
+	}
 	.palette.fullscreen-dialog {
 		inset: 2rem 0;
 		width: min(56rem, calc(100% - 4rem));
@@ -309,7 +327,7 @@ a:focus-visible .media-frame::before {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 	.footer-group:last-child {
-		grid-column: 1 / -1;
+		grid-column: auto;
 	}
 	.palette .palette-input {
 		font-size: var(--step-1);
@@ -367,15 +385,7 @@ a:focus-visible .media-frame::before {
    stay where a boundary means something — the rail's edge, a movement's opening — and
    leave the rows, where whitespace was already doing the separating. Budget: ≤ 20
    capitalised labels, ≤ 16 rules. Count again before adding one. */
-.front :is(.section-link, .home-head-all, .card-list-count, .nyhet-kategori) {
-	text-transform: none;
-	letter-spacing: 0.01em;
-}
-/* The pills too — Apple Podcasts, App Store, E-bok: seven of them on this page, and
-   in capitals they took the count past the budget. A step up, since lower case at the
-   caps size reads a size smaller. */
-.front :is(.podcast-action, .bookpod-action) {
-	font-size: var(--step--2);
+.front :is(.home-head-all, .nyhet-kategori) {
 	text-transform: none;
 	letter-spacing: 0.01em;
 }

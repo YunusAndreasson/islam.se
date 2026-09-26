@@ -11,6 +11,8 @@ import barometernLjus from "../assets/ritningar/barometern.webp";
 import barometernBredLjus from "../assets/ritningar/barometern-bred.webp";
 import barometernBredMork from "../assets/ritningar/barometern-bred-mork.webp";
 import barometernMork from "../assets/ritningar/barometern-mork.webp";
+import bokenLjus from "../assets/ritningar/boken.webp";
+import bokenMork from "../assets/ritningar/boken-mork.webp";
 import bonetiderLjus from "../assets/ritningar/bonetider.webp";
 import bonetiderMork from "../assets/ritningar/bonetider-mork.webp";
 import grundenLjus from "../assets/ritningar/grunden.webp";
@@ -36,6 +38,10 @@ export const RITNINGAR = {
 	podden: { ljus: poddenLjus, mork: poddenMork },
 	/** A phone showing the app: the map with the day's arc, the prayer list. */
 	appen: { ljus: appenLjus, mork: appenMork },
+	/** The collected essays: one bound volume lying closed on the loose sheets it gathered,
+	 *  gilt bands on its spine — the front page's close (BookPod), in the podcast drawing's
+	 *  10rem column, so the page ends on the kind of object it opened with. */
+	boken: { ljus: bokenLjus, mork: bokenMork },
 	/** A window at first light, a prayer rug on the sill — Bönetider's prose page, /bonetider/metod/. */
 	bonetider: { ljus: bonetiderLjus, mork: bonetiderMork },
 	/** A modest mosque among a Swedish town's roofs and birches. Not placed (DESIGN.md, »The Drawings«). */

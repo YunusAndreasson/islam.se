@@ -213,9 +213,13 @@ def rule_em_dash(doc: Doc) -> list[dict]:
 
 
 def rule_guillemets(doc: Doc) -> list[dict]:
+    """Markdown prose uses straight quotes, transformed by smartypants at render time.
+    Frontmatter renders directly in cards and metadata, so it keeps typographic quotes
+    (the same distinction as rule_curly_quotes and the published-description tests).
+    """
     return [
-        _hit("guillemets", ERROR, n, line, 'huset använder raka "…", inte »…«')
-        for n, line in doc.frontmatter + doc.body
+        _hit("guillemets", ERROR, n, line, 'huset använder raka "…", inte »…« i Markdown-prosa')
+        for n, line in doc.body
         if "»" in line or "«" in line
     ]
 
@@ -783,7 +787,20 @@ def self_test() -> int:
         failures += 0 if ok else 1
         print(f"  {'OK ' if ok else 'FEL'} {'(radklass figur)':20s} {why}")
 
-    total = len(DOCTRINE_CASES) + len(DOCTRINE_CLEAN) + len(fence_cases)
+    quote_doc = _self_test_doc(['Vanlig brödtext.'])
+    quote_doc.frontmatter = [(2, 'description: "Han sade »nej«."')]
+    quote_cases = [
+        (not rule_guillemets(quote_doc), "frontmatter behåller typografiska citattecken"),
+        (bool(rule_guillemets(_self_test_doc(['Han sade »nej«.']))),
+         "guillemets i Markdown-prosa fälls fortfarande"),
+        (not rule_guillemets(_self_test_doc(['Han sade \"nej\".'])),
+         "raka citattecken i Markdown-prosa passerar"),
+    ]
+    for ok, why in quote_cases:
+        failures += 0 if ok else 1
+        print(f"  {'OK ' if ok else 'FEL'} {'(citattecken)':20s} {why}")
+
+    total = len(DOCTRINE_CASES) + len(DOCTRINE_CLEAN) + len(fence_cases) + len(quote_cases)
     print()
     if failures:
         print(f"⛔ {failures} av {total} fall fel — rätta innan du litar på kontrollen")

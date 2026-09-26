@@ -1,9 +1,9 @@
 ---
-title: "Köttet och tecknet"
+title: "Eddans värld är byggd av ett lik"
 publishedAt: "2026-06-05T19:06:04.213Z"
 wordCount: 1685
 qualityScore: 9
-description: "Gudarna dräpte en jätte och byggde världen av hans kropp. Av Ymers kött blev jorden, av blodet haven, av benen restes bergen; tänderna och de sönderslagna käkarna blev sten och grus, och skallen välvdes till himmel, buren i sina fyra hörn av lika många dvärgar."
+description: "Vi ställer Ymers kropp på samma hylla som Bibelns och Koranens skapelse, som om de svarade på samma fråga. Eddan räknar upp vad världen är gjord av. Koranen talar om samma berg och samma himmel för att visa vart de pekar."
 imageAlt: "Snöstänkt bergsmassiv över en stilla fjord under stormmoln, med blekt drivved på klippstranden och en ensam liten gestalt."
 imageCaption: "Av jättens kropp restes bergen – köttet blev land."
 category: "Skapelsen"

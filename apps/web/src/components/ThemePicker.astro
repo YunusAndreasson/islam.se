@@ -1,0 +1,69 @@
+<!-- Site preference, separate from content navigation. -->
+<fieldset class="theme-picker">
+	<legend class="theme-picker-legend label">Utseende</legend>
+	<div class="theme-picker-opts">
+		<label class="theme-opt"><input type="radio" name="theme-choice" value="system" checked /><span>System</span></label>
+		<label class="theme-opt"><input type="radio" name="theme-choice" value="light" /><span>Ljust</span></label>
+		<label class="theme-opt"><input type="radio" name="theme-choice" value="dark" /><span>Mörkt</span></label>
+	</div>
+</fieldset>
+
+<style>
+	.theme-picker {
+		margin: 0;
+		padding: 0;
+		border: none;
+	}
+
+	.theme-picker-legend {
+		padding: 0;
+		margin-bottom: 0.55rem;
+	}
+
+	/* A segmented control: one hairline capsule, the chosen segment filled. Three
+	   states, because down here each one can carry its own word — "System" is the
+	   default the site has always honoured and now the reader can return to it. */
+	.theme-picker-opts {
+		display: inline-flex;
+		padding: 3px;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-pill);
+	}
+
+	.theme-opt {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.75rem;
+		padding-inline: 0.85rem;
+		border-radius: var(--radius-pill);
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 500;
+		color: var(--color-muted);
+		cursor: pointer;
+		transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
+	}
+
+	/* The radio stays in the accessibility tree and keeps the label's native
+	   activation; only its box is taken out of the layout. */
+	.theme-opt input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.theme-opt:hover { color: var(--color-accent); }
+
+	.theme-opt:has(:checked) {
+		color: var(--color-accent);
+		background: var(--wash-selected);
+	}
+
+	.theme-opt:has(:focus-visible) {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+	}
+
+</style>

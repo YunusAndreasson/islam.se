@@ -1,9 +1,9 @@
 ---
-title: "Provet som redan finns"
+title: "Granska moskéns pengar, inte människors tro"
 publishedAt: "2026-08-14T20:06:49.457Z"
 wordCount: 3021
 qualityScore: 8.7
-description: "Svensk rätt får inte fråga vem som betalar en moské. De utredningar som gjorts har i stället frågat efter något ingen metod kan mäta: vad människor egentligen tror. Islams eget prov ställde en annan fråga, och svaret på den står i räkenskaperna."
+description: "När Profeten ﷺ kom tillbaka från Tabuk förbjöds han att be i ett nybyggt bönehus i Medina, och skälen gällde vem som hade byggt det och i vems ärende. Svenska utredningar om moskéer frågar i stället vad människor egentligen tror, något ingen metod kan mäta. Den gamla frågan går att besvara, och svaret står i räkenskaperna."
 seoDescription: "Koranen underkände en moské för vad den var rest till, aldrig för vad byggarna trodde. Sverige prövar samma fråga med andra instrument."
 imageAlt: "Man med kort skägg sitter vid ett skrivbord i dunkelt vinterljus och läser i en uppslagen bok, med inramad arabisk kalligrafi på väggen, inbundna band i hyllan bakom och snötäckta tak utanför fönstret."
 imageCaption: "Provet fanns nedskrivet långt innan frågan ställdes."

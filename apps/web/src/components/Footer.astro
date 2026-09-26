@@ -1,7 +1,7 @@
 ---
-import { gregorianToHijri, stockholmNoon } from "../lib/markesdagar";
 import { currentNavHref, FOOTER_GROUPS, FOOTER_LINKS } from "../lib/navigation";
 import MarkDot from "./MarkDot.astro";
+import ThemePicker from "./ThemePicker.astro";
 
 interface Props {
 	/** Section to mark current when the URL alone cannot express it — an essay lives at
@@ -15,16 +15,6 @@ const path = Astro.url.pathname;
 const currentHref = currentNavHref(path, FOOTER_LINKS.map((link) => link.href), activeHref);
 const here = (href: string) => href === currentHref;
 
-// A colophon date, not a feature version — the site has no release train, so a semver
-// triplet would just be three arbitrary-looking digits. The Hijri build date reads the
-// same shape (X.Y.Z) but every digit means something: which Hijri year, month and day
-// this was deployed. Zero-padded so the stamp holds a fixed width across every build —
-// "1447.02.06", never a jittery "1447.2.6". Anchored to noon of the Swedish day, since
-// gregorianToHijri reads its instant in UTC and a build between 00:00 and 02:00 Swedish
-// time would otherwise stamp the day before.
-const buildHijri = gregorianToHijri(stockholmNoon(new Date()));
-const pad2 = (n: number) => String(n).padStart(2, "0");
-const buildStamp = `${buildHijri.y}.${pad2(buildHijri.m)}.${pad2(buildHijri.d)}`;
 ---
 
 <footer class="site-footer">
@@ -37,16 +27,21 @@ const buildStamp = `${buildHijri.y}.${pad2(buildHijri.m)}.${pad2(buildHijri.d)}`
 		))}
 	</nav>
 
-	<div class="site-footer-colophon">
-		<p class="label site-footer-meta">
-			<span class="site-footer-place">Sverige, {year}</span>
-			<span class="nav-dot site-footer-place-dot" aria-hidden="true">&middot;</span>
-			<a href="https://islam.se">islam.se</a>
-			<span class="nav-dot" aria-hidden="true">&middot;</span>
-			<a href="mailto:support@islam.se">support@islam.se</a>
-			<span class="nav-dot" aria-hidden="true">&middot;</span>
-			<a href="/rss.xml">RSS</a>
-		</p>
+	<div class="site-footer-utilities">
+		<ThemePicker />
+
+		<div class="site-footer-colophon">
+			<p class="label site-footer-meta">
+				<span class="site-footer-place">Sverige, {year}</span>
+				<span class="nav-dot site-footer-place-dot" aria-hidden="true">&middot;</span>
+				<a href="https://islam.se">islam.se</a>
+				<span class="nav-dot" aria-hidden="true">&middot;</span>
+				<a href="mailto:support@islam.se">support@islam.se</a>
+				<span class="nav-dot" aria-hidden="true">&middot;</span>
+				<a href="/rss.xml">RSS</a>
+			</p>
+		</div>
+
 	</div>
 
 	{/* The page closes on the mark itself — the full stop of islam.se, set alone so the
@@ -54,11 +49,29 @@ const buildStamp = `${buildHijri.y}.${pad2(buildHijri.m)}.${pad2(buildHijri.d)}`
 	    already links home, and a second link here would only split the target. */}
 	<MarkDot class="site-footer-mark" />
 
-	{/* A colophon date beneath the printer's device, not a UI element — deliberately
-	    quieter than the meta line above it. It says WHICH date it is: bare, »1448.04.13«
-	    read as today's date, and sat a day or more behind the front page's horizon,
-	    which shows the real one — two islamic dates on one page, disagreeing. */}
-	<p class="site-footer-build" title={`Uppdaterad ${buildStamp} i den islamiska kalendern`}>
-		uppdaterad {buildStamp}
-	</p>
 </footer>
+
+<style>
+	/* Preferences and contact details form one utility area below navigation. */
+	.site-footer-utilities {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: flex-end;
+		gap: var(--space-group) var(--space-unit);
+		margin-top: var(--space-unit);
+		text-align: start;
+	}
+
+	.site-footer-colophon {
+		margin: 0;
+	}
+
+	.site-footer-meta {
+		justify-content: flex-start;
+	}
+
+	.site-footer-place {
+		text-align: start;
+	}
+</style>

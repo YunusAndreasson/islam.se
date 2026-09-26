@@ -1,5 +1,5 @@
 ---
-title: "Serumet och blicken"
+title: "Kallocain: sanningen under tvång"
 publishedAt: "2026-02-14T12:00:00.000Z"
 wordCount: 1803
 qualityScore: 8.7

@@ -77,6 +77,8 @@
    Pair with .arrow-link or .back-link. Sets no margins — placement stays with the
    page that uses it. */
 	.section-link {
+		text-transform: none;
+		letter-spacing: 0.01em;
 		/* Padding + matching negative margin: the ~20px line box would miss the 24px
 	   WCAG 2.5.8 target floor, and the negative margin gives the space back. */
 		display: inline-block;
@@ -389,11 +391,11 @@
 		gap: 0.45em;
 		padding: 0.5rem 1.125rem;
 		font-family: var(--font-heading);
-		font-size: var(--step--3);
+		font-size: var(--step--2);
 		font-weight: 500;
-		letter-spacing: 0.05em;
-		text-transform: uppercase;
-		font-feature-settings: "case";
+		letter-spacing: 0.01em;
+		text-transform: none;
+		min-height: 2.75rem;
 		color: var(--color-accent);
 		border: 1px solid var(--color-divider);
 		border-radius: 1.25rem;
@@ -583,17 +585,16 @@
 	   tinted grounds' padding included; the phone values are the one-column layouts
 	   at 390px. Re-measure when a
 	   movement changes shape (scratchpad script: every .home-movement's height). */
-	.podd-app {
-		--civ-h: 348px;
-	}
 	.amnen.home-movement {
-		--civ-h: 1038px;
+		/* One active subject; the shared essay wrapper supplies the outer padding. */
+		--civ-h: 700px;
 	}
 	.fakta-band {
 		--civ-h: 1188px;
 	}
 	.fordjupning-home {
-		--civ-h: 1380px;
+		/* Content box; the reference wrapper supplies the tinted outer padding. */
+		--civ-h: 1163px;
 	}
 	.tradar-home {
 		--civ-h: 407px;
@@ -606,11 +607,8 @@
 	}
 
 	@media (max-width: 40rem) {
-		.podd-app {
-			--civ-h: 646px;
-		}
 		.amnen.home-movement {
-			--civ-h: 2457px;
+			--civ-h: 1500px;
 		}
 		.fakta-band {
 			--civ-h: 1526px;
@@ -656,9 +654,10 @@
    such link and keeps a bare kicker — similarity following function.) */
 	.home-head {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: baseline;
-		gap: 1rem;
+		gap: var(--space-half) 1rem;
 		margin-bottom: var(--space-unit);
 	}
 
@@ -666,12 +665,16 @@
 		margin-bottom: 0;
 	}
 
+	/* Keep the complete destination and arrow together. Flex wrapping moves the
+	   link below its heading when the pair no longer fits on one line. */
 	.home-head-all {
+		flex-shrink: 0;
+		white-space: nowrap;
 		min-width: 0;
 		text-align: end;
 		justify-content: flex-end;
 		font-size: var(--step--3);
-		color: var(--color-muted);
+		color: var(--text-meta);
 		text-decoration: none;
 		transition: color var(--dur-fast) ease;
 		/* WCAG 2.5.8 (target size ≥24px): the small-caps label is only ~22px tall. Pad the
@@ -713,10 +716,9 @@
 		   (the lead's and the index's under the cover) missed each other by 3px. */
 		line-height: 1.618;
 		letter-spacing: 0.09em;
-		/* Colour comes from `.label` (--color-muted). The kicker used to darken it to
-		   a 65/35 mix, which put section ticks a full L* step ahead of every other
-		   label on the site for no reason anyone could name — labels are wayfinding,
-		   and they all sit at the same rank. */
+		/* Navigation labels need more presence than incidental captions. Keep their
+		   scale quiet and use the existing stronger metadata colour in both themes. */
+		color: var(--text-meta);
 	}
 
 	/* The wordmark's sun, not a rule. It was a 1.6rem warm dash — the same stroke
@@ -1302,8 +1304,8 @@
 	.site-footer {
 		position: relative;
 		max-width: var(--canvas-width);
-		margin: var(--space-phi2) auto 0;
-		padding-block: var(--space-phi) var(--space-phi2);
+		margin: var(--space-phi) auto 0;
+		padding-block: var(--space-unit) var(--space-phi);
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
 		text-align: center;
@@ -1388,22 +1390,7 @@
 		display: block;
 		width: 1.5rem;
 		height: 1.5rem;
-		margin: var(--space-phi) auto 0;
-	}
-
-	/* The build stamp beneath the mark — quieter than everything above it in the
-	   footer, which is the whole point. --step--5 is the smallest size the type scale
-	   defines at all; --color-muted (not a further-faded mix) because text can't go
-	   more transparent than that and still clear the site's own APCA floor. Subtlety
-	   here comes from size and restraint, not from illegibility. */
-	.site-footer-build {
-		margin: 0.4rem 0 0;
-		color: var(--color-muted);
-		font-family: var(--font-body);
-		font-size: var(--step--5);
-		font-variant-numeric: lining-nums tabular-nums;
-		letter-spacing: 0.02em;
-		cursor: default;
+		margin: var(--space-unit) auto 0;
 	}
 
 	.site-footer-meta {
@@ -1771,7 +1758,7 @@
 		   same one it will be set in when the reader arrives on the page. */
 		.archive-title {
 			display: block;
-			color: var(--color-accent);
+			color: var(--color-text);
 			font-size: var(--step-1);
 			font-family: var(--font-display);
 			font-weight: 600;
@@ -1780,7 +1767,7 @@
 		}
 
 		.archive-meta {
-			font-size: var(--step--4);
+			font-size: var(--step--3);
 			margin-top: 0.25rem;
 			margin-bottom: 0;
 		}
@@ -1819,13 +1806,16 @@
 		padding: 0;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-		gap: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.25rem, 3vw, 2.25rem);
+		gap: var(--space-group) var(--grid-gutter);
 	}
 
-	/* Thirds, for a row that holds at most three (an ämne's picture cards on /essaer/)
-	   or six (the fördjupning band on /svar/). The auto-fill track makes four on the
-	   76rem canvas, which left three cards beside an empty slot and six as 4 + 2. */
-	@media (width >= 48rem) {
+	/* Two columns on tablets; thirds need room for titles and whole-sentence decks. */
+	@media (48rem <= width < 64rem) {
+		.essay-cards.essay-cards--thirds {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	@media (width >= 64rem) {
 		.essay-cards.essay-cards--thirds {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
@@ -1864,23 +1854,10 @@
 		font-size: var(--step--2);
 		color: var(--text-quiet);
 		margin-top: 0.4rem;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
 	}
 
 	.essay-card .archive-meta {
 		margin-top: 0.5rem;
-	}
-
-	/* Three lines instead of two, for card lists whose deck is a `blurb` — one finished
-	   sentence of 60–95 characters — rather than the opening clause of an essay's
-	   description. Two lines cut most blurbs mid-word ("…och en historia som är
-	   svenskar…"), which reads as breakage rather than as a deck running out of sight.
-	   Used by the fördjupning band on /svar/ and by the /fordjupning/ index. */
-	.essay-cards--blurb .essay-card .archive-description.essay-card-desc {
-		-webkit-line-clamp: 3;
 	}
 
 	/* Thumbnail row — the archive row with its hero run small down the right edge.
@@ -2449,7 +2426,7 @@
 	.home .archive-list {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
-		column-gap: clamp(1.75rem, 4vw, 3.5rem);
+		column-gap: var(--grid-gutter);
 	}
 
 	/* The global first/last special-casing tucks a single-column list up and

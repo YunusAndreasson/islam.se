@@ -1,0 +1,45 @@
+---
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import { FAMILIES } from "../../lib/ai-barometern/families";
+import type { FamilyKey } from "../../lib/ai-barometern/types";
+import AnswerSummary from "./AnswerSummary.astro";
+
+interface Props {
+	rows: readonly {
+		label: string;
+		href: string;
+		own?: FamilyKey | undefined;
+		cells: Readonly<Record<FamilyKey, ScaleCell>>;
+	}[];
+	caption: string;
+	/** Family names explicitly mentioned by the finding. */
+	emphasis?: string;
+}
+const { rows, caption, emphasis = "" } = Astro.props;
+const named = FAMILIES.filter((family) => emphasis.includes(family.label));
+const initiallyOpen = named.length ? named.map((family) => family.key) : [FAMILIES[0]!.key];
+---
+
+<figure class="abm-labelled-comparison">
+	<abm-mobile class="abm-comparison-mobile">
+		{FAMILIES.map((family) => (
+			<details open={initiallyOpen.includes(family.key)}>
+				<summary>{family.label}</summary>
+				<dl>{rows.map((row) => <div><dt><a href={row.href}>{row.label}</a></dt><dd><AnswerSummary cell={row.cells[family.key]} own={row.own === family.key} /></dd></div>)}</dl>
+			</details>
+		))}
+	</abm-mobile>
+	<div class="abm-scroll abm-comparison-desktop" tabindex="0" role="region" aria-label={caption}>
+		<table>
+			<caption class="sr-only">{caption}</caption>
+			<thead><tr><th scope="col">Modell</th>{rows.map((row) => <th scope="col"><a href={row.href}>{row.label}</a></th>)}</tr></thead>
+			<tbody>{FAMILIES.map((family) => (
+				<tr data-emphasis={emphasis.includes(family.label) ? "" : undefined}>
+					<th scope="row">{family.label}</th>
+					{rows.map((row) => <td><AnswerSummary cell={row.cells[family.key]} own={row.own === family.key} /></td>)}
+				</tr>
+			))}</tbody>
+		</table>
+	</div>
+	<figcaption class="chart-cap">Sammanfattade svar. <a href={rows[0]?.href}>Läs påståendena och modellernas egna motiveringar</a>.</figcaption>
+</figure>

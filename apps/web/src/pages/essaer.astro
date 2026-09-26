@@ -104,6 +104,7 @@ const lengthFilterItems = [
 							articles={cards}
 							class="essay-cards essay-cards--thirds"
 							itemVariant="card"
+							cardSizes="(min-width: 79rem) 24rem, (min-width: 64rem) 30vw, (min-width: 37rem) 45vw, 100vw"
 							showReadFlag
 							showMinutesAttr
 						/>
@@ -203,14 +204,6 @@ const lengthFilterItems = [
 	   the same warm welcome as the start page — then the rest follows as the 2-col
 	   text index. Cards stay .archive-item for the read/length/sort JS; the reset of
 	   the global .archive-item border/padding lives in EssayArchiveItem.astro. */
-	/* Three narrower thread cards across the intro, the same three-up shape the
-	   fördjupning band uses on /svar/.
-	   ⚠️ Fully :global(). `.essaer-page` is rendered by CollectionIndexPage and carries
-	   THAT component's scope id, so a selector scoped to this page never matches it. */
-	:global(.essaer-page .tradar-home .card-list) {
-		--card-list-min: 17rem;
-	}
-
 	/* .essay-cards and the card itself are global — see styles/layout.css. */
 
 	.filter-row {
@@ -223,29 +216,34 @@ const lengthFilterItems = [
 	/* The filter pills are the shared global `.filter-chip` (+ `.label`), identical to
 	   the Frågor & svar category nav. */
 
+	/* These elements belong to EssayList/ArticleMeta/TitledSection. Global selectors
+	   rooted in this page reach them across Astro component scopes. */
+
 	/* Read/unread value-shift within the ämne group (§9) — not two sections.
 	   Colour is --color-muted, not --color-warm: the flag renders the words
 	   "· läst", and --color-warm is the 3:1 UI/border tier (3.01:1), under AA
 	   for text this small. */
-	.read-flag {
+	:global(.essaer-page .read-flag) {
 		display: none;
 		color: var(--color-muted);
 	}
 
-	.archive-item[data-read] .archive-title {
+	:global(.essaer-page .archive-item[data-read] .archive-title) {
 		color: var(--color-muted);
 	}
 
-	.archive-item[data-read] .read-flag {
+	:global(.essaer-page .archive-item[data-read] .read-flag) {
 		display: inline;
 	}
 
-	.archive-item[data-filtered] {
+	:global(.essaer-page .archive-item[data-filtered]) {
 		display: none;
 	}
 
 	/* Hide a section whose rows are all filtered out. */
-	.archive-section[data-empty] {
+	:global(.essaer-page .archive-section[data-empty]),
+	:global(.essaer-page .essay-cards:not(:has(.archive-item:not([data-filtered])))),
+	:global(.essaer-page .archive-list:not(:has(.archive-item:not([data-filtered])))) {
 		display: none;
 	}
 

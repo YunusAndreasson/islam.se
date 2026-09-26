@@ -1,9 +1,9 @@
 ---
-title: "När natten inte faller"
+title: "Hur ber man maghrib när solen aldrig går ned?"
 publishedAt: "2026-06-05T20:02:12.611Z"
 wordCount: 2020
 qualityScore: 8.6
-description: "Fyrtiosju dygn i sträck står solen över Kiruna utan att gå ned. Under dessa veckor ska en muslim be maghrib – bönen som inträder i samma stund som solen sjunker under horisonten. Men någon nedgång kommer inte. Den fjärde av dagens fem böner hänger på en himmelsk händelse som har uteblivit."
+description: "I Kiruna står solen över horisonten i sju veckor, och kvällsbönen hänger på en solnedgång som aldrig kommer. Svaret finns i en hadith om en dag som är lång som ett år. Där säger Profeten ﷺ att tiderna ska räknas fram."
 imageAlt: "Ung kvinna i hijab står på en höjd i kvällsljus och blickar ut över en nordsvensk stad medan solen står lågt vid horisonten."
 imageCaption: "Långt norrut, där solen vägrar gå ned och maghrib ändå måste bes."
 category: "Skapelsen"

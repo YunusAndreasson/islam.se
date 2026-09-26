@@ -1,5 +1,5 @@
 ---
-title: "Lögnens bokföring"
+title: "Allt du måste minnas när du ljuger"
 publishedAt: "2026-01-21T12:00:00.000Z"
 wordCount: 1186
 qualityScore: 8.7

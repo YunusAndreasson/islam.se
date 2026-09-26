@@ -1390,3 +1390,30 @@
 		}
 	}
 }
+
+@layer components {
+	.abm-cell-detail > summary {
+		display: inline-flex;
+		cursor: pointer;
+		list-style: none;
+		padding: 0.4rem;
+	}
+	.abm-cell-detail > summary::-webkit-details-marker {
+		display: none;
+	}
+	.abm-cell-detail > summary:focus-visible {
+		outline: 2px solid var(--color-text);
+		outline-offset: 2px;
+	}
+	.abm-cell-reading {
+		min-inline-size: 8rem;
+		max-inline-size: 14rem;
+		padding: 0.5rem;
+		text-align: start;
+		font: 0.85rem / 1.5 var(--font-heading);
+	}
+	.abm-cell-reading .abm-answer-summary,
+	.abm-cell-reading .abm-sample-note {
+		display: block;
+	}
+}

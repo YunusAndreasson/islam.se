@@ -50,7 +50,7 @@
 		font-variant-numeric: oldstyle-nums;
 		/* Standard ligatures only. Literata's discretionary set joins c‿h and s‿t, and
 		   Swedish prose has an »och« on nearly every line — as running text it read as
-		   a tic, not a flourish. The ornament stays on h1–h3 below and the feature title. */
+		   a tic, not a flourish. The ornament stays on h1 and the feature title. */
 		-webkit-font-smoothing: antialiased;
 		text-wrap: auto;
 		hanging-punctuation: first last;
@@ -78,11 +78,16 @@
 		line-height: 1.2;
 		text-wrap: balance;
 		font-variant-numeric: normal;
-		font-variant-ligatures: discretionary-ligatures;
+		font-variant-ligatures: common-ligatures;
 		/* .prose sets hyphens: auto, which inherits — balanced headings must never
 	   auto-hyphenate Swedish compounds. manual keeps &shy; as an escape hatch. */
 		-webkit-hyphens: manual;
 		hyphens: manual;
+	}
+
+	h1,
+	.feature-title {
+		font-variant-ligatures: discretionary-ligatures;
 	}
 
 	/* Weights dropped a step with the face change: Literata 600 carries roughly the

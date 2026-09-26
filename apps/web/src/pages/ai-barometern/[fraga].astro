@@ -43,6 +43,7 @@ import { requireBySlug } from "../../lib/content-refs";
 import { breadcrumbList } from "../../lib/jsonld";
 import "../../styles/ai-barometern-chips.css";
 import "../../styles/ai-barometern.css";
+import "../../styles/ai-barometern-report.css";
 
 // One question, all models. The classical note, when the question has one, is the last
 // content section on the page: CLAUDE.md gives the classical position the last word, and
@@ -93,7 +94,7 @@ const isScale = question.kind === "scale";
 
 const crumbs = [
 	{ name: "Hem", url: "/" },
-	{ name: "AI-barometern", url: BASE_PATH },
+	{ name: "Barometer", url: BASE_PATH },
 	{ name: question.short, url: questionPath(question) },
 ];
 
@@ -101,8 +102,8 @@ const heading = isScale ? `»${question.text}«` : question.text;
 const scaleCells = scaleRow(question);
 const summary = run && isScale ? describeRow(scaleCells) : "";
 const description = isScale
-	? `Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek på påståendet »${question.text}«?${summary ? ` ${summary}` : ""} Svaren i AI-barometern, med modellernas egna motiveringar.`
-	: `${question.text} Så svarar ChatGPT, Claude, Gemini, Grok och DeepSeek i AI-barometern, med modellernas egna motiveringar.`;
+	? `Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek på påståendet »${question.text}«?${summary ? ` ${summary}` : ""} Svaren i Barometer, med modellernas egna motiveringar.`
+	: `${question.text} Så svarar ChatGPT, Claude, Gemini, Grok och DeepSeek i Barometer, med modellernas egna motiveringar.`;
 
 // A control question about one AI company: say whose model is judging its own maker.
 const ownFamily = question.aboutFamily ? getFamily(question.aboutFamily) : null;
@@ -114,12 +115,12 @@ const dek = `${
 	run
 		? `Så svarade fem AI-modeller i mätningen ${svDate(run.date)}. Varje modell fick frågan ${run.samples} gånger, varje gång i en ny konversation.`
 		: anyRun
-			? "Frågan är ny i AI-barometern. Den ställs till modellerna för första gången vid nästa mätning."
+			? "Frågan är ny i Barometer. Den ställs till modellerna för första gången vid nästa mätning."
 			: "Den första mätningen har ännu inte publicerats."
 }${ownNote}`;
 
 const partyRow = partyRows().find((r) => r.question.id === question.id);
-const source = run ? `Källa: AI-barometern, mätning ${svDate(run.date)}.` : "";
+const source = run ? `Källa: Barometer, mätning ${svDate(run.date)}.` : "";
 
 const quotes = FAMILIES.map((family) => {
 	const shown = isScale
@@ -156,16 +157,16 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 ---
 
 <Base
-	title={`${question.short} — AI-barometern — islam.se`}
+	title={`${question.short} — Barometer — islam.se`}
 	description={description}
 	ogImage="/ai-barometern/og.png"
-	ogImageAlt="AI-barometern — islam.se"
+	ogImageAlt="Barometer — islam.se"
 	jsonLd={[breadcrumbList(crumbs)]}
 >
 	<main id="main" class="home home--text abm abm-question">
 		<header class="abm-head">
 			<Breadcrumb items={crumbs} />
-			<p class="label">AI-barometern · {THEME_LABELS[question.theme]}</p>
+			<p class="label">Barometer · {THEME_LABELS[question.theme]}</p>
 			<h1>{heading}</h1>
 			{summary && <p class="abm-dek">{summary}</p>}
 			<p class:list={[summary ? "abm-dek-note" : "abm-dek"]}>
@@ -190,8 +191,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 						cell: scaleCells[family.key],
 						own: question.aboutFamily === family.key,
 					}))}
-					caption={`Varje punkt är ett av modellens svar. En ring betyder att modellen avstod eller vägrade.${question.classicalPosition === undefined ? "" : " Romben visar den klassiska hållningen, som förklaras sist på sidan."}`}
-					classical={question.classicalPosition}
+					caption="Varje punkt är ett svar. Antalen visar hur svaren fördelade sig mellan de upprepade försöken."
 					source={source}
 				/>
 			)
@@ -204,53 +204,6 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 					source={source}
 					linkQuestions={false}
 				/>
-			)
-		}
-
-		{
-			background && (
-				<TitledSection id="bakgrund" title="Bakgrund">
-					<p>{background.text}</p>
-					<p class="abm-sources">
-						Källor:{" "}
-						{background.sources.map((src, i) => (
-							<>
-								{i > 0 && ", "}
-								<a href={src.url}>{src.name}</a>
-							</>
-						))}
-						. Uppgifterna gäller {svDate(background.asOf)}.
-					</p>
-				</TitledSection>
-			)
-		}
-
-		{
-			polls.length > 0 && (
-				<TitledSection id="svenska-folket" title="Svenska folket">
-					<p>
-						{polls.length === 1 ? "En opinionsmätning" : "Opinionsmätningar"} har ställt samma eller en
-						liknande fråga till svenskarna. Mätningens egen fråga står med, eftersom den sällan är
-						densamma som påståendet ovan.
-					</p>
-					{polls.map((poll) => (
-						<OpinionBar poll={poll} />
-					))}
-				</TitledSection>
-			)
-		}
-
-		{
-			twins.length > 0 && (
-				<TitledSection id="jamfor" title="Jämför med liknande påståenden" class="abm-twins">
-					<p>
-						Påståenden som bara skiljer sig i vem de gäller, eller som prövar en princip mot ett
-						fall, visar om modellerna mäter med samma måttstock.
-					</p>
-					{twins.map((row, i) => (
-						<TwinCompare row={row} currentId={question.id} showKey={i === 0} />
-					))}
-				</TitledSection>
 			)
 		}
 
@@ -299,12 +252,59 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 		}
 
 		{
+			twins.length > 0 && (
+				<TitledSection id="jamfor" title="Jämför med liknande påståenden" class="abm-twins">
+					<p>
+						Påståenden som bara skiljer sig i vem de gäller, eller som prövar en princip mot ett
+						fall, visar hur svaren skiljer sig mellan fallen. En skillnad i svar förklarar inte i sig varför modellen svarade så.
+					</p>
+					{twins.map((row, i) => (
+						<TwinCompare row={row} currentId={question.id} showKey={i === 0} />
+					))}
+				</TitledSection>
+			)
+		}
+
+		{
+			background && (
+				<TitledSection id="bakgrund" title="Bakgrund">
+					<p>{background.text}</p>
+					<p class="abm-sources">
+						Källor:{" "}
+						{background.sources.map((src, i) => (
+							<>
+								{i > 0 && ", "}
+								<a href={src.url}>{src.name}</a>
+							</>
+						))}
+						. Uppgifterna gäller {svDate(background.asOf)}.
+					</p>
+				</TitledSection>
+			)
+		}
+
+		{
+			polls.length > 0 && (
+				<TitledSection id="svenska-folket" title="Svenska folket">
+					<p>
+						{polls.length === 1 ? "En opinionsmätning" : "Opinionsmätningar"} har ställt samma eller en
+						liknande fråga till svenskarna. Mätningens egen fråga står med, eftersom den sällan är
+						densamma som påståendet ovan.
+					</p>
+					{polls.map((poll) => (
+						<OpinionBar poll={poll} />
+					))}
+				</TitledSection>
+			)
+		}
+
+		{
 			run && hasHistory && (
 				<TitledSection id="over-tid" title="Över tid">
 					{isScale ? (
 						<>
 							<p>
-								Linjen visar modellens svar vid varje mätning, med Instämmer helt överst och Tar helt
+								Linjen förbinder modellens sammanfattade svar vid mättillfällena, med Instämmer helt överst och Tar helt
 								avstånd nederst.
 							</p>
 							<TrendMultiples series={history} />
@@ -369,7 +369,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 			)
 		}
 
-		<nav class="abm-pager" aria-label="Fler frågor i AI-barometern">
+		<nav class="abm-pager" aria-label="Fler frågor i Barometer">
 			{
 				prev && (
 					<a class="abm-pager-prev" href={questionPath(prev)} rel="prev">
@@ -388,7 +388,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 			}
 		</nav>
 		<p class="meta-line">
-			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>Alla frågor i AI-barometern</a>
+			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>Alla frågor i Barometer</a>
 		</p>
 	</main>
 </Base>

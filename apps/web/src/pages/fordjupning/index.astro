@@ -1,8 +1,7 @@
 ---
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
-import EssayImage from "../../components/EssayImage.astro";
+import FordjupningCards from "../../components/FordjupningCards.astro";
 import { getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
-import { CARD_WIDTHS } from "../../lib/hero";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 
 // FORDJUPNING — the encyclopedic pillar pages. Each covers one broad topic in full
@@ -96,43 +95,14 @@ const description =
 		<a href="/vad-ar-islam/">fakta om islam</a>.
 	</span>
 
-	{/* The same card as Essäer's and as the fördjupning band on /svar/, class for class
-	    — see styles/layout.css. `--blurb` gives the deck three lines instead of two,
-	    because these decks are finished sentences, not the head of a paragraph. */}
 	{ordered.length > 0 ? (
-		<ul class="essay-cards essay-cards--blurb fordjupning-cards">
-			{ordered.map(({ entry: f, hero }) => (
-				<li class="archive-item essay-card">
-					<a href={`/fordjupning/${f.id}/`}>
-						{hero && (
-							<div class="essay-card-media media-frame">
-								<EssayImage
-									{...(hero.src === undefined ? {} : { src: hero.src })}
-									{...(hero.article === undefined ? {} : { article: hero.article })}
-									alt=""
-									widths={CARD_WIDTHS}
-									sizes="(max-width: 600px) 100vw, 20rem"
-								/>
-							</div>
-						)}
-						<span class="archive-title essay-card-title">{f.data.term}</span>
-						<p class="archive-description essay-card-desc">
-							{f.data.blurb ?? f.data.seoDescription ?? f.data.description}
-						</p>
-					</a>
-				</li>
-			))}
-		</ul>
+		<FordjupningCards entries={ordered} />
 	) : (
 		<p class="fordjupning-empty">Inga fördjupningar är publicerade än.</p>
 	)}
 </CollectionIndexPage>
 
 <style>
-	.fordjupning-cards {
-		margin-top: var(--space-phi);
-	}
-
 	.fordjupning-empty {
 		margin-top: var(--space-phi);
 		color: var(--color-muted);

@@ -194,10 +194,8 @@
    their own, and the departments below them are three columns: balanced by
    construction, whatever the day brings.
 
-   The row comes FIRST at every width, directly under the second tier — the order
-   phones already had, for the reason they had it: the day's news four screens
-   down is news nobody finds. One order everywhere, so a reader who switches
-   devices finds the page the same. */
+   The live row follows the reference group and precedes the departments in the
+   document at every width. Keep visual and keyboard reading order identical. */
 .home-akt2 {
 	display: flex;
 	flex-direction: column;
@@ -211,7 +209,6 @@
 }
 
 .home-sidolinje {
-	order: -1;
 	/* No margin below: the departments' own section margin is the gap after it. */
 	margin-block: 0;
 }

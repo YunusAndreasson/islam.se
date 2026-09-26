@@ -11,12 +11,14 @@ interface Props {
 	id: string;
 	href: string;
 	linkLabel: string;
+	headingLevel?: 2 | 3;
 }
 
-const { label, id, href, linkLabel } = Astro.props;
+const { label, id, href, linkLabel, headingLevel = 2 } = Astro.props;
+const Heading = headingLevel === 3 ? "h3" : "h2";
 ---
 
 <div class="home-head">
-	<h2 class="label home-kicker" id={id}>{label}</h2>
+	<Heading class="label home-kicker" id={id}>{label}</Heading>
 	<SectionLink class="label home-head-all" href={href}>{linkLabel}</SectionLink>
 </div>

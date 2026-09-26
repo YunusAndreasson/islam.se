@@ -14,8 +14,10 @@ import ThreadList from "./ThreadList.astro";
 interface Props {
 	limit?: number;
 	variant?: "routes" | "cards";
+	nested?: boolean;
 }
-const { limit, variant = "routes" } = Astro.props;
+const { limit, variant = "routes", nested = false } = Astro.props;
+const RouteHeading = nested ? "h4" : "h3";
 
 let threads = await getCollection("tradar");
 if (limit) {
@@ -45,14 +47,15 @@ const routes = threads.map((thread) => {
 ---
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
-	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" />
+	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" headingLevel={nested ? 3 : 2} />
 	{variant === "cards" ? (
-		/* Three 18rem tracks (see the style block); two below ~67rem, one on a phone. */
+		/* A compact preview: these routes lead into the essays below. */
 		<ThreadList
 			threads={threads}
 			headingLevel={3}
+			compact
 			prefetch="viewport"
-			sizes="(min-width: 67rem) 18rem, (min-width: 40rem) 45vw, 100vw"
+			sizes="(min-width: 79rem) 24rem, (min-width: 63rem) 30vw, (min-width: 42rem) 45vw, 100vw"
 		/>
 	) : (
 		/* TRÅDAR AS ROUTES. A tråd is an ordered path through five or six essays, and
@@ -64,9 +67,9 @@ const routes = threads.map((thread) => {
 		<ul class="trad-routes">
 			{routes.map((route) => (
 				<li class="trad-route">
-					<h3 class="trad-title">
+					<RouteHeading class="trad-title">
 						<a href={`/tradar/${route.id}/`} data-astro-prefetch="viewport">{route.title}</a>
-					</h3>
+					</RouteHeading>
 					<p class="trad-framing">{route.framing}</p>
 					<p class="label article-meta trad-meta">
 						{route.essays.length} essäer · {route.minutes} min läsning
@@ -95,14 +98,6 @@ const routes = threads.map((thread) => {
 </script>
 
 <style>
-	/* THREE UP, NOT TWO — a rank correction rather than a taste. CardList's default
-	   --card-list-min of 26rem gives the 64rem canvas two tracks, the grid the rank-2
-	   essay cards use, so a browse axis outweighed the thing it is an axis THROUGH.
-	   18rem takes the cards to three tracks. Only the /essaer/ variant still uses it. */
-	.tradar-home {
-		--card-list-min: 18rem;
-	}
-
 	.trad-routes {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));

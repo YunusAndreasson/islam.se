@@ -1,9 +1,9 @@
 ---
-title: "Det han letade efter"
+title: "Swedenborg sökte själen med skalpell"
 publishedAt: "2026-03-14T12:00:00.000Z"
 wordCount: 1094
 qualityScore: 8.9
-description: "Snitten var felfria. Emanuel Swedenborg böjde sig över öppnade skallar på 1740-talet med en kartografs tålamod och en ingenjörs blick."
+description: "Swedenborg kartlade hjärnan hundra år före sin tid men hittade aldrig punkten där kött blir medvetande. Koranen skiljer i en halv vers mellan skapelsen och befallningen, och själen hör till befallningen. Att forskningen inte finner den är ingen brist hos forskningen."
 audioFile: "det-han-letade-efter.mp3"
 audioDuration: 452
 imageAlt: "Medelålders man med halsduk sitter ensam vid ett regnigt kaféfönster om kvällen och blickar ut, kaffekoppen i händerna."

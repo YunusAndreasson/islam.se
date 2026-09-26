@@ -79,13 +79,6 @@ const mastIsDay =
 				<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNextKey]}</span>
 				<span class="bf-next-time mast-prayer-time">{formatTime(mastTimes[mastNextKey])}</span>
 			</a>
-			{/* The theme switch used to stand here. It moved into the palette's utility
-			    rail (SearchOverlay): a once-a-session choice was holding permanent mast
-			    space next to a per-visit one, and on a phone that space is the whole
-			    difference between a crowded mast and a calm one. Down there it also has
-			    room for words, so it offers System/Ljust/Mörkt instead of the two states
-			    a 34px glyph could carry. */}
-
 			{/* No aria-label: the accessible name comes from the visible label span, which
 			    CSS swaps "Sök" (pointer) ↔ "Meny" (touch) by media query. A fixed aria-label
 			    matches only one, tripping WCAG 2.5.3 (label-in-name) on the other; letting the

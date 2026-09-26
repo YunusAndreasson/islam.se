@@ -1,9 +1,9 @@
 ---
-title: "Guds vägar"
+title: "Måste du tro som dina föräldrar?"
 publishedAt: "2026-09-23T20:44:02.112Z"
 wordCount: 4161
 qualityScore: 8.7
-description: "Släktens formel i Selma Lagerlöfs Jerusalem, \"Vi Ingemarer behöva bara gå Guds vägar\", har gått i arv i hundratals år innan den splittrar socknen. Koranen fördömer och berömmer samma handling, att följa fäderna, och ger formeln det innehåll den saknade."
+description: "Släktens formel i Selma Lagerlöfs Jerusalem, »Vi Ingemarer behöva bara gå Guds vägar«, har gått i arv i hundratals år innan den splittrar socknen. Koranen fördömer och berömmer samma handling, att följa fäderna, och ger formeln det innehåll den saknade."
 imageAlt: "En bred dal i Dalarna i gryningen, sedd från en skogsklädd höjd; tät markdimma fyller dalbotten, och en ljus grusväg löper rakt och diagonalt genom den. Några grå timmerlador står halvt dolda i dimman, och skogsåsar bleknar i blå dis under en mjölkvit himmel."
 imageCaption: "En dal i Dalarna en morgon i september. En väg är dragen rakt genom dimman, de andra syns knappt."
 ---

@@ -1,9 +1,9 @@
 ---
-title: "Nattbönens ansikte"
+title: "Hon bad om natten för att bli vacker"
 publishedAt: "2026-03-26T12:00:00.000Z"
 wordCount: 1897
 qualityScore: 8.6
-description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
+description: "Ibn Qayyim berättar om en kvinna som stod i bön om nätterna, eftersom bönen förskönar ansiktet. Skönhetsindustrin säljer brist och lovar ett ansikte som aldrig blir färdigt. Den skönhet hon talade om går inte att köpa."
 audioFile: "nattbonens-ansikte.mp3"
 audioDuration: 636
 imageAlt: "Kvinna i sjal knäböjer i bön vid en fotogenlampa i ett dunkelt rum om natten, med en uppslagen bok på bordet."

@@ -1,0 +1,31 @@
+{
+  "finalScore": 8.3,
+  "verdict": "revise",
+  "revisedTextChars": 39014,
+  "summary": "Utkastet är välbelagt och välbyggt och har tagit hand om nästan alla faktagranskningens rekommendationer. Konvergenspåståendet är omformulerat och qiyās redovisas uttryckligen som analogi. Māliks kriterium står för sig, och djur som är kända för att skada finns med. IslamQA:s datum och undantag för lekmän är angivna, liksom IslamicLegalBench med rätt förbehåll, SCB:s formulering, IMY:s datum, det ordagranna undantaget i art. 5.1 g och omnibusens båda datum. Idéhistorieavsnittet är rent beskrivande: ingen mening använder Key, Boye, Martinson eller Alfvén som argument för den islamiska hållningen. Alla sju rubriker bär ämnesordet och fungerar som sökfraser. Korancitaten är Bernströms lydelse ordagrant, och båda blockcitaten utanför Koranen finns i underlaget. Fyra saker drar ned poängen. Ingressen påstår att det råder enighet om att ansvar inte kan läggas på maskinen, vilket motsäger den öppna frågan om rättslig fiktion i slutet av avsnitt 3. Halva invändning 3 lämnades obesvarad. Svaren på invändning 4 och 5 mötte inte invändningens kärna. Till det kommer mindre fel i attribution och översättning: Ibn Kathīrs slutsats tillskrevs Mujāhid, hayawān återgavs som djur och två citat ur al-Mughnī saknar belägg i underlaget. Räkning av avsnittsavsluten: 0 av 7 slutar på inte X, utan Y, på en semikolonpivot eller på en em-streckskärpning. Streck: ett tankstreck i löptext (i översättningen ur Abū Dāwūd) och två em-streck, båda i blockcitatattribution. Utkastet har inga underpunkter, inget hen och ingen första person, och de raka citattecknen är behållna. Description saknas och måste skrivas av en människa; ett förslag finns i issues.",
+  "strengths": [
+    "Ingressens första mening fungerar som fristående definition och slår fast husets hållning, att AI är ett tillåtet redskap som inte bär eget ansvar, med IIFA 258 som belägg.",
+    "Rättsskolornas oenighet om djurs skador redovisas med namngivna företrädare för alla fyra skolor. Hadithen al-rijl jubār och al-Shāfiʿīs underkännande av den är med, och överföringen till AI markeras uttryckligen som en analogi som de klassiska juristerna aldrig själva drog.",
+    "Sverigeavsnittet har verkligt innehåll: SCB-siffror med referensår, AI-förordningens artiklar med korrekt undantag, omnibusens två datum, SOU 2025:101, fallet Försäkringskassan och IMY, JO, HFD 1485-24, DO:s remissvar över Ds 2025:32 och Glukhin mot Ryssland.",
+    "Idéhistorieavsnittet är ren beskrivning. Key-citatet återges korrekt som den uppfattning Key angrep, och vävarbeterskan anges som talare i Boyes roman.",
+    "Invändning 2 återges i sin starkaste form, med den muqallid som förmedlar sin skolas domar, och besvaras med ʿadāla, Ibn Qudāmas krav på en namngiven källa, 49:6 och Ibn Taymiyya 13:371.",
+    "Alla korancitat är Bernströms lydelse ordagrant. Fotnoten till 17:85 redovisar hans översättning av rūh, och hakparentesen i 33:72 kommenteras som översättarens.",
+    "Faktagranskningens farligaste punkter är undvikna: Majmūʿ 13:370 används inte, den omstridda hadithen om att binda kunskapen med skrift ersätts av al-Khalīls ord och TIME:s sammanfattning av den egyptiska fatwan återges inte."
+  ],
+  "issues": [
+    "Ingressen påstod att det råder enighet om att ansvaret inte kan läggas på maskinen. Det motsäger avsnitt 3: IIFA har skjutit upp frågan om juridisk personlighet, Sitiris och Busari föreslår en artificial personality och en rättslig fiktion skulle kunna bära ansvar. Meningen är omskriven så att enigheten gäller moralisk agens.",
+    "Avsnitt 2: Ibn Kathīrs egen slutsats om Adams företräde framför änglarna tillskrevs genom meningsbyggnaden Mujāhid. Rättat.",
+    "Avsnitt 2: al-Nawawī-meningen hade ett dubbelt att att. Den är omskriven till ett direkt citat.",
+    "Avsnitt 2: Det var oklart vilken hakparentes i 33:72 som avsågs. Preciserat till den första.",
+    "Avsnitt 3, Bilderna: al-Nawawīs hayawān återgavs som djur. Det är snävare än den dom som diskuteras, som också gäller människor, och motsäger avsnitt 7, där det står levande varelser. Rättat, och citattecknen begränsade till de ord som finns i passagen.",
+    "Avsnitt 3, Ansvaret: två formuleringar ur al-Mughnī 9:190 stod inom citattecken (liksom för skada av sin egen hand; inte kan hindra dess bakben från att skada) men finns inte i underlaget. De är omgjorda till parafras.",
+    "Avsnitt 1: Ibn Taymiyyas ord om kunskap som inte omsätts i handling (Majmūʿ 9:286–287) finns inte i den utdragna passagen, som bara täcker taklīf och gharīza. En redaktör bör stämma av ordalydelsen mot 9:287 före publicering.",
+    "Avsnitt 7, invändning 1: Yaqeen-institutet sades avvisa att en maskin utfärdar fatwor, men artikeln belägger det inte. Dar al-Iftāʾs fatwa gäller att helt förlita sig på AI för tafsīr och inte fatwor i allmänhet. Preciserat, och Yaqeen är struket ur uppräkningen.",
+    "Avsnitt 7, invändning 3: halva invändningen, att analogierna inte når maktfrågorna, lämnades obesvarad, och en obesvarad invändning har vunnit på sidan. Ett svar har lagts till med stöd av regeln om djur som är kända för att förstöra (al-Nawawī 11:225).",
+    "Avsnitt 7, invändning 4: svaret bemötte inte kärnan, att memorering och studier under en lärare urholkas. Det är förtydligat med al-Khalīls bild av böckerna som kapital och hjärtat som det man spenderar. Invändningen kallades dessutom den tredje, fast den är den fjärde. Rättat.",
+    "Avsnitt 7, invändning 5: svaret slutade med förfalskade bilder och röster, vid sidan av invändningen om övervakning och krig. Det är omordnat så att zulm har sista ordet.",
+    "Frontmatter: description saknas. Förslag: Hur de lärda bedömer artificiell intelligens: IIFA:s sex villkor, ansvar när AI skadar, fatwor från chattbottar, AI-bilder och vad EU:s AI-förordning betyder i Sverige.",
+    "Frontmatter: fältet sources syns inte i underlaget och kunde inte stämmas av mot prosan. Kontrollera att varje post namnges i texten.",
+    "Faktagranskningens förslag om sadd al-dharāʾiʿ har medvetet inte förts in, eftersom ingen passage är verifierad. Belägg det ur bokdatabasen om det ska användas i invändning 5."
+  ]
+}

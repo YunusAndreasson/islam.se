@@ -1,12 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
-import EssayImage from "../../components/EssayImage.astro";
+import FordjupningCards from "../../components/FordjupningCards.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TextRowList from "../../components/TextRowList.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import { getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
-import { CARD_WIDTHS } from "../../lib/hero";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 import { groupSvar } from "../../lib/svar";
 
@@ -22,12 +21,9 @@ const entries = await getCollection("svar");
 // already uses for a set of things with pictures: cards in the auto-fill grid, then
 // the single link to the full index.
 //
-// ⚠️ Six cards, not twenty-two. The ceiling is what survives a ~200px thumbnail, and
-// that is now measured rather than assumed: when this band was written only one of
-// nine heroes held up small, so it carried three cards. Every fördjupning has art now
-// and 13 of 22 hold up, which is what buys the extra row — not a change of mind about
-// chrome. A card is still ~1/3 screen on a phone, so a full grid would put most of a
-// screen between the reader and the questions this page exists for.
+// Six curated topics. On phones these become thumbnail rows, so the preview
+// stays shorter than the question directory it introduces. Category links precede
+// the preview so a reader can go straight to their question.
 const fordjupningar = await Promise.all(
 	(await getSortedFordjupning()).map(async (entry) => ({ entry, hero: await resolveHero(entry) })),
 );
@@ -105,33 +101,24 @@ const description =
 			<>
 
 
+				<nav class="svar-nav" aria-label="Kategorier">
+					<ul>
+						{groups.map((g) => (
+							<li data-cat-item={g.category.slug}>
+								<a href={`#${g.category.slug}`} data-cat={g.category.slug} class="filter-chip label">{g.category.short ?? g.category.name}</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+
 				{fordjupningar.length > 0 && (
 					<section class="svar-pelare" aria-labelledby="svar-pelare-rubrik">
 						<h2 class="label svar-pelare-label" id="svar-pelare-rubrik">Fördjupning</h2>
-						{/* The same card as Essäer's, class for class — see styles/layout.css. */}
-						<ul class="essay-cards essay-cards--blurb essay-cards--thirds svar-pelare-cards">
-							{pelarKort.map(({ entry: f, hero }) => (
-								<li class="archive-item essay-card">
-									<a href={`/fordjupning/${f.id}/`}>
-									{hero && (
-										<div class="essay-card-media media-frame">
-											<EssayImage
-												{...(hero.src === undefined ? {} : { src: hero.src })}
-												{...(hero.article === undefined ? {} : { article: hero.article })}
-													alt=""
-													widths={CARD_WIDTHS}
-													sizes="(max-width: 600px) 100vw, 24rem"
-												/>
-											</div>
-										)}
-										<span class="archive-title essay-card-title">{f.data.term}</span>
-										<p class="archive-description essay-card-desc">
-											{f.data.blurb ?? f.data.seoDescription}
-										</p>
-									</a>
-								</li>
-							))}
-						</ul>
+						<FordjupningCards
+							entries={pelarKort}
+							headingLevel={3}
+							sizes="(max-width: 42rem) 6rem, (min-width: 79rem) 24rem, (min-width: 63rem) 30vw, (min-width: 42rem) 45vw, 100vw"
+						/>
 						{pelarRest.length > 0 && (
 							<p class="svar-pelare-alla">
 								<SectionLink href="/fordjupning/">
@@ -142,15 +129,7 @@ const description =
 					</section>
 				)}
 
-				<nav class="svar-nav" aria-label="Kategorier">
-					<ul>
-						{groups.map((g) => (
-							<li data-cat-item={g.category.slug}>
-								<a href={`#${g.category.slug}`} data-cat={g.category.slug} class="filter-chip label">{g.category.short ?? g.category.name}</a>
-							</li>
-						))}
-					</ul>
-				</nav>
+
 
 				<div id="svar-results">
 					{groups.map((g) => (
@@ -233,12 +212,6 @@ const description =
 		font-size: var(--step--1);
 	}
 
-	/* Only the band's own rhythm is local — the cards themselves are the global
-	   `.essay-cards` / `.essay-card*` from styles/layout.css. */
-	.svar-pelare-cards {
-		margin-bottom: 0;
-	}
-
 	.svar-pelare-alla {
 		margin: var(--space-unit) 0 0;
 	}
@@ -295,10 +268,30 @@ const description =
 		padding: 0;
 	}
 
+	@media (width <= 42rem) {
+		/* Related reading is a short preview before the questions, not six full-width
+		   photographs. Keep the 3:2 art beside each title and complete description. */
+		.svar-pelare :global(.card-list a:has(.card-list-thumb)) {
+			display: grid;
+			grid-template-columns: 6rem minmax(0, 1fr);
+			column-gap: var(--space-half);
+			align-items: start;
+		}
+		.svar-pelare :global(.card-list-thumb) {
+			grid-row: 1 / span 2;
+			margin: 0;
+		}
+		.svar-pelare :global(.card-list) {
+			margin-bottom: 0;
+		}
+
+	}
+
 	/* Phones: eight chips wrap to three rows, and three sticky rows eat a quarter of
 	   the viewport. One scrolling row instead — the no-horizontal-scroll rule this
 	   reverses was written for a row that stood still. */
 	@media (width <= 34rem) {
+
 		.svar-nav ul {
 			flex-wrap: nowrap;
 			overflow-x: auto;
@@ -320,7 +313,7 @@ const description =
 		   the heading underneath either. */
 		scroll-margin-top: calc(var(--mast-height, 5.5rem) + 4rem);
 	}
-	.svar-section h2 {
+	.svar-section :global(h2) {
 		font-size: var(--step-1-sans);
 		margin: 0;
 	}
@@ -346,7 +339,7 @@ const description =
 	.svar-list {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
-		column-gap: clamp(1.75rem, 4vw, 3.5rem);
+		column-gap: var(--grid-gutter);
 	}
 
 	/* Without a hairline between rows the padding is the whole tap target; a

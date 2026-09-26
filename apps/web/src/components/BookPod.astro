@@ -1,6 +1,8 @@
 ---
 import { BookOpen, Download } from "@lucide/astro";
+import { RITNINGAR } from "../lib/ritningar";
 import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
+import Ritning from "./Ritning.astro";
 
 interface Props {
 	count: number;
@@ -12,17 +14,25 @@ const year = new Date().getFullYear();
 ---
 
 <section class:list={["bookpod", `bookpod--${variant}`]} aria-labelledby="bookpod-heading">
-	{/* On the front page the podcast is promoted in the band under the cover
-	    (PoddAppHome); here it is the book alone, in that band's grammar — the object,
-	    and beside it the kicker, the title, one line, the ways in. /om keeps both. */}
+	{/* The homepage book shares the closing promotion region with PoddAppHome:
+	    the drawn object, kicker, title, description and formats use the same grammar.
+	    /om retains its typeset cover and combined book/podcast presentation. */}
 	<div class="bookpod-inner">
-		<a class="bookpod-cover" href="/samlingsvolym.pdf" download>
-			<span class="bookpod-cover-brand">islam.se</span>
-			<span class="bookpod-cover-title">Samlade<br />essäer</span>
-			<span class="bookpod-cover-sub">Essäer om islamisk intellektuell tradition och svenskt kulturarv</span>
-			<span class="bookpod-cover-ornament" aria-hidden="true"></span>
-			<span class="bookpod-cover-year">{year}</span>
-		</a>
+		{
+			variant === "home" ? (
+				<a class="bookpod-mark" href="/samlingsvolym.pdf" download tabindex="-1" aria-hidden="true">
+					<Ritning {...RITNINGAR.boken} hojd={[7, 10]} bredd={[7, 10]} />
+				</a>
+			) : (
+				<a class="bookpod-cover" href="/samlingsvolym.pdf" download>
+					<span class="bookpod-cover-brand">islam.se</span>
+					<span class="bookpod-cover-title">Samlade<br />essäer</span>
+					<span class="bookpod-cover-sub">Essäer om islamisk intellektuell tradition och svenskt kulturarv</span>
+					<span class="bookpod-cover-ornament" aria-hidden="true"></span>
+					<span class="bookpod-cover-year">{year}</span>
+				</a>
+			)
+		}
 		<div class="bookpod-text">
 			{variant === "home" && (
 				<>
@@ -210,15 +220,8 @@ const year = new Date().getFullYear();
 	}
 
 
-	/* THE FRONT PAGE'S LAST MOVEMENT, set like the podcast and app band under the cover
-	   (PoddAppHome): the object at the size of those drawings' column, and beside it,
-	   from the object's top edge, the kicker, the title, one line and the ways in. It
-	   stood as a 240px cover with one sentence centred beside it and 60 % of the row
-	   empty, on the same paper as Praktiskt above — the only two movements on one
-	   ground, so the page's alternation of paper and tint stopped one short of the
-	   end. It now closes on the tint (editorial.css, »The page's grounds«), and the
-	   cover, which is drawn in the tint's own colour, is printed on the page's paper
-	   there instead, so it stands on the band as a book lies on a table. */
+	/* The book is the second row of the closing promotion region. The parent owns
+	   its ground and outer spacing; /om keeps the standalone presentation. */
 	.bookpod--home {
 		/* No margin under the last band: <main> is a container (layout containment), so
 		   it would not collapse into the footer's own and left a 190px hole of paper
@@ -226,28 +229,25 @@ const year = new Date().getFullYear();
 		margin-block: var(--space-section) 0;
 	}
 
-	/* The drawings' column of PoddAppHome, to the rem, so »Boken« starts on the line
-	   »Podden« starts on eight screens up. */
+	/* Share PoddAppHome's drawing column on desktop. */
 	.bookpod--home .bookpod-inner {
 		grid-template-columns: 10rem minmax(0, 1fr);
 		align-items: start;
 		gap: 1.75rem;
 	}
 
-	.bookpod--home .bookpod-cover {
-		width: 10rem;
-		padding: 13% 9% 9%;
-		background: var(--paper);
+	/* As PoddAppHome's mark: on the words' edge above them on a phone, on the column's
+	   right edge beside them. No hover lift — a transform isolates the drawing's blend
+	   and shows its paper as a square (Ritning.astro). */
+	.bookpod-mark {
+		display: block;
+		justify-self: start;
 	}
 
-	.bookpod--home .bookpod-cover-title {
-		font-size: 1.5rem;
-	}
-
-	/* At 10rem the subtitle would set as five lines of 10px: title, ornament and year
-	   are what a cover this size keeps. */
-	.bookpod--home .bookpod-cover-sub {
-		display: none;
+	@media (width >= 64rem) {
+		.bookpod-mark {
+			justify-self: end;
+		}
 	}
 
 	.bookpod-kicker {
@@ -311,20 +311,19 @@ const year = new Date().getFullYear();
 			text-align: start;
 		}
 
-		/* The padding in rem: percentages resolve against the containing block, which
-		   stacked is the whole column, and 13 % of it pushed the cover to 1:1.7. These
-		   are the 13 % / 9 % of the cover's own 7rem. */
-		.bookpod--home .bookpod-cover {
-			width: 7rem;
-			padding: 0.9rem 0.63rem 0.63rem;
-		}
-
-		.bookpod--home .bookpod-cover-title {
-			font-size: 1.05rem;
-		}
-
 		.bookpod--home .bookpod-actions {
 			justify-content: flex-start;
 		}
 	}
+	/* Match the podcast/app drawings: above the text through tablet widths,
+	   beside it only when their shared 10rem illustration column has room. */
+	@media (width < 64rem) {
+		.bookpod--home .bookpod-inner {
+			grid-template-columns: minmax(0, 1fr);
+			justify-items: start;
+			gap: var(--space-unit);
+			text-align: start;
+		}
+	}
+
 </style>

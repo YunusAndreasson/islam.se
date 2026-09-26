@@ -1,13 +1,5 @@
 ---
-// The overview: every scale statement × every model family, one chip per cell, in one table
-// per area of the bank. Each table has its own sticky model heads and its own count, so a
-// reader deep in »Krig och omvärld« still sees which column is which model. Real <table>s, so
-// a screen reader and the markdown twin read them row by row; the chip's colour is doubled
-// by a printed glyph and by a sentence in .sr-only text.
-//
-// The matrix follows the findings on the hub, so each area is a <details> that starts OPEN: the
-// answers are what the reader came for. The disclosure lets a reader fold an area of forty rows
-// away to reach the sections below. The summary names the area and its size.
+// The complete question bank, opened one topic at a time.
 import { FAMILIES } from "../../lib/ai-barometern/families";
 import { type MatrixArea, positionsTaken, questionPath } from "../../lib/ai-barometern/site";
 import MatrixCell from "./MatrixCell.astro";
@@ -26,24 +18,22 @@ const { areas, caption, source } = Astro.props;
 // cells and no vote in the counts below.
 const measuredIn = (area: MatrixArea) =>
 	area.groups.flatMap((g) => g.rows.filter((r) => r.measured));
-const measuredRows = areas.flatMap(measuredIn);
-const cells = measuredRows.flatMap((r) => FAMILIES.map((f) => r.cells[f.key]));
-const anyOwn = measuredRows.some((r) => r.question.aboutFamily);
 const statementsIn = (area: MatrixArea) => area.groups.reduce((n, g) => n + g.rows.length, 0);
 ---
 
-<figure class="chart abm-figure abm-figure--matrix">
-	<ScaleLegend cells={cells} own={anyOwn} />
+<figure class="abm-figure abm-figure--matrix">
 	{
 		areas.map((area) => {
 			const measured = measuredIn(area);
 			return (
-				<details class="abm-area" id={area.key} open>
+				<details class="abm-area" id={area.key}>
 					<summary>
 						<h3 class="abm-area-head">{area.label}</h3>
 						<span class="abm-area-count">{statementsIn(area)} påståenden</span>
 					</summary>
-					<div class="abm-scroll abm-scroll--sticky">
+					<ScaleLegend cells={measured.flatMap((r) => FAMILIES.map((f) => r.cells[f.key]))} own={measured.some((r) => r.question.aboutFamily)} />
+					<p class="abm-matrix-scroll-hint">Tabellen kan rullas i sidled för att visa alla fem modeller.</p>
+					<div class="abm-scroll abm-scroll--sticky" tabindex="0" role="region" aria-label={`${area.label}: jämför alla fem modeller`}>
 						<table class="abm-matrix">
 							<caption class="sr-only">{`${area.label}. ${caption}`}</caption>
 							<thead>

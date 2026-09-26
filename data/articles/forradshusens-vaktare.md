@@ -1,5 +1,5 @@
 ---
-title: "Förrådshusens väktare"
+title: "Vem ser till att vi har mat?"
 publishedAt: "2025-12-22T12:00:00.000Z"
 wordCount: 1720
 qualityScore: 8.6

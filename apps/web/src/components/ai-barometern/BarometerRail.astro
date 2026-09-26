@@ -19,7 +19,11 @@
 // The introduction opens on the series' drawing of a Swedish farmhouse wall barometer, in
 // the grammar of the podcast and app band above it (PoddAppHome): the drawing in a 10rem
 // column, the words beside it, so the introduction's words start on »Podden«'s line. It
-// was the longest stretch of words on the page with nothing to look at.
+// was the longest stretch of words on the page with nothing to look at. The drawing is as
+// tall as the introduction (DESIGN.md, »The Drawings«): in a 10rem box it stood 96px wide,
+// its left edge 64px in from the kicker's line and its foot on no line at all ("doesn't
+// look correctly aligned", 2026-09-26); at the introduction's height the upright barometer
+// fills the column, on the kicker's line, from the ingress's first line to the link's.
 //
 // Styles: ai-barometern-chips.css for the logos' .abm-logo rule and nothing else from the section.
 // index.html inlines every stylesheet it imports, and the section's own sheet is 34 KB of rules
@@ -48,15 +52,17 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 		<section class="barometer-rail abm" aria-labelledby="barometer-rail-rubrik">
 			<div class="barometer-rail-ram">
 				<h2 class="label sidolinje-rubrik" id="barometer-rail-rubrik">
-					AI-barometern
+					Barometer
 				</h2>
 
 				<div class="barometer-rail-intro">
-					<Ritning {...RITNINGAR.barometern} class="barometer-rail-ritning" hojd={[7, 10]} bredd={[7, 10]} />
+					<div class="barometer-rail-ritning">
+						<Ritning {...RITNINGAR.barometern} fyll hojd={[7, 17]} bredd={[7, 10]} />
+					</div>
 					<div class="barometer-rail-ord">
 						<p class="barometer-rail-ingress">
 							Vad svarar en AI-modell om klimatet, kriget, politiken och tron? Varje månad ställer
-							AI-barometern samma {shown.questions} frågor till de fem stora modellerna och redovisar
+							Barometer samma {shown.questions} frågor till de fem stora modellerna och redovisar
 							svaren som de lämnades.
 						</p>
 						<ul class="barometer-rail-modeller" aria-label="Modellerna">
@@ -69,7 +75,7 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 						</ul>
 						<p class="barometer-rail-fot">
 							<SectionLink class="label arrow-link" href={BASE_PATH}>
-								Till AI-barometern
+								Till Barometer
 							</SectionLink>
 						</p>
 					</div>
@@ -110,6 +116,17 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 		grid-template-columns: minmax(0, 1fr);
 		row-gap: var(--space-unit);
 		align-items: start;
+	}
+
+	/* The drawing's cell holds it at every width (from 48rem it fills the cell, Ritning
+	   `fyll`): above the words it is a 7rem strip, the drawing flush left on their edge. */
+	.barometer-rail-ritning {
+		position: relative;
+		min-block-size: 7rem;
+	}
+
+	.barometer-rail-ritning .ritning--fyll {
+		justify-content: flex-start;
 	}
 
 	/* The question the whole barometer asks, at body size: this is the paragraph that says
@@ -224,10 +241,14 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 			column-gap: 1.75rem;
 		}
 
-		/* Flush right in its column, as the band's drawings are: the same distance to
-		   the words whatever the drawing's width. */
+		/* The column's full height beside the words, flush right, so its distance to
+		   the words is the band's. */
 		.barometer-rail-ritning {
-			justify-self: end;
+			align-self: stretch;
+		}
+
+		.barometer-rail-ritning .ritning--fyll {
+			justify-content: flex-end;
 		}
 
 		/* On the kicker's line, not a row of its own: 0.3rem is the kicker's own top margin. */

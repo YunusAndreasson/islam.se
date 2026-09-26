@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { resolveHero } from "../lib/fordjupning";
-import CardList, { type CardItem } from "./CardList.astro";
+import FordjupningCards from "./FordjupningCards.astro";
 import HomeHead from "./HomeHead.astro";
 
 // FÖRDJUPNING on the front page — the encyclopedic layer, which until now had no
@@ -20,15 +20,14 @@ import HomeHead from "./HomeHead.astro";
 // CURATED, not ranked. An earlier version chose by art and then by date, which is
 // the right instinct for a feed and the wrong one here: these four are the topics
 // a Swedish reader actually arrives with, and that is an editorial judgement no
-// sort key encodes. Three of the site's contested-practice pages — what a marriage
-// is, what the veil verse says, how "halal" became a certificate — and then the
-// one that is not about how to live but about how it ends, and where Sweden's own
-// burial law is the obstacle. Ordered as they read, two by two.
+// sort key encodes. Marriage and hijab sit alongside responsibility for AI and
+// the history of Islam in Sweden. AI replaces halal to broaden the subjects
+// represented in this opening selection (user, 2026-09-26).
 //
 // Ramadan is deliberately absent: the sidolinje beside this page already opens on
 // it under "Det islamiska året", and the front page should not name the same thing
 // twice in two registers.
-const VALDA = ["aktenskap", "hijab", "halal", "doden"] as const;
+const VALDA = ["aktenskap", "hijab", "artificiell-intelligens", "islam-i-sverige"] as const;
 
 const alla = await getCollection("fordjupning");
 
@@ -52,22 +51,6 @@ const valda = await Promise.all(
 	}),
 );
 
-// CARDS, not the index rows this began as. Standing beside Trådar — a browse axis
-// in full-dress cards with a picture each — a column of thin rows made the site's
-// most substantial writing look like the apparatus and the way-in look like the
-// work. The count line mirrors the threads' "6 essäer" exactly, because it is the
-// same fact about the same kind of thing: how much is behind this door.
-const rader: CardItem[] = valda.map(({ entry, hero }) => ({
-	href: `/fordjupning/${entry.id}/`,
-	title: entry.data.term,
-	description: entry.data.blurb ?? entry.data.seoDescription ?? entry.data.description,
-	meta: `${entry.data.related.length} frågor`,
-	image: hero && {
-		...(hero.src === undefined ? {} : { src: hero.src }),
-		...(hero.article === undefined ? {} : { article: hero.article }),
-		alt: hero.alt,
-	},
-}));
 ---
 
 <section class="fordjupning-home home-movement" aria-labelledby="fordjupning-kicker">
@@ -84,15 +67,26 @@ const rader: CardItem[] = valda.map(({ entry, hero }) => ({
 	    it — the same rhythm as the second tier of essays. A 12rem thumbnail beside
 	    the text, and before it four in a row, turned these photographs into small
 	    dark boxes (user review, 2026-09-25). A phone scrolls the four sideways. */}
-	<CardList
-		items={rader}
+	<FordjupningCards
+		entries={valda}
+		compact={false}
+		showCounts
 		headingLevel={3}
-		prefetch="viewport"
 		sizes="(min-width: 79rem) 37rem, (min-width: 48rem) 48vw, 78vw"
 	/>
 </section>
 
 <style>
+	/* HomeHead supplies the opening gap. Shared card padding doubled that gap;
+	   rows use an explicit gap here while collection-page cards keep their defaults. */
+	.fordjupning-home :global(.card-list) {
+		margin-block-start: 0;
+	}
+
+	.fordjupning-home :global(.card-list .card-list-item > a) {
+		padding-block: 0;
+	}
+
 	/* No hairline under each card: whitespace separates them. */
 	.fordjupning-home :global(.card-list-item) {
 		border-bottom: 0;
@@ -101,19 +95,12 @@ const rader: CardItem[] = valda.map(({ entry, hero }) => ({
 	@media (width >= 48rem) {
 		.fordjupning-home :global(.card-list) {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 0 var(--grid-gutter);
+			gap: calc(2 * var(--space-unit)) var(--grid-gutter);
 		}
 
 		.fordjupning-home :global(.card-list-title) {
 			font-size: var(--step-1);
 		}
-	}
-
-	/* 3:2, the card role of every photograph on the front page (the second tier,
-	   these), so the pictures on the page come in two shapes, not five. */
-	.fordjupning-home :global(.card-list-thumb img) {
-		aspect-ratio: 3 / 2;
-		object-fit: cover;
 	}
 
 	/* A PHONE scrolls the four sideways, the next card peeking at the edge, instead
@@ -141,6 +128,12 @@ const rader: CardItem[] = valda.map(({ entry, hero }) => ({
 
 		.fordjupning-home :global(.card-list-item) {
 			scroll-snap-align: start;
+		}
+
+		/* The horizontal scroller clips an outward ring now that cards have no
+		   outer padding. Keep keyboard focus visible inside the linked card. */
+		.fordjupning-home :global(.card-list .card-list-item > a:focus-visible) {
+			outline-offset: -2px;
 		}
 
 		.fordjupning-home :global(.card-list-title) {

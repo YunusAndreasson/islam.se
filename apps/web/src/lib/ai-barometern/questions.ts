@@ -201,7 +201,7 @@ export const QUESTIONS: readonly Question[] = [
 		short: "AI svarar tillförlitligt på religiösa frågor",
 		religious: true,
 		classicalNote:
-			"Koranen befaller den som inte vet att fråga dem som har kunskap (16:43). En religiös bestämmelse ska vila på Koranen och sunna och förmedlas av den som känner källorna och står till svars för sitt svar. Profeten ﷺ varnade för en tid när de lärda är borta och människor frågar okunniga, som svarar utan kunskap och både går vilse och leder andra vilse (al-Bukhari och Muslim).",
+			"Koranen befaller den som inte vet att fråga dem som har kunskap (16:43). En religiös bestämmelse ska grundas i Koranen och sunna och förmedlas av den som känner källorna och står till svars för sitt svar. Profeten ﷺ varnade för en tid när de lärda är borta och människor frågar okunniga, som svarar utan kunskap och både går vilse och leder andra vilse (al-Bukhari och Muslim).",
 		introduced: BROADENED,
 	},
 	{

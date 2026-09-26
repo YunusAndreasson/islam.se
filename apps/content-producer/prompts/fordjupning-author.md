@@ -156,6 +156,14 @@ en svensk författare i stället. Sidan om döden gick i den fällan och fick r�
   och texten är ofta en parafras. Presentera aldrig en parafras som ordagrant citat. En
   hadith som Ibn al-Qayyim citerar tillskrivs hadithsamlingen, inte Ibn al-Qayyim.
 
+⚠️ **Ett ämne som de klassiska juristerna aldrig behandlade (AI, organdonation, krypto)
+nås bara genom analogi, *qiyās*. Dra aldrig analogin i sidans egen röst.** Tillskriv den
+den nutida lärde eller det fatwaorgan som faktiskt har dragit den, och finns ingen sådan,
+redovisa de klassiska reglerna och stanna där. Gör aldrig en sekulär ordning till
+bekräftelse av en madhhab (»EU-rätten ligger närmast al-Shāfiʿīs linje«): det är falsk
+ekvivalens åt andra hållet. På AI-sidan (2026-09) strök både granskaren och
+prosakritikern en sådan passage.
+
 ## 4. Husets språkregler — bindande
 
 - Tankstreck i prosa är mellanslagat en-streck » – «. Em-streck **endast** i

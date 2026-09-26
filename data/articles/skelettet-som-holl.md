@@ -1,5 +1,5 @@
 ---
-title: "Skelettet som höll"
+title: "Koranen mellan pergament och minne"
 publishedAt: "2025-10-23T12:00:00.000Z"
 wordCount: 1485
 qualityScore: 8.6

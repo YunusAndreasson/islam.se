@@ -13,12 +13,13 @@ type ThreadEntry = CollectionEntry<"tradar">;
 interface Props {
 	threads: readonly ThreadEntry[];
 	headingLevel?: 2 | 3;
+	compact?: boolean;
 	prefetch?: "tap" | "hover" | "viewport" | "load";
 	/** Forwarded to CardList — set it whenever the caller narrows --card-list-min. */
 	sizes?: string;
 }
 
-const { threads, headingLevel = 2, prefetch, sizes } = Astro.props;
+const { threads, headingLevel = 2, compact = false, prefetch, sizes } = Astro.props;
 
 const items: CardItem[] = threads.map((thread) => {
 	const art = threadArt(thread.id);
@@ -37,6 +38,7 @@ const items: CardItem[] = threads.map((thread) => {
 <CardList
 	items={items}
 	headingLevel={headingLevel}
+	compact={compact}
 	{...(prefetch === undefined ? {} : { prefetch })}
 	{...(sizes === undefined ? {} : { sizes })}
 />

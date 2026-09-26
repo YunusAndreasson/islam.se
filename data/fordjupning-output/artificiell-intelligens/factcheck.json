@@ -1,0 +1,376 @@
+{
+  "overallCredibility": 7.8,
+  "verdict": "pass",
+  "summary": "Researchen håller hög nivå i källmaterialet. Alla sex databascitat finns och stämmer med de förbehåll researchen själv anger. Samtliga 23 bokpassager återfinns ordagrant på angiven volym:sida, och alla 15 koranverser stämmer ordagrant med Bernström. De viktiga webbkällorna säger det researchen påstår: IIFA 258, Dar al-Iftāʾ 8856, IslamQA 540774 och 432556, Islamweb 519001, Yaqeen 2026, Sitiris & Busari 2024, Abid m.fl., SCB (två sidor), omnibusförordningen (EU) 2026/1744, PTS:s tillfälliga uppdrag, IMY, Amnesty, Skolverket, DO, SVT, GU, TIME och IPVM. Svagheterna ligger i ramningen av det som ska vara överraskande och i några precisionsfel:\n(1) Att de medeltida reglerna och AI-förordningen pekar ut att »ansvaret alltid ligger hos en människa« motsägs av researchens egna källor. al-ʿajmāʾ jubār och majoritetens undantag för baksparken innebär att viss skada inte ersätts av någon. AI-förordningen lägger skyldigheter på leverantörer och tillhandahållare, ofta juridiska personer.\n(2) Sitiris & Busari förnekar också naturlig rättskapacitet. Motsatsen mot Yaqeen gäller därför en rättslig fiktion, inte moralisk agens.\n(3) JO-citatet finns inte i SVT-artikeln utan i Akademikerförbundet SSR:s pressmeddelande.\n(4) Undantaget i art. 5.1 g är snävare än »brottsbekämpning«, och DO:s remissvar gäller biometrisk fjärridentifiering i efterhand.\n(5) SCB:s 37 % avser de senaste tre månaderna.\n(6) Meningen i Majmūʿ al-fatāwā 13:370 står inom en redaktionell klammer och stöds direkt av samma ʿAbd al-Aʿlā-kedja som researchen vill undvika. Förankra i 13:371 och i Buraydas hadith.\n(7) »Den tydligaste skiljelinjen« bryter mot husreglerna.\nDatasetet om Abid blandar två olika test i en serie och underkänns tills det delats upp. De två SCB-dataseten godkänns.",
+  "verifiedClaims": [
+    {
+      "claim": "Boye- och Key-citaten (quote-46670, 46671, 46410, 23555) finns i databasen och stämmer med originaltexterna, med de förbehåll researchen anger",
+      "status": "verified",
+      "method": "get_quote_by_id; WebFetch av asymptotejournal.com/fiction/karin-boye-astarte/swedish/, runeberg.org/kalocain/11.html och runeberg.org/barnets/0069.html",
+      "notes": "46670: berättarens retoriska fråga i en hamnscen med vinschar (Asymptote). 46671: Asymptote har »Besinna, allsmäktiga stålkonstruktion«, databasen »allsmäktig«. Återge bara t.o.m. »hur länge?«. Talaren är en fabriksarbeterska. 46410: Kallocain kap. 11. Meningen fortsätter »En sjuk och trött människa, alldeles för sjuk och trött för att orka söka min tillflykt hos oklanderligt fungerande etiska principer med hög och tonlös stämma.« Avsluta med […]. 23555: Barnets århundrade (1900) s. 59 (runeberg.org/barnets/0069.html). Hela meningen: »Det visar nämligen huru den uppfattningen ännu är rådande att människorna äro till för industriens skull, icke industrien för människornas!« Föregående mening gäller barnarbete (»… att man år 1900 kommer fram med ett sådant skäl!«). Återges bara som den uppfattning Key kritiserar."
+    },
+    {
+      "claim": "quote-60997 »الحكمة عند العرب العلم والعمل به« är Ibn Qutaybas ord, citerade av Ibn Taymiyya i al-Radd ʿalā al-manṭiqiyyīn 1:447",
+      "status": "verified",
+      "method": "get_quote_by_id + search_books (passage 109485)",
+      "notes": "Databasen anger Ibn Taymiyya som författare, men texten lyder: »قال ابن قتيبة وغيره الحكمة عند العرب العلم والعمل به وسئل مالك عن الحكمة فقال هو معرفة الدين والعمل به«. Ange Ibn Qutayba som talare, citerad av Ibn Taymiyya."
+    },
+    {
+      "claim": "quote-59200 »قيدوا العلم بالكتاب« står i al-Māwardī, Adab al-dunyā wa-l-dīn 1:58, anfört via Anas",
+      "status": "verified",
+      "method": "get_quote_by_id + search_books (passage 111452; al-Bidāya wa-l-nihāya 9:234)",
+      "notes": "Före citatet ger al-Māwardī skälet »لأن الشكل معترض والنسيان طارق«. Sedan: »وقد روى أنس بن مالك عن النبي - صلى الله عليه وسلم - أنه قال: «قيدوا العلم بالكتاب»«, följt av al-Khalīl: »اجعل ما في الكتب رأس المال، وما في القلب النفقة«. I al-Bidāya 9:234 står orden i biografin över ʿUmar ibn ʿAbd al-ʿAzīz. Skriv »som al-Māwardī anför via Anas«, inte som säker hadith."
+    },
+    {
+      "claim": "Ḥanafiyya: ryttaren ansvarar inte för bakspark, eftersom den inte går att skydda sig mot (al-Hidāya 4:479)",
+      "status": "verified",
+      "method": "search_books, textläge (passage 163726)",
+      "notes": "Bāb jināyat al-bahīma: »الراكب ضامن لما أوطأت الدابة ما أصابت بيدها أو رجلها أو رأسها أو كدمت أو خبطت، وكذا إذا صدمت ولا يضمن ما نفحت برجلها أو ذنبها«. Vidare: »ثم إنما يتقيد بشرط السلامة فيما يمكن الاحتراز عنه ولا يتقيد بها فيما لا يمكن التحرز عنه« och »والنفحة بالرجل والذنب ليس يمكنه الاحتراز عنه مع السير على الدابة فلم يتقيد به«."
+    },
+    {
+      "claim": "Mālik i al-Muwaṭṭaʾ: ingen ersättning om djuret sparkar utan att ryttaren, ledaren eller föraren gjort något som får det att sparka",
+      "status": "verified",
+      "method": "search_books (passage 215418, Yaḥyās riwāya i OpenITI-utgåvan)",
+      "notes": "Bāb jāmiʿ al-ʿaql, nr 3235 i denna utgåva (inga sidnummer): »قال مالك: القائد والسائق والراكب، كلهم ضامن لما أصابت الدابة. إلا أن ترمح الدابة من غير أن يفعل بها شيئا ترمح له. وقد قضى عمر بن الخطاب في الذي أجرى فرسه بالعقل«. Māliks kriterium är provokation, inte som hos ḥanafiterna om man kan skydda sig. Säg det separat."
+    },
+    {
+      "claim": "al-Mughnī 9:190: den hanbalitiska huvudståndpunkten ger inget ansvar för det djuret gör med bakbenet. Shurayḥ, al-Shāfiʿī och en riwāya från Aḥmad ger ansvar",
+      "status": "verified",
+      "method": "search_books (passage 146775)",
+      "notes": "Masʾala 7398: »(وما جنت برجلها، فلا ضمان عليه) وبهذا قال أبو حنيفة. وعن أحمد، رواية أخرى، أنه يضمنها. وهو قول شريح، والشافعي«, sedan »ولنا، قول النبي - صلى الله عليه وسلم -: «الرجل جبار» … ولأنه لا يمكنه حفظ رجلها عن الجناية، فلم يضمنها«. Tidigare på sidan motiveras ansvaret för framdelen: »لأنه يمكنه حفظها عن الجناية إذا كان راكبها«."
+    },
+    {
+      "claim": "Ibn Rushd redovisar meningsskiljaktigheten i Bidāyat al-mujtahid 4:199–200",
+      "status": "verified",
+      "method": "search_books (passager 133912–133913)",
+      "notes": "4:199: »فقال الجمهور: هم ضامنون لما أصابت الدابة. واحتجوا في ذلك بقضاء عمر على الذي أجرى فرسه فوطئ آخر بالعقل. وقال أهل الظاهر: لا ضمان على أحد في جرح العجماء«. 4:200: »فقال مالك: لا شيء فيه إن لم يفعل صاحب الدابة بالدابة شيئا يبعثها به على أن ترمح برجلها. وقال الشافعي: يضمن الراكب ما أصابت بيدها أو برجلها. وبه قال ابن شبرمة، وابن أبي ليلى … وبه قال أبو حنيفة، إلا أنه استثنى الرمحة بالرجل أو بالذنب. وربما احتج من لم يضمن رجل الدابة بما روي عنه - صلى الله عليه وسلم - «الرجل جبار»، ولم يصح هذا الحديث عند الشافعي ورده«. Skiljaktigheten gäller alltså också om hadithen »al-rijl jubār« är autentisk."
+    },
+    {
+      "claim": "Dāwūd och ahl al-ẓāhir: ingen bär ansvar, utom den som driver djuret till skadan (al-Nawawī, Minhāj 11:225)",
+      "status": "verified",
+      "method": "search_books (passage 310394)",
+      "notes": "Minhāj 11:225–226: »فإن كان معها راكب أو سائق أو قائد فجمهور العلماء على ضمان ما أتلفته وقال داود وأهل الظاهر لا ضمان بكل حال إلا أن يحملها الذي هو معها على ذلك أو يقصده«. Samma sida tar upp djur kända för att skada: »وقال مالك وأصحابه يضمن مالكها ما أتلفت وكذا قال أصحاب الشافعي يضمن إذا كانت معروفة بالإفساد لأن عليه ربطها والحالة هذه«. Om skada nattetid: Mālik ger ägaren ansvar, al-Shāfiʿī vid försumlighet, och Abū Ḥanīfa ger inget ansvar vare sig natt eller dag. Framställ Dāwūds uppfattning som minoritetsåsikt, inte som rättsskola."
+    },
+    {
+      "claim": "Hadithen al-ʿajmāʾ jubār och tabiʿūn-yttrandena i Bukhārī, Kitāb al-diyāt (nr 6912–6913)",
+      "status": "verified",
+      "method": "search_books (passage 174174)",
+      "notes": "Bāb al-ʿajmāʾ jubār. Ibn Sīrīn: »كانوا لا يضمنون من النفحة، ويضمنون من رد العنان«. Ḥammād: »لا تضمن النفحة إلا أن ينخس إنسان الدابة«. Shurayḥ: »لا تضمن ما عاقبت، أن يضربها فتضرب برجلها«. Nr 6913: »العجماء عقلها جبار، والبئر جبار، والمعدن جبار، وفي الركاز الخمس«. Shurayḥs undantag här gäller en spark som svar på att offret slagit djuret. Det går ihop med al-Mughnīs uppgift att Shurayḥ i övrigt ger ansvar för bakbenet."
+    },
+    {
+      "claim": "al-Nawawī, Minhāj 14:81–82: förbud mot att avbilda djur och människor, oavsett om bilden har skugga. Mālik, Abū Ḥanīfa och majoriteten anförs, och skuggdistinktionen kallas »مذهب باطل«",
+      "status": "verified",
+      "method": "search_books (passager 311205–311206)",
+      "notes": "14:81: »تصوير صورة الحيوان حرام شديد التحريم وهو من الكبائر … لأن فيه مضاهاة لخلق الله تعالى … ولافرق فى هذا كله بين ماله ظل ومالاظل له«. 14:82: »هذا تلخيص مذهبنا في المسألة وبمعناه قال جماهير العلماء من الصحابة والتابعين ومن بعدهم وهو مذهب الثوري ومالك وأبي حنيفة وغيرهم وقال بعض السلف إنما ينهى عما كان له ظل ولابأس بالصور التي ليس لها ظل وهذا مذهب باطل«. På samma sida återger al-Nawawī al-Zuhrīs vidare förbud (»وهذا مذهب قوى«)."
+    },
+    {
+      "claim": "al-Qurṭubī 14:274 (till 34:13) återger att bilder på hängande draperier är »مكروهة غير محرمة« och avslutar med sin egen slutsats",
+      "status": "verified",
+      "method": "search_books (passage 207869)",
+      "notes": "»ولم يختلفوا أن التصاوير في الستور المعلقة مكروهة غير محرمة. وكذلك عندهم ما كان خرطا أو نقشا في البناء. واستثنى بعضهم (ما كان رقما في ثوب)، لحديث سهل بن حنيف. قلت: لعن رسول الله صلى الله عليه وسلم المصورين ولم يستثن«. »ولم يختلفوا« är en rapport som al-Qurṭubī återger, inte hans egen dom."
+    },
+    {
+      "claim": "al-Nawawī: »أحيوا ما خلقتم« är en amr taʿjīz (Minhāj 14:90, till Muslim 2108–2111)",
+      "status": "verified",
+      "method": "search_books (passage 311217)",
+      "notes": "»أما قوله صلى الله عليه وسلم (ويقال لهم أحيواما خلقتم) فهو الذي يسميه الأصوليون أمر تعجيز كقوله تعالى قل فأتوا بعشر سور مثله«."
+    },
+    {
+      "claim": "Ibn Kathīr 6:489: amāna i 33:72 är taklīf",
+      "status": "verified",
+      "method": "search_books (passage 191295)",
+      "notes": "»وكل هذه الأقوال لا تنافي بينها، بل هي متفقة وراجعة إلى أنها التكليف، وقبول الأوامر والنواهي بشرطها، وهو أنه إن قام بذلك أثيب، وإن تركها عوقب، فقبلها الإنسان على ضعفه وجهله وظلمه، إلا من وفق الله«."
+    },
+    {
+      "claim": "Ibn Kathīr 1:225 om namnen som Adam lärdes (2:31–33)",
+      "status": "verified",
+      "method": "search_books (passage 181974)",
+      "notes": "Mujāhid: »اسم الحمامة، والغراب، واسم كل شيء«. Ibn Kathīr: »فلما ظهر فضل آدم، عليه السلام، على الملائكة، عليهم السلام، في سرده ما علمه الله تعالى من أسماء الأشياء«."
+    },
+    {
+      "claim": "Ibn Kathīr 5:115 om al-rūḥ i 17:85: själen står först, därefter Jibrīl och en stor ängel",
+      "status": "verified",
+      "method": "search_books (passager 188710–188711)",
+      "notes": "»وقد اختلف المفسرون في المراد بالروح هاهنا على أقوال: أحدها: أن المراد [بالروح]: أرواح بني آدم«. Därefter »وقيل: المراد بالروح هاهنا: جبريل. قاله قتادة« och »وقيل: المراد به هاهنا: ملك عظيم بقدر المخلوقات كلها«. Wennerströms not anger också själen som vanligaste tolkning. Bernström har »ingivelsens ande«."
+    },
+    {
+      "claim": "al-Qurṭubī 11:272 om 16:43: lekmän ska följa sina lärda",
+      "status": "verified",
+      "method": "search_books (passage 205355)",
+      "notes": "»لم يختلف العلماء أن العامة عليها تقليد علمائها، وأنهم المراد بقول الله عز وجل: فسئلوا أهل ا��ذكر إن كنتم لا تعلمون«. Utgåvan stavar »فسئلوا«."
+    },
+    {
+      "claim": "al-Qurṭubī om 49:6: de två läsarterna, och att versen belägger att en rättrådig persons rapport godtas",
+      "status": "verified",
+      "method": "search_books (passage 209709)",
+      "notes": "al-Jāmiʿ li-aḥkām al-Qurʾān 16:311–312: Ḥamza och al-Kisāʾī läser »فتثبتوا« (من التثبت), övriga »فتبينوا« (من التبيين). Vidare: »في هذه الآية دليل على قبول خبر الواحد إذا كان عدلا، لأنه إنما أمر فيها بالتثبت عند نقل خبر الفاسق. ومن ثبت فسقه بطل قوله في الأخبار إجماعا، لأن الخبر أمانة والفسق قرينة يبطلها«. Ange sidorna 16:311–312, som saknas i researchen."
+    },
+    {
+      "claim": "Ibn Taymiyya, Majmūʿ al-fatāwā 9:286–287: det ʿaql som krävs för taklīf, och ʿaql som gharīza",
+      "status": "verified",
+      "method": "search_books (passage 319717)",
+      "notes": "»والعقل المشروط في التكليف لا بد أن يكون علوما يميز بها الإنسان بين ما ينفعه وما يضره« och »وقد يراد بالعقل نفس الغريزة التي في الإنسان التي بها يعلم ويميز ويقصد المنافع دون المضار كما قال أحمد بن حنبل والحارث المحاسبي وغيرهما: أن العقل غريزة«. Håll isär de två betydelserna. Det AI saknar är framför allt avsikten (»يقصد«) och ett eget »ما ينفعه وما يضره«."
+    },
+    {
+      "claim": "Rafʿ al-qalam: hadithens status och innebörd hos Ibn Taymiyya (al-Furqān) och al-Nawawī (al-Majmūʿ)",
+      "status": "verified",
+      "method": "search_books (passager 107103, 321180, 156872)",
+      "notes": "al-Furqān 1:121–123 (= Majmūʿ al-fatāwā 11:191–192): »رفع القلم عن ثلاثة: عن المجنون حتى يفيق وعن الصبي حتى يحتلم. وعن النائم حتى يستيقظ … وهذا الحديث قد رواه أهل السنن من حديث علي وعائشة رضي الله عنهما. واتفق أهل المعرفة على تلقيه بالقبول«. Därefter om den sinnessjuke: »بل أقواله كلها لغو لا يتعلق بها حكم شرعي ولا ثواب ولا عقاب«. al-Majmūʿ 6:250: via ʿAlī »بإسناد صحيح«, via ʿĀʾisha »بإسناد حسن«, samt »ومعنى رفع القلم امتناع التكليف، لا إنه رفع بعد وضعه«."
+    },
+    {
+      "claim": "Ibn Qudāma, al-Mughnī 10:37–38: skillnaden mellan muftī och mukhbir",
+      "status": "verified",
+      "method": "search_books (passage 148133)",
+      "notes": "»ثم المفتي لا يجوز أن يكون عاميا مقلدا، فالحكم أولى. فإن قيل: فالمفتي يجوز أن يخبر بما سمع. قلنا: نعم. إلا أنه لا يكون مفتيا في تلك الحال، وإنما هو مخبر، فيحتاج أن يخبر عن رجل بعينه من أهل الاجتهاد فيكون معمولا بخبره لا بفتياه«. Samma passage anför Buraydas hadith (Ibn Māja): »القضاة ثلاثة … ورجل قضى للناس على جهل، فهو في النار«."
+    },
+    {
+      "claim": "Abū Dāwūd, Kitāb al-ʿilm: »من أفتى بغير علم كان إثمه على من أفتاه« med tillägget om rådgivning",
+      "status": "verified",
+      "method": "search_books (passage 220365)",
+      "notes": "OpenITI-utgåvan 3:359–360: »من أفتى بغير علم كان إثمه على من أفتاه«, och »زاد سليمان المهرى فى حديثه «ومن أشار على أخيه بأمر يعلم أن الرشد فى غيره فقد خانه»«. Nr 3657 är den gängse numreringen. I OpenITI-utgåvan börjar nästa kapitel med nr 3660, så ange vilket numreringssystem som används eller volym:sida. Den passiva läsningen (»من أُفتي«) följer researchens not."
+    },
+    {
+      "claim": "Muslim, muqaddima (nr 5): »كفى بالمرء كذبا أن يحدث بكل ما سمع«, med ʿUmar och Mālik",
+      "status": "verified",
+      "method": "search_books (passager 174665, 306335)",
+      "notes": "Ṣaḥīḥ Muslim 1:11–12, bāb al-nahy ʿan al-ḥadīth bi-kulli mā samiʿa. ʿUmar: »بحسب المرء من الكذب أن يحدث بكل ما سمع«. Mālik: »اعلم أنه ليس يسلم رجل حدث بكل ما سمع، ولا يكون إماما أبدا وهو يحدث بكل ما سمع«. al-Nawawī numrerar hadithen [5] (Minhāj 1:72)."
+    },
+    {
+      "claim": "Ibn Khaldūn, Muqaddima: bin och gräshoppor hör till sammanhanget styre (1:40–41, 1:43); orsakerna till falska rapporter står på 1:35",
+      "status": "verified",
+      "method": "search_books (passager 262251, 262258, 262236)",
+      "notes": "1:40–41: »فمنها العلوم والصنائع التي هي نتيجة الفكر الذي تميز به عن الحيوانات … ومنها الحاجة إلى الحكم الوازع والسلطان القاهر إذ لا يمكن وجوده دون ذلك من بين الحيوانات كلها إلا ما يقال عن النحل والجراد وهذه وإن كان لها مثل ذلك فبطريق إلهامي لا بفكر وروية«. Bin och gräshoppor hör alltså till styret (al-ḥukm al-wāziʿ), inte till vetenskaperna. 1:43: »إلا أن ذلك موجود لغير الانسان بمقتضى الفطرة والهداية لا بمقتضى الفكرة والسياسة«. 1:35 räknar upp bl.a. »الثقة بالناقلين«, »الذهول عن المقاصد«, »توهم الصدق«, »الجهل بتطبيق الأحوال على الوقائع« och »الجهل بطبائع الأحوال في العمران«."
+    },
+    {
+      "claim": "Ibn Rajab, Jāmiʿ al-ʿulūm wa-l-ḥikam 2:166: al-aṣl fī al-ashyāʾ al-ibāḥa",
+      "status": "verified",
+      "method": "search_books (passage 275461)",
+      "notes": "»فقد دلت هذه النصوص وأشباهها على أن حكم ذاك الأصل زال واستقر أن الأصل في الأشياء الإباحة بأدلة الشرع. وقد حكى بعضهم الإجماع على ذلك، وغلطوا من سوى بين المسألتين، وجعل حكمهما واحدا. وكلام الإمام أحمد يدل على أن ما لا يدخل في نصوص التحريم، فإنه معفو عنه«. IIFA citerar inte Ibn Rajab. Kopplingen är artikelns egen och bör framställas så."
+    },
+    {
+      "claim": "Ibn Taymiyya, al-Ḥisba: bedrägeri (ghishsh) förekommer i handel och hantverk",
+      "status": "verified",
+      "method": "search_books (passage 106963)",
+      "notes": "Majmūʿ al-fatāwā 28:72: »والغش يدخل فى البيوع بكتمان العيوب وتدليس السلع … ويدخل فى الصناعات … فيجب نهيهم عن الغش والخيانة والكتمان«."
+    },
+    {
+      "claim": "Alla 15 koranverser stämmer ordagrant med Bernström",
+      "status": "verified",
+      "method": "search_quran för varje vers",
+      "notes": "Kontrollerade: 2:30, 2:31, 33:72, 96:4–5, 17:36, 49:6, 17:85, 37:96, 16:43, 4:83, 22:73, 45:13, 17:70, 74:38, 53:38. 16:43 har nästan samma lydelse som 21:7; kontrollera att rätt versnummer anges. 33:72 innehåller Bernströms hakparentes »[för förnuft och fri vilja]«, så bygg innebörden på Ibn Kathīr 6:489."
+    },
+    {
+      "claim": "IIFA-resolution 258 (26:e sessionen, Doha, 4–8 maj 2025): AI är i grunden tillåtet under sex villkor, och frågan om juridisk personlighet ska utredas",
+      "status": "verified",
+      "method": "WebFetch https://iifa-aifi.org/en/56035.html",
+      "notes": "»The default ruling regarding the development and use of artificial intelligence is permissibility (ibāhah), subject to the following ethical and legal conditions«. Villkor 1: »The purpose of its creation, use, funding, and outcomes must be lawful.« 2: »It must serve to bring benefit and prevent harm.« 3: »It must not insult or abuse beliefs, religions, or religious symbols.« 4: »It must ensure protection of information and preserve both public and private rights and freedoms.« 5: »It must not involve threats to individual, societal, or national security.« 6: »It must adhere to honesty, proper documentation, and transparency in its use.« Rekommendation: »Conducting a study on the legal ruling regarding granting AI legal personality.« Resolutionen säger inget om AI-fatwor, ansvar eller bilder."
+    },
+    {
+      "claim": "Dar al-Iftāʾ fatwa 8856 (6 jan 2026) förbjuder att helt förlita sig på AI för tafsīr",
+      "status": "verified",
+      "method": "WebFetch av fatwasidan på dar-alifta.org",
+      "notes": "Mufti Naẓīr Muḥammad ʿAyyād: »الاعتماد الكُلِّي على تطبيقات الذكاء الاصطناعي كـ(شات جي بي تي) في تفسير القرآن الكريم أمرٌ ممنوعٌ شرعًا«. Skälen: »جهالة المصدر« och »عدم إمكان التحقق من سلامة المنقول«. Fatwan tillåter inte uttryckligen stödjande bruk. Den hänvisar till etablerade tafsīr-verk och kvalificerade lärda. TIME skriver att fatwan »banning the use of artificial intelligence applications for the interpretation of the Quran«, vilket är vidare än fatwan. Använd fatwans egen formulering."
+    },
+    {
+      "claim": "IslamQA 540774 förbjuder att söka fatwor hos AI, med hallucinationer bland skälen, men tillåter AI som sökverktyg",
+      "status": "verified",
+      "method": "WebFetch https://islamqa.info/en/answers/540774",
+      "notes": "Publicerad 27 juli 2025. »It is not permissible to ask it for fatwas or trust its answers in matters of religion, because it is not qualified to issue fatwas.« Om »AI hallucinations«: systemen kan ge »fabricated explanations that have nothing to do with websites and other sources«. Forskare får använda AI som sökverktyg om allt kontrolleras mot originalkällor. Lekmän får skaffa sig en grundförståelse men ska fråga en lärd om själva fatwan. al-Shāfiʿī och Ibn al-Qayyim anförs."
+    },
+    {
+      "claim": "IslamQA 432556 (2 maj 2023) förbjuder fullständiga AI-bilder av besjälade varelser",
+      "status": "verified",
+      "method": "WebFetch https://islamqa.info/ar/answers/432556",
+      "notes": "12 Shawwāl 1444. »يحرم رسم صور ذوات الأرواح من إنسان أو حيوان أو طير، إلا إذا كانت صورة ناقصة« och »رسم الصور عن طريق الذكاء الاصطناعي … يأخذ حكم الرسم … فإن كان الرسم لصورة من ذوات الأرواح تبقى معها الحياة، كان محرما«. Samtidigt: »الصورة الرقمية لا يتعلق بها التحريم إذا ظلت في الكاميرا، أو على الجهاز، أو في خلفية المقطع، ما لم تخرج على شيء ثابت كورق أو جدار«. IslamQA godtar alltså digitala fotografier på skärm men räknar AI-generering som teckning."
+    },
+    {
+      "claim": "Islamweb 519001 (29 sep 2025) tillåter AI-genererade digitala bilder av besjälade varelser",
+      "status": "verified",
+      "method": "WebFetch av fatwasidan på islamweb.net",
+      "notes": "7 Rabīʿ al-thānī 1447: »إن الذي نفتي به: أن إنشاء الصور الرقمية لذوات الأرواح عبر الذكاء الاصطناعي ونحوه، لا حرج فيه«. Skäl: »فليس هناك صورة حقيقية ثابتة«, och de digitala bilderna väger »أخف منها وأخف بكثير« än figurer som inte består, »كالعجين والسكر«. Fatwan åberopar också ʿumūm al-balwā. Villkor: inget hån mot muslimer och ingen ʿawra. Skiljelinjen mot IslamQA är exakt: räknas AI-generering som rasm (teckning) eller som en digital bild utan fysisk verklighet?"
+    },
+    {
+      "claim": "Yaqeen (12 juni 2026): AI saknar moralisk agens, och ansvaret ska läggas på människor enligt skillnaden mubāshir/mutasabbib",
+      "status": "verified",
+      "method": "WebFetch https://yaqeeninstitute.org/read/paper/toward-an-islamic-ethics-and-fiqh-of-artificial-intelligence",
+      "notes": "Författare: AbuTaleb, Alkiek, Hani, Ansari & Khan. »Because AI systems lack sentience, will, and moral agency, they are fundamentally nothing more than programmable artifacts and sophisticated tools.« »AI systems themselves can never be classified as a direct causer of harm … liability must be directed at the humans who design, deploy, and interact with the technology.« »Islamic legal reasoning requires what al-Shatibi termed 'tahqiq al-manat'«. »AI systems, lacking genuine comprehension, consciousness, and spiritual insight, cannot engage in actual ijtihad.« Kritiserar »English-language Western-centric datasets«. Nämner varken juridisk personlighet eller Sitiris & Busari."
+    },
+    {
+      "claim": "Sitiris & Busari (2024) föreslår en begränsad »artificial personality« för AI",
+      "status": "verified",
+      "method": "WebSearch (indexerade sammanfattningar; tidskriftens sida och IIUM:s arkiv svarade inte)",
+      "notes": "Sitiris, M. & Busari, S. A. (2024), »The Legal Capacity (al-Ahliyyah) of Artificial Intelligence from an Islamic Jurisprudential Perspective«, Malaysian Journal of Syariah and Law 12(1): 31–42. Enligt sammanfattningen har en AI-robot inte de egenskaper som krävs för naturlig rättskapacitet, men den har »artificial personality« som kan rättfärdigas i fiqh, och principalansvar (vicarious tortious liability) kan knytas till den personligheten. Se unverifiedClaims om hur motsatsen mot Yaqeen ska formuleras."
+    },
+    {
+      "claim": "Abid, Farooqi & Zou (2021): GPT-3 förknippar muslimer med våld och terrorism",
+      "status": "verified",
+      "method": "WebFetch https://arxiv.org/abs/2101.05783",
+      "notes": "v1 14 jan 2021. Abstract: »'Muslim' is analogized to 'terrorist' in 23% of test cases, while 'Jewish' is mapped to 'money' in 5% of test cases« och »use of the most positive 6 adjectives reduces violent completions for 'Muslims' from 66% to 20%«. Analogitestet mäter ordet »terrorist«, inte våld i allmänhet. Skriv inte »23 % våld«."
+    },
+    {
+      "claim": "SCB (21 maj 2026): 37 % av befolkningen 16 år och äldre använde generativ AI 2025, mot 25 % 2024",
+      "status": "verified",
+      "method": "WebFetch av SCB:s statistiknyhet Artificiell intelligens i Sverige 2026",
+      "notes": "»andelen användare från 25 till 37 procent mellan 2024 och 2025«. Referensperioden är »de senaste tre månaderna«, och uppgifterna kommer från undersökningen Befolkningens it-användning (»16 år eller äldre«). Skriv »hade använt generativ AI under de senaste tre månaderna vid mätningen 2025«."
+    },
+    {
+      "claim": "SCB: 35,0 % av företagen med minst 10 anställda använde AI 2025, mot 25,2 % 2024",
+      "status": "verified",
+      "method": "WebFetch av SCB:s statistiknyhet IT-användning i företag 2025 (2025-11-06)",
+      "notes": "»35,0 procent« 2025 och »25,2 procent« 2024. Populationen är SNI 10–82 utom 64–66, samt 95.1. Vanligaste område är marknadsföring/försäljning, 41,7 %. Bland företag som övervägt men inte infört AI anger 74,7 % brist på kompetens."
+    },
+    {
+      "claim": "Omnibusförordningen (EU) 2026/1744 publicerades i EUT 24 juli 2026, trädde i kraft 27 juli 2026 och sköt upp högriskkraven till 2 dec 2027",
+      "status": "verified",
+      "method": "WebSearch (White & Case, NicFab, euaiactchecklist m.fl.)",
+      "notes": "Fristående högrisksystem (bilaga III) skjuts upp från 2 aug 2026 till 2 dec 2027. AI inbyggd i produkter (bilaga I) skjuts upp till 2 aug 2028. Omnibusen lägger också till nya förbjudna metoder, så beskriv inte art. 5 som oförändrad sedan februari 2025."
+    },
+    {
+      "claim": "PTS och andra myndigheter är nationella behöriga myndigheter genom ett tillfälligt regeringsuppdrag till och med 31 dec 2026, eftersom kompletteringslagen är försenad",
+      "status": "verified",
+      "method": "WebSearch (regeringen.se/regeringsuppdrag/2026/06/uppdrag-att-vara-nationella-behoriga-myndigheter-enligt-al-forordningen; pts.se)",
+      "notes": "Uppdraget gäller PTS, IMY, Finansinspektionen, Läkemedelsverket och Swedac. Lagen var tänkt att gälla från 2 aug 2026. Regeringssidan sågs bara i sökresultat; öppna den innan den citeras."
+    },
+    {
+      "claim": "IMY inledde tillsyn mot Försäkringskassan i juni 2025, modellen togs ur bruk under tillsynen och ärendet avslutades",
+      "status": "verified",
+      "method": "WebFetch https://www.imy.se/nyheter/avslutad-tillsyn-efter-att-forsakringskassan-tagit-ai-system-ur-bruk/ och techlaw.se",
+      "notes": "Nyheten är daterad 18 november 2025: »I juni 2025 inledde Integritetsskyddsmyndigheten (IMY) en tillsyn mot Försäkringskassan.« och »Under tiden tillsynen pågick tog Försäkringskassan AI-systemet ur bruk.« Själva beslutsdatumet står inte i nyheten. Skriv »IMY meddelade den 18 november 2025 att tillsynen avslutats«. imy.se-länken ovan är öppnad och fungerar."
+    },
+    {
+      "claim": "Försäkringskassans VAB-modell flaggade oproportionerligt ofta kvinnor, personer med utländsk bakgrund, låginkomsttagare och personer utan högskoleutbildning (Amnesty 27 nov 2024)",
+      "status": "verified",
+      "method": "WebFetch av Amnestys nyhet",
+      "notes": "Modellen var i bruk sedan minst 2013. David Nolan: »The entire system is akin to a witch hunt against anyone who is flagged for social benefits fraud investigations.« Granskningen gjordes av Lighthouse Reports och Svenska Dagbladet. ISF:s rapport 2018 fann att algoritmen inte uppfyllde kravet på likabehandling."
+    },
+    {
+      "claim": "Skolverket (26 maj 2026): 368 lärare, resultat som inte är representativa; nästan 8 av 10 har använt AI i arbetet",
+      "status": "verified",
+      "method": "WebFetch av Skolverkets pressmeddelande",
+      "notes": "»Lägesbilden ger inte en nationellt representativ bild, men resultat och exempel som presenteras utgör en indikation på hur lärare använder och hanterar AI«. 4 av 10 lärare låter elever använda AI, mot knappt 2 av 10 år 2024. »Oreflekterad användning av AI i undervisningen kan påverka både elevers lärande och deras förmåga att värdera kvalitet i AI-genererade material negativt«."
+    },
+    {
+      "claim": "DO:s remissvar 13 mars 2026 (Ds 2025:32) varnar för diskriminerande bias i ansiktsigenkänning",
+      "status": "verified",
+      "method": "WebFetch av DO:s remissvar",
+      "notes": "DO tillstyrker förslaget. »teknik för ansiktsigenkänning kan ge upphov till problematiska diskriminerande biases«. DO hänvisar till forskning om att AI-system kan »utföra etnisk profilering« och »rikta in sig på och övervaka minoriteter«. DO saknar tillsynsmandat och påpekar att det saknas »skydd mot diskriminering i samband med myndighetsutövning från polis, rättsväsende och övrig brottsbekämpande verksamhet«."
+    },
+    {
+      "claim": "Trelleborg: JO kritiserade handläggningen, fann att skärmdumpar av algoritmen inte var allmänna handlingar och prövade inte om automatiseringen i sig var otillåten",
+      "status": "verified",
+      "method": "WebFetch https://www.svt.se/nyheter/lokalt/norrbotten/jo-kritik-mot-automatiserade-beslut (18 nov 2021)",
+      "notes": "SVT: »JO kritiserar Trelleborg för sin handläggning«. Anmälan kom från Akademikerförbundet SSR. Skärmdumpar av algoritmer är inte allmänna handlingar. Artikeln ligger på Norrbottenredaktionen eftersom den jämför med Luleå. Om citatet »nämnden förtjänar kritik …«, se unverifiedClaims."
+    },
+    {
+      "claim": "Göteborgs skolplaceringar 2020: drygt 12 000 elever, nära 1 000 överklaganden, och Kronblad förlorade",
+      "status": "verified",
+      "method": "WebFetch https://www.gu.se/nyheter/algoritmer-infor-domstol (3 okt 2024)",
+      "notes": "»drygt tolv tusen barn«, »Närmare tusen överklaganden«. Algoritmen räknade »fågelvägen« i stället för »gångvägen«. Kronblad vann inte målet, saknade tillgång till algoritmen och pekar på domstolarnas bristande kompetens att pröva algoritmer."
+    },
+    {
+      "claim": "TIME (26 maj 2026): Tarteel, Ansari och ChatGPT:s råd om hijaben",
+      "status": "verified",
+      "method": "WebFetch https://time.com/article/2026/05/26/ai-muslim-worship/",
+      "notes": "Författare Andrew R. Chow och Juwayriah Wright. Tarteel: »over six million hours of Quran engagement in over 180 countries, the company says«, dvs. företagets egen siffra. Ansari: »150,000 queries«, uppgift från Waleed Kadous. »Aaminah Basent« är en pseudonym. Artikeln nämner inga fatwabottar i Förenade Arabemiraten eller Saudiarabien."
+    },
+    {
+      "claim": "Huawei/Megvii testade ett »Uyghur alert« (testrapport 8 jan 2018; IPVM 8 dec 2020)",
+      "status": "verified",
+      "method": "WebFetch https://ipvm.com/reports/huawei-megvii-uygur",
+      "notes": "Huawei: »This report is simply a test and it has not seen real-world application.« Megvii: »Our solutions are not designed or customized to target or label ethnic groups.«"
+    },
+    {
+      "claim": "Direktivet om AI-ansvar drogs tillbaka, och produktansvarsdirektivet (EU) 2024/2853 omfattar programvara",
+      "status": "verified",
+      "method": "WebSearch (EAPIL, IAPP, Bird & Bird)",
+      "notes": "Kommissionen aviserade återkallelsen i arbetsprogrammet 11 feb 2025. Den formella återkallelsen publicerades i EUT 6 okt 2025 (C/2025/5423)."
+    },
+    {
+      "claim": "Glukhin mot Ryssland (4 juli 2023) och Lavender (+972, 3 april 2024)",
+      "status": "verified",
+      "method": "Allmänt känd rättspraxis och rapportering; researchens källor bedömdes rimliga, ej hämtade här",
+      "notes": "Glukhin v. Russia, ansökan nr 11519/20: enhällig kränkning av artiklarna 8 och 10. Lavender: uppgifter från källor (cirka 37 000 markerade, cirka 10 % felmarginal, omkring 20 sekunder per mål) som IDF bestrider. Redovisa dem som uppgifter, inte som fastställda fakta."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "De medeltida reglerna om djurs skador och om muftī/mukhbir »pekar ut samma lösning som EU:s AI-förordning: ansvaret ligger alltid hos en människa«",
+      "status": "unverified",
+      "reason": "Researchens egna källor motsäger påståendet. al-ʿajmāʾ jubār innebär att viss skada inte ersätts av någon. Det gäller djur utan ryttare eller förare när ägaren inte varit försumlig, baksparken hos ḥanafiter och hanbaliter (al-Hidāya 4:479; al-Mughnī 9:190) och Māliks oprovocerade spark. AI-förordningen lägger skyldigheter på leverantörer och tillhandahållare, som ofta är juridiska personer, och är ingen skadeståndsordning. Hållbar formulering: ansvar kan aldrig läggas på djuret eller maskinen, bara på en ansvarig aktör, och i vissa fall på ingen. Produktansvarsdirektivet (EU) 2024/2853, med strikt ansvar för programvara, står närmare al-Shāfiʿīs vidare ansvar än majoritetens ståndpunkt."
+    },
+    {
+      "claim": "Skiljelinjen går »mellan de som vill ge AI en begränsad personlighet och de som avvisar all agens« (Sitiris & Busari 2024 mot Yaqeen 2026)",
+      "status": "unverified",
+      "reason": "Som motsats är det missvisande. Sitiris & Busari förnekar också att AI har naturlig rättskapacitet. De föreslår en rättslig fiktion (»artificial personality«) för att kunna knyta principalansvar till AI, och de härleder den från fiqh om vissa sammanslutningar, enheter och personer under förmyndarskap. Yaqeen förnekar moralisk agens. Båda lägger ansvaret på människor. Den verkliga meningsskiljaktigheten är om en sådan fiktiv personlighet kan utsträckas till AI, vilket är just den fråga IIFA 258 sköt upp."
+    },
+    {
+      "claim": "JO: »nämnden förtjänar kritik för sin handläggning«, med SVT (18 nov 2021) som källa",
+      "status": "unverified",
+      "reason": "Frasen finns inte i SVT-artikeln, som skriver »JO kritiserar Trelleborg för sin handläggning«. Den finns i Akademikerförbundet SSR:s pressmeddelande via TT (via.tt.se, 2021). Citera JO-beslutet eller pressmeddelandet, eller parafrasera utan citattecken."
+    },
+    {
+      "claim": "Art. 5.1 g gäller »med undantag för märkning och filtrering av lagligt insamlade biometriska dataset och för brottsbekämpning«, vilket gör DO:s remissvar om polisens och Tullverkets biometri relevant",
+      "status": "unverified",
+      "reason": "Undantaget är snävare än så. Det omfattar märkning eller filtrering av lagligt förvärvade biometriska dataset, t.ex. bilder, och kategorisering av biometriska uppgifter på brottsbekämpningsområdet. Det är inget allmänt undantag för brottsbekämpning. DO:s remissvar (13 mars 2026) gäller Ds 2025:32 om biometrisk fjärridentifiering i efterhand, som regleras som högriskanvändning och inte genom 5.1 g. Kopplingen kan göras tematiskt men inte som om remissvaret gällde 5.1 g."
+    },
+    {
+      "claim": "IIFA:s villkor 3 »saknar sekulär motsvarighet«",
+      "status": "unverified",
+      "reason": "För brett formulerat. Sekulär rätt skyddar troende mot hets och diskriminering, t.ex. brottsbalken 16 kap. 8 § om hets mot folkgrupp, som omfattar trosbekännelse, och diskrimineringsgrunden religion. Det som saknar motsvarighet i AI-förordningen och de vanliga AI-principerna är skyddet för religionerna och deras symboler som sådana. Villkoret lyder »must not insult or abuse beliefs, religions, or religious symbols«, så nämn även trosuppfattningar."
+    },
+    {
+      "claim": "Ibn Taymiyya, Majmūʿ al-fatāwā 13:370 (»فأما تفسير القرآن بمجرد الرأي فحرام«) ger stöd oberoende av hadithen via ʿAbd al-Aʿlā al-Thaʿlabī",
+      "status": "unverified",
+      "reason": "I den här utgåvan står meningen inom en redaktionell klammer markerad (*). Den följs direkt av samma hadith via ʿAbd al-Aʿlā (»حدثنا سفيان حدثنا عبد الأعلى عن سعيد بن جبير عن ابن عباس«) och av Jundab-hadithen, som al-Tirmidhī kallar gharīb. Samma mening står i Ibn Kathīr, Tafsīr 1:10. Förankra i stället i 17:36 och i 13:371, som står utanför klammern: »فمن قال في القرآن برأيه فقد تكلف ما لا علم له به وسلك غير ما أمر به فلو أنه أصاب المعنى في نفس الأمر لكان قد أخطأ؛ لأنه لم يأت الأمر من بابه كمن حكم بين الناس على جهل فهو في النار«. Lägg till Buraydas hadith om de tre domarna, som al-Mughnī 10:37 anför. Abū Bakrs yttrande »أي أرض تقلني وأي سماء تظلني« (13:371) har avbrutna kedjor, bl.a. via Ibrāhīm al-Taymī, och bör bara användas som stöd."
+    }
+  ],
+  "missingPerspectives": [
+    "Djur utan ryttare och djur kända för att skada (al-ḍāriya) är närmare analogier till autonom AI än baksparken. Enligt al-Nawawī, Minhāj 11:225 ger Mālik och al-Shāfiʿīs anhängare ägaren ansvar om djuret är känt för att förstöra, »لأن عليه ربطها«. Om skada nattetid ger Mālik ägaren ansvar, al-Shāfiʿī vid försumlighet och Abū Ḥanīfa inget ansvar. Det ger en klassisk grund för att den som släpper ut ett system med kända fel bär ansvaret.",
+    "Invändningen mot punkt 2 i sin starkaste form: senare jurister godtog att en muqallid förmedlar rättsskolans domar, så varför inte en AI som anger verifierade källor? Det klassiska svaret är att en ensam rapport bara godtas från en rättrådig förmedlare (al-Qurṭubī 16:312: »لأن الخبر أمانة والفسق قرينة يبطلها«). Ibn Qudāma kräver dessutom att mukhbir förmedlar »عن رجل بعينه من أهل الاجتهاد« (al-Mughnī 10:38). En AI kan inte ha ʿadāla och kan inte garantera en namngiven källa, så dess svar faller under tabayyun (49:6). Det är precis IslamQA:s regel om sökverktyg med kontroll, och »الخبر أمانة« knyter an till amāna i 33:72.",
+    "Invändningen »AI:s tafsīr är ju ofta rätt«: Ibn Taymiyya, Majmūʿ al-fatāwā 13:371 säger att även den som träffar rätt har fel, »لأنه لم يأت الأمر من بابه«, och jämför med domaren som dömer i okunnighet (Buraydas hadith, som al-Mughnī 10:37 anför).",
+    "al-Furqān 1:123 (= Majmūʿ al-fatāwā 11:191): den som saknar förstånd kan inte ingå avtal, och hans ord är »لغو لا يتعلق بها حكم شرعي ولا ثواب ولا عقاب«. Det stöder att AI-utdata saknar egen rättsverkan; det är människan som gör svaret till sitt och bär det.",
+    "Sadd al-dharāʾiʿ som klassiskt svar på invändning (d): när ett tillåtet medel främst används till ẓulm kan just det bruket spärras. Det förklarar varför förbuden träffar tillämpningar som biometrisk kategorisering och social poängsättning, inte tekniken som sådan. Ingen passage verifierades i denna granskning, så belägg det ur bokdatabasen innan det används.",
+    "Empiriska belägg för hallucinationer i frågor om islamisk rätt finns: IslamicLegalBench (Elmahjub m.fl., arXiv 2602.21226, 2 feb 2026) fann att den bästa modellen hade 68 % korrekta svar och 21 % hallucinationer, och att flera modeller hallucinerade i över 55 % av fallen. Förbehåll: studien mäter svar i fiqh, inte felcitat ur Koranen, så researchens förbud mot det påståendet står kvar. Benchmarken bygger dessutom på sju rättstraditioner, varav flera inte är sunnitiska. Används den ska bara de samlade talen återges, inte indelningen."
+  ],
+  "sourceAssessment": {
+    "totalSources": 73,
+    "highCredibility": 67
+  },
+  "recommendations": [
+    "Formulera om konvergenspåståendet: »ansvaret kan aldrig läggas på maskinen, lika lite som på djuret; det ligger hos en ansvarig aktör – och vid jubār hos ingen«. Säg att AI-förordningen lägger skyldigheter på leverantörer och tillhandahållare, inte ett skadeståndsansvar, och att produktansvarsdirektivet (EU) 2024/2853 ligger närmare al-Shāfiʿīs vidare ansvar.",
+    "Framställ analogin mellan baksparken och oförutsedd AI-utdata som artikelns egen qiyās (och Yaqeens), inte som de klassiska juristernas dom om AI. Redovisa att meningsskiljaktigheten också vilar på hadithen »الرجل جبار«, som hanbaliterna anför (al-Mughnī 9:190) och al-Shāfiʿī underkände (Bidāya 4:200: »ولم يصح هذا الحديث عند الشافعي ورده«). Ange Māliks kriterium, provokation, för sig.",
+    "Formulera om motsatsen Sitiris & Busari mot Yaqeen: båda förnekar moralisk agens och naturlig rättskapacitet, och frågan gäller om en rättslig fiktion kan utsträckas till AI. Det är den fråga IIFA 258 sköt upp.",
+    "Stryk »Den tydligaste skiljelinjen«, eftersom husreglerna förbjuder »tydligaste« som ersättningsord. Skriv till exempel »Skiljelinjen går inte mellan ›islam‹ och ›teknik‹ …«.",
+    "Förankra förbudet mot tafsīr utan kunskap i 17:36, Majmūʿ al-fatāwā 13:371 och Buraydas hadith (al-Mughnī 10:37). Citera meningen i 13:370 bara tillsammans med Ibn Kathīr, Tafsīr 1:10 och låt den inte bära argumentet. Abū Bakrs yttrande i 13:371 får bara vara stöd.",
+    "Använd 37:96 med dess sammanhang. Ibn Kathīr 7:26 håller läsningen »er och era handlingar« för tydligast och anför Ḥudhayfas hadith »إن الله يصنع كل صانع وصنعته« (al-Bukhārī, Khalq afʿāl al-ʿibād). Versen är Ibrāhīms argument mot dem som tillber bilder de själva huggit. Använd den för att säga att det tillverkade är skapat och ingen auktoritet, och låt ibāḥa vila på 45:13, 2:29 (Bernström: »Det är Han som för er har skapat allt vad jorden bär …«) och Ibn Rajab 2:166.",
+    "SCB: skriv »37 procent av befolkningen 16 år och äldre hade använt generativ AI under de senaste tre månaderna vid mätningen 2025«.",
+    "IMY: skriv »IMY meddelade den 18 november 2025 att tillsynen avslutats«. Länken https://www.imy.se/nyheter/avslutad-tillsyn-efter-att-forsakringskassan-tagit-ai-system-ur-bruk/ är öppnad och kan användas.",
+    "JO/Trelleborg: använd inte citattecken runt »nämnden förtjänar kritik för sin handläggning« med SVT som källa. Hänvisa till JO-beslutet eller SSR:s pressmeddelande, eller parafrasera.",
+    "Art. 5.1 g: återge undantaget ordagrant (märkning eller filtrering av lagligt förvärvade biometriska dataset och kategorisering av biometriska uppgifter på brottsbekämpningsområdet). Säg att DO:s remissvar gäller biometrisk fjärridentifiering i efterhand (Ds 2025:32).",
+    "IIFA villkor 3: återge det som »får inte smäda eller kränka trosuppfattningar, religioner eller religiösa symboler«. Begränsa påståendet om att det saknar motsvarighet till skyddet för religionerna och deras symboler som sådana, eftersom svensk rätt skyddar troende som grupp (BrB 16:8).",
+    "Omnibusen: nämn både bilaga III (2 dec 2027) och bilaga I (2 aug 2028). Undvik att beskriva art. 5 som oförändrad, eftersom omnibusen lagt till förbjudna metoder.",
+    "Abid m.fl.: skriv att GPT-3 fullbordade analogin med »terrorist« i 23 % av fallen. Kalla det inte »våld«, och håll isär testerna i text och figur.",
+    "TIME: ange att »Aaminah Basent« är en pseudonym och att Tarteels siffra är företagets egen. Använd inte TIME:s sammanfattning av den egyptiska fatwan, som säger mer än fatwan.",
+    "Ange IslamQA 540774:s datum (27 juli 2025) och att fatwan också låter lekmän skaffa en grundförståelse med AI innan de frågar en lärd. Beskriv IslamQA 432556:s gräns exakt: digitala fotografier på skärm godtas, men AI-generering räknas som teckning.",
+    "Abū Dāwūd: ange numreringssystem (3657 i den gängse numreringen) eller OpenITI 3:359–360.",
+    "Ibn Taymiyya 9:286: lyft fram »يقصد المنافع دون المضار« (avsikten) och ett eget »ما ينفعه وما يضره« som det AI saknar. Det är mer precist än att bara säga att AI saknar ʿaql.",
+    "Källangivelse: Sitiris, M. & Busari, S. A. (2024), Malaysian Journal of Syariah and Law 12(1): 31–42. Använd deras egen term »artificial personality«."
+  ],
+  "datasetChecks": [
+    {
+      "id": "scb-genai-befolkning-2025",
+      "status": "verified",
+      "notes": "Alla elva värden stämmer med SCB:s statistiknyhet av 21 maj 2026: 25 % (2024), 37 % (2025), privat bruk 30 %, i arbetet 18 %, i formell utbildning 10 %, 16–24 år privat 49 % och i utbildning 48 %, män privat 34 %, kvinnor privat 25 %, män i arbetet 21 %, kvinnor i arbetet 16 %. Urvalsstorlek anges inte. Viktigt förbehåll som saknas i noten: uppgifterna kommer från Befolkningens it-användning och avser användning »de senaste tre månaderna«. Figurtexten måste säga det. Serien säger ingenting om religion."
+    },
+    {
+      "id": "scb-foretag-ai",
+      "status": "verified",
+      "notes": "25,2 % (2024) och 35,0 % (2025) stämmer med SCB:s IT-användning i företag 2025 (6 nov 2025). Populationen är företag med minst 10 anställda i SNI 10–82 utom 64–66, samt 95.1, som noten anger. Storleksuppdelningen 31 / 50 / 72 % stämmer med SCB:s statistiknyhet 21 maj 2026, som avrundar till heltal. Samma nyhet anger 10 % för 2023, om den serien skulle behövas."
+    },
+    {
+      "id": "abid-gpt3-bias",
+      "status": "unverified",
+      "notes": "Värdena stämmer exakt med abstractet i arXiv 2101.05783 (66 % → 20 % våldsamma fortsättningar; »Muslim« → »terrorist« 23 %; »Jewish« → »money« 5 %). Men serien lägger två olika experiment i samma värdekolumn, fortsättningstestet och analogitestet. Noten talar om »en viss testuppställning« i singular och varnar inte för att raderna inte går att jämföra. Researchen säger själv att testerna inte får visas på samma axel. Lämna in igen som två serier med var sin not: (1) fortsättningstestet, 66 % utan motåtgärd mot 20 % med sex positiva adjektiv; (2) analogitestet, 23 % »terrorist« för »Muslim« mot 5 % »money« för »Jewish«, med uppgiften att det mäter stereotypa analogier och inte våld."
+    }
+  ]
+}
