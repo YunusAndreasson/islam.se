@@ -254,7 +254,7 @@ export function radHtml(a, { variant = "rail", now = Date.now() } = {}) {
 		// Except across midnight. The column is a day long, so its last rows are
 		// yesterday's, and a bare clock runs 00:03 then 21:56 — the same backwards
 		// sequence the day headings fix on /nyheter/. Here there is no room for a
-		// heading, so the day rides on the stamp itself: »Igår 21:56«.
+		// heading, so the day rides on the stamp itself: »I går 21:56«.
 		const dag = dagnyckel(tid(a)) === dagnyckel(now) ? "" : `${dagetikett(tid(a), now)} `;
 		const meta = [
 			`<time class="nyhet-klocka" datetime="${esc(t.datetime)}">${esc(dag)}${esc(t.klocka)}</time>`,
@@ -282,7 +282,7 @@ export function radHtml(a, { variant = "rail", now = Date.now() } = {}) {
 	// this one can be read down the left margin alone.
 	//
 	// The relative label is gone from the row. Repeated once per notice down a
-	// column that is already in time order and already cut into Idag/Igår, "för 7
+	// column that is already in time order and already cut into I dag/I går, "för 7
 	// timmar sedan" tells the reader nothing they cannot see, and it was the widest
 	// and loudest thing on the line. Freshness is stated once, at the top of the
 	// page, by `statusHtml`.
@@ -335,18 +335,18 @@ export function dagnyckel(ms) {
 /**
  * What a day heading says.
  *
- * The window is a day, so in practice this is only ever »Idag« and »Igår«. The
+ * The window is a day, so in practice this is only ever »I dag« and »I går«. The
  * weekday fallback is not decoration: a cycle that runs long, or a reader who
  * arrives at 00:20, can put three calendar days inside 24 hours, and two
- * headings both reading »Igår« would be worse than no heading at all.
+ * headings both reading »I går« would be worse than no heading at all.
  *
  * @param {number} ms
  * @param {number} [now]
  */
 export function dagetikett(ms, now = Date.now()) {
 	const nyckel = dagnyckel(ms);
-	if (nyckel === dagnyckel(now)) return "Idag";
-	if (nyckel === dagnyckel(now - 86_400_000)) return "Igår";
+	if (nyckel === dagnyckel(now)) return "I dag";
+	if (nyckel === dagnyckel(now - 86_400_000)) return "I går";
 	return veckodagformat.format(new Date(ms));
 }
 

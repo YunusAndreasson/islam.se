@@ -8,7 +8,7 @@ audioFile: "skapad-ur-ingenting.mp3"
 audioDuration: 512
 imageAlt: "Mörk siluett av en man vid en skogssjö om natten som blickar upp mot en stjärnströdd himmel och Vintergatan."
 imageCaption: "En natthimmel över sjön, och frågan om varifrån den kom."
-category: "Sökandet"
+category: "Livsfrågor"
 ---
 Först ateismen. Sedan ockultismen, alkemin, spiritismen. Sedan Swedenborg. Under de år som omspänner *Inferno* prövade Strindberg varje hållning han kunde nå – och ingen bar hans vikt.
 

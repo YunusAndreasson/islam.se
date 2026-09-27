@@ -6,7 +6,7 @@ qualityScore: 8.9
 description: "Han kunde inte sluta vara tacksam. Ockultismen och nervsammanbrotten hör till berättelsen om sommaren 1896, men Strindbergs verkliga kris var en tacksamhet som envist vägrade lyda hans förnuft."
 imageAlt: "Man med rakat huvud sitter i en dunkel vardagsrumssoffa och läser en uppslagen bok, med böcker och en mugg på soffbordet."
 imageCaption: "Han läser i stillheten, före det enda steget."
-category: "Sökandet"
+category: "Livsfrågor"
 ---
 Han kunde inte sluta vara tacksam. Ockultismen och nervsammanbrotten hör till berättelsen om sommaren 1896, men Strindbergs verkliga kris var en tacksamhet som envist vägrade lyda hans förnuft.
 

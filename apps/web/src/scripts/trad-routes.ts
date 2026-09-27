@@ -25,7 +25,7 @@ function markRoutes(): void {
 		if (progress) {
 			progress.hidden = read === 0;
 			progress.textContent =
-				read === stops.length ? "Hela tråden läst" : `${read} av ${stops.length} lästa`;
+				read === stops.length ? "Hela temat läst" : `${read} av ${stops.length} lästa`;
 		}
 	}
 }

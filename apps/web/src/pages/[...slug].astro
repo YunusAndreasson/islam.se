@@ -97,7 +97,7 @@ const structuredArticle = {
     41 kB) are preloaded into otherwise idle bandwidth. Essays that DO have a hero keep
     the old behaviour — there the contention Base.astro describes is real. */}
 <Base
-	title={`${article.title} — islam.se`}
+	title={`${article.title} – islam.se`}
 	description={article.seoDescription ?? article.description}
 	ogImage={`/og/${article.slug}.png`}
 	articleMeta={structuredArticle}
@@ -220,7 +220,7 @@ const structuredArticle = {
 	   intrinsic width/height, so the box is still reserved before the file lands.
 	   No hover bloom here — the hero is a <figure>, not a link. */
 
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.article-hero {
 			margin-bottom: var(--space-unit);
 		}

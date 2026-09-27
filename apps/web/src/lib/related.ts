@@ -186,11 +186,11 @@ function tokenize(text: string): string[] {
  *  canonical reference page per ämne, so every essay reaches the corpus. */
 const AMNE_FALLBACK: Record<AmneName, string> = {
 	Skapelsen: "varfor-skapade-gud-manniskan",
-	Skriften: "vad-ar-koranen",
+	Koranen: "vad-ar-koranen",
 	Själen: "vad-sager-islam-om-livet-efter-doden",
 	Rättvisa: "vad-ar-sharia",
 	Samhälle: "vad-ar-zakat",
-	Sökandet: "finns-bevis-for-gud",
+	Livsfrågor: "finns-bevis-for-gud",
 	Norden: "hur-blir-man-muslim",
 };
 

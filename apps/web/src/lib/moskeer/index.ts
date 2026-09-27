@@ -5,6 +5,7 @@
 import mosquesRaw from "../../data/moskeer-sverige.json";
 import { slugify } from "../bonetider/slug";
 import { SITE_URL } from "../config";
+import { talord } from "../format";
 import { haversineKm } from "../geom";
 
 export interface Mosque {
@@ -150,16 +151,18 @@ export function oldestMosque(mosques: readonly Mosque[]): Mosque | undefined {
 	return mosques.find((m) => m.opened === earliest);
 }
 
-/** "1 moské" / "12 moskéer", optionally "1 registrerad moské" / "12 registrerade moskéer". */
-export function pluralMoske(n: number, registered = false): string {
+/** "1 moské" / "12 moskéer", optionally "1 registrerad moské" / "12 registrerade moskéer".
+ *  `ord` for running text: »fyra registrerade moskéer« (see `talord`); titles, meta
+ *  lines and descriptions keep the digit. */
+export function pluralMoske(n: number, registered = false, ord = false): string {
 	const adj = registered ? (n === 1 ? "registrerad " : "registrerade ") : "";
 	const noun = n === 1 ? "moské" : "moskéer";
-	return `${n} ${adj}${noun}`;
+	return `${ord ? talord(n) : n} ${adj}${noun}`;
 }
 
-/** "1 ort" / "12 orter". */
-export function pluralOrt(n: number): string {
-	return `${n} ${n === 1 ? "ort" : "orter"}`;
+/** "1 ort" / "12 orter"; `ord` as for `pluralMoske`. */
+export function pluralOrt(n: number, ord = false): string {
+	return `${ord ? talord(n) : n} ${n === 1 ? "ort" : "orter"}`;
 }
 
 /** The OTHER city pages in the same kommun — the stadsdelar a metro page hands off to.
@@ -197,6 +200,47 @@ export function directionsLinks(m: Pick<Mosque, "lat" | "lng" | "name">): Direct
 	};
 }
 
+/** The address split the Swedish way. The scraped `address` is OpenStreetMap's reverse
+ *  geocode, most specific first and number before street: »34, Apelbergsgatan, Norrmalm,
+ *  Norra innerstadens stadsdelsområde, Stockholm« — printed as it stood on every mosque
+ *  row. A Swedish address is »Apelbergsgatan 34, 111 38 Stockholm« (PostNord's order). A
+ *  leading place name (the mosque's own, from the geocoder) is dropped; the postort is the
+ *  last part that is not an administrative district. The data stays as scraped. */
+function addressParts(
+	m: Pick<Mosque, "address" | "city">,
+): { street: string; postort: string } | null {
+	if (!m.address) return null;
+	const parts = m.address
+		.split(",")
+		.map((p) => p.trim())
+		.filter(Boolean);
+	if (parts.length === 1) return { street: parts[0] as string, postort: "" };
+	const isNumber = (p: string | undefined) => p !== undefined && /^\d+\s?[A-Za-z]?$/.test(p);
+	let at = !isNumber(parts[0]) && isNumber(parts[1]) && parts.length > 2 ? 1 : 0;
+	// A run of numbers is one building the geocoder matched on every entrance
+	// (»1, 3, 5, … 23, Sikvägen«): no single number is the address, so none is shown.
+	const numbers: string[] = [];
+	while (isNumber(parts[at])) numbers.push(parts[at++] as string);
+	const street = parts[at] as string;
+	const rest = parts.slice(at + 1).filter((p) => !/(distrikt|stadsdelsområde|kommun)$/i.test(p));
+	const nr = numbers.length === 1 ? numbers[0] : null;
+	return { street: nr ? `${street} ${nr}` : street, postort: rest.at(-1) ?? m.city };
+}
+
+/** »Apelbergsgatan 34« — the street line alone (schema.org streetAddress). */
+export function streetLine(m: Pick<Mosque, "address" | "city">): string | null {
+	return addressParts(m)?.street ?? null;
+}
+
+/** »Apelbergsgatan 34, 111 38 Stockholm«, for display. An address that was already one
+ *  free-text line (»Vintergatan 1E 66132 Säffle«) is shown as it stands. */
+export function swedishAddress(m: Pick<Mosque, "address" | "city" | "postalCode">): string | null {
+	const a = addressParts(m);
+	if (!a) return null;
+	if (!a.postort) return m.postalCode ? `${a.street}, ${m.postalCode}` : a.street;
+	return `${a.street}, ${m.postalCode ? `${m.postalCode} ` : ""}${a.postort}`;
+}
+
 const SITE = SITE_URL;
 
 /** Canonical /moskeer/[stad] anchor for a mosque — its stable schema @id and the deep
@@ -217,7 +261,7 @@ function mosqueSchema(m: Mosque): Record<string, unknown> {
 		url,
 		address: {
 			"@type": "PostalAddress",
-			...(m.address ? { streetAddress: m.address } : {}),
+			...(m.address ? { streetAddress: streetLine(m) } : {}),
 			addressLocality: m.kommun,
 			addressRegion: lanDisplay(m.lan),
 			...(m.postalCode ? { postalCode: m.postalCode } : {}),

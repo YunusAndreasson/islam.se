@@ -41,11 +41,19 @@
 	margin-block: var(--space-section) 0;
 }
 
-/* A single tint groups the illustrated reference, department and thinker sections.
-   The closing promotions share one continuous ground: the wrapper owns the bleed
-   and outer padding so the podcast/app and book read as a related group.
+/* THE GROUNDS ALTERNATE BY MOVEMENT: paper (the cover), tint (Fakta om islam),
+   paper (Fördjupning), tint (the live row: news and the year), paper (Ämnen and
+   Trådar), tint (Tänkare), paper (AI-barometern), tint (Praktiskt), paper (the
+   closing promotions, then the footer under its rule).
+   Every change of ground is a boundary, so no rule or ornament is needed between
+   movements — and no tint ever holds two sections. Until 2026-09-27 two tints did:
+   Fakta + Fördjupning ran 2 550px as one block straight after the cover, and Ämnen
+   + Trådar + Tänkare 1 750px as another, and the live row carried the barometer as
+   a third voice; all of it read as crammed (»intryckt«, user review). The closing
+   promotions are the one wrapper that keeps two rows on one ground, because the
+   podcast/app and the book are one group.
    50% is half the canvas; 50cqi is half the window (.front is the container). */
-.front .home :is(.home-reference, .home-essays, .tankare-home, .home-promotions) {
+.front .home :is(.fakta-band, .home-sidolinje, .tankare-home, .praktiskt-home) {
 	--color-bg: var(--ground-tint);
 	margin-inline: calc(50% - 50cqi);
 	padding-inline: calc(50cqi - 50%);
@@ -53,7 +61,28 @@
 	background: var(--color-bg);
 }
 
-.home .home-reference,
+/* THE CORNICE (taklist): along the top edge of each tinted room, the moulding where a
+   Swedish flat's ceiling meets its wall — a flat fillet, a fine bead, and a run of
+   pärlstav under them (/taklist.svg). Stucco, so the ground's own colour a few per cent
+   darker, never ink (typography.css, »Stuckatur«). It marks the rooms the tint already
+   marks, so it adds no boundary and counts against no rule budget. Flush with the
+   room's top edge, and in two members: a lone row of pearls floating 1.5rem below the
+   edge read as a perforation, »cut here«, not as architecture (2026-09-27). */
+.front .home :is(.fakta-band, .home-sidolinje, .tankare-home, .praktiskt-home) {
+	position: relative;
+}
+
+.front .home :is(.fakta-band, .home-sidolinje, .tankare-home, .praktiskt-home)::before {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	inset-block-start: 0;
+	block-size: 0.5rem;
+	background: color-mix(in oklab, var(--color-text) 9%, var(--color-bg));
+	mask: url("/taklist.svg") 0 0 / auto 100% round no-repeat;
+	pointer-events: none;
+}
+
 .home .home-essays,
 .home .home-promotions {
 	display: grid;
@@ -65,20 +94,13 @@
 	margin-block: var(--space-section) 0;
 }
 
-/* Essays, threads and their thinkers share a continuous reading region.
-   Put the section gap inside its tint, rather than exposing a white strip
-   between two identical backgrounds. Practical tools begin the next region. */
+/* The live row and the departments share .home-akt2, a flex column, where margins
+   do not collapse: the departments close on no margin of their own, so the gap to
+   Tänkare below is Tänkare's single section margin, not two added together. */
 .front .home .home-essays {
 	margin-bottom: 0;
-	padding-bottom: var(--space-section);
 }
 
-.front .home .home-akt2 + .tankare-home {
-	margin-top: 0;
-	padding-top: 0;
-}
-
-.home .home-reference > .home-movement,
 .home .home-essays > .home-movement,
 .home .home-promotions > :is(.podd-app, .bookpod--home) {
 	margin: 0;
@@ -270,7 +292,7 @@ a:focus-visible .media-frame::before {
 .palette .palette-browse {
 	margin-top: var(--space-group);
 }
-@media (width > 900px) {
+@media (width > 56.25rem) {
 	.palette {
 		--padding-inline: 2rem;
 	}
@@ -303,20 +325,19 @@ a:focus-visible .media-frame::before {
 		grid-column: 1 / -1;
 	}
 }
-@media (width <= 900px) {
-	.site-header .mast-prayer-name,
+/* On a phone the chip names the prayer, as it does on the desktop: »Maghrib 18:33«
+   says which prayer and is shorter than »Nästa bön 18:33«, which said neither. The
+   link's aria-label still reads »Nästa bön: …« in full. */
+@media (width <= 56.25rem) {
 	.site-header .mast-prayer-icon {
 		display: none;
-	}
-	.site-header .mast-prayer-label {
-		display: inline;
 	}
 	.site-header .mast-prayer {
 		gap: 0.35rem;
 		font-size: var(--step--3);
 	}
 }
-@media (width <= 600px) {
+@media (width <= 37.5rem) {
 	.home .home-pillars {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -391,4 +412,23 @@ a:focus-visible .media-frame::before {
 }
 .front .nyhet--rail {
 	border-top: 0;
+}
+/* The smallest phones (under 360px) cannot carry wordmark + »Maghrib 18:33« + Meny on
+   one row: they needed 312px of 270 and the mast broke onto two lines, 130px tall,
+   at 320 and 340px (measured 2026-09-27; it predates the larger wordmark). There the
+   chip keeps the sun or moon and the time, the pill and the wordmark give up a little
+   air, and the row holds. The aria-label still names the prayer. */
+@media (width < 22.5rem) {
+	.site-header .mast-prayer-name {
+		display: none;
+	}
+	.site-header .mast-prayer-icon {
+		display: grid;
+	}
+	.site-header .search-trigger {
+		padding-inline: 0.6rem;
+	}
+	.site-header .site-home {
+		font-size: 1.0625rem;
+	}
 }

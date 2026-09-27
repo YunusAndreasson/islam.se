@@ -59,7 +59,7 @@ const heroPreload = feature?.heroImage
 
 {/* "Vad är islam?" is reserved for /vad-ar-islam/ — do not put it back in this title. */}
 <Base
-	title="Islam: fakta om tron, reglerna och livet som muslim — islam.se"
+	title="Islam: fakta om tron, reglerna och livet som muslim – islam.se"
 	description="Fakta om islam på svenska: tron och de fem pelarna, reglerna för mat, klädsel och bön, och livet som muslim i Sverige. Källbelagda svar ur Koranen och sunna."
 	{...(ogImage ? { ogImage: ogImage.src } : {})}
 	{...(heroPreload ? { preloadImageSrcset: heroPreload.srcSet.attribute } : {})}
@@ -73,7 +73,7 @@ const heroPreload = feature?.heroImage
 	    64rem every other collection page uses. */}
 	<main id="main" class="front">
 	<div class="home">
-		<h1 class="sr-only">islam.se — kunskap om islam på svenska</h1>
+		<h1 class="sr-only">islam.se – kunskap om islam på svenska</h1>
 
 		{/* The masthead: what this site is, and nothing competing with it.
 
@@ -90,7 +90,7 @@ const heroPreload = feature?.heroImage
 		    too much, and this is not an attempt to bring it back. */}
 		<div class="home-masthead">
 			<p class="lead home-intro" data-fortsatt>
-				Islam på svenska, förklarad ur källorna – Koranen, sunna och de tidiga
+				Islam på svenska, förklarad utifrån källorna – Koranen, sunna och de tidiga
 				generationernas lärda.
 			</p>
 		</div>
@@ -111,22 +111,24 @@ const heroPreload = feature?.heroImage
 			))}
 		</nav>
 
-		{/* One tinted region distinguishes reference material from the editorial
-		    opening, and groups the introductory facts with deeper reading. */}
-		<div class="home-reference">
-			<FaktaBand />
-			<FordjupningHome />
-		</div>
+		{/* Facts, then depth: adjacent, but two movements on two grounds. The facts
+		    carry the tint; Fördjupning stands on paper under them. They shared one
+		    tinted region until 2026-09-27, which read as one 2 550px block (user
+		    review, »intryckt«). From here down the grounds alternate by movement —
+		    paper, tint, paper … — so every change of ground is a boundary and no
+		    tint ever holds two sections (editorial.css). */}
+		<FaktaBand />
+		<FordjupningHome />
 
 		{/* The live row precedes the departments in the DOM as well as on screen,
 		    so keyboard and assistive-technology reading order follow the composition.
-		    News and the Islamic year share a row on desktop, with AI-barometern below;
-		    the existing no-news fallback keeps the remaining blocks together. */}
+		    News and the Islamic year: the day and the year, side by side on desktop.
+		    AI-barometern stood under them until 2026-09-27 — three voices on one tint
+		    (»intryckt«) — and is now its own movement further down. */}
 		<div class="home-akt2">
 			<div class="home-sidolinje">
 				<Nyheter />
 				<Markesdagar />
-				<BarometerRail />
 			</div>
 			<div class="home-akt2-huvud">
 				<section class="home-essays" aria-labelledby="amnen-kicker">
@@ -144,13 +146,19 @@ const heroPreload = feature?.heroImage
 		    ground: as a full-bleed dark band it read as a second site (2026-09-25). */}
 		<TankareGroups limit={6} />
 
+		{/* AI-barometern, its own movement since 2026-09-27: a monthly measurement with
+		    its own destination in the mast, beside Bönetider and Moskéer — so here it
+		    leads into the practical tools, not into the news. */}
+		<BarometerRail />
+
 		{/* Practical web tools: today's prayer times and their annual rhythm, the
 		    mosque directory and the mosque screen. The app belongs to the illustrated
 		    promotion below, so this section gives each space a distinct purpose. */}
 		<PraktisktHome />
 
 		{/* One common region for ways to take the publication and its tools elsewhere.
-		    The wrapper owns the tint and outer space; its two rows retain their headings. */}
+		    The wrapper owns the outer space; its two rows retain their headings. On paper,
+		    the last step of the alternation (editorial.css). */}
 		<div class="home-promotions">
 			<PoddAppHome />
 			<BookPod count={articles.length} variant="home" />
@@ -216,7 +224,7 @@ const heroPreload = feature?.heroImage
 		margin: 0;
 	}
 
-	@media (width <= 900px) {
+	@media (width <= 56.25rem) {
 		.home-pillars {
 			display: grid;
 			gap: var(--space-half) clamp(1rem, 3vw, 2rem);
@@ -227,7 +235,7 @@ const heroPreload = feature?.heroImage
 		}
 	}
 
-	@media (width <= 600px) {
+	@media (width <= 37.5rem) {
 		.home-pillars {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}

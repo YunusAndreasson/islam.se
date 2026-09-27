@@ -526,7 +526,7 @@
 	/* Under 480px a 9rem label column leaves no bar. The row becomes two lines instead:
 	   label and value on top, the full-width track beneath. Nothing rotates, nothing
 	   scrolls sideways, and the labels stay real wrapping text. */
-	@media (width <= 480px) {
+	@media (width <= 30rem) {
 		/* Thin the axis out and hand the series names to the legend: at this width the
 		   chart is already scrolling, and a crowded axis is worse than a sparse one. */
 		.chart-tick.is-minor,

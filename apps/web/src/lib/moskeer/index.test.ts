@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { placeBySlug } from "../bonetider/places-index";
 import { haversineKm } from "../geom";
-import { getMosques, mosquesByCity, siblingCityGroups } from "./index";
+import { getMosques, mosquesByCity, siblingCityGroups, swedishAddress } from "./index";
 
 // Every mosque is filed under a bönetider place, and that slug is both its page URL and
 // the anchor in its schema.org @id. The address matcher used to scan address components
@@ -82,6 +82,43 @@ describe("metro hand-off", () => {
 		for (const g of mosquesByCity()) {
 			const siblings = siblingCityGroups(g.kommun, g.citySlug);
 			expect(siblings.map((s) => s.citySlug)).not.toContain(g.citySlug);
+		}
+	});
+});
+
+// The scraped addresses are OpenStreetMap reverse geocodes — number before street, then
+// every enclosing district: »34, Apelbergsgatan, Norrmalm, Norra innerstadens
+// stadsdelsområde, Stockholm, 111 38« was printed as it stood on the mosque rows.
+describe("swedishAddress", () => {
+	const at = (address: string, postalCode?: string, city = "Stockholm") =>
+		swedishAddress({ address, city, ...(postalCode ? { postalCode } : {}) });
+
+	it("puts the number after the street and the postort after the postnummer", () => {
+		expect(
+			at("34, Apelbergsgatan, Norrmalm, Norra innerstadens stadsdelsområde, Stockholm", "111 38"),
+		).toBe("Apelbergsgatan 34, 111 38 Stockholm");
+	});
+
+	it("drops a leading place name and administrative districts", () => {
+		expect(
+			at(
+				"Albanska Islamiska Föreningen Ikra, 14, Ödmanssonsgatan, Citadellstaden, Landskrona",
+				"261 34",
+			),
+		).toBe("Ödmanssonsgatan 14, 261 34 Landskrona");
+		expect(at("Tivedsvägen, Laxå, Ramundeboda distrikt", "695 30")).toBe(
+			"Tivedsvägen, 695 30 Laxå",
+		);
+	});
+
+	it("leaves a one-line address as typed", () => {
+		expect(at("Vintergatan 1E 66132 Säffle")).toBe("Vintergatan 1E 66132 Säffle");
+	});
+
+	it("formats every mosque in the dataset without leaving a leading house number", () => {
+		for (const m of getMosques()) {
+			const a = swedishAddress(m);
+			if (a) expect(a, m.id).not.toMatch(/^\d/);
 		}
 	});
 });

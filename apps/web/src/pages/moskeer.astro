@@ -10,7 +10,7 @@ import RelatedLinks from "../components/finder/RelatedLinks.astro";
 import Base from "../layouts/Base.astro";
 import { formatDate } from "../lib/articles";
 import { breadcrumbList, dataset } from "../lib/jsonld";
-import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan } from "../lib/moskeer";
+import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan, swedishAddress } from "../lib/moskeer";
 import { MOSQUE_PHOTOS } from "../lib/moskeer/art";
 import { MOSKEER_DATA_DATE } from "../lib/moskeer/meta";
 import { burialLocationLabel, getBurialGrounds, sectionLabel } from "../lib/begravningsplatser";
@@ -81,7 +81,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 ---
 
 <Base
-	title="Moskéer i Sverige — karta och adresser län för län — islam.se"
+	title="Moskéer i Sverige – karta och adresser län för län – islam.se"
 	description={description}
 	{...(card === undefined ? {} : { ogImage: card.src })}
 	{...(cardPhoto === undefined ? {} : { ogImageAlt: cardPhoto.alt })}
@@ -187,7 +187,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 										data-search={fold(`${m.name} ${locationLabel(m)} ${m.address ?? ""}`)}
 									>
 										<span class="mk-item-name">{m.name}</span>
-										{m.address && <span class="mk-item-addr">{m.address}</span>}
+										{m.address && <span class="mk-item-addr">{swedishAddress(m)}</span>}
 										<span class="mk-item-loc">
 											{locationLabel(m)}
 										</span>
@@ -210,7 +210,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		</div>
 
 		<RelatedLinks label="Mer om moskéer" links={[
-			{href: "/moskeer/om/", label: "Om moskéer · historia & besök"},
+			{href: "/moskeer/om/", label: "Om moskéer · historia och besök"},
 			{href: "/bonetider/", label: "Bönetider för din ort"},
 		]} />
 
@@ -394,7 +394,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 	}
 
 	/* On phones the card becomes a bottom sheet pinned to the foot of the map. */
-	@media (width <= 600px) {
+	@media (width <= 37.5rem) {
 		.mk-callout {
 			right: 0;
 			left: 0;
@@ -509,7 +509,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
  .mk-graves-glyph { width: 1.15rem; height: 1.15rem; fill: var(--color-brass); flex: none; }
  .mk-result-bar .mk-reset { margin-left: auto; padding: .5rem 0; border: 0; text-decoration: underline; text-underline-offset: .2em; min-height: 2.75rem; }
  .mk-list-jump { font-family: var(--font-heading); font-size: var(--step--2); padding-block: .5rem; }
- @media (width >= 800px) { .mk-list-jump { display: none; } }
+ @media (width >= 50rem) { .mk-list-jump { display: none; } }
  #mk-lan { min-height: 3rem; }
 
  .mk-explorer { display: grid; gap: var(--space-unit); margin-top: var(--space-half); }
@@ -525,13 +525,13 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
  .mk-lan[open] summary :global(svg) { transform: rotate(180deg); }
  .mk-item { min-height: 2.75rem; padding: .85rem .5rem; gap: .2rem; }
  .mk-item:hover, .mk-item.is-active { background: var(--wash-hover); }
- @media (width >= 800px) {
+ @media (width >= 50rem) {
   .mk-explorer { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); align-items: start; }
   .mk-stage { grid-column: 2; grid-row: 1; }
   .mk-results { grid-column: 1; grid-row: 1; max-height: 540px; overflow-y: auto; padding-right: .75rem; scrollbar-gutter: stable; }
  }
- @media (width < 800px) { .mk-map { height: 420px; } }
- @media (width < 480px) { .mk-search-wrap { flex-basis: 100%; } .mk-lan-filter { flex: 1 1 calc(50% - .5rem); } #mk-lan { width: 100%; max-width: 100%; } .mk-geo { flex: 1 1 calc(50% - .5rem); } }
+ @media (width < 50rem) { .mk-map { height: 26.25rem; } }
+ @media (width < 30rem) { .mk-search-wrap { flex-basis: 100%; } .mk-lan-filter { flex: 1 1 calc(50% - .5rem); } #mk-lan { width: 100%; max-width: 100%; } .mk-geo { flex: 1 1 calc(50% - .5rem); } }
 
 	.visually-hidden {
 		position: absolute;
@@ -545,7 +545,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		border: 0;
 	}
 
-	@media (width <= 480px) {
+	@media (width <= 30rem) {
 		.mk-count {
 			margin-left: 0;
 		}
@@ -556,7 +556,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 	.mk-stage:has(.is-error) .mk-loading { display: none; }
 	.mk-view-switch { display: none; }
 	.mk-item { text-decoration: none; }
-	@media (width < 800px) {
+	@media (width < 50rem) {
 		.mk-view-switch:not([hidden]) { display: flex; border: 1px solid var(--color-rule); border-radius: var(--radius-sm); padding: .2rem; }
 		.mk-view-switch button { min-height: 2.75rem; padding: .5rem 1rem; border: 0; border-radius: var(--radius-xs); background: transparent; color: var(--color-text); font: var(--step--2) var(--font-heading); cursor: pointer; }
 		.mk-view-switch button[aria-pressed="true"] { background: var(--color-text); color: var(--color-bg); }
@@ -743,7 +743,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 	.mk-stage:has(.is-error) .mk-loading { display: none; }
 	.mk-view-switch { display: none; }
 	.mk-item { text-decoration: none; }
-	@media (width < 800px) {
+	@media (width < 50rem) {
 		.mk-view-switch:not([hidden]) { display: flex; border: 1px solid var(--color-rule); border-radius: var(--radius-sm); padding: .2rem; }
 		.mk-view-switch button { min-height: 2.75rem; padding: .5rem 1rem; border: 0; border-radius: var(--radius-xs); background: transparent; color: var(--color-text); font: var(--step--2) var(--font-heading); cursor: pointer; }
 		.mk-view-switch button[aria-pressed="true"] { background: var(--color-text); color: var(--color-bg); }

@@ -157,7 +157,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		--bf-stage-w: 24rem;
 	}
 
-	@media (width >= 640px) {
+	@media (width >= 40rem) {
 		.bonetider-field {
 			grid-template-columns: minmax(0, var(--bf-stage-w)) 1fr;
 			align-items: center;
@@ -373,7 +373,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	.bf-schedule-first .bf-t-time { font-family: var(--font-heading); font-size: var(--step-1); font-weight: 600; }
 	.bf-next-label { display: none; margin-inline-start: 0.7rem; font-size: var(--step--4); font-weight: 400; }
 	.is-next-today .bf-next-label { display: inline; }
-	@media (width >= 640px) {
+	@media (width >= 40rem) {
 		.bf-schedule-first {
 			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
 			grid-template-areas: "caption caption" "times map";
@@ -432,7 +432,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	.bf-map-first .bf-next { flex-direction: column; align-items: stretch; gap: 0.15rem; }
 	.bf-map-first .bf-next-when { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
 
-	@media (width >= 640px) {
+	@media (width >= 40rem) {
 		.bf-map-first {
 			grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
 			grid-template-areas: "summary summary" "map times" "legend times";

@@ -30,20 +30,21 @@ The sequence, top to bottom (new-reader priority, product decision 2026-09-26):
 
 1. **The orientation line** — one sentence saying what the site is, becoming »Fortsätt läsa …« for a returning reader with an unfinished essay.
 2. **The lead and an index** — preserve the full-width 5:2 desktop cover and its two-thirds lead / one-third recent-essay index. On a phone: kicker, headline, photograph, deck, then the index. The six doorways follow only at widths ≤900px, matching the mast's collapsed navigation; wide touch devices keep the inline mast links without duplicating the doorways.
-3. **Grunden** — »Vad är islam?« immediately follows the opening group. It shares one continuous tinted reference region with Fördjupning, separating introductory reference material from the essays on paper (user review, 2026-09-26). The wrapper owns the outer padding and the two sections are separated by `--space-section`. The five pillars remain full-width glossary rows (number, Swedish name, transliteration and gloss); the six articles of faith follow. No Arabic script at the ends of the rows: it added competing weight without adding meaning beyond the transliteration (user review, 2026-09-25).
-4. **Fördjupning** — immediately follows Grunden: introductory facts, then depth. Four illustrated cards, two by two on desktop and a sideways row on a phone. The heading owns one `--space-unit` gap above the cards; card padding must not double it. Desktop card rows retain twice `--space-unit` between entries.
-5. **The live row** — news and the Islamic year side by side, AI-barometern below. Preserve the sans voice for quoted news, Literata for the site's own writing, three phone headlines and one phone barometer finding. Preserve the no-news fallback. The live row precedes the departments in both DOM and visual order, with no CSS reordering.
+3. **Grunden** — »Vad är islam?« immediately follows the opening group, on its own tinted ground: the five pillars as full-width glossary rows (number, Swedish name, transliteration and gloss), then the six articles of faith. No Arabic script at the ends of the rows: it added competing weight without adding meaning beyond the transliteration (user review, 2026-09-25). It shared one tinted region with Fördjupning until 2026-09-27; that read as one crammed 2 550px block straight after the cover (»intryckt«, user review), so the two are now adjacent movements on two grounds.
+4. **Fördjupning** — immediately follows Grunden (introductory facts, then depth), as its own movement on paper. Four illustrated cards, two by two on desktop and a sideways row on a phone; the user likes these pictures at this size (2026-09-27), so the separation is made by ground, not by shrinking them. The heading owns one `--space-unit` gap above the cards; card padding must not double it. Desktop card rows retain twice `--space-unit` between entries.
+5. **The live row** — news and the Islamic year side by side, on one tint. Preserve the sans voice for quoted news, Literata for the site's own writing and three phone headlines. With no news (a blocker, no JavaScript) the year takes the whole row, its three dates in thirds. The live row precedes the departments in both DOM and visual order, with no CSS reordering.
 6. **The departments** — three ämnen, each with a 3:2 photograph and two essays, sharing rows so pictures, titles and separators align. The lead and recent essays remain excluded.
-7. **Trådar as routes** — ordered stops for the essays, with read stops filled from localStorage.
+7. **Teman as routes** (code: `TradarHome`) — ordered stops for the essays, with read stops filled from localStorage.
 8. **Tänkare as a dialogue** — the two traditions in facing columns joined by their shared essays; preserve the existing diagram and hover behavior.
-9. **Praktiskt** — the four tools beside the static map of Sweden; the prayer-day horizon stays beside Bönetider.
-10. **The closing promotions** — podcast and app in the first row, book below, within one continuous tinted region. The wrapper owns the full-width ground, `--space-phi2` outer padding and one `--space-section` gap between rows. Keep each promotion's heading, drawing, copy and destinations. This shared region groups ways to take the publication and tools elsewhere. On phones the promotions stack; at 768–1023px podcast/app remain two columns with drawings above the words; from 1024px their 10rem drawing columns sit beside the text. This avoids the previous 147px text columns at 768px. The book retains its full-width row.
+9. **AI-barometern** — its own movement on paper: the introduction with the barometer drawing beside three findings, one finding on a phone. It stood under the news and the year until 2026-09-27; three voices on one tint read as crammed. It sits here, before Praktiskt, because the mast groups it with Bönetider and Moskéer.
+10. **Praktiskt** — the four tools beside the static map of Sweden; the prayer-day horizon stays beside Bönetider.
+11. **The closing promotions** — podcast and app in the first row, book below, on one ground: paper since 2026-09-27, the last step of the alternation, with the footer's rule under it. The wrapper owns one `--space-section` gap between rows. Keep each promotion's heading, drawing, copy and destinations. This shared region groups ways to take the publication and tools elsewhere. On phones the promotions stack; at 768–1023px podcast/app remain two columns with drawings above the words; from 1024px their 10rem drawing columns sit beside the text. This avoids the previous 147px text columns at 768px. The book retains its full-width row.
 
 **Why this order.** At 390px, the previous page placed »Vad är islam?« around 6,374px down, after the promotions, live material and topic collections. The agreed priority is new readers. Keep the distinctive editorial opening, then place foundations and deeper explanations together before secondary discovery and promotions. Proximity communicates the relationship between introduction and depth; order communicates priority. This supersedes the earlier decision to promote podcast/app directly under the cover.
 
-**One pair of margins — the mast's — and one tint.** Keep the 76rem canvas (`--canvas-width`), existing warm paper and one `--ground-tint`. The combined Grunden/Fördjupning reference region, Ämnen, Tänkare and the closing promotions carry the tint, with content aligned to the mast. The closing wrapper supplies one ground for both promotion rows, not two independently padded bands. Preserve the restrained palette and artwork; no dark band, new color or new ornamental divider is needed for the revised order.
+**One pair of margins — the mast's — and one tint, alternating.** Keep the 76rem canvas (`--canvas-width`), existing warm paper and one `--ground-tint`, with content aligned to the mast. The grounds alternate by movement: paper (the cover), tint (Grunden), paper (Fördjupning), tint (the live row), paper (Ämnen and Teman), tint (Tänkare), paper (AI-barometern), tint (Praktiskt), paper (the closing promotions, then the footer under its rule). Every change of ground is a boundary, so no rule or ornament is needed between movements, and **no tint holds two sections** — the one exception is the closing wrapper, which gives the podcast/app row and the book one ground because they are one group. Two shared tints (Grunden + Fördjupning, 2 550px; Ämnen + Teman + Tänkare, 1 750px) and the barometer as a third voice in the live row were removed on 2026-09-27 for reading as crammed. A new movement takes the next ground in the alternation or says why not. Preserve the restrained palette and artwork; no dark band, new color or new ornamental divider — the one ornament a room carries is its cornice (»Stuckatur« below), which marks the room the tint already marks.
 
-**One grid.** Every multi-column movement uses one gutter, `--grid-gutter` (3rem), so the columns fall on shared lines: halves turn at the canvas's centre (the podcast and app band, the live row, the barometer, Fördjupning, Praktiskt's second tool column), thirds at a third (the lead's index, Ämnen, Grunden, Trådar). Three gutters were in use until 2026-09-26 and put the thirds of three movements 5–10px apart. A new movement takes the gutter and one of the two lines, or says why not.
+**One grid.** Every multi-column movement uses one gutter, `--grid-gutter` (3rem), so the columns fall on shared lines: halves turn at the canvas's centre (the podcast and app band, the live row, the barometer, Fördjupning, Praktiskt's second tool column), thirds at a third (the lead's index, Ämnen, Grunden, Teman). Three gutters were in use until 2026-09-26 and put the thirds of three movements 5–10px apart. A new movement takes the gutter and one of the two lines, or says why not.
 
 **One rank, one ink, one size per role.** Card and list titles are `--color-text` whether the component is the page's own or a shared list (editorial.css); essay meta lines are `--step--3` everywhere on the page; a head-row link (beside a kicker or a department name) is `--step--3` muted, a link that closes a block is a `.section-link` at `--step--2` — never the two sizes side by side for the same job. Literata's discretionary ligatures (c‿h, s‿t) belong to the lead's display headline only; at card-title size they read as a rendering fault. Kickers are one box whether `<p>` or `<h2>`, so kickers set side by side meet on one line.
 
@@ -65,9 +66,15 @@ Photographs belong to the essays and the fördjupningar; the site's own sections
   1. *A section opening* — a hub's PageHead, a section's prose page (/bonetider/metod/), Grunden on the front page: the drawing stands in the column beyond the measure, flush with the frame's right edge (the edge the content below ends on). A movement built on a grid of its own stands it on that grid instead: Grunden's drawing starts on its third line (x 950 at 1440, where the articles' third column starts below) — on the canvas edge it hung 400px from its words on a line nothing near it drew (user review, 2026-09-26). **Only beside an ingress:** a tool page (/bonetider/, /moskeer/) opens on its tool, and there the drawing floated over the tool's first button and pushed the title below where every other section's stands.
   2. *A drawing beside words* — the podcast and app band, the AI-barometern's introduction and the book at the page's close on the front page: a 10rem column, the drawing flush right in it, the words starting on the same line (x 295 at 1440) down the page; on a phone the drawing stands above the words at 7rem. The band's two are a matched pair, one 10rem box for both; a drawing alone beside its words is as tall as they are, like an opening's — the upright barometer then fills its column from the ingress's first line to the link's, on the kicker's line (in a 10rem box it stood 96px wide, 64px in from that line: "doesn't look correctly aligned", 2026-09-26). The book shares the closing region with the podcast and app, so it takes the pair's box, not its words' height: the same desktop column and drawn-object grammar. At tablet widths the paired promotions place their drawings above the words to preserve a useful text measure.
   3. *A centred page* (404): on the page's own axis, above the words.
-- **Size follows the words (visual hierarchy, common region).** In an opening the drawing is exactly as tall as the opening: from the title's (or kicker's) top line to the last line of its words — the ingress, and on /vad-ar-islam/ the verse, on /ai-barometern/ the measurement line, which is why PageHead has an `efter` slot. It is never under 7rem. Drawing and words then share their top and bottom lines and read as one unit, and a short opening gets a small drawing, a long one a large one, so the page's own hierarchy sets the size: Trådar's one-line ingress 112px, Tänkare's three lines 166px, /vad-ar-islam/'s title, ingress and verse ~500px. Built exactly: the drawing fills a cell spanning the opening's rows (`Ritning fyll`, `object-fit: contain`) and adds no height of its own. A fixed 11rem box outweighed a one-line ingress, stopped halfway down a five-line one, and left a third of /vad-ar-islam/'s opening empty ("consider the size … visual hierarchy, gestalt … so it looks balanced", 2026-09-26). Keep any bottom margin out of the opening's last row, or the cell runs past the text (/bonetider/metod/'s lead had one).
+- **Size follows the words (visual hierarchy, common region).** In an opening the drawing is exactly as tall as the opening: from the title's (or kicker's) top line to the last line of its words — the ingress, and on /vad-ar-islam/ the verse, on /ai-barometern/ the measurement line, which is why PageHead has an `efter` slot. It is never under 7rem. Drawing and words then share their top and bottom lines and read as one unit, and a short opening gets a small drawing, a long one a large one, so the page's own hierarchy sets the size: Teman's one-line ingress 112px, Tänkare's three lines 166px, /vad-ar-islam/'s title, ingress and verse ~500px. Built exactly: the drawing fills a cell spanning the opening's rows (`Ritning fyll`, `object-fit: contain`) and adds no height of its own. A fixed 11rem box outweighed a one-line ingress, stopped halfway down a five-line one, and left a third of /vad-ar-islam/'s opening empty ("consider the size … visual hierarchy, gestalt … so it looks balanced", 2026-09-26). Keep any bottom margin out of the opening's last row, or the cell runs past the text (/bonetider/metod/'s lead had one).
 - **Proportion follows the place.** The space beside an opening is wider than tall, so an opening's drawing is composed landscape (about 4:3 to 3:2). The upright barometer stood 140px wide there with a 400px empty field beside it; the hub has its own landscape version (the barometer beside a window, weather moving in), and the upright one stays in the front page's 10rem column, where upright fits.
 - **Not placed:** the mosque drawing (`RITNINGAR.moskeer`) — /moskeer/ opens on its tool and /moskeer/om/ on a gallery of real mosques, where a drawing would compete with the photographs. It waits for a page that opens with words.
+
+### Stuckatur — the Swedish room (2026-09-27)
+
+The user asked for "a little feeling, only extremely subtly, something typically Swedish, stucco-like". The answer is the ornament of the Swedish flat the site is read in: a Gustavian ceiling rosette (*takrosett*, eight pointed leaves in a ring of sixteen pearls) and the bead-and-reel moulding (*pärlstav*). Drawn as stucco is — relief in the ground's own colour, a few per cent off it (darker on paper, lighter in the dark theme), **never brass, never ink** — so it is read when looked for and not before. The rosette's eightfold figure is also the Islamic tradition's: one form both houses know.
+
+Three places, no more: the **section ornament** (rosette between two short runs of pärlstav, `/ornament.svg`), which is also the **closing vignette** of every essay (the last `<hr>`) and the book cover's mark; and the **cornice** (*taklist*, `/taklist.svg`: a fillet, a bead, a run of pärlstav) flush along the top edge of each tinted room on the front page. A lone row of pearls floating below the edge read as a perforation, »cut here«; flush, in two members, it reads as a moulding. Not on kickers, not on photographs, not as a divider between paper sections.
 
 ## Principle 2: Typography Is the Design
 
@@ -219,10 +226,28 @@ The footer groups real links under Läs, Praktiskt, and Om islam.se. It is the n
 Essays are cross-cut by three curated axes, each a first-class collection surface:
 
 - **Ämnen** — seven topics in a fixed order (foundational theology first, the Swedish reader's meeting-point last). Each essay carries exactly one.
-- **Trådar** — hand-curated reading threads: an ordered path of essays around a single line of argument.
+- **Teman** (code and URLs: `tradar`) — hand-curated reading paths: an ordered sequence of essays around a single line of argument.
 - **Tänkare** — the recurring interlocutors, in two facing columns: the classical Islamic tradition and the Swedish/Western voices that meet it. The composition itself is the argument — a dialogue shown, not declared.
 
 These are glimpsed on the startpage and browsable in full at `/amnen/…`, `/tradar`, and `/tankare`. They never harden into a top-level menu; they are reached through the palette, the footer, and the homepage movements.
+
+### Names — one name per destination (2026-09-27)
+
+islam.se stands beside DN, SvD, Bokmässan and NE, so its chrome speaks their language: every destination has **one** name, used in the mast, the footer, the palette, the page's h1 and the front page alike, and every name was checked against how those institutions and Isof (Språkrådet) write the same thing.
+
+| Destination | Name | Not |
+|---|---|---|
+| /vad-ar-islam/ | Tro och lära (NE's own tab) | Pelare & tro |
+| /svar/ | Frågor och svar (Isof advises against »&« in headings; NE writes »och«) | Frågor & svar |
+| /tradar/ | Teman (DN, Bokmässan); one is a *tema* | Trådar — forum/social-media register, used by no serious site |
+| /ai-barometern/ | AI-barometern, always with the article (as Konjunkturbarometern) | Barometer |
+| /podcast/ | Podd (DN, Dagen, Isof); the show is *islam.se: essäer, inlästa*, as its cover reads | Podden, Andliga essäer |
+| /det-islamiska-aret/ | Det islamiska året | Kalender |
+| the pillars / the articles of faith | Islams fem pelare · Trons sex pelare (*arkān al-islām / al-īmān*); the sixth is *Förutbestämmelsen* | trosartiklarna as a heading (NE uses it only for the Christian creed; it stays in prose as a synonym), Ödet |
+| ämnen | Swedish usage, each word in its own heading form: the unique and proper definite (Skapelsen, Koranen, Själen, Norden), general ideas bare (Rättvisa, Samhälle, Livsfrågor — the curriculum's word). The »essäer om …« phrase is written per ämne (`omForm`: »om rättvisa«, »om samhället«, »om Koranen«), never derived. Slugs unchanged. | an all-definite set (»Rättvisan«, »Samhället«) — a calque of the Arabic al-; Skriften (reads as the Bible); Sökandet (English »The Search«) |
+| tänkare | full names (NE, Litteraturbanken, DN): August Strindberg, Erik Gustaf Geijer | surname alone |
+
+Onward links carry **no counts** (»Alla frågor och svar«, not »Alla 53 …«): no publication measured does it. Reading time is **»lästid 13 min«**, never the translated »13 min läsning«. No »Utforska …« (marketing register, used only on product pages). Page titles take the Swedish spaced en dash: `Sida – islam.se`, never the English em dash.
 
 ### The Essäer Page
 
@@ -307,6 +332,31 @@ Dark mode is implemented and is not an inversion. Dark mode is a separate palett
 ## Principle 8: Responsive as Reflow, Not Redesign
 
 The essay is the same on every device. What changes is the container, not the content.
+
+### Breakpoints — one scale, in rem (2026-09-27)
+
+Every media query and every `matchMedia` is written in **rem**, never px. The same line used to be written both ways (`768px` and `48rem` in 31 places, `480px`/`30rem`, `640px`/`40rem`): identical at the browser's default text size, but a reader who has enlarged their text saw half the page turn at one width and half at another. A rem query scales with that setting, so the whole page turns together.
+
+The front page turns in three coordinated steps, each for a reason:
+
+| Line | What turns | Why there |
+|---|---|---|
+| **48rem** (768px) | Fördjupning two by two; podcast and app side by side | two cards fit abreast |
+| **56.25rem** (900px) | the mast's links unfold and the front page's doorways go; the six pillars of faith take three columns | the mast's six links fit on one line; Fakta turned at 56rem until 2026-09-27, 4px apart |
+| **60rem** (960px) | the live row in halves; AI-barometern side by side with all three findings; Ämnen in thirds | halves and thirds on the one gutter |
+
+### The mast (2026-09-27)
+
+Three groups in one row: the wordmark, the six links (sections, a hairline, utilities), and the next prayer with the search pill. The rules, each measured:
+
+- **The wordmark is the heaviest thing in the mast.** It scales from 18px on a phone to 26px on the canvas (`clamp(1.125rem, 0.5rem + 1.6vw, 1.625rem)`), growing with the room the links leave it. At the nav's own 16.9px it was 88 × 18px beside a 650px link row, and the eye found the menu before the name.
+- **The links centre between the wordmark and the chip, not on the viewport.** Equal `1fr` side tracks put them 150px from the wordmark and 23px from »Maghrib 18:33« at 1440px, closer to the chip than to each other. The air either side of the links is now equal and always wider than the air between them.
+- **One fluid gap** (`--mast-gap`) for every space in the link row, 12px at 901px to 25.6px on the canvas. There is no fixed override for a band.
+- **The shortcut hint names the reader's key:** ⌘K on Apple and Ctrl K elsewhere, stamped before paint by Base.astro.
+- **On a phone the chip names the prayer** (»Maghrib 18:33«). Under 360px it shows the sun or moon with the time, which is what fits one row at 320px.
+- **Labels say »och«, never »&«.** The ampersand saves 17px a label (34px across the row), and the row does not need it. Språkrådet keeps `&` for company names and tight tables, not for a publication's chrome.
+
+A component that decides both its layout and how much it shows asks **one** condition for both: AI-barometern asked the container for its columns and the viewport for its finding count, and from 700 to 959px stood in two columns with one finding, 127px beside a 658px introduction. A new breakpoint takes one of these lines or says why not.
 
 ### Mobile
 

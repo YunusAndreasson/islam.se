@@ -26,6 +26,7 @@ import {
 	oldestMosque,
 	pluralMoske,
 	siblingCityGroups,
+	swedishAddress,
 } from "../../lib/moskeer";
 import { credit, mosquePhoto } from "../../lib/moskeer/art";
 import { MOSKEER_DATA_DATE } from "../../lib/moskeer/meta";
@@ -141,9 +142,9 @@ const listedMosques = isSeat ? [...mosques, ...siblings.flatMap((g) => g.mosques
 
 const leadTail =
 	isSeat && siblingTotal > 0
-		? ` Ytterligare ${pluralMoske(siblingTotal)} finns i stadsdelarna, längre ned på sidan.`
+		? ` Ytterligare ${pluralMoske(siblingTotal, false, true)} finns i stadsdelarna, längre ned på sidan.`
 		: "";
-const lead = `I ${city}${whereKommun} finns ${pluralMoske(n, true)}. Här hittar du adress, öppningsår, huvudman och vägbeskrivning till ${n === 1 ? "moskén" : "varje moské"}.${popClause}${leadTail}`;
+const lead = `I ${city}${whereKommun} finns ${pluralMoske(n, true, true)}. Här hittar du adress, öppningsår, huvudman och vägbeskrivning till ${n === 1 ? "moskén" : "varje moské"}.${popClause}${leadTail}`;
 
 // The bönetider side suppresses this parenthetical when the name repeats the county —
 // "Örebro (Örebro län)" in a snippet. ⚠️ Test the SHORT county form: `lanLabel` is
@@ -161,8 +162,8 @@ const mosqueNoun = n === 1 ? "Moské" : "Moskéer";
 // description/body, but reserve the document-title head term for /bonetider/jonkoping/.
 const pageTitle =
 	citySlug === "jonkoping"
-		? `${mosqueNoun} i ${city} — adress, öppningsår och vägbeskrivning — islam.se`
-		: `${mosqueNoun} i ${city} — bönetider, adress och vägbeskrivning — islam.se`;
+		? `${mosqueNoun} i ${city} – adress, öppningsår och vägbeskrivning – islam.se`
+		: `${mosqueNoun} i ${city} – bönetider, adress och vägbeskrivning – islam.se`;
 const description = hasTimes
 	// ~62 of the ~155 characters Google renders are the five times, so everything else is
 	// on a budget: the town is named once (not twice), and the county parenthetical is
@@ -173,12 +174,12 @@ const description = hasTimes
 const faq = [
 	{
 		q: `Hur många moskéer finns i ${city}?`,
-		a: `Enligt vår sammanställning finns ${pluralMoske(n, true)} i ${city}. Uppgifterna kan vara ofullständiga.`,
+		a: `Enligt vår sammanställning finns ${pluralMoske(n, true, true)} i ${city}. Uppgifterna kan vara ofullständiga.`,
 	},
 	{
 		q: `Var ligger ${firstMosque.name}?`,
 		a: firstMosque.address
-			? `${firstMosque.name} ligger i ${kommunLabel(kommun)} (${lanLabel}). Adress: ${firstMosque.address}${firstMosque.postalCode ? `, ${firstMosque.postalCode}` : ""}. På sidan finns vägbeskrivning via Apple Maps och Google Maps.`
+			? `${firstMosque.name} ligger i ${kommunLabel(kommun)} (${lanLabel}). Adress: ${swedishAddress(firstMosque)}. På sidan finns vägbeskrivning via Apple Maps och Google Maps.`
 			: `${firstMosque.name} ligger i ${kommunLabel(kommun)} (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`,
 	},
 ];
@@ -272,7 +273,7 @@ if (oldest?.opened) {
 		{isSeat && siblings.length > 0 && (
 			<TitledSection class="mk-section" id="mk-stad-delar" title={`Moskéer i ${genitive(city)} stadsdelar`}>
 				<p class="mk-stad-note">
-					{pluralMoske(siblingTotal)} till i {kommunLabel(kommun)}, ordnade efter stadsdel.
+					Ytterligare {pluralMoske(siblingTotal, false, true)} i {kommunLabel(kommun)}, ordnade efter stadsdel.
 				</p>
 				<div class="mk-city-groups">
 					{siblings.map((g) => (

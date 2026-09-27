@@ -632,7 +632,7 @@ async function mount() {
 		if (callout) {
 			if ("section" in m) renderBurialCallout(m);
 			else renderCallout(m);
-			if (lastTrigger && matchMedia("(width < 800px)").matches)
+			if (lastTrigger && matchMedia("(width < 50rem)").matches)
 				callout
 					.querySelector<HTMLButtonElement>(".mk-callout-close")
 					?.focus({ preventScroll: true });

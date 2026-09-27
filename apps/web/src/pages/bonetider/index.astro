@@ -11,7 +11,7 @@ import { breadcrumbList } from "../../lib/jsonld";
 const stockholm = { name: DEFAULT_COORDS.name, latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
 const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Europe/Stockholm" }).format(new Date());
 ---
-<Base title={`Bönetider i Sverige ${year} för din ort — islam.se`} description="Dagens bönetider för din ort. Sök ort eller använd din plats för Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ." ogImage="/bonetider/og.png" jsonLd={breadcrumbList([{name: "Hem", url: "/"}, {name: "Bönetider", url: "/bonetider/"}])}>
+<Base title={`Bönetider i Sverige ${year} för din ort – islam.se`} description="Dagens bönetider för din ort. Sök ort eller använd din plats för Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ." ogImage="/bonetider/og.png" jsonLd={breadcrumbList([{name: "Hem", url: "/"}, {name: "Bönetider", url: "/bonetider/"}])}>
  <main id="main" class="home bonetider-hub">
   <PageHead title="Bönetider" />
   <PlaceSearch />
@@ -43,9 +43,9 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
       above, with the sentence that says what the screen is for. Two links to one
       destination, 60px apart, taught the reader nothing the first did not. */}
   <RelatedLinks label="Mer om bönetider" links={[
-   {href: "/bonetider/metod/", label: "Om tiderna & beräkningen"},
+   {href: "/bonetider/metod/", label: "Om tiderna och beräkningen"},
    {href: "/bonetider/aret/", label: "Bönetider under året"},
-   {href: "/bonetider/ramadan/", label: "Ramadan · iftar & suhūr"},
+   {href: "/bonetider/ramadan/", label: "Ramadan · iftar och suhūr"},
   ]} />
  </main>
 </Base>

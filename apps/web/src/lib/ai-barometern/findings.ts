@@ -31,7 +31,7 @@ import type { FamilyKey, Question } from "./types";
 // strongest of the rest, never more than two from one area and never two of one kind from the
 // same area. A reader gets the breadth of the bank before the matrix, not five views of one war.
 //
-// The wording describes what the models answered (»instämmer mindre eller avstår«) and stops
+// The wording describes what the models answered (»instämmer i lägre grad eller avstår«) and stops
 // there. What that means is left to the reader and to the chart drawn under each sentence.
 
 type FindingKind = "parallel" | "principle" | "own" | "classical";
@@ -124,7 +124,7 @@ function parallelCandidate(row: TwinRow): Candidate | null {
 		const bLess = differing.every((f) => agreesLess(b.cells[f.key], a.cells[f.key]));
 		if (aLess !== bLess) {
 			const [less, more] = aLess ? [a, b] : [b, a];
-			text = `${capitalized(howMany(differing.length))} instämmer mindre eller avstår när påståendet gäller ${less.member.label} i stället för ${more.member.label}.`;
+			text = `${capitalized(howMany(differing.length))} instämmer i lägre grad eller avstår när påståendet gäller ${less.member.label} i stället för ${more.member.label}.`;
 		}
 	}
 	return {
@@ -150,8 +150,8 @@ function principleCandidate(row: TwinRow): Candidate | null {
 	if (!area || agree.length < 3 || less.length === 0) return null;
 	const but =
 		less.length === agree.length
-			? "men instämmer mindre eller avstår"
-			: `men ${countWord(less.length)} av dem instämmer mindre eller avstår`;
+			? "men instämmer i lägre grad eller avstår"
+			: `men ${countWord(less.length)} av dem instämmer i lägre grad eller avstår`;
 	return {
 		finding: {
 			kind: "principle",

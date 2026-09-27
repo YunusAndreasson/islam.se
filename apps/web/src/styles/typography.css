@@ -395,14 +395,15 @@
 		border-width: 0;
 	}
 
-	/* Article-ending HR → ornament (replaces the markdown --- before footnotes) */
+	/* Article-ending HR → ornament (replaces the markdown --- before footnotes): the
+	   closing vignette, rosette between pärlstav since 2026-09-27 (»Stuckatur« below). */
 	.prose > hr:last-of-type {
 		border: none;
 		width: 10rem;
 		height: 1.5rem;
 		margin: var(--space-phi) auto;
 		background: var(--color-divider);
-		mask: url("/ornament.svg?v=4") center / 100% 100% no-repeat;
+		mask: url("/ornament.svg?v=5") center / 100% 100% no-repeat;
 	}
 
 	.data-footnote-backref {
@@ -498,7 +499,7 @@
 		-webkit-hyphenate-limit-after: 3;
 		-webkit-hyphenate-limit-lines: 2;
 
-		@media (width > 768px) {
+		@media (width > 48rem) {
 			text-wrap: pretty;
 		}
 
@@ -561,14 +562,26 @@
 		}
 	}
 
-	/* Section ornament — eight-pointed star flanked by thin rules */
+	/* STUCKATUR (2026-09-27). The site's ornament speaks the Swedish interior it is read
+	   in: a Gustavian ceiling rosette (takrosett) and the bead-and-reel
+	   moulding (pärlstav) of a turn-of-the-century flat (/ornament.svg, /taklist.svg). Drawn as stucco
+	   is — relief in the ground's own colour, a few per cent darker (lighter in the dark
+	   theme), never brass and never a line of ink — so it reads when looked for and not
+	   before. Three places only: this section ornament, the essay's closing vignette
+	   (the last <hr>, above), and the cornice over the front page's tinted rooms
+	   (editorial.css). The
+	   rosette's eight leaves are also the eightfold figure of the Islamic tradition: one
+	   form both houses know.
+
+	   Section ornament: the rosette between two short runs of pärlstav. It replaced a
+	   ring between two plain rules, in the same 10rem box. */
 	.section-ornament {
 		display: block;
 		width: 10rem;
 		height: 1.5rem;
 		margin: var(--space-phi) auto;
 		background: var(--color-divider);
-		mask: url("/ornament.svg?v=4") center / 100% 100% no-repeat;
+		mask: url("/ornament.svg?v=5") center / 100% 100% no-repeat;
 	}
 
 	/* Drop cap — article opening paragraph */
@@ -634,7 +647,7 @@
 	/* ============================================================
    Mobile adjustments
    ============================================================ */
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		/* Body size is not overridden here any more — `--step-0` itself steps down at
 		   this breakpoint (see tokens.css), so everything keyed to the body step moves
 		   together instead of body drifting away from the leads and titles that were

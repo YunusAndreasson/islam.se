@@ -65,7 +65,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	</a>
 	{also.length > 0 && (
 		<section class="feature-also" aria-labelledby="feature-also-rubrik">
-			<h2 class="label home-kicker feature-also-kicker" id="feature-also-rubrik">Fler nya essäer</h2>
+			<h2 class="label home-kicker feature-also-kicker" id="feature-also-rubrik">Senast publicerat</h2>
 			<ol class="feature-also-lista" role="list">
 				{also.map((a) => (
 					<li>
@@ -246,7 +246,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		aspect-ratio: 3 / 2;
 	}
 
-	@media (768px < width < 64rem) {
+	@media (48rem < width < 64rem) {
 		.feature-media :global(img) {
 			aspect-ratio: 16 / 9;
 		}

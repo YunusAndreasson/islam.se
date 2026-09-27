@@ -28,6 +28,7 @@
 // The halves share the live row's centre line (nyheter.css).
 import { APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
 import { getArticles } from "../lib/articles";
+import { talord } from "../lib/format";
 import { RITNINGAR } from "../lib/ritningar";
 import PodcastBrandIcon from "./PodcastBrandIcon.astro";
 import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
@@ -60,12 +61,12 @@ const length =
 					<Ritning {...RITNINGAR.podden} hojd={BOX} bredd={BOX} />
 				</a>
 				<div class="podd-app-text">
-					<h2 class="label home-kicker podd-app-kicker" id="podden-rubrik">Podden</h2>
+					<h2 class="label home-kicker podd-app-kicker" id="podden-rubrik">Podd</h2>
 					<h3 class="podd-app-titel">
 						<a href="/podcast/">Essäerna, inlästa</a>
 					</h3>
 					<p class="podd-app-rad">
-						{narrated.length} av essäerna finns inlästa, sammanlagt {length}. Lyssna i den
+						Hittills finns {talord(narrated.length)} av essäerna inlästa, sammanlagt {length}. Lyssna i den
 						poddspelare du redan har.
 					</p>
 					<PodcastSubscribeLinks
@@ -83,7 +84,7 @@ const length =
 			<Ritning {...RITNINGAR.appen} hojd={BOX} bredd={BOX} />
 		</a>
 		<div class="podd-app-text">
-			<h2 class="label home-kicker podd-app-kicker" id="appen-rubrik">Appen</h2>
+			<h2 class="label home-kicker podd-app-kicker" id="appen-rubrik">App</h2>
 			<h3 class="podd-app-titel">
 				<a href="/app/">Bönetiderna i mobilen</a>
 			</h3>
@@ -108,7 +109,7 @@ const length =
 	/* Two halves on the live row's centre line (its 3rem gutter); one above the other on a
 	   phone. Each half: the mark, and beside it the kicker, the title, one line, the links. */
 	.podd-app {
-		/* Content-box estimates; the closing wrapper now owns the tinted padding. */
+		/* Content-box estimates; the closing wrapper owns the outer spacing. */
 		--civ-h: 792px;
 		display: grid;
 		gap: var(--space-phi) var(--grid-gutter);

@@ -1267,7 +1267,7 @@
 	   so it lines up with the prose around it. The model columns get a fixed, roomier width
 	   and the statements take the rest; a hairline under each row and a hover tint keep the
 	   eye on the row it started from across the gap. */
-	@media (width > 768px) {
+	@media (width > 48rem) {
 		.abm-figure--matrix .abm-matrix,
 		.abm-share-table {
 			inline-size: 100%;
@@ -1283,7 +1283,7 @@
 		}
 	}
 
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.abm-matrix tbody th[scope="row"],
 		.abm-strip tbody th[scope="row"] {
 			min-inline-size: 8rem;
@@ -1302,7 +1302,7 @@
 	   turn to read upwards, so every column is as narrow as its chip and the whole matrix
 	   is visible at once. The writing mode sits on an inner span, so the strip's coloured
 	   rule stays on the bottom edge of the cell. */
-	@media (width <= 560px) {
+	@media (width <= 35rem) {
 		.abm {
 			--abm-chip: 2rem;
 		}

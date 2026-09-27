@@ -176,7 +176,7 @@ const EVENTS: EventDef[] = [
 	},
 	{
 		name: "Arafa",
-		note: "den mest förtjänstfulla fastan på året för icke-pilgrimer",
+		note: "den mest förtjänstfulla fastan på året för den som inte vallfärdar",
 		start: [12, 9],
 	},
 	{

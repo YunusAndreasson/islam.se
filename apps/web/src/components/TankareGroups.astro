@@ -225,7 +225,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		position: relative;
 	}
 
-	@media (width > 600px) {
+	@media (width > 37.5rem) {
 		.tankare-groups::before {
 			content: "";
 			position: absolute;
@@ -258,13 +258,13 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	/* Only where the axis exists. Below 600px the columns stack and a bead centred
 	   on a horizontal rule would read as a divider between two sections — the
 	   opposite of a meeting point. */
-	@media (width > 600px) {
+	@media (width > 37.5rem) {
 		:global(.tankare-mark) {
 			display: block;
 		}
 	}
 
-	@media (width <= 600px) {
+	@media (width <= 37.5rem) {
 		.tankare-groups {
 			grid-template-columns: 1fr;
 			gap: var(--space-unit);
@@ -424,7 +424,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	   section would be two lists again. The names drop to the secondary step and may
 	   take a second line, so the fixed row grows to hold two. The lines stay; the
 	   hover rules simply never fire on touch. */
-	@media (width <= 600px) {
+	@media (width <= 37.5rem) {
 		.tankare-dialog {
 			--row: 3.25rem;
 			--gutter: 2.75rem;

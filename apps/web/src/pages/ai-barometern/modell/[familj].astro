@@ -58,7 +58,7 @@ const shares = stanceShares(areas);
 const share = shares.find((s) => s.family.key === family.key);
 const shown = shownData();
 const source = shown.runs.length
-	? `Källa: Barometer, ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDateList(shown.runs.map((r) => r.date))}.`
+	? `Källa: AI-barometern, ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDateList(shown.runs.map((r) => r.date))}.`
 	: "";
 
 const twinRows = TWIN_SETS.map(twinRow).filter((row) => row.members.every((m) => m.measured));
@@ -81,23 +81,23 @@ const next = FAMILIES[at + 1];
 
 const crumbs = [
 	{ name: "Hem", url: "/" },
-	{ name: "Barometer", url: BASE_PATH },
+	{ name: "AI-barometern", url: BASE_PATH },
 	{ name: family.label, url: modelPath(family.key) },
 ];
-const description = `Så svarar ${family.label} (${name}) i Barometer: hur ofta modellen tar ställning, var den svarar olika om likadana påståenden och vad den säger om AI-företagen.`;
+const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur ofta modellen tar ställning, var den svarar olika om likadana påståenden och vad den säger om AI-företagen.`;
 ---
 
 <Base
-	title={`${family.label} i Barometer — islam.se`}
+	title={`${family.label} i AI-barometern – islam.se`}
 	description={description}
 	ogImage="/ai-barometern/og.png"
-	ogImageAlt="Barometer — islam.se"
+	ogImageAlt="AI-barometern – islam.se"
 	jsonLd={[breadcrumbList(crumbs)]}
 >
 	<main id="main" class="home abm abm-question abm-modelpage">
 		<header class="abm-head">
 			<Breadcrumb items={crumbs} />
-			<p class="label">Barometer · Modell</p>
+			<p class="label">AI-barometern · Modell</p>
 			<h1>
 				<span class="abm-rowmodel">
 					<ModelLogo family={family.key} />
@@ -269,7 +269,7 @@ const description = `Så svarar ${family.label} (${name}) i Barometer: hur ofta 
 			egen sida, efter modellernas svar.
 		</p>
 
-		<nav class="abm-pager" aria-label="Fler modeller i Barometer">
+		<nav class="abm-pager" aria-label="Fler modeller i AI-barometern">
 			{
 				prev && (
 					<a class="abm-pager-prev" href={modelPath(prev.key)} rel="prev">
@@ -288,7 +288,7 @@ const description = `Så svarar ${family.label} (${name}) i Barometer: hur ofta 
 			}
 		</nav>
 		<p class="meta-line">
-			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>Barometer</a>
+			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>AI-barometern</a>
 		</p>
 	</main>
 </Base>

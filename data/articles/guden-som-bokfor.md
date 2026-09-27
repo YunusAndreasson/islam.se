@@ -6,7 +6,7 @@ qualityScore: 8.7
 description: "Under sina sista årtionden förde Carl von Linné hemliga anteckningar – inte om naturens systematik utan om människor som gjort ont och straffet som drabbat dem. Med en botanikers metodik försökte han bevisa att Guds rättvisa verkar med naturlags exakthet, en övertygelse som aldrig fick lämna hans skrivbord."
 imageAlt: "En gammal väckarklocka står på en trave nötta, gulnade pappersluntor vid ett fönster i svagt dagsljus."
 imageCaption: "Räkenskapen som förs i det tysta, blad för blad."
-category: "Sökandet"
+category: "Livsfrågor"
 ---
 Någon gång under sina sista årtionden började Carl von Linné föra hemliga anteckningar. Inte om naturens systematik, det arbete som gett honom världsrykte, utan om vad som händer med människor som gör ont.
 

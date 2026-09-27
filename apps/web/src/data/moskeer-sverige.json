@@ -27,7 +27,7 @@
 	},
 	{
 		"id": "ronneby-moske",
-		"name": "Ronneby moske",
+		"name": "Ronneby moské",
 		"lat": 56.215137,
 		"lng": 15.266128,
 		"city": "Ronneby",
@@ -194,7 +194,7 @@
 	},
 	{
 		"id": "bosnjakiska-islamiska-forsamlingen-i-varberg",
-		"name": "Bosnjakiska Islamiska Församlingen I Varberg",
+		"name": "Bosnjakiska Islamiska Församlingen i Varberg",
 		"lat": 57.107572,
 		"lng": 12.2625,
 		"city": "Varberg",
@@ -456,7 +456,7 @@
 	},
 	{
 		"id": "varnamo-moske-internationella-islamiska-forening-i-varnamo",
-		"name": "Värnamo moske/Internationella Islamiska Förening i Värnamo",
+		"name": "Värnamo moské/Internationella Islamiska Förening i Värnamo",
 		"lat": 57.197752,
 		"lng": 14.035522,
 		"city": "Värnamo",
@@ -495,7 +495,7 @@
 	},
 	{
 		"id": "islamiska-kulturforeningen-salam-i-kalmar",
-		"name": "Islamiska Kulturföreningen Salam I Kalmar",
+		"name": "Islamiska Kulturföreningen Salam i Kalmar",
 		"lat": 56.663822,
 		"lng": 16.364397,
 		"city": "Kalmar",
@@ -534,7 +534,7 @@
 	},
 	{
 		"id": "monsteras-moske",
-		"name": "Mönsterås Moske",
+		"name": "Mönsterås Moské",
 		"lat": 57.043897,
 		"lng": 16.446014,
 		"city": "Mönsterås",
@@ -547,7 +547,7 @@
 	},
 	{
 		"id": "nybro-moske",
-		"name": "Nybro moske",
+		"name": "Nybro moské",
 		"lat": 56.746249,
 		"lng": 15.908511,
 		"city": "Nybro",
@@ -669,7 +669,7 @@
 	},
 	{
 		"id": "boden-moske",
-		"name": "Boden Moske",
+		"name": "Boden Moské",
 		"lat": 65.822254,
 		"lng": 21.680961,
 		"city": "Boden",
@@ -782,7 +782,7 @@
 	},
 	{
 		"id": "al-salam-center-i-helsingborg",
-		"name": "Al Salam Center I Helsingborg",
+		"name": "Al Salam Center i Helsingborg",
 		"lat": 56.038059,
 		"lng": 12.704076,
 		"city": "Helsingborg",
@@ -1274,7 +1274,7 @@
 	},
 	{
 		"id": "bro-moske",
-		"name": "Bro Moske",
+		"name": "Bro Moské",
 		"lat": 59.512581,
 		"lng": 17.654219,
 		"city": "Bro",
@@ -1337,7 +1337,7 @@
 	},
 	{
 		"id": "fisksatra-moske",
-		"name": "Fisksätra moske",
+		"name": "Fisksätra moské",
 		"lat": 59.291851,
 		"lng": 18.253435,
 		"city": "Saltsjöbaden",
@@ -1441,7 +1441,7 @@
 	},
 	{
 		"id": "islamiska-forbundet-i-jarva",
-		"name": "Islamiska Förbundet I Järva",
+		"name": "Islamiska Förbundet i Järva",
 		"lat": 59.38941,
 		"lng": 17.928368,
 		"city": "Rinkeby",
@@ -1467,7 +1467,7 @@
 	},
 	{
 		"id": "islamiska-foreningen-i-stockholm",
-		"name": "Islamiska Föreningen I Stockholm",
+		"name": "Islamiska Föreningen i Stockholm",
 		"lat": 59.336515,
 		"lng": 18.064867,
 		"city": "Stockholm",
@@ -1532,7 +1532,7 @@
 	},
 	{
 		"id": "jordbro-moske",
-		"name": "JORDBRO MOSKE",
+		"name": "Jordbro moské",
 		"lat": 59.140882,
 		"lng": 18.134229,
 		"city": "Jordbro",
@@ -1557,7 +1557,7 @@
 	},
 	{
 		"id": "khadija-center-mosken-och-komplexet-tillagnat-khadija",
-		"name": "Khadija Center , Moskén och komplexet tillägnat Khadija",
+		"name": "Khadija Center, Moskén och komplexet tillägnat Khadija",
 		"lat": 59.401912,
 		"lng": 17.94256,
 		"city": "Kista",
@@ -1582,7 +1582,7 @@
 	},
 	{
 		"id": "marsta-islamiska-center-masjid",
-		"name": "Märsta islamiska Center , Masjid",
+		"name": "Märsta islamiska Center, Masjid",
 		"lat": 59.614357,
 		"lng": 17.880576,
 		"city": "Märsta",
@@ -1634,7 +1634,7 @@
 	},
 	{
 		"id": "rissne-moske",
-		"name": "Rissne Moske",
+		"name": "Rissne Moské",
 		"lat": 59.517891,
 		"lng": 17.940847,
 		"city": "Upplands Väsby",
@@ -1646,7 +1646,7 @@
 	},
 	{
 		"id": "ragsved-moske-islamic-center-sweden-ics-afghan-islamic-center",
-		"name": "Rågsved Moske, Islamic Center Sweden (ICS) AFGHAN ISLAMIC CENTER",
+		"name": "Rågsved Moské, Islamic Center Sweden (ICS) Afghan Islamic Center",
 		"lat": 59.259392,
 		"lng": 18.033567,
 		"city": "Rågsved",
@@ -1775,7 +1775,7 @@
 	},
 	{
 		"id": "al-zaiotuna-kulturforening-moske",
-		"name": "Al-Zaiotuna-kulturförening Moske",
+		"name": "Al-Zaiotuna-kulturförening Moské",
 		"lat": 59.047851,
 		"lng": 17.307762,
 		"city": "Gnesta",
@@ -1823,7 +1823,7 @@
 	},
 	{
 		"id": "flens-moske",
-		"name": "Flens Moske",
+		"name": "Flens Moské",
 		"lat": 59.054584,
 		"lng": 16.586381,
 		"city": "Flen",
@@ -1938,7 +1938,7 @@
 	},
 	{
 		"id": "gottsunda-moske",
-		"name": "Gottsunda moske",
+		"name": "Gottsunda moské",
 		"lat": 59.811794,
 		"lng": 17.621675,
 		"city": "Uppsala",
@@ -1978,7 +1978,7 @@
 	},
 	{
 		"id": "stenhagen-moske",
-		"name": "Stenhagen Moske",
+		"name": "Stenhagen Moské",
 		"lat": 59.853177,
 		"lng": 17.571393,
 		"city": "Uppsala",
@@ -2318,7 +2318,7 @@
 	},
 	{
 		"id": "alsalam-moske",
-		"name": "Alsalam Moske",
+		"name": "Alsalam Moské",
 		"lat": 57.729744,
 		"lng": 12.020745,
 		"city": "Göteborg",
@@ -2444,7 +2444,7 @@
 	},
 	{
 		"id": "falkopings-islamiska-forening-fif",
-		"name": "FALKÖPINGS ISLAMISKA FÖRENING FIF",
+		"name": "Falköpings islamiska förening (FIF)",
 		"lat": 58.170308,
 		"lng": 13.560642,
 		"city": "Falköping",
@@ -2770,7 +2770,7 @@
 	},
 	{
 		"id": "karlskoga-moske",
-		"name": "Karlskoga Moske",
+		"name": "Karlskoga Moské",
 		"lat": 59.322576,
 		"lng": 14.482587,
 		"city": "Karlskoga",

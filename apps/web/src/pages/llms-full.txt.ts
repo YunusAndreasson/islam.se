@@ -15,7 +15,7 @@ export async function GET(context: APIContext) {
 		articleMarkdown({ ...article, body: articleBody(article) }, { site }),
 	);
 
-	const body = `# islam.se — fulltext
+	const body = `# islam.se – fulltext
 
 > Hela essäarkivet i ett dokument, avsett för språkmodeller. Curerad översikt med länkar: ${site}/llms.txt
 

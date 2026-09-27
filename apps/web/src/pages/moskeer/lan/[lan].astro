@@ -48,14 +48,14 @@ const cityList =
 		? cityNames.join("")
 		: `${cityNames.slice(0, -1).join(", ")} och ${cityNames[cityNames.length - 1]}`;
 
-const lead = `I ${lanLabel} finns ${pluralMoske(total, true)} i ${pluralOrt(cityCount)}. Nedan hittar du adress, öppningsår och vägbeskrivning till varje moské, ordnade efter ort.`;
+const lead = `I ${lanLabel} finns ${pluralMoske(total, true, true)} i ${pluralOrt(cityCount, true)}. Nedan hittar du adress, öppningsår och vägbeskrivning till varje moské, ordnade efter ort.`;
 
 const description = `Moskéer i ${lanLabel}: ${pluralMoske(total)} i ${pluralOrt(cityCount)} med adress, öppningsår och vägbeskrivning. Hitta närmaste moské på kartan över hela Sverige.`;
 
 const faq = [
 	{
 		q: `Hur många moskéer finns i ${lanLabel}?`,
-		a: `Enligt vår sammanställning finns ${pluralMoske(total, true)} i ${lanLabel}, fördelade på ${pluralOrt(cityCount)}. Uppgifterna kan vara ofullständiga.`,
+		a: `Enligt vår sammanställning finns ${pluralMoske(total, true, true)} i ${lanLabel}, fördelade på ${pluralOrt(cityCount, true)}. Uppgifterna kan vara ofullständiga.`,
 	},
 	{
 		q: `Vilka orter i ${lanLabel} har en moské?`,
@@ -71,7 +71,7 @@ if (oldest?.opened) {
 ---
 
 <Base
-	title={`Moskéer i ${lanLabel} — ${pluralMoske(total)} med adress — islam.se`}
+	title={`Moskéer i ${lanLabel} – ${pluralMoske(total)} med adress – islam.se`}
 	description={description}
 	jsonLd={[
 		{

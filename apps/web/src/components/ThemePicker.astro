@@ -2,7 +2,7 @@
 <fieldset class="theme-picker">
 	<legend class="theme-picker-legend label">Utseende</legend>
 	<div class="theme-picker-opts">
-		<label class="theme-opt"><input type="radio" name="theme-choice" value="system" checked /><span>System</span></label>
+		<label class="theme-opt"><input type="radio" name="theme-choice" value="system" checked /><span>Automatiskt</span></label>
 		<label class="theme-opt"><input type="radio" name="theme-choice" value="light" /><span>Ljust</span></label>
 		<label class="theme-opt"><input type="radio" name="theme-choice" value="dark" /><span>Mörkt</span></label>
 	</div>
@@ -21,8 +21,10 @@
 	}
 
 	/* A segmented control: one hairline capsule, the chosen segment filled. Three
-	   states, because down here each one can carry its own word — "System" is the
-	   default the site has always honoured and now the reader can return to it. */
+	   states, because down here each one can carry its own word — "Automatiskt" is
+	   the default the site has always honoured and now the reader can return to it.
+	   It said "System" until 2026-09-27: the English setting's name. Swedish macOS
+	   and iOS call the same choice Automatiskt. */
 	.theme-picker-opts {
 		display: inline-flex;
 		padding: 3px;

@@ -21,7 +21,7 @@ const contextRows = [
 		links: [{ href: `/amnen/${amne.slug}/`, label: amne.name }],
 	},
 	tradar.length > 0 && {
-		label: tradar.length === 1 ? "Tråd" : "Trådar",
+		label: tradar.length === 1 ? "Tema" : "Teman",
 		links: tradar.map((t) => ({ href: `/tradar/${t.id}/`, label: t.title })),
 	},
 	// Tänkare is deliberately NOT a row here. It used to be, and as one flat

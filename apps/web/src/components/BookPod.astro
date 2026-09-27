@@ -36,11 +36,11 @@ const year = new Date().getFullYear();
 		<div class="bookpod-text">
 			{variant === "home" && (
 				<>
-					<h2 class="label home-kicker bookpod-kicker" id="bookpod-heading">Boken</h2>
+					<h2 class="label home-kicker bookpod-kicker" id="bookpod-heading">E-bok</h2>
 					<h3 class="bookpod-titel">Samlade essäer</h3>
 				</>
 			)}
-			{variant === "about" && <h2 id="bookpod-heading" class="bookpod-about-heading">Boken &amp; podden</h2>}
+			{variant === "about" && <h2 id="bookpod-heading" class="bookpod-about-heading">Boken och podden</h2>}
 			<p class="bookpod-lead">
 				{variant === "home"
 					? `De ${count} essäerna finns samlade i en bok – som e-bok för läsplattan och som PDF för utskrift.`
@@ -157,7 +157,7 @@ const year = new Date().getFullYear();
 		margin-top: auto;
 		margin-bottom: 0.9em;
 		background: var(--color-divider);
-		mask: url("/ornament.svg?v=4") center / 100% 100% no-repeat;
+		mask: url("/ornament.svg?v=5") center / 100% 100% no-repeat;
 	}
 
 	.bookpod-cover-year {
@@ -277,7 +277,7 @@ const year = new Date().getFullYear();
 		width: clamp(9rem, 30vw, 11rem);
 	}
 
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.bookpod-cover-title {
 			font-size: 1.5rem;
 		}

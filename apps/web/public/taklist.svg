@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 9">
+	<title>Taklist</title>
+	<rect x="0" y="0" width="12" height="1.6" fill="white"/>
+	<rect x="0" y="2.6" width="12" height="0.5" fill="white"/>
+	<circle cx="2.4" cy="5.9" r="1.85" fill="white"/>
+	<ellipse cx="8.4" cy="5.9" rx="2.6" ry="1.05" fill="white"/>
+</svg>

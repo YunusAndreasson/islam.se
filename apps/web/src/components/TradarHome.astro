@@ -47,7 +47,7 @@ const routes = threads.map((thread) => {
 ---
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
-	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" headingLevel={nested ? 3 : 2} />
+	<HomeHead label="Teman" id="tradar-kicker" href="/tradar/" linkLabel="Alla teman" headingLevel={nested ? 3 : 2} />
 	{variant === "cards" ? (
 		/* A compact preview: these routes lead into the essays below. */
 		<ThreadList
@@ -72,7 +72,7 @@ const routes = threads.map((thread) => {
 					</RouteHeading>
 					<p class="trad-framing">{route.framing}</p>
 					<p class="label article-meta trad-meta">
-						{route.essays.length} essäer · {route.minutes} min läsning
+						{route.essays.length} essäer · lästid {route.minutes} min
 						<span class="trad-progress" hidden></span>
 					</p>
 					<ol class="trad-stops" aria-label={`${route.title}, i läsordning`}>

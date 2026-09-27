@@ -1,7 +1,7 @@
 ---
 title: "Varför skapade Gud människan? Syftet enligt islam"
 question: "Varför skapade Gud människan?"
-description: "Koranen svarar rakt i vers 51:56 – men ordet 'dyrkan' rymmer långt mer än bön. Så förklarar islam syftet med människans skapelse och vad det kräver av dig."
+description: "Koranen svarar rakt i vers 51:56 – men ordet »dyrkan« rymmer långt mer än bön. Så förklarar islam syftet med människans skapelse och vad det kräver av dig."
 publishedAt: "2026-06-23T00:00:00Z"
 keywords:
   - "varför skapade gud människan"

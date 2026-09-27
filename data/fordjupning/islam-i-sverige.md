@@ -3,7 +3,7 @@ title: "Islam i Sverige: historien från vikingatiden till i dag"
 term: "Islam i Sverige"
 description: "Arabiska silvermynt låg i gotländsk jord långt före den första svenska moskén. Kontakterna är tolv sekler gamla, församlingarna yngre än folkpensionen – och de växte fram i svenska former: en förening på ett café, frikyrkornas stadgar, en avställd elstation som redan låg vänd mot Mecka."
 seoDescription: "Islams historia i Sverige: vikingatidens kontakter, tatariska sändebud, Karl XII:s fribrev, de första församlingarna 1949 och dagens siffror."
-blurb: "Tolv sekler av kontakter och drygt hundra år av muslimsk närvaro i landet"
+blurb: "Kontakter som går tolv sekler tillbaka, och en muslimsk närvaro i landet sedan drygt hundra år"
 publishedAt: "2026-09-05T00:00:00Z"
 keywords:
   - "islam i sverige"

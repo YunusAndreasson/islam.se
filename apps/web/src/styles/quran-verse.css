@@ -119,7 +119,7 @@
 		display: inline;
 	}
 
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.quran-verse {
 			padding-right: var(--space-half);
 		}

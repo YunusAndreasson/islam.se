@@ -7,7 +7,7 @@ description: "I sura al-Aḥzāb ställs himlarna, jorden och bergen inför ett 
 seoDescription: "Bergen vägrade bära det moraliska ansvaret. Människan tog det – och delegerar det nu till maskiner som inte kan bäva."
 imageAlt: "Karg gråstensfjäll under tunga stormmoln, med en mörk tjärn djupt nere i dalen."
 imageCaption: "Bergen som kunde bäva men vägrade bära förtroendet."
-category: "Skriften"
+category: "Koranen"
 ---
 Scenen saknar motstycke. Himlar, jord och berg erbjuds ett förtroende. De vägrar – inte av trots utan av insikt: de förstår vad bördan innebär. Sedan träder människan fram och säger ja.
 

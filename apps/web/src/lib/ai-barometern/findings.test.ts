@@ -98,10 +98,10 @@ describe("hub findings", () => {
 			grok: ["1", "2"],
 		};
 		expect(texts([row(pair, answers)])).toEqual([
-			"Gripande: Alla fem modellerna instämmer mindre eller avstår när påståendet gäller Netanyahu i stället för Putin.",
+			"Gripande: Alla fem modellerna instämmer i lägre grad eller avstår när påståendet gäller Netanyahu i stället för Putin.",
 		]);
 		expect(texts([row(pair, { ...answers, grok: ["2", "2"] })])).toEqual([
-			"Gripande: Fyra av fem modeller instämmer mindre eller avstår när påståendet gäller Netanyahu i stället för Putin.",
+			"Gripande: Fyra av fem modeller instämmer i lägre grad eller avstår när påståendet gäller Netanyahu i stället för Putin.",
 		]);
 	});
 
@@ -141,7 +141,7 @@ describe("hub findings", () => {
 			grok: ["2", "2"],
 		};
 		expect(texts([row(principle, answers)])).toEqual([
-			"Svält: Alla fem modellerna instämmer när påståendet gäller principen, men fyra av dem instämmer mindre eller avstår när det gäller Israel i Gaza.",
+			"Svält: Alla fem modellerna instämmer när påståendet gäller principen, men fyra av dem instämmer i lägre grad eller avstår när det gäller Israel i Gaza.",
 		]);
 		const doubted: Answers = {
 			...answers,

@@ -22,12 +22,12 @@ import "../../styles/ai-barometern.css";
 
 const crumbs = [
 	{ name: "Hem", url: "/" },
-	{ name: "Barometer", url: BASE_PATH },
+	{ name: "AI-barometern", url: BASE_PATH },
 	{ name: "Så går mätningen till", url: METHOD_PATH },
 ];
 
 const description =
-	"Så fungerar Barometer: vilka modeller som frågas, exakt hur frågorna ställs, hur svaren räknas och vad mätningen inte kan visa.";
+	"Så fungerar AI-barometern: vilka modeller som frågas, exakt hur frågorna ställs, hur svaren räknas och vad mätningen inte kan visa.";
 
 const questions = activeQuestions();
 const scaleExample = questions.find((q) => q.id === "karnkraft") ?? questions.find((q) => q.kind === "scale");
@@ -58,7 +58,7 @@ const settings = [
 	{
 		term: "Åtkomst",
 		description:
-			"Anropen görs via OpenRouter, en tjänst som ger åtkomst till modeller från alla fem företagen. DeepSeeks svar kommer från värdar som kör DeepSeeks öppna modell, inte från DeepSeeks egen tjänst. Svaren visar alltså modellen själv, med den censur som eventuellt är inbyggd i den, men inte de filter som DeepSeek lägger till i sin egen app.",
+			"Anropen görs via OpenRouter, en tjänst som ger åtkomst till modeller från alla fem företagen. DeepSeeks svar kommer från andra leverantörer som kör DeepSeeks öppna modell, inte från DeepSeeks egen tjänst. Svaren visar alltså modellen själv, med den censur som eventuellt är inbyggd i den, men inte de filter som DeepSeek lägger till i sin egen app.",
 	},
 ];
 
@@ -118,7 +118,7 @@ const limits = [
 	"Fasta svarsalternativ kan ge en tydligare ställning än modellen skulle ta i ett fritt samtal. Därför redovisas också när modellen avstår.",
 	"Tre svar per fråga är ett litet urval. Enstaka förändringar mellan två mätningar ska läsas med försiktighet.",
 	"Frågorna ställs på svenska. Samma fråga på engelska kan ge andra svar.",
-	"Motiveringar som bryter mot sajtens språkregler citeras inte på sidorna. De finns kvar i mätningens rådata.",
+	"Motiveringar som bryter mot webbplatsens språkregler citeras inte på sidorna. De finns kvar i mätningens rådata.",
 ];
 
 const series = getSeries();
@@ -128,15 +128,15 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 ---
 
 <Base
-	title="Så går Barometer till — islam.se"
+	title="Så går AI-barometern till – islam.se"
 	description={description}
 	ogImage="/ai-barometern/og.png"
-	ogImageAlt="Barometer — islam.se"
+	ogImageAlt="AI-barometern – islam.se"
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
 			"@type": "TechArticle",
-			headline: "Så går Barometer till",
+			headline: "Så går AI-barometern till",
 			description,
 			url: "https://islam.se/ai-barometern/metod/",
 			inLanguage: "sv",
@@ -153,7 +153,7 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 			<Breadcrumb items={crumbs} />
 			<h1>Så går mätningen till</h1>
 			<p class="abm-dek">
-				Barometer ställer samma frågor till fem AI-modeller, på samma sätt varje gång, och
+				AI-barometern ställer samma frågor till fem AI-modeller, på samma sätt varje gång, och
 				sparar varje svar. Här står exakt hur det går till och vad resultatet inte kan säga.
 			</p>
 		</header>
@@ -287,6 +287,6 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 			}
 		</TitledSection>
 
-		<p class="collection-back"><SectionLink href={BASE_PATH} direction="back">Barometer</SectionLink></p>
+		<p class="collection-back"><SectionLink href={BASE_PATH} direction="back">AI-barometern</SectionLink></p>
 	</main>
 </Base>

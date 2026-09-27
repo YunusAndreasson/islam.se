@@ -1,7 +1,7 @@
 ---
 title: "Vilka var de fyra rättledda kaliferna?"
 question: "Vilka var de fyra rättledda kaliferna?"
-description: "Abu Bakr, Umar, Uthman och Ali styrde islam efter profeten Muhammed – tre av fyra mördades. Vad gjorde just dem 'rättledda', och varför tvistar sunni och shia?"
+description: "Abu Bakr, Umar, Uthman och Ali styrde islam efter profeten Muhammed – tre av fyra mördades. Vad gjorde just dem »rättledda«, och varför tvistar sunni och shia?"
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "de fyra rättledda kaliferna"

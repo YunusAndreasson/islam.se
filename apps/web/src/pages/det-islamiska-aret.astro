@@ -76,7 +76,7 @@ const eidAdha = nextOf("Eid al-adha");
 const dateFaq: { q: string; a: string }[] = [];
 if (ramadan)
 	dateFaq.push({
-		q: `När är Ramadan ${ramadan.startISO.slice(0, 4)}?`,
+		q: `När är ramadan ${ramadan.startISO.slice(0, 4)}?`,
 		a: `Ramadan ${ramadan.hijriYear} e.H. infaller ${gregorian(ramadan.startISO, ramadan.endISO)} enligt Umm al-Qura-kalendern. Den exakta första dagen bekräftas genom månsiktning och kan skilja sig en dag.`,
 	});
 if (eidFitr)
@@ -95,7 +95,7 @@ if (eidAdha)
 // sentence twice in two paragraphs. The FAQ answers above keep it for the JSON-LD.
 const leadSummary =
 	ramadan && eidFitr && eidAdha
-		? `Nästa Ramadan börjar omkring ${gregorian(ramadan.startISO)}, Eid al-fitr infaller omkring ${gregorian(eidFitr.startISO)} och Eid al-adha omkring ${gregorian(eidAdha.startISO)}.`
+		? `Nästa ramadan börjar omkring ${gregorian(ramadan.startISO)}, Eid al-fitr infaller omkring ${gregorian(eidFitr.startISO)} och Eid al-adha omkring ${gregorian(eidAdha.startISO)}.`
 		: "";
 
 const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
@@ -114,8 +114,8 @@ const fastSouth = fast[0];
 const fastNorth = fast.at(-1);
 
 const pageTitle = ramadan
-	? `Ramadan ${ramadanYear} börjar ${gregorianShort(ramadan.startISO)} – fastans längd i din stad — islam.se`
-	: "Det islamiska året — islam.se";
+	? `Ramadan ${ramadanYear} börjar ${gregorianShort(ramadan.startISO)} – fastans längd i din stad – islam.se`
+	: "Det islamiska året – islam.se";
 
 const description =
 	ramadan && fastSouth && fastNorth
@@ -144,7 +144,7 @@ const description =
 		{leadSummary && <p class="lead md-answer">{leadSummary}</p>}
 
 		<p class="md-subscribe label">
-			<a href="webcal://islam.se/det-islamiska-aret.ics">Prenumerera i din kalender</a>
+			<a href="webcal://islam.se/det-islamiska-aret.ics">Prenumerera på kalendern</a>
 			<span class="nav-dot" aria-hidden="true">&middot;</span>
 			<a href="/det-islamiska-aret.ics">Ladda ner (.ics)</a>
 		</p>
@@ -193,8 +193,9 @@ const description =
 		{groups.map((g) => (
 			<section class="md-year" data-year>
 				<h2 class="md-year-head">
-					{g.hijriYear}
-					<span class="md-year-greg">e.H. &middot; {g.gregSpan}</span>
+					{/* »e.H.« rides with the hijri year, outside the uppercased span: in it
+					    the abbreviation printed »E.H.«, and Swedish writes e.H. */}
+					{g.hijriYear} e.H.<span class="md-year-greg">{g.gregSpan}</span>
 				</h2>
 				<MarkesdagList rows={g.rows} />
 			</section>
@@ -204,7 +205,7 @@ const description =
 			Därtill <em>de vita dagarna</em> (Ayyām al-bīḍ) – fasta den 13:e, 14:e och 15:e i varje månmånad.
 		</p>
 		<p class="md-also">
-			Och i <em>Shaʿbān</em>, månaden före Ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom Ramadan.
+			Och i <em>Shaʿbān</em>, månaden före ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom ramadan.
 		</p>
 
 		{dateFaq.length > 0 && (

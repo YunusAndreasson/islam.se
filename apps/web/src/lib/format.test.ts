@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { genitive, kommunLabel, leadSentences, swedishQuotes } from "./format";
+import { genitive, kommunLabel, leadSentences, swedishQuotes, talord } from "./format";
 
 // Both helpers replace string templates that were wrong on hundreds of generated
 // pages: `${name}s breddgrad` printed »Boråss« and »Västeråss« on the prayer-time
@@ -129,5 +129,22 @@ describe("leadSentences", () => {
 				`${file}: »${lead}« ends mid-sentence`,
 			).toBe(true);
 		}
+	});
+});
+
+// A count in running text: »4 registrerade moskéer« and »11 av essäerna finns
+// inlästa« read as table cells in a sentence. Words up to twelve, digits above.
+describe("talord", () => {
+	it("writes one to twelve as words, with ett for a neuter noun", () => {
+		expect(talord(4)).toBe("fyra");
+		expect(talord(11)).toBe("elva");
+		expect(talord(12)).toBe("tolv");
+		expect(talord(1)).toBe("en");
+		expect(talord(1, "neutrum")).toBe("ett");
+	});
+
+	it("keeps digits above twelve, grouped the Swedish way", () => {
+		expect(talord(13)).toBe("13");
+		expect(talord(1395)).toBe("1\u00a0395");
 	});
 });

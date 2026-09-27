@@ -40,6 +40,7 @@ import { twinSetsOf } from "../../lib/ai-barometern/twins";
 import type { Question } from "../../lib/ai-barometern/types";
 import { getArticles } from "../../lib/articles";
 import { requireBySlug } from "../../lib/content-refs";
+import { talord } from "../../lib/format";
 import { breadcrumbList } from "../../lib/jsonld";
 import "../../styles/ai-barometern-chips.css";
 import "../../styles/ai-barometern.css";
@@ -94,7 +95,7 @@ const isScale = question.kind === "scale";
 
 const crumbs = [
 	{ name: "Hem", url: "/" },
-	{ name: "Barometer", url: BASE_PATH },
+	{ name: "AI-barometern", url: BASE_PATH },
 	{ name: question.short, url: questionPath(question) },
 ];
 
@@ -102,8 +103,8 @@ const heading = isScale ? `»${question.text}«` : question.text;
 const scaleCells = scaleRow(question);
 const summary = run && isScale ? describeRow(scaleCells) : "";
 const description = isScale
-	? `Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek på påståendet »${question.text}«?${summary ? ` ${summary}` : ""} Svaren i Barometer, med modellernas egna motiveringar.`
-	: `${question.text} Så svarar ChatGPT, Claude, Gemini, Grok och DeepSeek i Barometer, med modellernas egna motiveringar.`;
+	? `Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek på påståendet »${question.text}«?${summary ? ` ${summary}` : ""} Svaren i AI-barometern, med modellernas egna motiveringar.`
+	: `${question.text} Så svarar ChatGPT, Claude, Gemini, Grok och DeepSeek i AI-barometern, med modellernas egna motiveringar.`;
 
 // A control question about one AI company: say whose model is judging its own maker.
 const ownFamily = question.aboutFamily ? getFamily(question.aboutFamily) : null;
@@ -113,14 +114,14 @@ const ownNote = ownFamily
 
 const dek = `${
 	run
-		? `Så svarade fem AI-modeller i mätningen ${svDate(run.date)}. Varje modell fick frågan ${run.samples} gånger, varje gång i en ny konversation.`
+		? `Så svarade fem AI-modeller i mätningen ${svDate(run.date)}. Varje modell fick frågan ${talord(run.samples)} gånger, varje gång i en ny konversation.`
 		: anyRun
-			? "Frågan är ny i Barometer. Den ställs till modellerna för första gången vid nästa mätning."
+			? "Frågan är ny i AI-barometern. Den ställs till modellerna för första gången vid nästa mätning."
 			: "Den första mätningen har ännu inte publicerats."
 }${ownNote}`;
 
 const partyRow = partyRows().find((r) => r.question.id === question.id);
-const source = run ? `Källa: Barometer, mätning ${svDate(run.date)}.` : "";
+const source = run ? `Källa: AI-barometern, mätning ${svDate(run.date)}.` : "";
 
 const quotes = FAMILIES.map((family) => {
 	const shown = isScale
@@ -157,16 +158,16 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 ---
 
 <Base
-	title={`${question.short} — Barometer — islam.se`}
+	title={`${question.short} – AI-barometern – islam.se`}
 	description={description}
 	ogImage="/ai-barometern/og.png"
-	ogImageAlt="Barometer — islam.se"
+	ogImageAlt="AI-barometern – islam.se"
 	jsonLd={[breadcrumbList(crumbs)]}
 >
 	<main id="main" class="home home--text abm abm-question">
 		<header class="abm-head">
 			<Breadcrumb items={crumbs} />
-			<p class="label">Barometer · {THEME_LABELS[question.theme]}</p>
+			<p class="label">AI-barometern · {THEME_LABELS[question.theme]}</p>
 			<h1>{heading}</h1>
 			{summary && <p class="abm-dek">{summary}</p>}
 			<p class:list={[summary ? "abm-dek-note" : "abm-dek"]}>
@@ -369,7 +370,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 			)
 		}
 
-		<nav class="abm-pager" aria-label="Fler frågor i Barometer">
+		<nav class="abm-pager" aria-label="Fler frågor i AI-barometern">
 			{
 				prev && (
 					<a class="abm-pager-prev" href={questionPath(prev)} rel="prev">
@@ -388,7 +389,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 			}
 		</nav>
 		<p class="meta-line">
-			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>Alla frågor i Barometer</a>
+			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>Alla frågor i AI-barometern</a>
 		</p>
 	</main>
 </Base>

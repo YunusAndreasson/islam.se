@@ -15,5 +15,5 @@ const { finding: f } = Astro.props;
 		caption={`${f.lead}. ${f.text}`}
 		emphasis={f.text}
 	/>
-	{f.classical !== undefined && <p class="abm-sample-note">Som jämförelse: <a href={f.href}>den klassiska hållningen enligt islam.se</a> — {codeLabel(String(f.classical))}.</p>}
+	{f.classical !== undefined && <p class="abm-sample-note">Som jämförelse: <a href={f.href}>den klassiska hållningen enligt islam.se</a> – {codeLabel(String(f.classical))}.</p>}
 </article>

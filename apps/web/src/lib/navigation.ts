@@ -38,13 +38,13 @@ const pages = {
 	home: { href: "/", label: "Hem", sub: "Startsidan." },
 	pillars: {
 		href: "/vad-ar-islam/",
-		label: "Pelare & tro",
-		menuSub: "De fem pelarna och de sex trosartiklarna.",
-		sub: "Vad är islam – fakta om de fem pelarna och de sex trosartiklarna, källbelagt.",
+		label: "Tro och lära",
+		menuSub: "Islams fem pelare och trons sex pelare.",
+		sub: "Vad är islam – fakta om islams fem pelare och trons sex pelare, källbelagt.",
 	},
 	svar: {
 		href: "/svar/",
-		label: "Frågor & svar",
+		label: "Frågor och svar",
 		menuSub: "Källbelagda svar på vanliga frågor.",
 		sub: "Frågor och svar: källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat och familj.",
 	},
@@ -67,12 +67,11 @@ const pages = {
 	// /amnen/{slug} står kvar och nås från de rubrikerna, från varje essäs kicker,
 	// från FeatureEssay, från EssayConnections och som sju egna rader i paletten.
 	// /amnen 301:ar till /essaer/ (se customRedirects i astro.config.ts).
-	tradar: { href: "/tradar/", label: "Trådar", sub: "Utvalda läsningar genom essäerna." },
+	tradar: { href: "/tradar/", label: "Teman", sub: "Essäer som hör ihop, att läsa i ordning." },
 	tankare: { href: "/tankare/", label: "Tänkare", sub: "De röster essäerna återvänder till." },
 	calendar: {
 		href: "/det-islamiska-aret/",
 		label: "Det islamiska året",
-		footerLabel: "Kalender",
 		sub: "Islamiska högtider och fastedagar med datum.",
 	},
 	mosqueScreen: {
@@ -107,7 +106,7 @@ const pages = {
 	},
 	aiBarometern: {
 		href: "/ai-barometern/",
-		label: "Barometer",
+		label: "AI-barometern",
 		menuSub: "Vad AI-modellerna svarar, mätning för mätning.",
 		sub: "Vad ChatGPT, Claude, Gemini, Grok och DeepSeek svarar om klimatet, AI, krig och tro, varje månad.",
 	},
@@ -115,11 +114,15 @@ const pages = {
 		href: "/podcast/",
 		label: "Podd",
 		menuSub: "Essäerna inlästa.",
-		sub: "Andliga essäer, inlästa – i Apple Podcasts, Spotify eller via RSS.",
+		sub: "Essäerna, inlästa – i Apple Podcasts, Spotify eller via RSS.",
 	},
-	about: { href: "/om/", label: "Om", sub: "Om idén bakom islam.se." },
-	editorial: { href: "/om/redaktion/", label: "Redaktion" },
-	ai: { href: "/ai/", label: "Läs med AI", sub: "Koppla hela arkivet till din AI-assistent." },
+	about: { href: "/om/", label: "Om islam.se", sub: "Om idén bakom islam.se." },
+	editorial: { href: "/om/redaktion/", label: "Redaktionella principer" },
+	ai: {
+		href: "/ai/",
+		label: "För AI-assistenter",
+		sub: "Koppla hela arkivet till din AI-assistent.",
+	},
 	corrections: { href: "/ratta/", label: "Föreslå en rättelse" },
 	privacy: { href: "/integritetspolicy/", label: "Integritetspolicy" },
 } as const;
@@ -137,8 +140,8 @@ const pages = {
 
 /** Tier 1 — three links, ordered by the site's purpose, which is to PRESENT ISLAM.
  *
- *    Pelare & tro   what Islam is — the five pillars and the six articles of faith
- *    Frågor & svar  the reference half: 64 sourced answers, and the nine
+ *    Tro och lära   what Islam is — the five pillars and the six articles of faith
+ *    Frågor och svar the reference half: 64 sourced answers, and the nine
  *                   fördjupning pillar pages that sit above them
  *    Essäer         the literary half
  *
@@ -163,7 +166,7 @@ export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.e
  *  row as the sections, set quieter and behind a hairline, so the mast reads as one
  *  line with two registers rather than two rows of unequal length.
  *
- *  Barometer is here and not in tier 1: it is a standing instrument, measured
+ *  AI-barometern is here and not in tier 1: it is a standing instrument, measured
  *  every month, and the three sections above stay about presenting Islam.
  *
  *  PODD LEFT THE MAST (2026-09-13) to make that room. The row is still three and
@@ -182,7 +185,7 @@ export const MAST_UTILITY_LINKS: NavLink[] = [pages.prayerTimes, pages.mosques, 
 /** The front page's doorways (index.astro), which touch screens and narrow windows get under the
  *  lead essay in place of the mast's inline links. Built FROM the mast arrays, so the two cannot
  *  disagree: the hand-typed row this replaces still listed Podd's old neighbours after
- *  Barometer took Podd's place in the mast. */
+ *  AI-barometern took Podd's place in the mast. */
 const PAGE_BY_HREF = new Map<string, (typeof pages)[keyof typeof pages]>(
 	Object.values(pages).map((page) => [page.href, page]),
 );
@@ -260,12 +263,7 @@ export const FOOTER_GROUPS: { heading: string; links: NavLink[] }[] = [
 	},
 	{
 		heading: "Praktiskt",
-		links: [
-			pages.prayerTimes,
-			pages.mosques,
-			pages.mosqueScreen,
-			{ ...pages.calendar, label: pages.calendar.footerLabel },
-		],
+		links: [pages.prayerTimes, pages.mosques, pages.mosqueScreen, pages.calendar],
 	},
 	{ heading: "Om islam.se", links: [pages.about, pages.editorial, pages.ai, pages.privacy] },
 ];

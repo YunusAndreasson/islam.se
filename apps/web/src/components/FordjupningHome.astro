@@ -16,6 +16,11 @@ import HomeHead from "./HomeHead.astro";
 // It sits directly under <FaktaBand>, which is the real relation between them:
 // the band names the five pillars and the six articles of faith and opens a short
 // answer for each; these are the same territory taken all the way down.
+//
+// Directly under it, but NOT inside it. Until 2026-09-27 the two shared one tinted
+// region, and one ground made this read as a sub-part of the facts — 2 550px of one
+// block straight after the cover, "intryckt" (user review). Now the facts keep the
+// tint and this is its own movement on paper: the change of ground is the boundary.
 
 // CURATED, not ranked. An earlier version chose by art and then by date, which is
 // the right instinct for a feed and the wrong one here: these four are the topics
@@ -58,7 +63,7 @@ const valda = await Promise.all(
 		label="Fördjupning"
 		id="fordjupning-kicker"
 		href="/fordjupning/"
-		linkLabel={`Alla ${alla.length} fördjupningar`}
+		linkLabel="Alla fördjupningar"
 	/>
 	{/* h3: the head-row above renders the movement's h2, so a topic is a level
 	    beneath it. Same reasoning AmnenHome uses for its department rows.
@@ -70,7 +75,6 @@ const valda = await Promise.all(
 	<FordjupningCards
 		entries={valda}
 		compact={false}
-		showCounts
 		headingLevel={3}
 		sizes="(min-width: 79rem) 37rem, (min-width: 48rem) 48vw, 78vw"
 	/>

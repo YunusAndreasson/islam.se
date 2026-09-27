@@ -9,6 +9,32 @@ export const nf0 = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
 /** One decimal (areas, solar-depression degrees). */
 export const nf1 = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 1 });
 
+const TALORD = [
+	"noll",
+	"en",
+	"två",
+	"tre",
+	"fyra",
+	"fem",
+	"sex",
+	"sju",
+	"åtta",
+	"nio",
+	"tio",
+	"elva",
+	"tolv",
+];
+
+/** A count as running text writes it: words up to twelve, digits above — the rule
+ *  Språkrådet and Myndigheternas skrivregler give, and the one DN keeps. »4
+ *  registrerade moskéer« in a sentence read as a table cell. `ett` for a neuter noun
+ *  (»ett avsnitt«). Tables, labels and counters keep their digits; this is for prose. */
+export function talord(n: number, genus: "utrum" | "neutrum" = "utrum"): string {
+	if (!Number.isInteger(n) || n < 0 || n > 12) return nf0.format(n);
+	if (n === 1) return genus === "neutrum" ? "ett" : "en";
+	return TALORD[n] as string;
+}
+
 /** Swedish genitive of a place name. A name ending in s, x or z takes no extra s:
  *  »Borås breddgrad«, »Västerås stadsdelar« — the template's naive `${name}s` printed
  *  »Boråss« and »Västeråss« on every such page. */

@@ -54,10 +54,10 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 119,
-      "ok": 118,
+      "total": 121,
+      "ok": 120,
       "failed": 1,
-      "lastChecked": "2026-09-23T18:22:10.566Z",
+      "lastChecked": "2026-09-27T10:24:47.931Z",
       "publishedIn": 95,
       "avgScore": 8.617894736842116,
       "lastError": "fetch failed"
@@ -367,10 +367,10 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.svt.se": {
-      "total": 25,
-      "ok": 25,
+      "total": 34,
+      "ok": 34,
       "failed": 0,
-      "lastChecked": "2026-09-18T16:48:56.732Z",
+      "lastChecked": "2026-09-27T10:24:47.931Z",
       "publishedIn": 20,
       "avgScore": 8.614999999999998
     },
@@ -579,10 +579,10 @@
       "avgScore": 8.7
     },
     "www.riksdagen.se": {
-      "total": 18,
-      "ok": 18,
+      "total": 20,
+      "ok": 20,
       "failed": 0,
-      "lastChecked": "2026-09-05T09:49:00.042Z",
+      "lastChecked": "2026-09-27T10:24:47.931Z",
       "publishedIn": 14,
       "avgScore": 8.63571428571429
     },
@@ -2130,10 +2130,10 @@
       "avgScore": 8.5
     },
     "www.gp.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "lastChecked": "2026-09-27T10:24:47.931Z",
       "publishedIn": 1,
       "avgScore": 8.8
     },
@@ -2290,30 +2290,30 @@
       "avgScore": 8.6
     },
     "www.amnesty.org": {
-      "total": 1,
-      "ok": 1,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "lastChecked": "2026-09-27T10:24:47.931Z",
       "publishedIn": 1,
       "avgScore": 8.6
     },
     "www.btselem.org": {
-      "total": 1,
+      "total": 2,
       "ok": 0,
-      "failed": 1,
-      "lastChecked": "2026-09-19T19:00:36.015Z"
+      "failed": 2,
+      "lastChecked": "2026-09-27T10:05:23.005Z"
     },
     "time.com": {
-      "total": 1,
+      "total": 2,
       "ok": 0,
-      "failed": 1,
-      "lastChecked": "2026-09-19T19:00:36.015Z"
+      "failed": 2,
+      "lastChecked": "2026-09-27T10:05:23.005Z"
     },
     "www.ohchr.org": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-09-19T19:00:36.015Z",
+      "lastChecked": "2026-09-27T10:24:47.931Z",
       "publishedIn": 1,
       "avgScore": 8.6
     },
@@ -2378,6 +2378,72 @@
       "ok": 3,
       "failed": 0,
       "lastChecked": "2026-09-23T19:06:38.633Z"
+    },
+    "www.sejfer.se": {
+      "total": 4,
+      "ok": 4,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "www.varldenidag.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "bokmassan.se": {
+      "total": 7,
+      "ok": 7,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "www.journalisten.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "x.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:05:23.005Z"
+    },
+    "www.ipcinfo.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:05:23.005Z"
+    },
+    "proletaren.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "civil-protection-humanitarian-aid.ec.europa.eu": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "www.unicef.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "news.un.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "www.ewn.co.za": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-27T10:24:47.931Z"
     }
   }
 }

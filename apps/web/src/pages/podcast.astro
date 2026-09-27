@@ -10,6 +10,7 @@ import {
 	APPLE_PODCAST_URL,
 	PODCAST_COVER,
 	PODCAST_DESCRIPTION,
+	PODCAST_TITLE,
 	PODCAST_FEED,
 	SPOTIFY_SHOW_URL,
 } from "../lib/podcast";
@@ -60,7 +61,7 @@ const episodeRows = episodes.map((ep, i) => ({
 }));
 
 const description =
-	"islam.se: andliga essäer – podden där varje essä läses som ett samtal. Lyssna i Apple Podcasts, Spotify eller via RSS.";
+	`${PODCAST_TITLE} – podden där varje essä läses som ett samtal. Lyssna i Apple Podcasts, Spotify eller via RSS.`;
 ---
 
 {/* The page is composed entirely from the shared index primitives now — PageHead via
@@ -76,8 +77,8 @@ const description =
     the cover tile was removed. */}
 <CollectionIndexPage
 	mainClass="home home--text"
-	title="Andliga essäer"
-	pageTitle="Podd — andliga essäer från islam.se"
+	title="Essäer, inlästa"
+	pageTitle="Essäer, inlästa – podd från islam.se"
 	description={description}
 	lead={PODCAST_DESCRIPTION}
 	jsonLd={[
@@ -85,7 +86,7 @@ const description =
 			"@context": "https://schema.org",
 			"@type": "PodcastSeries",
 			"@id": `${SITE}/podcast/#series`,
-			name: "islam.se: andliga essäer",
+			name: PODCAST_TITLE,
 			description: PODCAST_DESCRIPTION,
 			url: `${SITE}/podcast/`,
 			inLanguage: "sv",

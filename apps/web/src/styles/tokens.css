@@ -426,7 +426,7 @@
    browser font size, so `30rem` fires at 600px for someone running a 20px default while
    `480px` never moves. Several small components deliberately use rem for that reason.
    Do not "tidy" one into the other — it silently changes behaviour at non-default sizes. */
-@media (width <= 768px) {
+@media (width <= 48rem) {
 	:root {
 		--padding-inline: 1.25rem;
 		--space-unit: 1.5rem;

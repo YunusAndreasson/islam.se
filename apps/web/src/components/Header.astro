@@ -82,14 +82,14 @@ const mastIsDay =
 			{/* No aria-label: the accessible name comes from the visible label span, which
 			    CSS swaps "Sök" (pointer) ↔ "Meny" (touch) by media query. A fixed aria-label
 			    matches only one, tripping WCAG 2.5.3 (label-in-name) on the other; letting the
-			    visible text be the name keeps them in sync in every mode. The ⌘K kbd is
+			    visible text be the name keeps them in sync in every mode. The ⌘K / Ctrl K kbd is
 			    aria-hidden, so it never pollutes the name. */}
 			<button class="search-trigger" type="button" aria-keyshortcuts="Meta+K Control+K">
 			<Search class="search-trigger-icon search-trigger-icon--search" size={16} stroke-width={1.75} />
 			<Menu class="search-trigger-icon search-trigger-icon--menu" size={16} stroke-width={1.75} />
 			<span class="search-trigger-label search-trigger-label--search">Sök</span>
 			<span class="search-trigger-label search-trigger-label--menu">Meny</span>
-			<kbd class="search-trigger-kbd" aria-hidden="true"><span class="search-trigger-cmd">⌘</span>K</kbd>
+			<kbd class="search-trigger-kbd" aria-hidden="true"><span class="search-trigger-cmd">⌘</span><span class="search-trigger-ctrl">Ctrl</span>K</kbd>
 		</button>
 		</div>
 	</nav>

@@ -38,7 +38,7 @@ export const buildPaletteIndex = memoize(async (): Promise<PaletteEntry[]> => {
 	}));
 
 	const tradarEntries: PaletteEntry[] = tradar.map((t) => ({
-		type: "Tråd",
+		type: "Tema",
 		label: t.data.title,
 		sub: t.data.framing,
 		href: `/tradar/${t.id}/`,

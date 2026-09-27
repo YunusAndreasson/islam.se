@@ -139,7 +139,7 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 		const { signal } = ctrl;
 		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
 
-		const compact = matchMedia("(width <= 600px)");
+		const compact = matchMedia("(width <= 37.5rem)");
 		const sync = () => { disclosure.open = !compact.matches; disclosure.querySelector("summary")?.setAttribute("tabindex", compact.matches ? "0" : "-1"); };
 		sync();
 		compact.addEventListener("change", sync, { signal });
@@ -223,7 +223,7 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 	.contents-disclosure summary::after { content: "+"; }
 	.contents-disclosure[open] summary::after { content: "−"; }
 	.contents-disclosure ol { margin-top: var(--space-control); }
-	@media (width > 600px) { .contents-disclosure summary { pointer-events: none; } .contents-disclosure summary::after { display: none; } }
+	@media (width > 37.5rem) { .contents-disclosure summary { pointer-events: none; } .contents-disclosure summary::after { display: none; } }
 	@media (width >= 90rem) { .innehall ol { font-size: var(--step--2); } }
 	/* Paper has no "where you are": a half-read page must not print one row marked. */
 	@media print { .contents-disclosure > ol { display: block; } .innehall li:has(> a[aria-current])::after { display: none; } }

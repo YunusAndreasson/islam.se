@@ -237,7 +237,8 @@
    headlines breaking after three words — and read as "tight" in review
    (2026-09-25). Now the day and the year share the first row at half the width
    each, and the barometer runs the full width under them, split on the same
-   centre line (BarometerRail.astro), so the act has one vertical axis. */
+   centre line (BarometerRail.astro), so the act has one vertical axis. Since
+   2026-09-27 the barometer is its own movement and the row is the two halves. */
 @media (width >= 60rem) {
 	.home-sidolinje {
 		display: grid;
@@ -263,18 +264,17 @@
 		border-top: 0;
 	}
 
-	.home .home-sidolinje > .barometer-rail {
+	/* No news — a blocker, no JavaScript — and the year would stand alone beside an
+	   empty half. It takes the row instead, its three dates in the page's thirds.
+	   (AI-barometern moved up beside it until it became its own movement, 2026-09-27.) */
+	.home .home-sidolinje:has(> .nyheter-rail[hidden]) > .markesdagar-rail {
 		grid-column: 1 / -1;
 	}
 
-	/* No news — a blocker, no JavaScript — and the year would stand alone beside an
-	   empty half. The barometer moves up beside it instead, in its narrow form. */
-	.home .home-sidolinje:has(> .nyheter-rail[hidden]) > .barometer-rail {
-		grid-column: 2;
-		grid-row: 1 / span 4;
-		margin-top: 0;
-		padding-top: 0;
-		border-top: 0;
+	.home .home-sidolinje:has(> .nyheter-rail[hidden]) .md-list--rail {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		column-gap: var(--grid-gutter);
 	}
 }
 

@@ -23,8 +23,8 @@ import poddenLjus from "../assets/ritningar/podden.webp";
 import poddenMork from "../assets/ritningar/podden-mork.webp";
 import tankareLjus from "../assets/ritningar/tankare.webp";
 import tankareMork from "../assets/ritningar/tankare-mork.webp";
-import tradarLjus from "../assets/ritningar/tradar.webp";
-import tradarMork from "../assets/ritningar/tradar-mork.webp";
+import temanLjus from "../assets/ritningar/teman.webp";
+import temanMork from "../assets/ritningar/teman-mork.webp";
 import vilseLjus from "../assets/ritningar/vilse.webp";
 import vilseMork from "../assets/ritningar/vilse-mork.webp";
 
@@ -50,8 +50,11 @@ export const RITNINGAR = {
 	aret: { ljus: aretLjus, mork: aretMork },
 	/** A writing desk: open books, old volumes, inkwell, an oil lamp — Tänkare. */
 	tankare: { ljus: tankareLjus, mork: tankareMork },
-	/** Open books joined by one thread — Trådar. */
-	tradar: { ljus: tradarLjus, mork: tradarMork },
+	/** A gravel road through Swedish farmland, old milestones along its verge, the road
+	 *  alone in ochre — Teman: essays read in order along one line of thought, as stops on
+	 *  one road (the front page draws them as routes with stops). Replaced the open books
+	 *  joined by a thread (2026-09-27), a pun on »Trådar« that the new name no longer makes. */
+	teman: { ljus: temanLjus, mork: temanMork },
 	/** A Swedish farmhouse wall barometer, its needle in ochre — upright, for the front page's
 	 *  10rem column beside the AI-barometern's introduction. */
 	barometern: { ljus: barometernLjus, mork: barometernMork },

@@ -10,6 +10,6 @@ export async function getStaticPaths() {
 }
 
 export const GET = ogEndpoint<{ title: string; framing: string }>(
-	(p) => ({ kicker: "Tråd", title: p.title, framing: p.framing }),
+	(p) => ({ kicker: "Tema", title: p.title, framing: p.framing }),
 	(p) => `tradar|${p.title}|${p.framing}`,
 );

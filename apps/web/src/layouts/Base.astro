@@ -102,10 +102,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = ogImage
 	? new URL(ogImage, Astro.site).href
 	: new URL("/og-default.png", Astro.site).href;
-const pageTitle = title.replace(/ — islam\.se$/, "").replace(/^islam\.se — /, "");
+const pageTitle = title.replace(/ [–—] islam\.se$/, "").replace(/^islam\.se [–—] /, "");
 const resolvedOgImageAlt =
 	ogImageAlt ??
-	(articleMeta ? pageTitle : "islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv");
+	(articleMeta ? pageTitle : "islam.se – essäer om islamisk intellektuell tradition och svenskt kulturarv");
 const essaySectionHref = articleMeta ? "/essaer/" : undefined;
 const mastSectionHref =
 	essaySectionHref ??
@@ -122,7 +122,7 @@ if (jsonLd) {
 
 if (articleMeta) {
 	jsonLdBlocks.push(articleJsonLd({
-		headline: title.replace(/ — islam\.se$/, ""),
+		headline: title.replace(/ [–—] islam\.se$/, ""),
 		description: articleMeta.description,
 		publishedAt: articleMeta.publishedAt,
 		...(articleMeta.updatedAt === undefined ? {} : { updatedAt: articleMeta.updatedAt }),
@@ -174,13 +174,18 @@ if (articleMeta) {
 		    `color-scheme`, so no colour is defined twice. No stored value means no
 		    attribute, which means the site follows the OS — we only override a
 		    system setting the reader has explicitly overridden themselves. The
-		    control itself is the System/Ljust/Mörkt group in the site footer
+		    control itself is the Automatiskt/Ljust/Mörkt group in the site footer
 		    (components/ThemePicker.astro). */}
 		<script is:inline>
 			(() => {
 				const KEY = "theme";
 				const LIGHT = "#fff6e8";
 				const DARK = "#1d1912";
+				// The search pill's shortcut hint: ⌘K on Apple keyboards, Ctrl K everywhere
+				// else (the handler accepts both). Stamped here, before paint, so a Windows
+				// reader never sees a ⌘ flash in and turn into Ctrl. Case-insensitive: Chromium
+				// reports userAgentData.platform as »macOS«, Safari navigator.platform as »MacIntel«.
+				const MAC = /mac|iphone|ipad|ipod/i.test(navigator.userAgentData?.platform || navigator.platform || "");
 				const read = () => {
 					try {
 						const v = localStorage.getItem(KEY);
@@ -195,6 +200,7 @@ if (articleMeta) {
 					const root = document.documentElement;
 					if (chosen) root.dataset.theme = chosen;
 					else delete root.dataset.theme;
+					if (MAC) root.dataset.kbd = "mac";
 					// Under an override both media-scoped metas get the chosen colour, so
 					// whichever one the OS matches paints the right browser chrome. Back on
 					// "System" each meta must be handed its own colour again — they were
@@ -320,7 +326,7 @@ if (articleMeta) {
 		))}
 	</head>
 	<body>
-		<a href="#main" class="skip-link">Hoppa till innehåll</a>
+		<a href="#main" class="skip-link">Hoppa till innehållet</a>
 		{/* Reading progress is an essay metaphor — browse pages get no bar. */}
 		{articleMeta && <div class="reading-progress" aria-hidden="true" data-slug={articleMeta.slug} data-title={pageTitle} />}
 		<Header {...(mastSectionHref === undefined ? {} : { activeHref: mastSectionHref })} />

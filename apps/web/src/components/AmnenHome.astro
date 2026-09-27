@@ -1,6 +1,6 @@
 ---
 import { amnenWithEssays } from "../lib/amnen";
-import { type Article, essayCount, getArticles } from "../lib/articles";
+import { type Article, getArticles } from "../lib/articles";
 import EssayList from "./EssayList.astro";
 import SectionLink from "./SectionLink.astro";
 
@@ -19,7 +19,7 @@ const groups = amnenWithEssays(await getArticles()).filter(({ amne }) => amne.sl
 ---
 
 <section class="amnen home-movement" aria-labelledby="amnen-kicker" data-essay-showcase>
-	<h2 id="amnen-kicker" class="amnen-title">Utforska essäerna</h2>
+	<h2 id="amnen-kicker" class="amnen-title">Essäer efter ämne</h2>
 	<nav class="amnen-tabs" aria-label="Välj ämne">
 		{groups.map(({ amne, total }, i) => (
 			<a class="amnen-tab" id={`subject-tab-${amne.slug}`} href={`/amnen/${amne.slug}/`} data-subject={amne.slug} data-selected={i === 0 ? "true" : undefined}>
@@ -27,11 +27,11 @@ const groups = amnenWithEssays(await getArticles()).filter(({ amne }) => amne.sl
 			</a>
 		))}
 	</nav>
-	{groups.map(({ amne, shown, total }, i) => (
+	{groups.map(({ amne, shown }, i) => (
 		<div class="amnen-panel" id={`subject-panel-${amne.slug}`} data-panel={amne.slug} hidden={i !== 0}>
 			<p class="amnen-framing">{amne.framing}</p>
 			<EssayList articles={shown} itemVariant="card" class="essay-cards amnen-essays" cardSizes="(min-width: 60rem) 31vw, (min-width: 40rem) 45vw, 100vw" />
-			<p class="amnen-more"><SectionLink href={`/amnen/${amne.slug}/`}>Alla {essayCount(total)} om {amne.name.toLocaleLowerCase("sv")}</SectionLink></p>
+			<p class="amnen-more"><SectionLink href={`/amnen/${amne.slug}/`}>Alla essäer om {amne.omForm}</SectionLink></p>
 		</div>
 	))}
 </section>

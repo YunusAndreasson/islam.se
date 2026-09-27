@@ -12,8 +12,10 @@
 // list the hub leads with, so they change with each run and drop out on their own the day their
 // pattern stops holding.
 //
-// Placement: under the news and the calendar at the full width (nyheter.css, »The live row«),
-// the introduction and the cases side by side on one centre line; stacked in a narrow column.
+// Placement: its own movement on paper, between Tänkare and Praktiskt (index.astro). It stood
+// under the news and the calendar in the live row until 2026-09-27, three voices on one tint,
+// which read as crammed (»intryckt«, user review). The introduction and the cases side by side
+// on one centre line; stacked in a narrow column.
 // It keeps the SITE's voice — Literata under its own kicker — not the news column's sans.
 //
 // The introduction opens on the series' drawing of a Swedish farmhouse wall barometer, in
@@ -49,10 +51,10 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 
 {
 	cases.length > 0 && (
-		<section class="barometer-rail abm" aria-labelledby="barometer-rail-rubrik">
+		<section class="barometer-rail abm home-movement" aria-labelledby="barometer-rail-rubrik">
 			<div class="barometer-rail-ram">
 				<h2 class="label sidolinje-rubrik" id="barometer-rail-rubrik">
-					Barometer
+					AI-barometern
 				</h2>
 
 				<div class="barometer-rail-intro">
@@ -61,8 +63,8 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 					</div>
 					<div class="barometer-rail-ord">
 						<p class="barometer-rail-ingress">
-							Vad svarar en AI-modell om klimatet, kriget, politiken och tron? Varje månad ställer
-							Barometer samma {shown.questions} frågor till de fem stora modellerna och redovisar
+							Vad svarar en AI-modell på frågor om klimatet, kriget, politiken och tron? Varje månad ställer
+							AI-barometern samma {shown.questions} frågor till de fem stora modellerna och redovisar
 							svaren som de lämnades.
 						</p>
 						<ul class="barometer-rail-modeller" aria-label="Modellerna">
@@ -75,7 +77,7 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 						</ul>
 						<p class="barometer-rail-fot">
 							<SectionLink class="label arrow-link" href={BASE_PATH}>
-								Till Barometer
+								Till AI-barometern
 							</SectionLink>
 						</p>
 					</div>
@@ -99,15 +101,11 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 }
 
 <style>
-	/* The seam, drawn exactly as the calendar draws its own: under the calendar on a phone,
-	   under the whole row on a wide screen, a full rule and not only the kicker's tick. The
-	   calendar always stands above this block, so there is no case of a rule over nothing. The
-	   container is what the side-by-side layout below asks about. */
+	/* A movement of its own: the change of ground above and below is its boundary, so
+	   the rule that seamed it to the calendar went with the move. The container is what
+	   the side-by-side layout below asks about. */
 	.barometer-rail {
 		container-type: inline-size;
-		margin-top: var(--space-phi);
-		padding-top: var(--space-unit);
-		border-top: 1px solid var(--color-rule);
 	}
 
 	/* The drawing above the words in a narrow column; beside them in the wide layout. */
@@ -206,21 +204,25 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 		margin-top: var(--space-unit);
 	}
 
-	/* One finding on a phone, for the reason the news above it shows three headlines
-	   there (nyheter.css): stacked, the three cases were 400px more of reading between
-	   the cover's photograph and the first department's, the longest stretch on the
-	   page without a picture. The introduction says what the barometer is; one case
-	   shows it; the hub has the rest, one tap away. */
-	@media (width < 60rem) {
+	/* One finding while stacked: the three cases are 400px more of reading on a page
+	   that already runs past 10 000px on a phone. The introduction says what the
+	   barometer is; one case shows it; the hub has the rest, one tap away.
+	   The SAME condition as the side-by-side layout below, on the same container. Until
+	   2026-09-27 this asked the viewport (< 60rem) while the layout asked the container
+	   (>= 40rem): from 700 to 959px the block stood in two columns with one finding in
+	   the right, 127px beside a 658px introduction. */
+	@container (inline-size < 56rem) {
 		.barometer-rail-fynd > li:nth-child(n + 2) {
 			display: none;
 		}
 	}
 
 	/* SIDE BY SIDE, given the width: what the barometer is on the left, what it found on the
-	   right, the date of the finding level with the kicker. The gutter is the live row's 3rem,
-	   so on the front page the two halves share the centre line of the news and the calendar. */
-	@container (inline-size >= 40rem) {
+	   right, the date of the finding level with the kicker. The gutter is the page's 3rem, so
+	   the two halves share the canvas's centre line with every other halved movement.
+	   56rem, not 40rem: each half must hold the 10rem drawing, its 1.75rem gap and a text
+	   column of ~14rem; at 40rem the words beside the drawing were 114px wide. */
+	@container (inline-size >= 56rem) {
 		.barometer-rail-ram {
 			display: grid;
 			grid-template-columns: repeat(2, minmax(0, 1fr));

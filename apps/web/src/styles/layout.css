@@ -590,20 +590,26 @@
 		--civ-h: 700px;
 	}
 	.fakta-band {
-		--civ-h: 1188px;
+		/* Carries its own tint and padding since 2026-09-27. */
+		--civ-h: 1324px;
 	}
 	.fordjupning-home {
-		/* Content box; the reference wrapper supplies the tinted outer padding. */
-		--civ-h: 1163px;
+		/* On paper, its own movement since 2026-09-27: no tinted padding. */
+		--civ-h: 1162px;
 	}
 	.tradar-home {
 		--civ-h: 407px;
 	}
 	.tankare-home {
-		--civ-h: 512px;
+		--civ-h: 515px;
+	}
+	.barometer-rail {
+		/* Its own paper movement since 2026-09-27 (was inside the live row). */
+		--civ-h: 369px;
 	}
 	.praktiskt-home {
-		--civ-h: 330px;
+		/* Tinted since 2026-09-27: padding included. */
+		--civ-h: 489px;
 	}
 
 	@media (max-width: 40rem) {
@@ -611,19 +617,22 @@
 			--civ-h: 1500px;
 		}
 		.fakta-band {
-			--civ-h: 1526px;
+			--civ-h: 1432px;
 		}
 		.fordjupning-home {
-			--civ-h: 579px;
+			--civ-h: 403px;
 		}
 		.tradar-home {
 			--civ-h: 478px;
 		}
 		.tankare-home {
-			--civ-h: 560px;
+			--civ-h: 563px;
+		}
+		.barometer-rail {
+			--civ-h: 615px;
 		}
 		.praktiskt-home {
-			--civ-h: 512px;
+			--civ-h: 622px;
 		}
 	}
 
@@ -970,17 +979,22 @@
 		transform: translateY(0.08em);
 	}
 
-	/* Three tracks: wordmark (left), links (centred in the mast), trigger (right).
-   Centring the middle track on the viewport — not packing it next to the
-   wordmark — needs equal 1fr gutters either side. Columns are assigned
-   explicitly so that when the links are hidden (touch / narrow) the wordmark and
-   trigger keep their left/right gutters instead of collapsing toward centre. */
+	/* Three tracks: wordmark (left), links (centred in the room between), trigger
+   (right). Columns are assigned explicitly so that when the links are hidden
+   (touch / narrow) the wordmark and trigger keep their left/right gutters instead
+   of collapsing toward centre. */
 	/* The column gap is the floor between the tracks. Without it the right track, the
 	   widest, shrank to its content first and the last link ran into the prayer chip
 	   (»PODD☀ Zuhr«) anywhere from 901 to 1100 px. */
+	/* The links centre BETWEEN the wordmark and the chip, not on the viewport. With
+	   equal 1fr side tracks the right one — prayer chip + search pill + Ctrl K, ~250px —
+	   set both, so at 1440px the links stood 150px from the wordmark and 23px from the
+	   chip: closer to »Maghrib 18:33« than to each other, and »AI-BAROMETERN ☀ Maghrib«
+	   read as one run. Equal air either side keeps the three groups apart; the viewport
+	   axis it gave up was not drawn by anything on the page below. */
 	.site-nav {
 		display: grid;
-		grid-template-columns: 1fr auto 1fr;
+		grid-template-columns: auto minmax(0, 1fr) auto;
 		column-gap: 1rem;
 		align-items: center;
 		width: 100%;
@@ -993,11 +1007,23 @@
 		font-feature-settings: "case";
 	}
 
-	/* nowrap: squeezed by a full link row, the wordmark broke at its dot onto two lines. */
+	/* nowrap: squeezed by a full link row, the wordmark broke at its dot onto two lines.
+
+	   SIZE. The wordmark sat at the nav's own 16.9px — 88 × 18px beside a 650px row of
+	   links and a 44px search pill, the smallest thing in the mast, so the eye landed on
+	   the menu before the name. A publication's wordmark is the mast's heaviest element
+	   (DN, SvD, the Guardian); the links stay quiet beneath it. It scales with the
+	   viewport between a phone (18px, where logo + prayer chip + Meny must share one
+	   row) and the canvas (26px, from ~1120px), growing with the room the link row
+	   leaves it rather than arriving at full size where the row is tightest; the tracking tightens a little as it
+	   grows, as display type does. The mast's height is set by the pill, so nothing
+	   else moves. */
 	.site-home {
 		grid-column: 1;
 		justify-self: start;
 		white-space: nowrap;
+		font-size: clamp(1.125rem, 0.5rem + 1.6vw, 1.625rem);
+		letter-spacing: 0.06em;
 	}
 
 	/* Right track: the next-prayer chip + the palette trigger, packed to the end. */
@@ -1071,14 +1097,6 @@
 		border-radius: 4px;
 	}
 
-	/* Tight mast (small phones): keep the icon + time, drop the name — the moon/sun
-   already says "prayer" and the aria-label carries the full label for SR. */
-	@media (width <= 26rem) {
-		.mast-prayer-name {
-			display: none;
-		}
-	}
-
 	.site-nav .search-trigger {
 		justify-self: end;
 	}
@@ -1090,18 +1108,28 @@
 	   groups on ONE line — the utilities had their own row and it read as an
 	   afterthought rather than a rank (three centred labels above four shoved into
 	   the right corner). */
+	/* ONE fluid gap for every space in the row — between links, and either side of
+	   the hairline — from 12px where the links first appear (901px) to 25.6px on the
+	   canvas. It used to be clamp(0.9rem, 2vw, 1.6rem) with a fixed 0.75rem override
+	   for 901–1100px, which left the links at 12px apart at 1100px while 100px stood
+	   empty beside the wordmark, then jumped to 22px one pixel later. */
+	.site-nav {
+		--mast-gap: clamp(0.75rem, 2.5vw - 0.7rem, 1.6rem);
+	}
+
 	.site-links-wrap {
 		grid-column: 2;
+		justify-self: center;
 		display: flex;
 		align-items: center;
-		gap: clamp(0.9rem, 2vw, 1.6rem);
+		gap: var(--mast-gap);
 	}
 
 	.site-links {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: clamp(0.9rem, 2vw, 1.6rem);
+		gap: var(--mast-gap);
 		margin: 0;
 		padding: 0;
 	}
@@ -1111,7 +1139,7 @@
 	   hairline, standing between the two groups. */
 	.site-links--util {
 		border-inline-start: 1px solid var(--color-divider);
-		padding-inline-start: clamp(0.9rem, 2vw, 1.6rem);
+		padding-inline-start: var(--mast-gap);
 	}
 
 	.site-links--util a {
@@ -1147,7 +1175,7 @@
 
 	/* Too narrow to carry the wordmark + both groups + trigger without crowding —
    drop them (⌘K / "/" still opens the palette on a keyboard). */
-	@media (width <= 900px) {
+	@media (width <= 56.25rem) {
 		.site-links-wrap {
 			display: none;
 		}
@@ -1217,10 +1245,30 @@
 		font-size: 1.05em;
 	}
 
+	/* One of the two modifier glyphs, by the reader's keyboard (Base.astro stamps
+	   data-kbd="mac" before paint). Ctrl is the default: most Swedish desktops are
+	   Windows, and a ⌘ there names a key the keyboard does not have. */
+	.search-trigger-cmd,
+	:root[data-kbd="mac"] .search-trigger-ctrl {
+		display: none;
+	}
+
+	:root[data-kbd="mac"] .search-trigger-cmd {
+		display: inline;
+	}
+
+	.search-trigger-ctrl {
+		/* Keycaps print »Ctrl«, not the pill's uppercase »CTRL«. */
+		text-transform: none;
+		margin-inline-end: 0.25em;
+		font-size: 0.95em;
+		letter-spacing: 0.03em;
+	}
+
 	/* Touch / no-hover pointers: the pill becomes a ☰ "Meny" button (the palette is
    the whole navigation here), the keyboard hint is dropped, and the tap target
    widens. */
-	@media (width <= 900px) {
+	@media (width <= 56.25rem) {
 		.search-trigger-icon--search,
 		.search-trigger-label--search,
 		.search-trigger-kbd {
@@ -1249,26 +1297,16 @@
 
 	/* 901–1100 px: AI-barometern took Podd's place in the utility group and is three
 	   times as long. The ⌘K hint goes (the shortcut still works, and the hint was
-	   aria-hidden anyway) and the gaps close up, so the row keeps one line and its
-	   gutters down to the width where the links fold into the menu. */
-	@media (900px < width <= 1100px) {
+	   aria-hidden anyway). */
+	@media (56.25rem < width <= 68.75rem) {
 		.search-trigger-kbd {
 			display: none;
-		}
-
-		.site-links-wrap,
-		.site-links {
-			gap: 0.75rem;
-		}
-
-		.site-links--util {
-			padding-inline-start: 0.75rem;
 		}
 	}
 
 	/* 901–980 px: the pill keeps its magnifier and lets the word go. The word is the
 	   button's accessible name (see Header.astro), so it is clipped, never display: none. */
-	@media (900px < width <= 980px) {
+	@media (56.25rem < width <= 61.25rem) {
 		.search-trigger-label--search {
 			position: absolute;
 			inline-size: 1px;
@@ -1279,7 +1317,7 @@
 		}
 	}
 
-	@media (width < 480px) {
+	@media (width < 30rem) {
 		.site-nav {
 			display: flex;
 			flex-wrap: wrap;
@@ -1320,12 +1358,6 @@
 		inset-block-start: 0;
 		inset-inline: var(--safe-left) var(--safe-right);
 		border-top: 1px solid var(--color-rule);
-	}
-
-	/* The front page ends on a tinted band (the book), and the band's edge is already
-	   the boundary: a hairline 80px under it was a second line saying the same thing. */
-	.front ~ .site-footer::before {
-		content: none;
 	}
 
 	.site-footer-nav {
@@ -1961,7 +1993,7 @@
 
 	/* Phones get a smaller picture, not a different composition: the canvas is one
    column here, so 11rem of it would leave the headline a 10-character measure. */
-	@media (width <= 600px) {
+	@media (width <= 37.5rem) {
 		.archive-item--thumb a {
 			--archive-thumb-w: 7.5rem;
 			column-gap: 1rem;
@@ -2361,7 +2393,7 @@
 		border-top: 1px solid var(--color-rule);
 	}
 
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.md-row {
 			grid-template-columns: 1fr;
 			gap: 0.35rem;
@@ -2443,7 +2475,7 @@
 	/* ============================================================
    Mobile
    ============================================================ */
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.article-header {
 			margin-top: var(--space-unit);
 		}

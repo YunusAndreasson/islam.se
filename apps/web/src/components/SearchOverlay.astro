@@ -29,7 +29,7 @@ const path = Astro.url.pathname;
 //     needs the index.
 const index = await buildPaletteIndex();
 const amnen = index.filter((e) => e.type === "Ämne");
-const tradar = index.filter((e) => e.type === "Tråd");
+const tradar = index.filter((e) => e.type === "Tema");
 const sunni = index.filter((e) => e.type === "Tänkare" && e.group === "sunni");
 const western = index.filter((e) => e.type === "Tänkare" && e.group === "western");
 const tankareCount = sunni.length + western.length;
@@ -41,7 +41,7 @@ const paletteDestSections = [
 
 const paletteChipSections = [
 	{ heading: "Ämnen", links: amnen },
-	{ heading: "Trådar", links: tradar },
+	{ heading: "Teman", links: tradar },
 ];
 
 const paletteThinkerGroups = [
@@ -568,7 +568,7 @@ const here = (href: string) => href === currentHref;
 		margin: var(--space-unit) 0 0;
 	}
 
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.palette-input { font-size: 1.5rem; }
 
 		.palette-row-type { display: none; }
@@ -760,7 +760,7 @@ const here = (href: string) => href === currentHref;
 		// Keep the query when reopening so readers can try another result — selected, so
 		// that a reader who has moved on simply types over it. Unselected, ⌘K then »moské«
 		// searched for the old query with »moské« glued to its end.
-		function open(focusField = !matchMedia("(width <= 900px)").matches) {
+		function open(focusField = !matchMedia("(width <= 56.25rem)").matches) {
 			if (dialog.open) return;
 			menuMode = !focusField;
 			if (menuMode) input.value = "";

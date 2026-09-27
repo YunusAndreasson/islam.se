@@ -38,6 +38,7 @@ import {
 } from "../../lib/ai-barometern/site";
 import { describeRow } from "../../lib/ai-barometern/summary";
 import { TWIN_SETS } from "../../lib/ai-barometern/twins";
+import { talord } from "../../lib/format";
 import { collectionPageJsonLd, dataset } from "../../lib/jsonld";
 import { RITNINGAR } from "../../lib/ritningar";
 import "../../styles/ai-barometern-chips.css";
@@ -52,12 +53,12 @@ const severalRuns = shown.runs.length > 1;
 const count = new Intl.NumberFormat("sv-SE");
 
 const description =
-	"Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek om klimatet, AI:s risker, kriget i Gaza, politiken och tron? Barometer ställer samma frågor till modellerna varje månad och visar hur svaren förändras.";
+	"Vad svarar ChatGPT, Claude, Gemini, Grok och DeepSeek om klimatet, AI:s risker, kriget i Gaza, politiken och tron? AI-barometern ställer samma frågor till modellerna varje månad och visar hur svaren förändras.";
 const lead =
-	"Hur svarar AI-modellerna om klimat, krig, politik och tro? Vi ställer samma frågor till fem modellfamiljer och jämför svaren, mätning för mätning.";
+	"Hur svarar AI-modellerna på frågor om klimat, krig, politik och tro? Vi ställer samma frågor till fem modellfamiljer och jämför svaren, mätning för mätning.";
 
 const source = run
-	? `Källa: Barometer, ${severalRuns ? "mätningarna" : "mätningen"} ${shownDates}. Varje modell fick varje fråga ${run.samples} gånger.`
+	? `Källa: AI-barometern, ${severalRuns ? "mätningarna" : "mätningen"} ${shownDates}. Varje modell fick varje fråga ${talord(run.samples)} gånger.`
 	: "";
 
 const changes = topChanges(6);
@@ -87,17 +88,17 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 ---
 
 <CollectionIndexPage
-	title="Barometer"
+	title="AI-barometern"
 	ritning={RITNINGAR.barometernBred}
-	pageTitle="Barometer — vad svarar AI-modellerna? — islam.se"
+	pageTitle="AI-barometern: så svarar AI-modellerna – islam.se"
 	description={description}
 	lead={lead}
-	ogImageAlt="Barometer — islam.se"
+	ogImageAlt="AI-barometern – islam.se"
 	mainClass="abm abm-hub home"
 	jsonLd={[
-		collectionPageJsonLd({ name: "Barometer", description, url: "/ai-barometern/", essays: [] }),
+		collectionPageJsonLd({ name: "AI-barometern", description, url: "/ai-barometern/", essays: [] }),
 		dataset({
-			name: "Barometer",
+			name: "AI-barometern",
 			description:
 				"Svar från ChatGPT, Claude, Gemini, Grok och DeepSeek på samma frågor om klimat, teknik, ekonomi, krig och folkrätt, politik och religion, insamlade vid återkommande mätningar.",
 			url: "/ai-barometern/",
@@ -125,7 +126,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 	{run && <p class="abm-report-context">Varje fråga upprepas flera gånger i nya konversationer. Svaren kan variera. Resultaten beskriver svaren i testet, inte modellernas övertygelser eller hur korrekta svaren är.</p>}
 	<nav class="abm-report-nav" aria-label="På denna sida">
 		<a href={`#${HUB_SECTIONS.findings}`}>Resultat i korthet</a>
-		<a href={`#${HUB_SECTIONS.matrix}`}>Utforska frågorna</a>
+		<a href={`#${HUB_SECTIONS.matrix}`}>Fråga för fråga</a>
 		<a href={METHOD_PATH}>Metod och data</a>
 	</nav>
 	{hubFindings.length > 0 && (
@@ -140,7 +141,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 
 	{
 		run && (
-			<TitledSection id={HUB_SECTIONS.matrix} title="Utforska alla frågor">
+			<TitledSection id={HUB_SECTIONS.matrix} title="Fråga för fråga">
 				<p>
 					Välj ett ämne för att jämföra svaren. Varje påstående har en egen sida med alla svar och modellernas motiveringar.
 				</p>
@@ -246,7 +247,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 			</p>
 			<p>
 				Koranen befaller den som inte vet att fråga dem som har kunskap (16:43) och de troende att
-				utreda en nyhet innan de handlar efter den (49:6). Barometer prövar modellerna på det
+				utreda en nyhet innan de handlar efter den (49:6). AI-barometern prövar modellerna på det
 				sättet: samma frågor, ställda likadant varje gång, med varje svar sparat. Där en fråga rör en
 				religiös bestämmelse står den klassiska hållningen, som de lärda har formulerat den utifrån
 				Koranen och sunna, sist på frågans sida.

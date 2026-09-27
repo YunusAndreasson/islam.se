@@ -350,7 +350,7 @@ function buildDocument(articles: Article[]): string {
 
 // ---- Document metadata ----
 #set document(
-  title: "Samlade essäer — islam.se",
+  title: "Samlade essäer – islam.se",
   author: "islam.se",
 )
 

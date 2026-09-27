@@ -15,7 +15,11 @@ export const SPOTIFY_SHOW_URL = "https://open.spotify.com/show/2WgLxCwy5RFu07sEg
 /** The show's public identity — one source of truth shared by the RSS feed
  *  (podcast.xml.ts) and the /podcast landing page, so the title/description/cover
  *  never drift between the two. */
-export const PODCAST_TITLE = "islam.se: andliga essäer";
+// Matches the cover art, which has always read »islam.se · Essäer, inlästa«. The show
+// was »islam.se: andliga essäer« until 2026-09-27; »andliga« read as devotional
+// literature rather than a publication (user decision). Apple's URL slug still says
+// »andliga-essäer«, which is harmless: the show is addressed by its id.
+export const PODCAST_TITLE = "islam.se: essäer, inlästa";
 export const PODCAST_DESCRIPTION =
 	"Essäerna från islam.se, inlästa. Den islamiska lärdomstraditionen läst tillsammans med svensk litteratur – om samvetet och ansvaret, om skapelsen, natten och tiden.";
 /** Square cover art (3000×3000), served from public/. */

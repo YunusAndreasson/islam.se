@@ -187,7 +187,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 	/* Tablets and below hide the subscribe row to keep the player compact;
 	   on phones the title is also hidden (see .fp-title rule further down). */
-	@media (width <= 480px) {
+	@media (width <= 30rem) {
 		.fp-subscribe {
 			display: none;
 		}
@@ -218,7 +218,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 			outline-offset: 4px;
 		}
 
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.fp-title {
 			display: none;
 		}

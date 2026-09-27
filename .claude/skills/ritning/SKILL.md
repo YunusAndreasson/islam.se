@@ -62,8 +62,8 @@ the front page's narrow column).
 
 - Say what the section **is**, as a thing in a Swedish room or landscape: a window at
   first light with a prayer rug (prayer times), the new crescent over a lake shore (the
-  islamic year), a writing desk with an oil lamp (thinkers), open books joined by a
-  thread (threads), the Quran on its wooden stand (the pillars and faith).
+  islamic year), a writing desk with an oil lamp (thinkers), a gravel road with old
+  milestones along it, the road in ochre (themes), the Quran on its wooden stand (the pillars and faith).
 - **One ochre thing**, named in the prompt, and it should be the point of the drawing.
 - **No text, no letters, no imitation Arabic.** A mushaf's lines are suggested by soft
   hatching only — generated pseudo-script on a Quran page would be disrespectful.

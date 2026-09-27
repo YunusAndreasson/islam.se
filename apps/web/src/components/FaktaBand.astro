@@ -1,8 +1,6 @@
 ---
-import { getCollection } from "astro:content";
 import { FAKTA_CLUSTERS } from "../lib/fakta";
 import { RITNINGAR } from "../lib/ritningar";
-import { groupSvar } from "../lib/svar";
 import Ritning from "./Ritning.astro";
 import SectionLink from "./SectionLink.astro";
 
@@ -10,10 +8,8 @@ import SectionLink from "./SectionLink.astro";
  * order, then six beliefs grouped at a quieter rank. Shared alignments and space
  * carry the hierarchy without adding cards or rules to the editorial canvas. */
 
-// Count what /svar/ actually lists, not the collection total — groupSvar drops the
-// cornerstones into the FAKTA hub, so "alla 63" would overpromise what the link opens.
-const entries = await getCollection("svar");
-const listedCount = groupSvar(entries).reduce((n, g) => n + g.entries.length, 0);
+// No count in the closing link (2026-09-27): none of the publications this site
+// measures itself against (DN, SvD, NE, Bokmässan) puts a number in an onward link.
 const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 ---
 
@@ -77,7 +73,7 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 	)}
 
 	<p class="grunden-more">
-		<SectionLink href="/svar/">Alla {listedCount} frågor och svar</SectionLink>
+		<SectionLink href="/svar/">Alla frågor och svar</SectionLink>
 	</p>
 </section>
 
@@ -250,8 +246,11 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 	}
 
 	/* Below the wide layout, keep every pillar as a numbered row and group the
-	   beliefs in pairs. Tablet widths retain their glosses; phones show the terms. */
-	@media (width < 56rem) {
+	   beliefs in pairs. Tablet widths retain their glosses; phones show the terms.
+	   56.25rem is the mast's own line (900px, where its links collapse into Meny): at
+	   56rem the two turned 4px apart, a band of widths with the narrow mast over the
+	   wide pillars. */
+	@media (width < 56.25rem) {
 		.grunden-tro {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: var(--space-group) var(--space-unit);
@@ -300,7 +299,7 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 
 	/* Wide rows and the beliefs share column starts. Keep each numeral close to
 	   its name so proximity identifies the pair before the eye crosses to the gloss. */
-	@media (width >= 56rem) {
+	@media (width >= 56.25rem) {
 		.grunden-tro {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 			row-gap: var(--space-phi);

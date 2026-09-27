@@ -6,7 +6,7 @@ qualityScore: 8.9
 description: "Han hade levt ett halvt sekel bland ord. Walīd ibn al-Mughīra hade dömt dikttävlingar vid Ukaz marknad, bedömt qasidor sedan ungdomen, vägde varje stavelse med en säkerhet som Quraysh-stammens övriga hövdingar saknade och därför litade på. I frågor om poetisk rang var hans omdöme slutgiltigt."
 imageAlt: "Vasspenna och bläckhorn nedlagda bredvid ett oskrivet pappersark på ett mörkt träbord."
 imageCaption: "Domaren över dikt lade ner pennan och skrev ingenting."
-category: "Skriften"
+category: "Koranen"
 ---
 Han hade levt ett halvt sekel bland ord. Walīd ibn al-Mughīra hade dömt dikttävlingar vid Ukaz marknad, bedömt qasidor sedan ungdomen, vägde varje stavelse med en säkerhet som Quraysh-stammens övriga hövdingar saknade och därför litade på. I frågor om poetisk rang var hans omdöme slutgiltigt.
 

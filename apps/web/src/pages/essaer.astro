@@ -68,7 +68,7 @@ const lengthFilterItems = [
 >
 	<nav class="filter-row" aria-label="Filtrera och sortera">
 		<button class="filter-chip label" type="button" data-overlay="amnen" aria-haspopup="dialog" aria-expanded="false">Ämnen</button>
-		<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Trådar</button>
+		<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Teman</button>
 		<button class="filter-chip label" type="button" data-overlay="tankare" aria-haspopup="dialog" aria-expanded="false">Tänkare</button>
 		<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
 		<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
@@ -146,7 +146,7 @@ const lengthFilterItems = [
 				<FilterOverlayList items={amneFilterItems} />
 			</div>
 			<div class="overlay-panel" data-panel="tradar" hidden>
-				<p class="label overlay-heading">Trådar</p>
+				<p class="label overlay-heading">Teman</p>
 				<FilterOverlayList items={threadFilterItems} />
 			</div>
 			<div class="overlay-panel" data-panel="tankare" hidden>
@@ -320,7 +320,7 @@ const lengthFilterItems = [
 		gap: clamp(1.5rem, 5vw, 4rem);
 	}
 
-	@media (width <= 768px) {
+	@media (width <= 48rem) {
 		.overlay-cols {
 			grid-template-columns: 1fr;
 			gap: var(--space-unit);

@@ -33,7 +33,7 @@ export async function GET() {
 		"CALSCALE:GREGORIAN",
 		"METHOD:PUBLISH",
 		"X-WR-CALNAME:Det islamiska året",
-		"X-WR-CALDESC:Islamiska högtider och märkesdagar — islam.se",
+		"X-WR-CALDESC:Islamiska högtider och märkesdagar – islam.se",
 		"X-WR-TIMEZONE:UTC",
 	];
 

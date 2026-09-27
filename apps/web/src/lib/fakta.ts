@@ -51,9 +51,9 @@ export interface FaktaCluster {
 export const FAKTA_CLUSTERS: FaktaCluster[] = [
 	{
 		slug: "fem-pelarna",
-		name: "De fem pelarna",
+		name: "Islams fem pelare",
 		intro:
-			"Det en muslim gör (arkan al-islam): de fem handlingar som islam är byggd på – trosbekännelse, bön, allmosa, fasta och vallfärd.",
+			"Det en muslim gör (arkān al-islām): de fem handlingar som islam är byggd på – trosbekännelse, bön, allmosa, fasta och vallfärd.",
 		overview: "islams-fem-pelare",
 		overviewImage: "kompassnalens-moske",
 		items: [
@@ -80,7 +80,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 				svarSlug: "vad-ar-zakat",
 				label: "Allmosan",
 				translit: "az-zakāt",
-				blurb: "Den årliga plikten som renar förmögenheten och tillfaller de behövande.",
+				blurb: "En årlig andel av förmögenheten som går till de behövande och renar resten.",
 				image: "ater-ni-var-for-sig",
 			},
 			{
@@ -103,15 +103,15 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 	},
 	{
 		slug: "trosartiklarna",
-		name: "De sex trosartiklarna",
+		name: "Trons sex pelare",
 		intro:
-			"Det en muslim tror (arkan al-iman): tron på Gud, hans änglar, hans skrifter, hans sändebud, domedagen och ödet.",
+			"Det en muslim tror (arkān al-īmān, ofta kallade de sex trosartiklarna): tron på Gud, hans änglar, hans skrifter, hans sändebud, domedagen och förutbestämmelsen.",
 		items: [
 			{
 				svarSlug: "islams-gudssyn",
 				label: "Gud",
 				translit: "Allāh",
-				blurb: "Tron på en enda Gud, utan like och utan delägare (tawhid).",
+				blurb: "Tron på en enda Gud, utan like och utan någon vid sin sida (tawhid).",
 				image: "samma-stjarnhimmel",
 			},
 			{
@@ -132,7 +132,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 				svarSlug: "vem-var-profeten-muhammed",
 				label: "Sändebuden",
 				translit: "ar-rusul",
-				blurb: "Tron på profeternas kedja, beseglad med Muhammed ﷺ.",
+				blurb: "Tron på alla Guds sändebud, med Muhammed ﷺ som det sista.",
 				image: "rosten-over-taken",
 			},
 			{
@@ -146,7 +146,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			},
 			{
 				svarSlug: "vad-ar-odet-qadar",
-				label: "Ödet",
+				label: "Förutbestämmelsen",
 				translit: "al-qadar",
 				blurb: "Tron på att ingenting sker utan Guds vetande och vilja.",
 				image: "guden-som-bokfor",

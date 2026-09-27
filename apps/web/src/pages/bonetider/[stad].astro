@@ -14,7 +14,7 @@ import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
-import { genitive, nf0, nf1 } from "../../lib/format";
+import { genitive, nf0, nf1, talord } from "../../lib/format";
 import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
 import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION, searchTitlePlace } from "../../lib/bonetider/places-index";
@@ -76,7 +76,7 @@ const hasMosquePage = mosqueCity !== undefined;
 const cityMosques = mosqueCity?.mosques ?? [];
 const cityMosqueCount = cityMosques.length;
 // "en registrerad moské" / "N registrerade moskéer" — reused across lead, FAQ and prose.
-const cityMosquePhrase = cityMosqueCount === 1 ? "en registrerad moské" : `${cityMosqueCount} registrerade moskéer`;
+const cityMosquePhrase = cityMosqueCount === 1 ? "en registrerad moské" : `${talord(cityMosqueCount)} registrerade moskéer`;
 // The mosque set shown in the on-page block: the town's own (heading "Moskéer i {stad}",
 // the exact target query) when it has them, else the nearest within 20 km. Capped so a
 // metro's page stays a teaser that hands off to the full /moskeer/[stad] list.
@@ -275,7 +275,7 @@ const faq = [
 	...(hasTimes
 		? [
 				{
-					q: `Vilka bönetider gäller i ${place.name} idag?`,
+					q: `Vilka bönetider gäller i ${place.name} i dag?`,
 					a: `I dag, ${todayLabel}, är Fajr ${t.fajr}, Shurūq ${t.sunrise}, Ẓuhr ${t.dhuhr}, ʿAṣr ${t.asr}, Maghrib ${t.maghrib} och ʿIshāʾ ${t.isha} i ${place.name}. Tiderna räknas om varje dygn efter solens verkliga läge på ${lat1}° N, ${lon1}° O, och listan högst upp på sidan ändras direkt om du väljer en annan beräkningsmetod eller madhhab.`,
 				},
 			]
@@ -338,10 +338,10 @@ if (hasScb) {
 ---
 
 <Base
-	title={`Bönetider i ${titlePlace} idag · ${year} — islam.se`}
+	title={`Bönetider i ${titlePlace} idag · ${year} – islam.se`}
 	description={description}
 	ogImage={ogImage}
-	ogImageAlt={`Bönetider i ${place.name} — dagens tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ`}
+	ogImageAlt={`Bönetider i ${place.name} – dagens tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ`}
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
@@ -372,7 +372,11 @@ if (hasScb) {
 			<Breadcrumb items={crumbs} />
 			{/* `titlePlace`, not `place.name`: 150 pages shared an H1 with the town that owns
 			    the bare slug (two "Bönetider i Alvik"), while their titles already differed. */}
-			<h1 id="bt-city-title">Bönetider i {titlePlace} idag</h1>
+			{/* »i dag« in the page's own words, as Språkrådet writes it and as the FAQ answer
+			    already did; the <title> and meta description keep »idag«, the spelling the
+			    query is typed in (»bönetider stockholm idag«), where a mismatch costs the
+			    search result rather than the reader. */}
+			<h1 id="bt-city-title">Bönetider i {titlePlace} i dag</h1>
 			{/* One meta line — the hub's caption device. It replaced a county line and a
 			    separate date line that between them said the same thing in three blocks. */}
 			<p class="meta-line bt-stad-when">
@@ -432,7 +436,7 @@ if (hasScb) {
 			<ul class="bt-take">
 				<li>
 					<a href={`webcal://islam.se/bonetider/${place.slug}/kalender.ics`}>
-						<span class="bt-take-title">Prenumerera i kalendern</span>
+						<span class="bt-take-title">Prenumerera på tiderna</span>
 						<span class="bt-take-gloss">Månadens fem böner i din egen kalender. Uppdateras varje natt.</span>
 					</a>
 				</li>

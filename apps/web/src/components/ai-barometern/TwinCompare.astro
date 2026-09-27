@@ -16,7 +16,7 @@ const lines = twinLines(row);
 const dates = row.runs.map((r) => r.date);
 const several = new Set(dates.map((d) => d.slice(0, 10))).size > 1;
 const source = dates.length
-	? `Källa: Barometer, ${several ? "mätningarna" : "mätningen"} ${svDateList(dates)}.`
+	? `Källa: AI-barometern, ${several ? "mätningarna" : "mätningen"} ${svDateList(dates)}.`
 	: "";
 ---
 

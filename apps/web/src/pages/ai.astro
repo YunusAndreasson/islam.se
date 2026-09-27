@@ -22,7 +22,7 @@ const claudeDesktopConfig = `{
 const claudeCodeCommand = "claude mcp add -s user --transport http islam-se https://mcp.islam.se/mcp";
 ---
 
-<ArticlePage title="AI — islam.se" description="Anslut din AI-assistent till islam.se och sök bland alla essäer direkt i samtalet.">
+<ArticlePage title="islam.se för AI-assistenter" description="Anslut din AI-assistent till islam.se och sök bland alla essäer direkt i samtalet.">
 		<div class="article-body prose ai-prose">
 			<p>Samtliga {articleCount} essäer finns tillgängliga via en öppen <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP-server</a>. MCP är ett protokoll som låter AI-assistenter använda externa verktyg. Claude, ChatGPT och andra assistenter kan söka i, läsa och citera essäerna direkt i samtalet.</p>
 
@@ -122,7 +122,7 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 		font-size: 0.9375em;
 	}
 
-	@media (width <= 480px) {
+	@media (width <= 30rem) {
 		.tool-item {
 			flex-direction: column;
 			gap: 0.125rem;
@@ -147,7 +147,7 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 		overflow-x: auto;
 	}
 
-	@media (width <= 480px) {
+	@media (width <= 30rem) {
 		.ai-prose :global(pre) {
 			padding: 0.75rem 0.875rem;
 			font-size: var(--step--4);
@@ -186,7 +186,7 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 		word-break: break-all;
 	}
 
-	@media (width <= 480px) {
+	@media (width <= 30rem) {
 		.server-url {
 			padding: 0.875rem 1rem;
 		}

@@ -185,7 +185,7 @@ describe("raden", () => {
 
 	// Neither surface repeats a relative label per row. On the rail a bare HH:MM
 	// is what a Swedish "senaste nytt" column shows; on /nyheter/ the column is in
-	// time order and cut into Idag/Igår, so nine copies of "för 7 timmar sedan"
+	// time order and cut into I dag/I går, so nine copies of "för 7 timmar sedan"
 	// state what the page already shows. Freshness is stated once, by statusHtml.
 	it("leaves relative time out of the rows on both surfaces", () => {
 		expect(radHtml(nyhet(), { variant: "rail", now: NU })).not.toContain("nyhet-relativ");
@@ -291,8 +291,8 @@ describe("nyhetsdygnet", () => {
 		const dagar = [...html.matchAll(/<h3 class="nyheter-dagrubrik">([^<]*)</g)].map((m) =>
 			(m[1] ?? "").trim(),
 		);
-		expect(dagar).toEqual(["Idag", "Igår"]);
-		expect(html.indexOf("strax-efter-midnatt")).toBeLessThan(html.indexOf('">Igår '));
+		expect(dagar).toEqual(["I dag", "I går"]);
+		expect(html.indexOf("strax-efter-midnatt")).toBeLessThan(html.indexOf('">I går '));
 	});
 
 	// The same backwards-clock defect, in the one place a day heading will not
@@ -303,7 +303,7 @@ describe("nyhetsdygnet", () => {
 			variant: "rail",
 			now: NU,
 		});
-		expect(igar).toContain(">Igår 21:56</time>");
+		expect(igar).toContain(">I går 21:56</time>");
 		expect(radHtml(nyhet(), { variant: "rail", now: NU })).toContain(">15:00</time>");
 	});
 
@@ -314,10 +314,10 @@ describe("nyhetsdygnet", () => {
 	});
 
 	// Three calendar days can fall inside 24 hours for a reader who arrives just
-	// after midnight. Two headings both reading "Igår" would be worse than none.
+	// after midnight. Two headings both reading "I går" would be worse than none.
 	it("names anything older than yesterday by its weekday", () => {
-		expect(dagetikett(Date.parse("2026-08-22T13:00:00Z"), NU)).toBe("Idag");
-		expect(dagetikett(Date.parse("2026-08-21T13:00:00Z"), NU)).toBe("Igår");
+		expect(dagetikett(Date.parse("2026-08-22T13:00:00Z"), NU)).toBe("I dag");
+		expect(dagetikett(Date.parse("2026-08-21T13:00:00Z"), NU)).toBe("I går");
 		expect(dagetikett(Date.parse("2026-08-20T13:00:00Z"), NU)).toBe("torsdag");
 	});
 

@@ -64,7 +64,7 @@
 	},
 	{
 		"id": "strindberg",
-		"name": "Strindberg",
+		"name": "August Strindberg",
 		"slug": "strindberg",
 		"tradition": "western",
 		"framing": "Under Inferno-åren prövade han varje hållning han kunde nå, och ingen bar hans vikt. Ingen svensk författare har skildrat själens kris på närmare håll.",
@@ -106,7 +106,7 @@
 	},
 	{
 		"id": "geijer",
-		"name": "Geijer",
+		"name": "Erik Gustaf Geijer",
 		"slug": "geijer",
 		"tradition": "western",
 		"framing": "Erik Gustaf Geijer – historiker, skald och den götiska väckelsens röst – står för det svenska arv som essäerna läser i ett nytt ljus.",
@@ -154,7 +154,7 @@
 	},
 	{
 		"id": "swedenborg",
-		"name": "Swedenborg",
+		"name": "Emanuel Swedenborg",
 		"slug": "swedenborg",
 		"tradition": "western",
 		"framing": "Emanuel Swedenborg – vetenskapsman som blev siare; hans inre resor markerar det moderna sökandets början i Norden.",
@@ -166,7 +166,7 @@
 	},
 	{
 		"id": "levertin",
-		"name": "Levertin",
+		"name": "Oscar Levertin",
 		"slug": "levertin",
 		"tradition": "western",
 		"framing": "Oscar Levertin, kritiker och poet vid sekelskiftet, ställde frågor om tro och skönhet som essäerna tar upp där han själv lämnade dem öppna.",
@@ -178,7 +178,7 @@
 	},
 	{
 		"id": "kierkegaard",
-		"name": "Kierkegaard",
+		"name": "Søren Kierkegaard",
 		"slug": "kierkegaard",
 		"tradition": "western",
 		"framing": "Den danske filosofen för vilken ångesten var frihetens svindel; hans Begreppet ångest möter Ibn Qayyims läsning av samma oro.",
@@ -190,7 +190,7 @@
 	},
 	{
 		"id": "linne",
-		"name": "Linné",
+		"name": "Carl von Linné",
 		"slug": "linne",
 		"tradition": "western",
 		"framing": "Carl von Linné läste skapelsen som en ordnad bok; hans blick på naturens ordning återkommer där essäerna talar om tecknen.",
