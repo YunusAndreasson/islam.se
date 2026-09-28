@@ -75,26 +75,6 @@ const heroPreload = feature?.heroImage
 	<div class="home">
 		<h1 class="sr-only">islam.se – kunskap om islam på svenska</h1>
 
-		{/* The masthead: what this site is, and nothing competing with it.
-
-		    The prayer-day horizon stood here for an evening (PrayerHorizon.astro) and
-		    was moved down into Praktiskt, beside the Bönetider row: above the intro it
-		    competed with the one sentence that says what the site is, and the mast's
-		    own chip already carries the next prayer in the top right corner (user
-		    review, 2026-09-25).
-
-		    One line of orientation. Most first-time visitors arrive from a
-		    search for "vad är islam" or "fakta om islam" and were otherwise never
-		    told what this site is. Deliberately one sentence in body type: the
-		    heavier three-pillar portal that stood here before was removed for being
-		    too much, and this is not an attempt to bring it back. */}
-		<div class="home-masthead">
-			<p class="lead home-intro" data-fortsatt>
-				Islam på svenska, förklarad utifrån källorna – Koranen, sunna och de tidiga
-				generationernas lärda.
-			</p>
-		</div>
-
 		{/* New readers meet the introduction immediately after the editorial opening.
 		    The foundational facts and deeper reading stay together before the live row
 		    and departments; promotions close the page after the reading and tools. */}
@@ -168,44 +148,6 @@ const heroPreload = feature?.heroImage
 </Base>
 
 <style>
-	/* The masthead block: the orientation line.
-
-	   The top margin is not optional: .site-header::after lays a 1.5rem
-	   background-to-transparent fade over the top of <main>, and anything flush
-	   against it gets washed out.
-
-	   No bottom margin, because it would never be seen — the feature's own top
-	   margin collapses through it. */
-	.home-masthead {
-		margin: var(--space-unit) 0 0;
-	}
-
-	/* The orientation line: what this site is, for a visitor arriving cold from a
-	   search. Deliberately says nothing the mast already says — listing the
-	   sections here just echoes the menu a few pixels below it.
-
-	   Set flush left, at body size, on the same edge as the kicker, the headline
-	   and every module below it. It used to be centred, which made the one
-	   sentence on the opening screen the only centred thing on a left-aligned
-	   page — a stray line rather than the page's standfirst. Sharing the edge is
-	   what makes the opening read as one composed block. */
-	.home-intro.is-fortsatt :global(a) {
-		color: inherit;
-		text-decoration-thickness: 1px;
-		text-underline-offset: var(--underline-offset);
-	}
-
-	.home-intro {
-		--lead-size: var(--step-0);
-		/* No measure: at body size the sentence still sits on ONE line inside the
-		   64rem canvas, and one line is what keeps the opening screen tall enough
-		   for the whole spread. It only wraps below ~1000px, where balance splits
-		   it evenly instead of leaving a two-word stub. */
-		--lead-measure: none;
-		--lead-margin: 0;
-		text-wrap: balance;
-	}
-
 	/* The doorways — the mast's six destinations, set in the site voice (heading
 	   link + a muted line), whitespace-grouped rather than boxed.
 
@@ -287,31 +229,3 @@ const heroPreload = feature?.heroImage
 		border-radius: 2px;
 	}
 </style>
-
-<script>
-	// A returning reader who left an essay part-read is offered it back, in the slot the
-	// orientation sentence holds for a first visit — they know what this site is; what
-	// they want is the essay they were in. localStorage only (reading-progress.ts), no
-	// account, nothing fetched: the title was stored when the essay was read.
-	//
-	// The line keeps its height (min-height via CSSOM, which the CSP allows where a
-	// style attribute is not), so swapping one sentence for the other moves nothing
-	// on the opening screen.
-	import { unfinished } from "../scripts/reading-progress";
-
-	document.addEventListener("astro:page-load", () => {
-		const line = document.querySelector<HTMLElement>("[data-fortsatt]");
-		const last = unfinished();
-		if (!(line && last)) return;
-		line.style.minHeight = `${line.offsetHeight}px`;
-		const link = document.createElement("a");
-		link.href = `/${last.slug}/`;
-		link.textContent = `»${last.title}«`;
-		line.classList.add("is-fortsatt");
-		line.replaceChildren(
-			"Fortsätt läsa ",
-			link,
-			` – ${Math.round(last.pct * 100)}\u00a0% läst.`,
-		);
-	});
-</script>

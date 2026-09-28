@@ -10,29 +10,16 @@ interface Props {
 }
 
 const { count, variant = "home" } = Astro.props;
-const year = new Date().getFullYear();
 ---
 
 <section class:list={["bookpod", `bookpod--${variant}`]} aria-labelledby="bookpod-heading">
-	{/* The homepage book shares the closing promotion region with PoddAppHome:
-	    the drawn object, kicker, title, description and formats use the same grammar.
-	    /om retains its typeset cover and combined book/podcast presentation. */}
+	{/* Both pages draw the book as the site's own drawing (Ritning), in the 10rem
+	    column beside the words — the grammar PoddAppHome uses. /om carried a typeset
+	    rendering of the PDF title page until 2026-09-28. */}
 	<div class="bookpod-inner">
-		{
-			variant === "home" ? (
-				<a class="bookpod-mark" href="/samlingsvolym.pdf" download tabindex="-1" aria-hidden="true">
-					<Ritning {...RITNINGAR.boken} hojd={[7, 10]} bredd={[7, 10]} />
-				</a>
-			) : (
-				<a class="bookpod-cover" href="/samlingsvolym.pdf" download>
-					<span class="bookpod-cover-brand">islam.se</span>
-					<span class="bookpod-cover-title">Samlade<br />essäer</span>
-					<span class="bookpod-cover-sub">Essäer om islamisk intellektuell tradition och svenskt kulturarv</span>
-					<span class="bookpod-cover-ornament" aria-hidden="true"></span>
-					<span class="bookpod-cover-year">{year}</span>
-				</a>
-			)
-		}
+		<a class="bookpod-mark" href="/samlingsvolym.pdf" download tabindex="-1" aria-hidden="true">
+			<Ritning {...RITNINGAR.boken} hojd={[7, 10]} bredd={[7, 10]} />
+		</a>
 		<div class="bookpod-text">
 			{variant === "home" && (
 				<>
@@ -69,102 +56,12 @@ const year = new Date().getFullYear();
 </section>
 
 <style>
+	/* PoddAppHome's drawing column: the book beside its words on desktop. */
 	.bookpod-inner {
 		display: grid;
-		grid-template-columns: auto 1fr;
-		align-items: center;
-		gap: clamp(2rem, 5vw, 4rem);
-	}
-
-	/* ---- The book cover — a typographic rendering of the PDF title page,
-	   presented as an object: A-series proportion, hairline edge, soft lift,
-	   and a thin spine highlight along the binding edge. ---- */
-	.bookpod-cover {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: flex-start;
-		text-align: center;
-		text-decoration: none;
-		width: clamp(11rem, 22vw, 15rem);
-		aspect-ratio: 1 / 1.414;
-		padding: 12% 10% 9%;
-		color: var(--color-text);
-		background: var(--surface-1);
-		border: 1px solid var(--color-divider);
-		border-radius: 1px 3px 3px 1px;
-		/* The spine stays (the inset); the float is a trace. A 2.5rem drop shadow was
-		   the last lifted card on a page that now separates by ground and space. */
-		box-shadow:
-			inset 0.4rem 0 0.6rem -0.55rem rgb(0 0 0 / 0.35),
-			0 0.6rem 1.2rem -0.9rem rgb(0 0 0 / 0.22);
-		transition: transform 0.4s cubic-bezier(0.2, 0, 0.1, 1), box-shadow 0.4s ease;
-
-		&:hover {
-			transform: translateY(-3px);
-			box-shadow:
-				inset 0.4rem 0 0.6rem -0.55rem rgb(0 0 0 / 0.35),
-				0 1rem 1.6rem -1rem rgb(0 0 0 / 0.26);
-		}
-
-		&:focus-visible {
-			outline-offset: 4px;
-		}
-	}
-
-	/* The cover sits on --surface-1 (a paper wash). --color-muted now clears AA on that
-	   tint in both schemes (5.1:1 light / 8.1:1 dark, tokens.css), so this is no longer a
-	   workaround — --text-meta is kept because a cover label wants a touch more presence
-	   than a caption, and that is the tier for it. */
-	.bookpod-cover {
-		--cover-label: var(--text-meta);
-	}
-
-	.bookpod-cover-brand {
-		font-family: var(--font-heading);
-		font-size: var(--step--5);
-		font-weight: 600;
-		letter-spacing: 0.22em;
-		text-transform: uppercase;
-		color: var(--cover-label);
-	}
-
-	/* The book face's display cut, not Source Sans Light: set in the apparatus face at
-	   300 the cover read as a placeholder, a template's grey title block, on the one
-	   object on the page that is meant to look like a book. */
-	.bookpod-cover-title {
-		font-family: var(--font-headline);
-		font-size: 2rem;
-		font-weight: 500;
-		line-height: 1.02;
-		letter-spacing: -0.01em;
-		margin-top: 1em;
-	}
-
-	.bookpod-cover-sub {
-		font-family: var(--font-body);
-		font-style: italic;
-		font-size: var(--step--5);
-		line-height: 1.4;
-		color: var(--cover-label);
-		margin-top: 0.9em;
-		text-wrap: balance;
-	}
-
-	.bookpod-cover-ornament {
-		width: 4.5rem;
-		height: 0.85rem;
-		margin-top: auto;
-		margin-bottom: 0.9em;
-		background: var(--color-divider);
-		mask: url("/ornament.svg?v=5") center / 100% 100% no-repeat;
-	}
-
-	.bookpod-cover-year {
-		font-family: var(--font-heading);
-		font-size: var(--step--5);
-		letter-spacing: 0.1em;
-		color: var(--cover-label);
+		grid-template-columns: 10rem minmax(0, 1fr);
+		align-items: start;
+		gap: 1.75rem;
 	}
 
 	/* ---- Text + actions ---- */
@@ -210,12 +107,9 @@ const year = new Date().getFullYear();
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		/* 0.75rem, not the 1.25rem the outer row uses. Two things: it marks the two
-		   formats as one group against the podcast links beside them, and it is what
-		   makes the pair fit the about-page column — 432rem-worth of text column after
-		   the cover and the gutter, against ~420 of buttons. At 1.25 they wrapped, and a
-		   stacked pair beside a paired set of podcast links reads as four choices rather
-		   than one book and one podcast. */
+		/* 0.75rem, not the outer row's gap: it marks the two formats as one group
+		   against the podcast links beside them. A stacked pair beside a paired set of
+		   podcast links reads as four choices rather than one book and one podcast. */
 		gap: 0.5rem 0.75rem;
 	}
 
@@ -227,13 +121,6 @@ const year = new Date().getFullYear();
 		   it would not collapse into the footer's own and left a 190px hole of paper
 		   between the band's edge and the footer's first line. */
 		margin-block: var(--space-section) 0;
-	}
-
-	/* Share PoddAppHome's drawing column on desktop. */
-	.bookpod--home .bookpod-inner {
-		grid-template-columns: 10rem minmax(0, 1fr);
-		align-items: start;
-		gap: 1.75rem;
 	}
 
 	/* As PoddAppHome's mark: on the words' edge above them on a phone, on the column's
@@ -267,56 +154,37 @@ const year = new Date().getFullYear();
 		line-height: 1.5;
 	}
 
-	/* The about-page variant lives in the 42rem reading column: smaller cover,
-	   centred actions, so it mirrors the homepage module without competing. */
+	/* /om ends centred — the section ornament above, the colophon below — so the book
+	   stands centred between them at every width: the drawing, then the heading, the
+	   words and one row of actions. Set beside its words, as on the front page, it was
+	   the only left-aligned block in that closing axis, with an empty column under the
+	   drawing and the buttons wrapped onto two rows. */
 	.bookpod--about {
 		margin-block: var(--space-phi);
+		text-align: center;
 	}
 
-	.bookpod--about .bookpod-cover {
-		width: clamp(9rem, 30vw, 11rem);
+	.bookpod--about .bookpod-inner {
+		grid-template-columns: minmax(0, 1fr);
+		justify-items: center;
+		gap: var(--space-unit);
 	}
 
-	@media (width <= 48rem) {
-		.bookpod-cover-title {
-			font-size: 1.5rem;
-		}
-
-		.bookpod-inner {
-			grid-template-columns: 1fr;
-			justify-items: center;
-			gap: var(--space-unit);
-			text-align: center;
-		}
-
-		.bookpod-lead {
-			max-width: none;
-		}
-
-		.bookpod-actions {
-			justify-content: center;
-		}
-
-		.bookpod-listen {
-			justify-content: center;
-		}
-
-		/* The front page keeps the band's grammar on a phone too, as PoddAppHome does:
-		   the object above the words at 7rem, flush left on their edge, not a centred
-		   poster. */
-		.bookpod--home .bookpod-inner {
-			grid-template-columns: minmax(0, 1fr);
-			justify-items: start;
-			gap: var(--space-unit);
-			text-align: start;
-		}
-
-		.bookpod--home .bookpod-actions {
-			justify-content: flex-start;
-		}
+	.bookpod--about .bookpod-mark {
+		justify-self: center;
 	}
-	/* Match the podcast/app drawings: above the text through tablet widths,
-	   beside it only when their shared 10rem illustration column has room. */
+
+	.bookpod--about .bookpod-lead {
+		margin-inline: auto;
+	}
+
+	.bookpod--about :is(.bookpod-actions, .bookpod-formats, .bookpod-listen) {
+		justify-content: center;
+	}
+
+	/* Match the podcast/app drawings: above the text through tablet widths, flush
+	   left on the words' edge rather than a centred poster, and beside them only when
+	   their shared 10rem illustration column has room. */
 	@media (width < 64rem) {
 		.bookpod--home .bookpod-inner {
 			grid-template-columns: minmax(0, 1fr);
