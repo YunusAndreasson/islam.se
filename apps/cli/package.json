@@ -14,9 +14,9 @@
 		"@islam-se/orchestrator": "workspace:*",
 		"@islam-se/quotes": "workspace:*",
 		"commander": "^15.0.0",
-		"dotenv": "^17.4.2"
+		"dotenv": "^18.0.4"
 	},
 	"devDependencies": {
-		"tsx": "^4.23.13"
+		"tsx": "^4.23.15"
 	}
 }
