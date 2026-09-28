@@ -150,6 +150,21 @@ a:focus-visible .media-frame::before {
 .fordjupning-header h1 {
 	text-wrap: balance;
 }
+/* The reading pages' titles in Literata's display cut, as the front page's lead title
+   (FeatureEssay) sets them: at 39px the text cut is a paragraph enlarged. Weight and
+   tracking follow the lead, since the display masters are already drawn tight. Only
+   common ligatures: the text cut has no s‿t or c‿h, so these titles never showed
+   them, and on every essay they would read as a tic rather than the lead's flourish.
+   `.reading` is the essay page alone; /om and the other ArticlePage pages keep the
+   text cut. */
+.reading .article-header h1,
+.svar-header h1,
+.fordjupning-header h1 {
+	font-family: var(--font-headline);
+	font-weight: 560;
+	letter-spacing: -0.012em;
+	font-variant-ligatures: common-ligatures;
+}
 .prose :is(h2, h3),
 .svar-section {
 	scroll-margin-top: calc(var(--mast-height, 5rem) + 1.5rem);

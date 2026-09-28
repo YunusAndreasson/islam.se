@@ -120,6 +120,7 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 	}}
 	jsonLd={jsonLd}
 	preloadArabicFont
+	preloadHeadlineFont={!heroSource}
 >
 	{/* `reading--notes` opts this page into the margin apparatus (styles/layout.css).
 	    The projection itself is done at build time by rehype-sidenotes, which gates on

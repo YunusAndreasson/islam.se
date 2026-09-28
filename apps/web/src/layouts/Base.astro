@@ -50,6 +50,10 @@ interface Props {
 	 *  such contention, and text set high enough to still be visible when the
 	 *  fonts land otherwise costs real CLS on this page's font-swap reflow. */
 	preloadTextFonts?: boolean;
+	/** Preload Literata Display (50 kB) where it sets the page's h1 — the essay, svar
+	 *  and fördjupning titles (editorial.css). Same bandwidth rule as preloadTextFonts:
+	 *  only where no hero image is competing for it. */
+	preloadHeadlineFont?: boolean;
 	articleMeta?: {
 		publishedAt: string;
 		/** Genuine later revision only — emits dateModified (freshness signal). */
@@ -92,6 +96,7 @@ const {
 	preloadImageType,
 	preloadArabicFont = false,
 	preloadTextFonts = false,
+	preloadHeadlineFont = false,
 	articleMeta,
 	ogArticle: ogArticleProp,
 	jsonLd,
@@ -262,7 +267,7 @@ if (articleMeta) {
 		<Font cssVariable="--font-body-italic" />
 		{preloadTextFonts ? <Font cssVariable="--font-heading" preload /> : <Font cssVariable="--font-heading" />}
 		{preloadArabicFont ? <Font cssVariable="--font-arabic" preload /> : <Font cssVariable="--font-arabic" />}
-		<Font cssVariable="--font-headline" />
+		{preloadHeadlineFont ? <Font cssVariable="--font-headline" preload /> : <Font cssVariable="--font-headline" />}
 		{preloadImageSrcset ? (
 			<link rel="preload" as="image" type={preloadImageType} imagesrcset={preloadImageSrcset} imagesizes={preloadImageSizes} fetchpriority="high" />
 		) : preloadImage ? (
