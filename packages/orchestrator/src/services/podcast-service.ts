@@ -230,14 +230,15 @@ export class PodcastService {
 		const duration_secs = this.getAudioDuration(audioPath);
 
 		if (options.variant) {
-			console.log("   ⏭ Variant render — cover art and frontmatter left untouched");
+			console.log("   ⏭ Variant render — frontmatter left untouched");
 			return { success: true, audioPath, scriptPath, duration: Date.now() - startTime };
 		}
 
-		// Step 4: Generate episode cover art (square crop of hero image)
-		this.generateEpisodeCover(slug);
+		// No episode art: every episode carries the show cover, the islam.se mark
+		// (podcast.xml.ts). The square hero crops this step made until 2026-09-28 put a
+		// different photograph on each episode in every podcast app.
 
-		// Step 5: Update article frontmatter
+		// Step 4: Update article frontmatter
 		this.updateFrontmatter(articlePath, audioFile, duration_secs);
 		console.log(
 			`   ✓ Frontmatter updated: audioFile: "${audioFile}", audioDuration: ${duration_secs}s`,
@@ -330,69 +331,6 @@ export class PodcastService {
 		}
 
 		return chunks;
-	}
-
-	/**
-	 * Generate square episode cover art from the hero image.
-	 * Center-crops to square and resizes to 1400x1400 JPEG.
-	 */
-	private generateEpisodeCover(slug: string): void {
-		const imagesDir = join(
-			__dirname,
-			"..",
-			"..",
-			"..",
-			"..",
-			"apps",
-			"web",
-			"src",
-			"assets",
-			"images",
-		);
-		const heroPath = join(imagesDir, `${slug}.webp`);
-		if (!existsSync(heroPath)) {
-			console.log("   ⚠ No hero image found, skipping episode cover");
-			return;
-		}
-
-		const coverPath = join(this.audioDir, `${slug}.jpg`);
-		try {
-			// Podcast directories require SQUARE art (Apple: 1400–3000px). Fill the
-			// 1400² box and crop the overflow — never `-crop 1024x1024` then `-resize`,
-			// which is what this did until 2026-09-06. ImageMagick clamps a crop to the
-			// source, so a hero shorter than 1024px (the 1672×941 generation) came out
-			// 1024×941, and `-resize 1400x1400` fits *inside* the box: 1400×1287. Three
-			// episodes shipped that way, and nothing downstream notices — the run still
-			// prints "✓ Episode cover".
-			execFileSync("magick", [
-				heroPath,
-				"-resize",
-				"1400x1400^",
-				"-gravity",
-				"center",
-				"-extent",
-				"1400x1400",
-				"-quality",
-				"90",
-				coverPath,
-			]);
-			// Read the result back rather than trusting the flags. The old crop failed
-			// silently — it printed the same ✓ whether the art was square or not, which
-			// is why three episodes shipped wrong. A directory rejects the art long after
-			// anyone would connect it to this run.
-			const geometry = execFileSync("magick", ["identify", "-format", "%wx%h", coverPath])
-				.toString()
-				.trim();
-			const [width, height] = geometry.split("x").map(Number);
-			if (width !== height) {
-				console.log(
-					`   ⚠ Episode cover is ${geometry}, not square — podcast directories require square art`,
-				);
-			}
-			console.log(`   ✓ Episode cover: ${coverPath} (${geometry})`);
-		} catch (err) {
-			console.log(`   ⚠ Episode cover failed: ${err instanceof Error ? err.message : String(err)}`);
-		}
 	}
 
 	/**

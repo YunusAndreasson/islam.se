@@ -1,4 +1,6 @@
-import { statSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
 import { SITE_URL } from "../lib/config";
@@ -7,13 +9,25 @@ import { escapeXml } from "../lib/xml";
 
 const SITE = SITE_URL;
 
+// Apple Podcasts caches show art by URL and never re-fetches an unchanged one: it went
+// on showing the old khatam mark for two months after podcast-cover.jpg became the
+// blue-and-gold disc. A content hash in the URL makes every regeneration of the cover
+// (scripts/generate-brand-assets.mjs) a new address the directories must fetch.
+// Resolved from the app root, not import.meta.url: this module runs from a different
+// depth in dev and in the build, and a relative URL that reads the file in one misses
+// it in the other.
+const coverVersion = createHash("sha256")
+	.update(readFileSync(join(process.cwd(), "public", PODCAST_COVER)))
+	.digest("hex")
+	.slice(0, 8);
+
 const SHOW = {
 	title: PODCAST_TITLE,
 	description: PODCAST_DESCRIPTION,
 	author: "Islam.se",
 	// The owner contact Apple Podcasts and Spotify display. Must stay on the islam.se domain.
 	email: "support@islam.se",
-	image: `${SITE}${PODCAST_COVER}`,
+	image: `${SITE}${PODCAST_COVER}?v=${coverVersion}`,
 	language: "sv",
 	category: "Religion &amp; Spirituality",
 	subcategory: "Islam",
@@ -32,30 +46,20 @@ function getFileBytes(filename: string): number {
 	}
 }
 
-function hasEpisodeArt(slug: string): boolean {
-	try {
-		const path = new URL(`../../../public/audio/${slug}.jpg`, import.meta.url);
-		statSync(path);
-		return true;
-	} catch {
-		return false;
-	}
-}
-
 export async function GET(_context: APIContext) {
 	const articles = await getArticles();
 	const episodes = articles.filter(
 		(a): a is typeof a & { audioFile: string } => typeof a.audioFile === "string",
 	);
 
+	// No per-episode <itunes:image>: an episode's image replaces the show's in every
+	// app, so each episode showed a different hero photograph. Every episode carries
+	// the show cover, the islam.se mark (user decision, 2026-09-28).
 	const items = episodes
 		.map((ep) => {
 			const audioUrl = `${SITE}/audio/${ep.audioFile}`;
 			const bytes = getFileBytes(ep.audioFile);
 			const link = `${SITE}/${ep.slug}/`;
-			const imageTag = hasEpisodeArt(ep.slug)
-				? `\n      <itunes:image href="${SITE}/audio/${ep.slug}.jpg"/>`
-				: "";
 
 			return `    <item>
       <title>${escapeXml(ep.title)}</title>
@@ -66,7 +70,7 @@ export async function GET(_context: APIContext) {
       <enclosure url="${audioUrl}" length="${bytes}" type="audio/mpeg"/>
       <itunes:duration>${ep.audioDuration ?? 0}</itunes:duration>
       <itunes:explicit>false</itunes:explicit>
-      <itunes:episodeType>full</itunes:episodeType>${imageTag}
+      <itunes:episodeType>full</itunes:episodeType>
     </item>`;
 		})
 		.join("\n");
