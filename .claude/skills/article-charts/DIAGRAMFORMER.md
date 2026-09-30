@@ -50,6 +50,11 @@ automatiskt och det går inte att stänga av. `scale: even` när jämna avstånd
 (en punkt som går bakåt fäller bygget – det är nästan alltid ett skrivfel). Etiketten
 behöver inte vara ett rent årtal: »ca 870«, »900-talet« och »1709-1718« fungerar, och ett
 årsspann får sitt tankstreck automatiskt eftersom smartypants aldrig når in i ett stängsel.
+En svensk månad, med eller utan dag, före årtalet placerar punkten inne i året:
+»december 2023«, »26 januari 2024«. Före 2026-09-30 läste skalan bara årtalet, så en
+kronologi i månader kunde bara ritas `scale: even` – fyra punkter inom samma år hamnade
+annars på varandra. Det skälet finns inte längre; välj `even` bara när jämna avstånd är
+det ärliga.
 `emphasis:` tar en etikett och ger den mässing och en större punkt, som i övriga former.
 
 ⚠️ **Kategorifällan gäller även här.** `check-chart-sources.py` läser en tidslinjes

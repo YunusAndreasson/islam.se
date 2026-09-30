@@ -23,7 +23,25 @@ Filosofin kallar det problemet med andra medvetanden. Den klassiska lösningen �
 
 Det visste Alan Turing. Hans test var inget svar på frågan om maskiner kan tänka; det var ett medvetet byte av fråga, eftersom den första inte gick att komma åt. Han ersatte insidan med en yta man kunde pröva.
 
-Det bytet höll länge. I ett förregistrerat trepartstest 2025 utrustades GPT-4.5 med en människolik persona och bedömdes som människan i 73 procent av fallen. De verkliga människorna valdes mer sällan. Samma modellfamilj utan personan hamnade på 21 procent, och samtalen varade fem minuter.[^2] Avståndet mellan de två talen säger mer om iscensättning än om maskiner, och den yta Turing valde sållar inte längre.
+Det bytet höll länge. I ett förregistrerat trepartstest 2025 samtalade förhörare i fem minuter med en människa och en maskin på samma gång och fick avgöra vem som var vem. En del av maskinerna hade fått en människolik persona att spela.[^2]
+
+```chart
+type: bars
+unit: procent
+caption: Andel samtal där förhöraren tog maskinen för människan.
+source: Cameron R. Jones & Benjamin K. Bergen, "Large Language Models Pass the Turing Test", arXiv:2503.23674 (2025), tabell 1
+sourceUrl: https://arxiv.org/abs/2503.23674
+note: 50 procent vore ren gissning. Talen väger samman två deltagargrupper, studenter och en bredare panel.
+data:
+  GPT-4.5 med persona: 73
+  Llama 3.1 med persona: 56
+  Llama 3.1 utan persona: 38
+  GPT-4.5 utan persona: 36
+  ELIZA (1966): 23
+  GPT-4o utan persona: 21
+```
+
+Med personan valdes GPT-4.5 oftare än de verkliga människorna. Utan den föll samma modell ned mot ELIZA. Avståndet säger mer om iscensättning än om maskiner, och den yta Turing valde sållar inte längre.
 
 Att tal kan lösgöra sig från det som skulle bära upp det är gammal kunskap. Koranens ord om hycklarna gäller människor, men beskriver en mekanism:
 

@@ -38,9 +38,10 @@ export interface TimelineEntry {
 	label: string;
 	text: string;
 	/**
-	 * The first year in the label, for spacing. NaN when the label carries no year at
-	 * all — such an entry is simply placed at the minimum gap rather than refused, so a
-	 * chronology may end on "i dag".
+	 * When the label happened, as a fractional year, for ordering and spacing:
+	 * "1949" → 1949, "december 2023" → 2023.92, "26 januari 2024" → 2024.07. NaN when
+	 * the label carries no year at all — such an entry is simply placed at the minimum
+	 * gap rather than refused, so a chronology may end on "i dag".
 	 */
 	year: number;
 }
@@ -84,6 +85,39 @@ const MAX_ENTRIES = 24;
 export function leadYear(label: string): number {
 	const match = label.match(/\d{3,4}/);
 	return match ? Number(match[0]) : Number.NaN;
+}
+
+const MONTHS = [
+	"januari",
+	"februari",
+	"mars",
+	"april",
+	"maj",
+	"juni",
+	"juli",
+	"augusti",
+	"september",
+	"oktober",
+	"november",
+	"december",
+];
+const MONTH_DATE = new RegExp(`(?:\\b(\\d{1,2})\\s+)?\\b(${MONTHS.join("|")})\\s+(\\d{3,4})`, "i");
+
+/**
+ * The label's point in time as a fractional year. A Swedish month (and day) directly
+ * before the year places it inside that year; otherwise it is `leadYear()`.
+ *
+ * ⚠️ Without the month, "december 2023" and "januari 2024" sat a whole year apart and
+ * four entries inside 2025 collapsed onto one point — so a chronology of months could
+ * only be drawn `scale: even`, which discards the spacing that is the form's reason to
+ * exist.
+ */
+export function labelTime(label: string): number {
+	const match = label.match(MONTH_DATE);
+	if (!match) return leadYear(label);
+	const month = MONTHS.indexOf((match[2] ?? "").toLowerCase());
+	const day = match[1] ? Number(match[1]) : 1;
+	return Number(match[3]) + (month + (day - 1) / 31) / 12;
 }
 
 /** Pass two: the rules that decide whether this chronology may exist at all. */
@@ -137,7 +171,7 @@ export function parseTimelineSpec(source: string): TimelineSpec {
 		if (row.raw.trim() === "") {
 			throw new TimelineSpecError(`»${row.label}« saknar händelse`, row.line);
 		}
-		return { label: row.label, text: row.raw.trim(), year: leadYear(row.label) };
+		return { label: row.label, text: row.raw.trim(), year: labelTime(row.label) };
 	});
 
 	checkForm(entries);

@@ -475,8 +475,20 @@ schemes via the ⌘K overlay, 375 px and desktop, and **in Zen, not only Chromiu
 figure to a finished one. `language-pass` polishes prose retroactively, and runs in the
 same shape as this: on a published file, with a human gate.
 
-**A chart is always a separate, deliberate pass. The production pipeline never emits one** —
+**A chart is always a separate, deliberate pass. The author prompt never asks for one** —
 `fordjupning-author.md` already records what happens when an example enters a prompt: *»A
 prompt example became the template… Illustrative examples in a prompt are copied as forms,
 not read as hints.«* A chart example in the author prompt would put a near-identical bar
-chart on every page produced after it.
+chart on every page produced after it. The essay pipeline's own pass is the `figures`
+stage (`packages/orchestrator/prompts/figures.md`, since 2026-08-23), which runs last,
+after every gate, and on a published essay as `pnpm produce figures <slug>`.
+
+**What an essay sweep yields (2026-09-30, the ten latest essays read in full).** One
+chart (`vittnesmal-utan-vittne`), nine honest »none«. The larger yield was factual: three
+essays had a wrong or stale number that reading against the primary source caught — a
+percentage attributed to the wrong model, a date one day off, and election figures that
+were preliminary when written and final a week later. Reading a text for a chart means
+reading its numbers against the source, so report what does not match even when no
+chart follows. Until 2026-09-19 every research `datasets` entry was dropped before the
+figures stage (the fact-check formatter never showed them), so no run before then is
+evidence about what the stage would choose.

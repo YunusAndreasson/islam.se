@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { entryGaps, renderTimelineMarkup, timelineAltText, timelineCaptionText } from "./render";
-import { leadYear, parseTimelineSpec, TimelineSpecError } from "./spec";
+import { labelTime, leadYear, parseTimelineSpec, TimelineSpecError } from "./spec";
 
 /** Scalars must stand before `data:`, so a variant is built by splicing, not appending. */
 function withScalar(spec: string, line: string): string {
@@ -32,6 +32,28 @@ describe("parseTimelineSpec", () => {
 
 	it("defaults to the compressed time scale", () => {
 		expect(parseTimelineSpec(SVERIGE).scale).toBe("time");
+	});
+
+	it("places a Swedish month and day inside the year", () => {
+		expect(labelTime("1949")).toBe(1949);
+		expect(labelTime("januari 2024")).toBe(2024);
+		expect(labelTime("december 2023")).toBeCloseTo(2023 + 11 / 12);
+		expect(labelTime("26 januari 2024")).toBeCloseTo(2024 + 25 / 31 / 12);
+		expect(labelTime("December 2023")).toBeCloseTo(labelTime("december 2023"));
+		expect(labelTime("december 2023")).toBeLessThan(labelTime("januari 2024"));
+		expect(Number.isNaN(labelTime("i dag"))).toBe(true);
+	});
+
+	it("refuses months out of order within one year", () => {
+		expect(() =>
+			parseTimelineSpec(`
+source: Källa
+data:
+  september 2025: B.
+  augusti 2025: A.
+  oktober 2025: C.
+`),
+		).toThrow(TimelineSpecError);
 	});
 
 	it("reads the first year of a span, so »1715-1718« sorts as 1715", () => {
@@ -92,6 +114,27 @@ describe("entryGaps", () => {
 	it("keeps the tightest gap legible rather than collapsing it", () => {
 		const gaps = entryGaps(parseTimelineSpec(SVERIGE));
 		expect(gaps[3]).toBeGreaterThanOrEqual(1);
+	});
+
+	/* Regression: spacing used to read only the year, so "december 2023" and "januari
+	   2024" stood a year apart and four entries inside 2025 fell on one point. A
+	   chronology of months could only be drawn `scale: even`, which is a list with dots. */
+	it("spaces by month when the labels carry months", () => {
+		const gaps = entryGaps(
+			parseTimelineSpec(`
+source: Källa
+data:
+  december 2023: Talan väcks.
+  januari 2024: Interimistiska åtgärder.
+  juli 2025: En rapport.
+  augusti 2025: En resolution.
+  oktober 2026: Ett år senare.
+`),
+		);
+		const oneMonth = gaps[1] ?? 0; // december 2023 → januari 2024
+		const eighteenMonths = gaps[2] ?? 0; // januari 2024 → juli 2025
+		expect(eighteenMonths).toBeGreaterThan(oneMonth * 1.5);
+		expect(gaps[3]).toBeCloseTo(oneMonth, 1); // juli → augusti 2025: also one month
 	});
 
 	it("spaces evenly when asked to", () => {

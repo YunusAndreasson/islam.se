@@ -34,7 +34,7 @@ Det ligger nära till hands att göra Lavender till berättelsens huvudperson. M
 
 ![En flicka i rosa går ensam på en gata i Gaza med rasmassor och skräp på båda sidor.](../../apps/web/src/assets/images/inline/gaza-flicka-pa-gatan.webp "En flicka går efter mat, Gaza i augusti 2024.")
 
-Efter bomberna räknar andra. Enligt Gazas hälsoministerium har Israel sedan oktober 2023 **dödat omkring 73 500 palestinier och skadat 174 500**. Vapenvilan i oktober 2025 har inte stoppat dödandet. Mellan vapenvilan och den 3 september 2026 dödades enligt samma ministerium **1 334 människor** och 4 429 skadades i israeliska anfall, och talet fortsätter att stiga.[^9] När Abraham tog emot priset räknade han i festivalens egna dagar:
+Efter bomberna räknar andra. Enligt Gazas hälsoministerium har Israel sedan oktober 2023 **dödat omkring 73 500 palestinier och skadat 174 500**. Vapenvilan i oktober 2025 har inte stoppat dödandet. Mellan vapenvilan och den 2 september 2026 dödades enligt samma ministerium **1 334 människor** och 4 429 skadades i israeliska anfall, och talet fortsätter att stiga.[^9] När Abraham tog emot priset räknade han i festivalens egna dagar:
 
 > Verkligheten är att Israel sedan den här festivalen började, bara under de här tio dagarna, har dödat minst sex palestinska barn i Gaza: en treårig flicka i en skola som bombades, en sjuåring med sin far i bilen, två systrar som sov hemma.[^10]
 
@@ -54,17 +54,16 @@ Vid Internationella domstolen pågår Sydafrikas talan mot Israel, väckt den 29
 source: Internationella domstolen, 26 januari 2024; +972 Magazine och Local Call, 3 april 2024; Amnesty International, 5 december 2024; B'Tselem, 28 juli 2025; International Association of Genocide Scholars, 31 augusti 2025; OHCHR, 16 september 2025; OCHA, 4 september 2026; Democracy Now!, 14 september 2026; JTA, 18 september 2026
 caption: Ordet folkmord, steg för steg, medan dödandet fortsatte.
 note: Tidslinjen visar när slutsatserna kom, inte hur de motiverades. Internationella domstolen har ännu inte avgjort målet.
-scale: even
 emphasis: september 2025
 data:
   december 2023: Sydafrika väcker talan om folkmord mot Israel vid Internationella domstolen.
   januari 2024: Domstolen beslutar om interimistiska åtgärder. Målet pågår.
-  april 2024: +972 Magazine och Local Call avslöjar systemen Lavender och Where's Daddy?.
+  april 2024: +972 Magazine och Local Call avslöjar systemen Lavender och Where's Daddy?
   december 2024: Amnesty International fastslår att Israel begår folkmord i Gaza.
-  juli 2025: B'Tselem och Physicians for Human Rights Israel, två israeliska organisationer, kommer till samma slutsats. Rapporten heter "Our Genocide".
+  juli 2025: B'Tselem och Physicians for Human Rights Israel, två israeliska organisationer, kommer till samma slutsats i var sin rapport. B'Tselems heter "Our Genocide".
   augusti 2025: Folkmordsforskarnas internationella förening finner att den rättsliga definitionen av folkmord är uppfylld.
   september 2025: FN:s undersökningskommission fastslår att Israel har begått folkmord i Gaza.
-  oktober 2025: Vapenvila. Fram till den 3 september 2026 dödas ändå 1 334 människor enligt Gazas hälsoministerium.
+  oktober 2025: Vapenvila. Fram till den 2 september 2026 dödas ändå 1 334 människor enligt Gazas hälsoministerium.
   september 2026: NAZA har premiär i Venedig. Premiärministern ställer sig bakom ett lagförslag som skulle frånta regissörerna medborgarskapet.
 ```
 
