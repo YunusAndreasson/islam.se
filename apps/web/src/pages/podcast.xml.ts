@@ -16,10 +16,14 @@ const SITE = SITE_URL;
 // Resolved from the app root, not import.meta.url: this module runs from a different
 // depth in dev and in the build, and a relative URL that reads the file in one misses
 // it in the other.
-const coverVersion = createHash("sha256")
-	.update(readFileSync(join(process.cwd(), "public", PODCAST_COVER)))
-	.digest("hex")
-	.slice(0, 8);
+function contentVersion(publicPath: string): string {
+	return createHash("sha256")
+		.update(readFileSync(join(process.cwd(), "public", publicPath)))
+		.digest("hex")
+		.slice(0, 8);
+}
+
+const coverVersion = contentVersion(PODCAST_COVER);
 
 const SHOW = {
 	title: PODCAST_TITLE,
@@ -37,6 +41,16 @@ function toRFC2822(iso: string): string {
 	return new Date(iso).toUTCString();
 }
 
+// A square crop of the essay's hero, written by the podcast pipeline.
+function episodeArt(slug: string): string | null {
+	const path = `/audio/${slug}.jpg`;
+	try {
+		return `${SITE}${path}?v=${contentVersion(path)}`;
+	} catch {
+		return null;
+	}
+}
+
 function getFileBytes(filename: string): number {
 	try {
 		const path = new URL(`../../../public/audio/${filename}`, import.meta.url);
@@ -52,14 +66,13 @@ export async function GET(_context: APIContext) {
 		(a): a is typeof a & { audioFile: string } => typeof a.audioFile === "string",
 	);
 
-	// No per-episode <itunes:image>: an episode's image replaces the show's in every
-	// app, so each episode showed a different hero photograph. Every episode carries
-	// the show cover, the islam.se mark (user decision, 2026-09-28).
 	const items = episodes
 		.map((ep) => {
 			const audioUrl = `${SITE}/audio/${ep.audioFile}`;
 			const bytes = getFileBytes(ep.audioFile);
 			const link = `${SITE}/${ep.slug}/`;
+			const art = episodeArt(ep.slug);
+			const imageTag = art ? `\n      <itunes:image href="${art}"/>` : "";
 
 			return `    <item>
       <title>${escapeXml(ep.title)}</title>
@@ -70,7 +83,7 @@ export async function GET(_context: APIContext) {
       <enclosure url="${audioUrl}" length="${bytes}" type="audio/mpeg"/>
       <itunes:duration>${ep.audioDuration ?? 0}</itunes:duration>
       <itunes:explicit>false</itunes:explicit>
-      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:episodeType>full</itunes:episodeType>${imageTag}
     </item>`;
 		})
 		.join("\n");

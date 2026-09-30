@@ -230,15 +230,14 @@ export class PodcastService {
 		const duration_secs = this.getAudioDuration(audioPath);
 
 		if (options.variant) {
-			console.log("   ⏭ Variant render — frontmatter left untouched");
+			console.log("   ⏭ Variant render — cover art and frontmatter left untouched");
 			return { success: true, audioPath, scriptPath, duration: Date.now() - startTime };
 		}
 
-		// No episode art: every episode carries the show cover, the islam.se mark
-		// (podcast.xml.ts). The square hero crops this step made until 2026-09-28 put a
-		// different photograph on each episode in every podcast app.
+		// Step 4: Episode cover art (square crop of the hero image)
+		this.generateEpisodeCover(slug);
 
-		// Step 4: Update article frontmatter
+		// Step 5: Update article frontmatter
 		this.updateFrontmatter(articlePath, audioFile, duration_secs);
 		console.log(
 			`   ✓ Frontmatter updated: audioFile: "${audioFile}", audioDuration: ${duration_secs}s`,
@@ -331,6 +330,62 @@ export class PodcastService {
 		}
 
 		return chunks;
+	}
+
+	/**
+	 * Generate square episode cover art from the hero image.
+	 * Center-crops to square and resizes to 1400x1400 JPEG.
+	 */
+	private generateEpisodeCover(slug: string): void {
+		const imagesDir = join(
+			__dirname,
+			"..",
+			"..",
+			"..",
+			"..",
+			"apps",
+			"web",
+			"src",
+			"assets",
+			"images",
+		);
+		const heroPath = join(imagesDir, `${slug}.webp`);
+		if (!existsSync(heroPath)) {
+			console.log("   ⚠ No hero image found, skipping episode cover");
+			return;
+		}
+
+		const coverPath = join(this.audioDir, `${slug}.jpg`);
+		try {
+			// Podcast directories require SQUARE art (Apple: 1400–3000px). Fill the box
+			// and crop the overflow: `-crop 1024x1024` then `-resize` clamps to a hero
+			// shorter than 1024px and comes out 1400×1287.
+			execFileSync("magick", [
+				heroPath,
+				"-resize",
+				"1400x1400^",
+				"-gravity",
+				"center",
+				"-extent",
+				"1400x1400",
+				"-quality",
+				"90",
+				coverPath,
+			]);
+			// Read the result back: a non-square crop still exits 0.
+			const geometry = execFileSync("magick", ["identify", "-format", "%wx%h", coverPath])
+				.toString()
+				.trim();
+			const [width, height] = geometry.split("x").map(Number);
+			if (width !== height) {
+				console.log(
+					`   ⚠ Episode cover is ${geometry}, not square — podcast directories require square art`,
+				);
+			}
+			console.log(`   ✓ Episode cover: ${coverPath} (${geometry})`);
+		} catch (err) {
+			console.log(`   ⚠ Episode cover failed: ${err instanceof Error ? err.message : String(err)}`);
+		}
 	}
 
 	/**
