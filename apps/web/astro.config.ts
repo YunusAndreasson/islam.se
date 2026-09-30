@@ -14,6 +14,7 @@ import { rehypeChart } from "./src/plugins/rehype-chart";
 import { rehypeHeadingAnchor } from "./src/plugins/rehype-heading-anchor";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
 import { rehypePhotoFigure } from "./src/plugins/rehype-photo-figure";
+import { rehypePullQuote } from "./src/plugins/rehype-pull-quote";
 import { rehypeQuoteAttribution } from "./src/plugins/rehype-quote-attribution";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
 import { rehypeSidenotes } from "./src/plugins/rehype-sidenotes";
@@ -897,6 +898,8 @@ export default defineConfig({
 				rehypeHonorific,
 				rehypeQuranVerse,
 				rehypeQuoteAttribution,
+				// Before rehypeSidenotes, so the pull quote's source paragraph is still plain prose.
+				rehypePullQuote,
 				rehypeSidenotes,
 				rehypeChart,
 				rehypeTable,

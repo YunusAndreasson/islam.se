@@ -290,11 +290,9 @@
 	}
 
 	/* Block quotes — warm border, italic for quoted voices.
-   Same size as body text (DESIGN.md: quotes carry the argument's weight).
-   Border darkened toward text to clear the 3:1 non-text contrast threshold
-   (--color-warm alone is 2.4:1 light / 2.8:1 dark). */
+   Same size as body text (DESIGN.md: quotes carry the argument's weight). */
 	blockquote {
-		border-inline-start: 3px solid color-mix(in srgb, var(--color-warm) 80%, var(--color-text));
+		border-inline-start: 3px solid var(--color-quote-mark);
 		padding-inline-start: var(--space-unit);
 		margin-block: var(--space-phi);
 
@@ -316,6 +314,35 @@
 		font-size: var(--step--2);
 		font-style: normal;
 		color: var(--color-muted);
+	}
+
+	/* Pull quote (rehype-pull-quote). Display type composed for this one place — a
+	   DESIGN.md exception, so the size is its own clamp rather than a --step. Must not
+	   read as a source: no left border, no quotation marks, no attribution. */
+	.prose > .pull-quote {
+		margin-block: var(--space-phi);
+		max-inline-size: 36rem;
+
+		&::before {
+			content: "";
+			display: block;
+			inline-size: 2.5rem;
+			block-size: 2px;
+			margin-bottom: var(--space-half);
+			background: var(--color-quote-mark);
+		}
+
+		p {
+			margin: 0;
+			font-size: clamp(1.45rem, 1.1rem + 1.5vw, 2.1rem);
+			font-style: italic;
+			line-height: 1.3;
+			letter-spacing: -0.01em;
+			text-indent: 0;
+			text-wrap: balance;
+			-webkit-hyphens: manual;
+			hyphens: manual;
+		}
 	}
 
 	/* Strong. `b` too: it appears in the prose (bönetider) and, unstyled, took the UA

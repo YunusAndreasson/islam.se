@@ -7,6 +7,9 @@ description: "Minneslunden är Sveriges vanligaste gravform och är gjord för a
 seoDescription: "Minneslunden stryker platsen men behåller monumentet. Islam gör tvärtom – en handsbredd över marken, nog för en adress."
 imageAlt: "Rund stenplatta och gravlykta i en minneslund i skymningen, med klippta häckar, grusgång och kala björkar mot ett vinterfält."
 imageCaption: "En svensk minneslund. Den gemensamma stenen är det enda ställe blommorna kan läggas på."
+pullquotes:
+  - "En plikt utan adress är ingen plikt. Den är en känsla."
+  - "Adressen ristas inte. Den överlämnas."
 category: "Samhälle"
 ---
 Carl Michael Bellman gravsattes på Klara kyrkogård i februari 1795. Att han ligger där är belagt. Var han ligger är det inte: sedan 1800-talets omgrävningar känner ingen till den exakta platsen.[^1]

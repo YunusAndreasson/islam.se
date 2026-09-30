@@ -5,6 +5,9 @@ wordCount: 2519
 qualityScore: 8.3
 description: "Jonathan Conricus har kallat anklagelserna om svält och folkmord i Gaza för lögner. Två författare lämnade mässan i protest, och Bokmässan svarade med yttrandefriheten. Men frågan gäller inte vem som får tala, utan vad mässan själv har lovat."
 category: "Rättvisa"
+pullquotes:
+  - "Med lagen som enda gräns räckte det med en ny rubrik."
+  - "Ett godkännande är ingen frånvaro av beslut. Det är mässans beslut."
 imageAlt: "En tom trästol och ett litet bord med ett vattenglas och en stängd bok står på en låg, mattklädd läsescen i en nästan tom mässhall; längre bort lyser en skärm på stativ mellan bokhyllor och packlådor under taklampor."
 imageCaption: "En läsescen i en mässhall efter stängning. Stolen står framdragen och glaset är fyllt, men ingen kommer."
 ---

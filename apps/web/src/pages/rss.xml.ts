@@ -5,6 +5,7 @@ import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { getArticles } from "../lib/articles";
 import { siteOrigin } from "../lib/config";
 import { stripSidenotes } from "../lib/sidenotes";
+import { stripPullQuote } from "../plugins/rehype-pull-quote";
 
 export async function GET(context: APIContext) {
 	const articles = await getArticles();
@@ -19,10 +20,10 @@ export async function GET(context: APIContext) {
 				description: article.description,
 				pubDate: new Date(article.publishedAt),
 				link: `/${article.slug}/`,
-				// Without the strip a feed reader gets every note twice — the margin copy
-				// mid-sentence and the original at the foot — because nothing outside the
-				// essay stylesheet hides one of them.
-				content: stripSidenotes(html),
+				// Without the strips a feed reader gets every note twice — the margin copy
+				// mid-sentence and the original at the foot — and the pull quote's sentence
+				// twice, because nothing outside the essay stylesheet hides the copies.
+				content: stripPullQuote(stripSidenotes(html)),
 			};
 		}),
 	);

@@ -137,6 +137,9 @@
 	   failed both. Raised to the floor, which costs the decorative washes derived
 	   from it under 3 L*. */
 	--color-warm: light-dark(#998e7c, #706450);
+	/* The mark that says »quoted«: the blockquote's border and the pull quote's rule.
+	   Warm alone is under the 3:1 non-text floor; darkened toward text it clears it. */
+	--color-quote-mark: color-mix(in srgb, var(--color-warm) 80%, var(--color-text));
 	/* Brass — the only accent used for data marks: mosque markers and clusters on the
 	   /moskeer map, and the growth, timeline and län bars beneath it. Mirrored as
 	   PALETTE.light.brass / PALETTE.dark.brass in scripts/moskeer-map.ts, which needs
