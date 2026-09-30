@@ -10,6 +10,8 @@ pullquotes:
 category: "Livsfrågor"
 imageAlt: "Ett gammalt äppelträd med ljusgula, mogna äpplen står vid gaveln på en grå timmerstuga i sensommarkvällen; ett nedfallet äpple ligger i det höga gräset, och bakom breder en öppen slätt ut sig mot en skogsrand under en molnig himmel."
 imageCaption: "Äppelträdet vid gaveln. Kristinas astrakanträd växte upp ur kärnor från Duvemåla."
+audioFile: "resenaren-som-sitter-still.mp3"
+audioDuration: 1065
 ---
 Vid gaveln hemma i Duvemåla stod ett astrakanträd. Kristina lämnade det när hon och Karl Oskar gick ombord i Karlshamn 1850, men i Minnesota sökte sig hennes hemlängtan gång på gång tillbaka till just det trädet. Till sist skrev Karl Oskar hem och bad om kärnor. De fördes över havet, han sådde dem i den nya jorden, och ett träd sköt upp. Grannarna varnade för att det kunde bli en annan sort. Kristina medgav att det ibland blev sura äpplen av kärnor och lade till tre ord på sin småländska: "Vi får si!"
 
