@@ -91,7 +91,7 @@ export class PodcastService {
 			effort: "max",
 			noSessionPersistence: true,
 			skipPermissions: true,
-			timeout: 600000, // 10 min
+			timeout: 1_200_000, // max effort on a ~3 000-word essay ran past 10 min
 		});
 
 		if (!(result.success && result.output)) {

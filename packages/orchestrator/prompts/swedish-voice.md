@@ -34,6 +34,11 @@ Dramatiska fragmentmeningar, "Och." som stilfigur, retoriska frågor i serie.
 
 **Regel:** Max 1 fragmentmening per artikel, och bara om den verkligen fungerar rytmiskt. Retoriska frågor i serie (3+) bryts alltid upp.
 
+En eller två raka frågor är inget fel. Skriv aldrig om en rak fråga till en indirekt bisats med "nämligen vad man …" – det är stelare än originalet.
+
+**Före (rättelse som försämrade, 2026-09-30):** "Bakom den ligger en svårare fråga. Vad ber man om när man är på fel plats? Att få komma tillbaka, eller att få älska platsen där man är?" → "Bakom den ligger en svårare fråga, nämligen vad man ber om när man är på fel plats: att få komma tillbaka eller …"
+**Efter:** "Under den finns en svårare fråga: vad ber man om när man är på fel plats – att få komma tillbaka, eller att få älska platsen där man är?"
+
 ### 2. Översatt akademisk engelska
 Formuleringar som är direktöversättningar från engelska akademiska konventioner.
 
@@ -183,6 +188,8 @@ AI-text garderar sig istället för att påstå. "Kanske", "möjligen", "på sä
 - "Det kan möjligen hävdas att Koranen erbjuder ett svar" → "Koranen erbjuder ett svar"
 - "På sätt och vis påminner detta om..." → "Detta påminner om..."
 
+Stryk aldrig en gardering som återger källans egen osäkerhet: en uppskattning ("kanske en halv procent" när källan själv säger "kanske"), en omstridd uppgift eller en läsning som texten redovisar som läsning. Den garderingen är ett sakpåstående, inte en tic.
+
 ### 12. "Djup/djupare" som universalförstärkare
 AI använder "djup", "djupare", "djupt" som standardintensifierare: "djupare förståelse", "djupare mening", "djupt rotad", "på ett djupare plan". Det urholkar ordets kraft.
 
@@ -323,14 +330,29 @@ mekanisk kontroll redan var grön). Varje ord är rätt; kombinationen är det i
 - **Abstrakt subjekt, fysiskt verb.** En abstraktion kan inte *bära*, *vila*, *hålla* eller
   *spräcka*: "ett begrepp bär hela rättsfrågan" → "rättsfrågan hänger på begreppet";
   "skolorna bär tolkningen" → "skolorna förvaltar tolkningen"; "tillåtelsen vilar på att" →
-  "tillåtelsen förutsätter att"; "formeln håller" → "formeln räcker".
+  "tillåtelsen förutsätter att"; "formeln håller" → "formeln räcker". Samma sak med rumsliga
+  verb: "invändningen träffar en lära" → "invändningen riktar sig mot"; "bakom den ligger en
+  svårare fråga" → "under den finns en svårare fråga"; "debatten rör sig kring" → "debatten
+  handlar om"; "den andra ligger i ordet" → "den andra finns i ordet".
+- **Kanslisvenska och högtidliga ord** där vanlig skriftsvenska räcker: "hur det kunde förmås att
+  stanna" → "hur man skulle få dem att stanna"; "insjuknade, och likaså Bilāl" → "blev sjuk, och
+  Bilāl också"; "för sin tros skull" → "för sin tro"; "källorna begär att" → "källorna kräver att";
+  "anger dem som skrivna av" → "säger att de är skrivna av"; "Så förhåller det sig i själva
+  verket" → "Och så är det också"; "det som befalls är att hon ser" → "hon uppmanas att se";
+  "hadithen återger ingen tillrättavisning" → "ingen tillrättavisade honom".
+- **Essäns egen bild som formel.** Ett konkret motiv ur texten (kartan, adressen, vägen) används
+  som metafor för ett abstrakt påstående: "ger längtan rätt – och flyttar dess adress", "ställd
+  till fel adress", "följer ingen karta", "gör det inte herrelöst". Första gången kan bilden
+  bära; när den återkommer som formel ska påståendet skrivas rakt ut: "längtar åt rätt håll men
+  till fel plats", "är inte bundet till någon plats".
 - **Idiom med fel subjekt.** "säga rakt ut" kräver en människa som övervinner ett motstånd; ett
   förord eller en tradition gör det inte. Använd aldrig "rakt ut" i sajtens egen prosa.
 - **Engelska verbramar.** "de lärda har hållit att" (*hold that*) → "ansett att"; "vilket är
   varför" (*which is why*) → "därför"; "handlar på den" (*act on*) → "handlar efter den";
   "levererade av" (*delivered by*) → "från"; "med en faktor sju" → "sju gånger så".
 - **Metameningar** som bara meddelar att ett påstående kommer: "Skillnaden är inte akademisk",
-  "Det sista är ingen bisak", "Invändningen förtjänar att återges", "…än det låter". Test: stryk
+  "Det sista är ingen bisak", "Invändningen förtjänar att återges", "…än det låter", framåtpekare som "Hennes sista
+  ord hör hemma längre fram". Test: stryk
   meningen — försvann inget, var den meta. De sitter nästan alltid först eller sist i stycket.
 - **Sammanfattning med "alltså"** som upprepar vad stycket just sagt ("Sveriges mest kända moské
   är alltså…"). Stryk den; stycket slutar redan på sitt sista faktum.
@@ -413,6 +435,7 @@ Du får rätta stavfel i rubriker, men aldrig ändra rubrikens formulering eller
 - Ändra INTE sakinnehållet — bara hur det uttrycks på svenska
 - Byt INTE register (om texten är akademisk, gör den inte vardaglig)
 - Förstör INTE författarens röst — justera bara det som låter engelskt
+- Gör ALDRIG en mening stelare, längre eller mer substantivisk än den var. Läs original och rättelse högt: låter originalet mer som en bildad svensk som talar, lämna det. ("Att leva borta från sitt hemland är varken dygd eller skam" ska inte bli "Den första är att ett liv borta från hemlandet varken är dygd eller skam".)
 </what_not_to_do>
 
 <lagom_principle>
