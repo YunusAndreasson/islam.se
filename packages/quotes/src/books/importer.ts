@@ -83,7 +83,20 @@ interface ClaudeRunResult {
 }
 
 async function runClaude(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
-	const args = ["--print", "--model", options.model ?? MODEL_MAP.opus];
+	// The isolation flags keep the operator's own Claude Code setup out of each call: no
+	// user-scope MCP servers, skills, settings or built-in tools. A summary needs none of
+	// them, and a book is thousands of calls.
+	const args = [
+		"--print",
+		"--strict-mcp-config",
+		"--disable-slash-commands",
+		"--setting-sources",
+		"",
+		"--tools",
+		"",
+		"--model",
+		options.model ?? MODEL_MAP.opus,
+	];
 
 	if (options.effort) {
 		args.push("--effort", options.effort);

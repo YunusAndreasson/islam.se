@@ -719,7 +719,11 @@ export class ContentOrchestrator {
 	/** Hard requirements of the brief being produced (see splitBriefRequirements). */
 	private requirements?: string;
 	/** Every Claude call of the current run: which model answered and what it cost. */
-	private stageRuns: Array<{ stage: string; durationMs?: number } & ClaudeRunMeta> = [];
+	private stageRuns: Array<
+		{ stage: string; durationMs?: number; effort?: string } & ClaudeRunMeta
+	> = [];
+	/** Output directory of the production in progress; stage-runs.json is kept there. */
+	private runDir?: string;
 	/** Things no gate resolved, collected for open-issues.md. */
 	private openIssues: Array<{ section: string; text: string }> = [];
 	private houseRulesCache?: string;
@@ -782,9 +786,22 @@ export class ContentOrchestrator {
 	 * Opus is overloaded, and nothing in a run said whether the essay's author was the
 	 * model it was meant to be.
 	 */
-	private recordRun(stage: string, meta: ClaudeRunMeta | undefined, durationMs?: number): void {
+	private recordRun(
+		stage: string,
+		meta: ClaudeRunMeta | undefined,
+		durationMs?: number,
+		effort?: string,
+	): void {
 		if (!meta) return;
-		this.stageRuns.push({ stage, durationMs, ...meta });
+		this.stageRuns.push({ stage, durationMs, effort, ...meta });
+		// Written after every call, not only at the end: a run that fails a gate has no
+		// metadata.json, and its cost was then recorded nowhere (»Bokmässan«, 2026-09-27).
+		if (this.runDir) saveOutput(this.runDir, "stage-runs.json", this.stageRuns);
+		if (meta.stopReason === "max_tokens" || meta.stopReason === "refusal") {
+			const note = `${stage}: svaret avbröts (${meta.stopReason})`;
+			this.logger.warn(`   ⚠️  ${note}`);
+			this.noteOpenIssue("Avbrutet svar", note);
+		}
 		const requested = getModelId(this.options.model);
 		const fallback = getModelId("sonnet");
 		const fellBack =
@@ -872,13 +889,12 @@ export class ContentOrchestrator {
 			allowedTools: options.allowedTools,
 			builtinTools,
 			mcpConfig: options.mcpConfig,
-			strictMcpConfig: !!options.mcpConfig,
 			// JSON mode: pass schema for server-side validation
 			// Markdown mode: no schema, no json output format
 			jsonSchema: isMarkdown ? undefined : options.jsonSchema,
 			effort: options.effort,
 			timeout: options.timeout,
-			fallbackModel: "sonnet",
+			fallbackModel: getModelId("sonnet"),
 			noSessionPersistence: true,
 			skipPermissions: options.skipPermissions ?? true,
 		};
@@ -926,7 +942,7 @@ export class ContentOrchestrator {
 				result = await this.runner.runJSON<T>(runOptions, options.schema);
 			}
 
-			this.recordRun(options.name, result.meta, Date.now() - startTime);
+			this.recordRun(options.name, result.meta, Date.now() - startTime, options.effort);
 			if (result.success && result.data) {
 				return {
 					success: true,
@@ -957,6 +973,7 @@ export class ContentOrchestrator {
 			return {
 				success: false,
 				error: result.error || `${options.name} failed`,
+				output: result.output,
 				duration: Date.now() - startTime,
 			};
 		}
@@ -2303,6 +2320,7 @@ If the draft has anglicisms, fix them in the revised article.
 		this.logFile = join(outputDir, "run.log");
 		this.logger.log(`\n══ ${new Date().toISOString()} — ${topic}${resume ? " (resume)" : ""}`);
 		this.stageRuns = [];
+		this.runDir = outputDir;
 		this.openIssues = [];
 		const brief = ideaBrief ? splitBriefRequirements(ideaBrief) : undefined;
 		this.requirements = brief?.requirements;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { ClaudeRunner, pickProseOutput } from "./claude-runner.js";
+import { buildClaudeArgs, ClaudeRunner, pickProseOutput } from "./claude-runner.js";
 
 describe("ClaudeRunner", () => {
 	const runner = new ClaudeRunner();
@@ -204,18 +204,67 @@ describe("ClaudeRunner", () => {
 		});
 	});
 
-	describe("buildArgs (via run options)", () => {
-		// We can't directly test buildArgs since it's private, but we can
-		// verify the logic by testing known behaviors through the public API.
-		// For now, let's test the schema that would be passed.
+	describe("buildClaudeArgs", () => {
+		const model = "claude-opus-5-5";
+		/** The value following a flag, or undefined when the flag is absent. */
+		const flagValue = (args: string[], flag: string) => {
+			const i = args.indexOf(flag);
+			return i === -1 ? undefined : args[i + 1];
+		};
 
-		it("handles json schema stringification", () => {
-			const schema = { type: "object", properties: { test: { type: "string" } } };
-			const stringified = JSON.stringify(schema);
+		// A stage inherited the operator's whole Claude Code setup: with `--tools ""` alone an
+		// editorial call still loaded 204 MCP tools from 12 user-scope servers and 59 skills
+		// (164 600 prompt tokens against 6 700), and the essay author wrote about them.
+		it("isolates every run from user-scope MCP servers, skills and settings", () => {
+			for (const mcpConfig of [undefined, "/repo/.mcp.json"]) {
+				const args = buildClaudeArgs({ prompt: "p", model, mcpConfig });
+				expect(
+					args,
+					"--strict-mcp-config must be passed with or without --mcp-config; without it the stage loads every MCP server the operator has configured",
+				).toContain("--strict-mcp-config");
+				expect(args, "skills and plugin commands must not load in a pipeline stage").toContain(
+					"--disable-slash-commands",
+				);
+				expect(
+					flagValue(args, "--setting-sources"),
+					"--setting-sources must be the empty string so no user/project settings (plugins, effortLevel) leak in",
+				).toBe("");
+			}
+		});
 
-			// Should be valid JSON
-			expect(() => JSON.parse(stringified)).not.toThrow();
-			expect(JSON.parse(stringified)).toEqual(schema);
+		it("passes an empty --tools value for a stage with no built-in tools", () => {
+			const args = buildClaudeArgs({ prompt: "p", model, builtinTools: [] });
+			expect(
+				flagValue(args, "--tools"),
+				"an editorial stage must load zero built-in tools; a missing --tools loads all of them",
+			).toBe("");
+			expect(buildClaudeArgs({ prompt: "p", model })).not.toContain("--tools");
+			expect(
+				flagValue(
+					buildClaudeArgs({ prompt: "p", model, builtinTools: ["Read", "WebFetch"] }),
+					"--tools",
+				),
+			).toBe("Read,WebFetch");
+		});
+
+		// The kernel caps one argv string at 131 072 bytes; the authoring and review system
+		// prompts carry the whole research and would kill the spawn with E2BIG past it.
+		it("never puts the system prompt text in argv", () => {
+			const systemPrompt = "ابن تيمية ".repeat(20_000);
+			const args = buildClaudeArgs({ prompt: "p", model, systemPrompt }, "/tmp/x/system-prompt.md");
+			expect(flagValue(args, "--append-system-prompt-file")).toBe("/tmp/x/system-prompt.md");
+			expect(
+				args.some((a) => a.includes("ابن تيمية")),
+				"the system prompt must travel by file, not as an argv string",
+			).toBe(false);
+			expect(args).not.toContain("--append-system-prompt");
+		});
+
+		it("asks for the JSON envelope when a schema is given", () => {
+			const jsonSchema = { type: "object", properties: { test: { type: "string" } } };
+			const args = buildClaudeArgs({ prompt: "p", model, jsonSchema });
+			expect(JSON.parse(flagValue(args, "--json-schema") ?? "")).toEqual(jsonSchema);
+			expect(flagValue(args, "--output-format")).toBe("json");
 		});
 	});
 

@@ -267,7 +267,8 @@ export class IdeationService {
 				// CLI mid-generation with "Exceeded USD budget" → silent exit 1. 4.0
 				// leaves headroom while still guarding against a runaway run.
 				maxBudgetUsd: 4.0,
-				fallbackModel: "sonnet",
+				fallbackModel: getModelId("sonnet"),
+				builtinTools: [],
 				noSessionPersistence: true,
 				skipPermissions: true,
 			},
@@ -595,7 +596,8 @@ export class IdeationService {
 				// Same budget reasoning as the generation stage (see above); 0.5 was
 				// too low for the Opus tier and would abort the critique with exit 1.
 				maxBudgetUsd: 2.0,
-				fallbackModel: "sonnet",
+				fallbackModel: getModelId("sonnet"),
+				builtinTools: [],
 				noSessionPersistence: true,
 				skipPermissions: true,
 			},

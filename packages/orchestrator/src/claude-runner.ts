@@ -1,7 +1,8 @@
 import { spawn } from "node:child_process";
 import { EventEmitter } from "node:events";
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
+import { join } from "node:path";
 import type { ModelId } from "@islam-se/quotes";
 import type { z } from "zod";
 
@@ -13,7 +14,7 @@ interface ClaudeStreamChunk {
 export interface ClaudeRunOptions {
 	/** Path to prompt file or prompt content */
 	prompt: string;
-	/** Optional system prompt to append */
+	/** Optional system prompt to append. Travels in a temp file, never in argv. */
 	systemPrompt?: string;
 	/** Tools to allow (e.g., ['WebSearch', 'Read']) */
 	allowedTools?: string[];
@@ -37,8 +38,6 @@ export interface ClaudeRunOptions {
 	mcpConfig?: string;
 	/** Skip all permission checks for trusted pipeline runs (uses --dangerously-skip-permissions flag) */
 	skipPermissions?: boolean;
-	/** Only use MCP servers from --mcp-config, ignore all other MCP configurations */
-	strictMcpConfig?: boolean;
 	/** Timeout in milliseconds for the subprocess (default: 900000 = 15 min) */
 	timeout?: number;
 	/** Content appended to the user prompt (e.g., article body). Kept out of
@@ -52,6 +51,17 @@ export interface ClaudeRunMeta {
 	models: string[];
 	costUsd?: number;
 	turns?: number;
+	/** Tokens summed over every model that answered and every turn of the run. */
+	tokens?: ClaudeRunTokens;
+	/** Why the last turn ended: `end_turn`, `max_tokens`, `refusal`, … */
+	stopReason?: string;
+}
+
+interface ClaudeRunTokens {
+	input: number;
+	cacheRead: number;
+	cacheWrite: number;
+	output: number;
 }
 
 interface ClaudeRunResult {
@@ -94,23 +104,74 @@ function runMetaFrom(result: unknown): ClaudeRunMeta | undefined {
 		modelUsage?: Record<string, unknown>;
 		total_cost_usd?: number;
 		num_turns?: number;
+		stop_reason?: unknown;
 	};
 	if (!r.modelUsage || typeof r.modelUsage !== "object") return undefined;
 	return {
 		models: Object.keys(r.modelUsage),
 		costUsd: typeof r.total_cost_usd === "number" ? r.total_cost_usd : undefined,
 		turns: typeof r.num_turns === "number" ? r.num_turns : undefined,
+		tokens: sumTokens(r.modelUsage),
+		stopReason: typeof r.stop_reason === "string" ? r.stop_reason : undefined,
 	};
 }
 
-function metaFromStdout(stdout: string): ClaudeRunMeta | undefined {
+function sumTokens(modelUsage: Record<string, unknown>): ClaudeRunTokens {
+	const total: ClaudeRunTokens = { input: 0, cacheRead: 0, cacheWrite: 0, output: 0 };
+	const add = (key: keyof ClaudeRunTokens, value: unknown) => {
+		if (typeof value === "number") total[key] += value;
+	};
+	for (const usage of Object.values(modelUsage)) {
+		if (!(usage && typeof usage === "object")) continue;
+		const u = usage as Record<string, unknown>;
+		add("input", u.inputTokens);
+		add("cacheRead", u.cacheReadInputTokens);
+		add("cacheWrite", u.cacheCreationInputTokens);
+		add("output", u.outputTokens);
+	}
+	return total;
+}
+
+/** The `result` envelope of --output-format json, when stdout is one. */
+function resultEnvelope(stdout: string): Record<string, unknown> | undefined {
 	const trimmed = stdout.trim();
 	if (!trimmed.startsWith("{")) return undefined;
 	try {
-		return runMetaFrom(JSON.parse(trimmed));
+		const parsed: unknown = JSON.parse(trimmed);
+		if (!(parsed && typeof parsed === "object")) return undefined;
+		const envelope = parsed as Record<string, unknown>;
+		return envelope.type === "result" ? envelope : undefined;
 	} catch {
 		return undefined;
 	}
+}
+
+/** The CLI can exit 0 and still report failure (budget exceeded, refusal, API error). */
+function cliErrorFrom(event: {
+	is_error?: unknown;
+	result?: unknown;
+	subtype?: unknown;
+}): string | undefined {
+	if (!event.is_error) return undefined;
+	return typeof event.result === "string" && event.result
+		? event.result
+		: `CLI error: ${typeof event.subtype === "string" ? event.subtype : "unknown"}`;
+}
+
+/**
+ * The system prompt goes to the CLI as a file. As an argv string it is capped by the
+ * kernel at 131 072 bytes per argument, and the review and authoring prompts carry the
+ * whole research (75 KB on »Guds vägar«); past the cap the spawn dies with E2BIG after the
+ * research and fact-check have already been paid for.
+ */
+function writeSystemPromptFile(
+	systemPrompt: string | undefined,
+): { path: string; remove: () => void } | undefined {
+	if (!systemPrompt) return undefined;
+	const dir = mkdtempSync(join(tmpdir(), "islamse-claude-"));
+	const path = join(dir, "system-prompt.md");
+	writeFileSync(path, systemPrompt, "utf-8");
+	return { path, remove: () => rmSync(dir, { recursive: true, force: true }) };
 }
 
 /** Strips ANTHROPIC_API_KEY so the CLI authenticates with the logged-in Claude Code
@@ -130,18 +191,104 @@ function writeStdin(child: ReturnType<typeof spawn>, content: string): void {
 	child.stdin?.end();
 }
 
+/**
+ * Build the argv for a headless `claude` run. The user prompt is not here (stdin), and the
+ * system prompt is named by file.
+ */
+export function buildClaudeArgs(options: ClaudeRunOptions, systemPromptFile?: string): string[] {
+	const args: string[] = [];
+
+	// Enable print mode (non-interactive)
+	args.push("--print");
+
+	// Moves cwd/env/git-status out of the system prompt so the cached prefix is
+	// identical across runs. Silently ignored if --system-prompt is ever used here.
+	args.push("--exclude-dynamic-system-prompt-sections");
+
+	// Isolation from the operator's own Claude Code setup. Without these three flags a
+	// stage inherits every user-scope MCP server, plugin and skill: measured 2026-10-04,
+	// an editorial stage with `--tools ""` still loaded 204 MCP tools from 12 servers
+	// (Gmail, Notion, Supabase, …) and 59 skills, a 164 600-token prefix against 6 700 with
+	// the flags. The author of »Kaffet inför rätta« spent part of its answer reporting which
+	// of those servers needed authorising. --strict-mcp-config works without --mcp-config
+	// (zero servers); --bare would do all of this but refuses the subscription login.
+	args.push("--strict-mcp-config", "--disable-slash-commands", "--setting-sources", "");
+
+	// Model
+	args.push("--model", options.model);
+
+	// MCP config for quote tools and other MCP servers
+	if (options.mcpConfig) {
+		args.push("--mcp-config", options.mcpConfig);
+	}
+
+	if (systemPromptFile) {
+		args.push("--append-system-prompt-file", systemPromptFile);
+	}
+
+	// Limit which built-in tools are loaded (--tools flag).
+	// Empty array = no tools (saves prompt tokens for editorial stages).
+	if (options.builtinTools !== undefined) {
+		args.push("--tools", options.builtinTools.join(","));
+	}
+
+	// Allowed tools (controls which tools execute without permission prompts)
+	if (options.allowedTools && options.allowedTools.length > 0) {
+		args.push("--allowedTools", options.allowedTools.join(","));
+	}
+
+	// JSON schema for built-in validation (implies json output format)
+	if (options.jsonSchema) {
+		args.push("--json-schema", JSON.stringify(options.jsonSchema));
+		args.push("--output-format", "json");
+	} else if (options.outputFormat === "json") {
+		// Only add output format if no schema (schema implies json)
+		args.push("--output-format", "json");
+	}
+
+	// Cost control
+	if (options.maxBudgetUsd) {
+		args.push("--max-budget-usd", options.maxBudgetUsd.toString());
+	}
+
+	// Model fallback for resilience
+	if (options.fallbackModel) {
+		args.push("--fallback-model", options.fallbackModel);
+	}
+
+	// Stateless sessions for pipeline runs
+	if (options.noSessionPersistence) {
+		args.push("--no-session-persistence");
+	}
+
+	// Skip permission checks for trusted pipeline runs
+	if (options.skipPermissions) {
+		args.push("--dangerously-skip-permissions");
+	}
+
+	// Effort level for adaptive thinking
+	if (options.effort) {
+		args.push("--effort", options.effort);
+	}
+
+	return args;
+}
+
 export class ClaudeRunner extends EventEmitter {
 	/**
 	 * Execute a headless Claude session.
-	 * Sends prompt and system prompt via stdin to avoid CLI argument size/encoding
-	 * issues with non-ASCII text (Arabic quotes cause silent exit code 1 as args).
+	 * The user prompt goes via stdin and the system prompt via a temp file: as a positional
+	 * argument, non-ASCII text (Arabic quotes) made the CLI exit 1 silently, and any argv
+	 * string is capped in size.
 	 */
 	public async run(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
 		let args: string[];
 		let stdinContent: string;
+		let systemPromptFile: ReturnType<typeof writeSystemPromptFile>;
 		try {
-			args = this.buildArgs(options);
 			stdinContent = this.buildStdinContent(options);
+			systemPromptFile = writeSystemPromptFile(options.systemPrompt);
+			args = buildClaudeArgs(options, systemPromptFile?.path);
 		} catch (err) {
 			return {
 				success: false,
@@ -181,12 +328,18 @@ export class ClaudeRunner extends EventEmitter {
 
 			child.on("close", (code) => {
 				clearTimeout(timer);
-				if (code === 0) {
+				systemPromptFile?.remove();
+				const envelope = resultEnvelope(stdout);
+				const meta = runMetaFrom(envelope);
+				const cliError = envelope ? cliErrorFrom(envelope) : undefined;
+				if (code === 0 && cliError) {
+					resolve({ success: false, error: cliError, exitCode: code, meta });
+				} else if (code === 0) {
 					resolve({
 						success: true,
 						output: stdout.trim(),
 						exitCode: code ?? undefined,
-						meta: metaFromStdout(stdout),
+						meta,
 					});
 				} else {
 					const error = timedOut
@@ -202,6 +355,7 @@ export class ClaudeRunner extends EventEmitter {
 
 			child.on("error", (err) => {
 				clearTimeout(timer);
+				systemPromptFile?.remove();
 				resolve({
 					success: false,
 					error: err.message,
@@ -219,9 +373,11 @@ export class ClaudeRunner extends EventEmitter {
 	): Promise<ClaudeRunResult> {
 		let args: string[];
 		let stdinContent: string;
+		let systemPromptFile: ReturnType<typeof writeSystemPromptFile>;
 		try {
-			args = this.buildStreamingArgs(options);
 			stdinContent = this.buildStdinContent(options);
+			systemPromptFile = writeSystemPromptFile(options.systemPrompt);
+			args = this.buildStreamingArgs(options, systemPromptFile?.path);
 		} catch (err) {
 			return {
 				success: false,
@@ -285,12 +441,7 @@ export class ClaudeRunner extends EventEmitter {
 						// Capture final result - could be in different formats
 						if (event.type === "result") {
 							meta = runMetaFrom(event) ?? meta;
-							if (event.is_error) {
-								cliError =
-									typeof event.result === "string"
-										? event.result
-										: `CLI error: ${event.subtype ?? "unknown"}`;
-							}
+							cliError = cliErrorFrom(event) ?? cliError;
 							// Structured output from --json-schema
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
@@ -318,18 +469,14 @@ export class ClaudeRunner extends EventEmitter {
 			// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: exit handler with multiple output format paths
 			child.on("close", (code) => {
 				clearTimeout(timer);
+				systemPromptFile?.remove();
 				// Process any remaining buffer
 				if (lineBuffer.trim()) {
 					try {
 						const event = JSON.parse(lineBuffer);
 						if (event.type === "result") {
 							meta = runMetaFrom(event) ?? meta;
-							if (event.is_error) {
-								cliError =
-									typeof event.result === "string"
-										? event.result
-										: `CLI error: ${event.subtype ?? "unknown"}`;
-							}
+							cliError = cliErrorFrom(event) ?? cliError;
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
 							} else if (!options.jsonSchema && event.result) {
@@ -362,12 +509,14 @@ export class ClaudeRunner extends EventEmitter {
 						error,
 						output: fullOutput.trim(), // Include output even on failure for debugging
 						exitCode: code ?? undefined,
+						meta,
 					});
 				}
 			});
 
 			child.on("error", (err) => {
 				clearTimeout(timer);
+				systemPromptFile?.remove();
 				resolve({
 					success: false,
 					error: err.message,
@@ -508,8 +657,8 @@ export class ClaudeRunner extends EventEmitter {
 	/**
 	 * Build args for streaming mode
 	 */
-	private buildStreamingArgs(options: ClaudeRunOptions): string[] {
-		const args = this.buildArgs(options);
+	private buildStreamingArgs(options: ClaudeRunOptions, systemPromptFile?: string): string[] {
+		const args = buildClaudeArgs(options, systemPromptFile);
 		// Replace output format with stream-json (requires --verbose with --print)
 		const formatIdx = args.indexOf("--output-format");
 		if (formatIdx === -1) {
@@ -525,93 +674,8 @@ export class ClaudeRunner extends EventEmitter {
 	}
 
 	/**
-	 * Build command-line arguments for claude CLI.
-	 * System prompt and prompt content are sent via stdin (see buildStdinContent)
-	 * to avoid argument size/encoding issues with non-ASCII text.
-	 */
-	private buildArgs(options: ClaudeRunOptions): string[] {
-		const args: string[] = [];
-
-		// Enable print mode (non-interactive)
-		args.push("--print");
-
-		// Moves cwd/env/git-status out of the system prompt so the cached prefix is
-		// identical across runs. Silently ignored if --system-prompt is ever used here.
-		args.push("--exclude-dynamic-system-prompt-sections");
-
-		// Model
-		args.push("--model", options.model);
-
-		// MCP config for quote tools and other MCP servers
-		if (options.mcpConfig) {
-			args.push("--mcp-config", options.mcpConfig);
-			// Only use MCP servers from explicit config, not user/project config
-			if (options.strictMcpConfig) {
-				args.push("--strict-mcp-config");
-			}
-		}
-
-		// System prompt as --append-system-prompt flag (named args handle Unicode fine;
-		// the Arabic exit-code-1 bug only affects the positional prompt argument).
-		if (options.systemPrompt) {
-			args.push("--append-system-prompt", options.systemPrompt);
-		}
-
-		// User prompt is sent via stdin (see buildStdinContent) to avoid the
-		// positional-argument encoding bug with non-ASCII text.
-
-		// Limit which built-in tools are loaded (--tools flag).
-		// Empty array = no tools (saves prompt tokens for editorial stages).
-		if (options.builtinTools !== undefined) {
-			args.push("--tools", options.builtinTools.join(",") || '""');
-		}
-
-		// Allowed tools (controls which tools execute without permission prompts)
-		if (options.allowedTools && options.allowedTools.length > 0) {
-			args.push("--allowedTools", options.allowedTools.join(","));
-		}
-
-		// JSON schema for built-in validation (implies json output format)
-		if (options.jsonSchema) {
-			args.push("--json-schema", JSON.stringify(options.jsonSchema));
-			args.push("--output-format", "json");
-		} else if (options.outputFormat === "json") {
-			// Only add output format if no schema (schema implies json)
-			args.push("--output-format", "json");
-		}
-
-		// Max tokens
-		// Cost control
-		if (options.maxBudgetUsd) {
-			args.push("--max-budget-usd", options.maxBudgetUsd.toString());
-		}
-
-		// Model fallback for resilience
-		if (options.fallbackModel) {
-			args.push("--fallback-model", options.fallbackModel);
-		}
-
-		// Stateless sessions for pipeline runs
-		if (options.noSessionPersistence) {
-			args.push("--no-session-persistence");
-		}
-
-		// Skip permission checks for trusted pipeline runs
-		if (options.skipPermissions) {
-			args.push("--dangerously-skip-permissions");
-		}
-
-		// Effort level for adaptive thinking
-		if (options.effort) {
-			args.push("--effort", options.effort);
-		}
-
-		return args;
-	}
-
-	/**
 	 * Build stdin content with the user prompt only.
-	 * System prompt is passed via --append-system-prompt flag (see buildArgs).
+	 * The system prompt travels separately, in a temp file (see buildClaudeArgs).
 	 * Throws on missing prompt files (instead of silently falling back to the path string).
 	 */
 	private buildStdinContent(options: ClaudeRunOptions): string {

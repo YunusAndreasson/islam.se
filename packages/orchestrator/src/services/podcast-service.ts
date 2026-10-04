@@ -89,6 +89,7 @@ export class PodcastService {
 			userContent: articleContent,
 			model: getModelId("opus"),
 			effort: "max",
+			builtinTools: [],
 			noSessionPersistence: true,
 			skipPermissions: true,
 			timeout: 1_200_000, // max effort on a ~3 000-word essay ran past 10 min
