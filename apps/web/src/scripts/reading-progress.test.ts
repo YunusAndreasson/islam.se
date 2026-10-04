@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { hasRead, READ_AT, readProgress, recordProgress } from "./reading-progress";
+import { hasRead, READ_AT, readProgress, recordProgress, unfinished } from "./reading-progress";
 
 /** An in-memory stand-in for window.localStorage — the two methods the module uses. */
 function memoryStorage() {
@@ -23,6 +23,34 @@ function blockedStorage() {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("reading progress", () => {
+	it.each(["Infinity", "-0.5", "2", "NaN", "broken"])(
+		"ignores invalid saved progress %s",
+		(value) => {
+			const storage = memoryStorage();
+			storage.setItem("rp:natten", value);
+			vi.stubGlobal("localStorage", storage);
+			expect(readProgress("natten")).toBe(0);
+			recordProgress("natten", 0.4);
+			expect(readProgress("natten")).toBe(0.4);
+		},
+	);
+
+	it.each([NaN, Infinity, -0.5, 2])("ignores invalid incoming progress %s", (value) => {
+		vi.stubGlobal("localStorage", memoryStorage());
+		recordProgress("natten", 0.4, "Natten");
+		recordProgress("annan", value, "Annan");
+		expect(unfinished()?.slug).toBe("natten");
+		expect(readProgress("annan")).toBe(0);
+	});
+
+	it("offers resume at the read threshold until the reader passes it", () => {
+		vi.stubGlobal("localStorage", memoryStorage());
+		recordProgress("natten", READ_AT, "Natten");
+		expect(unfinished()).toEqual({ slug: "natten", title: "Natten", pct: READ_AT });
+		recordProgress("natten", 0.9, "Natten");
+		expect(unfinished()).toBeNull();
+	});
+
 	it("keeps the furthest point read, so scrolling back up never loses the place", () => {
 		vi.stubGlobal("localStorage", memoryStorage());
 		recordProgress("alis-princip", 0.6);

@@ -566,6 +566,8 @@
 	}
 	.abm-area > summary {
 		display: flex;
+		flex-wrap: wrap;
+		overflow-wrap: anywhere;
 		align-items: baseline;
 		gap: 0.6rem;
 		padding-block: 0.85rem;
@@ -613,8 +615,9 @@
 		border-block-end: 1px solid var(--color-rule);
 	}
 	.abm-more > details > summary {
+		overflow-wrap: anywhere;
 		display: grid;
-		grid-template-columns: auto 1fr;
+		grid-template-columns: auto minmax(0, 1fr);
 		column-gap: 0.6rem;
 		align-items: baseline;
 		padding-block: 1rem;
@@ -1038,16 +1041,23 @@
 	}
 	.abm-roster > div {
 		display: grid;
-		grid-template-columns: 11rem 1fr;
+		grid-template-columns: 11rem minmax(0, 1fr);
 		gap: 0.2rem 1.5rem;
 		padding-block: 0.65rem;
 		border-block-end: 1px solid var(--color-divider);
+	}
+	@media (width < 40rem) {
+		.abm-roster > div {
+			grid-template-columns: minmax(0, 1fr);
+		}
 	}
 	.abm-roster dt {
 		font-family: var(--font-heading);
 		font-weight: 600;
 	}
 	.abm-roster dd {
+		min-inline-size: 0;
+		overflow-wrap: anywhere;
 		margin: 0;
 		color: var(--text-body);
 	}

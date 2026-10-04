@@ -1,3 +1,5 @@
+import { type HastElement, type HastNode, isElement, isText } from "./hast";
+
 /**
  * rehype-photo-figure: a photograph on its own line becomes a <figure> with a caption.
  *
@@ -19,23 +21,6 @@
  * source apparatus (the footnotes), as it does for the hero — see `imageCaption` in
  * src/content.config.ts.
  */
-
-interface HastText {
-	type: "text";
-	value: string;
-}
-
-interface HastElement {
-	type: "element";
-	tagName: string;
-	properties?: Record<string, unknown>;
-	children: HastNode[];
-}
-
-type HastNode = HastText | HastElement | { type: string; children?: HastNode[] };
-
-const isElement = (n: HastNode): n is HastElement => n.type === "element";
-const isText = (n: HastNode): n is HastText => n.type === "text";
 
 /** The image, if this paragraph is nothing but one. */
 function loneImage(paragraph: HastElement): HastElement | null {

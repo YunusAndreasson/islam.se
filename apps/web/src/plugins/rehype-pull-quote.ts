@@ -1,3 +1,5 @@
+import { type HastElement, type HastNode, type HastText, isElement } from "./hast";
+
 /**
  * rehype-pull-quote: lifts sentences of an essay out as display pull quotes.
  *
@@ -17,20 +19,6 @@
  * the top of rehype-sidenotes.ts (`rm -f apps/web/.astro/data-store.json`).
  */
 
-interface HastText {
-	type: "text";
-	value: string;
-}
-
-interface HastElement {
-	type: "element";
-	tagName: string;
-	properties?: Record<string, unknown>;
-	children: HastNode[];
-}
-
-type HastNode = HastText | HastElement | { type: string; children?: HastNode[] };
-
 interface PullQuoteFile {
 	path?: string;
 	data?: { astro?: { frontmatter?: Record<string, unknown> } };
@@ -39,8 +27,6 @@ interface PullQuoteFile {
 /** Roughly a desktop screen of prose: far enough that the sentence has scrolled away. */
 const SCREEN = 1200;
 const BEFORE_PENALTY = 400;
-
-const isElement = (n: HastNode): n is HastElement => n.type === "element";
 
 const normalize = (s: string): string => s.replace(/\s+/g, " ").trim();
 

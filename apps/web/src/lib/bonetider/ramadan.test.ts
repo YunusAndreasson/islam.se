@@ -10,6 +10,18 @@ const MALMO = { lat: 55.60587, lon: 13.00073 };
 const KIRUNA = { lat: 67.85572, lon: 20.22513 };
 
 describe("nextRamadan", () => {
+	it("does not let a caller change the cached period for another city", () => {
+		const first = nextRamadan(AUGUST_2026);
+		if (!first) throw new Error("no Ramadan found");
+		first.year = "1900";
+		expect(nextRamadan(AUGUST_2026)?.year).toBe("2027");
+	});
+
+	it("moves to next Ramadan at Stockholm midnight after the final day", () => {
+		expect(nextRamadan(new Date("2027-03-08T22:59:59Z"))?.year).toBe("2027");
+		expect(nextRamadan(new Date("2027-03-08T23:00:00Z"))?.year).toBe("2028");
+	});
+
 	it("finds the coming Ramadan from a date months ahead of it", () => {
 		const r = nextRamadan(AUGUST_2026);
 		expect(r).not.toBeNull();

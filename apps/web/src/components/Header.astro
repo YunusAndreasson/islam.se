@@ -106,7 +106,7 @@ const mastIsDay =
 	let scrollCtrl: AbortController | null = null;
 
 	function bindHeader() {
-		const header = document.querySelector(".site-header");
+		const header = document.querySelector<HTMLElement>(".site-header");
 		if (!header) return;
 
 		scrollCtrl?.abort();
@@ -133,16 +133,19 @@ const mastIsDay =
 		setHidden(false);
 		// The mast's padding is fluid, so its height is not a number a stylesheet can
 		// state. Anything that sticks below it reads this instead of guessing.
-		const publishHeight = () =>
+		let headerHeight = 0;
+		const publishHeight = () => {
+			headerHeight = header.offsetHeight;
 			document.documentElement.style.setProperty(
 				"--mast-height",
-				`${(header as HTMLElement).offsetHeight}px`,
+				`${headerHeight}px`,
 			);
+		};
 		publishHeight();
-		window.addEventListener("resize", publishHeight, {
-			passive: true,
-			signal: scrollCtrl.signal,
-		});
+		// Font loading and content changes can resize the mast without a window resize.
+		const sizeObserver = new ResizeObserver(publishHeight);
+		sizeObserver.observe(header, { box: "border-box" });
+		scrollCtrl.signal.addEventListener("abort", () => sizeObserver.disconnect(), { once: true });
 		window.addEventListener(
 			"scroll",
 			() => {
@@ -155,7 +158,7 @@ const mastIsDay =
 				} else if (dy > 0) {
 					upDist = 0;
 					// Don't hide until the mast has fully scrolled past itself.
-					if (y > (header as HTMLElement).offsetHeight) setHidden(true);
+					if (y > headerHeight) setHidden(true);
 				} else if (dy < 0) {
 					// Accumulate slow upward panning across events — a single-event
 					// delta never reaches the threshold on smooth touch scrolling.
@@ -175,4 +178,5 @@ const mastIsDay =
 	}
 
 	document.addEventListener("astro:page-load", bindHeader);
+	document.addEventListener("astro:before-swap", () => scrollCtrl?.abort());
 </script>

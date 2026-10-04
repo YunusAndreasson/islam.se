@@ -22,8 +22,25 @@ describe("prayerCalendar", () => {
 
 	it("ger byte-identisk utdata för olika tidpunkter i samma månad", () => {
 		const early = prayerCalendar(place("test-early"), new Date("2026-08-01T00:30:00Z"));
-		const late = prayerCalendar(place("test-early"), new Date("2026-08-31T23:30:00Z"));
+		const late = prayerCalendar(place("test-early"), new Date("2026-08-31T21:30:00Z"));
 		expect(late).toBe(early);
+	});
+
+	it.each([
+		["2026-08-31T22:30:00Z", "20260901T000000Z"],
+		["2026-12-31T23:30:00Z", "20270101T000000Z"],
+	])("starts with the Stockholm month at %s", (instant, stamp) => {
+		const ics = prayerCalendar(place("test-month-boundary"), new Date(instant));
+		expect(ics).toContain(`DTSTAMP:${stamp}`);
+	});
+
+	it("invalidates cached calendars when a place's name or coordinates change", () => {
+		const original = place("test-place-update");
+		const first = prayerCalendar(original, AUGUST);
+		const renamed = prayerCalendar({ ...original, name: "Nya orten" }, AUGUST);
+		expect(renamed).toContain("Bönetider – Nya orten");
+		const moved = prayerCalendar({ ...original, lat: 55.6, lon: 13 }, AUGUST);
+		expect(moved).not.toBe(first);
 	});
 
 	it("bär tidszonen som VTIMEZONE och TZID, inte som UTC", () => {

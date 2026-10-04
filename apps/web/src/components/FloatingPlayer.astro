@@ -237,7 +237,8 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 	let audio: HTMLAudioElement | null = null;
 	let currentSrc: string | null = null;
 	let saveTimer = 0;
-	let ctrlCtrl: AbortController | null = null; // for UI control listeners
+	let ctrlCtrl: AbortController | null = null; // for the current track and its controls
+	let visibilityVersion = 0;
 	const speeds = [1, 1.25, 1.5, 2];
 
 	function storageKey(src: string) { return `audio-pos:${src}`; }
@@ -251,8 +252,11 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 	function syncTriggers() {
 		const playing = audio !== null && !audio.paused;
-		for (const b of document.querySelectorAll<HTMLButtonElement>(".audio-trigger"))
-			b.toggleAttribute("data-playing", playing && b.dataset.audioSrc === currentSrc);
+		for (const b of document.querySelectorAll<HTMLButtonElement>(".audio-trigger")) {
+			const active = playing && b.dataset.audioSrc === currentSrc;
+			b.toggleAttribute("data-playing", active);
+			b.setAttribute("aria-label", `${active ? "Pausa" : "Lyssna på"} ${b.dataset.audioTitle || "essän"}`);
+		}
 	}
 
 	function savePos() {
@@ -263,18 +267,22 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 	function show() {
 		const p = el();
 		if (!p) return;
+		const version = ++visibilityVersion;
 		p.removeAttribute("hidden");
 		// Double rAF guarantees a paint between display:block and the transform,
 		// so the CSS transition actually fires (single rAF can be batched)
-		requestAnimationFrame(() => requestAnimationFrame(() => p.setAttribute("data-visible", "")));
+		requestAnimationFrame(() => requestAnimationFrame(() => {
+			if (version === visibilityVersion) p.setAttribute("data-visible", "");
+		}));
 		document.documentElement.setAttribute("data-player-visible", "");
 	}
 
 	function hide() {
 		const p = el();
 		if (!p) return;
+		const version = ++visibilityVersion;
 		p.removeAttribute("data-visible");
-		const done = () => p.setAttribute("hidden", "");
+		const done = () => { if (version === visibilityVersion) p.setAttribute("hidden", ""); };
 		p.addEventListener("transitionend", done, { once: true });
 		setTimeout(done, 300);
 		document.documentElement.removeAttribute("data-player-visible");
@@ -302,9 +310,10 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 	function closePlayer() {
 		savePos();
+		ctrlCtrl?.abort(); ctrlCtrl = null;
 		if (audio) { audio.pause(); audio.src = ""; audio = null; }
 		currentSrc = null;
-		ctrlCtrl?.abort(); ctrlCtrl = null;
+		if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "none";
 		hide();
 		syncTriggers();
 	}
@@ -324,8 +333,8 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 		// New source — save old position and switch
 		savePos();
-		if (audio) { audio.pause(); audio.src = ""; }
 		ctrlCtrl?.abort();
+		if (audio) { audio.pause(); audio.src = ""; }
 		ctrlCtrl = new AbortController();
 		const sig = ctrlCtrl.signal;
 
@@ -341,7 +350,10 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		const speedBtn = p.querySelector<HTMLButtonElement>(".fp-speed")!;
 		const titleEl = p.querySelector<HTMLElement>(".fp-title")!;
 
-		const setIcons = (on: boolean) => { playBtn.toggleAttribute("data-playing", on); };
+		const setIcons = (on: boolean) => {
+			playBtn.toggleAttribute("data-playing", on);
+			playBtn.setAttribute("aria-label", on ? "Pausa" : "Spela upp");
+		};
 		const fillBar = (pct: number) => { progress.style.setProperty("--fp-fill", `${pct}%`); };
 
 		// Reset UI
@@ -353,7 +365,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		playBtn.disabled = false;
 		setIcons(false);
 
-		// Audio events (die with the Audio object when replaced)
+		// Abort old audio listeners before replacing a track: queued events can arrive late.
 		audio.addEventListener("loadedmetadata", () => {
 			timeEl.textContent = fmt(audio!.duration);
 			setupMedia(title, artwork);
@@ -370,10 +382,10 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 					}
 				}
 			} catch {}
-		});
+		}, { signal: sig });
 
-		audio.addEventListener("play", () => { setIcons(true); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "playing"; syncTriggers(); });
-		audio.addEventListener("pause", () => { setIcons(false); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "paused"; syncTriggers(); });
+		audio.addEventListener("play", () => { setIcons(true); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "playing"; syncTriggers(); }, { signal: sig });
+		audio.addEventListener("pause", () => { setIcons(false); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "paused"; syncTriggers(); }, { signal: sig });
 
 		audio.addEventListener("timeupdate", () => {
 			if (!audio?.duration) return;
@@ -384,16 +396,16 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 			posState();
 			const now = Date.now();
 			if (now - saveTimer > 3000) { saveTimer = now; savePos(); }
-		});
+		}, { signal: sig });
 
 		audio.addEventListener("ended", () => {
 			timeEl.textContent = fmt(audio!.duration);
 			fillBar(100);
 			try { localStorage.removeItem(storageKey(src)); } catch {}
 			syncTriggers();
-		});
+		}, { signal: sig });
 
-		audio.addEventListener("error", () => { timeEl.textContent = "—"; playBtn.disabled = true; });
+		audio.addEventListener("error", () => { timeEl.textContent = "—"; playBtn.disabled = true; }, { signal: sig });
 
 		// UI control listeners — aborted when track changes or player closes
 		playBtn.addEventListener("click", () => {

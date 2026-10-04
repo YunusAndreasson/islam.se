@@ -9,7 +9,9 @@ import {
 	PRAYER_ORDER,
 	PRAYER_SWEDISH_NAMES,
 	type PrayerKey,
+	stockholmDateLabel,
 	stockholmDayKey,
+	stockholmIsoDate,
 } from "../lib/bonetider/prayer-times";
 // Type-only: the renderer itself is imported dynamically in mountOne. It drags in the Sweden
 // and neighbour outlines plus the marching-squares contour build, and this module is mounted by
@@ -355,14 +357,8 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 		.querySelector(".bf-times")
 		?.setAttribute("aria-label", `Bönetider för ${location.name} i dag`);
 	if (inst.readout.captionDate) {
-		const tz = { timeZone: "Europe/Stockholm" } as const;
-		inst.readout.captionDate.setAttribute("datetime", now.toLocaleDateString("sv-SE", tz));
-		inst.readout.captionDate.textContent = now.toLocaleDateString("sv-SE", {
-			weekday: "long",
-			day: "numeric",
-			month: "long",
-			...tz,
-		});
+		inst.readout.captionDate.setAttribute("datetime", stockholmIsoDate(now));
+		inst.readout.captionDate.textContent = stockholmDateLabel(now);
 	}
 	inst.renderedNextKey = st.nextKey;
 }

@@ -251,7 +251,7 @@ for (const rel of readdirSync(DIST, { recursive: true, encoding: "utf-8" })) {
 	for (const [, href] of readFileSync(join(DIST, rel), "utf-8").matchAll(
 		/href="(\/[^"#?]*[^/"#?])"/g,
 	)) {
-		if (/\.[a-z0-9]{2,5}$/i.test(href)) continue; // a file, not a page
+		if (/\.[a-z0-9]{2,}$/i.test(href)) continue; // a file, including .webmanifest
 		slashless.set(href, (slashless.get(href) ?? 0) + 1);
 	}
 }

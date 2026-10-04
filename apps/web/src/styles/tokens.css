@@ -437,6 +437,7 @@
 		--space-phi: 2.427rem; /* 1.5 × φ */
 		--space-phi2: 3.927rem; /* 1.5 × φ² */
 		--space-phi3: 6.354rem; /* 1.5 × φ³ */
+		--step-1: 1.28125rem; /* 20.5px — subsection heading */
 		--step-0: 1.0625rem; /* 17px — body (DESIGN.md floor for mobile; never below 16) */
 		/* Hand-set, not ladder values — but translated through the same ÷1.061 as the
 		   desktop steps, so a Literata heading lands at the SAME optical size the

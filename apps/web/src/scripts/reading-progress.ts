@@ -11,7 +11,8 @@ const key = (slug: string) => `rp:${slug}`;
 
 export function readProgress(slug: string): number {
 	try {
-		return Number(localStorage.getItem(key(slug))) || 0;
+		const pct = Number(localStorage.getItem(key(slug)));
+		return Number.isFinite(pct) && pct >= 0 && pct <= 1 ? pct : 0;
 	} catch {
 		return 0;
 	}
@@ -24,6 +25,7 @@ const LAST = "rp:last";
  *  WHICH essay was read last, with its title, so the front page can offer to go back
  *  to it without fetching anything (see unfinished()). */
 export function recordProgress(slug: string, pct: number, title?: string): void {
+	if (!Number.isFinite(pct) || pct < 0 || pct > 1) return;
 	rememberLast(slug, title);
 	if (pct <= readProgress(slug)) return;
 	try {
@@ -74,5 +76,5 @@ export function unfinished(): (Last & { pct: number }) | null {
 	}
 	if (!(last && typeof last.slug === "string" && typeof last.title === "string")) return null;
 	const pct = readProgress(last.slug);
-	return pct > RESUME_FROM && pct < READ_AT ? { slug: last.slug, title: last.title, pct } : null;
+	return pct > RESUME_FROM && pct <= READ_AT ? { slug: last.slug, title: last.title, pct } : null;
 }

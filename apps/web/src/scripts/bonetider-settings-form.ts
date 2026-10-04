@@ -71,6 +71,12 @@ function paintSettingsForm(form: HTMLFormElement, s: PrayerSettings): void {
 
 function onChange(form: HTMLFormElement, e: Event): void {
 	const el = e.target as HTMLInputElement | HTMLSelectElement;
+	// These forms save on change, so browser submit validation never runs.
+	// Reject invalid numbers before they reach storage or the detached screen draft.
+	if (!el.validity.valid) {
+		el.reportValidity();
+		return;
+	}
 	const s = read(form);
 	if (el.dataset.setting) {
 		const key = el.dataset.setting;

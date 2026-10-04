@@ -1,3 +1,5 @@
+import { childrenOf, type HastElement, type HastNode, isElement } from "./hast";
+
 /**
  * rehype-sidenotes: project each footnote into the margin beside the line that cites it.
  *
@@ -51,26 +53,6 @@
  * is why an edit made alongside a config change seems to apply and one made alone does
  * not. That asymmetry is what makes this cost an hour instead of a minute.
  */
-
-interface HastText {
-	type: "text";
-	value: string;
-}
-
-interface HastElement {
-	type: "element";
-	tagName: string;
-	properties?: Record<string, unknown>;
-	children: HastNode[];
-}
-
-type HastNode = HastText | HastElement | { type: string; children?: HastNode[] };
-
-const isElement = (n: HastNode): n is HastElement => n.type === "element";
-
-function childrenOf(node: HastNode): HastNode[] {
-	return "children" in node && Array.isArray(node.children) ? node.children : [];
-}
 
 /** The corpora that render notes in the margin. `data/svar` shares this processor and
  *  is deliberately absent: its 64 pages carry no footnotes at all — they cite through a

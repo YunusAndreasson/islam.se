@@ -13,7 +13,12 @@
 
 import { getMarkesdagar } from "../markesdagar";
 import { formatHours } from "./place-facts";
-import { computePrayerTimes, dateForStockholmDay, formatTime } from "./prayer-times";
+import {
+	computePrayerTimes,
+	dateForStockholmDay,
+	formatTime,
+	stockholmIsoDate,
+} from "./prayer-times";
 import { DEFAULT_SETTINGS } from "./settings";
 
 export interface RamadanPeriod {
@@ -41,6 +46,10 @@ export interface RamadanTimes {
 	last: RamadanDay;
 }
 
+// Every city asks the same calendar question during a build. Retain only the latest
+// day, and return copies so a caller cannot change another city's result.
+let cachedPeriod: { day: string; period: RamadanPeriod | null } | undefined;
+
 /**
  * Nästa (eller pågående) ramadan enligt Umm al-Qura, eller null om
  * märkesdagstabellen inte når fram till en.
@@ -50,17 +59,23 @@ export interface RamadanTimes {
  * ska se den månad som pågår.
  */
 export function nextRamadan(now = new Date()): RamadanPeriod | null {
-	const todayISO = now.toISOString().slice(0, 10);
+	const todayISO = stockholmIsoDate(now);
+	if (cachedPeriod?.day === todayISO) {
+		return cachedPeriod.period ? { ...cachedPeriod.period } : null;
+	}
 	const found = getMarkesdagar(now)
 		.filter((e) => e.name === "Ramadan")
 		.find((e) => (e.endISO ?? e.startISO) >= todayISO);
-	if (!found?.endISO) return null;
-	return {
-		startISO: found.startISO,
-		endISO: found.endISO,
-		hijriYear: found.hijriYear,
-		year: found.startISO.slice(0, 4),
-	};
+	const period = found?.endISO
+		? {
+				startISO: found.startISO,
+				endISO: found.endISO,
+				hijriYear: found.hijriYear,
+				year: found.startISO.slice(0, 4),
+			}
+		: null;
+	cachedPeriod = { day: todayISO, period };
+	return period ? { ...period } : null;
 }
 
 /** Fajr, Maghrib och fastelängd för en ort en given Stockholmsdag, eller null när

@@ -1,3 +1,5 @@
+import type { HastElement, HastNode, HastText } from "./hast";
+
 /**
  * rehype-honorific: wraps Islamic honorific Unicode characters in
  * <span class="honorific honorific--swt|saw"> as proper hAST nodes, and
@@ -18,20 +20,6 @@
  * Prophet. Any further person whose given name is spelled the Swedish way must
  * be added to NAME_FOLLOWERS or they will be given the honorific.
  */
-
-interface HastText {
-	type: "text";
-	value: string;
-}
-
-interface HastElement {
-	type: "element";
-	tagName: string;
-	properties?: Record<string, unknown>;
-	children: HastNode[];
-}
-
-type HastNode = HastText | HastElement | { type: string; children?: HastNode[] };
 
 const SAW = "ﷺ";
 const SWT = "ﷻ";

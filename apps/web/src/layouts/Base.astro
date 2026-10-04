@@ -251,20 +251,14 @@ if (articleMeta) {
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="manifest" href="/manifest.webmanifest" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		{/* Native iOS Smart App Banner — a subtle, dismissible nudge in Safari on every
 		    page; the strong in-page promo stays on the prayer surfaces. */}
 		<meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
-		{/* Body/heading are NOT preloaded (EXPERIMENT, 2026-07-23): both were competing with the
-		    LCP hero image for early bandwidth (confirmed by blocking .woff2 in Lighthouse — LCP
-		    3.2s → 1.5s). Astro's `optimizedFallbacks` (on by default, active for both families
-		    since their last fallback is a generic name) already generates a metric-matched
-		    fallback face, so the swap-in shouldn't cause layout shift or a jarring flash — see
-		    https://developer.chrome.com/blog/font-fallbacks. `display` defaults to "swap". */}
-		{preloadTextFonts ? <Font cssVariable="--font-body" preload /> : <Font cssVariable="--font-body" />}
-		{/* Italic Literata: same family, emitted as an @font-face but deliberately NOT
-		    preloaded (see astro.config.ts) — it loads on demand when italic text renders. */}
-		<Font cssVariable="--font-body-italic" />
+		{/* Text-led pages preload normal faces. Italic shares the body family and loads
+		    on demand; image-led pages leave bandwidth available for the hero. */}
+		<Font cssVariable="--font-body" preload={preloadTextFonts ? [{ style: "normal" }] : false} />
 		{preloadTextFonts ? <Font cssVariable="--font-heading" preload /> : <Font cssVariable="--font-heading" />}
 		{preloadArabicFont ? <Font cssVariable="--font-arabic" preload /> : <Font cssVariable="--font-arabic" />}
 		{preloadHeadlineFont ? <Font cssVariable="--font-headline" preload /> : <Font cssVariable="--font-headline" />}
@@ -355,6 +349,7 @@ if (articleMeta) {
 				const ctrl = new AbortController();
 				let shown = false;
 				const progressBar = document.querySelector<HTMLElement>(".reading-progress");
+				const nativeProgress = CSS.supports("animation-timeline", "scroll(root y)");
 				const slug = progressBar?.dataset.slug;
 				const title = progressBar?.dataset.title;
 				let lastSave = 0;
@@ -369,21 +364,24 @@ if (articleMeta) {
 					if (slug) recordProgress(slug, scrollPct(), title);
 				};
 
-				window.addEventListener("scroll", () => {
+				const updateScroll = () => {
 					const shouldShow = window.scrollY > window.innerHeight;
 					if (shouldShow !== shown) {
 						shown = shouldShow;
 						actions.classList.toggle("visible", shown);
 					}
 					if (progressBar) {
-						const pct = scrollPct();
-						progressBar.style.transform = `scaleX(${pct})`;
+						if (!nativeProgress) progressBar.style.transform = `scaleX(${scrollPct()})`;
 						if (slug && Date.now() - lastSave > 500) {
 							lastSave = Date.now();
 							saveProgress();
 						}
 					}
-				}, { passive: true, signal: ctrl.signal });
+				};
+				window.addEventListener("scroll", updateScroll, { passive: true, signal: ctrl.signal });
+				window.addEventListener("resize", updateScroll, { passive: true, signal: ctrl.signal });
+				// Restore the controls and fallback bar when arriving at a saved scroll position.
+				updateScroll();
 
 				btn.addEventListener("click", () => {
 					const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -328,7 +328,7 @@ const structuredArticle = {
 		const pill = document.querySelector<HTMLElement>(".resume-pill");
 		if (resumeSlug && pill) {
 			const savedPct = readProgress(resumeSlug);
-			if (savedPct > RESUME_FROM && savedPct < READ_AT) {
+			if (savedPct > RESUME_FROM && savedPct <= READ_AT) {
 				const reveal = () => { pill.hidden = false; requestAnimationFrame(() => pill.setAttribute("data-visible", "")); };
 				const retire = () => {
 					pill.removeAttribute("data-visible");

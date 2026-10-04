@@ -1,3 +1,12 @@
+import {
+	childrenOf,
+	type HastElement,
+	type HastNode,
+	type HastText,
+	isElement,
+	isText,
+} from "./hast";
+
 /**
  * rehype-quote-attribution: give a blockquote's closing attribution its own line.
  *
@@ -25,23 +34,6 @@
  * where the author left a blank `>` line and markdown produced a second <p>.
  */
 
-interface HastText {
-	type: "text";
-	value: string;
-}
-
-interface HastElement {
-	type: "element";
-	tagName: string;
-	properties?: Record<string, unknown>;
-	children: HastNode[];
-}
-
-type HastNode = HastText | HastElement | { type: string; children?: HastNode[] };
-
-const isElement = (n: HastNode): n is HastElement => n.type === "element";
-const isText = (n: HastNode): n is HastText => n.type === "text";
-
 /** An attribution is an em dash (the house reserves it for exactly this) followed
  *  by a source. Anchored to the end of the paragraph so a dash used mid-quotation
  *  is never mistaken for a citation. */
@@ -58,10 +50,6 @@ const cite = (value: string): HastElement => ({
 	properties: { className: ["q-attr"] },
 	children: [{ type: "text", value }],
 });
-
-function childrenOf(node: HastNode): HastNode[] {
-	return "children" in node && Array.isArray(node.children) ? node.children : [];
-}
 
 /** Concatenated text of a subtree. */
 function textOf(node: HastNode): string {

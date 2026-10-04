@@ -86,7 +86,7 @@ const hasMotet = tankare.length > 0;
 	.ec-context {
 		margin: 0 0 var(--space-unit);
 		display: grid;
-		grid-template-columns: auto 1fr;
+		grid-template-columns: auto minmax(0, 1fr);
 		gap: 0.4rem 1rem;
 		align-items: baseline;
 	}
@@ -101,6 +101,7 @@ const hasMotet = tankare.length > 0;
 	}
 
 	.ec-context dd {
+		overflow-wrap: anywhere;
 		margin: 0;
 		font-family: var(--font-heading);
 		font-size: var(--step--1);

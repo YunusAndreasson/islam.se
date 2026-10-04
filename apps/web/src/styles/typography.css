@@ -101,10 +101,6 @@
 		   --step-3; see the token. */
 		letter-spacing: var(--tracking-display);
 		line-height: 1.12;
-		/* titl: display-optimized numerals for large titles. The bigger win is
-		   font-optical-sizing: auto, set on body and inherited — Literata is variable
-		   and swaps to its display cut here without being asked. */
-		font-feature-settings: "titl" 1;
 	}
 
 	h2 {
@@ -426,7 +422,7 @@
 	   closing vignette, rosette between pärlstav since 2026-09-27 (»Stuckatur« below). */
 	.prose > hr:last-of-type {
 		border: none;
-		width: 10rem;
+		width: min(10rem, 100%);
 		height: 1.5rem;
 		margin: var(--space-phi) auto;
 		background: var(--color-divider);
@@ -459,6 +455,9 @@
 		position: absolute;
 		z-index: 100;
 		max-width: min(28rem, calc(100vw - 24px));
+		max-height: calc(100dvh - 24px);
+		overflow-y: auto;
+		overscroll-behavior: contain;
 		padding: 0.75rem 1.214rem;
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
@@ -562,6 +561,8 @@
 	}
 
 	/* Footnotes relocated below article-nav (moved via JS) */
+	/* Keep the same note scale before and after client-side relocation. */
+	.footnotes,
 	.footnotes-relocated {
 		margin-top: 0;
 		padding-top: 0;
@@ -604,7 +605,7 @@
 	   ring between two plain rules, in the same 10rem box. */
 	.section-ornament {
 		display: block;
-		width: 10rem;
+		width: min(10rem, 100%);
 		height: 1.5rem;
 		margin: var(--space-phi) auto;
 		background: var(--color-divider);

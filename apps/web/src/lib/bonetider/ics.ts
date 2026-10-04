@@ -21,11 +21,16 @@
 // Utan determinismen kostade de 150 s bygge och 80 MB uppladdning varje natt för att
 // säga exakt samma sak som kvällen innan.
 
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { escapeText, foldLine } from "../ical";
-import { computePrayerTimes, dateForStockholmDay, TIME_ZONE } from "./prayer-times";
+import {
+	computePrayerTimes,
+	dateForStockholmDay,
+	stockholmIsoDate,
+	TIME_ZONE,
+} from "./prayer-times";
 import { DEFAULT_SETTINGS } from "./settings";
 
 /** Bönerna som får en händelse. Shurūq utelämnas: den är soluppgången, inte en bön
@@ -102,13 +107,19 @@ const CACHE_DIR = join(process.cwd(), "node_modules/.astro/ics-cache");
 const generation = (() => {
 	try {
 		const hash = createHash("sha256");
-		for (const file of ["src/lib/bonetider/ics.ts", "src/lib/ical.ts"])
+		for (const file of [
+			"src/lib/bonetider/ics.ts",
+			"src/lib/ical.ts",
+			"src/lib/bonetider/prayer-times.ts",
+			"src/lib/bonetider/settings.ts",
+			"node_modules/adhan/package.json",
+		])
 			hash.update(readFileSync(join(process.cwd(), file)));
 		return hash.digest("hex").slice(0, 12);
 	} catch {
 		// Går filen inte att läsa (oväntat) — använd ett värde per process, så cachen
 		// fortfarande fungerar inom ett bygge men aldrig överlever det.
-		return `nogen-${process.pid}`;
+		return `nogen-${randomUUID()}`;
 	}
 })();
 
@@ -146,9 +157,15 @@ export interface IcsPlace {
  */
 export function prayerCalendar(place: IcsPlace, now = new Date(), monthsAhead = 1): string {
 	pruneOldGenerations();
-	const year = now.getUTCFullYear();
-	const month = now.getUTCMonth();
-	const key = `${place.slug}-${year}-${String(month + 1).padStart(2, "0")}-${monthsAhead}`;
+	const today = stockholmIsoDate(now);
+	const year = Number(today.slice(0, 4));
+	const month = Number(today.slice(5, 7)) - 1;
+	// A corrected location must not reuse prayer times calculated at the old coordinates.
+	const placeKey = createHash("sha256")
+		.update(JSON.stringify([place.slug, place.name, place.lat, place.lon]))
+		.digest("hex")
+		.slice(0, 16);
+	const key = `${placeKey}-${year}-${String(month + 1).padStart(2, "0")}-${monthsAhead}`;
 	const file = join(GEN_DIR, `${key}.ics`);
 	try {
 		if (existsSync(file)) return readFileSync(file, "utf-8");

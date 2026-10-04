@@ -40,8 +40,10 @@ import {
 	PRAYER_ORDER,
 	PRAYER_SWEDISH_NAMES,
 	type PrayerKey,
+	stockholmDateLabel,
 	stockholmDateParts,
 	stockholmDayKey,
+	stockholmIsoDate,
 	TIME_ZONE,
 } from "../lib/bonetider/prayer-times";
 import { RELIEF_SCREEN } from "../lib/bonetider/relief-screen";
@@ -333,8 +335,8 @@ function mount(root: HTMLElement): void {
 			writeRow(row, key, state, friday, isNext, hero === null && key === "fajr");
 		}
 
-		els.date.textContent = dateLabel(at);
-		els.date.setAttribute("datetime", at.toLocaleDateString("sv-SE", { timeZone: TIME_ZONE }));
+		els.date.textContent = stockholmDateLabel(at);
+		els.date.setAttribute("datetime", stockholmIsoDate(at));
 		// ⚠️ NOT `at`. hijriLabel reads its argument in UTC, so any instant between
 		// Swedish midnight and 02:00 lands on the previous UTC day and the wall shows
 		// yesterday's Hijri date — which markesdagar.ts warns about in as many words, and
@@ -827,12 +829,6 @@ function collect(root: HTMLElement): Els {
 // the one-second path — 86 400 constructions a day on a Celeron-class signage box, for a
 // value that is the same formatter every time.
 const WEEKDAY_FORMAT = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, weekday: "short" });
-const DATE_FORMAT = new Intl.DateTimeFormat("sv-SE", {
-	timeZone: TIME_ZONE,
-	weekday: "long",
-	day: "numeric",
-	month: "long",
-});
 const CLOCK_FORMAT = new Intl.DateTimeFormat("en-GB", {
 	timeZone: TIME_ZONE,
 	hour: "2-digit",
@@ -890,10 +886,6 @@ function isFriday(at: Date): boolean {
 function partsOf(at: Date): { year: number; month: number; dayOfMonth: number } {
 	const { year, month, day } = stockholmDateParts(at);
 	return { year, month, dayOfMonth: day };
-}
-
-function dateLabel(at: Date): string {
-	return DATE_FORMAT.format(at);
 }
 
 /** Text with each ʿayn and hamza in a span of its own, which MosqueScreen.astro tightens.

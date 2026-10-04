@@ -1,6 +1,6 @@
 ---
 import { cityPlanning } from "../../lib/bonetider/city-planning";
-import { formatTime, PRAYER_LABELS, PRAYER_ORDER } from "../../lib/bonetider/prayer-times";
+import { stockholmDateLabel, formatTime, PRAYER_LABELS, PRAYER_ORDER } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { methodLabel, madhabLabel } from "../../lib/bonetider/settings-options";
 
@@ -14,7 +14,7 @@ interface Props {
 }
 const { location, part = "take" } = Astro.props;
 const plan = cityPlanning(location, new Date(), DEFAULT_SETTINGS);
-const dateLabel = plan.tomorrow.toLocaleDateString("sv-SE", { day: "numeric", month: "long", timeZone: "Europe/Stockholm" });
+const dateLabel = stockholmDateLabel(plan.tomorrow, "short");
 ---
 
 <div class="city-planning" data-lat={location.latitude} data-lon={location.longitude}>
@@ -52,7 +52,7 @@ const dateLabel = plan.tomorrow.toLocaleDateString("sv-SE", { day: "numeric", mo
 
 <script>
 	import { cityPlanning } from "../../lib/bonetider/city-planning";
-	import { formatTime, PRAYER_ORDER, stockholmDayKey } from "../../lib/bonetider/prayer-times";
+	import { stockholmDateLabel, formatTime, PRAYER_ORDER, stockholmDayKey } from "../../lib/bonetider/prayer-times";
 	import { methodLabel, madhabLabel } from "../../lib/bonetider/settings-options";
 	import { CHANGE_EVENT, loadSettings } from "../../lib/bonetider/storage";
 
@@ -67,7 +67,7 @@ const dateLabel = plan.tomorrow.toLocaleDateString("sv-SE", { day: "numeric", mo
 			const method = el.querySelector("[data-city-method]");
 			if (method) method.textContent = `${methodLabel(settings)} · ${madhabLabel(settings)}`;
 			const date = el.querySelector("[data-tomorrow-date]");
-			if (date) date.textContent = plan.tomorrow.toLocaleDateString("sv-SE", { day: "numeric", month: "long", timeZone: "Europe/Stockholm" });
+			if (date) date.textContent = stockholmDateLabel(plan.tomorrow, "short");
 			for (const prayer of PRAYER_ORDER) {
 				const time = el.querySelector(`[data-tomorrow-prayer="${prayer}"]`);
 				if (time) time.textContent = formatTime(plan.times[prayer]);

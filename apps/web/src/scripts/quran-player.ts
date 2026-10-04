@@ -17,6 +17,7 @@ function setup(fig: HTMLElement): void {
 	const arabic = fig.querySelector<HTMLElement>(".qv-arabic");
 	if (!(btn && arabic) || btn.dataset.qvReady) return;
 	btn.dataset.qvReady = "1";
+	btn.setAttribute("aria-pressed", "false");
 
 	let segments: Segment[] = [];
 	try {
@@ -41,6 +42,12 @@ function setup(fig: HTMLElement): void {
 		active = word;
 	};
 
+	const setIdle = (): void => {
+		btn.removeAttribute("data-playing");
+		btn.setAttribute("aria-pressed", "false");
+		setActive(-1);
+	};
+
 	btn.addEventListener("click", () => {
 		// Lazy: no file is fetched until the first press.
 		if (!audio) {
@@ -50,20 +57,20 @@ function setup(fig: HTMLElement): void {
 				if (current && current !== audio) current.pause();
 				current = audio;
 				btn.setAttribute("data-playing", "");
+				btn.setAttribute("aria-pressed", "true");
 			});
 			audio.addEventListener("pause", () => {
-				btn.removeAttribute("data-playing");
-				setActive(-1); // restore the full, readable verse
+				setIdle(); // restore the full, readable verse
 			});
 			audio.addEventListener("ended", () => {
-				btn.removeAttribute("data-playing");
-				setActive(-1);
+				setIdle();
 				if (audio) audio.currentTime = 0;
 			});
+			audio.addEventListener("error", setIdle);
 			// Segments are ordered by start, so a short linear scan suffices; between
 			// words we hold the current word rather than flicker off.
 			audio.addEventListener("timeupdate", () => {
-				if (!(audio && segments.length)) return;
+				if (!(audio && !audio.paused && segments.length)) return;
 				const t = audio.currentTime * 1000;
 				for (const [word, start, end] of segments) {
 					if (t >= start && t < end) {
@@ -73,10 +80,7 @@ function setup(fig: HTMLElement): void {
 				}
 			});
 		}
-		if (audio.paused)
-			audio.play().catch(() => {
-				// Autoplay/codec rejection — leave the button idle, no error to surface.
-			});
+		if (audio.paused) audio.play().catch(setIdle);
 		else audio.pause();
 	});
 }

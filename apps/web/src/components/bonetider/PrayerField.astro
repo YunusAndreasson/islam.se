@@ -1,6 +1,8 @@
 ---
 import {
 	computePrayerTimes,
+	stockholmDateLabel,
+	stockholmIsoDate,
 	dateForStockholmDay,
 	stockholmDateParts,
 	formatTime,
@@ -35,13 +37,8 @@ const { location, variant = "home", fixed = false, caption = false, scheduleFirs
 // Build-time "today" with default settings — the no-JS / no-flash baseline. The client
 // recomputes live against the real now and the visitor's saved settings.
 const now = new Date();
-const todayIso = now.toLocaleDateString("sv-SE", { timeZone: "Europe/Stockholm" });
-const todayLabel = new Intl.DateTimeFormat("sv-SE", {
-	timeZone: "Europe/Stockholm",
-	weekday: "long",
-	day: "numeric",
-	month: "long",
-}).format(now);
+const todayIso = stockholmIsoDate(now);
+const todayLabel = stockholmDateLabel(now);
 const times = computePrayerTimes(location, now, DEFAULT_SETTINGS);
 const rows = PRAYER_ORDER.map((key) => ({
 	key,
@@ -312,8 +309,9 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	}
 
 	.bf-t {
+		overflow-wrap: anywhere;
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: minmax(0, 1fr) auto;
 		grid-template-areas: "name time" "sv time";
 		column-gap: 1rem;
 		align-items: baseline;
@@ -388,11 +386,12 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	   in the document on the template that carries ~86% of the site's search clicks.
 	   Only the paint order changes. */
 	.bf-map-first {
+		grid-template-columns: minmax(0, 1fr);
 		grid-template-areas: "summary" "times" "map" "legend";
 		gap: 0.9rem;
 	}
 	.bf-summary { grid-area: summary; padding: var(--space-control) var(--space-group); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--surface-1); }
-	.bf-map-first .bf-summary .bf-next { margin: 0; display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+	.bf-map-first .bf-summary .bf-next { margin: 0; display: flex; flex-direction: row; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
 	.bf-map-first .bf-stage { grid-area: map; aspect-ratio: 4 / 3; }
 	.bf-map-first .bf-legend { grid-area: legend; margin: 0; font-size: var(--step--3); line-height: 1.5; color: var(--color-muted); text-wrap: pretty; }
 	.bf-map-first .bf-legend:empty { display: none; }

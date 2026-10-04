@@ -15,7 +15,7 @@
 // cachas på disk precis som .ics-filerna och OG-korten. Se ics.ts för samma resonemang.
 
 import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import {
 	existsSync,
 	mkdirSync,
@@ -26,7 +26,13 @@ import {
 	writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
-import { computePrayerTimes, dateForStockholmDay, formatTime, TIME_ZONE } from "./prayer-times";
+import {
+	computePrayerTimes,
+	dateForStockholmDay,
+	formatTime,
+	stockholmIsoDate,
+	TIME_ZONE,
+} from "./prayer-times";
 import { DEFAULT_SETTINGS } from "./settings";
 
 const CACHE_DIR = join(process.cwd(), "node_modules/.astro/pdf-cache");
@@ -37,10 +43,17 @@ const FONTS_DIR = join(process.cwd(), "../../fonts");
 
 const generation = (() => {
 	try {
-		const self = join(process.cwd(), "src/lib/bonetider/pdf.ts");
-		return createHash("sha256").update(readFileSync(self)).digest("hex").slice(0, 12);
+		const hash = createHash("sha256");
+		for (const file of [
+			"src/lib/bonetider/pdf.ts",
+			"src/lib/bonetider/prayer-times.ts",
+			"src/lib/bonetider/settings.ts",
+			"node_modules/adhan/package.json",
+		])
+			hash.update(readFileSync(join(process.cwd(), file)));
+		return hash.digest("hex").slice(0, 12);
 	} catch {
-		return `nogen-${process.pid}`;
+		return `nogen-${randomUUID()}`;
 	}
 })();
 
@@ -162,9 +175,14 @@ ${body}
  */
 export function monthPdf(place: PdfPlace, now = new Date()): Buffer {
 	pruneOldGenerations();
-	const year = now.getUTCFullYear();
-	const month = now.getUTCMonth();
-	const key = `${place.slug}-${year}-${String(month + 1).padStart(2, "0")}`;
+	const today = stockholmIsoDate(now);
+	const year = Number(today.slice(0, 4));
+	const month = Number(today.slice(5, 7)) - 1;
+	const placeKey = createHash("sha256")
+		.update(JSON.stringify([place.slug, place.name, place.county, place.lat, place.lon]))
+		.digest("hex")
+		.slice(0, 16);
+	const key = `${placeKey}-${year}-${String(month + 1).padStart(2, "0")}`;
 	const cached = join(GEN_DIR, `${key}.pdf`);
 	try {
 		if (existsSync(cached)) return readFileSync(cached);

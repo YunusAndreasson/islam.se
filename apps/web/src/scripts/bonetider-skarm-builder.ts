@@ -31,10 +31,6 @@ interface Entry {
 
 const VISA = "/bonetider/skarm/visa/";
 
-/** The one listener boot() puts on `document`, which outlives the page it was added on.
- *  See where it is registered. */
-let onSettingsChange: ((e: Event) => void) | null = null;
-
 function readJson<T>(id: string): T[] {
 	const el = document.getElementById(id);
 	if (!el?.textContent) return [];
@@ -229,6 +225,9 @@ function boot(): void {
 		writeStatus(false);
 	}
 
+	let filledName = "";
+	let filledPlace = "";
+
 	/** Picking a mosque fills in the name and the place line, because a mosque that has
 	 *  to retype its own name will assume the picker did nothing. */
 	mosqueInput?.addEventListener("change", () => {
@@ -237,8 +236,15 @@ function boot(): void {
 		writeStatus(true);
 		const picked = byMosque.get(mosqueInput.value);
 		if (!picked) return;
-		if (nameInput && nameInput.value.trim() === "") nameInput.value = picked.n;
-		if (placeInput && placeInput.value.trim() === "") placeInput.value = picked.c;
+		// Follow subsequent selections unless the reader has supplied a custom label.
+		if (nameInput && (nameInput.value.trim() === "" || nameInput.value === filledName)) {
+			nameInput.value = picked.n;
+		}
+		if (placeInput && (placeInput.value.trim() === "" || placeInput.value === filledPlace)) {
+			placeInput.value = picked.c;
+		}
+		filledName = picked.n;
+		filledPlace = picked.c;
 		const ort = ortBySlug.get(picked.s);
 		if (ortInput && ort) ortInput.value = ort.c && ort.c !== ort.n ? `${ort.n} – ${ort.c}` : ort.n;
 		sync();
@@ -246,22 +252,25 @@ function boot(): void {
 
 	root.addEventListener("input", sync);
 	root.addEventListener("change", sync);
-	// On the document, not on the root: the settings form lives inside a <details> that
-	// may be closed, and its events are the same either way.
-	//
-	// Which is also why it has to be un-registered by hand. boot() runs on every
-	// astro:page-load and Base.astro ships <ClientRouter />, so a view transition swaps
-	// document.body — taking the root listeners above with it — while `document` itself
-	// survives. Without this, three visits to the builder leave three live listeners, and
-	// the next settings change runs sync() three times against a detached DOM, each one
-	// arming a 400 ms timer that writes `src` on an iframe no longer in the page and each
-	// one pinning that visit's copy of the mosque and place datasets.
-	if (onSettingsChange) document.removeEventListener(BT_SETTINGS_CHANGE, onSettingsChange);
-	onSettingsChange = (e: Event): void => {
-		settings = (e as CustomEvent<BtSettingsChangeDetail>).detail.settings;
-		sync();
-	};
-	document.addEventListener(BT_SETTINGS_CHANGE, onSettingsChange);
+	// The document survives Astro navigation; the builder's listener and pending
+	// preview update must stop as soon as this page leaves.
+	const controller = new AbortController();
+	document.addEventListener(
+		BT_SETTINGS_CHANGE,
+		(e: Event) => {
+			settings = (e as CustomEvent<BtSettingsChangeDetail>).detail.settings;
+			sync();
+		},
+		{ signal: controller.signal },
+	);
+	document.addEventListener(
+		"astro:before-swap",
+		() => {
+			controller.abort();
+			if (settleTimer !== undefined) clearTimeout(settleTimer);
+		},
+		{ once: true },
+	);
 
 	copyBtn?.addEventListener("click", async () => {
 		const url = urlOut?.textContent ?? "";

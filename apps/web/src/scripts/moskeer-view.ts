@@ -37,12 +37,12 @@ document.addEventListener("astro:page-load", () => {
 		for (const row of rows) {
 			const visible =
 				(!selected || row.dataset.lan === selected) && (row.dataset.search ?? "").includes(term);
-			if (row.parentElement) row.parentElement.hidden = !visible;
+			row.parentElement?.toggleAttribute("hidden", !visible);
 			if (visible) count++;
 		}
 		syncGroups(page, Boolean(query || selected));
 		const countLabel = page.querySelector("#mk-count");
-		if (countLabel) countLabel.textContent = `${count} moskéer`;
+		if (countLabel) countLabel.textContent = `${count} ${count === 1 ? "moské" : "moskéer"}`;
 		const empty = page.querySelector<HTMLElement>("#mk-empty");
 		if (empty) empty.hidden = count > 0;
 		const reset = page.querySelector<HTMLButtonElement>("#mk-reset");

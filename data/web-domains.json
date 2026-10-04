@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 121,
-      "ok": 120,
+      "total": 122,
+      "ok": 121,
       "failed": 1,
-      "lastChecked": "2026-09-27T10:24:47.931Z",
-      "publishedIn": 95,
-      "avgScore": 8.617894736842116,
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 96,
+      "avgScore": 8.618750000000011,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 47,
-      "ok": 47,
+      "total": 49,
+      "ok": 49,
       "failed": 0,
-      "lastChecked": "2026-09-23T19:06:38.633Z",
-      "publishedIn": 36,
-      "avgScore": 8.638888888888886
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 38,
+      "avgScore": 8.642105263157891
     },
     "lifewithallah.com": {
       "total": 3,
@@ -327,12 +327,12 @@
       "avgScore": 8.5
     },
     "www.so-rummet.se": {
-      "total": 4,
-      "ok": 4,
+      "total": 5,
+      "ok": 5,
       "failed": 0,
-      "lastChecked": "2026-08-14T19:04:24.897Z",
-      "publishedIn": 3,
-      "avgScore": 8.633333333333333
+      "lastChecked": "2026-09-30T18:36:35.427Z",
+      "publishedIn": 4,
+      "avgScore": 8.649999999999999
     },
     "www.culawreview.org": {
       "total": 1,
@@ -1436,10 +1436,12 @@
       "avgScore": 8.5
     },
     "islamiclaw.blog": {
-      "total": 1,
-      "ok": 0,
+      "total": 2,
+      "ok": 1,
       "failed": 1,
-      "lastChecked": "2026-03-26T09:57:16.335Z"
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
     },
     "islamisktforum.se": {
       "total": 1,
@@ -1526,12 +1528,12 @@
       "avgScore": 8.5
     },
     "stockholmskallan.stockholm.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-05-17T12:23:59.802Z",
-      "publishedIn": 1,
-      "avgScore": 8.5
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 3,
+      "avgScore": 8.633333333333333
     },
     "www.altinget.se": {
       "total": 2,
@@ -2200,12 +2202,12 @@
       "avgScore": 8.6
     },
     "www.scb.se": {
-      "total": 3,
-      "ok": 3,
+      "total": 5,
+      "ok": 5,
       "failed": 0,
-      "lastChecked": "2026-09-14T18:40:30.627Z",
-      "publishedIn": 2,
-      "avgScore": 8.6
+      "lastChecked": "2026-09-30T18:36:35.427Z",
+      "publishedIn": 4,
+      "avgScore": 8.649999999999999
     },
     "kvartal.se": {
       "total": 3,
@@ -2444,6 +2446,62 @@
       "ok": 1,
       "failed": 0,
       "lastChecked": "2026-09-27T10:24:47.931Z"
+    },
+    "www.migrationsverket.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-09-30T18:36:35.427Z",
+      "publishedIn": 2,
+      "avgScore": 8.7
+    },
+    "vilhelmmobergsallskapet.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-09-30T18:36:35.427Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "digitaltmuseum.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "digitaltmuseum.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "uwapress.uw.edu": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "db.huntbot.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.mynewsdesk.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
     }
   }
 }

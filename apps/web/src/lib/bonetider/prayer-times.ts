@@ -129,6 +129,30 @@ const STOCKHOLM_DATE_FORMAT = new Intl.DateTimeFormat("sv-SE", {
 	day: "2-digit",
 });
 
+/** ISO calendar date for datetime attributes and daily build caches. */
+export function stockholmIsoDate(date: Date): string {
+	return STOCKHOLM_DATE_FORMAT.format(date);
+}
+
+const DATE_LABEL_OPTIONS = { timeZone: TIME_ZONE, day: "numeric", month: "long" } as const;
+const DATE_LABEL_FORMATS = {
+	short: new Intl.DateTimeFormat("sv-SE", DATE_LABEL_OPTIONS),
+	weekday: new Intl.DateTimeFormat("sv-SE", { ...DATE_LABEL_OPTIONS, weekday: "long" }),
+	full: new Intl.DateTimeFormat("sv-SE", {
+		...DATE_LABEL_OPTIONS,
+		weekday: "long",
+		year: "numeric",
+	}),
+};
+
+/** Shared by the server baseline and live updates; retain each surface's date detail. */
+export function stockholmDateLabel(
+	date: Date,
+	detail: keyof typeof DATE_LABEL_FORMATS = "weekday",
+): string {
+	return DATE_LABEL_FORMATS[detail].format(date);
+}
+
 export interface StockholmDateParts {
 	year: number;
 	/** Zero-based month, matching Date#getMonth(). */

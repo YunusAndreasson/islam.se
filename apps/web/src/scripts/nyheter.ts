@@ -31,19 +31,17 @@ import {
 /** The payload shape is declared once, as a JSDoc typedef beside the renderer. */
 type Nyhet = import("../../functions/nyheter/_nyheter.js").Nyhet;
 
-/** One fetch per page load, shared by both surfaces. */
-let hamtning: Promise<Nyhet[] | null> | null = null;
-
-function hamta(): Promise<Nyhet[] | null> {
-	if (hamtning) return hamtning;
-	hamtning = fetch(FEED_URL, { headers: { accept: "application/json" } })
-		.then((r) => (r.ok ? r.json() : null))
-		.then((d) => (Array.isArray(d?.artiklar) ? (d.artiklar as Nyhet[]) : null))
-		// A blocked or failed cross-origin fetch is an ordinary outcome here —
-		// a content blocker is enough to cause it — and it must degrade to "no
-		// news", never to a console full of errors on the front page.
-		.catch(() => null);
-	return hamtning;
+/** One request feeds both surfaces and belongs to the current Astro page. */
+function hamta(signal: AbortSignal): Promise<Nyhet[] | null> {
+	return (
+		fetch(FEED_URL, { headers: { accept: "application/json" }, signal })
+			.then((r) => (r.ok ? r.json() : null))
+			.then((d) => (Array.isArray(d?.artiklar) ? (d.artiklar as Nyhet[]) : null))
+			// A blocked or failed cross-origin fetch is an ordinary outcome here —
+			// a content blocker is enough to cause it — and it must degrade to "no
+			// news", never to a console full of errors on the front page.
+			.catch(() => null)
+	);
 }
 
 /** Re-label the relative times against the clock in front of the reader. The
@@ -79,7 +77,7 @@ function fyllStatus(artiklar: Nyhet[]): void {
  *  at — the payload holds 48h and the list shows 24 — so the miss is designed
  *  for rather than left to 404 into silence: the reader is handed the same
  *  story on zuhd.news, where it keeps a permanent home. */
-function losUppLank(): void {
+function losUppLank(signal: AbortSignal): void {
 	const hash = location.hash;
 	if (!hash.startsWith("#nyhet-")) return;
 	const slug = hash.slice("#nyhet-".length);
@@ -91,7 +89,7 @@ function losUppLank(): void {
 	if (traff) {
 		traff.scrollIntoView({ block: "center", behavior: "smooth" });
 		traff.classList.add("nyhet--utpekad");
-		markeraTillfalligt(traff);
+		markeraTillfalligt(traff, signal);
 		return;
 	}
 	const notis = document.getElementById("nyheter-passerad");
@@ -114,10 +112,10 @@ function losUppLank(): void {
  * listener would erase the mark before the reader ever saw it. `wheel`,
  * `touchstart`, `pointerdown` and `keydown` are the reader and only the reader.
  */
-function markeraTillfalligt(el: HTMLElement): void {
+function markeraTillfalligt(el: HTMLElement, signal: AbortSignal): void {
 	const rensa = () => el.classList.remove("nyhet--utpekad");
 	for (const typ of ["wheel", "touchstart", "pointerdown", "keydown"] as const) {
-		window.addEventListener(typ, rensa, { once: true, passive: true });
+		window.addEventListener(typ, rensa, { once: true, passive: true, signal });
 	}
 }
 
@@ -159,7 +157,7 @@ function kopplaDelning(rot: HTMLElement): void {
 	});
 }
 
-async function boot(): Promise<void> {
+async function boot(signal: AbortSignal): Promise<void> {
 	const rail = document.querySelector<HTMLElement>('[data-nyheter="rail"]');
 	const full = document.querySelector<HTMLElement>('[data-nyheter="full"]');
 	if (!(rail || full)) return;
@@ -170,11 +168,13 @@ async function boot(): Promise<void> {
 		// the list — so the re-labelling has to run over the section, not the <ol>.
 		uppdateraTider(document);
 		kopplaDelning(full);
-		losUppLank();
+		losUppLank(signal);
 		return;
 	}
 
-	const artiklar = await hamta();
+	const artiklar = await hamta(signal);
+	// Cancellation can race with a fulfilled response. Never paint into a later page.
+	if (signal.aborted) return;
 	const iFonster = artiklar ? inomFonster(artiklar, Date.now(), FONSTER_H) : [];
 
 	if (rail) {
@@ -214,12 +214,14 @@ async function boot(): Promise<void> {
 				sektion?.removeAttribute("hidden");
 			}
 		}
-		losUppLank();
+		losUppLank(signal);
 	}
 }
 
+let page: AbortController | undefined;
+document.addEventListener("astro:before-swap", () => page?.abort());
 document.addEventListener("astro:page-load", () => {
-	// One fetch per navigation, not one per boot: ClientRouter reuses the module.
-	hamtning = null;
-	boot();
+	page?.abort();
+	page = new AbortController();
+	boot(page.signal);
 });

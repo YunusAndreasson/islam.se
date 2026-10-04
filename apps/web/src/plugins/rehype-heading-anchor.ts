@@ -1,3 +1,5 @@
+import { type HastElement, type HastNode, type HastText, isElement } from "./hast";
+
 /**
  * rehype-heading-anchor: gives every section heading a permalink the reader can see.
  *
@@ -19,22 +21,6 @@
  * Runs before rehype-sidenotes and the three figure passes: each of those reads a
  * document shape written before any of this, and a heading is not something they act on.
  */
-
-interface HastText {
-	type: "text";
-	value: string;
-}
-
-interface HastElement {
-	type: "element";
-	tagName: string;
-	properties?: Record<string, unknown>;
-	children: HastNode[];
-}
-
-type HastNode = HastText | HastElement | { type: string; children?: HastNode[] };
-
-const isElement = (node: HastNode): node is HastElement => node.type === "element";
 
 /** Headings that carry a permalink. h4 and below are rare here and sit inside a section
  *  the reader can already link to. */

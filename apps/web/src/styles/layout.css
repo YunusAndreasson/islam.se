@@ -1380,6 +1380,12 @@
 		font-feature-settings: "case";
 	}
 
+	.footer-group {
+		min-inline-size: 0;
+		max-inline-size: 100%;
+		overflow-wrap: anywhere;
+	}
+
 	.site-footer-nav a {
 		color: var(--color-muted);
 		text-decoration: none;
@@ -1515,8 +1521,7 @@
 	}
 
 	/* Reading progress bar */
-	/* Full width, scaled: the script sets scaleX on every scroll event, which the
-	   compositor applies without the layout pass a changing `width` asked for. */
+	/* The root scroll timeline drives the bar; JS supplies the unsupported-browser fallback. */
 	.reading-progress {
 		position: fixed;
 		top: 0;
@@ -1529,6 +1534,22 @@
 		transform-origin: left;
 		transition: none;
 		pointer-events: none;
+	}
+
+	@supports (animation-timeline: scroll(root y)) {
+		.reading-progress {
+			animation: reading-progress-fill 1ms linear both;
+			animation-timeline: scroll(root y);
+		}
+
+		@keyframes reading-progress-fill {
+			from {
+				transform: scaleX(0);
+			}
+			to {
+				transform: scaleX(1);
+			}
+		}
 	}
 
 	/* Fixed action buttons — bottom-right corner */
@@ -2045,6 +2066,7 @@
    No top margin: the heading above owns that gap. Section framing stays with the
    page. */
 	.def-list {
+		overflow-wrap: anywhere;
 		margin: 0;
 		max-width: var(--content-width);
 	}

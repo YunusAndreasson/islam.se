@@ -27,13 +27,12 @@ export function initFootnotePopovers(): void {
 		const gap = 8;
 		let left = rect.left + window.scrollX + rect.width / 2 - popW / 2;
 		left = Math.max(pad, Math.min(left, window.innerWidth - popW - pad));
-		// Prefer above; fall back to below if not enough room
+		// Prefer above, then below; keep long notes inside the visible viewport.
+		// CSS caps the height and lets the note itself scroll at enlarged text sizes.
 		const above = rect.top - gap - popH;
-		if (above >= pad) {
-			popover.style.top = `${rect.top + window.scrollY - gap - popH}px`;
-		} else {
-			popover.style.top = `${rect.bottom + window.scrollY + gap}px`;
-		}
+		const preferredTop = above >= pad ? above : rect.bottom + gap;
+		const top = Math.max(pad, Math.min(preferredTop, window.innerHeight - popH - pad));
+		popover.style.top = `${top + window.scrollY}px`;
 		popover.style.left = `${left}px`;
 	}
 
@@ -91,6 +90,9 @@ export function initFootnotePopovers(): void {
 			clearTimeout(hideTimer);
 			hideTimer = null;
 		}
+		describedRef?.removeAttribute("aria-describedby");
+		el.setAttribute("aria-describedby", popover.id);
+		describedRef = el;
 		popover.textContent = title;
 		popover.setAttribute("data-fn-id", "honorific");
 		positionPopover(el);
@@ -198,6 +200,7 @@ export function initFootnotePopovers(): void {
 			const hon = target.closest<HTMLElement>(".honorific");
 			if (hon && isTouch) {
 				if (
+					describedRef === hon &&
 					popover.getAttribute("data-fn-id") === "honorific" &&
 					popover.classList.contains("fn-popover--visible")
 				) {
@@ -229,6 +232,8 @@ export function initFootnotePopovers(): void {
 		"astro:before-swap",
 		() => {
 			ctrl.abort();
+			if (hideTimer) clearTimeout(hideTimer);
+			dismissPopover();
 			popover.remove();
 		},
 		{ once: true },

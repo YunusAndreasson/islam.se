@@ -21,7 +21,7 @@ export const MODEL_MAP = {
 	/** Deep reasoning, long-horizon agentic work — the default for authoring. */
 	opus: "claude-opus-5-5",
 	/** Near-Opus quality at lower cost — used to economise on a long run. */
-	sonnet: "claude-sonnet-5",
+	sonnet: "claude-sonnet-5-5",
 	/** Cheapest tier; bulk mechanical extraction over tens of thousands of rows. */
 	haiku: "claude-haiku-4-5",
 } as const;

@@ -18,7 +18,7 @@ import { genitive, nf0, nf1, talord } from "../../lib/format";
 import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
 import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION, searchTitlePlace } from "../../lib/bonetider/places-index";
-import { computePrayerTimes, formatTime, stockholmMonthLabel } from "../../lib/bonetider/prayer-times";
+import { computePrayerTimes, formatTime, stockholmMonthLabel, stockholmIsoDate, stockholmDateLabel } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { cityBySlug, directionsLinks, lanDisplay, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 import { hijriLabel } from "../../lib/markesdagar";
@@ -98,14 +98,8 @@ const facts = placeFacts(place.lat, place.lon);
 // Visible date for the "Dagens bönetider" block. Static build → this is the build
 // date; the inline script below refreshes it to the reader's real today on load, and
 // a daily rebuild keeps the crawled value current. Stockholm time = the times' zone.
-const todayIso = now.toLocaleDateString("sv-SE", { timeZone: "Europe/Stockholm" });
-const todayLabel = new Intl.DateTimeFormat("sv-SE", {
-	weekday: "long",
-	day: "numeric",
-	month: "long",
-	year: "numeric",
-	timeZone: "Europe/Stockholm",
-}).format(now);
+const todayIso = stockholmIsoDate(now);
+const todayLabel = stockholmDateLabel(now, "full");
 // Current year (Stockholm tz) for the title/H1 — searchers add it ("bönetider
 // <stad> 2026"), and it lifts perceived freshness on the competitive metro queries.
 // Build-time value; the daily rebuild rolls it over each January.
@@ -900,6 +894,7 @@ if (hasScb) {
 </style>
 
 <script>
+	import { stockholmIsoDate, stockholmDateLabel } from "../../lib/bonetider/prayer-times";
 	import { MS_PER_DAY } from "../../lib/daily";
 	import { hijriLabel } from "../../lib/markesdagar";
 	import { loadSettings } from "../../lib/bonetider/storage";
@@ -912,16 +907,9 @@ if (hasScb) {
 		const el = document.querySelector<HTMLTimeElement>(".bt-today-date");
 		if (!el) return;
 		const now = new Date();
-		const tz = { timeZone: "Europe/Stockholm" } as const;
-		const isoToday = now.toLocaleDateString("sv-SE", tz);
+		const isoToday = stockholmIsoDate(now);
 		el.setAttribute("datetime", isoToday);
-		el.textContent = now.toLocaleDateString("sv-SE", {
-			weekday: "long",
-			day: "numeric",
-			month: "long",
-			year: "numeric",
-			...tz,
-		});
+		el.textContent = stockholmDateLabel(now, "full");
 
 		// The Hijri date beside it is the one thing on this page the reader's own
 		// settings may legitimately move: `hijriOffset` exists so a household can match

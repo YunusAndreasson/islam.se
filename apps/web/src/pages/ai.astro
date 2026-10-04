@@ -44,6 +44,7 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 					<Copy size={14} stroke-width={1.75} />
 					<span class="copy-label">Kopiera</span>
 				</button>
+				<p class="copy-status" role="status"></p>
 			</div>
 
 			<SectionOrnament />
@@ -253,46 +254,61 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 	.ai-prose :global(a:has(> code)::after) {
 		content: none;
 	}
+	.ai-prose :global(.copy-status) {
+		grid-column: 1 / -1;
+		margin: 0;
+		font-size: var(--step--3);
+		color: var(--text-quiet);
+	}
+	.ai-prose :global(.copy-status:empty) { position: absolute; }
 </style>
 
 <script>
 	document.addEventListener("astro:page-load", () => {
-		// Server URL copy button
-		const urlBtn = document.querySelector<HTMLButtonElement>(".copy-btn");
-		const card = urlBtn?.closest<HTMLElement>(".server-url");
-		if (urlBtn && card) {
-			const url = card.dataset.url || "";
-			const label = urlBtn.querySelector<HTMLElement>(".copy-label");
-			if (label) {
-				urlBtn.addEventListener("click", async () => {
-					try {
-						await navigator.clipboard.writeText(url);
-						label.textContent = "Kopierad";
-						setTimeout(() => { label.textContent = "Kopiera"; }, 2000);
-					} catch {}
-				});
-			}
-		}
-
-		// Code block copy buttons
-		for (const btn of document.querySelectorAll<HTMLButtonElement>(".copy-code")) {
+		for (const btn of document.querySelectorAll<HTMLButtonElement>(".copy-btn, .copy-code")) {
+			const container = btn.closest(".server-url, .code-block");
+			const code = container?.querySelector("code");
+			const status = container?.querySelector<HTMLElement>(".copy-status");
+			if (!(code && status)) continue;
+			const label = btn.querySelector<HTMLElement>(".copy-label");
+			const copyIcon = btn.querySelector<SVGElement>(".copy-icon");
+			const checkIcon = btn.querySelector<SVGElement>(".check-icon");
+			let resetTimer: ReturnType<typeof setTimeout> | undefined;
 			btn.addEventListener("click", async () => {
-				const pre = btn.closest(".code-block")?.querySelector("code");
-				if (!pre) return;
+				if (resetTimer) clearTimeout(resetTimer);
+				btn.disabled = true;
+				status.textContent = "";
+				if (label) label.textContent = "Kopiera";
+				if (copyIcon) copyIcon.style.display = "";
+				if (checkIcon) checkIcon.style.display = "none";
 				try {
-					await navigator.clipboard.writeText(pre.textContent || "");
-					const copyIcon = btn.querySelector<SVGElement>(".copy-icon");
-					const checkIcon = btn.querySelector<SVGElement>(".check-icon");
-					if (copyIcon && checkIcon) {
-						copyIcon.style.display = "none";
-						checkIcon.style.display = "";
-						setTimeout(() => {
-							copyIcon.style.display = "";
-							checkIcon.style.display = "none";
-						}, 2000);
-					}
-				} catch {}
+					await navigator.clipboard.writeText(code.textContent || "");
+					if (!btn.isConnected) return;
+					status.textContent = "Kopierad.";
+					if (label) label.textContent = "Kopierad";
+					if (copyIcon) copyIcon.style.display = "none";
+					if (checkIcon) checkIcon.style.display = "";
+					resetTimer = setTimeout(() => {
+						status.textContent = "";
+						if (label) label.textContent = "Kopiera";
+						if (copyIcon) copyIcon.style.display = "";
+						if (checkIcon) checkIcon.style.display = "none";
+					}, 2000);
+				} catch {
+					if (!btn.isConnected) return;
+					const range = document.createRange();
+					range.selectNodeContents(code);
+					const selection = window.getSelection();
+					selection?.removeAllRanges();
+					selection?.addRange(range);
+					status.textContent = "Kunde inte kopiera automatiskt. Texten är markerad så att du kan kopiera den själv.";
+				} finally {
+					btn.disabled = false;
+				}
 			});
+			document.addEventListener("astro:before-swap", () => {
+				if (resetTimer) clearTimeout(resetTimer);
+			}, { once: true });
 		}
 	});
 </script>
