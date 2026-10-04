@@ -9,7 +9,7 @@
 		"deploy": "pnpm bundle-articles && wrangler deploy"
 	},
 	"dependencies": {
-		"@modelcontextprotocol/sdk": "^1.31.0",
+		"@modelcontextprotocol/sdk": "^1.32.0",
 		"agents": "^0.24.0",
 		"minisearch": "^7.2.0",
 		"zod": "^4.6.5"
