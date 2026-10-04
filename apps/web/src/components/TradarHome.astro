@@ -11,16 +11,27 @@ import ThreadList from "./ThreadList.astro";
 // `variant`: the front page draws each tråd as a ROUTE (the default); /essaer/
 // keeps the picture cards it has always had, because there the trådar sit among
 // essay cards and a picture is what the archive reader scans for.
+//
+// `ids` names the threads outright, in the order given, and wins over `limit`: the
+// front page picks its three by hand, because »most essays« can never surface a
+// short tema on something happening now (Folkmordet i Gaza, two essays, 2026-10).
 interface Props {
 	limit?: number;
+	ids?: readonly string[];
 	variant?: "routes" | "cards";
 	nested?: boolean;
 }
-const { limit, variant = "routes", nested = false } = Astro.props;
+const { limit, ids, variant = "routes", nested = false } = Astro.props;
 const RouteHeading = nested ? "h4" : "h3";
 
 let threads = await getCollection("tradar");
-if (limit) {
+if (ids) {
+	threads = ids.map((id) => {
+		const thread = threads.find((t) => t.id === id);
+		if (!thread) throw new Error(`TradarHome: no tema with id "${id}" in tradar.json`);
+		return thread;
+	});
+} else if (limit) {
 	threads = [...threads]
 		.sort((a, b) => b.data.essays.length - a.data.essays.length)
 		.slice(0, limit);

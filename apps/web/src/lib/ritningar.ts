@@ -21,6 +21,8 @@ import moskeerLjus from "../assets/ritningar/moskeer.webp";
 import moskeerMork from "../assets/ritningar/moskeer-mork.webp";
 import poddenLjus from "../assets/ritningar/podden.webp";
 import poddenMork from "../assets/ritningar/podden-mork.webp";
+import skarmenLjus from "../assets/ritningar/skarmen.webp";
+import skarmenMork from "../assets/ritningar/skarmen-mork.webp";
 import tankareLjus from "../assets/ritningar/tankare.webp";
 import tankareMork from "../assets/ritningar/tankare-mork.webp";
 import temanLjus from "../assets/ritningar/teman.webp";
@@ -42,6 +44,11 @@ export const RITNINGAR = {
 	 *  gilt bands on its spine — the front page's close (BookPod), in the podcast drawing's
 	 *  10rem column, so the page ends on the kind of object it opened with. */
 	boken: { ljus: bokenLjus, mork: bokenMork },
+	/** A television on the wall of a mosque's entrance hall, a shoe shelf under it and a
+	 *  coat on its hook beside it; the screen dark, its list of the day's prayers suggested by
+	 *  marks, the current row in ochre — Moskéskärm, beside the book in the front page's
+	 *  closing band (SkarmPromo), in the same 10rem column. */
+	skarmen: { ljus: skarmenLjus, mork: skarmenMork },
 	/** A window at first light, a prayer rug on the sill — Bönetider's prose page, /bonetider/metod/. */
 	bonetider: { ljus: bonetiderLjus, mork: bonetiderMork },
 	/** A modest mosque among a Swedish town's roofs and birches. Not placed (DESIGN.md, »The Drawings«). */
@@ -50,10 +57,12 @@ export const RITNINGAR = {
 	aret: { ljus: aretLjus, mork: aretMork },
 	/** A writing desk: open books, old volumes, inkwell, an oil lamp — Tänkare. */
 	tankare: { ljus: tankareLjus, mork: tankareMork },
-	/** A gravel road through Swedish farmland, old milestones along its verge, the road
-	 *  alone in ochre — Teman: essays read in order along one line of thought, as stops on
-	 *  one road (the front page draws them as routes with stops). Replaced the open books
-	 *  joined by a thread (2026-09-27), a pun on »Trådar« that the new name no longer makes. */
+	/** A gravel road through Swedish farmland, old milestones along its verge, the nearest
+	 *  milestone alone in ochre — Teman: essays read in order along one line of thought, as
+	 *  stops on one road (the front page draws them as routes with stops). Replaced the open
+	 *  books joined by a thread (2026-09-27), a pun on »Trådar« that the new name no longer
+	 *  makes. The road itself was ochre until 2026-10-04: at the 112px the opening gives it,
+	 *  a whole road in ochre was all the eye saw (»för mycket gult«). */
 	teman: { ljus: temanLjus, mork: temanMork },
 	/** A Swedish farmhouse wall barometer, its needle in ochre — upright, for the front page's
 	 *  10rem column beside the AI-barometern's introduction. */

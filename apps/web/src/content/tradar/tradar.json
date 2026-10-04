@@ -1,5 +1,40 @@
 [
 	{
+		"id": "valet-2026",
+		"title": "Valet 2026",
+		"framing": "Inför riksdagsvalet 2026 föreslogs ett förbud mot hijab, och veckan efter valet anklagades moskéerna för att ha styrt väljarna. Om vad som går att granska hos en människa och vad som aldrig syns utifrån, och om måttet den klassiska rätten ger den som röstar: rättvisa, inte samhörighet.",
+		"essays": [
+			"vid-samma-bord",
+			"matstickan-som-redan-finns",
+			"spegeln-som-blev-fonster",
+			"rosten-ar-ingen-beloning",
+			"sorgen-vid-nilen",
+			"marknaden-i-raden"
+		],
+		"imageAlt": "Man som sitter ensam vid ett bord i en vallokal med pennan mot läppen, bakom en vit skärm och med två valbås i bakgrunden"
+	},
+	{
+		"id": "folkmordet-i-gaza",
+		"title": "Folkmordet i Gaza",
+		"framing": "Den 16 september 2025 fastslog FN:s undersökningskommission att Israel har begått folkmord i Gaza. Om talet som godkänns innan bomben fälls – hur många civila ett anfall får döda – och om Bokmässan i Göteborg, där arméns förre talesman fick ordet trots mässans egen människorättskod.",
+		"essays": ["folkmordet-skrevs-under-i-forvag", "bokmassan-och-idfs-forre-talesman"],
+		"imageAlt": "Sönderbombade flervåningshus och fält av betongbråte i flyktinglägret Jabalia i norra Gaza under en grå himmel"
+	},
+	{
+		"id": "maskinen-och-manniskan",
+		"title": "Maskinen och människan",
+		"framing": "Försäkringskassans algoritm markerade kvinnor mer än dubbelt så ofta som män, och i Gaza ägnade en officer 20 sekunder åt varje utpekad människa. Om AI och ansvar: maskinen kan inte bäva inför ett beslut, och därför ligger beslutet kvar hos den som skriver under.",
+		"essays": [
+			"bergen-som-vagrade",
+			"den-starkaste-tjanaren",
+			"folkmordet-skrevs-under-i-forvag",
+			"vittnesmal-utan-vittne",
+			"chipet-och-riddjuret",
+			"serumet-och-blicken"
+		],
+		"imageAlt": "Man vid en laptop i kvällsljus, med ett handskrivet block bredvid tangentbordet"
+	},
+	{
 		"id": "hjartats-anatomi",
 		"title": "Hjärtats anatomi",
 		"framing": "Som en läkare kartlägger kroppens sjukdomar kartlade Ibn Qayyim al-Jawziyya hjärtats – begärets stadier, blickens dubbelhet, vanans långsamma infärgning.",
@@ -38,18 +73,6 @@
 			"silvertarnans-hijra"
 		],
 		"imageAlt": "Man sittande på sängkanten i ett mörkt rum, med regn mot rutan och tända fönster i huset mittemot"
-	},
-	{
-		"id": "maskinen-och-manniskan",
-		"title": "Maskinen och människan",
-		"framing": "Vad händer när människan överlåter sina beslut till maskiner som inte kan bäva inför dem?",
-		"essays": [
-			"chipet-och-riddjuret",
-			"den-starkaste-tjanaren",
-			"bergen-som-vagrade",
-			"serumet-och-blicken"
-		],
-		"imageAlt": "Man vid en laptop i kvällsljus, med ett handskrivet block bredvid tangentbordet"
 	},
 	{
 		"id": "strindbergs-kris",

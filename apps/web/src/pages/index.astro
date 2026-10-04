@@ -10,6 +10,7 @@ import Markesdagar from "../components/Markesdagar.astro";
 import Nyheter from "../components/Nyheter.astro";
 import PraktisktHome from "../components/PraktisktHome.astro";
 import TankareGroups from "../components/TankareGroups.astro";
+import SkarmPromo from "../components/SkarmPromo.astro";
 import TradarHome from "../components/TradarHome.astro";
 import { getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
@@ -113,7 +114,7 @@ const heroPreload = feature?.heroImage
 			<div class="home-akt2-huvud">
 				<section class="home-essays" aria-labelledby="amnen-kicker">
 					<AmnenHome exclude={used} />
-					<TradarHome limit={3} nested />
+					<TradarHome ids={["folkmordet-i-gaza", "maskinen-och-manniskan", "valet-2026"]} nested />
 				</section>
 			</div>
 		</div>
@@ -138,10 +139,14 @@ const heroPreload = feature?.heroImage
 
 		{/* One common region for ways to take the publication and its tools elsewhere.
 		    The wrapper owns the outer space; its two rows retain their headings. On paper,
-		    the last step of the alternation (editorial.css). */}
+		    the last step of the alternation (editorial.css). The second row is the book and
+		    the mosque screen on the same two halves as the podcast and the app above them. */}
 		<div class="home-promotions">
 			<PoddAppHome />
-			<BookPod count={articles.length} variant="home" />
+			<div class="home-promotions-par">
+				<BookPod count={articles.length} variant="home" />
+				<SkarmPromo />
+			</div>
 		</div>
 	</div>
 	</main>

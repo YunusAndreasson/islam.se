@@ -63,8 +63,12 @@ the front page's narrow column).
 - Say what the section **is**, as a thing in a Swedish room or landscape: a window at
   first light with a prayer rug (prayer times), the new crescent over a lake shore (the
   islamic year), a writing desk with an oil lamp (thinkers), a gravel road with old
-  milestones along it, the road in ochre (themes), the Quran on its wooden stand (the pillars and faith).
+  milestones along it, the nearest milestone in ochre (themes), the Quran on its wooden stand (the pillars and faith).
 - **One ochre thing**, named in the prompt, and it should be the point of the drawing.
+  Keep it **small**: a hub opening shows the drawing at ~110px, and an ochre area that is
+  large on the sheet is all the eye sees there. The themes' road was ochre along its whole
+  length and the user judged it »för mycket gult« (2026-10-04); the accent moved to one
+  milestone, redrawn as an edit of the same sheet so the composition held.
 - **No text, no letters, no imitation Arabic.** A mushaf's lines are suggested by soft
   hatching only — generated pseudo-script on a Quran page would be disrespectful.
 - **Don't repeat a motif** already in `lib/ritningar.ts` (two lake windows is one too many

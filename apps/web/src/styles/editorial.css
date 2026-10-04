@@ -102,9 +102,23 @@
 }
 
 .home .home-essays > .home-movement,
-.home .home-promotions > :is(.podd-app, .bookpod--home) {
+.home .home-promotions > .podd-app,
+.home .home-promotions-par > :is(.bookpod--home, .skarm-promo) {
 	margin: 0;
 	min-inline-size: 0;
+}
+
+/* The book and the mosque screen: the two halves PoddAppHome sets for the podcast and
+   the app (same gap, same 48rem turn), so the four promotions stand on one grid. */
+.home .home-promotions-par {
+	display: grid;
+	gap: var(--space-phi) var(--grid-gutter);
+}
+
+@media (width >= 48rem) {
+	.home .home-promotions-par {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 .home .home-masthead {
