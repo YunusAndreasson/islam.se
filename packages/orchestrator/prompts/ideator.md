@@ -171,7 +171,7 @@ Avoid Sufi-specific terminology (tariqa, fana, muraqaba) and figures primarily k
 </content_framing>
 
 <keyword_guidance>
-Keywords search the quote database (~59k quotes). Generate 4-5 keywords that will find relevant quotes.
+Keywords search the quote database. Generate 4-5 keywords that will find relevant quotes.
 
 **Effective keywords** (match classical texts):
 - Arabic terms: "sabr", "tawba", "taqwa", "ilm", "qalb", "nafs", "shukr", "zuhd", "akhlaq"

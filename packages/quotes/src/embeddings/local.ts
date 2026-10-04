@@ -17,12 +17,14 @@ let extractorPromise: Promise<FeatureExtractionPipeline> | null = null;
  */
 function getExtractor(): Promise<FeatureExtractionPipeline> {
 	if (!extractorPromise) {
-		console.log("Loading local embedding model (first time may download ~470MB)...");
+		// stderr, not stdout: in the MCP server stdout is the JSON-RPC stream, and these two
+		// lines went out on it as non-JSON.
+		console.error("Loading local embedding model (first time may download ~470MB)...");
 		extractorPromise = pipeline("feature-extraction", LOCAL_MODEL, {
 			dtype: "fp32",
 		}).then(
 			(loaded) => {
-				console.log("Local embedding model loaded.");
+				console.error("Local embedding model loaded.");
 				return loaded;
 			},
 			(err) => {

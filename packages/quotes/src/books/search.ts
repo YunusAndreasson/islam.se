@@ -11,7 +11,7 @@
 
 import { generateLocalEmbedding } from "../embeddings/local.js";
 import { initBookDatabase, type PassageWithContext, type PassageWithScore } from "./database.js";
-import { type BookRef, findBooks, getPassagePages } from "./lookup.js";
+import { authorKey, type BookRef, findBooks, getPassagePages } from "./lookup.js";
 import { cleanPassageText } from "./pages.js";
 
 // ============================================================================
@@ -572,6 +572,13 @@ export interface BookPassageSearchResult {
 	textMatch?: "phrase" | "all-words";
 	/** Semantic mode without filters: thematically matching books/chapters (summaries). */
 	concepts: ConceptMatch[];
+	/**
+	 * Semantic mode: whether any passage in the searched books contains all the query's
+	 * words. `false` means the hits are nearest by meaning only. Similarity scores cannot
+	 * tell a real match from noise in this corpus (every vector sits within a narrow band
+	 * of every other), so this is the one signal that a topic may simply be absent.
+	 */
+	lexicalSupport?: boolean;
 }
 
 /**
@@ -616,20 +623,61 @@ function textCandidates(
 	return { candidates: run(false), textMatch: "all-words" };
 }
 
-/** Semantic mode: the hybrid passage/concept search, merged across languages. */
+/**
+ * Reciprocal-rank fusion: a passage scores 1/(60 + rank) in every list it appears in, and
+ * the sums decide the order. Ranks are comparable across lists where scores are not (a
+ * cosine from one query or language says nothing about a cosine from another, and a text
+ * hit has no score at all), so one function merges languages and merges meaning with wording.
+ */
+export function fuseByRank<T extends { id: number; score: number | null }>(lists: T[][]): T[] {
+	const fused = new Map<number, { item: T; weight: number }>();
+	for (const list of lists) {
+		list.forEach((item, rank) => {
+			const weight = 1 / (60 + rank + 1);
+			const entry = fused.get(item.id);
+			if (!entry) {
+				fused.set(item.id, { item, weight });
+				return;
+			}
+			entry.weight += weight;
+			// Keep the copy that carries a similarity score, for display.
+			if (entry.item.score === null && item.score !== null) entry.item = item;
+		});
+	}
+	return [...fused.values()].sort((a, b) => b.weight - a.weight).map((e) => e.item);
+}
+
+/**
+ * Semantic mode: passages nearest by meaning, fused with passages that contain the
+ * query's words.
+ *
+ * ⚠️ The ranking used to add a concept boost: 0.3 × the similarity of the book's summary.
+ * Only books with a summary can receive it, and 29 Arabic books holding 210 000 of the
+ * 230 000 Arabic passages have none (Majmūʿ al-fatāwā, al-Mughnī, both tafsirs, al-Bukhārī,
+ * Muslim, the Musnad). Measured 2026-10-04, a boosted passage scored about 0.80 and every
+ * other about 0.57, so the large works could not outrank a small summarised book whatever
+ * they said. The summaries are still returned as themes; they no longer rank passages.
+ */
 async function semanticCandidates(
 	query: string,
 	langs: Language[],
 	limit: number,
 	bookIds: number[] | undefined,
-): Promise<{ candidates: Candidate[]; concepts: ConceptMatch[] }> {
+): Promise<{ candidates: Candidate[]; concepts: ConceptMatch[]; lexicalSupport: boolean }> {
 	const results = await Promise.all(
 		langs.map((language) =>
 			searchBooks(query, { passageLimit: limit * 3, conceptLimit: 3, language, bookIds }),
 		),
 	);
-	const candidates: Candidate[] = results.flatMap((r) => r.combined);
-	candidates.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+	const byMeaning: Candidate[][] = results.map((r) => r.passages);
+	const byWording: Candidate[][] = langs.map((language) =>
+		searchPassagesText(query, { limit: limit * 3, bookIds, language }).map((p) => ({
+			...p,
+			score: null,
+		})),
+	);
+	const candidates = fuseByRank([...byMeaning, ...byWording]);
+	const lexicalSupport = byWording.some((list) => list.length > 0);
 	const seen = new Set<string>();
 	const concepts = results
 		.flatMap((r) => r.concepts)
@@ -641,7 +689,7 @@ async function semanticCandidates(
 		})
 		.sort((a, b) => b.score - a.score)
 		.slice(0, 5);
-	return { candidates, concepts };
+	return { candidates, concepts, lexicalSupport };
 }
 
 /**
@@ -657,9 +705,10 @@ function pickCandidates(candidates: Candidate[], limit: number, maxPerAuthor: nu
 		if (picked.length >= limit) break;
 		if (p.text.includes("#META#") || p.text.includes("DownloadSource")) continue;
 		if (taken.has(p.id) || taken.has(p.id - 1) || taken.has(p.id + 1)) continue;
-		const count = perAuthor.get(p.bookAuthor) ?? 0;
+		const author = authorKey(p.bookAuthor);
+		const count = perAuthor.get(author) ?? 0;
 		if (count >= maxPerAuthor) continue;
-		perAuthor.set(p.bookAuthor, count + 1);
+		perAuthor.set(author, count + 1);
 		taken.add(p.id);
 		picked.push(p);
 	}
@@ -687,7 +736,7 @@ export async function searchBookPassages(
 
 	const found =
 		mode === "text"
-			? { ...textCandidates(query, langs, limit, bookIds), concepts: [] }
+			? { ...textCandidates(query, langs, limit, bookIds), concepts: [], lexicalSupport: undefined }
 			: { ...(await semanticCandidates(query, langs, limit, bookIds)), textMatch: undefined };
 
 	const hits: BookPassageHit[] = pickCandidates(found.candidates, limit, maxPerAuthor).map((p) => {
@@ -712,5 +761,6 @@ export async function searchBookPassages(
 		books,
 		textMatch: found.textMatch,
 		concepts: filtered ? [] : found.concepts,
+		...(found.lexicalSupport === undefined ? {} : { lexicalSupport: found.lexicalSupport }),
 	};
 }

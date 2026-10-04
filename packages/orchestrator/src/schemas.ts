@@ -50,6 +50,12 @@ export const ResearchOutputSchema = z.object({
 				text: z.string(),
 				bookTitle: z.string(),
 				author: z.string(),
+				/**
+				 * Printed page as search_books gave it ("21:535"). The tool has always returned
+				 * it; without a field here it was dropped at research, and the author cited
+				 * classical works by title alone.
+				 */
+				page: z.string().optional(),
 			}),
 		)
 		.default([]),

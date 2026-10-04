@@ -164,12 +164,15 @@ export function cleanPassageText(raw: string): string {
 	};
 
 	for (const rawLine of raw.split("\n")) {
-		// A header line — or the tail of one, when the passage starts mid-header.
-		if (/^#META#|^######OpenITI#|\t:: /.test(rawLine)) continue;
+		// A header line — or the tail of one, when the passage starts mid-header. NOTMATCH
+		// marks a line the OpenITI collation could not align (»### | AUT ج 1 NOTMATCH«).
+		if (/^#META#|^######OpenITI#|\t:: |NOTMATCH/.test(rawLine)) continue;
 		const line = rawLine
 			.replace(/PageV\d+P\d+/g, " ")
 			.replace(/\bms\d+\b/g, " ")
-			.replace(/@Q[BE]@/g, "")
+			// The HTML wrapper some sources were scraped with: <div dir="rtl" id="book-container">.
+			.replace(/<\/?(?:div|span)\b[^>]*>/g, " ")
+			.replace(/@(?:Q[BE]|MATN)@/g, "")
 			.replace(/%~%/g, " * ");
 
 		if (line.startsWith("~~")) {
@@ -199,4 +202,29 @@ export function cleanPassageText(raw: string): string {
 		.map((l) => l.replace(/\s+/g, " ").trim())
 		.filter(Boolean)
 		.join("\n");
+}
+
+/**
+ * Join consecutive passages of one book into continuous text. Neighbours share about 200
+ * characters; the stored positions do not line up with the trimmed text, so the overlap
+ * is found in the text itself: the longest head of the next passage that the text so far
+ * ends with.
+ */
+export function stitchPassages(texts: string[]): string {
+	let joined = "";
+	for (const next of texts) {
+		if (!joined) {
+			joined = next;
+			continue;
+		}
+		let overlap = 0;
+		for (let len = Math.min(400, joined.length, next.length); len >= 20; len--) {
+			if (joined.endsWith(next.slice(0, len))) {
+				overlap = len;
+				break;
+			}
+		}
+		joined += overlap > 0 ? next.slice(overlap) : `\n${next}`;
+	}
+	return joined;
 }

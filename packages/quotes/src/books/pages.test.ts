@@ -5,6 +5,7 @@ import {
 	formatPageSpan,
 	type PassageSlice,
 	resolvePassagePages,
+	stitchPassages,
 } from "./pages.js";
 
 const none = (): PassageSlice[] => [];
@@ -84,6 +85,20 @@ describe("cleanPassageText", () => {
 		);
 	});
 
+	// Seen in search results handed to the research model (2026-10-04): 3 440 passages kept
+	// »@MATN@«, 2 433 the scraped <div> wrapper, 656 a NOTMATCH collation line.
+	it("strips the hadith-text tag, the scraped HTML wrapper and NOTMATCH lines", () => {
+		const raw = `# PageV00P000
+# <div dir="rtl" ms041 id="book-container">
+# NOTMATCH
+### | AUT ج 1 NOTMATCH
+# قال رسول الله صلى الله عليه وسلم: @MATN@ "من أحدث في أمرنا ما
+~~ليس فيه فهو رد" </span>`;
+		expect(cleanPassageText(raw)).toBe(
+			'قال رسول الله صلى الله عليه وسلم: "من أحدث في أمرنا ما ليس فيه فهو رد"',
+		);
+	});
+
 	it("drops the #META# header, including a passage that starts mid-header", () => {
 		const raw =
 			"ibURL\t:: http://shamela.ws/x\n#META# 043.EdPUBLISHER\t:: دار الحديث\n\n#META#Header#End#\n\n### | مقدمة المؤلف\n# بسم الله";
@@ -94,5 +109,32 @@ describe("cleanPassageText", () => {
 		expect(cleanPassageText("  Det var en gång en kung.\nHan hette Olof.  ")).toBe(
 			"Det var en gång en kung.\nHan hette Olof.",
 		);
+	});
+});
+
+describe("stitchPassages", () => {
+	const book =
+		"Första satsen står här och är ganska lång. Andra satsen följer direkt efter den första. Tredje satsen avslutar stycket med en poäng.";
+
+	// Neighbouring passages share ~200 characters. Joined naively, the model reading around
+	// a hit would see the shared part twice and could quote a sentence that reads doubled.
+	it("removes the overlap two neighbours share", () => {
+		const a = book.slice(0, 90);
+		const b = book.slice(50);
+		expect(stitchPassages([a, b])).toBe(book);
+	});
+
+	it("still finds the overlap when a passage was trimmed at its edges", () => {
+		const a = book.slice(0, 86).trim();
+		const b = book.slice(43).trim();
+		expect(stitchPassages([a, b])).toBe(book);
+	});
+
+	it("joins passages that do not overlap with a line break, losing nothing", () => {
+		expect(stitchPassages(["Ett stycke.", "Ett helt annat stycke."])).toBe(
+			"Ett stycke.\nEtt helt annat stycke.",
+		);
+		expect(stitchPassages([])).toBe("");
+		expect(stitchPassages(["ensam"])).toBe("ensam");
 	});
 });

@@ -206,6 +206,7 @@ export const RESEARCH_ALLOWED_TOOLS = [
 	"mcp__quotes__bulk_search",
 	"mcp__quotes__search_quran",
 	"mcp__quotes__search_books",
+	"mcp__quotes__get_passage_context",
 	"mcp__quotes__fetch_wikipedia",
 	"WebSearch",
 	"WebFetch",

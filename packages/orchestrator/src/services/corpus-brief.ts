@@ -33,8 +33,8 @@
  *    fallen åt där ett antalstak inte kan. Efter både import och tak: 64 % fiqh, och
  *    alla fyra skolorna representerade. Se capPerBook.
  *    ⚠️ `findQuotesLocal` (quotes.db) har haft MMR-diversitet hela tiden; boksökningen
- *    har aldrig haft något motsvarande. Samma asymmetri finns kvar i
- *    `book-service.ts`, som essäpipelinen använder — se anteckningen där.
+ *    har aldrig haft något motsvarande. Essäpipelinen söker böckerna genom
+ *    MCP-verktyget `search_books`, som har ett tak per författare (pickCandidates).
  */
 
 import {

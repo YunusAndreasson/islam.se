@@ -14,6 +14,7 @@ import {
 	getBookStats,
 	getCategories,
 	getInventory,
+	getPassageContext,
 	getQuote,
 	initBookDatabase,
 	initQuranDatabase,
@@ -423,6 +424,10 @@ Examples:
 		if (result.mode === "text" && result.textMatch === "all-words") {
 			output += "⚠️ The exact phrase occurs nowhere; these passages contain all of the words.\n\n";
 		}
+		if (result.mode === "semantic" && result.lexicalSupport === false) {
+			output +=
+				'⚠️ No passage contains these words. The hits below are only the nearest by meaning and may be unrelated: similarity scores in this corpus do not separate a real match from noise. If the topic may be absent from the corpus, treat it as absent. For a classical text, search again with mode "text" and a short phrase in the book\'s own language.\n\n';
+		}
 		if (result.concepts.length > 0) {
 			const conceptLines = result.concepts
 				.map((c) => `- ${c.bookTitle} by ${c.bookAuthor} (${c.type}, score: ${c.score.toFixed(3)})`)
@@ -446,6 +451,37 @@ Examples:
 		return {
 			content: [{ type: "text", text: output }],
 		};
+	},
+);
+
+// Read around a search hit
+server.registerTool(
+	"get_passage_context",
+	{
+		description:
+			"Read a book passage together with its neighbours, as one continuous text. A search_books hit is about 800 characters cut at an arbitrary point; the condition of a ruling, the end of a hadith or the author's own conclusion is often in the passage before or after. Give the ID from a search_books result. Returns the stitched text (no repeated overlap) and the pages it spans. Use it before quoting or citing a passage whose beginning or end is cut off.",
+		inputSchema: {
+			id: z.number().describe("Passage ID from a search_books result"),
+			before: z
+				.number()
+				.min(0)
+				.max(5)
+				.optional()
+				.describe("Passages to include before (default 1)"),
+			after: z.number().min(0).max(5).optional().describe("Passages to include after (default 1)"),
+		},
+	},
+	async ({ id, before, after }) => {
+		const context = getPassageContext(id, before ?? 1, after ?? 1);
+		if (!context) {
+			return { content: [{ type: "text", text: `No passage has the ID ${id}.` }] };
+		}
+		const header = [
+			`Book: ${context.bookTitle} by ${context.bookAuthor}`,
+			`Pages: ${context.pages ?? "–"}`,
+			`Passages: ${context.passageIds.join(", ")}`,
+		].join("\n");
+		return { content: [{ type: "text", text: `${header}\n\n"${context.text}"` }] };
 	},
 );
 

@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 import { beforeEach, describe, expect, it } from "vitest";
-import { findBooks, foldName, getPassagePages } from "./lookup.js";
+import { authorKey, findBooks, foldName, getPassagePages } from "./lookup.js";
 
 function createDb(): Database.Database {
 	const db = new Database(":memory:");
@@ -87,5 +87,21 @@ describe("getPassagePages", () => {
 			db,
 		);
 		expect(pages.page).toBe("1:17");
+	});
+});
+
+describe("authorKey", () => {
+	// The per-author cap in book search keyed on the stored string, and the corpus stores one
+	// author under two spellings, so one author could take every slot in a result.
+	it("gives the romanised and the Arabic spelling of an author the same key", () => {
+		expect(authorKey("Ibn al-Qayyim")).toBe(authorKey("ابن القيم"));
+		expect(authorKey("IbnTaymiyya")).toBe(authorKey("ابن تيمية"));
+		expect(authorKey("al-Bukhari")).toBe(authorKey("البخاري"));
+	});
+
+	it("keeps different authors apart", () => {
+		expect(authorKey("Ibn al-Qayyim")).not.toBe(authorKey("Ibn Taymiyyah"));
+		expect(authorKey("al-Qurtubi")).not.toBe(authorKey("Ibn Kathir"));
+		expect(authorKey("August Strindberg")).toBe(authorKey("August Strindberg"));
 	});
 });

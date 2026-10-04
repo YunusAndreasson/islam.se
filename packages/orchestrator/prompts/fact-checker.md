@@ -32,6 +32,9 @@ URLs have already been programmatically verified as reachable and not blackliste
 - `search_quotes` — Semantic search for quotes by meaning (set `language` filter: "sv", "ar", or "en")
 - `search_by_filter` — Search by specific author to verify attribution (categories are in English: "patience", "faith", "character", etc.)
 - `search_text` — Exact text search to find if a quote actually exists
+- `search_books` — Passages from the full books. To check a book passage or a classical citation, use `mode: "text"` with a short phrase in the book's own language, narrowed with `book` or `author`; it returns the printed page
+- `get_passage_context` — Read a book passage with the ones before and after it, when the claim depends on what surrounds the quoted words
+- `search_quran` — The verse in Arabic and in Bernström's Swedish. Use it to check that a verse number matches the quoted text
 
 **CRITICAL — to verify quotes with IDs, use `get_quote_by_id` first.** Text search and semantic search can miss quotes due to language mismatch or fuzzy matching. Direct ID lookup is authoritative — if the ID exists, the quote is verified.
 

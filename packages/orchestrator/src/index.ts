@@ -40,7 +40,9 @@ import {
 	VerifyOutputSchema,
 } from "./schemas.js";
 import { ArticlePublisher, findDataDir } from "./services/article-publisher.js";
+import { editorEditsBlock } from "./services/editor-edits.js";
 import { IdeationService } from "./services/ideation-service.js";
+import { publishedEssaysBlock } from "./services/published-essays.js";
 import { SourceValidator } from "./source-validator.js";
 import { newMisspellings } from "./spellguard.js";
 import {
@@ -226,7 +228,7 @@ export function formatResearchForFactCheck(research: ResearchOutput): string {
 		const formatted = research.bookPassages
 			.map((p) => {
 				const excerpt = p.text.length > 200 ? `${p.text.slice(0, 200)}…` : p.text;
-				return `- ${p.bookTitle} — ${p.author}: "${excerpt}"`;
+				return `- [${p.id}] ${p.bookTitle} — ${p.author}${passagePage(p)}: "${excerpt}"`;
 			})
 			.join("\n");
 		sections.push(`## Book Passages (${research.bookPassages.length})\n${formatted}`);
@@ -388,6 +390,8 @@ export interface ResearchOutput {
 		text: string;
 		bookTitle: string;
 		author: string;
+		/** Printed page, "volume:page", as search_books returned it. */
+		page?: string;
 	}>;
 	sources: Array<{
 		id: string;
@@ -805,6 +809,11 @@ export function triageVerification(
 	return { settled, open, log };
 }
 
+/** ", 21:535" when research recorded the printed page of a book passage, else "". */
+function passagePage(passage: { page?: string }): string {
+	return passage.page ? `, ${passage.page}` : "";
+}
+
 /** The fact-check's open points, for the reviewer to check the author accounted for. */
 function formatFactCheckFlags(factCheck: FactCheckOutput | undefined): string {
 	if (!factCheck) return "";
@@ -941,6 +950,13 @@ export class ContentOrchestrator {
 	 *  material out of --append-system-prompt for exactly this reason. */
 	private sourceDocsBlock(): string {
 		return formatSourceDocs(this.options.sourceDocs ?? []);
+	}
+
+	/** What research reads besides its prompt: the published essays, then the briefing. */
+	private researchContext(): string {
+		return [publishedEssaysBlock(join(findDataDir(), "articles")), this.sourceDocsBlock()]
+			.filter(Boolean)
+			.join("\n\n");
 	}
 
 	/** A pointer line for a stage's own guidance block. The briefing carries its rules
@@ -1302,9 +1318,37 @@ export class ContentOrchestrator {
 			datasets: validatedDatasets,
 		};
 
+		// ⚠️ The quotes MCP server is spawned by the CLI, and nothing reported whether it
+		// started: with apps/mcp-quotes unbuilt, research carried on with web tools alone and
+		// the essay lost its primary sources without a line in the log.
+		const fromCorpus =
+			data.bookPassages.length +
+			data.quranReferences.length +
+			data.quotes.filter((q) => isDatabaseQuoteId(q.id)).length;
+		if (fromCorpus === 0) {
+			return {
+				result: {
+					success: false,
+					error:
+						"Research returned nothing from the corpus: no database quote, no book passage, no Quran verse. The quotes MCP server probably did not start — check that apps/mcp-quotes/dist exists (pnpm build).",
+					duration: Date.now() - startTime,
+				},
+				summary: "",
+			};
+		}
+		if (data.bookPassages.length === 0) {
+			this.logger.warn("   ⚠️  Research hämtade inga bokpassager");
+			this.noteOpenIssue(
+				"Research",
+				"Inga bokpassager hämtades: essän vilar på citatdatabasen och webben. Kontrollera om bokkorpusen verkligen saknar ämnet.",
+			);
+		}
+
 		trackResearchReferences(this.references, data, new Date().toISOString());
 
-		this.logger.log(`   - Found ${data.quotes.length} quotes, ${data.sources.length} sources`);
+		this.logger.log(
+			`   - Found ${data.quotes.length} quotes, ${data.bookPassages.length} book passages, ${data.sources.length} sources`,
+		);
 
 		// Build summary with timing breakdown
 		const verifyTotal = urlVerifyDuration + quoteVerifyDuration;
@@ -1388,7 +1432,7 @@ ${formatted}
 			emoji: "📚",
 			promptFile: "research.md",
 			systemPrompt,
-			userContent: this.sourceDocsBlock(),
+			userContent: this.researchContext(),
 			allowedTools: RESEARCH_ALLOWED_TOOLS,
 			mcpConfig: mcpConfigPath,
 			schema: ResearchOutputSchema,
@@ -1415,7 +1459,7 @@ ${formatted}
 		const systemPrompt = `Topic: ${topic}
 
 <context>
-You have access to MCP tools for searching the quote database (~30k quotes: Arabic Islamic scholars, Swedish literature, Norse texts).
+You have access to MCP tools for searching the quote database (Arabic Islamic scholars, Swedish literature, Norse texts).
 
 Your task is to develop a distinctive angle on this topic and gather supporting material. The angle should be specific enough to make the article interesting ("X as Y" rather than just "about X").
 </context>
@@ -1440,7 +1484,7 @@ IMPORTANT WebFetch limitations:
 			emoji: "📚",
 			promptFile: "research.md",
 			systemPrompt,
-			userContent: this.sourceDocsBlock(),
+			userContent: this.researchContext(),
 			allowedTools: RESEARCH_ALLOWED_TOOLS,
 			mcpConfig: mcpConfigPath,
 			schema: ResearchOutputSchema,
@@ -1494,6 +1538,10 @@ Score what you find, on the scoring guide — not toward the pass mark:
 				// Faktakollen rapporterade det som "MCP-verktygen saknades" — halva
 				// påståendet var sant och gällde just det här verktyget.
 				"mcp__quotes__search_books",
+				"mcp__quotes__get_passage_context",
+				// The prompt asks for verse numbers to be checked against the quoted text; without
+				// this tool that check could only be done from memory.
+				"mcp__quotes__search_quran",
 			], // Content verification + independent search + quote attribution checks
 			mcpConfig: mcpConfigPath,
 			schema: FactCheckOutputSchema,
@@ -1680,10 +1728,10 @@ Key requirements:
 		// Format book passages with full text for weaving in
 		if (research.bookPassages && research.bookPassages.length > 0) {
 			const formatted = research.bookPassages
-				.map((p) => `### ${p.bookTitle} — ${p.author}\n${p.text}`)
+				.map((p) => `### ${p.bookTitle} — ${p.author}${passagePage(p)}\n${p.text}`)
 				.join("\n\n---\n\n");
 			systemPrompt += `\n\n## BOOK PASSAGES
-Weave the strongest into your prose — quote directly when the original language is powerful, paraphrase for flow. Cite as footnotes (Author, *Work*, chapter/section).
+Weave the strongest into your prose — quote directly when the original language is powerful, paraphrase for flow. Cite as footnotes (Author, *Work*, volume:page where the heading gives one, otherwise chapter/section). Never supply a page the heading does not give.
 
 ${formatted}`;
 		}
@@ -1902,7 +1950,7 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 		const bookPassages =
 			research.bookPassages.length > 0
 				? `<book_passages>\n${research.bookPassages
-						.map((p) => `### ${p.bookTitle} — ${p.author} [${p.id}]\n${p.text}`)
+						.map((p) => `### ${p.bookTitle} — ${p.author}${passagePage(p)} [${p.id}]\n${p.text}`)
 						.join("\n\n---\n\n")}\n</book_passages>`
 				: "";
 
@@ -2047,7 +2095,7 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			.join("\n\n");
 		const sources = research.sources.map((s) => `- ${s.title} — ${s.url}`).join("\n");
 		const passages = research.bookPassages
-			.map((p) => `- [${p.id}] ${p.bookTitle} — ${p.author}`)
+			.map((p) => `- [${p.id}] ${p.bookTitle} — ${p.author}${passagePage(p)}`)
 			.join("\n");
 		const userContent = [
 			`<article>\n${articleBody}\n</article>`,
@@ -2070,6 +2118,7 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 				"WebSearch",
 				"WebFetch",
 				"mcp__quotes__search_books",
+				"mcp__quotes__get_passage_context",
 				"mcp__quotes__search_text",
 				"mcp__quotes__search_quran",
 				"mcp__quotes__get_quote_by_id",
@@ -2171,7 +2220,12 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			emoji: "🇸🇪",
 			promptFile: "swedish-voice.md",
 			systemPrompt,
-			userContent: `## TEXTEN\n\n${articleBody}`,
+			userContent: [
+				editorEditsBlock(join(findDataDir(), "pipeline-feedback.jsonl")),
+				`## TEXTEN\n\n${articleBody}`,
+			]
+				.filter(Boolean)
+				.join("\n\n"),
 			markdownMode: {
 				frontmatterSchema: SwedishVoiceFrontmatterSchema,
 				combine: (meta) => {
@@ -2200,7 +2254,11 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 					};
 				},
 			},
-			effort: "high",
+			// xhigh and 30 min: the stage read a 3 000-word essay in two or three minutes, and
+			// the Swedish is what the editor still corrects by hand after publication. It is
+			// the one place where a slower read is the whole point.
+			effort: "xhigh",
+			timeout: 1800000,
 			maxRetries: 3,
 		});
 	}
@@ -3757,8 +3815,6 @@ export { findDataDir } from "./services/article-publisher.js";
 // Re-export services
 export {
 	ArticlePublisher,
-	type BookSearchOptions,
-	type BookSearchResult,
 	buildCorpusBrief,
 	type CorpusAngles,
 	type CorpusBrief,
@@ -3766,10 +3822,8 @@ export {
 	type EnrichedIdea,
 	type EnrichedIdeationOutput,
 	type EnrichedQuote,
-	formatBooksForPrompt,
 	formatCorpusBrief,
 	formatQuotesForPrompt,
-	hasBookContent,
 	type Idea,
 	type IdeaProductionStatus,
 	type IdeationOutput,
@@ -3779,11 +3833,9 @@ export {
 	PodcastService,
 	type PublishedArticle,
 	parseFrontmatter,
-	passagesToResearchFormat,
 	type QuoteSearchOptions,
 	type QuoteSearchResult,
 	quotesToResearchFormat,
-	searchBooksComprehensive,
 	searchQuotesComprehensive,
 } from "./services/index.js";
 export { SourceValidator } from "./source-validator.js";

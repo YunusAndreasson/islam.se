@@ -8,15 +8,6 @@ export {
 	type PublishedArticle,
 	parseFrontmatter,
 } from "./article-publisher.js";
-// Book service
-export {
-	type BookSearchOptions,
-	type BookSearchResult,
-	formatBooksForPrompt,
-	hasBookContent,
-	passagesToResearchFormat,
-	searchBooksComprehensive,
-} from "./book-service.js";
 // Corpus brief — step 0 of the /fordjupning/ pipeline
 export {
 	buildCorpusBrief,

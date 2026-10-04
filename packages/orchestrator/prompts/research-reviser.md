@@ -51,9 +51,12 @@ Return the complete corrected research object, in the exact same shape as the or
   "summary": "The developed angle — update only if a correction changes the argument itself, otherwise keep unchanged",
   "quranReferences": [ { "surah": "Name", "ayah": "Number", "verseKey": "4:85", "text": "Swedish translation" } ],
   "quotes": [ { "id": "quote-12345", "text": "...", "textSv": "...", "author": "...", "source": "..." } ],
-  "bookPassages": [ { "id": "passage-id", "text": "...", "bookTitle": "...", "author": "..." } ],
-  "sources": [ { "id": "src-1", "url": "https://...", "title": "...", "keyFindings": ["..."] } ]
+  "bookPassages": [ { "id": "200001", "text": "...", "bookTitle": "...", "author": "...", "page": "6:68" } ],
+  "sources": [ { "id": "src-1", "url": "https://...", "title": "...", "keyFindings": ["..."] } ],
+  "datasets": []
 }
+
+Carry `page` on a book passage and every entry in `datasets` over unchanged unless a flagged issue concerns them.
 
 Include every unflagged item unchanged, every fixed item corrected, and omit every item you removed. Only include URLs that come from your own WebSearch/WebFetch results in this pass — never fabricate or carry forward a URL you have not just verified is real.
 </output_format>

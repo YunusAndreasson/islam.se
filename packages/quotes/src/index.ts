@@ -159,6 +159,7 @@ export {
 	getBookStats,
 	getChaptersByBook,
 	getPassage,
+	getPassageContext,
 	getPassagePages,
 	getPassagesByBook,
 	getPassagesByChapter,

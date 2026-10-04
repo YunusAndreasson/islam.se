@@ -22,17 +22,21 @@ A successful research output has:
 <tools_available>
 You have MCP tools for searching quotes, books, Quran, and the web:
 
-**Quote database tools (~59k quotes: 32k Swedish, 20k Arabic, 7k English/Norse):**
+**Quote database tools (Swedish, Arabic and English/Norse quotes; `get_inventory` gives the current counts):**
 - `get_inventory` - See available categories, authors, language distribution
 - `search_quotes` - Semantic search by meaning (best for themes)
 - `search_by_filter` - Filter by author, category, or language
 - `search_text` - Literal text matching for exact words/phrases
 - `bulk_search` - Run multiple semantic searches in parallel (faster)
 
-**Book database tools (~120k passages from 150 books):**
-- `search_books` - Semantic search for extended passages from full books
-  - Use for: longer context, narrative sections, detailed arguments
-  - Contains: Swedish literature (Strindberg, Key, Lagerlöf, Bremer), Arabic classics (Ibn Qayyim, al-Ghazali, Ibn Taymiyyah, al-Nawawi, Ibn al-Jawzi, al-Mawardi, Ibn Hazm, al-Suyuti), English translations (Muqaddimah, Travels of Ibn Battuta)
+**Book database tools (full books: the Arabic classics, Swedish literature, English translations):**
+- `search_books` - Passages from full books. This is where the essays get most of their primary material, so spend your searching here.
+  - `mode: "semantic"` (default) finds passages by meaning. It works across languages only loosely: a Swedish query mostly finds Swedish books. To reach the Arabic classics, write the query in Arabic.
+  - `mode: "text"` finds exact wording. Use it for a hadith, a ruling or a named passage: give a short phrase in the book's own language (two to five Arabic words). It returns the printed page.
+  - `book` and `author` narrow either mode to one work or one author ("Majmu al-fatawa", "Ibn Taymiyya"). The large works (Majmūʿ al-fatāwā, al-Mughnī, the tafsirs of Ibn Kathīr and al-Qurṭubī, al-Bukhārī, Muslim, the Musnad) are best reached this way.
+  - If the result says no passage contains your words, the hits are only the nearest by meaning. Read them critically; the corpus may simply not cover the topic, and saying so in your summary is a valid finding.
+- `get_passage_context` - Read a hit together with the passages before and after it. A hit is about 800 characters cut at an arbitrary point, so do this before you rely on a passage whose beginning or end is missing.
+- For every book passage you keep, record the passage ID and the page the tool gave ("21:535"). The author cites from them.
 
 **Quran tools:**
 - `search_quran` - Semantic search for relevant Quran verses (returns Arabic + Swedish)
@@ -53,7 +57,7 @@ REQUIRED: You MUST use all three primary source tools:
 
 These provide the authoritative primary source material that distinguishes islam.se articles.
 
-**CRITICAL — always filter by language:** Semantic search is biased toward the query language. An English query without a language filter will mostly return English/Norse results, missing the 34k Swedish and 20k Arabic quotes. Always search each language separately:
+**CRITICAL — always filter by language:** Semantic search is biased toward the query language. An English query without a language filter will mostly return English/Norse results, missing the Swedish and Arabic quotes. Always search each language separately:
 - Use `bulk_search` with language-specific queries, OR
 - Call `search_quotes` multiple times with `language: "sv"`, `language: "ar"`, etc.
 - Call `search_books` with `languages: ["sv"]`, `languages: ["ar"]`, etc. — same bias applies to book passages
@@ -96,10 +100,7 @@ Most essays on this site are not quantitative, and **an empty `datasets` array i
 
 **Why it is collected here and not later.** A figure built after the pipeline has run is built after every check; nothing verifies it. A series collected now passes the fact-check stage before anything can be drawn from it. That is the whole reason this field exists.
 
-**Call the API, do not read the report page.** The report page is a summary and it drops rows. Jordbruksverket's page on meat consumption omitted fårkött entirely — 1,6 kg of a stated 79,9 — which the PxWeb table had. The helpers in the repo call the real endpoints:
-- `scripts/pxweb.py` — SCB and other PxWeb databases (befolkning, konsumtion, arbetsmarknad)
-- `scripts/worldbank.py` — World Bank indicators, cross-country series
-- Brå, Socialstyrelsen, MUCF and the rest are catalogued in `.claude/skills/article-charts/DATAKALLOR.md`
+**Take the numbers from the table, not the report page.** The report page is a summary and it drops rows. Jordbruksverket's page on meat consumption omitted fårkött entirely — 1,6 kg of a stated 79,9 — which the PxWeb table had. You cannot run code in this stage, so open the agency's own table with `WebFetch` (SCB and the other PxWeb databases, World Bank indicators, Brå, Socialstyrelsen, MUCF) and copy the series from it.
 
 **Rules that are not negotiable:**
 - **Values exactly as the source publishes them.** Never round, never convert, never compute a share the source does not itself state. A derived number is not in the source, and the figure will be dropped for it.
@@ -121,13 +122,15 @@ Do not write a chart or a table here. You are collecting the numbers and their p
     { "id": "quote-12345", "text": "إن الصبر عند أول صدمة", "textSv": "Tålamod visar sig i det första ögonblicket av prövning", "author": "Ibn Qayyim", "source": "Madarij al-Salikin" }
   ],
   "bookPassages": [
-    { "id": "passage-id", "text": "Passage", "bookTitle": "Title", "author": "Author" }
+    { "id": "200001", "text": "Passage", "bookTitle": "Title", "author": "Author", "page": "6:68" }
   ],
   "sources": [
     { "id": "src-1", "url": "https://...", "title": "Title", "keyFindings": ["Key finding"] }
   ],
   "datasets": []
 }
+
+In `bookPassages`, `id` is the passage ID that `search_books` returned and `page` is the page it gave; leave `page` out when the tool gave none.
 
 `datasets` is usually `[]`. When the topic warrants one, each entry is:
 

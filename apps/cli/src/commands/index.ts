@@ -4,6 +4,7 @@ import { registerBookSearchCommand } from "./book-search.js";
 import { registerBookStatsCommand } from "./book-stats.js";
 import { registerCleanOrphanEmbeddingsCommand } from "./clean-orphan-embeddings.js";
 import { registerCleanQuranCommand } from "./clean-quran.js";
+import { registerFixBookLabelsCommand } from "./fix-book-labels.js";
 import { registerFixMetadataCommand } from "./fix-metadata.js";
 import { registerFtsValidateCommand } from "./fts-validate.js";
 import { registerImportArabicCommand } from "./import-arabic.js";
@@ -43,6 +44,7 @@ export function registerAllCommands(program: Command): void {
 	registerImportBooksCommand(program);
 	registerSummarizeBooksCommand(program);
 	registerBookStatsCommand(program);
+	registerFixBookLabelsCommand(program);
 	registerBookSearchCommand(program);
 
 	// Search and stats
