@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 122,
-      "ok": 121,
+      "total": 123,
+      "ok": 122,
       "failed": 1,
-      "lastChecked": "2026-10-02T20:03:52.508Z",
-      "publishedIn": 96,
-      "avgScore": 8.618750000000011,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 97,
+      "avgScore": 8.618556701030938,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 49,
-      "ok": 49,
+      "total": 50,
+      "ok": 50,
       "failed": 0,
-      "lastChecked": "2026-10-02T20:03:52.508Z",
-      "publishedIn": 38,
-      "avgScore": 8.642105263157891
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 39,
+      "avgScore": 8.641025641025639
     },
     "lifewithallah.com": {
       "total": 3,
@@ -579,12 +579,12 @@
       "avgScore": 8.7
     },
     "www.riksdagen.se": {
-      "total": 20,
-      "ok": 20,
+      "total": 22,
+      "ok": 22,
       "failed": 0,
-      "lastChecked": "2026-09-27T10:24:47.931Z",
-      "publishedIn": 14,
-      "avgScore": 8.63571428571429
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 16,
+      "avgScore": 8.631250000000003
     },
     "www.tandfonline.com": {
       "total": 6,
@@ -2496,12 +2496,169 @@
       "avgScore": 8.7
     },
     "www.mynewsdesk.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 2,
+      "avgScore": 8.649999999999999
+    },
+    "leginfo.legislature.ca.gov": {
+      "total": 1,
+      "ok": 0,
+      "failed": 1,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "lastError": "This operation was aborted"
+    },
+    "americanbazaaronline.com": {
       "total": 1,
       "ok": 1,
       "failed": 0,
-      "lastChecked": "2026-10-02T20:03:52.508Z",
+      "lastChecked": "2026-10-04T15:12:08.886Z",
       "publishedIn": 1,
-      "avgScore": 8.7
+      "avgScore": 8.6
+    },
+    "ca.cair.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "cbn.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "housedemocrats.wa.gov": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.knkx.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "codes.findlaw.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.hbl.fi": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.hrdive.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "data.riksdagen.se": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 2,
+      "avgScore": 8.6
+    },
+    "www4.goteborg.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "hudoc.echr.coe.int": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "ohrh.law.ox.ac.uk": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 2,
+      "avgScore": 8.6
+    },
+    "narodne-novine.nn.hr": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.pravniportal.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "unija.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.boe.es": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "remembersingapore.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "quran-tafsir.net": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "blog.wego.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-04T15:12:08.886Z"
     }
   }
 }
