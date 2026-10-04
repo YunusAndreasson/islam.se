@@ -122,7 +122,7 @@ pnpm cli quran-search <query>   # Search Quran verses
 pnpm cli quran-stats            # Quran statistics
 
 # Content production
-pnpm produce article <topic>    # Full 4-stage pipeline
+pnpm produce article <topic>    # Full pipeline (add --resume --no-publish for a trial run that leaves data/articles alone)
 pnpm produce research-only <topic>  # Research stage only
 pnpm produce ideate <topic>     # Generate 10 article ideas with quote enrichment
 pnpm produce status <path>      # Check article/idea status
@@ -172,10 +172,10 @@ packages/
 │   │   └── fetcher.ts       # URL text fetching
 ├── orchestrator/        # Multi-stage content pipeline
 │   ├── src/
-│   │   ├── services/        # quote-service, book-service, ideation-service,
+│   │   ├── services/        # quote-service, corpus-brief, ideation-service,
 │   │   │                    # article-publisher, reference-tracker, source-validator
 │   │   ├── claude-runner.ts # Spawns Claude CLI subprocess
-│   │   └── index.ts         # ContentOrchestrator (4-stage pipeline)
+│   │   └── index.ts         # ContentOrchestrator (the stage pipeline)
 │   └── prompts/             # Stage prompts (ideator, research, fact-check, author, review)
 apps/
 ├── cli/                 # Quote management CLI (Commander)
@@ -190,7 +190,9 @@ apps/
 
 **Data flow:** URL → Fetch → Claude extraction → Local embeddings → SQLite → Search/Content pipeline
 
-**Pipeline stages:** Research → Fact-Check → Author → Review → Final article
+**Pipeline stages:** Research → Fact-Check → Author → Deepen → Ground → Review (patches) → Verify (tools) → Polish → Swedish voice → Audit → Final read (the gate) → Figures
+
+Nothing is added after the last gate, and every stage after the draft returns patches that code applies. The reviewer has no tools: what it cannot confirm it flags, and Verify settles each item against a source (confirmed, corrected, struck or open).
 
 ## Key Technical Details
 
@@ -198,8 +200,8 @@ apps/
 - **Vector search:** sqlite-vec extension on `data/quotes.db` and `data/books.db`
 - **Languages:** Swedish (sv), Arabic (ar), Norse/English (en)
 - **Batch import:** Resumable via "# DONE " prefix markers in URL files
-- **Quality gates:** Fact-check credibility ≥7, review score ≥8 to publish
-- **MCP server:** 8 tools — search_quotes, search_by_filter, search_text, get_inventory, bulk_search, search_books, search_quran, fetch_wikipedia
+- **Quality gates:** Fact-check credibility ≥7.5, final-read score ≥8 and verdict »publish«
+- **MCP server:** 10 tools — search_quotes, search_by_filter, search_text, get_inventory, get_quote_by_id, bulk_search, search_books, get_passage_context, search_quran, fetch_wikipedia
 
 ## Environment Variables
 
