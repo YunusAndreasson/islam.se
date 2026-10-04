@@ -1,5 +1,6 @@
 import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { terminate } from "./claude-runner.js";
 
 export type CodexTicPatch = {
 	original: string;
@@ -108,7 +109,7 @@ export class CodexTicAuditor {
 			let timedOut = false;
 			const timer = setTimeout(() => {
 				timedOut = true;
-				child.kill("SIGTERM");
+				terminate(child);
 			}, options.timeout ?? 1_200_000);
 
 			writeStdin(child, prompt);

@@ -1551,8 +1551,10 @@ Score what you find, on the scoring guide — not toward the pass mark:
 			// score kills the run with no article), and it's pure verification with
 			// no downstream grader — more reasoning depth can only catch more
 			// fabrications, not introduce new ones. Timeout raised in step with the
-			// effort bump, matching Review's max-effort budget.
-			timeout: 2700000, // 45 min — fact-check verifies sources via web + MCP
+			// effort bump, matching Review's max-effort budget, and again to 60 min when the
+			// prompt stopped capping the check at two or three sources: on the trial of
+			// 2026-10-04, verify corrected eight claims this stage had passed.
+			timeout: 3600000, // 60 min — fact-check reads every source via web + MCP
 		});
 
 		if (!(result.success && result.data)) {

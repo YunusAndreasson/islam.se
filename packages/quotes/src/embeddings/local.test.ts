@@ -4,8 +4,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 // concurrent callers genuinely overlap — the bug only exists in the gap between the null
 // check and the await, so a synchronously-resolving stub cannot reproduce it.
 const pipelineCalls = vi.fn();
+/** Stands in for the library's `env`; the module under test sets `cacheDir` on it. */
+const libraryEnv: { cacheDir?: string } = {};
 
 vi.mock("@huggingface/transformers", () => ({
+	env: libraryEnv,
 	pipeline: vi.fn(async (..._args: unknown[]) => {
 		pipelineCalls();
 		await new Promise((r) => setTimeout(r, 10));
@@ -43,5 +46,21 @@ describe("generateLocalEmbedding", () => {
 		await generateLocalEmbedding("second");
 
 		expect(pipelineCalls).toHaveBeenCalledTimes(1);
+	});
+});
+
+describe("model cache location", () => {
+	// The library's default cache is inside its own folder under node_modules/.pnpm, whose
+	// name includes the versions of its peers. A dependency update renamed that folder and
+	// the 465 MB model had to be downloaded again, in the middle of a pipeline run.
+	it("keeps the model outside node_modules", async () => {
+		vi.resetModules();
+		libraryEnv.cacheDir = undefined;
+		await import("./local.js");
+		expect(libraryEnv.cacheDir, "the cache folder must be set when the module loads").toBeTruthy();
+		expect(
+			libraryEnv.cacheDir,
+			"a cache under node_modules is lost whenever pnpm renames the package folder",
+		).not.toContain("node_modules");
 	});
 });

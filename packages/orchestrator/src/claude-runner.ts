@@ -181,6 +181,20 @@ function subscriptionEnv(): NodeJS.ProcessEnv {
 	return rest;
 }
 
+/**
+ * Stop a child that ran past its timeout: SIGTERM, then SIGKILL if it is still alive ten
+ * seconds later. With SIGTERM alone, a CLI that ignored the signal never closed, the
+ * promise never settled, and the run would hang with no error.
+ */
+export function terminate(child: ReturnType<typeof spawn>, graceMs = 10_000): void {
+	child.kill("SIGTERM");
+	const force = setTimeout(() => {
+		if (child.exitCode === null && child.signalCode === null) child.kill("SIGKILL");
+	}, graceMs);
+	force.unref();
+	child.once("close", () => clearTimeout(force));
+}
+
 /** Writes the prompt to stdin. The child can exit before stdin drains (bad flag,
  *  auth failure); an unhandled EPIPE on the stream would crash the whole run. */
 function writeStdin(child: ReturnType<typeof spawn>, content: string): void {
@@ -315,7 +329,7 @@ export class ClaudeRunner extends EventEmitter {
 			// Subprocess timeout
 			const timer = setTimeout(() => {
 				timedOut = true;
-				child.kill("SIGTERM");
+				terminate(child);
 			}, timeoutMs);
 
 			child.stdout?.on("data", (data) => {
@@ -402,7 +416,7 @@ export class ClaudeRunner extends EventEmitter {
 			// Subprocess timeout
 			const timer = setTimeout(() => {
 				timedOut = true;
-				child.kill("SIGTERM");
+				terminate(child);
 			}, timeoutMs);
 
 			let fullOutput = "";

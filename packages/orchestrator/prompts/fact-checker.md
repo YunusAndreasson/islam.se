@@ -13,9 +13,9 @@ The research has already passed basic URL validation. Your job is deeper: verify
 <what_code_already_did>
 URLs have already been programmatically verified as reachable and not blacklisted. Do NOT waste time re-checking if URLs exist. Focus on what only you can do:
 
-1. **Read sources and check claim accuracy** — Does the page actually say what the research claims? Use WebFetch to read the most important web sources (2-3 max) and verify the specific claims attributed to them.
+1. **Read sources and check claim accuracy** — Does the page actually say what the research claims? Use WebFetch to read every web source a claim rests on, and check the specific claims attributed to it. A source you could not open is reported as not read, never as verified.
 
-2. **Independently verify key claims** — Use WebSearch to find independent confirmation or contradiction for the 2-3 most important factual claims (statistics, historical claims, attributions). If the research says "41% of immigrants don't feel integrated" — search for that independently.
+2. **Independently verify key claims** — Use WebSearch to find independent confirmation or contradiction for every statistic, date, attribution and historical claim the essay could be built on. Take the time this needs: a thorough check matters more here than a fast one, and what you pass is not read against its source again unless a later reader happens to doubt it. If the research says "41% of immigrants don't feel integrated" — search for that independently.
 
 3. **Check quote attributions** — Use the quote database tools to verify that quotes attributed to specific scholars actually exist in the database and match the claimed author/source. This catches hallucinated quotes.
 
@@ -52,7 +52,7 @@ Focus your effort on high-impact verification:
 **Must verify (use tools):**
 - Statistics and percentages — search independently for the original source
 - Quotes from web sources — read the actual page and confirm wording
-- Quote attributions to scholars — use `get_quote_by_id` with all IDs from the research in a single batch call, then spot-check that author/source match what the research claims
+- Quote attributions to scholars — use `get_quote_by_id` with all IDs from the research in a single batch call, then check for each one that author and source match what the research claims
 
 **Assess critically (use judgment):**
 - Hadith grading and collection accuracy

@@ -134,15 +134,44 @@ def build_haystack(key: str, quote_length: int, cache: dict[str, str], span: int
     return combined
 
 
-def footnote_targets(source: str) -> dict[str, str]:
-    """Fotnotsetikett -> versnyckel, för de noter som namnger en koranvers."""
-    targets: dict[str, str] = {}
+# En not som ANGER versen som citatets källa börjar med den: "Koranen 6:119." eller
+# "Koranen, al-Baqarah 2:269." En not som börjar med något annat nämner versen i förbigående.
+OPENS_WITH_VERSE = re.compile(r"\s*(?:Koranen|[Ss]ura)\b[^\d\n]{0,40}?\d{1,3}:\d{1,3}")
+
+# Så stor andel av citatets ordtripplar måste finnas i versen för att ett citat vars not
+# bara nämner versen ändå ska räknas som ett verscitat (en lätt omskrivning behåller de flesta).
+PASSING_MENTION_SHARE = 0.5
+
+
+def footnote_targets(source: str) -> dict[str, tuple[str, bool]]:
+    """Fotnotsetikett -> (versnyckel, om noten börjar med versen).
+
+    ⚠️ Varje not som nämnde en vers gjorde tidigare hela blockcitatet till ett verscitat.
+    På »Kaffet inför rätta« (2026-10-02) fälldes därför Ibn ʿAbbās egna ord (noten slutar
+    »därefter läste han Koranen 6:145«) och ett citat ur Ibn Taymiyya (noten nämner
+    Koranen 42:21) som ⛔ OMSKRIVET, och pipelinen skrev »återställ mot Bernström« i
+    redaktörens lista. Mätt över alla publicerade sidor 2026-10-04: av 304 kontrollerade
+    block var det bara de två som hade en not som inte börjar med versen, och inget
+    ordagrant eller förkortat verscitat hade en sådan not. Regeln tappar alltså ingen vers.
+    """
+    targets: dict[str, tuple[str, bool]] = {}
     for match in re.finditer(r"^\[\^([^\]]+)\]:\s*(.+)$", source, re.M):
         label, body = match.group(1), match.group(2)
         cite = CITATION.search(body)
         if cite:
-            targets[label] = f"{int(cite.group(1))}:{int(cite.group(2))}"
+            key = f"{int(cite.group(1))}:{int(cite.group(2))}"
+            targets[label] = (key, bool(OPENS_WITH_VERSE.match(body)))
     return targets
+
+
+def verse_share(quote: str, verse: str) -> float:
+    """Andelen av citatets ordtripplar som står i versen: nära 1 för en vers, nära 0 för andras ord."""
+    quote_words, verse_words = words(quote), words(verse)
+    triples = {tuple(quote_words[i : i + 3]) for i in range(len(quote_words) - 2)}
+    if not triples:
+        return 0.0
+    in_verse = {tuple(verse_words[i : i + 3]) for i in range(len(verse_words) - 2)}
+    return len(triples & in_verse) / len(triples)
 
 
 def blockquotes(source: str) -> list[tuple[int, str]]:
@@ -247,10 +276,11 @@ def check(path: Path, cache: dict[str, str]) -> tuple[int, int, int]:
         if not keys:
             cite = CITATION.search(quote)
             if cite:
-                keys = [f"{int(cite.group(1))}:{int(cite.group(2))}"]
+                # Attributionsraden står i själva citatet: då är blocket ett verscitat.
+                keys = [(f"{int(cite.group(1))}:{int(cite.group(2))}", True)]
         if not keys:
             continue
-        key = keys[0]
+        key, names_the_verse = keys[0]
         body = strip_apparatus(quote)
         if not body:
             continue
@@ -258,6 +288,12 @@ def check(path: Path, cache: dict[str, str]) -> tuple[int, int, int]:
         if single is None:
             print(f"  ?   {path.name}:{line_number}  {key} — kunde inte hämtas, hoppas över")
             continue
+        if not names_the_verse:
+            # Noten nämner versen i förbigående. Blocket prövas bara om det ändå till
+            # största delen ÄR versen; annars är det någon annans ord och lämnas i fred.
+            near = build_haystack(key, len(words(body)), cache) or single
+            if verse_share(body, near) < PASSING_MENTION_SHARE:
+                continue
         # Exakt träff mot den namngivna versen ensam rapporteras som ORDAGRANT; först
         # därefter jämförs mot de följande verserna, för citat som löper vidare.
         verdict, detail = classify(body, single)
@@ -350,11 +386,31 @@ def self_test() -> int:
         if not ok:
             print(f"      fick »{verdict}« för: {quote[:70]}…")
 
+    # Vilka block som alls är verscitat. Fallen är hämtade ur »Kaffet inför rätta«.
+    notes = footnote_targets(
+        "[^1]: Koranen 2:173.\n"
+        "[^2]: Koranen, al-Baqarah 2:173.\n"
+        "[^3]: Abū Dāwūd, *Sunan* 3:417, nr 3802. Därefter läste han Koranen 6:145.\n"
+    )
+    other_words = "Folket i okunnighetens tid åt somligt och lät bli annat av äckel."
+    light_rewrite = BERNSTROM_2_173.replace("Vad Han har förbjudit er är kött", "Han har förbjudit er kött")
+    targeting = [
+        (notes["1"] == ("2:173", True), "not som börjar med versen anger ett verscitat"),
+        (notes["2"] == ("2:173", True), "äldre notform med surans namn räknas likadant"),
+        (notes["3"] == ("6:145", False), "not som nämner en vers i förbigående gör inte blocket till en vers"),
+        (verse_share(other_words, BERNSTROM_2_173) < PASSING_MENTION_SHARE, "någon annans ord prövas inte mot Bernström"),
+        (verse_share(light_rewrite, BERNSTROM_2_173) >= PASSING_MENTION_SHARE, "en lätt omskriven vers prövas ändå"),
+    ]
+    for ok, why in targeting:
+        failures += 0 if ok else 1
+        print(f"  {'OK ' if ok else 'FEL'} {'URVAL':10s} {why}")
+
+    total = len(SELF_TEST_CASES) + len(targeting)
     print()
     if failures:
-        print(f"⛔ {failures} av {len(SELF_TEST_CASES)} fall fel — rätta innan du litar på kontrollen")
+        print(f"⛔ {failures} av {total} fall fel — rätta innan du litar på kontrollen")
         return 1
-    print(f"✅ {len(SELF_TEST_CASES)} av {len(SELF_TEST_CASES)} fall rätt")
+    print(f"✅ {total} av {total} fall rätt")
     return 0
 
 

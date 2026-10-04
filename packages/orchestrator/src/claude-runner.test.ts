@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { EventEmitter } from "node:events";
+import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
-import { buildClaudeArgs, ClaudeRunner, pickProseOutput } from "./claude-runner.js";
+import { buildClaudeArgs, ClaudeRunner, pickProseOutput, terminate } from "./claude-runner.js";
 
 describe("ClaudeRunner", () => {
 	const runner = new ClaudeRunner();
@@ -438,5 +439,48 @@ describe("pickProseOutput", () => {
 
 	it("falls back to the accumulation when there is no result text", () => {
 		expect(pickProseOutput(head, undefined)).toBe(head);
+	});
+});
+
+describe("terminate", () => {
+	/** A stand-in child: records the signals it is sent and closes only when told to. */
+	const fakeChild = () => {
+		const emitter = new EventEmitter();
+		const signals: string[] = [];
+		const child = Object.assign(emitter, {
+			exitCode: null as number | null,
+			signalCode: null as string | null,
+			kill: (signal: string) => {
+				signals.push(signal);
+				return true;
+			},
+		});
+		return { child: child as unknown as Parameters<typeof terminate>[0], emitter, signals };
+	};
+
+	// A timed-out stage sent SIGTERM and waited for the child to close. A child that
+	// ignores SIGTERM never closed, so the stage's promise never settled and the whole
+	// pipeline run hung without an error.
+	it("kills a child that is still alive after the grace period", () => {
+		vi.useFakeTimers();
+		const { child, signals } = fakeChild();
+		terminate(child, 50);
+		expect(signals).toEqual(["SIGTERM"]);
+		vi.advanceTimersByTime(50);
+		expect(
+			signals,
+			"a child that ignores SIGTERM must be killed, or a timed-out stage hangs the run forever",
+		).toEqual(["SIGTERM", "SIGKILL"]);
+		vi.useRealTimers();
+	});
+
+	it("does not send SIGKILL to a child that closed in time", () => {
+		vi.useFakeTimers();
+		const { child, emitter, signals } = fakeChild();
+		terminate(child, 50);
+		emitter.emit("close", null, "SIGTERM");
+		vi.advanceTimersByTime(500);
+		expect(signals).toEqual(["SIGTERM"]);
+		vi.useRealTimers();
 	});
 });

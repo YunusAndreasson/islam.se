@@ -6,6 +6,7 @@ import { registerCleanOrphanEmbeddingsCommand } from "./clean-orphan-embeddings.
 import { registerCleanQuranCommand } from "./clean-quran.js";
 import { registerFixBookLabelsCommand } from "./fix-book-labels.js";
 import { registerFixMetadataCommand } from "./fix-metadata.js";
+import { registerFixQuoteRowsCommand } from "./fix-quote-rows.js";
 import { registerFtsValidateCommand } from "./fts-validate.js";
 import { registerImportArabicCommand } from "./import-arabic.js";
 import { registerImportBookCommand } from "./import-book.js";
@@ -53,6 +54,7 @@ export function registerAllCommands(program: Command): void {
 
 	// Utilities
 	registerFixMetadataCommand(program);
+	registerFixQuoteRowsCommand(program);
 	registerFtsValidateCommand(program);
 	registerCleanOrphanEmbeddingsCommand(program);
 	registerBackfillPassageEmbeddingsCommand(program);

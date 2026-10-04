@@ -1,4 +1,13 @@
-import { type FeatureExtractionPipeline, pipeline } from "@huggingface/transformers";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { env, type FeatureExtractionPipeline, pipeline } from "@huggingface/transformers";
+
+// ⚠️ By default the library caches the model inside its own install folder, and under pnpm
+// that folder's name carries the versions of its peers
+// (…/@huggingface+transformers@4.3.0_@types+node@26.6.3/…). Any dependency update that
+// renames it leaves the 465 MB model behind, and the next pipeline run downloads it again
+// inside the MCP server while a research stage waits on its first search.
+env.cacheDir = join(homedir(), ".cache", "islam-se", "transformers");
 
 // Multilingual E5 - supports 100 languages including Swedish and Arabic
 const LOCAL_MODEL = "Xenova/multilingual-e5-small";
