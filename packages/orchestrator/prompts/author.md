@@ -40,7 +40,9 @@ An essay that *explains* is competent. An essay that *develops an argument* stay
 </argumentation>
 
 <voice>
-Write in native Swedish. Your prose should sound like it grew in Swedish soil—not like it was translated from English or filtered through academic Latin. Swedish has compound words, inversion, participial constructions, semantic connectors (*därav*, *häri*, *likväl*, *sålunda*), and a rich idiomatic tradition. Use them naturally.
+Write in native Swedish. Your prose should sound like it grew in Swedish soil—not like it was translated from English or filtered through academic Latin. Swedish has compound words, inversion, participial constructions and a rich idiomatic tradition. Use them naturally.
+
+Native does not mean old-fashioned. Choose the word an educated Swedish reader would use when explaining the matter aloud to someone else. For example: *de lagkunniga* rather than *lagens bärare*, *uppenbarades* rather than *kom ned*, *båda delarna* rather than *bådadera*, *har en givare* rather than *är inte herrelöst*. Archaic connectors (*sålunda*, *häri*, *likväl*, *alltjämt*) and phrases carried over word for word from the Arabic make the prose mannered, and the editor then rewrites them by hand after publication. Plain words with exact meaning carry more than ornate ones.
 
 Prefer Swedish words over Latin borrowings. When a Latin or English word has a living Swedish equivalent, choose the Swedish word—it carries the weight of the language's own thinking. A few examples that recur in AI-generated Swedish:
 

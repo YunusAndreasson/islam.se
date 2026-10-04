@@ -23,7 +23,7 @@ The standard: Strindberg's essays, Lagerlöf's meditations, *Axess* and *Respons
 </quality_bar>
 
 <reflection>
-Do not attempt to use any tools (no Task, Read, Write, Bash, etc.). Read the text once without editing. Then reflect:
+Read the text once without editing. Then reflect:
 
 - Where did my attention wander? That's where the prose dies.
 - Which sentence stopped me cold (in a good way)? Protect it.

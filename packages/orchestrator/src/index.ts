@@ -1881,6 +1881,12 @@ This text has been revised after an earlier review. Review it as you would any s
 ${(previousReview.issues || []).map((i) => `- ${i}`).join("\n") || "- (none listed)"}
 
 `;
+			if ((previousReview.forEditor ?? []).length > 0) {
+				systemPrompt += `**Left for the editor by the earlier review.** The text has been through verification and editing since. Repeat in \`forEditor\` each one that still applies, in your own words, and leave out what has been settled:
+${(previousReview.forEditor ?? []).map((i) => `- ${i}`).join("\n")}
+
+`;
+			}
 		}
 
 		if (ideaBrief) {
@@ -3111,12 +3117,12 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			for (const item of firstReview.toVerify ?? []) {
 				verifyItems.push({ origin: "review", ...item });
 			}
-			// What the reviewer leaves for a person must reach the editor's list. It used to
-			// vanish: on »Sorgen vid Nilen« the reviewer said a translation »must be fixed
-			// before print«, and final.md shipped it unchanged.
+			// What this review leaves for a person is handed to the final read, which repeats
+			// what still applies. Written straight to the editor's list it went stale: on the
+			// trial of »Resenären som sitter still« (2026-10-04) the list asked for note 22 to
+			// be attributed, which verify had already done, and named one question twice.
 			for (const issue of firstReview.forEditor ?? []) {
-				this.logger.log(`     📌 ${issue}`);
-				this.noteOpenIssue("Granskaren lämnade åt en människa", issue);
+				this.logger.log(`     📌 (till sista läsningen) ${issue}`);
 			}
 			this.options.onStageChange?.({
 				stage: "review",
@@ -3469,6 +3475,9 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			this.logger.log(`   📝 Revision ${revisionCount} införd (${size}), läses igen...`);
 		}
 		const reviewData = passed;
+		// What the reviewer leaves for a person must reach the editor's list. It used to
+		// vanish: on »Sorgen vid Nilen« the reviewer said a translation »must be fixed
+		// before print«, and final.md shipped it unchanged.
 		for (const issue of reviewData.forEditor ?? []) {
 			this.logger.log(`     📌 ${issue}`);
 			this.noteOpenIssue("Granskaren lämnade åt en människa", issue);
