@@ -13,7 +13,7 @@ The text you're reading has passed:
 1. **Research** — quotes verified against database, sources checked
 2. **Fact-check** — claims verified, theological accuracy confirmed
 3. **Review** — anglicisms hunted, AI tics reduced, content guidelines enforced, prose tightened
-4. **Deepen and ground** — a missing reasoning step and a few concrete moments may have been added after review. Read them as prose like everything else: an added sentence that reads as formula (»Det är den som …«, »Det vet den som …«) or that states what the paragraph already showed is yours to cut.
+4. **Deepen and ground** — a missing reasoning step and a few concrete moments may have been added along the way. Read them as prose like everything else: an added sentence that reads as formula (»Det är den som …«, »Det vet den som …«) or that states what the paragraph already showed is yours to cut.
 
 Do NOT redo this work. Assume facts are correct. Assume quotes are verified. Assume content guidelines are met. You are pure prose — rhythm, momentum, voice.
 </what_came_before>

@@ -9,6 +9,8 @@ import {
 	reviewPassed,
 	splitBriefRequirements,
 	trackResearchReferences,
+	triageVerification,
+	type VerifyItem,
 } from "./index.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 
@@ -156,5 +158,61 @@ describe("resumed research bibliography", () => {
 		expect(bibliography).toContain("https://example.com/source");
 		expect(bibliography).toContain("Författare");
 		expect(bibliography).toContain("Verket");
+	});
+});
+
+describe("triageVerification", () => {
+	const item = (claim: string): VerifyItem => ({
+		origin: "review",
+		claim,
+		sentence: `Meningen om ${claim}.`,
+		reason: "not in the research",
+	});
+	const items = [item("A"), item("B"), item("C"), item("D"), item("E")];
+
+	// What this returns as `settled` is handed to the final read as »do not check these
+	// again«. Anything settled by mistake is a claim nobody looked at, shipped as checked.
+	it("counts as settled only what was confirmed or whose correction landed", () => {
+		const placed = { original: "x", replacement: "y" };
+		const refused = { original: "saknas", replacement: "z" };
+		const result = triageVerification(items, {
+			items: [
+				{ id: 1, status: "confirmed", evidence: "Källa s. 12" },
+				{ id: 2, status: "corrected", evidence: "Källan säger 1974", patch: placed },
+				{ id: 3, status: "corrected", evidence: "Källan säger 12", patch: refused },
+				{ id: 4, status: "open", evidence: "Sidan gav 403" },
+			],
+			rejected: [{ patch: refused, reason: "original was not found in the text" }],
+		});
+
+		expect(result.settled.map((s) => s[0])).toEqual(["A", "B"]);
+		const open = result.open.map((s) => s[0]);
+		expect(
+			open,
+			"a correction the code could not place (C), an open item (D) and an item the stage never answered (E) must all reach the editor",
+		).toEqual(["C", "D", "E"]);
+	});
+
+	it("does not accept »corrected« or »struck« without a patch, or a second answer to one item", () => {
+		const result = triageVerification(items.slice(0, 2), {
+			items: [
+				{ id: 1, status: "struck", evidence: "Källan motsäger" },
+				{ id: 2, status: "open", evidence: "Hittades inte" },
+				{ id: 2, status: "confirmed", evidence: "Ändrade mig" },
+				{ id: 9, status: "confirmed", evidence: "Finns inte i listan" },
+			],
+		});
+		expect(result.settled, "nothing here was actually settled").toEqual([]);
+		expect(result.open).toHaveLength(2);
+	});
+
+	it("PROPERTY: every item ends up settled or open, exactly once", () => {
+		const result = triageVerification(items, {
+			items: [
+				{ id: 2, status: "confirmed", evidence: "e" },
+				{ id: 5, status: "open", evidence: "e" },
+			],
+		});
+		expect(result.settled.length + result.open.length).toBe(items.length);
 	});
 });

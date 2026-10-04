@@ -4,6 +4,7 @@ import {
 	isCosmeticRewrite,
 	locatePatch,
 	measureRewrite,
+	renumberFootnotes,
 	type TextPatch,
 } from "./text-patches.js";
 
@@ -120,5 +121,99 @@ describe("measureRewrite", () => {
 	it("flags a broad rewrite", () => {
 		const rewritten = essay.replace(/handlar om raden och om vad/g, "gäller vad");
 		expect(measureRewrite(essay, rewritten).changedRatio).toBeGreaterThan(0.04);
+	});
+});
+
+describe("applyTextPatches with sourceEdits (the review and verify stages)", () => {
+	const essay = [
+		"# Rubrik",
+		"",
+		'Han skrev 1973 att "allt är sagt".[^1]',
+		"",
+		"> Ett citat som står kvar.",
+		"",
+		"[^1]: Källa, s. 12.",
+	].join("\n");
+
+	// The post-review stages may not touch numbers, quotations, headings or notes. The gate
+	// stages must: correcting »1973« to the sourced »1974« is exactly what verification is for.
+	it("lets a gate stage correct a number, a quotation, a heading and a note", () => {
+		const patches = [
+			{ original: "skrev 1973 att", replacement: "skrev 1974 att" },
+			{ original: "# Rubrik", replacement: "# Ny rubrik" },
+			{ original: "[^1]: Källa, s. 12.", replacement: "[^1]: Källa, s. 14." },
+		];
+		const guarded = applyTextPatches(essay, patches);
+		expect(
+			guarded.applied,
+			"without sourceEdits every one of these must still be refused, or the post-review stages can rewrite facts",
+		).toHaveLength(0);
+
+		const gate = applyTextPatches(essay, patches, { sourceEdits: true });
+		expect(gate.rejected, "a gate stage's source corrections must apply").toHaveLength(0);
+		expect(gate.body).toContain("skrev 1974 att");
+		expect(gate.body).toContain("# Ny rubrik");
+		expect(gate.body).toContain("s. 14.");
+	});
+
+	it("still refuses a patch that matches nowhere or in two places", () => {
+		const twice = "Ordet står här. Ordet står där.";
+		const result = applyTextPatches(
+			twice,
+			[
+				{ original: "Ordet", replacement: "Talet" },
+				{ original: "finns inte", replacement: "x" },
+			],
+			{ sourceEdits: true },
+		);
+		expect(result.applied).toHaveLength(0);
+		expect(result.body, "an ambiguous patch must leave the text untouched").toBe(twice);
+	});
+});
+
+describe("renumberFootnotes", () => {
+	it("leaves a sequential essay byte-identical", () => {
+		const body = "Ett.[^1] Två.[^2]\n\n[^1]: A\n[^2]: B";
+		const result = renumberFootnotes(body);
+		expect(result.body).toBe(body);
+		expect(result).toMatchObject({ renumbered: 0, dropped: [], dangling: [] });
+	});
+
+	// A reviewer patch that cuts the sentence carrying [^2] leaves note 2 orphaned and note 3
+	// out of sequence; the published page would then number its notes 1, 3.
+	it("closes the gap a cut leaves and drops the orphaned definition", () => {
+		const body = "Ett.[^1] Tre.[^3]\n\n[^1]: A\n[^2]: B\n[^3]: C";
+		const result = renumberFootnotes(body);
+		expect(result.body).toBe("Ett.[^1] Tre.[^2]\n\n[^1]: A\n[^2]: C");
+		expect(result.dropped).toEqual(["2"]);
+		expect(result.renumbered).toBe(1);
+	});
+
+	it("numbers by order of appearance and keeps each note with its text", () => {
+		const body =
+			"Först.[^8b] Sedan.[^2]\n\n[^2]: Andra källan\n[^8b]: Första källan\n    fortsättning";
+		const result = renumberFootnotes(body);
+		expect(result.body).toBe(
+			"Först.[^1] Sedan.[^2]\n\n[^1]: Första källan\n    fortsättning\n[^2]: Andra källan",
+		);
+	});
+
+	it("reports a marker without a definition and ignores markers inside a code fence", () => {
+		const body = "Text.[^1] Mer.[^4]\n\n```chart\nnote: se [^9]\n```\n\n[^1]: A";
+		const result = renumberFootnotes(body);
+		expect(result.dangling, "a marker with no note must be surfaced, not silently kept").toEqual([
+			"4",
+		]);
+		expect(result.body).toContain("note: se [^9]");
+		expect(result.body).toContain("Mer.[^2]");
+	});
+
+	it("PROPERTY: every marker left in the prose has a number 1..n with no gaps", () => {
+		const body = "A.[^5] B.[^3] C.[^5] D.[^10]\n\n[^3]: x\n[^5]: y\n[^10]: z\n[^11]: orphan";
+		const result = renumberFootnotes(body);
+		const prose = result.body.split("\n\n")[0] ?? "";
+		const ids = [...new Set([...prose.matchAll(/\[\^(\d+)\]/g)].map((m) => Number(m[1])))];
+		expect(ids).toEqual(ids.map((_, i) => i + 1));
+		expect(renumberFootnotes(result.body).body, "renumbering must be idempotent").toBe(result.body);
 	});
 });

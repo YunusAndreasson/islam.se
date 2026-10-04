@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -27,10 +28,16 @@ import {
 	GroundFrontmatterSchema,
 	getFactCheckJsonSchema,
 	getResearchJsonSchema,
+	getReviewPatchJsonSchema,
+	getVerifyJsonSchema,
 	PolishFrontmatterSchema,
 	ResearchOutputSchema,
 	ReviewFrontmatterSchema,
+	type ReviewPatch,
+	ReviewPatchSchema,
 	SwedishVoiceFrontmatterSchema,
+	type VerifyFindings,
+	VerifyOutputSchema,
 } from "./schemas.js";
 import { ArticlePublisher, findDataDir } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
@@ -42,6 +49,7 @@ import {
 	isCosmeticRewrite,
 	measureRewrite,
 	type PatchRejection,
+	renumberFootnotes,
 	type TextPatch,
 } from "./text-patches.js";
 import {
@@ -316,6 +324,12 @@ export interface OrchestratorOptions {
 	qualityThreshold?: number;
 	/** Maximum revision attempts (default: 2) */
 	maxRevisions?: number;
+	/**
+	 * Publish the finished essay to data/articles and record the run in the feedback log
+	 * and the domain tracker (default true). Off for a trial run: publishing derives the
+	 * slug from the title, so re-running a published essay would overwrite the edited one.
+	 */
+	publish?: boolean;
 	/** Suppress console output (for TUI mode) */
 	quiet?: boolean;
 	/** Callback for streaming preview snippets during execution */
@@ -461,6 +475,43 @@ export interface ReviewOutput {
 	revisedText?: string | null;
 	/** Only when the reviewer rewrote the description. */
 	description?: string;
+	/** Patch mode (the essay pipeline): the edits the code applied, and the ones it refused. */
+	patches?: TextPatch[];
+	rejected?: PatchRejection[];
+	/** Patch mode: claims the reviewer could not confirm. The verify stage settles them. */
+	toVerify?: Array<{ claim: string; sentence: string; reason: string }>;
+	/** Patch mode: what only a person can settle. */
+	forEditor?: string[];
+}
+
+/** One fact handed to the verify stage, and which stage raised the doubt. */
+export interface VerifyItem {
+	origin: "review" | "deepen" | "ground";
+	claim: string;
+	/** The sentence or passage in the essay that carries it. */
+	sentence: string;
+	reason: string;
+}
+
+/** State of the stages after the draft, saved after each one so --resume can skip them. */
+interface EditCheckpoint {
+	/** Hash of the draft these edits were made to; a new draft invalidates the checkpoint. */
+	draftKey: string;
+	done: string[];
+	text: string;
+	title: string;
+	description?: string;
+	firstReview?: ReviewOutput;
+	verifyItems: VerifyItem[];
+	settled: string[];
+	reviewRound: number;
+	openIssues: Array<{ section: string; text: string }>;
+}
+
+/** What verify found, with the essay as its patches left it. */
+export interface VerifyOutput extends VerifyFindings {
+	body: string;
+	rejected?: PatchRejection[];
 }
 
 /**
@@ -710,6 +761,75 @@ export function trackResearchReferences(
 	}
 }
 
+/**
+ * Sort what verify returned into what is settled and what the editor must still look at.
+ *
+ * ⚠️ Only two things count as settled: an item the stage confirmed, and one whose
+ * correction actually landed in the text. An item the stage skipped, left open, or
+ * corrected with a patch the code could not place stays open. Counting any of those as
+ * settled would tell the final read not to look at a claim nobody checked.
+ */
+export function triageVerification(
+	items: VerifyItem[],
+	result: Pick<VerifyOutput, "items" | "rejected">,
+): { settled: string[]; open: string[]; log: string[] } {
+	const refused = new Set((result.rejected ?? []).map((r) => r.patch));
+	const settled: string[] = [];
+	const open: string[] = [];
+	const log: string[] = [];
+	const answered = new Set<number>();
+	for (const found of result.items) {
+		const item = items[found.id - 1];
+		if (!item || answered.has(found.id)) continue;
+		answered.add(found.id);
+		const unplaced = found.patch !== undefined && refused.has(found.patch);
+		const needsPatch = found.status === "corrected" || found.status === "struck";
+		log.push(`[${found.status}] ${item.claim} — ${found.evidence}`);
+		if (found.status === "open") {
+			open.push(`${item.claim} — ${found.evidence}`);
+		} else if (unplaced && found.patch) {
+			open.push(
+				`${item.claim} — rättelsen kunde inte föras in (${describePatch(found.patch, 120)}); ${found.evidence}`,
+			);
+		} else if (needsPatch && !found.patch) {
+			open.push(`${item.claim} — angavs som ${found.status} utan ändring; ${found.evidence}`);
+		} else {
+			settled.push(`${item.claim} — ${found.status}: ${found.evidence}`);
+		}
+	}
+	items.forEach((item, i) => {
+		if (!answered.has(i + 1)) {
+			open.push(`${item.claim} — verifieringen lämnade den obesvarad (${item.reason})`);
+		}
+	});
+	return { settled, open, log };
+}
+
+/** The fact-check's open points, for the reviewer to check the author accounted for. */
+function formatFactCheckFlags(factCheck: FactCheckOutput | undefined): string {
+	if (!factCheck) return "";
+	const sections: string[] = [];
+	if (factCheck.unverifiedClaims && factCheck.unverifiedClaims.length > 0) {
+		sections.push(
+			"**Unverified claims** (verify the author avoided or reworded these):\n" +
+				factCheck.unverifiedClaims.map((c) => `- ${c.claim}`).join("\n"),
+		);
+	}
+	if (factCheck.recommendations && factCheck.recommendations.length > 0) {
+		sections.push(
+			"**Recommendations** (check whether the author addressed each — flag any that were silently ignored):\n" +
+				factCheck.recommendations.map((r) => `- ${r}`).join("\n"),
+		);
+	}
+	if (factCheck.missingPerspectives && factCheck.missingPerspectives.length > 0) {
+		sections.push(
+			"**Missing perspectives** (check whether the author engaged with these — flag significant omissions):\n" +
+				factCheck.missingPerspectives.map((p) => `- ${p}`).join("\n"),
+		);
+	}
+	return sections.length > 0 ? `\n\n## FACT-CHECK FLAGS\n${sections.join("\n\n")}` : "";
+}
+
 export class ContentOrchestrator {
 	private runner: ClaudeRunner;
 	private codexAuditor: CodexTicAuditor;
@@ -749,6 +869,7 @@ export class ContentOrchestrator {
 			// read 7 here, so a caller that omitted it silently got a lower bar than the CLI.
 			qualityThreshold: options.qualityThreshold ?? 7.5,
 			maxRevisions: options.maxRevisions ?? 2,
+			publish: options.publish ?? true,
 			quiet: options.quiet ?? false,
 			onPreview: options.onPreview,
 			onStageChange: options.onStageChange,
@@ -1675,8 +1796,29 @@ ${formatted}`;
 		factCheck?: FactCheckOutput,
 		ideaBrief?: IdeaBrief,
 		previousReview?: ReviewOutput,
+		/**
+		 * `patch` is the essay pipeline and what reviewer.md asks for: the model returns edits
+		 * and the code applies them. `rewrite` has the model return the whole text; it is the
+		 * default when a caller swaps in its own review prompt, as the fördjupning producer
+		 * does. `finalRead` marks the gate after verification and the language stages, and
+		 * lists what verification settled.
+		 */
+		opts: { mode?: "rewrite" | "patch"; finalRead?: { settled: string[] } } = {},
 	): Promise<StageResult<ReviewOutput>> {
+		const patchMode = opts.mode
+			? opts.mode === "patch"
+			: !this.options.promptOverrides?.["reviewer.md"];
 		let systemPrompt = "";
+
+		if (opts.finalRead) {
+			systemPrompt += `## FINAL READ
+This is the last read before publication. Since the first review the text has been checked against its sources, polished and language-checked. Judge the text as it now stands and patch what is still wrong. Nothing reads the text after you, so keep your patches to what the text needs.
+
+**Settled by the verification stage** (checked against the source; do not list these in \`toVerify\` again):
+${opts.finalRead.settled.map((s) => `- ${s}`).join("\n") || "- (nothing was sent to verification)"}
+
+`;
+		}
 
 		// ⚠️ A re-review used to open with »You previously scored this article X/10 … If they
 		// are [resolved], the score should reflect the improvement. Do NOT re-discover the same
@@ -1734,31 +1876,7 @@ ${draft.description?.trim() || "(none — the author wrote no description; write
 			systemPrompt += `\n\n${formatQuranReferences(this.withBernstrom(research.quranReferences), "reviewer")}`;
 		}
 
-		// Pass fact-check flags so reviewer can verify author addressed them
-		if (factCheck) {
-			const fcContext: string[] = [];
-			if (factCheck.unverifiedClaims && factCheck.unverifiedClaims.length > 0) {
-				fcContext.push(
-					"**Unverified claims** (verify the author avoided or reworded these):\n" +
-						factCheck.unverifiedClaims.map((c) => `- ${c.claim}`).join("\n"),
-				);
-			}
-			if (factCheck.recommendations && factCheck.recommendations.length > 0) {
-				fcContext.push(
-					"**Recommendations** (check whether the author addressed each — flag any that were silently ignored):\n" +
-						factCheck.recommendations.map((r) => `- ${r}`).join("\n"),
-				);
-			}
-			if (factCheck.missingPerspectives && factCheck.missingPerspectives.length > 0) {
-				fcContext.push(
-					"**Missing perspectives** (check whether the author engaged with these — flag significant omissions):\n" +
-						factCheck.missingPerspectives.map((p) => `- ${p}`).join("\n"),
-				);
-			}
-			if (fcContext.length > 0) {
-				systemPrompt += `\n\n## FACT-CHECK FLAGS\n${fcContext.join("\n\n")}`;
-			}
-		}
+		systemPrompt += formatFactCheckFlags(factCheck);
 
 		systemPrompt += `
 
@@ -1775,7 +1893,7 @@ This article is for a Swedish publication. Watch for and fix anglicisms — Engl
 - "implementera" → "genomföra", "tillämpa"
 - Stiff calque constructions: rephrase for natural Swedish prose rhythm
 - Prefer Swedish conjunctions and flow over English sentence patterns
-If the draft has anglicisms, fix them in the revised article.
+If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the revised article"}.
 </language_quality>${this.houseRules()}${this.requirementsBlock()}`;
 
 		// ⚠️ The reviewer never saw the briefing or the book passages, and said so: on »Sorgen
@@ -1788,13 +1906,18 @@ If the draft has anglicisms, fix them in the revised article.
 						.join("\n\n---\n\n")}\n</book_passages>`
 				: "";
 
+		const userContent = [bookPassages, this.sourceDocsBlock()].filter(Boolean).join("\n\n");
+		if (patchMode) {
+			return this.reviewByPatch(draft.body, systemPrompt, userContent, !!opts.finalRead);
+		}
+
 		const result = await this.executeClaudeStage<ReviewOutput>({
 			name: "Stage 4: Review",
 			stage: "review",
 			emoji: "👁️ ",
 			promptFile: "reviewer.md",
 			systemPrompt,
-			userContent: [bookPassages, this.sourceDocsBlock()].filter(Boolean).join("\n\n"),
+			userContent,
 			markdownMode: {
 				frontmatterSchema: ReviewFrontmatterSchema,
 				combine: (meta, body) =>
@@ -1822,6 +1945,163 @@ If the draft has anglicisms, fix them in the revised article.
 		this.logger.log(`   - VERDICT: ${(result.data.verdict || "unknown").toUpperCase()}`);
 
 		return result;
+	}
+
+	/**
+	 * The essay review as patches. The reviewer used to return the whole essay, so every
+	 * round regenerated 3 000 words at max effort and a non-cosmetic rewrite then had to be
+	 * reviewed again: three rounds on four of five runs, 35 % of the pipeline's time, for
+	 * rounds two and three that changed 0.5–4 % of the words. The model now lists its
+	 * edits; an edit it does not list cannot ship, and each one is in the log.
+	 */
+	private async reviewByPatch(
+		text: string,
+		systemPrompt: string,
+		userContent: string,
+		finalRead: boolean,
+	): Promise<StageResult<ReviewOutput>> {
+		const stage = await this.executeClaudeStage<ReviewPatch>({
+			name: finalRead ? "Final read" : "Stage 4: Review",
+			stage: "review",
+			emoji: "👁️ ",
+			promptFile: "reviewer.md",
+			systemPrompt,
+			userContent,
+			schema: ReviewPatchSchema,
+			jsonSchema: getReviewPatchJsonSchema(),
+			// max: this is the stage that can still restructure the argument, and its score is
+			// the gate. Timeout 45 min: a review failure is fatal, unlike the passes around it.
+			effort: "max",
+			timeout: 2700000,
+		});
+		if (!(stage.success && stage.data)) {
+			return {
+				success: false,
+				error: stage.error ?? "Review failed",
+				output: stage.success ? undefined : stage.output,
+				duration: stage.duration,
+				meta: stage.meta,
+			};
+		}
+
+		const { patches, ...review } = stage.data;
+		// sourceEdits: the reviewer is the gate, so it may restore a quotation or cut a note.
+		const applied = applyTextPatches(text, patches, { sourceEdits: true });
+		const notes = renumberFootnotes(applied.body);
+		this.logger.log(`   - Quality Score: ${review.finalScore}/10`);
+		this.logger.log(`   - VERDICT: ${review.verdict.toUpperCase()}`);
+		this.logger.log(
+			`   - ${applied.applied.length} ändring(ar) införda, ${applied.rejected.length} avvisade, ${review.toVerify.length} att verifiera`,
+		);
+		for (const p of applied.applied) this.logger.log(`     ✍️  ${describePatch(p, 160)}`);
+		if (notes.dropped.length > 0 || notes.renumbered > 0) {
+			this.logger.log(
+				`     Fotnoter: ${notes.renumbered} omnumrerade, ${notes.dropped.length} utan markör borttagna`,
+			);
+		}
+		for (const id of notes.dangling) {
+			this.noteOpenIssue("Fotnoter", `Markören [^${id}] saknar not.`);
+		}
+
+		return {
+			success: true,
+			data: {
+				...review,
+				revisedText: notes.body,
+				patches: applied.applied,
+				rejected: applied.rejected,
+			},
+			duration: stage.duration,
+			meta: stage.meta,
+		};
+	}
+
+	/**
+	 * Verify — settle, with tools, what the tool-less reviewer could only flag.
+	 *
+	 * ⚠️ WHY THIS STAGE EXISTS. Every run ended with three to five reviewer items and three
+	 * to nine fact-check claims that nobody had checked, handed to the editor. The reviewer
+	 * re-raised the same ones round after round because it had no way to look them up: on
+	 * »Bokmässan« (2026-09-27) three rounds asked for one primary source and the run failed.
+	 * And where it cut instead, it cut true details the editor then restored. The time those
+	 * rounds took is spent here, reading the sources.
+	 */
+	async runVerify(
+		articleBody: string,
+		items: VerifyItem[],
+		research: ResearchOutput,
+	): Promise<StageResult<VerifyOutput>> {
+		if (items.length === 0) {
+			return {
+				success: true,
+				data: { items: [], summary: "Inget att verifiera.", body: articleBody },
+				duration: 0,
+			};
+		}
+
+		const itemList = items
+			.map(
+				(item, i) =>
+					`${i + 1}. [${item.origin}] ${item.claim}\n   Sentence: ${item.sentence}\n   Doubt: ${item.reason}`,
+			)
+			.join("\n\n");
+		const sources = research.sources.map((s) => `- ${s.title} — ${s.url}`).join("\n");
+		const passages = research.bookPassages
+			.map((p) => `- [${p.id}] ${p.bookTitle} — ${p.author}`)
+			.join("\n");
+		const userContent = [
+			`<article>\n${articleBody}\n</article>`,
+			`<items>\n${itemList}\n</items>`,
+			sources ? `<research_sources>\n${sources}\n</research_sources>` : "",
+			passages ? `<research_book_passages>\n${passages}\n</research_book_passages>` : "",
+			this.sourceDocsBlock(),
+		]
+			.filter(Boolean)
+			.join("\n\n");
+
+		const stage = await this.executeClaudeStage<VerifyFindings>({
+			name: "Verify",
+			stage: "review",
+			emoji: "🔎",
+			promptFile: "verify.md",
+			systemPrompt: `You verify open factual items in a Swedish essay for islam.se against primary sources.${this.houseRules()}${this.requirementsBlock()}`,
+			userContent,
+			allowedTools: [
+				"WebSearch",
+				"WebFetch",
+				"mcp__quotes__search_books",
+				"mcp__quotes__search_text",
+				"mcp__quotes__search_quran",
+				"mcp__quotes__get_quote_by_id",
+				"mcp__quotes__search_quotes",
+				"mcp__quotes__search_by_filter",
+				"mcp__quotes__fetch_wikipedia",
+			],
+			mcpConfig: join(__dirname, "../../..", ".mcp.json"),
+			schema: VerifyOutputSchema,
+			jsonSchema: getVerifyJsonSchema(),
+			// max, like fact-check: pure verification, and depth can only catch more.
+			effort: "max",
+			timeout: 2700000, // 45 min — this is where the old review rounds' time goes
+		});
+		if (!(stage.success && stage.data)) {
+			return {
+				success: false,
+				error: stage.error ?? "Verify failed",
+				duration: stage.duration,
+				meta: stage.meta,
+			};
+		}
+
+		const patches = stage.data.items.flatMap((item) => (item.patch ? [item.patch] : []));
+		const applied = applyTextPatches(articleBody, patches, { sourceEdits: true });
+		const notes = renumberFootnotes(applied.body);
+		return {
+			success: true,
+			data: { ...stage.data, body: notes.body, rejected: applied.rejected },
+			duration: stage.duration,
+			meta: stage.meta,
+		};
 	}
 
 	/**
@@ -2014,12 +2294,10 @@ If the draft has anglicisms, fix them in the revised article.
 					};
 				},
 			},
-			// xhigh rather than max, deliberately: Deepen runs after fact-check AND
-			// after the review gate, so nothing verifies what it writes. Its operation
-			// — "add an inferential step the reader could not predict" — is exactly the
-			// move that can smuggle in an unsourced claim, and max maximises ambition
-			// on the one stage with no grader downstream. Review got max because a gate
-			// follows it; this one does not.
+			// xhigh, chosen when Deepen ran after the review gate with nothing downstream to
+			// check what it wrote. In the essay pipeline the review and verify stages now
+			// read its additions; the standalone `deepen` command still has no gate after
+			// it, so the level stays until a measurement says otherwise.
 			// Timeout 20 min, raised with the effort: this stage is non-fatal, so a
 			// timeout degrades silently to "no deepening" with nothing in the log to
 			// say the essay lost a pass.
@@ -2550,27 +2828,205 @@ If the draft has anglicisms, fix them in the revised article.
 
 		// Stage 4: Review (with potential revision loop)
 		// All three are guaranteed non-null: either loaded from cache or ran successfully
-		let currentDraft = authoringResult.data;
+		const currentDraft = authoringResult.data;
 		const researchData = researchResult.data;
 		const factCheckData = factCheckResult.data;
 		let revisionCount = 0;
 		let reviewRound = 0;
-		let lastReviewData: ReviewOutput | undefined;
-		/** The text the last passing review read, plus whatever of its own edit survived. */
-		let reviewedText: string | undefined;
+		let finalText = currentDraft.body;
+		let title = currentDraft.title;
+		let description = currentDraft.description;
+		/** The first review's verdict on the draft: how good the text was before the edits. */
+		let firstReview: ReviewOutput | undefined;
+		/** Facts for the verify stage: what deepen and ground added, and what review could not confirm. */
+		let verifyItems: VerifyItem[] = [];
+		/** What verification settled, so the final read does not reopen it. */
+		let settled: string[] = [];
+		let deepenResult: StageResult<DeepenOutput> | undefined;
+		let groundResult: StageResult<GroundOutput> | undefined;
+		let polishResult: StageResult<PolishOutput> | undefined;
+		let swedishVoiceResult: StageResult<SwedishVoiceOutput> | undefined;
 
-		this.options.onStageChange?.({ stage: "review", status: "running" });
+		// ⚠️ ORDER: deepen → ground → review → verify → polish → Swedish voice → audit → final
+		// read → figures. Two rules decide it.
+		//   1. Nothing is added after the last gate. Deepen and ground used to run after the
+		//      review, and open-issues.md listed every sentence they wrote under »ingen grind
+		//      har läst det«. They now run before it; the review reads them, and verify checks
+		//      the facts in them.
+		//   2. Reading sources beats re-reading the essay. The review used to loop up to three
+		//      rounds over its own rewrite; it now runs once, as patches, hands what it cannot
+		//      confirm to verify, and the gate is a final read of the text that ships.
+		// Every stage here returns patches that code applies (text-patches.ts): an edit a
+		// stage does not list does not ship, and each applied one is logged.
+		//
+		// One checkpoint covers these stages. The files each stage wrote (review.json,
+		// deepen.json, …) were never read back, so a crash in Swedish voice repeated up to
+		// three max-effort reviews. The checkpoint is tied to the draft it edits.
+		const draftKey = createHash("sha256").update(currentDraft.body).digest("hex").slice(0, 16);
+		const done = new Set<string>();
+		const saved = resume ? loadOutput<EditCheckpoint>(outputDir, "edit-checkpoint.json") : null;
+		if (saved?.draftKey === draftKey) {
+			for (const step of saved.done) done.add(step);
+			finalText = saved.text;
+			title = saved.title;
+			description = saved.description;
+			firstReview = saved.firstReview;
+			verifyItems = saved.verifyItems;
+			settled = saved.settled;
+			reviewRound = saved.reviewRound;
+			this.openIssues = saved.openIssues;
+			this.logger.log(`   ↩︎  Återupptar efter: ${saved.done.join(", ")}`);
+		}
+		const checkpoint = (step: string) => {
+			done.add(step);
+			const state: EditCheckpoint = {
+				draftKey,
+				done: [...done],
+				text: finalText,
+				title,
+				description,
+				firstReview,
+				verifyItems,
+				settled,
+				reviewRound,
+				openIssues: this.openIssues,
+			};
+			saveOutput(outputDir, "edit-checkpoint.json", state);
+		};
 
-		while (revisionCount <= this.options.maxRevisions) {
+		const logPatches = (label: string, rejected: PatchRejection[] | undefined) => {
+			if (rejected && rejected.length > 0) {
+				this.logger.log(`     ${label}: ${rejected.length} ändring(ar) avvisade av vakterna`);
+				for (const r of rejected.slice(0, 6)) {
+					this.logger.log(`       ✗ ${r.reason}: ${describePatch(r.patch, 80)}`);
+				}
+			}
+		};
+		/** A reviewer's new description, unless it introduces a word the spell guard does not know. */
+		const adoptDescription = (next: string | undefined) => {
+			const reviewed = next?.trim();
+			if (!reviewed) return;
+			const bad = newMisspellings(description ?? "", reviewed);
+			if (bad && bad.length > 0) {
+				this.noteOpenIssue(
+					"Språkgranskningens förslag som avvisades",
+					`Granskarens ingress: »${reviewed}« (okända ord: ${bad.join(", ")})`,
+				);
+			} else {
+				description = reviewed;
+			}
+		};
+		const rejectArticle = (duration: number | undefined, summary: string) => {
+			this.options.onStageChange?.({
+				stage: "review",
+				status: "failed",
+				duration,
+				summary,
+				error: "Article rejected",
+			});
+			this.logger.log("   ❌ Article rejected - requires complete rewrite");
+			result.totalDuration = Date.now() - startTime;
+			return result;
+		};
+
+		if (!done.has("deepen")) {
+			// Deepen — argument development, logical gaps (non-fatal)
+			this.options.onStageChange?.({ stage: "deepen", status: "running" });
+			deepenResult = await this.runDeepen(finalText);
+			result.stages.deepen = deepenResult;
+			if (deepenResult.success && deepenResult.data) {
+				finalText = deepenResult.data.body;
+				this.logger.log(`   - Deepen: ${deepenResult.data.verdict}`);
+				for (const c of deepenResult.data.changes) {
+					this.logger.log(
+						`     ✍️  ${c.location}: ${describePatch({ original: c.before, replacement: c.after }, 160)}`,
+					);
+					verifyItems.push({
+						origin: "deepen",
+						claim: `Passage added by the deepen stage (${c.location})`,
+						sentence: c.after,
+						reason:
+							"written after the fact-check; check any name, date, number or attribution in it",
+					});
+				}
+				logPatches("Deepen", deepenResult.data.rejected);
+				saveOutput(outputDir, "deepen.json", deepenResult.data);
+				this.options.onStageChange?.({
+					stage: "deepen",
+					status: "complete",
+					duration: deepenResult.duration,
+					summary: deepenResult.data.verdict,
+				});
+			} else {
+				this.logger.warn(`   ⚠️  Deepen hoppades över: ${deepenResult.error?.slice(0, 200)}`);
+				this.options.onStageChange?.({
+					stage: "deepen",
+					status: "failed",
+					duration: deepenResult.duration,
+					error: deepenResult.error,
+					summary: "skipped (non-fatal)",
+				});
+			}
+			checkpoint("deepen");
+		}
+
+		if (!done.has("ground")) {
+			// Ground — anchor abstract concepts in concrete moments (non-fatal)
+			this.options.onStageChange?.({ stage: "ground", status: "running" });
+			groundResult = await this.runGround(finalText);
+			result.stages.ground = groundResult;
+			if (groundResult.success && groundResult.data) {
+				finalText = groundResult.data.body;
+				this.logger.log(`   - Ground: ${groundResult.data.verdict}`);
+				// ⚠️ Additionerna skrivs alltid ut, en per rad. Loggades tidigare bara som
+				// »grounded«, vilket gör en påhittad konkretion osynlig i körningen: på en
+				// fördjupningssida skrev steget in en namngiven ort och ett vårdpåstående som
+				// aldrig hänt. I essäpipelinen läser granskaren och verifieringen dem numera.
+				for (const c of groundResult.data.changes ?? []) {
+					this.logger.log(`     ✍️  ${c.location}: ${c.addition}`);
+					verifyItems.push({
+						origin: "ground",
+						claim: `Sentence added by the ground stage (${c.location})`,
+						sentence: c.addition,
+						reason: "written after the fact-check; it must be a general moment, never a named case",
+					});
+				}
+				if ((groundResult.data.changes ?? []).length > 0) {
+					this.logger.log("     → går till granskning och verifiering");
+				}
+				logPatches("Ground", groundResult.data.rejected);
+				saveOutput(outputDir, "ground.json", groundResult.data);
+				this.options.onStageChange?.({
+					stage: "ground",
+					status: "complete",
+					duration: groundResult.duration,
+					summary: groundResult.data.verdict,
+				});
+			} else {
+				this.logger.warn(`   ⚠️  Ground hoppades över: ${groundResult.error?.slice(0, 200)}`);
+				this.options.onStageChange?.({
+					stage: "ground",
+					status: "failed",
+					duration: groundResult.duration,
+					error: groundResult.error,
+					summary: "skipped (non-fatal)",
+				});
+			}
+			checkpoint("ground");
+		}
+
+		// Review — one round, as patches. A failure or a »reject« is fatal; anything else goes on.
+		if (!done.has("review")) {
+			this.options.onStageChange?.({ stage: "review", status: "running" });
 			const reviewResult = await this.runReview(
-				currentDraft,
+				{ ...currentDraft, body: finalText, description },
 				researchData,
 				factCheckData,
 				ideaBrief,
-				lastReviewData, // Pass previous review for focused re-evaluation
+				undefined,
+				{ mode: "patch" },
 			);
 			result.stages.review = reviewResult;
-
 			if (!(reviewResult.success && reviewResult.data)) {
 				this.options.onStageChange?.({
 					stage: "review",
@@ -2581,337 +3037,155 @@ If the draft has anglicisms, fix them in the revised article.
 				result.totalDuration = Date.now() - startTime;
 				return result;
 			}
-
-			lastReviewData = reviewResult.data;
+			firstReview = reviewResult.data;
 			reviewRound++;
 			// Every round is kept. review.json alone was overwritten each round, so the first
 			// round's score — the one that says how good the draft was — was lost.
-			saveOutput(outputDir, `review-round-${reviewRound}.json`, reviewResult.data);
-			saveOutput(outputDir, "review.json", reviewResult.data);
-			const reviewedDescription = reviewResult.data.description?.trim();
-			if (reviewedDescription) {
-				const bad = newMisspellings(currentDraft.description ?? "", reviewedDescription);
-				if (bad && bad.length > 0) {
-					this.noteOpenIssue(
-						"Språkgranskningens förslag som avvisades",
-						`Granskarens ingress: »${reviewedDescription}« (okända ord: ${bad.join(", ")})`,
-					);
-				} else {
-					currentDraft = { ...currentDraft, description: reviewedDescription };
-				}
+			saveOutput(outputDir, `review-round-${reviewRound}.json`, firstReview);
+			saveOutput(outputDir, "review.json", firstReview);
+			const reviewSummary = `${firstReview.finalScore}/10 — ${firstReview.verdict}`;
+			if (firstReview.verdict === "reject") {
+				return rejectArticle(reviewResult.duration, reviewSummary);
 			}
-			const reviewSummary = `${reviewResult.data.finalScore}/10 — ${reviewResult.data.verdict}`;
-
-			// ⚠️ Omdömet ensamt räckte tidigare: `verdict === "publish"` bröt loopen utan att
-			// någon jämförde `finalScore`, så {finalScore: 4, verdict: "publish"} publicerade
-			// en essä. Fördjupningsproducenten har haft en poänggrind i kod hela tiden
-			// (MIN_FINAL_SCORE = 8); essäpipelinen saknade den. En modell som ska sätta både
-			// betyg och utfall sätter dem inte alltid konsekvent, och då är det betyget som
-			// bär information — utfallet är en etikett den kan slarva med.
-			if (reviewResult.data.verdict === "publish") {
-				const score = reviewResult.data.finalScore;
-				if (!reviewPassed(reviewResult.data) && revisionCount < this.options.maxRevisions) {
-					this.logger.log(
-						`   ⚠️  Omdömet »publish« men poängen ${score}/10 < ${MIN_ESSAY_FINAL_SCORE} — kör ett varv till`,
-					);
-					this.options.onStageChange?.({
-						stage: "review",
-						status: "complete",
-						duration: reviewResult.duration,
-						summary: `${reviewSummary} (poäng under grind, reviderar)`,
-					});
-				} else if (reviewPassed(reviewResult.data)) {
-					// ⚠️ A »publish« round still returns the whole text, and it used to ship
-					// unread. reviewer.md says »publish« means cosmetic edits; this checks it.
-					const revised = reviewResult.data.revisedText;
-					if (revised) {
-						const extent = measureRewrite(currentDraft.body, revised);
-						const size = `${Math.round(extent.changedRatio * 100)} % av orden, ${extent.newParagraphs.length} nya stycken`;
-						if (isCosmeticRewrite(extent)) {
-							reviewedText = revised;
-							this.logger.log(`   - Granskarens putsning godtas (${size})`);
-						} else if (revisionCount < this.options.maxRevisions) {
-							currentDraft = { ...currentDraft, body: revised };
-							revisionCount++;
-							this.logger.log(
-								`   ⚠️  »publish« men omskrivningen var inte kosmetisk (${size}) — granskas igen (varv ${revisionCount})`,
-							);
-							this.options.onStageChange?.({
-								stage: "review",
-								status: "complete",
-								duration: reviewResult.duration,
-								summary: `${reviewSummary} (omskrivning granskas igen)`,
-							});
-							continue;
-						} else {
-							// No rounds left: ship the text the passing review actually read.
-							reviewedText = currentDraft.body;
-							this.logger.warn(
-								`   ⚠️  »publish« men omskrivningen var inte kosmetisk (${size}) och inga varv återstår — den granskade texten publiceras, omskrivningen kasseras`,
-							);
-							for (const p of extent.newParagraphs) {
-								this.noteOpenIssue("Kasserat ur granskarens sista varv", p);
-							}
-							saveOutput(outputDir, "review-discarded-rewrite.md", revised);
-						}
-					} else {
-						reviewedText = currentDraft.body;
-					}
-					this.options.onStageChange?.({
-						stage: "review",
-						status: "complete",
-						duration: reviewResult.duration,
-						summary: reviewSummary,
-					});
-					break;
-				}
+			adoptDescription(firstReview.description);
+			finalText = firstReview.revisedText ?? finalText;
+			logPatches("Review", firstReview.rejected);
+			for (const item of firstReview.toVerify ?? []) {
+				verifyItems.push({ origin: "review", ...item });
 			}
-
-			if (reviewResult.data.verdict === "reject") {
-				this.options.onStageChange?.({
-					stage: "review",
-					status: "failed",
-					duration: reviewResult.duration,
-					summary: reviewSummary,
-					error: "Article rejected",
-				});
-				this.logger.log("   ❌ Article rejected - requires complete rewrite");
-				result.totalDuration = Date.now() - startTime;
-				return result;
-			}
-
-			// Verdict is 'revise'
-			if (revisionCount >= this.options.maxRevisions) {
-				this.options.onStageChange?.({
-					stage: "review",
-					status: "failed",
-					duration: reviewResult.duration,
-					summary: `${reviewSummary} (max revisions, not publishable)`,
-					error: "Review gate failed",
-				});
-				this.logger.log(
-					`   ❌ Max revisions (${this.options.maxRevisions}) reached without a publishable review`,
-				);
-				result.totalDuration = Date.now() - startTime;
-				return result;
-			}
-
-			// Apply revisions if provided
-			if (reviewResult.data.revisedText) {
-				currentDraft = {
-					...currentDraft,
-					body: reviewResult.data.revisedText,
-				};
-				revisionCount++;
-				this.logger.log(`   📝 Revision ${revisionCount} applied, re-reviewing...`);
-			} else {
-				this.options.onStageChange?.({
-					stage: "review",
-					status: "failed",
-					duration: reviewResult.duration,
-					summary: reviewSummary,
-					error: "Review requested revisions but supplied no revised text",
-				});
-				this.logger.log("   ❌ Revisions requested but no revised text provided");
-				result.totalDuration = Date.now() - startTime;
-				return result;
-			}
-		}
-
-		// After review loop — reject already returned early above, so we have text to polish + publish
-		if (!(lastReviewData && reviewedText !== undefined)) {
-			result.totalDuration = Date.now() - startTime;
-			return result;
-		}
-		const reviewData = lastReviewData;
-		let finalText = reviewedText;
-		let title = currentDraft.title;
-		let description = currentDraft.description;
-
-		// What the reviewer deliberately left for a human. It used to vanish: on »Sorgen vid
-		// Nilen« the reviewer said the Ibn ʿUthaymīn quote translated نعيّن as »stödja« and
-		// »the translator must fix it before print«; final.md shipped »stödja«.
-		if ((reviewData.issues ?? []).length > 0) {
-			this.logger.log("   📌 Granskaren lämnade åt en människa:");
-			for (const issue of reviewData.issues ?? []) {
-				this.logger.log(`     • ${issue}`);
+			// What the reviewer leaves for a person must reach the editor's list. It used to
+			// vanish: on »Sorgen vid Nilen« the reviewer said a translation »must be fixed
+			// before print«, and final.md shipped it unchanged.
+			for (const issue of firstReview.forEditor ?? []) {
+				this.logger.log(`     📌 ${issue}`);
 				this.noteOpenIssue("Granskaren lämnade åt en människa", issue);
 			}
+			this.options.onStageChange?.({
+				stage: "review",
+				status: "complete",
+				duration: reviewResult.duration,
+				summary: `${reviewSummary}, ${firstReview.patches?.length ?? 0} ändringar`,
+			});
+			checkpoint("review");
 		}
 
-		// ⚠️ ORDER: deepen → ground → polish → Swedish voice. Polish used to run first, so the
-		// sentences deepen and ground added were never read for rhythm or formula. Every
-		// stage after review now returns patches that code applies (text-patches.ts): an edit
-		// a stage does not list does not ship, and each applied one is logged below.
-		const logPatches = (label: string, rejected: PatchRejection[] | undefined) => {
-			if (rejected && rejected.length > 0) {
-				this.logger.log(`     ${label}: ${rejected.length} ändring(ar) avvisade av vakterna`);
-				for (const r of rejected.slice(0, 6)) {
-					this.logger.log(`       ✗ ${r.reason}: ${describePatch(r.patch, 80)}`);
+		// Verify — the facts review could not confirm, and the ones deepen and ground added,
+		// against their sources (non-fatal: what is not settled goes to the editor's list).
+		if (!done.has("verify")) {
+			const verifyResult = await this.runVerify(finalText, verifyItems, researchData);
+			if (verifyResult.success && verifyResult.data) {
+				finalText = verifyResult.data.body;
+				const triage = triageVerification(verifyItems, verifyResult.data);
+				for (const line of triage.log) this.logger.log(`     ${line}`);
+				settled.push(...triage.settled);
+				for (const open of triage.open) this.noteOpenIssue("Kunde inte verifieras", open);
+				logPatches("Verify", verifyResult.data.rejected);
+				if (verifyItems.length > 0) {
+					this.logger.log(`   - Verify: ${verifyResult.data.summary}`);
+					saveOutput(outputDir, "verify.json", verifyResult.data);
 				}
-			}
-		};
-
-		// Stage 5: Deepen — argument development, logical gaps (non-fatal)
-		this.options.onStageChange?.({ stage: "deepen", status: "running" });
-		const deepenResult = await this.runDeepen(finalText);
-		result.stages.deepen = deepenResult;
-		if (deepenResult.success && deepenResult.data) {
-			finalText = deepenResult.data.body;
-			this.logger.log(`   - Deepen: ${deepenResult.data.verdict}`);
-			for (const c of deepenResult.data.changes) {
-				this.logger.log(
-					`     ✍️  ${c.location}: ${describePatch({ original: c.before, replacement: c.after }, 160)}`,
-				);
-				this.noteOpenIssue(
-					"Tillagt efter granskningen (ingen grind har läst det)",
-					`Deepen, ${c.location}: ${c.after}`,
-				);
-			}
-			logPatches("Deepen", deepenResult.data.rejected);
-			saveOutput(outputDir, "deepen.json", deepenResult.data);
-			this.options.onStageChange?.({
-				stage: "deepen",
-				status: "complete",
-				duration: deepenResult.duration,
-				summary: deepenResult.data.verdict,
-			});
-		} else {
-			this.logger.warn(`   ⚠️  Deepen hoppades över: ${deepenResult.error?.slice(0, 200)}`);
-			this.options.onStageChange?.({
-				stage: "deepen",
-				status: "failed",
-				duration: deepenResult.duration,
-				error: deepenResult.error,
-				summary: "skipped (non-fatal)",
-			});
-		}
-
-		// Stage 6: Ground — anchor abstract concepts in concrete moments (non-fatal)
-		this.options.onStageChange?.({ stage: "ground", status: "running" });
-		const groundResult = await this.runGround(finalText);
-		result.stages.ground = groundResult;
-		if (groundResult.success && groundResult.data) {
-			finalText = groundResult.data.body;
-			this.logger.log(`   - Ground: ${groundResult.data.verdict}`);
-			// ⚠️ Ground kör EFTER faktagranskning och granskning — ingenting nedströms läser
-			// de meningar den lägger till. Loggades tidigare bara som »grounded«, vilket gör
-			// en påhittad konkretion osynlig i körningen. På en fördjupningssida skrev steget
-			// in en namngiven ort och ett vårdpåstående som aldrig hänt, under omdömet
-			// »publish«. Additionerna skrivs därför alltid ut, en per rad.
-			for (const c of groundResult.data.changes ?? []) {
-				this.logger.log(`     ✍️  ${c.location}: ${c.addition}`);
-				this.noteOpenIssue(
-					"Tillagt efter granskningen (ingen grind har läst det)",
-					`Ground, ${c.location}: ${c.addition}`,
-				);
-			}
-			if ((groundResult.data.changes ?? []).length > 0) {
-				this.logger.log("     ⚠️  Ingen grind har läst dessa. Kontrollera varje namngiven uppgift.");
-			}
-			logPatches("Ground", groundResult.data.rejected);
-			saveOutput(outputDir, "ground.json", groundResult.data);
-			this.options.onStageChange?.({
-				stage: "ground",
-				status: "complete",
-				duration: groundResult.duration,
-				summary: groundResult.data.verdict,
-			});
-		} else {
-			this.logger.warn(`   ⚠️  Ground hoppades över: ${groundResult.error?.slice(0, 200)}`);
-			this.options.onStageChange?.({
-				stage: "ground",
-				status: "failed",
-				duration: groundResult.duration,
-				error: groundResult.error,
-				summary: "skipped (non-fatal)",
-			});
-		}
-
-		// Stage 7: Polish — prose rhythm, now over the deepened and grounded text (non-fatal)
-		this.options.onStageChange?.({ stage: "polish", status: "running" });
-		const polishResult = await this.runPolish(finalText);
-		result.stages.polish = polishResult;
-		if (polishResult.success && polishResult.data) {
-			finalText = polishResult.data.body;
-			const editCount = polishResult.data.edits.split("\n").filter((l) => l.trim()).length;
-			this.logger.log(
-				`   - Polish: ${editCount} edits, weakest: "${polishResult.data.weakestSentence.slice(0, 60)}..."`,
-			);
-			logPatches("Polish", polishResult.data.rejected);
-			saveOutput(outputDir, "polish.json", polishResult.data);
-			this.options.onStageChange?.({
-				stage: "polish",
-				status: "complete",
-				duration: polishResult.duration,
-				summary: `${editCount} edits`,
-			});
-		} else {
-			this.logger.warn(`   ⚠️  Polish hoppades över: ${polishResult.error?.slice(0, 200)}`);
-			this.options.onStageChange?.({
-				stage: "polish",
-				status: "failed",
-				duration: polishResult.duration,
-				error: polishResult.error,
-				summary: "skipped (non-fatal)",
-			});
-		}
-
-		// Stage 8: Swedish Voice — consolidated language pass over body, title and
-		// description. The title and description used to get no language check at all:
-		// the stage had the parameter and produce() never passed it (non-fatal).
-		this.options.onStageChange?.({ stage: "swedishVoice", status: "running" });
-		const swedishVoiceResult = await this.runSwedishVoice(finalText, { title, description });
-		result.stages.swedishVoice = swedishVoiceResult;
-		if (swedishVoiceResult.success && swedishVoiceResult.data) {
-			finalText = swedishVoiceResult.data.body;
-			const issueCount = swedishVoiceResult.data.issuesFound.length;
-			this.logger.log(
-				`   - Swedish Voice: ${issueCount} issues fixed (${swedishVoiceResult.data.verdict})`,
-			);
-			// The title and description get no patch guard (they are not in the body), so a
-			// correction that misspells is refused here and handed to a human instead.
-			const guarded = (label: string, before: string, after: string | undefined) => {
-				const next = after?.trim();
-				if (!next || next === before) return before;
-				const bad = newMisspellings(before, next);
-				if (bad && bad.length > 0) {
-					this.logger.warn(`     ⚠️  ${label}: rättelsen avvisad, okända ord: ${bad.join(", ")}`);
+			} else {
+				this.logger.warn(`   ⚠️  Verify hoppades över: ${verifyResult.error?.slice(0, 200)}`);
+				for (const item of verifyItems) {
 					this.noteOpenIssue(
-						"Språkgranskningens förslag som avvisades",
-						`${label}: »${next}« (okända ord: ${bad.join(", ")})`,
+						"Kunde inte verifieras",
+						`${item.claim} — verifieringssteget föll (${item.reason})`,
 					);
-					return before;
 				}
-				this.logger.log(`     ${label}: »${before}« → »${next}«`);
-				return next;
-			};
-			title = guarded("Titel", title, swedishVoiceResult.data.correctedTitle);
-			description =
-				guarded("Ingress", description ?? "", swedishVoiceResult.data.correctedDescription) ||
-				undefined;
-			logPatches("Swedish voice", swedishVoiceResult.data.rejected);
-			saveOutput(outputDir, "swedish-voice.json", swedishVoiceResult.data);
-			this.options.onStageChange?.({
-				stage: "swedishVoice",
-				status: "complete",
-				duration: swedishVoiceResult.duration,
-				summary: `${issueCount} issues`,
-			});
-		} else {
-			this.logger.warn(
-				`   ⚠️  Swedish voice hoppades över: ${swedishVoiceResult.error?.slice(0, 200)}`,
-			);
-			this.options.onStageChange?.({
-				stage: "swedishVoice",
-				status: "failed",
-				duration: swedishVoiceResult.duration,
-				error: swedishVoiceResult.error,
-				summary: "skipped (non-fatal)",
-			});
+			}
+			checkpoint("verify");
 		}
 
-		// Stage 9: the second-model audit, on what the deterministic checks can see.
+		if (!done.has("polish")) {
+			// Polish — prose rhythm, over the reviewed and verified text (non-fatal)
+			this.options.onStageChange?.({ stage: "polish", status: "running" });
+			polishResult = await this.runPolish(finalText);
+			result.stages.polish = polishResult;
+			if (polishResult.success && polishResult.data) {
+				finalText = polishResult.data.body;
+				const editCount = polishResult.data.edits.split("\n").filter((l) => l.trim()).length;
+				this.logger.log(
+					`   - Polish: ${editCount} edits, weakest: "${polishResult.data.weakestSentence.slice(0, 60)}..."`,
+				);
+				logPatches("Polish", polishResult.data.rejected);
+				saveOutput(outputDir, "polish.json", polishResult.data);
+				this.options.onStageChange?.({
+					stage: "polish",
+					status: "complete",
+					duration: polishResult.duration,
+					summary: `${editCount} edits`,
+				});
+			} else {
+				this.logger.warn(`   ⚠️  Polish hoppades över: ${polishResult.error?.slice(0, 200)}`);
+				this.options.onStageChange?.({
+					stage: "polish",
+					status: "failed",
+					duration: polishResult.duration,
+					error: polishResult.error,
+					summary: "skipped (non-fatal)",
+				});
+			}
+			checkpoint("polish");
+		}
+
+		if (!done.has("swedishVoice")) {
+			// Swedish Voice — consolidated language pass over body, title and
+			// description. The title and description used to get no language check at all:
+			// the stage had the parameter and produce() never passed it (non-fatal).
+			this.options.onStageChange?.({ stage: "swedishVoice", status: "running" });
+			swedishVoiceResult = await this.runSwedishVoice(finalText, { title, description });
+			result.stages.swedishVoice = swedishVoiceResult;
+			if (swedishVoiceResult.success && swedishVoiceResult.data) {
+				finalText = swedishVoiceResult.data.body;
+				const issueCount = swedishVoiceResult.data.issuesFound.length;
+				this.logger.log(
+					`   - Swedish Voice: ${issueCount} issues fixed (${swedishVoiceResult.data.verdict})`,
+				);
+				// The title and description get no patch guard (they are not in the body), so a
+				// correction that misspells is refused here and handed to a human instead.
+				const guarded = (label: string, before: string, after: string | undefined) => {
+					const next = after?.trim();
+					if (!next || next === before) return before;
+					const bad = newMisspellings(before, next);
+					if (bad && bad.length > 0) {
+						this.logger.warn(`     ⚠️  ${label}: rättelsen avvisad, okända ord: ${bad.join(", ")}`);
+						this.noteOpenIssue(
+							"Språkgranskningens förslag som avvisades",
+							`${label}: »${next}« (okända ord: ${bad.join(", ")})`,
+						);
+						return before;
+					}
+					this.logger.log(`     ${label}: »${before}« → »${next}«`);
+					return next;
+				};
+				title = guarded("Titel", title, swedishVoiceResult.data.correctedTitle);
+				description =
+					guarded("Ingress", description ?? "", swedishVoiceResult.data.correctedDescription) ||
+					undefined;
+				logPatches("Swedish voice", swedishVoiceResult.data.rejected);
+				saveOutput(outputDir, "swedish-voice.json", swedishVoiceResult.data);
+				this.options.onStageChange?.({
+					stage: "swedishVoice",
+					status: "complete",
+					duration: swedishVoiceResult.duration,
+					summary: `${issueCount} issues`,
+				});
+			} else {
+				this.logger.warn(
+					`   ⚠️  Swedish voice hoppades över: ${swedishVoiceResult.error?.slice(0, 200)}`,
+				);
+				this.options.onStageChange?.({
+					stage: "swedishVoice",
+					status: "failed",
+					duration: swedishVoiceResult.duration,
+					error: swedishVoiceResult.error,
+					summary: "skipped (non-fatal)",
+				});
+			}
+			checkpoint("swedishVoice");
+		}
+
+		// The second-model audit, on what the deterministic checks can see.
 		//
 		// ⚠️ It used to run only when evaluate-article.py's TOTAL passed 12, and that total was
 		// 93–100 % repetition findings, so it said nothing; the patches it proposed were then
@@ -3036,6 +3310,125 @@ If the draft has anglicisms, fix them in the revised article.
 			);
 		}
 
+		// The gate: a final read of the text that ships. It replaces review rounds two and
+		// three, and it is the first gate to read what polish and Swedish voice did.
+		//
+		// ⚠️ The score is gated in code, not only the verdict: {finalScore: 4, verdict:
+		// "publish"} once published an essay. A model that sets both does not always set them
+		// consistently, and then the score is what carries information.
+		this.options.onStageChange?.({ stage: "review", status: "running" });
+		let passed: ReviewOutput | undefined;
+		let previousReview = firstReview;
+		while (!passed) {
+			const read = await this.runReview(
+				{ ...currentDraft, title, body: finalText, description },
+				researchData,
+				factCheckData,
+				ideaBrief,
+				previousReview,
+				{ mode: "patch", finalRead: { settled } },
+			);
+			result.stages.review = read;
+			if (!(read.success && read.data)) {
+				this.options.onStageChange?.({
+					stage: "review",
+					status: "failed",
+					duration: read.duration,
+					error: read.error,
+				});
+				result.totalDuration = Date.now() - startTime;
+				return result;
+			}
+			reviewRound++;
+			saveOutput(outputDir, `review-round-${reviewRound}.json`, read.data);
+			saveOutput(outputDir, "review.json", read.data);
+			const readSummary = `${read.data.finalScore}/10 — ${read.data.verdict}`;
+			if (read.data.verdict === "reject") {
+				return rejectArticle(read.duration, readSummary);
+			}
+			logPatches("Final read", read.data.rejected);
+			const revised = read.data.revisedText ?? finalText;
+			const extent = measureRewrite(finalText, revised);
+			const size = `${Math.round(extent.changedRatio * 100)} % av orden, ${extent.newParagraphs.length} nya stycken`;
+
+			if (reviewPassed(read.data)) {
+				if (revised === finalText || isCosmeticRewrite(extent)) {
+					// »publish« means cosmetic edits; this checks it.
+					finalText = revised;
+					adoptDescription(read.data.description);
+					this.logger.log(`   - Sista läsningen godkänner texten (${size})`);
+					passed = read.data;
+				} else if (revisionCount < this.options.maxRevisions) {
+					finalText = revised;
+					adoptDescription(read.data.description);
+					revisionCount++;
+					previousReview = read.data;
+					this.logger.log(
+						`   ⚠️  »publish« men ändringarna var inte kosmetiska (${size}) — läses igen (varv ${revisionCount})`,
+					);
+				} else {
+					// No rounds left: ship the text the passing read actually read.
+					this.logger.warn(
+						`   ⚠️  »publish« men ändringarna var inte kosmetiska (${size}) och inga varv återstår — den lästa texten publiceras, ändringarna kasseras`,
+					);
+					for (const p of extent.newParagraphs) {
+						this.noteOpenIssue("Kasserat ur granskarens sista varv", p);
+					}
+					saveOutput(outputDir, "review-discarded-rewrite.md", revised);
+					passed = read.data;
+				}
+				continue;
+			}
+
+			// Not passed: »revise«, or »publish« under the score gate.
+			if (revisionCount >= this.options.maxRevisions || revised === finalText) {
+				const why =
+					revised === finalText
+						? "granskaren begärde ändringar men förde inte in några"
+						: `${this.options.maxRevisions} revisioner utan godkänd läsning`;
+				this.options.onStageChange?.({
+					stage: "review",
+					status: "failed",
+					duration: read.duration,
+					summary: `${readSummary} (not publishable)`,
+					error: "Review gate failed",
+				});
+				this.logger.log(`   ❌ Sista läsningen underkände texten: ${why}`);
+				// ⚠️ The text is kept. »Bokmässan« (2026-09-27) failed this gate with nothing
+				// written but the review rounds, and the essay was then finished by hand.
+				for (const issue of read.data.issues ?? []) {
+					this.noteOpenIssue("Underkänt vid sista läsningen", issue);
+				}
+				saveOutput(outputDir, "candidate.md", revised);
+				result.openIssuesPath = this.writeOpenIssues(outputDir, title);
+				result.totalDuration = Date.now() - startTime;
+				return result;
+			}
+			finalText = revised;
+			adoptDescription(read.data.description);
+			revisionCount++;
+			previousReview = read.data;
+			this.logger.log(`   📝 Revision ${revisionCount} införd (${size}), läses igen...`);
+		}
+		const reviewData = passed;
+		for (const issue of reviewData.forEditor ?? []) {
+			this.logger.log(`     📌 ${issue}`);
+			this.noteOpenIssue("Granskaren lämnade åt en människa", issue);
+		}
+		// Nothing checks sources after this read, so what it flags goes to the editor.
+		for (const item of reviewData.toVerify ?? []) {
+			this.noteOpenIssue(
+				"Kunde inte verifieras",
+				`${item.claim} — flaggad vid sista läsningen: ${item.reason}`,
+			);
+		}
+		this.options.onStageChange?.({
+			stage: "review",
+			status: "complete",
+			duration: result.stages.review?.duration,
+			summary: `${reviewData.finalScore}/10 — ${reviewData.verdict}`,
+		});
+
 		// The Quran quotes, against Bernström, on the exact text that ships.
 		const quranFindings = this.checkQuranQuotes(finalText, outputDir);
 		if (quranFindings === null) {
@@ -3144,6 +3537,7 @@ If the draft has anglicisms, fix them in the revised article.
 			title,
 			description,
 			qualityScore: reviewData.finalScore,
+			draftScore: firstReview?.finalScore,
 			wordCount: finalWordCount,
 			revisionCount,
 			reviewRounds: reviewRound,
@@ -3164,76 +3558,80 @@ If the draft has anglicisms, fix them in the revised article.
 				factCheck: factCheckResult.duration,
 				authoring: authoringResult.duration,
 				review: result.stages.review?.duration,
-				deepen: deepenResult.duration,
-				ground: groundResult.duration,
-				polish: polishResult.duration,
-				swedishVoice: swedishVoiceResult.duration,
+				deepen: deepenResult?.duration,
+				ground: groundResult?.duration,
+				polish: polishResult?.duration,
+				swedishVoice: swedishVoiceResult?.duration,
 				codexAudit: codexAuditDuration,
 				figures: figuresResult.duration,
 				total: Date.now() - startTime,
 			},
 		});
 
-		// Publish to web-accessible directory and update idea status
-		result.publishedSlug = this.publishArticle(
-			outputDir,
-			topicSlug,
-			{ ...currentDraft, title, description },
-			reviewData.finalScore,
-			finalWordCount,
-			ideaContext,
-		);
-
-		// Record domain quality for published articles
-		if (result.publishedSlug && researchData.sources.length > 0) {
-			try {
-				const tracker = loadDomainTracker();
-				recordPublishedArticle(
-					tracker,
-					researchData.sources.map((s) => s.url),
-					reviewData.finalScore,
-				);
-				saveDomainTracker(tracker);
-			} catch (e) {
-				this.logger.warn(`   ⚠️  Failed to record domain quality: ${e}`);
-			}
-		}
-
-		// Persist the author's struggles/suggestions + eval scores to a sidecar
-		// log. The published frontmatter keeps only 7 fields, so these otherwise
-		// vanish at publish — this JSONL is the durable record for mining what
-		// the pipeline finds hard and whether the eval pass is helping.
-		const struggles = authoringResult.data?.struggles;
-		const efficiencySuggestions = authoringResult.data?.efficiencySuggestions;
-		try {
-			const entry = {
-				producedAt: new Date().toISOString(),
-				slug: result.publishedSlug ?? topicSlug,
-				topic,
+		if (this.options.publish) {
+			// Publish to web-accessible directory and update idea status
+			result.publishedSlug = this.publishArticle(
 				outputDir,
-				qualityScore: reviewData.finalScore,
-				reviewRounds: reviewRound,
-				wordCount: finalWordCount,
-				revisionCount,
-				evaluation: {
-					before: evalBefore?.actionableIssues,
-					after: (evalAfter ?? evalBefore)?.actionableIssues,
-					houseBefore: houseBefore.length,
-					houseAfter: houseAfter.length,
-				},
-				models,
-				openIssues: this.openIssues.length,
-				reviewerIssues: reviewData.issues ?? [],
-				struggles: struggles ?? null,
-				efficiencySuggestions: efficiencySuggestions ?? null,
-			};
-			appendFileSync(
-				join(findDataDir(), "pipeline-feedback.jsonl"),
-				`${JSON.stringify(entry)}\n`,
-				"utf-8",
+				topicSlug,
+				{ ...currentDraft, title, description },
+				reviewData.finalScore,
+				finalWordCount,
+				ideaContext,
 			);
-		} catch (e) {
-			this.logger.warn(`   ⚠️  Failed to record pipeline feedback: ${e}`);
+
+			// Record domain quality for published articles
+			if (result.publishedSlug && researchData.sources.length > 0) {
+				try {
+					const tracker = loadDomainTracker();
+					recordPublishedArticle(
+						tracker,
+						researchData.sources.map((s) => s.url),
+						reviewData.finalScore,
+					);
+					saveDomainTracker(tracker);
+				} catch (e) {
+					this.logger.warn(`   ⚠️  Failed to record domain quality: ${e}`);
+				}
+			}
+
+			// Persist the author's struggles/suggestions + eval scores to a sidecar
+			// log. The published frontmatter keeps only 7 fields, so these otherwise
+			// vanish at publish — this JSONL is the durable record for mining what
+			// the pipeline finds hard and whether the eval pass is helping.
+			const struggles = authoringResult.data?.struggles;
+			const efficiencySuggestions = authoringResult.data?.efficiencySuggestions;
+			try {
+				const entry = {
+					producedAt: new Date().toISOString(),
+					slug: result.publishedSlug ?? topicSlug,
+					topic,
+					outputDir,
+					qualityScore: reviewData.finalScore,
+					reviewRounds: reviewRound,
+					wordCount: finalWordCount,
+					revisionCount,
+					evaluation: {
+						before: evalBefore?.actionableIssues,
+						after: (evalAfter ?? evalBefore)?.actionableIssues,
+						houseBefore: houseBefore.length,
+						houseAfter: houseAfter.length,
+					},
+					models,
+					openIssues: this.openIssues.length,
+					reviewerIssues: reviewData.issues ?? [],
+					struggles: struggles ?? null,
+					efficiencySuggestions: efficiencySuggestions ?? null,
+				};
+				appendFileSync(
+					join(findDataDir(), "pipeline-feedback.jsonl"),
+					`${JSON.stringify(entry)}\n`,
+					"utf-8",
+				);
+			} catch (e) {
+				this.logger.warn(`   ⚠️  Failed to record pipeline feedback: ${e}`);
+			}
+		} else {
+			this.logger.log("   - Provkörning: essän publiceras inte och körningen loggas inte");
 		}
 
 		// The editor's list: everything a person should look at before the essay goes live.

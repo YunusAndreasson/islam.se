@@ -35,6 +35,13 @@ export interface ApplyPatchOptions {
 	maxApplied?: number;
 	/** Stage-specific veto. Return a reason to refuse the patch. */
 	vet?: (patch: TextPatch) => string | undefined;
+	/**
+	 * Lift the source-material guards (block quotes, footnotes, headings, numbers, quoted
+	 * words). Only the review and verify stages set this: they are the gate, and restoring
+	 * a quotation to its verified wording, correcting a date or striking an unsupported
+	 * note is their job. A patch must still match one place in the text, and is still logged.
+	 */
+	sourceEdits?: boolean;
 }
 
 const QUOTE_CHARS = `"“”»«„`;
@@ -177,7 +184,9 @@ export function applyTextPatches(
 			refuse(veto);
 			continue;
 		}
-		const structural = introducesStructure(patch.original, patch.replacement);
+		const structural = options.sourceEdits
+			? undefined
+			: introducesStructure(patch.original, patch.replacement);
 		if (structural) {
 			refuse(structural);
 			continue;
@@ -188,18 +197,20 @@ export function applyTextPatches(
 			refuse(located.error);
 			continue;
 		}
-		const hit = protectedRanges(text, options.protectHeadings ?? true).find(
-			([from, to]) => located.start < to && located.end > from,
-		);
-		if (hit) {
-			refuse(`touches ${hit[2]}`);
-			continue;
-		}
+		if (!options.sourceEdits) {
+			const hit = protectedRanges(text, options.protectHeadings ?? true).find(
+				([from, to]) => located.start < to && located.end > from,
+			);
+			if (hit) {
+				refuse(`touches ${hit[2]}`);
+				continue;
+			}
 
-		const matched = text.slice(located.start, located.end);
-		if (carriedMaterial(matched) !== carriedMaterial(patch.replacement)) {
-			refuse("changes a footnote marker, a quotation or a number");
-			continue;
+			const matched = text.slice(located.start, located.end);
+			if (carriedMaterial(matched) !== carriedMaterial(patch.replacement)) {
+				refuse("changes a footnote marker, a quotation or a number");
+				continue;
+			}
 		}
 
 		text = text.slice(0, located.start) + patch.replacement + text.slice(located.end);
@@ -207,6 +218,93 @@ export function applyTextPatches(
 	}
 
 	return { body: text, applied, rejected };
+}
+
+export interface FootnoteRenumbering {
+	body: string;
+	/** Markers whose number changed. */
+	renumbered: number;
+	/** Definitions removed because no marker pointed at them any more. */
+	dropped: string[];
+	/** Markers that have no definition. Left in place for a human. */
+	dangling: string[];
+}
+
+const FOOTNOTE_DEFINITION = /^\[\^([^\]]+)\]:/;
+const FOOTNOTE_MARKER = /\[\^([^\]]+)\]/g;
+
+/**
+ * Make footnotes sequential in the order their markers appear, and drop definitions that
+ * a cut left without a marker. The review stage used to do this by rewriting the essay;
+ * as patches it would take one edit per marker, each ambiguous (`[^7]` occurs twice), so
+ * the code does it once the patches are applied.
+ */
+export function renumberFootnotes(body: string): FootnoteRenumbering {
+	const lines = body.split("\n");
+	// Which lines belong to a definition (its first line plus indented continuations), and
+	// which are inside a code fence, where a `[^n]` is not a marker.
+	const definitionOf: Array<string | undefined> = [];
+	const fenced: boolean[] = [];
+	let inFence = false;
+	let current: string | undefined;
+	for (const line of lines) {
+		const isFenceLine = line.trimStart().startsWith("```");
+		fenced.push(inFence || isFenceLine);
+		if (isFenceLine) inFence = !inFence;
+		const start = fenced[fenced.length - 1] ? null : FOOTNOTE_DEFINITION.exec(line);
+		if (start) current = start[1];
+		else if (!(current && /^[ \t]+\S/.test(line))) current = undefined;
+		definitionOf.push(current);
+	}
+
+	const order: string[] = [];
+	lines.forEach((line, i) => {
+		if (definitionOf[i] !== undefined || fenced[i]) return;
+		for (const m of line.matchAll(FOOTNOTE_MARKER)) {
+			if (m[1] !== undefined && !order.includes(m[1])) order.push(m[1]);
+		}
+	});
+	const numberOf = new Map(order.map((id, i) => [id, String(i + 1)]));
+	const defined = new Set(definitionOf.filter((id): id is string => id !== undefined));
+	const dropped = [...defined].filter((id) => !numberOf.has(id));
+	const dangling = order.filter((id) => !defined.has(id));
+	const renumbered = order.filter((id) => numberOf.get(id) !== id).length;
+	if (renumbered === 0 && dropped.length === 0) return { body, renumbered, dropped, dangling };
+
+	// Definitions keep their slots in the text but fill them in the new order.
+	const blocks = new Map<string, string[]>();
+	const slots: number[] = [];
+	lines.forEach((line, i) => {
+		const id = definitionOf[i];
+		if (id === undefined) return;
+		if (!blocks.has(id)) {
+			blocks.set(id, []);
+			slots.push(i);
+		}
+		blocks.get(id)?.push(line);
+	});
+	const kept = [...blocks.keys()]
+		.filter((id) => numberOf.has(id))
+		.sort((a, b) => Number(numberOf.get(a)) - Number(numberOf.get(b)));
+
+	const out: string[] = [];
+	lines.forEach((line, i) => {
+		if (fenced[i]) {
+			out.push(line);
+			return;
+		}
+		if (definitionOf[i] === undefined) {
+			out.push(line.replace(FOOTNOTE_MARKER, (_whole, id) => `[^${numberOf.get(id) ?? id}]`));
+			return;
+		}
+		const slot = slots.indexOf(i);
+		if (slot === -1) return; // continuation line, emitted with its block
+		const id = kept[slot];
+		if (id === undefined) return; // slot freed by a dropped definition
+		const [first = "", ...rest] = blocks.get(id) ?? [];
+		out.push(first.replace(FOOTNOTE_DEFINITION, `[^${numberOf.get(id)}]:`), ...rest);
+	});
+	return { body: out.join("\n"), renumbered, dropped, dangling };
 }
 
 /** One log line per patch, for the run log and the stage's JSON artifact. */

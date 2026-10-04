@@ -203,6 +203,63 @@ const TextPatchSchema = z.object({
 	reason: z.string().optional(),
 });
 
+/**
+ * The essay review, as patches (the fördjupning producer keeps the rewriting review and
+ * ReviewFrontmatterSchema above).
+ *
+ * ⚠️ Key order is deliberate: diagnosis, then edits, then the score. With the score first
+ * the model commits to a number before it has written down what is wrong.
+ */
+export const ReviewPatchSchema = z.object({
+	/** What is wrong with the text as it arrived, whether or not a patch fixes it. */
+	issues: z.array(z.string()),
+	patches: z.array(TextPatchSchema),
+	/** Claims the reviewer could not confirm from the research. The verify stage checks each. */
+	toVerify: z.array(
+		z.object({
+			claim: z.string(),
+			/** The sentence in the article that carries it, verbatim. */
+			sentence: z.string(),
+			reason: z.string(),
+		}),
+	),
+	/** What only a person can settle (a judgement of taste, a translation to confirm). */
+	forEditor: z.array(z.string()),
+	strengths: z.array(z.string()).optional(),
+	/** Only when the reviewer rewrote the author's description. */
+	description: z.string().optional(),
+	summary: z.string(),
+	finalScore: z.number(),
+	verdict: z.enum(["publish", "revise", "reject"]),
+});
+
+/** What the verify stage found for each item it was handed. */
+export const VerifyOutputSchema = z.object({
+	items: z.array(
+		z.object({
+			/** The number the item had in the list the stage was given. */
+			id: z.number(),
+			status: z.enum(["confirmed", "corrected", "struck", "open"]),
+			/** What was read and where: work and page, or URL. For `open`: what was tried. */
+			evidence: z.string(),
+			/** The edit, for `corrected` and `struck`; optional for `confirmed` (a better note). */
+			patch: TextPatchSchema.optional(),
+		}),
+	),
+	summary: z.string(),
+});
+
+export type ReviewPatch = z.infer<typeof ReviewPatchSchema>;
+export type VerifyFindings = z.infer<typeof VerifyOutputSchema>;
+
+export function getReviewPatchJsonSchema(): object {
+	return z.toJSONSchema(ReviewPatchSchema, { target: "draft-07" });
+}
+
+export function getVerifyJsonSchema(): object {
+	return z.toJSONSchema(VerifyOutputSchema, { target: "draft-07" });
+}
+
 // Polish frontmatter — validated from --- block (body comes from markdown)
 export const PolishFrontmatterSchema = z.object({
 	sectionScores: z.string(),

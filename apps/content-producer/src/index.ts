@@ -89,6 +89,10 @@ program
 		"Resume from saved checkpoints (research.json, fact-check.json, draft-meta.json)",
 	)
 	.option(
+		"--no-publish",
+		"Trial run: write final.md but leave data/articles, the feedback log and the domain tracker untouched",
+	)
+	.option(
 		"-b, --brief <path>",
 		"JSON file with a pre-decided angle {title, thesis, angle, keywords, difficulty, requirements?} — research, authoring and review run from it instead of developing an angle from the topic alone. `requirements` (or a »⚠️ KRAV SOM AVGÖR …« block at the end of `angle`) goes to every stage as hard rules",
 	)
@@ -126,6 +130,7 @@ program
 			model: options.model as "opus" | "sonnet",
 			qualityThreshold: Number.parseFloat(options.quality),
 			maxRevisions: Number.parseInt(options.revisions, 10),
+			publish: options.publish !== false,
 			sourceDocs,
 		});
 

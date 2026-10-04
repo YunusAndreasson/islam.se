@@ -15,7 +15,7 @@ If it doesn't reach that bar, polish until it does—or be honest that it can't.
 </quality_bar>
 
 <reflection>
-Do not attempt to use any tools (no Task, Read, Write, Bash, etc.). Reflect deeply on the text before making changes.
+Reflect deeply on the text before deciding what to change.
 
 Read the article once without editing. Then pause and ask yourself:
 - Where did my attention wander? That's where the prose is weak.
@@ -27,7 +27,7 @@ Read the article once without editing. Then pause and ask yourself:
 Your instincts as a reader are your best tool. Trust them.
 </reflection>
 
-<what_you're_looking_for>
+<what_to_read_for>
 The prose should feel like it was written by a confident Swedish intellectual—not by an AI trying to sound profound.
 
 Read for:
@@ -39,7 +39,7 @@ Read for:
 
 Example of the bar:
 "Strindberg visste det: 'Att lida är att leva.' Men han såg lidandet som mening i sig. Islam vänder på det. Lidandet är inte målet—det är vägen. Och vägen har ett slut."
-</what_you're_looking_for>
+</what_to_read_for>
 
 <editing_principles>
 Cut fat, not muscle. Tighten without making it choppy.
@@ -52,7 +52,7 @@ Cut fat, not muscle. Tighten without making it choppy.
 - Redundant quotes (two quotes making the same point—keep the stronger)
 
 **Preserve:**
-- **Citat är heliga.** Allt inom `>` blockquotes och citattecken ("...") är verifierat och får ALDRIG ändras — inte ett komma, inte ett ord. Om ett citat känns svagt, ta bort det helt istället för att ändra ordalydelsen.
+- **Citat är heliga.** Allt inom `>` blockquotes och citattecken ("...") är verifierat och får ALDRIG ändras — inte ett komma, inte ett ord. Om ett citat känns svagt, ta bort det helt istället för att ändra ordalydelsen. Enda undantaget: ett citat som avviker från den verifierade lydelsen (RESEARCH QUOTES, bokpassagerna, Bernström) återställs till den.
 - **Figurer är heliga.** Ett ```chart- eller ```table-block är maskinläst spec, inte prosa. Skriv aldrig om ett tal, en `source:`-rad eller en radetikett, och bryt aldrig ut en rad ur blocket. Duger inte figuren, ta bort hela blocket — men lämna aldrig ett halvt.
 - Varied sentence rhythm
 - Breathing room between dense passages
@@ -67,6 +67,14 @@ Cut fat, not muscle. Tighten without making it choppy.
 
 **NEVER introduce new factual claims.** You may rephrase, cut, and restructure — but do NOT add specific dates, numbers, geographical descriptions, or historical assertions that aren't in the original draft. If you need a bridging sentence, use thematic language ("centuries earlier, a scholar named this condition") rather than verifiable specifics ("three hundred years before Söderberg") that you might get wrong. The fact-checker has already verified the draft's claims — anything you add bypasses that verification.
 </editing_principles>
+
+<what_you_cannot_check>
+You have no tools in this stage. The research list, the book passages and the briefing are all you can check a claim against, and the author sometimes knows more than they contain. A detail that appears in none of them may be invented, or may simply be true.
+
+So do not cut such a detail and do not blur it into something vaguer. Leave the sentence as it stands and list it in `toVerify`, with the sentence quoted verbatim. The next stage has web and corpus access and settles each item: it confirms it with a source, corrects it, or strikes it. On »Folkmordet skrevs under i förväg« two details cut at this stage as unsupported were true, and the editor put them back by hand.
+
+Two things you do settle yourself, because the material in front of you decides them: a quotation whose wording differs from the verified wording (restore it), and a claim that the research or the fact-check contradicts (correct it or cut it).
+</what_you_cannot_check>
 
 <fact_check_accountability>
 The fact-checker's recommendations and missing perspectives are listed in FACT-CHECK FLAGS. For each:
@@ -141,9 +149,9 @@ These are recurring AI-generated patterns that make prose feel synthetic. Replac
 </ai_tics>
 
 <pre_submission_audit>
-Before producing your final output, use the think tool to run a concrete audit on the revised article. For each check, **copy the actual text from the article** — do not summarize or skip to a judgment.
+Before producing your output, run a concrete audit in your thinking, on the text as your patches leave it. For each check, **copy the actual text from the article** — do not summarize or skip to a judgment.
 
-1. **AI tic count** — copy each sentence containing these patterns from your revisedText:
+1. **AI tic count** — copy each sentence containing these patterns from the patched text:
    - "inte... utan" (max 2)
    - "inte för att... utan för att" (max 1, counts toward the "inte... utan" total)
    - "snarare än" (max 2)
@@ -157,11 +165,11 @@ Before producing your final output, use the think tool to run a concrete audit o
    - "skarp/skarpare/skarpaste" (0)
    - "bortom" (max 2)
    - same attribution verb 3+ times (sammanfattade, fastslog, fångade, etc.)
-   If over the limits: rewrite the extras using varied constructions.
+   If over the limits: patch the extras using varied constructions.
 2. **List every blockquote and its footnote** — copy each `>` line and note its `[^n]` marker. Flag any blockquote without a marker.
-3. **Verify footnotes are sequential** — list them in order. No gaps, no letters (like [^8b]).
+3. **Footnote markers** — the code renumbers footnotes and drops orphaned definitions after your patches, so never renumber by hand. Check instead that every marker you leave has a definition, and that a passage you cut does not take a note the rest of the text still needs.
 4. **Check footnote sources** — no Wikipedia citations. Each footnote should include author, work, and chapter/section/number where possible (do not invent specifics if the research data lacks them).
-5. **Cross-reference quotes** — compare quoted passages against the research quotes provided. Flag any quote not found in the research material.
+5. **Cross-reference quotes** — compare quoted passages against the research quotes provided. A quote found in none of the material goes in `toVerify`.
 6. **Sufi filter** — the publication uses orthodox Islamic framing. Flag any Sufi figures (Ibn Arabi, al-Hallaj, Rumi as Sufi, al-Junayd, al-Sari al-Saqati, Rabia al-Adawiyya, al-Bistami, al-Suhrawardi, al-Qushayri, Ibn Ata Allah) and distinctly Sufi terms (fana, baqa, tariqa as Sufi order, dhawq). Replace with orthodox alternatives or cut the passage.
 7. **Data freshness** — copy any sentence containing a statistic. If the data is older than 5 years, the year must appear in the body text ("2012 rapporterade ESS..."), not only in a footnote.
 8. **Language purity** — read the full article scanning for:
@@ -175,47 +183,56 @@ Before producing your final output, use the think tool to run a concrete audit o
 12. **Quran quotes** — every Quran blockquote must match the Bernström text under QURAN REFERENCES word for word (shortening at a sentence boundary with […] is allowed). A retranslated verse is a factual error, not a style choice: restore it.
 13. **Description** — the author's draft description is under DESCRIPTION. It must not repeat the opening paragraph: a concrete anchor (a date, a quote) and the essay's turn, 1–2 sentences, at most ~300 characters. If it fails, write a better one in `description`.
 
-Fix all issues in the revised article before producing the final output.
+Fix each issue with a patch.
 </pre_submission_audit>
 
 <output_format>
-Output a frontmatter block with JSON metadata between --- markers, followed by the complete revised article in markdown:
+Return one JSON object. You do not return the article: the code applies your `patches` to the text you read, and an edit you did not list does not happen.
 
----
 {
-  "finalScore": 7.8,
-  "verdict": "revise",
+  "issues": ["What is wrong with the text as it arrived — each problem once, whether or not a patch fixes it"],
+  "patches": [
+    {"original": "a span copied verbatim from the article", "replacement": "what replaces it", "reason": "tightened; the previous sentence already made the point"}
+  ],
+  "toVerify": [
+    {"claim": "the import ban of 1766 counts as a separate ban", "sentence": "the sentence that carries it, verbatim", "reason": "the research has it only through Wikipedia"}
+  ],
+  "forEditor": ["What only a person can settle, named concretely enough to act on"],
+  "strengths": ["Strong opening that hooks the reader"],
+  "description": "Only if you rewrote the description — the new one",
   "summary": "What you changed and why (be specific: 'tightened opening, cut redundant quote in section 3, rewrote flat transition')",
-  "strengths": ["Strong opening that hooks the reader", "Effective quote integration"],
-  "issues": ["Weak transition in section 3", "Two sections read as summary rather than essay"],
-  "description": "Only if you rewrote the description — the new one"
+  "finalScore": 7.8,
+  "verdict": "revise"
 }
----
 
-# Article Title
+Write the fields in this order: say what is wrong before you score it.
 
-The complete revised article in markdown...
+**Patches**
+- `original` is copied exactly from the article and must occur exactly once in it. Include enough surrounding words to make it unique, and no more than the edit needs. A phrase, a sentence or a whole paragraph are all fine.
+- An empty `replacement` deletes the span. To move a passage, delete it in one patch and add it back in another (replace the sentence it should follow with that sentence plus the passage).
+- Patches apply in order, each to the text the previous ones left. Do not patch the same words twice.
+- The title line, headings, block quotes and footnote definitions can be patched like any other text, within <editing_principles>.
 
-**Scoring** — Score the ORIGINAL draft as submitted, not your improvements. Your score reflects what arrived on your desk, not what you turned it into. This is critical: if you improve the text and then score your own improvement, every article passes and the revision loop never fires.
+**Scoring** — Score the text as it arrived, not your improvements. Your score reflects what was on your desk, not what your patches turn it into. This matters: if you improve the text and then score your own improvement, every article passes and the gate says nothing.
 
 - 9-10: Exceptional prose as submitted—publish without changes
-- 8.5-8.9: Strong with minor polish needed—verdict "publish" only if your edits are cosmetic
-- 8-8.4: Good but not great—verdict "revise". Return your improved text for re-review.
+- 8.5-8.9: Strong with minor polish needed—verdict "publish" only if your patches are cosmetic
+- 8-8.4: Good but not great—verdict "revise"
 - 7-7.9: Solid bones but significant issues—verdict "revise"
 - 6-6.9: Needs structural work—verdict "revise"
 - Below 6: Fundamental prose issues—verdict "reject"
 
 **Verdict:** "publish" | "revise" | "reject"
 
-**Important:** "publish" means your edits are cosmetic. If you made substantive changes (cut or added paragraphs, restructured sections, rewrote transitions, closed an argument gap), the verdict is "revise" — your improvements need a second pair of eyes. The pipeline measures the size of your edit: substantive changes returned under "publish" are sent back for another review round anyway, and on the last round they are discarded. Equally, don't return "revise" as a formality: a draft that needs only light edits is "publish".
+"publish" means your patches are cosmetic. If they are substantive (cut or added paragraphs, restructured sections, rewrote transitions, closed an argument gap), the verdict is "revise": the patched text gets another read. The pipeline measures the size of your edit, so substantive patches returned under "publish" are sent for another read anyway. Equally, don't return "revise" as a formality: a text that needs only light edits is "publish".
 
-**`issues` on a "publish" verdict** are the things you deliberately left for a human (a translation to confirm, a page number to check). They are printed in the run log and written to the editor's list, so name each one concretely enough to act on.
+An entry in `toVerify` is never a reason for "revise" on its own. It will be checked with tools you do not have, and the verdict is about the text.
 
-If verdict is "reject", the body after --- can be brief (just key issues). For "publish" or "revise", include the complete revised article.
+**`forEditor`** is printed in the run log and written to the editor's list. Use it for what no stage can settle, not for claims that belong in `toVerify`.
+
+If the verdict is "reject", `patches` may be empty.
 </output_format>
 
 <output_instruction>
-Your output must be ONLY the frontmatter block and revised article — nothing else. No preamble, no reflection text, no analysis before the frontmatter. Do all reflection and auditing in your internal thinking.
-
-Your output starts with --- on the first line, followed by valid JSON metadata, then ---, then the complete revised article in markdown. Nothing before the opening ---.
+Your output is the JSON object and nothing else. Do all reflection and auditing in your internal thinking.
 </output_instruction>
