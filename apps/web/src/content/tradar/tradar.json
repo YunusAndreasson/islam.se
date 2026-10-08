@@ -16,8 +16,12 @@
 	{
 		"id": "folkmordet-i-gaza",
 		"title": "Folkmordet i Gaza",
-		"framing": "Den 16 september 2025 fastslog FN:s undersökningskommission att Israel har begått folkmord i Gaza. Om talet som godkänns innan bomben fälls – hur många civila ett anfall får döda – och om Bokmässan i Göteborg, där arméns förre talesman fick ordet trots mässans egen människorättskod.",
-		"essays": ["folkmordet-skrevs-under-i-forvag", "bokmassan-och-idfs-forre-talesman"],
+		"framing": "Den 16 september 2025 fastslog FN:s undersökningskommission att Israel har begått folkmord i Gaza. Om talet som godkänns innan bomben fälls – hur många civila ett anfall får döda – om Bokmässan i Göteborg, där arméns förre talesman fick ordet trots mässans egen människorättskod, och om testamentet som korrespondenten Anas al-Sharif skrev fyra månader innan han dödades.",
+		"essays": [
+			"folkmordet-skrevs-under-i-forvag",
+			"bokmassan-och-idfs-forre-talesman",
+			"om-dessa-ord-nar-er"
+		],
 		"imageAlt": "Sönderbombade flervåningshus och fält av betongbråte i flyktinglägret Jabalia i norra Gaza under en grå himmel"
 	},
 	{

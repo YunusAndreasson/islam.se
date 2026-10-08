@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 123,
-      "ok": 122,
+      "total": 125,
+      "ok": 124,
       "failed": 1,
-      "lastChecked": "2026-10-04T15:12:08.886Z",
-      "publishedIn": 97,
-      "avgScore": 8.618556701030938,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 99,
+      "avgScore": 8.61818181818183,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -141,12 +141,12 @@
       "avgScore": 8.7
     },
     "via.tt.se": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-02-12T08:36:48.150Z",
-      "publishedIn": 1,
-      "avgScore": 8.7
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 2,
+      "avgScore": 8.649999999999999
     },
     "uu.diva-portal.org": {
       "total": 1,
@@ -367,12 +367,12 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.svt.se": {
-      "total": 34,
-      "ok": 34,
+      "total": 35,
+      "ok": 35,
       "failed": 0,
-      "lastChecked": "2026-09-27T10:24:47.931Z",
-      "publishedIn": 20,
-      "avgScore": 8.614999999999998
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 21,
+      "avgScore": 8.614285714285712
     },
     "www.genteknik.se": {
       "total": 1,
@@ -2250,11 +2250,11 @@
       "avgScore": 8.6
     },
     "www.972mag.com": {
-      "total": 3,
-      "ok": 3,
+      "total": 5,
+      "ok": 5,
       "failed": 0,
-      "lastChecked": "2026-09-19T19:00:36.015Z",
-      "publishedIn": 2,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 4,
       "avgScore": 8.6
     },
     "www.democracynow.org": {
@@ -2284,11 +2284,11 @@
       "lastChecked": "2026-09-19T18:55:11.464Z"
     },
     "www.aljazeera.com": {
-      "total": 2,
-      "ok": 2,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-09-19T19:00:36.015Z",
-      "publishedIn": 2,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 6,
       "avgScore": 8.6
     },
     "www.amnesty.org": {
@@ -2400,10 +2400,12 @@
       "lastChecked": "2026-09-27T10:24:47.931Z"
     },
     "www.journalisten.se": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-09-27T10:24:47.931Z"
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
     },
     "x.com": {
       "total": 2,
@@ -2659,6 +2661,102 @@
       "ok": 1,
       "failed": 0,
       "lastChecked": "2026-10-04T15:12:08.886Z"
+    },
+    "ar.wikipedia.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "diwanalarab.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.elbilad.net": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "cpj.org": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 3,
+      "avgScore": 8.6
+    },
+    "972mag.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "consortiumnews.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "images.dawn.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 2,
+      "avgScore": 8.6
+    },
+    "en.royanews.tv": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.frontlinedefenders.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "mondoweiss.net": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.timesofisrael.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "themedialine.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-08T19:10:09.032Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
     }
   }
 }
