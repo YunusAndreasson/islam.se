@@ -16,6 +16,7 @@ import { requireBySlug } from "../../lib/content-refs";
 import { resolveHero } from "../../lib/fordjupning";
 import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
+import { pageHeroPreload } from "../../lib/hero-preload";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("fordjupning");
@@ -63,6 +64,7 @@ const hero = await resolveHero(entry);
 // image — the signal Google Images and the Licensable badge read.
 let heroImageObject: Record<string, unknown> | undefined;
 const heroSource = hero?.src ?? hero?.article?.heroImage;
+const heroPreload = await pageHeroPreload(heroSource, hero?.src ? undefined : hero?.article?.mobileHeroImage);
 if (heroSource) {
 	const rendition = await getImage({ src: heroSource, width: 1200, format: "webp" });
 	heroImageObject = imageObject({
@@ -119,8 +121,13 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		section: "Fördjupning",
 	}}
 	jsonLd={jsonLd}
-	preloadArabicFont
-	preloadHeadlineFont={!heroSource}
+	{...heroPreload}
+	preloadFonts={[
+		"body",
+		...(heroSource ? [] : (["sans"] as const)),
+		{ face: "display", media: "(min-width: 48.0625rem)" },
+		{ face: "arabic", low: true },
+	]}
 >
 	{/* `reading--notes` opts this page into the margin apparatus (styles/layout.css).
 	    The projection itself is done at build time by rehype-sidenotes, which gates on

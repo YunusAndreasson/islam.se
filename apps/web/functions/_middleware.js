@@ -73,6 +73,8 @@ export async function onRequest(context) {
 				"x-markdown-tokens": String(Math.ceil(body.length / CHARS_PER_TOKEN)),
 				"x-content-type-options": "nosniff",
 				"referrer-policy": "strict-origin-when-cross-origin",
+				// This response is built here, so public/_headers does not reach it.
+				"strict-transport-security": "max-age=31536000",
 				link: '</llms.txt>; rel="alternate"; type="text/plain"; title="llms.txt"',
 				"cache-control": "public, max-age=0, must-revalidate",
 			});

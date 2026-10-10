@@ -25,22 +25,28 @@ const articles = await getArticles();
 // identical rows, so every piece after the lead carried the same weight and 55
 // essays read as an undifferentiated list. Three ranks now:
 //
-//   1. the lead      — the newest essay with art: its photograph across the
-//                      canvas, its words directly under it
-//   2. the second tier — the next three as an index of titles beside the lead
+//   1. the lead      — the newest essay with art: its words and, under them, its
+//                      photograph, across two thirds of the canvas
+//   2. the second tier — the next six as a rail of titles beside it (three on a
+//                      phone and a tablet)
 //   3. the departments — grouped under their ämne and its authored framing line
 //
 // The lead is drawn from the essays that carry art, because it is art-led; falls
 // back to the most recent essay if somehow none carry an image.
 const withImage = articles.filter((a) => a.heroImage);
 const feature = withImage[0] ?? articles[0];
-// The next three, pictures or not: an index of titles beside the lead's words.
-const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 3);
+// The next six, pictures or not: the rail beside the lead.
+const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 6);
 
 // Everything already spent above, so a department cannot show the lead twice.
 const used = new Set([feature?.slug, ...recent.map((a) => a.slug)].filter(Boolean) as string[]);
 
-const ogImage = feature?.heroImage;
+// The share card: the lead's photograph cut to the card's own 1200×630, as a JPEG.
+// The raw hero went out before (1672×941 WebP) under og:image:width/height of
+// 1200×630, so a chat client reserved one box and received another.
+const ogImage = feature?.heroImage
+	? await getImage({ src: feature.heroImage, width: 1200, height: 630, fit: "cover", format: "jpeg" })
+	: null;
 
 // LCP preload: the feature hero renders through Astro's responsive <Image>, so a
 // preload must carry the same srcset/sizes (not the raw original URL) for the
@@ -62,12 +68,13 @@ const heroPreload = feature?.heroImage
 <Base
 	title="Islam: fakta om tron, reglerna och livet som muslim – islam.se"
 	description="Fakta om islam på svenska: tron och de fem pelarna, reglerna för mat, klädsel och bön, och livet som muslim i Sverige. Källbelagda svar ur Koranen och sunna."
-	{...(ogImage ? { ogImage: ogImage.src } : {})}
+	{...(ogImage && feature ? { ogImage: ogImage.src, ogImageAlt: feature.imageAlt ?? feature.title } : {})}
 	{...(heroPreload ? { preloadImageSrcset: heroPreload.srcSet.attribute } : {})}
 	preloadImageSizes={FEATURE_HERO_SIZES}
 	{...(heroPreload
 		? { preloadImageType: import.meta.env.DEV ? "image/webp" : "image/avif" }
 		: {})}
+	preloadFonts={["display", "body", "sans"]}
 >
 	{/* .front is the full-width query container a band bleeds against (layout.css);
 	    .home is the canvas, here at the mast's 76rem (tokens.css) rather than the
@@ -76,10 +83,24 @@ const heroPreload = feature?.heroImage
 	<div class="home">
 		<h1 class="sr-only">islam.se – kunskap om islam på svenska</h1>
 
-		{/* New readers meet the introduction immediately after the editorial opening.
-		    The foundational facts and deeper reading stay together before the live row
-		    and departments; promotions close the page after the reading and tools. */}
+		{/* THE ORDER (product decisions, 2026-10-10). Four acts, each in the order a
+		    reader needs it:
+
+		      read      the lead and the latest essays; the news of the day as one bar
+		                under them; the essays by ämne, by tema, by the thinkers they
+		                bring to one table
+		      learn     what Islam is, then the same territory taken all the way down
+		      practise  today's prayer times and the mosques, then the year ahead
+		      measure   AI-barometern, last of the mast's own second group
+
+		    and the ways to take it all elsewhere to close. Things that belong together
+		    stand together (the year under the day, the news under the newest essay), and
+		    what goes stale soonest stands highest. */}
 		{feature && <FeatureEssay article={feature} also={recent} />}
+
+		{/* The day's news, at the foot of the opening: the newest thing on the page in
+		    its smallest type, because it is not the site's own. */}
+		<Nyheter />
 
 		{/* Match the header's width-based navigation: these doorways appear only when
 		    the inline mast links are hidden, including on wide touch devices. */}
@@ -92,33 +113,9 @@ const heroPreload = feature?.heroImage
 			))}
 		</nav>
 
-		{/* Facts, then depth: adjacent, but two movements on two grounds. The facts
-		    carry the tint; Fördjupning stands on paper under them. They shared one
-		    tinted region until 2026-09-27, which read as one 2 550px block (user
-		    review, »intryckt«). From here down the grounds alternate by movement —
-		    paper, tint, paper … — so every change of ground is a boundary and no
-		    tint ever holds two sections (editorial.css). */}
-		<FaktaBand />
-		<FordjupningHome />
+		<AmnenHome exclude={used} />
 
-		{/* The live row precedes the departments in the DOM as well as on screen,
-		    so keyboard and assistive-technology reading order follow the composition.
-		    News and the Islamic year: the day and the year, side by side on desktop.
-		    AI-barometern stood under them until 2026-09-27 — three voices on one tint
-		    (»intryckt«) — and is now its own movement further down. */}
-		<div class="home-akt2">
-			<div class="home-sidolinje">
-				<Nyheter />
-				<Markesdagar />
-			</div>
-			<div class="home-akt2-huvud">
-				<section class="home-essays" aria-labelledby="amnen-kicker">
-					<AmnenHome exclude={used} />
-					<TradarHome ids={["folkmordet-i-gaza", "maskinen-och-manniskan", "valet-2026"]} nested />
-				</section>
-			</div>
-		</div>
-
+		<TradarHome ids={["folkmordet-i-gaza", "maskinen-och-manniskan", "valet-2026"]} />
 
 		{/* The site's thesis, shown rather than declared: the classical tradition and
 		    the Swedish voices in two facing columns, and between them the lines of
@@ -127,15 +124,24 @@ const heroPreload = feature?.heroImage
 		    ground: as a full-bleed dark band it read as a second site (2026-09-25). */}
 		<TankareGroups limit={6} />
 
-		{/* AI-barometern, its own movement since 2026-09-27: a monthly measurement with
-		    its own destination in the mast, beside Bönetider and Moskéer — so here it
-		    leads into the practical tools, not into the news. */}
-		<BarometerRail />
+		{/* Facts, then depth: adjacent, but two movements on two grounds. The facts
+		    carry the tint; Fördjupning stands on paper under them. They shared one
+		    tinted region until 2026-09-27, which read as one 2 550px block (user
+		    review, »intryckt«). The grounds alternate by movement all the way down —
+		    paper, tint, paper … — so every change of ground is a boundary and no
+		    tint ever holds two sections (editorial.css). */}
+		<FaktaBand />
+		<FordjupningHome />
 
-		{/* Practical web tools: today's prayer times and their annual rhythm, the
-		    mosque directory and the mosque screen. The app belongs to the illustrated
-		    promotion below, so this section gives each space a distinct purpose. */}
+		{/* The day, then the year: today's prayer times and their annual rhythm, the
+		    mosque directory and the mosque screen, and under them the next three
+		    observances. The app belongs to the illustrated promotion below. */}
 		<PraktisktHome />
+		<Markesdagar />
+
+		{/* AI-barometern, its own movement since 2026-09-27: a monthly measurement with
+		    its own destination in the mast, after Bönetider and Moskéer there and here. */}
+		<BarometerRail />
 
 		{/* One common region for ways to take the publication and its tools elsewhere.
 		    The wrapper owns the outer space; its two rows retain their headings. On paper,

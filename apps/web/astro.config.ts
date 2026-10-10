@@ -9,6 +9,7 @@ import remarkSmartypants from "remark-smartypants";
 import { AI_BAROMETERN_DATA_DATE } from "./src/lib/ai-barometern/meta";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
 import { inlineHashes, widenPolicy } from "./src/lib/csp-site-wide";
+import { variantsOf } from "./src/lib/fonts";
 import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeChart } from "./src/plugins/rehype-chart";
 import { rehypeHeadingAnchor } from "./src/plugins/rehype-heading-anchor";
@@ -927,7 +928,18 @@ export default defineConfig({
 			provider: fontProviders.local(),
 			name: "Literata",
 			cssVariable: "--font-body",
-			fallbacks: ["Georgia", "Times New Roman", "serif"],
+			// One generic, and nothing between it and the web font but the metric-matched
+			// faces. Astro generates the first of those from the generic (serif → Times New
+			// Roman, which Windows, macOS and iOS have); the named ones after it are the
+			// same idea for the systems that do not (src/styles/font-fallbacks.css).
+			//
+			// »Georgia« and a bare »Times New Roman« stood here until 2026-10-10. Where the
+			// generated face resolves they were never reached, and where it does not they
+			// were two more failed lookups in front of the same generic. In an isolation run
+			// that day (CDP trace, five loads each, one Linux machine) the front page's
+			// first layout took ~240 ms on the old chain and ~67 ms on the web font and a
+			// generic alone. Indicative, not exact: that machine has 2,384 fonts installed.
+			fallbacks: ["Literata fallback: Liberation Serif", "serif"],
 			// REVERTED 2026-07-24, back to the "swap" default.
 			//
 			// The 2026-07-23 experiment set "optional" to keep the font off the LCP
@@ -948,124 +960,34 @@ export default defineConfig({
 			// ascent/descent overrides), that swap costs almost no layout shift.
 			display: "swap",
 			options: {
-				// Split by unicode-range: the core carries Latin-1, typography, arrows and
-				// the exact transliteration pairs the corpus sets, so real pages fetch 141 kB
-				// instead of 227 kB and never touch -ext. -ext is the safety net — a glyph
-				// outside the core triggers a fetch, so this can never render tofu.
-				// Regenerate both with pyftsubset --flavor=woff2 --layout-features='*' after
-				// any font change; the ranges below are the --unicodes arguments.
+				// Roman and italic, each cut into core and ext by unicode-range. The files,
+				// their ranges and the reason an ext range must be the file's own coverage
+				// are in src/lib/fonts.ts; scripts/subset-fonts.ts cuts them.
 				// The core MUST keep U+2190-2192 — the ← and → in .back-link/.arrow-link
 				// exist only in CSS `content`, so no text scan will tell you they are needed.
-				variants: [
-					{
-						// Axis instanced to the weights actually used (300–700) — see the
-						// .woff2 note below; declaring the true range keeps the browser from
-						// assuming 200/800/900 masters that no longer exist in the file.
-						weight: "300 700",
-						style: "normal",
-						src: ["./src/assets/fonts/literata-roman-core.woff2"],
-						unicodeRange: [
-							"U+0000-00FF",
-							"U+2000-206F",
-							"U+2190-21FF",
-							"U+2300-231F",
-							"U+0100-0101",
-							"U+012A-012B",
-							"U+015E-0161",
-							"U+016A-016B",
-							"U+02BE-02BF",
-							"U+1E0C-1E0D",
-							"U+1E24-1E25",
-							"U+1E5A-1E5B",
-							"U+1E62-1E63",
-							"U+1E6C-1E6D",
-							"U+1E92-1E93",
-						],
-					},
-					{
-						weight: "300 700",
-						style: "normal",
-						src: ["./src/assets/fonts/literata-roman-ext.woff2"],
-						unicodeRange: [
-							"U+0102-0129",
-							"U+012C-015D",
-							"U+0162-0169",
-							"U+016C-02BD",
-							"U+02C0-1E0B",
-							"U+1E0E-1E23",
-							"U+1E26-1E59",
-							"U+1E5C-1E61",
-							"U+1E64-1E6B",
-							"U+1E6E-1E91",
-							"U+1E94-1FFF",
-							"U+2070-218F",
-							"U+2200-22FF",
-							"U+2320-FFFF",
-						],
-					},
-					// Keep italic in the same generated family; preload only normal faces.
-					{
-						weight: "300 700",
-						style: "italic",
-						src: ["./src/assets/fonts/literata-italic.woff2"],
-					},
-				],
+				// The weight axis is instanced to what is used (300–700); declaring the true
+				// range keeps the browser from assuming 200/800/900 masters the files lack.
+				variants: variantsOf("--font-body"),
 			},
 		},
 		{
 			provider: fontProviders.local(),
 			name: "Source Sans 3",
 			cssVariable: "--font-heading",
-			fallbacks: ["system-ui", "sans-serif"],
+			// See --font-body for the shape of this chain. »system-ui« stood here after the
+			// generated Arial face. It is the one name that resolves on every system, so
+			// wherever Arial is missing it won at its natural width, and a matched face
+			// placed after it would never have been reached.
+			fallbacks: [
+				"Source Sans fallback: Liberation Sans",
+				"Source Sans fallback: Roboto",
+				"sans-serif",
+			],
 			// See the --font-body entry above for why "optional" was reverted here too.
 			display: "swap",
 			options: {
 				// Same core/ext split as --font-body; see the note there.
-				variants: [
-					{
-						weight: "300 700",
-						style: "normal",
-						src: ["./src/assets/fonts/source-sans-3-roman-core.woff2"],
-						unicodeRange: [
-							"U+0000-00FF",
-							"U+2000-206F",
-							"U+2190-21FF",
-							"U+2300-231F",
-							"U+0100-0101",
-							"U+012A-012B",
-							"U+015E-0161",
-							"U+016A-016B",
-							"U+02BE-02BF",
-							"U+1E0C-1E0D",
-							"U+1E24-1E25",
-							"U+1E5A-1E5B",
-							"U+1E62-1E63",
-							"U+1E6C-1E6D",
-							"U+1E92-1E93",
-						],
-					},
-					{
-						weight: "300 700",
-						style: "normal",
-						src: ["./src/assets/fonts/source-sans-3-roman-ext.woff2"],
-						unicodeRange: [
-							"U+0102-0129",
-							"U+012C-015D",
-							"U+0162-0169",
-							"U+016C-02BD",
-							"U+02C0-1E0B",
-							"U+1E0E-1E23",
-							"U+1E26-1E59",
-							"U+1E5C-1E61",
-							"U+1E64-1E6B",
-							"U+1E6E-1E91",
-							"U+1E94-1FFF",
-							"U+2070-218F",
-							"U+2200-22FF",
-							"U+2320-FFFF",
-						],
-					},
-				],
+				variants: variantsOf("--font-heading"),
 			},
 		},
 		{
@@ -1079,25 +1001,22 @@ export default defineConfig({
 			// the look of a paragraph enlarged. The opsz-72 masters are drawn for size:
 			// tighter spacing, finer hairlines, a crisper ear on the g. Used only where
 			// type is ≥ ~40px (--font-headline in tokens.css): the lead title, the
-			// movement titles and the Grunden numerals. Not preloaded — the lead title
-			// swaps in over a metric-matched fallback, and the hero image keeps the
-			// bandwidth. Regenerate with fonttools:
+			// movement titles and the Grunden numerals. Preloaded where it sets words
+			// above a picture (Base.astro, `preloadFonts`). Regenerate with fonttools:
 			//   varLib.instancer Literata[opsz,wght].ttf opsz=72 wght=400:700
 			//   pyftsubset --unicodes=<the core ranges above> --layout-features='*' --flavor=woff2
 			// License: src/assets/fonts/OFL-Literata.txt.
 			provider: fontProviders.local(),
 			name: "Literata Display",
 			cssVariable: "--font-headline",
-			fallbacks: ["Georgia", "Times New Roman", "serif"],
+			fallbacks: [
+				"Literata Display fallback: Liberation Serif",
+				"Literata Display fallback: Noto Serif",
+				"serif",
+			],
 			display: "swap",
 			options: {
-				variants: [
-					{
-						weight: "400 700",
-						style: "normal",
-						src: ["./src/assets/fonts/literata-display.woff2"],
-					},
-				],
+				variants: variantsOf("--font-headline"),
 			},
 		},
 		{
@@ -1110,13 +1029,7 @@ export default defineConfig({
 			cssVariable: "--font-arabic",
 			fallbacks: ["Scheherazade New", "serif"],
 			options: {
-				variants: [
-					{
-						weight: "400",
-						style: "normal",
-						src: ["./src/assets/fonts/amiri-quran.woff2"],
-					},
-				],
+				variants: variantsOf("--font-arabic"),
 			},
 		},
 	],

@@ -80,10 +80,10 @@
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
 	font-feature-settings: "case";
-	/* --step--5, not an em fraction of the clock. The design system's own note
-	   says an off-scale literal is how the smallest type drifts off the ladder,
-	   and 0.92em of --step--4 lands on 10.9px, which is no rung at all. */
-	font-size: var(--step--5);
+	/* A step, not an em fraction of the clock: an off-scale literal is how the
+	   smallest type drifts off the ladder. --step--4 is the text floor (tokens.css);
+	   this stood at --step--5, 10.5px, the smallest words on the front page. */
+	font-size: var(--step--4);
 	color: var(--color-muted);
 }
 
@@ -184,102 +184,8 @@
 	color: var(--color-accent);
 }
 
-/* ── The live row, then the departments ────────────────────────────────────
-   The sidolinje used to run as a 17rem track BESIDE Ämnen, sized so the two
-   columns would end near each other. They never stayed level: the news, the
-   barometer and the calendar change height by the day, and once each department
-   took one column-wide picture (2026-09-25) Ämnen ran 2 700px beside a 1 400px
-   rail — "unbalanced" in the user's review. Two independent columns cannot be
-   kept level, so the page stopped trying. The three live blocks are a row of
-   their own, and the departments below them are three columns: balanced by
-   construction, whatever the day brings.
-
-   The live row follows the reference group and precedes the departments in the
-   document at every width. Keep visual and keyboard reading order identical. */
-.home-akt2 {
-	display: flex;
-	flex-direction: column;
-	margin-block: var(--space-section);
-}
-
-.home-akt2-huvud {
-	/* A flex item must be allowed to shrink below its content's intrinsic width,
-	   or a wide card inside it pushes past the canvas. */
-	min-inline-size: 0;
-}
-
-.home-sidolinje {
-	/* No margin below: the departments' own section margin is the gap after it. */
-	margin-block: 0;
-}
-
-/* The news closes its list by position, as the year under it closes its own
-   (»Se hela året«, no rule): a rule over one link was a line the other block does
-   not have — side by side on a wide screen, and stacked on a phone, where it put
-   two rules 110px apart between the last headline and the calendar's kicker. */
-.home-sidolinje .nyheter-rail-fot {
-	margin-top: var(--space-unit);
-	padding-top: 0;
-	border-top: 0;
-}
-
-/* Three headlines on a phone: every row is a row the reader scrolls past before
-   the first ämne. The rows are `li.nyhet--rail`, written into the <ol> by
-   functions/nyheter/_nyheter.js; »Alla nyheter« sits directly under them. */
-@media (width < 60rem) {
-	.home-sidolinje .nyhet--rail:nth-child(n + 4) {
-		display: none;
-	}
-}
-
-/* THE ROW, in two. Three blocks abreast in the 64rem canvas were ~18rem each — the
-   barometer's sentence, matrix and key packed into a column narrower than a phone,
-   headlines breaking after three words — and read as "tight" in review
-   (2026-09-25). Now the day and the year share the first row at half the width
-   each, and the barometer runs the full width under them, split on the same
-   centre line (BarometerRail.astro), so the act has one vertical axis. Since
-   2026-09-27 the barometer is its own movement and the row is the two halves. */
-@media (width >= 60rem) {
-	.home-sidolinje {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		column-gap: var(--grid-gutter);
-		align-items: start;
-	}
-
-	/* Four shared rows — heading, list, onward link, credit — so both headings and
-	   both »Alla …« links sit on one line whichever list runs longer today.
-	   :not([hidden]): a `display` here would otherwise un-hide the empty news frame. */
-	.home-sidolinje > :is(.nyheter-rail:not([hidden]), .markesdagar-rail) {
-		display: grid;
-		grid-row: 1 / span 4;
-		grid-template-rows: subgrid;
-	}
-
-	/* Stacked on a phone each block opens with a rule and a φ step, the seam between
-	   two voices. Side by side, the gutter is the seam. */
-	.home .home-sidolinje > .markesdagar-rail {
-		margin-top: 0;
-		padding-top: 0;
-		border-top: 0;
-	}
-
-	/* No news — a blocker, no JavaScript — and the year would stand alone beside an
-	   empty half. It takes the row instead, its three dates in the page's thirds.
-	   (AI-barometern moved up beside it until it became its own movement, 2026-09-27.) */
-	.home .home-sidolinje:has(> .nyheter-rail[hidden]) > .markesdagar-rail {
-		grid-column: 1 / -1;
-	}
-
-	.home .home-sidolinje:has(> .nyheter-rail[hidden]) .md-list--rail {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		column-gap: var(--grid-gutter);
-	}
-}
-
-/* Shared by the three live blocks — the news, the barometer, the islamic year — so
-   their labels are the same object seen three times rather than near-misses. */
+/* Shared by the barometer and the islamic year, so their labels are the same object
+   seen twice rather than near-misses. */
 .sidolinje-rubrik {
 	display: flex;
 	align-items: center;
@@ -309,47 +215,145 @@
 	background: var(--color-brass);
 }
 
-/* A news-day row: time and category on one line, the headline under it. */
-.nyheter-rail .nyhet {
+/* ── The front page's wire bar ─────────────────────────────────────────────
+   Three headlines on one line each, on the page's thirds, between two hairlines
+   under the lead (Nyheter.astro says why there).
+
+   ITS HEIGHT IS KNOWN BEFORE THE NEWS IS. The rows come from a fetch, and a bar that
+   appeared when the fetch landed would push the essays down under the reader's eyes
+   on any screen that shows them beside the lead. So the bar holds its place from the
+   first paint and is only made visible when it has rows: each headline is exactly one
+   line (an over-long one ends in an ellipsis), so the place it holds is the place it
+   takes. Three states, on `data-lage`:
+
+     vantar  — in the layout, not shown. Nothing is announced and nothing is drawn:
+               an empty, headed frame reads as a broken page.
+     klar    — shown.
+     tom     — gone. The fetch failed (a content blocker stopping a cross-origin
+               request to a `.news` domain is enough) or the day is quiet. This is
+               the one case that moves the page, once, for the reader it applies to.
+
+   A reader without scripts never has the place held at all: Base.astro stamps
+   `data-js` on the root before paint, and without it the bar is not in the layout. */
+.nyhetsremsa {
+	--remsa-rad: 1.5rem;
+	margin-block: var(--space-unit) 0;
 	padding-block: var(--space-half);
+	border-block: 1px solid var(--color-rule);
+	font-family: var(--font-heading);
 }
 
-.nyheter-rail .nyhet-meta {
-	margin-bottom: 0.15rem;
-	font-size: var(--step--4);
+:root:not([data-js]) .nyhetsremsa,
+.nyhetsremsa[data-lage="tom"] {
+	display: none;
 }
 
-.nyheter-rail .nyhet-titel {
-	font-size: var(--step--1);
-	/* 500, not 600: quoted material from another desk, set a weight below the site's
-	   own headlines so the rail does not outshout the essays beside it. */
-	font-weight: 500;
-	line-height: 1.25;
+.nyhetsremsa[data-lage="vantar"] {
+	visibility: hidden;
+}
+
+/* The head row: the name, where it comes from, and the way on — the row every
+   movement on the page opens with. */
+.nyhetsremsa-huvud {
+	display: flex;
+	align-items: baseline;
+	gap: 0.75rem;
+}
+
+.nyhetsremsa-huvud .home-kicker {
 	margin: 0;
 }
 
-.nyheter-rail .nyhet-titel a {
+/* A provenance note, not a label: sentence case at the meta size, beside the name
+   it qualifies (»Nyheter från zuhd.news« read as one phrase). */
+.nyhetsremsa .nyheter-avsandare {
+	margin: 0;
+	font-size: var(--step--3);
+	color: var(--color-muted);
+}
+
+.nyhetsremsa .home-head-all {
+	margin-inline-start: auto;
+}
+
+.nyhetsremsa .nyheter-lista {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 0.25rem var(--grid-gutter);
+	margin-top: 0.5rem;
+	/* Three rows of one line, held before they arrive. */
+	min-block-size: calc(3 * var(--remsa-rad) + 2 * 0.25rem);
+}
+
+/* Shown: the rows are what they are. On a thin day there are fewer than three, and
+   in one column the bar is then as short as its rows. */
+.nyhetsremsa[data-lage="klar"] .nyheter-lista {
+	min-block-size: 0;
+}
+
+/* A row: the clock, then the headline, on one line. */
+.nyhetsremsa .nyhet {
+	display: flex;
+	align-items: baseline;
+	gap: 0.65rem;
+	min-inline-size: 0;
+	block-size: var(--remsa-rad);
+	padding: 0;
+	border: 0;
+}
+
+.nyhetsremsa .nyhet-meta {
+	flex: none;
+	margin: 0;
+	font-size: var(--step--3);
+	line-height: var(--remsa-rad);
+}
+
+/* The category goes: three rows sorted by the clock need no second sort key, and it
+   was the widest thing on a line that has one line. */
+.nyhetsremsa :is(.nyhet-kategori, .nyhet-skiljetecken) {
+	display: none;
+}
+
+.nyhetsremsa .nyhet-titel {
+	min-inline-size: 0;
+	margin: 0;
+	font-size: var(--step--2);
+	/* 500, not 600: quoted material from another desk, set a weight below the site's
+	   own headlines so the bar does not outshout the essays around it. */
+	font-weight: 500;
+	line-height: var(--remsa-rad);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.nyhetsremsa .nyhet-titel a {
 	color: var(--text-strong);
 	text-decoration: none;
 	transition: color var(--dur-fast) ease;
 }
 
-.nyheter-rail .nyhet-titel a:hover,
-.nyheter-rail .nyhet-titel a:focus-visible {
+.nyhetsremsa .nyhet-titel a:hover,
+.nyhetsremsa .nyhet-titel a:focus-visible {
 	color: var(--color-accent);
 }
 
-.nyheter-rail-fot {
-	margin: var(--space-half) 0 0;
-	padding-top: var(--space-half);
-	border-top: 1px solid var(--color-rule);
+/* Where the doorways stand under it (index.astro, at the mast's own line) their top
+   rule closes the bar: two hairlines one padding apart read as one heavy one. */
+@media (width <= 56.25rem) {
+	.nyhetsremsa {
+		border-bottom: 0;
+	}
 }
 
-/* The rail's onward link is a .section-link (15px) like every link that CLOSES a
-   block on the front page — »Se hela året« beside it, »Till AI-barometern« under it,
-   »Alla essäer« under the index. It was pinned to 13.3px while the news stood in a
-   side column next to the head-row links; in the live row it stood on one line with
-   »Se hela året« a rung smaller, the two blocks' last words visibly unequal. */
+/* Across the thirds from 60rem, where the essays under it take theirs. */
+@media (width >= 60rem) {
+	.nyhetsremsa .nyheter-lista {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		min-block-size: var(--remsa-rad);
+	}
+}
 
 /* ── /nyheter/ ──────────────────────────────────────────────────────────────
    The news-day index.

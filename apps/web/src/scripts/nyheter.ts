@@ -2,7 +2,7 @@
 //
 // It has two jobs, and which one it does depends on what the page already has:
 //
-//   /            renders the "Senaste nytt" sidolinje from scratch. Nothing on
+//   /            renders the news bar under the lead from scratch. Nothing on
 //                the front page is edge-injected — the homepage is this site's
 //                most important document and it does not get a fetch-dependent
 //                Function in front of it.
@@ -178,18 +178,22 @@ async function boot(signal: AbortSignal): Promise<void> {
 	const iFonster = artiklar ? inomFonster(artiklar, Date.now(), FONSTER_H) : [];
 
 	if (rail) {
-		// The column stays hidden when there is nothing to show. On a reference
-		// site an empty news frame reads as a broken page, and there is no way for
-		// the reader to tell that it is simply a quiet day.
+		// The bar holds its place from the first paint and is shown only when it has
+		// rows (nyheter.css, »The front page's wire bar«). With nothing to show it is
+		// taken out: on a reference site an empty news frame reads as a broken page,
+		// and there is no way for the reader to tell that it is simply a quiet day.
 		//
-		// Ranked, then re-sorted by time. zuhd publishes ~55 a day, so ten rows is
-		// a selection and something has to choose — `rangordna` picks the ten that
-		// matter to this site's reader. But a "senaste nytt" column that is not in
-		// time order is not one, so the chosen ten are shown newest first.
+		// Ranked, then re-sorted by time. zuhd publishes ~55 a day, so three rows is
+		// a selection and something has to choose — `rangordna` picks the ones that
+		// matter to this site's reader. But a news bar that is not in time order is
+		// not one, so the chosen rows are shown newest first.
+		const ram = document.getElementById("nyheter-rail");
 		if (iFonster.length > 0) {
 			const valda = rangordna(iFonster).slice(0, RAIL_ANTAL);
 			fyll(rail, inomFonster(valda, Date.now(), FONSTER_H), "rail");
-			document.getElementById("nyheter-rail")?.removeAttribute("hidden");
+			ram?.setAttribute("data-lage", "klar");
+		} else {
+			ram?.setAttribute("data-lage", "tom");
 		}
 	}
 

@@ -6,13 +6,14 @@ import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
 import { heroPlaceholder } from "../lib/lqip";
 import ArticleMeta from "./ArticleMeta.astro";
 import EssayImage from "./EssayImage.astro";
-import SectionLink from "./SectionLink.astro";
+import HomeHead from "./HomeHead.astro";
 
 interface Props {
 	article: Article;
-	/** The next essays, as an index beside the lead's words: titles and dates only. No
-	 *  pictures (the cover's photograph is the only one on the first screen) and no decks
-	 *  (the lead has one; four more made the top a wall of text). */
+	/** The next essays, as a rail of titles beside the lead: titles and dates only. No
+	 *  pictures (the lead's photograph is the only one on the first screen) and no decks
+	 *  (the lead has one; four more made the top a wall of text). Six stand in the rail
+	 *  on a wide screen; a phone and a tablet show the first three. */
 	also?: Article[];
 }
 
@@ -28,9 +29,14 @@ const placeholder = await heroPlaceholder(article.slug);
 // way further in. Falls back to the old literal for the single essay that carries
 // no category, so the eyebrow is never empty.
 const amne = article.category ? amneByName.get(article.category) : undefined;
+
+// A headline is set by its length, as on any front page: past this many characters it
+// steps down a size on a wide screen, where 64px would stand it on four lines. Three
+// titles in the archive pass 44 characters and one passes 50 (2026-10-10).
+const LONG_TITLE = 50;
 ---
 
-{/* THE COVER. Two links to one essay: the headline (the real, focusable link) and
+{/* THE LEAD. Two links to one essay: the headline (the real, focusable link) and
     the picture (a pointer convenience, hidden from the tab order and from assistive
     tech so the essay is announced once). The deck and meta sit outside both — a
     paragraph wrapped in a link reads as one long link name. */}
@@ -39,7 +45,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		<p class="label home-kicker feature-kicker">
 			{amne ? <a href={`/amnen/${amne.slug}/`}>{amne.name}</a> : "Senast publicerat"}
 		</p>
-		<h2 id="feature-title" class="feature-title">
+		<h2 id="feature-title" class:list={["feature-title", { "feature-title--long": article.title.length > LONG_TITLE }]}>
 			<a class="feature-link" href={`/${article.slug}/`} data-astro-prefetch="viewport">{article.title}</a>
 		</h2>
 		{article.description && (
@@ -65,7 +71,9 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	</a>
 	{also.length > 0 && (
 		<section class="feature-also" aria-labelledby="feature-also-rubrik">
-			<h2 class="label home-kicker feature-also-kicker" id="feature-also-rubrik">Senast publicerat</h2>
+			{/* The way on to every essay stands in the head row, as on the other
+			    movements, not as a line of its own under the list. */}
+			<HomeHead label="Senast publicerat" id="feature-also-rubrik" href="/essaer/" linkLabel="Alla essäer" />
 			<ol class="feature-also-lista" role="list">
 				{also.map((a) => (
 					<li>
@@ -76,9 +84,6 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 					</li>
 				))}
 			</ol>
-			<p class="feature-also-fot">
-				<SectionLink href="/essaer/">Alla essäer</SectionLink>
-			</p>
 		</section>
 	)}
 </section>
@@ -164,16 +169,20 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		margin: 0.5rem 0 0;
 	}
 
-	.feature-also-fot {
-		margin: var(--space-group) 0 0;
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
+	/* The head row brings its own space below; the list already carries the gap. */
+	.feature-also :global(.home-head) {
+		margin-bottom: 0;
 	}
 
 	/* The eyebrow is a link and sits outside the headline link, so it needs the
 	   underline discipline the rest of the mast-level labels use. Padded to clear
-	   WCAG 2.5.8; the negative margin gives the space back. */
+	   WCAG 2.5.8; the negative margin gives the space back. Lifted over the headline:
+	   its link is inline on a 1.04 line, so its box reaches up past the trimmed cap
+	   height and lay over the lower half of this one, where a click opened the essay
+	   instead of the ämne. */
 	.feature-kicker a {
+		position: relative;
+		z-index: 1;
 		display: inline-block;
 		padding: 0.3rem 0.4rem;
 		margin: -0.3rem -0.4rem;
@@ -274,55 +283,73 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		margin: 0;
 	}
 
-	/* THE COVER. From 64rem the photograph runs the full canvas at 5:2 — the one
-	   picture on the first screen, and the largest on the page. Under it, two zones that
-	   start on one line: the lead's kicker, headline, deck and date stacked across the
-	   first two thirds, and in the last third, behind a hairline, an index of the next
-	   three essays — titles and dates.
+	/* THE LEAD AS ONE PACKAGE (product decision, 2026-10-10). From 64rem the opening is
+	   two columns that start and end on the same lines. Two thirds hold the lead: kicker,
+	   headline, deck and date, and directly under them its photograph, at the same width.
+	   The last third, behind a hairline, is a rail of the six essays before it.
 
-	   Six arrangements came before it the same evening (user reviews, 2026-09-25): a
-	   spread with the picture in seven columns (barely larger than the cards below);
-	   the full-width picture with a short headline beside the deck ("the big empty field
-	   under the headline"); the lead's words in a row of thirds beside two picture cards
-	   ("unconventional and confusing"); the lead with picture cards in a side column,
-	   then with a list of decks there — every version with three photographs or four
-	   decks read as unbalanced, and "maybe simply too much text". What held: one
-	   picture, one deck, and an index.
+	   Level by construction, because two independent columns never stay level on their
+	   own (the rail's titles run one to three lines and change with every essay): the
+	   picture's row is the flexible one, so the photograph is as tall as the rail needs
+	   it to be and never flatter than 5:2. When the rail is the shorter column instead,
+	   its list spreads to the foot. Nothing here measures anything.
 
-	   5:2, not the art's own 16:9: at 1216px wide that crop keeps the headline's first
-	   line above the fold of a 1440×800 laptop. Everything stays INSIDE the canvas. Keep the width in
-	   step with FEATURE_HERO_SIZES in lib/hero.ts. */
+	   What this replaced the same day: the words and an index of three on top with the
+	   picture across the whole canvas under both. In Chrome at 1440×900 the words ended
+	   at y=380 and the index at 450, with 100px of empty paper under the date; the
+	   picture belonged to neither column (it ran under three essays it does not show);
+	   and the fold cut it at every laptop size. The first screen offered four essays.
+	   ft.com's offers a dozen, in columns that end together.
+
+	   Seven arrangements came before that one (six in one evening, user reviews
+	   2026-09-25): a spread with the picture in seven columns (barely larger than the
+	   cards below); the full-width picture with a short headline beside the deck ("the big
+	   empty field under the headline"); the lead's words in a row of thirds beside two
+	   picture cards ("unconventional and confusing"); the lead with picture cards in a
+	   side column, then with a list of decks there — every version with three photographs
+	   or four decks read as unbalanced, and "maybe simply too much text"; and the picture
+	   across the canvas on top with the words under it, which put the headline under the
+	   fold of a 1280×720 laptop. What holds through all of them: one picture, one deck,
+	   and a list of titles.
+
+	   Keep the width in step with FEATURE_HERO_SIZES in lib/hero.ts. */
+	@media (width < 64rem) {
+		/* One condition for the layout and for how much it shows (DESIGN.md, Principle
+		   8): in one column every row is a row to scroll past before the first ämne. */
+		.feature-also-lista > li:nth-child(n + 4) {
+			display: none;
+		}
+	}
+
 	@media (width >= 64rem) {
 		.feature {
 			display: grid;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
+			/* The words take what they need; the picture takes the rest of the rail. */
+			grid-template-rows: auto 1fr;
 			column-gap: var(--grid-gutter);
-			align-items: start;
-		}
-
-		.feature-media-link {
-			grid-column: 1 / -1;
-			grid-row: 1;
-			margin-bottom: var(--space-group);
-		}
-
-		.feature-media :global(img) {
-			aspect-ratio: 5 / 2;
 		}
 
 		.feature-text {
 			display: block;
 			grid-column: 1 / 3;
-			grid-row: 2;
+			grid-row: 1;
 		}
 
 		.feature-kicker {
 			margin-bottom: var(--space-half);
 		}
 
+		/* The column is the measure here, not 18ch: a title of forty characters takes
+		   two lines of it. The longest in the archive (62 characters) still stood on four
+		   at 64px, and takes three a size down. */
 		.feature-title {
 			font-size: 4rem;
-			max-width: 18ch;
+			max-width: none;
+		}
+
+		.feature-title--long {
+			font-size: 3.25rem;
 		}
 
 		.feature-lead {
@@ -330,23 +357,65 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			margin-top: var(--space-half);
 		}
 
-		/* The index: behind a hairline in the middle of the gutter, its kicker level
-		   with the lead's. */
+		/* The photograph fills its row. The strut is the floor (5:2 of the column, the
+		   crop every hero is checked against); the frame and the picture are taken out
+		   of flow so the row's height is the rail's to give, not the file's. */
+		.feature-media-link {
+			position: relative;
+			grid-column: 1 / 3;
+			grid-row: 2;
+			margin-top: var(--space-unit);
+		}
+
+		.feature-media-link::before {
+			content: "";
+			display: block;
+			padding-top: 40%;
+		}
+
+		.feature-media {
+			position: absolute;
+			inset: 0;
+		}
+
+		.feature-media :global(img) {
+			position: absolute;
+			inset: 0;
+			height: 100%;
+			aspect-ratio: auto;
+		}
+
+		/* The rail: behind a hairline in the middle of the gutter, its kicker level
+		   with the lead's, running the height of the whole package. */
 		.feature-also {
 			grid-column: 3;
-			grid-row: 2;
+			grid-row: 1 / 3;
+			display: flex;
+			flex-direction: column;
 			margin: 0 0 0 calc(var(--grid-gutter) / -2);
 			padding: 0 0 0 calc(var(--grid-gutter) / 2);
 			border: 0;
 			border-left: 1px solid var(--color-rule);
 		}
 
-		.feature-also-kicker {
-			margin: 0;
+		.feature-also-lista {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			margin-top: var(--space-group);
 		}
 
-		.feature-also-lista {
-			margin-top: var(--space-group);
+		/* A rule between the titles: six in a column are a list, and the rules are what
+		   keeps the spacing reading as a rhythm when the list spreads. */
+		.feature-also-lista > li + li {
+			margin-top: 0;
+			padding-top: var(--space-half);
+			border-top: 1px solid var(--color-divider);
+		}
+
+		.feature-also-lista > li:not(:last-child) {
+			padding-bottom: var(--space-half);
 		}
 	}
 </style>

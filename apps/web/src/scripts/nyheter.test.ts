@@ -9,7 +9,7 @@ async function setup() {
 		dataset: {},
 		removeAttribute: vi.fn(),
 	};
-	const rail = { removeAttribute: vi.fn() };
+	const rail = { setAttribute: vi.fn() };
 	const document = Object.assign(new EventTarget(), {
 		querySelector: vi.fn((selector: string) => (selector.includes('"rail"') ? list : null)),
 		getElementById: vi.fn(() => rail),
@@ -57,7 +57,24 @@ describe("news navigation lifecycle", () => {
 		expect(page.fetch).toHaveBeenCalledTimes(1);
 		page.requests[0]?.resolve(response());
 		await vi.waitFor(() => expect(page.list.innerHTML).toContain("Aktuell nyhet"));
-		expect(page.rail.removeAttribute).toHaveBeenCalledWith("hidden");
+		// The bar holds its place from the first paint and is only SHOWN once it has
+		// rows (nyheter.css keys on data-lage), so the page does not move when they land.
+		expect(page.rail.setAttribute).toHaveBeenCalledWith("data-lage", "klar");
+	});
+
+	// A blocked or failed fetch is an ordinary outcome (a content blocker is enough).
+	// The bar must then be taken out, not left as a held, empty place under the lead.
+	it("takes the front page's bar out when the fetch brings nothing", async () => {
+		const page = await setup();
+		page.fire("astro:page-load");
+		page.requests[0]?.resolve(new Response("", { status: 503 }));
+		await vi.waitFor(() =>
+			expect(
+				page.rail.setAttribute,
+				"with no news the bar must be marked »tom«, or its reserved place stays empty on the page",
+			).toHaveBeenCalledWith("data-lage", "tom"),
+		);
+		expect(page.list.innerHTML).toBe("original");
 	});
 
 	it("cancels departed-page requests and ignores responses that race with cancellation", async () => {

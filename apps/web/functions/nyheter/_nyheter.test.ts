@@ -267,11 +267,19 @@ describe("esc", () => {
 	});
 });
 
-// The rail is a glance at the day beside the essays, not a wire. At twelve bold
-// headlines it was the loudest thing on the front page (2026-09-25); zuhd
-// publishes ~55/day, and "Alla nyheter →" is what carries the rest.
-it("keeps the sidolinje a glance, not a feed", () => {
-	expect(RAIL_ANTAL).toBeLessThanOrEqual(5);
+// The front page's bar is a glance at the day, not a wire: at twelve bold headlines
+// the news was the loudest thing on the page (2026-09-25); zuhd publishes ~55/day,
+// and "Alla nyheter →" is what carries the rest.
+//
+// Three is also a layout contract. The bar holds its place before the fetch lands, at
+// the height of ONE row of thirds on a wide screen and three rows in one column
+// (nyheter.css). A fourth notice would open a row the page did not hold a place for,
+// and the essays under the bar would move when the news arrived.
+it("keeps the front page's news to the three rows its bar holds a place for", () => {
+	expect(
+		RAIL_ANTAL,
+		"the news bar reserves one row of three; more rows shift the page when the fetch lands",
+	).toBeLessThanOrEqual(3);
 });
 
 describe("nyhetsdygnet", () => {

@@ -92,8 +92,11 @@ if (mobile && hero) {
 {hero && (
 	mobile ? (
 		<picture>
+			{/* The crop's own dimensions: the <img> below carries the desktop hero's, and
+			    without these a phone reserved that shape and then changed it when the
+			    mobile file arrived. */}
 			{mobileSrcs.map((s) => (
-				<source media="(max-width: 768px) and (orientation: portrait)" type={s.type} srcset={s.srcset} sizes="100vw" />
+				<source media="(max-width: 768px) and (orientation: portrait)" type={s.type} srcset={s.srcset} sizes="100vw" width={mobile.width} height={mobile.height} />
 			))}
 			{desktopSrcs.map((s) => <source type={s.type} srcset={s.srcset} sizes={sizesAttr} />)}
 			<img

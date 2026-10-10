@@ -37,6 +37,7 @@ const {
 	description={description}
 	{...(ogImageAlt === undefined ? {} : { ogImageAlt })}
 	jsonLd={jsonLd}
+	preloadFonts={["body", "sans"]}
 >
 	<main id="main" class={mainClass}>
 		<PageHead title={title} {...(ritning ? { ritning } : {})}>

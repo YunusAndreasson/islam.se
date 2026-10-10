@@ -345,8 +345,12 @@
 	--step--1: 1.0556rem; /* 16.9px — secondary prose: leads, blurbs, card copy */
 	--step--2: 0.9384rem; /* 15.0px — dense prose: descriptions, table cells */
 	--step--3: 0.8342rem; /* 13.3px — labels, meta lines, chips (the .label size) */
-	--step--4: 0.7415rem; /* 11.9px — micro meta: attribution, dense map/prayer UI */
-	--step--5: 0.6591rem; /* 10.5px — the smallest marks (book-cover brand line) */
+	/* 12px exactly, not the ladder's 11.87: this is the FLOOR for text on the front page
+	   and in the chrome every page shares. Lighthouse counts anything under 12px as
+	   illegible, and the publications this site is read beside stop at 12 (FT's scale
+	   bottoms at 12.2). Nothing a reader is meant to read goes below this step. */
+	--step--4: 0.75rem; /* 12px — micro meta: attribution, dense map/prayer UI */
+	--step--5: 0.6591rem; /* 10.5px — marks inside artwork and maps only (book-cover brand line, map credit) */
 
 	/* Spacing — golden progression from body line-height (φ ≈ 1.618) */
 	--space-unit: 1.9rem;

@@ -32,28 +32,31 @@
 .home .home-movement {
 	margin-block: var(--space-section);
 }
-/* A φ step, not a section gap: the intro line and the cover are one opening, and the
-   full-width picture needs the height to keep its headline above a laptop's fold. */
+/* A φ step above, not a section gap: the mast and the lead are one opening, and every
+   line saved here is a line of the lead above a laptop's fold. Nothing below: the
+   news bar closes the opening (nyheter.css), and where it is absent the next
+   movement's own margin is the gap. */
 .home .feature {
-	margin-top: var(--space-unit);
-}
-.home .home-akt2 {
-	margin-block: var(--space-section) 0;
+	margin-block: var(--space-unit) 0;
 }
 
-/* THE GROUNDS ALTERNATE BY MOVEMENT: paper (the cover), tint (Fakta om islam),
-   paper (Fördjupning), tint (the live row: news and the year), paper (Ämnen and
-   Trådar), tint (Tänkare), paper (AI-barometern), tint (Praktiskt), paper (the
-   closing promotions, then the footer under its rule).
+/* THE GROUNDS ALTERNATE BY MOVEMENT: paper (the lead, the news bar, and the essays
+   by ämne), tint (Teman), paper (Tänkare), tint (Fakta om islam), paper
+   (Fördjupning), tint (Praktiskt), paper (the Islamic year), tint (AI-barometern),
+   paper (the closing promotions, then the footer under its rule).
    Every change of ground is a boundary, so no rule or ornament is needed between
    movements — and no tint ever holds two sections. Until 2026-09-27 two tints did:
    Fakta + Fördjupning ran 2 550px as one block straight after the cover, and Ämnen
    + Trådar + Tänkare 1 750px as another, and the live row carried the barometer as
-   a third voice; all of it read as crammed (»intryckt«, user review). The closing
-   promotions are the one wrapper that keeps two rows on one ground, because the
-   podcast/app and the book are one group.
+   a third voice; all of it read as crammed (»intryckt«, user review). Paper may
+   hold two: the opening and Ämnen are one region because they are one subject, the
+   essays (2026-10-10), and the closing promotions keep two rows on one ground
+   because the podcast/app and the book are one group.
+   The alternation is kept by position, not by name: when the essays moved up under
+   the lead Teman took the tint Tänkare had carried, and when the news left its row
+   for the top the barometer took the tint that row had.
    50% is half the canvas; 50cqi is half the window (.front is the container). */
-.front .home :is(.fakta-band, .home-sidolinje, .tankare-home, .praktiskt-home) {
+.front .home :is(.tradar-home, .fakta-band, .praktiskt-home, .barometer-rail) {
 	--color-bg: var(--ground-tint);
 	margin-inline: calc(50% - 50cqi);
 	padding-inline: calc(50cqi - 50%);
@@ -68,11 +71,11 @@
    marks, so it adds no boundary and counts against no rule budget. Flush with the
    room's top edge, and in two members: a lone row of pearls floating 1.5rem below the
    edge read as a perforation, »cut here«, not as architecture (2026-09-27). */
-.front .home :is(.fakta-band, .home-sidolinje, .tankare-home, .praktiskt-home) {
+.front .home :is(.tradar-home, .fakta-band, .praktiskt-home, .barometer-rail) {
 	position: relative;
 }
 
-.front .home :is(.fakta-band, .home-sidolinje, .tankare-home, .praktiskt-home)::before {
+.front .home :is(.tradar-home, .fakta-band, .praktiskt-home, .barometer-rail)::before {
 	content: "";
 	position: absolute;
 	inset-inline: 0;
@@ -83,25 +86,12 @@
 	pointer-events: none;
 }
 
-.home .home-essays,
 .home .home-promotions {
 	display: grid;
 	row-gap: var(--space-section);
-	margin-block: var(--space-section);
-}
-
-.home .home-promotions {
 	margin-block: var(--space-section) 0;
 }
 
-/* The live row and the departments share .home-akt2, a flex column, where margins
-   do not collapse: the departments close on no margin of their own, so the gap to
-   Tänkare below is Tänkare's single section margin, not two added together. */
-.front .home .home-essays {
-	margin-bottom: 0;
-}
-
-.home .home-essays > .home-movement,
 .home .home-promotions > .podd-app,
 .home .home-promotions-par > :is(.bookpod--home, .skarm-promo) {
 	margin: 0;

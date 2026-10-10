@@ -206,6 +206,9 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.10
         version: 0.9.10(@emnapi/runtime@1.11.3)(prettier@3.9.9)(typescript@6.0.3)
+      fontkitten:
+        specifier: 1.0.3
+        version: 1.0.3
       node-html-markdown:
         specifier: ^2.0.0
         version: 2.0.0

@@ -13,7 +13,7 @@ type MarkesdagRow = {
 
 interface Props {
 	rows: readonly MarkesdagRow[];
-	/** `rail` stacks the row into one 17rem column and drops the explanatory note —
+	/** `rail` stacks the row (date, name, Hijri) and drops the explanatory note —
 	 *  see the .md-list--rail block in styles/layout.css for why the note goes. */
 	variant?: "full" | "rail";
 	/** How many upcoming rows to keep visible. Published to the DOM as `data-max`

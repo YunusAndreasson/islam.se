@@ -34,10 +34,19 @@
 #
 # Link header advertises the LLM map at the HTTP layer (not just the HTML <link>),
 # so header-only AI crawlers that never parse the body still discover /llms.txt.
+#
+# HSTS: one year, this host only. No includeSubDomains and no preload on purpose: both
+# reach every subdomain of islam.se, a preload entry takes months to withdraw, and
+# neither should be switched on before every subdomain is known to answer on HTTPS.
+# COOP same-origin: nothing here opens a window it then talks to (sharing goes through
+# navigator.share or the clipboard, every target=_blank link is noopener), and Turnstile
+# on /ratta/ is a frame, which this header does not govern.
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
+  Strict-Transport-Security: max-age=31536000
+  Cross-Origin-Opener-Policy: same-origin
   Link: </llms.txt>; rel="alternate"; type="text/plain"; title="llms.txt"
 
 # Machine-readable files with no search value of their own: calendar feeds, the client

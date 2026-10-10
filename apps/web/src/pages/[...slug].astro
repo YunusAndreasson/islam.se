@@ -15,6 +15,7 @@ import { getArticles, inlineMarkdown } from "../lib/articles";
 import { getVersesByEssay } from "../lib/citations";
 import { imageObject } from "../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../lib/hero";
+import { pageHeroPreload } from "../lib/hero-preload";
 
 export async function getStaticPaths() {
 	const articles = await getArticles();
@@ -35,6 +36,8 @@ interface Props {
 }
 
 const { article, prev, next } = Astro.props;
+
+const heroPreload = await pageHeroPreload(article.heroImage, article.mobileHeroImage);
 const { Content, headings } = await render(article.entry);
 const amne = article.category ? amneByName.get(article.category) : undefined;
 
@@ -88,22 +91,29 @@ const structuredArticle = {
     result actually shows; `seoDescription` is the authored short form for the
     meta tag. Falls back to the deck, so an essay without one is unchanged. The
     JSON-LD keeps the full deck — it is a description of the work, not a snippet. */}
-{/* preloadTextFonts: half the essays carry no hero image at all (30 of 62 at the time
-    of writing). Base.astro withholds the Literata/Source Sans preload site-wide to keep
-    that bandwidth free for the LCP hero — but on an image-less essay there is no hero to
-    reserve it for, and the fonts then land AFTER first paint. The header (h1 + the
-    ~270-character deck) reflows on the swap and drags .article-body down with it:
-    measured CLS 0.151 on /alis-princip/, versus 0 once the two core faces (100 kB +
-    41 kB) are preloaded into otherwise idle bandwidth. Essays that DO have a hero keep
-    the old behaviour — there the contention Base.astro describes is real. */}
+{/* The fonts that set the opening, fetched before the stylesheet asks for them. The
+    h1 and the ~270-character deck stand ABOVE the hero (or above the first paragraph,
+    on the half of the essays that have no hero), so when those fonts landed after
+    first paint the header rewrapped and pushed everything under it: measured CLS 0.151
+    on the hero-less /alis-princip/ and 0.191 on a phone with a hero. An essay with a
+    hero used to preload neither the fonts (to leave the bandwidth to the picture) nor
+    the picture itself, whose <img> sits 107 kB into the document: it got the shift
+    and a 4 s LCP both. Now the picture is preloaded first and the body face after it.
+    The sans sets one-line labels that cannot rewrap, so it waits when there is a hero.
+    The display cut sets the h1 only from 48rem (editorial.css). The Arabic face sets
+    verses further down: early, so they do not restyle, but behind everything else. */}
 <Base
 	title={`${article.title} – islam.se`}
 	description={article.seoDescription ?? article.description}
 	ogImage={`/og/${article.slug}.png`}
 	articleMeta={structuredArticle}
-	preloadArabicFont
-	preloadTextFonts={!article.heroImage}
-	preloadHeadlineFont={!article.heroImage}
+	{...heroPreload}
+	preloadFonts={[
+		"body",
+		...(article.heroImage ? [] : (["sans"] as const)),
+		{ face: "display", media: "(min-width: 48.0625rem)" },
+		{ face: "arabic", low: true },
+	]}
 >
 	<main id="main" class="reading reading--notes">
 		<article>

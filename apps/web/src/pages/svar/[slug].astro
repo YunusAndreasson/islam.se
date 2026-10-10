@@ -17,6 +17,7 @@ import { SVAR_CATEGORIES, svarSeoMetadata } from "../../lib/svar";
 import { pillarBySvar } from "../../lib/svar-fordjupning";
 import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
+import { pageHeroPreload } from "../../lib/hero-preload";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("svar");
@@ -97,6 +98,8 @@ const heroArticle = heroEssaySlug
 // pages. Without it Google has no image to show for these answers in Discover or as a
 // thumbnail; the OG title card below is the fallback for the ~55 answers with no hero.
 const heroSource = heroArt ?? heroArticle?.heroImage;
+// Bespoke art has no phone crop; a borrowed essay hero may (EssayImage decides the same way).
+const heroPreload = await pageHeroPreload(heroSource, heroArt ? undefined : heroArticle?.mobileHeroImage);
 const heroAlt = heroArticle?.imageAlt ?? data.title;
 let heroImageObject: Record<string, unknown> | undefined;
 if (heroSource) {
@@ -158,8 +161,8 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		...(kicker ? { section: kicker.name } : {}),
 	}}
 	jsonLd={jsonLd}
-	preloadTextFonts
-	preloadHeadlineFont
+	{...heroPreload}
+	preloadFonts={["body", "sans", { face: "display", media: "(min-width: 48.0625rem)" }]}
 >
 	<main id="main" class="svar-page reading">
 		<article>

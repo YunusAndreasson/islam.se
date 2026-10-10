@@ -4,41 +4,52 @@ import { RITNINGAR } from "../lib/ritningar";
 import Ritning from "./Ritning.astro";
 import SectionLink from "./SectionLink.astro";
 
-/** The homepage introduction: an illustrated opening, five actions in reading
- * order, then six beliefs grouped at a quieter rank. Shared alignments and space
- * carry the hierarchy without adding cards or rules to the editorial canvas. */
+/** The homepage's facts: an opening, the five pillars and the six articles of faith
+ * as three columns of one box on a wide screen, one under the other on a narrow one.
+ * Shared alignments and space carry the hierarchy without adding cards or rules to
+ * the editorial canvas. */
 
 // No count in the closing link (2026-09-27): none of the publications this site
 // measures itself against (DN, SvD, NE, Bokmässan) puts a number in an onward link.
 const [pelare, trosartiklar] = FAKTA_CLUSTERS;
+
+// »Förutbestämmelsen« is a few pixels wider than half a phone, and the site-wide
+// overflow-wrap then broke it as »Förutbestämmelse / n«. A soft hyphen at the compound's
+// joint gives the browser the Swedish break; where the word fits it is invisible.
+const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "Förut­");
 ---
 
 <section class="fakta-band grunden home-movement" aria-labelledby="fakta-band-title">
 	<div class="grunden-head">
 		<p class="label home-kicker">Fakta om islam</p>
-		<h2 class="grunden-title" id="fakta-band-title">
-			<a href="/vad-ar-islam/">Vad är islam?</a>
-		</h2>
-		<p class="grunden-lead">
-			Islam bygger på tron på en enda Gud och på Muhammed ﷺ som hans sändebud.
-		</p>
-		<p class="grunden-intro-link">
-			<SectionLink href="/vad-ar-islam/">Läs introduktionen till islam</SectionLink>
-		</p>
-		<div class="grunden-ritning">
-			<Ritning
-				{...RITNINGAR.grunden}
-				fyll
-				ankare="vanster"
-				hojd={[4.5, 10]}
-				bredd={[7, 14]}
-				sizes="(min-width: 79rem) 23.3rem, (min-width: 48rem) calc((100vw - 10rem) / 3), 7rem"
-			/>
+		{/* The opening's own words and its drawing. A box only on a wide screen, where the
+		    opening is a column; below that it dissolves into the head's grid. */}
+		<div class="grunden-opening">
+			<h2 class="grunden-title" id="fakta-band-title">
+				<a href="/vad-ar-islam/">Vad är islam?</a>
+			</h2>
+			<p class="grunden-lead">
+				Islam bygger på tron på en enda Gud och på Muhammed ﷺ som hans sändebud.
+			</p>
+			<ul class="grunden-vidare" role="list">
+				<li><SectionLink href="/vad-ar-islam/">Läs introduktionen till islam</SectionLink></li>
+				<li><SectionLink href="/svar/">Alla frågor och svar</SectionLink></li>
+			</ul>
+			<div class="grunden-ritning">
+				<Ritning
+					{...RITNINGAR.grunden}
+					fyll
+					ankare="vanster"
+					hojd={[4.5, 10]}
+					bredd={[7, 14]}
+					sizes="(min-width: 60rem) 17rem, (min-width: 48rem) calc((100vw - 10rem) / 3), 7rem"
+				/>
+			</div>
 		</div>
 	</div>
 
 	{pelare && (
-		<div class="grunden-group" aria-labelledby="grunden-pelare">
+		<div class="grunden-group" role="group" aria-labelledby="grunden-pelare">
 			<h3 class="label grunden-group-head" id="grunden-pelare">
 				{pelare.overview ? <a href={`/svar/${pelare.overview}/`}>{pelare.name}</a> : pelare.name}
 			</h3>
@@ -46,8 +57,11 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 				{pelare.items.map((item, i) => (
 					<li class="grunden-item">
 						<span class="grunden-num" aria-hidden="true">{i + 1}</span>
-						<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{item.label}</a>
-						<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
+						<p class="grunden-term">
+							<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{item.label}</a>
+							{" "}
+							<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
+						</p>
 						<p class="grunden-blurb">{item.blurb}</p>
 					</li>
 				))}
@@ -56,28 +70,41 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 	)}
 
 	{trosartiklar && (
-		<div class="grunden-group" aria-labelledby="grunden-tro">
+		<div class="grunden-group" role="group" aria-labelledby="grunden-tro">
 			<h3 class="label grunden-group-head" id="grunden-tro">
 				{trosartiklar.overview ? <a href={`/svar/${trosartiklar.overview}/`}>{trosartiklar.name}</a> : trosartiklar.name}
 			</h3>
 			<ul class="grunden-tro">
 				{trosartiklar.items.map((item) => (
 					<li class="grunden-item">
-						<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{item.label}</a>
-						<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
+						<p class="grunden-term">
+							<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{avstavad(item.label)}</a>
+							{" "}
+							<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
+						</p>
 						<p class="grunden-blurb">{item.blurb}</p>
 					</li>
 				))}
 			</ul>
 		</div>
 	)}
-
-	<p class="grunden-more">
-		<SectionLink href="/svar/">Alla frågor och svar</SectionLink>
-	</p>
 </section>
 
 <style>
+	/* ONE BOX, THREE COLUMNS (2026-10-10). From 60rem the movement is the opening, the
+	   five pillars and the six articles of faith side by side on the page's thirds, their
+	   three labels on one line. It was the opening over five full-width rows over a grid
+	   of six: 1 324px at 1440, a screen and a half of a wide window for eleven terms of
+	   one line each, the tallest movement on the page ("too high", user review). The
+	   same words now stand in about 790px.
+
+	   The five full-width rows had replaced five 173px columns that read as "tight"
+	   (2026-09-25). A third of this canvas is 373px, the width the articles of faith
+	   have always had, and each term keeps its whole gloss.
+
+	   Two lists of five and six do not end together, and nothing here pretends they do:
+	   the lists start on one line and each runs its own length. */
+
 	/* The kicker and the title beside the drawing, the lead under both on a phone;
 	   beside the lead too once there is room. */
 	.grunden-head {
@@ -87,9 +114,13 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 			"kicker ritning"
 			"titel ritning"
 			"lead lead"
-			"intro intro";
+			"vidare vidare";
 		column-gap: var(--space-unit);
 		margin-bottom: var(--space-phi);
+	}
+
+	.grunden-opening {
+		display: contents;
 	}
 
 	.grunden-head > :global(.home-kicker) {
@@ -104,9 +135,16 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		grid-area: lead;
 	}
 
-	.grunden-intro-link {
-		grid-area: intro;
+	/* The two ways on, one under the other: the introduction this opening summarises,
+	   then every answer the terms beside it are drawn from. */
+	.grunden-vidare {
+		grid-area: vidare;
+		display: grid;
+		gap: 0.35rem;
 		margin: var(--space-control) 0 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--font-heading);
 		font-size: var(--step--2);
 	}
 
@@ -116,18 +154,15 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 	}
 
 	/* As the site's section openings are (PageHead): the drawing as tall as the opening,
-	   kicker to the introduction link. Its column is the movement's own third, standing
-	   on the third line (x 950 at 1440) where »Skrifterna«, »Domedagen« and »Ödet« start
-	   below: on the canvas's edge it hung 400px from the words on a line nothing near it
-	   drew — the pillar rows are ragged and end 200px short (user review, 2026-09-26). */
-	@media (width >= 48rem) {
+	   kicker to the last link, in the movement's own third. */
+	@media (48rem <= width < 60rem) {
 		.grunden-head {
 			grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--grid-gutter)) / 3);
 			grid-template-areas:
 				"kicker ritning"
 				"titel ritning"
 				"lead ritning"
-				"intro ritning";
+				"vidare ritning";
 			grid-template-rows: auto auto auto 1fr;
 			column-gap: var(--grid-gutter);
 		}
@@ -167,7 +202,7 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 	}
 
 	.grunden-group + .grunden-group {
-		margin-top: var(--space-phi2);
+		margin-top: var(--space-phi);
 	}
 
 	.grunden-group-head {
@@ -194,11 +229,23 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		margin: 0;
 		padding: 0;
 		display: grid;
-		gap: var(--space-unit) var(--grid-gutter);
+		gap: var(--space-group) var(--grid-gutter);
+	}
+
+	/* A pillar: the numeral beside the name, the gloss beneath. One grammar at every
+	   width. */
+	.grunden-pelare .grunden-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		column-gap: 0.9rem;
+		align-items: baseline;
+	}
+
+	.grunden-pelare .grunden-blurb {
+		grid-column: 2;
 	}
 
 	.grunden-num {
-		display: block;
 		/* Match the title's metrics so each ordinal reads as part of its row. */
 		font-family: var(--font-display);
 		font-size: var(--step-1);
@@ -208,12 +255,18 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		font-variant-numeric: lining-nums tabular-nums;
 	}
 
-	.grunden-name {
-		display: block;
+	/* The Swedish name and its Arabic term on one line where they fit, the term under
+	   the name where they do not: running text decides, so no width needs a rule of its
+	   own. The term never breaks inside itself. */
+	.grunden-term {
+		margin: 0;
 		font-family: var(--font-display);
 		font-size: var(--step-1);
-		font-weight: 600;
 		line-height: 1.2;
+	}
+
+	.grunden-name {
+		font-weight: 600;
 		color: var(--color-text);
 		text-decoration: none;
 
@@ -224,69 +277,33 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		}
 	}
 
-	.grunden-pelare .grunden-name {
-		margin-top: var(--space-half);
-	}
-
+	/* No margin before the term: the word space separates the two, and a margin would
+	   indent the term where it wraps under the name. */
 	.grunden-tr {
-		display: block;
-		margin-top: 0.2rem;
 		font-family: var(--font-body);
 		font-style: italic;
 		font-size: var(--step--2);
 		color: var(--color-muted);
+		white-space: nowrap;
 	}
 
 	.grunden-blurb {
-		margin: var(--space-control) 0 0;
+		margin: 0.35rem 0 0;
 		font-size: var(--step--2);
 		line-height: 1.5;
 		color: var(--text-quiet);
 		text-wrap: pretty;
 	}
 
-	/* Below the wide layout, keep every pillar as a numbered row and group the
-	   beliefs in pairs. Tablet widths retain their glosses; phones show the terms.
-	   56.25rem is the mast's own line (900px, where its links collapse into Meny): at
-	   56rem the two turned 4px apart, a band of widths with the narrow mast over the
-	   wide pillars. */
-	@media (width < 56.25rem) {
+	/* Below the three columns the beliefs stand in pairs. Tablet widths keep their
+	   glosses; phones show the terms. */
+	@media (width < 60rem) {
 		.grunden-tro {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: var(--space-group) var(--space-unit);
 		}
 
-		/* A pillar on a phone: the numeral beside the name, the gloss beneath — five
-		   rows of a numeral alone would cost 450px of phone. */
-		.grunden-pelare .grunden-item {
-			display: grid;
-			grid-template-columns: auto minmax(0, 1fr);
-			grid-template-areas:
-				"num name"
-				"num tr"
-				".   blurb";
-			column-gap: 0.9rem;
-			align-items: baseline;
-		}
-
-		.grunden-pelare .grunden-num {
-			grid-area: num;
-		}
-
-		.grunden-pelare .grunden-name {
-			grid-area: name;
-			margin-top: 0;
-		}
-
-		.grunden-pelare .grunden-tr {
-			grid-area: tr;
-		}
-
-		.grunden-pelare .grunden-blurb {
-			grid-area: blurb;
-		}
-
-		.grunden-tro .grunden-name {
+		.grunden-tro .grunden-term {
 			font-size: var(--step-0);
 		}
 	}
@@ -297,41 +314,62 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		}
 	}
 
-	/* Wide rows and the beliefs share column starts. Keep each numeral close to
-	   its name so proximity identifies the pair before the eye crosses to the gloss. */
-	@media (width >= 56.25rem) {
-		.grunden-tro {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			row-gap: var(--space-phi);
-		}
-
-		.grunden-pelare .grunden-item {
+	@media (width >= 60rem) {
+		.grunden {
 			display: grid;
-			grid-template-columns: 2.25rem max(15rem, calc((100% - 2 * var(--grid-gutter)) / 3 - 2.25rem)) minmax(0, 1fr);
-			grid-template-areas:
-				"num name blurb"
-				"num tr   blurb";
-			align-items: baseline;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			/* The labels' line, then the columns. */
+			grid-template-rows: auto 1fr;
+			gap: var(--space-group) var(--grid-gutter);
 		}
 
-		.grunden-pelare .grunden-num {
-			grid-area: num;
+		.grunden-head,
+		.grunden-group {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-areas: none;
+			grid-row: 1 / 3;
+			grid-template-rows: subgrid;
+			margin: 0;
 		}
 
-		.grunden-pelare .grunden-name {
-			grid-area: name;
+		.grunden-group + .grunden-group {
 			margin-top: 0;
 		}
 
-		.grunden-pelare .grunden-tr {
-			grid-area: tr;
+		/* Three labels on one line: the movement's kicker and the two lists' heads. */
+		.grunden-head > :global(.home-kicker),
+		.grunden-group-head {
+			grid-area: auto;
+			align-self: center;
+			margin: 0;
 		}
 
-		.grunden-pelare .grunden-blurb {
-			grid-area: blurb;
-			margin: 0 0 0 var(--grid-gutter);
-			max-width: 44rem;
-			font-size: var(--step--1);
+		.grunden-opening {
+			display: flex;
+			flex-direction: column;
+		}
+
+		/* A list item's own top line is its name's; the title's is taller, and would
+		   stand lower than the first term beside it. */
+		.grunden-title {
+			line-height: 1.1;
+		}
+
+		.grunden-pelare,
+		.grunden-tro {
+			align-content: start;
+		}
+
+		/* The drawing takes what the lists leave under the opening's words, and stands
+		   on the column's left edge, under them. */
+		.grunden-ritning {
+			position: relative;
+			flex: 1;
+			align-self: stretch;
+			min-block-size: 7rem;
+			max-block-size: 17rem;
+			margin-top: var(--space-unit);
 		}
 	}
 
@@ -343,11 +381,5 @@ const [pelare, trosartiklar] = FAKTA_CLUSTERS;
 		.grunden-title {
 			font-size: var(--step-2);
 		}
-	}
-
-	.grunden-more {
-		margin: var(--space-phi) 0 0;
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
 	}
 </style>

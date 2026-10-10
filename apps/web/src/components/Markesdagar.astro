@@ -1,36 +1,21 @@
 ---
+import HomeHead from "./HomeHead.astro";
 import MarkesdagList from "./MarkesdagList.astro";
-import SectionLink from "./SectionLink.astro";
 import { getMarkesdagar, gregorian, untilLabel } from "../lib/markesdagar";
-// For .sidolinje-rubrik, which both blocks in this track share. Nyheter.astro
-// imports the same sheet; Vite emits it once. Importing it here rather than
-// relying on that neighbour is what keeps this block's styling its own business —
-// and it costs no extra pages, since the sidolinje exists on the front page only.
-import "../styles/nyheter.css";
+// The calendar list's own rules live in styles/layout.css (.md-list--rail).
 
-// The front page's calendar block — the next three observances, in the news
-// rail's track rather than as a movement of its own.
+// The front page's calendar block — the next three observances, as a movement of its
+// own: three dates on the page's thirds, under the tools for the day (PraktisktHome).
 //
-// It used to be a full-width section near the foot of the page: five rows, each
-// with its explanatory note, plus two standing-fast paragraphs. That version is
-// gone and nothing was lost — both of those paragraphs already appear verbatim on
-// /det-islamiska-aret/ (see .md-standing / .md-also there), which this block
-// links straight to.
+// Its places so far. A full-width section near the foot of the page: five rows, each
+// with its explanatory note, plus two standing-fast paragraphs (both of which appear
+// verbatim on /det-islamiska-aret/, which this block links straight to). Then the
+// second half of a row it shared with the news (2026-09-25 to 2026-10-10), there to
+// fill the track beside a column of headlines. When the news moved up under the lead
+// (Nyheter.astro), the year went to what it belongs with: today's prayer times and
+// the mosques stand directly above it, the day and then the year.
 //
-// Why the rail. The sidolinje was built for the news and paired with Ämnen on the
-// argument that Ämnen is the tallest movement on the page. It is, and it was still
-// three times the rail's height: the news ran ~600px beside a ~2 000px block, so a
-// third of the act was a narrow column of headlines with 1 400px of nothing under
-// it. The calendar is what fills that honestly — it is the site's other live
-// layer, it belongs beside the news rather than four screens below it, and unlike
-// more news rows it cannot run short on a quiet day.
-//
-// ⚠️ It keeps the SITE's voice, not the news column's. The news beside it is set
-// in Source Sans as a deliberate register signal (nyheter.css: "the one
-// load-bearing decision") — that material is reported elsewhere. This is islam.se
-// speaking, so it sits under its own kicker — beside the news on a wide screen,
-// under a rule below it on a phone — and reads as a second block rather than as
-// more of the first.
+// ⚠️ It keeps the SITE's voice: Literata for the names, as islam.se's own writing.
 
 const RADER = 3;
 
@@ -51,59 +36,25 @@ const rows = events.map((e) => {
 });
 ---
 
-<section class="markesdagar-rail" aria-labelledby="markesdagar-kicker">
-	<h2 class="label sidolinje-rubrik" id="markesdagar-kicker">Det islamiska året</h2>
+<section class="markesdagar-rail home-movement" aria-labelledby="markesdagar-kicker">
+	<HomeHead label="Det islamiska året" id="markesdagar-kicker" href="/det-islamiska-aret/" linkLabel="Se hela året" />
 
 	<MarkesdagList rows={rows} variant="rail" max={RADER} />
-
-	<p class="md-more"><SectionLink class="label arrow-link" href="/det-islamiska-aret/">Se hela året</SectionLink></p>
 </section>
 
 <style>
-	/* Shared calendar-list rules (.md-list/.md-row/.md-greg/.md-body/.md-name/
-	   .md-hijri, the rail stack and the mobile stack) live in styles/layout.css —
-	   /det-islamiska-aret renders the same rows. Only this block's own spacing and
-	   its seam with the news above it stay here. */
-	.markesdagar-rail {
-		margin-top: var(--space-phi);
-		padding-top: var(--space-unit);
-		/* The seam, where the blocks stack (a phone; nyheter.css lifts it where they
-		   stand side by side). Two blocks in one column need to read as two, or the dates
-		   look like the last few news items. A full rule, not the kicker's warm tick
-		   alone — the tick marks a section on a wide canvas, and at this width it is
-		   too small a signal to carry a change of voice. */
-		border-top: 1px solid var(--color-rule);
-	}
+	/* Three dates across the page's thirds from 60rem, where every other row of three
+	   on the page turns; one under the other below that. */
+	@media (width >= 60rem) {
+		.markesdagar-rail :global(.md-list--rail) {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			column-gap: var(--grid-gutter);
+		}
 
-	/* NO NEWS, NO SEAM.
-	   The news block is authored `hidden` and reveals itself only once the fetch
-	   lands — a quiet moment, a blocker stopping a cross-origin request to a
-	   `.news` domain, or simply a reader who got here first. When it never appears
-	   this block is the top of the track, and a rule separating it from nothing is
-	   a line the page cannot explain. Caught in Gecko, where a headless render
-	   outran the fetch and showed exactly this.
-	   :global() on the sibling because it belongs to Nyheter.astro — a scoped
-	   selector would be rewritten with this component's id and never match.
-
-	   ⚠️ `~`, not `+`. Astro emits the news component's hoisted module script
-	   between its closing aside and this section — in the dev
-	   server AND in the built output, verified in dist/index.html — so the
-	   adjacent-sibling combinator matches nothing at all and the bug survives in
-	   exactly the place someone would go looking for it. The general sibling
-	   combinator does not care what the bundler puts in the gap.
-
-	   The AI-barometern block comes after this one (index.astro), so this block is
-	   the top of the track whenever the news is missing. The barometer never needs
-	   the same exemption: the calendar is built at build time and is never empty. */
-	:global(.nyheter-rail[hidden] ~ .markesdagar-rail) {
-		margin-top: 0;
-		padding-top: 0;
-		border-top: 0;
-	}
-
-	/* Placement only — the link inside is a `.section-link .arrow-link`. */
-	.md-more {
-		margin: var(--space-unit) 0 0;
+		.markesdagar-rail :global(.md-list--rail .md-row) {
+			padding-block: 0;
+		}
 	}
 </style>
 

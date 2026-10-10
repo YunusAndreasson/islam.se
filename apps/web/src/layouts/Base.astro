@@ -1,14 +1,16 @@
 ---
 import { ChevronUp } from "@lucide/astro";
-import { Font } from "astro:assets";
+import { Font, fontData } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import FloatingPlayer from "../components/FloatingPlayer.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import SearchOverlay from "../components/SearchOverlay.astro";
 import { APP_STORE_ID } from "../lib/app";
+import { type FontFace, locate } from "../lib/fonts";
 import { articleJsonLd, breadcrumbList, organization, webSite } from "../lib/jsonld";
 import "../styles/tokens.css";
+import "../styles/font-fallbacks.css";
 import "../styles/reset.css";
 import "../styles/typography.css";
 import "../styles/layout.css";
@@ -41,19 +43,20 @@ interface Props {
 	/** MIME type of the preloaded candidate (e.g. "image/avif"), so the preload
 	 *  matches the right `<source>` in the painted `<picture>`. */
 	preloadImageType?: string;
-	/** Preload Amiri Quran on pages that always paint Arabic — kills the font-swap
-	 *  restyle of the verses. ~45 kB once, cached site-wide. */
-	preloadArabicFont?: boolean;
-	/** Preload Literata + Source Sans on pages with no competing LCP image preload.
-	 *  Body/heading stay unpreloaded site-wide (see the comment below — that
-	 *  bandwidth is reserved for the hero image), but a page with no hero has no
-	 *  such contention, and text set high enough to still be visible when the
-	 *  fonts land otherwise costs real CLS on this page's font-swap reflow. */
-	preloadTextFonts?: boolean;
-	/** Preload Literata Display (50 kB) where it sets the page's h1 — the essay, svar
-	 *  and fördjupning titles (editorial.css). Same bandwidth rule as preloadTextFonts:
-	 *  only where no hero image is competing for it. */
-	preloadHeadlineFont?: boolean;
+	/** Font files to fetch before the stylesheet asks for them, in order of need.
+	 *
+	 *  A face belongs here when it sets words ABOVE the page's first picture (or the
+	 *  page has none): those words are painted in the fallback first, and when the
+	 *  real font lands above a picture, the picture moves. Text below the picture can
+	 *  swap for free, so its fonts are left to load on demand and the bandwidth stays
+	 *  with the image.
+	 *
+	 *  One file each, never a family: the old boolean props preloaded every normal
+	 *  variant of a family, core and ext alike (six files and 381 kB on a hero-less
+	 *  essay), because the preload filter cannot tell the two apart. `media` withholds
+	 *  a face where the layout does not use it — the display cut sets the h1 only from
+	 *  48rem. `low` is for a face the first screen does not show (the Arabic verse). */
+	preloadFonts?: (FontFace | { face: FontFace; media?: string; low?: boolean })[];
 	articleMeta?: {
 		publishedAt: string;
 		/** Genuine later revision only — emits dateModified (freshness signal). */
@@ -94,15 +97,23 @@ const {
 	preloadImageSrcset,
 	preloadImageSizes,
 	preloadImageType,
-	preloadArabicFont = false,
-	preloadTextFonts = false,
-	preloadHeadlineFont = false,
+	preloadFonts = [],
 	articleMeta,
 	ogArticle: ogArticleProp,
 	jsonLd,
 	noindex = false,
 } = Astro.props;
 const ogArticle = articleMeta ?? ogArticleProp;
+
+// Each requested face → the hashed URL Astro gave its file. `fontData` keeps a family's
+// files in the order src/lib/fonts.ts lists them, which is what `locate` reads.
+const fontPreloads = preloadFonts.map((entry) => {
+	const { face, media, low } = typeof entry === "string" ? { face: entry } : entry;
+	const { cssVariable, index } = locate(face);
+	const href = fontData[cssVariable]?.[index]?.src[0]?.url;
+	if (!href) throw new Error(`Base.astro: no built file for the font face "${face}".`);
+	return { href, media, low };
+});
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = ogImage
 	? new URL(ogImage, Astro.site).href
@@ -206,6 +217,10 @@ if (articleMeta) {
 					if (chosen) root.dataset.theme = chosen;
 					else delete root.dataset.theme;
 					if (MAC) root.dataset.kbd = "mac";
+					// Scripts run here. A part of the page that a script fills later may
+					// hold its place from the first paint only where this is set (the
+					// front page's news bar, nyheter.css).
+					root.dataset.js = "";
 					// Under an override both media-scoped metas get the chosen colour, so
 					// whichever one the OS matches paints the right browser chrome. Back on
 					// "System" each meta must be handed its own colour again — they were
@@ -256,17 +271,22 @@ if (articleMeta) {
 		{/* Native iOS Smart App Banner — a subtle, dismissible nudge in Safari on every
 		    page; the strong in-page promo stays on the prayer surfaces. */}
 		<meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
-		{/* Text-led pages preload normal faces. Italic shares the body family and loads
-		    on demand; image-led pages leave bandwidth available for the hero. */}
-		<Font cssVariable="--font-body" preload={preloadTextFonts ? [{ style: "normal" }] : false} />
-		{preloadTextFonts ? <Font cssVariable="--font-heading" preload /> : <Font cssVariable="--font-heading" />}
-		{preloadArabicFont ? <Font cssVariable="--font-arabic" preload /> : <Font cssVariable="--font-arabic" />}
-		{preloadHeadlineFont ? <Font cssVariable="--font-headline" preload /> : <Font cssVariable="--font-headline" />}
+		{/* The picture first, then the fonts: preloads of one priority are requested in
+		    document order, and the LCP image must not queue behind type. */}
 		{preloadImageSrcset ? (
 			<link rel="preload" as="image" type={preloadImageType} imagesrcset={preloadImageSrcset} imagesizes={preloadImageSizes} fetchpriority="high" />
 		) : preloadImage ? (
 			<link rel="preload" as="image" href={preloadImage} fetchpriority="high" />
 		) : null}
+		{fontPreloads.map(({ href, media, low }) => (
+			<link rel="preload" as="font" type="font/woff2" href={href} crossorigin media={media} fetchpriority={low ? "low" : undefined} />
+		))}
+		{/* <Font> writes each family's @font-face rules; which files to fetch early is
+		    decided above, one file at a time. */}
+		<Font cssVariable="--font-body" />
+		<Font cssVariable="--font-heading" />
+		<Font cssVariable="--font-arabic" />
+		<Font cssVariable="--font-headline" />
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		{/* Every content page is indexable; non-canonical URLs are 301-redirected at the edge, never

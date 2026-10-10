@@ -3,8 +3,8 @@
 // Two consumers, one renderer:
 //   - `functions/nyheter/index.js` injects the list into the built /nyheter/
 //     page at the edge, so crawlers and JS-less readers get real HTML.
-//   - `src/scripts/nyheter.ts` renders the "Världen just nu" sidolinje on the front
-//     page in the browser.
+//   - `src/scripts/nyheter.ts` renders the news bar on the front page in the
+//     browser.
 //
 // It lives here rather than in `src/lib/` because a Pages Function is bundled
 // by wrangler and cannot reach into the Astro source tree, while Astro can
@@ -46,18 +46,18 @@ export const FEED_URL = "https://zuhd.news/api/sv/feed.json";
  *  evening still resolves this morning; the list only ever shows a day. */
 export const FONSTER_H = 24;
 
-/** How many the sidolinje shows.
+/** How many the front page's bar shows.
  *
- *  Five, a product decision (2026-09-25). It was twelve, measured to fill the rail
- *  beside Ämnen to the last pixel — which made twelve bold world-politics headlines
- *  the loudest thing beside the essays, on a page whose subject is not the news.
- *  The rail is a glance at the day, not a wire; »Alla nyheter →« under it carries
- *  the ~55 a day zuhd publishes. The rail now simply ends where its three blocks
- *  end, and the departments beside it run on.
+ *  Three, one to each third of the canvas, a product decision (2026-10-10). It was
+ *  twelve, measured to fill a rail beside Ämnen to the last pixel — which made twelve
+ *  bold world-politics headlines the loudest thing beside the essays, on a page whose
+ *  subject is not the news — and then five in a column (2026-09-25). The bar is a
+ *  glance at the day, not a wire; »Alla nyheter →« in its head row carries the ~55 a
+ *  day zuhd publishes.
  *
- *  On a thin day the window holds fewer and the column is shorter — which is
- *  honest, and is why the count is a ceiling rather than a target. */
-export const RAIL_ANTAL = 5;
+ *  On a thin day the window holds fewer and the bar shows fewer — which is honest,
+ *  and is why the count is a ceiling rather than a target. */
+export const RAIL_ANTAL = 3;
 
 export const KATEGORI_SV = {
 	politik: "Politik",

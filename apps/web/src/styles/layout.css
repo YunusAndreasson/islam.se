@@ -580,59 +580,64 @@
 		contain-intrinsic-size: auto var(--civ-h, 700px);
 	}
 
-	/* Rendered heights, measured 2026-09-25 on the »Dagen och texten« page (Chromium,
-	   content-visibility forced visible): desktop at 1440px on the mast-wide canvas,
-	   tinted grounds' padding included; the phone values are the one-column layouts
-	   at 390px. Re-measure when a
-	   movement changes shape (scratchpad script: every .home-movement's height). */
+	/* Rendered heights, measured 2026-10-10 in Chrome with content-visibility forced
+	   visible: desktop at 1440px on the mast-wide canvas, tinted grounds' padding
+	   included; the phone values are the one-column layouts at 390px. Re-measure when a
+	   movement changes shape (every .home-movement's height). */
 	.amnen.home-movement {
-		/* One active subject; the shared essay wrapper supplies the outer padding. */
-		--civ-h: 700px;
-	}
-	.fakta-band {
-		/* Carries its own tint and padding since 2026-09-27. */
-		--civ-h: 1324px;
-	}
-	.fordjupning-home {
-		/* On paper, its own movement since 2026-09-27: no tinted padding. */
-		--civ-h: 1162px;
+		--civ-h: 691px;
 	}
 	.tradar-home {
-		--civ-h: 407px;
+		/* Tinted since 2026-10-10: padding included. */
+		--civ-h: 569px;
 	}
 	.tankare-home {
-		--civ-h: 515px;
+		/* On paper since 2026-10-10: no tinted padding. */
+		--civ-h: 355px;
+	}
+	.fakta-band {
+		/* Three columns since 2026-10-10 (was 1 324px of rows). */
+		--civ-h: 773px;
+	}
+	.fordjupning-home {
+		--civ-h: 1103px;
 	}
 	.barometer-rail {
-		/* Its own paper movement since 2026-09-27 (was inside the live row). */
-		--civ-h: 369px;
+		/* Tinted since 2026-10-10: padding included. */
+		--civ-h: 497px;
 	}
 	.praktiskt-home {
-		/* Tinted since 2026-09-27: padding included. */
-		--civ-h: 489px;
+		--civ-h: 494px;
+	}
+	.markesdagar-rail {
+		/* A movement of its own since 2026-10-10: three dates on the thirds. */
+		--civ-h: 128px;
 	}
 
 	@media (max-width: 40rem) {
 		.amnen.home-movement {
-			--civ-h: 1500px;
-		}
-		.fakta-band {
-			--civ-h: 1432px;
-		}
-		.fordjupning-home {
-			--civ-h: 403px;
+			--civ-h: 1561px;
 		}
 		.tradar-home {
-			--civ-h: 478px;
+			--civ-h: 692px;
 		}
 		.tankare-home {
-			--civ-h: 563px;
+			--civ-h: 437px;
+		}
+		.fakta-band {
+			--civ-h: 1168px;
+		}
+		.fordjupning-home {
+			--civ-h: 379px;
 		}
 		.barometer-rail {
-			--civ-h: 615px;
+			--civ-h: 715px;
 		}
 		.praktiskt-home {
-			--civ-h: 622px;
+			--civ-h: 646px;
+		}
+		.markesdagar-rail {
+			--civ-h: 333px;
 		}
 	}
 
@@ -1230,7 +1235,9 @@
 		align-items: center;
 		gap: 0.05em;
 		padding: 0.15em 0.4em;
-		font-size: 0.72em;
+		/* The text floor (tokens.css). It was 0.72em of the pill, 10.8px, and »Ctrl«
+		   a further 0.95 of that. */
+		font-size: var(--step--4);
 		letter-spacing: 0.02em;
 		/* This chip does not sit on --color-bg: the 7 % wash under it darkens the
 		   ground. --color-muted now carries enough margin to clear AA there too
@@ -1261,7 +1268,6 @@
 		/* Keycaps print »Ctrl«, not the pill's uppercase »CTRL«. */
 		text-transform: none;
 		margin-inline-end: 0.25em;
-		font-size: 0.95em;
 		letter-spacing: 0.03em;
 	}
 
@@ -2428,16 +2434,14 @@
 		}
 	}
 
-	/* THE RAIL VARIANT — the same rows in a 17rem column on the front page.
+	/* THE RAIL VARIANT — the same rows on the front page: three dates, one to each third
+   of the canvas (Markesdagar.astro), one under the other on a phone.
    The three-track agenda (11rem date · name · Hijri) is a wide-canvas
-   composition and there is no version of it that survives 17rem: the date
-   column alone is two thirds of the width. It takes the stack the narrow
-   viewport already uses, which is not a fallback but the same answer to the
-   same question — the row is too narrow to set three things across it.
-
-   The rows also run tighter here than on a phone. --space-unit of padding is
-   right where the list IS the page; in a rail it is a block of three dates
-   under a block of twelve headlines, and it has to read as an index. */
+   composition and there is no version of it that survives a third: the date
+   column alone is half the width. It takes the stack the narrow viewport already
+   uses, which is not a fallback but the same answer to the same question — the
+   row is too narrow to set three things across it. (The name is from the 17rem
+   column the block stood in until 2026-09-25.) */
 	.md-list--rail .md-row {
 		grid-template-columns: 1fr;
 		gap: 0.2rem;
@@ -2449,12 +2453,11 @@
 		white-space: normal;
 	}
 
-	/* The rail sits in the front page's live row, where the register is the signal:
-	   the news beside it is reported material and speaks in the sans; the year is
-	   islam.se's own, so its names take the editorial face at the size and weight of
-	   the barometer's findings under it (Markesdagar.astro says why). Set in the sans
-	   they read as three more headlines. The date steps back to the muted meta every
-	   other date line on the page wears; the countdown keeps its brass. */
+	/* The year is islam.se's own, so its names take the editorial face at the size and
+	   weight of the tools' names above it (PraktisktHome) — never the sans, which on
+	   the front page marks reported material (the news bar). The date steps back to
+	   the muted meta every other date line on the page wears; the countdown keeps
+	   its brass. */
 	.md-list--rail .md-name {
 		font-family: var(--font-display);
 		font-size: var(--step-0);

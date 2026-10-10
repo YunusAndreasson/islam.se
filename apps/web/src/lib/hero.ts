@@ -2,16 +2,17 @@
  *  renders the <Image>) and index.astro (which preloads the matching LCP candidate),
  *  so the preloaded `imagesrcset` always equals what the <picture> actually paints.
  *
- *  The picture runs the full width of the front page's canvas, which is the mast's
- *  (tokens.css, `:root:has(main.front)`): 76rem of content once the window passes
- *  79rem, the window less its padding below that — ~100vw. */
-export const FEATURE_HERO_SIZES = "(min-width: 79rem) 76rem, 100vw";
+ *  From 64rem the picture stands in two thirds of the front page's canvas, under the
+ *  lead's words: 49.67rem (795px) once the window passes 79rem and the canvas is its
+ *  full 76rem, two thirds of the window below that. In one column, under 64rem, it
+ *  runs the window's width. */
+export const FEATURE_HERO_SIZES = "(min-width: 79rem) 49.67rem, (min-width: 64rem) 66vw, 100vw";
 
 /** Candidates for the ladder above: the painted widths at the common windows, plus
- *  the 2× retina steps. Astro clamps every candidate to the source's intrinsic
- *  width, so the top of this list only starts paying off once the art is
- *  re-exported larger. */
-export const FEATURE_HERO_WIDTHS = [480, 640, 768, 976, 1216, 1600, 2048];
+ *  the 2× retina steps. 800 is the desktop column at 1×, 1600 the same at 2×. Astro
+ *  clamps every candidate to the source's intrinsic width, so the top of this list
+ *  only starts paying off once the art is re-exported larger. */
+export const FEATURE_HERO_WIDTHS = [480, 640, 800, 976, 1216, 1600, 2048];
 
 /* ---------------------------------------------------------------------------
    The other two ladders. `widths` is what actually generates files, so it is

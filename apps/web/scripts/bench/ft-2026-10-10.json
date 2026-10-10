@@ -1,0 +1,43 @@
+{
+	"measuredAt": "2026-10-10",
+	"method": "Lighthouse 13.4, one run per form factor against https://www.ft.com/ from the same machine that measured islam.se that day. Colours and type sizes from FT's published Origami stylesheet (o-colors, o-typography).",
+	"note": "Not re-measurable by script: ft.com serves a bot check to automated browsers, and that check is not to be worked around. These are single runs, so read small differences against them as level. Refresh by hand, then rename the file to the new date. textUnder12Percent is read off FT's type scale (smallest step 12.18 px), not counted on the page.",
+	"frontPage": {
+		"mobile": {
+			"perf": 31,
+			"a11y": 95,
+			"bp": 100,
+			"seo": 100,
+			"lcp": 17200,
+			"tbt": 1730,
+			"cls": 0.01,
+			"styleLayout": 1485
+		},
+		"desktop": {
+			"perf": 90,
+			"a11y": 95,
+			"bp": 100,
+			"seo": 100,
+			"lcp": 1700,
+			"tbt": 30,
+			"cls": 0.004,
+			"styleLayout": 321,
+			"requests": 153,
+			"weightKB": 15469,
+			"scriptKB": 972,
+			"fontFiles": 4,
+			"fontKB": 247,
+			"domElements": 3083
+		},
+		"smallestTextPx": 12.2,
+		"textUnder12Percent": 0,
+		"hsts": true,
+		"coop": false
+	},
+	"palette": {
+		"paper": "#fff1e5",
+		"bodyText": "#33302e",
+		"link": "#0d7680",
+		"bodyContrast": 11.83
+	}
+}

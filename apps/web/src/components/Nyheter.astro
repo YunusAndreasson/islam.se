@@ -1,78 +1,55 @@
 ---
-// "Senaste nytt" — the front page's sidolinje.
+// NYHETER — the front page's wire bar, at the foot of the opening package.
 //
-// A narrow column of what has happened, modelled on the Swedish news-day index
-// (Sydsvenskan's *Nyhetsdygnet* is the reference): a time, a category, a
-// headline, and nothing else. No summary, no source, no picture. It is meant to
-// be run down with the eye in a second, not read.
+// Three headlines from the last day, each one line: a time and a headline, on the
+// page's thirds, between two hairlines, with the way on to /nyheter/ in its head row.
+// It is run down with the eye in a second, not read.
+//
+// WHERE IT STANDS, AND WHY (2026-10-10). It was a column of five under the kicker
+// »Senaste nytt«, in a row with the Islamic year, 4 600px down a 7 400px page: the one
+// thing on the page that goes stale by the hour stood in its last third, under a label
+// that promised the opposite ("feels off … labeled like that and so far down", user
+// review). News goes first on a front page because it is newest, and this news is not
+// the site's own, so it gets the newest position at the smallest size: directly under
+// the lead, in the register of a dateline. The lead and the essays keep the pictures
+// and the serif.
+//
+// THE NAME. »Nyheter«, the name the destination has in the footer and as its h1
+// (DESIGN.md, »Names«), and not »Senaste nytt«: twenty lines above it the lead's rail
+// is headed »Senast publicerat«, and two labels that alike said two kinds of thing
+// were one.
 //
 // Every headline links INWARD, to that notice on /nyheter/. The news is read on
-// islam.se; zuhd.news is credited once at the foot of the column and once more
-// on /nyheter/, and that is the whole of it. An earlier draft put an outbound
-// link on every row, which turned the front page into six exits to a site the
-// reader had never heard of, under a label — »Se på kartan« — that named a
-// mechanism nobody could see.
+// islam.se; zuhd.news is credited once here, beside the name, and once more on
+// /nyheter/, and that is the whole of it. An earlier draft put an outbound link on
+// every row, which turned the front page into six exits to a site the reader had
+// never heard of.
 //
 // ⚠️ That credit IS the one outbound link, and it is meant to be. The rule above
 // is one exit, not none: a provenance note that names a publication without
-// letting the reader go and look at it is asking to be taken on trust. Same
-// markup as every other zuhd credit on the site (see pages/nyheter.astro), so
-// the treatment is the site's own and not a one-off.
+// letting the reader go and look at it is asking to be taken on trust.
 //
 // It renders a frame and nothing else: the rows arrive from
 // `src/scripts/nyheter.ts`, which fetches zuhd's Swedish payload in the browser.
-// The column is `hidden` until there is something in it — an empty frame with a
-// heading and no content is a dead affordance, and the reader has no way to tell
-// it apart from a broken page.
 import SectionLink from "./SectionLink.astro";
 import "../styles/nyheter.css";
 ---
 
-<aside id="nyheter-rail" class="nyheter-rail" aria-labelledby="nyheter-rail-rubrik" hidden>
-	<h2 class="label sidolinje-rubrik" id="nyheter-rail-rubrik">Senaste nytt</h2>
+<aside id="nyheter-rail" class="nyhetsremsa" aria-labelledby="nyheter-rail-rubrik" data-lage="vantar">
+	<div class="nyhetsremsa-huvud">
+		<h2 class="label home-kicker" id="nyheter-rail-rubrik">Nyheter</h2>
+		<p class="nyheter-avsandare">
+			från <a href="https://zuhd.news/" rel="noopener">zuhd.news</a>
+		</p>
+		<SectionLink class="label home-head-all" href="/nyheter/">Alla nyheter</SectionLink>
+	</div>
 	<ol class="nyheter-lista" data-nyheter="rail" aria-busy="true"></ol>
-	<p class="nyheter-rail-fot">
-		<SectionLink class="label arrow-link" href="/nyheter/">Alla nyheter</SectionLink>
-	</p>
-	<p class="label nyheter-avsandare">
-		Nyheterna kommer från <a href="https://zuhd.news/" rel="noopener">zuhd.news</a>
-	</p>
 </aside>
 
-<style>
-	/* There is no height reservation here, and that is a decision rather than an
-	   omission.
-
-	   The obvious move is to reserve the rows so the page does not move when the
-	   fetch lands. It does not survive contact with the two readers who matter
-	   most: reserving means the column is in the layout before anyone knows
-	   whether there is news, so a reader with JavaScript off — or with a content
-	   blocker that stops a cross-origin request to a `.news` domain, which is not
-	   hypothetical on this machine — is left looking at a headed, permanently
-	   empty column on the front page of a reference site. An empty frame is a dead
-	   affordance: nothing tells them it is a quiet day rather than a broken page.
-
-	   In the rail this costs less than it did as a full-width band: the column
-	   sits in its own grid track, so when it appears the movements beside it do
-	   not move at all — only the track it occupies fills in. */
-	/* A provenance note, not a label. It was set at --step--3 in tracked caps —
-	   the same rung and the same register as "ALLA NYHETER →" — so a credit and
-	   an action sat side by side asking for equal attention, and the foot of the
-	   column ended on two lines of shouting. Sentence case at the smallest rung
-	   is what a footnote looks like. */
-	.nyheter-avsandare {
-		margin-top: var(--space-half);
-		font-size: var(--step--3);
-		text-transform: none;
-		letter-spacing: 0;
-		color: var(--color-muted);
-	}
-</style>
-
 <script>
-	// The rail is client-rendered — nothing on the front page is edge-injected,
+	// The bar is client-rendered — nothing on the front page is edge-injected,
 	// because this is the site's most important document and it does not get a
-	// fetch-dependent Function in front of it. Without this import the column
-	// ships as an empty, permanently hidden frame.
+	// fetch-dependent Function in front of it. Without this import the bar keeps
+	// its place and never shows.
 	import "../scripts/nyheter";
 </script>
