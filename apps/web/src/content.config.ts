@@ -32,6 +32,10 @@ const articles = defineCollection({
 		// hero. Descriptive only — never a photographer credit (attribution lives in
 		// the ImageObject structured data, never in visible page copy).
 		imageCaption: z.string().optional(),
+		// The hero is a documentary photograph by a named photographer, credited in the
+		// essay's first note (»Bilden överst: …«), and not a picture made for the essay.
+		// It is shown as it was taken: EssayImage leaves the site's tonal wash off it.
+		imageDocumentary: z.boolean().optional(),
 		// Sentences of the essay's own prose, verbatim, lifted out as display pull quotes
 		// on the web page (rehype-pull-quote). Never a Koran verse or a hadith.
 		pullquotes: z.array(z.string().max(180)).max(3).optional(),

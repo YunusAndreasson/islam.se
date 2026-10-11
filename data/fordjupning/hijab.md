@@ -72,6 +72,8 @@ sources:
     url: "https://www.pewresearch.org/religion/2017/11/29/europes-growing-muslim-population/"
   - name: "MUCF/SST: Trossamfund, antal betjänade"
     url: "https://www.mucf.se/rapporter-och-statistik/trossamfund-antal-betjanade"
+  - name: "Bild: de mellanassyriska lagarna, tavla A, Vorderasiatisches Museum, Berlin. Foto Marcus Cyron, Wikimedia Commons, licens CC BY-SA 3.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Pergamonmuseum_-_Vorderasiatisches_Museum_075.JPG"
 related:
   - "vad-ar-hijab"
   - "islams-syn-pa-kvinnan"
@@ -137,6 +139,8 @@ Också i modern tid går skiljelinjerna på oväntade ställen. Muhammad Nasir a
 ## Slöjans historia före islam: assyrisk lag och bysantinsk sed
 
 Täckt hår var ett statusmärke i Främre Orienten långt före islam. De mellanassyriska lagarna från omkring 1100 f.Kr. föreskriver att fria mäns hustrur och döttrar skall bära slöja utomhus och förbjuder uttryckligen slavinnor och prostituerade att göra det, med kroppsstraff för överträdelser.[^15] Bysantinska och sasanidiska överklasskvinnor täckte sig, judisk och kristen praxis pekade i samma riktning, och Paulus krav på att kvinnan skall be med täckt huvud står i första Korintierbrevets elfte kapitel. När sura al-Ahzāb anger igenkänning och skydd mot ofredande som skäl anknyter den till en sed som redan fanns, där ett täckt huvud markerade vem som stod under skydd.
+
+![En sprucken lertavla tätt fylld med kilskrift i kolumner, stående på en vit sockel i en museimonter.](../../apps/web/src/assets/images/inline/medelassyriska-lagen-tavla-a.webp "De mellanassyriska lagarna, tavla A, från Assur omkring 1100 f.Kr. Här står påbudet om vilka kvinnor som skulle bära slöja. Vorderasiatisches Museum, Berlin.")
 
 Under de följande århundradena var praktiken skiktad. Stadsboende och välbeställda kvinnor täckte sig mest fullständigt; bondkvinnor och de som arbetade utomhus gjorde det sällan i den strängare formen. Den som skulle skörda i solen kunde inte arbeta i ett plagg som krävde en hand för att hållas på plats. Ansiktsslöjan var genom hela den islamiska historien ett minoritetsbruk, koncentrerat till vissa städer och samhällsskikt.
 

@@ -4,8 +4,8 @@ publishedAt: "2026-06-05T22:52:56.907Z"
 wordCount: 1438
 qualityScore: 8.8
 description: "För tretusen år sedan frågade en indisk hymn om världen alls blev skapad och lät frågan stå öppen. Carl Sagan hörde vetenskapens ödmjukhet i den. Koranen ser samma himmel och kallar den ett tecken, men ett tecken för dem som tänker efter."
-imageAlt: "Vintergatan välver sig över en ring av höga barrträdstoppar mot en stjärnvimlande natthimmel."
-imageCaption: "Samma stjärnhimmel som siaren såg – Vintergatan över skogen."
+imageAlt: "En person står stilla på en grusväg mellan två mörka åkrar, sedd bakifrån, och ser upp mot en klar natthimmel full av stjärnor; Vintergatan syns som ett blekt band till höger, och vid skogsranden långt bort lyser en ensam gårdslampa."
+imageCaption: "En grusväg mellan åkrarna en klar natt i augusti. Samma himmel som siaren såg, och samma som Koranen kallar ett tecken."
 category: "Skapelsen"
 ---
 Tre tusen år innan någon brydde sig om att räkna åren satt en namnlös siare under den nordindiska natthimlen och försökte säga något sant om världens början. Rigvedas hundratjugonionde hymn i den tionde mandalan – Nasadiya-sukta – är förmodligen den äldsta bevarade dikt som ställer ursprungsfrågan rakt ut, och dess storhet ligger i att den vägrar att låtsas veta.

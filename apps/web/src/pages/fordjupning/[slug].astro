@@ -14,6 +14,7 @@ import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
 import { requireBySlug } from "../../lib/content-refs";
 import { resolveHero } from "../../lib/fordjupning";
+import { figureJsonLd } from "../../lib/inline-images";
 import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 import { pageHeroPreload } from "../../lib/hero-preload";
@@ -108,6 +109,8 @@ const jsonLd: Record<string, unknown>[] = [
 	breadcrumbList(crumbs),
 ];
 if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
+// The photographs set inside the text, each with its licence and credit.
+jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 ---
 
 <Base

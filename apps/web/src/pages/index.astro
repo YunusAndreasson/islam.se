@@ -6,10 +6,8 @@ import FaktaBand from "../components/FaktaBand.astro";
 import FeatureEssay from "../components/FeatureEssay.astro";
 import FordjupningHome from "../components/FordjupningHome.astro";
 import PoddAppHome from "../components/PoddAppHome.astro";
-import Markesdagar from "../components/Markesdagar.astro";
 import Nyheter from "../components/Nyheter.astro";
 import PraktisktHome from "../components/PraktisktHome.astro";
-import TankareGroups from "../components/TankareGroups.astro";
 import SkarmPromo from "../components/SkarmPromo.astro";
 import TradarHome from "../components/TradarHome.astro";
 import { getImage } from "astro:assets";
@@ -83,19 +81,22 @@ const heroPreload = feature?.heroImage
 	<div class="home">
 		<h1 class="sr-only">islam.se – kunskap om islam på svenska</h1>
 
-		{/* THE ORDER (product decisions, 2026-10-10). Four acts, each in the order a
-		    reader needs it:
+		{/* THE ORDER (product decisions, 2026-10-10; DESIGN.md, »The Startpage«). Two
+		    chapters on paper, each followed by a tinted room, and a close:
 
-		      read      the lead and the latest essays; the news of the day as one bar
-		                under them; the essays by ämne, by tema, by the thinkers they
-		                bring to one table
-		      learn     what Islam is, then the same territory taken all the way down
-		      practise  today's prayer times and the mosques, then the year ahead
-		      measure   AI-barometern, last of the mast's own second group
+		      the opening   the lead and the latest essays, the day's news as one bar
+		      chapter 1     the essays two ways: by ämne and by essäserie
+		      room          AI-barometern: what was measured
+		      chapter 2     what Islam is, then the same territory taken all the way down
+		      room          the day and the year as two lines, and the mosques' map
+		      the close     the ways to take it all elsewhere
 
-		    and the ways to take it all elsewhere to close. Things that belong together
-		    stand together (the year under the day, the news under the newest essay), and
-		    what goes stale soonest stands highest. */}
+		    Paper is for what is written and the tint for what is measured, so a change of
+		    ground says a different KIND of thing has begun, twice, not that the next item
+		    has (until this round the grounds alternated by movement: nine stripes, each a
+		    layout of its own, "stuffed … looks good in isolation but doesn't read well as
+		    a whole"). Inside a chapter every section opens the same way: a rule, its
+		    kicker, and the way on (editorial.css, »A rule opens a section«). */}
 		{feature && <FeatureEssay article={feature} also={recent} />}
 
 		{/* The day's news, at the foot of the opening: the newest thing on the page in
@@ -113,92 +114,89 @@ const heroPreload = feature?.heroImage
 			))}
 		</nav>
 
-		<AmnenHome exclude={used} />
+		{/* CHAPTER 1. The essays two ways, shelved by ämne and in reading order by
+		    essäserie, in one design: a tab, a framing line, three picture cards. The
+		    third way through them, by tänkare, stands on /essaer/ since 2026-10-10
+		    ("let's move TÄNKARE into a suitable place in the ESSÄER subpage", user
+		    review): it is a way to browse the archive, and that is where the archive is. */}
+		<div class="home-chapter">
+			<AmnenHome exclude={used} />
+			<TradarHome ids={["folkmordet-i-gaza", "maskinen-och-manniskan", "valet-2026"]} />
+		</div>
 
-		<TradarHome ids={["folkmordet-i-gaza", "maskinen-och-manniskan", "valet-2026"]} />
-
-		{/* The site's thesis, shown rather than declared: the classical tradition and
-		    the Swedish voices in two facing columns, and between them the lines of
-		    the essays in which they meet — derived from the corpus at build time. No
-		    explanatory paragraph; the composition is the argument. On the page's own
-		    ground: as a full-bleed dark band it read as a second site (2026-09-25). */}
-		<TankareGroups limit={6} />
-
-		{/* Facts, then depth: adjacent, but two movements on two grounds. The facts
-		    carry the tint; Fördjupning stands on paper under them. They shared one
-		    tinted region until 2026-09-27, which read as one 2 550px block (user
-		    review, »intryckt«). The grounds alternate by movement all the way down —
-		    paper, tint, paper … — so every change of ground is a boundary and no
-		    tint ever holds two sections (editorial.css). */}
-		<FaktaBand />
-		<FordjupningHome />
-
-		{/* The day, then the year: today's prayer times and their annual rhythm, the
-		    mosque directory and the mosque screen, and under them the next three
-		    observances. The app belongs to the illustrated promotion below. */}
-		<PraktisktHome />
-		<Markesdagar />
-
-		{/* AI-barometern, its own movement since 2026-09-27: a monthly measurement with
-		    its own destination in the mast, after Bönetider and Moskéer there and here. */}
+		{/* The first room. The site's own reporting stands with the site's own writing,
+		    and the monthly before the evergreen: it stood last but one, under the prayer
+		    times, 5 100px down. */}
 		<BarometerRail />
 
-		{/* One common region for ways to take the publication and its tools elsewhere.
-		    The wrapper owns the outer space; its two rows retain their headings. On paper,
-		    the last step of the alternation (editorial.css). The second row is the book and
-		    the mosque screen on the same two halves as the podcast and the app above them. */}
+		{/* CHAPTER 2. Facts, then depth: the pillars and the articles of faith, then the
+		    same territory taken all the way down. */}
+		<div class="home-chapter">
+			<FaktaBand />
+			<FordjupningHome />
+		</div>
+
+		{/* The second room: time and place. The year stands under the day in it, two
+		    lines in one hand; it was a movement of its own under the room until this
+		    round. */}
+		<PraktisktHome />
+
+		{/* One common region for ways to take the publication and its tools elsewhere, on
+		    paper under the second room: four promotions in one grammar (Promo.astro) on
+		    one grid of two halves (editorial.css). The podcast and the app, then the book
+		    and the mosque screen. */}
 		<div class="home-promotions">
 			<PoddAppHome />
-			<div class="home-promotions-par">
-				<BookPod count={articles.length} variant="home" />
-				<SkarmPromo />
-			</div>
+			<BookPod count={articles.length} variant="home" />
+			<SkarmPromo />
 		</div>
 	</div>
 	</main>
 </Base>
 
 <style>
-	/* The doorways — the mast's six destinations, set in the site voice (heading
-	   link + a muted line), whitespace-grouped rather than boxed.
+	/* The doorways — the mast's six destinations, set in the site voice, whitespace-
+	   grouped rather than boxed, under one rule.
 
-	   Shown ONLY where the mast's inline links are hidden —
-	   at or below 900px, the same condition the header uses to collapse its nav into
-	   the "Meny" trigger. On a wide pointer screen those links are already visible in
-	   the mast, so this row would just echo the menu directly beneath it; there it is
-	   hidden. (The links stay in the DOM either way, so crawlers still see them.)
+	   Shown ONLY where the mast's inline links are hidden — at or below 900px, the same
+	   condition the header uses to collapse its nav into the "Meny" trigger. On a wide
+	   pointer screen those links are already visible in the mast, so this row would just
+	   echo the menu directly beneath it; there it is hidden. (The links stay in the DOM
+	   either way, so crawlers still see them, each with the line that says what it is.)
 
-	   Three to a row, two on a phone — never auto-fit: six doorways at an 11rem
-	   minimum drew five on a tablet and left the sixth alone on a row. */
+	   Three to a row, two on a phone — never auto-fit: six doorways at an 11rem minimum
+	   drew five on a tablet and left the sixth alone on a row.
+
+	   ON THE PAGE'S GUTTERS, like everything round them: the page's own between the
+	   three, and one group-space between a phone's two, which is what the phone's other
+	   two-ups have (the six beliefs, the footer). They had a fluid gap of their own
+	   (3vw), and on a phone their second column stood 4px left of the two lists' under
+	   it. All of it is here: half of these rules were also written in editorial.css,
+	   where three of the declarations had been losing to these for as long as both
+	   existed (measured 2026-10-11). */
 	.home-pillars {
 		display: none;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--space-unit) clamp(1.25rem, 3vw, 2.75rem);
-		margin: 0;
 	}
 
 	@media (width <= 56.25rem) {
 		.home-pillars {
 			display: grid;
-			gap: var(--space-half) clamp(1rem, 3vw, 2rem);
-		}
-
-		.home-pillar-desc {
-			display: none;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: var(--space-half) var(--grid-gutter);
+			border-top: 1px solid var(--color-rule);
 		}
 	}
 
 	@media (width <= 37.5rem) {
 		.home-pillars {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
+			column-gap: var(--space-group);
 		}
 	}
 
 	.home-pillar {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		gap: 0.25rem;
+		align-items: center;
 		text-decoration: none;
 		/* A touch of block padding so the tap target clears WCAG 2.5.8 comfortably. */
 		padding-block: 0.2rem;
@@ -226,12 +224,9 @@ const heroPreload = feature?.heroImage
 		text-underline-offset: var(--underline-offset);
 	}
 
+	/* Never painted: where the doorways show there is room for the names only. */
 	.home-pillar-desc {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		line-height: 1.4;
-		color: var(--color-muted);
-		text-wrap: pretty;
+		display: none;
 	}
 
 	.home-pillar:focus-visible {

@@ -242,6 +242,17 @@
 	--surface-1: color-mix(in oklab, var(--color-muted) 5%, var(--color-bg));
 	--surface-2: color-mix(in oklab, var(--color-muted) 9%, var(--color-bg));
 
+	/* A drawn shape — the land of the front page's map of Sweden — which has to read as a
+	   figure on a ground that is itself a surface: the map stands in a tinted room
+	   (--surface-1). It was filled with --surface-2, four points of muted off that room,
+	   ΔL* 2.2: "the color of sweden for moskeer almost has the same color as the
+	   background" (user review, 2026-10-10). At 16 % it is ΔL* 6.1 off the room in the
+	   light scheme and 7.3 in the dark: a silhouette, and still the quietest thing in
+	   the room, under the brass marks drawn on it. Not a panel: nothing with text on it
+	   takes this (muted text would fall under AA), so it is outside the wash and surface
+	   ranks tokens.test.ts holds. */
+	--shape-land: color-mix(in oklab, var(--color-muted) 16%, var(--color-bg));
+
 	/* Two grounds for the front page's two set-piece bands, each used ONCE, so the
 	   page gets a change of paper instead of another hairline (DESIGN.md, »Two
 	   grounds«). --ground-tint is simply --surface-1 carried full-bleed.
@@ -395,6 +406,14 @@
 	   use (2.5, 3, 3.5rem), which put the thirds of Ämnen, Grunden and Trådar 5–10px
 	   apart: close enough to look like an intention, far enough to look like a miss. */
 	--grid-gutter: 3rem;
+	/* The picture card's inside: a photograph, a title, a line under it. Two markups draw
+	   that card (the essay card in layout.css; CardList, which the front page's
+	   Fördjupning sets to the same sizes), and written out in both the numbers had
+	   drifted a pixel apart: the title's leading 1.22 and 1.2, the line's 1.45 and 1.5. */
+	--card-media-gap: 0.85rem;
+	--card-title-leading: 1.22;
+	--card-text-gap: 0.4rem;
+	--card-text-leading: 1.45;
 	--art-width: 76rem;
 
 	/* Layout */

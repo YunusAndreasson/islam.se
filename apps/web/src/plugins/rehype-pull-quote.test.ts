@@ -99,6 +99,30 @@ describe("rehypePullQuote", () => {
 		]);
 	});
 
+	// Regression: a photograph on its own line reaches this pass as <p><img></p>, because
+	// rehype-photo-figure runs later. It used to count as a plain paragraph, so in
+	// »Bokmässans människorättskod …« the pull quote landed directly on top of a figure:
+	// a display line and a photograph with no prose between them. Do not relax `isProse`.
+	it("never stands next to a photograph", () => {
+		const photo = el("p", [el("img", [], { src: "x.webp", alt: "En bild." })]);
+		const tree = root([
+			p("Ett."),
+			p(SENTENCE),
+			long(3),
+			long(4),
+			long(5),
+			long(6),
+			photo,
+			long(7),
+			long(8),
+		]);
+		run(tree, SENTENCE);
+		expect(
+			shape(tree),
+			"a pull quote must keep at least one paragraph of prose between itself and a photograph",
+		).toEqual(["p:Ett.", "p:En", "p:3", "p:4", "p:5", "PQ", "p:6", "p:", "p:7", "p:8"]);
+	});
+
 	it("matches across footnote markers and soft line breaks", () => {
 		const source = el("p", [
 			t("En plikt utan\nadress"),

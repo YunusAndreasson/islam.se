@@ -24,6 +24,8 @@ export interface Article {
 	imageAlt?: string;
 	/** Short visible figcaption under the hero (descriptive — never a credit). */
 	imageCaption?: string;
+	/** The hero is a credited documentary photograph, shown without the tonal wash. */
+	imageDocumentary?: boolean;
 	audioFile?: string;
 	audioDuration?: number;
 	heroImage?: ImageMetadata;
@@ -72,6 +74,7 @@ async function buildArticles(): Promise<Article[]> {
 				...(entry.data.category === undefined ? {} : { category: entry.data.category }),
 				...(entry.data.imageAlt === undefined ? {} : { imageAlt: entry.data.imageAlt }),
 				...(entry.data.imageCaption === undefined ? {} : { imageCaption: entry.data.imageCaption }),
+				...(entry.data.imageDocumentary === true ? { imageDocumentary: true } : {}),
 				...(entry.data.audioFile === undefined ? {} : { audioFile: entry.data.audioFile }),
 				...(entry.data.audioDuration === undefined
 					? {}

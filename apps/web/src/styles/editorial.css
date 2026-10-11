@@ -40,28 +40,49 @@
 	margin-block: var(--space-unit) 0;
 }
 
-/* THE GROUNDS ALTERNATE BY MOVEMENT: paper (the lead, the news bar, and the essays
-   by ämne), tint (Teman), paper (Tänkare), tint (Fakta om islam), paper
-   (Fördjupning), tint (Praktiskt), paper (the Islamic year), tint (AI-barometern),
-   paper (the closing promotions, then the footer under its rule).
-   Every change of ground is a boundary, so no rule or ornament is needed between
-   movements — and no tint ever holds two sections. Until 2026-09-27 two tints did:
-   Fakta + Fördjupning ran 2 550px as one block straight after the cover, and Ämnen
-   + Trådar + Tänkare 1 750px as another, and the live row carried the barometer as
-   a third voice; all of it read as crammed (»intryckt«, user review). Paper may
-   hold two: the opening and Ämnen are one region because they are one subject, the
-   essays (2026-10-10), and the closing promotions keep two rows on one ground
-   because the podcast/app and the book are one group.
-   The alternation is kept by position, not by name: when the essays moved up under
-   the lead Teman took the tint Tänkare had carried, and when the news left its row
-   for the top the barometer took the tint that row had.
+/* TWO ROOMS. Paper is for what is written and the one tint for what is measured: the
+   AI-barometern's answers, and the day, the year and the map. Everything else stands
+   on paper, in two chapters (index.astro), so the page reads paper, room, paper,
+   room, paper: a change of ground says a different KIND of thing has begun.
+
+   Until 2026-10-10 the grounds alternated by movement, kept by position and not by
+   name: paper, tint, paper, tint … nine stripes down the page, the tint falling on
+   whatever stood in an even place (the essäserier, Fakta om islam, the tools, the
+   barometer), each stripe with a layout of its own. Every movement was then a room,
+   so none was, and the page read as modules stacked ("stuffed … might look good in
+   isolation but doesn't read well as a whole", user review). The alternation had
+   itself replaced two shared tints (Fakta + Fördjupning, 2 550px; Ämnen + Trådar +
+   Tänkare, 1 750px), removed on 2026-09-27 for reading as crammed (»intryckt«). What
+   stands from that review: NO TINT HOLDS TWO SECTIONS. A tint has edges, and two
+   things inside one are pressed together; paper has none, and holds a chapter.
+   Sections on one paper are told apart by the rule each opens under (below).
+
    50% is half the canvas; 50cqi is half the window (.front is the container). */
-.front .home :is(.tradar-home, .fakta-band, .praktiskt-home, .barometer-rail) {
+.front .home :is(.barometer-rail, .praktiskt-home) {
 	--color-bg: var(--ground-tint);
 	margin-inline: calc(50% - 50cqi);
 	padding-inline: calc(50cqi - 50%);
-	padding-block: var(--space-phi2);
 	background: var(--color-bg);
+}
+
+/* A ROOM KEEPS THE PAGE'S VERTICAL GRAMMAR: a section space, a line, one group-space, the
+   kicker. Its upper line is the cornice (below), and its kicker hangs one group-space
+   under that, where every section's hangs under its rule. Its lower line is a rule like
+   the sections', drawn along the room's foot, and the section after the room opens
+   under it at the same distance. Until 2026-10-10 a room had a line above and none
+   below, its kicker 5rem under the first, and the section after it began 4rem under a
+   bare edge with no line of its own: »Fakta om islam« was the one section on the page
+   that opened without one ("consider the horizontal lines below and above so the
+   lines blend well with FAKTA OM ISLAM", user review). 0.5rem is the cornice's height. */
+.front .home :is(.barometer-rail, .praktiskt-home) {
+	margin-block: var(--space-section) 0;
+	padding-block: calc(0.5rem + var(--space-group)) var(--space-section);
+	border-bottom: 1px solid var(--color-rule);
+}
+
+.front .home :is(.barometer-rail, .praktiskt-home) ~ .home-chapter > :first-child,
+.front .home .praktiskt-home ~ .home-promotions {
+	margin-top: var(--space-group);
 }
 
 /* THE CORNICE (taklist): along the top edge of each tinted room, the moulding where a
@@ -71,11 +92,11 @@
    marks, so it adds no boundary and counts against no rule budget. Flush with the
    room's top edge, and in two members: a lone row of pearls floating 1.5rem below the
    edge read as a perforation, »cut here«, not as architecture (2026-09-27). */
-.front .home :is(.tradar-home, .fakta-band, .praktiskt-home, .barometer-rail) {
+.front .home :is(.barometer-rail, .praktiskt-home) {
 	position: relative;
 }
 
-.front .home :is(.tradar-home, .fakta-band, .praktiskt-home, .barometer-rail)::before {
+.front .home :is(.barometer-rail, .praktiskt-home)::before {
 	content: "";
 	position: absolute;
 	inset-inline: 0;
@@ -86,43 +107,118 @@
 	pointer-events: none;
 }
 
+/* A RULE OPENS A SECTION THAT FOLLOWS ANOTHER ON THE SAME PAPER, and the head row stands
+   one group-space under it: rule, kicker, the way on. Between two grounds the change of
+   ground is the boundary and no rule is drawn (a rule 4rem under a room's edge would be
+   the same boundary twice). With the grounds no longer alternating by movement,
+   sections follow one another on paper with only air between them, and the air alone
+   did not say where one ended: under the one section that opened beneath a rule, the
+   ones after it read as its contents ("it looks like ESSÄER EFTER ÄMNE contains almost
+   everything", user review 2026-10-10).
+
+   A chapter is the page's own grouping (index.astro, .home-chapter): the sections that
+   share a paper between two rooms. `~`, never `+`: Astro sets a component's script
+   between it and the next one, so an adjacent-sibling selector across two components
+   matches nothing, and did not here.
+
+   The essays by ämne, the chapter's first, open the same way, a full section space under
+   the news bar. The bar has one rule, over it, like any section (nyheter.css): the
+   lower one it had lay between its last headline and this section's label and belonged
+   to both ("very tight in connection with news above … hard to see what belongs
+   together", user review the same evening). */
+.front .home .home-chapter > .home-movement ~ .home-movement,
+.front .home .amnen {
+	border-top: 1px solid var(--color-rule);
+	padding-top: var(--space-group);
+}
+
+/* A ROW OF CARDS THAT SCROLLS SIDEWAYS, below the width where three stand abreast: the
+   essäserier's first three parts and the three fördjupningar. Their three are equals in
+   an order, so they keep one row, the next card's edge showing at the right, where
+   three stacked picture cards were ~1 500px of scroll to pass one section and a lead
+   over a pair ranked »Del 1« above the two after it. The row runs to the screen edges
+   (the negative margin undoes the canvas padding; the padding and the scroll-padding
+   put the first card back on the page's left line), so the card that shows leaves the
+   screen and does not stop short at an invisible margin.
+   One rule for both rows. Each had its own, in its own file, and they had come apart:
+   a card 85% and 78% of the row, a scrollbar drawn and hidden, a focus ring clipped in
+   one and held inside the card in the other (measured 2026-10-11). Unlayered, because
+   CardList's own grid is scoped and unlayered. */
+@media (width < 60rem) {
+	/* Paint containment (content-visibility: auto on .home-movement) would clip the row
+	   at the canvas edge, exactly where the bleed begins. */
+	.front .home :is(.tradar-home[data-home-tabs], .fordjupning-home) {
+		content-visibility: visible;
+	}
+
+	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) {
+		grid-template-columns: none;
+		grid-auto-flow: column;
+		/* Two cards and a part of the third on a tablet. */
+		grid-auto-columns: 42%;
+		column-gap: var(--space-group);
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--safe-left);
+		margin-inline: calc(-1 * var(--safe-left)) calc(-1 * var(--safe-right));
+		padding-inline: var(--safe-left) var(--safe-right);
+		/* Room for the scrollbar where the platform draws one; it is left as drawn. */
+		padding-bottom: var(--space-half);
+	}
+
+	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) > li {
+		scroll-snap-align: start;
+	}
+
+	/* The scroller clips a ring drawn outside a card: hold keyboard focus inside it. */
+	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) > li > a:focus-visible {
+		outline-offset: -2px;
+	}
+}
+
+/* One card and the next one's edge on a phone. */
+@media (width < 40rem) {
+	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) {
+		grid-auto-columns: 80%;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) {
+		scroll-behavior: smooth;
+	}
+}
+
+/* THE CLOSE STANDS ON THE PAGE'S GRID: twelve columns, one gutter (DESIGN.md, »One grid«).
+   Four promotions on two halves, a section space between the rows; inside a half the
+   words take four columns and the drawing two (Promo.astro). So the left-hand
+   promotions' kicker, title and links stand on the page's left line (x 107 at 1440),
+   where every section's kicker stands, and the right-hand ones' on its centre line
+   (739), where the footer's »Praktiskt« stands under them. The drawing stood first, in a
+   10rem column behind a gap of 1.75rem, and the words began at 295 and 927: on no line
+   of the page, the second 23px short of »Moskéer« directly over it ("PRAKTISKT and the
+   illustrations don't land perfectly, then the footer … something doesn't feel
+   balanced", user review 2026-10-10). That 1.75rem was also the one column gap on the
+   page that was not the gutter.
+   One grid for the four: the podcast and the app had a grid of their own and the book
+   and the mosque screen a second, written alike in two files.
+   As much air under the last row as over the first: the wrapper's margin and the
+   footer's own (--space-phi) do not collapse, <main> being a container, so the
+   wrapper carries the difference. It had none, and the block stood 15px nearer the
+   footer's rule than the room's edge. */
 .home .home-promotions {
 	display: grid;
-	row-gap: var(--space-section);
-	margin-block: var(--space-section) 0;
-}
-
-.home .home-promotions > .podd-app,
-.home .home-promotions-par > :is(.bookpod--home, .skarm-promo) {
-	margin: 0;
-	min-inline-size: 0;
-}
-
-/* The book and the mosque screen: the two halves PoddAppHome sets for the podcast and
-   the app (same gap, same 48rem turn), so the four promotions stand on one grid. */
-.home .home-promotions-par {
-	display: grid;
-	gap: var(--space-phi) var(--grid-gutter);
+	gap: var(--space-section) var(--grid-gutter);
+	margin-block: var(--space-section) calc(var(--space-section) - var(--space-phi));
 }
 
 @media (width >= 48rem) {
-	.home .home-promotions-par {
+	.home .home-promotions {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-.home .home-masthead {
-	margin-top: var(--space-group);
-}
-/* Top rule only: the second tier's own border-top closes the row, and a bottom
-   rule here drew a second hairline 40px above it. */
-.home .home-pillars {
-	gap: 0;
-	border-top: 1px solid var(--color-rule);
-}
-.home .home-pillar {
-	padding-block: var(--space-control);
-}
 .media-frame::after {
 	opacity: 0.025;
 }
@@ -243,6 +339,41 @@ a:focus-visible .media-frame::before {
 	columns: 2;
 	column-gap: var(--space-group);
 }
+/* ON THE PAGE'S ONE GUTTER from 60rem, so the four columns are the canvas's quarters:
+   Läs in the left half, its second column on the first quarter line, Praktiskt on the
+   centre line and Om islam.se on the third quarter line (107, 423, 739 and 1055 at
+   1440). With a gutter of its own (1.5rem) they fell on 417, 727 and 1037: twelve pixels
+   off the centre line every halved section above the footer turns on. */
+@media (width >= 60rem) {
+	.site-footer .site-footer-nav {
+		column-gap: var(--grid-gutter);
+	}
+	.footer-group:first-child ul {
+		column-gap: var(--grid-gutter);
+	}
+}
+/* WHERE THE PROMOTIONS OVER IT STAND IN HALVES BUT THE QUARTERS DO NOT YET FIT (48–60rem),
+   the page's gutter cannot stand between all four columns: at 768 they would be 143px
+   wide and »Redaktionella principer« (152px) breaks over two lines. So it stands where
+   the page turns, between the footer's halves. Läs is the left half, its two columns a
+   group-space apart; Praktiskt begins the right half, on the centre line the
+   promotions turn on directly above it (403 at 768, where it stood on 391), and Om
+   islam.se a group-space beyond. Four link columns of one width, as before, 6px
+   narrower. Not under 48rem: there the promotions are one column, there is no centre
+   line over the footer to meet, and at an iPad mini's 744px the narrower columns
+   would break that link. */
+@media (48rem <= width < 60rem) {
+	.site-footer .site-footer-nav {
+		grid-template-columns:
+			calc((100% + var(--grid-gutter)) / 2 - var(--space-group))
+			minmax(0, 1fr)
+			minmax(0, 1fr);
+	}
+	.footer-group:first-child {
+		grid-column: auto;
+		padding-inline-end: calc(var(--grid-gutter) - var(--space-group));
+	}
+}
 .footer-group li {
 	break-inside: avoid;
 }
@@ -360,12 +491,6 @@ a:focus-visible .media-frame::before {
 	}
 }
 @media (width <= 37.5rem) {
-	.home .home-pillars {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-	.home .home-pillar-title {
-		font-size: var(--step--1);
-	}
 	.site-footer .site-footer-nav {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

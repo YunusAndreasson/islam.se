@@ -4,6 +4,7 @@ publishedAt: "2026-06-01T21:56:42.948Z"
 wordCount: 1767
 qualityScore: 8.7
 description: "Lyckoforskningen talar om ett hedonistiskt löpband, där varje förbättring slukas innan vi hunnit glädjas åt den. Koranens ord för otacksamhet, kufr, betydde från början att täcka över, som bonden täcker sitt utsäde med jord. Botemedlet är tacksamhet, och tacksamhet behöver någon att tacka."
+category: "Själen"
 ---
 Telefonen du väntade på i månader låg till slut i din hand. Första dagen var den ett under. Efter en vecka var den bara telefonen. Efter en månad såg du reporna i glaset och bilderna på nästa modell. Ingenting hos föremålet hade ändrats. Något hos ditt seende hade det.
 

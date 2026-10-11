@@ -1,11 +1,11 @@
 ---
-title: "Solen sörjde inte Profetens ﷺ son"
+title: "Linné läste Guds dom i andras olyckor"
 publishedAt: "2026-06-05T22:02:42.925Z"
 wordCount: 1106
 qualityScore: 8.8
-description: "Den dag Profetens ﷺ lille son Ibrahim dog förmörkades solen, och folket sade att himlen sörjde med honom. Profeten ﷺ rättade dem. Linné gick åt andra hållet och samlade i Nemesis divina hundratals öden där han såg Guds straff utdelas redan i detta liv."
-imageAlt: "Man i 1700-talsperuk skriver med gåspenna vid levande ljus, omgiven av pressade växter och handskrivna blad vid ett fönster mot en mörk sjö."
-imageCaption: "Vid stearinljuset förde han räkenskap över rättvisan som mörknar för ingen."
+description: "En fogde lät hänga en bonde och slutade själv i samma galge. Linné såg Guds dom i det och samlade hundratals sådana öden. Den dag Profetens ﷺ lille son Ibrahim dog förmörkades solen, och folket sade att himlen sörjde. Profeten ﷺ rättade dem."
+imageAlt: "Ett slitet skrivbord vid ett spröjsat fönster i grått dagsljus: en uppslagen herbariepärm med en pressad växt, en bunt handskrivna blad med en gåspenna lagd över dem och två gamla böcker; på väggen till höger sitter äldre botaniska planscher."
+imageCaption: "En herbariepärm och en bunt handskrivna blad vid fönstret. Sina sista årtionden skrev Linné på något han höll för sig själv."
 category: "Skapelsen"
 ---
 Ingen har bringat världen i ordning så grundligt som Carl von Linné. Han gav arterna deras dubbla namn, fördelade det levande i klasser och ordningar och lärde Europa att läsa naturen som ett register. Ändå ägnade han sina sista årtionden, i det tysta, åt något som var taxonomins raka motsats. I ett efterlämnat manuskript, skrivet för sonens ögon och annars hållet för sig själv, slutade han att sortera. Där började han tyda.

@@ -29,7 +29,7 @@ const path = Astro.url.pathname;
 //     needs the index.
 const index = await buildPaletteIndex();
 const amnen = index.filter((e) => e.type === "Ämne");
-const tradar = index.filter((e) => e.type === "Tema");
+const tradar = index.filter((e) => e.type === "Essäserie");
 const sunni = index.filter((e) => e.type === "Tänkare" && e.group === "sunni");
 const western = index.filter((e) => e.type === "Tänkare" && e.group === "western");
 const tankareCount = sunni.length + western.length;
@@ -41,7 +41,7 @@ const paletteDestSections = [
 
 const paletteChipSections = [
 	{ heading: "Ämnen", links: amnen },
-	{ heading: "Teman", links: tradar },
+	{ heading: "Essäserier", links: tradar },
 ];
 
 const paletteThinkerGroups = [

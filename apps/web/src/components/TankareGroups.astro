@@ -2,6 +2,7 @@
 import { type Tankare, getTankare, tankarePairs } from "../lib/tankare";
 import HomeHead from "./HomeHead.astro";
 import MarkDot from "./MarkDot.astro";
+import SectionLink from "./SectionLink.astro";
 
 // `limit` turns the full directory into a balanced glimpse: the most-present voices
 // on each side, capped to equal-length columns so the facing composition reads
@@ -12,11 +13,18 @@ import MarkDot from "./MarkDot.astro";
 // it: /essaer/ shows the same glimpse inside an ordinary 64rem canvas with no .front
 // container to bleed against, where a dark box would be a panel, not a change of
 // paper.
+//
+// `opening` is the composition on /essaer/: the section's own words in the first third
+// of the canvas and the drawing across the other two, instead of a head row over a
+// figure centred in the page. It was made for the front page (2026-10-10) and moved to
+// the archive the same evening, where it stands under the essäserier, before the
+// shelves. Without it the glimpse is the head row and the centred figure.
 interface Props {
 	limit?: number;
 	band?: boolean;
+	opening?: boolean;
 }
-const { limit, band = false } = Astro.props;
+const { limit, band = false, opening = false } = Astro.props;
 
 const thinkers = await getTankare();
 const sunni = thinkers.filter((t) => t.tradition === "sunni");
@@ -65,11 +73,30 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 
 {limit ? (
 	<section
-		class:list={["tankare-home", "tankare-dialogue-home", "home-movement", { bleed: band, "ground-ink": band }]}
+		class:list={[
+			"tankare-home",
+			"tankare-dialogue-home",
+			"home-movement",
+			{ "tankare-med-oppning": opening, bleed: band, "ground-ink": band },
+		]}
 		aria-labelledby="tankare-home-kicker"
 	>
-		<HomeHead label="Tänkare" id="tankare-home-kicker" href="/tankare/" linkLabel="Alla tänkare" />
-		<div class="tankare-dialog">
+		{opening ? (
+			<>
+				<h2 class="label home-kicker tankare-kicker" id="tankare-home-kicker">Tänkare</h2>
+				{/* The Tänkare page's own ingress, and then what the drawing draws: lines
+				    with no caption are ornament, and this is the one place the archive
+				    says what the essays do. */}
+				<p class="tankare-lead">
+					De röster essäerna återvänder till: den klassiska islamiska traditionen, och de svenska
+					och västerländska tänkare som läses tillsammans med den. Linjerna visar vilka som oftast
+					möts i samma essä.
+				</p>
+			</>
+		) : (
+			<HomeHead label="Tänkare" id="tankare-home-kicker" href="/tankare/" linkLabel="Alla tänkare" />
+		)}
+		<div class="tankare-dialog" style={`--rows: ${rows}`}>
 			<p class="label tankare-group-label tankare-label-a">{classical.label}</p>
 			{/* The khatam that breaks the axis at the foot of an essay (Motet.astro), set
 			    where the two column heads face each other: the meeting point, above the
@@ -126,6 +153,12 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 				))}
 			</ul>
 		</div>
+
+		{opening && (
+			<p class="tankare-more">
+				<SectionLink href="/tankare/">Alla tänkare</SectionLink>
+			</p>
+		)}
 
 		{/* The lines are drawing, and drawing is silent: the same facts, as text. */}
 		<ul class="sr-only" aria-label="Oftast i samma essäer">
@@ -418,6 +451,93 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 
 	.tankare-dialog a:is(:hover, :focus-visible) .tankare-name {
 		color: var(--color-text);
+	}
+
+	/* ---- The opening composition (`opening`; on /essaer/) -------------------------
+
+	   THE OPENING AND THE DRAWING SIDE BY SIDE (2026-10-10). The movement was a head
+	   row over a figure 46rem wide, centred in a 76rem canvas: 270px of empty paper
+	   either side of twelve names, between two movements that fill the canvas with
+	   three columns of text. Scrolling, the page went dense, nearly empty, dense. Now
+	   the first third holds the movement's words — its kicker, the Tänkare page's own
+	   ingress, what the lines mean, the way on — and the drawing takes the other two
+	   thirds, which is the width it was drawn for (49.7rem against its 46). The three
+	   labels stand on one line, as Grunden's do, and the names start on the ingress's
+	   first line. One column below 60rem: words, drawing, link. */
+	.tankare-lead {
+		margin: 0;
+		max-width: 34em;
+		font-size: var(--step-0);
+		line-height: 1.55;
+		color: var(--text-body);
+		text-wrap: pretty;
+	}
+
+	.tankare-more {
+		margin: var(--space-unit) 0 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+	}
+
+	.tankare-med-oppning > .tankare-kicker {
+		margin-bottom: var(--space-half);
+	}
+
+	@media (width >= 60rem) {
+		.tankare-med-oppning {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			/* The labels' line, the ingress, the way on. The drawing spans all three. */
+			grid-template-rows: auto auto 1fr;
+			gap: var(--space-group) var(--grid-gutter);
+		}
+
+		.tankare-med-oppning > .tankare-kicker {
+			grid-column: 1;
+			grid-row: 1;
+			align-self: center;
+			margin: 0;
+		}
+
+		.tankare-med-oppning > .tankare-lead {
+			grid-column: 1;
+			grid-row: 2;
+		}
+
+		.tankare-med-oppning > .tankare-more {
+			grid-column: 1;
+			grid-row: 3;
+			align-self: start;
+			margin: 0;
+		}
+
+		.tankare-med-oppning > .tankare-dialog {
+			grid-column: 2 / 4;
+			grid-row: 1 / 4;
+			grid-template-rows: subgrid;
+			align-items: start;
+			max-inline-size: none;
+			margin: 0;
+		}
+
+		.tankare-med-oppning .tankare-group-label,
+		.tankare-med-oppning :global(.tankare-meet) {
+			align-self: center;
+			margin-bottom: 0;
+		}
+
+		.tankare-med-oppning :is(.tankare-col-a, .tankare-col-b) {
+			grid-row: 2 / 4;
+		}
+
+		/* The lists' own box, not the area's: where the opening runs longer than the
+		   names the area is taller than they are, and lines stretched to it would land
+		   between two names. */
+		.tankare-med-oppning .tankare-lines {
+			grid-row: 2 / 4;
+			inset: 0 0 auto;
+			height: calc(var(--rows) * var(--row));
+		}
 	}
 
 	/* Phone: the columns stay FACING — stacked, the drawing has nowhere to go and the

@@ -51,6 +51,8 @@ sources:
     url: "https://www.pewresearch.org/religion/2025/06/09/how-the-global-religious-landscape-changed-from-2010-to-2020/"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Villkoren för lā ilāha illā Allāh"
     url: "https://islamqa.info/en/answers/12295"
+  - name: "Bild: mynt ur Spillingsskatten, Gotlands museum. Foto W.carter, Wikimedia Commons, licens CC BY-SA 4.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Iraq_silver_coins_Spillings_Hoard.jpg"
 related:
   - "vad-ar-tawhid"
   - "hur-blir-man-muslim"
@@ -98,5 +100,7 @@ Vilken tyngd orden *lā ilāha illā Allāh* bär beskriver Ibn al-Qayyim i *ad-
 Vittnesmålet följer muslimen genom hela livet. Det ropas ut i böneutropet (*adhān*), upprepas i *tashahhud* i varje föreskriven bön och är helst det sista en muslim säger före döden.
 
 I Klippdomen, som står inom al-Aqsa i Jerusalem, löper formeln i gyllene kufiska bokstäver längs arkaderna, i en inskrift som själv anger året 72 efter hijra, alltså 691–692. Tvåhundra år senare nådde den svensk jord: arabiska dirhemer, präglade med trosbekännelsen i kufisk skrift, är den vanligaste mynttypen i svenska vikingatida skattfynd, och i Spillingsskatten på Gotland utgör de merparten av omkring 14 300 mynt.
+
+![Rader av arabiska silvermynt med kufisk skrift mot blå botten, vart och ett med en liten skylt som anger präglingsåret.](../../apps/web/src/assets/images/inline/spillingsskatten-arabiska-silvermynt.webp "Arabiska silvermynt ur Spillingsskatten på Gotland, präglade mellan 738 och 861. Gotlands museum, Visby.")
 
 Formeln har inte ändrats sedan dess, och samma ord läses i dag i *tashahhud* i svenska moskéer. Bland världens omkring två miljarder muslimer är shahada den mening som alla delar, oavsett språk och rättsskola.

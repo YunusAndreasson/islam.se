@@ -96,6 +96,8 @@ Den beläste protesterar genast, och invändningen väger tungt.
 
 Islams mest kända begravningsplats, al-Baqīʿ i Medina, är i dag ett fält av låga, namnlösa kullar. Efter jämningen 1926 går de enskilda följeslagarnas gravar inte längre att peka ut. Om markeringen är en plikt – hur kan den muslimska världen leva med detta?
 
+![Ett sandfält med hundratals låga gravkullar, var och en med en mörk, ohuggen sten; i fjärran minareter och en grön kupol.](../../apps/web/src/assets/images/inline/al-baqi-medina-gravkullar.webp "Al-Baqīʿ i Medina, juli 2021: låga kullar med en omärkt sten vid huvudändan. I bakgrunden Profetens ﷺ moské.")
+
 Svaret måste börja med ett erkännande: förlusten är verklig. Men handsbredden reses "för att man skall veta att det är en grav", inte för att man skall veta vems. Vid al-Baqīʿ säger varje kulle fortfarande just detta. Man kan undvika den. Man kan stanna vid den och be om barmhärtighet för den som ligger under. Bägge plikterna går att fullgöra vid varje enskild grav. Det som gick förlorat i Medina var namnet. Det som stryks i minneslunden är punkten.
 
 Också fattigmannens gravkulle på det allmänna varvet var en punkt. Den var namnlös, inte adresslös. De hemmavarande visste vilken kulle som var deras och gick dit.
@@ -150,7 +152,7 @@ Om människan säger Koranen: "Sedan lät Han honom dö och gav honom en grav."[
 
 ---
 
-[^1]: Bellmanssällskapet, "Bellmans Stockholm", bellman.org.
+[^1]: Bellmanssällskapet, "Bellmans Stockholm", bellman.org. Bilden i texten: Saleh Al Hussain, al-Baqīʿ i Medina, 20 juli 2021, [via Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Al-Baqi_Cemetery_2021.jpg), licens [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); beskuren.
 [^2]: Lagunda församling, Svenska kyrkan, "Kyrkogårdens historia – från gravkullar till minneslundar".
 [^3]: Ahmad ibn Fadlan, *Risāla* (skildringen av rusernas begravning vid Volga, 922). Parafras, ej citat.
 [^4]: *Hávamál*, str. 72. Övers. från fornisländskan.

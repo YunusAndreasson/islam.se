@@ -129,6 +129,18 @@ describe("raden", () => {
 		expect(html).not.toContain("The Times of Israel");
 	});
 
+	// The bar sets a headline over its stamp, so the headline has the whole width of
+	// its column: with the clock in front of it one headline in ten ended in an
+	// ellipsis on the front page's thirds (2026-10-11). The order in the markup is the
+	// order on the page, so a reader who hears the list hears it the way it is set.
+	it("puts the rail's headline before its stamp", () => {
+		const html = radHtml(nyhet(), { variant: "rail", now: NU });
+		expect(
+			html.indexOf("nyhet-titel"),
+			"the bar's stylesheet lays a row out as headline, then stamp; the markup must be in that order",
+		).toBeLessThan(html.indexOf("nyhet-meta"));
+	});
+
 	// The whole point of the redesign: the reader is sent inward, to the notice on
 	// islam.se, not outward to a site they have never heard of.
 	it("links the rail headline inward to /nyheter/, never to zuhd", () => {
@@ -271,15 +283,16 @@ describe("esc", () => {
 // the news was the loudest thing on the page (2026-09-25); zuhd publishes ~55/day,
 // and "Alla nyheter →" is what carries the rest.
 //
-// Three is also a layout contract. The bar holds its place before the fetch lands, at
-// the height of ONE row of thirds on a wide screen and three rows in one column
-// (nyheter.css). A fourth notice would open a row the page did not hold a place for,
-// and the essays under the bar would move when the news arrived.
-it("keeps the front page's news to the three rows its bar holds a place for", () => {
+// Six is also a layout contract. The bar holds its place before the fetch lands, at
+// the height of two rows of thirds on a wide screen, three rows of halves on a tablet
+// and six notices in one column (`--remsa-rader` in nyheter.css). A seventh notice
+// would open a row the page did not hold a place for, and the essays under the bar
+// would move when the news arrived.
+it("keeps the front page's news to the six rows its bar holds a place for", () => {
 	expect(
 		RAIL_ANTAL,
-		"the news bar reserves one row of three; more rows shift the page when the fetch lands",
-	).toBeLessThanOrEqual(3);
+		"the news bar reserves room for six headlines; more shift the page when the fetch lands, and nyheter.css must be changed with the count",
+	).toBeLessThanOrEqual(6);
 });
 
 describe("nyhetsdygnet", () => {

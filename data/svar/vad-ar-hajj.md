@@ -46,6 +46,12 @@ sources:
     url: "https://www.stats.gov.sa/en/w/news/194"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Kvinna på hajj utan mahram"
     url: "https://islamqa.info/en/answers/34380"
+  - name: "Bild överst: Kaba under vallfärden 2018. Foto Adli Wahid, Wikimedia Commons, licens CC BY-SA 4.0"
+    url: "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg"
+  - name: "Bild: tältstaden Mina, november 2011. Foto Arisdp, Wikimedia Commons, licens CC BY-SA 3.0"
+    url: "https://commons.wikimedia.org/wiki/File:Mina%27s_tents.JPG"
+  - name: "Bild: ʿArafat, 31 augusti 2017. Foto saudipics, Wikimedia Commons, licens CC BY-SA 4.0"
+    url: "https://commons.wikimedia.org/wiki/File:Mount_Arafat3.jpg"
 related:
   - "vad-ar-kaba"
   - "eid-al-fitr-och-eid-al-adha"
@@ -70,9 +76,13 @@ Hajj är bunden till en enda månad i året, *dhū-l-hijja*, den tolfte i den is
 > Kungör för människorna [plikten att fullgöra] vallfärden. De skall komma till dig till fots och ridande på alla slag av snabbfotade riddjur och de skall komma från alla håll och från avlägsna trakter.
 > — Koranen 22:27
 
+![Tusentals vita, spetsiga tält i raka rader under strålkastare i natten, med berg i bakgrunden.](../../apps/web/src/assets/images/inline/mina-taltstaden-under-hajj.webp "Tältstaden Mina under vallfärden i november 2011.")
+
 ## Vilka är de viktigaste riterna under hajj?
 
 Vallfärden börjar med att pilgrimen vid en bestämd gränsstation (*mīqāt*) träder in i vigningstillståndet *ihrām* och tar på sig pilgrimsdräkten, för männen två sömlösa vita tygstycken. Därefter följer en fast ordning. Först kommer *tawāf*, sju varv runt Kaba, och *saʿy*, sju vandringar mellan höjderna Safa och Marwa till minne av Hagars sökande efter vatten åt sin son Ismael. Koranen räknar de två höjderna bland Guds egna symboler (2:158). Den 9:e följer den centrala riten, *wuqūf*, då pilgrimen står på ʿArafat i bön och åkallan; utan den är hela vallfärden ogiltig. Natten tillbringas i Muzdalifa, varpå pilgrimen i Mina kastar sten mot pelarna (*jamarāt*), slaktar ett offerdjur i samband med offerfesten Eid al-Adha och klipper håret. Sedan går färden tillbaka till Mecka för *tawāf al-ifāda*, vallfärdens andra oumbärliga rit, och till sist tar pilgrimen farväl av Huset med en avslutande *tawāf*.
+
+![En klippig kulle täckt av pilgrimer i vita dräkter, många med parasoll; på krönet står en vit pelare.](../../apps/web/src/assets/images/inline/arafat-vallfardens-viktigaste-dag.webp "Pilgrimer på ʿArafat den 31 augusti 2017, dagen för vallfärdens viktigaste rit.")
 
 ## Vem är skyldig att vallfärda och vad krävs?
 

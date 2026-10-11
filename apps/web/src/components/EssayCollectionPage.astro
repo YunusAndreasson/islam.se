@@ -14,6 +14,8 @@ interface Props {
 	countText: string;
 	backHref: string;
 	backLabel: string;
+	/** An essäserie: the list is a reading order, and each row says which part it is. */
+	numbered?: boolean;
 	ogImage?: string;
 	jsonLd: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -27,6 +29,7 @@ const {
 	countText,
 	backHref,
 	backLabel,
+	numbered = false,
 	ogImage,
 	jsonLd,
 } = Astro.props;
@@ -43,8 +46,36 @@ const {
 			<p class="label collection-count">{countText}</p>
 		</ArticleHeader>
 
-		<EssayList articles={essays} />
+		<EssayList articles={essays} {...(numbered ? { class: "collection-delar" } : {})} />
 
 		<p class="collection-back"><SectionLink href={backHref}>{backLabel}</SectionLink></p>
 	</main>
 </Base>
+
+<style>
+	/* AN ESSÄSERIE IS READ IN ORDER, and the page says so on every row: »Del 1«, »Del 2«
+	   over the title, counted by the list itself. Without it the series page was the
+	   ämne page with fewer rows, which is half of why the two were mistaken for one
+	   another (user review, 2026-10-10). The counter sits in the title, so a screen
+	   reader hears »Del 3, …« as the link's name.
+	   ⚠️ :global — the list and its rows are EssayList's and EssayArchiveItem's. */
+	:global(.collection-delar) {
+		counter-reset: del;
+	}
+
+	:global(.collection-delar > .archive-item) {
+		counter-increment: del;
+	}
+
+	:global(.collection-delar .archive-title)::before {
+		content: "Del " counter(del);
+		display: block;
+		margin-bottom: 0.25rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 400;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--text-meta);
+	}
+</style>

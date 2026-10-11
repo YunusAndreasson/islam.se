@@ -28,7 +28,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 			<h2 class="grunden-title" id="fakta-band-title">
 				<a href="/vad-ar-islam/">Vad är islam?</a>
 			</h2>
-			<p class="grunden-lead">
+			<p class="grunden-lead home-ingress">
 				Islam bygger på tron på en enda Gud och på Muhammed ﷺ som hans sändebud.
 			</p>
 			<ul class="grunden-vidare" role="list">
@@ -195,10 +195,6 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 	.grunden-lead {
 		margin: 0;
 		max-width: 34em;
-		font-size: var(--step-0);
-		line-height: 1.55;
-		color: var(--text-body);
-		text-wrap: pretty;
 	}
 
 	.grunden-group + .grunden-group {
@@ -296,11 +292,13 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 	}
 
 	/* Below the three columns the beliefs stand in pairs. Tablet widths keep their
-	   glosses; phones show the terms. */
+	   glosses; phones show the terms. The pairs stand on the page's gutter, so their
+	   second column is on the centre line the news and the promotions turn on (it stood
+	   12px left of it at 768, on a 24px gap of its own); a phone's two-ups share one
+	   group-space, as the doorways' and the footer's do. */
 	@media (width < 60rem) {
 		.grunden-tro {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: var(--space-group) var(--space-unit);
 		}
 
 		.grunden-tro .grunden-term {
@@ -311,6 +309,12 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 	@media (width < 48rem) {
 		.grunden-tro .grunden-blurb {
 			display: none;
+		}
+	}
+
+	@media (width < 40rem) {
+		.grunden-tro {
+			column-gap: var(--space-group);
 		}
 	}
 

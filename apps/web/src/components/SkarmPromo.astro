@@ -4,106 +4,27 @@
 // Podd and App stood side by side and the book alone under them, with the row's right
 // half empty. The mosque screen is the site's fourth thing to take away, and the only one
 // made for a mosque and not for one reader, so it stands there (2026-10-04). Same grammar
-// as the other three (PoddAppHome, BookPod): the series' drawing in the 10rem column, a
-// kicker, a title, one line and the way in.
+// as the other three (Promo.astro): the series' drawing, a kicker, a title, one line and
+// the way in.
 import { Tv } from "@lucide/astro";
 import { RITNINGAR } from "../lib/ritningar";
-import Ritning from "./Ritning.astro";
+import Promo from "./Promo.astro";
 
 // ⚠️ The trailing slash is load-bearing: Cloudflare 308s the slash-less form.
 const href = "/bonetider/skarm/";
 ---
 
-<section class="skarm-promo" aria-labelledby="skarm-promo-rubrik">
-	<a class="skarm-promo-mark" href={href} tabindex="-1" aria-hidden="true">
-		<Ritning {...RITNINGAR.skarmen} hojd={[7, 10]} bredd={[7, 10]} />
+<Promo
+	id="skarm-promo-rubrik"
+	kicker="Moskéskärm"
+	titel="Bönetiderna i moskéns entré"
+	href={href}
+	ritning={RITNINGAR.skarmen}
+>
+	Dagens bönetider och moskéns iqāma-tider på en tv. Välj moské, öppna skärmen och låt den stå
+	på.
+	<a slot="lankar" class="podcast-action" href={href}>
+		<Tv size={14} stroke-width={1.75} />
+		Ställ in skärmen
 	</a>
-	<div class="skarm-promo-text">
-		<h2 class="label home-kicker skarm-promo-kicker" id="skarm-promo-rubrik">Moskéskärm</h2>
-		<h3 class="skarm-promo-titel">
-			<a href={href}>Bönetiderna i moskéns entré</a>
-		</h3>
-		<p class="skarm-promo-rad">
-			Dagens bönetider och moskéns iqāma-tider på en tv. Välj moské, öppna skärmen och låt den
-			stå på.
-		</p>
-		<div class="skarm-promo-knappar">
-			<a class="podcast-action" href={href}>
-				<Tv size={14} stroke-width={1.75} />
-				Ställ in skärmen
-			</a>
-		</div>
-	</div>
-</section>
-
-<style>
-	/* The drawing above its words through tablet widths, beside them once the shared
-	   10rem column has room — PoddAppHome's and BookPod's breakpoints, so the four
-	   promotions change shape together. */
-	.skarm-promo {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr);
-		row-gap: var(--space-unit);
-		align-items: start;
-	}
-
-	@media (width >= 64rem) {
-		.skarm-promo {
-			grid-template-columns: 10rem minmax(0, 1fr);
-			column-gap: 1.75rem;
-		}
-	}
-
-	/* No hover lift: a transform isolates the drawing's blend and shows its paper as a
-	   square (Ritning.astro). */
-	.skarm-promo-mark {
-		display: block;
-		justify-self: start;
-	}
-
-	@media (width >= 64rem) {
-		.skarm-promo-mark {
-			justify-self: end;
-		}
-	}
-
-	.skarm-promo-kicker {
-		margin: 0;
-	}
-
-	.skarm-promo-titel {
-		margin: var(--space-half) 0 0;
-		font-size: var(--step-1);
-		font-weight: 600;
-		line-height: 1.25;
-		text-wrap: balance;
-	}
-
-	.skarm-promo-titel a {
-		color: var(--color-text);
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-			text-decoration-thickness: 1px;
-			text-underline-offset: 0.12em;
-		}
-	}
-
-	.skarm-promo-rad {
-		max-inline-size: 32rem;
-		margin: 0.35rem 0 0;
-		font-size: var(--step--1);
-		line-height: 1.5;
-		color: var(--text-body);
-		text-wrap: pretty;
-	}
-
-	.skarm-promo-knappar {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.5rem;
-		margin-top: var(--space-unit);
-	}
-</style>
+</Promo>

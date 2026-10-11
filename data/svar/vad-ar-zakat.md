@@ -54,6 +54,8 @@ sources:
     url: "https://islamqa.info/en/answers/145600"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Nisab (85 g guld, 595 g silver)"
     url: "https://islamqa.info/en/answers/64"
+  - name: "Bild: gulddinar präglad i Damaskus 697–698, American Numismatic Society (fri från upphovsrätt)"
+    url: "https://commons.wikimedia.org/wiki/File:Gold_dinar_of_Abd_al-Malik_697-98.png"
 related:
   - "sa-ber-man-steg-for-steg"
   - "eid-al-fitr-och-eid-al-adha"
@@ -93,6 +95,8 @@ Hadithen återges också i Sahīh Muslim 16. Plikten upprepas över trettio gån
 ## Hur mycket zakat ska man betala?
 
 Den vanliga satsen är 2,5 procent av det sparade överskottet per år, en fjärdedel av en tiondel. Plikten har två villkor. För det första måste förmögenheten nå *nisāb*, den minsta nivån: i klassisk rätt 20 gulddinarer eller 200 silverdirhamer, i dag omkring 85 gram guld eller 595 gram silver i värde. För det andra måste man ha ägt detta överskott i ett helt månår, en period som kallas *hawl*. Zakat på pengar och förmögenhet kallas *zakāt al-māl*. Hur den räknas på smycken, lön, handelsvaror och skulder behandlas utförligt i den klassiska rättslitteraturen. Den som äger mindre än nisāb, eller nyss kommit över gränsen, är inte skyldig något alls. Först när båda villkoren är uppfyllda förfaller beloppet, och då som en skuld, inte som en gåva.
+
+![Fram- och baksidan av ett guldmynt som är helt fyllt med arabisk skrift i raka rader, med en skriftrad längs kanten.](../../apps/web/src/assets/images/inline/gulddinar-abd-al-malik-damaskus.webp "Gulddinar präglad i Damaskus 697–698 under kalifen ʿAbd al-Malik. Tjugo sådana mynt är den klassiska gränsen för zakat.")
 
 ## Vem får ta emot zakat?
 

@@ -44,6 +44,8 @@ sources:
   - name: "Ibn Taymiyya, al-Qawāʿid an-nūrāniyya"
   - name: "al-ibadah.com – Bönens praktik"
     url: "https://al-ibadah.com/bon/praktiska-detaljer-i-bonen"
+  - name: "Bild: al-Fātiha i västafrikansk handskrift, Chester Beatty Library, Is 1598 (fri från upphovsrätt)"
+    url: "https://commons.wikimedia.org/wiki/File:Al-Fatiha_in_the_Sudani_script_(CBL_Is_1598,_f._1b).jpg"
 related:
   - "tvagning-wudu"
   - "vad-ar-kaba"
@@ -80,6 +82,8 @@ Den som jäktar genom rörelserna har därför inte förrättat bönen fullt ut.
 ## Vad reciterar man i bönen?
 
 Kärnan i recitationen är al-Fātiha, Koranens öppningskapitel, som inleds "Lov och pris tillkommer Gud, världarnas Herre" (Koranen 1:2). Kapitlets sju verser innehåller lovprisning av Gud och en bön om vägledning på den raka vägen, och de läses i sin helhet i varje rakaʿa. I Fajr och i kvällsbönernas första rakaʿāt sker recitationen högt, i Dhuhr och Asr tyst.
+
+![Handskriftsblad med al-Fātihas sju verser i kraftig brun skrift, omgivna av cirklar och rutor målade i blått, rött och gult.](../../apps/web/src/assets/images/inline/al-fatiha-vastafrikansk-handskrift.webp "Al-Fātiha i en västafrikansk koranhandskrift från 1800-talet. Chester Beatty Library, Dublin.")
 
 I bugningen upprepas *subhāna rabbiya al-ʿazīm* ("ära åt min Herre, den Väldige") och i nedfallandet *subhāna rabbiya al-aʿlā* ("ära åt min Herre, den Högste"). I den avslutande sittställningen läses *tashahhud*, som innehåller trosbekännelsen att ingen har rätt att dyrkas utom Gud och att Muhammed är hans sändebud, följd av bönen om välsignelse över profeten och hans familj. Om al-Fātihas ställning lämnade profeten Muhammed inget tvivel: "Den som inte läser Bokens öppning har ingen bön" (Sahīh al-Bukhārī 756).
 

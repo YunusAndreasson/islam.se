@@ -94,6 +94,8 @@ sources:
   - name: "August Blanche, Sonen af söder och nord"
   - name: "Erik Gustaf Geijer, Strödda anteckningar"
   - name: "Viktor Rydberg, Den siste atenaren, kap. 16"
+  - name: "Bild: stora moskén i Córdoba, 2016. Foto Richard Mortel, Wikimedia Commons, licens CC BY 2.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Great_Mosque_of_Cordoba,_interior,_8th_-_10th_centuries_(38)_(29721130342).jpg"
 related:
   - "de-rattledda-kaliferna"
   - "vad-var-hijra"
@@ -164,6 +166,8 @@ Kalifatet uppstod under några timmar i en förstuga. När Profeten dog år 632 
 Argumentet för Abū Bakr byggde på en analogi och inte på en text. Ibn Khaldūn återger följeslagarnas resonemang: Profeten hade låtit honom leda bönen, och om Guds sändebud godtog honom för religionen, skulle samfundet då inte godta honom för sina världsliga angelägenheter?[^19] Ibn Khaldūn definierar också den trohetsed som gjorde saken bindande. *Bayʿa* är enligt honom förbundet om lydnad: den som svär den förbinder sig inför sin befälhavare att överlämna åt honom omdömet i sin egen sak och i muslimernas angelägenheter, att inte tvista med honom om något av det, och att lyda honom i det han ålägger, vare sig det faller lätt eller tungt. Formen är ett handslag, och Ibn Khaldūn härleder ordet ur köpslutet, *bayʿ*.[^20]
 
 Efter 661 blev ämbetet ärftligt under umayyaderna i Damaskus, och från 750 under abbasiderna i Bagdad. Genom hela sitt verk ställer Ibn Khaldūn kalifatet mot *mulk*, kungamakten, som i svensk återgivning kan sammanfattas som överhet och makten att styra med tvång.[^22] Enheten sprack under 900-talet. Fatimiderna utropade ett shiitiskt kalifat i Ifriqiya år 909 och flyttade sedan sitt säte till det nygrundade Kairo, och i Córdoba antog ʿAbd al-Rahmān III titeln de troendes befälhavare när underrättelser om de samtida kalifernas svaghet nådde honom.[^21] Under ett drygt sekel fanns tre kalifer samtidigt. Córdobas kalifat föll 1031. I Bagdad hade kalifen sedan buyidernas maktövertagande 945 och seldjukernas 1055 i stort sett bara titeln kvar, en situation Ibn Khaldūn beskriver kyligt: "Ofta blir härskaren en härskare endast till namnet, kontrollerad av någon utomstående som inte är medlem av dynastin men som utövar den faktiska makten."[^22]
+
+![Rader av mörka stenpelare som bär dubbla hästskobågar i rött och vitt och försvinner in i salens djup.](../../apps/web/src/assets/images/inline/cordoba-stora-moskens-pelarsal.webp "Pelarsalen i den stora moskén i Córdoba, 700–900-talen.")
 
 Mongolerna intog Bagdad 1258, och ett skuggkalifat fortlevde i Kairo under mamlukerna till 1517. Att titeln vid osmanernas erövring skulle ha överlåtits från den siste abbasiden till Selim I är däremot en berättelse som saknar stöd i samtida källor och som förekommer först i senare osmansk historieskrivning. Det osmanska anspråket på överhöghet över muslimer utanför riket går ändå tillbaka till 1500-talet, och de anspråk som restes på nytt under sent 1700- och tidigt 1800-tal var alltså inte helt nykonstruerade.[^42]
 

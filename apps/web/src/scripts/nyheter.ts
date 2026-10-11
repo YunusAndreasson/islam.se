@@ -179,11 +179,11 @@ async function boot(signal: AbortSignal): Promise<void> {
 
 	if (rail) {
 		// The bar holds its place from the first paint and is shown only when it has
-		// rows (nyheter.css, »The front page's wire bar«). With nothing to show it is
+		// rows (nyheter.css, »The front page's news bar«). With nothing to show it is
 		// taken out: on a reference site an empty news frame reads as a broken page,
 		// and there is no way for the reader to tell that it is simply a quiet day.
 		//
-		// Ranked, then re-sorted by time. zuhd publishes ~55 a day, so three rows is
+		// Ranked, then re-sorted by time. zuhd publishes ~55 a day, so six rows is
 		// a selection and something has to choose — `rangordna` picks the ones that
 		// matter to this site's reader. But a news bar that is not in time order is
 		// not one, so the chosen rows are shown newest first.

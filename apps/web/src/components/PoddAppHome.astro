@@ -9,7 +9,8 @@
 // was the podcast PROMOTED, not the essays played on the front page ("det hade räckt …
 // att bara promota podden", 2026-09-26), and the app beside it.
 //
-// So: two halves, each a drawing, a kicker, one line and the ways in. The drawings
+// So: two halves, each a drawing, a kicker, one line and the ways in (Promo.astro, the
+// grammar the book and the mosque screen share). The drawings
 // (src/assets/ritningar; how they were made is in its README) replaced the products'
 // own faces, the podcast cover and the app icon (2026-09-26): at 7rem those read as two
 // logos, a blue tile and a printed square in fixed colours on a band otherwise all ink
@@ -25,22 +26,18 @@
 // turns negative (the dark screen went white, the shadows glowed), and a light sheet of
 // paper laid on the dark band "doesn't work" (user review, 2026-09-26). <Ritning> draws
 // them, as it draws the series' other drawings across the site.
-// The halves share the live row's centre line (nyheter.css).
 import { APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
 import { getArticles } from "../lib/articles";
 import { talord } from "../lib/format";
 import { RITNINGAR } from "../lib/ritningar";
 import PodcastBrandIcon from "./PodcastBrandIcon.astro";
 import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
-import Ritning from "./Ritning.astro";
+import Promo from "./Promo.astro";
 
 const articles = await getArticles();
 // One size for every mark in the band's five pills; 14px, the pill default, read as
 // specks beside sentence-case labels.
 const ICON = 18;
-// The drawings' box is the column: 10rem square beside the words, 7rem above them on a
-// phone. The book fills it; the phone, narrow, stands its full height.
-const BOX: [number, number] = [7, 10];
 const narrated = articles.filter((a) => typeof a.audioFile === "string");
 const minutes = Math.round(narrated.reduce((s, a) => s + (a.audioDuration ?? 0), 0) / 60);
 const hours = Math.floor(minutes / 60);
@@ -53,160 +50,26 @@ const length =
 		: `${minutes % 60 ? "över " : ""}${hourWord} ${hours === 1 ? "timme" : "timmar"}`;
 ---
 
-<div class="podd-app home-movement">
-	{
-		narrated.length > 0 && (
-			<section class="podd-app-del" aria-labelledby="podden-rubrik">
-				<a class="podd-app-mark" href="/podcast/" tabindex="-1" aria-hidden="true">
-					<Ritning {...RITNINGAR.podden} hojd={BOX} bredd={BOX} />
-				</a>
-				<div class="podd-app-text">
-					<h2 class="label home-kicker podd-app-kicker" id="podden-rubrik">Podd</h2>
-					<h3 class="podd-app-titel">
-						<a href="/podcast/">Essäerna, inlästa</a>
-					</h3>
-					<p class="podd-app-rad">
-						Hittills finns {talord(narrated.length)} av essäerna inlästa, sammanlagt {length}. Lyssna i den
-						poddspelare du redan har.
-					</p>
-					<PodcastSubscribeLinks
-						class="podd-app-knappar"
-						actionClass="podcast-action"
-						iconSize={ICON}
-					/>
-				</div>
-			</section>
-		)
-	}
+{
+	narrated.length > 0 && (
+		<Promo id="podden-rubrik" kicker="Podd" titel="Essäerna, inlästa" href="/podcast/" ritning={RITNINGAR.podden}>
+			Hittills finns {talord(narrated.length)} av essäerna inlästa, sammanlagt {length}. Lyssna i den
+			poddspelare du redan har.
+			<PodcastSubscribeLinks slot="lankar" actionClass="podcast-action" iconSize={ICON} />
+		</Promo>
+	)
+}
 
-	<section class="podd-app-del" aria-labelledby="appen-rubrik">
-		<a class="podd-app-mark" href="/app/" tabindex="-1" aria-hidden="true">
-			<Ritning {...RITNINGAR.appen} hojd={BOX} bredd={BOX} />
+<Promo id="appen-rubrik" kicker="App" titel="Bönetiderna i mobilen" href="/app/" ritning={RITNINGAR.appen}>
+	En påminnelse före varje bön och en kompass mot Kaba. Gratis och utan annonser.
+	<Fragment slot="lankar">
+		<a class="podcast-action" href={APP_STORE_URL} target="_blank" rel="noopener">
+			<PodcastBrandIcon platform="appstore" size={ICON} />
+			App Store
 		</a>
-		<div class="podd-app-text">
-			<h2 class="label home-kicker podd-app-kicker" id="appen-rubrik">App</h2>
-			<h3 class="podd-app-titel">
-				<a href="/app/">Bönetiderna i mobilen</a>
-			</h3>
-			<p class="podd-app-rad">
-				En påminnelse före varje bön och en kompass mot Kaba. Gratis och utan annonser.
-			</p>
-			<div class="podd-app-knappar">
-				<a class="podcast-action" href={APP_STORE_URL} target="_blank" rel="noopener">
-					<PodcastBrandIcon platform="appstore" size={ICON} />
-					App Store
-				</a>
-				<a class="podcast-action" href={PLAY_STORE_URL} target="_blank" rel="noopener">
-					<PodcastBrandIcon platform="googleplay" size={ICON} />
-					Google Play
-				</a>
-			</div>
-		</div>
-	</section>
-</div>
-
-<style>
-	/* Two halves on the live row's centre line (its 3rem gutter); one above the other on a
-	   phone. Each half: the mark, and beside it the kicker, the title, one line, the links. */
-	.podd-app {
-		/* Content-box estimates; the closing wrapper owns the outer spacing. */
-		--civ-h: 792px;
-		display: grid;
-		gap: var(--space-phi) var(--grid-gutter);
-	}
-
-	@media (width >= 48rem) {
-		.podd-app {
-			--civ-h: 450px;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
-	/* A pencil drawing needs more room than the marks' 7rem: at that size the hatching
-	   and the app's screen closed up into grey. On a phone the drawing stands above its
-	   words instead of beside them: beside, at 4.5rem, it was an icon again, and at
-	   5rem the words' column lost 16px and »Bönetiderna i mobilen« broke over two lines.
-	   Above, at 7rem, it is a picture, and the words get the whole width back. */
-	.podd-app-del {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr);
-		grid-template-rows: auto 1fr;
-		row-gap: var(--space-unit);
-		align-items: start;
-	}
-
-	/* At tablet widths a 10rem drawing beside the copy leaves only ~147px for
-	   words. Keep the drawing above until each half has a useful reading measure. */
-	@media (width >= 64rem) {
-		.podd-app {
-			--civ-h: 199px;
-		}
-
-		.podd-app-del {
-			grid-template-columns: 10rem minmax(0, 1fr);
-			grid-template-rows: auto;
-			column-gap: 1.75rem;
-		}
-	}
-
-	/* Beside the words the drawings sit flush right in the column, so drawing and words
-	   are the same distance apart in each half; above them, flush left on the words'
-	   edge. No hover lift: a transform makes the link a stacking context, the blend then
-	   has nothing under it, and the paper flashed up as a square. */
-	.podd-app-mark {
-		display: block;
-		justify-self: start;
-	}
-
-	@media (width >= 64rem) {
-		.podd-app-mark {
-			justify-self: end;
-		}
-	}
-
-	/* ---- The words. The kicker sits on the mark's top edge. */
-	.podd-app-kicker {
-		margin: 0;
-	}
-
-	.podd-app-titel {
-		margin: var(--space-half) 0 0;
-		font-size: var(--step-1);
-		font-weight: 600;
-		line-height: 1.25;
-		text-wrap: balance;
-	}
-
-	.podd-app-titel a {
-		color: var(--color-text);
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-			text-decoration-thickness: 1px;
-			text-underline-offset: 0.12em;
-		}
-	}
-
-	.podd-app-rad {
-		max-inline-size: 32rem;
-		margin: 0.35rem 0 0;
-		font-size: var(--step--1);
-		line-height: 1.5;
-		color: var(--text-body);
-		text-wrap: pretty;
-	}
-
-	/* PodcastSubscribeLinks lays its own row out; this only places it (and the app's two
-	   links, drawn as the same pills). */
-	.podd-app-text :global(.podd-app-knappar) {
-		margin-top: var(--space-unit);
-	}
-
-	div.podd-app-knappar {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.5rem;
-	}
-</style>
+		<a class="podcast-action" href={PLAY_STORE_URL} target="_blank" rel="noopener">
+			<PodcastBrandIcon platform="googleplay" size={ICON} />
+			Google Play
+		</a>
+	</Fragment>
+</Promo>

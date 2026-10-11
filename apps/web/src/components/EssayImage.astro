@@ -49,6 +49,12 @@ const altText = alt ?? article?.imageAlt ?? article?.title ?? "";
 const sizesAttr = loading === "lazy" && !sizes.startsWith("auto") ? `auto, ${sizes}` : sizes;
 
 const hero = src ?? article?.heroImage;
+// A documentary photograph is a document: it is shown in the colour it was taken in,
+// without the wash below (see the style block). Only an essay's own hero can be one;
+// a borrowed or bespoke `src` is art made for the site.
+const imgClass =
+	[className, !src && article?.imageDocumentary ? "is-document" : null].filter(Boolean).join(" ") ||
+	undefined;
 // Only use a mobile-specific crop when it is landscape-ish. Every card layout
 // (feature 3:2, recent 16:9, ämne lead 3:2) renders into a landscape box with
 // object-fit: cover; some -mobile assets are authored as 2:3 portrait, and a
@@ -107,7 +113,7 @@ if (mobile && hero) {
 				loading={loading}
 				fetchpriority={fetchpriority}
 				decoding="async"
-				class={className}
+				class={imgClass}
 			/>
 		</picture>
 	) : (
@@ -121,7 +127,7 @@ if (mobile && hero) {
 			loading={loading}
 			fetchpriority={fetchpriority}
 			decoding="async"
-			class={className}
+			class={imgClass}
 		/>
 	)
 )}
@@ -141,6 +147,16 @@ if (mobile && hero) {
 		transition:
 			filter 0.6s cubic-bezier(0.2, 0, 0.1, 1),
 			scale 0.6s cubic-bezier(0.2, 0, 0.1, 1);
+	}
+
+	/* A documentary photograph is not washed (2026-10-11). The wash is art direction for
+	   pictures made for the site; on a photograph of a real place by a named
+	   photographer it is an alteration, and on the two Gaza heroes it came on top of
+	   files that had already been desaturated: Jabalia's blue sky stood as grey, and
+	   the pictures read as "so faded" (user review). The files are now cut from the
+	   originals with no colour change, and this takes the wash off them too. */
+	img.is-document {
+		filter: none;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

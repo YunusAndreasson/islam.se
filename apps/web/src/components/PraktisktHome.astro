@@ -1,251 +1,354 @@
 ---
-// PRAKTISKT — what the site does for a reader besides the reading, as the front page's last
-// movement before the book: four tools, one line each, and a map of Sweden beside them.
+// PRAKTISKT — time and place: the second of the front page's two tinted rooms (DESIGN.md,
+// »The Startpage«). Two lines across two thirds of the canvas and a map in the last:
 //
-// THE MAP (2026-09-25, plan »Dagen och texten«). This movement used to argue for text only:
-// a prayer map built for the front page had been removed (PrayerStrip and BonetiderHome,
-// e9d511d), and the tools kept their pictures where they are used. That product decision was
-// overruled when the user asked for a front page that shows what only this site has. What
-// came back is not that map. It is a static SVG built at build time from the directory's own
-// data (lib/sverige-karta.ts): no canvas, no MapLibre, no script, a few kilobytes of markup.
-// It encodes one fact the list cannot — WHERE Sweden's mosques and Muslim burial grounds
-// are: the Mälardal and the three city regions dense, Norrland a scatter along the coast.
+//   Bönetider           today as a line (PrayerHorizon): the six times under their ticks,
+//                       daylight drawn heavier, the sun at the current minute
+//   Det islamiska året  the coming twelve months as a line (Arslinje): Ramadan drawn
+//                       heavier, the eids and Ashura as marks, the sun on today
+//   Moskéer             where Sweden's mosques and Muslim burial grounds are
 //
-// Marks follow the standing rule for this site's maps: even points, no glow, density shown
-// as area rather than brightness — every mosque is one zero-length subpath of ONE path, so a
-// cluster merges instead of stacking. Burial grounds are the quieter layer beneath, as on
-// /moskeer: a warm ring, drawn as a warm dot with a land-coloured dot on top.
+// ITS FORMS SO FAR. Four tools in two columns beside a map 136px wide, and under the room
+// a separate movement of three dates: two bands for one subject, 750px of the page, most
+// of the first one empty paper around four one-line descriptions ("stuffed … doesn't read
+// well as a whole", user review 2026-10-10). Then three columns, each a name and a list,
+// which read as a third telling of what the drawn promotions under the room already say
+// about prayer times ("PRAKTISKT and the beautiful illustrations below overlap a bit … maybe
+// around bönetider and/or the islamic year on a timeline which looks nice and with links to
+// the pages", the same evening). So the room now SHOWS what a promotion cannot: the day and
+// the year as they stand at this minute, two lines in one hand. The promotions say where to
+// take the times; this is the times.
 //
-// The map is a pointer convenience into /moskeer/, hidden from the tab order and from
-// assistive tech the way the front page's cover picture is (FeatureEssay.astro): the
-// Moskéer row beside it is the real link and already says what the map shows, in words.
+// Each line has the head row every movement has, a step down: its destination's name, and
+// on the name's line the way further in. Two of the old four tools were never destinations
+// of their own: »Bönetider under året« is a page inside Bönetider and is that way further
+// in, and Moskéskärm stands, with its drawing, in the closing promotions.
 //
-// Under it, the prayer day as a line (PrayerHorizon.astro): the six times as ticks, daylight
-// drawn heavier, the sun at the current minute, and the islamic date turning at maghrib. It
-// opened the page for an evening and moved here, beside the words it draws (2026-09-25).
+// THE MAP (2026-09-25, plan »Dagen och texten«). A static SVG built at build time from the
+// directory's own data (lib/sverige-karta.ts): no canvas, no MapLibre, no script, a few
+// kilobytes of markup. It encodes one fact the list cannot — WHERE the mosques and burial
+// grounds are: the Mälardal and the three city regions dense, Norrland a scatter along the
+// coast. Marks follow the standing rule for this site's maps: even points, no glow, density
+// shown as area rather than brightness — every mosque is one zero-length subpath of ONE
+// path, so a cluster merges instead of stacking. Burial grounds are the quieter layer
+// beneath, as on /moskeer: a warm ring, drawn as a warm dot with a land-coloured dot on top.
 //
-// The Bönetider line is live without any new script. It is a `.bonetider-strip`, which
-// scripts/bonetider-field.ts (loaded by the Header on every page) mounts beside the mast chip
-// and rewrites for the reader's saved place and the real now. The build writes the same
-// Stockholm baseline the mast does, so the served HTML is already a true sentence.
+// The two lines and the map are pointer conveniences into their pages, hidden from the tab
+// order and from assistive tech the way the lead's photograph is (FeatureEssay.astro): the
+// name over each is the real link, and the sentence under it says in words what the
+// drawing shows.
+//
+// LIVE without any new script for the day: the sentence, the phone's list and the line are
+// mounted by scripts/bonetider-field.ts (loaded by the Header on every page) and rewritten
+// for the reader's saved place and the real now. The build writes the same Stockholm
+// baseline the mast does, so the served HTML is already a true sentence. The year's
+// sentence is the calendar's own row (MarkesdagList), which scripts/markesdagar.ts
+// re-selects against the real date; scripts/arslinje.ts does the same for the line.
 import { getBurialGrounds } from "../lib/begravningsplatser";
 import {
 	computePrayerTimes,
 	formatTime,
 	nextPrayerKeyAt,
 	PRAYER_LABELS,
+	PRAYER_ORDER,
 } from "../lib/bonetider/prayer-times";
 import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
+import { getMarkesdagar, gregorian, untilLabel } from "../lib/markesdagar";
 import { getMosques } from "../lib/moskeer";
 import { HOME_TOOL_LINKS } from "../lib/navigation";
-import PrayerHorizon from "./PrayerHorizon.astro";
 import { dotsPath, KARTA_HEIGHT, KARTA_WIDTH, outlinePath } from "../lib/sverige-karta";
+import Arslinje from "./Arslinje.astro";
+import MarkesdagList from "./MarkesdagList.astro";
+import PrayerHorizon from "./PrayerHorizon.astro";
+import SectionLink from "./SectionLink.astro";
+
+const { bonetider, aret, moskeer } = HOME_TOOL_LINKS;
 
 const now = new Date();
 const times = computePrayerTimes(DEFAULT_COORDS, now, DEFAULT_SETTINGS);
-const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
+// After ʿIshāʾ the next prayer is tomorrow's Fajr: the sentence names it, and no row of
+// today's list is marked (the live script's `is-next-today`).
+const nextToday = nextPrayerKeyAt(times, now.getTime());
+const nextKey = nextToday ?? "fajr";
+// What the live script needs to move a readout to the reader's own place.
+const plats = {
+	"data-name": DEFAULT_COORDS.name,
+	"data-lat": DEFAULT_COORDS.latitude,
+	"data-lon": DEFAULT_COORDS.longitude,
+	"data-variant": "strip",
+	"data-fixed": "0",
+};
+
+// One row: the next observance, as the sentence under the year's name. The line draws
+// the rest.
+const RADER = 1;
+const todayISO = now.toISOString().slice(0, 10);
+// Mark which events are upcoming at build time (the no-JS view); scripts/markesdagar
+// re-selects against the real Date.now().
+let buildShown = 0;
+const rows = getMarkesdagar().map((e) => {
+	const endISO = e.endISO ?? e.startISO;
+	const upcoming = endISO >= todayISO && buildShown < RADER;
+	// Only the first upcoming row counts down: the next thing the year brings is the
+	// live fact; »om 150 dagar« under it too would just be arithmetic.
+	const until = upcoming && buildShown === 0 ? untilLabel(e.startISO, e.endISO, todayISO) : "";
+	if (upcoming) buildShown++;
+	return { ...e, endISO, hidden: !upcoming, until, gregorian: gregorian(e.startISO, e.endISO) };
+});
 
 const mosques = getMosques();
 const burialGrounds = getBurialGrounds();
-
 const count = new Intl.NumberFormat("sv-SE");
 // The map's two layers, counted from the same data the map draws.
 const mapLine = `${count.format(mosques.length)} moskéer och ${count.format(burialGrounds.length)} muslimska gravkvarter på en karta.`;
 
 const land = outlinePath();
-const moskeer = dotsPath(mosques);
-const gravar = dotsPath(burialGrounds);
+const moskePunkter = dotsPath(mosques);
+const gravPunkter = dotsPath(burialGrounds);
 ---
 
 <section class="praktiskt-home home-movement" aria-labelledby="praktiskt-home-rubrik">
-	<div class="praktiskt-grid">
-		<h2 class="label home-kicker" id="praktiskt-home-rubrik">Bönetider och moskéer</h2>
+	<h2 class="label home-kicker" id="praktiskt-home-rubrik">Praktiskt</h2>
 
-		<ul class="praktiskt-lista">
-			{
-				HOME_TOOL_LINKS.map((tool) => (
-					<li class="praktiskt-rad">
-						<a class="praktiskt-namn" href={tool.href}>
-							{tool.label}
-						</a>
-						{tool.href === "/bonetider/" ? (
-							<>
-							<p
-								class="praktiskt-text bonetider-strip"
-								data-name={DEFAULT_COORDS.name}
-								data-lat={DEFAULT_COORDS.latitude}
-								data-lon={DEFAULT_COORDS.longitude}
-								data-variant="strip"
-								data-fixed="0"
-							>
-								Nästa bön <span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>{" "}
-								<span class="bf-next-time">{formatTime(times[nextKey])}</span> i{" "}
-								<span class="bf-place">{DEFAULT_COORDS.name}</span>.
-							</p>
-							<PrayerHorizon />
-							</>
-						) : (
-							<p class="praktiskt-text">{tool.href === "/moskeer/" ? mapLine : tool.sub}</p>
-						)}
-					</li>
-				))
-			}
-		</ul>
+	<div class="praktiskt-delar">
+		<div class="praktiskt-linjer">
+			<div class="praktiskt-del">
+				<div class="praktiskt-huvud">
+					<h3 class="praktiskt-namn"><a href={bonetider.href}>{bonetider.label}</a></h3>
+					<SectionLink class="label home-head-all" href="/bonetider/aret/">Bönetider under året</SectionLink>
+				</div>
+				<p class="praktiskt-text bonetider-strip" {...plats}>
+					Nästa bön <span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>{" "}
+					<span class="bf-next-time">{formatTime(times[nextKey])}</span> i{" "}
+					<span class="bf-place">{DEFAULT_COORDS.name}</span>.
+				</p>
+				<a class="praktiskt-linje" href={bonetider.href} tabindex="-1" aria-hidden="true">
+					<PrayerHorizon />
+				</a>
+				<ol class="praktiskt-tider bonetider-strip" role="list" {...plats}>
+					{
+						PRAYER_ORDER.map((key) => (
+							<li class:list={["praktiskt-tid", key === nextToday && "is-next-today"]} data-prayer={key}>
+								<span class="praktiskt-tid-namn">{PRAYER_LABELS[key]}</span>
+								<span class="praktiskt-tid-klocka bf-t-time">{formatTime(times[key])}</span>
+							</li>
+						))
+					}
+				</ol>
+			</div>
 
-		<a class="praktiskt-karta" href="/moskeer/" tabindex="-1" aria-hidden="true">
-			<svg
-				class="karta"
-				viewBox={`0 0 ${KARTA_WIDTH} ${KARTA_HEIGHT}`}
-				focusable="false"
-			>
-				<path class="karta-land" d={land} />
-				<path class="karta-grav" d={gravar} />
-				<path class="karta-grav-hal" d={gravar} />
-				<path class="karta-moske" d={moskeer} />
-			</svg>
-			<span class="karta-nyckel">
-				<span class="karta-nyckel-moske">moské</span>
-				<span class="karta-nyckel-grav">gravkvarter</span>
-			</span>
-		</a>
+			<div class="praktiskt-del">
+				<div class="praktiskt-huvud">
+					<h3 class="praktiskt-namn"><a href={aret.href}>{aret.label}</a></h3>
+					<SectionLink class="label home-head-all" href={aret.href}>Se hela året</SectionLink>
+				</div>
+				<MarkesdagList rows={rows} variant="rail" max={RADER} />
+				<a class="praktiskt-linje" href={aret.href} tabindex="-1" aria-hidden="true">
+					<Arslinje />
+				</a>
+			</div>
+		</div>
+
+		<div class="praktiskt-del praktiskt-del--karta">
+			<div class="praktiskt-kartord">
+				<h3 class="praktiskt-namn"><a href={moskeer.href}>{moskeer.label}</a></h3>
+				<p class="praktiskt-text">{mapLine}</p>
+				<p class="karta-nyckel" aria-hidden="true">
+					<span class="karta-nyckel-moske">moské</span>
+					<span class="karta-nyckel-grav">gravkvarter</span>
+				</p>
+			</div>
+			<a class="praktiskt-karta" href={moskeer.href} tabindex="-1" aria-hidden="true">
+				<svg class="karta" viewBox={`0 0 ${KARTA_WIDTH} ${KARTA_HEIGHT}`} focusable="false">
+					<path class="karta-land" d={land} />
+					<path class="karta-grav" d={gravPunkter} />
+					<path class="karta-grav-hal" d={gravPunkter} />
+					<path class="karta-moske" d={moskePunkter} />
+				</svg>
+			</a>
+		</div>
 	</div>
 </section>
 
 <style>
-	/* The map starts beside the kicker. On wide screens it accompanies the whole
-	   list; below 48rem it spans only the two location tools. Its narrow silhouette
-	   keeps the coast and clusters legible without pushing the tools down the page. */
-	.praktiskt-grid {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(6.5rem, 34%);
-		grid-template-rows: auto 1fr;
-		column-gap: clamp(1.25rem, 5vw, 3.5rem);
-	}
-
-	.praktiskt-grid > .home-kicker {
-		grid-column: 1;
-		grid-row: 1;
-	}
-
-	.praktiskt-lista {
-		grid-column: 1;
-		grid-row: 2;
-		align-self: start;
-	}
-
-	.praktiskt-karta {
-		grid-column: 2;
-		grid-row: 1 / span 2;
-		align-self: start;
-	}
-
-	@media (width >= 40rem) {
-		.praktiskt-grid {
-			grid-template-columns: minmax(0, 1fr) 8.5rem;
-		}
-	}
-
-	/* Two by two where there is room, one column on a phone. Not auto-fit: across the
-	   canvas an 18rem minimum makes three tracks, and four tools in three tracks leaves
-	   one alone on a row. */
-	.praktiskt-lista {
+	/* One under the other below 60rem; from there the two lines across the first two
+	   thirds of the canvas and the map's column in the last, on the page's third line. */
+	.praktiskt-delar {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
-		column-gap: clamp(1.75rem, 4vw, 3.5rem);
-		margin: 0;
-		padding: 0;
+		gap: var(--space-phi) var(--grid-gutter);
 	}
 
-	@media (width >= 48rem) {
-		.praktiskt-lista {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
+	.praktiskt-linjer {
+		display: grid;
+		gap: var(--space-phi);
+		min-inline-size: 0;
 	}
 
-	/* ON THE PAGE'S CENTRE LINE. Two equal tracks in what the map leaves put the second
-	   tool at 647px on a 1440 window — on no line any other movement uses — where the
-	   podcast and app band, the live row, the barometer and Fördjupning all turn their
-	   second half at the canvas's centre plus half a gutter. With both gaps at the
-	   gutter, the first track is half the list plus half the map's column: exactly the
-	   centre line. The horizon under Bönetider gains the width it was drawn for. */
 	@media (width >= 60rem) {
-		.praktiskt-grid {
-			--karta-w: 8.5rem;
-			grid-template-columns: minmax(0, 1fr) var(--karta-w);
-			column-gap: var(--grid-gutter);
+		.praktiskt-delar {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 
-		.praktiskt-lista {
-			grid-template-columns: calc(50% + var(--karta-w) / 2) minmax(0, 1fr);
-			column-gap: var(--grid-gutter);
+		.praktiskt-linjer {
+			grid-column: 1 / 3;
 		}
 	}
 
-	/* On smaller screens the map belongs to the two location tools. Subgrid
-	   preserves one semantic list while letting the remaining tools use the canvas. */
-	@media (width < 48rem) {
-		.praktiskt-lista {
-			grid-column: 1 / -1;
-			grid-row: 2 / span 4;
-			grid-template-columns: subgrid;
-			grid-template-rows: subgrid;
-			row-gap: 0;
-		}
-
-		.praktiskt-rad {
-			grid-column: 1;
-		}
-
-		.praktiskt-rad:nth-child(n + 3) {
-			grid-column: 1 / -1;
-		}
-
-		.praktiskt-karta {
-			grid-row: 1 / 4;
-		}
+	/* A line's head row: the destination's name and, on its line, the way further in.
+	   The movements' head row (layout.css, .home-head), a step down. */
+	.praktiskt-huvud {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0 1rem;
 	}
 
-	/* No hairline under each row any more: whitespace separates them. The rule was the
-	   reference idiom of the old text-only row, and one of forty-eight on the page. */
-	.praktiskt-rad {
-		padding-block: var(--space-half);
+	/* The line is a link for the pointer only; it must not look like one. */
+	.praktiskt-linje {
+		display: block;
+		color: inherit;
+		text-decoration: none;
 	}
 
+	/* A column's name at the card-title size, like every item's on the page: these are
+	   three destinations, and what stands under each is its content, a step down. */
 	.praktiskt-namn {
-		font-size: var(--step-0);
+		margin: 0;
+		font-size: var(--step-1);
 		font-weight: 600;
+		line-height: 1.2;
+		font-variant-ligatures: common-ligatures;
+	}
+
+	.praktiskt-namn a {
 		color: var(--color-text);
 		text-decoration: none;
 	}
 
-	.praktiskt-namn:hover,
-	.praktiskt-namn:focus-visible {
+	.praktiskt-namn a:hover,
+	.praktiskt-namn a:focus-visible {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: var(--underline-offset);
 	}
 
 	.praktiskt-text {
-		margin: 0.15rem 0 0;
+		margin: 0.35rem 0 0;
 		font-size: var(--step--2);
 		line-height: 1.45;
 		color: var(--text-quiet);
 		text-wrap: pretty;
 	}
 
-	.bf-next-time {
+	.bf-next-time,
+	.praktiskt-tid-klocka {
 		font-variant-numeric: tabular-nums;
 	}
 
-	/* THE MAP. Every mark is a stroke with `vector-effect: non-scaling-stroke`, so a dot
-	   is the same few pixels whether the map is drawn 120px or 150px wide: the points stay
-	   even across widths instead of swelling with the silhouette. */
+	/* THE DAY'S TIMES AS A LIST, on a phone only. The line there is a third of its
+	   width and names the prayers it has room for; the list gives all six. From 48rem
+	   every tick carries its name and its clock, and the line is the list. The next
+	   prayer in ink and a weight up, the mark the line gives its tick — only while it is
+	   one of today's: after ʿIshāʾ the next is tomorrow's Fajr, and today's 05:19 in bold
+	   beside a sentence saying 05:21 would be two answers to one question. */
+	.praktiskt-tider {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.35rem 1rem;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	@media (width >= 48rem) {
+		.praktiskt-tider {
+			display: none;
+		}
+	}
+
+	.praktiskt-tid {
+		display: flex;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+
+	.praktiskt-tid-klocka {
+		color: var(--text-quiet);
+	}
+
+	.praktiskt-tid.is-next-today,
+	.praktiskt-tid.is-next-today .praktiskt-tid-klocka {
+		color: var(--color-text);
+		font-weight: 600;
+	}
+
+	/* THE YEAR'S SENTENCE. The calendar's own row for the next observance (layout.css,
+	   .md-list--rail), set as the one line the day has over its line: the name, its
+	   dates, how far off. The row's three stacked parts go on a line, the name first,
+	   in the room's quiet prose; the hijri date is the line's own to carry. */
+	.praktiskt-del :global(.md-list--rail) {
+		margin: 0.35rem 0 0;
+	}
+
+	.praktiskt-del :global(.md-list--rail .md-row) {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 0.5rem;
+		padding: 0;
+	}
+
+	.praktiskt-del :global(.md-list--rail .md-row[hidden]) {
+		display: none;
+	}
+
+	.praktiskt-del :global(.md-list--rail .md-body) {
+		order: -1;
+	}
+
+	.praktiskt-del :global(.md-list--rail .md-name) {
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		font-weight: 600;
+		line-height: 1.45;
+		color: var(--text-body);
+	}
+
+	.praktiskt-del :global(.md-list--rail .md-greg) {
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: 1.45;
+		letter-spacing: 0;
+		color: var(--text-quiet);
+	}
+
+	.praktiskt-del :global(.md-list--rail .md-hijri) {
+		display: none;
+	}
+
+	/* THE MAP beside its words, on the column's right edge: the narrow silhouette keeps
+	   the coast and the clusters legible, and is about as tall as the two lines. */
+	.praktiskt-del--karta {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 8.5rem;
+		column-gap: var(--space-unit);
+		align-items: start;
+	}
+
 	.praktiskt-karta {
 		display: block;
 		color: inherit;
 		text-decoration: none;
 	}
 
+	/* Every mark is a stroke with `vector-effect: non-scaling-stroke`, so a dot is the
+	   same few pixels whatever the map's width: the points stay even instead of swelling
+	   with the silhouette. */
 	.karta {
 		display: block;
 		inline-size: 100%;
@@ -253,8 +356,10 @@ const gravar = dotsPath(burialGrounds);
 		overflow: visible;
 	}
 
+	/* --shape-land, not a surface: the room is already --surface-1, and a step of
+	   surface on it was a silhouette nobody could see (tokens.css). */
 	.karta-land {
-		fill: var(--surface-2);
+		fill: var(--shape-land);
 	}
 
 	.karta-moske,
@@ -278,33 +383,16 @@ const gravar = dotsPath(burialGrounds);
 	}
 
 	.karta-grav-hal {
-		stroke: var(--surface-2);
+		stroke: var(--shape-land);
 		stroke-width: 2.2px;
 	}
 
-	/* A narrower map packs the same 234 points closer; a smaller dot keeps the southern
-	   clusters reading as clusters rather than as one brass blot. */
-	@media (width < 40rem) {
-		.karta-moske {
-			stroke-width: 2.8px;
-		}
-
-		.karta-grav {
-			stroke-width: 4px;
-		}
-
-		.karta-grav-hal {
-			stroke-width: 1.9px;
-		}
-	}
-
-	/* The key, in the smallest rung: two marks, two words. */
+	/* The key, under the words it belongs to: two marks, two words. */
 	.karta-nyckel {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.15rem 0.7rem;
-		margin-top: 0.6rem;
+		gap: 0.15rem 0.9rem;
+		margin: var(--space-half) 0 0;
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		color: var(--color-muted);
@@ -313,7 +401,7 @@ const gravar = dotsPath(burialGrounds);
 	.karta-nyckel > span {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.3rem;
+		gap: 0.35rem;
 	}
 
 	.karta-nyckel > span::before {

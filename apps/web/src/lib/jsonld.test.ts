@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { SITE_URL } from "./config";
-import { articleJsonLd, ORG_ID, WEBSITE_ID } from "./jsonld";
+import { articleJsonLd, figureImageObject, ORG_ID, WEBSITE_ID } from "./jsonld";
 
 describe("articleJsonLd", () => {
 	it("keeps the shared Article identity and canonical URL in one contract", () => {
@@ -52,5 +52,46 @@ describe("articleJsonLd", () => {
 				{ "@type": "CreativeWork", name: "En bok", url: "https://example.com" },
 			],
 		});
+	});
+});
+
+describe("figureImageObject", () => {
+	const figure = {
+		contentUrl: `${SITE_URL}/_astro/kaba.webp`,
+		url: `${SITE_URL}/fordjupning/kaba/`,
+		name: "Kaba klädd i mörkt tyg.",
+		width: 1400,
+		height: 1074,
+	};
+
+	it("asserts licence, source page and credit for a picture that is somebody else's", () => {
+		expect(
+			figureImageObject({
+				...figure,
+				caption: "Kaba 1880.",
+				credit: {
+					by: "Adli Wahid / Wikimedia Commons",
+					licenceUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+					source: "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg",
+				},
+			}),
+		).toMatchObject({
+			"@context": "https://schema.org",
+			"@type": "ImageObject",
+			contentUrl: figure.contentUrl,
+			caption: "Kaba 1880.",
+			creditText: "Adli Wahid / Wikimedia Commons",
+			license: "https://creativecommons.org/licenses/by-sa/4.0/",
+			acquireLicensePage: "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg",
+		});
+	});
+
+	// A licence asserted for a picture with no recorded credit would be a claim the
+	// site cannot back: the fields are absent, not empty.
+	it("asserts nothing about rights when the picture has no recorded credit", () => {
+		const block = figureImageObject(figure);
+		expect(block).not.toHaveProperty("license");
+		expect(block).not.toHaveProperty("creditText");
+		expect(block).not.toHaveProperty("caption");
 	});
 });

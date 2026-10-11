@@ -54,4 +54,26 @@ describe("rehypePhotoFigure", () => {
 		const tree = run(root(el("article", el("section", el("p", img("Bildtext."))))));
 		expect(tree.children[0].children[0].children[0].tagName).toBe("figure");
 	});
+
+	// Astro passes a Markdown image's properties to getImage, so these two are what turn
+	// one 1400 px file into a srcset. Before them a phone downloaded the full-width
+	// photograph (435 kB for the largest) to show it 350 px wide.
+	it("asks for a photograph under src/assets/images in several widths", () => {
+		const photo = img("Bildtext.");
+		photo.properties.src = "../../apps/web/src/assets/images/inline/kaba-1880-sadiq-bey.webp";
+		const image = run(root(el("p", photo))).children[0].children[0];
+		expect(
+			image.properties.widths,
+			"a figure without `widths` ships one file to every screen",
+		).toEqual(expect.arrayContaining([480, 1400]));
+		expect(image.properties.sizes, "a srcset without `sizes` is read as 100vw").toContain("42rem");
+	});
+
+	// An image Astro does not resize keeps its attributes as written: `widths` on it
+	// would be serialised as a meaningless HTML attribute.
+	it("leaves an image from outside the asset folder untouched", () => {
+		const image = run(root(el("p", img("Bildtext.")))).children[0].children[0];
+		expect(image.properties.widths).toBeUndefined();
+		expect(image.properties.sizes).toBeUndefined();
+	});
 });

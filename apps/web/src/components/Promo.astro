@@ -1,0 +1,160 @@
+---
+// ONE OF THE FRONT PAGE'S CLOSING PROMOTIONS: the podcast, the app, the book, the mosque
+// screen. One grammar for the four: the series' drawing, a kicker that names the kind,
+// a title, one line and the ways in.
+//
+// It was written three times (PoddAppHome, BookPod, SkarmPromo), each a copy of the one
+// before, and the copies had drifted where nobody set them side by side: the book's two
+// links stood 12px apart and the others' 8, and on a tablet the book's kicker stood
+// 34px above the mosque screen's beside it, because each drawing was as tall as itself
+// (measured 2026-10-11). Change the grammar here and the four change together.
+//
+// The grid they stand on is the page's (editorial.css, .home-promotions).
+import type { RitningPar } from "../lib/ritningar";
+import Ritning from "./Ritning.astro";
+
+interface Props {
+	/** The kicker's id, which labels the section. */
+	id: string;
+	kicker: string;
+	titel: string;
+	/** Where the title leads; a promotion with no page of its own (the book) has none. */
+	href?: string;
+	/** Where the drawing leads, when not where the title does. */
+	markHref?: string;
+	markDownload?: boolean;
+	ritning: RitningPar;
+}
+
+const { id, kicker, titel, href, markHref = href, markDownload = false, ritning } = Astro.props;
+// The drawings' box: 7rem above the words on a phone, 10rem from 48rem. The widest of
+// the four fill its width and the upright phone its height.
+const BOX: [number, number] = [7, 10];
+---
+
+<section class="promo" aria-labelledby={id}>
+	<a class="promo-mark" href={markHref} download={markDownload} tabindex="-1" aria-hidden="true">
+		<Ritning {...ritning} hojd={BOX} bredd={BOX} />
+	</a>
+	<div class="promo-text">
+		<h2 class="label home-kicker promo-kicker" id={id}>{kicker}</h2>
+		<h3 class="promo-titel">{href ? <a href={href}>{titel}</a> : titel}</h3>
+		<p class="promo-rad"><slot /></p>
+		<div class="promo-lankar"><slot name="lankar" /></div>
+	</div>
+</section>
+
+<style>
+	/* THE DRAWING ABOVE ITS WORDS through tablet widths: beside them at 7rem it was an
+	   icon again, and at 10rem beside the copy on a tablet the words had 147px. Above,
+	   it is a picture, and it stands nearer its own kicker than the links of the
+	   promotion before it (half a step under it, a section space over it): a drawing
+	   has open paper round it, and at a whole step it hung midway between the two. */
+	.promo {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: var(--space-half);
+		align-items: start;
+		min-inline-size: 0;
+	}
+
+	/* On the words' edge above them. No hover lift: a transform makes the link a stacking
+	   context, the drawing's blend then has nothing under it, and its paper flashed up as
+	   a square (Ritning.astro). */
+	.promo-mark {
+		display: block;
+		justify-self: start;
+	}
+
+	/* ---- The words. The kicker names the kind and the title is the heading
+	   (layout.css, »A kicker has one of two jobs«). */
+	.promo-kicker {
+		margin: 0;
+	}
+
+	.promo-titel {
+		margin: var(--space-half) 0 0;
+		font-size: var(--step-1);
+		font-weight: 600;
+		line-height: 1.25;
+		text-wrap: balance;
+	}
+
+	.promo-titel a {
+		color: var(--color-text);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 0.12em;
+		}
+	}
+
+	.promo-rad {
+		max-inline-size: 32rem;
+		margin: 0.35rem 0 0;
+		font-size: var(--step--1);
+		line-height: 1.5;
+		color: var(--text-body);
+		text-wrap: pretty;
+	}
+
+	/* The ways in, as pills (layout.css, »The pill«). */
+	.promo-lankar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: var(--space-unit);
+	}
+
+	/* TWO ABREAST, DRAWINGS STILL ABOVE (48–64rem): every drawing gets the whole box and
+	   stands on its foot, so the two kickers of a row meet on one line whichever drawing
+	   is the taller. The book is 122px tall in a 160px box and the mosque screen 156. */
+	@media (48rem <= width < 64rem) {
+		.promo-mark {
+			display: grid;
+			align-items: end;
+			block-size: 10rem;
+		}
+	}
+
+	/* THE WORDS ON THE HALF'S LEFT EDGE, the drawing to their right, from 64rem. Each half
+	   is six of the page's twelve columns: the words take four and the drawing two, with
+	   the page's gutter between them. So the left-hand promotions' kicker, title and links
+	   stand on the page's left line, where every section's kicker stands, and the
+	   right-hand ones' on its centre line, where the footer's »Praktiskt« stands under
+	   them; the four drawings end on two lines. The drawing stood first, in a 10rem column
+	   behind a gap of its own, and pushed the words 188px in ("the dot for PODD is pushed
+	   to the right compared to PRAKTISKT above so doesn't form a logical vertical line",
+	   user review 2026-10-10). The drawing is first in the markup, so it is placed, not
+	   flowed. */
+	@media (width >= 64rem) {
+		.promo {
+			grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--grid-gutter)) / 3);
+			column-gap: var(--grid-gutter);
+		}
+
+		.promo-mark {
+			grid-column: 2;
+			grid-row: 1;
+			justify-self: end;
+		}
+
+		/* The links stand on the foot of the half, so the two rows of them meet across the
+		   gutter whichever half's line runs longer. */
+		.promo-text {
+			grid-column: 1;
+			grid-row: 1;
+			display: flex;
+			flex-direction: column;
+			align-self: stretch;
+		}
+
+		.promo-lankar {
+			margin-top: auto;
+			padding-top: var(--space-unit);
+		}
+	}
+</style>

@@ -15,6 +15,7 @@ import { requireBySlug } from "../../lib/content-refs";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { SVAR_CATEGORIES, svarSeoMetadata } from "../../lib/svar";
 import { pillarBySvar } from "../../lib/svar-fordjupning";
+import { figureJsonLd } from "../../lib/inline-images";
 import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 import { pageHeroPreload } from "../../lib/hero-preload";
@@ -148,6 +149,8 @@ const jsonLd: Record<string, unknown>[] = [
 	]),
 ];
 if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
+// The photographs set inside the answer, each with its licence and credit.
+jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 ---
 
 <Base

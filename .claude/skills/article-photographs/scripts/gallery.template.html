@@ -1,0 +1,337 @@
+<title>Bildförslag till islam.se</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a picture desk's contact sheet. One frame per proposal, the picture on the
+   left at the size it will run, its slip of facts on the right. */
+:root {
+	--paper: #fff6e8;
+	--sheet: #fbefdc;
+	--ink: #1a1914;
+	--muted: #6c6357;
+	--rule: #d9cbb2;
+	--brass: #8c6624;
+	--brass-soft: #f1e2c4;
+	--yes: #2f6b4a;
+	--yes-soft: #dcebdf;
+	--no: #9a3b2f;
+	--no-soft: #f3dcd6;
+	--serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+	--mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+	--step--1: 0.8125rem;
+	--step-0: 1.0625rem;
+	--step-1: 1.3rem;
+	--step-2: 1.75rem;
+	--step-3: 2.5rem;
+}
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--paper: #1d1912; --sheet: #26211a; --ink: #e8e5e0; --muted: #bdb6aa; --rule: #40382c;
+		--brass: #c89a48; --brass-soft: #3a2f1c; --yes: #8fc7a4; --yes-soft: #1f3327;
+		--no: #e39a8d; --no-soft: #3a211d; color-scheme: dark;
+	}
+}
+:root[data-theme="dark"] {
+	--paper: #1d1912; --sheet: #26211a; --ink: #e8e5e0; --muted: #bdb6aa; --rule: #40382c;
+	--brass: #c89a48; --brass-soft: #3a2f1c; --yes: #8fc7a4; --yes-soft: #1f3327;
+	--no: #e39a8d; --no-soft: #3a211d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+	background: var(--paper); color: var(--ink);
+	font-family: var(--serif); font-size: var(--step-0); line-height: 1.5;
+	padding-inline: clamp(1rem, 4vw, 3rem); padding-block: 2.5rem 5rem;
+}
+.wrap { max-width: 76rem; margin-inline: auto; display: grid; gap: 3rem; }
+h1, h2, h3 { font-weight: 500; text-wrap: balance; margin: 0; }
+h1 { font-size: var(--step-3); line-height: 1.05; letter-spacing: -0.01em; }
+h2 { font-size: var(--step-2); line-height: 1.15; }
+h3 { font-size: var(--step-1); line-height: 1.2; }
+p { margin: 0; }
+a { color: var(--brass); text-underline-offset: 0.15em; }
+.mono { font-family: var(--mono); font-size: var(--step--1); letter-spacing: 0.01em; }
+.label { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+
+.head { display: grid; gap: 1.25rem; }
+.head p { max-width: 62ch; }
+.facts { display: flex; flex-wrap: wrap; gap: 0.4rem 1.75rem; color: var(--muted); }
+.facts b { color: var(--ink); font-weight: 500; }
+
+/* The tally sticks: it is the thing you watch while you choose. */
+.tally {
+	position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2;
+	background: var(--paper); border-block: 1px solid var(--rule);
+	padding-block: 0.7rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.5rem;
+}
+.tally .counts { display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem; flex: 1 1 18rem; min-width: 0; }
+.tally .counts span b { font-weight: 500; }
+.tally .saved { color: var(--muted); }
+button { font: inherit; color: inherit; cursor: pointer; }
+.btn {
+	font-family: var(--mono); font-size: var(--step--1); background: transparent;
+	border: 1px solid var(--rule); padding: 0.4rem 0.8rem; border-radius: 2px;
+}
+.btn:hover { border-color: var(--brass); }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+.group { display: grid; gap: 2.25rem; }
+.group > header { display: flex; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--ink); padding-bottom: 0.5rem; }
+.group > header .mono { color: var(--muted); }
+
+.frame {
+	display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 1.75rem 2.5rem;
+	align-items: start; padding-bottom: 2.25rem; border-bottom: 1px solid var(--rule);
+}
+.frame:last-child { border-bottom: 0; padding-bottom: 0; }
+.frame figure { margin: 0; display: grid; gap: 0.7rem; }
+.frame .shot { background: var(--sheet); display: grid; place-items: center; padding: 0.75rem; }
+.frame .shot.upright img { max-height: 34rem; width: auto; }
+.frame img { display: block; max-width: 100%; height: auto; }
+.frame figcaption { font-style: italic; color: var(--muted); font-size: 0.95rem; line-height: 1.45; max-width: 60ch; }
+.slip { display: grid; gap: 1.1rem; min-width: 0; }
+.slip .where { display: grid; gap: 0.2rem; }
+.slip .where .mono { color: var(--muted); overflow-wrap: anywhere; }
+.slip dl { margin: 0; display: grid; gap: 0.85rem; }
+.slip dt { margin-bottom: 0.15rem; }
+.slip dd { margin: 0; overflow-wrap: anywhere; }
+.slip dd.quiet { color: var(--muted); font-size: 0.95rem; }
+.note { border-left: 2px solid var(--brass); padding-left: 0.8rem; font-size: 0.95rem; }
+.chip {
+	display: inline-block; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em;
+	padding: 0.12rem 0.45rem; border: 1px solid var(--rule); border-radius: 2px; color: var(--muted); white-space: nowrap;
+}
+.chip.rec { border-color: var(--brass); color: var(--brass); background: var(--brass-soft); }
+.meta { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+
+.choose { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.choose button {
+	font-family: var(--mono); font-size: var(--step--1); background: transparent;
+	border: 1px solid var(--rule); padding: 0.45rem 0.9rem; border-radius: 2px; min-width: 4.5rem;
+}
+.choose button:hover { border-color: var(--ink); }
+.choose button[aria-pressed="true"][data-v="use"] { background: var(--yes-soft); border-color: var(--yes); color: var(--yes); }
+.choose button[aria-pressed="true"][data-v="maybe"] { background: var(--brass-soft); border-color: var(--brass); color: var(--brass); }
+.choose button[aria-pressed="true"][data-v="skip"] { background: var(--no-soft); border-color: var(--no); color: var(--no); }
+.frame.is-skip figure { opacity: 0.45; }
+
+details { border-top: 1px solid var(--rule); padding-top: 0.6rem; }
+summary { cursor: pointer; font-family: var(--mono); font-size: var(--step--1); color: var(--muted); }
+pre { margin: 0.6rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 0.75rem; line-height: 1.5; background: var(--sheet); padding: 0.75rem; }
+
+.aside { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 2.5rem; border-top: 1px solid var(--ink); padding-top: 1.5rem; }
+.aside section { display: grid; gap: 0.9rem; align-content: start; }
+.aside ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.55rem; }
+.aside li { max-width: 62ch; }
+#picked { width: 100%; min-height: 6rem; font-family: var(--mono); font-size: 0.75rem; background: var(--sheet); color: var(--ink); border: 1px solid var(--rule); padding: 0.6rem; }
+
+@media (max-width: 52rem) {
+	.frame { grid-template-columns: minmax(0, 1fr); }
+	h1 { font-size: var(--step-2); }
+}
+</style>
+
+<div class="wrap">
+	<header class="head">
+		<p class="label">islam.se · picture desk · <!--DATE--></p>
+		<h1>Bildförslag till islam.se</h1>
+		<!--LEDE-->
+		<p class="facts mono"><!--FACTS--></p>
+	</header>
+
+	<div class="tally" role="status">
+		<div class="counts mono">
+			<span><b id="n-use">0</b> use</span>
+			<span><b id="n-maybe">0</b> maybe</span>
+			<span><b id="n-skip">0</b> no</span>
+			<span><b id="n-open">0</b> undecided</span>
+		</div>
+		<span class="saved mono" id="saved">Saving in this browser only</span>
+		<button class="btn" id="take-rec" type="button">Take all recommended</button>
+	</div>
+
+	<main id="sheet" class="wrap"></main>
+
+	<div class="aside">
+		<section>
+			<h2>Your choices</h2>
+			<p>The list updates as you choose. Say "wire in my picks" in the terminal and they are read from this page; the text below is the same list if you would rather paste it.</p>
+			<textarea id="picked" readonly aria-label="Chosen pictures"></textarea>
+			<div><button class="btn" id="copy" type="button">Copy the list</button> <span class="mono" id="copied" style="color:var(--muted)"></span></div>
+		</section>
+<!--ASIDE-->
+	</div>
+</div>
+
+<script>
+// gallery.py writes this round's proposals and its name into the two strings below.
+const DATA = JSON.parse("__DATA__");
+const RUN = "__RUN__";
+const LABEL = { use: "Use", maybe: "Maybe", skip: "No" };
+const picks = {};                      // id -> "use" | "maybe" | "skip"
+const frames = new Map();              // id -> { el, buttons }
+let db = null;
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+
+function figureOf(d, n) {
+	const fig = el("figure");
+	const shot = el("div", `shot${d.h > d.w ? " upright" : ""}`);
+	const img = el("img");
+	img.src = d.img; img.alt = d.alt; img.width = d.w; img.height = d.h; img.loading = n > 2 ? "lazy" : "eager";
+	shot.append(img);
+	fig.append(shot);
+	if (d.caption) fig.append(el("figcaption", null, d.caption));
+	return fig;
+}
+
+function chooserOf(d) {
+	const choose = el("div", "choose");
+	choose.setAttribute("role", "group");
+	choose.setAttribute("aria-label", `Decision for ${d.id}`);
+	const buttons = {};
+	for (const v of ["use", "maybe", "skip"]) {
+		const b = el("button", null, LABEL[v]);
+		b.type = "button"; b.dataset.v = v; b.id = `pick-${d.id}-${v}`;
+		b.setAttribute("aria-pressed", "false");
+		b.addEventListener("click", () => choosePick(d.id, picks[d.id] === v ? null : v));
+		buttons[v] = b; choose.append(b);
+	}
+	return { choose, buttons };
+}
+
+function factsOf(d) {
+	const card = d.role === "card";
+	const place = d.places[0];
+	const dl = el("dl");
+	const row = (k, v) => { const dd = el("dd", "quiet", v); dl.append(el("dt", "label", k), dd); return dd; };
+	if (!card) row("Stands after the paragraph", `»${place.after} …«`);
+	if (d.places.length > 1) row("Or on", d.places.slice(1).map(p => `${p.page}, § ${p.section}`).join(" · "));
+	row("Alt text", d.alt);
+	const a = el("a", null, "Source");
+	a.href = d.source; a.target = "_blank"; a.rel = "noopener";
+	row("Credit to print", `${d.credit} `).append(a);
+	return dl;
+}
+
+function slipOf(d, n) {
+	const card = d.role === "card";
+	const rec = d.suggest === "use";
+	const place = d.places[0];
+	const slip = el("div", "slip");
+	const where = el("div", "where");
+	where.append(
+		el("span", "label", `${String(n).padStart(2, "0")} · ${card ? "card picture" : "in the text"}`),
+		el("h3", null, place.page),
+		el("span", "mono", card ? place.after : `§ ${place.section}`),
+	);
+	const meta = el("div", "meta");
+	meta.append(
+		el("span", rec ? "chip rec" : "chip", rec ? "RECOMMENDED" : "FOR YOUR EYE"),
+		el("span", "chip", d.licence.toUpperCase()),
+		el("span", "chip", `${d.w} × ${d.h}`),
+		el("span", "chip", `${d.kb} KB`),
+	);
+	const { choose, buttons } = chooserOf(d);
+	slip.append(where, meta, choose);
+	if (d.note) slip.append(el("p", "note", d.note));
+	const det = el("details");
+	det.append(el("summary", null, `${d.id}.webp`), el("pre", null, d.markdown || `Card picture: no line in the text. ${place.after}.`));
+	slip.append(factsOf(d), det);
+	return { slip, buttons };
+}
+
+function build() {
+	const sheet = document.getElementById("sheet");
+	let n = 0;
+	for (const group of [...new Set(DATA.map(d => d.group))]) {
+		const rows = DATA.filter(d => d.group === group);
+		const sec = el("section", "group");
+		const head = el("header");
+		head.append(el("h2", null, group), el("span", "mono", `${rows.length} ${rows.length === 1 ? "picture" : "pictures"}`));
+		sec.append(head);
+		for (const d of rows) {
+			n += 1;
+			const frame = el("article", "frame");
+			frame.id = d.id;
+			const { slip, buttons } = slipOf(d, n);
+			frame.append(figureOf(d, n), slip);
+			sec.append(frame);
+			frames.set(d.id, { el: frame, buttons });
+		}
+		sheet.append(sec);
+	}
+}
+
+function paint() {
+	const count = { use: 0, maybe: 0, skip: 0 };
+	for (const [id, f] of frames) {
+		const v = picks[id] || null;
+		for (const k of Object.keys(f.buttons)) f.buttons[k].setAttribute("aria-pressed", String(k === v));
+		f.el.classList.toggle("is-skip", v === "skip");
+		if (v) count[v] += 1;
+	}
+	document.getElementById("n-use").textContent = count.use;
+	document.getElementById("n-maybe").textContent = count.maybe;
+	document.getElementById("n-skip").textContent = count.skip;
+	document.getElementById("n-open").textContent = DATA.length - count.use - count.maybe - count.skip;
+	const lines = [];
+	for (const v of ["use", "maybe", "skip"]) {
+		const ids = DATA.filter(d => picks[d.id] === v).map(d => d.id);
+		if (ids.length) lines.push(`${LABEL[v].toUpperCase()}\n${ids.map(i => `  ${i}`).join("\n")}`);
+	}
+	document.getElementById("picked").value = lines.join("\n\n") || "Nothing chosen yet.";
+}
+
+function remember() {
+	try { localStorage.setItem(`bildforslag-picks-${RUN}`, JSON.stringify(picks)); } catch (_e) { /* private window */ }
+}
+const queue = {};                      // one write at a time per document
+function choosePick(id, v) {
+	if (v) picks[id] = v; else delete picks[id];
+	paint(); remember();
+	if (!db) return;
+	const ref = db.doc(`picks/${id}`);
+	queue[id] = (queue[id] || Promise.resolve())
+		.then(() => (v ? ref.set({ verdict: v, at: new Date().toISOString() }) : ref.delete()))
+		.catch(() => { db = null; document.getElementById("saved").textContent = "Saving in this browser only"; });
+}
+
+build();
+try { Object.assign(picks, JSON.parse(localStorage.getItem(`bildforslag-picks-${RUN}`) || "{}")); } catch (_e) { /* none */ }
+for (const id of Object.keys(picks)) if (!frames.has(id)) delete picks[id];
+paint();
+
+document.getElementById("take-rec").addEventListener("click", () => {
+	for (const d of DATA) if (d.suggest === "use" && picks[d.id] !== "use") choosePick(d.id, "use");
+});
+document.getElementById("copy").addEventListener("click", () => {
+	const box = document.getElementById("picked"), said = document.getElementById("copied");
+	const done = () => { said.textContent = "Copied"; setTimeout(() => { said.textContent = ""; }, 1800); };
+	const select = () => { box.focus(); box.select(); said.textContent = "Selected: press Ctrl+C"; };
+	if (navigator.clipboard?.writeText) navigator.clipboard.writeText(box.value).then(done, select); else select();
+});
+
+// The shared store, when this view has one: choices then reach every device and the terminal.
+(async () => {
+	const store = window.claude?.use ? await window.claude.use("db") : null;
+	if (!store) return;
+	db = store;
+	const saved = document.getElementById("saved");
+	let first = true;
+	db.collection("picks").onSnapshot((snap) => {
+		const remote = {};
+		for (const doc of snap.docs) { const v = doc.data()?.verdict; if (frames.has(doc.id) && LABEL[v]) remote[doc.id] = v; }
+		if (first) {
+			first = false;
+			// Choices made before the store answered are kept and written through.
+			const local = Object.assign({}, picks);
+			for (const id of Object.keys(picks)) delete picks[id];
+			Object.assign(picks, remote);
+			for (const id of Object.keys(local)) if (!remote[id]) choosePick(id, local[id]);
+		} else {
+			for (const id of Object.keys(picks)) delete picks[id];
+			Object.assign(picks, remote);
+		}
+		saved.textContent = "Choices are saved";
+		paint(); remember();
+	}, () => { db = null; saved.textContent = "Saving in this browser only"; });
+})();
+</script>

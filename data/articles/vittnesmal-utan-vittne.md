@@ -4,6 +4,7 @@ publishedAt: "2026-08-29T14:13:28.331Z"
 wordCount: 2222
 qualityScore: 8.8
 description: "Ingen kan i dag avgöra om en språkmodell upplever något, och ändå låter debatten hela frågan om ansvar hänga på det. Redan al-Shāfiʿī skrev att domaren dömer efter det som syns och lämnar det dolda åt Gud. Det är en bättre grund för krav på maskinerna än gissningar om vad som finns inuti."
+category: "Rättvisa"
 imageAlt: "En sluten svart låda matar ut ett pappersark på ett ljust träbord i ett vintermörkt rum."
 imageCaption: "Orden blir synliga. Det som frambringar dem förblir slutet."
 ---

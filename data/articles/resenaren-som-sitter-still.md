@@ -49,6 +49,8 @@ Kärleken till födelseorten är ingen svaghet i tron. Han som bad om att få ä
 
 Med äpplet i handen säger Kristina till sist att äpplena är mogna "hos oss", och att hon är hemma.[^10]
 
+![Svartvitt fotografi av män, kvinnor och barn uppställda framför en liten timmerstuga i skogen, med två hästar förspända en vagn till höger.](../../apps/web/src/assets/images/inline/svenska-utvandrare-rush-city-minnesota.webp "Svenska utvandrare vid sin timmerstuga i Rush City, Minnesota. Olof Olsson från Kil i Närke kom dit omkring 1880.")
+
 Vad *hemma* betyder på en kristen dödsbädd hör till Kristinas egen tro och får stanna där. Som ord om en plats på jorden går repliken att läsa på två sätt. Kanske är hon i dödsstunden tillbaka i Duvemåla, vid gaveln där allt började. Men äpplet i hennes hand är självt tvetydigt – kärnan från Duvemåla, jorden från Minnesota – och de äpplen som faktiskt hade mognat växte i Minnesota. Kanske är hon hemma just där. Då har hon till slut fått det som bönen i Medina bad om: den nya platsen har blivit så kär att hon kallar den sin.
 
 I så fall får hon det i samma stund som hon ska lämna platsen, och orden om hemmet kommer först när de redan är ett avsked.
@@ -121,7 +123,7 @@ Det finns en återvandring som ingen stat betalar för och som ingen utredning k
 
 ---
 
-[^1]: Vilhelm Moberg, *Invandrarna* (1952), *Nybyggarna* (1956) och *Sista brevet till Sverige* (1959). Scenerna återges med egna ord; de korta citaten är Mobergs.
+[^1]: Vilhelm Moberg, *Invandrarna* (1952), *Nybyggarna* (1956) och *Sista brevet till Sverige* (1959). Scenerna återges med egna ord; de korta citaten är Mobergs. Bilden i texten: okänd fotograf, Rush City i Minnesota, Nordiska museet, [via Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Svenskar_i_Amerika._Olof_Olsson_fr%C3%A5n_Nerikes_Kil,_utvandrade_ca_1880_till_Rush_City,_Minnesota_-_Nordiska_Museet_-_NMA.0039211.jpg); fri från upphovsrätt.
 [^2]: Siffran för hela perioden 1850–1930 är Utvandrarnas hus i Växjö, som räknar med omkring 1,25 miljoner utvandrare till Nordamerika, av vilka omkring 200 000 kom tillbaka. För delperioden 1851–1910 anger SCB, "Mass emigration to America – a blow to Sweden" (2013), att 1 170 456 personer lämnade Sverige, 948 823 av dem till USA. Toppåret var 1887 med 50 786 utvandrare.
 [^3]: Emigrationsutredningen (1907–1913), ledd av Gustav Sundbärg; betänkandet och bilagorna omfattar 21 band. Bland de reformer som utredningen förordade fanns rösträtt, bättre bostäder och folkbildning.
 [^4]: Migrationsverket, nyhet den 1 januari 2026 om det höjda återvandringsbidraget: 350 000 kronor per vuxen och 25 000 kronor per barn, högst 600 000 kronor per hushåll. Bidraget betalas inte ut för bosättning i ett EU/EES-land eller i Schweiz. Enligt Migrationsverket (30 september 2026) kom 763 ansökningar under januari–augusti 2026, och av 590 avgjorda ärenden beviljades 200.

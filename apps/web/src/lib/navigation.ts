@@ -67,7 +67,11 @@ const pages = {
 	// /amnen/{slug} står kvar och nås från de rubrikerna, från varje essäs kicker,
 	// från FeatureEssay, från EssayConnections och som sju egna rader i paletten.
 	// /amnen 301:ar till /essaer/ (se customRedirects i astro.config.ts).
-	tradar: { href: "/tradar/", label: "Teman", sub: "Essäer som hör ihop, att läsa i ordning." },
+	tradar: {
+		href: "/tradar/",
+		label: "Essäserier",
+		sub: "Essäer som hör ihop, att läsa i ordning.",
+	},
 	tankare: { href: "/tankare/", label: "Tänkare", sub: "De röster essäerna återvänder till." },
 	calendar: {
 		href: "/det-islamiska-aret/",
@@ -198,19 +202,16 @@ export const HOME_DOORWAYS: PaletteNavLink[] = [...MAST_SECTION_LINKS, ...MAST_U
 	},
 );
 
-/** Practical web tools. On desktop, today's times and the annual chart share
- *  one column; the mosque directory and mosque screen share the other.
- *  The app has its own illustrated promotion immediately below this section. */
-export const HOME_TOOL_LINKS: PaletteNavLink[] = [
-	pages.prayerTimes,
-	pages.mosques,
-	{
-		href: "/bonetider/aret/",
-		label: "Bönetider under året",
-		menuSub: "Se hur bönetiderna och dagsljuset skiftar med årstiderna.",
-	},
-	pages.mosqueScreen,
-].map(({ href, label, menuSub }) => ({ href, label, sub: menuSub }));
+/** The three destinations of the front page's practical room, one to each third: the
+ *  day, the year and the country (PraktisktHome). Named here so the room, the mast and
+ *  the footer cannot call one destination two things. »Bönetider under året« is a page
+ *  inside Bönetider and Moskéskärm has its drawn promotion at the page's close; neither
+ *  is a column of its own. */
+export const HOME_TOOL_LINKS = {
+	bonetider: { href: pages.prayerTimes.href, label: pages.prayerTimes.label },
+	aret: { href: pages.calendar.href, label: pages.calendar.label },
+	moskeer: { href: pages.mosques.href, label: pages.mosques.label },
+} satisfies Record<string, NavLink>;
 
 export const PALETTE_READ_LINKS: PaletteNavLink[] = [
 	{ href: pages.pillars.href, label: pages.pillars.label, sub: pages.pillars.menuSub },

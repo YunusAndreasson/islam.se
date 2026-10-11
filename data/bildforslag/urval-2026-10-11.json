@@ -1,0 +1,153 @@
+[
+  {
+    "id": "gaza-var-ar-min-far-december-2023",
+    "commons": "File:Gaza war 2023 - 2025 IMG 1570.jpg",
+    "crop": [
+      0.08,
+      0.24,
+      0.88,
+      0.5
+    ],
+    "creditName": "Jaber Jehad Badwan / Wikimedia Commons",
+    "texts": [
+      {
+        "file": "data/articles/folkmordet-skrevs-under-i-forvag.md",
+        "section": "Sex barn på tio dagar",
+        "after": "Det som vittnet kände stod redan i arméns egen uträkning."
+      }
+    ],
+    "alt": "Fem rader arabisk text sprejade i rött på en sprucken betongvägg, med blottade armeringsjärn till höger.",
+    "caption": "Gaza, december 2023. På resterna av ett hus har någon skrivit: Var är mitt hem? Var är min mor? Var är min far? Var är min syster och min bror?",
+    "verdict": "use",
+    "note": "Fotograferad den 11 december 2023 enligt bildfilen, fyra månader innan +972 avslöjade programmet Where's Daddy? Sista raden på väggen är en hashtagg: Var är mänskligheten. Texten är läst i full upplösning."
+  },
+  {
+    "id": "gaza-koranblad-i-rasmassorna",
+    "commons": "File:Gaza war 2023 - 2025 IMG 3876.jpg",
+    "crop": [
+      0,
+      0.12,
+      1,
+      0.66
+    ],
+    "width": 1100,
+    "creditName": "Jaber Jehad Badwan / Wikimedia Commons",
+    "texts": [
+      {
+        "file": "data/articles/folkmordet-skrevs-under-i-forvag.md",
+        "section": "En olycka med underskrift",
+        "after": "Kvar står mönstret, och det måste förklaras med något annat."
+      }
+    ],
+    "alt": "En hand håller upp ett rivet blad ur en tryckt koran, med arabisk text inom en blommönstrad ram; bakom ligger betongbråte.",
+    "caption": "Gaza den 29 januari 2025. Ett rivet blad ur Koranen bland rasmassorna; sidan är ur sura Yā Sīn.",
+    "verdict": "use",
+    "note": "Sidan visar 36:13–26, läst i full upplösning. Tagen samma dag som väskan på bilden överst i »Om dessa ord når er«, 77 minuter tidigare. Stycket före talar om att till och med familjealbumen skulle bort."
+  },
+  {
+    "id": "beit-lahia-talt-i-rasmassorna",
+    "commons": "File:Images of war 23-25 from Gaza, by Jaber Badwen, IMG 6185.jpg",
+    "creditName": "Jaber Jehad Badwan / Wikimedia Commons",
+    "texts": [
+      {
+        "file": "data/articles/folkmordet-skrevs-under-i-forvag.md",
+        "section": "Utredningen gäller vittnena",
+        "after": "Vi tror att förnekandet av ett brott är det som låter det fortsätta."
+      }
+    ],
+    "alt": "Tält och presenningar uppslagna mitt i ett fält av sönderslagen betong som sträcker sig till horisonten under en grå himmel.",
+    "caption": "Beit Lahia i norra Gaza den 23 februari 2025. Tält uppslagna i resterna av staden.",
+    "verdict": "use",
+    "note": "Flyttad: Koranbladet står där den här först föreslogs, så den här står efter Abrahams ord om förnekandet."
+  },
+  {
+    "id": "minnesplats-journalisterna-mexico-city",
+    "commons": "File:Mega Marcha por Palestina en la Ciudad de México 14.jpg",
+    "crop": [
+      0.04,
+      0.13,
+      0.93,
+      0.85
+    ],
+    "creditName": "ProtoplasmaKid / Wikimedia Commons",
+    "texts": [
+      {
+        "file": "data/articles/om-dessa-ord-nar-er.md",
+        "section": "Hundrasjuttio namn",
+        "after": "Mediearbete åt Hamas gör enligt henne ingen till stridande."
+      }
+    ],
+    "alt": "Fotografier av dödade journalister uppställda på marken framför en palestinasjal, omgivna av rosor, ljus och skyltar på spanska.",
+    "caption": "Mexico City den 17 augusti 2025, en vecka efter anfallet mot tältet vid al-Shifa. På skylten: Man dödar inte sanningen genom att döda journalister.",
+    "verdict": "use",
+    "note": "Enligt fotografens beskrivning en minnesplats för al-Sharif, Qreiqeh, Zaher, Noufal och Aliwa; affischen till vänster bär Mohammad al-Khaldis namn. Avsnittet är essäns längsta utan bild."
+  },
+  {
+    "id": "al-shifa-sjukhuset-februari-2025",
+    "commons": "File:Images of war 23-25 from Gaza, by Jaber Badwen, IMG 5959.jpg",
+    "creditName": "Jaber Jehad Badwan / Wikimedia Commons",
+    "texts": [
+      {
+        "file": "data/articles/om-dessa-ord-nar-er.md",
+        "section": "En död med avsändare",
+        "after": "Den 10 augusti kom anfallet mot tältet, sjutton dagar efter CPJ:s varning."
+      }
+    ],
+    "alt": "En utbränd sjukhusbyggnad i flera våningar med sotiga fönsterhål och raserade väggar; några människor går förbi nedanför.",
+    "caption": "Al-Shifa-sjukhuset i Gaza stad den 22 februari 2025. Vid sjukhusets huvudport träffades journalisternas tält den 10 augusti samma år.",
+    "verdict": "use",
+    "note": "Platsen stämmer med bildfilens koordinater. Avsnittet har redan flygbladet, så det här blir essäns sjätte bild i texten.",
+    "crop": [
+      0,
+      0,
+      0.93,
+      1
+    ],
+    "saturation": 0.78
+  },
+  {
+    "id": "nya-tiders-monter-bokmassan-2016",
+    "commons": "File:Nya tider 01.jpg",
+    "crop": [
+      0.36,
+      0,
+      0.64,
+      1
+    ],
+    "creditName": "Bengt Oberger / Wikimedia Commons",
+    "texts": [
+      {
+        "file": "data/articles/bokmassan-och-idfs-forre-talesman.md",
+        "section": "Vad mässan visste redan 2016",
+        "after": "uppmärksamheten kring en enskild utställare hade skymt mässans innehåll."
+      }
+    ],
+    "alt": "En man i mörk kavaj talar i mikrofon framför en vepa med tidningsnamnet Nya Tider och texten En ny tid kräver ny media.",
+    "caption": "Nya Tiders monter på Bokmässan den 24 september 2016, drygt tre veckor efter att mässan hade tagit tillbaka uppsägningen. I mikrofonen chefredaktören Vávra Suk.",
+    "verdict": "use",
+    "note": "Enda bilden som visar det avsnittet handlar om. Den ger samtidigt tidningens vepa plats på sidan; det är ditt avgörande."
+  },
+  {
+    "id": "deir-al-balah-pojke-bar-mat-januari-2025",
+    "commons": "File:A Gazan child carrying food for his family during the Gaza war 23-25.jpg",
+    "crop": [
+      0,
+      0.3,
+      1,
+      0.7
+    ],
+    "width": 1100,
+    "creditName": "Jaber Jehad Badwan / Wikimedia Commons",
+    "texts": [
+      {
+        "file": "data/articles/bokmassan-och-idfs-forre-talesman.md",
+        "section": "Fem dagar efter kommissionen",
+        "after": "det är ett vittnesmål om människor som inte längre kan vittna själva."
+      }
+    ],
+    "alt": "En pojke sedd bakifrån bär en blå balja med mat på axeln längs en gata; längre fram går en man.",
+    "caption": "Deir al-Balah den 24 januari 2025. En pojke bär hem mat till familjen. I augusti samma år fastställde IPC svält i guvernementet Gaza.",
+    "verdict": "use",
+    "note": "Flyttad två stycken ned, till efter Conricus ord och essäns svar på dem; på den först föreslagna platsen hamnade den kant i kant med ett lyft citat. Bilden är tagen sju månader före svältbeskedet, och texten under säger det."
+  }
+]

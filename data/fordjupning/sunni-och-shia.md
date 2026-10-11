@@ -80,6 +80,8 @@ sources:
     url: "https://en.wikipedia.org/wiki/The_Four_Books"
   - name: "Islamiska Shiasamfunden i Sverige"
     url: "https://sv.wikipedia.org/wiki/Islamiska_Shiasamfunden_i_Sverige"
+  - name: "Bild: Uppsala mötes beslut 1593, Västerås domkyrka. Foto Kigsz, Wikimedia Commons, licens CC BY-SA 4.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Uppsala_Synod_document_in_V%C3%A4ster%C3%A5s.jpg"
 related:
   - "sunni-och-shia"
   - "de-rattledda-kaliferna"
@@ -181,6 +183,8 @@ Den nya lagen om statsbidrag till trossamfund, som trädde i kraft den 1 januari
 ## Trosstrider i svensk idéhistoria och parallellen till sunni och shia
 
 Också i Sverige har staten avgjort vilken läsning av en gemensam skrift som skulle gälla. Uppsala möte 1593 fastställde den augsburgska bekännelsen som rikets lära. Konventikelplakatet 1726 förbjöd religiösa sammankomster utanför kyrkans kontroll och var i kraft i 132 år. Dissenterlagarna 1860 och 1873 gjorde det möjligt att lämna Svenska kyrkan endast för ett godkänt samfund, full religionsfrihet kom först med 1951 års lag, och förhållandet mellan kyrka och stat ändrades år 2000. Erik Janssons anhängare utvandrade 1846 till Bishop Hill i Illinois efter förföljelse.
+
+![Ett stort pergamentblad med tät handskrift och ett trettiotal vaxsigill hängande i remsor längs nederkanten, utställt i en monter.](../../apps/web/src/assets/images/inline/uppsala-motes-beslut-1593.webp "Uppsala mötes beslut 1593, i det exemplar som prästerna i Västerås stift undertecknade och beseglade. Västerås domkyrka.")
 
 Striderna satte spår i litteraturen. Viktor Rydberg lade i Den siste Atenaren (1859) sin handling i 300-talets Grekland, där hedendom, kristendom och rivaliserande kristna riktningar drabbar samman, och lät den sista tillflykten vara en dal där oenigheten fanns kvar men fördragsamheten tvingats fram:[^37]
 

@@ -82,6 +82,8 @@ sources:
   - name: "Ibn Taymiyya, Minhaj al-sunna al-nabawiyya"
   - name: "Ibn al-Jawzi, Sifat al-safwa"
   - name: "Sean W. Anthony, Muhammad and the Empires of Faith, University of California Press 2020"
+  - name: "Bild: Mecka omkring 1880. Foto Muhammad Sadiq Bey, Khalili Collections, licens CC BY-SA 3.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Edited_Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_arc.pp_0211.02-Photo_of_Mecca_by_Muhammad_Sadiq_Bey_ca.1880-ccbysa3.0.png"
 related:
   - "vem-var-profeten-muhammed"
   - "vad-ar-sunna"
@@ -145,6 +147,8 @@ De namngivna företrädarna i dessa strider kommer ur olika rättsskolor: Ibn Ta
 ## Muhammeds liv och eftermäle från 570 till i dag
 
 Ibn Ishaq daterar födelsen till en måndag, den tolfte natten av månaden rabīʿ al-awwal, under Elefantens år.[^16] Det är det datum då mawlid firas. Fadern dog innan han föddes och modern under hans barndom; i 93:6 påminns han om att Gud fann honom faderlös och gav honom skydd. Vid tjugofem års ålder gifte han sig med köpmannen Khadija bint Khuwaylid, som först hade anlitat honom för sina handelsresor och sedan själv friade. Han gav henne tjugo unga kamelston i brudgåva, tog ingen annan hustru så länge hon levde, och alla hans barn utom Ibrahim föddes i det äktenskapet.[^17]
+
+![Sepiapanorama över en tätbebyggd stad i en dal mellan kala berg; i förgrunden en stor gård med pelargångar och Kaba i mitten.](../../apps/web/src/assets/images/inline/mecka-1880-panorama-sadiq-bey.webp "Mecka omkring 1880 i Muhammad Sadiq Beys panorama: staden i dalen kring helgedomen.")
 
 Kallelsen kom omkring 610 i grottan på Hira. Motståndet i Mecka hårdnade, en grupp följeslagare sökte skydd i Abessinien, och omkring 619 dog både Khadija och farbrodern Abu Talib, det år traditionen kallar sorgens år.[^18] År 622 skedde utvandringen till Medina, den händelse som ger den islamiska tideräkningen dess utgångspunkt. Där blev han samtidigt lagstiftare, domare och militär ledare, och de tio Medina-åren rymmer Badr, Uhud, slaget vid Diket och fördraget i Hudaybiyya 628. Mecka intogs 630. Efter slaget vid Hunayn samma år kom Hawazins delegation och bad om sina fångar; Profeten svarade att det som tillhörde honom och ʿAbd al-Muttalibs söner var deras.[^19] Han dog i Medina den 8 juni 632, i Aishas hus. Hon berättar att hon höll hans hand och läste bönen över den, att han drog den ur hennes och sade: Herre, förlåt mig och förena mig med det högsta sällskapet.[^20]
 

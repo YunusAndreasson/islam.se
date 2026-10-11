@@ -4,8 +4,8 @@ publishedAt: "2026-06-05T20:58:03.598Z"
 wordCount: 1423
 qualityScore: 8.6
 description: "Religionsforskaren David Thurfjell mötte svensk efter svensk som sökte det heliga i skogen. Fröding gick den vägen tills Gud löstes upp i naturen. Koranen kallar naturen för tecken, och ett tecken pekar mot den som har gjort det."
-imageAlt: "En ensam person står på en stig djupt inne i en hög, dimmig svensk granskog och blickar in bland stammarna."
-imageCaption: "Skogen är vacker – men den är inte en kyrka."
+imageAlt: "En vandrare i grå jacka och mössa står stilla på en smal stig bland höga granar, sedd bakifrån på avstånd; i förgrunden till vänster står en grov, lavklädd granstam, och marken är täckt av mossa, blåbärsris och gula björklöv."
+imageCaption: "En vandrare har stannat på stigen bland granarna. Skogen är vacker, men den är ingen kyrka."
 category: "Skapelsen"
 ---
 Det finns en mening som de flesta sekulariserade svenskar kan skriva under på utan att tveka. Religionssociologen David Thurfjell hörde den gång på gång när han intervjuade ett sjuttiotal vandrare i skogsområdena kring Stockholm och Uppsala:

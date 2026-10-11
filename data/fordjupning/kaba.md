@@ -76,6 +76,10 @@ sources:
     url: "https://sv.wikipedia.org/wiki/Kaba"
   - name: "Patricia Crone, Meccan Trade and the Rise of Islam (Princeton 1987)"
   - name: "G. R. Hawting, The Idea of Idolatry and the Emergence of Islam (Cambridge 1999)"
+  - name: "Bild: Kaba 1880. Foto Muhammad Sadiq Bey, Khalili Collections (fri från upphovsrätt)"
+    url: "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_arc.pp_0211.04_CROP.jpg"
+  - name: "Bild: plan över moskén i Mecka ur Christiaan Snouck Hurgronje, Mekka, Haag 1888 (fri från upphovsrätt), beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Grundriss_der_Moschee_von_Mekka.jpg"
 related:
   - "vad-ar-kaba"
   - "vad-ar-hajj"
@@ -95,6 +99,8 @@ imageAlt: "Man sedd bakifrån i skuggan av en pelare blickar mot Kaba på den n�
 Tvisten om Kaba gäller nästan alltid vad byggnaden betyder. Islams mest grundläggande sats är att ingenting skapat äger makt att gagna eller skada, och ändå står ett stenhus i religionens mitt, med en sten som kysses av miljoner människor varje år. Frågan väcktes inte först av islams kritiker. Kalifen Umar b. al-Khattab ställde den vid själva stenen, och det svar som traditionen ger på anklagelsen om stendyrkan formulerades av muslimska lärda långt innan någon europé hade sett Mecka.
 
 Byggnaden som står där i dag är inte den som traditionen tillskriver Abraham, och det är traditionen själv som säger det, i en hadith som räknas till de säkraste. Murverket är dessutom yngre än planlösningen: det pilgrimen ser restes 1630.
+
+![Sepiafotografi av Kaba klädd i mörkt tyg med ett broderat band, omgiven av pelargångar; bakom den klättrar Meckas hus uppför bergssluttningen.](../../apps/web/src/assets/images/inline/kaba-1880-sadiq-bey.webp "Kaba fotograferad av Muhammad Sadiq Bey 1880, bland de äldsta fotografierna av helgedomen.")
 
 ## Vad ordet Kaba betyder: det som reser sig
 
@@ -135,6 +141,8 @@ Större delen av den senare diskussionen utgår från två hadither. Den ena är
 Att byggnaden är helig råder det ingen strid om mellan rättsskolorna. Striden börjar vid frågan vad heligheten kräver i praktiken.
 
 Den första och tyngsta tvisten rör *al-hijr*. Eftersom Quraysh byggde kortare än den äldre grunden ligger ett stycke av det ursprungliga Huset utanför murarna, innanför den låga marmormuren. Ibn Rushd (död 1198) sammanfattar läget i *Bidayat al-mujtahid*: majoriteten anser "att Hijr hör till Huset, och att den som vandrar runt Huset är skyldig att räkna in Hijr i kretsen, och att detta är ett villkor för att ifada-vandringen ska vara giltig. Abu Hanifa och hans lärjungar säger: det är sunna."[^16] Malik anför Aishas hadith om de sju alnar som lämnades utanför när medlen och timret tröt. Ibn Abbas anför versen om att vandra runt den uråldriga helgedomen tillsammans med iakttagelsen att profeten gick utanför Hijr. Hanafiterna håller sig till versens ordalydelse, som bara nämner Huset. Den pilgrim som genar innanför muren har enligt majoriteten inte fullgjort sin vallfärd. Muftiämbetet i Malaysias federala territorier drar gränsen ännu snävare i shafiitisk tradition och räknar även sockeln, *shadharwan*, till byggnaden, så att den som stödjer sig mot Kabas vägg under rundvandringen gör vandringen ogiltig.[^17]
+
+![Tryckt planritning över moskén i Mecka: Kaba mitt i en oval gård, den halvcirkelformade al-hijr intill, och numrerade byggnader runt omkring.](../../apps/web/src/assets/images/inline/moskens-plan-mecka-1888.webp "Plan över moskén i Mecka ur Christiaan Snouck Hurgronjes bildatlas, 1888. Siffran 2 markerar al-hijr; vid 6, 8, 9 och 10 hade de fyra rättsskolorna var sin böneplats.")
 
 En andra strid gäller rituell renhet. al-Nawawi redovisar båda ståndpunkterna. Abu Hanifa och de som följer honom stöder sig på att befallningen att vandra runt Huset är allmänt hållen och inte nämner något renhetskrav, och drar en parallell till vistelsen på Arafa och de övriga vallfärdsmomenten, som inte kräver tvagning. Shafiiterna åberopar Aishas uppgift att det första profeten gjorde när han kom till Mecka var att göra tvagning och därefter gå sin rundvandring, och Jabirs återgivning av orden vid avskedsvallfärden: "Ta era riter efter mig."[^18] Hos hanafiterna blir renheten därmed en plikt vars försummelse kan gottgöras, hos de övriga ett villkor för att vandringen alls ska räknas.
 

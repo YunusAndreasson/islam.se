@@ -184,47 +184,17 @@
 	color: var(--color-accent);
 }
 
-/* Shared by the barometer and the islamic year, so their labels are the same object
-   seen twice rather than near-misses. */
-.sidolinje-rubrik {
-	display: flex;
-	align-items: center;
-	gap: 0.7rem;
-	/* 0.3rem, and it is not a nudge: it is `.home-head-all`'s own `padding-block`.
-	   The movement kickers beside this one sit in a baseline-aligned flex row next
-	   to an "Alla X →" link, and that link's 0.3rem of vertical padding (added for
-	   the WCAG 2.5.8 target size) displaces the kicker by exactly that much. The
-	   rail's heading has no such neighbour, so it sat 5px high and the two section
-	   labels missed each other across the gutter.
-	   ⚠️ If `.home-head-all`'s padding changes, this must change with it. */
-	margin: 0.3rem 0 var(--space-half);
-	font-size: var(--step--2);
-	font-weight: 400;
-	letter-spacing: 0.09em;
-}
-
-/* The same point the movement kickers carry (layout.css, .home-kicker), so the rail
-   is legibly part of the same page rather than an inset advertisement. A step
-   smaller, as the column is. */
-.sidolinje-rubrik::before {
-	content: "";
-	flex: none;
-	inline-size: 0.4rem;
-	block-size: 0.4rem;
-	border-radius: 50%;
-	background: var(--color-brass);
-}
-
-/* ── The front page's wire bar ─────────────────────────────────────────────
-   Three headlines on one line each, on the page's thirds, between two hairlines
-   under the lead (Nyheter.astro says why there).
+/* ── The front page's news bar ─────────────────────────────────────────────
+   Six notices, a headline and its stamp under it, two to each of the page's thirds,
+   under a hairline at the foot of the lead (Nyheter.astro says why there, and why six).
 
    ITS HEIGHT IS KNOWN BEFORE THE NEWS IS. The rows come from a fetch, and a bar that
    appeared when the fetch landed would push the essays down under the reader's eyes
    on any screen that shows them beside the lead. So the bar holds its place from the
-   first paint and is only made visible when it has rows: each headline is exactly one
-   line (an over-long one ends in an ellipsis), so the place it holds is the place it
-   takes. Three states, on `data-lage`:
+   first paint and is only made visible when it has rows: in columns each headline is
+   exactly one line, so the place it holds is the place it takes. In one column a long
+   headline takes a second line instead (see »One column« below for why it may). Three
+   states, on `data-lage`:
 
      vantar  — in the layout, not shown. Nothing is announced and nothing is drawn:
                an empty, headed frame reads as a broken page.
@@ -236,11 +206,35 @@
    A reader without scripts never has the place held at all: Base.astro stamps
    `data-js` on the root before paint, and without it the bar is not in the layout. */
 .nyhetsremsa {
-	--remsa-rad: 1.5rem;
+	/* A notice is a headline's line and a stamp's line, and the air to the next is
+	   less than the two together and more than the step between them, so a stamp
+	   belongs to the headline over it. */
+	--remsa-titel: 1.25rem;
+	--remsa-stampel: 1.125rem;
+	--remsa-gap: 0.875rem;
+	/* How many rows the six notices take: six in one column, three on halves, two on
+	   thirds. The place the bar holds before the news arrives is counted from it. */
+	--remsa-rader: 6;
 	margin-block: var(--space-unit) 0;
-	padding-block: var(--space-half);
-	border-block: 1px solid var(--color-rule);
+	/* One rule, over it: the grammar every section on the page's paper opens with (rule,
+	   kicker row, content; editorial.css, »A rule opens a section«). It stood between two
+	   until 2026-10-10. The lower one then lay between the last headline and the next
+	   section's label, and belonged to both: with the label drawn up under it the bar and
+	   the essays read as one block, and with the label a section space below it the page
+	   had one section that opened without a rule of its own. Now what stands under a
+	   rule belongs to that rule's label, down to the next rule, everywhere. */
+	padding-block: var(--space-half) 0;
+	border-top: 1px solid var(--color-rule);
 	font-family: var(--font-heading);
+}
+
+/* Where the mast's links are folded away the six doorways follow the bar directly, under
+   a rule of their own: the last notice needs the air over that rule that the first
+   has under the bar's. */
+@media (width <= 56.25rem) {
+	.nyhetsremsa {
+		padding-bottom: var(--space-half);
+	}
 }
 
 :root:not([data-js]) .nyhetsremsa,
@@ -276,56 +270,69 @@
 	margin-inline-start: auto;
 }
 
+/* The head row is one line at every width. At 320px its three parts need 283px of
+   270 and the credit broke in two under the name (»från / zuhd.news«); there the
+   preposition goes and the name of the source stands beside »Nyheter« on its own. */
+.nyhetsremsa .nyheter-avsandare {
+	white-space: nowrap;
+}
+
+@media (width < 22.5rem) {
+	.nyhetsremsa .nyheter-fran {
+		display: none;
+	}
+}
+
 .nyhetsremsa .nyheter-lista {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	gap: 0.25rem var(--grid-gutter);
+	gap: var(--remsa-gap) var(--grid-gutter);
 	margin-top: 0.5rem;
-	/* Three rows of one line, held before they arrive. */
-	min-block-size: calc(3 * var(--remsa-rad) + 2 * 0.25rem);
+	/* The rows, held before they arrive. */
+	min-block-size: calc(
+		var(--remsa-rader) *
+		(var(--remsa-titel) + var(--remsa-stampel)) +
+		(var(--remsa-rader) - 1) *
+		var(--remsa-gap)
+	);
 }
 
-/* Shown: the rows are what they are. On a thin day there are fewer than three, and
-   in one column the bar is then as short as its rows. */
+/* Shown: the rows are what they are. On a thin day there are fewer than six, and the
+   bar is then as short as its rows. */
 .nyhetsremsa[data-lage="klar"] .nyheter-lista {
 	min-block-size: 0;
 }
 
-/* A row: the clock, then the headline, on one line. */
+/* A notice: the headline, and its stamp under it.
+
+   It was the clock and then the headline on one line, a wire's row, and the clock took
+   the headline's room: on a third of the canvas a stamp with its day on it (»I går
+   21:56«) left the headline 305px, and one headline in ten of the feed's ended in an
+   ellipsis; with six on the page that was every other visit (measured against 95
+   headlines, 2026-10-11; the longest is 357px). Under each other the headline has its
+   whole column, 373px, and none is cut. It is also the order every other item on the
+   page has, a title and a meta line under it, and it puts the headlines on the page's
+   three column lines, where the rail's titles over them and the cards' under them
+   stand.
+
+   ONE COLUMN. Under 48rem the notices stand under each other and a long headline
+   takes a second line: a phone 360px wide gives it 320px. The bar's height is then not
+   known to the line before the news is, and it need not be: where a headline can wrap
+   the bar stands a screen and more below the first one (y 1 095 at 390 × 844), so the
+   line a long headline adds arrives where nobody is looking. */
 .nyhetsremsa .nyhet {
-	display: flex;
-	align-items: baseline;
-	gap: 0.65rem;
 	min-inline-size: 0;
-	block-size: var(--remsa-rad);
 	padding: 0;
 	border: 0;
 }
 
-.nyhetsremsa .nyhet-meta {
-	flex: none;
-	margin: 0;
-	font-size: var(--step--3);
-	line-height: var(--remsa-rad);
-}
-
-/* The category goes: three rows sorted by the clock need no second sort key, and it
-   was the widest thing on a line that has one line. */
-.nyhetsremsa :is(.nyhet-kategori, .nyhet-skiljetecken) {
-	display: none;
-}
-
 .nyhetsremsa .nyhet-titel {
-	min-inline-size: 0;
 	margin: 0;
 	font-size: var(--step--2);
 	/* 500, not 600: quoted material from another desk, set a weight below the site's
 	   own headlines so the bar does not outshout the essays around it. */
 	font-weight: 500;
-	line-height: var(--remsa-rad);
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	line-height: var(--remsa-titel);
 }
 
 .nyhetsremsa .nyhet-titel a {
@@ -339,19 +346,55 @@
 	color: var(--color-accent);
 }
 
-/* Where the doorways stand under it (index.astro, at the mast's own line) their top
-   rule closes the bar: two hairlines one padding apart read as one heavy one. */
-@media (width <= 56.25rem) {
+.nyhetsremsa .nyhet-meta {
+	margin: 0;
+	font-size: var(--step--3);
+	line-height: var(--remsa-stampel);
+}
+
+/* The category goes: six rows sorted by the clock need no second sort key. */
+.nyhetsremsa :is(.nyhet-kategori, .nyhet-skiljetecken) {
+	display: none;
+}
+
+/* IN COLUMNS WHERE A COLUMN HOLDS A HEADLINE. In columns a headline is one line, so a
+   column has to be as wide as the headlines are, and the longest of the feed's is
+   357px:
+
+     under 48rem   one column, six notices
+     from 48rem    halves, three rows (335px a column at 768px)
+     from 72rem    the page's thirds, two rows (332px at 1 152px, 373px on the full canvas)
+
+   The thirds stood from 60rem, with the essays' cards under the bar, and there a third
+   is 269px: with the clock in front of it four headlines in five ended in an ellipsis
+   at 960px, and under each other one in three still would. A card can wrap its title
+   and a headline that holds a place cannot, so the bar asks for its thirds later than
+   the cards do: at 72rem, where the site's other lists go from two columns to three
+   (DESIGN.md, »Breakpoints«). The ellipsis stays as the guard for a headline longer
+   than any yet seen. */
+@media (width >= 48rem) {
 	.nyhetsremsa {
-		border-bottom: 0;
+		--remsa-rader: 3;
+	}
+
+	.nyhetsremsa .nyheter-lista {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.nyhetsremsa .nyhet-titel {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 }
 
-/* Across the thirds from 60rem, where the essays under it take theirs. */
-@media (width >= 60rem) {
+@media (width >= 72rem) {
+	.nyhetsremsa {
+		--remsa-rader: 2;
+	}
+
 	.nyhetsremsa .nyheter-lista {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		min-block-size: var(--remsa-rad);
 	}
 }
 

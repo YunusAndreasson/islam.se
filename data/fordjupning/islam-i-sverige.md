@@ -78,6 +78,8 @@ sources:
     url: "https://www.do.se/download/18.277ff225178022473141e2a/1618941270230/rapport-forskning-diskriminering-muslimer-sverige.pdf"
   - name: "Clas Brorson Rålamb, Diarium under resa till Konstantinopel 1657-1658"
   - name: "Johan Cato, När islam blev svenskt: föreställningar om islam och muslimer i svensk offentlig politik 1975-2010 (Lunds universitet 2012), refererad via Diskrimineringsombudsmannens forskningsöversikt"
+  - name: "Bild: ring från Birka, Historiska museet. Foto Ola Myrin, Statens historiska museer, licens CC BY 4.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Fingerring_-_Historiska_museet_-_DIG_56338.jpg"
 related:
   - "islam-deism-och-sekularism"
   - "manlig-omskarelse-i-islam"
@@ -105,6 +107,8 @@ Närvaron är ung, och den har vuxit fram i svenska former. Den första församl
 ## Vikingatidens kontakter med kalifaten
 
 Det arkeologiska underlaget är omfattande och entydigt. Silverskatter från 700-talets slut till 1100-talets början har hittats runt om i landet, och de som daterats från 900-talet och framåt består huvudsakligen av arabiska mynt med muslimsk prägling. Den största i Norden, Spillingsskatten, påträffades i Othems socken på Gotland sommaren 1999 och rymmer mer än 13 000 mynt och över 600 armringar, nedlagda strax efter år 870. Det största silverfynd som gjorts i svensk jord är alltså till större delen präglat i muslimska riken.[^2] Vid utgrävningarna av Birka utanför Stockholm har man funnit agater från Indien, karneoler från Jemen och smycken och mynt från kalifaten i dagens Irak och Iran.
+
+![Silverring med en oval, violett glassten i vilken tecken är inristade, fotograferad mot vit botten.](../../apps/web/src/assets/images/inline/birkaringen-silver-och-glas.webp "Silverring med infattad glassten och inristade kufiska tecken, funnen i en kvinnograv i Birka. 800-talet. Historiska museet, Stockholm.")
 
 Färderna är beskrivna från muslimskt håll. Geografen Ibn Khurradadhbih berättar redan på 840-talet hur rus tog sig med kamel från hamnarna vid Kaspiska havet hela vägen till Bagdad. al-Masudi beskriver i mitten av 900-talet livet i khazarernas huvudstad Atil. Mest känd är Ahmad ibn Fadlans skildring av ett möte med rus i Volgabäckenet för omkring elvahundra år sedan. Alla tre finns i svensk översättning i Stig Wikanders *Araber, vikingar, väringar* från 1978.[^3]
 

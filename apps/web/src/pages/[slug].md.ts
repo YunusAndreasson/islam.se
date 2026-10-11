@@ -1,6 +1,7 @@
 import type { APIContext } from "astro";
 import { type Article, articleBody, getArticles } from "../lib/articles";
 import { siteOrigin } from "../lib/config";
+import { withPublishedFigures } from "../lib/inline-images";
 import { articleMarkdown } from "../lib/representations";
 
 // Per-essay clean-markdown endpoint (/{slug}.md). Agents and AI crawlers get the
@@ -17,8 +18,10 @@ export async function getStaticPaths() {
 export async function GET(context: APIContext) {
 	const site = siteOrigin(context.site);
 	const { article } = context.props as { article: Article };
+	// A photograph's path in the source is a repository path; the twin gets the URL.
+	const body = await withPublishedFigures(articleBody(article), site);
 	const markdown = `${articleMarkdown(
-		{ ...article, body: articleBody(article) },
+		{ ...article, body },
 		{ site, linkedSource: true, bodyDivider: true },
 	)}\n`;
 

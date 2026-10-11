@@ -30,3 +30,12 @@ A second pass prioritizes the eight most recently published essays. Two were rev
 | Rösten är ingen belöning | En from människa kan vara en dålig ledare | Names the distinction between personal piety and fitness for public office. |
 | Vittnesmål utan vittne | Att granska AI utan att läsa dess tankar | Identifies AI and the essay’s proposal to assess consequences without resolving consciousness. |
 | Provet som redan finns | Granska moskéns pengar, inte människors tro | States the concrete distinction between institutional accountability and policing belief. |
+
+## 2026-10-11: one title and its ingress
+
+The hero of this essay was remade as Linnaeus's desk, and the title and ingress still spoke only of the eclipse ("needs another title and ingress to better match", user review). Both change here, which the passes above did not do: the ingress now opens on the case from Linnaeus's notes and ends on the Prophet's ﷺ correction.
+
+| Previous title | Revised title | Editorial reason |
+| --- | --- | --- |
+| Solen sörjde inte Profetens ﷺ son | Linné läste Guds dom i andras olyckor | Names the person the essay opens on and the act it argues against. Kept apart from »Guden som bokför«, the other essay on *Nemesis divina*: that one is about justice as bookkeeping, this one about reading a verdict over one person, and the eclipse stays in the ingress as what is this essay's own. |
+

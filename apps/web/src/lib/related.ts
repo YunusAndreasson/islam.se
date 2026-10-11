@@ -23,6 +23,10 @@ interface TankareRef {
 interface TradRef {
 	id: string;
 	title: string;
+	/** Which part of the series this essay is, counted as the series page and the
+	 *  front page count it: over the essays that still resolve. */
+	part: number;
+	parts: number;
 }
 
 interface SvarRef {
@@ -76,10 +80,18 @@ export async function getEssayConnections(slug: string, limit = 3): Promise<Essa
 	// The trådar this essay belongs to, and (for scoring) its co-members.
 	const tradar: TradRef[] = [];
 	const myThreadMates = new Set<string>();
+	const published = new Set(articles.map((a) => a.slug));
 	for (const thread of threads) {
-		const members: string[] = thread.data.essays;
+		// A slug that no longer resolves drops out of the series everywhere it is
+		// drawn, so it must not hold a number here either.
+		const members: string[] = thread.data.essays.filter((s: string) => published.has(s));
 		if (!members.includes(slug)) continue;
-		tradar.push({ id: thread.id, title: thread.data.title });
+		tradar.push({
+			id: thread.id,
+			title: thread.data.title,
+			part: members.indexOf(slug) + 1,
+			parts: members.length,
+		});
 		for (const m of members) if (m !== slug) myThreadMates.add(m);
 	}
 

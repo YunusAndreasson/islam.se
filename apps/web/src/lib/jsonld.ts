@@ -50,6 +50,41 @@ export function imageObject(opts: {
 	};
 }
 
+/** A schema.org ImageObject for a photograph set inside a text. Unlike the hero it is
+ *  a block of its own, not the Article's `image`, and unlike the site's own art it is
+ *  somebody else's picture: when it has a credit, the licence, the page that documents
+ *  it and the name to credit are asserted. Those three are what an image search needs
+ *  to show the licence beside the picture. */
+export function figureImageObject(opts: {
+	/** Absolute URL of the file the page's <img> points at. */
+	contentUrl: string;
+	/** The page the picture stands on (absolute URL). */
+	url: string;
+	name: string;
+	caption?: string;
+	width: number;
+	height: number;
+	credit?: { by: string; licenceUrl: string; source: string };
+}): Record<string, unknown> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "ImageObject",
+		contentUrl: opts.contentUrl,
+		url: opts.url,
+		name: opts.name,
+		...(opts.caption ? { caption: opts.caption } : {}),
+		width: opts.width,
+		height: opts.height,
+		...(opts.credit
+			? {
+					creditText: opts.credit.by,
+					license: opts.credit.licenceUrl,
+					acquireLicensePage: opts.credit.source,
+				}
+			: {}),
+	};
+}
+
 export interface Crumb {
 	name: string;
 	/** Path or absolute URL; bare paths are resolved against the site origin. */

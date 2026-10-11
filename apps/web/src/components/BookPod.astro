@@ -2,69 +2,105 @@
 import { BookOpen, Download } from "@lucide/astro";
 import { RITNINGAR } from "../lib/ritningar";
 import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
+import Promo from "./Promo.astro";
 import Ritning from "./Ritning.astro";
 
 interface Props {
 	count: number;
+	/** `home`: one of the front page's four closing promotions (Promo.astro).
+	 *  `about`: /om's centred close, where the book and the podcast are offered together. */
 	variant?: "home" | "about";
 }
 
 const { count, variant = "home" } = Astro.props;
+
+// Two formats, one book, and they are not interchangeable: the PDF is the typeset page —
+// right for a desk, a printer, a big screen — while the EPUB reflows, so it is the one
+// that works on a phone or an e-reader. Naming what each is FOR beats a row of file
+// extensions; a reader who has to guess picks the one they know and is sometimes wrong.
+const FORMAT = [
+	{ href: "/samlingsvolym.epub", label: "E-bok", Icon: BookOpen },
+	{ href: "/samlingsvolym.pdf", label: "PDF", Icon: Download },
+];
 ---
 
-<section class:list={["bookpod", `bookpod--${variant}`]} aria-labelledby="bookpod-heading">
-	{/* Both pages draw the book as the site's own drawing (Ritning), in the 10rem
-	    column beside the words — the grammar PoddAppHome uses. /om carried a typeset
-	    rendering of the PDF title page until 2026-09-28. */}
-	<div class="bookpod-inner">
-		<a class="bookpod-mark" href="/samlingsvolym.pdf" download tabindex="-1" aria-hidden="true">
-			<Ritning {...RITNINGAR.boken} hojd={[7, 10]} bredd={[7, 10]} />
-		</a>
-		<div class="bookpod-text">
-			{variant === "home" && (
-				<>
-					<h2 class="label home-kicker bookpod-kicker" id="bookpod-heading">E-bok</h2>
-					<h3 class="bookpod-titel">Samlade essäer</h3>
-				</>
-			)}
-			{variant === "about" && <h2 id="bookpod-heading" class="bookpod-about-heading">Boken och podden</h2>}
-			<p class="bookpod-lead">
-				{variant === "home"
-					? `De ${count} essäerna finns samlade i en bok – som e-bok för läsplattan och som PDF för utskrift.`
-					: `De ${count} essäerna finns samlade i en bok – som e-bok för läsplattan, som PDF för utskrift – och inlästa som podd.`}
-			</p>
-			<div class="bookpod-actions">
-				{/* Two formats, one book, and they are not interchangeable: the PDF is the
-				    typeset page — right for a desk, a printer, a big screen — while the EPUB
-				    reflows, so it is the one that works on a phone or an e-reader. Naming
-				    what each is FOR beats a row of file extensions; a reader who has to
-				    guess picks the one they know and is sometimes wrong. */}
-				<span class="bookpod-formats">
-					<a class="bookpod-action" href="/samlingsvolym.epub" download>
-						<BookOpen size={14} stroke-width={1.75} />
-						E-bok
+{/* »e-bok« is held on one line: at the end of a line it broke at its own hyphen,
+    »som e-« over »bok för läsplattan«. */}
+{
+	variant === "home" ? (
+		<Promo
+			id="bookpod-heading"
+			kicker="E-bok"
+			titel="Samlade essäer"
+			markHref="/samlingsvolym.pdf"
+			markDownload
+			ritning={RITNINGAR.boken}
+		>
+			De {count} essäerna finns samlade i en bok – som <span class="bookpod-ord">e-bok</span> för
+			läsplattan och som PDF för utskrift.
+			<Fragment slot="lankar">
+				{FORMAT.map(({ href, label, Icon }) => (
+					<a class="bookpod-action" href={href} download>
+						<Icon size={14} stroke-width={1.75} />
+						{label}
 					</a>
-					<a class="bookpod-action" href="/samlingsvolym.pdf" download>
-						<Download size={14} stroke-width={1.75} />
-						PDF
-					</a>
-				</span>
-				{variant !== "home" && <PodcastSubscribeLinks class="bookpod-listen" actionClass="bookpod-action" />}
+				))}
+			</Fragment>
+		</Promo>
+	) : (
+		<section class="bookpod" aria-labelledby="bookpod-heading">
+			{/* The book as the site's own drawing (Ritning). /om carried a typeset rendering
+			    of the PDF title page until 2026-09-28. */}
+			<a class="bookpod-mark" href="/samlingsvolym.pdf" download tabindex="-1" aria-hidden="true">
+				<Ritning {...RITNINGAR.boken} hojd={[7, 10]} bredd={[7, 10]} />
+			</a>
+			<div class="bookpod-text">
+				<h2 id="bookpod-heading" class="bookpod-about-heading">Boken och podden</h2>
+				<p class="bookpod-lead">
+					De {count} essäerna finns samlade i en bok – som <span class="bookpod-ord">e-bok</span> för
+					läsplattan, som PDF för utskrift – och inlästa som podd.
+				</p>
+				<div class="bookpod-actions">
+					<span class="bookpod-formats">
+						{FORMAT.map(({ href, label, Icon }) => (
+							<a class="bookpod-action" href={href} download>
+								<Icon size={14} stroke-width={1.75} />
+								{label}
+							</a>
+						))}
+					</span>
+					<PodcastSubscribeLinks actionClass="bookpod-action" />
+				</div>
 			</div>
-		</div>
-	</div>
-</section>
+		</section>
+	)
+}
 
 <style>
-	/* PoddAppHome's drawing column: the book beside its words on desktop. */
-	.bookpod-inner {
-		display: grid;
-		grid-template-columns: 10rem minmax(0, 1fr);
-		align-items: start;
-		gap: 1.75rem;
+	.bookpod-ord {
+		white-space: nowrap;
 	}
 
-	/* ---- Text + actions ---- */
+	/* /OM ends centred — the section ornament above, the colophon below — so the book
+	   stands centred between them at every width: the drawing, then the heading, the
+	   words and one row of actions. Set beside its words, as on the front page, it was
+	   the only left-aligned block in that closing axis, with an empty column under the
+	   drawing and the buttons wrapped onto two rows. */
+	.bookpod {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		justify-items: center;
+		gap: var(--space-unit);
+		margin-block: var(--space-phi);
+		text-align: center;
+	}
+
+	/* No hover lift — a transform isolates the drawing's blend and shows its paper as a
+	   square (Ritning.astro). */
+	.bookpod-mark {
+		display: block;
+	}
+
 	.bookpod-about-heading {
 		margin-top: 0;
 		margin-bottom: var(--space-half);
@@ -75,29 +111,20 @@ const { count, variant = "home" } = Astro.props;
 		font-size: var(--step--1);
 		line-height: 1.55;
 		color: var(--text-body);
-		margin: 0 0 var(--space-unit);
+		margin: 0 auto var(--space-unit);
 		max-width: 28rem;
 	}
 
-	/* The book action (PDF) sits apart from the two podcast links, which are tucked
-	   close together — so the row still reads as two things (book · podcast) by
-	   proximity alone, without spelling it out. The larger gap separates the book from
-	   the podcast pair; the tight .bookpod-listen gap binds the two platforms. */
+	/* The book's two formats sit apart from the two podcast links, which are tucked close
+	   together — so the row still reads as two things (book · podcast) by proximity
+	   alone, without spelling it out. The podcast links lay their own row out
+	   (PodcastSubscribeLinks). */
 	.bookpod-actions {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
+		justify-content: center;
 		gap: clamp(1.25rem, 3.5vw, 2.25rem);
-	}
-
-	.bookpod-listen {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-	}
-
-	.bookpod-action {
-		min-height: 2.75rem;
 	}
 
 	/* The two book formats belong together and apart from the podcast links: they are
@@ -107,91 +134,7 @@ const { count, variant = "home" } = Astro.props;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		/* 0.75rem, not the outer row's gap: it marks the two formats as one group
-		   against the podcast links beside them. A stacked pair beside a paired set of
-		   podcast links reads as four choices rather than one book and one podcast. */
+		justify-content: center;
 		gap: 0.5rem 0.75rem;
 	}
-
-
-	/* The book is the second row of the closing promotion region. The parent owns
-	   its ground and outer spacing; /om keeps the standalone presentation. */
-	.bookpod--home {
-		/* No margin under the last band: <main> is a container (layout containment), so
-		   it would not collapse into the footer's own and left a 190px hole of paper
-		   between the band's edge and the footer's first line. */
-		margin-block: var(--space-section) 0;
-	}
-
-	/* As PoddAppHome's mark: on the words' edge above them on a phone, on the column's
-	   right edge beside them. No hover lift — a transform isolates the drawing's blend
-	   and shows its paper as a square (Ritning.astro). */
-	.bookpod-mark {
-		display: block;
-		justify-self: start;
-	}
-
-	@media (width >= 64rem) {
-		.bookpod-mark {
-			justify-self: end;
-		}
-	}
-
-	.bookpod-kicker {
-		margin: 0;
-	}
-
-	.bookpod-titel {
-		margin: var(--space-half) 0 0;
-		font-size: var(--step-1);
-		font-weight: 600;
-		line-height: 1.25;
-	}
-
-	.bookpod--home .bookpod-lead {
-		max-inline-size: 32rem;
-		margin: 0.35rem 0 var(--space-unit);
-		line-height: 1.5;
-	}
-
-	/* /om ends centred — the section ornament above, the colophon below — so the book
-	   stands centred between them at every width: the drawing, then the heading, the
-	   words and one row of actions. Set beside its words, as on the front page, it was
-	   the only left-aligned block in that closing axis, with an empty column under the
-	   drawing and the buttons wrapped onto two rows. */
-	.bookpod--about {
-		margin-block: var(--space-phi);
-		text-align: center;
-	}
-
-	.bookpod--about .bookpod-inner {
-		grid-template-columns: minmax(0, 1fr);
-		justify-items: center;
-		gap: var(--space-unit);
-	}
-
-	.bookpod--about .bookpod-mark {
-		justify-self: center;
-	}
-
-	.bookpod--about .bookpod-lead {
-		margin-inline: auto;
-	}
-
-	.bookpod--about :is(.bookpod-actions, .bookpod-formats, .bookpod-listen) {
-		justify-content: center;
-	}
-
-	/* Match the podcast/app drawings: above the text through tablet widths, flush
-	   left on the words' edge rather than a centred poster, and beside them only when
-	   their shared 10rem illustration column has room. */
-	@media (width < 64rem) {
-		.bookpod--home .bookpod-inner {
-			grid-template-columns: minmax(0, 1fr);
-			justify-items: start;
-			gap: var(--space-unit);
-			text-align: start;
-		}
-	}
-
 </style>

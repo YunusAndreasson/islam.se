@@ -57,6 +57,13 @@ export function hijriLabel(date: Date): string {
 	return `${h.d} ${HIJRI_MONTHS[h.m]} ${h.y}`;
 }
 
+/** The Umm al-Qura month a day falls in, with its year: »Rabīʿ al-thānī 1448«. Takes the
+ *  same noon-UTC instant hijriLabel does. */
+export function hijriMonthLabel(date: Date): string {
+	const h = gregorianToHijri(date);
+	return `${HIJRI_MONTHS[h.m]} ${h.y}`;
+}
+
 const STOCKHOLM_DATE = new Intl.DateTimeFormat("en-CA", {
 	timeZone: "Europe/Stockholm",
 	year: "numeric",
@@ -96,7 +103,7 @@ export function hijriAtLabel(instant: Date, maghrib: Date, withYear = true): str
 /**
  * How far off an observance is, in the rail's words: »pågår«, »i dag«, »i morgon«,
  * »om 136 dagar«. Calendar days between ISO dates (YYYY-MM-DD), so it never flips at
- * an odd hour. Shared by the build (Markesdagar.astro) and the client
+ * an odd hour. Shared by the build (PraktisktHome.astro) and the client
  * (scripts/markesdagar.ts), which corrects it against the reader's own today.
  */
 export function untilLabel(startISO: string, endISO: string | undefined, todayISO: string): string {

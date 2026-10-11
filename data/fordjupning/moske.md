@@ -69,6 +69,8 @@ sources:
     url: "https://sv.wikipedia.org/wiki/Konventikelplakatet"
   - name: "Stockholmskällan: Stora synagogan i Stockholm"
     url: "https://stockholmskallan.stockholm.se/teman/Stockholmsplatser/stora-synagogan/"
+  - name: "Bild: Medina omkring 1880. Foto Muhammad Sadiq Bey, Khalili Collections, licens CC BY-SA 3.0 IGO, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_arc.pp_0211.09.jpg"
 related:
   - "vad-ar-en-moske"
   - "sa-ber-man-steg-for-steg"
@@ -84,6 +86,8 @@ essays:
 ---
 
 **Moskén** är den byggnad eller lokal där muslimer samlas till gemensam bön, och det arabiska ordet masjid betyder ordagrant platsen där man faller ned på sitt ansikte. Islams egna källtexter ställer knappast några krav på själva byggnaden. Enligt en hadith hos Muslim sade Muhammed att jorden har gjorts till en moské och ett reningsmedel för honom, och att den som nås av bönetiden får be där han står.[^1] Hans egen moské i Medina var enligt Ibn al-Qayyims skildring en lermur utan tak, byggd på en torkplats som han köpt av två föräldralösa pojkar för tio dinarer.
+
+![Sepiafotografi av en muromgärdad stad på en slätt, med minareter och en kupol i fjärran och berg vid horisonten.](../../apps/web/src/assets/images/inline/medina-1880-sadiq-bey.webp "Medina omkring 1880, fotograferad av Muhammad Sadiq Bey. Profetens ﷺ moské reser sig bakom stadsmuren.")
 
 Ur så anspråkslösa föreskrifter växte ändå islams mest synliga institution fram. Moskén återkommer i en rad koranverser: den kallas Guds hus, det fastställs vem som får förvalta den, att hindra bön i den är den yttersta orättfärdigheten, och på ett enda ställe förbjuds Profeten att alls sätta sin fot i ett bönehus. Kring moskén samlas därmed frågor som rör helt annat än murverk: vem religionen tillhör, vad som får höras från den och var den får synas.
 

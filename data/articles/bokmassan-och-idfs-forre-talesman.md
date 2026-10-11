@@ -39,6 +39,8 @@ Sedan avgjordes det. Den 22 augusti fastställde IPC svält i guvernementet Gaza
 
 Det här är inte längre en bedömning av ett oklart läge. Förnekandet står mot den instans som mäter svält och mot fyra slutsatser om folkmord. Det skrevs medan folkmordet pågick, och det är ett vittnesmål om människor som inte längre kan vittna själva.
 
+![En pojke sedd bakifrån bär en blå balja med mat på axeln längs en gata; längre fram går en man.](../../apps/web/src/assets/images/inline/deir-al-balah-pojke-bar-mat-januari-2025.webp "Deir al-Balah den 24 januari 2025. En pojke bär hem mat till familjen. I augusti samma år fastställde IPC svält i guvernementet Gaza.")
+
 Vapenvilan trädde i kraft den 10 oktober 2025, men i november slog Amnesty fast att folkmordet fortgick trots den. Först i december klassades inget område längre som svält, och även då räknade IPC med över hundratusen människor i katastrofläge.[^18] Ett år efter inlägget hördes hans röst på Demokratitorget.
 
 ## Ett godkännande är ett beslut
@@ -58,6 +60,8 @@ Till sist ordet som mässan själv satte först. Yttrandefriheten i regeringsfor
 ## Vad mässan visste redan 2016
 
 Mässan vet hur man åberopar en värdegrund. Den 19 augusti 2016 meddelade den att Nya Tider inte längre skulle få ha någon monter. Dåvarande vd:n Maria Källsson förklarade: "Vi kom fram till att den här utställaren inte delar samma värdegrund som vi på en springande fråga, och det är alla människors lika värde." Hon medgav också att mässan hade vetat för lite när tidningen först godkändes: "Vi gjorde en för dålig research, det är jag den första att erkänna."[^26] Den 31 augusti återkallades beslutet med motiveringen: "Det visar sig att det saknas grund för uppsägning av det här avtalet." Nya Tider ställde ut 2017, trots en bojkott som till slut samlade över 200 författare. När tidningen i november 2017 nekades plats inför 2018 var skälet ett annat än värdegrunden: uppmärksamheten kring en enskild utställare hade skymt mässans innehåll.[^27]
+
+![En man i mörk kavaj talar i mikrofon framför en vepa med tidningsnamnet Nya Tider och texten En ny tid kräver ny media.](../../apps/web/src/assets/images/inline/nya-tiders-monter-bokmassan-2016.webp "Nya Tiders monter på Bokmässan den 24 september 2016, drygt tre veckor efter att mässan hade tagit tillbaka uppsägningen. I mikrofonen chefredaktören Vávra Suk.")
 
 Jämförelsen gäller mässans eget värdegrundsargument. Den likställer inte Conricus med Nya Tider och hävdar inte heller att tidningen borde ha fått stanna. Det som föll 2016 var inte viljan att åberopa värdegrunden utan det skriftliga stödet för att göra det. Tio år senare finns stödet, en kod om mänskliga rättigheter, och den gäller just den yta där Vänskapsförbundet har sin monter. Vad koden väger i ett avtal kan bara mässan bedöma. Men den finns, och ändå talar mässan, när det väl gäller, om yttrandefrihet och inte om sin kod. Att ett godkännande kan vila på "för dålig research" har Bokmässan redan medgett en gång.
 
@@ -85,7 +89,7 @@ En uppförandekod är ett löfte om prövning. Mässan har skrivit ett sådant l
 
 ---
 
-[^1]: Abdul Hibombo, "Författaren hoppar av Bokmässan i protest: 'Har en klar röd linje'", SVT, 24 september 2026.
+[^1]: Abdul Hibombo, "Författaren hoppar av Bokmässan i protest: 'Har en klar röd linje'", SVT, 24 september 2026. Bilderna i texten: Jaber Jehad Badwan, Deir al-Balah, [24 januari 2025](https://commons.wikimedia.org/wiki/File:A_Gazan_child_carrying_food_for_his_family_during_the_Gaza_war_23-25.jpg), och Bengt Oberger, Bokmässan i Göteborg, [24 september 2016](https://commons.wikimedia.org/wiki/File:Nya_tider_01.jpg), båda via Wikimedia Commons, licens [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), beskurna.
 [^2]: Simon Löfroth, "Kritiserade Israelsamtal och ny uppförandekod – nu startar Bokmässan", SVT, 24 september 2026, där också Mersals besked. Tid, plats och arrangör enligt programsidan "Israel och det internationella systemet – att kämpa i uppförsbacke", bokmassan.se.
 [^3]: Ekströms citat i Löfroth, SVT, a.a. Att mässan inte bjöd in Conricus utan godkände utställaren enligt Ekström i "Två författare lämnar Bokmässan efter omstridd programpunkt", Sejfer, 24 september 2026.
 [^4]: "Bokmässan stärker sitt demokratiarbete – med ny scen och nytt område", bokmassan.se, 2 mars 2026.

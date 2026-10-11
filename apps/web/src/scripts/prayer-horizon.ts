@@ -7,7 +7,7 @@
 // dates for the reader's day. Everything is set with setAttribute/textContent: the CSP
 // forbids style attributes, and SVG presentation attributes are not styles.
 import { anchorFor, horizon, labelsThatFit, pct } from "../lib/bonetider/horizon";
-import { PRAYER_ORDER, type PrayerKey } from "../lib/bonetider/prayer-times";
+import { formatTime, PRAYER_ORDER, type PrayerKey } from "../lib/bonetider/prayer-times";
 import { hijriAtLabel } from "../lib/markesdagar";
 
 type DayTimes = Record<PrayerKey, Date>;
@@ -25,12 +25,14 @@ function textWidth(el: SVGTextElement | null): number {
 type Model = ReturnType<typeof horizon>;
 
 /** Ticks and their labels: position, state, and which labels fit the line as drawn.
- *  The next prayer always keeps its label. */
+ *  A label is two lines, the prayer's name and its clock time, and is as wide as the
+ *  wider of them; the two stay or go together. The next prayer always keeps its label. */
 function paintTicks(
 	svg: SVGSVGElement,
 	model: Model,
 	width: number,
 	nextToday: PrayerKey | null,
+	today: DayTimes,
 ): void {
 	const byKey = new Map(model.ticks.map((t) => [t.key, t]));
 	const labelPx = new Map<PrayerKey, number>();
@@ -50,18 +52,24 @@ function paintTicks(
 		const line = g.querySelector("line");
 		line?.setAttribute("x1", pct(tick.x));
 		line?.setAttribute("x2", pct(tick.x));
-		const text = g.querySelector("text");
-		text?.removeAttribute("data-hidden");
-		const w = textWidth(text) || 48;
+		const texts = [...g.querySelectorAll<SVGTextElement>("text")];
+		const clock = g.querySelector<SVGTextElement>(".horizon-klocka");
+		if (clock) clock.textContent = formatTime(today[key]);
+		for (const text of texts) text.removeAttribute("data-hidden");
+		const w = Math.max(0, ...texts.map(textWidth)) || 48;
 		labelPx.set(key, w);
-		text?.setAttribute("x", pct(tick.x));
-		text?.setAttribute("text-anchor", width ? anchorFor(tick.x, width, w) : "middle");
+		for (const text of texts) {
+			text.setAttribute("x", pct(tick.x));
+			text.setAttribute("text-anchor", width ? anchorFor(tick.x, width, w) : "middle");
+		}
 	}
 	if (!width) return;
 	const shown = labelsThatFit(model.ticks, width, (k) => labelPx.get(k) ?? 48, nextToday);
 	for (const t of model.ticks) {
 		if (shown.has(t.key)) continue;
-		svg.querySelector(`[data-h-tick="${t.key}"] text`)?.setAttribute("data-hidden", "");
+		for (const text of svg.querySelectorAll(`[data-h-tick="${t.key}"] text`)) {
+			text.setAttribute("data-hidden", "");
+		}
 	}
 }
 
@@ -111,7 +119,7 @@ export function paintHorizon(
 	const model = horizon(today, now, nextToday);
 	const width = svg.getBoundingClientRect().width;
 
-	paintTicks(svg, model, width, nextToday);
+	paintTicks(svg, model, width, nextToday, today);
 
 	const day = svg.querySelector('[data-h="daylight"]');
 	if (day && model.daylight) {

@@ -10,6 +10,7 @@ import { type HastElement, type HastNode, type HastText, isElement } from "./has
  *
  * Each stands in a gap between two plain paragraphs, about a screen of prose after its
  * sentence (before it only when that fits much better), and well apart from any other.
+ * A paragraph that is only a photograph is not a plain paragraph.
  *
  * The element is `aria-hidden`: the sentence is already in the prose. Anything that
  * consumes the rendered HTML outside the essay stylesheet (the RSS feed) must drop
@@ -65,8 +66,12 @@ function chooseGap(blocks: HastElement[], source: number, taken: number[]): numb
 	for (const b of blocks) before.push((before.at(-1) ?? 0) + normalize(readText(b)).length);
 	const pos = (i: number) => before[i] ?? 0;
 
-	const firstP = blocks.findIndex((b) => b.tagName === "p");
-	const isP = (i: number) => blocks[i]?.tagName === "p";
+	// A photograph on a line of its own is still a bare <p><img></p> here: rehype-photo-figure
+	// runs after this pass. It holds no prose, and a pull quote must not stand against it.
+	const isProse = (b: HastElement | undefined) =>
+		b?.tagName === "p" && normalize(readText(b)) !== "";
+	const firstP = blocks.findIndex(isProse);
+	const isP = (i: number) => isProse(blocks[i]);
 	const distance = (k: number) => (k > source ? pos(k) - pos(source + 1) : pos(source) - pos(k));
 	const rank = (k: number) => Math.abs(distance(k) - SCREEN) + (k > source ? 0 : BEFORE_PENALTY);
 	const clear = (k: number) => taken.every((used) => Math.abs(pos(used) - pos(k)) >= 2 * SCREEN);

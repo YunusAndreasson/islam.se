@@ -4,6 +4,7 @@ publishedAt: "2026-09-23T20:44:02.112Z"
 wordCount: 4161
 qualityScore: 8.7
 description: "Släktens formel i Selma Lagerlöfs Jerusalem, »Vi Ingemarer behöva bara gå Guds vägar«, har gått i arv i hundratals år innan den splittrar socknen. Koranen fördömer och berömmer samma handling, att följa fäderna, och ger formeln det innehåll den saknade."
+category: "Livsfrågor"
 imageAlt: "En bred dal i Dalarna i gryningen, sedd från en skogsklädd höjd; tät markdimma fyller dalbotten, och en ljus grusväg löper rakt och diagonalt genom den. Några grå timmerlador står halvt dolda i dimman, och skogsåsar bleknar i blå dis under en mjölkvit himmel."
 imageCaption: "En dal i Dalarna en morgon i september. En väg är dragen rakt genom dimman, de andra syns knappt."
 ---
@@ -24,6 +25,8 @@ I socknen där Ingmarssönerna bodde kunde ännu i början av 1880-talet ingen t
 En fästning av vana kan stå i hundratals år och ändå falla vid första stöt, om ingen innanför murarna kan säga vad den försvarar. Formeln var ett lösenord, inte en karta.
 
 Socknen fanns i verkligheten. Den 23 juli 1896 lämnade 37 människor Nås i Dalarna för att resa till Jerusalem. Deras andlige ledare var Olof Henrik Larsson, född 1842 i Grundsund, före detta sjöman, bosatt i Chicago och gift med Mathilda Helgsten från Nås. Han är förebilden för Lagerlöfs Hellgum.[^3] I romanen behöver Hellgum inte bestrida Ingmarssönernas formel. Det räcker att han erbjuder sig att fylla den.
+
+![Svartvitt fotografi av ett stort stenhus i två våningar med valvport och muromgärdad trädgård, sett snett uppifrån.](../../apps/web/src/assets/images/inline/american-colony-jerusalem-1920.webp "American Colonys huvudbyggnad vid Nablusvägen i Jerusalem, 1920 – kolonin som Nåsbönderna anslöt sig till 1896.")
 
 ## Formeln byter sida
 
@@ -119,7 +122,7 @@ Han behöver inte vända sig bort från dem. Men han måste fråga dem något an
 
 [^1]: Selma Lagerlöf, *Jerusalem*, del I, "Inledning: Ingmarssönerna". Lagerlöf citeras efter originalupplagan (1901–1902) i Litteraturbankens utgåva. Stavningen är moderniserad i fråga om hv, fv och af, medan ordalydelsen är oförändrad.
 [^2]: Lagerlöf, *Jerusalem*, del I, "Hos skolmästarns". Originalets stavning *Sof* är bevarad.
-[^3]: Ingmarsspelen i Nås, "Bakgrunden"; Släkthistoria, "Pastorn fick byborna att lämna allt"; Magasin Hällungen, "Följ Olof Henrik Larssons livsresa från Grundsund till Chicago och Jerusalem" (25 mars 2021).
+[^3]: Ingmarsspelen i Nås, "Bakgrunden"; Släkthistoria, "Pastorn fick byborna att lämna allt"; Magasin Hällungen, "Följ Olof Henrik Larssons livsresa från Grundsund till Chicago och Jerusalem" (25 mars 2021). Bilden i texten: American Colony Photo Department, Jerusalem 1920, Library of Congress, [via Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Newer_Jerusalem_and_suburbs._The_American_Colony,_main_bld%27g_(i.e.,_building)._Nablus_Road_LOC_matpc.02577.jpg); fri från upphovsrätt, beskuren.
 [^4]: Lagerlöf, *Jerusalem*, del I, "Hellgum".
 [^5]: Lagerlöf, *Jerusalem*, del I, "Hellgum".
 [^6]: Lagerlöf, *Jerusalem*, del I, "Den nya vägen".

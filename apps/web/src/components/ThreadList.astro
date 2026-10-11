@@ -27,7 +27,7 @@ const items: CardItem[] = threads.map((thread) => {
 		href: `/tradar/${thread.id}/`,
 		title: thread.data.title,
 		description: thread.data.framing,
-		meta: `${thread.data.essays.length} essäer`,
+		meta: `${thread.data.essays.length} delar`,
 		image: art ? { src: art, alt: thread.data.imageAlt ?? "" } : null,
 	};
 });

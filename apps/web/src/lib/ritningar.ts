@@ -64,12 +64,14 @@ export const RITNINGAR = {
 	 *  makes. The road itself was ochre until 2026-10-04: at the 112px the opening gives it,
 	 *  a whole road in ochre was all the eye saw (»för mycket gult«). */
 	teman: { ljus: temanLjus, mork: temanMork },
-	/** A Swedish farmhouse wall barometer, its needle in ochre — upright, for the front page's
-	 *  10rem column beside the AI-barometern's introduction. */
+	/** A Swedish farmhouse wall barometer, its needle in ochre — upright. Not placed since
+	 *  2026-10-10: it stood in the front page's 10rem column beside the AI-barometern's
+	 *  introduction until that room took the page's thirds (DESIGN.md, »The Drawings«). */
 	barometern: { ljus: barometernLjus, mork: barometernMork },
 	/** The same barometer beside a window, weather moving in over a lake — landscape, for the
-	 *  hub's opening: the space beside an opening is wider than tall, and upright the
-	 *  barometer stood 140px wide with a 400px empty field beside it (2026-09-26). */
+	 *  hub's opening and, under its words, the front page's room: the space beside or under
+	 *  an opening is wider than tall, and upright the barometer stood 140px wide with a
+	 *  400px empty field beside it (2026-09-26). */
 	barometernBred: { ljus: barometernBredLjus, mork: barometernBredMork },
 	/** An open Quran on a carved wooden stand by a window — Grunden, »Vad är islam?«. */
 	grunden: { ljus: grundenLjus, mork: grundenMork },

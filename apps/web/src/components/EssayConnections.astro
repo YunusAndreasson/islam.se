@@ -21,8 +21,13 @@ const contextRows = [
 		links: [{ href: `/amnen/${amne.slug}/`, label: amne.name }],
 	},
 	tradar.length > 0 && {
-		label: tradar.length === 1 ? "Tema" : "Teman",
-		links: tradar.map((t) => ({ href: `/tradar/${t.id}/`, label: t.title })),
+		// The series by name, and where in it this essay stands: the one fact a reader
+		// needs to decide whether to go back to the start.
+		label: tradar.length === 1 ? "Essäserie" : "Essäserier",
+		links: tradar.map((t) => ({
+			href: `/tradar/${t.id}/`,
+			label: `${t.title}, del ${t.part} av ${t.parts}`,
+		})),
 	},
 	// Tänkare is deliberately NOT a row here. It used to be, and as one flat
 	// comma-separated list it said "filed under" about the one thing on this site

@@ -580,64 +580,59 @@
 		contain-intrinsic-size: auto var(--civ-h, 700px);
 	}
 
-	/* Rendered heights, measured 2026-10-10 in Chrome with content-visibility forced
-	   visible: desktop at 1440px on the mast-wide canvas, tinted grounds' padding
-	   included; the phone values are the one-column layouts at 390px. Re-measure when a
-	   movement changes shape (every .home-movement's height). */
+	/* Rendered heights, measured 2026-10-11 in Chrome with content-visibility forced
+	   visible: desktop at 1440px on the mast-wide canvas, a room's padding and a
+	   section's opening rule included; the phone values are the one-column layouts at
+	   390px. Re-measure when a movement changes shape (every .home-movement's height). */
 	.amnen.home-movement {
-		--civ-h: 691px;
+		--civ-h: 686px;
 	}
 	.tradar-home {
-		/* Tinted since 2026-10-10: padding included. */
-		--civ-h: 569px;
+		/* The essays-by-ämne design since 2026-10-10: tabs and three picture cards. */
+		--civ-h: 757px;
 	}
 	.tankare-home {
-		/* On paper since 2026-10-10: no tinted padding. */
-		--civ-h: 355px;
-	}
-	.fakta-band {
-		/* Three columns since 2026-10-10 (was 1 324px of rows). */
-		--civ-h: 773px;
-	}
-	.fordjupning-home {
-		--civ-h: 1103px;
+		/* The opening beside the drawing. */
+		--civ-h: 337px;
 	}
 	.barometer-rail {
-		/* Tinted since 2026-10-10: padding included. */
-		--civ-h: 497px;
+		/* A room: padding included. Three findings behind tabs, one table shown. */
+		--civ-h: 492px;
+	}
+	.fakta-band {
+		/* Three columns, on paper. */
+		--civ-h: 614px;
+	}
+	.fordjupning-home {
+		/* A framing line and three picture cards on the thirds. */
+		--civ-h: 492px;
 	}
 	.praktiskt-home {
-		--civ-h: 494px;
-	}
-	.markesdagar-rail {
-		/* A movement of its own since 2026-10-10: three dates on the thirds. */
-		--civ-h: 128px;
+		/* A room: the day's line, the year's line and the map. */
+		--civ-h: 459px;
 	}
 
 	@media (max-width: 40rem) {
 		.amnen.home-movement {
-			--civ-h: 1561px;
+			--civ-h: 1588px;
 		}
 		.tradar-home {
-			--civ-h: 692px;
+			--civ-h: 843px;
 		}
 		.tankare-home {
-			--civ-h: 437px;
-		}
-		.fakta-band {
-			--civ-h: 1168px;
-		}
-		.fordjupning-home {
-			--civ-h: 379px;
+			--civ-h: 654px;
 		}
 		.barometer-rail {
-			--civ-h: 715px;
+			--civ-h: 952px;
+		}
+		.fakta-band {
+			--civ-h: 1042px;
+		}
+		.fordjupning-home {
+			--civ-h: 510px;
 		}
 		.praktiskt-home {
-			--civ-h: 646px;
-		}
-		.markesdagar-rail {
-			--civ-h: 333px;
+			--civ-h: 839px;
 		}
 	}
 
@@ -662,21 +657,35 @@
 	   scoped margin — and were removed rather than left to read as a live rhythm. */
 
 	/* Section head-row — a kicker paired with a quiet "Alla X" link on one baseline.
-   Shared by the truncated discovery sections (Trådar, Tänkare) so they read as
-   one family; the link appears precisely where the homepage shows a glimpse and
-   the full set lives behind an index. (Ämnen shows every topic, so it needs no
-   such link and keeps a bare kicker — similarity following function.) */
+   Shared by the sections that are a row of items (the rail, the essäserier,
+   Fördjupning) so they read as one family; the link appears precisely where the
+   homepage shows a glimpse and the full set lives behind an index. A section that
+   opens with words of its own in the first third (AI-barometern, Grunden; Tänkare on
+   /essaer/) closes those words with its way on instead. (Ämnen shows every topic, so it needs
+   no such link and keeps a bare kicker — similarity following function.) */
+	/* ONE STEP UNDER A HEAD ROW, the step over it: a kicker stands one group-space under
+	   its line (editorial.css) and its content one group-space under the kicker. It was
+	   --space-unit here and on the bare kicker, and three components had their own
+	   (12, 15 and 30px between a kicker and what it heads, measured 2026-10-10). Tabs
+	   under a kicker keep a shorter margin, because their own padding is half the step. */
 	.home-head {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: baseline;
 		gap: var(--space-half) 1rem;
-		margin-bottom: var(--space-unit);
+		margin-bottom: var(--space-group);
 	}
 
 	.home-head .home-kicker {
 		margin-bottom: 0;
+	}
+
+	/* Tabs follow their head closely: they are its second line, and their own padding
+	   is the other half of the step. Said once here; the essays by ämne and the
+	   essäserier each said it in their own file. */
+	.home-movement:has(> .home-tabs) > :is(.home-kicker, .home-head) {
+		margin-bottom: var(--space-control);
 	}
 
 	/* Keep the complete destination and arrow together. Flex wrapping moves the
@@ -708,6 +717,48 @@
 		--focus-offset: 3px;
 	}
 
+	/* TABS — one glimpse at a time of a set that has several: the essays by ämne, the
+   AI-barometern's findings (scripts/home-tabs.ts). Links on one base rule, the chosen
+   one in ink over the accent; without the script they are the links they are written
+   as. One grammar for every set on the page, so a reader who has used one has used
+   them all. A label that does not fit breaks inside its tab and stands on the rule. */
+	.home-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		gap: 0 var(--space-group);
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	.home-tab {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.4rem;
+		min-height: 2.75rem;
+		padding-block: var(--space-control);
+		border-bottom: 2px solid transparent;
+		font-family: var(--font-heading);
+		font-size: var(--step--1);
+		font-weight: 500;
+		color: var(--color-muted);
+		text-decoration: none;
+	}
+
+	.home-tab:hover {
+		color: var(--color-text);
+	}
+
+	.home-tab[data-selected="true"] {
+		color: var(--color-text);
+		border-bottom-color: var(--color-accent);
+	}
+
+	.home-tab-count {
+		font-size: var(--step--3);
+		font-variant-numeric: lining-nums tabular-nums;
+		color: var(--color-muted);
+	}
+
 	/* Movement label — the kicker that names a section in the site voice. A small
    warm accent tick + the uppercase label + the generous whitespace between
    movements mark each section; that quiet tick (not a full-width rule) is the
@@ -722,7 +773,7 @@
 	   it is a <p> or a promoted <h2> (the global h2 rule would otherwise add a φ top
 	   margin and 620 weight). The kicker is the section's real heading. */
 		margin-top: 0;
-		margin-bottom: var(--space-unit);
+		margin-bottom: var(--space-group);
 		font-size: var(--step--2);
 		font-weight: 400;
 		/* The body's own leading, pinned for the same reason: a <p> kicker inherited
@@ -732,6 +783,137 @@
 		letter-spacing: 0.09em;
 		/* Navigation labels need more presence than incidental captions. Keep their
 		   scale quiet and use the existing stronger metadata colour in both themes. */
+		color: var(--text-meta);
+	}
+
+	/* WHAT A TAB SHOWS: a framing line, three essays as picture cards on the page's
+	   thirds, and the way on to the rest. One panel grammar for the essays by ämne and
+	   the essäserier (2026-10-10): the two are the same essays shelved two ways, and set
+	   differently (picture cards over three columns of numbered titles) they read as two
+	   unrelated things. Global, because a list's <li>s never carry a component's scope
+	   (see »Picture card« below). */
+	/* THE OPENING SENTENCE of a section that opens with words of its own: the lead's
+	   deck, AI-barometern's and Grunden's. The body's size and the body ink, a rank over
+	   a framing line. One rule, which three components each wrote out; a component
+	   only places its sentence (a margin, a measure). */
+	.home-ingress {
+		font-family: var(--font-body);
+		font-size: var(--step-0);
+		line-height: 1.55;
+		color: var(--text-body);
+		text-wrap: pretty;
+	}
+
+	/* The framing line in the ink of the blurbs it introduces (--text-quiet), a size
+	   above them. At the meta colour it wore the unchosen tabs' grey: by likeness it
+	   went with the tabs that were NOT chosen, and the section's own sentence was the
+	   faintest prose in it (2026-10-11). */
+	.home-tab-framing {
+		max-width: 42rem;
+		margin: var(--space-group) 0;
+		font-size: var(--step--1);
+		color: var(--text-quiet);
+	}
+
+	.home-cards {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-group) var(--grid-gutter);
+		margin: 0;
+		padding: 0;
+	}
+
+	.home-cards .essay-card a {
+		padding: 0;
+		text-decoration: none;
+	}
+
+	.home-cards .essay-card a:hover .essay-card-title {
+		text-decoration: underline;
+		text-underline-offset: var(--underline-offset);
+	}
+
+	.home-cards .essay-card .archive-title.essay-card-title {
+		font-size: var(--step-1);
+	}
+
+	/* An essay without art keeps its place in the row under a rule. */
+	.home-cards .essay-card:not(:has(.essay-card-media)) {
+		border-top: 1px solid var(--color-divider);
+		padding-top: var(--space-half);
+	}
+
+	.home-tab-more {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.35rem 1rem;
+		margin: var(--space-group) 0 0;
+		font-size: var(--step--2);
+	}
+
+	/* BELOW THE THIRDS a row of three is set by what its three are. The essays by ämne
+	   are a shelf with its newest first: one above the other on a phone, and on a tablet
+	   a lead above a pair (the lead's image at half width, which avoids both an orphan
+	   card and an oversized tablet photograph). The essäserier's parts and the three
+	   fördjupningar are equals in an order, and a lead would rank the first of them
+	   above the others: they keep one row and scroll it sideways (editorial.css, »A row
+	   of cards that scrolls sideways«). */
+	@media (40rem <= width < 60rem) {
+		.amnen .home-cards {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.amnen .home-cards .essay-card:first-child {
+			grid-column: 1 / -1;
+		}
+
+		.amnen .home-cards .essay-card:first-child:has(.essay-card-media) > a {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-rows: auto auto 1fr;
+			column-gap: var(--grid-gutter);
+			align-items: start;
+		}
+
+		.amnen .home-cards .essay-card:first-child .essay-card-media {
+			grid-column: 1;
+			grid-row: 1 / 4;
+			margin: 0;
+		}
+
+		.amnen
+			.home-cards
+			.essay-card:first-child:has(.essay-card-media)
+			:is(.essay-card-title, .essay-card-desc, .archive-meta) {
+			grid-column: 2;
+		}
+	}
+
+	@media (width >= 60rem) {
+		.home-cards {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	/* A KICKER HAS ONE OF TWO JOBS ON A CANVAS PAGE, and is set by which.
+	   It HEADS a section or a list (»Senast publicerat«, »Nyheter«, »Essäer efter ämne«,
+	   »Essäserier«, »AI-barometern«, »Fakta om islam«, »Fördjupning«, »Praktiskt«; on
+	   /essaer/ »Essäserier« and »Tänkare«): then it is the heading, the one thing that says where on the page a
+	   reader is, in ink and a weight up. At the meta colour and the regular weight it was
+	   quieter than the column labels set on its own line (Grunden's »Islams fem pelare« is
+	   600), so the heading read as the least of three labels (2026-10-10).
+	   Or it stands OVER A TITLE and names its kind (the lead's ämne; »Podd«, »App«,
+	   »E-bok«, »Moskéskärm«): then the title is the heading and the label keeps the
+	   quiet form it always had. */
+	.home .home-kicker {
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.home :is(.feature-kicker, .promo-kicker) {
+		font-weight: 400;
 		color: var(--text-meta);
 	}
 
@@ -1891,7 +2073,7 @@
 	}
 
 	.essay-card-media {
-		margin: 0 0 0.85rem;
+		margin: 0 0 var(--card-media-gap);
 	}
 
 	/* The <img> carries EssayImage's scope, not ours; a plain descendant never reaches it. */
@@ -1902,7 +2084,7 @@
 
 	.essay-card .archive-title.essay-card-title {
 		font-size: var(--step-0);
-		line-height: 1.22;
+		line-height: var(--card-title-leading);
 	}
 
 	/* ⚠️ Qualified like the title above, and for the same reason: these rules were
@@ -1911,8 +2093,9 @@
 	   specificity step higher and would take back margin-top. */
 	.essay-card .archive-description.essay-card-desc {
 		font-size: var(--step--2);
+		line-height: var(--card-text-leading);
 		color: var(--text-quiet);
-		margin-top: 0.4rem;
+		margin-top: var(--card-text-gap);
 	}
 
 	.essay-card .archive-meta {

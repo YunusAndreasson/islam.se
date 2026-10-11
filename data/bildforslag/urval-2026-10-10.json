@@ -1,0 +1,444 @@
+[
+	{
+		"id": "al-baqi-medina-gravkullar",
+		"commons": "File:Al-Baqi Cemetery 2021.jpg",
+		"crop": [
+			0,
+			0.06,
+			1,
+			0.889
+		],
+		"creditName": "Saleh Al Hussain / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/articles/en-handsbredd-over-marken.md",
+				"section": "Men al-Baqīʿ, då?",
+				"after": "Islams mest kända begravningsplats, al-Baqīʿ i Medina, är i dag ett fält av låga, namnlösa kullar."
+			}
+		],
+		"alt": "Ett sandfält med hundratals låga gravkullar, var och en med en mörk, ohuggen sten; i fjärran minareter och en grön kupol.",
+		"caption": "Al-Baqīʿ i Medina, juli 2021: låga kullar med en omärkt sten vid huvudändan. I bakgrunden Profetens ﷺ moské.",
+		"verdict": "use",
+		"note": "Kan också stå i fördjupningarna Muslimsk begravning och Döden, som båda nämner al-Baqīʿ. Byggkranar syns små i bakgrunden."
+	},
+	{
+		"id": "spillingsskatten-arabiska-silvermynt",
+		"commons": "File:Iraq silver coins Spillings Hoard.jpg",
+		"crop": [
+			0.09,
+			0.168,
+			0.813,
+			0.832
+		],
+		"creditName": "W.carter / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/svar/trosbekannelsen-shahada.md",
+				"section": "Varför är trosbekännelsen islams första pelare?",
+				"after": "I Klippdomen, som står inom al-Aqsa i Jerusalem, löper formeln i gyllene kufiska"
+			},
+			{
+				"file": "data/fordjupning/islam-i-sverige.md",
+				"section": "Vikingatidens kontakter med kalifaten",
+				"after": "Det arkeologiska underlaget är omfattande och entydigt."
+			}
+		],
+		"alt": "Rader av arabiska silvermynt med kufisk skrift mot blå botten, vart och ett med en liten skylt som anger präglingsåret.",
+		"caption": "Arabiska silvermynt ur Spillingsskatten på Gotland, präglade mellan 738 och 861. Gotlands museum, Visby.",
+		"verdict": "use"
+	},
+	{
+		"id": "kaba-1880-sadiq-bey",
+		"commons": "File:Khalili Collection Hajj and Arts of Pilgrimage arc.pp 0211.04 CROP.jpg",
+		"creditKind": "Foto",
+		"creditName": "Muhammad Sadiq Bey, 1880. Khalili Collections",
+		"texts": [
+			{
+				"file": "data/fordjupning/kaba.md",
+				"section": "inledningen",
+				"after": "Byggnaden som står där i dag är inte den som traditionen tillskriver Abraham"
+			}
+		],
+		"alt": "Sepiafotografi av Kaba klädd i mörkt tyg med ett broderat band, omgiven av pelargångar; bakom den klättrar Meckas hus uppför bergssluttningen.",
+		"caption": "Kaba fotograferad av Muhammad Sadiq Bey 1880, bland de äldsta fotografierna av helgedomen.",
+		"verdict": "use"
+	},
+	{
+		"id": "moskens-plan-mecka-1888",
+		"commons": "File:Grundriss der Moschee von Mekka.jpg",
+		"crop": [
+			0.478,
+			0.035,
+			0.49,
+			0.925
+		],
+		"creditName": "Christiaan Snouck Hurgronje, »Mekka«, Haag 1888",
+		"texts": [
+			{
+				"file": "data/fordjupning/kaba.md",
+				"section": "Rättsskolorna om al-hijr, tawaf och böneriktningen",
+				"after": "Den första och tyngsta tvisten rör *al-hijr*."
+			}
+		],
+		"alt": "Tryckt planritning över moskén i Mecka: Kaba mitt i en oval gård, den halvcirkelformade al-hijr intill, och numrerade byggnader runt omkring.",
+		"caption": "Plan över moskén i Mecka ur Christiaan Snouck Hurgronjes bildatlas, 1888. Siffran 2 markerar al-hijr; vid 6, 8, 9 och 10 hade de fyra rättsskolorna var sin böneplats.",
+		"quality": 84,
+		"verdict": "use",
+		"width": 1100
+	},
+	{
+		"id": "birminghamhandskriften-sura-18-20",
+		"commons": "File:Birmingham Quran manuscript full.jpg",
+		"creditName": "Cadbury Research Library, University of Birmingham",
+		"texts": [
+			{
+				"file": "data/fordjupning/koranen.md",
+				"section": "Vanliga invändningar mot Koranen och svaren på dem",
+				"after": "**Att texten skulle vara en sen konstruktion.** John Wansbrough hävdade"
+			}
+		],
+		"alt": "Två pergamentblad med tät arabisk skrift i brunt bläck; på det vänstra skiljer en vågig bård två suror åt. Kanterna är nötta och fläckiga.",
+		"caption": "Birminghamhandskriften: två pergamentblad med delar av sura 18–20, radiokoldaterade till mellan 568 och 645. Cadbury Research Library, University of Birmingham.",
+		"quality": 82,
+		"verdict": "use"
+	},
+	{
+		"id": "al-fatiha-vastafrikansk-handskrift",
+		"commons": "File:Al-Fatiha in the Sudani script (CBL Is 1598, f. 1b).jpg",
+		"crop": [
+			0.022,
+			0.014,
+			0.956,
+			0.972
+		],
+		"creditName": "Chester Beatty Library, Dublin",
+		"texts": [
+			{
+				"file": "data/svar/sa-ber-man-steg-for-steg.md",
+				"section": "Vad reciterar man i bönen?",
+				"after": "Kärnan i recitationen är al-Fātiha, Koranens öppningskapitel,"
+			}
+		],
+		"alt": "Handskriftsblad med al-Fātihas sju verser i kraftig brun skrift, omgivna av cirklar och rutor målade i blått, rött och gult.",
+		"caption": "Al-Fātiha i en västafrikansk koranhandskrift från 1800-talet. Chester Beatty Library, Dublin.",
+		"quality": 82,
+		"note": "Stående format (sidan är högre än bred).",
+		"verdict": "use",
+		"width": 1100
+	},
+	{
+		"id": "mina-taltstaden-under-hajj",
+		"commons": "File:Mina's tents.JPG",
+		"creditName": "Arisdp / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-hajj.md",
+				"section": "När och var utförs vallfärden?",
+				"after": "Hajj är bunden till en enda månad i året, *dhū-l-hijja*,"
+			}
+		],
+		"alt": "Tusentals vita, spetsiga tält i raka rader under strålkastare i natten, med berg i bakgrunden.",
+		"caption": "Tältstaden Mina under vallfärden i november 2011.",
+		"verdict": "maybe",
+		"note": "Strålkastarna ger ljusfläckar; fungerar som andra bild på sidan, efter ʿArafat."
+	},
+	{
+		"id": "sura-al-alaq-egyptisk-handskrift",
+		"commons": "File:2006AB2204 leaf quarn egypt-calligraphy-in-islamic-art-surah al alaq-iqra6inchx300dpi.jpg",
+		"creditName": "Victoria and Albert Museum, London",
+		"texts": [
+			{
+				"file": "data/svar/forsta-uppenbarelsen.md",
+				"section": "Vilka var de första verserna som uppenbarades?",
+				"after": "De ord ängeln gav blev inledningen till Koranens 96:e sura, al-ʿAlaq:"
+			}
+		],
+		"alt": "Koranblad med surans rubrik i guld mot blått och rött och därunder rader av arabisk skrift i svart, med guldrosetter mellan verserna.",
+		"caption": "Sura al-ʿAlaq i en koranhandskrift från Egypten, 1400-talet. Victoria and Albert Museum, London.",
+		"quality": 82,
+		"verdict": "use"
+	},
+	{
+		"id": "svenska-utvandrare-rush-city-minnesota",
+		"commons": "File:Svenskar i Amerika. Olof Olsson från Nerikes Kil, utvandrade ca 1880 till Rush City, Minnesota - Nordiska Museet - NMA.0039211.jpg",
+		"creditKind": "Foto",
+		"creditName": "okänd fotograf. Nordiska museet",
+		"texts": [
+			{
+				"file": "data/articles/resenaren-som-sitter-still.md",
+				"section": "Hos oss",
+				"after": "Vad *hemma* betyder på en kristen dödsbädd hör till Kristinas egen tro"
+			}
+		],
+		"alt": "Svartvitt fotografi av män, kvinnor och barn uppställda framför en liten timmerstuga i skogen, med två hästar förspända en vagn till höger.",
+		"caption": "Svenska utvandrare vid sin timmerstuga i Rush City, Minnesota. Olof Olsson från Kil i Närke kom dit omkring 1880.",
+		"note": "Människor är motivet (historiskt dokumentärfoto); en av männen håller ett gevär.",
+		"verdict": "maybe"
+	},
+	{
+		"id": "arafat-vallfardens-viktigaste-dag",
+		"commons": "File:Mount Arafat3.jpg",
+		"creditName": "saudipics / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-hajj.md",
+				"section": "Vilka är de viktigaste riterna under hajj?",
+				"after": "Vallfärden börjar med att pilgrimen vid en bestämd gränsstation"
+			}
+		],
+		"alt": "En klippig kulle täckt av pilgrimer i vita dräkter, många med parasoll; på krönet står en vit pelare.",
+		"caption": "Pilgrimer på ʿArafat den 31 augusti 2017, dagen för vallfärdens viktigaste rit.",
+		"verdict": "use"
+	},
+	{
+		"id": "birkaringen-silver-och-glas",
+		"commons": "File:Fingerring - Historiska museet - DIG 56338.jpg",
+		"crop": [
+			0.14,
+			0.14,
+			0.76,
+			0.7
+		],
+		"creditKind": "Foto",
+		"creditName": "Ola Myrin, Statens historiska museer",
+		"texts": [
+			{
+				"file": "data/fordjupning/islam-i-sverige.md",
+				"section": "Vikingatidens kontakter med kalifaten",
+				"after": "Det arkeologiska underlaget är omfattande och entydigt."
+			}
+		],
+		"alt": "Silverring med en oval, violett glassten i vilken tecken är inristade, fotograferad mot vit botten.",
+		"caption": "Silverring med infattad glassten och inristade kufiska tecken, funnen i en kvinnograv i Birka. 800-talet. Historiska museet, Stockholm.",
+		"note": "Texten nämner smycken från kalifaten i Birka men inte ringen vid namn; bildtexten tillför alltså en uppgift. Hur inskriften ska läsas är omtvistat, därför står bara »kufiska tecken«.",
+		"verdict": "use"
+	},
+	{
+		"id": "gulddinar-abd-al-malik-damaskus",
+		"commons": "File:Gold dinar of Abd al-Malik 697-98.png",
+		"creditName": "American Numismatic Society",
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-zakat.md",
+				"section": "Hur mycket zakat ska man betala?",
+				"after": "Den vanliga satsen är 2,5 procent av det sparade överskottet per år,"
+			}
+		],
+		"alt": "Fram- och baksidan av ett guldmynt som är helt fyllt med arabisk skrift i raka rader, med en skriftrad längs kanten.",
+		"caption": "Gulddinar präglad i Damaskus 697–698 under kalifen ʿAbd al-Malik. Tjugo sådana mynt är den klassiska gränsen för zakat.",
+		"verdict": "use"
+	},
+	{
+		"id": "sveriges-rikes-lag-1734-titelblad",
+		"commons": "File:Sveriges Rikes Lag 1734.png",
+		"width": 1100,
+		"quality": 84,
+		"creditName": "Sveriges Rikes Lag, Stockholm 1736",
+		"texts": [
+			{
+				"file": "data/fordjupning/sharia.md",
+				"section": "Sharia och den svenska statskyrkans rättsordning",
+				"after": "Uppenbarad text användes också direkt som rättskälla. Karl IX lät 1608 trycka"
+			}
+		],
+		"alt": "Titelblad i frakturstil: »Sweriges Rikes Lag, gillad och antagen på Riksdagen åhr 1734«, tryckt i Stockholm 1736.",
+		"caption": "Titelbladet till 1734 års lag, tryckt i Stockholm 1736. Dess missgärningsbalk straffade hädelse med döden.",
+		"note": "Originalet är bara 1216 px brett; räcker för spalten men inte för mer.",
+		"verdict": "use"
+	},
+	{
+		"id": "medina-1880-sadiq-bey",
+		"commons": "File:Khalili Collection Hajj and Arts of Pilgrimage arc.pp 0211.09.jpg",
+		"crop": [
+			0.268,
+			0.312,
+			0.453,
+			0.388
+		],
+		"creditKind": "Foto",
+		"creditName": "Muhammad Sadiq Bey, omkring 1880. Khalili Collections",
+		"texts": [
+			{
+				"file": "data/fordjupning/moske.md",
+				"section": "inledningen",
+				"after": "**Moskén** är den byggnad eller lokal där muslimer samlas till gemensam bön,"
+			}
+		],
+		"alt": "Sepiafotografi av en muromgärdad stad på en slätt, med minareter och en kupol i fjärran och berg vid horisonten.",
+		"caption": "Medina omkring 1880, fotograferad av Muhammad Sadiq Bey. Profetens ﷺ moské reser sig bakom stadsmuren.",
+		"verdict": "use"
+	},
+	{
+		"id": "mecka-1880-panorama-sadiq-bey",
+		"commons": "File:Edited Khalili Collection Hajj and Arts of Pilgrimage arc.pp 0211.02-Photo of Mecca by Muhammad Sadiq Bey ca.1880-ccbysa3.0.png",
+		"crop": [
+			0.122,
+			0.213,
+			0.766,
+			0.582
+		],
+		"creditKind": "Foto",
+		"creditName": "Muhammad Sadiq Bey, omkring 1880. Khalili Collections",
+		"texts": [
+			{
+				"file": "data/fordjupning/muhammed.md",
+				"section": "Muhammeds liv och eftermäle från 570 till i dag",
+				"after": "Ibn Ishaq daterar födelsen till en måndag, den tolfte natten av månaden"
+			}
+		],
+		"alt": "Sepiapanorama över en tätbebyggd stad i en dal mellan kala berg; i förgrunden en stor gård med pelargångar och Kaba i mitten.",
+		"caption": "Mecka omkring 1880 i Muhammad Sadiq Beys panorama: staden i dalen kring helgedomen.",
+		"verdict": "use"
+	},
+	{
+		"id": "american-colony-jerusalem-1920",
+		"commons": "File:Newer Jerusalem and suburbs. The American Colony, main bld'g (i.e., building). Nablus Road LOC matpc.02577.jpg",
+		"crop": [
+			0.06,
+			0.085,
+			0.905,
+			0.84
+		],
+		"creditKind": "Foto",
+		"creditName": "American Colony Photo Department. Library of Congress",
+		"texts": [
+			{
+				"file": "data/articles/guds-vagar.md",
+				"section": "En illa försvarad fästning",
+				"after": "Socknen fanns i verkligheten. Den 23 juli 1896 lämnade 37 människor Nås"
+			}
+		],
+		"alt": "Svartvitt fotografi av ett stort stenhus i två våningar med valvport och muromgärdad trädgård, sett snett uppifrån.",
+		"caption": "American Colonys huvudbyggnad vid Nablusvägen i Jerusalem, 1920 – kolonin som Nåsbönderna anslöt sig till 1896.",
+		"note": "Essän nämner Jerusalem men inte American Colony vid namn; bildtexten tillför den uppgiften.",
+		"verdict": "use"
+	},
+	{
+		"id": "kaba-under-hajj-2018",
+		"commons": "File:The Kaaba during Hajj.jpg",
+		"role": "card",
+		"width": 1800,
+		"creditName": "Adli Wahid / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-hajj.md",
+				"section": "kortbild på /vad-ar-islam/ och sidans toppbild",
+				"after": "sparas som src/assets/images/fakta/vad-ar-hajj.webp"
+			}
+		],
+		"alt": "Kaba i svart tyg med guldbroderat band mitt i ett hav av vitklädda pilgrimer, omgiven av moskéns pelargångar i två våningar.",
+		"caption": "Tawaf kring Kaba under vallfärden 2018.",
+		"note": "Kortbild: Vallfärden lånar i dag en essäbild. Passar också översikten Islams fem pelare. Bryter mot seriens svenska miljöer, men motivet är pelaren själv.",
+		"verdict": "use",
+		"quality": 74
+	},
+	{
+		"id": "nasborna-i-jerusalem-1946",
+		"commons": "File:Swedish group, May 10, 1946, those fr(om) Dalarna remaining in colony of original group (American Colony) LOC matpc.12938.jpg",
+		"crop": [
+			0.068,
+			0.086,
+			0.86,
+			0.81
+		],
+		"creditKind": "Foto",
+		"creditName": "American Colony Photo Department. Library of Congress",
+		"texts": [
+			{
+				"file": "data/articles/guds-vagar.md",
+				"section": "En illa försvarad fästning",
+				"after": "Socknen fanns i verkligheten. Den 23 juli 1896 lämnade 37 människor Nås"
+			}
+		],
+		"alt": "Svartvitt fotografi av tio äldre kvinnor och män uppställda på en trappa med smidesräcke under ett stort stenvalv.",
+		"caption": "De från Dalarna som fanns kvar i American Colony i Jerusalem den 10 maj 1946, femtio år efter utvandringen från Nås.",
+		"note": "Människor är motivet (historiskt dokumentärfoto). Alternativ till husbilden, inte tillsammans med den.",
+		"verdict": "maybe"
+	},
+	{
+		"id": "uppsala-motes-beslut-1593",
+		"commons": "File:Uppsala Synod document in Västerås.jpg",
+		"crop": [
+			0.03,
+			0.02,
+			0.94,
+			0.95
+		],
+		"creditName": "Kigsz / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/fordjupning/sunni-och-shia.md",
+				"section": "Trosstrider i svensk idéhistoria och parallellen till sunni och shia",
+				"after": "Också i Sverige har staten avgjort vilken läsning av en gemensam skrift"
+			}
+		],
+		"alt": "Ett stort pergamentblad med tät handskrift och ett trettiotal vaxsigill hängande i remsor längs nederkanten, utställt i en monter.",
+		"caption": "Uppsala mötes beslut 1593, i det exemplar som prästerna i Västerås stift undertecknade och beseglade. Västerås domkyrka.",
+		"note": "Fotograferat genom monterglas, snett och med en ljusreflex. Motivet är rätt, bilden är inte arkivkvalitet.",
+		"verdict": "maybe"
+	},
+	{
+		"id": "medelassyriska-lagen-tavla-a",
+		"commons": "File:Pergamonmuseum - Vorderasiatisches Museum 075.JPG",
+		"crop": [
+			0.04,
+			0.03,
+			0.88,
+			0.93
+		],
+		"width": 1100,
+		"creditName": "Marcus Cyron / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/fordjupning/hijab.md",
+				"section": "Slöjans historia före islam: assyrisk lag och bysantinsk sed",
+				"after": "Täckt hår var ett statusmärke i Främre Orienten långt före islam."
+			}
+		],
+		"alt": "En sprucken lertavla tätt fylld med kilskrift i kolumner, stående på en vit sockel i en museimonter.",
+		"caption": "De mellanassyriska lagarna, tavla A, från Assur omkring 1100 f.Kr. Här står påbudet om vilka kvinnor som skulle bära slöja. Vorderasiatisches Museum, Berlin.",
+		"note": "Den enda fria bilden av just den här tavlan: en besökares kompaktkamerabild, något mjuk och med gulstick.",
+		"verdict": "maybe"
+	},
+	{
+		"id": "cordoba-stora-moskens-pelarsal",
+		"commons": "File:Great Mosque of Cordoba, interior, 8th - 10th centuries (38) (29721130342).jpg",
+		"crop": [
+			0.3,
+			0.02,
+			0.7,
+			0.78
+		],
+		"creditName": "Richard Mortel / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/fordjupning/kalifatet.md",
+				"section": "Kalifatets historia från 632 till 1924",
+				"after": "Efter 661 blev ämbetet ärftligt under umayyaderna i Damaskus,"
+			}
+		],
+		"alt": "Rader av mörka stenpelare som bär dubbla hästskobågar i rött och vitt och försvinner in i salens djup.",
+		"caption": "Pelarsalen i den stora moskén i Córdoba, 700–900-talen.",
+		"note": "Texten nämner Córdoba bara i förbigående. Beskuren så att en skulptur och de flesta besökarna hamnar utanför bilden.",
+		"verdict": "maybe"
+	},
+	{
+		"id": "bergskam-fore-ovadret-kaukasus",
+		"commons": "File:Asbestnaya Mount, Adygea, Гора Асбестная, виды с вершины, Адыгея, Западный Кавказ.jpg",
+		"role": "card",
+		"width": 1800,
+		"creditName": "Vyacheslav Argenberg / Wikimedia Commons",
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-domedagen.md",
+				"section": "kortbild på /vad-ar-islam/ och sidans toppbild",
+				"after": "sparas som src/assets/images/fakta/vad-ar-domedagen.webp"
+			}
+		],
+		"alt": "En gräsklädd bergskam i kvällssol med branta kalkstensstup, dimma i dalen och mörka åskmoln över en taggig bergskedja.",
+		"caption": "",
+		"note": "Kortbild: Domedagen lånar i dag en essäbild. Utvald bild på Commons, men landskapet är Kaukasus, inte Sverige, och sidan talar om hav och himmel snarare än berg.",
+		"verdict": "maybe",
+		"quality": 76
+	}
+]

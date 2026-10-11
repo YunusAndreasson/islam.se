@@ -18,143 +18,34 @@ const groups = amnenWithEssays(await getArticles()).filter(({ amne }) => amne.sl
 });
 ---
 
-<section class="amnen home-movement" aria-labelledby="amnen-kicker" data-essay-showcase>
-	<h2 id="amnen-kicker" class="amnen-title">Essäer efter ämne</h2>
-	<nav class="amnen-tabs" aria-label="Välj ämne">
+<section class="amnen home-movement" aria-labelledby="amnen-kicker" data-home-tabs>
+	{/* A kicker like its sibling's (Essäserier), not a title: the two shelvings of the
+	    essays open alike. As a 33px title over a tracked label it read as that
+	    section's parent, and was the only section on the page without the brass point
+	    (2026-10-10). */}
+	<h2 id="amnen-kicker" class="label home-kicker">Essäer efter ämne</h2>
+	<nav class="home-tabs" aria-label="Välj ämne">
 		{groups.map(({ amne, total }, i) => (
-			<a class="amnen-tab" id={`subject-tab-${amne.slug}`} href={`/amnen/${amne.slug}/`} data-subject={amne.slug} data-selected={i === 0 ? "true" : undefined}>
-				{amne.name} <span class="amnen-count">{total}<span class="sr-only"> essäer</span></span>
+			<a class="home-tab" id={`subject-tab-${amne.slug}`} href={`/amnen/${amne.slug}/`} data-tab data-selected={i === 0 ? "true" : undefined}>
+				{amne.name} <span class="home-tab-count">{total}<span class="sr-only"> essäer</span></span>
 			</a>
 		))}
 	</nav>
 	{groups.map(({ amne, shown }, i) => (
-		<div class="amnen-panel" id={`subject-panel-${amne.slug}`} data-panel={amne.slug} hidden={i !== 0}>
-			<p class="amnen-framing">{amne.framing}</p>
-			<EssayList articles={shown} itemVariant="card" class="essay-cards amnen-essays" cardSizes="(min-width: 60rem) 31vw, (min-width: 40rem) 45vw, 100vw" />
-			<p class="amnen-more"><SectionLink href={`/amnen/${amne.slug}/`}>Alla essäer om {amne.omForm}</SectionLink></p>
+		<div class="amnen-panel" id={`subject-panel-${amne.slug}`} data-tab-panel hidden={i !== 0}>
+			<p class="home-tab-framing">{amne.framing}</p>
+			<EssayList articles={shown} itemVariant="card" class="home-cards" cardSizes="(min-width: 60rem) 31vw, (min-width: 40rem) 45vw, 100vw" />
+			<p class="home-tab-more"><SectionLink href={`/amnen/${amne.slug}/`}>Alla essäer om {amne.omForm}</SectionLink></p>
 		</div>
 	))}
 </section>
 
 <style>
-	.amnen-title { margin: 0 0 var(--space-group); font-size: var(--step-3); }
-	.amnen-tabs {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0 var(--space-group);
-		border-bottom: 1px solid var(--color-rule);
-	}
-	.amnen-tab {
-		display: inline-flex;
-		align-items: baseline;
-		gap: 0.4rem;
-		min-height: 2.75rem;
-		padding-block: var(--space-control);
-		border-bottom: 2px solid transparent;
-		font-family: var(--font-heading);
-		font-size: var(--step--1);
-		font-weight: 500;
-		color: var(--color-muted);
-		text-decoration: none;
-	}
-	.amnen-tab:hover { color: var(--color-text); }
-	.amnen-tab[data-selected="true"] {
-		color: var(--color-text);
-		border-bottom-color: var(--color-accent);
-	}
-	.amnen-count { font-size: var(--step--3); font-variant-numeric: lining-nums tabular-nums; color: var(--color-muted); }
+	/* The tabs, the panel and its cards are the front page's own (layout.css: .home-tabs,
+	   .home-cards; scripts/home-tabs.ts), shared with the essäserier under this section. */
 	.amnen-panel[hidden] { display: none; }
-	.amnen-framing {
-		max-width: 42rem;
-		margin: var(--space-group) 0;
-		font-size: var(--step--1);
-		color: var(--color-muted);
-	}
-	.amnen :global(.amnen-essays) {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: var(--space-group) var(--grid-gutter);
-		margin: 0;
-	}
-	.amnen :global(.essay-card a) { padding: 0; text-decoration: none; }
-	.amnen :global(.essay-card a:hover .essay-card-title) { text-decoration: underline; text-underline-offset: var(--underline-offset); }
-	.amnen :global(.essay-card .essay-card-title) { font-size: var(--step-1); }
-	.amnen :global(.essay-card:not(:has(.essay-card-media))) {
-		border-top: 1px solid var(--color-divider);
-		padding-top: var(--space-half);
-	}
-	.amnen-more { margin: var(--space-group) 0 0; font-size: var(--step--2); }
-	@media (40rem <= width < 60rem) {
-		.amnen :global(.amnen-essays) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-		/* Three entries form a lead above a pair. The lead's image stays at half
-		   width, avoiding both an orphan card and an oversized tablet photograph. */
-		.amnen :global(.essay-card:first-child) { grid-column: 1 / -1; }
-		.amnen :global(.essay-card:first-child:has(.essay-card-media) > a) {
-			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			grid-template-rows: auto auto 1fr;
-			column-gap: var(--grid-gutter);
-			align-items: start;
-		}
-		.amnen :global(.essay-card:first-child .essay-card-media) {
-			grid-column: 1;
-			grid-row: 1 / 4;
-			margin: 0;
-		}
-		.amnen :global(.essay-card:first-child:has(.essay-card-media) .essay-card-title),
-		.amnen :global(.essay-card:first-child:has(.essay-card-media) .essay-card-desc),
-		.amnen :global(.essay-card:first-child:has(.essay-card-media) .archive-meta) {
-			grid-column: 2;
-		}
-	}
-	@media (width >= 60rem) {
-		.amnen :global(.amnen-essays) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-	}
 </style>
 
 <script>
-	function initShowcases() {
-		for (const section of document.querySelectorAll<HTMLElement>("[data-essay-showcase]")) {
-			if (section.dataset.ready) continue;
-			section.dataset.ready = "true";
-			const tabs = [...section.querySelectorAll<HTMLAnchorElement>("[data-subject]")];
-			const panels = [...section.querySelectorAll<HTMLElement>("[data-panel]")];
-			section.querySelector(".amnen-tabs")!.setAttribute("role", "tablist");
-			function select(index: number, focus = false) {
-				tabs.forEach((tab, i) => {
-					const selected = i === index;
-					tab.setAttribute("aria-selected", String(selected));
-					tab.dataset.selected = String(selected);
-					tab.tabIndex = selected ? 0 : -1;
-					panels[i]!.hidden = !selected;
-				});
-				if (focus) tabs[index]?.focus({ preventScroll: true });
-			}
-			tabs.forEach((tab, index) => {
-				tab.setAttribute("role", "tab");
-				tab.setAttribute("aria-controls", panels[index]!.id);
-				panels[index]!.setAttribute("role", "tabpanel");
-				panels[index]!.setAttribute("aria-labelledby", tab.id);
-				tab.addEventListener("click", (event) => {
-					if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-					event.preventDefault();
-					select(index);
-				});
-				tab.addEventListener("keydown", (event) => {
-					let next: number;
-					if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
-					else if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
-					else if (event.key === "Home") next = 0;
-					else if (event.key === "End") next = tabs.length - 1;
-					else if (event.key === " ") next = index;
-					else return;
-					event.preventDefault();
-					select(next, true);
-				});
-			});
-			select(0);
-		}
-	}
-	document.addEventListener("astro:page-load", initShowcases);
+	import "../scripts/home-tabs";
 </script>

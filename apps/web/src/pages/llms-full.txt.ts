@@ -1,6 +1,7 @@
 import type { APIContext } from "astro";
 import { articleBody, getArticles } from "../lib/articles";
 import { siteOrigin } from "../lib/config";
+import { withPublishedFigures } from "../lib/inline-images";
 import { articleMarkdown } from "../lib/representations";
 
 // llms-full.txt — the entire essay corpus as one markdown document. Anthropic
@@ -11,8 +12,13 @@ export async function GET(context: APIContext) {
 	const site = siteOrigin(context.site);
 	const articles = await getArticles();
 
-	const essays = articles.map((article) =>
-		articleMarkdown({ ...article, body: articleBody(article) }, { site }),
+	const essays = await Promise.all(
+		articles.map(async (article) =>
+			articleMarkdown(
+				{ ...article, body: await withPublishedFigures(articleBody(article), site) },
+				{ site },
+			),
+		),
 	);
 
 	const body = `# islam.se – fulltext

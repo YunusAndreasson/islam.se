@@ -1,6 +1,6 @@
 import { closeEnough, fold, foldedWords } from "./search-text";
 
-export type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tema" | "Tänkare" | "Essä";
+export type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Essäserie" | "Tänkare" | "Essä";
 
 export interface PaletteEntry {
 	type: PaletteType;
@@ -38,7 +38,7 @@ const SECTIONS: readonly {
 	{ heading: "Frågor och svar", type: "Svar", limit: 8 },
 	{ heading: "Bönetider", type: "Ort" },
 	{ heading: "Ämnen", type: "Ämne" },
-	{ heading: "Teman", type: "Tema" },
+	{ heading: "Essäserier", type: "Essäserie" },
 	{ heading: "Den klassiska islamiska traditionen", type: "Tänkare", group: "sunni" },
 	{ heading: "Svenska och västerländska röster", type: "Tänkare", group: "western" },
 	{ heading: "Essäer", type: "Essä", limit: 8 },

@@ -19,8 +19,10 @@ import HomeHead from "./HomeHead.astro";
 //
 // Directly under it, but NOT inside it. Until 2026-09-27 the two shared one tinted
 // region, and one ground made this read as a sub-part of the facts — 2 550px of one
-// block straight after the cover, "intryckt" (user review). Now the facts keep the
-// tint and this is its own movement on paper: the change of ground is the boundary.
+// block straight after the cover, "intryckt" (user review). Since 2026-10-10 both
+// stand on paper, as one chapter between the page's two tinted rooms, and what makes
+// this its own section is the rule it opens under and its own kicker row
+// (editorial.css, »A rule opens a section«): paper has no edges to be pressed into.
 
 // CURATED, not ranked. An earlier version chose by art and then by date, which is
 // the right instinct for a feed and the wrong one here: these four are the topics
@@ -29,11 +31,17 @@ import HomeHead from "./HomeHead.astro";
 // the history of Islam in Sweden. AI replaces halal to broaden the subjects
 // represented in this opening selection (user, 2026-09-26).
 //
-// Ramadan is deliberately absent: the sidolinje beside this page already opens on
-// it under "Det islamiska året", and the front page should not name the same thing
-// twice in two registers.
-const VALDA = ["aktenskap", "hijab", "artificiell-intelligens", "islam-i-sverige"] as const;
-
+// THREE, EACH WITH ITS PICTURE (2026-10-10). The list was four: two as picture cards
+// and two under them in words. "It just look unbalanced with two large images then two
+// without … maybe 3 images in one row for the most important, the link to the subpage"
+// (user review). So three, alike, and »Alla fördjupningar« for the other twenty. The
+// order here is the order on the page; to show another topic, put it in this list and
+// take one out. »Islam i Sverige« was the fourth and is one tap away, first on the
+// index page.
+//
+// Ramadan is deliberately absent: the Islamic year on this page already opens on
+// it, and the front page should not name the same thing twice in two registers.
+const VALDA = ["aktenskap", "hijab", "artificiell-intelligens"] as const;
 const alla = await getCollection("fordjupning");
 
 // Hard failure on a slug that names nothing, rather than a block that quietly
@@ -65,24 +73,41 @@ const valda = await Promise.all(
 		href="/fordjupning/"
 		linkLabel="Alla fördjupningar"
 	/>
+	{/* The Fördjupning page's own ingress, as the section's framing line: the two card
+	    rows above this chapter each open with one (the ämne's, the series'), and this
+	    was the one section a reader had to guess the meaning of from its name. */}
+	<p class="home-tab-framing">
+		Ämnen som diskuteras oftare än de beskrivs. Varje sida följer ett av dem från vad texterna
+		säger till hur frågan avgörs i en svensk domstol, kommun eller moské.
+	</p>
 	{/* h3: the head-row above renders the movement's h2, so a topic is a level
-	    beneath it. Same reasoning AmnenHome uses for its department rows.
+	    beneath it.
 
-	    Two by two, the picture at the full width of its card and the words under
-	    it — the same rhythm as the second tier of essays. A 12rem thumbnail beside
-	    the text, and before it four in a row, turned these photographs into small
-	    dark boxes (user review, 2026-09-25). A phone scrolls the four sideways. */}
+	    THREE PICTURE CARDS ON THE PAGE'S THIRDS: the card the essays by ämne and the
+	    essäserier are set in, so the three card rows on the page are one kind of thing,
+	    and the columns stand under the three columns of »Vad är islam?« directly above.
+
+	    What came before, all the same autumn. Four in a row and a 12rem thumbnail beside
+	    the text: on a 64rem canvas those were 230px pictures, "small dark boxes" (user
+	    review, 2026-09-25). Two by two with four large pictures: 1 103px, the tallest
+	    movement on the page, a second front page inside the first. Two large pictures
+	    over an A–Ö run of every other title: "just like a list dumped there". Two large
+	    pictures over two topics in words: unbalanced, two at full weight and two at a
+	    fraction of it. A third of the 76rem canvas is 373px, the width the essay cards
+	    have had all along. A phone and a tablet scroll the three sideways, in the row the
+	    essäserier's parts scroll in. */}
 	<FordjupningCards
 		entries={valda}
 		compact={false}
 		headingLevel={3}
-		sizes="(min-width: 79rem) 37rem, (min-width: 48rem) 48vw, 78vw"
+		sizes="(min-width: 79rem) 24rem, (min-width: 60rem) 31vw, (min-width: 40rem) 42vw, 80vw"
 	/>
 </section>
 
 <style>
-	/* HomeHead supplies the opening gap. Shared card padding doubled that gap;
-	   rows use an explicit gap here while collection-page cards keep their defaults. */
+	/* The framing line supplies the opening gap (layout.css, .home-tab-framing). Shared
+	   card padding doubled that gap; rows use an explicit gap here while collection-page
+	   cards keep their defaults. */
 	.fordjupning-home :global(.card-list) {
 		margin-block-start: 0;
 	}
@@ -96,52 +121,34 @@ const valda = await Promise.all(
 		border-bottom: 0;
 	}
 
-	@media (width >= 48rem) {
-		.fordjupning-home :global(.card-list) {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: calc(2 * var(--space-unit)) var(--grid-gutter);
-		}
-
-		.fordjupning-home :global(.card-list-title) {
-			font-size: var(--step-1);
-		}
+	/* THE ESSAY CARD'S OWN SIZES (tokens.css, »The picture card's inside«; layout.css,
+	   .home-cards): the title at the card-title step, the line under it at the
+	   dense-prose step, so a card here and a card in the two sections above are the same
+	   object. A blurb is one headline-like line that breaks once: broken evenly, not with
+	   two words left on the second line. */
+	.fordjupning-home :global(.card-list-thumb) {
+		margin-bottom: var(--card-media-gap);
 	}
 
-	/* A PHONE scrolls the four sideways, the next card peeking at the edge, instead
-	   of stacking four full-width photographs. The row reaches the screen edges and
-	   snaps each card to the text column. `content-visibility: visible` because the
-	   movement's paint containment would clip it (the same fix TradarHome carries). */
-	@media (width < 48rem) {
-		.fordjupning-home {
-			content-visibility: visible;
-		}
+	.fordjupning-home :global(.card-list-title) {
+		font-size: var(--step-1);
+		line-height: var(--card-title-leading);
+	}
 
+	.fordjupning-home :global(.card-list-framing) {
+		margin-top: var(--card-text-gap);
+		font-size: var(--step--2);
+		line-height: var(--card-text-leading);
+		text-wrap: balance;
+	}
+
+	/* THE PAGE'S THIRDS from 60rem, on its one gutter. Below that the three scroll
+	   sideways, as the essäserier's parts do (editorial.css, »A row of cards that
+	   scrolls sideways«). */
+	@media (width >= 60rem) {
 		.fordjupning-home :global(.card-list) {
-			grid-auto-flow: column;
-			grid-template-columns: none;
-			grid-auto-columns: 78%;
-			column-gap: var(--space-group);
-			overflow-x: auto;
-			overscroll-behavior-x: contain;
-			scroll-snap-type: x mandatory;
-			scroll-padding-inline: var(--safe-left);
-			margin-inline: calc(-1 * var(--safe-left)) calc(-1 * var(--safe-right));
-			padding-inline: var(--safe-left) var(--safe-right);
-			scrollbar-width: none;
-		}
-
-		.fordjupning-home :global(.card-list-item) {
-			scroll-snap-align: start;
-		}
-
-		/* The horizontal scroller clips an outward ring now that cards have no
-		   outer padding. Keep keyboard focus visible inside the linked card. */
-		.fordjupning-home :global(.card-list .card-list-item > a:focus-visible) {
-			outline-offset: -2px;
-		}
-
-		.fordjupning-home :global(.card-list-title) {
-			font-size: var(--step-0);
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: var(--space-group) var(--grid-gutter);
 		}
 	}
 </style>

@@ -87,6 +87,8 @@ sources:
   - name: "Ellen Key, Lifslinjer (1903-1906)"
   - name: "Intisar A. Rabb, Doubt in Islamic Law (Cambridge University Press, 2015)"
   - name: "Ann Elizabeth Mayer, Islam and Human Rights: Tradition and Politics"
+  - name: "Bild: titelbladet till Sveriges Rikes Lag, Stockholm 1736 (fri från upphovsrätt)"
+    url: "https://commons.wikimedia.org/wiki/File:Sveriges_Rikes_Lag_1734.png"
 related:
   - "vad-ar-sharia"
   - "vad-ar-sunna"
@@ -198,6 +200,8 @@ Låsningen är inte islamspecifik. I judisk rätt uppstår samma sak när en man
 Frågan om lagen är funnen eller stiftad har en svensk historia, och svaren har växlat från tid till tid. Olaus Petris domareregler, nedskrivna omkring 1540 och från 1635 tryckta tillsammans med rikets lagböcker, öppnar med att påminna domaren om att hans ämbete hör Gud till, och gör klart att det som inte är rätt och skäligt inte heller kan vara lag.
 
 Uppenbarad text användes också direkt som rättskälla. Karl IX lät 1608 trycka Kristoffers landslag med ett utdrag ur Moses lag som bihang, och domstolarna åberopade det i grova brottmål ända fram till 1734 års lag. Missgärningsbalken där föreskrev alltjämt dödsstraff för hädelse, trolldom och grovt hor, och 1686 års kyrkolag reglerade tro och gudstjänst med statens tvångsmedel bakom sig. Först Gustav III:s straffreform 1779 avskaffade flera av dessa straff.
+
+![Titelblad i frakturstil med orden Sweriges Rikes Lag, gillad och antagen på Riksdagen åhr 1734, tryckt i Stockholm 1736.](../../apps/web/src/assets/images/inline/sveriges-rikes-lag-1734-titelblad.webp "Titelbladet till 1734 års lag, tryckt i Stockholm 1736. Dess missgärningsbalk straffade hädelse med döden.")
 
 Under 1800-talet blev förhållandet mellan tron och rättsordningen en huvudfråga i svensk idédebatt. Erik Gustaf Geijer varnade i sitt tal vid reformationsjubileet 1817 för en frihet utan förankring:[^36]
 

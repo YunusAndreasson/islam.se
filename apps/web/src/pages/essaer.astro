@@ -68,7 +68,7 @@ const lengthFilterItems = [
 >
 	<nav class="filter-row" aria-label="Filtrera och sortera">
 		<button class="filter-chip label" type="button" data-overlay="amnen" aria-haspopup="dialog" aria-expanded="false">Ämnen</button>
-		<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Teman</button>
+		<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Essäserier</button>
 		<button class="filter-chip label" type="button" data-overlay="tankare" aria-haspopup="dialog" aria-expanded="false">Tänkare</button>
 		<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
 		<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
@@ -78,6 +78,14 @@ const lengthFilterItems = [
 	{/* Curated reading paths first — an inviting way in before the topical
 	    archive below; the /tradar index holds the rest. */}
 	<TradarHome limit={3} variant="cards" />
+
+	{/* Then the voices the essays return to: the other way into the archive that is
+	    not its shelves. Here since 2026-10-10, moved from the front page with the form
+	    it had there (its own words in the first third, the drawing across the other
+	    two). Until then this page had the same glimpse as a head row over a centred
+	    figure, last of all, 11 000px down, under some sixty essays: the one drawing
+	    that shows what the essays do stood where almost no reader reached it. */}
+	<TankareGroups limit={6} opening />
 
 	{/* ---- Default view: grouped by ämne, da'wah order. Each ämne opens with up to
 	    three image cards (like the start page), then the rest as the 2-col index.
@@ -132,9 +140,6 @@ const lengthFilterItems = [
 		))}
 	</div>
 
-	{/* The voices the essays return to — a quiet directory after the archive. */}
-	<TankareGroups limit={6} />
-
 	{/* ---- Quiet filter overlay (one element, panels swapped by JS) ---- */}
 	<dialog slot="after-main" class="overlay fullscreen-dialog" id="filter-overlay" aria-label="Filter">
 		<button class="overlay-close" type="button" aria-label="Stäng">
@@ -146,7 +151,7 @@ const lengthFilterItems = [
 				<FilterOverlayList items={amneFilterItems} />
 			</div>
 			<div class="overlay-panel" data-panel="tradar" hidden>
-				<p class="label overlay-heading">Teman</p>
+				<p class="label overlay-heading">Essäserier</p>
 				<FilterOverlayList items={threadFilterItems} />
 			</div>
 			<div class="overlay-panel" data-panel="tankare" hidden>
@@ -176,10 +181,16 @@ const lengthFilterItems = [
 		padding-top: var(--space-phi);
 		border-top: 1px solid var(--color-rule);
 	}
-	.essay-section:first-of-type {
-		margin-top: var(--space-unit);
-		padding-top: 0;
-		border-top: none;
+	/* The first ämne opens under its rule like the rest: the archive begins there,
+	   after the two ways in that are not its shelves. (It stood without one while
+	   the series' cards were all that preceded it.) */
+
+	/* Tänkare opens under a rule, as a section that follows another on the same paper
+	   does on the front page (editorial.css, »A rule opens a section«). The section is
+	   the component's own element, so it carries no scope of this page's. */
+	:global(.essaer-page .tankare-home) {
+		border-top: 1px solid var(--color-rule);
+		padding-top: var(--space-group);
 	}
 
 	.essay-section-head {

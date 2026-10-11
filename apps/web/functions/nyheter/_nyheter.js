@@ -48,16 +48,21 @@ export const FONSTER_H = 24;
 
 /** How many the front page's bar shows.
  *
- *  Three, one to each third of the canvas, a product decision (2026-10-10). It was
- *  twelve, measured to fill a rail beside Ämnen to the last pixel — which made twelve
- *  bold world-politics headlines the loudest thing beside the essays, on a page whose
- *  subject is not the news — and then five in a column (2026-09-25). The bar is a
- *  glance at the day, not a wire; »Alla nyheter →« in its head row carries the ~55 a
- *  day zuhd publishes.
+ *  Six, two to each third of the canvas (product decision, 2026-10-11). It was twelve,
+ *  measured to fill a rail beside Ämnen to the last pixel — which made twelve bold
+ *  world-politics headlines the loudest thing beside the essays, on a page whose
+ *  subject is not the news — then five in a column (2026-09-25), then three in one row
+ *  (2026-10-10). Three looked right and counted wrong: "i have never seen a site with
+ *  that few items … either more or only one with a link to the news feed" (user
+ *  review). A »senaste nytt« block is five or six rows wherever a Swedish reader has
+ *  met one (DN, SvD, SVT), so three read as a list that had been cut off rather than as
+ *  a selection. Six keeps the bar's shape, one line a headline on the page's thirds,
+ *  and is the count that says »a day's news«. »Alla nyheter →« in its head row carries
+ *  the ~55 a day zuhd publishes.
  *
  *  On a thin day the window holds fewer and the bar shows fewer — which is honest,
  *  and is why the count is a ceiling rather than a target. */
-export const RAIL_ANTAL = 3;
+export const RAIL_ANTAL = 6;
 
 export const KATEGORI_SV = {
 	politik: "Politik",
@@ -220,11 +225,11 @@ function forstaStycket(stycke, plats, text) {
 /**
  * One row.
  *
- * `variant: "rail"` is the sidolinje on the front page, and it is modelled on
- * the Swedish news-day index — Sydsvenskan's *Nyhetsdygnet* is the reference:
- * a time, a category, a headline, and nothing else. No summary, no source, no
- * body. It is a *list of what has happened*, scannable in a column 17rem wide,
- * and its headline links inward to /nyheter/ where the notice can be read.
+ * `variant: "rail"` is the bar on the front page: a headline and, under it, when.
+ * No summary, no source, no body. It is a *list of what has happened*, six
+ * notices on the page's thirds, and each headline links inward to /nyheter/
+ * where the notice can be read. (The category is in the markup and the bar does
+ * not show it: six rows in time order need no second sort key.)
  *
  * `variant: "full"` is that reading surface, where the whole article is four
  * short paragraphs and there is nothing to click through to; the row *is* the
@@ -245,9 +250,9 @@ export function radHtml(a, { variant = "rail", now = Date.now() } = {}) {
 	const titel = text(a.titel ?? "");
 
 	if (variant === "rail") {
-		// The sidolinje: time, category, headline. Nothing else, and deliberately —
-		// this is a news-day index in a 17rem column, not a summary. The headline
-		// links INWARD, to the notice on /nyheter/, because the news is read here.
+		// The front page's bar: a headline and when. Nothing else, and deliberately —
+		// it is a glance at the day, not a summary. The headline links INWARD, to the
+		// notice on /nyheter/, because the news is read here.
 		// No relative time either: a bare HH:MM is what a Swedish reader expects of
 		// a "senaste nytt" column, and it needs no re-labelling as it ages.
 		//
@@ -262,10 +267,14 @@ export function radHtml(a, { variant = "rail", now = Date.now() } = {}) {
 		]
 			.filter(Boolean)
 			.join(' <span class="nyhet-skiljetecken" aria-hidden="true">·</span> ');
+		// The headline, then its stamp under it: the order every item on the front page
+		// has (a title and a meta line), and the one that gives the headline the whole
+		// width of its column. With the clock in front of it a third of the canvas left
+		// a headline 305px and one in ten ended in an ellipsis (nyheter.css).
 		return (
 			'<li class="nyhet nyhet--rail">' +
-			`<p class="label nyhet-meta">${meta}</p>` +
 			`<h3 class="nyhet-titel"><a href="/nyheter/#nyhet-${esc(a.slug)}">${titel}</a></h3>` +
+			`<p class="label nyhet-meta">${meta}</p>` +
 			"</li>"
 		);
 	}

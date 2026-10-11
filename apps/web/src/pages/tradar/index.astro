@@ -10,23 +10,23 @@ const threads = await getCollection("tradar");
 
 <CollectionIndexPage
 	mainClass="home tradar-index"
-	title="Teman"
+	title="Essäserier"
 	ritning={RITNINGAR.teman}
-	description="Utvalda läsningar genom essäerna: valet 2026, folkmordet i Gaza, maskinen och människan, hjärtats anatomi, tungan och sanningen, natten, Strindbergs kris."
-	lead="Essäer som hör ihop, samlade i teman att läsa i ordning."
+	description="Essäserier att läsa i ordning: valet 2026, folkmordet i Gaza, maskinen och människan, hjärtats anatomi, tungan och sanningen, natten, Strindbergs kris."
+	lead="Essäer som hör ihop, samlade i serier att läsa i ordning, del för del."
 	backHref="/essaer/"
 	backLabel="Alla essäer"
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
 			"@type": "CollectionPage",
-			name: "Trådar",
+			name: "Essäserier",
 			url: "https://islam.se/tradar/",
 			inLanguage: "sv",
 		},
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
-			{ name: "Trådar", url: "/tradar" },
+			{ name: "Essäserier", url: "/tradar" },
 		]),
 	]}
 >
@@ -34,7 +34,7 @@ const threads = await getCollection("tradar");
 </CollectionIndexPage>
 
 <style>
-	/* Three across on the 76rem canvas (two below it): the five trådar as 3 + 2, where the
+	/* Three across on the 76rem canvas (two below it): the series as 3 + 2, where the
 	   default two-up track left the fifth alone on a row of its own. ⚠️ :global — the
 	   <main> is CollectionIndexPage's, and carries that component's scope id. */
 	:global(.tradar-index .card-list) {

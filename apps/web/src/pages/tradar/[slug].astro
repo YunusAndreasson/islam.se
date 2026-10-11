@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import EssayCollectionPage from "../../components/EssayCollectionPage.astro";
-import { type Article, essayCount, getArticles } from "../../lib/articles";
+import { type Article, getArticles } from "../../lib/articles";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 
 export async function getStaticPaths() {
@@ -33,10 +33,11 @@ const slug = Astro.params.slug;
 	title={title}
 	description={framing}
 	essays={essays}
-	kicker="Tema"
-	countText={essayCount(count)}
+	kicker="Essäserie"
+	countText={`${count} ${count === 1 ? "del" : "delar"}`}
+	numbered
 	backHref="/tradar/"
-	backLabel="Alla teman"
+	backLabel="Alla essäserier"
 	ogImage={`/tradar/${slug}/og.png`}
 	jsonLd={[
 		collectionPageJsonLd({
@@ -47,7 +48,7 @@ const slug = Astro.params.slug;
 		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
-			{ name: "Trådar", url: "/tradar" },
+			{ name: "Essäserier", url: "/tradar" },
 			{ name: title, url: `/tradar/${slug}` },
 		]),
 	]}

@@ -11,8 +11,9 @@ import Rattelse from "../components/Rattelse.astro";
 import Base from "../layouts/Base.astro";
 import { amneByName } from "../lib/amnen";
 import type { Article } from "../lib/articles";
-import { getArticles, inlineMarkdown } from "../lib/articles";
+import { articleBody, getArticles, inlineMarkdown } from "../lib/articles";
 import { getVersesByEssay } from "../lib/citations";
+import { figureJsonLd } from "../lib/inline-images";
 import { imageObject } from "../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../lib/hero";
 import { pageHeroPreload } from "../lib/hero-preload";
@@ -85,6 +86,13 @@ const structuredArticle = {
 	citations,
 	...(heroImageObject === undefined ? {} : { image: heroImageObject }),
 };
+
+// The photographs set inside the essay, each with its licence and credit.
+const figureBlocks = await figureJsonLd(
+	articleBody(article),
+	new URL(Astro.url.pathname, Astro.site).href,
+	Astro.site,
+);
 ---
 
 {/* `description` is the visible deck and runs well past the ~155 characters a
@@ -107,6 +115,7 @@ const structuredArticle = {
 	description={article.seoDescription ?? article.description}
 	ogImage={`/og/${article.slug}.png`}
 	articleMeta={structuredArticle}
+	{...(figureBlocks.length > 0 ? { jsonLd: figureBlocks } : {})}
 	{...heroPreload}
 	preloadFonts={[
 		"body",

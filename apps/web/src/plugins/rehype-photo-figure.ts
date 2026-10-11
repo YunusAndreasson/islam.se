@@ -1,3 +1,4 @@
+import { imageKey } from "../lib/image-credits";
 import { type HastElement, type HastNode, isElement, isText } from "./hast";
 
 /**
@@ -19,8 +20,19 @@ import { type HastElement, type HastNode, isElement, isText } from "./hast";
  *
  * The caption describes; attribution for a licensed photograph belongs in the essay's
  * source apparatus (the footnotes), as it does for the hero — see `imageCaption` in
- * src/content.config.ts.
+ * src/content.config.ts. The machine-readable twin of that credit, for the structured
+ * data, is src/data/image-credits.json (lib/image-credits.ts).
+ *
+ * The figure also asks for its picture in several widths. Astro hands a Markdown
+ * image's properties straight to `getImage`, so `widths` and `sizes` set here come out
+ * as a `srcset`. Without them every reader, on a phone too, downloaded the one 1400 px
+ * file: 435 kB for the widest photograph in the archive.
  */
+
+/** The reading column is 42rem (672 px). 720 and 1400 are that column at 1× and 2×;
+ *  480 and 960 are a phone's. Astro drops any width the source file cannot fill. */
+const FIGURE_WIDTHS = [480, 720, 960, 1400];
+const FIGURE_SIZES = "(min-width: 45rem) 42rem, calc(100vw - 2.5rem)";
 
 /** The image, if this paragraph is nothing but one. */
 function loneImage(paragraph: HastElement): HastElement | null {
@@ -42,6 +54,11 @@ function loneImage(paragraph: HastElement): HastElement | null {
 function figure(image: HastElement): HastElement {
 	const title = String(image.properties?.title ?? "").trim();
 	if (image.properties) delete image.properties.title;
+	// Only a file under src/assets/images/ is one Astro resizes. On any other image
+	// `widths` would come out as a stray HTML attribute and no srcset at all.
+	if (imageKey(String(image.properties?.src ?? ""))) {
+		image.properties = { ...image.properties, widths: FIGURE_WIDTHS, sizes: FIGURE_SIZES };
+	}
 	const children: HastNode[] = [image];
 	if (title) {
 		children.push({

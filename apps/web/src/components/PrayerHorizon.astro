@@ -31,6 +31,7 @@ import {
 } from "../lib/bonetider/horizon";
 import {
 	computePrayerTimes,
+	formatTime,
 	nextPrayerKeyAt,
 	PRAYER_LABELS,
 } from "../lib/bonetider/prayer-times";
@@ -42,8 +43,9 @@ const times = computePrayerTimes(DEFAULT_COORDS, now, DEFAULT_SETTINGS);
 const next = nextPrayerKeyAt(times, now.getTime());
 const model = horizon(times, now, next);
 
-// Widths the build assumes for the Praktiskt list column; the client measures the real ones.
-const LINE_PX = 560;
+// Widths the build assumes for the line (two thirds of the canvas); the client measures
+// the real ones.
+const LINE_PX = 795;
 const LABEL_PX = 56;
 
 // Before maghrib: today's islamic date opens the line and the next one sits at maghrib.
@@ -61,7 +63,7 @@ const maghribX = model.maghrib;
 	data-lon={DEFAULT_COORDS.longitude}
 	data-fixed="0"
 >
-	<svg class="horizon-line" width="100%" height="46" aria-hidden="true" focusable="false">
+	<svg class="horizon-line" width="100%" height="60" aria-hidden="true" focusable="false">
 		<text class="horizon-hijri" data-h="hijri-before" x="0" y="10">{dayBefore}</text>
 		{maghribX !== null && (
 			<text
@@ -87,6 +89,7 @@ const maghribX = model.maghrib;
 			<g class:list={["horizon-tick", `is-${t.state}`, { "is-maghrib": t.key === "maghrib" }]} data-h-tick={t.key}>
 				<line x1={pct(t.x)} x2={pct(t.x)} y1={t.key === "maghrib" ? 12 : 17} y2="27" />
 				<text x={pct(t.x)} y="42" text-anchor={anchorFor(t.x, LINE_PX, LABEL_PX)}>{PRAYER_LABELS[t.key]}</text>
+				<text class="horizon-klocka" x={pct(t.x)} y="56" text-anchor={anchorFor(t.x, LINE_PX, LABEL_PX)}>{formatTime(times[t.key])}</text>
 			</g>
 		))}
 		<circle class="horizon-sun" data-h="sun" cx={pct(model.sun)} cy="22" r="5" />
@@ -137,6 +140,16 @@ const maghribX = model.maghrib;
 	.horizon-tick.is-next text {
 		fill: var(--color-text);
 		font-weight: 600;
+	}
+
+	/* The clock under the name: the line is then the day's whole timetable, and the list
+	   of six times it used to need beside it is the line itself (2026-10-10). */
+	.horizon-klocka {
+		font-variant-numeric: tabular-nums;
+	}
+
+	.horizon-tick.is-next .horizon-klocka {
+		font-weight: 400;
 	}
 
 	.horizon-tick.is-next line {

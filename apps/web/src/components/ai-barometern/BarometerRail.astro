@@ -1,179 +1,319 @@
 ---
-// AI-BAROMETERN ON THE FRONT PAGE — what the measurement is, then three things it found.
+// AI-BAROMETERN ON THE FRONT PAGE — what the measurement is, and three things it found, DRAWN.
 //
-// It used to open straight on one finding and draw it as the hub's chip matrix: a reader who had
-// never heard of the barometer met »Väpnat motstånd mot ockupation« and a grid of »+ A + A +«
-// pills with a key under them. In review the block "looked broken", the chips "scattered", and it
-// explained one data point without ever saying what was being measured (2026-09-25). So it
-// introduces first — what is asked, of whom, how often — and the findings follow as cases, each
-// the hub's own sentence. The chips stay where they are explained, on the hub.
+// Its forms so far. One finding as the hub's chip matrix: a reader who had never heard of
+// the barometer met a grid of »+ A + A +« pills with a key under them ("looked broken",
+// "scattered", 2026-09-25). Then an introduction beside three findings as sentences: correct,
+// and a block of prose about a measurement that never showed one ("maybe we could make a
+// better job of presenting the AI barometer", user review 2026-10-10). A measurement is
+// read off a table. So a finding is drawn as what it is: the statements side by side, the
+// five models under each other, every answer as a meter of four with its word beside it.
 //
-// Never hand-picked: frontPageFindings() takes the widest non-classical findings from the same
-// list the hub leads with, so they change with each run and drop out on their own the day their
-// pattern stops holding.
+// THE TABLE EXPLAINS ITSELF, or it is the wrong table (2026-10-10). A sentence stood over
+// it saying what it showed (»Alla fem modellerna instämmer i lägre grad eller avstår när
+// …«): "no need to explain the graph … if the graph needs an explanation, then the graph
+// should be improved and made clearer" (user review). Three things do the sentence's work:
+//   - the column heads are set as what they are, statements put to a model: in »…«, under
+//     the label »Påstående«, and where two statements differ by one subject that subject
+//     is in bold, so »the same sentence about two peoples« is seen, not told;
+//   - an answer is a meter: four blocks for »instämmer helt«, three for »delvis«, down to
+//     none for »tar helt avstånd«, and no meter at all where a model took no position. A
+//     column is read by its lengths before a word of it is read, and the word beside
+//     each meter is its key;
+//   - the sentence itself is kept for a reader who cannot see the table, as its caption.
 //
-// Placement: its own movement on paper, between Tänkare and Praktiskt (index.astro). It stood
-// under the news and the calendar in the live row until 2026-09-27, three voices on one tint,
-// which read as crammed (»intryckt«, user review). The introduction and the cases side by side
-// on one centre line; stacked in a narrow column.
-// It keeps the SITE's voice — Literata under its own kicker — not the news column's sans.
+// THREE FINDINGS, ONE AT A TIME, behind the tabs the essays by ämne have (layout.css,
+// .home-tabs; scripts/home-tabs.ts). The first version drew the strongest and set the other
+// two under it as sentences ("now we only show one question, could we do some smart tab
+// bar to show at least 3?", user review the same evening). The tab is the finding's title;
+// its panel is the sentence and the table. The panels lie in one cell, the unchosen ones
+// invisible rather than removed, so the room is as tall as its tallest finding and nothing
+// below it moves when a tab is chosen. Without the script the first finding stands open and
+// each tab is the link to its comparison on the hub.
 //
-// The introduction opens on the series' drawing of a Swedish farmhouse wall barometer, in
-// the grammar of the podcast and app band above it (PoddAppHome): the drawing in a 10rem
-// column, the words beside it, so the introduction's words start on »Podden«'s line. It
-// was the longest stretch of words on the page with nothing to look at. The drawing is as
-// tall as the introduction (DESIGN.md, »The Drawings«): in a 10rem box it stood 96px wide,
-// its left edge 64px in from the kicker's line and its foot on no line at all ("doesn't
-// look correctly aligned", 2026-09-26); at the introduction's height the upright barometer
-// fills the column, on the kicker's line, from the ingress's first line to the link's.
+// The grammar is the page's: the movement's own words in the first third (kicker, what is
+// asked of whom and how often, the way on, the series' drawing under them, as in Grunden),
+// the figure across the other two thirds (as Tänkare has on /essaer/).
 //
-// Styles: ai-barometern-chips.css for the logos' .abm-logo rule and nothing else from the section.
-// index.html inlines every stylesheet it imports, and the section's own sheet is 34 KB of rules
-// this block never uses.
+// Never hand-picked: frontPageFindings() takes the widest non-classical findings from the
+// same list the hub leads with, so they change with each run and drop out on their own the
+// day their pattern stops holding. Only findings of two or three statements: a set of five
+// (each model on each company) is the hub's to draw, in the width it has there.
+//
+// Placement: the first of the page's two tinted rooms, between the essays and »Vad är
+// islam?« (index.astro; DESIGN.md, »The Startpage«).
+//
+// Styles: ai-barometern-chips.css for the scale colours (.abm) and the logos' .abm-logo, and
+// nothing else from the section. index.html inlines every stylesheet it imports, and the
+// section's own sheet is 34 KB of rules this block never uses.
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
 import { FAMILIES } from "../../lib/ai-barometern/families";
 import { frontPageFindings, latestFindings } from "../../lib/ai-barometern/findings";
-import { BASE_PATH, shownData, svDateList } from "../../lib/ai-barometern/site";
+import {
+	BASE_PATH,
+	cellLabel,
+	questionPath,
+	shownData,
+	svDateList,
+} from "../../lib/ai-barometern/site";
 import { RITNINGAR } from "../../lib/ritningar";
 import Ritning from "../Ritning.astro";
 import SectionLink from "../SectionLink.astro";
 import ModelLogo from "./ModelLogo.astro";
 import "../../styles/ai-barometern-chips.css";
-// For .sidolinje-rubrik, the kicker this movement has kept from the live row it once
-// stood in (the news and the year have left that sheet's label for .home-kicker).
-import "../../styles/nyheter.css";
 
-const cases = frontPageFindings(latestFindings(), 3);
+/** The most statements a finding may set side by side here. */
+const MAX_PASTAENDEN = 3;
+const cases = frontPageFindings(
+	latestFindings().filter((f) => f.rows.length <= MAX_PASTAENDEN),
+	3,
+);
 const shown = shownData();
 // Without this year's number, as every date line on the front page (formatDate).
 const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDateList(
 	shown.runs.map((r) => r.date),
 ).replace(new RegExp(` ${new Date().getFullYear()}$`), "")}`;
+
+// The hub's own words for a cell (AnswerSummary.astro).
+const answer = (cell: ScaleCell) => (cell.state === "split" ? "Splittrade svar" : cellLabel(cell));
+
+/** How far a model agrees, as blocks of four: »instämmer helt« four, »tar helt avstånd«
+ *  none. Null where it took no position, which is drawn as no meter, not as an empty one. */
+const level = (cell: ScaleCell) =>
+	cell.state === "position" && cell.display !== null ? cell.display + 2 : null;
+
+/** Where the statements of a set are one sentence about different subjects, the words that
+ *  differ, so they can be set in bold: [»Palestinierna«, » har rätt till väpnat motstånd«].
+ *  Only a short differing opening before a shared rest of three words or more counts; a
+ *  rule and its case (»Kina har spärrat in …« against »Kinas behandling … är ett
+ *  folkmord«) are two sentences and are set plain. */
+function subjects(shorts: readonly string[]): { subject: string; rest: string }[] | null {
+	const words = shorts.map((t) => t.split(" "));
+	const shortest = Math.min(...words.map((w) => w.length));
+	let shared = 0;
+	while (
+		shared < shortest - 1 &&
+		words.every((w) => w.at(-1 - shared) === words[0]?.at(-1 - shared))
+	) {
+		shared++;
+	}
+	if (shared < 3 || words.some((w) => w.length - shared > 3)) return null;
+	return words.map((w) => ({
+		subject: w.slice(0, w.length - shared).join(" "),
+		rest: ` ${w.slice(w.length - shared).join(" ")}`,
+	}));
+}
 ---
 
 {
 	cases.length > 0 && (
 		<section class="barometer-rail abm home-movement" aria-labelledby="barometer-rail-rubrik">
 			<div class="barometer-rail-ram">
-				<h2 class="label sidolinje-rubrik" id="barometer-rail-rubrik">
-					AI-barometern
-				</h2>
-
-				<div class="barometer-rail-intro">
+				<div class="barometer-rail-opening">
+					<h2 class="label home-kicker" id="barometer-rail-rubrik">
+						AI-barometern
+					</h2>
+					{/* What it is, first, in two short sentences. It opened on a question and took
+					    six lines to say this. */}
+					<p class="barometer-rail-ingress home-ingress">
+						Varje månad får de fem stora AI-modellerna samma {shown.questions} frågor om klimatet,
+						kriget, politiken och tron. Svaren redovisas som de lämnades.
+					</p>
+					<p class="barometer-rail-fot">
+						<SectionLink href={BASE_PATH}>Till AI-barometern</SectionLink>
+					</p>
 					<div class="barometer-rail-ritning">
-						<Ritning {...RITNINGAR.barometern} fyll hojd={[7, 17]} bredd={[7, 10]} />
-					</div>
-					<div class="barometer-rail-ord">
-						<p class="barometer-rail-ingress">
-							Vad svarar en AI-modell på frågor om klimatet, kriget, politiken och tron? Varje månad ställer
-							AI-barometern samma {shown.questions} frågor till de fem stora modellerna och redovisar
-							svaren som de lämnades.
-						</p>
-						<ul class="barometer-rail-modeller" aria-label="Modellerna">
-							{FAMILIES.map((f) => (
-								<li>
-									<ModelLogo family={f.key} />
-									{f.label}
-								</li>
-							))}
-						</ul>
-						<p class="barometer-rail-fot">
-							<SectionLink class="label arrow-link" href={BASE_PATH}>
-								Till AI-barometern
-							</SectionLink>
-						</p>
+						<Ritning
+							{...RITNINGAR.barometernBred}
+							fyll
+							ankare="vanster"
+							hojd={[6, 11]}
+							bredd={[10, 17]}
+							sizes="(min-width: 60rem) 17rem, (min-width: 48rem) calc((100vw - 10rem) / 3), 10rem"
+						/>
 					</div>
 				</div>
 
-				<p class="barometer-rail-datum">{when}</p>
-
-				<ol class="barometer-rail-fynd" role="list">
-					{cases.map((f) => (
-						<li>
+				<div class="barometer-rail-fynd" data-home-tabs>
+					<p class="barometer-rail-datum">{when}</p>
+					{cases.length > 1 ? (
+						<nav class="home-tabs barometer-rail-flikar" aria-label="Välj jämförelse">
+							{cases.map((f, i) => (
+								<a
+									class="home-tab"
+									id={`barometer-flik-${i + 1}`}
+									href={f.href}
+									data-tab
+									data-selected={i === 0 ? "true" : undefined}
+								>
+									{f.lead}
+								</a>
+							))}
+						</nav>
+					) : (
+						cases.map((f) => (
 							<h3 class="barometer-rail-rubrik">
 								<a href={f.href}>{f.lead}</a>
 							</h3>
-							<p class="barometer-rail-text">{f.text}</p>
-						</li>
-					))}
-				</ol>
+						))
+					)}
+					<div class="barometer-rail-paneler">
+						{cases.map((f, i) => (
+							<div
+								class="barometer-rail-panel"
+								id={`barometer-panel-${i + 1}`}
+								data-tab-panel={cases.length > 1 ? "" : undefined}
+								hidden={i !== 0}
+							>
+								<table class:list={["barometer-svar", f.rows.length === 2 && "barometer-svar--par"]}>
+									<caption class="sr-only">
+										{f.lead}. {f.text}
+									</caption>
+									<colgroup>
+										<col class="barometer-svar-modell" />
+										{f.rows.map((_, n) => (
+											<col class:list={[n === f.rows.length - 1 && "barometer-svar-sista"]} />
+										))}
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col" class="barometer-svar-etikett">
+												Påstående<span class="sr-only"> och modell</span>
+											</th>
+											{(() => {
+												const delar = f.kind === "parallel" ? subjects(f.rows.map((r) => r.question.short)) : null;
+												return f.rows.map((row, n) => (
+													<th scope="col">
+														<a href={questionPath(row.question)}>
+															»{delar?.[n] ? (
+																<>
+																	<strong>{delar[n]?.subject}</strong>
+																	{delar[n]?.rest}
+																</>
+															) : (
+																row.question.short
+															)}«
+														</a>
+													</th>
+												));
+											})()}
+										</tr>
+									</thead>
+									<tbody>
+										{FAMILIES.map((family) => (
+											<tr>
+												<th scope="row">
+													<span class="barometer-svar-namn">
+														<ModelLogo family={family.key} />
+														{family.label}
+													</span>
+												</th>
+												{f.rows.map((row) => {
+													const cell = row.cells[family.key];
+													const niva = level(cell);
+													return (
+														<td>
+															<span class="barometer-svar-cell" data-utan={niva === null ? "" : undefined}>
+																<span class="barometer-svar-matare" data-niva={niva ?? undefined} aria-hidden="true">
+																	<i />
+																	<i />
+																	<i />
+																	<i />
+																</span>
+																{answer(cell)}
+															</span>
+														</td>
+													);
+												})}
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
+						))}
+					</div>
+				</div>
 			</div>
 		</section>
 	)
 }
 
 <style>
-	/* A movement of its own: the change of ground above and below is its boundary, so
-	   the rule that seamed it to the calendar went with the move. The container is what
-	   the side-by-side layout below asks about. */
-	.barometer-rail {
-		container-type: inline-size;
-	}
-
-	/* The drawing above the words in a narrow column; beside them in the wide layout. */
-	.barometer-rail-intro {
+	/* ONE COLUMN below 60rem: the opening, then the findings behind their tabs. */
+	.barometer-rail-ram {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
 		row-gap: var(--space-unit);
-		align-items: start;
 	}
 
-	/* The drawing's cell holds it at every width (from 48rem it fills the cell, Ritning
-	   `fyll`): above the words it is a 7rem strip, the drawing flush left on their edge. */
-	.barometer-rail-ritning {
-		position: relative;
-		min-block-size: 7rem;
+	.barometer-rail-opening {
+		display: flex;
+		flex-direction: column;
 	}
 
-	.barometer-rail-ritning .ritning--fyll {
-		justify-content: flex-start;
+	/* The kicker's own bottom margin is the head's (layout.css); the words follow it. */
+	.barometer-rail-opening > :global(.home-kicker) {
+		order: -2;
 	}
 
 	/* The question the whole barometer asks, at body size: this is the paragraph that says
-	   what the block is, so it reads as prose, not as a caption. */
+	   what the room is, so it reads as prose, not as a caption. */
 	.barometer-rail-ingress {
 		max-inline-size: 34rem;
 		margin: 0;
-		font-size: var(--step-0);
-		line-height: 1.55;
-		color: var(--text-body);
-		text-wrap: pretty;
-	}
-
-	/* The five, named once with their marks — the cast before the findings. */
-	.barometer-rail-modeller {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 1.25rem;
-		margin: var(--space-unit) 0 0;
-		padding: 0;
-		list-style: none;
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		color: var(--text-meta);
-	}
-
-	.barometer-rail-modeller li {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4rem;
 	}
 
 	.barometer-rail-fot {
-		margin: var(--space-unit) 0 0;
+		margin: var(--space-half) 0 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
 	}
 
+	/* On a phone the drawing stands above the words, under the kicker, in its own box
+	   (DESIGN.md, »The Drawings«, rule 2); from 48rem it fills the cell the layout gives it. */
+	.barometer-rail-ritning {
+		order: -1;
+		position: relative;
+		/* The drawing's own height (Ritning's box below 48rem), held before the lazy
+		   picture arrives: without it the room grew 96px under a reader's thumb. */
+		min-block-size: 6rem;
+		margin-bottom: var(--space-half);
+	}
+
+	/* The date the answers are from, where the figure opens. As tall as the kicker beside
+	   it, so the two stand on one line. */
+	/* --space-control under it, and the tabs' own padding is the other half of the step:
+	   the first tab's words then stand on the introduction's first line. */
 	.barometer-rail-datum {
-		margin: var(--space-group) 0 var(--space-half);
+		margin: 0 0 var(--space-control);
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
+		line-height: calc(1.618 * var(--step--2));
 		color: var(--color-muted);
 	}
 
+	/* THE TABS: the three findings' titles on one line where they fit, each breaking
+	   inside its own tab where they do not. A step under the essays' tabs, as the room's
+	   apparatus is: at their size the three titles are 13px wider than the figure. */
+	.barometer-rail-flikar {
+		flex-wrap: nowrap;
+	}
+
+	.barometer-rail-flikar :global(.home-tab) {
+		flex: 0 1 auto;
+		min-inline-size: 0;
+		font-size: var(--step--2);
+		line-height: 1.3;
+		text-wrap: balance;
+	}
+
+	/* A lone finding has no tabs to stand behind, so its title is set as one. */
 	.barometer-rail-rubrik {
 		margin: 0;
-		font-size: var(--step-0);
+		font-size: var(--step-1);
 		font-weight: 600;
-		line-height: 1.25;
+		line-height: 1.2;
+		font-variant-ligatures: common-ligatures;
 		text-wrap: balance;
 	}
 
@@ -186,83 +326,280 @@ const when = `Ur ${shown.runs.length > 1 ? "mätningarna" : "mätningen"} ${svDa
 		color: var(--color-accent);
 	}
 
-	.barometer-rail-text {
-		margin: 0.25rem 0 0;
-		font-size: var(--step--1);
-		line-height: 1.5;
+	/* The panels in one cell. An unchosen one is invisible, not removed: the cell is then
+	   as tall as the tallest finding, so choosing a tab moves nothing under the room.
+	   `visibility` also takes it out of the tab order and the accessibility tree, which
+	   is all `hidden` was doing. */
+	.barometer-rail-paneler {
+		display: grid;
+		margin-top: var(--space-group);
+	}
+
+	.barometer-rail-panel {
+		grid-area: 1 / 1;
+		min-inline-size: 0;
+	}
+
+	.barometer-rail-panel[hidden] {
+		display: block;
+		visibility: hidden;
+	}
+
+	/* THE TABLE. Two statements across, five models down, one rule under the heads and
+	   none between the rows: five rows of one line are held by their columns. The answers
+	   are the models' and are set in the sans, as reported material is on this page (the
+	   news bar). */
+	.barometer-svar {
+		inline-size: 100%;
+		margin-top: var(--space-group);
+		border-collapse: collapse;
+		table-layout: fixed;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		line-height: 1.35;
+	}
+
+	.barometer-svar-modell {
+		inline-size: 5.25rem;
+	}
+
+	.barometer-svar :is(th, td) {
+		padding: 0.4rem 0.75rem 0.4rem 0;
+		text-align: start;
+		vertical-align: baseline;
+	}
+
+	.barometer-svar :is(th, td):last-child {
+		padding-inline-end: 0;
+	}
+
+	/* On the row, not on each cell: one rule, drawn once. */
+	.barometer-svar thead tr {
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	/* A statement, as put to the models: in the regular weight, so the one subject that
+	   differs between two of them is the only bold thing in the row. */
+	.barometer-svar thead th {
+		padding-block: 0 0.6rem;
+		vertical-align: bottom;
+		font-weight: 400;
+		text-wrap: balance;
+	}
+
+	.barometer-svar thead strong {
+		font-weight: 700;
+	}
+
+	/* What the heads are, said once, in the meta voice: the row's own label. */
+	.barometer-svar .barometer-svar-etikett {
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	/* Both statements break into the same two lines: in columns of unequal width one
+	   stood on two lines and the other on one, and the heads missed each other. */
+	.barometer-svar thead a {
+		display: block;
+		max-inline-size: 14rem;
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.barometer-svar thead a:hover {
+		color: var(--color-accent);
+	}
+
+	.barometer-svar tbody tr:first-child :is(th, td) {
+		padding-top: 0.8rem;
+	}
+
+	.barometer-svar tbody th {
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.barometer-svar-namn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	/* No room for the marks beside five names and two answers on a phone, and the
+	   answers a step down: at the names' size »Instämmer delvis« broke onto two lines
+	   in half the rows and the table lost its rows. */
+	.barometer-svar-namn :global(.abm-logo) {
+		display: none;
+	}
+
+	@media (width < 30rem) {
+		.barometer-svar td {
+			font-size: var(--step--3);
+		}
+
+		.barometer-svar-cell {
+			gap: 0.4rem;
+		}
+
+		.barometer-svar-matare {
+			grid-template-columns: repeat(4, 0.3rem);
+			gap: 1px;
+		}
+	}
+
+	.barometer-svar-cell {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
 		color: var(--text-body);
-		text-wrap: pretty;
 	}
 
-	/* Three cases, whitespace between them and no rules: each is a heading and one sentence. */
-	.barometer-rail-fynd {
-		margin: 0;
-		padding: 0;
-		list-style: none;
+	/* No position taken: the word steps back, as the missing meter does. */
+	.barometer-svar-cell[data-utan] {
+		color: var(--color-muted);
 	}
 
-	.barometer-rail-fynd > li + li {
-		margin-top: var(--space-unit);
+	/* THE METER. Four blocks; as many filled as the model agrees, in the hub's brass
+	   (ai-barometern-chips.css). A column of them is read by its lengths: five full ones
+	   beside three-and-nothing is the finding, before a word is read. An unfilled block is
+	   an outline on the ground. Where a model took no position there is no meter, only
+	   its place, so »avstår« is never mistaken for »tar helt avstånd« (four outlines). */
+	.barometer-svar-matare {
+		flex: none;
+		display: inline-grid;
+		grid-template-columns: repeat(4, 0.5rem);
+		gap: 2px;
 	}
 
-	/* One finding while stacked: the three cases are 400px more of reading on a page
-	   that already runs past 10 000px on a phone. The introduction says what the
-	   barometer is; one case shows it; the hub has the rest, one tap away.
-	   The SAME condition as the side-by-side layout below, on the same container. Until
-	   2026-09-27 this asked the viewport (< 60rem) while the layout asked the container
-	   (>= 40rem): from 700 to 959px the block stood in two columns with one finding in
-	   the right, 127px beside a 658px introduction. */
-	@container (inline-size < 56rem) {
-		.barometer-rail-fynd > li:nth-child(n + 2) {
-			display: none;
+	.barometer-svar-matare i {
+		block-size: 0.8rem;
+		border-radius: 1px;
+		box-shadow: inset 0 0 0 1px var(--color-rule);
+	}
+
+	.barometer-svar-matare:not([data-niva]) i {
+		box-shadow: none;
+	}
+
+	.barometer-svar-matare[data-niva="1"] i:nth-child(-n + 1),
+	.barometer-svar-matare[data-niva="2"] i:nth-child(-n + 2),
+	.barometer-svar-matare[data-niva="3"] i:nth-child(-n + 3),
+	.barometer-svar-matare[data-niva="4"] i {
+		background: var(--abm-p2);
+		box-shadow: none;
+	}
+
+	@media (width < 48rem) {
+		.barometer-rail-flikar {
+			flex-direction: column;
+			align-items: stretch;
+			padding-bottom: var(--space-control);
+		}
+
+		.barometer-rail-flikar :global(.home-tab) {
+			padding-inline-start: 0.8rem;
+			border-bottom: 0;
+			border-inline-start: 2px solid transparent;
+			font-size: var(--step--1);
+		}
+
+		.barometer-rail-flikar :global(.home-tab[data-selected="true"]) {
+			border-inline-start-color: var(--color-accent);
 		}
 	}
 
-	/* SIDE BY SIDE, given the width: what the barometer is on the left, what it found on the
-	   right, the date of the finding level with the kicker. The gutter is the page's 3rem, so
-	   the two halves share the canvas's centre line with every other halved movement.
-	   56rem, not 40rem: each half must hold the 10rem drawing, its 1.75rem gap and a text
-	   column of ~14rem; at 40rem the words beside the drawing were 114px wide. */
-	@container (inline-size >= 56rem) {
-		.barometer-rail-ram {
+	@media (width >= 30rem) {
+		.barometer-svar-modell {
+			inline-size: 7.5rem;
+		}
+
+		.barometer-svar-namn :global(.abm-logo) {
+			display: inline-grid;
+		}
+	}
+
+	@media (width >= 48rem) {
+		/* The words beside the drawing, which is as tall as they are (Grunden's tablet). */
+		.barometer-rail-opening {
 			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			grid-template-areas:
-				"rubrik datum"
-				"intro  fynd";
+			grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--grid-gutter)) / 3);
+			grid-template-rows: auto auto 1fr;
 			column-gap: var(--grid-gutter);
-			align-items: start;
 		}
 
-		.sidolinje-rubrik {
-			grid-area: rubrik;
+		/* Named, not `> *`: scoped, that selector outranks the drawing's own rule below,
+		   and the drawing stood in the words' column, above the kicker. */
+		.barometer-rail-opening > :is(.barometer-rail-ingress, .barometer-rail-fot),
+		.barometer-rail-opening > :global(.home-kicker) {
+			grid-column: 1;
 		}
 
-		.barometer-rail-intro {
-			grid-area: intro;
-			grid-template-columns: 10rem minmax(0, 1fr);
-			column-gap: 1.75rem;
-		}
-
-		/* The column's full height beside the words, flush right, so its distance to
-		   the words is the band's. */
 		.barometer-rail-ritning {
-			align-self: stretch;
+			grid-column: 2;
+			grid-row: 1 / -1;
+			min-block-size: 7rem;
+			margin: 0;
+		}
+	}
+
+	/* THE PAGE'S THIRDS from 60rem: the opening in the first, the figure across the other
+	   two. With two statements the table's last column is the canvas's last third, so the
+	   second statement and the answers under it start on the page's third line. */
+	@media (width >= 60rem) {
+		.barometer-rail-ram {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			column-gap: var(--grid-gutter);
 		}
 
-		.barometer-rail-ritning .ritning--fyll {
-			justify-content: flex-end;
-		}
-
-		/* On the kicker's line, not a row of its own: 0.3rem is the kicker's own top margin. */
-		.barometer-rail-datum {
-			grid-area: datum;
-			align-self: center;
-			margin: 0.3rem 0 var(--space-half);
+		.barometer-rail-opening {
+			display: flex;
+			grid-column: 1;
 		}
 
 		.barometer-rail-fynd {
-			grid-area: fynd;
+			grid-column: 2 / -1;
+		}
+
+		/* The drawing takes what the figure leaves under the opening's words, on the
+		   column's left edge (DESIGN.md, »The Drawings«, rule 1). */
+		.barometer-rail-ritning {
+			order: 0;
+			flex: 1;
+			min-block-size: 7rem;
+			max-block-size: 13rem;
+			margin-top: var(--space-unit);
+		}
+
+		.barometer-svar {
+			font-size: var(--step--1);
+		}
+
+		/* The names keep the width they need. Set on one of the page's twelve columns
+		   (105px) the first statement began on a column's edge and »DeepSeek« stood 6px
+		   from its meter: inside a table the reading comes first. The figure's own
+		   edges are the grid's, its left one and the second statement's. */
+		.barometer-svar-modell {
+			inline-size: 9rem;
+		}
+
+		/* In cqi, not %: a percentage inside calc() on a table column is treated as
+		   auto, and the two statements then shared what the names left (the second
+		   began 48px past the third line). */
+		.barometer-rail-fynd {
+			container-type: inline-size;
+		}
+
+		.barometer-svar--par .barometer-svar-sista {
+			inline-size: calc((100cqi - var(--grid-gutter)) / 2);
+		}
+
+		/* The gutter between the two statements, inside the table. */
+		.barometer-svar--par :is(th, td):nth-child(2) {
+			padding-inline-end: var(--grid-gutter);
 		}
 	}
 </style>
+
+<script>
+	import "../../scripts/home-tabs";
+</script>

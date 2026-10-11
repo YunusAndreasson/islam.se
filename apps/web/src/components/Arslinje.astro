@@ -1,0 +1,212 @@
+---
+// THE YEAR AS A LINE — the companion of the prayer-day horizon (PrayerHorizon.astro), under
+// it in the front page's practical room, and in its grammar mark for mark:
+//
+//   the horizon                          this line
+//   midnight to midnight                 a new moon to the same new moon a year on
+//   the six times as ticks               the twelve months as ticks
+//   daylight drawn heavier               Ramadan drawn heavier
+//   maghrib's tall brass tick, where     1 Muḥarram's tall brass tick, where the
+//     the islamic date turns               islamic year turns
+//   the name and the clock under a tick  the name and the date under a mark
+//   the sun at the current minute        the sun on today
+//
+// The calendar stood here as three dated rows, then as a column of three in a room of
+// three columns: a list beside a list beside a map, in a room whose subject the drawn
+// promotions under it repeated ("the section PRAKTISKT and the beautiful illustrations below
+// overlap a bit … maybe … the islamic year on a timeline", user review 2026-10-10). A list
+// says WHAT is coming; a line also says how far off, and that Ramadan is a month where the
+// eids are a day.
+//
+// Served true for the build's day (lib/arslinje.ts); scripts/arslinje.ts moves the sun and
+// the »next« mark to the reader's own today, so a build a few days old is not wrong. The
+// line's own range is the build's and does not move.
+//
+// ⚠️ SVG with PERCENTAGE coordinates and no viewBox, as the horizon: text keeps its real
+// size, and a position is an attribute, which the CSP allows where a style is not.
+//
+// Which labels fit is decided twice. Here, from estimated widths and for two assumed lines,
+// because the build cannot measure: a mark with no room on either (`is-ingen`) or only on
+// the wide one (`is-bred`, hidden on a phone, where Ramadan and Eid al-fitr stand 25px
+// apart). Then by the client, from the text and the line as drawn, which is what a reader
+// with scripts sees; the build's answer is the one for a reader without.
+import { anchorOf, labelsThatFit, labelWidth, yearLine } from "../lib/arslinje";
+import { pct } from "../lib/bonetider/horizon";
+
+const line = yearLine();
+
+/** The narrowest the line is drawn from 48rem (two thirds of the canvas at 60rem), and
+ *  on a small phone. */
+const BRED_PX = 590;
+const SMAL_PX = 280;
+const widthOf = (i: number) => {
+	const mark = line.marks[i];
+	return mark ? labelWidth(mark) : 0;
+};
+const bred = labelsThatFit(line.marks, BRED_PX, widthOf);
+const smal = labelsThatFit(line.marks, SMAL_PX, widthOf);
+
+// The year that begins at 1 Muḥarram is written past its tick, unless the opening label
+// already reaches there (the line opens in Dhū al-ḥijja, a month before the turn).
+const opensPx = line.opens.length * 6.2;
+const turnFits = (px: number) => !!line.newYear && line.newYear.x * px > opensPx + 14;
+const ramadan = line.marks.find((m) => m.x2 !== undefined);
+---
+
+<div class="arslinje" data-start={line.startISO} data-end={line.endISO}>
+	<svg class="arslinje-linje" width="100%" height="60" aria-hidden="true" focusable="false">
+		<text class="arslinje-hijri" data-a="oppnar" x="0" y="10">{line.opens}</text>
+		{line.newYear && (
+			<text
+				class:list={["arslinje-hijri", !turnFits(BRED_PX) && "is-ingen", !turnFits(SMAL_PX) && "is-bred"]}
+				data-a="nyar"
+				data-x={line.newYear.x.toFixed(4)}
+				x={pct(line.newYear.x)}
+				dx="6"
+				y="10"
+			>{line.newYear.year}</text>
+		)}
+		<line class="arslinje-bas" x1="0" x2="100%" y1="22" y2="22" />
+		{line.months.map((x) => <line class="arslinje-manad" x1={pct(x)} x2={pct(x)} y1="19" y2="25" />)}
+		{ramadan && (
+			<line class="arslinje-stracka" x1={pct(ramadan.x)} x2={pct(ramadan.x2 ?? ramadan.x)} y1="22" y2="22" />
+		)}
+		{line.newYear && (
+			<line class="arslinje-nyar" x1={pct(line.newYear.x)} x2={pct(line.newYear.x)} y1="12" y2="27" />
+		)}
+		{line.marks.map((m, i) => (
+			<g
+				class:list={[
+					"arslinje-marke",
+					`is-${m.state}`,
+					!bred.has(i) && "is-ingen",
+					!smal.has(i) && "is-bred",
+					`ank-${anchorOf(m.x)}`,
+				]}
+				data-end={m.endISO}
+				data-x={m.x.toFixed(4)}
+			>
+				<line x1={pct(m.x)} x2={pct(m.x)} y1="17" y2="27" />
+				<text x={pct(m.x)} y="42">{m.name}</text>
+				<text class="arslinje-datum" x={pct(m.x)} y="56">{m.date}</text>
+			</g>
+		))}
+		<circle class="arslinje-sol" data-a="sol" cx={pct(line.today)} cy="22" r="5" />
+	</svg>
+</div>
+
+<style>
+	.arslinje {
+		margin: var(--space-half) 0 0;
+	}
+
+	.arslinje-linje {
+		display: block;
+		overflow: visible;
+	}
+
+	.arslinje-bas {
+		stroke: var(--color-rule);
+		stroke-width: 1;
+	}
+
+	/* The months: short ticks across the line, eleven of them, and no names. Twelve
+	   transliterated names do not fit a line, and the two that matter are the marks'. */
+	.arslinje-manad {
+		stroke: var(--color-muted);
+		stroke-width: 1;
+		opacity: 0.55;
+	}
+
+	/* Ramadan: the only stretch drawn in ink, as daylight is on the day's line. */
+	.arslinje-stracka {
+		stroke: var(--text-quiet);
+		stroke-width: 2;
+	}
+
+	.arslinje-marke line {
+		stroke: var(--color-muted);
+		stroke-width: 1;
+	}
+
+	/* The turn of the year runs up into the date row, as maghrib does on the day's line:
+	   it is where one islamic year ends and the next begins. */
+	.arslinje-nyar {
+		stroke: var(--color-brass);
+		stroke-width: 1;
+	}
+
+	.arslinje-marke text,
+	.arslinje-hijri {
+		font-family: var(--font-heading);
+		font-size: var(--step--4);
+		fill: var(--color-muted);
+	}
+
+	.arslinje-marke text {
+		text-anchor: middle;
+	}
+
+	.arslinje-marke.ank-start text {
+		text-anchor: start;
+	}
+
+	.arslinje-marke.ank-end text {
+		text-anchor: end;
+	}
+
+	.arslinje-marke .arslinje-datum {
+		font-variant-numeric: tabular-nums;
+	}
+
+	.arslinje-marke.is-next text {
+		fill: var(--color-text);
+	}
+
+	.arslinje-marke.is-next text:not(.arslinje-datum) {
+		font-weight: 600;
+	}
+
+	.arslinje-marke.is-next line {
+		stroke: var(--color-text);
+	}
+
+	/* Literata italic for the islamic month and year, as the horizon sets its dates. */
+	.arslinje-hijri {
+		font-family: var(--font-body);
+		font-style: italic;
+		fill: var(--text-quiet);
+	}
+
+	/* Today: the wordmark's point. A day is the line's unit, so the build's own mark is
+	   right until midnight and is shown at once; the client keeps it right after. */
+	.arslinje-sol {
+		fill: var(--color-brass);
+		stroke: var(--color-bg);
+		stroke-width: 3;
+		paint-order: stroke;
+	}
+
+	/* Until the client has measured (and for a reader without scripts): a label with no
+	   room on any line, and one with room only on the wide one. */
+	.arslinje:not([data-live]) .is-ingen:is(text),
+	.arslinje:not([data-live]) .is-ingen text {
+		display: none;
+	}
+
+	@media (width < 48rem) {
+		.arslinje:not([data-live]) .is-bred:is(text),
+		.arslinje:not([data-live]) .is-bred text {
+			display: none;
+		}
+	}
+
+	/* What the client found no room for, on the line as drawn. */
+	.arslinje text[data-hidden] {
+		display: none;
+	}
+</style>
+
+<script>
+	import "../scripts/arslinje";
+</script>

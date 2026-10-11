@@ -49,7 +49,7 @@ const LONG_TITLE = 50;
 			<a class="feature-link" href={`/${article.slug}/`} data-astro-prefetch="viewport">{article.title}</a>
 		</h2>
 		{article.description && (
-			<p class="feature-lead" set:html={inlineMarkdown(article.description)} />
+			<p class="feature-lead home-ingress" set:html={inlineMarkdown(article.description)} />
 		)}
 		<div class="feature-meta-row">
 			<ArticleMeta class="label feature-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} />
@@ -266,13 +266,8 @@ const LONG_TITLE = 50;
 	}
 
 	.feature-lead {
-		font-family: var(--font-body);
-		font-size: var(--step-0);
-		line-height: 1.55;
-		color: var(--text-body);
 		margin: var(--space-unit) 0 0;
 		max-width: 38em;
-		text-wrap: pretty;
 	}
 
 	.feature-meta-row {
@@ -393,7 +388,9 @@ const LONG_TITLE = 50;
 			display: flex;
 			flex-direction: column;
 			margin: 0 0 0 calc(var(--grid-gutter) / -2);
-			padding: 0 0 0 calc(var(--grid-gutter) / 2);
+			/* Less the hairline's own pixel, so the words stand on the page's third
+			   line (x 950 at 1440) and not one past it. */
+			padding: 0 0 0 calc(var(--grid-gutter) / 2 - 1px);
 			border: 0;
 			border-left: 1px solid var(--color-rule);
 		}

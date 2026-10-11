@@ -1,9 +1,23 @@
 ---
-// NYHETER — the front page's wire bar, at the foot of the opening package.
+// NYHETER — the front page's news bar, at the foot of the opening package.
 //
-// Three headlines from the last day, each one line: a time and a headline, on the
-// page's thirds, between two hairlines, with the way on to /nyheter/ in its head row.
-// It is run down with the eye in a second, not read.
+// Six notices from the last day, each a headline with its stamp under it, two to each
+// of the page's thirds, under a hairline, with the way on to /nyheter/ in its head row:
+// the grammar every section on the page opens with (rule, kicker row, content).
+// It is run down with the eye in a few seconds, not read.
+//
+// SIX, AND SET LIKE THE PAGE'S OWN ITEMS (2026-10-11). It was three headlines on one
+// line each, a clock and a headline. Three looked right and counted wrong: "i have
+// never seen a site with that few items … either more or only one with a link to the
+// news feed" (user review). A »senaste nytt« block is five or six rows wherever a
+// Swedish reader has met one, so three read as a list cut short. One was the other
+// way out, a single line with the way on; it was not taken because one headline of the
+// fifty-five a day says nothing of the day, and the page's second half-title is the day.
+// With six the clock could no longer stand in front of the headline: on a third of the
+// canvas it left the headline 305px and one in ten was cut, every other visit with six
+// on the page. So a notice is a headline and its stamp UNDER it, the order every other
+// item on the page has, and the headlines stand on the page's three column lines
+// (nyheter.css has the measurements and the breakpoints).
 //
 // WHERE IT STANDS, AND WHY (2026-10-10). It was a column of five under the kicker
 // »Senaste nytt«, in a row with the Islamic year, 4 600px down a 7 400px page: the one
@@ -39,7 +53,7 @@ import "../styles/nyheter.css";
 	<div class="nyhetsremsa-huvud">
 		<h2 class="label home-kicker" id="nyheter-rail-rubrik">Nyheter</h2>
 		<p class="nyheter-avsandare">
-			från <a href="https://zuhd.news/" rel="noopener">zuhd.news</a>
+			<span class="nyheter-fran">från</span> <a href="https://zuhd.news/" rel="noopener">zuhd.news</a>
 		</p>
 		<SectionLink class="label home-head-all" href="/nyheter/">Alla nyheter</SectionLink>
 	</div>

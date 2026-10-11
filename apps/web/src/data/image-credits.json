@@ -1,0 +1,208 @@
+{
+	"fakta/vad-ar-hajj": {
+		"kind": "Foto",
+		"by": "Adli Wahid / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg"
+	},
+	"inline/al-baqi-medina-gravkullar": {
+		"kind": "Foto",
+		"by": "Saleh Al Hussain / Wikimedia Commons",
+		"licence": "CC BY 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Al-Baqi_Cemetery_2021.jpg",
+		"changed": "beskuren"
+	},
+	"inline/al-fatiha-vastafrikansk-handskrift": {
+		"kind": "Bild",
+		"by": "Chester Beatty Library, Dublin",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Al-Fatiha_in_the_Sudani_script_(CBL_Is_1598,_f._1b).jpg",
+		"changed": "beskuren"
+	},
+	"inline/al-shifa-sjukhuset-februari-2025": {
+		"kind": "Foto",
+		"by": "Jaber Jehad Badwan / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Images_of_war_23-25_from_Gaza,_by_Jaber_Badwen,_IMG_5959.jpg",
+		"changed": "beskuren och färgbearbetad"
+	},
+	"inline/american-colony-jerusalem-1920": {
+		"kind": "Foto",
+		"by": "American Colony Photo Department / Library of Congress",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Newer_Jerusalem_and_suburbs._The_American_Colony,_main_bld%27g_(i.e.,_building)._Nablus_Road_LOC_matpc.02577.jpg",
+		"changed": "beskuren"
+	},
+	"inline/arafat-vallfardens-viktigaste-dag": {
+		"kind": "Foto",
+		"by": "saudipics / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Mount_Arafat3.jpg"
+	},
+	"inline/beit-lahia-talt-i-rasmassorna": {
+		"kind": "Foto",
+		"by": "Jaber Jehad Badwan / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Images_of_war_23-25_from_Gaza,_by_Jaber_Badwen,_IMG_6185.jpg"
+	},
+	"inline/birkaringen-silver-och-glas": {
+		"kind": "Foto",
+		"by": "Ola Myrin / Statens historiska museer",
+		"licence": "CC BY 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Fingerring_-_Historiska_museet_-_DIG_56338.jpg",
+		"changed": "beskuren"
+	},
+	"inline/birminghamhandskriften-sura-18-20": {
+		"kind": "Bild",
+		"by": "Cadbury Research Library, University of Birmingham",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Birmingham_Quran_manuscript_full.jpg"
+	},
+	"inline/cordoba-stora-moskens-pelarsal": {
+		"kind": "Foto",
+		"by": "Richard Mortel / Wikimedia Commons",
+		"licence": "CC BY 2.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by/2.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Great_Mosque_of_Cordoba,_interior,_8th_-_10th_centuries_(38)_(29721130342).jpg",
+		"changed": "beskuren"
+	},
+	"inline/deir-al-balah-pojke-bar-mat-januari-2025": {
+		"kind": "Foto",
+		"by": "Jaber Jehad Badwan / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:A_Gazan_child_carrying_food_for_his_family_during_the_Gaza_war_23-25.jpg",
+		"changed": "beskuren"
+	},
+	"inline/gaza-koranblad-i-rasmassorna": {
+		"kind": "Foto",
+		"by": "Jaber Jehad Badwan / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Gaza_war_2023_-_2025_IMG_3876.jpg",
+		"changed": "beskuren"
+	},
+	"inline/gaza-var-ar-min-far-december-2023": {
+		"kind": "Foto",
+		"by": "Jaber Jehad Badwan / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Gaza_war_2023_-_2025_IMG_1570.jpg",
+		"changed": "beskuren"
+	},
+	"inline/gulddinar-abd-al-malik-damaskus": {
+		"kind": "Bild",
+		"by": "American Numismatic Society",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Gold_dinar_of_Abd_al-Malik_697-98.png"
+	},
+	"inline/kaba-1880-sadiq-bey": {
+		"kind": "Foto",
+		"by": "Muhammad Sadiq Bey / Khalili Collections",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_arc.pp_0211.04_CROP.jpg"
+	},
+	"inline/mecka-1880-panorama-sadiq-bey": {
+		"kind": "Foto",
+		"by": "Muhammad Sadiq Bey / Khalili Collections",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Edited_Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_arc.pp_0211.02-Photo_of_Mecca_by_Muhammad_Sadiq_Bey_ca.1880-ccbysa3.0.png",
+		"changed": "beskuren"
+	},
+	"inline/medelassyriska-lagen-tavla-a": {
+		"kind": "Foto",
+		"by": "Marcus Cyron / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Pergamonmuseum_-_Vorderasiatisches_Museum_075.JPG",
+		"changed": "beskuren"
+	},
+	"inline/medina-1880-sadiq-bey": {
+		"kind": "Foto",
+		"by": "Muhammad Sadiq Bey / Khalili Collections",
+		"licence": "CC BY-SA 3.0 IGO",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_arc.pp_0211.09.jpg",
+		"changed": "beskuren"
+	},
+	"inline/mina-taltstaden-under-hajj": {
+		"kind": "Foto",
+		"by": "Arisdp / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Mina%27s_tents.JPG"
+	},
+	"inline/minnesplats-journalisterna-mexico-city": {
+		"kind": "Foto",
+		"by": "ProtoplasmaKid / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Mega_Marcha_por_Palestina_en_la_Ciudad_de_M%C3%A9xico_14.jpg",
+		"changed": "beskuren"
+	},
+	"inline/moskens-plan-mecka-1888": {
+		"kind": "Bild",
+		"by": "Christiaan Snouck Hurgronje, 1888",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Grundriss_der_Moschee_von_Mekka.jpg",
+		"changed": "beskuren"
+	},
+	"inline/nya-tiders-monter-bokmassan-2016": {
+		"kind": "Foto",
+		"by": "Bengt Oberger / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Nya_tider_01.jpg",
+		"changed": "beskuren"
+	},
+	"inline/spillingsskatten-arabiska-silvermynt": {
+		"kind": "Foto",
+		"by": "W.carter / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Iraq_silver_coins_Spillings_Hoard.jpg",
+		"changed": "beskuren"
+	},
+	"inline/sura-al-alaq-egyptisk-handskrift": {
+		"kind": "Bild",
+		"by": "Victoria and Albert Museum, London",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:2006AB2204_leaf_quarn_egypt-calligraphy-in-islamic-art-surah_al_alaq-iqra6inchx300dpi.jpg"
+	},
+	"inline/svenska-utvandrare-rush-city-minnesota": {
+		"kind": "Foto",
+		"by": "Nordiska museet",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Svenskar_i_Amerika._Olof_Olsson_fr%C3%A5n_Nerikes_Kil,_utvandrade_ca_1880_till_Rush_City,_Minnesota_-_Nordiska_Museet_-_NMA.0039211.jpg"
+	},
+	"inline/sveriges-rikes-lag-1734-titelblad": {
+		"kind": "Bild",
+		"by": "Wikimedia Commons",
+		"licence": "CC0",
+		"licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Sveriges_Rikes_Lag_1734.png"
+	},
+	"inline/uppsala-motes-beslut-1593": {
+		"kind": "Foto",
+		"by": "Kigsz / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Uppsala_Synod_document_in_V%C3%A4ster%C3%A5s.jpg",
+		"changed": "beskuren"
+	}
+}

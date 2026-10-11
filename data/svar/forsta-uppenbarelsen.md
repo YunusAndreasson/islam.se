@@ -36,6 +36,8 @@ sources:
     url: "https://al-ibadah.com/troslara/sandebuden"
   - name: "Wikipedia – Muhammad (610 till 632)"
     url: "https://en.wikipedia.org/wiki/Muhammad"
+  - name: "Bild: koranblad med sura al-ʿAlaq, Egypten 1400-talet, Victoria and Albert Museum (fri från upphovsrätt)"
+    url: "https://commons.wikimedia.org/wiki/File:2006AB2204_leaf_quarn_egypt-calligraphy-in-islamic-art-surah_al_alaq-iqra6inchx300dpi.jpg"
 related:
   - "vem-var-profeten-muhammed"
   - "vad-ar-koranen"
@@ -54,6 +56,8 @@ De ord ängeln gav blev inledningen till Koranens 96:e sura, al-ʿAlaq:
 
 > LÄS I din Herres namn, Han som har skapat – skapat människan av en grodd som sätter sig fast! Läs! Din Herre är den Främste Givaren, som har lärt [människan] pennans [bruk], lärt människan vad hon inte visste!
 > — Koranen 96:1–5
+
+![Koranblad med surans rubrik i guld mot blått och rött och därunder rader av arabisk skrift i svart, med guldrosetter mellan verserna.](../../apps/web/src/assets/images/inline/sura-al-alaq-egyptisk-handskrift.webp "Sura al-ʿAlaq i en koranhandskrift från Egypten, 1400-talet. Victoria and Albert Museum, London.")
 
 Att den sista uppenbarelsen till mänskligheten öppnar med ordet "Läs" har de lärda sedan länge tolkat som att kunskapen kommer först. Mannen som tog emot orden kunde själv varken läsa eller skriva; han var *ummī*, oläskunnig. Att hans allra första gudsord ändå blev en befallning att läsa är för muslimer ett tecken på att Koranen aldrig kunde ha varit hans eget verk.
 
