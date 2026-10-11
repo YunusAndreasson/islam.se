@@ -416,6 +416,35 @@ export const EvalCorrectionFrontmatterSchema = z.object({
 	summary: z.string(),
 });
 
+/**
+ * What the earlier-essays stage reports: where the published essays have already been on
+ * the ground a new essay will cover, so that it can build on them. Every `quote` is
+ * searched for by code before anything is passed on (see vetRelatedEssays).
+ */
+export const RelatedEssaysOutputSchema = z.object({
+	/** The essays most worth building on first. */
+	related: z.array(
+		z.object({
+			/** The published essay's file name without `.md`. */
+			slug: z.string(),
+			relation: z.enum(["same-argument", "same-source", "same-example", "adjacent-theme"]),
+			/** What the earlier essay showed or argued at this point. */
+			established: z.string(),
+			/** One sentence copied from that essay, as evidence that it does. */
+			quote: z.string(),
+			/** How the new essay could stand on it and go further. */
+			buildOn: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+export type RelatedEssaysFindings = z.infer<typeof RelatedEssaysOutputSchema>;
+
+export function getRelatedEssaysJsonSchema(): object {
+	return z.toJSONSchema(RelatedEssaysOutputSchema, { target: "draft-07" });
+}
+
 // JSON Schema generation functions (using zod v4 built-in toJSONSchema)
 export function getResearchJsonSchema(): object {
 	return z.toJSONSchema(ResearchOutputSchema, { target: "draft-07" });

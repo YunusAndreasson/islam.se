@@ -27,10 +27,13 @@ import {
 	FiguresFrontmatterSchema,
 	GroundFrontmatterSchema,
 	getFactCheckJsonSchema,
+	getRelatedEssaysJsonSchema,
 	getResearchJsonSchema,
 	getReviewPatchJsonSchema,
 	getVerifyJsonSchema,
 	PolishFrontmatterSchema,
+	type RelatedEssaysFindings,
+	RelatedEssaysOutputSchema,
 	ResearchOutputSchema,
 	ReviewFrontmatterSchema,
 	type ReviewPatch,
@@ -43,6 +46,23 @@ import { ArticlePublisher, findDataDir } from "./services/article-publisher.js";
 import { editorEditsBlock } from "./services/editor-edits.js";
 import { IdeationService } from "./services/ideation-service.js";
 import { publishedEssaysBlock } from "./services/published-essays.js";
+import {
+	closestEssays,
+	deadEssayLinks,
+	fullEssaysBlock,
+	linkEssayReferences,
+	type PublishedEssay,
+	readPublishedEssays,
+	relatedEssaysBlock,
+	unlinkedEssayReferences,
+	type VettedRelatedEssays,
+	vetRelatedEssays,
+} from "./services/related-essays.js";
+import {
+	type PublicationRecord,
+	publicationFromRun,
+	publicationTarget,
+} from "./services/run-publication.js";
 import { SourceValidator } from "./source-validator.js";
 import { newMisspellings } from "./spellguard.js";
 import {
@@ -847,6 +867,8 @@ export class ContentOrchestrator {
 	private logger: ReturnType<typeof createLogger>;
 	/** Hard requirements of the brief being produced (see splitBriefRequirements). */
 	private requirements?: string;
+	/** The earlier essays the essay in production builds on (see services/related-essays.ts). */
+	private earlier: { vetted: VettedRelatedEssays; essays: PublishedEssay[] } | null = null;
 	/** Every Claude call of the current run: which model answered and what it cost. */
 	private stageRuns: Array<
 		{ stage: string; durationMs?: number; effort?: string } & ClaudeRunMeta
@@ -952,9 +974,33 @@ export class ContentOrchestrator {
 		return formatSourceDocs(this.options.sourceDocs ?? []);
 	}
 
-	/** What research reads besides its prompt: the published essays, then the briefing. */
+	/** The published essays, as the run already read them when it could. */
+	private publishedEssays(): PublishedEssay[] {
+		return this.earlier?.essays ?? readPublishedEssays(join(findDataDir(), "articles"));
+	}
+
+	/** Make each reference to an earlier essay a link (see linkEssayReferences). */
+	private linkReferences(text: string): string {
+		const { text: withLinks, linked } = linkEssayReferences(text, this.publishedEssays());
+		if (linked.length > 0) {
+			this.logger.log(`   🔗 Länkade hänvisningen till ${linked.map((t) => `»${t}«`).join(", ")}`);
+		}
+		return withLinks;
+	}
+
+	/** The `<earlier_essays>` block for a stage, or "" when the run has none. */
+	private earlierBlock(reader: "research" | "author"): string {
+		return this.earlier ? relatedEssaysBlock(this.earlier.vetted, this.earlier.essays, reader) : "";
+	}
+
+	/** What research reads besides its prompt: each published essay's sources, the earlier
+	 *  essays this one builds on, then the briefing. */
 	private researchContext(): string {
-		return [publishedEssaysBlock(join(findDataDir(), "articles")), this.sourceDocsBlock()]
+		return [
+			publishedEssaysBlock(join(findDataDir(), "articles")),
+			this.earlierBlock("research"),
+			this.sourceDocsBlock(),
+		]
 			.filter(Boolean)
 			.join("\n\n");
 	}
@@ -1364,6 +1410,104 @@ export class ContentOrchestrator {
 			},
 			summary: `${counts} | ${timing}`,
 		};
+	}
+
+	/**
+	 * Read every published essay in full against an idea and report where the earlier
+	 * essays have already been on its ground (see services/related-essays.ts). The model's
+	 * quotes are searched for before anything is returned.
+	 *
+	 * Effort `high` is what the stage was measured at: about three minutes for 69 essays.
+	 * The essays go in whole, some 400 000 tokens today, so the stage stops fitting when
+	 * the corpus is roughly two and a half times its present size.
+	 */
+	async runRelatedEssays(
+		idea: string,
+	): Promise<StageResult<{ vetted: VettedRelatedEssays; essays: PublishedEssay[] }>> {
+		const essays = readPublishedEssays(join(findDataDir(), "articles"));
+		if (essays.length === 0) {
+			return { success: false, error: "No published essays to read" };
+		}
+		const stage = await this.executeClaudeStage<RelatedEssaysFindings>({
+			name: "Earlier essays",
+			stage: "research",
+			emoji: "🧭",
+			promptFile: "related-essays.md",
+			systemPrompt:
+				"You find what islam.se has already published on the ground a new essay will cover, so that the new essay can build on it.",
+			userContent: `${fullEssaysBlock(essays)}\n\n<idea>\n${idea.trim()}\n</idea>\n\nReport the earlier essays for this idea as the prompt above the essays describes.`,
+			schema: RelatedEssaysOutputSchema,
+			jsonSchema: getRelatedEssaysJsonSchema(),
+			effort: "high",
+			timeout: 1200000, // 20 min
+		});
+		if (!(stage.success && stage.data)) {
+			return {
+				success: false,
+				error: stage.error ?? "Earlier-essays stage failed",
+				duration: stage.duration,
+			};
+		}
+		const vetted = vetRelatedEssays(stage.data, essays);
+		const inEssays = new Set(vetted.related.map((relation) => relation.slug)).size;
+		const closest = closestEssays(vetted, essays)
+			.map((essay) => `»${essay.title}«`)
+			.join(", ");
+		this.logger.log(
+			`   - ${vetted.related.length} beröringspunkter i ${inEssays} av ${essays.length} essäer${closest ? `; närmast ${closest}` : ""}`,
+		);
+		if (vetted.rejected.length > 0) {
+			this.logger.log(
+				`   - ⚠️  Sökningen strök ${vetted.rejected.length} citat som inte står i den essä modellen angav`,
+			);
+		}
+		return {
+			success: true,
+			data: { vetted, essays },
+			duration: stage.duration,
+			meta: stage.meta,
+		};
+	}
+
+	/**
+	 * The earlier essays for a production run: loaded from the run directory on resume,
+	 * otherwise found and saved. Never fatal: without it the essay is written as essays
+	 * were before the stage existed, with only the list of each essay's sources.
+	 */
+	private async earlierEssaysForRun(
+		idea: string,
+		outputDir: string,
+		resume: boolean,
+	): Promise<{ vetted: VettedRelatedEssays; essays: PublishedEssay[] } | null> {
+		const cached = resume
+			? loadOutput<VettedRelatedEssays>(outputDir, "related-essays.json")
+			: null;
+		if (cached && Array.isArray(cached.related)) {
+			this.logger.log("🧭 Earlier essays — loaded from checkpoint");
+			return { vetted: cached, essays: readPublishedEssays(join(findDataDir(), "articles")) };
+		}
+		this.options.onStageChange?.({
+			stage: "research",
+			status: "running",
+			summary: "Reading the published essays against the idea...",
+		});
+		const found = await this.runRelatedEssays(idea);
+		if (!(found.success && found.data)) {
+			this.logger.warn(`   ⚠️  Steget »Earlier essays« misslyckades: ${found.error}`);
+			this.noteOpenIssue(
+				"Tidigare essäer",
+				`Steget kördes inte (${found.error}). Essän skrevs utan de tidigare essäerna framför sig: se efter om den borde bygga vidare på eller hänvisa till någon av dem.`,
+			);
+			return null;
+		}
+		saveOutput(outputDir, "related-essays.json", found.data.vetted);
+		return found.data;
+	}
+
+	/** The idea as the earlier-essays stage reads it: the brief when there is one, else the topic. */
+	private ideaText(topic: string, brief?: Pick<IdeaBrief, "title" | "thesis" | "angle">): string {
+		if (!brief) return topic;
+		return `Title: ${brief.title}\nThesis: ${brief.thesis}\nAngle: ${brief.angle}`;
 	}
 
 	/**
@@ -1798,7 +1942,9 @@ ${formatted}`;
 			emoji: "✍️ ",
 			promptFile: "author.md",
 			systemPrompt,
-			userContent: this.sourceDocsBlock(),
+			userContent: [this.earlierBlock("author"), this.sourceDocsBlock()]
+				.filter(Boolean)
+				.join("\n\n"),
 			allowedTools: ["Read"],
 			markdownMode: {
 				frontmatterSchema: DraftFrontmatterSchema,
@@ -2521,8 +2667,7 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 	 */
 	private publishArticle(
 		outputDir: string,
-		_topicSlug: string,
-		draft: DraftOutput,
+		draft: { title: string; description?: string },
 		qualityScore: number,
 		finalWordCount: number,
 		ideaContext?: IdeaContext,
@@ -2563,6 +2708,91 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 		}
 
 		return articleSlug;
+	}
+
+	/**
+	 * Everything publishing writes: the essay in data/articles, the sources' record in the
+	 * domain tracker, and the run's line in the feedback log. One path for a run that
+	 * publishes itself and for a trial run published afterwards (see publishRun).
+	 */
+	private recordPublication(
+		record: PublicationRecord,
+		ideaContext?: IdeaContext,
+	): string | undefined {
+		const publishedSlug = this.publishArticle(
+			record.outputDir,
+			{ title: record.title, description: record.description },
+			record.qualityScore,
+			record.wordCount,
+			ideaContext,
+		);
+
+		// Record domain quality for published articles
+		if (publishedSlug && record.sourceUrls.length > 0) {
+			try {
+				const tracker = loadDomainTracker();
+				recordPublishedArticle(tracker, record.sourceUrls, record.qualityScore);
+				saveDomainTracker(tracker);
+			} catch (e) {
+				this.logger.warn(`   ⚠️  Failed to record domain quality: ${e}`);
+			}
+		}
+
+		// Persist the author's struggles/suggestions + eval scores to a sidecar
+		// log. The published frontmatter keeps only 7 fields, so these otherwise
+		// vanish at publish — this JSONL is the durable record for mining what
+		// the pipeline finds hard and whether the eval pass is helping.
+		try {
+			const entry = {
+				producedAt: record.producedAt,
+				slug: publishedSlug ?? slugify(record.topic),
+				topic: record.topic,
+				outputDir: record.outputDir,
+				qualityScore: record.qualityScore,
+				reviewRounds: record.reviewRounds,
+				wordCount: record.wordCount,
+				revisionCount: record.revisionCount,
+				evaluation: record.evaluation,
+				models: record.models,
+				openIssues: record.openIssues,
+				reviewerIssues: record.reviewerIssues,
+				struggles: record.struggles,
+				efficiencySuggestions: record.efficiencySuggestions,
+			};
+			appendFileSync(
+				join(findDataDir(), "pipeline-feedback.jsonl"),
+				`${JSON.stringify(entry)}\n`,
+				"utf-8",
+			);
+		} catch (e) {
+			this.logger.warn(`   ⚠️  Failed to record pipeline feedback: ${e}`);
+		}
+		return publishedSlug;
+	}
+
+	/**
+	 * Publish a finished trial run exactly as its final.md stands.
+	 *
+	 * Nothing is produced or re-read by a model here. A run that failed the final read has
+	 * no final.md and is refused, and an essay already standing at the slug is not
+	 * overwritten unless `force` says so: the one in data/articles may carry hand edits.
+	 */
+	publishRun(outputDir: string, options: { force?: boolean } = {}): string {
+		const record = publicationFromRun(outputDir);
+		const target = publicationTarget(record, join(findDataDir(), "articles"));
+		if (target.exists && !options.force) {
+			throw new Error(
+				`${target.path} finns redan. Den kan vara redigerad för hand; kör med --force för att skriva över den.`,
+			);
+		}
+		this.logFile = join(outputDir, "run.log");
+		this.logger.log(
+			`\n══ ${new Date().toISOString()} — publicerar »${record.title}« ur provkörningen`,
+		);
+		const slug = this.recordPublication(record);
+		this.logFile = undefined;
+		if (!slug) throw new Error(`Publiceringen av »${record.title}« misslyckades; se run.log.`);
+		return slug;
 	}
 
 	/**
@@ -2689,6 +2919,22 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 		// Stage 1: Research
 		let researchResult: StageResult<ResearchOutput>;
 		const cachedResearch = resume ? loadOutput<ResearchOutput>(outputDir, "research.json") : null;
+
+		// The earlier essays this one builds on. Research and the author both read them, so
+		// a resumed run goes without only when both of those are already on disk.
+		this.earlier = null;
+		const pastAuthoring =
+			!!cachedResearch &&
+			ResearchOutputSchema.safeParse(cachedResearch).success &&
+			loadOutput<DraftOutput>(outputDir, "draft-meta.json") !== null;
+		if (!pastAuthoring) {
+			this.earlier = await this.earlierEssaysForRun(
+				this.ideaText(topic, ideaBrief && { ...ideaBrief, angle: brief?.angle ?? ideaBrief.angle }),
+				outputDir,
+				resume,
+			);
+		}
+
 		if (cachedResearch && ResearchOutputSchema.safeParse(cachedResearch).success) {
 			this.logger.log("📚 Stage 1: Research — loaded from checkpoint");
 			const enriched = this.attachBernstrom(cachedResearch);
@@ -2879,6 +3125,12 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 				result.totalDuration = Date.now() - startTime;
 				return result;
 			}
+			// The draft is where a reference is written; linked here, every later stage and
+			// every patch guard sees the link.
+			authoringResult = {
+				...authoringResult,
+				data: { ...authoringResult.data, body: this.linkReferences(authoringResult.data.body) },
+			};
 			const wordCount =
 				authoringResult.data.wordCount ?? authoringResult.data.body.split(/\s+/).length;
 			this.options.onStageChange?.({
@@ -3376,6 +3628,10 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			);
 		}
 
+		// Before the gate, so that it reads the text that ships: a reference a later stage
+		// wrote, or one whose link a patch took, is linked again.
+		finalText = this.linkReferences(finalText);
+
 		// The gate: a final read of the text that ships. It replaces review rounds two and
 		// three, and it is the first gate to read what polish and Swedish voice did.
 		//
@@ -3588,6 +3844,23 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			});
 		}
 
+		// A reference to an earlier essay is a link. What the code could not make one,
+		// and any address that leads nowhere, goes to the editor.
+		for (const title of unlinkedEssayReferences(finalText)) {
+			this.logger.warn(`   ⚠️  Hänvisningen till essän »${title}« saknar länk`);
+			this.noteOpenIssue(
+				"Länkar",
+				`Hänvisningen till essän »${title}« saknar länk: titeln stämmer inte med någon publicerad essä. Är det en essä på islam.se, rätta titeln eller länka för hand.`,
+			);
+		}
+		for (const link of deadEssayLinks(finalText, this.publishedEssays())) {
+			this.logger.warn(`   ⚠️  Länken ${link} leder inte till någon publicerad essä`);
+			this.noteOpenIssue(
+				"Länkar",
+				`Länken ${link} leder inte till någon publicerad essä. Rätta adressen eller ta bort länken.`,
+			);
+		}
+
 		saveOutput(outputDir, "final.md", finalText);
 
 		// Generate bibliography (include all tracked references)
@@ -3638,46 +3911,17 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 		});
 
 		if (this.options.publish) {
-			// Publish to web-accessible directory and update idea status
-			result.publishedSlug = this.publishArticle(
-				outputDir,
-				topicSlug,
-				{ ...currentDraft, title, description },
-				reviewData.finalScore,
-				finalWordCount,
-				ideaContext,
-			);
-
-			// Record domain quality for published articles
-			if (result.publishedSlug && researchData.sources.length > 0) {
-				try {
-					const tracker = loadDomainTracker();
-					recordPublishedArticle(
-						tracker,
-						researchData.sources.map((s) => s.url),
-						reviewData.finalScore,
-					);
-					saveDomainTracker(tracker);
-				} catch (e) {
-					this.logger.warn(`   ⚠️  Failed to record domain quality: ${e}`);
-				}
-			}
-
-			// Persist the author's struggles/suggestions + eval scores to a sidecar
-			// log. The published frontmatter keeps only 7 fields, so these otherwise
-			// vanish at publish — this JSONL is the durable record for mining what
-			// the pipeline finds hard and whether the eval pass is helping.
-			const struggles = authoringResult.data?.struggles;
-			const efficiencySuggestions = authoringResult.data?.efficiencySuggestions;
-			try {
-				const entry = {
-					producedAt: new Date().toISOString(),
-					slug: result.publishedSlug ?? topicSlug,
-					topic,
+			result.publishedSlug = this.recordPublication(
+				{
 					outputDir,
+					topic,
+					producedAt: new Date().toISOString(),
+					title,
+					description,
 					qualityScore: reviewData.finalScore,
-					reviewRounds: reviewRound,
 					wordCount: finalWordCount,
+					sourceUrls: researchData.sources.map((s) => s.url),
+					reviewRounds: reviewRound,
 					revisionCount,
 					evaluation: {
 						before: evalBefore?.actionableIssues,
@@ -3688,19 +3932,15 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 					models,
 					openIssues: this.openIssues.length,
 					reviewerIssues: reviewData.issues ?? [],
-					struggles: struggles ?? null,
-					efficiencySuggestions: efficiencySuggestions ?? null,
-				};
-				appendFileSync(
-					join(findDataDir(), "pipeline-feedback.jsonl"),
-					`${JSON.stringify(entry)}\n`,
-					"utf-8",
-				);
-			} catch (e) {
-				this.logger.warn(`   ⚠️  Failed to record pipeline feedback: ${e}`);
-			}
+					struggles: authoringResult.data?.struggles ?? null,
+					efficiencySuggestions: authoringResult.data?.efficiencySuggestions ?? null,
+				},
+				ideaContext,
+			);
 		} else {
-			this.logger.log("   - Provkörning: essän publiceras inte och körningen loggas inte");
+			this.logger.log(
+				`   - Provkörning: essän publiceras inte och körningen loggas inte. Publicera den som den står med: produce publish ${topicSlug}`,
+			);
 		}
 
 		// The editor's list: everything a person should look at before the essay goes live.
@@ -3738,6 +3978,23 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			`# Öppna frågor — ${title}\n\nInget av detta har någon grind avgjort. Gå igenom listan innan essän publiceras.\n\n${body}\n`,
 		);
 		return join(outputDir, "open-issues.md");
+	}
+
+	/**
+	 * Find the earlier essays for an idea without producing anything else. The result is
+	 * kept in the idea's run directory.
+	 */
+	async relatedEssays(
+		topic: string,
+		ideaBrief?: IdeaBrief,
+	): Promise<StageResult<{ vetted: VettedRelatedEssays; essays: PublishedEssay[] }>> {
+		const outputDir = this.ensureOutputDir(slugify(topic));
+		const brief = ideaBrief && { ...ideaBrief, angle: splitBriefRequirements(ideaBrief).angle };
+		const result = await this.runRelatedEssays(this.ideaText(topic, brief));
+		if (result.success && result.data) {
+			saveOutput(outputDir, "related-essays.json", result.data.vetted);
+		}
+		return result;
 	}
 
 	/**

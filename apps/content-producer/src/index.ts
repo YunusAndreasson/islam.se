@@ -162,6 +162,11 @@ program
 					console.log(
 						`After editing the published essay, record what you changed: produce harvest ${result.outputDir}`,
 					);
+				} else if (options.publish === false) {
+					console.log("");
+					console.log(
+						`Trial run, nothing published. To publish final.md as it stands: produce publish ${result.outputDir}`,
+					);
 				}
 			} else {
 				console.log("Status: ❌ FAILED");
@@ -231,6 +236,57 @@ program
 			}
 
 			process.exit(result.success ? 0 : 1);
+		} catch (error) {
+			console.error("Fatal error:", error);
+			process.exit(1);
+		}
+	});
+
+program
+	.command("related")
+	.description(
+		"Read every published essay against an idea and list the earlier essays a new one would build on. `produce article` runs the same stage before research",
+	)
+	.argument("<topic>", "The idea, in a sentence or a paragraph")
+	.option("-b, --brief <path>", "JSON brief to read against, instead of the bare topic")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.option("-o, --output <dir>", "Output directory", "./output")
+	.action(async (topic: string, options) => {
+		const orchestrator = new ContentOrchestrator({
+			outputDir: resolve(options.output),
+			model: options.model as "opus" | "sonnet",
+		});
+		const ideaBrief = options.brief ? readIdeaBrief(resolve(options.brief)) : undefined;
+
+		try {
+			const result = await orchestrator.relatedEssays(topic, ideaBrief);
+			if (!(result.success && result.data)) {
+				console.log("Earlier-essays stage failed:", result.error);
+				process.exit(1);
+			}
+			const { vetted, essays } = result.data;
+			const titles = new Map(essays.map((essay) => [essay.slug, essay.title]));
+			console.log("");
+			console.log(vetted.summary);
+			console.log("");
+			console.log(
+				`Earlier essays on this ground (${vetted.related.length} places, each quote found in the essay named):`,
+			);
+			for (const relation of vetted.related) {
+				console.log("");
+				console.log(`  »${titles.get(relation.slug) || relation.slug}« (${relation.relation})`);
+				console.log(`    Established: ${relation.established}`);
+				console.log(`    In its words: »${relation.quote}«`);
+				console.log(`    To build on: ${relation.buildOn}`);
+			}
+			if (vetted.rejected.length > 0) {
+				console.log("");
+				console.log("Reported by the model and not borne out by the search:");
+				for (const { relation, reason } of vetted.rejected) {
+					console.log(`  ${relation.slug}: ${reason}`);
+				}
+			}
+			process.exit(0);
 		} catch (error) {
 			console.error("Fatal error:", error);
 			process.exit(1);
@@ -470,6 +526,32 @@ async function promptIdeaSelection(ideas: EnrichedIdea[]): Promise<number | "sav
 
 	return selection as number;
 }
+
+program
+	.command("publish")
+	.description(
+		"Publish a finished trial run (`article --no-publish`) exactly as its final.md stands: no stage runs again, and the essay, the domain tracker and the feedback log are written as a publishing run writes them",
+	)
+	.argument("<run>", "A run's output directory, or its name under ./output")
+	.option(
+		"-f, --force",
+		"Overwrite an essay already published under the same title (it may carry hand edits)",
+	)
+	.action((run: string, options: { force?: boolean }) => {
+		const outputDir =
+			existsSync(run) && statSync(run).isDirectory() ? resolve(run) : resolve("output", run);
+		const orchestrator = new ContentOrchestrator({ outputDir: dirname(outputDir) });
+		try {
+			const slug = orchestrator.publishRun(outputDir, { force: options.force });
+			console.log(`Published to data/articles/${slug}.md`);
+			console.log(
+				`After editing the published essay, record what you changed: produce harvest ${outputDir}`,
+			);
+		} catch (error) {
+			console.error(error instanceof Error ? error.message : error);
+			process.exit(1);
+		}
+	});
 
 program
 	.command("harvest")

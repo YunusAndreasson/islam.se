@@ -138,6 +138,25 @@ function carriedMaterial(text: string): string {
 	return JSON.stringify({ quotes: quotes.sort(), markers, numbers: numbers.sort() });
 }
 
+/**
+ * Every link in the text before an edit is still there after it, as many times.
+ *
+ * ⚠️ Compared over the whole text, not over the patched span: an edit whose span is only
+ * the address inside the parentheses carries no »](« of its own, and a span-level check
+ * let it redirect a link. A reference to an earlier essay is always a link (the editor's
+ * rule), and a language pass that rewords the sentence must not turn it back into bare
+ * text. Adding a link is not refused here.
+ */
+function keepsLinks(before: string, after: string): boolean {
+	const remaining = collect(after, /\]\([^)\s]+\)/g);
+	for (const link of collect(before, /\]\([^)\s]+\)/g)) {
+		const at = remaining.indexOf(link);
+		if (at === -1) return false;
+		remaining.splice(at, 1);
+	}
+	return true;
+}
+
 const STRUCTURE: Array<[RegExp, string]> = [
 	[/^>/gm, "a block quote"],
 	[/^\[\^[^\]]+\]:/gm, "a footnote definition"],
@@ -153,6 +172,26 @@ function introducesStructure(original: string, replacement: string): string | un
 		}
 	}
 	return undefined;
+}
+
+/** Why a prose edit is refused where it lands, if it is: it may not touch source material. */
+function proseRefusal(
+	text: string,
+	located: { start: number; end: number },
+	patch: TextPatch,
+	protectHeadings: boolean,
+): string | undefined {
+	const hit = protectedRanges(text, protectHeadings).find(
+		([from, to]) => located.start < to && located.end > from,
+	);
+	if (hit) return `touches ${hit[2]}`;
+
+	const matched = text.slice(located.start, located.end);
+	if (carriedMaterial(matched) !== carriedMaterial(patch.replacement)) {
+		return "changes a footnote marker, a quotation or a number";
+	}
+	const next = text.slice(0, located.start) + patch.replacement + text.slice(located.end);
+	return keepsLinks(text, next) ? undefined : "drops or changes a link";
 }
 
 /**
@@ -198,17 +237,9 @@ export function applyTextPatches(
 			continue;
 		}
 		if (!options.sourceEdits) {
-			const hit = protectedRanges(text, options.protectHeadings ?? true).find(
-				([from, to]) => located.start < to && located.end > from,
-			);
-			if (hit) {
-				refuse(`touches ${hit[2]}`);
-				continue;
-			}
-
-			const matched = text.slice(located.start, located.end);
-			if (carriedMaterial(matched) !== carriedMaterial(patch.replacement)) {
-				refuse("changes a footnote marker, a quotation or a number");
+			const reason = proseRefusal(text, located, patch, options.protectHeadings ?? true);
+			if (reason) {
+				refuse(reason);
 				continue;
 			}
 		}

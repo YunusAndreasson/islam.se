@@ -70,6 +70,34 @@ describe("applyTextPatches", () => {
 		);
 	});
 
+	// The editor's rule: a reference to an earlier essay is always a link. A language pass
+	// that rewords the sentence and writes the title without its link undoes that silently,
+	// and no later stage would put it back.
+	it("refuses an edit that drops or redirects a link", () => {
+		const linked =
+			"Det har essän [Äter ni var för sig?](/ater-ni-var-for-sig/) visat med Ibn Khaldūn.";
+		const out = applyTextPatches(linked, [
+			p(
+				"Det har essän [Äter ni var för sig?](/ater-ni-var-for-sig/) visat",
+				"Det har essän Äter ni var för sig? visat",
+			),
+			p("(/ater-ni-var-for-sig/)", "(/ater-ni-tillsammans/)"),
+		]);
+		expect(out.applied, "a link must survive every prose edit unchanged").toHaveLength(0);
+		expect(new Set(out.rejected.map((r) => r.reason))).toEqual(
+			new Set(["drops or changes a link"]),
+		);
+		expect(out.body).toBe(linked);
+
+		const kept = applyTextPatches(linked, [
+			p(
+				"Det har essän [Äter ni var för sig?](/ater-ni-var-for-sig/) visat med Ibn Khaldūn.",
+				"Med Ibn Khaldūn har essän [Äter ni var för sig?](/ater-ni-var-for-sig/) visat det.",
+			),
+		]);
+		expect(kept.applied, "rewording around an intact link is an ordinary edit").toHaveLength(1);
+	});
+
 	it("refuses ambiguous originals and honours the cap and the stage veto", () => {
 		const text = "Samma. Samma. Ett. Två. Tre.";
 		const out = applyTextPatches(

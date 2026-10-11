@@ -48,6 +48,12 @@ formulera aldrig om och översätt aldrig versen själv. Behövs en nyans i arab
 argumentet: säg den i prosan eller i en fotnot, inte genom att skriva om versen. Husets
 regler om gemena gudspronomen och tankstreck gäller din prosa, aldrig ett citat.
 
+**Hänvisning till en annan essä** på islam.se är alltid en länk. Skriv ordet »essän«,
+titeln exakt som den lyder inom citattecken, och länken på titeln:
+»essän "[Äter ni var för sig?](/ater-ni-var-for-sig/)" har visat …«. Känner du inte
+essäns adress, skriv titeln utan länk i samma form, så sätter koden länken; hitta aldrig
+på en adress. Ta aldrig bort en länk när du skriver om en mening.
+
 **Fotnoter** är läsartext. Aldrig en lapp till redaktören (»bör kontrolleras«, »sidnummer
 saknas«). Är du osäker på en uppgift, utelämna den.
 </house_rules>
