@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 125,
-      "ok": 124,
+      "total": 127,
+      "ok": 126,
       "failed": 1,
-      "lastChecked": "2026-10-08T19:10:09.032Z",
-      "publishedIn": 99,
-      "avgScore": 8.61818181818183,
+      "lastChecked": "2026-10-11T10:16:25.848Z",
+      "publishedIn": 101,
+      "avgScore": 8.619801980198032,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 50,
-      "ok": 50,
+      "total": 53,
+      "ok": 53,
       "failed": 0,
-      "lastChecked": "2026-10-04T15:12:08.886Z",
-      "publishedIn": 39,
-      "avgScore": 8.641025641025639
+      "lastChecked": "2026-10-11T10:16:25.848Z",
+      "publishedIn": 42,
+      "avgScore": 8.645238095238092
     },
     "lifewithallah.com": {
       "total": 3,
@@ -367,12 +367,12 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.svt.se": {
-      "total": 35,
-      "ok": 35,
+      "total": 36,
+      "ok": 36,
       "failed": 0,
-      "lastChecked": "2026-10-08T19:10:09.032Z",
-      "publishedIn": 21,
-      "avgScore": 8.614285714285712
+      "lastChecked": "2026-10-11T10:16:25.848Z",
+      "publishedIn": 22,
+      "avgScore": 8.618181818181816
     },
     "www.genteknik.se": {
       "total": 1,
@@ -1380,12 +1380,12 @@
       "avgScore": 8.6
     },
     "hadeethenc.com": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-09-23T19:06:38.633Z",
-      "publishedIn": 2,
-      "avgScore": 8.649999999999999
+      "lastChecked": "2026-10-11T10:16:25.848Z",
+      "publishedIn": 3,
+      "avgScore": 8.666666666666666
     },
     "www.forskning.se": {
       "total": 2,
@@ -1958,12 +1958,12 @@
       "lastChecked": "2026-07-27T20:27:36.780Z"
     },
     "fiqh.islamonline.net": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-07-27T20:48:06.913Z",
-      "publishedIn": 1,
-      "avgScore": 8.6
+      "lastChecked": "2026-10-11T10:16:25.848Z",
+      "publishedIn": 2,
+      "avgScore": 8.649999999999999
     },
     "dorar.net": {
       "total": 1,
@@ -2757,6 +2757,30 @@
       "lastChecked": "2026-10-08T19:10:09.032Z",
       "publishedIn": 1,
       "avgScore": 8.6
+    },
+    "www.vilarare.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-11T10:16:25.848Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.klt.nu": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-11T10:16:25.848Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.alim.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-11T10:16:25.848Z",
+      "publishedIn": 2,
+      "avgScore": 8.7
     }
   }
 }
