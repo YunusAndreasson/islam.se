@@ -37,6 +37,7 @@ import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { buildChartHast } from "../src/lib/chart/render";
 import { parseChartSpec } from "../src/lib/chart/spec";
+import { SITE_URL } from "../src/lib/config";
 import { buildTableHast } from "../src/lib/table/render";
 import { parseTableSpec } from "../src/lib/table/spec";
 import { buildTimelineHast } from "../src/lib/timeline/render";
@@ -173,6 +174,12 @@ function epubFootnotes(node: HastNode): HastNode {
 		}
 		if (href.startsWith("#user-content-")) {
 			props.href = `#${href.slice("#user-content-".length)}`;
+		}
+		// A link to another page of the site, which is how one essay refers to another,
+		// is written »/slug/«. Inside the EPUB container that path resolves to nothing:
+		// the reader gets a dead link and epubcheck a missing resource.
+		if (node.tagName === "a" && href.startsWith("/") && !href.startsWith("//")) {
+			props.href = `${SITE_URL}${href}`;
 		}
 	}
 	for (const child of node.children ?? []) epubFootnotes(child);
