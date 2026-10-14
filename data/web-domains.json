@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 127,
-      "ok": 126,
+      "total": 129,
+      "ok": 128,
       "failed": 1,
-      "lastChecked": "2026-10-11T10:16:25.848Z",
-      "publishedIn": 101,
-      "avgScore": 8.619801980198032,
+      "lastChecked": "2026-10-14T17:17:44.470Z",
+      "publishedIn": 103,
+      "avgScore": 8.621359223300985,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -905,12 +905,12 @@
       "avgScore": 8.6
     },
     "islam.se": {
-      "total": 3,
-      "ok": 3,
+      "total": 5,
+      "ok": 5,
       "failed": 0,
-      "lastChecked": "2026-06-05T20:13:30.786Z",
-      "publishedIn": 3,
-      "avgScore": 8.700000000000001
+      "lastChecked": "2026-10-14T17:17:44.470Z",
+      "publishedIn": 5,
+      "avgScore": 8.7
     },
     "brill.com": {
       "total": 2,
@@ -2780,6 +2780,30 @@
       "failed": 0,
       "lastChecked": "2026-10-11T10:16:25.848Z",
       "publishedIn": 2,
+      "avgScore": 8.7
+    },
+    "svenskarnaochinternet.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-14T17:17:44.470Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.un.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-14T17:17:44.470Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.diakonia.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-14T17:17:44.470Z",
+      "publishedIn": 1,
       "avgScore": 8.7
     }
   }
