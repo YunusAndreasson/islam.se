@@ -817,6 +817,88 @@
 		);
 	}
 
+	/* ---- since the previous measurement (hub) -------------------------------- */
+
+	/* ModelShifts.astro: the share table's type and rules, one row per family. */
+	.abm-shift-table {
+		border-collapse: separate;
+		border-spacing: 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+	}
+	.abm-shift-table thead th {
+		padding: 0 1.25rem 0.5rem 0;
+		font-size: var(--step--3);
+		font-weight: 600;
+		color: var(--text-quiet);
+		text-align: start;
+		vertical-align: bottom;
+	}
+	.abm-shift-table tbody > tr > * {
+		padding: 0.6rem 1.25rem 0.6rem 0;
+		text-align: start;
+		vertical-align: top;
+		border-block-end: 1px solid var(--color-divider);
+	}
+	.abm-shift-table tbody th {
+		font-weight: 400;
+		white-space: nowrap;
+	}
+	.abm-shift-model .label {
+		margin-inline-start: 0.5rem;
+	}
+	.abm-shift-old,
+	.abm-shift-same {
+		color: var(--text-quiet);
+	}
+	.abm-shift-same {
+		display: block;
+		font-size: var(--step--3);
+	}
+	.abm-shift-num {
+		white-space: nowrap;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+	.abm-shift-pair {
+		display: block;
+		min-inline-size: 9rem;
+	}
+	/* The track is the compared statements; the ring is before, the brass dot now, and the
+	   stretch between them is drawn in brass too, so the size of the move reads at a glance. */
+	.abm-shift-track {
+		position: relative;
+		display: block;
+		block-size: 5px;
+		margin-block: 0.45rem 0.1rem;
+		border-radius: 3px;
+		background: linear-gradient(
+			to right,
+			var(--color-divider) calc(min(var(--from), var(--to)) * 100%),
+			var(--color-brass) 0 calc(max(var(--from), var(--to)) * 100%),
+			var(--color-divider) 0
+		);
+	}
+	.abm-shift-track::before,
+	.abm-shift-track::after {
+		content: "";
+		position: absolute;
+		inset-block-start: 50%;
+		box-sizing: border-box;
+		inline-size: 11px;
+		block-size: 11px;
+		border-radius: 50%;
+		translate: -50% -50%;
+	}
+	.abm-shift-track::before {
+		inset-inline-start: calc(var(--from) * 100%);
+		border: 2px solid var(--color-brass);
+		background: var(--color-bg);
+	}
+	.abm-shift-track::after {
+		inset-inline-start: calc(var(--to) * 100%);
+		background: var(--color-brass);
+	}
+
 	/* ---- background and surveys (question page) ------------------------------ */
 
 	.abm-sources {
@@ -1145,6 +1227,30 @@
 		padding-block: 0.35rem;
 		border-block-start: 1px solid var(--color-divider);
 	}
+	/* The model page's comparisons: the set's name, then each member as a chip and its label, so
+	   the uneven answer is a change of colour along the row rather than a phrase to read. */
+	.abm-twin-chips li {
+		display: grid;
+		grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+		gap: 0.3rem 1.25rem;
+		align-items: center;
+		padding-block: 0.5rem;
+	}
+	@media (width < 40rem) {
+		.abm-twin-chips li {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+	.abm-twin-members {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem 1.1rem;
+	}
+	.abm-twin-member {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
 
 	/* The other questions in the theme, between the classical note and the pager. */
 	.abm-siblings {
@@ -1425,5 +1531,89 @@
 	.abm-cell-reading .abm-answer-summary,
 	.abm-cell-reading .abm-sample-note {
 		display: block;
+	}
+}
+
+@layer components {
+	/* The hub's largest changes: model, statement, the two chips, the flags, on one ruled row at
+	   the body's size, so the list scans by colour like the matrix above it. */
+	.abm-changes--chips {
+		max-inline-size: 56rem;
+		font-size: var(--step--2);
+	}
+	.abm-changes--chips li {
+		display: grid;
+		grid-template-columns: 7.5rem auto minmax(0, 1fr) auto;
+		gap: 0.3rem 1rem;
+		align-items: center;
+	}
+	.abm-change-chips {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		color: var(--text-quiet);
+	}
+	.abm-change-flags {
+		display: inline-flex;
+		gap: 0.4rem;
+	}
+	@media (width < 40rem) {
+		.abm-changes--chips li {
+			grid-template-columns: auto minmax(0, 1fr) auto;
+			grid-template-areas: "model flags chips" "statement statement statement";
+		}
+		.abm-changes--chips .abm-rowmodel {
+			grid-area: model;
+		}
+		.abm-change-chips {
+			grid-area: chips;
+		}
+		.abm-changes--chips li > a {
+			grid-area: statement;
+		}
+		.abm-change-flags {
+			grid-area: flags;
+		}
+		.abm-change-flags:empty {
+			display: none;
+		}
+	}
+
+	/* The shift table on a phone: four columns do not fit, so each family becomes a block, its
+	   name and models on top and the two numbers side by side under their own small heads. */
+	.abm-shift-k {
+		display: none;
+	}
+	@media (width < 40rem) {
+		.abm-shift-table,
+		.abm-shift-table tbody {
+			display: block;
+		}
+		.abm-shift-table thead {
+			display: none;
+		}
+		.abm-shift-table tbody tr {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+			gap: 0.2rem 1rem;
+			padding-block: 0.7rem;
+			border-block-end: 1px solid var(--color-divider);
+		}
+		.abm-shift-table tbody > tr > * {
+			padding: 0;
+			border: 0;
+		}
+		.abm-shift-table tbody th,
+		.abm-shift-model {
+			grid-column: 1 / -1;
+		}
+		.abm-shift-k {
+			display: block;
+			font-size: var(--step--3);
+			color: var(--text-quiet);
+		}
+		.abm-shift-pair {
+			min-inline-size: 0;
+		}
 	}
 }

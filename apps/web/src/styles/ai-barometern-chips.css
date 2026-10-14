@@ -117,3 +117,28 @@
 		block-size: 100%;
 	}
 }
+
+@layer components {
+	/* AnswerChip.astro: the chip with its answer in words, beside or under it. */
+	.abm-answer-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		vertical-align: middle;
+	}
+	.abm-answer-chip--below {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.3rem;
+	}
+	.abm-answer-chip-words {
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--text-body);
+		white-space: nowrap;
+	}
+	.abm-chip--small {
+		inline-size: 2rem;
+		block-size: 1.3rem;
+	}
+}

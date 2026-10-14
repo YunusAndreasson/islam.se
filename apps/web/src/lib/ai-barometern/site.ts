@@ -94,6 +94,13 @@ export function svDate(iso: string): string {
 	return DATE.format(new Date(`${iso.slice(0, 10)}T12:00:00Z`));
 }
 
+/** "12 september–14 oktober 2026"; the year is written once when both ends share it. */
+export function svDateRange(fromIso: string, toIso: string): string {
+	const from = svDate(fromIso);
+	const sameYear = fromIso.slice(0, 4) === toIso.slice(0, 4);
+	return `${sameYear ? from.replace(/\s\d{4}$/, "") : from}–${svDate(toIso)}`;
+}
+
 /** "12 september 2026", "12 och 13 september 2026", "30 augusti 2026 och 6 september 2026". */
 export function svDateList(isos: readonly string[]): string {
 	// Two runs on one day (a full run and a --new run) are one date to a reader.
@@ -497,6 +504,83 @@ export function releaseLog(): SeenModel[] {
 	return MODELS.seen
 		.filter((s) => s.note !== BASELINE_NOTE && s.decision !== "pending")
 		.sort((a, b) => b.firstSeen.localeCompare(a.firstSeen) || a.id.localeCompare(b.id));
+}
+
+/** One family's models before the current one, newest first, and the releases it passed over.
+ *  The roster carries these per family: a flat release log grows by a dozen near-identical
+ *  rows a month, most of them premium tiers and image models nobody asked about. */
+export function familyReleases(key: FamilyKey): { previous: AdoptedModel[]; passed: SeenModel[] } {
+	const slot = MODELS.families[key];
+	return {
+		previous: slot.history.filter((h) => h.id !== slot.current).reverse(),
+		passed: releaseLog().filter((s) => s.family === key && s.decision === "ignored"),
+	};
+}
+
+export interface FamilyShift {
+	family: Family;
+	fromModel: string;
+	toModel: string;
+	switched: boolean;
+	/** Statements the newest run asked that this family had answered before. */
+	compared: number;
+	/** Of those, a position before and a different position now. */
+	moved: number;
+	/** Positions taken on the compared statements, before and now: the move into or out of
+	 *  »Avstår« that `moved` cannot see. */
+	takenBefore: number;
+	takenNow: number;
+}
+
+/** What each family's answers did since its previous measurement, and the dates of the runs
+ *  compared against. Same rule as `scaleChanges`: each statement against its own previous
+ *  measurement. A family that switched model is flagged, because its shift is then two models
+ *  compared, not one model moving. */
+export function familyShifts(): { rows: FamilyShift[]; since: string[] } {
+	const last = latestIndex();
+	const curRun = SERIES.runs[last];
+	if (!curRun) return { rows: [], since: [] };
+	const sinceRuns = new Set<number>();
+	const qKeys = activeQuestions()
+		.filter((q) => q.kind === "scale")
+		.map(questionKey);
+	const rows = FAMILIES.map((family) => {
+		let compared = 0;
+		let moved = 0;
+		let takenBefore = 0;
+		let takenNow = 0;
+		let prevModel: string | null = null;
+		for (const qKey of qKeys) {
+			const asked = SERIES.runs.flatMap((_, i) =>
+				cellCodes(SERIES, qKey, family.key, i) ? [i] : [],
+			);
+			const cur = asked.at(-1);
+			const prev = asked.at(-2);
+			if (cur !== last || prev === undefined) continue;
+			const a = scaleCell(cellCodes(SERIES, qKey, family.key, prev));
+			const b = scaleCell(cellCodes(SERIES, qKey, family.key, cur));
+			compared += 1;
+			sinceRuns.add(prev);
+			if (a.display !== null) takenBefore += 1;
+			if (b.display !== null) takenNow += 1;
+			if (a.display !== null && b.display !== null && a.display !== b.display) moved += 1;
+			prevModel ??= SERIES.runs[prev]?.models[family.key].name ?? null;
+		}
+		const toModel = curRun.models[family.key].name;
+		const fromModel = prevModel ?? toModel;
+		return {
+			family,
+			fromModel,
+			toModel,
+			switched: fromModel !== toModel,
+			compared,
+			moved,
+			takenBefore,
+			takenNow,
+		};
+	});
+	const since = [...sinceRuns].sort((x, y) => x - y).flatMap((i) => SERIES.runs[i]?.date ?? []);
+	return { rows, since };
 }
 
 /** OpenRouter names carry the vendor ("OpenAI: GPT-5.6 Sol"); the family label beside the

@@ -1,5 +1,7 @@
 ---
+import AnswerChip from "../../../components/ai-barometern/AnswerChip.astro";
 import ModelLogo from "../../../components/ai-barometern/ModelLogo.astro";
+import ScaleLegend from "../../../components/ai-barometern/ScaleLegend.astro";
 import StanceShare from "../../../components/ai-barometern/StanceShare.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import TitledSection from "../../../components/TitledSection.astro";
@@ -9,7 +11,6 @@ import { codeLabel } from "../../../lib/ai-barometern/options";
 import {
 	BASE_PATH,
 	cellLabel,
-	familyTwinParts,
 	METHOD_PATH,
 	matrixAreas,
 	modelPath,
@@ -139,7 +140,8 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 								Här svarade {family.label} olika på påståenden som bara skiljer sig i vilket land, folk
 								eller vilken religion de gäller, eller på en princip och ett fall av den.
 							</p>
-							<ul class="abm-twin-lines">
+							<ScaleLegend cells={uneven.flatMap((row) => row.members.map((m) => m.cells[family.key]))} />
+							<ul class="abm-twin-lines abm-twin-chips">
 								{uneven.map((row) => {
 									const first = row.members[0];
 									return (
@@ -151,8 +153,14 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 													row.set.title
 												)}
 											</strong>
-											{" – "}
-											{familyTwinParts(row, family.key).join("; ")}
+											<span class="abm-twin-members">
+												{row.members.map((m) => (
+													<span class="abm-twin-member">
+														<AnswerChip cell={m.cells[family.key]} small />
+														{m.member.label}
+													</span>
+												))}
+											</span>
 										</li>
 									);
 								})}

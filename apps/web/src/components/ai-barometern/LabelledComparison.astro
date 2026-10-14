@@ -2,7 +2,7 @@
 import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
 import { FAMILIES } from "../../lib/ai-barometern/families";
 import type { FamilyKey } from "../../lib/ai-barometern/types";
-import AnswerSummary from "./AnswerSummary.astro";
+import AnswerChip from "./AnswerChip.astro";
 
 interface Props {
 	rows: readonly {
@@ -18,6 +18,8 @@ interface Props {
 const { rows, caption, emphasis = "" } = Astro.props;
 const named = FAMILIES.filter((family) => emphasis.includes(family.label));
 const initiallyOpen = named.length ? named.map((family) => family.key) : [FAMILIES[0]!.key];
+const hasOwn = rows.some((row) => row.own);
+const hasMixed = rows.some((row) => Object.values(row.cells).some((c) => c.state === "position" && !c.consistent));
 ---
 
 <figure class="abm-labelled-comparison">
@@ -25,7 +27,7 @@ const initiallyOpen = named.length ? named.map((family) => family.key) : [FAMILI
 		{FAMILIES.map((family) => (
 			<details open={initiallyOpen.includes(family.key)}>
 				<summary>{family.label}</summary>
-				<dl>{rows.map((row) => <div><dt><a href={row.href}>{row.label}</a></dt><dd><AnswerSummary cell={row.cells[family.key]} own={row.own === family.key} /></dd></div>)}</dl>
+				<dl>{rows.map((row) => <div><dt><a href={row.href}>{row.label}</a></dt><dd><AnswerChip cell={row.cells[family.key]} own={row.own === family.key} label="inline" /></dd></div>)}</dl>
 			</details>
 		))}
 	</abm-mobile>
@@ -36,10 +38,11 @@ const initiallyOpen = named.length ? named.map((family) => family.key) : [FAMILI
 			<tbody>{FAMILIES.map((family) => (
 				<tr data-emphasis={emphasis.includes(family.label) ? "" : undefined}>
 					<th scope="row">{family.label}</th>
-					{rows.map((row) => <td><AnswerSummary cell={row.cells[family.key]} own={row.own === family.key} /></td>)}
+					{rows.map((row) => <td><AnswerChip cell={row.cells[family.key]} own={row.own === family.key} label="below" /></td>)}
 				</tr>
 			))}</tbody>
 		</table>
 	</div>
-	<figcaption class="chart-cap">Sammanfattade svar. <a href={rows[0]?.href}>Läs påståendena och modellernas egna motiveringar</a>.</figcaption>
+	{/* One span: .chart-cap is a flex column, and bare text around the link broke into three lines. */}
+	<figcaption class="chart-cap"><span>Sammanfattning av modellens tre svar.{hasMixed && " En prick i rutan: svaren skilde sig åt."}{hasOwn && " En ring: påståendet gäller modellens eget företag."} <a href={rows[0]?.href}>Läs påståendena och modellernas egna motiveringar</a>.</span></figcaption>
 </figure>

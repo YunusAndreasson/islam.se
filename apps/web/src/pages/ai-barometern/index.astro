@@ -1,10 +1,13 @@
 ---
 import AgreementMatrix from "../../components/ai-barometern/AgreementMatrix.astro";
+import AnswerChip from "../../components/ai-barometern/AnswerChip.astro";
 import ReportFinding from "../../components/ai-barometern/ReportFinding.astro";
 import DisclosureLinks from "../../components/ai-barometern/DisclosureLinks.astro";
 import ModelLogo from "../../components/ai-barometern/ModelLogo.astro";
+import ModelShifts from "../../components/ai-barometern/ModelShifts.astro";
 import MoreSection from "../../components/ai-barometern/MoreSection.astro";
 import PartyGrid from "../../components/ai-barometern/PartyGrid.astro";
+import ScaleLegend from "../../components/ai-barometern/ScaleLegend.astro";
 import StanceShare from "../../components/ai-barometern/StanceShare.astro";
 import TwinOverview from "../../components/ai-barometern/TwinOverview.astro";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
@@ -12,10 +15,11 @@ import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import { FAMILIES } from "../../lib/ai-barometern/families";
 import { latestFindings, stanceSpread } from "../../lib/ai-barometern/findings";
-import { codeLabel } from "../../lib/ai-barometern/options";
 import { activeQuestions } from "../../lib/ai-barometern/questions";
 import {
 	familyLabel,
+	familyReleases,
+	familyShifts,
 	HUB_SECTIONS,
 	hasComparison,
 	latestIndexOf,
@@ -26,17 +30,17 @@ import {
 	modelShortName,
 	partyRows,
 	questionPath,
-	releaseLog,
 	roster,
 	scaleRow,
 	shownData,
 	stanceShares,
 	svDate,
 	svDateList,
+	svDateRange,
 	topChanges,
 	twinRow,
 } from "../../lib/ai-barometern/site";
-import { describeRow } from "../../lib/ai-barometern/summary";
+import { describeRow, svJoin } from "../../lib/ai-barometern/summary";
 import { TWIN_SETS } from "../../lib/ai-barometern/twins";
 import { talord } from "../../lib/format";
 import { collectionPageJsonLd, dataset } from "../../lib/jsonld";
@@ -61,8 +65,20 @@ const source = run
 	? `Källa: AI-barometern, ${severalRuns ? "mätningarna" : "mätningen"} ${shownDates}. Varje modell fick varje fråga ${talord(run.samples)} gånger.`
 	: "";
 
-const changes = topChanges(6);
-const releases = releaseLog();
+// The month's news: which families answered with a new model, and what moved. A family that
+// switched model compares two models, so the lead names them before any number does.
+const changes = topChanges(8);
+const shifts = familyShifts();
+const switchedLabels = shifts.rows.filter((r) => r.switched).map((r) => r.family.label);
+const keptLabels = shifts.rows.filter((r) => !r.switched).map((r) => r.family.label);
+const sinceText = shifts.since.length
+	? `${shifts.since.length > 1 ? "mätningarna" : "mätningen"} ${svDateList(shifts.since)}`
+	: "förra mätningen";
+const shiftsLead =
+	switchedLabels.length === 0
+		? `Alla fem modellerna är desamma som vid ${sinceText}.`
+		: `Sedan ${sinceText} har ${svJoin(switchedLabels)} fått ${switchedLabels.length > 1 ? "nya modeller" : "en ny modell"}, så där jämförs två modeller med varandra.${keptLabels.length ? ` ${svJoin(keptLabels)} svarar med samma ${keptLabels.length > 1 ? "modeller" : "modell"} som då.` : ""}`;
+const movedTotal = shifts.rows.reduce((n, r) => n + r.moved, 0);
 
 const areas = matrixAreas();
 const shares = stanceShares(areas);
@@ -127,6 +143,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 	<nav class="abm-report-nav" aria-label="På denna sida">
 		<a href={`#${HUB_SECTIONS.findings}`}>Resultat i korthet</a>
 		<a href={`#${HUB_SECTIONS.matrix}`}>Fråga för fråga</a>
+		{hasComparison() && <a href={`#${HUB_SECTIONS.changes}`}>Sedan förra mätningen</a>}
 		<a href={METHOD_PATH}>Metod och data</a>
 	</nav>
 	{hubFindings.length > 0 && (
@@ -155,6 +172,54 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 	}
 
 	{
+		hasComparison() && (
+			<TitledSection id={HUB_SECTIONS.changes} title="Sedan förra mätningen">
+				<p>{shiftsLead}</p>
+				<ModelShifts
+					rows={shifts.rows}
+					caption="Påståenden där modellen gick från en ställning till en annan, och hur många påståenden den tog ställning till förra gången och nu. Avstår räknas inte som en ställning."
+					source={`Källa: AI-barometern, ${sinceText} och ${svDate(run?.date ?? "")}.`}
+				/>
+				{changes.length > 0 ? (
+					<>
+						<h3 class="abm-subhead">Största förändringarna</h3>
+						<ScaleLegend cells={changes.flatMap((c) => [c.fromCell, c.toCell])} compact />
+						<ul class="abm-changes abm-changes--chips">
+							{changes.map((c) => (
+								<li>
+									<span class="abm-rowmodel">
+										<ModelLogo family={c.family} />
+										{familyLabel(c.family)}
+									</span>
+									<span class="abm-change-chips">
+										<AnswerChip cell={c.fromCell} small />
+										<span aria-hidden="true">→</span>
+										<span class="sr-only">blev</span>
+										<AnswerChip cell={c.toCell} small />
+									</span>
+									<a href={questionPath(c.question)}>{c.question.short}</a>
+									<span class="abm-change-flags">
+										{c.modelChanged && <span class="label">ny modell</span>}
+										{!c.significant && <span class="label">osäker</span>}
+									</span>
+								</li>
+							))}
+						</ul>
+						{movedTotal > changes.length && (
+							<p class="abm-findings-note">
+								{changes.length} av {movedTotal} ändrade ställningar. Osäker betyder att de upprepade svaren
+								överlappar mellan mätningarna. Alla förändringar syns i diagrammet på varje påståendes sida.
+							</p>
+						)}
+					</>
+				) : (
+					<p>Ingen modell har ändrat ställning sedan förra mätningen.</p>
+				)}
+			</TitledSection>
+		)
+	}
+
+	{
 		run && (
 			<MoreSection id={HUB_SECTIONS.party} title="Partivalet" hint="Vilka partier modellerna rekommenderade, och när de avstod.">
 				<p>
@@ -166,30 +231,6 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 					caption="Det parti modellen rekommenderade. Den fyllda bokstaven valdes i flest av de tre svaren."
 					source={source}
 				/>
-			</MoreSection>
-		)
-	}
-
-	{
-		hasComparison() && (
-			<MoreSection id={HUB_SECTIONS.changes} title="Förändringar sedan förra mätningen" hint="Ändrade svar, med markeringar för osäkra skillnader och nya modeller.">
-				{changes.length > 0 ? (
-					<ul class="abm-changes">
-						{changes.map((c) => (
-							<li>
-								<strong>{familyLabel(c.family)}</strong>
-								<a href={questionPath(c.question)}>{c.question.short}</a>
-								<span>
-									{codeLabel(String(c.from))} → {codeLabel(String(c.to))}
-								</span>
-								{c.modelChanged && <span class="label">ny modell</span>}
-								{!c.significant && <span class="label">osäker</span>}
-							</li>
-						))}
-					</ul>
-				) : (
-					<p>Ingen modell har ändrat ställning sedan förra mätningen.</p>
-				)}
 			</MoreSection>
 		)
 	}
@@ -266,8 +307,9 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 
 	<TitledSection id={HUB_SECTIONS.models} title="Modellerna">
 		<p>
-			Varje modellfamilj representeras av en av sina aktuella huvudmodeller. När en ny modell
-			släpps förs den in i listan nedan, och ett modellbyte markeras i diagrammen.
+			Varje modellfamilj representeras av sin aktuella huvudmodell, inte av de dyraste
+			specialversionerna. Före varje mätning kontrolleras vilka modeller som har släppts, och ett
+			modellbyte markeras i diagrammen.
 		</p>
 		<dl class="abm-roster">
 			{
@@ -286,6 +328,16 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 									<span class="abm-model">
 										{current.id}, används sedan {svDate(current.adoptedAt)}
 									</span>
+									{familyReleases(family.key).previous.map((p) => (
+										<span class="abm-model">
+											Ersatte {modelShortName(p.name)}, som användes {svDateRange(p.adoptedAt, p.retiredAt ?? current.adoptedAt)}
+										</span>
+									))}
+									{familyReleases(family.key).passed.length > 0 && (
+										<span class="abm-model">
+											Släppt men inte använd: {svJoin(familyReleases(family.key).passed.map((r) => modelShortName(r.name)))}
+										</span>
+									)}
 									<a class="abm-model-link" href={modelPath(family.key)}>
 										Alla svar från {family.label}
 									</a>
@@ -298,24 +350,6 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 				))
 			}
 		</dl>
-		<h3 class="abm-subhead">Nya modeller sedan starten</h3>
-		{
-			releases.length > 0 ? (
-				<ul class="abm-changes">
-					{releases.map((r) => (
-						<li>
-							<strong>{familyLabel(r.family)}</strong>
-							<span>{modelShortName(r.name)}</span>
-							<span class="abm-model">
-								sågs {svDate(r.firstSeen)}, {r.decision === "adopted" ? "används" : "används inte"}
-							</span>
-						</li>
-					))}
-				</ul>
-			) : (
-				<p class="abm-empty">Inga nya modeller har släppts sedan mätningarna började.</p>
-			)
-		}
 	</TitledSection>
 
 	<p class="abm-note">

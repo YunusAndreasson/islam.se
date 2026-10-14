@@ -1,0 +1,89 @@
+---
+// What each model's answers did since the previous measurement, one row per family: which model
+// answered then and now, on how many statements it moved from one position to another, and how
+// many positions it took before and now. The last column is drawn as a pair on one track, a
+// ring for before and a brass dot for now, so a model that abstains more reads as a dot moving
+// left without a second colour.
+//
+// The model column comes first on purpose: when the family switched model, every number to the
+// right compares two models, and the reader must see that before the count.
+import type { FamilyShift } from "../../lib/ai-barometern/site";
+import { modelShortName } from "../../lib/ai-barometern/site";
+import ModelLogo from "./ModelLogo.astro";
+
+interface Props {
+	rows: readonly FamilyShift[];
+	caption: string;
+	source: string;
+}
+
+const { rows, caption, source } = Astro.props;
+const at = (n: number, total: number) => (total ? n / total : 0);
+---
+
+<figure class="chart abm-figure">
+	<div class="abm-scroll">
+		<table class="abm-shift-table">
+			<caption class="sr-only">{caption}</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">Modellfamilj</span></th>
+					<th scope="col">Modell</th>
+					<th scope="col">Ändrad ställning</th>
+					<th scope="col">Tar ställning</th>
+				</tr>
+			</thead>
+			<tbody>
+				{
+					rows.map((r) => (
+						<tr>
+							<th scope="row">
+								<span class="abm-rowmodel">
+									<ModelLogo family={r.family.key} />
+									{r.family.label}
+								</span>
+							</th>
+							<td class="abm-shift-model">
+								{r.switched ? (
+									<>
+										<span class="abm-shift-old">{modelShortName(r.fromModel)}</span>
+										<span aria-hidden="true"> → </span>
+										<span class="sr-only"> ersattes av </span>
+										{modelShortName(r.toModel)}
+										<span class="label">ny modell</span>
+									</>
+								) : (
+									<>
+										{modelShortName(r.toModel)}
+										<span class="abm-shift-same">samma modell</span>
+									</>
+								)}
+							</td>
+							<td class="abm-shift-num">
+								<span class="abm-shift-k" aria-hidden="true">Ändrad ställning</span>
+								<strong>{r.moved}</strong> av {r.compared}
+							</td>
+							<td>
+								<span class="abm-shift-k" aria-hidden="true">Tar ställning</span>
+								<span class="abm-shift-pair" aria-hidden="true">
+									<span class="abm-shift-num">
+										{r.takenBefore} → <strong>{r.takenNow}</strong>
+									</span>
+									<span
+										class="abm-shift-track"
+										style={`--from: ${at(r.takenBefore, r.compared)}; --to: ${at(r.takenNow, r.compared)}`}
+									/>
+								</span>
+								<span class="sr-only">{`${r.takenBefore} av ${r.compared} förra gången, ${r.takenNow} nu`}</span>
+							</td>
+						</tr>
+					))
+				}
+			</tbody>
+		</table>
+	</div>
+	<figcaption class="chart-cap">
+		<span class="chart-cap-lead">{caption}</span>
+		<span>{source}</span>
+	</figcaption>
+</figure>

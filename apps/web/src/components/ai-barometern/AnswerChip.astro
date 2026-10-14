@@ -1,0 +1,31 @@
+---
+// One answer as the matrix's chip, outside the matrix: the findings, the comparisons on a model's
+// page and the list of changes. The same colour and glyph everywhere, so a reader who has learnt
+// the matrix scans the rest of the section by colour. With `label`, the answer is also printed
+// beside or under the chip, for places that have no legend of their own.
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import { cellGlyph, cellLabel } from "../../lib/ai-barometern/site";
+
+interface Props {
+	cell: ScaleCell;
+	own?: boolean | undefined;
+	/** Print the answer in words beside the chip ("inline") or under it ("below"). */
+	label?: "inline" | "below" | undefined;
+	small?: boolean;
+}
+
+const { cell, own = false, label, small = false } = Astro.props;
+const words = cell.state === "missing" ? "Inget svar" : cellLabel(cell);
+---
+
+<span class:list={["abm-answer-chip", label && `abm-answer-chip--${label}`]}>
+	<span
+		class:list={["abm-chip", { "abm-chip--small": small }]}
+		data-state={cell.state}
+		data-v={cell.display ?? undefined}
+		data-mixed={cell.state === "position" && !cell.consistent ? "" : undefined}
+		data-own={own ? "" : undefined}
+		aria-hidden="true">{cellGlyph(cell)}</span
+	>
+	{label ? <span class="abm-answer-chip-words">{words}</span> : <span class="sr-only">{words}</span>}
+</span>

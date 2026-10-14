@@ -183,6 +183,9 @@ export interface Change {
 	modelChanged: boolean;
 	fromModel: string;
 	toModel: string;
+	/** The two cells themselves, so a page can draw the change as the matrix's chips. */
+	fromCell: ScaleCell;
+	toCell: ScaleCell;
 }
 
 /** Position changes between the last two runs, significant ones first, then by size. */
@@ -218,6 +221,8 @@ export function scaleChanges(series: SeriesFile, qKeys: readonly string[]): Chan
 				modelChanged: prevRun.models[family].id !== curRun.models[family].id,
 				fromModel: prevRun.models[family].name,
 				toModel: curRun.models[family].name,
+				fromCell: a,
+				toCell: b,
 			});
 		}
 	}
