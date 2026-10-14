@@ -25,18 +25,18 @@
 		"books": "pnpm run pdf && pnpm run epub"
 	},
 	"dependencies": {
-		"@astrojs/markdown-remark": "^7.3.1",
+		"@astrojs/markdown-remark": "^7.3.2",
 		"@astrojs/rss": "^4.0.19",
 		"@astrojs/sitemap": "^3.7.4",
-		"@lucide/astro": "^1.49.0",
+		"@lucide/astro": "^1.56.0",
 		"adhan": "^4.4.6",
-		"astro": "^7.3.5",
-		"maplibre-gl": "^6.11.2",
+		"astro": "^7.3.8",
+		"maplibre-gl": "^6.14.0",
 		"qrcode-generator": "^2.0.4",
 		"rehype-stringify": "^10.0.1",
 		"remark-rehype": "^11.1.2",
 		"remark-smartypants": "^3.0.3",
-		"satori": "^0.33.5",
+		"satori": "^0.56.1",
 		"sharp": "^0.35.5"
 	},
 	"devDependencies": {

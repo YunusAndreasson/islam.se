@@ -1,4 +1,4 @@
-import { Box, Text, useApp, useStdout } from "ink";
+import { Box, Text, useApp, useWindowSize } from "ink";
 import { useCallback, useEffect, useState } from "react";
 import { ArticleCategoryScreen } from "./screens/ArticleCategoryScreen.js";
 import { ArticleListScreen } from "./screens/ArticleListScreen.js";
@@ -68,27 +68,14 @@ const initialState: AppState = {
 
 export function App(): React.ReactElement {
 	const { exit } = useApp();
-	const { stdout } = useStdout();
 	const [state, setState] = useState<AppState>(initialState);
 	const [pipelineOutcome, setPipelineOutcome] = useState<PipelineOutcome>(initialPipelineOutcome);
 	const [lastPipelineIdea, setLastPipelineIdea] = useState<{
 		idea: EnrichedIdea;
 		topicSlug?: string;
 	} | null>(null);
-	const [terminalHeight, setTerminalHeight] = useState(stdout?.rows ?? 24);
-
-	// Track terminal size changes
-	useEffect(() => {
-		const handleResize = () => {
-			if (stdout?.rows) {
-				setTerminalHeight(stdout.rows);
-			}
-		};
-		stdout?.on("resize", handleResize);
-		return () => {
-			stdout?.off("resize", handleResize);
-		};
-	}, [stdout]);
+	// Re-renders on resize (ink's useWindowSize).
+	const { rows: terminalHeight } = useWindowSize();
 
 	// Load topics on mount
 	useEffect(() => {

@@ -1,5 +1,5 @@
 import { ProgressBar } from "@inkjs/ui";
-import { Box, Text, useInput, useStdout } from "ink";
+import { Box, Text, useInput, useWindowSize } from "ink";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { ScreenLayout } from "../components/ScreenLayout.js";
@@ -122,8 +122,7 @@ export function BatchPipelineScreen({
 	completed,
 	onBack,
 }: BatchPipelineScreenProps): React.ReactElement {
-	const { stdout } = useStdout();
-	const terminalWidth = stdout?.columns ?? 80;
+	const { columns: terminalWidth } = useWindowSize();
 	const progressBarWidth = Math.max(15, Math.floor(terminalWidth * 0.3));
 
 	useInput((input, key) => {

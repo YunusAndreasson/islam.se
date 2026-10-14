@@ -1,5 +1,5 @@
 import { ProgressBar } from "@inkjs/ui";
-import { Box, Text, useStdout } from "ink";
+import { Box, Text, useWindowSize } from "ink";
 import type React from "react";
 import { useEffect, useState } from "react";
 import type { PipelineStatus, StageInfo } from "../types/index.js";
@@ -100,8 +100,7 @@ interface PipelineProgressProps {
 }
 
 export function PipelineProgress({ status }: PipelineProgressProps): React.ReactElement {
-	const { stdout } = useStdout();
-	const terminalWidth = stdout?.columns ?? 80;
+	const { columns: terminalWidth } = useWindowSize();
 	const progressBarWidth = Math.max(15, Math.floor(terminalWidth * 0.3));
 
 	// Use state for elapsed time with throttled updates to prevent glitching

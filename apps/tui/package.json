@@ -15,13 +15,13 @@
 	"dependencies": {
 		"@inkjs/ui": "^2.0.0",
 		"@islam-se/orchestrator": "workspace:*",
-		"ink": "^7.1.1",
+		"ink": "^8.0.0",
 		"marked": "^15.0.12",
 		"marked-terminal": "^7.3.0",
 		"react": "^19.3.0"
 	},
 	"devDependencies": {
-		"@types/node": "^26.6.3",
+		"@types/node": "^26.6.5",
 		"@types/react": "^19.3.0",
 		"typescript": "^7.0.2"
 	}

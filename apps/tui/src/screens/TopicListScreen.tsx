@@ -1,4 +1,4 @@
-import { Box, Text, useInput, useStdout } from "ink";
+import { Box, Text, useInput, useWindowSize } from "ink";
 import type React from "react";
 import { ScreenLayout } from "../components/ScreenLayout.js";
 import { SelectableList } from "../components/SelectableList.js";
@@ -62,9 +62,9 @@ export function TopicListScreen({
 	onStartBatch,
 	onBack,
 }: TopicListScreenProps): React.ReactElement {
-	const { stdout } = useStdout();
+	const { rows } = useWindowSize();
 	// Banner(13) + border(2) + breadcrumb(2) + statusbar(2) + legend(2) + header(2) + scroll indicators(2) = 25
-	const listRows = Math.max(5, (stdout.rows ?? 24) - 25);
+	const listRows = Math.max(5, rows - 25);
 
 	useInput((input, key) => {
 		if (input === "b" && batchQueueSize > 0) {

@@ -1,4 +1,4 @@
-import { Box, Text, useInput, useStdout } from "ink";
+import { Box, Text, useInput, useWindowSize } from "ink";
 import type React from "react";
 import { useMemo, useState } from "react";
 import { ArticleMeta } from "../components/ArticleMeta.js";
@@ -20,9 +20,7 @@ export function ArticleReadScreen({
 	content,
 	onBack,
 }: ArticleReadScreenProps): React.ReactElement {
-	const { stdout } = useStdout();
-	const terminalHeight = stdout?.rows ?? 24;
-	const terminalWidth = stdout?.columns ?? 80;
+	const { rows: terminalHeight, columns: terminalWidth } = useWindowSize();
 	const viewHeight = terminalHeight - 18; // banner + header + breadcrumb + statusbar + padding
 
 	const [scrollOffset, setScrollOffset] = useState(0);

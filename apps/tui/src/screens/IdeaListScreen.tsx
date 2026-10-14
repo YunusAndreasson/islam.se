@@ -1,4 +1,4 @@
-import { Box, Text, useStdout } from "ink";
+import { Box, Text, useWindowSize } from "ink";
 import React, { useMemo, useState } from "react";
 import { ConfirmDialog } from "../components/ConfirmDialog.js";
 import { QuoteBlock } from "../components/QuoteBlock.js";
@@ -151,9 +151,9 @@ export function IdeaListScreen({
 	onDeleteIdea,
 	onBack,
 }: IdeaListScreenProps): React.ReactElement {
-	const { stdout } = useStdout();
+	const { rows } = useWindowSize();
 	// Banner(13) + border(2) + breadcrumb(2) + statusbar(2) + header(2) + guidance(~2) + scroll indicators(2) = 25
-	const listRows = Math.max(5, (stdout.rows ?? 24) - 25);
+	const listRows = Math.max(5, rows - 25);
 
 	// Sort by score descending (highest first); old ideas without scores go last
 	const sortedIdeas = useMemo(
