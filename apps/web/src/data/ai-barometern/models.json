@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
-	"lastChecked": "2026-09-13",
+	"lastChecked": "2026-10-14",
 	"families": {
 		"chatgpt": {
-			"current": "openai/gpt-5.6-sol",
+			"current": "openai/gpt-6.1-sol",
 			"history": [
 				{
 					"id": "openai/gpt-5.6-sol",
@@ -12,12 +12,22 @@
 					"created": "2026-07-09",
 					"knowledgeCutoff": "2026-02-16",
 					"adoptedAt": "2026-09-12",
-					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)"
+					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)",
+					"retiredAt": "2026-10-14"
+				},
+				{
+					"id": "openai/gpt-6.1-sol",
+					"canonicalSlug": "openai/gpt-6.1-sol-20260929",
+					"name": "OpenAI: GPT-6.1 Sol",
+					"created": "2026-09-29",
+					"knowledgeCutoff": null,
+					"adoptedAt": "2026-10-14",
+					"reason": "Efterträdare i samma nivå som GPT-5.6 Sol (Sol, under flaggskeppet Astra); 6.1 ersätter 6 Sol efter en vecka"
 				}
 			]
 		},
 		"claude": {
-			"current": "anthropic/claude-opus-5",
+			"current": "anthropic/claude-opus-5.5",
 			"history": [
 				{
 					"id": "anthropic/claude-opus-5",
@@ -26,7 +36,17 @@
 					"created": "2026-07-24",
 					"knowledgeCutoff": null,
 					"adoptedAt": "2026-09-12",
-					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)"
+					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)",
+					"retiredAt": "2026-10-14"
+				},
+				{
+					"id": "anthropic/claude-opus-5.5",
+					"canonicalSlug": "anthropic/claude-opus-5.5-20260921",
+					"name": "Anthropic: Claude Opus 5.5",
+					"created": "2026-09-22",
+					"knowledgeCutoff": null,
+					"adoptedAt": "2026-10-14",
+					"reason": "Direkt efterträdare till Claude Opus 5, samma nivå"
 				}
 			]
 		},
@@ -59,7 +79,7 @@
 			]
 		},
 		"grok": {
-			"current": "x-ai/grok-4.6",
+			"current": "x-ai/grok-4.7",
 			"history": [
 				{
 					"id": "x-ai/grok-4.6",
@@ -68,12 +88,87 @@
 					"created": "2026-08-12",
 					"knowledgeCutoff": null,
 					"adoptedAt": "2026-09-12",
-					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)"
+					"reason": "Startuppsättning: familjens huvudmodell, inte premiumnivån (beslut 2026-09-12)",
+					"retiredAt": "2026-10-14"
+				},
+				{
+					"id": "x-ai/grok-4.7",
+					"canonicalSlug": "x-ai/grok-4.7-20260916",
+					"name": "SpaceXAI: Grok 4.7",
+					"created": "2026-09-21",
+					"knowledgeCutoff": null,
+					"adoptedAt": "2026-10-14",
+					"reason": "Direkt efterträdare till Grok 4.6"
 				}
 			]
 		}
 	},
 	"seen": [
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-6.1-sol",
+			"canonicalSlug": "openai/gpt-6.1-sol-20260929",
+			"name": "OpenAI: GPT-6.1 Sol",
+			"created": "2026-09-29",
+			"firstSeen": "2026-10-14",
+			"decision": "adopted",
+			"decidedAt": "2026-10-14"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-6.1-sol-pro",
+			"canonicalSlug": "openai/gpt-6.1-sol-pro-20260929",
+			"name": "OpenAI: GPT-6.1 Sol Pro",
+			"created": "2026-09-29",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Premiumläge (reasoning pro), inte huvudmodellen"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-6-luna",
+			"canonicalSlug": "openai/gpt-6-luna-20260922",
+			"name": "OpenAI: GPT-6 Luna",
+			"created": "2026-09-22",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Snabb lågkostnadsnivå under Sol; barometern följer Sol-nivån"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-6-luna-pro",
+			"canonicalSlug": "openai/gpt-6-luna-pro-20260922",
+			"name": "OpenAI: GPT-6 Luna Pro",
+			"created": "2026-09-22",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Lågkostnadsnivå i premiumläge"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-6-sol",
+			"canonicalSlug": "openai/gpt-6-sol-20260922",
+			"name": "OpenAI: GPT-6 Sol",
+			"created": "2026-09-22",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Ersatt av GPT-6.1 Sol innan nästa mätning"
+		},
+		{
+			"family": "chatgpt",
+			"id": "openai/gpt-6-sol-pro",
+			"canonicalSlug": "openai/gpt-6-sol-pro-20260922",
+			"name": "OpenAI: GPT-6 Sol Pro",
+			"created": "2026-09-22",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Premiumläge (reasoning pro), inte huvudmodellen"
+		},
 		{
 			"family": "chatgpt",
 			"id": "openai/gpt-6-astra",
@@ -545,7 +640,8 @@
 			"firstSeen": "2026-09-12",
 			"decision": "ignored",
 			"decidedAt": "2026-09-12",
-			"note": "Fanns före första mätningen"
+			"note": "Fanns före första mätningen",
+			"removedAt": "2026-10-14"
 		},
 		{
 			"family": "chatgpt",
@@ -590,6 +686,38 @@
 			"decision": "ignored",
 			"decidedAt": "2026-09-12",
 			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-haiku-5.5",
+			"canonicalSlug": "anthropic/claude-haiku-5.5-20261007",
+			"name": "Anthropic: Claude Haiku 5.5",
+			"created": "2026-10-07",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Liten snabb modell, inte huvudmodellen"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-sonnet-5.5",
+			"canonicalSlug": "anthropic/claude-sonnet-5.5-20260928",
+			"name": "Anthropic: Claude Sonnet 5.5",
+			"created": "2026-09-28",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Barometern följer Opus-nivån sedan starten"
+		},
+		{
+			"family": "claude",
+			"id": "anthropic/claude-opus-5.5",
+			"canonicalSlug": "anthropic/claude-opus-5.5-20260921",
+			"name": "Anthropic: Claude Opus 5.5",
+			"created": "2026-09-22",
+			"firstSeen": "2026-10-14",
+			"decision": "adopted",
+			"decidedAt": "2026-10-14"
 		},
 		{
 			"family": "claude",
@@ -732,7 +860,8 @@
 			"firstSeen": "2026-09-12",
 			"decision": "ignored",
 			"decidedAt": "2026-09-12",
-			"note": "Fanns före första mätningen"
+			"note": "Fanns före första mätningen",
+			"removedAt": "2026-10-14"
 		},
 		{
 			"family": "claude",
@@ -754,7 +883,8 @@
 			"firstSeen": "2026-09-12",
 			"decision": "ignored",
 			"decidedAt": "2026-09-12",
-			"note": "Fanns före första mätningen"
+			"note": "Fanns före första mätningen",
+			"removedAt": "2026-10-14"
 		},
 		{
 			"family": "deepseek",
@@ -898,6 +1028,28 @@
 			"decision": "ignored",
 			"decidedAt": "2026-09-12",
 			"note": "Fanns före första mätningen"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-4-argon",
+			"canonicalSlug": "google/gemini-4-argon-20261013",
+			"name": "Google: Gemini 4 Argon",
+			"created": "2026-10-13",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Googles flaggskepp (premiumnivå); barometern följer Flash-nivån – byt när Gemini 4 Flash släpps"
+		},
+		{
+			"family": "gemini",
+			"id": "google/gemini-nano-banana-2.1",
+			"canonicalSlug": "google/gemini-nano-banana-2.1-20261006",
+			"name": "Google: Nano Banana 2.1",
+			"created": "2026-10-06",
+			"firstSeen": "2026-10-14",
+			"decision": "ignored",
+			"decidedAt": "2026-10-14",
+			"note": "Bildmodell"
 		},
 		{
 			"family": "gemini",
@@ -1051,7 +1203,18 @@
 			"firstSeen": "2026-09-12",
 			"decision": "ignored",
 			"decidedAt": "2026-09-12",
-			"note": "Fanns före första mätningen"
+			"note": "Fanns före första mätningen",
+			"removedAt": "2026-10-14"
+		},
+		{
+			"family": "grok",
+			"id": "x-ai/grok-4.7",
+			"canonicalSlug": "x-ai/grok-4.7-20260916",
+			"name": "SpaceXAI: Grok 4.7",
+			"created": "2026-09-21",
+			"firstSeen": "2026-10-14",
+			"decision": "adopted",
+			"decidedAt": "2026-10-14"
 		},
 		{
 			"family": "grok",
