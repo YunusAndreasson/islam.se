@@ -7,7 +7,7 @@ packages: []
 
 # Dependencies explicitly allowed (or denied) to run install/build scripts (pnpm 11).
 allowBuilds:
-  # Kept `true`, but as of Skia 2.10.1 there is nothing left for it to run: the
+  # Kept `true`, but as of Skia 2.14.0 there is nothing left for it to run: the
   # postinstall (install-libs.js) that used to stage the prebuilt native libraries
   # into node_modules/@shopify/react-native-skia/libs was removed in 2.6.5. Gradle
   # and the podspec now read them straight out of the sibling packages
@@ -18,6 +18,11 @@ allowBuilds:
   '@shopify/react-native-skia': true
   # Optional native msgpack accelerator; the pure-JS fallback is fine for us.
   msgpackr-extract: false
+  # Jest 30's file watcher (via jest-haste-map, pulled in by jest-expo 58). Its install
+  # script only runs node-gyp when npm_config_build_from_source=true; otherwise it does
+  # nothing and the prebuilt @parcel/watcher-<platform> optional dependency is used.
+  # Denied: there is nothing for it to build.
+  '@parcel/watcher': false
   # Rust-based module resolver used by lint tooling; native binary is preferred.
   unrs-resolver: true
   # The sentry-cli binary that uploads source maps and debug symbols during the EAS
@@ -56,71 +61,32 @@ allowBuilds:
 # 2026-08-19 when the project moved to 0.21.0, which was already two days published and
 # needed no exemption at all.
 minimumReleaseAgeExclude:
-  - '@expo/cli@57.0.24'
-  - '@expo/fingerprint@0.20.13'
-  - '@expo/inline-modules@0.1.5'
-  - '@expo/local-build-cache-provider@57.0.7'
-  - '@expo/metro-config@57.0.10'
-  - '@expo/prebuild-config@57.0.16'
-  - expo-asset@57.0.17
-  - expo-constants@57.0.18
-  - expo-server@57.0.2
-  - expo@57.0.22
-  - '@expo/metro-runtime@57.0.13'
-  - '@expo/ui@57.0.13'
-  - expo-dev-client@57.0.15
-  - expo-dev-launcher@57.0.15
-  - expo-dev-menu@57.0.15
-  - expo-location@57.0.13
-  - expo-notifications@57.0.14
-  - expo-router@57.0.16
-  - expo-splash-screen@57.0.8
-  - expo-updates@57.0.17
-  - expo-widgets@57.0.12
-  - jest-expo@57.0.4
-  - '@expo/router-server@57.0.7'
-  - expo-file-system@57.0.7
-  - expo-modules-core@57.0.18
-  - expo-modules-jsi@57.0.5
-  - expo-linking@57.0.7
-  - expo-audio@57.0.4
-  - expo-background-task@57.0.13
-  - expo-task-manager@57.0.13
-  - '@expo/config-plugins@57.0.9'
-  - '@expo/config@57.0.9'
-  - '@expo/image-utils@0.11.5'
-  - '@expo/metro-file-map@57.0.2'
-  - '@expo/require-utils@57.0.5'
-  - babel-preset-expo@57.0.8
-  - expo-modules-autolinking@57.0.13
-  - expo-font@57.0.4
-  - expo-keep-awake@57.0.2
+  - '@expo/cli@58.1.10'
+  - '@expo/metro-config@58.0.14'
+  - '@expo/package-manager@1.14.2'
+  - '@expo/prebuild-config@58.0.14'
+  - '@expo/router-server@58.0.14'
+  - babel-preset-expo@58.0.17
+  - expo-asset@58.0.16
+  - expo-modules-core@58.0.21
+  - expo-modules-jsi@58.0.14
+  - expo@58.0.13
+  - '@expo/ui@58.0.20'
+  - expo-application@58.1.2
+  - expo-background-task@58.0.11
+  - expo-blur@58.0.4
+  - expo-glass-effect@58.0.4
+  - expo-haptics@58.0.7
+  - expo-location@58.0.17
+  - expo-notifications@58.1.5
+  - expo-router@58.0.22
+  - expo-splash-screen@58.0.10
+  - expo-system-ui@58.0.6
+  - expo-task-manager@58.0.12
+  - expo-updates@58.0.17
+  - expo-widgets@58.0.20
+  - jest-expo@58.0.11
 
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.
 nodeLinker: hoisted
-
-# `expo` declares `@expo/dom-webview` as an OPTIONAL peer; `@expo/log-box` (pulled in
-# by @expo/cli) declares the same peer as required. pnpm's autoInstallPeers therefore
-# installed it — and then never re-resolved it when log-box widened the range to ^57,
-# leaving 56.0.5 behind and failing expo-doctor's overridden-dependency check.
-#
-# That mismatch is more than a doctor nag: dom-webview ships `android/`, `ios/` and an
-# expo-module.config.json, and autolinking scans node_modules — so an SDK-56 native
-# module was being linked into an SDK-57 build.
-#
-# It exists solely to back Expo DOM components (`'use dom'`), require()d lazily by
-# expo/src/dom/webview/ExpoDOMWebView.ts. This is a native-only app with no web target
-# and no DOM components, so the peer is aligned with expo's own declaration and drops
-# out of the tree entirely. `peerDependencyRules.ignoreMissing` does NOT work here —
-# it silences the warning but pnpm 11 still auto-installs the package (verified).
-# Delete this block and run `npx expo install @expo/dom-webview --pnpm` if a `'use dom'`
-# component is ever added.
-packageExtensions:
-  '@expo/log-box':
-    peerDependenciesMeta:
-      '@expo/dom-webview':
-        optional: true
-
-patchedDependencies:
-  expo-widgets@57.0.19: patches/expo-widgets@57.0.19.patch

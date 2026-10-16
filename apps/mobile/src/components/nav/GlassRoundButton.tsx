@@ -9,7 +9,7 @@
 // surfaces (map nav and modal bars alike) now pass the active OS palette's
 // `cardGlass / hairline` — Apple Maps-style chrome that follows the OS theme.
 import type { ReactNode, Ref } from 'react';
-import { Pressable, StyleSheet, type View } from 'react-native';
+import { Pressable, StyleSheet, type ViewInstance } from 'react-native';
 
 import { shadow } from '@/theme/tokens';
 import { GlassSurface } from '@/components/ui/GlassSurface';
@@ -30,7 +30,7 @@ interface Props {
   disabled?: boolean;
   /** The pressable itself — for a caller that has to move screen-reader focus onto it
    *  (MapNav, when the disc beside this one leaves the screen). */
-  ref?: Ref<View>;
+  ref?: Ref<ViewInstance>;
 }
 
 export function GlassRoundButton({

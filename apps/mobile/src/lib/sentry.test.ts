@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from '@jest/globals';
+import * as Sentry from '@sentry/react-native';
 
 import { sentryOptions } from './sentry';
 
@@ -32,10 +33,39 @@ describe('sentryOptions — what a crash report may carry', () => {
       'profilesSampleRate',
       'replaysSessionSampleRate',
       'replaysOnErrorSampleRate',
-      'integrations',
     ]) {
       expect(options).not.toHaveProperty(key);
     }
+  });
+
+  // maxBreadcrumbs: 0 drops what the native SDKs record; these stop them recording it at all,
+  // so the promise does not hang on one number. Network breadcrumbs carry MapLibre's tile
+  // URLs, which name the tiles on the reader's screen.
+  it('switches every native breadcrumb source off at the source, and keeps memory out of crashes', () => {
+    expect(options).toMatchObject({
+      enableNetworkBreadcrumbs: false,
+      enableAutoBreadcrumbTracking: false,
+      enableNetworkEventBreadcrumbs: false,
+      enableActivityLifecycleBreadcrumbs: false,
+      enableAppLifecycleBreadcrumbs: false,
+      enableSystemEventBreadcrumbs: false,
+      enableAppComponentBreadcrumbs: false,
+      // Strings near a native crash site — on this app, possibly coordinates.
+      enableMemoryIntrospection: false,
+    });
+  });
+
+  it('drops the TurboModule instrumentation and adds nothing in its place', () => {
+    const integrations = options.integrations;
+    if (typeof integrations !== 'function') {
+      throw new Error('integrations must stay a filter over the defaults, never a fixed list');
+    }
+    const dedupe = { name: 'Dedupe' };
+    const expoContext = { name: 'ExpoContext' };
+    const kept = integrations([dedupe, Sentry.turboModuleContextIntegration(), expoContext]);
+    // Its periodic "TurboModule aggregate" info event is a report on a healthy launch, and
+    // anything the filter added would be a new path for data to leave the phone.
+    expect(kept).toEqual([dedupe, expoContext]);
   });
 
   describe('enabled', () => {

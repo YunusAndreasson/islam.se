@@ -3,19 +3,19 @@
 // this layer copies the two decisions those tests exist for: the ring must never be a tap
 // target, and it must be mounted with the style rather than on selection.
 import { describe, expect, it } from '@jest/globals';
-import { render, screen } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 
 import { getBurialGrounds } from '@/lib/burial-grounds';
 import { at } from '@/test-utils/at';
+import { hostsOfType } from '@/test-utils/rendered';
 import { BurialGroundLayer } from './BurialGroundLayer';
 
 /** The binding is string-mocked in jest.setup, so its components are host elements. */
 function declared() {
-  const root = screen.UNSAFE_root;
   return {
-    sources: root.findAllByType('GeoJSONSource' as never),
-    layers: root.findAllByType('Layer' as never),
-    images: root.findAllByType('Images' as never),
+    sources: hostsOfType('GeoJSONSource'),
+    layers: hostsOfType('Layer'),
+    images: hostsOfType('Images'),
   };
 }
 
@@ -24,8 +24,8 @@ const byId = <T extends { props: { id?: string } }>(nodes: T[], id: string) =>
   at(nodes.filter((n) => n.props.id === id), 0, id);
 
 describe('BurialGroundLayer', () => {
-  it('makes only the glyph source tappable, with the mosque layer’s tight hitbox', () => {
-    render(<BurialGroundLayer onSelect={noop} />);
+  it('makes only the glyph source tappable, with the mosque layer’s tight hitbox', async () => {
+    await render(<BurialGroundLayer onSelect={noop} />);
     const { sources } = declared();
 
     // A pressable source hit-tests every layer it owns: a ring on it would be a tap target
@@ -38,23 +38,23 @@ describe('BurialGroundLayer', () => {
     }
   });
 
-  it('mounts the ring with the style, filtered to nothing until a card is open', () => {
-    render(<BurialGroundLayer onSelect={noop} />);
+  it('mounts the ring with the style, filtered to nothing until a card is open', async () => {
+    await render(<BurialGroundLayer onSelect={noop} />);
     const ring = byId(declared().layers, 'burial-ground-selected');
     expect(ring.props.filter).toEqual(['==', ['get', 'id'], '']);
   });
 
-  it('rings exactly the selected burial ground, at every zoom', () => {
+  it('rings exactly the selected burial ground, at every zoom', async () => {
     const ground = at(getBurialGrounds(), 0, 'burial grounds');
-    render(<BurialGroundLayer onSelect={noop} selectedId={ground.id} />);
+    await render(<BurialGroundLayer onSelect={noop} selectedId={ground.id} />);
     const ring = byId(declared().layers, 'burial-ground-selected');
     expect(ring.props.filter).toEqual(['==', ['get', 'id'], ground.id]);
     expect(ring.props.paint['circle-opacity']).toBe(0);
     expect(ring.props.minzoom).toBeUndefined();
   });
 
-  it('draws its glyphs from the town-scale zoom up, from a registered pin', () => {
-    render(<BurialGroundLayer onSelect={noop} />);
+  it('draws its glyphs from the town-scale zoom up, from a registered pin', async () => {
+    await render(<BurialGroundLayer onSelect={noop} />);
     const { layers, images } = declared();
     const glyphs = byId(layers, 'burial-ground-symbols');
     // No national-view tier: the country view stays the mosques' (see the file header).

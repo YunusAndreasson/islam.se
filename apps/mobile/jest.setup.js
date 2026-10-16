@@ -27,6 +27,8 @@ jest.mock('expo-router', () => ({
     React.useEffect(callback, [callback]);
   },
   useLocalSearchParams: jest.fn(() => ({})),
+  // Returns the disablePrevention function, as the real hook does.
+  usePreventRemove: jest.fn(() => jest.fn()),
   router: { dismissTo: jest.fn(), setParams: jest.fn(), navigate: jest.fn(), push: jest.fn(), back: jest.fn(), replace: jest.fn(), canGoBack: jest.fn(() => true) },
 }));
 
@@ -543,6 +545,7 @@ jest.mock('expo-application', () => ({
   applicationName: 'islam.se',
   nativeApplicationVersion: '1.0.8',
   nativeBuildVersion: '20',
+  getAppleStoreEnvironmentAsync: jest.fn(async () => null),
 }));
 
 jest.mock('expo-intent-launcher', () => ({
@@ -574,11 +577,29 @@ jest.mock('expo-background-task', () => ({
 
 // @sentry/react-native is native, and src/lib/sentry calls `init` at module scope. The mock
 // keeps the real SDK and its bridge out of every suite: sentry.test.ts asserts on the options
-// object that module hands to `init`, ErrorScreen.test.tsx on `captureException`.
-jest.mock('@sentry/react-native', () => ({
-  init: jest.fn(),
-  captureException: jest.fn(),
-}));
+// object that module hands to `init`, error-boundary.test.tsx on `captureException`.
+jest.mock('@sentry/react-native', () => {
+  const React = require('react');
+  const captureException = jest.fn();
+  return {
+    init: jest.fn(),
+    captureException,
+    // The SDK's documented contract, as a stand-in: report the boundary's error once per
+    // error object, and render the fallback it wraps.
+    wrapExpoRouterErrorBoundary: jest.fn((Fallback) => {
+      const reported = new WeakSet();
+      return function SentryErrorBoundary(props) {
+        React.useEffect(() => {
+          if (reported.has(props.error)) return;
+          reported.add(props.error);
+          captureException(props.error);
+        }, [props.error]);
+        return React.createElement(Fallback, props);
+      };
+    }),
+    turboModuleContextIntegration: jest.fn(() => ({ name: 'TurboModuleContext' })),
+  };
+});
 
 // expo-notifications is native. Mock the surface src/lib/notifications uses so the
 // module (which sets a handler at import time) loads, and screens that pull in its
@@ -604,7 +625,8 @@ jest.mock('expo-notifications', () => ({
   // Notification taps are routed to Bönetider (src/lib/notification-routing).
   addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),
   SchedulableTriggerInputTypes: { DATE: 'date' },
-  AndroidImportance: { HIGH: 4, DEFAULT: 3 },
+  // expo-notifications' real values (HIGH used to be mocked as 4, the real LOW).
+  AndroidImportance: { HIGH: 6, DEFAULT: 5 },
   // Mirrors expo-notifications' real enum values. src/lib/notifications treats
   // PROVISIONAL as allowed (iOS reports granted:false for the quiet tier), so this
   // must be present or that check reads a property off undefined.
@@ -617,32 +639,23 @@ jest.mock('expo-notifications', () => ({
   },
 }));
 
-// react-native-gesture-handler: render the root + detector as pass-throughs and
-// give Gesture builders chainable no-op methods so PrayerDock's gestures build.
+// react-native-gesture-handler: render the root + detector as pass-throughs, and have the
+// v3 gesture hooks hand back their config, so PrayerDock's gestures build and a test can
+// reach a callback through `gesture.config` if it needs one.
 jest.mock('react-native-gesture-handler', () => {
   const { View } = require('react-native');
-  const chainable = () => {
-    const gesture = {};
-    const methods = [
-      'onStart', 'onUpdate', 'onEnd', 'onBegin', 'onFinalize', 'enabled',
-      'activeOffsetX', 'activeOffsetY', 'failOffsetX', 'failOffsetY', 'minDistance',
-      'shouldCancelWhenOutside', 'hitSlop', 'simultaneousWithExternalGesture',
-    ];
-    for (const m of methods) gesture[m] = () => gesture;
-    return gesture;
-  };
+  const single = (type) => (config) => ({ type, config });
+  const composed = (type) => (...gestures) => ({ type, gestures });
   return {
     GestureHandlerRootView: View,
     GestureDetector: ({ children }) => children,
-    Gesture: {
-      Pan: chainable,
-      Tap: chainable,
-      LongPress: chainable,
-      Native: chainable,
-      Exclusive: (...gestures) => gestures[0],
-      Race: (...gestures) => gestures[0],
-      Simultaneous: (...gestures) => gestures[0],
-    },
+    usePanGesture: single('pan'),
+    useTapGesture: single('tap'),
+    useLongPressGesture: single('longPress'),
+    useNativeGesture: single('native'),
+    useExclusiveGestures: composed('exclusive'),
+    useCompetingGestures: composed('competing'),
+    useSimultaneousGestures: composed('simultaneous'),
   };
 });
 

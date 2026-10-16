@@ -57,67 +57,67 @@ afterEach(() => {
 });
 
 describe('useSolarClock spans the Stockholm day', () => {
-  it('anchors dayStart to Stockholm-local midnight, not device-local', () => {
+  it('anchors dayStart to Stockholm-local midnight, not device-local', async () => {
     freeze('2026-07-01T15:00:00Z');
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     // Whatever the host timezone, dayStart must read 00:00:00 in Stockholm.
     expect(stockholmClock(result.current.dayStart)).toBe('00:00:00');
   });
 
-  it('reports the real day length across DST: 24 h normally, 23 h spring-forward, 25 h fall-back', () => {
+  it('reports the real day length across DST: 24 h normally, 23 h spring-forward, 25 h fall-back', async () => {
     // Sweden's 2026 transitions: forward 2026-03-29 (23 h), back 2026-10-25 (25 h).
     freeze('2026-07-01T15:00:00Z');
-    expect(renderHook(() => useSolarClock()).result.current.dayLength).toBe(24 * HOUR);
+    expect((await renderHook(() => useSolarClock())).result.current.dayLength).toBe(24 * HOUR);
 
     freeze('2026-03-29T15:00:00Z');
-    expect(renderHook(() => useSolarClock()).result.current.dayLength).toBe(23 * HOUR);
+    expect((await renderHook(() => useSolarClock())).result.current.dayLength).toBe(23 * HOUR);
 
     freeze('2026-10-25T15:00:00Z');
-    expect(renderHook(() => useSolarClock()).result.current.dayLength).toBe(25 * HOUR);
+    expect((await renderHook(() => useSolarClock())).result.current.dayLength).toBe(25 * HOUR);
   });
 
-  it('places `now` at its fraction of the real day (17:00 local on a 24 h summer day)', () => {
+  it('places `now` at its fraction of the real day (17:00 local on a 24 h summer day)', async () => {
     freeze('2026-07-01T15:00:00Z'); // 17:00 in Stockholm (CEST = UTC+2)
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     expect(result.current.fraction).toBeCloseTo(17 / 24, 4);
   });
 
-  it('scrubbing to a fraction maps back through the real day length (no DST clamp)', () => {
+  it('scrubbing to a fraction maps back through the real day length (no DST clamp)', async () => {
     // The 25 h fall-back day is the one a fixed 24 h model broke: f = 1 must reach the
     // next local midnight (dayStart + 25 h), and the last local hour must be reachable.
     freeze('2026-10-25T15:00:00Z');
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     const { dayStart, dayLength } = result.current;
 
-    act(() => result.current.setFraction(1));
+    await act(() => result.current.setFraction(1));
     expect(result.current.now).toBe(dayStart + dayLength); // exactly next local midnight
     expect(result.current.mode).toBe('scrub');
     expect(stockholmClock(result.current.now)).toBe('00:00:00');
 
-    act(() => result.current.setFraction(0.5));
+    await act(() => result.current.setFraction(0.5));
     expect(result.current.fraction).toBeCloseTo(0.5, 6);
   });
 });
 
 describe('useSolarClock setInstant', () => {
-  it('lands `now` on the EXACT instant (no fraction round-trip) and enters scrub mode', () => {
+  it('lands `now` on the EXACT instant (no fraction round-trip) and enters scrub mode', async () => {
     freeze('2026-07-01T15:00:00Z');
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     // An odd-millisecond target mid-day: setFraction would round-trip-drift off it, which is
     // what made a tapped prayer land a sub-ms past its time and the NEXT prayer highlight.
     const target = result.current.dayStart + 13 * HOUR + 47 * 60_000 + 123;
-    act(() => result.current.setInstant(target));
+    await act(() => result.current.setInstant(target));
     expect(result.current.now).toBe(target);
     expect(result.current.mode).toBe('scrub');
   });
 
-  it('clamps an instant outside the viewed day to the day bounds', () => {
+  it('clamps an instant outside the viewed day to the day bounds', async () => {
     freeze('2026-07-01T15:00:00Z');
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     const { dayStart, dayLength } = result.current;
-    act(() => result.current.setInstant(dayStart - 5 * HOUR));
+    await act(() => result.current.setInstant(dayStart - 5 * HOUR));
     expect(result.current.now).toBe(dayStart);
-    act(() => result.current.setInstant(dayStart + dayLength + 5 * HOUR));
+    await act(() => result.current.setInstant(dayStart + dayLength + 5 * HOUR));
     expect(result.current.now).toBe(dayStart + dayLength);
   });
 });
@@ -129,23 +129,23 @@ describe('useSolarClock setInstant', () => {
 describe('useSolarClock day navigation', () => {
   const AUGUST = '2026-08-01T12:00:00Z';
 
-  it('starts on today with a zero offset', () => {
+  it('starts on today with a zero offset', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     expect(result.current.dayOffset).toBe(0);
     expect(result.current.dayStart).toBe(result.current.todayStart);
   });
 
-  it('steps forward and back, and reports the offset', () => {
+  it('steps forward and back, and reports the offset', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     const today = result.current.todayStart;
 
-    act(() => result.current.stepDay(1));
+    await act(() => result.current.stepDay(1));
     expect(result.current.dayOffset).toBe(1);
     expect(result.current.dayStart).toBe(today + 24 * HOUR);
 
-    act(() => result.current.stepDay(-2));
+    await act(() => result.current.stepDay(-2));
     expect(result.current.dayOffset).toBe(-1);
     expect(result.current.dayStart).toBe(today - 24 * HOUR);
   });
@@ -160,12 +160,12 @@ describe('useSolarClock day navigation', () => {
   // Two steps in a single act() is that burst: the hook must count the calls, not the
   // renders. Nothing in the earlier tests catches it — they all wrap each step in its own
   // act(), which commits in between and hides the staleness.
-  it('counts every step in a batch, not just the last one', () => {
+  it('counts every step in a batch, not just the last one', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     const today = result.current.todayStart;
 
-    act(() => {
+    await act(() => {
       result.current.stepDay(1);
       result.current.stepDay(1);
       result.current.stepDay(1);
@@ -174,13 +174,13 @@ describe('useSolarClock day navigation', () => {
     expect(result.current.dayStart).toBe(today + 3 * 24 * HOUR);
 
     // Backwards through the same batching, and mixed directions cancel exactly.
-    act(() => {
+    await act(() => {
       result.current.stepDay(-1);
       result.current.stepDay(-1);
     });
     expect(result.current.dayOffset).toBe(1);
 
-    act(() => {
+    await act(() => {
       result.current.stepDay(1);
       result.current.stepDay(-1);
     });
@@ -189,27 +189,27 @@ describe('useSolarClock day navigation', () => {
 
   // The rails still hold when the burst runs past them, and a batch that overshoots does
   // not leave a "debt" the next backward tap has to pay off before the day moves.
-  it('clamps a batch at the rail and steps straight back off it', () => {
+  it('clamps a batch at the rail and steps straight back off it', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
 
-    act(() => {
+    await act(() => {
       for (let i = 0; i < MAX_DAY_OFFSET + 5; i++) result.current.stepDay(1);
     });
     expect(result.current.dayOffset).toBe(MAX_DAY_OFFSET);
 
-    act(() => result.current.stepDay(-1));
+    await act(() => result.current.stepDay(-1));
     expect(result.current.dayOffset).toBe(MAX_DAY_OFFSET - 1);
   });
 
   // A jump and a step in the same batch: the step must build on the jump, not on the day
   // that was committed before it. (The date picker closes and the user taps the chevron.)
-  it('steps from the day a batched jump selected', () => {
+  it('steps from the day a batched jump selected', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     const today = result.current.todayStart;
 
-    act(() => {
+    await act(() => {
       result.current.goToDay(today + 10 * 24 * HOUR);
       result.current.stepDay(1);
     });
@@ -217,25 +217,25 @@ describe('useSolarClock day navigation', () => {
 
     // …and "Nu" wins over a step queued behind it, because reset is the user asking for
     // today explicitly.
-    act(() => {
+    await act(() => {
       result.current.stepDay(1);
       result.current.reset();
     });
     expect(result.current.dayOffset).toBe(0);
-    act(() => result.current.stepDay(1));
+    await act(() => result.current.stepDay(1));
     expect(result.current.dayOffset).toBe(1);
   });
 
   // The scrubber thumb must not jump under the user's finger when the day changes, so a
   // step preserves the FRACTION through the day rather than the wall-clock time.
-  it('keeps the time of day when stepping', () => {
+  it('keeps the time of day when stepping', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
-    act(() => result.current.setFraction(0.25));
+    const { result } = await renderHook(() => useSolarClock());
+    await act(() => result.current.setFraction(0.25));
     const fractionBefore = result.current.fraction;
     const wallClockBefore = stockholmClock(result.current.now);
 
-    act(() => result.current.stepDay(3));
+    await act(() => result.current.stepDay(3));
     expect(result.current.fraction).toBeCloseTo(fractionBefore, 9);
     // Between two ordinary 24-hour days, preserving the fraction also preserves the wall
     // clock exactly — 06:00 stays 06:00. (The DST days are the deliberate exception; see
@@ -247,103 +247,103 @@ describe('useSolarClock day navigation', () => {
   // there while "the same point through the day" always exists. Preserving the fraction
   // therefore shifts the wall clock by up to an hour across a transition — the deliberate
   // trade, pinned here so nobody "fixes" it into a hole in the 23-hour day.
-  it('spans the real length of the day it lands on (both DST directions)', () => {
+  it('spans the real length of the day it lands on (both DST directions)', async () => {
     freeze('2026-03-28T12:00:00Z'); // the day before the 23 h day
-    const spring = renderHook(() => useSolarClock());
-    act(() => spring.result.current.stepDay(1));
+    const spring = await renderHook(() => useSolarClock());
+    await act(() => spring.result.current.stepDay(1));
     expect(spring.result.current.dayLength).toBe(23 * HOUR);
     expect(spring.result.current.dayStart - spring.result.current.todayStart).toBe(24 * HOUR);
 
     freeze('2026-10-24T12:00:00Z'); // the day before the 25 h day
-    const autumn = renderHook(() => useSolarClock());
-    act(() => autumn.result.current.stepDay(1));
+    const autumn = await renderHook(() => useSolarClock());
+    await act(() => autumn.result.current.stepDay(1));
     expect(autumn.result.current.dayLength).toBe(25 * HOUR);
     // The offset is still exactly 1 even though the midnights are 24 h apart in real time
     // here and 25 h apart on the next step — dayOffset rounds, and ±1 h cannot reach a day.
     expect(autumn.result.current.dayOffset).toBe(1);
-    act(() => autumn.result.current.stepDay(1));
+    await act(() => autumn.result.current.stepDay(1));
     expect(autumn.result.current.dayOffset).toBe(2);
   });
 
   // Anchoring each step on todayStart + offset rather than accumulating from dayStart is
   // what makes this exact. Accumulating would drift by an hour per transition crossed, so
   // a user who paged forward and back across a DST boundary would not land on today.
-  it('round-trips to exactly today after paging to the rail and back', () => {
+  it('round-trips to exactly today after paging to the rail and back', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     const today = result.current.todayStart;
 
-    for (let i = 0; i < 365; i++) act(() => result.current.stepDay(1));
+    for (let i = 0; i < 365; i++) await act(() => result.current.stepDay(1));
     expect(result.current.dayOffset).toBe(365);
-    for (let i = 0; i < 365; i++) act(() => result.current.stepDay(-1));
+    for (let i = 0; i < 365; i++) await act(() => result.current.stepDay(-1));
 
     expect(result.current.dayOffset).toBe(0);
     expect(result.current.dayStart).toBe(today);
   });
 
-  it('clamps at the rails instead of wandering off', () => {
+  it('clamps at the rails instead of wandering off', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
-    act(() => result.current.stepDay(9999));
+    const { result } = await renderHook(() => useSolarClock());
+    await act(() => result.current.stepDay(9999));
     expect(result.current.dayOffset).toBe(365);
-    act(() => result.current.stepDay(1));
+    await act(() => result.current.stepDay(1));
     expect(result.current.dayOffset).toBe(365);
 
-    act(() => result.current.stepDay(-99_999));
+    await act(() => result.current.stepDay(-99_999));
     expect(result.current.dayOffset).toBe(-365);
   });
 
-  it('jumps to an arbitrary day, from anywhere in that day', () => {
+  it('jumps to an arbitrary day, from anywhere in that day', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     const today = result.current.todayStart;
 
     // Any instant inside the target day selects that day — the date picker hands over
     // whatever the tapped cell means, not a midnight.
-    act(() => result.current.goToDay(today + 10 * 24 * HOUR + 17 * HOUR));
+    await act(() => result.current.goToDay(today + 10 * 24 * HOUR + 17 * HOUR));
     expect(result.current.dayOffset).toBe(10);
 
-    act(() => result.current.goToDay(today));
+    await act(() => result.current.goToDay(today));
     expect(result.current.dayOffset).toBe(0);
   });
 
   // THE INVARIANT the whole "no third mode" decision rests on: live always means today.
   // Everything downstream — the arrival bloom, the countdown, the intro gate — reads
   // `mode === 'live'` and would be wrong on another day if this could be violated.
-  it('never stays live on another day, and never re-enters live by stepping back', () => {
+  it('never stays live on another day, and never re-enters live by stepping back', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
+    const { result } = await renderHook(() => useSolarClock());
     expect(result.current.mode).toBe('live');
 
-    act(() => result.current.stepDay(1));
+    await act(() => result.current.stepDay(1));
     expect(result.current.mode).toBe('scrub');
 
     // Stepping back ONTO today does not resume live: the user is at 12:00 today, not now.
-    act(() => result.current.stepDay(-1));
+    await act(() => result.current.stepDay(-1));
     expect(result.current.dayOffset).toBe(0);
     expect(result.current.mode).toBe('scrub');
 
     // Only the explicit return does.
-    act(() => result.current.reset());
+    await act(() => result.current.reset());
     expect(result.current.mode).toBe('live');
     expect(result.current.dayOffset).toBe(0);
   });
 
   // Scrubbing while on another day must move within THAT day. If a refactor re-pinned the
   // clamps to today, dragging the slider on a future day would silently snap back.
-  it('scrubs within the VIEWED day, not today', () => {
+  it('scrubs within the VIEWED day, not today', async () => {
     freeze(AUGUST);
-    const { result } = renderHook(() => useSolarClock());
-    act(() => result.current.stepDay(5));
+    const { result } = await renderHook(() => useSolarClock());
+    await act(() => result.current.stepDay(5));
     const viewed = result.current.dayStart;
 
-    act(() => result.current.setFraction(0.75));
+    await act(() => result.current.setFraction(0.75));
     expect(result.current.now).toBe(viewed + 0.75 * result.current.dayLength);
 
     // And setInstant clamps to the viewed day's bounds, not today's.
-    act(() => result.current.setInstant(viewed - 10 * HOUR));
+    await act(() => result.current.setInstant(viewed - 10 * HOUR));
     expect(result.current.now).toBe(viewed);
-    act(() => result.current.setInstant(viewed + 40 * HOUR));
+    await act(() => result.current.setInstant(viewed + 40 * HOUR));
     expect(result.current.now).toBe(viewed + result.current.dayLength);
   });
 
@@ -352,21 +352,21 @@ describe('useSolarClock day navigation', () => {
   // rather than the dock going on mislabelling it for the rest of the session.
   // Driven through the active gate so the effect's immediate sync() fires deterministically,
   // without waiting out a real 30 s interval.
-  it('re-labels a parked day when real midnight passes underneath it', () => {
+  it('re-labels a parked day when real midnight passes underneath it', async () => {
     freeze('2026-08-01T21:00:00Z'); // 23:00 Stockholm, an hour before midnight
-    const { result, rerender } = renderHook<ReturnType<typeof useSolarClock>, { active: boolean }>(
+    const { result, rerender } = await renderHook<ReturnType<typeof useSolarClock>, { active: boolean }>(
       ({ active }) => useSolarClock(active),
       { initialProps: { active: true } },
     );
-    act(() => result.current.stepDay(1));
+    await act(() => result.current.stepDay(1));
     const parked = result.current.dayStart;
     expect(result.current.dayOffset).toBe(1);
 
     // Pause the clock, let real time cross midnight, then resume — the resume path runs
     // sync() immediately.
-    rerender({ active: false });
+    await rerender({ active: false });
     freeze('2026-08-01T23:00:00Z'); // 01:00 Stockholm, the next day
-    act(() => rerender({ active: true }));
+    await act(async () => await rerender({ active: true }));
 
     // The viewed day did not move; its NAME did.
     expect(result.current.dayStart).toBe(parked);
@@ -390,24 +390,24 @@ describe('useSolarClock defers a tick while the map is moving', () => {
   });
 
   /** Renders the clock with a caller-controlled "am I moving?" flag. */
-  function movingClock() {
+  async function movingClock() {
     const state = { moving: false };
-    const { result } = renderHook(() => useSolarClock(true, () => state.moving));
+    const { result } = await renderHook(() => useSolarClock(true, () => state.moving));
     return { result, state };
   }
 
-  it('holds the tick back while the map moves, and flush collects it', () => {
-    const { result, state } = movingClock();
+  it('holds the tick back while the map moves, and flush collects it', async () => {
+    const { result, state } = await movingClock();
     const before = result.current.now;
 
     state.moving = true;
-    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    await act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
     // Held. The overlay carries the sun in the meantime (driftMerc), so nothing on screen
     // is wrong — the lines simply hold position for the length of the gesture.
     expect(result.current.now).toBe(before);
 
     state.moving = false;
-    act(() => result.current.flush());
+    await act(() => result.current.flush());
     expect(result.current.now).toBe(before + LIVE_TICK_MS);
   });
 
@@ -415,39 +415,39 @@ describe('useSolarClock defers a tick while the map is moving', () => {
   // gesture, a screen torn down mid-fling — would otherwise freeze the displayed time for
   // the rest of the session, on a map whose whole job is to say what time it is now. At most
   // one tick in a row may be held, so the clock always heals itself.
-  it('never holds two ticks in a row, even if the caller stays "moving" forever', () => {
-    const { result, state } = movingClock();
+  it('never holds two ticks in a row, even if the caller stays "moving" forever', async () => {
+    const { result, state } = await movingClock();
     const before = result.current.now;
     state.moving = true;
 
-    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    await act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
     expect(result.current.now).toBe(before);
 
     // Still moving — and the tick goes through anyway.
-    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    await act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
     expect(result.current.now).toBe(before + 2 * LIVE_TICK_MS);
   });
 
   // The map calls flush on EVERY settled camera event, which is every pan, fling and pinch.
   // If flush synced unconditionally it would rebuild the field each time the map came to
   // rest — a cost the deferral was supposed to remove, paid on every gesture instead.
-  it('flushes nothing when no tick was held back', () => {
-    const { result } = movingClock();
+  it('flushes nothing when no tick was held back', async () => {
+    const { result } = await movingClock();
     const before = result.current.now;
 
-    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    await act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
     const ticked = result.current.now;
     expect(ticked).toBe(before + LIVE_TICK_MS);
 
-    act(() => jest.advanceTimersByTime(5_000));
-    act(() => result.current.flush());
+    await act(() => jest.advanceTimersByTime(5_000));
+    await act(() => result.current.flush());
     expect(result.current.now).toBe(ticked);
   });
 
-  it('ticks normally for callers that ask for no deferral at all', () => {
-    const { result } = renderHook(() => useSolarClock(true));
+  it('ticks normally for callers that ask for no deferral at all', async () => {
+    const { result } = await renderHook(() => useSolarClock(true));
     const before = result.current.now;
-    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    await act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
     expect(result.current.now).toBe(before + LIVE_TICK_MS);
   });
 });
@@ -470,13 +470,13 @@ describe('useSolarClock across a display-zone change', () => {
 
   afterEach(() => setDisplayZone(DEFAULT_ZONE));
 
-  it('keeps the viewed day when the zone moves under a scrubbed view', () => {
-    const { result } = renderHook(() => useSolarClock());
-    act(() => result.current.stepDay(1));
+  it('keeps the viewed day when the zone moves under a scrubbed view', async () => {
+    const { result } = await renderHook(() => useSolarClock());
+    await act(() => result.current.stepDay(1));
     expect(result.current.dayOffset).toBe(1);
 
     setDisplayZone('Asia/Riyadh');
-    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    await act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
 
     // Still tomorrow — the reader chose an OFFSET; only the instants expressing it move.
     expect(result.current.dayOffset).toBe(1);
@@ -487,25 +487,25 @@ describe('useSolarClock across a display-zone change', () => {
     expect(result.current.dayLength).toBe(24 * HOUR);
   });
 
-  it('survives a shift big enough to round dayOffset to the wrong day', () => {
+  it('survives a shift big enough to round dayOffset to the wrong day', async () => {
     // The failure that makes this more than cosmetic. Stockholm→Midway is a 13 h swing, so
     // a stale pair sits 13 h apart — and Math.round(11/24) is 0, i.e. the dock would label
     // TOMORROW "i dag" while showing tomorrow's times.
-    const { result } = renderHook(() => useSolarClock());
-    act(() => result.current.stepDay(1));
+    const { result } = await renderHook(() => useSolarClock());
+    await act(() => result.current.stepDay(1));
 
     setDisplayZone('Pacific/Midway');
-    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    await act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
 
     expect(result.current.dayOffset).toBe(1);
   });
 
-  it('re-anchors a live view too, without stranding `now` outside the day', () => {
-    const { result } = renderHook(() => useSolarClock());
+  it('re-anchors a live view too, without stranding `now` outside the day', async () => {
+    const { result } = await renderHook(() => useSolarClock());
     expect(result.current.mode).toBe('live');
 
     setDisplayZone('Asia/Riyadh');
-    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    await act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
 
     expect(result.current.dayOffset).toBe(0);
     expect(result.current.now).toBeGreaterThanOrEqual(result.current.dayStart);

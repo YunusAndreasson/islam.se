@@ -9,25 +9,24 @@ import { ErrorScreen } from './ErrorScreen';
 // host, so these smoke tests lock in the contract expo-router relies on: the
 // fallback renders a recovery affordance and `retry` is invoked on press.
 describe('ErrorScreen (crash boundary fallback)', () => {
-  it('shows a calm Swedish message and a retry control', () => {
-    render(<ErrorScreen error={new Error('boom')} retry={jest.fn() as () => Promise<void>} />);
+  it('shows a calm Swedish message and a retry control', async () => {
+    await render(<ErrorScreen error={new Error('boom')} retry={jest.fn() as () => Promise<void>} />);
     expect(screen.getByText('Något gick fel')).toBeTruthy();
     expect(screen.getByText('Försök igen')).toBeTruthy();
   });
 
-  it('calls retry when the user taps "Försök igen"', () => {
+  it('calls retry when the user taps "Försök igen"', async () => {
     const retry = jest.fn(() => Promise.resolve());
-    render(<ErrorScreen error={new Error('boom')} retry={retry} />);
-    fireEvent.press(screen.getByText('Försök igen'));
+    await render(<ErrorScreen error={new Error('boom')} retry={retry} />);
+    await fireEvent.press(screen.getByText('Försök igen'));
     expect(retry).toHaveBeenCalledTimes(1);
   });
 
-  // The boundary swallows what it catches, so Sentry's global handler never sees a render
-  // crash. If this explicit report is ever dropped, crashes keep happening and the Sentry
-  // project goes quiet — which reads exactly like a healthy release.
-  it('reports the caught error to Sentry', () => {
-    const error = new Error('boom');
-    render(<ErrorScreen error={error} retry={jest.fn() as () => Promise<void>} />);
-    expect(Sentry.captureException).toHaveBeenCalledWith(error);
+  // REGRESSION GUARD: this screen used to call captureException itself. Since the boundary
+  // is Sentry's wrapper around it (app/_layout), a report from here too would send every
+  // render crash twice. src/__tests__/error-boundary.test.tsx pins the "exactly once".
+  it('does not report on its own', async () => {
+    await render(<ErrorScreen error={new Error('boom')} retry={jest.fn() as () => Promise<void>} />);
+    expect(Sentry.captureException).not.toHaveBeenCalled();
   });
 });

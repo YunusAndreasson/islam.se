@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import fs from 'node:fs';
 import path from 'node:path';

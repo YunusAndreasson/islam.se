@@ -19,8 +19,9 @@ import { darkPalette, lightPalette, type Palette } from './tokens';
 /** Resolve the active palette key (light or dark) for this render. Reads the
  *  user's saved theme preference: if `'system'` (the default) it follows the OS
  *  appearance; otherwise it returns the locked override. Returns a `'light' |
- *  'dark'` ColorSchemeName (never the loose 'unspecified' / null) so callers
- *  can pass it directly into the basemap / wash / prayer-colour helpers. */
+ *  'dark'` ColorSchemeName (never the `null` useColorScheme reports while the OS
+ *  appearance is unsettled) so callers can pass it directly into the basemap /
+ *  wash / prayer-colour helpers. */
 export function useActiveScheme(): Extract<ColorSchemeName, 'light' | 'dark'> {
   const os = useColorScheme();
   const ctx = useOptionalSettings();

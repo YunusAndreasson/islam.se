@@ -46,18 +46,15 @@
         "@maplibre/maplibre-react-native",
         {
           "android": {
-            "nativeVariant": "vulkan",
-            "nativeVersion": "13.4.1"
-          },
-          "ios": {
-            "nativeVersion": "6.28.0"
+            "nativeVariant": "vulkan"
           }
         }
       ],
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Platsåtkomst används för att beräkna bönetider där du befinner dig."
+          "locationWhenInUsePermission": "Platsåtkomst används för att beräkna bönetider där du befinner dig.",
+          "locationFullAccuracyPermission": false
         }
       ],
       [

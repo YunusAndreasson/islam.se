@@ -70,12 +70,11 @@ describe('washStops — light vs dark', () => {
   });
 
   it('washStopsFor picks dark when scheme is "dark", light otherwise', () => {
-    // RN's ColorSchemeName is 'light' | 'dark' | 'unspecified'; an unspecified
-    // scheme (no OS preference reported) must fall through to the light wash so
-    // the basemap and the wash never disagree.
+    // RN 0.87 narrowed ColorSchemeName to 'light' | 'dark' (an unsettled OS appearance
+    // is now a separate `null`, which useActiveScheme resolves to light before any of
+    // these pickers see it), so the two names are the whole input space.
     expect(washStopsFor('dark')).toBe(washStopsDark);
     expect(washStopsFor('light')).toBe(washStopsLight);
-    expect(washStopsFor('unspecified')).toBe(washStopsLight);
   });
 
   it('DAY is fully transparent in both modes (basemap shows untouched at noon)', () => {
@@ -117,7 +116,6 @@ describe('PRAYER_COLORS — light vs dark', () => {
   it('prayerColorFor picks the dark variant when scheme is "dark"', () => {
     expect(prayerColorFor('isha', 'dark')).toBe(PRAYER_COLORS.isha.dark);
     expect(prayerColorFor('isha', 'light')).toBe(PRAYER_COLORS.isha.light);
-    expect(prayerColorFor('isha', 'unspecified')).toBe(PRAYER_COLORS.isha.light);
   });
 
   // The label twin of the above. It was previously covered only INCIDENTALLY, by
@@ -129,8 +127,6 @@ describe('PRAYER_COLORS — light vs dark', () => {
     for (const prayer of PRAYER_ORDER) {
       expect(prayerTextColorFor(prayer, 'dark')).toBe(PRAYER_TEXT_COLORS[prayer].dark);
       expect(prayerTextColorFor(prayer, 'light')).toBe(PRAYER_TEXT_COLORS[prayer].light);
-      // An unsettled scheme must fall to light, exactly as the line picker does.
-      expect(prayerTextColorFor(prayer, 'unspecified')).toBe(PRAYER_TEXT_COLORS[prayer].light);
     }
   });
 });
@@ -361,8 +357,8 @@ describe('POLAR_BOUNDARY_COLORS — the line and its caption are one hue', () =>
     }
   });
 
-  it('resolves an unsettled scheme to light, as the prayer pickers do', () => {
-    expect(polarBoundaryColorFor('polar-night', 'unspecified')).toBe(
+  it('resolves the scheme the same way the prayer pickers do', () => {
+    expect(polarBoundaryColorFor('polar-night', 'light')).toBe(
       POLAR_BOUNDARY_COLORS['polar-night'].light,
     );
     expect(polarBoundaryColorFor('midnight-sun', 'dark')).toBe(

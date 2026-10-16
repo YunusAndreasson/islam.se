@@ -49,10 +49,10 @@ function permission(status: 'granted' | 'denied' | 'undetermined') {
  *  settled. (There is no launch sweep to sit through any more — the map paints at the
  *  present moment from the first frame.) */
 async function launchMap(): Promise<void> {
-  render(withProviders(<Bonetider />));
+  await render(withProviders(<Bonetider />));
   await act(async () => {});
   await act(async () => {
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+    await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
       nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
     });
   });
@@ -62,14 +62,14 @@ async function step(direction: 'Nästa dag' | 'Föregående dag'): Promise<void>
   // Day controls share the calendar header in the expanded schedule.
   if (!screen.queryByRole('button', { name: direction })) {
     await act(async () => {
-      fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
+      await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
     });
   }
   await act(async () => {
-    fireEvent.press(screen.getByRole('button', { name: direction }));
+    await fireEvent.press(screen.getByRole('button', { name: direction }));
   });
   await act(async () => {
-    fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
+    await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
   });
 }
 
@@ -146,7 +146,7 @@ describe('stepping days on the map', () => {
       await step('Nästa dag');
 
       await act(async () => {
-        fireEvent.press(screen.getByLabelText('Återgå till i dag'));
+        await fireEvent.press(screen.getByLabelText('Återgå till i dag'));
       });
 
       expect(screen.queryByText('i morgon')).toBeNull();

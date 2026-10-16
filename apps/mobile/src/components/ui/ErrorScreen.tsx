@@ -1,6 +1,5 @@
-import * as Sentry from '@sentry/react-native';
 import type { ErrorBoundaryProps } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -19,13 +18,9 @@ export function ErrorScreen({ error, retry }: ErrorBoundaryProps) {
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
 
-  // ⚠️ AN ERROR THIS BOUNDARY CATCHES NEVER REACHES SENTRY ON ITS OWN. Catching it is the
-  // boundary's whole job, so Sentry's global handler never sees it — every render crash
-  // would show the reader this screen and leave the Sentry project silent. It is reported
-  // here by hand, once per error object. What a report may carry is decided in @/lib/sentry.
-  useEffect(() => {
-    Sentry.captureException(error);
-  }, [error]);
+  // Reporting the error is NOT this screen's job: app/_layout wraps it in Sentry's
+  // expo-router boundary, which does that once per error. A capture here as well would send
+  // every render crash twice.
 
   return (
     <SafeAreaView style={styles.fill}>

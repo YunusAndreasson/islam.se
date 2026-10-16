@@ -5,9 +5,10 @@
 // Kept thin: only data + a few "open the right place, never crash" wrappers.
 // The screens themselves own their layout.
 import * as Application from 'expo-application';
+import type { AppleAppStoreEnvironment } from 'expo-application';
 import Constants from 'expo-constants';
 import * as Updates from 'expo-updates';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import * as MailComposer from 'expo-mail-composer';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
@@ -76,6 +77,32 @@ export const OTA_LABEL: string = (() => {
   }).format(at);
   return `OTA ${short} · ${date}`;
 })();
+
+/**
+ * The colophon's word for a build that is not the App Store's: TestFlight, App Review and
+ * development builds all report `sandbox`, an Xcode-signed build `xcode`. An App Store install
+ * needs no label — it is what everyone has — and neither does a build iOS cannot vouch for
+ * (`null`: offline, signed out, a simulator).
+ */
+export function storeEnvironmentLabel(env: AppleAppStoreEnvironment): string | null {
+  return env === 'sandbox' || env === 'xcode' ? 'Testversion' : null;
+}
+
+let storeEnvironment: Promise<string | null> | null = null;
+
+/**
+ * storeEnvironmentLabel for the running build, read once per process. iOS only — Android's
+ * expo-application has no such call and throws UnavailabilityError — and skipped under Metro,
+ * where OTA_LABEL already says »Utveckling«. Never rejects: the colophon must render either way.
+ */
+export function readStoreEnvironmentLabel(): Promise<string | null> {
+  if (Platform.OS !== 'ios' || __DEV__) return Promise.resolve(null);
+  storeEnvironment ??= Application.getAppleStoreEnvironmentAsync().then(
+    storeEnvironmentLabel,
+    () => null,
+  );
+  return storeEnvironment;
+}
 
 // The questions a reader actually has, answered truthfully. Kept as data so the
 // copy lives in one place and the FAQ screen just maps over it.

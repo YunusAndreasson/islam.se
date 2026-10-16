@@ -25,8 +25,8 @@ describe('useSolarClock — survives a runtime without Intl timezone data', () =
     (Intl as unknown as { DateTimeFormat: unknown }).DateTimeFormat = RealDTF;
   });
 
-  it('does not crash and returns a usable clock', () => {
-    const { result } = renderHook(() => useSolarClock());
+  it('does not crash and returns a usable clock', async () => {
+    const { result } = await renderHook(() => useSolarClock());
     const clock = result.current;
     expect(Number.isFinite(clock.now)).toBe(true);
     expect(Number.isFinite(clock.dayStart)).toBe(true);

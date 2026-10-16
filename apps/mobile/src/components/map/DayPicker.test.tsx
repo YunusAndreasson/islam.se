@@ -1,18 +1,18 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { Modal } from 'react-native';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import { addZoneDays, startOfZoneDay, zoneParts } from '@/lib/zone-time';
 import { adjacentMonth, DayPicker, GRID_CELLS, hijriSpan, monthGrid } from './DayPicker';
 import { first } from '@/test-utils/at';
+import { allOfType, hostsOfType } from '@/test-utils/rendered';
 import { MoonDisc } from '@/components/moon/MoonDisc';
 
 const day = (y: number, m: number, d: number) => startOfZoneDay(Date.UTC(y, m - 1, d, 12));
 
-function renderPicker(dayStart: number, todayStart = dayStart) {
+async function renderPicker(dayStart: number, todayStart = dayStart) {
   const onPick = jest.fn();
   const onClose = jest.fn();
-  render(
+  await render(
     <DayPicker dayStart={dayStart} todayStart={todayStart} onPick={onPick} onClose={onClose} />,
   );
   return { onPick, onClose };
@@ -125,9 +125,9 @@ describe('hijriSpan', () => {
 });
 
 describe('DayPicker', () => {
-  it('keeps a visible moon phase for every date, including past dates', () => {
-    renderPicker(day(2026, 9, 20));
-    const moons = screen.UNSAFE_getAllByType(MoonDisc);
+  it('keeps a visible moon phase for every date, including past dates', async () => {
+    await renderPicker(day(2026, 9, 20));
+    const moons = allOfType(MoonDisc);
     expect(moons).toHaveLength(30);
     const todayMoon = moons[19]!;
     for (const moon of moons) {
@@ -138,16 +138,16 @@ describe('DayPicker', () => {
     }
   });
 
-  it('opens on the month of the day being viewed', () => {
-    renderPicker(day(2026, 9, 14));
+  it('opens on the month of the day being viewed', async () => {
+    await renderPicker(day(2026, 9, 14));
     expect(screen.getByText('September 2026')).toBeTruthy();
   });
 
-  it('hands back the picked day', () => {
+  it('hands back the picked day', async () => {
     const viewed = day(2026, 9, 14);
-    const { onPick } = renderPicker(viewed);
+    const { onPick } = await renderPicker(viewed);
 
-    fireEvent.press(screen.getByRole('button', { name: /^3 september 2026/ }));
+    await fireEvent.press(screen.getByRole('button', { name: /^3 september 2026/ }));
 
     expect(onPick).toHaveBeenCalledTimes(1);
     expect(first(first(onPick.mock.calls, 'onPick calls'), 'onPick arg')).toBe(day(2026, 9, 3));
@@ -155,21 +155,21 @@ describe('DayPicker', () => {
 
   // The spoken label anchors the number: "3" alone tells a screen-reader user nothing
   // about how far away it is, which is the one thing a day picker is for.
-  it('speaks each day relative to today as well as by date', () => {
+  it('speaks each day relative to today as well as by date', async () => {
     const today = day(2026, 9, 1);
-    renderPicker(today);
+    await renderPicker(today);
     expect(screen.getByRole('button', { name: '1 september 2026, i dag' })).toBeTruthy();
     expect(screen.getByRole('button', { name: '2 september 2026, i morgon' })).toBeTruthy();
   });
 
-  it('pages to the next and previous month', () => {
-    renderPicker(day(2026, 9, 14));
+  it('pages to the next and previous month', async () => {
+    await renderPicker(day(2026, 9, 14));
 
-    fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
     expect(screen.getByText('Oktober 2026')).toBeTruthy();
 
-    fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
-    fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
     expect(screen.getByText('Augusti 2026')).toBeTruthy();
   });
 
@@ -182,19 +182,19 @@ describe('DayPicker', () => {
   //
   // Each press in its own act() commits in between and hides it, which is why the presses
   // below share one.
-  it('counts every tap in a batch, not just the last one', () => {
-    renderPicker(day(2026, 8, 25));
+  it('counts every tap in a batch, not just the last one', async () => {
+    await renderPicker(day(2026, 8, 25));
 
-    act(() => {
+    await act(async () => {
       for (let i = 0; i < 12; i++) {
-        fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
+        await fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
       }
     });
     expect(screen.getByText('Augusti 2027')).toBeTruthy();
 
-    act(() => {
+    await act(async () => {
       for (let i = 0; i < 5; i++) {
-        fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
+        await fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' }));
       }
     });
     expect(screen.getByText('Mars 2027')).toBeTruthy();
@@ -202,29 +202,29 @@ describe('DayPicker', () => {
 
   // A burst that runs past the rail stops AT it — and leaves no debt behind, so the next
   // tap back moves one month rather than unwinding an overshoot first.
-  it('stops a batch at the rail instead of running past it', () => {
+  it('stops a batch at the rail instead of running past it', async () => {
     const today = day(2026, 8, 25);
-    renderPicker(today, today);
+    await renderPicker(today, today);
 
-    act(() => {
+    await act(async () => {
       for (let i = 0; i < 24; i++) {
-        fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
+        await fireEvent.press(screen.getByRole('button', { name: 'Nästa månad' }));
       }
     });
     // +365 days from 25 Aug 2026 is 25 Aug 2027, so August 2027 is the last month with a
     // reachable day in it.
     expect(screen.getByText('Augusti 2027')).toBeTruthy();
 
-    act(() => fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' })));
+    await act(async () => await fireEvent.press(screen.getByRole('button', { name: 'Föregående månad' })));
     expect(screen.getByText('Juli 2027')).toBeTruthy();
   });
 
   // The rails are ±365 days. A day outside them cannot be picked, and the pager stops
   // rather than letting the user wander into years where adhan's accuracy is a fiction.
-  it('disables days and paging beyond the ±365-day rails', () => {
+  it('disables days and paging beyond the ±365-day rails', async () => {
     const today = day(2026, 9, 14);
     const lastMonth = monthGrid(addZoneDays(today, 365));
-    renderPicker(lastMonth.first, today);
+    await renderPicker(lastMonth.first, today);
 
     // The far rail falls inside this month, so paging forward is done.
     expect(
@@ -242,17 +242,17 @@ describe('DayPicker', () => {
     ).toBe(true);
   });
 
-  it('dismisses through Android Back and the backdrop without changing the selected day', () => {
-    const { onPick, onClose } = renderPicker(day(2026, 9, 14));
-    fireEvent(screen.UNSAFE_getByType(Modal), 'requestClose');
-    fireEvent.press(screen.getByTestId('calendar-backdrop', { includeHiddenElements: true }));
+  it('dismisses through Android Back and the backdrop without changing the selected day', async () => {
+    const { onPick, onClose } = await renderPicker(day(2026, 9, 14));
+    await fireEvent(first(hostsOfType('Modal'), 'modal'), 'requestClose');
+    await fireEvent.press(screen.getByTestId('calendar-backdrop', { includeHiddenElements: true }));
     expect(onClose).toHaveBeenCalledTimes(2);
     expect(onPick).not.toHaveBeenCalled();
   });
 
-  it('closes without picking anything', () => {
-    const { onPick, onClose } = renderPicker(day(2026, 9, 14));
-    fireEvent.press(screen.getByRole('button', { name: 'Stäng kalendern' }));
+  it('closes without picking anything', async () => {
+    const { onPick, onClose } = await renderPicker(day(2026, 9, 14));
+    await fireEvent.press(screen.getByRole('button', { name: 'Stäng kalendern' }));
     expect(onClose).toHaveBeenCalledTimes(1);
     expect(onPick).not.toHaveBeenCalled();
   });

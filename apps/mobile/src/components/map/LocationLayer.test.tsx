@@ -1,18 +1,18 @@
 import { describe, expect, it } from '@jest/globals';
-import { render, screen } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 
 import { KAABA } from '@/lib/qibla';
 import { at } from '@/test-utils/at';
+import { hostsOfType } from '@/test-utils/rendered';
 import { LocationLayer } from './LocationLayer';
 
 const POINT: [number, number] = [18.0686, 59.3293];
-const layer = (id: string) => at(screen.UNSAFE_root.findAllByType('Layer' as never)
-  .filter((node) => node.props.id === id), 0, id);
+const layer = (id: string) => at(hostsOfType('Layer').filter((node) => node.props.id === id), 0, id);
 
 describe('native location content', () => {
-  it('anchors a fixed-size dot and a great-circle ray to geographic coordinates', () => {
-    render(<LocationLayer point={POINT} showQibla />);
-    const sources = screen.UNSAFE_root.findAllByType('GeoJSONSource' as never);
+  it('anchors a fixed-size dot and a great-circle ray to geographic coordinates', async () => {
+    await render(<LocationLayer point={POINT} showQibla />);
+    const sources = hostsOfType('GeoJSONSource');
     const arc = at(sources.filter((s) => s.props.id === 'location-qibla'), 0, 'arc');
     const dot = at(sources.filter((s) => s.props.id === 'location-point'), 0, 'dot');
     expect(dot.props.data.geometry.coordinates).toEqual(POINT);
@@ -29,11 +29,11 @@ describe('native location content', () => {
     expect(sources.every((s) => s.props.onPress === undefined)).toBe(true);
   });
 
-  it('hides the ray without remounting its source or changing dot visibility', () => {
-    const { rerender } = render(<LocationLayer point={POINT} showQibla />);
-    const source = at(screen.UNSAFE_root.findAllByType('GeoJSONSource' as never), 0, 'arc');
+  it('hides the ray without remounting its source or changing dot visibility', async () => {
+    const { rerender } = await render(<LocationLayer point={POINT} showQibla />);
+    const source = at(hostsOfType('GeoJSONSource'), 0, 'arc');
     const data = source.props.data;
-    rerender(<LocationLayer point={POINT} showQibla={false} />);
+    await rerender(<LocationLayer point={POINT} showQibla={false} />);
     expect(layer('location-qibla-line').props.layout.visibility).toBe('none');
     expect(source.props.data).toBe(data);
     expect(layer('location-dot').props.layout).toBeUndefined();

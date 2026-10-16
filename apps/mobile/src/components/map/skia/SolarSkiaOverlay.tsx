@@ -24,7 +24,7 @@ import {
   vec,
 } from '@shopify/react-native-skia';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import {
   Easing,
   ReduceMotion,
@@ -250,8 +250,14 @@ export function SolarSkiaOverlay({
     // survives composition on Android when the view is also `opaque`, which this
     // overlay can never be — it sits transparently over the basemap. So the dither
     // stays as the floor for Android and for any device that falls back to 8-bit,
-    // and this prop lifts the ceiling where the surface can carry it.
-    <Canvas style={StyleSheet.absoluteFill} pointerEvents="none" highBitDepth>
+    // and this prop lifts the ceiling where the surface can carry it. iOS only: since
+    // Skia 2.13 Android refuses it on a non-opaque surface outright, falling back to
+    // 8-bit and logging a warning on every mount (SkiaBaseView.resolveHighBitDepth).
+    <Canvas
+      style={StyleSheet.absoluteFill}
+      pointerEvents="none"
+      highBitDepth={Platform.OS === 'ios'}
+    >
       {washEffect && (
         <Fill>
           {/* Pure per-pixel sun geometry — no image inputs. */}

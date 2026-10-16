@@ -15,7 +15,7 @@
 // own backdrops is exactly how the left and right ones came to disagree at dawn.
 import { router } from 'expo-router';
 import { useEffect, useRef } from 'react';
-import { AccessibilityInfo, StyleSheet, View } from 'react-native';
+import { AccessibilityInfo, StyleSheet, View, type ViewInstance } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -54,7 +54,7 @@ export function MapNav({ active, action }: { active: boolean; action?: MapAction
   // or nowhere, so it is handed to the cog: the control that took the disc's place in the
   // row. Only after a PRESS — a disc that leaves because the reader panned home by hand had
   // no focus to lose.
-  const cogRef = useRef<View>(null);
+  const cogRef = useRef<ViewInstance>(null);
   const resetPressed = useRef(false);
   const kind = action?.kind;
   useEffect(() => {

@@ -34,50 +34,50 @@ const OPTIONS: readonly Option<Theme>[] = [
 ];
 
 describe('SegmentedChoice', () => {
-  it('offers readable radio choices at large text sizes', () => {
+  it('offers readable radio choices at large text sizes', async () => {
     jest.mocked(useWindowDimensions).mockReturnValue({ width: 320, height: 711, scale: 2.625, fontScale: 2 });
     const onChange = jest.fn();
-    render(<SegmentedChoice options={OPTIONS} value="system" onChange={onChange} />);
+    await render(<SegmentedChoice options={OPTIONS} value="system" onChange={onChange} />);
     // OptionGroup's spoken form: label, then the description after a full stop (not a
     // comma, which made a comma-list label run on into its description).
     expect(screen.getByRole('radio', { name: 'Följ system. Rekommenderad', checked: true })).toBeTruthy();
-    fireEvent.press(screen.getByRole('radio', { name: 'Ljust' }));
+    await fireEvent.press(screen.getByRole('radio', { name: 'Ljust' }));
     expect(onChange).toHaveBeenCalledWith('light');
   });
-  it('shows every option', () => {
-    render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
+  it('shows every option', async () => {
+    await render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
 
     for (const option of OPTIONS) expect(screen.getByText(option.label)).toBeTruthy();
   });
 
-  it('carries the selected option’s description below the control', () => {
-    render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
+  it('carries the selected option’s description below the control', async () => {
+    await render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
     expect(screen.getByText('Rekommenderad')).toBeTruthy();
   });
 
-  it('drops the description when the chosen option has none', () => {
+  it('drops the description when the chosen option has none', async () => {
     // Not a stale line from the previous selection, and not an empty reserved row that
     // makes the section jump as the reader steps through the options.
-    render(<SegmentedChoice options={OPTIONS} value="dark" onChange={() => {}} />);
+    await render(<SegmentedChoice options={OPTIONS} value="dark" onChange={() => {}} />);
     expect(screen.queryByText('Rekommenderad')).toBeNull();
   });
 
-  it('reports the pressed option', () => {
+  it('reports the pressed option', async () => {
     const onChange = jest.fn();
-    render(<SegmentedChoice options={OPTIONS} value="system" onChange={onChange} />);
+    await render(<SegmentedChoice options={OPTIONS} value="system" onChange={onChange} />);
 
-    fireEvent.press(screen.getByText('Mörkt'));
+    await fireEvent.press(screen.getByText('Mörkt'));
 
     expect(onChange).toHaveBeenCalledWith('dark');
   });
 
-  it('does not fire for the option already selected', () => {
+  it('does not fire for the option already selected', async () => {
     // Same rule OptionGroup follows: re-tapping where you already are is not a change, and
     // buzzing for it makes the haptic meaningless. See lib/haptics for the written policy.
     const onChange = jest.fn();
-    render(<SegmentedChoice options={OPTIONS} value="dark" onChange={onChange} />);
+    await render(<SegmentedChoice options={OPTIONS} value="dark" onChange={onChange} />);
 
-    fireEvent.press(screen.getByText('Mörkt'));
+    await fireEvent.press(screen.getByText('Mörkt'));
 
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -95,35 +95,35 @@ describe('SegmentedChoice', () => {
 // jest.setup.js deliberately does NOT wrap Label's children in a <Text>, which is what lets
 // this fail the way the device does.
 describe('SegmentedChoice on Android', () => {
-  function withAndroid(run: () => void): void {
+  async function withAndroid(run: () => Promise<void>): Promise<void> {
     const original = Platform.OS;
     Object.defineProperty(Platform, 'OS', { configurable: true, get: () => 'android' });
     try {
-      run();
+      await run();
     } finally {
       Object.defineProperty(Platform, 'OS', { configurable: true, get: () => original });
     }
   }
 
-  it('labels every segment', () => {
-    withAndroid(() => {
-      render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
+  it('labels every segment', async () => {
+    await withAndroid(async () => {
+      await render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
       for (const option of OPTIONS) expect(screen.getByText(option.label)).toBeTruthy();
     });
   });
 
-  it('reports the pressed segment', () => {
-    withAndroid(() => {
+  it('reports the pressed segment', async () => {
+    await withAndroid(async () => {
       const onChange = jest.fn();
-      render(<SegmentedChoice options={OPTIONS} value="system" onChange={onChange} />);
-      fireEvent.press(screen.getByText('Ljust'));
+      await render(<SegmentedChoice options={OPTIONS} value="system" onChange={onChange} />);
+      await fireEvent.press(screen.getByText('Ljust'));
       expect(onChange).toHaveBeenCalledWith('light');
     });
   });
 
-  it('still carries the description', () => {
-    withAndroid(() => {
-      render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
+  it('still carries the description', async () => {
+    await withAndroid(async () => {
+      await render(<SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />);
       expect(screen.getByText('Rekommenderad')).toBeTruthy();
     });
   });
@@ -150,7 +150,7 @@ describe('SegmentedChoice tells the host which scheme to use', () => {
    *  light, so 'dark' here is a genuine disagreement between phone and preference. */
   async function renderWithTheme(theme: 'system' | 'light' | 'dark') {
     await storage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({ ...DEFAULT_SETTINGS, theme }));
-    render(
+    await render(
       <SettingsProvider>
         <SegmentedChoice options={OPTIONS} value="system" onChange={() => {}} />
       </SettingsProvider>,

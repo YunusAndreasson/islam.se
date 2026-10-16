@@ -141,7 +141,4 @@ describe.each([
 it('resolves the basemap from the OS appearance alone', () => {
   expect(nordicMapStyleFor('light')).toBe(NORDIC_LIGHT);
   expect(nordicMapStyleFor('dark')).toBe(NORDIC_DARK);
-  // An unsettled scheme ('unspecified', what useColorScheme reports before the OS
-  // appearance resolves) must land on light rather than on nothing at all.
-  expect(nordicMapStyleFor('unspecified')).toBe(NORDIC_LIGHT);
 });

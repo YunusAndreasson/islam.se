@@ -1,3 +1,4 @@
+/// <reference types="node" />
 // The drift guard.
 //
 // src/lib/mosques/data.json is a GENERATED MIRROR of apps/web/src/data/moskeer-sverige.json,
