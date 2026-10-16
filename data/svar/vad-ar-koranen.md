@@ -41,6 +41,8 @@ sources:
     url: "https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer"
   - name: "Wikipedia – History of the Quran (sammanställningen under Abu Bakr och Uthman)"
     url: "https://en.wikipedia.org/wiki/History_of_the_Quran"
+  - name: "Bild: al-Fātiha och början av al-Baqara i kufisk skrift, Iran, sent 1000-tal, Khalili Collections (fri från upphovsrätt)"
+    url: "https://commons.wikimedia.org/wiki/File:Al-Fatihah_Later_11th_century_Iran_Kufic_script_Khalili_Collection6inchx300dpi.jpg"
 related:
   - "vad-ar-sunna"
   - "vad-ar-tawhid"
@@ -64,6 +66,8 @@ För de klassiska lärda är Koranen inte en bok *om* Gud, utan Guds eget, oskap
 
 > DENNA Skrift - här råder inget tvivel - är en vägledning för dem som fruktar Gud och ständigt har Honom för ögonen
 > — Koranen 2:2
+
+![Uppslag ur en handskrift med stor svart kufisk skrift på ljust papper, med guldornament i marginalerna och guldfält med rubriker överst på båda sidorna.](../../apps/web/src/assets/images/inline/koranhandskrift-al-fatiha-al-baqara-kufisk.webp "Uppslag ur en koranhandskrift i kufisk skrift från Iran, sent 1000-tal. Till höger al-Fātiha, till vänster början av den andra suran: Denna Skrift – här råder inget tvivel. Khalili Collections.")
 
 ## Hur uppenbarades Koranen för Muhammad?
 

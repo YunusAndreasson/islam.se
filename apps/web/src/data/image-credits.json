@@ -1,17 +1,34 @@
 {
-	"fakta/vad-ar-hajj": {
-		"kind": "Foto",
-		"by": "Adli Wahid / Wikimedia Commons",
-		"licence": "CC BY-SA 4.0",
-		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-		"source": "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg"
-	},
 	"inline/al-baqi-medina-gravkullar": {
 		"kind": "Foto",
 		"by": "Saleh Al Hussain / Wikimedia Commons",
 		"licence": "CC BY 4.0",
 		"licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Al-Baqi_Cemetery_2021.jpg",
+		"changed": "beskuren"
+	},
+	"inline/al-baqi-medina-gryning-2023": {
+		"kind": "Foto",
+		"by": "Indonesiagood / Wikimedia Commons",
+		"licence": "CC BY 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Makam_Al-Baqi_(Umroh_Ramadhan_2023)-7.jpg",
+		"changed": "beskuren"
+	},
+	"inline/al-fatiha-mamlukisk-handskrift": {
+		"kind": "Bild",
+		"by": "Library of Congress",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Al_Fatihah_-_naskh_script.jpg",
+		"changed": "beskuren"
+	},
+	"inline/al-fatiha-pa-kamelskulderblad": {
+		"kind": "Bild",
+		"by": "Princeton University Library",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Surat_al-Fatiha_inscribed_upon_the_shoulder_blade_of_a_camel.jpg",
 		"changed": "beskuren"
 	},
 	"inline/al-fatiha-vastafrikansk-handskrift": {
@@ -22,6 +39,14 @@
 		"source": "https://commons.wikimedia.org/wiki/File:Al-Fatiha_in_the_Sudani_script_(CBL_Is_1598,_f._1b).jpg",
 		"changed": "beskuren"
 	},
+	"inline/al-hijr-kaba-2016": {
+		"kind": "Foto",
+		"by": "Moataz1997 / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Hajr_Ismail,_Makkah.jpg",
+		"changed": "beskuren"
+	},
 	"inline/al-shifa-sjukhuset-februari-2025": {
 		"kind": "Foto",
 		"by": "Jaber Jehad Badwan / Wikimedia Commons",
@@ -29,6 +54,14 @@
 		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Images_of_war_23-25_from_Gaza,_by_Jaber_Badwen,_IMG_5959.jpg",
 		"changed": "beskuren och färgbearbetad"
+	},
+	"inline/al-zahrawi-kitab-at-tasrif-kirurgin": {
+		"kind": "Bild",
+		"by": "Chester Beatty Library, Dublin",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Treatise_on_Surgery_of_al-Zahrawi_(CBL_Ar_3172,_ff._49b-50a).jpg",
+		"changed": "beskuren"
 	},
 	"inline/american-colony-jerusalem-1920": {
 		"kind": "Foto",
@@ -44,6 +77,21 @@
 		"licence": "CC BY-SA 4.0",
 		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Mount_Arafat3.jpg"
+	},
+	"inline/astrolabium-toledo-1067": {
+		"kind": "Foto",
+		"by": "Luis García (Zaqarbal) / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Astrolabio_andalus%C3%AD_Toledo_1067_(M.A.N.)_04.jpg"
+	},
+	"inline/basmala-mihrabvaggen-cordoba": {
+		"kind": "Foto",
+		"by": "Richard Mortel / Wikimedia Commons",
+		"licence": "CC BY 2.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by/2.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Great_Mosque_of_Cordoba,_mihrab_area,_10th_century_(21)_(29801397576).jpg",
+		"changed": "beskuren"
 	},
 	"inline/beit-lahia-talt-i-rasmassorna": {
 		"kind": "Foto",
@@ -67,6 +115,22 @@
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Birmingham_Quran_manuscript_full.jpg"
 	},
+	"inline/bobigny-muslimska-begravningsplatsen-2025": {
+		"kind": "Foto",
+		"by": "Hypsibius / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Cimeti%C3%A8re_musulman_Bobigny.jpg",
+		"changed": "beskuren"
+	},
+	"inline/cordoba-mihraben-al-hakam-ii": {
+		"kind": "Foto",
+		"by": "Jl FilpoC / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Fachada_del_mihrab_de_la_Mezquita_de_C%C3%B3rdoba,_Espa%C3%B1a.jpg",
+		"changed": "beskuren"
+	},
 	"inline/cordoba-stora-moskens-pelarsal": {
 		"kind": "Foto",
 		"by": "Richard Mortel / Wikimedia Commons",
@@ -82,6 +146,28 @@
 		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:A_Gazan_child_carrying_food_for_his_family_during_the_Gaza_war_23-25.jpg",
 		"changed": "beskuren"
+	},
+	"inline/eid-bon-sanddyner-parangkusumo-2022": {
+		"kind": "Foto",
+		"by": "Giri Wijayanto / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Salat_Ied_di_Gumuk_Pasir.jpg"
+	},
+	"inline/fittja-moske-bonesalen-2012": {
+		"kind": "Foto",
+		"by": "Holger Ellgaard / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Fittja_moske_2012e.jpg",
+		"changed": "beskuren"
+	},
+	"inline/fredagsbon-kairo-2023": {
+		"kind": "Foto",
+		"by": "Tarekwajeh / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:%D8%B5%D9%84%D8%A7%D8%A9_%D8%A7%D9%84%D8%AC%D9%85%D8%B9%D8%A9_%D9%81%D9%8A_%D8%AC%D8%A7%D9%85%D8%B9_%D8%A7%D9%84%D8%B8%D8%A7%D9%87%D8%B1_%D8%A8%D9%8A%D8%A8%D8%B1%D8%B3_%D8%A7%D9%84%D8%A7%D8%AB%D8%B1%D9%8A_(3).jpg"
 	},
 	"inline/gaza-koranblad-i-rasmassorna": {
 		"kind": "Foto",
@@ -106,12 +192,62 @@
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Gold_dinar_of_Abd_al-Malik_697-98.png"
 	},
+	"inline/ibn-khalduns-egen-hand-muqaddiman": {
+		"kind": "Bild",
+		"by": "Süleymaniye-biblioteket, Istanbul",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Handwriting_of_Ibn_Khald%C5%ABn,_al-Muqaddima,_MS_At%C4%B1f_Efendi_1936,_f._7a.png"
+	},
+	"inline/jabal-an-nur-mecka-2017": {
+		"kind": "Foto",
+		"by": "saudipics / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:%D8%AC%D8%A8%D9%84_%D8%A7%D9%84%D9%86%D9%88%D8%B1_%D9%85%D9%83%D8%A9.jpg"
+	},
+	"inline/jamarat-mina-16-november-2010": {
+		"kind": "Foto",
+		"by": "Fadi El Binni, Al Jazeera English / Wikimedia Commons",
+		"licence": "CC BY-SA 2.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:While_tossing_their_pebbles,_pilgrims_recall_a_story_of_the_Prophet_Abraham._-_Flickr_-_Al_Jazeera_English.jpg"
+	},
 	"inline/kaba-1880-sadiq-bey": {
 		"kind": "Foto",
 		"by": "Muhammad Sadiq Bey / Khalili Collections",
 		"licence": "Public domain",
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_arc.pp_0211.04_CROP.jpg"
+	},
+	"inline/kaba-gemensam-bon-1889": {
+		"kind": "Foto",
+		"by": "al-Sayyid ʿAbd al-Ghaffār, Library of Congress",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Mecca_prayer,_1889.tif"
+	},
+	"inline/kabas-dorrforhange-2024": {
+		"kind": "Bild",
+		"by": "Bjelica / Wikimedia Commons",
+		"licence": "CC0",
+		"licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Gate_of_Kaaba.jpg",
+		"changed": "beskuren"
+	},
+	"inline/koranblad-tidigt-700-tal": {
+		"kind": "Bild",
+		"by": "Khalili Collections",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Islamic_Art_01.jpg"
+	},
+	"inline/koranhandskrift-al-fatiha-al-baqara-kufisk": {
+		"kind": "Bild",
+		"by": "Khalili Collections",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Al-Fatihah_Later_11th_century_Iran_Kufic_script_Khalili_Collection6inchx300dpi.jpg"
 	},
 	"inline/mecka-1880-panorama-sadiq-bey": {
 		"kind": "Foto",
@@ -168,6 +304,46 @@
 		"source": "https://commons.wikimedia.org/wiki/File:Nya_tider_01.jpg",
 		"changed": "beskuren"
 	},
+	"inline/nymane-over-manama-2006": {
+		"kind": "Foto",
+		"by": "Ahmed Rabea / Wikimedia Commons",
+		"licence": "CC BY-SA 2.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Welcome_Ramadhan.jpg",
+		"changed": "beskuren"
+	},
+	"inline/perf-558-kvitto-ar-22": {
+		"kind": "Bild",
+		"by": "Österreichische Nationalbibliothek, Wien",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:PERF_558,_recto.jpg",
+		"changed": "beskuren"
+	},
+	"inline/qubamoskeen-medina-2024": {
+		"kind": "Foto",
+		"by": "Kaliper1 / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Quba_Mosque_from_Afar_(2024).jpg",
+		"changed": "beskuren"
+	},
+	"inline/sahih-al-bukhari-inledningen-1850": {
+		"kind": "Bild",
+		"by": "Khalili Collections",
+		"licence": "CC BY-SA 3.0 igo",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_mss_0360_fol_2b-3a.jpg",
+		"changed": "beskuren"
+	},
+	"inline/sahih-al-bukhari-kapitlet-om-bildmakarna": {
+		"kind": "Bild",
+		"by": "Khalili Collections",
+		"licence": "CC BY-SA 3.0 igo",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Islamic_Art_mss_0311_fol_190b-191a.jpg",
+		"changed": "beskuren"
+	},
 	"inline/spillingsskatten-arabiska-silvermynt": {
 		"kind": "Foto",
 		"by": "W.carter / Wikimedia Commons",
@@ -183,6 +359,14 @@
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:2006AB2204_leaf_quarn_egypt-calligraphy-in-islamic-art-surah_al_alaq-iqra6inchx300dpi.jpg"
 	},
+	"inline/svarta-stenen-2023": {
+		"kind": "Foto",
+		"by": "Noor Mohammad Siam / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:%E0%A6%B9%E0%A6%BE%E0%A6%9C%E0%A6%B0%E0%A7%87_%E0%A6%86%E0%A6%B8%E0%A6%93%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%A6.jpg",
+		"changed": "beskuren"
+	},
 	"inline/svenska-utvandrare-rush-city-minnesota": {
 		"kind": "Foto",
 		"by": "Nordiska museet",
@@ -196,6 +380,20 @@
 		"licence": "CC0",
 		"licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Sveriges_Rikes_Lag_1734.png"
+	},
+	"inline/tawaf-kring-kaba-2018": {
+		"kind": "Foto",
+		"by": "Adli Wahid / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg"
+	},
+	"inline/tvagningsfontan-gazi-husrev-beg-sarajevo-2011": {
+		"kind": "Foto",
+		"by": "Milan Suvajac / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Sarajevo_Begova-Dzamija_2011-11-08.jpg"
 	},
 	"inline/uppsala-motes-beslut-1593": {
 		"kind": "Foto",

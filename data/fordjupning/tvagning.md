@@ -54,6 +54,8 @@ sources:
   - name: "al-Shafii, al-Umm, kitab al-tahara (avsnitten om vad som hindrar vattnet och om tayammum)"
   - name: "Marion Holmes Katz, Body of Text: The Emergence of the Sunni Law of Ritual Purity (SUNY Press, 2002)"
   - name: "Simon Sorgenfrei, Islam i Sverige – de första 1300 åren (Myndigheten för stöd till trossamfund, 2018)"
+  - name: "Bild: tvagningsfontänen vid Gazi Husrev-begs moské i Sarajevo, november 2011. Foto Milan Suvajac, Wikimedia Commons, licens CC BY-SA 4.0"
+    url: "https://commons.wikimedia.org/wiki/File:Sarajevo_Begova-Dzamija_2011-11-08.jpg"
 related:
   - "tvagning-wudu"
   - "vad-ar-ghusl"
@@ -116,6 +118,8 @@ Rituell tvättning före gudstjänst var känd i det senantika Främre Orienten 
 Att reglerna sedan tog tid att stelna framgår av materialet självt. Marion Holmes Katz har visat hur renhetsrätten växte fram genom tvist under de första århundradena, i samspel mellan rättsteori, politisk makt och folklig praxis.[^25] Ze'ev Maghen har på motsvarande sätt använt striden om beröringsversen som ingång till hur tidiga jurister tänkte om kropp och begär.[^26] Spåren finns kvar i handböckerna: när al-Nawawi konstaterar att bara tre moment i ghusl är obligatoriska medan resten är sunna, refererar han till en diskussion som en gång varit öppen.[^27]
 
 Praxis satte samtidigt sina egna avtryck i staden. Moskéerna fick gårdsfontäner och tvagningsbänkar, gatorna fick *sabil*-brunnar, och det offentliga badet blev en institution som behandlades rättsligt i handböckerna. Hos al-Qurtubi finns en detalj från 1100-talets Kairouan, hämtad från Ibn al-Arabi: de lärda där hade stenar liggande i jord i sina tvagningsrum, torkade sig med dem och sköljde därefter med vatten.[^28] Samme Ibn al-Arabi avfärdar bestämt uppfattningen att fredagens ghusl skulle vara obligatorisk, med hänvisning till traderingen att den som utför wudu på fredagen har gjort gott och väl medan ghusl är förnämligare.[^29]
+
+![En åttkantig fontän med stenbassäng under ett trätak på pelare, på en stenlagd moskégård med valvbågar; gula höstlöv hänger in i bilden.](../../apps/web/src/assets/images/inline/tvagningsfontan-gazi-husrev-beg-sarajevo-2011.webp "Tvagningsfontänen på gården till Gazi Husrev-begs moské i Sarajevo, november 2011.")
 
 Den moderna vändningen kom med rinnande vatten. Tayammum, som i ökenmiljö varit vardag, blev för de flesta muslimer en undantagsregel för sjukdom och resa. Under 1900-talets senare hälft gjorde arbetskraftsinvandring och flykt tvagningen till en fråga om europeiska personalutrymmen, skolscheman och byggnormer, och därmed till ett ämne för domstolar och myndigheter i länder där ingen tidigare hade behövt tänka på var i en byggnad man tvättar fötterna.
 

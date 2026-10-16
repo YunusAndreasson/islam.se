@@ -49,6 +49,8 @@ sources:
     url: "https://www.pewresearch.org/religion/2025/06/09/muslim-population-change/"
   - name: "Patricia Crone, What do we actually know about Mohammed? (openDemocracy, 2008)"
     url: "https://www.opendemocracy.net/en/mohammed_3866jsp/"
+  - name: "Bild: Jabal an-Nūr utanför Mecka, september 2017. Foto saudipics, Wikimedia Commons, licens CC BY-SA 4.0"
+    url: "https://commons.wikimedia.org/wiki/File:%D8%AC%D8%A8%D9%84_%D8%A7%D9%84%D9%86%D9%88%D8%B1_%D9%85%D9%83%D8%A9.jpg"
 related:
   - "trosbekannelsen-shahada"
   - "vad-ar-sunna"
@@ -66,6 +68,8 @@ Den äldsta levnadsteckningen, *sīra*, skrevs av Ibn Ishāq mer än hundra år 
 ## Hur blev Muhammed profet?
 
 Omkring år 610, vid ungefär 40 års ålder, drog han sig tillbaka för eftertanke i grottan Hira på berget Jabal an-Nūr utanför Mecka. Där visade sig enligt islam ärkeängeln Jibrīl (Gabriel), och uppenbarelsen började med ett enda ord: *Iqra* – läs. Det var de första verserna ur sura al-ʿAlaq (96). Enligt traditionen svarade Muhammed: "Jag kan inte läsa" (Sahīh al-Bukhārī 3), och ängeln upprepade befallningen tre gånger innan orden kom. Skakad av mötet sökte sig Muhammed hem till Khadīja, som lugnade honom.
+
+![Ett brant, kalt berg med en spetsig topp reser sig över ett bostadsområde, med fler bergskedjor i diset bakom.](../../apps/web/src/assets/images/inline/jabal-an-nur-mecka-2017.webp "Jabal an-Nūr utanför Mecka, berget där grottan Hira ligger. September 2017.")
 
 Uppenbarelsen kom till Muhammed utan att han hade sökt den. Den fornnordiska diktningen tecknar den motsatta vägen till kunskap; i *Hávamál* berättar Oden själv hur han vann runorna:
 

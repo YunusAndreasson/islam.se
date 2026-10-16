@@ -81,6 +81,8 @@ sources:
     url: "https://sv.wikipedia.org/wiki/Klas_Pontus_Arnoldson"
   - name: "Nathan Söderblom"
     url: "https://sv.wikipedia.org/wiki/Nathan_S%C3%B6derblom"
+  - name: "Bild: Ibn Khaldūns anteckning i Muqaddiman, Süleymaniyebiblioteket, Istanbul, Atıf Efendi 1936 (fri från upphovsrätt)"
+    url: "https://commons.wikimedia.org/wiki/File:Handwriting_of_Ibn_Khald%C5%ABn,_al-Muqaddima,_MS_At%C4%B1f_Efendi_1936,_f._7a.png"
 related:
   - "vad-ar-jihad"
   - "vad-ar-sharia"
@@ -158,6 +160,8 @@ Vad hela konstruktionen syftar till formulerar al-Qurtubī i sin kommentar till 
 ## Jihad från Medina till 1900-talets ideologer
 
 Före islam bestod krigföringen på Arabiska halvön av razzior: ghazw mellan stammar, blodsfejd och de återkommande stridsdagar som kallas ayyām al-ʿarab, avbrutna av de helgade månaderna då vapnen skulle vila. I sin Muqaddima räknar Ibn Khaldūn upp fyra slags krig: stridigheter mellan grannstammar, de vilda folkens övergrepp, det krig som "i lagen kallas jihad" och statens krigföring mot dem som vägrar lydnad. De två första klassar han som uppror och oordning, de två senare som jihad och rättvisa.[^30]
+
+![Närbild av en inramad anteckning i kraftig svart arabisk handskrift, med mindre skrift i marginalen till höger.](../../apps/web/src/assets/images/inline/ibn-khalduns-egen-hand-muqaddiman.webp "Ibn Khaldūns egen anteckning i en avskrift av Muqaddiman, Süleymaniyebiblioteket i Istanbul (Atıf Efendi 1936). Han intygar att ingen riktigare avskrift finns och skriver sitt namn under; i marginalen har en senare hand noterat att detta är författarens handstil.")
 
 Under Medinaåren kom händelserna tätt: Badr 624, det tioåriga fördraget vid Hudaybiyya 628, intagandet av Mecka 630. Under Abū Bakr och ʿUmar följde erövringarna av Syrien, Irak och Egypten på 630- och 640-talen, och det var dhimma-ordningen med jizya som gjorde dem administrativt möjliga utan massomvändelse. Därefter befästes en gränszon mot Bysans, thughūr, där ribāt utvecklades till en fromhetsövning med egen litteratur, och abbasiderna sände ut sommarfälttåg regelbundet.
 

@@ -32,6 +32,8 @@ sources:
     url: "https://sunnah.com/bukhari:4287"
   - name: "Wikipedia – Erövringen av Mecka"
     url: "https://sv.wikipedia.org/wiki/Er%C3%B6vringen_av_Mecka"
+  - name: "Bild: bön kring Kaba omkring 1889. Foto al-Sayyid ʿAbd al-Ghaffār, Library of Congress (fri från upphovsrätt)"
+    url: "https://commons.wikimedia.org/wiki/File:Mecca_prayer,_1889.tif"
 related:
   - "vad-ar-kaba"
   - "vem-var-profeten-muhammed"
@@ -56,6 +58,8 @@ Profeten rensade Guds hus från avgudadyrkan. Kaba, som enligt islam restes av I
 > — Koranen 17:81
 
 Därefter steg Bilal ibn Rabah upp på Kabas tak och lät böneutropet (*adhān*) ljuda.
+
+![Gammalt svartvitt fotografi av en stor gård full av människor i bön framför en kubformad byggnad klädd i svart tyg, med bergssluttningar och hus i bakgrunden.](../../apps/web/src/assets/images/inline/kaba-gemensam-bon-1889.webp "Gemensam bön på gården kring Kaba omkring 1889, fotograferad av den meckanske läkaren al-Sayyid ʿAbd al-Ghaffār. Library of Congress.")
 
 ## Hur behandlade Muhammed dem som förföljt honom?
 

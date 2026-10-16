@@ -109,6 +109,8 @@ sources:
     url: "http://runeberg.org/barnets/0069.html"
   - name: "Karin Boye, Astarte, utdrag i Asymptote"
     url: "https://www.asymptotejournal.com/fiction/karin-boye-astarte/swedish/"
+  - name: "Bild: Sahīh al-Bukhārī, kapitlet om bildmakarna, avskrift troligen från Egypten, sent 1300- eller tidigt 1400-tal, Khalili Collections, licens CC BY-SA 3.0 IGO, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Islamic_Art_mss_0311_fol_190b-191a.jpg"
 related: []
 essays:
   - "bergen-som-vagrade"
@@ -154,6 +156,8 @@ Den andra gruppen texter gäller kunskapens etik:
 I 49:6 befalls de troende att pröva en uppgift som kommer från en opålitlig person. al-Qurtubī (d. 1273) drar slutsatsen att versen belägger att en enskild persons rapport godtas när förmedlaren är rättrådig, eftersom "en rapport är ett förtroende".[^13] I förordet till sin hadithsamling återger Muslim (d. 875) en hadith via Abū Hurayra: "Det räcker som lögn att en människa återger allt hon har hört."[^14] Hos Abū Dāwūd står: "Den som får en fatwa utan kunskap – synden ligger på den som gav den", följt av tillägget att den som råder sin broder till något, fast han vet att det rätta ligger i något annat, har svikit honom.[^15]
 
 Två hadither blir avgörande när texterna tillämpas på AI. Den ena lyder: "Den skada som det stumma djuret vållar är ersättningsfri", där *al-ʿajmāʾ*, den stumma, betecknar djuret som inte kan tala.[^16] Den andra gäller bildmakarna: "De som gör dessa bilder straffas på Uppståndelsens dag, och det sägs till dem: Ge liv åt det ni har skapat."[^17] Ingen av texterna nämner en maskin. De lärda som ändå åberopar dem om AI gör det genom analogi, *qiyās*, och rättsskolornas olika läsningar av texterna följer med in i analogierna.
+
+![Handskriftssida med rader av svart arabisk skrift och rubriker i guld, på gulnat papper i ett läderband.](../../apps/web/src/assets/images/inline/sahih-al-bukhari-kapitlet-om-bildmakarna.webp "Sahīh al-Bukhārī i en avskrift troligen från Egypten, sent 1300- eller tidigt 1400-tal. Sidan rymmer kapitlet om den som gör en bild, med Ibn ʿAbbās återgivning av profetens ord: den som gör en bild i denna värld åläggs på Uppståndelsens dag att blåsa in ande i den, och förmår det inte. Khalili Collections.")
 
 ## Rättsskolorna om AI: ansvar, fatwor och bilder
 

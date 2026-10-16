@@ -34,6 +34,10 @@ sources:
     url: "https://islamqa.info/en/answers/1528"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Halvmåne på minaret"
     url: "https://islamqa.info/en/answers/575/putting-a-crescent-on-top-of-the-minaret-of-a-mosque"
+  - name: "Bild: nymånen över Manama, september 2006. Foto Ahmed Rabea, Wikimedia Commons, licens CC BY-SA 2.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Welcome_Ramadhan.jpg"
+  - name: "Bild: förhänget över Kabas dörr, februari 2024. Foto Bjelica, Wikimedia Commons (fri från upphovsrätt), beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Gate_of_Kaaba.jpg"
 related:
   - "trosbekannelsen-shahada"
   - "eid-al-fitr-och-eid-al-adha"
@@ -55,6 +59,8 @@ Halvmånens verkliga roll är praktisk, inte helig. Nymånen, *hilāl*, markerar
 
 Den klassiske kommentatorn Ibn Kathīr förklarar att nymånarna visar när fastan börjar och slutar, när väntetider räknas och när skulder förfaller. Eftersom månåret är ungefär elva dagar kortare än solåret vandrar Ramadan genom årstiderna.
 
+![En smal månskära högt på en rosa och orange skymningshimmel ovanför två palmer och en rad gatlyktor.](../../apps/web/src/assets/images/inline/nymane-over-manama-2006.webp "Den nya månskäran över Manama, Bahrain, i skymningen den 24 september 2006, i ramadans början.")
+
 ## Varför förknippas halvmånen och stjärnan med islam?
 
 Symbolen kom in i den muslimska världen genom politiken. Halvmånen är ett urgammalt tecken med förislamiska rötter i Mellanöstern och Medelhavsvärlden, och den var bland annat knuten till Konstantinopel. Hur den blev osmansk är omtvistat: den vanliga berättelsen är att osmanerna övertog den erövrade stadens märke 1453, medan andra historiker pekar på att månskäran förekom i turkiskt och tidigt osmanskt bruk redan dessförinnan. Säkert är att den blev rikets kännetecken under osmanerna, sattes på flaggor och moskékupoler, och att den först på 1700- och 1800-talet kombinerades med en stjärna till dagens form. Därifrån spreds den till andra muslimska länders flaggor och till hjälporganisationen Röda halvmånen, som svar på det kristna Röda korset.
@@ -66,3 +72,5 @@ Att använda halvmånen är inte i sig en synd, men den saknar religiös grund. 
 ## Vilka tecken använde de tidiga muslimerna?
 
 I stället för bilder höll sig de första muslimerna till färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradiset, där Koranen klär de troende i grönt siden (18:31). Att färgen också skulle ha varit profeten Muhammeds egen favoritfärg har däremot svagare stöd: berättelsen förs tillbaka på Anas ibn Mālik genom en svag kedja. En del lärda stärker den visserligen med stödjande berättelser, men ingen entydig hadith gör grönt till *sunna*. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Om islam har något samlande kännetecken är det trosbekännelsen, *shahada*: orden som gör en människa till muslim och binder samman profetens efterföljare, *ahl as-sunna*. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."
+
+![Uppåtvänd bild av en svart vägg täckt av tyg med broderad arabisk skrift i guld och silver; ett rikt broderat förhänge hänger över en förgylld dubbeldörr.](../../apps/web/src/assets/images/inline/kabas-dorrforhange-2024.webp "Förhänget över Kabas dörr, februari 2024. Bland orden i guld- och silverbroderiet står al-Fātihas Dig tillber vi; Dig anropar vi om hjälp.")

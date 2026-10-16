@@ -33,6 +33,10 @@ sources:
     url: "https://sunnah.com/bukhari:1503"
   - name: "Wikipedia – Eid al-Adha"
     url: "https://en.wikipedia.org/wiki/Eid_al-Adha"
+  - name: "Bild: jamarāt i Mina, 16 november 2010. Foto Fadi El Binni, Al Jazeera English, Wikimedia Commons, licens CC BY-SA 2.0"
+    url: "https://commons.wikimedia.org/wiki/File:While_tossing_their_pebbles,_pilgrims_recall_a_story_of_the_Prophet_Abraham._-_Flickr_-_Al_Jazeera_English.jpg"
+  - name: "Bild: eid-bön vid Parangkusumo, Java, juli 2022. Foto Giri Wijayanto, Wikimedia Commons, licens CC BY-SA 4.0"
+    url: "https://commons.wikimedia.org/wiki/File:Salat_Ied_di_Gumuk_Pasir.jpg"
 related:
   - "vad-ar-ramadan"
   - "vad-ar-hajj"
@@ -48,6 +52,8 @@ Eid al-Fitr, där *fitr* betyder "fastebrytandet", inleder Shawwal omedelbart ef
 ## Vad är Eid al-Adha?
 
 Eid al-Adha, "offerhögtiden", infaller den tionde Dhul-Hijjah och sträcker sig över fyra dagar: själva eid-dagen och de tre *tashrīq*-dagarna. Den sammanfaller med vallfärdens höjdpunkt: medan pilgrimerna i Mina stenar symbolen för Satan och slaktar sina offerdjur, firar muslimer i hela världen samma dag. Högtiden påminner om profeten Ibrahim, som var beredd att offra sin son på Guds befallning och i sista stund fick offra en bagge i hans ställe. Till minne av denna lydnad slaktar den som har råd ett offerdjur (*udhiya*, även kallat *qurbani*). Eid al-Adha är den mindre kända av de två bland icke-muslimer, men teologiskt den större: den knyter samman lydnad, vallfärd och offer i en enda dag.
+
+![En man i vit pilgrimsdräkt, sedd snett bakifrån, lyfter armen för att kasta mot en hög, grå mur av sten.](../../apps/web/src/assets/images/inline/jamarat-mina-16-november-2010.webp "En pilgrim kastar sina småstenar vid jamarāt i Mina den 16 november 2010, offerhögtidens första dag.")
 
 ## Varför firar muslimer just dessa två högtider?
 
@@ -70,3 +76,5 @@ I praktiken slaktas ett får, en get, en ko eller en kamel enligt halalreglerna.
 ## Hur firar man Eid?
 
 Båda högtiderna börjar likadant. Man tvättar sig (*ghusl*), tar på sina bästa kläder och beger sig till eid-bönen, gärna på öppen plats, och upprepar *takbīr* med hög röst på vägen. Före Eid al-Fitr ges zakat al-fitr, ett mått (*sāʿ*) baslivsmedel, "på varje muslim, slav eller fri, man eller kvinna, ung eller gammal" och "innan folket går ut till bönen" (Sahīh al-Bukhārī 1503). Efteråt hälsar man varandra med "Eid mubarak" eller den äldre formeln "taqabbala Allāhu minnā wa minkum". Resten av dagarna fylls av mat, gåvor till barnen och besök hos släkt, sjuka och ensamma.
+
+![Hundratals män står i långa rader på färggranna bönemattor ute på en sandslätt i låg morgonsol, med berg i bakgrunden och långa skuggor framför sig.](../../apps/web/src/assets/images/inline/eid-bon-sanddyner-parangkusumo-2022.webp "Eid-bön på sanddynerna vid Parangkusumo söder om Yogyakarta, morgonen den 9 juli 2022, vid offerhögtiden.")

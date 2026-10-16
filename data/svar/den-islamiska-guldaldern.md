@@ -41,6 +41,8 @@ sources:
     url: "https://en.wikipedia.org/wiki/History_of_Baghdad"
   - name: "Wikipedia – Siege of Baghdad (1258)"
     url: "https://en.wikipedia.org/wiki/Siege_of_Baghdad"
+  - name: "Bild: astrolabium från Toledo 1067, Museo Arqueológico Nacional, Madrid. Foto Luis García (Zaqarbal), Wikimedia Commons, licens CC BY-SA 3.0"
+    url: "https://commons.wikimedia.org/wiki/File:Astrolabio_andalus%C3%AD_Toledo_1067_(M.A.N.)_04.jpg"
 related:
   - "det-muslimska-spanien-al-andalus"
   - "islam-och-big-bang"
@@ -72,6 +74,8 @@ Drivkraften var en religiös plikt snarare än sekulär nyfikenhet. Det allra f�
 > — Koranen 96:1–5
 
 Koranen återkommer ständigt till klyftan mellan vetande och okunnighet: "Kan de som vet likställas med de som inte vet?" (Koranen 39:9). Ett välkänt profetord lyder: "Att söka kunskap är en plikt för varje muslim" (Sunan Ibn Mājah 224) – en hadith vars kedja de lärda bedömt olika, men vars innebörd redan finns i Koranen. För den troende var studiet av stjärnorna, kroppen eller talen ett sätt att läsa Guds tecken, *āyāt*, i skapelsen. Att lära känna det skapade var att närma sig Skaparen, och på så sätt kunde vetandet leda till *tawhīd*. Plikterna gav dessutom vetenskapen praktiska uppgifter: astronomer räknade ut böneriktningen mot Kaba, tiderna för de fem dagliga bönerna och när nymånen som inleder ramadan kunde väntas bli synlig.
+
+![Ett runt instrument av mässing med en ring att hänga det i; över den graverade skivan ligger ett genombrutet nät med spetsiga visare och en vridbar linjal.](../../apps/web/src/assets/images/inline/astrolabium-toledo-1067.webp "Astrolabium av mässing, gjort i Toledo år 459 efter hijra, 1067, av Ibrāhīm ibn Saʿīd al-Sahlī. Ur solens eller en stjärnas höjd kunde man med det räkna ut tiden. Museo Arqueológico Nacional, Madrid.")
 
 ## Stred tron mot vetenskapen, och varför tog guldåldern slut?
 

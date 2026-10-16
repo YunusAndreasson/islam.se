@@ -52,6 +52,8 @@ sources:
     url: "https://www.cambridge.org/core/journals/bulletin-of-the-school-of-oriental-and-african-studies/article/grace-of-god-as-evidence-for-a-written-uthmanic-archetype-the-importance-of-shared-orthographic-idiosyncrasies/23C45AC7BC649A5228E0DA6F6BA15C06"
   - name: "University of Birmingham – Birmingham Qur'an manuscript dated among the oldest in the world (2015)"
     url: "https://www.birmingham.ac.uk/news-archive/2015/birmingham-quran-manuscript-dated-among-the-oldest-in-the-world"
+  - name: "Bild: koranblad från början av 700-talet, Khalili Collections, licens CC BY-SA 4.0"
+    url: "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Islamic_Art_01.jpg"
 related:
   - "vad-ar-koranen"
   - "skrev-muhammed-koranen"
@@ -95,6 +97,8 @@ Något sådant löfte gavs aldrig om Toran eller Evangeliet. Också formen skilj
 Standardiseringen skedde tidigt och av ett uttalat skäl. När följeslagaren Hudhayfa märkte att recitationen började skifta mellan trupperna vände han sig till kalifen ʿUthmān med orden: "Rädda detta samfund innan de blir oense om Boken så som judarna och de kristna blev före dem." ʿUthmān lät då Zayd ibn Thābit och tre andra skriva rena avskrifter och sände en till varje provins (Sahīh al-Bukhārī 4987). Jämförelsen med de äldre skrifterna är alltså ingen efterhandskonstruktion: den var motivet redan när texten fastställdes.
 
 Den sekulära handskriftsforskningen pekar åt samma håll. Marijn van Putten har visat att fjorton av de äldsta bevarade koranhandskrifterna delar samma ortografiska egenheter: ordet *niʿmat* kan skrivas på två sätt, och växlingen mellan dem sker på precis samma ställen i samtliga fjorton, något som är svårt att förklara utan en gemensam skriven förlaga. Pergamentet i en av de äldsta, Birminghamhandskriften, har kol-14-daterats till åren 568–645 med 95,4 procents säkerhet. I dag reciteras samma arabiska text i Jakarta som i Marocko, och någon motsvarande obruten kedja kan varken Toran eller Evangeliet visa upp. De erkända läsarterna (*qirāʾāt*) är ingen invändning mot detta: de rör uttal och vokalisering inom en och samma konsonanttext och har förts vidare i egna, namngivna överlämningskedjor.
+
+![Ett slitet pergamentblad med fransiga kanter och bruna fläckar, täckt av rader med lutande arabisk skrift i brunt bläck.](../../apps/web/src/assets/images/inline/koranblad-tidigt-700-tal.webp "Blad ur en koran skriven troligen i Mecka eller Medina i början av 700-talet. Khalili Collections.")
 
 ## Förkastar islam Bibeln och Toran?
 

@@ -1,0 +1,730 @@
+[
+	{
+		"id": "bonen-fredagsbon-kairo-2023",
+		"file": "bonen-fredagsbon-kairo-2023.webp",
+		"role": "card",
+		"width": 1800,
+		"height": 1193,
+		"bytes": 243174,
+		"texts": [
+			{
+				"file": "data/svar/sa-ber-man-steg-for-steg.md",
+				"section": "kortbild på /vad-ar-islam/ och sidans toppbild",
+				"after": "sparas som src/assets/images/fakta/sa-ber-man-steg-for-steg.webp"
+			}
+		],
+		"alt": "Män sitter på knä i långa rader på en röd bönematta mellan vita marmorpelare; framför dem sitter en pojke ensam på knä.",
+		"caption": "Fredagsbön i az-Zāhir Baybars moské i Kairo den 9 juni 2023.",
+		"markdown": "",
+		"kind": "Foto",
+		"author": "Tarekwajeh / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:%D8%B5%D9%84%D8%A7%D8%A9_%D8%A7%D9%84%D8%AC%D9%85%D8%B9%D8%A9_%D9%81%D9%8A_%D8%AC%D8%A7%D9%85%D8%B9_%D8%A7%D9%84%D8%B8%D8%A7%D9%87%D8%B1_%D8%A8%D9%8A%D8%A8%D8%B1%D8%B3_%D8%A7%D9%84%D8%A7%D8%AB%D8%B1%D9%8A_(3).jpg",
+		"changed": "",
+		"credit": "Foto: Tarekwajeh / Wikimedia Commons, CC BY-SA 4.0.",
+		"original": "3956×2621",
+		"note": "Kortbild för Bönen, som i dag lånar en essäbild. Ett dokumentärt fotografi, som kortet för Vallfärden; de övriga korten är skapade bilder. Datumet är en fredag enligt kamerans data.",
+		"verdict": "use"
+	},
+	{
+		"id": "domedagen-al-baqi-gryning-2023",
+		"file": "domedagen-al-baqi-gryning-2023.webp",
+		"role": "card",
+		"width": 1800,
+		"height": 1200,
+		"bytes": 501652,
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-domedagen.md",
+				"section": "kortbild på /vad-ar-islam/ och sidans toppbild",
+				"after": "sparas som src/assets/images/fakta/vad-ar-domedagen.webp"
+			}
+		],
+		"alt": "Låga jordkullar med en mörk sten vid huvudändan på ett sandfält i morgonsol; duvor flyger över, bakom en lång mur med gallerfönster.",
+		"caption": "Al-Baqīʿ i Medina tidigt på morgonen den 31 mars 2023.",
+		"markdown": "",
+		"kind": "Foto",
+		"author": "Indonesiagood / Wikimedia Commons",
+		"licence": "CC BY 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Makam_Al-Baqi_(Umroh_Ramadhan_2023)-7.jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Indonesiagood / Wikimedia Commons, CC BY 4.0, beskuren.",
+		"original": "4000×3000",
+		"note": "Texten nämner inte al-Baqīʿ; bilden står för graven och uppståndelsen. En stämningslandskap avvisades tidigare för detta kort, och essän En handsbredd över marken har redan en bild av al-Baqīʿ från 2021. Din bedömning.",
+		"verdict": "maybe"
+	},
+	{
+		"id": "sahih-al-bukhari-inledningen-1850",
+		"file": "sahih-al-bukhari-inledningen-1850.webp",
+		"role": "inline",
+		"width": 1100,
+		"height": 1698,
+		"bytes": 380372,
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-sunna.md",
+				"section": "Vad är skillnaden mellan sunna och hadith?",
+				"after": "bara det som består isnādens prövning"
+			}
+		],
+		"alt": "Handskriftssida med en guldmålad blomsterbård överst och därunder rader av svart skrift mellan guldfält, omgiven av snedställda marginalanteckningar.",
+		"caption": "Inledningen till Sahīh al-Bukhārī i en avskrift troligen från Mecka, avslutad 1850. Raderna mellan guldfälten räknar upp de lärare genom vilka boken förts vidare från al-Bukhārī, och sedan samlingens första hadith med dess kedja: Handlingarna bedöms efter avsikterna. Khalili Collections.",
+		"markdown": "![Handskriftssida med en guldmålad blomsterbård överst och därunder rader av svart skrift mellan guldfält, omgiven av snedställda marginalanteckningar.](../../apps/web/src/assets/images/inline/sahih-al-bukhari-inledningen-1850.webp \"Inledningen till Sahīh al-Bukhārī i en avskrift troligen från Mecka, avslutad 1850. Raderna mellan guldfälten räknar upp de lärare genom vilka boken förts vidare från al-Bukhārī, och sedan samlingens första hadith med dess kedja: Handlingarna bedöms efter avsikterna. Khalili Collections.\")",
+		"kind": "Bild",
+		"author": "Khalili Collections",
+		"licence": "CC BY-SA 3.0 igo",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_mss_0360_fol_2b-3a.jpg",
+		"changed": "beskuren",
+		"credit": "Bild: Khalili Collections, CC BY-SA 3.0 igo, beskuren.",
+		"original": "3606×2500",
+		"note": "Läst i bilden: överföringskedjan från Abū al-Waqt bakåt till al-Firabrī och al-Bukhārī, därefter isnāden al-Humaydī – Sufyān – Yahyā ibn Saʿīd – ʿUmar och hadithen om avsikterna. Samma blad passar också slutet av Vad var hijra?, som citerar just den hadith som inleder samlingen.",
+		"verdict": "use"
+	},
+	{
+		"id": "sahih-al-bukhari-kapitlet-om-bildmakarna",
+		"file": "sahih-al-bukhari-kapitlet-om-bildmakarna.webp",
+		"role": "inline",
+		"width": 1100,
+		"height": 1617,
+		"bytes": 158614,
+		"texts": [
+			{
+				"file": "data/fordjupning/artificiell-intelligens.md",
+				"section": "AI och Koranen: verserna och haditherna i debatten",
+				"after": "rättsskolornas olika läsningar av texterna följer med in i analogierna"
+			}
+		],
+		"alt": "Handskriftssida med rader av svart arabisk skrift och rubriker i guld, på gulnat papper i ett läderband.",
+		"caption": "Sahīh al-Bukhārī i en avskrift troligen från Egypten, sent 1300- eller tidigt 1400-tal. Sidan rymmer kapitlet om den som gör en bild, med Ibn ʿAbbās återgivning av profetens ord: den som gör en bild i denna värld åläggs på Uppståndelsens dag att blåsa in ande i den, och förmår det inte. Khalili Collections.",
+		"markdown": "![Handskriftssida med rader av svart arabisk skrift och rubriker i guld, på gulnat papper i ett läderband.](../../apps/web/src/assets/images/inline/sahih-al-bukhari-kapitlet-om-bildmakarna.webp \"Sahīh al-Bukhārī i en avskrift troligen från Egypten, sent 1300- eller tidigt 1400-tal. Sidan rymmer kapitlet om den som gör en bild, med Ibn ʿAbbās återgivning av profetens ord: den som gör en bild i denna värld åläggs på Uppståndelsens dag att blåsa in ande i den, och förmår det inte. Khalili Collections.\")",
+		"kind": "Bild",
+		"author": "Khalili Collections",
+		"licence": "CC BY-SA 3.0 igo",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Islamic_Art_mss_0311_fol_190b-191a.jpg",
+		"changed": "beskuren",
+		"credit": "Bild: Khalili Collections, CC BY-SA 3.0 igo, beskuren.",
+		"original": "3549×2500",
+		"note": "Läst i bilden: slutet av hadithen om att profeten förbannade bildmakaren, kapitelrubriken och hadithen från Ibn ʿAbbās (al-Bukhārī 5963), därefter guldrubriken till nästa kapitel. Sidan har bara skrift, inga figurer.",
+		"verdict": "use"
+	},
+	{
+		"id": "al-fatiha-mamlukisk-handskrift",
+		"file": "al-fatiha-mamlukisk-handskrift.webp",
+		"role": "inline",
+		"width": 1100,
+		"height": 1287,
+		"bytes": 285940,
+		"texts": [
+			{
+				"file": "data/svar/vad-betyder-al-fatiha.md",
+				"section": "Vad betyder ordet al-Fatiha?",
+				"after": "enligt många överlämnare var det den första hela sura"
+			}
+		],
+		"alt": "Handskriftssida med sju rader svart skrift inom en guldram, med ett blått och guldfärgat fält överst och nederst och gyllene rosetter mellan verserna.",
+		"caption": "Al-Fātiha i en koranhandskrift av det slag som gjordes i Egypten under mamlukerna, 1300- eller 1400-talet. Fältet överst kallar suran Fātihat al-Kitāb al-ʿAzīz, den mäktiga Bokens öppning; fältet nederst anger sju verser uppenbarade i Mecka. Library of Congress, Washington.",
+		"markdown": "![Handskriftssida med sju rader svart skrift inom en guldram, med ett blått och guldfärgat fält överst och nederst och gyllene rosetter mellan verserna.](../../apps/web/src/assets/images/inline/al-fatiha-mamlukisk-handskrift.webp \"Al-Fātiha i en koranhandskrift av det slag som gjordes i Egypten under mamlukerna, 1300- eller 1400-talet. Fältet överst kallar suran Fātihat al-Kitāb al-ʿAzīz, den mäktiga Bokens öppning; fältet nederst anger sju verser uppenbarade i Mecka. Library of Congress, Washington.\")",
+		"kind": "Bild",
+		"author": "Library of Congress",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Al_Fatihah_-_naskh_script.jpg",
+		"changed": "beskuren",
+		"credit": "Bild: Library of Congress, fri från upphovsrätt, beskuren.",
+		"original": "3564×4588",
+		"note": "Båda fälten lästa i bilden. De säger det som stycket förklarar: namnet, de sju verserna och att suran är meckansk.",
+		"verdict": "use"
+	},
+	{
+		"id": "koranhandskrift-al-fatiha-al-baqara-kufisk",
+		"file": "koranhandskrift-al-fatiha-al-baqara-kufisk.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 990,
+		"bytes": 232042,
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-koranen.md",
+				"section": "Vad betyder ordet \"Koran\" – och vad är den egentligen?",
+				"after": "här råder inget tvivel"
+			}
+		],
+		"alt": "Uppslag ur en handskrift med stor svart kufisk skrift på ljust papper, med guldornament i marginalerna och guldfält med rubriker överst på båda sidorna.",
+		"caption": "Uppslag ur en koranhandskrift i kufisk skrift från Iran, sent 1000-tal. Till höger al-Fātiha, till vänster början av den andra suran: Denna Skrift – här råder inget tvivel. Khalili Collections.",
+		"markdown": "![Uppslag ur en handskrift med stor svart kufisk skrift på ljust papper, med guldornament i marginalerna och guldfält med rubriker överst på båda sidorna.](../../apps/web/src/assets/images/inline/koranhandskrift-al-fatiha-al-baqara-kufisk.webp \"Uppslag ur en koranhandskrift i kufisk skrift från Iran, sent 1000-tal. Till höger al-Fātiha, till vänster början av den andra suran: Denna Skrift – här råder inget tvivel. Khalili Collections.\")",
+		"kind": "Bild",
+		"author": "Khalili Collections",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Al-Fatihah_Later_11th_century_Iran_Kufic_script_Khalili_Collection6inchx300dpi.jpg",
+		"changed": "",
+		"credit": "Bild: Khalili Collections, fri från upphovsrätt.",
+		"original": "1800×1273",
+		"note": "Läst i bilden: al-Fātiha på högra sidan, al-Baqara 1–4 på den vänstra, alltså den vers som stycket citerar. Filen är 1800 px, något mjuk men fullt läsbar.",
+		"verdict": "use"
+	},
+	{
+		"id": "koranblad-tidigt-700-tal",
+		"file": "koranblad-tidigt-700-tal.webp",
+		"role": "inline",
+		"width": 1100,
+		"height": 1683,
+		"bytes": 175556,
+		"texts": [
+			{
+				"file": "data/svar/koranen-och-tidigare-skrifter.md",
+				"section": "Hur kan Koranen vara bevarad när de andra inte är det?",
+				"after": "egna, namngivna överlämningskedjor"
+			}
+		],
+		"alt": "Ett slitet pergamentblad med fransiga kanter och bruna fläckar, täckt av rader med lutande arabisk skrift i brunt bläck.",
+		"caption": "Blad ur en koran skriven troligen i Mecka eller Medina i början av 700-talet. Khalili Collections.",
+		"markdown": "![Ett slitet pergamentblad med fransiga kanter och bruna fläckar, täckt av rader med lutande arabisk skrift i brunt bläck.](../../apps/web/src/assets/images/inline/koranblad-tidigt-700-tal.webp \"Blad ur en koran skriven troligen i Mecka eller Medina i början av 700-talet. Khalili Collections.\")",
+		"kind": "Bild",
+		"author": "Khalili Collections",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Islamic_Art_01.jpg",
+		"changed": "",
+		"credit": "Bild: Khalili Collections, CC BY-SA 4.0.",
+		"original": "2500×3825",
+		"note": "Stycket talar om de äldsta bevarade handskrifterna. Birminghambladen visas redan i fördjupningen om Koranen; detta är ett annat blad, och bildtexten påstår inte att det hör till van Puttens fjorton.",
+		"verdict": "use"
+	},
+	{
+		"id": "al-fatiha-pa-kamelskulderblad",
+		"file": "al-fatiha-pa-kamelskulderblad.webp",
+		"role": "inline",
+		"width": 1069,
+		"height": 1516,
+		"bytes": 103614,
+		"texts": [
+			{
+				"file": "data/svar/skrev-muhammed-koranen.md",
+				"section": "Hur bevarades Koranen om profeten inte skrev den?",
+				"after": "helt visst slå vakt om den"
+			}
+		],
+		"alt": "Ett ljust, platt ben format som ett blad, med rader av handskriven arabisk text i svart bläck.",
+		"caption": "Al-Fātiha skriven med svart bläck på skulderbladet av en kamel, 1800-talet. Ben var ett av de underlag som de första skrivarna använde när uppenbarelsen tecknades ned. Princeton University Library.",
+		"markdown": "![Ett ljust, platt ben format som ett blad, med rader av handskriven arabisk text i svart bläck.](../../apps/web/src/assets/images/inline/al-fatiha-pa-kamelskulderblad.webp \"Al-Fātiha skriven med svart bläck på skulderbladet av en kamel, 1800-talet. Ben var ett av de underlag som de första skrivarna använde när uppenbarelsen tecknades ned. Princeton University Library.\")",
+		"kind": "Bild",
+		"author": "Princeton University Library",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Surat_al-Fatiha_inscribed_upon_the_shoulder_blade_of_a_camel.jpg",
+		"changed": "beskuren",
+		"credit": "Bild: Princeton University Library, fri från upphovsrätt, beskuren.",
+		"original": "1069×2230",
+		"note": "Texten på benet läst: al-Fātiha från basmalan. Föremålet är från 1800-talet, inte från profetens tid; bildtexten säger det. Beskuren till den beskrivna delen; benets nacke nedtill är utan text.",
+		"verdict": "use"
+	},
+	{
+		"id": "jabal-an-nur-mecka-2017",
+		"file": "jabal-an-nur-mecka-2017.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 910,
+		"bytes": 225818,
+		"texts": [
+			{
+				"file": "data/svar/vem-var-profeten-muhammed.md",
+				"section": "Hur blev Muhammed profet?",
+				"after": "som lugnade honom"
+			}
+		],
+		"alt": "Ett brant, kalt berg med en spetsig topp reser sig över ett bostadsområde, med fler bergskedjor i diset bakom.",
+		"caption": "Jabal an-Nūr utanför Mecka, berget där grottan Hira ligger. September 2017.",
+		"markdown": "![Ett brant, kalt berg med en spetsig topp reser sig över ett bostadsområde, med fler bergskedjor i diset bakom.](../../apps/web/src/assets/images/inline/jabal-an-nur-mecka-2017.webp \"Jabal an-Nūr utanför Mecka, berget där grottan Hira ligger. September 2017.\")",
+		"kind": "Foto",
+		"author": "saudipics / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:%D8%AC%D8%A8%D9%84_%D8%A7%D9%84%D9%86%D9%88%D8%B1_%D9%85%D9%83%D8%A9.jpg",
+		"changed": "",
+		"credit": "Foto: saudipics / Wikimedia Commons, CC BY-SA 4.0.",
+		"original": "4458×2899",
+		"note": "Datum ur kamerans data (Commons anger mars 2019, uppladdningen). Samma fotograf som bilden av ʿArafat på Vad är hajj?.",
+		"verdict": "use"
+	},
+	{
+		"id": "qubamoskeen-medina-2024",
+		"file": "qubamoskeen-medina-2024.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 875,
+		"bytes": 72408,
+		"texts": [
+			{
+				"file": "data/svar/vad-var-hijra.md",
+				"section": "Vad förändrade hijra i Medina?",
+				"after": "vänner och beskyddare"
+			}
+		],
+		"alt": "En stor vit moské med flera kupoler och fyra höga minareter under blå himmel, sedd över en öppen sandplan med palmer.",
+		"caption": "Qubamoskén i Medina, december 2024. Den står där profeten reste islams första moské vid ankomsten 622.",
+		"markdown": "![En stor vit moské med flera kupoler och fyra höga minareter under blå himmel, sedd över en öppen sandplan med palmer.](../../apps/web/src/assets/images/inline/qubamoskeen-medina-2024.webp \"Qubamoskén i Medina, december 2024. Den står där profeten reste islams första moské vid ankomsten 622.\")",
+		"kind": "Foto",
+		"author": "Kaliper1 / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Quba_Mosque_from_Afar_(2024).jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Kaliper1 / Wikimedia Commons, CC BY-SA 4.0, beskuren.",
+		"original": "4000×3000",
+		"note": "Beskuren nedtill, där en vägvält och en avspärrning stod i förgrunden. Platsen bekräftad av bildens koordinater. Kan också stå i Vad är en moské?, som nämner Quba.",
+		"verdict": "use"
+	},
+	{
+		"id": "fittja-moske-bonesalen-2012",
+		"file": "fittja-moske-bonesalen-2012.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 907,
+		"bytes": 120914,
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-en-moske.md",
+				"section": "Hur ser en moské ut?",
+				"after": "tagit av sig skorna"
+			}
+		],
+		"alt": "En moskés bönesal med röd heltäckande matta i raka band, kaklade pelare och längst bort en nisch i väggen och en vit predikstol med trappa.",
+		"caption": "Bönesalen i Fittja moské i Botkyrka, oktober 2012. Mihraben i qiblaväggen, minbaren till höger om den.",
+		"markdown": "![En moskés bönesal med röd heltäckande matta i raka band, kaklade pelare och längst bort en nisch i väggen och en vit predikstol med trappa.](../../apps/web/src/assets/images/inline/fittja-moske-bonesalen-2012.webp \"Bönesalen i Fittja moské i Botkyrka, oktober 2012. Mihraben i qiblaväggen, minbaren till höger om den.\")",
+		"kind": "Foto",
+		"author": "Holger Ellgaard / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Fittja_moske_2012e.jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Holger Ellgaard / Wikimedia Commons, CC BY-SA 3.0, beskuren.",
+		"original": "4312×3104",
+		"note": "En svensk moské som visar det stycket räknar upp: mihrab, minbar, mattor, inga bilder. Fönstren ger visst motljus.",
+		"verdict": "use"
+	},
+	{
+		"id": "eid-bon-sanddyner-parangkusumo-2022",
+		"file": "eid-bon-sanddyner-parangkusumo-2022.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 933,
+		"bytes": 233854,
+		"texts": [
+			{
+				"file": "data/svar/eid-al-fitr-och-eid-al-adha.md",
+				"section": "Hur firar man Eid?",
+				"after": "sjuka och ensamma"
+			}
+		],
+		"alt": "Hundratals män står i långa rader på färggranna bönemattor ute på en sandslätt i låg morgonsol, med berg i bakgrunden och långa skuggor framför sig.",
+		"caption": "Eid-bön på sanddynerna vid Parangkusumo söder om Yogyakarta, morgonen den 9 juli 2022, vid offerhögtiden.",
+		"markdown": "![Hundratals män står i långa rader på färggranna bönemattor ute på en sandslätt i låg morgonsol, med berg i bakgrunden och långa skuggor framför sig.](../../apps/web/src/assets/images/inline/eid-bon-sanddyner-parangkusumo-2022.webp \"Eid-bön på sanddynerna vid Parangkusumo söder om Yogyakarta, morgonen den 9 juli 2022, vid offerhögtiden.\")",
+		"kind": "Foto",
+		"author": "Giri Wijayanto / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Salat_Ied_di_Gumuk_Pasir.jpg",
+		"changed": "",
+		"credit": "Foto: Giri Wijayanto / Wikimedia Commons, CC BY-SA 4.0.",
+		"original": "3000×2000",
+		"note": "Stycket säger att man går till eid-bönen, gärna på öppen plats. Datum ur kamerans data; Muhammadiyah höll offerhögtiden den 9 juli 2022. Bilden står sist i texten.",
+		"verdict": "use"
+	},
+	{
+		"id": "jamarat-mina-16-november-2010",
+		"file": "jamarat-mina-16-november-2010.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 930,
+		"bytes": 98322,
+		"texts": [
+			{
+				"file": "data/svar/eid-al-fitr-och-eid-al-adha.md",
+				"section": "Vad är Eid al-Adha?",
+				"after": "offer i en enda dag"
+			}
+		],
+		"alt": "En man i vit pilgrimsdräkt, sedd snett bakifrån, lyfter armen för att kasta mot en hög, grå mur av sten.",
+		"caption": "En pilgrim kastar sina småstenar vid jamarāt i Mina den 16 november 2010, offerhögtidens första dag.",
+		"markdown": "![En man i vit pilgrimsdräkt, sedd snett bakifrån, lyfter armen för att kasta mot en hög, grå mur av sten.](../../apps/web/src/assets/images/inline/jamarat-mina-16-november-2010.webp \"En pilgrim kastar sina småstenar vid jamarāt i Mina den 16 november 2010, offerhögtidens första dag.\")",
+		"kind": "Foto",
+		"author": "Fadi El Binni, Al Jazeera English / Wikimedia Commons",
+		"licence": "CC BY-SA 2.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:While_tossing_their_pebbles,_pilgrims_recall_a_story_of_the_Prophet_Abraham._-_Flickr_-_Al_Jazeera_English.jpg",
+		"changed": "",
+		"credit": "Foto: Fadi El Binni, Al Jazeera English / Wikimedia Commons, CC BY-SA 2.0.",
+		"original": "3216×2136",
+		"note": "Stycket: medan pilgrimerna i Mina stenar symbolen för Satan firar muslimer i hela världen. Datum ur kamerans data; offerhögtiden föll på den 16 november 2010 i Saudiarabien.",
+		"verdict": "use"
+	},
+	{
+		"id": "kaba-gemensam-bon-1889",
+		"file": "kaba-gemensam-bon-1889.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 1060,
+		"bytes": 245734,
+		"texts": [
+			{
+				"file": "data/svar/erovringen-av-mecka.md",
+				"section": "Vad hände med Kaba och avgudarna?",
+				"after": "lät böneutropet"
+			}
+		],
+		"alt": "Gammalt svartvitt fotografi av en stor gård full av människor i bön framför en kubformad byggnad klädd i svart tyg, med bergssluttningar och hus i bakgrunden.",
+		"caption": "Gemensam bön på gården kring Kaba omkring 1889, fotograferad av den meckanske läkaren al-Sayyid ʿAbd al-Ghaffār. Library of Congress.",
+		"markdown": "![Gammalt svartvitt fotografi av en stor gård full av människor i bön framför en kubformad byggnad klädd i svart tyg, med bergssluttningar och hus i bakgrunden.](../../apps/web/src/assets/images/inline/kaba-gemensam-bon-1889.webp \"Gemensam bön på gården kring Kaba omkring 1889, fotograferad av den meckanske läkaren al-Sayyid ʿAbd al-Ghaffār. Library of Congress.\")",
+		"kind": "Foto",
+		"author": "al-Sayyid ʿAbd al-Ghaffār, Library of Congress",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Mecca_prayer,_1889.tif",
+		"changed": "",
+		"credit": "Foto: al-Sayyid ʿAbd al-Ghaffār, Library of Congress, fri från upphovsrätt.",
+		"original": "1508×1142",
+		"note": "Visar platsen, inte händelsen år 630; bildtexten säger sitt eget år. Filen är 1508 px bred, alltså lagom för spalten men inte mer.",
+		"verdict": "maybe"
+	},
+	{
+		"id": "astrolabium-toledo-1067",
+		"file": "astrolabium-toledo-1067.webp",
+		"role": "inline",
+		"width": 1100,
+		"height": 1283,
+		"bytes": 98352,
+		"texts": [
+			{
+				"file": "data/svar/den-islamiska-guldaldern.md",
+				"section": "Varför uppmuntrar islam kunskap?",
+				"after": "kunde väntas bli synlig"
+			}
+		],
+		"alt": "Ett runt instrument av mässing med en ring att hänga det i; över den graverade skivan ligger ett genombrutet nät med spetsiga visare och en vridbar linjal.",
+		"caption": "Astrolabium av mässing, gjort i Toledo år 459 efter hijra, 1067, av Ibrāhīm ibn Saʿīd al-Sahlī. Ur solens eller en stjärnas höjd kunde man med det räkna ut tiden. Museo Arqueológico Nacional, Madrid.",
+		"markdown": "![Ett runt instrument av mässing med en ring att hänga det i; över den graverade skivan ligger ett genombrutet nät med spetsiga visare och en vridbar linjal.](../../apps/web/src/assets/images/inline/astrolabium-toledo-1067.webp \"Astrolabium av mässing, gjort i Toledo år 459 efter hijra, 1067, av Ibrāhīm ibn Saʿīd al-Sahlī. Ur solens eller en stjärnas höjd kunde man med det räkna ut tiden. Museo Arqueológico Nacional, Madrid.\")",
+		"kind": "Foto",
+		"author": "Luis García (Zaqarbal) / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Astrolabio_andalus%C3%AD_Toledo_1067_(M.A.N.)_04.jpg",
+		"changed": "",
+		"credit": "Foto: Luis García (Zaqarbal) / Wikimedia Commons, CC BY-SA 3.0.",
+		"original": "1804×2104",
+		"note": "Stycket: astronomer räknade ut böneriktningen och bönetiderna. Al-Khwārizmīs algebra och Ibn Sīnās Kanon finns på Commons bara i för små eller osäkra filer.",
+		"verdict": "use"
+	},
+	{
+		"id": "cordoba-mihraben-al-hakam-ii",
+		"file": "cordoba-mihraben-al-hakam-ii.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 936,
+		"bytes": 405976,
+		"texts": [
+			{
+				"file": "data/svar/det-muslimska-spanien-al-andalus.md",
+				"section": "Vad var kalifatet i Córdoba?",
+				"after": "-kungadömen"
+			}
+		],
+		"alt": "En hästskoformad båge kring en ljus nisch, omgiven av guldmosaik med växtslingor och band av blå och guldfärgad skrift, i en vägg av snidad sten.",
+		"caption": "Mihraben i stora moskén i Córdoba, byggd under kalifen al-Hakam II på 960-talet. April 2017.",
+		"markdown": "![En hästskoformad båge kring en ljus nisch, omgiven av guldmosaik med växtslingor och band av blå och guldfärgad skrift, i en vägg av snidad sten.](../../apps/web/src/assets/images/inline/cordoba-mihraben-al-hakam-ii.webp \"Mihraben i stora moskén i Córdoba, byggd under kalifen al-Hakam II på 960-talet. April 2017.\")",
+		"kind": "Foto",
+		"author": "Jl FilpoC / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Fachada_del_mihrab_de_la_Mezquita_de_C%C3%B3rdoba,_Espa%C3%B1a.jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Jl FilpoC / Wikimedia Commons, CC BY-SA 4.0, beskuren.",
+		"original": "4028×3021",
+		"note": "Stycket nämner al-Hakam II och den stora moskén. Pelarsalen visas redan i fördjupningen om kalifatet; detta är hans mihrab.",
+		"verdict": "use"
+	},
+	{
+		"id": "al-zahrawi-kitab-at-tasrif-kirurgin",
+		"file": "al-zahrawi-kitab-at-tasrif-kirurgin.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 879,
+		"bytes": 178558,
+		"texts": [
+			{
+				"file": "data/svar/det-muslimska-spanien-al-andalus.md",
+				"section": "Varför kallas al-Andalus en lärdomens guldålder?",
+				"after": "i femhundra år"
+			}
+		],
+		"alt": "Uppslagen bok med två sidor tät arabisk skrift i svart bläck; röda rubriker och avlånga instrument ritade i rött mellan raderna.",
+		"caption": "Uppslag ur kirurgiavsnittet i al-Zahrawis Kitāb at-Tasrīf, i en avskrift från 1200-talets Mellanöstern. Instrumenten är ritade i rött mellan raderna. Chester Beatty Library, Dublin.",
+		"markdown": "![Uppslagen bok med två sidor tät arabisk skrift i svart bläck; röda rubriker och avlånga instrument ritade i rött mellan raderna.](../../apps/web/src/assets/images/inline/al-zahrawi-kitab-at-tasrif-kirurgin.webp \"Uppslag ur kirurgiavsnittet i al-Zahrawis Kitāb at-Tasrīf, i en avskrift från 1200-talets Mellanöstern. Instrumenten är ritade i rött mellan raderna. Chester Beatty Library, Dublin.\")",
+		"kind": "Bild",
+		"author": "Chester Beatty Library, Dublin",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Treatise_on_Surgery_of_al-Zahrawi_(CBL_Ar_3172,_ff._49b-50a).jpg",
+		"changed": "beskuren",
+		"credit": "Bild: Chester Beatty Library, Dublin, fri från upphovsrätt, beskuren.",
+		"original": "6639×4348",
+		"note": "Läst i bilden: och detta är bilden av saxen, ovanför en av ritningarna. Två bilder i texten om al-Andalus; mellan dem står två stycken.",
+		"verdict": "use"
+	},
+	{
+		"id": "al-hijr-kaba-2016",
+		"file": "al-hijr-kaba-2016.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 728,
+		"bytes": 189564,
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-kaba.md",
+				"section": "Vem byggde Kaba och när?",
+				"after": "Murarna restes senast 1630"
+			}
+		],
+		"alt": "Uppifrån: en låg, vit, halvcirkelformad mur med förgyllda lyktor intill Kabas svarta vägg, tätt med pilgrimer både innanför och utanför muren.",
+		"caption": "Al-Hijr vid Kabas nordvästra sida, mars 2016. Den låga halvcirkelformade muren markerar den del av Abrahams grund som lämnades utanför när Quraysh byggde om huset.",
+		"markdown": "![Uppifrån: en låg, vit, halvcirkelformad mur med förgyllda lyktor intill Kabas svarta vägg, tätt med pilgrimer både innanför och utanför muren.](../../apps/web/src/assets/images/inline/al-hijr-kaba-2016.webp \"Al-Hijr vid Kabas nordvästra sida, mars 2016. Den låga halvcirkelformade muren markerar den del av Abrahams grund som lämnades utanför när Quraysh byggde om huset.\")",
+		"kind": "Foto",
+		"author": "Moataz1997 / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Hajr_Ismail,_Makkah.jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Moataz1997 / Wikimedia Commons, CC BY-SA 3.0, beskuren.",
+		"original": "5184×3456",
+		"note": "Stycket förklarar varför al-Hijr ligger utanför murarna. Fotografen står på Commons med sitt namn på arabiska, معتز توفيق اغبارية, och användarnamnet Moataz1997.",
+		"verdict": "use"
+	},
+	{
+		"id": "svarta-stenen-2023",
+		"file": "svarta-stenen-2023.webp",
+		"role": "inline",
+		"width": 1100,
+		"height": 1533,
+		"bytes": 118560,
+		"texts": [
+			{
+				"file": "data/svar/vad-ar-kaba.md",
+				"section": "Vad är Svarta stenen?",
+				"after": "avgudadyrkan inte dras"
+			}
+		],
+		"alt": "Närbild av en blank, välvd silverinfattning med en rund öppning där en mörk sten syns, mot svart tyg och vit marmor.",
+		"caption": "Svarta stenen i sin silverinfattning i Kabas östra hörn, december 2023.",
+		"markdown": "![Närbild av en blank, välvd silverinfattning med en rund öppning där en mörk sten syns, mot svart tyg och vit marmor.](../../apps/web/src/assets/images/inline/svarta-stenen-2023.webp \"Svarta stenen i sin silverinfattning i Kabas östra hörn, december 2023.\")",
+		"kind": "Foto",
+		"author": "Noor Mohammad Siam / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:%E0%A6%B9%E0%A6%BE%E0%A6%9C%E0%A6%B0%E0%A7%87_%E0%A6%86%E0%A6%B8%E0%A6%93%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%A6.jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Noor Mohammad Siam / Wikimedia Commons, CC BY-SA 4.0, beskuren.",
+		"original": "3468×4624",
+		"note": "Står efter Umars ord om stenen, sist i avsnittet. Mellan denna och bilden av al-Hijr står två stycken.",
+		"verdict": "use"
+	},
+	{
+		"id": "nymane-over-manama-2006",
+		"file": "nymane-over-manama-2006.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 903,
+		"bytes": 71028,
+		"texts": [
+			{
+				"file": "data/svar/islams-symboler.md",
+				"section": "Vad betyder halvmånen (hilāl) i islam?",
+				"after": "vandrar Ramadan genom årstiderna"
+			}
+		],
+		"alt": "En smal månskära högt på en rosa och orange skymningshimmel ovanför två palmer och en rad gatlyktor.",
+		"caption": "Den nya månskäran över Manama, Bahrain, i skymningen den 24 september 2006, i ramadans början.",
+		"markdown": "![En smal månskära högt på en rosa och orange skymningshimmel ovanför två palmer och en rad gatlyktor.](../../apps/web/src/assets/images/inline/nymane-over-manama-2006.webp \"Den nya månskäran över Manama, Bahrain, i skymningen den 24 september 2006, i ramadans början.\")",
+		"kind": "Foto",
+		"author": "Ahmed Rabea / Wikimedia Commons",
+		"licence": "CC BY-SA 2.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Welcome_Ramadhan.jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Ahmed Rabea / Wikimedia Commons, CC BY-SA 2.0, beskuren.",
+		"original": "2168×1626",
+		"note": "Stycket: halvmånens roll är att visa när månaden börjar. Datum ur kamerans data; ramadan 1427 började den 23–24 september 2006. En kamera från 2006: något brusig i himlen.",
+		"verdict": "use"
+	},
+	{
+		"id": "kabas-dorrforhange-2024",
+		"file": "kabas-dorrforhange-2024.webp",
+		"role": "inline",
+		"width": 1100,
+		"height": 1027,
+		"bytes": 374408,
+		"texts": [
+			{
+				"file": "data/svar/islams-symboler.md",
+				"section": "Vilka tecken använde de tidiga muslimerna?",
+				"after": "Den enda symbol islam självt reser är en mening"
+			}
+		],
+		"alt": "Uppåtvänd bild av en svart vägg täckt av tyg med broderad arabisk skrift i guld och silver; ett rikt broderat förhänge hänger över en förgylld dubbeldörr.",
+		"caption": "Förhänget över Kabas dörr, februari 2024. Bland orden i guld- och silverbroderiet står al-Fātihas Dig tillber vi; Dig anropar vi om hjälp.",
+		"markdown": "![Uppåtvänd bild av en svart vägg täckt av tyg med broderad arabisk skrift i guld och silver; ett rikt broderat förhänge hänger över en förgylld dubbeldörr.](../../apps/web/src/assets/images/inline/kabas-dorrforhange-2024.webp \"Förhänget över Kabas dörr, februari 2024. Bland orden i guld- och silverbroderiet står al-Fātihas Dig tillber vi; Dig anropar vi om hjälp.\")",
+		"kind": "Bild",
+		"author": "Bjelica / Wikimedia Commons",
+		"licence": "CC0",
+		"licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Gate_of_Kaaba.jpg",
+		"changed": "beskuren",
+		"credit": "Bild: Bjelica / Wikimedia Commons, fri från upphovsrätt, beskuren.",
+		"original": "3024×4032",
+		"note": "Stycket: kiswan bär inga bilder, bara Koranens ord i guld. Orden i bildtexten lästa i bilden. Står sist i texten.",
+		"verdict": "use"
+	},
+	{
+		"id": "perf-558-kvitto-ar-22",
+		"file": "perf-558-kvitto-ar-22.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 851,
+		"bytes": 192284,
+		"texts": [
+			{
+				"file": "data/fordjupning/islamiskt-nyar.md",
+				"section": "Hijrakalenderns historia: från Umars beslut till dagens månobservation",
+				"after": "märkesdag värd att fixera"
+			}
+		],
+		"alt": "Ett brunt papyrusblad med veck och små hål; överst rader i grekisk skrift, därunder tre rader arabisk skrift.",
+		"caption": "Kvitto på papyrus från Egypten, skrivet på grekiska och arabiska och daterat i jumādā al-ūlā år 22, april 643. Det hör till de äldsta bevarade handlingarna där åren räknas från hijra. Österrikiska nationalbiblioteket, Wien.",
+		"markdown": "![Ett brunt papyrusblad med veck och små hål; överst rader i grekisk skrift, därunder tre rader arabisk skrift.](../../apps/web/src/assets/images/inline/perf-558-kvitto-ar-22.webp \"Kvitto på papyrus från Egypten, skrivet på grekiska och arabiska och daterat i jumādā al-ūlā år 22, april 643. Det hör till de äldsta bevarade handlingarna där åren räknas från hijra. Österrikiska nationalbiblioteket, Wien.\")",
+		"kind": "Bild",
+		"author": "Österreichische Nationalbibliothek, Wien",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:PERF_558,_recto.jpg",
+		"changed": "beskuren",
+		"credit": "Bild: Österreichische Nationalbibliothek, Wien, fri från upphovsrätt, beskuren.",
+		"original": "4412×3048",
+		"note": "Dateringen läst i bilden: al-ūlā min sanat ithnay wa-ʿishrīn. Visar att tideräkningen var i bruk några år efter Umars beslut, vilket stycket om det osäkra årtalet handlar om.",
+		"verdict": "use"
+	},
+	{
+		"id": "basmala-mihrabvaggen-cordoba",
+		"file": "basmala-mihrabvaggen-cordoba.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 767,
+		"bytes": 257638,
+		"texts": [
+			{
+				"file": "data/fordjupning/uttryck.md",
+				"section": "De muslimska uttryckens historia från Hudaybiyya till 1900-talet",
+				"after": "mest reproducerade motiven i islamisk konst"
+			}
+		],
+		"alt": "Detalj av ett band i guldmosaik med stora svarta kufiska bokstäver, inramat av snidad vit sten med växtslingor.",
+		"caption": "Basmalan i guldmosaik på mihrabväggen i stora moskén i Córdoba, 960-talet: I Guds, den Nåderikes, den Barmhärtiges namn.",
+		"markdown": "![Detalj av ett band i guldmosaik med stora svarta kufiska bokstäver, inramat av snidad vit sten med växtslingor.](../../apps/web/src/assets/images/inline/basmala-mihrabvaggen-cordoba.webp \"Basmalan i guldmosaik på mihrabväggen i stora moskén i Córdoba, 960-talet: I Guds, den Nåderikes, den Barmhärtiges namn.\")",
+		"kind": "Foto",
+		"author": "Richard Mortel / Wikimedia Commons",
+		"licence": "CC BY 2.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by/2.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Great_Mosque_of_Cordoba,_mihrab_area,_10th_century_(21)_(29801397576).jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Richard Mortel / Wikimedia Commons, CC BY 2.0, beskuren.",
+		"original": "5818×3708",
+		"note": "Läst i bilden: bismi llāhi r-rahmāni r-rahīm. Stycket nämner Klippdomen; jag hittade ingen bild av dess inskriftsband där jag kunde läsa vilket band det är, så bildtexten säger Córdoba.",
+		"verdict": "use"
+	},
+	{
+		"id": "tvagningsfontan-gazi-husrev-beg-sarajevo-2011",
+		"file": "tvagningsfontan-gazi-husrev-beg-sarajevo-2011.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 931,
+		"bytes": 285722,
+		"texts": [
+			{
+				"file": "data/fordjupning/tvagning.md",
+				"section": "Tvagningens historia från 600-talet till moderna vattenledningar",
+				"after": "medan ghusl är förnämligare"
+			}
+		],
+		"alt": "En åttkantig fontän med stenbassäng under ett trätak på pelare, på en stenlagd moskégård med valvbågar; gula höstlöv hänger in i bilden.",
+		"caption": "Tvagningsfontänen på gården till Gazi Husrev-begs moské i Sarajevo, november 2011.",
+		"markdown": "![En åttkantig fontän med stenbassäng under ett trätak på pelare, på en stenlagd moskégård med valvbågar; gula höstlöv hänger in i bilden.](../../apps/web/src/assets/images/inline/tvagningsfontan-gazi-husrev-beg-sarajevo-2011.webp \"Tvagningsfontänen på gården till Gazi Husrev-begs moské i Sarajevo, november 2011.\")",
+		"kind": "Foto",
+		"author": "Milan Suvajac / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Sarajevo_Begova-Dzamija_2011-11-08.jpg",
+		"changed": "",
+		"credit": "Foto: Milan Suvajac / Wikimedia Commons, CC BY-SA 4.0.",
+		"original": "3008×2000",
+		"note": "Stycket: moskéerna fick gårdsfontäner och tvagningsbänkar. Inga människor i bild. Mellan bilden och diagrammet längre ned står två stycken.",
+		"verdict": "use"
+	},
+	{
+		"id": "ibn-khalduns-egen-hand-muqaddiman",
+		"file": "ibn-khalduns-egen-hand-muqaddiman.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 1004,
+		"bytes": 111638,
+		"texts": [
+			{
+				"file": "data/fordjupning/jihad.md",
+				"section": "Jihad från Medina till 1900-talets ideologer",
+				"after": "de två senare som jihad och rättvisa"
+			}
+		],
+		"alt": "Närbild av en inramad anteckning i kraftig svart arabisk handskrift, med mindre skrift i marginalen till höger.",
+		"caption": "Ibn Khaldūns egen anteckning i en avskrift av Muqaddiman, Süleymaniyebiblioteket i Istanbul (Atıf Efendi 1936). Han intygar att ingen riktigare avskrift finns och skriver sitt namn under; i marginalen har en senare hand noterat att detta är författarens handstil.",
+		"markdown": "![Närbild av en inramad anteckning i kraftig svart arabisk handskrift, med mindre skrift i marginalen till höger.](../../apps/web/src/assets/images/inline/ibn-khalduns-egen-hand-muqaddiman.webp \"Ibn Khaldūns egen anteckning i en avskrift av Muqaddiman, Süleymaniyebiblioteket i Istanbul (Atıf Efendi 1936). Han intygar att ingen riktigare avskrift finns och skriver sitt namn under; i marginalen har en senare hand noterat att detta är författarens handstil.\")",
+		"kind": "Bild",
+		"author": "Süleymaniye-biblioteket, Istanbul",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Handwriting_of_Ibn_Khald%C5%ABn,_al-Muqaddima,_MS_At%C4%B1f_Efendi_1936,_f._7a.png",
+		"changed": "",
+		"credit": "Bild: Süleymaniye-biblioteket, Istanbul, fri från upphovsrätt.",
+		"original": "1788×1282",
+		"note": "Läst i bilden: wa-laysa yūjad nuskha asahh minhā och wa-kataba muʾallifuhā ʿAbd al-Rahmān ibn Khaldūn; i marginalen khatt muʾallif al-kitāb Ibn Khaldūn. En detalj, inte hela sidan: filen är 1788 px.",
+		"verdict": "use"
+	},
+	{
+		"id": "bobigny-muslimska-begravningsplatsen-2025",
+		"file": "bobigny-muslimska-begravningsplatsen-2025.webp",
+		"role": "inline",
+		"width": 1400,
+		"height": 903,
+		"bytes": 340602,
+		"texts": [
+			{
+				"file": "data/fordjupning/muslimsk-begravning.md",
+				"section": "Den muslimska begravningens historia från Uhud till Europas gravkvarter",
+				"after": "nordafrikanska invandrare"
+			}
+		],
+		"alt": "Enkla gravstenar i rader på en gräsmatta med vårblommor, kala träd och en vit byggnad med kupol i bakgrunden.",
+		"caption": "Den muslimska begravningsplatsen i Bobigny utanför Paris, april 2025, med bönesalen i bakgrunden.",
+		"markdown": "![Enkla gravstenar i rader på en gräsmatta med vårblommor, kala träd och en vit byggnad med kupol i bakgrunden.](../../apps/web/src/assets/images/inline/bobigny-muslimska-begravningsplatsen-2025.webp \"Den muslimska begravningsplatsen i Bobigny utanför Paris, april 2025, med bönesalen i bakgrunden.\")",
+		"kind": "Foto",
+		"author": "Hypsibius / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Cimeti%C3%A8re_musulman_Bobigny.jpg",
+		"changed": "beskuren",
+		"credit": "Foto: Hypsibius / Wikimedia Commons, CC BY-SA 4.0, beskuren.",
+		"original": "4096×3072",
+		"note": "Stycket nämner Berlin 1866 och Bobigny 1937. Berlins begravningsplats finns på Commons, men med en begravningsfirmas skylt mitt i bild. Muslimska gravkvarter i Sverige finns inte där.",
+		"verdict": "use"
+	}
+]

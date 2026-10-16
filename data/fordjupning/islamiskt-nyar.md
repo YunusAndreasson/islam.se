@@ -78,6 +78,8 @@ sources:
   - name: "Ibn Taymiyya, Minhaj al-sunna al-nabawiyya, avsnittet om ashura"
   - name: "Ibn Kathir, al-Bidaya wa-l-nihaya, händelserna år 16 efter hijra"
   - name: "al-Ghazali, Bidayat al-hidaya, avsnittet om frivillig fasta"
+  - name: "Bild: papyruskvittot PERF 558, år 22 efter hijra, Österreichische Nationalbibliothek, Wien (fri från upphovsrätt), beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:PERF_558,_recto.jpg"
 related:
   - "vad-var-hijra"
   - "vad-ar-ramadan"
@@ -156,6 +158,8 @@ Den fredade tiden manipulerades öppet. Hos al-Azraqi stiger mannen som förrät
 Sedan återstod frågan om vilken månad året skulle börja i. Profeten kom till Medina i rabiʿ al-awwal, och Malik ibn Anas ansåg enligt al-Suhayli att året borde räknas därifrån. Majoriteten valde muharram av försiktighet: månaden var redan det arabiska månårets första, och då kom månaderna inte i olag.[^26] Ibn Hazm höll enligt Ibn al-Qayyim fast vid rabiʿ al-awwal, och samma verk anför, med en kedja som Ahmad ibn Hanbal godtog som sund, att den förste som daterade efter hijra var Yaʿla ibn Umayya i Jemen, alltså före Umars beslut.[^27]
 
 Också årtalet är osäkert. Ibn Kathir förlägger beslutet till år 16 på ett ställe och till år 17 eller 18 på ett annat, vilket talar för att samtiden inte uppfattade det som en märkesdag värd att fixera.[^24]
+
+![Ett brunt papyrusblad med veck och små hål; överst rader i grekisk skrift, därunder tre rader arabisk skrift.](../../apps/web/src/assets/images/inline/perf-558-kvitto-ar-22.webp "Kvitto på papyrus från Egypten, skrivet på grekiska och arabiska och daterat i jumādā al-ūlā år 22, april 643. Det hör till de äldsta bevarade handlingarna där åren räknas från hijra. Österrikiska nationalbiblioteket, Wien.")
 
 Sorgen kring månaden har däremot ett bestämt datum. Husayn ibn Ali dödades vid Karbala den 10 muharram 61, den 10 oktober 680.[^28] I buyidernas Bagdad hade dagen blivit en offentlig sorgedag: aska och halm ströddes på gator och torg, säckväv hängdes på bodarna, och många drack inget vatten den natten till minne av att Husayn dödades törstig. Ibn Kathir skildrar i samma andetag motrörelsen bland en del av Syriens folk, som på ashura kokade gryn, badade, parfymerade sig, tog på sig sina finaste kläder och gjorde dagen till en fest uttryckligen för att gå de andra emot.[^29] Han framställer alltså bruken som svar på varandra och underkänner dem båda: varken sorgeriterna eller festmåltiden har stöd i sunnan. Det förklarar inte allt firande av ashura, men det visar hur tidigt dagen blev en stridsfråga.
 

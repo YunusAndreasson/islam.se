@@ -43,6 +43,8 @@ sources:
     url: "https://islamqa.info/en/answers/10012/who-wrote-the-quran"
   - name: "Wikipedia – Muhammad (uppenbarelsens början omkring 610)"
     url: "https://en.wikipedia.org/wiki/Muhammad"
+  - name: "Bild: al-Fātiha på ett kamelskulderblad, 1800-talet, Princeton University Library (fri från upphovsrätt), beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Surat_al-Fatiha_inscribed_upon_the_shoulder_blade_of_a_camel.jpg"
 related:
   - "vad-ar-koranen"
   - "vem-var-profeten-muhammed"
@@ -82,6 +84,8 @@ Genom två kanaler samtidigt: minne och nedteckning. Följeslagarna lärde sig v
 
 > Det är Vi som har uppenbarat denna Koran steg för steg och Vi skall helt visst slå vakt om den!
 > — Koranen 15:9
+
+![Ett ljust, platt ben format som ett blad, med rader av handskriven arabisk text i svart bläck.](../../apps/web/src/assets/images/inline/al-fatiha-pa-kamelskulderblad.webp "Al-Fātiha skriven med svart bläck på skulderbladet av en kamel, 1800-talet. Ben var ett av de underlag som de första skrivarna använde när uppenbarelsen tecknades ned. Princeton University Library.")
 
 ## Varför spelar det någon roll vem som skrev Koranen?
 

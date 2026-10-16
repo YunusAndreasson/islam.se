@@ -76,6 +76,8 @@ sources:
   - name: "Ibn Taymiyya, al-Qawāʿid al-nūrāniyya al-fiqhiyya, avsnittet om eder"
   - name: "Ibn Kathīr, Tafsīr al-Qurʾān al-ʿaẓīm, inledningen till al-Fātiḥa"
   - name: "Ibn al-Jawzī, Ṣayd al-khāṭir"
+  - name: "Bild: basmalan på mihrabväggen i stora moskén i Córdoba, 2016. Foto Richard Mortel, Wikimedia Commons, licens CC BY 2.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Great_Mosque_of_Cordoba,_mihrab_area,_10th_century_(21)_(29801397576).jpg"
 related:
   - "vad-betyder-alhamdulillah"
   - "vad-betyder-inshallah"
@@ -149,6 +151,8 @@ Hälsningen till icke-muslimer är den punkt där de lärda är mest oense. En h
 Formlerna växte fram i en miljö där man redan svor eder och åkallade gudar. Före islam avlades eder vid al-Lāt och al-ʿUzzā, och Quraysh inledde sina dokument med *bismika Allāhumma*, "i ditt namn, o Gud". Sammanstötningen mellan de två formlerna finns bevarad i berättelsen om fördraget vid al-Hudaybiyya år 628, där Suhayl ibn ʿAmr invände mot att skrivaren inledde med bismillāh ar-rahmān ar-rahīm: han kände inte till den Nåderike och krävde den gamla formeln. Profeten gick med på kravet.[^28]
 
 Under de följande generationerna blev basmalan statens språk lika mycket som fromhetens. Kalifen ʿAbd al-Malik lät på 690-talet prägla mynt och resa inskriptioner med islamiska formler, och Klippdomen i Jerusalem bär inskrifter från samma årtionde som inleds med basmalan. Därifrån vandrade formeln vidare till brevhuvuden, avtal, bokinledningar och grindportaler, och blev under kalligrafins utveckling ett av de mest reproducerade motiven i islamisk konst.
+
+![Detalj av ett band i guldmosaik med stora svarta kufiska bokstäver, inramat av snidad vit sten med växtslingor.](../../apps/web/src/assets/images/inline/basmala-mihrabvaggen-cordoba.webp "Basmalan i guldmosaik på mihrabväggen i stora moskén i Córdoba, 960-talet: I Guds, den Nåderikes, den Barmhärtiges namn.")
 
 Takbir har en parallell historia. Frasen hör hemma i böneutropet och i varje ställningsbyte i bönen, men har också länge fungerat som samlingsrop, i fältslag såväl som vid högtider. Den moderna politiseringen går att datera. Under den iranska revolutionen 1979 ropades Allahu akbar från hustaken i Teheran som nattlig protest mot shahen. Efter attentaten i New York 2001 och i europeiska städer under 2010-talet fastnade frasen i västerländsk nyhetsrapportering som ett attentatsrop, vilket i praktiken har gjort den till det enda arabiska uttryck många européer känner igen.
 

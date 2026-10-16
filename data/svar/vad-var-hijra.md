@@ -36,6 +36,8 @@ sources:
     url: "https://islamqa.info/en/answers/47672"
   - name: "Wikipedia – Hidjra"
     url: "https://sv.wikipedia.org/wiki/Hidjra"
+  - name: "Bild: Qubamoskén i Medina, december 2024. Foto Kaliper1, Wikimedia Commons, licens CC BY-SA 4.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Quba_Mosque_from_Afar_(2024).jpg"
 related:
   - "vem-var-profeten-muhammed"
   - "vad-ar-kaba"
@@ -68,6 +70,8 @@ I Medina blev profeten också statsledare. Vid framkomsten reste han moskén i *
 
 > DE SOM har antagit tron och utvandrar från ondskans rike … och de som har gett [utvandrarna] husrum och hjälp – de är varandras [sanna] vänner och beskyddare.
 > — Koranen 8:72
+
+![En stor vit moské med flera kupoler och fyra höga minareter under blå himmel, sedd över en öppen sandplan med palmer.](../../apps/web/src/assets/images/inline/qubamoskeen-medina-2024.webp "Qubamoskén i Medina, december 2024. Den står där profeten reste islams första moské vid ankomsten 622.")
 
 ## Varför börjar den islamiska tideräkningen med hijra?
 

@@ -37,6 +37,12 @@ sources:
     url: "https://al-ibadah.com/vallfard/"
   - name: "Wikipedia – Kaaba"
     url: "https://en.wikipedia.org/wiki/Kaaba"
+  - name: "Bild: al-Hijr vid Kaba, mars 2016. Foto Moataz1997, Wikimedia Commons, licens CC BY-SA 3.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Hajr_Ismail,_Makkah.jpg"
+  - name: "Bild: Svarta stenen, december 2023. Foto Noor Mohammad Siam, Wikimedia Commons, licens CC BY-SA 4.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:%E0%A6%B9%E0%A6%BE%E0%A6%9C%E0%A6%B0%E0%A7%87_%E0%A6%86%E0%A6%B8%E0%A6%93%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%A6.jpg"
+  - name: "Bild: tawaf kring Kaba under vallfärden 2018. Foto Adli Wahid, Wikimedia Commons, licens CC BY-SA 4.0"
+    url: "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg"
 related:
   - "vad-ar-hajj"
   - "sa-ber-man-steg-for-steg"
@@ -62,11 +68,15 @@ Enligt Koranen reste profeten Abraham och hans son Ismael husets grund på Guds 
 
 Sedan dess har byggnaden rivits och rests på nytt flera gånger. När Muhammed var trettiofem år, omkring år 605, byggde stammen Quraysh om den efter en brand. Det berättar Ibn Ishāq, som Ibn Kathīr återger i *al-Bidāya wa-n-nihāya*. Medlen räckte inte till hela Abrahams grund, och en del av ytan, *al-Hijr*, lämnades utanför murarna. Profeten sade senare till Aisha att han skulle ha rivit huset och rest det på Abrahams grund, om inte hennes folk nyss hade lämnat avgudadyrkan (Sahīh al-Bukhārī 1586, Sahīh Muslim 1333). Den hadithen fick Abdallah ibn az-Zubayr att bygga om Kaba på den gamla grunden år 64 efter hijra (683–684). Tio år senare återställde al-Hajjāj Qurayshs mått på kalifen Abd al-Maliks order, enligt krönikören al-Azraqī. Det är den planen Kaba har än i dag. Murarna restes senast 1630, sedan en störtflod året innan hade rivit delar av dem.
 
+![Uppifrån: en låg, vit, halvcirkelformad mur med förgyllda lyktor intill Kabas svarta vägg, tätt med pilgrimer både innanför och utanför muren.](../../apps/web/src/assets/images/inline/al-hijr-kaba-2016.webp "Al-Hijr vid Kabas nordvästra sida, mars 2016. Den låga halvcirkelformade muren markerar den del av Abrahams grund som lämnades utanför när Quraysh byggde om huset.")
+
 ## Vad är Svarta stenen?
 
 Svarta stenen, *al-hajar al-aswad*, sitter infattad i silver i Kabas östra hörn. Den fanns med redan i Qurayshs bygge. När stammarna grälade om vem som skulle få lägga den på plats, enades de om att låta den förste som kom in genom moskéns port avgöra saken. Det var Muhammed, och de sade: "Det är al-Amīn, den pålitlige. Honom godtar vi." Han lade stenen på ett tygstycke, lät varje stam lyfta i en kant och satte den sedan på plats med egen hand (Ibn Kathīr, *al-Bidāya* 2:371).
 
 Pilgrimer kysser eller pekar mot stenen i efterföljd av profeten, men den tillskrivs ingen egen kraft. Kalifen Umar ibn al-Khattāb kysste den och sade: "Jag vet att du är en sten som varken skadar eller gagnar. Hade jag inte sett profeten kyssa dig skulle jag inte ha kysst dig" (Sahīh al-Bukhārī 1597). Tydligare än så kan gränsen mellan efterföljelse och avgudadyrkan inte dras.
+
+![Närbild av en blank, välvd silverinfattning med en rund öppning där en mörk sten syns, mot svart tyg och vit marmor.](../../apps/web/src/assets/images/inline/svarta-stenen-2023.webp "Svarta stenen i sin silverinfattning i Kabas östra hörn, december 2023.")
 
 ## Vad finns inuti Kaba?
 
@@ -79,3 +89,5 @@ Nej, och det är det vanligaste missförståndet. Muslimen tillber Gud ensam. Ka
 ## Hur många varv går man runt Kaba?
 
 Sju. Rundvandringen, *tawāf*, börjar och slutar vid Svarta stenen och går motsols, med Kaba på vänster sida. Jābir ibn Abdallāh berättar att profeten, när han kom till Mecka, gick fram till stenen och rörde vid den, vände sig sedan åt höger och gick de tre första varven i snabb takt och de fyra sista i vanlig gång (Sahīh Muslim 1218). Rundvandringen ingår både i hajj och i den mindre vallfärden umra, och Koranen befaller pilgrimerna att "utföra rundvandringen omkring den äldsta Helgedomen" (22:29). Redan Abraham och Ismael fick i uppdrag att rena huset "för dem som skall vandra runt den" (2:125).
+
+![Kaba i svart tyg med guldbroderat band mitt i ett hav av vitklädda pilgrimer, omgiven av moskéns pelargångar i två våningar.](../../apps/web/src/assets/images/inline/tawaf-kring-kaba-2018.webp "Tawaf kring Kaba under vallfärden 2018.")

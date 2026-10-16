@@ -75,6 +75,10 @@ sources:
   - name: "Ibn Qudāma al-Maqdisī, al-Mughnī, Kitāb al-janāʾiz"
   - name: "al-Shāfiʿī, Kitāb al-Umm, Kitāb al-janāʾiz"
   - name: "Ibn al-Qayyim al-Jawziyya, Zād al-maʿād fī hady khayr al-ʿibād, avsnittet om profetens vägledning vid dödsfall"
+  - name: "Bild: al-Baqīʿ i Medina, mars 2023. Foto Indonesiagood, Wikimedia Commons, licens CC BY 4.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Makam_Al-Baqi_(Umroh_Ramadhan_2023)-7.jpg"
+  - name: "Bild: den muslimska begravningsplatsen i Bobigny, april 2025. Foto Hypsibius, Wikimedia Commons, licens CC BY-SA 4.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Cimeti%C3%A8re_musulman_Bobigny.jpg"
 related:
   - "vad-sager-islam-om-livet-efter-doden"
   - "vad-ar-ghusl"
@@ -146,9 +150,13 @@ Det islamiska regelverket innebar en uttrycklig brytning med en rådande sedvän
 
 Från slaget vid Uhud år 625 kommer regeln om var de döda ska begravas. Jābir berättar att de bar bort de stupade för att gravlägga dem på annat håll när en utropare kom med profetens order att begrava dem där de fallit, och att de förde tillbaka dem; al-Nawawī använder händelsen som argument mot att flytta en död över huvud taget.[^26] Medinas begravningsplats al-Baqīʿ blev vilorum för följeslagarna, medan profeten själv begravdes i ʿĀʾishas kammare. Ibn Qudāma återger hennes egen förklaring till varför: för att graven inte skulle göras till en moské.[^27]
 
+![Låga jordkullar med en mörk sten vid huvudändan på ett sandfält i morgonsol; duvor flyger över, bakom en lång mur med gallerfönster.](../../apps/web/src/assets/images/inline/al-baqi-medina-gryning-2023.webp "Gravkullar på al-Baqīʿ i Medina tidigt på morgonen den 31 mars 2023.")
+
 Mausoleer restes ändå över helgongravar i stora delar av den islamiska världen, och Ibn Taymiyya polemiserade hårt mot bruket; han åberopar Mālik till stöd för att det är en nyhet att ställa sig och åkalla vid profetens grav, en sed som varken följeslagarna eller nästa generation ägnade sig åt.[^28] Ibn al-Qayyim drog gränsen klart: att be till Gud för den döde är sunna, att åkalla den döde själv är avgudadyrkan.[^29] När mausoleerna på al-Baqīʿ revs 1806 och på nytt 1925–26 gjordes det med den argumentationen som grund. Rivningen hör till de bittraste stridsfrågorna gentemot shiamuslimerna, som räknar flera imamer bland de begravda. Den klassiska hållningen svarar med ʿĀʾishas hadith och med Ibn Qudāmas slutsats: gravmonument avvisas därför att de leder till åkallan av de döda, och plikten mot den döde uttöms i bönen för honom.
 
 I Europa uppstod muslimska gravkvarter först som en diplomatisk och militär fråga. Berlins turkiska begravningsplats vid Columbiadamm invigdes den 29 december 1866 sedan marken upplåtits åt stadens turkar och är Tysklands äldsta. Frankrike lät 1937 anlägga en egen muslimsk begravningsplats i Bobigny utanför Paris, intill det fransk-muslimska sjukhuset, med omkring sjutusen gravar för huvudsakligen nordafrikanska invandrare.
+
+![Enkla gravstenar i rader på en gräsmatta med vårblommor, kala träd och en vit byggnad med kupol i bakgrunden.](../../apps/web/src/assets/images/inline/bobigny-muslimska-begravningsplatsen-2025.webp "Den muslimska begravningsplatsen i Bobigny utanför Paris, april 2025, med bönesalen i bakgrunden.")
 
 Turk-Islam Föreningen grundades i Stockholm 1949, och redan på 1950-talet köptes de första gravplatserna för muslimer vid Skogskyrkogården. Gravkvarteret kom alltså nästan omedelbart efter församlingen, vilket stöder religionsvetaren Simon Sorgenfreis iakttagelse att gravplatsen fungerar som markör för att en grupp har blivit bofast i landet.[^30]
 

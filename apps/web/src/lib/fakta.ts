@@ -161,9 +161,16 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
  *  Convention over configuration: the file is named after the answer it belongs
  *  to, `src/assets/images/fakta/<svarSlug>.webp`, and that is the whole wiring.
  *  Drop a file in and that card stops borrowing; delete it and the borrow in
- *  `image` takes over again. No data edit either way, which matters because the
- *  remaining cards (Bönen, Vallfärden, Domedagen and the pillars overview) are
- *  still waiting for theirs.
+ *  `image` takes over again. No data edit either way. The file is also the
+ *  answer page's top picture (svar/[slug].astro).
+ *
+ *  A card picture joins the series or the card keeps borrowing. The series is made
+ *  pictures of lamplit rooms, dark and warm, and Bönen, Vallfärden and Domedagen
+ *  borrow essay heroes in that hand on purpose: daylight documentary photographs
+ *  were tried on those three cards (2026-10-11 and 2026-10-16), and the user asked
+ *  for the old pictures that match (2026-10-17). The photographs now stand in the
+ *  texts, beside the sentences they show: the prayer answer, the Kaaba answer and
+ *  the burial fördjupning. The pillars overview has no picture of its own either.
  *
  *  The subfolder is deliberate: lib/articles.ts globs `images/*` NON-recursively
  *  for essay heroes, so FAKTA art can never collide with an essay slug — which it

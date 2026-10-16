@@ -42,6 +42,8 @@ sources:
     url: "https://sunnah.com/bukhari:1390"
   - name: "al-ibadah.com – Moskén"
     url: "https://al-ibadah.com/bon/mosken"
+  - name: "Bild: bönesalen i Fittja moské, oktober 2012. Foto Holger Ellgaard, Wikimedia Commons, licens CC BY-SA 3.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Fittja_moske_2012e.jpg"
 related:
   - "vad-ar-kaba"
   - "sa-ber-man-steg-for-steg"
@@ -68,6 +70,8 @@ Men moskén har aldrig varit enbart ett bönerum. Redan profetens moské i Medin
 ## Hur ser en moské ut?
 
 I bönesalen finns en nisch i väggen, *mihrāb*, som pekar ut *qibla*, riktningen mot Kaba i Mecka som varje muslim vänder sig mot. Bredvid står en predikstol, *minbar*, varifrån imamen håller fredagspredikan (*khutba*). Utvändigt reser sig ofta en eller flera minareter, tornen varifrån böneutropet traditionellt ropades. Golvet täcks av mattor, väggarna pryds av kalligrafi men aldrig av bilder på levande varelser, och den som träder in har först utfört tvagningen (*wudū*) och tagit av sig skorna.
+
+![En moskés bönesal med röd heltäckande matta i raka band, kaklade pelare och längst bort en nisch i väggen och en vit predikstol med trappa.](../../apps/web/src/assets/images/inline/fittja-moske-bonesalen-2012.webp "Bönesalen i Fittja moské i Botkyrka, oktober 2012. Mihraben i qiblaväggen, minbaren till höger om den.")
 
 ## Vilken var den första moskén?
 

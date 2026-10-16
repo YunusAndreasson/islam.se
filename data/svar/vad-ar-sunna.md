@@ -39,6 +39,8 @@ sources:
     url: "https://islamqa.info/en/answers/112268"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Grunden för att följa sunnan"
     url: "https://islamqa.info/en/answers/604"
+  - name: "Bild: inledningen till Sahīh al-Bukhārī i en avskrift troligen från Mecka, 1850, Khalili Collections, licens CC BY-SA 3.0 IGO, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Hajj_and_Arts_of_Pilgrimage_mss_0360_fol_2b-3a.jpg"
 related:
   - trosbekannelsen-shahada
   - sa-ber-man-steg-for-steg
@@ -53,6 +55,8 @@ Språkligt betyder *sunna* en upptrampad väg eller ett invant bruk. I religiös
 ## Vad är skillnaden mellan sunna och hadith?
 
 Sunna och hadith hänger ihop men är inte samma sak. **Sunnan är själva vägledningen**: profetens faktiska ord, handling eller godkännande. **Haditherna är de nedtecknade berättelserna** som överför denna vägledning till senare generationer. Sunnan når oss genom hadithsamlingarna, framför allt *Sahīh al-Bukhārī* och *Sahīh Muslim*, samt genom *sīra*, profetens biografi. De tidiga lärda utvecklade en sträng vetenskap för att pröva varje berättelses överföringskedja (*isnād*), så att svaga eller påhittade uppgifter kunde skiljas från de tillförlitliga. Därför är inte allt som berättas sunna – bara det som består isnādens prövning.
+
+![Handskriftssida med en guldmålad blomsterbård överst och därunder rader av svart skrift mellan guldfält, omgiven av snedställda marginalanteckningar.](../../apps/web/src/assets/images/inline/sahih-al-bukhari-inledningen-1850.webp "Inledningen till Sahīh al-Bukhārī i en avskrift troligen från Mecka, avslutad 1850. Raderna mellan guldfälten räknar upp de lärare genom vilka boken förts vidare från al-Bukhārī, och sedan samlingens första hadith med dess kedja: Handlingarna bedöms efter avsikterna. Khalili Collections.")
 
 ## Varför är sunnan en källa till islamisk lag?
 

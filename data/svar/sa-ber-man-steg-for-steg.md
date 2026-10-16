@@ -44,6 +44,8 @@ sources:
   - name: "Ibn Taymiyya, al-Qawāʿid an-nūrāniyya"
   - name: "al-ibadah.com – Bönens praktik"
     url: "https://al-ibadah.com/bon/praktiska-detaljer-i-bonen"
+  - name: "Bild: fredagsbön i az-Zāhir Baybars moské i Kairo, juni 2023. Foto Tarekwajeh, Wikimedia Commons, licens CC BY-SA 4.0"
+    url: "https://commons.wikimedia.org/wiki/File:%D8%B5%D9%84%D8%A7%D8%A9_%D8%A7%D9%84%D8%AC%D9%85%D8%B9%D8%A9_%D9%81%D9%8A_%D8%AC%D8%A7%D9%85%D8%B9_%D8%A7%D9%84%D8%B8%D8%A7%D9%87%D8%B1_%D8%A8%D9%8A%D8%A8%D8%B1%D8%B3_%D8%A7%D9%84%D8%A7%D8%AB%D8%B1%D9%8A_(3).jpg"
   - name: "Bild: al-Fātiha i västafrikansk handskrift, Chester Beatty Library, Is 1598 (fri från upphovsrätt)"
     url: "https://commons.wikimedia.org/wiki/File:Al-Fatiha_in_the_Sudani_script_(CBL_Is_1598,_f._1b).jpg"
 related:
@@ -72,6 +74,8 @@ Bönen inleds stående. Man höjer händerna och öppnar bönen med *takbīrat a
 5. **Kort sittande (*julūs*).** Man reser sig till en kort sittande ställning och faller sedan ned i *sujūd* en andra gång.
 
 Därmed är en rakaʿa fullbordad och nästa börjar. I böner om tre eller fyra rakaʿāt sitter man i *tashahhud* redan efter de två första cyklerna. Efter den sista läses *tashahhud* på nytt, och bönen avslutas med *taslīm*: man vänder huvudet åt höger och åt vänster och säger "as-salāmu ʿalaykum".
+
+![Män sitter på knä i långa rader på en röd bönematta mellan vita marmorpelare; framför dem sitter en pojke ensam på knä.](../../apps/web/src/assets/images/inline/fredagsbon-kairo-2023.webp "Fredagsbön i az-Zāhir Baybars moské i Kairo den 9 juni 2023.")
 
 Rörelsen är densamma varje gång: kroppen sänks stegvis från stående ända till marken och reser sig igen. I varje ställning ska kroppen dessutom hinna komma till ro innan nästa börjar. Lugnet kallas *tumaʾnīna* och räknas av flertalet rättsskolor som en nödvändig del av bönen. Kravet går tillbaka på en berömd händelse. En man bad i moskén, och profeten sände tillbaka honom tre gånger med orden "Gå tillbaka och be, för du har inte bett". Först då lärde han honom bönen, moment för moment, och upprepade samma villkor vid varje steg: att buga tills kroppen kommit till ro, resa sig tills ryggen är rak och falla ned tills kroppen åter är stilla (Sahīh al-Bukhārī 757). I *al-Qawāʿid an-nūrāniyya* förklarar Ibn Taymiyya varför:
 

@@ -46,8 +46,6 @@ sources:
     url: "https://www.stats.gov.sa/en/w/news/194"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Kvinna på hajj utan mahram"
     url: "https://islamqa.info/en/answers/34380"
-  - name: "Bild överst: Kaba under vallfärden 2018. Foto Adli Wahid, Wikimedia Commons, licens CC BY-SA 4.0"
-    url: "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg"
   - name: "Bild: tältstaden Mina, november 2011. Foto Arisdp, Wikimedia Commons, licens CC BY-SA 3.0"
     url: "https://commons.wikimedia.org/wiki/File:Mina%27s_tents.JPG"
   - name: "Bild: ʿArafat, 31 augusti 2017. Foto saudipics, Wikimedia Commons, licens CC BY-SA 4.0"

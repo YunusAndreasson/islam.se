@@ -33,6 +33,10 @@ sources:
     url: "https://sv.wikipedia.org/wiki/Kalifatet_C%C3%B3rdoba"
   - name: "Wikipedia – Al-Hakam II (biblioteket, uppgiven omfattning enligt medeltida krönikörer)"
     url: "https://en.wikipedia.org/wiki/Al-Hakam_II"
+  - name: "Bild: mihraben i stora moskén i Córdoba, april 2017. Foto Jl FilpoC, Wikimedia Commons, licens CC BY-SA 4.0, beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Fachada_del_mihrab_de_la_Mezquita_de_C%C3%B3rdoba,_Espa%C3%B1a.jpg"
+  - name: "Bild: al-Zahrawis Kitāb at-Tasrīf, avskrift från 1200-talet, Chester Beatty Library, Ar 3172 (fri från upphovsrätt), beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Treatise_on_Surgery_of_al-Zahrawi_(CBL_Ar_3172,_ff._49b-50a).jpg"
 related:
   - "vad-ar-en-moske"
   - "vad-ar-sharia"
@@ -49,6 +53,8 @@ Erövringen inleddes år 711, då den berbiske befälhavaren *Tariq ibn Ziyad* f
 
 När umayyaderna störtades i Damaskus år 750 flydde prinsen *Abd al-Rahman I* västerut och grundade 756 ett självständigt emirat med Córdoba som huvudstad. År 929 tog hans ättling *Abd al-Rahman III* steget fullt ut och utropade sig till kalif. Córdoba blev därmed ett *kalifat*, jämbördigt med Bagdad och Kairo. Detta var guldåldern: staden växte till en av Europas folkrikaste, och kalifen *al-Hakam II* lät enligt uppgift samla ett bibliotek på hundratusentals band. Stora moskén, med sin skog av rödvita valvbågar, reser sig än i dag. Men år 1031 föll kalifatet sönder inifrån och delades i ett tjugotal rivaliserande småriken, *taifa*-kungadömen.
 
+![En hästskoformad båge kring en ljus nisch, omgiven av guldmosaik med växtslingor och band av blå och guldfärgad skrift, i en vägg av snidad sten.](../../apps/web/src/assets/images/inline/cordoba-mihraben-al-hakam-ii.webp "Mihraben i stora moskén i Córdoba, byggd under kalifen al-Hakam II på 960-talet. April 2017.")
+
 ## Varför kallas al-Andalus en lärdomens guldålder?
 
 Kunskap stod högt i kurs i al-Andalus, i linje med profeten Muhammeds ord:
@@ -57,6 +63,8 @@ Kunskap stod högt i kurs i al-Andalus, i linje med profeten Muhammeds ord:
 > — Sahīh al-Bukhārī 71
 
 Den *malikitiska* rättsskolan (*madhhab*) var allenarådande, och halvön fostrade ledande lärda: hadithmästaren *Ibn Abd al-Barr*, koranuttolkaren *al-Qurtubi*, vars *tafsīr* läses än i dag, och *al-Shatibi* från Granada, vars *al-Muwāfaqāt* blev den utförligaste framställningen av läran om *maqāsid*, sharias högre syften. Vid sidan av de religiösa vetenskaperna blomstrade medicin, astronomi och matematik. Kirurgen *al-Zahrawi* (Abulcasis), livläkare hos al-Hakam II, skrev uppslagsverket *Kitāb at-Tasrīf*, vars avsnitt om kirurgi förblev standard vid Europas universitet i femhundra år.
+
+![Uppslagen bok med två sidor tät arabisk skrift i svart bläck; röda rubriker och avlånga instrument ritade i rött mellan raderna.](../../apps/web/src/assets/images/inline/al-zahrawi-kitab-at-tasrif-kirurgin.webp "Uppslag ur kirurgiavsnittet i al-Zahrawis Kitāb at-Tasrīf, i en avskrift från 1200-talets Mellanöstern. Instrumenten är ritade i rött mellan raderna. Chester Beatty Library, Dublin.")
 
 ## Levde muslimer, kristna och judar sida vid sida?
 

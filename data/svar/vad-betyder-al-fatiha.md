@@ -37,6 +37,8 @@ sources:
     url: "https://islamqa.info/en/answers/132386"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – al-Fātiha som bönens pelare"
     url: "https://islamqa.info/en/answers/10995"
+  - name: "Bild: al-Fātiha i en koranhandskrift från mamlukernas Egypten, 1300- eller 1400-talet, Library of Congress (fri från upphovsrätt), beskuren"
+    url: "https://commons.wikimedia.org/wiki/File:Al_Fatihah_-_naskh_script.jpg"
 related:
   - "vad-ar-koranen"
   - "sa-ber-man-steg-for-steg"
@@ -48,6 +50,8 @@ related:
 ## Vad betyder ordet al-Fatiha?
 
 Ordet *al-Fātiha* betyder "öppningen" eller "öppnaren" och är en kortform av *Fātihat al-Kitāb*, "bokens öppning". Suran bär flera namn. Den kallas *Umm al-Kitāb*, "bokens moder", *Sūrat al-Hamd*, "lovprisningens sura", och *as-Sabʿ al-Mathānī*, "de sju ofta upprepade verserna", ett uttryck som Koranen själv använder (Koranen 15:87). De flesta lärda räknar den som en meckansk sura, uppenbarad innan profeten Muhammed utvandrade till Medina, och enligt många överlämnare var det den första hela sura som uppenbarades.
+
+![Handskriftssida med sju rader svart skrift inom en guldram, med ett blått och guldfärgat fält överst och nederst och gyllene rosetter mellan verserna.](../../apps/web/src/assets/images/inline/al-fatiha-mamlukisk-handskrift.webp "Al-Fātiha i en koranhandskrift av det slag som gjordes i Egypten under mamlukerna, 1300- eller 1400-talet. Fältet överst kallar suran Fātihat al-Kitāb al-ʿAzīz, den mäktiga Bokens öppning; fältet nederst anger sju verser uppenbarade i Mecka. Library of Congress, Washington.")
 
 ## Vad står det i al-Fatiha?
 
