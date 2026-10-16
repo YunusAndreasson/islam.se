@@ -18,6 +18,8 @@ module.exports = {
     'src/lib/intro.ts',
     'src/lib/prayer-times.ts',
     'src/lib/night-times.ts',
+    // What every alert says, shared with the Live Activity's stale view.
+    'src/lib/alert-copy.ts',
     'src/lib/hijri.ts',
     // The Moon. Every one of these is pure and deterministic — the phase bands, the day
     // marks, the crescent geometry, Odeh's criterion and the sentences built from them —

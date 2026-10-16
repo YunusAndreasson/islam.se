@@ -10,14 +10,8 @@ import { Platform } from 'react-native';
 
 import { brand } from '@/theme/tokens';
 import { computeNightTimes } from './night-times';
-import {
-  computePrayerTimes,
-  formatTime,
-  type LatLng,
-  PRAYER_LABELS,
-  PRAYER_ORDER,
-  type PrayerKey,
-} from './prayer-times';
+import { alertContent, nightAlertContent } from './alert-copy';
+import { computePrayerTimes, type LatLng, PRAYER_ORDER, type PrayerKey } from './prayer-times';
 import type {
   NotificationSettings,
   NotificationSoundKey,
@@ -181,43 +175,9 @@ export function horizonDays(perDay: number, budget: number): number {
   return Math.max(1, Math.min(MAX_DAYS_AHEAD, Math.floor(budget / perDay)));
 }
 
-/**
- * Title + body for one alert. Extracted as a pure function so the Swedish copy contract
- * is testable without running the scheduler. NBSP (fast mellanslag) between the numeral
- * and "min" so the unit can never wrap away from its number in a narrow banner.
- */
-export function alertContent(
-  key: PrayerKey,
-  at: Date,
-  lead: number,
-): { title: string; body: string } {
-  if (key === 'sunrise') {
-    return {
-      title: lead > 0 ? `Fajr-tiden slutar om ${lead} min` : 'Fajr-tiden är slut',
-      body: `Soluppgång ${formatTime(at)}`,
-    };
-  }
-  const label = PRAYER_LABELS[key];
-  return {
-    // Lead with the glanceable answer in the bold title — which prayer, how soon — and
-    // demote the exact clock time to the lighter body as the durable fact.
-    title: lead > 0 ? `${label} om ${lead} min` : `Dags för ${label}`,
-    body: `Klockan ${formatTime(at)}`,
-  };
-}
-
-/**
- * The night's-last-third alert. A function of its own rather than a branch in
- * {@link alertContent} because it is not keyed by a PrayerKey and takes no lead — it fires
- * exactly when the last third begins. The Swedish name carries it: the transliteration
- * that heads the dock row is the wrong register for a lock screen at one in the morning.
- */
-export function nightAlertContent(at: Date): { title: string; body: string } {
-  return {
-    title: 'Nattens sista tredjedel',
-    body: `Klockan ${formatTime(at)}`,
-  };
-}
+// The alert copy lives in ./alert-copy so the Live Activity can say the same words at the
+// prayer boundary without importing this scheduler. Re-exported for existing callers.
+export { alertContent, nightAlertContent };
 
 /** The next alert this settings object will produce, and when it fires. */
 export interface NextAlert {

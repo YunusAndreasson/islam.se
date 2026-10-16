@@ -21,6 +21,13 @@
 // the schedule certain, and the foreground sync remains the primary path. Anything stronger
 // would mean silent push, i.e. a server and an account, which this app deliberately has
 // neither of.
+//
+// THE SAME WAKE-UP SERVES THE OTHER SURFACES THAT GO STALE WITHOUT THE APP. It re-pushes the
+// home-screen widget (whose horizon is finite too) and reconciles the Live Activity: rolling
+// a stale »Dags för …« over to the next prayer, or ending it when nothing is near. It never
+// STARTS one — ActivityKit only allows that in the foreground. Both run with reminders off,
+// since neither is a reminder; and both swallow their own failures, so a widget that cannot
+// reload never costs the reader their alerts.
 import * as BackgroundTask from 'expo-background-task';
 import * as TaskManager from 'expo-task-manager';
 
@@ -28,6 +35,8 @@ import { readCachedFix } from '@/lib/location/gps-cache';
 import { resolveLocation } from '@/lib/location/resolve';
 import { syncPrayerNotifications } from '@/lib/notifications';
 import { loadSettings } from '@/lib/settings/store';
+import { syncPrayerLiveActivity } from '@/widget/live-activity';
+import { syncPrayerWidget } from '@/widget/sync';
 
 /** Persisted by the OS across launches, so the string is effectively a migration surface:
  *  changing it orphans the previously registered task rather than renaming it. */
@@ -48,20 +57,24 @@ const REFRESH_INTERVAL_MINUTES = 12 * 60;
 TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
   try {
     const settings = await loadSettings();
-    // Reminders switched off is not a failure — it is the task having nothing to do. Doing
-    // it anyway would re-create the very notifications the user turned off.
-    if (!settings.notifications.enabled) return BackgroundTask.BackgroundTaskResult.Success;
 
     // No React, no provider, and no asking the OS for a position — a background wake-up is
     // not a moment to start the GPS. resolveLocation is the same table the app and the
     // widget resolve through, fed from the cached fix, so a background re-schedule lands on
-    // the same coordinate the reader last saw on screen.
-    const { coords } = resolveLocation(
+    // the same coordinate and place name the reader last saw on screen.
+    const { coords, label } = resolveLocation(
       settings.locationMode,
       settings.manualLocation,
       await readCachedFix(),
     );
-    await syncPrayerNotifications(coords, settings);
+
+    // The alerts first: they are what this task exists for. Reminders switched off is not a
+    // failure — it is this step having nothing to do. Doing it anyway would re-create the
+    // very notifications the user turned off.
+    if (settings.notifications.enabled) await syncPrayerNotifications(coords, settings);
+
+    await syncPrayerWidget(coords, settings, label);
+    await syncPrayerLiveActivity(coords, settings, label, Date.now(), { canStart: false });
     return BackgroundTask.BackgroundTaskResult.Success;
   } catch {
     // Reporting Failed lets the scheduler back off rather than retry a broken task in a
