@@ -1,6 +1,6 @@
 ---
 import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
-import { FAMILIES } from "../../lib/ai-barometern/families";
+import { FAMILIES, familiesSingledOut } from "../../lib/ai-barometern/families";
 import type { FamilyKey } from "../../lib/ai-barometern/types";
 import AnswerChip from "./AnswerChip.astro";
 
@@ -16,7 +16,7 @@ interface Props {
 	emphasis?: string;
 }
 const { rows, caption, emphasis = "" } = Astro.props;
-const named = FAMILIES.filter((family) => emphasis.includes(family.label));
+const named = familiesSingledOut(emphasis);
 const initiallyOpen = named.length ? named.map((family) => family.key) : [FAMILIES[0]!.key];
 const hasOwn = rows.some((row) => row.own);
 const hasMixed = rows.some((row) => Object.values(row.cells).some((c) => c.state === "position" && !c.consistent));
@@ -36,7 +36,7 @@ const hasMixed = rows.some((row) => Object.values(row.cells).some((c) => c.state
 			<caption class="sr-only">{caption}</caption>
 			<thead><tr><th scope="col">Modell</th>{rows.map((row) => <th scope="col"><a href={row.href}>{row.label}</a></th>)}</tr></thead>
 			<tbody>{FAMILIES.map((family) => (
-				<tr data-emphasis={emphasis.includes(family.label) ? "" : undefined}>
+				<tr data-emphasis={named.includes(family) ? "" : undefined}>
 					<th scope="row">{family.label}</th>
 					{rows.map((row) => <td><AnswerChip cell={row.cells[family.key]} own={row.own === family.key} label="below" /></td>)}
 				</tr>

@@ -52,6 +52,16 @@ export const FAMILIES: readonly Family[] = [
 
 export const FAMILY_KEYS: readonly FamilyKey[] = FAMILIES.map((f) => f.key);
 
+/** The families a finding's sentence singles out: those it names, unless it names every
+ *  one. Its comparison table tints their rows and, on a phone, opens them. A sentence
+ *  that goes row by row (»ChatGPT tar delvis avstånd; DeepSeek och Grok tar helt avstånd;
+ *  Claude och Gemini avstår«) names all five, and tinting all five rows drew the whole
+ *  table as one grey block (2026-10-17): an emphasis on everything marks nothing. */
+export function familiesSingledOut(text: string): readonly Family[] {
+	const named = FAMILIES.filter((family) => text.includes(family.label));
+	return named.length < FAMILIES.length ? named : [];
+}
+
 export function getFamily(key: FamilyKey): Family {
 	const family = FAMILIES.find((f) => f.key === key);
 	if (!family) throw new Error(`Unknown model family: ${key}`);
