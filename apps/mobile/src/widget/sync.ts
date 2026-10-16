@@ -1,20 +1,21 @@
 // Pushes the prayer timeline to the native home-screen widget. The app is the only
 // thing that knows the user's settings + location, so it computes a multi-day timeline
-// and hands it to WidgetKit; the system then renders each entry at its scheduled
-// instant with no background JS (see ./timeline.ts). Called on launch, on every
-// foreground, and whenever settings, appearance or location change (app/_layout.tsx →
-// WidgetSync, keyed on widgetSignature).
+// and hands it over: on iOS to WidgetKit, which renders each entry at its scheduled
+// instant with no background JS (see ./timeline.ts); on Android as one snapshot whose
+// layout picks the entry in force each time it renders (see ./android-snapshot.ts).
+// Called on launch, on every foreground, whenever settings, appearance or location change
+// (app/_layout.tsx → WidgetSync, keyed on widgetSignature), and from the background task.
 import { Platform } from 'react-native';
 
 import type { LatLng } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
+import { buildAndroidSnapshot } from './android-snapshot';
 import { buildTimeline } from './timeline';
 
 /**
- * Reconcile the iOS widget with the current settings + location. Best-effort and
- * idempotent: platform-guarded (Android has no widget target yet) and fully wrapped
- * so a refresh failure (no widget extension in this build, WidgetKit unavailable)
- * can never crash the app.
+ * Reconcile the home-screen widget with the current settings + location. Best-effort and
+ * idempotent: fully wrapped so a refresh failure (no widget in this build, WidgetKit or
+ * Glance unavailable) can never crash the app.
  */
 export async function syncPrayerWidget(
   coords: LatLng,
@@ -22,8 +23,18 @@ export async function syncPrayerWidget(
   location: string,
   now: number = Date.now(),
 ): Promise<void> {
-  // Android widget support is a planned follow-up (react-native-android-widget reuses
-  // this same buildTimeline core). Until then this is an iOS-only no-op elsewhere.
+  if (Platform.OS === 'android') {
+    try {
+      // The Android layout under the same widget name — never imported on iOS, where it
+      // would overwrite the SwiftUI layout (see the header of that file).
+      const { default: PrayerTimesWidgetAndroid } = await import('../widgets/PrayerTimesWidgetAndroid');
+      // updateSnapshot stores the props and re-renders every placed instance at once.
+      PrayerTimesWidgetAndroid.updateSnapshot(buildAndroidSnapshot(coords, settings, location, now));
+    } catch {
+      // No widget in this build, or Glance unavailable — nothing the user can act on.
+    }
+    return;
+  }
   if (Platform.OS !== 'ios') return;
   try {
     // Deferred import so the WidgetKit module (and @expo/ui native bindings) is never
@@ -41,5 +52,21 @@ export async function syncPrayerWidget(
     PrayerTimesWidget.updateTimeline(entries);
   } catch {
     // No widget extension or WidgetKit unavailable — nothing the user can act on.
+  }
+}
+
+/**
+ * Android: re-render the widget from the snapshot it already holds, so "next prayer" is
+ * recomputed for the moment the reader lands on the home screen. Cheap — no timeline is
+ * built — which is why it can run on every trip out of the app. A no-op elsewhere: WidgetKit
+ * swaps timeline entries on its own.
+ */
+export async function reloadPrayerWidget(): Promise<void> {
+  if (Platform.OS !== 'android') return;
+  try {
+    const { default: PrayerTimesWidgetAndroid } = await import('../widgets/PrayerTimesWidgetAndroid');
+    PrayerTimesWidgetAndroid.reload();
+  } catch {
+    // As above.
   }
 }

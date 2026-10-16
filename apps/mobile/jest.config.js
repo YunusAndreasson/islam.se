@@ -46,6 +46,9 @@ module.exports = {
     'src/lib/settings/compute-signature.ts',
     'src/widget/payload.ts',
     'src/widget/timeline.ts',
+    // What the Android widget is handed and which entry it shows: the guard against a home
+    // screen naming a prayer that has passed.
+    'src/widget/android-snapshot.ts',
     'src/lib/map/projection.ts',
     'src/lib/map/projection-guard.ts',
     'src/lib/map/map-diagnostics.ts',

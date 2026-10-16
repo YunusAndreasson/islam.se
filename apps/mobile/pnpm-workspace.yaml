@@ -90,3 +90,6 @@ minimumReleaseAgeExclude:
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.
 nodeLinker: hoisted
+
+patchedDependencies:
+  expo-widgets@58.0.20: patches/expo-widgets@58.0.20.patch

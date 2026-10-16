@@ -80,6 +80,7 @@
           }
         }
       ],
+      "./plugins/withPrayerWidgetAndroid",
       [
         "expo-widgets",
         {
@@ -98,9 +99,17 @@
                   "accessoryCircular"
                 ]
               },
-              "android": null
+              "android": {
+                "minWidth": 250,
+                "minHeight": 110,
+                "targetCellWidth": 4,
+                "targetCellHeight": 2,
+                "resizeMode": "both",
+                "initialLayout": "./src/widgets/PrayerTimesWidgetAndroid.tsx"
+              }
             }
-          ]
+          ],
+          "enableAndroid": true
         }
       ],
       "expo-status-bar",

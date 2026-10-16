@@ -24,7 +24,7 @@ import type { PrayerSettings } from '@/lib/settings/types';
 // @/lib/splash for what the gate waits for and, more importantly, what it refuses to.
 import { SplashGate } from '@/lib/splash';
 import { syncPrayerLiveActivity } from '@/widget/live-activity';
-import { syncPrayerWidget } from '@/widget/sync';
+import { reloadPrayerWidget, syncPrayerWidget } from '@/widget/sync';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
 // expo-router renders this as the app-wide crash boundary (it wraps the root
@@ -172,6 +172,15 @@ function WidgetSync() {
     void syncPrayerWidget(coords, s, label);
     void syncPrayerLiveActivity(coords, s, label);
   });
+  // Android's widget is a static render between refreshes (see widget/android-snapshot).
+  // Leaving the app is the moment the reader is most likely to look at it, so re-render it
+  // then from the snapshot it already holds. A no-op on iOS.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'background') void reloadPrayerWidget();
+    });
+    return () => sub.remove();
+  }, []);
   return null;
 }
 
