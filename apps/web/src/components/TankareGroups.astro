@@ -1,6 +1,7 @@
 ---
 import { type Tankare, getTankare, tankarePairs } from "../lib/tankare";
 import HomeHead from "./HomeHead.astro";
+import Kicker from "./Kicker.astro";
 import MarkDot from "./MarkDot.astro";
 import SectionLink from "./SectionLink.astro";
 
@@ -9,11 +10,6 @@ import SectionLink from "./SectionLink.astro";
 // evenly (§7.8), and drawn as a DIALOGUE — the lines between the columns. The
 // /tankare index renders it unbounded, as the plain directory it always was.
 //
-// `band` sets it on the front page's ink ground, full-bleed. Only index.astro passes
-// it: /essaer/ shows the same glimpse inside an ordinary 64rem canvas with no .front
-// container to bleed against, where a dark box would be a panel, not a change of
-// paper.
-//
 // `opening` is the composition on /essaer/: the section's own words in the first third
 // of the canvas and the drawing across the other two, instead of a head row over a
 // figure centred in the page. It was made for the front page (2026-10-10) and moved to
@@ -21,10 +17,9 @@ import SectionLink from "./SectionLink.astro";
 // shelves. Without it the glimpse is the head row and the centred figure.
 interface Props {
 	limit?: number;
-	band?: boolean;
 	opening?: boolean;
 }
-const { limit, band = false, opening = false } = Astro.props;
+const { limit, opening = false } = Astro.props;
 
 const thinkers = await getTankare();
 const sunni = thinkers.filter((t) => t.tradition === "sunni");
@@ -77,7 +72,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 			"tankare-home",
 			"tankare-dialogue-home",
 			"home-movement",
-			{ "tankare-med-oppning": opening, bleed: band, "ground-ink": band },
+			{ "tankare-med-oppning": opening },
 		]}
 		aria-labelledby="tankare-home-kicker"
 	>
@@ -177,7 +172,9 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 			<MarkDot class="tankare-mark" />
 			{groups.map((group) => (
 				<div class="tankare-group">
-					<p class="label tankare-group-label">{group.label}</p>
+					{/* Each tradition's name heads its list, so it is a kicker in the head
+					    form (DESIGN.md, »A kicker has one of two jobs«). */}
+					<Kicker form="head" class="tankare-group-label">{group.label}</Kicker>
 					<ul class="tankare-list">
 						{group.items.map((t) => (
 							<li class="tankare-row">
@@ -200,22 +197,19 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 <style>
 	/* ---- Shared by both variants ---------------------------------------------- */
 
-	.tankare-group-label {
-		margin-bottom: var(--space-half);
-	}
-
 	.tankare-list {
 		margin: 0;
 		padding: 0;
 	}
 
-	/* No per-row rules — the axis (or the lines) + row spacing carry the list; the
-	   count gives each row its own anchor. */
+	/* No per-row rules — the axis (or the lines) + row spacing carry the list. The count
+	   stands beside its name, as the dialogue sets it on /essaer/: pushed to the far end
+	   of a half of the canvas it stood ~500px from the name it counts (2026-10-16). */
 	.tankare-row a {
 		display: flex;
 		align-items: baseline;
-		justify-content: space-between;
-		gap: 0.75rem;
+		justify-content: flex-start;
+		gap: 0.6rem;
 		padding-block: 0.5rem;
 		text-decoration: none;
 		color: inherit;
@@ -250,10 +244,12 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 
 	/* Two facing columns — the composition itself shows the dialogue that defines
 	   the site, without declaring it (§7.8). A hairline marks the axis. */
+	/* On the canvas's halves and its one gutter, so the second tradition stands on the
+	   centre line every halved section turns on; the gap was its own (80px at 1440). */
 	.tankare-groups {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: clamp(2rem, 6vw, 5rem);
+		gap: var(--grid-gutter);
 		margin-top: var(--space-unit);
 		position: relative;
 	}

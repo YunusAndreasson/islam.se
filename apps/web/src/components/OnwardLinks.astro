@@ -1,0 +1,86 @@
+---
+// WAYS ON, SET AS ITEMS ON THE PAGE'S GRID: the destination by its one name and, under it,
+// the line the menu gives it (lib/navigation.ts, `destinations`). DESIGN.md: a list is set
+// as items — a title with something under it, on the grid — never as a run of links.
+// /vad-ar-islam/'s »Läs vidare« was a 42rem column of hairline rows under an empty
+// two-thirds of the canvas (2026-10-16).
+//
+// Columns follow the count, never more than four (the canvas's quarters): four items on
+// thirds stood three and one.
+import type { PaletteNavLink } from "../lib/navigation";
+
+interface Props {
+	items: readonly PaletteNavLink[];
+}
+
+const { items } = Astro.props;
+const columns = Math.min(Math.max(items.length, 2), 4);
+---
+
+<ul class:list={["onward-links", `onward-links--${columns}`]}>
+	{items.map((item) => (
+		<li>
+			<a href={item.href}>
+				<span class="onward-title">{item.label}</span>
+				{item.sub && <span class="onward-sub">{item.sub}</span>}
+			</a>
+		</li>
+	))}
+</ul>
+
+<style>
+	.onward-links {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+		gap: var(--space-group) var(--grid-gutter);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	@media (width >= 60rem) {
+		.onward-links--2 {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.onward-links--3 {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.onward-links--4 {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+	}
+
+	a {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	/* The destination in the apparatus voice, as the menu sets it; its line in the
+	   card's blurb ink and leading (tokens.css, `--card-*`). */
+	.onward-title {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: var(--step-0);
+		font-weight: 600;
+		line-height: 1.3;
+		color: var(--color-text);
+	}
+
+	.onward-sub {
+		display: block;
+		margin-top: var(--card-text-gap);
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: var(--card-text-leading);
+		color: var(--text-quiet);
+		text-wrap: pretty;
+	}
+
+	a:hover .onward-title {
+		text-decoration: underline;
+		text-underline-offset: var(--underline-offset);
+	}
+</style>

@@ -232,9 +232,14 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 </style>
 
 <script>
+	import { claimAudio, yieldAudio } from "../scripts/audio-exclusive";
+
 	// Module-level state — survives across astro:page-load because
 	// Astro executes <script> modules once per browser session
 	let audio: HTMLAudioElement | null = null;
+	// The narration pauses when a verse starts reciting, and claims the page when it
+	// starts itself (audio-exclusive.ts).
+	yieldAudio(() => audio);
 	let currentSrc: string | null = null;
 	let saveTimer = 0;
 	let ctrlCtrl: AbortController | null = null; // for the current track and its controls
@@ -384,7 +389,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 			} catch {}
 		}, { signal: sig });
 
-		audio.addEventListener("play", () => { setIcons(true); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "playing"; syncTriggers(); }, { signal: sig });
+		audio.addEventListener("play", () => { if (audio) claimAudio(audio); setIcons(true); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "playing"; syncTriggers(); }, { signal: sig });
 		audio.addEventListener("pause", () => { setIcons(false); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "paused"; syncTriggers(); }, { signal: sig });
 
 		audio.addEventListener("timeupdate", () => {

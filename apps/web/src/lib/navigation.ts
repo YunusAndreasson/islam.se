@@ -194,12 +194,21 @@ const PAGE_BY_HREF = new Map<string, (typeof pages)[keyof typeof pages]>(
 	Object.values(pages).map((page) => [page.href, page]),
 );
 
-export const HOME_DOORWAYS: PaletteNavLink[] = [...MAST_SECTION_LINKS, ...MAST_UTILITY_LINKS].map(
-	(link) => {
-		const page = PAGE_BY_HREF.get(link.href);
-		const sub = page ? ("menuSub" in page ? page.menuSub : "sub" in page ? page.sub : "") : "";
-		return { href: link.href, label: link.label, sub };
-	},
+/** Destinations by href, each with its one name and the line the menu gives it (menuSub,
+ *  else sub): for a row of ways on that names a place as the mast does and says what is
+ *  there (OnwardLinks, the front page's doorways). Throws on an href that is not a
+ *  destination, so a renamed page cannot leave a way on pointing at nothing. */
+export function destinations(hrefs: readonly string[]): PaletteNavLink[] {
+	return hrefs.map((href) => {
+		const page = PAGE_BY_HREF.get(href);
+		if (!page) throw new Error(`navigation: "${href}" is not a destination in lib/navigation.ts`);
+		const sub = "menuSub" in page ? page.menuSub : "sub" in page ? page.sub : "";
+		return { href, label: page.label, sub };
+	});
+}
+
+export const HOME_DOORWAYS: PaletteNavLink[] = destinations(
+	[...MAST_SECTION_LINKS, ...MAST_UTILITY_LINKS].map((link) => link.href),
 );
 
 /** The three destinations of the front page's practical room, one to each third: the

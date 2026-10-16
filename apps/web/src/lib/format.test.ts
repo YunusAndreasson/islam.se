@@ -1,6 +1,13 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { genitive, kommunLabel, leadSentences, swedishQuotes, talord } from "./format";
+import {
+	genitive,
+	kommunLabel,
+	leadSentences,
+	readingMinutes,
+	swedishQuotes,
+	talord,
+} from "./format";
 
 // Both helpers replace string templates that were wrong on hundreds of generated
 // pages: `${name}s breddgrad` printed »Boråss« and »Västeråss« on the prayer-time
@@ -146,5 +153,26 @@ describe("talord", () => {
 	it("keeps digits above twelve, grouped the Swedish way", () => {
 		expect(talord(13)).toBe("13");
 		expect(talord(1395)).toBe("1\u00a0395");
+	});
+});
+
+describe("readingMinutes", () => {
+	const words = (n: number) => Array.from({ length: n }, () => "ord").join(" ");
+
+	it("reads at the essays' 200 words a minute, rounding up", () => {
+		expect(readingMinutes(words(400)), "the essays' pace (lib/articles.ts)").toBe(2);
+		expect(readingMinutes(words(401))).toBe(3);
+	});
+
+	it("counts the prose and not the apparatus a reader does not read through", () => {
+		const body = `${words(400)}[^1]\n\n[^1]: ${words(300)}\n    ${words(100)}\n`;
+		expect(
+			readingMinutes(body),
+			"footnotes (a fördjupning has ~40) would inflate the figure the page states",
+		).toBe(2);
+	});
+
+	it("never says zero minutes", () => {
+		expect(readingMinutes("")).toBe(1);
 	});
 });

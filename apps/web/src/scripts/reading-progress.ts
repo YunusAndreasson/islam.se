@@ -35,11 +35,30 @@ export function recordProgress(slug: string, pct: number, title?: string): void 
 	}
 }
 
-/** Past this fraction an essay counts as READ. It is the point where the essay page
- *  stops offering to resume ([...slug].astro): what lies below it is notes, sources
- *  and onward links, which few readers scroll through. One number, so the »läst« mark
- *  on /essaer/ and a filled stop on a tråd can never disagree about the same essay. */
+/** Past this fraction an essay counts as READ: the reader is in its last few
+ *  paragraphs. It is also where the essay page stops offering to resume ([...slug].astro).
+ *  One number, so the »läst« mark on /essaer/ and a part's »läst« in a series can never
+ *  disagree about the same essay. The fraction is of the PROSE (proseProgress), not the
+ *  page: measured on the page, a reader who had read every line stood at 0.71–0.76 on a
+ *  phone and 0.81–0.85 on a laptop, the notes and onward links still below, and was
+ *  never marked as having read the essay (2026-10-16). */
 export const READ_AT = 0.85;
+
+/** How far into an essay's prose the reader has got, 0–1: the share of the prose that
+ *  has come up past the foot of the screen. What is recorded, and what READ_AT and the
+ *  resume offer read. */
+export function proseProgress(prose: Element): number {
+	const box = prose.getBoundingClientRect();
+	if (box.height <= 0) return 0;
+	return Math.min(1, Math.max(0, (window.innerHeight - box.top) / box.height));
+}
+
+/** The scroll position at which `fraction` of the prose stands above the foot of the
+ *  screen: where the resume offer takes the reader back to. */
+export function scrollForProse(prose: Element, fraction: number): number {
+	const box = prose.getBoundingClientRect();
+	return Math.max(0, box.top + window.scrollY + fraction * box.height - window.innerHeight);
+}
 
 export function hasRead(slug: string): boolean {
 	return readProgress(slug) > READ_AT;

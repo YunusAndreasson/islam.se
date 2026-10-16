@@ -24,19 +24,6 @@
 	color-scheme: light dark;
 }
 
-/* The ink band's ground, REGISTERED as a <color>. That is the whole trick: an
-   unregistered custom property is substituted where it is used, so a light-dark()
-   inside it would resolve against the band's own `color-scheme: dark` and always
-   pick the dark arm. Registered, it computes on :root against the PAGE's scheme
-   and inherits into the band as a finished colour — near-black on a light page,
-   one surface step up on a dark one, where the page ground is already near-black
-   and the band would otherwise vanish. Value in :root below. */
-@property --ground-ink {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: #1d1912;
-}
-
 /* Manual theme override. The whole palette is built on `light-dark()`, so the ONE
    thing a theme switch has to change is `color-scheme` — every colour below
    re-resolves from it, and no token is duplicated per theme. The attribute is
@@ -51,25 +38,30 @@
 	color-scheme: dark;
 }
 
-/* THE COLOUR TOKENS, declared on the root AND on the ink band.
+/* THE COLOUR TOKENS.
 
-   ⚠️ Not on :root alone. The production build lowers every light-dark() with
-   Lightning CSS's polyfill (target baseline-widely-available, astro.config.ts), which
-   becomes `var(--lightningcss-light, A) var(--lightningcss-dark, B)` and a pair of
-   switch variables set wherever `color-scheme` is declared. A custom property
-   substitutes its var()s where it is DECLARED, so a token declared only on :root is
-   frozen in the root's scheme — and the ink band, which says `color-scheme: dark`,
-   rendered its names in the light palette's ink on its own near-black ground
-   (2026-09-25). The dev server does not lower light-dark(), so it never showed.
-   Declaring the block again on .ground-ink makes every token re-resolve inside the
-   band, in both builds. Only colours live here: redeclaring the type or spacing
-   tokens on the band would undo their mobile overrides inside it. */
-:root,
-.ground-ink {
-	/* Hero overlay — channel-only for rgb() composition (frame vignettes and the
-	   drop shadow under a picture). The matching warm white, 245 240 232, is not a
-	   token because no stylesheet composes it; lib/og.ts carries it as the title ink
-	   on the photo share card, which is the one place text sits on a hero. */
+   ⚠️ A subtree that sets its own `color-scheme` must declare this block again. The
+   production build lowers every light-dark() with Lightning CSS's polyfill (target
+   baseline-widely-available, astro.config.ts), which becomes
+   `var(--lightningcss-light, A) var(--lightningcss-dark, B)` and a pair of switch
+   variables set wherever `color-scheme` is declared. A custom property substitutes
+   its var()s where it is DECLARED, so a token declared only on :root is frozen in the
+   root's scheme. The front page's dark ink band (retired 2026-09-27, when it read as
+   a second site; its CSS removed 2026-10-17) said `color-scheme: dark` and rendered its names in the light palette's
+   ink on its own near-black ground (2026-09-25); it carried this block as
+   `:root, .ground-ink`. The dev server does not lower light-dark(), so it never
+   showed. Only colours belong in such a copy: redeclaring the type or spacing tokens
+   would undo their mobile overrides inside it. */
+:root {
+	/* The site's one shadow ink — channel-only for rgb() composition. It began as the
+	   hero overlay (frame vignettes, the drop shadow under a picture) and since
+	   2026-10-17 draws every shadow: the note popover, the search sheet, the map
+	   panels and the app's phones, which were pure black on warm paper. A modal's
+	   ::backdrop scrim stays a literal: it is not a shadow, and ::backdrop has
+	   inherited custom properties only since 2024. The matching warm white,
+	   245 240 232, is not a token because no stylesheet composes it; lib/og.ts carries
+	   it as the title ink on the photo share card, which is the one place text sits on
+	   a hero. */
 	--hero-black: 20 18 14;
 
 	/* Colors — 4 maximum per DESIGN.md */
@@ -111,10 +103,6 @@
 	   same lightness as before. Do not push past C 0.018: it stops reading as warm
 	   near-black and starts reading as sepia. */
 	--color-bg: light-dark(#fff6e8, #1d1912);
-	/* The page's paper, frozen here. A front-page band re-points --color-bg to its own
-	   tint so anything that paints "the ground" matches the band (editorial.css); an
-	   object that must stay the PAPER on a band — the book's cover — asks for this. */
-	--paper: var(--color-bg);
 	--color-accent: light-dark(#3a3830, #d9d4ce);
 	/* Light muted is the site's most-used secondary colour (~180 call sites) and
 	   lands on small text (.label, .archive-meta, captions). It went #847a6e
@@ -253,28 +241,10 @@
 	   ranks tokens.test.ts holds. */
 	--shape-land: color-mix(in oklab, var(--color-muted) 16%, var(--color-bg));
 
-	/* Two grounds for the front page's two set-piece bands, each used ONCE, so the
-	   page gets a change of paper instead of another hairline (DESIGN.md, »Two
-	   grounds«). --ground-tint is simply --surface-1 carried full-bleed.
-	   --ground-ink inverts: on the light page it is the dark theme's own ground,
-	   and the band re-resolves every token inside it by setting color-scheme: dark
-	   (see .ground-ink in layout.css) — no second palette is declared anywhere.
-	   On the dark page it steps up to the dark scheme's --surface-2 (9 % muted in
-	   oklab), a literal because the band redefines --color-bg and a mix of it here
-	   would reference itself. tokens.test.ts measures every tier on both. */
+	/* The front page's rooms (AI-barometern; Praktiskt): --surface-1 carried to the
+	   window edge, so a change of paper says a different kind of thing has begun
+	   (DESIGN.md, »One pair of margins — the mast's — and two rooms«). */
 	--ground-tint: var(--surface-1);
-}
-
-/* Root only: this one must resolve against the PAGE's scheme (see @property above). */
-:root {
-	--ground-ink: light-dark(#1d1912, #29251d);
-}
-
-/* The band itself: dark scheme, its own ground. After the colour block, so its
-   --color-bg wins over the block's on the same element. */
-.ground-ink {
-	color-scheme: dark;
-	--color-bg: var(--ground-ink);
 }
 
 :root {
@@ -429,6 +399,14 @@
 	--padding-inline: 1.5rem;
 	--canvas-width: calc(var(--art-width) + 2 * var(--padding-inline));
 	--reading-frame: 64rem;
+
+	/* The sticky mast: its block padding around one row of 2.75rem tap targets, 92px on
+	   a desktop and 84px under 48rem (measured 2026-10-17). Header.astro measures the
+	   real height and sets it on <html>, inline, so this value covers only the first
+	   frame: an anchor arrival on load, a sticky head before the script runs. Everything
+	   that sticks under the mast or clears it reads this one value; until 2026-10-17
+	   each did with a fallback of its own, from 0 to 88px. */
+	--mast-height: calc(2 * var(--padding-inline) + 2.75rem);
 
 	/* Safe-area-aware padding (used by header, hero, content column, FABs) */
 	--safe-top: calc(var(--padding-inline) + env(safe-area-inset-top, 0px));

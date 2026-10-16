@@ -5,6 +5,19 @@ import ArticleHeader from "./ArticleHeader.astro";
 import EssayList from "./EssayList.astro";
 import SectionLink from "./SectionLink.astro";
 
+// AN ÄMNE, AN ESSÄSERIE OR A TÄNKARE, in full. Until 2026-10-16 these pages showed less
+// than the front page's glimpse of them: text-only rows with whole decks side by side,
+// under a 34rem ingress at a size below every other hub's, beside half a canvas of empty
+// paper. Now they open as a hub does (the kicker over the title, the ingress at the
+// hubs' size) and show their essays the way the front page and /essaer/ do:
+//
+//   a series   every part as a picture card, »Del 1«, »Del 2« in brass over its title
+//              (the front page's essäserier), when every part has a picture; otherwise
+//              rows in the same numbering, never a half-pictured row of parts. Two of six
+//              parts of »Hjärtats anatomi« have one.
+//   an ämne,   its newest three with pictures as cards (as each ämne on /essaer/ opens),
+//   a tänkare  then the rest as rows, two abreast.
+
 interface Props {
 	title: string;
 	description: string;
@@ -14,7 +27,7 @@ interface Props {
 	countText: string;
 	backHref: string;
 	backLabel: string;
-	/** An essäserie: the list is a reading order, and each row says which part it is. */
+	/** An essäserie: the list is a reading order, and each part says which it is. */
 	numbered?: boolean;
 	ogImage?: string;
 	jsonLd: Record<string, unknown> | Record<string, unknown>[];
@@ -33,6 +46,16 @@ const {
 	ogImage,
 	jsonLd,
 } = Astro.props;
+
+const pictured = essays.filter((essay) => essay.heroImage);
+const cards = numbered ? (pictured.length === essays.length ? essays : []) : pictured.slice(0, 3);
+const shownAsCards = new Set(cards.map((essay) => essay.slug));
+const rows = essays.filter((essay) => !shownAsCards.has(essay.slug));
+
+// A series is read whole, so it says how long it takes, as the front page's does.
+const minutes = essays.reduce((sum, essay) => sum + essay.readingTime, 0);
+const count = numbered ? `${countText} · lästid ${minutes} min` : countText;
+const delar = numbered ? " collection-delar" : "";
 ---
 
 <Base
@@ -41,24 +64,48 @@ const {
 	{...(ogImage === undefined ? {} : { ogImage })}
 	jsonLd={jsonLd}
 >
-	<main id="main" class="home">
-		<ArticleHeader title={title} kicker={kicker} lead={lead}>
-			<p class="label collection-count">{countText}</p>
+	<main id="main" class="home collection-page">
+		<ArticleHeader title={title} kicker={kicker} lead={lead} leadClass="lead--page">
+			<p class="label collection-count">{count}</p>
 		</ArticleHeader>
 
-		<EssayList articles={essays} {...(numbered ? { class: "collection-delar" } : {})} />
+		{cards.length > 0 && (
+			<EssayList
+				articles={cards}
+				itemVariant="card"
+				class={`essay-cards essay-cards--thirds${delar}`}
+				cardSizes="(min-width: 79rem) 24rem, (min-width: 64rem) 30vw, (min-width: 37rem) 45vw, 100vw"
+				showReadFlag
+			/>
+		)}
+
+		{rows.length > 0 && (
+			<EssayList articles={rows} {...(numbered ? { class: "collection-delar" } : {})} showReadFlag />
+		)}
 
 		<p class="collection-back"><SectionLink href={backHref}>{backLabel}</SectionLink></p>
 	</main>
 </Base>
 
+<script>
+	// Read essays step back in place, muted with »· läst« (scripts/read-state.ts); in a
+	// series the part's number then says »Del 2 · läst«.
+	import { markReadEssays } from "../scripts/read-state";
+
+	document.addEventListener("astro:page-load", () => {
+		const page = document.querySelector(".collection-page");
+		if (page) markReadEssays(page);
+	});
+</script>
+
 <style>
-	/* AN ESSÄSERIE IS READ IN ORDER, and the page says so on every row: »Del 1«, »Del 2«
-	   over the title, counted by the list itself. Without it the series page was the
-	   ämne page with fewer rows, which is half of why the two were mistaken for one
-	   another (user review, 2026-10-10). The counter sits in the title, so a screen
-	   reader hears »Del 3, …« as the link's name.
-	   ⚠️ :global — the list and its rows are EssayList's and EssayArchiveItem's. */
+	/* AN ESSÄSERIE IS READ IN ORDER, and the page says so on every part: »Del 1«, »Del 2«
+	   over the title, counted by the list itself, in the brass and the face the front
+	   page's essäserier set it in (TradarHome), on a card or on a row alike. It was a
+	   tracked-caps label in the meta grey here, a second form for the one ordinal
+	   (DESIGN.md, »The Browse Axes«). The counter sits in the title, so a screen reader
+	   hears »Del 3, …« as the link's name.
+	   ⚠️ :global — the lists and their items are EssayList's and EssayArchiveItem's. */
 	:global(.collection-delar) {
 		counter-reset: del;
 	}
@@ -70,12 +117,18 @@ const {
 	:global(.collection-delar .archive-title)::before {
 		content: "Del " counter(del);
 		display: block;
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.2rem;
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		font-weight: 400;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--text-meta);
+		line-height: 1.4;
+		letter-spacing: 0.01em;
+		color: var(--color-brass-ink);
+	}
+
+	/* A read part steps back a rank, and its number says why. */
+	:global(.collection-delar > .archive-item[data-read] .archive-title)::before {
+		content: "Del " counter(del) " · läst";
+		color: var(--color-muted);
 	}
 </style>

@@ -20,11 +20,12 @@
 .filter-chip {
 	min-height: 2.75rem;
 }
+/* One state for a chosen chip: the ink border and ink label (layout.css) and the weight
+   here. It also had an inset underline, so a chosen pill wore three marks at once. */
 .filter-chip[aria-current],
 .filter-chip[aria-pressed="true"],
 .filter-chip.is-active {
 	font-weight: 600;
-	box-shadow: inset 0 -2px var(--color-text);
 }
 .mast-prayer-label {
 	display: none;
@@ -177,6 +178,15 @@
 	}
 }
 
+/* The essays by ämne: on a phone their tab row runs to the screen edges (layout.css,
+   »On a phone the tabs are one row«), and paint containment would cut it at the canvas
+   edge, as it would the card rows above. */
+@media (width < 48rem) {
+	.front .home .amnen {
+		content-visibility: visible;
+	}
+}
+
 /* One card and the next one's edge on a phone. */
 @media (width < 40rem) {
 	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) {
@@ -229,10 +239,6 @@ a:hover .media-frame,
 a:focus-visible .media-frame {
 	box-shadow: none;
 }
-a:hover .media-frame img,
-a:focus-visible .media-frame img {
-	transform: none;
-}
 a:hover .media-frame::before,
 a:focus-visible .media-frame::before {
 	opacity: 0.1;
@@ -270,7 +276,7 @@ a:focus-visible .media-frame::before {
 
 .prose :is(h2, h3),
 .svar-section {
-	scroll-margin-top: calc(var(--mast-height, 5rem) + 1.5rem);
+	scroll-margin-top: calc(var(--mast-height) + 1.5rem);
 }
 /* Section permalink (src/plugins/rehype-heading-anchor.ts). The mark hangs in the left
    margin and is drawn only on hover: a standing column of hashes down the page would
@@ -312,17 +318,12 @@ a:focus-visible .media-frame::before {
 		opacity: 0.4;
 	}
 }
-.svar-index .svar-pelare {
-	margin-block: 0 var(--space-section);
-}
-.svar-sources,
-.svar-related,
-.fordjupning-apparat,
-.fordjupning-vidare {
-	border-top: 1px solid var(--color-rule);
-	padding-top: var(--space-group);
-	margin-top: var(--space-section);
-}
+/* /svar/'s fördjupning band closes the page since 2026-10-16 and opens like any other
+   section (`.page-section`, layout.css). The rule that stood here zeroed its top margin
+   for the days it led the page, and being unlayered it outranked the section's own. */
+/* The end-matter sections' spacing lives on `.article-section` (layout.css) since
+   2026-10-16, for all of them: this list gave four of the seven the section rhythm and
+   left the FAQ and »Läs vidare« on the old φ. */
 .site-footer .site-footer-nav {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -396,88 +397,9 @@ a:focus-visible .media-frame::before {
 	text-underline-offset: 0.25em;
 }
 
-/* One scroll container: the menu's title bar and search field remain available. */
-.palette.fullscreen-dialog {
-	background: var(--color-bg);
-	backdrop-filter: none;
-	/* Keep keyboard-selected results below the sticky title and search bars. */
-	scroll-padding-block: 10rem 1rem;
-}
-.palette .palette-topbar {
-	position: sticky;
-	top: 0;
-	z-index: 4;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	min-height: 4.5rem;
-	padding: 0.75rem var(--padding-inline);
-	background: var(--color-bg);
-}
-.palette-topbar .palette-home,
-.palette-topbar .palette-close {
-	position: static;
-}
-.palette .palette-inner {
-	max-width: none;
-	padding: 0 var(--padding-inline) var(--space-group);
-}
-.palette .palette-field {
-	position: sticky;
-	top: 4.5rem;
-	z-index: 3;
-	padding-block: var(--space-control);
-	background: var(--color-bg);
-}
-.palette .palette-input {
-	padding-bottom: 0;
-	font-size: var(--step-2);
-}
-.palette .palette-dest {
-	padding-block: var(--space-control);
-}
-.palette .palette-dest-sub {
-	font-size: var(--step--2);
-}
-.palette .palette-chip {
-	min-height: 2.75rem;
-}
-.palette .palette-browse {
-	margin-top: var(--space-group);
-}
-@media (width > 56.25rem) {
-	.palette {
-		--padding-inline: 2rem;
-	}
-	.palette.fullscreen-dialog {
-		inset: 2rem 0;
-		width: min(56rem, calc(100% - 4rem));
-		height: fit-content;
-		max-height: calc(100dvh - 4rem);
-		margin-inline: auto;
-		border: 1px solid var(--color-rule);
-		border-radius: var(--radius-lg);
-		box-shadow: 0 1rem 4rem rgb(0 0 0 / 0.2);
-	}
-	.palette.fullscreen-dialog::backdrop {
-		background: rgb(0 0 0 / 0.35);
-	}
-	.palette .palette-browse {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: var(--space-group) 2.5rem;
-	}
-	.palette .palette-browse[hidden] {
-		display: none;
-	}
-	.palette-browse .palette-group {
-		margin: 0;
-	}
-	.palette .palette-fold,
-	.palette .palette-foot {
-		grid-column: 1 / -1;
-	}
-}
+/* The search palette's styles live in SearchOverlay.astro, all of them. Its sheet,
+   sticky bars and sizes stood here until 2026-10-17 as two-class overrides of the
+   component's own rules, so half of the component's CSS never applied. */
 /* On a phone the chip names the prayer, as it does on the desktop: »Maghrib 18:33«
    says which prayer and is shorter than »Nästa bön 18:33«, which said neither. The
    link's aria-label still reads »Nästa bön: …« in full. */
@@ -497,9 +419,6 @@ a:focus-visible .media-frame::before {
 	.footer-group:last-child {
 		grid-column: auto;
 	}
-	.palette .palette-input {
-		font-size: var(--step-1);
-	}
 }
 @media (prefers-reduced-motion: reduce) {
 	.media-frame,
@@ -508,30 +427,47 @@ a:focus-visible .media-frame::before {
 		transition: none;
 	}
 }
-@media print {
-	.palette.fullscreen-dialog {
-		display: none !important;
-	}
-}
 
 @media (width >= 90rem) {
+	/* THE RAIL STANDS ON THE MAST'S LINE, the left edge every block of the site's
+	   canvas starts on. It hung a fixed 13rem left of the text column, and the column
+	   is not a fixed distance from that line: an essay's (and a fördjupning's) is 11.5rem
+	   from it, shifted for the sidenotes, so the rail stood 24px outside the line at
+	   every width, and an answer's is 17rem, so there it stood 64px inside (measured
+	   2026-10-16). Both frames are centred, so the distance is the same at every width
+	   and comes from the tokens that place the column: half the difference of the two
+	   frames, plus the column's own offset in the reading frame. */
 	.reading-section {
+		--rail-reach: calc(
+			(var(--canvas-width) - var(--reading-frame)) /
+			2 +
+			(var(--reading-frame) - 2 * var(--padding-inline) - var(--content-width)) /
+			2
+		);
 		display: grid;
 		grid-template-columns: 0 minmax(0, 1fr);
 		max-width: var(--content-width);
 		margin-inline-start: var(--reading-inline-start, auto);
 		margin-inline-end: auto;
 	}
+	.reading--notes .reading-section {
+		--rail-reach: calc(
+			(var(--canvas-width) - var(--reading-frame)) /
+			2 +
+			var(--reading-inline-start)
+		);
+	}
 	.reading-section .innehall {
 		position: sticky;
-		top: calc(var(--mast-height, 5rem) + 1rem);
+		top: calc(var(--mast-height) + 1rem);
 		align-self: start;
 		grid-column: 1;
 		grid-row: 1;
-		width: 11rem;
-		max-height: calc(100dvh - var(--mast-height, 5rem) - 2rem);
+		/* 11rem where there is room for it and a 1.5rem gap; 10rem beside an essay. */
+		width: min(11rem, var(--rail-reach) - 1.5rem);
+		max-height: calc(100dvh - var(--mast-height) - 2rem);
 		overflow-y: auto;
-		margin: 0 0 0 -13rem;
+		margin: 0 0 0 calc(-1 * var(--rail-reach));
 		padding-block: var(--space-control);
 	}
 	.reading-section .innehall ol {

@@ -4,6 +4,7 @@ import { type Article, articleBody, getArticles } from "./articles";
 import { memoize } from "./cache";
 import { getVersesByEssay } from "./citations";
 import { FAKTA_SLUGS } from "./fakta";
+import { seriesPosition } from "./series";
 import { getTankare, type Tradition } from "./tankare";
 
 // Everything one essay is connected to, derived from data the site already
@@ -27,6 +28,8 @@ interface TradRef {
 	 *  front page count it: over the essays that still resolve. */
 	part: number;
 	parts: number;
+	/** The part after this one, which the essay's end offers first (»Nästa del«). */
+	next?: { slug: string; title: string };
 }
 
 interface SvarRef {
@@ -45,10 +48,11 @@ export interface EssayConnections {
 	svar: SvarRef[];
 }
 
-// Relatedness weights. A shared tråd is the strongest signal (it is an explicit
-// editorial pairing); a shared cited verse is a concrete textual overlap; shared
-// tänkare and a shared ämne are softer thematic kinship.
-const W_TRAD = 5;
+// Relatedness weights. A shared cited verse is a concrete textual overlap; shared tänkare
+// and a shared ämne are softer thematic kinship. The essay's series mates are not scored
+// at all: the end of the essay offers the series in its order (»Nästa del«), and as the
+// strongest signal they filled »Läs vidare« with three parts of the same series,
+// unnumbered and out of order (parts 4, 2 and 5 on one essay; 2026-10-16).
 const W_VERSE = 3;
 const W_TANKARE = 2;
 const W_AMNE = 1;
@@ -77,20 +81,25 @@ export async function getEssayConnections(slug: string, limit = 3): Promise<Essa
 		}
 	}
 
-	// The trådar this essay belongs to, and (for scoring) its co-members.
+	// The trådar this essay belongs to, where it stands in each, and its co-members.
 	const tradar: TradRef[] = [];
 	const myThreadMates = new Set<string>();
-	const published = new Set(articles.map((a) => a.slug));
+	const titleBySlug = new Map(articles.map((a) => [a.slug, a.title]));
 	for (const thread of threads) {
 		// A slug that no longer resolves drops out of the series everywhere it is
 		// drawn, so it must not hold a number here either.
-		const members: string[] = thread.data.essays.filter((s: string) => published.has(s));
-		if (!members.includes(slug)) continue;
+		const members: string[] = thread.data.essays.filter((s: string) => titleBySlug.has(s));
+		const position = seriesPosition(members, slug);
+		if (!position) continue;
+		const nextTitle = position.next === undefined ? undefined : titleBySlug.get(position.next);
 		tradar.push({
 			id: thread.id,
 			title: thread.data.title,
-			part: members.indexOf(slug) + 1,
-			parts: members.length,
+			part: position.part,
+			parts: position.parts,
+			...(position.next === undefined || nextTitle === undefined
+				? {}
+				: { next: { slug: position.next, title: nextTitle } }),
 		});
 		for (const m of members) if (m !== slug) myThreadMates.add(m);
 	}
@@ -99,10 +108,9 @@ export async function getEssayConnections(slug: string, limit = 3): Promise<Essa
 	const myVerses = versesByEssay.get(slug) ?? new Set();
 
 	const scored = articles
-		.filter((a) => a.slug !== slug)
+		.filter((a) => a.slug !== slug && !myThreadMates.has(a.slug))
 		.map((a) => {
 			let score = 0;
-			if (myThreadMates.has(a.slug)) score += W_TRAD;
 
 			const theirVerses = versesByEssay.get(a.slug);
 			if (theirVerses) for (const v of theirVerses) if (myVerses.has(v)) score += W_VERSE;

@@ -1,7 +1,7 @@
 ---
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import FordjupningCards from "../../components/FordjupningCards.astro";
-import { getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
+import { FORDJUPNING_INGRESS, getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 
 // FORDJUPNING — the encyclopedic pillar pages. Each covers one broad topic in full
@@ -88,11 +88,9 @@ const description =
 	]}
 >
 	<span slot="lead">
-		Ämnen som diskuteras oftare än de beskrivs. Varje sida följer ett av dem från
-		vad texterna säger till hur frågan avgörs i en svensk domstol, kommun eller moské.
-		Vill du ha ett kort svar i stället finns{" "}
+		{FORDJUPNING_INGRESS} Vill du ha ett kort svar i stället finns{" "}
 		<a href="/svar/">frågor och svar</a>, och grunderna står samlade under{" "}
-		<a href="/vad-ar-islam/">fakta om islam</a>.
+		<a href="/vad-ar-islam/">Tro och lära</a>.
 	</span>
 
 	{ordered.length > 0 ? (

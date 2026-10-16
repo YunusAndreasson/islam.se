@@ -195,7 +195,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		   changes colour the moment the renderer takes over. */
 		background: light-dark(#c9cdca, #15171a);
 		border: 1px solid var(--color-divider);
-		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
+		box-shadow: 0 1px 2px rgb(var(--hero-black) / 0.04), 0 12px 28px -16px rgb(var(--hero-black) / 0.25);
 	}
 
 	.bf-canvas {
@@ -227,7 +227,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		background: light-dark(rgb(255 246 232 / 0.9), rgb(29 25 18 / 0.86));
 		border: 1px solid light-dark(rgb(26 23 18 / 0.1), rgb(232 229 224 / 0.14));
 		backdrop-filter: blur(8px);
-		box-shadow: 0 2px 12px -6px rgb(0 0 0 / 0.35);
+		box-shadow: 0 2px 12px -6px rgb(var(--hero-black) / 0.35);
 	}
 
 	/* The map now letters the marker with the town's name and the section heading
@@ -371,11 +371,15 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 	.bf-schedule-first .bf-t-time { font-family: var(--font-heading); font-size: var(--step-1); font-weight: 600; }
 	.bf-next-label { display: none; margin-inline-start: 0.7rem; font-size: var(--step--4); font-weight: 400; }
 	.is-next-today .bf-next-label { display: inline; }
+	/* On the page's halves and its one gutter (DESIGN.md, »One grid«), as the city page's
+	   arrangement below: the schedule and the map stood in columns of 660 and 508px at
+	   1440 behind a gap of their own, the map's edge on no line of the page (2026-10-16).
+	   The orders stay as they were, each for its reason. */
 	@media (width >= 40rem) {
 		.bf-schedule-first {
-			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 			grid-template-areas: "caption caption" "times map";
-			column-gap: clamp(1.5rem, 4vw, 3rem);
+			column-gap: var(--grid-gutter);
 		}
 		.bf-schedule-first .bf-stage { aspect-ratio: auto; }
 	}
@@ -433,10 +437,10 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 
 	@media (width >= 40rem) {
 		.bf-map-first {
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 			grid-template-areas: "summary summary" "map times" "legend times";
 			align-items: start;
-			column-gap: clamp(1.5rem, 4vw, 3rem);
+			column-gap: var(--grid-gutter);
 		}
 	}
 

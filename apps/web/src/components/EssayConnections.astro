@@ -2,6 +2,7 @@
 import { getEssayConnections } from "../lib/related";
 import EssayList from "./EssayList.astro";
 import Motet from "./Motet.astro";
+import SectionLink from "./SectionLink.astro";
 
 interface Props {
 	slug: string;
@@ -36,17 +37,34 @@ const contextRows = [
 	// The one route out of the essay corpus and into the reference half of the site.
 	// Derived in lib/related.ts, not authored per essay.
 	svar.length > 0 && {
-		label: "Fakta",
+		// »Svar«, not »Fakta«: the rows link to answers in Frågor och svar, most of
+		// them not on the Tro och lära page the word »Fakta« stood for (2026-10-16).
+		label: "Svar",
 		links: svar.map((s) => ({ href: `/svar/${s.slug}/`, label: s.title })),
 	},
 ].filter((row): row is ContextRow => Boolean(row));
 
 const hasContext = contextRows.length > 0;
 const hasMotet = tankare.length > 0;
+
+// A SERIES IS READ IN ORDER, so the first thing the end of a part offers is the part after
+// it (DESIGN.md, »The Browse Axes«), set as the front page's series cards set a part: its
+// number in brass, then its title. One essay stands in two series and gets one for each.
+const nextParts = tradar.flatMap((t) => (t.next ? [{ series: t, next: t.next }] : []));
 ---
 
-{(hasContext || hasMotet || related.length > 0) && (
+{(hasContext || hasMotet || related.length > 0 || nextParts.length > 0) && (
 	<aside class="essay-connections" aria-label="Läs vidare och sammanhang">
+		{nextParts.map(({ series, next }) => (
+			<p class="ec-next">
+				<span class="label ec-heading">Nästa del</span>
+				<a class="ec-next-link" href={`/${next.slug}/`} data-astro-prefetch="viewport">
+					<span class="ec-next-del">Del {series.part + 1} av {series.parts} · {series.title}</span>
+					<span class="ec-next-title">{next.title}</span>
+				</a>
+			</p>
+		))}
+
 		<Motet tankare={tankare} />
 
 		{hasContext && (
@@ -71,6 +89,8 @@ const hasMotet = tankare.length > 0;
 			<div class="ec-related">
 				<p class="label ec-heading">Läs vidare</p>
 				<EssayList articles={related} />
+				{/* The whole archive, from the end of every essay (DESIGN.md, »The Essäer Page«). */}
+				<p class="ec-all"><SectionLink href="/essaer/">Alla essäer</SectionLink></p>
 			</div>
 		)}
 	</aside>
@@ -138,5 +158,51 @@ const hasMotet = tankare.length > 0;
 	.ec-heading {
 		margin-bottom: var(--space-half);
 		color: var(--color-muted);
+	}
+
+	/* Nästa del: the label, then the part as the front page's series cards set one, its
+	   number in the brass every ordinal on the site is set in, over its title. */
+	.ec-next {
+		display: grid;
+		margin: 0 0 var(--space-unit);
+	}
+
+	.ec-next .ec-heading {
+		display: block;
+	}
+
+	.ec-next-link {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+
+		&:hover .ec-next-title {
+			text-decoration: underline;
+			text-underline-offset: var(--underline-offset);
+		}
+	}
+
+	.ec-next-del {
+		display: block;
+		margin-bottom: 0.2rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		line-height: 1.4;
+		letter-spacing: 0.01em;
+		color: var(--color-brass-ink);
+	}
+
+	.ec-next-title {
+		display: block;
+		font-family: var(--font-display);
+		font-size: var(--step-1);
+		font-weight: 600;
+		line-height: var(--card-title-leading);
+		color: var(--color-text);
+		text-wrap: balance;
+	}
+
+	.ec-all {
+		margin: var(--space-unit) 0 0;
 	}
 </style>

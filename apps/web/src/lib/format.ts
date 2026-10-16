@@ -118,3 +118,19 @@ export function leadSentences(text: string, max: number): string {
 	}
 	return source.slice(0, cut).trim();
 }
+
+/** Minutes to read a markdown body, at the essays' pace (200 words a minute,
+ *  lib/articles.ts), counting the prose only. Answers and fördjupningar carry no
+ *  `wordCount`, and a fördjupning's ~40 footnotes would add a third to its figure, so
+ *  footnote definitions and markers, HTML comments, images and link targets are not
+ *  read. Never under one minute. */
+export function readingMinutes(markdown: string): number {
+	const prose = markdown
+		.replace(/<!--[\s\S]*?-->/g, " ")
+		.replace(/^\[\^[^\]]+\]:.*(?:\n(?: {2,}|\t).*)*/gm, " ")
+		.replace(/\[\^[^\]]+\]/g, " ")
+		.replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+		.replace(/\]\([^)]*\)/g, "]");
+	const words = prose.split(/\s+/).filter((word) => /\p{L}/u.test(word)).length;
+	return Math.max(1, Math.ceil(words / 200));
+}

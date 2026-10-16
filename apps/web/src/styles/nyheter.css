@@ -452,25 +452,13 @@
 	max-inline-size: var(--nyhet-block);
 }
 
-/* The area heading — "Världen" now, "Sverige" beside it later.
-   Set as a movement kicker so it reads as a section of the page rather than as
-   a headline competing with the notices under it. */
+/* The area heading — "Världen" now, "Sverige" beside it later. The site's kicker
+   (Kicker.astro, head form: it heads the list under it), behind the brass point. It
+   kept the 1.6rem warm dash the front page's kickers gave up for the point
+   (layout.css, »The wordmark's sun, not a rule«) and drew it in its own copy of the
+   kicker's face; this file is unlayered, so only the placement stays here. */
 .nyheter-omrade {
-	display: flex;
-	align-items: center;
-	gap: 0.7rem;
 	margin: 0;
-	font-size: var(--step--2);
-	font-weight: 400;
-	letter-spacing: 0.09em;
-}
-
-.nyheter-omrade::before {
-	content: "";
-	flex: none;
-	inline-size: 1.6rem;
-	block-size: 2px;
-	background: var(--color-warm);
 }
 
 /* Sentence case, not a label. It is a statement of fact — "9 notiser · senast
@@ -499,16 +487,18 @@
 	margin-top: var(--space-phi2);
 }
 
-/* The only rule on the page, and the only place caps and weight are spent.
-   It spans the whole block — clock column included — so it reads as a bar
-   across the day rather than as a label above the first notice. */
+/* The only rule on the page, and the only place caps and weight are spent. It spans the
+   whole block, clock column included, and it OPENS the day, as a rule opens every
+   section on the site, the day's name one group-space under it. Under the name (until
+   2026-10-16) it closed the heading instead, and the day's notices began below a line
+   that read as the end of something. */
 .nyheter-dagrubrik {
 	display: flex;
 	align-items: baseline;
 	gap: 0.7rem;
 	margin: 0 0 var(--space-unit);
-	padding-bottom: var(--space-half);
-	border-bottom: 1px solid var(--color-rule);
+	padding-top: var(--space-group);
+	border-top: 1px solid var(--color-rule);
 	max-inline-size: var(--nyhet-block);
 	font-family: var(--font-heading);
 	font-size: var(--step--2);

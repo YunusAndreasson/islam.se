@@ -50,6 +50,19 @@ const lead = variant === "city"
 			) : (
 				<p class="apppromo-lead">{lead}</p>
 			)}
+			{/* On /app/ the page's one action comes before the list of what the app does:
+			    after the features the two stores stood below the first screen at
+			    1440×900 (2026-10-16). Elsewhere the card closes on them, below. */}
+			{variant === "page" && (
+				<div class="apppromo-badges apppromo-badges--lead">
+					<a class="apppromo-badge apppromo-badge--ios" href={APP_STORE_URL} aria-label="Ladda ned islam.se på App Store">
+						<img src="/badge-appstore-sv.svg" alt="" width="120" height="40" decoding="async" />
+					</a>
+					<a class="apppromo-badge apppromo-badge--android" href={PLAY_STORE_URL} aria-label="Ladda ned islam.se på Google Play">
+						<img src="/badge-googleplay-sv.png" alt="" width="646" height="250" decoding="async" />
+					</a>
+				</div>
+			)}
 			{variant === "city" && (
 				<div class="apppromo-shots">
 					{CITY_SHOTS.map((s) => (
@@ -68,17 +81,19 @@ const lead = variant === "city"
 				</ul>
 			)}
 		</div>
-		<div class="apppromo-badges">
-			{/* Black badge in both themes. Apple: use the black badge whenever another
-			    platform's badge sits alongside — and Google forbids recolouring theirs,
-			    so white here would never have a match. The grey border is in the art. */}
-			<a class="apppromo-badge apppromo-badge--ios" href={APP_STORE_URL} aria-label="Ladda ned islam.se på App Store">
-				<img src="/badge-appstore-sv.svg" alt="" width="120" height="40" loading="lazy" decoding="async" />
-			</a>
-			<a class="apppromo-badge apppromo-badge--android" href={PLAY_STORE_URL} aria-label="Ladda ned islam.se på Google Play">
-				<img src="/badge-googleplay-sv.png" alt="" width="646" height="250" loading="lazy" decoding="async" />
-			</a>
-		</div>
+		{variant !== "page" && (
+			<div class="apppromo-badges">
+				{/* Black badge in both themes. Apple: use the black badge whenever another
+				    platform's badge sits alongside — and Google forbids recolouring theirs,
+				    so white here would never have a match. The grey border is in the art. */}
+				<a class="apppromo-badge apppromo-badge--ios" href={APP_STORE_URL} aria-label="Ladda ned islam.se på App Store">
+					<img src="/badge-appstore-sv.svg" alt="" width="120" height="40" loading="lazy" decoding="async" />
+				</a>
+				<a class="apppromo-badge apppromo-badge--android" href={PLAY_STORE_URL} aria-label="Ladda ned islam.se på Google Play">
+					<img src="/badge-googleplay-sv.png" alt="" width="646" height="250" loading="lazy" decoding="async" />
+				</a>
+			</div>
+		)}
 	</div>
 </aside>
 
@@ -295,5 +310,10 @@ const lead = variant === "city"
 	.apppromo--page .apppromo-heading {
 		font-family: var(--font-heading);
 		font-size: var(--step-2-sans);
+	}
+
+	/* The stores under the lead, then what the app does. */
+	.apppromo-badges--lead {
+		margin: var(--space-group) 0 var(--space-unit);
 	}
 </style>

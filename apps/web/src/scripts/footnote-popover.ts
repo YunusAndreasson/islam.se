@@ -2,12 +2,20 @@
 // on keyboard. Shared by the essay route and the /fordjupning/ route — both carry GFM
 // footnotes and honorific spans.
 
+// The meaning is the glyph's own `data-tip` (rehype-honorific.ts, Honorific.astro), so the
+// popover and the CSS tooltip say one thing. This map is the fallback for a glyph without
+// one; it said »vare med honom« where the tooltip said »vare över honom« (2026-10-16).
 const HONORIFIC_TITLES: Record<string, string> = {
-	swt: "Jalla jalāluhu — upphöjd är Hans majestät",
-	saw: "Ṣallallāhu ʿalayhi wa-sallam — Guds frid och välsignelser vare med honom",
+	swt: "jalla jalaluhu – upphöjd är Hans majestät",
+	saw: "sallallahu alayhi wa sallam – Guds frid och välsignelser vare över honom",
 };
 
 export function initFootnotePopovers(): void {
+	// Once per page. The essay's page-load handler stays registered after a client
+	// navigation and gates on `.article-body`, which answers and fördjupningar carry too,
+	// so on a fördjupning reached from an essay both routes called this and the page got
+	// two popovers with one id (found 2026-10-16).
+	if (document.getElementById("fn-popover")) return;
 	const ctrl = new AbortController();
 	const popover = document.createElement("div");
 	popover.className = "fn-popover";
@@ -84,7 +92,7 @@ export function initFootnotePopovers(): void {
 			: el.classList.contains("honorific--saw")
 				? "saw"
 				: null;
-		const title = code ? HONORIFIC_TITLES[code] : null;
+		const title = el.dataset.tip ?? (code ? HONORIFIC_TITLES[code] : null);
 		if (!title) return;
 		if (hideTimer) {
 			clearTimeout(hideTimer);

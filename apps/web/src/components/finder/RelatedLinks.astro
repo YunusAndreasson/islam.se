@@ -1,15 +1,77 @@
 ---
+// THE WAYS FURTHER IN from a tool page (/bonetider/, /moskeer/), opened like every
+// section on the site: a rule, the heading as a kicker one group-space under it (until
+// 2026-10-16 the name was only an aria-label), and the links on the page's thirds, each
+// a row with its arrow beside its words. The rows ran the full 76rem canvas with the
+// arrow at the far edge, 1 200px from the label it belonged to.
+import Kicker from "../Kicker.astro";
+
 interface Props {
- label: string;
- links: { href: string; label: string }[];
+	label: string;
+	links: { href: string; label: string }[];
 }
+
 const { label, links } = Astro.props;
+const id = `finder-links-${label
+	.toLowerCase()
+	.normalize("NFD")
+	.replace(/[̀-ͯ]/g, "")
+	.replace(/[^a-z0-9]+/g, "-")
+	.replace(/^-|-$/g, "")}`;
 ---
-<nav class="finder-links" aria-label={label}>
- {links.map(link => <a href={link.href}><span>{link.label}</span><span aria-hidden="true">→</span></a>)}
+
+<nav class="finder-links" aria-labelledby={id}>
+	<Kicker form="head" as="h2" id={id}>{label}</Kicker>
+	<ul>
+		{links.map((link) => (
+			<li>
+				<a href={link.href}>
+					<span>{link.label}</span> <span class="finder-links-arrow" aria-hidden="true">→</span>
+				</a>
+			</li>
+		))}
+	</ul>
 </nav>
+
 <style>
- .finder-links { margin-top: var(--space-unit); border-top: 1px solid var(--color-divider); }
- a { display: flex; justify-content: space-between; gap: 1rem; min-height: 2.75rem; padding-block: .85rem; border-bottom: 1px solid var(--color-divider); text-decoration: none; font-family: var(--font-heading); }
- a:hover { text-decoration: underline; }
+	.finder-links {
+		margin-top: var(--space-section);
+		padding-top: var(--space-group);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	ul {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+		column-gap: var(--grid-gutter);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	@media (width >= 60rem) {
+		ul {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	a {
+		display: block;
+		min-height: 2.75rem;
+		padding-block: 0.6rem;
+		border-bottom: 1px solid var(--color-divider);
+		color: var(--color-text);
+		text-decoration: none;
+		font-family: var(--font-heading);
+		font-size: var(--step-0);
+	}
+
+	a:hover span:first-child {
+		text-decoration: underline;
+		text-underline-offset: var(--underline-offset);
+	}
+
+	.finder-links-arrow {
+		color: var(--color-muted);
+	}
 </style>

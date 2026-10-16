@@ -1,4 +1,4 @@
-import { childrenOf, type HastElement, type HastNode, isElement } from "./hast";
+import { childrenOf, type HastElement, type HastNode, isElement, isText } from "./hast";
 
 /**
  * rehype-sidenotes: project each footnote into the margin beside the line that cites it.
@@ -82,12 +82,28 @@ function cloneNote(node: HastNode): HastNode | null {
 	if (!isElement(node)) return structuredClone(node) as HastNode;
 	if (hasProp(node, "dataFootnoteBackref")) return null;
 	const { id: _drop, ...properties } = node.properties ?? {};
+	const children = node.children.map(cloneNote).filter((c): c is HastNode => c !== null);
+	if (node.tagName === "a") showHost(children, properties.href);
 	return {
 		type: "element",
 		tagName: node.tagName,
 		properties,
-		children: node.children.map(cloneNote).filter((c): c is HastNode => c !== null),
+		children,
 	};
+}
+
+/** A bare address in a note (GFM's autolink, whose text IS its href) shows only its host
+ *  in the margin: »svt.se«, not four lines of path at 38 characters a line, which stood
+ *  beside the prose like a block of code (2026-10-16). The href is untouched, and the
+ *  notes at the foot of the page keep the whole address. */
+function showHost(children: HastNode[], href: unknown): void {
+	const first = children[0];
+	if (typeof href !== "string" || !first || !isText(first) || first.value.trim() !== href) return;
+	try {
+		first.value = new URL(href).hostname.replace(/^www\./, "");
+	} catch {
+		// Not an absolute URL: leave the text as written.
+	}
 }
 
 /** The note body, unwrapped from its <li> and its single <p>. */
@@ -142,6 +158,20 @@ function indexNotes(tree: HastNode): Map<string, HastNode[]> {
 	return notes;
 }
 
+/** GFM labels the note list »Footnotes«: hidden, but read out, and on a phone the essay
+ *  shows it as the notes' heading under the onward links ([...slug].astro), where they
+ *  stood with no heading at all (2026-10-16). The site's word is »Noter«. */
+function relabelNotes(tree: HastNode): void {
+	const visit = (node: HastNode): void => {
+		if (isElement(node) && node.properties?.id === "footnote-label") {
+			node.children = [{ type: "text", value: "Noter" }];
+			return;
+		}
+		for (const child of childrenOf(node)) visit(child);
+	};
+	visit(tree);
+}
+
 /** The note id a `<sup>` cites, if it is a footnote reference at all. */
 function refIdOf(sup: HastElement): string | null {
 	for (const child of sup.children) {
@@ -162,6 +192,7 @@ export function rehypeSidenotes() {
 
 		const notes = indexNotes(tree);
 		if (notes.size === 0) return;
+		relabelNotes(tree);
 
 		/** The note to project after this `<sup>`, or null if it is not a projectable
 		 *  reference. Split out of the walker purely to keep that function readable. */

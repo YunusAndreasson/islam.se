@@ -2,10 +2,10 @@
 import { getCollection } from "astro:content";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import FordjupningCards from "../../components/FordjupningCards.astro";
-import SectionLink from "../../components/SectionLink.astro";
+import HomeHead from "../../components/HomeHead.astro";
+import Kicker from "../../components/Kicker.astro";
 import TextRowList from "../../components/TextRowList.astro";
-import TitledSection from "../../components/TitledSection.astro";
-import { getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
+import { FORDJUPNING_INGRESS, getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 import { groupSvar } from "../../lib/svar";
 
@@ -16,14 +16,11 @@ import { groupSvar } from "../../lib/svar";
 // to a theme, and an observer marks which one they are currently in.
 const entries = await getCollection("svar");
 
-// The long reference articles. /svar/ is their only door — /fordjupning/ has no mast
-// entry of its own — so all of them are reachable from here, in the shape Essäer
-// already uses for a set of things with pictures: cards in the auto-fill grid, then
-// the single link to the full index.
-//
-// Six curated topics. On phones these become thumbnail rows, so the preview
-// stays shorter than the question directory it introduces. Category links precede
-// the preview so a reader can go straight to their question.
+// The long reference articles, after the questions: six curated topics as cards, and
+// the way on to the full index in their head row. /fordjupning/ has no mast entry, so
+// this band, the front page's Fördjupning section, the footer and the palette are its
+// doors. On phones the cards become thumbnail rows, so the band stays shorter than the
+// question directory it closes.
 const fordjupningar = await Promise.all(
 	(await getSortedFordjupning()).map(async (entry) => ({ entry, hero: await resolveHero(entry) })),
 );
@@ -35,9 +32,8 @@ const fordjupningar = await Promise.all(
 // page's own intro sends readers there. Each of the six was also
 // checked at thumbnail size; a page whose art goes muddy small does not belong here
 // however common its question (Moskén and Sunni och shia both fail that test today).
-// ⚠️ Dropping a slug from this list removes its only direct link on /svar/. pelarRest
-// below is a COUNT GUARD, not a row list — everything not named here is reachable only
-// through the single "Alla N fördjupningar" link to /fordjupning/.
+// ⚠️ Dropping a slug from this list removes its only direct link on /svar/: everything
+// not named here is reachable from this page only through »Alla fördjupningar«.
 const PELAR_KORT = [
 	"islam-i-sverige",
 	"hijab",
@@ -56,7 +52,6 @@ const pelarKort = PELAR_KORT.map((id) => {
 	}
 	return found;
 });
-const pelarRest = fordjupningar.filter((f) => !PELAR_KORT.includes(f.entry.id));
 
 const groups = groupSvar(entries);
 const listed = groups.flatMap((g) => g.entries);
@@ -111,45 +106,52 @@ const description =
 					</ul>
 				</nav>
 
-				{fordjupningar.length > 0 && (
-					<section class="svar-pelare" aria-labelledby="svar-pelare-rubrik">
-						<h2 class="label svar-pelare-label" id="svar-pelare-rubrik">Fördjupning</h2>
-						<FordjupningCards
-							entries={pelarKort}
-							headingLevel={3}
-							sizes="(max-width: 42rem) 6rem, (min-width: 79rem) 24rem, (min-width: 63rem) 30vw, (min-width: 42rem) 45vw, 100vw"
-						/>
-						{pelarRest.length > 0 && (
-							<p class="svar-pelare-alla">
-								<SectionLink href="/fordjupning/">
-									Alla fördjupningar
-								</SectionLink>
-							</p>
-						)}
-					</section>
-				)}
-
-
-
+				{/* THE QUESTIONS FIRST (DESIGN.md, »Reference and Practical Pages«). Each
+				    category opens like a section on the front page: a rule, its name as
+				    the kicker, its sentence as the framing line; the first stands under
+				    the category row and takes no rule. The questions stay a sans list,
+				    the reference register (TextRowList). */}
 				<div id="svar-results">
-					{groups.map((g) => (
-						<TitledSection
-							class="svar-section"
-							id={`sc-${g.category.slug}`}
-							sectionId={g.category.slug}
-							title={g.category.name}
+					{groups.map((g, i) => (
+						<section
+							class:list={["svar-section", "page-section", i === 0 && "page-section--first"]}
+							id={g.category.slug}
+							aria-labelledby={`sc-${g.category.slug}`}
 						>
-							{g.category.intro && <p class="lead svar-section-intro">{g.category.intro}</p>}
+							<Kicker form="head" as="h2" id={`sc-${g.category.slug}`}>{g.category.name}</Kicker>
+							{g.category.intro && <p class="home-tab-framing">{g.category.intro}</p>}
 							<TextRowList
 								class="svar-list"
 								variant="question"
 								items={svarRows(g.entries)}
 							/>
-						</TitledSection>
+						</section>
 					))}
-
-
 				</div>
+
+				{/* Then the long reference pages, in the front page's Fördjupning form: the
+				    way on in the head row, the index page's own ingress as the framing line,
+				    the six as cards on the page's thirds. They stood first until
+				    2026-10-16, 1 100px of pictures before the first question at 1440 and
+				    a screen and a half on a phone, on the grounds that /svar/ was their
+				    only door; the front page has had a Fördjupning section since
+				    2026-10-10, and the footer and the palette link the index. */}
+				{fordjupningar.length > 0 && (
+					<section class="svar-pelare page-section" aria-labelledby="svar-pelare-rubrik">
+						<HomeHead
+							label="Fördjupning"
+							id="svar-pelare-rubrik"
+							href="/fordjupning/"
+							linkLabel="Alla fördjupningar"
+						/>
+						<p class="home-tab-framing">{FORDJUPNING_INGRESS}</p>
+						<FordjupningCards
+							entries={pelarKort}
+							headingLevel={3}
+							sizes="(max-width: 42rem) 6rem, (min-width: 79rem) 24rem, (min-width: 63rem) 30vw, (min-width: 42rem) 45vw, 100vw"
+						/>
+					</section>
+				)}
 
 
 			</>
@@ -200,21 +202,8 @@ const description =
 
 	.svar-index :global(.lead--page:empty) { display: none; }
 
-	/* The long-form topics. No rules around the band — the photographs already mark it
-	   off as a different kind of thing. */
-	.svar-pelare {
-		margin: 0 0 var(--space-unit);
-	}
-
-	.svar-pelare-label {
-		color: var(--color-muted);
-		margin: 0 0 var(--space-half);
-		font-size: var(--step--1);
-	}
-
-	.svar-pelare-alla {
-		margin: var(--space-unit) 0 0;
-	}
+	/* The categories and the fördjupning band are `.page-section`s (layout.css): their
+	   rules, gaps and kickers are the shared grammar's, so none are set here. */
 
 	/* Category jump-nav: a wrapping pill row borrowed from Essäer's filter row so the
 	   two index pages divide their content the same way — but sticky here, because
@@ -223,7 +212,7 @@ const description =
 	   half this many sections that had no way back to the top.) */
 	.svar-nav {
 		/* Published by Header.astro; the fallback is one line of mast plus padding. */
-		--top: var(--mast-height, 5.5rem);
+		--top: var(--mast-height);
 		position: sticky;
 		top: var(--top);
 		/* Under the mast (z-index 10), over the rows. */
@@ -269,8 +258,8 @@ const description =
 	}
 
 	@media (width <= 42rem) {
-		/* Related reading is a short preview before the questions, not six full-width
-		   photographs. Keep the 3:2 art beside each title and complete description. */
+		/* The band that closes the questions stays a short list on a phone, not six
+		   full-width photographs. Keep the 3:2 art beside each title and its line. */
 		.svar-pelare :global(.card-list a:has(.card-list-thumb)) {
 			display: grid;
 			grid-template-columns: 6rem minmax(0, 1fr);
@@ -307,23 +296,16 @@ const description =
 	/* The pill itself is the shared global `.filter-chip` (+ `.label`), identical to
 	   Essäer's filter row. */
 
+	/* Only the anchor offset is the page's: it clears the mast AND the sticky category
+	   row, so a jump doesn't drop the kicker underneath either. A margin or a heading
+	   size here would outrank the shared `.page-section` (this block is unlayered). */
 	.svar-section {
-		margin-top: var(--space-phi);
-		/* Clears the mast AND the sticky category row, so an anchor jump doesn't drop
-		   the heading underneath either. */
-		scroll-margin-top: calc(var(--mast-height, 5.5rem) + 4rem);
-	}
-	.svar-section :global(h2) {
-		font-size: var(--step-1-sans);
-		margin: 0;
-	}
-	.svar-section-intro {
-		--lead-color: var(--color-muted);
-		--lead-margin: 0.4rem 0 0;
+		scroll-margin-top: calc(var(--mast-height) + 4rem);
 	}
 
 	.svar-list {
-		--text-row-list-margin: var(--space-unit) 0 0;
+		/* The kicker or the framing line above owns the gap: one group-space. */
+		--text-row-list-margin: 0;
 		/* A hairline under all 63 rows read as a ledger; the rows are one line each
 		   and hold together on spacing alone. */
 		--text-row-question-separator: 0;

@@ -334,7 +334,13 @@ const figureBlocks = await figureJsonLd(
 <script>
 	import { navigate } from "astro:transitions/client";
 	import { initFootnotePopovers } from "../scripts/footnote-popover";
-	import { READ_AT, RESUME_FROM, readProgress } from "../scripts/reading-progress";
+	import {
+		proseProgress,
+		READ_AT,
+		RESUME_FROM,
+		readProgress,
+		scrollForProse,
+	} from "../scripts/reading-progress";
 
 	document.addEventListener("astro:page-load", () => {
 		if (!document.querySelector(".article-body")) return;
@@ -356,15 +362,19 @@ const figureBlocks = await figureJsonLd(
 				pill.querySelector(".resume-dismiss")?.addEventListener("click", retire, { signal: ctrl.signal });
 				// Hold off a beat so it reads as an offer, not a flash on load.
 				setTimeout(reveal, 600);
+				// The saved fraction is of the prose (reading-progress.ts), so the way back
+				// and the reader's own arrival are measured on the prose as well.
+				const prose = document.querySelector(".article-body");
 				pill.querySelector(".resume-go")?.addEventListener("click", () => {
 					const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-					const target = (document.documentElement.scrollHeight - window.innerHeight) * savedPct;
+					const target = prose
+						? scrollForProse(prose, savedPct)
+						: (document.documentElement.scrollHeight - window.innerHeight) * savedPct;
 					window.scrollTo({ top: target, behavior: reduced ? "instant" : "smooth" });
 					retire();
 				}, { signal: ctrl.signal });
 				window.addEventListener("scroll", () => {
-					const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-					if (scrollable > 0 && window.scrollY / scrollable >= savedPct - 0.02) retire();
+					if (prose && proseProgress(prose) >= savedPct - 0.02) retire();
 				}, { passive: true, signal: ctrl.signal });
 			}
 		}
@@ -376,6 +386,12 @@ const figureBlocks = await figureJsonLd(
 			footnotes.classList.remove("footnotes");
 			footnotes.classList.add("footnotes-relocated");
 			nav.after(footnotes);
+			// Under the onward links the notes need a heading of their own, as the end
+			// matter's other sections have: GFM's label (»Noter«, rehype-sidenotes.ts),
+			// shown as the end matter's kicker. Where the notes stand in the margin
+			// (65rem and up) the whole block is hidden, label and all.
+			const label = footnotes.querySelector("#footnote-label");
+			if (label) label.className = "label home-kicker home-kicker--head";
 		}
 		// Swipe between articles — guarded so it can't collide with the OS edge
 		// back-gesture, multi-touch, slow drags or text-selection drags.
@@ -386,6 +402,17 @@ const figureBlocks = await figureJsonLd(
 			let startY = 0;
 			let startT = 0;
 			let eligible = false;
+			// A sideways flick inside a chart or a table that scrolls sideways is the
+			// reader scrolling it, not turning the page: it opened another essay (four
+			// essays carry such figures; found 2026-10-16).
+			const scrollsSideways = (target: EventTarget | null): boolean => {
+				for (let el = target instanceof Element ? target : null; el && el !== document.body; el = el.parentElement) {
+					if (el.scrollWidth <= el.clientWidth + 1) continue;
+					const overflowX = getComputedStyle(el).overflowX;
+					if (overflowX === "auto" || overflowX === "scroll") return true;
+				}
+				return false;
+			};
 			document.addEventListener("touchstart", (e) => {
 				const touch = e.touches[0];
 				if (!touch) return;
@@ -393,7 +420,11 @@ const figureBlocks = await figureJsonLd(
 				startY = touch.clientY;
 				startT = performance.now();
 				// Edge starts belong to the browser's back/forward gesture.
-				eligible = e.touches.length === 1 && startX >= 28 && startX <= window.innerWidth - 28;
+				eligible =
+					e.touches.length === 1 &&
+					startX >= 28 &&
+					startX <= window.innerWidth - 28 &&
+					!scrollsSideways(e.target);
 			}, { passive: true, signal: ctrl.signal });
 			document.addEventListener("touchend", (e) => {
 				if (!eligible || e.changedTouches.length !== 1) return;

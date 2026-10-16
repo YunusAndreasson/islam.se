@@ -356,7 +356,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		/* Water tone from PALETTE in scripts/moskeer-map.ts — keep in step. */
 		background: light-dark(#bcd0de, #15171a);
 		border: 1px solid var(--color-divider);
-		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
+		box-shadow: 0 1px 2px rgb(var(--hero-black) / 0.04), 0 12px 28px -16px rgb(var(--hero-black) / 0.25);
 	}
 
 	/* In fullscreen the stage fills the screen; the map (normally a fixed height) and its
@@ -389,7 +389,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		max-height: 60%;
 		overflow-y: auto;
 		border: 1px solid var(--color-divider);
-		box-shadow: 0 1px 14px -4px rgb(0 0 0 / 0.45);
+		box-shadow: 0 1px 14px -4px rgb(var(--hero-black) / 0.45);
 		z-index: 2;
 	}
 
@@ -652,7 +652,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 	.moskeer .maplibregl-ctrl-group {
 		background: color-mix(in srgb, var(--color-bg) 92%, transparent);
 		border: 1px solid var(--color-divider);
-		box-shadow: 0 1px 10px -4px rgb(0 0 0 / 0.4);
+		box-shadow: 0 1px 10px -4px rgb(var(--hero-black) / 0.4);
 	}
 
 	.moskeer .maplibregl-ctrl-group button {
@@ -693,7 +693,7 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 		border: 1px solid var(--color-divider);
 		border-radius: var(--radius-sm);
 		padding: 0.3rem 0.6rem;
-		box-shadow: 0 2px 12px -4px rgb(0 0 0 / 0.5);
+		box-shadow: 0 2px 12px -4px rgb(var(--hero-black) / 0.5);
 	}
 
 	.mk-hover .maplibregl-popup-tip {

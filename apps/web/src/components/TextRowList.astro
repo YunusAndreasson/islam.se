@@ -123,7 +123,13 @@ const Title = titleElement;
 		text-wrap: pretty;
 	}
 
+	/* A date-and-number line is a statement, so it reads in sentence case like every meta
+	   line on the site (»Avsnitt 12 · 30 september«), not in the tracked capitals that
+	   name a section (DESIGN.md, the caps budget). It wore `.label`'s capitals until
+	   2026-10-16, a month name in capitals. */
 	.text-row-meta {
+		text-transform: none;
+		letter-spacing: 0.01em;
 		display: block;
 		margin-top: var(--text-row-meta-margin, 0.35rem);
 		color: var(--color-muted);
@@ -222,9 +228,17 @@ const Title = titleElement;
 	   `titleElement` the caller picked for document-outline reasons — an h2 lands on
 	   620 from the global heading rule, a span falls to 400. Same class, same rank,
 	   two different looks. 620 matches .archive-title, the site's list-title weight. */
+	/* Except the podcast's episodes (the media variant's only user): they are the essays
+	   themselves, read aloud, under the titles the essays carry in Literata everywhere
+	   else on the site, so they take the archive title's face and weight (layout.css,
+	   .archive-title). The sans set the one list of essays apart as reference
+	   (2026-10-16). */
 	.text-row-list--media .text-row-title {
-		font-size: var(--text-row-title-size, var(--step-1-sans));
-		font-weight: 620;
+		font-family: var(--font-display);
+		font-size: var(--text-row-title-size, var(--step-1));
+		font-weight: 600;
+		line-height: var(--card-title-leading);
+		letter-spacing: 0;
 	}
 
 	.text-row-list--media .text-row-desc {

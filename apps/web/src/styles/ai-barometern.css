@@ -168,7 +168,7 @@
 		transition: inset-block-start 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 	:root:not(.mast-hidden) .abm-matrix thead th {
-		inset-block-start: var(--mast-height, 0px);
+		inset-block-start: var(--mast-height);
 	}
 	.abm-modelhead {
 		display: grid;

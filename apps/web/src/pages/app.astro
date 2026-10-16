@@ -87,7 +87,7 @@ const shots = [
 						src={s.src}
 						alt={s.alt}
 						widths={CARD_WIDTHS}
-						sizes="(max-width: 640px) 58vw, 14rem"
+						sizes="(max-width: 640px) 58vw, (min-width: 72rem) 16rem, 14rem"
 						loading="lazy"
 					/>
 					<figcaption class="label">{s.caption}</figcaption>
@@ -113,12 +113,16 @@ const shots = [
 		margin-block: var(--space-phi);
 	}
 
+	/* On the page's grid from 72rem: the words in the first third, the three phones across
+	   the other two, on the one gutter (DESIGN.md, »One grid«). The words ended at x 525
+	   and the phones began at 600 at 1440, behind a 4rem gap of their own, on no line of
+	   the page (2026-10-16). */
 	@media (width >= 72rem) {
 		.app-page {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 			grid-template-rows: auto auto 1fr;
-			column-gap: 4rem;
+			column-gap: var(--grid-gutter);
 			align-items: start;
 		}
 
@@ -129,9 +133,10 @@ const shots = [
 		}
 
 		.app-shots {
-			grid-column: 2;
+			grid-column: 2 / -1;
 			grid-row: 1 / -1;
-			grid-template-columns: repeat(3, 11rem);
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: var(--space-group);
 			margin-block: var(--space-half) 0;
 		}
 	}
@@ -167,7 +172,7 @@ const shots = [
 		height: auto;
 		border-radius: 1.6rem;
 		border: 1px solid var(--color-divider);
-		box-shadow: 0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.35);
+		box-shadow: 0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.35);
 	}
 
 	/* The captures are a dark map UI (rgb ~13–53) and the page behind them is
@@ -177,20 +182,20 @@ const shots = [
 			border-color: var(--color-warm);
 			box-shadow:
 				0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent),
-				0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.6);
+				0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.6);
 		}
 	}
 
 	:root[data-theme="light"] .app-shot img {
 		border-color: var(--color-divider);
-		box-shadow: 0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.35);
+		box-shadow: 0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.35);
 	}
 
 	:root[data-theme="dark"] .app-shot img {
 		border-color: var(--color-warm);
 		box-shadow:
 			0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent),
-			0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.6);
+			0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.6);
 	}
 
 	.app-shot figcaption {

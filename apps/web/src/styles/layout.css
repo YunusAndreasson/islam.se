@@ -176,6 +176,26 @@
 		text-decoration-color: currentColor;
 	}
 
+	/* SOURCES ARE LOOKUP, NOT READING: the apparatus' size and the quiet ink, the link's
+	   underline faint at rest (it still tells a link from a plain-text row) and whole on
+	   hover. At body size in the accent, every row underlined, a fördjupning's 24 sources
+	   stood as the loudest list on the page after the body; the quieter register the
+	   page asked for in its own <style> never matched the heading it named (2026-10-16). */
+	:is(.fordjupning-sources, .svar-sources) .diamond-list {
+		font-size: var(--step--2);
+		line-height: 1.6;
+	}
+
+	:is(.fordjupning-sources, .svar-sources) .diamond-list a {
+		color: var(--text-quiet);
+		text-decoration-color: var(--color-divider);
+	}
+
+	:is(.fordjupning-sources, .svar-sources) .diamond-list a:hover {
+		color: var(--color-accent);
+		text-decoration-color: currentColor;
+	}
+
 	/* Hairline link list — functional rows for onward navigation where each item
 	   needs a full tap target and a quiet separator, not a marker or pill. */
 	.hairline-link-list {
@@ -207,28 +227,19 @@
 		border-radius: var(--radius-xs);
 	}
 
-	/* Article section — the ruled sections that follow article prose: FAQ, sources,
-   related reading and reference apparatus. Page-specific classes stay available for
-   local layout hooks; the shared rhythm and h2 scale live here. */
+	/* Article section — the ruled sections that follow an answer's and a fördjupning's
+	   prose: FAQ, sources, further reading, notes (ArticleSection.astro). They open as a
+	   `.page-section` does: a section space, the rule, one group-space, the kicker (its
+	   heading, in the apparatus voice of the reference register), one group-space, the
+	   content. They had a φ above and a unit inside, and a 24px sans h2 whose own top
+	   margin set it ~90px under its rule (2026-10-16). */
 	.article-section {
-		margin-top: var(--space-phi);
-		padding-top: var(--space-unit);
+		margin-top: var(--space-section);
+		padding-top: var(--space-group);
 		border-top: 1px solid var(--color-rule);
 	}
 
-	/* THE REFERENCE REGISTER. These h2s used to inherit their face from the base
-	   heading rule; that rule is Literata now, which is the magazine voice. The
-	   encyclopedia and the utilities should NOT read like the essays — an answer
-	   page, a mosque index and a prayer-time table are reference, and reference has
-	   always been the apparatus voice here. So the family is pinned explicitly and
-	   the size moves to the -sans twin, which is the same optical size these carried
-	   before the swap: nothing on these pages moves. */
-	.article-section > h2 {
-		font-family: var(--font-heading);
-		font-size: var(--step-1-sans);
-	}
-
-	/* The rest of the reference register, kept HERE rather than in each page's own
+	/* THE REFERENCE REGISTER, kept HERE rather than in each page's own
 	   <style> — and that is not tidiness, it is the only place the rules work.
 	   Every one of these <h2>s is rendered by a component (TitledSection,
 	   CollectionIndexPage, MosqueList…), so a page-scoped `.svar-section h2`
@@ -236,15 +247,13 @@
 	   the COMPONENT's scope, never the page's. The rules were written, shipped, and
 	   silently did nothing. tokens.css says as much in its layer comment — the way
 	   to give the design system authority over a pattern is to move it out of the
-	   scoped block and into this directory. */
-	:is(.svar-section, .bonetider-metod, .bonetider-skarm, .pillar-more) h2 {
+	   scoped block and into this directory.
+	   /svar/'s categories and /vad-ar-islam/'s clusters and »Läs vidare« left it on
+	   2026-10-16: they open under a kicker (Kicker.astro), which a rule here would set
+	   at 24 or 29px. */
+	:is(.bonetider-metod, .bonetider-skarm) h2 {
 		font-family: var(--font-heading);
 		font-size: var(--step-1-sans);
-	}
-
-	.fakta-cluster-head h2 {
-		font-family: var(--font-heading);
-		font-size: var(--step-2-sans);
 	}
 
 	.mk-city-head {
@@ -531,36 +540,6 @@
 		container-type: inline-size;
 	}
 
-	/* Full bleed. The negative margin reaches both window edges; the padding puts
-   the content back on the canvas edge, so type inside a band keeps the page's
-   single left margin. 50% is half the .home content box, 50cqi half the window
-   without its scrollbar. */
-	.front .bleed {
-		margin-inline: calc(50% - 50cqi);
-		padding-inline: calc(50cqi - 50%);
-	}
-
-	/* The two grounds (tokens.css). A band is a movement with its own paper, so it
-   carries its own block padding: the section margin outside it, air inside it. */
-	.front .ground-tint,
-	.front .ground-ink {
-		padding-block: var(--space-phi2);
-	}
-
-	.ground-tint {
-		background: var(--ground-tint);
-	}
-
-	/* The ink band. Its scheme and ground are set in tokens.css (.ground-ink), where
-   the colour tokens are redeclared so they re-resolve in the dark scheme in the
-   production build too; here it only paints. --color-bg is the band's own ground,
-   which is what anything that paints "the ground" must match — a mask behind a
-   mark, a surface mixed from it. */
-	.ground-ink {
-		background: var(--color-bg);
-		color: var(--color-text);
-	}
-
 	/* A movement in the homepage sequence. Generous vertical breathing
    between movements; a hairline rule is the only divider, used sparingly. */
 	.home-movement {
@@ -759,6 +738,45 @@
 		color: var(--color-muted);
 	}
 
+	/* ON A PHONE THE TABS ARE ONE ROW THAT SCROLLS SIDEWAYS (2026-10-16). Six ämnen
+	   wrapped into two rows at 390px, each with its own rule, and the chosen tab's line
+	   stood on the upper one: two bars, the second reading as a sub-menu of the first.
+	   The row runs to the screen edges like the card rows (editorial.css, »A row of
+	   cards that scrolls sideways«), so the tab that does not fit leaves the screen
+	   rather than stopping at an invisible margin. Its rule is drawn in the background
+	   instead of as a border: inside the canvas, where every rule on the page stands,
+	   and still while the labels scroll over it. The barometer's tabs stand as a column
+	   under 48rem (BarometerRail) and are not this rule's.
+
+	   `position: relative` is load-bearing. Each tab carries an .sr-only label, which
+	   is absolutely positioned; a static scroller is not its containing block, so the
+	   labels escaped the clip and the front page panned 234px sideways on a phone
+	   (measured 2026-10-17, both engines). */
+	@media (width < 48rem) {
+		:is(.amnen, .tradar-home) .home-tabs {
+			position: relative;
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			overscroll-behavior-x: contain;
+			scrollbar-width: none;
+			margin-inline: calc(-1 * var(--safe-left)) calc(-1 * var(--safe-right));
+			padding: 0 var(--safe-right) 1px var(--safe-left);
+			scroll-padding-inline: var(--safe-left) var(--safe-right);
+			border-bottom: 0;
+			background:
+				linear-gradient(var(--color-rule), var(--color-rule)) no-repeat var(--safe-left) 100% /
+				calc(100% - var(--safe-left) - var(--safe-right)) 1px;
+		}
+
+		:is(.amnen, .tradar-home) .home-tabs::-webkit-scrollbar {
+			display: none;
+		}
+
+		:is(.amnen, .tradar-home) .home-tab {
+			flex: none;
+		}
+	}
+
 	/* Movement label — the kicker that names a section in the site voice. A small
    warm accent tick + the uppercase label + the generous whitespace between
    movements mark each section; that quiet tick (not a full-width rule) is the
@@ -831,10 +849,6 @@
 	.home-cards .essay-card a:hover .essay-card-title {
 		text-decoration: underline;
 		text-underline-offset: var(--underline-offset);
-	}
-
-	.home-cards .essay-card .archive-title.essay-card-title {
-		font-size: var(--step-1);
 	}
 
 	/* An essay without art keeps its place in the row under a rule. */
@@ -912,9 +926,37 @@
 		color: var(--color-text);
 	}
 
-	.home :is(.feature-kicker, .promo-kicker) {
+	.home :is(.feature-kicker, .promo-kicker, .home-kicker--quiet) {
 		font-weight: 400;
 		color: var(--text-meta);
+	}
+
+	/* The head form off the canvas too (Kicker.astro): a reading page has no `.home`,
+	   and its end matter is headed by kickers. Off the canvas the bare `.home-kicker`
+	   is already the quiet form. */
+	.home-kicker--head {
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	/* A kicker that is a link (an essay's ämne, an answer's category): the label's own
+	   ink, the underline on hover, a hit area past its cap height. One rule for what the
+	   essay, the answer and the collection pages each wrote out. */
+	.home-kicker a {
+		display: inline-block;
+		padding: 0.3rem 0.4rem;
+		margin: -0.3rem -0.4rem;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.home-kicker a:hover {
+		text-decoration: underline;
+		text-underline-offset: var(--underline-offset);
+	}
+
+	.home-kicker a:focus-visible {
+		border-radius: var(--radius-xs);
 	}
 
 	/* The wordmark's sun, not a rule. It was a 1.6rem warm dash — the same stroke
@@ -1063,9 +1105,10 @@
 	/* Every framed image fills its frame and is cropped uniformly — each module sets
    only its own aspect-ratio (on the inner <img>, via :global from its scope). The
    base tonal wash lives on the <img> in EssayImage; on hover the wrapping link
-   eases that wash back to full colour and lifts the picture a touch. Per-module
-   zoom via --frame-zoom (default 1.03; the larger feature uses 1.02). One rule
-   here replaces the cover + bloom that every picture module used to repeat. */
+   eases that wash back to full colour, and that is all it does (DESIGN.md: »quiet
+   tonal treatment is sufficient: no competing lift, zoom«). The picture also grew
+   3% until 2026-10-16: editorial.css cancelled it with `transform: none`, which
+   does not reach the `scale` property this rule set. */
 	.media-frame img {
 		display: block;
 		width: 100%;
@@ -1074,7 +1117,6 @@
 
 	a:hover .media-frame img,
 	a:focus-visible .media-frame img {
-		scale: var(--frame-zoom, 1.03);
 		filter: saturate(1) contrast(1) brightness(1) sepia(0);
 	}
 
@@ -1329,15 +1371,25 @@
 		padding-inline-start: var(--mast-gap);
 	}
 
-	.site-links--util a {
-		font-size: var(--step--4);
-		font-weight: 400;
-		color: var(--color-muted);
-	}
-
+	/* nowrap: a label that breaks inside its link stands on two lines in a one-line
+	   row. Three did, »Tro och lära«, »Frågor och svar« and »AI-barometern«, from
+	   901 to 930px (measured 2026-10-16). */
 	.site-links a {
 		font-size: var(--step--3);
 		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	/* ⚠️ Two classes, not one. The utilities' list carries both `.site-links` and
+	   `.site-links--util`, so `.site-links--util a` tied with `.site-links a` and
+	   `.site-nav a` and lost to both by order: the quieter rank above was written and
+	   never drawn, and the utilities stood at the sections' size, weight and ink. That
+	   is also what made the row too wide to fit at 901px. Declared before the hover
+	   and current-page rules below, so those still win on a utility. */
+	.site-links.site-links--util a {
+		font-size: var(--step--4);
+		font-weight: 400;
+		color: var(--color-muted);
 	}
 
 	.site-nav a {
@@ -1619,6 +1671,8 @@
 		margin: var(--space-unit) auto 0;
 	}
 
+	/* Sentence case: a place, an address and a feed are not section names, and an
+	   e-mail address in capitals is not one a reader can type. */
 	.site-footer-meta {
 		display: inline-flex;
 		flex-wrap: wrap;
@@ -1626,6 +1680,8 @@
 		justify-content: center;
 		gap: 0.5rem;
 		margin: 0;
+		text-transform: none;
+		letter-spacing: 0.01em;
 	}
 
 	/* On a phone the row wrapped one item short, leaving a dot hanging after the e-mail
@@ -1769,6 +1825,19 @@
 		bottom: calc(var(--safe-bottom) + 3.5rem);
 	}
 
+	/* On a phone the essay's resume pill ([...slug].astro) stands centred at the foot of
+	   the screen, nearly as wide as it, and over these (z 50 to 10): while it shows, the
+	   actions step up over it instead of under it (2026-10-16). */
+	@media (width < 48rem) {
+		html:has(.resume-pill[data-visible]) .fixed-actions {
+			bottom: calc(var(--safe-bottom) + 4.5rem);
+		}
+
+		html[data-player-visible]:has(.resume-pill[data-visible]) .fixed-actions {
+			bottom: calc(var(--safe-bottom) + 8rem);
+		}
+	}
+
 	.back-to-top,
 	.share-btn {
 		/* No hand-written -webkit- twin — Lightning CSS drops the standard property
@@ -1828,8 +1897,17 @@
    Collection pages (ämne / tråd / tänkare) — inherit the essay
    header rhythm; a kicker names the kind, a lead frames the set.
    ============================================================ */
-	.collection-kicker {
+	/* A kicker over a page's title (Kicker.astro) stands a half-step over it, not a
+	   section's group-space. Here and not in ArticleHeader's or the answer page's own
+	   <style>: the <p> is rendered by Kicker.astro and carries none of their scope, so
+	   a rule there matches nothing. */
+	:is(.collection-kicker, .article-kicker) {
 		margin-bottom: var(--space-half);
+	}
+
+	/* The answer's header spaces its title from above (svar/[slug].astro). */
+	.svar-kicker {
+		margin: 0;
 	}
 
 	.collection-lead {
@@ -1837,8 +1915,13 @@
 		--lead-margin: var(--space-half) 0 var(--space-half);
 	}
 
+	/* A count is a statement, so it reads in sentence case like the meta line
+	   (»6 delar«, »12 avsnitt«), not as a tracked-caps label. The front page has
+	   always set its »6 delar · lästid 65 min« so. */
 	.collection-count {
-		margin: 0;
+		margin: var(--space-half) 0 0;
+		text-transform: none;
+		letter-spacing: 0.01em;
 	}
 
 	/* Placement only — the link inside is a `.section-link .arrow-link`. */
@@ -1892,13 +1975,15 @@
 			flex: 1 1 0;
 			font-weight: 500;
 
-			&:last-child {
+			/* »Äldre →« stands right and »← Nyare« left, by what each is, not by position:
+			   by position the oldest essay's lone »← Nyare« was set flush right, its arrow
+			   pointing back across the page (2026-10-16). */
+			&[rel="next"] {
 				text-align: end;
 			}
 
-			&:only-child {
+			&[rel="next"]:only-child {
 				margin-inline-start: auto;
-				text-align: end;
 			}
 
 			&:hover {
@@ -1937,20 +2022,44 @@
 		}
 	}
 
-	/* Archive sections (read / unread split) */
-	.archive-section {
-		margin-top: var(--space-unit);
+	/* A READ ESSAY steps back a rank in place, in any list of them (scripts/read-state.ts
+	   sets `data-read`): its title goes to muted and its meta line says »· läst«. Not a
+	   section of its own (DESIGN.md, »The Essäer Page«). Muted, not --color-warm: the flag
+	   is words, and the warm tier is the 3:1 one for marks. Was /essaer/'s alone. */
+	.archive-item .read-flag {
+		display: none;
+		color: var(--color-muted);
 	}
 
-	.archive-section + .archive-section {
-		margin-top: 0;
+	.archive-item[data-read] .read-flag {
+		display: inline;
 	}
 
-	.archive-section-heading {
-		font-size: var(--step--2);
-		font-weight: 500;
-		color: var(--color-accent);
+	.archive-item[data-read] .archive-title {
+		color: var(--color-muted);
+	}
+
+	/* A SECTION ON ANY CANVAS PAGE opens the way the front page's do (DESIGN.md, »Every
+	   section opens the same way«): a section space, its rule, one group-space, the head
+	   row (the kicker and the way on, HomeHead), one group-space, its content. The rule
+	   is drawn by default and the first section under a page's opening opts out
+	   (`.page-section--first`): a sibling selector cannot see a section that starts a
+	   wrapper (/essaer/'s first ämne, inside #by-amne) or follows one. Never with
+	   `.home-movement` on an index: its content-visibility placeholder throws the
+	   anchor jumps (#amne-…) off by the difference.
+	   On /essaer/ the seven ämnen stood under rules 80px above a 22.8px serif title in
+	   the meta grey, the page's two other sections under kickers 24px under theirs:
+	   three headings for one page (2026-10-16). */
+	.page-section {
+		margin-top: var(--space-section);
+		padding-top: var(--space-group);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.page-section--first {
 		margin-top: 0;
+		padding-top: 0;
+		border-top: 0;
 	}
 
 	/* Hide section entirely when its list is empty (e.g. "Lasta" with 0 read articles) */
@@ -2082,8 +2191,11 @@
 		width: 100%;
 	}
 
+	/* The card-title step, the front page's (DESIGN.md: --step-1, »list and card
+	   titles«). At --step-0 the cards that open each ämne on /essaer/ had smaller titles
+	   than the plain rows under them (22.8px), and only the front page lifted its own. */
 	.essay-card .archive-title.essay-card-title {
-		font-size: var(--step-0);
+		font-size: var(--step-1);
 		line-height: var(--card-title-leading);
 	}
 
@@ -2102,114 +2214,6 @@
 		margin-top: 0.5rem;
 	}
 
-	/* Thumbnail row — the archive row with its hero run small down the right edge.
-   Used by the homepage ämnen departments, where the two ranks above are art-led
-   and the departments below them were the one wholly text module on the page.
-
-   GLOBAL for the same reason the cards above are: a page's scope id lands on the
-   list root and never on its <li>s, so this cannot live in a page's <style>. It
-   sits after `.archive-item { a { display: block } }` on purpose — same
-   specificity, later wins.
-
-   Two things carry the mixed corpus (28 of 55 essays have art). EssayArchiveItem
-   puts `--thumb` on a row ONLY when that essay has a hero, so an artless row falls
-   back to the plain full-width row rather than reserving an empty column. And the
-   picture is in column TWO, so every title in the module — illustrated or not —
-   starts on the same left edge as the kicker, the department name and the framing
-   line. Hanging the thumb on the left would have indented half the titles by 7rem
-   and broken the spine the whole front page is composed on. */
-	.archive-item--thumb a {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) var(--archive-thumb-w, 10rem);
-		/* Four rows: the three text rows, then ONE strut under them. The text is
-	   top-aligned, so the headline starts on the same line as the top edge of its
-	   photograph and whatever height the picture has left over collects at the
-	   bottom.
-
-	   It used to be a strut either side — 1fr auto auto auto 1fr — which centred
-	   the text, on the argument that a one-line deck would otherwise cling to the
-	   top of its picture with 60px of nothing underneath. Two things retired that.
-	   The deck is clamped now, so it does not run one line; and centring spent the
-	   slack on nothing. The picture stands 171px tall and title + meta + a four-line
-	   deck came to ~135px, so 36px was being split into two invisible margins
-	   instead of being handed to the deck. Top-aligned, that space is worth two more
-	   lines of every essay's own words — which is the whole argument for it.
-	   (Five lines lands at ~156px and still fits. Six would push past the picture
-	   and start driving the row height, which is what the clamp exists to prevent.)
-
-	   ⚠️ Declaring the rows is also the only reason `grid-row: 1 / -1` below works.
-	   In an implicit grid, row line -1 is the end of the *explicit* grid — line 1
-	   when no rows are declared — so `1 / -1` silently collapses to `1 / 1`, the
-	   picture sizes row one to its own height, and the stretched title box opens a
-	   45px hole between the headline and its date. (Measured in Gecko, which is
-	   where it was caught.) */
-		grid-template-rows: auto auto auto 1fr;
-		column-gap: clamp(1rem, 2vw, 1.5rem);
-		/* Fill the <li>. Grid stretches the two cells of a department to equal height,
-	   and this passes that height down so BOTH pictures in a row are cut to the
-	   same size — the pair reads as a spread rather than two loose items. */
-		height: 100%;
-	}
-
-	/* Placed by hand into rows 1–3, above the strut. Auto-placement would land them
-   in the same three rows here, but the placement is written out because the
-   picture spans `1 / -1` and the relationship between the two is the whole
-   composition — leaving it implicit is how the next edit breaks it. */
-	.archive-item--thumb .archive-title,
-	.archive-item--thumb .archive-meta,
-	.archive-item--thumb .archive-description {
-		grid-column: 1;
-	}
-
-	.archive-item--thumb .archive-title {
-		grid-row: 1;
-	}
-
-	.archive-item--thumb .archive-meta {
-		grid-row: 2;
-	}
-
-	/* ⚠️ `align-self: start` is load-bearing, not tidying. Should this row ever be
-   handed slack, a grid item would stretch to fill it — and a stretched
-   -webkit-line-clamp box does NOT hide its overflow: the clamp still writes its
-   ellipsis at the last allowed line, but the box is now tall enough to paint the
-   next line underneath it. The row read "…för att be…. / Tillfrågad varför svarar
-   hon att". Sizing the deck to its own content keeps the slack in the strut. */
-	.archive-item--thumb .archive-description {
-		grid-row: 3;
-		align-self: start;
-	}
-
-	/* Column two, spanning the text rows and the strut beneath them. ONE SIZE for
-   every picture in the module: the crop is pinned to 3:2 below
-   rather than stretched to the height of the row it happens to sit in.
-   That was the first attempt — `align-self: stretch` with a 3:2 min-height — and
-   it measured 224×177, 224×199 and 224×221 down a single module, because the row
-   is as tall as its deck and the decks run one, two and three lines. Six pictures
-   at three sizes is the thing that reads as unbalanced; a fixed ratio with the
-   text centred beside it does not. */
-	.archive-item--thumb .archive-thumb {
-		grid-column: 2;
-		grid-row: 1 / -1;
-		align-self: center;
-	}
-
-	/* The <img> carries EssayImage's scope, not ours — same note as the cards, and
-   the same 3:2 the cards cut to. object-fit: cover (on .media-frame img) does the
-   rest, so the source's own ratio never matters. */
-	.archive-item--thumb .archive-thumb img {
-		aspect-ratio: 3 / 2;
-	}
-
-	/* Phones get a smaller picture, not a different composition: the canvas is one
-   column here, so 11rem of it would leave the headline a 10-character measure. */
-	@media (width <= 37.5rem) {
-		.archive-item--thumb a {
-			--archive-thumb-w: 7.5rem;
-			column-gap: 1rem;
-		}
-	}
-
 	/* Filter / category chip — a small pill shared by Essäer's filter row and the
    Frågor & svar category nav, so both index pages divide their content the same way
    at the top (same shape, same padding above/below). Pair with `.label` for the
@@ -2223,9 +2227,16 @@
 		/* --color-divider is a hairline for rules (1.28:1) and cannot carry a control
 	   boundary; --color-warm is the quietest token that clears WCAG 1.4.11's 3:1. */
 		border: 1px solid var(--color-warm);
-		border-radius: 1.25rem;
+		border-radius: var(--radius-pill);
 		background: transparent;
 		color: var(--color-muted);
+		/* Sentence case, the front page's tabs' case. Capitals name a section or a kind
+		   (the kickers) and nothing else; a row of nine tracked-caps pills over a list
+		   of questions was nine more shouting labels (2026-10-16). Overrides `.label`,
+		   which the chips also carry for its face and figures. */
+		font-size: var(--step--2);
+		letter-spacing: 0.01em;
+		text-transform: none;
 		text-decoration: none;
 		cursor: pointer;
 		transition:
@@ -2262,6 +2273,13 @@
 	.def-item {
 		padding: var(--space-half) 0;
 		border-bottom: 1px solid var(--color-divider);
+	}
+
+	/* In an article's end matter the next section opens under its own rule, so the last
+	   row's rule would be the same boundary twice, 65px apart. The fördjupning dropped it
+	   in its own <style>; the answers kept both (2026-10-16). */
+	.article-section .def-item:last-child {
+		border-bottom: none;
 	}
 	.def-list dt {
 		font-family: var(--font-heading);
@@ -2330,6 +2348,15 @@
 		   essay template shifted seven blocks by name while this rule centred
 		   thirteen, and .innehall was in one list and not the other. */
 		margin-inline: var(--reading-inline-start, auto) auto;
+	}
+
+	/* An essay's notes, moved under its onward links ([...slug].astro) where the margin
+	   cannot hold them, open as the end matter's sections do: the rule, then their
+	   heading as a kicker one group-space under it. They followed the newer/older links
+	   with no rule and no visible heading (2026-10-16). */
+	.article-nav ~ .footnotes-relocated {
+		padding-top: var(--space-group);
+		border-top: 1px solid var(--color-rule);
 	}
 
 	/* A quiet editorial caption under a hero — a descriptive line only (never a
@@ -2491,6 +2518,18 @@
 		.reading--notes .footnotes-relocated {
 			display: none;
 		}
+
+		/* And the section that holds it: a fördjupning's »Noter« stood here as a rule and
+		   a heading over nothing on every page from 65rem (found 2026-10-16). */
+		.reading--notes .article-section:has(.fordjupning-noter) {
+			display: none;
+		}
+	}
+
+	/* Without scripts the notes are never moved into the slot (they stay at the foot of
+	   the body, where GFM put them), so an empty slot takes its heading with it. */
+	.article-section:has(.fordjupning-noter:empty) {
+		display: none;
 	}
 
 	/* Print has no gutter and no hover: the apparatus goes back to the foot, and
@@ -2504,7 +2543,8 @@
 			display: none;
 		}
 
-		.reading--notes .footnotes-relocated {
+		.reading--notes .footnotes-relocated,
+		.reading--notes .article-section:has(.fordjupning-noter) {
 			display: block;
 		}
 	}
@@ -2527,12 +2567,33 @@
 		padding: 0;
 	}
 
+	/* The two dates of an observance stand together in the date column, the civil one
+	   over the hijri, and its name and note beside them. The hijri stood in a third
+	   column at the canvas's right edge, ~550px from the row it dated (2026-10-16). */
 	.md-row {
 		display: grid;
-		grid-template-columns: 11rem 1fr auto;
+		grid-template-columns: 11rem minmax(0, 1fr);
+		grid-template-areas:
+			"greg body"
+			"hijri body";
+		grid-template-rows: auto 1fr;
 		align-items: baseline;
-		gap: clamp(1rem, 3vw, 2.5rem);
+		column-gap: var(--grid-gutter);
+		row-gap: 0.15rem;
 		padding-block: var(--space-half);
+	}
+
+	.md-row > .md-greg {
+		grid-area: greg;
+	}
+
+	.md-row > .md-body {
+		grid-area: body;
+	}
+
+	.md-row > .md-hijri {
+		grid-area: hijri;
+		align-self: start;
 	}
 
 	.md-row[hidden] {
@@ -2587,8 +2648,6 @@
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		margin: 0;
-		white-space: nowrap;
-		text-align: end;
 	}
 
 	.md-standing,
@@ -2607,13 +2666,13 @@
 	@media (width <= 48rem) {
 		.md-row {
 			grid-template-columns: 1fr;
+			grid-template-areas:
+				"greg"
+				"body"
+				"hijri";
+			grid-template-rows: auto;
 			gap: 0.35rem;
 			padding-block: var(--space-unit);
-		}
-
-		.md-hijri {
-			text-align: start;
-			white-space: normal;
 		}
 	}
 
@@ -2627,13 +2686,13 @@
    column the block stood in until 2026-09-25.) */
 	.md-list--rail .md-row {
 		grid-template-columns: 1fr;
+		grid-template-areas:
+			"greg"
+			"body"
+			"hijri";
+		grid-template-rows: auto;
 		gap: 0.2rem;
 		padding-block: var(--space-half);
-	}
-
-	.md-list--rail .md-hijri {
-		text-align: start;
-		white-space: normal;
 	}
 
 	/* The year is islam.se's own, so its names take the editorial face at the size and

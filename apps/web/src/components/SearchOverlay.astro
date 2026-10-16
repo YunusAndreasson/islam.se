@@ -190,17 +190,29 @@ const here = (href: string) => href === currentHref;
      they never get Astro's scoped-style attribute. All selectors are
      .palette*-namespaced, so there is no collision risk. -->
 <style is:global>
+	/* One scroll container: the title bar and the search field stick at its top, so
+	   both stay in reach however far the menu scrolls. */
 	.palette {
-		background: color-mix(in srgb, var(--color-bg) 92%, transparent);
-		backdrop-filter: blur(12px) saturate(1.1);
+		background: var(--color-bg);
+		/* Keep keyboard-selected results below the sticky title and search bars. */
+		scroll-padding-block: 10rem 1rem;
 	}
 
 	.palette:focus-visible { outline: none; }
 
+	.palette-topbar {
+		position: sticky;
+		top: 0;
+		z-index: 4;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 4.5rem;
+		padding: 0.75rem var(--padding-inline);
+		background: var(--color-bg);
+	}
+
 	.palette-close {
-		position: absolute;
-		top: var(--safe-top);
-		right: var(--safe-right);
 		display: flex;
 		min-width: 2.75rem;
 		min-height: 2.75rem;
@@ -217,9 +229,6 @@ const here = (href: string) => href === currentHref;
 	}
 
 	.palette-home {
-		position: absolute;
-		top: var(--safe-top);
-		left: var(--safe-left);
 		display: inline-flex;
 		align-items: center;
 		gap: 0.25em;
@@ -241,17 +250,20 @@ const here = (href: string) => href === currentHref;
 	.palette-home:hover { text-decoration: none; }
 
 	.palette-inner {
-		max-width: var(--content-width);
-		margin-inline: auto;
-		padding: clamp(3rem, 11vh, 6rem) var(--padding-inline) var(--space-phi2);
+		padding: 0 var(--padding-inline) var(--space-group);
 	}
 
 	/* Search field — magnifier + the large editorial input, on a single rule. */
 	.palette-field {
+		position: sticky;
+		top: 4.5rem;
+		z-index: 3;
 		display: flex;
 		align-items: center;
 		gap: 0.6rem;
+		padding-block: var(--space-control);
 		border-bottom: 1px solid var(--color-divider);
+		background: var(--color-bg);
 		transition: border-color var(--dur-fast) ease;
 
 		&:focus-within { border-bottom-color: var(--color-warm); }
@@ -266,13 +278,13 @@ const here = (href: string) => href === currentHref;
 		flex: 1;
 		min-width: 0;
 		font-family: var(--font-heading);
-		font-size: 2.2rem;
+		font-size: var(--step-2);
 		font-weight: 400;
 		letter-spacing: 0;
 		color: var(--color-text);
 		background: transparent;
 		border: none;
-		padding: 0 0 0.7rem;
+		padding: 0;
 		outline: none;
 
 		&::placeholder { color: var(--color-muted); }
@@ -321,8 +333,8 @@ const here = (href: string) => href === currentHref;
 		cursor: pointer;
 	}
 
-	.palette-results,
-	.palette-browse { margin-top: var(--space-unit); }
+	.palette-results { margin-top: var(--space-unit); }
+	.palette-browse { margin-top: var(--space-group); }
 
 	.palette-group { margin-bottom: var(--space-unit); }
 
@@ -346,7 +358,7 @@ const here = (href: string) => href === currentHref;
 
 	.palette-dest {
 		display: block;
-		padding: 0.75rem 0.6rem;
+		padding: var(--space-control) 0.6rem;
 		margin-inline: -0.6rem;
 		text-decoration: none;
 		transition: background-color var(--dur-fast) ease;
@@ -400,6 +412,7 @@ const here = (href: string) => href === currentHref;
 	.palette-chip {
 		display: inline-flex;
 		align-items: center;
+		min-height: 2.75rem;
 		padding: 0.4rem 0.8rem;
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
@@ -568,9 +581,38 @@ const here = (href: string) => href === currentHref;
 		margin: var(--space-unit) 0 0;
 	}
 
-	@media (width <= 48rem) {
-		.palette-input { font-size: 1.5rem; }
+	/* From 56.25rem the menu is a sheet over the page, not the whole screen, and the
+	   browse view stands in two columns. Two classes on the sheet: dialog.css sizes
+	   every .fullscreen-dialog to the window. */
+	@media (width > 56.25rem) {
+		.palette { --padding-inline: 2rem; }
 
+		.palette.fullscreen-dialog {
+			inset: 2rem 0;
+			width: min(56rem, calc(100% - 4rem));
+			height: fit-content;
+			max-height: calc(100dvh - 4rem);
+			margin-inline: auto;
+			border: 1px solid var(--color-rule);
+			border-radius: var(--radius-lg);
+			box-shadow: 0 1rem 4rem rgb(var(--hero-black) / 0.2);
+		}
+
+		.palette.fullscreen-dialog::backdrop { background: rgb(0 0 0 / 0.35); }
+
+		.palette-browse {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--space-group) 2.5rem;
+		}
+
+		.palette-browse .palette-group { margin: 0; }
+
+		.palette-fold,
+		.palette-foot { grid-column: 1 / -1; }
+	}
+
+	@media (width <= 48rem) {
 		.palette-row-type { display: none; }
 
 		.palette-foot {
@@ -579,15 +621,14 @@ const here = (href: string) => href === currentHref;
 		}
 	}
 
-	/* Touch: the palette is the whole site menu here, so every target has to clear
-	   the 44px minimum — the chips' 0.4rem padding leaves about 30px. */
-	@media (hover: none), (pointer: coarse) {
-		.palette-chip {
-			min-height: 2.75rem;
-			padding-inline: 0.95rem;
-		}
+	@media (width <= 37.5rem) {
+		.palette-input { font-size: var(--step-1); }
+	}
 
-		.palette-dest { padding-block: 0.9rem; }
+	/* Touch: the palette is the whole site menu here, so every target has to clear
+	   the 44px minimum. The chips' height is set on every pointer (above). */
+	@media (hover: none), (pointer: coarse) {
+		.palette-chip { padding-inline: 0.95rem; }
 
 		.palette-fold-summary { padding-block: 1rem; }
 

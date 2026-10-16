@@ -8,9 +8,12 @@
  * Transition swap is harmless.
  */
 import type { Segment } from "../lib/arabic";
+import { claimAudio, yieldAudio } from "./audio-exclusive";
 
-// Only one verse recites at a time across the page — starting one pauses the rest.
+// Only one verse recites at a time across the page — starting one pauses the rest — and
+// none plays over the essay's narration (audio-exclusive.ts).
 let current: HTMLAudioElement | null = null;
+yieldAudio(() => current);
 
 function setup(fig: HTMLElement): void {
 	const btn = fig.querySelector<HTMLButtonElement>(".qv-play");
@@ -56,6 +59,7 @@ function setup(fig: HTMLElement): void {
 			audio.addEventListener("play", () => {
 				if (current && current !== audio) current.pause();
 				current = audio;
+				if (audio) claimAudio(audio);
 				btn.setAttribute("data-playing", "");
 				btn.setAttribute("aria-pressed", "true");
 			});

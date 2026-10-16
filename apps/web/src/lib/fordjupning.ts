@@ -31,6 +31,12 @@ const FORDJUPNING_ART: ReadonlyMap<string, ImageMetadata> = new Map(
 	artEntries.map(([path, mod]) => [basename(path, /\.[^.]+$/), mod.default]),
 );
 
+/** What a fördjupning is, in the index page's own two sentences. The same words open
+ *  /fordjupning/, frame the front page's Fördjupning section and frame the band on
+ *  /svar/; written once, because three copies of one sentence come apart. */
+export const FORDJUPNING_INGRESS =
+	"Ämnen som diskuteras oftare än de beskrivs. Varje sida följer ett av dem från vad texterna säger till hur frågan avgörs i en svensk domstol, kommun eller moské.";
+
 /** Every fördjupning page, term-alphabetical (Swedish) — the pillar index, the
  *  answer-page "Läs vidare" list, and llms.txt all want the same order. */
 export const getSortedFordjupning = memoize(async () => {

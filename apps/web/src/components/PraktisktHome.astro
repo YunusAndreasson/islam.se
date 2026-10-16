@@ -340,6 +340,17 @@ const gravPunkter = dotsPath(burialGrounds);
 		align-items: start;
 	}
 
+	/* Below the thirds the block has the room's whole width, and with the words' column
+	   taking all of it the map stood at the far edge, ~180px from the sentence it
+	   illustrates on a tablet (left open 2026-10-11, fixed 2026-10-16). The words keep a
+	   short measure and the map follows them. */
+	@media (width < 60rem) {
+		.praktiskt-del--karta {
+			grid-template-columns: minmax(0, 22rem) 8.5rem;
+			justify-content: start;
+		}
+	}
+
 	.praktiskt-karta {
 		display: block;
 		color: inherit;

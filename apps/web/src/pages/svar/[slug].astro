@@ -7,12 +7,14 @@ import ArticleSection from "../../components/ArticleSection.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import DiamondList from "../../components/DiamondList.astro";
 import EssayImage from "../../components/EssayImage.astro";
+import Kicker from "../../components/Kicker.astro";
 import Rattelse from "../../components/Rattelse.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
 import { requireBySlug } from "../../lib/content-refs";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
+import { readingMinutes } from "../../lib/format";
 import { SVAR_CATEGORIES, svarSeoMetadata } from "../../lib/svar";
 import { pillarBySvar } from "../../lib/svar-fordjupning";
 import { figureJsonLd } from "../../lib/inline-images";
@@ -143,7 +145,7 @@ const jsonLd: Record<string, unknown>[] = [
 	breadcrumbList([
 		{ name: "Hem", url: "/" },
 		isFakta
-			? { name: "Fakta", url: "/vad-ar-islam/" }
+			? { name: "Tro och lära", url: "/vad-ar-islam/" }
 			: { name: "Frågor och svar", url: "/svar/" },
 		{ name: data.title, url },
 	]),
@@ -178,7 +180,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 				    is near-verbatim the body's opening sentence — it would have read
 				    as an immediate repeat.) */}
 				{kicker && (
-					<p class="label svar-kicker"><a href={kicker.href}>{kicker.name}</a></p>
+					<Kicker form="quiet" href={kicker.href} class="svar-kicker">{kicker.name}</Kicker>
 				)}
 				<h1>{data.title}</h1>
 				{/* Answer pages showed no date at all: the line below only rendered when
@@ -191,6 +193,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 				<ArticleMeta
 					class="meta-line"
 					publishedAt={data.publishedAt}
+					readingTime={readingMinutes(entry.body ?? "")}
 					{...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt })}
 				/>
 			</header>
@@ -250,7 +253,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 
 			<p class="svar-back">
 				{isFakta ? (
-					<SectionLink direction="back" href="/vad-ar-islam/">Tillbaka till Fakta om islam</SectionLink>
+					<SectionLink direction="back" href="/vad-ar-islam/">Tro och lära</SectionLink>
 				) : (
 					<SectionLink direction="back" href="/svar/">Alla frågor och svar</SectionLink>
 				)}
@@ -285,28 +288,8 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 		text-wrap: balance;
 	}
 
-	/* Same register as the essay page's ämne kicker, so an answer and an essay
-	   open the same way. */
-	.svar-kicker {
-		margin: 0;
-	}
-
-	.svar-kicker a {
-		display: inline-block;
-		padding: 0.3rem 0.4rem;
-		margin: -0.3rem -0.4rem;
-		color: var(--color-accent);
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: var(--underline-offset);
-		}
-
-		&:focus-visible {
-			border-radius: var(--radius-xs);
-		}
-	}
+	/* The kicker is Kicker.astro's, the same one the essay's ämne wears, so an answer
+	   and an essay open the same way; its margin is in layout.css (`.svar-kicker`). */
 
 	/* Cornerstone (FAKTA) answers carry a borrowed hero so the page reads as an
 	   article. It spans the reading frame, above the body. */

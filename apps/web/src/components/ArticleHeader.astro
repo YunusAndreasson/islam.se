@@ -1,4 +1,6 @@
 ---
+import Kicker from "./Kicker.astro";
+
 interface Props {
 	title: string;
 	kicker?: string;
@@ -30,9 +32,7 @@ const {
 
 <header class="article-header">
 	{Boolean(kicker) && (
-		<p class:list={["label", kickerClass]}>
-			{kickerHref ? <a href={kickerHref}>{kicker}</a> : kicker}
-		</p>
+		<Kicker form="quiet" href={kickerHref} class={kickerClass}>{kicker}</Kicker>
 	)}
 	<h1>{title}</h1>
 	{leadHtml ? (
@@ -57,25 +57,6 @@ const {
 		--lead-margin: var(--space-half) 0 var(--space-half);
 	}
 
-	.article-kicker {
-		margin-bottom: var(--space-half);
-		color: var(--color-muted);
-	}
-
-	.article-kicker a {
-		display: inline-block;
-		padding: 0.3rem 0.4rem;
-		margin: -0.3rem -0.4rem;
-		color: var(--color-accent);
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: var(--underline-offset);
-		}
-
-		&:focus-visible {
-			border-radius: var(--radius-xs);
-		}
-	}
+	/* The kicker is Kicker.astro's, its gap to the title in layout.css (`.article-kicker`):
+	   a rule here would carry this component's scope, which the kicker's <p> does not. */
 </style>

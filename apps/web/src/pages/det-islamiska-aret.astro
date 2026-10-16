@@ -383,8 +383,14 @@ const description =
 		margin: var(--space-half) 0 0;
 	}
 
+	/* Each year opens as every section on the site does: a section space, its rule, one
+	   group-space, its heading. The rule stood UNDER the heading, so a year's rule was
+	   read as the previous year's last line (2026-10-16). The heading stays an h2 in the
+	   apparatus voice rather than a kicker: in capitals »e.H.« would print »E.H.«. */
 	.md-year {
-		margin-top: var(--space-unit);
+		margin-top: var(--space-section);
+		padding-top: var(--space-group);
+		border-top: 1px solid var(--color-rule);
 	}
 
 	.md-year[hidden] {
@@ -397,8 +403,6 @@ const description =
 		font-weight: 620;
 		color: var(--color-text);
 		margin: 0 0 var(--space-half);
-		padding-bottom: var(--space-half);
-		border-bottom: 1px solid var(--color-divider);
 	}
 
 	.md-year-greg {
@@ -428,8 +432,8 @@ const description =
 
 	.md-faq {
 		max-width: var(--content-width);
-		margin-top: var(--space-unit);
-		padding-top: var(--space-half);
+		margin-top: var(--space-section);
+		padding-top: var(--space-group);
 		border-top: 1px solid var(--color-rule);
 	}
 

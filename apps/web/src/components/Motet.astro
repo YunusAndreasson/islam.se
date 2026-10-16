@@ -84,8 +84,13 @@ const columns = [
 		margin-bottom: var(--space-unit);
 	}
 
+	/* A label among the end matter's labels (»Nästa del«, »Läs vidare«), so it takes their
+	   weight and stands where they stand: the base h2's top margin set it ~87px under the
+	   rule above it when it opened the block (2026-10-16). */
 	.motet-head {
+		margin-top: 0;
 		margin-bottom: var(--space-half);
+		font-weight: 400;
 		color: var(--color-muted);
 	}
 

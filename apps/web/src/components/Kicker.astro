@@ -1,0 +1,29 @@
+---
+// THE KICKER — tracked capitals behind the brass point, the wordmark's sun (ISLAM●SE).
+// One component for every kicker on the site, in one of two forms (DESIGN.md, »A
+// kicker has one of two jobs«):
+//
+//   head   it IS the heading of a section or a list: ink, weight 600.
+//   quiet  it stands over a title and names its kind (an essay's ämne, »Podd«,
+//          »Essäserie«): meta colour, weight 400; the title is the heading.
+//
+// The essay, the answer and the collection pages wrote their own (13.3px, muted, no
+// point), so the kicker over an essay's title on its own page was not the kicker over
+// the same title on the front page (2026-10-16). The styles are global, in layout.css
+// (`.home-kicker`), because the front page's components set them by class too.
+
+interface Props {
+	form?: "head" | "quiet";
+	as?: "p" | "h2" | "h3";
+	/** Makes the label a link (an ämne, a category, the section a page belongs to). */
+	href?: string | undefined;
+	id?: string;
+	class?: string | undefined;
+}
+
+const { form = "quiet", as: Tag = "p", href, id, class: className } = Astro.props;
+---
+
+<Tag class:list={["label", "home-kicker", `home-kicker--${form}`, className]} id={id}>
+	{href ? <a href={href}><slot /></a> : <slot />}
+</Tag>

@@ -3,7 +3,7 @@ import type { HTMLAttributes } from "astro/types";
 import type { Article } from "../lib/articles";
 import { leadSentences } from "../lib/format";
 import { inlineMarkdown } from "../lib/articles";
-import { CARD_WIDTHS, CHIP_WIDTHS } from "../lib/hero";
+import { CARD_WIDTHS } from "../lib/hero";
 import ArticleMeta from "./ArticleMeta.astro";
 import EssayImage from "./EssayImage.astro";
 
@@ -12,17 +12,13 @@ type Props = HTMLAttributes<"li"> & {
 	variant?: "row" | "card";
 	showReadFlag?: boolean;
 	showMinutesAttr?: boolean;
-	/** Row variant only: run a small hero thumbnail down the right of the row.
-	 *  Asking for one is not a promise of one — 28 of 55 essays carry art, so a
-	 *  row without a hero silently stays the plain full-width row. */
-	showThumb?: boolean;
-	/** `sizes` for the card picture / the row thumb. The caller owns the grid, so
-	 *  it owns the painted width — a `sizes` that under-states it makes the browser
-	 *  fetch a file too small for a 2× screen and the picture goes soft. The
-	 *  defaults match layout.css: the auto-fill .essay-cards track and the 10rem
-	 *  (7.5rem on a phone) --archive-thumb-w column. */
+	/** `sizes` for the card picture. The caller owns the grid, so it owns the painted
+	 *  width — a `sizes` that under-states it makes the browser fetch a file too small
+	 *  for a 2× screen and the picture goes soft. The default matches the auto-fill
+	 *  .essay-cards track in layout.css. (A row with a thumbnail down its right edge
+	 *  was retired 2026-10-16: nothing had asked for one since the front page dropped
+	 *  side thumbnails.) */
 	cardSizes?: string;
-	thumbSizes?: string;
 };
 
 const {
@@ -30,25 +26,17 @@ const {
 	variant = "row",
 	showReadFlag = false,
 	showMinutesAttr = false,
-	showThumb = false,
 	cardSizes = "(max-width: 600px) 100vw, 20rem",
-	thumbSizes = "(max-width: 600px) 7.5rem, 10rem",
 	class: className,
 	...attrs
 } = Astro.props;
 
 const isCard = variant === "card";
-
-// Gated on the image, not just the prop: the modifier class is what switches the
-// row from `display: block` to the two-column grid, so putting it on an artless
-// row would reserve an empty thumb column and indent that title past its
-// neighbours. See the .archive-item--thumb block in layout.css.
-const hasThumb = !isCard && showThumb && !!article.heroImage;
 ---
 
 <li
 	{...attrs}
-	class:list={["archive-item", isCard && "essay-card", hasThumb && "archive-item--thumb", className]}
+	class:list={["archive-item", isCard && "essay-card", className]}
 	data-slug={article.slug}
 	data-minutes={showMinutesAttr ? article.readingTime : undefined}
 >
@@ -62,19 +50,14 @@ const hasThumb = !isCard && showThumb && !!article.heroImage;
 		{!isCard && (
 			<ArticleMeta class="label archive-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} showReadFlag={showReadFlag} />
 		)}
+		{/* The deck's opening sentence in a row as on a card (DESIGN.md, »Decks in lists«).
+		    Rows stand two abreast on /essaer/ and the ämne pages, and the full decks ran
+		    them three to five lines each, side by side at uneven heights. */}
 		{article.description && (
-			<p class:list={["archive-description", isCard && "essay-card-desc"]} set:html={inlineMarkdown(isCard ? leadSentences(article.description, 170) : article.description)} />
+			<p class:list={["archive-description", isCard && "essay-card-desc"]} set:html={inlineMarkdown(leadSentences(article.description, 170))} />
 		)}
 		{isCard && (
 			<ArticleMeta class="label archive-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} showReadFlag={showReadFlag} />
-		)}
-		{/* Last in the DOM, second in the grid. The picture is the row's least
-		    important content and repeats the title in its alt, so a screen reader
-		    and a text browser both get the headline first. */}
-		{hasThumb && (
-			<div class="archive-thumb media-frame media-frame--sm">
-				<EssayImage article={article} widths={CHIP_WIDTHS} sizes={thumbSizes} />
-			</div>
 		)}
 	</a>
 </li>

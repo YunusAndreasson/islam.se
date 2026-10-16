@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { resolveHero } from "../lib/fordjupning";
+import { FORDJUPNING_INGRESS, resolveHero } from "../lib/fordjupning";
 import FordjupningCards from "./FordjupningCards.astro";
 import HomeHead from "./HomeHead.astro";
 
@@ -76,10 +76,7 @@ const valda = await Promise.all(
 	{/* The Fördjupning page's own ingress, as the section's framing line: the two card
 	    rows above this chapter each open with one (the ämne's, the series'), and this
 	    was the one section a reader had to guess the meaning of from its name. */}
-	<p class="home-tab-framing">
-		Ämnen som diskuteras oftare än de beskrivs. Varje sida följer ett av dem från vad texterna
-		säger till hur frågan avgörs i en svensk domstol, kommun eller moské.
-	</p>
+	<p class="home-tab-framing">{FORDJUPNING_INGRESS}</p>
 	{/* h3: the head-row above renders the movement's h2, so a topic is a level
 	    beneath it.
 
@@ -112,33 +109,11 @@ const valda = await Promise.all(
 		margin-block-start: 0;
 	}
 
-	.fordjupning-home :global(.card-list .card-list-item > a) {
-		padding-block: 0;
-	}
-
-	/* No hairline under each card: whitespace separates them. */
-	.fordjupning-home :global(.card-list-item) {
-		border-bottom: 0;
-	}
-
-	/* THE ESSAY CARD'S OWN SIZES (tokens.css, »The picture card's inside«; layout.css,
-	   .home-cards): the title at the card-title step, the line under it at the
-	   dense-prose step, so a card here and a card in the two sections above are the same
-	   object. A blurb is one headline-like line that breaks once: broken evenly, not with
-	   two words left on the second line. */
-	.fordjupning-home :global(.card-list-thumb) {
-		margin-bottom: var(--card-media-gap);
-	}
-
-	.fordjupning-home :global(.card-list-title) {
-		font-size: var(--step-1);
-		line-height: var(--card-title-leading);
-	}
-
+	/* The card's own sizes are CardList's now, the essay card's (tokens.css, »The
+	   picture card's inside«); this section patched them in until 2026-10-16. A blurb
+	   here is one headline-like line that breaks once: broken evenly, not with two
+	   words left on the second line. */
 	.fordjupning-home :global(.card-list-framing) {
-		margin-top: var(--card-text-gap);
-		font-size: var(--step--2);
-		line-height: var(--card-text-leading);
 		text-wrap: balance;
 	}
 

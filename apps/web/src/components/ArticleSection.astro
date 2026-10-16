@@ -9,8 +9,15 @@ type Props = Omit<HTMLAttributes<"section">, "id" | "title"> & {
 
 const { class: className, id, title, ...attrs } = Astro.props;
 const classes = ["article-section", className].filter(Boolean).join(" ");
+
+// THE END MATTER OF AN ANSWER AND A FÖRDJUPNING opens the way every section on the site
+// does (layout.css, `.page-section`): its rule, the heading one group-space under it as a
+// kicker in the head form, the content one group-space under that. Its headings were a
+// 24px sans h2 set some 90px under the rule (the h2's own top margin inside a padded
+// section), so each drifted away from the line it belonged to (2026-10-16). Only these
+// two templates use this component; TitledSection keeps its h2 for the tool pages.
 ---
 
-<TitledSection {...attrs} class={classes} id={id} title={title}>
+<TitledSection {...attrs} class={classes} id={id} title={title} titleClass="label home-kicker home-kicker--head">
 	<slot />
 </TitledSection>

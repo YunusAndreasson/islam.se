@@ -4,12 +4,14 @@ import { getCollection } from "astro:content";
 import CollectionIndexPage from "../components/CollectionIndexPage.astro";
 import EssayList from "../components/EssayList.astro";
 import FilterOverlayList from "../components/FilterOverlayList.astro";
+import HomeHead from "../components/HomeHead.astro";
+import Kicker from "../components/Kicker.astro";
 import TankareGroups from "../components/TankareGroups.astro";
-import TitledSection from "../components/TitledSection.astro";
 import TradarHome from "../components/TradarHome.astro";
 import { AMNEN, amnenWithEssays } from "../lib/amnen";
 import { getArticles } from "../lib/articles";
 import { breadcrumbList } from "../lib/jsonld";
+import { RITNINGAR } from "../lib/ritningar";
 
 const articles = await getArticles();
 const amneGroups = amnenWithEssays(articles);
@@ -51,6 +53,7 @@ const lengthFilterItems = [
 	title="Essäer"
 	description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv, ordnade efter ämne. Al-Ghazālī, Ibn Khaldūn, Strindberg, Lagerlöf och fler."
 	lead="Den islamiska lärdomstraditionen läst tillsammans med svensk litteratur: om skapelsen och själen, om rättvisa och sökande."
+	ritning={RITNINGAR.essaer}
 	mainClass="home essaer-page"
 	jsonLd={[
 		{
@@ -72,6 +75,11 @@ const lengthFilterItems = [
 		<button class="filter-chip label" type="button" data-overlay="tankare" aria-haspopup="dialog" aria-expanded="false">Tänkare</button>
 		<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
 		<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
+		{/* How much of the archive this reader has read: a ring and a count (DESIGN.md,
+		    »The Essäer Page«), from localStorage, so written by the script below and
+		    hidden until the first essay is read. Its CSS (layout.css, .archive-stats)
+		    stood without markup from e9d511d until 2026-10-16. */}
+		<p class="label article-meta archive-stats" data-read-ring hidden></p>
 	</nav>
 	<p class="filter-status" role="status" data-length-status></p>
 
@@ -99,13 +107,17 @@ const lengthFilterItems = [
 			const cardSlugs = new Set(cards.map((e) => e.slug));
 			const rest = essays.filter((e) => !cardSlugs.has(e.slug));
 			return (
-				<section class="archive-section essay-section" id={`amne-${amne.slug}`}>
-					<header class="essay-section-head">
-						<h2 class="essay-section-title archive-section-heading">
-							<a href={`/amnen/${amne.slug}/`}>{amne.name}</a>
-						</h2>
-						<p class="lead essay-section-framing">{amne.framing}</p>
-					</header>
+				<section class="archive-section page-section" id={`amne-${amne.slug}`} aria-labelledby={`amne-${amne.slug}-kicker`}>
+					{/* Opened like the front page's sections: the ämne as the kicker, the way
+					    to its own page on the same line, then its framing line in the front
+					    page's tab-panel ink. */}
+					<HomeHead
+						label={amne.name}
+						id={`amne-${amne.slug}-kicker`}
+						href={`/amnen/${amne.slug}/`}
+						linkLabel={`Alla essäer om ${amne.omForm}`}
+					/>
+					<p class="home-tab-framing">{amne.framing}</p>
 
 					{cards.length > 0 && (
 						<EssayList
@@ -129,14 +141,10 @@ const lengthFilterItems = [
 	{/* ---- Chronological view: grouped by year (hidden until toggled) ---- */}
 	<div id="by-year" hidden>
 		{yearGroups.map(([year, essays]) => (
-			<TitledSection
-				class="archive-section"
-				id={`essay-year-${year}`}
-				title={year}
-				titleClass="label archive-section-heading"
-			>
+			<section class="archive-section page-section" id={`essay-year-${year}`} aria-labelledby={`essay-year-${year}-kicker`}>
+				<Kicker form="head" as="h2" id={`essay-year-${year}-kicker`}>{year}</Kicker>
 				<EssayList articles={essays} showReadFlag showMinutesAttr />
-			</TitledSection>
+			</section>
 		))}
 	</div>
 
@@ -175,15 +183,9 @@ const lengthFilterItems = [
 	   index; the styles below add the image-led chrome (section frame, framing
 	   line, and the lead feature) so Essäer reads like the start page. */
 
-	/* Each ämne is a bounded block separated by a full-width hairline. */
-	.essay-section {
-		margin-top: var(--space-phi2);
-		padding-top: var(--space-phi);
-		border-top: 1px solid var(--color-rule);
-	}
-	/* The first ämne opens under its rule like the rest: the archive begins there,
-	   after the two ways in that are not its shelves. (It stood without one while
-	   the series' cards were all that preceded it.) */
+	/* Each ämne and each year is a `.page-section` (layout.css): a rule, its kicker and
+	   the way on, one group-space each. The first ämne opens under its rule like the
+	   rest: the archive begins there, after the two ways in that are not its shelves. */
 
 	/* Tänkare opens under a rule, as a section that follows another on the same paper
 	   does on the front page (editorial.css, »A rule opens a section«). The section is
@@ -191,24 +193,6 @@ const lengthFilterItems = [
 	:global(.essaer-page .tankare-home) {
 		border-top: 1px solid var(--color-rule);
 		padding-top: var(--space-group);
-	}
-
-	.essay-section-head {
-		margin-bottom: var(--space-unit);
-	}
-	/* The ämne group head on the essay archive — a department name, so the
-	   editorial face, inherited from the base h2 rule. */
-	.essay-section-title {
-		font-size: var(--step-1);
-		font-weight: 600;
-		letter-spacing: 0;
-		line-height: 1.2;
-		margin: 0;
-	}
-	.essay-section-framing {
-		--lead-color: var(--color-muted);
-		--lead-measure: 40rem;
-		--lead-margin: 0.4rem 0 0;
 	}
 
 	/* Up to three of the most recent essays with art open each ämne as image cards —
@@ -220,8 +204,14 @@ const lengthFilterItems = [
 	.filter-row {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
 		gap: 0.5rem;
 		margin-bottom: var(--space-unit);
+	}
+
+	/* The read ring stands after the chips, a little apart: a statement, not a control. */
+	.filter-row .archive-stats {
+		margin: 0 0 0 var(--space-half);
 	}
 
 	/* The filter pills are the shared global `.filter-chip` (+ `.label`), identical to
@@ -230,22 +220,8 @@ const lengthFilterItems = [
 	/* These elements belong to EssayList/ArticleMeta/TitledSection. Global selectors
 	   rooted in this page reach them across Astro component scopes. */
 
-	/* Read/unread value-shift within the ämne group (§9) — not two sections.
-	   Colour is --color-muted, not --color-warm: the flag renders the words
-	   "· läst", and --color-warm is the 3:1 UI/border tier (3.01:1), under AA
-	   for text this small. */
-	:global(.essaer-page .read-flag) {
-		display: none;
-		color: var(--color-muted);
-	}
-
-	:global(.essaer-page .archive-item[data-read] .archive-title) {
-		color: var(--color-muted);
-	}
-
-	:global(.essaer-page .archive-item[data-read] .read-flag) {
-		display: inline;
-	}
+	/* A read essay's value-shift is shared with the ämne, series and tänkare pages
+	   (layout.css, »A read essay«; scripts/read-state.ts). */
 
 	:global(.essaer-page .archive-item[data-filtered]) {
 		display: none;
@@ -256,16 +232,6 @@ const lengthFilterItems = [
 	:global(.essaer-page .essay-cards:not(:has(.archive-item:not([data-filtered])))),
 	:global(.essaer-page .archive-list:not(:has(.archive-item:not([data-filtered])))) {
 		display: none;
-	}
-
-	.archive-section-heading a {
-		color: inherit;
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: var(--underline-offset);
-		}
 	}
 
 	.filter-status {
@@ -340,7 +306,7 @@ const lengthFilterItems = [
 </style>
 
 <script>
-	import { hasRead } from "../scripts/reading-progress";
+	import { markReadEssays } from "../scripts/read-state";
 
 	function initArchive() {
 		// Bail on non-archive pages (this listener fires on every navigation).
@@ -357,15 +323,6 @@ const lengthFilterItems = [
 
 		// An explicit JS `behavior: "smooth"` is not reached by the CSS kill-switch.
 		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-		// ---- Read-progress: value-shift each row in place (muted title + "läst"). ----
-		function applyReadState() {
-			for (const item of document.querySelectorAll<HTMLElement>(".archive-item[data-slug]")) {
-				const slug = item.dataset.slug;
-				if (!slug) continue;
-				item.toggleAttribute("data-read", hasRead(slug));
-			}
-		}
 
 		// ---- Length filter (applied to both views) ----
 		let lengthMin = 0;
@@ -446,7 +403,16 @@ const lengthFilterItems = [
 				closeOverlay();
 			}, { signal });
 
-		applyReadState();
+		// Read essays step back in place, muted with »· läst« (scripts/read-state.ts), and
+		// the ring at the end of the filter row says how many.
+		const { read, total } = markReadEssays(byAmne);
+		markReadEssays(byYear);
+		const ring = document.querySelector<HTMLElement>("[data-read-ring]");
+		if (ring && total > 0) {
+			ring.hidden = read === 0;
+			ring.style.setProperty("--progress", String(read / total));
+			ring.textContent = read === total ? "Hela arkivet läst" : `${read} av ${total} lästa`;
+		}
 
 		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
 	}

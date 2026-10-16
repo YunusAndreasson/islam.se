@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { currentNavHref, isNavCurrent } from "./navigation";
+import { currentNavHref, destinations, isNavCurrent } from "./navigation";
 
 describe("isNavCurrent", () => {
 	it("keeps a section current on its index and detail pages", () => {
@@ -28,5 +28,22 @@ describe("currentNavHref", () => {
 		expect(currentNavHref("/spegeln-som-blev-fonster/", ["/svar/", "/essaer/"], "/essaer/")).toBe(
 			"/essaer/",
 		);
+	});
+});
+
+describe("destinations", () => {
+	it("names each destination as the mast does, with the line the menu gives it", () => {
+		const [svar, bonetider] = destinations(["/svar/", "/bonetider/"]);
+		expect(svar?.label, "a way on must use the destination's one name (DESIGN.md »Names«)").toBe(
+			"Frågor och svar",
+		);
+		expect(svar?.sub, "the menu's own gloss, so the two cannot describe one page twice").toBe(
+			"Källbelagda svar på vanliga frågor.",
+		);
+		expect(bonetider?.label).toBe("Bönetider");
+	});
+
+	it("refuses an href that is no destination, rather than render a way on to nowhere", () => {
+		expect(() => destinations(["/finns-inte/"])).toThrow(/not a destination/);
 	});
 });

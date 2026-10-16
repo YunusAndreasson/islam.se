@@ -1,5 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { getArticles } from "../lib/articles";
+import { leadSentences } from "../lib/format";
 import { threadArt } from "../lib/tradar";
 import CardList, { type CardItem } from "./CardList.astro";
 
@@ -21,13 +23,23 @@ interface Props {
 
 const { threads, headingLevel = 2, compact = false, prefetch, sizes } = Astro.props;
 
+// The parts that resolve to a published essay, as the front page and the series page
+// count them, so the three never disagree on how many parts a series has.
+const bySlug = new Map((await getArticles()).map((article) => [article.slug, article]));
+
 const items: CardItem[] = threads.map((thread) => {
 	const art = threadArt(thread.id);
+	const parts = thread.data.essays.flatMap((slug) => bySlug.get(slug) ?? []);
+	const minutes = parts.reduce((sum, article) => sum + article.readingTime, 0);
 	return {
 		href: `/tradar/${thread.id}/`,
 		title: thread.data.title,
-		description: thread.data.framing,
-		meta: `${thread.data.essays.length} delar`,
+		// The framing's opening sentence, as the front page's essäserier set it
+		// (TradarHome). The whole framing ran 91 to 371 characters, so three cards
+		// abreast stood four lines against ten. The series page carries it whole.
+		description: leadSentences(thread.data.framing, 150),
+		// How long the series is, as the front page says it: a series is read whole.
+		meta: `${parts.length} ${parts.length === 1 ? "del" : "delar"} · lästid ${minutes} min`,
 		image: art ? { src: art, alt: thread.data.imageAlt ?? "" } : null,
 	};
 });

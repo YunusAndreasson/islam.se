@@ -15,6 +15,8 @@ import bokenLjus from "../assets/ritningar/boken.webp";
 import bokenMork from "../assets/ritningar/boken-mork.webp";
 import bonetiderLjus from "../assets/ritningar/bonetider.webp";
 import bonetiderMork from "../assets/ritningar/bonetider-mork.webp";
+import essaerLjus from "../assets/ritningar/essaer.webp";
+import essaerMork from "../assets/ritningar/essaer-mork.webp";
 import grundenLjus from "../assets/ritningar/grunden.webp";
 import grundenMork from "../assets/ritningar/grunden-mork.webp";
 import moskeerLjus from "../assets/ritningar/moskeer.webp";
@@ -49,6 +51,12 @@ export const RITNINGAR = {
 	 *  marks, the current row in ochre — Moskéskärm, beside the book in the front page's
 	 *  closing band (SkarmPromo), in the same 10rem column. */
 	skarmen: { ljus: skarmenLjus, mork: skarmenMork },
+	/** An old fieldstone arch bridge over a quiet river between birches, a barn on the far
+	 *  meadow, the keystone alone in ochre — Essäer: two banks and one passage, the two
+	 *  traditions the essays read together (2026-10-16). Beside /essaer/'s ingress; the
+	 *  hubs Frågor och svar and Fördjupning were the other two that opened beside empty
+	 *  paper. */
+	essaer: { ljus: essaerLjus, mork: essaerMork },
 	/** A window at first light, a prayer rug on the sill — Bönetider's prose page, /bonetider/metod/. */
 	bonetider: { ljus: bonetiderLjus, mork: bonetiderMork },
 	/** A modest mosque among a Swedish town's roofs and birches. Not placed (DESIGN.md, »The Drawings«). */

@@ -2,9 +2,9 @@
 import { getImage } from "astro:assets";
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import ArticleBody from "../../components/ArticleBody.astro";
+import ArticleHeader from "../../components/ArticleHeader.astro";
 import ArticleMeta from "../../components/ArticleMeta.astro";
 import ArticleSection from "../../components/ArticleSection.astro";
-import Breadcrumb from "../../components/Breadcrumb.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import DiamondList from "../../components/DiamondList.astro";
 import EssayImage from "../../components/EssayImage.astro";
@@ -14,6 +14,7 @@ import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
 import { requireBySlug } from "../../lib/content-refs";
 import { resolveHero } from "../../lib/fordjupning";
+import { readingMinutes } from "../../lib/format";
 import { figureJsonLd } from "../../lib/inline-images";
 import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
@@ -138,16 +139,27 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	    checks that they do. */}
 	<main id="main" class="fordjupning-page reading reading--notes">
 		<article>
-			<header class="fordjupning-header">
-				<Breadcrumb items={crumbs} />
-				<h1>{data.term}</h1>
+			{/* The essay's header (ArticleHeader): what kind of page this is as the kicker
+			    and the way up, the term, the deck as the standfirst, then the date and how
+			    long the page takes, the longest form on the site. Until 2026-10-16 a
+			    breadcrumb repeated the h1 under itself (»Hem › Fördjupning › Jihad« over
+			    »Jihad«), the date stood above the deck, and the deck was a step smaller
+			    than an essay's. The BreadcrumbList stays in the structured data. */}
+			<ArticleHeader
+				title={data.term}
+				kicker="Fördjupning"
+				kickerHref="/fordjupning/"
+				kickerClass="article-kicker"
+				lead={data.description}
+				leadClass="article-standfirst"
+			>
 				<ArticleMeta
-					class="meta-line"
+					class="label article-meta"
 					publishedAt={data.publishedAt}
+					readingTime={readingMinutes(entry.body ?? "")}
 					{...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt })}
 				/>
-				<p class="lead fordjupning-lead">{data.description}</p>
-			</header>
+			</ArticleHeader>
 
 			{hero && (
 				<figure class="fordjupning-hero">
@@ -258,16 +270,9 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 		margin-block: var(--space-phi);
 	}
 
-	.fordjupning-header h1 {
-		margin: var(--space-half) 0 0;
-		text-wrap: balance;
-	}
-
-	/* The deck carries the framing a bare one-word encyclopedic h1 cannot. It must not
-	   restate the body's opening sentence — the author prompt enforces that. */
-	.fordjupning-lead {
-		margin-top: var(--space-unit);
-	}
+	/* The header is ArticleHeader's, the essay's. The deck carries the framing a bare
+	   one-word encyclopedic h1 cannot; it must not restate the body's opening sentence
+	   (the author prompt enforces that). */
 
 	/* Full-frame hero, like the essays: it breaks past the 42rem measure to the 64rem
 	   reading frame, so it needs real space under it before the table of contents. */
@@ -286,18 +291,10 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 		width: 100%;
 	}
 
-	/* Reference apparatus — notes and sources. Quieter than the content and navigation
-	   above it: this is lookup material, and at 1 788px the notes were the loudest thing
-	   on the page after the body itself. */
-	.fordjupning-apparat h2 {
-		font-size: var(--step--1);
-		font-family: var(--font-heading);
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		font-variant-numeric: lining-nums tabular-nums;
-		color: var(--color-muted);
-	}
-
+	/* Reference apparatus — notes and sources, quieter than the content above it: the
+	   headings are the end matter's kickers (ArticleSection) and the sources' size and
+	   ink are layout.css's (»Sources are lookup«). A rule here on the h2 never matched it:
+	   the heading is TitledSection's, with that component's scope. */
 	.fordjupning-apparat {
 		--lead-color: var(--color-muted);
 	}
@@ -325,11 +322,6 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 		margin: 0 0 0.35rem;
 	}
 
-	/* .def-item carries a bottom rule per row, which on the last row stacked against
-	   the next section's top rule — two rules doing one job. */
-	.fordjupning-section :global(.def-item:last-child) {
-		border-bottom: none;
-	}
 
 	/* The relocated block carries .footnotes-relocated, whose own margin-top is 0 and
 	   whose bottom margin is sized for a page end — reclaim it here, the section is

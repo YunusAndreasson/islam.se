@@ -1,5 +1,6 @@
 ---
 import CollectionIndexPage from "../components/CollectionIndexPage.astro";
+import Kicker from "../components/Kicker.astro";
 import SectionLink from "../components/SectionLink.astro";
 import { breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
 import "../styles/nyheter.css";
@@ -94,7 +95,7 @@ const description =
 		    page. It is authored empty and hidden — the count is not knowable until
 		    the payload is. */}
 		<div class="nyheter-huvud">
-			<h2 id="nyheter-rubrik" class="label nyheter-omrade">Världen</h2>
+			<Kicker form="head" as="h2" id="nyheter-rubrik" class="nyheter-omrade">Världen</Kicker>
 			<p id="nyheter-status" class="label nyheter-status" hidden></p>
 		</div>
 

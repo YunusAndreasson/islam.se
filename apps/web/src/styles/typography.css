@@ -4,14 +4,12 @@
 @layer reset, base, primitives, layout, components;
 
 @layer base {
-	/* Anchor arrivals must clear the sticky mast, whose padding is fluid and whose
-	   height is therefore not a number a stylesheet can state. Header.astro
-	   publishes it as --mast-height on <html>; the fallback only covers the window
-	   before that script runs. It was a hardcoded 5rem, which was already fractionally
-	   short of the mast (79px) plus its 1.5rem fade — a latent bug on every footnote
-	   jump. */
+	/* Anchor arrivals must clear the sticky mast. Header.astro publishes its measured
+	   height as --mast-height on <html>; tokens.css states it for the first frame,
+	   before that script runs (92px on a desktop, 84px on a phone). It was a hardcoded
+	   5rem here, short of the mast — a latent bug on every footnote jump. */
 	:target {
-		scroll-margin-top: calc(var(--mast-height, 5.5rem) + 0.5rem);
+		scroll-margin-top: calc(var(--mast-height) + 0.5rem);
 	}
 
 	/* Footnote round-trips land mid-prose with no cue — flash the arrival point.
@@ -247,8 +245,12 @@
 			visibility 120ms;
 	}
 
-	.honorific[data-tip]:hover::after,
-	.honorific[data-tip]:focus-visible::after {
+	/* Only where no page script draws the meaning itself: essays and fördjupningar build
+	   #fn-popover (footnote-popover.ts) and show it on hover too, so the two tooltips
+	   stood one over the other there (2026-10-16). The focus case below was gated
+	   already. */
+	body:not(:has(#fn-popover)) .honorific[data-tip]:hover::after,
+	body:not(:has(#fn-popover)) .honorific[data-tip]:focus-visible::after {
 		content: attr(data-tip);
 		opacity: 1;
 		visibility: visible;
@@ -462,7 +464,7 @@
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
 		border-radius: var(--radius-lg);
-		box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+		box-shadow: 0 4px 24px rgb(var(--hero-black) / 0.08);
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		line-height: 1.55;
@@ -503,12 +505,12 @@
 	   dark palette has to follow the toggle, not the OS. */
 	@media (prefers-color-scheme: dark) {
 		:root:not([data-theme="light"]) .fn-popover {
-			box-shadow: 0 4px 24px rgb(0 0 0 / 0.3);
+			box-shadow: 0 4px 24px rgb(var(--hero-black) / 0.3);
 		}
 	}
 
 	:root[data-theme="dark"] .fn-popover {
-		box-shadow: 0 4px 24px rgb(0 0 0 / 0.3);
+		box-shadow: 0 4px 24px rgb(var(--hero-black) / 0.3);
 	}
 
 	/* ============================================================
@@ -738,7 +740,6 @@
 	   SearchOverlay already hide themselves; `.resume-pill` does the same in
 	   pages/[...slug].astro, next to the rule that positions it. */
 		.site-header,
-		.site-header--hero,
 		.reading-progress,
 		.fixed-actions,
 		.article-nav,

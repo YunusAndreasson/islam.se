@@ -1,14 +1,15 @@
 ---
 import { getCollection } from "astro:content";
 import FaktaCard from "../components/FaktaCard.astro";
-import HairlineLinkList from "../components/HairlineLinkList.astro";
 import Honorific from "../components/Honorific.astro";
+import Kicker from "../components/Kicker.astro";
+import OnwardLinks from "../components/OnwardLinks.astro";
 import PageHead from "../components/PageHead.astro";
 import QuranVerse from "../components/QuranVerse.astro";
-import TitledSection from "../components/TitledSection.astro";
 import { getArticles } from "../lib/articles";
 import { FAKTA_ART, FAKTA_CLUSTERS } from "../lib/fakta";
 import { articleJsonLd, breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
+import { destinations } from "../lib/navigation";
 import { RITNINGAR } from "../lib/ritningar";
 import Base from "../layouts/Base.astro";
 
@@ -45,12 +46,8 @@ const clusters = FAKTA_CLUSTERS.map((c) => ({
 	})),
 }));
 
-const furtherLinks = [
-	{ label: "Alla frågor och svar om islam", href: "/svar/" },
-	{ label: "Bönetider för hela Sverige", href: "/bonetider/" },
-	{ label: "Det islamiska året och dess högtider", href: "/det-islamiska-aret/" },
-	{ label: "Essäer om islamisk tradition och svenskt kulturarv", href: "/essaer/" },
-];
+// The ways on, each by its one name and the menu's line for it (lib/navigation.ts).
+const furtherLinks = destinations(["/svar/", "/essaer/", "/bonetider/", "/det-islamiska-aret/"]);
 
 // The cornerstone answers, for the collection structured data (preserves a Q&A
 // CollectionPage signal on the hub; the full corpus lives at /svar/).
@@ -127,14 +124,21 @@ const jsonLd = [
 				</div>
 			</PageHead>
 
-			{clusters.map((c) => (
-				<section class="fakta-cluster" id={c.slug} aria-labelledby={`fc-${c.slug}`}>
-					<header class="fakta-cluster-head">
-						<h2 id={`fc-${c.slug}`}>
-							{c.overview ? <a href={`/svar/${c.overview}/`}>{c.name}</a> : c.name}
-						</h2>
-						<p class="lead">{c.intro}</p>
-					</header>
+			{/* Each cluster opens like a section on the front page (layout.css,
+			    `.page-section`): its name as the kicker, the very label the front page's
+			    Grunden heads the same two lists with, linking to the cluster's overview
+			    answer; its sentence as the framing line. The first stands under the
+			    opening and takes no rule. */}
+			{clusters.map((c, i) => (
+				<section
+					class:list={["fakta-cluster", "page-section", i === 0 && "page-section--first"]}
+					id={c.slug}
+					aria-labelledby={`fc-${c.slug}`}
+				>
+					<Kicker form="head" as="h2" id={`fc-${c.slug}`} href={c.overview ? `/svar/${c.overview}/` : undefined}>
+						{c.name}
+					</Kicker>
+					<p class="home-tab-framing">{c.intro}</p>
 					<div class="fakta-grid">
 						{c.cards.map((cd) => (
 							<FaktaCard
@@ -149,9 +153,10 @@ const jsonLd = [
 				</section>
 			))}
 
-			<TitledSection class="pillar-more" id="pillar-mer" title="Läs vidare">
-				<HairlineLinkList class="pillar-links" items={furtherLinks} />
-			</TitledSection>
+			<section class="pillar-more page-section" aria-labelledby="pillar-mer">
+				<Kicker form="head" as="h2" id="pillar-mer">Läs vidare</Kicker>
+				<OnwardLinks items={furtherLinks} />
+			</section>
 		</article>
 	</main>
 </Base>
@@ -176,61 +181,26 @@ const jsonLd = [
 		margin-block: 0;
 	}
 
-	.fakta-cluster {
-		margin-top: var(--space-phi2);
-		padding-top: var(--space-phi);
-		border-top: 1px solid var(--color-rule);
-	}
+	/* The clusters and »Läs vidare« are `.page-section`s (layout.css): their rules, gaps
+	   and kickers are the shared grammar's, so none are set here. */
 
-	.fakta-cluster-head {
-		margin-bottom: var(--space-unit);
-	}
-
-	.fakta-cluster-head h2 {
-		font-size: var(--step-2-sans);
-		letter-spacing: 0;
-		margin: 0;
-	}
-	.fakta-cluster-head h2 a {
-		color: var(--color-text);
-		text-decoration: none;
-	}
-	.fakta-cluster-head h2 a:hover {
-		text-decoration: underline;
-		text-underline-offset: var(--underline-offset);
-	}
-
-	.fakta-cluster-head .lead {
-		--lead-color: var(--color-muted);
-		--lead-margin: 0.4rem 0 0;
-	}
-
-	/* auto-fit fills the canvas with as many ~16rem cards as fit — 3 across on a laptop,
-	   2 on a tablet, 1 on a phone. On the full 76rem canvas that made four (4 + 1 and
-	   4 + 2); five and six to a row made the pictures "very small and tight", and the
-	   last two pillars stretched to fill their row looked drawn out (user reviews,
-	   2026-09-26). So thirds from 64rem, every card one size: the pillars 3 + 2 and the
-	   articles 3 + 3, ranged left like every other card grid on the site. */
+	/* auto-fit fills the canvas with as many ~16rem cards as fit — 2 on a tablet, 1 on a
+	   phone. On the full 76rem canvas that made four (4 + 1 and 4 + 2); five and six to
+	   a row made the pictures "very small and tight", and the last two pillars stretched
+	   to fill their row looked drawn out (user reviews, 2026-09-26). So the page's thirds,
+	   every card one size: the pillars 3 + 2 and the articles 3 + 3, ranged left like
+	   every other card grid on the site. On the page's one gutter and from the front
+	   page's card line (60rem): the gap was its own clamp (40px at 1440), which put the
+	   second and third columns 6px off the thirds every other section stands on. */
 	.fakta-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-		gap: var(--space-phi) clamp(1.25rem, 3vw, 2.5rem);
+		gap: var(--space-group) var(--grid-gutter);
 	}
 
-	@media (width >= 64rem) {
+	@media (width >= 60rem) {
 		.fakta-grid {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
-	}
-
-	.pillar-more {
-		margin-top: var(--space-phi2);
-		padding-top: var(--space-phi);
-		border-top: 1px solid var(--color-rule);
-	}
-
-	.pillar-more h2 {
-		font-size: var(--step-1-sans);
-		margin: 0 0 var(--space-half);
 	}
 </style>
