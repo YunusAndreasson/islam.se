@@ -508,7 +508,7 @@ export function PrayerDock({
   // whole dock unfolds off a single continuous value instead of three independent
   // recomputations swapping on a JS boolean. The spring can overshoot past EXPANDED,
   // so every interpolate() below clamps. (Reanimated's canonical bottom-sheet pattern.)
-  const progress = useDerivedValue(() => (height.value - COLLAPSED) / (EXPANDED - COLLAPSED));
+  const progress = useDerivedValue(() => (height.get() - COLLAPSED) / (EXPANDED - COLLAPSED));
 
   // The mounted flag follows the card's own height rather than any gesture callback, because
   // the height is the one thing a drag, a tap, a fling and the launch reveal all agree on —
@@ -530,8 +530,8 @@ export function PrayerDock({
   // driven entirely by `height`, and at rest every row interpolates to opacity 0.
   const armSchedule = () => {
     'worklet';
-    if (mountedSV.value) return;
-    mountedSV.value = true;
+    if (mountedSV.get()) return;
+    mountedSV.set(true);
     scheduleOnRN(setMounted, true);
   };
   // ...and give the rows back when that touch turns out not to have moved the card. The
@@ -541,19 +541,19 @@ export function PrayerDock({
   // card, which is precisely the tree a screen reader must not find (see ScheduleRow).
   const disarmScheduleIfIdle = () => {
     'worklet';
-    if (!mountedSV.value || targetOpen.value || progress.value > MOUNT_EPSILON) return;
-    mountedSV.value = false;
+    if (!mountedSV.get() || targetOpen.get() || progress.get() > MOUNT_EPSILON) return;
+    mountedSV.set(false);
     scheduleOnRN(setMounted, false);
   };
 
   useAnimatedReaction(
-    () => progress.value,
+    () => progress.get(),
     (p) => {
       // In the tree as soon as the card is off its seat (~1px of the travel), out again once
       // it has settled back onto it — so rows are never torn out from under a moving edge.
       const wantMounted = p > MOUNT_EPSILON;
-      if (wantMounted !== mountedSV.value) {
-        mountedSV.value = wantMounted;
+      if (wantMounted !== mountedSV.get()) {
+        mountedSV.set(wantMounted);
         scheduleOnRN(setMounted, wantMounted);
       }
 
@@ -592,16 +592,16 @@ export function PrayerDock({
   const tap = useTapGesture({
     onDeactivate: (e) => {
       if (e.canceled) return;
-      const ceiling = expandedSV.value;
-      const open = height.value < (COLLAPSED + ceiling) / 2;
-      targetOpen.value = open;
+      const ceiling = expandedSV.get();
+      const open = height.get() < (COLLAPSED + ceiling) / 2;
+      targetOpen.set(open);
       // Re-arm rather than trust the pan's. useExclusiveGestures lets this tap win only once
       // the pan has FAILED, so the pan's onFinalize — and with it the disarm — has already run
       // by the time we get here, on a card still sitting at its collapsed height. Without this
       // the tap-to-open path would unmount the schedule and mount it again one frame later,
       // spending the render onBegin exists to move out of the way.
       armSchedule();
-      height.value = withSpring(open ? ceiling : COLLAPSED, SPRING);
+      height.set(withSpring(open ? ceiling : COLLAPSED, SPRING));
       scheduleOnRN(applyExpanded, open);
     },
   });
@@ -621,8 +621,8 @@ export function PrayerDock({
   // so it can also serve the height re-sync below, where the open/closed flag is already
   // correct and setting it again would only cascade a render.
   const springTo = useEffectEvent((open: boolean) => {
-    targetOpen.value = open;
-    height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
+    targetOpen.set(open);
+    height.set(withSpring(open ? EXPANDED : COLLAPSED, SPRING));
     onExpandedChange?.(open, EXPANDED);
   });
   const onReveal = useEffectEvent((open: boolean) => {
@@ -652,10 +652,10 @@ export function PrayerDock({
   // rows mount at touch-down now, so the measurement lands while the finger is still on the
   // card, and `targetOpen` is still false until the release decides.
   useAnimatedReaction(
-    () => expandedSV.value,
+    () => expandedSV.get(),
     (next, prev) => {
       if (prev === null || next === prev) return;
-      if (!targetOpen.value) return;
+      if (!targetOpen.get()) return;
       height.set(withSpring(next, SPRING));
     },
   );
@@ -714,10 +714,10 @@ export function PrayerDock({
     },
   }));
 
-  const heightStyle = useAnimatedStyle(() => ({ height: height.value }));
+  const heightStyle = useAnimatedStyle(() => ({ height: height.get() }));
   // One reversible reveal for the whole schedule. The summary never fades or swaps.
   const scheduleReveal = useAnimatedStyle(() => ({
-    opacity: interpolate(progress.value, [0, 0.35], [0, 1], Extrapolation.CLAMP),
+    opacity: interpolate(progress.get(), [0, 0.35], [0, 1], Extrapolation.CLAMP),
   }));
 
   // Returning to "now" is the one action offered in two places (preview badge +
@@ -1543,7 +1543,7 @@ function SolarTimeline({
   // stale, pre-drag value for several frames at drag-release and snap the thumb back
   // before the committed time lands. Written only here, so no worklet mutates it.
   useEffect(() => {
-    follow.value = withTiming(trackFraction, { duration: motion.base });
+    follow.set(withTiming(trackFraction, { duration: motion.base }));
     // eslint-disable-next-line react-hooks/exhaustive-deps -- follow is a stable shared-value ref
   }, [trackFraction]);
 
@@ -1556,46 +1556,46 @@ function SolarTimeline({
     // dock's own toggle pan.
     hitSlop: { bottom: DOCK_FOOTER_PAD },
     onBegin: (e) => {
-      dragging.value = true;
+      dragging.set(true);
       scheduleOnRN(hapticGrab);
       if (trackW <= 0) return;
-      grabOffset.value = scrubGrabOffset(e.x, follow.value * trackW);
-      const f = Math.max(0, Math.min(1, (e.x + grabOffset.value) / trackW));
-      prog.value = f;
-      lastHaptic.value = f;
-      lastSent.value = f;
+      grabOffset.set(scrubGrabOffset(e.x, follow.get() * trackW));
+      const f = Math.max(0, Math.min(1, (e.x + grabOffset.get()) / trackW));
+      prog.set(f);
+      lastHaptic.set(f);
+      lastSent.set(f);
       scheduleOnRN(scrubToTrack, f);
     },
     onUpdate: (e) => {
       if (trackW <= 0) return;
-      const f = Math.max(0, Math.min(1, (e.x + grabOffset.value) / trackW));
-      prog.value = f;
+      const f = Math.max(0, Math.min(1, (e.x + grabOffset.get()) / trackW));
+      prog.set(f);
       // Selection tick when the thumb sweeps past one of the day's prayers. Compared in
       // track space: `f` is where the finger is, and a prayer's place on the track is not
       // its fraction of the day any more.
       for (let i = 0; i < markTracks.length; i++) {
         const m = markTracks[i];
         if (m === undefined) continue;
-        if ((lastHaptic.value < m && f >= m) || (lastHaptic.value > m && f <= m)) {
+        if ((lastHaptic.get() < m && f >= m) || (lastHaptic.get() > m && f <= m)) {
           scheduleOnRN(hapticSelection);
           break;
         }
       }
-      lastHaptic.value = f;
+      lastHaptic.set(f);
       // Throttle the JS field recompute; the thumb above stays at 60fps. The step is in
       // TRACK space (≈0.6 px), so the recompute cadence is tied to how far the finger has
       // travelled rather than to how much time passed under it — which is the whole point
       // of the warp: inside a prayer's well the same 0.6 px is a minute and a half, and a
       // step measured in day-fractions would have stopped updating exactly there.
-      if (Math.abs(f - lastSent.value) >= SCRUB_SEND_STEP) {
-        lastSent.value = f;
+      if (Math.abs(f - lastSent.get()) >= SCRUB_SEND_STEP) {
+        lastSent.set(f);
         scheduleOnRN(scrubToTrack, f);
       }
     },
     onFinalize: () => {
-      dragging.value = false;
+      dragging.set(false);
       scheduleOnRN(hapticRelease);
-      scheduleOnRN(scrubToTrack, prog.value);
+      scheduleOnRN(scrubToTrack, prog.get());
     },
   });
 
@@ -1612,15 +1612,15 @@ function SolarTimeline({
   // a full-width bar slid left inside a clipping band (see trackFillClip), so its rounded
   // end stays round instead of being squashed by a scaleX.
   const fillStyle = useAnimatedStyle(() => {
-    const f = dragging.value ? prog.value : follow.value;
+    const f = dragging.get() ? prog.get() : follow.get();
     return { transform: [{ translateX: (f - 1) * trackW }] };
   });
   const thumbStyle = useAnimatedStyle(() => {
-    const f = dragging.value ? prog.value : follow.value;
+    const f = dragging.get() ? prog.get() : follow.get();
     return {
       transform: [
         { translateX: f * trackW - THUMB / 2 },
-        { scale: withSpring(dragging.value ? 1.16 : 1, SPRING) },
+        { scale: withSpring(dragging.get() ? 1.16 : 1, SPRING) },
       ],
     };
   });

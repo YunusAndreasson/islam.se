@@ -16,9 +16,11 @@ const STOCKHOLM: [number, number] = [18.0686, 59.3293];
 const DAY_START = Date.UTC(2026, 7, 2, 22, 0, 0); // a Stockholm midnight, high summer
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// The reanimated mock returns a plain { value } object for useSharedValue, which is what
-// the overlay's worklets read — so the derived paths below really are built.
-const shared = <T,>(value: T) => ({ value }) as never;
+// A shared value as the overlay's worklets read it: through get(), the React Compiler-safe
+// accessor the app uses everywhere since the SDK 58 sweep. Kept readable as `.value` too, the
+// shape the reanimated mock in jest.setup.js gives every useSharedValue — so the derived paths
+// below really are built.
+const shared = <T,>(value: T) => ({ value, get: () => value, set: () => {} }) as never;
 
 function overlay(overrides: Partial<Parameters<typeof SolarSkiaOverlay>[0]> = {}) {
   return (

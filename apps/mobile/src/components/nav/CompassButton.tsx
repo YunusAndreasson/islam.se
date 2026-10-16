@@ -74,7 +74,7 @@ export function CompassButton({ active }: { active: boolean }) {
     if (aligned && !wasAligned.current) hapticSuccess();
     wasAligned.current = aligned;
     const target = aligned ? 1.12 : 1;
-    lockScale.value = reduceMotion ? 1 : withSpring(target, LOCK_SPRING);
+    lockScale.set(reduceMotion ? 1 : withSpring(target, LOCK_SPRING));
   }, [aligned, lockScale, reduceMotion]);
 
   // Point the arrow at the qibla — the bearing minus the live heading, clockwise — on the
@@ -82,7 +82,7 @@ export function CompassButton({ active }: { active: boolean }) {
   // scale rides along in the same transform. `rotation` is the UNWRAPPED heading (see
   // lib/useAim), so crossing north eases the short way instead of spinning 359°.
   const needleStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${bearing - rotation.value}deg` }, { scale: lockScale.value }],
+    transform: [{ rotate: `${bearing - rotation.get()}deg` }, { scale: lockScale.get() }],
   }));
 
   // ⚠️ NEUTRAL UNTIL AIMED. The resting arrow was `accent`, the app's blue, on the argument

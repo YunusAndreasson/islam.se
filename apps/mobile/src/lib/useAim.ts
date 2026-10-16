@@ -306,16 +306,14 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
       headingRef.current = norm;
       accRef.current = acc;
       const p = aimProximity(norm, acc, bearingRef.current);
-      // Idiomatic reanimated: drive the shared values from JS. The compiler's immutability
-      // rule can't see that a SharedValue is meant to be mutated. Under Reduce Motion we jump
-      // instead of easing, the way DisclosureGroup and FaqItem do — what goes is the added
-      // easing on top of the sensor, never the rotation itself, which IS the instrument.
-      // eslint-disable-next-line react-hooks/immutability
-      rotation.value = reduceMotion
-        ? unwrapped.current
-        : withTiming(unwrapped.current, { duration: motion.quick });
-      // eslint-disable-next-line react-hooks/immutability
-      prox.value = reduceMotion ? p : withTiming(p, { duration: motion.quick });
+      // Drive the shared values from JS, through set() — the form the React Compiler can see
+      // is a deliberate write. Under Reduce Motion we jump instead of easing, the way
+      // DisclosureGroup and FaqItem do — what goes is the added easing on top of the sensor,
+      // never the rotation itself, which IS the instrument.
+      rotation.set(
+        reduceMotion ? unwrapped.current : withTiming(unwrapped.current, { duration: motion.quick }),
+      );
+      prox.set(reduceMotion ? p : withTiming(p, { duration: motion.quick }));
       applyReading(norm, acc, bearingRef.current, false);
       if (!hasReadingRef.current) {
         hasReadingRef.current = true;
@@ -347,8 +345,7 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
     if (!reading.current || headingRef.current == null) return;
     applyReading(headingRef.current, accRef.current, bearing, true);
     const p = aimProximity(headingRef.current, accRef.current, bearing);
-    // eslint-disable-next-line react-hooks/immutability
-    prox.value = reduceMotion ? p : withTiming(p, { duration: motion.quick });
+    prox.set(reduceMotion ? p : withTiming(p, { duration: motion.quick }));
   }, [bearing, applyReading, prox, reduceMotion]);
 
   useEffect(() => {
@@ -432,7 +429,7 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
       // event, flashing a hardware complaint on a phone that plainly has the hardware.
       // `noCompass` and `permissionDenied` survive for the same reason.
       lastTurnPush.current = 0;
-      prox.value = 0;
+      prox.set(0);
     };
   }, [active, request, askCount, onHeading, prox]);
 

@@ -136,8 +136,8 @@ export function SolarSkiaOverlay({
   // the wash follows pans/zooms and scrubs without a React render. u_utcMin is the displayed
   // instant as UTC minutes-of-day; the shader turns each pixel's lon into local solar time.
   const washUniforms = useDerivedValue(() => {
-    const c = camera.value;
-    const nowMs = dayStart + nowFraction.value * dayLength;
+    const c = camera.get();
+    const nowMs = dayStart + nowFraction.get() * dayLength;
     const utcMin = (nowMs / 60_000) % 1440;
     return {
       u_worldSize: 512 * 2 ** c.zoom,
@@ -160,7 +160,7 @@ export function SolarSkiaOverlay({
     // Geometry and the shared clock can arrive a frame apart during a reversal.
     // Preview must never extrapolate from that mismatched pair.
     if (preview) return 0;
-    const nowMs = dayStart + nowFraction.value * dayLength;
+    const nowMs = dayStart + nowFraction.get() * dayLength;
     const dt = nowMs - geometryNow;
     if (dt <= 0) return 0;
     // The clamp guards live mode (a big scrub must never fling the lines across the map).
@@ -188,12 +188,12 @@ export function SolarSkiaOverlay({
   const boundaryFade = useSharedValue(polarBoundary ? 1 : 0);
   useEffect(() => {
     if (polarBoundary != null) {
-      boundaryFade.value = withTiming(1, { duration: 400 });
+      boundaryFade.set(withTiming(1, { duration: 400 }));
     } else {
-      boundaryFade.value = withTiming(0, { duration: 400 }, (finished) => {
+      boundaryFade.set(withTiming(0, { duration: 400 }, (finished) => {
         'worklet';
         if (finished) scheduleOnRN(setShownBoundary, null);
-      });
+      }));
     }
   }, [polarBoundary, boundaryFade]);
 
@@ -202,7 +202,7 @@ export function SolarSkiaOverlay({
   // Re-projected on the UI thread so it stays glued to the map through pans/zooms.
   const shownBoundaryLat = shownBoundary?.lat ?? null;
   const polarBoundaryPath = useDerivedValue(() => {
-    const cam = camera.value;
+    const cam = camera.get();
     const b = Skia.PathBuilder.Make();
     if (shownBoundaryLat != null) {
       const y = project(0, shownBoundaryLat, cam).y;
@@ -225,7 +225,7 @@ export function SolarSkiaOverlay({
     return [`rgba(${rgb}, 0)`, `rgba(${rgb}, ${alpha})`, `rgba(${rgb}, ${alpha})`, `rgba(${rgb}, 0)`];
   }, [boundaryPalette]);
   // The edge fade spans the live viewport width (the path is horizontal, so only x matters).
-  const boundaryGradEnd = useDerivedValue(() => ({ x: camera.value.width, y: 0 }));
+  const boundaryGradEnd = useDerivedValue(() => ({ x: camera.get().width, y: 0 }));
 
   // Tip-dissolve mask geometry: a vertical ramp hanging just south of the boundary.
   // dstOut erases where the mask is opaque — fully north of the line (also wiping any
@@ -234,11 +234,11 @@ export function SolarSkiaOverlay({
   const dissolveLat = shownBoundaryLat ?? 0;
   const dissolveStart = useDerivedValue(() => ({
     x: 0,
-    y: project(0, dissolveLat, camera.value).y,
+    y: project(0, dissolveLat, camera.get()).y,
   }));
   const dissolveEnd = useDerivedValue(() => ({
     x: 0,
-    y: project(0, dissolveLat, camera.value).y + DISSOLVE_PX,
+    y: project(0, dissolveLat, camera.get()).y + DISSOLVE_PX,
   }));
   const dissolveActive = shownBoundary != null;
 
@@ -411,7 +411,7 @@ function WashClearings({
 }) {
   const open = useSharedValue(1);
   useAnimatedReaction(
-    () => camera.value,
+    () => camera.get(),
     (cam, prev) => {
       if (!prev) return;
       const ws = worldSize(cam.zoom);
@@ -426,21 +426,21 @@ function WashClearings({
       // and `withDelay` would skip the wait (Reanimated's documented reduce-motion
       // behaviour), so the holes would never close during a move — and the reader who
       // asked for less motion would get the one artefact this exists to prevent.
-      open.value = withSequence(
+      open.set(withSequence(
         withTiming(0, { duration: 60, reduceMotion: ReduceMotion.Never }),
         withDelay(
           REOPEN_DELAY_MS,
           withTiming(1, { duration: REOPEN_MS, reduceMotion: ReduceMotion.Never }),
           ReduceMotion.Never,
         ),
-      );
+      ));
     },
   );
 
   const lon = userPoint[0];
   const lat = userPoint[1];
-  const dotX = useDerivedValue(() => project(lon, lat, camera.value).x);
-  const dotY = useDerivedValue(() => project(lon, lat, camera.value).y);
+  const dotX = useDerivedValue(() => project(lon, lat, camera.get()).x);
+  const dotY = useDerivedValue(() => project(lon, lat, camera.get()).y);
 
   // Mercator once per point set, so each frame's work is plain arithmetic.
   const mosqueMerc = useMemo(
@@ -448,10 +448,10 @@ function WashClearings({
     [mosquePoints],
   );
   const speckPresence = useDerivedValue(
-    () => atZoom(DUST_PRESENCE_STOPS, camera.value.zoom) * open.value,
+    () => atZoom(DUST_PRESENCE_STOPS, camera.get().zoom) * open.get(),
   );
   const speckHoles = useDerivedValue(() => {
-    const cam = camera.value;
+    const cam = camera.get();
     const b = Skia.PathBuilder.Make();
     if (atZoom(DUST_PRESENCE_STOPS, cam.zoom) <= 0) return b.detach();
     const r = atZoom(DUST_RADIUS_STOPS, cam.zoom) + SPECK_CLEAR_PAD;
@@ -524,20 +524,20 @@ function ArrivalBloom({
 }) {
   const progress = useSharedValue(1);
   useEffect(() => {
-    progress.value = 0;
-    progress.value = withTiming(1, { duration: 2400, easing: Easing.out(Easing.cubic) });
+    progress.set(0);
+    progress.set(withTiming(1, { duration: 2400, easing: Easing.out(Easing.cubic) }));
   }, [trigger, progress]);
   const lon = point[0];
   const lat = point[1];
-  const cx = useDerivedValue(() => project(lon, lat, camera.value).x);
-  const cy = useDerivedValue(() => project(lon, lat, camera.value).y);
+  const cx = useDerivedValue(() => project(lon, lat, camera.get()).x);
+  const cy = useDerivedValue(() => project(lon, lat, camera.get()).y);
   // Outer ring: expands 10 → 66 px, thinning and fading as it goes.
-  const ringR = useDerivedValue(() => 10 + progress.value * 56);
-  const ringWidth = useDerivedValue(() => 2.5 - progress.value * 1.9);
-  const ringOpacity = useDerivedValue(() => (1 - progress.value) * 0.7);
+  const ringR = useDerivedValue(() => 10 + progress.get() * 56);
+  const ringWidth = useDerivedValue(() => 2.5 - progress.get() * 1.9);
+  const ringOpacity = useDerivedValue(() => (1 - progress.get()) * 0.7);
   // Inner glow: a soft breath of the prayer's hue around the dot itself.
-  const glowR = useDerivedValue(() => 6 + progress.value * 22);
-  const glowOpacity = useDerivedValue(() => (1 - progress.value) * 0.45);
+  const glowR = useDerivedValue(() => 6 + progress.get() * 22);
+  const glowOpacity = useDerivedValue(() => (1 - progress.get()) * 0.45);
   return (
     <Group>
       <Circle cx={cx} cy={cy} r={glowR} color={color} opacity={glowOpacity}>
@@ -621,9 +621,9 @@ function PrayerLine({
   // `drift` adds the live solar glide: a westward x-shift at the sun's exact rate, so
   // the line keeps moving between the 30 s geometry rebuilds.
   const path = useDerivedValue(() => {
-    const cam = camera.value;
+    const cam = camera.get();
     const ws = worldSize(cam.zoom);
-    const dx = drift.value;
+    const dx = drift.get();
     const ox = cam.width / 2 - mercX(cam.lon) * ws;
     const oy = cam.height / 2 - mercY(cam.lat) * ws;
     const b = Skia.PathBuilder.Make();
@@ -647,10 +647,10 @@ function PrayerLine({
   // Only inspect visibility while waiting for the current prayer to enter. Geometry
   // projection/length measurement is not driven by the reveal progress itself.
   const visibleRange = useDerivedValue(() => {
-    if (!animateEntrance || entered.value) return null;
-    const cam = camera.value;
+    if (!animateEntrance || entered.get()) return null;
+    const cam = camera.get();
     const ws = worldSize(cam.zoom);
-    const ox = cam.width / 2 - mercX(cam.lon) * ws + drift.value * ws;
+    const ox = cam.width / 2 - mercX(cam.lon) * ws + drift.get() * ws;
     const oy = cam.height / 2 - mercY(cam.lat) * ws;
     const projected = merc.map((line) => {
       const points = new Array<number>(line.length);
@@ -664,49 +664,49 @@ function PrayerLine({
   });
 
   useAnimatedReaction(
-    () => ({ ready: entranceEnabled, animate: animateEntrance, preview, range: visibleRange.value }),
+    () => ({ ready: entranceEnabled, animate: animateEntrance, preview, range: visibleRange.get() }),
     ({ ready, animate, preview: scrubbing, range }) => {
       if (!ready) {
-        entered.value = false;
-        reveal.value = 1;
+        entered.set(false);
+        reveal.set(1);
       } else if (scrubbing || !animate) {
         // Direct manipulation cancels a pending or running entrance immediately.
-        reveal.value = 1;
-        if (scrubbing) entered.value = true;
-      } else if (!entered.value && range) {
-        entryStart.value = range.start;
-        entryEnd.value = range.end;
-        entered.value = true;
-        reveal.value = 0;
-        reveal.value = withTiming(1, {
+        reveal.set(1);
+        if (scrubbing) entered.set(true);
+      } else if (!entered.get() && range) {
+        entryStart.set(range.start);
+        entryEnd.set(range.end);
+        entered.set(true);
+        reveal.set(0);
+        reveal.set(withTiming(1, {
           duration: REVEAL_MS,
           easing: Easing.inOut(Easing.cubic),
-        });
+        }));
       }
     },
   );
   const trimStart = useDerivedValue(() =>
-    animateEntrance && reveal.value < 1 ? entryStart.value : 0,
+    animateEntrance && reveal.get() < 1 ? entryStart.get() : 0,
   );
   const trimEnd = useDerivedValue(() => {
     if (!animateEntrance) return 1;
-    if (!entered.value) return 0;
-    if (reveal.value >= 1) return 1;
-    return entryStart.value + (entryEnd.value - entryStart.value) * reveal.value;
+    if (!entered.get()) return 0;
+    if (reveal.get() >= 1) return 1;
+    return entryStart.get() + (entryEnd.get() - entryStart.get()) * reveal.get();
   });
 
   // A live contour may dissolve when it disappears. Preview never retains old lines.
   const wasRendered = useRef(rendered);
   useEffect(() => {
     if (preview) {
-      fade.value = active ? 1 : 0;
+      fade.set(active ? 1 : 0);
     } else if (active) {
-      fade.value = 1;
+      fade.set(1);
     } else if (wasRendered.current) {
-      fade.value = withTiming(0, { duration: 300 }, (finished) => {
+      fade.set(withTiming(0, { duration: 300 }, (finished) => {
         'worklet';
         if (finished) scheduleOnRN(setRendered, false);
-      });
+      }));
     }
     wasRendered.current = active || rendered;
   }, [active, rendered, preview, fade]);
@@ -718,29 +718,29 @@ function PrayerLine({
   const breath = useSharedValue(0);
   useEffect(() => {
     if (imminent) {
-      breath.value = withRepeat(
+      breath.set(withRepeat(
         withSequence(
           withTiming(1, { duration: 2100, easing: Easing.inOut(Easing.sin) }),
           withTiming(0, { duration: 2100, easing: Easing.inOut(Easing.sin) }),
         ),
         -1,
         false,
-      );
+      ));
     } else {
-      breath.value = withTiming(0, { duration: 700, easing: Easing.out(Easing.quad) });
+      breath.set(withTiming(0, { duration: 700, easing: Easing.out(Easing.quad) }));
     }
   }, [imminent, breath]);
-  const haloOpacity = useDerivedValue(() => (isNext ? 0.6 : 0.4) + breath.value * 0.22);
+  const haloOpacity = useDerivedValue(() => (isNext ? 0.6 : 0.4) + breath.get() * 0.22);
 
   // The comet tip leading the sweep-in: a short, bright trim window riding just behind
   // the reveal's leading edge, melting into the line as the reveal completes. Pure path
   // trim — no per-frame contour measuring.
   const tipStart = useDerivedValue(() =>
-    Math.max(trimStart.value, trimEnd.value - (entryEnd.value - entryStart.value) * TIP_SPAN),
+    Math.max(trimStart.get(), trimEnd.get() - (entryEnd.get() - entryStart.get()) * TIP_SPAN),
   );
   const tipOpacity = useDerivedValue(() => {
-    const r = reveal.value;
-    return !animateEntrance || !entered.value || r >= 1 ? 0 : 0.9 * (1 - r * r);
+    const r = reveal.get();
+    return !animateEntrance || !entered.get() || r >= 1 ? 0 : 0.9 * (1 - r * r);
   });
 
   if (!visible) return null;

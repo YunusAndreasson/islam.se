@@ -102,9 +102,9 @@ export function MoonButton({ active }: { active: boolean }) {
   const lockScale = useSharedValue(1);
   const reduceMotion = useReducedMotion();
   useEffect(() => {
-    lockScale.value = reduceMotion ? 1 : withSpring(aimed ? 1.12 : 1, LOCK_SPRING);
+    lockScale.set(reduceMotion ? 1 : withSpring(aimed ? 1.12 : 1, LOCK_SPRING));
   }, [aimed, lockScale, reduceMotion]);
-  const lockStyle = useAnimatedStyle(() => ({ transform: [{ scale: lockScale.value }] }));
+  const lockStyle = useAnimatedStyle(() => ({ transform: [{ scale: lockScale.get() }] }));
 
   const phase = PHASE_NAMES[phaseKey(sky.phaseAngle)].toLowerCase();
   return (

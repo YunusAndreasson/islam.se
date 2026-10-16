@@ -178,7 +178,12 @@ jest.mock('react-native-reanimated', () => {
       };
       return ref.current;
     },
-    useDerivedValue: (fn) => ({ value: fn() }),
+    // get() as well as .value: the app reads every shared value through get() (the React
+    // Compiler-safe accessor), and a derived value without it would throw on first read.
+    useDerivedValue: (fn) => {
+      const value = fn();
+      return { value, get: () => value };
+    },
     useAnimatedStyle: () => ({}),
     // No UI thread under test, so the reaction never fires — matches reanimated's own
     // jest mock (NOOP). The daybreak line-replay it drives is exercised on-device.

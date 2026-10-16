@@ -151,11 +151,11 @@ const MIN_ZOOM = CAMERA_MIN_ZOOM;
 const MOSQUE_POINTS: readonly LonLat[] = getMosques().map((m) => [m.lng, m.lat]);
 const NO_MOSQUE_POINTS: readonly LonLat[] = [];
 
-// Keep Reanimated's intentionally mutable `.value` writes behind small module helpers.
+// Keep Reanimated's intentionally imperative shared-value writes behind small module helpers.
 // React Compiler can then optimize the screen around those imperative UI-thread bridges
 // without treating the whole component as a mutation hazard.
 function publishSharedCamera(camera: SharedValue<MapCamera>, next: MapCamera): void {
-  camera.value = next;
+  camera.set(next);
 }
 
 function resizeSharedCamera(
@@ -163,7 +163,7 @@ function resizeSharedCamera(
   width: number,
   height: number,
 ): void {
-  camera.value = { ...camera.value, width, height };
+  camera.set({ ...camera.get(), width, height });
 }
 
 // The lat/lon at the geometric centre of the visible viewport, derived from the
@@ -766,8 +766,8 @@ export default function Bonetider() {
       return;
     }
     if (clock.mode === 'live') {
-      const staleBy = Math.abs(nowFraction.value - clock.fraction);
-      if (staleBy > (2 * LIVE_TICK_MS) / clock.dayLength) nowFraction.value = clock.fraction;
+      const staleBy = Math.abs(nowFraction.get() - clock.fraction);
+      if (staleBy > (2 * LIVE_TICK_MS) / clock.dayLength) nowFraction.set(clock.fraction);
       const target = Math.min(1, clock.fraction + LIVE_TICK_MS / clock.dayLength);
       // Exempt from Reduce Motion, deliberately. This is the CLOCK, not an effect: it
       // carries the displayed instant forward at the sun's own rate, about a pixel a
@@ -775,13 +775,13 @@ export default function Bonetider() {
       // (Reanimated's documented reduce-motion behaviour), which would pin the wash and
       // the lines thirty seconds AHEAD of the true time for the whole tick and then step
       // them — a map that is both wrong and jerkier than the glide it replaced.
-      nowFraction.value = withTiming(target, {
+      nowFraction.set(withTiming(target, {
         duration: LIVE_TICK_MS,
         easing: Easing.linear,
         reduceMotion: ReduceMotion.Never,
-      });
+      }));
     } else {
-      nowFraction.value = clock.fraction;
+      nowFraction.set(clock.fraction);
     }
     return () => cancelAnimation(nowFraction);
   }, [clock.fraction, clock.mode, clock.dayLength, mapActive, nowFraction]);
@@ -816,7 +816,7 @@ export default function Bonetider() {
   // other exists.
   const lessonFraction = useSharedValue(lessonFrame?.fraction ?? 0);
   useEffect(() => {
-    if (lessonFrame) lessonFraction.value = lessonFrame.fraction;
+    if (lessonFrame) lessonFraction.set(lessonFrame.fraction);
   }, [lessonFrame, lessonFraction]);
 
   // The whole-country prayer-time lattice — the one expensive step (3752 adhan
@@ -1343,7 +1343,7 @@ export default function Bonetider() {
           let message: string | null = null;
           if (settings.showQibla) {
             const arc = greatCirclePoints(coords, KAABA, 96).slice(0, 32);
-            const d = distanceToLine(point, arc, cam.value);
+            const d = distanceToLine(point, arc, cam.get());
             if (d < distance) {
               distance = d;
               message = `Linjen visar qibla – riktningen mot Kaba i Mecka. Från ${placeLabel}: ${Math.round(qiblaDistanceKm(coords)).toLocaleString('sv-SE')} km.`;
@@ -1351,7 +1351,7 @@ export default function Bonetider() {
           }
           for (const line of prayerLines) {
             for (const path of line.polylines) {
-              const d = distanceToLine(point, path, cam.value);
+              const d = distanceToLine(point, path, cam.get());
               if (d < distance) {
                 distance = d;
                 const time = userTimes[line.prayer];
@@ -1619,7 +1619,7 @@ export default function Bonetider() {
                   const home = initialFrame.current;
                   cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
                     padding: fitPadding,
-                    duration: reduceMotion ? 0 : home ? cameraTravelMs(cam.value, home) : TRAVEL_MAX_MS,
+                    duration: reduceMotion ? 0 : home ? cameraTravelMs(cam.get(), home) : TRAVEL_MAX_MS,
                   });
                 },
               }
@@ -1635,7 +1635,7 @@ export default function Bonetider() {
                     cameraRef.current?.flyTo({
                       center: userPoint,
                       zoom: LOCATE_ZOOM,
-                      duration: reduceMotion ? 0 : cameraTravelMs(cam.value, target),
+                      duration: reduceMotion ? 0 : cameraTravelMs(cam.get(), target),
                     });
                   },
                 }

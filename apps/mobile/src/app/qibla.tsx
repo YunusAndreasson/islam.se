@@ -379,7 +379,7 @@ const Dial = memo(function Dial({ size, bearing, calibrating, c, styles, rotatio
   const r = size / 2;
   const coneTop = r - 40; // beam apex at the hub, base 40px shy of the rim
 
-  const roseStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${-rotation.value}deg` }] }));
+  const roseStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${-rotation.get()}deg` }] }));
   // The brass layer (beam / cube fill / shaft / index / hub) and the Kaaba's halo. Both come
   // from theme/dial so the Moon's dial cannot warm on different numbers — see useBrassStyles.
   const { brass: brassStyle, glow: glowStyle } = useBrassStyles(prox, reduceMotion);
