@@ -61,7 +61,8 @@
         "expo-notifications",
         {
           "color": "#2a557f",
-          "icon": "./assets/images/notification-icon.png"
+          "icon": "./assets/images/notification-icon.png",
+          "enableRemoteNotifications": false
         }
       ],
       "expo-web-browser",

@@ -49,6 +49,7 @@ const MUTATION: Partial<PrayerSettings> = {
     },
     lastThird: true,
     lastThirdSound: 'silent',
+    alarmClock: true,
   },
 };
 

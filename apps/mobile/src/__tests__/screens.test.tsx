@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import * as MailComposer from 'expo-mail-composer';
@@ -769,6 +769,54 @@ describe('tab screens', () => {
     await waitFor(async () => {
       const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
       expect(saved.notifications.prayers.fajr).toBe(false);
+    });
+  });
+
+  describe('getting alerts through on Android', () => {
+    const exactAlarm = jest.mocked(Notifications.getExactAlarmPermissionsAsync);
+    const response = (granted: boolean) =>
+      ({ granted, status: granted ? 'granted' : 'denied', canAskAgain: true, expires: 'never' }) as never;
+    afterEach(() => {
+      exactAlarm.mockResolvedValue(response(true));
+    });
+
+    it('offers alarm-clock delivery as an opt-in switch, off until turned on', async () => {
+      await withPlatform('android', async () => {
+        await renderSettled(withProviders(<Notiser />));
+        const alarm = await waitFor(() => screen.getByRole('switch', { name: /^Schemalägg som alarm/ }));
+        expect(alarm.props.value).toBe(false);
+        expect(screen.queryByRole('button', { name: /alarm och påminnelser/ })).toBeNull();
+
+        await fireEvent(alarm, 'valueChange', true);
+        await waitFor(async () => {
+          const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
+          expect(saved.notifications.alarmClock).toBe(true);
+        });
+      });
+    });
+
+    // Without the exact-alarm permission no alert is exact, so the switch would promise
+    // what it cannot do — the way to the permission takes its place.
+    it('points to the exact-alarm permission instead when it is denied', async () => {
+      exactAlarm.mockResolvedValue(response(false));
+      await withPlatform('android', async () => {
+        await renderSettled(withProviders(<Notiser />));
+        await waitFor(() =>
+          expect(
+            screen.getByRole('button', { name: 'Öppna Androids inställning för alarm och påminnelser' }),
+          ).toBeTruthy(),
+        );
+        expect(screen.queryByRole('switch', { name: /^Schemalägg som alarm/ })).toBeNull();
+        expect(screen.getByText(/Appen får inte ställa exakta alarm/)).toBeTruthy();
+      });
+    });
+
+    it('shows neither on iOS, which has no such settings', async () => {
+      await withPlatform('ios', async () => {
+        await renderSettled(withProviders(<Notiser />));
+        expect(screen.queryByRole('switch', { name: /^Schemalägg som alarm/ })).toBeNull();
+        expect(screen.queryByRole('button', { name: /alarm och påminnelser/ })).toBeNull();
+      });
     });
   });
 

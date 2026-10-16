@@ -911,3 +911,100 @@ describe('night’s-last-third alert', () => {
     });
   });
 });
+
+describe('how an alert is delivered and grouped', () => {
+  type DeliveredCall = {
+    content: { threadIdentifier?: string };
+    trigger: { delivery?: string };
+  };
+  const delivered = (): DeliveredCall[] => scheduled() as unknown as DeliveredCall[];
+  const exactAlarmMock = jest.mocked(Notifications.getExactAlarmPermissionsAsync);
+  const permission = (granted: boolean) => ({
+    granted,
+    status: granted ? PermissionStatus.GRANTED : PermissionStatus.DENIED,
+    canAskAgain: true,
+    expires: 'never' as const,
+  });
+
+  beforeEach(async () => {
+    jest.useFakeTimers({ now: PINNED_NOW, doNotFake: [...REAL_TIMER_APIS] });
+    jest.clearAllMocks();
+    scheduleMock.mockImplementation(async () => 'id');
+    getAllScheduledMock.mockImplementation(async () => []);
+    exactAlarmMock.mockResolvedValue(permission(true));
+    resetSyncStateForTests();
+    await AsyncStorage.clear();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it('delivers every alert as an alarm clock on Android once the reader opts in', async () => {
+    await withPlatform('android', () =>
+      syncPrayerNotifications(STOCKHOLM, withNotifications({ alarmClock: true, lastThird: true })),
+    );
+    expect(delivered().length).toBeGreaterThan(0);
+    // ALL of them: the system's next-alarm display follows the earliest pending alarm
+    // clock, so a subset would carry the full cost and protect only some alerts.
+    expect(delivered().every((c) => c.trigger.delivery === 'alarmClock')).toBe(true);
+  });
+
+  // REGRESSION GUARD: alarm-clock delivery takes over the phone's "next alarm" — the
+  // lock-screen chip, the status icon, and the end of a Do Not Disturb schedule set to stop
+  // at the next alarm. Nobody may get that without asking for it.
+  it('never delivers as an alarm clock unless asked', async () => {
+    await withPlatform('android', () => syncPrayerNotifications(STOCKHOLM, withNotifications({})));
+    expect(delivered().length).toBeGreaterThan(0);
+    expect(delivered().some((c) => c.trigger.delivery !== undefined)).toBe(false);
+  });
+
+  it('sends no delivery mode on iOS, which has no such distinction', async () => {
+    await withPlatform('ios', () =>
+      syncPrayerNotifications(STOCKHOLM, withNotifications({ alarmClock: true })),
+    );
+    expect(delivered().some((c) => 'delivery' in c.trigger)).toBe(false);
+  });
+
+  // REGRESSION GUARD: Android picks an alarm's delivery path when the alarm is SET. Granting
+  // the exact-alarm permission later does not upgrade alarms already pending, so a grant
+  // has to trigger a fresh schedule — otherwise every alert stays inexact until midnight,
+  // when the date in the sync stamp finally changes.
+  it('re-plans the alerts the moment exact alarms become allowed', async () => {
+    const settings = withNotifications({});
+    exactAlarmMock.mockResolvedValue(permission(false));
+    await withPlatform('android', () => syncPrayerNotifications(STOCKHOLM, settings));
+    scheduleMock.mockClear();
+
+    exactAlarmMock.mockResolvedValue(permission(true));
+    await withPlatform('android', () => syncPrayerNotifications(STOCKHOLM, settings));
+    expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+  });
+
+  // A read that fails (a headless wake-up, an old OS) must not count as a change, or every
+  // background run would cancel and re-create the whole horizon.
+  it('treats an unreadable exact-alarm state as unchanged', async () => {
+    const settings = withNotifications({});
+    await withPlatform('android', () => syncPrayerNotifications(STOCKHOLM, settings));
+    scheduleMock.mockClear();
+
+    exactAlarmMock.mockRejectedValueOnce(new Error('module unavailable'));
+    await withPlatform('android', () => syncPrayerNotifications(STOCKHOLM, settings));
+    expect(scheduleMock.mock.calls).toHaveLength(0);
+  });
+
+  it('threads every prayer alert together on iOS', async () => {
+    await withPlatform('ios', () =>
+      syncPrayerNotifications(STOCKHOLM, withNotifications({ lastThird: true })),
+    );
+    expect(delivered().length).toBeGreaterThan(0);
+    expect(delivered().every((c) => c.content.threadIdentifier === 'prayer-times')).toBe(true);
+  });
+
+  // On Android the same field is a group key, and Expo then posts a summary notification of
+  // its own above the group: an extra entry in the shade that nobody asked for.
+  it('leaves Android ungrouped', async () => {
+    await withPlatform('android', () => syncPrayerNotifications(STOCKHOLM, withNotifications({})));
+    expect(delivered().some((c) => c.content.threadIdentifier !== undefined)).toBe(false);
+  });
+});

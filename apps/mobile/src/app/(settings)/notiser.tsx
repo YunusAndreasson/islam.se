@@ -22,13 +22,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
 import { OptionGroup } from '@/components/settings/OptionGroup';
 import { SettingSection } from '@/components/settings/SettingSection';
+import { Toggle } from '@/components/settings/Toggle';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Icon } from '@/components/ui/Icon';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { HAS_ADHAN_AUDIO, useAdhanPreview } from '@/lib/adhan-audio';
 import { useLocation } from '@/lib/location/context';
 import { alertsPerDay, nextAlertAt, NOTIFY_PRAYERS, type NotifyPrayerKey } from '@/lib/notifications';
-import { useNotificationPermission } from '@/lib/notifications-permission';
+import { useExactAlarmPermission, useNotificationPermission } from '@/lib/notifications-permission';
 import { formatTime, PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
 import { relativeDayLabel } from '@/lib/relative-day';
 import { useSettings } from '@/lib/settings/context';
@@ -49,6 +50,7 @@ import type { NotificationSettings, NotificationSoundKey } from '@/lib/settings/
 import { startOfZoneDay } from '@/lib/zone-time';
 import {
   openBatteryOptimizationSettings,
+  openExactAlarmSettings,
   openNotificationSettings,
   systemSettingsName,
 } from '@/lib/system-settings';
@@ -247,7 +249,13 @@ export default function Notiser() {
           </DisclosureGroup>
         </SettingSection>
 
-        <DeliveryTroubleshooting styles={styles} colors={colors} />
+        <DeliveryTroubleshooting
+          styles={styles}
+          colors={colors}
+          active={isFocused}
+          alarmClock={n.alarmClock}
+          onAlarmClockChange={(alarmClock) => patch({ alarmClock })}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -293,7 +301,8 @@ function AdhanPreviewRow({
 }
 
 /**
- * The two Android settings that silently stop a correctly scheduled alert.
+ * The Android settings that silently stop a correctly scheduled alert, and the one way the
+ * app can push back.
  *
  * Everything else on this screen configures what the app does. This configures what the OS
  * is allowed to do with it, and it is here because on Android the app can be blameless and
@@ -309,15 +318,30 @@ function AdhanPreviewRow({
 function DeliveryTroubleshooting({
   styles,
   colors,
+  active,
+  alarmClock,
+  onAlarmClockChange,
 }: {
   styles: ReturnType<typeof makeStyles>;
   colors: SettingsColors;
+  active: boolean;
+  alarmClock: boolean;
+  onAlarmClockChange: (alarmClock: boolean) => void;
 }) {
+  const exact = useExactAlarmPermission(active && Platform.OS === 'android');
   if (Platform.OS !== 'android') return null;
+  // Without the exact-alarm permission no alert is exact, alarm clock or not — so the switch
+  // would promise something it cannot do. Offer the way to the permission instead. In
+  // practice this is Android 12/12L after a revoke: 13+ grants it for good to this app.
+  const denied = exact === 'denied';
   return (
     <SettingSection
       title="Om påminnelser inte kommer fram"
-      footnote="Android kan tysta enskilda ljudkanaler och försätta appar i djup vila. Båda ligger i systemets inställningar."
+      footnote={
+        denied
+          ? 'Appen får inte ställa exakta alarm, så påminnelser kan komma flera minuter sent. Android kan också tysta enskilda ljudkanaler och försätta appar i djup vila.'
+          : 'Android kan tysta enskilda ljudkanaler och försätta appar i djup vila.'
+      }
     >
       <Pressable
         onPress={openNotificationSettings}
@@ -337,6 +361,26 @@ function DeliveryTroubleshooting({
         <Text style={styles.rowAction}>Batterioptimering</Text>
         <Icon name="externalLink" size={18} color={colors.accent} />
       </Pressable>
+      {denied ? (
+        <Pressable
+          onPress={openExactAlarmSettings}
+          accessibilityRole="button"
+          accessibilityLabel="Öppna Androids inställning för alarm och påminnelser"
+          style={({ pressed }) => [styles.row, styles.rowDivider, pressed && styles.rowPressed]}
+        >
+          <Text style={styles.rowAction}>Alarm och påminnelser</Text>
+          <Icon name="externalLink" size={18} color={colors.accent} />
+        </Pressable>
+      ) : (
+        // Opt-in because its price lands outside this app: see NotificationSettings.alarmClock.
+        <Toggle
+          label="Schemalägg som alarm"
+          description="Kommer fram på minuten även i djup vila. Telefonen visar då påminnelsen som nästa alarm, och Stör ej kan sluta vid den."
+          value={alarmClock}
+          onValueChange={onAlarmClockChange}
+          divider
+        />
+      )}
     </SettingSection>
   );
 }

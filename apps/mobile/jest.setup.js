@@ -606,6 +606,10 @@ jest.mock('@sentry/react-native', () => {
 // constants render. Default: permission granted, scheduling is a resolved no-op.
 jest.mock('expo-notifications', () => ({
   setNotificationHandler: jest.fn(),
+  // Android's exact-alarm permission (expo-notifications 58.1.1). Granted by default, as it
+  // is on every Android 13+ install of an app declaring USE_EXACT_ALARM.
+  getExactAlarmPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted', canAskAgain: true, expires: 'never' })),
+  requestExactAlarmPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted', canAskAgain: true, expires: 'never' })),
   getPermissionsAsync: jest.fn(async () => ({ granted: true, canAskAgain: true, status: 'granted' })),
   requestPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted' })),
   setNotificationChannelAsync: jest.fn(async () => null),
