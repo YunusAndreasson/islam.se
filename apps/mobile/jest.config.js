@@ -5,6 +5,12 @@
 module.exports = {
   preset: 'jest-expo',
   setupFiles: ['<rootDir>/jest.setup.js'],
+  // Half the cores, not all but one. The whole-map suites (screens, day-navigation, the soft-ask
+  // and lesson tests) each mount the full map and run 15–20 s alone. With a worker per core they
+  // compete with each other as well as with whatever else the machine is doing, and run past
+  // their time budgets: that stopped the release preflight three times on timing alone. CI's
+  // small runners keep at least one worker.
+  maxWorkers: '50%',
   // Coverage gates ONLY the pure, deterministic correctness core — the same modules
   // Stryker mutates. This is deliberate: these files are where a silent miscalculation
   // hides, and where 100%-meaningful coverage is achievable. IO/native/data glue
