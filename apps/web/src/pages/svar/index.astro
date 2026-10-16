@@ -7,6 +7,7 @@ import Kicker from "../../components/Kicker.astro";
 import TextRowList from "../../components/TextRowList.astro";
 import { FORDJUPNING_INGRESS, getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
+import { RITNINGAR } from "../../lib/ritningar";
 import { groupSvar } from "../../lib/svar";
 
 // FRÅGOR & SVAR — the full, browsable question list. `groupSvar` arranges the
@@ -74,6 +75,7 @@ const description =
 	pageTitle="Frågor och svar om islam – islam.se"
 	description={description}
 	lead="Frågor om tron, vardagen och livet som muslim. Här hittar du svar med stöd i Koranen, sunna och klassisk islamisk lärdom."
+	ritning={RITNINGAR.svar}
 	ogImageAlt="Frågor och svar om islam – islam.se"
 	mainClass="svar-index home"
 	jsonLd={[

@@ -3,6 +3,7 @@ import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import FordjupningCards from "../../components/FordjupningCards.astro";
 import { FORDJUPNING_INGRESS, getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
+import { RITNINGAR } from "../../lib/ritningar";
 
 // FORDJUPNING — the encyclopedic pillar pages. Each covers one broad topic in full
 // (sources, scholarship, history, the Swedish context); the short answers at /svar/
@@ -68,6 +69,7 @@ const description =
 <CollectionIndexPage
 	title="Fördjupning om islam"
 	description={description}
+	ritning={RITNINGAR.fordjupning}
 	ogImageAlt="Fördjupning om islam – islam.se"
 	mainClass="fordjupning-index home"
 	jsonLd={[

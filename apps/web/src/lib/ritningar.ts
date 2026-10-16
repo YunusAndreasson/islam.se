@@ -17,6 +17,8 @@ import bonetiderLjus from "../assets/ritningar/bonetider.webp";
 import bonetiderMork from "../assets/ritningar/bonetider-mork.webp";
 import essaerLjus from "../assets/ritningar/essaer.webp";
 import essaerMork from "../assets/ritningar/essaer-mork.webp";
+import fordjupningLjus from "../assets/ritningar/fordjupning.webp";
+import fordjupningMork from "../assets/ritningar/fordjupning-mork.webp";
 import grundenLjus from "../assets/ritningar/grunden.webp";
 import grundenMork from "../assets/ritningar/grunden-mork.webp";
 import moskeerLjus from "../assets/ritningar/moskeer.webp";
@@ -25,6 +27,8 @@ import poddenLjus from "../assets/ritningar/podden.webp";
 import poddenMork from "../assets/ritningar/podden-mork.webp";
 import skarmenLjus from "../assets/ritningar/skarmen.webp";
 import skarmenMork from "../assets/ritningar/skarmen-mork.webp";
+import svarLjus from "../assets/ritningar/svar.webp";
+import svarMork from "../assets/ritningar/svar-mork.webp";
 import tankareLjus from "../assets/ritningar/tankare.webp";
 import tankareMork from "../assets/ritningar/tankare-mork.webp";
 import temanLjus from "../assets/ritningar/teman.webp";
@@ -53,10 +57,16 @@ export const RITNINGAR = {
 	skarmen: { ljus: skarmenLjus, mork: skarmenMork },
 	/** An old fieldstone arch bridge over a quiet river between birches, a barn on the far
 	 *  meadow, the keystone alone in ochre — Essäer: two banks and one passage, the two
-	 *  traditions the essays read together (2026-10-16). Beside /essaer/'s ingress; the
-	 *  hubs Frågor och svar and Fördjupning were the other two that opened beside empty
-	 *  paper. */
+	 *  traditions the essays read together (2026-10-16). Beside /essaer/'s ingress. */
 	essaer: { ljus: essaerLjus, mork: essaerMork },
+	/** A farmhouse's plank door standing ajar, a lilac by the wall, the key in the lock
+	 *  alone in ochre — Frågor och svar: a question is a door, and the answer the key that
+	 *  opens it (2026-10-17). Beside /svar/'s ingress. */
+	svar: { ljus: svarLjus, mork: svarMork },
+	/** A farmyard well of fieldstone under its windlass, a birch and an outbuilding behind,
+	 *  the bucket on the rope alone in ochre — Fördjupning: what is drawn up from the depth,
+	 *  from the source (2026-10-17). Beside /fordjupning/'s ingress. */
+	fordjupning: { ljus: fordjupningLjus, mork: fordjupningMork },
 	/** A window at first light, a prayer rug on the sill — Bönetider's prose page, /bonetider/metod/. */
 	bonetider: { ljus: bonetiderLjus, mork: bonetiderMork },
 	/** A modest mosque among a Swedish town's roofs and birches. Not placed (DESIGN.md, »The Drawings«). */
