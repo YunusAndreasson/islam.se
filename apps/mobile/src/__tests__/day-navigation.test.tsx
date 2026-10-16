@@ -26,7 +26,11 @@ import { __resetGridCache } from '@/lib/solar/grid-cache';
 
 const LOCATION_HINT_KEY = 'locationHintSeen:v1';
 const NOTIFICATION_HINT_KEY = 'notificationHintSeen:v1';
-const MAP_RENDER_TIMEOUT = 30_000;
+// Each test here mounts the whole map and steps through days, building a fresh solar field for
+// each one: about 15 s alone. Inside the full parallel suite on a loaded machine the slowest
+// has measured past 30 s, on SDK 57 as well as 58, which failed the release preflight on
+// timing alone. The budget guards against a hang; nothing here asserts speed.
+const MAP_RENDER_TIMEOUT = 60_000;
 
 function withProviders(node: ReactNode) {
   return (
