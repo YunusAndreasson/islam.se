@@ -556,8 +556,8 @@ describe('PrayerDock midnight crossing', () => {
       return flat.backgroundColor;
     };
     // Same row, same branch, only `isNext` differs — so the difference IS the highlight.
-    expect(maghribRowBackground('maghrib')).toBeTruthy();
-    expect(maghribRowBackground('asr')).toBeFalsy();
+    expect(await maghribRowBackground('maghrib')).toBeTruthy();
+    expect(await maghribRowBackground('asr')).toBeFalsy();
   });
 
   it('stays out of the way on an ordinary day', async () => {

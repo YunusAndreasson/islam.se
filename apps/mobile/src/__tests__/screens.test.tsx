@@ -784,10 +784,10 @@ describe('tab screens', () => {
       await withPlatform('android', async () => {
         await renderSettled(withProviders(<Notiser />));
         const alarm = await waitFor(() => screen.getByRole('switch', { name: /^Schemalägg som alarm/ }));
-        expect(alarm.props.value).toBe(false);
+        expect(alarm.props.accessibilityState.checked).toBe(false);
         expect(screen.queryByRole('button', { name: /alarm och påminnelser/ })).toBeNull();
 
-        await fireEvent(alarm, 'valueChange', true);
+        await fireEvent.press(alarm);
         await waitFor(async () => {
           const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
           expect(saved.notifications.alarmClock).toBe(true);

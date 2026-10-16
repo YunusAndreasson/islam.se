@@ -81,10 +81,12 @@ const ref = oracleTimes(STOCKHOLM, new Date(2026, 2, 20));
 const BUILT = ref.dhuhr.getTime() - 30 * 60 * 1000;
 const snapshot = buildAndroidSnapshot(STOCKHOLM, DEFAULT_SETTINGS, 'Stockholm', BUILT);
 
-/** Pin only the clock the layout reads (`Date.now()`); timers stay real. */
-function renderAt(instant: number, props: AndroidWidgetSnapshot | undefined = snapshot, env = {}) {
+/** Pin only the clock the layout reads (`Date.now()`); timers stay real. `null` renders with
+ *  no props at all — what the widget gets before the app has pushed anything. (Not
+ *  `undefined`: that would fall back to the default snapshot.) */
+function renderAt(instant: number, props: AndroidWidgetSnapshot | null = snapshot, env = {}) {
   jest.useFakeTimers({ now: instant, doNotFake: ['setTimeout', 'setInterval', 'nextTick', 'setImmediate', 'queueMicrotask'] });
-  return render(props, env);
+  return render(props ?? undefined, env);
 }
 
 afterEach(() => {
@@ -107,7 +109,7 @@ describe('the Android widget layout', () => {
   });
 
   it('shows a placeholder before the app has pushed anything', () => {
-    expect(texts(renderAt(BUILT, undefined))).toEqual([
+    expect(texts(renderAt(BUILT, null))).toEqual([
       'Bönetider',
       'Öppna appen för att läsa in dagens bönetider.',
     ]);
