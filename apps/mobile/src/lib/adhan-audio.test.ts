@@ -28,71 +28,71 @@ beforeEach(() => {
 });
 
 describe('with no adhan in the build', () => {
-  it('reports itself unavailable, so the caller renders nothing', () => {
+  it('reports itself unavailable, so the caller renders nothing', async () => {
     // Not a disabled play button: that promises a feature the build does not have.
     expect(ADHAN_SOURCE).toBeNull();
-    const { result } = renderHook(() => useAdhanPreview());
+    const { result } = await renderHook(() => useAdhanPreview());
     expect(result.current.available).toBe(false);
   });
 
-  it('stays silent even if something presses it anyway', () => {
-    const { result } = renderHook(() => useAdhanPreview());
-    act(() => result.current.toggle());
+  it('stays silent even if something presses it anyway', async () => {
+    const { result } = await renderHook(() => useAdhanPreview());
+    await act(() => result.current.toggle());
     expect(player.play).not.toHaveBeenCalled();
   });
 });
 
 describe('with an adhan in the build', () => {
-  it('plays from the beginning', () => {
+  it('plays from the beginning', async () => {
     // From the beginning every time, not from wherever the last press left off — an
     // audition that starts halfway through tells the reader nothing about the recitation.
-    const { result } = renderHook(() => useAdhanPreview(FAKE_ASSET));
+    const { result } = await renderHook(() => useAdhanPreview(FAKE_ASSET));
 
-    act(() => result.current.toggle());
+    await act(() => result.current.toggle());
 
     expect(player.seekTo).toHaveBeenCalledWith(0);
     expect(player.play).toHaveBeenCalled();
   });
 
-  it('ducks other audio rather than stopping it', () => {
+  it('ducks other audio rather than stopping it', async () => {
     // Someone auditioning a notification sound over a recitation or a podcast should get
     // their audio back afterwards. 'doNotMix' would take it away for good.
-    const { result } = renderHook(() => useAdhanPreview(FAKE_ASSET));
+    const { result } = await renderHook(() => useAdhanPreview(FAKE_ASSET));
 
-    act(() => result.current.toggle());
+    await act(() => result.current.toggle());
 
     expect(setAudioMode).toHaveBeenCalledWith(
       expect.objectContaining({ interruptionMode: 'duckOthers', shouldPlayInBackground: false }),
     );
   });
 
-  it('plays even with the ringer on silent', () => {
+  it('plays even with the ringer on silent', async () => {
     // The reader PRESSED PLAY. Honouring the silent switch here means they press it, hear
     // nothing, and conclude the sound is broken.
-    const { result } = renderHook(() => useAdhanPreview(FAKE_ASSET));
+    const { result } = await renderHook(() => useAdhanPreview(FAKE_ASSET));
 
-    act(() => result.current.toggle());
+    await act(() => result.current.toggle());
 
     expect(setAudioMode).toHaveBeenCalledWith(expect.objectContaining({ playsInSilentMode: true }));
   });
 
-  it('stops and rewinds when pressed while sounding', () => {
+  it('stops and rewinds when pressed while sounding', async () => {
     player.playing = true;
-    const { result } = renderHook(() => useAdhanPreview(FAKE_ASSET));
+    const { result } = await renderHook(() => useAdhanPreview(FAKE_ASSET));
 
-    act(() => result.current.toggle());
+    await act(() => result.current.toggle());
 
     expect(player.pause).toHaveBeenCalled();
     expect(player.seekTo).toHaveBeenCalledWith(0);
     expect(player.play).not.toHaveBeenCalled();
   });
 
-  it('never leaves the adhan sounding out of a screen the reader has left', () => {
+  it('never leaves the adhan sounding out of a screen the reader has left', async () => {
     // Startling anywhere; in a mosque, worse than startling.
     player.playing = true;
-    const { unmount } = renderHook(() => useAdhanPreview(FAKE_ASSET));
+    const { unmount } = await renderHook(() => useAdhanPreview(FAKE_ASSET));
 
-    unmount();
+    await unmount();
 
     expect(player.pause).toHaveBeenCalled();
   });

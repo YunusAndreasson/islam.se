@@ -35,7 +35,7 @@ function PermissionProbe() {
 }
 
 async function mountPermissionProbe(): Promise<void> {
-  render(
+  await render(
     <SettingsProvider>
       <LocationProvider>
         <PermissionProbe />
@@ -69,7 +69,7 @@ describe('LocationProvider startup', () => {
       }),
     );
 
-    render(
+    await render(
       <SettingsProvider>
         <LocationProvider>
           <Probe />
@@ -87,7 +87,7 @@ describe('LocationProvider startup', () => {
       coords: { latitude: Number.NaN, longitude: 18 },
     } as never);
 
-    render(
+    await render(
       <SettingsProvider>
         <LocationProvider>
           <Probe />
@@ -193,7 +193,7 @@ describe('LocationProvider never prompts unprompted', () => {
 
     await mountPermissionProbe();
     await act(async () => {
-      fireEvent.press(screen.getByLabelText('Uppdatera'));
+      await fireEvent.press(screen.getByLabelText('Uppdatera'));
     });
 
     expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalledTimes(1);
@@ -210,7 +210,7 @@ describe('LocationProvider never prompts unprompted', () => {
 
     await mountPermissionProbe();
     await act(async () => {
-      fireEvent.press(screen.getByLabelText('Uppdatera'));
+      await fireEvent.press(screen.getByLabelText('Uppdatera'));
     });
 
     expect(screen.getByTestId('location').props.children).toBe('default:denied');

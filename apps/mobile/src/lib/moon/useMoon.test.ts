@@ -7,10 +7,28 @@ import { useCoarseNow } from './useMoon';
 
 const MINUTE = 60_000;
 let listeners: Set<(state: AppStateStatus) => void>;
-let originalState: AppStateStatus;
+let originalState: typeof AppState.currentState;
+
+/** setInterval timers the code under test has started and not yet cleared. Counted directly
+ *  rather than through jest.getTimerCount(): since React 19.3 / RNTL 14 the renderer keeps
+ *  timers of its own under fake timers (three after a bare render), so the global count no
+ *  longer says anything about the clock hooks, which tick with setInterval. */
+let liveIntervals: Set<unknown>;
 
 beforeEach(() => {
   jest.useFakeTimers();
+  liveIntervals = new Set();
+  const startInterval = globalThis.setInterval;
+  const stopInterval = globalThis.clearInterval;
+  jest.spyOn(globalThis, 'setInterval').mockImplementation((...args: Parameters<typeof setInterval>) => {
+    const id = startInterval(...args);
+    liveIntervals.add(id);
+    return id;
+  });
+  jest.spyOn(globalThis, 'clearInterval').mockImplementation((id?: Parameters<typeof clearInterval>[0]) => {
+    liveIntervals.delete(id);
+    stopInterval(id);
+  });
   jest.setSystemTime(new Date('2026-09-15T10:00:00Z'));
   originalState = AppState.currentState;
   AppState.currentState = 'active';
@@ -25,89 +43,89 @@ afterEach(() => {
   jest.restoreAllMocks();
   jest.useRealTimers();
 });
-function changeState(state: AppStateStatus) {
-  act(() => {
+async function changeState(state: AppStateStatus) {
+  await act(() => {
     AppState.currentState = state;
     for (const listener of listeners) listener(state);
   });
 }
 
 describe('visible clocks', () => {
-  it('removes 10 lunar updates per 10 hidden minutes, resynchronizing on focus', () => {
-    const { result, rerender } = renderHook<number, { active: boolean }>(
+  it('removes 10 lunar updates per 10 hidden minutes, resynchronizing on focus', async () => {
+    const { result, rerender } = await renderHook<number, { active: boolean }>(
       ({ active }) => useCoarseNow(MINUTE, active),
       { initialProps: { active: true } },
     );
     let updates = 0;
     let previous = result.current;
-    const tenMinutes = () => {
+    const tenMinutes = async () => {
       for (let i = 0; i < 10; i++) {
-        act(() => jest.advanceTimersByTime(MINUTE));
+        await act(() => jest.advanceTimersByTime(MINUTE));
         if (result.current !== previous) updates++;
         previous = result.current;
       }
     };
-    tenMinutes();
+    await tenMinutes();
     expect(updates).toBe(10);
-    rerender({ active: false });
+    await rerender({ active: false });
     updates = 0;
-    tenMinutes();
+    await tenMinutes();
     expect(updates).toBe(0);
-    rerender({ active: true });
+    await rerender({ active: true });
     expect(result.current).toBe(Date.now());
   });
 
-  it('stops in background, avoids duplicate foreground timers, and cleans up on unmount', () => {
-    const { result, unmount } = renderHook(() => useCoarseNow(MINUTE));
+  it('stops in background, avoids duplicate foreground timers, and cleans up on unmount', async () => {
+    const { result, unmount } = await renderHook(() => useCoarseNow(MINUTE));
     const before = result.current;
-    changeState('background');
-    act(() => jest.advanceTimersByTime(10 * MINUTE));
+    await changeState('background');
+    await act(() => jest.advanceTimersByTime(10 * MINUTE));
     expect(result.current).toBe(before);
-    expect(jest.getTimerCount()).toBe(0);
-    changeState('active');
+    expect(liveIntervals.size).toBe(0);
+    await changeState('active');
     expect(result.current).toBe(Date.now());
-    changeState('active');
-    expect(jest.getTimerCount()).toBe(1);
-    unmount();
-    expect(jest.getTimerCount()).toBe(0);
+    await changeState('active');
+    expect(liveIntervals.size).toBe(1);
+    await unmount();
+    expect(liveIntervals.size).toBe(0);
     expect(listeners.size).toBe(0);
   });
 
-  it('starts no lunar timer when mounted in background', () => {
+  it('starts no lunar timer when mounted in background', async () => {
     AppState.currentState = 'background';
-    const { result } = renderHook(() => useCoarseNow(MINUTE));
+    const { result } = await renderHook(() => useCoarseNow(MINUTE));
     const before = result.current;
-    act(() => jest.advanceTimersByTime(10 * MINUTE));
+    await act(() => jest.advanceTimersByTime(10 * MINUTE));
     expect(result.current).toBe(before);
-    expect(jest.getTimerCount()).toBe(0);
-    changeState('active');
+    expect(liveIntervals.size).toBe(0);
+    await changeState('active');
     expect(result.current).toBe(Date.now());
   });
 
-  it('removes 20 solar ticks per 10 inactive minutes and preserves a parked scrub', () => {
-    const { result, rerender } = renderHook<ReturnType<typeof useSolarClock>, { active: boolean }>(
+  it('removes 20 solar ticks per 10 inactive minutes and preserves a parked scrub', async () => {
+    const { result, rerender } = await renderHook<ReturnType<typeof useSolarClock>, { active: boolean }>(
       ({ active }) => useSolarClock(active),
       { initialProps: { active: true } },
     );
     let updates = 0;
     let previous = result.current.now;
     for (let i = 0; i < 20; i++) {
-      act(() => jest.advanceTimersByTime(MINUTE / 2));
+      await act(() => jest.advanceTimersByTime(MINUTE / 2));
       if (result.current.now !== previous) updates++;
       previous = result.current.now;
     }
     expect(updates).toBe(20);
-    rerender({ active: false });
-    act(() => jest.advanceTimersByTime(10 * MINUTE));
+    await rerender({ active: false });
+    await act(() => jest.advanceTimersByTime(10 * MINUTE));
     expect(result.current.now).toBe(previous);
-    expect(jest.getTimerCount()).toBe(0);
-    rerender({ active: true });
+    expect(liveIntervals.size).toBe(0);
+    await rerender({ active: true });
     expect(result.current.now).toBe(Date.now());
-    act(() => result.current.setFraction(0.25));
+    await act(() => result.current.setFraction(0.25));
     const parked = result.current.now;
-    rerender({ active: false });
-    act(() => jest.advanceTimersByTime(10 * MINUTE));
-    rerender({ active: true });
+    await rerender({ active: false });
+    await act(() => jest.advanceTimersByTime(10 * MINUTE));
+    await rerender({ active: true });
     expect(result.current.now).toBe(parked);
     expect(result.current.mode).toBe('scrub');
   });

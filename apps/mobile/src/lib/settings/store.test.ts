@@ -257,6 +257,16 @@ describe('notification lead + sound migration', () => {
     expect(loaded.notifications.lastThirdSound).toBe('adhan');
   });
 
+  // Opt-in only: alarm-clock delivery takes over the phone's "next alarm" display, so a
+  // garbled or missing value must never switch it on.
+  it('keeps alarm-clock delivery off unless a real true was saved', async () => {
+    expect(DEFAULT_SETTINGS.notifications.alarmClock).toBe(false);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ notifications: { alarmClock: 'yes' } }));
+    expect((await loadSettings()).notifications.alarmClock).toBe(false);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ notifications: { alarmClock: true } }));
+    expect((await loadSettings()).notifications.alarmClock).toBe(true);
+  });
+
   it('falls back to the default sound when lastThirdSound is not a known key', async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,

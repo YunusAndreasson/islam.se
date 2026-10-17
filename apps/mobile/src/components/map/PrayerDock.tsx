@@ -49,10 +49,16 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import {
+  GestureDetector,
+  useExclusiveGestures,
+  usePanGesture,
+  useTapGesture,
+} from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
   interpolate,
+  type SharedValue,
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
@@ -190,6 +196,95 @@ export function resolveToggle(g: {
   if (g.velocityY < -FLING_VELOCITY) return true;
   if (g.velocityY > FLING_VELOCITY) return false;
   return g.height > g.mid;
+}
+
+/** What the dock's toggle drag reads and drives. */
+interface TogglePanState {
+  height: SharedValue<number>;
+  startHeight: SharedValue<number>;
+  farthest: SharedValue<number>;
+  /** The open height, on the UI thread. */
+  expanded: SharedValue<number>;
+  targetOpen: SharedValue<boolean>;
+  collapsed: number;
+  /** Worklets — each carries its own 'worklet' directive. */
+  armSchedule: () => void;
+  disarmScheduleIfIdle: () => void;
+  /** JS-thread state change, reached through scheduleOnRN. */
+  applyExpanded: (open: boolean) => void;
+}
+
+/**
+ * A drag that grows/shrinks the dock and snaps open/closed on release. A hook, so the handle
+ * and the hero each get their OWN gesture — gesture-handler does not allow one gesture on two
+ * GestureDetectors. The callbacks are written inline in the config on purpose: that is what
+ * the worklets Babel plugin recognises and workletizes for `usePanGesture`, and a config
+ * assembled elsewhere and passed in would reach the UI thread as plain JS functions.
+ */
+function useTogglePan({
+  height,
+  startHeight,
+  farthest,
+  expanded,
+  targetOpen,
+  collapsed,
+  armSchedule,
+  disarmScheduleIfIdle,
+  applyExpanded,
+}: TogglePanState) {
+  return usePanGesture({
+    onBegin: armSchedule,
+    onActivate: () => {
+      startHeight.set(height.get());
+      farthest.set(0);
+    },
+    onUpdate: (e) => {
+      const ceiling = expanded.get();
+      const raw = startHeight.get() - e.translationY;
+      // Soft ceiling, hard floor — see OVERDRAG_RESISTANCE.
+      height.set(
+        raw > ceiling
+          ? ceiling + (raw - ceiling) * OVERDRAG_RESISTANCE
+          : Math.max(collapsed, raw),
+      );
+      // The FARTHEST the finger ever got, not where it ended: a gesture that goes up and
+      // comes back to the origin was a drag the user changed their mind about, and reading
+      // only the final translation would call it a tap and toggle the card open.
+      farthest.set(Math.max(farthest.get(), Math.abs(e.translationY)));
+    },
+    // Runs for a cancelled drag too (`e.canceled`), deliberately: a card the system took the
+    // touch away from still has to come to rest open or shut, not stop wherever it was.
+    onDeactivate: (e) => {
+      const ceiling = expanded.get();
+      const open = resolveToggle({
+        travelled: farthest.get(),
+        startHeight: startHeight.get(),
+        height: height.get(),
+        velocityY: e.velocityY,
+        mid: (collapsed + ceiling) / 2,
+      });
+      targetOpen.set(open);
+      // Hand the finger's own momentum to the spring. gesture-handler reports velocityY in
+      // POINTS PER SECOND and `height` is in points, so the only conversion needed is the
+      // sign: the card grows as the finger goes up, which is negative translationY. Without
+      // this the card stopped dead at the lift and the spring restarted from rest — a visible
+      // stall at the exact moment the finger leaves, and the one thing that read as "not a
+      // real sheet" however well the rest of the reveal tracked the drag.
+      //
+      // overshootClamping comes WITH it, not instead of it. Released from rest this spring
+      // (ζ ≈ 0.91) overshoots by about a third of a point and nobody could see it; carrying a
+      // hard flick's momentum, it has the energy to bounce a visible band of empty glass in
+      // above the date crown, or to crop the scrubber at the other end. The card is clipped
+      // to its own height, so there is nothing on either side for it to bounce into.
+      height.set(withSpring(open ? ceiling : collapsed, {
+        ...SPRING,
+        velocity: -e.velocityY,
+        overshootClamping: true,
+      }));
+      scheduleOnRN(applyExpanded, open);
+    },
+    onFinalize: disarmScheduleIfIdle,
+  });
 }
 
 // Dock heights (excluding the bottom safe-area inset, which the screen adds). The
@@ -413,7 +508,7 @@ export function PrayerDock({
   // whole dock unfolds off a single continuous value instead of three independent
   // recomputations swapping on a JS boolean. The spring can overshoot past EXPANDED,
   // so every interpolate() below clamps. (Reanimated's canonical bottom-sheet pattern.)
-  const progress = useDerivedValue(() => (height.value - COLLAPSED) / (EXPANDED - COLLAPSED));
+  const progress = useDerivedValue(() => (height.get() - COLLAPSED) / (EXPANDED - COLLAPSED));
 
   // The mounted flag follows the card's own height rather than any gesture callback, because
   // the height is the one thing a drag, a tap, a fling and the launch reveal all agree on —
@@ -435,8 +530,8 @@ export function PrayerDock({
   // driven entirely by `height`, and at rest every row interpolates to opacity 0.
   const armSchedule = () => {
     'worklet';
-    if (mountedSV.value) return;
-    mountedSV.value = true;
+    if (mountedSV.get()) return;
+    mountedSV.set(true);
     scheduleOnRN(setMounted, true);
   };
   // ...and give the rows back when that touch turns out not to have moved the card. The
@@ -446,19 +541,19 @@ export function PrayerDock({
   // card, which is precisely the tree a screen reader must not find (see ScheduleRow).
   const disarmScheduleIfIdle = () => {
     'worklet';
-    if (!mountedSV.value || targetOpen.value || progress.value > MOUNT_EPSILON) return;
-    mountedSV.value = false;
+    if (!mountedSV.get() || targetOpen.get() || progress.get() > MOUNT_EPSILON) return;
+    mountedSV.set(false);
     scheduleOnRN(setMounted, false);
   };
 
   useAnimatedReaction(
-    () => progress.value,
+    () => progress.get(),
     (p) => {
       // In the tree as soon as the card is off its seat (~1px of the travel), out again once
       // it has settled back onto it — so rows are never torn out from under a moving edge.
       const wantMounted = p > MOUNT_EPSILON;
-      if (wantMounted !== mountedSV.value) {
-        mountedSV.value = wantMounted;
+      if (wantMounted !== mountedSV.get()) {
+        mountedSV.set(wantMounted);
         scheduleOnRN(setMounted, wantMounted);
       }
 
@@ -480,80 +575,35 @@ export function PrayerDock({
     [expanded, onExpandedChange, EXPANDED],
   );
 
-  // A drag that grows/shrinks the dock and snaps open/closed on release. Built by a
-  // factory so the handle and the hero each get their OWN instance (gesture-handler
-  // doesn't support sharing one gesture object across two GestureDetectors).
-  // NOT hand-memoised on purpose: the worklets mutate shared values (height / startHeight /
-  // farthest), which react-hooks/immutability forbids inside useMemo/useCallback — wrapping
-  // them would take nine eslint-disables. The React Compiler IS enabled for this app
-  // (app.json → experiments.reactCompiler); whether it chooses to memoise a factory that
-  // mutates shared values is its call and not a claim worth making here. Either way the cost
-  // of getting it wrong is three plain objects per render.
-  const makeTogglePan = () =>
-    Gesture.Pan()
-      .onBegin(armSchedule)
-      .onStart(() => {
-        startHeight.value = height.value;
-        farthest.value = 0;
-      })
-      .onUpdate((e) => {
-        const ceiling = expandedSV.value;
-        const raw = startHeight.value - e.translationY;
-        // Soft ceiling, hard floor — see OVERDRAG_RESISTANCE.
-        height.value =
-          raw > ceiling
-            ? ceiling + (raw - ceiling) * OVERDRAG_RESISTANCE
-            : Math.max(COLLAPSED, raw);
-        // The FARTHEST the finger ever got, not where it ended: a gesture that goes up and
-        // comes back to the origin was a drag the user changed their mind about, and reading
-        // only the final translation would call it a tap and toggle the card open.
-        farthest.value = Math.max(farthest.value, Math.abs(e.translationY));
-      })
-      .onEnd((e) => {
-        const ceiling = expandedSV.value;
-        const open = resolveToggle({
-          travelled: farthest.value,
-          startHeight: startHeight.value,
-          height: height.value,
-          velocityY: e.velocityY,
-          mid: (COLLAPSED + ceiling) / 2,
-        });
-        targetOpen.value = open;
-        // Hand the finger's own momentum to the spring. gesture-handler reports velocityY in
-        // POINTS PER SECOND and `height` is in points, so the only conversion needed is the
-        // sign: the card grows as the finger goes up, which is negative translationY. Without
-        // this the card stopped dead at the lift and the spring restarted from rest — a visible
-        // stall at the exact moment the finger leaves, and the one thing that read as "not a
-        // real sheet" however well the rest of the reveal tracked the drag.
-        //
-        // overshootClamping comes WITH it, not instead of it. Released from rest this spring
-        // (ζ ≈ 0.91) overshoots by about a third of a point and nobody could see it; carrying a
-        // hard flick's momentum, it has the energy to bounce a visible band of empty glass in
-        // above the date crown, or to crop the scrubber at the other end. The card is clipped
-        // to its own height, so there is nothing on either side for it to bounce into.
-        height.value = withSpring(open ? ceiling : COLLAPSED, {
-          ...SPRING,
-          velocity: -e.velocityY,
-          overshootClamping: true,
-        });
-        scheduleOnRN(applyExpanded, open);
-      })
-      .onFinalize(disarmScheduleIfIdle);
+  const togglePan = {
+    height,
+    startHeight,
+    farthest,
+    expanded: expandedSV,
+    targetOpen,
+    collapsed: COLLAPSED,
+    armSchedule,
+    disarmScheduleIfIdle,
+    applyExpanded,
+  };
 
   // No velocity handoff here, and none in the two paths below: a tap, the launch reveal and an
   // assistive-tech activation all start the card from rest, which is what the bare token means.
-  const tap = Gesture.Tap().onEnd(() => {
-    const ceiling = expandedSV.value;
-    const open = height.value < (COLLAPSED + ceiling) / 2;
-    targetOpen.value = open;
-    // Re-arm rather than trust the pan's. Gesture.Exclusive lets this tap win only once the pan
-    // has FAILED, so the pan's onFinalize — and with it the disarm — has already run by the time
-    // we get here, on a card still sitting at its collapsed height. Without this the tap-to-open
-    // path would unmount the schedule and mount it again one frame later, spending the render
-    // onBegin exists to move out of the way.
-    armSchedule();
-    height.value = withSpring(open ? ceiling : COLLAPSED, SPRING);
-    scheduleOnRN(applyExpanded, open);
+  const tap = useTapGesture({
+    onDeactivate: (e) => {
+      if (e.canceled) return;
+      const ceiling = expandedSV.get();
+      const open = height.get() < (COLLAPSED + ceiling) / 2;
+      targetOpen.set(open);
+      // Re-arm rather than trust the pan's. useExclusiveGestures lets this tap win only once
+      // the pan has FAILED, so the pan's onFinalize — and with it the disarm — has already run
+      // by the time we get here, on a card still sitting at its collapsed height. Without this
+      // the tap-to-open path would unmount the schedule and mount it again one frame later,
+      // spending the render onBegin exists to move out of the way.
+      armSchedule();
+      height.set(withSpring(open ? ceiling : COLLAPSED, SPRING));
+      scheduleOnRN(applyExpanded, open);
+    },
   });
 
   // The launch schedule reveal: the host flips `revealSchedule` and the dock springs
@@ -571,8 +621,8 @@ export function PrayerDock({
   // so it can also serve the height re-sync below, where the open/closed flag is already
   // correct and setting it again would only cascade a render.
   const springTo = useEffectEvent((open: boolean) => {
-    targetOpen.value = open;
-    height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
+    targetOpen.set(open);
+    height.set(withSpring(open ? EXPANDED : COLLAPSED, SPRING));
     onExpandedChange?.(open, EXPANDED);
   });
   const onReveal = useEffectEvent((open: boolean) => {
@@ -602,10 +652,10 @@ export function PrayerDock({
   // rows mount at touch-down now, so the measurement lands while the finger is still on the
   // card, and `targetOpen` is still false until the release decides.
   useAnimatedReaction(
-    () => expandedSV.value,
+    () => expandedSV.get(),
     (next, prev) => {
       if (prev === null || next === prev) return;
-      if (!targetOpen.value) return;
+      if (!targetOpen.get()) return;
       height.set(withSpring(next, SPRING));
     },
   );
@@ -646,12 +696,13 @@ export function PrayerDock({
   // layers in a Pressable inside this GestureDetector does not give the nested chip and
   // "Välj plats" button the touch the way plain nested Pressables would: on Android a tap
   // on the chip fired BOTH — the clock returned to live AND the dock toggled — while taps
-  // on the hero's own empty spacer registered inconsistently. Doing it properly needs
-  // Gesture.Native() on each nested button plus blocksExternalGesture() on a hero
-  // Gesture.Tap, which is a lot of arbitration to hang on the dock's two most delicate
-  // controls. The handle above remains the toggle.
-  const gesture = Gesture.Exclusive(makeTogglePan(), tap);
-  const heroGesture = makeTogglePan();
+  // on the hero's own empty spacer registered inconsistently. Doing it properly needs a
+  // native gesture on each nested button plus a hero tap that blocks them, which is a lot
+  // of arbitration to hang on the dock's two most delicate controls. The handle above
+  // remains the toggle.
+  const handlePan = useTogglePan(togglePan);
+  const gesture = useExclusiveGestures(handlePan, tap);
+  const heroGesture = useTogglePan(togglePan);
 
   useImperativeHandle(ref, () => ({
     collapse() {
@@ -663,10 +714,10 @@ export function PrayerDock({
     },
   }));
 
-  const heightStyle = useAnimatedStyle(() => ({ height: height.value }));
+  const heightStyle = useAnimatedStyle(() => ({ height: height.get() }));
   // One reversible reveal for the whole schedule. The summary never fades or swaps.
   const scheduleReveal = useAnimatedStyle(() => ({
-    opacity: interpolate(progress.value, [0, 0.35], [0, 1], Extrapolation.CLAMP),
+    opacity: interpolate(progress.get(), [0, 0.35], [0, 1], Extrapolation.CLAMP),
   }));
 
   // Returning to "now" is the one action offered in two places (preview badge +
@@ -1492,61 +1543,61 @@ function SolarTimeline({
   // stale, pre-drag value for several frames at drag-release and snap the thumb back
   // before the committed time lands. Written only here, so no worklet mutates it.
   useEffect(() => {
-    follow.value = withTiming(trackFraction, { duration: motion.base });
+    follow.set(withTiming(trackFraction, { duration: motion.base }));
     // eslint-disable-next-line react-hooks/exhaustive-deps -- follow is a stable shared-value ref
   }, [trackFraction]);
 
-  // NOT hand-memoised: the worklets mutate shared values (prog/dragging/lastHaptic/lastSent),
-  // which react-hooks/immutability forbids inside useMemo. The React Compiler is enabled
-  // (app.json → experiments.reactCompiler); the per-render rebuild is one gesture object.
-  const pan = Gesture.Pan()
-    .minDistance(0)
+  // The hook takes this config afresh on every render, so the worklets below always see the
+  // current `trackW` and `markTracks` — the same guarantee the per-render builder used to give.
+  const pan = usePanGesture({
+    minDistance: 0,
     // Down to the card's bottom edge, so the drag target is band + ruler + this = 48 dp
     // (see TRACK_BAND_H). Downward only: above the band is the summary, which carries the
     // dock's own toggle pan.
-    .hitSlop({ bottom: DOCK_FOOTER_PAD })
-    .onBegin((e) => {
-      dragging.value = true;
+    hitSlop: { bottom: DOCK_FOOTER_PAD },
+    onBegin: (e) => {
+      dragging.set(true);
       scheduleOnRN(hapticGrab);
       if (trackW <= 0) return;
-      grabOffset.value = scrubGrabOffset(e.x, follow.value * trackW);
-      const f = Math.max(0, Math.min(1, (e.x + grabOffset.value) / trackW));
-      prog.value = f;
-      lastHaptic.value = f;
-      lastSent.value = f;
+      grabOffset.set(scrubGrabOffset(e.x, follow.get() * trackW));
+      const f = Math.max(0, Math.min(1, (e.x + grabOffset.get()) / trackW));
+      prog.set(f);
+      lastHaptic.set(f);
+      lastSent.set(f);
       scheduleOnRN(scrubToTrack, f);
-    })
-    .onUpdate((e) => {
+    },
+    onUpdate: (e) => {
       if (trackW <= 0) return;
-      const f = Math.max(0, Math.min(1, (e.x + grabOffset.value) / trackW));
-      prog.value = f;
+      const f = Math.max(0, Math.min(1, (e.x + grabOffset.get()) / trackW));
+      prog.set(f);
       // Selection tick when the thumb sweeps past one of the day's prayers. Compared in
       // track space: `f` is where the finger is, and a prayer's place on the track is not
       // its fraction of the day any more.
       for (let i = 0; i < markTracks.length; i++) {
         const m = markTracks[i];
         if (m === undefined) continue;
-        if ((lastHaptic.value < m && f >= m) || (lastHaptic.value > m && f <= m)) {
+        if ((lastHaptic.get() < m && f >= m) || (lastHaptic.get() > m && f <= m)) {
           scheduleOnRN(hapticSelection);
           break;
         }
       }
-      lastHaptic.value = f;
+      lastHaptic.set(f);
       // Throttle the JS field recompute; the thumb above stays at 60fps. The step is in
       // TRACK space (≈0.6 px), so the recompute cadence is tied to how far the finger has
       // travelled rather than to how much time passed under it — which is the whole point
       // of the warp: inside a prayer's well the same 0.6 px is a minute and a half, and a
       // step measured in day-fractions would have stopped updating exactly there.
-      if (Math.abs(f - lastSent.value) >= SCRUB_SEND_STEP) {
-        lastSent.value = f;
+      if (Math.abs(f - lastSent.get()) >= SCRUB_SEND_STEP) {
+        lastSent.set(f);
         scheduleOnRN(scrubToTrack, f);
       }
-    })
-    .onFinalize(() => {
-      dragging.value = false;
+    },
+    onFinalize: () => {
+      dragging.set(false);
       scheduleOnRN(hapticRelease);
-      scheduleOnRN(scrubToTrack, prog.value);
-    });
+      scheduleOnRN(scrubToTrack, prog.get());
+    },
+  });
 
   // Dragging → the finger (`prog`, 60fps on the UI thread); idle → the eased clock
   // mirror (`follow`). Both are shared values, so neither is hostage to JS-thread lag
@@ -1561,15 +1612,15 @@ function SolarTimeline({
   // a full-width bar slid left inside a clipping band (see trackFillClip), so its rounded
   // end stays round instead of being squashed by a scaleX.
   const fillStyle = useAnimatedStyle(() => {
-    const f = dragging.value ? prog.value : follow.value;
+    const f = dragging.get() ? prog.get() : follow.get();
     return { transform: [{ translateX: (f - 1) * trackW }] };
   });
   const thumbStyle = useAnimatedStyle(() => {
-    const f = dragging.value ? prog.value : follow.value;
+    const f = dragging.get() ? prog.get() : follow.get();
     return {
       transform: [
         { translateX: f * trackW - THUMB / 2 },
-        { scale: withSpring(dragging.value ? 1.16 : 1, SPRING) },
+        { scale: withSpring(dragging.get() ? 1.16 : 1, SPRING) },
       ],
     };
   });

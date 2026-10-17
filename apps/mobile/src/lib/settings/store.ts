@@ -197,6 +197,7 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
         NOTIFICATION_SOUNDS,
         DEFAULT_SETTINGS.notifications.lastThirdSound,
       ),
+      alarmClock: booleanValue(rawNotifications.alarmClock, DEFAULT_SETTINGS.notifications.alarmClock),
       prayers: {
         fajr: booleanValue(rawPrayers.fajr, DEFAULT_SETTINGS.notifications.prayers.fajr),
         dhuhr: booleanValue(rawPrayers.dhuhr, DEFAULT_SETTINGS.notifications.prayers.dhuhr),

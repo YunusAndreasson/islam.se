@@ -86,6 +86,13 @@ module.exports = defineConfig([
       // narrowing usually means a type moved and nobody noticed.
       '@typescript-eslint/no-redundant-type-constituents': 'error',
       '@typescript-eslint/no-duplicate-type-constituents': 'error',
+      // Off for TypeScript, as typescript-eslint advises: tsc already fails on a member a
+      // namespace import does not have, and this rule re-derives the same answer from the
+      // package's compiled JS — badly. Expo SDK 58 compiles enums to
+      // `export var X = /*#__PURE__*/ function(X){…}({})`, which its export map does not
+      // follow, so `Notifications.AndroidImportance` read as missing while tsc (and the
+      // runtime) had it.
+      'import/namespace': 'off',
 
       // DELIBERATELY NOT ENABLED — measured on this tree, and both would cost safety:
       //

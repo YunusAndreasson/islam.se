@@ -3,27 +3,27 @@
 // Those are exactly the properties two real bugs turned on (see the file's ⚠️ header), so
 // they are worth pinning even though no map is rendered here.
 import { describe, expect, it } from '@jest/globals';
-import { render, screen } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 
 import { getMosques } from '@/lib/mosques';
 import { at } from '@/test-utils/at';
+import { hostsOfType } from '@/test-utils/rendered';
 import { MosqueLayer } from './MosqueLayer';
 
 /** The binding is string-mocked in jest.setup, so its components are host elements and can
  *  be read back by element type. */
 function sourcesAndLayers() {
-  const root = screen.UNSAFE_root;
   return {
-    sources: root.findAllByType('GeoJSONSource' as never),
-    layers: root.findAllByType('Layer' as never),
+    sources: hostsOfType('GeoJSONSource'),
+    layers: hostsOfType('Layer'),
   };
 }
 
 const noop = () => {};
 
 describe('MosqueLayer sources', () => {
-  it('makes only the glyph tier tappable, and with a tighter hitbox than a button', () => {
-    render(<MosqueLayer onSelect={noop} />);
+  it('makes only the glyph tier tappable, and with a tighter hitbox than a button', async () => {
+    await render(<MosqueLayer onSelect={noop} />);
     const { sources } = sourcesAndLayers();
 
     const dust = at(
@@ -56,8 +56,8 @@ describe('MosqueLayer selection ring', () => {
   // painted OVER the mosque glyph and its label halo instead of around them, exactly
   // contradicting the file's own header. Mounting it with the rest of the style is what makes
   // the declaration order hold at runtime, so "always present" is the invariant, not a detail.
-  it('is mounted with the style even when no card is open, drawing nothing until one is', () => {
-    render(<MosqueLayer onSelect={noop} />);
+  it('is mounted with the style even when no card is open, drawing nothing until one is', async () => {
+    await render(<MosqueLayer onSelect={noop} />);
     const { layers } = sourcesAndLayers();
 
     const ring = at(
@@ -69,9 +69,9 @@ describe('MosqueLayer selection ring', () => {
     expect(ring.props.filter).toEqual(['==', ['get', 'id'], '']);
   });
 
-  it('rings the selected mosque, filtered to exactly that one', () => {
+  it('rings the selected mosque, filtered to exactly that one', async () => {
     const mosque = at(getMosques(), 0, 'mosques');
-    render(<MosqueLayer onSelect={noop} selectedId={mosque.id} />);
+    await render(<MosqueLayer onSelect={noop} selectedId={mosque.id} />);
     const { layers } = sourcesAndLayers();
 
     const ring = at(
@@ -92,14 +92,14 @@ describe('MosqueLayer selection ring', () => {
   // THE BUG THIS FORBIDS: putting the ring on the pressable source would make it a tap
   // target of its own — and below z7, where the glyph layer does not exist, the ONLY one.
   // A tap meant to dismiss the card would re-open it.
-  it('keeps the ring on the source that cannot be tapped', () => {
+  it('keeps the ring on the source that cannot be tapped', async () => {
     const mosque = at(getMosques(), 0, 'mosques');
-    render(<MosqueLayer onSelect={noop} selectedId={mosque.id} />);
+    await render(<MosqueLayer onSelect={noop} selectedId={mosque.id} />);
     const { sources } = sourcesAndLayers();
 
     const pressable = sources.filter((s) => typeof s.props.onPress === 'function');
     for (const source of pressable) {
-      const owned = source.findAllByType('Layer' as never).map((l) => l.props.id);
+      const owned = source.queryAll((node) => node.type === 'Layer').map((layer) => layer.props.id);
       expect(owned).not.toContain('mosque-selected');
     }
   });

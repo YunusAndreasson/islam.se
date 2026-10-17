@@ -5,6 +5,12 @@
 module.exports = {
   preset: 'jest-expo',
   setupFiles: ['<rootDir>/jest.setup.js'],
+  // Half the cores, not all but one. The whole-map suites (screens, day-navigation, the soft-ask
+  // and lesson tests) each mount the full map and run 15–20 s alone. With a worker per core they
+  // compete with each other as well as with whatever else the machine is doing, and run past
+  // their time budgets: that stopped the release preflight three times on timing alone. CI's
+  // small runners keep at least one worker.
+  maxWorkers: '50%',
   // Coverage gates ONLY the pure, deterministic correctness core — the same modules
   // Stryker mutates. This is deliberate: these files are where a silent miscalculation
   // hides, and where 100%-meaningful coverage is achievable. IO/native/data glue
@@ -18,6 +24,8 @@ module.exports = {
     'src/lib/intro.ts',
     'src/lib/prayer-times.ts',
     'src/lib/night-times.ts',
+    // What every alert says, shared with the Live Activity's stale view.
+    'src/lib/alert-copy.ts',
     'src/lib/hijri.ts',
     // The Moon. Every one of these is pure and deterministic — the phase bands, the day
     // marks, the crescent geometry, Odeh's criterion and the sentences built from them —
@@ -44,6 +52,9 @@ module.exports = {
     'src/lib/settings/compute-signature.ts',
     'src/widget/payload.ts',
     'src/widget/timeline.ts',
+    // What the Android widget is handed and which entry it shows: the guard against a home
+    // screen naming a prayer that has passed.
+    'src/widget/android-snapshot.ts',
     'src/lib/map/projection.ts',
     'src/lib/map/projection-guard.ts',
     'src/lib/map/map-diagnostics.ts',

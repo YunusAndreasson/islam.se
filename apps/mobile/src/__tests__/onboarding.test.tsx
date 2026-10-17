@@ -70,7 +70,7 @@ function answerLocation(status: 'granted' | 'denied'): void {
 /** Renders the flow and drains the providers' hydration promises, so nothing below runs
  *  against the pre-hydration `loaded === false` ground. */
 async function launch(): Promise<void> {
-  render(
+  await render(
     <SettingsProvider>
       <IntroProvider>
         <LocationProvider>
@@ -84,7 +84,7 @@ async function launch(): Promise<void> {
 
 async function press(label: string): Promise<void> {
   await act(async () => {
-    fireEvent.press(screen.getByText(label));
+    await fireEvent.press(screen.getByText(label));
   });
   await act(async () => {});
 }
@@ -298,8 +298,8 @@ describe('the introduction', () => {
       // Both presses land in the same frame, before any state update has committed —
       // which is exactly the case a `busy` state cannot catch and the in-flight ref can.
       await act(async () => {
-        fireEvent.press(screen.getByText('Använd min plats'));
-        fireEvent.press(screen.getByText('Använd min plats'));
+        await fireEvent.press(screen.getByText('Använd min plats'));
+        await fireEvent.press(screen.getByText('Använd min plats'));
       });
       await act(async () => {});
 

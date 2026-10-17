@@ -43,66 +43,66 @@ function Controlled({
 }
 
 describe('Stepper', () => {
-  it('counts every tap in a batch, not just the last one', () => {
-    render(<Controlled />);
+  it('counts every tap in a batch, not just the last one', async () => {
+    await render(<Controlled />);
     const plus = screen.getByLabelText('Öka Fajr');
 
-    act(() => {
-      fireEvent.press(plus);
-      fireEvent.press(plus);
-      fireEvent.press(plus);
+    await act(async () => {
+      await fireEvent.press(plus);
+      await fireEvent.press(plus);
+      await fireEvent.press(plus);
     });
 
     expect(screen.getByText('3')).toBeTruthy();
   });
 
-  it('keeps counting across batches, in both directions', () => {
-    render(<Controlled />);
+  it('keeps counting across batches, in both directions', async () => {
+    await render(<Controlled />);
     const plus = screen.getByLabelText('Öka Fajr');
     const minus = screen.getByLabelText('Minska Fajr');
 
-    act(() => {
-      fireEvent.press(plus);
-      fireEvent.press(plus);
+    await act(async () => {
+      await fireEvent.press(plus);
+      await fireEvent.press(plus);
     });
-    act(() => {
-      fireEvent.press(plus);
+    await act(async () => {
+      await fireEvent.press(plus);
     });
     expect(screen.getByText('3')).toBeTruthy();
 
-    act(() => {
-      fireEvent.press(minus);
-      fireEvent.press(minus);
+    await act(async () => {
+      await fireEvent.press(minus);
+      await fireEvent.press(minus);
     });
     expect(screen.getByText('1')).toBeTruthy();
 
     // Mixed directions inside one batch cancel exactly rather than both being lost.
-    act(() => {
-      fireEvent.press(plus);
-      fireEvent.press(minus);
+    await act(async () => {
+      await fireEvent.press(plus);
+      await fireEvent.press(minus);
     });
     expect(screen.getByText('1')).toBeTruthy();
   });
 
-  it('clamps a burst at the limit and steps straight back off it', () => {
+  it('clamps a burst at the limit and steps straight back off it', async () => {
     const onChange = jest.fn<(value: number) => void>();
-    render(<Controlled min={0} max={3} onChange={onChange} />);
+    await render(<Controlled min={0} max={3} onChange={onChange} />);
     const plus = screen.getByLabelText('Öka Fajr');
     const minus = screen.getByLabelText('Minska Fajr');
 
-    act(() => {
-      for (let i = 0; i < 6; i++) fireEvent.press(plus);
+    await act(async () => {
+      for (let i = 0; i < 6; i++) await fireEvent.press(plus);
     });
     expect(screen.getByText('3')).toBeTruthy();
     // No "debt" left behind by the three taps that hit the rail: one tap back is 2, not a
     // silent walk down from 6.
-    act(() => fireEvent.press(minus));
+    await fireEvent.press(minus);
     expect(screen.getByText('2')).toBeTruthy();
     expect(onChange).toHaveBeenLastCalledWith(2);
   });
 
-  it('reports the value it is showing to a screen reader', () => {
-    render(<Controlled initial={5} />);
+  it('reports the value it is showing to a screen reader', async () => {
+    await render(<Controlled initial={5} />);
     // The number lives in its own Text node, so the row has to carry it — pressing "Öka
     // Fajr" otherwise changes something nothing announces.
     expect(screen.getByLabelText('Fajr')).toHaveAccessibilityValue({ text: '5' });

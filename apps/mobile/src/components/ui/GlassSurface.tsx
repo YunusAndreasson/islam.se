@@ -38,7 +38,14 @@ import {
   useRef,
   useState,
 } from 'react';
-import { AccessibilityInfo, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import {
+  AccessibilityInfo,
+  type StyleProp,
+  StyleSheet,
+  View,
+  type ViewInstance,
+  type ViewStyle,
+} from 'react-native';
 
 // Native capability is fixed for the process lifetime — resolve it once. We require BOTH:
 // the runtime API actually exists (isGlassEffectAPIAvailable) AND the Liquid Glass design
@@ -61,12 +68,12 @@ const LIQUID_GLASS = isGlassEffectAPIAvailable() && isLiquidGlassAvailable();
 // behind-blur is invisible anyway) get `blurMethod="none"` — the same flat-tint
 // fallback expo-blur used to silently apply, now stated explicitly instead of
 // warning on every mount.
-const BlurTargetContext = createContext<RefObject<View | null> | null>(null);
+const BlurTargetContext = createContext<RefObject<ViewInstance | null> | null>(null);
 
 /** Provides one blur-target ref to a whole screen. Must wrap BOTH the
  *  GlassBackdropTarget and every GlassSurface that should sample it. */
 export function GlassBackdropProvider({ children }: { children: ReactNode }) {
-  const ref = useRef<View>(null);
+  const ref = useRef<ViewInstance>(null);
   return <BlurTargetContext value={ref}>{children}</BlurTargetContext>;
 }
 

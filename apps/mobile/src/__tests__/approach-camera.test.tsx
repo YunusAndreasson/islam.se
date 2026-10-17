@@ -74,14 +74,14 @@ function withProviders(node: ReactNode) {
 
 async function settle(zoom: number, userInteraction: boolean, bounds = SWEDEN): Promise<void> {
   await act(async () => {
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+    await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
       nativeEvent: { zoom, bounds, userInteraction },
     });
   });
 }
 
 async function openMap(): Promise<void> {
-  render(withProviders(<Bonetider />));
+  await render(withProviders(<Bonetider />));
   await act(async () => {});
 }
 
@@ -193,7 +193,7 @@ describe('the map leaning toward a prayer', () => {
     await launchMap();
     await settle(6, true);
 
-    fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
+    await fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
     expect(camera().fitBounds).toHaveBeenCalledTimes(1);
     await settle(HOME_ZOOM, false);
 
@@ -207,16 +207,16 @@ describe('the map leaning toward a prayer', () => {
     await openMap();
     // Step to tomorrow before the camera settles: the first settle then lands in scrub mode.
     await act(async () => {
-      fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
+      await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
     });
     await act(async () => {
-      fireEvent.press(screen.getByRole('button', { name: 'Nästa dag' }));
+      await fireEvent.press(screen.getByRole('button', { name: 'Nästa dag' }));
     });
     await settle(HOME_ZOOM, false);
     expect(camera().easeTo).not.toHaveBeenCalled();
 
     await act(async () => {
-      fireEvent.press(screen.getByLabelText('Återgå till i dag'));
+      await fireEvent.press(screen.getByLabelText('Återgå till i dag'));
     });
     expect(camera().easeTo).toHaveBeenCalledTimes(1);
     // Stepping builds tomorrow's whole-country grid, the heaviest render in this file; under a

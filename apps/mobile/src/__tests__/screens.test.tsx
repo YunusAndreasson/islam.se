@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import * as MailComposer from 'expo-mail-composer';
@@ -27,6 +27,8 @@ import { __resetGridCache } from '@/lib/solar/grid-cache';
 import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { LogManager } from '@maplibre/maplibre-react-native';
+import { first } from '@/test-utils/at';
+import { hostsOfType, oneOfType } from '@/test-utils/rendered';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
 
@@ -104,7 +106,7 @@ function withProviders(node: ReactNode) {
 // warnings. Rendering through here drains that microtask chain inside act so the warnings
 // don't appear (and a future CI that fails on console.error stays green).
 async function renderSettled(node: ReactElement): Promise<void> {
-  render(node);
+  await render(node);
   await act(async () => {});
 }
 
@@ -180,15 +182,15 @@ describe('tab screens', () => {
       // with a heading, "…du är vänd mot Mecka" on lock, "…kompassen är inte tillgänglig"
       // with no magnetometer (which is the case under test). What this asserts is the
       // ROUTE, so pinning the exact wording would only make it break on a copy tweak.
-      fireEvent.press(screen.getByRole('button', { name: /^Qibla/ }));
+      await fireEvent.press(screen.getByRole('button', { name: /^Qibla/ }));
       expect(router.navigate).toHaveBeenCalledWith('/qibla');
 
       // Same prefix trick for the Moon: its label carries tonight's phase and Hijri date, so
       // pinning the whole string would break on every new moon rather than on a real fault.
-      fireEvent.press(screen.getByRole('button', { name: /^Månen –/ }));
+      await fireEvent.press(screen.getByRole('button', { name: /^Månen –/ }));
       expect(router.navigate).toHaveBeenCalledWith('/manen');
 
-      fireEvent.press(screen.getByRole('button', { name: 'Inställningar' }));
+      await fireEvent.press(screen.getByRole('button', { name: 'Inställningar' }));
       expect(router.navigate).toHaveBeenCalledWith('/installningar');
     },
     MAP_RENDER_TIMEOUT,
@@ -278,9 +280,9 @@ describe('tab screens', () => {
   // home — a location glyph beside the qibla arrow that read as a second compass. For a
   // reader in Sweden it now exists only while there is something to reset (see MapAction
   // in components/nav/MapNav).
-  it('shows a reader in Sweden no map control beside the cog on the home view', () => atQuietHour(async () => {
+  it('shows a reader in Sweden no map control beside the cog on the home view', async () => atQuietHour(async () => {
     await renderSettled(withProviders(<Bonetider />));
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
+    await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
       zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
     } });
     // The nav itself is up — so the two absences below are the disc's, not the whole row's.
@@ -291,24 +293,24 @@ describe('tab screens', () => {
 
   // …but a reader abroad cannot see their dot on the Sweden home view at all, and before the
   // position control came back for them the only way to it was panning across a continent.
-  it('offers a reader abroad the way to their own dot', () => atQuietHour(async () => {
+  it('offers a reader abroad the way to their own dot', async () => atQuietHour(async () => {
     jest.mocked(Location.getCurrentPositionAsync).mockResolvedValue({
       coords: { latitude: 52.52, longitude: 13.405 }, // Berlin
     } as never);
     await renderSettled(withProviders(<Bonetider />));
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
+    await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', { nativeEvent: {
       zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
     } });
 
     await waitFor(() => expect(screen.getByLabelText('Visa min position')).toBeTruthy());
-    fireEvent.press(screen.getByLabelText('Visa min position'));
+    await fireEvent.press(screen.getByLabelText('Visa min position'));
     // The flight is under way, so the same disc now offers the way back.
     expect(screen.getByLabelText('Återställ kartan – visa hela Sverige')).toBeTruthy();
   }), MAP_RENDER_TIMEOUT);
 
   // The reset disc leaves the screen the moment the camera lands home. A screen reader's
   // focus was on it — so it is handed to the cog, or it falls to the top of the screen.
-  it('hands screen-reader focus to the cog when a pressed reset leaves the screen', () => atQuietHour(async () => {
+  it('hands screen-reader focus to the cog when a pressed reset leaves the screen', async () => atQuietHour(async () => {
     const focus = jest.spyOn(AccessibilityInfo, 'sendAccessibilityEvent').mockImplementation(() => {});
     try {
       await renderSettled(withProviders(<Bonetider />));
@@ -316,17 +318,17 @@ describe('tab screens', () => {
         fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
           nativeEvent: { zoom, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction },
         });
-      settle(4.5, false);
+      await settle(4.5, false);
 
       // Panning back home by hand: the disc goes, but nobody's focus was on it.
-      settle(6, true);
-      settle(4.5, true);
+      await settle(6, true);
+      await settle(4.5, true);
       expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
       expect(focus).not.toHaveBeenCalled();
 
-      settle(6, true);
-      fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
-      settle(4.5, false);
+      await settle(6, true);
+      await fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
+      await settle(4.5, false);
       expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
       expect(focus).toHaveBeenCalledWith(expect.anything(), 'focus');
     } finally {
@@ -337,19 +339,19 @@ describe('tab screens', () => {
   it.each([
     { zoom: 5, bounds: [11.15, 55.35, 23.7, 69.0] },
     { zoom: 4.5, bounds: [13.15, 55.35, 25.7, 69.0] },
-  ])('offers reset after a manual camera change: %j', (view) => atQuietHour(async () => {
+  ])('offers reset after a manual camera change: %j', async (view) => atQuietHour(async () => {
     await renderSettled(withProviders(<Bonetider />));
-    const settle = (zoom: number, bounds: number[], userInteraction: boolean) => {
-      fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+    const settle = async (zoom: number, bounds: number[], userInteraction: boolean) => {
+      await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
         nativeEvent: { zoom, bounds, userInteraction },
       });
     };
-    settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
+    await settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
     expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
-    settle(view.zoom, view.bounds, true);
+    await settle(view.zoom, view.bounds, true);
     expect(screen.getByLabelText('Återställ kartan – visa hela Sverige')).toBeTruthy();
-    fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
-    settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
+    await fireEvent.press(screen.getByLabelText('Återställ kartan – visa hela Sverige'));
+    await settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
     expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
   }), MAP_RENDER_TIMEOUT);
 
@@ -367,22 +369,22 @@ describe('tab screens', () => {
     try {
       await renderSettled(withProviders(<Bonetider />));
       const map = screen.getByTestId('sweden-map');
-      fireEvent(map, 'regionDidChange', { nativeEvent: {
+      await fireEvent(map, 'regionDidChange', { nativeEvent: {
         zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
       } });
-      const overlay = screen.UNSAFE_getByType(SolarSkiaOverlay);
+      const overlay = oneOfType(SolarSkiaOverlay, 'solar overlay');
       const props = overlay.props;
       const from = { longitude: props.userPoint[0], latitude: props.userPoint[1] };
       const arcPoint = greatCirclePoints(from, KAABA, 96)[5]!;
       const qiblaPoint = project(arcPoint[0], arcPoint[1], props.camera.value);
-      fireEvent.press(map, { nativeEvent: { point: [qiblaPoint.x, qiblaPoint.y] } });
+      await fireEvent.press(map, { nativeEvent: { point: [qiblaPoint.x, qiblaPoint.y] } });
       expect(screen.getByText(/Linjen visar qibla.*km/)).toBeTruthy();
 
       const line = props.lines.find((item: { polylines: number[][][] }) => item.polylines[0]?.length);
       expect(line).toBeDefined();
       const coordinate = line.polylines[0][1];
       const prayerPoint = project(coordinate[0], coordinate[1], props.camera.value);
-      fireEvent.press(map, { nativeEvent: { point: [prayerPoint.x, prayerPoint.y] } });
+      await fireEvent.press(map, { nativeEvent: { point: [prayerPoint.x, prayerPoint.y] } });
       expect(screen.getByText(/Linjen visar var.*vid kartans valda tid/)).toBeTruthy();
     } finally {
       jest.useRealTimers();
@@ -403,7 +405,7 @@ describe('tab screens', () => {
     'leashes the camera to a box that still clears the screen at minimum zoom',
     async () => {
       await renderSettled(withProviders(<Bonetider />));
-      const camera = screen.UNSAFE_getByType('Camera' as never);
+      const camera = first(hostsOfType('Camera'), 'camera');
 
       const [west, south, east, north] = camera.props.maxBounds as [number, number, number, number];
       const minZoom = camera.props.minZoom as number;
@@ -667,7 +669,7 @@ describe('tab screens', () => {
     const row = await waitFor(() =>
       screen.getByLabelText(/^Påminnelser: Alla böner · vid bönetid\. Tryck för att ändra\.$/),
     );
-    fireEvent.press(row);
+    await fireEvent.press(row);
     expect(router.push).toHaveBeenCalledWith('/(settings)/notiser');
   });
 
@@ -684,7 +686,7 @@ describe('tab screens', () => {
 
   it('lets readers configure reminders without enabling delivery first', async () => {
     await renderSettled(withProviders(<Installningar />));
-    fireEvent.press(screen.getByLabelText('Påminnelser: Avstängda. Tryck för att ändra.'));
+    await fireEvent.press(screen.getByLabelText('Påminnelser: Avstängda. Tryck för att ändra.'));
     expect(router.push).toHaveBeenCalledWith('/(settings)/notiser');
     expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
   });
@@ -704,8 +706,8 @@ describe('tab screens', () => {
     expect(screen.getByText('Olika tider per bön. Välj här för att ändra alla fem.')).toBeTruthy();
     expect(screen.getByText('Olika ljud per bön. Välj här för att ändra alla fem.')).toBeTruthy();
 
-    fireEvent.press(screen.getByRole('radio', { name: /^5\smin innan/ }));
-    fireEvent.press(screen.getByRole('radio', { name: /^Systemets standardljud/ }));
+    await fireEvent.press(screen.getByRole('radio', { name: /^5\smin innan/ }));
+    await fireEvent.press(screen.getByRole('radio', { name: /^Systemets standardljud/ }));
 
     await waitFor(async () => {
       const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
@@ -762,11 +764,59 @@ describe('tab screens', () => {
     );
     expect(fajr.props.value).toBe(true);
 
-    fireEvent(fajr, 'valueChange', false);
+    await fireEvent(fajr, 'valueChange', false);
 
     await waitFor(async () => {
       const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
       expect(saved.notifications.prayers.fajr).toBe(false);
+    });
+  });
+
+  describe('getting alerts through on Android', () => {
+    const exactAlarm = jest.mocked(Notifications.getExactAlarmPermissionsAsync);
+    const response = (granted: boolean) =>
+      ({ granted, status: granted ? 'granted' : 'denied', canAskAgain: true, expires: 'never' }) as never;
+    afterEach(() => {
+      exactAlarm.mockResolvedValue(response(true));
+    });
+
+    it('offers alarm-clock delivery as an opt-in switch, off until turned on', async () => {
+      await withPlatform('android', async () => {
+        await renderSettled(withProviders(<Notiser />));
+        const alarm = await waitFor(() => screen.getByRole('switch', { name: /^Schemalägg som alarm/ }));
+        expect(alarm.props.accessibilityState.checked).toBe(false);
+        expect(screen.queryByRole('button', { name: /alarm och påminnelser/ })).toBeNull();
+
+        await fireEvent.press(alarm);
+        await waitFor(async () => {
+          const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
+          expect(saved.notifications.alarmClock).toBe(true);
+        });
+      });
+    });
+
+    // Without the exact-alarm permission no alert is exact, so the switch would promise
+    // what it cannot do — the way to the permission takes its place.
+    it('points to the exact-alarm permission instead when it is denied', async () => {
+      exactAlarm.mockResolvedValue(response(false));
+      await withPlatform('android', async () => {
+        await renderSettled(withProviders(<Notiser />));
+        await waitFor(() =>
+          expect(
+            screen.getByRole('button', { name: 'Öppna Androids inställning för alarm och påminnelser' }),
+          ).toBeTruthy(),
+        );
+        expect(screen.queryByRole('switch', { name: /^Schemalägg som alarm/ })).toBeNull();
+        expect(screen.getByText(/Appen får inte ställa exakta alarm/)).toBeTruthy();
+      });
+    });
+
+    it('shows neither on iOS, which has no such settings', async () => {
+      await withPlatform('ios', async () => {
+        await renderSettled(withProviders(<Notiser />));
+        expect(screen.queryByRole('switch', { name: /^Schemalägg som alarm/ })).toBeNull();
+        expect(screen.queryByRole('button', { name: /alarm och påminnelser/ })).toBeNull();
+      });
     });
   });
 
@@ -779,7 +829,7 @@ describe('tab screens', () => {
     </SettingsProvider>,
     );
 
-    fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
+    await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
 
     expect(screen.getByText('1 träff')).toBeTruthy();
     expect(screen.getByText('Umeå')).toBeTruthy();
@@ -815,8 +865,8 @@ describe('tab screens', () => {
     </SettingsProvider>,
     );
 
-    fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
-    fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
+    await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
+    await fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
 
     await waitFor(async () => {
       const raw = await AsyncStorage.getItem(SETTINGS_KEY);
@@ -840,7 +890,7 @@ describe('tab screens', () => {
     const toggle = screen.getByRole('switch', { name: /Visa qibla-riktning/ });
     expect(toggle.props.accessibilityState.checked).toBe(true);
 
-    fireEvent.press(toggle);
+    await fireEvent.press(toggle);
 
     await waitFor(async () => {
       const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
@@ -860,7 +910,7 @@ describe('tab screens', () => {
     const toggle = screen.getByRole('switch', { name: /Visa nattens tider/ });
     expect(toggle.props.accessibilityState.checked).toBe(false);
 
-    fireEvent.press(toggle);
+    await fireEvent.press(toggle);
 
     await waitFor(async () => {
       const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
@@ -963,7 +1013,7 @@ describe('tab screens', () => {
     const asrBefore = screen.getByTestId('preview-time-asr').props.children as string;
     expect(asrBefore).toMatch(/^\d{2}:\d{2}$/);
 
-    fireEvent.press(screen.getByRole('radio', { name: /^Hanafi/ }));
+    await fireEvent.press(screen.getByRole('radio', { name: /^Hanafi/ }));
 
     await waitFor(() => {
       const asrAfter = screen.getByTestId('preview-time-asr').props.children as string;
@@ -979,19 +1029,19 @@ describe('tab screens', () => {
     await renderSettled(withProviders(<Berakning />));
     expect(screen.getByRole('radio', { name: /Närmaste minut/ })).toBeTruthy();
 
-    screen.unmount();
+    await screen.unmount();
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
     expect(screen.queryByRole('radio', { name: /Närmaste minut/ })).toBeNull();
   });
 
-  it('renders the Om screen as an identity page (masthead + integritet + fine-print credits)', () => {
+  it('renders the Om screen as an identity page (masthead + integritet + fine-print credits)', async () => {
     // Om is the calm identity page: a masthead (wordmark + one-line lead), a privacy
     // promise, support links, and an imprint colophon with the version + the map
     // attribution as fine print. The old technical "Bygger på" dependency card is GONE
     // (no real user recognises adhan / MapLibre / MapTiler) — this guard keeps it gone,
     // along with the FAQ (which lives on /vanliga-fragor) and Kontakt.
-    render(<Om />);
+    await render(<Om />);
     expect(screen.getByText('islam.se')).toBeTruthy(); // masthead wordmark
     expect(screen.getByText(/En karta över Sveriges bönetider/)).toBeTruthy();
     expect(screen.getByText(/Din plats lämnar aldrig enheten/)).toBeTruthy();
@@ -1006,12 +1056,12 @@ describe('tab screens', () => {
   // Progressive disclosure on the FAQ screen: each answer stays folded behind
   // its question until the reader taps it. Guards the FaqItem accordion
   // wiring (a11y + toggle).
-  it('keeps a FAQ answer collapsed until its question is pressed', () => {
-    render(<VanligaFragor />);
+  it('keeps a FAQ answer collapsed until its question is pressed', async () => {
+    await render(<VanligaFragor />);
     const question = screen.getByRole('button', { name: 'Hur räknas bönetiderna ut?' });
     expect(question.props.accessibilityState.expanded).toBe(false);
 
-    fireEvent.press(question);
+    await fireEvent.press(question);
     expect(
       screen.getByRole('button', { name: 'Hur räknas bönetiderna ut?' }).props.accessibilityState
         .expanded,
@@ -1026,7 +1076,7 @@ describe('tab screens', () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
-    fireEvent.press(screen.getByRole('button', { name: 'Skicka e-post' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Skicka e-post' }));
     await waitFor(() =>
       expect(MailComposer.composeAsync).toHaveBeenCalledWith({ recipients: ['support@islam.se'] }),
     );
@@ -1037,19 +1087,19 @@ describe('tab screens', () => {
   // store affordance with a human contact channel.
   it('Om appen exposes a Betygsätt-appen action that asks for a store review', async () => {
     jest.clearAllMocks();
-    render(<Om />);
+    await render(<Om />);
 
-    fireEvent.press(screen.getByRole('button', { name: 'Betygsätt appen' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Betygsätt appen' }));
     await waitFor(() => expect(StoreReview.requestReview).toHaveBeenCalled());
   });
 
   // The map attribution links each provider, even though it now sits as quiet fine print
   // rather than a prominent "Bygger på" card. Guards the inline adhan credit (the
   // prayer-time engine, the one a curious reader is most likely to follow).
-  it('links the adhan library from the credits', () => {
+  it('links the adhan library from the credits', async () => {
     jest.clearAllMocks();
-    render(<Om />);
-    fireEvent.press(screen.getByRole('link', { name: 'adhan' }));
+    await render(<Om />);
+    await fireEvent.press(screen.getByRole('link', { name: 'adhan' }));
     expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith('https://github.com/batoulapps/adhan-js');
   });
 });

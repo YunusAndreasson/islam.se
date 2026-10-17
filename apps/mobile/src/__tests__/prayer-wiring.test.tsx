@@ -80,7 +80,7 @@ function toMin(hhmm: string): number {
 }
 
 async function renderSettings(): Promise<void> {
-  render(
+  await render(
     <SettingsProvider>
       <IntroProvider>
       <LocationProvider>
@@ -99,7 +99,7 @@ async function renderSettings(): Promise<void> {
 // prayer times) is the same across them. Without router context we can't
 // actually push between them, so we mount both at once.
 async function renderSettingsWithBerakning(): Promise<void> {
-  render(
+  await render(
     <SettingsProvider>
       <IntroProvider>
       <LocationProvider>
@@ -171,7 +171,7 @@ describe('changing a setting recomputes the displayed times (the core user flow)
     await renderSettingsWithBerakning();
     const before = snapshot();
 
-    fireEvent.press(screen.getByRole('radio', { name: /Hanafi/ }));
+    await fireEvent.press(screen.getByRole('radio', { name: /Hanafi/ }));
 
     // Hanafi's longer shadow ratio puts Asr later; nothing else depends on the madhab.
     const oracle = oracleTimes(STOCKHOLM, new Date(), { madhab: Madhab.Hanafi });
@@ -186,7 +186,7 @@ describe('changing a setting recomputes the displayed times (the core user flow)
   it('mode switch GPS → manual without picking keeps the same coords (no corruption)', async () => {
     await renderSettings();
     const stockholm = snapshot();
-    fireEvent.press(screen.getByRole('radio', { name: /Välj stad/ }));
+    await fireEvent.press(screen.getByRole('radio', { name: /Välj stad/ }));
     // The manual default is Stockholm, so prayer times must not move.
     for (const key of PRAYER_ORDER) expect(shown(key)).toBe(stockholm[key]);
   });
@@ -233,7 +233,7 @@ describe('changing a setting recomputes the displayed times (the core user flow)
       await renderSettingsWithBerakning();
       const before = snapshot();
 
-      fireEvent.press(screen.getByRole('button', { name: `Öka ${PRAYER_LABELS[key]}` }));
+      await fireEvent.press(screen.getByRole('button', { name: `Öka ${PRAYER_LABELS[key]}` }));
 
       // % 1440 guards the rare day-wrap (e.g. 23:59 → 00:00) so the delta still reads +1.
       expect(toMin(shown(key))).toBe((toMin(before[key]) + 1) % 1440);
@@ -251,7 +251,7 @@ describe('changing a setting recomputes the displayed times (the core user flow)
 // clock face.
 describe('the night times reach the preview only when asked for', () => {
   async function enableNightTimes(): Promise<void> {
-    fireEvent.press(screen.getByRole('switch', { name: /Visa nattens tider/ }));
+    await fireEvent.press(screen.getByRole('switch', { name: /Visa nattens tider/ }));
     await waitFor(() => expect(isShown('lastThird')).toBe(true));
   }
 

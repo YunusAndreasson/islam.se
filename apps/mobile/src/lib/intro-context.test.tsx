@@ -16,12 +16,12 @@ describe('mapLessonPending', () => {
   });
 
   it('starts false, and complete() arms it', async () => {
-    const { result } = renderHook(() => useIntro(), { wrapper: IntroProvider });
+    const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
     await act(async () => {});
 
     expect(result.current.mapLessonPending).toBe(false);
 
-    act(() => {
+    await act(() => {
       result.current.complete();
     });
 
@@ -31,15 +31,15 @@ describe('mapLessonPending', () => {
   });
 
   it('clears on dismissMapLesson(), and only that', async () => {
-    const { result } = renderHook(() => useIntro(), { wrapper: IntroProvider });
+    const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
     await act(async () => {});
 
-    act(() => {
+    await act(() => {
       result.current.complete();
     });
     expect(result.current.mapLessonPending).toBe(true);
 
-    act(() => {
+    await act(() => {
       result.current.dismissMapLesson();
     });
 
@@ -50,28 +50,28 @@ describe('mapLessonPending', () => {
   });
 
   it('arms again on a replay\'s finish, same as the first run', async () => {
-    const { result } = renderHook(() => useIntro(), { wrapper: IntroProvider });
+    const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
     await act(async () => {});
 
-    act(() => {
+    await act(() => {
       result.current.complete();
       result.current.dismissMapLesson();
     });
     expect(result.current.mapLessonPending).toBe(false);
 
     // Inställningar → Visa introduktionen igen, then walking the wizard again.
-    act(() => {
+    await act(() => {
       result.current.replay();
     });
-    act(() => {
+    await act(() => {
       result.current.complete();
     });
 
     expect(result.current.mapLessonPending).toBe(true);
   });
 
-  it('is never pending with no provider — the fallback bonetider.tsx\'s own tests rely on', () => {
-    const { result } = renderHook(() => useOptionalMapLesson());
+  it('is never pending with no provider — the fallback bonetider.tsx\'s own tests rely on', async () => {
+    const { result } = await renderHook(() => useOptionalMapLesson());
 
     expect(result.current.pending).toBe(false);
     // Calling dismiss with nothing to dismiss must not throw — screens that mount without

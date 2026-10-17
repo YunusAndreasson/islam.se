@@ -151,14 +151,14 @@ export const MoonDial = memo(function MoonDial({
   // a rose standing still, which is the crescent visibly leaning the wrong way while the
   // screen says the direction cannot be trusted.
   const roseStyle = useAnimatedStyle(
-    () => ({ transform: [{ rotate: `${live ? -rotation.value : 0}deg` }] }),
+    () => ({ transform: [{ rotate: `${live ? -rotation.get() : 0}deg` }] }),
     [live],
   );
   // Undoes the rose's own turn for whatever it wraps. It has to be an ANIMATED style, not a
   // static one: `rotation` lives on the UI thread and a `rot(-something)` computed in render
   // cannot cancel a value that moves between renders. See the Moon on the needle below.
   const counterRoseStyle = useAnimatedStyle(
-    () => ({ transform: [{ rotate: `${live ? rotation.value : 0}deg` }] }),
+    () => ({ transform: [{ rotate: `${live ? rotation.get() : 0}deg` }] }),
     [live],
   );
   // The brass twin every "you are on it" overlay shares — needle, index and hub warm as one

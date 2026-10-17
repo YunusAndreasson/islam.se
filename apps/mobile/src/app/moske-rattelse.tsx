@@ -24,10 +24,11 @@
 //                     visible in-flight state and a real success screen.
 //
 // Failure never loses work: an error keeps everything typed and offers the button again.
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, usePreventRemove } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Pressable,
   ScrollView,
@@ -78,6 +79,27 @@ export default function MoskeRattelse() {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
   const [phase, setPhase] = useState<Phase>({ state: 'editing' });
+  const [discarded, setDiscarded] = useState(false);
+
+  // A swipe down, the ✕ or Android Back would otherwise throw away what the reader typed
+  // without a word. Only typed text counts: a picked reason is one tap to redo and not worth
+  // a dialog, and nothing is held while a report is sending or once it has been sent.
+  // `discarded` turns the guard off in the same render as `repeat()` lets the close through.
+  const unsaved =
+    !discarded && phase.state === 'editing' && (description.trim() !== '' || email.trim() !== '');
+  usePreventRemove(unsaved, ({ repeat }) => {
+    Alert.alert('Släng rättelsen?', undefined, [
+      { text: 'Fortsätt skriva', style: 'cancel' },
+      {
+        text: 'Släng',
+        style: 'destructive',
+        onPress: () => {
+          setDiscarded(true);
+          repeat();
+        },
+      },
+    ]);
+  });
 
   // A stale deep link, or a mosque dropped from the dataset between OTA updates. A quiet
   // dead end beats a crash, and the bar still gets the user out.

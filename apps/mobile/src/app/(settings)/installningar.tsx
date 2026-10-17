@@ -37,7 +37,16 @@
 // in height to simply stay open, and Beräkning now pins its own copy.
 import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  ScrollView,
+  type ScrollViewInstance,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { NavRow } from '@/components/settings/NavRow';
@@ -50,7 +59,7 @@ import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
-import { APP_VERSION, OTA_LABEL, emailSupport } from '@/lib/about';
+import { APP_VERSION, OTA_LABEL, emailSupport, readStoreEnvironmentLabel } from '@/lib/about';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { useIntro } from '@/lib/intro-context';
 import { useLocation, useLocationStatus } from '@/lib/location/context';
@@ -86,6 +95,19 @@ export default function Installningar() {
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const isFocused = useIsFocused();
 
+  // »Testversion« in the colophon on a TestFlight build, so a tester's screenshot says which
+  // build it came from. Async on iOS (StoreKit's AppTransaction), null everywhere else.
+  const [storeLabel, setStoreLabel] = useState<string | null>(null);
+  useEffect(() => {
+    let live = true;
+    void readStoreEnvironmentLabel().then((next) => {
+      if (live) setStoreLabel(next);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
+
   // ⚠️ A DOOR THAT DID NOT REACH ITS ROOM. Månen's almanac carries a note reading
   // "Justera Hijri-datum" (lib/moon/readout), and pressing it pushed this screen and
   // stopped there — dropping the reader at the top of a sheet with the control they were
@@ -93,7 +115,7 @@ export default function Installningar() {
   // Deliberately a scroll and not a highlight: the reader asked to go somewhere, not to be
   // told where it is.
   const { fokus } = useLocalSearchParams<{ fokus?: string }>();
-  const scroller = useRef<ScrollView>(null);
+  const scroller = useRef<ScrollViewInstance>(null);
   const appSectionY = useRef(0);
   const focused = useRef(false);
   useEffect(() => {
@@ -544,7 +566,7 @@ export default function Installningar() {
             can see at a glance which JS bundle is actually running: an applied
             OTA (id prefix + publish date) or the binary's embedded bundle. */}
         <Text style={styles.colophon}>islam.se · Version {APP_VERSION} · © 2026</Text>
-        <Text style={styles.colophonSub}>{OTA_LABEL}</Text>
+        <Text style={styles.colophonSub}>{[storeLabel, OTA_LABEL].filter(Boolean).join(' · ')}</Text>
       </ScrollView>
     </SafeAreaView>
   );

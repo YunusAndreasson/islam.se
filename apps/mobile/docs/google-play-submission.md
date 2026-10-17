@@ -127,6 +127,10 @@ must be answered, declaring the app's core function as an alarm/reminder app:
 A prayer-times reminder app fits the stated exemption (alarm/clock/calendar/reminder), but **the
 declaration must be filled in or the release is rejected.**
 
+From 1.1.0 a reader can also opt in to alarm-clock delivery (Påminnelser → »Schemalägg som alarm«,
+`AlarmManager.setAlarmClock`). It runs on the same exact-alarm permission and is off by default, so
+the declaration above stands as written; nothing new needs declaring for it.
+
 ## ☐ 8. Promote and roll out
 
 Once internal testing looks good: promote the release to **Closed/Open testing** or **Production**.

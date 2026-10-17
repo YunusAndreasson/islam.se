@@ -7,7 +7,9 @@ import { useColors } from '@/theme/useColors';
 // back arrow returns). The root _layout presents this whole group as a modal; here we
 // just stack installningar → om with no native header (each screen draws its own
 // editorial title + its own close/back control, consistent with the rest of the app).
-export const unstable_settings = { initialRouteName: 'installningar' };
+// The anchor puts Inställningar under a screen deep-linked straight into the group, so its
+// back control has somewhere to go.
+export const unstable_settings = { anchor: 'installningar' };
 
 export default function SettingsLayout() {
   const c = useColors();

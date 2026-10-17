@@ -51,7 +51,7 @@ function JustFinishedOnboarding() {
 }
 
 async function launchWithLessonPending(): Promise<void> {
-  render(
+  await render(
     <SettingsProvider>
       <IntroProvider>
         <LocationProvider>
@@ -63,7 +63,7 @@ async function launchWithLessonPending(): Promise<void> {
   await act(async () => {});
 
   await act(async () => {
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+    await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
       nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
     });
   });
@@ -141,11 +141,11 @@ describe('the map lesson', () => {
     async () => {
       await launchWithLessonPending();
 
-      fireEvent.press(screen.getByLabelText('Nästa exempel'));
+      await fireEvent.press(screen.getByLabelText('Nästa exempel'));
       expect(screen.getByText(at(MAP_LESSON_EXAMPLES, 1, 'MAP_LESSON_EXAMPLES').fact)).toBeTruthy();
       expect(screen.queryByText(first(MAP_LESSON_EXAMPLES, 'MAP_LESSON_EXAMPLES').fact)).toBeNull();
 
-      fireEvent.press(screen.getByLabelText('Föregående exempel'));
+      await fireEvent.press(screen.getByLabelText('Föregående exempel'));
       expect(screen.getByText(first(MAP_LESSON_EXAMPLES, 'MAP_LESSON_EXAMPLES').fact)).toBeTruthy();
     },
     MAP_RENDER_TIMEOUT,
@@ -157,12 +157,12 @@ describe('the map lesson', () => {
       await launchWithLessonPending();
 
       for (let i = 1; i < MAP_LESSON_EXAMPLES.length; i++) {
-        fireEvent.press(screen.getByLabelText('Nästa exempel'));
+        await fireEvent.press(screen.getByLabelText('Nästa exempel'));
       }
       expect(screen.getByText(MAP_LESSON_EXAMPLES.at(-1)!.fact)).toBeTruthy();
       expect(screen.queryByLabelText('Nästa exempel')).toBeNull();
 
-      fireEvent.press(screen.getByLabelText('Klart'));
+      await fireEvent.press(screen.getByLabelText('Klart'));
 
       expect(screen.queryByText(MAP_LESSON_EXAMPLES.at(-1)!.fact)).toBeNull();
       expect(screen.queryByLabelText('Föregående dag')).toBeTruthy();
@@ -175,7 +175,7 @@ describe('the map lesson', () => {
     async () => {
       await launchWithLessonPending();
 
-      fireEvent.press(screen.getByLabelText('Stäng'));
+      await fireEvent.press(screen.getByLabelText('Stäng'));
 
       expect(screen.queryByText(first(MAP_LESSON_EXAMPLES, 'MAP_LESSON_EXAMPLES').fact)).toBeNull();
       // The dock is back — same slot the lesson borrowed.
@@ -195,12 +195,12 @@ describe('the map lesson', () => {
       expect(screen.queryByText('Visa tider för din plats')).toBeNull();
       expect(screen.queryByText('Påminn om bönetider')).toBeNull();
 
-      fireEvent.press(screen.getByLabelText('Stäng'));
+      await fireEvent.press(screen.getByLabelText('Stäng'));
       await runOfferSequence();
 
       expect(screen.queryByText('Visa tider för din plats')).toBeNull();
       expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
-      fireEvent(screen.getByLabelText('Dölj bönetider'), 'accessibilityTap');
+      await fireEvent(screen.getByLabelText('Dölj bönetider'), 'accessibilityTap');
       expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
     },
     MAP_RENDER_TIMEOUT,
@@ -227,7 +227,7 @@ describe('the map lesson', () => {
         expect(screen.queryByTestId('map-reveal-cover')).toBeTruthy();
 
         await act(async () => {
-          fireEvent(screen.getByTestId('sweden-map'), 'didFinishRenderingMapFully');
+          await fireEvent(screen.getByTestId('sweden-map'), 'didFinishRenderingMapFully');
         });
 
         expect(screen.queryByTestId('map-reveal-cover')).toBeNull();
@@ -258,7 +258,7 @@ describe('the map lesson', () => {
         expect(screen.queryByTestId('map-reveal-cover')).toBeTruthy();
 
         await act(async () => {
-          fireEvent(screen.getByTestId('sweden-map'), 'didFailLoadingMap');
+          await fireEvent(screen.getByTestId('sweden-map'), 'didFailLoadingMap');
         });
 
         // A map that has given up should be shown as the flat ground it is going to stay,

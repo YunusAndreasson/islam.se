@@ -79,17 +79,17 @@ export function DisclosureGroup({
     // Switching the alert off takes its detail away with it, so the body closes rather
     // than being left open over nothing.
     const target = expanded && expandable ? 1 : 0;
-    open.value = reduceMotion ? target : withTiming(target, { duration: motion.base });
+    open.set(reduceMotion ? target : withTiming(target, { duration: motion.base }));
   }, [expanded, expandable, reduceMotion, open]);
 
   // contentHeight is captured by these worklets at render; a layout change re-renders
   // and reanimated re-evaluates the style with the new height (snaps to fit).
   const bodyStyle = useAnimatedStyle(() => ({
-    height: open.value * contentHeight,
-    opacity: open.value,
+    height: open.get() * contentHeight,
+    opacity: open.get(),
   }));
   const chevronStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${open.value * 180}deg` }],
+    transform: [{ rotate: `${open.get() * 180}deg` }],
   }));
   // The collapsed value sits BELOW the title (a subtitle), so it has the full card
   // width and never truncates to "…" the way a right-aligned same-row value did when
@@ -97,8 +97,8 @@ export function DisclosureGroup({
   // line. On open it cross-fades AND collapses its height (so it never duplicates the
   // controls below and leaves no gap under the title once expanded).
   const summaryStyle = useAnimatedStyle(() => ({
-    height: (1 - open.value) * summaryHeight,
-    opacity: 1 - open.value,
+    height: (1 - open.get()) * summaryHeight,
+    opacity: 1 - open.get(),
   }));
 
   return (

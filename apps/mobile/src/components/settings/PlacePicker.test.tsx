@@ -13,6 +13,7 @@ import { FlatList, useWindowDimensions } from 'react-native';
 import { PlacePicker } from './PlacePicker';
 import { PLACES } from '@/lib/places/data';
 import { at } from '@/test-utils/at';
+import { oneOfType } from '@/test-utils/rendered';
 
 // Deep enough into the population-sorted list that it can only be on screen because the
 // list opened there — not because it happened to fall in the first window.
@@ -31,35 +32,35 @@ describe('PlacePicker', () => {
 
   it.each([{ width: 320, fontScale: 1 }, { width: 411, fontScale: 2 }])(
     'keeps a deep selection reachable with measured rows at %j',
-    ({ width, fontScale }) => {
+    async ({ width, fontScale }) => {
       jest.mocked(useWindowDimensions).mockReturnValue({
         width, height: 711, scale: 2.625, fontScale,
       });
       const onPick = jest.fn();
-      render(
+      await render(
         <PlacePicker
           selected={{ name: DEEP.name, latitude: DEEP.lat, longitude: DEEP.lon }}
           onPick={onPick}
         />,
       );
 
-      const list = screen.UNSAFE_getByType(FlatList);
+      const list = oneOfType(FlatList, 'place list');
       expect(list.props.data[0]).toBe(DEEP);
       expect(list.props.getItemLayout).toBeUndefined();
       expect(list.props.initialScrollIndex).toBeUndefined();
 
-      fireEvent.changeText(screen.getByLabelText('Sök stad'), 'Skanor');
+      await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'Skanor');
       expect(screen.queryByText(DEEP.name)).toBeNull();
-      fireEvent.press(screen.getByLabelText('Skanör med Falsterbo, Skåne'));
+      await fireEvent.press(screen.getByLabelText('Skanör med Falsterbo, Skåne'));
       expect(onPick).toHaveBeenCalledWith(expect.objectContaining({ name: 'Skanör med Falsterbo' }));
 
-      fireEvent.press(screen.getByLabelText('Rensa sökning'));
+      await fireEvent.press(screen.getByLabelText('Rensa sökning'));
       expect(screen.getByText(DEEP.name)).toBeTruthy();
     },
   );
 
-  it('opens on the already-chosen city instead of the top of the list', () => {
-    render(
+  it('opens on the already-chosen city instead of the top of the list', async () => {
+    await render(
       <PlacePicker
         selected={{ name: DEEP.name, latitude: DEEP.lat, longitude: DEEP.lon }}
         onPick={jest.fn()}
@@ -73,27 +74,27 @@ describe('PlacePicker', () => {
     expect(screen.queryByText(PLACES[0].name)).toBeNull();
   });
 
-  it('opens at the top when nothing has been chosen yet', () => {
-    render(<PlacePicker selected={null} onPick={jest.fn()} />);
+  it('opens at the top when nothing has been chosen yet', async () => {
+    await render(<PlacePicker selected={null} onPick={jest.fn()} />);
 
     // The introduction renders this picker with no prior selection, so "no selection" must
     // stay the plain first-run list rather than an arbitrary scroll position.
     expect(screen.getByText(PLACES[0].name)).toBeTruthy();
   });
 
-  it('drops the initial index when search replaces the full data set', () => {
+  it('drops the initial index when search replaces the full data set', async () => {
     const selected = at(PLACES, 7, 'PLACES');
-    render(
+    await render(
       <PlacePicker
         selected={{ name: selected.name, latitude: selected.lat, longitude: selected.lon }}
         onPick={jest.fn()}
       />,
     );
 
-    expect(screen.UNSAFE_getByType(FlatList).props.initialScrollIndex).toBe(7);
+    expect(oneOfType(FlatList, 'place list').props.initialScrollIndex).toBe(7);
 
-    fireEvent.changeText(screen.getByLabelText('Sök stad'), DEEP.name);
+    await fireEvent.changeText(screen.getByLabelText('Sök stad'), DEEP.name);
 
-    expect(screen.UNSAFE_getByType(FlatList).props.initialScrollIndex).toBeUndefined();
+    expect(oneOfType(FlatList, 'place list').props.initialScrollIndex).toBeUndefined();
   });
 });

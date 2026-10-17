@@ -16,11 +16,11 @@ describe('Toggle', () => {
   // (OptionGroup, NavRow, PlacePicker) is pressable along its full width, so a reader who
   // taps the words "Visa moskéer" and watches nothing happen has been told a lie by the
   // rest of the app.
-  it('flips from a press anywhere on the row, not just on the switch', () => {
+  it('flips from a press anywhere on the row, not just on the switch', async () => {
     const onValueChange = jest.fn();
-    render(<Toggle label="Visa moskéer" value={false} onValueChange={onValueChange} />);
+    await render(<Toggle label="Visa moskéer" value={false} onValueChange={onValueChange} />);
 
-    fireEvent.press(screen.getByRole('switch', { name: 'Visa moskéer' }));
+    await fireEvent.press(screen.getByRole('switch', { name: 'Visa moskéer' }));
 
     expect(onValueChange).toHaveBeenCalledWith(true);
   });
@@ -28,8 +28,8 @@ describe('Toggle', () => {
   // The row is ONE accessibility node that declares its own state. Before, the label Text
   // and the Switch were two nodes, so a screen reader announced the label and then
   // announced it a second time as part of the switch's name.
-  it('is a single switch node carrying its own checked state', () => {
-    render(
+  it('is a single switch node carrying its own checked state', async () => {
+    await render(
       <Toggle
         label="Visa nattens tider"
         description="Räknas från Maghrib till nästa Fajr."
@@ -50,19 +50,19 @@ describe('Toggle', () => {
   // feedback. A press on the ROW writes the value programmatically, and a programmatic
   // write produces nothing — so that path has to tick itself, or half of one control
   // would buzz and half would not. Class 4: a control snapping under direct manipulation.
-  it('ticks on the row press, with the value it is moving to', () => {
-    render(<Toggle label="Haptisk återkoppling" value onValueChange={jest.fn()} />);
+  it('ticks on the row press, with the value it is moving to', async () => {
+    await render(<Toggle label="Haptisk återkoppling" value onValueChange={jest.fn()} />);
 
-    fireEvent.press(screen.getByRole('switch', { name: 'Haptisk återkoppling' }));
+    await fireEvent.press(screen.getByRole('switch', { name: 'Haptisk återkoppling' }));
 
     expect(hapticToggle).toHaveBeenCalledWith(false);
   });
 
-  it('does nothing at all when disabled', () => {
+  it('does nothing at all when disabled', async () => {
     const onValueChange = jest.fn();
-    render(<Toggle label="Påminnelse" value={false} onValueChange={onValueChange} disabled />);
+    await render(<Toggle label="Påminnelse" value={false} onValueChange={onValueChange} disabled />);
 
-    fireEvent.press(screen.getByRole('switch', { name: 'Påminnelse' }));
+    await fireEvent.press(screen.getByRole('switch', { name: 'Påminnelse' }));
 
     expect(onValueChange).not.toHaveBeenCalled();
     expect(hapticToggle).not.toHaveBeenCalled();

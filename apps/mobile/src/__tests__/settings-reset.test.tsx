@@ -49,6 +49,7 @@ const MUTATION: Partial<PrayerSettings> = {
     },
     lastThird: true,
     lastThirdSound: 'silent',
+    alarmClock: true,
   },
 };
 
@@ -93,7 +94,7 @@ beforeEach(async () => {
 
 describe('settings reset() — restores every field to the app defaults', () => {
   it('clears a fully-mutated settings object back to DEFAULT_SETTINGS', async () => {
-    render(
+    await render(
       <SettingsProvider>
       <IntroProvider>
         <Probe />
@@ -102,12 +103,12 @@ describe('settings reset() — restores every field to the app defaults', () => 
     );
     await waitFor(() => expect(screen.getByTestId('dump')).toBeTruthy());
 
-    fireEvent.press(screen.getByTestId('probe-mutate'));
+    await fireEvent.press(screen.getByTestId('probe-mutate'));
     // Sanity: the mutation actually took (so the reset assertion below isn't vacuous).
     expect(dump()).not.toEqual(DEFAULT_SETTINGS);
     expect(dump().theme).toBe('dark');
 
-    fireEvent.press(screen.getByTestId('probe-reset'));
+    await fireEvent.press(screen.getByTestId('probe-reset'));
     expect(dump()).toEqual(DEFAULT_SETTINGS);
   });
 });
@@ -118,8 +119,8 @@ describe('Inställningar — the "Återställ appens standard" button', () => {
   let alertSpy: ReturnType<typeof jest.spyOn>;
   beforeEach(() => {
     alertSpy = jest.spyOn(Alert, 'alert').mockImplementation((
-      _title: string,
-      _message?: string,
+      _title: string | null | undefined,
+      _message?: string | null,
       buttons?: AlertButton[],
     ) => {
       buttons?.find((b) => b.style === 'destructive')?.onPress?.();
@@ -128,7 +129,7 @@ describe('Inställningar — the "Återställ appens standard" button', () => {
   afterEach(() => alertSpy.mockRestore());
 
   it('confirms, then resets the live settings to defaults', async () => {
-    render(
+    await render(
       <SettingsProvider>
       <IntroProvider>
         <LocationProvider>
@@ -140,12 +141,12 @@ describe('Inställningar — the "Återställ appens standard" button', () => {
     );
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
-    fireEvent.press(screen.getByTestId('probe-mutate'));
+    await fireEvent.press(screen.getByTestId('probe-mutate'));
     expect(dump().theme).toBe('dark');
     expect(dump().notifications.enabled).toBe(true);
 
     // Press the REAL reset button on the screen; the mocked Alert confirms for us.
-    fireEvent.press(screen.getByLabelText('Återställ alla inställningar till appens standard'));
+    await fireEvent.press(screen.getByLabelText('Återställ alla inställningar till appens standard'));
 
     expect(alertSpy).toHaveBeenCalledTimes(1);
     await waitFor(() => expect(dump()).toEqual(DEFAULT_SETTINGS));
@@ -226,7 +227,7 @@ describe('isDefaultSettings', () => {
 // above still finds the button because it presses probe-mutate first.)
 describe('Inställningar — the reset row appears only once something has changed', () => {
   it('is not rendered on a clean install', async () => {
-    render(
+    await render(
       <SettingsProvider>
       <IntroProvider>
         <LocationProvider>
@@ -244,7 +245,7 @@ describe('Inställningar — the reset row appears only once something has chang
     ).toBeNull();
 
     // …and it arrives the moment a preference moves.
-    fireEvent.press(screen.getByTestId('probe-mutate'));
+    await fireEvent.press(screen.getByTestId('probe-mutate'));
     await waitFor(() =>
       expect(
         screen.getByLabelText('Återställ alla inställningar till appens standard'),

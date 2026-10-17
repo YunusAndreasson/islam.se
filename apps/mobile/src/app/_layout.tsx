@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native';
 import { NavigationBar } from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -7,6 +8,7 @@ import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { ErrorScreen } from '@/components/ui/ErrorScreen';
 import { useDisplayZone } from '@/lib/device-zone';
 import { IntroProvider } from '@/lib/intro-context';
 import { useLocation, LocationProvider } from '@/lib/location/context';
@@ -22,13 +24,18 @@ import type { PrayerSettings } from '@/lib/settings/types';
 // @/lib/splash for what the gate waits for and, more importantly, what it refuses to.
 import { SplashGate } from '@/lib/splash';
 import { syncPrayerLiveActivity } from '@/widget/live-activity';
-import { syncPrayerWidget } from '@/widget/sync';
+import { reloadPrayerWidget, syncPrayerWidget } from '@/widget/sync';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
 // expo-router renders this as the app-wide crash boundary (it wraps the root
-// segment in <Try> when a route exports `ErrorBoundary`). Re-exported from the
-// themed screen so the fallback speaks the app's visual language.
-export { ErrorScreen as ErrorBoundary } from '@/components/ui/ErrorScreen';
+// segment in <Try> when a route exports `ErrorBoundary`), with the themed screen as
+// the fallback so it speaks the app's visual language.
+//
+// ⚠️ AN ERROR A BOUNDARY CATCHES NEVER REACHES SENTRY ON ITS OWN — catching it is the
+// boundary's whole job, so the global handler never sees it. Sentry's wrapper reports it,
+// once per error object. Route params and the concrete path ride along only with
+// sendDefaultPii, which @/lib/sentry keeps off: a route here can carry coordinates.
+export const ErrorBoundary = Sentry.wrapExpoRouterErrorBoundary(ErrorScreen);
 
 // Both system bars, and the window behind them, follow the APP's active scheme rather than
 // the OS's. Mounted inside the SettingsProvider so the user's Utseende override
@@ -165,6 +172,15 @@ function WidgetSync() {
     void syncPrayerWidget(coords, s, label);
     void syncPrayerLiveActivity(coords, s, label);
   });
+  // Android's widget is a static render between refreshes (see widget/android-snapshot).
+  // Leaving the app is the moment the reader is most likely to look at it, so re-render it
+  // then from the snapshot it already holds. A no-op on iOS.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'background') void reloadPrayerWidget();
+    });
+    return () => sub.remove();
+  }, []);
   return null;
 }
 

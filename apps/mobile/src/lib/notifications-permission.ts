@@ -12,6 +12,8 @@ import { AppState } from 'react-native';
 
 import { hapticWarning } from '@/lib/haptics';
 import {
+  type ExactAlarmState,
+  getExactAlarmState,
   getNotificationPermissionState,
   type NotificationPermissionState,
   requestNotificationPermission,
@@ -110,4 +112,33 @@ export function useNotificationPermission(active = true): NotificationPermission
       : undefined;
 
   return { permission, blocked, footnote, setEnabled };
+}
+
+/**
+ * Android's exact-alarm permission, kept current the way the notification permission is:
+ * re-read on focus and on every return to the foreground, because the reader may have just
+ * come back from the system page that grants it. 'unknown' until the first read lands.
+ *
+ * @param active Whether the owning screen is on-screen; the re-read pauses when false.
+ */
+export function useExactAlarmPermission(active = true): ExactAlarmState {
+  const [state, setState] = useState<ExactAlarmState>('unknown');
+  useEffect(() => {
+    if (!active) return;
+    let alive = true;
+    const refresh = (): void => {
+      void getExactAlarmState().then((next) => {
+        if (alive) setState(next);
+      });
+    };
+    refresh();
+    const sub = AppState.addEventListener('change', (next) => {
+      if (next === 'active') refresh();
+    });
+    return () => {
+      alive = false;
+      sub.remove();
+    };
+  }, [active]);
+  return state;
 }

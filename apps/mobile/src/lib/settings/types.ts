@@ -142,6 +142,15 @@ export interface NotificationSettings {
    *  anyone wants, and leaving it out is one control fewer to explain. */
   lastThird: boolean;
   lastThirdSound: NotificationSoundKey;
+  /** Android only: deliver every alert as an alarm clock (AlarmManager.setAlarmClock)
+   *  rather than as an exact alarm. It survives deep Doze and the OEM battery managers that
+   *  hold back exact alarms — at a price that reaches outside this app: the system then
+   *  shows the next prayer alert AS the phone's next alarm (status-bar icon, lock screen,
+   *  quick settings), hiding the reader's real wake-up alarm, and a Do Not Disturb or
+   *  Bedtime schedule set to end "at the next alarm" ends at Fajr. That is why it is
+   *  opt-in, and why it is all alerts or none: the indicator follows the EARLIEST pending
+   *  alarm clock, so protecting only the next few would cost exactly the same. */
+  alarmClock: boolean;
 }
 
 export interface PrayerSettings {
@@ -228,6 +237,7 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
     },
     lastThird: false,
     lastThirdSound: 'default',
+    alarmClock: false,
   },
   locationMode: 'gps',
   manualLocation: null,

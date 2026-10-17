@@ -95,6 +95,10 @@ export function SegmentedChoice<T extends string>({
           style={styles.host}
           colorScheme={scheme}
           matchContents={{ vertical: false, horizontal: false }}
+          // The host is a fixed CONTROL_HEIGHT and the segmented picker is shorter. Since
+          // @expo/ui 58 a Host top-aligns its content by default, which would leave the
+          // segments riding the top edge with the slack below them.
+          alignment="center"
         >
           <Picker
             selection={value}

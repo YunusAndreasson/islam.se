@@ -23,9 +23,9 @@ function undetermined(): Awaited<ReturnType<typeof Notifications.getPermissionsA
   };
 }
 
-function renderHint(overrides: Partial<Parameters<typeof NotificationHint>[0]> = {}) {
+async function renderHint(overrides: Partial<Parameters<typeof NotificationHint>[0]> = {}) {
   const props = { top: 68, onEnable: jest.fn(), onClose: jest.fn(), ...overrides };
-  render(<NotificationHint {...props} />);
+  await render(<NotificationHint {...props} />);
   return props;
 }
 
@@ -39,8 +39,8 @@ describe('NotificationHint', () => {
     getPermissionsMock.mockResolvedValue(undetermined());
   });
 
-  it('offers reminders in plain Swedish with one clear action', () => {
-    renderHint();
+  it('offers reminders in plain Swedish with one clear action', async () => {
+    await renderHint();
     expect(screen.getByText('Påminn om bönetider')).toBeTruthy();
     expect(screen.getByText('Slå på påminnelser')).toBeTruthy();
   });
@@ -49,9 +49,9 @@ describe('NotificationHint', () => {
   // brushing the card away would silently spend the one prompt they will ever get, and
   // prayer reminders would be locked behind the system Settings app forever.
   it('does not touch the OS prompt when dismissed', async () => {
-    const { onClose, onEnable } = renderHint();
+    const { onClose, onEnable } = await renderHint();
 
-    fireEvent.press(screen.getByLabelText('Stäng'));
+    await fireEvent.press(screen.getByLabelText('Stäng'));
 
     expect(onClose).toHaveBeenCalledTimes(1);
     expect(requestPermissionsMock).not.toHaveBeenCalled();
@@ -65,10 +65,10 @@ describe('NotificationHint', () => {
       status: PermissionStatus.GRANTED,
       expires: 'never',
     });
-    const { onEnable } = renderHint();
+    const { onEnable } = await renderHint();
 
     await act(async () => {
-      fireEvent.press(screen.getByText('Slå på påminnelser'));
+      await fireEvent.press(screen.getByText('Slå på påminnelser'));
     });
 
     expect(requestPermissionsMock).toHaveBeenCalledTimes(1);
@@ -85,10 +85,10 @@ describe('NotificationHint', () => {
       status: PermissionStatus.DENIED,
       expires: 'never',
     });
-    const { onEnable, onClose } = renderHint();
+    const { onEnable, onClose } = await renderHint();
 
     await act(async () => {
-      fireEvent.press(screen.getByText('Slå på påminnelser'));
+      await fireEvent.press(screen.getByText('Slå på påminnelser'));
     });
 
     await waitFor(() => expect(screen.getByText(/Notiser är blockerade/)).toBeTruthy());
@@ -107,10 +107,10 @@ describe('NotificationHint', () => {
       status: PermissionStatus.GRANTED,
       expires: 'never',
     });
-    renderHint();
+    await renderHint();
 
     await act(async () => {
-      fireEvent.press(screen.getByText('Slå på påminnelser'));
+      await fireEvent.press(screen.getByText('Slå på påminnelser'));
     });
 
     await waitFor(async () => {
@@ -127,12 +127,12 @@ describe('NotificationHint', () => {
       status: PermissionStatus.GRANTED,
       expires: 'never',
     });
-    renderHint();
+    await renderHint();
 
     const cta = screen.getByText('Slå på påminnelser');
     await act(async () => {
-      fireEvent.press(cta);
-      fireEvent.press(cta);
+      await fireEvent.press(cta);
+      await fireEvent.press(cta);
     });
 
     expect(requestPermissionsMock).toHaveBeenCalledTimes(1);

@@ -53,15 +53,15 @@ export function FaqItem({
 
   useEffect(() => {
     const target = expanded ? 1 : 0;
-    open.value = reduceMotion ? target : withTiming(target, { duration: motion.base });
+    open.set(reduceMotion ? target : withTiming(target, { duration: motion.base }));
   }, [expanded, reduceMotion, open]);
 
   const bodyStyle = useAnimatedStyle(() => ({
-    height: open.value * contentHeight,
-    opacity: open.value,
+    height: open.get() * contentHeight,
+    opacity: open.get(),
   }));
   const chevronStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${open.value * 90}deg` }],
+    transform: [{ rotate: `${open.get() * 90}deg` }],
   }));
 
   return (

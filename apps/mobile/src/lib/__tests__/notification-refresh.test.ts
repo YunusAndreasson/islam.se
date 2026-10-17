@@ -21,6 +21,16 @@ import {
   PRAYER_REFRESH_TASK,
   registerNotificationRefresh,
 } from '@/lib/notification-refresh';
+import { syncPrayerLiveActivity } from '@/widget/live-activity';
+import { syncPrayerWidget } from '@/widget/sync';
+
+// The two surfaces the wake-up also refreshes, observed rather than run: both reach their
+// native module through a dynamic import Jest cannot execute, so what is worth pinning here
+// is THAT and HOW this task calls them.
+jest.mock('@/widget/sync', () => ({ syncPrayerWidget: jest.fn(async () => {}) }));
+jest.mock('@/widget/live-activity', () => ({ syncPrayerLiveActivity: jest.fn(async () => {}) }));
+const widgetSync = jest.mocked(syncPrayerWidget);
+const liveActivitySync = jest.mocked(syncPrayerLiveActivity);
 
 const defineTask = TaskManager.defineTask as unknown as jest.MockedFunction<
   (name: string, executor: () => Promise<number>) => void
@@ -50,6 +60,8 @@ beforeEach(async () => {
   await storage.removeItem('lastGpsCoords:v1');
   resetSyncStateForTests();
   scheduleMock.mockClear();
+  widgetSync.mockClear();
+  liveActivitySync.mockClear();
   registerTask.mockClear();
   getStatus.mockResolvedValue(BackgroundTask.BackgroundTaskStatus.Available);
 });
@@ -77,7 +89,7 @@ describe('a background wake-up', () => {
     expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
   });
 
-  it('does nothing when reminders are switched off', async () => {
+  it('schedules no alerts when reminders are switched off', async () => {
     await storage.setItem(
       SETTINGS_STORAGE_KEY,
       JSON.stringify({ ...DEFAULT_SETTINGS, notifications: { ...DEFAULT_SETTINGS.notifications, enabled: false } }),
@@ -120,6 +132,44 @@ describe('a background wake-up', () => {
     scheduleMock.mockRejectedValueOnce(new Error('notification centre unavailable'));
 
     await expect(taskExecutor()()).resolves.toBe(BackgroundTask.BackgroundTaskResult.Success);
+  });
+});
+
+describe('the other surfaces the same wake-up refreshes', () => {
+  const remindersOff = JSON.stringify({
+    ...DEFAULT_SETTINGS,
+    notifications: { ...DEFAULT_SETTINGS.notifications, enabled: false },
+  });
+
+  // Neither is a reminder, so switching reminders off must not freeze the widget on a past
+  // prayer or leave a stale »Dags för …« on the Lock Screen overnight.
+  it('re-pushes the widget and reconciles the Live Activity even with reminders off', async () => {
+    await storage.setItem(SETTINGS_STORAGE_KEY, remindersOff);
+    await taskExecutor()();
+    expect(widgetSync).toHaveBeenCalledTimes(1);
+    expect(liveActivitySync).toHaveBeenCalledTimes(1);
+  });
+
+  // ActivityKit refuses to START an activity from the background. The task may update or
+  // end one, never start one.
+  it('never asks for a Live Activity to be started', async () => {
+    await storage.setItem(SETTINGS_STORAGE_KEY, remindersOff);
+    await taskExecutor()();
+    const options = liveActivitySync.mock.calls[0]?.[4];
+    expect(options).toEqual({ canStart: false });
+  });
+
+  it('re-seeds the alerts before anything else gets a chance to fail', async () => {
+    await storage.setItem(
+      SETTINGS_STORAGE_KEY,
+      JSON.stringify({ ...DEFAULT_SETTINGS, notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true } }),
+    );
+    widgetSync.mockRejectedValueOnce(new Error('WidgetKit unavailable'));
+
+    await taskExecutor()();
+
+    // A widget that cannot reload must never cost the reader their alerts.
+    expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
   });
 });
 

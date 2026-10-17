@@ -60,8 +60,8 @@ function tree() {
   );
 }
 
-async function launchMap(): Promise<ReturnType<typeof render>> {
-  const result = render(tree());
+async function launchMap(): Promise<Awaited<ReturnType<typeof render>>> {
+  const result = await render(tree());
   await act(async () => {});
   return result;
 }
@@ -76,20 +76,18 @@ async function launchMap(): Promise<ReturnType<typeof render>> {
  * shape of a bug that does not exist.
  */
 async function setOffline(
-  view: ReturnType<typeof render>,
+  view: Awaited<ReturnType<typeof render>>,
   offline: boolean,
 ): Promise<void> {
   networkState.mockReturnValue({ isConnected: !offline, isInternetReachable: !offline });
-  await act(async () => {
-    view.rerender(tree());
-  });
+  await view.rerender(tree());
 }
 
 /** What MapLibre fires when every tile in the viewport has arrived and composited — the
  *  only honest evidence the basemap is actually there. */
 async function reportFullRender(): Promise<void> {
   await act(async () => {
-    fireEvent(screen.getByTestId('sweden-map'), 'didFinishRenderingMapFully');
+    await fireEvent(screen.getByTestId('sweden-map'), 'didFinishRenderingMapFully');
   });
 }
 
@@ -156,7 +154,7 @@ describe('the offline notice', () => {
 
     await setOffline(view, true);
     await act(async () => {
-      fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+      await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
         nativeEvent: { zoom: 6, bounds: [11.15, 55.35, 23.7, 69.0] },
       });
     });
@@ -172,7 +170,7 @@ describe('the offline notice', () => {
     await reportFullRender();
 
     await act(async () => {
-      fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+      await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
         nativeEvent: { zoom: 6, bounds: [11.15, 55.35, 23.7, 69.0] },
       });
     });

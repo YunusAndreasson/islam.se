@@ -80,11 +80,11 @@ function setPermissions(location: 'granted' | 'denied' | 'undetermined', notific
 /** Renders the map and brings it to the state where the offer gate is armed: the camera
  *  has settled (every overlay is gated on the first settled region event). */
 async function launchMap(introSeen = true): Promise<void> {
-  render(withProviders(<Bonetider />, introSeen));
+  await render(withProviders(<Bonetider />, introSeen));
   await act(async () => {});
 
   await act(async () => {
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+    await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
       nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
     });
   });
@@ -155,7 +155,7 @@ describe('the map offers at most one soft ask per launch', () => {
 
       await launchMap();
       await runOfferSequence();
-      fireEvent.press(screen.getByLabelText('Stäng'));
+      await fireEvent.press(screen.getByLabelText('Stäng'));
 
       // Give the sequence every chance to restart: the gate's conditions are all still
       // true after a dismissal, and only introOfferDone stops it.

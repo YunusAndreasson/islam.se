@@ -48,16 +48,43 @@ describe('the splash gate', () => {
   });
 
   it('holds the splash until both storage reads have landed, then hides it once', async () => {
-    mount();
-    // The mount itself must not be enough. At this point the providers have rendered but
-    // neither read has resolved, so the app does not yet know whether this launch belongs to
-    // the introduction or to the map — which is exactly the gap that used to be a blank
-    // frame the user could see.
-    expect(SplashScreen.hide).not.toHaveBeenCalled();
+    // Both reads are held behind a gate this test opens. An awaited render drains pending
+    // promises (RNTL 14 renders inside an async act), so without the gate the in-memory
+    // reads would land INSIDE the mount and the state below could never be observed.
+    const getItem = jest.mocked(AsyncStorage.getItem);
+    const multiGet = jest.mocked(AsyncStorage.multiGet);
+    const realGetItem = getItem.getMockImplementation();
+    const realMultiGet = multiGet.getMockImplementation();
+    if (!realGetItem || !realMultiGet) throw new Error('the AsyncStorage mock lost its implementation');
+    let open = () => {};
+    const gate = new Promise<void>((resolve) => {
+      open = resolve;
+    });
+    getItem.mockImplementation(async (...args) => {
+      await gate;
+      return realGetItem(...args);
+    });
+    multiGet.mockImplementation(async (...args) => {
+      await gate;
+      return realMultiGet(...args);
+    });
+    try {
+      await mount();
+      // The mount itself must not be enough. At this point the providers have rendered but
+      // neither read has resolved, so the app does not yet know whether this launch belongs
+      // to the introduction or to the map — which is exactly the gap that used to be a blank
+      // frame the user could see.
+      expect(SplashScreen.hide).not.toHaveBeenCalled();
 
-    await act(async () => {});
+      await act(async () => {
+        open();
+      });
 
-    expect(SplashScreen.hide).toHaveBeenCalledTimes(1);
+      expect(SplashScreen.hide).toHaveBeenCalledTimes(1);
+    } finally {
+      getItem.mockImplementation(realGetItem);
+      multiGet.mockImplementation(realMultiGet);
+    }
   });
 
   it('hides anyway when a storage read never settles', async () => {
@@ -67,7 +94,7 @@ describe('the splash gate', () => {
     jest.mocked(AsyncStorage.multiGet).mockReturnValue(new Promise(() => {}) as never);
     jest.useFakeTimers();
     try {
-      mount();
+      await mount();
       expect(SplashScreen.hide).not.toHaveBeenCalled();
 
       await act(async () => {

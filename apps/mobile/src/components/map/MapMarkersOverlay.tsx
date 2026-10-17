@@ -92,7 +92,7 @@ function PolarBoundaryLabel({
   // the sweeping lines further south. Sits just above the line (small upward nudge).
   // A translate, not `left`/`top` — see `anchor` in the styles for why.
   const posStyle = useAnimatedStyle(() => {
-    const p = project(16, boundary.lat, camera.value);
+    const p = project(16, boundary.lat, camera.get());
     return { transform: [{ translateX: p.x }, { translateY: p.y - 18 }] };
   }, [boundary.lat]);
   return (
@@ -151,7 +151,7 @@ function PrayerPill({
   });
   // A translate, not `left`/`top` — see `anchor` in the styles for why.
   const posStyle = useAnimatedStyle(() => {
-    const cam = camera.value;
+    const cam = camera.get();
     const anchor = project(label.lngLat[0], label.lngLat[1], cam);
     const p = visibleLineLabel(anchor, mercLines, cam, topInset, bottomInset);
     return { transform: [{ translateX: p.x }, { translateY: p.y }] };

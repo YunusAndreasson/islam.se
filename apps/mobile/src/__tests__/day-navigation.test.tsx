@@ -26,7 +26,11 @@ import { __resetGridCache } from '@/lib/solar/grid-cache';
 
 const LOCATION_HINT_KEY = 'locationHintSeen:v1';
 const NOTIFICATION_HINT_KEY = 'notificationHintSeen:v1';
-const MAP_RENDER_TIMEOUT = 30_000;
+// Each test here mounts the whole map and steps through days, building a fresh solar field for
+// each one: about 15 s alone. Inside the full parallel suite on a loaded machine the slowest
+// has measured past 30 s, on SDK 57 as well as 58, which failed the release preflight on
+// timing alone. The budget guards against a hang; nothing here asserts speed.
+const MAP_RENDER_TIMEOUT = 60_000;
 
 function withProviders(node: ReactNode) {
   return (
@@ -49,10 +53,10 @@ function permission(status: 'granted' | 'denied' | 'undetermined') {
  *  settled. (There is no launch sweep to sit through any more — the map paints at the
  *  present moment from the first frame.) */
 async function launchMap(): Promise<void> {
-  render(withProviders(<Bonetider />));
+  await render(withProviders(<Bonetider />));
   await act(async () => {});
   await act(async () => {
-    fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+    await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
       nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
     });
   });
@@ -62,14 +66,14 @@ async function step(direction: 'Nästa dag' | 'Föregående dag'): Promise<void>
   // Day controls share the calendar header in the expanded schedule.
   if (!screen.queryByRole('button', { name: direction })) {
     await act(async () => {
-      fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
+      await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
     });
   }
   await act(async () => {
-    fireEvent.press(screen.getByRole('button', { name: direction }));
+    await fireEvent.press(screen.getByRole('button', { name: direction }));
   });
   await act(async () => {
-    fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
+    await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
   });
 }
 
@@ -146,7 +150,7 @@ describe('stepping days on the map', () => {
       await step('Nästa dag');
 
       await act(async () => {
-        fireEvent.press(screen.getByLabelText('Återgå till i dag'));
+        await fireEvent.press(screen.getByLabelText('Återgå till i dag'));
       });
 
       expect(screen.queryByText('i morgon')).toBeNull();

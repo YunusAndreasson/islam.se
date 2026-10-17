@@ -25,7 +25,7 @@ function permission(status: 'granted' | 'denied' | 'undetermined') {
  *  the map, dock and scheduler all read it), so it renders inside the real providers. */
 async function renderHint() {
   const onClose = jest.fn();
-  render(
+  await render(
     <SettingsProvider>
       <LocationProvider>
         <LocationHint top={68} onClose={onClose} />
@@ -68,7 +68,7 @@ describe('LocationHint', () => {
   it('does not touch the OS prompt when dismissed', async () => {
     const { onClose } = await renderHint();
 
-    fireEvent.press(screen.getByLabelText('Stäng'));
+    await fireEvent.press(screen.getByLabelText('Stäng'));
 
     expect(onClose).toHaveBeenCalledTimes(1);
     expect(requestPermission).not.toHaveBeenCalled();
@@ -79,7 +79,7 @@ describe('LocationHint', () => {
     await renderHint();
 
     await act(async () => {
-      fireEvent.press(screen.getByText('Använd min plats'));
+      await fireEvent.press(screen.getByText('Använd min plats'));
     });
 
     expect(requestPermission).toHaveBeenCalledTimes(1);
@@ -94,7 +94,7 @@ describe('LocationHint', () => {
     const { onClose } = await renderHint();
 
     await act(async () => {
-      fireEvent.press(screen.getByText('Använd min plats'));
+      await fireEvent.press(screen.getByText('Använd min plats'));
     });
 
     await waitFor(() => expect(screen.getByText(/Platsåtkomst nekad/)).toBeTruthy());
@@ -111,7 +111,7 @@ describe('LocationHint', () => {
     const { onClose } = await renderHint();
 
     await act(async () => {
-      fireEvent.press(screen.getByText('Använd min plats'));
+      await fireEvent.press(screen.getByText('Använd min plats'));
     });
 
     await waitFor(() => expect(screen.getByText('Platsen kunde inte hämtas')).toBeTruthy());
@@ -125,7 +125,7 @@ describe('LocationHint', () => {
   it('routes to the city picker without touching the OS prompt', async () => {
     const { onClose } = await renderHint();
 
-    fireEvent.press(screen.getByText('Välj stad i stället'));
+    await fireEvent.press(screen.getByText('Välj stad i stället'));
 
     expect(router.push).toHaveBeenCalledWith('/(settings)/byt-plats');
     expect(requestPermission).not.toHaveBeenCalled();
@@ -137,7 +137,7 @@ describe('LocationHint', () => {
     await renderHint();
 
     await act(async () => {
-      fireEvent.press(screen.getByText('Använd min plats'));
+      await fireEvent.press(screen.getByText('Använd min plats'));
     });
 
     await waitFor(async () => {
@@ -153,8 +153,8 @@ describe('LocationHint', () => {
 
     const cta = screen.getByText('Använd min plats');
     await act(async () => {
-      fireEvent.press(cta);
-      fireEvent.press(cta);
+      await fireEvent.press(cta);
+      await fireEvent.press(cta);
     });
 
     expect(requestPermission).toHaveBeenCalledTimes(1);

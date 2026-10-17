@@ -53,7 +53,7 @@ describe('useAim — one sensor, many instruments', () => {
   it('opens the sensor ONCE for two instruments, and feeds both', async () => {
     // 0° and 90°: one consumer is aimed, the other is not, off the same reading. If they were
     // sharing state rather than sharing a subscription, both would say the same thing.
-    const view = render(
+    const view = await render(
       <>
         <Instrument bearing={0} />
         <Instrument bearing={90} />
@@ -71,7 +71,7 @@ describe('useAim — one sensor, many instruments', () => {
   });
 
   it('keeps the sensor open while any instrument is still listening', async () => {
-    const view = render(
+    const view = await render(
       <>
         <Instrument bearing={0} />
         <Instrument bearing={90} />
@@ -80,7 +80,7 @@ describe('useAim — one sensor, many instruments', () => {
     await waitFor(() => expect(emit).not.toBeNull());
 
     // One goes: the watch must stay, or the surviving instrument dies with it.
-    view.rerender(<Instrument bearing={0} />);
+    await view.rerender(<Instrument bearing={0} />);
     await act(async () => {
       await Promise.resolve();
     });
@@ -89,20 +89,20 @@ describe('useAim — one sensor, many instruments', () => {
 
     // The last one goes: now the sensor is released, so the magnetometer is not left running
     // behind a screen nobody is looking at.
-    view.unmount();
+    await view.unmount();
     await waitFor(() => expect(removed).toBe(1));
   });
 
   it('re-opens after the last instrument has left', async () => {
-    const first = render(<Instrument bearing={0} />);
+    const first = await render(<Instrument bearing={0} />);
     await waitFor(() => expect(emit).not.toBeNull());
-    first.unmount();
+    await first.unmount();
     await waitFor(() => expect(removed).toBe(1));
 
-    const second = render(<Instrument bearing={0} />);
+    const second = await render(<Instrument bearing={0} />);
     await waitFor(() => expect(emit).not.toBeNull());
     expect(jest.mocked(Location.watchHeadingAsync)).toHaveBeenCalledTimes(2);
-    second.unmount();
+    await second.unmount();
   });
 
   it('hands a joining instrument the reading the sensor has already given', async () => {
@@ -122,7 +122,7 @@ describe('useAim — one sensor, many instruments', () => {
         </>
       );
     }
-    const view = render(<Pair second={false} />);
+    const view = await render(<Pair second={false} />);
     await waitFor(() => expect(emit).not.toBeNull());
     await act(async () => {
       emit?.({ trueHeading: 0, magHeading: 0, accuracy: 3 });
@@ -130,7 +130,7 @@ describe('useAim — one sensor, many instruments', () => {
     expect(view.getByText('aimed')).toBeTruthy();
 
     // A second instrument arrives, and the sensor stays silent from here on.
-    view.rerender(<Pair second />);
+    await view.rerender(<Pair second />);
     // Flushed, not polled. The joiner's whole path — permission check, addHeadingListener,
     // the replay — is a chain of already-resolved promises, so one act() drains it exactly.
     // `waitFor` polls on a 50 ms timer against a 1 s budget instead, and on a loaded machine
@@ -145,19 +145,19 @@ describe('useAim — one sensor, many instruments', () => {
   it('forgets the last reading once the sensor is released', async () => {
     // Otherwise a bearing from a previous session is replayed into a new one — a direction
     // taken from wherever the phone was pointing minutes ago, presented as current.
-    const first = render(<Instrument bearing={0} />);
+    const first = await render(<Instrument bearing={0} />);
     await waitFor(() => expect(emit).not.toBeNull());
     await act(async () => {
       emit?.({ trueHeading: 0, magHeading: 0, accuracy: 3 });
     });
     expect(first.getByText('aimed')).toBeTruthy();
-    first.unmount();
+    await first.unmount();
     await waitFor(() => expect(removed).toBe(1));
 
-    const second = render(<Instrument bearing={0} />);
+    const second = await render(<Instrument bearing={0} />);
     await waitFor(() => expect(emit).not.toBeNull());
     expect(second.getByText('searching')).toBeTruthy();
-    second.unmount();
+    await second.unmount();
   });
 
   it('takes the listener back out when the sensor refuses to open', async () => {
@@ -170,20 +170,20 @@ describe('useAim — one sensor, many instruments', () => {
       .mockImplementation((async () => {
         throw new Error('no magnetometer');
       }) as never);
-    const failed = render(<Instrument bearing={0} />);
+    const failed = await render(<Instrument bearing={0} />);
     await act(async () => {
       await Promise.resolve();
     });
-    failed.unmount();
+    await failed.unmount();
 
     // A healthy consumer now opens the watch — and releasing it must actually close it.
     jest.mocked(Location.watchHeadingAsync).mockImplementation((async (cb: never) => {
       emit = cb;
       return { remove: () => { removed += 1; } };
     }) as never);
-    const healthy = render(<Instrument bearing={0} />);
+    const healthy = await render(<Instrument bearing={0} />);
     await waitFor(() => expect(emit).not.toBeNull());
-    healthy.unmount();
+    await healthy.unmount();
     await waitFor(() => expect(removed).toBe(1));
   });
 
@@ -209,7 +209,7 @@ describe('useAim — one sensor, many instruments', () => {
         </Text>
       );
     }
-    const view = render(<Asker />);
+    const view = await render(<Asker />);
     await act(async () => {
       await Promise.resolve();
     });
@@ -218,7 +218,7 @@ describe('useAim — one sensor, many instruments', () => {
 
     for (const expected of [1, 2, 3]) {
       await act(async () => {
-        fireEvent.press(view.getByText('ask'));
+        await fireEvent.press(view.getByText('ask'));
       });
       await waitFor(() =>
         expect(jest.mocked(Location.requestForegroundPermissionsAsync)).toHaveBeenCalledTimes(expected),
@@ -227,7 +227,7 @@ describe('useAim — one sensor, many instruments', () => {
   });
 
   it('does not open the sensor at all for an inactive instrument', async () => {
-    render(<Instrument bearing={0} active={false} />);
+    await render(<Instrument bearing={0} active={false} />);
     await act(async () => {
       await Promise.resolve();
     });

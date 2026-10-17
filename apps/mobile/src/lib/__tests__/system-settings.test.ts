@@ -10,10 +10,12 @@
 // on a Samsung is several levels down under a name that varies by ROM.
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import * as IntentLauncher from 'expo-intent-launcher';
+import * as Notifications from 'expo-notifications';
 import { Linking, Platform } from 'react-native';
 
 import {
   openBatteryOptimizationSettings,
+  openExactAlarmSettings,
   openNotificationSettings,
   openSystemSettings,
 } from '@/lib/system-settings';
@@ -96,5 +98,34 @@ describe('the battery-optimisation hand-off', () => {
     withPlatform('ios', openBatteryOptimizationSettings);
 
     expect(startActivity).not.toHaveBeenCalled();
+  });
+});
+
+describe('the exact-alarm hand-off', () => {
+  const requestExact = jest.mocked(Notifications.requestExactAlarmPermissionsAsync);
+  afterEach(() => {
+    requestExact.mockClear();
+  });
+
+  it('opens Android\'s "Alarm och påminnelser" page for this app', () => {
+    withPlatform('android', openExactAlarmSettings);
+    expect(requestExact).toHaveBeenCalledTimes(1);
+    expect(openSettings).not.toHaveBeenCalled();
+  });
+
+  // It rejects only when SCHEDULE_EXACT_ALARM is undeclared. A tap must still land the
+  // reader somewhere they can act, not on nothing.
+  it('falls back to the app page when the request cannot open', async () => {
+    requestExact.mockRejectedValueOnce(new Error('SCHEDULE_EXACT_ALARM not declared'));
+    withPlatform('android', openExactAlarmSettings);
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(openSettings).toHaveBeenCalled();
+  });
+
+  it('never calls the Android-only API on iOS', () => {
+    withPlatform('ios', openExactAlarmSettings);
+    expect(requestExact).not.toHaveBeenCalled();
+    expect(openSettings).toHaveBeenCalled();
   });
 });

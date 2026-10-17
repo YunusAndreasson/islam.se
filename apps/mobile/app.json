@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.0.14",
+    "version": "1.1.0",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -15,7 +15,7 @@
         "tinted": "./assets/images/ios-tinted.png"
       },
       "bundleIdentifier": "se.islam.mobile",
-      "buildNumber": "24",
+      "buildNumber": "25",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "sv"
@@ -27,7 +27,7 @@
     "android": {
       "package": "se.islam.mobile",
       "userInterfaceStyle": "automatic",
-      "versionCode": 13,
+      "versionCode": 14,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "monochromeImage": "./assets/images/adaptive-icon-monochrome.png",
@@ -46,25 +46,23 @@
         "@maplibre/maplibre-react-native",
         {
           "android": {
-            "nativeVariant": "vulkan",
-            "nativeVersion": "13.4.1"
-          },
-          "ios": {
-            "nativeVersion": "6.28.0"
+            "nativeVariant": "vulkan"
           }
         }
       ],
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Platsåtkomst används för att beräkna bönetider där du befinner dig."
+          "locationWhenInUsePermission": "Platsåtkomst används för att beräkna bönetider där du befinner dig.",
+          "locationFullAccuracyPermission": false
         }
       ],
       [
         "expo-notifications",
         {
           "color": "#2a557f",
-          "icon": "./assets/images/notification-icon.png"
+          "icon": "./assets/images/notification-icon.png",
+          "enableRemoteNotifications": false
         }
       ],
       "expo-web-browser",
@@ -82,6 +80,7 @@
           }
         }
       ],
+      "./plugins/withPrayerWidgetAndroid",
       [
         "expo-widgets",
         {
@@ -100,9 +99,17 @@
                   "accessoryCircular"
                 ]
               },
-              "android": null
+              "android": {
+                "minWidth": 250,
+                "minHeight": 110,
+                "targetCellWidth": 4,
+                "targetCellHeight": 2,
+                "resizeMode": "both",
+                "initialLayout": "./src/widgets/PrayerTimesWidgetAndroid.tsx"
+              }
             }
-          ]
+          ],
+          "enableAndroid": true
         }
       ],
       "expo-status-bar",

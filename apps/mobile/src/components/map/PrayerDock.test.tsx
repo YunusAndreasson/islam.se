@@ -17,6 +17,7 @@ import { startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
 import { DOCK_COLLAPSED_BASE, type DayMark, type PrayerDockHandle, PrayerDock, resolveToggle } from './PrayerDock';
 import { PRAYER_COLORS, PRAYER_TEXT_COLORS } from '@/lib/solar/palette';
 import { first, last } from '@/test-utils/at';
+import { oneOfType } from '@/test-utils/rendered';
 
 beforeEach(() => {
   Dimensions.set({ window: { width: 411, height: 914, scale: 2.625, fontScale: 1 }, screen: { width: 411, height: 914, scale: 2.625, fontScale: 1 } });
@@ -67,12 +68,12 @@ function dockProps(revealSchedule: boolean, clockOverrides: Partial<SolarClock> 
 // toggle label is the observable proof of the open/closed state — the height itself is a
 // shared value the reanimated test shim doesn't animate.
 describe('PrayerDock schedule reveal', () => {
-  it('keeps the same summary and preview controls when opening and closing', () => {
+  it('keeps the same summary and preview controls when opening and closing', async () => {
     const props = dockProps(false, { mode: 'scrub' });
-    const { rerender } = render(<PrayerDock {...props} />);
+    const { rerender } = await render(<PrayerDock {...props} />);
     const summary = screen.getByTestId('dock-summary');
     for (const revealSchedule of [true, false, true]) {
-      rerender(<PrayerDock {...props} revealSchedule={revealSchedule} />);
+      await rerender(<PrayerDock {...props} revealSchedule={revealSchedule} />);
       expect(screen.getByTestId('dock-summary')).toBe(summary);
       expect(within(summary).getByText(PRAYER_LABELS.asr)).toBeTruthy();
       expect(within(summary).getByText('Stockholm')).toBeTruthy();
@@ -81,34 +82,34 @@ describe('PrayerDock schedule reveal', () => {
     }
   });
 
-  it('keeps the calendar outside the scrolling rows and reserves its measured height', () => {
-    render(<PrayerDock {...dockProps(true)} />);
+  it('keeps the calendar outside the scrolling rows and reserves its measured height', async () => {
+    await render(<PrayerDock {...dockProps(true)} />);
     const scroll = screen.getByTestId('dock-schedule-scroll');
     expect(within(scroll).queryByTestId('prayer-dock-date')).toBeNull();
     expect(within(screen.getByTestId('dock-calendar-header')).getByTestId('prayer-dock-date')).toBeTruthy();
     const before = StyleSheet.flatten(scroll.props.style).maxHeight;
-    fireEvent(screen.getByTestId('dock-calendar-header'), 'layout', {
+    await fireEvent(screen.getByTestId('dock-calendar-header'), 'layout', {
       nativeEvent: { layout: { height: 104 } },
     });
     expect(StyleSheet.flatten(screen.getByTestId('dock-schedule-scroll').props.style).maxHeight).toBe(before - 40);
   });
 
-  it('stays collapsed by default', () => {
-    render(<PrayerDock {...dockProps(false)} />);
+  it('stays collapsed by default', async () => {
+    await render(<PrayerDock {...dockProps(false)} />);
     expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
     expect(screen.queryByRole('button', { name: /^Fajr / })).toBeNull();
   });
 
-  it('opens itself when the host asks for the reveal', () => {
-    render(<PrayerDock {...dockProps(true)} />);
+  it('opens itself when the host asks for the reveal', async () => {
+    await render(<PrayerDock {...dockProps(true)} />);
     expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
     expect(screen.getByRole('button', { name: /^Fajr / })).toBeTruthy();
   });
 
-  it('closes again when the reveal ends', () => {
-    const { rerender } = render(<PrayerDock {...dockProps(true)} />);
+  it('closes again when the reveal ends', async () => {
+    const { rerender } = await render(<PrayerDock {...dockProps(true)} />);
     expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
-    rerender(<PrayerDock {...dockProps(false)} />);
+    await rerender(<PrayerDock {...dockProps(false)} />);
     // If this regressed the dock would be left open over the map with the hint fading in
     // on top of it — the reveal must hand the screen back.
     expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
@@ -124,27 +125,27 @@ describe('PrayerDock schedule reveal', () => {
 describe('PrayerDock location fallback', () => {
   const PICK_LABEL = 'Ingen plats vald – tryck för att välja stad';
 
-  it('names the place when the location is real', () => {
-    render(<PrayerDock {...dockProps(false)} locationIsFallback={false} />);
+  it('names the place when the location is real', async () => {
+    await render(<PrayerDock {...dockProps(false)} locationIsFallback={false} />);
     expect(screen.getByText('Stockholm')).toBeTruthy();
     expect(screen.queryByLabelText(PICK_LABEL)).toBeNull();
   });
 
-  it('offers to pick a place instead of naming the fallback city', () => {
-    render(<PrayerDock {...dockProps(false)} locationIsFallback />);
+  it('offers to pick a place instead of naming the fallback city', async () => {
+    await render(<PrayerDock {...dockProps(false)} locationIsFallback />);
     expect(screen.getByLabelText(PICK_LABEL)).toBeTruthy();
     // The whole point: the fallback city's name must not be presented as the user's.
     expect(screen.queryByText('Stockholm')).toBeNull();
   });
 
-  it('routes to the city picker when the offer is tapped', () => {
-    render(<PrayerDock {...dockProps(false)} locationIsFallback />);
-    fireEvent.press(screen.getByLabelText(PICK_LABEL));
+  it('routes to the city picker when the offer is tapped', async () => {
+    await render(<PrayerDock {...dockProps(false)} locationIsFallback />);
+    await fireEvent.press(screen.getByLabelText(PICK_LABEL));
     expect(router.push).toHaveBeenCalledWith('/(settings)/byt-plats');
   });
 
-  it('offers the pick in the expanded hero too', () => {
-    render(<PrayerDock {...dockProps(true)} locationIsFallback />);
+  it('offers the pick in the expanded hero too', async () => {
+    await render(<PrayerDock {...dockProps(true)} locationIsFallback />);
     expect(screen.getByLabelText(PICK_LABEL)).toBeTruthy();
   });
 });
@@ -157,27 +158,27 @@ describe('PrayerDock location fallback', () => {
 describe('PrayerDock day navigation', () => {
   const scrubbed = { mode: 'scrub' as const };
 
-  it('shows the selected time beside return, matching the timeline spoken time', () => {
+  it('shows the selected time beside return, matching the timeline spoken time', async () => {
     const props = dockProps(false, scrubbed);
-    render(<PrayerDock {...props} />);
+    await render(<PrayerDock {...props} />);
     expect(screen.getByTestId('prayer-preview-time').props.children).toBe('14:00');
     expect(screen.getByRole('adjustable').props.accessibilityValue.text).toBe('14:00');
-    fireEvent.press(screen.getByLabelText('Återgå till nu'));
+    await fireEvent.press(screen.getByLabelText('Återgå till nu'));
     expect(props.clock.reset).toHaveBeenCalledTimes(1);
   });
 
-  it('keeps the preview time out of live mode', () => {
-    render(<PrayerDock {...dockProps(false)} />);
+  it('keeps the preview time out of live mode', async () => {
+    await render(<PrayerDock {...dockProps(false)} />);
     expect(screen.queryByTestId('prayer-preview-time')).toBeNull();
   });
 
-  it('keeps day buttons out of the collapsed scrubber', () => {
-    render(<PrayerDock {...dockProps(false)} />);
+  it('keeps day buttons out of the collapsed scrubber', async () => {
+    await render(<PrayerDock {...dockProps(false)} />);
     expect(screen.queryByRole('button', { name: 'Nästa dag' })).toBeNull();
     expect(screen.getByRole('adjustable', { name: 'Dagens tidslinje' })).toBeTruthy();
   });
 
-  it('writes each prayer NAME in its own hue, and the night rows in plain ink', () => {
+  it('writes each prayer NAME in its own hue, and the night rows in plain ink', async () => {
     // The removed prayer glyphs were tinted in each prayer's line colour, and that tint was
     // the list's only link to the map lines, the pills and the timeline pips. The link now
     // lives on the name itself, the way a line's pill on the map already wrote it (a dot
@@ -185,7 +186,7 @@ describe('PrayerDock day navigation', () => {
     // the TEXT table, never the raw line colours (those fail contrast as small text — see
     // lib/solar/palette), and the night landmarks staying uncoloured, since they have no
     // line to point at.
-    render(<PrayerDock {...dockProps(true)} settings={{ ...DEFAULT_SETTINGS, showNightTimes: true }} />);
+    await render(<PrayerDock {...dockProps(true)} settings={{ ...DEFAULT_SETTINGS, showNightTimes: true }} />);
     for (const key of PRAYER_ORDER) {
       const row = screen.getByLabelText(new RegExp(`^${PRAYER_LABELS[key]} `));
       const name = within(row).getByTestId('dock-row-name');
@@ -214,12 +215,12 @@ describe('PrayerDock day navigation', () => {
     );
   });
 
-  it('keeps the 00 and 24 hour labels inside the track, not hanging past its ends', () => {
+  it('keeps the 00 and 24 hour labels inside the track, not hanging past its ends', async () => {
     // Centred on their hour, the two end labels overhung the track by half their width and
     // sat ~9.5 dp from the card's rounded edge while the rest of the dock keeps 16. They now
     // align inward, flush with the track's ends; the inner hours still centre on theirs.
-    render(<PrayerDock {...dockProps(false)} />);
-    fireEvent(screen.getByRole('adjustable', { name: 'Dagens tidslinje' }), 'layout', {
+    await render(<PrayerDock {...dockProps(false)} />);
+    await fireEvent(screen.getByRole('adjustable', { name: 'Dagens tidslinje' }), 'layout', {
       nativeEvent: { layout: { x: 0, y: 0, width: 300, height: 48 } },
     });
     const tick = (label: string) =>
@@ -235,20 +236,20 @@ describe('PrayerDock day navigation', () => {
     expect(tick('12').textAlign).toBe('center');
   });
 
-  it('offers both chevrons alongside the calendar when expanded', () => {
-    render(<PrayerDock {...dockProps(true)} />);
+  it('offers both chevrons alongside the calendar when expanded', async () => {
+    await render(<PrayerDock {...dockProps(true)} />);
     expect(screen.getByRole('button', { name: 'Föregående dag' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Nästa dag' })).toBeTruthy();
   });
 
-  it('steps the clock by exactly one day in each direction', () => {
+  it('steps the clock by exactly one day in each direction', async () => {
     const props = dockProps(true);
-    render(<PrayerDock {...props} />);
+    await render(<PrayerDock {...props} />);
 
-    fireEvent.press(screen.getByRole('button', { name: 'Nästa dag' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Nästa dag' }));
     expect(props.clock.stepDay).toHaveBeenCalledWith(1);
 
-    fireEvent.press(screen.getByRole('button', { name: 'Föregående dag' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Föregående dag' }));
     expect(props.clock.stepDay).toHaveBeenCalledWith(-1);
   });
 
@@ -257,8 +258,8 @@ describe('PrayerDock day navigation', () => {
   it.each([
     [MAX_DAY_OFFSET, 'Nästa dag', 'Föregående dag'],
     [-MAX_DAY_OFFSET, 'Föregående dag', 'Nästa dag'],
-  ])('disables only the outward chevron at offset %s', (dayOffset, blocked, open) => {
-    render(<PrayerDock {...dockProps(true, { dayOffset, ...scrubbed })} />);
+  ])('disables only the outward chevron at offset %s', async (dayOffset, blocked, open) => {
+    await render(<PrayerDock {...dockProps(true, { dayOffset, ...scrubbed })} />);
     expect(screen.getByRole('button', { name: blocked }).props.accessibilityState.disabled).toBe(
       true,
     );
@@ -269,28 +270,28 @@ describe('PrayerDock day navigation', () => {
 
   // The single aside slot carries three different promises. On today it restores the TIME;
   // on another day the bigger fact is the date, so it restores the DAY.
-  it('promises "Nu" on today and "I dag" elsewhere', () => {
-    render(<PrayerDock {...dockProps(false, scrubbed)} />);
+  it('promises "Nu" on today and "I dag" elsewhere', async () => {
+    await render(<PrayerDock {...dockProps(false, scrubbed)} />);
     expect(screen.getByLabelText('Återgå till nu')).toBeTruthy();
 
-    render(<PrayerDock {...dockProps(false, { ...scrubbed, dayOffset: 3 })} />);
+    await render(<PrayerDock {...dockProps(false, { ...scrubbed, dayOffset: 3 })} />);
     expect(screen.getByLabelText('Återgå till i dag')).toBeTruthy();
   });
 
-  it('names the viewed day on the sub-line, but only when it is not today', () => {
-    render(<PrayerDock {...dockProps(false)} />);
+  it('names the viewed day on the sub-line, but only when it is not today', async () => {
+    await render(<PrayerDock {...dockProps(false)} />);
     expect(screen.queryByText('i dag')).toBeNull(); // today needs no label
 
-    render(<PrayerDock {...dockProps(false, { ...scrubbed, dayOffset: 1 })} />);
+    await render(<PrayerDock {...dockProps(false, { ...scrubbed, dayOffset: 1 })} />);
     expect(screen.getByText('i morgon')).toBeTruthy();
   });
 
   // THE MISLABEL THIS GUARDS. The next-day marker used to be a hard-coded " i morgon".
   // Viewed from two days out, past that day's Ishaʾ, the next prayer is FOUR days from
   // today — and the dock confidently called it tomorrow.
-  it('names the next-day prayer relative to the VIEWED day, not to today', () => {
+  it('names the next-day prayer relative to the VIEWED day, not to today', async () => {
     const props = dockProps(false, { ...scrubbed, dayOffset: 2 });
-    render(<PrayerDock {...props} next={{ key: 'fajr', at: NOW + 86_400_000, nextDay: true }} />);
+    await render(<PrayerDock {...props} next={{ key: 'fajr', at: NOW + 86_400_000, nextDay: true }} />);
 
     // dayOffset 2 + one more day = three days out.
     expect(screen.getByText('om 3 dagar')).toBeTruthy();
@@ -301,23 +302,23 @@ describe('PrayerDock day navigation', () => {
   // prayer the collapsed dock had NO way back to now. That needed a scrub past Ishaʾ plus
   // an unresolvable next-day Fajr — until day navigation made one step onto a polar-winter
   // day enough to reach it routinely.
-  it('still offers the way back when there is no next prayer at all', () => {
-    render(<PrayerDock {...dockProps(false, { ...scrubbed, dayOffset: 4 })} next={null} />);
+  it('still offers the way back when there is no next prayer at all', async () => {
+    await render(<PrayerDock {...dockProps(false, { ...scrubbed, dayOffset: 4 })} next={null} />);
     expect(screen.getByLabelText('Återgå till i dag')).toBeTruthy();
     expect(screen.getByText('Inga fler böner den här dagen')).toBeTruthy();
   });
 
-  it('keeps the today-specific empty copy on today', () => {
-    render(<PrayerDock {...dockProps(false)} next={null} />);
+  it('keeps the today-specific empty copy on today', async () => {
+    await render(<PrayerDock {...dockProps(false)} next={null} />);
     expect(screen.getByText('Inga fler böner i dag')).toBeTruthy();
   });
 
-  it('speaks BOTH dates from the date crown, in printed order', () => {
+  it('speaks BOTH dates from the date crown, in printed order', async () => {
     // THE BUG THIS GUARDS: the crown's label named only the Gregorian date, so a screen
     // reader user heard "Lördag 1 augusti. Välj dag." and never once heard which Hijri day
     // they were on. The label follows the printed order: the Swedish date is the headline
     // (the stepper and calendar move through civil days), the Hijri date the line under it.
-    render(<PrayerDock {...dockProps(true)} />);
+    await render(<PrayerDock {...dockProps(true)} />);
 
     // Both printed lines, in printed order, then the action — asserted whole, so a
     // regression names the exact string that changed instead of "expected true".
@@ -332,13 +333,13 @@ describe('PrayerDock day navigation', () => {
 
   // The date crown is the other half of the navigation the plan called for: chevrons for
   // nearby days, a calendar for distant ones.
-  it('opens the calendar from the date header and jumps through the clock', () => {
+  it('opens the calendar from the date header and jumps through the clock', async () => {
     const props = dockProps(true);
-    render(<PrayerDock {...props} />);
+    await render(<PrayerDock {...props} />);
 
-    fireEvent.press(screen.getByRole('button', { name: /Välj dag/ }));
+    await fireEvent.press(screen.getByRole('button', { name: /Välj dag/ }));
     // The 15th of the viewed month, whatever month that is.
-    fireEvent.press(screen.getByRole('button', { name: /^15 / }));
+    await fireEvent.press(screen.getByRole('button', { name: /^15 / }));
 
     expect(props.clock.goToDay).toHaveBeenCalledTimes(1);
     // It hands over an instant inside the chosen day; the clock resolves which day that is.
@@ -346,20 +347,20 @@ describe('PrayerDock day navigation', () => {
     expect(typeof first(first(goToDayCalls, 'goToDay calls'), 'goToDay arg')).toBe('number');
   });
 
-  it('uses the same calendar for an external request and consumes it on selection', () => {
+  it('uses the same calendar for an external request and consumes it on selection', async () => {
     const props = dockProps(false);
     const onCalendarClose = jest.fn();
-    render(<PrayerDock {...props} calendarRequested onCalendarClose={onCalendarClose} />);
-    fireEvent.press(screen.getByRole('button', { name: /^15 / }));
+    await render(<PrayerDock {...props} calendarRequested onCalendarClose={onCalendarClose} />);
+    await fireEvent.press(screen.getByRole('button', { name: /^15 / }));
     expect(props.clock.goToDay).toHaveBeenCalledTimes(1);
     expect(onCalendarClose).toHaveBeenCalledTimes(1);
   });
 
-  it('dismisses an external calendar request without changing the date', () => {
+  it('dismisses an external calendar request without changing the date', async () => {
     const props = dockProps(false);
     const onCalendarClose = jest.fn();
-    render(<PrayerDock {...props} calendarRequested onCalendarClose={onCalendarClose} />);
-    fireEvent.press(screen.getByRole('button', { name: 'Stäng kalendern' }));
+    await render(<PrayerDock {...props} calendarRequested onCalendarClose={onCalendarClose} />);
+    await fireEvent.press(screen.getByRole('button', { name: 'Stäng kalendern' }));
     expect(props.clock.goToDay).not.toHaveBeenCalled();
     expect(onCalendarClose).toHaveBeenCalledTimes(1);
   });
@@ -374,8 +375,8 @@ describe('PrayerDock night group', () => {
     return { ...props, settings: { ...DEFAULT_SETTINGS, showNightTimes: true } };
   };
 
-  it('is absent until asked for', () => {
-    render(<PrayerDock {...dockProps(true)} />);
+  it('is absent until asked for', async () => {
+    await render(<PrayerDock {...dockProps(true)} />);
     expect(screen.queryByText('Natten')).toBeNull();
     expect(screen.queryByText(NIGHT_LABELS.middleOfNight)).toBeNull();
     expect(screen.queryByText(NIGHT_LABELS.lastThird)).toBeNull();
@@ -383,20 +384,20 @@ describe('PrayerDock night group', () => {
 
   const CAPTION = 'Natten';
 
-  it('is absent until asked for (caption)', () => {
-    render(<PrayerDock {...dockProps(true)} />);
+  it('is absent until asked for (caption)', async () => {
+    await render(<PrayerDock {...dockProps(true)} />);
     expect(screen.queryByText(CAPTION)).toBeNull();
   });
 
-  it('shows both landmarks under a caption that names the night', () => {
-    render(<PrayerDock {...nightProps(true)} />);
+  it('shows both landmarks under a caption that names the night', async () => {
+    await render(<PrayerDock {...nightProps(true)} />);
     expect(screen.getByText(CAPTION)).toBeTruthy();
     expect(screen.getByText(NIGHT_LABELS.middleOfNight)).toBeTruthy();
     expect(screen.getByText(NIGHT_LABELS.lastThird)).toBeTruthy();
   });
 
-  it('stays inside the expanded card — nothing leaks into the collapsed dock', () => {
-    render(<PrayerDock {...nightProps(false)} />);
+  it('stays inside the expanded card — nothing leaks into the collapsed dock', async () => {
+    await render(<PrayerDock {...nightProps(false)} />);
     expect(screen.queryByText(CAPTION)).toBeNull();
     expect(screen.queryByText(NIGHT_LABELS.lastThird)).toBeNull();
   });
@@ -406,9 +407,9 @@ describe('PrayerDock night group', () => {
   // midnight. Making these rows pressable "for consistency" would land the scrubber on
   // 23:59 of the wrong day and light ʿIshāʾ up as current, with nothing on screen
   // admitting it. They are announced, not operable.
-  it('does not offer the night rows as buttons', () => {
+  it('does not offer the night rows as buttons', async () => {
     const props = nightProps(true);
-    render(<PrayerDock {...props} />);
+    await render(<PrayerDock {...props} />);
     // The prayer rows above still are, so this is a difference, not a broken list.
     expect(screen.getByRole('button', { name: /^Fajr / })).toBeTruthy();
     for (const key of NIGHT_ORDER) {
@@ -424,8 +425,8 @@ describe('PrayerDock night group', () => {
   // Three ways of flagging that were tried and removed — "+1", a per-row weekday, and a
   // "Natten mot söndag" heading — because the clock face already answers it. This pins the
   // outcome: a name and a time, nothing else hanging off the row.
-  it('carries no midnight qualifier — the clock already says it', () => {
-    render(<PrayerDock {...nightProps(true)} />);
+  it('carries no midnight qualifier — the clock already says it', async () => {
+    await render(<PrayerDock {...nightProps(true)} />);
     const times = computePrayerTimes(STOCKHOLM, new Date(NOW), DEFAULT_SETTINGS);
     const night = computeNightTimes(times);
     const dayStart = startOfZoneDay(NOW);
@@ -449,9 +450,9 @@ describe('PrayerDock night group', () => {
   // computeNightTimes returns null where the division would be meaningless (see
   // lib/night-times.ts). The dock must render that as the same em dash an unresolved
   // prayer gets, not as a blank row or a fabricated time.
-  it('renders an unusable night as “—”, like any other unresolved time', () => {
+  it('renders an unusable night as “—”, like any other unresolved time', async () => {
     const props = nightProps(true);
-    render(
+    await render(
       <PrayerDock
         {...props}
         settings={{ ...props.settings, highLatitudeRule: 'middleOfTheNight' }}
@@ -502,14 +503,14 @@ describe('PrayerDock midnight crossing', () => {
     };
   }
 
-  it('marks where the schedule crosses midnight', () => {
+  it('marks where the schedule crosses midnight', async () => {
     const props = polarProps();
     // Guard the guard: if adhan ever stops putting this day's Maghrib past midnight, every
     // assertion below would pass vacuously.
     const dayEnd = props.clock.dayStart + props.clock.dayLength;
     expect(props.times.maghrib.getTime()).toBeGreaterThanOrEqual(dayEnd);
 
-    render(<PrayerDock {...props} />);
+    await render(<PrayerDock {...props} />);
     // includeHiddenElements because the rule is deliberately pruned from the accessibility
     // tree: every row below it already carries "efter midnatt" in its own label, and
     // announcing the caption too would read the fact twice for one row. It is a visual
@@ -517,33 +518,33 @@ describe('PrayerDock midnight crossing', () => {
     expect(screen.getByText('Efter midnatt', { includeHiddenElements: true })).toBeTruthy();
   });
 
-  it('says it in words for a screen reader, which cannot see the rule', () => {
-    render(<PrayerDock {...polarProps()} />);
+  it('says it in words for a screen reader, which cannot see the rule', async () => {
+    await render(<PrayerDock {...polarProps()} />);
     expect(screen.getByLabelText(/^Maghrib \d{2}:\d{2}, efter midnatt/)).toBeTruthy();
     // The rows before the crossing are untouched — no qualifier, no noise.
     expect(screen.getByLabelText(/^Ẓuhr \d{2}:\d{2}$/)).toBeTruthy();
   });
 
-  it('does not offer a post-midnight row as a button', () => {
+  it('does not offer a post-midnight row as a button', async () => {
     // clock.setInstant clamps to the viewed day, so this row can never be scrubbed to: the
     // thumb would park on the far rail at 24:00, and where two slots sit past midnight the
     // EARLIER one would light up as current. Same reasoning as the night landmarks.
     const props = polarProps();
-    render(<PrayerDock {...props} />);
+    await render(<PrayerDock {...props} />);
     expect(screen.queryByRole('button', { name: /^Maghrib / })).toBeNull();
     // Rows inside the day still scrub, so this is a difference and not a dead list.
-    fireEvent.press(screen.getByRole('button', { name: /^Ẓuhr / }));
+    await fireEvent.press(screen.getByRole('button', { name: /^Ẓuhr / }));
     expect(props.clock.setInstant).toHaveBeenCalled();
   });
 
-  it('still paints the next-prayer row brass when it is the one past midnight', () => {
+  it('still paints the next-prayer row brass when it is the one past midnight', async () => {
     // The row that stopped being pressable is very often the NEXT one — at Kiruna in June the
     // next prayer is the 00:36 Maghrib for most of the evening. The brass ground used to live
     // only on the Pressable branch, where it was unreachable-by-accident, so making these rows
     // plain Views left the text emphasised on no background: a half-painted row.
     const base = polarProps();
-    const maghribRowBackground = (nextKey: 'maghrib' | 'asr') => {
-      const view = render(
+    const maghribRowBackground = async (nextKey: 'maghrib' | 'asr') => {
+      const view = await render(
         <PrayerDock
           {...base}
           next={{ key: nextKey, at: base.times[nextKey].getTime(), nextDay: false }}
@@ -551,18 +552,18 @@ describe('PrayerDock midnight crossing', () => {
       );
       const row = view.getByLabelText(/^Maghrib \d{2}:\d{2}, efter midnatt/);
       const flat = StyleSheet.flatten(row.props.style) as { backgroundColor?: string };
-      view.unmount();
+      await view.unmount();
       return flat.backgroundColor;
     };
     // Same row, same branch, only `isNext` differs — so the difference IS the highlight.
-    expect(maghribRowBackground('maghrib')).toBeTruthy();
-    expect(maghribRowBackground('asr')).toBeFalsy();
+    expect(await maghribRowBackground('maghrib')).toBeTruthy();
+    expect(await maghribRowBackground('asr')).toBeFalsy();
   });
 
-  it('stays out of the way on an ordinary day', () => {
+  it('stays out of the way on an ordinary day', async () => {
     // Stockholm in August: every slot lands on the day the card is headed with, so the rule
     // must not appear at all — it is a correction, not decoration.
-    render(<PrayerDock {...dockProps(true)} />);
+    await render(<PrayerDock {...dockProps(true)} />);
     // Same includeHiddenElements as above, or this would pass whether the rule rendered or
     // not — the caption is invisible to the default query either way.
     expect(screen.queryByText('Efter midnatt', { includeHiddenElements: true })).toBeNull();
@@ -626,39 +627,39 @@ describe('resolveToggle — what a finished toggle gesture means', () => {
 });
 
 describe('PrayerDock open height follows the schedule it measured', () => {
-  function measure(height: number) {
-    fireEvent(screen.getByTestId('dock-calendar-header', { includeHiddenElements: true }), 'layout', {
+  async function measure(height: number) {
+    await fireEvent(screen.getByTestId('dock-calendar-header', { includeHiddenElements: true }), 'layout', {
       nativeEvent: { layout: { x: 0, y: 0, width: 320, height: 64 } },
     });
     // includeHiddenElements: the block is hidden from assistive tech while the dock is shut
     // (that is the point — nothing behind the card should be announced), but it is still in
     // the tree and still laid out.
-    fireEvent(screen.getByTestId('dock-schedule', { includeHiddenElements: true }), 'layout', {
+    await fireEvent(screen.getByTestId('dock-schedule', { includeHiddenElements: true }), 'layout', {
       nativeEvent: { layout: { x: 0, y: 0, width: 320, height: height - 64 } },
     });
   }
 
-  it('reports collapsed + measured schedule when it opens', () => {
+  it('reports collapsed + measured schedule when it opens', async () => {
     const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
-    const { rerender } = render(
+    const { rerender } = await render(
       <PrayerDock {...dockProps(false)} onExpandedChange={onExpandedChange} />,
     );
-    rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
-    measure(260);
+    await rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+    await measure(260);
 
     expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 260);
   });
 
-  it('grows with the text size instead of clipping the date crown', () => {
+  it('grows with the text size instead of clipping the date crown', async () => {
     const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
-    const { rerender } = render(
+    const { rerender } = await render(
       <PrayerDock {...dockProps(false)} onExpandedChange={onExpandedChange} />,
     );
-    rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+    await rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
     // What the same block measures at the OS's largest text size — every row taller, the
     // crown two bigger lines. The old constant would have left ~150 dp of it above the
     // card's top edge.
-    measure(430);
+    await measure(430);
 
     expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 430);
   });
@@ -671,14 +672,14 @@ describe('PrayerDock open height follows the schedule it measured', () => {
   // however much further you pulled, and it reached its real height only after release —
   // when mounting the rows re-laid the block out and the re-report sprang the card the rest
   // of the way. That is what "the dock doesn't open until I let go" was.
-  it('ignores a layout taken while the rows are not in the block', () => {
+  it('ignores a layout taken while the rows are not in the block', async () => {
     const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
-    const { rerender } = render(
+    const { rerender } = await render(
       <PrayerDock {...dockProps(false)} onExpandedChange={onExpandedChange} />,
     );
     // A closed-dock layout: 74 dp is about what the date crown alone occupies.
-    measure(74);
-    rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+    await measure(74);
+    await rerender(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
 
     const [open, reported] = last(onExpandedChange.mock.calls, 'onExpandedChange calls');
     expect(open).toBe(true);
@@ -686,14 +687,14 @@ describe('PrayerDock open height follows the schedule it measured', () => {
     expect(reported).toBe(DOCK_COLLAPSED_BASE + SCHEDULE_FALLBACK_HEIGHT);
   });
 
-  it('re-reports the height when the block changes size while open', () => {
+  it('re-reports the height when the block changes size while open', async () => {
     const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
-    render(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
-    measure(260);
+    await render(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+    await measure(260);
     // Turning the night group on adds two rows under an open card. Without the re-report
     // the card would keep the old height and clip them (and the map would pad for a card
     // that no longer exists).
-    measure(368);
+    await measure(368);
 
     expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 368);
   });
@@ -701,15 +702,15 @@ describe('PrayerDock open height follows the schedule it measured', () => {
 
 // The schedule must remain reachable when large text exceeds the available map area.
 describe('PrayerDock accessible layout', () => {
-  it('gives large text more room while bounding the scrollable schedule on a small screen', () => {
+  it('gives large text more room while bounding the scrollable schedule on a small screen', async () => {
     Dimensions.set({ window: { width: 320, height: 640, scale: 2, fontScale: 2 }, screen: { width: 320, height: 640, scale: 2, fontScale: 2 } });
     const onExpandedChange = jest.fn();
-    render(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
-    fireEvent(screen.getByTestId('dock-schedule'), 'layout', { nativeEvent: { layout: { height: 900 } } });
+    await render(<PrayerDock {...dockProps(true)} onExpandedChange={onExpandedChange} />);
+    await fireEvent(screen.getByTestId('dock-schedule'), 'layout', { nativeEvent: { layout: { height: 900 } } });
     const [, height] = last(onExpandedChange.mock.calls, 'height report');
     expect(height).toBeLessThan(640);
     expect(height).toBeGreaterThan(DOCK_COLLAPSED_BASE);
-    const scroll = screen.UNSAFE_getByType(ScrollView);
+    const scroll = oneOfType(ScrollView, 'schedule scroller');
     expect(scroll.props.scrollEnabled).toBe(true);
     expect(StyleSheet.flatten(scroll.props.style).maxHeight).toBeLessThan(900);
     expect(StyleSheet.flatten(screen.getByRole('button', { name: 'Nästa dag' }).props.style).width).toBeGreaterThanOrEqual(48);
@@ -718,17 +719,17 @@ describe('PrayerDock accessible layout', () => {
 
 
 describe('map dismissal', () => {
-  it('closes an open dock without changing the selected time and allows reopening', () => {
+  it('closes an open dock without changing the selected time and allows reopening', async () => {
     const ref = createRef<PrayerDockHandle>();
     const props = dockProps(true);
-    render(<PrayerDock {...props} ref={ref} />);
-    act(() => { expect(ref.current?.collapse()).toBe(true); });
+    await render(<PrayerDock {...props} ref={ref} />);
+    await act(() => { expect(ref.current?.collapse()).toBe(true); });
     expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
     expect(props.clock.reset).not.toHaveBeenCalled();
     expect(props.clock.setFraction).not.toHaveBeenCalled();
-    act(() => { expect(ref.current?.collapse()).toBe(false); });
-    fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
+    await act(() => { expect(ref.current?.collapse()).toBe(false); });
+    await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
     expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
-    act(() => { expect(ref.current?.collapse()).toBe(true); });
+    await act(() => { expect(ref.current?.collapse()).toBe(true); });
   });
 });

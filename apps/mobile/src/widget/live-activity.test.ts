@@ -1,5 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { alertContent } from '@/lib/alert-copy';
+
 import { type LatLng, PRAYER_LABELS } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 import { oracleTimes } from '@/test-utils/prayer-oracle';
@@ -120,19 +122,44 @@ describe('buildPrayerActivityProps', () => {
     expect(props?.isMarker).toBe(false);
   });
 
-  it('carries no preloaded "following prayer" — the extension cannot use one', () => {
-    // A previous version shipped afterKey/afterArabic/afterAtMs/… for a boundary
-    // hand-off, behind a hard-coded `const advanced = false` in the layout. It could
-    // never fire: rolling over inside the extension needs ActivityKit's stale state
-    // (staleDate / Activity.isStale) and expo-widgets exposes neither on start/update
-    // nor in LiveActivityEnvironment. The cost was a whole second prayer-times payload
-    // built on every foreground for props nothing read. Keep the shape honest.
+  describe('the view once the prayer has arrived', () => {
     const now = ref.asr.getTime() - 30 * 60 * 1000;
-    const props = buildPrayerActivityProps(
-      buildPayloadAt(STOCKHOLM, settings(), now, 'Stockholm'),
-      now,
-    );
-    expect(Object.keys(props ?? {}).filter((k) => k.startsWith('after'))).toEqual([]);
+    const payload = buildPayloadAt(STOCKHOLM, settings(), now, 'Stockholm');
+    const following = buildPayloadAt(STOCKHOLM, settings(), ref.asr.getTime() + 1, 'Stockholm');
+
+    // A cross-surface contract: at the prayer the banner flips to this title while the
+    // lead-0 alert for the same prayer lands on the same Lock Screen. If they ever say
+    // different things, one of them is wrong.
+    it('says what the lead-0 alert says', () => {
+      const props = buildPrayerActivityProps(payload, now, following);
+      expect(props?.arrivedTitle).toBe(alertContent('asr', ref.asr, 0).title);
+      expect(props?.arrivedTitle).toBe(`Dags för ${PRAYER_LABELS.asr}`);
+    });
+
+    it('names the sunrise marker the way its alert does', () => {
+      const atSunrise = ref.sunrise.getTime() - 10 * 60 * 1000;
+      const props = buildPrayerActivityProps(
+        buildPayloadAt(STOCKHOLM, settings(), atSunrise, 'Stockholm'),
+        atSunrise,
+      );
+      expect(props?.arrivedTitle).toBe('Fajr-tiden är slut');
+    });
+
+    // This used to be pinned the other way: a previous version shipped after* props behind
+    // a hard-coded `const advanced = false`, because without ActivityKit's stale state the
+    // extension could never show them. `isStale` exists now (expo-widgets ≥ 57.0.12), and
+    // the stale view is what reads these.
+    it('carries the prayer after it, for the stale view to name', () => {
+      const props = buildPrayerActivityProps(payload, now, following);
+      expect(props?.followingArabic).toBe(PRAYER_LABELS.maghrib);
+      expect(props?.followingTime).toBe(following.nextTime);
+    });
+
+    it('leaves the following prayer empty when none resolves, rather than inventing one', () => {
+      const props = buildPrayerActivityProps(payload, now, { ...following, nextAtMs: null });
+      expect(props?.followingArabic).toBe('');
+      expect(props?.followingTime).toBe('');
+    });
   });
 
   it('returns null in the polar midnight sun when no next slot resolves', () => {

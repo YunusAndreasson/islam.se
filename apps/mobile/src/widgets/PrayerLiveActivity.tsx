@@ -9,26 +9,14 @@
 // The countdown itself is `Text timerInterval … countsDown` — rendered live BY THE SYSTEM,
 // so it ticks every second with zero JS execution, no pushes and no background tasks.
 //
-// KNOWN CEILING: when the prayer arrives the countdown reaches 00:00 and STAYS there until
-// the app is next foregrounded (which re-points or ends the activity).
-//
-// Rolling the CONTENT over on the device would need ActivityKit's stale state
-// (`Activity.isStale` / `staleDate`). expo-widgets 57.0.10 does not merely leave that
-// unexposed in JS — its native bridge passes `staleDate: nil` on every path
-// (ios/LiveActivityFactory.swift:30, ios/LiveActivity.swift:23,35) and omits `isStale`
-// from LiveActivityEnvironment, which carries only colorScheme, isLuminanceReduced,
-// isActivityFullscreen, isActivityUpdateReduced, activityFamily and levelOfDetail. So the
-// layout cannot re-render itself at the boundary; that would take a fork of the module.
-// An earlier version shipped a preloaded `after*` prop set for the transition behind a
-// hard-coded `const advanced = false`; it could never fire, so it was removed rather than
-// left looking implemented.
-//
-// What the module DOES expose, and what any fix has to be built on, is the dismissal
-// policy: `end(after(date), props)` is wired end-to-end (JS `after()` → `afterDate` →
-// Swift `.after(date)`), and iOS removes an ended activity from the Lock Screen at that
-// date without the app running. The cost is that ending also drops it from the Dynamic
-// Island immediately, and this layout serves a full Dynamic Island presentation
-// (compactLeading/compactTrailing/minimal/expanded*) — so it is a trade, not a free win.
+// AT THE PRAYER. Every activity carries a `staleDate` at its prayer (see
+// widget/live-activity), and ActivityKit marks the content stale at that instant with the
+// app closed. `environment.isStale` (expo-widgets ≥ 57.0.12) is what this layout reads to
+// replace the finished countdown with »Dags för X« and the prayer after it — the same words
+// as the lead-0 alert — until the app or the background task rolls the activity over to the
+// next prayer or ends it. Before that existed the countdown sat at 0:00 until the app was
+// next opened, and the workaround (ending every activity at start with a dismissal date)
+// cost the whole Dynamic Island presentation below; activities now stay active.
 import { HStack, Spacer, Text, VStack } from '@expo/ui/swift-ui';
 import {
   font,
@@ -44,8 +32,8 @@ import { createLiveActivity, type LiveActivityEnvironment } from 'expo-widgets';
 
 import type { PrayerKey } from '@/lib/prayer-times';
 
-/** Plain-JSON props for one activity — set once at start (or via update on foreground);
- *  the countdown needs no further updates because the system renders it. */
+/** Plain-JSON props for one activity — set at start and on each roll-over to the next
+ *  prayer; the countdown, and the flip to the stale view, need no updates in between. */
 export interface PrayerActivityProps {
   /** Prayer slot key. Not drawn — it is part of the activity's content identity (see
    *  activityContentKey in widget/live-activity). */
@@ -64,6 +52,12 @@ export interface PrayerActivityProps {
   startedAtMs: number;
   /** True when the slot is a time marker (sunrise), not an obligatory prayer. */
   isMarker: boolean;
+  /** Shown once the prayer has arrived (stale): the lead-0 alert's title, »Dags för ʿAṣr«
+   *  or »Fajr-tiden är slut«. Absent on activities started by an older build. */
+  arrivedTitle?: string;
+  /** The slot after this one, named by the stale view; '' when it could not be resolved. */
+  followingArabic?: string;
+  followingTime?: string;
 }
 
 function PrayerLiveActivityLayout(
@@ -119,6 +113,15 @@ function PrayerLiveActivityLayout(
   const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
   const startedAtMs = typeof p.startedAtMs === 'number' ? p.startedAtMs : null;
   const kindLabel = p.isMarker === true ? 'NÄSTA TID' : 'NÄSTA BÖN';
+  // The prayer has arrived (ActivityKit passed the staleDate): the countdown would only say
+  // 0:00, so the views below say what has happened and what comes after it instead.
+  const stale = environment?.isStale === true;
+  const arrived = typeof p.arrivedTitle === 'string' && p.arrivedTitle ? p.arrivedTitle : name;
+  const followingName = typeof p.followingArabic === 'string' ? p.followingArabic : '';
+  const followingTime = typeof p.followingTime === 'string' ? p.followingTime : '';
+  // »Därefter Maghrib« — the one new fact the stale banner can give. Without it the line
+  // falls back to the Swedish name rather than repeat the headline.
+  const thenLine = followingName ? `Därefter ${followingName}` : swedish;
 
   const tabular = monospacedDigit();
   const tracked = kerning(0.5);
@@ -156,7 +159,30 @@ function PrayerLiveActivityLayout(
     // No leading glyph: the name says which prayer it is, and without the icon column the
     // label, name and subtitle start on the banner's own inset — the same single leading
     // edge the app's dock and the home-screen widget use.
-    banner: (
+    banner: stale ? (
+      <VStack alignment="leading" spacing={3} modifiers={[padding({ all: 16 })]}>
+        <HStack alignment="firstTextBaseline" spacing={10}>
+          <Text modifiers={[font({ size: 20, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
+            {arrived}
+          </Text>
+          <Spacer />
+          <Text modifiers={[font({ size: 22, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>
+            {time}
+          </Text>
+        </HStack>
+        <HStack alignment="firstTextBaseline" spacing={10}>
+          {thenLine ? (
+            <Text modifiers={[font({ size: 13 }), foregroundStyle(C.inkMuted)]}>{thenLine}</Text>
+          ) : null}
+          <Spacer />
+          {followingName && followingTime ? (
+            <Text modifiers={[font({ size: 15, weight: 'semibold' }), tabular, foregroundStyle(C.inkMuted)]}>
+              {followingTime}
+            </Text>
+          ) : null}
+        </HStack>
+      </VStack>
+    ) : (
       <VStack alignment="leading" spacing={3} modifiers={[padding({ all: 16 })]}>
         <Text
           modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(C.inkFaint)]}>
@@ -189,10 +215,16 @@ function PrayerLiveActivityLayout(
     bannerSmall: (
       <HStack spacing={8} alignment="center" modifiers={[padding({ all: 10 })]}>
         <Text modifiers={[font({ size: 15, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
-          {name}
+          {stale ? arrived : name}
         </Text>
         <Spacer />
-        {countdown(15, C.ink)}
+        {stale ? (
+          <Text modifiers={[font({ size: 15, weight: 'semibold' }), tabular, foregroundStyle(C.ink)]}>
+            {time}
+          </Text>
+        ) : (
+          countdown(15, C.ink)
+        )}
       </HStack>
     ),
     // Dynamic Island — compact: prayer name ↔ ticking countdown around the camera. The
@@ -203,7 +235,14 @@ function PrayerLiveActivityLayout(
         {name}
       </Text>
     ),
-    compactTrailing: countdown(13, C.ink),
+    // Once the prayer has arrived, its clock time: a finished countdown reads 0:00.
+    compactTrailing: stale ? (
+      <Text modifiers={[font({ size: 13, weight: 'semibold' }), tabular, foregroundStyle(C.ink)]}>
+        {time}
+      </Text>
+    ) : (
+      countdown(13, C.ink)
+    ),
     // Minimal (another app's activity shares the island): the prayer's clock time, in
     // brass. A glyph used to sit here, and it could not say WHICH prayer; the countdown
     // cannot fit, since a timer Text reserves its widest value ("1:00:00") and the slot is
@@ -223,7 +262,7 @@ function PrayerLiveActivityLayout(
     // Dynamic Island — expanded (long-press).
     expandedLeading: (
       <Text modifiers={[font({ size: 16, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
-        {name}
+        {stale ? arrived : name}
       </Text>
     ),
     expandedTrailing: (
@@ -231,7 +270,18 @@ function PrayerLiveActivityLayout(
         {time}
       </Text>
     ),
-    expandedBottom: (
+    expandedBottom: stale ? (
+      <HStack spacing={6} alignment="firstTextBaseline">
+        {thenLine ? (
+          <Text modifiers={[font({ size: 14 }), foregroundStyle(C.inkMuted)]}>{thenLine}</Text>
+        ) : null}
+        {followingName && followingTime ? (
+          <Text modifiers={[font({ size: 14, weight: 'semibold' }), tabular, foregroundStyle(C.ink)]}>
+            {followingTime}
+          </Text>
+        ) : null}
+      </HStack>
+    ) : (
       <HStack spacing={6} alignment="firstTextBaseline">
         <Text modifiers={[font({ size: 12 }), foregroundStyle(C.inkFaint)]}>om</Text>
         {countdown(26, C.ink)}

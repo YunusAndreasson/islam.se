@@ -79,6 +79,7 @@ const ALT: PrayerSettings = {
     },
     lastThird: true,
     lastThirdSound: 'silent',
+    alarmClock: true,
   },
   locationMode: 'manual',
   manualLocation: { name: 'Test', latitude: 60, longitude: 15 },

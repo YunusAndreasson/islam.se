@@ -10,14 +10,8 @@ import { Platform } from 'react-native';
 
 import { brand } from '@/theme/tokens';
 import { computeNightTimes } from './night-times';
-import {
-  computePrayerTimes,
-  formatTime,
-  type LatLng,
-  PRAYER_LABELS,
-  PRAYER_ORDER,
-  type PrayerKey,
-} from './prayer-times';
+import { alertContent, nightAlertContent } from './alert-copy';
+import { computePrayerTimes, type LatLng, PRAYER_ORDER, type PrayerKey } from './prayer-times';
 import type {
   NotificationSettings,
   NotificationSoundKey,
@@ -45,6 +39,45 @@ export const NOTIFY_PRAYERS: readonly NotifyPrayerKey[] = PRAYER_ORDER.filter(
 export type NotificationPermissionState = 'unknown' | 'granted' | 'denied' | 'undetermined';
 
 const CATEGORY_ID = 'prayer-reminder';
+
+/**
+ * iOS: the notification-centre thread every prayer alert joins. ONE thread, not one per
+ * day — the night's last third and Fajr straddle midnight, and a per-day key would split a
+ * single night across two stacks. Today these are the app's only notifications, so iOS
+ * already stacks them together; the key pins that, so a future non-prayer notification
+ * gets its own stack instead of joining this one.
+ *
+ * NOT on Android. Since expo-notifications 58.1.1 the same field is an Android group key,
+ * and Expo then posts a summary notification of its own above the group — an extra entry
+ * nobody asked for.
+ */
+const PRAYER_THREAD = 'prayer-times';
+const threadFields = (): { threadIdentifier?: string } =>
+  Platform.OS === 'ios' ? { threadIdentifier: PRAYER_THREAD } : {};
+
+/** Android: alarm-clock delivery when the reader opted into it (see
+ *  NotificationSettings.alarmClock for the system-wide price). Nothing on iOS, which has no
+ *  such distinction. */
+function deliveryFor(n: NotificationSettings): { delivery?: 'alarmClock' } {
+  return Platform.OS === 'android' && n.alarmClock ? { delivery: 'alarmClock' } : {};
+}
+
+/** Whether Android lets this app set exact alarms — 'unknown' when the platform cannot say. */
+export type ExactAlarmState = 'granted' | 'denied' | 'unknown';
+
+/**
+ * Android's exact-alarm permission ("Alarm och påminnelser"). Always granted on iOS, below
+ * Android 12, and on Android 13+ for an app declaring USE_EXACT_ALARM — which this one does
+ * — so 'denied' is in practice Android 12/12L after the reader revoked it. Never throws.
+ */
+export async function getExactAlarmState(): Promise<ExactAlarmState> {
+  try {
+    const response = await Notifications.getExactAlarmPermissionsAsync();
+    return response.granted ? 'granted' : 'denied';
+  } catch {
+    return 'unknown';
+  }
+}
 const PRAYER_NOTIFICATION_IDS_KEY = 'prayerNotificationIds:v1';
 const SYNC_STAMP_KEY = 'prayerNotificationSync:v1';
 /** Stamped into every scheduled alert's `data` so the OS's own pending list can be used
@@ -181,43 +214,9 @@ export function horizonDays(perDay: number, budget: number): number {
   return Math.max(1, Math.min(MAX_DAYS_AHEAD, Math.floor(budget / perDay)));
 }
 
-/**
- * Title + body for one alert. Extracted as a pure function so the Swedish copy contract
- * is testable without running the scheduler. NBSP (fast mellanslag) between the numeral
- * and "min" so the unit can never wrap away from its number in a narrow banner.
- */
-export function alertContent(
-  key: PrayerKey,
-  at: Date,
-  lead: number,
-): { title: string; body: string } {
-  if (key === 'sunrise') {
-    return {
-      title: lead > 0 ? `Fajr-tiden slutar om ${lead} min` : 'Fajr-tiden är slut',
-      body: `Soluppgång ${formatTime(at)}`,
-    };
-  }
-  const label = PRAYER_LABELS[key];
-  return {
-    // Lead with the glanceable answer in the bold title — which prayer, how soon — and
-    // demote the exact clock time to the lighter body as the durable fact.
-    title: lead > 0 ? `${label} om ${lead} min` : `Dags för ${label}`,
-    body: `Klockan ${formatTime(at)}`,
-  };
-}
-
-/**
- * The night's-last-third alert. A function of its own rather than a branch in
- * {@link alertContent} because it is not keyed by a PrayerKey and takes no lead — it fires
- * exactly when the last third begins. The Swedish name carries it: the transliteration
- * that heads the dock row is the wrong register for a lock screen at one in the morning.
- */
-export function nightAlertContent(at: Date): { title: string; body: string } {
-  return {
-    title: 'Nattens sista tredjedel',
-    body: `Klockan ${formatTime(at)}`,
-  };
-}
+// The alert copy lives in ./alert-copy so the Live Activity can say the same words at the
+// prayer boundary without importing this scheduler. Re-exported for existing callers.
+export { alertContent, nightAlertContent };
 
 /** The next alert this settings object will produce, and when it fires. */
 export interface NextAlert {
@@ -473,13 +472,19 @@ async function cancelPrayerNotifications(): Promise<void> {
  * would announce the Stockholm clock time for a prayer arriving on the Mecka one. Without
  * the zone here that text stays wrong until the calendar date happens to roll over.
  */
-function syncStampFor(coords: LatLng, settings: PrayerSettings): string {
+function syncStampFor(coords: LatLng, settings: PrayerSettings, exact: ExactAlarmState): string {
   const { y, mo, d } = zoneParts(Date.now());
   return JSON.stringify([
     `${y}-${mo}-${d}`,
     getDisplayZone(),
     notificationSignature(settings),
     `${coords.latitude.toFixed(3)},${coords.longitude.toFixed(3)}`,
+    // Android fixes an alarm's delivery path when it is SET: without the permission it is
+    // inexact, and granting it later does not upgrade alarms already scheduled. So a grant
+    // must count as a change, or every alert stays inexact until the date rolls over.
+    // 'unknown' counts as exact, so a read that fails in the background cannot make the
+    // stamp flap and re-plan the whole horizon on every wake-up.
+    exact === 'denied' ? 'inexact' : 'exact',
   ]);
 }
 
@@ -509,7 +514,7 @@ export async function syncPrayerNotifications(
     // 35 schedules each time; at a 30-day Android horizon it would be 180 + 180, a dozen
     // times a day — a real battery and latency cost. Skip when nothing that matters has
     // changed since the last SUCCESSFUL sync. A cold start always does the real thing.
-    const stamp = syncStampFor(coords, settings);
+    const stamp = syncStampFor(coords, settings, await getExactAlarmState());
     if (firstSyncDone) {
       const previous = await storage.getItem(SYNC_STAMP_KEY).catch(() => null);
       if (previous === stamp) return;
@@ -592,11 +597,13 @@ export async function syncPrayerNotifications(
               // HIGH-importance channel already carries the equivalent weight.
               interruptionLevel: 'timeSensitive',
               categoryIdentifier: CATEGORY_ID,
+              ...threadFields(),
             },
             trigger: {
               type: Notifications.SchedulableTriggerInputTypes.DATE,
               date: fireAt,
               channelId: channelIdFor(sound),
+              ...deliveryFor(n),
             },
           }),
         );
@@ -622,11 +629,13 @@ export async function syncPrayerNotifications(
                 // if Sleep Focus eats it, and being woken is the entire point of this one.
                 interruptionLevel: 'timeSensitive',
                 categoryIdentifier: CATEGORY_ID,
+                ...threadFields(),
               },
               trigger: {
                 type: Notifications.SchedulableTriggerInputTypes.DATE,
                 date: at,
                 channelId: channelIdFor(sound),
+                ...deliveryFor(n),
               },
             }),
           );

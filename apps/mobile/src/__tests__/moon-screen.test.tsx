@@ -94,7 +94,7 @@ function withProviders(node: ReactNode) {
 
 /** Render and let the providers hydrate from storage before asserting. */
 async function renderSettled(node: ReactElement): Promise<void> {
-  render(node);
+  await render(node);
   await act(async () => {
     await Promise.resolve();
   });
@@ -165,7 +165,7 @@ describe('Månen', () => {
     await renderSettled(withProviders(<Manen />));
 
     await act(async () => {
-      fireEvent.press(screen.getByText('Månaden'));
+      await fireEvent.press(screen.getByText('Månaden'));
     });
 
     // A waxing crescent, in the almanac's own words rather than a percentage. It is the month
@@ -183,7 +183,7 @@ describe('Månen', () => {
     await renderSettled(withProviders(<Manen />));
 
     await act(async () => {
-      fireEvent.press(screen.getByRole('button', { name: 'Månens detaljer' }));
+      await fireEvent.press(screen.getByRole('button', { name: 'Månens detaljer' }));
     });
     expect(screen.getByText(/^(Upp|Ner) \d\d:\d\d/)).toBeTruthy();
   });
@@ -200,7 +200,7 @@ describe('Månen', () => {
     expect(screen.queryByText(/^Nästa: (fullmåne|nymåne)/)).toBeNull();
 
     await act(async () => {
-      fireEvent.press(screen.getByRole('button', { name: 'Månens detaljer' }));
+      await fireEvent.press(screen.getByRole('button', { name: 'Månens detaljer' }));
     });
 
     await waitFor(() => expect(screen.getByText(/^Nästa: (fullmåne|nymåne)/)).toBeTruthy());
@@ -220,7 +220,7 @@ describe('Månen', () => {
     expect(both.length).toBe(1);
 
     await act(async () => {
-      fireEvent.press(screen.getByRole('button', { name: 'Stäng månens detaljer' }));
+      await fireEvent.press(screen.getByRole('button', { name: 'Stäng månens detaljer' }));
     });
     await waitFor(() => expect(screen.queryByText(/^Nästa: (fullmåne|nymåne)/)).toBeNull());
   });
@@ -231,7 +231,7 @@ describe('Månen', () => {
     const listen = jest.spyOn(BackHandler, 'addEventListener');
     try {
       await renderSettled(withProviders(<Manen />));
-      fireEvent.press(screen.getByRole('button', { name: open }));
+      await fireEvent.press(screen.getByRole('button', { name: open }));
       expect(screen.getByRole('button', { name: close })).toBeTruthy();
       expect(screen.queryByLabelText('Stäng')).toBeNull();
       const handler = listen.mock.calls.filter(([event]) => event === 'hardwareBackPress').at(-1)?.[1];
@@ -261,7 +261,7 @@ describe('Månen', () => {
 
   it('opens the prayer dock calendar instead of a separate Hijri calendar', async () => {
     await renderSettled(withProviders(<Manen />));
-    fireEvent.press(screen.getByRole('button', { name: /Öppna kalendern/ }));
+    await fireEvent.press(screen.getByRole('button', { name: /Öppna kalendern/ }));
     expect(router.dismissTo).toHaveBeenCalledWith({ pathname: '/bonetider', params: { calendar: 'open' } });
     expect(screen.queryByRole('button', { name: 'Stäng månaden' })).toBeNull();
   });
@@ -377,7 +377,7 @@ describe('Månen', () => {
     expect(jest.mocked(Location.requestForegroundPermissionsAsync)).not.toHaveBeenCalled();
     for (const expected of [1, 2]) {
       await act(async () => {
-        fireEvent.press(offer);
+        await fireEvent.press(offer);
       });
       await waitFor(() =>
         expect(jest.mocked(Location.requestForegroundPermissionsAsync)).toHaveBeenCalledTimes(expected),

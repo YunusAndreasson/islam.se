@@ -91,11 +91,11 @@ export function makeDialStyles(c: Palette) {
  *  that setting is asking us not to do; the opacity ramp stays, so the signal survives.
  */
 export function useBrassStyles(prox: SharedValue<number>, reduceMotion: boolean) {
-  const brass = useAnimatedStyle(() => ({ opacity: prox.value }));
+  const brass = useAnimatedStyle(() => ({ opacity: prox.get() }));
   const glow = useAnimatedStyle(
     () => ({
-      opacity: prox.value,
-      transform: [{ scale: reduceMotion ? 1 : GLOW_REST + prox.value * GLOW_SWELL }],
+      opacity: prox.get(),
+      transform: [{ scale: reduceMotion ? 1 : GLOW_REST + prox.get() * GLOW_SWELL }],
     }),
     [reduceMotion],
   );

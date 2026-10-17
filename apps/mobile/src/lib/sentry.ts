@@ -18,6 +18,16 @@ import Constants from 'expo-constants';
 //   native iOS SDK records HTTP requests, where MapLibre's tile URLs name the tiles on screen.
 //   The value is handed to both native SDKs, so it covers native crashes too — which a
 //   JS-side beforeBreadcrumb filter would never see.
+// - The seven enable*Breadcrumbs switches: false — the native SDKs then never RECORD network,
+//   lifecycle, system or UI breadcrumbs at all, so the promise above no longer rests on the
+//   single cap of maxBreadcrumbs: 0. Network breadcrumbs are the ones that carry tile URLs.
+// - enableMemoryIntrospection: false — on a native crash it embeds strings found in memory
+//   near the crash site, and on this app those strings can be coordinates.
+// - The TurboModuleContext integration is removed. Since SDK 8.14 it is on by default and
+//   flushes a periodic "TurboModule aggregate" info event: a report on a healthy launch.
+//   Under today's defaults it records nothing here (it only wraps the SDK's own module, which
+//   it also ignores), so this pins that rather than fixing a leak. The filter only ever
+//   removes defaults; it never adds an integration.
 // - attachScreenshot / attachViewHierarchy: false — the screen is a map centred on the reader.
 // - enableAutoSessionTracking / sendClientReports: false — sessions and client reports go out
 //   on ordinary launches, crash or no crash. With both off the app says nothing to Sentry
@@ -25,7 +35,12 @@ import Constants from 'expo-constants';
 // - No tracing, profiling or replay: none of their sample rates is set, so none of them runs.
 //
 // OTA updates need no tags of our own: the SDK's Expo integration already attaches the update
-// id, channel and runtime version to every event, which is how a bad OTA shows up as one.
+// id, channel and runtime version to every event, which is how a bad OTA shows up as one. It
+// also sends ONE warning event when expo-updates falls back to the embedded bundle (an
+// "emergency launch"), which is kept: a broken OTA is exactly the "something has gone wrong"
+// the policy allows a report for, and it carries only the update id, channel and runtime.
+const TURBO_MODULE_CONTEXT = Sentry.turboModuleContextIntegration().name;
+
 export function sentryOptions(dsn: string | undefined): Sentry.ReactNativeOptions {
   return {
     dsn,
@@ -38,6 +53,15 @@ export function sentryOptions(dsn: string | undefined): Sentry.ReactNativeOption
     attachViewHierarchy: false,
     enableAutoSessionTracking: false,
     sendClientReports: false,
+    enableNetworkBreadcrumbs: false,
+    enableAutoBreadcrumbTracking: false,
+    enableNetworkEventBreadcrumbs: false,
+    enableActivityLifecycleBreadcrumbs: false,
+    enableAppLifecycleBreadcrumbs: false,
+    enableSystemEventBreadcrumbs: false,
+    enableAppComponentBreadcrumbs: false,
+    enableMemoryIntrospection: false,
+    integrations: (defaults) => defaults.filter((integration) => integration.name !== TURBO_MODULE_CONTEXT),
   };
 }
 

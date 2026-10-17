@@ -1,5 +1,6 @@
 import * as Application from 'expo-application';
 import * as IntentLauncher from 'expo-intent-launcher';
+import * as Notifications from 'expo-notifications';
 import { Linking, Platform } from 'react-native';
 
 /** User-facing name for the OS-owned settings surface. */
@@ -92,6 +93,26 @@ export const openBatteryOptimizationSettings = (): void => {
   void IntentLauncher.startActivityAsync(
     IntentLauncher.ActivityAction.IGNORE_BATTERY_OPTIMIZATION_SETTINGS,
   ).catch(() => {
+    openSystemSettings();
+  });
+};
+
+/**
+ * Android's "Alarm och påminnelser" page for this app — where exact alarms are allowed.
+ *
+ * Only ever offered when the permission is DENIED, which in practice means Android 12/12L
+ * after the reader revoked it (13+ grants it for good to an app declaring USE_EXACT_ALARM).
+ * Without it every alert falls back to an inexact alarm that Doze is free to defer.
+ * expo-notifications opens the page for this package and resolves on return; it rejects
+ * only if SCHEDULE_EXACT_ALARM is undeclared, and then the app's own settings page is the
+ * nearest honest destination.
+ */
+export const openExactAlarmSettings = (): void => {
+  if (Platform.OS !== 'android') {
+    openSystemSettings();
+    return;
+  }
+  void Notifications.requestExactAlarmPermissionsAsync().catch(() => {
     openSystemSettings();
   });
 };
