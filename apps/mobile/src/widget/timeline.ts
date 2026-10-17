@@ -24,16 +24,16 @@ export interface WidgetTimelineEntry {
  *  old 36 h that left the widget frozen on a stale "next prayer" after a day and a
  *  half away, while `.atEnd` re-requested against the (budgeted) background reload
  *  allowance. Five days covers a working week away from the app; the cost is ~36
- *  small entries in the shared UserDefaults instead of ~13. It still self-heals on
- *  the next foreground, which re-pushes from `now`. */
+ *  small entries in the shared UserDefaults instead of ~13. A terminal placeholder
+ *  clears the schedule at the horizon, even if the app/background task never runs.
+ *  The next foreground re-pushes from `now`. */
 const SPAN_DAYS = 5;
 const SPAN_MS = SPAN_DAYS * 24 * 60 * 60 * 1000;
 /** Land each boundary 1 s AFTER the event so an at-or-after "next" query returns the
  *  following prayer — i.e. when Ẓuhr arrives the widget flips to ʿAṣr, not Ẓuhr. The
  *  same epsilon puts the midnight entry inside the new day rather than on its edge. */
 const BOUNDARY_EPSILON_MS = 1000;
-/** Ceiling on entries: 7 boundaries/day (6 slots + midnight) × SPAN_DAYS + the `now`
- *  entry = 36, so this is headroom, not a truncation the widget would silently hit. */
+/** Ceiling includes headroom for DST and the terminal expiry entry. */
 const MAX_ENTRIES = 48;
 
 /**
@@ -71,7 +71,7 @@ export function buildTimeline(
   const horizon = now + SPAN_MS;
   const add = (at: number): void => {
     const boundary = at + BOUNDARY_EPSILON_MS;
-    if (boundary > now && boundary <= horizon) boundaries.add(boundary);
+    if (boundary > now && boundary < horizon) boundaries.add(boundary);
   };
 
   // Every calendar day the span touches. Day SPAN_DAYS is the last one that can still
@@ -99,10 +99,20 @@ export function buildTimeline(
     add(dayStart);
   }
 
-  return [...boundaries]
+  const entries = [...boundaries]
     .sort((a, b) => a - b)
-    .slice(0, MAX_ENTRIES)
+    .slice(0, MAX_ENTRIES - 1)
     .map((at) => ({ date: new Date(at), props: buildPayloadAt(coords, settings, at, location, resolveDay) }));
+  // WidgetKit keeps the final stored entry indefinitely. Do not leave an expired
+  // prayer/countdown there: every family already supports an empty-payload state.
+  entries.push({
+    date: new Date(horizon),
+    props: {
+      location, theme: settings.theme, gregorian: '', hijri: '', rows: [],
+      nextArabic: '', nextSwedish: '', nextTime: '–', nextAtMs: null, nextIsTomorrow: false,
+    },
+  });
+  return entries;
 }
 
 export { SPAN_DAYS, SPAN_MS, MAX_ENTRIES };

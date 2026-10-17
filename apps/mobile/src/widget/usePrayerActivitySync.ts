@@ -6,7 +6,7 @@ import { AppState, Platform } from 'react-native';
 
 import { useDisplayZone } from '@/lib/device-zone';
 import type { LatLng } from '@/lib/prayer-times';
-import { notificationSignature, widgetSignature } from '@/lib/settings/compute-signature';
+import { notificationSignature } from '@/lib/settings/compute-signature';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { syncAndroidPrayerNotification } from './android-ongoing';
 import { LIVE_ACTIVITY_WINDOW_MS, syncPrayerLiveActivity } from './live-activity';
@@ -19,7 +19,9 @@ export function usePrayerActivitySync(
   loaded: boolean,
 ): void {
   const zone = useDisplayZone();
-  const key = `${notificationSignature(settings)}|${widgetSignature(settings)}|${coords.latitude},${coords.longitude}|${location}`;
+  // These surfaces show no Hijri date and use the native environment's appearance.
+  // Cosmetic widget changes must not rebuild their payloads or restart their timers.
+  const key = `${notificationSignature(settings)}|${coords.latitude},${coords.longitude}|${location}`;
   const reconcile = useEffectEvent((foreground: boolean) => {
     const now = Date.now();
     if (Platform.OS === 'ios') {

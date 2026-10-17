@@ -14,9 +14,9 @@
 // app closed. `environment.isStale` (expo-widgets ≥ 57.0.12) is what this layout reads to
 // replace the finished countdown with »Dags för X« and the prayer after it — the same words
 // as the lead-0 alert — until the app or the background task rolls the activity over to the
-// next prayer or ends it. Before that existed the countdown sat at 0:00 until the app was
-// next opened, and the workaround (ending every activity at start with a dismissal date)
-// cost the whole Dynamic Island presentation below; activities now stay active.
+// next prayer or ends it. The current sync ends each activity immediately with delayed
+// Lock Screen dismissal at prayer time. This guarantees expiry while suspended, but
+// removes Dynamic Island immediately; those layouts remain available for active activities.
 import { HStack, Spacer, Text, VStack } from '@expo/ui/swift-ui';
 import {
   font,

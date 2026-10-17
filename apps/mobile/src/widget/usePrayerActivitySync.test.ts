@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { AppState, Platform, type AppStateStatus } from 'react-native';
 
-import { DEFAULT_SETTINGS } from '@/lib/settings/types';
+import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 import { oracleTimes } from '@/test-utils/prayer-oracle';
 import { syncPrayerLiveActivity } from './live-activity';
 import { usePrayerActivitySync } from './usePrayerActivitySync';
@@ -38,6 +38,21 @@ afterEach(() => {
 const mount = () => renderHook(() => usePrayerActivitySync(coords, DEFAULT_SETTINGS, 'Stockholm', true));
 
 describe('foreground Live Activity boundaries', () => {
+  it('skips cosmetic changes but reconciles changed prayer calculations', async () => {
+    const hook = await renderHook(
+      ({ settings }: { settings: PrayerSettings }) => usePrayerActivitySync(coords, settings, 'Stockholm', true),
+      { initialProps: { settings: DEFAULT_SETTINGS } },
+    );
+    expect(sync).toHaveBeenCalledTimes(1);
+    const cosmetic = { ...DEFAULT_SETTINGS, theme: 'dark' as const, hijriOffset: 1 };
+    await hook.rerender({ settings: cosmetic });
+    expect(sync).toHaveBeenCalledTimes(1);
+    const changed = { ...cosmetic, madhab: 'hanafi' as const };
+    await hook.rerender({ settings: changed });
+    expect(sync).toHaveBeenCalledTimes(2);
+    expect(sync).toHaveBeenLastCalledWith(coords, changed, 'Stockholm', expect.any(Number), { canStart: true });
+    await hook.unmount();
+  });
   it('reconciles after the prayer without requiring another foreground event', async () => {
     const hook = await mount();
     expect(sync).toHaveBeenCalledTimes(1);

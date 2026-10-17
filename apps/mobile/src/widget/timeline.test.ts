@@ -94,6 +94,19 @@ describe('buildTimeline', () => {
     expect(JSON.stringify(entries).length).toBeLessThan(256 * 1024);
   });
 
+  it('expires into a themed placeholder instead of freezing on the final prayer', () => {
+    const expired = last(entries, 'entries');
+    expect(expired.date.getTime()).toBe(now + SPAN_MS);
+    expect(expired.props.rows).toEqual([]);
+    expect(expired.props.nextAtMs).toBeNull();
+    expect(expired.props.nextArabic).toBe('');
+    expect(expired.props.nextTime).toBe('–');
+    expect(expired.props.nextIsTomorrow).toBe(false);
+    const dark = buildTimeline(STOCKHOLM, settings({ theme: 'dark' }), 'Stockholm', now);
+    expect(last(dark, 'dark entries').props.theme).toBe('dark');
+    expect(entries.slice(0, -1).every(entry => entry.props.rows.length === 6)).toBe(true);
+  });
+
   it('is deterministic for a fixed (coords, settings, label, now)', () => {
     // WidgetKit re-pushes happen on every foreground; an unstable timeline would
     // thrash the widget. Same inputs must produce byte-identical entries.

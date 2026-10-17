@@ -101,7 +101,7 @@
                 ]
               },
               "android": {
-                "minWidth": 250,
+                "minWidth": 280,
                 "minHeight": 110,
                 "targetCellWidth": 4,
                 "targetCellHeight": 2,

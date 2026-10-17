@@ -4,6 +4,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { buildPayloadAt } from '@/widget/payload';
+import { buildTimeline } from '@/widget/timeline';
 import type { PrayerActivityProps } from './PrayerLiveActivity';
 import PrayerLiveActivity from './PrayerLiveActivity';
 import PrayerTimesWidget from './PrayerTimesWidget';
@@ -51,6 +52,17 @@ const activity: PrayerActivityProps = {
 };
 
 describe('serialized prayer surface layouts', () => {
+  it.each(['systemSmall', 'systemMedium', 'accessoryInline', 'accessoryCircular', 'accessoryRectangular'])(
+    'clears expired prayer data in %s', (widgetFamily) => {
+      const entries = buildTimeline({ latitude: 59.3293, longitude: 18.0686 }, DEFAULT_SETTINGS,
+        'Stockholm', Date.parse('2026-10-17T10:00:00Z'));
+      const expired = entries[entries.length - 1]!.props;
+      const tree = render(PrayerTimesWidget, expired, { widgetFamily });
+      expect(nodes(tree).some(node => 'date' in node.props)).toBe(false);
+      expect(texts(tree).join(' ')).not.toContain(payload.nextTime);
+      expect(texts(tree)).toContain(widgetFamily === 'accessoryCircular' ? '–' : 'Bönetider');
+    },
+  );
   it('renders an iOS first-launch placeholder without app state', () => {
     const tree = render(PrayerTimesWidget, null, { widgetFamily: 'systemSmall' });
     expect(texts(tree)).toContain('Bönetider');
