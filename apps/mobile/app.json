@@ -91,6 +91,7 @@
               "displayName": "Bönetider",
               "description": "Nästa bön och dagens bönetider",
               "ios": {
+                "initialLayout": "./src/widgets/PrayerTimesWidget.tsx",
                 "supportedFamilies": [
                   "systemSmall",
                   "systemMedium",

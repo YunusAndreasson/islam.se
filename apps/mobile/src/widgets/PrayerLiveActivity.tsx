@@ -159,7 +159,17 @@ function PrayerLiveActivityLayout(
     // No leading glyph: the name says which prayer it is, and without the icon column the
     // label, name and subtitle start on the banner's own inset — the same single leading
     // edge the app's dock and the home-screen widget use.
-    banner: stale ? (
+    banner: environment?.levelOfDetail === 'simplified' ? (
+      <HStack alignment="firstTextBaseline" spacing={12} modifiers={[padding({ all: 16 })]}>
+        <Text modifiers={[font({ size: 24, weight: 'bold' }), foregroundStyle(C.highlightText), lineLimit(1), minimumScaleFactor(0.7)]}>
+          {stale ? arrived : name}
+        </Text>
+        <Spacer />
+        <Text modifiers={[font({ size: 28, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>
+          {time}
+        </Text>
+      </HStack>
+    ) : stale ? (
       <VStack alignment="leading" spacing={3} modifiers={[padding({ all: 16 })]}>
         <HStack alignment="firstTextBaseline" spacing={10}>
           <Text modifiers={[font({ size: 20, weight: 'bold' }), foregroundStyle(C.highlightText)]}>

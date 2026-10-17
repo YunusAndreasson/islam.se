@@ -23,14 +23,17 @@ import {
 } from '@/lib/notification-refresh';
 import { syncPrayerLiveActivity } from '@/widget/live-activity';
 import { syncPrayerWidget } from '@/widget/sync';
+import { syncAndroidPrayerNotification } from '@/widget/android-ongoing';
 
 // The two surfaces the wake-up also refreshes, observed rather than run: both reach their
 // native module through a dynamic import Jest cannot execute, so what is worth pinning here
 // is THAT and HOW this task calls them.
 jest.mock('@/widget/sync', () => ({ syncPrayerWidget: jest.fn(async () => {}) }));
 jest.mock('@/widget/live-activity', () => ({ syncPrayerLiveActivity: jest.fn(async () => {}) }));
+jest.mock('@/widget/android-ongoing', () => ({ syncAndroidPrayerNotification: jest.fn(async () => {}) }));
 const widgetSync = jest.mocked(syncPrayerWidget);
 const liveActivitySync = jest.mocked(syncPrayerLiveActivity);
+const ongoingSync = jest.mocked(syncAndroidPrayerNotification);
 
 const defineTask = TaskManager.defineTask as unknown as jest.MockedFunction<
   (name: string, executor: () => Promise<number>) => void
@@ -62,6 +65,7 @@ beforeEach(async () => {
   scheduleMock.mockClear();
   widgetSync.mockClear();
   liveActivitySync.mockClear();
+  ongoingSync.mockClear();
   registerTask.mockClear();
   getStatus.mockResolvedValue(BackgroundTask.BackgroundTaskStatus.Available);
 });
@@ -148,6 +152,11 @@ describe('the other surfaces the same wake-up refreshes', () => {
     await taskExecutor()();
     expect(widgetSync).toHaveBeenCalledTimes(1);
     expect(liveActivitySync).toHaveBeenCalledTimes(1);
+    // Reminders off must also remove an Android ongoing notification left by a
+    // previous run, so reconciliation cannot be gated on the enabled flag here.
+    expect(ongoingSync).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+      notifications: expect.objectContaining({ enabled: false }),
+    }), expect.any(String));
   });
 
   // ActivityKit refuses to START an activity from the background. The task may update or

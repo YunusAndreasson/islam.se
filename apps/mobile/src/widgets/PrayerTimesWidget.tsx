@@ -189,6 +189,24 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
     );
   }
 
+  // iOS 26 can request a distance-readable presentation. Keep the next prayer and
+  // its time, without the schedule, subtitle or small footer competing with them.
+  if (widgetEnvironment.levelOfDetail === 'simplified') {
+    return (
+      <VStack alignment="leading" spacing={6} modifiers={root}>
+        {eyebrow(eyebrowNarrow)}
+        <Spacer />
+        <Text modifiers={[font({ size: 26, weight: 'bold' }), foregroundStyle(c.highlightText), ...fit]}>
+          {nextArabic || 'Bönetider'}
+        </Text>
+        <Text modifiers={[font({ size: 42, weight: 'bold' }), tabular, foregroundStyle(c.ink), ...fit]}>
+          {nextTime}
+        </Text>
+        <Spacer />
+      </VStack>
+    );
+  }
+
   // ── Small (2×2): one focused message — next prayer, big time, countdown ──────────
   // Eyebrow pinned top, the name/time/countdown block centred, location pinned bottom.
   if (widgetEnvironment.widgetFamily === 'systemSmall') {

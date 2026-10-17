@@ -649,7 +649,7 @@ jest.mock('expo-notifications', () => ({
   addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),
   SchedulableTriggerInputTypes: { DATE: 'date' },
   // expo-notifications' real values (HIGH used to be mocked as 4, the real LOW).
-  AndroidImportance: { HIGH: 6, DEFAULT: 5 },
+  AndroidImportance: { HIGH: 6, DEFAULT: 5, LOW: 4 },
   // Mirrors expo-notifications' real enum values. src/lib/notifications treats
   // PROVISIONAL as allowed (iOS reports granted:false for the quiet tier), so this
   // must be present or that check reads a property off undefined.

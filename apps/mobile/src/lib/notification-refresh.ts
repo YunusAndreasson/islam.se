@@ -37,6 +37,7 @@ import { syncPrayerNotifications } from '@/lib/notifications';
 import { loadSettings } from '@/lib/settings/store';
 import { syncPrayerLiveActivity } from '@/widget/live-activity';
 import { syncPrayerWidget } from '@/widget/sync';
+import { syncAndroidPrayerNotification } from '@/widget/android-ongoing';
 
 /** Persisted by the OS across launches, so the string is effectively a migration surface:
  *  changing it orphans the previously registered task rather than renaming it. */
@@ -75,6 +76,7 @@ TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
 
     await syncPrayerWidget(coords, settings, label);
     await syncPrayerLiveActivity(coords, settings, label, Date.now(), { canStart: false });
+    await syncAndroidPrayerNotification(coords, settings, label);
     return BackgroundTask.BackgroundTaskResult.Success;
   } catch {
     // Reporting Failed lets the scheduler back off rather than retry a broken task in a
