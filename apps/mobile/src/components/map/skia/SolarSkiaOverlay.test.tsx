@@ -85,23 +85,39 @@ describe('direct scrubbing contours', () => {
     for (const node of strokes()) expect(node.props.end).toBe(1);
   });
 
-  it.each([true, false])('uses exact preview geometry but preserves live drift (preview=%s)', async (preview) => {
+  it.each([true, false].flatMap((preview) => [4.5, 14].map((zoom) => [preview, zoom] as const)))('uses exact preview geometry but preserves live drift (preview=%s, zoom=%s)', async (preview, zoom) => {
     const points: number[][] = [];
+    jest.spyOn(Skia, 'Matrix').mockImplementation(() => {
+      const matrix = {
+        tx: 0, ty: 0,
+        translate: (x: number, y: number) => { matrix.tx = x; matrix.ty = y; return matrix; },
+        scale: () => matrix,
+      };
+      return matrix as never;
+    });
     jest.spyOn(Skia.PathBuilder, 'Make').mockImplementation(() => {
       const builder = {
         moveTo: (x: number, y: number) => { points.push([x, y]); return builder; },
         lineTo: () => builder,
+        addPath: (_path: unknown, matrix: { tx: number; ty: number }) => {
+          points.push([matrix.tx, matrix.ty]); return builder;
+        },
         detach: () => ({}),
       };
       return builder as never;
     });
-    const camera = { ...CAMERA, zoom: 10 };
+    const camera = { ...CAMERA, zoom };
     await renderOverlay({ preview, camera: shared(camera), lines: LINE, geometryNow: DAY_START + DAY_MS / 2 - 45_000 });
     const exact = project(18, 59, camera);
     const expectedX = exact.x - (preview ? 0 : 512 * 2 ** camera.zoom * 45_000 / DAY_MS);
     expect(points.length).toBeGreaterThan(0);
-    expect(points[0]?.[0]).toBeCloseTo(expectedX, 6);
-    expect(points[0]?.[1]).toBeCloseTo(exact.y, 6);
+    if (!preview && zoom < 9) {
+      // The live drawing clock may lag by at most 0.05 screen pixels.
+      expect(Math.abs((points.at(-1)?.[0] ?? Infinity) - expectedX)).toBeLessThan(0.05);
+    } else {
+      expect(points.at(-1)?.[0]).toBeCloseTo(expectedX, 6);
+    }
+    expect(points.at(-1)?.[1]).toBeCloseTo(exact.y, 6);
   });
 });
 

@@ -44,6 +44,8 @@ import { type PrayerKey } from '@/lib/prayer-times';
 import { atZoom, DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS } from '@/lib/map/dust';
 import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
 import { visibleLineRange } from '@/lib/map/visible-line';
+import { solarRenderInstant } from '@/lib/map/solar-render-clock';
+import { canTransformSolarPath } from '@/lib/map/path-precision';
 import type { LonLat } from '@/lib/coordinates';
 import { polarBoundaryColorFor, prayerColorFor, washStopsFor } from '@/lib/solar/palette';
 import { type PolarBoundary, solarParams } from '@/lib/solar/sun';
@@ -132,12 +134,18 @@ export function SolarSkiaOverlay({
     [dayStart, dayLength],
   );
 
+  // The real clock keeps gliding at frame rate. Only its drawing sample is bounded:
+  // equal primitive samples suppress downstream path/shader updates at overview zoom.
+  const renderNow = useDerivedValue(() =>
+    solarRenderInstant(dayStart + nowFraction.get() * dayLength, dayStart, camera.get().zoom, preview),
+  );
+
   // Wash uniforms, recomputed on the UI thread whenever the camera or instant changes — so
   // the wash follows pans/zooms and scrubs without a React render. u_utcMin is the displayed
   // instant as UTC minutes-of-day; the shader turns each pixel's lon into local solar time.
   const washUniforms = useDerivedValue(() => {
     const c = camera.get();
-    const nowMs = dayStart + nowFraction.get() * dayLength;
+    const nowMs = renderNow.get();
     const utcMin = (nowMs / 60_000) % 1440;
     return {
       u_worldSize: 512 * 2 ** c.zoom,
@@ -160,7 +168,7 @@ export function SolarSkiaOverlay({
     // Geometry and the shared clock can arrive a frame apart during a reversal.
     // Preview must never extrapolate from that mismatched pair.
     if (preview) return 0;
-    const nowMs = dayStart + nowFraction.get() * dayLength;
+    const nowMs = renderNow.get();
     const dt = nowMs - geometryNow;
     if (dt <= 0) return 0;
     // The clamp guards live mode (a big scrub must never fling the lines across the map).
@@ -616,17 +624,49 @@ function PrayerLine({
     [drawPolylines],
   );
 
-  // Per-frame (pan/zoom/scrub/drift): Mercator → screen px is just scale + translate, so
-  // the path rebuild is two multiply-adds per point — no trig/log, no per-point objects.
+  // Build the immutable native geometry once. Relative coordinates preserve much
+  // more float32 precision than a path positioned near world-Mercator x = 0.5.
+  const nativePath = useMemo(() => {
+    const originX = merc[0]?.[0] ?? 0;
+    const originY = merc[0]?.[1] ?? 0;
+    let radius = 0;
+    const builder = Skia.PathBuilder.Make();
+    for (const line of merc) {
+      for (let i = 0; i < line.length; i += 2) {
+        const mx = line[i];
+        const my = line[i + 1];
+        if (mx === undefined || my === undefined) break;
+        const x = mx - originX;
+        const y = my - originY;
+        radius = Math.max(radius, Math.hypot(x, y));
+        if (i === 0) builder.moveTo(x, y);
+        else builder.lineTo(x, y);
+      }
+    }
+    return { path: builder.detach(), originX, originY, radius };
+  }, [merc]);
+
+  // Pan/zoom/scrub/drift applies a native scale + translate where float32 is safe;
+  // the close-zoom fallback projects the original doubles before handing them to Skia.
   // `drift` adds the live solar glide: a westward x-shift at the sun's exact rate, so
   // the line keeps moving between the 30 s geometry rebuilds.
   const path = useDerivedValue(() => {
+    if (merc.length === 0) return nativePath.path;
     const cam = camera.get();
     const ws = worldSize(cam.zoom);
     const dx = drift.get();
     const ox = cam.width / 2 - mercX(cam.lon) * ws;
     const oy = cam.height / 2 - mercY(cam.lat) * ws;
     const b = Skia.PathBuilder.Make();
+    const tx = cam.width / 2 + (nativePath.originX + dx - mercX(cam.lon)) * ws;
+    const ty = cam.height / 2 + (nativePath.originY - mercY(cam.lat)) * ws;
+    if (canTransformSolarPath(cam.zoom, ws, nativePath.radius, tx, ty)) {
+      // Transform the path in native Skia instead of crossing JSI for each vertex.
+      // It is still in screen space: stroke widths, blur and reveal trims retain
+      // their existing semantics. High zoom uses the original Float64 loop below.
+      b.addPath(nativePath.path, Skia.Matrix().translate(tx, ty).scale(ws, ws));
+      return b.detach();
+    }
     for (const arr of merc) {
       for (let i = 0; i < arr.length; i += 2) {
         const mx = arr[i];
