@@ -19,38 +19,27 @@ const ref = oracleTimes(STOCKHOLM, new Date(2026, 2, 20));
 const INSIDE = ref.asr.getTime() - 30 * 60 * 1000;
 /** Hours before ʿAṣr — nothing close enough to count down to. */
 const OUTSIDE = ref.asr.getTime() - 5 * 60 * 60 * 1000;
-/** A minute AFTER ʿAṣr — the prayer being counted down to has arrived and gone.
- *  Distinct from OUTSIDE, which is hours before it: this is the state the user actually
- *  sees once the countdown has run out: the activity has gone stale and reads »Dags för
- *  ʿAṣr«. Maghrib is ~181 min after ʿAṣr on this fixture date, far outside the 60-minute
- *  window, so there is nothing to roll over to and the only correct outcome is to end. */
+/** A minute after ʿAṣr; the next prayer is outside the countdown window. */
 const PASSED = ref.asr.getTime() + 60 * 1000;
 
+type Policy = 'immediate' | { after: Date };
 interface FakeActivity {
-  props: PrayerActivityProps;
-  /** When ActivityKit will mark this content stale — the prayer it counts down to. */
-  staleDate: Date | null;
-  update: jest.Mock<(props: PrayerActivityProps, staleDate?: Date) => Promise<void>>;
-  end: jest.Mock<(policy: 'immediate') => Promise<void>>;
+  dismissAt: Date | null;
+  end: jest.Mock<(policy: Policy, props?: PrayerActivityProps) => Promise<void>>;
 }
 
-/** A stand-in for expo-widgets' LiveActivityFactory as of SDK 58, so the start/update/end/
- *  skip decision is observable without the native extension.
- *
- *  The behaviour worth getting right: getInstances() lists ACTIVE and STALE activities and
- *  never an ended one. A stale activity — its prayer has passed — therefore stays listed
- *  until something ends it, which this fake models by doing nothing at the staleDate. */
+/** Match our patched native API: ending with a future dismissal date keeps the banner
+ * listed until dismissed. Removing it here would hide duplicate-banner regressions. */
 function fakeApi() {
   const instances: FakeActivity[] = [];
-  const start = jest.fn((props: PrayerActivityProps, _url: string | undefined, staleDate: Date) => {
+  const start = jest.fn((_props: PrayerActivityProps, _url: string | undefined, _stale: Date) => {
     const activity: FakeActivity = {
-      props,
-      staleDate,
-      update: jest.fn(async (next: PrayerActivityProps, nextStale?: Date) => {
-        activity.props = next;
-        activity.staleDate = nextStale ?? null;
-      }),
-      end: jest.fn(async () => {
+      dismissAt: null,
+      end: jest.fn(async (policy: Policy) => {
+        if (policy !== 'immediate') {
+          activity.dismissAt = policy.after;
+          return;
+        }
         const at = instances.indexOf(activity);
         if (at >= 0) instances.splice(at, 1);
       }),
@@ -77,7 +66,7 @@ function propsAt(now: number): PrayerActivityProps | null {
 const syncAt = (api: LiveActivityApi, now: number): Promise<void> =>
   applyPrayerActivity(api, propsAt(now));
 
-/** What one background-task run at `now` does: it may update or end, never start. */
+/** What one background-task run at `now` does: it may clean up, never start. */
 const backgroundSyncAt = (api: LiveActivityApi, now: number): Promise<void> =>
   applyPrayerActivity(api, propsAt(now), { canStart: false });
 
@@ -87,8 +76,7 @@ const BEFORE_MAGHRIB = ref.maghrib.getTime() - 30 * 60 * 1000;
 describe('applyPrayerActivity', () => {
   beforeEach(() => resetLiveActivityStateForTests());
 
-  // A sync after the prayer has passed takes the banner down: the stale »Dags för ʿAṣr«
-  // has said its piece, and Maghrib is hours away.
+  // Also clean up any legacy active banner encountered after its prayer.
   it('ends the activity once the prayer it counted down to has passed', async () => {
     const { api, instances } = fakeApi();
     await syncAt(api, INSIDE);
@@ -123,19 +111,18 @@ describe('applyPrayerActivity', () => {
     expect(instances).toHaveLength(1);
   });
 
-  // THE MECHANISM, and a regression guard. The countdown is system-rendered and nothing of
-  // ours runs at the prayer, so the content must be handed its stale date up front: that is
-  // what lets the layout swap 0:00 for »Dags för ʿAṣr« with the app closed. The design this
-  // replaced ended every activity at start with `{ after: prayer }` — which cost the Dynamic
-  // Island and only worked with a patched getInstances() that still listed ended activities.
-  // SDK 58 lists none, so if this ever goes back to ending at start, that patch is needed
-  // again and duplicates stack on every foreground without it.
-  it('starts with a stale date at the prayer instant and never schedules its own removal', async () => {
-    const { api, instances, start } = fakeApi();
+  // Regression: the SDK 58 migration replaced dismissal with staleDate, leaving
+  // finished banners on the Lock Screen until the app next ran. Schedule removal up
+  // front so iOS can dismiss without another foreground or background-task execution.
+  it('schedules Lock Screen removal at prayer time when starting', async () => {
+    const { api, instances } = fakeApi();
     await syncAt(api, INSIDE);
-    expect(start).toHaveBeenCalledWith(expect.anything(), undefined, new Date(ref.asr.getTime()));
     const activity = first(instances, 'Live Activity instances');
-    expect(activity.end).not.toHaveBeenCalled();
+    const props = propsAt(INSIDE);
+    if (!props) throw new Error('INSIDE must produce countdown content');
+    expect(activity.end).toHaveBeenCalledWith({ after: new Date(ref.asr.getTime()) }, props);
+    expect(activity.dismissAt).toEqual(new Date(ref.asr.getTime()));
+    expect(instances).toHaveLength(1);
   });
 
   it('leaves a matching activity completely alone on a later foreground', async () => {
@@ -144,27 +131,32 @@ describe('applyPrayerActivity', () => {
     const activity = first(instances, 'Live Activity instances');
     await syncAt(api, INSIDE + 60_000);
     await syncAt(api, INSIDE + 120_000);
-    // The countdown is system-rendered from bounds that don't move and already carries its
-    // stale date, so touching it would burn ActivityKit budget (iOS reduces the sync rate of
-    // an activity it sees churned) to change no pixels.
-    expect(activity.update).not.toHaveBeenCalled();
-    expect(activity.end).not.toHaveBeenCalled();
+    // Its timer and dismissal are already scheduled; avoid replacing it on every resume.
+    expect(activity.end).toHaveBeenCalledTimes(1);
     expect(start).toHaveBeenCalledTimes(1);
   });
 
-  // Not a replacement any more. While every activity was ended at start, an update() was
-  // silently ignored and the only way forward was end + start — which also bounced the
-  // banner off the Dynamic Island. An active activity takes the update.
-  it('rolls the same activity over to the next prayer in place', async () => {
+  it('replaces ended content and schedules the new prayer dismissal', async () => {
     const { api, instances, start } = fakeApi();
     await syncAt(api, INSIDE);
-    const activity = first(instances, 'Live Activity instances');
+    const old = first(instances, 'Live Activity instances');
     await syncAt(api, BEFORE_MAGHRIB);
-    expect(start).toHaveBeenCalledTimes(1);
-    expect(activity.end).not.toHaveBeenCalled();
-    expect(activity.props.nextKey).toBe('maghrib');
-    expect(activity.staleDate).toEqual(new Date(ref.maghrib.getTime()));
+    expect(old.end).toHaveBeenLastCalledWith('immediate');
+    expect(start).toHaveBeenCalledTimes(2);
+    expect(first(instances, 'replacement').dismissAt).toEqual(new Date(ref.maghrib.getTime()));
     expect(instances).toHaveLength(1);
+  });
+
+  it('clears a previous session banner instead of stacking one on cold start', async () => {
+    const { api, instances, start } = fakeApi();
+    await syncAt(api, INSIDE);
+    const old = first(instances, 'previous session');
+    resetLiveActivityStateForTests();
+    await syncAt(api, INSIDE);
+    expect(old.end).toHaveBeenLastCalledWith('immediate');
+    expect(start).toHaveBeenCalledTimes(2);
+    expect(instances).toHaveLength(1);
+    expect(first(instances, 'new session').dismissAt).toEqual(new Date(ref.asr.getTime()));
   });
 
   it('ends the activity once there is nothing to count down to', async () => {
@@ -201,20 +193,26 @@ describe('applyPrayerActivity', () => {
 
     // The overnight case this run exists for: »Dags för ʿIshāʾ« would otherwise sit on the
     // Lock Screen until morning, or until iOS's own cap removes it.
-    it('ends a stale activity once nothing is near', async () => {
+    it('cleans up remaining banners once nothing is near', async () => {
       const { api, instances } = fakeApi();
       await syncAt(api, INSIDE);
       await backgroundSyncAt(api, PASSED);
       expect(instances).toHaveLength(0);
     });
 
-    it('rolls an existing activity over in place', async () => {
+    it('clears changed content without attempting a background replacement', async () => {
       const { api, instances, start } = fakeApi();
       await syncAt(api, INSIDE);
       const activity = first(instances, 'Live Activity instances');
       await backgroundSyncAt(api, BEFORE_MAGHRIB);
+      expect(activity.end).toHaveBeenLastCalledWith('immediate');
       expect(start).toHaveBeenCalledTimes(1);
-      expect(activity.props.nextKey).toBe('maghrib');
+      expect(instances).toHaveLength(0);
+      await syncAt(api, BEFORE_MAGHRIB);
+      expect(start).toHaveBeenCalledTimes(2);
+      expect(first(instances, 'foreground replacement').dismissAt).toEqual(
+        new Date(ref.maghrib.getTime()),
+      );
     });
   });
 });

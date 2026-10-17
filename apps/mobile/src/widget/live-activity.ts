@@ -1,28 +1,12 @@
-// Starts/refreshes/ends the prayer-countdown Live Activity (Lock Screen banner +
-// Dynamic Island). Same posture as ./sync.ts: the app is the only thing that knows
-// settings + location, and iOS only lets an app START a Live Activity while it is
-// foregrounded — so usePrayerActivitySync runs this on foreground/settings changes
-// and at the countdown window and prayer boundaries, and again from the background task
-// (lib/notification-refresh), which may update or end an activity but never start one.
+// Prayer countdowns carry their Lock Screen dismissal time from the moment they start.
+// Ending with { after: prayer } leaves the system-rendered countdown on the Lock Screen
+// until prayer time, even while the app is suspended. It leaves Dynamic Island at once.
+// staleDate alone only changes the content; it does not remove a finished banner.
 //
-// The countdown itself is system-rendered (Text timerInterval), so once started it ticks
-// with no JS. The foreground scheduler ends a finished activity while the app is open;
-// staleDate alone still cannot end it while the app is suspended.
-//
-// HOW THE BOUNDARY IS HANDLED. Every activity is started — and every update sent — with a
-// `staleDate` at the prayer instant. ActivityKit flips the content to stale at that moment
-// on its own, with the app closed, and the layout reads `environment.isStale` to swap the
-// finished countdown for »Dags för X« and the prayer after it (see PrayerLiveActivity.tsx).
-// The next reconcile then rolls the SAME activity over to the following prayer with
-// update(), or ends it when nothing is near.
-//
-// HISTORY, because each step undid a real bug. Before expo-widgets 57.0.12 the bridge passed
-// `staleDate: nil` everywhere and had no `isStale`, so a countdown stranded at 0:00 until the
-// app next opened — all night after ʿIshāʾ. The workaround ended every activity at start with
-// `{ after: prayer }`, which made iOS remove it at the prayer but cost the Dynamic Island
-// (an ended activity leaves it at once) and needed a patched getInstances() to see the ended
-// banners it had to replace. SDK 58's getInstances() deliberately omits ended activities, and
-// the stale state now exists, so activities stay active and the patch is gone.
+// The expo-widgets patch includes ended activities in getInstances() so foregrounds and
+// cold starts can find these still-visible banners instead of stacking duplicates.
+// Ended activities cannot be updated: content changes require replacement, in foreground
+// only. usePrayerActivitySync also reconciles at time boundaries while the app is open.
 import { Platform } from 'react-native';
 
 import { alertContent } from '@/lib/alert-copy';
@@ -116,8 +100,7 @@ export function resetLiveActivityStateForTests(): void {
 
 /** One running activity, as far as this module is concerned. */
 interface LiveActivityHandle {
-  update(props: PrayerActivityProps, staleDate?: Date): Promise<void>;
-  end(policy: 'immediate'): Promise<void>;
+  end(policy: 'immediate' | { after: Date }, props?: PrayerActivityProps): Promise<void>;
 }
 
 /**
@@ -128,8 +111,8 @@ interface LiveActivityHandle {
  * `import()`, which Jest cannot execute (no --experimental-vm-modules), so every call
  * through that path silently lands in the catch below and does nothing at all.
  *
- * `getInstances()` lists active and STALE activities only; since expo-widgets 58 an ended
- * one is never in it, however long it stays on screen.
+ * Our native patch also lists ended banners awaiting dismissal. Without it, the next
+ * foreground would see an empty list and start a duplicate.
  */
 export interface LiveActivityApi {
   start(
@@ -142,7 +125,7 @@ export interface LiveActivityApi {
 
 export interface ReconcileOptions {
   /** False from the background task: ActivityKit only lets an app START an activity while
-   *  it is in the foreground. Updating and ending are allowed from the background. */
+   *  it is in the foreground. Ending is allowed from the background. */
   canStart: boolean;
 }
 
@@ -189,7 +172,7 @@ async function reconcileActivity(
   const instances = [...api.getInstances()];
 
   if (!props) {
-    // Nothing to count down to — clear whatever lingers, a stale »Dags för …« included.
+    // Nothing to count down to — clear any remaining or legacy banners.
     await endAll(instances);
     appliedContentKey = null;
     return;
@@ -203,21 +186,17 @@ async function reconcileActivity(
   const key = activityContentKey(props);
   if (key === appliedContentKey && instances.length === 1) return;
 
-  // One activity, updated in place: a prayer rolling over to the next keeps its banner and
-  // its place in the Dynamic Island rather than being torn down and started again. The
-  // staleDate goes with every update, so the new content flips to stale at ITS prayer.
-  const [keep, ...extras] = instances;
-  await endAll(extras);
-  const staleDate = new Date(props.nextAtMs);
-  if (keep) {
-    await keep.update(props, staleDate);
-  } else if (canStart) {
-    api.start(props, undefined, staleDate);
-  } else {
-    // In the background with nothing on screen: there is nothing to update, and starting
-    // one is not allowed. The next foreground starts it.
-    return;
-  }
+  // Ended banners ignore updates. Replace changed content, clearing old/duplicate
+  // banners first; a background task can clean up but must never start a replacement.
+  await endAll(instances);
+  appliedContentKey = null;
+  if (!canStart) return;
+
+  const started = api.start(props, undefined, new Date(props.nextAtMs));
+  if (!started) return;
+  // The one-hour countdown window is within ActivityKit's four-hour dismissal limit.
+  // Final content keeps its system timer; no background JS or end push is needed.
+  await started.end({ after: new Date(props.nextAtMs) }, props);
   appliedContentKey = key;
 }
 
