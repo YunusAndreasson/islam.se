@@ -10,18 +10,21 @@
       "distribution": "internal",
       "env": {
         "SENTRY_DISABLE_AUTO_UPLOAD": "true"
-      }
+      },
+      "pnpm": "12.14.0"
     },
     "preview": {
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium"
       },
-      "channel": "preview"
+      "channel": "preview",
+      "pnpm": "12.14.0"
     },
     "production": {
       "channel": "production",
-      "autoIncrement": true
+      "autoIncrement": true,
+      "pnpm": "12.14.0"
     }
   },
   "submit": {
