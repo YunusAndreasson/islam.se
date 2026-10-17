@@ -3,7 +3,7 @@
 const fs = require('node:fs');
 const { execFileSync } = require('node:child_process');
 const path = require('node:path');
-const { createFingerprintAsync } = require('@expo/fingerprint');
+const { createFingerprintAsync, DEFAULT_IGNORE_PATHS } = require('@expo/fingerprint');
 
 const root = path.resolve(__dirname, '..');
 const manifestPath = path.join(root, 'native-runtimes.json');
@@ -33,6 +33,9 @@ async function main() {
     const resolvedContents = JSON.stringify(resolved).split(root).join('<project>');
     const fingerprint = await createFingerprintAsync(root, {
       platforms: [platform],
+      // CNG output exists by eas-build-post-install. Its source is already
+      // covered by app config, plugins, patches, and native dependency identities.
+      ignorePaths: [...DEFAULT_IGNORE_PATHS, 'ios', 'ios/**', 'android', 'android/**'],
       // Include native patches and local plugin resources, plus all production
       // dependencies as a conservative guard on newly added native modules.
       extraSources: [

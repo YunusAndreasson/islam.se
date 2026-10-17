@@ -23,7 +23,8 @@ beforeEach(() => {
   copyFileSync(join(__dirname, '../../scripts/check-runtime.js'), join(root, 'scripts/check-runtime.js'));
   mkdirSync(join(root, 'node_modules/@expo/fingerprint'), { recursive: true });
   writeFileSync(join(root, 'node_modules/@expo/fingerprint/index.js'),
-    `exports.createFingerprintAsync = async (_, options) => ({
+    `exports.DEFAULT_IGNORE_PATHS = [];
+    exports.createFingerprintAsync = async (_, options) => ({
       hash: 'native-' + options.platforms[0],
       sources: [
         { id: 'rncoreAutolinkingConfig:' + options.platforms[0], reasons: [] },
@@ -70,7 +71,7 @@ it('rejects inconsistent app versions and runtime policies', () => {
 
 it('refuses an incomplete fingerprint instead of recording missing native modules', () => {
   writeFileSync(join(root, 'node_modules/@expo/fingerprint/index.js'),
-    'exports.createFingerprintAsync = async () => ({ hash: "partial", sources: [] });');
+    'exports.DEFAULT_IGNORE_PATHS = []; exports.createFingerprintAsync = async () => ({ hash: "partial", sources: [] });');
   record({});
   expect(run('--record').stderr).toContain('Incomplete');
 });
