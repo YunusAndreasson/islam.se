@@ -51,3 +51,11 @@ yarn-error.*
 /ios
 /android
 dist-js/
+# @generated expo skills start
+.agents/skills/dotenv
+.agents/skills/dotenvx
+.agents/skills/expo-sqlite
+.claude/skills/dotenv
+.claude/skills/dotenvx
+.claude/skills/expo-sqlite
+# @generated expo skills end
