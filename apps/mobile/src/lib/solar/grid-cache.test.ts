@@ -21,8 +21,8 @@ beforeEach(() => {
 
 describe('gridForDay', () => {
   it('returns the very same grid for a repeated day', () => {
-    const first = gridForDay(TODAY, DEFAULT_SETTINGS, SIG);
-    expect(gridForDay(TODAY, DEFAULT_SETTINGS, SIG)).toBe(first);
+    const first = gridForDay(TODAY, DEFAULT_SETTINGS);
+    expect(gridForDay(TODAY, DEFAULT_SETTINGS)).toBe(first);
   });
 
   // The two halves of the contract, in one walk (each buildGrid costs ~0.5 s of real
@@ -31,8 +31,8 @@ describe('gridForDay', () => {
   // reason the module exists — stepping forward and back is the stepper's commonest
   // gesture, and it must not pay 200–600 ms of blocked JS twice.
   it('builds per day, and makes stepping away and back free', () => {
-    const today = gridForDay(TODAY, DEFAULT_SETTINGS, SIG);
-    const tomorrow = gridForDay(day(1), DEFAULT_SETTINGS, SIG);
+    const today = gridForDay(TODAY, DEFAULT_SETTINGS);
+    const tomorrow = gridForDay(day(1), DEFAULT_SETTINGS);
 
     expect(tomorrow).not.toBe(today);
     // Not just a different object — different TIMES. A cache keyed wrongly (say, on the
@@ -42,36 +42,53 @@ describe('gridForDay', () => {
       first(first(today.pt, 'pt'), 'pt row').fajr,
     );
 
-    expect(gridForDay(TODAY, DEFAULT_SETTINGS, SIG)).toBe(today);
+    expect(gridForDay(TODAY, DEFAULT_SETTINGS)).toBe(today);
   });
 
   // Three entries = the viewed day and its two neighbours, which is what a stepper walks.
   // The eviction ORDER is the half that matters: a hit re-inserts, so the day the user
   // keeps coming back to stays warm instead of ageing out underneath them.
   it('holds three days and evicts the least recently USED, not the oldest inserted', () => {
-    const g0 = gridForDay(day(0), DEFAULT_SETTINGS, SIG);
-    const g1 = gridForDay(day(1), DEFAULT_SETTINGS, SIG);
-    gridForDay(day(2), DEFAULT_SETTINGS, SIG);
+    const g0 = gridForDay(day(0), DEFAULT_SETTINGS);
+    const g1 = gridForDay(day(1), DEFAULT_SETTINGS);
+    gridForDay(day(2), DEFAULT_SETTINGS);
 
     // Exactly at the limit, so day 0 is still there — and touching it makes it the most
     // recently used, leaving day 1 as the eviction candidate.
-    expect(gridForDay(day(0), DEFAULT_SETTINGS, SIG)).toBe(g0);
+    expect(gridForDay(day(0), DEFAULT_SETTINGS)).toBe(g0);
 
-    gridForDay(day(3), DEFAULT_SETTINGS, SIG);
+    gridForDay(day(3), DEFAULT_SETTINGS);
 
     // Day 1 went; day 0 survived despite having been inserted FIRST. Without the
     // re-insert-on-hit this is the wrong way round.
-    expect(gridForDay(day(1), DEFAULT_SETTINGS, SIG)).not.toBe(g1);
-    expect(gridForDay(day(0), DEFAULT_SETTINGS, SIG)).toBe(g0);
+    expect(gridForDay(day(1), DEFAULT_SETTINGS)).not.toBe(g1);
+    expect(gridForDay(day(0), DEFAULT_SETTINGS)).toBe(g0);
+  });
+
+  it('reuses all cached days when only the field-overridden preferences change', () => {
+    const today = gridForDay(TODAY, DEFAULT_SETTINGS);
+    const tomorrow = gridForDay(day(1), DEFAULT_SETTINGS);
+    const variants: PrayerSettings[] = [
+      { ...DEFAULT_SETTINGS, rounding: 'up' },
+      { ...DEFAULT_SETTINGS, rounding: 'none' },
+      { ...DEFAULT_SETTINGS, polarCircleResolution: 'aqrabYaum' },
+      { ...DEFAULT_SETTINGS, polarCircleResolution: 'unresolved' },
+    ];
+    for (const settings of variants) {
+      // Local prayer times must still notice these choices; only the map ignores them.
+      expect(computeSignature(settings)).not.toBe(SIG);
+      expect(gridForDay(TODAY, settings)).toBe(today);
+      expect(gridForDay(day(1), settings)).toBe(tomorrow);
+    }
   });
 
   it('drops every day when a compute-affecting setting changes', () => {
-    const before = gridForDay(TODAY, DEFAULT_SETTINGS, SIG);
+    const before = gridForDay(TODAY, DEFAULT_SETTINGS);
 
     const hanafi: PrayerSettings = { ...DEFAULT_SETTINGS, madhab: 'hanafi' };
     const hanafiSig = computeSignature(hanafi);
     expect(hanafiSig).not.toBe(SIG);
-    const after = gridForDay(TODAY, hanafi, hanafiSig);
+    const after = gridForDay(TODAY, hanafi);
 
     expect(after).not.toBe(before);
     // ʿAsr is the prayer the madhab moves, so a stale cache would show visibly wrong lines.
@@ -81,7 +98,7 @@ describe('gridForDay', () => {
 
     // And going back re-builds rather than resurrecting the old object — the whole map is
     // cleared on a signature change, not just the entry that was asked for.
-    expect(gridForDay(TODAY, DEFAULT_SETTINGS, SIG)).not.toBe(before);
+    expect(gridForDay(TODAY, DEFAULT_SETTINGS)).not.toBe(before);
   });
 });
 
@@ -94,7 +111,7 @@ describe('the grid is always unresolved and unrounded', () => {
   it('leaves the polar zone unresolved even when the user chose aqrabBalad', () => {
     const winter = startOfZoneDay(Date.UTC(2026, 11, 21, 12));
     const aqrab: PrayerSettings = { ...DEFAULT_SETTINGS, polarCircleResolution: 'aqrabBalad' };
-    const grid = gridForDay(winter, aqrab, computeSignature(aqrab));
+    const grid = gridForDay(winter, aqrab);
 
     // The northernmost row on a polar-night date has no sunrise anywhere along it.
     const top = last(grid.pt, 'grid.pt');
@@ -105,7 +122,7 @@ describe('the grid is always unresolved and unrounded', () => {
   // the contour stair-steps along their edges.
   it('keeps sub-minute precision even when the user chose minute rounding', () => {
     const rounded: PrayerSettings = { ...DEFAULT_SETTINGS, rounding: 'up' };
-    const grid = gridForDay(TODAY, rounded, computeSignature(rounded));
+    const grid = gridForDay(TODAY, rounded);
 
     // At least one sampled time must carry seconds — a rounded grid would have none.
     const dhuhr = grid.pt.flat().map((p) => p.dhuhr).filter((t) => !Number.isNaN(t));

@@ -860,11 +860,11 @@ export default function Bonetider() {
   );
 
   const grid = useMemo(
-    () => gridForDay(fieldDayStart, settings, sig),
+    () => gridForDay(fieldDayStart, settings),
     // A cosmetic settings change re-runs this memo, but gridForDay returns the SAME
     // cached object for an unchanged signature — so `grid`'s identity, and every memo
     // downstream of it, stays stable.
-    [fieldDayStart, settings, sig],
+    [fieldDayStart, settings],
   );
 
   // The user's dot as [lon, lat] — anchors the Skia arrival bloom and keeps each prayer

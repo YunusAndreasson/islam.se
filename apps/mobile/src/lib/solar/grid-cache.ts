@@ -14,6 +14,7 @@
 // The compute-affecting settings are folded in as a signature. A change to any of them
 // invalidates EVERY cached day at once, which is right: they are global, not per-day.
 import type { PrayerSettings } from '@/lib/settings/types';
+import { computeSignature } from '@/lib/settings/compute-signature';
 import { zonePrayerDate } from '@/lib/zone-time';
 import { buildGrid, type SolarGrid } from './field';
 
@@ -58,14 +59,16 @@ export function lineGridSettings(settings: PrayerSettings): PrayerSettings {
  * (day, signature). Returns the SAME reference on a hit, so downstream `useMemo`s keyed on
  * it — buildLines, the projected paths — do not recompute either.
  *
- * `signature` must be `computeSignature(settings)`: it is passed in rather than derived
- * here so the caller's own memo keys and this cache key can never disagree.
+ * Key the field's effective settings, after its polar/rounding overrides. The user's
+ * own prayer times still use their full settings; changing a display-only choice must
+ * not throw away identical 5,740-point lattices.
  */
 export function gridForDay(
   dayStart: number,
   settings: PrayerSettings,
-  signature: string,
 ): SolarGrid {
+  const fieldSettings = lineGridSettings(settings);
+  const signature = computeSignature(fieldSettings);
   if (cachedSignature !== signature) {
     // A compute-affecting setting changed, so every stored day is stale at once.
     cache.clear();
@@ -81,7 +84,7 @@ export function gridForDay(
     return hit;
   }
 
-  const grid = buildGrid(zonePrayerDate(dayStart), lineGridSettings(settings));
+  const grid = buildGrid(zonePrayerDate(dayStart), fieldSettings);
   cache.set(dayStart, grid);
   // Map preserves insertion order, so the first key is the least recently used.
   while (cache.size > MAX_ENTRIES) {
