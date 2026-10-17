@@ -351,8 +351,9 @@ function makeStyles(c: Palette) {
     daySelected: { backgroundColor: c.accent },
     dayPast: { color: c.inkMuted },
     daySelectedText: { color: c.onAccent, fontWeight: '700' },
-    // Natural line height lets native fitting shrink the whole line, not just the glyphs.
-    dayText: { fontSize: type.callout.fontSize, fontWeight: type.callout.fontWeight, width: '100%', height: '100%', includeFontPadding: false, textAlign: 'center', textAlignVertical: 'center', color: c.ink, fontVariant: ['tabular-nums'] },
+    // Let dayBubble center the natural text height. A full-height Text stays top-aligned
+    // on iOS, where Android's textAlignVertical has no effect.
+    dayText: { fontSize: type.callout.fontSize, fontWeight: type.callout.fontWeight, width: '100%', includeFontPadding: false, textAlign: 'center', color: c.ink, fontVariant: ['tabular-nums'] },
     dayMarked: { color: c.accent, fontWeight: '700' },
     off: { opacity: 0.3 },
     pressed: { opacity: 0.6 },

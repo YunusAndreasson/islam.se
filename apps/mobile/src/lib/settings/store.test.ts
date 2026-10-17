@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { storage } from '@/lib/storage';
 import { loadSettings, saveSettings } from './store';
 import {
   DEFAULT_SETTINGS,
@@ -285,4 +286,14 @@ describe('notification lead + sound migration', () => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ showNightTimes: 'ja' }));
     expect((await loadSettings()).showNightTimes).toBe(false);
   });
+});
+
+it('propagates an IO failure instead of reporting empty settings', async () => {
+  const error = new Error('disk unavailable');
+  const read = jest.spyOn(storage, 'getItem').mockRejectedValueOnce(error);
+  try {
+    await expect(loadSettings()).rejects.toBe(error);
+  } finally {
+    read.mockRestore();
+  }
 });

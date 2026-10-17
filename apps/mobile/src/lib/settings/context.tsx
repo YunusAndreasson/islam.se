@@ -8,8 +8,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
+
+import { AppState } from 'react-native';
 
 import { setHapticsEnabled } from '@/lib/haptics';
 import { loadSettings, saveSettings } from './store';
@@ -17,7 +20,7 @@ import { DEFAULT_SETTINGS, type PrayerSettings } from './types';
 
 interface SettingsContextValue {
   settings: PrayerSettings;
-  /** True once persisted settings have been read — guards against flashing defaults. */
+  /** True once the initial read attempt finishes; unavailable storage never blocks the UI. */
   loaded: boolean;
   /** Shallow-merge a patch into settings and persist the result.
    *
@@ -41,22 +44,42 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<PrayerSettings>(DEFAULT_SETTINGS);
   const [loaded, setLoaded] = useState(false);
 
-  // Hydrate persisted settings once on mount.
+  const hydrated = useRef(false);
+  const pending = useRef<((previous: PrayerSettings) => PrayerSettings)[]>([]);
+  const saved = useRef<PrayerSettings | null>(null);
+  const writes = useRef(Promise.resolve());
+  const [retry, setRetry] = useState(0);
+
+  // A failed read unlocks the UI, but never authorizes a write of fallback defaults.
+  // Retry on foreground and replay edits made while storage was unavailable.
   useEffect(() => {
     let active = true;
-    loadSettings()
-      .then((loadedSettings) => {
-        if (!active) return;
-        setSettings(loadedSettings);
-        setLoaded(true);
-      })
-      .catch(() => {
-        // Unreadable/corrupt storage: unblock with DEFAULT_SETTINGS rather than
-        // leaving the app stuck on the unhydrated loading state forever.
+    const hydrate = async () => {
+      if (hydrated.current) {
+        setRetry((value) => value + 1);
+        return;
+      }
+      try {
+        const stored = await loadSettings();
+        if (!active || hydrated.current) return;
+        saved.current = stored;
+        hydrated.current = true;
+        const recovered = pending.current.reduce((value, edit) => edit(value), stored);
+        pending.current = [];
+        setSettings(recovered);
+      } catch (error) {
+        console.warn('Could not read settings; saved preferences are preserved.', error);
+      } finally {
         if (active) setLoaded(true);
-      });
+      }
+    };
+    void hydrate();
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') void hydrate();
+    });
     return () => {
       active = false;
+      subscription.remove();
     };
   }, []);
 
@@ -68,24 +91,35 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     setHapticsEnabled(settings.haptics);
   }, [settings.haptics]);
 
-  // Persist on every change after hydration. Trailing the in-memory state (which
-  // is the UI's truth) keeps update() a pure functional setState — the merge sees
-  // the latest value even across batched updates, with no ref bookkeeping.
+  // Serialize writes so a slow older save cannot overwrite a newer edit. Failed
+  // saves remain dirty and retry when the app next becomes active.
   useEffect(() => {
-    if (!loaded) return;
-    void saveSettings(settings);
-  }, [settings, loaded]);
+    if (!loaded || !hydrated.current || settings === saved.current) return;
+    writes.current = writes.current.then(async () => {
+      try {
+        await saveSettings(settings);
+        saved.current = settings;
+      } catch (error) {
+        console.warn('Could not save settings; will retry on foreground.', error);
+      }
+    });
+  }, [settings, loaded, retry]);
+
+  const edit = useCallback((apply: (previous: PrayerSettings) => PrayerSettings) => {
+    if (!hydrated.current) pending.current.push(apply);
+    setSettings(apply);
+  }, []);
 
   const update = useCallback((patch: SettingsPatch | ((prev: PrayerSettings) => SettingsPatch)) => {
-    setSettings((prev) => ({ ...prev, ...(typeof patch === 'function' ? patch(prev) : patch) }));
-  }, []);
+    edit((prev) => ({ ...prev, ...(typeof patch === 'function' ? patch(prev) : patch) }));
+  }, [edit]);
 
   // Restore to DEFAULT_SETTINGS, deep-cloning the nested objects so the in-memory
   // state never shares a reference with the exported constant (a later in-place edit
   // would otherwise mutate the default for the whole app). The persist effect writes
   // the cleared settings back to storage like any other change.
   const reset = useCallback(() => {
-    setSettings({
+    edit(() => ({
       ...DEFAULT_SETTINGS,
       adjustments: { ...DEFAULT_SETTINGS.adjustments },
       notifications: {
@@ -99,8 +133,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         lead: { ...DEFAULT_SETTINGS.notifications.lead },
         sound: { ...DEFAULT_SETTINGS.notifications.sound },
       },
-    });
-  }, []);
+    }));
+  }, [edit]);
 
   const value = useMemo<SettingsContextValue>(
     () => ({ settings, loaded, update, reset }),

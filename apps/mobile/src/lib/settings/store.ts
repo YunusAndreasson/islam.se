@@ -231,12 +231,13 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
 /**
  * Read persisted settings, merging over DEFAULT_SETTINGS so fields added in a
  * later app version still get a value. Missing or corrupt data falls back to
- * defaults rather than throwing — a bad blob must never brick the settings tab.
+ * defaults. Storage IO errors propagate so callers cannot mistake a failed read for
+ * an empty store and overwrite saved preferences.
  */
 export async function loadSettings(): Promise<PrayerSettings> {
+  const raw = await storage.getItem(STORAGE_KEY);
+  if (!raw) return DEFAULT_SETTINGS;
   try {
-    const raw = await storage.getItem(STORAGE_KEY);
-    if (!raw) return DEFAULT_SETTINGS;
     return sanitizeSettings(JSON.parse(raw));
   } catch {
     return DEFAULT_SETTINGS;

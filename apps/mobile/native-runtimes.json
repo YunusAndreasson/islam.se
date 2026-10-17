@@ -1,0 +1,11 @@
+{
+  "blocked": [
+    "1.2.0"
+  ],
+  "runtimes": {
+    "1.2.1": {
+      "ios": "9e7bbc0a5905caa241c9e1246191b221d516ce84",
+      "android": "ee5fc5cd6ea2acf3ab9ac7a3fd1a6d84c6c4b1b1"
+    }
+  }
+}

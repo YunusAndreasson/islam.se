@@ -72,27 +72,41 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   // points below so the prompting and non-prompting paths can never drift.
   const fetchFix = useCallback(async (): Promise<GpsOutcome> => {
     setLocating(true);
+    let expired = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     try {
-      // Last-known is instant; current is authoritative. Use last-known first so
-      // the UI updates immediately, then upgrade to the fresh fix.
-      const last = await Location.getLastKnownPositionAsync();
-      const lastCoords = last
-        ? { latitude: last.coords.latitude, longitude: last.coords.longitude }
-        : null;
-      if (isValidLatLng(lastCoords)) setGpsCoords(lastCoords);
-
-      const current = await Location.getCurrentPositionAsync({
-        accuracy: Location.LocationAccuracy.Balanced,
+      const timeout = new Promise<GpsOutcome>((resolve) => {
+        timer = setTimeout(() => {
+          expired = true;
+          resolve('error');
+        }, 20_000);
       });
-      const next = { latitude: current.coords.latitude, longitude: current.coords.longitude };
-      if (!isValidLatLng(next)) return 'error';
-      setGpsCoords(next);
-      writeCachedFix(next);
-      return 'ok';
+      const acquire = async (): Promise<GpsOutcome> => {
+        const last = await Location.getLastKnownPositionAsync();
+        if (expired) return 'error';
+        const lastCoords = last
+          ? { latitude: last.coords.latitude, longitude: last.coords.longitude }
+          : null;
+        if (isValidLatLng(lastCoords)) setGpsCoords(lastCoords);
+
+        const current = await Location.getCurrentPositionAsync({
+          accuracy: Location.LocationAccuracy.Balanced,
+        });
+        // Native one-shot requests cannot be cancelled. Never let a timed-out
+        // request replace coordinates obtained by a later refresh.
+        if (expired) return 'error';
+        const next = { latitude: current.coords.latitude, longitude: current.coords.longitude };
+        if (!isValidLatLng(next)) return 'error';
+        setGpsCoords(next);
+        writeCachedFix(next);
+        return 'ok';
+      };
+      return await Promise.race([acquire(), timeout]);
     } catch {
-      // Services off / timeout: keep whatever we have (cached or default).
       return 'error';
     } finally {
+      expired = true;
+      clearTimeout(timer);
       setLocating(false);
     }
   }, []);

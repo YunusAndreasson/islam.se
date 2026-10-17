@@ -1,8 +1,12 @@
 diff --git a/android/src/main/java/expo/modules/widgets/ExpoWidgetsPeekWidget.kt b/android/src/main/java/expo/modules/widgets/ExpoWidgetsPeekWidget.kt
-index edabde8f51b3bd9162b634e46f2f09686c3a3b8a..ff09404a529612d19ce014fe4b1fa533629c1a79 100644
+index edabde8f51b3bd9162b634e46f2f09686c3a3b8a..cbf1ac9ba993301fdd7fae94b75bae2fb6ed8dfd 100644
 --- a/android/src/main/java/expo/modules/widgets/ExpoWidgetsPeekWidget.kt
 +++ b/android/src/main/java/expo/modules/widgets/ExpoWidgetsPeekWidget.kt
-@@ -6,6 +6,8 @@ import android.content.Context
+@@ -4,8 +4,12 @@ package expo.modules.widgets
+ import android.annotation.SuppressLint
+ import android.content.Context
++import android.content.Intent
++import android.net.Uri
  import android.os.Bundle
  import androidx.compose.ui.unit.DpSize
  import androidx.glance.Emittable
@@ -11,17 +15,22 @@ index edabde8f51b3bd9162b634e46f2f09686c3a3b8a..ff09404a529612d19ce014fe4b1fa533
  import androidx.glance.appwidget.AppWidgetId
  import androidx.glance.appwidget.SizeMode
  import io.github.expo.peek.emittables.PeekEmittableAppWidget
-@@ -28,6 +30,14 @@ internal class ExpoWidgetsPeekWidget(
+@@ -28,6 +32,19 @@ internal class ExpoWidgetsPeekWidget(
      val environment = getWidgetEnvironment(appContext)
      val node = evaluateLayout(appContext, layout, props, environment)
  
 -    return node.toPeekRoot(appContext, InteractionSource.Widget(widgetName), size)
 +    val root = node.toPeekRoot(appContext, InteractionSource.Widget(widgetName), size)
-+    // islam.se: a tap anywhere on the widget opens the app, as on every other Android widget.
++    // islam.se: the prayer widget opens Bönetider, including from another open screen.
 +    // expo-widgets 58 has no click target for a widget's root — a tap does nothing — and its
 +    // Button `target` only broadcasts back to a running app. Children carry no click handler,
 +    // so the touch reaches this root. Widgets only: custom notifications share toPeekRoot.
 +    appContext.packageManager.getLaunchIntentForPackage(appContext.packageName)?.let { launch ->
++      if (widgetName == "PrayerTimesWidget") {
++        // +native-intent consumes warm taps and dismisses to the existing map.
++        launch.action = Intent.ACTION_VIEW
++        launch.data = Uri.parse("islamse:///widget/prayer-times")
++      }
 +      root.modifier = root.modifier.clickable(actionStartActivity(launch))
 +    }
 +    return root

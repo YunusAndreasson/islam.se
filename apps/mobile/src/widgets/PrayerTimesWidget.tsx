@@ -28,10 +28,11 @@ import {
   environment,
   font,
   foregroundStyle,
-  kerning,
   lineLimit,
   minimumScaleFactor,
   monospacedDigit,
+  truncationMode,
+  widgetURL,
 } from '@expo/ui/swift-ui/modifiers';
 import { createWidget, type WidgetEnvironment } from 'expo-widgets';
 
@@ -82,50 +83,44 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
   const location = typeof p.location === 'string' ? p.location : '';
   const hijri = typeof p.hijri === 'string' ? p.hijri : '';
   const nextArabic = typeof p.nextArabic === 'string' ? p.nextArabic : '';
-  const nextSwedish = typeof p.nextSwedish === 'string' ? p.nextSwedish : '';
   const nextTime = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '–';
   const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
   const nextRow = rows.find((r) => r.isNext);
-  const nextKindLabel = nextRow?.isMarker ? 'NÄSTA TID' : 'NÄSTA BÖN';
+  const nextKindLabel = nextRow?.isMarker ? 'Nästa tid' : 'Nästa bön';
   // Post-Isha the hero shows tomorrow's Fajr — say so (app convention: "i morgon").
-  // Two widths: the narrow families (small, accessoryRectangular) can't fit
-  // "NÄSTA BÖN · I MORGON" at 11pt — it truncates — so they swap the whole label
-  // for just "I MORGON" (the countdown already says it's a bön being announced);
-  // medium has the width for the full form.
   const tomorrow = p.nextIsTomorrow === true;
-  const eyebrowNarrow = tomorrow ? 'I MORGON' : nextKindLabel;
-  const eyebrowWide = tomorrow ? `${nextKindLabel} · I MORGON` : nextKindLabel;
+  const eyebrowLabel = tomorrow ? 'I morgon' : nextKindLabel;
 
   // Tabular figures for every clock/countdown — the widget twin of the app's `mono`
   // token (tabular-nums): schedule times column-align, the countdown doesn't jitter.
   const tabular = monospacedDigit();
-  // 11pt UPPERCASE wants a touch of tracking (app's micro token carries letterSpacing).
-  const tracked = kerning(0.5);
-
   // Shared root chrome: the iOS-17 widget background. The system's own content margins
   // (~16pt, adaptive per device/family) provide the inset — no manual padding on top,
-  // which would double it. No widgetURL — a bare widget tap already foregrounds the app;
-  // an `islamse://` deep link instead presented a fresh screen sliding in over the
-  // running app.
-  const root = [containerBackground(c.paper, 'widget')];
+  // which would double it. +native-intent consumes this link and dismisses to the
+  // existing map on warm opens, avoiding a second copy of Bönetider in the stack.
+  const destination = widgetURL('islamse:///widget/prayer-times');
+  const root = [containerBackground(c.paper, 'widget'), destination];
 
-  // The eyebrow: "NÄSTA BÖN", or "NÄSTA TID" for sunrise. Text only — prayers carry no
+  // Sentence case follows the app's quiet section headings. Prayers carry no
   // glyph anywhere in the app (see components/ui/Icon), so the name below is what says
   // which prayer it is, and the eyebrow, name, time and countdown share one leading edge.
   const eyebrow = (label: string) => (
-    <Text modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(c.inkFaint)]}>
+    <Text modifiers={[font({ size: 12, weight: 'medium' }), foregroundStyle(c.inkMuted), lineLimit(1)]}>
       {label}
     </Text>
   );
-  // For the two families that cannot give way: a line that would not fit shrinks a little
-  // rather than wrapping or truncating the time.
+  // Keep names and clock values on one line; allow a little fitting on narrow layouts.
   const fit = [lineLimit(1), minimumScaleFactor(0.75)];
+  // Location gives the times their context. Keep one readable line, without a
+  // competing calendar date; if location is unavailable, the Hijri date can fill it.
+  const footer = location || hijri;
+  const footerStyle = [font({ size: 12 }), foregroundStyle(c.inkMuted), lineLimit(1), truncationMode('tail')];
 
   // ── Lock screen (vibrant): one glanceable line/card per accessory family ─────────
   if (widgetEnvironment.widgetFamily === 'accessoryInline') {
     // A single system-styled line next to the clock — keep it terse.
     return (
-      <Text modifiers={[font({ size: 13, weight: 'semibold' }), tabular]}>
+      <Text modifiers={[font({ size: 13, weight: 'semibold' }), tabular, destination]}>
         {(nextArabic || 'Bönetider') + (nextTime !== '–' ? ` ${nextTime}` : '')}
       </Text>
     );
@@ -135,11 +130,11 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
     // prayer's name as a small label over it (a glyph used to sit there, and a glyph could
     // not tell Fajr from ʿIshāʾ at 14 pt anyway).
     return (
-      <ZStack modifiers={[containerBackground('#00000000', 'widget')]}>
+      <ZStack modifiers={[containerBackground('#00000000', 'widget'), destination]}>
         <AccessoryWidgetBackground />
         <VStack alignment="center" spacing={0}>
           {nextArabic ? (
-            <Text modifiers={[font({ size: 10, weight: 'semibold' }), foregroundStyle(c.inkMuted), ...fit]}>
+            <Text modifiers={[font({ size: 11, weight: 'semibold' }), foregroundStyle(c.inkMuted), ...fit]}>
               {nextArabic}
             </Text>
           ) : null}
@@ -152,13 +147,13 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
   }
   if (widgetEnvironment.widgetFamily === 'accessoryRectangular') {
     return (
-      <VStack alignment="leading" spacing={1} modifiers={[containerBackground('#00000000', 'widget')]}>
-        {eyebrow(eyebrowNarrow)}
+      <VStack alignment="leading" spacing={1} modifiers={[containerBackground('#00000000', 'widget'), destination]}>
+        {eyebrow(eyebrowLabel)}
         <HStack spacing={6} alignment="firstTextBaseline">
-          <Text modifiers={[font({ size: 15, weight: 'bold' }), foregroundStyle(c.ink)]}>
+          <Text modifiers={[font({ size: 15, weight: 'semibold' }), foregroundStyle(c.ink), ...fit]}>
             {nextArabic || 'Bönetider'}
           </Text>
-          <Text modifiers={[font({ size: 15, weight: 'bold' }), tabular, foregroundStyle(c.ink)]}>
+          <Text modifiers={[font({ size: 15, weight: 'semibold' }), tabular, foregroundStyle(c.ink), ...fit]}>
             {nextTime}
           </Text>
         </HStack>
@@ -166,7 +161,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
           <Text
             date={new Date(nextAtMs)}
             dateStyle="relative"
-            modifiers={[environment('locale', 'sv_SE'), font({ size: 12 }), tabular, foregroundStyle(c.inkMuted)]}
+            modifiers={[environment('locale', 'sv_SE'), font({ size: 12 }), tabular, foregroundStyle(c.inkMuted), lineLimit(1)]}
           />
         ) : null}
       </VStack>
@@ -194,7 +189,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
   if (widgetEnvironment.levelOfDetail === 'simplified') {
     return (
       <VStack alignment="leading" spacing={6} modifiers={root}>
-        {eyebrow(eyebrowNarrow)}
+        {eyebrow(eyebrowLabel)}
         <Spacer />
         <Text modifiers={[font({ size: 26, weight: 'bold' }), foregroundStyle(c.highlightText), ...fit]}>
           {nextArabic || 'Bönetider'}
@@ -212,27 +207,23 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
   if (widgetEnvironment.widgetFamily === 'systemSmall') {
     return (
       <VStack alignment="leading" spacing={3} modifiers={root}>
-        {eyebrow(eyebrowNarrow)}
+        {eyebrow(eyebrowLabel)}
         <Spacer />
-        <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
+        <Text modifiers={[font({ size: 22, weight: 'semibold' }), foregroundStyle(c.highlightText), ...fit]}>
           {nextArabic || 'Bönetider'}
         </Text>
-        <Text modifiers={[font({ size: 38, weight: 'bold' }), tabular, foregroundStyle(c.ink)]}>
+        <Text modifiers={[font({ size: 38, weight: 'medium' }), tabular, foregroundStyle(c.ink), ...fit]}>
           {nextTime}
         </Text>
         {nextAtMs != null ? (
           <Text
             date={new Date(nextAtMs)}
             dateStyle="relative"
-            modifiers={[environment('locale', 'sv_SE'), font({ size: 13 }), tabular, foregroundStyle(c.inkMuted)]}
+            modifiers={[environment('locale', 'sv_SE'), font({ size: 13 }), tabular, foregroundStyle(c.inkMuted), lineLimit(1)]}
           />
         ) : null}
         <Spacer />
-        {location ? (
-          <Text modifiers={[font({ size: 11, weight: 'medium' }), foregroundStyle(c.inkFaint)]}>
-            {location}
-          </Text>
-        ) : null}
+        {footer ? <Text modifiers={footerStyle}>{footer}</Text> : null}
       </VStack>
     );
   }
@@ -243,23 +234,19 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
       <Spacer />
       <HStack spacing={14} alignment="center">
         {/* Hero (left) — eyebrow, prayer name (brass), big time, live countdown */}
-        <VStack alignment="leading" spacing={3}>
-          {eyebrow(eyebrowWide)}
-          <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
+        <VStack alignment="leading" spacing={4}>
+          {eyebrow(eyebrowLabel)}
+          <Text modifiers={[font({ size: 22, weight: 'semibold' }), foregroundStyle(c.highlightText), ...fit]}>
             {nextArabic || 'Bönetider'}
           </Text>
-          {nextSwedish ? (
-            <Text modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}>{nextSwedish}</Text>
-          ) : null}
-          {/* 32pt keeps the time the clear focal point over the 22pt name, like Small. */}
-          <Text modifiers={[font({ size: 32, weight: 'bold' }), tabular, foregroundStyle(c.ink)]}>
+          <Text modifiers={[font({ size: 36, weight: 'medium' }), tabular, foregroundStyle(c.ink), ...fit]}>
             {nextTime}
           </Text>
           {nextAtMs != null ? (
             <Text
               date={new Date(nextAtMs)}
               dateStyle="relative"
-              modifiers={[environment('locale', 'sv_SE'), font({ size: 12 }), tabular, foregroundStyle(c.inkMuted)]}
+              modifiers={[environment('locale', 'sv_SE'), font({ size: 13 }), tabular, foregroundStyle(c.inkMuted), lineLimit(1)]}
             />
           ) : null}
         </VStack>
@@ -271,11 +258,11 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
             const w: 'semibold' | 'regular' = row.isNext ? 'semibold' : 'regular';
             return (
               <HStack key={row.key} spacing={12} alignment="firstTextBaseline">
-                <Text modifiers={[font({ size: 13, weight: w }), foregroundStyle(col)]}>
+                <Text modifiers={[font({ size: 13, weight: w }), foregroundStyle(col), ...fit]}>
                   {row.arabic}
                 </Text>
                 <Spacer />
-                <Text modifiers={[font({ size: 13, weight: w }), tabular, foregroundStyle(col)]}>
+                <Text modifiers={[font({ size: 13, weight: w }), tabular, foregroundStyle(col), ...fit]}>
                   {row.time}
                 </Text>
               </HStack>
@@ -284,12 +271,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: W
         </VStack>
       </HStack>
       <Spacer />
-      {location || hijri ? (
-        <Text modifiers={[font({ size: 11, weight: 'medium' }), foregroundStyle(c.inkFaint)]}>
-          {/* NBSP-padded separator so the footer can never wrap mid-divider. */}
-          {[location, hijri].filter(Boolean).join('  ·  ')}
-        </Text>
-      ) : null}
+      {footer ? <Text modifiers={footerStyle}>{footer}</Text> : null}
     </VStack>
   );
 }

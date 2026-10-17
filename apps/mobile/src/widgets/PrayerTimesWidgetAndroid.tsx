@@ -105,30 +105,31 @@ function PrayerTimesWidgetAndroidLayout(
   const nextArabic = typeof payload.nextArabic === 'string' ? payload.nextArabic : '';
   const nextTime = typeof payload.nextTime === 'string' && payload.nextTime ? payload.nextTime : '–';
   const nextRow = rows.find((row) => row.isNext);
-  const kind = nextRow?.isMarker ? 'NÄSTA TID' : 'NÄSTA BÖN';
+  const kind = nextRow?.isMarker ? 'Nästa tid' : 'Nästa bön';
   // Post-ʿIshāʾ the hero is tomorrow's Fajr — said the way the iOS medium widget says it.
-  const eyebrow = payload.nextIsTomorrow === true ? `${kind} · I MORGON` : kind;
+  const eyebrow = payload.nextIsTomorrow === true ? 'I morgon' : kind;
   const location = typeof payload.location === 'string' ? payload.location : '';
   const hijri = typeof payload.hijri === 'string' ? payload.hijri : '';
-  // NBSP-padded, as on iOS, so the separator never wraps onto a line of its own.
-  const footer = [location, hijri].filter(Boolean).join('  ·  ');
+  // A single context line, as on iOS. Readability wins over fitting two labels
+  // into the narrow hero; the Hijri date is a fallback when no location is known.
+  const footer = location || hijri;
 
   // Hero │ schedule, like the iOS medium widget. There is no countdown: Glance has no
   // self-updating timer text, and a number frozen at render time would be wrong in between.
   return (
     <Row modifiers={root} verticalAlignment="center">
       <Column modifiers={[width(124)]}>
-        <Text style={{ fontSize: 11, fontWeight: 'bold' }} color={c.inkFaint} maxLines={1}>
+        <Text style={{ fontSize: 12 }} color={c.inkMuted} maxLines={1}>
           {eyebrow}
         </Text>
         <Text style={{ fontSize: 20, fontWeight: 'bold' }} color={c.highlightText} maxLines={1}>
           {nextArabic || 'Bönetider'}
         </Text>
-        <Text style={{ fontSize: 30, fontWeight: 'bold' }} color={c.ink} maxLines={1}>
+        <Text style={{ fontSize: 32 }} color={c.ink} maxLines={1}>
           {nextTime}
         </Text>
         {footer ? (
-          <Text style={{ fontSize: 10 }} color={c.inkFaint} maxLines={2}>
+          <Text style={{ fontSize: 12 }} color={c.inkMuted} maxLines={1}>
             {footer}
           </Text>
         ) : null}

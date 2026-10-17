@@ -29,6 +29,12 @@ request. `release:check` is the safe one.
 The script refuses to start unless the whole repository is committed and HEAD equals its
 upstream. Store-submission checklists are in `docs/`.
 
+Publish authorized OTA updates through `pnpm update:ota` with the intended EAS flags,
+never raw `eas update`: the wrapper checks native compatibility first. The app keeps
+`appVersion` runtimes. After native changes, choose a new version in app.json/package.json,
+run `pnpm runtime:record`, and commit the record. Never replace an existing runtime hash.
+See `docs/ota-compatibility.md`. Recording a runtime does not build or publish it.
+
 ## Map data is a generated mirror
 
 `src/lib/mosques/data.json` and `src/lib/burial-grounds/data.json` are generated. Never

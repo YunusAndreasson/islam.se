@@ -20,7 +20,8 @@ jest.mock('@expo/ui/jetpack-compose/modifiers', () => ({}));
 
 const components = ['Text', 'VStack', 'HStack', 'Spacer', 'Divider', 'ZStack', 'AccessoryWidgetBackground', 'Column'];
 const modifiers = ['containerBackground', 'environment', 'font', 'foregroundStyle', 'kerning',
-  'lineLimit', 'minimumScaleFactor', 'monospacedDigit', 'multilineTextAlignment', 'padding', 'paddingAll'];
+  'lineLimit', 'minimumScaleFactor', 'monospacedDigit', 'multilineTextAlignment', 'padding', 'paddingAll',
+  'truncationMode', 'widgetURL'];
 type Node = { type: string; props: Record<string, unknown> };
 function render(factory: unknown, props: unknown, env: Record<string, unknown>) {
   const layout = (factory as { layout: unknown }).layout;
@@ -80,6 +81,41 @@ describe('serialized prayer surface layouts', () => {
     const tree = render(PrayerTimesWidget, payload, { widgetFamily: 'systemMedium' });
     for (const row of payload.rows) expect(texts(tree)).toContain(row.arabic);
   });
+  it('keeps the medium hero focused and gives location a readable single-line footer', () => {
+    const location = 'Södra Sandby och Sularps samhälle';
+    const tree = render(PrayerTimesWidget, { ...payload, location }, { widgetFamily: 'systemMedium' });
+    expect(texts(tree)).toContain(location);
+    expect(texts(tree)).not.toContain(payload.nextSwedish);
+    expect(texts(tree).join(' ')).not.toContain(payload.hijri);
+    const footer = nodes(tree).find(node => node.props.children === location)!;
+    expect(footer.props.modifiers).toEqual(expect.arrayContaining([
+      { modifier: 'font', args: [{ size: 12 }] },
+      { modifier: 'lineLimit', args: [1] },
+      { modifier: 'truncationMode', args: ['tail'] },
+    ]));
+  });
+  it.each(['systemSmall', 'systemMedium'])(
+    'uses the Hijri date only when location is unavailable in %s', (widgetFamily) => {
+      const tree = render(PrayerTimesWidget, { ...payload, location: '' }, { widgetFamily });
+      expect(texts(tree)).toContain(payload.hijri);
+      expect(texts(tree)).toContain(payload.nextTime);
+    },
+  );
+  it('keeps tomorrow and sunrise explicit with quiet sentence-case headings', () => {
+    const tomorrow = render(PrayerTimesWidget, { ...payload, nextIsTomorrow: true }, { widgetFamily: 'systemMedium' });
+    expect(texts(tomorrow)).toContain('I morgon');
+    const sunrise = { ...payload, nextIsTomorrow: false,
+      rows: payload.rows.map(row => ({ ...row, isNext: row.isMarker })) };
+    expect(texts(render(PrayerTimesWidget, sunrise, { widgetFamily: 'systemSmall' }))).toContain('Nästa tid');
+  });
+  it.each(['systemSmall', 'systemMedium', 'accessoryInline', 'accessoryCircular', 'accessoryRectangular'])(
+    'provides exactly one prayer-times tap destination for %s', (widgetFamily) => {
+      const tree = render(PrayerTimesWidget, payload, { widgetFamily });
+      const links = nodes(tree).flatMap(node => (node.props.modifiers ?? []) as { modifier: string; args: unknown[] }[])
+        .filter(modifier => modifier.modifier === 'widgetURL');
+      expect(links).toEqual([{ modifier: 'widgetURL', args: ['islamse:///widget/prayer-times'] }]);
+    },
+  );
   it('keeps the arrived state in a simplified Live Activity', () => {
     const tree = render(PrayerLiveActivity, activity, { levelOfDetail: 'simplified', isStale: true });
     expect(texts(tree.banner)).toEqual([activity.arrivedTitle, '19:30']);

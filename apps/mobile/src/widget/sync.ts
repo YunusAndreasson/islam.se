@@ -8,9 +8,89 @@
 import { Platform } from 'react-native';
 
 import type { LatLng } from '@/lib/prayer-times';
+import { widgetSignature } from '@/lib/settings/compute-signature';
 import type { PrayerSettings } from '@/lib/settings/types';
-import { buildAndroidSnapshot } from './android-snapshot';
-import { buildTimeline } from './timeline';
+import { getDisplayZone } from '@/lib/zone-time';
+import { buildAndroidSnapshot, selectEntry, type AndroidWidgetSnapshot } from './android-snapshot';
+import { buildTimeline, type WidgetTimelineEntry } from './timeline';
+
+/** Replenish the five-day horizon at most once per quarter-hour for unchanged inputs. */
+export const WIDGET_REFRESH_INTERVAL_MS = 15 * 60 * 1000;
+
+interface WidgetLoaders {
+  ios(): Promise<{ updateTimeline(entries: WidgetTimelineEntry[]): void }>;
+  android(): Promise<{ updateSnapshot(snapshot: AndroidWidgetSnapshot): void; reload(): void }>;
+}
+
+/** Each coordinator owns session-local state; cold starts always push a fresh schedule.
+ * Loaders keep native imports deferred and let tests exercise the real sync path. */
+export function createPrayerWidgetSync(loaders: WidgetLoaders) {
+  let applied: {
+    key: string;
+    at: number;
+    snapshot?: AndroidWidgetSnapshot;
+    renderedEntryAt?: number;
+  } | undefined;
+  let queue: Promise<void> = Promise.resolve();
+
+  return function sync(
+    coords: LatLng,
+    settings: PrayerSettings,
+    location: string,
+    now: number = Date.now(),
+  ): Promise<void> {
+    // Serialize imports and writes as well as the cache check. Concurrent foreground,
+    // settings and background syncs otherwise all see an empty cache and push at once.
+    const run = queue.then(async () => {
+      try {
+        const platform = Platform.OS;
+        if (platform !== 'ios' && platform !== 'android') return;
+        const inputKey = () => JSON.stringify([
+          platform, coords.latitude, coords.longitude, location,
+          widgetSignature(settings), getDisplayZone(),
+        ]);
+        const key = inputKey();
+        const age = applied ? now - applied.at : -1;
+        if (applied?.key === key && age >= 0 && age < WIDGET_REFRESH_INTERVAL_MS) {
+          if (platform === 'android' && applied.snapshot) {
+            const entryAt = selectEntry(applied.snapshot, now)?.fromMs;
+            if (entryAt !== applied.renderedEntryAt) {
+              const widget = await loaders.android();
+              widget.reload();
+              applied.renderedEntryAt = entryAt;
+            }
+          }
+          return;
+        }
+
+        if (platform === 'android') {
+          const widget = await loaders.android();
+          const snapshot = buildAndroidSnapshot(coords, settings, location, now);
+          widget.updateSnapshot(snapshot);
+          applied = { key: inputKey(), at: now, snapshot, renderedEntryAt: selectEntry(snapshot, now)?.fromMs };
+        } else {
+          const widget = await loaders.ios();
+          const entries = buildTimeline(coords, settings, location, now);
+          if (entries.length === 0) return;
+          // One timeline push: updateSnapshot on iOS would overwrite it and spend
+          // another reload request. Its first entry already represents `now`.
+          widget.updateTimeline(entries);
+          applied = { key: inputKey(), at: now };
+        }
+      } catch {
+        // Cache only successful writes. Import/build/native failures remain retryable
+        // on the next call and must never poison the queue or escape to the app.
+      }
+    });
+    queue = run;
+    return run;
+  };
+}
+
+const syncWidget = createPrayerWidgetSync({
+  ios: async () => (await import('../widgets/PrayerTimesWidget')).default,
+  android: async () => (await import('../widgets/PrayerTimesWidgetAndroid')).default,
+});
 
 /**
  * Reconcile the home-screen widget with the current settings + location. Best-effort and
@@ -23,36 +103,7 @@ export async function syncPrayerWidget(
   location: string,
   now: number = Date.now(),
 ): Promise<void> {
-  if (Platform.OS === 'android') {
-    try {
-      // The Android layout under the same widget name — never imported on iOS, where it
-      // would overwrite the SwiftUI layout (see the header of that file).
-      const { default: PrayerTimesWidgetAndroid } = await import('../widgets/PrayerTimesWidgetAndroid');
-      // updateSnapshot stores the props and re-renders every placed instance at once.
-      PrayerTimesWidgetAndroid.updateSnapshot(buildAndroidSnapshot(coords, settings, location, now));
-    } catch {
-      // No widget in this build, or Glance unavailable — nothing the user can act on.
-    }
-    return;
-  }
-  if (Platform.OS !== 'ios') return;
-  try {
-    // Deferred import so the WidgetKit module (and @expo/ui native bindings) is never
-    // evaluated on a platform/build without the widget extension.
-    const { default: PrayerTimesWidget } = await import('../widgets/PrayerTimesWidget');
-    const entries = buildTimeline(coords, settings, location, now);
-    if (entries.length === 0) return;
-    // ONE push, deliberately. expo-widgets' updateSnapshot(props) is not a separate
-    // "show this now" channel — it is updateTimeline([{ now, props }]), i.e. it
-    // OVERWRITES the stored timeline with a single entry and fires its own
-    // WidgetCenter.reloadTimelines. Calling it before updateTimeline therefore bought
-    // nothing (buildTimeline's first entry is already `now`) and cost a second reload
-    // request per foreground, which WidgetKit is free to coalesce or defer — it
-    // imposes a ~5 minute floor between reloads of the same widget.
-    PrayerTimesWidget.updateTimeline(entries);
-  } catch {
-    // No widget extension or WidgetKit unavailable — nothing the user can act on.
-  }
+  await syncWidget(coords, settings, location, now);
 }
 
 /**

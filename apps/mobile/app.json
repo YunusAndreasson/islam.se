@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -102,7 +102,7 @@
               },
               "android": {
                 "minWidth": 280,
-                "minHeight": 110,
+                "minHeight": 128,
                 "targetCellWidth": 4,
                 "targetCellHeight": 2,
                 "resizeMode": "both",

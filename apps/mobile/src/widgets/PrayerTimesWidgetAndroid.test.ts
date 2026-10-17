@@ -119,6 +119,23 @@ describe('the Android widget layout', () => {
     expect(texts(renderAt(snapshot.validUntilMs))[0]).toBe('Bönetider');
   });
 
+  it('prioritizes location over the Hijri date without reducing it to a tiny two-line footer', () => {
+    const location = 'Södra Sandby och Sularps samhälle';
+    const withLocation = { ...snapshot, entries: snapshot.entries.map(entry => ({ ...entry,
+      payload: { ...entry.payload, location } })) };
+    const tree = renderAt(BUILT, withLocation);
+    const footer = nodes(tree).find(node => node.props.children === location)!;
+    expect(footer.props.maxLines).toBe(1);
+    expect(footer.props.style).toEqual({ fontSize: 12 });
+    expect(texts(tree).join(' ')).not.toContain(snapshot.entries[0]!.payload.hijri);
+  });
+
+  it('uses a Hijri footer when no location is available', () => {
+    const noLocation = { ...snapshot, entries: snapshot.entries.map(entry => ({ ...entry,
+      payload: { ...entry.payload, location: '' } })) };
+    expect(texts(renderAt(BUILT, noLocation))).toContain(snapshot.entries[0]!.payload.hijri);
+  });
+
   it('follows the phone into dark mode when the reader has not locked a theme', () => {
     const root = renderAt(BUILT, snapshot, { colorScheme: 'dark' });
     const paint = (root.props.modifiers as { modifier: string; args: unknown[] }[]).find(

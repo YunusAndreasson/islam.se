@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react-native';
 import { AppState, type AppStateStatus, Pressable, Text } from 'react-native';
 
 import { LocationProvider, useLocation, useLocationStatus } from './context';
@@ -216,4 +216,52 @@ describe('LocationProvider never prompts unprompted', () => {
     expect(screen.getByTestId('location').props.children).toBe('default:denied');
     expect(Location.getCurrentPositionAsync).not.toHaveBeenCalled();
   });
+});
+
+it('times out stalled GPS, permits retry, and ignores a late obsolete fix', async () => {
+  jest.useFakeTimers();
+  try {
+    jest.mocked(Location.getForegroundPermissionsAsync).mockResolvedValue(permission('granted') as never);
+    jest.mocked(Location.requestForegroundPermissionsAsync).mockResolvedValue(permission('granted') as never);
+    jest.mocked(Location.getLastKnownPositionAsync).mockResolvedValue(null);
+    let lateFix: ((fix: Location.LocationObject) => void) | undefined;
+    jest.mocked(Location.getCurrentPositionAsync).mockImplementationOnce(
+      () => new Promise((resolve) => { lateFix = resolve; }),
+    ).mockResolvedValue({ coords: { latitude: 57.7089, longitude: 11.9746 } } as never);
+    const { result } = await renderHook(() => ({ ...useLocation(), ...useLocationStatus() }), {
+      wrapper: ({ children }) => <SettingsProvider><LocationProvider>{children}</LocationProvider></SettingsProvider>,
+    });
+    await act(async () => {});
+    expect(result.current.locating).toBe(true);
+    await act(async () => { await jest.advanceTimersByTimeAsync(20_000); });
+    expect(result.current.locating).toBe(false);
+    await act(async () => { expect(await result.current.refresh()).toBe('ok'); });
+    const freshCoords = result.current.coords;
+    await act(() => lateFix?.({ coords: { latitude: 55.605, longitude: 13.0038 } } as never));
+    expect(result.current.coords).toEqual(freshCoords);
+    expect(JSON.parse((await AsyncStorage.getItem('lastGpsCoords:v1'))!).latitude).toBe(57.7089);
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
+it('recovers when the last-known lookup stalls without starting its stale current lookup', async () => {
+  jest.useFakeTimers();
+  try {
+    jest.mocked(Location.getForegroundPermissionsAsync).mockResolvedValue(permission('granted') as never);
+    let finishLast: ((fix: null) => void) | undefined;
+    jest.mocked(Location.getLastKnownPositionAsync).mockImplementationOnce(
+      () => new Promise((resolve) => { finishLast = resolve; }),
+    );
+    const { result } = await renderHook(() => useLocationStatus(), {
+      wrapper: ({ children }) => <SettingsProvider><LocationProvider>{children}</LocationProvider></SettingsProvider>,
+    });
+    await act(async () => {});
+    await act(async () => { await jest.advanceTimersByTimeAsync(20_000); });
+    expect(result.current.locating).toBe(false);
+    await act(() => finishLast?.(null));
+    expect(Location.getCurrentPositionAsync).not.toHaveBeenCalled();
+  } finally {
+    jest.useRealTimers();
+  }
 });
