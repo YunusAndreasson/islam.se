@@ -103,12 +103,13 @@ export function CompassButton({ active }: { active: boolean }) {
   // Unlit, the disc is a card on the map and takes the sky's ground like the rest of the
   // chrome (theme/skyChrome). Lit, `highlightSoft` owns it — the lock is the one thing on
   // this screen allowed to ignore the weather.
-  const tint = aligned ? c.highlightSoft : sky.cardGlass;
+  const tint = aligned ? c.highlightSoft : sky.surface;
   const rim = aligned ? c.highlightText : c.hairline;
 
   return (
     <GlassRoundButton
       tint={tint}
+      tintOpacity={aligned ? undefined : 0.86}
       rim={rim}
       accessibilityLabel={
         aligned

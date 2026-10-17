@@ -109,7 +109,8 @@ export function MoonButton({ active }: { active: boolean }) {
   const phase = PHASE_NAMES[phaseKey(sky.phaseAngle)].toLowerCase();
   return (
     <GlassRoundButton
-      tint={aimed ? c.highlightSoft : glass.cardGlass}
+      tint={aimed ? c.highlightSoft : glass.surface}
+      tintOpacity={aimed ? undefined : 0.86}
       rim={aimed ? c.highlightText : c.hairline}
       accessibilityLabel={
         aimed

@@ -104,7 +104,8 @@ export function MapNav({ active, action }: { active: boolean; action?: MapAction
             exiting={reduceMotion ? undefined : FadeOut.duration(motion.fast)}
           >
             <GlassRoundButton
-              tint={sky.cardGlass}
+              tint={sky.surface}
+              tintOpacity={0.86}
               rim={action.kind === 'reset' ? c.accent : c.hairline}
               size={disc}
               accessibilityLabel={
@@ -125,7 +126,8 @@ export function MapNav({ active, action }: { active: boolean; action?: MapAction
         )}
         <GlassRoundButton
           ref={cogRef}
-          tint={sky.cardGlass}
+          tint={sky.surface}
+          tintOpacity={0.86}
           rim={c.hairline}
           size={disc}
           accessibilityLabel="Inställningar"

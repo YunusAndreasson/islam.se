@@ -5,9 +5,9 @@
 //
 // Callers pick the colours: `tint` paints the chrome on top of the native blur so
 // the surface's colour is decided here, not by what the OS sampled under the glass
-// (which is how left and right discs ended up disagreeing at dawn on the map). All
-// surfaces (map nav and modal bars alike) now pass the active OS palette's
-// `cardGlass / hairline` — Apple Maps-style chrome that follows the OS theme.
+// (which is how left and right discs ended up disagreeing at dawn on the map).
+// Map controls use the shared sky surface with a lighter tint opacity, matching the
+// collapsed prayer dock; modal bars use the OS palette's cardGlass / hairline.
 import type { ReactNode, Ref } from 'react';
 import { Pressable, StyleSheet, type ViewInstance } from 'react-native';
 
@@ -20,6 +20,9 @@ interface Props {
   children: ReactNode;
   /** Chrome tint painted over the native blur. Locks the colour against backdrop drift. */
   tint: string;
+  /** Opacity of the tint alone; the native material and icons remain fully visible.
+   * Reduce Transparency keeps the tint solid (handled by GlassSurface). */
+  tintOpacity?: number;
   /** Hairline rim colour around the disc. */
   rim: string;
   /** Disc diameter in dp. Defaults to 46 (map discs); 38 reads better on a 44-pt modal bar. */
@@ -38,6 +41,7 @@ export function GlassRoundButton({
   accessibilityLabel,
   children,
   tint,
+  tintOpacity,
   rim,
   size = 46,
   disabled,
@@ -76,6 +80,7 @@ export function GlassRoundButton({
           borderRadius={radius}
           interactive
           tint={tint}
+          tintStyle={tintOpacity === undefined ? undefined : { opacity: tintOpacity }}
         >
           {children}
         </GlassSurface>
