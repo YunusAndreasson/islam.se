@@ -40,20 +40,20 @@ const pages = {
 		href: "/vad-ar-islam/",
 		label: "Tro och lära",
 		menuSub: "Islams fem pelare och trons sex pelare.",
-		sub: "Vad är islam – fakta om islams fem pelare och trons sex pelare, källbelagt.",
+		sub: "En introduktion till islam, islams fem pelare och trons sex pelare.",
 	},
 	svar: {
 		href: "/svar/",
 		label: "Frågor och svar",
 		menuSub: "Källbelagda svar på vanliga frågor.",
-		sub: "Frågor och svar: källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat och familj.",
+		sub: "Svar på vanliga frågor om islam, med hänvisningar till källorna.",
 	},
 	essaer: { href: "/essaer/", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne." },
 	fordjupning: {
 		href: "/fordjupning/",
 		label: "Fördjupning",
-		menuSub: "Omdiskuterade ämnen, från källorna till svensk rätt.",
-		sub: "Fördjupning: källorna, historien och det svenska rättsläget, ämne för ämne.",
+		menuSub: "Längre artiklar om islams lära, historia och vardagsliv.",
+		sub: "Längre artiklar om islams lära, historia och vardagsliv, med källor och exempel från Sverige.",
 	},
 	// ÄMNEN ÄR INGET EGET MÅL LÄNGRE (2026-08). /amnen/ renderade <AmnenHome
 	// perDept={4} /> — samma sju ämnen, samma framing-rader, samma ordning som
@@ -72,7 +72,11 @@ const pages = {
 		label: "Essäserier",
 		sub: "Essäer som hör ihop, att läsa i ordning.",
 	},
-	tankare: { href: "/tankare/", label: "Tänkare", sub: "De röster essäerna återvänder till." },
+	tankare: {
+		href: "/tankare/",
+		label: "Tänkare",
+		sub: "Filosofer, författare och lärda som förekommer i essäerna.",
+	},
 	calendar: {
 		href: "/det-islamiska-aret/",
 		label: "Det islamiska året",
@@ -87,8 +91,8 @@ const pages = {
 	prayerTimes: {
 		href: "/bonetider/",
 		label: "Bönetider",
-		menuSub: "Hela Sverige, ort för ort, efter solens läge.",
-		sub: "Bönetider för hela Sverige, ort för ort, efter solens läge.",
+		menuSub: "Dagens bönetider för din ort.",
+		sub: "Bönetider för orter i hela Sverige.",
 	},
 	mosques: {
 		href: "/moskeer/",
@@ -99,7 +103,7 @@ const pages = {
 	app: {
 		href: "/app/",
 		label: "App",
-		menuSub: "Bönetider, påminnelser och qibla i fickan.",
+		menuSub: "Bönetider, påminnelser och qiblakompass.",
 		sub: "Appen för iPhone och Android: bönetider, påminnelser och qibla.",
 	},
 	nyheter: {
@@ -111,16 +115,16 @@ const pages = {
 	aiBarometern: {
 		href: "/ai-barometern/",
 		label: "AI-barometern",
-		menuSub: "Vad AI-modellerna svarar, mätning för mätning.",
+		menuSub: "Så svarar fem AI-modeller på samma frågor.",
 		sub: "Vad ChatGPT, Claude, Gemini, Grok och DeepSeek svarar om klimatet, AI, krig och tro, varje månad.",
 	},
 	podcast: {
 		href: "/podcast/",
 		label: "Podd",
 		menuSub: "Essäerna inlästa.",
-		sub: "Essäerna, inlästa – i Apple Podcasts, Spotify eller via RSS.",
+		sub: "Lyssna på essäerna i Apple Podcasts, Spotify eller via RSS.",
 	},
-	about: { href: "/om/", label: "Om islam.se", sub: "Om idén bakom islam.se." },
+	about: { href: "/om/", label: "Om islam.se", sub: "Varför vi skriver om islam på svenska." },
 	editorial: { href: "/om/redaktion/", label: "Redaktionella principer" },
 	ai: {
 		href: "/ai/",

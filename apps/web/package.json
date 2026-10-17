@@ -12,6 +12,7 @@
 		"dev:logs": "astro dev logs",
 		"dev:stop": "astro dev stop",
 		"build": "pnpm library-figures && astro build && tsx scripts/generate-markdown.ts",
+		"build:profile": "pnpm library-figures && astro build --timings && tsx scripts/generate-markdown.ts",
 		"preview": "astro preview",
 		"check": "astro check",
 		"bench": "node scripts/bench/bench.mjs",
@@ -25,18 +26,18 @@
 		"books": "pnpm run pdf && pnpm run epub"
 	},
 	"dependencies": {
-		"@astrojs/markdown-remark": "^7.3.2",
+		"@astrojs/markdown-remark": "^7.3.3",
 		"@astrojs/rss": "^4.0.19",
 		"@astrojs/sitemap": "^3.7.4",
-		"@lucide/astro": "^1.56.0",
+		"@lucide/astro": "^1.58.0",
 		"adhan": "^4.4.6",
-		"astro": "^7.3.8",
+		"astro": "^7.4.0",
 		"maplibre-gl": "^6.14.0",
 		"qrcode-generator": "^2.0.4",
 		"rehype-stringify": "^10.0.1",
 		"remark-rehype": "^11.1.2",
 		"remark-smartypants": "^3.0.3",
-		"satori": "^0.56.1",
+		"satori": "^0.62.0",
 		"sharp": "^0.35.5"
 	},
 	"devDependencies": {

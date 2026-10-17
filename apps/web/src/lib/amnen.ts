@@ -40,8 +40,7 @@ export const AMNEN: Amne[] = [
 		name: "Skapelsen",
 		slug: "skapelsen",
 		omForm: "skapelsen",
-		framing:
-			"Vägen till en skapare går genom det vi ser omkring oss. Naturen, djuren och kosmos lästa som tecken.",
+		framing: "Om naturen, djuren och universum som tecken på en skapare.",
 	},
 	{
 		name: "Koranen",
@@ -66,20 +65,20 @@ export const AMNEN: Amne[] = [
 		name: "Samhälle",
 		slug: "samhalle",
 		omForm: "samhället",
-		framing: "Tron i det offentliga, och en gammal tradition som möter dagens Sverige.",
+		framing: "Om religionens plats i samhället och muslimers liv i Sverige.",
 	},
 	{
 		name: "Livsfrågor",
 		slug: "sokandet",
 		omForm: "livsfrågor",
 		framing:
-			"Den moderna människans sökande efter mening, och vad svenska tänkare och diktare anade på vägen.",
+			"Om att söka mening i livet, med utgångspunkt i islamisk tradition och svensk litteratur.",
 	},
 	{
 		name: "Norden",
 		slug: "norden",
 		omForm: "Norden",
-		framing: "Nordisk myt och gammalt svenskt arv, sedda i ett nytt ljus.",
+		framing: "Om nordisk mytologi, svensk folktro och deras förhållande till islam.",
 	},
 ];
 

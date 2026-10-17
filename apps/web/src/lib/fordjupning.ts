@@ -35,7 +35,7 @@ const FORDJUPNING_ART: ReadonlyMap<string, ImageMetadata> = new Map(
  *  /fordjupning/, frame the front page's Fördjupning section and frame the band on
  *  /svar/; written once, because three copies of one sentence come apart. */
 export const FORDJUPNING_INGRESS =
-	"Ämnen som diskuteras oftare än de beskrivs. Varje sida följer ett av dem från vad texterna säger till hur frågan avgörs i en svensk domstol, kommun eller moské.";
+	"Längre artiklar om islams lära, historia och vardagsliv, med källor och exempel från Sverige.";
 
 /** Every fördjupning page, term-alphabetical (Swedish) — the pillar index, the
  *  answer-page "Läs vidare" list, and llms.txt all want the same order. */

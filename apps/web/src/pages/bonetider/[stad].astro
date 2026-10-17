@@ -157,7 +157,7 @@ const placeFactRows = [
 	place.county ? { term: "Län", value: place.county } : null,
 	place.landAreaKm2 != null ? { term: "Landareal", value: `${nf1.format(place.landAreaKm2)} km²` } : null,
 	place.densityPerKm2 != null ? { term: "Befolkningstäthet", value: `${nf0.format(place.densityPerKm2)} inv./km²` } : null,
-	place.scbRank != null ? { term: "Storleksrang", value: `Sveriges ${sizeRank(place.scbRank)} tätort` } : null,
+	place.scbRank != null ? { term: "Storlek", value: `Sveriges ${sizeRank(place.scbRank)} tätort` } : null,
 	{ term: "Koordinater", value: `${lat1}° N, ${lon1}° O` },
 ].filter((row): row is { term: string; value: string; note?: string } => row !== null);
 
@@ -218,7 +218,7 @@ const timesLine = `Fajr ${t.fajr} · Ẓuhr ${t.dhuhr} · ʿAṣr ${t.asr} · Ma
 const shortTail = hasMosquePage ? ` Även moskéerna i ${place.name}.` : "";
 const description = hasTimes
 	? `Bönetider i ${titlePlace} idag: ${timesLine}. Uppdateras varje dygn.${shortTail}`
-	: `Bönetider för ${descPlace} ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge.${descTail}`;
+	: `Bönetider för ${descPlace} ${year}: dagens tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ, beräknade efter solens läge.${descTail}`;
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
 // Samma tröskel styr den utskrivbara månadstabellen — 273 orter, se lib/bonetider/pdf.ts.
@@ -431,7 +431,7 @@ if (hasScb) {
 				<li>
 					<a href={`webcal://islam.se/bonetider/${place.slug}/kalender.ics`}>
 						<span class="bt-take-title">Prenumerera på tiderna</span>
-						<span class="bt-take-gloss">Månadens fem böner i din egen kalender. Uppdateras varje natt.</span>
+						<span class="bt-take-gloss">Månadens bönetider i din egen kalender. Uppdateras varje natt.</span>
 					</a>
 				</li>
 				<li>
@@ -541,11 +541,9 @@ if (hasScb) {
 		)}
 
 		<TitledSection class="bt-stad-section bt-prose" id="bt-stad-about" title={`Om bönetiderna i ${place.name}`}>
-			{/* The map moved to the top of the page — this prose keeps every word it had. */}
 			<p>
 				{place.name} ligger {place.county ? `i ${lanDisplay(place.county)}, ` : ""}på {lat1}° nordlig bredd.
-				Bönetiderna beräknas utifrån solens verkliga läge för just denna position – inte från en
-				tabell – så att de stämmer med dygnet på orten.
+				Bönetiderna beräknas utifrån solens läge på orten.
 			</p>
 			<p>{daylightPara}</p>
 			<p>

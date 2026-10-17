@@ -4,7 +4,7 @@ import { breadcrumbList } from "../lib/jsonld";
 import { TURNSTILE_SITEKEY } from "../lib/rattelse";
 
 const description =
-	"Hittat ett sakfel på islam.se? Peka ut meningen, skriv vad som är fel och skicka in det här. Vi rättar så snart vi får veta.";
+	"Har du hittat ett sakfel på islam.se? Ange sidan, citera meningen och beskriv vad som är fel. Bifoga gärna en källa.";
 ---
 
 <ArticlePage
@@ -20,9 +20,8 @@ const description =
 >
 	<Fragment slot="header">
 		<p class="ratta-lead">
-			Vi rättar sakfel så snart vi får veta om dem. Ju närmare du kan peka – vilken mening det
-			gäller, vad som är fel i den och var det rätta står – desto snabbare kan vi göra något åt
-			det.
+			Har du hittat ett sakfel? Ange sidan, citera meningen och beskriv vad som är fel.
+			Bifoga gärna en källa som hjälper oss att kontrollera uppgiften.
 		</p>
 	</Fragment>
 
@@ -72,8 +71,7 @@ const description =
 					<label for="ratta-source">Källa</label>
 					<input type="text" id="ratta-source" name="source" autocomplete="off" aria-describedby="ratta-source-hint" />
 					<p class="ratta-hint" id="ratta-source-hint">
-						Har du ett belägg – en vers, en hadith med samling och nummer, en bok eller en länk –
-						så nämn det här. Ett belägg avgör hur fort rättelsen går igenom.
+						Ange gärna en vers, en hadith med samling och nummer, en bok eller en länk.
 					</p>
 				</div>
 
@@ -95,7 +93,7 @@ const description =
 				<div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-language="sv"></div>
 
 				<div class="ratta-actions">
-					<button type="submit" class="ratta-submit">Skicka rättelsen</button>
+					<button type="submit" class="ratta-submit">Skicka förslaget</button>
 					<p class="ratta-status" id="ratta-status" role="status" aria-live="polite"></p>
 				</div>
 			</form>
@@ -229,7 +227,7 @@ const description =
 					form.hidden = true;
 					done.hidden = false;
 					done.textContent =
-						"Tack. Rättelsen är noterad och en av oss läser den. Vi hör av oss om du lämnat en adress och något behöver redas ut.";
+						"Tack för ditt förslag. Vi går igenom uppgifterna och kontaktar dig om vi behöver veta mer och du har lämnat din e-postadress.";
 					return;
 				}
 

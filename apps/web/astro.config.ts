@@ -722,6 +722,8 @@ function inlineScriptHash(file: string): `sha256-${string}` {
 	return `sha256-${createHash("sha256").update(body, "utf8").digest("base64")}`;
 }
 
+const prerenderWorkers = Number(process.env.ASTRO_PRERENDER_WORKERS) || 1;
+
 export default defineConfig({
 	site: "https://islam.se",
 	output: "static",
@@ -733,23 +735,15 @@ export default defineConfig({
 	// mobile browsers fire mouseover on tap ahead of click, and Astro already downgrades on
 	// saveData/2g.
 	prefetch: { defaultStrategy: "hover" },
-	// The concurrency note that used to sit here recorded 102 s -> 86 s for 4 workers and
-	// warned only against 8. It never tested 1, and 1 turned out to be the answer — see
-	// the measurement in `build` below. The instinct it recorded was right (rendering is
-	// single-threaded and contends) and simply did not go far enough down.
 	// inlineStylesheets stays "always": it costs ~5 s of build and buys the
 	// render-blocking-request-free FCP the Lighthouse pass depends on.
-	// `concurrency` is page-render parallelism. This was 4 for a long time on the
-	// assumption that more workers meant a faster build. Measured on the full 2 473-page
-	// build, 2026-08-20:
+	// `concurrency` controls simultaneous pages WITHIN one thread. Measured before
+	// Astro 7.4 introduced separate prerender worker threads, on 2 473 pages, 2026-08-20:
 	//
 	//     concurrency 1 → 221 s      concurrency 2 → 215 s      concurrency 4 → 279 s
 	//
-	// Four was the SLOWEST, and it was also what took the 8 GB deploy host to 6,3 GB RSS
-	// and got the build OOM-killed 868 city pages in. Astro's own reference says why and
-	// says to leave it alone: page rendering is single-threaded JavaScript, so extra
-	// workers buy no CPU while multiplying peak memory. 1 is Astro's default; the env var
-	// stays as an escape hatch for measuring this again rather than guessing.
+	// Four was the slowest and took the 8 GB deploy host to 6.3 GB RSS before an OOM.
+	// Keep one page per thread; ASTRO_PRERENDER_WORKERS below controls real CPU workers.
 	build: {
 		inlineStylesheets: "always",
 		concurrency: Number(process.env.ASTRO_BUILD_CONCURRENCY) || 1,
@@ -808,6 +802,9 @@ export default defineConfig({
 		},
 	},
 	experimental: {
+		// Worker threads have separate article/font caches. Opt in with a bounded count
+		// for benchmarking; do not automatically use every core on the deployment host.
+		parallelPrerender: prerenderWorkers > 1 ? { workers: prerenderWorkers } : false,
 		// City routes supply date/prayer-aware keys; unkeyed routes still render every build.
 		incrementalBuild: true,
 		contentIntellisense: true,

@@ -13,9 +13,15 @@ ones defined at the repo root need `-w`.
 pnpm check                    # astro check. Biome is `pnpm -w check`: same name, different tool
 pnpm build:fast               # renders only a sample of the bönetider city pages; for iteration
 pnpm build                    # full build
+pnpm build:profile            # full build with Astro's timing report
 pnpm -w test --project web    # this app's unit tests; drop --project for the whole repo
 pnpm -w verify                # Biome, types, tests, content checkers, build. Run before finishing
 ```
+
+To measure parallel prerendering, use `ASTRO_PRERENDER_WORKERS=2 pnpm build:profile`.
+The default uses one thread. Keep `ASTRO_BUILD_CONCURRENCY` at 1 when comparing workers;
+it controls simultaneous pages within each thread. Compare builds with equally warm
+caches and check memory use as well as elapsed time.
 
 ## Dev server
 

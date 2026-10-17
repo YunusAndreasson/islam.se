@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import { type Article, getArticles } from "../lib/articles";
 import { leadSentences } from "../lib/format";
-import EssayList from "./EssayList.astro";
+import EssayArchiveItem from "./EssayArchiveItem.astro";
 import HomeHead from "./HomeHead.astro";
 import SectionLink from "./SectionLink.astro";
 import ThreadList from "./ThreadList.astro";
@@ -48,6 +48,7 @@ const routes = threads.map((thread) => {
 	const essays = thread.data.essays
 		.map((slug) => bySlug.get(slug))
 		.filter((a): a is Article => Boolean(a));
+	const newestFirst = [...essays].sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 	return {
 		id: thread.id,
 		title: thread.data.title,
@@ -55,11 +56,9 @@ const routes = threads.map((thread) => {
 		// heights, a clamp cut it mid-sentence (user reviews, 2026-09-25).
 		framing: leadSentences(thread.data.framing, 150),
 		essays,
-		// The first three parts are shown, as cards: where the series starts. The rest
-		// are behind »Hela essäserien«, and are still counted when the reader's
-		// progress is.
-		shown: essays.slice(0, DELAR),
-		rest: essays.slice(DELAR),
+		// Preview the latest parts first; the series page keeps its reading order.
+		shown: newestFirst.slice(0, DELAR),
+		rest: newestFirst.slice(DELAR),
 		minutes: essays.reduce((sum, a) => sum + a.readingTime, 0),
 	};
 });
@@ -110,25 +109,27 @@ const routes = threads.map((thread) => {
 						data-tab
 						data-selected={i === 0 ? "true" : undefined}
 					>
-						{route.title}{" "}
-						<span class="home-tab-count">
-							{route.essays.length}
-							<span class="sr-only"> delar</span>
-						</span>
+						{route.title}
 					</a>
 				))}
 			</nav>
 			{routes.map((route, i) => (
 				<div class="trad-route" id={`serie-panel-${route.id}`} data-tab-panel hidden={i !== 0}>
 					<p class="home-tab-framing">{route.framing}</p>
-					<EssayList
-						articles={route.shown}
-						itemVariant="card"
+					<ul
 						class="home-cards trad-delar"
 						role="list"
-						aria-label={`${route.title}, de första delarna i läsordning`}
-						cardSizes="(min-width: 60rem) 31vw, (min-width: 40rem) 42vw, 80vw"
-					/>
+						aria-label={`${route.title}, senaste delarna först`}
+					>
+						{route.shown.map((article) => (
+							<EssayArchiveItem
+								article={article}
+								variant="card"
+								style={`counter-reset: del ${route.essays.indexOf(article) + 1}`}
+								cardSizes="(min-width: 60rem) 31vw, (min-width: 40rem) 42vw, 80vw"
+							/>
+						))}
+					</ul>
 					{/* Counted with the cards when the reader's progress is, and never shown. */}
 					{route.rest.map((essay) => (
 						<span data-slug={essay.slug} hidden />
@@ -136,7 +137,7 @@ const routes = threads.map((thread) => {
 					<p class="home-tab-more">
 						<SectionLink href={`/tradar/${route.id}/`} data-astro-prefetch="viewport">Hela essäserien</SectionLink>
 						<span class="label article-meta trad-meta">
-							{route.essays.length} delar · lästid {route.minutes} min
+							Lästid {route.minutes} min
 							<span class="trad-progress" hidden />
 						</span>
 					</p>
@@ -159,18 +160,7 @@ const routes = threads.map((thread) => {
 		display: none;
 	}
 
-	/* THE PART'S NUMBER, over its title. From a counter, so it is right for whatever the
-	   list holds; in the brass ink every ordinal on the page is set in (Grunden's five
-	   pillars), in the apparatus face at the meta size. The cards are a list's <li>s and
-	   carry no scope of this component's, hence :global. */
-	.tradar-home :global(.trad-delar) {
-		counter-reset: del;
-	}
-
-	.tradar-home :global(.trad-delar > li) {
-		counter-increment: del;
-	}
-
+	/* Keep the original part number even when the newest part is shown first. */
 	.tradar-home :global(.trad-delar .essay-card-title::before) {
 		content: "Del " counter(del);
 		display: block;

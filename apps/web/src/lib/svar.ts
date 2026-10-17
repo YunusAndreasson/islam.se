@@ -146,7 +146,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		name: "Mat, vardag och kultur",
 		short: "Mat",
 		intro:
-			"Det tillåtna och förbjudna (halal och haram) i mat och vardag, och vad som hör till sed mer än till religion.",
+			"Vad som är tillåtet och förbjudet (halal och haram) i mat och vardag, och skillnaden mellan sedvänja och religiösa regler.",
 		ids: [
 			"varfor-ater-muslimer-inte-griskott",
 			"vad-ar-halalslakt",
@@ -163,8 +163,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		slug: "familj-och-samhalle",
 		name: "Familj och samhälle",
 		short: "Familj",
-		intro:
-			"Äktenskap, familjeliv och de mest omdebatterade samhällsfrågorna, besvarade ur Koranen och sunna.",
+		intro: "Frågor om äktenskap, familjeliv och samhället, med svar utifrån Koranen och sunna.",
 		ids: [
 			"aktenskap-i-islam",
 			"far-muslimska-man-ha-flera-fruar",

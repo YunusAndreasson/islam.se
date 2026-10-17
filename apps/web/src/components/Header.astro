@@ -80,8 +80,10 @@ const mastIsDay =
 				    distance): without it the visible string is »Ẓuhr12:36« and the label
 				    »Ẓuhr 12:36« does not contain it, which fails WCAG 2.5.3 for a reader
 				    who speaks the name they see. */}
-				<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNextKey]}</span>{" "}
-				<span class="bf-next-time mast-prayer-time">{formatTime(mastTimes[mastNextKey])}</span>
+				<span class="mast-prayer-text">
+					<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNextKey]}</span>{" "}
+					<span class="bf-next-time mast-prayer-time">{formatTime(mastTimes[mastNextKey])}</span>
+				</span>
 			</a>
 			{/* No aria-label: the accessible name comes from the visible label span, which
 			    CSS swaps "Sök" (pointer) ↔ "Meny" (touch) by media query. A fixed aria-label

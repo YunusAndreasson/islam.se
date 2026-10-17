@@ -23,13 +23,12 @@ export const APP_FEATURES = [
 	{
 		key: "karta",
 		term: "Solens gång över landet",
-		gloss:
-			"En karta där ljuset vandrar över Sverige och visar hur långt det är kvar till nästa bön.",
+		gloss: "Se solens läge över Sverige och hur lång tid det är kvar till nästa bön.",
 	},
 	{
 		key: "qibla",
 		term: "Qiblan",
-		gloss: "En kompass mot Kaba, räknad för platsen där du står.",
+		gloss: "Visar riktningen mot Kaba från din plats.",
 	},
 	{
 		key: "paminnelse",
@@ -44,8 +43,7 @@ export const APP_FEATURES = [
 ] as const;
 
 /** One line, shown under the heading everywhere the app is mentioned. No em dash. */
-export const APP_TAGLINE =
-	"Bönetider för hela Sverige, uträknade i telefonen efter solens gång över landet.";
+export const APP_TAGLINE = "Bönetider för din ort, även utan uppkoppling.";
 
 /** What the city prayer pages lead with: the three things that page cannot do for
  *  itself. On a surface that is 91 % phones, naming them beats a bare badge pair —

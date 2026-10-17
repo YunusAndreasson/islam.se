@@ -28,7 +28,6 @@
 // them, as it draws the series' other drawings across the site.
 import { APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
 import { getArticles } from "../lib/articles";
-import { talord } from "../lib/format";
 import { RITNINGAR } from "../lib/ritningar";
 import PodcastBrandIcon from "./PodcastBrandIcon.astro";
 import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
@@ -39,22 +38,12 @@ const articles = await getArticles();
 // specks beside sentence-case labels.
 const ICON = 18;
 const narrated = articles.filter((a) => typeof a.audioFile === "string");
-const minutes = Math.round(narrated.reduce((s, a) => s + (a.audioDuration ?? 0), 0) / 60);
-const hours = Math.floor(minutes / 60);
-const WORDS = ["", "en", "två", "tre", "fyra", "fem", "sex", "sju", "åtta", "nio", "tio"];
-const hourWord = WORDS[hours] ?? String(hours);
-// A floor, so the claim is always true: 2 h 3 min is »över två timmar«.
-const length =
-	hours === 0
-		? `${minutes} minuter`
-		: `${minutes % 60 ? "över " : ""}${hourWord} ${hours === 1 ? "timme" : "timmar"}`;
 ---
 
 {
 	narrated.length > 0 && (
 		<Promo id="podden-rubrik" kicker="Podd" titel="Essäerna, inlästa" href="/podcast/" ritning={RITNINGAR.podden}>
-			Hittills finns {talord(narrated.length)} av essäerna inlästa, sammanlagt {length}. Lyssna i den
-			poddspelare du redan har.
+			Lyssna på essäerna i Apple Podcasts, Spotify eller en annan poddspelare.
 			<PodcastSubscribeLinks slot="lankar" actionClass="podcast-action" iconSize={ICON} />
 		</Promo>
 	)

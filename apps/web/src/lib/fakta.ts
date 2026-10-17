@@ -61,7 +61,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 				svarSlug: "trosbekannelsen-shahada",
 				label: "Trosbekännelsen",
 				translit: "ash-shahāda",
-				blurb: "Vittnesbörden: ingen gud utom Gud, och Muhammed ﷺ är hans sändebud.",
+				blurb: "Vittnesbördet: ingen gud utom Gud, och Muhammed ﷺ är hans sändebud.",
 				// A man under the Nordic night sky, looking up. The shahāda is a
 				// witnessing, and this is what witnessing looks like. It replaced a
 				// café window with coffee and a bun — a fine picture of seeking, which

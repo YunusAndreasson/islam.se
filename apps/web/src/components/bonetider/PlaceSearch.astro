@@ -60,7 +60,7 @@ const entries = placesByCounty().flatMap(g => g.places.map(p => ({name: p.name, 
 				return li;
 			}));
 			results.hidden = shown.length === 0;
-			status.textContent = !query ? "" : !matches.length ? "Ingen ort hittades. Prova en annan stavning." : matches.length > shown.length ? `Visar ${shown.length} av ${matches.length} orter. Skriv mer för färre träffar.` : `${matches.length} ${matches.length === 1 ? "ort hittad" : "orter hittade"}.`;
+			status.textContent = !query ? "" : !matches.length ? "Ingen ort hittades. Prova en annan stavning." : matches.length > shown.length ? `Visar ${shown.length} av ${matches.length} orter. Skriv fler bokstäver för att begränsa sökningen.` : `${matches.length} ${matches.length === 1 ? "ort hittad" : "orter hittade"}.`;
 		};
 		input.addEventListener("input", render);
 		input.addEventListener("keydown", (event) => {

@@ -21,7 +21,7 @@ export const SPOTIFY_SHOW_URL = "https://open.spotify.com/show/2WgLxCwy5RFu07sEg
 // »andliga-essäer«, which is harmless: the show is addressed by its id.
 export const PODCAST_TITLE = "islam.se: essäer, inlästa";
 export const PODCAST_DESCRIPTION =
-	"Essäerna från islam.se, inlästa. Den islamiska lärdomstraditionen läst tillsammans med svensk litteratur – om samvetet och ansvaret, om skapelsen, natten och tiden.";
+	"Lyssna på essäerna från islam.se om tro, samvete och samhälle. Texterna tar sin utgångspunkt i islamisk tradition och svensk litteratur.";
 /** Square cover art (3000×3000), served from public/. */
 export const PODCAST_COVER = "/podcast-cover.jpg";
 /** The RSS feed every podcast app subscribes to. */

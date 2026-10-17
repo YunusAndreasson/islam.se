@@ -732,12 +732,6 @@
 		border-bottom-color: var(--color-accent);
 	}
 
-	.home-tab-count {
-		font-size: var(--step--3);
-		font-variant-numeric: lining-nums tabular-nums;
-		color: var(--color-muted);
-	}
-
 	/* ON A PHONE THE TABS ARE ONE ROW THAT SCROLLS SIDEWAYS (2026-10-16). Six ämnen
 	   wrapped into two rows at 390px, each with its own rule, and the chosen tab's line
 	   stood on the upper one: two bars, the second reading as a sub-menu of the first.
@@ -1023,12 +1017,10 @@
 		animation: none;
 	}
 
-	/* biome-ignore lint/correctness/noUnknownTypeSelector: `mast` is a view-transition name, not an element */
 	::view-transition-old(mast) {
 		animation: 180ms cubic-bezier(0.76, 0, 0.24, 1) both mast-fade-out;
 	}
 
-	/* biome-ignore lint/correctness/noUnknownTypeSelector: `mast` is a view-transition name, not an element */
 	::view-transition-new(mast) {
 		animation: 180ms cubic-bezier(0.76, 0, 0.24, 1) both mast-fade-in;
 	}
@@ -1302,6 +1294,13 @@
 	.mast-prayer-icon[data-day="true"] .mp-moon,
 	.mast-prayer-icon[data-day="false"] .mp-sun {
 		display: none;
+	}
+
+	/* The sans prayer name and serif time share a baseline, including fallback fonts. */
+	.mast-prayer-text {
+		display: inline-flex;
+		align-items: baseline;
+		gap: inherit;
 	}
 
 	.mast-prayer-name {

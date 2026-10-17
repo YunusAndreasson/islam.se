@@ -767,7 +767,7 @@ const here = (href: string) => href === currentHref;
 				input.setAttribute("aria-expanded", "false");
 			}
 			if (indexFailed) {
-				hint.textContent = "Sökningen kunde inte laddas.";
+				hint.textContent = "Det går inte att söka just nu. Försök igen.";
 				retryBtn.hidden = false;
 				return;
 			}
