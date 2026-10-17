@@ -14,7 +14,7 @@
 // brightLimbAngle). At 59–68°N the same crescent leans quite differently than it does over
 // the classical Arab world, and a moon whose horns are always in the same place is wrong
 // everywhere except by accident.
-import { Canvas, Path, Skia } from '@shopify/react-native-skia';
+import { Canvas, Path, Skia } from 'react-native-skia';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

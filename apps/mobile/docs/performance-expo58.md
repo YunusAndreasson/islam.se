@@ -64,3 +64,81 @@ development render durations to production estimates with a fixed multiplier.
 Raw reports, profiler session files, benchmark outputs and test plan are local under
 `.argent/performance/expo58/`; recordings are under `.argent/flows/`. Draft recordings
 with failed or unknown checks must not be presented as passing regression tests.
+
+## Skia 3 migration — 2026-10-17
+
+Migrated the native drawing package from `@shopify/react-native-skia@2.14.0` to
+`react-native-skia@3.6.2`, retaining the declarative scene, cached paths and sampled
+clock. The [migration guide](https://wcandillon.github.io/react-native-skia/docs/getting-started/migration/)
+describes Graphite/Dawn drawing on a native thread pool, Metal on Apple platforms,
+and Vulkan on Android. It also explicitly says v2 is still maintained. This migration
+adopts that architecture; the measurements below do not establish a whole-app speedup.
+
+Android prebuild now explicitly sets API 26 as the minimum. Skia's required Vulkan
+1.1 feature conflicts with MapLibre Vulkan 13.6.1's 1.0.3 declaration during manifest
+merging. `withSkiaVulkanAndroid` selects the stricter 1.1 requirement in the app
+manifest, preserving Play device filtering. Do not lower/remove it to make unsupported
+devices install: Skia canvases would be blank. Only the unscoped Skia package is installed.
+
+The app and package versions advance to 1.2.0. The existing `appVersion` runtime policy
+is retained, separating this native ABI from 1.1.0 Skia 2 builds. This requires new native
+builds; it cannot be delivered to old binaries as a JavaScript-only update. No update,
+store build, submission or deployment was published during this investigation.
+
+### Controlled Android checks
+
+The comparison used the same API 35 Pixel emulator, app data, MapTiler configuration,
+411.43 × 914.29 dp viewport and Sweden camera (61.4282039562, 17.4136249819,
+zoom 4.1425185239). After a diagnostic headless emulator restart, Skia 3 reported
+Vulkan available through the host NVIDIA Quadro M1200. These captures are separate
+from the earlier SwiftShader runs above. Skia 2 used the existing Expo 58.0.13 native
+binary; its baseline Metro dependency tree had Expo 58.0.14, while the isolated Skia 3
+tree used locked Expo 58.0.13. This patch-level difference and development profiling
+overhead are additional limits on attributing small differences to Skia.
+
+For a fixed preview at 06:00 Europe/Stockholm on 17 October 2026, both versions had
+2,392 prayer-line vertices. Argent's screenshot diff reported 0% mismatch after
+rounding: 76 changed pixels in two small regions of the moon button. The transparent
+wash, visible prayer line, blurred mosque lights, MapLibre labels and dock were visually
+consistent. The screenshots were taken several minutes apart, so the small live moon
+icon also had different time input; the comparison does not isolate its renderer.
+
+| Workload | Skia 2 | Skia 3 |
+|---|---|---|
+| Fixed preview capture | 20.68 s; 1 React commit; 0 above 16 ms; no native jank reported | 20.57 s; 1 React commit; 0 above 16 ms; no native jank reported |
+| First 40-update scrub capture | 23.77 s; 83 commits, 47 above 16 ms; 305 reported janks, 2 severe | 24.55 s; 86 commits, 44 above 16 ms; 342 reported janks, 5 severe |
+| Warmed 40-update scrub capture | 21.17 s; 81 commits, 44 above 16 ms; 283 reported janks, 7 severe | 23.10 s; 85 commits, 43 above 16 ms; 280 reported janks, 7 severe |
+
+The deterministic scrub driver calls the app clock's `setFraction` 40 times at 500 ms
+intervals with `0.18 + (i % 16) * 0.035`, then returns to 0.25. It exercises React,
+geometry generation and rendering; it is an integration workload, not a measured
+finger-gesture latency test. Both warmed captures follow a complete warm-up sequence.
+The capture windows differ and native hotspots include emulator GPU transport and
+kernel frames. Raw jank totals are not an FPS percentage or proof of a phone-level
+performance improvement. React geometry updates remain expensive in both versions.
+Some native report timestamps exceed the React capture window; combined timing
+correlation is not reliable enough here to assign individual stalls to React commits.
+
+### Migration verification and remaining limits
+
+- Full `pnpm verify` passed: typecheck, lint, 119 suites and 1,425 tests. An initial
+  run had timeouts while compiling; a complete unchanged-threshold rerun passed.
+- Final Android x86_64 debug build at version 1.2.0 passed (966 Gradle tasks).
+- Verified map transparency, prayer lines, shader wash, blur, moon button and moon
+  dial; dark/light style changes rendered, and the original light preference was restored.
+- A real pan changed longitude. Native camera jumps confirmed overlay camera updates
+  at zoom 7 and 12, covering the cached-path and precision-fallback ranges. A recorded
+  pinch returned success without changing zoom; touch pinch remains unverified.
+- One real Home/launch cycle produced AppState `background` then `active`, with GPU
+  availability still true and the map/dock visibly rendered after resume. This is a
+  single smoke check, not a lifecycle soak or proof that the earlier v2 resume issue is fixed.
+- Draft flows retain the observed steps under `.argent/flows/`; they have not passed
+  two complete replays and are not claimed as saved acceptance tests.
+- iOS, physical phones, older Vulkan drivers, release-mode performance, all Android
+  ABIs, long-run memory and polar-season visuals were not validated in this experiment.
+  Keep Android 10-bit rendering disabled for the transparent overlay: it requires an
+  opaque SurfaceView to survive composition and would change the map layering contract.
+
+Raw React sessions, Perfetto traces, reports, screenshot diff and passing build/test
+logs are local under `.argent/performance/skia3/`. An initial live-clock baseline had
+different time input and is retained for diagnosis only, not included in the table.

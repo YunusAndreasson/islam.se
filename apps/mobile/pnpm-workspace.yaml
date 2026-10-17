@@ -7,15 +7,9 @@ packages: []
 
 # Dependencies explicitly allowed (or denied) to run install/build scripts (pnpm 11).
 allowBuilds:
-  # Kept `true`, but as of Skia 2.14.0 there is nothing left for it to run: the
-  # postinstall (install-libs.js) that used to stage the prebuilt native libraries
-  # into node_modules/@shopify/react-native-skia/libs was removed in 2.6.5. Gradle
-  # and the podspec now read them straight out of the sibling packages
-  # (react-native-skia-android/libs, react-native-skia-apple-ios/libs). Left as
-  # `true` rather than `false` so a future version that reintroduces a lifecycle
-  # script is not silently skipped — pnpm errors on an undecided package, so this
-  # key has to hold some value either way.
-  '@shopify/react-native-skia': true
+  # Skia 3 reads prebuilt Graphite/Dawn libraries from sibling packages.
+  # Keep lifecycle scripts explicitly allowed for native package updates.
+  react-native-skia: true
   # Optional native msgpack accelerator; the pure-JS fallback is fine for us.
   msgpackr-extract: false
   # Jest 30's file watcher (via jest-haste-map, pulled in by jest-expo 58). Its install
@@ -86,6 +80,9 @@ minimumReleaseAgeExclude:
   - expo-updates@58.0.17
   - expo-widgets@58.0.20
   - jest-expo@58.0.11
+  - '@expo/schema-utils@58.0.2'
+  - expo-build-properties@58.0.11
+  - react-native-skia@3.6.2
 
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.

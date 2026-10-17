@@ -22,7 +22,7 @@ import {
   Shader,
   Skia,
   vec,
-} from '@shopify/react-native-skia';
+} from 'react-native-skia';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import {

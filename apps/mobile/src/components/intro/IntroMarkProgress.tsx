@@ -20,7 +20,7 @@
 // own caption stops reading as a progress chip and starts reading as a logo someone put a
 // number next to.
 import { useMemo } from 'react';
-import { Canvas, Path, Skia } from '@shopify/react-native-skia';
+import { Canvas, Path, Skia } from 'react-native-skia';
 
 import { brand } from '@/theme/tokens';
 import { useActiveScheme, useColors } from '@/theme/useColors';
