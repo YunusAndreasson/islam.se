@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react-native';
 
 import * as reanimated from 'react-native-reanimated';
-import { Path, Skia } from '@shopify/react-native-skia';
+import { Path, Skia } from 'react-native-skia';
 import { atZoom, DUST_RADIUS_STOPS } from '@/lib/map/dust';
 import { type Camera, project } from '@/lib/map/projection';
 import { allOfType, allRendered } from '@/test-utils/rendered';

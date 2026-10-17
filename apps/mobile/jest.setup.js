@@ -276,11 +276,11 @@ jest.mock('react-native-worklets', () => ({
   scheduleOnRN: (fn, ...args) => fn(...args),
 }));
 
-// @shopify/react-native-skia is a native graphics module with no JS-thread renderer
+// react-native-skia is a native graphics module with no JS-thread renderer
 // under test. Render the Canvas + container nodes as host views (so the Bönetider
 // overlay mounts and its hooks run) and the leaf draw nodes as null; stub the Skia
 // factory so path projection / texture upload don't reach native during a render.
-jest.mock('@shopify/react-native-skia', () => {
+jest.mock('react-native-skia', () => {
   const React = require('react');
   const { View } = require('react-native');
   const container = ({ children }) => React.createElement(View, null, children ?? null);
