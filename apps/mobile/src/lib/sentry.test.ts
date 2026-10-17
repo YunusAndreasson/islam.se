@@ -13,8 +13,12 @@ describe('sentryOptions — what a crash report may carry', () => {
   const options = sentryOptions(DSN);
 
   it('attaches no personal data, no breadcrumbs, no screenshot and no view hierarchy', () => {
+    // Unset, the two personal-data options resolve to Sentry's no-PII mapping. sendDefaultPii is
+    // deprecated, and any dataCollection object starts from collect-everything defaults
+    // (userInfo, cookies, headers, bodies), so adding one "to be explicit" turns PII on.
+    expect(options).not.toHaveProperty('sendDefaultPii');
+    expect(options).not.toHaveProperty('dataCollection');
     expect(options).toMatchObject({
-      sendDefaultPii: false,
       // Breadcrumbs carried the map camera's lat/lon (projection-guard's console.warn) and the
       // tile URLs MapLibre fetched. Zero also reaches the native SDKs, so native crashes are
       // covered — a JS-side beforeBreadcrumb filter would not be.

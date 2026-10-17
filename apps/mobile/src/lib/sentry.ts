@@ -10,8 +10,10 @@ import Constants from 'expo-constants';
 // template its docs and wizard hand out, break both — so none of these lines restates a
 // default for tidiness, and sentry.test.ts fails on the edit that flips any of them:
 //
-// - sendDefaultPii: false — the SDK attaches no IP address, device name or user. (The
-//   project's "Prevent Storing of IP Addresses" setting in Sentry covers the server side.)
+// - No sendDefaultPii and no dataCollection — the SDK attaches no IP address, device name or
+//   user. Left unset, the two resolve to Sentry's no-PII mapping; sendDefaultPii is deprecated,
+//   and setting dataCollection at all starts from collect-everything defaults. (The project's
+//   "Prevent Storing of IP Addresses" setting in Sentry covers the server side.)
 // - maxBreadcrumbs: 0 — breadcrumbs are the trail of events before an error, and on this app
 //   that trail is where position leaks: projection-guard's console.warn prints the map
 //   camera's lat/lon to four decimals (~10 m), which the SDK files as a breadcrumb, and the
@@ -47,7 +49,7 @@ export function sentryOptions(dsn: string | undefined): Sentry.ReactNativeOption
     // No DSN means crash reporting was never configured; a development run already has a red
     // box in front of whoever caused the error. Neither belongs in the project's issue list.
     enabled: Boolean(dsn) && !__DEV__,
-    sendDefaultPii: false,
+    // Personal data: neither sendDefaultPii nor dataCollection is set, on purpose (see above).
     maxBreadcrumbs: 0,
     attachScreenshot: false,
     attachViewHierarchy: false,

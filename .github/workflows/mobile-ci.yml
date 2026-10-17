@@ -53,5 +53,8 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Deprecated APIs
+        run: pnpm api:check
+
       - name: Test (with coverage gate)
         run: pnpm test:cov

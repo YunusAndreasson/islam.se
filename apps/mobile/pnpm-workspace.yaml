@@ -55,16 +55,16 @@ allowBuilds:
 # 2026-08-19 when the project moved to 0.21.0, which was already two days published and
 # needed no exemption at all.
 minimumReleaseAgeExclude:
-  - '@expo/cli@58.1.10'
+  - '@expo/cli@58.1.10 || 58.1.11'
   - '@expo/metro-config@58.0.14'
   - '@expo/package-manager@1.14.2'
   - '@expo/prebuild-config@58.0.14'
   - '@expo/router-server@58.0.14'
   - babel-preset-expo@58.0.17
   - expo-asset@58.0.16
-  - expo-modules-core@58.0.21
-  - expo-modules-jsi@58.0.14
-  - expo@58.0.13
+  - expo-modules-core@58.0.21 || 58.0.22
+  - expo-modules-jsi@58.0.14 || 58.0.15
+  - expo@58.0.13 || 58.0.14
   - '@expo/ui@58.0.20'
   - expo-application@58.1.2
   - expo-background-task@58.0.11
@@ -73,7 +73,7 @@ minimumReleaseAgeExclude:
   - expo-haptics@58.0.7
   - expo-location@58.0.17
   - expo-notifications@58.1.5
-  - expo-router@58.0.22
+  - expo-router@58.0.22 || 58.0.23
   - expo-splash-screen@58.0.10
   - expo-system-ui@58.0.6
   - expo-task-manager@58.0.12
@@ -81,6 +81,8 @@ minimumReleaseAgeExclude:
   - expo-widgets@58.0.20
   - jest-expo@58.0.11
   - '@expo/schema-utils@58.0.2'
+  - expo-dev-client@58.0.14
+  - expo-dev-launcher@58.0.14
   - expo-build-properties@58.0.11
   - react-native-skia@3.6.2
 
