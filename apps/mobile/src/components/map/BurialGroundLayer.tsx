@@ -32,6 +32,7 @@ import { hapticLight } from '@/lib/haptics';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
 import { GLYPH_HITBOX, PLACE_GOLD } from './MosqueLayer';
+import { useFeatureSelection } from './useFeatureSelection';
 
 const SOURCE_ID = 'burial-grounds';
 const RING_SOURCE_ID = 'burial-grounds-ring';
@@ -51,9 +52,11 @@ interface Props {
   onSelect: (ground: BurialGround) => void;
   /** The burial ground whose card is open, if any — gets a ring. Null clears it. */
   selectedId?: string | null;
+  styleRevision?: number;
 }
 
-export function BurialGroundLayer({ onSelect, selectedId }: Props) {
+export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0 }: Props) {
+  const selectionSource = useFeatureSelection(selectedId, styleRevision);
   const c = useColors();
   const scheme = useActiveScheme();
   const data = useMemo(() => toFeatureCollection(), []);
@@ -72,21 +75,20 @@ export function BurialGroundLayer({ onSelect, selectedId }: Props) {
   return (
     <>
       <Images images={{ [IMAGE_ID]: { source: PINS[scheme], sdf: false } }} />
-      {/* The selection ring, on a source with no onPress, and ALWAYS mounted — filtered to
-          nothing until a card is open. A layer added at runtime lands on top of the style
+      {/* The selection ring, on a source with no onPress, and ALWAYS mounted — its stroke
+          appears through feature state when a card is open. A layer added at runtime lands on top of the style
           and would paint over the glyph instead of around it (MosqueLayer's ⚠️ on its own
           ring). Declared before the glyph source so it stays beneath it. */}
-      <GeoJSONSource id={RING_SOURCE_ID} data={data}>
+      <GeoJSONSource ref={selectionSource} id={RING_SOURCE_ID} data={data}>
         <Layer
           id={SELECTED_LAYER_ID}
           type="circle"
-          filter={['==', ['get', 'id'], selectedId ?? '']}
           paint={{
             'circle-opacity': 0,
             'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 7, 7, 13, 13, 20],
             'circle-stroke-color': PLACE_GOLD[scheme],
             'circle-stroke-width': 1.5,
-            'circle-stroke-opacity': 0.9,
+            'circle-stroke-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
           }}
         />
       </GeoJSONSource>

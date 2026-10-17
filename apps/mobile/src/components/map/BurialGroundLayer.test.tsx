@@ -1,5 +1,6 @@
 // The burial-ground layer is native MapLibre, so — as with MosqueLayer — what is testable in
-// JS is its DECLARATION. These pin the same invariants MosqueLayer's own tests do, because
+// JS is its declaration plus the native-state synchronization tested in useFeatureSelection.
+// These pin the same invariants MosqueLayer's own tests do, because
 // this layer copies the two decisions those tests exist for: the ring must never be a tap
 // target, and it must be mounted with the style rather than on selection.
 import { describe, expect, it } from '@jest/globals';
@@ -38,17 +39,23 @@ describe('BurialGroundLayer', () => {
     }
   });
 
-  it('mounts the ring with the style, filtered to nothing until a card is open', async () => {
+  it('mounts the ring with the style, transparent until its native feature state selects it', async () => {
     await render(<BurialGroundLayer onSelect={noop} />);
     const ring = byId(declared().layers, 'burial-ground-selected');
-    expect(ring.props.filter).toEqual(['==', ['get', 'id'], '']);
+    expect(ring.props.filter).toBeUndefined();
+    expect(ring.props.paint['circle-stroke-opacity']).toEqual(
+      ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
+    );
   });
 
   it('rings exactly the selected burial ground, at every zoom', async () => {
     const ground = at(getBurialGrounds(), 0, 'burial grounds');
     await render(<BurialGroundLayer onSelect={noop} selectedId={ground.id} />);
     const ring = byId(declared().layers, 'burial-ground-selected');
-    expect(ring.props.filter).toEqual(['==', ['get', 'id'], ground.id]);
+    expect(ring.props.filter).toBeUndefined();
+    expect(ring.props.paint['circle-stroke-opacity']).toEqual(
+      ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
+    );
     expect(ring.props.paint['circle-opacity']).toBe(0);
     expect(ring.props.minzoom).toBeUndefined();
   });

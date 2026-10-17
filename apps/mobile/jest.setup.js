@@ -60,7 +60,17 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
     });
     return Camera;
   })(),
-  GeoJSONSource: 'GeoJSONSource',
+  GeoJSONSource: (() => {
+    const React = require('react');
+    return React.forwardRef(function MockGeoJSONSource(props, ref) {
+      const api = React.useMemo(() => ({
+        setFeatureState: jest.fn(async () => {}),
+        removeFeatureState: jest.fn(async () => {}),
+      }), []);
+      React.useImperativeHandle(ref, () => api, [api]);
+      return React.createElement('GeoJSONSource', props);
+    });
+  })(),
   Layer: 'Layer',
   Images: 'Images',
   ViewAnnotation: 'ViewAnnotation',

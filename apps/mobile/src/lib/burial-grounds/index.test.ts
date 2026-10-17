@@ -25,7 +25,10 @@ describe('toFeatureCollection', () => {
       // Swapped axes put Sweden in the Indian Ocean — the one mistake GeoJSON invites.
       expect(f.geometry.coordinates).toEqual([b.lng, b.lat]);
       expect(f.properties).toEqual({ id: b.id, name: b.name });
+      // Without a top-level id native feature-state silently cannot identify the ring.
+      expect(f.id).toBe(b.id);
     }
+    expect(new Set(fc.features.map((f) => f.id)).size).toBe(fc.features.length);
   });
 });
 

@@ -322,6 +322,7 @@ export default function Bonetider() {
   // camera-mirror bug is caught on the first settled frame instead of by a reader noticing
   // that Stockholm has moved. Compiled out of release builds; see the module's header.
   const mapRef = useRef<MapRef>(null);
+  const [mapStyleRevision, setMapStyleRevision] = useState(0);
   const prayerDockRef = useRef<PrayerDockHandle>(null);
   // The initial framing — captured from the first settled region event after the
   // fitBounds-on-mount. Used as the comparison anchor for "has the user moved the
@@ -1370,7 +1371,10 @@ export default function Bonetider() {
         onRegionDidChange={onRegionDidChange}
         // Recovery is automatic: MapLibre keeps retrying tiles, so a style that comes
         // back on its own clears the notice without the user doing anything.
-        onDidFinishLoadingStyle={() => setMapTrouble((prev) => (prev === 'style' ? null : prev))}
+        onDidFinishLoadingStyle={() => {
+          setMapTrouble((prev) => (prev === 'style' ? null : prev));
+          setMapStyleRevision((revision) => revision + 1);
+        }}
         // The map's first paint, and the cue that ends the reveal cover below. It is the
         // EARLIEST honest one: onDidFinishLoadingStyle fires while the surface is still
         // MapLibre's pale grey (measured six seconds early on a cold emulator), and
@@ -1410,12 +1414,13 @@ export default function Bonetider() {
             See BurialGroundLayer. */}
         {settings.showBurialGrounds && (
           <BurialGroundLayer
+            styleRevision={mapStyleRevision}
             onSelect={selectBurialGround}
             selectedId={selectedBurialGround?.id ?? null}
           />
         )}
         {settings.showMosques && (
-          <MosqueLayer onSelect={selectMosque} selectedId={selectedMosque?.id ?? null} />
+          <MosqueLayer styleRevision={mapStyleRevision} onSelect={selectMosque} selectedId={selectedMosque?.id ?? null} />
         )}
         <LocationLayer point={userPoint} showQibla={settings.showQibla && !mapLessonPending} />
       </Map>

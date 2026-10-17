@@ -1,5 +1,5 @@
 // The mosque layer is native MapLibre, so what is testable in JS is its DECLARATION: which
-// sources exist, which of them can be tapped, and what the selection ring is filtered to.
+// sources exist, which of them can be tapped, and how native state reveals the ring.
 // Those are exactly the properties two real bugs turned on (see the file's ⚠️ header), so
 // they are worth pinning even though no map is rendered here.
 import { describe, expect, it } from '@jest/globals';
@@ -65,11 +65,13 @@ describe('MosqueLayer selection ring', () => {
       0,
       'selection ring',
     );
-    // Filtered to an id no mosque has, so the layer is inert until something is selected.
-    expect(ring.props.filter).toEqual(['==', ['get', 'id'], '']);
+    expect(ring.props.filter).toBeUndefined();
+    expect(ring.props.paint['circle-stroke-opacity']).toEqual(
+      ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
+    );
   });
 
-  it('rings the selected mosque, filtered to exactly that one', async () => {
+  it('keeps the ring paint independent of selection, controlled by native feature state', async () => {
     const mosque = at(getMosques(), 0, 'mosques');
     await render(<MosqueLayer onSelect={noop} selectedId={mosque.id} />);
     const { layers } = sourcesAndLayers();
@@ -79,7 +81,10 @@ describe('MosqueLayer selection ring', () => {
       0,
       'selection ring',
     );
-    expect(ring.props.filter).toEqual(['==', ['get', 'id'], mosque.id]);
+    expect(ring.props.filter).toBeUndefined();
+    expect(ring.props.paint['circle-stroke-opacity']).toEqual(
+      ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
+    );
     // A ring, not a dot: the fill stays transparent so the basemap and the twilight wash
     // read straight through it.
     expect(ring.props.paint['circle-opacity']).toBe(0);

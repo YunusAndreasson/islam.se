@@ -174,6 +174,7 @@ export interface MosqueFeatureCollection {
   type: 'FeatureCollection';
   features: {
     type: 'Feature';
+    id: string;
     geometry: { type: 'Point'; coordinates: [number, number] };
     properties: { id: string; name: string; sort: number };
   }[];
@@ -203,6 +204,7 @@ export function toFeatureCollection(
     type: 'FeatureCollection',
     features: mosques.map((m) => ({
       type: 'Feature',
+      id: m.id,
       geometry: { type: 'Point', coordinates: [m.lng, m.lat] },
       properties: { id: m.id, name: m.name, sort: m.opened ?? UNDATED_SORT },
     })),

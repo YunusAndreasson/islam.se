@@ -81,6 +81,7 @@ import { hapticLight } from '@/lib/haptics';
 import { DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS, zoomExpression } from '@/lib/map/dust';
 import { type Mosque, mosqueForPress, toFeatureCollection } from '@/lib/mosques';
 import { useActiveScheme, useColors } from '@/theme/useColors';
+import { useFeatureSelection } from './useFeatureSelection';
 
 const SOURCE_ID = 'mosques';
 const DUST_SOURCE_ID = 'mosques-dust';
@@ -135,9 +136,12 @@ interface Props {
   /** The mosque whose card is open, if any — gets a ring so the card has a visible anchor
    *  on the map. Null clears it. */
   selectedId?: string | null;
+  /** Changes when the basemap style reloads and loses its native feature state. */
+  styleRevision?: number;
 }
 
-export function MosqueLayer({ onSelect, selectedId }: Props) {
+export function MosqueLayer({ onSelect, selectedId, styleRevision = 0 }: Props) {
+  const selectionSource = useFeatureSelection(selectedId, styleRevision);
   const c = useColors();
   const scheme = useActiveScheme();
   // Warm — a mosque reads as emitted place-light against the cool field.
@@ -210,7 +214,7 @@ export function MosqueLayer({ onSelect, selectedId }: Props) {
       {/* DUST — its own source, deliberately WITHOUT onPress (see the header): the specks
           are a hint to zoom in, never a tap target. Declared first so it keeps drawing
           beneath the glyphs across the z7–8 crossfade. */}
-      <GeoJSONSource id={DUST_SOURCE_ID} data={data}>
+      <GeoJSONSource ref={selectionSource} id={DUST_SOURCE_ID} data={data}>
         {/* The national-view "snow": one tiny soft dot per mosque. maxzoom caps native
             work once the crossfade has handed off to the glyphs (opacity already 0 by then). */}
         <Layer
@@ -234,23 +238,22 @@ export function MosqueLayer({ onSelect, selectedId }: Props) {
             stroke: the fill stays fully transparent so the basemap and the wash read through
             it, and it never becomes a second dot.
         
-            ⚠️ ALWAYS MOUNTED, filtered to nothing when no card is open — never conditionally
+            ⚠️ ALWAYS MOUNTED, with a transparent stroke when no card is open — never conditionally
             rendered. A layer added at runtime is APPENDED to the top of the style
             (MLRNLayer.add() calls style.addLayer with no anchor, and MLRNMapView.layerAdded
             does no reordering), so a ring that mounted on selection would paint OVER the
             mosque glyph and its label halo instead of around them. Mounting it with the rest
-            of the style is what makes the declaration order above hold at runtime. The empty
-            id matches no mosque, so the layer draws nothing until one is selected. */}
+            of the style is what makes the declaration order above hold at runtime. Native
+            feature state reveals only the selected ring without changing the layer filter. */}
         <Layer
           id={SELECTED_LAYER_ID}
           type="circle"
-          filter={['==', ['get', 'id'], selectedId ?? '']}
           paint={{
             'circle-opacity': 0,
             'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 7, 7, 13, 13, 20],
             'circle-stroke-color': snow.color,
             'circle-stroke-width': 1.5,
-            'circle-stroke-opacity': 0.9,
+            'circle-stroke-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
           }}
         />
       </GeoJSONSource>

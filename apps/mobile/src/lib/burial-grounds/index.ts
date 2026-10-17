@@ -64,6 +64,7 @@ export interface BurialGroundFeatureCollection {
   type: 'FeatureCollection';
   features: {
     type: 'Feature';
+    id: string;
     geometry: { type: 'Point'; coordinates: [number, number] };
     properties: { id: string; name: string };
   }[];
@@ -79,6 +80,7 @@ export function toFeatureCollection(
     type: 'FeatureCollection',
     features: grounds.map((b) => ({
       type: 'Feature',
+      id: b.id,
       geometry: { type: 'Point', coordinates: [b.lng, b.lat] },
       properties: { id: b.id, name: b.name },
     })),

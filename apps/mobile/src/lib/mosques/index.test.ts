@@ -69,12 +69,15 @@ describe('toFeatureCollection', () => {
     // Every feature's coordinate[0] is a longitude (10–25), coordinate[1] a latitude
     // (55–70) — a property-based check that the order holds for all 236, not just the first.
     for (const f of fc.features) {
+      // Native feature-state needs a stable top-level GeoJSON id, not just properties.id.
+      expect(f.id).toBe(f.properties.id);
       const [lng, lat] = f.geometry.coordinates;
       expect(lng).toBeGreaterThanOrEqual(10);
       expect(lng).toBeLessThanOrEqual(25);
       expect(lat).toBeGreaterThanOrEqual(55);
       expect(lat).toBeLessThanOrEqual(70);
     }
+    expect(new Set(fc.features.map((f) => f.id)).size).toBe(fc.features.length);
   });
 
   it('respects a filtered mosque list', () => {
