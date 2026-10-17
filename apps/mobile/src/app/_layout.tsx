@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { useEffect, useEffectEvent } from 'react';
-import { AppState, Platform } from 'react-native';
+import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -23,8 +23,7 @@ import type { PrayerSettings } from '@/lib/settings/types';
 // pinned before the first render, so this import has to land before RootLayout runs. See
 // @/lib/splash for what the gate waits for and, more importantly, what it refuses to.
 import { SplashGate } from '@/lib/splash';
-import { syncPrayerLiveActivity } from '@/widget/live-activity';
-import { syncAndroidPrayerNotification } from '@/widget/android-ongoing';
+import { usePrayerActivitySync } from '@/widget/usePrayerActivitySync';
 import { reloadPrayerWidget, syncPrayerWidget } from '@/widget/sync';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
@@ -161,17 +160,14 @@ function NotificationRouting() {
 }
 
 // Keeps the iOS home-screen widget's prayer timeline in step with the user's settings
-// and location, refreshing on every foreground (WidgetKit advances the pushed entries
-// itself, but the ~36 h window needs re-seeding so it never runs dry). Also reconciles
-// the prayer-countdown Live Activity — iOS only lets the app start one while
-// foregrounded, so this is exactly the right hook. iOS-only and best-effort — a no-op
-// on Android (see syncPrayerWidget / syncPrayerLiveActivity). Renders nothing.
+// and location, refreshing on every foreground. WidgetKit advances the five-day
+// timeline itself; Android receives a snapshot. Live Activities have their own
+// boundary scheduler below so leaving the app open cannot strand a finished prayer.
 function WidgetSync() {
   const { coords, label } = useLocation();
   const { settings } = useSettings();
   useForegroundSync(`${widgetSignature(settings)}|${coordKey(coords)}|${label}`, (s) => {
     void syncPrayerWidget(coords, s, label);
-    void syncPrayerLiveActivity(coords, s, label);
   });
   // Android's widget is a static render between refreshes (see widget/android-snapshot).
   // Leaving the app is the moment the reader is most likely to look at it, so re-render it
@@ -185,32 +181,11 @@ function WidgetSync() {
   return null;
 }
 
-// Refresh only while foregrounded. This lets a long-open app enter the one-hour
-// window without requiring another launch; native timeout handles expiry asleep.
-function AndroidPrayerNotificationSync() {
+// Owns foreground entry/expiry boundaries for both native prayer surfaces.
+function PrayerActivitySync() {
   const { coords, label } = useLocation();
   const { settings, loaded } = useSettings();
-  const zone = useDisplayZone();
-  const key = `${notificationSignature(settings)}|${coordKey(coords)}|${label}`;
-  const sync = useEffectEvent(() => {
-    void syncAndroidPrayerNotification(coords, settings, label);
-  });
-  useEffect(() => {
-    if (!loaded || Platform.OS !== 'android') return;
-    let timer: ReturnType<typeof setInterval> | undefined;
-    const refresh = (state = AppState.currentState) => {
-      clearInterval(timer);
-      timer = undefined;
-      sync();
-      if (state === 'active') timer = setInterval(sync, 60_000);
-    };
-    refresh();
-    const subscription = AppState.addEventListener('change', refresh);
-    return () => {
-      clearInterval(timer);
-      subscription.remove();
-    };
-  }, [loaded, key, zone]);
+  usePrayerActivitySync(coords, settings, label, loaded);
   return null;
 }
 
@@ -272,7 +247,7 @@ export default function RootLayout() {
               <NotificationSync />
               <NotificationRouting />
               <WidgetSync />
-              <AndroidPrayerNotificationSync />
+              <PrayerActivitySync />
               <AppSystemBars />
             </LocationProvider>
           </IntroProvider>

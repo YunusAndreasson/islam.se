@@ -1,13 +1,13 @@
 // Starts/refreshes/ends the prayer-countdown Live Activity (Lock Screen banner +
 // Dynamic Island). Same posture as ./sync.ts: the app is the only thing that knows
 // settings + location, and iOS only lets an app START a Live Activity while it is
-// foregrounded — so this runs on launch/foreground/settings change (app/_layout.tsx →
-// WidgetSync), alongside the widget timeline push, and again from the background task
+// foregrounded — so usePrayerActivitySync runs this on foreground/settings changes
+// and at the countdown window and prayer boundaries, and again from the background task
 // (lib/notification-refresh), which may update or end an activity but never start one.
 //
 // The countdown itself is system-rendered (Text timerInterval), so once started it ticks
-// with no JS. Nothing in this module runs between those triggers — and that is the whole
-// design problem it has to solve: the prayer arrives while nothing of ours is running.
+// with no JS. The foreground scheduler ends a finished activity while the app is open;
+// staleDate alone still cannot end it while the app is suspended.
 //
 // HOW THE BOUNDARY IS HANDLED. Every activity is started — and every update sent — with a
 // `staleDate` at the prayer instant. ActivityKit flips the content to stale at that moment
