@@ -1,0 +1,55 @@
+# EAS starts at the Git root, even though apps/mobile is a standalone pnpm root.
+# Upload the mobile app, root package-manager metadata, and the two canonical map
+# datasets used by mobile's sync checks. The website's audio is not a mobile asset.
+/*
+!/.easignore
+!/package.json
+!/pnpm-lock.yaml
+!/pnpm-workspace.yaml
+!/.npmrc
+!/apps/
+/apps/*
+!/apps/mobile/
+!/apps/web/
+/apps/web/*
+!/apps/web/src/
+/apps/web/src/*
+!/apps/web/src/data/
+/apps/web/src/data/*
+!/apps/web/src/data/moskeer-sverige.json
+!/apps/web/src/data/begravningsplatser-sverige.json
+
+# .easignore replaces every .gitignore, so retain mobile's generated-file and
+# credential exclusions explicitly.
+node_modules/
+.agents/
+.claude/
+.codex/
+.argent/
+.expo/
+coverage/
+reports/
+.stryker-tmp/
+dist/
+dist-js/
+web-build/
+expo-env.d.ts
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+secrets/
+*service-account*.json
+.metro-health-check*
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+/apps/mobile/ios/
+/apps/mobile/android/
