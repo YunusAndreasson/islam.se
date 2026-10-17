@@ -142,3 +142,15 @@ correlation is not reliable enough here to assign individual stalls to React com
 Raw React sessions, Perfetto traces, reports, screenshot diff and passing build/test
 logs are local under `.argent/performance/skia3/`. An initial live-clock baseline had
 different time input and is retained for diagnosis only, not included in the table.
+
+After merging, the newer dependency work was retained: Expo and dev-client 58.0.14,
+router 58.0.23, Argent 0.29.0 and agent CLI 1.0.19. Comparing the reconciled lockfile
+with the pre-merge newer lockfile found no direct dependency downgrade, unexpected
+removal, or decrease in the highest resolved version of any retained transitive package.
+The combined master tree passed typecheck, lint, the deprecated-API check, and all
+119 suites / 1,425 tests. Its Android x86_64 build also passed (966 tasks), was installed,
+and launched from a fresh master Metro server. Runtime version 1.2.0 and Vulkan GPU
+availability were confirmed; map, wash, line, mosque lights, moon and dock rendered,
+with no AndroidRuntime or ReactNativeJS errors in the final log check. iOS and physical
+device validation remain outstanding. Logs and the downgrade audit are saved alongside
+the comparison artifacts.
