@@ -29,8 +29,10 @@ import {
   type GlassStyle,
 } from 'expo-glass-effect';
 import { BlurView, BlurTargetView } from 'expo-blur';
+import Animated from 'react-native-reanimated';
 import {
   createContext,
+  type ComponentProps,
   type ReactNode,
   type RefObject,
   useContext,
@@ -140,6 +142,9 @@ interface Props {
    * identical when the wash beneath them differs.
    */
   tint?: string;
+  /** Style the tint independently of the native material (for example, gesture-driven
+   * opacity). Ignored with Reduce Transparency so the backing stays fully visible. */
+  tintStyle?: ComponentProps<typeof Animated.View>['style'];
 }
 
 export function GlassSurface({
@@ -149,6 +154,7 @@ export function GlassSurface({
   glassEffectStyle = 'regular',
   interactive = false,
   tint,
+  tintStyle,
 }: Props) {
   const reduce = useReduceTransparency();
   const blurTarget = useContext(BlurTargetContext);
@@ -187,9 +193,9 @@ export function GlassSurface({
     <View style={[style, radius, styles.clip]}>
       {material}
       {tint ? (
-        <View
+        <Animated.View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFill, radius, { backgroundColor: tint }]}
+          style={[StyleSheet.absoluteFill, radius, { backgroundColor: tint }, !reduce && tintStyle]}
         />
       ) : null}
       {children}

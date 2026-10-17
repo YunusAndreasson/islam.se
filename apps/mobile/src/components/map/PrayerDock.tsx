@@ -96,7 +96,6 @@ import { zonePrayerDate } from '@/lib/zone-time';
 import { prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
-import { hexToRgba } from '@/theme/rgba';
 import { useSkyGlass } from '@/theme/skyChrome';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
@@ -715,6 +714,12 @@ export function PrayerDock({
   }));
 
   const heightStyle = useAnimatedStyle(() => ({ height: height.get() }));
+  // Follow the same drag/spring as the schedule: lighter glass when collapsed,
+  // stronger backing as the prayer rows appear. Only the tint changes opacity;
+  // the native glass and its ancestors keep alpha 1, as required by iOS.
+  const glassTintStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.get(), [0, 1], [0.86, 0.97], Extrapolation.CLAMP),
+  }));
   // One reversible reveal for the whole schedule. The summary never fades or swaps.
   const scheduleReveal = useAnimatedStyle(() => ({
     opacity: interpolate(progress.get(), [0, 0.35], [0, 1], Extrapolation.CLAMP),
@@ -923,7 +928,8 @@ export function PrayerDock({
           style={StyleSheet.absoluteFill}
           borderRadius={radius.xl}
           interactive
-          tint={hexToRgba(sky.surface, 0.97)}
+          tint={sky.surface}
+          tintStyle={glassTintStyle}
         />
 
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
