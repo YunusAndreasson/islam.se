@@ -74,7 +74,6 @@ Gates: fact-check credibility ≥ 7.5; final read score ≥ 8 with the verdict �
 
 - Zod schemas in `packages/orchestrator/src/schemas.ts`. They are the pipeline's
   contracts; a wrong schema makes every test derived from it wrong.
-- Shared types in `packages/core/src/types/`.
 - Table definitions in `database.ts`, `books/database.ts` and `quran/database.ts`. A
   change there is a migration.
 - The gate thresholds above. They are editorial decisions.

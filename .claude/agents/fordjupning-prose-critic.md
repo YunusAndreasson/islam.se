@@ -43,9 +43,9 @@ rule was violated in roughly 50 of 60 audited sections *while it sat in the prom
 it does not self-enforce. Report the number explicitly, e.g. »4 av 7 — 2 för många«,
 and name the offenders.
 
-**AI-tics and translationese.** `snarare än` over cap (max ~3); `det handlar om`; `inte
-bara … utan också`; `i en tid då`; worn organic metaphors (träd, rot, gren, frukt,
-*ryggrad*); anglicisms and latinisms where plain Swedish exists. Only SAOL Swedish, no
+**AI-tics and translationese.** `snarare än` over cap (max 2, as `check-language-tics.py`);
+`det handlar om`; `inte bara … utan också`; `i en tid då`; worn organic metaphors (träd,
+rot, gren, frukt, *ryggrad*); anglicisms and latinisms where plain Swedish exists. Only SAOL Swedish, no
 coinages.
 
 **Rhythm.** Flag paragraphs where every sentence has the same length and shape. Flag
@@ -60,7 +60,9 @@ rather than description, say so as a blocking point.
 **Objections in their strongest form.** A strawman erected and then knocked down is
 worse than no objection at all. If the strongest version of a critic's case is missing,
 name it and say what it is. Check that named opponents get their actual argument, not a
-weakened paraphrase.
+weakened paraphrase. Then check that it is answered: an objection left standing is a
+concession, and the classical position gets the last word (root `AGENTS.md`). A section
+that ends on the objection is a blocking point.
 
 **Disagreement shown as disagreement.** Madhhab differences need named proponents. »De
 lärda är oense« with nobody named is a gap.

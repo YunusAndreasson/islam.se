@@ -80,11 +80,6 @@ ingen inkonsekvens:
 utan att säga varför varnar grinden, och den har rätt: en ofullständig uppräkning läser
 som om den fjärde saknade ståndpunkt. Aldrig en femte.
 
-> ⚠️ Substantivformerna saknades i kategorifällan till 2026-08-22. Mönstret var
-> `hanafit|malikit|…`, alltså bara adjektivet, så etiketterna en skribent faktiskt skriver
-> — `Hanafi:`, `Maliki:` — gick rakt igenom. Regeln fanns på pappret och inte i koden.
-> Den har nu ett självtest i `pnpm test:checkers`.
-
 ## Källan
 
 `source:` är obligatorisk. Parsern vägrar ett block utan den, och det är inte en
@@ -127,8 +122,8 @@ hedges, ingen »omkring«, ingen brasklapp.
 styckeslut. `scripts/add-chart.py` finns för att den buggen har inträffat.
 
 **Innehållscachen.** Ändrar du renderaren eller pluginet invalideras inte innehållet. Kör
-`rm -f apps/web/.astro/data-store.json`, annars granskar du gammal HTML. Sökvägen är
-`apps/web/.astro/`, **inte** `node_modules/.astro/`.
+`rm -f apps/web/.astro/data-store.json apps/web/node_modules/.astro/data-store.json`
+(båda finns), annars granskar du gammal HTML.
 
 **Chromium ljuger om mobilen.** Ett för brett figurblock fick en gång hela sidan att
 scrolla i sidled vid 375 px — hittat i Zen, osynligt i headless Chromium. Tabellen ska

@@ -1,6 +1,6 @@
 ---
-allowed-tools: Bash(pnpm build:*), Bash(pnpm vitest:*), Bash(pnpm check:*), Bash(pnpm knip:*)
-description: Run tests, type-check, lint, and find dead code
+allowed-tools: Bash(pnpm verify:*), Bash(pnpm knip:*)
+description: Run the repo's full verification (Biome, types, tests, content checkers, build) and dead-code detection
 ---
 
 ## Context
@@ -10,33 +10,9 @@ description: Run tests, type-check, lint, and find dead code
 
 ## Your task
 
-Run the full validation suite for this monorepo. Run all four steps sequentially and report results.
+From the repository root, run `pnpm verify`, then `pnpm knip`. `verify` is the gate the
+instruction files name: Biome, web types, unit tests, the content checkers and the build.
+`apps/mobile` is outside it and has its own `pnpm verify`.
 
-### Steps
-
-1. **Build** (type-check all packages):
-   ```
-   pnpm build
-   ```
-
-2. **Test** (run vitest):
-   ```
-   pnpm vitest run
-   ```
-
-3. **Lint** (Biome):
-   ```
-   pnpm check
-   ```
-
-4. **Dead code** (knip):
-   ```
-   pnpm knip
-   ```
-
-### Reporting
-
-After all steps complete, give a brief summary:
-- **Pass/Fail** for each step
-- For failures: show only the relevant error lines, not the full output
-- If everything passes, just say so concisely — no need for a wall of green text
+Report pass or fail per command; for a failure show only the relevant error lines. If
+everything passes, say so in a line.

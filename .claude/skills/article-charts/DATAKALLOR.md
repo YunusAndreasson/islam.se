@@ -484,7 +484,7 @@ kraftigt mellan länder** (2006–2025 i barnäktenskapsdata), vilket hör hemma
 ⭐ Båda indikatorerna bär samma argument: spännvidden mellan muslimska majoritetsländer är
 så stor att seden omöjligt kan följa läran. Det är den enda formen där en jämförelse mellan
 muslimska länder hör hemma på den här sajten — den visar att religionen *inte* förklarar
-utfallet. Se `[[no-shia-content]]` för den angränsande regeln.
+utfallet. Den angränsande regeln står i rotens `AGENTS.md`.
 
 ## WHO — Global Health Observatory
 
@@ -578,8 +578,8 @@ Ingen av de 1 498 indikatorerna mäter tro. Att gruppera länder efter majoritet
 en analys du själv gör, inte en kategori som finns i källan — och det är sällan rätt drag
 här: det gör religion till förklaringen till ett utfall som mäts i BNP eller läskunnighet,
 vilket är precis den sortens påstående sajten inte ska framföra i en axeletikett. Ska
-ursprungsländernas förhållanden visas, **namnge länderna**. Se `[[no-shia-content]]` för
-den angränsande regeln om kategorier.
+ursprungsländernas förhållanden visas, **namnge länderna**. Den angränsande regeln om
+kategorier står i rotens `AGENTS.md`.
 
 ## UNHCR ⭐ — det renaste API:et i listan
 

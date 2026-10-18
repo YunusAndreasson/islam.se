@@ -111,7 +111,7 @@ its slug (that mistake is recorded in [[svar_answer_pages]]).
      Ge den både artikeln **och stegutdatakatalogen**; dess mest givande enskilda grepp är
      att diffa `draft-raw-1.md` mot den levererade filen, eftersom ett SENARE steg kan ha
      förstört det författaren fick rätt.
-   - **`fordjupning-prose-critic`** (inga verktyg) — register, rytm, AI-tics,
+   - **`fordjupning-prose-critic`** (bara läsverktyg) — register, rytm, AI-tics,
      avslutningsformer, falsk ekvivalens, invändningarnas styrka. Den jämför mot
      `data/svar/vad-ar-kaba.md` och en essä i `data/articles/`.
 
@@ -146,8 +146,9 @@ its slug (that mistake is recorded in [[svar_answer_pages]]).
 - **The Sweden section has real content** — statutes, named court rulings, figures with
   years — not general phrasing. It is the page's reason to exist; if it is thin, the page is
   just a worse Wikipedia.
-- **Objections in their strongest form.** A strawman that is then rebutted is worse than no
-  objection at all.
+- **Objections in their strongest form, then answered.** A strawman that is then rebutted
+  is worse than no objection at all, and an objection left standing is a concession: the
+  classical position gets the last word (root `AGENTS.md`).
 - **Disagreement shown as disagreement**: madhhab differences with named proponents.
 - **Freshly translated primary text** from the Arabic classics — the unique core.
 - **Footnotes** (GFM), used liberally. Frontmatter `sources` ≥8 is the only source list;
@@ -169,86 +170,28 @@ Two things must be true first, and one of them is content: every page needs its 
 enough topics need bespoke art that the grid does not read as a wall of borrowed,
 unrelated essay photos. Borrowing survives at one card; at thirty it looks arbitrary.
 
-## What the first two pages taught (hijab, döden)
+## Lessons that still bind
 
-Both pages shipped at review ≥8.6, and comparing their runs exposed four faults that were
-in the *system*, not in either draft. All four are fixed; this is the record of why.
+- **When a house rule changes, grep all three prompts and the checker** — not just the one
+  that produced the symptom. A review prompt once demanded `» «` against the checker's
+  straight quotes and stripped macrons the author prompt allows.
+- **A prompt example becomes the template.** Illustrative examples are copied as forms:
+  show the shape to avoid, not the shape to use.
+- **If the gate report warns `Korpuscitat: 0`, the Swedish material is unverified** —
+  check it by hand.
 
-- ⚠️ **The id gate was inert on both pages.** `research.json` carried `quotes: 0` while the
-  corpus brief offered 20 candidates, so `getQuote()` verified nothing and the Strindberg,
-  Tegnér and Boye quotations reached the page unchecked. The gate report now prints
-  `Korpuscitat: N verifierade av M i briefen` and warns when the count is zero — a run must
-  never again report success with its strictest gate disarmed. **If you see that warning,
-  the Swedish material in the article is unverified; check it by hand.**
-- ⚠️ **The review prompt contradicted the checker.** It said `citattecken » «` while
-  `check-house-style.py` errors on `»` and demands straight quotes (smartypants converts at
-  render). Every review therefore "fixed" the author's correct straight quotes into ten
-  errors a human undid by hand. The author prompt had been corrected during the hijab
-  session; the review prompt was missed. **When a house rule changes, grep all three
-  prompts and the checker — not just the one that produced the symptom.**
-- ⚠️ **The review prompt also stripped macrons**, which the author prompt explicitly allows
-  (*khimār*, *jilbāb*). Only the dot-under is banned. The result: hijab keeps its macrons,
-  döden has none, and the two pages are inconsistent for no editorial reason.
-- ⚠️ **A prompt example became the template.** The blurb rule illustrated itself with
-  "Vad källorna säger och vad svensk rätt tillåter" — and *both* pages produced a near-
-  identical line. Illustrative examples in a prompt are copied as forms, not read as
-  hints. Show the shape to avoid, not the shape to use.
+## Fiqh i korpusen
 
-Recurring drafting faults, now named explicitly in `fordjupning-author.md`: the see-saw
-closer cap (4 of 7 sections on döden's first draft) and »snarare än« over cap (3 on both
-pages).
-
-## ⚠️⚠️ Fiqh-luckan: en korpusbrist som blev en förfalskning (2026-08-01)
-
-Den här sidan bokförde tidigare »zero fiqh sources on both pages« som ett SKRIVFEL att
-rätta i författarprompten. Det var fel diagnos, och åtgärden gjorde skadan värre.
-
-**Sanningen då:** `data/books.db` innehöll 33 arabiska verk och **inte ett enda
-furūʿ al-fiqh-verk** — beståndet var taṣawwuf/akhlāq (Ibn al-Qayyim ×8), ʿaqīda
-(Ibn Taymiyya ×12), hadith/adab (Riyāḍ, Adab al-Mufrad), korantolkningsvetenskap
-(al-Suyūṭī) och statsrätt (al-Māwardī). Ingen promptändring kan få författaren att
-citera ett verk som inte finns.
-
-✅ **LUCKAN ÄR STÄNGD (verifierat 2026-08-02).** `books.db` bär nu 57 arabiska verk,
-däribland alla som då hittades på: al-Mughnī (15 349 avsnitt), al-Majmūʿ (11 625),
-al-Umm (9 427), al-Hidāya (2 895), Bidāyat al-mujtahid (2 598), al-Muwaṭṭaʾ, samtliga
-sex hadithsamlingar samt Ibn Kathīrs och al-Qurṭubīs tafsīr. Halal-körningen citerade
-nio av dem och alla nio belades ordagrant. **Kontrollera beståndet innan du planerar
-ett fiqh-tungt ämne** — `sqlite3 data/books.db "select author, title from books where
-language='ar'"` — och sök på den arabiska facktermen (`ذكاة`, `التسمية`,
-`الاستحالة`) innan du lägger en timme på briefen.
-
-**Vad åtgärden orsakade:** prompten kom att KRÄVA ett klassiskt fiqh-verk och namngav
-tre exempel. Författaren kopierade exempellistan rakt in i bibliografin och hittade på
-shamela-id:n. Kontroll av alla 562 käll-URL:er i det publicerade materialet:
-
-| citeras som | URL | vad det faktiskt är |
-|---|---|---|
-| al-Nawawī, *al-Majmūʿ* (aktenskap) | `shamela.ws/book/9673` | 404 |
-| al-Nawawī, *al-Majmūʿ* (ramadan) | `shamela.ws/book/9424` | 404 — **annat påhittat id för samma verk** |
-| al-Marghīnānī, *al-Hidāya* | `shamela.ws/book/13290` | 404 |
-| Mughniyya, *al-madhāhib al-khamsa* | `shamela.ws/book/23653` | 200 → *ʿUyūn al-athar* |
-| Ibn Taymiyya, *al-Qawāʿid al-nūrāniyya* | `shamela.ws/book/1157` | 200 → al-Shaybānīs *al-Jāmiʿ al-kabīr* |
-
-Två svarar 200 på fel bok — **en liveness-kontroll kan aldrig fånga den sorten.**
-Att samma verk fick två olika påhittade id på två sidor avgör saken: det är inte en
-inaktuell länk, det är fabrikation. Alla 63 `/svar/`-sidor är rena; felet är isolerat
-till fiqh-citaten här.
-
-**Varför ingen grind såg det:** `validateResearch()` granskar `research.sources` —
-forskningsstegets lista, före författarsteget. Artikelns egen frontmatter-`sources`
-granskades aldrig. Dokkommentaren sa »before the material can reach the page«, vilket
-lät heltäckande och var det inte.
-
-**Nu åtgärdat i KOD, inte i prompt** (tre promptfixar hade redan misslyckats mot samma
-felklass): `validateArticleSources()` körs på `reviewed.fm.sources` före `write()`,
-strippar döda URL:er och alla shamela/islamweb-djuplänkar, behåller källans namn och
-skriver ut varje strykning i grindrapporten. Regressionstest i
-`fordjupning-producer.test.ts`. Fristående kontroll: `scripts/check-source-urls.py`.
-
-⚠️ Kvarstår: rätten måste hämtas från WEBBEN (IIFA, al-ibadah.com, islamqa, en fatwa
-du faktiskt öppnat), inte ur korpusbriefen. Den varaktiga lösningen är att importera
-furūʿ-verken med `pnpm cli import-books`.
+`data/books.db` bär de klassiska fiqh-verken (al-Mughnī, al-Majmūʿ, al-Umm, al-Hidāya,
+Bidāyat al-mujtahid, al-Muwaṭṭaʾ), de sex hadithsamlingarna och Ibn Kathīrs och
+al-Qurṭubīs tafsīr. **Kontrollera beståndet innan du planerar ett fiqh-tungt ämne** —
+`sqlite3 data/books.db "select author, title from books where language='ar'"` — och sök
+på den arabiska facktermen (`ذكاة`, `التسمية`, `الاستحالة`) innan du lägger en timme på
+briefen. Ingen prompt kan få författaren att citera ett verk som korpusen saknar: när en
+prompt krävde det hittade författaren på shamela-id:n. `validateArticleSources()` stryker
+därför döda URL:er och alla shamela/islamweb-djuplänkar ur artikelns frontmatter-`sources`
+före `write()` och behåller källans namn. Rätten själv hämtas från webben (IIFA,
+al-ibadah.com, islamqa, en fatwa du faktiskt öppnat), aldrig ur korpusbriefen.
 
 ## Vad AI-sidan lärde (artificiell-intelligens, 2026-09-25)
 
@@ -285,44 +228,30 @@ furūʿ-verken med `pnpm cli import-books`.
 
 ## Traps
 
-- ⚠️ **False equivalence in the intellectual-history section is the single biggest risk.**
+- **False equivalence in the intellectual-history section is the single biggest risk.**
   That the covered female body has a Swedish intellectual history is a *fact worth
   reporting*; it is not an argument for the Islamic position. Read that section once for
   nothing else. Every »see, you did the same thing« sentence must go.
-- ⚠️ **Never quote verse text straight from the corpus brief.** `quran.db` holds a scan of
+- **Never quote verse text straight from the corpus brief.** `quran.db` holds a scan of
   the print edition: words are split at the original line breaks (»dött rar«, »kvinn folk«,
   »kläd nad«) and Bernström's glosses are pasted into the verse body. Fetch the clean
   wording from `quran.com/<sura>/<vers>?translations=48`.
-- ⚠️ **Similarity scores are meaningless across searches.** Everything scores 0.83–0.86
+- **Similarity scores are meaningless across searches.** Everything scores 0.83–0.86
   whether relevant or not, and on the hijab topic the query returning pure noise scored
   *highest*. That is why the brief groups hits per search and never pools them — judge each
   group on its own, and expect whole groups to be useless.
-- ⚠️ **Semantic search misses the loci classici.** It never returned 33:59, the jilbāb
+- **Semantic search misses the loci classici.** It never returned 33:59, the jilbāb
   verse, under any angle. Pin the central texts with `--verse`; search is for what you would
   not have thought to look for.
-- ✅ **RÄTTAT 2026-09-25: ägandet avgörs nu av RANG i `related`, inte av filnamn.**
-  `apps/web/src/lib/svar-fordjupning.ts` (`pillarBySvar`): den pelare som listar ett svar
-  på plats 0 äger det; lika rang avgörs alfabetiskt; ett svar som ≥3 pelare gör anspråk
-  på utan att någon leder det får ingen pelare. Beskrivningen nedan av alfabetisk
-  först-vinner är historik. Stöld sker fortfarande: AI-sidan listade `vad-ar-sharia`
-  FÖRST och tog den från sharia.md, eftersom »artificiell« < »sharia« vid lika rang.
-  **En pelare utan egna svar ska skickas med `related: []`** — kontrollera i bygget:
-  `grep -o 'Fördjupning: [^<]*' dist-check/svar/<slug>/index.html`.
-- ⚠️⚠️ **(Historik) En ny pelare STJÄL spokes från de gamla — omvända indexet är alfabetiskt.**
-  `svar/[slug].astro` bygger `pillarBySvar` med `if (!pillarBySvar.has(svarSlug))`, och
-  `getCollection("fordjupning")` kommer i id-ordning. **Först i bokstavsordning vinner.**
-  Griskött-utkastet listade `vad-ar-halalslakt`, `ar-vinager-halal`,
-  `far-muslimer-dricka-alkohol` och `islams-fem-pelare` i sin `related`, och eftersom
-  »griskott« < »halal« < »ramadan« flyttades alla fyra svarssidornas fördjupningslänk
-  från rätt pelare till griskött. Producenten kan inte se det: varje enskild slug finns,
-  så bygget går igenom. **Kontrollera efter varje ny sida vilka svar fler än en pelare
-  gör anspråk på, och trimma den nya till det den faktiskt äger.** `related` är dubbelt
-  bokfört — det är både sidans »Relaterade frågor« och dess anspråk i indexet — så en
-  bred lista kostar andra sidor deras rätta pelare.
-  ⚠️ Redan i beståndet: `vad-ar-hijab` pekar på **aktenskap.md**, inte hijab.md, och
-  `vad-sager-islam-om-livet-efter-doden` på abort.md i stället för doden.md — samma
-  alfabetiska orsak, äldre än griskött.
-- ⚠️ **Redaktörsinstruktioner läcker ut i publicerade fotnoter.** Griskött-utkastet
+- **En ny pelare kan ta spokes från de gamla.** `pillarBySvar()` i
+  `apps/web/src/lib/svar-fordjupning.ts` ger ett svar till den pelare som listar det
+  tidigast i `related`; lika rang avgörs alfabetiskt, ett svar som ≥3 pelare gör anspråk
+  på utan att någon leder det får ingen pelare, och längre ned än femte plats ger inget
+  ägande. Bygget går igenom ändå, eftersom varje slug finns. `related` är dubbelt
+  bokfört — sidans »Relaterade frågor« och dess anspråk i indexet — så trimma en ny sida
+  till det den faktiskt äger, och skicka en pelare utan egna svar med `related: []`.
+  Kontrollera i bygget: `grep -o 'Fördjupning: [^<]*' dist-check/svar/<slug>/index.html`.
+- **Redaktörsinstruktioner läcker ut i publicerade fotnoter.** Griskött-utkastet
   skickade »Referensen bör kontrolleras mot en angiven utgåva« och »Ett konkret
   rådsbeslut om livsmedelstillsatser bör anges här« rakt in i noterna, och en tredje not
   hänvisade till »standardlitteraturen« som om det vore en källa. Ingen grind ser det:
@@ -330,38 +259,38 @@ furūʿ-verken med `pnpm cli import-books`.
   som text, inte som apparat** — allt som säger »bör«, »kontrollera« eller »se
   standardlitteraturen« är en lapp till dig själv, och en not utan källa är ärligare än
   en not som låtsas ha en.
-- ⚠️ **Rättsprocesser beskrivs ett steg för långt.** Utkastet skrev att DO »stämde« en
+- **Rättsprocesser beskrivs ett steg för långt.** Utkastet skrev att DO »stämde« en
   skola i december 2023; myndigheten hade skickat ett *utkast till stämningsansökan* med
   svarsfrist, och någon stämning lämnades aldrig in. Ingressen hade dessutom sidan
   »förd till domstol«. Samma felklass som djurskyddslagen på halal-sidan: ett
   myndighetsbesked sammanfattas till nästa steg i processen. **Öppna pressmeddelandet
   och läs vilket processteg som faktiskt inträffat.**
-- ⚠️ **Attribution trap** ([[quotes_db_arabic_attribution_trap]]): the author field is the
+- **Attribution trap** ([[quotes_db_arabic_attribution_trap]]): the author field is the
   **book's** author, not the speaker, and the text is often a paraphrase — about one in three
   fails. A hadith quoted by Ibn al-Qayyim belongs to the hadith collection.
-- ⚠️ **The reviewer cannot fix frontmatter.** `runReview` keeps only its own verdict fields
+- **The reviewer cannot fix frontmatter.** `runReview` keeps only its own verdict fields
   plus the body; the article's frontmatter is carried over from the draft. Frontmatter
   problems arrive as `issues` for a human to apply.
-- ⚠️ **»RÄTTAT AV MIG« in the issue list is not proof the fix landed.** Until 2026-08-01 the
+- **»RÄTTAT AV MIG« in the issue list is not proof the fix landed.** Until 2026-08-01 the
   review loop returned the body on the *passing* round before reading `revisedText`, so the
   last reviewer's edits were always discarded — on ramadan that shipped a real factual error
   (Trelleborg glossed as 48°N) under an 8.7/publish verdict. Fixed in `adoptRevision()` and
   guarded by `fordjupning-producer.test.ts`; `review-N.json` now records `revisedTextChars`.
   **Read the last round's issue list against the file anyway** — the reviewer also lists
   things it only *described*, and the two are worded almost identically.
-- ⚠️ **Quran player**: cite the verse in a **footnote** (`Koranen, al-Nūr 24:31.`), not with
+- **Quran player**: cite the verse in a **footnote** (`Koranen, al-Nūr 24:31.`), not with
   a `— Koranen 24:31` line under the block quote. The attribution line yields a player with
   no surah name; the footnote route yields a named one.
-- ⚠️ **Astro caches rendered markdown per file content, and `rm node_modules/.astro/data-store.json`
+- **Astro caches rendered markdown per file content, and `rm node_modules/.astro/data-store.json`
   does NOT invalidate it.** Change a rehype/remark plugin and rebuild, and every unchanged
   page keeps its previously rendered HTML — the plugin never runs, so a correct fix looks
   like it did nothing. Verify a plugin change by touching the content (append and remove a
   comment line), or by asserting on the plugin directly in a unit test. This cost several
   build cycles chasing a fix that had been right all along.
-- ⚠️ **Quote dates**: the producer emits double-quoted YAML scalars. An unquoted ISO date is
+- **Quote dates**: the producer emits double-quoted YAML scalars. An unquoted ISO date is
   parsed by Astro as a YAML timestamp → a JS `Date`, which fails the collection's
   `z.string()` and breaks the build. Keep it that way.
-- ⚠️ **The closer-shape cap does not self-enforce.** Max two of seven sections may end on
+- **The closer-shape cap does not self-enforce.** Max two of seven sections may end on
   »inte X, utan Y« / a semicolon pivot / an em-dash sharpening. It was violated in ~50 of 60
   audited sections *while the rule was in the prompt*. The reviewer must count and state the
   count; so must you.

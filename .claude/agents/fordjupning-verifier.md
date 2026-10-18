@@ -145,11 +145,11 @@ to, or a wider population?
 
 - Does another pillar state the same fact differently? Two pages quoting one verse in
   two wordings is a defect regardless of which is right.
-- **`related` ownership.** `svar/[slug].astro` builds the reverse index with
-  `if (!pillarBySvar.has(slug))` over an alphabetically ordered collection, so **the
-  first pillar alphabetically wins**. A new page that lists answers belonging to another
-  pillar silently steals them, and the build still passes because every slug exists.
-  Report any answer page claimed by more than one pillar, and say which one wins.
+- **`related` ownership.** `pillarBySvar()` in `apps/web/src/lib/svar-fordjupning.ts`
+  gives each answer to the pillar that lists it earliest in `related` (ties alphabetical;
+  its doc comment has the hub and late-rank rules). A new page that lists another pillar's
+  answer at an equal or better rank takes it, and the build still passes because every
+  slug exists. Report any answer page claimed by more than one pillar, and say which one wins.
 
 ## Output
 

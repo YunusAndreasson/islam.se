@@ -93,7 +93,7 @@ a concession about the religion.
 | `apps/mobile` — the app | `apps/mobile/AGENTS.md` |
 | `packages/` and `apps/{cli,content-producer,tui,mcp-quotes,mcp-articles}` — the quote database and the article pipeline | `packages/CLAUDE.md` |
 
-Only the file for the directory the session started in is loaded. Before working in
+An area's file loads only once the agent works in that directory. Before working in
 another area, read its file.
 
 ## Versions

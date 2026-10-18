@@ -5,10 +5,9 @@ description: Produce ONE high-quality orthodox-Sunni answer page (data/svar/*.md
 
 # Answer-page (`/svar/`) production skill
 
-islam.se migrated off WordPress. ~214 old reference URLs (e.g. `/pelare/sunna/`,
-`/religion/agnosticism/`) still rank on Google's first page but are 301'd to the
-**homepage** — a soft-404 that throws the ranking away (≈41k impressions/90d, ~25% of
-the site's search visibility). The fix per URL: **write a real answer page at
+islam.se migrated off WordPress. A legacy URL that still 301s to the **homepage** — an
+entry in `oldPaths` (`apps/web/astro.config.ts`) with no `customRedirects` line — is a
+soft-404 that throws its ranking away. The fix per URL: **write a real answer page at
 `/svar/<slug>/` and repoint the 301 to it**, so the ranking transfers instead of dying.
 
 **This skill produces ONE such page per session, to a very high bar.** Never bulk-generate
@@ -28,7 +27,7 @@ human review + staggered publishing is the whole strategy.
      "Vad är sunna?" --slug vad-ar-sunna --legacy /pelare/sunna/
    ```
    Writes `data/svar/<slug>.md` and prints the redirect tuple to add. Defaults to
-   **Claude Opus 5.5 at `--effort xhigh`** (very high — pass `--effort max` for the hardest
+   **the `opus` tier at `--effort xhigh`** (very high — pass `--effort max` for the hardest
    topics, `--model sonnet` only to economize); re-run with `--overwrite` to regenerate.
    (~10–30 min; it spawns a headless Claude with web + MCP.) The `opus`/`sonnet` flags
    resolve through `MODEL_MAP` in `packages/quotes/src/models.ts` — the one place model
@@ -105,7 +104,9 @@ Overview*, which ~2× the CTR, not just to rank). Per-page **musts**:
   template's frontmatter-driven "Källor och fördjupning" — all 61 were stripped). Every
   frontmatter source must be quoted or named in the body prose.
 - **Internal links**: `related` to 1–3 existing sibling pages (producer validates they exist).
-- **Orthodoxy**: orthodox Sunni (Athari) only; sensitive topics factual + fair, not polemical.
+- **Orthodoxy**: the position in the root `AGENTS.md` — *ahl as-sunna* and the four
+  rättsskolor; an objection is stated in full and the classical position gets the last
+  word; shia or sufi named only where the page answers them.
 - **House style (the slips the critic caught):** real Swedish only (SAOL — no coinages:
   "kärnmärke"→"kännetecken"); avoid "sunnitisk/-a" in copy (use "klassiska"/"islamiska";
   "sunnimuslimer" as a demographic is fine); consistent macron transliteration
@@ -136,24 +137,12 @@ The 2026 research flags these as high-value but they need template/identity deci
   + entity corroboration now outweigh backlinks for AI citation.
 These are tracked separately; per-page production works within today's template.
 
-## The backlog (the full orphaned set)
+## The backlog
 
-214 legacy content pages 301 → homepage. Get the live, ranked list anytime with the
-`google-search-console` skill (classify pages whose redirect target is `https://islam.se/`).
-Tier by impressions: bespoke pages for ≥100 impr (~66 pages); repoint the <30-impr long
-tail to the nearest relevant page/hub instead of writing thin pages. Top targets:
-
-| Impr/90d | Legacy URL | Question | slug |
-|---|---|---|---|
-| 3,166 | /pelare/sunna/ | Vad är sunna? | vad-ar-sunna |
-| 3,057 | /kvinna/slojan/ | Varför bär muslimska kvinnor slöja? | varfor-bar-muslimska-kvinnor-sloja |
-| 2,510 | /religion/agnosticism/ | Vad säger islam om agnosticism? | islam-och-agnosticism |
-| 2,491 | /historia/symboler/ | Vilka är islams symboler? | islams-symboler |
-| 1,925 | /religion/shia/ | Vad är skillnaden mellan sunni och shia? | sunni-och-shia |
-| 1,650 | /pelare/vallfarden/ | Vad är hajj (vallfärden)? | vad-ar-hajj |
-| 1,497 | /tro/en-medelvag…/ | Vad betyder alhamdulillah? | vad-betyder-alhamdulillah |
-| 1,107 | /pelare/sharia/ | Vad är sharia? | vad-ar-sharia |
-| … | (full list via the GSC skill) | | |
+The candidates are the `oldPaths` in `apps/web/astro.config.ts` with no `customRedirects`
+entry. Rank them by impressions with the `google-search-console` skill before choosing.
+Bespoke pages for ≥100 impressions/90d; repoint the <30-impression long tail to the nearest
+relevant page or hub instead of writing thin pages.
 
 ## Gotchas (learned producing `vad-ar-sunna`)
 
@@ -179,7 +168,7 @@ tail to the nearest relevant page/hub instead of writing thin pages. Top targets
   (Organization), not a named `Person`. Resolve with the user before scaling — a named,
   credentialed author/reviewer is a near-binary trust gate for YMYL religious content.
 
-## Prompt-engineering notes (Claude Opus 5.5 — the producer runs on it)
+## Prompt-engineering notes (the producer's `opus` tier)
 
 Grounded in Anthropic's current docs (see the `claude-api` skill for the live model table) /
 `claude-4-best-practices`) + 2026 third-party playbooks. The producer prompts already apply:
@@ -194,10 +183,6 @@ Grounded in Anthropic's current docs (see the `claude-api` skill for the live mo
 - Effort: author `xhigh`, review `max` (set explicitly; the model is effort-sensitive).
 Deferred pass-2 ideas (validate before trusting): XML-tag structure, one worked `<example>`
 of the full page, an explicit-scope sweep on broad rules, a constraint de-dup pass.
-
-Validated articles (two-pass, Opus-tier): `vad-ar-sunna` (hand-tuned), `vad-ar-sharia`
-(critic 8.6/10), `vad-ar-hajj` (7 sources, kaba-bar prose). All build; redirects unwired
-pending review.
 
 ## Key files
 

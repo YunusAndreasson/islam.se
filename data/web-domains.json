@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 129,
-      "ok": 128,
+      "total": 133,
+      "ok": 132,
       "failed": 1,
-      "lastChecked": "2026-10-14T17:17:44.470Z",
-      "publishedIn": 103,
-      "avgScore": 8.621359223300985,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 105,
+      "avgScore": 8.620952380952396,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -1142,11 +1142,11 @@
       "avgScore": 8.6
     },
     "islamqa.info": {
-      "total": 11,
-      "ok": 11,
+      "total": 13,
+      "ok": 13,
       "failed": 0,
-      "lastChecked": "2026-09-14T18:40:30.627Z",
-      "publishedIn": 6,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 7,
       "avgScore": 8.6
     },
     "www.openhorizons.org": {
@@ -1908,12 +1908,12 @@
       "avgScore": 8.8
     },
     "en.wikiquote.org": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-06-05T22:12:48.427Z",
-      "publishedIn": 1,
-      "avgScore": 8.8
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 2,
+      "avgScore": 8.7
     },
     "www.kyrkanstidning.se": {
       "total": 3,
@@ -1966,10 +1966,12 @@
       "avgScore": 8.649999999999999
     },
     "dorar.net": {
-      "total": 1,
-      "ok": 1,
+      "total": 2,
+      "ok": 2,
       "failed": 0,
-      "lastChecked": "2026-07-27T20:27:36.780Z"
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
     },
     "www.lo.se": {
       "total": 1,
@@ -2148,12 +2150,12 @@
       "avgScore": 8.8
     },
     "arxiv.org": {
-      "total": 2,
-      "ok": 2,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-08-29T13:18:47.335Z",
-      "publishedIn": 1,
-      "avgScore": 8.8
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 3,
+      "avgScore": 8.666666666666666
     },
     "techcrunch.com": {
       "total": 1,
@@ -2805,6 +2807,122 @@
       "lastChecked": "2026-10-14T17:17:44.470Z",
       "publishedIn": 1,
       "avgScore": 8.7
+    },
+    "www.goodreads.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.popsci.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.gutenberg.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.m3.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "bioethics.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:32:49.347Z"
+    },
+    "www.globalgovernmentforum.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "datamatters.sidley.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "futureoflife.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "campustechnology.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "fermatslibrary.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:32:49.347Z"
+    },
+    "jang.com.pk": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "albaniandailynews.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 2,
+      "avgScore": 8.6
+    },
+    "www.mondaq.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "newsletter.futureoflife.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "superintelligence-statement.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
     }
   }
 }

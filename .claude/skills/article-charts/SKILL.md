@@ -273,13 +273,13 @@ never a series, never an axis label. The same goes for splitting by rättsskola:
 with hanafi and maliki as categories turns a doctrinal question into a market share.
 
 `scripts/check-chart-sources.py` greps every fence for this and **fails the build**. It is
-a floor, not a substitute for reading. See `[[no-shia-content]]`.
+a floor, not a substitute for reading. The rule itself is in the root `AGENTS.md`.
 
 ---
 
 ## ⚠️ Traps
 
-- **⚠️⚠️ Sweden collects no religion statistics, and SCB has none.** Verified empirically:
+- **Sweden collects no religion statistics, and SCB has none.** Verified empirically:
   `query=muslim` returns **0 tables**, `query=tro` returns **0**, `query=religion` returns
   five false positives about adult-education course subjects. Affiliation has not been
   registered since the church–state separation in 2000 and SCB has said collecting it is
@@ -289,38 +289,34 @@ a floor, not a substitute for reading. See `[[no-shia-content]]`.
   »muslimer i Sverige« built on födelseland data is a false claim, however carefully the
   numbers were copied.**
 
-- **⚠️ MUCF's 2025 rule change is a cliff that is not real.** From 1 January 2025 a
+- **MUCF's 2025 rule change is a cliff that is not real.** From 1 January 2025 a
   community needs ≥2 500 betjänade, auditor-verified, each member actively confirming.
   Free-church communities report **50–80 % falls** purely from the counting method. A
   2020–2024 → 2025 series shows a collapse that is an artefact. End the series at 2024 or
   put the break in the caption.
 
-- **⚠️ Brå's hate-crime statistics are biennial now.** Latest reference year 2024, next
+- **Brå's hate-crime statistics are biennial now.** Latest reference year 2024, next
   release 2027. A `line` that assumes an annual series draws a gap that does not exist. And
   there is a method break around 2018 — never compare across it; the tabellsamling starts
   at 2020 for that reason.
 
-- **⚠️ A brass-only palette is not a limitation to route around.** Two series is the
+- **A brass-only palette is not a limitation to route around.** Two series is the
   ceiling and the parser enforces it. If a chart wants three, the honest move is small
   multiples — three `bars` charts under three sub-headings — not a wider palette. DESIGN.md
   allows four colours on the entire site.
 
-- **⚠️⚠️ Editing the plugin does not invalidate the content cache — and the documented
-  cure was wrong.** Under Astro 7 the store is **`apps/web/.astro/data-store.json`**.
-  `apps/web/node_modules/.astro/` holds no data-store.json at all, so the path named in
-  `rehype-sidenotes.ts` and in `sync-verses.ts` deleted nothing and reported success.
-  Found 2026-08-20: a chart caption kept rendering with straight quotes through two dev
-  restarts while `dist/` had the guillemets. Both files are corrected now, but the lesson
-  is the general one — **a cure that silently no-ops is worse than no cure, because you go
-  on to verify stale output and believe it.**
+- **Editing the plugin does not invalidate the content cache.** Both stores exist;
+  clear both before a build you intend to trust — `rm -f apps/web/.astro/data-store.json
+  apps/web/node_modules/.astro/data-store.json`. **A cure that silently no-ops is worse
+  than no cure: you go on to verify stale output and believe it.**
 
-- **⚠️ Shiki would eat the fence.** `astro.config.ts` carries
+- **Shiki would eat the fence.** `astro.config.ts` carries
   `syntaxHighlight: { type: "shiki", excludeLangs: ["chart"] }` because `rehypeShiki` is
   registered *above* the user rehype plugins. Remove that key and every chart silently
   becomes a syntax-highlighted code listing on a live page. `assert-full-build.mjs` counts
   fences against figures to catch it.
 
-- **⚠️ Chromium will not show you the mobile bug.** The `slope` form shipped a figure that
+- **Chromium will not show you the mobile bug.** The `slope` form shipped a figure that
   overflowed 375 px and made the whole page scroll sideways; headless Chromium reported
   nothing. It took a probe in **Zen** to find it. See `[[zen-probe-needs-same-origin-proxy]]`
   and `~/.claude/rules/browser.md`.
@@ -416,7 +412,7 @@ python3 scripts/check-house-style.py    data/fordjupning/<slug>.md
 **Once, after the last chart is written** — and always before handing over:
 
 ```bash
-rm -f apps/web/.astro/data-store.json      # ⚠️ NOT node_modules/.astro
+rm -f apps/web/.astro/data-store.json apps/web/node_modules/.astro/data-store.json
 
 python3 scripts/check-cross-page-facts.py --check fakta \
   data/articles/*.md data/svar/*.md data/fordjupning/*.md   # ⚠️ "fakta", not "siffra"

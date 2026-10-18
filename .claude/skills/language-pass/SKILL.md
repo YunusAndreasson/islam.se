@@ -113,13 +113,12 @@ Plus the accumulated corpus knowledge in memory: `[[essay_ai_tics_language_pass]
 
 Resolve the target set to concrete paths. Then check `git status` — the guard in
 step 3 diffs against `HEAD`, so know which files were already dirty before you
-started (at the time of writing, the 12 cornerstone svar pages carry uncommitted
-scholar-quote work).
+started.
 
 **Batch size.** A real prose pass requires reading the whole file and hearing it.
 Cap deep passes at **~6 pages per session**; beyond that quality decays into
 find-and-replace. A mechanical-only sweep (typography, guillemets, `idag`) can
-safely cover all 116 files at once — just say in the report which kind of pass
+safely cover the whole corpus at once — just say in the report which kind of pass
 each file got. Never let a mechanical sweep be reported as a language pass.
 
 ### 1. Triage — measure before reading
@@ -199,7 +198,7 @@ Then build. **The Astro content cache must be cleared first or you will verify
 stale content:**
 
 ```bash
-rm -f apps/web/node_modules/.astro/data-store.json
+rm -f apps/web/.astro/data-store.json apps/web/node_modules/.astro/data-store.json
 pnpm --filter @islam-se/web build
 ```
 
@@ -261,8 +260,8 @@ pronouns lowercase outside quotes, *de lärda*, Swedish-primary biblical names
 
 ## Traps
 
-- **The Astro data store caches content.** `rm -f apps/web/node_modules/.astro/data-store.json`
-  before any build you intend to trust.
+- **The Astro data store caches content.** Clear both stores before any build you intend
+  to trust: `rm -f apps/web/.astro/data-store.json apps/web/node_modules/.astro/data-store.json`.
 - **Description drift.** House pattern for essays is `description` == the body
   opening. Rewrite the opening and the two silently diverge — flag it rather than
   editing frontmatter yourself.
@@ -290,32 +289,12 @@ pronouns lowercase outside quotes, *de lärda*, Swedish-primary biblical names
   the last** (the attribution line, or the line carrying the footnote marker).
   Verify in the browser: `blockquote.querySelectorAll('br').length`.
 
-## Current backlog (measured 2026-07-25, all 116 files)
+## Current backlog
 
-**Language (`check-language-tics.py --corpus`) — 42 files clean, 74 with hits:**
-
-| | Count | Files |
-|---|---|---|
-| Anglicismer | 4 | *vokabulär* ×2, *navigera* ×2 |
-| Latinismer | 14 | *legitim*, *specifik*, *dominera*, *dimension*, *position*, *tolerera*, *manifest* |
-| Akademiskt | 1 | *ontologi* |
-| **AI-tics** | **176** | dominated by **"inte X utan Y": 97 over-cap hits across 35 files** — the single biggest language defect in the corpus, exactly the ~7.4/article that `swedish-voice.md §18` measured. Then semicolon chains (38 in 34 files), "Den som…" openers (11), *diagnos* (9), *skarp* (5). |
-
-The vocabulary layer is in good shape — the earlier sweeps did their job. The
-*construction* layer is not: a third of the corpus still see-saws.
-
-**Typography (`check-house-style.py`) — 45 files with errors** (26 svar, 19
-essays): 149 em dash in prose, 8 guillemets, 3 du-tilltal. Most essay hits are a
-single `imageCaption: "… — …"` in frontmatter, which the earlier dash conversion
-only applied to body text. The svar hits cluster in the ~50 pages that were never
-part of the 2026-07-09 cornerstone fix pass; the 12 cornerstone pages are clean.
-Worst: `vad-sager-islam-om-hedersmord`, `aktenskap-i-islam`,
-`det-muslimska-spanien-al-andalus`, `hur-blir-man-muslim`, `vad-ar-koranen`,
-`vad-ar-sharia` (9–10 errors each).
-
-All of that is still only the measurable floor. Prose quality across the
-non-cornerstone svar pages has never been audited against the essay bar — that is
-the real work.
+Measure it at the start of a pass rather than trusting a snapshot:
+`python3 scripts/check-language-tics.py --corpus data/svar/*.md data/articles/*.md` and
+`python3 scripts/check-house-style.py` over the same globs. The checkers are only the
+measurable floor; prose quality against the essay bar is the real work.
 
 ## Key files
 
@@ -324,7 +303,7 @@ the real work.
   skill's main instrument), `scripts/check-house-style.py`,
   `scripts/check-protected-regions.py`, `scripts/evaluate-article.py`, and the
   narrower `scripts/find-{repetitions,colloquial,italics-inconsistency,orphaned-footnotes,idiom-opportunities}.py`
-- Corpus: `data/articles/*.md` (53 essays), `data/svar/*.md` (63 answer pages)
+- Corpus: `data/articles/*.md` (essays), `data/svar/*.md` (answer pages)
 - Rendering that constrains the text: `apps/web/src/plugins/rehype-quran-verse.ts`,
   `rehype-honorific.ts`, `remark-abbr.ts`, `apps/web/src/lib/citations.ts`
 - Sibling skill for *producing* new answer pages: `.claude/skills/svar-answer-page/SKILL.md`
