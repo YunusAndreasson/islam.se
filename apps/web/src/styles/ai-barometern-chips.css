@@ -116,6 +116,16 @@
 		inline-size: 100%;
 		block-size: 100%;
 	}
+	/* EVERY MARK IN INK. The mark says which model a row is about, and so does the name
+	   beside it; neither needs the maker's colour to do it. Claude's orange, DeepSeek's
+	   blue and Gemini's four-colour gradient were the only colours on the barometer's
+	   pages that encoded nothing, beside brass meters that encode the answer — three
+	   more colours than the palette has (DESIGN.md, »No color for color's sake«). OpenAI
+	   and Grok drew in the text colour already. A layered rule beats the files' own fill
+	   attributes, so the SVGs stay as their makers drew them (2026-10-18). */
+	.abm-logo svg path {
+		fill: currentColor;
+	}
 }
 
 @layer components {

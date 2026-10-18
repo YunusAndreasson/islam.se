@@ -229,20 +229,6 @@
 	}
 }
 
-.media-frame::after {
-	opacity: 0.025;
-}
-.media-frame::before {
-	opacity: 0.25;
-}
-a:hover .media-frame,
-a:focus-visible .media-frame {
-	box-shadow: none;
-}
-a:hover .media-frame::before,
-a:focus-visible .media-frame::before {
-	opacity: 0.1;
-}
 .essay-card-media,
 .card-media {
 	aspect-ratio: 3 / 2;
@@ -258,9 +244,10 @@ a:focus-visible .media-frame::before {
 }
 /* The reading pages' titles in Literata's display cut, as the front page's lead title
    (FeatureEssay) sets them: at 39px the text cut is a paragraph enlarged. Weight and
-   tracking follow the lead, since the display masters are already drawn tight. Only
-   common ligatures: the text cut has no s‿t or c‿h, so these titles never showed
-   them, and on every essay they would read as a tic rather than the lead's flourish.
+   tracking follow the lead, since the display masters are already drawn tight. The
+   swash ligatures (c‿h, c‿t, s‿t) come from the h1 rule in typography.css, as on the
+   lead: a page's title carries them at every width. Until 2026-10-18 this rule took
+   them off on the grounds that the text cut lacked them; both cuts carry all three.
    `.reading` is the essay page alone; /om and the other ArticlePage pages keep the
    text cut. Mobile titles also retain the text cut at their smaller size. */
 @media (width > 48rem) {
@@ -270,7 +257,6 @@ a:focus-visible .media-frame::before {
 		font-family: var(--font-headline);
 		font-weight: 560;
 		letter-spacing: -0.012em;
-		font-variant-ligatures: common-ligatures;
 	}
 }
 
@@ -421,8 +407,6 @@ a:focus-visible .media-frame::before {
 	}
 }
 @media (prefers-reduced-motion: reduce) {
-	.media-frame,
-	.media-frame::before,
 	.media-frame img {
 		transition: none;
 	}

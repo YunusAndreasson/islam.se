@@ -968,13 +968,15 @@
 		background: var(--color-brass);
 	}
 
-	/* Media frame — the shared art-directed container for every essay photo.
-   Wraps the image (which carries EssayImage's base tonal wash) with a fine film
-   grain and a soft inset vignette, so each picture is seated rather than pasted
-   on as a hard rectangle. The two overlay layers are pointer-transparent and
-   sit above the image, so they don't interfere with the hover scale/bloom. The
-   grain stays fixed while the image scales — it reads as a real film layer.
-   Used by .feature-media, .recent-media, .amne-lead-media, .amne-trio-media. */
+	/* Media frame — the shared container for every essay photo. It crops the image
+   (which carries EssayImage's base tonal wash) and adds nothing over it: a
+   picture is shown as a picture. A synthetic film grain and an inset vignette
+   lay over every photograph until 2026-10-18, and the frame lifted on a shadow
+   when hovered. Turned down to 2.5% the grain was a blend layer per picture
+   that nobody could see; the vignette darkened the edges of documentary
+   photographs that are to be shown as taken, and opened on hover, the »vignette
+   animation« DESIGN.md rules out. The hover is the wash easing to full colour,
+   and that is all (»A card's hover is tonal only«). */
 	.media-frame {
 		position: relative;
 		overflow: hidden;
@@ -982,15 +984,13 @@
 	   here, and none on any of the frames that compose from it (hero, cards, the
 	   ämnen thumbs, podcast art, FAKTA art). A rounded photo is app furniture; a
 	   printed page cuts its pictures square, and that is the register this site
-	   is written in. The grain and vignette below are what seat a picture on the
-	   page — the corner never was.
+	   is written in.
 	   The device mock-ups on /app/ keep their radius: that curve is a phone's
 	   bezel, not a picture frame. */
 		/* Warm undertone while a lazy image decodes — the frame arrives seated in
 	   the palette instead of popping from blank page background. Invisible once
 	   the opaque cover image paints. */
 		background-color: color-mix(in srgb, var(--color-warm) 18%, var(--color-bg));
-		transition: box-shadow 0.5s cubic-bezier(0.2, 0, 0.1, 1);
 	}
 
 	/* Page transitions are written here, as CSS, and not as transition:* directives.
@@ -1045,53 +1045,6 @@
 			opacity: 1;
 			mix-blend-mode: plus-lighter;
 		}
-	}
-
-	/* Film grain — desaturated fractal noise, blended soft-light at a whisper. */
-	.media-frame::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-		background-size: 160px 160px;
-		opacity: 0.07;
-		mix-blend-mode: soft-light;
-	}
-
-	/* Soft inset vignette — gently darkens the edges so the crop melts into the
-   page instead of cutting against the cream. Lifted above the image; recedes on
-   hover so the photo opens up. */
-	.media-frame::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 1;
-		pointer-events: none;
-		box-shadow: inset 0 0 var(--frame-vignette, 26px) -4px rgb(var(--hero-black) / 0.2);
-		opacity: 1;
-		transition: opacity 0.6s cubic-bezier(0.2, 0, 0.1, 1);
-	}
-
-	/* Hover / keyboard-focus: the frame lifts off the page on a soft shadow and the
-   edge vignette opens — the image "awakens." Pairs with the per-module colour
-   bloom + gentle zoom on the <img>. Every .media-frame sits inside an <a>, so a
-   single rule drives all the homepage modules. */
-	a:hover .media-frame,
-	a:focus-visible .media-frame {
-		box-shadow: 0 22px 48px -28px rgb(var(--hero-black) / 0.55);
-	}
-
-	a:hover .media-frame::before,
-	a:focus-visible .media-frame::before {
-		opacity: 0.3;
-	}
-
-	/* Thumbnail scale. The vignette blur is an absolute length tuned for a
-	   reading-width crop; on a ~7rem list thumb a 26px inset covers half the picture
-	   from every edge and reads as a heavy border, not an edge melt. */
-	.media-frame--sm {
-		--frame-vignette: 7px;
 	}
 
 	/* Every framed image fills its frame and is cropped uniformly — each module sets
@@ -1956,7 +1909,13 @@
 		margin-bottom: 0;
 	}
 
-	/* Prev/next navigation */
+	/* Prev/next navigation. After an essay's end matter it is a group of its own (the
+	   chronology, not the essay's neighbours by subject), so it stands a section away
+	   and »Alla essäer« stays with the list it closes (EssayConnections.astro). */
+	.essay-connections + .article-nav {
+		margin-top: var(--space-section);
+	}
+
 	.article-nav {
 		display: flex;
 		flex-wrap: wrap;
@@ -2725,17 +2684,29 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
 		column-gap: var(--grid-gutter);
+		/* The list is its own query container, so its rows can ask how many columns
+		   it has (below). */
+		container-type: inline-size;
 	}
 
-	/* The global first/last special-casing tucks a single-column list up and
-   drops its last rule; in the grid that misaligns the two columns. Give
-   every cell equal padding + a hairline so the columns read as one index. */
+	/* The global first/last special-casing tucks a single-column list up; in the
+   grid that misaligns the two columns. Give every cell equal top padding so the
+   columns read as one index. */
 	.home .archive-list .archive-item:first-child {
 		padding-top: var(--space-unit);
 	}
 
-	.home .archive-list .archive-item:last-child {
-		border-bottom: 1px solid var(--color-divider);
+	/* A RULE BETWEEN ROWS, NEVER UNDER THE LAST. The hairline under each item separates
+	   it from the next; under the last row it separated nothing, and 4rem under it stood
+	   the rule that opens the next section (or the footer's), so every group on /essaer/,
+	   an ämne, a tänkare and a series page ended on two lines (2026-10-18). The last row
+	   is the last item, and from two columns also the one beside it when it stands in
+	   the left column. Two columns begin where two 24rem cells and the gutter fit; the
+	   76rem canvas never holds three. */
+	@container (width >= 51rem) {
+		.home .archive-list .archive-item:nth-last-child(2):nth-child(odd) {
+			border-bottom: none;
+		}
 	}
 
 	/* ============================================================

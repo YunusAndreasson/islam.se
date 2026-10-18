@@ -355,8 +355,9 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		position: relative;
 		/* Water tone from PALETTE in scripts/moskeer-map.ts — keep in step. */
 		background: light-dark(#bcd0de, #15171a);
+		/* Framed by its hairline and laid flat on the page, as the bönetider map is
+		   (PrayerField.astro says why). */
 		border: 1px solid var(--color-divider);
-		box-shadow: 0 1px 2px rgb(var(--hero-black) / 0.04), 0 12px 28px -16px rgb(var(--hero-black) / 0.25);
 	}
 
 	/* In fullscreen the stage fills the screen; the map (normally a fixed height) and its

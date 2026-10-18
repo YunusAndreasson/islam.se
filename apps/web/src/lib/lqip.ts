@@ -5,9 +5,8 @@
  *  the frame is an empty warm rectangle — the one moment the opening looks
  *  unfinished. A 20px-wide WebP of the same photograph, inlined as a data URI
  *  (~400 bytes, no extra request), fills that gap with the picture's own tones,
- *  smoothed to a blur by the browser's own upscaling. It is painted underneath
- *  the frame's grain and vignette, so what arrives first is already seated in
- *  the page rather than pasted onto it.
+ *  smoothed to a blur by the browser's own upscaling, so what arrives first is
+ *  already the picture's own tones rather than an empty block.
  *
  *  Deliberately NOT applied to every essay photo: below-the-fold images are lazy
  *  and never seen mid-load, so a placeholder there is bytes for nothing. */

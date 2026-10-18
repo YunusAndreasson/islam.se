@@ -1,6 +1,7 @@
 ---
 import { getEssayConnections } from "../lib/related";
 import EssayList from "./EssayList.astro";
+import Kicker from "./Kicker.astro";
 import Motet from "./Motet.astro";
 import SectionLink from "./SectionLink.astro";
 
@@ -56,13 +57,13 @@ const nextParts = tradar.flatMap((t) => (t.next ? [{ series: t, next: t.next }] 
 {(hasContext || hasMotet || related.length > 0 || nextParts.length > 0) && (
 	<aside class="essay-connections" aria-label="Läs vidare och sammanhang">
 		{nextParts.map(({ series, next }) => (
-			<p class="ec-next">
-				<span class="label ec-heading">Nästa del</span>
+			<div class="ec-next">
+				<Kicker form="head" as="h2">Nästa del</Kicker>
 				<a class="ec-next-link" href={`/${next.slug}/`} data-astro-prefetch="viewport">
 					<span class="ec-next-del">Del {series.part + 1} av {series.parts} · {series.title}</span>
 					<span class="ec-next-title">{next.title}</span>
 				</a>
-			</p>
+			</div>
 		))}
 
 		<Motet tankare={tankare} />
@@ -87,7 +88,7 @@ const nextParts = tradar.flatMap((t) => (t.next ? [{ series: t, next: t.next }] 
 
 		{related.length > 0 && (
 			<div class="ec-related">
-				<p class="label ec-heading">Läs vidare</p>
+				<Kicker form="head" as="h2">Läs vidare</Kicker>
 				<EssayList articles={related} />
 				{/* The whole archive, from the end of every essay (DESIGN.md, »The Essäer Page«). */}
 				<p class="ec-all"><SectionLink href="/essaer/">Alla essäer</SectionLink></p>
@@ -155,20 +156,17 @@ const nextParts = tradar.flatMap((t) => (t.next ? [{ series: t, next: t.next }] 
 		margin: 0 0.5rem;
 	}
 
-	.ec-heading {
-		margin-bottom: var(--space-half);
-		color: var(--color-muted);
-	}
+	/* THE END MATTER'S HEADINGS are kickers in the head form, behind the brass point, as
+	   an answer's and a fördjupning's are (»Källor och fördjupning«, »Relaterade frågor«):
+	   one grammar for the foot of every reading page (DESIGN.md, »One grammar off the
+	   front page«: »the end matter's headings all wear it«). Until 2026-10-18 the essay's
+	   three (»Nästa del«, »Mötet«, »Läs vidare«) were muted labels with no point, so the
+	   same job had two faces a click apart. The kicker brings its own group-space. */
 
-	/* Nästa del: the label, then the part as the front page's series cards set one, its
+	/* Nästa del: the heading, then the part as the front page's series cards set one, its
 	   number in the brass every ordinal on the site is set in, over its title. */
 	.ec-next {
-		display: grid;
 		margin: 0 0 var(--space-unit);
-	}
-
-	.ec-next .ec-heading {
-		display: block;
 	}
 
 	.ec-next-link {
@@ -202,7 +200,19 @@ const nextParts = tradar.flatMap((t) => (t.next ? [{ series: t, next: t.next }] 
 		text-wrap: balance;
 	}
 
+	/* »Alla essäer« closes the list over it, so it stands a group-space under it — the
+	   list's own bottom margin set it 110px under the last title and 30px over »Äldre«,
+	   nearer the next group than its own (2026-10-18). The newer/older pair keeps a
+	   section's distance (layout.css, .article-nav). */
+	.ec-related :global(.archive-list) {
+		margin-bottom: 0;
+	}
+
+	.ec-related :global(.archive-item:last-child) {
+		padding-bottom: 0;
+	}
+
 	.ec-all {
-		margin: var(--space-unit) 0 0;
+		margin: var(--space-group) 0 0;
 	}
 </style>

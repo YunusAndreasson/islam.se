@@ -83,9 +83,20 @@
 		hyphens: manual;
 	}
 
+	/* A PAGE'S TITLE carries Literata's swash ligatures (c‿h, c‿t, s‿t: »och«, »avstår«,
+	   »Palestina«), the lead's headline and every h1, at every width. Nothing smaller
+	   does: at a section heading's 27px and a card's 23px the swash crowds the letter
+	   after it and reads as a rendering fault (compared in place, 2026-10-18).
+
+	   The low-level switch, not `font-variant-ligatures: discretionary-ligatures`. A
+	   browser drops optional ligatures from any run with letter-spacing other than zero,
+	   and every title is tracked tight (-0.012em or so); only font-feature-settings
+	   overrides that. With the high-level property alone the swash was set on every h1
+	   for months and drawn on none, in Chromium or Gecko — only on the lead, which
+	   asked for it this way (FeatureEssay.astro). */
 	h1,
 	.feature-title {
-		font-variant-ligatures: discretionary-ligatures;
+		font-feature-settings: "dlig" 1;
 	}
 
 	/* Weights dropped a step with the face change: Literata 600 carries roughly the
@@ -614,29 +625,36 @@
 		mask: url("/ornament.svg?v=5") center / 100% 100% no-repeat;
 	}
 
-	/* Drop cap — article opening paragraph */
-	article .prose > p:first-child {
+	/* THE OPENING OF AN ESSAY: a drop cap three lines deep and the first line in small
+	   capitals. Normal weight, the size alone carries it (DESIGN.md, »Hierarchy of Content
+	   Elements«). Since 2026-10-18:
+
+	   - The letter is styled only where it can drop. It was set at weight 600 in the
+	     accent for every browser and dropped only where initial-letter is supported;
+	     Gecko has no initial-letter, so in Firefox and Zen an essay opened on ONE letter
+	     heavier than the small capitals beside it, which reads as a fault, not an
+	     initial. There the small-capital line opens the essay alone, a book's own form.
+	   - Not on an answer or a fördjupning. Those open on their bold answer sentence or
+	     bold headword (»**Abort** är …«), and an initial and small capitals over bold
+	     stacked three emphases on one line: bold small capitals under a drop cap. The
+	     drop cap says »the essay begins here«; a reference page's bold already says what
+	     it is for. */
+	main:not(.svar-page, .fordjupning-page) article .prose > p:first-child {
 		overflow: visible;
 	}
 
-	article .prose > p:first-child::first-letter {
-		font-weight: 600;
-		color: var(--color-accent);
-	}
-
-	/* The metric compensations only make sense alongside the big letter —
-   Firefox (no initial-letter) must not get the spurious margins. */
 	@supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
-		article .prose > p:first-child::first-letter {
+		main:not(.svar-page, .fordjupning-page) article .prose > p:first-child::first-letter {
 			-webkit-initial-letter: 3;
 			initial-letter: 3;
+			color: var(--color-accent);
 			margin-right: 0.08em;
 			/* Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
 			margin-top: -0.08em;
 		}
 	}
 
-	article .prose > p:first-child::first-line {
+	main:not(.svar-page, .fordjupning-page) article .prose > p:first-child::first-line {
 		font-variant-caps: small-caps;
 	}
 

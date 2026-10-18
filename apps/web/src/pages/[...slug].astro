@@ -149,9 +149,8 @@ const figureBlocks = await figureJsonLd(
 			{article.heroImage && (
 				<figure class="article-hero">
 					{/* The frame wraps the image only. With the figcaption inside it,
-					    the caption sat on .media-frame's warm image-decode placeholder
-					    and underneath the frame's vignette and film-grain layers — a
-					    brown band clipped by the frame's rounded corners. */}
+					    the caption sat on .media-frame's warm image-decode placeholder,
+					    a brown band clipped by the frame. */}
 					<div class="article-hero-frame media-frame">
 						<EssayImage
 							article={article}
@@ -226,7 +225,7 @@ const figureBlocks = await figureJsonLd(
 	}
 
 	/* A contained hero at the head of each essay — column-width, seated in the
-	   shared media frame (grain + vignette + soft corners from .media-frame). The
+	   shared media frame (.media-frame). The
 	   crop is pinned via :global(img) because the <img> carries EssayImage's own
 	   style scope, so a plain scoped rule would never reach it. */
 	.article-hero {

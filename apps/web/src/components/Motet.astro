@@ -1,4 +1,5 @@
 ---
+import Kicker from "./Kicker.astro";
 import MarkDot from "./MarkDot.astro";
 import type { Tradition } from "../lib/tankare";
 
@@ -55,9 +56,9 @@ const columns = [
 {
 	columns.length > 0 && (
 		<section class:list={["motet", isEncounter && "motet--axis"]} aria-labelledby="motet-head">
-			<h2 id="motet-head" class="label motet-head">
+			<Kicker form="head" as="h2" id="motet-head">
 				{isEncounter ? "Mötet" : "Tänkare"}
-			</h2>
+			</Kicker>
 
 			<div class="motet-cols">
 				{columns.map((col) => (
@@ -84,15 +85,8 @@ const columns = [
 		margin-bottom: var(--space-unit);
 	}
 
-	/* A label among the end matter's labels (»Nästa del«, »Läs vidare«), so it takes their
-	   weight and stands where they stand: the base h2's top margin set it ~87px under the
-	   rule above it when it opened the block (2026-10-16). */
-	.motet-head {
-		margin-top: 0;
-		margin-bottom: var(--space-half);
-		font-weight: 400;
-		color: var(--color-muted);
-	}
+	/* The heading is a kicker in the head form, as the end matter's others are
+	   (»Nästa del«, »Läs vidare«; EssayConnections.astro says why). */
 
 	.motet-cols {
 		display: grid;

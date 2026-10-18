@@ -194,8 +194,11 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		   which is where the reasoning for this value lives — otherwise the stage visibly
 		   changes colour the moment the renderer takes over. */
 		background: light-dark(#c9cdca, #15171a);
+		/* The hairline frames it; no drop shadow. The map is part of the page, not a sheet
+		   over it: only what really stands above the page casts one (the search dialog,
+		   a note's popover, the panel over this map). Until 2026-10-18 the two maps were
+		   the only things lying ON the page that floated off it (Moskéer's too). */
 		border: 1px solid var(--color-divider);
-		box-shadow: 0 1px 2px rgb(var(--hero-black) / 0.04), 0 12px 28px -16px rgb(var(--hero-black) / 0.25);
 	}
 
 	.bf-canvas {
