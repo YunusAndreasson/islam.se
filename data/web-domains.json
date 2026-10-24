@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 133,
-      "ok": 132,
+      "total": 139,
+      "ok": 138,
       "failed": 1,
-      "lastChecked": "2026-10-18T16:58:05.260Z",
-      "publishedIn": 105,
-      "avgScore": 8.620952380952396,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 107,
+      "avgScore": 8.618691588785062,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -203,12 +203,12 @@
       "avgScore": 8.636363636363637
     },
     "signum.se": {
-      "total": 8,
-      "ok": 8,
+      "total": 11,
+      "ok": 11,
       "failed": 0,
-      "lastChecked": "2026-06-05T15:17:36.785Z",
-      "publishedIn": 6,
-      "avgScore": 8.666666666666666
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 7,
+      "avgScore": 8.642857142857142
     },
     "pmc.ncbi.nlm.nih.gov": {
       "total": 13,
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 53,
-      "ok": 53,
+      "total": 56,
+      "ok": 56,
       "failed": 0,
-      "lastChecked": "2026-10-11T10:16:25.848Z",
-      "publishedIn": 42,
-      "avgScore": 8.645238095238092
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 43,
+      "avgScore": 8.641860465116276
     },
     "lifewithallah.com": {
       "total": 3,
@@ -243,10 +243,10 @@
       "avgScore": 8.6
     },
     "www.diva-portal.org": {
-      "total": 11,
-      "ok": 11,
+      "total": 12,
+      "ok": 12,
       "failed": 0,
-      "lastChecked": "2026-08-23T15:12:52.403Z",
+      "lastChecked": "2026-10-23T10:20:03.599Z",
       "publishedIn": 7,
       "avgScore": 8.642857142857142
     },
@@ -1726,12 +1726,12 @@
       "avgScore": 8.7
     },
     "www.islamweb.net": {
-      "total": 9,
-      "ok": 9,
+      "total": 10,
+      "ok": 10,
       "failed": 0,
-      "lastChecked": "2026-09-18T16:48:56.732Z",
-      "publishedIn": 7,
-      "avgScore": 8.642857142857142
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 8,
+      "avgScore": 8.625
     },
     "www.ncbi.nlm.nih.gov": {
       "total": 1,
@@ -2150,12 +2150,12 @@
       "avgScore": 8.8
     },
     "arxiv.org": {
-      "total": 4,
-      "ok": 4,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-10-18T16:58:05.260Z",
-      "publishedIn": 3,
-      "avgScore": 8.666666666666666
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 4,
+      "avgScore": 8.625
     },
     "techcrunch.com": {
       "total": 1,
@@ -2825,12 +2825,12 @@
       "avgScore": 8.6
     },
     "www.gutenberg.org": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-10-18T16:58:05.260Z",
-      "publishedIn": 1,
-      "avgScore": 8.6
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 2,
+      "avgScore": 8.55
     },
     "www.m3.se": {
       "total": 2,
@@ -2923,6 +2923,70 @@
       "lastChecked": "2026-10-18T16:58:05.260Z",
       "publishedIn": 1,
       "avgScore": 8.6
+    },
+    "www.nybooks.com": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "journals.openedition.org": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "christianitytoday.com": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "stockholmslansmuseum.se": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "libraryblogs.is.ed.ac.uk": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "ojs.aaai.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "germanicmythology.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "hadithprophet.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-23T11:03:08.875Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
     }
   }
 }

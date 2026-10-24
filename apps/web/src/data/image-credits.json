@@ -200,6 +200,14 @@
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Gold_dinar_of_Abd_al-Malik_697-98.png"
 	},
+	"inline/harry-martinsons-fodelsesten-nyteboda": {
+		"kind": "Foto",
+		"by": "Erik Lundin / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Harry_Martinson_birth_place_monument.jpg",
+		"changed": "beskuren"
+	},
 	"inline/ibn-khalduns-egen-hand-muqaddiman": {
 		"kind": "Bild",
 		"by": "Süleymaniye-biblioteket, Istanbul",
@@ -255,6 +263,22 @@
 		"licence": "CC0",
 		"licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Gate_of_Kaaba.jpg",
+		"changed": "beskuren"
+	},
+	"inline/koranblad-al-ankabut-damaskus-fore-911": {
+		"kind": "Bild",
+		"by": "Morgan Library & Museum / Wikimedia Commons",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Folio_from_a_Qur%27an_(MS_M.712,_f._19v).jpg",
+		"changed": "beskuren"
+	},
+	"inline/koranblad-slutet-av-al-anbiya-900-talet": {
+		"kind": "Bild",
+		"by": "Freer Gallery of Art, Smithsonian / Wikimedia Commons",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Folio_from_a_Qur%E2%80%99an_-_Sura_21,_verses_111-12;_Sura_22,_1-2_(F1945.16).jpg",
 		"changed": "beskuren"
 	},
 	"inline/koranblad-tidigt-700-tal": {
