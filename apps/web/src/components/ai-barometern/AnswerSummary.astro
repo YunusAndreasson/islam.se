@@ -21,7 +21,7 @@ const unit = cell.failed ? "försök" : "svar";
 	{counts.length === 1 ? (
 		<span class="abm-sample-note">{cell.failed ? `${counts[0]?.label}: ` : ""}{counts[0]?.n} av {cell.codes.length} {unit}</span>
 	) : counts.length > 1 ? (
-		<details class="abm-samples">
+		<details class="abm-samples disclosure">
 			<summary>Svaren varierade</summary>
 			<ul>{counts.map(({ label, n }) => <li>{label}: {n} av {cell.codes.length} {unit}</li>)}</ul>
 		</details>

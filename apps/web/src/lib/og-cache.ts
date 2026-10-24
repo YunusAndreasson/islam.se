@@ -24,9 +24,12 @@ const DIR = join(process.cwd(), "node_modules/.astro/og-cache");
 // those changed nothing a per-card key could see, so the old PNG was re-served
 // indefinitely — now with a 24 h `/og/*` cache header in front of it.
 function cardSources(): string[] {
-	const files = ["src/lib/og.ts", "src/lib/og-endpoints.ts", "src/lib/amnen.ts"].map((f) =>
-		join(process.cwd(), f),
-	);
+	const files = [
+		"src/lib/og.ts",
+		"src/lib/og-endpoints.ts",
+		"src/lib/amnen.ts",
+		"src/lib/traditions.ts",
+	].map((f) => join(process.cwd(), f));
 	const pages = join(process.cwd(), "src/pages");
 	for (const entry of readdirSync(pages, { recursive: true, withFileTypes: true })) {
 		if (entry.isFile() && /^og.*\.png\.ts$/.test(entry.name)) {

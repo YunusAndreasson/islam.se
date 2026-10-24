@@ -14,6 +14,7 @@ import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/me
 import { placeBySlug } from "../../lib/bonetider/places-index";
 import { RITNINGAR } from "../../lib/ritningar";
 import { dateForStockholmDay } from "../../lib/bonetider/prayer-times";
+import { SITE_URL } from "../../lib/config";
 
 // The figures are drawn for fixed reference days, never "today" — same reason
 // place-facts.ts fixes its year: a statically built page must not go stale, and each
@@ -34,8 +35,6 @@ if (!malmo) throw new Error("metod.astro: placeBySlug('malmo') missing — the f
 const FIGURE_PLACE = { name: malmo.name, latitude: malmo.lat, longitude: malmo.lon };
 
 // One array feeds both the visible trail and the JSON-LD, so they cannot drift apart.
-// ⚠️ Trailing slashes are load-bearing here: the visible href is used raw, and
-// Cloudflare 308s the slash-less form.
 const crumbs = [
 	{ name: "Hem", url: "/" },
 	{ name: "Bönetider", url: "/bonetider/" },
@@ -89,7 +88,7 @@ const prayerDefinitions = [
 ---
 
 <Base
-	title="Så beräknas bönetiderna – islam.se"
+	title="Så beräknas bönetiderna"
 	description={description}
 	ogImage="/bonetider/og.png"
 	ogImageAlt="Så beräknas islamiska bönetider för svenska latituder – islam.se"
@@ -99,7 +98,7 @@ const prayerDefinitions = [
 			"@type": "TechArticle",
 			headline: "Så beräknas bönetiderna",
 			description,
-			url: "https://islam.se/bonetider/metod/",
+			url: `${SITE_URL}/bonetider/metod/`,
 			inLanguage: "sv",
 			datePublished: BONETIDER_DATA_DATE,
 			dateModified: BONETIDER_DATA_DATE,
@@ -118,7 +117,7 @@ const prayerDefinitions = [
 		<header class="bt-metod-header">
 			<Breadcrumb items={crumbs} />
 			<h1>Så beräknas bönetiderna</h1>
-			<p class="bt-metod-lead">
+			<p class="lead lead--page bt-metod-lead">
 				Bönetiderna på islam.se beräknas från solens verkliga läge vid varje ort och hämtas inte
 				ur en färdig tabell. Här förklarar vi modellen, vilka beräkningsmetoder du kan
 				välja, hur ljusa sommarnätter hanteras, och vilka källor vi använder.
@@ -128,7 +127,7 @@ const prayerDefinitions = [
 			</div>
 		</header>
 
-		<TitledSection id="m-boner" title="De sex tiderna">
+		<TitledSection class="page-section tool-section page-section--first" id="m-boner" title="De sex tiderna">
 			<p>
 				Varje bön är knuten till en bestämd solhöjd. Vi visar sex tidpunkter per dygn:
 			</p>
@@ -141,7 +140,7 @@ const prayerDefinitions = [
 			</SunDayCurve>
 		</TitledSection>
 
-		<TitledSection id="m-solen" title="Solens läge, inte en tabell">
+		<TitledSection class="page-section tool-section" id="m-solen" title="Solens läge, inte en tabell">
 			<p>
 				Tiderna räknas fram ur solens position med en etablerad astronomisk modell (NOAA:s
 				solpositionsalgoritm). För varje ort används latitud och longitud, så att Ẓuhr infaller exakt
@@ -150,7 +149,7 @@ const prayerDefinitions = [
 			</p>
 		</TitledSection>
 
-		<TitledSection id="m-metoder" title="Beräkningsmetoder och madhhab">
+		<TitledSection class="page-section tool-section" id="m-metoder" title="Beräkningsmetoder och madhhab">
 			<p>
 				Olika institutioner använder något olika vinklar för Fajr och ʿIshāʾ. Standard på islam.se är{" "}
 				<strong>Muslim World League</strong> (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl.
@@ -169,7 +168,7 @@ const prayerDefinitions = [
 			</AsrShadow>
 		</TitledSection>
 
-		<TitledSection id="m-latitud" title="Höga latituder och ljusa nätter">
+		<TitledSection class="page-section tool-section" id="m-latitud" title="Höga latituder och ljusa nätter">
 			<p>
 				På svenska breddgrader blir sommarnatten ofta så ljus att solen aldrig sjunker de 18° under
 				horisonten som krävs för den vanliga vinkelberäkningen av Fajr och ʿIshāʾ. Då används en regel
@@ -192,14 +191,14 @@ const prayerDefinitions = [
 			</SunDayCurve>
 		</TitledSection>
 
-		<TitledSection id="m-tid" title="Tidszon och sommartid">
+		<TitledSection class="page-section tool-section" id="m-tid" title="Tidszon och sommartid">
 			<p>
 				Alla tider visas i tidszonen Europe/Stockholm och växlar automatiskt mellan normaltid och
 				sommartid. Tiderna gäller den valda ortens position, inte din webbläsares tidszon.
 			</p>
 		</TitledSection>
 
-		<TitledSection id="m-kallor" title="Källor och öppenhet">
+		<TitledSection class="page-section tool-section" id="m-kallor" title="Källor och öppenhet">
 			<p>Varifrån uppgifterna kommer och hur de används:</p>
 			<ul class="bt-sources">
 				<li>
@@ -228,7 +227,7 @@ const prayerDefinitions = [
 			</p>
 		</TitledSection>
 
-		<TitledSection id="m-faq" title="Vanliga frågor">
+		<TitledSection class="page-section tool-section" id="m-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
 		</TitledSection>
 
@@ -313,25 +312,8 @@ const prayerDefinitions = [
 		}
 	}
 
-	.bt-metod-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
-	}
-
-	.bonetider-metod section {
-		margin-top: var(--space-phi);
-	}
-
-	.bonetider-metod h2 {
-		font-size: var(--step-1-sans);
-	}
-
-	.bt-prose p {
+	/* Not the ingress: it is the page's `.lead--page`, which this rule outranked. */
+	.bt-prose p:not(.lead) {
 		font-family: var(--font-body);
 		font-size: var(--step--1);
 		line-height: 1.6;

@@ -2,6 +2,7 @@
 import { currentNavHref, FOOTER_GROUPS, FOOTER_LINKS } from "../lib/navigation";
 import MarkDot from "./MarkDot.astro";
 import ThemePicker from "./ThemePicker.astro";
+import { SITE_URL } from "../lib/config";
 
 interface Props {
 	/** Section to mark current when the URL alone cannot express it — an essay lives at
@@ -34,7 +35,7 @@ const here = (href: string) => href === currentHref;
 			<p class="label site-footer-meta">
 				<span class="site-footer-place">Sverige, {year}</span>
 				<span class="nav-dot site-footer-place-dot" aria-hidden="true">&middot;</span>
-				<a href="https://islam.se">islam.se</a>
+				<a href={SITE_URL}>islam.se</a>
 				<span class="nav-dot" aria-hidden="true">&middot;</span>
 				<a href="mailto:support@islam.se">support@islam.se</a>
 				<span class="nav-dot" aria-hidden="true">&middot;</span>

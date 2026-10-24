@@ -1,5 +1,6 @@
 ---
 import { type Tankare, getTankare, tankarePairs } from "../lib/tankare";
+import { byTradition, TRADITIONS } from "../lib/traditions";
 import HomeHead from "./HomeHead.astro";
 import Kicker from "./Kicker.astro";
 import MarkDot from "./MarkDot.astro";
@@ -22,12 +23,11 @@ interface Props {
 const { limit, opening = false } = Astro.props;
 
 const thinkers = await getTankare();
-const sunni = thinkers.filter((t) => t.tradition === "sunni");
-const western = thinkers.filter((t) => t.tradition === "western");
+const { sunni, western } = byTradition(thinkers, (t) => t.tradition);
 
 let groups = [
-	{ label: "Den klassiska islamiska traditionen", items: sunni },
-	{ label: "Svenska och västerländska röster", items: western },
+	{ label: TRADITIONS.sunni.label, items: sunni },
+	{ label: TRADITIONS.western.label, items: western },
 ];
 
 if (limit) {
@@ -78,7 +78,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	>
 		{opening ? (
 			<>
-				<h2 class="label home-kicker tankare-kicker" id="tankare-home-kicker">Tänkare</h2>
+				<Kicker form="head" as="h2" class="tankare-kicker" id="tankare-home-kicker">Tänkare</Kicker>
 				{/* The Tänkare page's own ingress, and then what the drawing draws: lines
 				    with no caption are ornament, and this is the one place the archive
 				    says what the essays do. */}
@@ -267,10 +267,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		}
 	}
 
-	/* ⚠️ :global() — the mark is rendered by <MarkDot>, a child component, and this
-	   template's scope attribute never lands inside a child. Without it the SVG
-	   paints at its natural size. */
-	:global(.tankare-mark) {
+	.tankare-mark {
 		display: none;
 		position: absolute;
 		top: 50%;
@@ -287,7 +284,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	   on a horizontal rule would read as a divider between two sections — the
 	   opposite of a meeting point. */
 	@media (width > 37.5rem) {
-		:global(.tankare-mark) {
+		.tankare-mark {
 			display: block;
 		}
 	}
@@ -329,7 +326,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		grid-column: 3;
 	}
 
-	:global(.tankare-meet) {
+	.tankare-meet {
 		grid-column: 2;
 		justify-self: center;
 		width: 0.85rem;
@@ -516,7 +513,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		}
 
 		.tankare-med-oppning .tankare-group-label,
-		.tankare-med-oppning :global(.tankare-meet) {
+		.tankare-med-oppning .tankare-meet {
 			align-self: center;
 			margin-bottom: 0;
 		}
@@ -551,12 +548,6 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 
 		.tankare-dialog .tankare-row a {
 			gap: 0.4rem;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.tankare-line {
-			transition: none;
 		}
 	}
 </style>

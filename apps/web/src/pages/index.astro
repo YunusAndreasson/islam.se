@@ -64,7 +64,7 @@ const heroPreload = feature?.heroImage
 
 {/* "Vad är islam?" is reserved for /vad-ar-islam/ — do not put it back in this title. */}
 <Base
-	title="Islam: fakta om tron, reglerna och livet som muslim – islam.se"
+	title="Islam: fakta om tron, reglerna och livet som muslim"
 	description="Fakta om islam på svenska: tron, de fem pelarna och livet som muslim i Sverige. Svar om mat, klädsel och bön med hänvisningar till Koranen och sunna."
 	{...(ogImage && feature ? { ogImage: ogImage.src, ogImageAlt: feature.imageAlt ?? feature.title } : {})}
 	{...(heroPreload ? { preloadImageSrcset: heroPreload.srcSet.attribute } : {})}
@@ -183,7 +183,7 @@ const heroPreload = feature?.heroImage
 			display: grid;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 			gap: var(--space-half) var(--grid-gutter);
-			border-top: 1px solid var(--color-rule);
+			border-top: var(--border-rule);
 		}
 	}
 
@@ -206,7 +206,7 @@ const heroPreload = feature?.heroImage
 	   so they carry the full thumb target rather than the 2.5.8 floor. */
 	@media (hover: none), (pointer: coarse) {
 		.home-pillar {
-			min-height: 2.75rem;
+			min-height: var(--tap-target);
 		}
 	}
 
@@ -230,8 +230,6 @@ const heroPreload = feature?.heroImage
 	}
 
 	.home-pillar:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 3px;
-		border-radius: 2px;
+		--focus-offset: 3px;
 	}
 </style>

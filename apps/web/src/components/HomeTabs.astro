@@ -1,0 +1,39 @@
+---
+// THE TABS (DESIGN.md, »One tab grammar«): the essays by ämne, the essäserier and
+// AI-barometern's findings show one of several behind the same row. Links on one base
+// rule, the chosen one in ink over the accent (layout.css, `.home-tabs`), arrow keys
+// between them (scripts/home-tabs.ts), and without scripts the links they are written as.
+//
+// The caller marks the set with `data-home-tabs` and writes its own panels
+// (`data-tab-panel`, one per tab and in the same order, all but the first served
+// `hidden`); what a panel holds differs too much between the three to be this
+// component's. The row and its script are one thing: the essäserier's tabs worked only
+// because the essays by ämne above them happened to import the script.
+import type { HTMLAttributes } from "astro/types";
+
+export interface HomeTab {
+	/** The tab's element id; its panel is labelled by it. */
+	id: string;
+	/** Where the tab leads without scripts: the page its panel is a glimpse of. */
+	href: string;
+	label: string;
+}
+
+type Props = HTMLAttributes<"nav"> & {
+	tabs: readonly HomeTab[];
+};
+
+const { tabs, class: className, ...rest } = Astro.props;
+---
+
+<nav {...rest} class:list={["home-tabs", className]}>
+	{tabs.map((tab, i) => (
+		<a class="home-tab" id={tab.id} href={tab.href} data-tab data-selected={i === 0 ? "true" : undefined}>
+			{tab.label}
+		</a>
+	))}
+</nav>
+
+<script>
+	import "../scripts/home-tabs";
+</script>

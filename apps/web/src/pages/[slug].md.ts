@@ -1,5 +1,5 @@
-import type { APIContext } from "astro";
-import { type Article, articleBody, getArticles } from "../lib/articles";
+import type { APIContext, InferGetStaticPropsType } from "astro";
+import { articleBody, getArticles } from "../lib/articles";
 import { siteOrigin } from "../lib/config";
 import { withPublishedFigures } from "../lib/inline-images";
 import { articleMarkdown } from "../lib/representations";
@@ -15,9 +15,11 @@ export async function getStaticPaths() {
 	return articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
 }
 
-export async function GET(context: APIContext) {
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+export async function GET(context: APIContext<Props>) {
 	const site = siteOrigin(context.site);
-	const { article } = context.props as { article: Article };
+	const { article } = context.props;
 	// A photograph's path in the source is a repository path; the twin gets the URL.
 	const body = await withPublishedFigures(articleBody(article), site);
 	const markdown = `${articleMarkdown(

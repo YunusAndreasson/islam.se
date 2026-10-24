@@ -2,16 +2,19 @@ import type { Article } from "./articles";
 
 // The seven ämnen, in the canonical da'wah order (§6) — foundational theology
 // first, the Swedish reader's meeting-point last. This order is used by the
-// homepage sections (§7.7), the archive grouping (§9), and matches the schema
-// enum in content.config.ts. `name` equals the essay `category` enum value.
-export type AmneName =
-	| "Skapelsen"
-	| "Koranen"
-	| "Själen"
-	| "Rättvisa"
-	| "Samhälle"
-	| "Livsfrågor"
-	| "Norden";
+// homepage sections (§7.7) and the archive grouping (§9), and the list IS the
+// essay schema's `category` enum (content.config.ts), which kept a copy of it.
+export const AMNE_NAMES = [
+	"Skapelsen",
+	"Koranen",
+	"Själen",
+	"Rättvisa",
+	"Samhälle",
+	"Livsfrågor",
+	"Norden",
+] as const;
+
+export type AmneName = (typeof AMNE_NAMES)[number];
 
 export interface Amne {
 	name: AmneName;

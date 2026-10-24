@@ -44,3 +44,11 @@ const isRail = variant === "rail";
 		</li>
 	))}
 </ul>
+
+{/* The list owns the script that keeps its `max` honest against the reader's clock, as
+    Arslinje owns its own. Its only import sat in a component deleted on 2026-10-11, and
+    the front page's next observance stood frozen at the build's date until it was put
+    back here. A list without `max` is left to its page. */}
+<script>
+	import "../scripts/markesdagar";
+</script>

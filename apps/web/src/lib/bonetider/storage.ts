@@ -2,6 +2,8 @@
 // settings and (on the home/hub views) their chosen location, in localStorage. A
 // single `bonetider:change` window event lets the settings panel, the location
 // picker and every PrayerField on the page stay in sync without a framework.
+
+import { readStoredJson, writeStored } from "../web-storage";
 import {
 	CALCULATION_METHOD_KEYS,
 	type CalculationMethodKey,
@@ -24,6 +26,11 @@ import {
 const SETTINGS_KEY = "bonetider:settings";
 const LOCATION_KEY = "bonetider:location";
 export const CHANGE_EVENT = "bonetider:change";
+/** Fired on window by scripts/bonetider-field.ts each time its clock turns a minute (also
+ *  when a hidden tab comes back to a new one): the one clock that every readout changing
+ *  with the minute follows. The city page's planning and month table each ran their own
+ *  60-second interval, never cleared, which went on waking every page visited after. */
+export const MINUTE_EVENT = "bonetider:minute";
 
 const CALCULATION_METHODS = new Set<CalculationMethodKey>(CALCULATION_METHOD_KEYS);
 const MADHAB_SET = new Set<Madhab>(MADHABS);
@@ -93,9 +100,9 @@ export function sanitizeSettings(value: unknown): PrayerSettings {
 		// actually holds something, so handing back the module singleton here re-opened the
 		// exact hole loadSettings' docblock describes — one mutation of `settings.notifications`
 		// anywhere rewrites DEFAULT_SETTINGS for the rest of the page, and the moskéskärm's
-		// encoder omits every field still "at its default". The two cloneSettings() calls down
-		// there only cover the empty and throwing branches, which are the two that storage.test
-		// can reach and therefore the two that looked fixed.
+		// encoder omits every field still "at its default". The cloneSettings() in loadSettings
+		// only covers the nothing-stored branch, which is the one storage.test can reach and
+		// therefore the one that looked fixed.
 		notifications: {
 			...DEFAULT_SETTINGS.notifications,
 			prayers: { ...DEFAULT_SETTINGS.notifications.prayers },
@@ -122,16 +129,12 @@ function sanitizeLocation(value: unknown): NamedLocation | null {
 }
 
 /**
- * A deep-enough copy to be safe to mutate. The nested objects matter as much as the top
- * level: `adjustments` is the one callers actually reach into.
+ * A copy that is safe to mutate all the way down: `adjustments` is the nested object
+ * callers actually reach into. structuredClone rather than spreads listed by hand, so a
+ * nested field added to PrayerSettings is copied without anyone remembering it here.
  */
 export function cloneSettings(s: PrayerSettings): PrayerSettings {
-	return {
-		...s,
-		adjustments: { ...s.adjustments },
-		notifications: { ...s.notifications, prayers: { ...s.notifications.prayers } },
-		manualLocation: s.manualLocation ? { ...s.manualLocation } : null,
-	};
+	return structuredClone(s);
 }
 
 /**
@@ -147,39 +150,24 @@ export function cloneSettings(s: PrayerSettings): PrayerSettings {
  * calculation method out of the link.
  */
 export function loadSettings(): PrayerSettings {
-	try {
-		const raw = localStorage.getItem(SETTINGS_KEY);
-		if (!raw) return cloneSettings(DEFAULT_SETTINGS);
-		return sanitizeSettings(JSON.parse(raw));
-	} catch {
-		return cloneSettings(DEFAULT_SETTINGS);
-	}
+	const stored = readStoredJson(SETTINGS_KEY);
+	return stored === null ? cloneSettings(DEFAULT_SETTINGS) : sanitizeSettings(stored);
 }
 
+/** In private mode or with the quota full the settings just won't persist; the change
+ *  event still fires, so the page repaints with them for as long as it is open. */
 export function saveSettings(s: PrayerSettings): void {
-	try {
-		localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
-	} catch {
-		/* private mode / quota — settings just won't persist */
-	}
+	writeStored(SETTINGS_KEY, JSON.stringify(s));
 	emitChange();
 }
 
 export function loadLocation(): NamedLocation | null {
-	try {
-		const raw = localStorage.getItem(LOCATION_KEY);
-		return raw ? sanitizeLocation(JSON.parse(raw)) : null;
-	} catch {
-		return null;
-	}
+	const stored = readStoredJson(LOCATION_KEY);
+	return stored === null ? null : sanitizeLocation(stored);
 }
 
 export function saveLocation(loc: NamedLocation): void {
-	try {
-		localStorage.setItem(LOCATION_KEY, JSON.stringify(loc));
-	} catch {
-		/* ignore */
-	}
+	writeStored(LOCATION_KEY, JSON.stringify(loc));
 	emitChange();
 }
 

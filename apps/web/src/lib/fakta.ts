@@ -187,9 +187,8 @@ export const FAKTA_ART: ReadonlyMap<string, ImageMetadata> = new Map(
 
 /** Every cornerstone answer slug in hub order — each cluster's overview, then its
  *  cards. `groupSvar()` removes these from the FRÅGOR & SVAR index so FAKTA and the
- *  Q&A list never show the same answer twice; /svar/ still renders them in this order
- *  as rows its on-page search can reach. */
-export const FAKTA_SVAR_ORDER: readonly string[] = FAKTA_CLUSTERS.flatMap((c) => [
+ *  Q&A list never show the same answer twice. */
+const FAKTA_SVAR_ORDER: readonly string[] = FAKTA_CLUSTERS.flatMap((c) => [
 	...(c.overview ? [c.overview] : []),
 	...c.items.map((i) => i.svarSlug),
 ]);

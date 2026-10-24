@@ -1,4 +1,6 @@
 <script>
+	import { onPage } from "../../scripts/page";
+
 	function revealAnchor() {
 		let id: string;
 		try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
@@ -12,6 +14,8 @@
 		target.scrollIntoView({ block: "start" });
 	}
 	window.addEventListener("hashchange", revealAnchor);
-	document.addEventListener("astro:page-load", revealAnchor);
-	revealAnchor();
+	// Once per page, when it is there (page.ts). It ran at once and again at the router's
+	// first page-load, which on a cold visit comes after the images — and a second
+	// scrollIntoView then pulled back a reader who had already scrolled on.
+	onPage(revealAnchor);
 </script>

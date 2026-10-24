@@ -1,15 +1,16 @@
 ---
 import { getCollection } from "astro:content";
+import Kicker from "../../components/Kicker.astro";
 import PartyGrid from "../../components/ai-barometern/PartyGrid.astro";
 import PositionStrip from "../../components/ai-barometern/PositionStrip.astro";
 import ModelLogo from "../../components/ai-barometern/ModelLogo.astro";
 import OpinionBar from "../../components/ai-barometern/OpinionBar.astro";
+import PrevNext from "../../components/PrevNext.astro";
 import TrendMultiples from "../../components/ai-barometern/TrendMultiples.astro";
 import TwinCompare from "../../components/ai-barometern/TwinCompare.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
-import DiamondList from "../../components/DiamondList.astro";
-import HairlineLinkList from "../../components/HairlineLinkList.astro";
-import Honorific from "../../components/Honorific.astro";
+import LinkList from "../../components/LinkList.astro";
+import WithHonorifics from "../../components/WithHonorifics.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { BACKGROUND, READ_MORE } from "../../lib/ai-barometern/context";
@@ -140,7 +141,6 @@ const hasQuotes = quotes.some((q) => q.lead || q.rest.length > 0);
 const history = historyOf(question);
 const partyRuns = isScale ? [] : partyHistory(question);
 const hasHistory = isScale ? history.some((h) => h.points.length >= 2) : partyRuns.length >= 2;
-const noteParts = question.classicalNote?.split("ﷺ") ?? [];
 
 /** The scale value behind an answer code, for the colour swatch beside a quoted answer. */
 const scaleV = (code: string) => (/^-?[0-2]$/.test(code) ? code : undefined);
@@ -158,7 +158,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 ---
 
 <Base
-	title={`${question.short} – AI-barometern – islam.se`}
+	title={`${question.short} – AI-barometern`}
 	description={description}
 	ogImage="/ai-barometern/og.png"
 	ogImageAlt="AI-barometern – islam.se"
@@ -167,7 +167,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 	<main id="main" class="home home--text abm abm-question">
 		<header class="abm-head">
 			<Breadcrumb items={crumbs} />
-			<p class="label">AI-barometern · {THEME_LABELS[question.theme]}</p>
+			<Kicker form="quiet">AI-barometern · {THEME_LABELS[question.theme]}</Kicker>
 			<h1>{heading}</h1>
 			{summary && <p class="abm-dek">{summary}</p>}
 			<p class:list={[summary ? "abm-dek-note" : "abm-dek"]}>
@@ -234,7 +234,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 									<p class="abm-quote-meta">Inget citat för det svar som visas ovan.</p>
 								)}
 								{q.rest.length > 0 && (
-									<details>
+									<details class="disclosure">
 										<summary>{q.rest.length === 1 ? "Ett svar till" : `${q.rest.length} svar till`}</summary>
 										{q.rest.map((e) => (
 											<blockquote>
@@ -343,7 +343,7 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 			question.classicalNote && (
 				<section class="abm-classical" aria-labelledby="klassisk-hallning">
 					<h2 id="klassisk-hallning">Den klassiska hållningen</h2>
-					<p>{noteParts.map((part, i) => (i === 0 ? part : [<Honorific />, part]))}</p>
+					<p><WithHonorifics text={question.classicalNote} /></p>
 				</section>
 			)
 		}
@@ -351,10 +351,8 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 		{
 			readMore.length > 0 && (
 				<nav class="abm-siblings abm-readmore" aria-labelledby="las-mer">
-					<h2 class="abm-subhead" id="las-mer">
-						Läs mer på islam.se
-					</h2>
-					<DiamondList items={readMore} nav />
+					<Kicker form="head" as="h2" class="abm-subhead" id="las-mer">Läs mer på islam.se</Kicker>
+					<LinkList variant="diamond" items={readMore} nav />
 				</nav>
 			)
 		}
@@ -362,32 +360,19 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 		{
 			siblings.length > 0 && (
 				<nav class="abm-siblings" aria-labelledby="fler-fragor">
-					<h2 class="abm-subhead" id="fler-fragor">
+					<Kicker form="head" as="h2" class="abm-subhead" id="fler-fragor">
 						Fler frågor: {THEME_LABELS[question.theme]}
-					</h2>
-					<HairlineLinkList items={siblings.map((q) => ({ label: q.short, href: questionPath(q) }))} />
+					</Kicker>
+					<LinkList variant="hairline" items={siblings.map((q) => ({ label: q.short, href: questionPath(q) }))} />
 				</nav>
 			)
 		}
 
-		<nav class="abm-pager" aria-label="Fler frågor i AI-barometern">
-			{
-				prev && (
-					<a class="abm-pager-prev" href={questionPath(prev)} rel="prev">
-						<span class="abm-pager-dir back-link">Föregående fråga</span>
-						<span class="abm-pager-title">{prev.short}</span>
-					</a>
-				)
-			}
-			{
-				next && (
-					<a class="abm-pager-next" href={questionPath(next)} rel="next">
-						<span class="abm-pager-dir arrow-link">Nästa fråga</span>
-						<span class="abm-pager-title">{next.short}</span>
-					</a>
-				)
-			}
-		</nav>
+		<PrevNext
+			aria-label="Fler frågor i AI-barometern"
+			prev={prev && { href: questionPath(prev), title: prev.short, label: "Föregående fråga" }}
+			next={next && { href: questionPath(next), title: next.short, label: "Nästa fråga" }}
+		/>
 		<p class="meta-line">
 			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>Alla frågor i AI-barometern</a>
 		</p>

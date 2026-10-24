@@ -44,7 +44,7 @@ const narrated = articles.filter((a) => typeof a.audioFile === "string");
 	narrated.length > 0 && (
 		<Promo id="podden-rubrik" kicker="Podd" titel="Essäerna, inlästa" href="/podcast/" ritning={RITNINGAR.podden}>
 			Lyssna på essäerna i Apple Podcasts, Spotify eller en annan poddspelare.
-			<PodcastSubscribeLinks slot="lankar" actionClass="podcast-action" iconSize={ICON} />
+			<PodcastSubscribeLinks slot="lankar" actionClass="pill" iconSize={ICON} />
 		</Promo>
 	)
 }
@@ -52,11 +52,11 @@ const narrated = articles.filter((a) => typeof a.audioFile === "string");
 <Promo id="appen-rubrik" kicker="App" titel="Bönetiderna i mobilen" href="/app/" ritning={RITNINGAR.appen}>
 	En påminnelse före varje bön och en kompass mot Kaba. Gratis och utan annonser.
 	<Fragment slot="lankar">
-		<a class="podcast-action" href={APP_STORE_URL} target="_blank" rel="noopener">
+		<a class="pill" href={APP_STORE_URL} target="_blank" rel="noopener">
 			<PodcastBrandIcon platform="appstore" size={ICON} />
 			App Store
 		</a>
-		<a class="podcast-action" href={PLAY_STORE_URL} target="_blank" rel="noopener">
+		<a class="pill" href={PLAY_STORE_URL} target="_blank" rel="noopener">
 			<PodcastBrandIcon platform="googleplay" size={ICON} />
 			Google Play
 		</a>

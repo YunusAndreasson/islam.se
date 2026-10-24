@@ -2,9 +2,9 @@
 <fieldset class="theme-picker">
 	<legend class="theme-picker-legend label">Utseende</legend>
 	<div class="theme-picker-opts">
-		<label class="theme-opt"><input type="radio" name="theme-choice" value="system" checked /><span>Automatiskt</span></label>
-		<label class="theme-opt"><input type="radio" name="theme-choice" value="light" /><span>Ljust</span></label>
-		<label class="theme-opt"><input type="radio" name="theme-choice" value="dark" /><span>Mörkt</span></label>
+		<label class="theme-opt field"><input type="radio" name="theme-choice" value="system" checked /><span>Automatiskt</span></label>
+		<label class="theme-opt field"><input type="radio" name="theme-choice" value="light" /><span>Ljust</span></label>
+		<label class="theme-opt field"><input type="radio" name="theme-choice" value="dark" /><span>Mörkt</span></label>
 	</div>
 </fieldset>
 
@@ -31,7 +31,7 @@
 		flex-wrap: wrap;
 		max-inline-size: 100%;
 		padding: 3px;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-pill);
 	}
 
@@ -40,7 +40,7 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 2.75rem;
+		min-height: var(--tap-target);
 		padding-inline: 0.85rem;
 		border-radius: var(--radius-pill);
 		font-family: var(--font-heading);
@@ -48,6 +48,8 @@
 		font-weight: 500;
 		color: var(--color-muted);
 		cursor: pointer;
+		/* The ring is the site's (`.field`, layout.css), a pixel off the segment. */
+		--focus-offset: 1px;
 		transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
 	}
 
@@ -64,11 +66,6 @@
 	.theme-opt:has(:checked) {
 		color: var(--color-accent);
 		background: var(--wash-selected);
-	}
-
-	.theme-opt:has(:focus-visible) {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 1px;
 	}
 
 </style>

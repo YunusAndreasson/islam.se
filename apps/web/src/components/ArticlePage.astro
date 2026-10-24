@@ -19,7 +19,7 @@ const { title, description, jsonLd, noindex = false } = Astro.props;
 	noindex={noindex}
 >
 	<main id="main" class="content-column">
-		<ArticleHeader title={title.replace(/ [–—] islam\.se$/, "")}>
+		<ArticleHeader title={title}>
 			<slot name="header" />
 		</ArticleHeader>
 		<slot />

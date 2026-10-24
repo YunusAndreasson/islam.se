@@ -7,7 +7,19 @@
 //
 // Progress lives in localStorage, so this is the one part of a list that cannot be
 // rendered at build time; without it every essay simply reads as unread.
+import { onPage } from "./page";
 import { hasRead } from "./reading-progress";
+
+/** Runs `mark` on every page, and again when a page comes back from the back/forward
+ *  cache: its listeners survive the restore, but its read marks can be stale — the one
+ *  case a new page does not cover. /essaer/, the collection pages and the front page's
+ *  series each wired this pair, or half of it. */
+export function onReadMarks(mark: () => void): void {
+	onPage(mark);
+	window.addEventListener("pageshow", (event) => {
+		if (event.persisted) mark();
+	});
+}
 
 /** Marks the read essays under `root`; returns how many of how many are read. */
 export function markReadEssays(root: ParentNode = document): { read: number; total: number } {

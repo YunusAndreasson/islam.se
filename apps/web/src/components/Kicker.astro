@@ -9,21 +9,24 @@
 //
 // The essay, the answer and the collection pages wrote their own (13.3px, muted, no
 // point), so the kicker over an essay's title on its own page was not the kicker over
-// the same title on the front page (2026-10-16). The styles are global, in layout.css
-// (`.home-kicker`), because the front page's components set them by class too.
+// the same title on the front page (2026-10-16); the front page's sections wrote theirs
+// as a class, and which form a bare one took depended on the page it stood on. Every
+// kicker is this component, its form always named. The styles are global, in layout.css
+// (`.home-kicker`). The caller's attributes reach the element, scope id included, so a
+// caller's scoped rule on its `class` applies; a link inside is this file's, reached
+// through `:global()`.
+import type { HTMLAttributes } from "astro/types";
 
-interface Props {
+type Props = HTMLAttributes<"p"> & {
 	form?: "head" | "quiet";
-	as?: "p" | "h2" | "h3";
+	as?: "p" | "h2" | "h3" | "h4";
 	/** Makes the label a link (an ämne, a category, the section a page belongs to). */
 	href?: string | undefined;
-	id?: string;
-	class?: string | undefined;
-}
+};
 
-const { form = "quiet", as: Tag = "p", href, id, class: className } = Astro.props;
+const { form = "quiet", as: Tag = "p", href, class: className, ...rest } = Astro.props;
 ---
 
-<Tag class:list={["label", "home-kicker", `home-kicker--${form}`, className]} id={id}>
+<Tag {...rest} class:list={["label", "home-kicker", `home-kicker--${form}`, className]}>
 	{href ? <a href={href}><slot /></a> : <slot />}
 </Tag>

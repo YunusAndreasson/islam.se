@@ -52,9 +52,11 @@ const hero = src ?? article?.heroImage;
 // A documentary photograph is a document: it is shown in the colour it was taken in,
 // without the wash below (see the style block). Only an essay's own hero can be one;
 // a borrowed or bespoke `src` is art made for the site.
-const imgClass =
-	[className, !src && article?.imageDocumentary ? "is-document" : null].filter(Boolean).join(" ") ||
-	undefined;
+// `motion-safe`: the wash's cross-fade is a change of colour, not motion, so it keeps
+// its pace under reduced motion (typography.css, the kill-switch).
+const imgClass = [className, "motion-safe", !src && article?.imageDocumentary ? "is-document" : null]
+	.filter(Boolean)
+	.join(" ");
 // Only use a mobile-specific crop when it is landscape-ish. Every card layout
 // (feature 3:2, recent 16:9, ämne lead 3:2) renders into a landscape box with
 // object-fit: cover; some -mobile assets are authored as 2:3 portrait, and a
@@ -144,9 +146,7 @@ if (mobile && hero) {
 	   full colour on hover (the bloom). Tuned against the live render. */
 	img {
 		filter: saturate(0.72) contrast(1.04) brightness(0.98) sepia(0.12);
-		transition:
-			filter 0.6s cubic-bezier(0.2, 0, 0.1, 1),
-			scale 0.6s cubic-bezier(0.2, 0, 0.1, 1);
+		transition: filter 0.6s var(--ease-out);
 	}
 
 	/* A documentary photograph is not washed (2026-10-11). The wash is art direction for
@@ -157,14 +157,5 @@ if (mobile && hero) {
 	   originals with no colour change, and this takes the wash off them too. */
 	img.is-document {
 		filter: none;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		img {
-			/* Deliberate survivor: a filter cross-fade is not motion. !important
-			   beats the global kill-switch in typography.css. */
-			transition: filter 0.6s ease;
-			transition-duration: 0.6s !important;
-		}
 	}
 </style>

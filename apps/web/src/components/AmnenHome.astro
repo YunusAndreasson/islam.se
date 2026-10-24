@@ -2,6 +2,8 @@
 import { amnenWithEssays } from "../lib/amnen";
 import { type Article, getArticles } from "../lib/articles";
 import EssayList from "./EssayList.astro";
+import HomeTabs from "./HomeTabs.astro";
+import Kicker from "./Kicker.astro";
 import SectionLink from "./SectionLink.astro";
 
 interface Props { exclude?: Set<string>; }
@@ -23,14 +25,11 @@ const groups = amnenWithEssays(await getArticles()).filter(({ amne }) => amne.sl
 	    essays open alike. As a 33px title over a tracked label it read as that
 	    section's parent, and was the only section on the page without the brass point
 	    (2026-10-10). */}
-	<h2 id="amnen-kicker" class="label home-kicker">Essäer efter ämne</h2>
-	<nav class="home-tabs" aria-label="Välj ämne">
-		{groups.map(({ amne }, i) => (
-			<a class="home-tab" id={`subject-tab-${amne.slug}`} href={`/amnen/${amne.slug}/`} data-tab data-selected={i === 0 ? "true" : undefined}>
-				{amne.name}
-			</a>
-		))}
-	</nav>
+	<Kicker form="head" as="h2" id="amnen-kicker">Essäer efter ämne</Kicker>
+	<HomeTabs
+		aria-label="Välj ämne"
+		tabs={groups.map(({ amne }) => ({ id: `subject-tab-${amne.slug}`, href: `/amnen/${amne.slug}/`, label: amne.name }))}
+	/>
 	{groups.map(({ amne, shown }, i) => (
 		<div class="amnen-panel" id={`subject-panel-${amne.slug}`} data-tab-panel hidden={i !== 0}>
 			<p class="home-tab-framing">{amne.framing}</p>
@@ -39,13 +38,3 @@ const groups = amnenWithEssays(await getArticles()).filter(({ amne }) => amne.sl
 		</div>
 	))}
 </section>
-
-<style>
-	/* The tabs, the panel and its cards are the front page's own (layout.css: .home-tabs,
-	   .home-cards; scripts/home-tabs.ts), shared with the essäserier under this section. */
-	.amnen-panel[hidden] { display: none; }
-</style>
-
-<script>
-	import "../scripts/home-tabs";
-</script>

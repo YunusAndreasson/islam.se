@@ -40,7 +40,7 @@ const FORMAT = [
 			läsplattan och som PDF för utskrift.
 			<Fragment slot="lankar">
 				{FORMAT.map(({ href, label, Icon }) => (
-					<a class="bookpod-action" href={href} download>
+					<a class="pill" href={href} download>
 						<Icon size={14} stroke-width={1.75} />
 						{label}
 					</a>
@@ -63,13 +63,13 @@ const FORMAT = [
 				<div class="bookpod-actions">
 					<span class="bookpod-formats">
 						{FORMAT.map(({ href, label, Icon }) => (
-							<a class="bookpod-action" href={href} download>
+							<a class="pill" href={href} download>
 								<Icon size={14} stroke-width={1.75} />
 								{label}
 							</a>
 						))}
 					</span>
-					<PodcastSubscribeLinks actionClass="bookpod-action" />
+					<PodcastSubscribeLinks actionClass="pill" />
 				</div>
 			</div>
 		</section>

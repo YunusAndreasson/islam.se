@@ -1,13 +1,16 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { hasRead, READ_AT, readProgress, recordProgress, unfinished } from "./reading-progress";
+import { hasRead, READ_AT, readProgress, recordProgress } from "./reading-progress";
 
-/** An in-memory stand-in for window.localStorage — the two methods the module uses. */
+/** An in-memory stand-in for window.localStorage — the methods the module uses. */
 function memoryStorage() {
 	const map = new Map<string, string>();
 	return {
 		getItem: (k: string) => map.get(k) ?? null,
 		setItem: (k: string, v: string) => {
 			map.set(k, v);
+		},
+		removeItem: (k: string) => {
+			map.delete(k);
 		},
 	};
 }
@@ -17,7 +20,7 @@ function blockedStorage() {
 	const deny = () => {
 		throw new DOMException("The operation is insecure.", "SecurityError");
 	};
-	return { getItem: deny, setItem: deny };
+	return { getItem: deny, setItem: deny, removeItem: deny };
 }
 
 afterEach(() => vi.unstubAllGlobals());
@@ -37,18 +40,23 @@ describe("reading progress", () => {
 
 	it.each([NaN, Infinity, -0.5, 2])("ignores invalid incoming progress %s", (value) => {
 		vi.stubGlobal("localStorage", memoryStorage());
-		recordProgress("natten", 0.4, "Natten");
-		recordProgress("annan", value, "Annan");
-		expect(unfinished()?.slug).toBe("natten");
+		recordProgress("natten", 0.4);
+		recordProgress("annan", value);
+		expect(readProgress("natten")).toBe(0.4);
 		expect(readProgress("annan")).toBe(0);
 	});
 
-	it("offers resume at the read threshold until the reader passes it", () => {
-		vi.stubGlobal("localStorage", memoryStorage());
-		recordProgress("natten", READ_AT, "Natten");
-		expect(unfinished()).toEqual({ slug: "natten", title: "Natten", pct: READ_AT });
-		recordProgress("natten", 0.9, "Natten");
-		expect(unfinished()).toBeNull();
+	it("removes the retired »Fortsätt läsa« record, which named the last essay read", async () => {
+		// Nothing has read `rp:last` since the front page dropped its offer (2026-09-28), and
+		// the privacy page does not list it; it went on being written on every essay.
+		const storage = memoryStorage();
+		storage.setItem("rp:last", JSON.stringify({ slug: "natten", title: "Natten" }));
+		storage.setItem("rp:natten", "0.4");
+		vi.stubGlobal("localStorage", storage);
+		vi.resetModules();
+		await import("./reading-progress");
+		expect(storage.getItem("rp:last")).toBeNull();
+		expect(storage.getItem("rp:natten"), "an essay's own progress stays").toBe("0.4");
 	});
 
 	it("keeps the furthest point read, so scrolling back up never loses the place", () => {

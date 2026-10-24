@@ -16,8 +16,8 @@ describe("loadSettings never hands out the shared defaults", () => {
 	// method out of the link it was handed — a screen that then prayed by the wrong
 	// method, with nothing on it to say so.
 	//
-	// There is no localStorage in this environment, so loadSettings takes its catch
-	// branch, which is one of the two that was wrong.
+	// There is no localStorage in this environment, so loadSettings finds nothing stored,
+	// which is one of the two branches that was wrong.
 
 	it("returns an object that is not the module's own defaults", () => {
 		expect(loadSettings()).not.toBe(DEFAULT_SETTINGS);

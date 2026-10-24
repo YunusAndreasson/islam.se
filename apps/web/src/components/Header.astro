@@ -1,11 +1,7 @@
 ---
 import { Menu, Moon, Search, Sun } from "@lucide/astro";
-import {
-	computePrayerTimes,
-	formatTime,
-	nextPrayerKeyAt,
-	PRAYER_LABELS,
-} from "../lib/bonetider/prayer-times";
+import { liveMountAttrs } from "../lib/bonetider/live-mount";
+import { computePrayerTimes, formatTime, nextPrayer, PRAYER_LABELS } from "../lib/bonetider/prayer-times";
 import Wordmark from "./Wordmark.astro";
 import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
@@ -29,7 +25,7 @@ const here = (href: string) => href === currentHref;
 // visitor's saved location, and toggles the sun/moon icon by day vs night.
 const mastNow = new Date();
 const mastTimes = computePrayerTimes(DEFAULT_COORDS, mastNow, DEFAULT_SETTINGS);
-const mastNextKey = nextPrayerKeyAt(mastTimes, mastNow.getTime()) ?? "fajr";
+const mastNext = nextPrayer(DEFAULT_COORDS, mastTimes, mastNow, DEFAULT_SETTINGS);
 const { declRad: mastDecl, eotMin: mastEot } = solarParams(mastNow);
 const mastUtcMin = mastNow.getUTCHours() * 60 + mastNow.getUTCMinutes();
 const mastIsDay =
@@ -64,12 +60,8 @@ const mastIsDay =
 			<a
 				class="bonetider-mast mast-prayer"
 				href="/bonetider/"
-				data-name={DEFAULT_COORDS.name}
-				data-lat={DEFAULT_COORDS.latitude}
-				data-lon={DEFAULT_COORDS.longitude}
-				data-variant="strip"
-				data-fixed="0"
-				aria-label={`Nästa bön: ${PRAYER_LABELS[mastNextKey]} ${formatTime(mastTimes[mastNextKey])}, ${DEFAULT_COORDS.name} – visa bönetider`}
+				{...liveMountAttrs(DEFAULT_COORDS)}
+				aria-label={`Nästa bön: ${PRAYER_LABELS[mastNext.key]} ${formatTime(mastNext.at)}, ${DEFAULT_COORDS.name} – visa bönetider`}
 			>
 				<span class="bs-icon mast-prayer-icon" data-day={mastIsDay ? "true" : "false"} aria-hidden="true">
 					<Sun class="mp-sun" stroke-width={1.6} />
@@ -81,8 +73,8 @@ const mastIsDay =
 				    »Ẓuhr 12:36« does not contain it, which fails WCAG 2.5.3 for a reader
 				    who speaks the name they see. */}
 				<span class="mast-prayer-text">
-					<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNextKey]}</span>{" "}
-					<span class="bf-next-time mast-prayer-time">{formatTime(mastTimes[mastNextKey])}</span>
+					<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNext.key]}</span>{" "}
+					<span class="bf-next-time mast-prayer-time">{formatTime(mastNext.at)}</span>
 				</span>
 			</a>
 			{/* No aria-label: the accessible name comes from the visible label span, which
@@ -106,17 +98,13 @@ const mastIsDay =
 	// live (real now + the visitor's saved location). Idempotent: the module self-boots
 	// once and only mounts elements it hasn't already.
 	import "../scripts/bonetider-field";
+	import { onPage } from "../scripts/page";
 
 	// The mast's links and palette trigger need no script. The only behaviour here is
 	// the auto-hide: the mast slides away on scroll-down, returns on scroll-up.
-	let scrollCtrl: AbortController | null = null;
-
-	function bindHeader() {
+	function bindHeader(signal: AbortSignal) {
 		const header = document.querySelector<HTMLElement>(".site-header");
 		if (!header) return;
-
-		scrollCtrl?.abort();
-		scrollCtrl = new AbortController();
 
 		let lastY = window.scrollY;
 		let upDist = 0;
@@ -151,7 +139,6 @@ const mastIsDay =
 		// Font loading and content changes can resize the mast without a window resize.
 		const sizeObserver = new ResizeObserver(publishHeight);
 		sizeObserver.observe(header, { box: "border-box" });
-		scrollCtrl.signal.addEventListener("abort", () => sizeObserver.disconnect(), { once: true });
 		window.addEventListener(
 			"scroll",
 			() => {
@@ -173,16 +160,15 @@ const mastIsDay =
 				}
 				lastY = y;
 			},
-			{ passive: true, signal: scrollCtrl.signal },
+			{ passive: true, signal },
 		);
 
 		// A hidden mast still holds focusable controls — reveal it the moment
 		// keyboard focus lands inside so focus is never on an invisible element.
-		header.addEventListener("focusin", () => setHidden(false), {
-			signal: scrollCtrl.signal,
-		});
+		header.addEventListener("focusin", () => setHidden(false), { signal });
+
+		return () => sizeObserver.disconnect();
 	}
 
-	document.addEventListener("astro:page-load", bindHeader);
-	document.addEventListener("astro:before-swap", () => scrollCtrl?.abort());
+	onPage(bindHeader);
 </script>

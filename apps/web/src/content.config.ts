@@ -1,6 +1,12 @@
 import { defineCollection } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { AMNE_NAMES } from "./lib/amnen";
+import { TRADITION_KEYS } from "./lib/traditions";
+
+// Shapes the answer and pillar pages share: a FAQ pair, and a source with its address.
+const faqItem = z.object({ q: z.string(), a: z.string() });
+const source = z.object({ name: z.string(), url: z.url().optional() });
 
 const articles = defineCollection({
 	loader: glob({ pattern: "**/*.md", base: "../../data/articles" }),
@@ -44,9 +50,7 @@ const articles = defineCollection({
 		// Ämne (primary category). Order is the canonical da'wah sequence — see
 		// islam-se-frontpage-plan.md §6. Optional so a freshly produced essay
 		// can't break the build before it is assigned.
-		category: z
-			.enum(["Skapelsen", "Koranen", "Själen", "Rättvisa", "Samhälle", "Livsfrågor", "Norden"])
-			.optional(),
+		category: z.enum(AMNE_NAMES).optional(),
 	}),
 });
 
@@ -75,7 +79,7 @@ const tankare = defineCollection({
 	schema: z.object({
 		name: z.string(),
 		slug: z.string(),
-		tradition: z.enum(["sunni", "western"]),
+		tradition: z.enum(TRADITION_KEYS),
 		framing: z.string(),
 		// Case-insensitive substring(s) matched against essay bodies; diacritics
 		// are kept so "Linné" never matches "linne" (linen) and "Ghazālī" never
@@ -109,9 +113,9 @@ const svar = defineCollection({
 		// article honest about which keywords it must actually cover in the body.
 		keywords: z.array(z.string()).optional(),
 		// Extra Q&A pairs → FAQPage schema + an on-page "Vanliga frågor" block.
-		faq: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
+		faq: z.array(faqItem).optional(),
 		// Attribution / further reading. al-ibadah.com links carry the fiqh weight.
-		sources: z.array(z.object({ name: z.string(), url: z.url().optional() })).optional(),
+		sources: z.array(source).optional(),
 		// Slugs of related svar pages, for internal linking / crawl depth.
 		related: z.array(z.string()).optional(),
 		// Slugs of essays this answer page should point readers to ("Läs vidare").
@@ -148,8 +152,8 @@ const fordjupning = defineCollection({
 			name: z.string(),
 			sameAs: z.array(z.url()),
 		}),
-		faq: z.array(z.object({ q: z.string(), a: z.string() })),
-		sources: z.array(z.object({ name: z.string(), url: z.url().optional() })),
+		faq: z.array(faqItem),
+		sources: z.array(source),
 		// Slugs of the /svar/ answer pages this pillar sits above. Validated at build.
 		related: z.array(z.string()).default([]),
 		essays: z.array(z.string()).default([]),

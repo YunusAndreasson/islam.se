@@ -49,7 +49,7 @@ const { mode = "storage" } = Astro.props;
 		</label>
 	</div>
 
-	<details class="bt-adv">
+	<details class="bt-adv disclosure disclosure--smooth">
 		<summary>Avancerat</summary>
 		<div class="bt-adv-body">
 			<div class="bt-set-grid">
@@ -126,36 +126,22 @@ const { mode = "storage" } = Astro.props;
 		font-size: 1rem;
 		color: var(--color-text);
 		background: var(--color-bg);
-		border: 1px solid var(--color-divider);
-		border-radius: 8px;
+		border: var(--border-row);
+		border-radius: var(--radius-sm);
 		padding: 0.45rem 0.6rem;
 		width: 100%;
 	}
 
 	.bt-field select:focus-visible,
 	.bt-field input:focus-visible {
-		outline-offset: 1px;
+		--focus-offset: 1px;
 	}
 
+	/* The marker and the smooth opening are the site's (layout.css, `.disclosure`). */
 	.bt-adv {
 		margin-top: var(--space-unit);
-		border-top: 1px solid var(--color-divider);
+		border-top: var(--border-row);
 		padding-top: var(--space-half);
-		/* Smooth disclosure where supported (interpolate-size + ::details-content);
-		   non-supporting browsers snap open exactly as before. */
-		interpolate-size: allow-keywords;
-	}
-
-	.bt-adv::details-content {
-		height: 0;
-		overflow: clip;
-		transition:
-			height 0.25s ease,
-			content-visibility 0.25s allow-discrete;
-	}
-
-	.bt-adv[open]::details-content {
-		height: auto;
 	}
 
 	.bt-adv summary {
@@ -163,18 +149,14 @@ const { mode = "storage" } = Astro.props;
 		font-size: var(--step--3);
 		font-weight: 600;
 		color: var(--color-accent);
-		cursor: pointer;
-		list-style-position: inside;
 	}
 
 	@media (hover: none), (pointer: coarse) {
 		.bt-field select,
 		.bt-field input {
-			min-height: 2.75rem;
+			min-height: var(--tap-target);
 		}
 
-		/* padding, not display:flex — a summary must stay display:list-item or the
-	   disclosure marker disappears. */
 		.bt-adv summary {
 			padding-block: 0.7rem;
 		}
@@ -186,7 +168,7 @@ const { mode = "storage" } = Astro.props;
 
 	.bt-adj {
 		margin: var(--space-unit) 0 0;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-md);
 		padding: var(--space-half) 0.9rem 0.9rem;
 	}
@@ -221,8 +203,7 @@ const { mode = "storage" } = Astro.props;
 
 <script>
 	import { wireAllSettingsForms } from "../../scripts/bonetider-settings-form";
+	import { onPage } from "../../scripts/page";
 
-	document.addEventListener("astro:page-load", () => {
-		wireAllSettingsForms();
-	});
+	onPage(() => wireAllSettingsForms());
 </script>

@@ -1,8 +1,8 @@
 ---
-// A homepage section head-row: the kicker label with a quiet "Alla X" link on its
-// baseline. Shared by the truncated discovery movements (Trådar, Tänkare) so they
-// read as one family. The styling lives with the rest of the home vocabulary in
-// styles/layout.css (.home-head / .home-head-all), beside .home-kicker.
+// A section's head row (DESIGN.md, »Every section opens the same way«): the kicker in the
+// head form, and on its baseline the quiet way on, »Alla …«. The styling lives with the
+// rest of the home vocabulary in styles/layout.css (.home-head / .home-head-all).
+import Kicker from "./Kicker.astro";
 import SectionLink from "./SectionLink.astro";
 
 interface Props {
@@ -19,6 +19,6 @@ const Heading = headingLevel === 3 ? "h3" : "h2";
 ---
 
 <div class="home-head">
-	<Heading class="label home-kicker" id={id}>{label}</Heading>
+	<Kicker form="head" as={Heading} id={id}>{label}</Kicker>
 	<SectionLink class="label home-head-all" href={href}>{linkLabel}</SectionLink>
 </div>

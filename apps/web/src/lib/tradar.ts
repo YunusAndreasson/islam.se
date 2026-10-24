@@ -1,5 +1,15 @@
+import type { CollectionEntry } from "astro:content";
 import type { ImageMetadata } from "astro";
+import { type Article, getArticlesBySlug } from "./articles";
 import { basename } from "./path";
+
+/** A series' parts in the series' own order — the order is the argument, so it is never
+ *  re-sorted here. A slug that does not resolve to a published essay drops out, so the
+ *  card, the series page and the front page agree on how many parts there are. */
+export async function seriesParts(thread: CollectionEntry<"tradar">): Promise<Article[]> {
+	const bySlug = await getArticlesBySlug();
+	return thread.data.essays.flatMap((slug) => bySlug.get(slug) ?? []);
+}
 
 /**
  * Hero art for the /tradar/ threads.

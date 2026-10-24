@@ -5,7 +5,7 @@ import MosqueList from "../../components/moskeer/MosqueList.astro";
 import MosqueHero from "../../components/moskeer/MosqueHero.astro";
 import MosquePageHeader from "../../components/moskeer/MosquePageHeader.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
-import NearbyLinkList from "../../components/NearbyLinkList.astro";
+import LinkList from "../../components/LinkList.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
@@ -15,7 +15,7 @@ import { nearbyPlaces, officialPopulation, placeBySlug } from "../../lib/bonetid
 import { computePrayerTimes, formatTime } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { genitive, kommunLabel, nf0 } from "../../lib/format";
-import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd, imageObject } from "../../lib/jsonld";
+import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd, imageObject, webPageJsonLd } from "../../lib/jsonld";
 import {
 	type MosqueCityGroup,
 	cityBySlug,
@@ -30,6 +30,7 @@ import {
 } from "../../lib/moskeer";
 import { credit, mosquePhoto } from "../../lib/moskeer/art";
 import { MOSKEER_DATA_DATE } from "../../lib/moskeer/meta";
+import { SITE_URL } from "../../lib/config";
 
 export function getStaticPaths() {
 	return mosquesByCity().map((g) => ({ params: { stad: g.citySlug }, props: g }));
@@ -162,8 +163,8 @@ const mosqueNoun = n === 1 ? "Moské" : "Moskéer";
 // description/body, but reserve the document-title head term for /bonetider/jonkoping/.
 const pageTitle =
 	citySlug === "jonkoping"
-		? `${mosqueNoun} i ${city} – adress, öppningsår och vägbeskrivning – islam.se`
-		: `${mosqueNoun} i ${city} – bönetider, adress och vägbeskrivning – islam.se`;
+		? `${mosqueNoun} i ${city} – adress, öppningsår och vägbeskrivning`
+		: `${mosqueNoun} i ${city} – bönetider, adress och vägbeskrivning`;
 const description = hasTimes
 	// ~62 of the ~155 characters Google renders are the five times, so everything else is
 	// on a budget: the town is named once (not twice), and the county parenthetical is
@@ -212,38 +213,37 @@ if (oldest?.opened) {
 	{...(photo === undefined ? {} : { ogImageAlt: photo.alt })}
 	{...(ogImage === undefined ? {} : { ogImageWidth: 1200, ogImageHeight: 800 })}
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "WebPage",
+		webPageJsonLd({
 			name: `Moskéer i ${city}`,
 			description,
-			url: `https://islam.se/moskeer/${citySlug}/`,
-			inLanguage: "sv",
-			dateModified: MOSKEER_DATA_DATE,
-			about: {
-				...cityPlace({
-					slug: citySlug,
-					name: city,
-					county,
-					lat,
-					lon,
-					// ⚠️ The PLACE record's kommun, not the mosque's — /bonetider/[stad] passes
-					// the same field, and sourcing them differently gave 14 towns two City nodes
-					// that disagreed about the kommun ring.
-					...(place?.kommun === undefined ? {} : { kommun: place.kommun }),
-					...(hasScb ? { population: pop } : {}),
-					populationYear: SCB_POP_YEAR,
-				}),
-				// City→Mosque containment by @id — the same nodes the ItemList below defines
-				// in full, and the same @ids the /bonetider/[stad] page references. Both pages
-				// then merge onto one entity graph rather than describing rival City nodes.
-				containsPlace: mosques.map((m) => ({ "@id": mosqueUrl(m) })),
+			url: `/moskeer/${citySlug}/`,
+			extra: {
+				dateModified: MOSKEER_DATA_DATE,
+				about: {
+					...cityPlace({
+						slug: citySlug,
+						name: city,
+						county,
+						lat,
+						lon,
+						// ⚠️ The PLACE record's kommun, not the mosque's — /bonetider/[stad] passes
+						// the same field, and sourcing them differently gave 14 towns two City nodes
+						// that disagreed about the kommun ring.
+						...(place?.kommun === undefined ? {} : { kommun: place.kommun }),
+						...(hasScb ? { population: pop } : {}),
+						populationYear: SCB_POP_YEAR,
+					}),
+					// City→Mosque containment by @id — the same nodes the ItemList below defines
+					// in full, and the same @ids the /bonetider/[stad] page references. Both pages
+					// then merge onto one entity graph rather than describing rival City nodes.
+					containsPlace: mosques.map((m) => ({ "@id": mosqueUrl(m) })),
+				},
+				...(photoObject === undefined ? {} : { primaryImageOfPage: photoObject }),
+				// Reciprocal related-resource edge back to the town's prayer-times page.
+				relatedLink: `${SITE_URL}/bonetider/${citySlug}/`,
+				publisher: { "@id": ORG_ID },
 			},
-			...(photoObject === undefined ? {} : { primaryImageOfPage: photoObject }),
-			// Reciprocal related-resource edge back to the town's prayer-times page.
-			relatedLink: `https://islam.se/bonetider/${citySlug}/`,
-			publisher: { "@id": ORG_ID },
-		},
+		}),
 		// Every mosque the page actually lists, so the structured data matches the DOM:
 		// on a kommun seat that includes the stadsdel groups below.
 		mosqueItemList(listedMosques, `Moskéer i ${city}`),
@@ -271,7 +271,7 @@ if (oldest?.opened) {
 		</div>
 
 		{isSeat && siblings.length > 0 && (
-			<TitledSection class="mk-section" id="mk-stad-delar" title={`Moskéer i ${genitive(city)} stadsdelar`}>
+			<TitledSection class="page-section tool-section mk-section" id="mk-stad-delar" title={`Moskéer i ${genitive(city)} stadsdelar`}>
 				<p class="mk-stad-note">
 					Ytterligare {pluralMoske(siblingTotal, false, true)} i {kommunLabel(kommun)}, ordnade efter stadsdel.
 				</p>
@@ -291,7 +291,7 @@ if (oldest?.opened) {
 
 		{hasTimes && (
 			<TitledSection
-				class="mk-section mk-times"
+				class="page-section tool-section mk-section mk-times"
 				id="mk-stad-tider"
 				title={`Bönetider i ${city} i dag`}
 			>
@@ -321,13 +321,13 @@ if (oldest?.opened) {
 			</p>
 		</section>
 
-		<TitledSection class="mk-section" id="mk-stad-faq" title="Vanliga frågor">
+		<TitledSection class="page-section tool-section mk-section" id="mk-stad-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
 		</TitledSection>
 
 		{nearbyCities.length > 0 && (
-			<TitledSection class="mk-section" id="mk-stad-nearby" title="Moskéer i närliggande orter">
-				<NearbyLinkList class="mk-nearby" items={nearbyCityLinks} />
+			<TitledSection class="page-section tool-section mk-section" id="mk-stad-nearby" title="Moskéer i närliggande orter">
+				<LinkList variant="pills" items={nearbyCityLinks} />
 			</TitledSection>
 		)}
 
@@ -372,7 +372,7 @@ if (oldest?.opened) {
 		.mk-stad-top--foto {
 			display: grid;
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			column-gap: 3rem;
+			column-gap: var(--grid-gutter);
 			align-items: start;
 		}
 
@@ -389,7 +389,7 @@ if (oldest?.opened) {
 	@media (width >= 48rem) {
 		.mk-city-groups {
 			columns: 2;
-			column-gap: 3rem;
+			column-gap: var(--grid-gutter);
 			margin-top: var(--space-phi);
 		}
 

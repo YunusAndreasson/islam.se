@@ -40,7 +40,7 @@ const lead = variant === "city"
 
 ---
 
-<aside class:list={["apppromo", `apppromo--${variant}`]} data-platform="other" aria-label="Ladda ned islam.se-appen">
+<aside class:list={["apppromo", `apppromo--${variant}`]} aria-label="Ladda ned islam.se-appen">
 	{/* No kicker: it said "Appen" above a heading that now says "Bönetidsappen". */}
 	<div class="apppromo-body">
 		<div class="apppromo-text">
@@ -97,29 +97,6 @@ const lead = variant === "city"
 	</div>
 </aside>
 
-<script>
-	// Narrow the visible badge to the device's store. Both stay visible until this
-	// runs (and on desktop / unknown), so no-JS and crawlers see both links.
-	function applyPlatform() {
-		const cards = document.querySelectorAll<HTMLElement>(".apppromo");
-		if (cards.length === 0) return;
-		const nav = navigator as Navigator & { userAgentData?: { platform?: string } };
-		const ua = navigator.userAgent;
-		const uaData = nav.userAgentData?.platform?.toLowerCase() ?? "";
-		let platform: "ios" | "android" | "other" = "other";
-		if (uaData === "android" || /Android/i.test(ua)) {
-			platform = "android";
-		} else if (
-			/iPad|iPhone|iPod/.test(ua) ||
-			// iPadOS Safari reports as desktop macOS — distinguish by touch points.
-			(navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
-		) {
-			platform = "ios";
-		}
-		for (const c of cards) c.dataset.platform = platform;
-	}
-	document.addEventListener("astro:page-load", applyPlatform);
-</script>
 
 <style>
 	.apppromo {
@@ -232,12 +209,13 @@ const lead = variant === "city"
 	}
 
 	.apppromo-badge:focus-visible {
-		outline-offset: 3px;
+		--focus-offset: 3px;
 	}
 
-	/* Per-platform gating — JS sets data-platform; default (other / no-JS) shows both. */
-	.apppromo[data-platform="ios"] .apppromo-badge--android,
-	.apppromo[data-platform="android"] .apppromo-badge--ios {
+	/* The device's own store only: Base.astro stamps the platform on <html> before paint.
+	   A desktop, or a page without scripts, shows both. */
+	:global(html[data-platform="ios"]) .apppromo-badge--android,
+	:global(html[data-platform="android"]) .apppromo-badge--ios {
 		display: none;
 	}
 
@@ -246,8 +224,8 @@ const lead = variant === "city"
 	.apppromo--section {
 		margin-top: var(--space-phi);
 		padding: var(--space-unit);
-		border: 1px solid var(--color-divider);
-		border-radius: 12px;
+		border: var(--border-row);
+		border-radius: var(--radius-lg);
 		background: var(--surface-1);
 	}
 
@@ -261,8 +239,8 @@ const lead = variant === "city"
 	.apppromo--city {
 		margin-block: 0 var(--space-unit);
 		padding: var(--space-half) var(--space-unit) var(--space-unit);
-		border: 1px solid var(--color-divider);
-		border-radius: 12px;
+		border: var(--border-row);
+		border-radius: var(--radius-lg);
 		background: var(--surface-1);
 	}
 
@@ -295,7 +273,7 @@ const lead = variant === "city"
 	.apppromo--compact {
 		margin-top: var(--space-unit);
 		padding-top: var(--space-unit);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	.apppromo--compact .apppromo-lead {

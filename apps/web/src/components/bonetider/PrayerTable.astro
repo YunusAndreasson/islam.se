@@ -47,7 +47,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	data-bt-heading={labelledBy}
 >
 	<div class="bt-scroll">
-		<table class="bt-table">
+		<table class="data-table bt-table">
 			<thead>
 				<tr>
 					<th scope="col">Dag</th>
@@ -87,23 +87,19 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 
 	.bt-scroll {
 		overflow-x: auto;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-md);
 	}
 
+	/* The shared table (layout.css, .data-table) a step denser: a month of seven columns
+	   has to fit a phone. */
 	.bt-table {
-		width: 100%;
-		border-collapse: collapse;
-		font-family: var(--font-body);
-		font-variant-numeric: lining-nums tabular-nums;
 		font-size: var(--step--3);
 	}
 
 	.bt-table th,
 	.bt-table td {
 		padding: 0.4rem 0.6rem;
-		text-align: end;
-		white-space: nowrap;
 	}
 
 	/* Seven columns at 0.6rem inline padding measure ~398px and push ʿIshāʾ — the
@@ -132,26 +128,12 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		position: sticky;
 		top: 0;
 		background: var(--color-bg);
-		color: var(--color-muted);
-		font-weight: 600;
-		font-size: var(--step--3);
-		border-bottom: 1px solid var(--color-divider);
 	}
 
 	.bt-table tbody th[scope="row"] {
-		text-align: start;
 		font-weight: 500;
 		color: var(--color-text);
 		text-transform: capitalize;
-	}
-
-	.bt-table tbody td {
-		color: var(--color-text);
-	}
-
-	.bt-table tbody tr:not(:last-child) th,
-	.bt-table tbody tr:not(:last-child) td {
-		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
 	}
 
 	.bt-table tbody tr.is-today th,
@@ -181,9 +163,10 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		stockholmMonthLabel,
 	} from "../../lib/bonetider/prayer-times";
 	import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+	import { MINUTE_EVENT } from "../../lib/bonetider/storage";
+	import { onPage } from "../../scripts/page";
 
 	let renderedMonthKey = "";
-	let refreshTimer: number | undefined;
 
 	function renderTable(fig: HTMLElement): void {
 		const tbody = fig.querySelector<HTMLElement>("[data-bt-table-body]");
@@ -254,9 +237,10 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		}
 	}
 
-	document.addEventListener("astro:page-load", () => {
+	onPage(() => {
 		renderedMonthKey = "";
 		renderAllTables();
-		if (refreshTimer === undefined) refreshTimer = window.setInterval(renderAllTables, 60000);
 	});
+	// A new Stockholm day re-renders the month (the key above); the field's clock is the minute.
+	window.addEventListener(MINUTE_EVENT, renderAllTables);
 </script>

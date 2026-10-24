@@ -10,6 +10,7 @@
 // URLs already announced) lives in .indexnow-state.json beside this app, untracked.
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { SITE_URL } from "../src/lib/config";
 import { INDEXNOW_KEY, type IndexNowState, parseSitemap, selectChanged } from "../src/lib/indexnow";
 
 const ROOT = join(import.meta.dirname, "..");
@@ -48,7 +49,7 @@ async function main() {
 			body: JSON.stringify({
 				host: "islam.se",
 				key: INDEXNOW_KEY,
-				keyLocation: `https://islam.se/${INDEXNOW_KEY}.txt`,
+				keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
 				urlList: changed.slice(i, i + BATCH),
 			}),
 		});

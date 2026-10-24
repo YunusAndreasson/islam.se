@@ -9,10 +9,10 @@
 	.abm-report-nav {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75rem 1.5rem;
+		gap: var(--space-control) var(--space-group);
 		margin-block: 1.5rem 3rem;
 		font-family: var(--font-heading);
-		font-size: 1rem;
+		font-size: var(--step--2);
 	}
 	.abm-report-findings {
 		display: grid;
@@ -40,7 +40,7 @@
 	.abm-distribution-table {
 		width: 100%;
 		border-collapse: collapse;
-		font: 0.95rem / 1.5 var(--font-heading);
+		font: var(--step--2) / 1.5 var(--font-heading);
 		text-align: start;
 	}
 	.abm-labelled-comparison th,
@@ -50,7 +50,7 @@
 		padding: 0.85rem 0.65rem;
 		vertical-align: top;
 		text-align: start;
-		border-block-end: 1px solid var(--color-divider);
+		border-block-end: var(--border-row);
 	}
 	.abm-labelled-comparison th:first-child,
 	.abm-distribution-table th:first-child {
@@ -75,15 +75,14 @@
 	.abm-sample-note {
 		display: block;
 		margin-block-start: 0.25rem;
-		font: 0.85rem / 1.5 var(--font-heading);
+		font: var(--step--3) / 1.5 var(--font-heading);
 		color: var(--text-quiet);
 	}
 	.abm-samples {
 		margin-block-start: 0.25rem;
-		font-size: 0.85rem;
+		font-size: var(--step--3);
 	}
 	.abm-samples summary {
-		cursor: pointer;
 		color: var(--text-quiet);
 	}
 	.abm-samples ul {
@@ -95,9 +94,8 @@
 	}
 	.abm-extra-findings > summary,
 	.abm-distribution-detail > summary {
-		cursor: pointer;
 		padding-block: 0.75rem;
-		font: 1rem / 1.5 var(--font-heading);
+		font: var(--step--2) / 1.5 var(--font-heading);
 	}
 	.abm-extra-findings[open] > .abm-report-finding {
 		margin-block: 2rem;
@@ -113,7 +111,7 @@
 		overflow: visible;
 		clip-path: none;
 		white-space: normal;
-		font-size: 0.85rem;
+		font-size: var(--step--3);
 	}
 	.abm .abm-legend-models {
 		display: none;
@@ -148,17 +146,13 @@
 	.abm-sample-count {
 		display: block;
 		margin-block-start: 0.35rem;
-		font-size: 0.85rem;
+		font-size: var(--step--3);
 		white-space: nowrap;
 	}
-	.abm-zero {
-		color: var(--text-quiet);
-	}
 	.abm :is(summary, a, [tabindex]):focus-visible {
-		outline: 2px solid var(--color-text);
-		outline-offset: 4px;
+		--focus-offset: 4px;
 	}
-	@media (width <= 48rem) {
+	@media (width < 48rem) {
 		.abm-report-nav {
 			margin-block-end: 2rem;
 		}
@@ -170,14 +164,13 @@
 		}
 		.abm-comparison-mobile {
 			display: block;
-			font: 0.95rem / 1.5 var(--font-heading);
+			font: var(--step--2) / 1.5 var(--font-heading);
 		}
 		.abm-comparison-mobile > details {
-			border-block-end: 1px solid var(--color-divider);
+			border-block-end: var(--border-row);
 		}
 		.abm-comparison-mobile > details > summary {
 			padding-block: 0.85rem;
-			cursor: pointer;
 			font-weight: 600;
 		}
 		.abm-comparison-mobile dl {
@@ -199,14 +192,14 @@
 		.abm-mobile-answers {
 			display: block;
 			margin: 0;
-			font: 1rem / 1.5 var(--font-heading);
+			font: var(--step--2) / 1.5 var(--font-heading);
 		}
 		.abm-mobile-answers > dl > div {
 			display: grid;
 			grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
 			gap: 1rem;
 			padding-block: 1rem;
-			border-block-end: 1px solid var(--color-divider);
+			border-block-end: var(--border-row);
 		}
 		.abm-mobile-answers > dl {
 			margin: 0;
@@ -221,15 +214,15 @@
 	.abm-matrix-scroll-hint {
 		display: none;
 	}
-	@media (width > 48rem) {
+	@media (width >= 48rem) {
 		.abm .abm-scroll--sticky {
 			overflow: visible;
 		}
 	}
-	@media (width <= 48rem) {
+	@media (width < 48rem) {
 		.abm-matrix-scroll-hint {
 			display: block;
-			font: 0.85rem / 1.5 var(--font-heading);
+			font: var(--step--3) / 1.5 var(--font-heading);
 			color: var(--text-quiet);
 		}
 		.abm-area .abm-scroll--sticky {

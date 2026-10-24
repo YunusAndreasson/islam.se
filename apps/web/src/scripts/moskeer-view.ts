@@ -1,11 +1,11 @@
-import { fold } from "../lib/search-text";
+import { filterFromUrl, matchesFilter, queryTerms, urlWithFilter } from "../lib/moskeer/filter";
+import { onPage } from "./page";
 
-// The directory remains useful while MapLibre loads, and if it never loads.
-document.addEventListener("astro:page-load", () => {
+// The directory remains useful while MapLibre loads, and if it never loads. The filter's
+// rule is the map's (lib/moskeer/filter.ts); the map takes over once it is interactive.
+onPage((signal) => {
 	const page = document.querySelector<HTMLElement>(".moskeer");
 	if (!page) return;
-	const controller = new AbortController();
-	const { signal } = controller;
 	const map = page.querySelector<HTMLElement>("#moskeer-map");
 	const switcher = page.querySelector<HTMLElement>(".mk-view-switch");
 	const buttons = page.querySelectorAll<HTMLButtonElement>("[data-mk-view]");
@@ -25,18 +25,20 @@ document.addEventListener("astro:page-load", () => {
 	const search = page.querySelector<HTMLInputElement>("#mk-search");
 	const county = page.querySelector<HTMLSelectElement>("#mk-lan");
 	const rows = page.querySelectorAll<HTMLElement>(".mk-item");
-	const params = new URLSearchParams(location.search);
-	if (search) search.value = params.get("q") ?? "";
-	if (county) county.value = params.get("lan") ?? "";
+	const linked = filterFromUrl(
+		location.search,
+		county ? Array.from(county.options, (o) => o.value) : [],
+	);
+	if (search) search.value = linked.raw;
+	if (county) county.value = linked.lan;
 	const filter = () => {
 		if (map?.dataset.interactive === "true") return;
 		const query = search?.value.trim() ?? "";
-		const term = fold(query);
+		const terms = queryTerms(query);
 		const selected = county?.value ?? "";
 		let count = 0;
 		for (const row of rows) {
-			const visible =
-				(!selected || row.dataset.lan === selected) && (row.dataset.search ?? "").includes(term);
+			const visible = matchesFilter(row.dataset.search ?? "", row.dataset.lan, terms, selected);
 			row.parentElement?.toggleAttribute("hidden", !visible);
 			if (visible) count++;
 		}
@@ -47,7 +49,8 @@ document.addEventListener("astro:page-load", () => {
 		if (empty) empty.hidden = count > 0;
 		const reset = page.querySelector<HTMLButtonElement>("#mk-reset");
 		if (reset) reset.hidden = !(query || selected);
-		syncUrl(query, selected);
+		const next = urlWithFilter(location.href, query, selected);
+		if (next !== location.href) history.replaceState(history.state, "", next);
 	};
 	search?.addEventListener("input", filter, { signal });
 	county?.addEventListener("change", filter, { signal });
@@ -73,7 +76,6 @@ document.addEventListener("astro:page-load", () => {
 		{ signal },
 	);
 	filter();
-	document.addEventListener("astro:before-swap", () => controller.abort(), { once: true });
 });
 
 function syncGroups(page: HTMLElement, expanded: boolean) {
@@ -84,13 +86,4 @@ function syncGroups(page: HTMLElement, expanded: boolean) {
 		const label = group.querySelector(".mk-lan-count");
 		if (label) label.textContent = String(visible);
 	}
-}
-
-function syncUrl(query: string, selected: string) {
-	const url = new URL(location.href);
-	if (query) url.searchParams.set("q", query);
-	else url.searchParams.delete("q");
-	if (selected) url.searchParams.set("lan", selected);
-	else url.searchParams.delete("lan");
-	history.replaceState(history.state, "", url);
 }

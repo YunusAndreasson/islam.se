@@ -48,7 +48,7 @@
 		place-items: center;
 		inline-size: var(--abm-chip);
 		block-size: 1.75rem;
-		border-radius: var(--radius-sm, 4px);
+		border-radius: var(--radius-sm);
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		font-weight: 600;

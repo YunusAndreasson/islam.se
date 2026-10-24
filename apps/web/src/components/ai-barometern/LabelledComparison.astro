@@ -25,7 +25,7 @@ const hasMixed = rows.some((row) => Object.values(row.cells).some((c) => c.state
 <figure class="abm-labelled-comparison">
 	<abm-mobile class="abm-comparison-mobile">
 		{FAMILIES.map((family) => (
-			<details open={initiallyOpen.includes(family.key)}>
+			<details class="disclosure" open={initiallyOpen.includes(family.key)}>
 				<summary>{family.label}</summary>
 				<dl>{rows.map((row) => <div><dt><a href={row.href}>{row.label}</a></dt><dd><AnswerChip cell={row.cells[family.key]} own={row.own === family.key} label="inline" /></dd></div>)}</dl>
 			</details>

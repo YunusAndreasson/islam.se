@@ -1,8 +1,11 @@
 ---
 import { FAKTA_CLUSTERS } from "../lib/fakta";
 import { RITNINGAR } from "../lib/ritningar";
+import Honorific from "./Honorific.astro";
+import Kicker from "./Kicker.astro";
 import Ritning from "./Ritning.astro";
 import SectionLink from "./SectionLink.astro";
+import WithHonorifics from "./WithHonorifics.astro";
 
 /** The homepage's facts: an opening, the five pillars and the six articles of faith
  * as three columns of one box on a wide screen, one under the other on a narrow one.
@@ -21,7 +24,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 
 <section class="fakta-band grunden home-movement" aria-labelledby="fakta-band-title">
 	<div class="grunden-head">
-		<p class="label home-kicker">Fakta om islam</p>
+		<Kicker form="head">Fakta om islam</Kicker>
 		{/* The opening's own words and its drawing. A box only on a wide screen, where the
 		    opening is a column; below that it dissolves into the head's grid. */}
 		<div class="grunden-opening">
@@ -29,7 +32,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 				<a href="/vad-ar-islam/">Vad är islam?</a>
 			</h2>
 			<p class="grunden-lead home-ingress">
-				Islam bygger på tron på en enda Gud och på Muhammed ﷺ som hans sändebud.
+				Islam bygger på tron på en enda Gud och på Muhammed <Honorific /> som hans sändebud.
 			</p>
 			<ul class="grunden-vidare" role="list">
 				<li><SectionLink href="/vad-ar-islam/">Läs introduktionen till islam</SectionLink></li>
@@ -62,7 +65,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 							{" "}
 							<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
 						</p>
-						<p class="grunden-blurb">{item.blurb}</p>
+						<p class="grunden-blurb"><WithHonorifics text={item.blurb} /></p>
 					</li>
 				))}
 			</ol>
@@ -82,7 +85,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 							{" "}
 							<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
 						</p>
-						<p class="grunden-blurb">{item.blurb}</p>
+						<p class="grunden-blurb"><WithHonorifics text={item.blurb} /></p>
 					</li>
 				))}
 			</ul>
@@ -143,7 +146,6 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 		gap: 0.35rem;
 		margin: var(--space-control) 0 0;
 		padding: 0;
-		list-style: none;
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
 	}
@@ -188,7 +190,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 		&:hover {
 			text-decoration: underline;
 			text-decoration-thickness: 1px;
-			text-underline-offset: 0.12em;
+			text-underline-offset: var(--underline-offset-title);
 		}
 	}
 
@@ -221,7 +223,6 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 
 	.grunden-pelare,
 	.grunden-tro {
-		list-style: none;
 		margin: 0;
 		padding: 0;
 		display: grid;

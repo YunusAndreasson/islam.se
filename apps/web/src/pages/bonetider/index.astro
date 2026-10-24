@@ -1,5 +1,5 @@
 ---
-import { ChevronDown, Settings } from "@lucide/astro";
+import { Settings } from "@lucide/astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PlaceSearch from "../../components/bonetider/PlaceSearch.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
@@ -11,17 +11,17 @@ import { breadcrumbList } from "../../lib/jsonld";
 const stockholm = { name: DEFAULT_COORDS.name, latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
 const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Europe/Stockholm" }).format(new Date());
 ---
-<Base title={`Bönetider i Sverige ${year} för din ort – islam.se`} description="Dagens bönetider för din ort. Sök ort eller använd din plats för Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ." ogImage="/bonetider/og.png" jsonLd={breadcrumbList([{name: "Hem", url: "/"}, {name: "Bönetider", url: "/bonetider/"}])}>
+<Base title={`Bönetider i Sverige ${year} för din ort`} description="Dagens bönetider för din ort. Sök ort eller använd din plats för Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ." ogImage="/bonetider/og.png" jsonLd={breadcrumbList([{name: "Hem", url: "/"}, {name: "Bönetider", url: "/bonetider/"}])}>
  <main id="main" class="home bonetider-hub">
   <PageHead title="Bönetider" />
   <PlaceSearch />
   <section class="today" aria-label="Dagens bönetider">
    <PrayerField location={stockholm} variant="full" fixed={false} caption scheduleFirst />
 		<div class="bh2-actions">
-			<details class="bh2-settings">
+			<details class="bh2-settings disclosure">
 				<summary class="bh2-settings-summary">
-					<Settings class="bh2-cog" size={16} />
-					Beräkningsinställningar <ChevronDown class="settings-chevron" size={16} aria-hidden="true" />
+					<Settings class="bh2-cog" size={16} aria-hidden="true" />
+					Beräkningsinställningar
 				</summary>
 				<div class="bh2-settings-body">
 					<PrayerSettings />
@@ -54,9 +54,7 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
  .bh2-actions { margin-top: .75rem; }
  /* Knobs only — matches .bt-stad-screen on the city pages so the two read as one idiom. */
  .bh2-screen { margin: var(--space-unit) 0 0; font-family: var(--font-heading); font-size: var(--step--2); color: var(--text-quiet); }
- .bh2-settings-summary { display: flex; align-items: center; gap: .5rem; min-height: 2.75rem; width: fit-content; cursor: pointer; font-family: var(--font-heading); font-size: var(--step--2); color: var(--color-muted); }
- .bh2-settings[open] :global(.settings-chevron) { transform: rotate(180deg); }
- .bh2-settings-summary::-webkit-details-marker { display: none; }
+ .bh2-settings-summary { display: flex; align-items: center; gap: .5rem; min-height: var(--tap-target); width: fit-content; cursor: pointer; font-family: var(--font-heading); font-size: var(--step--2); color: var(--color-muted); }
  .bh2-settings[open] .bh2-settings-summary { color: var(--color-text); }
  .bh2-settings-body { margin-block: var(--space-half); }
 </style>

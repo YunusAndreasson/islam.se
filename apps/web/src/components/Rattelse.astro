@@ -19,15 +19,14 @@ import { rattelseHref } from "../lib/rattelse";
 	}
 
 	/* Component styles are unlayered and therefore beat @layer base, so the resting
-	   and hover colours both have to be stated here or the base link rule wins. */
+	   and hover colours both have to be stated here or the base link rule wins. The
+	   underline follows the colour by itself (typography.css: a mix of currentColor). */
 	.rattelse a {
 		color: var(--text-quiet);
-		text-decoration-color: color-mix(in oklab, var(--text-quiet) 40%, transparent);
 	}
 
 	.rattelse a:hover,
 	.rattelse a:focus-visible {
 		color: var(--color-text);
-		text-decoration-color: currentColor;
 	}
 </style>

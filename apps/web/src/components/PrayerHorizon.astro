@@ -35,6 +35,7 @@ import {
 	nextPrayerKeyAt,
 	PRAYER_LABELS,
 } from "../lib/bonetider/prayer-times";
+import { liveMountAttrs } from "../lib/bonetider/live-mount";
 import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
 import { hijriAtLabel } from "../lib/markesdagar";
 
@@ -56,13 +57,7 @@ const dayAfter = hijriAtLabel(times.maghrib, times.maghrib, false);
 const maghribX = model.maghrib;
 ---
 
-<div
-	class="horizon bonetider-horizon"
-	data-name={DEFAULT_COORDS.name}
-	data-lat={DEFAULT_COORDS.latitude}
-	data-lon={DEFAULT_COORDS.longitude}
-	data-fixed="0"
->
+<div class="horizon bonetider-horizon" {...liveMountAttrs(DEFAULT_COORDS)}>
 	<svg class="horizon-line" width="100%" height="60" aria-hidden="true" focusable="false">
 		<text class="horizon-hijri" data-h="hijri-before" x="0" y="10">{dayBefore}</text>
 		{maghribX !== null && (
@@ -97,32 +92,8 @@ const maghribX = model.maghrib;
 </div>
 
 <style>
-	.horizon {
-		margin: var(--space-half) 0 0;
-	}
-
-	.horizon-line {
-		display: block;
-		overflow: visible;
-	}
-
-	.horizon-base {
-		stroke: var(--color-rule);
-		stroke-width: 1;
-	}
-
-	/* Daylight: the only stretch drawn in ink. It is what makes a Swedish December
-	   (a short dash) and a Swedish June (almost the whole line) visibly different
-	   days, which no table of six times can show at a glance. */
-	.horizon-daylight {
-		stroke: var(--text-quiet);
-		stroke-width: 2;
-	}
-
-	.horizon-tick line {
-		stroke: var(--color-muted);
-		stroke-width: 1;
-	}
+	/* The line's look is the year line's too (layout.css, THE LINES); what follows is the
+	   day's own. */
 
 	/* Maghrib's tick runs up into the date row: it is where one islamic date ends
 	   and the next begins, and the taller mark is the whole of that explanation. */
@@ -130,48 +101,14 @@ const maghribX = model.maghrib;
 		stroke: var(--color-brass);
 	}
 
-	.horizon-tick text,
-	.horizon-hijri {
-		font-family: var(--font-heading);
-		font-size: var(--step--4);
-		fill: var(--color-muted);
-	}
-
-	.horizon-tick.is-next text {
-		fill: var(--color-text);
-		font-weight: 600;
-	}
-
-	/* The clock under the name: the line is then the day's whole timetable, and the list
-	   of six times it used to need beside it is the line itself (2026-10-10). */
-	.horizon-klocka {
-		font-variant-numeric: tabular-nums;
-	}
-
-	.horizon-tick.is-next .horizon-klocka {
-		font-weight: 400;
-	}
-
 	.horizon-tick.is-next line {
 		stroke: var(--color-text);
-	}
-
-	/* Literata italic: the islamic dates are written in the book face, the way the
-	   site sets a transliteration, not in the apparatus face of the times. */
-	.horizon-hijri {
-		font-family: var(--font-body);
-		font-style: italic;
-		fill: var(--text-quiet);
 	}
 
 	/* The sun: the wordmark's point, at the current minute. Hidden until the browser
 	   has placed it (data-live), because the build's "now" is not the reader's. A ring
 	   once the sun is down — the same distinction the mast's sun/moon icon makes. */
 	.horizon-sun {
-		fill: var(--color-brass);
-		stroke: var(--color-bg);
-		stroke-width: 3;
-		paint-order: stroke;
 		visibility: hidden;
 	}
 

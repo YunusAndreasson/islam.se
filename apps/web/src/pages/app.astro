@@ -6,8 +6,9 @@ import appTider from "../assets/app/app-tider.png";
 import AppPromo from "../components/AppPromo.astro";
 import Base from "../layouts/Base.astro";
 import { APP_FEATURES, APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
-import { ORG_ID, breadcrumbList } from "../lib/jsonld";
+import { ORG_ID, breadcrumbList, webPageJsonLd } from "../lib/jsonld";
 import { CARD_WIDTHS } from "../lib/hero";
+import { SITE_URL } from "../lib/config";
 
 const description =
 	"Hämta islam.se-appen för iPhone och Android: bönetider för hela Sverige, en påminnelse före varje bön, nästa bön på hemskärmen och en qiblakompass. Fungerar utan uppkoppling.";
@@ -34,23 +35,22 @@ const shots = [
 ---
 
 <Base
-	title="Appen islam.se för iPhone och Android – islam.se"
+	title="Appen islam.se för iPhone och Android"
 	description={description}
 	ogImage="/bonetider/og.png"
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "WebPage",
+		webPageJsonLd({
 			name: "islam.se i mobilen",
 			description,
-			url: "https://islam.se/app",
-			inLanguage: "sv",
-			publisher: { "@id": ORG_ID },
-		},
+			url: "/app",
+			extra: {
+				publisher: { "@id": ORG_ID },
+			},
+		}),
 		{
 			"@context": "https://schema.org",
 			"@type": "MobileApplication",
-			"@id": "https://islam.se/#app",
+			"@id": `${SITE_URL}/#app`,
 			name: "islam.se",
 			operatingSystem: "iOS, Android",
 			applicationCategory: "LifestyleApplication",
@@ -60,7 +60,7 @@ const shots = [
 			sameAs: [APP_STORE_URL, PLAY_STORE_URL],
 			downloadUrl: [APP_STORE_URL, PLAY_STORE_URL],
 			description,
-			image: "https://islam.se/bonetider/og.png",
+			image: `${SITE_URL}/bonetider/og.png`,
 			featureList: APP_FEATURES.map((f) => f.term),
 			offers: { "@type": "Offer", price: "0", priceCurrency: "SEK" },
 		},
@@ -171,7 +171,7 @@ const shots = [
 		width: 100%;
 		height: auto;
 		border-radius: 1.6rem;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		box-shadow: 0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.35);
 	}
 
@@ -204,7 +204,7 @@ const shots = [
 	}
 
 	/* Phones: a horizontal scroll-snap rail instead of cramming three abreast. */
-	@media (width <= 40rem) {
+	@media (width < 40rem) {
 		.app-shots {
 			display: flex;
 			grid-template-columns: none;
@@ -240,7 +240,7 @@ const shots = [
 		max-width: var(--content-width);
 		margin: var(--space-phi) 0 0;
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	.app-note a {

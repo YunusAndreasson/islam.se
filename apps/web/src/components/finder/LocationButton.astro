@@ -9,7 +9,7 @@ const { class: className, ...attrs } = Astro.props;
  <span><slot /></span>
 </button>
 <style>
- .finder-location { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 3rem; padding: .7rem 1rem; border: 1px solid var(--color-divider); border-radius: var(--radius-sm); font-family: var(--font-heading); font-size: var(--step--2); font-weight: 600; color: var(--color-accent); background: var(--color-bg); cursor: pointer; }
+ .finder-location { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 3rem; padding: .7rem 1rem; border: var(--border-row); border-radius: var(--radius-sm); font-family: var(--font-heading); font-size: var(--step--2); font-weight: 600; color: var(--color-accent); background: var(--color-bg); cursor: pointer; }
  .finder-location:hover { border-color: var(--color-accent); }
  .finder-location[aria-busy="true"] { opacity: .65; cursor: progress; }
  .finder-location[hidden] { display: none; }

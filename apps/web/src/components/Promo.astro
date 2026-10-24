@@ -11,6 +11,7 @@
 //
 // The grid they stand on is the page's (editorial.css, .home-promotions).
 import type { RitningPar } from "../lib/ritningar";
+import Kicker from "./Kicker.astro";
 import Ritning from "./Ritning.astro";
 
 interface Props {
@@ -37,7 +38,7 @@ const BOX: [number, number] = [7, 10];
 		<Ritning {...ritning} hojd={BOX} bredd={BOX} />
 	</a>
 	<div class="promo-text">
-		<h2 class="label home-kicker promo-kicker" id={id}>{kicker}</h2>
+		<Kicker form="quiet" as="h2" class="promo-kicker" id={id}>{kicker}</Kicker>
 		<h3 class="promo-titel">{href ? <a href={href}>{titel}</a> : titel}</h3>
 		<p class="promo-rad"><slot /></p>
 		<div class="promo-lankar"><slot name="lankar" /></div>
@@ -87,7 +88,7 @@ const BOX: [number, number] = [7, 10];
 		&:hover {
 			text-decoration: underline;
 			text-decoration-thickness: 1px;
-			text-underline-offset: 0.12em;
+			text-underline-offset: var(--underline-offset-title);
 		}
 	}
 

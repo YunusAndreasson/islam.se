@@ -77,3 +77,13 @@ const cite = `Koranen · ${label ? `${label} ` : ""}${ref}`;
 		</figure>
 	)
 }
+
+<script>
+	// The player's behaviour comes with the player, so a hand-composed page (/vad-ar-islam/)
+	// does not wire it on its own. Idempotent per figure, so a page whose prose also
+	// carries players (ArticleBody) sets each up once.
+	import { onPage } from "../scripts/page";
+	import { initQuranPlayers } from "../scripts/quran-player";
+
+	onPage(() => initQuranPlayers());
+</script>

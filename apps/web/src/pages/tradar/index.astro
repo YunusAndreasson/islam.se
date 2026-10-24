@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import ThreadList from "../../components/ThreadList.astro";
-import { breadcrumbList } from "../../lib/jsonld";
+import { breadcrumbList, webPageJsonLd } from "../../lib/jsonld";
 import { RITNINGAR } from "../../lib/ritningar";
 
 const threads = await getCollection("tradar");
@@ -17,13 +17,11 @@ const threads = await getCollection("tradar");
 	backHref="/essaer/"
 	backLabel="Alla essäer"
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "CollectionPage",
+		webPageJsonLd({
+			type: "CollectionPage",
 			name: "Essäserier",
-			url: "https://islam.se/tradar/",
-			inLanguage: "sv",
-		},
+			url: "/tradar/",
+		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Essäserier", url: "/tradar" },

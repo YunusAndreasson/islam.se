@@ -5,7 +5,7 @@ import MosquePageHeader from "../../../components/moskeer/MosquePageHeader.astro
 import TitledSection from "../../../components/TitledSection.astro";
 import Base from "../../../layouts/Base.astro";
 import { formatDate } from "../../../lib/articles";
-import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../../lib/jsonld";
+import { ORG_ID, breadcrumbList, faqPageJsonLd, webPageJsonLd } from "../../../lib/jsonld";
 import {
 	type Mosque,
 	lanSlug,
@@ -71,20 +71,20 @@ if (oldest?.opened) {
 ---
 
 <Base
-	title={`Moskéer i ${lanLabel} – ${pluralMoske(total)} med adress – islam.se`}
+	title={`Moskéer i ${lanLabel} – ${pluralMoske(total)} med adress`}
 	description={description}
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "CollectionPage",
+		webPageJsonLd({
+			type: "CollectionPage",
 			name: `Moskéer i ${lanLabel}`,
 			description,
-			url: `https://islam.se/moskeer/lan/${lanSlug(Astro.props.lan)}/`,
-			inLanguage: "sv",
-			dateModified: MOSKEER_DATA_DATE,
-			about: { "@type": "AdministrativeArea", name: lanLabel, containedInPlace: { "@type": "Country", name: "Sverige" } },
-			publisher: { "@id": ORG_ID },
-		},
+			url: `/moskeer/lan/${lanSlug(Astro.props.lan)}/`,
+			extra: {
+				dateModified: MOSKEER_DATA_DATE,
+				about: { "@type": "AdministrativeArea", name: lanLabel, containedInPlace: { "@type": "Country", name: "Sverige" } },
+				publisher: { "@id": ORG_ID },
+			},
+		}),
 		mosqueItemList(mosques, `Moskéer i ${lanLabel}`),
 		faqPageJsonLd(faq),
 		breadcrumbList([
@@ -115,7 +115,7 @@ if (oldest?.opened) {
 			))}
 		</div>
 
-		<TitledSection class="mk-section" id="mk-lan-faq" title="Vanliga frågor">
+		<TitledSection class="page-section tool-section mk-section" id="mk-lan-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
 		</TitledSection>
 
@@ -144,7 +144,7 @@ if (oldest?.opened) {
 	@media (width >= 48rem) {
 		.mk-city-groups {
 			columns: 2;
-			column-gap: 3rem;
+			column-gap: var(--grid-gutter);
 			margin-top: var(--space-phi);
 		}
 

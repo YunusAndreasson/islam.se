@@ -15,6 +15,9 @@
 	html {
 		-webkit-text-size-adjust: 100%;
 		text-size-adjust: 100%;
+		/* The page's scripts scroll it with the default behaviour and leave the easing to
+		   this, which typography.css turns off for reduced motion. An explicit
+		   `behavior: "smooth"` in a script overrides both. */
 		scroll-behavior: smooth;
 		-webkit-tap-highlight-color: transparent;
 		/* Thin, palette-tinted document scrollbar — a long-form reading site keeps

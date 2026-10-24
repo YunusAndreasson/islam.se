@@ -174,6 +174,11 @@
 		color-mix(in srgb, var(--color-muted), transparent 62%),
 		color-mix(in srgb, var(--color-muted), transparent 75%)
 	);
+	/* The two ranks written whole, for a border: the row rank between the items of a list,
+	   the rule rank that opens a section. »1px solid var(--color-…)« was typed out 133
+	   times in 43 files. */
+	--border-row: 1px solid var(--color-divider);
+	--border-rule: 1px solid var(--color-rule);
 
 	/* Muted body-text ramp — body text blended toward the warm muted taupe.
 
@@ -230,6 +235,14 @@
 	--surface-1: color-mix(in oklab, var(--color-muted) 5%, var(--color-bg));
 	--surface-2: color-mix(in oklab, var(--color-muted) 9%, var(--color-bg));
 
+	/* Glass — the page's own ground, translucent, under something that floats over the
+	   page or a map: --glass for a panel that carries text (the map's callout, its control
+	   group, the hover chip, the essay filter overlay), --glass-thin for a small control
+	   that should let more through (the floating actions, the map credit). Seven call sites
+	   mixed it at 70, 78, 80, 92, 94, 95 and 96 %. */
+	--glass: color-mix(in srgb, var(--color-bg) 92%, transparent);
+	--glass-thin: color-mix(in srgb, var(--color-bg) 80%, transparent);
+
 	/* A drawn shape — the land of the front page's map of Sweden — which has to read as a
 	   figure on a ground that is itself a surface: the map stands in a tinted room
 	   (--surface-1). It was filled with --surface-2, four points of muted off that room,
@@ -264,7 +277,6 @@
 	--step-2: 1.71rem; /* 27.4px — h2 */
 	--step-3: 2.052rem; /* 32.8px — collection h1 (the rung the ladder skipped) */
 	--step-4: 2.4624rem; /* 39.4px — essay h1 */
-	--step-5: 2.9549rem; /* 47.3px — second-tier heads on the front page */
 
 	/* The APPARATUS ladder — Source Sans 3 set so its caps match the Literata step of
 	   the same rank. The factor is 700/660 = 1.0606: both faces are upm 1000 and
@@ -338,7 +350,6 @@
 	--space-half: 0.95rem;
 	--space-phi: 3.074rem; /* unit × φ */
 	--space-phi2: 4.974rem; /* unit × φ² */
-	--space-phi3: 8.048rem; /* unit × φ³ — act boundaries on the homepage */
 
 	/* Motion. Hover and state changes were spread over 0.12/0.15/0.2/0.25s, so two
 	   links side by side answered the pointer at different speeds. --dur-fast is
@@ -349,10 +360,17 @@
 	--dur-base: 250ms;
 	--ease-out: cubic-bezier(0.2, 0, 0.1, 1); /* the house deceleration */
 	--ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+	/* The mast hiding and showing, and what is stuck under it and follows it (the
+	   AI-barometern matrix's head): one timing, so the two move as one. */
+	--mast-motion: 0.3s var(--ease-standard);
 
 	/* Underline offset for plain text links. It had drifted between 0.12em and
 	   0.25em from one component to the next. */
 	--underline-offset: 0.18em; /* the base prose link (typography.css) */
+	/* A display title's hover line (the lead, the promotions, Grunden's title): set two
+	   to three times the prose size, the line sits as close in pixels at a smaller em.
+	   Four titles typed 0.12em by hand. */
+	--underline-offset-title: 0.12em;
 
 	/* Corner radii. These were 27 distinct hardcoded values across the codebase,
 	   including a `var(--radius, 0.5rem)` pointing at a property that was never
@@ -406,7 +424,7 @@
 	   frame: an anchor arrival on load, a sticky head before the script runs. Everything
 	   that sticks under the mast or clears it reads this one value; until 2026-10-17
 	   each did with a fallback of its own, from 0 to 88px. */
-	--mast-height: calc(2 * var(--padding-inline) + 2.75rem);
+	--mast-height: calc(2 * var(--padding-inline) + var(--tap-target));
 
 	/* Safe-area-aware padding (used by header, hero, content column, FABs) */
 	--safe-top: calc(var(--padding-inline) + env(safe-area-inset-top, 0px));
@@ -414,30 +432,37 @@
 	--safe-bottom: calc(var(--padding-inline) + env(safe-area-inset-bottom, 0px));
 	--safe-left: calc(var(--padding-inline) + env(safe-area-inset-left, 0px));
 
+	/* The smallest a principal touch control may be (DESIGN.md: 44px). Typed as 2.75rem
+	   at some forty call sites until it was named. */
+	--tap-target: 2.75rem;
 	/* Circular action button (search trigger, back-to-top) */
-	--btn-size: 2.75rem;
+	--btn-size: var(--tap-target);
 }
 
-/* BREAKPOINTS. Always write the modern range form, `(width <= X)`, never `(max-width: X)`
-   — the two are equivalent and one spelling is enough. There is no @custom-media here:
-   Lightning CSS is not installed, so the literal is repeated by necessity.
+/* BREAKPOINTS. One scale, in rem (DESIGN.md, »Breakpoints — one scale, in rem«): 48rem,
+   56.25rem, 60rem, 64rem and 72rem, each turning something for a stated reason. A new
+   value takes one of these lines or says at its call site why not.
 
-   768px is THE system breakpoint — the only one that moves tokens, and the one the mast,
-   prose and every collection page already share. Reach for it first; add a new value only
-   when a specific component genuinely breaks somewhere else.
+   Always the range form, and each line written one way, its two sides complements, so
+   no width falls on both: 48rem, 60rem, 64rem and 72rem as `(width < X)` and `(width >= X)`
+   — the width belongs to what begins there — and 56.25rem as `(width <= X)` and
+   `(width > X)`, since the mast unfolds »above 900px« (DESIGN.md). 48rem was written four
+   ways, and at exactly 768px, a width DESIGN.md asks to be checked, the phone's tokens
+   below and the tablet's layouts both applied. This block is the phone's: below 48rem.
 
    ⚠️ px and rem are NOT interchangeable here. A rem breakpoint tracks the reader's own
    browser font size, so `30rem` fires at 600px for someone running a 20px default while
-   `480px` never moves. Several small components deliberately use rem for that reason.
-   Do not "tidy" one into the other — it silently changes behaviour at non-default sizes. */
-@media (width <= 48rem) {
+   `480px` never moves. Do not "tidy" one into the other — it silently changes behaviour
+   at non-default sizes. (There is no @custom-media: the Lightning CSS that minifies and
+   lowers the build's CSS treats it as a draft the config does not switch on, so the
+   literal is repeated.) */
+@media (width < 48rem) {
 	:root {
 		--padding-inline: 1.25rem;
 		--space-unit: 1.5rem;
 		--space-half: 0.75rem;
 		--space-phi: 2.427rem; /* 1.5 × φ */
 		--space-phi2: 3.927rem; /* 1.5 × φ² */
-		--space-phi3: 6.354rem; /* 1.5 × φ³ */
 		--step-1: 1.28125rem; /* 20.5px — subsection heading */
 		--step-0: 1.0625rem; /* 17px — body (DESIGN.md floor for mobile; never below 16) */
 		/* Hand-set, not ladder values — but translated through the same ÷1.061 as the
@@ -448,6 +473,5 @@
 		--step-2-sans: 1.562rem; /* 25px — unchanged; the apparatus does not move */
 		--step-3: 1.7671rem; /* 28.3px — collection h1 */
 		--step-4: 1.885rem; /* 30.2px — h1 (was 32px of Source Sans) */
-		--step-5: 2.262rem; /* 36.2px — second-tier heads */
 	}
 }

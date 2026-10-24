@@ -1,7 +1,6 @@
 ---
 // The key above a chart of answer chips. The model names come first; they show only on a phone,
-// where the column heads keep just the logos, unless `models` asks for them everywhere (the hub's
-// findings, whose heads keep only logos at every width). A no-position mark shows only when the
+// where the column heads keep just the logos. A no-position mark shows only when the
 // chart holds one, so the key never explains a mark the reader cannot find. The big matrix
 // always lists the five steps; a small chart (`compact`) lists only the steps it uses.
 import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
@@ -14,10 +13,9 @@ interface Props {
 	/** The chart rings a model's answer about its own maker. */
 	own?: boolean;
 	compact?: boolean;
-	models?: boolean;
 }
 
-const { cells, own = false, compact = false, models = false } = Astro.props;
+const { cells, own = false, compact = false } = Astro.props;
 
 const states = new Set(cells.map((c) => c.state));
 const values = new Set(
@@ -31,7 +29,7 @@ const legend = SCALE_LEGEND.filter((item) =>
 const anyMixed = cells.some((c) => c.state === "position" && !c.consistent);
 ---
 
-<div class:list={["abm-legend", { "abm-legend--models": models }]} aria-hidden="true">
+<div class="abm-legend" aria-hidden="true">
 	<div class="abm-legend-row abm-legend-models">
 		{
 			FAMILIES.map((f) => (

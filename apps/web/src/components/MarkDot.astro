@@ -1,12 +1,15 @@
 ---
-interface Props {
-	class?: string;
-}
+// The khatam: the mark where the two traditions meet (Motet, TankareGroups). The caller's
+// attributes reach the <svg>, scope id included, so a caller sizes and places it with a
+// scoped rule on its `class` — no `:global()`.
+import type { HTMLAttributes } from "astro/types";
 
-const { class: className } = Astro.props;
+type Props = HTMLAttributes<"svg">;
+
+const props = Astro.props;
 ---
 
-<svg class={className} viewBox="0 0 20 20" aria-hidden="true">
+<svg {...props} viewBox="0 0 20 20" aria-hidden="true">
 	<circle cx="10" cy="10" r="9" fill="var(--mark-blue)" />
 	<circle cx="10" cy="10" r="6.364" fill="var(--mark-gold)" />
 </svg>

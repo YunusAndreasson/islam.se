@@ -1,6 +1,8 @@
 ---
 import AnswerChip from "../../../components/ai-barometern/AnswerChip.astro";
+import Kicker from "../../../components/Kicker.astro";
 import ModelLogo from "../../../components/ai-barometern/ModelLogo.astro";
+import PrevNext from "../../../components/PrevNext.astro";
 import ScaleLegend from "../../../components/ai-barometern/ScaleLegend.astro";
 import StanceShare from "../../../components/ai-barometern/StanceShare.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
@@ -89,7 +91,7 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 ---
 
 <Base
-	title={`${family.label} i AI-barometern – islam.se`}
+	title={`${family.label} i AI-barometern`}
 	description={description}
 	ogImage="/ai-barometern/og.png"
 	ogImageAlt="AI-barometern – islam.se"
@@ -98,7 +100,7 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 	<main id="main" class="home abm abm-question abm-modelpage">
 		<header class="abm-head">
 			<Breadcrumb items={crumbs} />
-			<p class="label">AI-barometern · Modell</p>
+			<Kicker form="quiet">AI-barometern · Modell</Kicker>
 			<h1>
 				<span class="abm-rowmodel">
 					<ModelLogo family={family.key} />
@@ -182,7 +184,7 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 					</p>
 					{companySets.map((row) => (
 						<>
-							<h3 class="abm-subhead">{row.set.title}</h3>
+							<Kicker form="head" as="h3" class="abm-subhead">{row.set.title}</Kicker>
 							<ul class="abm-own-list">
 								{row.members.map((m) => {
 									const cell = m.cells[family.key];
@@ -210,14 +212,14 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 			<p>Öppna ett område för att se modellens svar på varje påstående.</p>
 			{
 				areas.map((area) => (
-					<details class="abm-area" id={area.key}>
+					<details class="abm-area disclosure" id={area.key}>
 						<summary>
 							<h3 class="abm-area-head">{area.label}</h3>
 							<span class="abm-area-count">{statementsIn(area)} påståenden</span>
 						</summary>
 						{area.groups.map((group) => (
 							<>
-								<h4 class="abm-subhead">{group.label}</h4>
+								<Kicker form="head" as="h4" class="abm-subhead">{group.label}</Kicker>
 								<ul class="abm-model-answers">
 									{group.rows.map((row) => {
 										const cell = row.cells[family.key];
@@ -249,7 +251,7 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 			}
 			{
 				parties.length > 0 && (
-					<details class="abm-area" id="partivalet">
+					<details class="abm-area disclosure" id="partivalet">
 						<summary>
 							<h3 class="abm-area-head">Partivalet</h3>
 							<span class="abm-area-count">{parties.length} frågor</span>
@@ -277,24 +279,11 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 			egen sida, efter modellernas svar.
 		</p>
 
-		<nav class="abm-pager" aria-label="Fler modeller i AI-barometern">
-			{
-				prev && (
-					<a class="abm-pager-prev" href={modelPath(prev.key)} rel="prev">
-						<span class="abm-pager-dir back-link">Föregående modell</span>
-						<span class="abm-pager-title">{prev.label}</span>
-					</a>
-				)
-			}
-			{
-				next && (
-					<a class="abm-pager-next" href={modelPath(next.key)} rel="next">
-						<span class="abm-pager-dir arrow-link">Nästa modell</span>
-						<span class="abm-pager-title">{next.label}</span>
-					</a>
-				)
-			}
-		</nav>
+		<PrevNext
+			aria-label="Fler modeller i AI-barometern"
+			prev={prev && { href: modelPath(prev.key), title: prev.label, label: "Föregående modell" }}
+			next={next && { href: modelPath(next.key), title: next.label, label: "Nästa modell" }}
+		/>
 		<p class="meta-line">
 			<a href={METHOD_PATH}>Så går mätningen till</a> · <a href={BASE_PATH}>AI-barometern</a>
 		</p>

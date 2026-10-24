@@ -1,9 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import { type Article, getArticles } from "../lib/articles";
 import { leadSentences } from "../lib/format";
+import { seriesLength } from "../lib/series";
+import { seriesParts } from "../lib/tradar";
 import EssayArchiveItem from "./EssayArchiveItem.astro";
 import HomeHead from "./HomeHead.astro";
+import HomeTabs from "./HomeTabs.astro";
 import SectionLink from "./SectionLink.astro";
 import ThreadList from "./ThreadList.astro";
 
@@ -41,13 +43,9 @@ if (ids) {
 }
 
 // Curated order, exactly as the thread page keeps it — a tråd is the only sequence
-// on the site, and the order IS the argument. A slug that no longer resolves drops
-// out of the route rather than leaving a stop with no title.
-const bySlug = new Map((await getArticles()).map((a) => [a.slug, a]));
-const routes = threads.map((thread) => {
-	const essays = thread.data.essays
-		.map((slug) => bySlug.get(slug))
-		.filter((a): a is Article => Boolean(a));
+// on the site, and the order IS the argument (lib/tradar.ts, seriesParts).
+const routes = await Promise.all(threads.map(async (thread) => {
+	const essays = await seriesParts(thread);
 	const newestFirst = [...essays].sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 	return {
 		id: thread.id,
@@ -59,9 +57,9 @@ const routes = threads.map((thread) => {
 		// Preview the latest parts first; the series page keeps its reading order.
 		shown: newestFirst.slice(0, DELAR),
 		rest: newestFirst.slice(DELAR),
-		minutes: essays.reduce((sum, a) => sum + a.readingTime, 0),
+		length: seriesLength(essays),
 	};
-});
+}));
 ---
 
 <section
@@ -100,19 +98,10 @@ const routes = threads.map((thread) => {
 		   there, and fifteen titles in small type under the picture cards read as a
 		   different kind of thing. */
 		<>
-			<nav class="home-tabs" aria-label="Välj essäserie">
-				{routes.map((route, i) => (
-					<a
-						class="home-tab"
-						id={`serie-flik-${route.id}`}
-						href={`/tradar/${route.id}/`}
-						data-tab
-						data-selected={i === 0 ? "true" : undefined}
-					>
-						{route.title}
-					</a>
-				))}
-			</nav>
+			<HomeTabs
+				aria-label="Välj essäserie"
+				tabs={routes.map((route) => ({ id: `serie-flik-${route.id}`, href: `/tradar/${route.id}/`, label: route.title }))}
+			/>
 			{routes.map((route, i) => (
 				<div class="trad-route" id={`serie-panel-${route.id}`} data-tab-panel hidden={i !== 0}>
 					<p class="home-tab-framing">{route.framing}</p>
@@ -137,7 +126,7 @@ const routes = threads.map((thread) => {
 					<p class="home-tab-more">
 						<SectionLink href={`/tradar/${route.id}/`} data-astro-prefetch="viewport">Hela essäserien</SectionLink>
 						<span class="label article-meta trad-meta">
-							Lästid {route.minutes} min
+							{route.length}
 							<span class="trad-progress" hidden />
 						</span>
 					</p>
@@ -156,34 +145,6 @@ const routes = threads.map((thread) => {
 </script>
 
 <style>
-	.trad-route[hidden] {
-		display: none;
-	}
-
-	/* Keep the original part number even when the newest part is shown first. */
-	.tradar-home :global(.trad-delar .essay-card-title::before) {
-		content: "Del " counter(del);
-		display: block;
-		margin-bottom: 0.2rem;
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 400;
-		line-height: 1.4;
-		letter-spacing: 0.01em;
-		color: var(--color-brass-ink);
-	}
-
-	/* A read part steps back a rank, the way /essaer/ shows a finished essay: the title
-	   goes to muted, and its number says why. */
-	.tradar-home :global(.trad-delar > li[data-read] .essay-card-title) {
-		color: var(--color-muted);
-	}
-
-	.tradar-home :global(.trad-delar > li[data-read] .essay-card-title::before) {
-		content: "Del " counter(del) " · läst";
-		color: var(--color-muted);
-	}
-
 	/* How long the whole series is, on the way-on's line. */
 	.trad-meta {
 		margin: 0;

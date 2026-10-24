@@ -12,13 +12,12 @@
 // page's five, or not refreshed at all depending on which list came first in the
 // DOM. Each list now declares its own `data-max` and every list gets walked.
 
+import { localIsoDate } from "../lib/daily";
 import { untilLabel } from "../lib/markesdagar";
+import { onPage } from "./page";
 
 function uppdatera(): void {
-	// Local calendar date, not UTC: a reader in Stockholm just after midnight has
-	// crossed into the new day, and `toISOString()` would still say yesterday.
-	const now = new Date();
-	const idag = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+	const idag = localIsoDate();
 
 	for (const list of document.querySelectorAll<HTMLElement>(".md-list[data-max]")) {
 		const max = Number.parseInt(list.dataset.max ?? "0", 10);
@@ -38,4 +37,4 @@ function uppdatera(): void {
 	}
 }
 
-document.addEventListener("astro:page-load", uppdatera);
+onPage(uppdatera);

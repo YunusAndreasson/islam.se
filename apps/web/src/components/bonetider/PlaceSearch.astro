@@ -1,5 +1,7 @@
 ---
+import JsonScript from "../JsonScript.astro";
 import SearchInput from "../finder/SearchInput.astro";
+import SectionLink from "../SectionLink.astro";
 import LocationButton from "../finder/LocationButton.astro";
 import { placesByCounty } from "../../lib/bonetider/places-index";
 const entries = placesByCounty().flatMap(g => g.places.map(p => ({name: p.name, county: g.county, href: `/bonetider/${p.slug}/`})));
@@ -11,39 +13,40 @@ const entries = placesByCounty().flatMap(g => g.places.map(p => ({name: p.name, 
 		<SearchInput id="place-query" placeholder="Sök ort" controls="place-results" />
 		<LocationButton class="bf-geo place-geo" aria-describedby="place-location-status">Använd min plats</LocationButton>
 	</div>
-	<a class="place-directory arrow-link" href="/bonetider/orter/">Alla orter</a>
+	<SectionLink class="place-directory" href="/bonetider/orter/">Alla orter</SectionLink>
 	<p id="place-location-status" class="place-status" role="status"></p>
 	<p class="place-status" id="place-result-status" role="status"></p>
 	<ul id="place-results" hidden aria-label="Orter som matchar"></ul>
-	<script is:inline type="application/json" id="place-search-data" set:html={JSON.stringify(entries).replace(/</g, "\\u003c")} />
+	<JsonScript id="place-search-data" data={entries} />
 </search>
 
 <style>
-	.place-directory { display: inline-block; padding-block: .65rem; font-family: var(--font-heading); font-size: var(--step--2); }
+	/* Alone on its line: the full touch target, not a section link's 24px. */
+	.place-directory { padding-block: .65rem; margin-block: 0; }
 	.place-search { margin-block: var(--space-unit) var(--space-half); }
-	.place-controls { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+	.place-controls { display: flex; flex-wrap: wrap; gap: var(--space-control); }
 	.place-help, .place-status { color: var(--color-muted); font-size: var(--step--2); margin: 0.5rem 0 0; }
 	.place-status:empty { margin: 0; }
 	/* Results are native links: Tab, Enter, opening in a new tab, and link previews all work. */
-	#place-results { margin: 0.75rem 0 0; padding: 0; border: 1px solid var(--color-divider); border-radius: var(--radius-sm); }
-	#place-results :global(li + li) { border-top: 1px solid var(--color-divider); }
-	#place-results :global(a) { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; min-height: 2.75rem; padding: 0.7rem 1rem; text-decoration: none; font-family: var(--font-heading); }
+	#place-results { margin: 0.75rem 0 0; padding: 0; border: var(--border-row); border-radius: var(--radius-sm); }
+	#place-results :global(li + li) { border-top: var(--border-row); }
+	#place-results :global(a) { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; min-height: var(--tap-target); padding: 0.7rem 1rem; text-decoration: none; font-family: var(--font-heading); }
 	#place-results :global(a:hover), #place-results :global(a:focus-visible) { background: var(--wash-hover); }
 	#place-results :global(span) { color: var(--color-muted); font-size: var(--step--2); text-align: end; }
-	@media (width < 30rem) { .place-geo { width: 100%; } }
+	@media (width <= 30rem) { .place-geo { width: 100%; } }
 </style>
 
 <script>
 	import { createPlaceSearch } from "../../lib/bonetider/place-search";
+	import { readJsonScript } from "../../lib/json-script";
+	import { onPage } from "../../scripts/page";
 
-	document.addEventListener("astro:page-load", () => {
+	onPage((signal) => {
 		const input = document.querySelector<HTMLInputElement>("#place-query");
 		const results = document.querySelector<HTMLUListElement>("#place-results");
 		const status = document.querySelector<HTMLElement>("#place-result-status");
 		if (!input || !results || !status) return;
-		const data = document.querySelector("#place-search-data");
-		if (!data?.textContent) return;
-		const search = createPlaceSearch(JSON.parse(data.textContent));
+		const search = createPlaceSearch(readJsonScript(document.querySelector("#place-search-data"), []));
 		const render = () => {
 			const query = input.value.trim();
 			const matches = search(query);
@@ -62,12 +65,12 @@ const entries = placesByCounty().flatMap(g => g.places.map(p => ({name: p.name, 
 			results.hidden = shown.length === 0;
 			status.textContent = !query ? "" : !matches.length ? "Ingen ort hittades. Prova en annan stavning." : matches.length > shown.length ? `Visar ${shown.length} av ${matches.length} orter. Skriv fler bokstäver för att begränsa sökningen.` : `${matches.length} ${matches.length === 1 ? "ort hittad" : "orter hittade"}.`;
 		};
-		input.addEventListener("input", render);
+		input.addEventListener("input", render, { signal });
 		input.addEventListener("keydown", (event) => {
 			if (event.key !== "Escape") return;
 			input.value = "";
 			render();
-		});
+		}, { signal });
 		render();
 	});
 </script>

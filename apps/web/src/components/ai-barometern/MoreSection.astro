@@ -13,7 +13,7 @@ const { id, title, hint } = Astro.props;
 ---
 
 <section class="abm-more" aria-labelledby={id}>
-	<details>
+	<details class="disclosure">
 		<summary>
 			<h2 id={id}>{title}</h2>
 			<span class="abm-more-hint">{hint}</span>

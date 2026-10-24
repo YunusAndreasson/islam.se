@@ -9,6 +9,7 @@
 //   pnpm rattelser --local      read the local dev database instead
 
 import { execFileSync } from "node:child_process";
+import { SITE_URL } from "../src/lib/config";
 
 const DB = "islam-se-rattelser";
 
@@ -99,10 +100,10 @@ function field(label: string, value: string | null): string {
 // from; a mosque report leads with the record id and reason — that is the thing you edit —
 // and then the city page, where the mosque is one anchor among several.
 function subject(row: Correction): string {
-	if (row.kind !== "mosque") return `  https://islam.se${row.page}`;
+	if (row.kind !== "mosque") return `  ${SITE_URL}${row.page}`;
 	const reason = row.reason ? (REASON_LABELS[row.reason] ?? row.reason) : "okänd anledning";
 	const id = row.mosque_id ?? "(okänt id)";
-	return `  🕌 ${id} · ${reason}\n  https://islam.se${row.page}#${id}`;
+	return `  🕌 ${id} · ${reason}\n  ${SITE_URL}${row.page}#${id}`;
 }
 
 function show(rows: Correction[]): void {

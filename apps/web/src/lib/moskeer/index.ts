@@ -6,7 +6,7 @@ import mosquesRaw from "../../data/moskeer-sverige.json";
 import { slugify } from "../bonetider/slug";
 import { SITE_URL } from "../config";
 import { talord } from "../format";
-import { haversineKm } from "../geom";
+import { byDistance } from "../geom";
 
 export interface Mosque {
 	readonly id: string;
@@ -131,11 +131,10 @@ export function cityBySlug(slug: string): MosqueCityGroup | undefined {
  *  it doesn't depend on kommun-name matching: a city "has a mosque" if one sits within
  *  `maxKm`. */
 export function nearestMosques(lat: number, lng: number, count = 3, maxKm = 20): Mosque[] {
-	return MOSQUES.map((m) => ({ m, d: haversineKm(lat, lng, m.lat, m.lng) }))
-		.filter((x) => x.d <= maxKm)
-		.sort((a, b) => a.d - b.d)
+	return byDistance(MOSQUES, { lat, lon: lng }, (m) => ({ lat: m.lat, lon: m.lng }))
+		.filter((x) => x.km <= maxKm)
 		.slice(0, count)
-		.map((x) => x.m);
+		.map((x) => x.item);
 }
 
 function mosquesInKommun(kommun?: string): Mosque[] {

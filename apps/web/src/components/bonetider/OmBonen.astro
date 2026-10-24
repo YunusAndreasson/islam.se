@@ -21,7 +21,7 @@
  * is the place that keeps this honest.
  */
 
-import HairlineLinkList from "../HairlineLinkList.astro";
+import LinkList from "../LinkList.astro";
 import TitledSection from "../TitledSection.astro";
 
 const prayerLinks = [
@@ -31,8 +31,9 @@ const prayerLinks = [
 ];
 ---
 
-<TitledSection class="om-bonen" id="om-bonen-head" title="Om bönen">
-	<HairlineLinkList
+<TitledSection class="page-section tool-section om-bonen" id="om-bonen-head" title="Om bönen">
+	<LinkList
+		variant="hairline"
 		class="om-bonen-links"
 		style="--hairline-link-list-margin: var(--space-half) 0 0"
 		items={prayerLinks}

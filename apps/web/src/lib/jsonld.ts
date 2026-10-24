@@ -3,7 +3,7 @@
 
 import { APP_STORE_URL, PLAY_STORE_URL } from "./app";
 import { SITE_URL } from "./config";
-import { basename } from "./path";
+import { withTrailingSlash } from "./path";
 import { APPLE_PODCAST_URL, SPOTIFY_SHOW_URL } from "./podcast";
 
 const SITE = SITE_URL;
@@ -16,9 +16,7 @@ const SITE = SITE_URL;
  *  query/hash are returned untouched. */
 function pageUrl(url: string): string {
 	const abs = url.startsWith("http") ? url : `${SITE}${url}`;
-	if (!abs.startsWith(SITE) || /[?#]/.test(abs)) return abs;
-	if (basename(abs).includes(".")) return abs;
-	return abs.endsWith("/") ? abs : `${abs}/`;
+	return abs.startsWith(SITE) ? withTrailingSlash(abs) : abs;
 }
 
 /** A schema.org ImageObject for an essay's hero image. Emitted as the Article's
@@ -184,32 +182,66 @@ export function dataset(opts: {
 	};
 }
 
-/** A schema.org CollectionPage whose `hasPart` lists the member essays — shared by
- *  the ämne / tråd / tänkare `[slug]` pages, which built this block by hand. Pass
- *  `extra` to merge in page-specific properties (e.g. the tänkare page's `about`). */
+/** A schema.org WebPage, or one of the subtypes the site uses, for a page that is not an
+ *  Article. Its `url` goes through pageUrl like every other node's, so it is the page's
+ *  canonical byte for byte: twelve pages wrote this node by hand, three of them without
+ *  the trailing slash, and six without `isPartOf`. Pass `extra` for what is the page's
+ *  own (`about`, `mainEntity`, `dateModified`). */
+export function webPageJsonLd(opts: {
+	type?: "WebPage" | "AboutPage" | "CollectionPage";
+	name: string;
+	/** Path or absolute URL of the page. */
+	url: string;
+	description?: string;
+	extra?: Record<string, unknown>;
+}): Record<string, unknown> {
+	return {
+		"@context": "https://schema.org",
+		"@type": opts.type ?? "WebPage",
+		name: opts.name,
+		...(opts.description === undefined ? {} : { description: opts.description }),
+		url: pageUrl(opts.url),
+		inLanguage: "sv",
+		isPartOf: { "@id": WEBSITE_ID },
+		...opts.extra,
+	};
+}
+
+/** A schema.org CollectionPage whose `hasPart` lists its members — the ämne, series and
+ *  tänkare pages, and the indexes of answers and fördjupningar. Essays are passed by slug
+ *  (an essay lives at /<slug>/); anything else by its own path in `parts`. With no
+ *  members there is no `hasPart`, rather than an empty one. */
 export function collectionPageJsonLd(opts: {
 	name: string;
 	description: string;
 	/** Path or absolute URL of the collection page. */
 	url: string;
-	essays: readonly { title: string; slug: string }[];
+	essays?: readonly { title: string; slug: string }[];
+	parts?: readonly { title: string; url: string }[];
 	extra?: Record<string, unknown>;
 }): Record<string, unknown> {
-	return {
-		"@context": "https://schema.org",
-		"@type": "CollectionPage",
+	const members = [
+		...(opts.essays ?? []).map((e) => ({ title: e.title, url: `/${e.slug}` })),
+		...(opts.parts ?? []),
+	];
+	return webPageJsonLd({
+		type: "CollectionPage",
 		name: opts.name,
 		description: opts.description,
-		url: pageUrl(opts.url),
-		inLanguage: "sv",
-		isPartOf: { "@id": WEBSITE_ID },
-		...opts.extra,
-		hasPart: opts.essays.map((e) => ({
-			"@type": "Article",
-			headline: e.title,
-			url: pageUrl(`/${e.slug}`),
-		})),
-	};
+		url: opts.url,
+		extra: {
+			...opts.extra,
+			...(members.length === 0
+				? {}
+				: {
+						hasPart: members.map((m) => ({
+							"@type": "Article",
+							headline: m.title,
+							url: pageUrl(m.url),
+						})),
+					}),
+		},
+	});
 }
 
 /** A schema.org FAQPage from {q,a} pairs — every page with a "Vanliga frågor"
@@ -313,12 +345,13 @@ export function organization(): Record<string, unknown> {
 			width: 180,
 			height: 180,
 		},
+		// The site's subjects as the site states them (AGENTS.md): a neutral sufi or shia
+		// entry in a list like this reads as a subject taught on equal terms, so none stands here.
 		knowsAbout: [
 			"Islam",
 			"Islamisk teologi",
 			"Koranen",
 			"Islamisk filosofi",
-			"Sufism",
 			"Svensk litteratur",
 			"Den islamiska kalendern",
 			"Bönetider",

@@ -1,6 +1,5 @@
 import type { CollectionEntry } from "astro:content";
 import { FAKTA_SLUGS } from "./fakta";
-import { foldedWords } from "./search-text";
 
 type SvarEntry = CollectionEntry<"svar">;
 
@@ -215,26 +214,6 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		],
 	},
 ];
-
-/** Search terms the index row does NOT already print — `description`, `question`,
- *  `keywords`, FAQ questions — folded, de-duplicated against the visible title, and
- *  emitted as `data-terms`. Surplus only: the filter reads the title off the DOM,
- *  so shipping the whole string would duplicate the page for nothing.
- *  "" when the frontmatter adds nothing.
- *
- *  ⚠️ `description` belongs on THIS side of the line. The row used to print it and
- *  the filter matched it off `textContent`; the row now prints the title alone, so
- *  dropping the description from here would quietly make it unsearchable. */
-export function svarSearchTerms(entry: SvarEntry): string {
-	const { title, description, question, keywords = [], faq = [] } = entry.data;
-	const printed = new Set(foldedWords(title));
-	const extra = new Set<string>();
-	const surplus = [description, question, ...keywords, ...faq.map((f) => f.q)].join(" ");
-	for (const word of foldedWords(surplus)) {
-		if (!printed.has(word)) extra.add(word);
-	}
-	return [...extra].join(" ");
-}
 
 /** Group the FRÅGOR & SVAR corpus into the themed sections above, preserving each
  *  section's curated order. Cornerstone answers (the Five Pillars + six Articles

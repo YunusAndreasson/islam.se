@@ -13,7 +13,12 @@
 import type { PrayerAdjustments, PrayerSettings } from "../lib/bonetider/settings";
 import { DEFAULT_SETTINGS } from "../lib/bonetider/settings";
 import { highLatLabel, madhabLabel, methodLabel } from "../lib/bonetider/settings-options";
-import { cloneSettings, loadSettings, saveSettings } from "../lib/bonetider/storage";
+import {
+	cloneSettings,
+	loadSettings,
+	sanitizeSettings,
+	saveSettings,
+} from "../lib/bonetider/storage";
 
 export const BT_SETTINGS_CHANGE = "bt-settings-change";
 
@@ -57,10 +62,9 @@ function updateSummary(form: HTMLFormElement, s: PrayerSettings): void {
 
 /** Push a settings object into the controls without announcing it back. */
 function paintSettingsForm(form: HTMLFormElement, s: PrayerSettings): void {
-	const obj = s as unknown as Record<string, unknown>;
 	for (const el of form.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[data-setting]")) {
-		const key = el.dataset.setting;
-		if (key && key in obj) el.value = String(obj[key]);
+		const key = el.dataset.setting as keyof PrayerSettings | undefined;
+		if (key && key in s) el.value = String(s[key]);
 	}
 	for (const el of form.querySelectorAll<HTMLInputElement>("[data-adjust]")) {
 		const key = el.dataset.adjust as keyof PrayerAdjustments;
@@ -77,11 +81,13 @@ function onChange(form: HTMLFormElement, e: Event): void {
 		el.reportValidity();
 		return;
 	}
-	const s = read(form);
+	let s = read(form);
 	if (el.dataset.setting) {
 		const key = el.dataset.setting;
-		if (key === "hijriOffset") s.hijriOffset = Number(el.value) || 0;
-		else (s as unknown as Record<string, unknown>)[key] = el.value;
+		const value = key === "hijriOffset" ? Number(el.value) || 0 : el.value;
+		// The funnel a stored or linked config goes through (storage.ts): a value its lists
+		// do not hold takes its default instead of reaching the calculation.
+		s = sanitizeSettings({ ...s, [key]: value });
 	} else if (el.dataset.adjust) {
 		s.adjustments = { ...s.adjustments, [el.dataset.adjust]: Number(el.value) || 0 };
 	} else return;

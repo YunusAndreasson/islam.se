@@ -20,14 +20,13 @@
 
 .nyheter-lista {
 	font-family: var(--font-heading);
-	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
 .nyhet {
 	padding-block: var(--space-unit);
-	border-top: 1px solid var(--color-divider);
+	border-top: var(--border-row);
 }
 
 .nyhet:first-child {
@@ -224,7 +223,7 @@
 	   had one section that opened without a rule of its own. Now what stands under a
 	   rule belongs to that rule's label, down to the next rule, everywhere. */
 	padding-block: var(--space-half) 0;
-	border-top: 1px solid var(--color-rule);
+	border-top: var(--border-rule);
 	font-family: var(--font-heading);
 }
 
@@ -251,7 +250,7 @@
 .nyhetsremsa-huvud {
 	display: flex;
 	align-items: baseline;
-	gap: 0.75rem;
+	gap: var(--space-control);
 }
 
 .nyhetsremsa-huvud .home-kicker {
@@ -498,7 +497,7 @@
 	gap: 0.7rem;
 	margin: 0 0 var(--space-unit);
 	padding-top: var(--space-group);
-	border-top: 1px solid var(--color-rule);
+	border-top: var(--border-rule);
 	max-inline-size: var(--nyhet-block);
 	font-family: var(--font-heading);
 	font-size: var(--step--2);
@@ -586,41 +585,10 @@
 
 /* ── Provenance and the way onward ────────────────────────────────────────── */
 
+/* The way onward is a `.page-section` with OnwardLinks in it; it keeps the news
+   block's measure. */
 .nyheter-vidare {
-	margin-top: var(--space-phi2);
-	padding-top: var(--space-unit);
-	border-top: 1px solid var(--color-rule);
 	max-inline-size: var(--nyhet-block);
-}
-
-.nyheter-vidare-rubrik {
-	margin: 0 0 var(--space-half);
-	color: var(--color-muted);
-}
-
-/* Subgrid, so the two blurbs start on one line rather than each beginning
-   wherever its own link happens to end. A ragged left edge on two items reads as
-   an accident, and it is the cheapest kind of order to supply. */
-.nyheter-vidare ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: grid;
-	grid-template-columns: max-content minmax(0, 1fr);
-	gap: var(--space-half) var(--space-unit);
-}
-
-.nyheter-vidare li {
-	display: grid;
-	grid-template-columns: subgrid;
-	grid-column: span 2;
-	align-items: baseline;
-}
-
-.nyheter-vidare li span {
-	font-family: var(--font-heading);
-	font-size: var(--step--2);
-	color: var(--text-quiet);
 }
 
 .nyheter-tom,
@@ -647,8 +615,8 @@
 	transition:
 		background-color 0.4s ease,
 		box-shadow 0.4s ease;
-	background: color-mix(in srgb, var(--color-warm), transparent 88%);
-	box-shadow: 0 0 0 0.6rem color-mix(in srgb, var(--color-warm), transparent 88%);
+	background: var(--wash-selected);
+	box-shadow: 0 0 0 0.6rem var(--wash-selected);
 	border-radius: var(--radius-xs);
 }
 
@@ -685,24 +653,5 @@
 
 	.nyheter-dagdatum {
 		margin-inline-start: 0;
-	}
-
-	/* One column: at 20rem a max-content link column plus a blurb leaves the
-	   blurb four words wide. */
-	.nyheter-vidare ul {
-		grid-template-columns: minmax(0, 1fr);
-		gap: var(--space-unit);
-	}
-
-	.nyheter-vidare li {
-		grid-column: auto;
-		gap: 0.2rem;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.nyhet-dela,
-	.nyhet--utpekad {
-		transition: none;
 	}
 }

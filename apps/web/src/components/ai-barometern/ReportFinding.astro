@@ -2,12 +2,13 @@
 import type { Finding } from "../../lib/ai-barometern/findings";
 import { codeLabel } from "../../lib/ai-barometern/options";
 import { questionPath } from "../../lib/ai-barometern/site";
+import Kicker from "../Kicker.astro";
 import LabelledComparison from "./LabelledComparison.astro";
 interface Props { finding: Finding }
 const { finding: f } = Astro.props;
 ---
 <article class="abm-report-finding">
-	<p class="label">{f.area.label}</p>
+	<Kicker form="quiet">{f.area.label}</Kicker>
 	<h3><a href={f.href}>{f.lead}</a></h3>
 	<p class="abm-finding-takeaway">{f.text}</p>
 	<LabelledComparison

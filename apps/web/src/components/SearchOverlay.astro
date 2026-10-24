@@ -1,6 +1,7 @@
 ---
 import { Search, X } from "@lucide/astro";
 import { buildPaletteIndex } from "../lib/palette";
+import { TRADITIONS } from "../lib/traditions";
 import {
 	currentNavHref,
 	PALETTE_MINOR_LINKS,
@@ -45,8 +46,8 @@ const paletteChipSections = [
 ];
 
 const paletteThinkerGroups = [
-	{ heading: "Den klassiska islamiska traditionen", links: sunni },
-	{ heading: "Svenska och västerländska röster", links: western },
+	{ heading: TRADITIONS.sunni.label, links: sunni },
+	{ heading: TRADITIONS.western.label, links: western },
 ];
 
 const paletteHrefs = [
@@ -154,7 +155,7 @@ const here = (href: string) => href === currentHref;
 			{/* The long tail, folded. Eighteen proper names read as a wall next to
 			    "Bönetider" and "Essäer" — same chip, same weight, no way to tell a
 			    destination from a philosopher. Typing still finds any of them. */}
-			<details class="palette-fold">
+			<details class="palette-fold disclosure">
 				<summary class="palette-fold-summary">
 					<span class="palette-fold-title label">Tänkare</span>
 					<span class="palette-fold-count">{tankareCount}</span>
@@ -214,8 +215,8 @@ const here = (href: string) => href === currentHref;
 
 	.palette-close {
 		display: flex;
-		min-width: 2.75rem;
-		min-height: 2.75rem;
+		min-width: var(--tap-target);
+		min-height: var(--tap-target);
 		align-items: center;
 		justify-content: center;
 		padding: 0.75rem;
@@ -232,7 +233,7 @@ const here = (href: string) => href === currentHref;
 		display: inline-flex;
 		align-items: center;
 		gap: 0.25em;
-		min-height: 2.75rem;
+		min-height: var(--tap-target);
 		padding-block: 0.5rem;
 		font-family: var(--font-heading);
 		font-size: var(--step--1);
@@ -262,7 +263,7 @@ const here = (href: string) => href === currentHref;
 		align-items: center;
 		gap: 0.6rem;
 		padding-block: var(--space-control);
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 		background: var(--color-bg);
 		transition: border-color var(--dur-fast) ease;
 
@@ -290,7 +291,7 @@ const here = (href: string) => href === currentHref;
 		&::placeholder { color: var(--color-muted); }
 	}
 
-	.palette-clear { flex-shrink: 0; min-width: 44px; min-height: 44px; display: grid; place-items: center; background: transparent; border: 0; color: var(--color-muted); cursor: pointer; }
+	.palette-clear { flex-shrink: 0; min-width: var(--tap-target); min-height: var(--tap-target); display: grid; place-items: center; background: transparent; border: 0; color: var(--color-muted); cursor: pointer; }
 	.palette-clear[hidden] { display: none; }
 	.palette-more, .palette-retry { margin-block: 1rem; padding: .65rem 1rem; cursor: pointer; }
 
@@ -320,7 +321,7 @@ const here = (href: string) => href === currentHref;
 	}
 	.palette-browse-toggle {
 		display: block;
-		min-height: 2.75rem;
+		min-height: var(--tap-target);
 		margin-top: var(--space-group);
 		padding: 0;
 		border: none;
@@ -351,10 +352,10 @@ const here = (href: string) => href === currentHref;
 	.palette-dests {
 		margin: 0;
 		padding: 0;
-		border-top: 1px solid var(--color-divider);
+		border-top: var(--border-row);
 	}
 
-	.palette-dests > li { border-bottom: 1px solid var(--color-divider); }
+	.palette-dests > li { border-bottom: var(--border-row); }
 
 	.palette-dest {
 		display: block;
@@ -412,14 +413,14 @@ const here = (href: string) => href === currentHref;
 	.palette-chip {
 		display: inline-flex;
 		align-items: center;
-		min-height: 2.75rem;
+		min-height: var(--tap-target);
 		padding: 0.4rem 0.8rem;
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
 		font-weight: 500;
 		letter-spacing: 0.01em;
 		color: var(--color-text);
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-pill);
 		transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease, background-color var(--dur-fast) ease;
 	}
@@ -430,7 +431,7 @@ const here = (href: string) => href === currentHref;
 	.palette-chip:hover,
 	.palette-chip[aria-current] {
 		color: var(--color-accent);
-		border-color: color-mix(in srgb, var(--color-warm) 60%, var(--color-divider));
+		border-color: var(--color-warm);
 		background: var(--wash-hover);
 	}
 
@@ -439,7 +440,7 @@ const here = (href: string) => href === currentHref;
 	   hairlines a gap apart read as a mistake rather than a boundary. */
 	.palette-fold {
 		margin-bottom: 0;
-		border-top: 1px solid var(--color-divider);
+		border-top: var(--border-row);
 	}
 
 	.palette-fold-summary {
@@ -447,10 +448,7 @@ const here = (href: string) => href === currentHref;
 		align-items: center;
 		gap: 0.5rem;
 		padding-block: 0.85rem;
-		cursor: pointer;
-		list-style: none;
 
-		&::-webkit-details-marker { display: none; }
 		&:hover .palette-fold-title { color: var(--color-accent); }
 	}
 
@@ -463,23 +461,9 @@ const here = (href: string) => href === currentHref;
 		color: var(--color-muted);
 	}
 
-	/* The marker is drawn here, never typed into the markup: a chevron that turns
-	   a quarter when the fold opens. */
+	/* The site's disclosure marker (layout.css, `.disclosure`), at the row's far edge. */
 	.palette-fold-summary::after {
-		content: "";
 		margin-inline-start: auto;
-		inline-size: 0.5rem;
-		block-size: 0.5rem;
-		border-right: 1.25px solid var(--color-muted);
-		border-bottom: 1.25px solid var(--color-muted);
-		rotate: 45deg;
-		translate: 0 -0.1rem;
-		transition: rotate var(--dur-fast) ease;
-	}
-
-	.palette-fold[open] .palette-fold-summary::after {
-		rotate: -135deg;
-		translate: 0 0.1rem;
 	}
 
 	.palette-fold-body { padding-bottom: var(--space-half); }
@@ -497,7 +481,7 @@ const here = (href: string) => href === currentHref;
 		gap: var(--space-half) var(--space-unit);
 		margin-top: 0;
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	.palette-minor {
@@ -532,7 +516,7 @@ const here = (href: string) => href === currentHref;
 		gap: 1rem;
 		padding: 0.7rem 0.6rem;
 		margin-inline: -0.6rem;
-		border-radius: 8px;
+		border-radius: var(--radius-sm);
 		color: inherit;
 		transition: background-color var(--dur-fast) ease;
 	}
@@ -593,7 +577,7 @@ const here = (href: string) => href === currentHref;
 			height: fit-content;
 			max-height: calc(100dvh - 4rem);
 			margin-inline: auto;
-			border: 1px solid var(--color-rule);
+			border: var(--border-rule);
 			border-radius: var(--radius-lg);
 			box-shadow: 0 1rem 4rem rgb(var(--hero-black) / 0.2);
 		}
@@ -612,7 +596,7 @@ const here = (href: string) => href === currentHref;
 		.palette-foot { grid-column: 1 / -1; }
 	}
 
-	@media (width <= 48rem) {
+	@media (width < 48rem) {
 		.palette-row-type { display: none; }
 
 		.palette-foot {
@@ -651,8 +635,6 @@ const here = (href: string) => href === currentHref;
 	import { escapeXml } from "../lib/xml";
 	import { createPaletteSearch, type PaletteEntry } from "../lib/palette-search";
 
-	let bound = false;
-
 	function initPalette() {
 		// The dialog persists across view transitions (transition:persist), so
 		// listeners are bound exactly once against the module-scope element.
@@ -679,7 +661,8 @@ const here = (href: string) => href === currentHref;
 		let indexReady = false;
 		let indexPromise: Promise<void> | null = null;
 		function loadIndex(): Promise<void> {
-			indexPromise ??= fetch("/search-index.json")
+			// A stalled request fails like any other, so »Söker …« gives way to the retry.
+			indexPromise ??= fetch("/search-index.json", { signal: AbortSignal.timeout(10_000) })
 				.then((r) => { if (!r.ok) throw new Error("Search index unavailable"); return r.json(); })
 				.then((d: unknown) => {
 					if (!Array.isArray(d) || !d.every((e) => e && typeof e.label === "string" && typeof e.sub === "string" && typeof e.href === "string" && typeof e.type === "string" && (e.alt === undefined || typeof e.alt === "string"))) throw new Error("Invalid search index");
@@ -861,7 +844,7 @@ const here = (href: string) => href === currentHref;
 		closeBtn.addEventListener("click", close);
 
 		// Escape is the dialog's own — it only has to be kept from reaching the
-		// essay-page Escape→/essaer binding and the footnote popovers. Arrows and
+		// footnote popovers and the map's callout. Arrows and
 		// Enter drive the result list; in menu mode Tab is the right way through.
 		dialog.addEventListener("keydown", (e) => {
 			if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); return; }
@@ -906,13 +889,16 @@ const here = (href: string) => href === currentHref;
 		}
 	});
 
-	document.addEventListener("astro:page-load", () => {
-		// Land every navigation with the palette closed (the scroll lock follows).
-		const dialog = document.getElementById("search-overlay") as HTMLDialogElement | null;
-		dialog?.close();
+	// Bound when the module runs, not on the first `astro:page-load`: the router fires that
+	// one from the window's `load`, so Sök, Meny and ⌘K were dead until the last image of a
+	// cold visit had arrived. A module script runs once the document is parsed, and the
+	// dialog is transition:persist, so this is the one and only binding.
+	initPalette();
 
-		if (bound) return;
-		bound = true;
-		initPalette();
+	// Land every navigation with the palette closed (the scroll lock follows). After the
+	// swap rather than on page-load, which on a cold visit would close a palette the reader
+	// opened before the images finished.
+	document.addEventListener("astro:after-swap", () => {
+		(document.getElementById("search-overlay") as HTMLDialogElement | null)?.close();
 	});
 </script>

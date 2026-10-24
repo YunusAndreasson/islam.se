@@ -23,3 +23,21 @@ const { headings, class: className } = Astro.props;
 		<slot />
 	</div>
 </div>
+
+<script>
+	// The apparatus every reading template's prose carries — footnote and honorific
+	// popovers, and the recitation players under quoted verses — wired where the prose is
+	// emitted. Each template wired its own: answers wired only the players, so an answer
+	// got its popovers only when the reader arrived from an essay, whose handler happened
+	// to be still listening. Both inits are idempotent (one popover by id, one setup per
+	// player).
+	import { initFootnotePopovers } from "../scripts/footnote-popover";
+	import { onPage } from "../scripts/page";
+	import { initQuranPlayers } from "../scripts/quran-player";
+
+	onPage(() => {
+		if (!document.querySelector(".reading-section")) return;
+		initFootnotePopovers();
+		initQuranPlayers();
+	});
+</script>

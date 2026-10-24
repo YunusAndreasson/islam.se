@@ -19,7 +19,10 @@ import {
 } from "../lib/bonetider/screen-config";
 import type { PrayerSettings } from "../lib/bonetider/settings";
 import { madhabLabel, methodLabel } from "../lib/bonetider/settings-options";
-import { BT_SETTINGS_CHANGE, type BtSettingsChangeDetail } from "./bonetider-settings-form";
+import { readJsonScript } from "../lib/json-script";
+import { BT_SETTINGS_CHANGE } from "./bonetider-settings-form";
+import { copyText, flashText } from "./clipboard";
+import { onPage } from "./page";
 
 interface Entry {
 	n: string;
@@ -30,16 +33,6 @@ interface Entry {
 }
 
 const VISA = "/bonetider/skarm/visa/";
-
-function readJson<T>(id: string): T[] {
-	const el = document.getElementById(id);
-	if (!el?.textContent) return [];
-	try {
-		return JSON.parse(el.textContent) as T[];
-	} catch {
-		return [];
-	}
-}
 
 function fillDatalist(list: HTMLDataListElement, entries: Entry[]): Map<string, Entry> {
 	const byLabel = new Map<string, Entry>();
@@ -80,7 +73,7 @@ function setText(id: string, text: string): void {
 	if (el) el.textContent = text;
 }
 
-function boot(): void {
+function boot(signal: AbortSignal): (() => void) | undefined {
 	const root = document.querySelector<HTMLElement>(".sk-split");
 	const frameEl = document.querySelector<HTMLIFrameElement>("#sk-frame");
 	if (!(root && frameEl)) return;
@@ -88,8 +81,8 @@ function boot(): void {
 	// closures below, and it is used throughout.
 	const frame: HTMLIFrameElement = frameEl;
 
-	const mosques = readJson<Entry>("sk-mosque-data");
-	const places = readJson<Entry>("sk-place-data");
+	const mosques = readJsonScript<Entry[]>(document.getElementById("sk-mosque-data"), []);
+	const places = readJsonScript<Entry[]>(document.getElementById("sk-place-data"), []);
 	const mosqueList = document.querySelector<HTMLDataListElement>("#sk-mosques");
 	const ortList = document.querySelector<HTMLDataListElement>("#sk-orter");
 	const byMosque = mosqueList ? fillDatalist(mosqueList, mosques) : new Map<string, Entry>();
@@ -253,42 +246,32 @@ function boot(): void {
 	root.addEventListener("input", sync);
 	root.addEventListener("change", sync);
 	// The document survives Astro navigation; the builder's listener and pending
-	// preview update must stop as soon as this page leaves.
-	const controller = new AbortController();
+	// preview update stop as soon as this page leaves (page.ts aborts the signal and
+	// runs the returned cleanup).
 	document.addEventListener(
 		BT_SETTINGS_CHANGE,
-		(e: Event) => {
-			settings = (e as CustomEvent<BtSettingsChangeDetail>).detail.settings;
+		(e) => {
+			settings = e.detail.settings;
 			sync();
 		},
-		{ signal: controller.signal },
-	);
-	document.addEventListener(
-		"astro:before-swap",
-		() => {
-			controller.abort();
-			if (settleTimer !== undefined) clearTimeout(settleTimer);
-		},
-		{ once: true },
+		{ signal },
 	);
 
 	copyBtn?.addEventListener("click", async () => {
-		const url = urlOut?.textContent ?? "";
-		try {
-			await navigator.clipboard.writeText(url);
-			copyBtn.textContent = "Kopierad";
-			window.setTimeout(() => {
-				copyBtn.textContent = "Kopiera länk";
-			}, 2000);
-		} catch {
-			// Clipboard blocked (an insecure context, or a browser that wants a permission).
-			// The URL is on screen and selectable, which is the fallback that always works.
-			// It sits under the buttons, so "nedan".
-			copyBtn.textContent = "Markera länken nedan";
+		if (await copyText(urlOut?.textContent ?? "")) {
+			flashText(copyBtn, "Kopierad");
+			return;
 		}
+		// Clipboard blocked (an insecure context, or a browser that wants a permission).
+		// The URL is on screen and selectable, which is the fallback that always works.
+		// It sits under the buttons, so "nedan".
+		copyBtn.textContent = "Markera länken nedan";
 	});
 
 	sync();
+	return () => {
+		if (settleTimer !== undefined) clearTimeout(settleTimer);
+	};
 }
 
-document.addEventListener("astro:page-load", boot);
+onPage(boot);

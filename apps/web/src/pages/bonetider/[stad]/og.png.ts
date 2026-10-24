@@ -1,3 +1,4 @@
+import type { InferGetStaticPropsType } from "astro";
 import { INDEXED_PLACES, OG_POPULATION } from "../../../lib/bonetider/places-index";
 import { ogEndpoint } from "../../../lib/og-endpoints";
 
@@ -16,7 +17,7 @@ export function getStaticPaths() {
 		}));
 }
 
-export const GET = ogEndpoint<{ name: string; county: string }>(
+export const GET = ogEndpoint<InferGetStaticPropsType<typeof getStaticPaths>>(
 	(p) => ({
 		kicker: "Bönetider",
 		title: p.name,

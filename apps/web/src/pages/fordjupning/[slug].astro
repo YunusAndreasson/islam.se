@@ -6,7 +6,7 @@ import ArticleHeader from "../../components/ArticleHeader.astro";
 import ArticleMeta from "../../components/ArticleMeta.astro";
 import ArticleSection from "../../components/ArticleSection.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
-import DiamondList from "../../components/DiamondList.astro";
+import LinkList from "../../components/LinkList.astro";
 import EssayImage from "../../components/EssayImage.astro";
 import Rattelse from "../../components/Rattelse.astro";
 import SectionLink from "../../components/SectionLink.astro";
@@ -19,6 +19,7 @@ import { figureJsonLd } from "../../lib/inline-images";
 import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 import { pageHeroPreload } from "../../lib/hero-preload";
+import { SITE_URL } from "../../lib/config";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("fordjupning");
@@ -54,7 +55,7 @@ interface Props {
 const { entry, related, essays } = Astro.props;
 const { data } = entry;
 const { Content, headings } = await render(entry);
-const url = `https://islam.se/fordjupning/${entry.id}/`;
+const url = `${SITE_URL}/fordjupning/${entry.id}/`;
 const relatedItems = related.map((r) => ({ label: r.question, href: `/svar/${r.slug}/` }));
 const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}/` }));
 const sourceItems = data.sources
@@ -115,7 +116,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 ---
 
 <Base
-	title={`${data.title} – islam.se`}
+	title={`${data.title}`}
 	description={data.seoDescription ?? data.description}
 	ogImage={`/fordjupning/${entry.id}/og.png`}
 	ogImageAlt={data.term}
@@ -197,13 +198,13 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 						{related.length > 0 && (
 							<div class="fordjupning-links">
 								<p class="label">Kortare svar</p>
-								<DiamondList items={relatedItems} nav />
+								<LinkList variant="diamond" items={relatedItems} nav />
 							</div>
 						)}
 						{essays.length > 0 && (
 							<div class="fordjupning-links">
 								<p class="label">Essäer</p>
-								<DiamondList items={essayItems} nav />
+								<LinkList variant="diamond" items={essayItems} nav />
 							</div>
 						)}
 					</div>
@@ -225,7 +226,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 			    open. Frontmatter `sources` still drives citation[] JSON-LD in full. */}
 			{data.sources.some((s) => s.url) && (
 				<ArticleSection class="fordjupning-section fordjupning-apparat fordjupning-sources" id="fordjupning-kallor" title="Källor">
-					<DiamondList items={sourceItems} />
+					<LinkList variant="diamond" items={sourceItems} />
 				</ArticleSection>
 			)}
 
@@ -239,12 +240,11 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 </Base>
 
 <script>
-	import { initFootnotePopovers } from "../../scripts/footnote-popover";
-	import { initQuranPlayers } from "../../scripts/quran-player";
+	// The popovers and the recitation players are ArticleBody's (it wires them for all
+	// three reading templates); what is this page's own is where its notes stand.
+	import { onPage } from "../../scripts/page";
 
-	document.addEventListener("astro:page-load", () => {
-		if (!document.querySelector(".fordjupning-body")) return;
-
+	onPage(() => {
 		// GFM drops the note list at the end of the body, above the FAQ. Move it into
 		// the placeholder so the reference apparatus reads notes → further reading.
 		const footnotes = document.querySelector(".fordjupning-body .footnotes");
@@ -254,14 +254,6 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 			footnotes.classList.add("footnotes-relocated");
 			slot.append(footnotes);
 		}
-
-		// The section permalinks that used to be built here are server-rendered now, by
-		// src/plugins/rehype-heading-anchor.ts — on h3 as well as h2, without JS, and on
-		// the essays and answers that never had them. Styles live with .prose in
-		// editorial.css.
-
-		initFootnotePopovers();
-		initQuranPlayers();
 	});
 </script>
 

@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
 	computePrayerTimes,
+	countdownLabel,
 	formatTime,
-	nextPrayerKeyAt,
+	nextPrayer,
 	stockholmDayKey,
 	stockholmMonthLabel,
 	stockholmWeekdayLabel,
@@ -65,14 +66,8 @@ describe("a day-keyed prayer cache agrees with recomputing from scratch", () => 
 	const stockholm = { latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
 
 	function resolveNext(today: ReturnType<typeof computePrayerTimes>, now: Date) {
-		const nk = nextPrayerKeyAt(today, now.getTime());
-		if (nk) return { nextKey: nk, target: today[nk].getTime() };
-		const fajr = computePrayerTimes(
-			stockholm,
-			new Date(now.getTime() + 86_400_000),
-			settings,
-		).fajr.getTime();
-		return { nextKey: "fajr" as const, target: fajr };
+		const next = nextPrayer(stockholm, today, now, settings);
+		return { nextKey: next.key, target: next.at.getTime() };
 	}
 
 	it("never drifts from the truth over a week, at 15-minute resolution", () => {
@@ -116,5 +111,58 @@ describe("Stockholm display formatting", () => {
 		for (const value of [null, undefined, new Date(Number.NaN)]) {
 			expect(formatTime(value)).toBe("—");
 		}
+	});
+});
+
+describe("nextPrayer", () => {
+	const stockholm = { latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
+
+	it("counts down to the next calendar day's Fajr on the night the clocks go forward", () => {
+		// Saturday 28 March 2026, 23:30 in Stockholm (22:30 UTC). Summer time starts at 02:00
+		// that night, so `now` + 24 hours is Monday 00:30 — the copy that rolled over that
+		// way counted down to Monday's Fajr. Sunday's is the next prayer.
+		const now = new Date("2026-03-28T22:30:00Z");
+		const today = computePrayerTimes(stockholm, now, DEFAULT_SETTINGS);
+		const next = nextPrayer(stockholm, today, now, DEFAULT_SETTINGS);
+		const sunday = computePrayerTimes(
+			stockholm,
+			new Date("2026-03-29T10:00:00Z"),
+			DEFAULT_SETTINGS,
+		);
+		expect(next.key).toBe("fajr");
+		expect(next.at.toISOString(), "Sunday's Fajr, not Monday's").toBe(sunday.fajr.toISOString());
+	});
+
+	it("names the day's next prayer while there is one", () => {
+		const now = new Date("2026-08-17T08:00:00Z");
+		const today = computePrayerTimes(stockholm, now, DEFAULT_SETTINGS);
+		const next = nextPrayer(stockholm, today, now, DEFAULT_SETTINGS);
+		expect(next.at.getTime()).toBeGreaterThanOrEqual(now.getTime());
+		expect(next.at).toBe(today[next.key]);
+	});
+});
+
+describe("countdownLabel", () => {
+	const MIN = 60_000;
+
+	it("agrees with the clocks: a 12:05 prayer is five minutes off all through 12:00", () => {
+		// THE BUG: the prayer field floored and the moskéskärm rounded, so ten seconds into
+		// 12:00 a phone said »om 4 min« and the wall »om 5 min« about the same prayer.
+		expect(countdownLabel(5 * MIN)).toBe("om 5 min");
+		expect(countdownLabel(5 * MIN - 10_000)).toBe("om 5 min");
+		expect(countdownLabel(4 * MIN + 1)).toBe("om 5 min");
+		expect(countdownLabel(4 * MIN)).toBe("om 4 min");
+	});
+
+	it("says whole hours without a zero", () => {
+		expect(countdownLabel(180 * MIN), "never »om 3 tim 0 min«").toBe("om 3 tim");
+		expect(countdownLabel(72 * MIN)).toBe("om 1 tim 12 min");
+	});
+
+	it("counts seconds in the last minute and says »nu« when it is due", () => {
+		expect(countdownLabel(34_000)).toBe("om 34 sek");
+		expect(countdownLabel(59_500), "a late tick must not read »om 60 sek«").toBe("om 1 min");
+		expect(countdownLabel(0)).toBe("nu");
+		expect(countdownLabel(-5_000)).toBe("nu");
 	});
 });

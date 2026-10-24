@@ -3,9 +3,9 @@
  * on a page: lazy audio on first press, and a word spotlight that follows the
  * recitation. In an essay the player only plays and highlights.
  *
- * Framework-agnostic so it can be imported from the essay page's module script.
- * Idempotent per element (a `data-qv-ready` flag), so re-running after a View
- * Transition swap is harmless.
+ * Wired by ArticleBody (every reading template) and by QuranVerse (a hand-composed
+ * page). Idempotent per element (a `data-qv-ready` flag), so the two wiring the same
+ * page, or a re-run after a client navigation, set each player up once.
  */
 import type { Segment } from "../lib/arabic";
 import { claimAudio, yieldAudio } from "./audio-exclusive";

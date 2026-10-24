@@ -1,5 +1,6 @@
 // TABS ON THE FRONT PAGE — one behaviour for every set of them: the essays by ämne
-// (AmnenHome) and the AI-barometern's findings (BarometerRail).
+// (AmnenHome), the essäserier (TradarHome) and AI-barometern's findings (BarometerRail),
+// all drawn by HomeTabs.astro, which imports this.
 //
 // The markup is a list of links and a list of panels, and works as that without this
 // script: the first panel is served open, the others carry `hidden`, and every tab is a
@@ -11,6 +12,8 @@
 //   .home-tabs         the tablist (layout.css draws it)
 //   [data-tab]         a tab, in the panels' order
 //   [data-tab-panel]   a panel; needs an id
+
+import { onPage } from "./page";
 
 /** The tab a key moves to from tab `index` of `count`, or undefined for any other key.
  *  Space re-selects the focused tab. */
@@ -53,8 +56,9 @@ function initHomeTabs(): void {
 			const start = row.getBoundingClientRect().left + Number.parseFloat(style.paddingInlineStart);
 			const end = row.getBoundingClientRect().right - Number.parseFloat(style.paddingInlineEnd);
 			const box = tab.getBoundingClientRect();
-			if (box.left < start) row.scrollBy({ left: box.left - start, behavior: "smooth" });
-			else if (box.right > end) row.scrollBy({ left: box.right - end, behavior: "smooth" });
+			// The easing is the row's scroll-behavior (layout.css), off for reduced motion.
+			if (box.left < start) row.scrollBy({ left: box.left - start });
+			else if (box.right > end) row.scrollBy({ left: box.right - end });
 		};
 
 		const select = (index: number, focus = false) => {
@@ -95,4 +99,5 @@ function initHomeTabs(): void {
 	}
 }
 
-document.addEventListener("astro:page-load", initHomeTabs);
+// As soon as the page is there (page.ts): the router's first page-load waits for every image.
+onPage(initHomeTabs);

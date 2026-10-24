@@ -1,4 +1,5 @@
 import { closeEnough, fold, foldedWords } from "./search-text";
+import { TRADITIONS } from "./traditions";
 
 export type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Essäserie" | "Tänkare" | "Essä";
 
@@ -39,8 +40,8 @@ const SECTIONS: readonly {
 	{ heading: "Bönetider", type: "Ort" },
 	{ heading: "Ämnen", type: "Ämne" },
 	{ heading: "Essäserier", type: "Essäserie" },
-	{ heading: "Den klassiska islamiska traditionen", type: "Tänkare", group: "sunni" },
-	{ heading: "Svenska och västerländska röster", type: "Tänkare", group: "western" },
+	{ heading: TRADITIONS.sunni.label, type: "Tänkare", group: "sunni" },
+	{ heading: TRADITIONS.western.label, type: "Tänkare", group: "western" },
 	{ heading: "Essäer", type: "Essä", limit: 8 },
 ];
 

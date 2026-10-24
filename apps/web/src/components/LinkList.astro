@@ -1,0 +1,43 @@
+---
+// A LIST OF LINKS, in one of the site's three shapes for one. Three components drew the
+// same `ul > li > a`, two of them identical but for a class:
+//
+//   hairline  rows between hairlines: a tool page's further reading (OmBonen), a
+//             question's siblings in AI-barometern
+//   pills     wrapping chips: the places nearby, on the bönetider and mosque pages
+//   diamond   the reference register's ◇ list: an answer's and a fördjupning's sources
+//             (an item may be plain text) and, with `nav`, their ways on
+//
+// The styles are global, in layout.css, by the class each shape sets.
+import type { HTMLAttributes } from "astro/types";
+
+export interface LinkItem {
+	label: string;
+	/** Only a diamond list may carry an item that is not a link (a printed source). */
+	href?: string | undefined;
+}
+
+type Props = HTMLAttributes<"ul"> & {
+	items: readonly LinkItem[];
+	variant: "hairline" | "pills" | "diamond";
+	/** Diamond only: the items are ways on, not sources. */
+	nav?: boolean;
+};
+
+const { class: className, items, variant, nav = false, ...attrs } = Astro.props;
+const shape = { hairline: "hairline-link-list", pills: "pill-link-list", diamond: "diamond-list" }[variant];
+---
+
+<ul {...attrs} class:list={[shape, variant === "diamond" && nav && "diamond-list--nav", className]}>
+	{items.map((item) => (
+		<li>
+			{item.href ? (
+				<a href={item.href} rel={item.href.startsWith("http") ? "noopener" : undefined}>
+					{item.label}
+				</a>
+			) : (
+				item.label
+			)}
+		</li>
+	))}
+</ul>

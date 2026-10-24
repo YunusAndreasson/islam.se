@@ -18,6 +18,7 @@ import "../styles/dialog.css";
 import "../styles/quran-verse.css";
 import "../styles/chart.css";
 import "../styles/editorial.css";
+import { SITE_URL } from "../lib/config";
 
 interface Props {
 	title: string;
@@ -118,7 +119,12 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = ogImage
 	? new URL(ogImage, Astro.site).href
 	: new URL("/og-default.png", Astro.site).href;
-const pageTitle = title.replace(/ [–—] islam\.se$/, "").replace(/^islam\.se [–—] /, "");
+// The page's own title is what callers pass; the document title adds the site the Swedish
+// way, »Sida – islam.se« (DESIGN.md, »Names«). A title that already names the site (»Om
+// islam.se«) is not suffixed: the name stands once. Some forty pages typed the suffix
+// themselves and this file stripped it off again for og:title and the JSON-LD.
+const pageTitle = title;
+const documentTitle = /islam\.se/.test(title) ? title : `${title} – islam.se`;
 const resolvedOgImageAlt =
 	ogImageAlt ??
 	(articleMeta ? pageTitle : "islam.se – essäer om islamisk intellektuell tradition och svenskt kulturarv");
@@ -138,7 +144,7 @@ if (jsonLd) {
 
 if (articleMeta) {
 	jsonLdBlocks.push(articleJsonLd({
-		headline: title.replace(/ [–—] islam\.se$/, ""),
+		headline: pageTitle,
 		description: articleMeta.description,
 		publishedAt: articleMeta.publishedAt,
 		...(articleMeta.updatedAt === undefined ? {} : { updatedAt: articleMeta.updatedAt }),
@@ -202,6 +208,17 @@ if (articleMeta) {
 				// reader never sees a ⌘ flash in and turn into Ctrl. Case-insensitive: Chromium
 				// reports userAgentData.platform as »macOS«, Safari navigator.platform as »MacIntel«.
 				const MAC = /mac|iphone|ipad|ipod/i.test(navigator.userAgentData?.platform || navigator.platform || "");
+				// The store an app badge names (AppPromo): the device's own, both on a desktop.
+				// Stamped before paint like the hint above; it waited for the window's load and
+				// both badges stood until then. iPadOS Safari reports itself as desktop macOS,
+				// and its touch points give it away.
+				const UA = navigator.userAgent;
+				const PLATFORM =
+					/android/i.test(navigator.userAgentData?.platform || "") || /Android/i.test(UA)
+						? "android"
+						: /iPad|iPhone|iPod/.test(UA) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+							? "ios"
+							: "";
 				const read = () => {
 					try {
 						const v = localStorage.getItem(KEY);
@@ -217,6 +234,7 @@ if (articleMeta) {
 					if (chosen) root.dataset.theme = chosen;
 					else delete root.dataset.theme;
 					if (MAC) root.dataset.kbd = "mac";
+					if (PLATFORM) root.dataset.platform = PLATFORM;
 					// Scripts run here. A part of the page that a script fills later may
 					// hold its place from the first paint only where this is set (the
 					// front page's news bar, nyheter.css).
@@ -287,7 +305,7 @@ if (articleMeta) {
 		<Font cssVariable="--font-heading" />
 		<Font cssVariable="--font-arabic" />
 		<Font cssVariable="--font-headline" />
-		<title>{title}</title>
+		<title>{documentTitle}</title>
 		<meta name="description" content={description} />
 		{/* Every content page is indexable; non-canonical URLs are 301-redirected at the edge, never
 		    served. Only utility pages that opt in via `noindex` are held back. The preview directives
@@ -318,7 +336,7 @@ if (articleMeta) {
 		<meta property="og:image:alt" content={resolvedOgImageAlt} />
 		{ogArticle && <meta property="article:published_time" content={ogArticle.publishedAt} />}
 		{ogArticle && <meta property="article:modified_time" content={ogArticle.updatedAt ?? ogArticle.publishedAt} />}
-		{ogArticle && <meta property="article:author" content="https://islam.se" />}
+		{ogArticle && <meta property="article:author" content={SITE_URL} />}
 		{ogArticle?.section && <meta property="article:section" content={ogArticle.section} />}
 
 		<!-- Twitter -->
@@ -347,7 +365,7 @@ if (articleMeta) {
 	<body>
 		<a href="#main" class="skip-link">Hoppa till innehållet</a>
 		{/* Reading progress is an essay metaphor — browse pages get no bar. */}
-		{articleMeta && <div class="reading-progress" aria-hidden="true" data-slug={articleMeta.slug} data-title={pageTitle} />}
+		{articleMeta && <div class="reading-progress" aria-hidden="true" data-slug={articleMeta.slug} />}
 		<Header {...(mastSectionHref === undefined ? {} : { activeHref: mastSectionHref })} />
 		<slot />
 		<Footer {...(essaySectionHref === undefined ? {} : { activeHref: essaySectionHref })} />
@@ -360,18 +378,18 @@ if (articleMeta) {
 			</button>
 		</div>
 		<script>
+			import { flashText, shareOrCopy } from "../scripts/clipboard";
+			import { onPage } from "../scripts/page";
 			import { proseProgress, recordProgress } from "../scripts/reading-progress";
 
-			document.addEventListener("astro:page-load", () => {
+			onPage((signal) => {
 				const actions = document.querySelector<HTMLElement>(".fixed-actions");
 				const btn = document.querySelector<HTMLButtonElement>(".back-to-top");
 				if (!actions || !btn) return;
-				const ctrl = new AbortController();
 				let shown = false;
 				const progressBar = document.querySelector<HTMLElement>(".reading-progress");
 				const nativeProgress = CSS.supports("animation-timeline", "scroll(root y)");
 				const slug = progressBar?.dataset.slug;
-				const title = progressBar?.dataset.title;
 				let lastSave = 0;
 				const shareBtn = document.querySelector<HTMLButtonElement>(".share-btn");
 
@@ -385,7 +403,7 @@ if (articleMeta) {
 				// The bar above still follows the page.
 				const prose = document.querySelector(".article-body");
 				const saveProgress = () => {
-					if (slug) recordProgress(slug, prose ? proseProgress(prose) : scrollPct(), title);
+					if (slug) recordProgress(slug, prose ? proseProgress(prose) : scrollPct());
 				};
 
 				const updateScroll = () => {
@@ -402,44 +420,29 @@ if (articleMeta) {
 						}
 					}
 				};
-				window.addEventListener("scroll", updateScroll, { passive: true, signal: ctrl.signal });
-				window.addEventListener("resize", updateScroll, { passive: true, signal: ctrl.signal });
+				window.addEventListener("scroll", updateScroll, { passive: true, signal });
+				window.addEventListener("resize", updateScroll, { passive: true, signal });
 				// Restore the controls and fallback bar when arriving at a saved scroll position.
 				updateScroll();
 
-				btn.addEventListener("click", () => {
-					const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-					window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
-				}, { signal: ctrl.signal });
+				// html's scroll-behavior eases this, and is already off for reduced motion.
+				btn.addEventListener("click", () => window.scrollTo({ top: 0 }), { signal });
 
 				if (shareBtn) {
 					shareBtn.addEventListener("click", async () => {
 						const title = shareBtn.dataset.title || "";
 						const url = shareBtn.dataset.url || location.href;
-						if (navigator.share) {
-							try { await navigator.share({ title, url }); } catch {}
-						} else {
-							// writeText rejects without a secure context or clipboard permission;
-							// say nothing rather than claim a copy that did not happen.
-							try {
-								await navigator.clipboard.writeText(url);
-							} catch {
-								return;
-							}
-							shareBtn.textContent = "Kopierad";
-							setTimeout(() => { shareBtn.textContent = "Dela"; }, 2000);
-						}
-					}, { signal: ctrl.signal });
+						// A refused copy says nothing rather than claim one (scripts/clipboard.ts).
+						if ((await shareOrCopy({ title, url })) === "copied") flashText(shareBtn, "Kopierad");
+					}, { signal });
 				}
 
 				document.addEventListener("visibilitychange", () => {
 					if (document.visibilityState === "hidden") saveProgress();
-				}, { signal: ctrl.signal });
+				}, { signal });
 
-				document.addEventListener("astro:before-swap", () => {
-					saveProgress();
-					ctrl.abort();
-				}, { once: true });
+				// Leaving by a client navigation: the last stretch read is kept as well.
+				return saveProgress;
 			});
 		</script>
 		<FloatingPlayer />

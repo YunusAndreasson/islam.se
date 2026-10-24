@@ -1,8 +1,9 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+import type { InferGetStaticPropsType } from "astro";
 import sharp from "sharp";
 import { amneByName } from "../../lib/amnen";
-import { type Article, getArticles } from "../../lib/articles";
+import { getArticles } from "../../lib/articles";
 import { ogEndpoint } from "../../lib/og-endpoints";
 
 // One social card per essay (§11 OG). Essays with a hero get a photo card —
@@ -37,7 +38,7 @@ function heroStamp(slug: string): string {
 	return `${p}:${st.size}:${st.mtimeMs}`;
 }
 
-export const GET = ogEndpoint<{ article: Article }>(
+export const GET = ogEndpoint<InferGetStaticPropsType<typeof getStaticPaths>>(
 	async ({ article }) => {
 		const amne = article.category ? amneByName.get(article.category) : undefined;
 		const source = heroSource(article.slug);

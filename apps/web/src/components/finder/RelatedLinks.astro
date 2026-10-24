@@ -4,6 +4,7 @@
 // 2026-10-16 the name was only an aria-label), and the links on the page's thirds, each
 // a row with its arrow beside its words. The rows ran the full 76rem canvas with the
 // arrow at the far edge, 1 200px from the label it belonged to.
+import { slugify } from "../../lib/bonetider/slug";
 import Kicker from "../Kicker.astro";
 
 interface Props {
@@ -12,15 +13,10 @@ interface Props {
 }
 
 const { label, links } = Astro.props;
-const id = `finder-links-${label
-	.toLowerCase()
-	.normalize("NFD")
-	.replace(/[̀-ͯ]/g, "")
-	.replace(/[^a-z0-9]+/g, "-")
-	.replace(/^-|-$/g, "")}`;
+const id = `finder-links-${slugify(label)}`;
 ---
 
-<nav class="finder-links" aria-labelledby={id}>
+<nav class="finder-links page-section" aria-labelledby={id}>
 	<Kicker form="head" as="h2" id={id}>{label}</Kicker>
 	<ul>
 		{links.map((link) => (
@@ -34,19 +30,12 @@ const id = `finder-links-${label
 </nav>
 
 <style>
-	.finder-links {
-		margin-top: var(--space-section);
-		padding-top: var(--space-group);
-		border-top: 1px solid var(--color-rule);
-	}
-
 	ul {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
 		column-gap: var(--grid-gutter);
 		margin: 0;
 		padding: 0;
-		list-style: none;
 	}
 
 	@media (width >= 60rem) {
@@ -57,9 +46,9 @@ const id = `finder-links-${label
 
 	a {
 		display: block;
-		min-height: 2.75rem;
+		min-height: var(--tap-target);
 		padding-block: 0.6rem;
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 		color: var(--color-text);
 		text-decoration: none;
 		font-family: var(--font-heading);

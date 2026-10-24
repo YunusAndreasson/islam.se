@@ -26,7 +26,7 @@ const columns = [
 	<abm-mobile class="abm-mobile-answers"><dl>
 		{rows.map((r) => <div><dt><a href={modelPath(r.family.key)}>{r.family.label}</a><span class="abm-sample-note">{r.model}</span></dt><dd><AnswerSummary cell={r.cell} own={r.own} /></dd></div>)}
 	</dl></abm-mobile>
-	<details class="abm-distribution-detail" open>
+	<details class="abm-distribution-detail disclosure" open>
 		<summary>Visa fördelningen av alla svar</summary>
 		<div class="abm-scroll" tabindex="0" role="region" aria-label="Fördelning av modellernas svar">
 			<table class="abm-distribution-table">
@@ -42,14 +42,15 @@ const columns = [
 	<figcaption class="chart-cap"><span>{caption}</span><span>{source}</span></figcaption>
 </figure>
 <script>
-	function setDistributionView() {
+	import { onPage } from "../../scripts/page";
+
+	// Folded on a phone, open from the tablet's width: decided once per table.
+	onPage(() => {
 		for (const element of document.querySelectorAll<HTMLDetailsElement>(".abm-distribution-detail")) {
 			if (!element.dataset.initialized) {
-				element.open = !window.matchMedia("(max-width: 48rem)").matches;
+				element.open = !window.matchMedia("(width < 48rem)").matches;
 				element.dataset.initialized = "true";
 			}
 		}
-	}
-	setDistributionView();
-	document.addEventListener("astro:page-load", setDistributionView);
+	});
 </script>

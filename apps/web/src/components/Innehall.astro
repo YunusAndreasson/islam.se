@@ -17,7 +17,7 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 {
 	sections.length > 1 && (
 		<nav class="innehall" aria-labelledby={labelId}>
-			<details class="contents-disclosure" open>
+			<details class="contents-disclosure disclosure" open>
 			<summary class="label" id={labelId}>
 				Innehåll
 			</summary>
@@ -131,13 +131,12 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 </style>
 
 <script>
-	document.addEventListener("astro:page-load", () => {
+	import { onPage } from "../scripts/page";
+
+	onPage((signal) => {
 		const nav = document.querySelector<HTMLElement>(".innehall");
 		const disclosure = nav?.querySelector<HTMLDetailsElement>(".contents-disclosure");
 		if (!nav || !disclosure) return;
-		const ctrl = new AbortController();
-		const { signal } = ctrl;
-		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
 
 		const compact = matchMedia("(width <= 37.5rem)");
 		const sync = () => { disclosure.open = !compact.matches; disclosure.querySelector("summary")?.setAttribute("tabindex", compact.matches ? "0" : "-1"); };
@@ -145,7 +144,7 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 		compact.addEventListener("change", sync, { signal });
 		disclosure.addEventListener("click", (event) => {
 			if (compact.matches && (event.target as Element).closest("a")) disclosure.open = false;
-		});
+		}, { signal });
 
 		// The current section: from the moment its heading crosses the reading line, a third
 		// of the way down, until the next heading does. Before the first heading nothing is
@@ -216,12 +215,13 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 			clearTimeout(release);
 			release = setTimeout(unpin, 1000);
 		}, { signal });
+
+		return () => clearTimeout(release);
 	});
 </script>
 <style>
-	.contents-disclosure summary { cursor: pointer; min-height: 2.75rem; display: flex; align-items: center; justify-content: space-between; }
-	.contents-disclosure summary::after { content: "+"; }
-	.contents-disclosure[open] summary::after { content: "−"; }
+	/* The marker is the site's disclosure chevron (layout.css), at the row's far edge. */
+	.contents-disclosure summary { min-height: var(--tap-target); display: flex; align-items: center; justify-content: space-between; }
 	.contents-disclosure ol { margin-top: var(--space-control); }
 	@media (width > 37.5rem) { .contents-disclosure summary { pointer-events: none; } .contents-disclosure summary::after { display: none; } }
 	@media (width >= 90rem) { .innehall ol { font-size: var(--step--2); } }

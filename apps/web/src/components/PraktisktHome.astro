@@ -45,9 +45,11 @@
 // sentence is the calendar's own row (MarkesdagList), which scripts/markesdagar.ts
 // re-selects against the real date; scripts/arslinje.ts does the same for the line.
 import { getBurialGrounds } from "../lib/begravningsplatser";
+import { liveMountAttrs } from "../lib/bonetider/live-mount";
 import {
 	computePrayerTimes,
 	formatTime,
+	nextPrayer,
 	nextPrayerKeyAt,
 	PRAYER_LABELS,
 	PRAYER_ORDER,
@@ -58,6 +60,7 @@ import { getMosques } from "../lib/moskeer";
 import { HOME_TOOL_LINKS } from "../lib/navigation";
 import { dotsPath, KARTA_HEIGHT, KARTA_WIDTH, outlinePath } from "../lib/sverige-karta";
 import Arslinje from "./Arslinje.astro";
+import Kicker from "./Kicker.astro";
 import MarkesdagList from "./MarkesdagList.astro";
 import PrayerHorizon from "./PrayerHorizon.astro";
 import SectionLink from "./SectionLink.astro";
@@ -69,15 +72,9 @@ const times = computePrayerTimes(DEFAULT_COORDS, now, DEFAULT_SETTINGS);
 // After ʿIshāʾ the next prayer is tomorrow's Fajr: the sentence names it, and no row of
 // today's list is marked (the live script's `is-next-today`).
 const nextToday = nextPrayerKeyAt(times, now.getTime());
-const nextKey = nextToday ?? "fajr";
+const next = nextPrayer(DEFAULT_COORDS, times, now, DEFAULT_SETTINGS);
 // What the live script needs to move a readout to the reader's own place.
-const plats = {
-	"data-name": DEFAULT_COORDS.name,
-	"data-lat": DEFAULT_COORDS.latitude,
-	"data-lon": DEFAULT_COORDS.longitude,
-	"data-variant": "strip",
-	"data-fixed": "0",
-};
+const plats = liveMountAttrs(DEFAULT_COORDS);
 
 // One row: the next observance, as the sentence under the year's name. The line draws
 // the rest.
@@ -108,7 +105,7 @@ const gravPunkter = dotsPath(burialGrounds);
 ---
 
 <section class="praktiskt-home home-movement" aria-labelledby="praktiskt-home-rubrik">
-	<h2 class="label home-kicker" id="praktiskt-home-rubrik">Praktiskt</h2>
+	<Kicker form="head" as="h2" id="praktiskt-home-rubrik">Praktiskt</Kicker>
 
 	<div class="praktiskt-delar">
 		<div class="praktiskt-linjer">
@@ -118,8 +115,8 @@ const gravPunkter = dotsPath(burialGrounds);
 					<SectionLink class="label home-head-all" href="/bonetider/aret/">Bönetider under året</SectionLink>
 				</div>
 				<p class="praktiskt-text bonetider-strip" {...plats}>
-					Nästa bön <span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>{" "}
-					<span class="bf-next-time">{formatTime(times[nextKey])}</span> i{" "}
+					Nästa bön <span class="bf-next-name">{PRAYER_LABELS[next.key]}</span>{" "}
+					<span class="bf-next-time">{formatTime(next.at)}</span> i{" "}
 					<span class="bf-place">{DEFAULT_COORDS.name}</span>.
 				</p>
 				<a class="praktiskt-linje" href={bonetider.href} tabindex="-1" aria-hidden="true">
@@ -259,7 +256,6 @@ const gravPunkter = dotsPath(burialGrounds);
 		gap: 0.35rem 1rem;
 		margin: var(--space-half) 0 0;
 		padding: 0;
-		list-style: none;
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		color: var(--color-muted);
@@ -285,50 +281,6 @@ const gravPunkter = dotsPath(burialGrounds);
 	.praktiskt-tid.is-next-today .praktiskt-tid-klocka {
 		color: var(--color-text);
 		font-weight: 600;
-	}
-
-	/* THE YEAR'S SENTENCE. The calendar's own row for the next observance (layout.css,
-	   .md-list--rail), set as the one line the day has over its line: the name, its
-	   dates, how far off. The row's three stacked parts go on a line, the name first,
-	   in the room's quiet prose; the hijri date is the line's own to carry. */
-	.praktiskt-del :global(.md-list--rail) {
-		margin: 0.35rem 0 0;
-	}
-
-	.praktiskt-del :global(.md-list--rail .md-row) {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 0 0.5rem;
-		padding: 0;
-	}
-
-	.praktiskt-del :global(.md-list--rail .md-row[hidden]) {
-		display: none;
-	}
-
-	.praktiskt-del :global(.md-list--rail .md-body) {
-		order: -1;
-	}
-
-	.praktiskt-del :global(.md-list--rail .md-name) {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		font-weight: 600;
-		line-height: 1.45;
-		color: var(--text-body);
-	}
-
-	.praktiskt-del :global(.md-list--rail .md-greg) {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		line-height: 1.45;
-		letter-spacing: 0;
-		color: var(--text-quiet);
-	}
-
-	.praktiskt-del :global(.md-list--rail .md-hijri) {
-		display: none;
 	}
 
 	/* THE MAP beside its words, on the column's right edge: the narrow silhouette keeps

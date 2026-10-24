@@ -1,3 +1,4 @@
+import type { APIContext, InferGetStaticPropsType } from "astro";
 import { monthPdf } from "../../../lib/bonetider/pdf";
 import { INDEXED_PLACES, OG_POPULATION } from "../../../lib/bonetider/places-index";
 
@@ -23,15 +24,9 @@ export function getStaticPaths() {
 		}));
 }
 
-interface Props {
-	name: string;
-	slug: string;
-	county?: string | undefined;
-	lat: number;
-	lon: number;
-}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-export function GET({ props }: { props: Props }) {
+export function GET({ props }: APIContext<Props>) {
 	const pdf = monthPdf(props);
 	return new Response(new Uint8Array(pdf), {
 		headers: {

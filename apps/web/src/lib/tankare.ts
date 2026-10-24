@@ -1,6 +1,7 @@
 import { getCollection } from "astro:content";
 import { type Article, articleBody, getArticles } from "./articles";
 import { memoize } from "./cache";
+import { byTradition, type Tradition } from "./traditions";
 
 // Tänkare — the recurring interlocutors. Membership is DERIVED from the corpus:
 // each thinker's `match` terms (the distinctive spelling of the name, diacritics
@@ -9,7 +10,7 @@ import { memoize } from "./cache";
 // tankare.json (§13.7); nothing about who-appears-where is hand-maintained, so
 // the lists track the corpus automatically as essays come and go.
 
-export type Tradition = "sunni" | "western";
+export type { Tradition } from "./traditions";
 
 export interface Tankare {
 	name: string;
@@ -86,8 +87,7 @@ interface Candidate {
 /** Every sunni × western pair that shares at least `minShared` essays, with its lift. */
 function pairCandidates(thinkers: readonly PairInput[], minShared: number): Candidate[] {
 	const essaysOf = new Map(thinkers.map((t) => [t.slug, new Set(t.essays.map((e) => e.slug))]));
-	const sunni = thinkers.filter((t) => t.tradition === "sunni");
-	const western = thinkers.filter((t) => t.tradition === "western");
+	const { sunni, western } = byTradition(thinkers, (t) => t.tradition);
 	const candidates: Candidate[] = [];
 	for (const s of sunni) {
 		const ofA = essaysOf.get(s.slug) ?? new Set<string>();

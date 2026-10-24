@@ -15,7 +15,7 @@ const { title, meta, lead, updatedDate, updatedLabel } = Astro.props;
 	<p class="mk-page-meta">
 		{meta} · Senast uppdaterad <time datetime={updatedDate}>{updatedLabel}</time>
 	</p>
-	<p class="mk-page-lead">{lead}</p>
+	<p class="lead lead--page">{lead}</p>
 </header>
 
 <style>
@@ -29,15 +29,5 @@ const { title, meta, lead, updatedDate, updatedLabel } = Astro.props;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
 		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.mk-page-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
 	}
 </style>

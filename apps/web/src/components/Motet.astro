@@ -2,6 +2,7 @@
 import Kicker from "./Kicker.astro";
 import MarkDot from "./MarkDot.astro";
 import type { Tradition } from "../lib/tankare";
+import { byTradition, TRADITIONS } from "../lib/traditions";
 
 // MÖTET — the site's one signature device.
 //
@@ -41,15 +42,14 @@ interface Props {
 
 const { tankare } = Astro.props;
 
-const sunni = tankare.filter((t) => t.tradition === "sunni");
-const western = tankare.filter((t) => t.tradition === "western");
+const { sunni, western } = byTradition(tankare, (t) => t.tradition);
 
 // The axis needs two arms. With one tradition present this falls back to a single
 // labelled column; with neither, the component renders nothing at all.
 const isEncounter = sunni.length > 0 && western.length > 0;
 const columns = [
-	sunni.length > 0 && { label: "Den klassiska traditionen", voices: sunni },
-	western.length > 0 && { label: "Svenska och västerländska röster", voices: western },
+	sunni.length > 0 && { label: TRADITIONS.sunni.label, voices: sunni },
+	western.length > 0 && { label: TRADITIONS.western.label, voices: western },
 ].filter((c): c is { label: string; voices: Voice[] } => Boolean(c));
 ---
 
@@ -117,18 +117,14 @@ const columns = [
 		position: absolute;
 		inset-block: 0;
 		left: 50%;
-		border-inline-start: 1px solid var(--color-rule);
+		border-inline-start: var(--border-rule);
 	}
 
 	/* The khatam sits ON the rule and breaks it. The page-coloured band is what
 	   makes it read as an interruption rather than a bead laid on top; without it
-	   the hairline runs visibly behind the gold.
-
-	   ⚠️ :global() is load-bearing. The mark is rendered by <MarkDot>, a child
-	   component, and Astro's scope attribute lands on elements in THIS template —
-	   not inside a child's. Without :global() the selector matches nothing and the
-	   SVG paints at its natural size, which is roughly a dinner plate. */
-	:global(.motet-mark) {
+	   the hairline runs visibly behind the gold. (MarkDot forwards this template's
+	   scope, so the rule is scoped like any other.) */
+	.motet-mark {
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -185,7 +181,7 @@ const columns = [
 			display: none;
 		}
 
-		:global(.motet-mark) {
+		.motet-mark {
 			display: none;
 		}
 	}

@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import type { InferGetStaticPropsType } from "astro";
 import { ogEndpoint } from "../../../lib/og-endpoints";
 
 // A title card per answer page. They all shared /og-default.png before, so every
@@ -11,7 +12,7 @@ export async function getStaticPaths() {
 	}));
 }
 
-export const GET = ogEndpoint<{ title: string; framing: string }>(
+export const GET = ogEndpoint<InferGetStaticPropsType<typeof getStaticPaths>>(
 	(p) => ({ kicker: "Frågor och svar", title: p.title, framing: p.framing }),
 	(p) => `svar|${p.title}|${p.framing}`,
 );

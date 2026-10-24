@@ -3,10 +3,8 @@ import {
 	computePrayerTimes,
 	stockholmDateLabel,
 	stockholmIsoDate,
-	dateForStockholmDay,
-	stockholmDateParts,
 	formatTime,
-	nextPrayerKeyAt,
+	nextPrayer,
 	PRAYER_LABELS,
 	PRAYER_ORDER,
 	PRAYER_SWEDISH_NAMES,
@@ -49,10 +47,7 @@ const rows = PRAYER_ORDER.map((key) => ({
 	// light-dark() rather than duplicated per scheme.
 	line: `light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`,
 }));
-const todayNext = nextPrayerKeyAt(times, now.getTime());
-const nextKey = todayNext ?? "fajr";
-const { year, month, day } = stockholmDateParts(now);
-const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dateForStockholmDay(year, month, day + 1), DEFAULT_SETTINGS).fajr;
+const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_SETTINGS);
 ---
 
 <div
@@ -73,7 +68,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 						<span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>
 						<span class="bf-next-sub">{PRAYER_SWEDISH_NAMES[nextKey]}</span>
 					</span>
-					<span class="bf-countdown">{formatTime(times[nextKey])}</span>
+					<span class="bf-countdown">{formatTime(nextTime)}</span>
 				</p>
 				<p class="bf-place">{location.name}</p>
 			</div>
@@ -198,7 +193,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		   over it: only what really stands above the page casts one (the search dialog,
 		   a note's popover, the panel over this map). Until 2026-10-18 the two maps were
 		   the only things lying ON the page that floated off it (Moskéer's too). */
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 	}
 
 	.bf-canvas {
@@ -319,7 +314,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		column-gap: 1rem;
 		align-items: baseline;
 		padding: 0.5rem 0.2rem 0.5rem 0.7rem;
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 		/* --prayer-line is set per row from the canvas palette, so a row's rule is the
 		   same colour as that prayer's isoline on the map beside it. */
 		border-left: 3px solid var(--prayer-line, transparent);
@@ -397,7 +392,7 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		grid-template-areas: "summary" "times" "map" "legend";
 		gap: 0.9rem;
 	}
-	.bf-summary { grid-area: summary; padding: var(--space-control) var(--space-group); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--surface-1); }
+	.bf-summary { grid-area: summary; padding: var(--space-control) var(--space-group); border: var(--border-rule); border-radius: var(--radius-sm); background: var(--surface-1); }
 	.bf-map-first .bf-summary .bf-next { margin: 0; display: flex; flex-direction: row; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
 	.bf-map-first .bf-stage { grid-area: map; aspect-ratio: 4 / 3; }
 	.bf-map-first .bf-legend { grid-area: legend; margin: 0; font-size: var(--step--3); line-height: 1.5; color: var(--color-muted); text-wrap: pretty; }
@@ -447,12 +442,6 @@ const nextTime = todayNext ? times[todayNext] : computePrayerTimes(location, dat
 		}
 	}
 
-
-	@media (prefers-reduced-motion: reduce) {
-		.bf-canvas {
-			/* The wash/lines still render; only the per-minute repaint is imperceptible. */
-		}
-	}
 </style>
 
 <script>

@@ -76,12 +76,8 @@ const description =
 		collectionPageJsonLd({
 			name: "Fördjupning om islam",
 			description,
-			// `slug` is prefixed because the helper resolves it against the site root.
 			url: "/fordjupning/",
-			essays: ordered.map(({ entry: e }) => ({
-				title: e.data.title,
-				slug: `fordjupning/${e.id}`,
-			})),
+			parts: ordered.map(({ entry: e }) => ({ title: e.data.title, url: `/fordjupning/${e.id}` })),
 		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },

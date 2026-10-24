@@ -1,0 +1,16 @@
+---
+// A page's data for its own script, escaped so that no value can end the element early
+// (lib/json-script.ts). Read it back with readJsonScript(). Only `id` and `class`, not a
+// spread: a spread also carried the parent's scoped-style attribute onto the data.
+import { jsonForScript } from "../lib/json-script";
+
+interface Props {
+	id?: string;
+	class?: string;
+	data: unknown;
+}
+
+const { id, class: className, data } = Astro.props;
+---
+
+<script id={id} class={className} type="application/json" is:inline set:html={jsonForScript(data)} />

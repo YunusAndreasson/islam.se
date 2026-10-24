@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { SITE_URL } from "./config";
-import { articleJsonLd, figureImageObject, ORG_ID, WEBSITE_ID } from "./jsonld";
+import {
+	articleJsonLd,
+	collectionPageJsonLd,
+	figureImageObject,
+	ORG_ID,
+	WEBSITE_ID,
+	webPageJsonLd,
+} from "./jsonld";
 
 describe("articleJsonLd", () => {
 	it("keeps the shared Article identity and canonical URL in one contract", () => {
@@ -93,5 +100,51 @@ describe("figureImageObject", () => {
 		expect(block).not.toHaveProperty("license");
 		expect(block).not.toHaveProperty("creditText");
 		expect(block).not.toHaveProperty("caption");
+	});
+});
+
+describe("webPageJsonLd", () => {
+	it("states the page's url as its canonical, with the trailing slash", () => {
+		// Three hand-written nodes said https://islam.se/om while the canonical said
+		// https://islam.se/om/: one entity under two URLs for a crawler.
+		const node = webPageJsonLd({ type: "AboutPage", name: "Om islam.se", url: "/om" });
+		expect(node.url).toBe(`${SITE_URL}/om/`);
+		expect(node.isPartOf, "every page belongs to the one WebSite node").toEqual({
+			"@id": WEBSITE_ID,
+		});
+		expect(node["@type"]).toBe("AboutPage");
+	});
+
+	it("leaves out a description it was not given, and keeps the page's own facts", () => {
+		const node = webPageJsonLd({
+			name: "Appen",
+			url: "/app",
+			extra: { publisher: { "@id": ORG_ID } },
+		});
+		expect(node).not.toHaveProperty("description");
+		expect(node.publisher).toEqual({ "@id": ORG_ID });
+	});
+});
+
+describe("collectionPageJsonLd", () => {
+	it("lists essays by slug and other members by their own path", () => {
+		const node = collectionPageJsonLd({
+			name: "Tro och lära",
+			description: "…",
+			url: "/vad-ar-islam/",
+			essays: [{ title: "En essä", slug: "en-essa" }],
+			parts: [{ title: "Ett svar", url: "/svar/ett-svar" }],
+		});
+		expect(node.hasPart).toEqual([
+			{ "@type": "Article", headline: "En essä", url: `${SITE_URL}/en-essa/` },
+			{ "@type": "Article", headline: "Ett svar", url: `${SITE_URL}/svar/ett-svar/` },
+		]);
+	});
+
+	it("has no hasPart at all when the collection names no members", () => {
+		// /nyheter/ declares its provenance, not its items, which are gone within a day;
+		// an empty hasPart claimed a collection of nothing.
+		const node = collectionPageJsonLd({ name: "Nyheter", description: "…", url: "/nyheter/" });
+		expect(node).not.toHaveProperty("hasPart");
 	});
 });

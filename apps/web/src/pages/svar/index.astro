@@ -72,7 +72,7 @@ const description =
 
 <CollectionIndexPage
 	title="Frågor och svar"
-	pageTitle="Frågor och svar om islam – islam.se"
+	pageTitle="Frågor och svar om islam"
 	description={description}
 	lead="Svar på frågor om tron, vardagen och livet som muslim, med stöd i Koranen, sunna och klassiska islamiska lärda."
 	ritning={RITNINGAR.svar}
@@ -83,7 +83,7 @@ const description =
 			name: "Frågor och svar om islam",
 			description,
 			url: "/svar/",
-			essays: listed.map((e) => ({ title: e.data.title, slug: `svar/${e.id}` })),
+			parts: listed.map((e) => ({ title: e.data.title, url: `/svar/${e.id}` })),
 		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
@@ -165,7 +165,9 @@ const description =
 <script>
 	// Progressive enhancement: highlight the category chip whose section is in view.
 	// Plain anchors already work without this (jump + scroll-margin handle landing).
-	function bindSvarNav() {
+	import { onPage } from "../../scripts/page";
+
+	function bindSvarNav(): (() => void) | undefined {
 		const sections = Array.from(document.querySelectorAll<HTMLElement>(".svar-section"));
 		const chips = new Map(
 			Array.from(document.querySelectorAll<HTMLAnchorElement>(".svar-nav a")).map((a) => [
@@ -193,11 +195,11 @@ const description =
 			{ rootMargin: "-30% 0px -65% 0px" },
 		);
 		for (const s of sections) obs.observe(s);
+		// The observer holds the sections it watches: let go of them with the page.
+		return () => obs.disconnect();
 	}
 
-	document.addEventListener("astro:page-load", () => {
-		bindSvarNav();
-	});
+	onPage(bindSvarNav);
 </script>
 
 <style>

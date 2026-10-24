@@ -1,8 +1,9 @@
 ---
 import CollectionIndexPage from "../components/CollectionIndexPage.astro";
 import Kicker from "../components/Kicker.astro";
-import SectionLink from "../components/SectionLink.astro";
+import OnwardLinks from "../components/OnwardLinks.astro";
 import { breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
+import { destinations } from "../lib/navigation";
 import "../styles/nyheter.css";
 
 // NYHETER — världsnyheter på svenska, från zuhd.news.
@@ -32,7 +33,7 @@ const description =
 
 <CollectionIndexPage
 	title="Nyheter"
-	pageTitle="Nyheter – världen just nu på svenska – islam.se"
+	pageTitle="Nyheter – världen just nu på svenska"
 	description={description}
 	ogImageAlt="Nyheter – islam.se"
 	mainClass="nyheter-index home home--text"
@@ -41,7 +42,6 @@ const description =
 			name: "Nyheter",
 			description,
 			url: "/nyheter/",
-			essays: [],
 			// The items themselves carry no structured data: they are gone within a
 			// day, and a static ItemList naming articles that no longer exist is a
 			// worse signal than none. What is declared here is the provenance.
@@ -126,20 +126,12 @@ const description =
 	    onward links are the most valuable thing on this page for a site whose
 	    actual subject is at /svar/ and /fordjupning/, and they were the faintest
 	    thing on it — three grey paragraphs deep, in the same ink as the machine-
-	    translation caveat. They now sit above the note, at the rung the rest of the
-	    site gives a section link. */}
-	<nav class="nyheter-vidare" aria-label="Vidare på islam.se">
-		<p class="label nyheter-vidare-rubrik">Vidare på islam.se</p>
-		<ul>
-			<li>
-				<SectionLink class="label arrow-link" href="/svar/">Frågor och svar</SectionLink>
-				<span>Korta svar på det som oftast frågas: tron, reglerna, livet som muslim.</span>
-			</li>
-			<li>
-				<SectionLink class="label arrow-link" href="/fordjupning/">Fördjupning</SectionLink>
-				<span>Längre genomgångar av omdiskuterade ämnen, från källorna till svensk rätt.</span>
-			</li>
-		</ul>
+	    translation caveat. They now sit above the note as every page's ways on do:
+	    a section under its kicker, the destinations as items named and glossed as the
+	    menu names them (OnwardLinks, lib/navigation.ts). */}
+	<nav class="nyheter-vidare page-section" aria-labelledby="nyheter-vidare-rubrik">
+		<Kicker form="head" as="h2" id="nyheter-vidare-rubrik">Vidare på islam.se</Kicker>
+		<OnwardLinks items={destinations(["/svar/", "/fordjupning/"])} />
 	</nav>
 
 	<div class="nyheter-kolofon">

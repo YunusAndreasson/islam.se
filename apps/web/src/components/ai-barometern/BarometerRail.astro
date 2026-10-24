@@ -57,6 +57,8 @@ import {
 	svDateList,
 } from "../../lib/ai-barometern/site";
 import { RITNINGAR } from "../../lib/ritningar";
+import HomeTabs from "../HomeTabs.astro";
+import Kicker from "../Kicker.astro";
 import Ritning from "../Ritning.astro";
 import SectionLink from "../SectionLink.astro";
 import ModelLogo from "./ModelLogo.astro";
@@ -110,9 +112,9 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 		<section class="barometer-rail abm home-movement" aria-labelledby="barometer-rail-rubrik">
 			<div class="barometer-rail-ram">
 				<div class="barometer-rail-opening">
-					<h2 class="label home-kicker" id="barometer-rail-rubrik">
+					<Kicker form="head" as="h2" id="barometer-rail-rubrik">
 						AI-barometern
-					</h2>
+					</Kicker>
 					{/* What it is, first, in two short sentences. It opened on a question and took
 					    six lines to say this. */}
 					<p class="barometer-rail-ingress home-ingress">
@@ -137,19 +139,11 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 				<div class="barometer-rail-fynd" data-home-tabs>
 					<p class="barometer-rail-datum">{when}</p>
 					{cases.length > 1 ? (
-						<nav class="home-tabs barometer-rail-flikar" aria-label="Välj jämförelse">
-							{cases.map((f, i) => (
-								<a
-									class="home-tab"
-									id={`barometer-flik-${i + 1}`}
-									href={f.href}
-									data-tab
-									data-selected={i === 0 ? "true" : undefined}
-								>
-									{f.lead}
-								</a>
-							))}
-						</nav>
+						<HomeTabs
+							class="barometer-rail-flikar"
+							aria-label="Välj jämförelse"
+							tabs={cases.map((f, i) => ({ id: `barometer-flik-${i + 1}`, href: f.href, label: f.lead }))}
+						/>
 					) : (
 						cases.map((f) => (
 							<h3 class="barometer-rail-rubrik">
@@ -375,7 +369,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 
 	/* On the row, not on each cell: one rule, drawn once. */
 	.barometer-svar thead tr {
-		border-bottom: 1px solid var(--color-rule);
+		border-bottom: var(--border-rule);
 	}
 
 	/* A statement, as put to the models: in the regular weight, so the one subject that
@@ -432,7 +426,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 		display: none;
 	}
 
-	@media (width < 30rem) {
+	@media (width <= 30rem) {
 		.barometer-svar td {
 			font-size: var(--step--3);
 		}
@@ -508,7 +502,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 		}
 	}
 
-	@media (width >= 30rem) {
+	@media (width > 30rem) {
 		.barometer-svar-modell {
 			inline-size: 7.5rem;
 		}
@@ -599,7 +593,3 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 		}
 	}
 </style>
-
-<script>
-	import "../../scripts/home-tabs";
-</script>

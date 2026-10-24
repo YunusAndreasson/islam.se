@@ -5,9 +5,10 @@
 // reading-progress.ts), so this is the one part of the movement that cannot be
 // rendered at build time; without it the routes are simply all unread.
 //
-// Boots on `astro:page-load`, not DOMContentLoaded: Base.astro ships <ClientRouter />,
-// and a reader who finishes an essay and comes back to the front page arrives by a
-// client navigation, which never fires DOMContentLoaded again.
+// Runs on every page, not on DOMContentLoaded: Base.astro ships <ClientRouter />, and a
+// reader who finishes an essay and comes back to the front page arrives by a client
+// navigation, which never fires DOMContentLoaded again (read-state.ts, onReadMarks).
+import { onReadMarks } from "./read-state";
 import { hasRead } from "./reading-progress";
 
 function markRoutes(): void {
@@ -30,4 +31,4 @@ function markRoutes(): void {
 	}
 }
 
-document.addEventListener("astro:page-load", markRoutes);
+onReadMarks(markRoutes);

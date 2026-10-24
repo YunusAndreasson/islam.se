@@ -14,9 +14,10 @@
 //                `#nyhet-…` deep link, and fills the list itself only if the
 //                edge fetch failed.
 //
-// Boots on `astro:page-load`, not `DOMContentLoaded`: Base.astro ships
+// Boots through onPage (page.ts), not on `DOMContentLoaded`: Base.astro ships
 // <ClientRouter />, and a listener bound only to first load silently stops
 // firing after the reader's first in-site navigation.
+
 import {
 	FEED_URL,
 	FONSTER_H,
@@ -27,14 +28,26 @@ import {
 	statusHtml,
 	tidsetiketter,
 } from "../../functions/nyheter/_nyheter.js";
+import { copyText, flashText } from "./clipboard";
+import { onPage } from "./page";
 
 /** The payload shape is declared once, as a JSDoc typedef beside the renderer. */
 type Nyhet = import("../../functions/nyheter/_nyheter.js").Nyhet;
 
-/** One request feeds both surfaces and belongs to the current Astro page. */
+/** How long the feed may take before the bar gives up on it, as on a failure. */
+const GE_UPP_MS = 8000;
+
+/** One request feeds both surfaces and belongs to the current Astro page. A request that
+ *  hangs is given up like one that fails, so the bar is taken out instead of being held,
+ *  empty and busy, for as long as the connection does. (`AbortSignal.any` is recent
+ *  enough that an older Safari falls back to the page's signal alone.) */
 function hamta(signal: AbortSignal): Promise<Nyhet[] | null> {
+	const timeout = AbortSignal.timeout(GE_UPP_MS);
 	return (
-		fetch(FEED_URL, { headers: { accept: "application/json" }, signal })
+		fetch(FEED_URL, {
+			headers: { accept: "application/json" },
+			signal: typeof AbortSignal.any === "function" ? AbortSignal.any([signal, timeout]) : signal,
+		})
 			.then((r) => (r.ok ? r.json() : null))
 			.then((d) => (Array.isArray(d?.artiklar) ? (d.artiklar as Nyhet[]) : null))
 			// A blocked or failed cross-origin fetch is an ordinary outcome here —
@@ -87,7 +100,9 @@ function losUppLank(signal: AbortSignal): void {
 	if (!/^[a-z0-9][a-z0-9-]{0,120}$/.test(slug)) return;
 	const traff = document.getElementById(`nyhet-${slug}`);
 	if (traff) {
-		traff.scrollIntoView({ block: "center", behavior: "smooth" });
+		// No behaviour of its own: html's scroll-behavior eases it, except for a reader who
+		// asked for less motion, which an explicit "smooth" here overrode.
+		traff.scrollIntoView({ block: "center" });
 		traff.classList.add("nyhet--utpekad");
 		markeraTillfalligt(traff, signal);
 		return;
@@ -140,20 +155,10 @@ function kopplaDelning(rot: HTMLElement): void {
 			navigator.share({ title: titel, url }).catch(tillbaka);
 			return;
 		}
-		const skrivbord = navigator.clipboard?.writeText(url);
-		if (!skrivbord) {
-			tillbaka();
-			return;
-		}
-		skrivbord
-			.then(() => {
-				const fore = lank.textContent;
-				lank.textContent = "Länk kopierad";
-				setTimeout(() => {
-					lank.textContent = fore;
-				}, 2000);
-			})
-			.catch(tillbaka);
+		copyText(url).then((kopierad) => {
+			if (kopierad) flashText(lank, "Kopierad");
+			else tillbaka();
+		});
 	});
 }
 
@@ -222,10 +227,8 @@ async function boot(signal: AbortSignal): Promise<void> {
 	}
 }
 
-let page: AbortController | undefined;
-document.addEventListener("astro:before-swap", () => page?.abort());
-document.addEventListener("astro:page-load", () => {
-	page?.abort();
-	page = new AbortController();
-	boot(page.signal);
+// As soon as the page is there, and again after every swap (page.ts): the request starts
+// before the images have arrived, and the page's signal cancels it if the reader leaves.
+onPage((signal) => {
+	boot(signal);
 });

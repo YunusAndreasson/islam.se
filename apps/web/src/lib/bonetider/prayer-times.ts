@@ -256,6 +256,28 @@ export function nextPrayerKeyAt(times: PrayerTimes, now: number): PrayerKey | nu
 	return null;
 }
 
+/**
+ * The prayer to count down to at `now`, and when it falls: the day's next prayer, or once
+ * ʿIshāʾ has passed, Fajr of the NEXT Stockholm calendar day. `today` is `coords`' times for
+ * `now`'s Stockholm day. Five places wrote this; one took tomorrow as `now` + 24 hours,
+ * which on the night the clocks go forward (Saturday 23:00–24:00) lands on Monday and
+ * counted down to the wrong Fajr.
+ */
+export function nextPrayer(
+	coords: LatLng,
+	today: PrayerTimes,
+	now: Date,
+	settings: PrayerSettings,
+): { key: PrayerKey; at: Date } {
+	const key = nextPrayerKeyAt(today, now.getTime());
+	if (key) return { key, at: today[key] };
+	const { year, month, day } = stockholmDateParts(now);
+	return {
+		key: "fajr",
+		at: computePrayerTimes(coords, dateForStockholmDay(year, month, day + 1), settings).fajr,
+	};
+}
+
 // Arabic prayer names in academic transliteration (DIN 31635 / ALA-LC style):
 //   ʿayn  = ʿ        ḍ = emphatic d        ī = long i
 //   hamza = ʾ        ḥ = pharyngeal h      ū = long u
@@ -302,4 +324,21 @@ export const PRAYER_SWEDISH_NAMES: Record<PrayerKey, string> = {
 export function formatTime(date: Date | null | undefined): string {
 	if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "—";
 	return STOCKHOLM_TIME_FORMAT.format(date);
+}
+
+/**
+ * »om 1 tim 12 min«, »om 12 min«, »om 34 sek«, »om 3 tim« on the hour, and »nu« once it is
+ * due. Minutes round UP, to the difference a reader works out from the two clocks on the
+ * screen: a prayer at 12:05 is »om 5 min« for the whole of 12:00. The prayer field and the
+ * moskéskärm each had their own copy, one flooring and one rounding, so a phone and the
+ * wall beside it could name the same prayer a minute apart.
+ */
+export function countdownLabel(msLeft: number): string {
+	if (msLeft <= 0) return "nu";
+	const secs = Math.ceil(msLeft / 1000);
+	if (secs < 60) return `om ${secs} sek`;
+	const mins = Math.ceil(msLeft / 60_000);
+	if (mins < 60) return `om ${mins} min`;
+	const hours = Math.floor(mins / 60);
+	return mins % 60 === 0 ? `om ${hours} tim` : `om ${hours} tim ${mins % 60} min`;
 }

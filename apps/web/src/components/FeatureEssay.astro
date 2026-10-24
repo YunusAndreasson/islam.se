@@ -7,6 +7,7 @@ import { heroPlaceholder } from "../lib/lqip";
 import ArticleMeta from "./ArticleMeta.astro";
 import EssayImage from "./EssayImage.astro";
 import HomeHead from "./HomeHead.astro";
+import Kicker from "./Kicker.astro";
 
 interface Props {
 	article: Article;
@@ -42,9 +43,9 @@ const LONG_TITLE = 50;
     paragraph wrapped in a link reads as one long link name. */}
 <section class="feature home-movement" aria-labelledby="feature-title">
 	<div class="feature-text">
-		<p class="label home-kicker feature-kicker">
-			{amne ? <a href={`/amnen/${amne.slug}/`}>{amne.name}</a> : "Senast publicerat"}
-		</p>
+		<Kicker form="quiet" class="feature-kicker" href={amne ? `/amnen/${amne.slug}/` : undefined}>
+			{amne ? amne.name : "Senast publicerat"}
+		</Kicker>
 		<h2 id="feature-title" class:list={["feature-title", { "feature-title--long": article.title.length > LONG_TITLE }]}>
 			<a class="feature-link" href={`/${article.slug}/`} data-astro-prefetch="viewport">{article.title}</a>
 		</h2>
@@ -133,13 +134,12 @@ const LONG_TITLE = 50;
 		order: 5;
 		margin-top: var(--space-section);
 		padding-top: var(--space-phi);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	.feature-also-lista {
 		margin: var(--space-group) 0 0;
 		padding: 0;
-		list-style: none;
 	}
 
 	.feature-also-lista > li + li {
@@ -161,7 +161,7 @@ const LONG_TITLE = 50;
 		&:hover {
 			text-decoration: underline;
 			text-decoration-thickness: 1px;
-			text-underline-offset: 0.12em;
+			text-underline-offset: var(--underline-offset-title);
 		}
 	}
 
@@ -174,29 +174,14 @@ const LONG_TITLE = 50;
 		margin-bottom: 0;
 	}
 
-	/* The eyebrow is a link and sits outside the headline link, so it needs the
-	   underline discipline the rest of the mast-level labels use. Padded to clear
-	   WCAG 2.5.8; the negative margin gives the space back. Lifted over the headline:
-	   its link is inline on a 1.04 line, so its box reaches up past the trimmed cap
-	   height and lay over the lower half of this one, where a click opened the essay
-	   instead of the ämne. */
-	.feature-kicker a {
+	/* The eyebrow is a link and sits outside the headline link. Its padding, underline and
+	   ring are every kicker link's (layout.css, `.home-kicker a`); what is its own is the
+	   lift over the headline: its link is inline on a 1.04 line, so its box reaches up past
+	   the trimmed cap height and lay over the lower half of this one, where a click opened
+	   the essay instead of the ämne. The link is Kicker's, hence `:global()`. */
+	.feature-kicker :global(a) {
 		position: relative;
 		z-index: 1;
-		display: inline-block;
-		padding: 0.3rem 0.4rem;
-		margin: -0.3rem -0.4rem;
-		color: inherit;
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: var(--underline-offset);
-		}
-
-		&:focus-visible {
-			border-radius: var(--radius-xs);
-		}
 	}
 
 	/* The display cut (--font-headline, Literata at opsz 72): drawn for this size,
@@ -235,7 +220,7 @@ const LONG_TITLE = 50;
 	.feature-link:focus-visible {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
-		text-underline-offset: 0.12em;
+		text-underline-offset: var(--underline-offset-title);
 	}
 
 	.feature-media {
@@ -254,7 +239,7 @@ const LONG_TITLE = 50;
 		aspect-ratio: 3 / 2;
 	}
 
-	@media (48rem < width < 64rem) {
+	@media (48rem <= width < 64rem) {
 		.feature-media :global(img) {
 			aspect-ratio: 16 / 9;
 		}
@@ -391,7 +376,7 @@ const LONG_TITLE = 50;
 			   line (x 950 at 1440) and not one past it. */
 			padding: 0 0 0 calc(var(--grid-gutter) / 2 - 1px);
 			border: 0;
-			border-left: 1px solid var(--color-rule);
+			border-left: var(--border-rule);
 		}
 
 		.feature-also-lista {
@@ -407,7 +392,7 @@ const LONG_TITLE = 50;
 		.feature-also-lista > li + li {
 			margin-top: 0;
 			padding-top: var(--space-half);
-			border-top: 1px solid var(--color-divider);
+			border-top: var(--border-row);
 		}
 
 		.feature-also-lista > li:not(:last-child) {

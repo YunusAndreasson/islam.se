@@ -403,8 +403,9 @@ function zoneOffsetMs(at: Date, timeZone: string): number {
 	return asUtc - Math.floor(at.getTime() / 1000) * 1000;
 }
 
-/** Minutes a pinned iqāma sits away from the prayer it pins. The builder warns above
- *  a threshold; the screen never does, because a wall in a mosque must not nag. */
+/** Minutes a pinned iqāma sits away from the prayer it pins, for the builder to warn
+ *  above a threshold. ⚠️ Not wired yet: no page calls it, only screen-config.test.ts. The
+ *  screen itself never warns, because a wall in a mosque must not nag. */
 export function pinnedDriftMinutes(rule: IqamaRule, adhan: Date, timeZone: string): number | null {
 	if (!(rule.at && isClockTime(rule.at))) return null;
 	const pinned = resolveIqama(rule, adhan, timeZone);

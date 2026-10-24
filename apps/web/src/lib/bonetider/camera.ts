@@ -103,7 +103,8 @@ export function lerpCamera(a: Camera, b: Camera, u: number): Camera {
 	};
 }
 
-/** The lon/lat rectangle this camera actually shows. Sizes the wash footprint. */
+/** The lon/lat rectangle this camera actually shows: how camera.test.ts measures what a
+ *  camera frames. The renderer sizes its wash from its own transform (footprintOf). */
 export function visibleBBox(cam: Camera, vp: Viewport): BBox {
 	const halfW = vp.w / 2 / cam.scale;
 	const halfH = vp.h / 2 / cam.scale;

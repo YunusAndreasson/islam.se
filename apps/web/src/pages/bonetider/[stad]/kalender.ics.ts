@@ -1,3 +1,4 @@
+import type { APIContext, InferGetStaticPropsType } from "astro";
 import { prayerCalendar } from "../../../lib/bonetider/ics";
 import { INDEXED_PLACES } from "../../../lib/bonetider/places-index";
 
@@ -18,14 +19,9 @@ export function getStaticPaths() {
 	}));
 }
 
-interface Props {
-	name: string;
-	slug: string;
-	lat: number;
-	lon: number;
-}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-export function GET({ props }: { props: Props }) {
+export function GET({ props }: APIContext<Props>) {
 	return new Response(prayerCalendar(props), {
 		headers: {
 			"Content-Type": "text/calendar; charset=utf-8",

@@ -1,3 +1,4 @@
+import { SITE_URL } from "../config";
 import type { CatalogueModel, Usage } from "./types";
 
 // A minimal OpenRouter client for the AI-barometern runner: plain fetch, no SDK, so
@@ -9,7 +10,7 @@ import type { CatalogueModel, Usage } from "./types";
 const BASE = process.env.OPENROUTER_BASE_URL ?? "https://openrouter.ai/api/v1";
 
 const ATTRIBUTION = {
-	"HTTP-Referer": "https://islam.se",
+	"HTTP-Referer": SITE_URL,
 	"X-Title": "islam.se AI-barometern",
 } as const;
 

@@ -45,13 +45,14 @@
 //
 // It renders a frame and nothing else: the rows arrive from
 // `src/scripts/nyheter.ts`, which fetches zuhd's Swedish payload in the browser.
+import Kicker from "./Kicker.astro";
 import SectionLink from "./SectionLink.astro";
 import "../styles/nyheter.css";
 ---
 
 <aside id="nyheter-rail" class="nyhetsremsa" aria-labelledby="nyheter-rail-rubrik" data-lage="vantar">
 	<div class="nyhetsremsa-huvud">
-		<h2 class="label home-kicker" id="nyheter-rail-rubrik">Nyheter</h2>
+		<Kicker form="head" as="h2" id="nyheter-rail-rubrik">Nyheter</Kicker>
 		<p class="nyheter-avsandare">
 			<span class="nyheter-fran">från</span> <a href="https://zuhd.news/" rel="noopener">zuhd.news</a>
 		</p>

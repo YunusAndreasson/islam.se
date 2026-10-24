@@ -208,7 +208,7 @@
 	}
 
 	.hairline-link-list li + li {
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	.hairline-link-list a {
@@ -228,16 +228,11 @@
 	}
 
 	/* Article section — the ruled sections that follow an answer's and a fördjupning's
-	   prose: FAQ, sources, further reading, notes (ArticleSection.astro). They open as a
-	   `.page-section` does: a section space, the rule, one group-space, the kicker (its
-	   heading, in the apparatus voice of the reference register), one group-space, the
-	   content. They had a φ above and a unit inside, and a 24px sans h2 whose own top
-	   margin set it ~90px under its rule (2026-10-16). */
-	.article-section {
-		margin-top: var(--space-section);
-		padding-top: var(--space-group);
-		border-top: 1px solid var(--color-rule);
-	}
+	   prose: FAQ, sources, further reading, notes (ArticleSection.astro). They ARE page
+	   sections: ArticleSection gives them `.page-section` (its rule and spacing, below), and
+	   `.article-section` stays as the hook for what is the end matter's own. They had a φ
+	   above and a unit inside, and a 24px sans h2 whose own top margin set it ~90px under
+	   its rule (2026-10-16). */
 
 	/* THE REFERENCE REGISTER, kept HERE rather than in each page's own
 	   <style> — and that is not tidiness, it is the only place the rules work.
@@ -251,7 +246,7 @@
 	   /svar/'s categories and /vad-ar-islam/'s clusters and »Läs vidare« left it on
 	   2026-10-16: they open under a kicker (Kicker.astro), which a rule here would set
 	   at 24 or 29px. */
-	:is(.bonetider-metod, .bonetider-skarm) h2 {
+	:is(.bonetider-skarm, .seasons) h2 {
 		font-family: var(--font-heading);
 		font-size: var(--step-1-sans);
 	}
@@ -261,62 +256,40 @@
 		font-size: var(--step-1-sans);
 	}
 
-	/* Mosque section — compact section rhythm shared by the national map,
-	   county index and city detail pages. */
-	.mk-section {
-		margin-top: var(--space-phi);
-	}
-
-	.mk-section h2 {
+	/* THE TOOL REGISTER (DESIGN.md, »One grammar off the front page«: the tool pages keep
+	   their sans h2s, which carry search wording, under the same rules). A tool page's
+	   section is a `.page-section` — a section space, its rule, one group-space — whose
+	   heading is a sans h2: »Bönetider i Malmö – oktober 2026« is what a reader searched
+	   for. The bönetider and mosque pages set their sections a φ apart under no rule, so
+	   theirs were the one kind of section on the site that did not say where it began. */
+	.tool-section > h2 {
+		margin: 0 0 var(--space-group);
 		font-family: var(--font-heading);
 		font-size: var(--step-1-sans);
 	}
 
-	/* Mosque attribution — the quiet data caveat that closes mosque pages. */
-	.mk-attrib {
+	/* The data caveat that closes a tool page — the mosques' sources and date, the prayer
+	   times' method — in fine print under the section rule. One note: the mosque pages
+	   drew it under a row's hairline, the prayer pages under a section's. The underline
+	   stays visible because accent-vs-muted alone is under the 3:1 non-colour cue floor. */
+	:is(.mk-attrib, .bt-attrib) {
 		font-family: var(--font-body);
 		font-size: var(--step--3);
 		line-height: 1.5;
 		color: var(--color-muted);
 		margin: var(--space-phi) 0 0;
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
+		border-top: var(--border-rule);
 	}
 
-	.mk-attrib a {
+	:is(.mk-attrib, .bt-attrib) a {
 		color: var(--color-accent);
 		text-decoration-color: currentColor;
 	}
 
-	/* Prayer-time section — shared rhythm for the bönetider hub and city pages. */
-	:is(.bh2-section, .bt-stad-section, .om-bonen) {
-		margin-top: var(--space-phi);
-	}
-
-	:is(.bh2-section, .bt-stad-section, .om-bonen) h2 {
-		font-family: var(--font-heading);
-		font-size: var(--step-1-sans);
-	}
-
-	/* Prayer-time attribution — the fine-print data/source caveat. Underline stays
-	   visible because accent-vs-muted alone is under the 3:1 non-colour cue floor. */
-	.bt-attrib {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		line-height: 1.5;
-		color: var(--color-muted);
-		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-rule);
-	}
-
-	.bt-attrib a {
-		color: var(--color-accent);
-		text-decoration-color: currentColor;
-	}
-
-	/* Nearby pill list — linked neighbouring places on mosque and prayer-time pages. */
-	:is(.mk-nearby, .bt-nearby) {
+	/* Pill list — the places nearby on the mosque and prayer-time pages (LinkList, `pills`).
+	   It answered to two names, one per page. */
+	.pill-link-list {
 		margin: var(--space-half) 0 0;
 		padding: 0;
 		display: flex;
@@ -324,18 +297,18 @@
 		gap: 0.5rem 0.75rem;
 	}
 
-	:is(.mk-nearby, .bt-nearby) a {
+	.pill-link-list a {
 		font-family: var(--font-body);
 		font-size: var(--step--2);
 		color: var(--color-text);
 		text-decoration: none;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-pill);
 		padding: 0.3rem 0.85rem;
 		transition: border-color var(--dur-fast) ease;
 	}
 
-	:is(.mk-nearby, .bt-nearby) a:hover {
+	.pill-link-list a:hover {
 		border-color: var(--color-warm);
 		color: var(--color-accent);
 	}
@@ -352,7 +325,7 @@
 
 	:is(.bt-county, .mk-lan) {
 		margin-bottom: var(--space-half);
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 		padding-bottom: var(--space-half);
 	}
 
@@ -387,14 +360,181 @@
 		display: none;
 	}
 
+	/* THE DISCLOSURE. Every <details> the site opens wears one marker: a chevron drawn after
+	   the summary's words in the meta ink, turned up while the fold is open (`.disclosure`).
+	   Six forms stood in for it, some a click apart: the browser's triangle, ▸ and ▾ typed as
+	   glyphs, a Lucide chevron in the markup, »+« and »−«, and two chevrons drawn in CSS in
+	   two files. A summary that lays itself out with flex keeps the marker as its last item;
+	   one that pushes it to the far edge says so with a margin on its own ::after.
+	   `.disclosure--smooth` opens the fold by height where the browser interpolates it
+	   (interpolate-size, ::details-content) and snaps elsewhere: the settings folds only,
+	   never prose. */
+	.disclosure > summary {
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.disclosure > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.disclosure > summary::after {
+		content: "";
+		display: inline-block;
+		flex: none;
+		inline-size: 0.45em;
+		block-size: 0.45em;
+		margin-inline-start: 0.6em;
+		border-inline-end: 1.5px solid var(--color-muted);
+		border-block-end: 1.5px solid var(--color-muted);
+		transform: translateY(-0.2em) rotate(45deg);
+		transition: transform var(--dur-fast) ease;
+	}
+
+	.disclosure[open] > summary::after {
+		transform: translateY(0.1em) rotate(-135deg);
+	}
+
+	.disclosure--smooth {
+		interpolate-size: allow-keywords;
+	}
+
+	.disclosure--smooth::details-content {
+		height: 0;
+		overflow: clip;
+		transition:
+			height var(--dur-base) ease,
+			content-visibility var(--dur-base) allow-discrete;
+	}
+
+	.disclosure--smooth[open]::details-content {
+		height: auto;
+	}
+
+	/* THE TABLE OF FIGURES. Prayer times by day, day lengths by latitude, fasts by place and
+	   by day: one grammar. The text face at the table-cell step with tabular figures, set to
+	   the end of their column; the heads in the meta ink and in sentence case, over the one
+	   rule a table takes (DESIGN.md: the rule under a table's heads); the rows parted by a
+	   fainter line, none under the last. The first column names the row, so it and its head
+	   stand at the start: the heads stood at the end over names set at the start. Five
+	   tables kept a copy each, in three dialects; two of them shared the class name
+	   `.bt-ramadan-table` and nothing else, and one set its heads in tracked capitals. A
+	   table keeps in its own styles only what is its own: a sticky head, today's row, a
+	   denser step. */
+	.data-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.data-table :is(th, td) {
+		padding: 0.45rem 0.5rem;
+		text-align: end;
+		white-space: nowrap;
+	}
+
+	.data-table :is(th, td):first-child {
+		text-align: start;
+	}
+
+	.data-table thead th {
+		color: var(--color-muted);
+		font-weight: 600;
+		font-size: var(--step--3);
+		border-bottom: var(--border-row);
+	}
+
+	.data-table tbody th {
+		font-weight: 600;
+	}
+
+	.data-table tbody td {
+		color: var(--color-text);
+	}
+
+	.data-table tbody tr:not(:last-child) :is(th, td) {
+		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
+	}
+
+	/* THE LINES. The day (PrayerHorizon) and the year (Arslinje) are one figure drawn twice:
+	   a base rule; one stretch in ink, the only one, which is what the line is for (a
+	   Swedish December's daylight is a short dash and June's almost the whole line; the
+	   year's is Ramadan); ticks with their labels in the apparatus face under it, the next
+	   one's name in ink; the islamic dates above in Literata italic, the way the site sets
+	   a transliteration; and the wordmark's point for now. Each component kept a copy of
+	   every rule here, each commented as matching the other. What differs stays with them:
+	   maghrib's and the new year's brass tick, the months, the labels' anchors, when the
+	   point shows, and the next tick's ink, which has to outrank maghrib's brass. */
+	:is(.horizon, .arslinje) {
+		margin: var(--space-half) 0 0;
+	}
+
+	:is(.horizon-line, .arslinje-linje) {
+		display: block;
+		overflow: visible;
+	}
+
+	:is(.horizon-base, .arslinje-bas) {
+		stroke: var(--color-rule);
+		stroke-width: 1;
+	}
+
+	:is(.horizon-daylight, .arslinje-stracka) {
+		stroke: var(--text-quiet);
+		stroke-width: 2;
+	}
+
+	:is(.horizon-tick, .arslinje-marke) line {
+		stroke: var(--color-muted);
+		stroke-width: 1;
+	}
+
+	:is(.horizon-tick, .arslinje-marke) text {
+		font-family: var(--font-heading);
+		font-size: var(--step--4);
+		fill: var(--color-muted);
+	}
+
+	:is(.horizon-tick, .arslinje-marke).is-next text {
+		fill: var(--color-text);
+		font-weight: 600;
+	}
+
+	/* The clock under a prayer's name, the date under an observance's: with them the day's
+	   line is its whole timetable, and the six times it used to need beside it are the line. */
+	:is(.horizon-klocka, .arslinje-datum) {
+		font-variant-numeric: tabular-nums;
+	}
+
+	:is(.horizon-tick, .arslinje-marke).is-next :is(.horizon-klocka, .arslinje-datum) {
+		font-weight: 400;
+	}
+
+	:is(.horizon-hijri, .arslinje-hijri) {
+		font-family: var(--font-body);
+		font-size: var(--step--4);
+		font-style: italic;
+		fill: var(--text-quiet);
+	}
+
+	:is(.horizon-sun, .arslinje-sol) {
+		fill: var(--color-brass);
+		stroke: var(--color-bg);
+		stroke-width: 3;
+		paint-order: stroke;
+	}
+
 	/* THE PILL. One shape for every small action the site offers: Apple Podcasts,
-   Spotify and RSS on /podcast/ and in the book/podcast promo, and the play control
-   on an episode row and above an essay (AudioPlayer.astro adds the two UA button
-   properties this rule has no reason to carry, since it is written for an <a>).
-   It lived in two copies until 2026-08 — the second had drifted a little in padding,
-   tracking and icon gap, and nobody could see it because the two had never appeared
-   on one screen until the podcast index put them there. */
-	:is(.podcast-action, .bookpod-action) {
+   Spotify and RSS on /podcast/ and in the closing promotions, the app stores, the
+   book's downloads, the mosque screen, the play control on an episode row and above an
+   essay (AudioPlayer.astro adds the two UA button properties this rule has no reason
+   to carry, since it is written for an <a>), and Apple Maps and Google Maps on every
+   mosque. One class: it had two names, and the directions pair had a drifted copy of
+   its own (`.map-dir-btn`) at 13px and some 36px tall, under the 44px a principal touch
+   control takes (DESIGN.md). */
+	.pill {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.45em;
@@ -404,9 +544,9 @@
 		font-weight: 500;
 		letter-spacing: 0.01em;
 		text-transform: none;
-		min-height: 2.75rem;
+		min-height: var(--tap-target);
 		color: var(--color-accent);
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: 1.25rem;
 		text-decoration: none;
 		transition:
@@ -414,7 +554,7 @@
 			color var(--dur-fast);
 	}
 
-	:is(.podcast-action, .bookpod-action):hover {
+	.pill:hover {
 		border-color: var(--color-warm);
 		color: var(--color-text);
 		text-decoration: none;
@@ -453,33 +593,12 @@
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		text-decoration: none;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: 1.25rem;
 
 		&:focus {
 			top: var(--padding-inline);
 		}
-	}
-
-	/* Pill button for a "get directions" link — the moskeer hub map's selection
-   callout (rendered client-side by scripts/moskeer-map.ts), its county/city
-   MosqueList cards, and the map's own JS-built markup all want the identical
-   tap target, so this is the one definition all three share. */
-	.map-dir-btn {
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 600;
-		text-decoration: none;
-		color: var(--color-accent);
-		background: var(--color-bg);
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-		padding: 0.45rem 0.95rem;
-		transition: border-color var(--dur-fast) ease;
-	}
-
-	.map-dir-btn:hover {
-		border-color: var(--color-warm);
 	}
 
 	/* Cap height onto whatever sits above a title (an image, a thumbnail) —
@@ -591,7 +710,7 @@
 		--civ-h: 459px;
 	}
 
-	@media (max-width: 40rem) {
+	@media (width < 40rem) {
 		.amnen.home-movement {
 			--civ-h: 1588px;
 		}
@@ -706,14 +825,14 @@
 		flex-wrap: wrap;
 		align-items: flex-end;
 		gap: 0 var(--space-group);
-		border-bottom: 1px solid var(--color-rule);
+		border-bottom: var(--border-rule);
 	}
 
 	.home-tab {
 		display: inline-flex;
 		align-items: baseline;
 		gap: 0.4rem;
-		min-height: 2.75rem;
+		min-height: var(--tap-target);
 		padding-block: var(--space-control);
 		border-bottom: 2px solid transparent;
 		font-family: var(--font-heading);
@@ -730,6 +849,13 @@
 	.home-tab[data-selected="true"] {
 		color: var(--color-text);
 		border-bottom-color: var(--color-accent);
+	}
+
+	/* An unchosen panel is out of the layout, said once for every set (HomeTabs). The
+	   barometer keeps its panels in one cell, invisible rather than removed, so nothing
+	   under its room moves when a tab is chosen; its own rule overrides this one. */
+	[data-home-tabs] [data-tab-panel][hidden] {
+		display: none;
 	}
 
 	/* ON A PHONE THE TABS ARE ONE ROW THAT SCROLLS SIDEWAYS (2026-10-16). Six ämnen
@@ -768,6 +894,14 @@
 
 		:is(.amnen, .tradar-home) .home-tab {
 			flex: none;
+		}
+
+		/* Eases the row's scroll to a chosen tab (home-tabs.ts), which passed an explicit
+		   "smooth" and so overrode the reduced-motion kill-switch. */
+		@media (prefers-reduced-motion: no-preference) {
+			:is(.amnen, .tradar-home) .home-tabs {
+				scroll-behavior: smooth;
+			}
 		}
 	}
 
@@ -847,7 +981,7 @@
 
 	/* An essay without art keeps its place in the row under a rule. */
 	.home-cards .essay-card:not(:has(.essay-card-media)) {
-		border-top: 1px solid var(--color-divider);
+		border-top: var(--border-row);
 		padding-top: var(--space-half);
 	}
 
@@ -905,29 +1039,19 @@
 		}
 	}
 
-	/* A KICKER HAS ONE OF TWO JOBS ON A CANVAS PAGE, and is set by which.
+	/* A KICKER HAS ONE OF TWO JOBS, and is set by which (Kicker.astro, `form`).
 	   It HEADS a section or a list (»Senast publicerat«, »Nyheter«, »Essäer efter ämne«,
 	   »Essäserier«, »AI-barometern«, »Fakta om islam«, »Fördjupning«, »Praktiskt«; on
-	   /essaer/ »Essäserier« and »Tänkare«): then it is the heading, the one thing that says where on the page a
-	   reader is, in ink and a weight up. At the meta colour and the regular weight it was
-	   quieter than the column labels set on its own line (Grunden's »Islams fem pelare« is
-	   600), so the heading read as the least of three labels (2026-10-10).
-	   Or it stands OVER A TITLE and names its kind (the lead's ämne; »Podd«, »App«,
-	   »E-bok«, »Moskéskärm«): then the title is the heading and the label keeps the
-	   quiet form it always had. */
-	.home .home-kicker {
-		font-weight: 600;
-		color: var(--color-text);
-	}
-
-	.home :is(.feature-kicker, .promo-kicker, .home-kicker--quiet) {
-		font-weight: 400;
-		color: var(--text-meta);
-	}
-
-	/* The head form off the canvas too (Kicker.astro): a reading page has no `.home`,
-	   and its end matter is headed by kickers. Off the canvas the bare `.home-kicker`
-	   is already the quiet form. */
+	   /essaer/ »Essäserier« and »Tänkare«; an essay's end matter): then it is the heading,
+	   the one thing that says where on the page a reader is, in ink and a weight up. At the
+	   meta colour and the regular weight it was quieter than the column labels set on its
+	   own line (Grunden's »Islams fem pelare« is 600), so the heading read as the least of
+	   three labels (2026-10-10). Or it stands OVER A TITLE and names its kind (the lead's
+	   ämne; »Podd«, »App«, »E-bok«, »Moskéskärm«; an essay's ämne): then the title is the
+	   heading and the label keeps the quiet form of `.home-kicker` above.
+	   The form is always named. It was decided by context — a bare kicker was a heading
+	   inside `.home` and quiet outside it, and a list of component classes was quieted
+	   again by name — so a kicker moved between pages changed its rank. */
 	.home-kicker--head {
 		font-weight: 600;
 		color: var(--color-text);
@@ -1078,7 +1202,7 @@
 		top: 0;
 		z-index: 10;
 		background-color: var(--color-bg);
-		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		transition: transform var(--mast-motion);
 		/* Its own transition group; see the page-transition rules above. */
 		view-transition-name: mast;
 
@@ -1122,7 +1246,7 @@
 
 	@media (hover: none), (pointer: coarse) {
 		.site-home {
-			min-height: 2.75rem;
+			min-height: var(--tap-target);
 		}
 	}
 
@@ -1319,7 +1443,7 @@
 	   down, one rank down the text ramp — plus the site's own structural device, a
 	   hairline, standing between the two groups. */
 	.site-links--util {
-		border-inline-start: 1px solid var(--color-divider);
+		border-inline-start: var(--border-row);
 		padding-inline-start: var(--mast-gap);
 	}
 
@@ -1383,7 +1507,7 @@
 		align-items: center;
 		gap: 0.45rem;
 		padding: 0.4rem 0.7rem;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: 1.4rem;
 		background: transparent;
 		color: var(--color-muted);
@@ -1401,7 +1525,7 @@
 
 		&:hover {
 			color: var(--color-accent);
-			border-color: color-mix(in srgb, var(--color-warm) 55%, var(--color-divider));
+			border-color: var(--color-warm);
 		}
 	}
 
@@ -1425,12 +1549,11 @@
 		   a further 0.95 of that. */
 		font-size: var(--step--4);
 		letter-spacing: 0.02em;
-		/* This chip does not sit on --color-bg: the 7 % wash under it darkens the
-		   ground. --color-muted now carries enough margin to clear AA there too
-		   (tokens.css), but a chip's label wants a touch more presence than a caption,
-		   and --text-meta is the tier for that. */
+		/* This chip sits on a control's surface, not on --color-bg. --color-muted carries
+		   enough margin to clear AA there too (tokens.css), but a chip's label wants a
+		   touch more presence than a caption, and --text-meta is the tier for that. */
 		color: var(--text-meta);
-		background: color-mix(in srgb, var(--color-text) 7%, transparent);
+		background: var(--surface-2);
 		border-radius: 0.4rem;
 	}
 
@@ -1476,14 +1599,14 @@
 		}
 
 		.search-trigger {
-			min-height: 2.75rem;
+			min-height: var(--tap-target);
 			padding-inline: 0.85rem;
 		}
 
 		/* The pill grows to 2.75rem here, so the chip beside it has to follow or the
 	   mast stops being one row of equal thumb targets. */
 		.mast-prayer {
-			min-height: 2.75rem;
+			min-height: var(--tap-target);
 		}
 	}
 
@@ -1509,11 +1632,11 @@
 		}
 	}
 
-	@media (width < 30rem) {
+	@media (width <= 30rem) {
 		.site-nav {
 			display: flex;
 			flex-wrap: wrap;
-			gap: 0.75rem;
+			gap: var(--space-control);
 		}
 		.site-home {
 			flex: none;
@@ -1549,7 +1672,7 @@
 		position: absolute;
 		inset-block-start: 0;
 		inset-inline: var(--safe-left) var(--safe-right);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	.site-footer-nav {
@@ -1560,7 +1683,7 @@
 	   safe-clickable space between neighbouring links in BOTH axes, so both the row and
 	   column gap clear 24px (≥24px between adjacent link boxes). The links' own padding
 	   keeps each box well past 24×24. */
-		gap: 1.5rem;
+		gap: var(--space-group);
 		font-family: var(--font-heading);
 		/* Quiet secondary chrome: smaller than the mast links (0.875rem) and muted, so
 	   the footer never out-shouts the top menu — it's the crawlable sitemap, not a
@@ -1598,7 +1721,7 @@
 		}
 
 		.site-footer-nav a {
-			min-height: 2.75rem;
+			min-height: var(--tap-target);
 		}
 	}
 
@@ -1683,8 +1806,7 @@
    it owns a translateX transform.) */
 	.search-trigger:active,
 	.palette-chip:active,
-	.podcast-action:active,
-	.bookpod-action:active,
+	.pill:active,
 	.qv-play:active,
 	.fp-play:active,
 	.btn-circle:active,
@@ -1705,10 +1827,6 @@
 		border-radius: 50%;
 		background: transparent;
 		cursor: pointer;
-
-		&:focus-visible {
-			outline-offset: 2px;
-		}
 
 		&:disabled {
 			opacity: 0.25;
@@ -1761,9 +1879,9 @@
 		pointer-events: none;
 		transform: translateY(0.5rem);
 		transition:
-			opacity 0.3s ease,
-			transform 0.3s ease,
-			bottom 0.25s ease;
+			opacity var(--dur-base) ease,
+			transform var(--dur-base) ease,
+			bottom var(--dur-base) ease;
 
 		&.visible {
 			opacity: 1;
@@ -1799,11 +1917,11 @@
 
 	.share-btn {
 		padding: 0.5rem 0.75rem;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: 1.25rem;
 		color: var(--color-muted);
 		font-weight: 500;
-		background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+		background: var(--glass-thin);
 		cursor: pointer;
 		transition:
 			color var(--dur-fast),
@@ -1820,7 +1938,7 @@
 		--btn-size: 2.5rem;
 		border-color: var(--color-divider);
 		color: var(--color-muted);
-		background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+		background: var(--glass-thin);
 		transition:
 			color var(--dur-fast),
 			border-color var(--dur-fast);
@@ -1840,7 +1958,7 @@
 		}
 
 		.share-btn {
-			min-height: 2.75rem;
+			min-height: var(--tap-target);
 			padding-inline: 1rem;
 		}
 	}
@@ -1997,6 +2115,43 @@
 		color: var(--color-muted);
 	}
 
+	/* »DEL 3« — A SERIES PART'S NUMBER over its title, wherever a part is listed: the front
+	   page's essäserier (TradarHome, each card resetting the counter to its own part, since
+	   the newest are shown first), the series page (EssayCollectionPage, counted by the
+	   list) and the next part at an essay's end (EssayConnections, written out). In the
+	   brass every ordinal on the page is set in (DESIGN.md, »The Browse Axes«); the counter
+	   sits in the title, so a screen reader hears »Del 3, …« as the link's name. Three
+	   components each wrote these nine declarations out. */
+	.part-ordinal,
+	:is(.collection-delar .archive-title, .trad-delar .essay-card-title)::before {
+		display: block;
+		margin-bottom: 0.2rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 400;
+		line-height: 1.4;
+		letter-spacing: 0.01em;
+		color: var(--color-brass-ink);
+	}
+
+	:is(.collection-delar .archive-title, .trad-delar .essay-card-title)::before {
+		content: "Del " counter(del);
+	}
+
+	/* A read part steps back with its title, and its number says why. */
+	:is(.collection-delar, .trad-delar) > .archive-item[data-read] .archive-title::before {
+		content: "Del " counter(del) " · läst";
+		color: var(--color-muted);
+	}
+
+	.collection-delar {
+		counter-reset: del;
+	}
+
+	.collection-delar > .archive-item {
+		counter-increment: del;
+	}
+
 	/* A SECTION ON ANY CANVAS PAGE opens the way the front page's do (DESIGN.md, »Every
 	   section opens the same way«): a section space, its rule, one group-space, the head
 	   row (the kicker and the way on, HomeHead), one group-space, its content. The rule
@@ -2011,7 +2166,7 @@
 	.page-section {
 		margin-top: var(--space-section);
 		padding-top: var(--space-group);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	.page-section--first {
@@ -2041,7 +2196,7 @@
 
 	.archive-item {
 		padding-block: var(--space-unit);
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 
 		&:first-child {
 			padding-top: 0;
@@ -2212,7 +2367,7 @@
 		.filter-chip {
 			display: inline-flex;
 			align-items: center;
-			min-height: 2.75rem;
+			min-height: var(--tap-target);
 		}
 	}
 
@@ -2230,7 +2385,7 @@
 	}
 	.def-item {
 		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 	}
 
 	/* In an article's end matter the next section opens under its own rule, so the last
@@ -2287,15 +2442,9 @@
 	.reading .svar-header,
 	.reading .svar-back,
 	.reading .svar-fordjupning,
-	.reading .fordjupning-header,
 	.reading .innehall,
 	.reading .fordjupning-back,
 	.reading .rattelse,
-	/* The footnotes start inside .article-body (constrained) but a script moves
-   them out below .article-nav so prev/next stays reachable — at which point
-   they inherited the full 64rem frame and set at 136 characters a line, the
-   widest text on the site. They are the sources: they belong at the same
-   measure as the prose that cites them. */
 	.reading .hero-caption,
 	.reading .footnotes-relocated {
 		max-width: var(--content-width);
@@ -2314,7 +2463,7 @@
 	   with no rule and no visible heading (2026-10-16). */
 	.article-nav ~ .footnotes-relocated {
 		padding-top: var(--space-group);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	/* A quiet editorial caption under a hero — a descriptive line only (never a
@@ -2398,7 +2547,7 @@
 	@media (width >= 65rem) {
 		.reading--notes {
 			--sn-width: 13.5rem; /* 216px ≈ 38 characters at --step--4 */
-			--sn-gap: 1.5rem;
+			--sn-gap: var(--space-group);
 			--sn-track: calc(var(--sn-width) + var(--sn-gap));
 			/* The FRAME does not move — .reading keeps its 64rem, so the hero still
 			   spans it and the page width never flicks between an index and an
@@ -2508,13 +2657,11 @@
 	}
 
 	/* ============================================================
-   The Islamic-calendar list. Two surfaces render the same rows — the
-   homepage section (Markesdagar.astro, next five) and the full year
-   (/det-islamiska-aret) — and each carried its own byte-identical copy of
-   these rules, media query included. Astro scopes styles per component, so
-   the duplication was the only way to share them; here they are once,
-   globally, and each surface keeps only what is genuinely its own (its
-   list margin and the trailing paragraph's spacing).
+   The Islamic-calendar list (MarkesdagList.astro). Two surfaces render the same
+   rows — the front page's year sentence (PraktisktHome, the rail variant below)
+   and the full year (/det-islamiska-aret) — and each carried its own copy of
+   these rules. Astro scopes styles per component, so the duplication was the
+   only way to share them; here they are once, globally.
 
    A quiet two-column rhythm in the editorial register, not a calendar UI:
    no countdowns, no urgency — events sit in time. There are no per-row
@@ -2618,10 +2765,10 @@
 	.md-standing {
 		margin: var(--space-unit) 0 0;
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
-	@media (width <= 48rem) {
+	@media (width < 48rem) {
 		.md-row {
 			grid-template-columns: 1fr;
 			grid-template-areas:
@@ -2634,48 +2781,51 @@
 		}
 	}
 
-	/* THE RAIL VARIANT — the same rows on the front page: three dates, one to each third
-   of the canvas (Markesdagar.astro), one under the other on a phone.
-   The three-track agenda (11rem date · name · Hijri) is a wide-canvas
-   composition and there is no version of it that survives a third: the date
-   column alone is half the width. It takes the stack the narrow viewport already
-   uses, which is not a fallback but the same answer to the same question — the
-   row is too narrow to set three things across it. (The name is from the 17rem
-   column the block stood in until 2026-09-25.) */
-	.md-list--rail .md-row {
-		grid-template-columns: 1fr;
-		grid-template-areas:
-			"greg"
-			"body"
-			"hijri";
-		grid-template-rows: auto;
-		gap: 0.2rem;
-		padding-block: var(--space-half);
+	/* THE RAIL VARIANT — the front page's year sentence (PraktisktHome, `max` 1): the
+	   next observance's row set as one line under the year's line, the name first in the
+	   room's quiet prose, then its dates and how far off. The hijri date is the line's own
+	   to carry (Arslinje), so the row drops it, and the note is dropped from the markup,
+	   not merely hidden (MarkesdagList.astro). Said here once: the front page restated
+	   every property of an older rail block from its own file, which left that block dead. */
+	.md-list--rail {
+		margin: 0.35rem 0 0;
 	}
 
-	/* The year is islam.se's own, so its names take the editorial face at the size and
-	   weight of the tools' names above it (PraktisktHome) — never the sans, which on
-	   the front page marks reported material (the news bar). The date steps back to
-	   the muted meta every other date line on the page wears; the countdown keeps
-	   its brass. */
+	.md-list--rail .md-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 0.5rem;
+		padding: 0;
+	}
+
+	.md-list--rail .md-row[hidden] {
+		display: none;
+	}
+
+	.md-list--rail .md-body {
+		order: -1;
+	}
+
 	.md-list--rail .md-name {
-		font-family: var(--font-display);
-		font-size: var(--step-0);
+		font-family: var(--font-body);
+		font-size: var(--step--2);
 		font-weight: 600;
-		line-height: 1.25;
-		color: var(--color-text);
+		line-height: 1.45;
+		color: var(--text-body);
 	}
 
 	.md-list--rail .md-greg {
-		color: var(--color-muted);
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: 1.45;
+		letter-spacing: 0;
+		color: var(--text-quiet);
 	}
 
-	/* The note is dropped from the markup in the rail variant, not merely hidden —
-   see MarkesdagList.astro. At 17rem "fastans månad; obligatorisk fasta från
-   gryning till solnedgång" is four lines under a one-line name, so three dates
-   would set as twelve lines of explanation and two of calendar. The name and
-   the date are the whole job here; the note is what /det-islamiska-aret is
-   for, and the block links straight to it. */
+	.md-list--rail .md-hijri {
+		display: none;
+	}
 
 	/* Two-column archive index on the wide canvas (one column on a phone),
    shared by Essäer, the Fakta hub and the collection pages — so every
@@ -2712,7 +2862,7 @@
 	/* ============================================================
    Mobile
    ============================================================ */
-	@media (width <= 48rem) {
+	@media (width < 48rem) {
 		.article-header {
 			margin-top: var(--space-unit);
 		}
@@ -2721,10 +2871,6 @@
 			font-size: var(--step--3);
 			padding: 0.75rem 0;
 			margin: -0.75rem 0;
-		}
-
-		.archive-item .archive-title {
-			font-size: 1.26rem;
 		}
 
 		/* Comfortable tap targets for nav links */

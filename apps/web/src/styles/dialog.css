@@ -15,9 +15,9 @@
 	overscroll-behavior: contain;
 	opacity: 0;
 	transition:
-		opacity 0.18s ease,
-		display 0.18s allow-discrete,
-		overlay 0.18s allow-discrete;
+		opacity var(--dur-fast) ease,
+		display var(--dur-fast) allow-discrete,
+		overlay var(--dur-fast) allow-discrete;
 }
 .fullscreen-dialog[open] {
 	opacity: 1;
@@ -32,9 +32,4 @@
 }
 html:has(.fullscreen-dialog[open]) {
 	overflow: hidden;
-}
-@media (prefers-reduced-motion: reduce) {
-	.fullscreen-dialog {
-		transition: none;
-	}
 }

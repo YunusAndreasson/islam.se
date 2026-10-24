@@ -4,7 +4,7 @@ import RuledFacts from "../../components/RuledFacts.astro";
 import figures from "../../data/library-figures.json";
 import { formatDate } from "../../lib/articles";
 import { nf0 } from "../../lib/format";
-import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
+import { ORG_ID, breadcrumbList, webPageJsonLd } from "../../lib/jsonld";
 
 // By hand when the principles change — never the build date.
 const POLICY_UPDATED = "2026-07-29";
@@ -92,21 +92,21 @@ const pipelineSteps: readonly PipelineStep[] = [
 ---
 
 <ArticlePage
-	title="Redaktionella principer – islam.se"
+	title="Redaktionella principer"
 	description={description}
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "AboutPage",
+		webPageJsonLd({
+			type: "AboutPage",
 			name: "Redaktionella principer",
-			url: "https://islam.se/om/redaktion/",
-			inLanguage: "sv",
 			description,
-			// The page that islam.se's Organization node points to as its
-			// publishingPrinciples (wired in lib/jsonld.ts) — references the same
-			// canonical entity rather than declaring a copy.
-			mainEntity: { "@id": ORG_ID },
-		},
+			url: "/om/redaktion/",
+			extra: {
+				// The page that islam.se's Organization node points to as its
+				// publishingPrinciples (wired in lib/jsonld.ts) — references the same
+				// canonical entity rather than declaring a copy.
+				mainEntity: { "@id": ORG_ID },
+			},
+		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Om", url: "/om" },
@@ -115,7 +115,7 @@ const pipelineSteps: readonly PipelineStep[] = [
 	]}
 >
 	<Fragment slot="header">
-		<p class="redaktion-lead">
+		<p class="lead lead--page">
 			Så väljer vi källor, granskar texterna och rättar fel på islam.se.
 		</p>
 	</Fragment>
@@ -193,16 +193,6 @@ const pipelineSteps: readonly PipelineStep[] = [
 </ArticlePage>
 
 <style>
-	.redaktion-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
-	}
-
 	/* Same ruled-facts table as the masthead, reused for the library figures — the
 	   format is what keeps a column of numbers reading as data rather than a boast. */
 	.redaktion-figures {

@@ -24,6 +24,8 @@ interface Props {
 	lead?: string;
 	essays: Article[];
 	kicker: string;
+	/** The count line under the ingress, whole: »12 essäer«, or for a series its length
+	 *  (lib/series.ts, seriesLength), as every listing of a series says it. */
 	countText: string;
 	backHref: string;
 	backLabel: string;
@@ -52,21 +54,18 @@ const cards = numbered ? (pictured.length === essays.length ? essays : []) : pic
 const shownAsCards = new Set(cards.map((essay) => essay.slug));
 const rows = essays.filter((essay) => !shownAsCards.has(essay.slug));
 
-// A series is read whole, so it says how long it takes, as the front page's does.
-const minutes = essays.reduce((sum, essay) => sum + essay.readingTime, 0);
-const count = numbered ? `${countText} · lästid ${minutes} min` : countText;
 const delar = numbered ? " collection-delar" : "";
 ---
 
 <Base
-	title={`${title} – islam.se`}
+	title={title}
 	description={description}
 	{...(ogImage === undefined ? {} : { ogImage })}
 	jsonLd={jsonLd}
 >
 	<main id="main" class="home collection-page">
 		<ArticleHeader title={title} kicker={kicker} lead={lead} leadClass="lead--page">
-			<p class="label collection-count">{count}</p>
+			<p class="label collection-count">{countText}</p>
 		</ArticleHeader>
 
 		{cards.length > 0 && (
@@ -90,45 +89,10 @@ const delar = numbered ? " collection-delar" : "";
 <script>
 	// Read essays step back in place, muted with »· läst« (scripts/read-state.ts); in a
 	// series the part's number then says »Del 2 · läst«.
-	import { markReadEssays } from "../scripts/read-state";
+	import { markReadEssays, onReadMarks } from "../scripts/read-state";
 
-	document.addEventListener("astro:page-load", () => {
+	onReadMarks(() => {
 		const page = document.querySelector(".collection-page");
 		if (page) markReadEssays(page);
 	});
 </script>
-
-<style>
-	/* AN ESSÄSERIE IS READ IN ORDER, and the page says so on every part: »Del 1«, »Del 2«
-	   over the title, counted by the list itself, in the brass and the face the front
-	   page's essäserier set it in (TradarHome), on a card or on a row alike. It was a
-	   tracked-caps label in the meta grey here, a second form for the one ordinal
-	   (DESIGN.md, »The Browse Axes«). The counter sits in the title, so a screen reader
-	   hears »Del 3, …« as the link's name.
-	   ⚠️ :global — the lists and their items are EssayList's and EssayArchiveItem's. */
-	:global(.collection-delar) {
-		counter-reset: del;
-	}
-
-	:global(.collection-delar > .archive-item) {
-		counter-increment: del;
-	}
-
-	:global(.collection-delar .archive-title)::before {
-		content: "Del " counter(del);
-		display: block;
-		margin-bottom: 0.2rem;
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 400;
-		line-height: 1.4;
-		letter-spacing: 0.01em;
-		color: var(--color-brass-ink);
-	}
-
-	/* A read part steps back a rank, and its number says why. */
-	:global(.collection-delar > .archive-item[data-read] .archive-title)::before {
-		content: "Del " counter(del) " · läst";
-		color: var(--color-muted);
-	}
-</style>

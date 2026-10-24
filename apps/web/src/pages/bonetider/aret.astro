@@ -4,19 +4,26 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 import AnnualPrayerChart from "../../components/bonetider/AnnualPrayerChart.astro";
 import DaylightLatitude from "../../components/bonetider/DaylightLatitude.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
+import SectionLink from "../../components/SectionLink.astro";
 import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
+import { breadcrumbList } from "../../lib/jsonld";
 const location = { name: DEFAULT_COORDS.name, latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
+const crumbs = [
+ { name: "Hem", url: "/" },
+ { name: "Bönetider", url: "/bonetider/" },
+ { name: "Under året", url: "/bonetider/aret/" },
+];
 ---
-<Base title="Bönetider under året – islam.se" description="Se hur solen och årstiderna påverkar bönetiderna i Sverige.">
+<Base title="Bönetider under året" description="Se hur solen och årstiderna påverkar bönetiderna i Sverige." jsonLd={breadcrumbList(crumbs)}>
  <main id="main" class="home seasons">
-  <Breadcrumb items={[{name: "Bönetider", url: "/bonetider/"}, {name: "Under året", url: "/bonetider/aret/"}]} />
+  <Breadcrumb items={crumbs} />
   <h1>Bönetider under året</h1>
   <div class="seasons-pair">
    <section class="seasons-year" aria-labelledby="year-title"><h2 id="year-title">Året i Stockholm</h2><AnnualPrayerChart location={location} /></section>
    <section class="seasons-daylight" aria-label="Dagsljus på olika breddgrader"><DaylightLatitude /></section>
   </div>
   <section aria-labelledby="map-title"><h2 id="map-title">Solens läge i Sverige i dag</h2><PrayerField location={location} variant="full" fixed caption /></section>
-  <p><a class="arrow-link" href="/bonetider/metod/">Så beräknas tiderna</a></p>
+  <p><SectionLink href="/bonetider/metod/">Så beräknas tiderna</SectionLink></p>
  </main>
 </Base>
 <style>
@@ -31,7 +38,7 @@ const location = { name: DEFAULT_COORDS.name, latitude: DEFAULT_COORDS.latitude,
    display: grid;
    grid-template-columns: minmax(0, 46rem) minmax(0, 1fr);
    grid-template-rows: auto auto;
-   column-gap: 3rem;
+   column-gap: var(--grid-gutter);
    margin-block: var(--space-phi);
   }
 

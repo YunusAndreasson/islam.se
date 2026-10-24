@@ -1,6 +1,7 @@
 ---
 import AgreementMatrix from "../../components/ai-barometern/AgreementMatrix.astro";
 import AnswerChip from "../../components/ai-barometern/AnswerChip.astro";
+import Kicker from "../../components/Kicker.astro";
 import ReportFinding from "../../components/ai-barometern/ReportFinding.astro";
 import DisclosureLinks from "../../components/ai-barometern/DisclosureLinks.astro";
 import ModelLogo from "../../components/ai-barometern/ModelLogo.astro";
@@ -106,7 +107,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 <CollectionIndexPage
 	title="AI-barometern"
 	ritning={RITNINGAR.barometernBred}
-	pageTitle="AI-barometern: så svarar AI-modellerna – islam.se"
+	pageTitle="AI-barometern: så svarar AI-modellerna"
 	description={description}
 	lead={lead}
 	ogImageAlt="AI-barometern – islam.se"
@@ -151,7 +152,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 			<div class="abm-report-findings">
 				{hubFindings.slice(0, 3).map((finding) => <ReportFinding finding={finding} />)}
 			</div>
-			{hubFindings.length > 3 && <details class="abm-extra-findings"><summary>Fler resultat</summary>{hubFindings.slice(3).map((finding) => <ReportFinding finding={finding} />)}</details>}
+			{hubFindings.length > 3 && <details class="abm-extra-findings disclosure"><summary>Fler resultat</summary>{hubFindings.slice(3).map((finding) => <ReportFinding finding={finding} />)}</details>}
 			<p class="abm-findings-note">Resultaten väljs automatiskt ur mätningen och uppdateras när svaren ändras. {source} <a href={METHOD_PATH}>Läs om urval och begränsningar</a>.</p>
 		</TitledSection>
 	)}
@@ -182,7 +183,7 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 				/>
 				{changes.length > 0 ? (
 					<>
-						<h3 class="abm-subhead">Största förändringarna</h3>
+						<Kicker form="head" as="h3" class="abm-subhead">Största förändringarna</Kicker>
 						<ScaleLegend cells={changes.flatMap((c) => [c.fromCell, c.toCell])} compact />
 						<ul class="abm-changes abm-changes--chips">
 							{changes.map((c) => (

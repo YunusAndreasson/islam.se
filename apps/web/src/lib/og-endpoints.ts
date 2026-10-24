@@ -6,7 +6,8 @@ import { ogCached } from "./og-cache";
 // three things: map its route props to an OG card, rasterise via renderOg(), and
 // return the PNG with a year-long immutable cache. Only the mapping differs, so the
 // handler + headers live here once; each page keeps its own getStaticPaths (the
-// props shape is the page's contract) and passes just the card mapper.
+// props shape is the page's contract, read off it with InferGetStaticPropsType rather
+// than restated) and passes just the card mapper.
 
 const OG_HEADERS = {
 	"Content-Type": "image/png",
@@ -21,14 +22,13 @@ const OG_HEADERS = {
  *  evaluated before the card is built, so the expensive work (the essay hero's
  *  attention-crop) is skipped on a hit. Omit it and the endpoint renders every build.
  *  The card layout itself is versioned by og-cache.ts, not by this key. */
-export function ogEndpoint<P = Record<string, unknown>>(
+export function ogEndpoint<P extends Record<string, unknown> = Record<string, never>>(
 	card: (props: P) => OgInput | Promise<OgInput>,
 	cacheKey?: (props: P) => string,
-): APIRoute {
+): APIRoute<P> {
 	return async ({ props }) => {
-		const p = props as P;
-		const render = async () => renderOg(await card(p));
-		const png = cacheKey ? await ogCached(cacheKey(p), render) : await render();
+		const render = async () => renderOg(await card(props));
+		const png = cacheKey ? await ogCached(cacheKey(props), render) : await render();
 		return new Response(new Uint8Array(png), { headers: OG_HEADERS });
 	};
 }

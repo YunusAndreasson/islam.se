@@ -8,7 +8,7 @@ const description =
 ---
 
 <ArticlePage
-	title="Föreslå en rättelse – islam.se"
+	title="Föreslå en rättelse"
 	description={description}
 	noindex={true}
 	jsonLd={[
@@ -19,7 +19,7 @@ const description =
 	]}
 >
 	<Fragment slot="header">
-		<p class="ratta-lead">
+		<p class="lead lead--page">
 			Har du hittat ett sakfel? Ange sidan, citera meningen och beskriv vad som är fel.
 			Bifoga gärna en källa som hjälper oss att kontrollera uppgiften.
 		</p>
@@ -114,6 +114,8 @@ const description =
 ></script>
 
 <script>
+	import { onPage } from "../scripts/page";
+
 	const ERRORS = {
 		bad_page: "Adressen till sidan ser inte ut att höra till islam.se.",
 		description_too_short: "Skriv några ord till om vad som är fel.",
@@ -162,7 +164,8 @@ const description =
 			widgetId = turnstile.render(widget, { sitekey, language: "sv" });
 		};
 		renderWidget();
-		// The script may still be in flight on first paint.
+		// The widget's script loads async and may still be in flight: on a cold visit this
+		// runs as soon as the document is parsed, before the window's load.
 		window.addEventListener("load", renderWidget, { once: true });
 
 		// A message by the button alone does not say which field it means, and leaves
@@ -215,6 +218,9 @@ const description =
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify(body),
+					// A request that hangs fails like one that errors: the reader gets the
+					// message below and the button back, not »Skickar …« for good.
+					signal: AbortSignal.timeout(15_000),
 				});
 				const result: unknown = await res.json();
 				const resultRecord =
@@ -249,20 +255,10 @@ const description =
 		});
 	}
 
-	document.addEventListener("astro:page-load", setup);
+	onPage(setup);
 </script>
 
 <style>
-	.ratta-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
-	}
-
 	.ratta-body {
 		max-width: var(--content-width);
 		margin-top: var(--space-phi);
@@ -318,7 +314,7 @@ const description =
 		line-height: 1.5;
 		color: var(--color-text);
 		background: var(--surface-1);
-		border: 1px solid var(--color-rule);
+		border: var(--border-rule);
 		border-radius: var(--radius-sm);
 		padding: 0.6rem 0.7rem;
 		width: 100%;

@@ -28,7 +28,7 @@ const { class: className, items, ...attrs } = Astro.props;
 		max-width: var(--content-width);
 		margin: var(--ruled-facts-margin, var(--space-phi) 0 0);
 		padding: 0;
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 		font-size: var(--step--2);
 	}
 
@@ -37,7 +37,7 @@ const { class: className, items, ...attrs } = Astro.props;
 		grid-template-columns: 11rem 1fr;
 		gap: 0.5rem 1.5rem;
 		padding: 0.65rem 0;
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 	}
 
 	.ruled-facts dt {
@@ -55,16 +55,6 @@ const { class: className, items, ...attrs } = Astro.props;
 		margin: 0;
 		font-family: var(--font-body);
 		color: var(--text-body);
-	}
-
-	.ruled-facts a {
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.ruled-facts a:hover {
-		text-decoration: underline;
-		text-underline-offset: var(--underline-offset);
 	}
 
 	@media (width <= 30rem) {

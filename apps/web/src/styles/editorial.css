@@ -7,7 +7,7 @@
 .site-links a {
 	display: inline-flex;
 	align-items: center;
-	min-height: 2.75rem;
+	min-height: var(--tap-target);
 }
 .site-links a[aria-current] {
 	font-weight: 600;
@@ -18,7 +18,7 @@
 .search-trigger,
 .mast-prayer,
 .filter-chip {
-	min-height: 2.75rem;
+	min-height: var(--tap-target);
 }
 /* One state for a chosen chip: the ink border and ink label (layout.css) and the weight
    here. It also had an inset underline, so a chosen pill wore three marks at once. */
@@ -78,7 +78,7 @@
 .front .home :is(.barometer-rail, .praktiskt-home) {
 	margin-block: var(--space-section) 0;
 	padding-block: calc(0.5rem + var(--space-group)) var(--space-section);
-	border-bottom: 1px solid var(--color-rule);
+	border-bottom: var(--border-rule);
 }
 
 .front .home :is(.barometer-rail, .praktiskt-home) ~ .home-chapter > :first-child,
@@ -129,7 +129,7 @@
    together", user review the same evening). */
 .front .home .home-chapter > .home-movement ~ .home-movement,
 .front .home .amnen {
-	border-top: 1px solid var(--color-rule);
+	border-top: var(--border-rule);
 	padding-top: var(--space-group);
 }
 
@@ -174,7 +174,7 @@
 
 	/* The scroller clips a ring drawn outside a card: hold keyboard focus inside it. */
 	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) > li > a:focus-visible {
-		outline-offset: -2px;
+		--focus-offset: -2px;
 	}
 }
 
@@ -229,8 +229,7 @@
 	}
 }
 
-.essay-card-media,
-.card-media {
+.essay-card-media {
 	aspect-ratio: 3 / 2;
 }
 .archive-meta,
@@ -238,8 +237,7 @@
 	font-variant-numeric: tabular-nums;
 }
 .article-header h1,
-.svar-header h1,
-.fordjupning-header h1 {
+.svar-header h1 {
 	text-wrap: balance;
 }
 /* The reading pages' titles in Literata's display cut, as the front page's lead title
@@ -250,10 +248,9 @@
    them off on the grounds that the text cut lacked them; both cuts carry all three.
    `.reading` is the essay page alone; /om and the other ArticlePage pages keep the
    text cut. Mobile titles also retain the text cut at their smaller size. */
-@media (width > 48rem) {
+@media (width >= 48rem) {
 	.reading .article-header h1,
-	.svar-header h1,
-	.fordjupning-header h1 {
+	.svar-header h1 {
 		font-family: var(--font-headline);
 		font-weight: 560;
 		letter-spacing: -0.012em;
@@ -368,12 +365,11 @@
 	margin: 0 0 var(--space-control);
 }
 .footer-group ul {
-	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 .site-footer .footer-group a {
-	min-height: 2.75rem;
+	min-height: var(--tap-target);
 	padding: 0;
 	font-size: var(--step--2);
 }
@@ -404,11 +400,6 @@
 	}
 	.footer-group:last-child {
 		grid-column: auto;
-	}
-}
-@media (prefers-reduced-motion: reduce) {
-	.media-frame img {
-		transition: none;
 	}
 }
 
@@ -496,6 +487,8 @@
 		padding-inline: 0.6rem;
 	}
 	.site-header .site-home {
+		/* The wordmark's own size (DESIGN.md, »The mast«: 18px on a phone), a step under its
+		   clamp where the 320px row must hold it; not a rank on the text ladder. */
 		font-size: 1.0625rem;
 	}
 }

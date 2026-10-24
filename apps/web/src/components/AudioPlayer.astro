@@ -19,7 +19,7 @@ const { src, title, artwork, label = "Lyssna" } = Astro.props;
 ---
 
 <button
-	class="audio-trigger podcast-action"
+	class="audio-trigger pill"
 	type="button"
 	data-audio-src={src}
 	data-audio-title={title}
@@ -32,7 +32,7 @@ const { src, title, artwork, label = "Lyssna" } = Astro.props;
 </button>
 
 <style>
-	/* THE PILL IS `.podcast-action` (layout.css) — the same one Apple Podcasts, Spotify
+	/* THE PILL IS `.pill` (layout.css) — the same one Apple Podcasts, Spotify
 	   and RSS are drawn as, three rows above this button on /podcast/. It used to be
 	   redrawn here, and the copy had drifted: 0.4rem/0.875rem padding against 0.5/1.125,
 	   0.06em tracking against 0.05, 0.4em icon gap against 0.45. Nobody could see it
@@ -40,7 +40,7 @@ const { src, title, artwork, label = "Lyssna" } = Astro.props;
 	   them there. Now they are one shape.
 
 	   What stays below is only what is genuinely this control's own: the two UA button
-	   properties `.podcast-action` has no reason to carry (it is written for an <a>),
+	   properties `.pill` has no reason to carry (it is written for an <a>),
 	   the playing state, and the glyph swap. */
 	.audio-trigger {
 		background: transparent;
@@ -82,17 +82,18 @@ const { src, title, artwork, label = "Lyssna" } = Astro.props;
 </style>
 
 <script>
-	document.addEventListener("astro:page-load", () => {
-		for (const btn of document.querySelectorAll<HTMLButtonElement>(".audio-trigger")) {
-			btn.addEventListener("click", () => {
-				document.dispatchEvent(new CustomEvent("floating-player:play", {
-					detail: {
-						src: btn.dataset.audioSrc,
-						title: btn.dataset.audioTitle,
-						artwork: btn.dataset.audioArtwork,
-					}
-				}));
-			});
-		}
+	// Every Lyssna button, delegated once on the document: the buttons come and go with the
+	// pages and the listener stays, and on a cold visit they work before the window's load
+	// (the router's first page-load waits for every image).
+	document.addEventListener("click", (event) => {
+		const btn = (event.target as Element | null)?.closest<HTMLButtonElement>(".audio-trigger");
+		if (!btn) return;
+		document.dispatchEvent(new CustomEvent("floating-player:play", {
+			detail: {
+				src: btn.dataset.audioSrc,
+				title: btn.dataset.audioTitle,
+				artwork: btn.dataset.audioArtwork,
+			},
+		}));
 	});
 </script>

@@ -32,7 +32,7 @@ const rows = TARGETS.map((t) => {
 
 <figure class="dl">
 	<figcaption class="dl-cap">Dagsljus från söder till norr</figcaption>
-	<table class="dl-table">
+	<table class="data-table dl-table">
 		<thead>
 			<tr>
 				<th scope="col">Ort</th>
@@ -74,29 +74,9 @@ const rows = TARGETS.map((t) => {
 		margin-bottom: var(--space-half);
 	}
 
-	.dl-table {
-		width: 100%;
-		border-collapse: collapse;
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-	}
-
-	.dl-table th,
-	.dl-table td {
-		padding: 0.45rem 0.5rem;
-		text-align: end;
-		white-space: nowrap;
-	}
-
-	.dl-table thead th {
-		color: var(--color-muted);
-		font-weight: 600;
-		font-size: var(--step--3);
-		border-bottom: 1px solid var(--color-divider);
-	}
-
+	/* The table's grammar is the shared one (layout.css, .data-table); the row header
+	   stacks the city over its latitude. */
 	.dl-table tbody th[scope="row"] {
-		text-align: start;
 		display: flex;
 		flex-direction: column;
 		gap: 0.05rem;
@@ -115,16 +95,6 @@ const rows = TARGETS.map((t) => {
 		font-weight: 400;
 		color: var(--color-muted);
 		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.dl-table tbody td {
-		color: var(--color-text);
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.dl-table tbody tr:not(:last-child) th,
-	.dl-table tbody tr:not(:last-child) td {
-		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
 	}
 
 	.dl-special {

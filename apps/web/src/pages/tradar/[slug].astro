@@ -1,21 +1,24 @@
 ---
 import { getCollection } from "astro:content";
 import EssayCollectionPage from "../../components/EssayCollectionPage.astro";
-import { type Article, getArticles } from "../../lib/articles";
+import type { Article } from "../../lib/articles";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
+import { seriesLength } from "../../lib/series";
+import { seriesParts } from "../../lib/tradar";
 
 export async function getStaticPaths() {
-	const [threads, articles] = await Promise.all([getCollection("tradar"), getArticles()]);
-	const bySlug = new Map(articles.map((a) => [a.slug, a]));
-	return threads.map((thread) => ({
-		params: { slug: thread.id },
-		props: {
-			title: thread.data.title,
-			framing: thread.data.framing,
-			// Preserve the curated thread order, not the feed's date order.
-			essays: thread.data.essays.map((s) => bySlug.get(s)).filter((a): a is Article => Boolean(a)),
-		},
-	}));
+	const threads = await getCollection("tradar");
+	return Promise.all(
+		threads.map(async (thread) => ({
+			params: { slug: thread.id },
+			props: {
+				title: thread.data.title,
+				framing: thread.data.framing,
+				// The curated thread order, not the feed's date order.
+				essays: await seriesParts(thread),
+			},
+		})),
+	);
 }
 
 interface Props {
@@ -25,7 +28,6 @@ interface Props {
 }
 
 const { title, framing, essays } = Astro.props;
-const count = essays.length;
 const slug = Astro.params.slug;
 ---
 
@@ -34,7 +36,7 @@ const slug = Astro.params.slug;
 	description={framing}
 	essays={essays}
 	kicker="Essäserie"
-	countText={`${count} ${count === 1 ? "del" : "delar"}`}
+	countText={seriesLength(essays)}
 	numbered
 	backHref="/tradar/"
 	backLabel="Alla essäserier"

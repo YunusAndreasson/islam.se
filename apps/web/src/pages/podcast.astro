@@ -105,7 +105,7 @@ const description =
 	    ingress. No wrapper class: the row layout is the component's own now (it has to
 	    be — see PodcastSubscribeLinks), and the space beneath it is carried by the count
 	    below, which this page does author. */}
-	<PodcastSubscribeLinks actionClass="podcast-action" iconSize={15} includeFeed />
+	<PodcastSubscribeLinks actionClass="pill" iconSize={15} includeFeed />
 
 	{/* The count as the shared `.collection-count`, the same quiet label the essay
 	    collections carry. It used to be an <h2> with a rule under it, which put a third
@@ -149,7 +149,7 @@ const description =
 		class="podcast-list"
 		aria-label="Avsnitt"
 		items={episodeRows}
-		style="--podcast-thumb: 15rem; --text-row-list-margin: var(--space-half) 0 0; --text-row-media-separator: 1px solid var(--color-rule); --text-row-media-separator-padding: var(--space-unit); --text-row-columns: var(--podcast-thumb) minmax(0, var(--content-width)); --text-row-meta-margin: var(--space-half); max-width: calc(var(--podcast-thumb) + var(--space-unit) + var(--content-width))"
+		style="--podcast-thumb: 15rem; --text-row-list-margin: var(--space-half) 0 0; --text-row-media-separator: var(--border-rule); --text-row-media-separator-padding: var(--space-unit); --text-row-columns: var(--podcast-thumb) minmax(0, var(--content-width)); --text-row-meta-margin: var(--space-half); max-width: calc(var(--podcast-thumb) + var(--space-unit) + var(--content-width))"
 	/>
 
 	<p class="podcast-note">

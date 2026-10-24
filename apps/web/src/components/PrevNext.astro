@@ -1,0 +1,40 @@
+---
+// PREVIOUS AND NEXT at the foot of a page in a sequence: an essay's newer and older
+// neighbours, a question's in AI-barometern, a model's. One pager (layout.css,
+// `.article-nav`): the direction over the title, and the next one at the right edge by
+// what it is, not by where it happens to fall. AI-barometern drew its own, under a rule,
+// in tracked capitals and a size of its own, a click away from the essays'.
+import type { HTMLAttributes } from "astro/types";
+
+export interface PagerLink {
+	href: string;
+	title: string;
+	/** The direction in the sequence's own words: »Nyare«, »Nästa fråga«. */
+	label: string;
+}
+
+type Props = HTMLAttributes<"nav"> & {
+	/** Absent (or null, at a sequence's end) leaves that side empty. */
+	prev?: PagerLink | null | undefined;
+	next?: PagerLink | null | undefined;
+};
+
+const { prev, next, class: className, ...rest } = Astro.props;
+---
+
+{(prev || next) && (
+	<nav {...rest} class:list={["article-nav", className]}>
+		{prev && (
+			<a href={prev.href} rel="prev">
+				<span class="label nav-label back-link">{prev.label}</span>
+				{prev.title}
+			</a>
+		)}
+		{next && (
+			<a href={next.href} rel="next">
+				<span class="label nav-label arrow-link">{next.label}</span>
+				{next.title}
+			</a>
+		)}
+	</nav>
+)}

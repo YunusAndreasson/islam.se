@@ -79,7 +79,6 @@
 		font-variant-ligatures: common-ligatures;
 		/* .prose sets hyphens: auto, which inherits — balanced headings must never
 	   auto-hyphenate Swedish compounds. manual keeps &shy; as an escape hatch. */
-		-webkit-hyphens: manual;
 		hyphens: manual;
 	}
 
@@ -252,8 +251,8 @@
 		visibility: hidden;
 		pointer-events: none;
 		transition:
-			opacity 120ms ease,
-			visibility 120ms;
+			opacity var(--dur-fast) ease,
+			visibility var(--dur-fast);
 	}
 
 	/* Only where no page script draws the meaning itself: essays and fördjupningar build
@@ -289,12 +288,6 @@
 			width: auto;
 			max-width: none;
 			translate: none;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.honorific[data-tip]::after {
-			transition: none !important;
 		}
 	}
 
@@ -343,13 +336,14 @@
 
 		p {
 			margin: 0;
+			/* The pull quote's own display size (DESIGN.md, »The Scale«: composed for one
+			   place), growing with the room the column gives it. */
 			font-size: clamp(1.45rem, 1.1rem + 1.5vw, 2.1rem);
 			font-style: italic;
 			line-height: 1.3;
 			letter-spacing: -0.01em;
 			text-indent: 0;
 			text-wrap: balance;
-			-webkit-hyphens: manual;
 			hyphens: manual;
 		}
 	}
@@ -376,7 +370,7 @@
 	/* Horizontal rule */
 	hr {
 		border: none;
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 		margin-block: var(--space-phi);
 	}
 
@@ -473,7 +467,7 @@
 		overscroll-behavior: contain;
 		padding: 0.75rem 1.214rem;
 		background: var(--color-bg);
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-lg);
 		box-shadow: 0 4px 24px rgb(var(--hero-black) / 0.08);
 		font-family: var(--font-heading);
@@ -491,9 +485,9 @@
 		pointer-events: none;
 		transform: translateY(4px);
 		transition:
-			opacity 0.15s ease,
-			transform 0.15s ease,
-			visibility 0s linear 0.15s;
+			opacity var(--dur-fast) ease,
+			transform var(--dur-fast) ease,
+			visibility 0s linear var(--dur-fast);
 
 		p {
 			margin-bottom: 0;
@@ -528,7 +522,6 @@
    Prose — article body content
    ============================================================ */
 	.prose {
-		-webkit-hyphens: auto;
 		hyphens: auto;
 		/* Swedish hyphenation discipline: min 7-letter words, ≥4 before / ≥3 after
 	   the break — kills "o-/lika" fragments. Safari prefixes add a 2-line
@@ -538,7 +531,7 @@
 		-webkit-hyphenate-limit-after: 3;
 		-webkit-hyphenate-limit-lines: 2;
 
-		@media (width > 48rem) {
+		@media (width >= 48rem) {
 			text-wrap: pretty;
 		}
 
@@ -695,7 +688,7 @@
 	/* ============================================================
    Mobile adjustments
    ============================================================ */
-	@media (width <= 48rem) {
+	@media (width < 48rem) {
 		/* Body size is not overridden here any more — `--step-0` itself steps down at
 		   this breakpoint (see tokens.css), so everything keyed to the body step moves
 		   together instead of body drifting away from the leads and titles that were
@@ -805,10 +798,13 @@
 	/* Reduced motion — respect user preference.
    !important is load-bearing: * has zero specificity, so without it every
    classed `transition` shorthand on the site wins the cascade and the
-   kill-switch is a no-op. Deliberate survivors (EssayImage filter cross-fade,
-   resume-pill opacity fade) re-assert themselves locally with !important. */
+   kill-switch is a no-op. A deliberate survivor — a change that is not motion:
+   EssayImage's colour cross-fade, the resume pill's fade — carries `.motion-safe`
+   and is left out here. It cannot win back locally: an !important inside a layer
+   outranks every unlayered one, so the survivors' own `!important` overrides
+   resolved to this 0.01ms all along (found 2026-10-23). */
 	@media (prefers-reduced-motion: reduce) {
-		*,
+		:where(:not(.motion-safe)),
 		*::before,
 		*::after {
 			animation-duration: 0.01ms !important;

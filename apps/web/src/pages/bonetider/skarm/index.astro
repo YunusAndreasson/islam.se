@@ -12,6 +12,7 @@
 // question, then the wall itself with the way to get it onto a television, and only
 // then the refinements — folded away, each one still stating what it currently holds.
 import Breadcrumb from "../../../components/Breadcrumb.astro";
+import JsonScript from "../../../components/JsonScript.astro";
 import PageHead from "../../../components/PageHead.astro";
 import PrayerSettings from "../../../components/bonetider/PrayerSettings.astro";
 import Base from "../../../layouts/Base.astro";
@@ -48,8 +49,7 @@ const iqamaLabels: Record<string, string> = {
 	isha: PRAYER_LABELS.isha,
 };
 
-// ⚠️ Trailing slashes are load-bearing: the href is used raw and Cloudflare 308s
-// the slash-less form. Same shape as /bonetider/metod/ and /bonetider/ramadan/.
+// Same shape as /bonetider/metod/ and /bonetider/ramadan/.
 const crumbs = [
 	{ name: "Hem", url: "/" },
 	{ name: "Bönetider", url: "/bonetider/" },
@@ -95,7 +95,7 @@ const crumbs = [
 				    quietly keeps the last place it had and the preview looks perfectly plausible. */}
 				<p class="sk-status" id="sk-mosque-status" aria-live="polite"></p>
 
-				<details class="sk-fold sk-fold--manual">
+				<details class="sk-fold sk-fold--manual disclosure disclosure--smooth">
 					<summary>
 						<span class="sk-fold-label">Saknas er moské i listan?</span>
 					</summary>
@@ -140,7 +140,7 @@ const crumbs = [
 			<section class="sk-tune" aria-labelledby="sk-h-tune">
 				<h2 id="sk-h-tune">Finjustera</h2>
 
-				<details class="sk-fold">
+				<details class="sk-fold disclosure disclosure--smooth">
 					<summary>
 						<span class="sk-fold-label">Iqāma-tider</span>
 						<span class="sk-fold-value" id="sk-sum-iqama"></span>
@@ -164,7 +164,7 @@ const crumbs = [
 					</div>
 				</details>
 
-				<details class="sk-fold">
+				<details class="sk-fold disclosure disclosure--smooth">
 					<summary>
 						<span class="sk-fold-label">Fredagsbön och anslag</span>
 						<span class="sk-fold-value" id="sk-sum-fredag"></span>
@@ -185,7 +185,7 @@ const crumbs = [
 				    and a form inside a form is dropped by the HTML parser — silently, so the
 				    controls appear but never wire up. Bare labelled inputs behave identically
 				    here: nothing is ever submitted, the builder reads them directly. */}
-				<details class="sk-fold">
+				<details class="sk-fold disclosure disclosure--smooth">
 					<summary>
 						<span class="sk-fold-label">Beräkning</span>
 						<span class="sk-fold-value" id="sk-sum-calc"></span>
@@ -198,11 +198,8 @@ const crumbs = [
 			</section>
 		</div>
 
-		{/* `<` escaped the way PlaceSearch.astro does it: a mosque name carrying "</script>"
-		    would otherwise end the block early and take the rest of the page with it. The
-		    data is ours, but it comes from a hand-edited JSON file. */}
-		<script id="sk-mosque-data" type="application/json" is:inline set:html={JSON.stringify(mosques).replace(/</g, "\\u003c")}></script>
-		<script id="sk-place-data" type="application/json" is:inline set:html={JSON.stringify(places).replace(/</g, "\\u003c")}></script>
+		<JsonScript id="sk-mosque-data" data={mosques} />
+		<JsonScript id="sk-place-data" data={places} />
 	</main>
 </Base>
 
@@ -281,22 +278,9 @@ const crumbs = [
 	   A closed row must still say what the screen will do — a fold that hides
 	   its own state is how a mosque ends up praying by the wrong method with
 	   nothing on the page admitting it. Hence the value beside every label. */
+	/* The marker and the smooth opening are the site's (layout.css, `.disclosure`). */
 	.sk-fold {
-		border-bottom: 1px solid var(--color-divider);
-		/* Smooth disclosure where supported; elsewhere it snaps, exactly as before. */
-		interpolate-size: allow-keywords;
-	}
-
-	.sk-fold::details-content {
-		height: 0;
-		overflow: clip;
-		transition:
-			height 0.25s ease,
-			content-visibility 0.25s allow-discrete;
-	}
-
-	.sk-fold[open]::details-content {
-		height: auto;
+		border-bottom: var(--border-row);
 	}
 
 	.sk-fold summary {
@@ -305,29 +289,6 @@ const crumbs = [
 		align-items: baseline;
 		gap: 0 var(--space-control);
 		padding-block: 0.85rem;
-		cursor: pointer;
-		/* The default marker cannot be placed by flex, so it is removed and the
-		   chevron drawn by ::after instead. */
-		list-style: none;
-	}
-
-	.sk-fold summary::-webkit-details-marker {
-		display: none;
-	}
-
-	.sk-fold summary::after {
-		content: "";
-		flex: none;
-		width: 0.45rem;
-		height: 0.45rem;
-		border-right: 1.5px solid var(--color-muted);
-		border-bottom: 1.5px solid var(--color-muted);
-		transform: translateY(-0.2em) rotate(45deg);
-		transition: transform var(--dur-fast) ease;
-	}
-
-	.sk-fold[open] summary::after {
-		transform: translateY(0.1em) rotate(-135deg);
 	}
 
 	/* The auto margin, not the chevron's, so the values line up in a column against
@@ -453,7 +414,7 @@ const crumbs = [
 	.sk-iq input {
 		width: 100%;
 		padding: 0.45rem 0.6rem;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-sm);
 		background: var(--color-bg);
 		color: var(--color-text);
@@ -509,7 +470,7 @@ const crumbs = [
 	.sk-tune h2 {
 		margin: 0;
 		padding-bottom: var(--space-control);
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		font-weight: 600;
@@ -525,7 +486,7 @@ const crumbs = [
 	/* 16:9, so the preview is the wall and not an approximation of it. */
 	.sk-preview {
 		aspect-ratio: 16 / 9;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-md);
 		overflow: hidden;
 	}

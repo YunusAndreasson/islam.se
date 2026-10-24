@@ -508,6 +508,7 @@ Use tokens.css for values; editorial.css holds the shared UI presentation contra
 - *A count or a meta line* reads in sentence case (»6 delar«, »12 avsnitt«, the footer's colophon); so do the filter chips. Capitals name a section or a kind and nothing else.
 - *Ways on* from a page are items on its grid (`OnwardLinks`, named and glossed from `lib/navigation.ts`'s `destinations()`; a tool page's `RelatedLinks` on its thirds), never rows across the canvas with the arrow at the far edge.
 - *A phone's tabs* are one row that scrolls sideways under its own rule, never two stacked bars.
+- *A table of figures* is `.data-table` (layout.css): the text face at `--step--2` with tabular figures set to the end of their column, the first column and its head at the start, the heads in the meta ink and in sentence case over the one rule, the rows parted by a fainter line and none under the last. A table adds only what is its own: a sticky head, today's row, a denser step where a phone needs it.
 
 Use --space-control for compact interface gaps, --space-group within related content, and --space-section between editorial sections. Retain the larger prose spacing tokens where they already carry meaning. Inputs are at least 16px; principal touch controls are at least 44px high. Focus indicators, selected states, loading, empty, and error states belong to the shared design.
 

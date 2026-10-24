@@ -30,9 +30,14 @@ import maplibreCssUrl from "maplibre-gl/dist/maplibre-gl.css?url";
 import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { BURIAL_GLYPH_GRID, BURIAL_GLYPH_PATH } from "../lib/begravningsplatser/glyph";
 import { SWEDEN_BBOX } from "../lib/bonetider/sweden-outline";
-import { haversineKm } from "../lib/geom";
+import { LOCATING, locationFailed } from "../lib/geolocation";
+import { nearest } from "../lib/geom";
+import { readJsonScript } from "../lib/json-script";
+import { filterFromUrl, matchesFilter, queryTerms, urlWithFilter } from "../lib/moskeer/filter";
 import { fold } from "../lib/search-text";
 import { escapeXml } from "../lib/xml";
+import { onPage } from "./page";
+import { currentScheme, type Scheme, watchScheme } from "./scheme";
 
 interface MosqueDatum {
 	id: string;
@@ -64,8 +69,6 @@ interface BurialDatum {
 	google: string;
 	apple: string;
 }
-
-type Scheme = "light" | "dark";
 
 // Palette matched to the Bönetider canvas so the two map surfaces feel identical.
 // Dark was the app's cold navy until 2026-07-27; now the same warm-axis ramp.
@@ -219,13 +222,12 @@ function loadMaplibreCss(): Promise<void> {
 	});
 }
 
-/** ⚠️ The site's own theme switch wins over the OS. Reading only the media query painted
- *  a dark basemap under a light page for anyone whose OS is dark but who chose light
- *  (or vice versa). Mirrors schemeNow() in scripts/bonetider-field.ts. */
-function currentScheme(): Scheme {
-	const explicit = document.documentElement.dataset.theme;
-	if (explicit === "dark" || explicit === "light") return explicit;
-	return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+/** The map could not be drawn: mark it, and say so in the stage's status line (role
+ *  status), where a screen reader hears it as well. The list beside it still works. */
+function showMapError(el: HTMLElement): void {
+	el.classList.add("is-error");
+	const status = el.closest(".mk-stage")?.querySelector<HTMLElement>(".mk-loading");
+	if (status) status.textContent = "Kartan kunde inte laddas. Du kan fortfarande använda listan.";
 }
 
 async function mount() {
@@ -240,19 +242,18 @@ async function mount() {
 	// instead of one per selection.
 	const stage: HTMLElement = el.closest<HTMLElement>(".mk-stage") ?? el;
 
-	let data: MosqueDatum[];
-	try {
-		data = JSON.parse(dataEl.textContent || "[]");
-	} catch {
-		return;
-	}
+	const parsed = readJsonScript<MosqueDatum[] | null>(dataEl, null);
+	if (!parsed) return;
+	// Its own binding: the function declarations below are hoisted, so they would not see
+	// the check above narrow `parsed`.
+	const data = parsed;
 
 	// The heavy pair, fetched only once the stage is about to be seen.
 	let maplibre: typeof maplibregl;
 	try {
 		[maplibre] = await Promise.all([import("maplibre-gl"), loadMaplibreCss()]);
 	} catch {
-		el.classList.add("is-error");
+		showMapError(el);
 		delete el.dataset.mkMounted;
 		return;
 	}
@@ -266,12 +267,7 @@ async function mount() {
 	const byId = new Map(data.map((m) => [m.id, m]));
 	// The burial grounds share the map but not the list (see moskeer.astro). A missing or
 	// broken payload leaves this a mosque map rather than a broken one.
-	let burials: BurialDatum[] = [];
-	try {
-		burials = JSON.parse(document.getElementById("begravning-data")?.textContent || "[]");
-	} catch {
-		burials = [];
-	}
+	const burials = readJsonScript<BurialDatum[]>(document.getElementById("begravning-data"), []);
 	const burialById = new Map(burials.map((b) => [b.id, b]));
 	const burialSearch = new Map(
 		burials.map((b) => [b.id, fold(`${b.name} ${b.section} ${b.location} ${b.address ?? ""}`)]),
@@ -322,7 +318,7 @@ async function mount() {
 	// that all look live and are wired to nothing, because every listener in mount() is
 	// registered after this line. WebGL is genuinely absent in the wild: blocked by a
 	// privacy extension, unavailable on old hardware, off in a hardened profile.
-	// `.is-error` is already styled on the container and says the list below still works.
+	// showMapError marks the container and says in the status line that the list still works.
 	let map: maplibregl.Map;
 	try {
 		map = new maplibre.Map({
@@ -346,7 +342,7 @@ async function mount() {
 			locale: LOCALE,
 		});
 	} catch (err) {
-		el.classList.add("is-error");
+		showMapError(el);
 		delete el.dataset.mkMounted;
 		console.warn("[moskeer] kartan kunde inte skapas (saknad WebGL-kontext?):", err);
 		return;
@@ -370,7 +366,7 @@ async function mount() {
 		}
 		if (mapFailed) return;
 		mapFailed = true;
-		el.classList.add("is-error");
+		showMapError(el);
 		console.warn("[moskeer] kartan kunde inte laddas:", detail);
 	});
 	// Bottom-RIGHT: expanded, this pill is ~470px wide and bottom-left is where Skåne
@@ -390,7 +386,7 @@ async function mount() {
 		"top-right",
 	);
 	// Native geolocation: the familiar user-location dot + accuracy ring. We drive it from
-	// the labelled "Hitta moské nära mig" button (its own corner button is hidden in CSS),
+	// the labelled »Nära mig« button (its own corner button is hidden in CSS),
 	// then snap to the nearest mosque on success.
 	const geolocate = new maplibre.GeolocateControl({
 		positionOptions: { enableHighAccuracy: false, timeout: 8000 },
@@ -406,17 +402,10 @@ async function mount() {
 		// maplibre-gl 6 types `coords` directly on the event (no cast needed anymore).
 		const c = e.coords;
 		if (!c) return;
-		// Longitude degrees get much shorter toward northern Sweden, so use a real
-		// great-circle distance rather than treating latitude/longitude as a flat grid.
-		let best: MosqueDatum | null = null;
-		let bestD = Number.POSITIVE_INFINITY;
-		for (const m of data) {
-			const d = haversineKm(c.latitude, c.longitude, m.lat, m.lng);
-			if (d < bestD) {
-				bestD = d;
-				best = m;
-			}
-		}
+		const best = nearest(data, { lat: c.latitude, lon: c.longitude }, (m) => ({
+			lat: m.lat,
+			lon: m.lng,
+		}));
 		// Not opened by a list row, so nothing to hand focus back to. Without this the
 		// callout for the NEAREST mosque inherited whatever row was clicked earlier, and
 		// Esc then threw the reader down the list to an unrelated mosque.
@@ -429,11 +418,9 @@ async function mount() {
 			selectMosque(best.id, true);
 		}
 	});
-	geolocate.on("error", () => {
+	geolocate.on("error", (e) => {
 		geoBtn?.removeAttribute("aria-busy");
-		if (geoStatus)
-			geoStatus.textContent =
-				"Kunde inte hämta din position. Sök efter en ort eller tillåt platsåtkomst och försök igen.";
+		if (geoStatus) geoStatus.textContent = locationFailed(e.code);
 	});
 
 	// Which paint props to overwrite for a given Positron layer, keyed generically by
@@ -540,12 +527,12 @@ async function mount() {
 				"all",
 				["!", ["has", "point_count"]],
 				["==", ["get", "id"], id],
-			] as never);
+			]);
 		}
 		// The graves' own ring. No id is both a mosque's and a grave's (the data test holds
 		// that), so at most one of the two rings ever finds its feature.
 		if (map.getLayer("mk-graves-active")) {
-			map.setFilter("mk-graves-active", ["==", ["get", "id"], id] as never);
+			map.setFilter("mk-graves-active", ["==", ["get", "id"], id]);
 		}
 	}
 
@@ -684,10 +671,12 @@ async function mount() {
 	function renderCallout(m: MosqueDatum) {
 		if (!callout) return;
 		callout.setAttribute("aria-label", "Vald moské");
+		// The same words as the list row beside the map (MosqueList): »· öppnad 1995«,
+		// »Huvudman«. The callout said »Öppnad« and »Finansiering / huvudman«.
 		const facts: string[] = [m.location];
-		if (m.opened) facts.push(`Öppnad ${m.opened}`);
+		if (m.opened) facts.push(`öppnad ${m.opened}`);
 		const org = m.organisation
-			? `<p class="mk-callout-org"><span class="label">Finansiering / huvudman</span>${escapeXml(m.organisation)}</p>`
+			? `<p class="mk-callout-org"><span class="label">Huvudman</span>${escapeXml(m.organisation)}</p>`
 			: "";
 		callout.innerHTML = `
 			<button type="button" class="mk-callout-close" aria-label="Stäng">×</button>
@@ -697,8 +686,8 @@ async function mount() {
 			${org}
 			<div class="mk-dir">
 				<span class="label">Vägbeskrivning</span>
-				<a href="${escapeXml(mapHref(m.apple))}" class="map-dir-btn">Apple Maps</a>
-				<a href="${escapeXml(mapHref(m.google))}" class="map-dir-btn">Google Maps</a>
+				<a href="${escapeXml(mapHref(m.apple))}" class="pill">Apple Maps</a>
+				<a href="${escapeXml(mapHref(m.google))}" class="pill">Google Maps</a>
 			</div>`;
 		callout.hidden = false;
 		// Wrapped, not passed directly: closeCallout now takes `restoreFocus`, and handing it
@@ -713,7 +702,7 @@ async function mount() {
 		if (!callout) return;
 		callout.setAttribute("aria-label", "Valt gravkvarter");
 		const facts: string[] = [b.location];
-		if (b.opened) facts.push(`I bruk sedan ${b.opened}`);
+		if (b.opened) facts.push(`i bruk sedan ${b.opened}`);
 		const host = /^https:\/\/(?:www\.)?([^/?#]+)/.exec(b.source)?.[1];
 		const source = host
 			? `<p class="mk-callout-org"><a href="${escapeXml(b.source)}" rel="noopener">Källa: ${escapeXml(host)}</a></p>`
@@ -727,8 +716,8 @@ async function mount() {
 			${source}
 			<div class="mk-dir">
 				<span class="label">Vägbeskrivning</span>
-				<a href="${escapeXml(mapHref(b.apple))}" class="map-dir-btn">Apple Maps</a>
-				<a href="${escapeXml(mapHref(b.google))}" class="map-dir-btn">Google Maps</a>
+				<a href="${escapeXml(mapHref(b.apple))}" class="pill">Apple Maps</a>
+				<a href="${escapeXml(mapHref(b.google))}" class="pill">Google Maps</a>
 			</div>`;
 		callout.hidden = false;
 		callout.querySelector(".mk-callout-close")?.addEventListener("click", () => closeCallout());
@@ -760,17 +749,20 @@ async function mount() {
 		}
 	}
 
-	/** Map: filter both kinds of place by query + län. A mosque's län comes from its rendered
-	 *  list item; a grave has no list item and carries its own. */
-	function syncMap(q: string, lan: string) {
-		const visible = data.filter((m) => {
-			const okQ = q === "" || (searchById.get(m.id) ?? fold(`${m.name} ${m.location}`)).includes(q);
-			const okLan = lan === "" || lanById.get(m.id) === lan;
-			return okQ && okLan;
-		});
-		const visibleGraves = burials.filter(
-			(b) =>
-				(q === "" || (burialSearch.get(b.id) ?? "").includes(q)) && (lan === "" || b.lan === lan),
+	/** Map: filter both kinds of place by query + län (lib/moskeer/filter.ts, the list's rule
+	 *  too). A mosque's län comes from its rendered list item; a grave has no list item and
+	 *  carries its own. */
+	function syncMap(q: string, terms: readonly string[], lan: string) {
+		const visible = data.filter((m) =>
+			matchesFilter(
+				searchById.get(m.id) ?? fold(`${m.name} ${m.location}`),
+				lanById.get(m.id),
+				terms,
+				lan,
+			),
+		);
+		const visibleGraves = burials.filter((b) =>
+			matchesFilter(burialSearch.get(b.id) ?? "", b.lan, terms, lan),
 		);
 		// The reader is typing — leave the caret where it is (see closeCallout).
 		const stillShown =
@@ -795,21 +787,20 @@ async function mount() {
 
 	/** List: hide non-matching items + empty groups; auto-open groups when searching.
 	 *  Returns the number of items left visible, for the count and the empty state. */
-	function syncList(q: string, lan: string): number {
+	function syncList(terms: readonly string[], lan: string): number {
 		let shown = 0;
 		for (const g of groups) {
 			let gShown = 0;
-			const lanHidden = lan !== "" && (g.dataset.lan ?? "") !== lan;
 			for (const li of g.querySelectorAll<HTMLElement>("li")) {
 				const hay = li.querySelector<HTMLElement>(".mk-item")?.dataset.search ?? "";
-				const hit = !lanHidden && (q === "" || hay.includes(q));
+				const hit = matchesFilter(hay, g.dataset.lan, terms, lan);
 				li.hidden = !hit;
 				if (hit) gShown++;
 			}
 			const groupCount = g.querySelector(".mk-lan-count");
 			if (groupCount) groupCount.textContent = String(gShown);
 			g.hidden = gShown === 0;
-			g.open = gShown > 0 && (q !== "" || lan !== "");
+			g.open = gShown > 0 && (terms.length > 0 || lan !== "");
 			shown += gShown;
 		}
 		return shown;
@@ -825,20 +816,16 @@ async function mount() {
 	 *  typed string goes in the URL, not the folded haystack form, so the link stays
 	 *  readable ("?q=malmö", not "?q=malmo"). */
 	function syncUrl(raw: string, lan: string) {
-		const url = new URL(location.href);
-		if (raw) url.searchParams.set("q", raw);
-		else url.searchParams.delete("q");
-		if (lan) url.searchParams.set("lan", lan);
-		else url.searchParams.delete("lan");
-		if (url.href !== location.href) history.replaceState(history.state, "", url);
+		const next = urlWithFilter(location.href, raw, lan);
+		if (next !== location.href) history.replaceState(history.state, "", next);
 	}
 
 	function applyFilter() {
 		const raw = search?.value.trim() ?? "";
-		const q = fold(raw);
+		const terms = queryTerms(raw);
 		const lan = lanSelect?.value ?? "";
-		syncMap(q, lan);
-		const shown = syncList(q, lan);
+		syncMap(terms.join(" "), terms, lan);
+		const shown = syncList(terms, lan);
 		if (count) count.textContent = `${shown} ${shown === 1 ? "moské" : "moskéer"}`;
 		if (empty) empty.hidden = shown !== 0;
 		if (resetBtn) resetBtn.hidden = raw === "" && lan === "";
@@ -849,13 +836,12 @@ async function mount() {
 	 *  the first filter pass, so the page opens showing what the link promised. An
 	 *  unknown län is ignored rather than silently blanking the picker. */
 	function restoreFilterFromUrl() {
-		const params = new URLSearchParams(location.search);
-		const q0 = params.get("q");
-		if (q0 && search) search.value = q0;
-		const lan0 = params.get("lan");
-		if (lan0 && lanSelect && Array.from(lanSelect.options).some((o) => o.value === lan0)) {
-			lanSelect.value = lan0;
-		}
+		const linked = filterFromUrl(
+			location.search,
+			lanSelect ? Array.from(lanSelect.options, (o) => o.value) : [],
+		);
+		if (linked.raw && search) search.value = linked.raw;
+		if (linked.lan && lanSelect) lanSelect.value = linked.lan;
 	}
 
 	// ── Wire events ──────────────────────────────────────────────────────────────────
@@ -907,7 +893,7 @@ async function mount() {
 		// grave neither hides a cluster's count nor is hidden by one.
 		const glyph = burialGlyph(PALETTE[scheme]);
 		if (glyph) map.addImage(GRAVE_IMAGE, glyph, { pixelRatio: 2 });
-		map.addSource("burials", { type: "geojson", data: fc(burials) as never });
+		map.addSource("burials", { type: "geojson", data: fc(burials) });
 		map.addLayer({
 			id: "mk-graves-active",
 			type: "circle",
@@ -943,7 +929,7 @@ async function mount() {
 		}
 		map.addSource("mosques", {
 			type: "geojson",
-			data: fc(data) as never,
+			data: fc(data),
 			cluster: true,
 			// Lighter clustering: a small radius only merges genuinely-overlapping dots,
 			// and a lower maxZoom lets points separate into individual dots sooner — so we
@@ -1139,7 +1125,7 @@ async function mount() {
 		"click",
 		() => {
 			if (geoBtn.getAttribute("aria-busy") === "true") return;
-			if (geoStatus) geoStatus.textContent = "Hämtar din position …";
+			if (geoStatus) geoStatus.textContent = LOCATING;
 			geoBtn.setAttribute("aria-busy", "true");
 			geolocate.trigger();
 		},
@@ -1157,28 +1143,19 @@ async function mount() {
 
 	el.dataset.interactive = "true";
 	document.addEventListener("mosques:view-changed", () => map.resize(), { signal: sig });
-	// OS theme change → recolor base + markers live.
-	const mq = window.matchMedia("(prefers-color-scheme: dark)");
-	const onScheme = () => {
+	// A theme change, the OS's or the site switch's, recolours the base and markers live;
+	// without it the basemap keeps the scheme it mounted with while the page flips.
+	watchScheme(() => {
 		scheme = currentScheme();
 		recolorBase();
 		applyMarkerColors();
-	};
-	mq.addEventListener("change", onScheme, { signal: sig });
-	// The theme switch stamps data-theme on <html>; without this the basemap keeps the
-	// scheme it mounted with while the page around it flips.
-	const themeObserver = new MutationObserver(onScheme);
-	themeObserver.observe(document.documentElement, {
-		attributes: true,
-		attributeFilter: ["data-theme"],
-	});
+	}, sig);
 
 	// Teardown on View-Transitions navigation away.
 	document.addEventListener(
 		"astro:before-swap",
 		() => {
 			ac.abort();
-			themeObserver.disconnect();
 			hoverPopup?.remove();
 			map.remove();
 			delete el.dataset.mkMounted;
@@ -1231,7 +1208,7 @@ function afterFirstPaint(job: () => void): void {
 
 // The search/län filter binds inside mount(), as it always has: it drives the map source
 // and the list together.
-function observe() {
+function observe(): (() => void) | undefined {
 	const stage = document.querySelector<HTMLElement>(".mk-stage");
 	if (!stage) return;
 	const io = new IntersectionObserver(
@@ -1257,7 +1234,9 @@ function observe() {
 		{ rootMargin: "600px" },
 	);
 	io.observe(stage.closest(".moskeer") ?? stage);
-	document.addEventListener("astro:before-swap", () => io.disconnect(), { once: true });
+	return () => io.disconnect();
 }
 
-document.addEventListener("astro:page-load", observe);
+// At the router's page-load, as measured (see afterFirstPaint): the map is this page's
+// largest paint, and its timing was tuned against Lighthouse runs.
+onPage(observe, { when: "load" });

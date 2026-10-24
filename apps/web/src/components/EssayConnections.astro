@@ -60,7 +60,7 @@ const nextParts = tradar.flatMap((t) => (t.next ? [{ series: t, next: t.next }] 
 			<div class="ec-next">
 				<Kicker form="head" as="h2">Nästa del</Kicker>
 				<a class="ec-next-link" href={`/${next.slug}/`} data-astro-prefetch="viewport">
-					<span class="ec-next-del">Del {series.part + 1} av {series.parts} · {series.title}</span>
+					<span class="part-ordinal">Del {series.part + 1} av {series.parts} · {series.title}</span>
 					<span class="ec-next-title">{next.title}</span>
 				</a>
 			</div>
@@ -104,7 +104,7 @@ const nextParts = tradar.flatMap((t) => (t.next ? [{ series: t, next: t.next }] 
 	.essay-connections {
 		margin-top: var(--space-phi);
 		padding-top: var(--space-unit);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	/* "Filed under" map. Each row is a small-caps label and its inline links,
@@ -178,16 +178,6 @@ const nextParts = tradar.flatMap((t) => (t.next ? [{ series: t, next: t.next }] 
 			text-decoration: underline;
 			text-underline-offset: var(--underline-offset);
 		}
-	}
-
-	.ec-next-del {
-		display: block;
-		margin-bottom: 0.2rem;
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		line-height: 1.4;
-		letter-spacing: 0.01em;
-		color: var(--color-brass-ink);
 	}
 
 	.ec-next-title {

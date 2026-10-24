@@ -96,19 +96,8 @@ const ramadan = line.marks.find((m) => m.x2 !== undefined);
 </div>
 
 <style>
-	.arslinje {
-		margin: var(--space-half) 0 0;
-	}
-
-	.arslinje-linje {
-		display: block;
-		overflow: visible;
-	}
-
-	.arslinje-bas {
-		stroke: var(--color-rule);
-		stroke-width: 1;
-	}
+	/* The line's look is the day line's too (layout.css, THE LINES); what follows is the
+	   year's own. */
 
 	/* The months: short ticks across the line, eleven of them, and no names. Twelve
 	   transliterated names do not fit a line, and the two that matter are the marks'. */
@@ -118,29 +107,11 @@ const ramadan = line.marks.find((m) => m.x2 !== undefined);
 		opacity: 0.55;
 	}
 
-	/* Ramadan: the only stretch drawn in ink, as daylight is on the day's line. */
-	.arslinje-stracka {
-		stroke: var(--text-quiet);
-		stroke-width: 2;
-	}
-
-	.arslinje-marke line {
-		stroke: var(--color-muted);
-		stroke-width: 1;
-	}
-
 	/* The turn of the year runs up into the date row, as maghrib does on the day's line:
 	   it is where one islamic year ends and the next begins. */
 	.arslinje-nyar {
 		stroke: var(--color-brass);
 		stroke-width: 1;
-	}
-
-	.arslinje-marke text,
-	.arslinje-hijri {
-		font-family: var(--font-heading);
-		font-size: var(--step--4);
-		fill: var(--color-muted);
 	}
 
 	.arslinje-marke text {
@@ -155,37 +126,13 @@ const ramadan = line.marks.find((m) => m.x2 !== undefined);
 		text-anchor: end;
 	}
 
-	.arslinje-marke .arslinje-datum {
-		font-variant-numeric: tabular-nums;
-	}
-
-	.arslinje-marke.is-next text {
-		fill: var(--color-text);
-	}
-
-	.arslinje-marke.is-next text:not(.arslinje-datum) {
-		font-weight: 600;
-	}
-
 	.arslinje-marke.is-next line {
 		stroke: var(--color-text);
 	}
 
-	/* Literata italic for the islamic month and year, as the horizon sets its dates. */
-	.arslinje-hijri {
-		font-family: var(--font-body);
-		font-style: italic;
-		fill: var(--text-quiet);
-	}
-
-	/* Today: the wordmark's point. A day is the line's unit, so the build's own mark is
-	   right until midnight and is shown at once; the client keeps it right after. */
-	.arslinje-sol {
-		fill: var(--color-brass);
-		stroke: var(--color-bg);
-		stroke-width: 3;
-		paint-order: stroke;
-	}
+	/* Today, the wordmark's point (THE LINES), needs no hiding: a day is the line's unit,
+	   so the build's own mark is right until midnight and is shown at once; the client
+	   keeps it right after. */
 
 	/* Until the client has measured (and for a reader without scripts): a label with no
 	   room on any line, and one with room only on the wide one. */

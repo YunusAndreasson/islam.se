@@ -14,6 +14,8 @@
 // SVG presentation attributes are not styles.
 import { fractionOf, labelsThatFit, type MarkState, markStates } from "../lib/arslinje";
 import { pct } from "../lib/bonetider/horizon";
+import { localIsoDate } from "../lib/daily";
+import { onPage } from "./page";
 
 /** Rendered width of an SVG text node, 0 if it is not laid out. */
 function textWidth(el: SVGTextElement): number {
@@ -29,10 +31,7 @@ function paint(root: HTMLElement): void {
 	const svg = root.querySelector<SVGSVGElement>("svg");
 	if (!(start && end && svg)) return;
 
-	// The reader's own calendar day, not UTC: just after a Swedish midnight toISOString()
-	// still says yesterday.
-	const now = new Date();
-	const idag = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+	const idag = localIsoDate();
 	svg.querySelector('[data-a="sol"]')?.setAttribute("cx", pct(fractionOf(idag, start, end)));
 
 	const groups = [...svg.querySelectorAll<SVGGElement>(".arslinje-marke[data-end]")];
@@ -69,22 +68,26 @@ function paint(root: HTMLElement): void {
 	}
 }
 
-const watched = new WeakSet<Element>();
-
-function uppdatera(): void {
+function uppdatera(): () => void {
+	const observers: ResizeObserver[] = [];
 	for (const root of document.querySelectorAll<HTMLElement>(".arslinje[data-start]")) {
 		paint(root);
-		if (watched.has(root) || !("ResizeObserver" in window)) continue;
-		watched.add(root);
 		// The line is a fraction of the window: a rotated phone has a different one.
 		let seen = root.getBoundingClientRect().width;
-		new ResizeObserver(() => {
+		const observer = new ResizeObserver(() => {
 			const w = root.getBoundingClientRect().width;
 			if (Math.abs(w - seen) < 1) return;
 			seen = w;
 			paint(root);
-		}).observe(root);
+		});
+		observer.observe(root);
+		observers.push(observer);
 	}
+	// An observer holds the line it watches: let go of the page's before the next one.
+	return () => {
+		for (const observer of observers) observer.disconnect();
+	};
 }
 
-document.addEventListener("astro:page-load", uppdatera);
+// It measures the line as drawn, so it waits for the finished page (page.ts, "load").
+onPage(uppdatera, { when: "load" });

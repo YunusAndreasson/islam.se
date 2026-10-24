@@ -34,6 +34,7 @@ import {
 } from "../lib/bonetider/kiosk";
 import {
 	computePrayerTimes,
+	countdownLabel,
 	dateForStockholmDay,
 	formatTime,
 	PRAYER_LABELS,
@@ -47,7 +48,7 @@ import {
 	TIME_ZONE,
 } from "../lib/bonetider/prayer-times";
 import { RELIEF_SCREEN } from "../lib/bonetider/relief-screen";
-import type { MapDetail } from "../lib/bonetider/render-field";
+import type { createFieldRenderer, MapDetail } from "../lib/bonetider/render-field";
 import {
 	decodeClockOffset,
 	decodeScreenConfig,
@@ -56,7 +57,9 @@ import {
 	resolveIqama,
 	type ScreenConfig,
 } from "../lib/bonetider/screen-config";
+import { readJsonScript } from "../lib/json-script";
 import { hijriLabel } from "../lib/markesdagar";
+import { readStored, writeStored } from "../lib/web-storage";
 
 /** How wide the close camera frames the country around the mosque. Ten degrees of
  *  latitude is about Malmö to Stockholm: close enough that the line visibly arrives on
@@ -66,7 +69,7 @@ const CLOSE_SPAN_DEG = 10;
 const STORE_KEY = "bonetider:skarm";
 const LAST_RELOAD_KEY = "bonetider:skarm:lastReload";
 
-type Renderer = { render(cfg: Record<string, unknown>, now: Date): void };
+type Renderer = ReturnType<typeof createFieldRenderer>;
 
 interface DayState {
 	key: string;
@@ -164,14 +167,10 @@ function mount(root: HTMLElement): void {
 	// Every mosque in the directory, lit on the map (render-field.ts drawLights). Baked into
 	// the page by MosqueScreen.astro and read once: the list does not change while it runs,
 	// and a wall that cannot parse it is still a working wall, only without its lights.
-	const lights: readonly (readonly [number, number])[] = (() => {
-		try {
-			const raw = root.querySelector(".ms-lights")?.textContent;
-			return raw ? (JSON.parse(raw) as [number, number][]) : [];
-		} catch {
-			return [];
-		}
-	})();
+	const lights = readJsonScript<readonly (readonly [number, number])[]>(
+		root.querySelector(".ms-lights"),
+		[],
+	);
 
 	// ---- the day ---------------------------------------------------------
 	function ensureDay(at: Date): DayState {
@@ -453,7 +452,8 @@ function mount(root: HTMLElement): void {
 				variant: "screen",
 				camera: cam.camera,
 				moving,
-				detail,
+				// Absent until map-detail.ts arrives; the coarse outline stands in meanwhile.
+				...(detail ? { detail } : {}),
 				occludedLeft,
 				lights,
 				// The two cameras it holds still at, so the renderer can keep both finished.
@@ -589,11 +589,8 @@ function mount(root: HTMLElement): void {
 			if (!res.ok) return;
 			const body = await res.text();
 			if (!body.includes("skarm-ok")) return;
-			try {
-				localStorage.setItem(LAST_RELOAD_KEY, String(Date.now()));
-			} catch {
-				/* storage blocked — the uptime guard still bounds the loop */
-			}
+			// With storage blocked the uptime guard still bounds the loop.
+			writeStored(LAST_RELOAD_KEY, String(Date.now()));
 			window.location.reload();
 		} catch {
 			// Offline, or the origin is down. There is no service worker, so a reload now
@@ -645,7 +642,7 @@ function mount(root: HTMLElement): void {
 	async function loadRenderer(): Promise<void> {
 		try {
 			const mod = await import("../lib/bonetider/render-field");
-			renderer = mod.createFieldRenderer(canvas) as unknown as Renderer;
+			renderer = mod.createFieldRenderer(canvas);
 			const at = now();
 			paintCanvas(ensureDay(at), at);
 			loadDetail();
@@ -917,42 +914,19 @@ function stockholmClockMinutes(at: Date): number {
 	return get("hour") * 60 + get("minute");
 }
 
-/** "om 1 tim 12 min" — the same vocabulary the prayer field already uses. */
-function countdownLabel(msLeft: number): string {
-	if (msLeft <= 0) return "nu";
-	const total = Math.round(msLeft / 1000);
-	if (total < 60) return `om ${total} sek`;
-	const mins = Math.round(total / 60);
-	if (mins < 60) return `om ${mins} min`;
-	const hours = Math.floor(mins / 60);
-	// "om 3 tim", never "om 3 tim 0 min".
-	return mins % 60 === 0 ? `om ${hours} tim` : `om ${hours} tim ${mins % 60} min`;
-}
-
 function readStoredHash(): string {
-	try {
-		return localStorage.getItem(STORE_KEY) ?? "";
-	} catch {
-		return "";
-	}
+	return readStored(STORE_KEY) ?? "";
 }
 
+/** A TV in private mode stores nothing; the URL is still the source of truth. */
 function storeHash(body: string): void {
-	try {
-		localStorage.setItem(STORE_KEY, body);
-	} catch {
-		/* a TV in private mode; the URL is still the source of truth */
-	}
+	writeStored(STORE_KEY, body);
 }
 
 function readLastReload(): number | null {
-	try {
-		const raw = localStorage.getItem(LAST_RELOAD_KEY);
-		const n = raw === null ? Number.NaN : Number(raw);
-		return Number.isFinite(n) ? n : null;
-	} catch {
-		return null;
-	}
+	const raw = readStored(LAST_RELOAD_KEY);
+	const n = raw === null ? Number.NaN : Number(raw);
+	return Number.isFinite(n) ? n : null;
 }
 
 /** Skew against the server, from the Date header of a request we have to make anyway. */

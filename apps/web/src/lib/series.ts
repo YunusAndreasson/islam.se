@@ -13,6 +13,23 @@ export interface SeriesPosition {
 	next?: string;
 }
 
+/** »6 delar«: a series counts its parts, never its essäer. */
+export function partsLabel(parts: number): string {
+	return `${parts} ${parts === 1 ? "del" : "delar"}`;
+}
+
+/** The minutes it takes to read every part: a series is read whole. */
+export function seriesMinutes(parts: readonly { readingTime: number }[]): number {
+	return parts.reduce((sum, part) => sum + part.readingTime, 0);
+}
+
+/** »6 delar · lästid 65 min«: how long a series is, said the same way wherever it is
+ *  listed (its card, its page, the front page's way on). Four places derived it, and the
+ *  front page's had dropped the parts. */
+export function seriesLength(parts: readonly { readingTime: number }[]): string {
+	return `${partsLabel(parts.length)} · lästid ${seriesMinutes(parts)} min`;
+}
+
 /** The position of `slug` among a series' published `members`, in the series' own
  *  order; null when the essay is not a part of it. */
 export function seriesPosition(members: readonly string[], slug: string): SeriesPosition | null {

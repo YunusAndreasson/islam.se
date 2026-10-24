@@ -2,6 +2,7 @@ import { access, readdir, readFile, writeFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { NodeHtmlMarkdown } from "node-html-markdown";
+import { SITE_URL } from "../src/lib/config";
 import { stripSidenotes } from "../src/lib/sidenotes";
 
 // Post-build: give every HTML page a markdown twin so the edge `_middleware`
@@ -13,7 +14,7 @@ import { stripSidenotes } from "../src/lib/sidenotes";
 // same content as the HTML (parity, not cloaking).
 
 const DIST = fileURLToPath(new URL("../dist/", import.meta.url));
-const SITE = "https://islam.se";
+const SITE = SITE_URL;
 
 async function exists(path: string): Promise<boolean> {
 	try {

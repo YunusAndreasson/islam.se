@@ -30,7 +30,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		inset: auto 0 0;
 		z-index: 50;
 		background: var(--color-bg);
-		border-top: 1px solid var(--color-divider);
+		border-top: var(--border-row);
 		padding: 0.5rem var(--safe-right) calc(0.5rem + env(safe-area-inset-bottom, 0px)) var(--safe-left);
 		transform: translateY(100%);
 		transition: transform var(--dur-base) ease;
@@ -47,7 +47,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 	.fp-inner {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
+		gap: var(--space-control);
 		max-width: var(--content-width);
 		margin-inline: auto;
 	}
@@ -58,7 +58,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		justify-content: center;
 		width: var(--btn-size);
 		height: var(--btn-size);
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: 50%;
 		background: transparent;
 		color: var(--color-accent);
@@ -149,7 +149,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 	.fp-speed {
 		color: var(--color-muted);
 		background: transparent;
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: var(--radius-lg);
 		padding: 0.5rem 0.875rem;
 		cursor: pointer;
@@ -168,8 +168,10 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		flex-shrink: 0;
 	}
 
-	/* 44×44 tap area via padding; visible glyph stays 14px (icon set in template) */
-	.fp-sub-link {
+	/* 44×44 tap area via padding; visible glyph stays 14px (icon set in template). The
+	   anchors are authored in PodcastSubscribeLinks, so they are reached under the
+	   wrapper, which carries this component's scope through the forwarded attributes. */
+	.fp-subscribe :global(.fp-sub-link) {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -181,7 +183,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		transition: color var(--dur-fast) ease;
 	}
 
-	.fp-sub-link:hover {
+	.fp-subscribe :global(.fp-sub-link:hover) {
 		color: var(--color-accent);
 	}
 
@@ -213,12 +215,12 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 		.fp-play:focus-visible,
 		.fp-speed:focus-visible,
-		.fp-sub-link:focus-visible,
+		.fp-subscribe :global(.fp-sub-link:focus-visible),
 		.fp-progress:focus-visible {
-			outline-offset: 4px;
+			--focus-offset: 4px;
 		}
 
-	@media (width <= 48rem) {
+	@media (width < 48rem) {
 		.fp-title {
 			display: none;
 		}
@@ -232,7 +234,9 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 </style>
 
 <script>
+	import { readStoredJson, removeStored, writeStored } from "../lib/web-storage";
 	import { claimAudio, yieldAudio } from "../scripts/audio-exclusive";
+	import { onPage } from "../scripts/page";
 
 	// Module-level state — survives across astro:page-load because
 	// Astro executes <script> modules once per browser session
@@ -266,7 +270,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 	function savePos() {
 		if (!audio || !currentSrc || !audio.duration || audio.currentTime === 0) return;
-		try { localStorage.setItem(storageKey(currentSrc), JSON.stringify({ time: audio.currentTime })); } catch {}
+		writeStored(storageKey(currentSrc), JSON.stringify({ time: audio.currentTime }));
 	}
 
 	function show() {
@@ -293,7 +297,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		document.documentElement.removeAttribute("data-player-visible");
 	}
 
-	function setupMedia(title: string, artwork: string | undefined) {
+	function setupMedia(title: string | undefined, artwork: string | undefined) {
 		if (!("mediaSession" in navigator) || !audio) return;
 		navigator.mediaSession.metadata = new MediaMetadata({
 			title: title || "Essä",
@@ -324,7 +328,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 	}
 
 	// Listen for play requests from triggers (module scope = registered once)
-	document.addEventListener("floating-player:play", ((e: CustomEvent) => {
+	document.addEventListener("floating-player:play", (e) => {
 		const { src, title, artwork } = e.detail;
 		const p = el();
 		if (!p || !src) return;
@@ -374,19 +378,15 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		audio.addEventListener("loadedmetadata", () => {
 			timeEl.textContent = fmt(audio!.duration);
 			setupMedia(title, artwork);
-			try {
-				const saved = localStorage.getItem(storageKey(src));
-				if (saved) {
-					const pos = JSON.parse(saved);
-					if (pos.time > 0 && pos.time < audio!.duration - 1) {
-						audio!.currentTime = pos.time;
-						const pct = (pos.time / audio!.duration) * 100;
-						progress.value = String(pct);
-						fillBar(pct);
-						timeEl.textContent = fmt(pos.time);
-					}
-				}
-			} catch {}
+			const saved = readStoredJson(storageKey(src)) as { time?: unknown } | null;
+			const time = typeof saved?.time === "number" ? saved.time : 0;
+			if (time > 0 && time < audio!.duration - 1) {
+				audio!.currentTime = time;
+				const pct = (time / audio!.duration) * 100;
+				progress.value = String(pct);
+				fillBar(pct);
+				timeEl.textContent = fmt(time);
+			}
 		}, { signal: sig });
 
 		audio.addEventListener("play", () => { if (audio) claimAudio(audio); setIcons(true); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "playing"; syncTriggers(); }, { signal: sig });
@@ -406,7 +406,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		audio.addEventListener("ended", () => {
 			timeEl.textContent = fmt(audio!.duration);
 			fillBar(100);
-			try { localStorage.removeItem(storageKey(src)); } catch {}
+			removeStored(storageKey(src));
 			syncTriggers();
 		}, { signal: sig });
 
@@ -436,7 +436,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 		show();
 		audio.play().catch(() => {});
-	}) as EventListener);
+	});
 
 	// Save position when app is backgrounded
 	document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") savePos(); });
@@ -446,10 +446,10 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		if ((e.target as HTMLElement).closest(".fp-close")) closePlayer();
 	});
 
-	// Sync triggers on each page navigation
-	document.addEventListener("astro:page-load", () => {
+	// Each page's Lyssna buttons say whether they are the one playing. The player persists,
+	// but Astro replaces the root attributes on navigation: put its flag back before paint.
+	onPage(() => {
 		syncTriggers();
-		// The player persists, but Astro replaces the root attributes on navigation.
 		document.documentElement.toggleAttribute("data-player-visible", el()?.hasAttribute("data-visible") ?? false);
 	});
 </script>

@@ -12,10 +12,12 @@
 // structure (and now passes validation — the location field was the critical gap).
 import CollectionIndexPage from "../components/CollectionIndexPage.astro";
 import DefinitionList from "../components/DefinitionList.astro";
+import Honorific from "../components/Honorific.astro";
 import MarkesdagList from "../components/MarkesdagList.astro";
 import TitledSection from "../components/TitledSection.astro";
 import { fastRows } from "../lib/fastelangd";
 import { breadcrumbList, faqPageJsonLd } from "../lib/jsonld";
+import { SITE_URL } from "../lib/config";
 import { RITNINGAR } from "../lib/ritningar";
 import {
 	type Markesdag,
@@ -50,7 +52,7 @@ const groups: YearGroup[] = [...Map.groupBy(rows, (r) => r.hijriYear).entries()]
 // organizer are deliberately omitted: a date observance has no performer, no
 // tickets, and no single organizer — faking them would be dishonest, and those
 // are non-critical warnings that don't affect validity.
-const CALENDAR_URL = "https://islam.se/det-islamiska-aret/";
+const CALENDAR_URL = `${SITE_URL}/det-islamiska-aret/`;
 const eventLd = events.map((e) => ({
 	"@context": "https://schema.org",
 	"@type": "Event",
@@ -60,7 +62,7 @@ const eventLd = events.map((e) => ({
 	eventStatus: "https://schema.org/EventScheduled",
 	eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
 	location: { "@type": "VirtualLocation", url: CALENDAR_URL },
-	image: "https://islam.se/og-default.png",
+	image: `${SITE_URL}/og-default.png`,
 	...(e.note ? { description: e.note } : {}),
 	url: CALENDAR_URL,
 	inLanguage: "sv",
@@ -114,8 +116,8 @@ const fastSouth = fast[0];
 const fastNorth = fast.at(-1);
 
 const pageTitle = ramadan
-	? `Ramadan ${ramadanYear} börjar ${gregorianShort(ramadan.startISO)} – fastans längd i din stad – islam.se`
-	: "Det islamiska året – islam.se";
+	? `Ramadan ${ramadanYear} börjar ${gregorianShort(ramadan.startISO)} – fastans längd i din stad`
+	: "Det islamiska året";
 
 const description =
 	ramadan && fastSouth && fastNorth
@@ -158,7 +160,7 @@ const description =
 					fastedagen kortare ju längre norrut man kommer, alltså tvärtom mot sommaren, då norra Sverige
 					fastar längst. Mot slutet av månaden har skillnaden nästan jämnats ut.
 				</p>
-				<table class="md-fast-table">
+				<table class="data-table md-fast-table">
 					<thead>
 						<tr>
 							<th scope="col">Ort</th>
@@ -191,7 +193,7 @@ const description =
 		)}
 
 		{groups.map((g) => (
-			<section class="md-year" data-year>
+			<section class="md-year page-section" data-year>
 				<h2 class="md-year-head">
 					{/* »e.H.« rides with the hijri year, outside the uppercased span: in it
 					    the abbreviation printed »E.H.«, and Swedish writes e.H. */}
@@ -205,7 +207,7 @@ const description =
 			Därtill <em>de vita dagarna</em> (Ayyām al-bīḍ) – fasta den 13:e, 14:e och 15:e i varje månmånad.
 		</p>
 		<p class="md-also">
-			Och i <em>Shaʿbān</em>, månaden före ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom ramadan.
+			Och i <em>Shaʿbān</em>, månaden före ramadan, fastade Profeten <Honorific /> fler dagar än under någon annan månad utom ramadan.
 		</p>
 
 		{dateFaq.length > 0 && (
@@ -257,7 +259,6 @@ const description =
 		a {
 			color: var(--color-muted);
 			text-decoration: underline;
-			text-decoration-color: color-mix(in oklab, var(--color-muted) 40%, transparent);
 			text-underline-offset: var(--underline-offset);
 			padding-block: 0.4rem;
 
@@ -315,41 +316,16 @@ const description =
 		margin: 0 0 var(--space-unit);
 	}
 
+	/* The table's grammar is the shared one (layout.css, .data-table); the row header
+	   stacks the city over its latitude, as on /bonetider/aret/. */
 	.md-fast-table {
-		width: 100%;
 		max-width: 32rem;
-		border-collapse: collapse;
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-	}
-
-	.md-fast-table :is(th, td) {
-		padding: 0.45rem 0.5rem;
-		text-align: end;
-		white-space: nowrap;
-	}
-
-	.md-fast-table thead th {
-		color: var(--color-muted);
-		font-weight: 600;
-		font-size: var(--step--3);
-		border-bottom: 1px solid var(--color-divider);
 	}
 
 	.md-fast-table tbody th[scope="row"] {
-		text-align: start;
 		display: flex;
 		flex-direction: column;
 		gap: 0.05rem;
-	}
-
-	.md-fast-table tbody td {
-		color: var(--color-text);
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.md-fast-table tbody tr:not(:last-child) :is(th, td) {
-		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
 	}
 
 	/* At the narrowest supported viewport the three no-wrap columns were 39px wider
@@ -387,12 +363,6 @@ const description =
 	   group-space, its heading. The rule stood UNDER the heading, so a year's rule was
 	   read as the previous year's last line (2026-10-16). The heading stays an h2 in the
 	   apparatus voice rather than a kicker: in capitals »e.H.« would print »E.H.«. */
-	.md-year {
-		margin-top: var(--space-section);
-		padding-top: var(--space-group);
-		border-top: 1px solid var(--color-rule);
-	}
-
 	.md-year[hidden] {
 		display: none;
 	}
@@ -434,7 +404,7 @@ const description =
 		max-width: var(--content-width);
 		margin-top: var(--space-section);
 		padding-top: var(--space-group);
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 	}
 
 	.md-faq h2 {
@@ -449,8 +419,11 @@ const description =
 	// Build-time already filtered to upcoming, but deploys are manual (§7.9): trim
 	// any observance that has passed since the last build, and hide a year heading
 	// once all its rows are gone, so the page never shows a stale "upcoming" date.
-	document.addEventListener("astro:page-load", () => {
-		const today = new Date().toISOString().slice(0, 10);
+	import { localIsoDate } from "../lib/daily";
+	import { onPage } from "../scripts/page";
+
+	onPage(() => {
+		const today = localIsoDate();
 		for (const section of document.querySelectorAll<HTMLElement>("[data-year]")) {
 			let any = false;
 			for (const row of section.querySelectorAll<HTMLElement>("[data-end]")) {

@@ -8,7 +8,7 @@ type Props = Omit<HTMLAttributes<"section">, "id" | "title"> & {
 };
 
 const { class: className, id, title, ...attrs } = Astro.props;
-const classes = ["article-section", className].filter(Boolean).join(" ");
+const classes = ["article-section", "page-section", className].filter(Boolean).join(" ");
 
 // THE END MATTER OF AN ANSWER AND A FÖRDJUPNING opens the way every section on the site
 // does (layout.css, `.page-section`): its rule, the heading one group-space under it as a

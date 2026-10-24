@@ -28,10 +28,12 @@
 // SIZING IS IN CONTAINER-QUERY UNITS, not vh. That is what lets this exact component
 // render as a live miniature inside the setup page — the mosque sees what the wall will
 // show while it configures, which is the most useful thing the builder can do.
+import JsonScript from "../JsonScript.astro";
 import qrcode from "qrcode-generator";
 import { PRAYER_LABELS, PRAYER_ORDER, PRAYER_SWEDISH_NAMES } from "../../lib/bonetider/prayer-times";
 import { PRAYER_COLORS } from "../../lib/bonetider/solar/palette";
 import { getMosques } from "../../lib/moskeer";
+import { SITE_URL } from "../../lib/config";
 
 interface Props {
 	/** The preview inside the builder is not the wall, and must not grab the wake lock,
@@ -50,7 +52,7 @@ const { preview = false } = Astro.props;
 // Baked at build time into a single <path>: the URL never changes, and a wall display
 // that has been up for three weeks must not need a library, a canvas or a network to
 // draw it.
-const APP_URL = "https://islam.se/app";
+const APP_URL = `${SITE_URL}/app`;
 const qr = qrcode(0, "M");
 qr.addData(APP_URL);
 qr.make();
@@ -72,13 +74,11 @@ const rows = PRAYER_ORDER.map((key) => ({
 // canvas to light. Three decimals is about 100 m, finer than a light a few pixels across
 // can show, and it keeps all of them to a few kilobytes inlined: the wall still fetches
 // nothing it needs in order to draw.
-const lights = JSON.stringify(
-	getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.toFixed(3))]),
-);
+const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.toFixed(3))]);
 ---
 
 <div class="ms" class:list={{ "ms-preview": preview }} data-ready="0" data-preview={preview ? "1" : "0"}>
-	<script class="ms-lights" type="application/json" is:inline set:html={lights}></script>
+	<JsonScript class="ms-lights" data={lights} />
 	<header class="ms-id">
 		<p class="ms-mosque"></p>
 		<p class="ms-place"></p>
@@ -385,7 +385,6 @@ const lights = JSON.stringify(
 		min-height: 0;
 		margin: 0;
 		padding: 0;
-		list-style: none;
 	}
 
 	.ms-row {
@@ -765,14 +764,5 @@ const lights = JSON.stringify(
 		font-family: var(--font-heading);
 		font-size: var(--ms-micro);
 		color: var(--screen-muted);
-	}
-
-	/* A screen is watched by people who did not choose to watch it. */
-	@media (prefers-reduced-motion: reduce) {
-		.ms,
-		.ms-row,
-		.ms-rank {
-			transition: none;
-		}
 	}
 </style>

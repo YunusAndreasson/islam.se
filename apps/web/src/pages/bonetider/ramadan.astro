@@ -7,7 +7,7 @@ import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { INDEXED_PLACES } from "../../lib/bonetider/places-index";
 import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ramadan";
-import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
+import { ORG_ID, breadcrumbList, faqPageJsonLd, webPageJsonLd } from "../../lib/jsonld";
 
 // The head page for the ramadan half of the prayer-time surface. /det-islamiska-aret
 // owns the DATE (»när är ramadan 2027« — 7 935 visningar, position 4) and keeps it;
@@ -102,31 +102,30 @@ const definitions = [
 ---
 
 <Base
-	title={`Ramadan ${ramadan.year} – iftar och suhūr för din ort – islam.se`}
+	title={`Ramadan ${ramadan.year} – iftar och suhūr för din ort`}
 	description={description}
 	ogImage="/bonetider/og.png"
 	ogImageAlt={`Ramadan ${ramadan.year} – iftar och suhūr för svenska orter, beräknat efter solens läge`}
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "WebPage",
+		webPageJsonLd({
 			name: `Ramadan ${ramadan.year} – iftar och suhūr för din ort`,
 			description,
-			url: "https://islam.se/bonetider/ramadan/",
-			inLanguage: "sv",
-			dateModified: now.toISOString().slice(0, 10),
-			about: {
-				"@type": "Event",
-				name: `Ramadan ${ramadan.year}`,
-				startDate: ramadan.startISO,
-				endDate: ramadan.endISO,
-				eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-				eventStatus: "https://schema.org/EventScheduled",
-				location: { "@type": "Country", name: "Sverige" },
-				description: `Fastemånaden ramadan ${ramadan.hijriYear} e.H., ${span} enligt Umm al-Qura-kalendern.`,
+			url: "/bonetider/ramadan/",
+			extra: {
+				dateModified: now.toISOString().slice(0, 10),
+				about: {
+					"@type": "Event",
+					name: `Ramadan ${ramadan.year}`,
+					startDate: ramadan.startISO,
+					endDate: ramadan.endISO,
+					eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+					eventStatus: "https://schema.org/EventScheduled",
+					location: { "@type": "Country", name: "Sverige" },
+					description: `Fastemånaden ramadan ${ramadan.hijriYear} e.H., ${span} enligt Umm al-Qura-kalendern.`,
+				},
+				publisher: { "@id": ORG_ID },
 			},
-			publisher: { "@id": ORG_ID },
-		},
+		}),
 		faqPageJsonLd(faq),
 		breadcrumbList(crumbs),
 	]}
@@ -136,14 +135,14 @@ const definitions = [
 			<Breadcrumb items={crumbs} />
 			<h1>Ramadan {ramadan.year}</h1>
 			<p class="meta-line">{span} · {ramadan.hijriYear} e.H.</p>
-			<p class="bt-ramadan-lead">
+			<p class="lead lead--page">
 				Ramadan {ramadan.year} infaller {span}. Fastan varar från Fajr till Maghrib varje dag:
 				suhūr tar slut när Fajr går in, och fastan bryts vid Maghrib. Båda tiderna beror på var i
 				landet du är – välj din ort för tiderna dag för dag.
 			</p>
 		</header>
 
-		<TitledSection class="bt-section" id="bt-ramadan-orter" title={`Iftar och fastans längd, ${first?.name} till ${last?.name}`}>
+		<TitledSection class="page-section tool-section page-section--first" id="bt-ramadan-orter" title={`Iftar och fastans längd, ${first?.name} till ${last?.name}`}>
 			<p>
 				Tiderna gäller ramadans första och sista dag och är beräknade efter solens läge vid varje
 				ort. Eftersom ramadan {ramadan.year} infaller på vinterhalvåret blir fastan
@@ -151,7 +150,7 @@ const definitions = [
 				längst.
 			</p>
 			<div class="bt-table-wrap">
-				<table class="bt-ramadan-table">
+				<table class="data-table bt-ramadan-table">
 					<caption class="sr-only">
 						Suhūr, iftar och fastans längd per ort under ramadan {ramadan.year}
 					</caption>
@@ -184,15 +183,15 @@ const definitions = [
 			</p>
 		</TitledSection>
 
-		<TitledSection class="bt-section" id="bt-ramadan-ord" title="Orden">
+		<TitledSection class="page-section tool-section" id="bt-ramadan-ord" title="Orden">
 			<DefinitionList items={definitions} />
 		</TitledSection>
 
-		<TitledSection class="bt-section" id="bt-ramadan-faq" title="Vanliga frågor">
+		<TitledSection class="page-section tool-section" id="bt-ramadan-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
 		</TitledSection>
 
-		<TitledSection class="bt-section" id="bt-ramadan-vidare" title="Läs vidare">
+		<TitledSection class="page-section tool-section" id="bt-ramadan-vidare" title="Läs vidare">
 			<p>
 				Den här sidan ger klockslagen. Vad fastan är, vem som är befriad från den och vad
 				som bryter den hör hemma i texterna:
@@ -212,21 +211,8 @@ const definitions = [
 		margin-block: var(--space-phi);
 	}
 
-	.bt-ramadan-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
-	}
-
-	.bonetider-ramadan h2 {
-		font-size: var(--step-1-sans);
-	}
-
-	.bt-prose p {
+	/* Not the ingress: it is the page's `.lead--page`, which this rule outranked. */
+	.bt-prose p:not(.lead) {
 		font-family: var(--font-body);
 		font-size: var(--step--1);
 		line-height: 1.6;
@@ -248,32 +234,13 @@ const definitions = [
 		margin: var(--space-unit) 0;
 	}
 
+	/* The shared table (layout.css, .data-table), on the prose's measure rather than the
+	   frame's width, and held wide enough for its five columns for the wrapper above to
+	   scroll. It was the one table on the site with its heads in tracked capitals and a
+	   full rule under every row. */
 	.bt-ramadan-table {
-		border-collapse: collapse;
-		font-family: var(--font-body);
-		font-size: var(--step--1);
+		max-width: var(--content-width);
 		min-width: 34rem;
-	}
-
-	.bt-ramadan-table th,
-	.bt-ramadan-table td {
-		text-align: left;
-		padding: 0.35rem 1rem 0.35rem 0;
-		border-bottom: 1px solid var(--color-rule);
-		white-space: nowrap;
-	}
-
-	.bt-ramadan-table thead th {
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		color: var(--color-muted);
-		font-weight: 400;
-	}
-
-	.bt-ramadan-table tbody th {
-		font-weight: 400;
 	}
 
 	.bt-ramadan-note {

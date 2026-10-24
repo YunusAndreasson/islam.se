@@ -13,7 +13,7 @@ export function claimAudio(audio: HTMLMediaElement): void {
 export function yieldAudio(current: () => HTMLMediaElement | null): void {
 	document.addEventListener(EVENT, (event) => {
 		const own = current();
-		const claimant = (event as CustomEvent<HTMLMediaElement>).detail;
+		const claimant = event.detail;
 		if (own && claimant !== own && !own.paused) own.pause();
 	});
 }

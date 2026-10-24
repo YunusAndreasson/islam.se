@@ -19,6 +19,7 @@ import {
 import { breadcrumbList, ORG_ID } from "../../lib/jsonld";
 import "../../styles/ai-barometern-chips.css";
 import "../../styles/ai-barometern.css";
+import { SITE_URL } from "../../lib/config";
 
 const crumbs = [
 	{ name: "Hem", url: "/" },
@@ -128,7 +129,7 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 ---
 
 <Base
-	title="Så går AI-barometern till – islam.se"
+	title="Så går AI-barometern till"
 	description={description}
 	ogImage="/ai-barometern/og.png"
 	ogImageAlt="AI-barometern – islam.se"
@@ -138,7 +139,7 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 			"@type": "TechArticle",
 			headline: "Så går AI-barometern till",
 			description,
-			url: "https://islam.se/ai-barometern/metod/",
+			url: `${SITE_URL}/ai-barometern/metod/`,
 			inLanguage: "sv",
 			datePublished: "2026-09-12",
 			dateModified: published,

@@ -2,7 +2,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 afterEach(() => vi.unstubAllGlobals());
 
-async function setup() {
+/** The module boots when it is imported, as a module script does once the page is parsed
+ *  (page.ts), and again after every swap; `surface: false` is a page without the bar. */
+async function setup({ surface = true } = {}) {
 	vi.resetModules();
 	const list = {
 		innerHTML: "original",
@@ -11,7 +13,9 @@ async function setup() {
 	};
 	const rail = { setAttribute: vi.fn() };
 	const document = Object.assign(new EventTarget(), {
-		querySelector: vi.fn((selector: string) => (selector.includes('"rail"') ? list : null)),
+		querySelector: vi.fn((selector: string) =>
+			surface && selector.includes('"rail"') ? list : null,
+		),
 		getElementById: vi.fn(() => rail),
 	});
 	const requests: { signal: AbortSignal; resolve: (response: Response) => void }[] = [];
@@ -52,8 +56,9 @@ const response = () =>
 
 describe("news navigation lifecycle", () => {
 	it("renders a completed request on the current page", async () => {
+		// The request starts when the module runs, not at the router's first page-load,
+		// which on a cold visit waits for every image on the page.
 		const page = await setup();
-		page.fire("astro:page-load");
 		expect(page.fetch).toHaveBeenCalledTimes(1);
 		page.requests[0]?.resolve(response());
 		await vi.waitFor(() => expect(page.list.innerHTML).toContain("Aktuell nyhet"));
@@ -66,7 +71,6 @@ describe("news navigation lifecycle", () => {
 	// The bar must then be taken out, not left as a held, empty place under the lead.
 	it("takes the front page's bar out when the fetch brings nothing", async () => {
 		const page = await setup();
-		page.fire("astro:page-load");
 		page.requests[0]?.resolve(new Response("", { status: 503 }));
 		await vi.waitFor(() =>
 			expect(
@@ -79,7 +83,6 @@ describe("news navigation lifecycle", () => {
 
 	it("cancels departed-page requests and ignores responses that race with cancellation", async () => {
 		const page = await setup();
-		page.fire("astro:page-load");
 		const oldRequest = page.requests[0];
 		page.fire("astro:before-swap");
 		expect(oldRequest?.signal.aborted).toBe(true);
@@ -89,16 +92,15 @@ describe("news navigation lifecycle", () => {
 		await new Promise((resolve) => setTimeout(resolve, 0));
 		expect(page.list.innerHTML).toBe("original");
 		expect(page.document.getElementById).not.toHaveBeenCalled();
-		page.fire("astro:page-load");
+		page.fire("astro:after-swap");
 		expect(page.requests[1]?.signal.aborted).toBe(false);
 		page.requests[1]?.resolve(response());
 		await vi.waitFor(() => expect(page.list.innerHTML).toContain("Aktuell nyhet"));
 	});
 
 	it("does not fetch on pages without a news surface", async () => {
-		const page = await setup();
-		page.document.querySelector.mockReturnValue(null);
-		page.fire("astro:page-load");
+		const page = await setup({ surface: false });
+		page.fire("astro:after-swap");
 		expect(page.fetch).not.toHaveBeenCalled();
 	});
 
@@ -119,7 +121,6 @@ describe("news navigation lifecycle", () => {
 		vi.stubGlobal("window", window);
 		vi.stubGlobal("location", { hash: "#nyhet-test-news" });
 		await import("./nyheter");
-		document.dispatchEvent(new Event("astro:page-load"));
 		expect(item.classList.add).toHaveBeenCalledWith("nyhet--utpekad");
 		document.dispatchEvent(new Event("astro:before-swap"));
 		for (const type of ["wheel", "touchstart", "pointerdown", "keydown"]) {

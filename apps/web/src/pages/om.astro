@@ -4,7 +4,7 @@ import ArticlePage from "../components/ArticlePage.astro";
 import SectionLink from "../components/SectionLink.astro";
 import SectionOrnament from "../components/SectionOrnament.astro";
 import { getArticles } from "../lib/articles";
-import { ORG_ID, breadcrumbList } from "../lib/jsonld";
+import { ORG_ID, breadcrumbList, webPageJsonLd } from "../lib/jsonld";
 
 const articles = await getArticles();
 const year = new Date().getFullYear();
@@ -14,17 +14,17 @@ const year = new Date().getFullYear();
 	title="Om islam.se"
 	description="Om islam.se, grundat 2003. Vi skriver om islam på svenska och jämför islamisk tradition med svensk litteratur i våra essäer."
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "AboutPage",
+		webPageJsonLd({
+			type: "AboutPage",
 			name: "Om islam.se",
-			url: "https://islam.se/om",
-			inLanguage: "sv",
 			description: "Om islam.se, grundat 2003. Vi skriver om islam på svenska och jämför islamisk tradition med svensk litteratur i våra essäer.",
-			// References the canonical Organization node (emitted site-wide by
-			// Base.astro) so the About page strengthens one entity, not a copy.
-			mainEntity: { "@id": ORG_ID },
-		},
+			url: "/om",
+			extra: {
+				// References the canonical Organization node (emitted site-wide by
+				// Base.astro) so the About page strengthens one entity, not a copy.
+				mainEntity: { "@id": ORG_ID },
+			},
+		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Om", url: "/om" },

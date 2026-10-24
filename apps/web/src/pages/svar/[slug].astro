@@ -5,7 +5,7 @@ import ArticleBody from "../../components/ArticleBody.astro";
 import ArticleMeta from "../../components/ArticleMeta.astro";
 import ArticleSection from "../../components/ArticleSection.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
-import DiamondList from "../../components/DiamondList.astro";
+import LinkList from "../../components/LinkList.astro";
 import EssayImage from "../../components/EssayImage.astro";
 import Kicker from "../../components/Kicker.astro";
 import Rattelse from "../../components/Rattelse.astro";
@@ -21,6 +21,7 @@ import { figureJsonLd } from "../../lib/inline-images";
 import { articleJsonLd, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 import { pageHeroPreload } from "../../lib/hero-preload";
+import { SITE_URL } from "../../lib/config";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("svar");
@@ -73,7 +74,7 @@ const { entry, related, essays, pillar } = Astro.props;
 const { data } = entry;
 const seo = svarSeoMetadata(entry.id, { title: data.title, description: data.description });
 const { Content, headings } = await render(entry);
-const url = `https://islam.se/svar/${entry.id}/`;
+const url = `${SITE_URL}/svar/${entry.id}/`;
 const sourceItems = (data.sources ?? []).map((s) => ({
 	label: s.name,
 	...(s.url === undefined ? {} : { href: s.url }),
@@ -156,7 +157,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 ---
 
 <Base
-	title={`${seo.title} – islam.se`}
+	title={`${seo.title}`}
 	description={seo.description}
 	ogImage={ogImage}
 	ogImageAlt={data.title}
@@ -235,19 +236,19 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 
 			{data.sources && data.sources.length > 0 && (
 				<ArticleSection class="svar-sources" id="svar-kallor" title="Källor och fördjupning">
-					<DiamondList items={sourceItems} />
+					<LinkList variant="diamond" items={sourceItems} />
 				</ArticleSection>
 			)}
 
 			{related.length > 0 && (
 				<ArticleSection class="svar-related" id="svar-relaterat" title="Relaterade frågor">
-					<DiamondList items={relatedItems} nav />
+					<LinkList variant="diamond" items={relatedItems} nav />
 				</ArticleSection>
 			)}
 
 			{essays.length > 0 && (
 				<ArticleSection class="svar-essays" id="svar-essaer" title="Läs vidare">
-					<DiamondList items={essayItems} nav />
+					<LinkList variant="diamond" items={essayItems} nav />
 				</ArticleSection>
 			)}
 
@@ -263,13 +264,6 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 		</article>
 	</main>
 </Base>
-
-<script>
-	// Wire the Quran recitation players injected under each attributed blockquote
-	// (rehype-quran-verse). Same component and same script the essays use.
-	import { initQuranPlayers } from "../../scripts/quran-player";
-	document.addEventListener("astro:page-load", () => initQuranPlayers());
-</script>
 
 <style>
 	.svar-page {

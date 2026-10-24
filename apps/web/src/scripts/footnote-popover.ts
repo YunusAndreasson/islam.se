@@ -1,6 +1,6 @@
 // Footnote + honorific popovers: hover on desktop, tap-to-toggle on touch, Tab-focus
-// on keyboard. Shared by the essay route and the /fordjupning/ route — both carry GFM
-// footnotes and honorific spans.
+// on keyboard. Wired by ArticleBody for all three reading templates — essays, answers
+// and fördjupningar carry GFM footnotes and honorific spans alike.
 
 // The meaning is the glyph's own `data-tip` (rehype-honorific.ts, Honorific.astro), so the
 // popover and the CSS tooltip say one thing. This map is the fallback for a glyph without
@@ -11,10 +11,9 @@ const HONORIFIC_TITLES: Record<string, string> = {
 };
 
 export function initFootnotePopovers(): void {
-	// Once per page. The essay's page-load handler stays registered after a client
-	// navigation and gates on `.article-body`, which answers and fördjupningar carry too,
-	// so on a fördjupning reached from an essay both routes called this and the page got
-	// two popovers with one id (found 2026-10-16).
+	// Once per page: a second call finds the popover and leaves. Two routes each wired
+	// this until 2026-10, and a fördjupning reached from an essay got two popovers with
+	// one id (found 2026-10-16).
 	if (document.getElementById("fn-popover")) return;
 	const ctrl = new AbortController();
 	const popover = document.createElement("div");

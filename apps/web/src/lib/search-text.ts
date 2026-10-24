@@ -1,5 +1,6 @@
-// Shared by every search surface: the palette (build index + client matcher) and
-// the /svar/ filter. One definition — index and matcher must fold identically.
+// Shared by every search surface: the palette (build index + client matcher), the place
+// search and the mosque filter. One definition: an index and its matcher must fold
+// identically.
 
 /** Case- and diacritic-insensitive: å/ä/ö → a/a/o, so "bon" finds "bön". */
 export function fold(s: string): string {

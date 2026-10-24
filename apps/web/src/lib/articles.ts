@@ -106,6 +106,13 @@ async function buildArticles(): Promise<Article[]> {
 // the build+sort+per-entry shaping once and shares the one promise. See lib/cache.ts.
 export const getArticles = memoize(buildArticles);
 
+/** Every published essay by slug, built once and shared like getArticles. Seven pages and
+ *  components each built their own map from the same list. */
+export const getArticlesBySlug = memoize(
+	async (): Promise<ReadonlyMap<string, Article>> =>
+		new Map((await getArticles()).map((article) => [article.slug, article])),
+);
+
 /** »23 september«, and »23 september 2025« only when the year is not this one: the
  *  current year on every date line was noise the reader already knows (user review,
  *  2026-09-25). "This year" is the build's — the site rebuilds nightly, so a December

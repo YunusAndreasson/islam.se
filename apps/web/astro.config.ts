@@ -8,6 +8,7 @@ import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
 import { AI_BAROMETERN_DATA_DATE } from "./src/lib/ai-barometern/meta";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
+import { SITE_URL } from "./src/lib/config";
 import { inlineHashes, widenPolicy } from "./src/lib/csp-site-wide";
 import { variantsOf } from "./src/lib/fonts";
 import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
@@ -68,8 +69,7 @@ const BUILD_LASTMOD = new Date().toISOString();
 const BONETIDER_BUILD_LASTMOD = BUILD_LASTMOD;
 
 /** A sitemap URL as a bare slug — `https://islam.se/svar/x/` → `svar/x`. */
-const sitemapSlug = (url: string): string =>
-	url.replace("https://islam.se/", "").replace(/\/$/, "");
+const sitemapSlug = (url: string): string => url.replace(`${SITE_URL}/`, "").replace(/\/$/, "");
 
 // Old WordPress URLs with no counterpart on the new site — 301'd to the homepage to
 // preserve SEO on the same domain. Emitted as a Cloudflare Pages `_redirects` file
@@ -725,7 +725,7 @@ function inlineScriptHash(file: string): `sha256-${string}` {
 const prerenderWorkers = Number(process.env.ASTRO_PRERENDER_WORKERS) || 1;
 
 export default defineConfig({
-	site: "https://islam.se",
+	site: SITE_URL,
 	output: "static",
 	// ⚠️ "hover", not "tap". The strategies REPLACE each other — "tap" does not widen
 	// "hover", it removes it — and a pointer user always hovers before clicking, so hover
@@ -816,9 +816,14 @@ export default defineConfig({
 	},
 	vite: {
 		// Vite's own Baseline target (chrome111 / edge111 / firefox114 / safari16.4 /
-		// ios16.4) rather than a hand-picked `es2022`. It is a HIGHER floor than
-		// es2022's, so less is transpiled, and it advances with Baseline instead of
-		// being re-guessed here.
+		// ios16.4) rather than a hand-picked `es2022`, and it advances with Baseline instead
+		// of being re-guessed here. ⚠️ What it governs is the CSS: the stylesheets inlined into
+		// every page are processed in the build's prerender environment, which inherits this,
+		// and Lightning CSS lowers them to it — light-dark() polyfilled, -webkit-hyphens
+		// added. Remove it and dark mode breaks on Safari before 17.5. It does NOT reach the
+		// browser's JavaScript: Astro 7 pins its client environment to "esnext"
+		// (core/build/vite-build-config.js). That code keeps to syntax Baseline already runs,
+		// and an API Baseline lacks is guarded where it is used (AbortSignal.any, nyheter.ts).
 		build: { target: "baseline-widely-available" },
 		// dist-check is where a verification build goes while `dev:bg` is up (a build into
 		// dist/ fights the dev server over dist/.prerender). Unwatched, every such build had
@@ -1184,7 +1189,7 @@ export default defineConfig({
 					if (!(existsSync(imagesPath) && existsSync(indexPath))) return;
 					const index = readFileSync(indexPath, "utf-8");
 					if (index.includes("sitemap-images.xml")) return;
-					const entry = "<sitemap><loc>https://islam.se/sitemap-images.xml</loc></sitemap>";
+					const entry = `<sitemap><loc>${SITE_URL}/sitemap-images.xml</loc></sitemap>`;
 					writeFileSync(indexPath, index.replace("</sitemapindex>", `${entry}</sitemapindex>`));
 					logger.info("sitemap-images.xml added to sitemap-index.xml");
 				},

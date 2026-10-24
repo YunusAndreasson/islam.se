@@ -9,11 +9,11 @@ interface Props {
 const { code, copyLabel } = Astro.props;
 ---
 
-<div class="code-block">
+<div class="code-block" data-copy-scope>
 	<pre><code>{code}</code></pre>
-	<button class="copy-code" type="button" aria-label={copyLabel}>
+	<button class="copy-code" type="button" aria-label={copyLabel} data-copy-button>
 		<Copy class="copy-icon" size={14} stroke-width={1.75} />
-		<Check class="check-icon" size={14} stroke-width={2} style="display:none" />
+		<Check class="check-icon" size={14} stroke-width={2} />
 	</button>
 	<p class="copy-status" role="status"></p>
 </div>
@@ -35,7 +35,7 @@ const { code, copyLabel } = Astro.props;
 		padding: 0;
 		color: var(--color-muted);
 		background: var(--surface-2);
-		border: 1px solid var(--color-divider);
+		border: var(--border-row);
 		border-radius: 0.25rem;
 		cursor: pointer;
 		opacity: 0;
@@ -45,6 +45,18 @@ const { code, copyLabel } = Astro.props;
 			color: var(--color-accent);
 			border-color: var(--color-warm);
 		}
+	}
+
+	/* The two glyphs swap on the button's own state (scripts/copy-buttons.ts). The check
+	   was hidden with an inline style, which outranks any rule that would show it. The
+	   icons are Lucide's, so the selectors reach them through `:global()`. */
+	.copy-code :global(.check-icon),
+	.copy-code[data-copied] :global(.copy-icon) {
+		display: none;
+	}
+
+	.copy-code[data-copied] :global(.check-icon) {
+		display: block;
 	}
 
 	.code-block:hover .copy-code,
@@ -57,4 +69,17 @@ const { code, copyLabel } = Astro.props;
 			opacity: 1;
 		}
 	}
+
+	/* A finger gets the full touch target (DESIGN.md: 44px); a pointer keeps the small
+	   corner button that stays out of the code. */
+	@media (pointer: coarse) {
+		.copy-code {
+			width: var(--tap-target);
+			height: var(--tap-target);
+		}
+	}
 </style>
+
+<script>
+	import "../scripts/copy-buttons";
+</script>

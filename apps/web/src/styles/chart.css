@@ -198,7 +198,6 @@
 	}
 
 	.chart-stack-key {
-		list-style: none;
 		margin: var(--space-half) 0 0;
 		padding: 0;
 		display: grid;
@@ -228,7 +227,6 @@
 	/* ---- legend: only where a direct label genuinely will not fit -------- */
 
 	.chart-legend {
-		list-style: none;
 		margin: var(--space-half) 0 0;
 		padding: 0;
 		display: flex;
@@ -299,7 +297,7 @@
 	.chart-table thead th {
 		font-weight: 600;
 		color: var(--color-text);
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--border-row);
 	}
 
 	.chart-table tbody tr + tr > * {
@@ -344,7 +342,6 @@
 		position: relative;
 		margin: 0;
 		padding: 0 0 0 var(--space-unit);
-		list-style: none;
 		font-size: var(--step--2);
 		line-height: 1.45;
 	}
@@ -398,7 +395,7 @@
 		position: relative;
 		display: grid;
 		grid-template-columns: 5.5rem 1fr;
-		column-gap: 0.75rem;
+		column-gap: var(--space-control);
 		align-items: baseline;
 		text-wrap: pretty;
 	}
@@ -453,7 +450,6 @@
 		margin: var(--space-half) 0 var(--space-unit);
 		padding: 0;
 		max-width: 40rem;
-		list-style: none;
 	}
 
 	.tl-item {
@@ -570,7 +566,7 @@
 		}
 
 		.chart-bars {
-			gap: 0.75rem;
+			gap: var(--space-control);
 		}
 
 		.chart-col-grid {

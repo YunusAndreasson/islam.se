@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import type { InferGetStaticPropsType } from "astro";
 import { ogEndpoint } from "../../../lib/og-endpoints";
 
 export async function getStaticPaths() {
@@ -9,7 +10,7 @@ export async function getStaticPaths() {
 	}));
 }
 
-export const GET = ogEndpoint<{ title: string; framing: string }>(
+export const GET = ogEndpoint<InferGetStaticPropsType<typeof getStaticPaths>>(
 	(p) => ({ kicker: "Essäserie", title: p.title, framing: p.framing }),
 	(p) => `tradar|${p.title}|${p.framing}`,
 );

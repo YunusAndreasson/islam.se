@@ -2,7 +2,7 @@
 // entries for the /bonetider/[stad] pages and the ⌘K palette. Pure + build-time:
 // the slug uniqueness guard runs at module load, so a routing regression fails the
 // build with a clear message instead of silently dropping a page.
-import { haversineKm } from "../geom";
+import { byDistance } from "../geom";
 import { DISTRICTS } from "./districts";
 import { PLACES, type SwedishPlace } from "./places";
 import { slugify } from "./slug";
@@ -108,11 +108,10 @@ let neighbourCache: Map<string, IndexedPlace[]> | null = null;
 function buildNeighbours(): Map<string, IndexedPlace[]> {
 	const map = new Map<string, IndexedPlace[]>();
 	for (const a of INDEXED_PLACES) {
-		const nearest = INDEXED_PLACES.filter((b) => b.slug !== a.slug)
-			.map((b) => ({ b, d: haversineKm(a.lat, a.lon, b.lat, b.lon) }))
-			.sort((x, y) => x.d - y.d)
+		const others = INDEXED_PLACES.filter((b) => b.slug !== a.slug);
+		const nearest = byDistance(others, a, (b) => b)
 			.slice(0, NEIGHBOUR_K)
-			.map((x) => x.b);
+			.map((x) => x.item);
 		map.set(a.slug, nearest);
 	}
 	return map;

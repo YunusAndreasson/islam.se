@@ -10,8 +10,9 @@ import TankareGroups from "../components/TankareGroups.astro";
 import TradarHome from "../components/TradarHome.astro";
 import { AMNEN, amnenWithEssays } from "../lib/amnen";
 import { getArticles } from "../lib/articles";
-import { breadcrumbList } from "../lib/jsonld";
+import { breadcrumbList, webPageJsonLd } from "../lib/jsonld";
 import { RITNINGAR } from "../lib/ritningar";
+import { byTradition } from "../lib/traditions";
 
 const articles = await getArticles();
 const amneGroups = amnenWithEssays(articles);
@@ -22,8 +23,7 @@ const yearGroups = [...byYear.entries()].sort((a, b) => b[0] - a[0]);
 
 const threads = await getCollection("tradar");
 const thinkers = await getCollection("tankare");
-const sunni = thinkers.filter((t) => t.data.tradition === "sunni");
-const western = thinkers.filter((t) => t.data.tradition === "western");
+const { sunni, western } = byTradition(thinkers, (t) => t.data.tradition);
 const amneFilterItems = AMNEN.map((a) => ({
 	label: a.name,
 	buttonClass: "overlay-jump" as const,
@@ -56,13 +56,11 @@ const lengthFilterItems = [
 	ritning={RITNINGAR.essaer}
 	mainClass="home essaer-page"
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "CollectionPage",
+		webPageJsonLd({
+			type: "CollectionPage",
 			name: "Essäer",
-			url: "https://islam.se/essaer/",
-			inLanguage: "sv",
-		},
+			url: "/essaer/",
+		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Essäer", url: "/essaer" },
@@ -191,7 +189,7 @@ const lengthFilterItems = [
 	   does on the front page (editorial.css, »A rule opens a section«). The section is
 	   the component's own element, so it carries no scope of this page's. */
 	:global(.essaer-page .tankare-home) {
-		border-top: 1px solid var(--color-rule);
+		border-top: var(--border-rule);
 		padding-top: var(--space-group);
 	}
 
@@ -243,7 +241,7 @@ const lengthFilterItems = [
 
 	/* ---- Quiet filter overlay ---- */
 	.overlay {
-		background: color-mix(in srgb, var(--color-bg) 96%, transparent);
+		background: var(--glass);
 		/* No hand-written -webkit- twin: Lightning CSS treats the pair as duplicates
 	   and keeps only the later one, so the standard property is dropped from the
 	   build — and current Chrome no longer honours -webkit-backdrop-filter. It
@@ -297,7 +295,7 @@ const lengthFilterItems = [
 		gap: clamp(1.5rem, 5vw, 4rem);
 	}
 
-	@media (width <= 48rem) {
+	@media (width < 48rem) {
 		.overlay-cols {
 			grid-template-columns: 1fr;
 			gap: var(--space-unit);
@@ -306,23 +304,36 @@ const lengthFilterItems = [
 </style>
 
 <script>
-	import { markReadEssays } from "../scripts/read-state";
+	import { onPage } from "../scripts/page";
+	import { markReadEssays, onReadMarks } from "../scripts/read-state";
 
-	function initArchive() {
-		// Bail on non-archive pages (this listener fires on every navigation).
+	/** Read essays step back in place, muted with »· läst« (scripts/read-state.ts), and the
+	 *  ring at the end of the filter row says how many. */
+	function markRead(): void {
+		const byAmne = document.getElementById("by-amne");
+		const byYear = document.getElementById("by-year");
+		if (!(byAmne && byYear)) return;
+		const { read, total } = markReadEssays(byAmne);
+		markReadEssays(byYear);
+		const ring = document.querySelector<HTMLElement>("[data-read-ring]");
+		if (ring && total > 0) {
+			ring.hidden = read === 0;
+			ring.style.setProperty("--progress", String(read / total));
+			ring.textContent = read === total ? "Hela arkivet läst" : `${read} av ${total} lästa`;
+		}
+	}
+
+	onPage((signal) => {
+		// Bail on non-archive pages (this runs on every navigation).
 		const root = document.getElementById("by-amne");
-		if (!root) return;
+		const yearRoot = document.getElementById("by-year");
+		const dialog = document.getElementById("filter-overlay");
+		if (!(root && yearRoot && dialog instanceof HTMLDialogElement)) return;
 		// Re-bind to non-null-typed locals so the closures below keep the type
 		// (TS drops flow-narrowing across function boundaries).
 		const byAmne: HTMLElement = root;
-		const byYear = document.getElementById("by-year")!;
-		const overlay = document.getElementById("filter-overlay") as HTMLDialogElement;
-
-		const ctrl = new AbortController();
-		const { signal } = ctrl;
-
-		// An explicit JS `behavior: "smooth"` is not reached by the CSS kill-switch.
-		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		const byYear: HTMLElement = yearRoot;
+		const overlay: HTMLDialogElement = dialog;
 
 		// ---- Length filter (applied to both views) ----
 		let lengthMin = 0;
@@ -391,7 +402,7 @@ const lengthFilterItems = [
 			btn.addEventListener("click", () => {
 				if (chronological) setView(false);
 				closeOverlay();
-				document.getElementById(btn.dataset.target || "")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+				document.getElementById(btn.dataset.target || "")?.scrollIntoView({ block: "start" });
 			}, { signal });
 
 		// Längd buckets.
@@ -403,22 +414,10 @@ const lengthFilterItems = [
 				closeOverlay();
 			}, { signal });
 
-		// Read essays step back in place, muted with »· läst« (scripts/read-state.ts), and
-		// the ring at the end of the filter row says how many.
-		const { read, total } = markReadEssays(byAmne);
-		markReadEssays(byYear);
-		const ring = document.querySelector<HTMLElement>("[data-read-ring]");
-		if (ring && total > 0) {
-			ring.hidden = read === 0;
-			ring.style.setProperty("--progress", String(read / total));
-			ring.textContent = read === total ? "Hela arkivet läst" : `${read} av ${total} lästa`;
-		}
-
-		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
-	}
-
-	document.addEventListener("astro:page-load", initArchive);
-	window.addEventListener("pageshow", (e) => {
-		if ((e as PageTransitionEvent).persisted) initArchive();
 	});
+
+	// The read marks are refreshed on their own after a back/forward-cache restore; binding
+	// the handlers again there stacked a second set, and the second »Kronologiskt« handler
+	// flipped the view straight back.
+	onReadMarks(markRead);
 </script>

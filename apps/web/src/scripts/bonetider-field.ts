@@ -1,10 +1,12 @@
 // Client glue for every <PrayerField> on a page: wires the canvas renderer, keeps the
 // readout (next prayer + live countdown + today's times) ticking, and re-renders when the
 // user changes settings or location. Imported once; mounts all .bonetider-field nodes.
+import { navigate } from "astro:transitions/client";
 import {
 	computePrayerTimes,
+	countdownLabel,
 	formatTime,
-	nextPrayerKeyAt,
+	nextPrayer,
 	PRAYER_LABELS,
 	PRAYER_ORDER,
 	PRAYER_SWEDISH_NAMES,
@@ -19,9 +21,18 @@ import {
 import type { createFieldRenderer, FieldLocation, Scheme } from "../lib/bonetider/render-field";
 import type { PrayerSettings } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
-import { CHANGE_EVENT, loadLocation, loadSettings, saveLocation } from "../lib/bonetider/storage";
-import { haversineKm } from "../lib/geom";
+import {
+	CHANGE_EVENT,
+	loadLocation,
+	loadSettings,
+	MINUTE_EVENT,
+	saveLocation,
+} from "../lib/bonetider/storage";
+import { LOCATING, locationFailed } from "../lib/geolocation";
+import { nearest } from "../lib/geom";
+import { onPage } from "./page";
 import { paintHorizon } from "./prayer-horizon";
+import { currentScheme, watchScheme } from "./scheme";
 
 interface PrayerState {
 	/** `day|settings|lat,lon` — the inputs the day's times depend on. */
@@ -115,29 +126,12 @@ const visObserver = new IntersectionObserver(
 	{ rootMargin: "200px" },
 );
 
-function schemeNow(): Scheme {
-	const explicit = document.documentElement.dataset.theme;
-	if (explicit === "dark" || explicit === "light") return explicit;
-	return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-}
-
 function resolveLocation(inst: Instance): FieldLocation {
 	if (inst.fixed) return inst.base;
 	const stored = currentStoredLocation();
 	return stored
 		? { name: stored.name, latitude: stored.latitude, longitude: stored.longitude }
 		: inst.base;
-}
-
-/** Swedish relative countdown: "om 1 tim 12 min" / "om 12 min" / "om 34 sek". */
-function formatCountdown(ms: number): string {
-	if (ms <= 0) return "nu";
-	const totalMin = Math.floor(ms / 60000);
-	const h = Math.floor(totalMin / 60);
-	const m = totalMin % 60;
-	if (totalMin < 1) return `om ${Math.floor(ms / 1000)} sek`;
-	if (h === 0) return `om ${m} min`;
-	return `om ${h} tim ${m} min`;
 }
 
 function mountOne(el: HTMLElement): void {
@@ -262,7 +256,7 @@ function isDaylight(loc: FieldLocation, now: Date): boolean {
 function paint(inst: Instance, now: Date): void {
 	const settings = currentSettings();
 	const location = resolveLocation(inst);
-	const scheme = schemeNow();
+	const scheme = currentScheme();
 	const st = ensureState(inst, now, location, settings);
 	// Skip the (expensive) canvas render when the field is scrolled off-screen; the
 	// cheap readout below still updates so times are fresh the moment it scrolls in.
@@ -304,22 +298,17 @@ function ensureState(
 	return st;
 }
 
-// The next prayer to count down to, rolling to tomorrow's Fajr once the day's are all past.
-// Tomorrow's Fajr is computed only at that roll-over (then cached as the target), not per tick.
+// The next prayer to count down to, rolling to tomorrow's Fajr once the day's are all past
+// (nextPrayer, which takes tomorrow as the next Stockholm day). Tomorrow's Fajr is computed
+// only at that roll-over (then cached as the target), not per tick.
 function resolveNext(
 	today: ReturnType<typeof computePrayerTimes>,
 	now: Date,
 	location: FieldLocation,
 	settings: PrayerSettings,
 ): { nextKey: PrayerKey; target: number } {
-	const nk = nextPrayerKeyAt(today, now.getTime());
-	if (nk) return { nextKey: nk, target: today[nk].getTime() };
-	const tomorrowFajr = computePrayerTimes(
-		location,
-		new Date(now.getTime() + 86400000),
-		settings,
-	).fajr.getTime();
-	return { nextKey: "fajr", target: tomorrowFajr };
+	const next = nextPrayer(location, today, now, settings);
+	return { nextKey: next.key, target: next.at.getTime() };
 }
 
 // Full readout rewrite (per-minute / on change): today's six times, the next-prayer name and
@@ -343,7 +332,7 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 	if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(new Date(st.target));
 	if (inst.readout.countdown) {
 		inst.readout.countdown.textContent = Number.isFinite(st.target)
-			? formatCountdown(st.target - now.getTime())
+			? countdownLabel(st.target - now.getTime())
 			: "—";
 	}
 	if (inst.readout.place) inst.readout.place.textContent = location.name;
@@ -379,7 +368,7 @@ function wireGeolocation(): void {
 		const label = btn.textContent ?? "";
 		const statusId = btn.getAttribute("aria-describedby");
 		const status = statusId ? document.getElementById(statusId) : null;
-		if (status) status.textContent = "Hämtar din plats …";
+		if (status) status.textContent = LOCATING;
 		btn.setAttribute("aria-busy", "true");
 		// Prefer persistent status feedback; older buttons fall back to a temporary label.
 		const finish = (message?: string): void => {
@@ -398,18 +387,9 @@ function wireGeolocation(): void {
 					// Load the 2 128-place dataset only on demand — it's far too big to ship in
 					// the initial bundle just to name a GPS fix.
 					const { INDEXED_PLACES } = await import("../lib/bonetider/places-index");
-					let best = INDEXED_PLACES[0];
+					const here = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+					const best = nearest(INDEXED_PLACES, here, (p) => p);
 					if (!best) return finish("Platsregistret är tomt");
-					let bestD = Infinity;
-					for (const p of INDEXED_PLACES) {
-						// Great-circle distance, not flat lat/lon — degrees of longitude shrink fast
-						// toward northern Sweden, so a flat comparison misjudges "nearest" up there.
-						const d = haversineKm(pos.coords.latitude, pos.coords.longitude, p.lat, p.lon);
-						if (d < bestD) {
-							bestD = d;
-							best = p;
-						}
-					}
 					saveLocation({
 						name: best.name,
 						latitude: pos.coords.latitude,
@@ -420,7 +400,10 @@ function wireGeolocation(): void {
 					// times stay Rinkeby's. Take them to the town they are standing in instead.
 					if (btn.dataset.nav === "1") {
 						finish(status ? `Öppnar ${best.name} …` : undefined);
-						window.location.href = `/bonetider/${best.slug}/`;
+						// Through the router, as every other way into a page is: a full load
+						// stopped the narration the floating player keeps across pages.
+						// navigate() falls back to one where the page has no router.
+						navigate(`/bonetider/${best.slug}/`);
 						return;
 					}
 					finish(status ? `Visar tider för ${best.name}.` : undefined);
@@ -428,14 +411,7 @@ function wireGeolocation(): void {
 					finish("Kunde inte läsa in orterna. Försök igen.");
 				}
 			},
-			(error) =>
-				finish(
-					status
-						? error.code === 1
-							? "Platsåtkomst nekades. Sök efter din ort i stället."
-							: "Kunde inte hitta din plats. Sök efter din ort i stället."
-						: "Hittade inte platsen",
-				),
+			(error) => finish(status ? locationFailed(error.code) : "Hittade inte platsen"),
 			{ enableHighAccuracy: false, timeout: 8000, maximumAge: 600000 },
 		);
 	});
@@ -488,6 +464,7 @@ function runTick(): void {
 			else updateCountdownOnly(inst, now); // cheap per-second countdown (cached state)
 		}
 	} finally {
+		if (repaint) window.dispatchEvent(new Event(MINUTE_EVENT));
 		scheduleTick();
 	}
 }
@@ -524,7 +501,7 @@ function updateCountdownOnly(inst: Instance, now: Date): void {
 		inst.renderedNextKey = st.nextKey;
 	}
 	inst.readout.countdown.textContent = Number.isFinite(st.target)
-		? formatCountdown(st.target - now.getTime())
+		? countdownLabel(st.target - now.getTime())
 		: "—";
 }
 
@@ -536,15 +513,12 @@ function repaintAll(): void {
 	for (const inst of instances) paint(inst, now);
 }
 
-// The canvas reads its palette from schemeNow() at paint time, so a theme change is only
-// visible once something repaints — and the tick only repaints on a MINUTE boundary. The
-// OS-level media query was wired up, but the site's own System/Ljust/Mörkt switch stamps
-// `data-theme` on <html> instead of touching it, so choosing "Mörkt" left the field's wash
-// and contours light under an already-dark page for up to a minute. Watch the attribute the
-// switch actually writes. (Mirrors the same observer in scripts/moskeer-map.ts.)
+// The canvas reads its palette from currentScheme() at paint time, so a theme change is
+// only visible once something repaints — and the tick only repaints on a MINUTE boundary.
+// watchScheme() (scheme.ts) is what makes the switch's choice show at once.
 let paintedScheme: Scheme | null = null;
 function onThemeChange(): void {
-	const next = schemeNow();
+	const next = currentScheme();
 	if (next === paintedScheme) return; // an astro:after-swap re-stamp of the same choice
 	paintedScheme = next;
 	const now = new Date();
@@ -569,20 +543,13 @@ function boot(): void {
 		return;
 	}
 	booted = true;
-	paintedScheme = schemeNow();
+	paintedScheme = currentScheme();
 	startClock();
 	wireGeolocation();
 	window.addEventListener(CHANGE_EVENT, repaintAll);
-	window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", onThemeChange);
-	// The theme switch (and the head script's re-stamp on navigation) writes data-theme on
-	// <html>; nothing else tells us the reader chose a scheme that differs from the OS.
-	new MutationObserver(onThemeChange).observe(document.documentElement, {
-		attributes: true,
-		attributeFilter: ["data-theme"],
-	});
+	watchScheme(onThemeChange);
 }
 
-// Mount on first load and after every Astro view transition.
-document.addEventListener("astro:page-load", boot);
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-else boot();
+// Mount when the page is there and after every swap (page.ts). It booted on parse and
+// again at the router's first page-load, so a cold visit repainted every field twice.
+onPage(boot);

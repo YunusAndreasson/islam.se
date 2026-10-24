@@ -12,6 +12,7 @@ import { articleJsonLd, breadcrumbList, collectionPageJsonLd } from "../lib/json
 import { destinations } from "../lib/navigation";
 import { RITNINGAR } from "../lib/ritningar";
 import Base from "../layouts/Base.astro";
+import { SITE_URL } from "../lib/config";
 
 // The "Fakta" hub — the encyclopedic answer for the head term "islam" / "vad är
 // islam" / "fakta om islam". It opens with the head-term introduction, then
@@ -19,7 +20,7 @@ import Base from "../layouts/Base.astro";
 // a muslim does) and the six Articles of Faith (what a muslim believes). Each card
 // opens an existing answer at its unchanged /svar/<slug>/ URL; the full Q&A list
 // lives at /svar/.
-const url = "https://islam.se/vad-ar-islam/";
+const url = `${SITE_URL}/vad-ar-islam/`;
 const published = "2026-06-27T00:00:00Z";
 const description =
 	"Vad betyder islam? Läs om tron, islams fem pelare och trons sex pelare, med hänvisningar till Koranen och sunna.";
@@ -55,9 +56,9 @@ const cornerstone = clusters.flatMap((c) => [
 	...(c.overview ? [svarBySlug.get(c.overview)] : []),
 	...c.cards.map((cd) => cd.entry),
 ]);
-const cornerstoneEssays = cornerstone
+const cornerstoneAnswers = cornerstone
 	.filter((e): e is NonNullable<typeof e> => Boolean(e))
-	.map((e) => ({ title: e.data.title, slug: `svar/${e.id}` }));
+	.map((e) => ({ title: e.data.title, url: `/svar/${e.id}` }));
 
 const jsonLd = [
 	articleJsonLd({
@@ -72,7 +73,7 @@ const jsonLd = [
 		description:
 			"Islams kärna – islams fem pelare (dyrkan) och trons sex pelare (tron), källbelagt förklarade.",
 		url,
-		essays: cornerstoneEssays,
+		parts: cornerstoneAnswers,
 	}),
 	breadcrumbList([
 		{ name: "Hem", url: "/" },
@@ -82,7 +83,7 @@ const jsonLd = [
 ---
 
 <Base
-	title="Vad är islam? Fakta om islams fem pelare och trons sex pelare – islam.se"
+	title="Vad är islam? Fakta om islams fem pelare och trons sex pelare"
 	description={description}
 	ogImageAlt="Vad är islam? – islam.se"
 	jsonLd={jsonLd}
@@ -160,13 +161,6 @@ const jsonLd = [
 		</article>
 	</main>
 </Base>
-
-<script>
-	// Wire the recitation player. Same component and same script as the essays and
-	// the answer pages.
-	import { initQuranPlayers } from "../scripts/quran-player";
-	document.addEventListener("astro:page-load", () => initQuranPlayers());
-</script>
 
 <style>
 

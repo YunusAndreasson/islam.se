@@ -1,24 +1,21 @@
 ---
 import ArticlePage from "../components/ArticlePage.astro";
 import SectionOrnament from "../components/SectionOrnament.astro";
-import { breadcrumbList } from "../lib/jsonld";
+import { breadcrumbList, webPageJsonLd } from "../lib/jsonld";
 
 const updated = "25 september 2026";
 ---
 
 <ArticlePage
-	title="Integritetspolicy – islam.se"
+	title="Integritetspolicy"
 	description="Så hanterar islam.se dina uppgifter på webbplatsen och i appen: inga kakor, inga konton, ingen spårning, ingen reklam."
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "WebPage",
-			name: "Integritetspolicy – islam.se",
-			url: "https://islam.se/integritetspolicy",
-			inLanguage: "sv",
+		webPageJsonLd({
+			name: "Integritetspolicy",
 			description:
 				"Integritetspolicy för islam.se: inga kakor och ingen spårning på webbplatsen, och bönetider som beräknas på din egen enhet i appen.",
-		},
+			url: "/integritetspolicy",
+		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Integritetspolicy", url: "/integritetspolicy" },

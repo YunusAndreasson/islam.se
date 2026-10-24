@@ -1,5 +1,7 @@
 import { getCollection } from "astro:content";
+import type { InferGetStaticPropsType } from "astro";
 import { ogEndpoint } from "../../../lib/og-endpoints";
+import { TRADITIONS } from "../../../lib/traditions";
 
 export async function getStaticPaths() {
 	const thinkers = await getCollection("tankare");
@@ -13,10 +15,10 @@ export async function getStaticPaths() {
 	}));
 }
 
-export const GET = ogEndpoint<{ title: string; framing: string; tradition: string }>(
+export const GET = ogEndpoint<InferGetStaticPropsType<typeof getStaticPaths>>(
 	(p) => ({
-		kicker:
-			p.tradition === "sunni" ? "Tänkare — klassisk islamisk tradition" : "Tänkare — svensk röst",
+		// The spaced en dash of the house style, and the side as the thinker's page names it.
+		kicker: `Tänkare – ${TRADITIONS[p.tradition].singular.toLowerCase()}`,
 		title: p.title,
 		framing: p.framing,
 	}),

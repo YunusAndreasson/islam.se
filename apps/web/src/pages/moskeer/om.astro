@@ -2,10 +2,11 @@
 import Base from "../../layouts/Base.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import MosqueGallery from "../../components/moskeer/MosqueGallery.astro";
+import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import { getMosques, mosquesByLan } from "../../lib/moskeer";
-import { faqPageJsonLd } from "../../lib/jsonld";
+import { breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 const mosques = getMosques();
 const groups = mosquesByLan();
 const total = mosques.length;
@@ -116,13 +117,18 @@ const faq = [
 		a: "Det kommer från arabiskans masjid, som betyder ungefär plats där man böjer sig ner i bön. Via franskans mosquée är ordet belagt i svenskan sedan 1600-talet.",
 	},
 ];
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "Moskéer", url: "/moskeer/" },
+	{ name: "Om moskéer", url: "/moskeer/om/" },
+];
 ---
-<Base title="Om moskéer i Sverige – islam.se" description="Svenska moskéer i bilder, deras historia och vanliga frågor inför ett besök." jsonLd={faqPageJsonLd(faq)}>
+<Base title="Om moskéer i Sverige" description="Svenska moskéer i bilder, deras historia och vanliga frågor inför ett besök." jsonLd={[faqPageJsonLd(faq), breadcrumbList(crumbs)]}>
  <main id="main" class="home home--text mosque-guide">
-  <Breadcrumb items={[{name: "Moskéer", url: "/moskeer/"}, {name: "Om moskéer", url: "/moskeer/om/"}]} />
+  <Breadcrumb items={crumbs} />
   <h1>Om moskéer i Sverige</h1>
   <MosqueGallery />
-		<TitledSection class="mk-section mk-history" id="mk-history-h" title="Moskéernas långa historia i Sverige">
+		<TitledSection class="page-section tool-section mk-section mk-history" id="mk-history-h" title="Moskéernas långa historia i Sverige">
 			<p class="mk-history-lead">
 				Islam har en längre historia i Sverige än moskébyggnaderna antyder.
 			</p>
@@ -245,11 +251,11 @@ const faq = [
 			</p>
 		</TitledSection>
 
-		<TitledSection class="mk-section" id="mk-faq" title="Vanliga frågor">
+		<TitledSection class="page-section tool-section mk-section" id="mk-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
 		</TitledSection>
 
-  <p><a class="arrow-link" href="/moskeer/">Hitta en moské på kartan</a></p>
+  <p><SectionLink href="/moskeer/">Hitta en moské på kartan</SectionLink></p>
  </main>
 </Base>
 <style>

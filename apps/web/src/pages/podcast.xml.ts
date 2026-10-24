@@ -9,16 +9,19 @@ import { escapeXml } from "../lib/xml";
 
 const SITE = SITE_URL;
 
+// A file under public/, resolved from the app root, not import.meta.url: this module runs
+// from a different depth in dev and in the build, and a relative URL that reads the file
+// in one misses it in the other. The audio sizes were still read the relative way, which
+// held in the build and reported every episode as 0 bytes in dev.
+const publicFile = (publicPath: string): string => join(process.cwd(), "public", publicPath);
+
 // Apple Podcasts caches show art by URL and never re-fetches an unchanged one: it went
 // on showing the old khatam mark for two months after podcast-cover.jpg became the
 // blue-and-gold disc. A content hash in the URL makes every regeneration of the cover
 // (scripts/generate-brand-assets.mjs) a new address the directories must fetch.
-// Resolved from the app root, not import.meta.url: this module runs from a different
-// depth in dev and in the build, and a relative URL that reads the file in one misses
-// it in the other.
 function contentVersion(publicPath: string): string {
 	return createHash("sha256")
-		.update(readFileSync(join(process.cwd(), "public", publicPath)))
+		.update(readFileSync(publicFile(publicPath)))
 		.digest("hex")
 		.slice(0, 8);
 }
@@ -53,8 +56,7 @@ function episodeArt(slug: string): string | null {
 
 function getFileBytes(filename: string): number {
 	try {
-		const path = new URL(`../../../public/audio/${filename}`, import.meta.url);
-		return statSync(path).size;
+		return statSync(publicFile(`/audio/${filename}`)).size;
 	} catch {
 		return 0;
 	}
