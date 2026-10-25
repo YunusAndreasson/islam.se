@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 139,
-      "ok": 138,
+      "total": 146,
+      "ok": 145,
       "failed": 1,
-      "lastChecked": "2026-10-23T11:03:08.875Z",
-      "publishedIn": 107,
-      "avgScore": 8.618691588785062,
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 110,
+      "avgScore": 8.618181818181835,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 56,
-      "ok": 56,
+      "total": 58,
+      "ok": 58,
       "failed": 0,
-      "lastChecked": "2026-10-23T11:03:08.875Z",
-      "publishedIn": 43,
-      "avgScore": 8.641860465116276
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 44,
+      "avgScore": 8.640909090909089
     },
     "lifewithallah.com": {
       "total": 3,
@@ -477,12 +477,12 @@
       "avgScore": 8.7
     },
     "muslimheritage.com": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-02-12T15:55:26.326Z",
-      "publishedIn": 1,
-      "avgScore": 8.5
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 2,
+      "avgScore": 8.55
     },
     "www.sciencedirect.com": {
       "total": 4,
@@ -2338,12 +2338,12 @@
       "avgScore": 8.7
     },
     "slakthistoria.se": {
-      "total": 3,
-      "ok": 3,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-09-23T19:06:38.633Z",
-      "publishedIn": 1,
-      "avgScore": 8.7
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 2,
+      "avgScore": 8.649999999999999
     },
     "magasinhallungen.com": {
       "total": 3,
@@ -2468,12 +2468,12 @@
       "avgScore": 8.7
     },
     "digitaltmuseum.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-10-02T20:03:52.508Z",
-      "publishedIn": 1,
-      "avgScore": 8.7
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 2,
+      "avgScore": 8.649999999999999
     },
     "digitaltmuseum.org": {
       "total": 1,
@@ -2987,6 +2987,38 @@
       "lastChecked": "2026-10-23T11:03:08.875Z",
       "publishedIn": 1,
       "avgScore": 8.5
+    },
+    "books.openedition.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "malmo.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.ajnet.me": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "islamonline.net": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
     }
   }
 }
