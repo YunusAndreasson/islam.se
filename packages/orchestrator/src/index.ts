@@ -45,7 +45,11 @@ import {
 import { ArticlePublisher, findDataDir } from "./services/article-publisher.js";
 import { editorEditsBlock } from "./services/editor-edits.js";
 import { IdeationService } from "./services/ideation-service.js";
-import { publishedEssaysBlock } from "./services/published-essays.js";
+import {
+	publishedEssaysBlock,
+	recentTitlesBlock,
+	titleFrame,
+} from "./services/published-essays.js";
 import {
 	closestEssays,
 	deadEssayLinks,
@@ -927,6 +931,12 @@ export class ContentOrchestrator {
 	private requirementsBlock(): string {
 		if (!this.requirements) return "";
 		return `\n\n<hard_requirements source="brief">\nThese decide whether the essay can be published. They outrank style, rhythm and every other instruction; an edit that would break one is not made.\n\n${this.requirements}\n</hard_requirements>`;
+	}
+
+	/** The latest titles and the frames they have worn out, for every stage that writes a title. */
+	private recentTitlesSection(): string {
+		const block = recentTitlesBlock(join(findDataDir(), "articles"));
+		return block ? `\n\n${block}` : "";
 	}
 
 	private noteOpenIssue(section: string, text: string): void {
@@ -1934,7 +1944,7 @@ ${formatted}`;
 		if (guidance.length > 0) {
 			systemPrompt += `\n\n## FACT-CHECK GUIDANCE\n${guidance.join("\n\n")}`;
 		}
-		systemPrompt += `${this.houseRules()}${this.requirementsBlock()}`;
+		systemPrompt += `${this.recentTitlesSection()}${this.houseRules()}${this.requirementsBlock()}`;
 
 		const result = await this.executeClaudeStage<DraftOutput>({
 			name: "Stage 3: Authoring",
@@ -2096,7 +2106,7 @@ This article is for a Swedish publication. Watch for and fix anglicisms — Engl
 - Stiff calque constructions: rephrase for natural Swedish prose rhythm
 - Prefer Swedish conjunctions and flow over English sentence patterns
 If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the revised article"}.
-</language_quality>${this.houseRules()}${this.requirementsBlock()}`;
+</language_quality>${this.recentTitlesSection()}${this.houseRules()}${this.requirementsBlock()}`;
 
 		// ⚠️ The reviewer never saw the briefing or the book passages, and said so: on »Sorgen
 		// vid Nilen« it left news quotes »unconfirmed against … the briefing«. They go in the
@@ -2364,7 +2374,7 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			if (meta.description) metaSection += `**Ingress:** ${meta.description}\n`;
 		}
 
-		const systemPrompt = `Du granskar en publicerad artikel för islam.se. Detta är artikelns enda språkgranskning — åtgärda i ett svep det som avslöjar att texten tänkts på engelska, ord som inte är naturlig svenska, och de mätbara AI-mönster som prompten räknar.${metaSection}${this.houseRules()}${this.requirementsBlock()}`;
+		const systemPrompt = `Du granskar en publicerad artikel för islam.se. Detta är artikelns enda språkgranskning — åtgärda i ett svep det som avslöjar att texten tänkts på engelska, ord som inte är naturlig svenska, och de mätbara AI-mönster som prompten räknar.${metaSection}${meta?.title ? this.recentTitlesSection() : ""}${this.houseRules()}${this.requirementsBlock()}`;
 
 		const isMetaLocation = (location: string) => /^(titel|ingress)\b/i.test(location.trim());
 
@@ -3858,6 +3868,16 @@ If the draft has anglicisms, fix them ${patchMode ? "with patches" : "in the rev
 			this.noteOpenIssue(
 				"Länkar",
 				`Länken ${link} leder inte till någon publicerad essä. Rätta adressen eller ta bort länken.`,
+			);
+		}
+
+		// The prompts name the worn title frames, and a model can still land on one; the
+		// editor then reads it in open-issues.md rather than on the front page.
+		const frame = titleFrame(title);
+		if (frame) {
+			this.noteOpenIssue(
+				"Titeln",
+				`»${title}« har ramen ${frame === "som-sats" ? "»X som …«" : "»Xs Y«"}, som de senaste titlarna redan har nött ut. Välj en annan form före publicering: ett påstående med subjekt och verb, en fråga eller ord ur materialet.`,
 			);
 		}
 

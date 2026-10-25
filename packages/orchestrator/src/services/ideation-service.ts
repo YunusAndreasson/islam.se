@@ -28,6 +28,8 @@ import {
 	type IdeationOutputValidated,
 } from "../schemas.js";
 import { createLogger, getModelId, saveOutput, slugify } from "../utils.js";
+import { findDataDir } from "./article-publisher.js";
+import { recentTitlesBlock } from "./published-essays.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -230,6 +232,10 @@ export class IdeationService {
 			const ideasBlock = recentIdeas.map((s) => `- ${s}`).join("\n");
 			parts.push(`\n## PREVIOUSLY GENERATED IDEAS (avoid similar angles)\n${ideasBlock}`);
 		}
+
+		// A brief's title is the author's working title, and the author tends to keep it.
+		const titles = recentTitlesBlock(join(findDataDir(), "articles"));
+		if (titles) parts.push(`\n${titles}`);
 
 		return parts.join("\n");
 	}

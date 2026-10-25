@@ -207,7 +207,7 @@ Score each idea 1-10 based on these dimensions (average them mentally):
 - **Counterintuitiveness (35%):** Does it genuinely invert expectations? Would a reasonable person be surprised by the thesis?
 - **Researchability (25%):** Can the quote database, Quran, and web sources provide strong material? Are there concrete scholars, texts, and events to anchor the argument?
 - **Narrative energy (25%):** Does the tension in the thesis create momentum for 2000+ words? Is there a natural arc from provocation to resolution?
-- **Headline magnetism (15%):** Would a secular Swedish reader of DN Kultur or Axess stop scrolling for this title? "Polarnattens fiqh" stops people. "Islamisk syn på ljus" does not. The title must create curiosity in someone who has never read an article about Islam.
+- **Headline magnetism (15%):** Would a secular Swedish reader of DN Kultur or Axess stop scrolling for this title? "Muslimerna bad för en kristen kung" stops people. "Islamisk syn på ljus" does not. The title must create curiosity in someone who has never read an article about Islam.
 
 **Calibration:**
 - 9-10: Exceptional — publishable thesis that reframes the entire topic. Rare.
@@ -241,7 +241,7 @@ Match argumentation to idea type. Not every idea should "reframe" or "reveal":
   "ideas": [
     {
       "id": 1,
-      "title": "Swedish title, 5-10 words — must stop a DN Kultur reader mid-scroll. Prefer concrete nouns over abstractions. Title variety: max 5 of 10 may use colon format ('A: B'). Also use: single-phrase evocative ('Polarnattens fiqh'), full sentence ('Varför Sverige inte kan prata om döden'), question ('Vem äger tystnad?'), possessive without subtitle ('Fenrisulvens kedja').",
+      "title": "Swedish title, 5-10 words — must stop a DN Kultur reader mid-scroll. Prefer concrete nouns over abstractions. Title variety: max 5 of 10 may use colon format ('A: B'). Mostly use: a plain claim with subject and verb ('Folkmordet skrevs under i förväg'), a question the reader would ask ('Måste du tro som dina föräldrar?'), words taken from the material ('Om dessa ord når er'). Never 'X som …' ('Guden som gick sönder') or a bare genitive ('Tigerns bön'): the site's recent titles have worn both out.",
       "thesis": "One provocative sentence stating a specific, arguable claim",
       "angle": "2-3 sentences explaining what makes this approach unique and what tension it explores",
       "keywords": ["arabic_term", "comparison_concept", "scholar_if_relevant", "theme"],

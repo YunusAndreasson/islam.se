@@ -1,5 +1,8 @@
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { essayHinges } from "./published-essays.js";
+import { essayHinges, recentTitles, titleFrame } from "./published-essays.js";
 
 const essay = `---
 title: "Kaffet inför rätta"
@@ -51,5 +54,44 @@ describe("essayHinges", () => {
 			verses: [],
 			works: [],
 		});
+	});
+});
+
+describe("titleFrame", () => {
+	// The two frames the pipeline kept falling back on in October 2026 (three of eight titles
+	// were »X som …«). A title in either frame is flagged in open-issues.md before publishing.
+	it("finds the som-clause and the bare genitive", () => {
+		expect(titleFrame("Guden som gick sönder")).toBe("som-sats");
+		expect(titleFrame("Koppen som höll natten vaken")).toBe("som-sats");
+		expect(titleFrame("Tigerns bön")).toBe("genitiv");
+		expect(titleFrame("Sömnens lilla död")).toBe("genitiv");
+	});
+
+	it("leaves plain claims, questions and longer genitive sentences alone", () => {
+		for (const title of [
+			"Folkmordet skrevs under i förväg",
+			"Måste du tro som dina föräldrar?",
+			"Om dessa ord når er",
+			"Bannlyst",
+			"Bokmässans människorättskod stoppade inte IDF:s förre talesman",
+		]) {
+			expect(titleFrame(title), `»${title}« is not one of the worn frames`).toBeNull();
+		}
+	});
+});
+
+describe("recentTitles", () => {
+	it("lists titles newest first by publishedAt, not by file name", () => {
+		const dir = mkdtempSync(join(tmpdir(), "titles-"));
+		const write = (file: string, title: string, at: string) =>
+			writeFileSync(
+				join(dir, file),
+				`---\ntitle: "${title}"\npublishedAt: "${at}"\n---\n\nText.\n`,
+			);
+		write("a.md", "Äldst", "2026-01-01T00:00:00.000Z");
+		write("b.md", "Nyast", "2026-10-25T00:00:00.000Z");
+		write("c.md", "Mitten", "2026-05-01T00:00:00.000Z");
+		expect(recentTitles(dir, 2)).toEqual(["Nyast", "Mitten"]);
+		rmSync(dir, { recursive: true, force: true });
 	});
 });

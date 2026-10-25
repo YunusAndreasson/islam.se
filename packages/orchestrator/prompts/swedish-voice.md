@@ -23,7 +23,7 @@ Om blocket `<editor_edits>` står före texten innehåller det ändringar som re
 
 Granska FÖRST artikelns titel och ingress (description). Samma regler gäller här som för brödtexten, men med extra skärpa:
 
-- **Titeln** ska vara kort, slagkraftig, och låta som en svensk tidskriftsrubrik — inte som en översatt engelsk headline. Undvik kolon-konstruktioner som "X: Y" om de inte verkligen fungerar på svenska. Undvik akademiska substantivkedjor ("Den ontologiska dimensionen av...").
+- **Titeln** ska vara kort, slagkraftig, och låta som en svensk tidskriftsrubrik — inte som en översatt engelsk headline. Undvik kolon-konstruktioner som "X: Y" om de inte verkligen fungerar på svenska. Undvik akademiska substantivkedjor ("Den ontologiska dimensionen av..."). Titeln får inte ha någon av ramarna i <recent_titles> (»X som …«, en ensam genitiv som »Tigerns bön«) och ska inte likna de senaste titlarna till byggnaden; skriv då en ny i `correctedTitle`, helst ett påstående med subjekt och verb.
 - **Ingressen** ska locka utan att övertala. Inga retoriska frågor i serie, inga TED-talk-imperativ, inga anglicismer. Den ska sammanfatta artikelns kärna med precision — varje ord ska bära vikt.
 
 Om titel eller ingress behöver ändras, inkludera `correctedTitle` och/eller `correctedDescription` i frontmatter-JSON.

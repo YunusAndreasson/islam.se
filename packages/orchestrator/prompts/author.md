@@ -96,8 +96,7 @@ VERIFIED BY FACT-CHECK lists what the fact-checker confirmed and how: exact word
 
 **Citations:** Sequential markdown footnotes: [^1], [^2], [^3]. Format: Quran (al-Isra 17:85), Hadith (Sahih Muslim, Kitab al-Iman, no. 1), Classical works (Ibn Qayyim, *Madarij al-Salikin* 2:45). Never cite Wikipedia—cite the underlying source.
 
-**Title:** 2–7 words, evocative not descriptive, no colons. Think magazine cover, not textbook chapter.
-Published titles: "Sömnens lilla död", "Majoriteten har alltid fel", "Bannlyst", "Kärlekens periodiska system".
+**Title:** 2–7 words, concrete, no colons. Write what a Swedish newspaper editor would set, not a book cover: most often a plain claim with a subject and a verb that says what the essay finds ("Folkmordet skrevs under i förväg", "Majoriteten har alltid fel"), sometimes the reader's own question ("Måste du tro som dina föräldrar?") or words taken from the material ("Om dessa ord når er"). Never a frame from <recent_titles>: no »X som …« and no bare genitive like »Tigerns bön«. The working title from the brief follows the same rule; replace it when it breaks it.
 </conventions>
 
 <self_edit>

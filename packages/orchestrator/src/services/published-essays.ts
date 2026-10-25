@@ -55,6 +55,62 @@ export function essayHinges(markdown: string): EssayHinges {
 	};
 }
 
+/**
+ * The two title frames the pipeline keeps falling back on. A frame is the sentence shape
+ * with the words swapped out; readers see the titles side by side on the front page.
+ *
+ * ⚠️ Three of eight titles in October 2026 were »Resenären som sitter still«, »Guden som
+ * gick sönder« and »Koppen som höll natten vaken«, and the genitive (»Polarnattens fiqh«,
+ * »Fenrisulvens kedja«) was what the author and ideator prompts gave as their examples.
+ * The user asked for titles that do not all read as written by the same model.
+ */
+export type TitleFrame = "som-sats" | "genitiv";
+
+export function titleFrame(title: string): TitleFrame | null {
+	const words = title.trim().split(/\s+/);
+	// A definite noun and a som-clause: »Guden som gick sönder«.
+	if (words.length >= 3 && words[1]?.toLowerCase() === "som") return "som-sats";
+	// A genitive and a noun, nothing more: »Tigerns bön«, »Sömnens lilla död«.
+	if (words.length >= 2 && words.length <= 3 && /^\p{Lu}\p{L}{3,}s$/u.test(words[0] ?? "")) {
+		return "genitiv";
+	}
+	return null;
+}
+
+/** The titles of the most recently published essays, newest first. */
+export function recentTitles(articlesDir: string, count: number): string[] {
+	if (!existsSync(articlesDir)) return [];
+	return readdirSync(articlesDir)
+		.filter((file) => file.endsWith(".md"))
+		.map((file) => readFileSync(join(articlesDir, file), "utf-8"))
+		.map((markdown) => ({
+			title: frontmatterField(markdown, "title"),
+			publishedAt: frontmatterField(markdown, "publishedAt"),
+		}))
+		.filter((essay) => essay.title)
+		.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+		.slice(0, count)
+		.map((essay) => essay.title);
+}
+
+const RECENT_TITLES = 12;
+
+/** The `<recent_titles>` block for every stage that writes or corrects a title. */
+export function recentTitlesBlock(articlesDir: string): string {
+	const titles = recentTitles(articlesDir, RECENT_TITLES);
+	if (titles.length === 0) return "";
+	return `<recent_titles>
+De senaste titlarna på sajten, nyast först. Samma modell har skrivit de flesta, och på förstasidan står de bredvid varandra. Två ramar har den fastnat i, och båda läses som maskinskrivna. Använd dem inte:
+- bestämt substantiv med som-sats: »Guden som gick sönder«, »Resenären som sitter still«, »Skapelsehymnen som slutar med ett kanske«
+- en genitiv och ett substantiv i bildlig mening: »Tigerns bön«, »Kompassnålens moské«, »Silvertärnans hijra«
+Undvik också ett föremål som gör något mänskligt och en paradox som pointe.
+
+Skriv hellre det en redaktör på en svensk dagstidning skulle sätta: ett påstående med subjekt och verb som säger essäns sak (»Folkmordet skrevs under i förväg«, »Muslimerna bad för en kristen kung«, »Goliat var också ett barn«), en fråga som läsaren själv ställer (»Måste du tro som dina föräldrar?«) eller ord ur materialet (»Om dessa ord når er«). Liknar titeln någon i listan till byggnaden, välj en annan form.
+
+${titles.map((title) => `- ${title}`).join("\n")}
+</recent_titles>`;
+}
+
 /** The `<published_essays>` block for the research prompt, or "" when nothing is published. */
 export function publishedEssaysBlock(articlesDir: string): string {
 	if (!existsSync(articlesDir)) return "";
