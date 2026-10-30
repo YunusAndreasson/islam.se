@@ -24,20 +24,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PROMPTS_DIR = join(__dirname, "..", "..", "prompts");
 
-// eleven_v3 rejects previous_text/next_text with HTTP 400 (unsupported_model), and
-// previous_request_ids stitching is unavailable on it too — every chunk is generated
-// blind to its neighbours, so chunk size trades pronunciation against seam count.
-// `seed` is accepted but best-effort: two identical requests still differ byte-wise.
+// eleven_v4 takes 10 000 characters a request, so most scripts render in one or two.
+// Where a script still splits, each chunk is sent with the request ids of the chunks
+// before it (previous_request_ids: at most three, none older than two hours), so it is
+// read knowing how the last one ended. eleven_v3 rejected every stitching form with
+// HTTP 400 and generated each chunk blind — do not roll back to it without dropping
+// the ids. `seed` is accepted but best-effort: identical requests still differ byte-wise.
 const PODCAST_CONFIG = {
 	voiceId: "JhAQDwsLijg4qbxGNQGH",
-	modelId: "eleven_v3",
+	modelId: "eleven_v4",
+	languageCode: "sv",
 	voiceSettings: {
 		stability: 0.5,
 		similarity_boost: 0.75,
 		speed: 0.95,
 	},
 	outputFormat: "mp3_44100_192",
-	maxChunkChars: 5000,
+	maxChunkChars: 10000,
+	maxStitchedRequests: 3,
 	seed: 4242,
 	// Cloudflare Pages rejects any single file over 25 MiB, and the whole `pnpm ship`
 	// fails at upload — after the render has already been paid for. At 192 kbps mono
@@ -46,7 +50,7 @@ const PODCAST_CONFIG = {
 };
 
 export interface PodcastOptions {
-	/** Override PODCAST_CONFIG.maxChunkChars (v3 caps a request at 5000). */
+	/** Override PODCAST_CONFIG.maxChunkChars (v4 caps a request at 10 000). */
 	chunkChars?: number;
 	seed?: number;
 	/** Reuse the existing {slug}-audio.txt instead of re-running Claude. */
@@ -103,8 +107,8 @@ export class PodcastService {
 	}
 
 	/**
-	 * Generate MP3 audio from script text using ElevenLabs v3 API.
-	 * Handles chunking for texts over 5k characters.
+	 * Generate MP3 audio from script text using the ElevenLabs API.
+	 * Scripts over the chunk limit are split at paragraphs and stitched.
 	 */
 	async generateAudio(
 		script: string,
@@ -119,7 +123,7 @@ export class PodcastService {
 		const chunks = this.chunkText(script, options.chunkChars ?? PODCAST_CONFIG.maxChunkChars);
 
 		if (chunks.length === 1) {
-			const result = await this.callElevenLabs(apiKey, chunks[0] as string, seed);
+			const result = await this.callElevenLabs(apiKey, chunks[0] as string, seed, []);
 			if (!(result.success && result.audio)) {
 				return { success: false, error: `Audio generation failed: ${result.error}` };
 			}
@@ -132,15 +136,22 @@ export class PodcastService {
 
 		try {
 			const chunkPaths: string[] = [];
+			const requestIds: string[] = [];
 			for (let i = 0; i < chunks.length; i++) {
 				const chunk = chunks[i] as string;
-				const result = await this.callElevenLabs(apiKey, chunk, seed);
+				const result = await this.callElevenLabs(
+					apiKey,
+					chunk,
+					seed,
+					requestIds.slice(-PODCAST_CONFIG.maxStitchedRequests),
+				);
 				if (!(result.success && result.audio)) {
 					return {
 						success: false,
 						error: `Chunk ${i + 1}/${chunks.length} failed: ${result.error}`,
 					};
 				}
+				if (result.requestId) requestIds.push(result.requestId);
 				const chunkPath = join(tempDir, `chunk-${i}.mp3`);
 				writeFileSync(chunkPath, result.audio);
 				chunkPaths.push(chunkPath);
@@ -204,7 +215,7 @@ export class PodcastService {
 		// Step 2: Generate MP3 via ElevenLabs
 		const chunkChars = options.chunkChars ?? PODCAST_CONFIG.maxChunkChars;
 		const seed = options.seed ?? PODCAST_CONFIG.seed;
-		console.log("🔊 Generating audio via ElevenLabs v3...");
+		console.log(`🔊 Generating audio via ElevenLabs ${PODCAST_CONFIG.modelId}...`);
 		const chunks = this.chunkText(script, chunkChars).length;
 		console.log(
 			`   ${script.length} characters, ${chunks} chunk${chunks > 1 ? "s" : ""} @ ${chunkChars}, seed ${seed}`,
@@ -249,21 +260,25 @@ export class PodcastService {
 	}
 
 	/**
-	 * Call ElevenLabs TTS API for a single text chunk.
+	 * Call ElevenLabs TTS API for a single text chunk. The returned requestId is what
+	 * the next chunk passes as previous_request_ids.
 	 */
 	private async callElevenLabs(
 		apiKey: string,
 		text: string,
-		seed?: number,
-	): Promise<{ success: boolean; audio?: Buffer; error?: string }> {
+		seed: number | undefined,
+		previousRequestIds: string[],
+	): Promise<{ success: boolean; audio?: Buffer; requestId?: string; error?: string }> {
 		const outputFormat = PODCAST_CONFIG.outputFormat;
 		const url = `https://api.elevenlabs.io/v1/text-to-speech/${PODCAST_CONFIG.voiceId}?output_format=${outputFormat}`;
 
 		const body = {
 			text,
 			model_id: PODCAST_CONFIG.modelId,
+			language_code: PODCAST_CONFIG.languageCode,
 			voice_settings: PODCAST_CONFIG.voiceSettings,
 			...(seed === undefined ? {} : { seed }),
+			...(previousRequestIds.length > 0 ? { previous_request_ids: previousRequestIds } : {}),
 		};
 
 		const maxRetries = 3;
@@ -290,7 +305,11 @@ export class PodcastService {
 				}
 
 				const arrayBuffer = await response.arrayBuffer();
-				return { success: true, audio: Buffer.from(arrayBuffer) };
+				return {
+					success: true,
+					audio: Buffer.from(arrayBuffer),
+					requestId: response.headers.get("request-id") ?? undefined,
+				};
 			} catch (err) {
 				if (attempt < maxRetries) {
 					const delay = 2000 * attempt;

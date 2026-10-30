@@ -1693,8 +1693,8 @@ program
 	.command("podcast")
 	.description("Generate audio narration for a published article")
 	.argument("<slug>", "Article slug (from data/articles/)")
-	.option("--chunk-chars <n>", "Characters per ElevenLabs request (v3 caps at 5000)", Number)
-	.option("--seed <n>", "Sampling seed (best-effort on v3, not bit-exact)", Number)
+	.option("--chunk-chars <n>", "Characters per ElevenLabs request (v4 caps at 10 000)", Number)
+	.option("--seed <n>", "Sampling seed (best-effort, not bit-exact)", Number)
 	.option("--reuse-script", "Skip Claude and narrate the existing {slug}-audio.txt")
 	.option("--variant <name>", "Render to {slug}--{name}.mp3, leaving frontmatter untouched")
 	.action(

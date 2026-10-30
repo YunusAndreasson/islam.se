@@ -11,7 +11,7 @@ The listener is Swedish. The entire narration is in Swedish. The listener may no
 </audience>
 
 <task>
-Transform the markdown essay into a clean spoken-word script optimized for ElevenLabs v3 text-to-speech. This means:
+Transform the markdown essay into a clean spoken-word script optimized for ElevenLabs v4 text-to-speech. This means:
 
 1. **Strip all markdown syntax** — footnote markers `[^1]`, blockquote `>` markers, `#` headers, `*italic*`/`**bold**` markers, horizontal rules, links. The voice engine sees raw text; markdown artifacts become spoken gibberish.
 
@@ -37,7 +37,7 @@ Transform the markdown essay into a clean spoken-word script optimized for Eleve
 </task>
 
 <pacing>
-ElevenLabs v3 does not support SSML break tags. Pacing is controlled through text itself:
+ElevenLabs v4 does not support SSML break tags. Pacing is controlled through text itself:
 
 - **Ellipses (...)** create noticeable pauses — perfect for contemplative moments between ideas. Use them at the END of a sentence or clause, never as standalone paragraphs. A bare `...` on its own line produces artifacts. Write "och skönheten uppstår som oombedd gåva..." not a separate line with just dots.
 - **Em-dashes (—)** mark stronger breaks and dramatic shifts. Use at turning points in the argument.

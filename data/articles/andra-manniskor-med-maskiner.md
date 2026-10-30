@@ -8,7 +8,7 @@ category: "Rättvisa"
 imageAlt: "En gammal jacquardvävstol av mörkt trä i en tom textilfabrik; från vävstolens topp hänger en lång kedja av ljusa hålkort ned och lägger sig i veck på plankgolvet. Till vänster ett halvvävt grått tyg, i bakgrunden ur fokus rader av järnvävstolar under höga fabriksfönster."
 imageCaption: "Jacquardvävstolen väver efter hålkorten, och korten har någon annan stansat."
 audioFile: "andra-manniskor-med-maskiner.mp3"
-audioDuration: 1415
+audioDuration: 1384
 ---
 Paul Atreides är femton år och har nyss fått dra handen ur en låda. Så länge den satt kvar kändes det som om huden brann. Mot hans hals höll en gammal kvinna en giftnål, redo att sticka honom om han drog undan handen. Nålen kallas gom jabbar, och provet gällde om han var människa. Han klarade det. Samtalet som följer, i första kapitlet av Frank Herberts *Dune* från 1965, kommer in på maskiner.
 
