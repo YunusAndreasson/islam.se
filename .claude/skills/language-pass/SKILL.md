@@ -202,6 +202,8 @@ rm -f apps/web/.astro/data-store.json apps/web/node_modules/.astro/data-store.js
 pnpm --filter @islam-se/web build
 ```
 
+**Set `updatedAt` on every page you change.** The sitemap's `<lastmod>` and the page's visible date read it. The 2026-09-25 language pass and two photograph rounds did not, and 88 of 89 pages told Google they had last changed months before they had.
+
 ### 4. Report and hand over
 
 Per file: sections scored, what changed and why, before/after counts, and —

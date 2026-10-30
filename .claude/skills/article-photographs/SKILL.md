@@ -196,6 +196,8 @@ A card picture goes to `images/fakta/<slug>.webp`; the file is the whole wiring.
   caption, a `srcset` (480/720/960/1400), the ImageObject with licence in the structured
   data, the entry in `sitemap-images.xml`, the published URL in the Markdown twins.
 
+**Set `updatedAt` on every page you change.** The sitemap's `<lastmod>` and the page's visible date read it. The 2026-09-25 language pass and two photograph rounds did not, and 88 of 89 pages told Google they had last changed months before they had.
+
 ## Checking
 
 ```bash
