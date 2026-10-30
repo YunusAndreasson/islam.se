@@ -298,7 +298,7 @@
 	}
 
 	.pill-link-list a {
-		font-family: var(--font-body);
+		font-family: var(--font-heading);
 		font-size: var(--step--2);
 		color: var(--color-text);
 		text-decoration: none;
@@ -547,7 +547,7 @@
 		min-height: var(--tap-target);
 		color: var(--color-accent);
 		border: var(--border-row);
-		border-radius: 1.25rem;
+		border-radius: var(--radius-pill);
 		text-decoration: none;
 		transition:
 			border-color var(--dur-fast),
@@ -594,7 +594,7 @@
 		font-size: var(--step--3);
 		text-decoration: none;
 		border: var(--border-row);
-		border-radius: 1.25rem;
+		border-radius: var(--radius-pill);
 
 		&:focus {
 			top: var(--padding-inline);
@@ -633,6 +633,22 @@
 		margin-inline: auto;
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
+	}
+
+	/* EVERY PAGE ON THE SHELL OPENS ON ONE LINE AND CLOSES AT ONE DISTANCE: one group-space
+	   under the mast, whether what stands there is a title, a kicker or a breadcrumb, and a
+	   φ over the footer. The mast is what holds still between pages, so a title that starts
+	   somewhere else on each page jumps as the reader moves. It stood 2px under the mast on
+	   AI-barometern's question pages, 24 on the hubs, 49 on the bönetider and mosque pages
+	   and 64 on /app/, set page by page (2026-10-30). A reading page keeps its own, larger
+	   top: `.article-header` and `.reading`. */
+	main.home {
+		margin-block: 0 var(--space-phi);
+		padding-block-start: var(--space-group);
+	}
+
+	main.home > .article-header {
+		margin-top: 0;
 	}
 
 	/* A page that is mostly running text but is built on the browse shell — the method
@@ -678,24 +694,27 @@
 		contain-intrinsic-size: auto var(--civ-h, 700px);
 	}
 
-	/* Rendered heights, measured 2026-10-11 in Chrome with content-visibility forced
-	   visible: desktop at 1440px on the mast-wide canvas, a room's padding and a
-	   section's opening rule included; the phone values are the one-column layouts at
-	   390px. Re-measure when a movement changes shape (every .home-movement's height). */
+	/* Rendered heights, measured 2026-10-30 in Chrome with content-visibility forced
+	   visible: at 1440px on the mast-wide canvas, 768px and 390px. ⚠️ The CONTENT box:
+	   contain-intrinsic-size does not count padding, and a room's 97px and a section's
+	   opening rule are added on top, so estimates measured with them left the document
+	   220px too tall at 1440. A tablet had no estimates at all and was 782px too short.
+	   Re-measure when a movement changes shape (every .home-movement's height, less its
+	   padding). */
 	.amnen.home-movement {
-		--civ-h: 686px;
+		--civ-h: 634px;
 	}
 	.tradar-home {
 		/* The essays-by-ämne design since 2026-10-10: tabs and three picture cards. */
-		--civ-h: 757px;
+		--civ-h: 732px;
 	}
 	.tankare-home {
-		/* The opening beside the drawing. */
+		/* The opening beside the drawing, on /essaer/. */
 		--civ-h: 337px;
 	}
 	.barometer-rail {
-		/* A room: padding included. Three findings behind tabs, one table shown. */
-		--civ-h: 492px;
+		/* A room. Three findings behind tabs, one table shown. */
+		--civ-h: 395px;
 	}
 	.fakta-band {
 		/* Three columns, on paper. */
@@ -703,34 +722,55 @@
 	}
 	.fordjupning-home {
 		/* A framing line and three picture cards on the thirds. */
-		--civ-h: 492px;
+		--civ-h: 467px;
 	}
 	.praktiskt-home {
 		/* A room: the day's line, the year's line and the map. */
-		--civ-h: 459px;
+		--civ-h: 362px;
+	}
+
+	@media (width < 60rem) {
+		.amnen.home-movement {
+			--civ-h: 850px;
+		}
+		.tradar-home {
+			--civ-h: 747px;
+		}
+		.barometer-rail {
+			--civ-h: 577px;
+		}
+		.fakta-band {
+			--civ-h: 1056px;
+		}
+		.fordjupning-home {
+			--civ-h: 454px;
+		}
+		.praktiskt-home {
+			--civ-h: 714px;
+		}
 	}
 
 	@media (width < 40rem) {
 		.amnen.home-movement {
-			--civ-h: 1588px;
+			--civ-h: 1483px;
 		}
 		.tradar-home {
-			--civ-h: 843px;
+			--civ-h: 764px;
 		}
 		.tankare-home {
 			--civ-h: 654px;
 		}
 		.barometer-rail {
-			--civ-h: 952px;
+			--civ-h: 879px;
 		}
 		.fakta-band {
-			--civ-h: 1042px;
+			--civ-h: 1022px;
 		}
 		.fordjupning-home {
-			--civ-h: 510px;
+			--civ-h: 458px;
 		}
 		.praktiskt-home {
-			--civ-h: 839px;
+			--civ-h: 766px;
 		}
 	}
 
@@ -1508,7 +1548,7 @@
 		gap: 0.45rem;
 		padding: 0.4rem 0.7rem;
 		border: var(--border-row);
-		border-radius: 1.4rem;
+		border-radius: var(--radius-pill);
 		background: transparent;
 		color: var(--color-muted);
 		font-family: var(--font-heading);
@@ -1915,12 +1955,17 @@
 		backdrop-filter: blur(12px);
 	}
 
+	/* Beside the circle, at its height and in sentence case: capitals name a section or a
+	   kind and nothing else (DESIGN.md). It stood 35px tall against the circle's 40. */
 	.share-btn {
-		padding: 0.5rem 0.75rem;
+		min-height: 2.5rem;
+		padding: 0.25rem 0.9rem;
 		border: var(--border-row);
-		border-radius: 1.25rem;
+		border-radius: var(--radius-pill);
 		color: var(--color-muted);
 		font-weight: 500;
+		letter-spacing: 0.01em;
+		text-transform: none;
 		background: var(--glass-thin);
 		cursor: pointer;
 		transition:
@@ -1995,9 +2040,14 @@
 	}
 
 	/* Placement only — the link inside is a `.section-link .arrow-link`. */
+	/* It closes the list over it, so it stands a group-space under it (DESIGN.md, »After an
+	   Essay«), and the list's own bottom margin is for a list that closes nothing. */
 	.collection-back {
-		margin-top: var(--space-unit);
-		margin-bottom: var(--space-phi2);
+		margin-top: var(--space-group);
+	}
+
+	.archive-list:has(+ .collection-back) {
+		margin-bottom: 0;
 	}
 
 	/* ============================================================
@@ -2169,10 +2219,17 @@
 		border-top: var(--border-rule);
 	}
 
+	/* No rule to open under, but still a step from what stands over it: at margin 0 the first
+	   section of /bonetider/ramadan/ and /bonetider/metod/ stood flush under the ingress. */
 	.page-section--first {
-		margin-top: 0;
+		margin-top: var(--space-group);
 		padding-top: 0;
 		border-top: 0;
+	}
+
+	/* A sans h2 opens without a kicker's rank above it, so it takes a φ. */
+	.page-section--first.tool-section {
+		margin-top: var(--space-phi);
 	}
 
 	/* Hide section entirely when its list is empty (e.g. "Lasta" with 0 read articles) */
@@ -2703,6 +2760,22 @@
 
 	.md-row[hidden] {
 		display: none;
+	}
+
+	/* /det-islamiska-aret/: the width goes to the things that are many (DESIGN.md, »Two
+	   frames«). A year's observances are a dozen short rows, and in one column of two thirds
+	   they left the page's last third empty from the first year to the last. In the page's
+	   halves from 72rem, read down and then across like a printed calendar; the second
+	   column starts on the centre line. */
+	@media (width >= 72rem) {
+		.md-page .md-list {
+			columns: 2;
+			column-gap: var(--grid-gutter);
+		}
+
+		.md-page .md-row {
+			break-inside: avoid;
+		}
 	}
 
 	.md-greg {

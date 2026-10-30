@@ -130,7 +130,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	preloadFonts={[
 		"body",
 		...(heroSource ? [] : (["sans"] as const)),
-		{ face: "display", media: "(min-width: 48.0625rem)" },
+		{ face: "display", media: "(min-width: 48rem)" },
 		{ face: "arabic", low: true },
 	]}
 >
@@ -260,6 +260,13 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 <style>
 	.fordjupning-page {
 		margin-block: var(--space-phi);
+	}
+
+	/* An essay's header stands a unit under the mast on a phone: one line for all three. */
+	@media (width < 48rem) {
+		.fordjupning-page {
+			margin-top: var(--space-unit);
+		}
 	}
 
 	/* The header is ArticleHeader's, the essay's. The deck carries the framing a bare

@@ -54,6 +54,11 @@ const fit = (img: ImageMetadata, h: number, w: number) => Math.min(w, (h * img.w
 const bild = (img: ImageMetadata) => ({
 	src: img,
 	alt: "",
+	// The width the box gives this drawing, stated so its place is held before the file
+	// lands (the height follows from the file's own proportions, in the width and height
+	// attributes). Left to the file, a hub's title on a phone stood 38px too high until the
+	// drawing beside it loaded, and the whole opening then jumped (2026-10-30).
+	style: `--ritning-bild: ${fit(img, hojd[0], bredd[0]).toFixed(3)}rem; --ritning-bild-bred: ${fit(img, hojd[1], bredd[1]).toFixed(3)}rem`,
 	widths: [96, 160, 240, 320, 480, 640, 960].filter((x) => x <= img.width),
 	sizes:
 		sizes ??
@@ -80,21 +85,18 @@ const box = `--ritning-h: ${hojd[0]}rem; --ritning-w: ${bredd[0]}rem; --ritning-
 		background: var(--color-bg);
 	}
 
-	/* Auto size from the file, then held inside the box: the height governs unless the
-	   width would pass the box's. */
+	/* Held inside the box, the height governing unless the width would pass the box's: the
+	   arithmetic is `fit` above, so the place is known before the file is. */
 	.ritning img {
 		display: block;
-		inline-size: auto;
+		inline-size: var(--ritning-bild);
 		block-size: auto;
-		max-block-size: var(--ritning-h);
-		max-inline-size: var(--ritning-w);
 		mix-blend-mode: multiply;
 	}
 
 	@media (width >= 48rem) {
 		.ritning img {
-			max-block-size: var(--ritning-h-bred);
-			max-inline-size: var(--ritning-w-bred);
+			inline-size: var(--ritning-bild-bred);
 		}
 	}
 
@@ -117,8 +119,6 @@ const box = `--ritning-h: ${hojd[0]}rem; --ritning-w: ${bredd[0]}rem; --ritning-
 		.ritning--fyll img {
 			inline-size: 100%;
 			block-size: 100%;
-			max-inline-size: none;
-			max-block-size: none;
 			object-fit: contain;
 			object-position: 100% 0;
 		}

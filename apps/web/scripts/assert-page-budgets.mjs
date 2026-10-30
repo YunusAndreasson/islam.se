@@ -21,6 +21,7 @@ const failures = [];
 
 const FRONT_FONT_PRELOADS = 3;
 const FRONT_FONT_KB = 200;
+const ONE_JOB_FONT_KB = 5;
 const HSTS_MIN_AGE = 31_536_000;
 
 const read = (rel) => readFileSync(join(DIST, rel), "utf-8");
@@ -34,7 +35,7 @@ const preloads = (html, as) =>
 function fontFaces(html) {
 	return [...html.matchAll(/@font-face\s*\{([^}]*)\}/g)].map(([, body]) => ({
 		// The minifier writes a quoted name as bare identifiers with the colon escaped
-		// (`Literata fallback\: Liberation Serif`); both spell the same family.
+		// (`Literata fallback\: Times`); both spell the same family.
 		family: /font-family:\s*([^;]+)/
 			.exec(body)?.[1]
 			.trim()
@@ -162,8 +163,16 @@ for (const [, variable, chain] of front.matchAll(/(--font-(?:body|heading|headli
 	}
 }
 
-// No character on the front page may pull an ext file: that is 92 kB for one glyph.
-const extFaces = faces.filter((f) => f.range && !f.range.includes("U+0000-00FF"));
+// No character on the front page may pull an ext file: that is 92 kB for one glyph. An ext
+// file is a text family's second file, so a face with no core beside it is not one: ﷺ and ﷻ
+// have a font of their own, on purpose, and what holds that is its size.
+const isCore = (f) => f.range?.includes("U+0000-00FF");
+const extFaces = faces.filter(
+	(f) =>
+		f.range &&
+		!isCore(f) &&
+		faces.some((o) => o.family === f.family && o.style === f.style && isCore(o)),
+);
 const text = visibleText(front);
 for (const face of extFaces) {
 	const claims = inRange(face.range);
@@ -173,6 +182,25 @@ for (const face of extFaces) {
 			`the front page sets ${pulled.map((ch) => `»${ch}«`).join(" ")}, which fetches the ` +
 				`${face.style} ext file of ${face.family}. Reword, or move the letter into core.`,
 		);
+	}
+}
+for (const face of faces.filter((f) => f.range && !isCore(f) && !extFaces.includes(f))) {
+	const size = statSync(join(DIST, face.url)).size;
+	if (size > ONE_JOB_FONT_KB * 1024) {
+		failures.push(
+			`${face.family} is a font for a few signs and weighs ${Math.round(size / 1024)} kB ` +
+				`(limit ${ONE_JOB_FONT_KB} kB): any page with one of them fetches all of it.`,
+		);
+	}
+}
+
+// A drawing holds its place before its file lands: a hub's opening on a phone is laid out
+// around it, and without a stated width and proportions the title jumped when it loaded.
+for (const page of ["index.html", "essaer/index.html", "svar/index.html"]) {
+	for (const { tag } of tags(read(page), /<img\b[^>]*\britning-(?:ljus|mork)\b[^>]*>/g)) {
+		if (!(attr(tag, "width") && attr(tag, "height") && tag.includes("--ritning-bild"))) {
+			failures.push(`a drawing on ${page} holds no place before it loads: ${tag.slice(0, 120)}`);
+		}
 	}
 }
 

@@ -15,6 +15,8 @@ import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeChart } from "./src/plugins/rehype-chart";
 import { rehypeHeadingAnchor } from "./src/plugins/rehype-heading-anchor";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
+import { rehypeLanguageParts } from "./src/plugins/rehype-language-parts";
+import { rehypeNoBreak } from "./src/plugins/rehype-no-break";
 import { rehypePhotoFigure } from "./src/plugins/rehype-photo-figure";
 import { rehypePullQuote } from "./src/plugins/rehype-pull-quote";
 import { rehypeQuoteAttribution } from "./src/plugins/rehype-quote-attribution";
@@ -699,8 +701,6 @@ const customRedirects: [string, string][] = [
 	//  • /samlingsvolym.pdf (1 088i) collects filetype:pdf and unrelated-phrase hits.
 	//  • /islam/foraldrar, /category/featured, /andra-religioners-syn-pa-gud rank only for
 	//    the brand query "islam.se" — the homepage 301 is already the right answer.
-];
-
 	// === URLs islam.se never had, with impressions (2026-07-29 to 2026-10-26) ===
 	// Near-misses of real slugs. URL Inspection calls them unknown to Google while Search
 	// Console shows them at position 1 ("kadi", 167 impressions), so they look like links
@@ -715,6 +715,8 @@ const customRedirects: [string, string][] = [
 	["/svar/vad-betyder-alhamdulillah-inshallah-och-mashallah", "/svar/vad-betyder-alhamdulillah/"],
 	["/svar/vem-was-profeten-muhammed", "/svar/vem-var-profeten-muhammed/"],
 	["/svar/vad-betydelse-inshallah", "/svar/vad-betyder-inshallah/"],
+];
+
 // Astro hashes the scripts it compiles, but not an `is:inline` one — it never touches those.
 // Base.astro has exactly one (the pre-paint theme stamp), so its hash is supplied here.
 // Derived from the source rather than pasted, because the compiler emits an inline body byte
@@ -917,6 +919,9 @@ export default defineConfig({
 				rehypeQuoteAttribution,
 				// Before rehypeSidenotes, so the pull quote's source paragraph is still plain prose.
 				rehypePullQuote,
+				// After everything that matches prose by its text, before the notes are copied.
+				rehypeNoBreak,
+				rehypeLanguageParts,
 				rehypeSidenotes,
 				rehypeChart,
 				rehypeTable,
@@ -945,17 +950,18 @@ export default defineConfig({
 			name: "Literata",
 			cssVariable: "--font-body",
 			// One generic, and nothing between it and the web font but the metric-matched
-			// faces. Astro generates the first of those from the generic (serif → Times New
-			// Roman, which Windows, macOS and iOS have); the named ones after it are the
-			// same idea for the systems that do not (src/styles/font-fallbacks.css).
+			// faces (src/styles/font-fallbacks.css).
 			//
-			// »Georgia« and a bare »Times New Roman« stood here until 2026-10-10. Where the
-			// generated face resolves they were never reached, and where it does not they
+			// »Georgia« and a bare »Times New Roman« stood here until 2026-10-10. Where a
+			// matched face resolves they were never reached, and where it does not they
 			// were two more failed lookups in front of the same generic. In an isolation run
 			// that day (CDP trace, five loads each, one Linux machine) the front page's
 			// first layout took ~240 ms on the old chain and ~67 ms on the web font and a
 			// generic alone. Indicative, not exact: that machine has 2,384 fonts installed.
-			fallbacks: ["Literata fallback: Liberation Serif", "serif"],
+			fallbacks: ["Literata fallback: Times", "serif"],
+			// Written by hand, per weight range (src/styles/font-fallbacks.css): the generated
+			// face is one size for every weight, sized from the file's default master.
+			optimizedFallbacks: false,
 			// REVERTED 2026-07-24, back to the "swap" default.
 			//
 			// The 2026-07-23 experiment set "optional" to keep the font off the LCP
@@ -972,8 +978,8 @@ export default defineConfig({
 			// arriving from search — reading a typography-led page in Times New Roman.
 			// Too high a price for the LCP points. "swap" paints text immediately in
 			// the fallback and upgrades when the font lands; because
-			// optimizedFallbacks generates a metric-matched face (size-adjust +
-			// ascent/descent overrides), that swap costs almost no layout shift.
+			// the fallback is a metric-matched face (size-adjust + ascent/descent
+			// overrides), that swap costs almost no layout shift.
 			display: "swap",
 			options: {
 				// Roman and italic, each cut into core and ext by unicode-range. The files,
@@ -994,11 +1000,8 @@ export default defineConfig({
 			// generated Arial face. It is the one name that resolves on every system, so
 			// wherever Arial is missing it won at its natural width, and a matched face
 			// placed after it would never have been reached.
-			fallbacks: [
-				"Source Sans fallback: Liberation Sans",
-				"Source Sans fallback: Roboto",
-				"sans-serif",
-			],
+			fallbacks: ["Source Sans fallback: Arial", "Source Sans fallback: Roboto", "sans-serif"],
+			optimizedFallbacks: false,
 			// See the --font-body entry above for why "optional" was reverted here too.
 			display: "swap",
 			options: {
@@ -1026,10 +1029,11 @@ export default defineConfig({
 			name: "Literata Display",
 			cssVariable: "--font-headline",
 			fallbacks: [
-				"Literata Display fallback: Liberation Serif",
+				"Literata Display fallback: Times",
 				"Literata Display fallback: Noto Serif",
 				"serif",
 			],
+			optimizedFallbacks: false,
 			display: "swap",
 			options: {
 				variants: variantsOf("--font-headline"),
@@ -1046,6 +1050,25 @@ export default defineConfig({
 			fallbacks: ["Scheherazade New", "serif"],
 			options: {
 				variants: variantsOf("--font-arabic"),
+			},
+		},
+		{
+			// ﷺ and ﷻ, cut from Amiri (2 kB; License: src/assets/fonts/OFL-Amiri.txt). No text
+			// face draws them, so each device took them from whatever Arabic font it had, at
+			// its own size and weight: a different sign on every reader's screen, and a
+			// Blink-only hack in the stylesheet to make up for one of them. Fetched only by a
+			// page that sets one. Regenerate with fonttools:
+			//   pyftsubset Amiri-Regular.ttf --unicodes=U+FDFA,U+FDFB --layout-features= --flavor=woff2
+			provider: fontProviders.local(),
+			name: "Honorific",
+			cssVariable: "--font-honorific",
+			fallbacks: ["serif"],
+			// A metric-matched fallback is for words that rewrap. This is two signs in a box of
+			// a fixed width, and Times New Roman draws neither.
+			optimizedFallbacks: false,
+			display: "swap",
+			options: {
+				variants: variantsOf("--font-honorific"),
 			},
 		},
 	],

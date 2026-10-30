@@ -3,6 +3,8 @@ import type { ImageMetadata } from "astro";
 import type { AmneName } from "./amnen";
 import { memoize } from "./cache";
 import { swedishQuotes } from "./format";
+import { honorificsToHtml } from "./honorific";
+import { noBreak } from "./no-break";
 import { basename } from "./path";
 
 export interface Article {
@@ -131,12 +133,14 @@ export function formatDate(dateStr: string, now: Date = new Date()): string {
  *  not as raw markup, when the result is piped through `set:html`. Straight double
  *  quotes become »…« on the way (see swedishQuotes). */
 export function inlineMarkdown(text: string): string {
-	return swedishQuotes(text)
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-		.replace(/\*(.+?)\*/g, "<em>$1</em>");
+	return honorificsToHtml(
+		noBreak(swedishQuotes(text))
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+			.replace(/\*(.+?)\*/g, "<em>$1</em>"),
+	);
 }
 
 /** "1 essä" / "12 essäer" — Swedish essay-count label, used by collection pages. */

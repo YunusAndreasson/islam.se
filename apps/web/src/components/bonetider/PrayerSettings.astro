@@ -121,7 +121,8 @@ const { mode = "storage" } = Astro.props;
 
 	.bt-field select,
 	.bt-field input {
-		font-family: var(--font-body);
+		font-family: var(--font-heading);
+		font-variant-numeric: lining-nums tabular-nums;
 		/* 16px floor, not a scale step: below 16px iOS Safari auto-zooms the page on focus. */
 		font-size: 1rem;
 		color: var(--color-text);

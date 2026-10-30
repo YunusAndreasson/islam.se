@@ -689,6 +689,12 @@
 		font-weight: 400;
 		white-space: nowrap;
 	}
+	/* A flag on a row is a note, not a heading: capitals name a section or a kind and nothing
+	   else (DESIGN.md). */
+	:is(.abm-shift-model, .abm-change-flags) .label {
+		letter-spacing: 0.01em;
+		text-transform: none;
+	}
 	.abm-shift-model .label {
 		margin-inline-start: 0.5rem;
 	}

@@ -1,63 +1,125 @@
-/* Metric-matched fallbacks for the systems Astro's own do not reach.
+/* The fallbacks, matched to the web fonts' widths.
 
    While a web font loads, the text is set in a local face squeezed to the web font's
-   widths (size-adjust), so nothing rewraps when the real one lands. Astro generates
-   that face against Times New Roman and Arial, which Windows, macOS and iOS carry.
-   Android and Linux carry neither. There the chain fell through to a bare serif at
-   its natural width — Liberation Serif is 18 % narrower than Literata — and every
-   heading and deck rewrapped at the swap. Measured 2026-10-10 on Linux at a phone's
-   width: the essay's header was 249px in the fallback and 276px in Literata, so its
-   hero jumped (CLS 0.191 in Lighthouse); the front page's lead headline was one line
-   and then two, and moved the cover. With these faces both measure the same height
-   whether or not the web font ever arrives.
+   widths (size-adjust), so nothing rewraps when the real one lands. Liberation is drawn to
+   the metrics of Times New Roman and Arial, so one face serves Windows, macOS, iOS and
+   Linux; Roboto and Noto Serif are for Android. Measured 2026-10-10 on Linux at a phone's
+   width, before any of this: the essay's header was 249px in the fallback and 276px in
+   Literata, so its hero jumped (CLS 0.191 in Lighthouse).
 
-   These are the same faces for what those systems do have. They are named in the
-   `fallbacks` of each family in astro.config.ts, after Astro's generated face and
-   before the generic.
+   ONE SIZE PER WEIGHT RANGE. The fallback paints its regular cut at every weight, and a
+   web font runs wider as it gets heavier. Astro generates one face per family from the
+   file's default master, so its match held near that weight alone: on /svar/ on a phone the
+   h1 stood on one line and then took two, and the semi-bold questions under it rewrapped
+   (layout shift 0.03, 2026-10-30). So these are written by hand, and `optimizedFallbacks` is
+   off in astro.config.ts for the three text families.
 
-   The numbers are capsize's formula on the shipped files, the one Astro applies:
-   size-adjust is the web font's average glyph width over the local font's, and the
-   ascent and descent are the web font's own, rescaled by it. Liberation is drawn to
-   the metrics of Times New Roman and Arial, so its figures equal the generated ones.
-   Body text needs no Noto Serif entry: Noto Serif and Literata average the same
-   width (481/1000), and Android's serif is Noto Serif.
+   The numbers: size-adjust is what makes the real and the fallback text the same length,
+   measured in the DOM on the site's own text at the size it is set in: essay prose at 17
+   and 19px for the regular range, titles from 20 to 39px for the heavy one, questions and
+   labels for the sans. ⚠️ Not at a display size, and not on titles for the prose: Literata's
+   optical-size axis makes prose proportionally wider than a title, and sizing the regular
+   range from 40px titles left an essay 348px taller in the fallback. The ascent and descent
+   are the web font's own, rescaled by it (capsize's formula). Roboto was not installed
+   where this was measured: its sizes are its capsize figure scaled by what the Arial match
+   needed, since the widening belongs to the web font. Body text has no Noto Serif entry:
+   Noto Serif and Literata average the same width (481/1000), and Android's serif is Noto
+   Serif.
 
-   Recompute if a font file changes (fromBuffer in @capsizecss/unpack gives xWidthAvg,
-   unitsPerEm, ascent and descent for each).
+   The test of it (DESIGN.md, Principle 9): a page measures the same height with the web
+   fonts held back as with them loaded. Re-measure if a font file changes.
 
    In a compiled stylesheet on purpose, never an inline block: the CSP allows inline
    styles by hash, and Astro hashes what it bundles. */
 
 @font-face {
-	font-family: "Literata fallback: Liberation Serif";
-	src: local("Liberation Serif"), local("LiberationSerif");
-	font-weight: 300 700;
+	font-family: "Literata fallback: Times";
+	src:
+		local("Times New Roman"), local("TimesNewRomanPSMT"), local("Liberation Serif"),
+		local("LiberationSerif");
+	font-weight: 300 450;
 	font-style: normal;
-	size-adjust: 118.4%;
-	ascent-override: 99.4088%;
-	descent-override: 26.0135%;
+	size-adjust: 116.90%;
+	ascent-override: 100.6843%;
+	descent-override: 26.3473%;
 	line-gap-override: 0%;
 }
 
 @font-face {
-	font-family: "Literata fallback: Liberation Serif";
-	src: local("Liberation Serif Italic"), local("LiberationSerif-Italic");
-	font-weight: 300 700;
+	font-family: "Literata fallback: Times";
+	src:
+		local("Times New Roman"), local("TimesNewRomanPSMT"), local("Liberation Serif"),
+		local("LiberationSerif");
+	font-weight: 451 550;
+	font-style: normal;
+	size-adjust: 120.60%;
+	ascent-override: 97.5954%;
+	descent-override: 25.5390%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Literata fallback: Times";
+	src:
+		local("Times New Roman"), local("TimesNewRomanPSMT"), local("Liberation Serif"),
+		local("LiberationSerif");
+	font-weight: 551 700;
+	font-style: normal;
+	size-adjust: 123.35%;
+	ascent-override: 95.4195%;
+	descent-override: 24.9696%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Literata fallback: Times";
+	src:
+		local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"),
+		local("Liberation Serif Italic"), local("LiberationSerif-Italic");
+	font-weight: 300 500;
 	font-style: italic;
-	size-adjust: 118.4%;
-	ascent-override: 99.4088%;
-	descent-override: 26.0135%;
+	size-adjust: 110.30%;
+	ascent-override: 106.7090%;
+	descent-override: 27.9238%;
 	line-gap-override: 0%;
 }
 
 @font-face {
-	font-family: "Literata Display fallback: Liberation Serif";
-	src: local("Liberation Serif"), local("LiberationSerif");
-	font-weight: 400 700;
+	font-family: "Literata fallback: Times";
+	src:
+		local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"),
+		local("Liberation Serif Italic"), local("LiberationSerif-Italic");
+	font-weight: 501 700;
+	font-style: italic;
+	size-adjust: 118.35%;
+	ascent-override: 99.4508%;
+	descent-override: 26.0245%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Literata Display fallback: Times";
+	src:
+		local("Times New Roman"), local("TimesNewRomanPSMT"), local("Liberation Serif"),
+		local("LiberationSerif");
+	font-weight: 400 500;
 	font-style: normal;
-	size-adjust: 115.2%;
-	ascent-override: 102.1701%;
-	descent-override: 26.7361%;
+	size-adjust: 115.94%;
+	ascent-override: 101.5180%;
+	descent-override: 26.5655%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Literata Display fallback: Times";
+	src:
+		local("Times New Roman"), local("TimesNewRomanPSMT"), local("Liberation Serif"),
+		local("LiberationSerif");
+	font-weight: 501 700;
+	font-style: normal;
+	size-adjust: 119.95%;
+	ascent-override: 98.1242%;
+	descent-override: 25.6774%;
 	line-gap-override: 0%;
 }
 
@@ -66,32 +128,87 @@
 @font-face {
 	font-family: "Literata Display fallback: Noto Serif";
 	src: local("Noto Serif"), local("NotoSerif");
-	font-weight: 400 700;
+	font-weight: 400 500;
 	font-style: normal;
-	size-adjust: 97.2973%;
-	ascent-override: 120.9694%;
-	descent-override: 31.6556%;
+	size-adjust: 97.30%;
+	ascent-override: 120.9661%;
+	descent-override: 31.6547%;
 	line-gap-override: 0%;
 }
 
 @font-face {
-	font-family: "Source Sans fallback: Liberation Sans";
-	src: local("Liberation Sans"), local("LiberationSans");
-	font-weight: 300 700;
+	font-family: "Literata Display fallback: Noto Serif";
+	src: local("Noto Serif"), local("NotoSerif");
+	font-weight: 501 700;
 	font-style: normal;
-	size-adjust: 90.3991%;
-	ascent-override: 110.6205%;
-	descent-override: 36.0623%;
+	size-adjust: 99.49%;
+	ascent-override: 118.3033%;
+	descent-override: 30.9579%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Source Sans fallback: Arial";
+	src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans");
+	font-weight: 300 450;
+	font-style: normal;
+	size-adjust: 92.70%;
+	ascent-override: 107.8749%;
+	descent-override: 35.1672%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Source Sans fallback: Arial";
+	src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans");
+	font-weight: 451 550;
+	font-style: normal;
+	size-adjust: 94.12%;
+	ascent-override: 106.2473%;
+	descent-override: 34.6366%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Source Sans fallback: Arial";
+	src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans");
+	font-weight: 551 700;
+	font-style: normal;
+	size-adjust: 95.50%;
+	ascent-override: 104.7120%;
+	descent-override: 34.1361%;
 	line-gap-override: 0%;
 }
 
 @font-face {
 	font-family: "Source Sans fallback: Roboto";
 	src: local("Roboto"), local("Roboto-Regular");
-	font-weight: 300 700;
+	font-weight: 300 450;
 	font-style: normal;
-	size-adjust: 90.5976%;
-	ascent-override: 110.3782%;
-	descent-override: 35.9833%;
+	size-adjust: 92.92%;
+	ascent-override: 107.6195%;
+	descent-override: 35.0839%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Source Sans fallback: Roboto";
+	src: local("Roboto"), local("Roboto-Regular");
+	font-weight: 451 550;
+	font-style: normal;
+	size-adjust: 94.32%;
+	ascent-override: 106.0221%;
+	descent-override: 34.5632%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Source Sans fallback: Roboto";
+	src: local("Roboto"), local("Roboto-Regular");
+	font-weight: 551 700;
+	font-style: normal;
+	size-adjust: 95.69%;
+	ascent-override: 104.5041%;
+	descent-override: 34.0683%;
 	line-gap-override: 0%;
 }

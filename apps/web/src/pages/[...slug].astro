@@ -121,7 +121,7 @@ const figureBlocks = await figureJsonLd(
 	preloadFonts={[
 		"body",
 		...(article.heroImage ? [] : (["sans"] as const)),
-		{ face: "display", media: "(min-width: 48.0625rem)" },
+		{ face: "display", media: "(min-width: 48rem)" },
 		{ face: "arabic", low: true },
 	]}
 >
@@ -279,7 +279,7 @@ const figureBlocks = await figureJsonLd(
 		z-index: 50;
 		padding: 0.6rem 1.1rem;
 		border: var(--border-row);
-		border-radius: 1.5rem;
+		border-radius: var(--radius-pill);
 		background: var(--color-bg);
 		color: var(--color-accent);
 		cursor: pointer;

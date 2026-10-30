@@ -4,6 +4,7 @@
 // reader and explained on hover, as rehype-honorific renders them in markdown. Four
 // places split the text by hand, and two set the bare glyph, which a screen reader
 // spells out as a ligature name.
+import { noBreak } from "../lib/no-break";
 import Honorific from "./Honorific.astro";
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const { text } = Astro.props;
-const parts = text.split(/([ﷺﷻ])/u);
+const parts = noBreak(text).split(/([ﷺﷻ])/u);
 ---
 
 {parts.map((part) => (part === "ﷺ" ? <Honorific /> : part === "ﷻ" ? <Honorific type="swt" /> : part))}

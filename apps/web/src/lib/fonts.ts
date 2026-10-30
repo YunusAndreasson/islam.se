@@ -37,6 +37,9 @@ export const CORE_RANGE = [
 	"U+1E92-1E93",
 ];
 
+/** honorific.woff2: ﷺ and ﷻ, the two glyphs and nothing else (2 kB, cut from Amiri). */
+export const HONORIFIC_RANGE = ["U+FDFA-FDFB"];
+
 /** literata-roman-ext.woff2 and literata-italic-ext.woff2: 434 codepoints. */
 export const LITERATA_EXT_RANGE = [
 	"U+0102-0129",
@@ -231,6 +234,15 @@ export const FAMILIES = {
 	],
 	"--font-arabic": [
 		{ face: "arabic", file: "amiri-quran.woff2", weight: "400", style: "normal", range: undefined },
+	],
+	"--font-honorific": [
+		{
+			face: "honorific",
+			file: "honorific.woff2",
+			weight: "400",
+			style: "normal",
+			range: HONORIFIC_RANGE,
+		},
 	],
 } as const;
 

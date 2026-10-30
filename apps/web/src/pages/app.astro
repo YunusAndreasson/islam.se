@@ -109,10 +109,6 @@ const shots = [
 	   measure; from 72rem the phones stand beside them instead of centred under the
 	   header, where on the 76rem canvas they floated between a left-hand text column
 	   and an empty right (2026-09-26). */
-	.app-page {
-		margin-block: var(--space-phi);
-	}
-
 	/* On the page's grid from 72rem: the words in the first third, the three phones across
 	   the other two, on the one gutter (DESIGN.md, »One grid«). The words ended at x 525
 	   and the phones began at 600 at 1440, behind a 4rem gap of their own, on no line of
@@ -146,7 +142,7 @@ const shots = [
 	}
 
 	.app-header h1 {
-		margin: var(--space-half) 0 0;
+		margin: 0;
 	}
 
 	/* Screenshot preview — three phone captures, centred on wide screens and a
@@ -201,6 +197,8 @@ const shots = [
 	.app-shot figcaption {
 		margin-top: 0.85rem;
 		color: var(--color-muted);
+		letter-spacing: 0.01em;
+		text-transform: none;
 	}
 
 	/* Phones: a horizontal scroll-snap rail instead of cramming three abreast. */

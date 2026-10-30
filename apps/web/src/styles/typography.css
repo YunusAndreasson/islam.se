@@ -4,12 +4,17 @@
 @layer reset, base, primitives, layout, components;
 
 @layer base {
-	/* Anchor arrivals must clear the sticky mast. Header.astro publishes its measured
-	   height as --mast-height on <html>; tokens.css states it for the first frame,
-	   before that script runs (92px on a desktop, 84px on a phone). It was a hardcoded
-	   5rem here, short of the mast — a latent bug on every footnote jump. */
-	:target {
-		scroll-margin-top: calc(var(--mast-height) + 0.5rem);
+	/* Whatever scrolls into view clears the sticky mast: an anchor's arrival, and a link a
+	   keyboard reader has tabbed to, which `:target` never covered and which stopped under
+	   the mast (WCAG 2.4.11). Header.astro publishes its measured height as --mast-height on
+	   <html>; tokens.css states it for the first frame, before that script runs (92px on a
+	   desktop, 84px on a phone). At the foot, the audio player does the same while it shows. */
+	html {
+		scroll-padding-block-start: calc(var(--mast-height) + 0.5rem);
+	}
+
+	html[data-player-visible] {
+		scroll-padding-block-end: 4.5rem;
 	}
 
 	/* Footnote round-trips land mid-prose with no cue — flash the arrival point.
@@ -197,25 +202,35 @@
 		text-decoration-line: none;
 	}
 
-	/* Honorifics — ﷻ (jalla jalaluhu) and ﷺ (sallallahu alayhi wa salam)
-   Chrome renders these ligatures ~50 % taller than Firefox/Safari.
-   Scale down in Blink so the glyph matches other engines. */
-	.honorific {
-		color: var(--color-accent);
-		margin-inline: 0.05em;
-	}
+	/* Honorifics — ﷻ (jalla jalaluhu) and ﷺ (sallallahu alayhi wa salam).
+	   One sign on every device: the two glyphs have a font of their own (astro.config.ts,
+	   »Honorific«). Set a little under the sentence's size, so the sign sits among the words
+	   rather than over them.
 
-	/* Chromium: shrink the oversized glyph */
-	@supports (-webkit-app-region: inherit) {
-		.honorific {
-			font-size: 0.65em;
-		}
+	   A box of its own, one em square and wide enough for ﷺ: Amiri's tall line stays out of
+	   the line box, and the neighbours stay still when the font lands. This sign stands in
+	   the lead's deck, above the front page's picture, where a late change of width would
+	   move the picture. */
+	.honorific {
+		display: inline-block;
+		inline-size: 1.055em;
+		block-size: 1em;
+		font-family: var(--font-honorific);
+		font-size: 0.82em;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 1;
+		letter-spacing: 0;
+		text-indent: 0;
+		text-transform: none;
+		color: var(--color-accent);
+		margin-inline: 0.06em;
 	}
 
 	/* Hover meaning. The glyph carries its sense for a reader who already knows it;
 	   this spells it out for one who does not. Screen readers get `aria-label`
-	   instead, so the tooltip stays decorative. Font size is absolute — the glyph
-	   itself is scaled to 0.65em in Blink and the tip must not inherit that. */
+	   instead, so the tooltip stays decorative. Its size and line-height are its own:
+	   the glyph's would be inherited. */
 	.honorific[data-tip] {
 		position: relative;
 		cursor: help;

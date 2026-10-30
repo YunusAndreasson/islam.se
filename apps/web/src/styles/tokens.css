@@ -439,6 +439,22 @@
 	--btn-size: var(--tap-target);
 }
 
+/* A reader who has asked the system for more contrast. The ramp below the ink exists for
+   rank, and rank is what this reader has said they will trade: the secondary tiers close up
+   on the ink, muted labels darken (lighten in the dark scheme), and the two ranks of
+   hairline become lines. Forced colours (typography.css) replace the palette altogether;
+   this only moves it. */
+@media (prefers-contrast: more) {
+	:root {
+		--text-body: var(--color-text);
+		--text-quiet: var(--color-text);
+		--text-meta: var(--color-text);
+		--color-muted: light-dark(#463f35, #d8d2c7);
+		--color-divider: color-mix(in srgb, var(--color-text), transparent 62%);
+		--color-rule: color-mix(in srgb, var(--color-text), transparent 40%);
+	}
+}
+
 /* BREAKPOINTS. One scale, in rem (DESIGN.md, »Breakpoints — one scale, in rem«): 48rem,
    56.25rem, 60rem, 64rem and 72rem, each turning something for a stated reason. A new
    value takes one of these lines or says at its call site why not.

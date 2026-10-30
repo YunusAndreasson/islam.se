@@ -68,6 +68,11 @@ if (oldest?.opened) {
 		a: `Den äldsta registrerade moskén i ${lanLabel} med känt öppningsår är ${oldest.name} i ${oldest.city}, öppnad ${oldest.opened}.`,
 	});
 }
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "Moskéer", url: "/moskeer" },
+	{ name: lanLabel, url: `/moskeer/lan/${lanSlug(Astro.props.lan)}` },
+];
 ---
 
 <Base
@@ -87,15 +92,12 @@ if (oldest?.opened) {
 		}),
 		mosqueItemList(mosques, `Moskéer i ${lanLabel}`),
 		faqPageJsonLd(faq),
-		breadcrumbList([
-			{ name: "Hem", url: "/" },
-			{ name: "Moskéer", url: "/moskeer" },
-			{ name: lanLabel, url: `/moskeer/lan/${lanSlug(Astro.props.lan)}` },
-		]),
+		breadcrumbList(crumbs),
 	]}
 >
 	<main id="main" class="home moskeer-lan">
 		<MosquePageHeader
+			crumbs={crumbs}
 			title={`Moskéer i ${lanLabel}`}
 			meta={`${pluralMoske(total)} · ${pluralOrt(cityCount)}`}
 			lead={lead}
@@ -128,7 +130,6 @@ if (oldest?.opened) {
 
 <style>
 	.moskeer-lan {
-		margin-block: var(--space-phi);
 		overflow-x: clip;
 	}
 

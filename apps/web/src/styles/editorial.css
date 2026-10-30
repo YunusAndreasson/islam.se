@@ -240,17 +240,16 @@
 .svar-header h1 {
 	text-wrap: balance;
 }
-/* The reading pages' titles in Literata's display cut, as the front page's lead title
-   (FeatureEssay) sets them: at 39px the text cut is a paragraph enlarged. Weight and
-   tracking follow the lead, since the display masters are already drawn tight. The
-   swash ligatures (c‿h, c‿t, s‿t) come from the h1 rule in typography.css, as on the
-   lead: a page's title carries them at every width. Until 2026-10-18 this rule took
-   them off on the grounds that the text cut lacked them; both cuts carry all three.
-   `.reading` is the essay page alone; /om and the other ArticlePage pages keep the
-   text cut. Mobile titles also retain the text cut at their smaller size. */
+/* A PAGE'S TITLE in Literata's display cut, as the front page's lead title (FeatureEssay)
+   sets it: at 39px the text cut is a paragraph enlarged. Weight and tracking follow the
+   lead, since the display masters are already drawn tight. The swash ligatures (c‿h, c‿t,
+   s‿t) come from the h1 rule in typography.css, as on the lead: a page's title carries them
+   at every width. It stood on essays, answers and fördjupningar alone, so an essay and its
+   ämne, set by one component, drew one role in two cuts at two weights, and the title
+   changed as a reader went in from a hub (2026-10-30). Phones keep the text cut at their
+   smaller size. */
 @media (width >= 48rem) {
-	.reading .article-header h1,
-	.svar-header h1 {
+	h1 {
 		font-family: var(--font-headline);
 		font-weight: 560;
 		letter-spacing: -0.012em;
@@ -259,7 +258,7 @@
 
 .prose :is(h2, h3),
 .svar-section {
-	scroll-margin-top: calc(var(--mast-height) + 1.5rem);
+	scroll-margin-top: 1rem;
 }
 /* Section permalink (src/plugins/rehype-heading-anchor.ts). The mark hangs in the left
    margin and is drawn only on hover: a standing column of hashes down the page would

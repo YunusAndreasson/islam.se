@@ -76,7 +76,7 @@ const description =
 				</div>
 
 				<div class="ratta-field">
-					<label for="ratta-email">Din e-post <span class="ratta-optional">frivillig</span></label>
+					<label for="ratta-email">Din e-post <span class="ratta-optional">(frivillig)</span></label>
 					<input type="email" id="ratta-email" name="reporter_email" autocomplete="email" aria-describedby="ratta-email-hint" />
 					<p class="ratta-hint" id="ratta-email-hint">
 						Bara om du vill kunna få ett svar. Adressen används inte till något annat och lämnas
@@ -294,22 +294,19 @@ const description =
 
 	.ratta-field label {
 		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		color: var(--color-muted);
+		font-size: var(--step--2);
+		font-weight: 500;
+		color: var(--text-body);
 	}
 
 	.ratta-optional {
-		text-transform: none;
-		letter-spacing: 0;
-		font-style: italic;
-		color: var(--text-quiet);
+		font-weight: 400;
+		color: var(--color-muted);
 	}
 
 	.ratta-field input,
 	.ratta-field textarea {
-		font-family: var(--font-body);
+		font-family: var(--font-heading);
 		font-size: var(--step--1);
 		line-height: 1.5;
 		color: var(--color-text);
@@ -320,7 +317,12 @@ const description =
 		width: 100%;
 	}
 
+	/* Grows with what is written where the browser can (not yet Gecko), and the handle
+	   stays for where it cannot. `rows` sets the box it starts from. */
 	.ratta-field textarea {
+		field-sizing: content;
+		min-block-size: calc(4lh + 1.2rem);
+		max-block-size: 24rem;
 		resize: vertical;
 	}
 
@@ -360,15 +362,19 @@ const description =
 		gap: var(--space-half);
 	}
 
+	/* The form's one action, on the pill's own numbers in solid ink. It stood at 41px and
+	   a regular weight, under the 44px a principal control takes (DESIGN.md). */
 	.ratta-submit {
+		min-height: var(--tap-target);
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
-		letter-spacing: 0.03em;
+		font-weight: 500;
+		letter-spacing: 0.01em;
 		color: var(--color-bg);
 		background: var(--color-text);
 		border: 1px solid var(--color-text);
 		border-radius: var(--radius-pill);
-		padding: 0.6rem 1.4rem;
+		padding-inline: 1.4rem;
 		cursor: pointer;
 	}
 

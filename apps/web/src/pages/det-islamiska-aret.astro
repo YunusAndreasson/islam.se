@@ -151,7 +151,7 @@ const description =
 >
 		{leadSummary && <p class="lead md-answer">{leadSummary}</p>}
 
-		<p class="md-subscribe label">
+		<p class="md-subscribe">
 			<a href="webcal://islam.se/det-islamiska-aret.ics">Prenumerera på kalendern</a>
 			<span class="nav-dot" aria-hidden="true">&middot;</span>
 			<a href="/det-islamiska-aret.ics">Ladda ner (.ics)</a>
@@ -244,6 +244,8 @@ const description =
 		align-items: baseline;
 		gap: 0.15rem 0.6rem;
 		margin: var(--space-half) 0 var(--space-unit);
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
 		color: var(--color-muted);
 
 		/* Once the row wraps, the separator dangles at the end of the first line.
@@ -290,13 +292,14 @@ const description =
 
 	/* From 72rem the table stands beside the question and its answer, not under them:
 	   held to the measure, the whole block left the right half of the 76rem canvas empty
-	   at the top of the page (2026-09-26). */
+	   at the top of the page (2026-09-26). In halves on the page's gutter, so the table
+	   and the observances' second column below it start on the centre line. */
 	@media (width >= 72rem) {
 		.md-fast {
 			display: grid;
-			grid-template-columns: minmax(0, var(--content-width)) minmax(0, 1fr);
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 			grid-template-rows: auto auto 1fr;
-			column-gap: 4rem;
+			column-gap: var(--grid-gutter);
 			max-width: none;
 		}
 
@@ -324,8 +327,10 @@ const description =
 
 	/* The table's grammar is the shared one (layout.css, .data-table); the row header
 	   stacks the city over its latitude, as on /bonetider/aret/. */
-	.md-fast-table {
-		max-width: 32rem;
+	@media (width < 72rem) {
+		.md-fast-table {
+			max-width: 32rem;
+		}
 	}
 
 	.md-fast-table tbody th[scope="row"] {
@@ -384,8 +389,6 @@ const description =
 	.md-year-greg {
 		font-weight: 400;
 		font-size: var(--step--3);
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
 		color: var(--color-muted);
 		margin-inline-start: 0.5rem;
 	}

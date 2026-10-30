@@ -13,6 +13,13 @@
 //
 // After a re-cut, run `pnpm -w test --project web`: fonts.test.ts compares every
 // declared range with the glyphs the new file holds.
+//
+// Taking a parent fresh from upstream, two things this script does not do. Literata's ʿ and ʾ
+// have to be tightened first (scripts/tighten-modifier-letters.py). Source Sans comes from
+// google/fonts ofl/sourcesans3 (v3.052), instanced to wght 300–700 and subset to the core and
+// ext ranges with the features the site sets (c2sc case ccmp dlig frac kern liga locl onum pnum
+// smcp sups titl), keeping the hhea and OS/2 line metrics the fallbacks in
+// styles/font-fallbacks.css were computed from.
 import { execFileSync } from "node:child_process";
 import { statSync } from "node:fs";
 import { CORE_RANGE, LITERATA_EXT_RANGE, SOURCE_SANS_EXT_RANGE } from "../src/lib/fonts";

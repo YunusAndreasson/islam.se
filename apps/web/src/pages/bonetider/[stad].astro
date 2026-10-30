@@ -577,7 +577,9 @@ if (hasScb) {
 				<LinkList variant="pills" items={nearbyLinks} />
 				{/* /bonetider/orter/ is the only real city index and had exactly one inbound
 				    link on the whole site. From here it has 2 128. */}
-				<SectionLink href="/bonetider/orter/">Alla orter i Sverige</SectionLink>
+				<p class="bt-faq-more">
+					<SectionLink href="/bonetider/orter/">Alla orter i Sverige</SectionLink>
+				</p>
 			</TitledSection>
 		)}
 
@@ -602,7 +604,7 @@ if (hasScb) {
 
 		<p class="bt-attrib">
 			Befolkningsstatistik: {SCB_SOURCE} ({SCB_REF}). Ortsdata från GeoNames (CC BY 4.0). Beräkningar
-			med <span lang="en">adhan</span> i tidszonen Europe/Stockholm. <a href="/bonetider/metod/">Om beräkningen</a> ·
+			med <span lang="en">adhan</span> i tidszonen Europe/Stockholm. <a href="/bonetider/metod/">Om beräkningen</a> ·{" "}
 			<a class="arrow-link" href="/bonetider/">Bönetider i hela Sverige</a>
 		</p>
 	</main>
@@ -610,14 +612,12 @@ if (hasScb) {
 
 <style>
 	.bonetider-stad {
-		margin-block: var(--space-phi);
 		/* Guard against any child overflowing the viewport on mobile (e.g. the
 		   today readout's tabular times); clip keeps sticky/position working. */
 		overflow-x: clip;
 	}
 
 	.bt-stad-idag { margin-top: 1.25rem; }
-	.bt-stad-section { scroll-margin-top: 5rem; }
 
 	.bt-stad-header h1 {
 		margin: var(--space-half) 0 0;
@@ -739,10 +739,15 @@ if (hasScb) {
 		text-wrap: pretty;
 	}
 
+	/* A note to what stands over it, in the size such a note takes: unsized, it came out in
+	   the body's 19px, larger than the table it explains and than the method line beside
+	   it (2026-10-30). */
 	.bt-stad-note {
 		font-family: var(--font-body);
-		color: var(--color-muted);
-		max-width: 40rem;
+		font-size: var(--step--2);
+		line-height: 1.5;
+		color: var(--text-quiet);
+		max-width: var(--content-width);
 		margin: var(--space-half) 0 var(--space-unit);
 		text-wrap: pretty;
 	}
@@ -779,6 +784,16 @@ if (hasScb) {
 		gap: var(--space-half) clamp(1rem, 4vw, 2.5rem);
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 		max-width: 46rem;
+	}
+
+	/* On the page's thirds, under the sections' full-width rules: held to 46rem the block
+	   stood on no line of the canvas. */
+	@media (width >= 60rem) {
+		.bt-facts {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			column-gap: var(--grid-gutter);
+			max-width: none;
+		}
 	}
 
 	.bt-fact {

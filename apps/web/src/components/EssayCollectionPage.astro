@@ -62,6 +62,7 @@ const delar = numbered ? " collection-delar" : "";
 	description={description}
 	{...(ogImage === undefined ? {} : { ogImage })}
 	jsonLd={jsonLd}
+	preloadFonts={["body", "sans", { face: "display", media: "(min-width: 48rem)" }]}
 >
 	<main id="main" class="home collection-page">
 		<ArticleHeader title={title} kicker={kicker} lead={lead} leadClass="lead--page">

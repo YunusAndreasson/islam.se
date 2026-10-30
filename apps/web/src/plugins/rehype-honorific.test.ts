@@ -62,7 +62,7 @@ describe("rehypeHonorific", () => {
 	// ⚠️ THE BUG (2026-07-30): blockquote/h1–h6 were added to SKIP_TAGS so the honorific
 	// would not be INSERTED into a quotation — but skipping the subtree also stopped the
 	// walk, so a glyph the author DID write inside a blockquote lost its span. That is
-	// `.honorific`'s accent colour, its 0.65em sizing, its role=img + aria-label and its
+	// `.honorific`'s accent colour, its font and size, its role=img + aria-label and its
 	// tooltip, gone from the ﷺ/ﷻ in the blockquotes of 20 essays — the most prominent
 	// quote blocks on the site. Suppress the insertion, never the wrap.
 	it("still wraps a glyph the author wrote inside a blockquote", () => {

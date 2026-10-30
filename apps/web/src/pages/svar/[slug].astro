@@ -168,7 +168,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	}}
 	jsonLd={jsonLd}
 	{...heroPreload}
-	preloadFonts={["body", "sans", { face: "display", media: "(min-width: 48.0625rem)" }]}
+	preloadFonts={["body", "sans", { face: "display", media: "(min-width: 48rem)" }]}
 >
 	<main id="main" class="svar-page reading">
 		<article>
@@ -268,6 +268,13 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 <style>
 	.svar-page {
 		margin-block: var(--space-phi);
+	}
+
+	/* An essay's header stands a unit under the mast on a phone: one line for all three. */
+	@media (width < 48rem) {
+		.svar-page {
+			margin-top: var(--space-unit);
+		}
 	}
 
 	/* The header owns the gap down to whatever follows, so an answer with a hero

@@ -1,5 +1,9 @@
 ---
+import Breadcrumb from "../Breadcrumb.astro";
+import type { Crumb } from "../../lib/jsonld";
+
 type Props = {
+	crumbs: Crumb[];
 	title: string;
 	meta: string;
 	lead: string;
@@ -7,10 +11,11 @@ type Props = {
 	updatedLabel: string;
 };
 
-const { title, meta, lead, updatedDate, updatedLabel } = Astro.props;
+const { crumbs, title, meta, lead, updatedDate, updatedLabel } = Astro.props;
 ---
 
 <header class="mk-page-header">
+	<Breadcrumb items={crumbs} />
 	<h1>{title}</h1>
 	<p class="mk-page-meta">
 		{meta} · Senast uppdaterad <time datetime={updatedDate}>{updatedLabel}</time>
@@ -20,7 +25,7 @@ const { title, meta, lead, updatedDate, updatedLabel } = Astro.props;
 
 <style>
 	.mk-page-header h1 {
-		margin: var(--space-half) 0 0;
+		margin: 0;
 	}
 
 	.mk-page-meta {

@@ -21,8 +21,7 @@
  * is the place that keeps this honest.
  */
 
-import LinkList from "../LinkList.astro";
-import TitledSection from "../TitledSection.astro";
+import RelatedLinks from "../finder/RelatedLinks.astro";
 
 const prayerLinks = [
 	{ label: "Så ber man steg för steg", href: "/svar/sa-ber-man-steg-for-steg/" },
@@ -31,11 +30,4 @@ const prayerLinks = [
 ];
 ---
 
-<TitledSection class="page-section tool-section om-bonen" id="om-bonen-head" title="Om bönen">
-	<LinkList
-		variant="hairline"
-		class="om-bonen-links"
-		style="--hairline-link-list-margin: var(--space-half) 0 0"
-		items={prayerLinks}
-	/>
-</TitledSection>
+<RelatedLinks label="Om bönen" links={prayerLinks} />

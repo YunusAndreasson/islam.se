@@ -43,7 +43,7 @@ The sequence, top to bottom: an opening, two chapters on paper each followed by 
 2. **The lead as one package, beside a rail** — on desktop two columns that start and end on the same lines. Two thirds hold the lead: kicker, headline, deck and date, and directly under them its photograph at the same width. The last third, behind a hairline, is a rail of the six essays before it, titles and dates only, a rule between each. **Level by construction:** the picture's row is the flexible one, so the photograph is as tall as the rail needs and never flatter than 5:2; when the rail is the shorter column its list spreads to the foot. Nothing is measured in script. On a phone and a tablet: kicker, headline, photograph, deck, then the first three of the rail. A headline past 50 characters steps down a size on desktop. The six doorways follow only at widths ≤900px, matching the mast's collapsed navigation; wide touch devices keep the inline mast links without duplicating the doorways.
 3. **The news bar** (`Nyheter.astro`) — at the foot of the opening, under one hairline: the kicker »Nyheter«, the credit »från zuhd.news«, »Alla nyheter«, and **six notices, each a headline with its stamp under it** (»I går 23:48«), never the clock in front, which narrows the headline into an ellipsis. It is newest, so it stands first; it is not the site's own, so it is set smallest, in the sans that marks it as reported elsewhere. Six, because a »senaste nytt« block is five or six rows wherever a Swedish reader has met one; three reads as a list cut short. One column under 48rem, halves from 48rem, thirds from 72rem: in columns every headline must fit one line, because **the bar holds its place before the news is known**. The rows come from a fetch in the browser; the bar is in the layout from the first paint and made visible only when it has rows, so nothing moves when they land (layout shift 0, also with the fetch late). With no news it is taken out; without scripts it is never in the layout. Six is therefore a layout contract as well as a count (`RAIL_ANTAL`, pinned by a test, with `--remsa-rader` in `nyheter.css`).
 4. **The essays by ämne** — the first chapter's first section, because a reader who has just met the lead looks for more essays: the kicker »Essäer efter ämne«, tabs for the six ämnen, the chosen one's framing line and three essays, each with a 3:2 photograph, sharing rows so pictures, titles and separators align. The lead and the rail's six are excluded. Below the thirds the three are a shelf's, newest first: one above the other on a phone, a lead above a pair on a tablet.
-5. **The essäserier, in the same design** (`TradarHome`) — the kicker and »Alla essäserier«, a tab for each of three series, the chosen one's framing line, its **first three parts** as picture cards, and »Hela essäserien« with »6 delar · lästid 65 min« on that line. The one difference is a series' one difference: **every card says which part it is** (»Del 1«, »Del 2«, »Del 3« over the title, in the brass every ordinal on the page is set in; »Del 2 · läst« and a muted title once read, from localStorage). Below 60rem the three parts keep one row and scroll it sideways, the next one's edge showing: parts are equals in an order, and a lead above a pair would rank »Del 1« over the rest. One rule draws that row for the essäserier and for Fördjupning (`editorial.css`, »A row of cards that scrolls sideways«).
+5. **The essäserier, in the same design** (`TradarHome`) — the kicker and »Alla essäserier«, a tab for each of three series, the chosen one's framing line, its **three newest parts**, newest first, as picture cards, and »Hela essäserien« with »6 delar · lästid 65 min« on that line. The one difference is a series' one difference: **every card says which part it is** (»Del 1«, »Del 2«, »Del 3« over the title, in the brass every ordinal on the page is set in; »Del 2 · läst« and a muted title once read, from localStorage). Below 60rem the three parts keep one row and scroll it sideways, the next one's edge showing: parts are equals in an order, and a lead above a pair would rank »Del 1« over the rest. One rule draws that row for the essäserier and for Fördjupning (`editorial.css`, »A row of cards that scrolls sideways«).
 6. **AI-barometern, the first room** (`BarometerRail`) — on tint: the room's own words in the first third (kicker, what is asked of whom and how often, »Till AI-barometern«, the drawing under them) and **a finding drawn as a table** across the other two. Three findings stand behind tabs; a panel is the answers themselves, the statements side by side and the five models under each other. **The table explains itself, or it is the wrong table.** The column heads are statements put to a model, in »…« under the label »Påstående«; where two statements are one sentence about two subjects the subject is the only bold thing in the row (»**Palestinierna** har rätt till väpnat motstånd« beside »**Ukrainarna** …«). An answer is a meter of four blocks, as many filled as the model agrees (four for »instämmer helt«, none for »tar helt avstånd«), with its word beside it as its key; where a model took no position there is no meter, so »avstår« is never read as a low score. The sentence saying what the table shows is only its caption, for a reader who cannot see it. With two statements the table's last column is the canvas's last third. The panels lie in one cell, the unchosen ones invisible and not removed, so nothing under the room moves when a tab is chosen. Only findings of two or three statements are drawn here; a set of five is the hub's.
 7. **Grunden** — »Vad är islam?«, the second chapter's first section, on paper, **one box in three columns** from 60rem: the opening (kicker, title, one sentence, the two ways on, the drawing under them), the five pillars as a numbered list, the six articles of faith as a list, the three labels on one line. Each term is the Swedish name with its transliteration on the same line and the gloss under it. The two lists do not end together and are not made to. Below 60rem the three stack, the articles in pairs. No Arabic script at the ends of the rows: it adds weight without adding meaning beyond the transliteration.
 8. **Fördjupning** — straight after Grunden (introductory facts, then depth), under its own rule: the head row with »Alla fördjupningar«, **the Fördjupning page's own ingress as a framing line** (so the name explains itself), and **three picture cards on the page's thirds** in the card chapter 1 uses, column for column under Grunden's three columns. The curated list's order is the order on the page (`FordjupningHome.astro`). **A list on the front page is set as items — a title with something under it, on the grid — never as a run of links.** A phone and a tablet scroll the three sideways, in the essäserier's row. The framing line owns the gap above the cards; card padding must not double it.
@@ -130,7 +130,7 @@ The scale has **two halves**, both in `tokens.css`. Reach for a token; never typ
 | token | px | role |
 |---|---|---|
 | `--font-headline` | 40–67 | display only: the lead headline, movement titles, the Grunden numerals |
-| `--step-4` | 39.4 | essay h1 |
+| `--step-4` | 39.4 | every page's title, in the display cut from 48rem |
 | `--step-2` | 27.4 | h2 (essay register) |
 | `--step-1` | 22.8 | h3, list and card titles |
 | `--step-0` | 19 / 17 mobile | body prose |
@@ -161,9 +161,13 @@ Criteria:
 - **True italics** (not slanted roman — italics carry meaning in literary text)
 - **Multiple weights** for hierarchy (regular, medium/semibold, bold minimum)
 
-Literata carries editorial headings and prose; Source Sans carries navigation, controls, and metadata. Amiri Quran is reserved for Arabic verse. Use the font roles and type scale in tokens.css.
+Literata carries editorial headings and prose; Source Sans carries navigation, controls, and metadata, and a field a reader types in is a control. Amiri Quran is reserved for Arabic verse. The two honorifics, ﷺ and ﷻ, have a 2 kB font of their own, cut from Amiri, so the sign is the same on every device (`.honorific`, its box fixed so nothing moves when the font lands). Use the font roles and type scale in tokens.css.
 
-**The display cut.** The body files carry Literata's optical-size axis only from 12 to 24, so every headline above 24px was the text design enlarged. `--font-headline` (»Literata Display«, astro.config.ts) is the same OFL family instanced at opsz 72, weight 400–700, 50 kB, not preloaded. Use it only at ≥ ~40px; at h2/h3 sizes the text cut is the right drawing.
+**The transliteration is the type's business.** ʿ and ʾ stand on the width of the mark, not on Literata's half an em, which put a hole on both sides of it in »al-Baqīʿ och« (`scripts/tighten-modifier-letters.py`, held by `fonts.test.ts`), and every letter the corpus transliterates with is in both faces' core files, so a prayer's name is never set partly in a system font.
+
+**Numbers do not part.** A number's groups, a number and what it counts (»12 %«, »30 kronor«), a date (»31 oktober«) and a reference (»nr 977«, »Koranen 59:10«) stay on one line: `noBreak` (`lib/no-break.ts`) puts the no-break space in on the way to the page, in markdown and in text from data. Never in a heading, whose text is its `#fragment`.
+
+**The display cut.** The body files carry Literata's optical-size axis only from 12 to 24, so every headline above 24px was the text design enlarged. `--font-headline` (»Literata Display«, astro.config.ts) is the same OFL family instanced at opsz 72, weight 400–700, 50 kB. It sets the lead and every page's title from 48rem, so one role has one drawing wherever a reader goes in from; a phone's smaller title keeps the text cut. Use it only at ≥ ~40px; at h2/h3 sizes the text cut is the right drawing.
 
 ### Vertical Rhythm
 
@@ -208,7 +212,7 @@ Every article uses footnotes (typically 5–12 per essay) for scholarly apparatu
 ### What Gets No Hierarchy
 
 - Navigation (minimal, tucked away — the reader came for the essay)
-- Social sharing buttons (if present at all, after the essay, never floating)
+- Social sharing: one quiet »Dela« on an essay, beside the back-to-top circle in the bottom-right corner, at its height and in sentence case. No row of network buttons anywhere.
 - Related articles (after the essay, understated)
 - Author bio (unnecessary — the content earns trust, not a headshot)
 - Comments (none — this is a publication, not a forum)
@@ -313,6 +317,8 @@ Keep onward-reading links, newer/older essays, sources, and correction links. Gr
 
 ### Reference and Practical Pages
 
+Det islamiska året gives a year's observances the page's two halves from 72rem, read down and then across like a printed calendar, and the fast-length table beside its answer on the same centre line.
+
 Frågor och svar opens with its category row (sticky, in sentence case) and then the question groups, each a section under its rule and kicker, its sentence as the framing line. Its six illustrated deep dives follow the questions, never before them, in the front page's Fördjupning form. The palette (⌘K) is the search. Keep query URLs and filtering behavior.
 
 Mobile prayer pages show a compact next-prayer summary and today's schedule before the solar map. Wide layouts retain the map beside the schedule. Recompute visible and accessible labels together for the selected place and next-prayer target, including tomorrow's Fajr.
@@ -366,6 +372,10 @@ Two more families in `tokens.css`, and no percentages at call sites:
 | `--surface-2` | a control or a marked table row sitting on such a panel |
 
 Hand-mixed recipes for the same hover or panel differ invisibly on one screen and visibly across two. `src/styles/tokens.test.ts` measures the palette in both schemes and fails if any text tier, wash or surface drops under its floor.
+
+### More Contrast
+
+A reader who asks the system for more contrast (`prefers-contrast: more`, tokens.css) trades rank for legibility: the secondary tiers close up on the ink, every text tier clears 7:1, and the section rule clears 3:1. Forced colours replace the palette altogether (typography.css); this only moves it.
 
 ### Dark Mode
 
@@ -431,13 +441,13 @@ A page that loads in 3 seconds has already lost the reader.
 
 - **No web fonts that block rendering.** Use `font-display: swap` at minimum. Self-host fonts with aggressive caching.
 - **No JavaScript required for reading.** The essay is HTML and CSS. If JS fails to load, the reader should notice nothing. Astro's prefetch-on-hover makes navigation feel instant without requiring client-side transitions.
-- **No layout shift.** Reserve space for dynamic elements so text does not jump.
+- **No layout shift.** Reserve space for dynamic elements so text does not jump. A picture states its width and proportions before its file lands, the site's drawings included, and what a script will close is drawn closed from the first paint: `data-js` is stamped before it.
 - **Optimized images.** The hero image must be served in modern formats (AVIF/WebP), responsive sizes (`srcset`), and aggressively compressed. Target: hero image under 150KB at desktop resolution. Astro's built-in `<Image>` component handles format conversion, responsive `srcset`, and compression automatically.
 - **Minimal asset weight beyond the hero.** HTML + CSS should remain under 30KB. Fonts are self-hosted and cached after the first visit.
 - **Fonts: one table, three rules.** `apps/web/src/lib/fonts.ts` lists every font file; the config and the layout both read it.
   1. *Each text face is cut in two, and an ext range is the file's own coverage.* Core holds Latin-1, the punctuation, the arrows and the transliteration letters; ext holds the rest. Never write a range as »everything outside core«: a page with a character neither file draws (ﷺ) would fetch a file for nothing. `fonts.test.ts` holds each range to its file; `scripts/subset-fonts.ts` cuts them.
   2. *A font is preloaded only where it sets words above the page's first picture*, one file at a time, after the picture's own preload (`preloadFonts` in Base.astro). Words above a picture move it when their font lands; words below it can swap for free.
-  3. *Every fallback is matched to the web font's width, on every system.* Astro generates the match for Times New Roman and Arial; `styles/font-fallbacks.css` adds Liberation, Noto Serif and Roboto for Android and Linux. No bare »Georgia« or »system-ui« in a chain. The test of it: a heading measures the same height with the web fonts held back as with them loaded.
+  3. *Every fallback is matched to the web font's width, on every system and at every weight.* `styles/font-fallbacks.css` holds one face per weight range for Times New Roman and Liberation Serif, Arial and Liberation Sans, Noto Serif and Roboto, written by hand because a web font runs wider as it gets heavier while its fallback does not, and sized on the site's own text at the size it is set in, since Literata's optical sizes make prose proportionally wider than a title. No bare »Georgia« or »system-ui« in a chain. The test of it: a heading measures the same height with the web fonts held back as with them loaded.
 
 ---
 
@@ -454,6 +464,10 @@ The body text uses transliterated Arabic terms (tawakkul, ubudiyyah, dhikr). The
 ### Arabic script in block quotes
 
 Block quotes frequently contain Arabic script — Quran verses, hadith, and classical scholarly citations — typically followed by a Swedish translation in italic. Preserve the Quran components, Amiri Quran font, and their Arabic direction and recitation behavior. Do not restyle Arabic verses as ordinary Swedish interface text.
+
+### Arabic in running text
+
+A run of Arabic in Swedish text, which is how the notes quote their sources, carries `lang="ar"` and `dir="rtl"` (`plugins/rehype-language-parts.ts`), so a screen reader changes voice for it and the punctuation beside it stays on its own side.
 
 ---
 
@@ -491,7 +505,6 @@ islam.se shares the Financial Times' archetype: warm paper (ours `#fff6e8`, thei
 - *What the font preloads cost the cover.* They stay: without them layout shift and layout work fall back behind FT's, though LCP improves in the local (HTTP/1.1) lab. Measure the gap live with `--base` after a ship and reopen this if it is large there.
 - *Font weight* is above FT's (290 kB against 247). Pinning the italic's optical-size axis would bring the first load to roughly 240 kB and change how italics are drawn at small sizes. A typographic decision, not taken.
 - *Best practices on the live site* is 92, not the 100 a local build scores: Cloudflare injects a bot-detection script the CSP blocks. It is a zone setting (Bot Fight Mode / JavaScript Detections), not code.
-- *The mast's prayer names* take ʿ ʾ Ẓ ṣ from a system font: neither Source Sans file holds them, and the parent in the repo does not either. Fixing it needs the full upstream font.
 
 ## Shared Implementation Contracts
 
@@ -501,6 +514,7 @@ Use tokens.css for values; editorial.css holds the shared UI presentation contra
 
 **One grammar off the front page.** The front page's vocabulary holds on every page: a hub does not head its sections, draw its rules or set its cards its own way. A new page uses it:
 
+- *A page's opening and close.* Every page on the shell (`main.home`) opens one group-space under the mast, whether a title, a kicker or a breadcrumb stands there, and closes a φ over the footer. The mast is what holds still between pages, so a title that starts somewhere else on each one jumps. A page's own `<style>` does not move either line.
 - *A section* on any canvas page is a `.page-section` (layout.css): a section space, its rule, one group-space, the head row (`HomeHead`: the kicker and, at the right, the way on), one group-space, its content. The rule is drawn by default and the first section under a page's opening opts out with `.page-section--first`; never a sibling selector, which cannot see a section that starts a wrapper. An index section never takes `.home-movement` (its content-visibility placeholder throws anchor jumps). /essaer/'s ämnen and years, /svar/'s categories and its fördjupning band, /vad-ar-islam/'s clusters and »Läs vidare« open so; the tool pages keep their sans h2s, which carry search wording, under the same rules.
 - *A kicker* is `Kicker.astro`, in one of two forms: `head` (it heads a section or a list: ink, 600) and `quiet` (it stands over a title and names its kind: the meta colour, 400), both behind the brass point. An essay's ämne, an answer's category, a fördjupning's »Fördjupning«, the collection pages' kind, /nyheter/'s »Världen« (which kept the retired dash) and the end matter's headings all wear it.
 - *A picture card* is one object in two markups (the essay card, `CardList`; `FaktaCard` for the honorific it renders), all reading `--card-*`: the title in Literata at `--step-1` in ink, the line under it at `--step--2` in the quiet ink, whitespace between cards, never a hairline under each. A card's hover is tonal only.
@@ -508,6 +522,8 @@ Use tokens.css for values; editorial.css holds the shared UI presentation contra
 - *A count or a meta line* reads in sentence case (»6 delar«, »12 avsnitt«, the footer's colophon); so do the filter chips. Capitals name a section or a kind and nothing else.
 - *Ways on* from a page are items on its grid (`OnwardLinks`, named and glossed from `lib/navigation.ts`'s `destinations()`; a tool page's `RelatedLinks` on its thirds), never rows across the canvas with the arrow at the far edge.
 - *A phone's tabs* are one row that scrolls sideways under its own rule, never two stacked bars.
+- *A note to a table or a figure* is `--step--2` in the quiet ink, a group-space or less under it, and never larger than what it explains. A way on is not repeated inside the note beside it.
+- *A control's corner.* A pill is `--radius-pill`, whatever its height. A form's labels read in sentence case, and its one action is at least `--tap-target` high.
 - *A table of figures* is `.data-table` (layout.css): the text face at `--step--2` with tabular figures set to the end of their column, the first column and its head at the start, the heads in the meta ink and in sentence case over the one rule, the rows parted by a fainter line and none under the last. A table adds only what is its own: a sticky head, today's row, a denser step where a phone needs it.
 
 Use --space-control for compact interface gaps, --space-group within related content, and --space-section between editorial sections. Retain the larger prose spacing tokens where they already carry meaning. Inputs are at least 16px; principal touch controls are at least 44px high. Focus indicators, selected states, loading, empty, and error states belong to the shared design.
@@ -518,7 +534,7 @@ Check 390px, 768px, and 1440px, both themes, long titles, absent images, Arabic,
 
 | Element | Constraint |
 |---|---|
-| Typefaces | Literata, Source Sans, and Amiri Quran for Arabic |
+| Typefaces | Literata, Source Sans, Amiri Quran for Arabic, and Amiri's two honorifics |
 | Colors | 4 maximum (text, background, accent, muted) |
 | Body font size | 18–20px desktop, 17–18px mobile |
 | Line length | 60–70 characters |
@@ -530,7 +546,7 @@ Check 390px, 768px, and 1440px, both themes, long titles, absent images, Arabic,
 | Startpage | »Dagen och texten«: the opening (the lead's words and photograph in two thirds beside a rail of six titles, level by construction; the news as one bar); chapter 1 on paper (the essays by ämne and by essäserie, in one design); a room on tint (AI-barometern, a finding as a table); chapter 2 on paper (the facts, then depth); a room on tint (the day and the year as two lines, the mosques' map); the promotions last; inside the mast's canvas; not a single screen, not a feed |
 | Front-page headings | The lead's headline; one title, »Vad är islam?«; a kicker in ink at weight 600 heading every section and list; a quiet kicker only over a title |
 | Front-page sections | Each opens the same way: a rule (on paper) or the room's edge (on tint), its kicker, the way on |
-| Every other canvas page | The same grammar (`.page-section`, `HomeHead`, `Kicker`), one picture card, sentence-case meta and chips, ways on as items on the grid (»One grammar off the front page«) |
+| Every other canvas page | The same grammar (`.page-section`, `HomeHead`, `Kicker`), one picture card, sentence-case meta and chips, ways on as items on the grid, one opening under the mast and one close over the footer (»One grammar off the front page«) |
 | Reading templates | One kicker over the title; fördjupning on the essay's header with »lästid«; end matter under rules and kickers; the next part first at a series essay's end; the rail on the mast's line |
 | Front-page grid | Twelve columns, one gutter (`--grid-gutter`); every block starts on a column edge; one set of vertical steps (section space, line, group space, kicker, group space) |
 | Front-page grounds | Paper for what is written, one tint for the two rooms of what is measured; no tint holds two sections |

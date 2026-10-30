@@ -209,6 +209,11 @@ if (oldest?.opened) {
 				: `Den äldsta registrerade moskén i ${city} med känt öppningsår är ${oldest.name}, öppnad ${oldest.opened}.`,
 	});
 }
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "Moskéer", url: "/moskeer" },
+	{ name: city, url: `/moskeer/${citySlug}` },
+];
 ---
 
 <Base
@@ -253,15 +258,12 @@ if (oldest?.opened) {
 		// on a kommun seat that includes the stadsdel groups below.
 		mosqueItemList(listedMosques, `Moskéer i ${city}`),
 		faqPageJsonLd(faq),
-		breadcrumbList([
-			{ name: "Hem", url: "/" },
-			{ name: "Moskéer", url: "/moskeer" },
-			{ name: city, url: `/moskeer/${citySlug}` },
-		]),
+		breadcrumbList(crumbs),
 	]}
 >
 	<main id="main" class="home moskeer-stad">
 		<MosquePageHeader
+			crumbs={crumbs}
 			title={`${n === 1 ? "Moské" : "Moskéer"} i ${city}`}
 			meta={`${lanLabel} · ${pluralMoske(n)}`}
 			lead={lead}
@@ -301,11 +303,10 @@ if (oldest?.opened) {
 				title={`Bönetider i ${city} i dag`}
 			>
 				<PrayerField location={location} variant="full" fixed={true} caption={true} scheduleFirst={true} />
-				<p class="mk-stad-note">
+				<p class="mk-times-note">
 					Tiderna gäller när bönen går in, beräknat efter solens läge i {city}. Den
 					gemensamma bönen (jamāʿa) hålls oftast en stund senare – {n === 1 ? "moskén" : "varje moské"}
 					{" "}sätter sin egen iqāma-tid.
-					{" "}<SectionLink href={`/bonetider/${citySlug}/`}>Månadens alla bönetider i {city}</SectionLink>
 				</p>
 			</TitledSection>
 		)}
@@ -345,7 +346,6 @@ if (oldest?.opened) {
 
 <style>
 	.moskeer-stad {
-		margin-block: var(--space-phi);
 		overflow-x: clip;
 	}
 
@@ -353,6 +353,7 @@ if (oldest?.opened) {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.4rem 1.5rem;
+		margin-top: var(--space-group);
 	}
 
 	.mk-cross p {
@@ -364,6 +365,18 @@ if (oldest?.opened) {
 		color: var(--color-muted);
 		margin: 0;
 		max-width: 44rem;
+	}
+
+	/* The note to the table over it, as on a prayer-time page, and clear of it: set in the
+	   body's size it stood flush under the last row, with a link beside it to the same page
+	   as the first of the two ways on directly below. */
+	.mk-times-note {
+		font-size: var(--step--2);
+		line-height: 1.5;
+		color: var(--text-quiet);
+		margin: var(--space-group) 0 0;
+		max-width: var(--content-width);
+		text-wrap: pretty;
 	}
 
 	.mk-city-group {

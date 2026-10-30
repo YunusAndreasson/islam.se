@@ -109,14 +109,23 @@ const over = (c: Color, ground: RGB): RGB =>
 
 type Scheme = "light" | "dark";
 
-/** Every `--name: value;` in the file's :root blocks, raw. */
-function declarations(css: string): Map<string, string> {
+const withoutComments = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, "");
+
+/** The palette a reader gets who asks for more contrast, which overrides the ordinary one
+ *  only on that reader's screen. Measured on its own, at the end of this file. */
+const MORE_CONTRAST = /@media \(prefers-contrast: more\) \{[\s\S]*?\n\}\n/;
+
+function declared(css: string): Map<string, string> {
 	const out = new Map<string, string>();
-	const stripped = css.replace(/\/\*[\s\S]*?\*\//g, "");
-	for (const m of stripped.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) {
+	for (const m of css.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) {
 		if (m[1] && m[2]) out.set(m[1], m[2].trim());
 	}
 	return out;
+}
+
+/** Every `--name: value;` in the file's :root blocks, raw. */
+function declarations(css: string): Map<string, string> {
+	return declared(withoutComments(css).replace(MORE_CONTRAST, ""));
 }
 
 /** Split on commas that sit outside any parentheses. */
@@ -432,5 +441,35 @@ describe("literal mirrors of the light palette", () => {
 		expect(screen, "the moskéskärm's brass is the site's dark brass").toContain(
 			`initial-value: ${dhex("--color-brass")};`,
 		);
+	});
+});
+
+// ---------------------------------------------------------------------------
+// A reader who has asked for more contrast
+// ---------------------------------------------------------------------------
+
+describe.each(["light", "dark"] as const)("%s scheme — prefers-contrast: more", (scheme) => {
+	const block = withoutComments(tokensCss).match(MORE_CONTRAST)?.[0] ?? "";
+	const more = new Map([...decls, ...declared(block)]);
+	const bg = resolve("var(--color-bg)", scheme, more).rgb;
+	const on = (token: string) => over(resolve(`var(${token})`, scheme, more), bg);
+
+	// Nothing a reader is meant to read stays under AAA for the reader who asked for it, and
+	// a hairline is a line: WCAG 1.4.11's 3:1, which the ordinary rule (1.56:1) does not need
+	// to clear, because there it is texture.
+	it.each(["--color-text", "--text-body", "--text-quiet", "--text-meta", "--color-muted"])(
+		"%s clears 7:1",
+		(token) => {
+			const r = ratio(on(token), bg);
+			expect(
+				r,
+				`${token} measures ${fmt(r)}:1 for a reader who asked for more.`,
+			).toBeGreaterThanOrEqual(7);
+		},
+	);
+
+	it("draws the section rule at 3:1", () => {
+		const r = ratio(on("--color-rule"), bg);
+		expect(r, `--color-rule measures ${fmt(r)}:1.`).toBeGreaterThanOrEqual(3);
 	});
 });

@@ -138,6 +138,11 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 		letter-spacing: 0;
 	}
 
+	/* A block sets its own size, and 0.85em of it fell under the text floor (11.3px). */
+	.ai-prose :global(pre code) {
+		font-size: inherit;
+	}
+
 	.ai-prose :global(pre) {
 		background: var(--surface-1);
 		border: var(--border-row);
@@ -172,10 +177,8 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 	.server-url-label {
 		width: 100%;
 		font-family: var(--font-heading);
-		font-size: var(--step--4);
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
+		font-size: var(--step--3);
+		font-weight: 500;
 		color: var(--color-muted);
 	}
 

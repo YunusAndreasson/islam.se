@@ -1,3 +1,4 @@
+import { HONORIFICS } from "../lib/honorific";
 import type { HastElement, HastNode, HastText } from "./hast";
 
 /**
@@ -43,20 +44,9 @@ const SKIP_TAGS = new Set(["code", "pre", "sup", "script", "style"]);
  *  insertion, not the walk. */
 const NO_INSERT_TAGS = new Set(["blockquote", "h1", "h2", "h3", "h4", "h5", "h6"]);
 
-const MEANING = {
-	saw: {
-		sv: "Guds frid och välsignelser vare över honom",
-		tip: "sallallahu alayhi wa sallam – Guds frid och välsignelser vare över honom",
-	},
-	swt: {
-		sv: "upphöjd är Hans majestät",
-		tip: "jalla jalaluhu – upphöjd är Hans majestät",
-	},
-} as const;
-
 function honorificNode(glyph: string): HastElement {
 	const code = glyph === SWT ? "swt" : "saw";
-	const meaning = MEANING[code];
+	const meaning = HONORIFICS[code];
 	return {
 		type: "element",
 		tagName: "span",

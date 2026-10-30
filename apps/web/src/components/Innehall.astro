@@ -141,6 +141,7 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 		const compact = matchMedia("(width <= 37.5rem)");
 		const sync = () => { disclosure.open = !compact.matches; disclosure.querySelector("summary")?.setAttribute("tabindex", compact.matches ? "0" : "-1"); };
 		sync();
+		disclosure.dataset.synced = "";
 		compact.addEventListener("change", sync, { signal });
 		disclosure.addEventListener("click", (event) => {
 			if (compact.matches && (event.target as Element).closest("a")) disclosure.open = false;
@@ -220,6 +221,18 @@ const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-la
 	});
 </script>
 <style>
+	/* A phone shows the list closed, and only a script can close it, after the first paint;
+	   the markup stays `open` so a reader without scripts has the list. Until the script has
+	   run, a phone with scripts already draws it closed: the list stood open over the essay's
+	   first lines and collapsed under the reader's eyes on a slow connection (layout shift
+	   0.02–0.04 on every essay, 2026-10-30). `data-js` is stamped before paint (Base.astro). */
+	@media (width <= 37.5rem) {
+		:global(:root[data-js]) .contents-disclosure:not([data-synced]) > ol { display: none; }
+		/* A closed fold keeps a margin under its summary apart and an open one collapses it into
+		   the nav's, 12px between the two states. The list carries its own margin when open. */
+		.innehall .label { margin: 0; }
+	}
+
 	/* The marker is the site's disclosure chevron (layout.css), at the row's far edge. */
 	.contents-disclosure summary { min-height: var(--tap-target); display: flex; align-items: center; justify-content: space-between; }
 	.contents-disclosure ol { margin-top: var(--space-control); }
