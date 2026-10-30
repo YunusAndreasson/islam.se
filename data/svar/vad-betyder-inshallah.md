@@ -3,6 +3,7 @@ title: "Vad betyder inshallah? Innebörd och rätt bruk"
 question: "Vad betyder inshallah?"
 description: "Inshallah betyder ”om Gud vill” och bygger på Koranen 18:23–24. Men vad hände när profeten Salomo glömde orden, och varför binder inte en ed som slutar med dem?"
 publishedAt: "2026-09-24T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad betyder inshallah"
   - "inshallah betydelse"
@@ -50,6 +51,7 @@ sources:
   - name: "The Washington Post – Biden säger ”inshallah” i debatten om Trumps deklarationer (2020)"
     url: "https://web.archive.org/web/20250819141642/https://www.washingtonpost.com/nation/2020/09/30/inshallah-biden-debate-trump-taxes/"
 related:
+  - "vad-betyder-mashallah"
   - "vad-ar-odet-qadar"
   - "vad-betyder-alhamdulillah"
   - "vad-ar-tawhid"

@@ -3,6 +3,7 @@ title: "Vad var hijra? Utvandringen till Medina"
 question: "Vad var hijra, utvandringen till Medina?"
 description: "År 622 lämnade profeten Muhammed Mecka i hemlighet undan en mordkomplott. Uppbrottet blev år 1 i islams kalender och grundade det första muslimska samhället."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "vad var hijra"
   - "hijra utvandringen till Medina"

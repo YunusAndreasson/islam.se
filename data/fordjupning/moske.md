@@ -5,6 +5,7 @@ description: "Islams källor ställer nästan inga krav på en moskébyggnad; he
 seoDescription: "Vad en moské är enligt Koranen och rättsskolorna, minaretens historia, och vad svensk lag säger om böneutrop, bygglov och moskéns ställning."
 blurb: "Lermuren i Medina, källarlokalen i Rosengård och de tre böneutropstillstånden"
 publishedAt: "2026-08-15T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "vad är en moské"
   - "moské betydelse ordet masjid"

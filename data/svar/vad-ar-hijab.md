@@ -3,7 +3,7 @@ title: "Vad är hijab? Om slöjan i islam"
 question: "Vad är hijab och vad säger islam om slöjan?"
 description: "Koranen har tre ord där svenskan har ett: hijab betyder förhänge, khimar är huvudduken och jilbab den täckande ytterdräkten. Vad påbudet omfattar, och var niqab och burka hör hemma."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-09-24T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad är hijab"
   - "hijab islam"
@@ -61,7 +61,7 @@ related:
 
 ## Vad betyder ordet hijab?
 
-Ordet *hijāb* betyder på arabiska "förhänge", "skärm" eller "barriär", inte "huvudduk". I Koranen används det just så: när följeslagarna skulle be profetens hustrur om något skulle de göra det "från andra sidan av ett förhänge" (Koranen 33:53). Plagget som täcker håret kallas i stället *khimār* (24:31), och den vida ytterdräkten *jilbāb* (33:59). I svenskt och muslimskt språkbruk har "hijab" kommit att beteckna hela den anständiga kvinnoklädseln, oftast själva huvudduken, något helt annat än *niqāb* (ansiktsslöja) och *burka*. Blandar man ihop orden är det lätt att missförstå vad påbudet gäller.
+Ordet *hijāb* betyder på arabiska "förhänge", "skärm" eller "barriär", inte "huvudduk". I Koranen används det just så: när följeslagarna skulle be profetens hustrur om något skulle de göra det "från andra sidan av ett förhänge" (Koranen 33:53). Plagget som täcker håret kallas i stället *khimār* (24:31), och den vida ytterdräkten *jilbāb* (33:59). I svenskt och muslimskt språkbruk har "[hijab](/fordjupning/hijab/)" kommit att beteckna hela den anständiga kvinnoklädseln, oftast själva huvudduken, något helt annat än *niqāb* (ansiktsslöja) och *burka*. Blandar man ihop orden är det lätt att missförstå vad påbudet gäller.
 
 ## Vad säger Koranen om slöjan?
 

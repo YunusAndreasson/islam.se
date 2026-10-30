@@ -3,7 +3,7 @@ title: "Vad är Kaba? Vem byggde den och vad finns inuti?"
 question: "Vad är Kaba och varför är den viktig för muslimer?"
 description: "Ett kubformat gudshus mitt i Mecka som varje bön på jorden riktas mot. Vem som reste det, vad som finns bakom dörren – och varför muslimer ändå inte dyrkar det."
 publishedAt: "2026-06-19T00:00:00Z"
-updatedAt: "2026-09-24T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "vad är kaba"
   - "vem byggde kaba"
@@ -52,7 +52,7 @@ related:
 
 ## Varför är Kaba helig?
 
-Koranen ger Kaba en ställning som ingen annan byggnad har: den var det första hus som restes på jorden för dyrkan av Gud.
+Koranen ger [Kaba](/fordjupning/kaba/) en ställning som ingen annan byggnad har: den var det första hus som restes på jorden för dyrkan av Gud.
 
 > Det första tempel som restes för människornas bruk var helt visst Helgedomen i Bakkah, en välsignelse och en ledstjärna för hela världen.
 > — Koranen 3:96

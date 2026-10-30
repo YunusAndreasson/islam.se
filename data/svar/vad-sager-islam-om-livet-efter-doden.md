@@ -3,6 +3,7 @@ title: "Vad säger islam om livet efter döden?"
 question: "Vad säger islam om livet efter döden?"
 description: "Döden är ingen återvändsgränd utan en gräns: själen i barzakh, förhöret i graven, uppståndelsen och vågen där varje senapskorns vikt vägs inför Allah."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "livet efter döden islam"
   - "vad händer efter döden islam"

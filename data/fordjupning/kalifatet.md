@@ -5,6 +5,7 @@ description: "Traditionen själv låter kalifatet vara i trettio år, historien 
 seoDescription: "Kalifatet i Koranen, hadith och klassisk rätt, från Saqifa 632 till avskaffandet 1924 och vidare till svensk terrorlagstiftning."
 blurb: "Saqifa, imamatsläran, 1924 och trohetseden som en svensk hovrätt prövade"
 publishedAt: "2026-08-18T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "vad är kalifatet"
   - "kalifat betydelse islam"
@@ -117,7 +118,7 @@ essays:
 
 Tvisten om kalifatet gäller sällan den definitionen. Den uppstår därför att fyra skilda saker bär samma namn. Det finns ett koranskt ord, *khalīfa*, som klassisk exegetik i första hand läser som en beteckning för människan på jorden, inte för ett statsskick. Sedan finns de trettio år efter Profetens död som traditionen själv skiljer ut från allt som följde. Vidare finns en juridisk imamatslära som al-Māwardī, al-Qurtubī, Ibn Kathīr och Ibn Khaldūn utvecklade fyra till åtta sekler senare. Och det finns 1900- och 2000-talets kalifatprogram, från Hizb ut-Tahrir 1953 till Islamiska statens utropande 2014.
 
-Framställningen nedan följer de fyra rättsskolornas lära: hanafiter, malikiter, shafiiter och hanbaliter. Inom shia, i den riktning som räknar tolv imamer, hör imamatet i stället till trosläran, *usūl al-dīn*, och imamerna anses gudomligt utpekade. Ahl as-sunna avvisar den utgångspunkten. Imamatet är enligt de klassiska juristerna en rättsfråga och ingen trossats, och kravet på gudomligt utpekade och ofelbara imamer har inget stöd i Koranen eller sunnan. Ibn Kathīr avvisar det uttryckligen när han räknar upp imamens villkor.
+Framställningen nedan följer de fyra rättsskolornas lära: hanafiter, malikiter, shafiiter och hanbaliter. Inom [shia](/fordjupning/sunni-och-shia/), i den riktning som räknar tolv imamer, hör imamatet i stället till trosläran, *usūl al-dīn*, och imamerna anses gudomligt utpekade. Ahl as-sunna avvisar den utgångspunkten. Imamatet är enligt de klassiska juristerna en rättsfråga och ingen trossats, och kravet på gudomligt utpekade och ofelbara imamer har inget stöd i Koranen eller sunnan. Ibn Kathīr avvisar det uttryckligen när han räknar upp imamens villkor.
 
 Kärnan i den klassiska rättsläran är att plikten att tillsätta en imam grundas på *ijmāʿ*, samfundets konsensus om en historisk handling, och inte på en entydig vers. Samma jurister var samtidigt oense om nästan varje detalj. I Sverige har frågan sedan 2023 dessutom fått en straffrättslig sida.
 
@@ -149,7 +150,7 @@ Hadithmaterialet är minst lika viktigt, och det ger en annan bild än verserna.
 
 ## Rättslärda om vem som kan bli kalif och hur han utses
 
-Den klassiska rättsläran om ämbetet formulerades först på allvar av bagdadjuristen al-Māwardī (d. 1058) i *al-Ahkām al-sultāniyya*. Hans utgångspunkt är att imamatet är en kollektiv plikt, *fard kifāya*, av samma slag som jihad och sökandet efter kunskap: fullgörs den av någon som är behörig faller den från de övriga, som vid begravningsbönen, där de som ber över den döde fullgör den för alla andra.[^11]
+Den klassiska rättsläran om ämbetet formulerades först på allvar av bagdadjuristen al-Māwardī (d. 1058) i *al-Ahkām al-sultāniyya*. Hans utgångspunkt är att imamatet är en kollektiv plikt, *fard kifāya*, av samma slag som [jihad](/fordjupning/jihad/) och sökandet efter kunskap: fullgörs den av någon som är behörig faller den från de övriga, som vid begravningsbönen, där de som ber över den döde fullgör den för alla andra.[^11]
 
 Han delar samfundet i *ahl al-ikhtiyār*, de som väljer, och *ahl al-imāma*, de valbara.[^11] Sedan redovisar han oenigheten om hur många som krävs för att en trohetsed skall vara giltig. Basraskolan svarar fem, i analogi med dem som först svor Abū Bakr trohet och med ʿUmars rådsförsamling av sex. Kufalärda svarar tre, en som förrättar och två vittnen, precis som vid ett äktenskapskontrakt. För en tredje grupp räcker det med en enda.[^12]
 

@@ -3,6 +3,7 @@ title: "Vad är tawhid? Guds enhet, namn och egenskaper"
 question: "Vad är tawhid och vilka är Guds namn och egenskaper?"
 description: "Tawhid är tron på Guds absoluta enhet. Men varför delar klassiska lärda in den i tre slag, och hur kan Gud ha namn och egenskaper utan att likna något skapat?"
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad är tawhid"
   - "Guds namn och egenskaper"

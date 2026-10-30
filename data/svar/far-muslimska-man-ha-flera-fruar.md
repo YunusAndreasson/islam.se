@@ -3,6 +3,7 @@ title: "Får muslimska män ha flera fruar? Så säger islam"
 question: "Får muslimska män ha flera fruar?"
 description: "Islam tillåter en man upp till fyra fruar – men bara på ett villkor som de flesta glömmer, och det avgör om äktenskapet är tillåtet eller en synd inför Gud."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "får muslimer ha flera fruar"
   - "polygami islam"
@@ -62,7 +63,7 @@ Rättvisan (*ʿadl*) gäller det som en man faktiskt kan styra över: försörjn
 > Den som har två hustrur och låter sin böjelse helt dra honom mot den ena, han kommer på Uppståndelsens dag med sin ena sida hängande.
 > — Sunan Abi Dawud 2133 (autentisk)
 
-Känslorna är ett annat kapitel. Koranen medger öppet att kärleken inte går att fördela exakt lika:
+Känslorna är ett annat kapitel. [Koranen](/fordjupning/koranen/) medger öppet att kärleken inte går att fördela exakt lika:
 
 > Det är inte möjligt för er att ge era hustrur lika behandling i allt, hur uppriktigt ni än önskar det
 > — Koranen 4:129 (Bernström)
@@ -71,7 +72,7 @@ Versen förbjuder inte flergifte, men kräver att den inre dragningen aldrig tar
 
 ## Varför tillåter islam månggifte?
 
-Skälet är socialt snarare än sexuellt. Vers 4:3 uppenbarades i ett samhälle där krig hade lämnat änkor och faderlösa utan försörjare, och flergiftet gav dem ett hem och ett rättsligt skydd i stället för utanförskap. Klassiska lärda åberopar samma skäl när kvinnorna är fler än männen, när en hustru är långvarigt sjuk eller när ett äktenskap förblir barnlöst – situationer där en andra hustru kan vara en bättre lösning än skilsmässa eller otrohet. Islam reglerar och begränsar något som mänskligheten praktiserat långt före uppenbarelsen, i stället för att lämna det åt godtycket.
+Skälet är socialt snarare än sexuellt. Vers 4:3 uppenbarades i ett samhälle där krig hade lämnat änkor och faderlösa utan försörjare, och flergiftet gav dem ett hem och ett rättsligt skydd i stället för utanförskap. Klassiska lärda åberopar samma skäl när kvinnorna är fler än männen, när en hustru är långvarigt sjuk eller när ett äktenskap förblir barnlöst – situationer där en andra hustru kan vara en bättre lösning än [skilsmässa](/fordjupning/skilsmassa/) eller otrohet. Islam reglerar och begränsar något som mänskligheten praktiserat långt före uppenbarelsen, i stället för att lämna det åt godtycket.
 
 ## Får en kvinna ha flera män?
 

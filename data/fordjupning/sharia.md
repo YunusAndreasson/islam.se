@@ -5,6 +5,7 @@ description: "Guds uppenbarade väg, juristernas oeniga uttolkning av den, och e
 seoDescription: "Sharia betyder vägen till vattenkällan. Här reds ordets tre betydelser ut, med källtexterna, rättsskolornas oenighet och svensk rättspraxis."
 blurb: "Ordets tre betydelser, rättsskolornas oenighet och de fyra spärrarna i svensk rätt"
 publishedAt: "2026-09-05T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "sharia"
   - "sharialagar"

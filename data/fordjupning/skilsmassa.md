@@ -5,6 +5,7 @@ description: "Koranen reglerar upplösningen av ett äktenskap mer utförligt ä
 seoDescription: "Talaq, khul och faskh förklarade: vad Koranen föreskriver, var de fyra rättsskolorna skiljer sig, och varför svensk rätt skapar haltande äktenskap."
 blurb: "Talaq, khul, väntetiden idda och de haltande äktenskapen i Sverige"
 publishedAt: "2026-09-03T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "skilsmässa i islam"
   - "talaq betydelse"

@@ -5,6 +5,7 @@ description: "Koranen mäter fastedygnet med ögat: man äter och dricker tills 
 seoDescription: "Vad Koranen och hadith säger om ramadan, hur rättsskolorna skiljer sig, och hur svenska moskéer, domstolar och vård hanterar fastan."
 blurb: "Vad som händer med en fasta mätt i gryningar när gryningen uteblir"
 publishedAt: "2026-07-31T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "ramadan"
   - "fasta islam"

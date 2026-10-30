@@ -3,6 +3,7 @@ title: "Vad säger islam om månggudadyrkan (shirk)?"
 question: "Vad säger islam om månggudadyrkan?"
 description: "Månggudadyrkan kallas shirk och är islams enda oförlåtliga synd – men bara för den som dör utan ånger. Så ser tawhīd på hinduismens gudar och treenigheten."
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "månggudadyrkan islam"
   - "vad är shirk"

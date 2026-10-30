@@ -3,7 +3,7 @@ title: "Vad säger islam om deism och sekularism?"
 question: "Vad säger islam om deism och sekularism?"
 description: "Deismen behåller en avlägsen skapare och förkastar uppenbarelsen; sekularismen medger Gud men förvisar honom ur lag och politik. Båda gör förnuftet till högsta domare, och där går islams gräns."
 publishedAt: "2026-06-23T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "deism islam"
   - "sekularism islam"

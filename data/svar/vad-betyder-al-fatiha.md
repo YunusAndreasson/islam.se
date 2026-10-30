@@ -3,6 +3,7 @@ title: "Vad betyder al-Fatiha? Koranens första sura"
 question: "Vad betyder al-Fatiha, Koranens första sura?"
 description: "Al-Fatiha öppnar Koranen med sju verser – men varför kallas den \"Koranens moder\" och varför är bönen ogiltig utan den? Här förklaras innebörd, text och hadith."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "vad betyder al-fatiha"
   - "al-fatiha betydelse"
@@ -43,6 +44,7 @@ related:
   - "vad-ar-koranen"
   - "sa-ber-man-steg-for-steg"
   - "vad-betyder-alhamdulillah"
+  - "vad-betyder-bismillah"
 ---
 
 **Al-Fatiha är Koranens första sura och betyder "Öppningen" – en bön i sju verser om *tawhīd*, Guds enhet, och om vägledning till den raka vägen.** Namnet kommer av det arabiska *fataha*, "att öppna", och suran öppnar både skriften och varje bön en muslim ber. Ingen annan text i islam reciteras lika ofta – varje muslim läser den minst sjutton gånger om dygnet.

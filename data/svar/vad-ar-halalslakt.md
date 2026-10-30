@@ -3,7 +3,7 @@ title: "Vad är halalslakt? Så går slakten till"
 question: "Vad är halalslakt och hur går den till?"
 description: "Halalslakt är den islamiska slaktmetoden: ett snitt över halsen medan Guds namn uttalas. I Sverige är den laglig bara med bedövning – obedövad slakt är förbjuden."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-24T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad är halalslakt"
   - "hur går halalslakt till"
@@ -35,16 +35,17 @@ sources:
   - name: "Jordbruksverket – Religiös slakt"
     url: "https://jordbruksverket.se/djur/djurtransportorer-och-slakterier/religios-slakt"
 related:
+  - "vad-betyder-halal"
   - "varfor-ater-muslimer-inte-griskott"
   - "far-muslimer-dricka-alkohol"
   - "eid-al-fitr-och-eid-al-adha"
 ---
 
-**Halalslakt (arabiska *dhabīha*) är den islamiska metoden att slakta tillåtna landdjur och fåglar genom ett snabbt, djupt snitt över halsen medan Guds namn uttalas, så att blodet får rinna ut helt.** Ordet *halal* betyder helt enkelt "tillåtet", och det är slakten som avgör om köttet är tillåtet för en muslim eller haram, förbjudet.
+**Halalslakt (arabiska *dhabīha*) är den islamiska metoden att slakta tillåtna landdjur och fåglar genom ett snabbt, djupt snitt över halsen medan Guds namn uttalas, så att blodet får rinna ut helt.** Ordet [*halal*](/svar/vad-betyder-halal/) betyder helt enkelt "tillåtet", och det är slakten som avgör om köttet är tillåtet för en muslim eller haram, förbjudet.
 
 ## Vad betyder halal och haram när det gäller kött?
 
-*Halal* är det Gud har förklarat tillåtet, *haram* det han har förbjudit. För kött drar Koranen gränsen i fyra parallella verser (2:173, 5:3, 6:145 och 16:115). I al-Māʾida heter det:
+[*Halal*](/fordjupning/halal/) är det Gud har förklarat tillåtet, *haram* det han har förbjudit. För kött drar [Koranen](/fordjupning/koranen/) gränsen i fyra parallella verser (2:173, 5:3, 6:145 och 16:115). I al-Māʾida heter det:
 
 > FÖRBJUDET för er är kött av självdöda djur och blod och svinkött och sådant [kött] som har slaktats i ett annat namn än Guds.
 >
@@ -62,7 +63,7 @@ Slaktaren använder en mycket vass kniv och lägger ett enda snabbt snitt tvärs
 
 ## Måste slaktaren säga "Bismillah"?
 
-Ja. Vid snittet uttalas *tasmiya* över varje enskilt djur: "Bismillah", i Guds namn, gärna följt av "Allāhu akbar". Grunden är versen: "ät inte av det som Guds namn inte har uttalats över" (Koranen 6:121). De klassiska skolorna skiljer sig åt: shafiiterna ser det som rekommenderat, medan hanafiter, malikiter och hanbaliter gör det till ett villkor. Enligt deras mest kända hållning gör ett medvetet utelämnande köttet haram, medan den som bara glömmer är ursäktad (Muhammad Sālih al-Munajjid). Ibn Taymiyya höll en strängare hållning för den starkaste: Guds namn måste uttalas utan undantag, också av den som glömmer (*Majmūʿ al-fatāwā* 35:239). Bakom regeln ligger *tawhīd*, Guds enhet: slaktarens "Bismillah" är en bekännelse att livet togs med Skaparens tillstånd och inte efter människans godtycke.
+Ja. Vid snittet uttalas *tasmiya* över varje enskilt djur: "[Bismillah](/svar/vad-betyder-bismillah/)", i Guds namn, gärna följt av "Allāhu akbar". Grunden är versen: "ät inte av det som Guds namn inte har uttalats över" (Koranen 6:121). De klassiska skolorna skiljer sig åt: shafiiterna ser det som rekommenderat, medan hanafiter, malikiter och hanbaliter gör det till ett villkor. Enligt deras mest kända hållning gör ett medvetet utelämnande köttet haram, medan den som bara glömmer är ursäktad (Muhammad Sālih al-Munajjid). Ibn Taymiyya höll en strängare hållning för den starkaste: Guds namn måste uttalas utan undantag, också av den som glömmer (*Majmūʿ al-fatāwā* 35:239). Bakom regeln ligger *tawhīd*, Guds enhet: slaktarens "Bismillah" är en bekännelse att livet togs med Skaparens tillstånd och inte efter människans godtycke.
 
 ## Vem får utföra halalslakt – och är annans kött halal?
 

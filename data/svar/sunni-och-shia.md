@@ -3,7 +3,7 @@ title: "Vad är skillnaden mellan sunni och shia?"
 question: "Vad är skillnaden mellan sunni och shia?"
 description: "Sunni och shia läser samma Koran och ber mot samma Kaba – ändå går en skiljelinje sedan år 632: vem hade rätt att leda muslimerna efter profeten, och vad blev tvisten sedan?"
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "skillnad sunni shia"
   - "sunni och shia"
@@ -43,7 +43,7 @@ related:
 
 ## Vad är sunni och shia?
 
-Sunnimuslimerna utgör det stora flertalet av världens muslimer. Namnet kommer av *ahl as-sunna wa'l-jamāʿa*, "efterföljelsens och samfundets folk", och syftar på den som följer Koranen och profetens *sunna* så som de tre första generationerna (*salaf*) förstod dem. Enligt Pew Research Center utgör sunnimuslimerna omkring 87–90 procent av världens muslimer, som i dag är runt två miljarder, medan shia utgör ungefär 10–13 procent. Shia kommer av *shīʿat ʿAlī*, "Alis parti", och har sin tyngdpunkt i Iran, Irak, Azerbajdzjan, Bahrain och Libanon. Den största inriktningen är tolvarna (*ithnā ʿashariyya*), som väntar på den dolde tolfte imamens återkomst. Enligt *ahl as-sunna* dog den elfte imamen, al-Hasan al-ʿAskarī, utan son, och läran om en dold imam saknar stöd i Koranen och sunnan.
+Sunnimuslimerna utgör det stora flertalet av världens muslimer. Namnet kommer av *ahl as-sunna wa'l-jamāʿa*, "efterföljelsens och samfundets folk", och syftar på den som följer Koranen och profetens *sunna* så som de tre första generationerna (*salaf*) förstod dem. Enligt Pew Research Center utgör sunnimuslimerna omkring 87–90 procent av världens muslimer, som i dag är runt två miljarder, medan [shia](/fordjupning/sunni-och-shia/) utgör ungefär 10–13 procent. Shia kommer av *shīʿat ʿAlī*, "Alis parti", och har sin tyngdpunkt i Iran, Irak, Azerbajdzjan, Bahrain och Libanon. Den största inriktningen är tolvarna (*ithnā ʿashariyya*), som väntar på den dolde tolfte imamens återkomst. Enligt *ahl as-sunna* dog den elfte imamen, al-Hasan al-ʿAskarī, utan son, och läran om en dold imam saknar stöd i Koranen och sunnan.
 
 ## Hur uppstod splittringen mellan sunni och shia?
 

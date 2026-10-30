@@ -3,6 +3,7 @@ title: "Vad var det muslimska Spanien (al-Andalus)?"
 question: "Vad var det muslimska Spanien (al-Andalus)?"
 description: "Al-Andalus var muslimskt Spanien i nära 800 år – från landstigningen 711 till Granadas fall 1492. Så reste sig kalifatet i Córdoba, och så gick allt förlorat."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "det muslimska Spanien"
   - "al-Andalus"
@@ -51,7 +52,7 @@ Erövringen inleddes år 711, då den berbiske befälhavaren *Tariq ibn Ziyad* f
 
 ## Vad var kalifatet i Córdoba?
 
-När umayyaderna störtades i Damaskus år 750 flydde prinsen *Abd al-Rahman I* västerut och grundade 756 ett självständigt emirat med Córdoba som huvudstad. År 929 tog hans ättling *Abd al-Rahman III* steget fullt ut och utropade sig till kalif. Córdoba blev därmed ett *kalifat*, jämbördigt med Bagdad och Kairo. Detta var guldåldern: staden växte till en av Europas folkrikaste, och kalifen *al-Hakam II* lät enligt uppgift samla ett bibliotek på hundratusentals band. Stora moskén, med sin skog av rödvita valvbågar, reser sig än i dag. Men år 1031 föll kalifatet sönder inifrån och delades i ett tjugotal rivaliserande småriken, *taifa*-kungadömen.
+När umayyaderna störtades i Damaskus år 750 flydde prinsen *Abd al-Rahman I* västerut och grundade 756 ett självständigt emirat med Córdoba som huvudstad. År 929 tog hans ättling *Abd al-Rahman III* steget fullt ut och utropade sig till kalif. Córdoba blev därmed ett [*kalifat*](/fordjupning/kalifatet/), jämbördigt med Bagdad och Kairo. Detta var guldåldern: staden växte till en av Europas folkrikaste, och kalifen *al-Hakam II* lät enligt uppgift samla ett bibliotek på hundratusentals band. Stora moskén, med sin skog av rödvita valvbågar, reser sig än i dag. Men år 1031 föll kalifatet sönder inifrån och delades i ett tjugotal rivaliserande småriken, *taifa*-kungadömen.
 
 ![En hästskoformad båge kring en ljus nisch, omgiven av guldmosaik med växtslingor och band av blå och guldfärgad skrift, i en vägg av snidad sten.](../../apps/web/src/assets/images/inline/cordoba-mihraben-al-hakam-ii.webp "Mihraben i stora moskén i Córdoba, byggd under kalifen al-Hakam II på 960-talet. April 2017.")
 

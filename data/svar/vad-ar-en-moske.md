@@ -3,7 +3,7 @@ title: "Vad är en moské? Böneplats och samlingspunkt"
 question: "Vad är en moské?"
 description: "En moské är muslimernas hus för bön – men ordet betyder »platsen för nedfall« och profeten sade att hela jorden är en moské. Vad gör då en byggnad helig?"
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "vad är en moské"
   - "moské betydelse"

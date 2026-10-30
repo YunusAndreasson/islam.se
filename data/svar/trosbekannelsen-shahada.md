@@ -3,7 +3,7 @@ title: "Vad är trosbekännelsen (shahada) i islam?"
 question: "Vad är trosbekännelsen (shahada) i islam?"
 description: "Shahada är islams första pelare: vittnesmålet att ingen gud finns utom Gud och att Muhammed är hans sändebud. Så lyder trosbekännelsen och så blir den giltig."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "trosbekännelsen islam"
   - "shahada"

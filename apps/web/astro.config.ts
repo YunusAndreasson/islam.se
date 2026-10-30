@@ -701,6 +701,20 @@ const customRedirects: [string, string][] = [
 	//    the brand query "islam.se" — the homepage 301 is already the right answer.
 ];
 
+	// === URLs islam.se never had, with impressions (2026-07-29 to 2026-10-26) ===
+	// Near-misses of real slugs. URL Inspection calls them unknown to Google while Search
+	// Console shows them at position 1 ("kadi", 167 impressions), so they look like links
+	// written by a generated answer rather than crawled. A reader who clicks one lands on
+	// a 404. Only those with 5+ impressions; the long tail is noise.
+	["/svar/vad-ar-o-kadi", "/svar/vad-ar-en-kadi/"],
+	["/svar/varfor-ater-muslimer-griskott", "/svar/varfor-ater-muslimer-inte-griskott/"],
+	["/svar/varfor-ater-muslimer-hon-griskott", "/svar/varfor-ater-muslimer-inte-griskott/"],
+	["/svar/varfor-ater-muslimer-inte-flaskkott", "/svar/varfor-ater-muslimer-inte-griskott/"],
+	["/svar/varfor-ater-muslimer-indikering", "/svar/varfor-ater-muslimer-inte-griskott/"],
+	["/svar/vadan-betyder-alhamdulillah", "/svar/vad-betyder-alhamdulillah/"],
+	["/svar/vad-betyder-alhamdulillah-inshallah-och-mashallah", "/svar/vad-betyder-alhamdulillah/"],
+	["/svar/vem-was-profeten-muhammed", "/svar/vem-var-profeten-muhammed/"],
+	["/svar/vad-betydelse-inshallah", "/svar/vad-betyder-inshallah/"],
 // Astro hashes the scripts it compiles, but not an `is:inline` one — it never touches those.
 // Base.astro has exactly one (the pre-paint theme stamp), so its hash is supplied here.
 // Derived from the source rather than pasted, because the compiler emits an inline body byte

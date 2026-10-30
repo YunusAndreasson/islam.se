@@ -161,8 +161,13 @@ const mosqueNoun = n === 1 ? "Moské" : "Moskéer";
 // Jönköping" query: the prayer page, Äng's former county-qualified title, and this
 // mosque page. Keep the useful times and the mosque+times long-tail coverage in the
 // description/body, but reserve the document-title head term for /bonetider/jonkoping/.
+// In the 90 days to 2026-10-26 the same swap showed in the four others: this page and
+// the prayer page traded the top spot for "bönetider {stad}". Uppsala stays out on
+// purpose: its mosque page holds "uppsala moské bönetider", the query it is meant to own.
+// Re-measure on clicks after 2026-12-11 before adding more.
+const BONETIDER_OWNS_TITLE = new Set(["jonkoping", "linkoping", "marsta", "halmstad", "alby"]);
 const pageTitle =
-	citySlug === "jonkoping"
+	BONETIDER_OWNS_TITLE.has(citySlug)
 		? `${mosqueNoun} i ${city} – adress, öppningsår och vägbeskrivning`
 		: `${mosqueNoun} i ${city} – bönetider, adress och vägbeskrivning`;
 const description = hasTimes

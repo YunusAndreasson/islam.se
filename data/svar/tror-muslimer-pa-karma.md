@@ -3,6 +3,7 @@ title: "Tror muslimer på karma? Så ser islam på gärningar"
 question: "Tror muslimer på karma?"
 description: "Nej. Islam känner varken en självgående morallag eller återfödelse. Varje gärning antecknas av änglarna, vägs på domedagen och döms av Gud själv – och ångerns dörr står öppen ända till slutet."
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "tror muslimer på karma"
   - "karma i islam"

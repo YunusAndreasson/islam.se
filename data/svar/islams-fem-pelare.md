@@ -3,7 +3,7 @@ title: "Vad är islams fem pelare? – arkan al-islam"
 question: "Vad är islams fem pelare?"
 description: "Islams fem pelare – shahada, bön, zakat, fasta och hajj – utgör arkan al-islam. Här är vad var och en kräver och varför trosbekännelsen räknas som den första."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "islams fem pelare"
   - "arkan al-islam"

@@ -3,7 +3,7 @@ title: "Vad var den islamiska guldåldern? 500 år av vetenskap"
 question: "Vad var den islamiska guldåldern?"
 description: "Mellan 750 och 1258 ledde muslimer världen i matematik, medicin och astronomi från Vishetens hus i Bagdad. Men vad var det egentligen som släckte guldåldern?"
 publishedAt: "2026-06-23T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "islamiska guldåldern"
   - "vad var den islamiska guldåldern"
@@ -56,7 +56,7 @@ essays:
 
 ## När inföll den islamiska guldåldern?
 
-Den islamiska guldåldern brukar räknas från mitten av 700-talet till mongolernas plundring av Bagdad år 1258, och sammanföll med abbasidernas storhetstid. Dynastin flyttade huvudstaden från Damaskus till det nygrundade Bagdad år 762, och under kaliferna Harun al-Rashid (786–809) och hans son al-Maʾmūn (813–833) växte staden till ett lärdomscentrum utan motstycke. Hur folkrik staden hann bli råder ingen enighet om: uppskattningarna för 800-talets Bagdad spänner från ett par hundra tusen invånare till långt över en miljon. Att den under abbasidernas höjdpunkt hörde till världens största städer, i klass med Chang'an i Kina, är däremot väl belagt. Men epoken var aldrig bunden till en enda stad. Lärdomen spreds i ett nät av städer från Cordoba i muslimska Spanien, *al-Andalus*, i väster till Samarkand och Buchara i öster, och blomstringen fortsatte långt efter att kalifatet börjat vittra sönder.
+Den islamiska guldåldern brukar räknas från mitten av 700-talet till mongolernas plundring av Bagdad år 1258, och sammanföll med abbasidernas storhetstid. Dynastin flyttade huvudstaden från Damaskus till det nygrundade Bagdad år 762, och under kaliferna Harun al-Rashid (786–809) och hans son al-Maʾmūn (813–833) växte staden till ett lärdomscentrum utan motstycke. Hur folkrik staden hann bli råder ingen enighet om: uppskattningarna för 800-talets Bagdad spänner från ett par hundra tusen invånare till långt över en miljon. Att den under abbasidernas höjdpunkt hörde till världens största städer, i klass med Chang'an i Kina, är däremot väl belagt. Men epoken var aldrig bunden till en enda stad. Lärdomen spreds i ett nät av städer från Cordoba i muslimska Spanien, *al-Andalus*, i väster till Samarkand och Buchara i öster, och blomstringen fortsatte långt efter att [kalifatet](/fordjupning/kalifatet/) börjat vittra sönder.
 
 ## Vad var Vishetens hus i Bagdad?
 

@@ -3,6 +3,7 @@ title: "Vad är Eid al-Fitr och Eid al-Adha?"
 question: "Vad är Eid al-Fitr och Eid al-Adha?"
 description: "Islam har två årliga högtider. Eid al-Fitr avslutar fastemånaden Ramadan, Eid al-Adha infaller mitt under vallfärden hajj. Var och en avslutar sin pelare, och innebörderna skiljer sig."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-10-30T00:00:00Z"
 keywords:
   - "eid al-fitr"
   - "eid al-adha"
@@ -43,7 +44,7 @@ related:
   - "vad-ar-zakat"
 ---
 
-**Eid al-Fitr och Eid al-Adha är islams enda två årliga högtider.** Eid al-Fitr (*fastebrytandets högtid*) firas första dagen i månaden Shawwal, när fastemånaden Ramadan är slut. Eid al-Adha (*offerhögtiden*) infaller den tionde dagen i Dhul-Hijjah, mitt under vallfärden hajj till Mecka. Båda inleds med en gemensam *eid-bön* och präglas av tacksamhet, gåvor och samvaro. Men de hör till var sin av islams pelare, fastan och vallfärden, och deras innebörd skiljer sig.
+**Eid al-Fitr och Eid al-Adha är islams enda två årliga högtider.** På bosniska och turkiska heter de *bajram*. Eid al-Fitr (*fastebrytandets högtid*) firas första dagen i månaden Shawwal, när fastemånaden Ramadan är slut. Eid al-Adha (*offerhögtiden*) infaller den tionde dagen i Dhul-Hijjah, mitt under vallfärden hajj till Mecka. Båda inleds med en gemensam *eid-bön* och präglas av tacksamhet, gåvor och samvaro. Men de hör till var sin av islams pelare, fastan och vallfärden, och deras innebörd skiljer sig. Datumen för de kommande åren finns i [det islamiska året](/det-islamiska-aret/).
 
 ## Vad är Eid al-Fitr?
 

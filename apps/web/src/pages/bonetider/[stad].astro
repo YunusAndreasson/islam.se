@@ -286,7 +286,23 @@ const faq = [
 			? `Kring midsommar går solen i ${place.name} inte ner alls (midnattssol), och då går Fajr och ʿIshāʾ inte att beräkna med den vanliga vinkelmetoden. I stället används regeln närmaste lämpliga plats (Aqrab al-Balad) så att tider ändå kan visas. ${place.name} ligger på ${lat1}° N.`
 			: `Vid sommarsolståndet sjunker solen i ${place.name} som mest ${depText}° under horisonten – mindre än de 18° som krävs för astronomisk natt. Natten blir därför aldrig riktigt mörk, så Fajr och ʿIshāʾ ligger nära varandra i juni och beräknas med regeln för höga latituder${highNorth ? " (närmaste lämpliga plats, Aqrab al-Balad)" : ""}.`,
 	},
+	// Same position, a fraction of the clicks: 90 days to 2026-10-26, "bönetider" took 1,65 %
+	// at position 6,4, "salat" 0,27 % (15 000 impressions), "vaktija" 0,20 % (7 400) and
+	// Somali "salaada" 0,65 % (3 100). The readers exist; none of their words were on the page.
+	{
+		q: `Är salat-tider och vaktija för ${place.name} samma sak som bönetider?`,
+		a: `Ja. Salat är det arabiska ordet för den rituella bönen, och vaktija är det bosniska ordet för bönetidtabellen. På somaliska heter det waqtiga salaada och på turkiska namaz vakitleri. Alla namnen avser samma fem böner, och tiderna för ${place.name} står på den här sidan.`,
+	},
 ];
+// 90 days to 2026-10-26: 825 impressions at position 9 for "när är fredagsbönen" and its
+// variants, 9 clicks. The readers want a clock time and the page only told them to ask the
+// mosque. Ẓuhr is the one number we can stand behind; the mosque's own hour we do not know.
+if (hasTimes) {
+	faq.push({
+		q: `När är fredagsbönen i ${place.name}?`,
+		a: `Fredagsbönen (jumuʿa) hålls i stället för Ẓuhr, och enligt de flesta lärda går dess tid in samtidigt med den. I dag går Ẓuhr in ${t.dhuhr} i ${place.name}. Klockslaget för själva bönen sätter varje moské själv, och många håller samma tid varje fredag. Vi publicerar inte enskilda moskéers tider, så fråga den moské du tänker besöka.`,
+	});
+}
 if (hasMosquePage) {
 	// A real question-shaped query ("moské i {stad}?"), answered in plain text so it
 	// also feeds the FAQPage JSON-LD (the visible <dd> escapes HTML, so no link here —

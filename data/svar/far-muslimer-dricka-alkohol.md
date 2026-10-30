@@ -3,6 +3,7 @@ title: "Varför dricker muslimer inte alkohol?"
 question: "Varför dricker muslimer inte alkohol?"
 description: "Koranen förbjöd rusdrycker i tre steg: först en varning, sedan förbud mot att be berusad, till sist budet att hålla sig borta. Det som skyddas är människans förnuft."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "varför dricker muslimer inte alkohol"
   - "är alkohol haram i islam"
@@ -45,7 +46,7 @@ related:
   - "vad-ar-sharia"
 ---
 
-**Muslimer dricker inte alkohol därför att Koranen uttryckligen förbjuder rusdrycker och kallar dem "Djävulens skamliga påfund" (Koranen 5:90), och profeten Muhammed slog fast att varje berusningsmedel är förbjudet (*harām*).** Det är ingen kostvana eller kulturell sed utan en religiös plikt, grundad på Koranen, profetens *sunna* och de lärdas samstämmighet (*ijmāʿ*). Avsikten bakom förbudet är att skydda människans förnuft – det som gör henne ansvarig inför Gud.
+**Muslimer dricker inte alkohol därför att Koranen uttryckligen förbjuder rusdrycker och kallar dem "Djävulens skamliga påfund" (Koranen 5:90), och profeten Muhammed slog fast att varje berusningsmedel är förbjudet ([*harām*](/svar/vad-betyder-halal/)).** Det är ingen kostvana eller kulturell sed utan en religiös plikt, grundad på Koranen, profetens *sunna* och de lärdas samstämmighet (*ijmāʿ*). Avsikten bakom förbudet är att skydda människans förnuft – det som gör henne ansvarig inför Gud.
 
 ## Vad säger Koranen om alkohol?
 
@@ -69,7 +70,7 @@ Förbudet gäller dessutom oavsett mängd. I en annan välkänd hadith fastslog 
 
 ## Varför är alkohol förbjudet – vad är den egentliga anledningen?
 
-De hälsoskador alkoholen orsakar är verkliga nog, men de är inte huvudskälet. De lärda räknar förnuftet (*ʿaql*) till de fem nödvändigheter (*darūriyyāt*) som hela sharia finns till för att bevara: tron, livet, förnuftet, släkten och egendomen. Indelningen formulerades av *al-Ghazālī* och senare av *ash-Shātibī*. Alkohol angriper just förnuftet, och Koranen pekar själv ut vart angreppet leder: Djävulen vill "med hjälp av rusdrycker och spel om pengar framkalla fiendskap och hat mellan er och få er att glömma Gud och plikten att förrätta bönen" (Koranen 5:91). Den värsta skadan är andlig: ett grumlat sinne glömmer sin Herre och lämnar bönen.
+De hälsoskador alkoholen orsakar är verkliga nog, men de är inte huvudskälet. De lärda räknar förnuftet (*ʿaql*) till de fem nödvändigheter (*darūriyyāt*) som hela [sharia](/fordjupning/sharia/) finns till för att bevara: tron, livet, förnuftet, släkten och egendomen. Indelningen formulerades av *al-Ghazālī* och senare av *ash-Shātibī*. Alkohol angriper just förnuftet, och Koranen pekar själv ut vart angreppet leder: Djävulen vill "med hjälp av rusdrycker och spel om pengar framkalla fiendskap och hat mellan er och få er att glömma Gud och plikten att förrätta bönen" (Koranen 5:91). Den värsta skadan är andlig: ett grumlat sinne glömmer sin Herre och lämnar bönen.
 
 ```chart
 type: bars

@@ -3,7 +3,7 @@ title: "Vad säger islam om ateism? Koranens svar"
 question: "Vad säger islam om ateism?"
 description: "Ateism räknas i islam som otro (kufr), men Koranen kallar gudstron medfödd. Vad säger fitra, dahriyya och de klassiska lärde om förnekandet av den ende Guden?"
 publishedAt: "2026-06-23T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad säger islam om ateism"
   - "ateism islam"

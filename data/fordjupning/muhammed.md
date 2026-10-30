@@ -5,6 +5,7 @@ description: "Sedan trosfridsbrottet upphörde att gälla 1971 saknar Sverige la
 seoDescription: "Vad källorna säger om Muhammed, hur de lärda avgränsat vad hos honom som binder, och hur svensk rätt har bedömt hans praxis."
 blurb: "Sunnans räckvidd, striden om mawlid och handskakningsdomen i Arbetsdomstolen"
 publishedAt: "2026-09-04T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "profeten muhammed"
   - "muhammed"

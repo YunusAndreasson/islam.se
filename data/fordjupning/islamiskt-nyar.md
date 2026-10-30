@@ -5,6 +5,7 @@ description: "Ingen text i Koranen eller haditherna n채mner en ny책rsdag. Tider�
 seoDescription: "1 muharram inleder hijra책ret. Om Umars kalenderbeslut, muharrams helgd, ashura och det islamiska ny책rets st채llning i svensk r채tt."
 blurb: "Umars kalenderbeslut, muharrams helgd och ashurafastan"
 publishedAt: "2026-09-02T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "islamiska ny책ret"
   - "1 muharram"

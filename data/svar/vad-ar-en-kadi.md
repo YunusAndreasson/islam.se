@@ -3,7 +3,7 @@ title: "Vad är en kadi? Domaren i islamisk rätt"
 question: "Vad är en kadi (islamisk domare)?"
 description: "En kadi avgör verkliga tvister, till skillnad från muftin som endast ger råd. Profeten Muhammed delade in domarna i tre slag – och två av dem hamnar i Elden."
 publishedAt: "2026-08-08T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad är en kadi"
   - "kadi islam"

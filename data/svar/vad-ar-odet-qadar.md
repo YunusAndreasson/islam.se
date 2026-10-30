@@ -3,7 +3,7 @@ title: "Vad är ödet (qadar)? Islams sjätte trosartikel"
 question: "Vad säger islam om ödet (qadar)?"
 description: "Qadar är Guds förutbestämmelse i fyra led: han har vetat, skrivit ner, velat och skapat allt som sker. Hur det går ihop med människans verkliga vilja, och var gränsen mot ren ödestro går."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "qadar"
   - "ödet i islam"
@@ -55,6 +55,7 @@ related:
   - "vad-ar-tawhid"
   - "trosbekannelsen-shahada"
   - "vad-ar-koranen"
+  - "vad-betyder-inshallah"
 essays:
   - "bergen-som-vagrade"
   - "vikingarna-hade-inte-angest"

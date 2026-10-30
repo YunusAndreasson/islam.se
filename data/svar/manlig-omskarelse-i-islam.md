@@ -3,7 +3,7 @@ title: "Vad säger islam om omskärelse av pojkar?"
 question: "Vad säger islam om omskärelse av pojkar?"
 description: "Är omskärelse av pojkar ett krav i islam eller en frivillig sed? De fyra rättsskolorna svarar olika – och skälet bottnar i fitra och renheten inför bönen."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "omskärelse islam"
   - "omskärelse av pojkar islam"

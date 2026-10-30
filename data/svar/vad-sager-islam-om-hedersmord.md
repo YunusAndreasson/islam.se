@@ -3,6 +3,7 @@ title: "Vad säger islam om hedersmord?"
 question: "Vad säger islam om hedersmord?"
 description: "Hedersmord saknar varje stöd i Koranen och sunna – islam kallar det grovt mord. Men varför pekas just religionen ut, och vem får egentligen utdöma straff?"
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "hedersmord islam"
   - "vad säger islam om hedersmord"

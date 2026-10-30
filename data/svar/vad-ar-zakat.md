@@ -3,7 +3,7 @@ title: "Vad är zakat? Islams obligatoriska allmosa"
 question: "Vad är zakat, den obligatoriska allmosan?"
 description: "Zakat är islams tredje pelare: en obligatorisk allmosa på 2,5 procent. Men plikten gäller först över gränsen nisāb – och bara åtta grupper får ta emot den."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "vad är zakat"
   - "zakat islam"

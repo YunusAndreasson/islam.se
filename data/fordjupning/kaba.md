@@ -5,6 +5,7 @@ description: "Den mest konkreta byggnaden i en religion som förbjuder att någo
 seoDescription: "Kaba är den kubformade byggnaden i Mecka som muslimer vänder sig mot i bön. Källorna, rättsskolornas oenighet, byggnadshistorien och den svenska kontexten."
 blurb: "Tretton meter lång, elva bred och riktmärket för varje bön på jorden"
 publishedAt: "2026-08-03T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "kaba"
   - "kaba mecka"

@@ -3,7 +3,7 @@ title: "Vad betyder jihad i islam? Strävan på Guds väg"
 question: "Vad betyder jihad i islam?"
 description: "Jihad betyder strävan på Guds väg: först mot det egna jaget, sedan med kunskap, ord och egendom, och först i sista hand med vapen – hårt reglerat och aldrig för att framtvinga tro. Ibn al-Qayyim räknar tretton grader."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad betyder jihad"
   - "jihad islam betydelse"
@@ -54,7 +54,7 @@ related:
 
 ## Vad betyder ordet jihad?
 
-Ordet *jihad* kommer från den arabiska roten *j-h-d*, som också ger *juhd*, möda och ansträngning. Att utföra jihad är att lägga ned all sin kraft på något som Gud älskar. Den fulla termen i Koranen är *jihad fi sabilillah*, "strävan på Guds väg", och den som utövar den kallas *mujahid*, "den som strävar", inte "den heliga krigaren" som ordet så ofta återges i nyhetsspråket. Koranen knyter strävan direkt till vägledning:
+Ordet [*jihad*](/fordjupning/jihad/) kommer från den arabiska roten *j-h-d*, som också ger *juhd*, möda och ansträngning. Att utföra jihad är att lägga ned all sin kraft på något som Gud älskar. Den fulla termen i Koranen är *jihad fi sabilillah*, "strävan på Guds väg", och den som utövar den kallas *mujahid*, "den som strävar", inte "den heliga krigaren" som ordet så ofta återges i nyhetsspråket. Koranen knyter strävan direkt till vägledning:
 
 > Men dem som strävar och kämpar för Vår sak skall Vi sannerligen leda på de vägar som för till Oss. Gud är alltid med dem som gör det goda och det rätta.
 > — Koranen 29:69

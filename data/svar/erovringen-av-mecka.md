@@ -3,6 +3,7 @@ title: "Vad hände vid erövringen av Mecka år 630?"
 question: "Vad hände vid erövringen av Mecka?"
 description: "År 630 marscherade Muhammed mot staden som drivit ut honom, med 10 000 man. Mecka föll nästan utan blodsutgjutelse – och Kaba rensades från 360 avgudabilder."
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "erövringen av Mecka"
   - "Fath Makka"

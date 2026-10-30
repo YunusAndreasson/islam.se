@@ -165,6 +165,37 @@ sources actually return. If you cannot verify a specific reference, leave it out
 - **Vary the rhythm** — don't open every paragraph with the same dash aside.
 - **FAQ questions must not duplicate your H2s** — they are the *next* questions, not the
   same ones restated.
+- **Body quotes are straight ASCII `"…"`.** The build curls them; typing ” in the body
+  fails `check-house-style.py` (`vad-betyder-bismillah`, 2026-10-29: 38 of them).
+- **Quote a hadith in the wording of the collection you cite.** Two collections often
+  carry one hadith in slightly different words; the formula you quote must be the one in
+  the number you give, or cite both (bismillah draft: Abū Dāwūd's wording under a
+  Tirmidhī number).
+- **Don't rewrite a sibling page's section.** If an existing page in the list already
+  answers a sub-question at length (the slaughter ruling lives on `vad-ar-halalslakt`),
+  give it ~80 words and link that page in the prose; spend the words on what only this
+  page can answer.
+- **A disputed practice gets its motive before its verdict.** State why people do it, at
+  full strength, then answer that motive. Report a real ikhtilāf as one, with a named
+  source for each side, and give the evidence from Qur'an and sunna the last word.
+- **A page about an Arabic formula shows it:** the Arabic script in parentheses after the
+  transliteration (house form, e.g. *hijra* (هجرة)), how it is pronounced, and why the
+  common Swedish spellings look the way they do.
+- **Don't let the head noun repeat.** "formeln" ran 16 times in 1 100 words; vary with the
+  term itself, its Arabic name and "orden".
+- **Wikipedia never carries a claim about doctrine or fiqh.** Halal draft: "enligt Wikipedia
+  oeniga"; the claim was uncited there too. Find the scholar or drop it.
+- **Say who sets a limit, and quote the last clause.** Mashallah draft credited IslamQA's
+  own limit to Ibn ʿAbd al-Barr; halal draft cut at-Tirmidhī's *gharīb* before the words
+  saying a narrator is unknown. A weak chain is reported as weak, or left out.
+- **What the searcher came for goes first.** Definition, everyday use and the practical
+  question before the Qur'an history and the fine points; a query like "halal kött" needs
+  a section named for it.
+- **No running jokes, and no sentence that exists only to close.** The hamburger came back
+  three times and "fåren läser inga gränsstenar" moved the moral onto the sheep. If the
+  section has made its point, stop.
+- **A scholar's list is not a scholar's ruling.** "Ibn Taymiyya lägger till rovdjur": the
+  ban is the Prophet's. Attribute to the source of the ruling, then to who comments on it.
 
 ## 5. Output format — EXACTLY this, nothing else
 

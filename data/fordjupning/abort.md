@@ -5,6 +5,7 @@ description: "Islamisk rätt har i tolv sekler bedömt fostret på en tidsaxel m
 seoDescription: "Vad Koranen, haditherna och de fyra rättsskolorna säger om abort, och hur det förhåller sig till abortlagen 1974:595 och gränsen vid vecka 18."
 blurb: "Den klassiska gränsen går vid dagen då själen blåses in, den svenska vid vecka 18"
 publishedAt: "2026-08-01T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "abort i islam"
   - "islam och abort"

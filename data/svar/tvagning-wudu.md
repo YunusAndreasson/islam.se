@@ -3,7 +3,7 @@ title: "Hur gör man wudu (tvagning) – och vad bryter den?"
 question: "Hur gör man tvagning (wudu) och vad bryter den?"
 description: "Tvagningen (wudu) före bönen följer en bestämd ordning – men vilka fyra moment är faktiskt obligatoriska, vad är det som bryter den, och varför nämns kamelkött?"
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "tvagning"
   - "wudu"
@@ -50,7 +50,7 @@ related:
 
 ## Hur gör man wudu steg för steg?
 
-Tvagningen följer en fast ordning. Man börjar med *avsikten* (*niyya*) i hjärtat och säger *bismillāh*. Därefter:
+Tvagningen följer en fast ordning. Man börjar med *avsikten* (*niyya*) i hjärtat och säger [*bismillāh*](/svar/vad-betyder-bismillah/). Därefter:
 
 1. tvätta händerna tre gånger,
 2. skölj munnen (*madmada*) och näsan (*istinshāq*) tre gånger,

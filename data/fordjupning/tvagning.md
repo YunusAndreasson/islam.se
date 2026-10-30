@@ -5,6 +5,7 @@ description: "Tvagningen är den mest detaljreglerade av islams vardagshandlinga
 seoDescription: "Wudu, ghusl och tayammum: vad Koranen och haditherna säger, hur rättsskolorna skiljer sig åt, och hur reglerna möter svensk rätt och svensk praxis."
 blurb: "Rituell renhet är något annat än hygien, och därför räcker handfatet på jobbet inte alltid"
 publishedAt: "2026-08-03T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "tvagning islam"
   - "wudu hur gör man"
@@ -147,7 +148,7 @@ Praktiskt avgörs saken oftare av byggregler än av rättighetsprövningar. Arbe
 
 Det nationella kunskapsstödet hjälper personalen bara till hälften. Vårdhandbokens avsnitt om religion och hälsa, godkänt 2022 och författat av professor Katarina Hjelm, nämner beröringsregeln med orden "I till exempel Islam får kvinnor inte beröras av män som inte tillhör familjen", och behandlar därtill ramadan och önskemål om vårdare av samma kön.[^35] Den tvagning som regeln hänger ihop med tas däremot inte upp, och inte heller bönen eller omhändertagandet av avlidna. Klädseln är sällan det som väcker frågor på en vårdavdelning. Oftast gäller frågan hur wudu ska gå till med gips, kateter eller sårförband, och svaret finns i reglerna om jabira och tayammum ovan.
 
-Vid livets slut möts systemen igen. Ghusl al-mayyit, tvagningen av den avlidne, utförs på bårhus eller i moskéns tvagningsrum, medan begravningslagen i 5 kap. 10 § ger en frist på en månad för gravsättning eller kremering, en tid som ligger långt från normen att begrava utan dröjsmål. Inom Kriminalvården, där tillgången till vatten och avskildhet är mest begränsad, sköts frågan av den andliga vården, som bedrivs i samverkan med trossamfunden och där imamer verkar vid sidan av präster, pastorer och diakoner. I moskébyggen är tvagningsrummet en självklar post i handlingarna jämte bönesal, skorum och toaletter, medan tvagningen i de många församlingslokaler som inryms i byggnader avsedda för något helt annat får ordnas med de ytor som råkar finnas.
+Vid livets slut möts systemen igen. Ghusl al-mayyit, [tvagningen av den avlidne](/fordjupning/muslimsk-begravning/), utförs på bårhus eller i moskéns tvagningsrum, medan begravningslagen i 5 kap. 10 § ger en frist på en månad för gravsättning eller kremering, en tid som ligger långt från normen att begrava utan dröjsmål. Inom Kriminalvården, där tillgången till vatten och avskildhet är mest begränsad, sköts frågan av den andliga vården, som bedrivs i samverkan med trossamfunden och där imamer verkar vid sidan av präster, pastorer och diakoner. I moskébyggen är tvagningsrummet en självklar post i handlingarna jämte bönesal, skorum och toaletter, medan tvagningen i de många församlingslokaler som inryms i byggnader avsedda för något helt annat får ordnas med de ytor som råkar finnas.
 
 ## Tvagning i nordisk idéhistoria: Ibn Fadlan vid Volga och Wallin i öknen
 

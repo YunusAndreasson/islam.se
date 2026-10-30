@@ -3,6 +3,7 @@ title: "Vad säger islam om kvinnlig omskärelse?"
 question: "Vad säger islam om kvinnlig omskärelse?"
 description: "Koranen nämner könsstympning inte med ett enda ord, och de skärande formerna är förbjudna. Förvirringen kommer av att klassisk fiqh diskuterade en symbolisk handling under samma namn."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "kvinnlig omskärelse islam"
   - "könsstympning islam"

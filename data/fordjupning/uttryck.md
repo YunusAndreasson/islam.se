@@ -5,6 +5,7 @@ description: "Formlerna som ramar in en muslims dygn är på samma gång gudstj�
 seoDescription: "Bismillah, alhamdulillah, inshallah, mashallah och wallah: betydelse, källorna i Koranen och hadith, rättsskolornas syn och bruket i Sverige."
 blurb: "Bismillah, inshallah och wallah: från edslära till förortsslang"
 publishedAt: "2026-08-15T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "vad betyder inshallah"
   - "vad betyder mashallah"
@@ -81,9 +82,11 @@ sources:
 related:
   - "vad-betyder-alhamdulillah"
   - "vad-betyder-inshallah"
+  - "vad-betyder-mashallah"
+  - "vad-betyder-bismillah"
+  - "islams-gudssyn"
   - "vad-betyder-al-fatiha"
   - "trosbekannelsen-shahada"
-  - "islams-gudssyn"
   - "vad-ar-tawhid"
   - "vad-ar-odet-qadar"
   - "sa-ber-man-steg-for-steg"
@@ -96,7 +99,7 @@ essays:
   - "sibawayhs-brytning"
 ---
 
-**Muslimska uttryck och fraser** är de stående arabiska formler som muslimer fogar in i tal och skrift: *bismillāh* innan en handling påbörjas, *al-hamdu lillāh* när den är avklarad, *in shāʾ Allāh* om det som ännu inte skett, *mā shāʾ Allāh* vid beröm, *subhān Allāh* vid förundran, *Allāhu akbar* i varje moment av den rituella bönen och *as-salāmu ʿalaykum* som hälsning. De flesta av dem har textstöd i Koranen eller i hadithsamlingarna, och de förekommer i sin arabiska originalform i praktiskt taget alla muslimska språkområden, från Marocko till Indonesien.
+**Muslimska uttryck och fraser** är de stående arabiska formler som muslimer fogar in i tal och skrift: [*bismillāh*](/svar/vad-betyder-bismillah/) innan en handling påbörjas, [*al-hamdu lillāh*](/svar/vad-betyder-alhamdulillah/) när den är avklarad, [*in shāʾ Allāh*](/svar/vad-betyder-inshallah/) om det som ännu inte skett, *mā shāʾ Allāh* vid beröm, *subhān Allāh* vid förundran, *Allāhu akbar* i varje moment av den rituella bönen och *as-salāmu ʿalaykum* som hälsning. De flesta av dem har textstöd i Koranen eller i hadithsamlingarna, och de förekommer i sin arabiska originalform i praktiskt taget alla muslimska språkområden, från Marocko till Indonesien.
 
 Formlerna är samtidigt tre olika saker. De är gudstjänst, eftersom klassisk teologi räknar dem till *dhikr*, den åminnelse av Gud som Koranen påbjuder. De är också rättshandlingar: *wallāhi*, "vid Gud", är i islamisk rätt en ed med bindande verkan och med föreskriven soning om den bryts. Slutligen fungerar de som social markör, och i svenska skolkorridorer används wallah och jalla av ungdomar utan någon anknytning till islam.
 
@@ -128,7 +131,7 @@ Om ederna är Koranen restriktiv:
 
 Nästa vers mildrar kravet: Gud straffar inte för obetänksamma eder, men ställer människan till svars för hennes innersta uppsåt.[^8] Sura al-Māʾida anger soningen för en bruten ed: mat eller kläder åt tio behövande, frigivning av en slav, eller tre dagars fasta för den som saknar medel.[^9]
 
-Mā shāʾ Allāh går tillbaka på liknelsen om de två trädgårdsägarna, där den ene tillrättavisas för att inte ha erkänt varifrån välståndet kom. Knut Bernström översätter frasen med "Ske Guds vilja!"[^10] Att fraserna byggs kring gudsnamnen har sitt stöd i sura al-Aʿrāf, som uppmanar de troende att anropa Gud med hans sköna namn och lämna dem som missbrukar namnen,[^11] och välsignelsen över Profeten är påbjuden i sura al-Ahzāb.[^12]
+[Mā shāʾ Allāh](/svar/vad-betyder-mashallah/) går tillbaka på liknelsen om de två trädgårdsägarna, där den ene tillrättavisas för att inte ha erkänt varifrån välståndet kom. Knut Bernström översätter frasen med "Ske Guds vilja!"[^10] Att fraserna byggs kring gudsnamnen har sitt stöd i sura al-Aʿrāf, som uppmanar de troende att anropa Gud med hans sköna namn och lämna dem som missbrukar namnen,[^11] och välsignelsen över Profeten är påbjuden i sura al-Ahzāb.[^12]
 
 Hadithkorpusen tillför två slags material. Det första är löften om belöning, som traditionen om de två orden som är lätta på tungan, tunga på vågen och älskade av den Nåderike: subhān Allāh wa-bi-hamdih och subhān Allāh al-ʿazīm.[^13] Det andra är instruktioner för vardagen. Till pojken ʿUmar ibn Abī Salama sade Profeten enligt al-Bukhārī att han skulle nämna Guds namn, äta med höger hand och äta av det som låg närmast honom.[^14] I det materialet hör basmalan hemma vid matbordet och vid dörren lika mycket som i bönetexten.
 

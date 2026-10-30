@@ -3,6 +3,7 @@ title: "Måste gravida fasta under ramadan?"
 question: "Måste gravida kvinnor fasta under ramadan?"
 description: "Gravida och ammande får avbryta fastan om de fruktar skada – men måste de fasta igen eller ge mat åt fattiga? Den klassiska regeln, och var de lärda är oense."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "gravid fasta ramadan"
   - "måste gravida fasta"

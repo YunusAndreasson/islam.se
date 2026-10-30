@@ -3,6 +3,7 @@ title: "Är vinäger halal i islam? Ja, med ett förbehåll"
 question: "Är vinäger halal i islam?"
 description: "Ren ättika är halal och profeten Muhammed prisade den – men vin som blir vinäger följer en egen regel. Så skiljer islam på tillåten och otillåten vinäger."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "är vinäger halal"
   - "vinäger islam"
@@ -64,4 +65,4 @@ Skillnaden gäller avsikten. Det är förbjudet för en muslim att äga vin och 
 
 ## Hur vet jag om vinäger i butiken är tillåten?
 
-I svenska butiker lönar det sig att skilja på två ord. *Ättika* är utspädd ättiksyra, ofta kallad spritvinäger, och har inget med vin att göra. Den är helt oproblematisk. *Vinäger* kan vara gjord på frukt (äppelcidervinäger) eller på vin (rödvinsvinäger, vitvinsvinäger, balsamvinäger). Även vinbaserad vinäger räknar de flesta lärda som tillåten, eftersom förvandlingen till ättika redan är fullbordad när produkten når hyllan. Samtida lärda har uttryckligen tillåtit importerad vinäger från icke-muslimer av just det skälet. Spår av alkohol som kan finnas kvar efter jäsningen är försumbara och berusar inte. Vill man vara extra försiktig väljer man äppelcider- eller spritvinäger, men vinägern på salladen är halal oavsett.
+I svenska butiker lönar det sig att skilja på två ord. *Ättika* är utspädd ättiksyra, ofta kallad spritvinäger, och har inget med vin att göra. Den är helt oproblematisk. *Vinäger* kan vara gjord på frukt (äppelcidervinäger) eller på vin (rödvinsvinäger, vitvinsvinäger, balsamvinäger). Även vinbaserad vinäger räknar de flesta lärda som tillåten, eftersom förvandlingen till ättika redan är fullbordad när produkten når hyllan. Samtida lärda har uttryckligen tillåtit importerad vinäger från icke-muslimer av just det skälet. Spår av alkohol som kan finnas kvar efter jäsningen är försumbara och berusar inte. Vill man vara extra försiktig väljer man äppelcider- eller spritvinäger, men vinägern på salladen är [halal](/fordjupning/halal/) oavsett.

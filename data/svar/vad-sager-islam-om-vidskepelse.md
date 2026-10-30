@@ -3,7 +3,7 @@ title: "Vad säger islam om vidskepelse och det onda ögat?"
 question: "Vad säger islam om vidskepelse, amuletter och det onda ögat?"
 description: "Att tro på onda omen och bära amuletter är shirk i islam, men det onda ögat är verkligt. Så lär profetens sunna oss skilja vidskepelse från verkligt skydd."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-10-30T00:00:00Z"
 keywords:
   - "vidskepelse islam"
   - "amuletter islam"
@@ -85,7 +85,7 @@ Det islamiska skyddet mot det onda ögat består av recitation och åkallan. Pro
 > och mot det onda i avunden från den som avundas."  
 > — Koranen 113:1–5
 
-Detta är *ruqya*: tillåten recitation av Koranen och åkallan, så länge orden är begripliga och den troende vet att verkan kommer från Gud, inte från orden i sig. Med samma vapen mötte profeten även magi och jinn, som islam erkänner som verkliga men maktlösa inför Guds ord. Han anförtrodde sina dottersöner al-Hasan och al-Husayn åt "Guds fullkomliga ord, mot varje djävul och varje skadedjur och mot varje ont öga" (Sahīh al-Bukhārī 3371). Den som vållat skadan kan dessutom ombedas tvätta sig, varpå vattnet hälls över den drabbade.
+Detta är *ruqya*: tillåten recitation av Koranen och åkallan, så länge orden är begripliga och den troende vet att verkan kommer från Gud, inte från orden i sig. Med samma vapen mötte profeten även magi och jinn, som islam erkänner som verkliga men maktlösa inför Guds ord. Han anförtrodde sina dottersöner al-Hasan och al-Husayn åt "Guds fullkomliga ord, mot varje djävul och varje skadedjur och mot varje ont öga" (Sahīh al-Bukhārī 3371). Den som vållat skadan kan dessutom ombedas tvätta sig, varpå vattnet hälls över den drabbade. Den som beundrar något ber dessutom om välsignelse, och Ibn al-Qayyim räknar också orden [mashallah](/svar/vad-betyder-mashallah/) till det som avvärjer skadan.
 
 ## Varför är vidskepelse och amuletter *shirk*?
 

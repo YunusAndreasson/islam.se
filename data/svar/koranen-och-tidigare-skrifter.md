@@ -3,7 +3,7 @@ title: "Hur skiljer sig Koranen från Bibeln och Toran?"
 question: "Hur skiljer sig Koranen från Bibeln och Toran?"
 description: "Islam räknar Toran och Evangeliet som äkta uppenbarelser i sitt ursprung – ändå litar muslimer bara på Koranen. Varför anses de äldre skrifterna förvanskade?"
 publishedAt: "2026-06-23T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "hur skiljer sig Koranen från Bibeln"
   - "Koranen och Toran"

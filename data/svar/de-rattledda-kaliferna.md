@@ -3,6 +3,7 @@ title: "Vilka var de fyra rättledda kaliferna?"
 question: "Vilka var de fyra rättledda kaliferna?"
 description: "Abu Bakr, Umar, Uthman och Ali styrde islam efter profeten Muhammed – tre av fyra mördades. Vad gjorde just dem »rättledda«, och varför tvistar sunni och shia?"
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "de fyra rättledda kaliferna"
   - "al-khulafa ar-rashidun"
@@ -52,7 +53,7 @@ Ordet *kalif* kommer av arabiskans *khalīfa*, "efterträdare" eller "ställför
 > Gud har lovat dem bland er som tror och lever rättskaffens att Han skall göra dem till ställföreträdare på jorden – liksom Han gjorde dem till Sina ställföreträdare som levde före dem – och ge fasthet och styrka åt den religion som Han har godkänt för dem, och att Han i stället för den fruktan som de förut levde under skall skänka dem trygghet – [på villkor att] de ägnar Mig sin dyrkan och inte sätter något vid Min sida.
 > — Koranen 24:55
 
-Löftet är villkorat: makten tillfaller dem som dyrkar Gud allena utan att sätta något vid hans sida. *Tawhīd* är alltså kalifatets grundval. Att just dessa fyra dessutom kallas *rättledda* bygger på en hadith från följeslagaren Irbad ibn Sariya, där profeten förmanade de troende att hålla fast "vid min *sunna* och de rättledda, vägledda kalifernas sunna" (Sunan Abī Dāwūd 4607; Jāmiʿ at-Tirmidhī 2676, bedömd som autentisk av al-Albani). Namnet går tillbaka på profetens egen anvisning om vem man ska följa när han själv är borta.
+Löftet är villkorat: makten tillfaller dem som dyrkar Gud allena utan att sätta något vid hans sida. *Tawhīd* är alltså [kalifatets](/fordjupning/kalifatet/) grundval. Att just dessa fyra dessutom kallas *rättledda* bygger på en hadith från följeslagaren Irbad ibn Sariya, där profeten förmanade de troende att hålla fast "vid min *sunna* och de rättledda, vägledda kalifernas sunna" (Sunan Abī Dāwūd 4607; Jāmiʿ at-Tirmidhī 2676, bedömd som autentisk av al-Albani). Namnet går tillbaka på profetens egen anvisning om vem man ska följa när han själv är borta.
 
 ## Vilka var de fyra – och hur länge styrde var och en?
 
@@ -77,4 +78,4 @@ Ordningsföljden är också en rangordning. Följeslagaren Ibn Umar berättade: 
 
 ## Varför ser shiamuslimer annorlunda på kaliferna?
 
-Skillnaden gäller successionen, och därmed imamatet och synen på följeslagarna, som är trosfrågor. Shia menar att profeten vid Ghadir Khumm utsåg Ali som sin omedelbara efterträdare, och betraktar därför de tre första kaliferna som orättmätiga. Den klassiska hållningen, företrädd av lärda som Ibn Baz, avvisar detta: vid Ghadir Khumm manade profeten till kärlek och lojalitet mot Ali (*mawlā*), men ingen autentisk text utser honom till efterträdare, och följeslagarna valde Abu Bakr genom samråd (*shūrā*). Ali ställde sig till sist själv bakom valet och tjänade under Abu Bakr. I fråga om striderna under *fitnan* och tvisterna mellan följeslagarna avstår *ahl as-sunna* från att fördöma någon av dem och ber i stället om Guds nåd över dem alla. För *ahl as-sunna* är de fyra inte rivaler att välja mellan, utan en enda obruten kedja – att älska den ene är att hedra de tre andra.
+Skillnaden gäller successionen, och därmed imamatet och synen på följeslagarna, som är trosfrågor. [Shia](/fordjupning/sunni-och-shia/) menar att profeten vid Ghadir Khumm utsåg Ali som sin omedelbara efterträdare, och betraktar därför de tre första kaliferna som orättmätiga. Den klassiska hållningen, företrädd av lärda som Ibn Baz, avvisar detta: vid Ghadir Khumm manade profeten till kärlek och lojalitet mot Ali (*mawlā*), men ingen autentisk text utser honom till efterträdare, och följeslagarna valde Abu Bakr genom samråd (*shūrā*). Ali ställde sig till sist själv bakom valet och tjänade under Abu Bakr. I fråga om striderna under *fitnan* och tvisterna mellan följeslagarna avstår *ahl as-sunna* från att fördöma någon av dem och ber i stället om Guds nåd över dem alla. För *ahl as-sunna* är de fyra inte rivaler att välja mellan, utan en enda obruten kedja – att älska den ene är att hedra de tre andra.

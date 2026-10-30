@@ -5,6 +5,7 @@ description: "Arabiska silvermynt låg i gotländsk jord långt före den först
 seoDescription: "Islams historia i Sverige: vikingatidens kontakter, tatariska sändebud, Karl XII:s fribrev, de första församlingarna 1949 och dagens siffror."
 blurb: "Kontakter som går tolv sekler tillbaka, och en muslimsk närvaro i landet sedan drygt hundra år"
 publishedAt: "2026-09-05T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "islam i sverige"
   - "islams historia i sverige"

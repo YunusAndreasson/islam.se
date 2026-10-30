@@ -5,6 +5,7 @@ description: "Koranen säger påfallande lite om vad som händer i graven. Tradi
 seoDescription: "Döden i islam: koranverserna, gravens mellantillstånd, rättsskolornas skillnader i begravningsriten och konflikterna med svensk begravnings- och obduktionslag."
 blurb: "Sverige har bland världens längsta väntetider till gravsättning: i snitt tjugofem dagar"
 publishedAt: "2026-07-30T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "döden i islam"
   - "muslimsk begravning i Sverige"
@@ -92,7 +93,7 @@ imageAlt: "Tom parkbänk under ett kalt träd vid en stilla sjö i grå skymning
 
 **Döden** är i islam den punkt där själen tas tillbaka av Gud, kroppen återlämnas till jorden och den avlidne träder in i ett mellantillstånd som varar fram till uppståndelsen. Koranen säger i tre nästan identiska verser att varje människa skall smaka döden, och knyter det genomgående till en räkenskap bortom graven. Döden framställs som något skapat: Gud har låtit både död och liv bli till för att pröva människorna.
 
-I framställningar av ämnet brukar tre lager flyta ihop. Koranens dödsteologi är förhållandevis knapphändig och rör själva övergången, dödsängeln och barriären mot återvändandet. Ovanpå den ligger en betydligt mer utbyggd gravteologi som nästan uteslutande bygger på hadith och på senare teologisk litteratur: förhöret av de två änglarna, straffet och vederkvickelsen i graven. Till det kommer ett rituellt regelverk där rättsskolorna skiljer sig åt i konkreta detaljer, från antalet hälsningsfraser i begravningsbönen till frågan om man får be över en frånvarande död.
+I framställningar av ämnet brukar tre lager flyta ihop. Koranens dödsteologi är förhållandevis knapphändig och rör själva övergången, dödsängeln och barriären mot återvändandet. Ovanpå den ligger en betydligt mer utbyggd gravteologi som nästan uteslutande bygger på hadith och på senare teologisk litteratur: förhöret av de två änglarna, straffet och vederkvickelsen i graven. Till det kommer ett rituellt regelverk där rättsskolorna skiljer sig åt i konkreta detaljer, från antalet hälsningsfraser i [begravningsbönen](/fordjupning/muslimsk-begravning/) till frågan om man får be över en frånvarande död.
 
 Framställningen nedan följer de fyra klassiska rättsskolorna hanafi, maliki, shafii och hanbali.
 

@@ -91,6 +91,12 @@ if (eidAdha)
 		q: `När är Eid al-adha ${eidAdha.startISO.slice(0, 4)}?`,
 		a: `Eid al-adha infaller omkring ${gregorian(eidAdha.startISO)} (10 Dhū al-ḥijja) enligt Umm al-Qura-kalendern.`,
 	});
+// "bajram 2027": 830 impressions in 90 days, no clicks, and the word was nowhere on the page.
+if (eidFitr && eidAdha)
+	dateFaq.push({
+		q: `När är bajram ${eidFitr.startISO.slice(0, 4)}?`,
+		a: `Bajram är det bosniska och turkiska ordet för eid. Ramazanski bajram, på turkiska Ramazan Bayramı, är Eid al-fitr och infaller omkring ${gregorian(eidFitr.startISO)}. Kurban-bajram, på turkiska Kurban Bayramı, är Eid al-adha och infaller omkring ${gregorian(eidAdha.startISO)}.`,
+	});
 
 // Dates only. It sits straight under the lead, which already says the dates follow
 // Umm al-Qura and can move a day with the moon; closing on that again read the same

@@ -3,7 +3,7 @@ title: "Vad är hajj? Vallfärden till Mecka förklarad"
 question: "Vad är hajj (vallfärden)?"
 description: "Hajj är islams femte pelare: vallfärden till Mecka. Vem är skyldig att resa, vilka riter ingår och varför sägs pilgrimen återvända syndfri som en nyfödd?"
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "vad är hajj"
   - "hajj vallfärden"

@@ -3,7 +3,7 @@ title: "Hur ber man i islam? Bönen steg för steg"
 question: "Hur ber man i islam steg för steg?"
 description: "Att be i islam följer en fast ordning – tvagning, riktning mot Mecka, takbir, recitation, bugning och nedfallande. Ett moment får aldrig utelämnas: al-Fātiha."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "hur ber man i islam"
   - "bönen steg för steg"
@@ -61,7 +61,7 @@ essays:
 
 ## Vad måste man göra innan bönen börjar?
 
-Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt. Var och en av de fem bönerna har sin bestämda tid, räknad efter solens läge där man befinner sig (se [bönetider för orten](/bonetider/)). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, ha rena kläder och be på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar avsikten, *niyya*, att be just denna bön. Avsikten hålls i hjärtat och uttalas aldrig högt. I klassisk fiqh kallas de bönens giltighetsvillkor: saknas något av dem är bönen ogiltig, hur noggrant den än utförs.
+Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt. Var och en av de fem bönerna har sin bestämda tid, räknad efter solens läge där man befinner sig (se [bönetider för orten](/bonetider/)). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, ha rena kläder och be på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot [Kaba](/fordjupning/kaba/) i Mecka, och fattar avsikten, *niyya*, att be just denna bön. Avsikten hålls i hjärtat och uttalas aldrig högt. I klassisk fiqh kallas de bönens giltighetsvillkor: saknas något av dem är bönen ogiltig, hur noggrant den än utförs.
 
 ## Hur går bönen till steg för steg?
 

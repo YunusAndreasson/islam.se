@@ -3,7 +3,7 @@ title: "Vad är sufism? Islams mystik och dess gränser"
 question: "Vad är sufism?"
 description: "Sufism kallas ofta islams mystik – men ordet saknas i Koranen. Så skiljer klassisk islam själens rening från det som korsar gränsen till bidʿa och shirk."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad är sufism"
   - "sufism islam"

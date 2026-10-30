@@ -5,6 +5,7 @@ description: "Ett par kan vara gift inför Gud och ogift inför staten, eller fr
 seoDescription: "Vad äktenskapet är i islam: koranverserna, rättsskolornas oenighet om målsman och villkor, mahr i svensk domstol och lagarna 2019–2026."
 blurb: "Nikah är ett avtal som ingås inför vittnen och mot en brudgåva till hustrun själv"
 publishedAt: "2026-07-30T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "äktenskap i islam"
   - "nikah"
@@ -89,7 +90,7 @@ imageAlt: "Par som ligger tätt intill varandra i en träeka på stilla vatten"
 
 **Äktenskapet** är i islam ett rättsligt avtal, *nikāh*, som ingås mellan två parter inför vittnen och mot en brudgåva som tillfaller hustrun personligen. Det är inte ett sakrament, ingen präst behöver medverka och inget oupplösligt band uppstår. Avtalet kan förses med villkor, det ger vardera parten anspråk på den andra, och det kan sägas upp. Just denna form, kontraktet snarare än vigningen, förklarar det mesta som skiljer islamisk äktenskapsrätt från den kristna tradition som svensk familjerätt vuxit ur.
 
-Av formen följer både hustruns skydd och det som kritiken riktar in sig på. Hon behåller sin egendom, sitt namn och sin rätt att disponera brudgåvan, villkor kan skrivas in i handlingen, och skilsmässa är tillåten utan skuldbeläggning. Samtidigt är parternas ställning i avtalet inte symmetrisk, och rätten att bryta upp är ojämnt fördelad. Mannen kan häva avtalet ensidigt genom *talāq*. Hustrun är i klassisk rätt hänvisad till *khulʿ* mot ekonomisk kompensation eller till en domare som upplöser äktenskapet.
+Av formen följer både hustruns skydd och det som kritiken riktar in sig på. Hon behåller sin egendom, sitt namn och sin rätt att disponera brudgåvan, villkor kan skrivas in i handlingen, och [skilsmässa](/fordjupning/skilsmassa/) är tillåten utan skuldbeläggning. Samtidigt är parternas ställning i avtalet inte symmetrisk, och rätten att bryta upp är ojämnt fördelad. Mannen kan häva avtalet ensidigt genom *talāq*. Hustrun är i klassisk rätt hänvisad till *khulʿ* mot ekonomisk kompensation eller till en domare som upplöser äktenskapet.
 
 Tvisten om ämnet gäller sällan vad Koranen säger och nästan alltid två andra saker. Den första är vad de tidiga juristerna gjorde av texterna: Kecia Ali har framhållit att de beskrev äktenskapet med ett språk hämtat ur ägande och köp. Den andra är den svenska: vad som händer när två rättsordningar överlappar utan att sammanfalla. Ett nikāh utan vigselrätt saknar civilrättslig verkan, medan en svensk skilsmässa inte utan vidare upplöser det religiösa bandet. Resultatet är de haltande äktenskapen: kvinnan är fri enligt lagen och bunden enligt den ordning hennes omgivning erkänner. Hon har domen i handen och kan ändå inte gifta om sig utan att förlora sin familj.
 

@@ -3,6 +3,7 @@ title: "Vad säger islam om Big Bang? Koranen och skapelsen"
 question: "Vad säger islam om Big Bang?"
 description: "Koranen har kallats en Big Bang-profetia – men klassisk islam drar en mer oväntad slutsats om universums början, och om vem som egentligen tände smällen."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "islam och big bang"
   - "vad säger islam om big bang"

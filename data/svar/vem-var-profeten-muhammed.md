@@ -3,7 +3,7 @@ title: "Vem var profeten Muhammed? Islams siste profet"
 question: "Vem var profeten Muhammed?"
 description: "Muhammed (ca 570–632) var köpmannen i Mecka som blev islams siste profet. Här är hans liv – från uppenbarelsen i Hira till Medina och avskedsvallfärden."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "vem var profeten muhammed"
   - "profeten muhammed"

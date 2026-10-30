@@ -3,6 +3,7 @@ title: "Vad är Koranen? Islams heliga skrift förklarad"
 question: "Vad är Koranen?"
 description: "Koranen är islams heliga skrift – men vad gör den unik bland religiösa texter? Om uppenbarelsen i Hira, de 114 surorna och varför ingen kan efterlikna den."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "vad är koranen"
   - "koranen islam"

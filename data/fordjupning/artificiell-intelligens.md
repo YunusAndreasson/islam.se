@@ -7,6 +7,7 @@ description: "De flesta lärda håller tekniken för tillåten. Striden gäller 
 seoDescription: "Vad säger islam om AI? Fatwor om AI-svar och AI-bilder, rättsskolornas ansvarsregler, EU:s AI-förordning och svenska fall."
 blurb: "AI-svar om religion, bildgenerering och ansvaret när tekniken orsakar skada"
 publishedAt: "2026-09-25T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "vad säger islam om AI"
   - "islam och artificiell intelligens"

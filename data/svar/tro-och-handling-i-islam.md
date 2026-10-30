@@ -3,6 +3,7 @@ title: "Vad är förhållandet mellan tro och handling i islam?"
 question: "Vad är förhållandet mellan tro och handling i islam?"
 description: "Klassisk islam definierar tron som övertygelse i hjärtat, bekännelse med tungan och handling med kroppen: tre delar som står och faller tillsammans. Därför räknas handlingen som en gren av tron."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "tro och handling i islam"
   - "förhållandet mellan tro och gärningar"

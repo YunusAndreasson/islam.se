@@ -3,6 +3,7 @@ title: "Får muslimer röka? Vad islam säger om rökning"
 question: "Får muslimer röka?"
 description: "De flesta nutida lärda klassar rökning som förbjudet – men länge var domen en annan. Koranens belägg, fastereglerna och varför de lärda till slut enades."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "får muslimer röka"
   - "är rökning haram"
@@ -51,7 +52,7 @@ related:
 
 ## Är rökning haram i islam?
 
-Ja. Bland samtida auktoriteter – däribland al-Azhar i Kairo och fatwasajten islamqa.info, grundad av Muhammad Sālih al-Munajjid – är den rådande domen att rökning är *harām*. Det som med säkerhet skadar kroppen hör till *al-khabāʾith*, det orena och skadliga som profeten Muhammed förbjöd. Äldre lärda stannade ofta vid *makrūh* (starkt ogillat) så länge tobakens verkningar var oklara; när läkarvetenskapen väl visade att rökning dödar, föll den mildare bedömningen.
+Ja. Bland samtida auktoriteter – däribland al-Azhar i Kairo och fatwasajten islamqa.info, grundad av Muhammad Sālih al-Munajjid – är den rådande domen att rökning är [*harām*](/svar/vad-betyder-halal/). Det som med säkerhet skadar kroppen hör till *al-khabāʾith*, det orena och skadliga som profeten Muhammed förbjöd. Äldre lärda stannade ofta vid *makrūh* (starkt ogillat) så länge tobakens verkningar var oklara; när läkarvetenskapen väl visade att rökning dödar, föll den mildare bedömningen.
 
 ## Vad säger Koranen om att skada sin egen kropp?
 

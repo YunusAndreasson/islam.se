@@ -5,6 +5,7 @@ description: "Svinet är det enda djur som Koranen förbjuder vid namn, och för
 seoDescription: "Koranens fyra verser om svinkött, rättsskolornas gränsdragningar kring gelatin, nöd och orenhet, och den svenska striden om skolmaten."
 blurb: "Gelatinet i vitaminkapseln, hjärtklaffen från gris och 249 portioner specialkost"
 publishedAt: "2026-08-03T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "varför äter muslimer inte griskött"
   - "svinkött förbjudet i islam"

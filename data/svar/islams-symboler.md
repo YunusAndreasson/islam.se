@@ -3,7 +3,7 @@ title: "Vad betyder islams symboler som halvmånen?"
 question: "Vad betyder islams symboler som halvmånen?"
 description: "Halvmånen och stjärnan kallas islams symboler – men de saknar grund i Koranen och i profetens tid. Här är vad de egentligen betyder och varifrån de kom."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "islams symboler"
   - "halvmånen islam betydelse"
@@ -71,6 +71,6 @@ Att använda halvmånen är inte i sig en synd, men den saknar religiös grund. 
 
 ## Vilka tecken använde de tidiga muslimerna?
 
-I stället för bilder höll sig de första muslimerna till färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradiset, där Koranen klär de troende i grönt siden (18:31). Att färgen också skulle ha varit profeten Muhammeds egen favoritfärg har däremot svagare stöd: berättelsen förs tillbaka på Anas ibn Mālik genom en svag kedja. En del lärda stärker den visserligen med stödjande berättelser, men ingen entydig hadith gör grönt till *sunna*. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Om islam har något samlande kännetecken är det trosbekännelsen, *shahada*: orden som gör en människa till muslim och binder samman profetens efterföljare, *ahl as-sunna*. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."
+I stället för bilder höll sig de första muslimerna till färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradiset, där Koranen klär de troende i grönt siden (18:31). Att färgen också skulle ha varit profeten Muhammeds egen favoritfärg har däremot svagare stöd: berättelsen förs tillbaka på Anas ibn Mālik genom en svag kedja. En del lärda stärker den visserligen med stödjande berättelser, men ingen entydig hadith gör grönt till *sunna*. Till och med [Kaba](/fordjupning/kaba/), islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Om islam har något samlande kännetecken är det trosbekännelsen, *shahada*: orden som gör en människa till muslim och binder samman profetens efterföljare, *ahl as-sunna*. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."
 
 ![Uppåtvänd bild av en svart vägg täckt av tyg med broderad arabisk skrift i guld och silver; ett rikt broderat förhänge hänger över en förgylld dubbeldörr.](../../apps/web/src/assets/images/inline/kabas-dorrforhange-2024.webp "Förhänget över Kabas dörr, februari 2024. Bland orden i guld- och silverbroderiet står al-Fātihas Dig tillber vi; Dig anropar vi om hjälp.")

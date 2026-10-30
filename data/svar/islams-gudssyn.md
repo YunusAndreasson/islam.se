@@ -3,7 +3,7 @@ title: "Hur ser islam på Gud? Islams gudssyn"
 question: "Hur ser islam på Gud?"
 description: "Islam ser Gud som en enda, oskapad skapare – fullkomligt olik allt skapat, ändå nära människan genom sitt vetande. Om tawhīd, Guds namn och tron på Allah."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "islams gudssyn"
   - "hur ser islam på gud"

@@ -3,6 +3,7 @@ title: "Krävs fyra vittnen för en våldtäkt i islam?"
 question: "Krävs fyra vittnen för att en våldtäkt ska räknas i islam?"
 description: "Påståendet att ett våldtäktsoffer måste skaffa fyra vittnen är en seglivad myt. Så skiljer klassisk islamisk rätt på otukt och övergrepp – och vem som straffas."
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "fyra vittnen våldtäkt islam"
   - "krävs fyra vittnen för våldtäkt"

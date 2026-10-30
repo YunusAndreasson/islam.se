@@ -5,6 +5,7 @@ description: "Muslimer håller Koranen för Guds ordagranna tal. Samtidigt redov
 seoDescription: "Koranens tillkomst och bevarande, rättsskolornas oenighet om vad en Koran är, och de svenska domarna om koranbränning."
 blurb: "Insamlingen, läsarterna, de upphävda verserna och bokbandet inför svensk domstol"
 publishedAt: "2026-08-18T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "koranen"
   - "koranens tillkomst"
@@ -276,7 +277,7 @@ al-Nawawi redovisar hållningarna: hos Shāfiʿī, Mālik, Ahmad ibn Hanbal och 
 
 De sju ahruf i hadithen förväxlas ofta med de sju läsarter som bär läsarnas namn. al-Qurtubi slår fast att alla läsarter som tillskrivs de sju läsarna går tillbaka på en enda av de sju ahruf, den som ʿUthmān samlade kodexen kring. De är alltså inte själva de ahruf som följeslagarna en gång fick recitera efter.[^21]
 
-Versernas plats i suran anses fastställd genom uppenbarelsen, medan majoriteten, bland dem Mālik, menar att surornas inbördes ordning bestämdes av följeslagarnas eget omdöme. al-Qurtubi redovisar öppet att Ibn Masʿūds och Ubayy ibn Kaʿbs kodexar ordnade surorna annorlunda.[^22] Skolorna är inte ens eniga om huruvida basmalan, "I Guds den Nåderikes den Barmhärtiges namn", är en vers: hos Shāfiʿī är den en vers i al-Fātiha, hos Mālik och Abū Hanīfa ingen vers alls, och Dāwūd höll den för en fristående vers före varje sura. al-Nawawi kallar frågan avgörande för bönens giltighet.[^23] Av den som vidrör det fysiska exemplaret kräver majoriteten rituell renhet, med stöd av 56:79. Dāwūd al-Zāhirī och några tidiga auktoriteter tillät beröring, hanafiterna godtar den genom fodral, och Mālik gav menstruerande kvinnor rätt att recitera.[^24]
+Versernas plats i suran anses fastställd genom uppenbarelsen, medan majoriteten, bland dem Mālik, menar att surornas inbördes ordning bestämdes av följeslagarnas eget omdöme. al-Qurtubi redovisar öppet att Ibn Masʿūds och Ubayy ibn Kaʿbs kodexar ordnade surorna annorlunda.[^22] Skolorna är inte ens eniga om huruvida [basmalan](/svar/vad-betyder-bismillah/), "I Guds den Nåderikes den Barmhärtiges namn", är en vers: hos Shāfiʿī är den en vers i al-Fātiha, hos Mālik och Abū Hanīfa ingen vers alls, och Dāwūd höll den för en fristående vers före varje sura. al-Nawawi kallar frågan avgörande för bönens giltighet.[^23] Av den som vidrör det fysiska exemplaret kräver majoriteten rituell renhet, med stöd av 56:79. Dāwūd al-Zāhirī och några tidiga auktoriteter tillät beröring, hanafiterna godtar den genom fodral, och Mālik gav menstruerande kvinnor rätt att recitera.[^24]
 
 Att läsa Koranen utan att känna dess inre kronologi har aldrig varit den klassiska normen. al-Qurtubi återger hur ʿAlī ibn Abī Tālib i moskén frågade en man som förmanade folket om han kände det upphävande och det upphävda. Mannen svarade nej. "Då har du gått under och dragit andra med dig", sade ʿAlī, och visade ut honom.[^25]
 

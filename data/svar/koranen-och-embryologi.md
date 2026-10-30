@@ -3,7 +3,7 @@ title: "Vad säger Koranen om fostrets utveckling?"
 question: "Vad säger Koranen om människans utveckling i moderlivet?"
 description: "Koranen skildrar fostret i stadier – droppe, fastsittande grodd, köttklump, ben klätt med kött. Men är det verkligen embryologi, och när får fostret sin själ?"
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "koranen embryologi"
   - "fostrets utveckling i koranen"

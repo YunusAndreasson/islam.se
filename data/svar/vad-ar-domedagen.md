@@ -3,7 +3,7 @@ title: "Vad är domedagen (den yttersta dagen) i islam?"
 question: "Vad är domedagen (den yttersta dagen) i islam?"
 description: "Domedagen är en av islams sex trosartiklar. Vad händer när basunen ljuder, hur vägs människans gärningar i vågen – och vilka tecken visar att Stunden är nära?"
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "domedagen islam"
   - "den yttersta dagen islam"

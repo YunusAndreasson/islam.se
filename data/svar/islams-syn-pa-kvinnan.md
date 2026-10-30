@@ -3,7 +3,7 @@ title: "Vad är islams syn på kvinnan? Jämlike inför Gud"
 question: "Vad är islams syn på kvinnan?"
 description: "Islam kallar kvinnan mannens jämlike inför Gud – ändå skiljer sig rollerna. Vad Koranen faktiskt ger henne i arv, egendom, kunskap och äktenskap, och varför."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "islams syn på kvinnan"
   - "kvinnan i islam"

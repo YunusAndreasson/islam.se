@@ -3,6 +3,7 @@ title: "Vad är sharia? Betydelse, källor och fiqh"
 question: "Vad är sharia?"
 description: "Ordet betyder »vägen ner till vattenkällan«. Sharia är Guds vägledning i Koranen och sunna om tro, dyrkan och umgänge, och dess kärna är bön, renhet och ärlighet. Skillnaden mot fiqh förklaras här."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad är sharia"
   - "sharia betydelse"
@@ -44,7 +45,7 @@ essays:
 
 ## Vad betyder ordet sharia?
 
-Ordet *sharia* (شريعة) betecknade på arabiska den upptrampade stig som leder ner till en vattenkälla. I öknen är vägen till vattnet vägen till livet, och därför fick ordet en bildlig innebörd: den väg Gud stakat ut för människan. I Koranen används det just så, när Gud talar till profeten Muhammed:
+Ordet [*sharia*](/fordjupning/sharia/) (شريعة) betecknade på arabiska den upptrampade stig som leder ner till en vattenkälla. I öknen är vägen till vattnet vägen till livet, och därför fick ordet en bildlig innebörd: den väg Gud stakat ut för människan. I Koranen används det just så, när Gud talar till profeten Muhammed:
 
 > Därefter har Vi visat dig [Muhammad] en väg till förverkligandet [av trons] syfte; följ därför denna väg och fäst dig inte vid de okunnigas önskningar.
 > — Koranen 45:18
@@ -66,7 +67,7 @@ Sharia är själva den gudomliga vägledningen, fullkomlig och felfri eftersom d
 
 ## Vad omfattar sharia?
 
-Det mesta av sharia handlar inte om brott och straff utan om gudsdyrkan (*ʿibādāt*) – bön, fasta, allmosa (*zakāt*), vallfärd och rituell renhet – och om mellanmänskliga förhållanden (*muʿāmalāt*): handel, familj, arv och ärligt umgänge. Varje handling placeras i en av fem kategorier: obligatorisk (*wājib*), rekommenderad (*mandūb*), tillåten (*mubāh*), ogillad (*makrūh*) eller förbjuden (*harām*). Det är samma skala som avgör vad som räknas som *halal*. Syftet, det de lärda kallar *maqāsid ash-sharīʿa*, är att skydda fem ting: religionen, livet, förståndet, släktet och egendomen. Ibn al-Qayyim sammanfattar i *Iʿlām al-muwaqqiʿīn*:
+Det mesta av sharia handlar inte om brott och straff utan om gudsdyrkan (*ʿibādāt*) – bön, fasta, allmosa (*zakāt*), vallfärd och rituell renhet – och om mellanmänskliga förhållanden (*muʿāmalāt*): handel, familj, arv och ärligt umgänge. Varje handling placeras i en av fem kategorier: obligatorisk (*wājib*), rekommenderad (*mandūb*), tillåten (*mubāh*), ogillad (*makrūh*) eller förbjuden (*harām*). Det är samma skala som avgör vad som räknas som [*halal*](/fordjupning/halal/). Syftet, det de lärda kallar *maqāsid ash-sharīʿa*, är att skydda fem ting: religionen, livet, förståndet, släktet och egendomen. Ibn al-Qayyim sammanfattar i *Iʿlām al-muwaqqiʿīn*:
 
 > Sharian ... är rättvisa alltigenom, barmhärtighet alltigenom, nytta alltigenom och vishet alltigenom.
 

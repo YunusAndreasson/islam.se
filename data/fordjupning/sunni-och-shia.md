@@ -5,6 +5,7 @@ description: "Delningen dateras ofta till år 632, men det mesta av det som i da
 seoDescription: "Vad skiljer sunni från shia? Imamatet, hadithkanon och rättsreglerna, och hur frågan hanteras i svensk rätt och i svenska trossamfund."
 blurb: "Imamatet, de fyra hadithböckerna mot de sex, och en svensk stat som tvingats döma"
 publishedAt: "2026-08-18T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "skillnad mellan sunni och shia"
   - "vad är shiaislam"

@@ -5,6 +5,7 @@ description: "Ghusl, kafan och janāza-bönen är reglerade in i detaljen, men i
 seoDescription: "Vad muslimsk begravning kräver, hur rättsskolorna skiljer sig åt och hur riten möter svensk begravningslag, kremering och gravrätt."
 blurb: "Tvagningen, svepningen, gravens riktning och krocken med kista och kremering"
 publishedAt: "2026-09-02T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "muslimsk begravning"
   - "islamisk begravning i Sverige"

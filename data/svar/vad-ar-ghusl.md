@@ -3,6 +3,7 @@ title: "Vad är ghusl? När den stora tvagningen krävs"
 question: "Vad är ghusl och när krävs den?"
 description: "Ghusl är den stora tvagningen som häver stor rituell orenhet. Sex händelser gör den obligatorisk – och en vanlig dusch med rätt avsikt räcker oftare än väntat."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad är ghusl"
   - "när krävs ghusl"

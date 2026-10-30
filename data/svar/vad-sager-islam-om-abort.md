@@ -3,7 +3,7 @@ title: "Vad säger islam om abort? Gränsen vid 120 dagar"
 question: "Vad säger islam om abort?"
 description: "Islam förbjuder abort i grunden – men en gräns vid 120 dagar avgör det mesta. Vad händer när själen blåses in, och när väger moderns liv tyngre än fostrets?"
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad säger islam om abort"
   - "abort islam"

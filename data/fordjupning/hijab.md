@@ -5,6 +5,7 @@ description: "Få plagg diskuteras så ofta och beskrivs så sällan i sak. När
 seoDescription: "Vad Koranen och hadith säger om hijab, hur rättsskolorna tolkat texterna, svensk rättspraxis efter HFD 2022 och de starkaste invändningarna."
 blurb: "Koranens anvisning om blygsamhet börjar hos männen och deras blickar, en vers före slöjan"
 publishedAt: "2026-07-30T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "hijab"
   - "vad säger koranen om slöja"

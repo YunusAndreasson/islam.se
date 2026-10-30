@@ -3,6 +3,7 @@ title: "Varför äter muslimer inte griskött? Förbudet i islam"
 question: "Varför äter muslimer inte griskött?"
 description: "Förbudet upprepas fyra gånger i Koranen, och alla klassiska rättsskolor är eniga om det. Grunden är lydnad inför Gud. Därtill: vad orenheten innebär och när nöden upphäver förbudet."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "varför äter muslimer inte griskött"
   - "är griskött haram"
@@ -39,11 +40,11 @@ related:
   - "far-muslimer-roka"
 ---
 
-**Muslimer äter inte griskött därför att Koranen uttryckligen förbjuder det: svinkött (*lahm al-khinzir*) räknas som *harām*, otillåtet, och beskrivs i uppenbarelsen som orent.** Ytterst är grunden lydnad inför Gud, inte hälsa. Att avstå är ett konkret uttryck för *islām*, underkastelse under Skaparens bud. Förbudet hör till de mest entydiga inom islamisk kost: det upprepas fyra gånger i Koranen, och alla klassiska rättsskolor är överens om det.
+**Muslimer äter inte griskött därför att Koranen uttryckligen förbjuder det: svinkött (*lahm al-khinzir*) räknas som [*harām*](/svar/vad-betyder-halal/), otillåtet, och beskrivs i uppenbarelsen som orent.** Ytterst är grunden lydnad inför Gud, inte hälsa. Att avstå är ett konkret uttryck för *islām*, underkastelse under Skaparens bud. Förbudet hör till de mest entydiga inom islamisk kost: det upprepas fyra gånger i Koranen, och alla klassiska rättsskolor är överens om det.
 
 ## Var i Koranen förbjuds griskött?
 
-Svinkött förbjuds på fyra ställen i Koranen: 2:173, 5:3, 6:145 och 16:115. I varje fall nämns grisen tillsammans med självdöda djur (*al-mayta*) och blod:
+Svinkött förbjuds på fyra ställen i [Koranen](/fordjupning/koranen/): 2:173, 5:3, 6:145 och 16:115. I varje fall nämns grisen tillsammans med självdöda djur (*al-mayta*) och blod:
 
 > Vad Han har förbjudit er är kött av självdöda djur, blod och svinkött och sådant som offrats åt en annan än Gud.
 > — Koranen 2:173

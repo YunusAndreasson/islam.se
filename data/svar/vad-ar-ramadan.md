@@ -3,7 +3,7 @@ title: "Vad är ramadan? Fastan och fastemånaden i islam"
 question: "Vad är ramadan och fastan i islam?"
 description: "Ramadan är muslimernas fastemånad – men fastan rymmer långt mer än att avstå mat och dryck. Här är reglerna, undantagen och den verkliga meningen med sawm."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad är ramadan"
   - "ramadan"

@@ -5,6 +5,7 @@ description: "Koranen förbjuder fem ting och tillåter allt annat. Ur den korta
 seoDescription: "Halal betyder tillåtet. Vad Koranen faktiskt förbjuder, hur rättsskolorna skiljer sig åt, och vad svensk lag säger om halalslakt, skolmat och import."
 blurb: "Hur fem förbud i Koranen blev ett system av certifikat, kontroller och märkningar"
 publishedAt: "2026-08-02T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "vad betyder halal"
   - "halal och haram"
@@ -77,6 +78,7 @@ sources:
     url: "https://www.pewresearch.org/religion/2017/11/29/europes-growing-muslim-population/"
 related:
   - "vad-ar-halalslakt"
+  - "vad-betyder-halal"
   - "varfor-ater-muslimer-inte-griskott"
   - "far-muslimer-dricka-alkohol"
   - "ar-vinager-halal"
@@ -98,7 +100,7 @@ Tvisten om halal förs på två fronter. Inåt gäller den huruvida elbedövning
 
 Roten *h-l-l* betyder i klassisk arabiska att lösa upp, att knyta upp en knut, att slå läger. Ur den betydelsen kommer det juridiska bruket: det tillåtna är det som är löst, inte bundet av något förbud. Motsatsen *harām* kommer från roten *h-r-m*, som betyder att avskilja eller helga. Den återfinns också i *haram*, det invigda området kring Kaba, och i *ihrām*, pilgrimens helgade tillstånd. Det förbjudna är alltså språkligt sett det avskilda, inte det smutsiga.
 
-Halal är en av fem kategorier i den islamiska rättens handlingslära, *al-ahkām al-khamsa*: det obligatoriska (*wājib*), det rekommenderade (*mandūb*), det tillåtna (*mubāh* eller halal), det ogillade (*makrūh*) och det förbjudna (*harām*). Att något är halal säger därför ingenting om huruvida det är gott eller berömvärt. Det säger bara att den som gör det varken belönas eller straffas för handlingen som sådan. Skalan har praktisk betydelse: när klassiska jurister kallar hästkött makrūh menar de att det ogillas utan att därför vara otillåtet, och de är sinsemellan oense om vilken styrka ogillandet har.[^1]
+[Halal](/svar/vad-betyder-halal/) är en av fem kategorier i den islamiska rättens handlingslära, *al-ahkām al-khamsa*: det obligatoriska (*wājib*), det rekommenderade (*mandūb*), det tillåtna (*mubāh* eller halal), det ogillade (*makrūh*) och det förbjudna (*harām*). Att något är halal säger därför ingenting om huruvida det är gott eller berömvärt. Det säger bara att den som gör det varken belönas eller straffas för handlingen som sådan. Skalan har praktisk betydelse: när klassiska jurister kallar hästkött makrūh menar de att det ogillas utan att därför vara otillåtet, och de är sinsemellan oense om vilken styrka ogillandet har.[^1]
 
 Vid sidan av halal står i Koranen ofta ett andra ord: *tayyib*, det goda och hälsosamma. Båda leden finns i 2:168, som riktar sig till hela mänskligheten, och paret har blivit ett stående uttryck i den moderna litteraturen om islamisk kosthållning. Halal svarar på frågan om tillstånd, tayyib på frågan om kvalitet. Besläktade termer är *dhakāt*, den rituella slakten, och *tasmiya*, uttalandet av Guds namn över djuret. I den moderna certifieringsvärlden har dessutom *mashbūh*, "det tvivelaktiga", fått fäste. Tanken har rötter i hadithen om de tvivelaktiga tingen (*mushtabihāt*) som ligger mellan det tillåtna och det förbjudna, men som märkningskategori är den ny, och den fyller en funktion när ingrediensförteckningen inte går att tyda.
 

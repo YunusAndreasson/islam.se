@@ -5,6 +5,7 @@ description: "Ordet bär två läsningar: den enskildes kamp mot sitt eget begä
 seoDescription: "Jihad i islam: koranverserna, rättsskolornas gränser för vem som får dödas och vem som får utlysa strid, samt svensk terroristlagstiftning."
 blurb: "Den inre kampen, krigsrättens gränser och de svenska terrordomarna"
 publishedAt: "2026-09-03T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - "jihad"
   - "jihad i svensk rätt"

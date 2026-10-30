@@ -3,6 +3,7 @@ title: "Vad är sunna? Profeten Muhammeds vägledande exempel"
 question: Vad är sunna?
 description: Sunna är profetens ord, handlingar och tysta godkännanden – islams andra rättskälla efter Koranen. Men ordet har även en andra, helt annan betydelse.
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-10-17T00:00:00Z"
 keywords:
   - vad är sunna
   - sunna islam

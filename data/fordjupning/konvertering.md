@@ -5,6 +5,7 @@ description: "En mening räcker för att träda in, och ingen myndighet i Sverig
 seoDescription: "Vad krävs för att bli muslim? Shahadan, rättsskolornas villkor, svensk rätt och praxis, och den svåra frågan om rätten att lämna islam."
 blurb: "Shahadan, rättsskolornas villkor, uppriktighetsprövningen och avfallsfrågan"
 publishedAt: "2026-08-18T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "konvertera till islam"
   - "bli muslim i Sverige"
@@ -153,7 +154,7 @@ I fråga om den rituella tvagningen, *ghusl*, går skolorna isär. Ibn Qudama re
 
 al-Nawawi bekräftar bilden från shafiitiskt håll och anför motståndarsidans starkaste bevis: Thumama ibn Uthal, som efter sin frigivning gick till en närbelägen palmlund, badade och därefter trädde in i moskén och avlade bekännelsen.[^19] Moderna fatwaorgan följer i regel majoriteten och kallar tvagningen rekommenderad.
 
-Den fråga som får störst praktisk vikt i Sverige gäller äktenskapet. En muslimsk kvinna kan enligt de fyra skolorna inte förbli gift med en icke-muslimsk man; en muslimsk man får däremot vara gift med en judisk eller kristen kvinna. Malik lär i *al-Muwatta* att om hustrun antar islam och mannen därefter gör det, har han bättre rätt till henne så länge hon är kvar i sin väntetid, men att han förlorar varje anspråk när den löpt ut. Gifter de sig senare med varandra på nytt räknas separationen inte som en skilsmässa, eftersom det var islam som upplöste bandet.[^20] Ibn al-Qayyim invänder att bandet är vilande och inte upplöst, och stöder sig på att Profeten återlämnade sin dotter Zaynab till Abu al-As efter ett uppehåll som omöjligt kan rymmas inom en väntetid.[^21] Namnbyte hör inte till villkoren i någon av skolorna.
+Den fråga som får störst praktisk vikt i Sverige gäller äktenskapet. En muslimsk kvinna kan enligt de fyra skolorna inte förbli gift med en icke-muslimsk man; en muslimsk man får däremot vara gift med en judisk eller kristen kvinna. Malik lär i *al-Muwatta* att om hustrun antar islam och mannen därefter gör det, har han bättre rätt till henne så länge hon är kvar i sin väntetid, men att han förlorar varje anspråk när den löpt ut. Gifter de sig senare med varandra på nytt räknas separationen inte som en [skilsmässa](/fordjupning/skilsmassa/), eftersom det var islam som upplöste bandet.[^20] Ibn al-Qayyim invänder att bandet är vilande och inte upplöst, och stöder sig på att Profeten återlämnade sin dotter Zaynab till Abu al-As efter ett uppehåll som omöjligt kan rymmas inom en väntetid.[^21] Namnbyte hör inte till villkoren i någon av skolorna.
 
 ## Konverteringens historia från Medina till det moderna Europa
 

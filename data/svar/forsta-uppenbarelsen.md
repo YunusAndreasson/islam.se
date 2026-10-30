@@ -3,7 +3,7 @@ title: "Hur började uppenbarelsen av Koranen?"
 question: "Hur började uppenbarelsen av Koranen?"
 description: "År 610 drog sig Muhammed undan i grottan Hira, och en natt under Ramadan kom ängeln Jibril med ett enda ord: Läs. Så inleddes Koranens 23-åriga nedstigning."
 publishedAt: "2026-06-23T00:00:00Z"
-updatedAt: "2026-08-16T00:00:00Z"
+updatedAt: "2026-10-11T00:00:00Z"
 keywords:
   - "första uppenbarelsen"
   - "hur började uppenbarelsen av koranen"

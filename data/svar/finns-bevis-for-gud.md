@@ -3,6 +3,7 @@ title: "Finns det bevis för Guds existens i islam?"
 question: "Finns det bevis för Guds existens i islam?"
 description: "I islam är Guds existens inget olöst mysterium – skapelsen och människans egen natur sägs redan vittna om Honom. Här är argumenten, och var de tar slut."
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-09-25T00:00:00Z"
 keywords:
   - "bevis för Guds existens islam"
   - "argument för Gud islam"
