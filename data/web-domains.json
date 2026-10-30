@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 58,
-      "ok": 58,
+      "total": 62,
+      "ok": 62,
       "failed": 0,
-      "lastChecked": "2026-10-25T14:13:35.647Z",
-      "publishedIn": 44,
-      "avgScore": 8.640909090909089
+      "lastChecked": "2026-10-29T22:01:29.734Z",
+      "publishedIn": 46,
+      "avgScore": 8.639130434782608
     },
     "lifewithallah.com": {
       "total": 3,
@@ -243,10 +243,10 @@
       "avgScore": 8.6
     },
     "www.diva-portal.org": {
-      "total": 12,
-      "ok": 12,
+      "total": 13,
+      "ok": 13,
       "failed": 0,
-      "lastChecked": "2026-10-23T10:20:03.599Z",
+      "lastChecked": "2026-10-29T21:39:46.108Z",
       "publishedIn": 7,
       "avgScore": 8.642857142857142
     },
@@ -327,12 +327,12 @@
       "avgScore": 8.5
     },
     "www.so-rummet.se": {
-      "total": 5,
-      "ok": 5,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-09-30T18:36:35.427Z",
-      "publishedIn": 4,
-      "avgScore": 8.649999999999999
+      "lastChecked": "2026-10-29T22:01:29.734Z",
+      "publishedIn": 5,
+      "avgScore": 8.639999999999999
     },
     "www.culawreview.org": {
       "total": 1,
@@ -367,12 +367,12 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.svt.se": {
-      "total": 36,
-      "ok": 36,
+      "total": 40,
+      "ok": 40,
       "failed": 0,
-      "lastChecked": "2026-10-11T10:16:25.848Z",
-      "publishedIn": 22,
-      "avgScore": 8.618181818181816
+      "lastChecked": "2026-10-29T22:01:29.734Z",
+      "publishedIn": 24,
+      "avgScore": 8.616666666666664
     },
     "www.genteknik.se": {
       "total": 1,
@@ -619,12 +619,12 @@
       "avgScore": 8.7
     },
     "www.gu.se": {
-      "total": 4,
-      "ok": 4,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-09-05T09:49:00.042Z",
-      "publishedIn": 4,
-      "avgScore": 8.675
+      "lastChecked": "2026-10-29T22:01:29.734Z",
+      "publishedIn": 5,
+      "avgScore": 8.66
     },
     "svjt.se": {
       "total": 3,
@@ -707,12 +707,12 @@
       "avgScore": 8.55
     },
     "www.svenskakyrkan.se": {
-      "total": 11,
-      "ok": 10,
+      "total": 15,
+      "ok": 14,
       "failed": 1,
-      "lastChecked": "2026-07-27T20:48:06.913Z",
-      "publishedIn": 6,
-      "avgScore": 8.566666666666668
+      "lastChecked": "2026-10-29T22:01:29.734Z",
+      "publishedIn": 8,
+      "avgScore": 8.575000000000001
     },
     "pluriel.fuce.eu": {
       "total": 1,
@@ -1300,12 +1300,12 @@
       "lastChecked": "2026-02-14T21:24:06.879Z"
     },
     "sverigesradio.se": {
-      "total": 2,
-      "ok": 1,
+      "total": 4,
+      "ok": 3,
       "failed": 1,
-      "lastChecked": "2026-05-17T12:23:59.802Z",
-      "publishedIn": 1,
-      "avgScore": 8.5
+      "lastChecked": "2026-10-29T22:01:29.734Z",
+      "publishedIn": 2,
+      "avgScore": 8.55
     },
     "yle.fi": {
       "total": 1,
@@ -3017,6 +3017,28 @@
       "ok": 2,
       "failed": 0,
       "lastChecked": "2026-10-25T14:13:35.647Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.nordiskamuseet.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-29T22:01:29.734Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "blogs.loc.gov": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-10-29T21:39:46.108Z"
+    },
+    "trafiken.nu": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-10-29T22:01:29.734Z",
       "publishedIn": 1,
       "avgScore": 8.6
     }
