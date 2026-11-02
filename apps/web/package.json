@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"deps:check": "bash scripts/update-deps.sh --check",
-		"deps:update": "bash scripts/update-deps.sh",
+		"deps:update": "bash scripts/update-deps.sh --apply",
 		"dev": "astro dev",
 		"dev:bg": "astro dev --background",
 		"dev:status": "astro dev status",
@@ -26,13 +26,13 @@
 		"books": "pnpm run pdf && pnpm run epub"
 	},
 	"dependencies": {
-		"@astrojs/markdown-remark": "^7.3.4",
+		"@astrojs/markdown-remark": "^7.3.5",
 		"@astrojs/rss": "^4.0.19",
 		"@astrojs/sitemap": "^3.7.4",
-		"@lucide/astro": "^1.61.0",
+		"@lucide/astro": "^1.66.0",
 		"adhan": "^4.4.6",
-		"astro": "^7.4.2",
-		"maplibre-gl": "^6.15.0",
+		"astro": "^7.4.4",
+		"maplibre-gl": "^6.16.0",
 		"qrcode-generator": "^2.0.4",
 		"rehype-stringify": "^10.0.1",
 		"remark-rehype": "^11.1.2",

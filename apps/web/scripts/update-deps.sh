@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Update only this website, retaining the compatibility ranges in package.json.
-# Usage: pnpm deps:update             Update and validate.
-#        pnpm deps:check              Report outdated packages without changes.
+# Usage: pnpm deps:update             Update and validate (--apply).
+#        pnpm deps:check              Report outdated packages without changes (default).
 # pnpm deps:check exits 1 when updates exist (pnpm outdated's standard behavior).
 set -euo pipefail
 
@@ -10,15 +10,17 @@ WORKSPACE_DIR="$(cd "$APP_DIR/../.." && pwd)"
 cd "$APP_DIR"
 
 case "${1:-}" in
-  --check)
-    [ "$#" -eq 1 ] || { echo 'Only --check is supported.' >&2; exit 2; }
+  ''|--check)
+    [ "$#" -le 1 ] || { echo 'Only --check is supported.' >&2; exit 2; }
     exec pnpm outdated
+    ;;
+  --apply)
+    [ "$#" -eq 1 ] || { echo 'Only --apply is supported.' >&2; exit 2; }
     ;;
   -h|--help)
     sed -n '2,5s/^# //p' "$0"
     exit 0
     ;;
-  '') ;;
   *) echo "Unknown argument: $1 (try --help)" >&2; exit 2 ;;
 esac
 

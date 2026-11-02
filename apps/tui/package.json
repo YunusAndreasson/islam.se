@@ -17,11 +17,11 @@
 		"@islam-se/orchestrator": "workspace:*",
 		"ink": "^8.0.0",
 		"marked": "^15.0.12",
-		"marked-terminal": "^7.3.0",
-		"react": "^19.3.0"
+		"marked-terminal": "^7.3.1",
+		"react": "^19.3.1"
 	},
 	"devDependencies": {
-		"@types/node": "^26.6.5",
+		"@types/node": "^26.6.6",
 		"@types/react": "^19.3.0",
 		"typescript": "^7.0.2"
 	}

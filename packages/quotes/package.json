@@ -16,9 +16,9 @@
 	},
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.133.0",
-		"@huggingface/transformers": "^4.3.1",
+		"@huggingface/transformers": "^4.3.2",
 		"better-sqlite3": "^13.0.3",
-		"openai": "^7.32.0",
+		"openai": "^7.47.0",
 		"sqlite-vec": "0.1.9",
 		"zod": "^4.6.7"
 	},

@@ -6,6 +6,10 @@
     "1.2.1": {
       "ios": "9e7bbc0a5905caa241c9e1246191b221d516ce84",
       "android": "ee5fc5cd6ea2acf3ab9ac7a3fd1a6d84c6c4b1b1"
+    },
+    "1.2.2": {
+      "ios": "5313609ad5b0fe75c3f3e5ff3fcf9677fe0714c0",
+      "android": "99b7c8406de55d0610090abbe41b4b49c846e058"
     }
   }
 }

@@ -79,7 +79,11 @@
 			"!**/verses.json",
 			"!**/bonetider/map-detail.ts",
 			"!.markdownlint-rules",
-			"!**/.claude/settings.local.json"
+			"!**/.claude/settings.local.json",
+			"!**/*.md",
+			"!**/*.svg",
+			"!**/*.yaml",
+			"!**/*.yml"
 		]
 	}
 }
