@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { getDisplayZone, setDisplayZone } from '@/lib/zone-time';
 import * as timeline from './timeline';
-import { createPrayerWidgetSync, WIDGET_REFRESH_INTERVAL_MS } from './sync';
+import { createPrayerWidgetSync, toPropertyList, WIDGET_REFRESH_INTERVAL_MS } from './sync';
 
 const coords = { latitude: 59.3293, longitude: 18.0686 };
 const now = Date.parse('2026-10-18T10:00:00Z');
@@ -115,7 +115,7 @@ describe('prayer widget refresh coalescing', () => {
     await sync(coords, DEFAULT_SETTINGS, 'Stockholm', now + 1000);
     expect(ios.updateTimeline).toHaveBeenCalledTimes(1);
     expect(ios.updateTimeline.mock.lastCall?.[0]).toEqual(
-      timeline.buildTimeline(coords, DEFAULT_SETTINGS, 'Stockholm', now),
+      toPropertyList(timeline.buildTimeline(coords, DEFAULT_SETTINGS, 'Stockholm', now)),
     );
   });
 
@@ -194,5 +194,46 @@ describe('prayer widget refresh coalescing', () => {
     await sync(coords, DEFAULT_SETTINGS, 'Stockholm', now + WIDGET_REFRESH_INTERVAL_MS);
     expect(android.updateSnapshot).toHaveBeenCalledTimes(2);
     expect(android.reload).not.toHaveBeenCalled();
+  });
+});
+
+describe('the timeline handed to WidgetKit is a property list', () => {
+  // Regression: expo-widgets stores the timeline with UserDefaults.set, which accepts
+  // property-list values only. A JS null arrives as NSNull, which is not one, so the
+  // whole write was lost. From 2026-10-18 the terminal expiry entry carried
+  // `nextAtMs: null`, so no timeline reached the widget at all, and it froze on an old
+  // schedule whose countdown counted up from a passed Fajr ("2 dagar").
+  const nullPaths = (value: unknown, path = '$'): string[] => {
+    if (value === null) return [path];
+    if (value instanceof Date || typeof value !== 'object' || value === undefined) return [];
+    return Object.entries(value).flatMap(([key, item]) => nullPaths(item, `${path}.${key}`));
+  };
+
+  it('pushes no null anywhere, including the terminal expiry entry and a polar day', async () => {
+    const kiruna = { latitude: 67.8558, longitude: 20.2253 };
+    for (const [place, at] of [
+      [coords, now],
+      [kiruna, Date.parse('2026-06-21T10:00:00Z')],
+    ] as const) {
+      const { sync, ios } = setup();
+      await sync(place, DEFAULT_SETTINGS, 'Plats', at);
+      const pushed = ios.updateTimeline.mock.lastCall?.[0];
+      expect(pushed?.length).toBeGreaterThan(1);
+      expect({ at: new Date(at).toISOString(), nulls: nullPaths(pushed) }).toEqual({
+        at: new Date(at).toISOString(),
+        nulls: [], // any path listed here makes UserDefaults drop the entire timeline
+      });
+    }
+  });
+
+  it('keeps entry dates as Dates and the terminal entry still renders as the empty state', async () => {
+    const { sync, ios } = setup();
+    await sync(coords, DEFAULT_SETTINGS, 'Stockholm', now);
+    const pushed = ios.updateTimeline.mock.lastCall?.[0] ?? [];
+    expect(pushed.every((entry) => entry.date instanceof Date)).toBe(true);
+    const last = pushed[pushed.length - 1];
+    // The layout's typeof guard turns an absent nextAtMs into "no countdown", as null did.
+    expect(last?.props.rows).toEqual([]);
+    expect(last?.props).not.toHaveProperty('nextAtMs');
   });
 });

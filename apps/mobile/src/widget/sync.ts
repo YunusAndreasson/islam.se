@@ -14,6 +14,28 @@ import { getDisplayZone } from '@/lib/zone-time';
 import { buildAndroidSnapshot, selectEntry, type AndroidWidgetSnapshot } from './android-snapshot';
 import { buildTimeline, type WidgetTimelineEntry } from './timeline';
 
+/**
+ * Drop every `null` from a timeline before it crosses to WidgetKit.
+ *
+ * expo-widgets turns a JS `null` into `NSNull` and stores the timeline with
+ * `UserDefaults.set`, which accepts property-list values only, and `NSNull` is not one.
+ * The whole write was lost (dropped, or thrown and swallowed by the catch below).
+ * Bug pinned here: from 2026-10-18 the terminal expiry entry carried `nextAtMs: null`,
+ * so NO timeline reached the widget. It sat on the last schedule written before
+ * that, and its relative countdown counted UP from a long-passed Fajr ("2 dagar").
+ * The layout reads every field with a typeof guard, so an absent key renders exactly
+ * as `null` did.
+ */
+export function toPropertyList<T>(value: T): T {
+  if (Array.isArray(value)) return value.map(toPropertyList) as T;
+  if (value instanceof Date || value === null || typeof value !== 'object') return value;
+  const out: Record<string, unknown> = {};
+  for (const [key, item] of Object.entries(value)) {
+    if (item !== null && item !== undefined) out[key] = toPropertyList(item);
+  }
+  return out as T;
+}
+
 /** Replenish the five-day horizon at most once per quarter-hour for unchanged inputs. */
 export const WIDGET_REFRESH_INTERVAL_MS = 15 * 60 * 1000;
 
@@ -74,7 +96,7 @@ export function createPrayerWidgetSync(loaders: WidgetLoaders) {
           if (entries.length === 0) return;
           // One timeline push: updateSnapshot on iOS would overwrite it and spend
           // another reload request. Its first entry already represents `now`.
-          widget.updateTimeline(entries);
+          widget.updateTimeline(toPropertyList(entries));
           applied = { key: inputKey(), at: now };
         }
       } catch {
