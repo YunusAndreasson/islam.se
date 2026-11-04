@@ -3,7 +3,7 @@ title: "Vad är islams fem pelare? – arkan al-islam"
 question: "Vad är islams fem pelare?"
 description: "Islams fem pelare – shahada, bön, zakat, fasta och hajj – utgör arkan al-islam. Här är vad var och en kräver och varför trosbekännelsen räknas som den första."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-09-25T00:00:00Z"
+updatedAt: "2026-11-04T00:00:00Z"
 keywords:
   - "islams fem pelare"
   - "arkan al-islam"
@@ -52,12 +52,18 @@ related:
 
 ## Vilka är islams fem pelare?
 
-De fem pelarna räknas upp i en välkänd hadith som återberättas av profetens följeslagare ʿAbdullah ibn ʿUmar:
+1. **Trosbekännelsen (*shahada*).** Att vittna att ingen har rätt att dyrkas utom Gud och att Muhammed är hans sändebud.
+2. **Bönen (*salāt*).** Fem gånger varje dygn, vänd mot Kaba i Mecka.
+3. **Allmoseskatten (*zakat*).** 2,5 procent av det sparade överskottet, en gång om året.
+4. **Fastan (*sawm*).** Från gryningen till solnedgången, varje dag under ramadan.
+5. **Vallfärden (*hajj*).** Till Mecka en gång i livet, för den som har förmåga.
+
+Uppräkningen kommer från en välkänd hadith som återberättas av profetens följeslagare ʿAbdullah ibn ʿUmar:
 
 > Islam är byggd på fem [pelare]: vittnesbördet att ingen har rätt att dyrkas utom Gud och att Muhammed är Guds sändebud, att förrätta bönen, att ge allmoseskatten, att vallfärda till Huset och att fasta under ramadan.
 > — Sahīh al-Bukhārī 8
 
-Hadithen finns i de två mest tillförlitliga samlingarna, *Sahīh al-Bukhārī* (nr 8) och *Sahīh Muslim* (nr 16); hos Muslim nämns fastan före vallfärden, i övrigt är innehållet detsamma. Bilden av pelare kommer från hadithen själv, som liknar islam vid en byggnad på fem bärande stöd. Den första pelaren är av ett annat slag än de andra. Den är ett vittnesbörd, en trosakt, och de fyra övriga är handlingar som förutsätter den. Brister en troende i någon av de fyra, av svaghet eller lättja, står huset kvar; faller den första, rasar allt. Bönen är det omstridda undantaget. De lärda är oense om huruvida den som medvetet slutar be därmed lämnar islam, och flera av de främsta menar att han gör det.
+Hadithen finns i de två mest tillförlitliga samlingarna, *Sahīh al-Bukhārī* (nr 8) och *Sahīh Muslim* (nr 16); hos Muslim nämns fastan före vallfärden, som i listan ovan, i övrigt är innehållet detsamma. Bilden av pelare kommer från hadithen själv, som liknar islam vid en byggnad på fem bärande stöd. Den första pelaren är av ett annat slag än de andra. Den är ett vittnesbörd, en trosakt, och de fyra övriga är handlingar som förutsätter den. Brister en troende i någon av de fyra, av svaghet eller lättja, står huset kvar; faller den första, rasar allt. Bönen är det omstridda undantaget. De lärda är oense om huruvida den som medvetet slutar be därmed lämnar islam, och flera av de främsta menar att han gör det.
 
 ## Varför är trosbekännelsen den första pelaren?
 

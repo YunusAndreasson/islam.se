@@ -17,12 +17,17 @@ export interface SvarSeoMetadata {
 // question: the searcher wants the four letters, and the result page gives them. The page
 // now carries its own question title and question-shaped H2s for the real queries.
 const SVAR_SEO_OVERRIDES = new Map<string, SvarSeoMetadata>([
+	// GSC, 5 August–2 November 2026: 15 471 impressions, 13 clicks (0,1 %) at position
+	// 7–9; the title above (2026-08-31) left the rate where it was. The old description
+	// listed all five, which is the whole answer to »islams fem pelare«, so the result
+	// page was enough – the halalslakt lesson. This one names the stakes and withholds the
+	// list; the list itself now opens the first section, where a snippet can take it.
 	[
 		"islams-fem-pelare",
 		{
 			title: "Islams fem pelare – vilka är de?",
 			description:
-				"Islams fem pelare är trosbekännelsen, bönen, zakat, fastan under ramadan och hajj. Se vad varje pelare betyder och vem den gäller.",
+				"Islam är byggd på fem pelare. Faller den första rasar allt, och en av de andra kan enligt flera lärda inte överges utan att man lämnar islam. Här är alla fem.",
 		},
 	],
 	[

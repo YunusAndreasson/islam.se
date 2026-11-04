@@ -1,12 +1,14 @@
 ---
 title: "Vem var profeten Muhammed? Islams siste profet"
 question: "Vem var profeten Muhammed?"
-description: "Muhammed (ca 570–632) var köpmannen i Mecka som blev islams siste profet. Här är hans liv – från uppenbarelsen i Hira till Medina och avskedsvallfärden."
+description: "Muhammed (ca 570–632) var köpmannen i Mecka som blev islams siste profet. Här är hans liv – från uppenbarelsen i Hira till hans sista dagar i Medina."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-10-17T00:00:00Z"
+updatedAt: "2026-11-04T00:00:00Z"
 keywords:
   - "vem var profeten muhammed"
   - "profeten muhammed"
+  - "när dog muhammed"
+  - "hur dog profeten muhammed"
   - "muhammeds liv"
   - "islams profet"
   - "när levde muhammed"
@@ -17,8 +19,8 @@ faq:
     a: "Han var omkring 40 år när han enligt islam tog emot den första uppenbarelsen genom ärkeängeln Jibrīl (Gabriel) i grottan Hira utanför Mecka, omkring år 610."
   - q: "Varför kallas Muhammed profeternas insegel?"
     a: "För att han enligt Koranen 33:40 är den siste i raden av profeter; ingen profet kommer efter honom. Uttrycket betyder ungefär ”det som beseglar och avslutar” profetlängden."
-  - q: "Hur dog Muhammed?"
-    a: "Efter en kort tids sjukdom dog Muhammed i juni 632 i Medina, i sin hustru ʿĀʾishas bostad. Han begravdes på samma plats, som i dag ryms inom Profetens moské."
+  - q: "Vem tog över efter Muhammed?"
+    a: "Abū Bakr as-Siddīq, hans närmaste följeslagare, som valdes till kalif i Medina i juni 632. Efter honom följde ʿUmar, ʿUthmān och ʿAlī, de fyra rättledda kaliferna."
   - q: "Får man avbilda profeten Muhammed?"
     a: "Inom klassisk islam avbildas han inte, för att förhindra att vördnad glider över i överdrift eller avgudadyrkan. Frågan hör nära samman med läran om Guds enhet, tawhīd."
   - q: "Vad betyder ﷺ efter Muhammeds namn?"
@@ -34,10 +36,26 @@ sources:
     url: "https://quran.com/33/21?translations=48"
   - name: "Koranen 33:40"
     url: "https://quran.com/33/40?translations=48"
+  - name: "Koranen 3:144"
+    url: "https://quran.com/3/144?translations=48"
   - name: "Sahīh al-Bukhārī 3"
     url: "https://sunnah.com/bukhari:3"
   - name: "Sahīh al-Bukhārī 45"
     url: "https://sunnah.com/bukhari:45"
+  - name: "Sahīh al-Bukhārī 198"
+    url: "https://sunnah.com/bukhari:198"
+  - name: "Sahīh al-Bukhārī 664"
+    url: "https://sunnah.com/bukhari:664"
+  - name: "Sahīh al-Bukhārī 1389"
+    url: "https://sunnah.com/bukhari:1389"
+  - name: "Sahīh al-Bukhārī 3668"
+    url: "https://sunnah.com/bukhari:3668"
+  - name: "Sahīh al-Bukhārī 4454"
+    url: "https://sunnah.com/bukhari:4454"
+  - name: "Sahīh al-Bukhārī 4463"
+    url: "https://sunnah.com/bukhari:4463"
+  - name: "Sahīh al-Bukhārī 4466"
+    url: "https://sunnah.com/bukhari:4466"
   - name: "al-Bukhārī, al-Adab al-Mufrad 273"
   - name: "Ibn Hishām, Sīrat Rasūl Allāh"
   - name: "Tomas presbytern, Krönikan från år 640 – i A. Palmer, The Seventh Century in the West-Syrian Chronicles (Liverpool University Press, 1993), s. 18–19"
@@ -100,7 +118,25 @@ Under avskedsvallfärden år 632, inför tiotusentals pilgrimer, uppenbarades ve
 > Denna dag har Jag fullbordat det religiösa regelverket för er och skänkt er Min välsignelse i fullaste mått. Jag har beslutat att Islam skall vara er religion.
 > — Koranen 5:3
 
-Några månader senare, i juni 632, dog Muhammed i Medina.
+## När och hur dog profeten Muhammed?
+
+Muhammed dog en måndag i juni 632 i Medina, knappt tre månader efter avskedsvallfärden. Han var 63 år gammal (Sahīh al-Bukhārī 4466). Han hade insjuknat i feber och svår huvudvärk, och när sjukdomen förvärrades bad han sina hustrur om lov att få vårdas hos ʿĀʾisha. De gav sitt samtycke, och han fick stödjas dit av två män, med fötterna släpande mot marken (Sahīh al-Bukhārī 198).
+
+De sista dagarna orkade han inte leda bönen i moskén. Han lät hälsa Abū Bakr att leda den i hans ställe, och när ʿĀʾisha invände att hennes far var för känslosam för att stå på profetens plats, upprepade han uppdraget tills det blev utfört (Sahīh al-Bukhārī 664). För *ahl as-sunna* är det ett av de tydligaste tecknen på Abū Bakrs företräde bland följeslagarna, och det var han som blev [den förste av de rättledda kaliferna](/svar/de-rattledda-kaliferna/).
+
+ʿĀʾisha berättar att profeten dog i hennes hus med huvudet mot hennes bröst, och att han begravdes på samma plats (Sahīh al-Bukhārī 1389). Medan han var frisk hade han sagt att ingen profet dör förrän han fått se sin plats i paradiset och sedan fått välja. Hans sista ord var en bön, *Allāhumma ar-rafīq al-aʿlā*, "O Gud, den högsta gemenskapen", och ʿĀʾisha förstod då att han hade valt (Sahīh al-Bukhārī 4463).
+
+Beskedet skakade Medina, och ʿUmar ibn al-Khattāb ville först inte tro att det var sant. Då trädde Abū Bakr fram, lovprisade Gud och talade till folket:
+
+> Den som dyrkade Muhammed: Muhammed är död. Den som dyrkar Gud: Gud är levande och dör inte.
+> — Sahīh al-Bukhārī 3668
+
+Sedan reciterade han versen som uppenbarats efter slaget vid Uhud:
+
+> MUHAMMAD är ingenting mer än ett sändebud och [andra] sändebud har kommit och gått före honom. Om han dör eller stupar i strid, kommer ni då att göra en helomvändning? Den som vänder helt om vållar inte Gud någon skada. Men Gud skall belöna dem som visar tacksamhet.
+> — Koranen 3:144
+
+Ibn ʿAbbās mindes att det var som om folket inte hade känt till versen förrän Abū Bakr läste den; efteråt hördes den överallt (Sahīh al-Bukhārī 4454). Profetens grav ligger i dag inom Profetens moské i Medina, bredvid Abū Bakrs och ʿUmars.
 
 ## Varför är Muhammed ett föredöme för muslimer?
 
