@@ -28,6 +28,9 @@ export interface ImageCredit {
 	source: string;
 	/** What we did to it. The CC licences ask that a change is said. */
 	changed?: string;
+	/** The maker, for the structured data's `creator`, when it is not the part of `by`
+	 *  before » / « (»Röhsska museet, foto Carl Ander« was photographed by Carl Ander). */
+	creator?: string;
 }
 
 export const IMAGE_CREDITS: Readonly<Record<string, ImageCredit>> = creditsRaw as Record<

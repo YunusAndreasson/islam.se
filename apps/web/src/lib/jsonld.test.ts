@@ -78,6 +78,7 @@ describe("figureImageObject", () => {
 				caption: "Kaba 1880.",
 				credit: {
 					by: "Adli Wahid / Wikimedia Commons",
+					licence: "CC BY-SA 4.0",
 					licenceUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
 					source: "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg",
 				},
@@ -88,9 +89,57 @@ describe("figureImageObject", () => {
 			contentUrl: figure.contentUrl,
 			caption: "Kaba 1880.",
 			creditText: "Adli Wahid / Wikimedia Commons",
+			creator: { "@type": "Person", name: "Adli Wahid" },
+			copyrightNotice: "© Adli Wahid, CC BY-SA 4.0",
 			license: "https://creativecommons.org/licenses/by-sa/4.0/",
 			acquireLicensePage: "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj.jpg",
 		});
+	});
+
+	// Search Console (2026-11-04) flagged every credited figure for a missing `creator`
+	// and `copyrightNotice`. These pin the three ways a credit names its maker.
+	const credit = (by: string, licence: string, creator?: string) => ({
+		by,
+		licence,
+		licenceUrl: "https://creativecommons.org/publicdomain/mark/1.0/",
+		source: "https://commons.wikimedia.org/wiki/File:X.jpg",
+		...(creator ? { creator } : {}),
+	});
+
+	it("names a holding institution as an Organization and claims no copyright for the public domain", () => {
+		const block = figureImageObject({
+			...figure,
+			credit: credit("Österreichische Nationalbibliothek, Wien", "Public domain"),
+		});
+		expect(block.creator, "an institution credited as maker must not be typed Person").toEqual({
+			"@type": "Organization",
+			name: "Österreichische Nationalbibliothek, Wien",
+		});
+		expect(block.copyrightNotice, "a public-domain picture has no © holder").toBe("Public domain");
+	});
+
+	it("takes the registry's creator over the credit line when the line names a collection first", () => {
+		const block = figureImageObject({
+			...figure,
+			credit: credit(
+				"Röhsska museet, foto Carl Ander / Wikimedia Commons",
+				"CC BY 4.0",
+				"Carl Ander",
+			),
+		});
+		expect(block.creator).toEqual({ "@type": "Person", name: "Carl Ander" });
+		expect(
+			block.copyrightNotice,
+			"the notice names the credited holder, not the photographer alone",
+		).toBe("© Röhsska museet, foto Carl Ander, CC BY 4.0");
+	});
+
+	it("names no creator when the credit is only the host that carries the file", () => {
+		const block = figureImageObject({ ...figure, credit: credit("Wikimedia Commons", "CC0") });
+		expect(block, "Wikimedia Commons hosts the file; it did not make it").not.toHaveProperty(
+			"creator",
+		);
+		expect(block.copyrightNotice).toBe("CC0");
 	});
 
 	// A licence asserted for a picture with no recorded credit would be a claim the
@@ -99,6 +148,8 @@ describe("figureImageObject", () => {
 		const block = figureImageObject(figure);
 		expect(block).not.toHaveProperty("license");
 		expect(block).not.toHaveProperty("creditText");
+		expect(block).not.toHaveProperty("creator");
+		expect(block).not.toHaveProperty("copyrightNotice");
 		expect(block).not.toHaveProperty("caption");
 	});
 });

@@ -249,7 +249,8 @@
 		"by": "Fadi El Binni, Al Jazeera English / Wikimedia Commons",
 		"licence": "CC BY-SA 2.0",
 		"licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
-		"source": "https://commons.wikimedia.org/wiki/File:While_tossing_their_pebbles,_pilgrims_recall_a_story_of_the_Prophet_Abraham._-_Flickr_-_Al_Jazeera_English.jpg"
+		"source": "https://commons.wikimedia.org/wiki/File:While_tossing_their_pebbles,_pilgrims_recall_a_story_of_the_Prophet_Abraham._-_Flickr_-_Al_Jazeera_English.jpg",
+		"creator": "Fadi El Binni"
 	},
 	"inline/kaba-1880-sadiq-bey": {
 		"kind": "Foto",
@@ -263,7 +264,8 @@
 		"by": "al-Sayyid ʿAbd al-Ghaffār, Library of Congress",
 		"licence": "Public domain",
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
-		"source": "https://commons.wikimedia.org/wiki/File:Mecca_prayer,_1889.tif"
+		"source": "https://commons.wikimedia.org/wiki/File:Mecca_prayer,_1889.tif",
+		"creator": "al-Sayyid ʿAbd al-Ghaffār"
 	},
 	"inline/kabas-dorrforhange-2024": {
 		"kind": "Bild",
@@ -279,7 +281,8 @@
 		"licence": "CC BY 4.0",
 		"licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:R%C3%B6hsskaMuseet_Kaffekanna_rkm18-1963_D8A9004.tif",
-		"changed": "beskuren"
+		"changed": "beskuren",
+		"creator": "Carl Ander"
 	},
 	"inline/koranblad-al-ankabut-damaskus-fore-911": {
 		"kind": "Bild",
@@ -364,7 +367,8 @@
 		"licence": "Public domain",
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Grundriss_der_Moschee_von_Mekka.jpg",
-		"changed": "beskuren"
+		"changed": "beskuren",
+		"creator": "Christiaan Snouck Hurgronje"
 	},
 	"inline/nya-tiders-monter-bokmassan-2016": {
 		"kind": "Foto",

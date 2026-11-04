@@ -62,8 +62,16 @@ export function figureImageObject(opts: {
 	caption?: string;
 	width: number;
 	height: number;
-	credit?: { by: string; licenceUrl: string; source: string };
+	credit?: {
+		by: string;
+		licence: string;
+		licenceUrl: string;
+		source: string;
+		creator?: string;
+	};
 }): Record<string, unknown> {
+	const credit = opts.credit;
+	const maker = credit ? imageCreator(credit) : undefined;
 	return {
 		"@context": "https://schema.org",
 		"@type": "ImageObject",
@@ -73,14 +81,43 @@ export function figureImageObject(opts: {
 		...(opts.caption ? { caption: opts.caption } : {}),
 		width: opts.width,
 		height: opts.height,
-		...(opts.credit
+		...(credit
 			? {
-					creditText: opts.credit.by,
-					license: opts.credit.licenceUrl,
-					acquireLicensePage: opts.credit.source,
+					creditText: credit.by,
+					...(maker ? { creator: maker } : {}),
+					copyrightNotice: copyrightNotice(
+						credit.licence,
+						credit.by.replace(/ \/ Wikimedia Commons$/, ""),
+					),
+					license: credit.licenceUrl,
+					acquireLicensePage: credit.source,
 				}
 			: {}),
 	};
+}
+
+// Search Console's image-metadata report (2026-11-04) flagged all 55 credited figures
+// for a missing `creator` and `copyrightNotice`. Both come out of the credit we already
+// keep: `by` reads »maker / where it is held«, so the maker is the part before the
+// slash unless the registry names one, and a host on its own is no maker at all.
+const INSTITUTION =
+	/librar|museum|museet|museer|collections|gallery|society|heritage|department|press\b|bibliot/i;
+
+function imageCreator(credit: {
+	by: string;
+	creator?: string;
+}): { "@type": "Person" | "Organization"; name: string } | undefined {
+	const name = (credit.creator ?? credit.by.split(" / ")[0] ?? "").trim();
+	if (!name || name === "Wikimedia Commons") return undefined;
+	return { "@type": INSTITUTION.test(name) ? "Organization" : "Person", name };
+}
+
+/** »Public domain« and »CC0« waive the copyright, so the notice says so and names nobody;
+ *  under every other licence the holder is the credit line, not the maker alone: an 1880
+ *  photograph by Sadiq Bey is licensed by the collection that reproduced it. The host
+ *  that only carries the file is left out. */
+function copyrightNotice(licence: string, holder: string): string {
+	return /^(public domain|cc0)/i.test(licence) ? licence : `© ${holder}, ${licence}`;
 }
 
 export interface Crumb {
