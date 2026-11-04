@@ -64,7 +64,25 @@ fi
 
 echo
 echo "▸ [4/6] Re-pinning Expo-managed packages to SDK-compatible versions…"
-npx expo install --fix --pnpm
+# `expo install --fix` pins to Expo's REMOTE version map, which moves the minute an SDK
+# patch is published. pnpm's 24 h minimumReleaseAge then hides those versions, and the
+# fix dies with ERR_PNPM_NO_MATCHING_VERSION (2026-11-03: expo@58.0.23 needed
+# expo-asset@~58.0.20, published that afternoon). Fall back to the map bundled with the
+# INSTALLED expo (EXPO_OFFLINE=1) so the tree is still made consistent; a run a day later
+# picks up the new patch through the normal path. Any other failure still fails the run.
+FIX_LOG="$(mktemp)"
+trap 'rm -f "$FIX_LOG"' EXIT
+if ! npx expo install --fix --pnpm 2>&1 | tee "$FIX_LOG"; then
+  if grep -q "ERR_PNPM_NO_MATCHING_VERSION\|ERR_PNPM_NO_MATURE_MATCHING_VERSION" "$FIX_LOG"; then
+    echo
+    echo "  The newest Expo SDK patch is younger than pnpm's 24 h release-age delay."
+    echo "  Re-pinning against the installed expo's bundledNativeModules.json instead;"
+    echo "  re-run ./update.sh tomorrow to move to the new patch."
+    EXPO_OFFLINE=1 npx expo install --fix --pnpm
+  else
+    exit 1
+  fi
+fi
 
 echo
 echo "▸ [5/6] Collapsing duplicate minimumReleaseAgeExclude entries…"

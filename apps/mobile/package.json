@@ -85,7 +85,7 @@
     "react-native-worklets": "0.13.0"
   },
   "devDependencies": {
-    "@expo/agent-cli": "^1.0.22",
+    "@expo/agent-cli": "^1.0.23",
     "@expo/fingerprint": "~0.21.8",
     "@jest/globals": "^30.5.2",
     "@stryker-mutator/core": "^10.1.1",
