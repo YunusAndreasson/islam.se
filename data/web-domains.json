@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 146,
-      "ok": 145,
+      "total": 148,
+      "ok": 147,
       "failed": 1,
-      "lastChecked": "2026-10-25T14:13:35.647Z",
-      "publishedIn": 110,
-      "avgScore": 8.618181818181835,
+      "lastChecked": "2026-11-04T20:48:58.212Z",
+      "publishedIn": 111,
+      "avgScore": 8.618018018018034,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -905,12 +905,12 @@
       "avgScore": 8.6
     },
     "islam.se": {
-      "total": 5,
-      "ok": 5,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-10-14T17:17:44.470Z",
-      "publishedIn": 5,
-      "avgScore": 8.7
+      "lastChecked": "2026-11-04T20:48:58.212Z",
+      "publishedIn": 6,
+      "avgScore": 8.683333333333334
     },
     "brill.com": {
       "total": 2,
@@ -1142,11 +1142,11 @@
       "avgScore": 8.6
     },
     "islamqa.info": {
-      "total": 13,
-      "ok": 13,
+      "total": 14,
+      "ok": 14,
       "failed": 0,
-      "lastChecked": "2026-10-18T16:58:05.260Z",
-      "publishedIn": 7,
+      "lastChecked": "2026-11-04T20:48:58.212Z",
+      "publishedIn": 8,
       "avgScore": 8.6
     },
     "www.openhorizons.org": {
@@ -2286,11 +2286,11 @@
       "lastChecked": "2026-09-19T18:55:11.464Z"
     },
     "www.aljazeera.com": {
-      "total": 6,
-      "ok": 6,
+      "total": 8,
+      "ok": 8,
       "failed": 0,
-      "lastChecked": "2026-10-08T19:10:09.032Z",
-      "publishedIn": 6,
+      "lastChecked": "2026-11-04T20:48:58.212Z",
+      "publishedIn": 7,
       "avgScore": 8.6
     },
     "www.amnesty.org": {
@@ -3039,6 +3039,44 @@
       "ok": 2,
       "failed": 0,
       "lastChecked": "2026-10-29T22:01:29.734Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "bridgemi.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-04T20:48:58.212Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.yahoo.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-04T20:48:58.212Z"
+    },
+    "www.pbs.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-04T20:48:58.212Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.jns.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-04T20:48:58.212Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "quran.ksu.edu.sa": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-04T20:48:58.212Z",
       "publishedIn": 1,
       "avgScore": 8.6
     }

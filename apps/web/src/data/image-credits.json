@@ -1,4 +1,12 @@
 {
+	"inline/abdul-el-sayed-wayne-county-2025": {
+		"kind": "Foto",
+		"by": "Kenneth C. Zirkel / Wikimedia Commons",
+		"licence": "CC BY-SA 4.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Abdul_El-Sayed.jpg",
+		"changed": "beskuren"
+	},
 	"inline/al-baqi-medina-gravkullar": {
 		"kind": "Foto",
 		"by": "Saleh Al Hussain / Wikimedia Commons",
@@ -123,6 +131,14 @@
 		"source": "https://commons.wikimedia.org/wiki/File:Cimeti%C3%A8re_musulman_Bobigny.jpg",
 		"changed": "beskuren"
 	},
+	"inline/capitolium-senatsflygeln-2024": {
+		"kind": "Foto",
+		"by": "Bernini123 / Wikimedia Commons",
+		"licence": "CC0",
+		"licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Facade_of_Senate_chamber.jpg",
+		"changed": "beskuren"
+	},
 	"inline/cordoba-mihraben-al-hakam-ii": {
 		"kind": "Foto",
 		"by": "Jl FilpoC / Wikimedia Commons",
@@ -145,6 +161,14 @@
 		"licence": "Public domain",
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:The_Press_13_06_1863_page_1.png",
+		"changed": "beskuren"
+	},
+	"inline/dearborn-warren-avenue-2012": {
+		"kind": "Foto",
+		"by": "ʿAmr ibn Kulthūm (arabiska Wikipedia) / Wikimedia Commons",
+		"licence": "CC BY-SA 2.5",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/2.5/",
+		"source": "https://commons.wikimedia.org/wiki/File:%D8%B4%D8%A7%D8%B1%D8%B9_%D9%88%D9%88%D8%B1%D9%86_%D9%81%D9%8A_%D8%AF%D9%8A%D8%B1%D8%A8%D9%88%D8%B1%D9%86.jpg",
 		"changed": "beskuren"
 	},
 	"inline/deir-al-balah-pojke-bar-mat-januari-2025": {
@@ -207,6 +231,13 @@
 		"licence": "Public domain",
 		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
 		"source": "https://commons.wikimedia.org/wiki/File:Gold_dinar_of_Abd_al-Malik_697-98.png"
+	},
+	"inline/hamtramck-jos-campau-2012": {
+		"kind": "Foto",
+		"by": "Andrew Jameson / Wikimedia Commons",
+		"licence": "CC BY-SA 3.0",
+		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Jos_Campau_N_of_Caniff_-_Hamtramck_MI.JPG"
 	},
 	"inline/harry-martinsons-fodelsesten-nyteboda": {
 		"kind": "Foto",
@@ -417,6 +448,13 @@
 		"licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
 		"source": "https://commons.wikimedia.org/wiki/File:Khalili_Collection_Islamic_Art_mss_0311_fol_190b-191a.jpg",
 		"changed": "beskuren"
+	},
+	"inline/senatens-plenisal-1921": {
+		"kind": "Foto",
+		"by": "Harris & Ewing / Wikimedia Commons",
+		"licence": "Public domain",
+		"licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+		"source": "https://commons.wikimedia.org/wiki/File:Collier%27s_1921_United_States_of_America_-_Senate_Chamber.jpg"
 	},
 	"inline/spillingsskatten-arabiska-silvermynt": {
 		"kind": "Foto",
