@@ -35,43 +35,102 @@ import {
 } from "./prayer-times";
 import { DEFAULT_SETTINGS } from "./settings";
 
-const CACHE_DIR = join(process.cwd(), "node_modules/.astro/pdf-cache");
 const WORK_DIR = join(process.cwd(), "node_modules/.astro/pdf-build");
 // Repo-roten är två steg upp från apps/web, där både fonts/ och typst-anropet i
 // scripts/generate-pdf.ts redan letar.
 const FONTS_DIR = join(process.cwd(), "../../fonts");
 
-const generation = (() => {
-	try {
-		const hash = createHash("sha256");
-		for (const file of [
-			"src/lib/bonetider/pdf.ts",
-			"src/lib/bonetider/prayer-times.ts",
-			"src/lib/bonetider/settings.ts",
-			"node_modules/adhan/package.json",
-		])
-			hash.update(readFileSync(join(process.cwd(), file)));
-		return hash.digest("hex").slice(0, 12);
-	} catch {
-		return `nogen-${randomUUID()}`;
-	}
-})();
+/**
+ * En typst-renderare med egen diskcache. Varje ark (månaden, ramadan) har sin egen
+ * katalog: generationen är en hash av filerna som bestämmer utseendet, och en ny
+ * generation städar bort sina föregångare — men bara i sin egen katalog, så att ett
+ * ändrat ramadanark inte kastar månadsarkens cache.
+ *
+ * Roten är apps/web, så att ett dokument kan hämta en bild ur src/assets med en sökväg
+ * som börjar med "/".
+ */
+export function typstRenderer(
+	name: string,
+	files: string[],
+): (key: string, source: string) => Buffer {
+	const cacheDir = join(process.cwd(), "node_modules/.astro", name);
+	const generation = (() => {
+		try {
+			const hash = createHash("sha256");
+			for (const file of files) hash.update(readFileSync(join(process.cwd(), file)));
+			return hash.digest("hex").slice(0, 12);
+		} catch {
+			return `nogen-${randomUUID()}`;
+		}
+	})();
+	const genDir = join(cacheDir, generation);
+	let pruned = false;
 
-const GEN_DIR = join(CACHE_DIR, generation);
-let pruned = false;
-
-function pruneOldGenerations(): void {
-	if (pruned) return;
-	pruned = true;
-	try {
-		for (const entry of readdirSync(CACHE_DIR, { withFileTypes: true })) {
-			if (entry.isDirectory() && entry.name !== generation) {
-				rmSync(join(CACHE_DIR, entry.name), { recursive: true, force: true });
+	return (key, source) => {
+		if (!pruned) {
+			pruned = true;
+			try {
+				for (const entry of readdirSync(cacheDir, { withFileTypes: true })) {
+					if (entry.isDirectory() && entry.name !== generation) {
+						rmSync(join(cacheDir, entry.name), { recursive: true, force: true });
+					}
+				}
+			} catch {
+				// Ingen cachekatalog än. Ett bygge får aldrig falla på städningen.
 			}
 		}
-	} catch {
-		// Ingen cachekatalog än. Ett bygge får aldrig falla på städningen.
-	}
+		const cached = join(genDir, `${key}.pdf`);
+		try {
+			if (existsSync(cached)) return readFileSync(cached);
+		} catch {
+			// Oläsbar cachepost — fall igenom och rendera om.
+		}
+
+		mkdirSync(WORK_DIR, { recursive: true });
+		// Filnamnet bär nyckeln: Astro renderar sidor parallellt, och en delad temp-fil
+		// hade låtit två orter skriva över varandras underlag mitt i kompileringen.
+		const typPath = join(WORK_DIR, `${name}-${key}.typ`);
+		const outPath = join(WORK_DIR, `${name}-${key}.pdf`);
+		writeFileSync(typPath, source);
+		try {
+			execFileSync(
+				"typst",
+				["compile", "--root", process.cwd(), "--font-path", FONTS_DIR, typPath, outPath],
+				{ stdio: "pipe" },
+			);
+			const pdf = readFileSync(outPath);
+			try {
+				mkdirSync(genDir, { recursive: true });
+				writeFileSync(cached, pdf);
+			} catch {
+				// En cache som inte går att skriva får inte fälla bygget.
+			}
+			return pdf;
+		} finally {
+			for (const f of [typPath, outPath]) {
+				try {
+					if (existsSync(f)) unlinkSync(f);
+				} catch {
+					// Städningen får inte maskera ett riktigt fel från typst.
+				}
+			}
+		}
+	};
+}
+
+const renderMonth = typstRenderer("pdf-cache", [
+	"src/lib/bonetider/pdf.ts",
+	"src/lib/bonetider/prayer-times.ts",
+	"src/lib/bonetider/settings.ts",
+	"node_modules/adhan/package.json",
+]);
+
+/** Ortens nyckel i cachen: allt som syns på arket och som kommer från orten. */
+export function placeKey(place: PdfPlace): string {
+	return createHash("sha256")
+		.update(JSON.stringify([place.slug, place.name, place.county, place.lat, place.lon]))
+		.digest("hex")
+		.slice(0, 16);
 }
 
 export interface PdfPlace {
@@ -85,7 +144,7 @@ export interface PdfPlace {
 /** Typst-strängar citeras med `"`, så ett citattecken i ett ortnamn skulle bryta
  *  dokumentet. Inget svenskt ortnamn innehåller ett — men underlaget är en GeoNames-dump
  *  och inte en lista vi skrivit själva. */
-const q = (s: string) => `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+export const q = (s: string) => `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 
 interface Row {
 	day: number;
@@ -174,47 +233,9 @@ ${body}
  * länken går till en 404, eftersom Cloudflare Pages är en ögonblicksbild av dist/.
  */
 export function monthPdf(place: PdfPlace, now = new Date()): Buffer {
-	pruneOldGenerations();
 	const today = stockholmIsoDate(now);
 	const year = Number(today.slice(0, 4));
 	const month = Number(today.slice(5, 7)) - 1;
-	const placeKey = createHash("sha256")
-		.update(JSON.stringify([place.slug, place.name, place.county, place.lat, place.lon]))
-		.digest("hex")
-		.slice(0, 16);
-	const key = `${placeKey}-${year}-${String(month + 1).padStart(2, "0")}`;
-	const cached = join(GEN_DIR, `${key}.pdf`);
-	try {
-		if (existsSync(cached)) return readFileSync(cached);
-	} catch {
-		// Oläsbar cachepost — fall igenom och rendera om.
-	}
-
-	mkdirSync(WORK_DIR, { recursive: true });
-	// Filnamnet bär nyckeln: Astro renderar sidor parallellt, och en delad temp-fil
-	// hade låtit två orter skriva över varandras underlag mitt i kompileringen.
-	const typPath = join(WORK_DIR, `${key}.typ`);
-	const outPath = join(WORK_DIR, `${key}.pdf`);
-	writeFileSync(typPath, document(place, year, month));
-	try {
-		execFileSync("typst", ["compile", "--font-path", FONTS_DIR, typPath, outPath], {
-			stdio: "pipe",
-		});
-		const pdf = readFileSync(outPath);
-		try {
-			mkdirSync(GEN_DIR, { recursive: true });
-			writeFileSync(cached, pdf);
-		} catch {
-			// En cache som inte går att skriva får inte fälla bygget.
-		}
-		return pdf;
-	} finally {
-		for (const f of [typPath, outPath]) {
-			try {
-				if (existsSync(f)) unlinkSync(f);
-			} catch {
-				// Städningen får inte maskera ett riktigt fel från typst.
-			}
-		}
-	}
+	const key = `${placeKey(place)}-${year}-${String(month + 1).padStart(2, "0")}`;
+	return renderMonth(key, document(place, year, month));
 }

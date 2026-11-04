@@ -13,6 +13,12 @@ ground (white multiplied, black screened), so there is no frame in either theme.
 and dropped for the dark theme: inverting the graphite (a negative — the dark screen
 went white, the shadows glowed) and the graphite on a light sheet ("doesn't work").
 
+One drawing also goes to print: `aret-tryck.jpg` is `aret.webp` (the new crescent) as a
+760 px JPEG for the Ramadan sheet (`lib/bonetider/ramadan-pdf.ts`). Typst embeds a JPEG
+as it is but unpacks a WebP, 43 kB against 385 kB in each of 272 PDFs. Remake it from the
+light drawing whenever that changes:
+`magick aret.webp -resize 760x -quality 82 -sampling-factor 4:2:0 -strip aret-tryck.jpg`.
+
 ## A new drawing
 
 Generate the light one with the Turner page (below) and an existing drawing of the

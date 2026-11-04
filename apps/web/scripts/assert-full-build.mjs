@@ -121,6 +121,14 @@ if (cities !== null && cities >= MIN_CITIES && icsCount < MIN_CITIES) {
 	);
 }
 const pdfCount = countFiles("bonetider", "kalender.pdf");
+const ramadanPdfCount = countFiles("bonetider", "ramadan.pdf");
+// Same towns as the month sheet. The city pages link to it, so a build where typst
+// failed for every one of them would ship 270-odd broken links.
+if (cities !== null && cities >= MIN_CITIES && ramadanPdfCount < 200) {
+	failures.push(
+		`only ${ramadanPdfCount} ramadan.pdf files — expected one per town above OG_POPULATION (typst missing?)`,
+	);
+}
 // The PDF is built only above OG_POPULATION (273 towns as of 2026-08); 200 is a floor
 // that catches "typst was missing and every one silently failed", not an exact count.
 if (cities !== null && cities >= MIN_CITIES && pdfCount < 200) {
@@ -270,5 +278,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-	`✓ deploy guard: ${cities} bönetider city pages, ${icsCount} kalendrar, ${pdfCount} månads-PDF:er, ${svarBuilt} svar pages, ${chartFigures} diagram, sitemap + PDF present`,
+	`✓ deploy guard: ${cities} bönetider city pages, ${icsCount} kalendrar, ${pdfCount} månads-PDF:er, ${ramadanPdfCount} ramadanark, ${svarBuilt} svar pages, ${chartFigures} diagram, sitemap + PDF present`,
 );

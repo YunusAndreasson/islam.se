@@ -23,6 +23,7 @@ import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { cityBySlug, directionsLinks, lanDisplay, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 import { hijriLabel } from "../../lib/markesdagar";
 import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ramadan";
+import { hasRamadanSheet } from "../../lib/bonetider/ramadan-pdf";
 import { prayerPageCacheKey } from "../../lib/bonetider/build-cache";
 import { SITE_URL } from "../../lib/config";
 
@@ -223,6 +224,9 @@ const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og
 // Länken får inte visas där filen inte byggs: en död länk på 1 855 sidor är värre än
 // ingen länk alls.
 const hasPdf = place.population >= OG_POPULATION;
+// Same test as the ramadan.pdf route, so the link never points at a file the build
+// did not write.
+const hasRamadanPdf = hasPdf && hasRamadanSheet(place, now);
 
 // Machine-readable provenance for the WebPage (isBasedOn) – the same sources as
 // the visible footer attribution, so the data origin is legible to crawlers.
@@ -541,6 +545,16 @@ if (hasScb) {
 					</tbody>
 				</table>
 				</div>
+				{hasRamadanPdf && (
+					<ul class="bt-take bt-ramadan-take">
+						<li>
+							<a href={`/bonetider/${place.slug}/ramadan.pdf`} type="application/pdf">
+								<span class="bt-take-title">Hela ramadan som PDF</span>
+								<span class="bt-take-gloss">Suhūr och iftar i {place.name} för varje fastedag, på ett A4-ark att sätta upp hemma eller i moskén.</span>
+							</a>
+						</li>
+					</ul>
+				)}
 				<p class="bt-stad-note">
 					Suhūr slutar när Fajr går in och fastan bryts vid Maghrib – samma tider som
 					sidans egen tabell, dag för dag. Datumen följer Umm al-Qura; den första dagen
@@ -765,6 +779,13 @@ if (hasScb) {
 
 	.bt-ramadan-table {
 		font-size: var(--step--3);
+	}
+
+	/* The one ruled row under the Ramadan table, closed below as well as above since
+	   nothing else in the list follows it. */
+	.bt-ramadan-take {
+		margin-top: var(--space-half);
+		border-bottom: var(--border-rule);
 	}
 
 	/* And the month table's narrow-phone padding (PrayerTable.astro): at the shared table's
