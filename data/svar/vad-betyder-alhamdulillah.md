@@ -1,35 +1,27 @@
 ---
-title: "Vad betyder alhamdulillah och mashallah?"
-question: "Vad betyder alhamdulillah och mashallah?"
-description: "Alhamdulillah och mashallah hörs i varje muslimsk vardag, men båda bär en lärosats som få förklarar rätt – och den ena sägs för att skydda mot det onda ögat."
+title: "Vad betyder alhamdulillah?"
+question: "Vad betyder alhamdulillah?"
+description: "Alhamdulillah betyder \"allt lov och pris tillhör Gud\". Frasen inleder Koranen, fyller enligt profeten vågskålen på domens dag och hörs minst sjutton gånger om dagen i en muslims bön."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-09-25T00:00:00Z"
+updatedAt: "2026-11-04T00:00:00Z"
 keywords:
   - "vad betyder alhamdulillah"
-  - "vad betyder mashallah"
+  - "alhamdulillah betyder"
   - "alhamdulillah betydelse"
-  - "mashallah betydelse"
+  - "alhamdulillah på svenska"
   - "subhanallah betydelse"
   - "muslimska uttryck"
   - "arabiska uttryck muslimer"
 faq:
   - q: "När säger man alhamdulillah?"
     a: "Man säger alhamdulillah som tack till Gud – vid goda nyheter, efter en måltid och när man nyser. Frasen inleder också Koranens första kapitel, al-Fatiha (1:2)."
-  - q: "Vad svarar man på mashallah?"
-    a: "Det finns inget fast svar; man kan tacka eller själv säga 'mashallah' eller 'BarakAllahu fik' (Gud välsigne dig). Mashallah är en lovprisning, inte en fråga."
-  - q: "Får icke-muslimer säga mashallah och alhamdulillah?"
-    a: "Ja. Uttrycken är inte förbjudna för någon och bär samma betydelse – 'det Gud har velat' och 'lovprisningen tillhör Gud' – oavsett vem som säger dem."
-  - q: "Vad betyder mashallah la quwwata illa billah?"
-    a: "Det betyder 'det Gud har velat [har skett]; det finns ingen kraft utom hos Gud'. Det är den fullständiga frasen från Koranen 18:39, sagd för att tillskriva Gud allt gott."
+  - q: "Får icke-muslimer säga alhamdulillah?"
+    a: "Ja. Uttrycket är inte förbjudet för någon och betyder detsamma, 'lovprisningen tillhör Gud', oavsett vem som säger det."
 sources:
   - name: "Koranen 1:2"
     url: "https://quran.com/1/2?translations=48"
-  - name: "Koranen 18:39"
-    url: "https://quran.com/18/39?translations=48"
   - name: "Sahīh Muslim 223"
     url: "https://sunnah.com/muslim:223"
-  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Mā shāʾ Allāh och det onda ögat"
-    url: "https://islamqa.info/en/answers/130786"
 related:
   - "vad-betyder-mashallah"
   - "vad-betyder-inshallah"
@@ -38,7 +30,7 @@ related:
   - "sa-ber-man-steg-for-steg"
 ---
 
-**Alhamdulillah betyder "allt lov och pris tillhör Gud" och mashallah betyder "det Gud har velat" – två korta arabiska fraser som muslimer väver in i vardagsspråket för att återföra allt gott och all förmåga till Gud.** Båda har sin grund i Koranen. Den tredje frasen i samma vardag, [inshallah](/svar/vad-betyder-inshallah/), "om Gud vill", gäller framtiden och har en egen sida.
+**Alhamdulillah betyder "allt lov och pris tillhör Gud". Muslimer väver in den korta arabiska frasen i vardagsspråket för att återföra allt gott till Gud.** Den har sin grund i Koranen. Två andra fraser i samma vardag har egna sidor: [mashallah](/svar/vad-betyder-mashallah/), "det Gud har velat", sägs om det goda som redan finns, och [inshallah](/svar/vad-betyder-inshallah/), "om Gud vill", om det som ännu inte har skett.
 
 ## Vad betyder alhamdulillah?
 
@@ -49,18 +41,9 @@ related:
 
 En muslim säger alhamdulillah som svar på "hur mår du", efter en måltid, vid goda nyheter och när han själv nyser, varpå den som hör svarar *yarhamuk Allāh*, "Gud förbarme sig över dig". Abū Mālik al-Ashʿarī återger att profeten Muhammed sade att "alhamdulillah fyller vågskålen" (Sahīh Muslim 223), den våg där människans gärningar vägs på domens dag.
 
-## Vad betyder mashallah?
-
-[*Mā shāʾ Allāh*](/svar/vad-betyder-mashallah/) (ما شاء الله) betyder "det Gud har velat [har skett]". Den sägs när man beundrar något gott (ett barn, en framgång, skönhet) för att tillskriva Gud gåvan och samtidigt avvärja det onda ögat (*al-ʿayn*), avunden som enligt islam kan skada den avundade. Grunden är liknelsen om mannen som steg in i sin vingård utan att tacka Gud:
-
-> Om du bara hade sagt när du gick ut i din vingård: "Ske Guds vilja! Det finns ingen styrka utom hos Gud!"
-> — Koranen 18:39
-
-Den fullständiga frasen lyder därför ofta *mā shāʾ Allāh, lā quwwata illā bi-Llāh*, "det Gud har velat; det finns ingen kraft utom hos Gud". Klassiska lärda rekommenderar den för den som ser något gott, för att vända blicken från gåvan till Givaren (Muhammad Sālih al-Munajjid).
-
 ## Vilka andra uttryck använder muslimer?
 
-*Subhān Allāh* ("fjärran från brister är Gud") sägs inför det som väcker förundran, och *Allāhu akbar* ("Gud är större") inleder bönen med påminnelsen om att inget är större än han. [*Bismillāh*](/svar/vad-betyder-bismillah/) ("i Guds namn") föregår måltiden och varje påbörjat arbete; *astaghfirullāh* ("jag ber Gud om förlåtelse") följer på felsteget. Alla hör till *dhikr*, åminnelsen av Gud, och tillsammans med *lā ilāha illā Allāh*, trosbekännelsens kärna, följer de en muslim genom hela dygnet.
+*Subhān Allāh* ("fjärran från brister är Gud") sägs inför det som väcker förundran, *mā shāʾa llāh* ("det Gud har velat") när man ser något gott, och *Allāhu akbar* ("Gud är större") inleder bönen med påminnelsen om att inget är större än han. [*Bismillāh*](/svar/vad-betyder-bismillah/) ("i Guds namn") föregår måltiden och varje påbörjat arbete; *astaghfirullāh* ("jag ber Gud om förlåtelse") följer på felsteget. Alla hör till *dhikr*, åminnelsen av Gud, och tillsammans med *lā ilāha illā Allāh*, trosbekännelsens kärna, följer de en muslim genom hela dygnet.
 
 ## Varför återkommer dessa uttryck så ofta?
 
