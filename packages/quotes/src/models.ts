@@ -23,7 +23,7 @@ export const MODEL_MAP = {
 	/** Near-Opus quality at lower cost — used to economise on a long run. */
 	sonnet: "claude-sonnet-5-5",
 	/** Cheapest tier; bulk mechanical extraction over tens of thousands of rows. */
-	haiku: "claude-haiku-4-5",
+	haiku: "claude-haiku-5-5",
 } as const;
 
 /** The tier a caller asks for. */

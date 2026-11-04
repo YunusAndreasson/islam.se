@@ -6,6 +6,7 @@ import { z } from "zod";
 import { MODEL_MAP } from "../models.js";
 import { SENTENCE_PATTERNS, splitIntoChunks } from "./chunker.js";
 import { parseQuotesResponse, sleep } from "./json-utils.js";
+import { EXTRACTION_REQUEST, replyText } from "./reply.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = join(__dirname, "..", "..", "..", "..");
@@ -238,7 +239,7 @@ Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 		try {
 			const response = await client.messages.create({
 				model: MODEL_MAP.haiku,
-				max_tokens: 8192,
+				...EXTRACTION_REQUEST,
 				messages: [{ role: "user", content: userPrompt }],
 				system: [
 					{
@@ -249,12 +250,7 @@ Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 				],
 			});
 
-			const content = response.content[0];
-			if (content?.type !== "text") {
-				throw new Error("Unexpected response type from Claude");
-			}
-
-			return parseQuotesResponse(content.text, ArabicQuoteSchema);
+			return parseQuotesResponse(replyText(response), ArabicQuoteSchema);
 		} catch (error) {
 			lastError = error instanceof Error ? error : new Error(String(error));
 
