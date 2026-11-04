@@ -10,12 +10,12 @@
 # Scope is the workspace (packages/*, apps/*). apps/mobile is its own Expo root
 # with its own `deps:update`; its versions follow the Expo SDK, so it is left alone.
 #
-# Two packages are held at their current major, because `--latest` would break them:
+# One package is held at its current major, because `--latest` would break it:
 #   typescript  apps/web's `astro check` needs the TS 5/6 programmatic API that the
 #               native TS 7 compiler does not ship (@astrojs/check peers ^5 || ^6).
-#   marked      apps/tui composes it with marked-terminal, which peers marked <16.
-# They still get in-range updates. The script checks both peer ranges on every run
-# and says when a cap can be lifted.
+# It still gets in-range updates. The script checks the peer range on every run
+# and says when the cap can be lifted. (marked was capped too until marked-terminal
+# 8.0.0 widened its peer to marked <19, 2026-11-04.)
 set -euo pipefail
 
 cd "$(dirname "$0")"
@@ -39,7 +39,7 @@ for arg in "$@"; do
 done
 
 # capped package → the package whose peer range holds it back
-declare -A caps=([typescript]=@astrojs/check [marked]=marked-terminal)
+declare -A caps=([typescript]=@astrojs/check)
 
 step() { printf '\n\033[1m▸ %s\033[0m\n' "$*"; }
 
