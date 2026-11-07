@@ -5,7 +5,7 @@ description: "Koranen mäter fastedygnet med ögat: man äter och dricker tills 
 seoDescription: "Vad Koranen och hadith säger om ramadan, hur rättsskolorna skiljer sig, och hur svenska moskéer, domstolar och vård hanterar fastan."
 blurb: "Vad som händer med en fasta mätt i gryningar när gryningen uteblir"
 publishedAt: "2026-07-31T00:00:00Z"
-updatedAt: "2026-09-25T00:00:00Z"
+updatedAt: "2026-11-07T00:00:00Z"
 keywords:
   - "ramadan"
   - "fasta islam"
@@ -25,7 +25,7 @@ faq:
   - q: "Varför börjar ramadan olika dagar i olika svenska moskéer?"
     a: "Därför att månadens början fastställs på olika sätt. Vissa församlingar följer Saudiarabiens tillkännagivande, andra den turkiska religionsmyndighetens beräknade kalender, andra Marocko eller Europeiska fatwarådets förhandsbestämda datum. Skillnaden är juridisk och institutionell, inte astronomisk: den klassiska rätten är oenig om huruvida en siktning på en plats binder muslimer på en annan."
   - q: "Måste man fasta 22 timmar i Norrbotten?"
-    a: "Nej, inte enligt någon av de auktoriteter svenska muslimer i praktiken följer. Europeiska fatwarådet låter orter norr om 66:e breddgraden använda klockslagen från en sydligare breddgrad. Sveriges imamråd valde i maj 2016 i stället den turkiska hanafiska kalendern. De två besluten ger olika fastetider för samma stad, och i praktiken förekommer ännu fler lösningar."
+    a: "Nej, inte enligt någon av de auktoriteter svenska muslimer i praktiken följer. Muslimska världsligans fiqhråd, vars zoner Europeiska fatwarådet har bekräftat, låter orter norr om 66:e breddgraden följa tiderna på 45:e breddgraden, och Sveriges imamråd lät i sin fatwa 2014 orter från Boden och norrut följa Malmös tidtabell. I praktiken förekommer fler lösningar."
   - q: "Vid vilken ålder blir fastan obligatorisk?"
     a: "Vid puberteten, bulūgh, enligt samtliga rättsskolor – inte vid en fast ålder. Grunden är hadithen om att pennan är lyft från tre, däribland barnet tills det når puberteten. Barn uppmuntras traditionellt att fasta delar av dagar som vana, men den som inte nått puberteten är inte förpliktad."
   - q: "Får en arbetsgivare i Sverige förbjuda en anställd att fasta?"
@@ -191,9 +191,9 @@ data:
   Kiruna: -
 ```
 
-Europeiska fatwarådet har hanterat problemet genom att dela Norden i tre zoner. I zon 2, mellan 48:e och 66:e breddgraden – i Sverige allt från Trelleborg till Boden – beräknas fajr och ishāʾ efter breddgrad 45 med Malmö som referenspunkt. Zon 3, norr om Boden, knyts på motsvarande sätt till en sydligare tidtabell. Andrahandskällorna återger regeln på två sätt: att man följer klockslagen vid latitud 45, eller att man helt enkelt följer Malmös tidtabell. Skillnaden är i praktiken liten men inte obefintlig, och den som vill tillämpa regeln bör gå till fatwatexten själv.[^21]
+Muslimska världsligans fiqhråd delade 1986 in breddgraderna från den 45:e och uppåt i tre zoner, och Europeiska fatwarådet har bekräftat indelningen. Sveriges imamråd tillämpade den i en fatwa 2014: i zon 2, från Trelleborg till Boden, får ishāʾ och fajr enligt den arabiska texten räknas efter breddgrad 45 när tecknen saknas, och från Boden och norrut får man följa Malmös tidtabell för maghrib, ishāʾ, fajr och fastan.[^21]
 
-I maj 2016 beslutade dock Sveriges imamråd, med Stockholmsmoskéns imam Mahmoud Khalfi som ordförande, att i stället följa den turkiska hanafiska kalendern, vars senare gryningsdefinition i praktiken förkortar fastedagen.[^22] Hur länge beslutet har följts framgår inte av tillgängliga källor. Khalfi har dessutom medverkat i båda processerna, så gränsen mellan två rivaliserande läger är inte så tydlig som det ibland framställs. Mångfalden är däremot väl dokumenterad. I Norrland förekommer minst sju parallella lösningar: saudisk tidtabell, Istanbultidtabell, Stockholmstider, lokala tider, naturligt dagsljus, fatwarådets zonmodell och Meckas tider. Någon allmän regel finns fortfarande inte. Vad den astronomiska beräkningen ger, ort för ort, står i [iftar- och suhūr-tiderna för svenska orter](/bonetider/ramadan/); vilken tidtabell en församling följer är en annan fråga.
+Enligt Ibn Rushd studieförbund beslutade Sveriges imamråd dock i maj 2016, med Stockholmsmoskéns imam Mahmoud Khalfi som ordförande, att i stället följa den turkiska hanafiska kalendern, vars senare gryningsdefinition i praktiken förkortar fastedagen.[^22] Hur länge beslutet har följts framgår inte av tillgängliga källor. Khalfi har dessutom medverkat i båda processerna, så gränsen mellan två rivaliserande läger är inte så tydlig som det ibland framställs. Mångfalden är däremot väl dokumenterad. I Norrland förekommer minst sju parallella lösningar: saudisk tidtabell, Istanbultidtabell, Stockholmstider, lokala tider, naturligt dagsljus, zonmodellen och Meckas tider. Någon allmän regel finns fortfarande inte. Vad den astronomiska beräkningen ger, ort för ort, står i [iftar- och suhūr-tiderna för svenska orter](/bonetider/ramadan/); vilken tidtabell en församling följer är en annan fråga.
 
 De svenska källorna säger påfallande lite om hur gravida, ammande och menstruerande kvinnor faktiskt gör. De klassiska ståndpunkterna refereras i moskéernas vägledning, men någon svensk mödravårds- eller barnmorskeanvisning om fasta under graviditet finns inte publicerad, och kvinnornas egna avvägningar är inte dokumenterade i något av de underlag som legat till grund för denna artikel. Frånvaron blir desto märkligare som utomstående för debatten i könade termer.
 
@@ -249,7 +249,7 @@ Två sakfel om fastan är vanliga. Det första är att fastan skulle innebära s
 [^18]: Forum för levande historia, "Islam och muslimer i Sverige", med hänvisning till Pew Research Center, Myndigheten för stöd till trossamfund och SOM-institutet.
 [^19]: Svensk Handel, "Ramadan och Eid al-fitr 2024", undersökning februari 2024, urval 1 000 personer. Undersökningen är gjord i kommersiellt syfte och mäter avsikt att delta, inte genomförd fasta.
 [^20]: Reportage från Norrland i Hyphen, 11 mars 2024.
-[^21]: "Fatwa om bönetiderna och fastan i nordiska länder", Islamiska Förbundet i Sverige. Källorna daterar zonbeslutets tillkomst olika, dels till Sveriges imamråd i Göteborg 11–12 maj 2013, dels till en konferens i Kiruna sommaren 2015. Vilken uppgift som är riktig har inte kunnat fastställas.
+[^21]: "Fatwa om bönetiderna och fastan i nordiska länder", Islamiska Förbundet i Sverige, publicerad 24 juni 2014 efter flera möten, det sista i Göteborg 11–12 maj 2013.
 [^22]: Ibn Rushd studieförbund, "Större tydlighet om fasta i norr".
 [^23]: Skolverkets ställningstagande återgivet i SVT Nyheter Västmanland om Bjurhovdaskolan i Västerås.
 [^24]: Interpellation 2024/25:472, besvarad av skolminister Lotta Edholm 18 mars 2025; jämför skriftlig fråga 2023/24:705, besvarad 13 mars 2024.
