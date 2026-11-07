@@ -5,7 +5,7 @@ description: "Koranen förbjuder fem ting och tillåter allt annat. Ur den korta
 seoDescription: "Halal betyder tillåtet. Vad Koranen faktiskt förbjuder, hur rättsskolorna skiljer sig åt, och vad svensk lag säger om halalslakt, skolmat och import."
 blurb: "Hur fem förbud i Koranen blev ett system av certifikat, kontroller och märkningar"
 publishedAt: "2026-08-02T00:00:00Z"
-updatedAt: "2026-09-25T00:00:00Z"
+updatedAt: "2026-11-06T00:00:00Z"
 keywords:
   - "vad betyder halal"
   - "halal och haram"
@@ -112,7 +112,7 @@ Koranens matregler är förvånansvärt kortfattade. Den kortaste listan står i
 
 Samma fyra punkter återkommer i al-Anʿām 6:145 och i an-Nahl 16:115, varje gång med nödrättsklausulen. Den utförligaste versionen finns i al-Māʾida och lägger till en rad djur som dött på annat sätt än genom slakt: strypta, ihjälslagna, nedstörtade, stångade, rivna av rovdjur. Mitt i uppräkningen står den klausul som hela bedövningsdebattens juridik hänger på: "om ni inte har slaktat djuret på föreskrivet sätt", alltså om ni hinner fram medan djuret ännu lever.[^3]
 
-Rusdryckerna behandlas för sig. al-Māʾida 5:90 räknar dem tillsammans med hasardspel och spådomskonst till "Djävulens skamliga påfund" och bjuder de troende att hålla sig borta från dem.[^4] Verserna om det tillåtna är fler än verserna om det förbjudna: 5:4 förklarar all god föda tillåten och tillägger vad dresserade jaktdjur fångar, 5:96 undantar havets fångst från slaktkravet och 16:114 uppmanar till tacksamhet för det tillåtna och goda.
+Rusdryckerna behandlas för sig. al-Māʾida 5:90 räknar dem tillsammans med hasardspel och spådomskonst till "Djävulens skamliga påfund" och bjuder de troende att hålla sig borta från dem.[^4] Verserna om det tillåtna är fler än verserna om det förbjudna: 5:4 förklarar all god föda tillåten och tillägger vad [dresserade jaktdjur](/svar/far-muslimer-ha-hund/) fångar, 5:96 undantar havets fångst från slaktkravet och 16:114 uppmanar till tacksamhet för det tillåtna och goda.
 
 Två verser reglerar Guds namn vid slakten. al-Anʿām 6:118 bjuder att äta av det som Guds namn uttalats över, och 6:121 förbjuder det motsatta. Mot dessa står al-Māʾida 5:5, versen som gör den europeiska diskussionen svår: "födan hos dem som fick del av uppenbarelsen [i äldre tid] är tillåten för er och er föda är tillåten för dem".[^5] Enligt Abū Dāwūd läste Ibn ʿAbbās förhållandet mellan verserna som ett undantag: 5:5 upphävde eller inskränkte förbudet i 6:121.[^6]
 

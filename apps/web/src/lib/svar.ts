@@ -158,6 +158,7 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 			"far-muslimer-dricka-alkohol",
 			"ar-vinager-halal",
 			"far-muslimer-roka",
+			"far-muslimer-ha-hund",
 			"vad-betyder-alhamdulillah",
 			"vad-betyder-inshallah",
 			"vad-betyder-mashallah",

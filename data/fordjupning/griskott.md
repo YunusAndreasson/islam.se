@@ -5,7 +5,7 @@ description: "Svinet är det enda djur som Koranen förbjuder vid namn, och för
 seoDescription: "Koranens fyra verser om svinkött, rättsskolornas gränsdragningar kring gelatin, nöd och orenhet, och den svenska striden om skolmaten."
 blurb: "Gelatinet i vitaminkapseln, hjärtklaffen från gris och 249 portioner specialkost"
 publishedAt: "2026-08-03T00:00:00Z"
-updatedAt: "2026-09-25T00:00:00Z"
+updatedAt: "2026-11-06T00:00:00Z"
 keywords:
   - "varför äter muslimer inte griskött"
   - "svinkött förbjudet i islam"
@@ -147,7 +147,7 @@ Ibn al-Qayyim al-Jawziyya ägnar i *Zād al-maʿād* en passage åt just det ord
 
 Att verserna bara nämner köttet har aldrig tolkats inskränkande. al-Nawawī skriver i *al-Majmūʿ* att köttet nämns därför att det är det som huvudsakligen åsyftas, och att muslimerna är eniga om att svinets ister, dess blod och dess övriga delar är förbjudna. Ibn Kathīr uttrycker samma sak i sin kommentar: med svinets kött avses både det tama och det vilda djuret, och ordet kött omfattar alla dess delar, ända till istret.[^10] Uppfattningen att bara muskelköttet skulle vara förbjudet tillskrivs ibland zāhiriterna, men Ibn Hazms egen uppräkning är den utförligaste av alla och nämner kött, ister, hud, senor, brosk, inälvor, hjärna, ben, huvud, lemmar, mjölk och hår.[^11]
 
-al-Nawawī delar i renhetskapitlet landdjuren i rena och orena och placerar hunden och svinet bland de senare, vilket får konsekvenser långt utanför måltiden. I māliki-traditionen är det levande djuret däremot rituellt rent, och orenheten inträder först med döden, så en māliki kan röra ett blött svin utan rituell följd och ändå räkna köttet som förbjudet.[^12] Ibn Rushd sammanfattar en närliggande tvist: Abū Hanīfa menade att garvning renar alla självdöda djurs hudar utom svinets, medan zāhiriten Dāwūd ansåg att den renar också svinets.[^13]
+al-Nawawī delar i renhetskapitlet landdjuren i rena och orena och placerar [hunden](/svar/far-muslimer-ha-hund/) och svinet bland de senare, vilket får konsekvenser långt utanför måltiden. I māliki-traditionen är det levande djuret däremot rituellt rent, och orenheten inträder först med döden, så en māliki kan röra ett blött svin utan rituell följd och ändå räkna köttet som förbjudet.[^12] Ibn Rushd sammanfattar en närliggande tvist: Abū Hanīfa menade att garvning renar alla självdöda djurs hudar utom svinets, medan zāhiriten Dāwūd ansåg att den renar också svinets.[^13]
 
 Ett praktiskt undantag går tillbaka på Abū Hanīfa själv. Enligt al-Nawawī höll han svinets hår och ben utanför renhetsregeln och gav lädersömmarna lov att använda svinborst, eftersom de behövde det i sitt arbete.[^14] Ibn Taymiyya gick längst: allt hår är rent, vare sig det kommer från hund, svin eller andra djur.[^15]
 
