@@ -91,7 +91,7 @@ related:
   - "vad-ar-odet-qadar"
   - "sa-ber-man-steg-for-steg"
   - "vad-ar-sunna"
-imageAlt: "Två gestalter bakifrån vid en busskur i vinterskymning, med andedräkten synlig i kylan"
+imageAlt: "Två tonårspojkar i dunjackor sitter högt upp på en klätterställning på en snöig skolgård i skymningen. Den ena skrattar med handen mot hjärtat, den andra vänder sig mot honom, och bakom dem lyser skolans fönster."
 essays:
   - "tungans-fastning"
   - "det-tungan-inte-nar"

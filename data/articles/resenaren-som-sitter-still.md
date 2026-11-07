@@ -8,8 +8,8 @@ pullquotes:
   - "Bönen ber varken om att få återvända eller om att längtan ska gå över."
   - "Den som vill förbli gäst i ett land ber inte om att få älska det."
 category: "Livsfrågor"
-imageAlt: "Ett gammalt äppelträd med ljusgula, mogna äpplen står vid gaveln på en grå timmerstuga i sensommarkvällen; ett nedfallet äpple ligger i det höga gräset, och bakom breder en öppen slätt ut sig mot en skogsrand under en molnig himmel."
-imageCaption: "Äppelträdet vid gaveln. Kristinas astrakanträd växte upp ur kärnor från Duvemåla."
+imageAlt: "Ett ungt fikonträd i en kruka av terrakotta står i ett fönster i en svensk lägenhet. Utanför ligger snö på gården, mellan björkarna och ett gult tegelhus på andra sidan."
+imageCaption: "Fikonträdet i fönstret. Det gamla landets träd i det nya landets vinter."
 audioFile: "resenaren-som-sitter-still.mp3"
 audioDuration: 1065
 ---

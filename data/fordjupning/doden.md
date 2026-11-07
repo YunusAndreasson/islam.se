@@ -88,7 +88,7 @@ essays:
   - "skelettet-som-holl"
   - "plantan-vid-stunden"
 heroEssay: "stillheten-fore-slutet"
-imageAlt: "Tom parkbänk under ett kalt träd vid en stilla sjö i grå skymning, med en liten trädbevuxen holme längre ut"
+imageAlt: "En begravningsbön i snön på en svensk kyrkogård en vintereftermiddag: en obruten rad män i mörka rockar står sedda bakifrån, och framför dem står imamen ensam vid båren, som är täckt med ett mörkgrönt tyg. Runt omkring står björkar och granar, och över trädtopparna ligger ett sista band av ljus."
 ---
 
 **Döden** är i islam den punkt där själen tas tillbaka av Gud, kroppen återlämnas till jorden och den avlidne träder in i ett mellantillstånd som varar fram till uppståndelsen. Koranen säger i tre nästan identiska verser att varje människa skall smaka döden, och knyter det genomgående till en räkenskap bortom graven. Döden framställs som något skapat: Gud har låtit både död och liv bli till för att pröva människorna.

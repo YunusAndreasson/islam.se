@@ -90,7 +90,7 @@ related:
   - "vad-ar-sunna"
   - "vad-sager-islam-om-vidskepelse"
   - "vad-ar-hajj"
-imageAlt: "Nymånens tunna skära lågt över en frusen sjö i blå timme"
+imageAlt: "En far och hans son står vid räcket på en balkong i en förort i skymningen, sedda bakifrån. Fadern pekar mot nymånens tunna skära lågt över taken och björkarna, och bakom dem lyser rummet varmt."
 essays:
   - "silvertarnans-hijra"
   - "nar-natten-inte-faller"

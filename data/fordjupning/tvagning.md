@@ -67,7 +67,7 @@ essays:
   - "bannlyst-och-renad"
   - "nattbonens-ansikte"
   - "kompassnalens-moske"
-imageAlt: "Man som tvättar ansiktet vid ett handfat, med dimma över en skogssjö utanför fönstret"
+imageAlt: "Tvagningsrummet i en moské före fredagsbönen: män sitter på låga pallar vid en lång kaklad ränna med mässingskranar och tvättar armar och fötter, och ljus från ett frostat fönster faller längs det våta kaklet."
 ---
 
 **Tvagning** är den rituella rening en muslim utför före [bönen](/fordjupning/bonen/), och den finns i tre former: wudu, den lilla tvagningen av händer, mun, näsa, ansikte, underarmar, huvud och fötter; ghusl, tvättningen av hela kroppen; och tayammum, strykningen med ren jord när vatten saknas eller inte kan användas. Alla tre står i en enda mening i Koranens femte sura, vers 6.

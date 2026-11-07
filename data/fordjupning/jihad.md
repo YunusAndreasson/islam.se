@@ -91,7 +91,7 @@ related:
   - "de-rattledda-kaliferna"
   - "erovringen-av-mecka"
   - "vad-var-hijra"
-imageAlt: "Ensam vandrare bakifrån på en brant snötäckt skogsstig i grått gryningsljus"
+imageAlt: "En man i mörk rock står ensam på en kal klippa ovanför en vid skogsdal i storm, sedd bakifrån och lutad mot vinden. Regnet drar fram över dalen, och under molnen bryter ett band av ljus fram vid horisonten."
 essays:
   - "lejonet-i-hjartat"
   - "ormboet-i-hjartat"

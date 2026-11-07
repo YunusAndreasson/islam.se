@@ -5,8 +5,8 @@ wordCount: 4161
 qualityScore: 8.7
 description: "Släktens formel i Selma Lagerlöfs Jerusalem, »Vi Ingemarer behöva bara gå Guds vägar«, har gått i arv i hundratals år innan den splittrar socknen. Koranen fördömer och berömmer samma handling, att följa fäderna, och ger formeln det innehåll den saknade."
 category: "Livsfrågor"
-imageAlt: "En bred dal i Dalarna i gryningen, sedd från en skogsklädd höjd; tät markdimma fyller dalbotten, och en ljus grusväg löper rakt och diagonalt genom den. Några grå timmerlador står halvt dolda i dimman, och skogsåsar bleknar i blå dis under en mjölkvit himmel."
-imageCaption: "En dal i Dalarna en morgon i september. En väg är dragen rakt genom dimman, de andra syns knappt."
+imageAlt: "Tröskelstenen till en gammal gård i Dalarna, en grå granithäll som är urgröpt på mitten av generationers steg. Ovanför står en rödmålad dörr på glänt mot en mörk farstu, och bredvid stenen står ett par gamla träskor."
+imageCaption: "Tröskeln till en gård i Dalarna, nött i mitten av alla som har gått samma väg."
 ---
 En ung karl plöjer sitt träde en sommarmorgon. Hästarna är yra av morgonluften, jorden som vänds upp ligger svartbrun och blank av fukt, och han gläds åt att snart få så råg. Så börjar Selma Lagerlöfs *Jerusalem*. Men mannen vid plogen står inför ett avgörande. Han måste bestämma sig för om han ska ta Brita till hustru när hon blir fri, fast bygden redan tycker att han har ställt galet för sig och kommer att tycka än värre. Han gör som släkten alltid har gjort. I tankarna söker han upp sin döde far, lägger fram saken och slutar med släktens trosbekännelse:
 
