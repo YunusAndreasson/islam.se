@@ -69,7 +69,7 @@
 			"!!**/.claude/worktrees",
 			"!**/node_modules",
 			"!**/dist",
-			"!**/dist-check",
+			"!**/dist-*",
 			"!**/data",
 			"!**/output",
 			"!**/.astro",
