@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
 	computePrayerTimes,
 	countdownLabel,
+	dateForStockholmDay,
 	formatTime,
 	nextPrayer,
 	stockholmDayKey,
@@ -164,5 +165,76 @@ describe("countdownLabel", () => {
 		expect(countdownLabel(59_500), "a late tick must not read »om 60 sek«").toBe("om 1 min");
 		expect(countdownLabel(0)).toBe("nu");
 		expect(countdownLabel(-5_000)).toBe("nu");
+	});
+});
+
+// ⚠️ Regression: adhan's shadow formula for ʿAṣr (SolarTime.afternoon) breaks down when the
+// noon sun stands within about a degree of the horizon. Before repairAsr() in
+// prayer-times.ts, 2026 had 834 place-days north of 65° N, all in November to January, on
+// which ʿAṣr fell before Ẓuhr or after Maghrib: Kiruna on 9 January printed ʿAṣr 04.28
+// against Ẓuhr 11.47, and on 28 November ʿAṣr 11.11 against Ẓuhr 11.28. The city pages,
+// the month PDFs and the pages' meta descriptions all carried those times.
+describe("ʿAṣr around the polar night", () => {
+	const NORTH = [
+		{ name: "Kiruna", latitude: 67.85572, longitude: 20.22513 },
+		{ name: "Gällivare", latitude: 67.13387, longitude: 20.65282 },
+		{ name: "Karesuando", latitude: 68.4406, longitude: 22.48 },
+		{ name: "Luleå", latitude: 65.58415, longitude: 22.15465 },
+	];
+
+	it("falls inside the afternoon every day of a year, for both madhhabs", () => {
+		const impossible: string[] = [];
+		for (const madhab of ["shafi", "hanafi"] as const) {
+			const settings: PrayerSettings = { ...DEFAULT_SETTINGS, madhab };
+			for (const place of NORTH) {
+				// 2026 holds both edges of the polar night: January and November–December.
+				for (let d = 0; d < 365; d++) {
+					const date = dateForStockholmDay(2026, 0, 1 + d);
+					const t = computePrayerTimes(place, date, settings);
+					const dhuhr = t.dhuhr.getTime();
+					const maghrib = t.maghrib.getTime();
+					if (!(Number.isFinite(dhuhr) && Number.isFinite(maghrib))) continue;
+					const asr = t.asr.getTime();
+					if (dhuhr < asr && asr < maghrib) continue;
+					impossible.push(
+						`${place.name} ${stockholmDayKey(date)} (${madhab}): Ẓuhr ${formatTime(t.dhuhr)}, ʿAṣr ${formatTime(t.asr)}, Maghrib ${formatTime(t.maghrib)}`,
+					);
+				}
+			}
+		}
+		expect(
+			impossible,
+			"ʿAṣr must begin after Ẓuhr and before Maghrib, or the page prints an impossible day",
+		).toEqual([]);
+	});
+
+	it("no longer prints the two Kiruna days that exposed the bug", () => {
+		const kiruna = NORTH[0];
+		if (!kiruna) throw new Error("fixture");
+		for (const [month, day] of [
+			[0, 9],
+			[10, 28],
+		] as const) {
+			const t = computePrayerTimes(kiruna, dateForStockholmDay(2026, month, day), DEFAULT_SETTINGS);
+			const why = `Kiruna 2026-${month + 1}-${day}: ʿAṣr ${formatTime(t.asr)} must lie between Ẓuhr ${formatTime(t.dhuhr)} and Maghrib ${formatTime(t.maghrib)}`;
+			expect(t.asr.getTime(), why).toBeGreaterThan(t.dhuhr.getTime());
+			expect(t.asr.getTime(), why).toBeLessThan(t.maghrib.getTime());
+		}
+	});
+
+	it("leaves an ordinary latitude exactly as adhan computes it", () => {
+		// Stockholm is far from the repair's reach. These are the times the Bönen pillar
+		// (data/fordjupning/bonen.md) prints in its Stockholm 2026 table: if this fails,
+		// the page is wrong too.
+		const stockholm = { latitude: 59.32938, longitude: 18.06871 };
+		const hanafi: PrayerSettings = { ...DEFAULT_SETTINGS, madhab: "hanafi" };
+		const asrAt = (month: number, day: number, settings: PrayerSettings) =>
+			formatTime(
+				computePrayerTimes(stockholm, dateForStockholmDay(2026, month, day), settings).asr,
+			);
+		expect(asrAt(5, 21, DEFAULT_SETTINGS), "midsummer ʿAṣr, Shāfiʿī").toBe("17:30");
+		expect(asrAt(5, 21, hanafi), "midsummer ʿAṣr, Hanafi").toBe("18:48");
+		expect(asrAt(11, 21, DEFAULT_SETTINGS), "midwinter ʿAṣr, Shāfiʿī").toBe("12:42");
+		expect(asrAt(11, 21, hanafi), "midwinter ʿAṣr, Hanafi").toBe("13:01");
 	});
 });

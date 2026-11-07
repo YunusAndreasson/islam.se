@@ -12,6 +12,7 @@ import {
 	Shafaq,
 } from "adhan";
 
+import { asrShadow } from "./asr-shadow";
 import type {
 	CalculationMethodKey,
 	HighLatitudeRuleKey,
@@ -227,7 +228,64 @@ export function computePrayerTimes(
 		: new Coordinates(Number.NaN, Number.NaN);
 	const params = buildParams(settings, c);
 	if (!valid) params.polarCircleResolution = PolarCircleResolution.Unresolved;
-	return new PrayerTimes(c, calculationDateForStockholmDay(date), params);
+	const day = calculationDateForStockholmDay(date);
+	const times = new PrayerTimes(c, day, params);
+	if (valid) repairAsr(times, coords, day, settings);
+	return times;
+}
+
+/** Below this noon altitude the sun casts no shadow the ʿAṣr rule can measure. */
+const ASR_MIN_NOON_ALT_DEG = 1;
+/** The latitude ʿAṣr is taken from must clear the horizon comfortably at noon. */
+const ASR_SOURCE_NOON_ALT_DEG = 3;
+/** The same step adhan's Aqrab al-Balad resolver walks toward the equator. */
+const ASR_LATITUDE_STEP = 0.5;
+const ASR_MAX_STEPS = 60;
+
+function asrInOrder(times: PrayerTimes): boolean {
+	const dhuhr = times.dhuhr.getTime();
+	const asr = times.asr.getTime();
+	const maghrib = times.maghrib.getTime();
+	return Number.isFinite(asr) && dhuhr < asr && asr < maghrib;
+}
+
+function roundToMinute(ms: number, rounding: PrayerSettings["rounding"]): Date {
+	if (rounding === "none") return new Date(ms);
+	const minutes = ms / 60_000;
+	return new Date((rounding === "up" ? Math.ceil(minutes) : Math.round(minutes)) * 60_000);
+}
+
+/**
+ * ʿAṣr in the weeks around the polar night. When the noon sun stands within about a
+ * degree of the horizon, adhan's shadow formula (SolarTime.afternoon) breaks down: in
+ * 2026 it put ʿAṣr before Ẓuhr or after Maghrib on 834 place-days north of 65° N, in
+ * November to January — Kiruna, 9 January: ʿAṣr 04.28, Ẓuhr 11.47. The shadow rule has
+ * nothing to measure there, so ʿAṣr is estimated the way the polar night already is
+ * (Aqrab al-Balad): from the nearest latitude toward the equator where the noon sun
+ * clears the horizon and the times are in order. What is taken over is ʿAṣr's place in
+ * that afternoon, as a fraction of the time from Ẓuhr to Maghrib, so the estimate always
+ * falls inside the place's own afternoon. Days where adhan's ʿAṣr is in order and the
+ * sun is high enough are left exactly as adhan computed them.
+ */
+function repairAsr(times: PrayerTimes, coords: LatLng, day: Date, settings: PrayerSettings): void {
+	const dhuhr = times.dhuhr.getTime();
+	const maghrib = times.maghrib.getTime();
+	if (!(Number.isFinite(dhuhr) && Number.isFinite(maghrib) && dhuhr < maghrib)) return;
+	if (asrInOrder(times) && asrShadow(coords.latitude, day).noonAltDeg >= ASR_MIN_NOON_ALT_DEG) {
+		return;
+	}
+	const toward = coords.latitude >= 0 ? -1 : 1;
+	for (let step = 1; step <= ASR_MAX_STEPS; step++) {
+		const latitude = coords.latitude + toward * step * ASR_LATITUDE_STEP;
+		if (asrShadow(latitude, day).noonAltDeg < ASR_SOURCE_NOON_ALT_DEG) continue;
+		const source = new Coordinates(latitude, coords.longitude);
+		const ref = new PrayerTimes(source, day, buildParams(settings, source));
+		if (!asrInOrder(ref)) continue;
+		const fraction =
+			(ref.asr.getTime() - ref.dhuhr.getTime()) / (ref.maghrib.getTime() - ref.dhuhr.getTime());
+		times.asr = roundToMinute(dhuhr + fraction * (maghrib - dhuhr), settings.rounding);
+		return;
+	}
 }
 
 /** The six daily prayers plus sunrise, in chronological order, with Swedish labels. */
