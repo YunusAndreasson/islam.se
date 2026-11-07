@@ -6,6 +6,7 @@ import HomeHead from "../../components/HomeHead.astro";
 import Kicker from "../../components/Kicker.astro";
 import TextRowList from "../../components/TextRowList.astro";
 import { FORDJUPNING_INGRESS, getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
+import { leadSentences } from "../../lib/format";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 import { RITNINGAR } from "../../lib/ritningar";
 import { groupSvar } from "../../lib/svar";
@@ -57,13 +58,25 @@ const pelarKort = PELAR_KORT.map((id) => {
 const groups = groupSvar(entries);
 const listed = groups.flatMap((g) => g.entries);
 
+// A QUESTION AND ITS ANSWER (2026-11-07). Each answer is an item, as a list is set on
+// this site (a title with something under it, on the grid): the question as the reader
+// would ask it and the first sentence of the answer under it, on the page's thirds. The
+// title's tail after the »?« (»Guds enhet, namn och egenskaper«, »Ja, med ett
+// förbehåll«) is search wording; the answer's own first sentence says it better. The
+// whole description (163 characters for 51 of them) made the list a river; its first
+// sentence is mostly two lines of a third.
+const question = (title: string) => {
+	const end = title.indexOf("?");
+	return end === -1 ? title : title.slice(0, end + 1);
+};
+
 const svarRows = (items: typeof listed) =>
 	items.map((e) => ({
 		href: `/svar/${e.id}/`,
-		// Title only. It already carries the question AND its short answer ("Vad är
-		// tawhid? Guds enhet, namn och egenskaper"); `description` is the meta tag
-		// Google prints, 163 chars of it, and 51 of those made the list a river.
-		title: e.data.title,
+		title: question(e.data.title),
+		// The first sentence alone (a max of 0 keeps exactly one): with a second, the
+		// list grew 41 % and most items to four lines.
+		...(e.data.description ? { description: leadSentences(e.data.description, 0) } : {}),
 	}));
 
 const description =
@@ -310,29 +323,54 @@ const description =
 	.svar-list {
 		/* The kicker or the framing line above owns the gap: one group-space. */
 		--text-row-list-margin: 0;
-		/* A hairline under all 63 rows read as a ledger; the rows are one line each
-		   and hold together on spacing alone. */
+		/* Items, not ledger rows: no hairline, the row gap parts them. */
 		--text-row-question-separator: 0;
-		--text-row-question-padding: 0.4rem;
+		--text-row-question-padding: 0;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-unit) var(--grid-gutter);
 	}
 
-	/* Two columns once there is room — the same grid the essay archive uses
-	   (layout.css `.home .archive-list`), so the two indexes read as one system.
-	   The rows are a single line each now, so a section is scannable at a glance.
-	   ⚠️ Bare class, not `.svar-index .svar-list`: `.svar-index` arrives through
+	/* Halves from 48rem, the page's thirds from 60rem, as every list of items on the
+	   canvas. ⚠️ Bare class, not `.svar-index .svar-list`: `.svar-index` arrives through
 	   CollectionIndexPage's `mainClass` and carries THAT component's scope id, so a
 	   descendant selector written from here silently matches nothing. */
-	.svar-list {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
-		column-gap: var(--grid-gutter);
+	@media (width >= 48rem) {
+		.svar-list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
 	}
 
-	/* Without a hairline between rows the padding is the whole tap target; a
-	   one-line row lands at 40px, under the site's 44px thumb target. */
-	@media (hover: none), (pointer: coarse) {
+	@media (width >= 60rem) {
 		.svar-list {
-			--text-row-question-padding: 0.7rem;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
+	}
+
+	/* The question in the title face, as every item on the site is named; the answer in
+	   the card's line under it (tokens.css, `--card-*`). */
+	.svar-list :global(.text-row-title) {
+		font-family: var(--font-display);
+		font-size: var(--step-0);
+		font-weight: 600;
+		line-height: var(--card-title-leading);
+		color: var(--color-text);
+		text-wrap: balance;
+	}
+
+	.svar-list :global(.text-row-desc) {
+		display: block;
+		margin-top: var(--card-text-gap);
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: var(--card-text-leading);
+		color: var(--text-quiet);
+		text-wrap: pretty;
+	}
+
+	.svar-list :global(a:hover .text-row-title) {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--underline-offset-title);
 	}
 </style>

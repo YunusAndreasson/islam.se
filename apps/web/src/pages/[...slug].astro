@@ -16,7 +16,7 @@ import { articleBody, getArticles, inlineMarkdown } from "../lib/articles";
 import { getVersesByEssay } from "../lib/citations";
 import { figureJsonLd } from "../lib/inline-images";
 import { imageObject } from "../lib/jsonld";
-import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../lib/hero";
+import { COVER_HERO_SIZES, COVER_HERO_WIDTHS } from "../lib/hero";
 import { pageHeroPreload } from "../lib/hero-preload";
 
 export async function getStaticPaths() {
@@ -39,7 +39,7 @@ interface Props {
 
 const { article, prev, next } = Astro.props;
 
-const heroPreload = await pageHeroPreload(article.heroImage, article.mobileHeroImage);
+const heroPreload = await pageHeroPreload(article.heroImage, article.mobileHeroImage, { cover: true });
 const { Content, headings } = await render(article.entry);
 const amne = article.category ? amneByName.get(article.category) : undefined;
 
@@ -125,6 +125,10 @@ const figureBlocks = await figureJsonLd(
 		{ face: "arabic", low: true },
 	]}
 >
+	{/* The shell is the full-width query container the cover photograph measures the
+	    window against (layout.css, `.reading-shell`); the reading frame inside it is
+	    unchanged. */}
+	<div class="reading-shell">
 	<main id="main" class="reading reading--notes">
 		<article>
 			{/* The standfirst. `description` is an authored ~270-character deck and it
@@ -138,6 +142,7 @@ const figureBlocks = await figureJsonLd(
 				kickerClass="article-kicker"
 				leadHtml={inlineMarkdown(article.description)}
 				leadClass="article-standfirst"
+				cover
 			>
 				<ArticleMeta
 					class="label article-meta"
@@ -148,15 +153,15 @@ const figureBlocks = await figureJsonLd(
 			</ArticleHeader>
 
 			{article.heroImage && (
-				<figure class="article-hero">
+				<figure class="article-hero article-hero--cover">
 					{/* The frame wraps the image only. With the figcaption inside it,
 					    the caption sat on .media-frame's warm image-decode placeholder,
 					    a brown band clipped by the frame. */}
 					<div class="article-hero-frame media-frame">
 						<EssayImage
 							article={article}
-							widths={PAGE_HERO_WIDTHS}
-							sizes={PAGE_HERO_SIZES}
+							widths={COVER_HERO_WIDTHS}
+							sizes={COVER_HERO_SIZES}
 							loading="eager"
 							fetchpriority="high"
 						/>
@@ -191,6 +196,7 @@ const figureBlocks = await figureJsonLd(
 
 		<Rattelse />
 	</main>
+	</div>
 
 	<div class="resume-pill label motion-safe" hidden>
 		<button class="resume-go" type="button">Fortsätt läsa<span class="resume-title">{article.title}</span></button>
@@ -234,6 +240,63 @@ const figureBlocks = await figureJsonLd(
 	@media (width < 48rem) {
 		.article-hero {
 			margin-bottom: var(--space-unit);
+		}
+	}
+
+	/* THE COVER PHOTOGRAPH STANDS ON THE MAST'S LINES (2026-11-07). It spanned the
+	   reading frame, 976px centred on nothing; it now takes the canvas the mast stands
+	   on, so its edges fall under the wordmark and the search button (107 and 1323 at
+	   1440), the widest thing on the page as on the front page. Inside the canvas: never
+	   past it.
+
+	   The shell around <main> is a full-width inline-size container, because the frame
+	   is narrower than the canvas between 64rem and 79rem and only the window says by
+	   how much; vw would count the scrollbar and give the page a sideways scroll.
+	   `container-type` also makes the shell the containing block for fixed-position
+	   descendants: there are none in an essay's <main> (the progress bar, the resume
+	   pill, the player and the corner actions all live outside it). Keep it that way.
+
+	   ONE RATIO, 16:9, from 48rem: every hero is composed to survive the front page's
+	   5:2 crop, so 16:9 shows more of each than the front page does; at the canvas's
+	   width a 3:2 picture kept whole stood 811px tall and pushed the first line of the
+	   essay a screen and a half down. A phone keeps the frame and the composed shape,
+	   and the art-directed phone crops with it. */
+	.reading-shell {
+		container-type: inline-size;
+	}
+
+	@media (width >= 48rem) {
+		.article-hero--cover {
+			--cover-width: min(var(--art-width), 100cqi - 2 * var(--padding-inline));
+			width: var(--cover-width);
+			margin-inline: calc((100% - var(--cover-width)) / 2);
+		}
+
+		.article-hero--cover :global(img) {
+			aspect-ratio: 16 / 9;
+		}
+	}
+
+
+	/* The newer and older essays stand on the canvas under the end matter, which has
+	   stepped out onto it (EssayConnections.astro), in its two halves. */
+	.reading-shell :global(.article-nav) {
+		--cover-width: min(var(--art-width), 100cqi - 2 * var(--padding-inline));
+		width: var(--cover-width);
+		max-width: none;
+		margin-inline: calc((100% - var(--cover-width)) / 2);
+	}
+
+	/* The caption keeps the prose's left line, under the wider picture: the picture
+	   overhangs the frame by half the difference of the two widths, and the column
+	   stands --reading-inline-start into the frame (layout.css, .reading--notes). Below
+	   65rem both are centred on one axis and the shared rule's `auto` does it. */
+	@media (width >= 65rem) {
+		.article-hero--cover .hero-caption {
+			margin-inline-start: calc(
+				(var(--cover-width) - (min(100cqi, var(--reading-frame)) - 2 * var(--padding-inline))) / 2 +
+				var(--reading-inline-start)
+			);
 		}
 	}
 

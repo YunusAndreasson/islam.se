@@ -262,15 +262,27 @@ for (const rel of pages) {
 	// An essay's hero is its LCP element and sits ~100 kB into the document. Without a
 	// preload it waits for all of that to parse (LCP 4.0 s on a phone, 2026-10-10). An
 	// art-directed hero chooses between two files by media query and is left alone.
-	if (html.includes('<figure class="article-hero"')) {
+	// Matched by its class among others (`article-hero article-hero--cover`, and Astro's
+	// scope attribute after it): a match on the exact attribute string stopped finding any
+	// hero once the cover took a second class, and the check passed on 0 (2026-11-07).
+	const hero = /<figure\b[^>]*\bclass="article-hero\b[^"]*"/.exec(html);
+	if (hero) {
 		heroes++;
-		const artDirected = /<figure class="article-hero"[\s\S]*?<source media=/.test(
-			html.slice(0, html.indexOf("</figure>") + 9),
-		);
+		const figure = html.slice(hero.index, html.indexOf("</figure>", hero.index) + 9);
+		const artDirected = /<source media=/.test(figure);
 		if (!artDirected && preloads(html, "image").length === 0) {
 			failures.push(`${rel}: has a hero but no image preload.`);
 		}
 	}
+}
+
+// Most essays have a hero. Finding none means the match above has drifted from the
+// markup, not that the archive lost its pictures, and the preload check would pass on
+// nothing, as it did for a build on 2026-11-07.
+if (heroes === 0) {
+	failures.push(
+		"found no essay hero in any page checked: the hero match has drifted from the markup, so no hero preload was checked.",
+	);
 }
 
 if (failures.length > 0) {

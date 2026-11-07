@@ -134,3 +134,15 @@ export function readingMinutes(markdown: string): number {
 	const words = prose.split(/\s+/).filter((word) => /\p{L}/u.test(word)).length;
 	return Math.max(1, Math.ceil(words / 200));
 }
+
+/** A cover title (the front page's lead, an essay's own title) past this many characters
+ *  steps down a size on a wide screen (`--title-cover-long`, tokens.css), where 64px would
+ *  stand it on four lines. Three titles in the archive pass 44 characters and one passes
+ *  50 (2026-10-10). One number for both places, so a headline that steps down on the
+ *  front page steps down on its own page too. */
+const LONG_TITLE = 50;
+
+/** Whether `title` is set a size down as a cover title (see LONG_TITLE). */
+export function isLongTitle(title: string): boolean {
+	return title.length > LONG_TITLE;
+}

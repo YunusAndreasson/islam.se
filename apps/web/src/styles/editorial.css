@@ -141,7 +141,8 @@
    (the negative margin undoes the canvas padding; the padding and the scroll-padding
    put the first card back on the page's left line), so the card that shows leaves the
    screen and does not stop short at an invisible margin.
-   One rule for both rows. Each had its own, in its own file, and they had come apart:
+   One rule for every such row: the two on the front page and »Läs vidare« at the end of
+   an essay (EssayConnections.astro, since 2026-11-07). Each had its own, in its own file, and they had come apart:
    a card 85% and 78% of the row, a scrollbar drawn and hidden, a focus ring clipped in
    one and held inside the card in the other (measured 2026-10-11). Unlayered, because
    CardList's own grid is scoped and unlayered. */
@@ -152,7 +153,11 @@
 		content-visibility: visible;
 	}
 
-	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) {
+	:is(
+		.front .home .tradar-home .home-cards,
+		.front .home .fordjupning-home .card-list,
+		.essay-connections .ec-cards
+	) {
 		grid-template-columns: none;
 		grid-auto-flow: column;
 		/* Two cards and a part of the third on a tablet. */
@@ -168,12 +173,23 @@
 		padding-bottom: var(--space-half);
 	}
 
-	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) > li {
+	:is(
+			.front .home .tradar-home .home-cards,
+			.front .home .fordjupning-home .card-list,
+			.essay-connections .ec-cards
+		)
+		> li {
 		scroll-snap-align: start;
 	}
 
 	/* The scroller clips a ring drawn outside a card: hold keyboard focus inside it. */
-	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) > li > a:focus-visible {
+	:is(
+			.front .home .tradar-home .home-cards,
+			.front .home .fordjupning-home .card-list,
+			.essay-connections .ec-cards
+		)
+		> li
+		> a:focus-visible {
 		--focus-offset: -2px;
 	}
 }
@@ -189,13 +205,21 @@
 
 /* One card and the next one's edge on a phone. */
 @media (width < 40rem) {
-	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) {
+	:is(
+		.front .home .tradar-home .home-cards,
+		.front .home .fordjupning-home .card-list,
+		.essay-connections .ec-cards
+	) {
 		grid-auto-columns: 80%;
 	}
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.front .home :is(.tradar-home .home-cards, .fordjupning-home .card-list) {
+	:is(
+		.front .home .tradar-home .home-cards,
+		.front .home .fordjupning-home .card-list,
+		.essay-connections .ec-cards
+	) {
 		scroll-behavior: smooth;
 	}
 }

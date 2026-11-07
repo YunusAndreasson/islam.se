@@ -1,3 +1,5 @@
+import { dirname, resolve } from "node:path";
+import sharp from "sharp";
 import { imageKey } from "../lib/image-credits";
 import { type HastElement, type HastNode, isElement, isText } from "./hast";
 
@@ -33,6 +35,54 @@ import { type HastElement, type HastNode, isElement, isText } from "./hast";
  *  480 and 960 are a phone's. Astro drops any width the source file cannot fill. */
 const FIGURE_WIDTHS = [480, 720, 960, 1400];
 const FIGURE_SIZES = "(min-width: 45rem) 42rem, calc(100vw - 2.5rem)";
+
+/** An upright stands in two thirds of the column from 48rem (layout.css,
+ *  `.prose-figure--upright`): 28rem, and the whole phone column under it. */
+const UPRIGHT_SIZES = "(min-width: 48rem) 28rem, calc(100vw - 2.5rem)";
+
+/** A picture's size in pixels. */
+interface Dimensions {
+	width: number;
+	height: number;
+}
+
+export interface PhotoFigureOptions {
+	/** Reads a picture's size from its `src` as written and the Markdown file it is
+	 *  written in. Defaults to the file on disk, read with sharp; a test passes its own. */
+	dimensions?: (src: string, markdownPath: string | undefined) => Promise<Dimensions | undefined>;
+}
+
+/** The picture on disk beside the Markdown that names it, measured. Only a file under
+ *  src/assets/images/ is one of ours; anything else is left as written. */
+async function fileDimensions(
+	src: string,
+	markdownPath: string | undefined,
+): Promise<Dimensions | undefined> {
+	if (!(markdownPath && imageKey(src))) return undefined;
+	try {
+		const { width, height } = await sharp(resolve(dirname(markdownPath), src)).metadata();
+		return width && height ? { width, height } : undefined;
+	} catch {
+		return undefined;
+	}
+}
+
+/** AN UPRIGHT IS SET IN TWO THIRDS OF THE COLUMN, its caption beside it (2026-11-07).
+ *  Across the whole 42rem measure a portrait stood 806px tall and a manuscript leaf
+ *  1 060px, a screen of face or parchment between two paragraphs; the reader scrolled
+ *  past the picture to find the sentence it was set beside. Eighteen of the 75 inline
+ *  pictures are taller than wide. */
+function markUpright(figureNode: HastElement): void {
+	const classes = figureNode.properties?.className;
+	figureNode.properties = {
+		...figureNode.properties,
+		className: [...(Array.isArray(classes) ? classes : []), "prose-figure--upright"],
+	};
+	const image = figureNode.children[0];
+	if (image && isElement(image) && image.properties?.sizes) {
+		image.properties = { ...image.properties, sizes: UPRIGHT_SIZES };
+	}
+}
 
 /** The image, if this paragraph is nothing but one. */
 function loneImage(paragraph: HastElement): HastElement | null {
@@ -76,7 +126,7 @@ function figure(image: HastElement): HastElement {
 	};
 }
 
-function walk(node: HastNode): void {
+function walk(node: HastNode, figures: HastElement[]): void {
 	if (!("children" in node && Array.isArray(node.children))) return;
 	for (let i = 0; i < node.children.length; i++) {
 		const child = node.children[i];
@@ -84,14 +134,30 @@ function walk(node: HastNode): void {
 		if (isElement(child) && child.tagName === "p") {
 			const image = loneImage(child);
 			if (image) {
-				node.children[i] = figure(image);
+				const lifted = figure(image);
+				node.children[i] = lifted;
+				figures.push(lifted);
 				continue;
 			}
 		}
-		walk(child);
+		walk(child, figures);
 	}
 }
 
-export function rehypePhotoFigure() {
-	return (tree: HastNode) => walk(tree);
+export function rehypePhotoFigure(options: PhotoFigureOptions = {}) {
+	const dimensions = options.dimensions ?? fileDimensions;
+	return (tree: HastNode, file?: { path?: string }): Promise<void> | undefined => {
+		const figures: HastElement[] = [];
+		walk(tree, figures);
+		// Lifting is synchronous; measuring needs the file (or a test's own reader).
+		if (figures.length === 0 || !(options.dimensions || file?.path)) return undefined;
+		return Promise.all(
+			figures.map(async (figureNode) => {
+				const image = figureNode.children[0];
+				if (!(image && isElement(image))) return;
+				const size = await dimensions(String(image.properties?.src ?? ""), file?.path);
+				if (size && size.height > size.width) markUpright(figureNode);
+			}),
+		).then(() => undefined);
+	};
 }

@@ -1,4 +1,5 @@
 ---
+import { isLongTitle } from "../lib/format";
 import Kicker from "./Kicker.astro";
 
 interface Props {
@@ -17,6 +18,11 @@ interface Props {
 	 *  which is a rank up because it is the only prose between the title and the
 	 *  first paragraph. */
 	leadClass?: string;
+	/** The opening of a page a cover photograph follows (an essay, a fördjupning): the
+	 *  title set as the front page sets the same headline (`--title-cover`, tokens.css),
+	 *  and the words given the measure plus the note track, the width of the text the
+	 *  page holds, so a two-line headline does not stand on three. */
+	cover?: boolean;
 }
 
 const {
@@ -27,14 +33,15 @@ const {
 	lead,
 	leadHtml,
 	leadClass = "collection-lead",
+	cover = false,
 } = Astro.props;
 ---
 
-<header class="article-header">
+<header class:list={["article-header", { "article-header--cover": cover }]}>
 	{Boolean(kicker) && (
 		<Kicker form="quiet" href={kickerHref} class={kickerClass}>{kicker}</Kicker>
 	)}
-	<h1>{title}</h1>
+	<h1 class:list={{ "cover-title": cover, "cover-title--long": cover && isLongTitle(title) }}>{title}</h1>
 	{leadHtml ? (
 		<p class:list={["lead", leadClass]} set:html={leadHtml} />
 	) : (
@@ -59,4 +66,27 @@ const {
 
 	/* The kicker is Kicker.astro's, its gap to the title in layout.css (`.article-kicker`):
 	   a rule here would carry this component's scope, which the kicker's <p> does not. */
+
+	/* THE COVER (2026-11-07). The headline the front page set at 64px over this essay
+	   stood at 39px on the essay itself, so the page a reader had chosen opened quieter
+	   than the teaser that sent them. Now it is set as the lead sets it, in the display
+	   cut at every width, and given the width of the text the page holds (the measure
+	   and the note track beside it), so a forty-character title takes two lines and
+	   not three. The deck keeps the measure (`.lead`), as the lead's does. */
+	.article-header--cover {
+		max-width: calc(var(--content-width) + var(--sn-track, 0rem));
+	}
+
+	.cover-title {
+		font-family: var(--font-headline);
+		font-size: var(--title-cover);
+		font-weight: 560;
+		line-height: 1.04;
+		letter-spacing: -0.012em;
+		text-wrap: balance;
+	}
+
+	.cover-title--long {
+		font-size: var(--title-cover-long);
+	}
 </style>

@@ -25,7 +25,7 @@ const articles = await getArticles();
 //
 //   1. the lead      — the newest essay with art: its words and, under them, its
 //                      photograph, across two thirds of the canvas
-//   2. the second tier — the next six as a rail of titles beside it (three on a
+//   2. the second tier — the next seven as a rail of titles beside it (three on a
 //                      phone and a tablet)
 //   3. the departments — grouped under their ämne and its authored framing line
 //
@@ -33,8 +33,8 @@ const articles = await getArticles();
 // back to the most recent essay if somehow none carry an image.
 const withImage = articles.filter((a) => a.heroImage);
 const feature = withImage[0] ?? articles[0];
-// The next six, pictures or not: the rail beside the lead.
-const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 6);
+// The next seven, pictures or not: the rail beside the lead (FeatureEssay says why seven).
+const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 7);
 
 // Everything already spent above, so a department cannot show the lead twice.
 const used = new Set([feature?.slug, ...recent.map((a) => a.slug)].filter(Boolean) as string[]);

@@ -19,15 +19,16 @@ export interface Tankare {
 	framing: string;
 	/** Authoritative external identities (Wikipedia/Wikidata) → schema.org sameAs. */
 	sameAs?: string[];
-	/** Essays engaging this thinker, in the feed's date order (newest first). */
+	/** Essays engaging this thinker, the ones that name them most first; among equals,
+	 *  newest first. */
 	essays: Article[];
 }
 
 async function build(): Promise<Tankare[]> {
 	const [entries, articles] = await Promise.all([getCollection("tankare"), getArticles()]);
 
-	// Lowercase each body once; getArticles already returns newest-first, so the
-	// filtered slices inherit that order.
+	// Lowercase each body once; getArticles returns newest-first, and the sort below is
+	// stable, so essays that name a thinker equally often keep that order.
 	const bodies = articles.map((a) => ({
 		article: a,
 		body: articleBody(a).toLowerCase(),
@@ -35,8 +36,14 @@ async function build(): Promise<Tankare[]> {
 
 	return entries.map((entry) => {
 		const terms = entry.data.match.map((m) => m.toLowerCase());
+		// MOST ABOUT THE THINKER FIRST (2026-11-07). In date order the page opened on
+		// whatever was newest: Linné's on an election essay that names him once, while
+		// »Guden som bokför« names him 28 times. A thinker's page is read to find where to
+		// start with that person, so the essays that engage them most lead it.
 		const essays = bodies
-			.filter(({ body }) => terms.some((t) => body.includes(t)))
+			.map(({ article, body }) => ({ article, mentions: countMentions(body, terms) }))
+			.filter(({ mentions }) => mentions > 0)
+			.sort((a, b) => b.mentions - a.mentions)
 			.map(({ article }) => article);
 
 		// A thinker that matches nothing means the spelling drifted (an essay was
@@ -57,6 +64,11 @@ async function build(): Promise<Tankare[]> {
 			essays,
 		};
 	});
+}
+
+/** How many times a body names any of the terms (both already lowercased). */
+function countMentions(body: string, terms: readonly string[]): number {
+	return terms.reduce((n, term) => n + body.split(term).length - 1, 0);
 }
 
 /** All tänkare with their derived essay lists. Memoized for the build. */

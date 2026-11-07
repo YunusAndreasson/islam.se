@@ -3,6 +3,7 @@ import { amneByName } from "../lib/amnen";
 import type { Article } from "../lib/articles";
 import { inlineMarkdown } from "../lib/articles";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
+import { isLongTitle } from "../lib/format";
 import { heroPlaceholder } from "../lib/lqip";
 import ArticleMeta from "./ArticleMeta.astro";
 import EssayImage from "./EssayImage.astro";
@@ -13,7 +14,7 @@ interface Props {
 	article: Article;
 	/** The next essays, as a rail of titles beside the lead: titles and dates only. No
 	 *  pictures (the lead's photograph is the only one on the first screen) and no decks
-	 *  (the lead has one; four more made the top a wall of text). Six stand in the rail
+	 *  (the lead has one; four more made the top a wall of text). Seven stand in the rail
 	 *  on a wide screen; a phone and a tablet show the first three. */
 	also?: Article[];
 }
@@ -31,10 +32,8 @@ const placeholder = await heroPlaceholder(article.slug);
 // no category, so the eyebrow is never empty.
 const amne = article.category ? amneByName.get(article.category) : undefined;
 
-// A headline is set by its length, as on any front page: past this many characters it
-// steps down a size on a wide screen, where 64px would stand it on four lines. Three
-// titles in the archive pass 44 characters and one passes 50 (2026-10-10).
-const LONG_TITLE = 50;
+// A headline is set by its length, as on any front page (lib/format.ts, LONG_TITLE): the
+// same rule the essay's own title follows, so the two never disagree.
 ---
 
 {/* THE LEAD. Two links to one essay: the headline (the real, focusable link) and
@@ -46,7 +45,7 @@ const LONG_TITLE = 50;
 		<Kicker form="quiet" class="feature-kicker" href={amne ? `/amnen/${amne.slug}/` : undefined}>
 			{amne ? amne.name : "Senast publicerat"}
 		</Kicker>
-		<h2 id="feature-title" class:list={["feature-title", { "feature-title--long": article.title.length > LONG_TITLE }]}>
+		<h2 id="feature-title" class:list={["feature-title", { "feature-title--long": isLongTitle(article.title) }]}>
 			<a class="feature-link" href={`/${article.slug}/`} data-astro-prefetch="viewport">{article.title}</a>
 		</h2>
 		{article.description && (
@@ -191,7 +190,7 @@ const LONG_TITLE = 50;
 	   answers to zoom. */
 	.feature-title {
 		font-family: var(--font-headline);
-		font-size: 2.5rem;
+		font-size: var(--title-cover);
 		font-weight: 560;
 		line-height: 1.04;
 		letter-spacing: -0.012em;
@@ -243,10 +242,6 @@ const LONG_TITLE = 50;
 		.feature-media :global(img) {
 			aspect-ratio: 16 / 9;
 		}
-
-		.feature-title {
-			font-size: 3.2rem;
-		}
 	}
 
 	.feature-lead {
@@ -265,7 +260,7 @@ const LONG_TITLE = 50;
 	/* THE LEAD AS ONE PACKAGE (product decision, 2026-10-10). From 64rem the opening is
 	   two columns that start and end on the same lines. Two thirds hold the lead: kicker,
 	   headline, deck and date, and directly under them its photograph, at the same width.
-	   The last third, behind a hairline, is a rail of the six essays before it.
+	   The last third, behind a hairline, is a rail of the seven essays before it.
 
 	   Level by construction, because two independent columns never stay level on their
 	   own (the rail's titles run one to three lines and change with every essay): the
@@ -323,12 +318,11 @@ const LONG_TITLE = 50;
 		   two lines of it. The longest in the archive (62 characters) still stood on four
 		   at 64px, and takes three a size down. */
 		.feature-title {
-			font-size: 4rem;
 			max-width: none;
 		}
 
 		.feature-title--long {
-			font-size: 3.25rem;
+			font-size: var(--title-cover-long);
 		}
 
 		.feature-lead {
@@ -346,10 +340,14 @@ const LONG_TITLE = 50;
 			margin-top: var(--space-unit);
 		}
 
+		/* THE FLOOR IS 2:1 (2026-11-07; 5:2 before). Every hero is made 16:9, and 5:2 showed
+		   the middle 71 % of its height: the best picture on the site as a letterbox. 2:1
+		   shows 89 %, and at 1440×900 the photograph still ends above the fold (at ~880),
+		   so the first screen keeps the whole lead and the whole rail. */
 		.feature-media-link::before {
 			content: "";
 			display: block;
-			padding-top: 40%;
+			padding-top: 50%;
 		}
 
 		.feature-media {
@@ -387,8 +385,15 @@ const LONG_TITLE = 50;
 			margin-top: var(--space-group);
 		}
 
-		/* A rule between the titles: six in a column are a list, and the rules are what
-		   keeps the spacing reading as a rhythm when the list spreads. */
+		/* A rule between the titles: seven in a column are a list, and the rules are what
+		   keeps the spacing reading as a rhythm when the list spreads.
+
+		   SEVEN, NOT SIX (2026-11-07). The 2:1 floor made the package taller, and six
+		   titles spread over it stood 66px apart at 1280–1920: more paper between the
+		   titles than the titles themselves (~55px each), a list that read as loose. A
+		   seventh brings it to 46px and still ends with the photograph (879 at 1440×900);
+		   an eighth would leave no slack, so a two-line title would push the photograph
+		   past the fold. */
 		.feature-also-lista > li + li {
 			margin-top: 0;
 			padding-top: var(--space-half);

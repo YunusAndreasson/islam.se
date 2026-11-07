@@ -1,7 +1,9 @@
 ---
+import type { ImageMetadata } from "astro";
 import Base from "../layouts/Base.astro";
 import type { Article } from "../lib/articles";
 import ArticleHeader from "./ArticleHeader.astro";
+import EssayImage from "./EssayImage.astro";
 import EssayList from "./EssayList.astro";
 import SectionLink from "./SectionLink.astro";
 
@@ -15,8 +17,22 @@ import SectionLink from "./SectionLink.astro";
 //              (the front page's essäserier), when every part has a picture; otherwise
 //              rows in the same numbering, never a half-pictured row of parts. Two of six
 //              parts of »Hjärtats anatomi« have one.
-//   an ämne,   its newest three with pictures as cards (as each ämne on /essaer/ opens),
-//   a tänkare  then the rest as rows, two abreast.
+//   an ämne,   the first three with pictures as cards, in the order the page is given,
+//   a tänkare  then the rest as rows, newest first. An ämne is given its essays newest
+//              first; a tänkare the ones most about the thinker first (lib/tankare.ts), so
+//              its cards are where to start with that person and its rows the archive.
+//
+// NO LEAD ESSAY. For one day (2026-11-07) an ämne or a tänkare opened on its newest
+// pictured essay set as the front page's lead. It ranked by date on a page that is not
+// about dates: Linné's page opened on a US Senate election under 39px of »Carl von
+// Linné«, from an essay that names him once, and nine of eleven tänkare pages measured
+// led with an essay naming the thinker three times or fewer. The same picture led five
+// pages, so walking the site met it again and again. A lead belongs where the page has
+// one to give: the front page (the newest is the news) and a series (its own art).
+//
+// A series opens on its own picture, the one /tradar/ shows it by, in two thirds beside
+// its words in the first (the »one third and two« of AI-barometern's room and Tänkare),
+// and its parts follow as equals; a lead would rank one part over the others.
 
 interface Props {
 	title: string;
@@ -31,6 +47,8 @@ interface Props {
 	backLabel: string;
 	/** An essäserie: the list is a reading order, and each part says which it is. */
 	numbered?: boolean;
+	/** A series' own picture (lib/tradar.ts, threadArt), beside its words. */
+	cover?: { src: ImageMetadata; alt: string } | undefined;
 	ogImage?: string;
 	jsonLd: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -38,21 +56,25 @@ interface Props {
 const {
 	title,
 	description,
-	lead = description,
+	lead: ingress = description,
 	essays,
 	kicker,
 	countText,
 	backHref,
 	backLabel,
 	numbered = false,
+	cover,
 	ogImage,
 	jsonLd,
 } = Astro.props;
 
 const pictured = essays.filter((essay) => essay.heroImage);
 const cards = numbered ? (pictured.length === essays.length ? essays : []) : pictured.slice(0, 3);
-const shownAsCards = new Set(cards.map((essay) => essay.slug));
-const rows = essays.filter((essay) => !shownAsCards.has(essay.slug));
+const shown = new Set(cards.map((essay) => essay.slug));
+const rest = essays.filter((essay) => !shown.has(essay.slug));
+// A series' rows keep its reading order; any other collection's are its archive, newest
+// first whatever order the cards were chosen in.
+const rows = numbered ? rest : rest.toSorted((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 
 const delar = numbered ? " collection-delar" : "";
 ---
@@ -65,9 +87,23 @@ const delar = numbered ? " collection-delar" : "";
 	preloadFonts={["body", "sans", { face: "display", media: "(min-width: 48rem)" }]}
 >
 	<main id="main" class="home collection-page">
-		<ArticleHeader title={title} kicker={kicker} lead={lead} leadClass="lead--page">
-			<p class="label collection-count">{countText}</p>
-		</ArticleHeader>
+		<div class:list={["collection-opening", { "collection-opening--cover": cover }]}>
+			<ArticleHeader title={title} kicker={kicker} lead={ingress} leadClass="lead--page">
+				<p class="label collection-count">{countText}</p>
+			</ArticleHeader>
+			{cover && (
+				<div class="collection-cover media-frame">
+					<EssayImage
+						src={cover.src}
+						alt={cover.alt}
+						widths={[640, 960, 1216, 1600]}
+						sizes="(min-width: 79rem) 49.67rem, (min-width: 64rem) 66vw, 100vw"
+						loading="eager"
+						fetchpriority="high"
+					/>
+				</div>
+			)}
+		</div>
 
 		{cards.length > 0 && (
 			<EssayList
@@ -86,6 +122,73 @@ const delar = numbered ? " collection-delar" : "";
 		<p class="collection-back"><SectionLink href={backHref}>{backLabel}</SectionLink></p>
 	</main>
 </Base>
+
+<style>
+	/* The header opens one group-space under the mast as on every shell page (layout.css,
+	   `main.home > .article-header`); inside the opening's wrapper that rule no longer
+	   reaches it. */
+	.collection-opening :global(.article-header) {
+		margin-top: 0;
+	}
+
+	.collection-cover {
+		margin-bottom: var(--space-unit);
+	}
+
+	.collection-cover :global(img) {
+		aspect-ratio: 3 / 2;
+	}
+
+	/* A SERIES' OPENING, from 64rem: its words in the first third and its own picture
+	   across the other two, the »one third and two« division of the twelve (DESIGN.md,
+	   »One grid«). The header's own top margin belongs to a page that opens on it; here
+	   the row does.
+
+	   The two start and end on the same lines, as a cover does: the kicker on the
+	   picture's top, the count of parts on its foot, and the picture as tall as the words
+	   need, never flatter than 2:1. Before (2026-11-07, the same day) the picture was a
+	   fixed 3:2, 530px beside 207–281px of words: up to 320px of empty paper under a
+	   series' name. The floor is 2:1, not the essays' 5:2, because a series' art is made
+	   at 3:2 (one at 4:3), and 5:2 would cut two fifths of its height. */
+	@media (width >= 64rem) {
+		.collection-opening--cover {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			column-gap: var(--grid-gutter);
+			margin-bottom: var(--space-section);
+		}
+
+		.collection-opening--cover :global(.article-header) {
+			display: flex;
+			flex-direction: column;
+			margin: 0;
+		}
+
+		.collection-opening--cover .collection-count {
+			margin-top: auto;
+			padding-top: var(--space-half);
+		}
+
+		.collection-cover {
+			position: relative;
+			grid-column: 2 / 4;
+			margin-bottom: 0;
+		}
+
+		.collection-cover::before {
+			content: "";
+			display: block;
+			padding-top: 50%;
+		}
+
+		.collection-cover :global(img) {
+			position: absolute;
+			inset: 0;
+			height: 100%;
+			aspect-ratio: auto;
+		}
+	}
+</style>
 
 <script>
 	// Read essays step back in place, muted with »· läst« (scripts/read-state.ts); in a

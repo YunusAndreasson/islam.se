@@ -76,4 +76,47 @@ describe("rehypePhotoFigure", () => {
 		expect(image.properties.widths).toBeUndefined();
 		expect(image.properties.sizes).toBeUndefined();
 	});
+
+	// AN UPRIGHT IS SET IN TWO THIRDS OF THE COLUMN. Across the whole measure a portrait
+	// stood 806px tall and a manuscript leaf 1 060px: a screen of face between two
+	// paragraphs (the El-Sayed essay, 2026-11-07). The class is what sets it narrower and
+	// its caption beside it; `sizes` must follow, or the narrower picture fetches the
+	// full-column file.
+	describe("orientation", () => {
+		const asset = (path: string, title = "Bildtext."): Node => {
+			const photo = img(title);
+			photo.properties.src = `../../apps/web/src/assets/images/inline/${path}`;
+			return photo;
+		};
+		const sizes: Record<string, { width: number; height: number }> = {
+			"portratt.webp": { width: 1100, height: 1320 },
+			"gata.webp": { width: 1400, height: 933 },
+		};
+		const measure = async (tree: Node): Promise<Node> => {
+			await rehypePhotoFigure({
+				dimensions: async (src) => sizes[src.split("/").pop() ?? ""],
+			})(tree);
+			return tree;
+		};
+
+		it("marks a picture taller than wide as an upright and asks for a narrower file", async () => {
+			const figure = (await measure(root(el("p", asset("portratt.webp"))))).children[0];
+			expect(
+				figure.properties.className,
+				"an upright across the whole column fills a screen",
+			).toContain("prose-figure--upright");
+			expect(figure.children[0].properties.sizes).toContain("28rem");
+		});
+
+		it("leaves a landscape picture at the column's width", async () => {
+			const figure = (await measure(root(el("p", asset("gata.webp"))))).children[0];
+			expect(figure.properties.className).toEqual(["prose-figure"]);
+			expect(figure.children[0].properties.sizes).toContain("42rem");
+		});
+
+		it("leaves a picture it cannot measure as a plain figure", async () => {
+			const figure = (await measure(root(el("p", asset("okand.webp"))))).children[0];
+			expect(figure.properties.className).toEqual(["prose-figure"]);
+		});
+	});
 });

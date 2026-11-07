@@ -34,6 +34,17 @@ export const PAGE_HERO_SIZES = "(min-width: 67rem) 61rem, 100vw";
 /** 1× and retina steps of the widths above, capped at the source's own 1672. */
 export const PAGE_HERO_WIDTHS = [768, 1024, 1456, 1672];
 
+/** The COVER hero (an essay, a fördjupning; `.article-hero--cover` in layout.css): the
+ *  photograph on the mast's lines, the canvas's 76rem once the window holds it and the
+ *  window less the canvas padding from 48rem, as wide as the frame on a phone. Under
+ *  48rem it is the frame's, as PAGE_HERO_SIZES says. */
+export const COVER_HERO_SIZES =
+	"(min-width: 79rem) 76rem, (min-width: 48rem) calc(100vw - 3rem), 100vw";
+
+/** The cover's painted widths at 1× (768 tablet, 1216 canvas) and the steps above them,
+ *  capped at the sources' 1672. */
+export const COVER_HERO_WIDTHS = [768, 1024, 1216, 1456, 1672];
+
 /** Card thumbnails — archive rows, FAKTA cards, recent, the app shots. Painted
  *  ~192–320 on desktop and up to ~350 on a phone; these are its 1×/2×/3× steps. */
 export const CARD_WIDTHS = [320, 640, 960];

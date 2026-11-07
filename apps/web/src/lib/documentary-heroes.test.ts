@@ -21,20 +21,20 @@ function essays(): { name: string; frontmatter: string; body: string }[] {
 const flagged = (frontmatter: string) => /^imageDocumentary: true$/m.test(frontmatter);
 const credited = (body: string) => body.includes("Bilden överst:");
 
-// The site lays a tonal wash over every essay picture (EssayImage.astro: saturation
-// 0.72 and a little sepia) so that pictures made for the site read as one set. A
-// documentary photograph is not such a picture. The two Gaza heroes stood under the
-// wash, on top of files that had been desaturated once already, and Jabalia's blue
-// sky was shown grey (2026-10-11). `imageDocumentary: true` takes the wash off, and
-// the credit in the first note is what says a hero is a documentary photograph.
+// `imageDocumentary: true` says a hero is a photograph of a real place by a named
+// photographer: cut from the original with no colour change, credited in the first note
+// (»Bilden överst: …«), and never regraded or redrawn by an image model. It once also
+// took the site's tonal wash off; the wash came off every picture on 2026-11-07, but the
+// two Gaza heroes had first been desaturated in the FILE (Jabalia's blue sky stood grey,
+// 2026-10-11), and the flag is how the archive knows which pictures must not be touched.
 describe("documentary heroes", () => {
-	it("shows a credited hero photograph without the tonal wash", () => {
-		const washed = essays()
+	it("flags every hero it credits to a photographer", () => {
+		const unflagged = essays()
 			.filter((e) => credited(e.body) && !flagged(e.frontmatter))
 			.map((e) => e.name);
 		expect(
-			washed,
-			"these essays credit their hero to a photographer (»Bilden överst: …«) but lack `imageDocumentary: true`, so the site would desaturate a documentary photograph",
+			unflagged,
+			"these essays credit their hero to a photographer (»Bilden överst: …«) but lack `imageDocumentary: true`, so nothing marks the picture as a document to be shown as taken",
 		).toEqual([]);
 	});
 

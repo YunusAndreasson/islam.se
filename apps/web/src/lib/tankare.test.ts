@@ -91,3 +91,42 @@ describe("tankarePairs", () => {
 		expect(tankarePairs(corpus, { minShared: 99 })).toEqual([]);
 	});
 });
+
+describe("getTankare", () => {
+	// A thinker's page used to list essays newest first, so Linné's opened on an election
+	// essay that names him once while the one naming him 28 times sat further down
+	// (2026-11-07). The page is read to find where to start with a person.
+	it("lists the essays that name a thinker most first, newest first among equals", async () => {
+		const { getCollection } = await import("astro:content");
+		const { getArticles, articleBody } = await import("./articles");
+		const { getTankare } = await import("./tankare");
+		const bodies: Record<string, string> = {
+			nyast: "Linné nämns en gång.",
+			mitten: "Linné, Linné och åter linné.",
+			aldst: "Här står Linné en gång.",
+			utan: "Ingen naturforskare alls.",
+		};
+		vi.mocked(getCollection).mockResolvedValue([
+			{
+				data: {
+					name: "Carl von Linné",
+					slug: "linne",
+					tradition: "western",
+					framing: "",
+					match: ["Linné"],
+				},
+			},
+		] as never);
+		// getArticles returns the feed newest first.
+		vi.mocked(getArticles).mockResolvedValue(
+			Object.keys(bodies).map((slug) => ({ slug })) as never,
+		);
+		vi.mocked(articleBody).mockImplementation((a) => bodies[(a as { slug: string }).slug] ?? "");
+
+		const [linne] = await getTankare();
+		expect(
+			linne?.essays.map((e) => e.slug),
+			"the essay that names the thinker most must come first, ties keep the feed's date order, and an essay that never names them is not listed",
+		).toEqual(["mitten", "nyast", "aldst"]);
+	});
+});

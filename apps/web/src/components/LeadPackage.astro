@@ -1,0 +1,150 @@
+---
+// ONE ESSAY GIVEN THE ROOM OF A LEAD: its photograph in two thirds of the canvas and its
+// words in the last, the grammar the front page opens on (FeatureEssay) at a page's own
+// rank. It sets »Nästa del« at the end of a series part (EssayConnections), the one thing
+// offered first, over the three cards of »Läs vidare«. (For one day it also led the ämne
+// and tänkare pages; EssayCollectionPage says why it no longer does.)
+//
+// One column under 64rem, the picture first. From 64rem the words stand beside it and the
+// two end together: the picture is as tall as its words, never flatter than 5:2 (see the
+// style block).
+import type { Article } from "../lib/articles";
+import { inlineMarkdown } from "../lib/articles";
+import { PAGE_HERO_WIDTHS } from "../lib/hero";
+import ArticleMeta from "./ArticleMeta.astro";
+import EssayImage from "./EssayImage.astro";
+
+interface Props {
+	article: Article;
+	/** The line over the title: a series part's »Del 2 av 6 · …« in brass. */
+	label?: string;
+}
+
+const { article, label } = Astro.props;
+const deck = article.description ? inlineMarkdown(article.description) : undefined;
+---
+
+<a
+	class:list={["lead-package", { "lead-package--pictured": article.heroImage }]}
+	href={`/${article.slug}/`}
+	data-astro-prefetch="viewport"
+>
+	{article.heroImage && (
+		<div class="lead-package-media media-frame">
+			<EssayImage
+				article={article}
+				widths={PAGE_HERO_WIDTHS}
+				sizes="(min-width: 79rem) 49.67rem, (min-width: 64rem) 66vw, 100vw"
+			/>
+		</div>
+	)}
+	<span class="lead-package-words">
+		{label && <span class="part-ordinal">{label}</span>}
+		<span class="lead-package-title">{article.title}</span>
+		{deck && <span class="lead-package-desc" set:html={deck} />}
+		<ArticleMeta
+			class="label archive-meta lead-package-meta"
+			publishedAt={article.publishedAt}
+			readingTime={article.readingTime}
+		/>
+	</span>
+</a>
+
+<style>
+	.lead-package {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+
+		&:hover .lead-package-title {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: var(--underline-offset-title);
+		}
+	}
+
+	.lead-package-media {
+		margin-bottom: var(--card-media-gap);
+	}
+
+	/* The <img> carries EssayImage's scope, hence :global. */
+	.lead-package-media :global(img) {
+		aspect-ratio: 3 / 2;
+	}
+
+	.lead-package-words {
+		display: block;
+	}
+
+	.lead-package-words .part-ordinal {
+		display: block;
+		margin-bottom: 0.35rem;
+	}
+
+	/* A step over the card titles under it (--step-2): the one essay offered first. */
+	.lead-package-title {
+		display: block;
+		font-family: var(--font-display);
+		font-size: var(--step-2);
+		font-weight: 600;
+		line-height: 1.18;
+		color: var(--color-text);
+		text-wrap: balance;
+	}
+
+	/* The whole deck at body size: the words are what sets the package's height (below),
+	   and a deck cut to 170 characters at the card size stood 104px short of its picture
+	   at the median of 20 parts (2026-11-07). */
+	.lead-package-desc {
+		display: block;
+		margin-top: var(--space-half);
+		font-family: var(--font-body);
+		font-size: var(--step-0);
+		line-height: 1.5;
+		color: var(--text-body);
+		text-wrap: pretty;
+	}
+
+	/* No margin under it: .archive-meta carries 30px for the archive's rows, and here that
+	   would be paper the picture is stretched to cover. */
+	.lead-package-words :global(.lead-package-meta) {
+		margin: var(--space-half) 0 0;
+	}
+
+	@media (width >= 64rem) {
+		.lead-package--pictured {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			column-gap: var(--grid-gutter);
+		}
+
+		/* LEVEL BY CONSTRUCTION, the front page's lead's rule (FeatureEssay): the picture
+		   fills the row and the words decide how tall the row is. The strut is the floor,
+		   5:2 of the picture's width, the crop every hero is made to survive; the image is
+		   out of flow so the file's own proportion never sets the height.
+
+		   What this replaced (2026-11-07, the same day): a fixed 16:9 for a lead and 5:2
+		   for a part. Words never measure the same as a fixed picture: at 1280px and wider
+		   a lead's stopped ~150px above its picture's foot and a part's ~104px (median of
+		   20), and at 1024px, where the words' third is 290px, they ran up to 148px past it.
+		   At that width the picture now follows them down, to 1.2:1 at most (Geijer). */
+		.lead-package--pictured .lead-package-media {
+			position: relative;
+			grid-column: 1 / 3;
+			margin-bottom: 0;
+		}
+
+		.lead-package--pictured .lead-package-media::before {
+			content: "";
+			display: block;
+			padding-top: 40%;
+		}
+
+		.lead-package--pictured .lead-package-media :global(img) {
+			position: absolute;
+			inset: 0;
+			height: 100%;
+			aspect-ratio: auto;
+		}
+	}
+</style>

@@ -23,8 +23,8 @@ export interface CardItem {
 	/** A quiet last line — "6 essäer", "5 frågor". */
 	meta?: string;
 	/** `src` for bespoke art, `article` to borrow an essay's hero; either goes
-	 *  through EssayImage, so both get the site-wide tonal wash and the frame's
-	 *  hover bloom. Null renders a card that simply starts at its title. */
+	 *  through EssayImage and the shared media frame. Null renders a card that simply
+	 *  starts at its title. */
 	image?: {
 		src?: ImageMetadata;
 		article?: Article;

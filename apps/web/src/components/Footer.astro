@@ -1,8 +1,7 @@
 ---
 import { currentNavHref, FOOTER_GROUPS, FOOTER_LINKS } from "../lib/navigation";
-import MarkDot from "./MarkDot.astro";
 import ThemePicker from "./ThemePicker.astro";
-import { SITE_URL } from "../lib/config";
+import Wordmark from "./Wordmark.astro";
 
 interface Props {
 	/** Section to mark current when the URL alone cannot express it — an essay lives at
@@ -19,6 +18,19 @@ const here = (href: string) => href === currentHref;
 ---
 
 <footer class="site-footer">
+	{/* THE COLOPHON OPENS ON THE NAME (2026-11-07): the wordmark, a size over the mast's,
+	    and the one sentence that says what the site is (/om/'s, the front page's
+	    orientation line until 2026-09-28). The footer was a sitemap that tapered to a
+	    lone sun dot; a publication signs its pages, as DN's and the Guardian's feet do.
+	    The wordmark is the link home, so the colophon line no longer repeats it. */}
+	<div class="site-footer-masthead">
+		<a class="site-footer-home" href="/" aria-current={path === "/" ? "page" : undefined}><Wordmark /></a>
+		<p class="site-footer-about">
+			Islam på svenska, förklarad utifrån källorna – Koranen, sunna och de tidiga
+			generationernas lärda.
+		</p>
+	</div>
+
 	<nav class="site-footer-nav" aria-label="Sidfotsnavigering">
 		{FOOTER_GROUPS.map((group) => (
 			<section class="footer-group">
@@ -35,8 +47,6 @@ const here = (href: string) => href === currentHref;
 			<p class="label site-footer-meta">
 				<span class="site-footer-place">Sverige, {year}</span>
 				<span class="nav-dot site-footer-place-dot" aria-hidden="true">&middot;</span>
-				<a href={SITE_URL}>islam.se</a>
-				<span class="nav-dot" aria-hidden="true">&middot;</span>
 				<a href="mailto:support@islam.se">support@islam.se</a>
 				<span class="nav-dot" aria-hidden="true">&middot;</span>
 				<a href="/rss.xml">RSS</a>
@@ -44,15 +54,42 @@ const here = (href: string) => href === currentHref;
 		</div>
 
 	</div>
-
-	{/* The page closes on the mark itself — the full stop of islam.se, set alone so the
-	    footer tapers from the link row to a single point. Decorative: the colophon above
-	    already links home, and a second link here would only split the target. */}
-	<MarkDot class="site-footer-mark" />
-
 </footer>
 
 <style>
+	/* The name and its sentence, on the footer's left line, a section over the links. The
+	   wordmark is the mast's (Wordmark.astro, its dot set in layout.css) a size larger:
+	   the page ends on the name it began with. */
+	.site-footer-masthead {
+		margin-bottom: var(--space-phi);
+		text-align: start;
+	}
+
+	.site-footer-home {
+		display: inline-flex;
+		align-items: center;
+		color: var(--color-text);
+		text-decoration: none;
+		font-family: var(--font-heading);
+		font-size: 1.75rem; /* display type for one place: the mast's 26px wordmark, a size up */
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		white-space: nowrap;
+	}
+
+	.site-footer-about {
+		max-width: 30rem;
+		margin: var(--space-group) 0 0;
+		font-family: var(--font-body);
+		font-size: var(--step-0);
+		line-height: 1.5;
+		color: var(--text-body);
+		text-wrap: pretty;
+	}
+
 	/* Preferences and contact details form one utility area below navigation. */
 	.site-footer-utilities {
 		display: flex;

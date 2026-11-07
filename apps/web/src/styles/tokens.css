@@ -418,6 +418,16 @@
 	--canvas-width: calc(var(--art-width) + 2 * var(--padding-inline));
 	--reading-frame: 64rem;
 
+	/* THE COVER TITLE: one role in two places, the front page's lead (FeatureEssay) and
+	   the page that lead opens (an essay, a fördjupning; ArticleHeader `cover`). Until
+	   2026-11-07 the same headline stood at 64px on the front page and at 39px on its
+	   own page, so the page a reader commits to was the quieter of the two. Display type
+	   composed for this one role (DESIGN.md, »The Scale«: a deliberate exception), set in
+	   the display cut and stepped at breakpoints, never with vw, so it answers to zoom.
+	   A headline past LONG_TITLE characters (lib/format.ts) steps down on a desktop. */
+	--title-cover: 2.5rem;
+	--title-cover-long: var(--title-cover);
+
 	/* The sticky mast: its block padding around one row of 2.75rem tap targets, 92px on
 	   a desktop and 84px under 48rem (measured 2026-10-17). Header.astro measures the
 	   real height and sets it on <html>, inline, so this value covers only the first
@@ -489,5 +499,20 @@
 		--step-2-sans: 1.562rem; /* 25px — unchanged; the apparatus does not move */
 		--step-3: 1.7671rem; /* 28.3px — collection h1 */
 		--step-4: 1.885rem; /* 30.2px — h1 (was 32px of Source Sans) */
+	}
+}
+
+/* The cover title's steps (see --title-cover above): 51px on a tablet, 64px from the
+   line where the lead stands beside its rail, a size down for a long headline there. */
+@media (width >= 48rem) {
+	:root {
+		--title-cover: 3.2rem;
+	}
+}
+
+@media (width >= 64rem) {
+	:root {
+		--title-cover: 4rem;
+		--title-cover-long: 3.25rem;
 	}
 }

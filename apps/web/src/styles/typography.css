@@ -814,7 +814,7 @@
    !important is load-bearing: * has zero specificity, so without it every
    classed `transition` shorthand on the site wins the cascade and the
    kill-switch is a no-op. A deliberate survivor — a change that is not motion:
-   EssayImage's colour cross-fade, the resume pill's fade — carries `.motion-safe`
+   the resume pill's fade — carries `.motion-safe`
    and is left out here. It cannot win back locally: an !important inside a layer
    outranks every unlayered one, so the survivors' own `!important` overrides
    resolved to this 0.01ms all along (found 2026-10-23). */

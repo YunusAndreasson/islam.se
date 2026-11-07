@@ -1133,14 +1133,14 @@
 	}
 
 	/* Media frame — the shared container for every essay photo. It crops the image
-   (which carries EssayImage's base tonal wash) and adds nothing over it: a
-   picture is shown as a picture. A synthetic film grain and an inset vignette
+   and adds nothing over it: a picture is shown as a picture, in its own colour
+   (the tonal wash came off 2026-11-07, EssayImage.astro). A synthetic film grain and an inset vignette
    lay over every photograph until 2026-10-18, and the frame lifted on a shadow
    when hovered. Turned down to 2.5% the grain was a blend layer per picture
    that nobody could see; the vignette darkened the edges of documentary
    photographs that are to be shown as taken, and opened on hover, the »vignette
-   animation« DESIGN.md rules out. The hover is the wash easing to full colour,
-   and that is all (»A card's hover is tonal only«). */
+   animation« DESIGN.md rules out. A card's hover is its title's underline;
+   the picture does not change. */
 	.media-frame {
 		position: relative;
 		overflow: hidden;
@@ -1212,21 +1212,14 @@
 	}
 
 	/* Every framed image fills its frame and is cropped uniformly — each module sets
-   only its own aspect-ratio (on the inner <img>, via :global from its scope). The
-   base tonal wash lives on the <img> in EssayImage; on hover the wrapping link
-   eases that wash back to full colour, and that is all it does (DESIGN.md: »quiet
-   tonal treatment is sufficient: no competing lift, zoom«). The picture also grew
+   only its own aspect-ratio (on the inner <img>, via :global from its scope). On
+   hover the picture neither lifts, zooms nor changes colour (DESIGN.md). It grew
    3% until 2026-10-16: editorial.css cancelled it with `transform: none`, which
    does not reach the `scale` property this rule set. */
 	.media-frame img {
 		display: block;
 		width: 100%;
 		object-fit: cover;
-	}
-
-	a:hover .media-frame img,
-	a:focus-visible .media-frame img {
-		filter: saturate(1) contrast(1) brightness(1) sepia(0);
 	}
 
 	/* ============================================================
@@ -2084,22 +2077,30 @@
 		margin-top: var(--space-section);
 	}
 
+	/* THE TITLES IN THE TITLE FACE (2026-11-07): the neighbour is an essay (a question, a
+	   model), named as every list on the site names one, in Literata at the card title's
+	   size and in ink, its direction a label over it. It was a 15px link in the sans, the
+	   size of a meta line, at the one place a reader who has finished looks for what is
+	   next. Two halves on the page's gutter, so on the canvas they stand on its centre
+	   line. */
 	.article-nav {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: var(--space-unit);
+		gap: var(--space-unit) var(--grid-gutter);
 		margin-top: var(--space-unit);
 		margin-bottom: var(--space-phi);
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
+		font-family: var(--font-display);
+		font-size: var(--step-1);
+		line-height: var(--card-title-leading);
 
 		a {
-			color: var(--color-accent);
+			color: var(--color-text);
 			text-decoration: none;
 			min-width: 0;
 			flex: 1 1 0;
-			font-weight: 500;
+			font-weight: 600;
+			text-wrap: balance;
 
 			/* »Äldre →« stands right and »← Nyare« left, by what each is, not by position:
 			   by position the oldest essay's lone »← Nyare« was set flush right, its arrow
@@ -2114,13 +2115,17 @@
 
 			&:hover {
 				text-decoration: underline;
+				text-decoration-thickness: 1px;
+				text-underline-offset: var(--underline-offset-title);
 			}
 		}
 
 		.nav-label {
 			display: block;
-			font-size: var(--step--4);
-			margin-bottom: 0.25rem;
+			font-size: var(--step--3);
+			font-weight: 400;
+			color: var(--color-muted);
+			margin-bottom: 0.35rem;
 		}
 	}
 
@@ -2573,6 +2578,27 @@
 		text-wrap: pretty;
 	}
 
+	/* AN UPRIGHT IN TWO THIRDS OF THE COLUMN, its caption beside it at its foot, as a
+	   plate is labelled in a catalogue (2026-11-07; rehype-photo-figure.ts marks it). Across
+	   the whole measure a portrait stood 806px tall and a manuscript leaf 1 060px, a
+	   screen of picture between two sentences. The picture stands on the measure's left
+	   line, the caption in the last third on the picture's foot, so the two read as one
+	   object and the column's right edge still closes the block. A phone keeps the whole
+	   column: there two thirds would be a thumbnail. */
+	@media (width >= 48rem) {
+		.prose-figure--upright {
+			display: grid;
+			grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+			column-gap: var(--space-group);
+			align-items: end;
+			max-width: var(--content-width);
+		}
+
+		.prose-figure--upright .prose-figure-caption {
+			margin: 0;
+		}
+	}
+
 	/* ============================================================
    Sidenotes — the apparatus in the margin.
 
@@ -2940,8 +2966,9 @@
 			margin-top: var(--space-unit);
 		}
 
+		/* The titles keep the title face's phone step (--step-1); only the tap margin is
+		   the phone's own. They were cut to the meta line's size here until 2026-11-07. */
 		.article-nav a {
-			font-size: var(--step--3);
 			padding: 0.75rem 0;
 			margin: -0.75rem 0;
 		}

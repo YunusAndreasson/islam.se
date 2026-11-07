@@ -49,14 +49,8 @@ const altText = alt ?? article?.imageAlt ?? article?.title ?? "";
 const sizesAttr = loading === "lazy" && !sizes.startsWith("auto") ? `auto, ${sizes}` : sizes;
 
 const hero = src ?? article?.heroImage;
-// A documentary photograph is a document: it is shown in the colour it was taken in,
-// without the wash below (see the style block). Only an essay's own hero can be one;
-// a borrowed or bespoke `src` is art made for the site.
-// `motion-safe`: the wash's cross-fade is a change of colour, not motion, so it keeps
-// its pace under reduced motion (typography.css, the kill-switch).
-const imgClass = [className, "motion-safe", !src && article?.imageDocumentary ? "is-document" : null]
-	.filter(Boolean)
-	.join(" ");
+// Every picture is shown in the colour it was made or taken in (2026-11-07): no wash.
+const imgClass = className;
 // Only use a mobile-specific crop when it is landscape-ish. Every card layout
 // (feature 3:2, recent 16:9, ämne lead 3:2) renders into a landscape box with
 // object-fit: cover; some -mobile assets are authored as 2:3 portrait, and a
@@ -134,28 +128,11 @@ if (mobile && hero) {
 	)
 )}
 
-<style>
-	/* Base tonal wash — site-wide art direction for every essay photo.
-	   The source files span very different colour temperatures; this pulls them
-	   all toward the warm 4-colour palette so the page reads as one curated set,
-	   not a gallery of stock rectangles. Source images are untouched (CSS only).
-
-	   This is scoped to the <img> EssayImage itself renders, so it travels to
-	   every usage (feature / recent / ämnen) and does NOT collide with the
-	   wrappers' :global(img) sizing rules. Wrappers ease the filter back toward
-	   full colour on hover (the bloom). Tuned against the live render. */
-	img {
-		filter: saturate(0.72) contrast(1.04) brightness(0.98) sepia(0.12);
-		transition: filter 0.6s var(--ease-out);
-	}
-
-	/* A documentary photograph is not washed (2026-10-11). The wash is art direction for
-	   pictures made for the site; on a photograph of a real place by a named
-	   photographer it is an alteration, and on the two Gaza heroes it came on top of
-	   files that had already been desaturated: Jabalia's blue sky stood as grey, and
-	   the pictures read as "so faded" (user review). The files are now cut from the
-	   originals with no colour change, and this takes the wash off them too. */
-	img.is-document {
-		filter: none;
-	}
-</style>
+{/* NO TONAL WASH (2026-11-07). Every essay picture carried one in CSS (saturation 0.72,
+    contrast 1.04, brightness 0.98, sepia 0.12) to pull the set toward the warm palette,
+    easing to full colour under the pointer. So a reader saw every photograph faded until
+    they hovered it, and the cover on an essay's own page, which is no link, faded always:
+    the look the user does not want (»i do not like the desaturated look«, 2026-10-11). The
+    pictures are made to one register now (the feature-image skill), documentary ones are
+    cut from the original with no colour change, and both are shown as they are. A card's
+    hover is its title's underline. */}

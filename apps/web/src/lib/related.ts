@@ -130,11 +130,18 @@ export async function getEssayConnections(slug: string, limit = 3): Promise<Essa
 				new Date(y.article.publishedAt).getTime() - new Date(x.article.publishedAt).getTime(),
 		);
 
+	// »Läs vidare« is set as picture cards (EssayConnections.astro), and a row of cards is
+	// never half-pictured: when enough related essays have a photograph, the strongest of
+	// those are offered; otherwise the strongest of all, as rows. The order inside each
+	// stays by score.
+	const pictured = scored.filter((x) => x.article.heroImage);
+	const offered = pictured.length >= limit ? pictured : scored;
+
 	return {
 		amne,
 		tankare,
 		tradar,
-		related: scored.slice(0, limit).map((x) => x.article),
+		related: offered.slice(0, limit).map((x) => x.article),
 		svar: await getRelatedSvar(slug),
 	};
 }

@@ -4,7 +4,7 @@ import EssayCollectionPage from "../../components/EssayCollectionPage.astro";
 import type { Article } from "../../lib/articles";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 import { seriesLength } from "../../lib/series";
-import { seriesParts } from "../../lib/tradar";
+import { seriesParts, threadArt } from "../../lib/tradar";
 
 export async function getStaticPaths() {
 	const threads = await getCollection("tradar");
@@ -14,6 +14,7 @@ export async function getStaticPaths() {
 			props: {
 				title: thread.data.title,
 				framing: thread.data.framing,
+				imageAlt: thread.data.imageAlt ?? "",
 				// The curated thread order, not the feed's date order.
 				essays: await seriesParts(thread),
 			},
@@ -24,11 +25,14 @@ export async function getStaticPaths() {
 interface Props {
 	title: string;
 	framing: string;
+	imageAlt: string;
 	essays: Article[];
 }
 
-const { title, framing, essays } = Astro.props;
+const { title, framing, imageAlt, essays } = Astro.props;
 const slug = Astro.params.slug;
+// The series' own picture, the one /tradar/ and the front page show it by.
+const art = threadArt(slug ?? "");
 ---
 
 <EssayCollectionPage
@@ -38,6 +42,7 @@ const slug = Astro.params.slug;
 	kicker="Essäserie"
 	countText={seriesLength(essays)}
 	numbered
+	cover={art && { src: art, alt: imageAlt }}
 	backHref="/tradar/"
 	backLabel="Alla essäserier"
 	ogImage={`/tradar/${slug}/og.png`}
