@@ -401,14 +401,14 @@ The front page turns on five lines, each for a reason:
 | Line | What turns | Why there |
 |---|---|---|
 | **48rem** (768px) | the four promotions two abreast; the news bar on halves; the barometer's three tabs on one line; every tick of the day's line named | two halves fit abreast (a half is 335px and the longest headline 357), and a line has room for six names |
-| **56.25rem** (900px) | the mast's links unfold and the front page's doorways go | the mast's six links fit on one line |
+| **56.25rem** (900px) | the mast's links unfold and the front page's doorways go | the mast's five links fit on one line |
 | **60rem** (960px) | the essays by ämne, the essäserier and Fördjupning in thirds; AI-barometern's words beside its table; Grunden's three columns; Praktiskt's two lines beside its map | thirds on the one gutter |
 | **64rem** (1024px) | the lead beside its rail, and the rail's six titles (three below) | a third of the canvas must hold a title of 22.8px: at 60rem it is 267px and the rail's titles run to four lines |
 | **72rem** (1152px) | the news bar on the thirds | a third must hold a headline on ONE line, because the bar holds its place before the news arrives: at 72rem a third is 332px and almost every headline fits; at 60rem most do not. It is the line where the site's other lists go from two columns to three (the orter on the mosque pages) |
 
 ### The mast
 
-Three groups in one row: the wordmark, the six links (sections, a hairline, utilities), and the next prayer with the search pill. The rules, each measured:
+Three groups in one row: the wordmark, the five links (sections, a hairline, utilities), and the next prayer with the search pill. The rules, each measured:
 
 - **The wordmark is the heaviest thing in the mast.** It scales from 18px on a phone to 26px on the canvas (`clamp(1.125rem, 0.5rem + 1.6vw, 1.625rem)`), growing with the room the links leave it, so the eye finds the name before the menu.
 - **The links centre between the wordmark and the chip, not on the viewport.** The air either side of the links is equal and always wider than the air between them (equal `1fr` side tracks put them closer to the chip than to each other).
@@ -416,7 +416,7 @@ Three groups in one row: the wordmark, the six links (sections, a hairline, util
 - **The shortcut hint names the reader's key:** ⌘K on Apple and Ctrl K elsewhere, stamped before paint by Base.astro.
 - **On a phone the chip names the prayer** (»Maghrib 18:33«). Under 360px it shows the sun or moon with the time, which is what fits one row at 320px.
 - **Labels say »och«, never »&«.** The ampersand saves 17px a label (34px across the row), and the row does not need it. Språkrådet keeps `&` for company names and tight tables, not for a publication's chrome.
-- **The tools are a rank below the sections**: one step smaller, regular weight, muted, behind the hairline, so Tro och lära, Frågor och svar and Essäer read as the publication and Bönetider, Moskéer and AI-barometern as its tools. `.site-links--util a` must win over `.site-links a` on specificity, not source order. Mast links never wrap.
+- **The tools are a rank below the sections**: one step smaller, regular weight, muted, behind the hairline, so Tro och lära, Frågor och svar and Essäer read as the publication and Bönetider and Moskéer as its tools. AI-barometern is not in the mast (2026-11-07: it did not blend beside the prayer clock and the map); it stands on the front page, as a room and as the sixth of the doorways, and in the footer and the palette. `.site-links--util a` must win over `.site-links a` on specificity, not source order. Mast links never wrap.
 
 A component that decides both its layout and how much it shows asks **one** condition for both — never the container for one and the viewport for the other, which leaves widths where the two disagree. A new breakpoint takes one of these lines or says why not.
 
