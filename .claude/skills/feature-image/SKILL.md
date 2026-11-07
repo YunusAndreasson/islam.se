@@ -43,6 +43,13 @@ pictures they keep share is the brief:
   kept Kalifatet's old picture rather than take either. Prefer a living scene here and now
   to a place from history.
 
+- **On the Tro och lära cards, the family at home.** In that dark lamplit series the user
+  took a grandmother and granddaughter reading the Quran at the kitchen table, and a mother
+  pouring tea for her sleepy son at suhur, and kept three old cards over a convert's
+  shahada among brothers, a newborn's adhan, du'a under the aurora, a farmer sowing and a
+  fisherman before a storm. Bönen's midnight-sun and roadside landscapes were sent back.
+  Within this series, reach first for an intimate scene in a Muslim home.
+
 What they have rejected, each once (memory files hold the detail):
 
 - A concept still life (an old man's hands, a house key, a phone): »en av de sämsta
