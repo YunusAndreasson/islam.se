@@ -1,5 +1,19 @@
 import { type Camera, mercX, mercY, type ScreenPoint, worldSize } from './projection';
 
+/** The side margin a label keeps from the screen edges. Declared before the worklets: the
+ *  worklet plugin captures a closure's values where the function is defined. */
+const LABEL_SIDE = 32;
+
+/** Whether a label at `p` lies in the band labels may use: clear of the screen's side
+ *  margins, below the controls at the top and above the dock. visibleLineLabel falls back to
+ *  the raw anchor when no stretch of the line crosses that band, and the anchor can then be
+ *  on screen but under the status bar, the nav discs or the dock — a pill that should not
+ *  be drawn at all. */
+export function insideLabelBand(p: ScreenPoint, camera: Camera, top: number, bottom: number): boolean {
+  'worklet';
+  return p.x >= LABEL_SIDE && p.x <= camera.width - LABEL_SIDE && p.y >= top && p.y <= camera.height - bottom;
+}
+
 /** Keep a displaced label on its actual line, in the map area clear of controls. */
 export function visibleLineLabel(
   anchor: ScreenPoint,
@@ -9,8 +23,8 @@ export function visibleLineLabel(
   bottom: number,
 ): ScreenPoint {
   'worklet';
-  const left = 32;
-  const right = camera.width - 32;
+  const left = LABEL_SIDE;
+  const right = camera.width - LABEL_SIDE;
   const lower = camera.height - bottom;
   if (right < left || lower < top) return anchor;
   if (anchor.x >= left && anchor.x <= right && anchor.y >= top && anchor.y <= lower) {

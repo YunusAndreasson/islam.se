@@ -24,8 +24,8 @@ import { useWindowDimensions } from 'react-native';
  * Read through useWindowDimensions rather than PixelRatio.getFontScale() so this notices
  * a change at the same moment Icon's Android glyph fix does — see components/ui/Icon.
  */
-export const COMPACT_MAX_WIDTH = 360;
-export const COMPACT_MIN_FONT_SCALE = 1.3;
+const COMPACT_MAX_WIDTH = 360;
+const COMPACT_MIN_FONT_SCALE = 1.3;
 
 export function useCompactLayout(): boolean {
   const { width, fontScale } = useWindowDimensions();

@@ -3,6 +3,7 @@ import {
   type CameraRef,
   Map,
   type MapRef,
+  type PressEvent,
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
 import { useNetworkState } from 'expo-network';
@@ -13,6 +14,7 @@ import {
   useDeferredValue,
   useEffect,
   useEffectEvent,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -29,7 +31,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   cancelAnimation,
   Easing,
+  FadeInUp,
   FadeOut,
+  FadeOutUp,
   ReduceMotion,
   type SharedValue,
   useReducedMotion,
@@ -94,10 +98,13 @@ import { cameraTravelMs, TRAVEL_MAX_MS } from '@/lib/map/camera-travel';
 import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection';
 import { createTroubleBurst, watchResourceFailures } from '@/lib/map/map-diagnostics';
 import { ensureBasemapCache } from '@/lib/map/offline';
+import { driftedCamera, solarDrift } from '@/lib/map/line-geometry';
 import { reportProjectionDrift } from '@/lib/map/projection-guard';
+import { solarRenderInstant } from '@/lib/map/solar-render-clock';
+import { exposeMapDevHooks } from '@/lib/map/dev-hooks';
 import type { BurialGround } from '@/lib/burial-grounds';
 import { getMosques, type Mosque } from '@/lib/mosques';
-import { basemapGroundFor, nordicMapStyleFor } from '@/lib/map/nordicStyle';
+import { basemapGroundFor, nordicMapStyleJsonFor } from '@/lib/map/nordicStyle';
 import {
   noteNotificationLaunch,
   noteNotificationShown,
@@ -115,7 +122,7 @@ import { gridForDay } from '@/lib/solar/grid-cache';
 import { polarBoundaryFor } from '@/lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '@/lib/solar/useSolarClock';
 import { zonePrayerDate } from '@/lib/zone-time';
-import { radius, space, type } from '@/theme/tokens';
+import { motion, radius, space, type } from '@/theme/tokens';
 import { skyChromeAt } from '@/lib/solar/sky-chrome';
 import { SkyChromeProvider } from '@/theme/skyChrome';
 import { useActiveScheme, useColors } from '@/theme/useColors';
@@ -256,20 +263,13 @@ const IMMINENT_WINDOW_MS = 10 * 60_000;
 // has the whole machine (sweep timing, per-step contour replay, tap-to-skip, and the
 // `introActive` drift-clamp lift in SolarSkiaOverlay/PrayerDock that went with it).
 
-// The launch introduction, in three beats: the day's prayer times reveal themselves, they
-// hold long enough to be read, and only then does the notification hint ask whether to be
-// reminded of them. Sequencing it this way is the point — the offer lands as the natural
-// next step after seeing the times, not as an interruption.
-//
-// Beat 1: the pause after the map settles before the dock opens, so the sequence starts
-// into a still screen rather than at t=0 alongside the first paint.
-const REVEAL_DELAY_MS = 300;
-// Beat 2: how long the schedule stays open. Long enough to read six times, short enough
-// that the map isn't hidden for what feels like a loading screen.
-const REVEAL_HOLD_MS = 2500;
-// Beat 3: the gap between the dock springing shut and the hint fading in, so the two
-// animations never overlap — the times land, the map returns, then the question arrives.
-const HINT_AFTER_REVEAL_MS = 700;
+// The launch's soft ask arrives one beat after the map settles: long enough that it lands on
+// a still screen, as the next thing rather than alongside the first paint. There used to be
+// two more beats in front of it — the dock opening on its own to show the day's times,
+// holding 2.5 s, and shutting — and when the dock stopped opening at launch (it now opens
+// once, after the map lesson) those beats stayed behind as 3.2 s of waiting in front of an
+// empty screen.
+const HINT_DELAY_MS = 1000;
 /** The Återställ chip's own height, near enough — paddingVertical 8 twice, a 1.5 ring twice
  *  and an 18 dp line. Everything that has to stack under the chip counts in these. */
 const CHIP_HEIGHT = 34;
@@ -646,6 +646,27 @@ export default function Bonetider() {
     resizeSharedCamera(cam, viewportSize.width, viewportSize.height);
   }, [viewportSize, cam]);
 
+  // Development only: lets a profiling or screenshot session set the instant and the camera
+  // exactly (see lib/map/dev-hooks). Every handle is one the screen already uses.
+  const { goToDay, setInstant, setFraction: scrubTo, reset: goLive } = clock;
+  useEffect(
+    () =>
+      exposeMapDevHooks({
+        goToDay,
+        showInstant: setInstant,
+        setFraction: scrubTo,
+        live: goLive,
+        jumpTo: (lon, lat, zoom) =>
+          cameraRef.current?.jumpTo({
+            center: [lon, lat],
+            zoom,
+            padding: { top: 0, right: 0, bottom: 0, left: 0 },
+          }),
+        camera: () => cam.get(),
+      }),
+    [goToDay, setInstant, scrubTo, goLive, cam],
+  );
+
   // The displayed instant as a fraction of the Stockholm day, on the UI thread, so the
   // wash shader redraws as the day is scrubbed without a React render or basemap re-tile.
   //
@@ -659,31 +680,20 @@ export default function Bonetider() {
   // pins the value directly — the finger is the clock there.
   const nowFraction = useSharedValue(clock.fraction);
 
-  // The launch introduction: reveal the day's prayer times, then ask the ONE question
-  // this launch has earned the right to ask. Both beats are gated on the SAME decision —
-  // if no card is going to be offered, the dock must not open itself either. That's what
-  // keeps this an introduction rather than an animation a daily user sits through on every
-  // cold launch: it plays on exactly the launches where an offer is still live.
+  // The launch's soft ask: the ONE question this launch has earned the right to ask, or
+  // none — a daily user whose answers are in sees nothing at all on a cold launch.
   //
-  // 'idle' → 'reveal' (dock open, times staggering in) → 'settling' (dock shut, map back)
-  // → 'hint-location' | 'hint-notifications' (the offer) → 'done'. Split across two effects
-  // on purpose: the GATE below may be torn down freely by an unrelated change (opening a
-  // mosque card flips armOffer), but once the sequence starts the TIMELINE runs off `phase`
-  // alone — so a mid-reveal mosque tap can't strand the dock open with no card arriving.
-  const [phase, setPhase] = useState<
-    'idle' | 'reveal' | 'settling' | 'hint-location' | 'hint-notifications' | 'done'
-  >('idle');
+  // 'idle' → 'hint-location' | 'hint-notifications' (the offer) → 'done'. The gate below
+  // may be torn down freely by an unrelated change (opening a mosque card flips armOffer)
+  // until it commits; once it has, the card is up and retires itself.
+  const [phase, setPhase] = useState<'idle' | 'hint-location' | 'hint-notifications' | 'done'>('idle');
   // Once played (or the card dismissed/answered) the sequence must not restart this
   // session, even though the gate conditions below all go on being true.
   const introOfferDone = useRef(false);
-  // Which card the gate picked, carried across the reveal beats. A ref, not state: it is
-  // decided once and never re-read until the timeline hands off to a 'hint-*' phase, so
-  // it must not be able to trigger a render of its own.
-  const pendingOffer = useRef<'location' | 'notifications' | null>(null);
   // The offer belongs to the app's opening moment, not to time travel. Gating on the
   // viewed day means a user who steps to next Friday never gets an unprompted card there
-  // — and, because the gate effect's cleanup runs before the 300 ms timer fires, stepping
-  // during that window ABORTS before noteNotificationShown(), so no showing is spent on a card nobody
+  // — and, because the gate effect's cleanup runs before the HINT_DELAY_MS timer fires,
+  // stepping during that window ABORTS before noteNotificationShown(), so no showing is spent on a card nobody
   // saw. (day-navigation.test.tsx asserts the record stays at shown: 0.)
   const armOffer =
     cameraReady &&
@@ -697,7 +707,7 @@ export default function Bonetider() {
     // this is the guard for any path that doesn't go through it. See lib/intro.
     introStatus === 'done' &&
     // The map lesson gets the screen to itself first — the moment it's dismissed this
-    // flips true (if the rest still holds) and the reveal effect below fires on its own,
+    // flips true (if the rest still holds) and the gate below fires on its own,
     // so a skipped location/notification step in the wizard still gets its later, calmer
     // chance right after, exactly as the soft-ask asymmetry intends.
     !mapLessonPending &&
@@ -726,33 +736,15 @@ export default function Bonetider() {
         // ever gets two showings, and recording one that a teardown then cancelled would
         // spend a showing on a sequence nobody saw. Commit first, persist afterwards.
         introOfferDone.current = true;
-        pendingOffer.current = offer;
-        setPhase('reveal');
+        setPhase(offer === 'location' ? 'hint-location' : 'hint-notifications');
         await (offer === 'location' ? noteLocationShown() : noteNotificationShown());
       })();
-    }, REVEAL_DELAY_MS);
+    }, HINT_DELAY_MS);
     return () => {
       alive = false;
       clearTimeout(start);
     };
   }, [armOffer, locationMode, notificationsEnabled]);
-
-  // The timeline: hold the open schedule, shut it, then ask. Depends on `phase` only.
-  useEffect(() => {
-    if (phase === 'reveal') {
-      const t = setTimeout(() => setPhase('settling'), REVEAL_HOLD_MS);
-      return () => clearTimeout(t);
-    }
-    if (phase === 'settling') {
-      const t = setTimeout(
-        () => setPhase(pendingOffer.current === 'location' ? 'hint-location' : 'hint-notifications'),
-        HINT_AFTER_REVEAL_MS,
-      );
-      return () => clearTimeout(t);
-    }
-    // 'idle' / 'hint-*' / 'done' have no timer of their own — the card retires itself.
-    return undefined;
-  }, [phase]);
 
   // The single owner of nowFraction. Keeping every nowFraction write in ONE effect is
   // deliberate — the React Compiler forbids mutating a shared value across multiple
@@ -1079,9 +1071,9 @@ export default function Bonetider() {
     homeEpoch,
   ]);
 
-  // The user is free to pan/zoom anywhere — there is no bounds enforcement. The
-  // settled handler below only records the initial framing and drives the
-  // "Återställ" reset chip when the user has drifted from it.
+  // The user pans and zooms freely within the camera's leash (<Camera maxBounds>, see
+  // lib/map/camera-bounds). The settled handler below only records the initial framing and
+  // drives the "Återställ" reset chip when the user has drifted from it.
   // While the map is moving, track the live camera so the overlays follow it:
   // both the Skia field canvas and the RN marker layer read the `cam` shared
   // value and re-project on the UI thread, so no React render happens per frame.
@@ -1268,6 +1260,59 @@ export default function Bonetider() {
     ],
   );
 
+  // Tap the map: put a card or the dock away, or name the line under the finger. The
+  // handler reads this render's lines and times, so it is rebuilt every render, but <Map>
+  // always receives the same function: a fresh onPress on every clock tick and scrub step
+  // would void the compiler's memo of the whole <Map> element and re-render every layer.
+  const handleMapPress = (event: NativeSyntheticEvent<PressEvent>): void => {
+    setSelectedMosque(null);
+    setSelectedBurialGround(null);
+    // POI taps stop propagation; a map tap dismisses the dock before line hints.
+    if (prayerDockRef.current?.collapse()) {
+      setLineMessage(null);
+      return;
+    }
+    if (!cameraReady || mapLessonPending) return;
+    const [x, y] = event.nativeEvent.point;
+    const point = { x, y };
+    let distance = 22;
+    let message: string | null = null;
+    if (settings.showQibla) {
+      const arc = greatCirclePoints(coords, KAABA, 96).slice(0, 32);
+      const d = distanceToLine(point, arc, cam.get());
+      if (d < distance) {
+        distance = d;
+        message = `Linjen visar qibla – riktningen mot Kaba i Mecka. Från ${placeLabel}: ${Math.round(qiblaDistanceKm(coords)).toLocaleString('sv-SE')} km.`;
+      }
+    }
+    // Measured where the lines are DRAWN: between live rebuilds they have drifted west
+    // with the sun (see driftedCamera), by hundreds of pixels at city zoom.
+    const preview = clock.mode === 'scrub';
+    const camera = cam.get();
+    const drawnAt = solarRenderInstant(clock.dayStart + nowFraction.get() * clock.dayLength, clock.dayStart, camera.zoom, preview);
+    const lineCamera = driftedCamera(camera, solarDrift(drawnAt, fieldNow, preview));
+    for (const line of prayerLines) {
+      for (const path of line.polylines) {
+        const d = distanceToLine(point, path, lineCamera);
+        if (d < distance) {
+          distance = d;
+          const time = userTimes[line.prayer];
+          const localTime = Number.isFinite(time.getTime()) ? ` I ${placeLabel}: ${formatTime(time)}.` : '';
+          message = `${PRAYER_LABELS[line.prayer]} · ${PRAYER_SWEDISH_NAMES[line.prayer]}. Linjen visar var ${line.prayer === 'sunrise' ? 'solen går upp' : 'bönetiden börjar'} vid kartans valda tid.${localTime}`;
+        }
+      }
+    }
+    if (message) {
+      hapticLight();
+      setLineMessage({ text: message, id: Date.now() });
+    } else setLineMessage(null);
+  };
+  const mapPress = useRef(handleMapPress);
+  useLayoutEffect(() => {
+    mapPress.current = handleMapPress;
+  });
+  const onMapPress = useCallback((event: NativeSyntheticEvent<PressEvent>) => mapPress.current(event), []);
+
   return (
     <GlassBackdropProvider>
     <SkyChromeProvider value={skyChrome}>
@@ -1293,7 +1338,7 @@ export default function Bonetider() {
         ref={mapRef}
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
-        mapStyle={nordicMapStyleFor(scheme)}
+        mapStyle={nordicMapStyleJsonFor(scheme)}
         // No on-map ornaments: the tappable attribution "i" (bottom-right) and the
         // MapLibre wordmark (bottom-left) are both hidden so nothing floats over the
         // wash. OSM/ODbL + OpenFreeMap credit belongs on the Om screen instead.
@@ -1329,43 +1374,7 @@ export default function Bonetider() {
         // A tap that HITS a mosque or a burial ground never gets here: both layers' source
         // handlers call stopPropagation(), so a hit opens (or swaps) a card and a miss
         // closes it.
-        onPress={(event) => {
-          setSelectedMosque(null);
-          setSelectedBurialGround(null);
-          // POI taps stop propagation; a map tap dismisses the dock before line hints.
-          if (prayerDockRef.current?.collapse()) {
-            setLineMessage(null);
-            return;
-          }
-          if (!cameraReady || mapLessonPending) return;
-          const [x, y] = event.nativeEvent.point;
-          const point = { x, y };
-          let distance = 22;
-          let message: string | null = null;
-          if (settings.showQibla) {
-            const arc = greatCirclePoints(coords, KAABA, 96).slice(0, 32);
-            const d = distanceToLine(point, arc, cam.get());
-            if (d < distance) {
-              distance = d;
-              message = `Linjen visar qibla – riktningen mot Kaba i Mecka. Från ${placeLabel}: ${Math.round(qiblaDistanceKm(coords)).toLocaleString('sv-SE')} km.`;
-            }
-          }
-          for (const line of prayerLines) {
-            for (const path of line.polylines) {
-              const d = distanceToLine(point, path, cam.get());
-              if (d < distance) {
-                distance = d;
-                const time = userTimes[line.prayer];
-                const localTime = Number.isFinite(time.getTime()) ? ` I ${placeLabel}: ${formatTime(time)}.` : '';
-                message = `${PRAYER_LABELS[line.prayer]} · ${PRAYER_SWEDISH_NAMES[line.prayer]}. Linjen visar var ${line.prayer === 'sunrise' ? 'solen går upp' : 'bönetiden börjar'} vid kartans valda tid.${localTime}`;
-              }
-            }
-          }
-          if (message) {
-            hapticLight();
-            setLineMessage({ text: message, id: Date.now() });
-          } else setLineMessage(null);
-        }}
+        onPress={onMapPress}
         onRegionWillChange={onRegionWillChange}
         onRegionIsChanging={onRegionIsChanging}
         onRegionDidChange={onRegionDidChange}
@@ -1408,10 +1417,10 @@ export default function Bonetider() {
             hit-testing for free. It draws under the wash/lines above, which is right: a
             mosque is a place on the ground, not chrome floating over the sky. Off when
             the user hides it in Inställningar. */}
-        {/* The Muslim sections of Swedish cemeteries, drawn like the mosques. Mounted BEFORE
-            MosqueLayer on purpose: MapLibre gives the top layer first pick in the collision
-            pass, so where a grave and a mosque would overlap, the mosque keeps its place.
-            See BurialGroundLayer. */}
+        {/* The Muslim sections of Swedish cemeteries, drawn like the mosques. Stacked BELOW
+            MosqueLayer (lib/map/layer-slots fixes the order, whatever mounts first): MapLibre
+            gives the top layer first pick in the collision pass, so where a grave and a
+            mosque would overlap, the mosque keeps its place. See BurialGroundLayer. */}
         {settings.showBurialGrounds && (
           <BurialGroundLayer
             styleRevision={mapStyleRevision}
@@ -1481,6 +1490,11 @@ export default function Bonetider() {
       {cameraReady && !mapLessonPending && (
         <MapMarkersOverlay
           camera={cam}
+          dayStart={clock.dayStart}
+          dayLength={clock.dayLength}
+          nowFraction={nowFraction}
+          geometryNow={fieldNow}
+          preview={clock.mode === 'scrub'}
           labels={solar.labels}
           lines={prayerLines}
           topInset={insets.top + navLaneTop + 64}
@@ -1517,6 +1531,10 @@ export default function Bonetider() {
           />
           <MapMarkersOverlay
             camera={cam}
+            dayStart={lessonFrame.dayStart}
+            dayLength={lessonFrame.dayLength}
+            nowFraction={lessonFraction}
+            geometryNow={lessonFrame.instant}
             labels={lessonFrame.labels}
             lines={lessonFrame.lines}
             topInset={insets.top + navLaneTop + 64}
@@ -1578,6 +1596,9 @@ export default function Bonetider() {
           card. Sits after the dock so it layers above if they ever meet. */}
       {settings.showMosques && selectedMosque && (
         <MosqueCard
+          // Keyed by mosque: tapping another one swaps the card with its own exit and entry
+          // (a cross-fade), instead of rewriting the text of the card already on screen.
+          key={selectedMosque.id}
           mosque={selectedMosque}
           userCoords={coords}
           // dockSlotBottom, not collapsedDock: on the rare chance a mosque is tapped
@@ -1593,6 +1614,7 @@ export default function Bonetider() {
           selectMosque / selectBurialGround each close the other. */}
       {settings.showBurialGrounds && selectedBurialGround && (
         <BurialGroundCard
+          key={selectedBurialGround.id}
           ground={selectedBurialGround}
           userCoords={coords}
           bottom={dockSlotBottom + DOCK_MARGIN}
@@ -1680,7 +1702,11 @@ export default function Bonetider() {
           the map rather than itself; `pointerEvents="none"` keeps the map draggable
           underneath. Sits below the reset chip's row so the two never collide. */}
       {trouble != null && (
-        <View
+        // Arrives and leaves the way the hint cards below it do, instead of cutting in over
+        // the map and out again when the style recovers.
+        <Animated.View
+          entering={reduceMotion ? undefined : FadeInUp.duration(motion.base)}
+          exiting={reduceMotion ? undefined : FadeOutUp.duration(motion.fast)}
           style={[styles.mapErrorWrap, { top: noticeTop }]}
           pointerEvents="none"
           // Reports the notice's real height so a hint card below it can clear it; the
@@ -1706,7 +1732,7 @@ export default function Bonetider() {
                   : 'Kartan kunde inte laddas. Bönetiderna stämmer ändå.'}
             </Text>
           </GlassSurface>
-        </View>
+        </Animated.View>
       )}
 
       {/* Status-bar glyphs track the APP's active scheme (useActiveScheme), not the OS,

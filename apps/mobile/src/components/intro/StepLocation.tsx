@@ -46,38 +46,40 @@ export function StepLocation() {
   const [busy, setBusy] = useState(false);
   const settingsName = systemSettingsName();
 
+  const resolveGps = async (): Promise<void> => {
+    const outcome = await refresh();
+    if (outcome === 'busy') {
+      // A fix was already in flight, so nothing was asked and nothing was answered.
+      return;
+    }
+    // The OS gave a definitive answer, so the map's soft-ask card has nothing left to
+    // offer — record it against the same store the card uses. Skipping this step
+    // deliberately records NOTHING, which is what leaves the card its later chance.
+    await noteLocationResolved();
+    if (outcome === 'ok') {
+      hapticSuccess();
+      // GPS is already the default mode, but say so explicitly: a user replaying the
+      // intro after having picked a city expects "Använd min plats" to mean it.
+      update({ locationMode: 'gps' });
+      setPhase('granted');
+      return;
+    }
+    hapticWarning();
+    setPhase(outcome === 'denied' ? 'denied' : 'error');
+  };
+
   const onUseGps = (): void => {
     if (inFlight.current) return;
     inFlight.current = true;
     setBusy(true);
-    void (async () => {
-      try {
-        const outcome = await refresh();
-        if (outcome === 'busy') {
-          // A fix was already in flight, so nothing was asked and nothing was answered.
-          return;
-        }
-        // The OS gave a definitive answer, so the map's soft-ask card has nothing left to
-        // offer — record it against the same store the card uses. Skipping this step
-        // deliberately records NOTHING, which is what leaves the card its later chance.
-        await noteLocationResolved();
-        if (outcome === 'ok') {
-          hapticSuccess();
-          // GPS is already the default mode, but say so explicitly: a user replaying the
-          // intro after having picked a city expects "Använd min plats" to mean it.
-          update({ locationMode: 'gps' });
-          setPhase('granted');
-          return;
-        }
-        hapticWarning();
-        setPhase(outcome === 'denied' ? 'denied' : 'error');
-      } finally {
-        // Always released, including on the 'ok' path: `error` keeps the button on screen
-        // for a second attempt, so a guard left stuck true would make that button dead.
-        inFlight.current = false;
-        setBusy(false);
-      }
-    })();
+    // `.finally`, not a `try/finally` block: the React Compiler cannot lower a finalizer
+    // and skips the whole component over one.
+    void resolveGps().finally(() => {
+      // Always released, including on the 'ok' path: `error` keeps the button on screen
+      // for a second attempt, so a guard left stuck true would make that button dead.
+      inFlight.current = false;
+      setBusy(false);
+    });
   };
 
   const onPickPlace = (p: SwedishPlace): void => {

@@ -154,3 +154,57 @@ availability were confirmed; map, wash, line, mosque lights, moon and dock rende
 with no AndroidRuntime or ReactNativeJS errors in the final log check. iOS and physical
 device validation remain outstanding. Logs and the downgrade audit are saved alongside
 the comparison artifacts.
+
+## 1.3.0 polish pass — 2026-11-06 (JS only, NOT yet measured)
+
+Code-level changes made without a device build. Nothing below has a before/after number
+yet: the Phase 0 baseline (screenshots, recordings, gfxinfo around the 40-step scrub
+driver, idle Perfetto in an imminent window) has not been captured, and every claim of a
+saving here is an inference from the code until it has. Correctness changes are pinned by
+tests; performance changes are listed with the measurement that would confirm them.
+
+| Change | Why it should cost less, or be right | Confirm with |
+| --- | --- | --- |
+| Basemap style passed as a pre-serialised string | `<Map>` re-ran `JSON.stringify` over the whole style on every render (every tick and scrub step) | JS profile of a scrub |
+| `<Map>` onPress stable over a ref | a fresh closure per tick voided the compiler's memo of the whole `<Map>` element and its layers | React commits per tick |
+| React Compiler now compiles every component and hook (scrubber, `useSolarClock`, `useAim` were skipped) | the scrub pan config is memoised instead of re-sent to native on every render | RNGH config sends during a drag |
+| Scrub positions coalesced, latest wins (`lib/map/scrub-pipeline`) | at most one position queued behind a slow field rebuild, not one per step | lines stop when the finger stops; gfxinfo jank % |
+| Precision fallback culls off-screen segments (pen-up) except while a reveal trims | above ~z11 every vertex was re-projected and handed to Skia per frame | Skia redraw time at z12 |
+| Mosque-speck holes skipped while closed (map moving) | up to ~235 circles rebuilt per pan frame for a hole at opacity 0 | redraw time during a pan |
+| Comet tip mounted only during a reveal | its trim ran over the whole next-prayer path on every redraw at opacity 0 | idle redraw cost |
+| Wash shader: sin/cos latitude from one `exp`; sin/cos declination as uniforms; `asin` only below the horizon | per pixel: `exp+atan+sin+cos+sin+cos+asin` → `exp`, and no `asin` in daylight | GPU time per redraw |
+| Wash dither indexed by device pixel | in dp the noise repeated over 3 × 3 device pixels on a 3× screen | banding check, dark night |
+
+### Measured: the prayer-line contour (2026-11-07)
+
+The one change in this pass with a before/after number. A dual (React + Perfetto) profile of
+a scrub on the emulator named `marchingSquares` as the largest app-owned JS function in the
+scrub commit (133 ms self of ~1.1 s sampled, dev build); everything above it was React/Fabric
+internals. `buildLines` filled a 70 × 84 field per prayer and walked every cell, ~34,000 cell
+visits per step, for lines that cross a few hundred cells. It now visits only the cells whose
+time interval can contain the instant (a per-day, per-prayer index in `lib/solar/field.ts`,
+`contourAt`), with output identical to the full scan (`field.props.test.ts`).
+
+| Per scrub step, all six prayers (Node/V8, interleaved runs, host load ≈ 9) | Before | After |
+| --- | --- | --- |
+| Contour (`contourByFullScan` → `contourAt`) | 125 ms | 2.5 ms |
+| `buildLines` total | — | 24 ms (chaining + smoothing now dominate) |
+
+On the device the re-profile no longer shows `marchingSquares` among the top functions. Commit
+durations are NOT comparable between the two device runs: the host's load swung between ~9 and
+~40 (another session, `updatedb`), and the sampler stalled for over half a second in both.
+What remains in a scrub commit is Fabric's clone/commit of the map screen's subtree and, in dev
+only, React 19's performance-track `measure` calls (`structuredClone` of each mark's detail).
+
+Correctness fixes in the same pass (tests named in brackets): app layers in a fixed stack
+through slots at the end of the style [`layer-slots.contract.test`]; pills and map taps
+follow the solar drift, ~550 px at z11 [`MapMarkersOverlay.test`, `line-geometry.test`];
+a fading line drifts from its own contour [`SolarSkiaOverlay.test`]; boundary dashes move
+with the map; the bloom does not replay; the scrubber thumb no longer jumps back on
+release, a second drag to the same end is sent, a tap ticks once [`PrayerDock.test`]; a
+sideways swipe no longer opens the dock; calibration hysteresis [`aim.props.test`].
+
+Deferred until a build: the Reanimated synchronous-UI-props flags and the Pressable
+migration, the UI-thread camera handler, the bulk path build and geometry in shared
+values, `colorSpace="srgb"`, the polar dissolve without an offscreen layer, the quantised
+breath and the blur A/B.

@@ -10,9 +10,12 @@ import {
   aimProximity,
   aimTurn,
   angleDelta,
+  CALIBRATION_COLD,
+  CALIBRATION_HOLD_MS,
   deriveAimStatus,
   HEADING_ACCURACY_MIN,
   headingReliable,
+  holdCalibration,
   normalizeHeading,
   shortestTurn,
 } from './aim';
@@ -281,3 +284,72 @@ describe('headingReliable — gates exactly at the calibration threshold', () =>
 
 // The qibla arc drawn on the map, fuzzed over every position the app can resolve to.
 // Sweden's own bounding box, matching SWEDEN_BOUNDS in bonetider.tsx.
+
+// ── Calibration hysteresis ───────────────────────────────────────────────────────
+// A run of readings: each one's calibration level and the ms since the previous one.
+const readings = fc.array(
+  fc.record({ level: fc.constantFrom(0, 1, 2, 3), gap: fc.integer({ min: 0, max: 400 }) }),
+  { minLength: 1, maxLength: 60 },
+);
+
+function fold(run: { level: number; gap: number }[]) {
+  let gate = CALIBRATION_COLD;
+  let now = 0;
+  return run.map(({ level, gap }) => {
+    now += gap;
+    const step = holdCalibration(gate, level, now);
+    gate = step.gate;
+    return { level, now, trusted: headingReliable(step.accuracy) };
+  });
+}
+
+describe('holdCalibration', () => {
+  it('never trusts a low reading before any reading was trusted (the warm-up gate)', () => {
+    fc.assert(
+      fc.property(readings, (run) => {
+        let seenTrusted = false;
+        for (const r of fold(run)) {
+          if (!seenTrusted && r.level < HEADING_ACCURACY_MIN) expect(r.trusted).toBe(false);
+          if (r.level >= HEADING_ACCURACY_MIN) seenTrusted = true;
+        }
+      }),
+    );
+  });
+
+  it('trusts every MEDIUM-or-better reading, and never a level-0 one', () => {
+    fc.assert(
+      fc.property(readings, (run) => {
+        for (const r of fold(run)) {
+          if (r.level >= HEADING_ACCURACY_MIN) expect(r.trusted).toBe(true);
+          if (r.level === 0) expect(r.trusted).toBe(false);
+        }
+      }),
+    );
+  });
+
+  it('withdraws trust once a run of low readings outlasts the hold', () => {
+    fc.assert(
+      fc.property(readings, (run) => {
+        let lowSince: number | null = null;
+        for (const r of fold(run)) {
+          if (r.level >= HEADING_ACCURACY_MIN || r.level === 0) lowSince = null;
+          else lowSince ??= r.now;
+          if (lowSince !== null && r.now - lowSince >= CALIBRATION_HOLD_MS) expect(r.trusted).toBe(false);
+        }
+      }),
+    );
+  });
+
+  // THE BUG THIS PINS: a phone held still near a band edge reads 2, 1, 2, 1 … and the raw
+  // gate blinked the lock and the dial's warmth off and on with every other reading.
+  it('rides out a one-reading dip without blinking', () => {
+    const run = fold([
+      { level: 2, gap: 0 },
+      { level: 1, gap: 100 },
+      { level: 2, gap: 100 },
+      { level: 1, gap: 100 },
+      { level: 2, gap: 100 },
+    ]);
+    expect(run.map((r) => r.trusted)).toEqual([true, true, true, true, true]);
+  });
+});

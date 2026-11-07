@@ -9,14 +9,15 @@
 //
 // The sun maths mirrors altitudeFrom() in src/lib/solar/sun.ts (NOAA): declination and the
 // equation of time are computed once per date on the CPU and passed in; the per-pixel hour
-// angle → altitude is done here. The colour compositing below (twilight()) is mirrored line
+// angle → altitude is done here. washShader.test.ts renders this SkSL in CanvasKit and holds
+// every sampled pixel to the TypeScript twin, so an edit that drifts fails there. The colour compositing below (twilight()) is mirrored line
 // for line by washColorAt() in ./washColor.ts — SkSL can't run under Jest, so that TS twin is
 // the tested spec for this shader; keep the two in sync (edit one → mirror it in the other).
 //
 // Apple Maps-inspired theming: the wash colour stops are theme-aware (see palette.ts:
 // washStopsLight / washStopsDark). The shader BODY is identical between modes — only the
-// four `half4` colour literals (DAY / DUSK / DAWN / NIGHT) change — so the factory below
-// substitutes them at build time. Callers pick the right stops via useColorScheme.
+// five `half4` colour literals (DAY / DUSK / DAWN / DAWN_WARM / NIGHT) change — so the
+// factory below substitutes them at build time. Callers pick the stops via useActiveScheme.
 import { type RGBA, type WashStops } from '@/lib/solar/palette';
 
 /** A palette RGBA (rgb 0..255, a 0..1) → an SkSL `half4` literal (rgb 0..1, a 0..1). */
@@ -31,7 +32,9 @@ function sksl(c: RGBA): string {
  *  - u_center     : camera centre in normalised Mercator (mx, my).
  *  - u_utcMin     : the displayed instant as UTC minutes-of-day (0–1440).
  *  - u_eotMin     : equation of time (minutes) for the date.
- *  - u_declRad    : solar declination (radians) for the date.
+ *  - u_sinDecl, u_cosDecl : sine and cosine of the date's solar declination — constant for
+ *                   the frame, so they are taken once on the CPU, not twice per pixel.
+ *  - u_pixelRatio : device pixels per dp, so the dither noise varies per DEVICE pixel.
  */
 export function buildWashSksl(stops: WashStops): string {
   return `
@@ -40,7 +43,9 @@ uniform float2 u_viewport;
 uniform float2 u_center;
 uniform float u_utcMin;
 uniform float u_eotMin;
-uniform float u_declRad;
+uniform float u_sinDecl;
+uniform float u_cosDecl;
+uniform float u_pixelRatio;
 
 const float PI = 3.141592653589793;
 const float DEG = 0.017453292519943295;
@@ -55,8 +60,6 @@ const half4 C_NIGHT      = ${sksl(stops.NIGHT)};
 half4 twilight(float altDeg, float haDeg) {
   if (altDeg >= 0.0) { return C_DAY; }     // sun up → clear basemap (incl. midnight sun)
   float d = -altDeg;                        // depression below the horizon, degrees
-  // Darkness grows with depression and saturates at astronomical depth (18° = true night),
-  // so a place that never sinks past ~13° (Malmö in summer) never reaches full black.
   // Darkness ramps from just under the horizon and is deep by astronomical twilight (~14°):
   // a high alpha there is needed to DROWN the warm parchment basemap, otherwise the third of
   // it that bleeds through muddies the night to a pale grey. The latitude gradient still
@@ -90,22 +93,27 @@ half4 twilight(float altDeg, float haDeg) {
 }
 
 half4 main(float2 fragCoord) {
-  // Screen pixel → normalised Mercator → lon/lat (inverse of project() in projection.ts).
+  // Screen pixel → normalised Mercator (inverse of project() in projection.ts).
   float mx = (fragCoord.x - u_viewport.x * 0.5) / u_worldSize + u_center.x;
   float my = (fragCoord.y - u_viewport.y * 0.5) / u_worldSize + u_center.y;
   float lon = mx * 360.0 - 180.0;
+  // The latitude is never needed, only its sine and cosine, and Mercator y gives both from
+  // one exp: lat = gd(t) with t = 2π(½ − my), and sin gd(t) = tanh t, cos gd(t) = sech t.
+  // Written out from e^t (runtime SkSL has no hyperbolic builtins); |t| ≤ π on the map,
+  // so e^2t ≤ ~535 stays far inside float range.
   float e = exp((0.5 - my) * 2.0 * PI);
-  float lat = (2.0 * (atan(e) - PI / 4.0)) * 180.0 / PI;
+  float e2 = e * e;
+  float sinLat = (e2 - 1.0) / (e2 + 1.0);
+  float cosLat = 2.0 * e / (e2 + 1.0);
 
   // Sun hour angle + altitude at this point and instant (NOAA; mirrors sun.ts altitudeFrom).
   float tst = u_utcMin + u_eotMin + 4.0 * lon;     // true solar time, minutes (4 min per °E)
   float ha = tst / 4.0 - 180.0;                     // hour angle, degrees (0 at solar noon)
   ha = ha - 360.0 * floor((ha + 180.0) / 360.0);    // normalise to [−180, 180)
-  float latR = lat * DEG;
-  float sinAlt = sin(latR) * sin(u_declRad) + cos(latR) * cos(u_declRad) * cos(ha * DEG);
-  float altDeg = asin(clamp(sinAlt, -1.0, 1.0)) / DEG;
+  float sinAlt = sinLat * u_sinDecl + cosLat * u_cosDecl * cos(ha * DEG);
 
-  half4 c = twilight(altDeg, ha);
+  // Sun up is decided on the sine; only a pixel in twilight or night pays for the asin.
+  half4 c = sinAlt >= 0.0 ? C_DAY : twilight(asin(max(sinAlt, -1.0)) / DEG, ha);
   // ±0.5/255 ordered dither so the slow twilight ramps don't band on 8-bit output
   // (visible especially in the dark-mode navy night, where the banding lives in the
   // ALPHA ramp — hence alpha is dithered too). Interleaved gradient noise (Jimenez):
@@ -113,8 +121,11 @@ half4 main(float2 fragCoord) {
   // Gated on c.a so daytime pixels stay exactly transparent. Dither is a render
   // detail of main(), not part of the twilight() compositing spec — washColor.ts
   // (the tested twin) deliberately does not mirror it.
+  // The noise is indexed by DEVICE pixel: fragCoord is in dp, and on a 3× screen a dp
+  // pattern repeats over 3 × 3 device pixels — a visible grain instead of a dither.
   if (c.a > 0.0) {
-    float n = fract(52.9829189 * fract(0.06711056 * fragCoord.x + 0.00583715 * fragCoord.y));
+    float2 px = floor(fragCoord * u_pixelRatio);
+    float n = fract(52.9829189 * fract(0.06711056 * px.x + 0.00583715 * px.y));
     half d = half((n - 0.5) / 255.0);
     c = clamp(c + half4(d, d, d, d), half4(0.0), half4(1.0));
   }

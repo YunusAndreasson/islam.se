@@ -30,7 +30,7 @@ function render(factory: unknown, props: unknown, env: Record<string, unknown>) 
   const names = ['_jsx', '_jsxs', '_jsxDEV', '_Fragment', '_jsxFileName', ...components, ...modifiers];
   const values = [jsx, jsx, jsx, 'Fragment', 'widget', ...components,
     ...modifiers.map(modifier => (...args: unknown[]) => ({ modifier, args }))];
-  return new Function(...names, `return (${layout});`)(...values)(props, env);
+  return new Function(...names, `return (${layout as string});`)(...values)(props, env);
 }
 function nodes(root: unknown): Node[] {
   if (Array.isArray(root)) return root.flatMap(nodes);

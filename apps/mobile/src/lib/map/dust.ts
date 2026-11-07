@@ -28,6 +28,14 @@ export const DUST_PRESENCE_STOPS: ZoomStops = [
   [7.8, 0],
 ];
 
+/** The mosque and burial glyphs' opacity, rising out of nothing at their z7 minzoom while
+ *  the dust above dissolves, so the town-scale tier fades in instead of popping in at 0.7. */
+export const GLYPH_PRESENCE_STOPS: ZoomStops = [
+  [7, 0],
+  [8, 0.7],
+  [9, 0.95],
+];
+
 /** Linear interpolation through `stops`, clamped at both ends — MapLibre's own rule. */
 export function atZoom(stops: ZoomStops, zoom: number): number {
   'worklet';

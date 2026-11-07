@@ -149,9 +149,6 @@ export const leadLabel = (v: number): string =>
 export const sunriseLeadLabel = (v: number): string =>
   v === 0 ? 'Vid soluppgången' : `${v}${NBSP}min innan`;
 
-/** Shown by a bulk control when the per-prayer values disagree. */
-export const MIXED_LABEL = 'Blandat';
-
 /** The heads-up values worth offering.
  *
  *  This was a −/+ stepper over 0–60 in steps of five: thirteen taps from one end to the

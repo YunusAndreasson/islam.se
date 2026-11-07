@@ -38,9 +38,7 @@ const NOTIFICATION_HINT_KEY = 'notificationHintSeen:v1';
 
 // Mirrors the beat timings in bonetider.tsx. Duplicated rather than exported because the
 // test asserts the SEQUENCE, not the numbers — if a beat is retuned, this still passes.
-const REVEAL_DELAY_MS = 300;
-const REVEAL_HOLD_MS = 2500;
-const HINT_AFTER_REVEAL_MS = 700;
+const HINT_DELAY_MS = 1000;
 
 const MAP_RENDER_TIMEOUT = 20_000;
 
@@ -100,12 +98,10 @@ async function advance(ms: number): Promise<void> {
   await act(async () => {});
 }
 
-/** Runs the whole launch sequence: the gate decides, the dock reveals the day's times,
- *  holds, shuts, and only then does a card arrive. */
+/** Runs the whole launch sequence: one beat after the map settles, the gate decides and
+ *  a card arrives (or none does). */
 async function runOfferSequence(): Promise<void> {
-  await advance(REVEAL_DELAY_MS);
-  await advance(REVEAL_HOLD_MS);
-  await advance(HINT_AFTER_REVEAL_MS);
+  await advance(HINT_DELAY_MS);
 }
 
 const locationCard = () => screen.queryByText('Visa tider för din plats');
@@ -159,7 +155,7 @@ describe('the map offers at most one soft ask per launch', () => {
 
       // Give the sequence every chance to restart: the gate's conditions are all still
       // true after a dismissal, and only introOfferDone stops it.
-      await advance(REVEAL_DELAY_MS + REVEAL_HOLD_MS + HINT_AFTER_REVEAL_MS);
+      await advance(HINT_DELAY_MS);
 
       expect(locationCard()).toBeNull();
       expect(notificationCard()).toBeNull();
@@ -206,8 +202,7 @@ describe('the map offers at most one soft ask per launch', () => {
     MAP_RENDER_TIMEOUT,
   );
 
-  // The dock opening itself is part of the OFFER, not a standalone animation: if there is
-  // nothing to ask, a daily user must not sit through the reveal on every cold launch.
+  // If there is nothing to ask, a daily user's cold launch shows nothing at all.
   it(
     'stays quiet — and shows no card at all — when both permissions are answered',
     async () => {

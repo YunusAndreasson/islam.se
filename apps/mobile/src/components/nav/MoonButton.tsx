@@ -24,9 +24,10 @@
 // of its own to say; putting the aim on it too would have made the lock invisible on exactly
 // the three nights of the month when someone goes out to look at the Moon.
 //
-// NO HAPTIC, deliberately, where the compass has one. A reader on the Qibla side is aiming —
-// the buzz confirms something they set out to do. Nobody sets out to point a map at the Moon;
-// they are holding the phone and it happens to sweep past. lib/haptics' class 1 is an outcome
+// NO HAPTIC, deliberately, like the map's compass beside it; only the Qibla screen buzzes
+// on a lock. A reader there is aiming — the buzz confirms something they set out to do.
+// Nobody sets out to point a map at the Moon; they are holding the phone and it happens to
+// sweep past. lib/haptics' class 1 is an outcome
 // the reader CAUSED, and an unbidden buzz from a home-screen chip is exactly the routine
 // transition the policy's NO list is about.
 import { router } from 'expo-router';

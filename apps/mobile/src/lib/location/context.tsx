@@ -59,6 +59,9 @@ const LocationContext = createContext<LocationContextValue | null>(null);
 const LocationStatusContext = createContext<LocationStatusValue | null>(null);
 
 export function LocationProvider({ children }: { children: ReactNode }) {
+  // Memoised by hand (every value and callback below), and uncompilable as written: the
+  // three fix paths release their guard in `finally`, which the React Compiler cannot lower.
+  'use no memo';
   const { settings, loaded } = useSettings();
   const { locationMode, manualLocation } = settings;
 

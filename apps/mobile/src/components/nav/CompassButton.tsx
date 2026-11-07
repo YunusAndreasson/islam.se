@@ -13,15 +13,18 @@
 // down, which is what made the rotating version feel wrong rather than the rotation itself.
 //
 // The signal, in one sentence: a plain arrow turning with you → a gold arrow in a lit disc
-// when you are aimed at Mecca, plus ONE haptic tap at the moment of transition (not every
-// frame while held) and a small spring scale-up so the lock feels physical.
+// when you are aimed at Mecca, with a small spring scale-up so the lock feels physical.
+//
+// NO HAPTIC, as on MoonButton beside it. This lock is passive: the phone sweeps past Mecca
+// while the reader is looking at prayer times, and an unbidden buzz from a map chip is the
+// routine transition lib/haptics' NO list is about. The Qibla screen, where the reader sets
+// out to aim, keeps its lock haptic (app/qibla.tsx) — that one confirms what they caused.
 //
 // Theming: OS-themed via useColors (Apple Maps-style chrome; see MapNav).
 import { router } from 'expo-router';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue, withSpring } from 'react-native-reanimated';
 
-import { hapticSuccess } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
 import { qiblaBearing } from '@/lib/qibla';
 import { useAim } from '@/lib/useAim';
@@ -50,10 +53,10 @@ export function CompassButton({ active }: { active: boolean }) {
   //
   // `status.aligned` locks ONLY when the heading is trustworthy (calibration ≥ 2). During the
   // magnetometer's warm-up the heading can be tens of degrees off, so an ungated lock would
-  // flash gold and buzz "you're facing Mecca" at the wrong orientation. The arrow still turns
+  // flash gold — "you're facing Mecca" — at the wrong orientation. The arrow still turns
   // live meanwhile — showing an uncertain direction is honest, claiming a lock is not. It also
   // brings the hysteresis this button never had: a heading sitting on the 4° edge used to
-  // strobe the disc gold and re-fire the haptic every tick.
+  // strobe the disc gold every tick.
   // `countTurn: false` — like the Moon disc beside it, this reads the BAND and nothing else,
   // so it opts out of the hook's 10 Hz remaining-turn push. The arrow's smoothness is
   // untouched: that rides `rotation` on the UI thread.
@@ -64,15 +67,12 @@ export function CompassButton({ active }: { active: boolean }) {
     countTurn: false,
   });
   const aligned = status.aligned;
-  const wasAligned = useRef(false);
   const lockScale = useSharedValue(1);
   // The scale-pop is decoration on top of a colour change that already carries the whole
   // signal, so Reduce Motion takes the spring and leaves the lock — the app-wide pattern
   // (DisclosureGroup, FaqItem). The arrow's ROTATION is untouched: that is the instrument.
   const reduceMotion = useReducedMotion();
   useEffect(() => {
-    if (aligned && !wasAligned.current) hapticSuccess();
-    wasAligned.current = aligned;
     const target = aligned ? 1.12 : 1;
     lockScale.set(reduceMotion ? 1 : withSpring(target, LOCK_SPRING));
   }, [aligned, lockScale, reduceMotion]);

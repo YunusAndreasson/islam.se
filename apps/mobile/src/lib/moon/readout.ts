@@ -10,6 +10,7 @@
 import { formatIllumination, formatMoonAge } from './phase';
 import type { EclipseNote, MoonRiseSet } from './ephemeris';
 import type { DecisiveEvening } from './hilal';
+import { MONTH_NOTES } from './month';
 import { HILAL_BAND_TEXT, HILAL_BAND_TEXT_PAST } from './visibility';
 
 /**
@@ -67,6 +68,8 @@ export interface MoonNotesInput {
    *  13–15, named for that full moon, so this is the one place the calendar and the sky can
    *  be compared by anyone who steps outside and looks up. */
   fullMoonHijriDay: number | null;
+  /** The arithmetic Hijri month (1-based), for the notes that belong to a whole month. */
+  hijriMonth: number;
   time: (d: Date) => string;
   date: (d: Date) => string;
 }
@@ -189,6 +192,16 @@ export function moonNotes(input: MoonNotesInput): MoonNote[] {
         action: 'hijriOffset',
       });
     }
+  }
+
+  // ── What the month itself is for. ──
+  //
+  // The six Shawwāl fasts and the search for Laylat al-qadr belong to no single square, so
+  // the ring cannot mark them; they were printed by the month sheet until the calendars were
+  // unified (2026-09-20) and went silent with it. Reference, not news: the almanac keeps them.
+  const monthNote = MONTH_NOTES[input.hijriMonth];
+  if (monthNote) {
+    notes.push({ moon: illumination, waxing, tier: 'almanac', text: monthNote });
   }
 
   return notes;

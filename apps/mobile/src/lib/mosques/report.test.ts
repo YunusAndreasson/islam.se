@@ -186,7 +186,8 @@ describe('submitMosqueReport', () => {
   // a perfectly good signal, so such a test passes against the broken code. The only
   // honest check is to REPRODUCE the device runtime by taking the static away.
   it('still submits when AbortSignal.timeout does not exist, as on device', async () => {
-    const original = AbortSignal.timeout;
+    // The descriptor, not the bare method: restoring it puts back exactly what was there.
+    const original = Object.getOwnPropertyDescriptor(AbortSignal, 'timeout');
     // @ts-expect-error — deleting a standard static to mimic React Native's polyfill.
     delete AbortSignal.timeout;
     try {
@@ -201,7 +202,7 @@ describe('submitMosqueReport', () => {
       const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
       expect(init.signal?.aborted).toBe(false);
     } finally {
-      AbortSignal.timeout = original;
+      if (original) Object.defineProperty(AbortSignal, 'timeout', original);
     }
   });
 

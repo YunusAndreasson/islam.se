@@ -41,6 +41,9 @@ type SettingsPatch = Partial<PrayerSettings>;
 const SettingsContext = createContext<SettingsContextValue | null>(null);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
+  // Memoised by hand, and uncompilable as written: hydration releases its queue in
+  // `finally`, which the React Compiler cannot lower.
+  'use no memo';
   const [settings, setSettings] = useState<PrayerSettings>(DEFAULT_SETTINGS);
   const [loaded, setLoaded] = useState(false);
 

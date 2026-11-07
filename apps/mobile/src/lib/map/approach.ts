@@ -1,7 +1,7 @@
 // The map leans in toward the reader as a prayer approaches, and back out once it has
 // passed. Everything the camera needs to decide HOW FAR is here, pure; the screen
 // (app/bonetider) owns WHEN it may move at all — live time only, never while the reader
-// has the camera, never while a reset is in charge. See its `reconcileApproach`.
+// has the camera, never while a reset is in charge. See its `reconcileLean`.
 //
 // THE SHAPE. The lean is a zoom DELTA on top of the whole-Sweden home frame, linear in
 // time: 0 thirty minutes out, APPROACH_MAX_ZOOM at the prayer, 0 again twenty minutes
@@ -49,7 +49,7 @@ export const LINE_EDGE_MARGIN = 0.03;
  *  lean to start. Not the bottom: there the dock's own top edge is the limit, and Malmö
  *  sits only a few points above it by design (see SWEDEN_BOUNDS in bonetider) — an inset
  *  there once shut Sweden's third city out of the feature entirely. */
-export const ANCHOR_INSET = 24;
+const ANCHOR_INSET = 24;
 /** A solar event moves 4 minutes per degree of longitude, at every latitude. */
 export const MS_PER_DEGREE = 4 * 60_000;
 
@@ -124,7 +124,7 @@ export function approachWindowEnd(now: number, instants: readonly number[]): num
  * The zoom delta at `now`: the proximity, scaled to APPROACH_MAX_ZOOM. Identical for every
  * reader whose dot is in view — the guard below moves the pivot, never this.
  */
-export function approachDelta(now: number, instants: readonly number[]): number {
+function approachDelta(now: number, instants: readonly number[]): number {
   return APPROACH_MAX_ZOOM * approachProximity(now, instants);
 }
 

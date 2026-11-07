@@ -10,6 +10,10 @@
     "1.2.2": {
       "ios": "5313609ad5b0fe75c3f3e5ff3fcf9677fe0714c0",
       "android": "99b7c8406de55d0610090abbe41b4b49c846e058"
+    },
+    "1.3.0": {
+      "ios": "2431292ea4e68b4b472cdd593cb234754ba90e65",
+      "android": "1d3bb55afc888b439d5634e0c21582219ca0c342"
     }
   }
 }

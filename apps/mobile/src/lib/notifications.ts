@@ -106,7 +106,7 @@ export const MAX_DAYS_AHEAD = 30;
  * `eas build` — the file is a native bundle resource (iOS) / res/raw entry (Android)
  * written by the expo-notifications config plugin, never an OTA update.
  */
-export const ADHAN_SOUND_FILE: string | null = null;
+const ADHAN_SOUND_FILE: string | null = null;
 export const HAS_ADHAN_SOUND = ADHAN_SOUND_FILE !== null;
 /** The sound choices THIS BUILD can actually play — drives both the settings UI and the
  *  set of Android channels created. */
@@ -168,7 +168,7 @@ Notifications.setNotificationHandler({
 });
 
 /** A persisted choice this build cannot honour degrades to the system sound. */
-export function resolveSound(key: NotificationSoundKey): NotificationSoundKey {
+function resolveSound(key: NotificationSoundKey): NotificationSoundKey {
   return key === 'adhan' && !HAS_ADHAN_SOUND ? 'default' : key;
 }
 
@@ -213,10 +213,6 @@ export function horizonDays(perDay: number, budget: number): number {
   if (perDay <= 0) return 0;
   return Math.max(1, Math.min(MAX_DAYS_AHEAD, Math.floor(budget / perDay)));
 }
-
-// The alert copy lives in ./alert-copy so the Live Activity can say the same words at the
-// prayer boundary without importing this scheduler. Re-exported for existing callers.
-export { alertContent, nightAlertContent };
 
 /** The next alert this settings object will produce, and when it fires. */
 export interface NextAlert {

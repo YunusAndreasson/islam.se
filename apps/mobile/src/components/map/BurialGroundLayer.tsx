@@ -15,8 +15,8 @@
 //     gives: a ring on the pressable source would become a tap target of its own.
 //
 // DRAW ORDER IS COLLISION PRIORITY. MapLibre places symbols from the top layer down, so this
-// layer is mounted BEFORE MosqueLayer in bonetider.tsx: where a cemetery and a mosque would
-// collide, the mosque — what this app is for — keeps its place and the grave yields.
+// layer's slot sits BELOW MosqueLayer's (lib/map/layer-slots): where a cemetery and a mosque
+// would collide, the mosque — what this app is for — keeps its place and the grave yields.
 //
 // The glyph is a bundled PNG pair (assets/map/burial-pin-{light,dark}.png) rendered by
 // scripts/build-burial-pins.mjs from the one path both maps share,
@@ -29,6 +29,8 @@ import type { NativeSyntheticEvent } from 'react-native';
 
 import { type BurialGround, burialGroundForPress, toFeatureCollection } from '@/lib/burial-grounds';
 import { hapticLight } from '@/lib/haptics';
+import { GLYPH_PRESENCE_STOPS, zoomExpression } from '@/lib/map/dust';
+import { slotFor } from '@/lib/map/layer-slots';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
 import { GLYPH_HITBOX, PLACE_GOLD } from './MosqueLayer';
@@ -76,12 +78,12 @@ export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0 }: P
     <>
       <Images images={{ [IMAGE_ID]: { source: PINS[scheme], sdf: false } }} />
       {/* The selection ring, on a source with no onPress, and ALWAYS mounted — its stroke
-          appears through feature state when a card is open. A layer added at runtime lands on top of the style
-          and would paint over the glyph instead of around it (MosqueLayer's ⚠️ on its own
-          ring). Declared before the glyph source so it stays beneath it. */}
+          appears through feature state when a card is open, so a selection never mounts or
+          unmounts a layer. Its slot keeps it beneath the glyph (lib/map/layer-slots). */}
       <GeoJSONSource ref={selectionSource} id={RING_SOURCE_ID} data={data}>
         <Layer
           id={SELECTED_LAYER_ID}
+          beforeId={slotFor('burial-ground-selected')}
           type="circle"
           paint={{
             'circle-opacity': 0,
@@ -95,6 +97,7 @@ export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0 }: P
       <GeoJSONSource id={SOURCE_ID} data={data} onPress={handlePress} hitbox={GLYPH_HITBOX}>
         <Layer
           id={LAYER_ID}
+          beforeId={slotFor('burial-ground-symbols')}
           type="symbol"
           minzoom={7}
           layout={{
@@ -116,7 +119,7 @@ export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0 }: P
             'text-max-width': 8,
           }}
           paint={{
-            'icon-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.7, 9, 0.95],
+            'icon-opacity': zoomExpression(GLYPH_PRESENCE_STOPS) as never,
             'text-color': c.ink,
             'text-halo-color': c.paper,
             'text-halo-width': 1.4,

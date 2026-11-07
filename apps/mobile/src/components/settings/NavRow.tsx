@@ -44,7 +44,7 @@ export function NavRow({
   value,
   onPress,
   variant = 'push',
-  tone = variant === 'push' ? 'label' : 'action',
+  tone: toneProp,
   divider = false,
   accessibilityLabel,
   role = 'button',
@@ -70,6 +70,9 @@ export function NavRow({
   /** A caller-drawn trailing element, replacing the glyph. */
   trailing?: React.ReactNode;
 }) {
+  // Resolved here rather than as a parameter default: the React Compiler cannot reorder a
+  // conditional default and skips the whole component over one.
+  const tone = toneProp ?? (variant === 'push' ? 'label' : 'action');
   const colors = useSettingsColors();
   const compact = useCompactLayout();
   const styles = useMemo(() => makeStyles(colors), [colors]);

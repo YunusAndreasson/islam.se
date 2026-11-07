@@ -1,5 +1,5 @@
 import { createRef } from 'react';
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, screen, within } from '@testing-library/react-native';
 import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
@@ -62,11 +62,10 @@ function dockProps(revealSchedule: boolean, clockOverrides: Partial<SolarClock> 
   };
 }
 
-// `revealSchedule` is what lets the map play its launch introduction: the dock opens
-// itself so the day's times stagger in, then shuts again, and only then does the
-// notification hint ask whether to be reminded of them (see app/bonetider). The dock's
-// toggle label is the observable proof of the open/closed state — the height itself is a
-// shared value the reanimated test shim doesn't animate.
+// `revealSchedule` lets the host open the dock on its own — the map does it once, to show
+// the schedule after the map lesson (see app/bonetider). The dock's toggle label is the
+// observable proof of the open/closed state — the height itself is a shared value the
+// reanimated test shim doesn't animate.
 describe('PrayerDock schedule reveal', () => {
   it('keeps the same summary and preview controls when opening and closing', async () => {
     const props = dockProps(false, { mode: 'scrub' });
@@ -719,11 +718,17 @@ describe('PrayerDock accessible layout', () => {
 
 
 describe('map dismissal', () => {
+  afterEach(() => { jest.restoreAllMocks(); });
+
   it('closes an open dock without changing the selected time and allows reopening', async () => {
     const ref = createRef<PrayerDockHandle>();
     const props = dockProps(true);
+    // A map tap putting the dock away is a dismissal, which lib/haptics keeps silent; it
+    // used to fire the toggle tick meant for the reader's own drag or tap on the dock.
+    const toggle = jest.spyOn(jest.requireActual<typeof import('@/lib/haptics')>('@/lib/haptics'), 'hapticToggle');
     await render(<PrayerDock {...props} ref={ref} />);
     await act(() => { expect(ref.current?.collapse()).toBe(true); });
+    expect(toggle).not.toHaveBeenCalled();
     expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
     expect(props.clock.reset).not.toHaveBeenCalled();
     expect(props.clock.setFraction).not.toHaveBeenCalled();
@@ -731,5 +736,115 @@ describe('map dismissal', () => {
     await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
     expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
     await act(() => { expect(ref.current?.collapse()).toBe(true); });
+  });
+});
+
+// The scrubber's own gesture, driven through the config the RNGH mock hands back. The pan
+// that owns the track is the one reaching down past the card (hitSlop.bottom); the dock's
+// toggle pan has none.
+describe('the scrubber gesture', () => {
+  afterEach(() => { jest.restoreAllMocks(); });
+
+  type PanConfig = {
+    hitSlop?: { bottom?: number };
+    onBegin: (e: { x: number }) => void;
+    onUpdate: (e: { x: number }) => void;
+    onFinalize: () => void;
+  };
+
+  async function scrubber() {
+    const gh = jest.requireMock<{ usePanGesture: (c: PanConfig) => unknown }>('react-native-gesture-handler');
+    let config: PanConfig | null = null;
+    const original = gh.usePanGesture;
+    jest.spyOn(gh, 'usePanGesture').mockImplementation((c: PanConfig) => {
+      if (c.hitSlop?.bottom != null) config = c;
+      return original(c);
+    });
+    const props = dockProps(false);
+    await render(<PrayerDock {...props} />);
+    await fireEvent(screen.getByRole('adjustable', { name: 'Dagens tidslinje' }), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 300, height: 48 } },
+    });
+    if (!config) throw new Error('no scrub pan was built');
+    return { pan: config as PanConfig, setFraction: props.clock.setFraction as jest.Mock };
+  }
+
+  // THE BUG THIS PINS: every scrub step was its own hop to JS, and behind a slow field
+  // rebuild they queued, so the lines replayed positions the finger had already left. With
+  // JS busy (no ack yet), the steps in between are coalesced: the clock gets the first
+  // position, then the newest one once JS answers — never the ones between.
+  it('hands JS only the newest position while it is busy', async () => {
+    const worklets = jest.requireMock<{ scheduleOnUI: (fn: () => void) => void }>('react-native-worklets');
+    const acks: (() => void)[] = [];
+    jest.spyOn(worklets, 'scheduleOnUI').mockImplementation((fn: () => void) => { acks.push(fn); });
+    const { pan, setFraction } = await scrubber();
+    setFraction.mockClear();
+    pan.onBegin({ x: 0 });
+    for (const x of [40, 80, 120, 160]) pan.onUpdate({ x });
+    expect(setFraction).toHaveBeenCalledTimes(1);
+    acks.shift()!();
+    expect(setFraction).toHaveBeenCalledTimes(2);
+    pan.onUpdate({ x: 160 + 1e-9 }); // under the send step: noise, not a position
+    acks.shift()!();
+    expect(setFraction).toHaveBeenCalledTimes(2);
+    const [[first], [newest]] = setFraction.mock.calls as [[number], [number]];
+    expect(newest).toBeGreaterThan(first);
+  });
+
+  // THE BUG THIS PINS: a second drag ending where the first did was never sent, because the
+  // mailbox still remembered sending that value — with the clock moved by Nu in between,
+  // the map stayed on now while the thumb sat at the end of the day.
+  it('sends every drag, even one landing where the last one ended', async () => {
+    const { pan, setFraction } = await scrubber();
+    setFraction.mockClear();
+    pan.onBegin({ x: 300 });
+    pan.onFinalize();
+    const afterFirst = setFraction.mock.calls.length;
+    expect(afterFirst).toBeGreaterThan(0);
+    pan.onBegin({ x: 300 });
+    pan.onFinalize();
+    expect(setFraction.mock.calls.length).toBeGreaterThan(afterFirst);
+  });
+
+  it('gives a tap one tick and a drag two', async () => {
+    const haptics = jest.requireActual<typeof import('@/lib/haptics')>('@/lib/haptics');
+    const release = jest.spyOn(haptics, 'hapticRelease');
+    const { pan } = await scrubber();
+    pan.onBegin({ x: 20 });
+    pan.onFinalize();
+    expect(release).not.toHaveBeenCalled();
+    pan.onBegin({ x: 20 });
+    pan.onUpdate({ x: 120 });
+    pan.onFinalize();
+    expect(release).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('the dock drag', () => {
+  afterEach(() => { jest.restoreAllMocks(); });
+
+  // THE BUG THIS PINS: with no activation offsets a sideways swipe across the hero activated
+  // the dock's drag, moved almost nothing vertically, and was resolved as a tap — so brushing
+  // the dock on the way to the map opened it. Both toggle pans (handle and hero) must need
+  // vertical travel to start, and give up on horizontal travel first.
+  it('only starts on vertical travel, on the handle and on the hero', async () => {
+    type Pan = { hitSlop?: { bottom?: number }; activeOffsetY?: [number, number]; failOffsetX?: [number, number] };
+    const gh = jest.requireMock<{ usePanGesture: (c: Pan) => unknown }>('react-native-gesture-handler');
+    const toggles: Pan[] = [];
+    const original = gh.usePanGesture;
+    jest.spyOn(gh, 'usePanGesture').mockImplementation((c: Pan) => {
+      if (c.hitSlop?.bottom == null) toggles.push(c);
+      return original(c);
+    });
+    await render(<PrayerDock {...dockProps(false)} />);
+    expect(toggles.length).toBeGreaterThanOrEqual(2);
+    for (const pan of toggles.slice(-2)) {
+      const [up, down] = pan.activeOffsetY ?? [];
+      const [left, right] = pan.failOffsetX ?? [];
+      expect(up).toBeLessThan(0);
+      expect(down).toBeGreaterThan(0);
+      expect(left).toBeLessThan(0);
+      expect(right).toBeGreaterThan(0);
+    }
   });
 });

@@ -49,8 +49,6 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
           jumpTo: jest.fn(),
           flyTo: jest.fn(),
           fitBounds: jest.fn(),
-          zoomTo: jest.fn(),
-          setStop: jest.fn(),
         }),
         [],
       );
@@ -73,8 +71,6 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
   })(),
   Layer: 'Layer',
   Images: 'Images',
-  ViewAnnotation: 'ViewAnnotation',
-  Marker: 'Marker',
   // The basemap cache cap (lib/map/offline) — the map screen sets it on mount.
   OfflineManager: {
     setMaximumAmbientCacheSize: jest.fn(async () => {}),
@@ -274,6 +270,8 @@ jest.mock('react-native-reanimated', () => {
 jest.mock('react-native-worklets', () => ({
   __esModule: true,
   scheduleOnRN: (fn, ...args) => fn(...args),
+  // The other direction, for the scrubber's acknowledgement (lib/map/scrub-pipeline).
+  scheduleOnUI: (fn, ...args) => fn(...args),
 }));
 
 // react-native-skia is a native graphics module with no JS-thread renderer

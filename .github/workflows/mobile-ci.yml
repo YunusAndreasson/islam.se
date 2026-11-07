@@ -1,15 +1,15 @@
 # Runs the mobile app's existing quality gates on every PR / push that touches it.
 # apps/mobile is a STANDALONE pnpm root (excluded from the monorepo workspace — see
 # its pnpm-workspace.yaml), so every step runs inside apps/mobile with its own
-# lockfile. The gates here are the same ones the app already ships locally
-# (package.json scripts): tsc, expo lint, and jest with the coverage thresholds in
-# jest.config.js. Mutation testing (pnpm mutation / Stryker) is intentionally left to
+# lockfile. It runs the app's own `pnpm verify`, the gate developers run locally.
+# Mutation testing (pnpm mutation / Stryker) is intentionally left to
 # a separate nightly — it's far heavier than a per-PR check.
 name: Mobile CI
 
 on:
   push:
-    branches: [main]
+    # The repository's default branch. `main` does not exist here, so a push never ran this.
+    branches: [master]
     paths: ['apps/mobile/**', '.github/workflows/mobile-ci.yml']
   pull_request:
     paths: ['apps/mobile/**', '.github/workflows/mobile-ci.yml']
@@ -25,7 +25,7 @@ defaults:
 
 jobs:
   check:
-    name: typecheck · lint · test
+    name: verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,14 +48,15 @@ jobs:
       # pnpm's minimum-release-age delay, which only gates new resolutions).
       - run: pnpm install --frozen-lockfile
 
-      - name: Typecheck
-        run: pnpm typecheck
+      # Typed routes live in .expo/types, which the dev server writes and git ignores.
+      # Without them expo-router's Href falls back to a plain string, so a mistyped
+      # route passes the typecheck.
+      - name: Generate typed routes
+        run: pnpm exec expo customize tsconfig.json
 
-      - name: Lint
-        run: pnpm lint
-
-      - name: Deprecated APIs
-        run: pnpm api:check
-
-      - name: Test (with coverage gate)
-        run: pnpm test:cov
+      # The same gate a developer runs (package.json `verify`): the recorded-runtime check
+      # first, then typecheck, lint, deprecated APIs, React Compiler bailouts and the tests
+      # with the coverage gate. One script, so CI cannot drift from it. The runtime check
+      # needs only node_modules: it fingerprints the tree and compares native-runtimes.json.
+      - name: Verify
+        run: pnpm verify

@@ -23,6 +23,8 @@ import {
 const startActivity = IntentLauncher.startActivityAsync as unknown as jest.MockedFunction<
   typeof IntentLauncher.startActivityAsync
 >;
+// Read as a jest mock to assert on, never called detached from Linking.
+// eslint-disable-next-line @typescript-eslint/unbound-method
 const openSettings = Linking.openSettings as unknown as jest.MockedFunction<
   typeof Linking.openSettings
 >;

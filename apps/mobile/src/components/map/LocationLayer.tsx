@@ -4,6 +4,7 @@ import { GeoJSONSource, Layer } from '@maplibre/maplibre-react-native';
 import { useMemo } from 'react';
 
 import { latLngOf, type LonLat } from '@/lib/coordinates';
+import { slotFor } from '@/lib/map/layer-slots';
 import { greatCirclePoints, KAABA } from '@/lib/qibla';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
@@ -44,6 +45,7 @@ export function LocationLayer({ point, showQibla }: Props) {
       <GeoJSONSource id="location-qibla" data={arc} lineMetrics tolerance={0}>
         <Layer
           id="location-qibla-line"
+          beforeId={slotFor('location-qibla-line')}
           type="line"
           layout={{
             visibility: showQibla ? 'visible' : 'none',
@@ -64,6 +66,7 @@ export function LocationLayer({ point, showQibla }: Props) {
       <GeoJSONSource id="location-point" data={dot}>
         <Layer
           id="location-glow"
+          beforeId={slotFor('location-glow')}
           type="circle"
           paint={{
             'circle-radius': 13,
@@ -73,6 +76,7 @@ export function LocationLayer({ point, showQibla }: Props) {
         />
         <Layer
           id="location-dot"
+          beforeId={slotFor('location-dot')}
           type="circle"
           paint={{
             // MapLibre draws the stroke outside the radius: 4 + 2 = the previous 6 dp.

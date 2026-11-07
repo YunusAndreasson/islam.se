@@ -1,10 +1,12 @@
 // Prayer labels above the Skia field. The geographic user dot and qibla ray
 // live in LocationLayer so MapLibre moves them with its own camera.
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut, type SharedValue, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated';
 
+import { driftedCamera, solarDrift } from '@/lib/map/line-geometry';
 import { type Camera, mercX, mercY, project } from '@/lib/map/projection';
-import { visibleLineLabel } from '@/lib/map/visible-line-label';
+import { useSolarRenderNow } from '@/lib/map/useSolarRenderNow';
+import { insideLabelBand, visibleLineLabel } from '@/lib/map/visible-line-label';
 import { PRAYER_LABELS, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerLineLabel } from '@/lib/solar/field';
 import { polarBoundaryColorFor, prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
@@ -19,6 +21,15 @@ interface Props {
    *  WITHOUT a per-frame React render — the screen only re-renders when the prayer
    *  labels or theme change, not on every camera tick. */
   camera: SharedValue<Camera>;
+  /** The same clock inputs the Skia overlay draws the lines from, so each pill drifts with
+   *  its line between live rebuilds instead of staying where the line was built. */
+  dayStart: number;
+  dayLength: number;
+  nowFraction: SharedValue<number>;
+  /** The instant `lines` and `labels` were built for. */
+  geometryNow: number;
+  /** Scrub preview: exact geometry, no drift, no fades — as the lines. */
+  preview?: boolean;
   /** Pill anchors from buildLines: where each active prayer line wants its label. */
   labels: PrayerLineLabel[];
   lines: PrayerLineData[];
@@ -32,6 +43,11 @@ interface Props {
 
 export function MapMarkersOverlay({
   camera,
+  dayStart,
+  dayLength,
+  nowFraction,
+  geometryNow,
+  preview = false,
   labels,
   lines,
   topInset,
@@ -41,6 +57,7 @@ export function MapMarkersOverlay({
 }: Props) {
   const c = useColors();
   const scheme = useActiveScheme();
+  const renderNow = useSolarRenderNow(nowFraction, dayStart, dayLength, camera, preview);
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
       {/* Prayer pills — each sits ON its line (centred on the line's anchor point), so the
@@ -56,6 +73,9 @@ export function MapMarkersOverlay({
           topInset={topInset}
           bottomInset={bottomInset}
           camera={camera}
+          renderNow={renderNow}
+          geometryNow={geometryNow}
+          preview={preview}
           colors={c}
           scheme={scheme}
           isNext={l.prayer === nextKey}
@@ -94,7 +114,7 @@ function PolarBoundaryLabel({
   const posStyle = useAnimatedStyle(() => {
     const p = project(16, boundary.lat, camera.get());
     return { transform: [{ translateX: p.x }, { translateY: p.y - 18 }] };
-  }, [boundary.lat]);
+  });
   return (
     <Animated.View style={[styles.anchor, posStyle]}>
       <View style={styles.polarWrap}>
@@ -114,6 +134,9 @@ function PrayerPill({
   topInset,
   bottomInset,
   camera,
+  renderNow,
+  geometryNow,
+  preview,
   colors,
   scheme,
   isNext,
@@ -123,6 +146,9 @@ function PrayerPill({
   topInset: number;
   bottomInset: number;
   camera: SharedValue<Camera>;
+  renderNow: SharedValue<number>;
+  geometryNow: number;
+  preview: boolean;
   colors: Palette;
   scheme: ReturnType<typeof useActiveScheme>;
   isNext: boolean;
@@ -150,28 +176,51 @@ function PrayerPill({
     return points;
   });
   // A translate, not `left`/`top` — see `anchor` in the styles for why.
-  const posStyle = useAnimatedStyle(() => {
-    const cam = camera.get();
+  // Projected through the drifted camera, so the pill sits on the line where Skia draws it
+  // (see driftedCamera) rather than where the line was 0–45 s ago — ~550 px at z11.
+  //
+  // No dependency arrays on these worklets: Reanimated ignores them on native (and warns),
+  // and its Babel plugin already re-creates a worklet when what it captures changes.
+  const placement = useDerivedValue(() => {
+    const cam = driftedCamera(camera.get(), solarDrift(renderNow.get(), geometryNow, preview));
     const anchor = project(label.lngLat[0], label.lngLat[1], cam);
     const p = visibleLineLabel(anchor, mercLines, cam, topInset, bottomInset);
+    return { x: p.x, y: p.y, shown: insideLabelBand(p, cam, topInset, bottomInset) };
+  });
+  const posStyle = useAnimatedStyle(() => {
+    const p = placement.get();
     return { transform: [{ translateX: p.x }, { translateY: p.y }] };
-  }, [label.lngLat[0], label.lngLat[1], mercLines, topInset, bottomInset]);
+  });
+  // Hidden while no stretch of the line crosses the label band — otherwise the pill stood on
+  // its raw anchor, which can be under the status bar or the dock. Its own opacity, on the
+  // chip, so it never fights the arrival/leaving fade on the anchor view.
+  const chipStyle = useAnimatedStyle(() => ({ opacity: placement.get().shown ? 1 : 0 }));
   return (
-    <Animated.View style={[styles.anchor, posStyle]}>
-      <View
+    // Arrives and leaves with its line's 300 ms fade (PrayerLine), not as a cut. A scrub
+    // shows exact frames, as the lines do; Reduce Motion skips layout animations itself.
+    <Animated.View
+      style={[styles.anchor, posStyle]}
+      entering={preview ? undefined : PILL_FADE_IN}
+      exiting={preview ? undefined : PILL_FADE_OUT}
+    >
+      <Animated.View
         style={[
           styles.pill,
           { backgroundColor: colors.pillSurface, borderColor: hue },
           isNext && styles.pillNext,
+          chipStyle,
         ]}
       >
         <Text style={[styles.pillLabel, { color: textHue }, isNext && styles.pillLabelNext]}>
           {PRAYER_LABELS[label.prayer]}
         </Text>
-      </View>
+      </Animated.View>
     </Animated.View>
   );
 }
+
+const PILL_FADE_IN = FadeIn.duration(300);
+const PILL_FADE_OUT = FadeOut.duration(300);
 
 const styles = StyleSheet.create({
   // Every annotation is placed by moving THIS, a zero-size point at the map's origin, with

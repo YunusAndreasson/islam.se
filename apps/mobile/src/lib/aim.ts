@@ -47,6 +47,43 @@ export function headingReliable(accuracy: number | null | undefined): boolean {
   return accuracy != null && accuracy >= HEADING_ACCURACY_MIN;
 }
 
+// ── Calibration hysteresis ──────────────────────────────────────────────────────
+// iOS reports a calibration level with EVERY reading, mapped from its heading accuracy in
+// degrees, so a phone whose accuracy sits near a band edge alternates 1 ↔ 2 reading by
+// reading. Gated raw, the lock and the dial's warmth blinked off and on with it while the
+// phone was held perfectly still. Trust is therefore quick to give and slow to withdraw:
+// granted by the first reading at MEDIUM, kept through a dip below it for
+// CALIBRATION_HOLD_MS, and dropped at once only for a level-0 reading (> 50° — no
+// direction at all). The warm-up gate is untouched: a gate that was never trusted never
+// trusts a low reading, so the "wrong at first, then right" start still cannot lock.
+
+/** How long a trusted heading may read below MEDIUM before the instrument stops trusting it. */
+export const CALIBRATION_HOLD_MS = 1_500;
+
+export interface CalibrationGate {
+  readonly trusted: boolean;
+  /** When the current run of below-MEDIUM readings began (ms, monotonic); null outside one. */
+  readonly lowSince: number | null;
+}
+
+export const CALIBRATION_COLD: CalibrationGate = { trusted: false, lowSince: null };
+
+/** Fold one reading's calibration level into the gate. Returns the gate to keep and the
+    level to ACT on: the reading's own, except inside a held dip, where it is MEDIUM — the
+    lowest level that is trusted — so every consumer of {@link headingReliable} agrees. */
+export function holdCalibration(
+  gate: CalibrationGate,
+  accuracy: number | null,
+  nowMs: number,
+): { gate: CalibrationGate; accuracy: number | null } {
+  if (accuracy == null) return { gate: CALIBRATION_COLD, accuracy };
+  if (accuracy >= HEADING_ACCURACY_MIN) return { gate: { trusted: true, lowSince: null }, accuracy };
+  if (!gate.trusted || accuracy <= 0) return { gate: CALIBRATION_COLD, accuracy };
+  const lowSince = gate.lowSince ?? nowMs;
+  if (nowMs - lowSince >= CALIBRATION_HOLD_MS) return { gate: CALIBRATION_COLD, accuracy };
+  return { gate: { trusted: true, lowSince }, accuracy: HEADING_ACCURACY_MIN };
+}
+
 // ── Alignment: when do we call the phone "pointing at it"? ───────────────────────
 // A fresh lock needs the tight tolerance; once locked it holds through a wider band so
 // a heading sitting right on the 4° edge can't strobe the lock on and off — which would

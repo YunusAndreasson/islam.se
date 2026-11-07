@@ -114,6 +114,13 @@ interface View {
  * the held-back tick immediately; a flush with nothing held back does nothing, which is
  * what keeps an ordinary pan from rebuilding the field on every settle.
  */
+/** The offset a day start sits at, measured from the real today. Exact: two Stockholm
+ *  midnights n days apart differ by n·24 h ± 1 h, and ±1 h can never round to another
+ *  whole day — so this is integer arithmetic in disguise, not an estimate. */
+function dayOffsetFrom(start: number, todayStart: number): number {
+  return Math.round((start - todayStart) / 86_400_000);
+}
+
 export function useSolarClock(active = true, shouldDefer?: () => boolean): SolarClock {
   const [mode, setMode] = useState<ClockMode>('live');
   // `dayStart` is re-anchored at the live midnight (and on reset) so the view rolls over to
@@ -303,23 +310,16 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
     [todayStart],
   );
 
-  /** The offset a view sits at, measured from the real today. Exact: two Stockholm
-   *  midnights n days apart differ by n·24 h ± 1 h, and ±1 h can never round to another
-   *  whole day — so this is integer arithmetic in disguise, not an estimate. */
-  const offsetOf = (start: number): number => Math.round((start - todayStart) / 86_400_000);
-
   /** Which day is being VIEWED, relative to today. */
-  const dayOffset = offsetOf(dayStart);
+  const dayOffset = dayOffsetFrom(dayStart, todayStart);
 
   const stepDay = useCallback(
-    (delta: number) => goToOffset((v) => offsetOf(v.dayStart) + delta),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- offsetOf is (todayStart) in disguise
+    (delta: number) => goToOffset((v) => dayOffsetFrom(v.dayStart, todayStart) + delta),
     [goToOffset, todayStart],
   );
 
   const goToDay = useCallback(
-    (instant: number) => goToOffset(() => offsetOf(startOfZoneDay(instant))),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- offsetOf is (todayStart) in disguise
+    (instant: number) => goToOffset(() => dayOffsetFrom(startOfZoneDay(instant), todayStart)),
     [goToOffset, todayStart],
   );
 

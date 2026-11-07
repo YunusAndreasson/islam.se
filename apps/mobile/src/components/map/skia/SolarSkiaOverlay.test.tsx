@@ -106,7 +106,9 @@ describe('direct scrubbing contours', () => {
       };
       return builder as never;
     });
-    const camera = { ...CAMERA, zoom };
+    // Close in, the camera sits on the line: the precision fallback culls a line that is
+    // wholly offscreen, and this test is about where a DRAWN vertex lands.
+    const camera = zoom < 9 ? { ...CAMERA, zoom } : { ...CAMERA, lon: 18, lat: 59, zoom };
     await renderOverlay({ preview, camera: shared(camera), lines: LINE, geometryNow: DAY_START + DAY_MS / 2 - 45_000 });
     const exact = project(18, 59, camera);
     const expectedX = exact.x - (preview ? 0 : 512 * 2 ** camera.zoom * 45_000 / DAY_MS);
@@ -218,5 +220,77 @@ describe('keeping the reader’s dot and the mosques clear of the wash', () => {
     await renderOverlay({ mosquePoints: [STOCKHOLM] });
     expect(erasers()).toHaveLength(0);
     expect(holes).toHaveLength(0);
+  });
+});
+
+describe('a line fading out', () => {
+  // THE BUG THIS PINS: a line that vanished kept its last contour for the 300 ms fade, but
+  // measured its drift from the NEW geometryNow, so it jumped east by a tick's worth of
+  // drift (~550 px at z11) at the start of every fade. It must keep drifting from the
+  // instant its own contour was traced.
+  it('keeps drifting from the instant its own contour was traced', async () => {
+    const translations: number[] = [];
+    jest.spyOn(Skia, 'Matrix').mockImplementation(() => {
+      const matrix = {
+        translate: (x: number) => { translations.push(x); return matrix; },
+        scale: () => matrix,
+      };
+      return matrix as never;
+    });
+    const now = DAY_START + DAY_MS / 2;
+    const traced = now - 45_000;
+    const view = await renderOverlay({ lines: LINE, geometryNow: traced });
+    const whileActive = translations.at(-1)!;
+    // The next rebuild no longer has this prayer, and is traced for the present instant.
+    await view.rerender(overlay({ lines: [], geometryNow: now }));
+    expect(strokes().length).toBeGreaterThan(0); // still fading (the mock never finishes it)
+    // Same clock, same contour, same drift: the fading line has not moved at all.
+    expect(translations.at(-1)).toBeCloseTo(whileActive, 6);
+    // …and that drift is real: 45 s at z4.5 is ~6 px west of the traced position.
+    const ws = 512 * 2 ** CAMERA.zoom;
+    expect(project(18, 59, CAMERA).x - whileActive).toBeGreaterThan(0);
+    expect(Math.abs(project(18, 59, CAMERA).x - whileActive - (ws * 45_000) / DAY_MS)).toBeLessThan(0.1);
+  });
+});
+
+describe('the arrival bloom', () => {
+  // THE BUG THIS PINS: the bloom replayed whenever the overlay remounted (the map lesson,
+  // a reset), so one arrival could bloom again minutes later.
+  it('plays once per arrival, however often the overlay mounts', async () => {
+    const timing = jest.spyOn(reanimated, 'withTiming');
+    const blooms = () => timing.mock.calls.filter(([, config]) => config?.duration === 2400).length;
+    const arrival = { prayer: 'maghrib' as const, id: DAY_START + 71_000_000 };
+    const first = await renderOverlay({ arrival });
+    expect(blooms()).toBe(1);
+    await first.unmount();
+    await renderOverlay({ arrival });
+    expect(blooms()).toBe(1);
+    await renderOverlay({ arrival: { ...arrival, prayer: 'isha', id: arrival.id + 5_000_000 } });
+    expect(blooms()).toBe(2);
+  });
+});
+
+describe('the polar boundary dashes', () => {
+  // The dash pattern used to start at screen x = 0, so in a pan the dashes stood still
+  // while the boundary slid under them. Phased by the ground, they travel with the map.
+  it('move with the ground in a pan', async () => {
+    const boundary = { lat: 67.41, kind: 'polar-night' as const };
+    const phaseAt = async (lon: number) => {
+      await renderOverlay({ polarBoundary: boundary, camera: shared({ ...CAMERA, lon }) });
+      // The mocked Path renders nothing, so its effect is read off the element it was given
+      // (by its props: the mock gives every Skia primitive the same component).
+      const line = allOfType(Path).find((node) => node.props.strokeWidth === 1)!;
+      const children = [line.props.children].flat() as { props?: { intervals?: number[]; phase?: { value: number } } }[];
+      return children.find((child) => child?.props?.intervals)!.props!.phase!.value;
+    };
+    const ws = 512 * 2 ** CAMERA.zoom;
+    // A pan of exactly 3 px east of the camera moves the pattern 3 px.
+    const a = await phaseAt(CAMERA.lon);
+    const b = await phaseAt(CAMERA.lon + (3 / ws) * 360);
+    expect((b - a + 10) % 10).toBeCloseTo(3, 6);
+    for (const phase of [a, b]) {
+      expect(phase).toBeGreaterThanOrEqual(0);
+      expect(phase).toBeLessThan(10);
+    }
   });
 });

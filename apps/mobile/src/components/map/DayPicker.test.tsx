@@ -257,3 +257,31 @@ describe('DayPicker', () => {
     expect(onPick).not.toHaveBeenCalled();
   });
 });
+
+describe('closing the month sheet', () => {
+  // THE BUG THIS PINS: the dock unmounted the whole picker on close, Modal included, so the
+  // sheet's exit fade and the backdrop vanished in one frame. The Modal must outlive its
+  // content for the fade, then go; the sheet's content goes at once (its exit animation is
+  // what plays), and nothing is left behind once the fade is over.
+  it('keeps the modal up for the fade-out, then removes it', async () => {
+    jest.useFakeTimers();
+    try {
+      const props = { dayStart: day(2026, 9, 14), todayStart: day(2026, 9, 14), onPick: jest.fn(), onClose: jest.fn() };
+      const view = await render(<DayPicker open {...props} />);
+      expect(hostsOfType('Modal')).toHaveLength(1);
+      await view.rerender(<DayPicker open={false} {...props} />);
+      expect(hostsOfType('Modal')).toHaveLength(1);
+      expect(screen.queryByTestId('calendar-backdrop', { includeHiddenElements: true })).toBeNull();
+      // Back during the fade must not close it a second time.
+      await fireEvent(first(hostsOfType('Modal'), 'modal'), 'requestClose');
+      expect(props.onClose).not.toHaveBeenCalled();
+      await act(async () => { jest.advanceTimersByTime(1_000); });
+      expect(hostsOfType('Modal')).toHaveLength(0);
+      // And it opens again from closed.
+      await view.rerender(<DayPicker open {...props} />);
+      expect(screen.getByTestId('calendar-backdrop', { includeHiddenElements: true })).toBeTruthy();
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+});

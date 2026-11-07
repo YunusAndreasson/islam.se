@@ -35,7 +35,9 @@ async function main() {
       platforms: [platform],
       // CNG output exists by eas-build-post-install. Its source is already
       // covered by app config, plugins, patches, and native dependency identities.
-      ignorePaths: [...DEFAULT_IGNORE_PATHS, 'ios', 'ios/**', 'android', 'android/**'],
+      // A plugin's unit test is not native source: counted, editing one would retire a
+      // runtime that no binary ever changed for.
+      ignorePaths: [...DEFAULT_IGNORE_PATHS, 'ios', 'ios/**', 'android', 'android/**', 'plugins/**/*.test.js'],
       // Include native patches and local plugin resources, plus all production
       // dependencies as a conservative guard on newly added native modules.
       extraSources: [

@@ -289,7 +289,7 @@ describe('haptics policy — silenced surfaces stay haptic-free', () => {
 
   // Positive control: prove the regexes actually detect haptics, so the guard above can't
   // pass vacuously (a broken pattern that never matches would otherwise green-light a
-  // silently re-added haptic). Stepper legitimately keeps its step-snap hapticLight.
+  // silently re-added haptic). Stepper legitimately keeps its step tick (hapticSelection, class 3).
   it('detects a real haptic (positive control on Stepper)', () => {
     const source = fs.readFileSync(path.join(SRC, 'components/settings/Stepper.tsx'), 'utf8');
     expect(IMPORTS_HAPTICS.test(source)).toBe(true);

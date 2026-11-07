@@ -4,6 +4,8 @@
 /** @type {import('jest').Config} */
 module.exports = {
   preset: 'jest-expo',
+  // Every run in Europe/Stockholm, whatever the machine's zone (see the file).
+  globalSetup: '<rootDir>/jest.global-setup.js',
   setupFiles: ['<rootDir>/jest.setup.js'],
   // Half the cores, not all but one. The whole-map suites (screens, day-navigation, the soft-ask
   // and lesson tests) each mount the full map and run 15–20 s alone. With a worker per core they
@@ -59,6 +61,22 @@ module.exports = {
     'src/lib/map/projection-guard.ts',
     'src/lib/map/map-diagnostics.ts',
     'src/lib/map/offline.ts',
+    // Where a prayer line is drawn, how far it has drifted and where its pill and taps
+    // land: three consumers, one module, so a disagreement between them is a red test.
+    'src/lib/map/line-geometry.ts',
+    'src/lib/map/layer-slots.ts',
+    'src/lib/map/scrub-pipeline.ts',
+    // The rest of the map's pure core: where a line may be drawn in float32, how often the
+    // drawing clock samples, where a label and the visible stretch of a line fall, the dust
+    // curves, the lean-in, camera travel and the scrubber's grab.
+    'src/lib/map/path-precision.ts',
+    'src/lib/map/solar-render-clock.ts',
+    'src/lib/map/visible-line.ts',
+    'src/lib/map/visible-line-label.ts',
+    'src/lib/map/dust.ts',
+    'src/lib/map/approach.ts',
+    'src/lib/map/camera-travel.ts',
+    'src/lib/map/scrub-grab.ts',
     'src/lib/solar/sun.ts',
     'src/lib/solar/field.ts',
     'src/lib/solar/contour.ts',

@@ -67,7 +67,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { scheduleOnRN } from 'react-native-worklets';
+import { scheduleOnRN, scheduleOnUI } from 'react-native-worklets';
 
 import {
   hapticGrab,
@@ -93,6 +93,7 @@ import {
 } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { zonePrayerDate } from '@/lib/zone-time';
+import { ackScrub, beginScrub, EMPTY_SCRUB_MAILBOX, offerScrub, type ScrubMailbox } from '@/lib/map/scrub-pipeline';
 import { prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
@@ -128,6 +129,8 @@ const SPRING = motion.spring;
 /** The scrubber knob's diameter. Its centre is what sits on the track, so every `left` that
  *  places it subtracts half of this. */
 const THUMB = 16;
+/** How much the thumb swells while held. */
+const THUMB_GRAB_SCALE = 1.16;
 /** The diameter of a prayer's pip on the timeline. The schedule above it carries the same
  *  colours on the prayer NAMES, so the two read as one key without a second dot. */
 const PRAYER_DOT = 7;
@@ -146,6 +149,10 @@ const PRAYER_DOT = 7;
 // an eighth of the ~200 dp the card actually travels: past this the finger has expressed a
 // direction, below it the card has moved a distance nobody can see.
 const TOGGLE_DRAG_SLOP = 24;
+/** Vertical travel (pt) that activates the dock's drag, and horizontal travel that fails
+ *  it first — wider, so a diagonal drag that is mostly vertical still wins. */
+const TOGGLE_ACTIVE_OFFSET: [number, number] = [-10, 10];
+const TOGGLE_FAIL_OFFSET: [number, number] = [-14, 14];
 /** Past this, a release is a fling and its DIRECTION decides — below it, the card's position does. */
 const FLING_VELOCITY = 350;
 
@@ -232,6 +239,13 @@ function useTogglePan({
   applyExpanded,
 }: TogglePanState) {
   return usePanGesture({
+    // Vertical only. With no offsets a sideways swipe across the hero activated this pan,
+    // travelled almost nothing vertically, and resolveToggle read it as a tap — so brushing
+    // the dock on the way to the map opened it. Now a horizontal move fails the gesture
+    // before it can activate. Presses are unaffected: the handle has its own tap, and the
+    // hero is a drag affordance, not a button.
+    activeOffsetY: TOGGLE_ACTIVE_OFFSET,
+    failOffsetX: TOGGLE_FAIL_OFFSET,
     onBegin: armSchedule,
     onActivate: () => {
       startHeight.set(height.get());
@@ -365,10 +379,10 @@ interface Props {
    *  correct. See bonetider's locationIsFallback. */
   locationIsFallback?: boolean;
   settings: PrayerSettings;
-  /** Drives the launch schedule reveal: flip it true to spring the dock open (the
-   *  rows stagger in off `progress` exactly as they do for a drag), false to spring it
-   *  shut. The host owns the timing — see bonetider's reveal sequence. A user gesture
-   *  taken mid-reveal simply overwrites `height`, so the finger always wins. */
+  /** Springs the dock open (true) or shut (false) from the host — the map uses it once,
+   *  to show the schedule after the map lesson. The rows reveal off `progress` exactly as
+   *  they do for a drag. A user gesture taken mid-reveal simply overwrites `height`, so
+   *  the finger always wins. */
   revealSchedule?: boolean;
   /** Optional host notification for analytics or layout hooks. The map does not refit
       on expansion; the dock opens over the current slice. */
@@ -561,9 +575,9 @@ export function PrayerDock({
 
   // State change on the JS thread (from gesture worklets via scheduleOnRN): flip the flag,
   // tap a light haptic on a real open/close, and notify the host if it cares.
-  const applyExpanded = useCallback(
+  /** Records the dock's new state, with no feedback of its own. */
+  const settleExpanded = useCallback(
     (open: boolean) => {
-      if (open !== expanded) hapticToggle(open);
       // The spring is already running on the UI thread. Treat the settled flags as
       // non-urgent so React can yield instead of making that animation wait behind them.
       startTransition(() => {
@@ -571,7 +585,16 @@ export function PrayerDock({
       });
       onExpandedChange?.(open, EXPANDED);
     },
-    [expanded, onExpandedChange, EXPANDED],
+    [onExpandedChange, EXPANDED],
+  );
+  /** The dock snapping open or shut under the reader's own finger: the toggle tick, then
+   *  the same bookkeeping. */
+  const applyExpanded = useCallback(
+    (open: boolean) => {
+      if (open !== expanded) hapticToggle(open);
+      settleExpanded(open);
+    },
+    [expanded, settleExpanded],
   );
 
   const togglePan = {
@@ -708,7 +731,9 @@ export function PrayerDock({
       if (!targetOpen.get() && !expanded) return false;
       targetOpen.set(false);
       height.set(withSpring(COLLAPSED, SPRING));
-      applyExpanded(false);
+      // Silent: a tap on the map that puts the dock away is a dismissal, and the policy in
+      // lib/haptics gives dismissals no haptic — the card sliding down is the feedback.
+      settleExpanded(false);
       return true;
     },
   }));
@@ -1158,22 +1183,23 @@ export function PrayerDock({
       {/* Outside `clip`, so the sheet is not cropped by the card's rounded overflow, and
           after it, so it layers above. It is inside shadowWrap, which is the dock's own
           absolutely-positioned box — hence zero effect on the dock's height. */}
-      {(pickingDay || calendarRequested) && (
-        <DayPicker
-          dayStart={clock.dayStart}
-          todayStart={clock.todayStart}
-          hijriOffset={settings.hijriOffset}
-          onPick={(instant) => {
-            clock.goToDay(instant);
-            setPickingDay(false);
-            onCalendarClose?.();
-          }}
-          onClose={() => {
-            setPickingDay(false);
-            onCalendarClose?.();
-          }}
-        />
-      )}
+      {/* Always rendered: closing has to leave the Modal up for the sheet's fade-out (see
+          DayPicker). Closed, it renders nothing. */}
+      <DayPicker
+        open={pickingDay || calendarRequested}
+        dayStart={clock.dayStart}
+        todayStart={clock.todayStart}
+        hijriOffset={settings.hijriOffset}
+        onPick={(instant) => {
+          clock.goToDay(instant);
+          setPickingDay(false);
+          onCalendarClose?.();
+        }}
+        onClose={() => {
+          setPickingDay(false);
+          onCalendarClose?.();
+        }}
+      />
     </Animated.View>
   );
 }
@@ -1505,14 +1531,39 @@ function SolarTimeline({
     () => markFractions.map((f) => warp.toTrack(f)),
     [markFractions, warp],
   );
+  // Latest wins between the finger and the clock (lib/map/scrub-pipeline): at most one
+  // position is on its way to JS; newer ones overwrite a single held slot on the UI thread.
+  // Before, every step was its own scheduleOnRN, and behind a slow field rebuild they queued
+  // up — the lines replayed positions the finger had already left and kept moving after it
+  // stopped.
+  const mailbox = useSharedValue<ScrubMailbox>(EMPTY_SCRUB_MAILBOX);
   // The gesture speaks track positions; the clock speaks time. One conversion at the
-  // hand-off, on the JS thread — which is why the warp never has to be a worklet.
-  const scrubToTrack = useCallback((x: number) => onScrub(warp.toTime(x)), [onScrub, warp]);
+  // hand-off, on the JS thread — which is why the warp never has to be a worklet. The ack
+  // goes back as soon as JS has TAKEN the position, not after a commit: a position that
+  // changes nothing commits nothing, and an ack waiting for that commit would leave the
+  // mailbox in flight for good, freezing the scrub.
+  function scrubToTrack(x: number): void {
+    onScrub(warp.toTime(x));
+    scheduleOnUI(ackScrubStep);
+  }
+  function offerScrubStep(x: number): void {
+    'worklet';
+    const step = offerScrub(mailbox.get(), x);
+    // Stored before the hand-off: JS may answer before this worklet returns.
+    mailbox.set(step.mailbox);
+    if (step.send !== null) scheduleOnRN(scrubToTrack, step.send);
+  }
+  function ackScrubStep(): void {
+    'worklet';
+    const step = ackScrub(mailbox.get());
+    mailbox.set(step.mailbox);
+    if (step.send !== null) scheduleOnRN(scrubToTrack, step.send);
+  }
 
-  // Two disjoint shared values, by design (see also react-hooks/immutability): the
-  // gesture writes ONLY `prog`/`dragging`; the reconcile effect writes ONLY `follow`.
   // `prog` is the finger position while dragging; `follow` is an eased mirror of the
-  // committed time for every idle moment (live tick, tapped row, post-drag commit).
+  // committed time for every idle moment (live tick, tapped row, post-drag commit). The
+  // gesture writes `prog`/`dragging`, and `follow` exactly once per drag, at release (see
+  // onFinalize); the reconcile effect owns `follow` the rest of the time.
   // Both are TRACK positions, like everything else the UI thread touches here.
   const prog = useSharedValue(trackFraction);
   const follow = useSharedValue(trackFraction);
@@ -1520,6 +1571,11 @@ function SolarTimeline({
   const lastHaptic = useSharedValue(trackFraction);
   const lastSent = useSharedValue(trackFraction);
   const grabOffset = useSharedValue(0);
+  /** Where this drag took hold, so letting go without moving is a tap, not a drag. */
+  const grabbedAt = useSharedValue(trackFraction);
+  /** The thumb's grab swell, started from the gesture's edges rather than re-created by the
+   *  style on every frame of the drag. */
+  const thumbScale = useSharedValue(1);
 
   // The role was declared and then not honoured: an "adjustable" with no accessibilityValue
   // and no actions announces a control whose increment/decrement gestures do nothing and
@@ -1550,11 +1606,11 @@ function SolarTimeline({
   // before the committed time lands. Written only here, so no worklet mutates it.
   useEffect(() => {
     follow.set(withTiming(trackFraction, { duration: motion.base }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- follow is a stable shared-value ref
-  }, [trackFraction]);
+  }, [trackFraction, follow]);
 
-  // The hook takes this config afresh on every render, so the worklets below always see the
-  // current `trackW` and `markTracks` — the same guarantee the per-render builder used to give.
+  // The compiler memoises this config on what the worklets read (`trackW`, `markTracks`, the
+  // shared values), so RNGH re-sends it to native only when the track itself changes — not on
+  // every render mid-scrub — and the worklets still always see the current values.
   const pan = usePanGesture({
     minDistance: 0,
     // Down to the card's bottom edge, so the drag target is band + ruler + this = 48 dp
@@ -1563,14 +1619,17 @@ function SolarTimeline({
     hitSlop: { bottom: DOCK_FOOTER_PAD },
     onBegin: (e) => {
       dragging.set(true);
+      thumbScale.set(withSpring(THUMB_GRAB_SCALE, SPRING));
       scheduleOnRN(hapticGrab);
       if (trackW <= 0) return;
       grabOffset.set(scrubGrabOffset(e.x, follow.get() * trackW));
       const f = Math.max(0, Math.min(1, (e.x + grabOffset.get()) / trackW));
       prog.set(f);
+      grabbedAt.set(f);
       lastHaptic.set(f);
       lastSent.set(f);
-      scheduleOnRN(scrubToTrack, f);
+      mailbox.set(beginScrub(mailbox.get()));
+      offerScrubStep(f);
     },
     onUpdate: (e) => {
       if (trackW <= 0) return;
@@ -1595,13 +1654,21 @@ function SolarTimeline({
       // step measured in day-fractions would have stopped updating exactly there.
       if (Math.abs(f - lastSent.get()) >= SCRUB_SEND_STEP) {
         lastSent.set(f);
-        scheduleOnRN(scrubToTrack, f);
+        offerScrubStep(f);
       }
     },
     onFinalize: () => {
+      const f = prog.get();
+      // The thumb stays where the finger left it. Handed back to `follow` as it stood, the
+      // thumb jumped to the last COMMITTED time — still behind the finger while JS caught
+      // up — and then glided forward again.
+      follow.set(f);
       dragging.set(false);
-      scheduleOnRN(hapticRelease);
-      scheduleOnRN(scrubToTrack, prog.get());
+      thumbScale.set(withSpring(1, SPRING));
+      // A tap took hold and let go in place: one tick (the grab), not two.
+      if (Math.abs(f - grabbedAt.get()) >= SCRUB_SEND_STEP) scheduleOnRN(hapticRelease);
+      // Never dropped, only coalesced: the clock always ends on the finger's last position.
+      offerScrubStep(f);
     },
   });
 
@@ -1626,7 +1693,7 @@ function SolarTimeline({
     return {
       transform: [
         { translateX: f * trackW - THUMB / 2 },
-        { scale: withSpring(dragging.get() ? 1.16 : 1, SPRING) },
+        { scale: thumbScale.get() },
       ],
     };
   });
@@ -1675,7 +1742,7 @@ function SolarTimeline({
             marks.map((m) => {
               const isPast = m.fraction <= fraction;
               return (
-                <View
+                <Animated.View
                   key={m.key}
                   pointerEvents="none"
                   style={[
@@ -1989,7 +2056,17 @@ function makeStyles(c: Palette, fontScale = 1) {
     },
     // Plain coloured dot on the axis. Same size/chrome for every prayer; past
     // dots draw at full opacity, future ones soften.
-    mark: { width: PRAYER_DOT, height: PRAYER_DOT, borderRadius: PRAYER_DOT / 2, bottom: 12.5, opacity: 0.7 },
+    // A prayer's pip brightens as the viewed time passes it — eased, not cut (Reanimated's
+    // CSS transition, so a scrub across it reads as a sweep rather than a flicker).
+    mark: {
+      width: PRAYER_DOT,
+      height: PRAYER_DOT,
+      borderRadius: PRAYER_DOT / 2,
+      bottom: 12.5,
+      opacity: 0.7,
+      transitionProperty: 'opacity',
+      transitionDuration: motion.fast,
+    },
     markPast: { opacity: 1 },
     // The knob is the app mark in miniature: brand gold inside a brand blue ring (see
     // the scrubber block in theme/tokens.ts, which also explains why the RING is what

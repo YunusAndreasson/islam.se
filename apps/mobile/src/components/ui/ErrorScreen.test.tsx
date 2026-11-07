@@ -1,6 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import * as Sentry from '@sentry/react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
+import * as SplashScreen from 'expo-splash-screen';
 
 import { ErrorScreen } from './ErrorScreen';
 
@@ -28,5 +29,14 @@ describe('ErrorScreen (crash boundary fallback)', () => {
   it('does not report on its own', async () => {
     await render(<ErrorScreen error={new Error('boom')} retry={jest.fn() as () => Promise<void>} />);
     expect(Sentry.captureException).not.toHaveBeenCalled();
+  });
+
+  // REGRESSION GUARD: a throw on the first render replaces the root layout before SplashGate
+  // hides the splash, and unmounting the gate clears its two-second safety net. Nothing else
+  // hid it, so the reader saw the splash forever and never this screen.
+  it('hides the splash, which would otherwise cover it for good', async () => {
+    jest.mocked(SplashScreen.hide).mockClear();
+    await render(<ErrorScreen error={new Error('boom')} retry={jest.fn() as () => Promise<void>} />);
+    expect(SplashScreen.hide).toHaveBeenCalled();
   });
 });

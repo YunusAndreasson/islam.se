@@ -12,19 +12,21 @@ not its Biome, not its Vitest, not `pnpm -w` or `--filter`. Here it is ESLint an
 ## Commands
 
 ```bash
-pnpm verify            # typecheck, lint, deprecated-API check, tests with the coverage gate. Run before finishing
+pnpm verify            # typecheck, lint, deprecated-API check, React Compiler bailouts, tests with the coverage gate. Run before finishing
 pnpm test <path>       # one test file
 pnpm android           # dev build through scripts/dev-android.sh, which pins JDK 17 and picks the AVD
 pnpm ios
 pnpm mutation          # Stryker over the pure core; slow, run it on request
 pnpm release:check     # every release preflight, no build
+pnpm -C ../.. knip:mobile  # dead code; config in the root knip.mobile.json, since knip skips workspaces pnpm excludes
 ```
 
 ## Releases
 
 `pnpm release`, `release:ios` and `release:android` build on EAS and submit automatically:
-iOS to TestFlight, Android to the Play **production** track. Run them only on an explicit
-request. `release:check` is the safe one.
+iOS to TestFlight, Android to the Play **production** track as a staged rollout (`rollout` in
+`eas.json`, widened or halted in the Play Console). Run them only on an explicit request.
+`release:check` is the safe one.
 
 The script refuses to start unless the whole repository is committed and HEAD equals its
 upstream. Store-submission checklists are in `docs/`.

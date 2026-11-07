@@ -372,6 +372,7 @@ export default function Manen() {
     () =>
       moonNotes({
         ...almanac,
+        hijriMonth: almanac.hijri.month,
         illumination: sky.illumination,
         waxing: sky.waxing,
         time: formatTime,

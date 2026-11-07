@@ -28,9 +28,7 @@ import { at, first } from '@/test-utils/at';
 
 // Mirrors bonetider.tsx's own beats — duplicated rather than imported so this asserts the
 // SEQUENCE, not the numbers (same reasoning soft-ask-queue.test.tsx gives).
-const REVEAL_DELAY_MS = 300;
-const REVEAL_HOLD_MS = 2500;
-const HINT_AFTER_REVEAL_MS = 700;
+const HINT_DELAY_MS = 1000;
 const MAP_RENDER_TIMEOUT = 20_000;
 // bonetider.tsx's own safety net for the reveal cover. Duplicated rather than imported
 // for the same reason as the beats above: this asserts that a net EXISTS, not its value.
@@ -76,15 +74,11 @@ async function advance(ms: number): Promise<void> {
   await act(async () => {});
 }
 
-/** The gate's work between beats is a chain of awaits (permission read → hint record →
- *  decision), so each beat needs its own settle before the next timer it schedules
- *  exists to advance into — one combined advance() would fire the first timer but miss
- *  the ones its own async callback goes on to schedule. Mirrors soft-ask-queue.test.tsx's
+/** The beat after the map settles, then the gate's chain of awaits (permission read → hint
+ *  record → decision), which advance() settles. Mirrors soft-ask-queue.test.tsx's
  *  runOfferSequence exactly. */
 async function runOfferSequence(): Promise<void> {
-  await advance(REVEAL_DELAY_MS);
-  await advance(REVEAL_HOLD_MS);
-  await advance(HINT_AFTER_REVEAL_MS);
+  await advance(HINT_DELAY_MS);
 }
 
 describe('the map lesson', () => {

@@ -24,7 +24,7 @@ import {
   vec,
 } from 'react-native-skia';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { PixelRatio, Platform, StyleSheet } from 'react-native';
 import {
   Easing,
   ReduceMotion,
@@ -42,9 +42,10 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { type PrayerKey } from '@/lib/prayer-times';
 import { atZoom, DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS } from '@/lib/map/dust';
+import { appendProjected, lineGeometry, solarDrift } from '@/lib/map/line-geometry';
 import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
+import { useSolarRenderNow } from '@/lib/map/useSolarRenderNow';
 import { visibleLineRange } from '@/lib/map/visible-line';
-import { solarRenderInstant } from '@/lib/map/solar-render-clock';
 import { canTransformSolarPath } from '@/lib/map/path-precision';
 import type { LonLat } from '@/lib/coordinates';
 import { polarBoundaryColorFor, prayerColorFor, washStopsFor } from '@/lib/solar/palette';
@@ -120,8 +121,8 @@ export function SolarSkiaOverlay({
   // The wash composites onto the themed basemap, so its colour stops swap with
   // the active scheme — Apple Maps-style. `useActiveScheme()` is the user-aware
   // resolver (settings override first, OS otherwise). Body of the SkSL is
-  // identical between modes; only the four colour literals (DAY / DUSK / DAWN /
-  // NIGHT) change, so RuntimeEffect.Make is memoised on the SKSL string and
+  // identical between modes; only the five colour literals (DAY / DUSK / DAWN /
+  // DAWN_WARM / NIGHT) change, so RuntimeEffect.Make is memoised on the SKSL string and
   // only rebuilds on a theme flip (cheap — not per frame).
   const scheme = useActiveScheme();
   const washSksl = useMemo(() => buildWashSksl(washStopsFor(scheme)), [scheme]);
@@ -129,16 +130,15 @@ export function SolarSkiaOverlay({
 
   // Declination + equation of time for the displayed date (midday avoids a DST edge). They
   // feed the per-pixel sun-altitude calc in the shader and only change when the day changes.
-  const solar = useMemo(
-    () => solarParams(new Date(dayStart + dayLength / 2)),
-    [dayStart, dayLength],
-  );
+  const solar = useMemo(() => {
+    const { declRad, eotMin } = solarParams(new Date(dayStart + dayLength / 2));
+    return { eotMin, sinDecl: Math.sin(declRad), cosDecl: Math.cos(declRad) };
+  }, [dayStart, dayLength]);
 
   // The real clock keeps gliding at frame rate. Only its drawing sample is bounded:
   // equal primitive samples suppress downstream path/shader updates at overview zoom.
-  const renderNow = useDerivedValue(() =>
-    solarRenderInstant(dayStart + nowFraction.get() * dayLength, dayStart, camera.get().zoom, preview),
-  );
+  // The pills read the same sample (MapMarkersOverlay), so they drift with these lines.
+  const renderNow = useSolarRenderNow(nowFraction, dayStart, dayLength, camera, preview);
 
   // Wash uniforms, recomputed on the UI thread whenever the camera or instant changes — so
   // the wash follows pans/zooms and scrubs without a React render. u_utcMin is the displayed
@@ -153,28 +153,18 @@ export function SolarSkiaOverlay({
       u_center: [mercX(c.lon), mercY(c.lat)],
       u_utcMin: utcMin,
       u_eotMin: solar.eotMin,
-      u_declRad: solar.declRad,
+      u_sinDecl: solar.sinDecl,
+      u_cosDecl: solar.cosDecl,
+      u_pixelRatio: PIXEL_RATIO,
     };
   });
 
   // The sun's hour angle carries every prayer isoline westward at exactly one world
-  // revolution per mean solar day, so between geometry rebuilds the lines DRIFT on the
-  // UI thread at the physically exact first-order rate: Δ(normalised-Mercator x) per ms
-  // = −1 / 86 400 000. nowFraction glides ahead of geometryNow between live ticks (see
-  // bonetider's predictive withTiming) and each 30 s rebuild re-anchors the true shape,
-  // so live lines move continuously between ticks. Preview uses exact geometry
-  // with no extrapolation; its geometry and shared clock update independently.
-  const driftMerc = useDerivedValue(() => {
-    // Geometry and the shared clock can arrive a frame apart during a reversal.
-    // Preview must never extrapolate from that mismatched pair.
-    if (preview) return 0;
-    const nowMs = renderNow.get();
-    const dt = nowMs - geometryNow;
-    if (dt <= 0) return 0;
-    // The clamp guards live mode (a big scrub must never fling the lines across the map).
-    const capped = dt > MAX_DRIFT_MS ? MAX_DRIFT_MS : dt;
-    return -capped / 86_400_000;
-  });
+  // revolution per mean solar day, so between geometry rebuilds each line DRIFTS on the UI
+  // thread at the physically exact first-order rate (lib/map/line-geometry solarDrift).
+  // nowFraction glides ahead of geometryNow between live ticks (see bonetider's predictive
+  // withTiming) and each 30 s rebuild re-anchors the true shape. Each line measures the
+  // drift from the instant ITS geometry was built — see PrayerLine.
 
   // Active prayers this instant, by key, so the fixed BOUNDARY/CROSSING maps can look
   // them up (hooks must be unconditional → we always render all 6 PrayerLine slots).
@@ -210,14 +200,23 @@ export function SolarSkiaOverlay({
   // Re-projected on the UI thread so it stays glued to the map through pans/zooms.
   const shownBoundaryLat = shownBoundary?.lat ?? null;
   const polarBoundaryPath = useDerivedValue(() => {
-    const cam = camera.get();
     const b = Skia.PathBuilder.Make();
-    if (shownBoundaryLat != null) {
-      const y = project(0, shownBoundaryLat, cam).y;
-      b.moveTo(0, y);
-      b.lineTo(cam.width, y);
-    }
+    if (shownBoundaryLat == null) return b.detach();
+    const cam = camera.get();
+    const y = project(0, shownBoundaryLat, cam).y;
+    b.moveTo(0, y);
+    b.lineTo(cam.width, y);
     return b.detach();
+  });
+  // The dashes belong to the map, not the screen: the pattern is phased by the world x of
+  // the screen's left edge, so a pan carries the dashes with the ground instead of the
+  // dashes standing still while the boundary slides under them.
+  const boundaryDashPhase = useDerivedValue(() => {
+    if (shownBoundaryLat == null) return 0;
+    const cam = camera.get();
+    const worldLeft = mercX(cam.lon) * worldSize(cam.zoom) - cam.width / 2;
+    const phase = worldLeft % DASH_PERIOD;
+    return phase < 0 ? phase + DASH_PERIOD : phase;
   });
   // Dashed, no glow — reads as a *boundary*, deliberately unlike the glowing solid prayer
   // sweeps. Kept faint: a quiet reference line. Warm gold for midnight sun, cool blue for
@@ -233,21 +232,22 @@ export function SolarSkiaOverlay({
     return [`rgba(${rgb}, 0)`, `rgba(${rgb}, ${alpha})`, `rgba(${rgb}, ${alpha})`, `rgba(${rgb}, 0)`];
   }, [boundaryPalette]);
   // The edge fade spans the live viewport width (the path is horizontal, so only x matters).
-  const boundaryGradEnd = useDerivedValue(() => ({ x: camera.get().width, y: 0 }));
+  const boundaryGradEnd = useDerivedValue(() =>
+    shownBoundaryLat == null ? ORIGIN : { x: camera.get().width, y: 0 },
+  );
 
   // Tip-dissolve mask geometry: a vertical ramp hanging just south of the boundary.
   // dstOut erases where the mask is opaque — fully north of the line (also wiping any
   // Catmull-Rom overshoot), easing to nothing DISSOLVE_PX below it, so the four polar
   // prayers' lines (halo included) melt into the boundary rather than stopping dead.
-  const dissolveLat = shownBoundaryLat ?? 0;
-  const dissolveStart = useDerivedValue(() => ({
-    x: 0,
-    y: project(0, dissolveLat, camera.get()).y,
-  }));
-  const dissolveEnd = useDerivedValue(() => ({
-    x: 0,
-    y: project(0, dissolveLat, camera.get()).y + DISSOLVE_PX,
-  }));
+  const dissolveStart = useDerivedValue(() =>
+    shownBoundaryLat == null ? ORIGIN : { x: 0, y: project(0, shownBoundaryLat, camera.get()).y },
+  );
+  const dissolveEnd = useDerivedValue(() =>
+    shownBoundaryLat == null
+      ? ORIGIN
+      : { x: 0, y: project(0, shownBoundaryLat, camera.get()).y + DISSOLVE_PX },
+  );
   const dissolveActive = shownBoundary != null;
 
   return (
@@ -294,7 +294,7 @@ export function SolarSkiaOverlay({
           />
           {/* Round caps grow each dash by strokeWidth/2, so the gap is widened to keep
               the airy rhythm of the old butt-cap [4, 6]. */}
-          <DashPathEffect intervals={[3, 7]} />
+          <DashPathEffect intervals={DASH_INTERVALS} phase={boundaryDashPhase} />
         </Path>
       )}
 
@@ -310,7 +310,8 @@ export function SolarSkiaOverlay({
             key={prayer}
             polylines={byPrayer.get(prayer) ?? EMPTY}
             camera={camera}
-            drift={driftMerc}
+            renderNow={renderNow}
+            geometryNow={geometryNow}
             preview={preview}
             entranceEnabled={entranceEnabled}
             isNext={prayer === nextKey}
@@ -337,7 +338,8 @@ export function SolarSkiaOverlay({
           key={prayer}
           polylines={byPrayer.get(prayer) ?? EMPTY}
           camera={camera}
-          drift={driftMerc}
+          renderNow={renderNow}
+          geometryNow={geometryNow}
           preview={preview}
           entranceEnabled={entranceEnabled}
           isNext={prayer === nextKey}
@@ -364,6 +366,9 @@ export function SolarSkiaOverlay({
 
 const EMPTY: [number, number][][] = [];
 const NO_POINTS: readonly LonLat[] = [];
+const ORIGIN = { x: 0, y: 0 };
+/** Device pixels per dp, for the wash dither (washShader.ts). Fixed for the process. */
+const PIXEL_RATIO = PixelRatio.get();
 
 /** The reader's dot: its glow is 13 px (LocationLayer), cleared exactly, feathered — so the
  *  dot and its halo keep their own colour at every hour without a hard disc of daylight. */
@@ -461,7 +466,9 @@ function WashClearings({
   const speckHoles = useDerivedValue(() => {
     const cam = camera.get();
     const b = Skia.PathBuilder.Make();
-    if (atZoom(DUST_PRESENCE_STOPS, cam.zoom) <= 0) return b.detach();
+    // Closed (the map is moving) or past the speck tier: nothing to cut, so skip the
+    // per-mosque loop that would otherwise run on every frame of every pan.
+    if (open.get() <= 0 || atZoom(DUST_PRESENCE_STOPS, cam.zoom) <= 0) return b.detach();
     const r = atZoom(DUST_RADIUS_STOPS, cam.zoom) + SPECK_CLEAR_PAD;
     const ws = worldSize(cam.zoom);
     const cx = mercX(cam.lon);
@@ -500,9 +507,6 @@ const CROSSING_PRAYERS: PrayerKey[] = ['dhuhr', 'asr'];
 const DISSOLVE_PX = 28;
 const DISSOLVE_COLORS = ['black', 'transparent'];
 
-/** Drift ceiling (ms): slightly longer than one live tick; preview disables drift. */
-const MAX_DRIFT_MS = 45_000;
-
 /** Sweep-in reveal length. Long enough to read as a deliberate pour down the country
  *  (and to show the comet tip), short enough never to feel like a loading animation. */
 const REVEAL_MS = 950;
@@ -512,6 +516,19 @@ const TIP_SPAN = 0.085;
 
 /** Edge-fade stops for the boundary dash: solid through the middle 70 % of the screen. */
 const BOUNDARY_FADE_POSITIONS = [0, 0.15, 0.85, 1];
+
+/** Round caps grow each dash by strokeWidth/2, so the gap is widened to keep the airy
+ *  rhythm of the old butt-cap [4, 6]. */
+const DASH_INTERVALS = [3, 7];
+const DASH_PERIOD = 10;
+
+/** How far past the viewport a culled line still draws: the next line's halo (17 px wide,
+ *  blur 9) reaches about this far, so a vertex just offscreen still lights the edge. */
+const CULL_MARGIN_PX = 40;
+
+/** The last arrival whose bloom has played. Module-wide, so remounting the overlay (the map
+ *  lesson, a camera reset) does not replay a bloom the reader has already seen. */
+let lastBloomId: number | null = null;
 
 /** The arrival bloom: when a prayer's sweeping line reaches the user's city (its time
  *  arrives), one soft prayer-hued ring + inner glow radiate from the brass dot and
@@ -532,6 +549,8 @@ function ArrivalBloom({
 }) {
   const progress = useSharedValue(1);
   useEffect(() => {
+    if (lastBloomId === trigger) return;
+    lastBloomId = trigger;
     progress.set(0);
     progress.set(withTiming(1, { duration: 2400, easing: Easing.out(Easing.cubic) }));
   }, [trigger, progress]);
@@ -569,7 +588,8 @@ function ArrivalBloom({
 function PrayerLine({
   polylines,
   camera,
-  drift,
+  renderNow,
+  geometryNow,
   preview,
   entranceEnabled,
   isNext,
@@ -578,8 +598,10 @@ function PrayerLine({
 }: {
   polylines: LonLat[][];
   camera: SharedValue<Camera>;
-  /** UI-thread solar drift (normalised-Mercator x) — see driftMerc in the parent. */
-  drift: SharedValue<number>;
+  /** The instant being drawn, on the UI thread (useSolarRenderNow). */
+  renderNow: SharedValue<number>;
+  /** The instant `polylines` was traced for. */
+  geometryNow: number;
   preview: boolean;
   entranceEnabled: boolean;
   isNext: boolean;
@@ -596,9 +618,13 @@ function PrayerLine({
   // it in a ref avoids a second render for every active line on each live field update.
   const [rendered, setRendered] = useState(active);
   if (preview ? active !== rendered : active && !rendered) setRendered(active);
-  const retainedPolylines = useLastActiveGeometry(active, polylines);
+  const [retainedPolylines, retainedBuiltAt] = useLastActiveGeometry(active, polylines, geometryNow);
   const visible = preview ? active : rendered;
   const drawPolylines = visible ? (preview ? polylines : retainedPolylines) : EMPTY;
+  // A line fading out keeps the geometry it vanished with, so it keeps drifting from THAT
+  // contour's instant. Measured from the new geometryNow it jumped east by a tick's drift
+  // at the start of every fade — hundreds of pixels at city zoom.
+  const builtAt = preview ? geometryNow : retainedBuiltAt;
   const fade = useSharedValue(active ? 1 : 0);
   const reveal = useSharedValue(1);
   const entered = useSharedValue(false);
@@ -606,81 +632,56 @@ function PrayerLine({
   const entryEnd = useSharedValue(1);
   const reduceMotion = useReducedMotion();
   const animateEntrance = isNext && !preview && !reduceMotion;
+  // The comet tip is mounted only while a reveal runs: at rest its trim would still be
+  // applied to the whole next-prayer path on every redraw, at opacity 0.
+  const [tipLive, setTipLive] = useState(false);
 
-  // The lon/lat → normalised-Mercator half of the projection is camera-independent, so
-  // it runs ONCE per geometry change (here, JS thread) instead of per frame. The flat
-  // Float64Array keeps the per-frame worklet loop below allocation-free.
-  const merc = useMemo(
-    () =>
-      drawPolylines.map((line) => {
-        const arr = new Float64Array(line.length * 2);
-        // forEach visits each point without unchecked indexed reads or holes.
-        line.forEach((p, i) => {
-          arr[i * 2] = mercX(p[0]);
-          arr[i * 2 + 1] = mercY(p[1]);
-        });
-        return arr;
-      }),
-    [drawPolylines],
-  );
+  // The lon/lat → normalised-Mercator half of the projection is camera-independent, so it
+  // runs ONCE per geometry change (JS thread), shared with the pills and taps through
+  // lib/map/line-geometry. The flat Float64Arrays keep the per-frame worklets allocation-free.
+  const geometry = useMemo(() => lineGeometry(drawPolylines, builtAt), [drawPolylines, builtAt]);
+  const merc = geometry.merc;
 
   // Build the immutable native geometry once. Relative coordinates preserve much
   // more float32 precision than a path positioned near world-Mercator x = 0.5.
   const nativePath = useMemo(() => {
-    const originX = merc[0]?.[0] ?? 0;
-    const originY = merc[0]?.[1] ?? 0;
-    let radius = 0;
     const builder = Skia.PathBuilder.Make();
-    for (const line of merc) {
-      for (let i = 0; i < line.length; i += 2) {
-        const mx = line[i];
-        const my = line[i + 1];
-        if (mx === undefined || my === undefined) break;
-        const x = mx - originX;
-        const y = my - originY;
-        radius = Math.max(radius, Math.hypot(x, y));
+    for (const line of geometry.merc) {
+      for (let i = 0; i + 1 < line.length; i += 2) {
+        const x = line[i]! - geometry.originX;
+        const y = line[i + 1]! - geometry.originY;
         if (i === 0) builder.moveTo(x, y);
         else builder.lineTo(x, y);
       }
     }
-    return { path: builder.detach(), originX, originY, radius };
-  }, [merc]);
+    return builder.detach();
+  }, [geometry]);
+  const { originX, originY, radius } = geometry;
 
   // Pan/zoom/scrub/drift applies a native scale + translate where float32 is safe;
   // the close-zoom fallback projects the original doubles before handing them to Skia.
-  // `drift` adds the live solar glide: a westward x-shift at the sun's exact rate, so
+  // The drift adds the live solar glide: a westward x-shift at the sun's exact rate, so
   // the line keeps moving between the 30 s geometry rebuilds.
   const path = useDerivedValue(() => {
-    if (merc.length === 0) return nativePath.path;
+    if (merc.length === 0) return nativePath;
     const cam = camera.get();
     const ws = worldSize(cam.zoom);
-    const dx = drift.get();
-    const ox = cam.width / 2 - mercX(cam.lon) * ws;
-    const oy = cam.height / 2 - mercY(cam.lat) * ws;
+    const dx = solarDrift(renderNow.get(), builtAt, preview);
     const b = Skia.PathBuilder.Make();
-    const tx = cam.width / 2 + (nativePath.originX + dx - mercX(cam.lon)) * ws;
-    const ty = cam.height / 2 + (nativePath.originY - mercY(cam.lat)) * ws;
-    if (canTransformSolarPath(cam.zoom, ws, nativePath.radius, tx, ty)) {
+    const tx = cam.width / 2 + (originX + dx - mercX(cam.lon)) * ws;
+    const ty = cam.height / 2 + (originY - mercY(cam.lat)) * ws;
+    if (canTransformSolarPath(cam.zoom, ws, radius, tx, ty)) {
       // Transform the path in native Skia instead of crossing JSI for each vertex.
       // It is still in screen space: stroke widths, blur and reveal trims retain
-      // their existing semantics. High zoom uses the original Float64 loop below.
-      b.addPath(nativePath.path, Skia.Matrix().translate(tx, ty).scale(ws, ws));
+      // their existing semantics. High zoom uses the Float64 projection below.
+      b.addPath(nativePath, Skia.Matrix().translate(tx, ty).scale(ws, ws));
       return b.detach();
     }
-    for (const arr of merc) {
-      for (let i = 0; i < arr.length; i += 2) {
-        const mx = arr[i];
-        const my = arr[i + 1];
-        // Pairs by construction; breaking on a half-pair keeps a NaN out of the path.
-        // One NaN vertex costs the whole path, which here is every prayer line at once
-        // — the overlay would go blank rather than lose a line.
-        if (mx === undefined || my === undefined) break;
-        const x = (mx + dx) * ws + ox;
-        const y = my * ws + oy;
-        if (i === 0) b.moveTo(x, y);
-        else b.lineTo(x, y);
-      }
-    }
+    // Close in, the line spans far more than the screen, so only the segments near the
+    // viewport are handed to Skia — except while a reveal is trimming the path, when a
+    // trim fraction has to mean the same point of the line as it does on the full path.
+    const trimming = animateEntrance && entered.get() && reveal.get() < 1;
+    appendProjected(b, merc, cam, dx, CULL_MARGIN_PX, !trimming);
     return b.detach();
   });
 
@@ -690,7 +691,7 @@ function PrayerLine({
     if (!animateEntrance || entered.get()) return null;
     const cam = camera.get();
     const ws = worldSize(cam.zoom);
-    const ox = cam.width / 2 - mercX(cam.lon) * ws + drift.get() * ws;
+    const ox = cam.width / 2 - mercX(cam.lon) * ws + solarDrift(renderNow.get(), builtAt, preview) * ws;
     const oy = cam.height / 2 - mercY(cam.lat) * ws;
     const projected = merc.map((line) => {
       const points = new Array<number>(line.length);
@@ -718,9 +719,14 @@ function PrayerLine({
         entryEnd.set(range.end);
         entered.set(true);
         reveal.set(0);
+        scheduleOnRN(setTipLive, true);
+        // Finished or cut short by a scrub, the tip goes with the reveal.
         reveal.set(withTiming(1, {
           duration: REVEAL_MS,
           easing: Easing.inOut(Easing.cubic),
+        }, () => {
+          'worklet';
+          scheduleOnRN(setTipLive, false);
         }));
       }
     },
@@ -816,7 +822,7 @@ function PrayerLine({
         end={preview ? 1 : trimEnd}
       />
       {/* Comet tip — only luminous while the reveal is running (opacity hits 0 at 1). */}
-      {animateEntrance && (
+      {animateEntrance && tipLive && (
         <Path
           path={path}
           style="stroke"
@@ -843,12 +849,19 @@ function PrayerLine({
  * frame and therefore needs no state update of its own. Keeping the exception here lets
  * PrayerLine itself remain Compiler-optimized and removes six redundant state renders per
  * live contour refresh. */
-function useLastActiveGeometry(active: boolean, polylines: LonLat[][]): LonLat[][] {
+function useLastActiveGeometry(
+  active: boolean,
+  polylines: LonLat[][],
+  builtAt: number,
+): readonly [LonLat[][], number] {
   'use no memo';
   const lastGeom = useRef(polylines);
+  const lastBuiltAt = useRef(builtAt);
   useEffect(() => {
-    if (active) lastGeom.current = polylines;
-  }, [active, polylines]);
+    if (!active) return;
+    lastGeom.current = polylines;
+    lastBuiltAt.current = builtAt;
+  }, [active, polylines, builtAt]);
   // eslint-disable-next-line react-hooks/refs -- committed snapshot; invariant above
-  return active ? polylines : lastGeom.current;
+  return active ? [polylines, builtAt] : [lastGeom.current, lastBuiltAt.current];
 }

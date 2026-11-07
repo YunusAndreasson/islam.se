@@ -1,0 +1,16 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": ["scripts/**/*.{js,mjs}"],
+	"project": ["src/**/*.{ts,tsx}", "scripts/**/*.{js,mjs}", "plugins/**/*.js", "*.{js,ts}"],
+	"ignoreExportsUsedInFile": { "interface": true, "type": true },
+	"ignoreBinaries": ["rsvg-convert"],
+	"ignoreDependencies": [
+		"@expo/agent-cli",
+		"babel-plugin-react-compiler",
+		"expo-modules-autolinking",
+		"expo-modules-core",
+		"canvaskit-wasm",
+		"@maplibre/maplibre-gl-style-spec",
+		"geojson"
+	]
+}

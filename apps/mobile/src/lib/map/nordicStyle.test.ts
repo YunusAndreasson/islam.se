@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { validateStyleMin } from '@maplibre/maplibre-gl-style-spec';
 
-import { nordicMapStyleFor, NORDIC_DARK, NORDIC_LIGHT } from './nordicStyle';
+import { nordicMapStyleFor, nordicMapStyleJsonFor, NORDIC_DARK, NORDIC_LIGHT } from './nordicStyle';
 
 const SV_LABEL = ['coalesce', ['get', 'name:sv'], ['get', 'name:latin'], ['get', 'name']];
 
@@ -141,4 +141,13 @@ describe.each([
 it('resolves the basemap from the OS appearance alone', () => {
   expect(nordicMapStyleFor('light')).toBe(NORDIC_LIGHT);
   expect(nordicMapStyleFor('dark')).toBe(NORDIC_DARK);
+});
+
+// <Map> receives the pre-serialised string so it does not re-stringify the style on every
+// render. It must be THE SAME style: a stale or hand-edited string would ship a basemap the
+// object tests above never saw.
+it('hands the map the same style, serialised once', () => {
+  expect(JSON.parse(nordicMapStyleJsonFor('light'))).toEqual(NORDIC_LIGHT);
+  expect(JSON.parse(nordicMapStyleJsonFor('dark'))).toEqual(NORDIC_DARK);
+  expect(nordicMapStyleJsonFor('dark')).toBe(nordicMapStyleJsonFor('dark'));
 });

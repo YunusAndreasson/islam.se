@@ -3,6 +3,9 @@ const { defineConfig } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
 const globals = require('globals');
 
+const HERMES_V1_MISSING =
+  'Missing from the Hermes v1 VM RN 0.88 ships — typechecks and passes jest, crashes on device;';
+
 module.exports = defineConfig([
   expoConfig,
   {
@@ -60,7 +63,9 @@ module.exports = defineConfig([
       // A new PrayerKey, ThemePreference or NotificationSoundKey must be handled
       // everywhere it is switched on, not silently fall through to a default. The
       // unions here are small and long-lived, which is exactly when a missed arm goes
-      // unnoticed — it renders nothing rather than crashing.
+      // unnoticed — it renders nothing rather than crashing. Kept stricter than open-arabic's
+      // `considerDefaultExhaustiveForUnions: true` on purpose: with that option a `default`
+      // arm excuses a missing member, which is the fall-through this rule is here to stop.
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       // `a + b` where one side is not a number: in a codebase where nearly every value
       // is an epoch millisecond, a minute offset or a degree, string concatenation
@@ -75,6 +80,15 @@ module.exports = defineConfig([
       // interpolation ships to the device and is invisible in a unit test that only
       // checks the string is non-empty.
       '@typescript-eslint/no-base-to-string': 'error',
+      // Same reason, for the template literal: `${unknown}` or `${object}` renders as
+      // "[object Object]" in a lock-screen string or a Sentry title.
+      '@typescript-eslint/restrict-template-expressions': 'error',
+      // `throw 'text'` and `Promise.reject('text')` reach Sentry with no stack.
+      '@typescript-eslint/only-throw-error': 'error',
+      '@typescript-eslint/prefer-promise-reject-errors': 'error',
+      // `onPress={obj.method}` loses `this`. In tests a mock read off its object trips it
+      // too; say so inline there rather than turning the rule off.
+      '@typescript-eslint/unbound-method': 'error',
       // `delete arr[i]` leaves a HOLE rather than shortening the array — every later
       // index shifts nowhere and the read comes back undefined. Nearly always splice()
       // was meant.
@@ -109,6 +123,56 @@ module.exports = defineConfig([
       // `||` is load-bearing: with noUncheckedIndexedAccess an unknown error code reads
       // as undefined AND an empty message should fall back to the generic text. `??`
       // would let an empty string through as if it were a message.
+    },
+  },
+
+  // Hermes v1 guard (from open-arabic). TypeScript's ESNext lib types these and Jest runs
+  // them on Node, so a call passes both and then throws on device; `toSorted` already
+  // shipped that way once in open-arabic. App source only: tests and scripts run on Node.
+  // Deliberately absent because Hermes v1 has them: Object.groupBy, the ES2025 Set
+  // methods, String#isWellFormed, and structuredClone, which Expo's winter runtime
+  // polyfills.
+  {
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    ignores: ['**/*.test.ts', '**/*.test.tsx', 'src/__tests__/**'],
+    rules: {
+      'no-restricted-properties': [
+        'error',
+        // No `object`, so it matches every receiver, `a?.toSorted()` and
+        // `const { toSorted } = a` included.
+        { property: 'toSorted', message: `${HERMES_V1_MISSING} use [...array].sort().` },
+        {
+          object: 'Array',
+          property: 'fromAsync',
+          message: `${HERMES_V1_MISSING} use Promise.all() or a for await...of loop.`,
+        },
+        {
+          object: 'Map',
+          property: 'groupBy',
+          message: `${HERMES_V1_MISSING} build the Map in a loop (Object.groupBy is fine).`,
+        },
+        {
+          object: 'Promise',
+          property: 'try',
+          message: `${HERMES_V1_MISSING} use new Promise(resolve => resolve(fn())).`,
+        },
+      ],
+      'no-restricted-globals': [
+        'error',
+        { name: 'DisposableStack', message: `${HERMES_V1_MISSING} use try/finally.` },
+        { name: 'AsyncDisposableStack', message: `${HERMES_V1_MISSING} use try/finally.` },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "VariableDeclaration[kind='using']",
+          message: `\`using\`: ${HERMES_V1_MISSING} use try/finally.`,
+        },
+        {
+          selector: "VariableDeclaration[kind='await using']",
+          message: `\`await using\`: ${HERMES_V1_MISSING} use try/finally.`,
+        },
+      ],
     },
   },
 

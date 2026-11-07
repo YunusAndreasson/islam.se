@@ -1,5 +1,6 @@
 import type { ErrorBoundaryProps } from 'expo-router';
-import { useMemo } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -21,6 +22,13 @@ export function ErrorScreen({ error, retry }: ErrorBoundaryProps) {
   // Reporting the error is NOT this screen's job: app/_layout wraps it in Sentry's
   // expo-router boundary, which does that once per error. A capture here as well would send
   // every render crash twice.
+
+  // Hiding the splash IS. This screen renders in place of the root layout, so a throw on the
+  // first render unmounts SplashGate before it hides the splash, and its cleanup clears the
+  // safety-net timer too: the splash would cover this screen for good.
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <SafeAreaView style={styles.fill}>

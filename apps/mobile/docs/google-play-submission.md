@@ -131,14 +131,19 @@ From 1.1.0 a reader can also opt in to alarm-clock delivery (Påminnelser → »
 `AlarmManager.setAlarmClock`). It runs on the same exact-alarm permission and is off by default, so
 the declaration above stands as written; nothing new needs declaring for it.
 
-## ☐ 8. Promote and roll out
+## 8. Releases after the first
 
-Once internal testing looks good: promote the release to **Closed/Open testing** or **Production**.
-After the first manual upload, future versions go out with:
+Every release after the first manual upload goes out with one command:
 
 ```bash
 cd apps/mobile
-pnpm release patch                                  # bumps version + versionCode, commits + tags
-eas build -p android --profile production           # builds the AAB
-eas submit -p android --profile production --latest # uploads to the internal track
+pnpm release:check     # every preflight, no build
+pnpm release:android   # EAS build, then submit to Play production as a staged rollout
 ```
+
+`submit.production.android` in `eas.json` sends each release to the **production** track at
+`releaseStatus: "inProgress"`, so after review it reaches the `rollout` fraction of users (0.2),
+not everyone. The release preflight refuses a production submission that is not staged. Watch
+Sentry for the new release, then widen the rollout in the Play Console (Production → Releases →
+Manage rollout → Update rollout) or halt it there. A new submission replaces a rollout that is
+still in progress.

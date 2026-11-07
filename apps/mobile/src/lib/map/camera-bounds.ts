@@ -18,11 +18,14 @@ export type Bounds = [number, number, number, number];
  * open ocean and the reset chip was the only way home. A hard stop is kinder than a chip,
  * and cheaper — off-bounds panning still fetched tiles for a view nobody wants.
  *
- * WHY SO WIDE — this is sized against the SCREEN, not taste. maxBounds constrains the
- * viewport, so if the box is shorter than the visible map at CAMERA_MIN_ZOOM, MapLibre has
- * to clamp every frame and the map fights the finger. At z3 the tallest supported phone
- * (956 pt) shows 0.233 of the world vertically; this box spans 0.284, so it always has
- * room. Narrowing it means raising CAMERA_MIN_ZOOM to match — check both together.
+ * WHAT IT CONSTRAINS — the camera TARGET, not the viewport. Android passes it to
+ * setLatLngBoundsForCameraTarget, and iOS refuses any camera whose centre leaves the box
+ * (MLRNMapView's shouldChangeFromCamera). The visible map can therefore reach half a screen
+ * past every edge, which is why the box can be this tight on Sweden and still never clip it.
+ *
+ * WHY SO WIDE — sized so a box shorter than the screen can never trap the camera: at z3
+ * the tallest supported phone (956 pt) shows 0.233 of the world vertically; this box spans
+ * 0.284. Narrowing it means raising CAMERA_MIN_ZOOM to match — check both together.
  */
 export const CAMERA_MAX_BOUNDS: Bounds = [-20.0, 35.0, 60.0, 80.0];
 
@@ -32,7 +35,7 @@ export const CAMERA_MIN_ZOOM = 3;
 
 /** The Mercator world. Past ±85° the projection runs off to infinity and no basemap tile
  *  exists, so nothing outside this can be shown however wide a box asks for. */
-export const WORLD_BOUNDS: Bounds = [-180.0, -85.0, 180.0, 85.0];
+const WORLD_BOUNDS: Bounds = [-180.0, -85.0, 180.0, 85.0];
 
 /**
  * Grow a box by `lonPad`/`latPad` degrees on every side, clipped to the Mercator world.

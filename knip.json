@@ -20,5 +20,6 @@
 			"project": ["src/**/*.ts", "scripts/**/*.ts"]
 		}
 	},
-	"ignore": [".markdownlint-rules/**", "data/install-*.cjs"]
+	"ignore": [".markdownlint-rules/**", "data/install-*.cjs"],
+	"ignoreBinaries": ["expo"]
 }

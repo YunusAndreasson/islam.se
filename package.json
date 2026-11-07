@@ -8,6 +8,7 @@
 		"check:fix": "biome check --write .",
 		"lint:articles": "markdownlint-cli2 'data/articles/*.md'",
 		"knip": "knip",
+		"knip:mobile": "knip --directory apps/mobile --config ../../knip.mobile.json",
 		"lint:house": "python3 scripts/check-house-style.py --severity error data/svar/*.md data/fordjupning/*.md data/articles/*.md",
 		"lint:charts": "python3 scripts/check-chart-sources.py --offline data/svar/*.md data/fordjupning/*.md data/articles/*.md",
 		"lint:chrome": "python3 scripts/check-chrome-copy.py",

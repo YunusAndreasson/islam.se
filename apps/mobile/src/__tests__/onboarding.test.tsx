@@ -97,7 +97,7 @@ async function press(label: string): Promise<void> {
  *  The LAST registration is the live one: the effect re-subscribes on every step change,
  *  so an earlier call in the list belongs to a listener that has already been removed. */
 async function pressAndroidBack(): Promise<boolean> {
-  const calls = jest.mocked(BackHandler.addEventListener).mock.calls;
+  const calls = jest.mocked(BackHandler).addEventListener.mock.calls;
   const handler = calls.filter(([event]) => event === 'hardwareBackPress').at(-1)?.[1];
   if (!handler) throw new Error('no hardwareBackPress listener was registered');
   let answered = false;

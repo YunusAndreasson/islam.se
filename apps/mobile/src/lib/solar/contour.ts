@@ -77,97 +77,18 @@ export function marchingSquares(
       ) {
         continue;
       }
-      const vTL = cTL - level;
-      const vTR = cTR - level;
-      const vBR = cBR - level;
-      const vBL = cBL - level;
-      if (
-        Number.isNaN(vTL) ||
-        Number.isNaN(vTR) ||
-        Number.isNaN(vBR) ||
-        Number.isNaN(vBL)
-      ) {
-        continue;
-      }
-
-      // 4-bit case: each corner contributes a bit when it is above the level.
-      const code =
-        (vTL > 0 ? 8 : 0) + (vTR > 0 ? 4 : 0) + (vBR > 0 ? 2 : 0) + (vBL > 0 ? 1 : 0);
-      if (code === 0 || code === 15) continue;
-
-      // Only crossing cells need the spread check or any coordinate allocation.
-      // The cell spans more time than the lattice can honestly interpolate across (see
-      // maxSpread above). Skipped whole, so the line stops at the last resolved cell.
-      if (Math.max(vTL, vTR, vBR, vBL) - Math.min(vTL, vTR, vBR, vBL) > maxSpread) continue;
-
-      // Pass scalar corners directly: four per-cell edge closures made Babel wrap this
-      // entire inner loop in a function call on Android. Only the emitted crossing
-      // points need arrays; their interpolation and endpoint order remain unchanged.
-
-      switch (code) {
-        case 1: // BL
-        case 14:
-          segments.push([
-            crossing(lonL, latB, vBL, lonL, latT, vTL),
-            crossing(lonR, latB, vBR, lonL, latB, vBL),
-          ]);
-          break;
-        case 2: // BR
-        case 13:
-          segments.push([
-            crossing(lonR, latB, vBR, lonL, latB, vBL),
-            crossing(lonR, latT, vTR, lonR, latB, vBR),
-          ]);
-          break;
-        case 3: // BR+BL
-        case 12:
-          segments.push([
-            crossing(lonL, latB, vBL, lonL, latT, vTL),
-            crossing(lonR, latT, vTR, lonR, latB, vBR),
-          ]);
-          break;
-        case 4: // TR
-        case 11:
-          segments.push([
-            crossing(lonL, latT, vTL, lonR, latT, vTR),
-            crossing(lonR, latT, vTR, lonR, latB, vBR),
-          ]);
-          break;
-        case 6: // TR+BR
-        case 9:
-          segments.push([
-            crossing(lonL, latT, vTL, lonR, latT, vTR),
-            crossing(lonR, latB, vBR, lonL, latB, vBL),
-          ]);
-          break;
-        case 7: // not TL
-        case 8: // TL
-          segments.push([
-            crossing(lonL, latT, vTL, lonR, latT, vTR),
-            crossing(lonL, latB, vBL, lonL, latT, vTL),
-          ]);
-          break;
-        case 5: // saddle (TR+BL)
-          segments.push([
-            crossing(lonL, latT, vTL, lonR, latT, vTR),
-            crossing(lonL, latB, vBL, lonL, latT, vTL),
-          ]);
-          segments.push([
-            crossing(lonR, latB, vBR, lonL, latB, vBL),
-            crossing(lonR, latT, vTR, lonR, latB, vBR),
-          ]);
-          break;
-        case 10: // saddle (TL+BR)
-          segments.push([
-            crossing(lonL, latT, vTL, lonR, latT, vTR),
-            crossing(lonR, latT, vTR, lonR, latB, vBR),
-          ]);
-          segments.push([
-            crossing(lonR, latB, vBR, lonL, latB, vBL),
-            crossing(lonL, latB, vBL, lonL, latT, vTL),
-          ]);
-          break;
-      }
+      appendCellSegments(
+        segments,
+        lonL,
+        lonR,
+        latT,
+        latB,
+        cTL - level,
+        cTR - level,
+        cBR - level,
+        cBL - level,
+        maxSpread,
+      );
     }
   }
   return segments;
@@ -521,4 +442,112 @@ export function catmullRom(line: LonLat[], samples = 12): LonLat[] {
     }
   }
   return out;
+}
+
+/**
+ * One cell of the marching-squares pass: appends the segment(s) where the field crosses
+ * zero inside the cell whose corners hold `vTL…vBL` (already relative to the level), or
+ * nothing. Shared by marchingSquares and the indexed contour in solar/field, so the two
+ * cannot disagree about a single crossing — the indexed path only chooses WHICH cells to
+ * visit, never what a visited cell produces.
+ */
+export function appendCellSegments(
+  segments: Segment[],
+  lonL: number,
+  lonR: number,
+  latT: number,
+  latB: number,
+  vTL: number,
+  vTR: number,
+  vBR: number,
+  vBL: number,
+  maxSpread: number,
+): void {
+  if (
+    Number.isNaN(vTL) ||
+    Number.isNaN(vTR) ||
+    Number.isNaN(vBR) ||
+    Number.isNaN(vBL)
+  ) {
+    return;
+  }
+
+  // 4-bit case: each corner contributes a bit when it is above the level.
+  const code =
+    (vTL > 0 ? 8 : 0) + (vTR > 0 ? 4 : 0) + (vBR > 0 ? 2 : 0) + (vBL > 0 ? 1 : 0);
+  if (code === 0 || code === 15) return;
+
+  // Only crossing cells need the spread check or any coordinate allocation.
+  // The cell spans more time than the lattice can honestly interpolate across (see
+  // maxSpread on marchingSquares). Skipped whole, so the line stops at the last resolved cell.
+  if (Math.max(vTL, vTR, vBR, vBL) - Math.min(vTL, vTR, vBR, vBL) > maxSpread) return;
+
+  // Pass scalar corners directly: four per-cell edge closures made Babel wrap this
+  // entire inner loop in a function call on Android. Only the emitted crossing
+  // points need arrays; their interpolation and endpoint order remain unchanged.
+
+  switch (code) {
+    case 1: // BL
+    case 14:
+      segments.push([
+        crossing(lonL, latB, vBL, lonL, latT, vTL),
+        crossing(lonR, latB, vBR, lonL, latB, vBL),
+      ]);
+      break;
+    case 2: // BR
+    case 13:
+      segments.push([
+        crossing(lonR, latB, vBR, lonL, latB, vBL),
+        crossing(lonR, latT, vTR, lonR, latB, vBR),
+      ]);
+      break;
+    case 3: // BR+BL
+    case 12:
+      segments.push([
+        crossing(lonL, latB, vBL, lonL, latT, vTL),
+        crossing(lonR, latT, vTR, lonR, latB, vBR),
+      ]);
+      break;
+    case 4: // TR
+    case 11:
+      segments.push([
+        crossing(lonL, latT, vTL, lonR, latT, vTR),
+        crossing(lonR, latT, vTR, lonR, latB, vBR),
+      ]);
+      break;
+    case 6: // TR+BR
+    case 9:
+      segments.push([
+        crossing(lonL, latT, vTL, lonR, latT, vTR),
+        crossing(lonR, latB, vBR, lonL, latB, vBL),
+      ]);
+      break;
+    case 7: // not TL
+    case 8: // TL
+      segments.push([
+        crossing(lonL, latT, vTL, lonR, latT, vTR),
+        crossing(lonL, latB, vBL, lonL, latT, vTL),
+      ]);
+      break;
+    case 5: // saddle (TR+BL)
+      segments.push([
+        crossing(lonL, latT, vTL, lonR, latT, vTR),
+        crossing(lonL, latB, vBL, lonL, latT, vTL),
+      ]);
+      segments.push([
+        crossing(lonR, latB, vBR, lonL, latB, vBL),
+        crossing(lonR, latT, vTR, lonR, latB, vBR),
+      ]);
+      break;
+    case 10: // saddle (TL+BR)
+      segments.push([
+        crossing(lonL, latT, vTL, lonR, latT, vTR),
+        crossing(lonR, latT, vTR, lonR, latB, vBR),
+      ]);
+      segments.push([
+        crossing(lonR, latB, vBR, lonL, latB, vBL),
+        crossing(lonL, latB, vBL, lonL, latT, vTL),
+      ]);
+      break;
+  }
 }

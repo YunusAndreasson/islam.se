@@ -23,6 +23,7 @@ import { CAMERA_MAX_BOUNDS, expandBounds } from '@/lib/map/camera-bounds';
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import {
+  appendCellSegments,
   catmullRom,
   chainSegments,
   labelPlacement,
@@ -284,6 +285,170 @@ function nearestOccurrence(at: number, now: number): number {
   return Math.abs(d) > FIELD_WINDOW_MS ? Number.NaN : d;
 }
 
+/** A day's cells for one prayer, ordered by the earliest instant each could carry its line. */
+interface CellIndex {
+  /** Time of day (ms, 0 ≤ lo < DAY_MS) of each cell's earliest corner, ascending. */
+  lo: Float64Array;
+  /** How long after `lo` the cell's latest corner falls (ms, ≤ FIELD_MAX_SPREAD_MS). */
+  span: Float64Array;
+  /** Row-major cell number (i · (columns − 1) + j) of each entry. */
+  cell: Int32Array;
+}
+
+const CELL_INDEX = new WeakMap<SolarGrid, Map<PrayerKey, CellIndex>>();
+
+/** a − b as a time of day, folded into (−½ day, ½ day]. */
+function circularDiff(a: number, b: number): number {
+  let d = (a - b) % DAY_MS;
+  if (d > HALF_DAY_MS) d -= DAY_MS;
+  else if (d <= -HALF_DAY_MS) d += DAY_MS;
+  return d;
+}
+
+/**
+ * Which cells can ever carry `prayer`'s line, and when. Built once per day's grid (the grid
+ * cache hands every scrub step the same object, so the WeakMap holds it for exactly as long
+ * as the day is cached).
+ *
+ * A cell only yields a crossing when its four corners straddle zero and lie within
+ * FIELD_MAX_SPREAD_MS of each other, so every corner is then within that hour of `now`. The
+ * corners' times relative to the top-left one (folded as a day, so a cell whose corners sit on
+ * different calendar dates near the date line still reads as the hour it is) therefore fix a
+ * short interval of the day outside which the cell is always silent — and a cell whose
+ * corners span more than the hour is silent at every instant and is left out.
+ */
+function cellIndexFor(grid: SolarGrid, prayer: PrayerKey): CellIndex {
+  let perPrayer = CELL_INDEX.get(grid);
+  if (!perPrayer) {
+    perPrayer = new Map();
+    CELL_INDEX.set(grid, perPrayer);
+  }
+  const hit = perPrayer.get(prayer);
+  if (hit) return hit;
+
+  const { lats, lons, pt } = grid;
+  const cols = lons.length - 1;
+  const entries: { lo: number; span: number; cell: number }[] = [];
+  for (let i = 0; i + 1 < lats.length; i++) {
+    const rowT = pt[i];
+    const rowB = pt[i + 1];
+    if (!rowT || !rowB) continue;
+    for (let j = 0; j < cols; j++) {
+      const tl = rowT[j]?.[prayer];
+      const tr = rowT[j + 1]?.[prayer];
+      const br = rowB[j + 1]?.[prayer];
+      const bl = rowB[j]?.[prayer];
+      if (tl === undefined || tr === undefined || br === undefined || bl === undefined) continue;
+      if (!Number.isFinite(tl) || !Number.isFinite(tr) || !Number.isFinite(br) || !Number.isFinite(bl)) continue;
+      const dTR = circularDiff(tr, tl);
+      const dBR = circularDiff(br, tl);
+      const dBL = circularDiff(bl, tl);
+      const min = Math.min(0, dTR, dBR, dBL);
+      const span = Math.max(0, dTR, dBR, dBL) - min;
+      if (span > FIELD_MAX_SPREAD_MS) continue;
+      let lo = (tl + min) % DAY_MS;
+      if (lo < 0) lo += DAY_MS;
+      entries.push({ lo, span, cell: i * cols + j });
+    }
+  }
+  entries.sort((a, b) => a.lo - b.lo);
+  const index: CellIndex = {
+    lo: Float64Array.from(entries, (e) => e.lo),
+    span: Float64Array.from(entries, (e) => e.span),
+    cell: Int32Array.from(entries, (e) => e.cell),
+  };
+  perPrayer.set(prayer, index);
+  return index;
+}
+
+/** First position in the ascending `values` holding a value ≥ `x`. */
+function lowerBound(values: Float64Array, x: number): number {
+  let lo = 0;
+  let hi = values.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    if (values[mid]! < x) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
+
+/** The ms of slack around the candidate test: it may admit a cell that then yields nothing
+ *  (the exact per-cell test below decides), never miss one to floating-point rounding. */
+const CANDIDATE_SLACK_MS = 1;
+
+/**
+ * `prayer`'s level-0 crossings at `now` — exactly the segments marchingSquares returns over
+ * the field `nearestOccurrence(time, now)` with FIELD_MAX_SPREAD_MS, in the same order, but
+ * visiting only the cells whose interval can contain `now` instead of all ~5,800.
+ *
+ * WHY: buildLines runs on every scrub step. Filling a whole field per prayer and walking
+ * every cell cost ~34,000 cell visits per step for lines that cross a few hundred cells,
+ * and it was the largest app-owned cost of a scrub in the device profile (2026-11-07).
+ */
+export function contourAt(grid: SolarGrid, prayer: PrayerKey, now: number): Segment[] {
+  const { lats, lons, pt } = grid;
+  const cols = lons.length - 1;
+  const index = cellIndexFor(grid, prayer);
+  let t = now % DAY_MS;
+  if (t < 0) t += DAY_MS;
+  // Every candidate's lo lies in [t − maxSpread, t] on the clock face; walk that arc, in
+  // one or two runs where it wraps past midnight.
+  const from = t - FIELD_MAX_SPREAD_MS - CANDIDATE_SLACK_MS;
+  const to = t + CANDIDATE_SLACK_MS;
+  const runs: [number, number][] =
+    from < 0
+      ? [[from + DAY_MS, DAY_MS], [0, to]]
+      : to >= DAY_MS
+        ? [[from, DAY_MS], [0, to - DAY_MS]]
+        : [[from, to]];
+  const hits: number[] = [];
+  for (const [a, b] of runs) {
+    for (let k = lowerBound(index.lo, a); k < index.lo.length && index.lo[k]! <= b; k++) {
+      const into = circularDiff(t, index.lo[k]!);
+      if (into >= -CANDIDATE_SLACK_MS && into <= index.span[k]! + CANDIDATE_SLACK_MS) hits.push(index.cell[k]!);
+    }
+  }
+  // marchingSquares' row-major order, so chaining and label placement see the same input.
+  hits.sort((a, b) => a - b);
+
+  const segments: Segment[] = [];
+  for (const cell of hits) {
+    const i = (cell / cols) | 0;
+    const j = cell - i * cols;
+    const tl = pt[i]![j]![prayer];
+    const tr = pt[i]![j + 1]![prayer];
+    const br = pt[i + 1]![j + 1]![prayer];
+    const bl = pt[i + 1]![j]![prayer];
+    appendCellSegments(
+      segments,
+      lons[j]!,
+      lons[j + 1]!,
+      lats[i]!,
+      lats[i + 1]!,
+      nearestOccurrence(tl, now),
+      nearestOccurrence(tr, now),
+      nearestOccurrence(br, now),
+      nearestOccurrence(bl, now),
+      FIELD_MAX_SPREAD_MS,
+    );
+  }
+  return segments;
+}
+
+/**
+ * The same crossings the plain way: the whole field filled, every cell walked. This was
+ * buildLines' path until contourAt; it stays as the reference contourAt is tested against
+ * (field.props.test.ts), not for the app to call.
+ */
+export function contourByFullScan(grid: SolarGrid, prayer: PrayerKey, now: number): Segment[] {
+  const field = grid.pt.map((row) =>
+    // NaN for a hole, which marchingSquares reads as "no data".
+    row.map((cell) => (cell ? nearestOccurrence(cell[prayer], now) : Number.NaN)),
+  );
+  return marchingSquares(grid.lats, grid.lons, field, 0, FIELD_MAX_SPREAD_MS);
+}
+
 /**
  * The sweeping prayer lines: for each prayer, the level-0 contour of
  * (prayerTime − now). A line only exists where that prayer is crossing the map at
@@ -300,36 +465,12 @@ export function buildLines(
   avoid?: LonLat,
   prayers: readonly PrayerKey[] = PRAYER_ORDER,
 ): SolarLines {
-  const { lats, lons, pt } = grid;
   const features: Feature<MultiLineString, { prayer: PrayerKey }>[] = [];
   const labels: PrayerLineLabel[] = [];
-  // One scratch buffer reused across all six prayers instead of a fresh number[][]
-  // per prayer. buildLines re-runs on every scrub frame (clock.now changes as the
-  // user drags the day slider), so collapsing six grid allocations per call into one
-  // reused buffer cuts the per-frame GC churn — same values, marchingSquares reads
-  // each fill synchronously before the next prayer overwrites it.
-  const field: number[][] = lats.map(() => new Array<number>(lons.length));
   for (const prayer of prayers) {
-    for (let i = 0; i < pt.length; i++) {
-      const row = pt[i];
-      const frow = field[i];
-      // `field` is sized from `lats` while this walks `pt`; the two come off the same
-      // axes, so a missing row means the grid is malformed rather than merely polar.
-      if (!row || !frow) continue;
-      for (let j = 0; j < row.length; j++) {
-        const cell = row[j];
-        // Written UNCONDITIONALLY — NaN for a hole rather than leaving the slot alone.
-        // Today the two are equivalent: a hole is a whole missing PointTimes, so it is
-        // a hole for all six prayers and no stale value can survive a pass. The
-        // unconditional form is what keeps that true if the shape ever changes, since
-        // `field` is one buffer shared by every prayer (see above) and a slot left
-        // untouched would carry the previous prayer's value into this one's contour —
-        // a line drawn at a moment nobody's day contains. NaN is what marchingSquares
-        // already reads as "no data".
-        frow[j] = cell ? nearestOccurrence(cell[prayer], now) : Number.NaN;
-      }
-    }
-    const segments: Segment[] = marchingSquares(lats, lons, field, 0, FIELD_MAX_SPREAD_MS);
+    // The level-0 contour of nearestOccurrence(time, now), visiting only the cells that
+    // can carry it at this instant (see contourAt).
+    const segments: Segment[] = contourAt(grid, prayer, now);
     if (segments.length === 0) continue;
     // Chain the raw cell segments into paths; de-noise the coarse-grid waviness
     // (smoothChain) and then fit a smooth interpolating curve through each (centripetal

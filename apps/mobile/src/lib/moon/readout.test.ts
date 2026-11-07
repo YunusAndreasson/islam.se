@@ -26,6 +26,7 @@ const base: MoonNotesInput = {
   hilal: null,
   eclipse: null,
   fullMoonHijriDay: 14,
+  hijriMonth: 2,
   time,
   date,
 };
@@ -281,5 +282,17 @@ describe('Swedish typography', () => {
     expect(moonNotes({ ...base, date: (d) => String(d.getUTCDate()) })[1]).toMatchObject({
       text: expect.stringMatching(/\d\.$/),
     });
+  });
+});
+
+describe('moonNotes — the month', () => {
+  it('keeps the notes that belong to a whole month in the almanac', () => {
+    const shawwal = moonNotes({ ...base, hijriMonth: 10 }).find((n) => /Shawwāl/.test(n.text));
+    expect(shawwal?.tier).toBe('almanac');
+    expect(textOf({ hijriMonth: 9 })).toContain('Laylat al-qadr söks i de udda nätterna bland de tio sista.');
+  });
+
+  it('adds nothing in a month without one', () => {
+    expect(textOf({ hijriMonth: 2 }).some((t) => /Shawwāl|Laylat/.test(t))).toBe(false);
   });
 });

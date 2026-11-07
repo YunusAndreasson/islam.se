@@ -42,6 +42,8 @@ import type { ColorSchemeName } from 'react-native';
 
 import { darkPalette, lightPalette } from '@/theme/tokens';
 
+import { slotLayers } from './layer-slots';
+
 // EXPO_PUBLIC_* env vars are inlined into the JS bundle at build/OTA time, so this
 // resolves once at module load. Empty/undefined => OpenFreeMap fallback (no key
 // required); any non-empty value => MapTiler.
@@ -101,7 +103,7 @@ export interface BasemapPalette {
   URBAN: string;
   /** Country names (faint). */
   FAINT_INK: string;
-  /** Place labels (towns/villages from the tiles, not the curated city overlay). */
+  /** Place labels (towns and villages, from the tiles). */
   PLACE_INK: string;
   /** Sea/lake italic labels. */
   WATER_INK: string;
@@ -439,7 +441,7 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         },
       },
 
-      // --- Area labels from the tiles, then our own city overlay on top ---
+      // --- Area and place labels, all from the tiles ---
 
       // Sea & lake names: cool italic, no Cyrillic.
       {
@@ -513,9 +515,9 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
             1,
             ['+', 10, ['coalesce', ['get', 'rank'], 99]],
           ],
-          // Name sits OFF the place point (atlas-style), never centred on it: the RN
-          // overlay draws the user's brass dot AT the chosen city's coordinates, and
-          // it can't join the basemap's symbol collision — a centred label put the
+          // Name sits OFF the place point (atlas-style), never centred on it: LocationLayer
+          // draws the user's dot AT the chosen city's coordinates, and a circle layer
+          // can't join the basemap's symbol collision — a centred label put the
           // dot mid-word ("Stoc●holm"). Every anchor listed here holds the point clear
           // at `text-radial-offset` ems, so that invariant survives whichever one wins.
           // `center` must never appear in this list; it is the bug.
@@ -541,7 +543,7 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
 
       // Smaller Swedish towns and villages — fill in as you zoom into a region.
       // OpenMapTiles first emits towns at z7. Giving the two requested towns first
-      // placement priority keeps that regional view useful without a curated overlay.
+      // placement priority keeps that regional view useful.
       {
         id: 'label_town',
         type: 'symbol',
@@ -566,7 +568,7 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
           ],
           // Same off-the-point anchoring as label_city (see there): the user can pick
           // ANY town from the places list, so every place label keeps its point clear
-          // for the overlay's location dot. This layer benefits most from the variable
+          // for the reader's location dot. This layer benefits most from the variable
           // anchor — towns and villages crowd each other at z9-z12 in a way cities
           // never do at country zoom.
           'text-variable-anchor': ['bottom', 'top', 'left', 'right'],
@@ -626,6 +628,10 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
           'text-opacity': ['interpolate', ['linear'], ['zoom'], 5, 0.7, 9, 0.95],
         },
       },
+
+      // The app's own layers are inserted beneath these invisible placeholders, one each,
+      // so their stack no longer depends on mount order (see layer-slots.ts). Always last.
+      ...slotLayers(),
     ],
   } as unknown as StyleSpecification;
 }
@@ -642,6 +648,17 @@ export const NORDIC_DARK: StyleSpecification = buildStyle(DARK, 'Nordic Calm —
     rewriting that style or bolting on a second label layer. Appearance is the only axis. */
 export function nordicMapStyleFor(scheme: ColorSchemeName): StyleSpecification {
   return scheme === 'dark' ? NORDIC_DARK : NORDIC_LIGHT;
+}
+
+const NORDIC_LIGHT_JSON = JSON.stringify(NORDIC_LIGHT);
+const NORDIC_DARK_JSON = JSON.stringify(NORDIC_DARK);
+
+/** The same style, serialised once at module load. `<Map>` stringifies an object
+ *  `mapStyle` on EVERY render (Map.tsx's nativeProps memo depends on the whole props
+ *  object), and this screen renders on every clock tick and scrub step; a string passes
+ *  straight through. Native receives the identical JSON either way. */
+export function nordicMapStyleJsonFor(scheme: ColorSchemeName): string {
+  return scheme === 'dark' ? NORDIC_DARK_JSON : NORDIC_LIGHT_JSON;
 }
 
 /** The basemap's own land colour — the flat ground every other layer is drawn over.

@@ -9,7 +9,7 @@ Usage: ./scripts/eas-release.sh [--check] [ios|android|all]
 
   --check  Run every local preflight without starting an EAS build.
   ios      Build and auto-submit to TestFlight.
-  android  Build and auto-submit to the configured Play testing track.
+  android  Build and auto-submit to Play production as a staged rollout (fraction in eas.json).
   all      Build and auto-submit both platforms (default).
 EOF
 }
@@ -69,6 +69,11 @@ for (const platform of selected) {
   }
   if (platform === 'android' && !config.track) {
     throw new Error('submit.production.android.track is required for non-interactive Play submission');
+  }
+  // A production submission reaches every Android user at once unless it is staged.
+  // Widen or halt the rollout in the Play Console once the release looks healthy.
+  if (platform === 'android' && config.track === 'production' && config.releaseStatus !== 'inProgress') {
+    throw new Error('submit.production.android must be a staged rollout (releaseStatus "inProgress" with a rollout fraction)');
   }
   if (platform === 'android' && !config.serviceAccountKeyPath) {
     throw new Error('submit.production.android.serviceAccountKeyPath is required for non-interactive Play submission');

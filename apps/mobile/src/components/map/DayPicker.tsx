@@ -10,7 +10,7 @@
 // Moon phases remain equally legible for past and future dates; only past numerals are muted.
 //
 // A modal sheet owns Back, outside-tap dismissal and accessibility focus while open.
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
 
@@ -131,7 +131,45 @@ export function hijriSpan(grid: MonthGrid, offsetDays = 0): string {
  *  lower-case month, because there it sits mid-sentence ("3 september 2026, i morgon"). */
 const heading = (title: string): string => title.charAt(0).toUpperCase() + title.slice(1);
 
-export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClose }: Props) {
+/**
+ * The month sheet over the map. Mounted while `open`, and for one fade after it closes: the
+ * Modal has to outlive its content, or the sheet's exit animation has nothing to play in.
+ * The dock used to unmount the whole picker on close, so the sheet and its backdrop vanished
+ * in one frame while the fade-out written for them never ran. Closed, this renders nothing
+ * and builds no month.
+ */
+export function DayPicker({ open = true, onClose, ...rest }: Props & { open?: boolean }) {
+  const c = useColors();
+  const insets = useSafeAreaInsets();
+  const styles = useMemo(() => makeStyles(c), [c]);
+  const reduceMotion = useReducedMotion();
+  const [present, setPresent] = useState(open);
+  // Opening is adopted in render (no frame of nothing), and so is closing when there is no
+  // fade to wait for; otherwise closing waits out the fade below.
+  if (open && !present) setPresent(true);
+  if (!open && present && reduceMotion) setPresent(false);
+  useEffect(() => {
+    if (open || !present) return;
+    const timer = setTimeout(() => setPresent(false), motion.fast);
+    return () => clearTimeout(timer);
+  }, [open, present, reduceMotion]);
+  if (!present) return null;
+  return (
+    // Back during the fade-out must not close it a second time.
+    <Modal transparent visible onRequestClose={open ? onClose : undefined} statusBarTranslucent animationType="none">
+      <View
+        style={[
+          styles.modalRoot,
+          { paddingBottom: insets.bottom + space.sm, paddingTop: insets.top + space.sm },
+        ]}
+      >
+        {open && <DayPickerSheet {...rest} onClose={onClose} />}
+      </View>
+    </Modal>
+  );
+}
+
+function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose }: Props) {
   const c = useColors();
   // The sheet opens out of the dock and sits in its slot over the map, so its ground is the
   // dock's — the sky-tinted surface every card on the map shares (theme/skyChrome) — not
@@ -174,132 +212,132 @@ export function DayPicker({ dayStart, todayStart, hijriOffset = 0, onPick, onClo
   };
 
   return (
-    <Modal transparent visible onRequestClose={onClose} statusBarTranslucent animationType="none">
-      <View
-        style={[
-          styles.modalRoot,
-          { paddingBottom: insets.bottom + space.sm, paddingTop: insets.top + space.sm },
-        ]}
+    <>
+      {/* The dim fades with the sheet, both ways, instead of cutting in and out under it. */}
+      <Animated.View
+        style={styles.backdrop}
+        entering={reduceMotion ? undefined : FadeIn.duration(motion.fast)}
+        exiting={reduceMotion ? undefined : FadeOut.duration(motion.fast)}
       >
         <Pressable
-          style={styles.backdrop}
+          style={StyleSheet.absoluteFill}
           onPress={onClose}
           accessible={false}
           testID="calendar-backdrop"
         />
-        <Animated.View
-          entering={reduceMotion ? undefined : FadeIn.duration(motion.fast)}
-          exiting={reduceMotion ? undefined : FadeOut.duration(motion.fast)}
-          style={[styles.wrap, { maxHeight: height - insets.top - insets.bottom - 2 * space.sm }]}
-          accessibilityViewIsModal
-        >
-          <GlassSurface style={styles.sheet} borderRadius={radius.xl} tint={sky.surface}>
-            <ScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
-              <View style={[styles.head, compact && styles.headStacked]}>
-                <View style={[styles.titleBlock, compact && styles.titleBlockStacked]}>
-                  <Text style={styles.title} accessibilityRole="header">
-                    {heading(grid.title)}
-                  </Text>
-                  <Text style={styles.hijri}>
-                    {hijriSpan(grid, hijriOffset)}
-                  </Text>
-                </View>
-                <View style={styles.controls}>
-                  <StepperPill
-                    onStep={monthStep}
-                    canStepBack={canPageBack}
-                    canStepForward={canPageForward}
-                    backLabel="Föregående månad"
-                    forwardLabel="Nästa månad"
-                  />
+      </Animated.View>
+      <Animated.View
+        entering={reduceMotion ? undefined : FadeIn.duration(motion.fast)}
+        exiting={reduceMotion ? undefined : FadeOut.duration(motion.fast)}
+        style={[styles.wrap, { maxHeight: height - insets.top - insets.bottom - 2 * space.sm }]}
+        accessibilityViewIsModal
+      >
+        <GlassSurface style={styles.sheet} borderRadius={radius.xl} tint={sky.surface}>
+          <ScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
+            <View style={[styles.head, compact && styles.headStacked]}>
+              <View style={[styles.titleBlock, compact && styles.titleBlockStacked]}>
+                <Text style={styles.title} accessibilityRole="header">
+                  {heading(grid.title)}
+                </Text>
+                <Text style={styles.hijri}>
+                  {hijriSpan(grid, hijriOffset)}
+                </Text>
+              </View>
+              <View style={styles.controls}>
+                <StepperPill
+                  onStep={monthStep}
+                  canStepBack={canPageBack}
+                  canStepForward={canPageForward}
+                  backLabel="Föregående månad"
+                  forwardLabel="Nästa månad"
+                />
+                <Pressable
+                  onPress={onClose}
+                  accessibilityRole="button"
+                  accessibilityLabel="Stäng kalendern"
+                  // The disc is 36; the slop takes it to a 44 target on every side but the
+                  // pill's, which is the neighbour it must not steal from.
+                  hitSlop={{ top: 4, bottom: 4, right: 4 }}
+                  style={({ pressed }) => [styles.close, pressed && styles.pressed]}
+                >
+                  <Icon name="close" size={20} color={c.inkMuted} />
+                </Pressable>
+              </View>
+            </View>
+
+            <View style={styles.weekRow}>
+              {WEEKDAYS.map((w) => (
+                <Text key={w} style={styles.weekday}>
+                  {w}
+                </Text>
+              ))}
+            </View>
+
+            <View style={styles.grid}>
+              {grid.cells.map((day, i) => {
+                if (day == null) {
+                  // Blanks: before the 1st, and after the last out to the fixed six rows.
+                  // Keyed by index because they carry no identity of their own; they are pure
+                  // layout — an empty cell holds the grid's height, nothing more.
+                  // biome-ignore lint/suspicious/noArrayIndexKey: padding cells have no id
+                  return <View key={`pad-${i}`} style={styles.cell} />;
+                }
+                const selected = day === dayStart;
+                const isToday = day === todayStart;
+                const outOfRange = day < minDay || day > maxDay;
+                const label = zoneParts(day).d;
+                const phase = moonPhaseAt(new Date(day + 12 * 60 * 60 * 1000));
+                return (
                   <Pressable
-                    onPress={onClose}
+                    key={day}
+                    disabled={outOfRange}
+                    onPress={() => {
+                      // Picking one day from the grid is a selection (class 3), like
+                      // PlacePicker's city — the tick lands before the sheet closes.
+                      hapticSelection();
+                      onPick(day);
+                    }}
                     accessibilityRole="button"
-                    accessibilityLabel="Stäng kalendern"
-                    // The disc is 36; the slop takes it to a 44 target on every side but the
-                    // pill's, which is the neighbour it must not steal from.
-                    hitSlop={{ top: 4, bottom: 4, right: 4 }}
-                    style={({ pressed }) => [styles.close, pressed && styles.pressed]}
+                    // The spoken label carries the relative day too, so a screen-reader user
+                    // hears "14 — om 12 dagar" rather than a bare number with no anchor.
+                    accessibilityLabel={`${label} ${grid.title}, ${relativeDayLabel(
+                      Math.round((day - todayStart) / 86_400_000),
+                    )}`}
+                    accessibilityState={{ selected, disabled: outOfRange }}
+                    // Distinct cells: expanding hit slop would select neighboring days.
+                    style={({ pressed }) => [styles.cell, pressed && styles.pressed]}
                   >
-                    <Icon name="close" size={20} color={c.inkMuted} />
+                    <View style={[styles.dayBubble, selected && styles.daySelected]}>
+                      <Text
+                        numberOfLines={1}
+                        adjustsFontSizeToFit
+                        style={[
+                          styles.dayText,
+                          day < todayStart && styles.dayPast,
+                          isToday && styles.dayMarked,
+                          selected && styles.daySelectedText,
+                          outOfRange && styles.off,
+                        ]}
+                      >
+                        {label}
+                      </Text>
+                      {isToday && !selected ? <View pointerEvents="none" style={styles.dayToday} /> : null}
+                    </View>
+                    <MoonDisc
+                      staticIcon
+                      size={MOON_PX}
+                      illumination={phase.illumination}
+                      tilt={almanacTilt(phase.phaseAngle < 180)}
+                      {...ink}
+                    />
                   </Pressable>
-                </View>
-              </View>
-
-              <View style={styles.weekRow}>
-                {WEEKDAYS.map((w) => (
-                  <Text key={w} style={styles.weekday}>
-                    {w}
-                  </Text>
-                ))}
-              </View>
-
-              <View style={styles.grid}>
-                {grid.cells.map((day, i) => {
-                  if (day == null) {
-                    // Blanks: before the 1st, and after the last out to the fixed six rows.
-                    // Keyed by index because they carry no identity of their own; they are pure
-                    // layout — an empty cell holds the grid's height, nothing more.
-                    // biome-ignore lint/suspicious/noArrayIndexKey: padding cells have no id
-                    return <View key={`pad-${i}`} style={styles.cell} />;
-                  }
-                  const selected = day === dayStart;
-                  const isToday = day === todayStart;
-                  const outOfRange = day < minDay || day > maxDay;
-                  const label = zoneParts(day).d;
-                  const phase = moonPhaseAt(new Date(day + 12 * 60 * 60 * 1000));
-                  return (
-                    <Pressable
-                      key={day}
-                      disabled={outOfRange}
-                      onPress={() => {
-                        // Picking one day from the grid is a selection (class 3), like
-                        // PlacePicker's city — the tick lands before the sheet closes.
-                        hapticSelection();
-                        onPick(day);
-                      }}
-                      accessibilityRole="button"
-                      // The spoken label carries the relative day too, so a screen-reader user
-                      // hears "14 — om 12 dagar" rather than a bare number with no anchor.
-                      accessibilityLabel={`${label} ${grid.title}, ${relativeDayLabel(
-                        Math.round((day - todayStart) / 86_400_000),
-                      )}`}
-                      accessibilityState={{ selected, disabled: outOfRange }}
-                      // Distinct cells: expanding hit slop would select neighboring days.
-                      style={({ pressed }) => [styles.cell, pressed && styles.pressed]}
-                    >
-                      <View style={[styles.dayBubble, selected && styles.daySelected]}>
-                        <Text
-                          numberOfLines={1}
-                          adjustsFontSizeToFit
-                          style={[
-                            styles.dayText,
-                            day < todayStart && styles.dayPast,
-                            isToday && styles.dayMarked,
-                            selected && styles.daySelectedText,
-                            outOfRange && styles.off,
-                          ]}
-                        >
-                          {label}
-                        </Text>
-                        {isToday && !selected ? <View pointerEvents="none" style={styles.dayToday} /> : null}
-                      </View>
-                      <MoonDisc
-                        staticIcon
-                        size={MOON_PX}
-                        illumination={phase.illumination}
-                        tilt={almanacTilt(phase.phaseAngle < 180)}
-                        {...ink}
-                      />
-                    </Pressable>
-                  );
-                })}
-              </View>
-            </ScrollView>
-          </GlassSurface>
-        </Animated.View>
-      </View>
-    </Modal>
+                );
+              })}
+            </View>
+          </ScrollView>
+        </GlassSurface>
+      </Animated.View>
+    </>
   );
 }
 

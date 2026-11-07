@@ -42,7 +42,12 @@ export function MoonNoteRow({
   compactText?: string;
 }) {
   const styles = makeStyles(c);
-  const mark = <MoonDisc size={BULLET} illumination={note.moon} tilt={almanacTilt(note.waxing)} {...ink} />;
+  // `staticIcon`: native views, not a Skia canvas. The almanac sheet animates in with a
+  // dozen of these, and canvases inside an animating sheet are the blank-surface case
+  // MoonDisc warns about. The screen's rows use the same mark, so the two never differ.
+  const mark = (
+    <MoonDisc size={BULLET} illumination={note.moon} tilt={almanacTilt(note.waxing)} {...ink} staticIcon />
+  );
   const displayText = compactText ?? note.text;
 
   if (!onPress) {

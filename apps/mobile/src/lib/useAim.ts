@@ -19,8 +19,11 @@ import {
   type AimTurn,
   aimProximity,
   aimTurn,
+  CALIBRATION_COLD,
+  type CalibrationGate,
   deriveAimStatus,
   headingReliable,
+  holdCalibration,
   normalizeHeading,
   shortestTurn,
 } from './aim';
@@ -189,6 +192,11 @@ export interface Aim {
   hasReading: boolean;
 }
 
+/** The foreground permission: asked for (a prompt) or only checked. */
+function readLocationPermission(ask: boolean): Promise<Location.LocationPermissionResponse> {
+  return ask ? Location.requestForegroundPermissionsAsync() : Location.getForegroundPermissionsAsync();
+}
+
 export function useAim({ active, request, bearing, countTurn = true }: AimOptions): Aim {
   // The coarse status and the rounded remaining turn are the ONLY heading-derived things
   // that reach React. The raw degree never does: `watchHeadingAsync` fires up to ~60×/s and
@@ -225,6 +233,9 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
   // "wrong at first, then right" warm-up — so we don't trust it for the lock.
   const headingRef = useRef<number | null>(null);
   const accRef = useRef<number | null>(null);
+  // The calibration hysteresis (lib/aim holdCalibration): `accRef` holds the level it lets
+  // through, not the raw one, so the lock, the warmth and the count all read one gate.
+  const calibration = useRef<CalibrationGate>(CALIBRATION_COLD);
   const lastRaw = useRef(0);
   const unwrapped = useRef(0);
   const lastTurnPush = useRef(0);
@@ -297,8 +308,12 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
   );
 
   const onHeading = useCallback(
-    (raw: number, acc: number | null) => {
+    (raw: number, rawAcc: number | null) => {
       const norm = normalizeHeading(raw);
+      // performance.now(): an interval, immune to the wall clock stepping (see applyReading).
+      const held = holdCalibration(calibration.current, rawAcc, performance.now());
+      calibration.current = held.gate;
+      const acc = held.accuracy;
       // Accumulate the SHORT signed turn so the rose unwraps (eases across the 0/360 seam)
       // rather than spinning the long way; the running total drives the UI-thread rotation.
       unwrapped.current += shortestTurn(lastRaw.current, norm);
@@ -365,16 +380,17 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
       onHeading(raw, acc);
     };
 
+    // Read before the try: the React Compiler cannot lower a conditional inside a try block
+    // and would skip the whole hook over it. The IIFE starts synchronously, so it is the
+    // same moment either way.
+    const askForPermission = request || askedManually.current;
     // Errors are handled inside; `void` marks the IIFE as intentionally floating.
     void (async () => {
       try {
         // Heading needs the foreground location permission on both platforms. Branch on the
         // result rather than relying on watchHeadingAsync to throw, so a denial shows the
         // north-up fallback immediately instead of waiting out the no-event timeout.
-        const perm =
-          request || askedManually.current
-            ? await Location.requestForegroundPermissionsAsync()
-            : await Location.getForegroundPermissionsAsync();
+        const perm = await readLocationPermission(askForPermission);
         if (cancelled) return;
         if (!perm.granted) {
           permissionDeniedRef.current = true;
@@ -419,6 +435,7 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
       // the measurement that justified it removed.
       headingRef.current = null;
       accRef.current = null;
+      calibration.current = CALIBRATION_COLD;
       statusRef.current = AIM_COLD;
       setStatus(AIM_COLD);
       setTurn(null);

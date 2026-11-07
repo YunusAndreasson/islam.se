@@ -59,8 +59,9 @@
 // where its mosque is, and it is mounted from the start rather than on selection — see the
 // ⚠️ at the layer itself for why that is what keeps it BENEATH the glyph.
 //
-// DRAW ORDER. Both sources are appended after every basemap layer, so these draw above the
-// basemap's own labels. That is not the same thing as winning a COLLISION: MapLibre Native
+// DRAW ORDER. Every layer here is inserted beneath its own placeholder at the end of the
+// basemap style (lib/map/layer-slots), so these draw above the basemap's own labels in a
+// fixed order, whenever they mount. That is not the same thing as winning a COLLISION: MapLibre Native
 // has collided symbols across sources since v4.0, so mosque glyphs and town labels already
 // keep out of each other's way, and which one yields is decided by MapLibre's placement
 // order — which we have NOT verified against the native renderer. If mosque names start
@@ -78,7 +79,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ImageSourcePropType, NativeSyntheticEvent } from 'react-native';
 
 import { hapticLight } from '@/lib/haptics';
-import { DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS, zoomExpression } from '@/lib/map/dust';
+import { DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS, GLYPH_PRESENCE_STOPS, zoomExpression } from '@/lib/map/dust';
+import { slotFor } from '@/lib/map/layer-slots';
 import { type Mosque, mosqueForPress, toFeatureCollection } from '@/lib/mosques';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 import { useFeatureSelection } from './useFeatureSelection';
@@ -219,6 +221,7 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0 }: Props) 
             work once the crossfade has handed off to the glyphs (opacity already 0 by then). */}
         <Layer
           id={DUST_LAYER_ID}
+          beforeId={slotFor('mosque-dust')}
           type="circle"
           maxzoom={8}
           paint={{
@@ -238,15 +241,13 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0 }: Props) 
             stroke: the fill stays fully transparent so the basemap and the wash read through
             it, and it never becomes a second dot.
         
-            ⚠️ ALWAYS MOUNTED, with a transparent stroke when no card is open — never conditionally
-            rendered. A layer added at runtime is APPENDED to the top of the style
-            (MLRNLayer.add() calls style.addLayer with no anchor, and MLRNMapView.layerAdded
-            does no reordering), so a ring that mounted on selection would paint OVER the
-            mosque glyph and its label halo instead of around them. Mounting it with the rest
-            of the style is what makes the declaration order above hold at runtime. Native
-            feature state reveals only the selected ring without changing the layer filter. */}
+            ALWAYS MOUNTED, with a transparent stroke when no card is open: native feature
+            state reveals only the selected ring, so a selection neither mounts a layer nor
+            changes a filter. Its place beneath the glyph comes from its slot
+            (lib/map/layer-slots), not from when it mounted. */}
         <Layer
           id={SELECTED_LAYER_ID}
+          beforeId={slotFor('mosque-selected')}
           type="circle"
           paint={{
             'circle-opacity': 0,
@@ -263,6 +264,7 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0 }: Props) 
         {icon && (
           <Layer
             id={LAYER_ID}
+            beforeId={slotFor('mosque-symbols')}
             type="symbol"
             minzoom={7}
             layout={{
@@ -299,7 +301,7 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0 }: Props) 
             }}
             paint={{
               // Fade the glyph in as it enters, and keep it a touch soft — quiet, not loud.
-              'icon-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.7, 9, 0.95],
+              'icon-opacity': zoomExpression(GLYPH_PRESENCE_STOPS) as never,
               'text-color': c.ink,
               // Halo in the ground colour (parchment / navy) so the name reads over the
               // solar wash — the same trick the basemap's own town labels use.

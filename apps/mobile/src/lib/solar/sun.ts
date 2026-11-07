@@ -112,15 +112,33 @@ export function sunPositionDeg(
   };
 }
 
+/** The same altitude and hour angle from the inputs the wash shader receives as uniforms:
+ *  UTC minutes of day plus the date's declination and equation of time. The shader test
+ *  derives each pixel's expected colour through this, so shader and twin share one input. */
+export function sunPositionFrom(
+  latDeg: number,
+  lonDeg: number,
+  utcMin: number,
+  declRad: number,
+  eotMin: number,
+): { altDeg: number; haDeg: number } {
+  return {
+    altDeg: altitudeFrom(latDeg, lonDeg, utcMin, declRad, eotMin),
+    haDeg: hourAngleFrom(lonDeg, utcMin, eotMin),
+  };
+}
+
 /** NOAA true solar time → hour angle in degrees, 0 at solar noon, + through the afternoon,
- *  normalised to [−180, 180). Mirrored in WASH_SKSL. */
+ *  normalised to [−180, 180). Mirrored in buildWashSksl (washShader.ts). */
 function hourAngleFrom(lonDeg: number, utcMin: number, eotMin: number): number {
   const tst = utcMin + eotMin + 4 * lonDeg; // true solar time, minutes (4 min per ° east)
   const ha = tst / 4 - 180;
   return ha - 360 * Math.floor((ha + 180) / 360);
 }
 
-/** NOAA true-solar-time → hour angle → altitude. Mirrored in WASH_SKSL. */
+/** NOAA true-solar-time → hour angle → altitude. Mirrored in buildWashSksl (washShader.ts),
+ *  which reaches the same sine of altitude through sin/cos of latitude taken straight from
+ *  Mercator y; washShader.test.ts holds the two to the same pixels. */
 function altitudeFrom(
   latDeg: number,
   lonDeg: number,
