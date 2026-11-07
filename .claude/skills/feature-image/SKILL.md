@@ -71,6 +71,10 @@ What they have rejected, each once (memory files hold the detail):
   everyone facing it (the user caught a bier standing in a gap in the row). Ritual dress
   and gestures as they are done. No crosses, no generated script or calligraphy (it comes
   out as gibberish), no Shia or Sufi ritual.
+- **The qibla.** From Sweden Mecca lies to the south-east. Anyone praying faces that way,
+  and the light must agree: the midnight sun is due north, a winter sunset south-west. A
+  man praying towards the midnight sun was facing away from Mecca (Bönen, 2026-11-07); the
+  edit turned him to face the camera with the sun behind him.
 - **A photograph, not a render.** Film grain, real skin and cloth, imperfect surfaces.
   No plastic skin, HDR, over-smoothing, teal-and-orange grade.
 - **Clean.** No text, logo or watermark; look at the bottom-right corner at full size for
