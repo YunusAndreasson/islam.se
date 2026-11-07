@@ -5,7 +5,7 @@ description: "Islams källor ställer nästan inga krav på en moskébyggnad; he
 seoDescription: "Vad en moské är enligt Koranen och rättsskolorna, minaretens historia, och vad svensk lag säger om böneutrop, bygglov och moskéns ställning."
 blurb: "Lermuren i Medina, källarlokalen i Rosengård och de tre böneutropstillstånden"
 publishedAt: "2026-08-15T00:00:00Z"
-updatedAt: "2026-10-11T00:00:00Z"
+updatedAt: "2026-11-07T00:00:00Z"
 keywords:
   - "vad är en moské"
   - "moské betydelse ordet masjid"
@@ -228,7 +228,7 @@ data:
   Övriga motiv: 67 | 52
 ```
 
-Imamutbildningsutredningen avstyrkte 2009 en statlig imamutbildning med motiveringen att en statlig auktorisation av vissa religiösa ledare skulle innebära inblandning i inre församlingsangelägenheter, trots att 84 procent av de tillfrågade imamerna ville ha vidareutbildning, främst i svenska, juridik och samhällskunskap.[^53] Bönetiderna är i Sverige en fiqh-fråga av eget slag, eftersom solen sommartid aldrig sjunker tillräckligt långt under horisonten för att gryningsbönen och nattbönen ska kunna bestämmas på vanligt sätt. Sveriges imamråd behandlade 2013 en fatwa som norr om latitud 66 grader hänvisar till Malmös tider, med stöd i regeln att svårighet medför lättnad.[^54] Olika svenska moskéer följer olika beräkningar, vilket innebär att inte ens böneutropets klockslag är enhetligt.
+Imamutbildningsutredningen avstyrkte 2009 en statlig imamutbildning med motiveringen att en statlig auktorisation av vissa religiösa ledare skulle innebära inblandning i inre församlingsangelägenheter, trots att 84 procent av de tillfrågade imamerna ville ha vidareutbildning, främst i svenska, juridik och samhällskunskap.[^53] [Bönetiderna](/fordjupning/bonen/) är i Sverige en fiqh-fråga av eget slag, eftersom solen sommartid aldrig sjunker tillräckligt långt under horisonten för att gryningsbönen och nattbönen ska kunna bestämmas på vanligt sätt. Sveriges imamråd behandlade frågan 2013 och publicerade 2014 en fatwa som från Boden och norrut hänvisar till Malmös tider, med stöd i regeln att svårighet medför lättnad.[^54] Olika svenska moskéer följer olika beräkningar, vilket innebär att inte ens böneutropets klockslag är enhetligt.
 
 ## Innan moskén: bönehus och synagoga i svensk idéhistoria
 
@@ -362,7 +362,7 @@ Två påståenden i debatten är rena sakfel. Europadomstolen har aldrig prövat
 
 [^53]: SOU 2009:52, *Staten och imamerna. Religion, integration, autonomi*, särskild utredare Erik Amnå.
 
-[^54]: Islamiska Förbundet i Sverige, fatwa om bönetiderna och fastan i nordiska länder, behandlad av Sveriges imamråd i Göteborg den 11–12 maj 2013.
+[^54]: Islamiska Förbundet i Sverige, fatwa om bönetiderna och fastan i nordiska länder, behandlad av Sveriges imamråd i Göteborg den 11–12 maj 2013 och publicerad 24 juni 2014.
 
 [^55]: Konventikelplakatet, svenskspråkiga Wikipedia, med uppgifter om giltighetstiden 1726–1858 och de efterföljande förordningarna.
 

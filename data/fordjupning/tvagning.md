@@ -5,7 +5,7 @@ description: "Tvagningen är den mest detaljreglerade av islams vardagshandlinga
 seoDescription: "Wudu, ghusl och tayammum: vad Koranen och haditherna säger, hur rättsskolorna skiljer sig åt, och hur reglerna möter svensk rätt och svensk praxis."
 blurb: "Rituell renhet är något annat än hygien, och därför räcker handfatet på jobbet inte alltid"
 publishedAt: "2026-08-03T00:00:00Z"
-updatedAt: "2026-10-17T00:00:00Z"
+updatedAt: "2026-11-07T00:00:00Z"
 keywords:
   - "tvagning islam"
   - "wudu hur gör man"
@@ -70,7 +70,7 @@ essays:
 imageAlt: "Man som tvättar ansiktet vid ett handfat, med dimma över en skogssjö utanför fönstret"
 ---
 
-**Tvagning** är den rituella rening en muslim utför före bönen, och den finns i tre former: wudu, den lilla tvagningen av händer, mun, näsa, ansikte, underarmar, huvud och fötter; ghusl, tvättningen av hela kroppen; och tayammum, strykningen med ren jord när vatten saknas eller inte kan användas. Alla tre står i en enda mening i Koranens femte sura, vers 6.
+**Tvagning** är den rituella rening en muslim utför före [bönen](/fordjupning/bonen/), och den finns i tre former: wudu, den lilla tvagningen av händer, mun, näsa, ansikte, underarmar, huvud och fötter; ghusl, tvättningen av hela kroppen; och tayammum, strykningen med ren jord när vatten saknas eller inte kan användas. Alla tre står i en enda mening i Koranens femte sura, vers 6.
 
 Svenska framställningar av ämnet beskriver ofta tvagningen som hygien med religiös inramning. I den klassiska rättsläran skiljs däremot *hadath*, det rituella tillstånd som tvagningen häver, från *khabath*, den fysiska smutsen. En nyduschad person utan wudu får inte be. En person som utfört wudu och sedan fått jord på handen får det. Ibn Rushd inleder sitt kapitel om ämnet med just den uppdelningen. Den förklarar också varför två motsatta svenska omdömen om saken bygger på samma missförstånd: både det välvilliga "islam är ju en hygienisk religion" och det avvisande "de tvättar fötterna i handfatet" läser en juridisk statusförändring som en tvättning.
 
