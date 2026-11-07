@@ -6,8 +6,8 @@ qualityScore: 8.6
 description: "Ibn Qayyim berättar om en kvinna som stod i bön om nätterna, eftersom bönen förskönar ansiktet. Skönhetsindustrin säljer brist och lovar ett ansikte som aldrig blir färdigt. Den skönhet hon talade om går inte att köpa."
 audioFile: "nattbonens-ansikte.mp3"
 audioDuration: 636
-imageAlt: "Kvinna i sjal knäböjer i bön vid en fotogenlampa i ett dunkelt rum om natten, med en uppslagen bok på bordet."
-imageCaption: "Hon vaknar i mörkret för att be – nattbönen som förskönar ansiktet."
+imageAlt: "En gammal oval spegel på väggen i ett kalt sovrum i gryningsljus. I spegeln syns inget ansikte, bara bönemattan på golvet bakom med ett vikt vitt bönekläde på, och bredvid spegeln står en byrå av trä."
+imageCaption: "Spegeln visar inget ansikte, bara platsen där hon står i bön om natten."
 category: "Själen"
 ---
 Mitt i natten vaknar en kvinna. Inte för att sminka sig – för att be. Hon står i timmar, knäböjer, reser sig, medan världen sover.

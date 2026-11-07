@@ -15,7 +15,8 @@ REPO=$(git -C "$(dirname "$0")" rev-parse --show-toplevel)
 IMG=$REPO/apps/web/src/assets/images
 # The pictures the user approved as the register to match (2026-11-07). Change the list
 # when they approve others; four is enough, more pulls Codex towards copying.
-REFS=(nattbonens-ansikte.webp fordjupning/aktenskap.webp samma-stjarnhimmel.webp fordjupning/doden.webp)
+# The lamplit night prayer lives on as the Bönen card (fakta/); the essay now has the mirror.
+REFS=(fakta/sa-ber-man-steg-for-steg.webp fordjupning/aktenskap.webp samma-stjarnhimmel.webp fordjupning/doden.webp)
 PARALLEL=5
 
 run_dir() { mkdir -p "$WORK/$1"; echo "$WORK/$1"; }
