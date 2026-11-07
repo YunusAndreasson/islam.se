@@ -77,6 +77,10 @@ What they have rejected, each once (memory files hold the detail):
   edit turned him to face the camera with the sun behind him.
 - **A photograph, not a render.** Film grain, real skin and cloth, imperfect surfaces.
   No plastic skin, HDR, over-smoothing, teal-and-orange grade.
+- **Hold the pictures already on the site to the same gates.** On 2026-11-07 the lamplit
+  night prayer the user had kept since October had a small cross on the wall behind the
+  praying woman, and Änglarna and Förutbestämmelsen carried generated pseudo-Arabic. Zoom
+  into every picture in a set you review, kept ones included; fix by edit.
 - **Clean.** No text, logo or watermark; look at the bottom-right corner at full size for
   the generator's sparkle mark (one of six carried it in October).
 
