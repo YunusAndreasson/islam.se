@@ -3,7 +3,7 @@ title: "Vad är Eid al-Fitr och Eid al-Adha?"
 question: "Vad är Eid al-Fitr och Eid al-Adha?"
 description: "Islam har två årliga högtider. Eid al-Fitr avslutar fastemånaden Ramadan, Eid al-Adha infaller mitt under vallfärden hajj. Var och en avslutar sin pelare, och innebörderna skiljer sig."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-10-30T00:00:00Z"
+updatedAt: "2026-11-06T00:00:00Z"
 keywords:
   - "eid al-fitr"
   - "eid al-adha"
@@ -76,6 +76,6 @@ I praktiken slaktas ett får, en get, en ko eller en kamel enligt halalreglerna.
 
 ## Hur firar man Eid?
 
-Båda högtiderna börjar likadant. Man tvättar sig (*ghusl*), tar på sina bästa kläder och beger sig till eid-bönen, gärna på öppen plats, och upprepar *takbīr* med hög röst på vägen. Före Eid al-Fitr ges zakat al-fitr, ett mått (*sāʿ*) baslivsmedel, "på varje muslim, slav eller fri, man eller kvinna, ung eller gammal" och "innan folket går ut till bönen" (Sahīh al-Bukhārī 1503). Efteråt hälsar man varandra med "Eid mubarak" eller den äldre formeln "taqabbala Allāhu minnā wa minkum". Resten av dagarna fylls av mat, gåvor till barnen och besök hos släkt, sjuka och ensamma.
+Båda högtiderna börjar likadant. Man tvättar sig (*ghusl*), tar på sina bästa kläder och beger sig till eid-bönen, gärna på öppen plats, och upprepar *takbīr* med hög röst på vägen. Före Eid al-Fitr ges zakat al-fitr, ett mått (*sāʿ*) baslivsmedel, "på varje muslim, slav eller fri, man eller kvinna, ung eller gammal" och "innan folket går ut till bönen" (Sahīh al-Bukhārī 1503). Efteråt hälsar man varandra med "Eid mubarak" eller den äldre formeln "taqabbala Allāhu minnā wa minkum". Resten av dagarna fylls av mat, gåvor till barnen och besök hos släkt, sjuka och ensamma. När Abū Bakr ville tysta två flickor som slog på [daff](/svar/ar-musik-haram/) hos ʿĀʾisha under dagarna i Minā, sade profeten: "Låt dem vara, Abū Bakr, för detta är högtidsdagar" (Sahīh al-Bukhārī 987).
 
 ![Hundratals män står i långa rader på färggranna bönemattor ute på en sandslätt i låg morgonsol, med berg i bakgrunden och långa skuggor framför sig.](../../apps/web/src/assets/images/inline/eid-bon-sanddyner-parangkusumo-2022.webp "Eid-bön på sanddynerna vid Parangkusumo söder om Yogyakarta, morgonen den 9 juli 2022, vid offerhögtiden.")

@@ -3,7 +3,7 @@ title: "Hur ser islam på äktenskap? Ett avtal inför vittnen"
 question: "Hur ser islam på äktenskap?"
 description: "Äktenskapet i islam är inget sakrament utan ett bindande avtal och en del av profetens sunna. Vad nikah kräver, varför celibat avvisas och vad syftet är."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-09-25T00:00:00Z"
+updatedAt: "2026-11-06T00:00:00Z"
 keywords:
   - "hur ser islam på äktenskap"
   - "äktenskap i islam"
@@ -53,7 +53,7 @@ För de flesta är äktenskap inte en plikt (*wājib*) utan en stark rekommendat
 
 ## Vad krävs för ett giltigt äktenskap (nikah)?
 
-Ett giltigt *nikāh* kräver några fasta beståndsdelar: båda parternas samtycke, en *walī* (målsman som företräder bruden), minst två vittnen, en *mahr* till bruden samt ett uttalat anbud och godtagande (*ījāb* och *qabūl*). Eftersom samtycket är ett villkor är ett påtvingat äktenskap ogiltigt. Vittnena gör förbundet offentligt; islam känner inga hemliga förbindelser. *Mahr* är inte ett brudpris utan en gåva som blir kvinnans egen egendom och hennes ekonomiska trygghet. De fyra rättsskolorna (*madhāhib*) skiljer sig i detaljerna; hanafiterna tillåter exempelvis en vuxen kvinna att själv ingå avtalet. Profeten lärde att det mest välsignade äktenskapet är det som kostar minst.
+Ett giltigt *nikāh* kräver några fasta beståndsdelar: båda parternas samtycke, en *walī* (målsman som företräder bruden), minst två vittnen, en *mahr* till bruden samt ett uttalat anbud och godtagande (*ījāb* och *qabūl*). Eftersom samtycket är ett villkor är ett påtvingat äktenskap ogiltigt. Vittnena gör förbundet offentligt; islam känner inga hemliga förbindelser. Bröllopet ska också höras: "Det som skiljer det förbjudna från det tillåtna är daffen och rösten" (Jāmiʿ at-Tirmidhī 1088), och [ramtrumman *daff*](/svar/ar-musik-haram/) är tillåten vid bröllop även enligt de lärda som förbjuder andra instrument. *Mahr* är inte ett brudpris utan en gåva som blir kvinnans egen egendom och hennes ekonomiska trygghet. De fyra rättsskolorna (*madhāhib*) skiljer sig i detaljerna; hanafiterna tillåter exempelvis en vuxen kvinna att själv ingå avtalet. Profeten lärde att det mest välsignade äktenskapet är det som kostar minst.
 
 ## Vad är äktenskapets syfte i islam?
 
