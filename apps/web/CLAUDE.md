@@ -53,6 +53,11 @@ becomes a 404. Never deploy the output of `build:fast`.
 
 Read `../../DESIGN.md` before changing anything a reader sees.
 
+Pictures have three makers, each a skill: the photographs that open essays, essäserier
+and Fördjupning pages (and are their cards) come from `feature-image`; the site's own
+engraved drawings from `ritning`; documentary photographs inside a text from
+`article-photographs`.
+
 ## Content checks
 
 The texts under `../../data/` are held by the checkers in `../../scripts/`. They all run
