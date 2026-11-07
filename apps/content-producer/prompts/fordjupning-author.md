@@ -44,7 +44,10 @@ tolvimamsläran som fick stå obesvarat genom hela sidan).
 **Ingress**, ingen rubrik, 2–3 stycken, ~180–260 ord. Första meningen definierar
 huvudtermen i fetstil: `**Term** är …`. Den meningen är det AI-översikten extraherar, så
 den ska vara fullständig och stå för sig själv. Ingressen ska också, redan här, säga vad
-tvisten om ämnet egentligen handlar om.
+tvisten om ämnet egentligen handlar om. ⚠️ Det som Koranen och sunnan har avgjort, och det
+de lärda är eniga om, står som avgjort: tvisten är bara det de lärda faktiskt är oense om.
+Gör aldrig sunnan till en tvistefråga (bönen, 2026-11: utkastet öppnade »Tvisten gäller
+tre saker. Den första är var femtalet kommer ifrån«).
 
 Därefter sju `##`-avsnitt i denna ordning, med ordbudget:
 
@@ -95,6 +98,9 @@ eller motsvarande har en svensk idéhistoria är ett **faktum värt att redovisa
 inte ett försvar för den islamiska hållningen. Skriv beskrivande historia, aldrig analogi
 som argument. Varje mening som glider över i »se, ni gjorde ju samma sak« ska bort. Falsk
 ekvivalens förstör sidans trovärdighet snabbare än något annat fel du kan göra.
+**Säg uttryckligen var parallellen tar slut**, med en mening som skiljer den svenska
+företeelsen från den islamiska plikten (bönen: »Likheten med salat stannar vid ordet«).
+Utan den läser läsaren parallellen som ett argument.
 
 ⚠️ **Korpusen är svenskSPRÅKIG, inte svensk.** Runeberg, Minna Canth, Topelius och Zacharias
 Topelius skrev på svenska men var finländare — Runeberg är Finlands nationalskald. Presentera
@@ -164,6 +170,10 @@ bekräftelse av en madhhab (»EU-rätten ligger närmast al-Shāfiʿīs linje«)
 ekvivalens åt andra hållet. På AI-sidan (2026-09) strök både granskaren och
 prosakritikern en sådan passage.
 
+⚠️ **En fatwa på två språk läses på båda.** Imamrådets fatwa 2014 säger olika saker om
+zon 2 i den arabiska och den svenska texten. Redovisa skillnaden och citera båda, i stället
+för att välja den ena tyst.
+
 ## 4. Husets språkregler — bindande
 
 - Tankstreck i prosa är mellanslagat en-streck » – «. Em-streck **endast** i
@@ -181,6 +191,10 @@ prosakritikern en sådan passage.
 - Skriv **aldrig** »athari«/»athariska« i läsartexten — för teknisk skolterminologi.
   Namnge de lärda i stället.
 - Bara riktig svenska (SAOL). Inga nybildningar: »kännetecken«, inte »kärnmärke«.
+- **Tabeller skrivs som ` ```table `-fence** med `source`, `caption` och vid behov `note`,
+  aldrig som pipe-tabell. En pipe-tabell kan inte bära någon källa, faller tyst bort ur
+  PDF-boken och får ingen egen scrollruta i mobil (bönen, 2026-11: två pipe-tabeller fick
+  göras om för hand). Syntaxen står i `apps/web/src/lib/table/spec.ts`; högst fem kolumner.
 - »omkring två miljarder« om ummans storlek.
 
 ## 5. AI-tics — räkna innan du lämnar texten
@@ -199,6 +213,7 @@ tre och fick rättas för hand. Byt mot »och inte«, »framför«, »mer än«,
 
 Undvik också: organiska metaforer som redan är utnötta (träd, rot, gren, frukt, *ryggrad*),
 formeln »vilar på *tawhid*«, och uppradad kvalifikation (»inte bara … utan också …«).
+»Skarp/skarpare/skarpaste« som förstärkningsord har budget noll.
 
 ## 6. Frontmatter
 
@@ -236,8 +251,13 @@ formeln »vilar på *tawhid*«, och uppradad kvalifikation (»inte bara … utan
   författare och kapitel, utan länk om du inte öppnat det), eller ett fatwaorgan vars sida
   du faktiskt har läst (IIFA, al-ibadah.com, islamqa). Sekundärlitteratur *om* islam räknas
   inte. `scripts/check-claim-sourcing.py` fäller varje rättsligt påstående utan sådan källa.
-  ⚠️ Korpusen (`books.db`) innehåller **inga furūʿ al-fiqh-verk** — bara taṣawwuf, ʿaqīda,
-  hadith och adab. Sök alltså rätten på webben; leta den inte i korpusbriefen.
+  ⚠️ Korpusen (`books.db`) bär de klassiska furūʿ-verken: *al-Mughnī*, *al-Majmūʿ*,
+  *al-Umm*, *al-Hidāya*, *Bidāyat al-mujtahid* och *al-Muwattaʾ*. En rättsskolas hållning
+  hämtas ur skolans **egen** bok med `search_books` och anges med band:sida; en senare
+  lärds sammanfattning av alla fyra är hans referat och tillskrivs honom. Lyft aldrig en
+  dom ur korpusbriefens semantiska träffar, och hämta samtida avgöranden från fatwaorganet
+  du faktiskt har läst. (Raden här sade tidigare att korpusen saknar furūʿ-verk. Det var
+  fel och styrde författaren bort från skolornas egna böcker.)
 - `related`: endast slugs ur den tillåtna svarslistan. `essays`: endast ur essälistan.
   Är du osäker, lämna listan tom — en död slug kraschar bygget.
 
@@ -276,4 +296,6 @@ blankrad, sedan den svenska markdown-brödtexten. Börja utdata med den öppnand
 ```
 
 Målet är 2 800–4 500 ord i brödtexten. Under 2 200 ord underkänns automatiskt. Men fyll
-inte ut: strukturen ger längden, inte ordräknaren.
+inte ut: strukturen ger längden, inte ordräknaren. Taket gäller också: över 4 500 är en
+rubrikmiss. Bönen kom in på 5 348 ord prosa och fick skäras med tusen för hand, mest
+upprepningar och bakgrund som spokes redan har.

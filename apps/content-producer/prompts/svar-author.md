@@ -196,6 +196,33 @@ sources actually return. If you cannot verify a specific reference, leave it out
   section has made its point, stop.
 - **A scholar's list is not a scholar's ruling.** "Ibn Taymiyya lägger till rovdjur": the
   ban is the Prophet's. Attribute to the source of the ruling, then to who comments on it.
+- **Each school's position comes from that school's own book.** Before writing "enligt
+  hanafiterna", find it in the school's text in `search_books` (al-Hidāya, al-Qurtubī or
+  Bidāyat al-mujtahid, al-Umm or al-Majmūʿ, al-Mughnī). A later scholar's summary of all
+  four ("de fyra imamernas lära …") is his report: attribute it to him. When the four take
+  parallel positions, set them side by side in a `table` fence (hund draft, 2026-11-06:
+  all four purity rulings came from one Ibn Taymiyya passage), never a GFM pipe table: it
+  carries no source, drops out of the PDF book and gets no scroll box on a phone.
+- **A modern application needs a named fatwa.** Guide, police and rescue dogs: cite the
+  council or fatwa that rules on them. Never extend a classical list by the page's own
+  analogy.
+- **An FAQ answer is a ruling.** Practical advice ("ge den ett nytt hem") needs a source like
+  any section; a hadith in an FAQ is quoted through its last clause; a question whose honest
+  answer is a long dispute belongs in a section, or is left out.
+- **Answer the objector's actual argument.** Read the fatwa or text you rebut before you
+  answer it: the 1980 Dār al-Iftāʾ fatwa on music never cites the hadith the draft defended,
+  so an isnād reply missed it. When the objector names the condition under which he would
+  concede (Ibn Hazm: a connected chain of trustworthy narrators), quote it and show whether
+  it is met.
+- **Never give a sufi practice prestige,** and never list `vad-ar-sufism` as `related` on a
+  ruling page (music draft: the Mevlevi *sema* as a UNESCO "mästerverk"). Practice made
+  into worship is judged by Qur'an and sunna without naming an order.
+- **Count before you write a number.** "sju villkor": write "bland villkoren" unless you have
+  counted them in the source. Carry a source's own hedge on a disputed chain, and check
+  every statistic on the agency's own page (hund draft: "drygt 1,1 miljoner"; Jordbruksverket
+  says 1 052 000).
+- **Fetch every hadith URL before listing it.** sunnah.com splits some of Muslim's hadith
+  into lettered parts: `muslim:1574a` resolves where a bare number can 404.
 
 ## 5. Output format — EXACTLY this, nothing else
 

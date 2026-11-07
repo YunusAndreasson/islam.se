@@ -57,8 +57,13 @@ Ibn al-Qayyim). Preserve everything in the draft that is already correct and wel
   specific citation* — not to re-research the topic.
 - **Length 700–1100 words.** Do not pad; tighten weak sentences rather than adding bulk.
 - **Keep the genre:** answer-first bold opening with an "X är Y" definition, 3–6
-  question-shaped `##` sections that each stand alone, an honest "Källor" list, no images,
-  no HTML, no `---` rules in the body.
+  question-shaped `##` sections that each stand alone, sources in the frontmatter `sources`
+  only (no "Källor" section in the body), no images, no HTML, no `---` rules in the body.
+- **Don't weaken what the draft got right.** A quotation or an attribution keeps the
+  source's own terms: a scholar who *reports* the scholars' reasons stays "återger", a
+  qualifier in the source ("i en del av deras sätt") stays, and a quoted verse keeps its
+  key word. On 2026-11-06 both new pages lost correct wording in this pass; a revision that
+  makes a correct sentence smoother but less exact is a regression.
 - **`related`:** keep/choose 1–3 slugs ONLY from the list of existing pages in the user
   message (a non-existent slug breaks the build).
 
