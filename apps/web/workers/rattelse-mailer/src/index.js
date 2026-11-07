@@ -1,3 +1,6 @@
+import { EMAIL_PATTERN, readJsonObject } from "../../../functions/api/_corrections.js";
+import { escapeXml as escapeHtml } from "../../../src/lib/xml";
+
 // Notification mailer for reader corrections.
 //
 // Pages Functions cannot hold a `send_email` binding, so /api/rattelse and
@@ -32,14 +35,6 @@ function clip(value) {
 
 function block(label, value) {
 	return value ? `${label}:\n${value}\n\n` : "";
-}
-
-function escapeHtml(value) {
-	return value
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;");
 }
 
 // A reader flagged something on a page. Unchanged from the original single-shape mailer.
@@ -134,12 +129,8 @@ export default {
 			return new Response("Method not allowed", { status: 405 });
 		}
 
-		let payload;
-		try {
-			payload = await request.json();
-		} catch {
-			return Response.json({ ok: false, error: "bad_json" }, { status: 400 });
-		}
+		const payload = await readJsonObject(request);
+		if (!payload) return Response.json({ ok: false, error: "bad_json" }, { status: 400 });
 
 		const id = Number(payload.id) || 0;
 		const reporter = clip(payload.reporter_email);
@@ -160,7 +151,7 @@ export default {
 		};
 
 		// Only a syntactically clean address becomes a reply-to header.
-		if (reporter && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(reporter)) {
+		if (reporter && EMAIL_PATTERN.test(reporter)) {
 			message.replyTo = reporter;
 		}
 

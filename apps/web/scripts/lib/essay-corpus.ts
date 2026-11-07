@@ -25,7 +25,7 @@ import { unified } from "unified";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const REPO_ROOT = join(HERE, "../../../..");
-export const ARTICLES_DIR = join(REPO_ROOT, "data/articles");
+const ARTICLES_DIR = join(REPO_ROOT, "data/articles");
 
 /** Minimal MDAST shape — the generators read .type/.children/.value etc. Defined here
  *  rather than pulling in @types/mdast for two build scripts. */
@@ -42,7 +42,7 @@ export interface MdastNode {
 	lang?: string;
 }
 
-export interface ArticleMeta {
+interface ArticleMeta {
 	title: string;
 	publishedAt: string;
 	wordCount: number;
@@ -53,7 +53,7 @@ export interface ArticleMeta {
 
 const EMPTY: ArticleMeta = { title: "", publishedAt: "", wordCount: 0, description: "" };
 
-export function parseFrontmatter(raw: string): { meta: ArticleMeta; body: string } {
+function parseFrontmatter(raw: string): { meta: ArticleMeta; body: string } {
 	const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
 	if (!match) return { meta: { ...EMPTY }, body: raw };
 	const frontmatter = match[1];
@@ -85,7 +85,7 @@ export function parseFrontmatter(raw: string): { meta: ArticleMeta; body: string
 }
 
 /** remark with the house punctuation. Shared so the PDF and the EPUB cannot drift. */
-export function essayProcessor() {
+function essayProcessor() {
 	return unified()
 		.use(remarkParse)
 		.use(remarkGfm)

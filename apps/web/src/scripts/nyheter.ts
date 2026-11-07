@@ -23,6 +23,7 @@ import {
 	FONSTER_H,
 	inomFonster,
 	listaHtml,
+	parseFeed,
 	RAIL_ANTAL,
 	rangordna,
 	statusHtml,
@@ -49,7 +50,7 @@ function hamta(signal: AbortSignal): Promise<Nyhet[] | null> {
 			signal: typeof AbortSignal.any === "function" ? AbortSignal.any([signal, timeout]) : signal,
 		})
 			.then((r) => (r.ok ? r.json() : null))
-			.then((d) => (Array.isArray(d?.artiklar) ? (d.artiklar as Nyhet[]) : null))
+			.then(parseFeed)
 			// A blocked or failed cross-origin fetch is an ordinary outcome here —
 			// a content blocker is enough to cause it — and it must degrade to "no
 			// news", never to a console full of errors on the front page.

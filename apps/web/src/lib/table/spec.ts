@@ -26,7 +26,7 @@
  */
 import { cells, dedent, type FigureRow, tokenize } from "../figure/tokenize";
 
-export interface TableRow {
+interface TableRow {
 	label: string;
 	/** One entry per column after the first. Strings — a table cell may be prose. */
 	cells: string[];

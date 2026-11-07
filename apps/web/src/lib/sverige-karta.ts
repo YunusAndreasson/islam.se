@@ -56,7 +56,7 @@ function perpDist(p: Pt, a: Pt, b: Pt): number {
 }
 
 /** Douglas–Peucker on an open polyline, in map units. */
-export function simplify(points: readonly Pt[], tolerance: number): Pt[] {
+function simplify(points: readonly Pt[], tolerance: number): Pt[] {
 	if (points.length <= 2) return [...points];
 	const first = points[0] as Pt;
 	const last = points[points.length - 1] as Pt;

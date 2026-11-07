@@ -32,16 +32,16 @@ export function stockholmMinuteOfDay(instant: Date): number {
 /** The instant of Swedish midnight that opens `now`'s day. Off by the DST hour only on the
  *  two nights a year the clocks change, which moves every tick by 4% of a day for one day —
  *  the same error a printed almanac makes, and invisible at the horizon's scale. */
-export function stockholmDayStart(now: Date): number {
+function stockholmDayStart(now: Date): number {
 	return now.getTime() - stockholmMinuteOfDay(now) * 60_000;
 }
 
 const DAY_MS = 86_400_000;
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 
-export type TickState = "passed" | "next" | "later";
+type TickState = "passed" | "next" | "later";
 
-export interface HorizonTick {
+interface HorizonTick {
 	key: PrayerKey;
 	/** Position on the day, 0 = midnight, 1 = the next midnight. */
 	x: number;

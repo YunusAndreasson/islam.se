@@ -10,6 +10,11 @@ export default defineConfig({
 	test: {
 		name: "web",
 		environment: "node",
-		include: ["src/**/*.test.ts", "functions/**/*.test.ts"],
+		include: [
+			"src/**/*.test.ts",
+			"functions/**/*.test.ts",
+			"scripts/**/*.test.ts",
+			"workers/**/*.test.ts",
+		],
 	},
 });

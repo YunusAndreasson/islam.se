@@ -25,7 +25,7 @@ export function inQuietWindow(
 
 /** What the large row is counting towards: the adhān, the iqāma after it, or nothing
  *  because the congregation is praying. */
-export type HeroPhase = "adhan" | "iqama" | "praying";
+type HeroPhase = "adhan" | "iqama" | "praying";
 
 export interface HeroMoment<K extends string> {
 	key: K;

@@ -29,6 +29,12 @@ function cardSources(): string[] {
 		"src/lib/og-endpoints.ts",
 		"src/lib/amnen.ts",
 		"src/lib/traditions.ts",
+		"scripts/fonts/SourceSans3-SemiBold.ttf",
+		"scripts/fonts/SourceSans3-Regular.ttf",
+		"scripts/fonts/Literata-RegularItalic.ttf",
+		// Installed versions, not semver ranges: a compatible update changes pixels too.
+		"node_modules/satori/package.json",
+		"node_modules/sharp/package.json",
 	].map((f) => join(process.cwd(), f));
 	const pages = join(process.cwd(), "src/pages");
 	for (const entry of readdirSync(pages, { recursive: true, withFileTypes: true })) {
@@ -43,13 +49,9 @@ function cardSources(): string[] {
 
 const layoutHash = (() => {
 	try {
-		const pkg = JSON.parse(readFileSync(join(process.cwd(), "package.json"), "utf8"));
-		const renderers = ["satori", "sharp"]
-			.map((n) => `${n}@${pkg.dependencies?.[n] ?? pkg.devDependencies?.[n] ?? "?"}`)
-			.join(",");
 		const hash = createHash("sha256");
 		for (const file of cardSources()) hash.update(readFileSync(file));
-		return hash.update(renderers).digest("hex").slice(0, 12);
+		return hash.digest("hex").slice(0, 12);
 	} catch {
 		// Nothing to read (unexpected) — fall back to a per-process value so the cache
 		// still works within a build but never persists a card built from unknown code.

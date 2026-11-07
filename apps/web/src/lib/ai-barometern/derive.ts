@@ -23,7 +23,7 @@ const KIND_BY_KEY = new Map(QUESTIONS.map((q) => [questionKey(q), q.kind]));
 /** A motivation longer than this is not quoted: quotes are never trimmed. */
 export const MAX_EXCERPT_CHARS = 600;
 
-export function answerCode(a: Pick<Answer, "q" | "outcome" | "option">): AnswerCode {
+function answerCode(a: Pick<Answer, "q" | "outcome" | "option">): AnswerCode {
 	const kind = KIND_BY_KEY.get(a.q);
 	if (!kind) throw new Error(`Mätningen innehåller en okänd fråga: ${a.q}`);
 	return codeOfAnswer(kind, a.outcome, a.option);

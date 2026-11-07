@@ -14,7 +14,7 @@ const ATTRIBUTION = {
 	"X-Title": "islam.se AI-barometern",
 } as const;
 
-export interface ChatSuccess {
+interface ChatSuccess {
 	ok: true;
 	content: string | null;
 	refusal: string | null;
@@ -27,7 +27,7 @@ export interface ChatSuccess {
 	attempts: number;
 }
 
-export interface ChatFailure {
+interface ChatFailure {
 	ok: false;
 	error: string;
 	status: number | null;

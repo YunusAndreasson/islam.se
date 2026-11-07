@@ -1,10 +1,12 @@
 // Shared pieces of the benchmark (see bench.mjs for what it measures and why).
 import { execFile } from "node:child_process";
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { createServer } from "node:http";
-import { extname, join, normalize } from "node:path";
+import { extname, join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { brotliCompressSync } from "node:zlib";
+
+import { locateStaticAsset } from "../lib/static-path.ts";
 
 const run = promisify(execFile);
 
@@ -18,18 +20,9 @@ export const spread = (xs, unit = "") =>
 		? `${median(xs)}${unit} (${Math.min(...xs)}–${Math.max(...xs)})`
 		: `${xs[0]}${unit}`;
 
-// The repo carries no browser driver by choice. Playwright is borrowed from the sibling
-// checkout, the same way the one-off probes here have always done it.
+/** Load the declared browser driver; browser installation is an explicit setup step. */
 export async function chromium() {
-	const path =
-		process.env.BENCH_PLAYWRIGHT ??
-		new URL("../../../../../zuhd.news/node_modules/playwright/index.mjs", import.meta.url).pathname;
-	if (!existsSync(path)) {
-		throw new Error(
-			`Playwright not found at ${path}. Set BENCH_PLAYWRIGHT to a playwright/index.mjs.`,
-		);
-	}
-	return (await import(path)).chromium;
+	return (await import("playwright")).chromium;
 }
 
 const TYPES = {
@@ -82,21 +75,10 @@ function parseHeaders(text) {
  * times what production sends.
  */
 export function serveDist(dir) {
-	const root = normalize(dir);
+	const root = resolve(dir);
 	const headersFile = join(root, "_headers");
 	const rules = existsSync(headersFile) ? parseHeaders(readFileSync(headersFile, "utf8")) : [];
 	const compressed = new Map();
-
-	/** The file a path names, a directory's index, or the 404 page. */
-	const locate = (path) => {
-		const file = normalize(join(root, path));
-		if (!file.startsWith(root)) return null;
-		const target =
-			existsSync(file) && statSync(file).isDirectory() ? join(file, "index.html") : file;
-		return existsSync(target)
-			? { file: target, status: 200 }
-			: { file: join(root, "404.html"), status: 404 };
-	};
 
 	const headersFor = (path, type) => {
 		const headers = { "content-type": type };
@@ -109,15 +91,20 @@ export function serveDist(dir) {
 	};
 
 	const server = createServer((req, res) => {
-		const path = decodeURIComponent(new URL(req.url ?? "/", "http://bench").pathname);
-		const hit = locate(path);
-		if (!hit) {
-			res.writeHead(403).end();
+		const hit = locateStaticAsset(root, req.url ?? "/");
+		if (!hit.file) {
+			res.writeHead(hit.status).end();
 			return;
 		}
 		const type = TYPES[extname(hit.file)] ?? "application/octet-stream";
-		const headers = headersFor(path, type);
-		let body = readFileSync(hit.file);
+		const headers = headersFor(hit.pathname, type);
+		let body;
+		try {
+			body = readFileSync(hit.file);
+		} catch {
+			res.writeHead(404).end();
+			return;
+		}
 		if (TEXT.test(type) && /\bbr\b/.test(req.headers["accept-encoding"] ?? "")) {
 			if (!compressed.has(hit.file)) compressed.set(hit.file, brotliCompressSync(body));
 			body = compressed.get(hit.file);

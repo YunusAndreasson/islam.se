@@ -16,14 +16,13 @@ export const PROMPT_VERSION = "p1";
 export {
 	OTHER_PARTY,
 	PARTIES,
-	type PartyCode,
 	partyCodeOf,
 	SCALE_OPTIONS,
 } from "./options";
 
 /** A deterministic shuffle keyed by `seed`, so a resumed or audited run shows the model
  *  the same party order it saw the first time. */
-export function seededShuffle<T>(items: readonly T[], seed: string): T[] {
+function seededShuffle<T>(items: readonly T[], seed: string): T[] {
 	let state = createHash("sha256").update(seed).digest().readUInt32LE(0);
 	const next = () => {
 		state = (state + 0x6d2b79f5) | 0;
@@ -91,7 +90,7 @@ export function textSha256(q: Pick<Question, "kind" | "text">): string {
 	return createHash("sha256").update(`${q.kind}\n${q.text}`).digest("hex");
 }
 
-export function responseSchema(options: readonly string[]): Record<string, unknown> {
+function responseSchema(options: readonly string[]): Record<string, unknown> {
 	return {
 		type: "object",
 		properties: {

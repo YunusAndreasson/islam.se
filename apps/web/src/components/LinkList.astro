@@ -11,7 +11,7 @@
 // The styles are global, in layout.css, by the class each shape sets.
 import type { HTMLAttributes } from "astro/types";
 
-export interface LinkItem {
+interface LinkItem {
 	label: string;
 	/** Only a diamond list may carry an item that is not a link (a printed source). */
 	href?: string | undefined;

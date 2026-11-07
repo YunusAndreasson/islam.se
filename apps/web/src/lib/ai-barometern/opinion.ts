@@ -17,9 +17,9 @@
 // power question (only merged shares are printed, 16 points unaccounted for) and MPF's Ukraine
 // question (it asks about support in general, never about weapons).
 
-export type PollValue = -2 | -1 | 0 | 1 | 2 | null;
+type PollValue = -2 | -1 | 0 | 1 | 2 | null;
 
-export interface PollShare {
+interface PollShare {
 	readonly label: string;
 	readonly percent: number;
 	readonly v: PollValue;

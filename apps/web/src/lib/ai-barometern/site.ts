@@ -69,7 +69,7 @@ export function latestRun(): SeriesRun | null {
 	return SERIES.runs.at(-1) ?? null;
 }
 
-export function latestIndex(): number {
+function latestIndex(): number {
 	return SERIES.runs.length - 1;
 }
 
@@ -119,7 +119,7 @@ function perFamily<T>(fn: (family: FamilyKey) => T): Record<FamilyKey, T> {
 }
 
 /** Whether a run asked this question. */
-export function askedIn(q: Question, runIndex = latestIndex()): boolean {
+function askedIn(q: Question, runIndex = latestIndex()): boolean {
 	return FAMILIES.some((f) => cellCodes(SERIES, questionKey(q), f.key, runIndex) !== null);
 }
 
@@ -226,7 +226,7 @@ export interface MatrixRow {
 	cells: Record<FamilyKey, ScaleCell>;
 }
 
-export interface MatrixGroup {
+interface MatrixGroup {
 	theme: Theme;
 	label: string;
 	rows: MatrixRow[];
@@ -466,7 +466,7 @@ export function twinLines(row: TwinRow): TwinLine[] {
 
 /** One model's answers across a twin set, grouped by answer: »Netanyahu: avstår«, »Putin:
  *  instämmer helt«. */
-export function familyTwinParts(row: TwinRow, family: FamilyKey): string[] {
+function familyTwinParts(row: TwinRow, family: FamilyKey): string[] {
 	const groups = new Map<string, string[]>();
 	for (const m of row.members) {
 		const phrase = stancePhrase(m.cells[family]) ?? "inget svar";
@@ -500,7 +500,7 @@ export function roster(): {
 }
 
 /** Releases seen since the barometer started, newest first. */
-export function releaseLog(): SeenModel[] {
+function releaseLog(): SeenModel[] {
 	return MODELS.seen
 		.filter((s) => s.note !== BASELINE_NOTE && s.decision !== "pending")
 		.sort((a, b) => b.firstSeen.localeCompare(a.firstSeen) || a.id.localeCompare(b.id));

@@ -22,7 +22,7 @@ import {
 
 export const BT_SETTINGS_CHANGE = "bt-settings-change";
 
-export interface BtSettingsChangeDetail {
+interface BtSettingsChangeDetail {
 	settings: PrayerSettings;
 }
 

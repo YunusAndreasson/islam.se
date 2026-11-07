@@ -7,6 +7,7 @@ import {
 	esc,
 	inomFonster,
 	listaHtml,
+	parseFeed,
 	plattaLandslankar,
 	RAIL_ANTAL,
 	radHtml,
@@ -359,5 +360,38 @@ describe("nyhetsdygnet", () => {
 
 	it("says notis, not notiser, for one", () => {
 		expect(statusHtml([nyhet()], NU)).toContain("</span> notis ");
+	});
+});
+
+// Both consumers used to trust an array cast: one malformed stycken value could
+// throw during rendering and an invalid timestamp could make Intl throw.
+describe("external feed boundary", () => {
+	it("rejects invalid envelopes", () => {
+		for (const input of [null, [], {}, { artiklar: "wrong" }]) {
+			expect(parseFeed(input)).toBeNull();
+		}
+	});
+
+	it("preserves valid entries while dropping malformed notices", () => {
+		const valid = nyhet();
+		const parsed = parseFeed({
+			artiklar: [
+				null,
+				42,
+				valid,
+				nyhet({ stycken: "not an array" }),
+				nyhet({ stycken: [{}] }),
+				nyhet({ slug: "../outside" }),
+				nyhet({ datum: "invalid", addedAt: 1e30 }),
+			],
+		});
+		expect(parsed).toEqual([valid]);
+		expect(() => listaHtml(parsed ?? [], { variant: "full", now: NU })).not.toThrow();
+	});
+
+	it("normalizes optional metadata instead of trusting its shape", () => {
+		const parsed = parseFeed({ artiklar: [nyhet({ lander: {}, kategori: [], lat: "35" })] });
+		expect(parsed?.[0]).toMatchObject({ lander: [], kategori: null, lat: null });
+		expect(() => rangordna(parsed ?? [])).not.toThrow();
 	});
 });

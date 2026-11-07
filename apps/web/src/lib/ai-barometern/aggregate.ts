@@ -12,7 +12,7 @@ import type { AnswerCode, FamilyKey, SeriesFile } from "./types";
 // - A change between two runs is SIGNIFICANT only when it is at least one step AND the two
 //   runs' sample ranges do not overlap. Three samples are thin; noise must not read as news.
 
-export type CellState = "position" | "abstain" | "refused" | "split" | "missing";
+type CellState = "position" | "abstain" | "refused" | "split" | "missing";
 
 export interface ScaleCell {
 	codes: AnswerCode[];
@@ -27,7 +27,7 @@ export interface ScaleCell {
 	failed: number;
 }
 
-export function scaleValue(code: AnswerCode): number | null {
+function scaleValue(code: AnswerCode): number | null {
 	return /^-?[0-2]$/.test(code) ? Number(code) : null;
 }
 

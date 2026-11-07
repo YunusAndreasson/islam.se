@@ -19,15 +19,7 @@
  */
 
 import { figureCaptionNodes, figureCaptionText } from "../figure/caption";
-import {
-	escapeXml,
-	type FigureMode,
-	type HastElement,
-	type HastNode,
-	type HastText,
-	h,
-	hastToXml,
-} from "../figure/hast";
+import { type FigureMode, type HastElement, type HastNode, h, hastToXml } from "../figure/hast";
 import {
 	formatNumber,
 	formatShare,
@@ -44,8 +36,8 @@ import type { ChartDatum, ChartSpec } from "./spec";
 // chart.test.ts, chart-check.ts, generate-pdf.ts and generate-epub.ts all reach for
 // these through ./render and must continue to.
 // ---------------------------------------------------------------------------
-export type { HastElement, HastNode, HastText };
-export { escapeXml, hastToXml };
+export type { HastElement };
+export { hastToXml };
 
 /** Web renders with CSS custom properties; print substitutes literals. */
 export type ChartMode = FigureMode;
@@ -872,7 +864,7 @@ function lineWeb(spec: ChartSpec, alt: string): HastElement {
 	return svgPlot(svg, [legend(spec)]);
 }
 
-/** The <figure> a chart becomes, for the rehype plugin, the EPUB and Chart.astro. */
+/** The <figure> a chart becomes, for the rehype plugin and the EPUB. */
 export function buildChartHast(spec: ChartSpec, mode: ChartMode = "web"): HastElement {
 	const alt = chartAltText(spec);
 	return h("figure", { className: `chart chart--${spec.type}` }, [
@@ -882,7 +874,7 @@ export function buildChartHast(spec: ChartSpec, mode: ChartMode = "web"): HastEl
 }
 
 /**
- * The same figure as a string. Used by Chart.astro (set:html) and by the PDF path, which
+ * The same figure as a string. Used by the PDF path, which
  * writes the SVG to a file for Typst's `image()`.
  *
  * ⚠️ Serialised as well-formed XML — void elements self-close and every attribute value

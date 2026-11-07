@@ -1,3 +1,4 @@
+// @ts-check
 // Reader-submitted corrections: validate, gate on Turnstile, store in D1, notify.
 //
 // The root _middleware.js passes non-GET straight to next(), so this route is
@@ -11,9 +12,9 @@ import {
 	EMAIL_PATTERN,
 	fail,
 	hashIp,
-	isRateLimited,
 	notifyMailer,
 	readJsonObject,
+	storeCorrection,
 } from "./_corrections.js";
 
 const LIMITS = {
@@ -32,6 +33,7 @@ const PATH_PATTERN = /^\/[\w\-./åäöÅÄÖ]*$/;
 // so "//evil.example/x" matches it — and that value is interpolated into the
 // notification mail as `https://islam.se{page}` and into `pnpm rattelser`'s output.
 // Resolving against the canonical origin is what actually proves it stays on-site.
+/** @param {string} page */
 function isSitePath(page) {
 	if (!PATH_PATTERN.test(page)) return false;
 	try {
@@ -44,20 +46,26 @@ function isSitePath(page) {
 // Same-origin guard. Comparing against the request's own host rather than a fixed
 // allowlist keeps this working on islam.se, on every per-deploy *.pages.dev preview
 // host, and under `wrangler pages dev` — an allowlist silently broke the last two.
+/** @param {Request} request */
 function sameOrigin(request) {
 	const origin = request.headers.get("origin");
 	if (!origin) return true;
 	try {
-		return new URL(origin).host === new URL(request.url).host;
+		return new URL(origin).origin === new URL(request.url).origin;
 	} catch {
 		return false;
 	}
 }
 
+/** @param {Record<string, unknown>} body
+ * @param {keyof typeof LIMITS} name */
 function field(body, name) {
 	return clampField(body, name, LIMITS[name]);
 }
 
+/** @param {string} token
+ * @param {string} ip
+ * @param {string} secret */
 async function passesTurnstile(token, ip, secret) {
 	const form = new FormData();
 	form.append("secret", secret);
@@ -67,12 +75,14 @@ async function passesTurnstile(token, ip, secret) {
 	const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
 		method: "POST",
 		body: form,
+		signal: AbortSignal.timeout(5000),
 	});
 	if (!res.ok) return false;
-	const outcome = await res.json();
-	return outcome.success === true;
+	const outcome = await readJsonObject(res);
+	return outcome?.success === true;
 }
 
+/** @param {import("./_types").CorrectionContext} context */
 export async function onRequestPost(context) {
 	const { request, env } = context;
 
@@ -114,23 +124,26 @@ export async function onRequestPost(context) {
 	if (!token) return fail("missing_turnstile", 400);
 
 	const ip = request.headers.get("cf-connecting-ip") || "";
-	if (!(await passesTurnstile(token, ip, env.TURNSTILE_SECRET))) {
-		return fail("turnstile_failed", 403);
+	try {
+		if (!(await passesTurnstile(token, ip, env.TURNSTILE_SECRET))) {
+			return fail("turnstile_failed", 403);
+		}
+	} catch {
+		return fail("verification_unavailable", 503);
 	}
 
 	const ipHash = await hashIp(ip, env.IP_SALT);
 
-	if (await isRateLimited(env.RATTELSER, ipHash)) return fail("rate_limited", 429);
-
-	const inserted = await env.RATTELSER.prepare(
-		`INSERT INTO corrections (page, passage, description, source, reporter_email, ip_hash)
-		 VALUES (?1, ?2, ?3, ?4, ?5, ?6)
-		 RETURNING id`,
-	)
-		.bind(page, passage || null, description, source || null, reporterEmail || null, ipHash)
-		.first();
-
-	const id = inserted?.id ?? 0;
+	const id = await storeCorrection(env.RATTELSER, {
+		kind: "article",
+		page,
+		passage,
+		description,
+		source,
+		reporterEmail,
+		ipHash,
+	});
+	if (id === null) return fail("rate_limited", 429);
 
 	await notifyMailer(
 		env,

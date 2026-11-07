@@ -39,7 +39,7 @@ export const READ_MORE: Readonly<Partial<Record<string, ReadMore>>> = {
 	abortgrans: { svar: ["vad-sager-islam-om-abort"], fordjupning: ["abort"] },
 };
 
-export interface Source {
+interface Source {
 	readonly name: string;
 	readonly url: string;
 }

@@ -1,7 +1,7 @@
 import { closeEnough, fold, foldedWords } from "./search-text";
 import { TRADITIONS } from "./traditions";
 
-export type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Essäserie" | "Tänkare" | "Essä";
+type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Essäserie" | "Tänkare" | "Essä";
 
 export interface PaletteEntry {
 	type: PaletteType;

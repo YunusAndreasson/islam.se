@@ -38,7 +38,7 @@ export const CORE_RANGE = [
 ];
 
 /** honorific.woff2: ﷺ and ﷻ, the two glyphs and nothing else (2 kB, cut from Amiri). */
-export const HONORIFIC_RANGE = ["U+FDFA-FDFB"];
+const HONORIFIC_RANGE = ["U+FDFA-FDFB"];
 
 /** literata-roman-ext.woff2 and literata-italic-ext.woff2: 434 codepoints. */
 export const LITERATA_EXT_RANGE = [

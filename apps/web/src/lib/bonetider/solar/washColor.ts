@@ -22,7 +22,7 @@ function smoothstep(edge0: number, edge1: number, x: number): number {
 }
 
 const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
-const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
+const clamp01 = (x: number): number => Math.max(0, Math.min(1, x));
 
 /** Full RGBA blend (rgb + alpha), no rounding — mirrors SkSL `mix(half4, half4, t)`. */
 function mix4(a: RGBA, b: RGBA, t: number): RGBA {

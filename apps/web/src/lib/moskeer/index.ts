@@ -227,7 +227,7 @@ function addressParts(
 }
 
 /** »Apelbergsgatan 34« — the street line alone (schema.org streetAddress). */
-export function streetLine(m: Pick<Mosque, "address" | "city">): string | null {
+function streetLine(m: Pick<Mosque, "address" | "city">): string | null {
 	return addressParts(m)?.street ?? null;
 }
 

@@ -15,7 +15,7 @@
 // Every failure path returns the built page untouched, and the client script
 // fills the list instead. A news band is never worth a 500 on a reference site.
 
-import { FEED_URL, FONSTER_H, inomFonster, listaHtml, statusHtml } from "./_nyheter.js";
+import { FEED_URL, FONSTER_H, inomFonster, listaHtml, parseFeed, statusHtml } from "./_nyheter.js";
 
 /** Long enough that a slow origin cannot hold a page render, short enough that
  *  the reader never notices. The list is progressive enhancement: if this
@@ -59,7 +59,7 @@ async function hamtaFlodet(url) {
 		});
 		if (!res.ok) return null;
 		const data = await res.json();
-		return Array.isArray(data?.artiklar) ? data.artiklar : null;
+		return parseFeed(data);
 	} catch {
 		return null;
 	} finally {

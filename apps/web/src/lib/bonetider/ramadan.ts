@@ -32,7 +32,7 @@ export interface RamadanPeriod {
 	year: string;
 }
 
-export interface RamadanDay {
+interface RamadanDay {
 	/** Fajr — tiden då suhūr tar slut och fastan börjar. */
 	suhur: string;
 	/** Maghrib — tiden då fastan bryts. */

@@ -39,7 +39,7 @@ export interface FigureTokens {
  * Strips the common leading whitespace, keeping relative indentation intact.
  *
  * A fence in markdown arrives flush left and this is a no-op. A `spec` passed to
- * Chart.astro as a template literal arrives indented by however deep the JSX sat — and
+ * A spec passed as a template literal arrives indented by its surrounding code — and
  * since the grammar tells a scalar from a data row BY indentation, without this every
  * line would read as a data row and nothing would parse.
  */

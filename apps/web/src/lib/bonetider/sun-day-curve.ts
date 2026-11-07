@@ -33,7 +33,7 @@ export const HORIZON_DEG = -0.833;
 /** Astronomical night, and the angle the standard Fajr calculation needs. */
 export const ASTRONOMICAL_NIGHT_DEG = -18;
 
-export interface DaySample {
+interface DaySample {
 	/** Minutes after local midnight, Stockholm wall-clock for the curve's date. */
 	readonly minuteOfDay: number;
 	/** Sun altitude, degrees; negative is below the horizon. */

@@ -104,7 +104,7 @@ export interface AdoptedModel {
 	reason: string;
 }
 
-export type SeenDecision = "pending" | "adopted" | "ignored";
+type SeenDecision = "pending" | "adopted" | "ignored";
 
 export interface SeenModel {
 	family: FamilyKey;

@@ -23,7 +23,11 @@
 		"ai-barometern": "tsx scripts/ai-barometern.ts",
 		"build:fast": "BONETIDER_SAMPLE=12 astro build && tsx scripts/generate-markdown.ts",
 		"epub": "tsx scripts/generate-epub.ts",
-		"books": "pnpm run pdf && pnpm run epub"
+		"books": "pnpm run pdf && pnpm run epub",
+		"test": "vitest run --project web",
+		"lint": "biome check .",
+		"knip": "knip --directory ../.. --workspace apps/web",
+		"check:edge": "wrangler pages functions build functions --outdir node_modules/.cache/pages-check && wrangler deploy --dry-run --config workers/rattelse-mailer/wrangler.jsonc --outdir node_modules/.cache/mailer-check"
 	},
 	"dependencies": {
 		"@astrojs/markdown-remark": "^7.3.5",
@@ -44,6 +48,7 @@
 		"@astrojs/check": "^0.9.12",
 		"fontkitten": "1.0.3",
 		"node-html-markdown": "^2.0.0",
+		"playwright": "^1.65.0",
 		"remark-gfm": "^4.0.1",
 		"remark-parse": "^11.0.0",
 		"tsx": "^4.23.15",

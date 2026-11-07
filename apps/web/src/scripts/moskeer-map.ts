@@ -15,7 +15,12 @@
 // rank for "moskéer i sverige". Keep every top-level maplibre import type-only.
 
 import type * as maplibregl from "maplibre-gl";
-import type { GeoJSONSource, LngLatBoundsLike, MapGeoJSONFeature } from "maplibre-gl";
+import type {
+	ExpressionSpecification,
+	GeoJSONSource,
+	LngLatBoundsLike,
+	MapGeoJSONFeature,
+} from "maplibre-gl";
 // `?url` yields the emitted asset's href WITHOUT joining the page's stylesheet graph —
 // a plain `import "…css"` here or in the frontmatter gets inlined into <head> by
 // `inlineStylesheets: "always"`, all 130 kB of it. Linked at mount instead.
@@ -72,8 +77,6 @@ interface BurialDatum {
 
 // Palette matched to the Bönetider canvas so the two map surfaces feel identical.
 // Dark was the app's cold navy until 2026-07-27; now the same warm-axis ramp.
-// UNVERIFIED: WebGL won't render in headless Chromium here, so these are derived,
-// not eyeballed — worth a look on real hardware.
 const PALETTE = {
 	// ⚠️ Light is set by measured L*, not by eye. It used to run land 91.4 / water 91.2 —
 	// ΔL* 0.22, far under the ~2 just-noticeable difference — so Sweden's coastline
@@ -106,6 +109,23 @@ const PALETTE = {
 		clusterText: "#1d1912",
 	},
 } as const;
+
+/** Bind colours once; a theme change updates one global style value, not every layer. */
+function themeColor(key: keyof (typeof PALETTE)[Scheme]): ExpressionSpecification {
+	return [
+		"case",
+		["==", ["global-state", "mk-scheme"], "dark"],
+		PALETTE.dark[key],
+		PALETTE.light[key],
+	];
+}
+
+const selectedOpacity = (opacity: number): ExpressionSpecification => [
+	"case",
+	["boolean", ["feature-state", "selected"], false],
+	opacity,
+	0,
+];
 
 /** The burial glyph's image id in the style, and its size in CSS px at icon-size 1. */
 const GRAVE_IMAGE = "mk-grave";
@@ -306,6 +326,7 @@ async function mount() {
 		type: "FeatureCollection",
 		features: rows.map((m) => ({
 			type: "Feature",
+			id: m.id,
 			geometry: { type: "Point", coordinates: [m.lng, m.lat] },
 			properties: { id: m.id, name: m.name },
 		})),
@@ -323,6 +344,7 @@ async function mount() {
 	try {
 		map = new maplibre.Map({
 			container: el,
+			globalState: { "mk-scheme": scheme },
 			style: "https://tiles.openfreemap.org/styles/positron",
 			bounds: SWEDEN_BOUNDS,
 			// Frame all of Sweden on load; padding keeps the far north/south off the
@@ -351,6 +373,7 @@ async function mount() {
 	// an empty rectangle, nothing logged. The list beside the map still works.
 	let mapFailed = false;
 	let styleReady = false;
+	let contextLost = false;
 	map.on("load", () => {
 		styleReady = true;
 	});
@@ -434,38 +457,35 @@ async function mount() {
 		| "fill-color"
 		| "line-color"
 		| "line-opacity";
-	type Edit = [PaintProp, string | number];
+	type Edit = [PaintProp, ExpressionSpecification | number];
 	function fillEdits(id: string): Edit[] {
-		const p = PALETTE[scheme];
-		if (/water/.test(id)) return [["fill-color", p.water]];
-		if (/building/.test(id)) return [["fill-color", p.building]];
+		if (/water/.test(id)) return [["fill-color", themeColor("water")]];
+		if (/building/.test(id)) return [["fill-color", themeColor("building")]];
 		if (/landcover|landuse|wood|park|grass|forest|sand|wetland/.test(id)) {
-			return [["fill-color", p.land]];
+			return [["fill-color", themeColor("land")]];
 		}
 		return [];
 	}
 	function lineEdits(id: string): Edit[] {
-		const p = PALETTE[scheme];
-		if (/water|waterway/.test(id)) return [["line-color", p.water]];
+		if (/water|waterway/.test(id)) return [["line-color", themeColor("water")]];
 		// Country / admin borders: a soft, low-contrast line at reduced opacity.
 		if (/boundary|admin|border/.test(id)) {
 			return [
-				["line-color", p.border],
+				["line-color", themeColor("border")],
 				["line-opacity", 0.45],
 			];
 		}
 		if (/road|street|highway|bridge|tunnel|transit|rail|path|motorway|trunk/.test(id)) {
-			return [["line-color", p.road]];
+			return [["line-color", themeColor("road")]];
 		}
 		return [];
 	}
 	function paintEdits(type: string, id: string): Edit[] {
-		const p = PALETTE[scheme];
-		if (type === "background") return [["background-color", p.land]];
+		if (type === "background") return [["background-color", themeColor("land")]];
 		if (type === "symbol") {
 			return [
-				["text-color", p.label],
-				["text-halo-color", p.halo],
+				["text-color", themeColor("label")],
+				["text-halo-color", themeColor("halo")],
 			];
 		}
 		if (type === "fill") return fillEdits(id);
@@ -473,8 +493,7 @@ async function mount() {
 		return [];
 	}
 
-	// Recolor the Positron base into the warm palette. Each setPaintProperty is guarded
-	// because some layers use data-driven values that reject a flat color.
+	// Bind the external base style once. Theme flips subsequently update global state.
 	function recolorBase() {
 		const layers = map.getStyle()?.layers;
 		if (!layers) return;
@@ -489,30 +508,10 @@ async function mount() {
 		}
 	}
 
-	function applyMarkerColors() {
-		const p = PALETTE[scheme];
-		// The grave is a bitmap, so a theme flip redraws it instead of repainting a property.
-		const glyph = burialGlyph(p);
+	function updateGraveImage() {
+		// The two-colour bitmap still needs a redraw; style expressions handle everything else.
+		const glyph = burialGlyph(PALETTE[scheme]);
 		if (glyph && map.hasImage(GRAVE_IMAGE)) map.updateImage(GRAVE_IMAGE, glyph);
-		for (const [layer, prop, val] of [
-			["mk-clusters", "circle-color", p.brass],
-			["mk-clusters", "circle-stroke-color", p.brassOn],
-			["mk-cluster-count", "text-color", p.clusterText],
-			["mk-points-active", "circle-color", p.brass],
-			["mk-points-active", "circle-stroke-color", p.brass],
-			["mk-points", "circle-color", p.brass],
-			["mk-points", "circle-stroke-color", p.brassOn],
-			["mk-graves-active", "circle-color", p.brass],
-			["mk-graves-active", "circle-stroke-color", p.brass],
-		] as const) {
-			if (map.getLayer(layer)) {
-				try {
-					map.setPaintProperty(layer, prop, val);
-				} catch {
-					/* not ready */
-				}
-			}
-		}
 	}
 
 	// The element that opened the current callout (a list row), so Esc/close can return
@@ -520,20 +519,20 @@ async function mount() {
 	let lastTrigger: HTMLElement | null = null;
 	let activeId = "";
 
-	// Drive the selected-mosque highlight ring; an empty id clears it.
+	let ringId = "";
+	// Stable GeoJSON ids keep selection attached to the same place across source updates.
+	// Feature state changes paint without reparsing/filtering either source's tiles.
 	function setActiveRing(id: string) {
-		if (map.getLayer("mk-points-active")) {
-			map.setFilter("mk-points-active", [
-				"all",
-				["!", ["has", "point_count"]],
-				["==", ["get", "id"], id],
-			]);
+		if (contextLost) {
+			ringId = id;
+			return;
 		}
-		// The graves' own ring. No id is both a mosque's and a grave's (the data test holds
-		// that), so at most one of the two rings ever finds its feature.
-		if (map.getLayer("mk-graves-active")) {
-			map.setFilter("mk-graves-active", ["==", ["get", "id"], id]);
+		for (const source of ["mosques", "burials"]) {
+			if (!map.getSource(source)) continue;
+			if (ringId) map.removeFeatureState({ source, id: ringId }, "selected");
+			if (id) map.setFeatureState({ source, id }, { selected: true });
 		}
+		ringId = id;
 	}
 
 	/** `restoreFocus` returns focus to the row that opened the callout — right when the reader
@@ -749,6 +748,27 @@ async function mount() {
 		}
 	}
 
+	const sourceKeys = new Map<string, string>();
+	const rowsKey = (rows: readonly { id: string }[]) => JSON.stringify(rows.map((row) => row.id));
+	let sourceRevision = 0;
+	function updatePlaces(
+		sourceId: string,
+		rows: readonly Pick<MosqueDatum, "id" | "name" | "lng" | "lat">[],
+	) {
+		const source = map.getSource(sourceId) as GeoJSONSource | undefined;
+		const key = rowsKey(rows);
+		if (contextLost || !source || sourceKeys.get(sourceId) === key) return;
+		sourceKeys.set(sourceId, key);
+		sourceRevision++;
+		// v6 queues/coalesces pending setData calls itself. Keep full filtered data so
+		// cluster counts reflect the search, rather than hiding already-built clusters.
+		source.setData(fc(rows)).catch((error: unknown) => {
+			if (sig.aborted || map.getSource(sourceId) !== source) return;
+			if (sourceKeys.get(sourceId) === key) sourceKeys.delete(sourceId);
+			console.warn("[moskeer] Could not update map places", error);
+		});
+	}
+
 	/** Map: filter both kinds of place by query + län (lib/moskeer/filter.ts, the list's rule
 	 *  too). A mosque's län comes from its rendered list item; a grave has no list item and
 	 *  carries its own. */
@@ -768,21 +788,11 @@ async function mount() {
 		const stillShown =
 			visible.some((m) => m.id === activeId) || visibleGraves.some((b) => b.id === activeId);
 		if (activeId && !stillShown) closeCallout(false);
-		// setData is async in maplibre 6; nothing waits on it, but the rejection has
-		// to go somewhere.
-		const src = map.getSource("mosques") as GeoJSONSource | undefined;
-		// Frame everything the filter found, graves included: "Kviberg" matches no mosque, and
-		// a search that finds only a cemetery should still bring it into view.
-		if (src) fitSearchResults(q, lan, [...visible, ...visibleGraves]);
-
-		src?.setData(fc(visible)).catch(() => {
-			/* a dropped filter update leaves the previous points on the map */
-		});
-		(map.getSource("burials") as GeoJSONSource | undefined)
-			?.setData(fc(visibleGraves))
-			.catch(() => {
-				/* as above */
-			});
+		// Frame everything the filter found, including cemetery-only searches.
+		if (!contextLost && map.getSource("mosques"))
+			fitSearchResults(q, lan, [...visible, ...visibleGraves]);
+		updatePlaces("mosques", visible);
+		updatePlaces("burials", visibleGraves);
 	}
 
 	/** List: hide non-matching items + empty groups; auto-open groups when searching.
@@ -880,6 +890,7 @@ async function mount() {
 	}
 
 	map.on("load", () => {
+		map.setGlobalStateProperty("mk-scheme", scheme);
 		recolorBase();
 		// Reveal the canvas now that the base is recolored — scheduled one frame on (so the
 		// marker layers added below are already in) and up here rather than at the end, so the
@@ -893,19 +904,19 @@ async function mount() {
 		// grave neither hides a cluster's count nor is hidden by one.
 		const glyph = burialGlyph(PALETTE[scheme]);
 		if (glyph) map.addImage(GRAVE_IMAGE, glyph, { pixelRatio: 2 });
-		map.addSource("burials", { type: "geojson", data: fc(burials) });
+		map.addSource("burials", { type: "geojson", data: fc(burials), promoteId: "id" });
+		sourceKeys.set("burials", rowsKey(burials));
 		map.addLayer({
 			id: "mk-graves-active",
 			type: "circle",
 			source: "burials",
-			filter: ["==", ["get", "id"], ""],
 			paint: {
 				"circle-radius": 14,
-				"circle-color": PALETTE[scheme].brass,
-				"circle-opacity": 0.16,
+				"circle-color": themeColor("brass"),
+				"circle-opacity": selectedOpacity(0.16),
 				"circle-stroke-width": 2,
-				"circle-stroke-color": PALETTE[scheme].brass,
-				"circle-stroke-opacity": 0.9,
+				"circle-stroke-color": themeColor("brass"),
+				"circle-stroke-opacity": selectedOpacity(0.9),
 			},
 		});
 		if (glyph) {
@@ -930,6 +941,8 @@ async function mount() {
 		map.addSource("mosques", {
 			type: "geojson",
 			data: fc(data),
+			// Tile encoding coerces string feature ids; promote the stable slug property.
+			promoteId: "id",
 			cluster: true,
 			// Lighter clustering: a small radius only merges genuinely-overlapping dots,
 			// and a lower maxZoom lets points separate into individual dots sooner — so we
@@ -937,15 +950,16 @@ async function mount() {
 			clusterRadius: 16,
 			clusterMaxZoom: 9,
 		});
+		sourceKeys.set("mosques", rowsKey(data));
 		map.addLayer({
 			id: "mk-clusters",
 			type: "circle",
 			source: "mosques",
 			filter: ["has", "point_count"],
 			paint: {
-				"circle-color": PALETTE[scheme].brass,
+				"circle-color": themeColor("brass"),
 				"circle-opacity": 0.9,
-				"circle-stroke-color": PALETTE[scheme].brassOn,
+				"circle-stroke-color": themeColor("brassOn"),
 				"circle-stroke-width": 1.5,
 				"circle-radius": ["step", ["get", "point_count"], 15, 10, 19, 30, 24],
 			},
@@ -960,24 +974,24 @@ async function mount() {
 				"text-font": ["Noto Sans Regular"],
 				"text-size": 12,
 			},
-			paint: { "text-color": PALETTE[scheme].clusterText },
+			paint: { "text-color": themeColor("clusterText") },
 		});
-		// Selected-marker highlight: a soft brass halo + ring drawn UNDER the dot. Filtered
-		// to the active id (none on load); set in selectMosque, cleared on callout close.
+		// Selected-marker highlight: a soft brass halo + ring drawn UNDER the dot, painted
+		// through feature state; set in selectMosque, cleared on callout close.
 		// If the selected mosque is filtered out of the source, the ring finds no feature
 		// and disappears on its own.
 		map.addLayer({
 			id: "mk-points-active",
 			type: "circle",
 			source: "mosques",
-			filter: ["all", ["!", ["has", "point_count"]], ["==", ["get", "id"], ""]],
+			filter: ["!", ["has", "point_count"]],
 			paint: {
 				"circle-radius": 13,
-				"circle-color": PALETTE[scheme].brass,
-				"circle-opacity": 0.16,
+				"circle-color": themeColor("brass"),
+				"circle-opacity": selectedOpacity(0.16),
 				"circle-stroke-width": 2,
-				"circle-stroke-color": PALETTE[scheme].brass,
-				"circle-stroke-opacity": 0.9,
+				"circle-stroke-color": themeColor("brass"),
+				"circle-stroke-opacity": selectedOpacity(0.9),
 			},
 		});
 		map.addLayer({
@@ -986,12 +1000,12 @@ async function mount() {
 			source: "mosques",
 			filter: ["!", ["has", "point_count"]],
 			paint: {
-				"circle-color": PALETTE[scheme].brass,
+				"circle-color": themeColor("brass"),
 				// Grows gently with zoom: small enough to not crowd when Sweden is framed,
 				// comfortable to aim at once a region fills the view.
 				"circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 4, 8, 5.5, 12, 7],
 				"circle-stroke-width": 2,
-				"circle-stroke-color": PALETTE[scheme].brassOn,
+				"circle-stroke-color": themeColor("brassOn"),
 			},
 		});
 		// A list item can be selected while the external style is still loading. In that
@@ -1015,14 +1029,16 @@ async function mount() {
 		map.on("mouseleave", "mk-graves", hideHoverName);
 		// Cluster click → zoom to expand.
 		map.on("click", "mk-clusters", async (e) => {
-			const f = map.queryRenderedFeatures(e.point, { layers: ["mk-clusters"] })[0];
-			if (!f) return;
+			const f = e.features?.[0];
+			if (f?.geometry.type !== "Point") return;
 			const clusterId = f?.properties?.cluster_id;
 			if (clusterId == null) return;
 			const src = map.getSource("mosques") as GeoJSONSource;
+			const revision = sourceRevision;
 			try {
 				const zoom = await src.getClusterExpansionZoom(clusterId);
-				const coords = (f.geometry as { coordinates: [number, number] }).coordinates;
+				if (sig.aborted || revision !== sourceRevision) return;
+				const coords: [number, number] = [f.geometry.coordinates[0], f.geometry.coordinates[1]];
 				map.easeTo({ center: coords, zoom, duration: reduceMotion ? 0 : 350 });
 			} catch {
 				/* ignore */
@@ -1146,10 +1162,31 @@ async function mount() {
 	// A theme change, the OS's or the site switch's, recolours the base and markers live;
 	// without it the basemap keeps the scheme it mounted with while the page flips.
 	watchScheme(() => {
-		scheme = currentScheme();
-		recolorBase();
-		applyMarkerColors();
+		const next = currentScheme();
+		if (next === scheme) return;
+		scheme = next;
+		if (!styleReady || contextLost) return;
+		map.setGlobalStateProperty("mk-scheme", scheme);
+		updateGraveImage();
 	}, sig);
+
+	// v6 reconstructs sources/layers/images after context loss or a worker restart.
+	// Feature state is transient; restore our UI state once the rebuilt style is ready.
+	map.on("webglcontextlost", () => {
+		contextLost = true;
+		sourceRevision++;
+	});
+	map.on("style.load", () => {
+		if (!contextLost) return;
+		contextLost = false;
+		if (!map.getLayer("mk-points")) return; // first load still installs the layers
+		map.setGlobalStateProperty("mk-scheme", scheme);
+		updateGraveImage();
+		sourceKeys.clear();
+		applyFilter();
+		setActiveRing(activeId);
+		setGravesVisible(gravesToggle?.checked ?? true);
+	});
 
 	// Teardown on View-Transitions navigation away.
 	document.addEventListener(

@@ -37,7 +37,7 @@ import type { FamilyKey, Question } from "./types";
 type FindingKind = "parallel" | "principle" | "own" | "classical";
 
 /** A statement drawn under a finding. */
-export interface FindingRow {
+interface FindingRow {
 	question: Question;
 	cells: Readonly<Record<FamilyKey, ScaleCell>>;
 }

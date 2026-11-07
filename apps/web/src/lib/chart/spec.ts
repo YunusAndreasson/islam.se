@@ -27,8 +27,8 @@ import { cells, dedent, type FigureRow, parseSwedishNumber, tokenize } from "../
 
 /** The five forms. Closed on purpose — see DIAGRAMFORMER.md in the article-charts skill.
  *  A form that cannot be read in one colour does not belong on this site. */
-export const CHART_TYPES = ["bars", "columns", "line", "slope", "stack"] as const;
-export type ChartType = (typeof CHART_TYPES)[number];
+const CHART_TYPES = ["bars", "columns", "line", "slope", "stack"] as const;
+type ChartType = (typeof CHART_TYPES)[number];
 
 export interface ChartDatum {
 	label: string;

@@ -21,7 +21,7 @@
 // browsers, so it is not re-measured here and must not be: refresh it by hand.
 //
 // Needs `lighthouse` on PATH (or BENCH_LIGHTHOUSE="pnpm dlx lighthouse") and Chromium
-// (CHROME_PATH). Playwright comes from the sibling checkout; see lib.mjs.
+// (CHROME_PATH). Install the Playwright browser with `pnpm exec playwright install chromium`.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";

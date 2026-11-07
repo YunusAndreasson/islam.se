@@ -1,5 +1,5 @@
 {
-	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"$schema": "./node_modules/knip/schema.json",
 	"workspaces": {
 		"packages/quotes": {
 			"project": ["src/**/*.ts"]
@@ -18,6 +18,22 @@
 		},
 		"apps/mcp-articles": {
 			"project": ["src/**/*.ts", "scripts/**/*.ts"]
+		},
+		"apps/web": {
+			"entry": [
+				"functions/_middleware.js!",
+				"functions/api/{rattelse,moske-rattelse}.js!",
+				"functions/nyheter/index.js!",
+				"workers/rattelse-mailer/src/index.js!",
+				"scripts/*.{ts,mjs}"
+			],
+			"project": [
+				"src/**/*.{ts,astro}",
+				"functions/**/*.{js,ts}",
+				"scripts/**/*.{ts,mjs}",
+				"workers/**/*.{js,ts}"
+			],
+			"ignoreBinaries": ["typst", "ffmpeg", "uvx"]
 		}
 	},
 	"ignore": [".markdownlint-rules/**", "data/install-*.cjs"],

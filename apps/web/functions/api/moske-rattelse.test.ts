@@ -27,8 +27,8 @@ function env({ count = 0, salt = "test-salt" }: { count?: number; salt?: string 
 		RATTELSER: {
 			prepare: (sql: string) => ({
 				bind: (...args: unknown[]) => {
-					if (sql.includes("INSERT")) binds = args;
-					return { first: async () => (sql.includes("INSERT") ? { id: 99 } : { n: count }) };
+					if (sql.includes("INSERT") && count < 5) binds = args;
+					return { first: async () => (count < 5 ? { id: 99 } : null) };
 				},
 			}),
 		},
@@ -42,14 +42,11 @@ function env({ count = 0, salt = "test-salt" }: { count?: number; salt?: string 
 }
 
 function post(body: unknown, ip = "203.0.113.4") {
-	return {
+	return new Request("https://islam.se/api/moske-rattelse", {
 		method: "POST",
-		headers: { get: (name: string) => (name === "cf-connecting-ip" ? ip : null) },
-		json: async () => {
-			if (typeof body === "string") throw new SyntaxError("bad json");
-			return body;
-		},
-	};
+		headers: { "cf-connecting-ip": ip, "content-type": "application/json" },
+		body: typeof body === "string" ? body : JSON.stringify(body),
+	});
 }
 
 async function call(body: unknown, e = env()) {
@@ -68,9 +65,10 @@ describe("POST /api/moske-rattelse", () => {
 		const res = await call(VALID);
 		expect(res.body).toEqual({ ok: true, id: 99 });
 
-		// kind is hard-coded in the SQL, so the binds start at `page`. Order matters —
-		// a reshuffle here would file the reason as the description.
-		const [page, mosqueId, reason, snapshot, description, email, ipHash] = binds as string[];
+		// Verify the stored fields, including the mosque discriminator.
+		const [kind, page, snapshot, description, , email, ipHash, mosqueId, reason] =
+			binds as string[];
+		expect(kind).toBe("mosque");
 		expect(page).toBe("/moskeer/morrum/");
 		expect(mosqueId).toBe(VALID.mosque_id);
 		expect(reason).toBe("adress");
@@ -171,7 +169,7 @@ describe("POST /api/moske-rattelse", () => {
 			const res = await call({ ...VALID, reason: "stangd", description: "" });
 			expect(res.body.ok).toBe(true);
 			// The column is NOT NULL, so the endpoint substitutes a readable placeholder.
-			expect(binds[4]).toBe("(ingen beskrivning)");
+			expect(binds[3]).toBe("(ingen beskrivning)");
 		});
 
 		it.each(["adress", "namn", "plats", "annat"])(
@@ -193,7 +191,7 @@ describe("POST /api/moske-rattelse", () => {
 		it("clamps an overlong description instead of rejecting it", async () => {
 			const res = await call({ ...VALID, description: "x".repeat(9000) });
 			expect(res.body.ok).toBe(true);
-			expect(String(binds[4])).toHaveLength(4000);
+			expect(String(binds[3])).toHaveLength(4000);
 		});
 	});
 

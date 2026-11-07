@@ -1,3 +1,4 @@
+// @ts-check
 // The news vocabulary, shared by the two surfaces that render it.
 //
 // Two consumers, one renderer:
@@ -38,6 +39,63 @@
  * @property {string|null} kartaUrl  the story on zuhd's map
  */
 
+/** Validate the external payload once for both browser and edge consumers.
+ * Invalid entries are skipped so one malformed notice cannot hide the whole feed.
+ * @param {unknown} payload
+ * @returns {Nyhet[] | null} */
+export function parseFeed(payload) {
+	if (
+		typeof payload !== "object" ||
+		payload === null ||
+		!("artiklar" in payload) ||
+		!Array.isArray(payload.artiklar)
+	)
+		return null;
+	/** @type {Nyhet[]} */
+	const articles = [];
+	for (const item of payload.artiklar) {
+		if (typeof item !== "object" || item === null || Array.isArray(item)) continue;
+		/** @type {Record<string, unknown>} */
+		const row = item;
+		if (
+			typeof row.slug !== "string" ||
+			!/^[a-z0-9][a-z0-9-]{0,120}$/.test(row.slug) ||
+			typeof row.titel !== "string" ||
+			!Array.isArray(row.stycken) ||
+			!row.stycken.every((paragraph) => typeof paragraph === "string")
+		)
+			continue;
+		/** @param {unknown} value */
+		const nullableText = (value) => (typeof value === "string" ? value : null);
+		/** @param {unknown} value */
+		const nullableNumber = (value) =>
+			typeof value === "number" && Number.isFinite(value) ? value : null;
+		const datum = nullableText(row.datum);
+		const addedAt = nullableNumber(row.addedAt) ?? 0;
+		const timestamp = tid({ datum, addedAt });
+		if (timestamp <= 0 || !Number.isFinite(new Date(timestamp).getTime())) continue;
+		articles.push({
+			slug: row.slug,
+			titel: row.titel,
+			stycken: row.stycken,
+			plats: nullableText(row.plats),
+			kategori: nullableText(row.kategori),
+			datum,
+			addedAt,
+			kalla: nullableText(row.kalla),
+			kallaUrl: nullableText(row.kallaUrl),
+			lander: Array.isArray(row.lander)
+				? row.lander.filter((value) => typeof value === "string")
+				: [],
+			region: nullableText(row.region),
+			lat: nullableNumber(row.lat),
+			lng: nullableNumber(row.lng),
+			kartaUrl: nullableText(row.kartaUrl),
+		});
+	}
+	return articles;
+}
+
 /** zuhd's Swedish payload. A new endpoint, not a changed one — zuhd's JSON
  *  APIs are a published contract with a live app behind them. */
 export const FEED_URL = "https://zuhd.news/api/sv/feed.json";
@@ -64,7 +122,8 @@ export const FONSTER_H = 24;
  *  and is why the count is a ceiling rather than a target. */
 export const RAIL_ANTAL = 6;
 
-export const KATEGORI_SV = {
+/** @type {Record<string, string>} */
+const KATEGORI_SV = {
 	politik: "Politik",
 	ekonomi: "Ekonomi",
 	vetenskap: "Vetenskap",
@@ -96,6 +155,7 @@ const veckodagformat = new Intl.DateTimeFormat("sv-SE", {
 });
 const relativformat = new Intl.RelativeTimeFormat("sv", { numeric: "auto" });
 
+/** @param {unknown} value */
 export function esc(value) {
 	return String(value ?? "")
 		.replace(/&/g, "&amp;")
@@ -112,6 +172,7 @@ export function esc(value) {
  * from the sentence. Applied before escaping, so a bracket in the label cannot
  * survive as markup.
  */
+/** @param {unknown} text */
 export function plattaLandslankar(text) {
 	return String(text ?? "").replace(/\[([^\]]*)\]\(country:[A-Za-z]{2}\)/g, "$1");
 }
@@ -157,7 +218,9 @@ export function tid(a) {
  * @param {Nyhet[]} artiklar
  * @returns {Nyhet[]}
  */
+/** @type {Record<string, number>} */
 const REGIONVIKT = { ME: 4, AF: 2, AS: 2, EU: 1, AM: 0, OC: 0, GL: 0 };
+/** @type {Record<string, number>} */
 const KATEGORIVIKT = { politik: 1, vetenskap: 0, ekonomi: -1, teknik: -1 };
 
 /**
@@ -165,9 +228,10 @@ const KATEGORIVIKT = { politik: 1, vetenskap: 0, ekonomi: -1, teknik: -1 };
  * @returns {Nyhet[]}
  */
 export function rangordna(artiklar) {
+	/** @param {Nyhet} a */
 	const poang = (a) =>
-		(REGIONVIKT[a.region] ?? 0) +
-		(KATEGORIVIKT[a.kategori] ?? 0) +
+		(REGIONVIKT[a.region ?? ""] ?? 0) +
+		(KATEGORIVIKT[a.kategori ?? ""] ?? 0) +
 		((a.lander ?? []).includes("SE") ? 3 : 0);
 	// Sorted on a copy: the caller's array is the chronological record.
 	return [...artiklar].sort((a, b) => poang(b) - poang(a) || tid(b) - tid(a));
@@ -219,7 +283,7 @@ function forstaStycket(stycke, plats, text) {
 		return `<p>${text(stycke)}</p>`;
 	}
 	const resten = String(stycke).slice(prefix.length);
-	return `<p><b class="nyhet-plats">${text(plats)}.</b> ${text(resten)}</p>`;
+	return `<p><b class="nyhet-plats">${text(plats ?? "")}.</b> ${text(resten)}</p>`;
 }
 
 /**
@@ -242,7 +306,8 @@ function forstaStycket(stycke, plats, text) {
  */
 export function radHtml(a, { variant = "rail", now = Date.now() } = {}) {
 	const t = tidsetiketter(a, now);
-	const kategori = KATEGORI_SV[a.kategori] ?? null;
+	const kategori = KATEGORI_SV[a.kategori ?? ""] ?? null;
+	/** @param {unknown} s */
 	const text = (s) => esc(plattaLandslankar(s));
 	// ⚠️ text(), not esc(). zuhd can carry `[Bulgarien](country:BG)` markup in the
 	// TITLE as well as the body, and escaping alone would ship the raw source
@@ -337,7 +402,7 @@ export function radHtml(a, { variant = "rail", now = Date.now() } = {}) {
 
 /** Which calendar day a notice belongs to, in Stockholm.
  *  @param {number} ms */
-export function dagnyckel(ms) {
+function dagnyckel(ms) {
 	return dagnyckelformat.format(new Date(ms));
 }
 
@@ -374,8 +439,9 @@ export function dagetikett(ms, now = Date.now()) {
  */
 export function statusHtml(artiklar, now = Date.now()) {
 	const antal = artiklar.length;
-	if (antal === 0) return "";
-	const t = tidsetiketter(artiklar[0], now);
+	const first = artiklar[0];
+	if (!first) return "";
+	const t = tidsetiketter(first, now);
 	return (
 		`<span class="nyheter-antal">${antal}</span> ${antal === 1 ? "notis" : "notiser"}` +
 		' <span class="nyhet-skiljetecken" aria-hidden="true">·</span> ' +

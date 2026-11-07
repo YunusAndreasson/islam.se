@@ -13,7 +13,7 @@
 		"lint:charts": "python3 scripts/check-chart-sources.py --offline data/svar/*.md data/fordjupning/*.md data/articles/*.md",
 		"lint:chrome": "python3 scripts/check-chrome-copy.py",
 		"chart:check": "tsx apps/web/scripts/chart-check.ts",
-		"verify": "pnpm check && pnpm typecheck:web && pnpm test && pnpm test:checkers && pnpm lint:house && pnpm lint:charts && pnpm lint:chrome && pnpm chart:check && pnpm build && node apps/web/scripts/assert-page-budgets.mjs",
+		"verify": "pnpm check && pnpm typecheck:web && pnpm --filter @islam-se/web knip && pnpm --filter @islam-se/web check:edge && pnpm test && pnpm test:checkers && pnpm lint:house && pnpm lint:charts && pnpm lint:chrome && pnpm chart:check && pnpm build && node apps/web/scripts/assert-page-budgets.mjs",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"cli": "pnpm --filter @islam-se/cli run cli",

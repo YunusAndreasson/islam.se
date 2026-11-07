@@ -4,18 +4,10 @@ import { describe, expect, it, vi } from "vitest";
 import {
 	clampField,
 	hashIp,
-	isRateLimited,
-	MAX_PER_HOUR,
+	MAX_JSON_BYTES,
 	notifyMailer,
 	readJsonObject,
 } from "./_corrections.js";
-
-/** A D1 stand-in whose COUNT(*) answers with `n`. */
-function db(n: number) {
-	return {
-		prepare: () => ({ bind: () => ({ first: async () => ({ n }) }) }),
-	};
-}
 
 describe("clampField", () => {
 	it("trims and truncates to the caller's limit", () => {
@@ -34,8 +26,7 @@ describe("clampField", () => {
 });
 
 describe("readJsonObject", () => {
-	const req = (json: () => Promise<unknown>) => ({ json });
-	const ok = (body: unknown) => req(async () => body);
+	const ok = (body: unknown) => Response.json(body);
 
 	it("returns the parsed object", async () => {
 		await expect(readJsonObject(ok({ page: "/x/" }))).resolves.toEqual({ page: "/x/" });
@@ -58,13 +49,7 @@ describe("readJsonObject", () => {
 	});
 
 	it("refuses a body that is not JSON at all", async () => {
-		await expect(
-			readJsonObject(
-				req(async () => {
-					throw new SyntaxError("Unexpected token <");
-				}),
-			),
-		).resolves.toBeNull();
+		await expect(readJsonObject(new Response("<html>"))).resolves.toBeNull();
 	});
 });
 
@@ -92,22 +77,6 @@ describe("hashIp", () => {
 
 	it("separates different addresses under the same salt", async () => {
 		expect(await hashIp("203.0.113.4", "s")).not.toBe(await hashIp("203.0.113.5", "s"));
-	});
-});
-
-describe("isRateLimited", () => {
-	// The boundary is the whole point: MAX_PER_HOUR submissions must still be allowed and
-	// the next one blocked. An off-by-one here either lets in one extra or silently costs
-	// an honest reporter their last attempt.
-	it("allows up to the cap and blocks at it", async () => {
-		expect(await isRateLimited(db(MAX_PER_HOUR - 1), "hash")).toBe(false);
-		expect(await isRateLimited(db(MAX_PER_HOUR), "hash")).toBe(true);
-		expect(await isRateLimited(db(MAX_PER_HOUR + 1), "hash")).toBe(true);
-	});
-
-	it("treats an empty count as not limited", async () => {
-		const empty = { prepare: () => ({ bind: () => ({ first: async () => null }) }) };
-		expect(await isRateLimited(empty, "hash")).toBe(false);
 	});
 });
 
@@ -153,5 +122,49 @@ describe("notifyMailer", () => {
 		// Swallowed, but never silent — the operator needs a trace for both paths.
 		expect(spy).toHaveBeenCalledTimes(2);
 		spy.mockRestore();
+	});
+});
+
+// Field clamps did not bound the JSON allocation; Content-Length can be absent or false.
+describe("bounded JSON reads", () => {
+	it("rejects oversized bodies before parsing them", async () => {
+		const response = new Response(JSON.stringify({ text: "x".repeat(MAX_JSON_BYTES) }), {
+			headers: { "content-length": "1" },
+		});
+		await expect(readJsonObject(response)).resolves.toBeNull();
+	});
+
+	it("counts bytes across chunks and cancels an oversized producer", async () => {
+		const cancel = vi.fn();
+		const body = new ReadableStream<Uint8Array>({
+			start(controller) {
+				controller.enqueue(new Uint8Array(MAX_JSON_BYTES));
+				controller.enqueue(new Uint8Array(1));
+			},
+			cancel,
+		});
+		await expect(readJsonObject({ body })).resolves.toBeNull();
+		expect(cancel).toHaveBeenCalledOnce();
+	});
+
+	it("decodes Unicode split across chunks without corrupting reader text", async () => {
+		const encoded = new TextEncoder().encode(JSON.stringify({ text: "åäö مسجد" }));
+		const body = new ReadableStream<Uint8Array>({
+			start(controller) {
+				for (const byte of encoded) controller.enqueue(Uint8Array.of(byte));
+				controller.close();
+			},
+		});
+		await expect(readJsonObject({ body })).resolves.toEqual({ text: "åäö مسجد" });
+	});
+
+	it("refuses stream failures and empty bodies", async () => {
+		const body = new ReadableStream<Uint8Array>({
+			start(controller) {
+				controller.error(new Error("disconnected"));
+			},
+		});
+		await expect(readJsonObject({ body })).resolves.toBeNull();
+		await expect(readJsonObject(new Response(null))).resolves.toBeNull();
 	});
 });

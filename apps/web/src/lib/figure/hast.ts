@@ -11,7 +11,9 @@
  * string is a malformed EPUB, which readers reject outright rather than repair.
  */
 
-export interface HastText {
+import { escapeXml } from "../xml";
+
+interface HastText {
 	type: "text";
 	value: string;
 }
@@ -47,14 +49,6 @@ const VOID_TAGS = new Set(["rect", "circle", "line", "polyline", "path", "br", "
 function attrName(key: string): string {
 	if (key === "className") return "class";
 	return key;
-}
-
-export function escapeXml(value: string): string {
-	return value
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;");
 }
 
 export function hastToXml(node: HastNode): string {

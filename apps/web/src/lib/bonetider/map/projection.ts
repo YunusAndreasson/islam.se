@@ -14,7 +14,7 @@ export function mercX(lon: number): number {
 
 /** Latitude → normalised Mercator y in [0, 1] (0 = north pole side, 1 = south). */
 export function mercY(lat: number): number {
-	const clamped = lat > MAX_LAT ? MAX_LAT : lat < -MAX_LAT ? -MAX_LAT : lat;
+	const clamped = Math.max(-MAX_LAT, Math.min(MAX_LAT, lat));
 	const phi = clamped * DEG;
 	return 0.5 - Math.log(Math.tan(Math.PI / 4 + phi / 2)) / (2 * Math.PI);
 }

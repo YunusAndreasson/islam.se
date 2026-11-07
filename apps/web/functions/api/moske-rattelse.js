@@ -1,3 +1,4 @@
+// @ts-check
 // Mosque corrections submitted from the mobile app: validate, store in D1, notify.
 //
 // The vendored mosque dataset goes stale in the real world — mosques close, move and get
@@ -30,9 +31,9 @@ import {
 	EMAIL_PATTERN,
 	fail,
 	hashIp,
-	isRateLimited,
 	notifyMailer,
 	readJsonObject,
+	storeCorrection,
 } from "./_corrections.js";
 
 const LIMITS = {
@@ -45,6 +46,7 @@ const LIMITS = {
 	description: 4000,
 	reporter_email: 200,
 	app_version: 20,
+	reason: 20,
 };
 
 // The reason carries WHAT is wrong, so the free text only has to supply the correct value.
@@ -60,10 +62,13 @@ const REASONS = new Set(["stangd", ...REASONS_REQUIRING_TEXT]);
 const MOSQUE_ID_PATTERN = /^[a-z0-9-]{3,80}$/;
 const CITY_SLUG_PATTERN = /^[a-z0-9-]{2,60}$/;
 
+/** @param {Record<string, unknown>} body
+ * @param {keyof typeof LIMITS} name */
 function field(body, name) {
 	return clampField(body, name, LIMITS[name]);
 }
 
+/** @param {import("./_types").CorrectionContext} context */
 export async function onRequestPost(context) {
 	const { request, env } = context;
 
@@ -100,8 +105,6 @@ export async function onRequestPost(context) {
 	const ip = request.headers.get("cf-connecting-ip") || "";
 	const ipHash = await hashIp(ip, env.IP_SALT);
 
-	if (await isRateLimited(env.RATTELSER, ipHash)) return fail("rate_limited", 429);
-
 	// What the app was showing when the user hit report. Worth storing verbatim: the web
 	// dataset and the vendored mobile copy have drifted, so triage needs to know which
 	// version of the record the reporter was actually looking at.
@@ -118,23 +121,17 @@ export async function onRequestPost(context) {
 	// this mosque, which the triage tool links with the record id as the fragment.
 	const page = `/moskeer/${citySlug}/`;
 
-	const inserted = await env.RATTELSER.prepare(
-		`INSERT INTO corrections (kind, page, mosque_id, reason, passage, description, reporter_email, ip_hash)
-		 VALUES ('mosque', ?1, ?2, ?3, ?4, ?5, ?6, ?7)
-		 RETURNING id`,
-	)
-		.bind(
-			page,
-			mosqueId,
-			reason,
-			snapshot,
-			description || "(ingen beskrivning)",
-			reporterEmail || null,
-			ipHash,
-		)
-		.first();
-
-	const id = inserted?.id ?? 0;
+	const id = await storeCorrection(env.RATTELSER, {
+		kind: "mosque",
+		page,
+		mosqueId,
+		reason,
+		passage: snapshot,
+		description: description || "(ingen beskrivning)",
+		reporterEmail,
+		ipHash,
+	});
+	if (id === null) return fail("rate_limited", 429);
 
 	await notifyMailer(
 		env,

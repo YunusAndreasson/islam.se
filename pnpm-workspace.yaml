@@ -19,3 +19,10 @@ allowBuilds:
   protobufjs: true
   sharp: true
   workerd: true
+# agents' decorator plugin requires Babel 8, but its optional bundler plugin also
+# accepts Babel 7 and pnpm otherwise resolves that older core for both. Supply the
+# missing core dependency only for the affected release; review on agents upgrades.
+packageExtensions:
+  "agents@0.33.0":
+    dependencies:
+      "@babel/core": "^8.0.1"

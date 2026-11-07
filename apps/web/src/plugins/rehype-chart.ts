@@ -7,11 +7,8 @@
  * bars are in the HTML that leaves the build, so the chart is there with scripting off, in
  * the print stylesheet, and for a crawler.
  *
- * The shape follows src/plugins/rehype-quran-verse.ts — find a node, hand-build the
- * replacement hast, splice it in — and the markup it produces is the same markup
- * Chart.astro produces, from the same renderer. That is the doctrine QuranVerse.astro
- * already states for its own pair: markdown gets its figure from the plugin, a
- * hand-composed page uses the component.
+ * The renderer is shared with the PDF and EPUB paths so charts have one
+ * implementation across publishing formats.
  *
  * The traversal itself lives in rehype-fence.ts, shared with the ```table fence — including
  * the two warnings that matter (Shiki's excludeLangs, and the content cache).

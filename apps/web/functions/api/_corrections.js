@@ -1,3 +1,4 @@
+// @ts-check
 // Shared machinery for the two correction endpoints — /api/rattelse (reader
 // corrections on an article) and /api/moske-rattelse (mosque data from the app).
 //
@@ -13,39 +14,53 @@ export const MAX_PER_HOUR = 5;
 
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/** @param {string} error
+ * @param {number} status */
 export function fail(error, status) {
 	return Response.json({ ok: false, error }, { status });
 }
 
-/**
- * The request body as a JSON *object*, or null when it is anything else.
- *
- * ⚠️ `request.json()` resolves for any JSON value, and `null` is valid JSON — so a body of
- * literally `null` sailed straight through the try/catch and then threw TypeError on the
- * first field read (`body.website` in rattelse, `body[name]` via clampField in
- * moske-rattelse). An unhandled throw in a Pages Function is a 500, so one `curl -d null`
- * turned an intended 400 into a server error plus a logged exception, on both endpoints.
- * Primitives happened to survive (`(5).mosque_id` is undefined, so every field read "" and
- * validation answered 400) — but surviving by accident is not the same as being handled.
- *
- * Arrays are refused too: a correction is an object, and `[]` reaching the field readers
- * only ever produced a misleading `bad_page` / `bad_mosque`.
- *
- * Both endpoints read fields directly off the parsed body, so this check belongs here with
- * the rest of what must not drift between them.
- */
-export async function readJsonObject(request) {
-	let body;
+/** Enough for every correction field including JSON-escaped Unicode, without
+ * buffering arbitrary request bodies or trusting the Content-Length header. */
+export const MAX_JSON_BYTES = 64 * 1024;
+
+/** Read a bounded JSON object, refusing malformed, oversized and non-object input.
+ * Shared by request parsing and the small Turnstile verification response.
+ * @param {{body: ReadableStream<Uint8Array> | null}} source
+ * @returns {Promise<Record<string, unknown> | null>} */
+export async function readJsonObject(source) {
+	if (!source.body) return null;
+	const reader = source.body.getReader();
+	const decoder = new TextDecoder();
+	let bytes = 0;
+	let text = "";
 	try {
-		body = await request.json();
+		while (true) {
+			const { done, value } = await reader.read();
+			if (done) break;
+			bytes += value.byteLength;
+			if (bytes > MAX_JSON_BYTES) {
+				// Cancellation is cleanup; a stalled producer must not hold the response.
+				reader.cancel().catch(() => undefined);
+				return null;
+			}
+			text += decoder.decode(value, { stream: true });
+		}
+		/** @type {unknown} */
+		const body = JSON.parse(text + decoder.decode());
+		if (typeof body !== "object" || body === null || Array.isArray(body)) return null;
+		return /** @type {Record<string, unknown>} */ (body);
 	} catch {
 		return null;
+	} finally {
+		reader.releaseLock();
 	}
-	if (typeof body !== "object" || body === null || Array.isArray(body)) return null;
-	return body;
 }
 
 /** A trimmed, length-clamped string field. Anything non-string reads as "". */
+/** @param {Record<string, unknown>} body
+ * @param {string} name
+ * @param {number} max */
 export function clampField(body, name, max) {
 	const raw = body[name];
 	if (typeof raw !== "string") return "";
@@ -58,6 +73,8 @@ export function clampField(body, name, max) {
  * fail loudly on a missing IP_SALT rather than hashing the literal "undefined:<ip>"
  * (brute-forceable across the whole IPv4 space).
  */
+/** @param {string} ip
+ * @param {string} salt */
 export async function hashIp(ip, salt) {
 	const bytes = new TextEncoder().encode(`${salt}:${ip}`);
 	const digest = await crypto.subtle.digest("SHA-256", bytes);
@@ -67,20 +84,35 @@ export async function hashIp(ip, salt) {
 		.slice(0, 32);
 }
 
-/**
- * True when this hashed IP has already filed MAX_PER_HOUR reports in the last hour.
- * The timestamp format matches the column's own strftime default, so the window
- * compares as a plain string; corrections_ip_hash_idx backs the lookup.
- */
-export async function isRateLimited(db, ipHash) {
-	const recent = await db
-		.prepare(
-			`SELECT COUNT(*) AS n FROM corrections
-			 WHERE ip_hash = ?1 AND created_at > strftime('%Y-%m-%dT%H:%M:%SZ', 'now', '-1 hour')`,
+/** Insert only if this IP is below the shared rolling-hour cap.
+ * The condition and write execute as one statement, preventing concurrent
+ * requests from all passing a separate COUNT query before any insert commits.
+ * @param {import("./_types").CorrectionDatabase} db
+ * @param {import("./_types").CorrectionInput} input
+ * @returns {Promise<number | null>} null means the rate limit refused the insert. */
+export async function storeCorrection(db, input) {
+	const row = await db
+		.prepare(`
+		INSERT INTO corrections (kind, page, passage, description, source, reporter_email, ip_hash, mosque_id, reason)
+		SELECT ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9
+		WHERE (SELECT COUNT(*) FROM corrections
+			WHERE ip_hash = ?7 AND created_at > strftime('%Y-%m-%dT%H:%M:%SZ', 'now', '-1 hour')) < ?10
+		RETURNING id
+	`)
+		.bind(
+			input.kind,
+			input.page,
+			input.passage || null,
+			input.description,
+			input.source || null,
+			input.reporterEmail || null,
+			input.ipHash,
+			input.mosqueId ?? null,
+			input.reason ?? null,
+			MAX_PER_HOUR,
 		)
-		.bind(ipHash)
 		.first();
-	return Boolean(recent && recent.n >= MAX_PER_HOUR);
+	return row?.id ?? null;
 }
 
 /**
@@ -90,12 +122,16 @@ export async function isRateLimited(db, ipHash) {
  * notification must never fail the submission — the reporter would retry and we
  * would store it twice. Every failure path is logged and swallowed.
  */
+/** @param {import("./_types").MailerEnvironment} env
+ * @param {{id: number} & Record<string, unknown>} payload
+ * @param {string} label */
 export async function notifyMailer(env, payload, label) {
 	try {
 		const res = await env.MAILER.fetch("https://rattelse-mailer.internal/", {
 			method: "POST",
 			headers: { "content-type": "application/json" },
 			body: JSON.stringify(payload),
+			signal: AbortSignal.timeout(5000),
 		});
 		if (!res.ok) console.error(`${label} notify failed`, { id: payload.id, status: res.status });
 	} catch (error) {

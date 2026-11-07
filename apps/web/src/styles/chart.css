@@ -1,4 +1,4 @@
-/* Charts in article bodies (```chart fences) and on hand-composed pages (Chart.astro).
+/* Charts in article bodies (```chart fences).
  *
  * GLOBAL, not scoped, for the same reason quran-verse.css is: these elements are built by
  * a rehype plugin at compile time and can never carry Astro's scoped-style hash.

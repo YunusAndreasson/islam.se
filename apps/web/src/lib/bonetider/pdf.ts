@@ -66,7 +66,7 @@ export function typstRenderer(
 	const genDir = join(cacheDir, generation);
 	let pruned = false;
 
-	return (key, source) => {
+	function pruneOldGenerations(): void {
 		if (!pruned) {
 			pruned = true;
 			try {
@@ -79,6 +79,10 @@ export function typstRenderer(
 				// Ingen cachekatalog än. Ett bygge får aldrig falla på städningen.
 			}
 		}
+	}
+
+	return (key, source) => {
+		pruneOldGenerations();
 		const cached = join(genDir, `${key}.pdf`);
 		try {
 			if (existsSync(cached)) return readFileSync(cached);

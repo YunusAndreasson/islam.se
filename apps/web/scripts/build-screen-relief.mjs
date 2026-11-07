@@ -74,7 +74,7 @@ async function fetchTile([tx, ty]) {
 				const e = data[i] * 256 + data[i + 1] + data[i + 2] / 256 - 32768;
 				// The tiles carry bathymetry. Sea floor is flattened to sea level, or the drop
 				// from coast to seabed shades a bright band along every shore.
-				elev[(oy + py) * W + ox + px] = e > 0 ? e : 0;
+				elev[(oy + py) * W + ox + px] = Math.max(e, 0);
 			}
 		return;
 	}

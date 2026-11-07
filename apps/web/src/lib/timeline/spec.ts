@@ -30,10 +30,10 @@
 import { dedent, type FigureRow, tokenize } from "../figure/tokenize";
 
 /** How the gap between two entries is decided. */
-export const TIMELINE_SCALES = ["time", "even"] as const;
-export type TimelineScale = (typeof TIMELINE_SCALES)[number];
+const TIMELINE_SCALES = ["time", "even"] as const;
+type TimelineScale = (typeof TIMELINE_SCALES)[number];
 
-export interface TimelineEntry {
+interface TimelineEntry {
 	/** As the author wrote it: "ca 870", "1036-1041", "1949". */
 	label: string;
 	text: string;
