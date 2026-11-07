@@ -1,25 +1,30 @@
 ---
 name: ritning
-description: Make a new drawing in islam.se's own series — Turner-sketchbook graphite with one ochre accent, drawn as a pair (graphite on white for the light theme, white chalk on black for the dark) — and place it on the site by the rules in DESIGN.md »The Drawings«. Covers choosing the place and whether a drawing belongs there at all, the motif and its one ochre thing, generating with Codex's image tool, processing, registering in lib/ritningar.ts, placing with <Ritning>, and measuring that it stands on its lines in both themes. Use when asked for "en illustration", "en ritning", "en teckning", "en bild till sidan/sektionen", "illustrera X", "rita något till …", or to replace or redo one of the existing drawings. Not for essay or fördjupning hero photographs (those are photographs, from the article pipeline), and not for charts in a text (article-charts).
+description: Make a new drawing in islam.se's own series — an engraved vignette after Bewick's tailpieces and Swedish book xylography, in the type's own ink with one flat brass tint, drawn as a pair (ink on white for the light theme, a white-line engraving on black for the dark) — and place it on the site by the rules in DESIGN.md »The Drawings«. Covers choosing the place and whether a drawing belongs there at all, the motif and its one brass thing, generating with Codex's image tool, processing, registering in lib/ritningar.ts, placing with <Ritning>, and measuring that it stands on its lines in both themes. Use when asked for "en illustration", "en ritning", "en teckning", "en bild till sidan/sektionen", "illustrera X", "rita något till …", or to replace or redo one of the existing drawings. Not for essay, essäserie or fördjupning photographs (feature-image), and not for charts in a text (article-charts).
 ---
 
 # Ritningar — the site's own drawings
 
 The essays and the fördjupningar carry photographs; the site's own sections speak through
-a series of pencil drawings in one hand. The series began 2026-09-26 and the user shaped
+a series of engraved vignettes in one hand. The series began 2026-09-26 in graphite and
+was redrawn as engraving on 2026-11-07 (why: DESIGN.md »The Drawings«); the user shaped
 every rule in it by review, so the rules below are decisions, not taste:
 
-- **One hand:** graphite in the manner of J. M. W. Turner's sketchbook studies — quick,
-  searching, redrawn lines, soft hatching only where form needs weight, much open paper —
-  and **one** ochre pencil for the one thing that is gold (the ribbon, the barometer's
-  needle, the new crescent, the lamp's flame).
-- **Two papers, no frame:** each drawing exists twice, `<namn>.webp` (graphite on white)
-  and `<namn>-mork.webp` (the same drawing in white chalk on black, made as an edit of the
-  light one). `Ritning.astro` multiplies the white paper into its ground and screens the
-  black one, so the drawing lies straight on the page in both themes.
+- **One hand:** wood engraving in the manner of Thomas Bewick's tailpieces and Swedish book
+  xylography — crisp lines of even weight, tone in fine parallel lines, clean white
+  lights, each scene dissolving into the paper in a soft oval — in the type's own ink, and
+  **one** flat brass tint under the lines for the one thing that is gold (the keystone,
+  the key, the new crescent, the lamp's flame).
+- **Drawn for its size:** shown 130–230px tall. Engraved tone covers at most half the
+  vignette; skies, walls and table tops stay white. Mean ink inside the series' band.
+- **Two papers, no frame:** each drawing exists twice, `<namn>.webp` (ink on white) and
+  `<namn>-mork.webp` (the same vignette as a white-line engraving on black, made as an
+  edit of the light one). `Ritning.astro` multiplies the white paper into its ground and
+  screens the black one, so the drawing lies straight on the page in both themes.
 - **What may be drawn:** things, buildings, landscape, plants. **Never people, never
-  animals** — the classical position the site takes on drawn images of living beings. The
-  Turner reference page is all figures; it is a style reference only.
+  animals** — the classical position the site takes on drawn images of living beings.
+  Bewick's own tailpieces are full of figures and animals; the style is the reference,
+  never the subjects.
 
 Read `DESIGN.md` »The Drawings« (the contract) and `apps/web/src/assets/ritningar/README.md`
 (how the pixels are made) before placing one. `apps/web/src/lib/ritningar.ts` lists every
@@ -63,12 +68,13 @@ the front page's narrow column).
 - Say what the section **is**, as a thing in a Swedish room or landscape: a window at
   first light with a prayer rug (prayer times), the new crescent over a lake shore (the
   islamic year), a writing desk with an oil lamp (thinkers), a gravel road with old
-  milestones along it, the nearest milestone in ochre (themes), the Quran on its wooden stand (the pillars and faith).
-- **One ochre thing**, named in the prompt, and it should be the point of the drawing.
-  Keep it **small**: a hub opening shows the drawing at ~110px, and an ochre area that is
-  large on the sheet is all the eye sees there. The themes' road was ochre along its whole
-  length and the user judged it »för mycket gult« (2026-10-04); the accent moved to one
-  milestone, redrawn as an edit of the same sheet so the composition held.
+  milestones along it, the nearest milestone tinted brass (themes), the Quran on its wooden stand (the pillars and faith).
+- **One brass thing**, named in the prompt, and it should be the point of the drawing.
+  Keep it **small** and **flat, under the engraved lines**: a hub opening shows the
+  drawing at ~110px, and a brass area that is large on the sheet is all the eye sees
+  there. The themes' road was ochre along its whole length and the user judged it »för
+  mycket gult« (2026-10-04); in the engraving a milestone drawn as a solid brass slab read
+  as a sticker, and was fixed as an edit of the cell (brass under the stone's lines).
 - **No text, no letters, no imitation Arabic.** A mushaf's lines are suggested by soft
   hatching only — generated pseudo-script on a Quran page would be disrespectful.
 - **Don't repeat a motif** already in `lib/ritningar.ts` (two lake windows is one too many
@@ -77,28 +83,40 @@ the front page's narrow column).
 Write the motif file — two lines:
 
 ```text
-Subject: an open Quran resting on a carved wooden folding stand (rahle) on a low table by a window, soft morning light across the pages. The lines of script are only suggested by soft grey pencil hatching — no letters, no legible or imitation Arabic writing.
-The only ochre: the small gilded headpiece ornament at the top of the right-hand page.
+Subject: an open Quran resting on a carved wooden folding stand (rahle) on a low wooden table, seen in a gentle three-quarter view, the edge of a small-paned window behind. The lines of the pages are only suggested by soft, even, horizontal strokes — no letters, no legible or imitation Arabic or any other script.
+The only brass: the small ornamental headpiece at the top of the right-hand page.
 ```
 
 ## Making it
 
 The machine may be busy (the user runs heavy jobs): two variants in parallel is the
-default, and every other step runs one at a time.
+default, and every other step runs one at a time. Each call attaches a sheet of the
+series (`_ref/gravyr-ark.png`, built from four of the repo's drawings) so the new one is
+cut in the same hand. **Redrawing several at once?** Draw them four to a sheet in one call
+instead (the README's brief, step 1): four drawn together share one hand.
 
 ```bash
 S=.claude/skills/ritning/scripts
 $S/rita.sh ljus  <namn> liggande /path/motiv.txt 2   # → ~/.cache/islam-se-ritningar/<namn>/kontakt.png
 $S/rita.sh mork  <namn> <variant>                    # → …/<namn>/par.png (light and dark side by side)
-$S/rita.sh spara <namn>                              # → apps/web/src/assets/ritningar/<namn>(-mork).webp
+$S/rita.sh spara <namn> [höjd] [fot]                 # → apps/web/src/assets/ritningar/<namn>(-mork).webp
+                                                     #   fot: stand it on a square (the front page's band)
 ```
 
+A detail that is wrong (too much brass, one mark too heavy) is fixed as an **edit of the
+chosen image**, not a new draw: attach it, name the one change, »keep everything else
+exactly«. The composition holds; a new draw loses it.
+
 **Look at every image before the next step** (Read the PNG). Reject and rerun when:
-a person or animal appears; there is text or pseudo-letters; more than one thing is ochre;
-it looks like clip-art or a polished render instead of a sketch; the paper has a frame or
-texture. For the dark one: it must draw the *light* (pages bright, a dark screen stays
-dark) — a photographic negative is a reject. `spara` prints the corners: 255 for the
-light file, 0 for the dark one, or the paper will show as a square on the page.
+a person or animal appears; there is text or pseudo-letters; more than one thing is brass,
+or the brass is a solid block or shiny metal; a dense hatched field stands behind an
+object, or the vignette ends in a hard straight edge; it reads as vintage clip-art; the
+paper has a frame or texture. **Judge it at its size**: `kontakt.png` also shows each
+variant 135px tall on the page's paper, which is where the old graphite failed. For the
+dark one: the lines must carry the *light* (pages bright, a doorway and a dark screen stay
+dark) — a photographic negative is a reject. `spara` prints the corners (255 for the
+light file, 0 for the dark one, or the paper shows as a square on the page) and the mean
+ink, which belongs inside the series' band (9.7–18.9 % in November 2026).
 
 `<namn>` is a short Swedish slug (`aret`, `vilse`, `barometern-bred`); the files overwrite
 an existing pair of that name.
@@ -164,4 +182,10 @@ Zen check (the user's browser; `~/.claude/rules/browser.md`) when the machine is
   image; stdin must never be left open or it waits forever. Never `pkill -f` a pattern
   that appears in your own command line.
 - **Inverting a tonal drawing** for the dark theme makes a negative, and a light sheet on
-  the dark page "doesn't work" — always the chalk edit.
+  the dark page "doesn't work" — always the white-line edit.
+- **/tmp is a RAM tmpfs** that fills up while other jobs run: a sheet copied there came
+  back truncated and a script written there came out empty (2026-11-07). Work in
+  `~/.cache/islam-se-ritningar`, and if a copy fails take the original from
+  `~/.codex/generated_images/<session id>/` (the id is in the run's log).
+- **A drawing is judged at its size, not at full size.** The graphite series looked rich at
+  900px and turned to grey fuzz at 135; a re-ink in the site's colours fixed nothing.

@@ -1,17 +1,17 @@
 # Ritningar
 
-The site's own drawings — one hand throughout: graphite in the manner of J. M. W.
-Turner's sketchbook studies, one ochre pencil per drawing for the one thing that is
-gold. `src/lib/ritningar.ts` lists them, `src/components/Ritning.astro` draws them, and
-DESIGN.md (»The Drawings«) says where one may stand. Things, buildings, landscape and
-plants only: no people and no animals.
+The site's own drawings — engraved vignettes in one hand: wood engraving in the manner of
+Thomas Bewick's tailpieces and the Swedish book xylography after him, printed in the
+type's own ink, with one flat brass tint per drawing for the one thing that is gold.
+`src/lib/ritningar.ts` lists them, `src/components/Ritning.astro` draws them, and
+DESIGN.md (»The Drawings«) says where one may stand and why the hand is engraving.
+Things, buildings, landscape and plants only: no people and no animals.
 
-Each is drawn twice: `<name>.webp`, graphite on white paper, for the light theme, and
-`<name>-mork.webp`, the same drawing in white chalk on black paper, for the dark —
-Turner's own practice on toned paper. On the page each paper is blended away into its
-ground (white multiplied, black screened), so there is no frame in either theme. Tried
-and dropped for the dark theme: inverting the graphite (a negative — the dark screen
-went white, the shadows glowed) and the graphite on a light sheet ("doesn't work").
+Each is drawn twice: `<name>.webp`, ink on white paper, for the light theme, and
+`<name>-mork.webp`, the same vignette cut as a white-line engraving on black, for the
+dark. On the page each paper is blended away into its ground (white multiplied, black
+screened), so there is no frame in either theme. Never invert one for the other: a
+tonal drawing inverted is a negative (the dark doorway turns white).
 
 One drawing also goes to print: `aret-tryck.jpg` is `aret.webp` (the new crescent) as a
 760 px JPEG for the Ramadan sheet (`lib/bonetider/ramadan-pdf.ts`). Typst embeds a JPEG
@@ -19,101 +19,79 @@ as it is but unpacks a WebP, 43 kB against 385 kB in each of 272 PDFs. Remake it
 light drawing whenever that changes:
 `magick aret.webp -resize 760x -quality 82 -sampling-factor 4:2:0 -strip aret-tryck.jpg`.
 
-## A new drawing
+## Making one
 
-Generate the light one with the Turner page (below) and an existing drawing of the
-series attached, so the hand carries over; then the dark one as an edit of it, with the
-series' chalk drawing attached. `-i` takes several files, so the prompt goes on stdin.
-Single drawings are square (1024 or 1254), one per call; three parallel runs take ~2 min.
+The `ritning` skill (`.claude/skills/ritning`) runs the whole chain; this is what it does
+and why.
 
-```bash
-codex exec --skip-git-repo-check -s read-only -C <tmpdir> -i turner.jpg -i podden.png - < light.txt
-codex exec --skip-git-repo-check -s read-only -C <tmpdir> -i <light>.png -i podden-mork.png - < dark.txt
-# → ~/.codex/generated_images/<session id>/exec-*.png  (may carry alpha: flatten first)
-```
-
-Light prompt, with the subject and its one ochre thing as the last line:
-
-```text
-Create exactly one image with your image generation tool, then stop and reply with one short line.
-Use case: illustration-story
-Input images: Image 1 is a STYLE reference — a page of J. M. W. Turner's pencil sketchbook. Image 2 is an existing drawing from the SAME SERIES this one belongs to — match its hand exactly: its loose, searching, redrawn contours, its soft hatching only where form needs weight, its amount of detail, its restraint and its single ochre accent. Do not copy either image's subject.
-Asset type: a spot illustration that opens a section of a Swedish literary website about Islam; shown about 180 pixels tall beside the page title, on a warm paper-coloured page. The paper must be pure white so it can be multiplied away.
-Style/medium: graphite pencil, quick and observed, unfinished at the edges, lots of open paper. Graphite only, plus exactly ONE warm ochre-gold coloured pencil used only where stated. Pure white paper, no texture, no paper edge, no border, no rectangle: the drawing fades out into the white. No people, no human figures, hands or faces, no animals or birds anywhere — only things, buildings, landscape and plants. No text, letters, numbers, signature or logos.
-Composition: square 1:1, one drawing centred with generous white margin all around.
-Subject: … The only ochre: …
-```
-
-Dark prompt (the edit): the same as the pair's below, with »Composition: square 1:1,
-exactly as Image 1.«
-
-Processing, as for the pair: flatten (white / black), `-fuzz 1% -trim`, `-level
-0%,95%,0.8` for the graphite (paper haze to pure white, midtones deepened) and `-level
-4%,100%,1.35` for the chalk (haze to pure black, midtones lifted), a 24px border in the
-paper's colour, `-resize 'x720>'`, WebP q88. Check the corners read 255 and 0.
-
-## How the podcast and app pair was made (2026-09-26)
-
-Tried and dropped the same day: one-ink line drawings traced to SVG ("too simple"), and
-graphite after Carl Larsson / Anders Zorn / John Bauer. The user then pointed to a page
-of Turner's sketchbook (<https://kooness.com/wp-content/uploads/2025/05/unnamed-39.jpg>,
-Tate) and asked for the phone to show the real app.
-
-1. **Generated as a pair on one sheet** (separate calls drift in hand and weight) with
-   Codex's built-in image tool, the Turner page and `../app/app-tider.png` attached as
-   references. `-i` takes several files, so the prompt goes on stdin:
+1. **Four to a sheet, one call.** Codex's image tool draws a landscape 3:2 sheet with
+   four vignettes in an invisible 2×2 grid (768×512 cells). Four drawn together share
+   one hand; drawn one by one they drift in weight. A sheet of the series is always
+   attached as the reference (`-i`, so the prompt goes on stdin with `-`). A drawing
+   that is shown large is made alone at 1:1 with the same reference: the Quran stand is
+   about 500px wide on /vad-ar-islam/.
 
    ```bash
-   codex exec --skip-git-repo-check -s read-only -C <tmpdir> \
-     -i turner.jpg -i src/assets/app/app-tider.png - < prompt.txt
-   # → ~/.codex/generated_images/<session id>/exec-*.png (1536×1024)
+   codex exec --skip-git-repo-check -s read-only -C <tmpdir> -i <reference-sheet>.png - < prompt.txt
+   # → ~/.codex/generated_images/<session id>/exec-*.png
    ```
 
-   The prompt (these are the first of two runs of it; a third, with the qibla
-   compass on the screen, read more clearly at 70px but less like the app):
+2. **The brief.** Every prompt carries this block, then the composition and one line per
+   cell naming the subject and its one brass thing:
 
    ```text
    Create exactly one image with your image generation tool, then stop and reply with one short line.
    Use case: illustration-story
-   Input images: Image 1 is a STYLE reference only — a page from J. M. W. Turner's pencil sketchbook. Image 2 is a CONTENT reference only — a screenshot of the real mobile app whose screen appears in the right-hand drawing. Do not copy either image's subject or layout beyond what is stated.
-   Asset type: two spot illustrations for a literary website, in a band promoting a podcast of read-aloud essays (left) and the site's prayer-times app (right). Shown about 160 pixels tall on a warm paper-coloured page; the paper must be pure white so it can be multiplied away.
-   Style/medium: graphite pencil in the manner of Image 1, Turner's sketchbook studies: quick, searching, slightly broken contour lines drawn and redrawn, soft loose hatching only where the form needs weight, the lightest touch elsewhere, lots of open paper, an unfinished, observed, living quality. Not a polished rendering. Graphite only, plus exactly ONE warm ochre-gold coloured pencil used only where stated. Pure white paper, no paper texture, no sketchbook page, no edges, no border, no ground rectangle; each drawing fades out into the white. No legible text, no letters, no numbers, no signature, no logos.
-   Composition: landscape 3:2 sheet with exactly TWO separate drawings side by side, each centred in its own half with generous white margin, same scale, same hand: a matched pair. Nothing crosses the centre.
-   Left drawing: a pair of over-ear headphones resting across the pages of an open book on the corner of a table; a narrow ribbon bookmark hangs from the spine, touched with the ochre-gold pencil.
-   Right drawing: a modern smartphone standing upright, drawn in the same loose hand, its screen showing the app from Image 2 as a quick sketch: the map of Scandinavia's coastline, a long curved line sweeping across it, and below it a rounded card with a short list of six rows (rows suggested by small marks, no readable text). The screen is shaded with loose graphite for the app's dark theme, its lines left light. Only the curved line and one highlighted row of the list are touched with the ochre-gold pencil.
+   Input images: Image 1 is the FIRST SHEET of this series — match its hand exactly: the same crisp wood-engraved line of even, deliberate weight, the same fine parallel-line tone, the same clean white lights, the same soft irregular oval in which each scene dissolves into the paper, the same single flat brass accent. Do not repeat its subjects.
+   Asset type: more small engraved vignettes in the same series, for the section openings of a calm Swedish literary website about Islam, set in a warm serif typeface — the kind of tailpiece a fine book prints at the end of a chapter, so the picture belongs to the typography. Shown between 130 and 230 pixels tall.
+   Style/medium: wood engraving in the manner of Thomas Bewick's tailpiece vignettes and 19th-century Swedish book xylography. Black ink on pure white paper. Crisp engraved lines of even weight; tone by fine parallel lines and short flicks; the lightest areas left clean white; simple, clear masses that read when small.
+   Restraint (important): engraved tone covers at most about half of each vignette. Skies, walls, table tops and backgrounds are left white or carry only a few widely spaced lines — never a dense hatched field behind an object. Every vignette dissolves on ALL sides into the white paper in a soft irregular oval: no straight cut edge, no rectangle, no border, no drawn oval line.
+   Accent: exactly ONE flat muted brass-ochre (#b8862f) laid as a flat tint under the engraved lines, like a hand-coloured print, on the one small named thing per drawing — not metallic, no shine, no highlight, no glow, no light rays — and nowhere else.
+   Everywhere: no people, no figures, hands or faces, no animals, birds or insects. No text, letters, numbers, signature, monogram or logos; anything that would carry writing is suggested by plain even strokes only, never imitation letters or script. No paper texture, no paper edge.
+   Composition: ONE landscape 3:2 sheet divided into four equal cells in a 2×2 grid. The grid is invisible: no lines, no borders. Each cell holds one separate vignette centred in it with generous empty margin; nothing crosses the sheet's vertical or horizontal centre line. All four by the same hand, at the same scale of mark and density, eye level, middle distance: a matched series.
+   Top left: … The <thing> alone is brass.
    ```
 
-2. **Split and cleaned** with ImageMagick: flatten on white; cut at the sheet's empty
-   column gap (not at the middle); `-fuzz 1% -trim` so only pure white goes (a wider
-   fuzz shaved the vignette's faintest strokes into a straight edge); `-level
-   0%,95%,γ` so the paper haze (245–254) becomes pure white — multiplied, the haze
-   showed as a faint square on the tint — and the graphite's midtones deepen (γ 0.7
-   for the book, 0.8 for the phone, whose dark screen already carries weight); a
-   24px white border.
-
-3. **One height, own widths**: the book is padded to a square, the phone keeps its
-   width, both at the book's height, WebP q90. The component sizes them by height.
-
-4. **The dark pair** is an edit of the chosen light sheet, so the composition holds:
-   the light sheet as the edit target, the Turner page as style reference, three runs,
-   the first kept. Processed the same way with black for white: flatten on black, cut
-   at the gap, `-level 4%,100%,1.35` so the near-black haze is pure black (screened,
-   it would show as a square) and the chalk's midtones lift (thin strokes at 160px read
-   dimmer than text; at plain levels and 0.85 opacity the phone sank into the band), a
-   24px black border, the book square.
-
-   ```bash
-   codex exec --skip-git-repo-check -s read-only -C <tmpdir> \
-     -i light-sheet.png -i turner.jpg - < prompt-dark.txt
-   ```
+3. **The dark sheet** is an edit of the light one, so every line keeps its place:
 
    ```text
-   Create exactly one image with your image generation tool, then stop and reply with one short line.
    Use case: style-transfer
-   Input images: Image 1 is the EDIT TARGET — a pair of pencil sketches: headphones on an open book on a table corner (left), and a smartphone showing a prayer-times app (right). Image 2 is a style reference only: a page of J. M. W. Turner's sketchbook.
-   Primary request: redraw Image 1 as the same pair drawn with white and light-grey chalk on pure black paper, by the same hand, in the same loose, searching Turner-sketchbook manner. Keep the composition, the objects, their positions, sizes and angles as in Image 1.
-   How to translate: with chalk on black paper you draw the LIGHT, not the shadow. Lit surfaces, edges catching the light and highlights are white chalk; shadows and dark areas are left as the black paper. The tonal relationships stay natural — this is NOT a photographic negative: the phone's screen stays dark (the app is in dark mode) with the map's coastlines, the list's rows and small icons picked out in thin light lines; the headphones' dark cushions stay mostly dark with their rims and the headband catching the light; the book's open pages are the brightest thing; the table corner is a few light strokes.
-   Colour: the same single warm ochre-gold pencil as in Image 1, on exactly the same things — the ribbon bookmark, the curved line across the map, the highlighted row of the list — and nowhere else.
-   Paper: pure flat black (#000000), no texture, no paper edge, no border, no vignette glow; each drawing simply fades out into the black at its edges. No text, no letters, no numbers, no signature, no logos.
-   Composition: landscape 3:2, exactly the two drawings side by side as in Image 1, nothing crossing the centre.
+   Input images: Image 1 is the EDIT TARGET — wood-engraved book vignettes in black ink on white paper.
+   Primary request: redraw Image 1 as the same vignettes engraved as WHITE-LINE engravings printed in warm white ink on pure black paper, by the same hand …
+   How to translate: the engraved lines now carry the LIGHT, not the shadow. Lit surfaces are fine white lines laid close; shadows are left as black paper; the sky is dark and quiet … This is NOT a photographic negative. <what stays dark and what is brightest, per sheet>
    ```
+
+4. **A detail is fixed by editing the cell**, not by drawing again: crop the cell, attach
+   it, name the one change and say »keep everything else exactly«. The milestone's brass
+   (a flat slab that read as a sticker, laid under the stone's lines instead) and the
+   phone's screen (near-black, the heaviest mark in the band, re-cut as a mid-tone) were
+   made this way on 2026-11-07.
+
+5. **Processing**, per cell (`spara` in the skill): flatten on white (black for the dark),
+   re-ink the engraving in the type's own colour — the grey to `+level-colors
+   '#1a1914',white` after `-level 0%,93%,0.95`, the dark sheet to `black,'#e8e5e0'` after
+   `-level 6%,100%,1.15` — and lay the brass back over it unchanged (the pixels with HSL
+   saturation over 24 %, opened and feathered); `-fuzz 3% -trim`; a 32px border in the
+   paper's colour; WebP q86. The corners must read 255 and 0, or the paper shows as a
+   square on the page. The four drawings of the front page's closing band (podden, appen,
+   boken, skarmen) are then stood on a square of their own paper, on their foot
+   (`-gravity south -extent`), so the four share one box and one foot line.
+
+6. **Look before saving**, at the size it is shown: 135px tall multiplied on `#fff6e8`,
+   and screened on `#1d1912`. Reject a person or animal, letters or pseudo-script, more
+   than one brass thing, brass as a solid block or as metal, a hatched field behind an
+   object, a hard edge, and anything that reads as clip-art. Mean ink belongs inside the
+   series' band (9.7–18.9 % in November 2026).
+
+## Before: the graphite series (2026-09-26 – 2026-11-07)
+
+The first drawings were graphite after a page of Turner's sketchbook
+(<https://kooness.com/wp-content/uploads/2025/05/unnamed-39.jpg>, Tate), each with a
+white-chalk-on-black twin; one-ink line drawings traced to SVG and pencil after Carl
+Larsson, Anders Zorn and John Bauer had been tried first and dropped. Made one or two at
+a time over three weeks, they drifted into two hands (sparse in September, dense in
+October), and at the size the pages give them the fine hatching read as grey fuzz. On
+2026-11-07 three replacements were drawn as sheets of the same four subjects — the
+Turner brief taken literally, pen and wash after Elias Martin, and the engraving — and
+judged at 135px on the paper and in the real pages; the engraving held best at size and
+in both themes, and the series was redrawn in it. The graphite files are in git history.

@@ -1,15 +1,15 @@
 ---
 // A DRAWING FROM THE SITE'S SERIES (src/assets/ritningar; how they are made is in its
-// README): graphite on white paper for the light theme, the same drawing in white chalk
-// on black paper for the dark. Each paper is blended away into whatever ground it
-// stands on — white multiplied, black screened — so the pencil and the chalk lie
-// straight on the page and neither theme has a frame. Inverting one drawing for both
-// themes made a negative, and a light sheet laid on the dark page "doesn't work"
+// README): an engraved vignette in the type's ink on white paper for the light theme, the
+// same vignette as a white-line engraving on black paper for the dark. Each paper is
+// blended away into whatever ground it stands on — white multiplied, black screened — so
+// the lines lie straight on the page and neither theme has a frame. Inverting one drawing
+// for both themes made a negative, and a light sheet laid on the dark page "doesn't work"
 // (user review, 2026-09-26).
 //
 // The drawing is fitted into a box, [phone, from 48rem] in rem: by its height, unless
-// its width would pass the box's. The series runs from upright (0.87) to wide (1.51);
-// at one height the widest covered 1.7 times the area of the narrowest.
+// its width would pass the box's. The placed drawings run from square (1.0, the closing
+// band's four, each stood on a square of its own paper) to wide (1.64, the crescent).
 //
 // `fyll` hands the box to the host from 48rem: the drawing fills the host's positioned
 // element (inset 0), held inside it, top right, and adds no height of its own — so it is
@@ -78,7 +78,7 @@ const box = `--ritning-h: ${hojd[0]}rem; --ritning-w: ${bredd[0]}rem; --ritning-
 	   the same stacking context, and the front page's movements are each one of their
 	   own (content-visibility): on Grunden, a paper movement with no background of its
 	   own, the multiply met transparency and the white paper stood up as a square (and
-	   the chalk's black one in the dark theme). */
+	   the dark file's black one in the dark theme). */
 	.ritning {
 		display: block;
 		inline-size: fit-content;
@@ -134,8 +134,8 @@ const box = `--ritning-h: ${hojd[0]}rem; --ritning-w: ${bredd[0]}rem; --ritning-
 	}
 
 	/* The theme's drawing only, keyed as the site's other theme rules are: the toggle
-	   first, then the OS. The chalk at full strength; its midtones are lifted in the
-	   file, because thin strokes at this size read dimmer than solid text. */
+	   first, then the OS. The white lines at full strength; their midtones are lifted in
+	   the file, because thin lines at this size read dimmer than solid text. */
 	.ritning img.ritning-mork {
 		display: none;
 		mix-blend-mode: screen;
