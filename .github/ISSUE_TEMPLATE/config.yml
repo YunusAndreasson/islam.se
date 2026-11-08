@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/YunusAndreasson/islamse/security/advisories/new
+    about: Privately, please, never in a public issue (SECURITY.md).
+  - name: Correct a text
+    url: https://islam.se/ratta/
+    about: A wrong fact, quote or reference in an essay or answer goes through the site's correction form.
