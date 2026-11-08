@@ -1,5 +1,9 @@
 name: Web and workspace CI
 
+# `pnpm verify` for the site and the shared packages, on every push to master
+# and every pull request that touches more than the app. No secrets, so a
+# fork's pull request gets the same answer.
+
 on:
   push:
     branches: [master]
