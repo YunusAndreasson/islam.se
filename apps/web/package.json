@@ -3,6 +3,14 @@
 	"type": "module",
 	"version": "0.0.1",
 	"private": true,
+	"description": "The islam.se website: Astro on Cloudflare Pages",
+	"license": "MIT",
+	"homepage": "https://islam.se",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/YunusAndreasson/islamse.git",
+		"directory": "apps/web"
+	},
 	"scripts": {
 		"deps:check": "bash scripts/update-deps.sh --check",
 		"deps:update": "bash scripts/update-deps.sh --apply",

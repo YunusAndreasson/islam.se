@@ -1,6 +1,13 @@
 {
 	"name": "islam-se",
 	"private": true,
+	"description": "islam.se: the Swedish site on Islam, its prayer-times app and the pipeline behind its texts",
+	"license": "MIT",
+	"homepage": "https://islam.se",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/YunusAndreasson/islamse.git"
+	},
 	"type": "module",
 	"scripts": {
 		"build": "pnpm -r build",
