@@ -11,7 +11,7 @@
 // compile fails here too, instead of throwing inside the map's first render on a device.
 import path from 'node:path';
 
-import { describe, expect, it, beforeAll } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 import CanvasKitInit, { type CanvasKit } from 'canvaskit-wasm';
 
 import { type Camera, unproject } from '@/lib/map/projection';
@@ -25,6 +25,15 @@ let CK: CanvasKit;
 beforeAll(async () => {
   const dir = path.dirname(require.resolve('canvaskit-wasm/bin/canvaskit.wasm'));
   CK = await CanvasKitInit({ locateFile: (file: string) => path.join(dir, file) });
+});
+
+// jest-expo installs some web globals (URL, structuredClone, expo's import.meta registry) as
+// getters that `require` their polyfill on first read. After the last test Jest walks every
+// global key to clear mocks, and in this node environment the walk is the first read: the
+// `require` then runs outside test code, which Jest 30 refuses, failing the suite after all
+// its tests passed (on Node 24, CI's version). Reading them here, inside a hook, settles them.
+afterAll(() => {
+  for (const key of Object.keys(globalThis)) Reflect.get(globalThis, key);
 });
 
 // z3 over Sweden: 96 × 256 px spans roughly 55–68° N, enough latitude for the wash to cross
