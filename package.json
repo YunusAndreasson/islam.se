@@ -20,7 +20,7 @@
 		"lint:house": "python3 scripts/check-house-style.py --severity error data/svar/*.md data/fordjupning/*.md data/articles/*.md",
 		"lint:charts": "python3 scripts/check-chart-sources.py --offline data/svar/*.md data/fordjupning/*.md data/articles/*.md",
 		"lint:chrome": "python3 scripts/check-chrome-copy.py",
-		"chart:check": "tsx apps/web/scripts/chart-check.ts",
+		"chart:check": "pnpm --filter @islam-se/web exec tsx scripts/chart-check.ts",
 		"verify": "pnpm check && pnpm typecheck:web && pnpm --filter @islam-se/web knip && pnpm --filter @islam-se/web check:edge && pnpm build:packages && pnpm test && pnpm test:checkers && pnpm lint:house && pnpm lint:charts && pnpm lint:chrome && pnpm chart:check && pnpm build && node apps/web/scripts/assert-page-budgets.mjs",
 		"test": "vitest run",
 		"test:watch": "vitest",
