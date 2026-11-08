@@ -101,3 +101,11 @@ patchedDependencies:
 permissions:
   '@swmansion/argent':
     skills: true
+
+# Where pnpm links the approved skills above. Without this it guesses from the
+# agent it runs under, and on a CI runner, which has none, the install fails
+# with ERR_PNPM_NO_AGENT_SKILLS_DIR. Both directories are gitignored.
+skills:
+  dirs:
+    - .agents/skills
+    - .claude/skills
