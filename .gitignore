@@ -74,3 +74,11 @@ dist-*/
 
 # IndexNow: last ping + URLs already announced (apps/web/scripts/indexnow.ts)
 .indexnow-state.json
+
+# One-off pipeline scratch from the 2026 rewrites and book imports: notes,
+# install scripts and their output. Kept locally; nothing in the pipeline reads it.
+data/IMPORT-RESUME.md
+data/install-*.cjs
+data/rewrite-*
+data/deepen-test/
+data/article-rankings.json
