@@ -13,8 +13,8 @@
  *     city / kommun / län are derived from the NEAREST place in the Bönetider
  *     GeoNames+SCB dataset (src/lib/bonetider/places.ts) — fixing the ~39 rows whose
  *     address string is blank or too short to parse a län from.
- *   - denomination ("Sunni" / "Sannolikt Sunni") is DROPPED: it is speculative and
- *     not something we want to publish per-mosque.
+ *   - The scrape's denomination guesses aren't in the CSV: they were speculative, and a
+ *     mosque's denomination isn't something we publish.
  *   - `opened` is kept only when it is a real past year (blanks and the placeholder
  *     2030 "future/unknown" markers are dropped).
  *   - `organisation` is taken from the raw `financier` only when genuinely known
@@ -305,18 +305,7 @@ async function main() {
 	}
 	const rows = parseCsv(text);
 	const header = rows[0];
-	const expected = [
-		"name",
-		"denomination",
-		"denomination_basis",
-		"opened",
-		"financier",
-		"address",
-		"lat",
-		"lng",
-		"sources",
-		"n_records",
-	];
+	const expected = ["name", "opened", "financier", "address", "lat", "lng", "sources", "n_records"];
 	if (!header) throw new Error("The mosque CSV is empty");
 	if (header.join(",") !== expected.join(",")) {
 		throw new Error(

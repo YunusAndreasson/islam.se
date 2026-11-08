@@ -82,3 +82,8 @@ data/install-*.cjs
 data/rewrite-*
 data/deepen-test/
 data/article-rankings.json
+
+# Unpublished essay drafts, and the raw mosque scrape with its speculative columns:
+# both stay on the owner's machine.
+data/articles-pending/
+apps/web/src/data/moskeer-sverige.full.csv
