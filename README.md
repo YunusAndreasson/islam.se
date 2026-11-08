@@ -33,18 +33,19 @@ site, the app and the tools that produce the texts live in this repository.
 
 ## Features
 
-- **Essäer.** Essays that read the Islamic tradition beside Swedish
-  literature, al-Ghazālī and Ibn al-Qayyim beside Strindberg and Karin Boye.
-  They're collected as an EPUB and a PDF, and narrated as a podcast.
+- **Essäer.** Essays that compare the Islamic tradition with Swedish
+  literature, reading al-Ghazālī and Ibn al-Qayyim with Strindberg and Karin
+  Boye. They're collected as an EPUB and a PDF, and narrated as a podcast.
 - **Frågor och svar and Fördjupning.** Short answers to the questions people
   ask about faith and daily life, and longer pages on doctrine, history and
   practice. Every text lists its sources and ends with a link to suggest a
   correction, with the page already filled in.
 - **Bönetider.** Prayer times for every town in Sweden, more than 2,100 of
   them, with the method and high-latitude rule in the reader's hands, since
-  far enough north the sun never sinks deep enough for the usual angles. Each
-  town has a calendar feed and a month sheet as a PDF, and there's a
-  full-screen view for a mosque's entrance.
+  far enough north the sun never sinks deep enough for the usual angles. Every
+  town has a calendar feed, and towns of 5,000 people or more also get a month
+  sheet and a Ramadan sheet as PDFs. A full-screen view puts the times on a
+  screen at a mosque's entrance.
 - **Moskéer.** A map of Sweden's mosques and Muslim burial grounds, county by
   county. A burial ground is listed only with a source that confirms the
   section exists today.
@@ -57,7 +58,8 @@ site, the app and the tools that produce the texts live in this repository.
   `Accept: text/markdown` with a Markdown copy of itself.
 - **The app.** The same prayer times, worked out on the phone so they're there
   offline, with a reminder before each prayer, the next one on the home and
-  lock screen, a qibla compass and the mosque map. No account and no ads.
+  lock screen, a qibla compass that points to the Kaaba, and the mosque map.
+  No account and no ads.
 
 <table>
   <tr>
