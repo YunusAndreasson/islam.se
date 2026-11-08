@@ -1,6 +1,7 @@
 {
 	"name": "@islam-se/tui",
 	"version": "0.1.0",
+	"license": "MIT",
 	"type": "module",
 	"description": "Terminal UI for managing ideas and article production",
 	"main": "dist/index.js",

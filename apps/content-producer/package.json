@@ -1,6 +1,7 @@
 {
 	"name": "@islam-se/content-producer",
 	"version": "0.1.0",
+	"license": "MIT",
 	"type": "module",
 	"description": "CLI for content production orchestration",
 	"main": "dist/index.js",

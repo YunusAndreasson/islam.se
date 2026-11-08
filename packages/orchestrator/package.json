@@ -1,6 +1,7 @@
 {
 	"name": "@islam-se/orchestrator",
 	"version": "0.1.0",
+	"license": "MIT",
 	"type": "module",
 	"description": "Multi-stage content production orchestration using Claude",
 	"main": "dist/index.js",

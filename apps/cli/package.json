@@ -1,6 +1,7 @@
 {
 	"name": "@islam-se/cli",
 	"version": "0.0.1",
+	"license": "MIT",
 	"type": "module",
 	"bin": {
 		"islam-cli": "./dist/index.js"

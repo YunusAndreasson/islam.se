@@ -1,6 +1,7 @@
 {
 	"name": "@islam-se/mcp-articles",
 	"version": "0.0.1",
+	"license": "MIT",
 	"type": "module",
 	"scripts": {
 		"bundle-articles": "tsx scripts/bundle-articles.ts",
