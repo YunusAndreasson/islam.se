@@ -13,10 +13,14 @@ on:
     paths: ['apps/mobile/**', '.github/workflows/mobile-ci.yml']
   pull_request:
     paths: ['apps/mobile/**', '.github/workflows/mobile-ci.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 # A newer push to the same branch cancels an in-flight run for it.
 concurrency:
-  group: mobile-ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 defaults:
@@ -27,18 +31,21 @@ jobs:
   check:
     name: verify
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       # The mobile app has its own lockfile and package-manager version. Use the
-      # same pnpm as local installs and EAS so widget patch hashes stay compatible.
-      - uses: pnpm/action-setup@v4
+      # same pnpm as local installs and EAS so widget patch hashes stay compatible:
+      # the one apps/mobile/package.json's packageManager names.
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
         with:
-          version: 12.14.0
           package_json_file: apps/mobile/package.json
 
       # Expo SDK 58 needs Node 22.13+ / 24.3+, and so does RNTL 14 (engines ^22.13 || >=24).
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: pnpm

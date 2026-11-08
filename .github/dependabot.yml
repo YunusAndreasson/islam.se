@@ -1,0 +1,41 @@
+# Weekly, grouped so a week's updates arrive as a few pull requests. Each one
+# runs the web or mobile workflow; merge it when it's green.
+version: 2
+updates:
+  # The site, the pipeline and the shared tooling: one pnpm workspace.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      workspace:
+        patterns: ["*"]
+  # The app is its own pnpm root. Expo pins its SDK packages to one release
+  # line, so those move with `npx expo install --fix`, not one by one.
+  - package-ecosystem: npm
+    directory: /apps/mobile
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: "expo"
+      - dependency-name: "expo-*"
+      - dependency-name: "@expo/*"
+      - dependency-name: "react"
+      - dependency-name: "react-dom"
+      - dependency-name: "react-native"
+      - dependency-name: "react-native-*"
+      - dependency-name: "@react-native-async-storage/*"
+      - dependency-name: "jest-expo"
+      - dependency-name: "eslint-config-expo"
+      - dependency-name: "@types/react"
+      - dependency-name: "typescript"
+    groups:
+      mobile:
+        patterns: ["*"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
