@@ -18,7 +18,9 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # The full build starts cold: every town page, its PDFs and every optimized
+    # image are rendered from scratch, which can run past half an hour.
+    timeout-minutes: 60
     env:
       CI: 'true'
       WRANGLER_SEND_METRICS: 'false'
