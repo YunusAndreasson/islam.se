@@ -97,12 +97,12 @@ Verify `https://islam.se/integritetspolicy` loads in a browser before submitting
 
 ---
 
-## ☐ App Review phone number — the one field to fill in
+## App Review phone number — from the environment
 
 `store.config.json` → `apple.review` has the contact name (Yunus Andreasson) and email
-(support@islam.se), but **no phone number** — I won't invent a number that reaches a real Apple
-reviewer. Add `"phone": "+46…"` to the `review` block, or fill it in the web UI under
-**App Review Information**, before submitting.
+(support@islam.se). The phone number stays out of the repository: `eas.json` points EAS Metadata
+at `store.config.js`, which adds it from `APP_REVIEW_PHONE`, so push with
+`APP_REVIEW_PHONE=+46… eas metadata:push`.
 
 ---
 

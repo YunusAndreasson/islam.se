@@ -30,7 +30,8 @@
   "submit": {
     "production": {
       "ios": {
-        "ascAppId": "6774383118"
+        "ascAppId": "6774383118",
+        "metadataPath": "./store.config.js"
       },
       "android": {
         "serviceAccountKeyPath": "./secrets/play-service-account.json",

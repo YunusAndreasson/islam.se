@@ -106,7 +106,6 @@
       "firstName": "Yunus",
       "lastName": "Andreasson",
       "email": "support@islam.se",
-      "phone": "+46000000000",
       "demoRequired": false,
       "notes": "islam.se is a Swedish prayer-times app. No account or login is required — all features are available immediately. The app asks for location permission to calculate prayer times for the user's position; this is optional and can be declined (a location can also be chosen manually on the map). Prayer times are computed entirely on-device; no personal data is collected or sent to a server."
     }
