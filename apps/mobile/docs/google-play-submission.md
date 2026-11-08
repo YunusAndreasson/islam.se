@@ -4,15 +4,15 @@ Getting **islam.se** (`se.islam.mobile`) onto Google Play. Unlike iOS, the Play 
 managed as code (eas metadata is Apple-only), so most of this is the Play Console web UI. The build
 and the automated submit path are wired through EAS.
 
-Package: `se.islam.mobile` · EAS: `@edenmind/islam-se-mobile` · GCP service account:
-`expo-mafk@pc-api-4650738391863085021-118.iam.gserviceaccount.com`
+Package: `se.islam.mobile` · EAS: `@edenmind/islam-se-mobile` · GCP service account: the one
+EAS submits with (its address is in the Google Cloud console, under IAM → Service accounts)
 
 ---
 
 ## ▶ STATUS (2026-06-12)
 
 - ✅ Android **AAB** built (versionCode **5**) → downloaded to `~/Downloads/islam-se-1.0.2-vc5.aab`
-- ✅ Service account `expo-mafk` **key generated, gitignored** (`secrets/play-service-account.json`) and
+- ✅ Service account **key generated, gitignored** (`secrets/play-service-account.json`) and
   **wired into `eas.json`** (`serviceAccountKeyPath` + `track: internal`).
 - ✅ `eas submit` **authenticated against the Play app** — so the app exists in Play Console and the SA
   already has the access it needs. It then returned the expected *"first submission must be manual"*.
@@ -43,7 +43,7 @@ status draft may be created on draft app." So:
 
 Verified 2026-06-12 via the service account: the API returns **404 "Package not found:
 se.islam.mobile"**, so the app does **not** exist yet. Google has no API to create an app, so this
-is a manual click. The SA (`expo-mafk`) already has account access, so it'll be able to manage the
+is a manual click. The service account already has account access, so it'll be able to manage the
 app once it exists.
 
 [Play Console](https://play.google.com/console) → **Create app**:
@@ -64,7 +64,7 @@ the first AAB in the next step.
 
 ## ☐ 3. Service account for automated submits (after the first manual upload)
 
-The service account `expo-mafk@pc-api-4650738391863085021-118.iam.gserviceaccount.com` already exists.
+The service account already exists.
 For `eas submit -p android` to work it needs (a) a JSON key available to EAS and (b) release access in
 Play Console:
 
@@ -73,8 +73,8 @@ Play Console:
   (this is a sensitive credential op — authorize it explicitly):
   ```bash
   gcloud iam service-accounts keys create apps/mobile/secrets/play-service-account.json \
-    --iam-account=expo-mafk@pc-api-4650738391863085021-118.iam.gserviceaccount.com \
-    --project=pc-api-4650738391863085021-118
+    --iam-account=<service-account-email> \
+    --project=<gcp-project-id>
   ```
   Then add `"serviceAccountKeyPath": "./secrets/play-service-account.json"` to the `android` submit
   profile and **gitignore `secrets/`** (never commit a service-account key).
