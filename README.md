@@ -18,8 +18,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/YunusAndreasson/islamse/actions/workflows/web-ci.yml"><img src="https://github.com/YunusAndreasson/islamse/actions/workflows/web-ci.yml/badge.svg" alt="web CI"></a>
-  <a href="https://github.com/YunusAndreasson/islamse/actions/workflows/mobile-ci.yml"><img src="https://github.com/YunusAndreasson/islamse/actions/workflows/mobile-ci.yml/badge.svg" alt="mobile CI"></a>
+  <a href="https://github.com/YunusAndreasson/islam.se/actions/workflows/web-ci.yml"><img src="https://github.com/YunusAndreasson/islam.se/actions/workflows/web-ci.yml/badge.svg" alt="web CI"></a>
+  <a href="https://github.com/YunusAndreasson/islam.se/actions/workflows/mobile-ci.yml"><img src="https://github.com/YunusAndreasson/islam.se/actions/workflows/mobile-ci.yml/badge.svg" alt="mobile CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/code-MIT-blue" alt="Code under the MIT license"></a>
 </p>
 

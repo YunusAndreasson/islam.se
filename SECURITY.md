@@ -9,7 +9,7 @@ privately.
 ## Reporting a vulnerability
 
 Use GitHub's private reporting:
-[report a vulnerability](https://github.com/YunusAndreasson/islamse/security/advisories/new).
+[report a vulnerability](https://github.com/YunusAndreasson/islam.se/security/advisories/new).
 Please don't open a public issue.
 
 Include the URL or the app version (at the end of »Om appen« in its
