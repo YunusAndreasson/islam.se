@@ -7,6 +7,11 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # The root is on TypeScript 7, but apps/web's astro check still asks for 6.
+      # This holds the packages that are on 6; lift it once astro check supports 7.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
     groups:
       workspace:
         patterns: ["*"]
