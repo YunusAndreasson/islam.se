@@ -125,9 +125,9 @@ remembered API, and keep version numbers out of these instruction files.
 - Assert the contract through the public interface. A test that re-derives the
   implementation's own logic verifies nothing.
 - No network calls and no sleeps. The suites run in seconds; keep them there.
-- CI runs an older Node than this machine (see `.github/workflows/`). When CI fails and
-  the same suite passes here, run it under CI's version first (`mise exec node@<version>
-  -- pnpm test`): the wash shader suite once failed only there.
+- The app's CI runs an older Node than this machine (`.github/workflows/mobile-ci.yml`).
+  When it fails and the same suite passes here, run it under CI's version first
+  (`mise exec node@<version> -- pnpm test`): the wash shader suite once failed only there.
 - A failure message says which invariant broke and why it matters. The next session reads
   the failure output, not the test name.
 - A regression test carries a comment describing the bug it pins, so nobody "improves" the
