@@ -96,6 +96,24 @@ a concession about the religion.
 An area's file loads only once the agent works in that directory. Before working in
 another area, read its file.
 
+## Open source
+
+The repository is public. MIT covers the code; `NOTICE.md` lists the texts, the brand
+and the third-party material it doesn't.
+
+- Anything brought in from elsewhere (text, data, images, fonts, code) needs a licence
+  that lets it be redistributed here, and a line in `NOTICE.md`. Nothing under the GPL
+  in MIT-licensed files.
+- No key, token or phone number in a commit: they come from the environment (the app's
+  review phone number is `APP_REVIEW_PHONE`).
+- The app and the site promise what leaves the device. Before adding an SDK or a
+  request that sends anything off it, update the privacy policy
+  (`apps/web/src/pages/integritetspolicy.astro`) and the store answers in
+  `apps/mobile/docs/`.
+- Dependabot opens grouped pull requests weekly. `.github/dependabot.yml` says what it
+  holds back and why. A native update to the app goes out with a release; the
+  runtime check refuses it otherwise.
+
 ## Versions
 
 Every part of the stack tracks the latest release, often newer than your training data.
@@ -107,6 +125,9 @@ remembered API, and keep version numbers out of these instruction files.
 - Assert the contract through the public interface. A test that re-derives the
   implementation's own logic verifies nothing.
 - No network calls and no sleeps. The suites run in seconds; keep them there.
+- CI runs an older Node than this machine (see `.github/workflows/`). When CI fails and
+  the same suite passes here, run it under CI's version first (`mise exec node@<version>
+  -- pnpm test`): the wash shader suite once failed only there.
 - A failure message says which invariant broke and why it matters. The next session reads
   the failure output, not the test name.
 - A regression test carries a comment describing the bug it pins, so nobody "improves" the
