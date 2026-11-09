@@ -766,12 +766,13 @@ export class ClaudeRunner extends EventEmitter {
 	private frontmatterCandidates(output: string): { raw: string; bodyStart: number }[] {
 		const out: { raw: string; bodyStart: number }[] = [];
 
-		const fmMatch = output.match(/---[ \t]*\n([\s\S]*?)\n---/);
-		if (fmMatch?.[1]) {
-			out.push({
-				raw: fmMatch[1].trim(),
-				bodyStart: output.indexOf(fmMatch[0]) + fmMatch[0].length,
-			});
+		// Opening fence, then the first `\n---` after it. Done with indexOf rather than a lazy
+		// `[\s\S]*?` so an unclosed fence cannot go quadratic.
+		const fmOpen = /---[ \t]*\n/.exec(output);
+		const fmClose = fmOpen ? output.indexOf("\n---", fmOpen.index + fmOpen[0].length) : -1;
+		if (fmOpen && fmClose !== -1) {
+			const raw = output.slice(fmOpen.index + fmOpen[0].length, fmClose);
+			if (raw) out.push({ raw: raw.trim(), bodyStart: fmClose + "\n---".length });
 		}
 
 		// ⚠️ A `---` line inside the JSON (a reviewer quoting the body's footnote rule, say)
@@ -841,14 +842,32 @@ export class ClaudeRunner extends EventEmitter {
 	}
 
 	/**
+	 * The body of the first ```json fence that is opened by a newline and closed by a
+	 * "\n```" line. Scanned with indexOf instead of a lazy `[\s\S]*?` so a fence that is
+	 * never closed cannot go quadratic.
+	 */
+	private jsonCodeBlock(text: string): string | null {
+		const OPEN = "```json";
+		for (let at = text.indexOf(OPEN); at !== -1; at = text.indexOf(OPEN, at + OPEN.length)) {
+			let end = at + OPEN.length;
+			while (end < text.length && /\s/.test(text[end] ?? "")) end++;
+			const lastNewline = text.lastIndexOf("\n", end - 1);
+			if (lastNewline < at + OPEN.length) continue; // no newline after the tag
+			const close = text.indexOf("\n```", lastNewline + 1);
+			if (close === -1) return null;
+			const body = text.slice(lastNewline + 1, close);
+			return body || null;
+		}
+		return null;
+	}
+
+	/**
 	 * Extract JSON from text that may have surrounding content
 	 */
 	private extractJSON(text: string): string | null {
 		// First try markdown code blocks
-		const codeBlockMatch = text.match(/```json\s*\n([\s\S]*?)\n```/);
-		if (codeBlockMatch?.[1]) {
-			return codeBlockMatch[1];
-		}
+		const codeBlock = this.jsonCodeBlock(text);
+		if (codeBlock) return codeBlock;
 
 		// Find the first { and try to extract balanced JSON
 		const startIdx = text.indexOf("{");

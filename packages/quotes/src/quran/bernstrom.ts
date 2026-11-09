@@ -269,7 +269,8 @@ export function resolveSurahNumber(name: string): number | null {
 
 	// »X (Y)«: the name and its gloss. Either part may carry the known form.
 	const parts = [raw];
-	const paren = /^(.*?)\s*\(([^)]*)\)\s*$/.exec(raw);
+	// Names are short; the bound keeps the lazy match from going quadratic on junk.
+	const paren = raw.length <= 300 ? /^(.*?)\s*\(([^)]*)\)\s*$/.exec(raw) : null;
 	if (paren) parts.push(paren[1] ?? "", paren[2] ?? "");
 	const hits = new Set<number>();
 	for (const part of parts) {

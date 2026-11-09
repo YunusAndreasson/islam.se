@@ -238,3 +238,19 @@ describe("ʿAṣr around the polar night", () => {
 		expect(asrAt(11, 21, hanafi), "midwinter ʿAṣr, Hanafi").toBe("13:01");
 	});
 });
+
+describe("a settings value that is not a preset", () => {
+	it("falls back to the default method instead of reaching Object.prototype", () => {
+		// Pins CodeQL js/unvalidated-dynamic-method-call: METHOD_FACTORY["constructor"]
+		// is Object, which would be called and return an object without .madhab setters
+		// working as adhan expects.
+		const stockholm = { latitude: 59.33, longitude: 18.07 };
+		const date = dateForStockholmDay(2026, 5, 1);
+		const bad = {
+			...DEFAULT_SETTINGS,
+			calculationMethod: "constructor",
+		} as unknown as PrayerSettings;
+		const expected = computePrayerTimes(stockholm, date, DEFAULT_SETTINGS);
+		expect(computePrayerTimes(stockholm, date, bad).fajr).toEqual(expected.fajr);
+	});
+});

@@ -104,19 +104,19 @@ function extractGutenbergMetadata(text: string): TextMetadata {
 
 	// Try to find Title: and Author: lines in the header
 	// Gutenberg format: "Title: Book Name" and "Author: Author Name"
-	const titleMatch = text.match(/^Title:\s*(.+?)$/m);
+	const titleMatch = text.match(/^Title:\s{0,200}(.+?)$/m);
 	if (titleMatch?.[1]) {
 		metadata.title = titleMatch[1].trim();
 	}
 
-	const authorMatch = text.match(/^Author:\s*(.+?)$/m);
+	const authorMatch = text.match(/^Author:\s{0,200}(.+?)$/m);
 	if (authorMatch?.[1]) {
 		metadata.author = authorMatch[1].trim();
 	}
 
 	// Check for Translator: if no Author: (common for translations)
 	if (!metadata.author) {
-		const translatorMatch = text.match(/^Translator:\s*(.+?)$/m);
+		const translatorMatch = text.match(/^Translator:\s{0,200}(.+?)$/m);
 		if (translatorMatch?.[1]) {
 			metadata.author = `${translatorMatch[1].trim()} (translator)`;
 		}
@@ -124,14 +124,14 @@ function extractGutenbergMetadata(text: string): TextMetadata {
 
 	// Alternative patterns for Swedish Gutenberg texts
 	if (!metadata.title) {
-		const altTitleMatch = text.match(/Titel:\s*(.+?)$/m);
+		const altTitleMatch = text.match(/Titel:\s{0,200}(.+?)$/m);
 		if (altTitleMatch?.[1]) {
 			metadata.title = altTitleMatch[1].trim();
 		}
 	}
 
 	if (!metadata.author) {
-		const altAuthorMatch = text.match(/Författare:\s*(.+?)$/m);
+		const altAuthorMatch = text.match(/Författare:\s{0,200}(.+?)$/m);
 		if (altAuthorMatch?.[1]) {
 			metadata.author = altAuthorMatch[1].trim();
 		}
@@ -139,7 +139,7 @@ function extractGutenbergMetadata(text: string): TextMetadata {
 
 	// Runeberg.org Swedish pattern: "AF AUTHOR NAME" (means "by")
 	if (!metadata.author) {
-		const afMatch = text.match(/\n\s*AF\s+([A-ZÅÄÖ][A-ZÅÄÖ\s]+)\s*\n/);
+		const afMatch = text.match(/\n\s{0,200}AF\s{1,200}([A-ZÅÄÖ][A-ZÅÄÖ\s]{0,200})\s{0,200}\n/);
 		if (afMatch?.[1]) {
 			// Convert from ALL CAPS to Title Case
 			const name = afMatch[1]

@@ -230,7 +230,7 @@ if (cspHtml) {
 	const policy = cspHtml.match(
 		/<meta http-equiv="content-security-policy" content="([^"]*)"/i,
 	)?.[1];
-	const themeScripts = [...cspHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+	const themeScripts = [...cspHtml.matchAll(/<script>([\s\S]*?)<\/script\s*>/gi)]
 		.map((m) => m[1])
 		.filter((s) => s.includes("theme-choice"));
 	if (!policy) {

@@ -45,11 +45,11 @@ function extractMain(html: string): string {
 	// that repeats every footnote mid-sentence is a silent corruption of the whole
 	// AI-facing corpus — cheaper to strip unconditionally than to notice later.
 	return flattenCharts(stripSidenotes(fragment))
-		.replace(/<script\b[\s\S]*?<\/script>/gi, "")
-		.replace(/<style\b[\s\S]*?<\/style>/gi, "")
-		.replace(/<svg\b[\s\S]*?<\/svg>/gi, "")
-		.replace(/<canvas\b[\s\S]*?<\/canvas>/gi, "")
-		.replace(/<noscript\b[\s\S]*?<\/noscript>/gi, "");
+		.replace(/<script\b[\s\S]*?<\/script\s*>/gi, "")
+		.replace(/<style\b[\s\S]*?<\/style\s*>/gi, "")
+		.replace(/<svg\b[\s\S]*?<\/svg\s*>/gi, "")
+		.replace(/<canvas\b[\s\S]*?<\/canvas\s*>/gi, "")
+		.replace(/<noscript\b[\s\S]*?<\/noscript\s*>/gi, "");
 }
 
 // A chart figure has to be flattened BEFORE node-html-markdown sees it, and before the
