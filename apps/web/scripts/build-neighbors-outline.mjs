@@ -4,28 +4,33 @@
 // prayer lines spend most of the day out over these neighbours' longitudes, so they need
 // land under them to make sense. One-off: `node scripts/build-neighbors-outline.mjs`.
 //
-// Source: georgique/world-geojson (public data, same as the Sweden silhouette). Aggressively
-// simplified (these are background context, not the subject), islets dropped, and clipped by
-// ring bbox to the map's view so we don't ship the whole of Norway/Finland/etc.
+// Source: Natural Earth's 1:50m admin-0 countries (public domain; the Sweden silhouette
+// uses the 1:10m file, and at this simplification 1:50m keeps the point count, and so the
+// parse cost below, where it was). Aggressively simplified (these are background context,
+// not the subject), islets dropped, and clipped by ring bbox to the map's view so we don't
+// ship the whole of Norway/Finland/etc.
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const BASE = "https://raw.githubusercontent.com/georgique/world-geojson/develop/countries/";
+const SRC =
+	"https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson";
+// Natural Earth's ADM0_A3 codes: Norway, Finland, Denmark, Estonia, Latvia, Lithuania,
+// Poland, Germany, Russia, Belarus, the United Kingdom, Ireland, the Netherlands.
 const COUNTRIES = [
-	"norway",
-	"finland",
-	"denmark",
-	"estonia",
-	"latvia",
-	"lithuania",
-	"poland",
-	"germany",
-	"russia",
-	"belarus",
-	"united_kingdom",
-	"ireland",
-	"netherlands",
+	"NOR",
+	"FIN",
+	"DNK",
+	"EST",
+	"LVA",
+	"LTU",
+	"POL",
+	"DEU",
+	"RUS",
+	"BLR",
+	"GBR",
+	"IRL",
+	"NLD",
 ];
 // 0.15° (~16 km) — raised from 0.06° 2026-08-13 after a mobile Lighthouse audit found
 // render-field.js (which statically imports this file) costing a ~440ms parse/compile
@@ -85,15 +90,14 @@ const ringBbox = (r) => [
 ];
 const intersects = (b) => b[0] <= CLIP[2] && b[2] >= CLIP[0] && b[1] <= CLIP[3] && b[3] >= CLIP[1];
 
+const res = await fetch(SRC);
+if (!res.ok) throw new Error(`Natural Earth: HTTP ${res.status}`);
+const world = await res.json();
 const allRings = [];
 for (const name of COUNTRIES) {
-	const res = await fetch(`${BASE}${name}.json`);
-	if (!res.ok) {
-		console.log(`${name}: HTTP ${res.status} — skipped`);
-		continue;
-	}
-	const g = await res.json();
-	const outers = g.features.flatMap((f) =>
+	const features = world.features.filter((f) => f.properties.ADM0_A3 === name);
+	if (features.length === 0) throw new Error(`${name}: not in Natural Earth`);
+	const outers = features.flatMap((f) =>
 		f.geometry.type === "Polygon"
 			? [f.geometry.coordinates[0]]
 			: f.geometry.type === "MultiPolygon"
@@ -116,8 +120,8 @@ for (const name of COUNTRIES) {
 const pts = allRings.flat().length;
 const body = `// AUTO-GENERATED — faint surrounding-country landmasses for the Bönetider map, drawn
 // behind the Sweden silhouette so the (zoomed-out) frame reads as a Nordic/Baltic map
-// rather than Sweden alone in empty sea. Source: georgique/world-geojson (public data),
-// Douglas–Peucker @ ${EPS}° (~6 km), islets dropped, clipped to the map view.
+// rather than Sweden alone in empty sea. Source: Natural Earth 1:50m admin-0 countries
+// (public domain), Douglas–Peucker @ ${EPS}° (~6 km), islets dropped, clipped to the map view.
 // Regenerate with: node scripts/build-neighbors-outline.mjs
 export const NEIGHBORS_OUTLINE: readonly (readonly [number, number])[][] = ${JSON.stringify(allRings)};
 `;

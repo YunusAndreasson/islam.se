@@ -1,15 +1,16 @@
 // Regenerates src/lib/bonetider/sweden-outline.ts — the simplified Sweden silhouette
 // the Bönetider map draws. One-off / occasional: run `node scripts/build-sweden-outline.mjs`.
 //
-// Source: georgique/world-geojson (public data). We keep only landmasses that read at
-// country scale (area ≥ 0.02 deg²: mainland + Gotland + Öland), Douglas–Peucker simplify
-// to ~2 km, and round coordinates to 3 decimals — a ~9 KB silhouette with no runtime deps.
+// Source: Natural Earth's 1:10m admin-0 countries (public domain), the same file
+// build-map-detail.mjs draws the land from. We keep only landmasses that read at
+// country scale (area ≥ 0.02 deg²: mainland, Gotland, Öland and Orust), Douglas–Peucker simplify
+// to ~2 km, and round coordinates to 3 decimals — a ~15 KB silhouette with no runtime deps.
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SRC =
-	"https://raw.githubusercontent.com/georgique/world-geojson/develop/countries/sweden.json";
+	"https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_countries.geojson";
 const EPS = 0.018; // degrees (~2 km)
 const MIN_AREA = 0.02; // deg² — drop islets below this
 
@@ -48,9 +49,11 @@ const shoelace = (ring) => {
 const round = (p) => [Math.round(p[0] * 1000) / 1000, Math.round(p[1] * 1000) / 1000];
 
 const g = await (await fetch(SRC)).json();
-const rings = g.features
-	.filter((f) => f.geometry.type === "Polygon")
-	.map((f) => f.geometry.coordinates[0]);
+const sweden = g.features.find((f) => f.properties.ADM0_A3 === "SWE");
+const rings =
+	sweden.geometry.type === "Polygon"
+		? [sweden.geometry.coordinates[0]]
+		: sweden.geometry.coordinates.map((poly) => poly[0]);
 const kept = rings
 	.map((r) => ({ r, area: shoelace(r) }))
 	.filter((s) => s.area >= MIN_AREA)
@@ -69,8 +72,8 @@ const bbox = [
 ];
 
 const body = `// AUTO-GENERATED — simplified Sweden silhouette for the Bönetider map.
-// Source: georgique/world-geojson (public data), Douglas–Peucker @ ${EPS}° (~2 km),
-// coords rounded to 3 decimals, islets dropped (mainland + Gotland + Öland).
+// Source: Natural Earth 1:10m admin-0 countries (public domain), Douglas–Peucker @ ${EPS}° (~2 km),
+// coords rounded to 3 decimals, islets dropped (mainland, Gotland, Öland and Orust).
 // Regenerate with: node scripts/build-sweden-outline.mjs
 export const SWEDEN_BBOX: readonly [number, number, number, number] = [${bbox.join(", ")}];
 
