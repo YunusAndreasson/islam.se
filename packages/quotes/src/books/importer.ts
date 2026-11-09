@@ -181,11 +181,21 @@ function detectLanguageFromGutenberg(header: string, text: string): "sv" | "ar" 
 	return "en";
 }
 
+/** True when `url` is on gutenberg.org or one of its subdomains (not merely mentioning it). */
+function isGutenbergUrl(url: string): boolean {
+	try {
+		const host = new URL(url).hostname.toLowerCase();
+		return host === "gutenberg.org" || host.endsWith(".gutenberg.org");
+	} catch {
+		return false;
+	}
+}
+
 function detectLanguage(text: string, url: string, header: string): "sv" | "ar" | "en" {
 	if (url.includes("openiti") || /[\u0600-\u06FF]/.test(text.slice(0, 1000))) {
 		return "ar";
 	}
-	if (url.includes("gutenberg.org")) {
+	if (isGutenbergUrl(url)) {
 		return detectLanguageFromGutenberg(header, text);
 	}
 	return "sv";
@@ -299,7 +309,7 @@ async function detectMetadataWithFallback(
 	}
 
 	// Try Gutenberg API fallback for Gutenberg URLs
-	if (url.includes("gutenberg.org")) {
+	if (isGutenbergUrl(url)) {
 		const idMatch = url.match(/(\d+)/);
 		const gutenbergId = idMatch?.[1];
 		if (gutenbergId) {
@@ -328,7 +338,7 @@ async function detectMetadataWithFallback(
 	}
 
 	// Final fallback: use Gutenberg ID in title
-	if (detected.title === "Unknown Title" && url.includes("gutenberg.org")) {
+	if (detected.title === "Unknown Title" && isGutenbergUrl(url)) {
 		const fallbackMatch = url.match(/(\d+)/);
 		const fallbackId = fallbackMatch?.[1];
 		if (fallbackId) {

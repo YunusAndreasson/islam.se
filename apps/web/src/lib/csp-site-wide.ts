@@ -28,11 +28,11 @@ function sha256(text: string): string {
  *  JSON islands (application/ld+json, application/json) are data, never executed, so
  *  the browser does not check them against script-src. */
 export function inlineHashes(html: string): { styles: string[]; scripts: string[] } {
-	const styles = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g)].map((m) =>
+	const styles = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style[^>]*>/gi)].map((m) =>
 		sha256(m[1] ?? ""),
 	);
 	const scripts: string[] = [];
-	for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)) {
+	for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script[^>]*>/gi)) {
 		const attrs = m[1] ?? "";
 		const body = m[2] ?? "";
 		if (/\bsrc=/.test(attrs) || /type="application\/(ld\+)?json"/.test(attrs) || body === "")

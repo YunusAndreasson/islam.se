@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import {
 	appendFileSync,
 	existsSync,
@@ -967,7 +967,7 @@ function spellcheckBody(body: string, dictPath: string, customWords: Set<string>
 	// Run hunspell in pipe mode (-a) for per-word results with suggestions
 	let hunspellOutput: string;
 	try {
-		hunspellOutput = execSync(`hunspell -d ${dictPath} -a`, {
+		hunspellOutput = execFileSync("hunspell", ["-d", dictPath, "-a"], {
 			input: stripped,
 			encoding: "utf-8",
 			maxBuffer: 10 * 1024 * 1024,
@@ -1594,7 +1594,7 @@ function findHunspellProjectRoot(): string {
 /** Verify hunspell + the Swedish dictionary are usable; exit with guidance if not. */
 function ensureHunspellAvailable(dictPath: string): void {
 	try {
-		execSync(`hunspell -d ${dictPath} -l <<< "test"`, { encoding: "utf-8" });
+		execFileSync("hunspell", ["-d", dictPath, "-l"], { encoding: "utf-8", input: "test\n" });
 	} catch {
 		console.error("hunspell not found or Swedish dictionary missing at data/hunspell/sv.{aff,dic}");
 		console.error("Install hunspell: pacman -S hunspell (Arch) / apt install hunspell (Debian)");

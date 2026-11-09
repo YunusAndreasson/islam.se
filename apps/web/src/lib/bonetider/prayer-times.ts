@@ -74,7 +74,11 @@ const SHAFAQ = {
 
 /** Translate settings into a configured adhan CalculationParameters for `coords`. */
 function buildParams(settings: PrayerSettings, coords: Coordinates): CalculationParameters {
-	const params = METHOD_FACTORY[settings.calculationMethod]();
+	// Own-property check: a stray value such as "constructor" must not reach Object.prototype.
+	const factory = Object.hasOwn(METHOD_FACTORY, settings.calculationMethod)
+		? METHOD_FACTORY[settings.calculationMethod]
+		: METHOD_FACTORY.MuslimWorldLeague;
+	const params = factory();
 	params.madhab = settings.madhab === "hanafi" ? Madhab.Hanafi : Madhab.Shafi;
 	// 'auto' defers to adhan's latitude-aware recommendation; otherwise honour the
 	// explicit choice. recommended() needs the coordinate, hence resolved here.

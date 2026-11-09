@@ -33,6 +33,19 @@ async function* walkIndexHtml(dir: string): AsyncGenerator<string> {
 	}
 }
 
+/** Removes every `<tag …>…</tag>` element, repeating until none is left (removing one can
+ *  leave the opening of another behind). */
+function stripElements(html: string, tag: string): string {
+	const element = new RegExp(`<${tag}\\b[\\s\\S]*?</${tag}[^>]*>`, "gi");
+	let previous: string;
+	let current = html;
+	do {
+		previous = current;
+		current = current.replace(element, "");
+	} while (current !== previous);
+	return current;
+}
+
 // Pull the <main> region and drop sub-trees that only produce markdown noise
 // (scripts, styles, inline SVG icons, the bönetider <canvas>, no-JS fallbacks).
 function extractMain(html: string): string {
@@ -44,12 +57,11 @@ function extractMain(html: string): string {
 	// page reaching this line should carry one. If either guard ever slips, a twin
 	// that repeats every footnote mid-sentence is a silent corruption of the whole
 	// AI-facing corpus — cheaper to strip unconditionally than to notice later.
-	return flattenCharts(stripSidenotes(fragment))
-		.replace(/<script\b[\s\S]*?<\/script>/gi, "")
-		.replace(/<style\b[\s\S]*?<\/style>/gi, "")
-		.replace(/<svg\b[\s\S]*?<\/svg>/gi, "")
-		.replace(/<canvas\b[\s\S]*?<\/canvas>/gi, "")
-		.replace(/<noscript\b[\s\S]*?<\/noscript>/gi, "");
+	let out = flattenCharts(stripSidenotes(fragment));
+	for (const tag of ["script", "style", "svg", "canvas", "noscript"]) {
+		out = stripElements(out, tag);
+	}
+	return out;
 }
 
 // A chart figure has to be flattened BEFORE node-html-markdown sees it, and before the

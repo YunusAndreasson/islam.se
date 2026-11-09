@@ -26,6 +26,19 @@ describe("parseSwedishNumber", () => {
 		expect(parseSwedishNumber("90%")).toBe(90);
 	});
 
+	it("accepts the same literals after the linear rewrite of its pattern", () => {
+		// Pins the pattern rewritten for CodeQL js/polynomial-redos: "5." and "1.2.3" stay
+		// refused, ".5" and "5" stay accepted, and a long run of digits ending in a
+		// letter is rejected in linear time.
+		expect(parseSwedishNumber(".5")).toBe(0.5);
+		expect(parseSwedishNumber("-5")).toBe(-5);
+		expect(parseSwedishNumber("5.")).toBeNull();
+		expect(parseSwedishNumber("1.2.3")).toBeNull();
+		const start = Date.now();
+		expect(parseSwedishNumber(`${"0".repeat(200_000)}x`)).toBeNull();
+		expect(Date.now() - start).toBeLessThan(1000);
+	});
+
 	it("returns null for a gap rather than pretending it is zero", () => {
 		expect(parseSwedishNumber("-")).toBeNull();
 		expect(parseSwedishNumber("–")).toBeNull();

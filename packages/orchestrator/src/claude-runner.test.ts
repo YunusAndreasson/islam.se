@@ -37,6 +37,20 @@ describe("ClaudeRunner", () => {
 			expect(result).toEqual({ extracted: true });
 		});
 
+		it("reads a fenced block opened by blank lines, and survives unclosed fences", () => {
+			// Pins the indexOf rewrite for CodeQL js/polynomial-redos: the body starts after the
+			// last newline of the whitespace run, and thousands of unclosed fences stay fast.
+			const spaced = JSON.stringify({ result: 'x\n```json \n\n  \n{"a": 1}\n```\n' });
+			expect(runner.parseJSONOutput<{ a: number }>(spaced)).toEqual({ a: 1 });
+
+			const junk = `${"```json  ".repeat(20_000)}{"b": 2}`;
+			const start = Date.now();
+			expect(runner.parseJSONOutput<{ b: number }>(JSON.stringify({ result: junk }))).toEqual({
+				b: 2,
+			});
+			expect(Date.now() - start).toBeLessThan(2000);
+		});
+
 		it("handles nested objects correctly", () => {
 			const cliOutput = JSON.stringify({
 				structured_output: {

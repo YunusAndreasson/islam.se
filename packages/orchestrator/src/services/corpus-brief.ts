@@ -286,7 +286,10 @@ const oneLine = (s: string): string => s.replace(/\s+/g, " ").trim();
  *  published text in `text_bernstrom` (scripts/quran-db.py), and that is what the brief
  *  prints. The scan is only a fallback, marked as such, for a verse Bernström lacks. */
 function tidyVerse(text: string): string {
-	return oneLine(text).replace(/\s*\((?:[TBKÖ][^)]{0,12})\)\s*$/u, "");
+	// oneLine already trims, so the pattern needs no leading `\s*` (quadratic on long runs of spaces).
+	return oneLine(text)
+		.replace(/\((?:[TBKÖ][^)]{0,12})\)$/u, "")
+		.trimEnd();
 }
 
 function verseText(v: StoredVerse): string {

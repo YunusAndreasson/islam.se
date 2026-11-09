@@ -133,7 +133,7 @@ const collect = (text: string, pattern: RegExp): string[] =>
  */
 function carriedMaterial(text: string): string {
 	const quotes = collect(normaliseQuotes(text), /"[^"\n]+"/g);
-	const markers = collect(text, /\[\^[^\]]+\]/g);
+	const markers = collect(text, /\[\^[^[\]]+\]/g);
 	const numbers = collect(text, /\d+/g);
 	return JSON.stringify({ quotes: quotes.sort(), markers, numbers: numbers.sort() });
 }
@@ -262,7 +262,7 @@ export interface FootnoteRenumbering {
 }
 
 const FOOTNOTE_DEFINITION = /^\[\^([^\]]+)\]:/;
-const FOOTNOTE_MARKER = /\[\^([^\]]+)\]/g;
+const FOOTNOTE_MARKER = /\[\^([^[\]]+)\]/g;
 
 /**
  * Make footnotes sequential in the order their markers appear, and drop definitions that

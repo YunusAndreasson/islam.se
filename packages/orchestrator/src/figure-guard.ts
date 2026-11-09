@@ -71,7 +71,7 @@ const NUMBER = /\d{1,3}(?:[\s\u00A0\u202F]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?/g;
 const MASKED: RegExp[] = [
 	/```[\s\S]*?```/g, // fenced blocks
 	/^\[\^[^\]]+\]:.*$/gm, // footnote definitions, whole line
-	/\[\^[^\]]*\]/g, // footnote markers
+	/\[\^[^[\]]*\]/g, // footnote markers
 	/<[^>\s]+:\/\/[^>]*>/g, // autolinks
 	/https?:\/\/\S+/g, // bare URLs
 	/\]\([^)]*\)/g, // markdown link targets
@@ -86,7 +86,7 @@ export function parseSwedishNumber(raw: string): number | null {
 		.replace(/[\s\u00A0\u202F]/g, "")
 		.replace(/%$/, "")
 		.replace(",", ".");
-	if (cleaned === "" || !/^-?\d*\.?\d+$/.test(cleaned)) return null;
+	if (cleaned === "" || !/^-?(?:\d+(?:\.\d+)?|\.\d+)$/.test(cleaned)) return null;
 	const value = Number(cleaned);
 	return Number.isFinite(value) ? value : null;
 }
