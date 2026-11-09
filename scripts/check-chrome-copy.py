@@ -47,8 +47,8 @@ SWEDISH = re.compile(
 COPY_KEYS = ("framing", "intro", "sub", "menuSub", "blurb", "lead", "label", "name")
 
 STRIP = [
-    (re.compile(r"<style[^>]*>.*?</style\s*>", re.S | re.I), " "),
-    (re.compile(r"<script[^>]*>.*?</script\s*>", re.S | re.I), " "),
+    (re.compile(r"<style[^>]*>.*?</style[^>]*>", re.S | re.I), " "),
+    (re.compile(r"<script[^>]*>.*?</script[^>]*>", re.S | re.I), " "),
     (re.compile(r"\{/\*.*?\*/\}", re.S), " "),
     (re.compile(r"/\*.*?\*/", re.S), " "),
     (re.compile(r"<!--.*?-->", re.S), " "),

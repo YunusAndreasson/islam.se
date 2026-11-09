@@ -124,14 +124,14 @@ function extractGutenbergMetadata(text: string): TextMetadata {
 
 	// Alternative patterns for Swedish Gutenberg texts
 	if (!metadata.title) {
-		const altTitleMatch = text.match(/Titel:\s{0,200}(.+?)$/m);
+		const altTitleMatch = text.match(/Titel:\s{0,200}([^\r\n\u2028\u2029]+)/);
 		if (altTitleMatch?.[1]) {
 			metadata.title = altTitleMatch[1].trim();
 		}
 	}
 
 	if (!metadata.author) {
-		const altAuthorMatch = text.match(/Författare:\s{0,200}(.+?)$/m);
+		const altAuthorMatch = text.match(/Författare:\s{0,200}([^\r\n\u2028\u2029]+)/);
 		if (altAuthorMatch?.[1]) {
 			metadata.author = altAuthorMatch[1].trim();
 		}
