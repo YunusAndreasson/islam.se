@@ -33,6 +33,19 @@ async function* walkIndexHtml(dir: string): AsyncGenerator<string> {
 	}
 }
 
+/** Removes every `<tag …>…</tag>` element, repeating until none is left (removing one can
+ *  leave the opening of another behind). */
+function stripElements(html: string, tag: string): string {
+	const element = new RegExp(`<${tag}\\b[\\s\\S]*?</${tag}[^>]*>`, "gi");
+	let previous: string;
+	let current = html;
+	do {
+		previous = current;
+		current = current.replace(element, "");
+	} while (current !== previous);
+	return current;
+}
+
 // Pull the <main> region and drop sub-trees that only produce markdown noise
 // (scripts, styles, inline SVG icons, the bönetider <canvas>, no-JS fallbacks).
 function extractMain(html: string): string {
@@ -45,15 +58,8 @@ function extractMain(html: string): string {
 	// that repeats every footnote mid-sentence is a silent corruption of the whole
 	// AI-facing corpus — cheaper to strip unconditionally than to notice later.
 	let out = flattenCharts(stripSidenotes(fragment));
-	// Repeat until nothing changes: removing one element can leave the opening of another.
-	for (let prev = ""; prev !== out; ) {
-		prev = out;
-		out = out
-			.replace(/<script\b[\s\S]*?<\/script[^>]*>/gi, "")
-			.replace(/<style\b[\s\S]*?<\/style[^>]*>/gi, "")
-			.replace(/<svg\b[\s\S]*?<\/svg[^>]*>/gi, "")
-			.replace(/<canvas\b[\s\S]*?<\/canvas[^>]*>/gi, "")
-			.replace(/<noscript\b[\s\S]*?<\/noscript[^>]*>/gi, "");
+	for (const tag of ["script", "style", "svg", "canvas", "noscript"]) {
+		out = stripElements(out, tag);
 	}
 	return out;
 }
