@@ -39,6 +39,11 @@ updates:
       - dependency-name: "eslint-config-expo"
       - dependency-name: "@types/react"
       - dependency-name: "typescript"
+      # ESLint 10 dropped context.getFilename(), which eslint-plugin-react (inside
+      # eslint-config-expo) still calls, so every lint fails. Lift this once
+      # eslint-config-expo supports 10.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
     groups:
       mobile:
         patterns: ["*"]
