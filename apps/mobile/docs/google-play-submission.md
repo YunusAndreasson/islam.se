@@ -99,9 +99,13 @@ at **Everyone / PEGI 3** — consistent with the iOS 4+ rating.
 
 ## ☐ 6. Data safety form
 
-Mirror the iOS App Privacy answer: **no data collected, no data shared.** Location is used on-device
-for prayer times and never transmitted; no accounts, no analytics, no ads. (Same justification as in
-`app-store-submission.md`.)
+Mirror the iOS App Privacy answer. Since the app reports crashes to Sentry (Sept 2026), that is
+one data type: **App info and performance → Crash logs**, collected, **not shared** (Sentry
+processes the reports on our behalf, which Play doesn't count as sharing), not processed
+ephemerally (kept up to 90 days), collection required, purpose **App functionality**, encrypted
+in transit. Nothing else: location is used on-device for prayer times and never transmitted, and
+there are no accounts, no analytics and no ads. (Same reasoning as in `app-store-submission.md`.)
+If the form still says "no data collected" from before Sentry, update it with the next release.
 
 ## ☐ 7. Target audience, ads declaration, app category
 

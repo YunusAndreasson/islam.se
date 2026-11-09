@@ -29,7 +29,8 @@ pushes the new title, then Submit for Review.
 - ✅ Build **12** (iPhone-only, v1.0.2) built on EAS, uploaded, selected, **released**
 - ✅ Listing copy (sv + en-US), categories, 4+ age rating, App Review contact + notes — pushed
 - ✅ **4 screenshots** (1290×2796, `APP_IPHONE_67`) uploaded for both locales
-- ✅ App Privacy → "Data Not Collected", IDFA = No
+- ✅ App Privacy → "Data Not Collected", IDFA = No (true for 1.0.2; the app has reported
+  crashes to Sentry since Sept 2026, so the next release declares Crash Data — see below)
 - ✅ Privacy policy **live** at https://islam.se/integritetspolicy/
 
 ---
@@ -58,26 +59,39 @@ eas metadata:push        # validates, then writes the listing to App Store Conne
 
 App Store Connect → your app → **App Privacy** → Edit.
 
-**Recommended answer: "Data Not Collected."**
+**Answer (since the app reports crashes to Sentry, Sept 2026):** declare one data type,
+**Diagnostics → Crash Data → App Functionality → Not linked to the user's identity → Not used
+for tracking.** "Data Not Collected" was right for 1.0.2 and stops being right with the first
+release that includes `src/lib/sentry.ts`: Apple counts data a third-party SDK sends off the
+device, and these reports go out without the user choosing to send each one, so the optional-
+disclosure exemption doesn't apply. Update the answer in App Store Connect before submitting
+that release.
 
-Why this is accurate for islam.se:
+Why nothing else needs declaring:
 
 - **Location** is used only to compute prayer times / qibla **on the device**. It is never
   transmitted to us or to a server, never stored off-device. Under Apple's definition, data that
-  never leaves the device is **not "collected."**
-- **No accounts, no analytics, no advertising, no third-party tracking SDKs** (verified in the
-  codebase — there is no Sentry/Firebase/analytics dependency).
+  never leaves the device is **not "collected."** Crash reports carry no position either:
+  `src/lib/sentry.ts` turns off breadcrumbs, screenshots, the view hierarchy and memory
+  introspection, which is where it could leak, and `sentry.test.ts` fails on the edit that
+  turns any of them back on.
+- **Crash reports** hold the error, where in the code it happened, the app version and the
+  device's model and OS: Crash Data, nothing more. No user, device name or IP address is
+  attached, Sentry is set not to store the IP it sees, and sessions are off, so a healthy launch
+  sends nothing.
+- **No accounts, no analytics, no advertising, no third-party tracking SDKs.**
 - **Settings** are stored locally (AsyncStorage) and never leave the device.
 
 This matches the in-app promise on the *Om*-screen: *"Din plats lämnar aldrig enheten. Inga konton,
-ingen spårning, ingen reklam."*
+ingen spårning, ingen reklam."* and the »Felrapporter« section of
+https://islam.se/integritetspolicy.
 
 **One nuance to be aware of (you do not need to declare it, but know the reasoning):** the map
 fetches tile images from MapTiler / OpenFreeMap. Like any web request, those CDNs see the
 requesting IP. We do not send the user's GPS position to them and the requests aren't used to
-identify or track the user, so "Data Not Collected" remains correct. If a reviewer ever questions
-it, the conservative fallback is to declare **Coarse Location → App Functionality → Not linked to
-identity → Not used for tracking** — but start with "Data Not Collected."
+identify or track the user, so they add nothing to the answer above. If a reviewer ever questions
+it, the conservative fallback is to also declare **Coarse Location → App Functionality → Not
+linked to identity → Not used for tracking**.
 
 After answering: set **"Does this app use the Advertising Identifier (IDFA)?" → No.**
 
