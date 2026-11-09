@@ -3,16 +3,19 @@
 //
 // Source: Natural Earth's 1:10m admin-0 countries (public domain), the same file
 // build-map-detail.mjs draws the land from. We keep only landmasses that read at
-// country scale (area ≥ 0.02 deg²: mainland, Gotland, Öland and Orust), Douglas–Peucker simplify
-// to ~2 km, and round coordinates to 3 decimals — a ~15 KB silhouette with no runtime deps.
+// country scale (area ≥ 0.1 deg²: mainland + Gotland + Öland), Douglas–Peucker simplify
+// to ~3.5 km, and round coordinates to 3 decimals — a ~9 KB silhouette with no runtime deps.
+// Natural Earth's 1:10m coast is more detailed than the outline needs: 0.032° lands at the
+// ~550 points it always had, which sverige-karta.test.ts holds under 4 kB inline, and 0.1 deg²
+// keeps the three landmasses that test expects (Orust, at about 0.06, falls below it).
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SRC =
 	"https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_countries.geojson";
-const EPS = 0.018; // degrees (~2 km)
-const MIN_AREA = 0.02; // deg² — drop islets below this
+const EPS = 0.032; // degrees (~3.5 km)
+const MIN_AREA = 0.1; // deg² — drop islets below this
 
 function rdp(pts, eps) {
 	if (pts.length < 3) return pts;
@@ -72,8 +75,8 @@ const bbox = [
 ];
 
 const body = `// AUTO-GENERATED — simplified Sweden silhouette for the Bönetider map.
-// Source: Natural Earth 1:10m admin-0 countries (public domain), Douglas–Peucker @ ${EPS}° (~2 km),
-// coords rounded to 3 decimals, islets dropped (mainland, Gotland, Öland and Orust).
+// Source: Natural Earth 1:10m admin-0 countries (public domain), Douglas–Peucker @ ${EPS}° (~3.5 km),
+// coords rounded to 3 decimals, islets dropped (mainland + Gotland + Öland).
 // Regenerate with: node scripts/build-sweden-outline.mjs
 export const SWEDEN_BBOX: readonly [number, number, number, number] = [${bbox.join(", ")}];
 
