@@ -1,17 +1,20 @@
 // Regenerates src/lib/bonetider/sweden-outline.ts — the simplified Sweden silhouette
 // the Bönetider map draws. One-off / occasional: run `node scripts/build-sweden-outline.mjs`.
 //
-// Source: georgique/world-geojson (public data). We keep only landmasses that read at
-// country scale (area ≥ 0.02 deg²: mainland + Gotland + Öland), Douglas–Peucker simplify
-// to ~2 km, and round coordinates to 3 decimals — a ~9 KB silhouette with no runtime deps.
+// Source: Natural Earth's 1:50m admin-0 countries (public domain; build-map-detail.mjs
+// draws the land from the 1:10m edition). We keep only landmasses that read at country
+// scale (area ≥ 0.1 deg²: mainland + Gotland + Öland, the three sverige-karta.test.ts
+// expects), Douglas–Peucker simplify to ~1 km, and round coordinates to 3 decimals — a
+// ~9 KB silhouette with no runtime deps. The 1:50m coast is already generalised; the 1:10m
+// one comes out jagged at this size and over the test's 4 kB inline budget.
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SRC =
-	"https://raw.githubusercontent.com/georgique/world-geojson/develop/countries/sweden.json";
-const EPS = 0.018; // degrees (~2 km)
-const MIN_AREA = 0.02; // deg² — drop islets below this
+	"https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson";
+const EPS = 0.01; // degrees (~1 km)
+const MIN_AREA = 0.1; // deg² — drop islets below this
 
 function rdp(pts, eps) {
 	if (pts.length < 3) return pts;
@@ -48,9 +51,11 @@ const shoelace = (ring) => {
 const round = (p) => [Math.round(p[0] * 1000) / 1000, Math.round(p[1] * 1000) / 1000];
 
 const g = await (await fetch(SRC)).json();
-const rings = g.features
-	.filter((f) => f.geometry.type === "Polygon")
-	.map((f) => f.geometry.coordinates[0]);
+const sweden = g.features.find((f) => f.properties.ADM0_A3 === "SWE");
+const rings =
+	sweden.geometry.type === "Polygon"
+		? [sweden.geometry.coordinates[0]]
+		: sweden.geometry.coordinates.map((poly) => poly[0]);
 const kept = rings
 	.map((r) => ({ r, area: shoelace(r) }))
 	.filter((s) => s.area >= MIN_AREA)
@@ -69,7 +74,7 @@ const bbox = [
 ];
 
 const body = `// AUTO-GENERATED — simplified Sweden silhouette for the Bönetider map.
-// Source: georgique/world-geojson (public data), Douglas–Peucker @ ${EPS}° (~2 km),
+// Source: Natural Earth 1:50m admin-0 countries (public domain), Douglas–Peucker @ ${EPS}° (~1 km),
 // coords rounded to 3 decimals, islets dropped (mainland + Gotland + Öland).
 // Regenerate with: node scripts/build-sweden-outline.mjs
 export const SWEDEN_BBOX: readonly [number, number, number, number] = [${bbox.join(", ")}];

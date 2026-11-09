@@ -49,17 +49,13 @@ Each keeps its owners' terms:
   `apps/web/scripts/fonts/` and `fonts/`).
 - The Swedish Hunspell dictionary from the `dictionary-sv` package, under the
   LGPL-3.0 (`data/hunspell/sv.aff`, `data/hunspell/sv.dic`).
-- Map and place data: land and water from Natural Earth (public domain);
-  national parks and nature reserves © OpenStreetMap contributors (ODbL), via
-  OpenFreeMap; place names from GeoNames (CC BY 4.0); population figures from
-  Statistics Sweden (SCB); shaded relief from AWS Terrain Tiles (Mapzen)
+- Map and place data: land, water and the outlines of Sweden and its
+  neighbours from Natural Earth (public domain); national parks and nature
+  reserves © OpenStreetMap contributors (ODbL), via OpenFreeMap; place names
+  from GeoNames (CC BY 4.0); population figures from Statistics Sweden (SCB);
+  shaded relief from AWS Terrain Tiles (Mapzen)
   (`apps/web/src/lib/bonetider/`, `apps/web/src/assets/bonetider/` and
   `apps/mobile/src/lib/places/`).
-- The outlines of Sweden and its neighbours, simplified from
-  [georgique/world-geojson](https://github.com/georgique/world-geojson), which
-  is licensed under the GPL-3.0
-  (`apps/web/src/lib/bonetider/sweden-outline.ts`,
-  `apps/web/src/lib/bonetider/neighbors-outline.ts`).
 - The mosque list, compiled from migrationskartan, OpenStreetMap (ODbL) and
   muslimer.se (`apps/web/src/data/moskeer-sverige.csv`,
   `apps/web/src/data/moskeer-sverige.json` and its mirror in
