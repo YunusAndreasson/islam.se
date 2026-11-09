@@ -4,11 +4,11 @@
 // prayer lines spend most of the day out over these neighbours' longitudes, so they need
 // land under them to make sense. One-off: `node scripts/build-neighbors-outline.mjs`.
 //
-// Source: Natural Earth's 1:50m admin-0 countries (public domain; the Sweden silhouette
-// uses the 1:10m file, and at this simplification 1:50m keeps the point count, and so the
-// parse cost below, where it was). Aggressively simplified (these are background context,
-// not the subject), islets dropped, and clipped by ring bbox to the map's view so we don't
-// ship the whole of Norway/Finland/etc.
+// Source: Natural Earth's 1:50m admin-0 countries (public domain, same as the Sweden
+// silhouette; at this simplification it keeps the point count, and so the parse cost
+// below, where it was). Aggressively simplified (these are background context, not the
+// subject), islets dropped, and clipped by ring bbox to the map's view so we don't ship the
+// whole of Norway/Finland/etc.
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
