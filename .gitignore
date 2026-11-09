@@ -3,6 +3,8 @@
 apps/.claude/
 apps/mobile/.claude/
 .claude/projects/
+.claude/worktrees/
+.claude/settings.local.json
 
 # Local editor / AI-tool configs (per-dev, not committed)
 .codex/
@@ -42,7 +44,6 @@ data/*.db
 data/*.db-*
 # Backups taken before a bulk import or cleanup (books.db.bak-2026-09-19 is 1.1 GB)
 data/*.db.bak*
-!data/.gitkeep
 
 # Generated output
 output/

@@ -573,4 +573,4 @@ Check 390px, 768px, and 1440px, both themes, long titles, absent images, Arabic,
 | Fonts | Cut into core and ext by coverage; preloaded per file, only above the first picture; every fallback width-matched |
 | Scorecard | `pnpm bench` against the dated ft.com baseline; `assert-page-budgets.mjs` after every build |
 
-Performance and weight budgets are in `TECHNICAL_SPEC.md`.
+Performance and weight budgets are Principle 9 and the Scorecard above; `assert-page-budgets.mjs` enforces them.
