@@ -320,7 +320,7 @@ await card({
 				fontSize: 30,
 				color: MUTED,
 			},
-			"Islam på svenska, förklarad ur källorna.",
+			"Islam på svenska, förklarad utifrån källorna.",
 		),
 	],
 	out: join(WEB, "og-default.png"),

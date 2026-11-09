@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://islam.se">
-    <img src="apps/web/public/og-default.png" alt="The islam.se social card: a gold sun in a blue ring over the name ISLAM.SE and the line »Islam på svenska, förklarad ur källorna.« on cream paper." width="760">
+    <img src="apps/web/public/og-default.png" alt="The islam.se social card: a gold sun in a blue ring over the name ISLAM.SE and the line »Islam på svenska, förklarad utifrån källorna.« on cream paper." width="760">
   </a>
 </p>
 
