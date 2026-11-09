@@ -23,6 +23,10 @@ The default uses one thread. Keep `ASTRO_BUILD_CONCURRENCY` at 1 when comparing 
 it controls simultaneous pages within each thread. Compare builds with equally warm
 caches and check memory use as well as elapsed time.
 
+If `pnpm check` says "The `@astrojs/check` and `typescript` packages are required" while
+both are installed, look at the `@emnapi/*` overrides in `../../pnpm-workspace.yaml`
+before anything else: a beta emnapi from rolldown's wasm binding causes it.
+
 ## Dev server
 
 For anything agent-driven (screenshot loops, Lighthouse passes) use the managed

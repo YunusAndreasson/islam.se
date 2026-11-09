@@ -26,3 +26,12 @@ packageExtensions:
   "agents@0.33.0":
     dependencies:
       "@babel/core": "^8.0.1"
+# rolldown 1.3's wasm32 binding pins @emnapi/core and @emnapi/runtime to
+# 2.0.0-beta.2. pnpm then resolves @astrojs/check's @emnapi/runtime peer to that
+# beta while its @emnapi/core stays 1.x, and apps/web's `astro check` fails
+# ("The @astrojs/check and typescript packages are required"). Keep the pair on
+# one stable release; drop this once rolldown's binding ships against a stable
+# emnapi 2.
+overrides:
+  "@emnapi/core": 1.11.3
+  "@emnapi/runtime": 1.11.3
