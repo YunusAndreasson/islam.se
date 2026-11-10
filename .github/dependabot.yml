@@ -5,6 +5,8 @@ updates:
   # The site, the pipeline and the shared tooling: one pnpm workspace.
   - package-ecosystem: npm
     directory: /
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
     # pnpm-workspace.yaml leaves the app out, but Dependabot still finds its
@@ -24,6 +26,8 @@ updates:
   # line, so those move with `npx expo install --fix`, not one by one.
   - package-ecosystem: npm
     directory: /apps/mobile
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
     ignore:
@@ -49,6 +53,8 @@ updates:
         patterns: ["*"]
   - package-ecosystem: github-actions
     directory: /
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
     groups:
