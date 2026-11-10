@@ -30,6 +30,25 @@ describe("Markdown negotiation", () => {
 		}
 	});
 
+	// Markdown was served whenever text/markdown appeared at all, so a client that
+	// preferred HTML and listed markdown only as a fallback got markdown.
+	it("serves Markdown only when it is ranked at least as high as HTML", async () => {
+		const cases: Array<[string, boolean]> = [
+			["text/markdown, text/html;q=0.9", true],
+			["text/markdown, text/html", true],
+			["text/html, text/markdown;q=0.1", false],
+			["text/html,application/xhtml+xml,*/*;q=0.8", false],
+			["*/*", false],
+		];
+		for (const [accept, markdown] of cases) {
+			const context = setup("/essay/", accept);
+			const response = await onRequest(context);
+			expect(await response.text(), `Accept: ${accept}`).toBe(
+				markdown ? "# Essay" : "<h1>Essay</h1>",
+			);
+		}
+	});
+
 	// A path starting // used to be resolved as a network-path reference, changing
 	// the host of the subrequest (and canonical URL) to attacker-controlled input.
 	it("keeps double-slash asset requests on the site's origin", async () => {

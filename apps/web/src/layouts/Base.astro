@@ -116,6 +116,15 @@ const fontPreloads = preloadFonts.map((entry) => {
 	return { href, media, low };
 });
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+// Every page's markdown twin, advertised so an agent reading the HTML finds the cheaper
+// copy: essays have a hand-authored /{slug}.md, every other directory page gets
+// /<path>/index.md from scripts/generate-markdown.ts (assert-full-build.mjs checks
+// that each advertised twin exists). 404 and other non-directory pages have none.
+const markdownTwin = articleMeta
+	? `/${articleMeta.slug}.md`
+	: Astro.url.pathname.endsWith("/")
+		? `${Astro.url.pathname}index.md`
+		: undefined;
 const ogImageUrl = ogImage
 	? new URL(ogImage, Astro.site).href
 	: new URL("/og-default.png", Astro.site).href;
@@ -351,9 +360,9 @@ if (articleMeta) {
 		<link rel="alternate" type="application/rss+xml" title="islam.se" href="/rss.xml" />
 		<link rel="alternate" type="application/rss+xml" title="islam.se podcast" href="/podcast.xml" />
 
-		<!-- AI / LLM discovery: curated site map + a clean-markdown copy of each essay -->
+		<!-- AI / LLM discovery: curated site map + this page's clean-markdown twin -->
 		<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
-		{articleMeta && <link rel="alternate" type="text/markdown" title={pageTitle} href={`/${articleMeta.slug}.md`} />}
+		{markdownTwin && <link rel="alternate" type="text/markdown" title={pageTitle} href={markdownTwin} />}
 
 		<!-- View Transitions -->
 		<ClientRouter />

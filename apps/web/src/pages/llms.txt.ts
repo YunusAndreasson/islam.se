@@ -50,7 +50,7 @@ export async function GET(context: APIContext) {
 ## Om
 - Språk: svenska (sv)
 - Format: essäer i markdown med YAML-frontmatter (title, publishedAt, description, wordCount)
-- Markdown: varje essä finns även som ren markdown — lägg till \`.md\` på dess URL
+- Markdown: varje essä finns även som ren markdown — lägg till \`.md\` på dess URL (\`/{slug}/\` → \`/{slug}.md\`); övriga sidor har \`index.md\` i sin katalog (\`/svar/\` → \`/svar/index.md\`). Skicka \`Accept: text/markdown\` för att få markdown direkt på sidans vanliga URL
 - Teman: teologi, filosofi, litteratur, etik, psykologi, eskatologi
 - Källor: klassiska islamiska texter, den svenska litterära kanon, nordisk mytologi
 

@@ -1,40 +1,55 @@
 # islam.se welcomes AI crawlers — we want the essays read, quoted and cited.
 # A curated map for LLMs lives at /llms.txt (and /llms-full.txt for the full corpus).
 # The wildcard below already permits everyone; the named stanzas are an explicit,
-# future-proof signal to the engines that drive AI answers and citations.
+# future-proof signal to the engines that drive AI answers and citations. A crawler
+# obeys only the group that names it, so each named group repeats the Content-Signal.
 
 # OpenAI — training, search and on-demand browsing
 User-agent: GPTBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 User-agent: OAI-SearchBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 User-agent: ChatGPT-User
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 
 # Anthropic (Claude)
 User-agent: ClaudeBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 User-agent: Claude-SearchBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 User-agent: Claude-User
-Allow: /
-User-agent: anthropic-ai
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 
 # Perplexity
 User-agent: PerplexityBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 User-agent: Perplexity-User
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 
 # Google (Gemini / AI Overviews training opt-in) and Apple Intelligence
 User-agent: Google-Extended
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 User-agent: Applebot-Extended
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 
 # Common Crawl — feeds many open models
 User-agent: CCBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 
 # Everyone else

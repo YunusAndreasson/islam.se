@@ -160,12 +160,21 @@ for (const corpus of CORPORA) {
 let chartFigures = 0;
 let leakedFences = 0;
 const weldedTwins = [];
+// Base.astro advertises a markdown twin in every page's <head>. generate-markdown.ts skips
+// a page whose <main> converts to nothing, so a link can point at a file that was never
+// written — an agent following it gets the HTML 404 page as "markdown".
+const missingTwins = [];
 const scanHtml = (dir) => {
 	for (const entry of readdirSync(dir, { withFileTypes: true })) {
 		const full = join(dir, entry.name);
 		if (entry.isDirectory()) scanHtml(full);
 		else if (entry.name === "index.html") {
 			const html = readFileSync(full, "utf8");
+			const twin = html.match(
+				/<link rel="alternate" type="text\/markdown"[^>]*href="([^"]+)"/,
+			)?.[1];
+			if (twin && !existsSync(join(DIST, twin)))
+				missingTwins.push(`${full.slice(DIST.length)} → ${twin}`);
 			chartFigures += (html.match(/<figure class="chart chart--/g) ?? []).length;
 			leakedFences += (html.match(/language-(?:chart|table|timeline)/g) ?? []).length;
 		} else if (entry.name === "index.md") {
@@ -200,6 +209,17 @@ if (weldedTwins.length > 0) {
 				.join("\n") +
 			"\n    flattenCharts() in scripts/generate-markdown.ts stopped matching — most likely\n" +
 			"    the figure's class or the aria-label moved off .chart-plot.",
+	);
+}
+if (missingTwins.length > 0) {
+	failures.push(
+		`${missingTwins.length} page(s) advertise a markdown twin that is not in dist:\n` +
+			missingTwins
+				.slice(0, 3)
+				.map((t) => `      ${t}`)
+				.join("\n") +
+			"\n    Base.astro's markdownTwin and scripts/generate-markdown.ts disagree about which\n" +
+			"    pages get a twin.",
 	);
 }
 if (leakedFences > 0) {

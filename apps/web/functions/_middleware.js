@@ -12,17 +12,33 @@
 
 const CHARS_PER_TOKEN = 4; // rough estimate for the x-markdown-tokens hint
 
+/** Highest q-value the Accept header gives `type`, by exact match or `type/*` (the
+ *  catch-all is ignored: a client sending only that has not asked for markdown).
+ * @param {string} accept
+ * @param {string} type */
+function acceptWeight(accept, type) {
+	const wildcard = `${type.split("/")[0]}/*`;
+	let weight = 0;
+	for (const entry of accept.split(",")) {
+		const [mediaType, ...parameters] = entry.trim().toLowerCase().split(";");
+		const range = mediaType?.trim();
+		if (range !== type && range !== wildcard) continue;
+		const quality = parameters.find((parameter) => parameter.trim().startsWith("q="));
+		const value = quality ? Number(quality.trim().slice(2)) : 1;
+		if (Number.isFinite(value) && value > 0 && value <= 1) weight = Math.max(weight, value);
+	}
+	return weight;
+}
+
+// Markdown only when the client ranks it at least as high as HTML. A browser-ish client
+// that lists markdown as a low-q fallback (`text/html, text/markdown;q=0.1`) asked for
+// HTML first and gets it.
 /** @param {Request} request */
 function wantsMarkdown(request) {
 	if (request.method !== "GET" && request.method !== "HEAD") return false;
 	const accept = request.headers.get("accept") || "";
-	return accept.split(",").some((entry) => {
-		const [mediaType, ...parameters] = entry.trim().toLowerCase().split(";");
-		if (mediaType?.trim() !== "text/markdown") return false;
-		const quality = parameters.find((parameter) => parameter.trim().startsWith("q="));
-		const weight = quality ? Number(quality.trim().slice(2)) : 1;
-		return Number.isFinite(weight) && weight > 0 && weight <= 1;
-	});
+	const markdown = acceptWeight(accept, "text/markdown");
+	return markdown > 0 && markdown >= acceptWeight(accept, "text/html");
 }
 
 // Where a given page's markdown twin lives, most-specific first.
