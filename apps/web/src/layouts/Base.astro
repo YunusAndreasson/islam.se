@@ -367,6 +367,16 @@ if (articleMeta) {
 		<!-- View Transitions -->
 		<ClientRouter />
 
+		{/* Cloudflare Web Analytics: anonymous visit counts, no cookies, no storage, no
+		    personal data (integritetspolicy.astro says so to the reader; astro.config.ts
+		    allows the beacon in script-src and its report in connect-src). Installed by
+		    hand because Cloudflare's automatic injection does not reach this site. The
+		    token is public by design. The head is identical on every page, so a
+		    ClientRouter swap keeps this element and the beacon counts each navigation
+		    itself through the History API. It also waits out a Speculation Rules
+		    prerender, so a hovered link is not a visit. */}
+		<script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e6a5b584f5274630b5e6e1800342fabb"}'></script>
+
 		<!-- JSON-LD -->
 		{jsonLdBlocks.map((block) => (
 			<script is:inline type="application/ld+json" set:html={JSON.stringify(block)} />

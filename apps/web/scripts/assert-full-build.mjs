@@ -267,6 +267,27 @@ if (cspHtml) {
 				"    page will paint in the OS palette before flipping. See inlineScriptHash() in astro.config.ts.",
 		);
 	}
+	// The Cloudflare Web Analytics beacon (Base.astro) is the privacy policy's whole account
+	// of visit counting. A CSP that refuses it fails silently: the page works, and the
+	// dashboard just stops counting. It needs script-src for the beacon and connect-src for
+	// the report it sends.
+	if (policy && /<script[^>]+static\.cloudflareinsights\.com\/beacon\.min\.js/.test(cspHtml)) {
+		const directive = (name) =>
+			policy
+				.split(";")
+				.map((d) => d.trim())
+				.find((d) => d.startsWith(`${name} `)) ?? "";
+		if (!directive("script-src").includes("https://static.cloudflareinsights.com"))
+			failures.push(
+				"the CSP's script-src does not allow https://static.cloudflareinsights.com — the Web\n" +
+					"    Analytics beacon in Base.astro will be blocked. See security.csp in astro.config.ts.",
+			);
+		if (!directive("connect-src").includes("https://cloudflareinsights.com"))
+			failures.push(
+				"the CSP's connect-src does not allow https://cloudflareinsights.com — the Web Analytics\n" +
+					"    beacon loads but its report is blocked. See security.csp in astro.config.ts.",
+			);
+	}
 }
 
 // Internal links must use the canonical trailing-slash form. The slash-less URL 308s,

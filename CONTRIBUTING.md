@@ -38,8 +38,9 @@ Some choices are deliberate and changes to them need a strong case:
   answers it before the section ends.
 - No text is published without a person reading it, and a fact that can't be
   traced to a source is cut.
-- No accounts, no ads and no analytics, on the site or in the app. The site
-  sets no cookies, and the app's location never leaves the phone.
+- No accounts and no ads, on the site or in the app. The site counts visits
+  anonymously with Cloudflare Web Analytics, which sets no cookies and stores no
+  personal data; the app has no analytics, and its location never leaves the phone.
 - A push deploys nothing. Only `pnpm ship` puts the site live.
 
 ## Security issues

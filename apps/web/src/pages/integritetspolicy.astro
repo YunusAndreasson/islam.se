@@ -3,17 +3,17 @@ import ArticlePage from "../components/ArticlePage.astro";
 import SectionOrnament from "../components/SectionOrnament.astro";
 import { breadcrumbList, webPageJsonLd } from "../lib/jsonld";
 
-const updated = "25 september 2026";
+const updated = "11 november 2026";
 ---
 
 <ArticlePage
 	title="Integritetspolicy"
-	description="Så hanterar islam.se dina uppgifter på webbplatsen och i appen: inga kakor, inga konton, ingen spårning, ingen reklam."
+	description="Så hanterar islam.se dina uppgifter på webbplatsen och i appen: inga kakor, inga konton, ingen reklam, och besök som räknas anonymt."
 	jsonLd={[
 		webPageJsonLd({
 			name: "Integritetspolicy",
 			description:
-				"Integritetspolicy för islam.se: inga kakor och ingen spårning på webbplatsen, och bönetider som beräknas på din egen enhet i appen.",
+				"Integritetspolicy för islam.se: inga kakor och anonym besöksräkning på webbplatsen, och bönetider som beräknas på din egen enhet i appen.",
 			url: "/integritetspolicy",
 		}),
 		breadcrumbList([
@@ -25,8 +25,10 @@ const updated = "25 september 2026";
 		<div class="article-body prose">
 			<p>
 				islam.se är byggt för att samla in så lite som möjligt. Det gäller både webbplatsen
-				och appen: det finns inga konton, ingen reklam och inga analys- eller
-				spårningsverktyg. Den här policyn beskriver vad som ändå hanteras, och var.
+				och appen: det finns inga konton och ingen reklam. Webbplatsen räknar besök anonymt
+				med Cloudflare Web Analytics, som inte använder kakor och inte sparar några
+				personuppgifter. Appen har inget analysverktyg alls. Den här policyn beskriver vad som
+				hanteras, och var.
 			</p>
 
 			<h2>Webbplatsen</h2>
@@ -34,7 +36,21 @@ const updated = "25 september 2026";
 				Sidorna på islam.se är färdiga filer som levereras av Cloudflare Pages. Som varje
 				webbserver tar den emot din IP-adress och din webbläsares uppgifter i samma stund
 				som en sida hämtas – det krävs för att sidan ska nå fram. Vi för ingen egen logg
-				över besök, har inget analysverktyg installerat och sätter inga kakor.
+				över besök och sätter inga kakor.
+			</p>
+
+			<h2>Besöksstatistik</h2>
+			<p>
+				För att veta vilka texter som läses räknar vi besök med Cloudflare Web Analytics. När
+				en sida har laddats skickar ett litet skript från Cloudflare en anonym rapport: vilken
+				sida det gäller, vilken sida du eventuellt kom ifrån, vilken sorts webbläsare och enhet
+				du använder och hur snabbt sidan laddades.
+			</p>
+			<p>
+				Skriptet sätter inga kakor, sparar ingenting i din webbläsare och försöker inte känna
+				igen dig från ett besök till nästa. Inga personuppgifter sparas, så det finns ingen
+				profil av dig – bara summor, som hur många som läst en viss sida. Blockerar din
+				webbläsare skriptet fungerar webbplatsen precis som vanligt.
 			</p>
 
 			<h2>Vad som sparas i din webbläsare</h2>
@@ -108,9 +124,10 @@ const updated = "25 september 2026";
 
 			<h2>Ingen spårning, inga konton, ingen reklam</h2>
 			<p>
-				Varken webbplatsen eller appen har användarkonton, inloggning, reklam eller
-				analys- och spårningsverktyg från tredje part. Vi säljer inga personuppgifter och
-				delar inga uppgifter med tredje part i marknadsförings- eller spårningssyfte. Det
+				Varken webbplatsen eller appen har användarkonton, inloggning, reklam eller verktyg
+				som följer dig mellan besök eller mellan webbplatser. Den anonyma besöksräkningen
+				ovan är det enda analysverktyget, och den finns bara på webbplatsen. Vi säljer inga
+				personuppgifter och delar inga uppgifter med tredje part i marknadsförings- eller spårningssyfte. Det
 				enda vi sparar om dig är det du själv skickar in via rättelseformuläret nedan.
 			</p>
 

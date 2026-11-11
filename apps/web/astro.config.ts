@@ -795,8 +795,9 @@ export default defineConfig({
 				// data: is the LQIP placeholder (lib/lqip.ts); openfreemap serves the map sprite.
 				"img-src 'self' data: https://tiles.openfreemap.org",
 				// openfreemap: tiles, glyphs, sprite JSON. zuhd.news: the news feed. Both already
-				// degrade to nothing when blocked, so a mistake here would be quiet.
-				"connect-src 'self' https://tiles.openfreemap.org https://zuhd.news",
+				// degrade to nothing when blocked, so a mistake here would be quiet. So does
+				// cloudflareinsights.com, where the Web Analytics beacon (Base.astro) reports.
+				"connect-src 'self' https://tiles.openfreemap.org https://zuhd.news https://cloudflareinsights.com",
 				// maplibre-gl 6 builds its worker from a bundled same-origin URL — no blob: needed.
 				"worker-src 'self'",
 				// Turnstile's widget iframe; the skärm builder previews itself in a same-origin one.
@@ -806,7 +807,13 @@ export default defineConfig({
 			],
 			scriptDirective: {
 				// Listing resources REPLACES Astro's default, so 'self' has to be restated.
-				resources: ["'self'", "https://challenges.cloudflare.com"],
+				// challenges.cloudflare.com: Turnstile. static.cloudflareinsights.com: the Web
+				// Analytics beacon in Base.astro.
+				resources: [
+					"'self'",
+					"https://challenges.cloudflare.com",
+					"https://static.cloudflareinsights.com",
+				],
 				hashes: [inlineScriptHash("./src/layouts/Base.astro")],
 			},
 			styleDirective: {
@@ -827,7 +834,8 @@ export default defineConfig({
 		// Upgrades the `prefetch` hover strategy from "fetch the HTML" to a real Speculation
 		// Rules prerender in supporting browsers (Chrome), falling back to plain prefetch
 		// elsewhere. Worth it on a densely cross-linked prose site. The usual objection —
-		// prerendered pages inflating analytics — does not apply since GA4 was removed.
+		// prerendered pages inflating analytics — does not apply: the Cloudflare Web
+		// Analytics beacon waits for `prerenderingchange` before it counts a page.
 		clientPrerender: true,
 	},
 	vite: {
