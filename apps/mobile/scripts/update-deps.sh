@@ -38,7 +38,14 @@ if [ "$APPLY" -eq 0 ]; then
   exit 0
 fi
 
-PATCH_EXCLUDES=("!expo")
+# Held back on purpose, as in the sibling apps — crossing these breaks the build:
+#   typescript  TS 7 has no stable programmatic API until 7.1, and
+#               scripts/check-deprecated-apis.mjs (api:check) uses it.
+#   eslint      eslint-plugin-react (via eslint-config-expo) still calls
+#               context.getFilename(), removed in ESLint 10.
+#   react,      RN's renderer is compiled against the exact React the SDK
+#   react-dom   pins; react-dom must match react exactly.
+PATCH_EXCLUDES=("!expo" "!typescript" "!eslint" "!react" "!react-dom")
 while IFS= read -r pkg; do
   [ -n "$pkg" ] && PATCH_EXCLUDES+=("!$pkg")
 done < <(awk '
@@ -47,6 +54,7 @@ done < <(awk '
     key = $0
     sub(/^[[:space:]]+/, "", key)
     sub(/:.*$/, "", key)
+    gsub(/["\047]/, "", key)   # YAML quotes a scoped key: '@scope/name@1.0'
     sub(/@[^@]*$/, "", key)
     if (key != "") print key
   }
