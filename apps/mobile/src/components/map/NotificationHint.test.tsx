@@ -1,10 +1,20 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { PermissionStatus } from 'expo-modules-core';
 import * as Notifications from 'expo-notifications';
+import { Text } from 'react-native';
 
+import { hapticSuccess, hapticWarning } from '@/lib/haptics';
+import { useNotificationPermission } from '@/lib/notifications-permission';
+import { SettingsProvider, useSettings } from '@/lib/settings/context';
 import { NotificationHint } from './NotificationHint';
+
+jest.mock('@/lib/haptics', () => ({
+  hapticSuccess: jest.fn(),
+  hapticWarning: jest.fn(),
+  setHapticsEnabled: jest.fn(),
+}));
 
 const getPermissionsMock = Notifications.getPermissionsAsync as unknown as jest.MockedFunction<
   typeof Notifications.getPermissionsAsync
@@ -33,6 +43,7 @@ async function renderHint(overrides: Partial<Parameters<typeof NotificationHint>
 // grants ONE notification prompt per install: the card explains the offer so the prompt is
 // only ever spent on a user who has already said yes to the idea.
 describe('NotificationHint', () => {
+  afterEach(() => { jest.useRealTimers(); });
   beforeEach(async () => {
     jest.clearAllMocks();
     await AsyncStorage.clear();
@@ -136,5 +147,69 @@ describe('NotificationHint', () => {
     });
 
     expect(requestPermissionsMock).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([true, false])('preserves a late permission answer (%s) without stale feedback', async (granted) => {
+    let finish!: (value: Awaited<ReturnType<typeof Notifications.requestPermissionsAsync>>) => void;
+    requestPermissionsMock.mockImplementationOnce(() => new Promise((resolve) => { finish = resolve; }));
+    const { onClose, onEnable } = await renderHint();
+    jest.useFakeTimers();
+    await fireEvent.press(screen.getByText('Slå på påminnelser'));
+    await act(async () => {});
+    expect(requestPermissionsMock).toHaveBeenCalledTimes(1);
+    await fireEvent.press(screen.getByLabelText('Stäng'));
+    await screen.unmount();
+
+    await act(async () => {
+      finish({
+        granted,
+        canAskAgain: false,
+        status: granted ? PermissionStatus.GRANTED : PermissionStatus.DENIED,
+        expires: 'never',
+      });
+    });
+    expect(onEnable).toHaveBeenCalledTimes(1);
+    const raw = await AsyncStorage.getItem('notificationHintSeen:v1');
+    expect(raw && JSON.parse(raw).resolved).toBe(true);
+    expect(hapticSuccess).not.toHaveBeenCalled();
+    expect(hapticWarning).not.toHaveBeenCalled();
+    await act(async () => jest.runOnlyPendingTimers());
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not let a pending map hint override a newer off choice in settings', async () => {
+    let finish!: (value: Awaited<ReturnType<typeof Notifications.requestPermissionsAsync>>) => void;
+    requestPermissionsMock.mockImplementationOnce(() => new Promise((resolve) => { finish = resolve; }));
+    const onEnable = jest.fn();
+    function Controls() {
+      const { settings, update } = useSettings();
+      const notifications = useNotificationPermission();
+      return (
+        <>
+          <NotificationHint top={68} onClose={jest.fn()} onEnable={() => {
+            onEnable();
+            update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }));
+          }} />
+          <Text onPress={() => { void notifications.setEnabled(false); }}>Turn off</Text>
+          <Text>{settings.notifications.enabled ? 'enabled' : 'disabled'}</Text>
+        </>
+      );
+    }
+    await render(<SettingsProvider><Controls /></SettingsProvider>);
+    await act(async () => {});
+    await fireEvent.press(screen.getByText('Slå på påminnelser'));
+    await act(async () => {});
+    expect(requestPermissionsMock).toHaveBeenCalledTimes(1);
+    await fireEvent.press(screen.getByText('Turn off'));
+    await act(async () => {
+      finish({ granted: true, canAskAgain: true, status: PermissionStatus.GRANTED, expires: 'never' });
+    });
+
+    expect(screen.getByText('disabled')).toBeTruthy();
+    expect(onEnable).not.toHaveBeenCalled();
+    expect(hapticSuccess).not.toHaveBeenCalled();
+    expect(hapticWarning).not.toHaveBeenCalled();
+    const raw = await AsyncStorage.getItem('notificationHintSeen:v1');
+    expect(raw && JSON.parse(raw).resolved).toBe(true);
   });
 });

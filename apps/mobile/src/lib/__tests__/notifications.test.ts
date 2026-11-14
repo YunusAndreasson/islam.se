@@ -240,7 +240,7 @@ describe('syncPrayerNotifications lead time', () => {
     const oldSync = syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
     await waitForPermissionRequest();
 
-    await syncPrayerNotifications(STOCKHOLM, {
+    const newSync = syncPrayerNotifications(STOCKHOLM, {
       ...DEFAULT_SETTINGS,
       notifications: { ...DEFAULT_SETTINGS.notifications, enabled: false },
     });
@@ -250,7 +250,7 @@ describe('syncPrayerNotifications lead time', () => {
       status: PermissionStatus.GRANTED,
       expires: 'never',
     });
-    await oldSync;
+    await Promise.all([oldSync, newSync]);
 
     expect(scheduledTimes()).toHaveLength(0);
   });
@@ -294,6 +294,60 @@ describe('syncPrayerNotifications lead time', () => {
     expect(cancelled).toEqual(expect.arrayContaining(['old-1', 'old-2', 'old-3']));
     // And nothing of the stale run survives in storage for a later sync to trip on.
     expect(await AsyncStorage.getItem('prayerNotificationIds:v1')).toBeNull();
+  });
+
+  it('waits for successful siblings of a rejected batch and cancels them when superseded', async () => {
+    const pending = new Set<string>();
+    let nextId = 0;
+    let releaseLate!: () => void;
+    const late = new Promise<void>((resolve) => { releaseLate = resolve; });
+    let batchStarted!: () => void;
+    const started = new Promise<void>((resolve) => { batchStarted = resolve; });
+    scheduleMock.mockImplementation(async () => {
+      const id = `partial-${++nextId}`;
+      if (nextId === 2) throw new Error('OS scheduling failed');
+      if (nextId === 3) {
+        batchStarted();
+        await late;
+      }
+      pending.add(id);
+      return id;
+    });
+    const cancel = Notifications.cancelScheduledNotificationAsync as jest.MockedFunction<
+      typeof Notifications.cancelScheduledNotificationAsync
+    >;
+    cancel.mockImplementation(async (id) => { pending.delete(id); });
+    try {
+      const oldSync = syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+      await started;
+      const disabledSync = syncPrayerNotifications(STOCKHOLM, withNotifications({ enabled: false }));
+      releaseLate();
+      await Promise.all([oldSync, disabledSync]);
+      expect(nextId).toBeGreaterThanOrEqual(3);
+      expect(pending.size).toBe(0);
+      expect(await AsyncStorage.getItem('prayerNotificationIds:v1')).toBeNull();
+    } finally {
+      cancel.mockImplementation(async () => undefined);
+    }
+  });
+
+  it('does not replace alarms when cancellation fails, and retries on the next sync', async () => {
+    let nextId = 0;
+    scheduleMock.mockImplementation(async () => `cancel-retry-${++nextId}`);
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+    const originalIds = await AsyncStorage.getItem('prayerNotificationIds:v1');
+    scheduleMock.mockClear();
+    const cancel = Notifications.cancelScheduledNotificationAsync as jest.MockedFunction<
+      typeof Notifications.cancelScheduledNotificationAsync
+    >;
+    cancel.mockRejectedValueOnce(new Error('OS cancellation failed'));
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(15));
+    expect(scheduleMock.mock.calls).toHaveLength(0);
+    expect(await AsyncStorage.getItem('prayerNotificationIds:v1')).toBe(originalIds);
+
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(15));
+    expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+    expect(await AsyncStorage.getItem('prayerNotificationIds:v1')).not.toBe(originalIds);
   });
 });
 
@@ -612,6 +666,52 @@ describe('notification horizon', () => {
     scheduleMock.mockClear();
     await syncPrayerNotifications(STOCKHOLM, settings);
     expect(scheduleMock.mock.calls).toHaveLength(0);
+  });
+
+  it('restores the original schedule when settings change back during a pending replacement', async () => {
+    const pending = new Map<string, Parameters<typeof Notifications.scheduleNotificationAsync>[0]>();
+    let nextId = 0;
+    scheduleMock.mockImplementation(async (request) => {
+      const id = `prayer-${++nextId}`;
+      pending.set(id, request);
+      return id;
+    });
+    const cancel = Notifications.cancelScheduledNotificationAsync as jest.MockedFunction<
+      typeof Notifications.cancelScheduledNotificationAsync
+    >;
+    cancel.mockImplementation(async (id) => { pending.delete(id); });
+    getAllScheduledMock.mockImplementation(async () => [...pending].map(([identifier, request]) => ({
+      identifier,
+      content: request.content,
+      trigger: request.trigger,
+    })) as Awaited<ReturnType<typeof Notifications.getAllScheduledNotificationsAsync>>);
+
+    const original = withUniformLead(0);
+    await syncPrayerNotifications(STOCKHOLM, original);
+    const originalDates = [...pending.values()].map((request) =>
+      (request.trigger as { date: Date }).date.getTime()).sort((a, b) => a - b);
+    expect(originalDates.length).toBeGreaterThan(0);
+
+    let releasePermission!: (value: Awaited<ReturnType<typeof Notifications.getPermissionsAsync>>) => void;
+    const permissionRequested = new Promise<void>((resolve) => {
+      getPermissionsMock.mockImplementationOnce(() => new Promise((release) => {
+        releasePermission = release;
+        resolve();
+      }));
+    });
+    const replacement = syncPrayerNotifications(STOCKHOLM, withUniformLead(15));
+    await permissionRequested;
+    expect(pending.size).toBe(0); // the replacement has removed the original alarms
+    const restored = syncPrayerNotifications(STOCKHOLM, original);
+    releasePermission({
+      granted: true, canAskAgain: true, status: PermissionStatus.GRANTED, expires: 'never',
+    });
+    await Promise.all([replacement, restored]);
+
+    expect([...pending.values()].map((request) =>
+      (request.trigger as { date: Date }).date.getTime()).sort((a, b) => a - b)).toEqual(originalDates);
+    expect(JSON.parse((await AsyncStorage.getItem('prayerNotificationIds:v1'))!)).toEqual([...pending.keys()]);
+    cancel.mockImplementation(async () => undefined);
   });
 
   it('re-syncs when a prayer is toggled off', async () => {

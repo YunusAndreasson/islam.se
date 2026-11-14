@@ -7,7 +7,7 @@
 // back from system settings, and treat any non-grant while the toggle is on as "blocked"
 // — are the accumulated result of getting each of them wrong once. Two copies would
 // drift, and the drift would be invisible until a user's reminders silently died.
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 
 import { hapticWarning } from '@/lib/haptics';
@@ -21,6 +21,15 @@ import {
 import { useSettings } from '@/lib/settings/context';
 import { systemSettingsName } from '@/lib/system-settings';
 
+// Reminders are one shared preference, even when the control moves between
+// introduction, map hint and settings. An older screen's pending OS answer must
+// never replace a choice made in a newer screen.
+let notificationPreferenceIntent = 0;
+export function beginNotificationPreferenceIntent(): () => boolean {
+  const intent = ++notificationPreferenceIntent;
+  return () => intent === notificationPreferenceIntent;
+}
+
 export interface NotificationPermissionControl {
   /** Latest read of the OS state. 'unknown' until the first check lands. */
   permission: NotificationPermissionState;
@@ -31,7 +40,8 @@ export interface NotificationPermissionControl {
   footnote: string | undefined;
   /** Flip the master switch. Turning it ON fires the OS prompt under the finger and
    *  resolves before the setting is written. Returns the OS's answer so a caller that
-   *  wants to react (the intro reveals its per-prayer list on a grant) can. */
+   *  wants to react (the intro reveals its per-prayer list on a grant) can.
+   *  Returns null when switched off or superseded by a newer toggle. */
   setEnabled: (enabled: boolean) => Promise<NotificationPermissionState | null>;
 }
 
@@ -44,6 +54,11 @@ export function useNotificationPermission(active = true): NotificationPermission
   const { settings, update } = useSettings();
   const [permission, setPermission] = useState<NotificationPermissionState>('unknown');
   const enabled = settings.notifications.enabled;
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
 
   // Re-read on focus and on every return to the foreground: the user may have just walked
   // out to system settings to allow notifications, and the status row has to catch up
@@ -68,6 +83,7 @@ export function useNotificationPermission(active = true): NotificationPermission
 
   const setEnabled = useCallback(
     async (next: boolean): Promise<NotificationPermissionState | null> => {
+      const isLatestIntent = beginNotificationPreferenceIntent();
       if (!next) {
         update((prev) => ({ notifications: { ...prev.notifications, enabled: false } }));
         return null;
@@ -77,7 +93,9 @@ export function useNotificationPermission(active = true): NotificationPermission
       // syncPrayerNotifications deliberately never asks: it runs on every foreground, so
       // prompting from it would spend iOS's single lifetime dialog with no tap behind it.
       const state = await requestNotificationPermission();
-      setPermission(state);
+      // An off tap must win even when the earlier OS prompt answers later.
+      if (!isLatestIntent()) return null;
+      if (mounted.current) setPermission(state);
       // Enable either way. On a refusal that is not a lie — it is what makes the status
       // row and the "Öppna …" recovery link appear, and it means a user who later allows
       // notifications in system settings starts receiving them on the next sync.
@@ -89,7 +107,7 @@ export function useNotificationPermission(active = true): NotificationPermission
       // warning case. ANY answer that is not a grant counts: on Android the first refusal
       // leaves canAskAgain true, so it arrives as 'undetermined' even though the user
       // just said no.
-      if (state !== 'granted') hapticWarning();
+      if (mounted.current && state !== 'granted') hapticWarning();
       return state;
     },
     // `settings` is deliberately absent: both writes are functional patches that read the

@@ -115,6 +115,10 @@ export const AVAILABLE_SOUNDS: readonly NotificationSoundKey[] = HAS_ADHAN_SOUND
   : ['default', 'silent'];
 
 let syncGeneration = 0;
+// Native cancellation, scheduling and storage writes must settle before the next
+// reconciliation starts. A generation guard alone cannot undo a cancellation that
+// was already awaiting the OS when a newer run created its replacement alarms.
+let syncQueue: Promise<void> = Promise.resolve();
 let channelsEnsured = false;
 let categoryEnsured = false;
 // A cold start always performs a real sync; the stamp only suppresses the redundant
@@ -418,7 +422,12 @@ async function savePrayerNotificationIds(ids: readonly string[]): Promise<void> 
 }
 
 async function cancelByIds(ids: readonly string[]): Promise<void> {
-  await Promise.all(ids.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined)));
+  const results = await Promise.allSettled(ids.map((id) => Notifications.cancelScheduledNotificationAsync(id)));
+  // Do not create a replacement horizon while an old alarm could still fire. Wait
+  // for every cancellation, retain the saved IDs, and let the next sync retry.
+  if (results.some((result) => result.status === 'rejected')) {
+    throw new Error('Could not cancel every prayer notification');
+  }
 }
 
 /**
@@ -491,11 +500,25 @@ function syncStampFor(coords: LatLng, settings: PrayerSettings, exact: ExactAlar
  * pending-notification budget allows. Idempotent — safe to call on any relevant change
  * or foreground.
  */
-export async function syncPrayerNotifications(
+export function syncPrayerNotifications(
   coords: LatLng,
   settings: PrayerSettings,
 ): Promise<void> {
   const generation = ++syncGeneration;
+  const sync = syncQueue.then(async () => {
+    if (generation !== syncGeneration) return;
+    await reconcilePrayerNotifications(coords, settings, generation);
+  });
+  // A failed best-effort reconciliation must never poison subsequent requests.
+  syncQueue = sync.catch(() => undefined);
+  return syncQueue;
+}
+
+async function reconcilePrayerNotifications(
+  coords: LatLng,
+  settings: PrayerSettings,
+  generation: number,
+): Promise<void> {
   const scheduledIds: string[] = [];
   // A newer sync has taken over: this run's notifications must not survive. The newer
   // run's own cancel pass can't see them (they were never saved), so cancelling them
@@ -516,6 +539,11 @@ export async function syncPrayerNotifications(
       if (previous === stamp) return;
     }
 
+    if (generation !== syncGeneration) return;
+    // The persisted stamp describes the alarms we are about to remove. Invalidate
+    // its session cache BEFORE touching them: A → B → A must rebuild A if B was
+    // superseded after cancelling it, even though the saved stamp still says A.
+    firstSyncDone = false;
     await cancelPrayerNotifications();
     if (generation !== syncGeneration) return;
     if (!n.enabled) return;
@@ -638,7 +666,15 @@ export async function syncPrayerNotifications(
         }
       }
 
-      scheduledIds.push(...(await Promise.all(batch)));
+      // A rejected sibling must not make us abandon successful or still-pending
+      // requests. Collect every ID before cleanup/persistence or the next sync.
+      const results = await Promise.allSettled(batch);
+      for (const result of results) {
+        if (result.status === 'fulfilled') scheduledIds.push(result.value);
+      }
+      if (results.some((result) => result.status === 'rejected')) {
+        throw new Error('Could not schedule every prayer notification');
+      }
     }
     if (generation !== syncGeneration) {
       await bailStale();

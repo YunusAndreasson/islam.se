@@ -22,6 +22,7 @@ import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-re
 
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { noteNotificationResolved } from '@/lib/notification-hint';
+import { beginNotificationPreferenceIntent } from '@/lib/notifications-permission';
 import {
   openNotificationSettings,
   openSystemSettingsA11yLabel,
@@ -65,11 +66,16 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
   const inFlight = useRef(false);
   const [busy, setBusy] = useState(false);
   const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mounted = useRef(false);
   const settingsName = systemSettingsName();
 
   useEffect(
-    () => () => {
-      if (confirmTimer.current) clearTimeout(confirmTimer.current);
+    () => {
+      mounted.current = true;
+      return () => {
+        mounted.current = false;
+        if (confirmTimer.current) clearTimeout(confirmTimer.current);
+      };
     },
     [],
   );
@@ -77,16 +83,25 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
   const onAllow = (): void => {
     if (inFlight.current) return;
     inFlight.current = true;
+    const isLatestIntent = beginNotificationPreferenceIntent();
     setBusy(true);
     void (async () => {
       const result: NotificationPermissionState = await requestNotificationPermission();
       await noteNotificationResolved();
+      if (!isLatestIntent()) {
+        inFlight.current = false;
+        if (mounted.current) setBusy(false);
+        return;
+      }
       // Turn the setting on for EITHER answer, matching the Inställningar toggle. On a
       // refusal that's not a lie — it's what makes Inställningar → Notiser show its
       // "Blockerat" status and the "Öppna …" recovery link, and it means a user who
       // later allows notifications in system settings starts receiving them on the very
       // next sync without having to find the toggle again.
       onEnable();
+      // The permission answer still updates preferences after dismissal; the
+      // card's haptics and delayed close belong only to its visible lifetime.
+      if (!mounted.current) return;
       if (result === 'granted') {
         // A discrete outcome the user just triggered — the haptics policy's success case.
         hapticSuccess();

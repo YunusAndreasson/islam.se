@@ -63,11 +63,16 @@ export function LocationHint({ top, onClose }: Props) {
   const inFlight = useRef(false);
   const [busy, setBusy] = useState(false);
   const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mounted = useRef(false);
   const settingsName = systemSettingsName();
 
   useEffect(
-    () => () => {
-      if (confirmTimer.current) clearTimeout(confirmTimer.current);
+    () => {
+      mounted.current = true;
+      return () => {
+        mounted.current = false;
+        if (confirmTimer.current) clearTimeout(confirmTimer.current);
+      };
     },
     [],
   );
@@ -85,10 +90,13 @@ export function LocationHint({ top, onClose }: Props) {
         // A fix was already in flight, so nothing was asked and nothing was answered.
         // Re-arm the button rather than spending the card's one resolution on a no-op.
         inFlight.current = false;
-        setBusy(false);
+        if (mounted.current) setBusy(false);
         return;
       }
       await noteLocationResolved();
+      // The reader can close the card or choose a city while GPS is pending.
+      // Keep the resolution, but never revive its feedback after it has gone.
+      if (!mounted.current) return;
       if (outcome === 'ok') {
         // A discrete outcome the user just triggered — the haptics policy's success case.
         hapticSuccess();

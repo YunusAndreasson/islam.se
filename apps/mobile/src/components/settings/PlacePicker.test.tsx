@@ -6,7 +6,7 @@
 // screen said where it was, and the list always opened on Stockholm. `initialScrollIndex`
 // is what closes that, and it is only exact because getItemLayout gives the list a real
 // row pitch to count in, so both belong to this one behaviour.
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { FlatList, useWindowDimensions } from 'react-native';
 
@@ -24,6 +24,8 @@ jest.mock('react-native/Libraries/Utilities/useWindowDimensions', () => ({
 }));
 
 describe('PlacePicker', () => {
+  afterEach(() => { jest.restoreAllMocks(); });
+
   beforeEach(() => {
     jest.mocked(useWindowDimensions).mockReturnValue({
       width: 411, height: 914, scale: 2.625, fontScale: 1,
@@ -96,5 +98,39 @@ describe('PlacePicker', () => {
     await fireEvent.changeText(screen.getByLabelText('Sök stad'), DEEP.name);
 
     expect(oneOfType(FlatList, 'place list').props.initialScrollIndex).toBeUndefined();
+  });
+
+  it.each([
+    { width: 411, fontScale: 1 },
+    { width: 320, fontScale: 1 },
+    { width: 411, fontScale: 2 },
+  ])('starts each search and cleared result list at the top at %j', async ({ width, fontScale }) => {
+    jest.mocked(useWindowDimensions).mockReturnValue({
+      width, height: 914, scale: 2.625, fontScale,
+    });
+    // The native viewport cannot be measured by the renderer. Observe the native
+    // scroll command instead: replacing data alone preserves the previous offset.
+    const scrollToOffset = jest.spyOn(FlatList.prototype, 'scrollToOffset').mockImplementation(() => {});
+    await render(
+      <PlacePicker
+        selected={{ name: DEEP.name, latitude: DEEP.lat, longitude: DEEP.lon }}
+        onPick={jest.fn()}
+      />,
+    );
+    expect(scrollToOffset).not.toHaveBeenCalled();
+    expect(screen.getByText(DEEP.name)).toBeTruthy();
+
+    await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'Stockholm');
+    expect(scrollToOffset).toHaveBeenCalledTimes(1);
+    expect(scrollToOffset).toHaveBeenLastCalledWith({ offset: 0, animated: false });
+    expect(oneOfType(FlatList).props.data[0].name).toBe('Stockholm');
+
+    await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'Malmö');
+    expect(scrollToOffset).toHaveBeenCalledTimes(2);
+    expect(scrollToOffset).toHaveBeenLastCalledWith({ offset: 0, animated: false });
+
+    await fireEvent.press(screen.getByLabelText('Rensa sökning'));
+    expect(scrollToOffset).toHaveBeenCalledTimes(3);
+    expect(scrollToOffset).toHaveBeenLastCalledWith({ offset: 0, animated: false });
   });
 });

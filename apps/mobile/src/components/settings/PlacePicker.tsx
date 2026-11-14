@@ -10,7 +10,7 @@
 // a/a/o fold + lower-case happens on both query and place name before comparison. The
 // list is sorted by population descending so the recognisable big places sit at the top
 // when the user just scrolls.
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   FlatList,
   type ListRenderItemInfo,
@@ -65,6 +65,17 @@ export function PlacePicker({ selected, onPick }: Props) {
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const [query, setQuery] = useState('');
+  const listRef = useRef<FlatList<SwedishPlace>>(null);
+  const previousQuery = useRef(query);
+
+  useLayoutEffect(() => {
+    if (previousQuery.current === query) return;
+    previousQuery.current = query;
+    // A new result set must start at its first match, rather than inheriting the
+    // selected city's (or the previous search's) native scroll offset. Skip mount
+    // so initialScrollIndex still opens on the city the reader already chose.
+    listRef.current?.scrollToOffset({ offset: 0, animated: false });
+  }, [query]);
 
   const selectedKey = selected ? keyFor(selected) : null;
 
@@ -173,6 +184,7 @@ export function PlacePicker({ selected, onPick }: Props) {
           : `${NUMBER_FMT.format(results.length)} ${results.length === 1 ? 'träff' : 'träffar'}`}
       </Text>
       <FlatList
+        ref={listRef}
         data={data}
         keyExtractor={(p) => `${p.name}|${p.lat}|${p.lon}`}
         renderItem={renderItem}

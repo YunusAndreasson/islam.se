@@ -9,7 +9,7 @@
 // Asking "which prayers?" before "do you want reminders at all?" is a question about a
 // thing that does not exist yet, and showing five dead toggles under a blocked permission
 // would be worse.
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { SettingSection } from '@/components/settings/SettingSection';
@@ -41,6 +41,11 @@ export function StepNotifications() {
   const [answered, setAnswered] = useState(() => settings.notifications.enabled);
   // Synchronous double-tap guard, same reasoning as NotificationHint's.
   const inFlight = useRef(false);
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
   const [busy, setBusy] = useState(false);
   const settingsName = systemSettingsName();
 
@@ -54,6 +59,14 @@ export function StepNotifications() {
       // left to offer. Skipping this step records NOTHING on purpose, which is what
       // leaves the card its later, calmer chance.
       await noteNotificationResolved();
+      // Finishing the permission flow still retires the shared hint, even if the
+      // reader moved on. Feedback belongs only to the step that is still visible.
+      if (!mounted.current) return;
+      if (state === null) {
+        inFlight.current = false;
+        setBusy(false);
+        return;
+      }
       if (state === 'granted') hapticSuccess();
       // The warning haptic for a refusal already fired inside setEnabled.
       setAnswered(true);

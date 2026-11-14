@@ -9,7 +9,7 @@
 // consolation prize, and it opens the same PlacePicker the settings route uses. That is
 // also why this step never blocks: the user can walk past it and the app falls back to
 // Stockholm (see lib/location/resolve), which the dock is honest about.
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -43,11 +43,17 @@ export function StepLocation() {
   // has to be a ref (written synchronously) — `busy` alone would let a double-tap put two
   // OS dialogs in flight. The state exists only to grey the button out.
   const inFlight = useRef(false);
+  // Native GPS cannot be cancelled. A later city choice (or leaving this step)
+  // must win over a request that finishes after the reader has moved on.
+  const requestGeneration = useRef(0);
   const [busy, setBusy] = useState(false);
   const settingsName = systemSettingsName();
 
-  const resolveGps = async (): Promise<void> => {
+  useEffect(() => () => { requestGeneration.current += 1; }, []);
+
+  const resolveGps = async (generation: number): Promise<void> => {
     const outcome = await refresh();
+    if (generation !== requestGeneration.current) return;
     if (outcome === 'busy') {
       // A fix was already in flight, so nothing was asked and nothing was answered.
       return;
@@ -56,6 +62,7 @@ export function StepLocation() {
     // offer — record it against the same store the card uses. Skipping this step
     // deliberately records NOTHING, which is what leaves the card its later chance.
     await noteLocationResolved();
+    if (generation !== requestGeneration.current) return;
     if (outcome === 'ok') {
       hapticSuccess();
       // GPS is already the default mode, but say so explicitly: a user replaying the
@@ -71,15 +78,25 @@ export function StepLocation() {
   const onUseGps = (): void => {
     if (inFlight.current) return;
     inFlight.current = true;
+    const generation = ++requestGeneration.current;
     setBusy(true);
     // `.finally`, not a `try/finally` block: the React Compiler cannot lower a finalizer
     // and skips the whole component over one.
-    void resolveGps().finally(() => {
+    void resolveGps(generation).finally(() => {
       // Always released, including on the 'ok' path: `error` keeps the button on screen
       // for a second attempt, so a guard left stuck true would make that button dead.
-      inFlight.current = false;
-      setBusy(false);
+      if (generation === requestGeneration.current) {
+        inFlight.current = false;
+        setBusy(false);
+      }
     });
+  };
+
+  const openPicker = (): void => {
+    requestGeneration.current += 1;
+    inFlight.current = false;
+    setBusy(false);
+    setPhase('picking');
   };
 
   const onPickPlace = (p: SwedishPlace): void => {
@@ -184,7 +201,7 @@ export function StepLocation() {
           ) : null}
 
           <Pressable
-            onPress={() => setPhase('picking')}
+            onPress={openPicker}
             accessibilityRole="button"
             accessibilityLabel="Välj stad i stället"
             style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}

@@ -67,20 +67,21 @@ export function DisclosureGroup({
   // An alert that is off has nothing behind its fold, so it gets no fold.
   const expandable = !toggle || toggle.value;
   const [expanded, setExpanded] = useState(defaultExpanded);
+  const isExpanded = expanded && expandable;
   const [contentHeight, setContentHeight] = useState(0);
   // Seed with a one-line estimate (paddingTop 3 + callout lineHeight 21) so the value
   // shows immediately on mount; onLayout then snaps it to the true height (e.g. two lines).
   const [summaryHeight, setSummaryHeight] = useState(24);
 
   // 0 = collapsed, 1 = expanded. Drives body height, chevron rotation, summary fade.
-  const open = useSharedValue(defaultExpanded ? 1 : 0);
+  const open = useSharedValue(isExpanded ? 1 : 0);
 
   useEffect(() => {
     // Switching the alert off takes its detail away with it, so the body closes rather
     // than being left open over nothing.
-    const target = expanded && expandable ? 1 : 0;
+    const target = isExpanded ? 1 : 0;
     open.set(reduceMotion ? target : withTiming(target, { duration: motion.base }));
-  }, [expanded, expandable, reduceMotion, open]);
+  }, [isExpanded, reduceMotion, open]);
 
   // contentHeight is captured by these worklets at render; a layout change re-renders
   // and reanimated re-evaluates the style with the new height (snaps to fit).
@@ -111,7 +112,7 @@ export function DisclosureGroup({
           onPress={() => setExpanded((v) => !v)}
           disabled={!expandable}
           accessibilityRole="button"
-          accessibilityState={{ expanded }}
+          accessibilityState={{ expanded: isExpanded }}
           accessibilityLabel={summary ? `${title}, ${summary}` : title}
           style={({ pressed }) => [
             styles.header,
@@ -166,9 +167,9 @@ export function DisclosureGroup({
 
         <Animated.View
           style={[styles.body, bodyStyle]}
-          accessibilityElementsHidden={!(expanded && expandable)}
-          importantForAccessibility={expanded && expandable ? 'auto' : 'no-hide-descendants'}
-          pointerEvents={expanded && expandable ? 'auto' : 'none'}
+          accessibilityElementsHidden={!isExpanded}
+          importantForAccessibility={isExpanded ? 'auto' : 'no-hide-descendants'}
+          pointerEvents={isExpanded ? 'auto' : 'none'}
         >
           <View
             style={styles.measure}

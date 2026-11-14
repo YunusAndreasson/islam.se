@@ -37,6 +37,7 @@ import { moonPhaseAt } from '@/lib/moon/ephemeris';
 // abbreviations without the trailing period a calendar header does not need.
 const WEEKDAYS = ['må', 'ti', 'on', 'to', 'fr', 'lö', 'sö'];
 const MOON_PX = 20;
+const CELL_HEIGHT = 32 + MOON_PX + 2 + 8;
 interface Props {
   /** Stockholm midnight of the day currently on screen. */
   dayStart: number;
@@ -177,7 +178,7 @@ function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose
   // provider and this is exactly `c.surface`.
   const sky = useSkyGlass();
   const insets = useSafeAreaInsets();
-  const { height } = useWindowDimensions();
+  const { height, fontScale } = useWindowDimensions();
   const compact = useCompactLayout();
   const ink = useMoonInk();
   const styles = useMemo(() => makeStyles(c), [c]);
@@ -234,12 +235,15 @@ function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose
       >
         <GlassSurface style={styles.sheet} borderRadius={radius.xl} tint={sky.surface}>
           <ScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
-            <View style={[styles.head, compact && styles.headStacked]}>
+            <View testID="calendar-header" style={[styles.head, compact && styles.headStacked]}>
               <View style={[styles.titleBlock, compact && styles.titleBlockStacked]}>
-                <Text style={styles.title} accessibilityRole="header">
+                <Text testID="calendar-month-title" style={styles.title} accessibilityRole="header">
                   {heading(grid.title)}
                 </Text>
-                <Text style={styles.hijri}>
+                <Text
+                  testID="calendar-hijri-caption"
+                  style={[styles.hijri, !compact && { minHeight: 2 * 20 * fontScale }]}
+                >
                   {hijriSpan(grid, hijriOffset)}
                 </Text>
               </View>
@@ -273,7 +277,7 @@ function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose
               ))}
             </View>
 
-            <View style={styles.grid}>
+            <View testID="calendar-grid" style={styles.grid}>
               {grid.cells.map((day, i) => {
                 if (day == null) {
                   // Blanks: before the 1st, and after the last out to the fixed six rows.
@@ -355,7 +359,9 @@ function makeStyles(c: Palette) {
       padding: space.md,
       gap: space.sm,
     },
-    head: { flexDirection: 'row', alignItems: 'center', gap: space.sm, marginBottom: space.xs },
+    // Align controls to the grid below, not to the caption's centre: a longer
+    // Hijri span may grow upward without moving the next-month button mid-tap.
+    head: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm, marginBottom: space.xs },
     headStacked: { flexDirection: 'column', alignItems: 'stretch' },
     titleBlock: { flex: 1, minWidth: 0 },
     titleBlockStacked: { flex: 0 },
@@ -377,7 +383,9 @@ function makeStyles(c: Palette) {
     weekday: { ...type.caption, color: c.inkFaint, width: `${100 / 7}%`, textAlign: 'center' },
     grid: { flexDirection: 'row', flexWrap: 'wrap' },
     // Keep the moon close to its date, with more space between calendar rows.
-    cell: { width: `${100 / 7}%`, alignItems: 'center', paddingTop: 2, paddingBottom: 8, paddingHorizontal: 2 },
+    // Padding alone gives empty cells a 10dp height. Entire blank weeks must take
+    // exactly as much room as populated ones, otherwise the pager slides down in February.
+    cell: { width: `${100 / 7}%`, height: CELL_HEIGHT, alignItems: 'center', paddingTop: 2, paddingBottom: 8, paddingHorizontal: 2 },
     dayBubble: {
       width: 32,
       height: 32,

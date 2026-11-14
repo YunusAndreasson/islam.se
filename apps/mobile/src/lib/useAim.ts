@@ -417,6 +417,7 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
         if (cancelled) removeHeadingListener(listener);
         else listening = true;
       } catch {
+        if (cancelled) return;
         noCompassRef.current = true;
         setNoCompass(true);
       }

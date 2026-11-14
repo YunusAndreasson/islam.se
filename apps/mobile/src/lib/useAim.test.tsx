@@ -18,8 +18,8 @@ import { useAim } from '@/lib/useAim';
 
 /** A minimal consumer: mounts the hook and renders whatever the band says. */
 function Instrument({ bearing, active = true }: { bearing: number; active?: boolean }) {
-  const { status } = useAim({ active, request: false, bearing });
-  return <Text>{status.aligned ? 'aimed' : 'searching'}</Text>;
+  const { status, noCompass } = useAim({ active, request: false, bearing });
+  return <Text>{noCompass ? 'no compass' : status.aligned ? 'aimed' : 'searching'}</Text>;
 }
 
 describe('useAim — one sensor, many instruments', () => {
@@ -232,5 +232,23 @@ describe('useAim — one sensor, many instruments', () => {
       await Promise.resolve();
     });
     expect(jest.mocked(Location.watchHeadingAsync)).not.toHaveBeenCalled();
+  });
+
+  it.each(['permission', 'sensor'] as const)('ignores a late %s rejection after blur', async (stage) => {
+    let rejectSetup!: (reason: Error) => void;
+    if (stage === 'permission') {
+      jest.mocked(Location.getForegroundPermissionsAsync).mockImplementationOnce(() =>
+        new Promise((_resolve, reject) => { rejectSetup = reject; }));
+    } else {
+      jest.mocked(Location.watchHeadingAsync).mockImplementationOnce(() =>
+        new Promise((_resolve, reject) => { rejectSetup = reject; }));
+    }
+    const view = await render(<Instrument bearing={0} />);
+    await act(async () => {});
+    expect(rejectSetup).toBeDefined();
+    await view.rerender(<Instrument bearing={0} active={false} />);
+    await act(async () => { rejectSetup(new Error('stale setup failed')); });
+    expect(view.getByText('searching')).toBeTruthy();
+    expect(view.queryByText('no compass')).toBeNull();
   });
 });

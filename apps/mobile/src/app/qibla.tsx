@@ -234,11 +234,9 @@ export default function Qibla() {
   const mapEscape =
     settings.showQibla ? (
       <Pressable
-        // `navigate`, not `back()`: back returns to whatever is underneath, which is only the
-        // map when this sheet was opened from it. A control labelled "på kartan" has to land
-        // on the map however the reader got here. (It also stops this duplicating ModalBar's
-        // dismiss expression, which is a different decision that should stay in one place.)
-        onPress={() => router.navigate('/bonetider')}
+        // Reuse the map beneath this modal, preserving its camera and preview.
+        // dismissTo also opens the destination when this screen was entered directly.
+        onPress={() => router.dismissTo('/bonetider')}
         accessibilityRole="button"
         accessibilityLabel="Se qibla-riktningen på kartan"
         style={({ pressed }) => [styles.link, pressed && styles.pressed]}

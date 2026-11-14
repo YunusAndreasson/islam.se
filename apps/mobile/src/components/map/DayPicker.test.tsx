@@ -1,5 +1,6 @@
-import { describe, expect, it, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 
 import { addZoneDays, startOfZoneDay, zoneParts } from '@/lib/zone-time';
 import { adjacentMonth, DayPicker, GRID_CELLS, hijriSpan, monthGrid } from './DayPicker';
@@ -8,6 +9,16 @@ import { allOfType, hostsOfType } from '@/test-utils/rendered';
 import { MoonDisc } from '@/components/moon/MoonDisc';
 
 const day = (y: number, m: number, d: number) => startOfZoneDay(Date.UTC(y, m - 1, d, 12));
+
+jest.mock('react-native/Libraries/Utilities/useWindowDimensions', () => ({
+  __esModule: true, default: jest.fn(),
+}));
+
+beforeEach(() => {
+  jest.mocked(useWindowDimensions).mockReturnValue({
+    width: 411, height: 914, scale: 2.625, fontScale: 1,
+  });
+});
 
 async function renderPicker(dayStart: number, todayStart = dayStart) {
   const onPick = jest.fn();
@@ -125,6 +136,38 @@ describe('hijriSpan', () => {
 });
 
 describe('DayPicker', () => {
+  // Forty-two array entries did not mean six equal-height weeks: padding-only
+  // blank cells collapsed a whole empty week to 10dp and moved the month controls.
+  it.each([day(2027, 2, 10), day(2026, 11, 10)])(
+    'gives blank weeks the same rendered height as populated weeks for %s',
+    async (viewed) => {
+      await renderPicker(viewed);
+      const cells = screen.getByTestId('calendar-grid').children;
+      expect(cells).toHaveLength(GRID_CELLS);
+      const heights = cells.map((cell) => {
+        if (typeof cell === 'string') throw new Error('calendar cell must be a view');
+        return StyleSheet.flatten(cell.props.style).height;
+      });
+      expect(new Set(heights)).toEqual(new Set([62]));
+    },
+  );
+
+  it.each([
+    { width: 411, fontScale: 1, compact: false },
+    { width: 411, fontScale: 1.3, compact: false },
+    { width: 320, fontScale: 2, compact: true },
+  ])('keeps caption space without clipping enlarged text at %j', async ({ width, fontScale, compact }) => {
+    jest.mocked(useWindowDimensions).mockReturnValue({
+      width, height: 914, scale: 2.625, fontScale,
+    });
+    await renderPicker(day(2026, 11, 10));
+    const caption = screen.getByTestId('calendar-hijri-caption');
+    expect(caption.props.numberOfLines).toBeUndefined();
+    expect(StyleSheet.flatten(caption.props.style).minHeight).toBe(compact ? undefined : 40 * fontScale);
+    expect(StyleSheet.flatten(screen.getByTestId('calendar-header').props.style).alignItems)
+      .toBe(compact ? 'stretch' : 'flex-end');
+  });
+
   it('keeps a visible moon phase for every date, including past dates', async () => {
     await renderPicker(day(2026, 9, 20));
     const moons = allOfType(MoonDisc);

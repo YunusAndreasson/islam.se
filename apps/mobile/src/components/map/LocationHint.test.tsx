@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import * as Location from 'expo-location';
@@ -6,7 +6,14 @@ import { router } from 'expo-router';
 
 import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
+import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { LocationHint } from './LocationHint';
+
+jest.mock('@/lib/haptics', () => ({
+  hapticSuccess: jest.fn(),
+  hapticWarning: jest.fn(),
+  setHapticsEnabled: jest.fn(),
+}));
 
 const requestPermission = jest.mocked(Location.requestForegroundPermissionsAsync);
 const getPermission = jest.mocked(Location.getForegroundPermissionsAsync);
@@ -43,6 +50,7 @@ async function renderHint() {
 // worst, from a mount effect, over the intro. Its whole job is to make the OS dialog land
 // on a user who has already agreed to the idea.
 describe('LocationHint', () => {
+  afterEach(() => { jest.useRealTimers(); });
   beforeEach(async () => {
     jest.clearAllMocks();
     await AsyncStorage.clear();
@@ -158,5 +166,34 @@ describe('LocationHint', () => {
     });
 
     expect(requestPermission).toHaveBeenCalledTimes(1);
+  });
+
+  it.each(['ok', 'error'] as const)('keeps a late GPS %s silent after dismissal', async (outcome) => {
+    let finish!: (value: Awaited<ReturnType<typeof Location.getCurrentPositionAsync>>) => void;
+    let fail!: (reason: Error) => void;
+    getCurrentPosition.mockImplementationOnce(() => new Promise((resolve, reject) => {
+      finish = resolve;
+      fail = reject;
+    }));
+    requestPermission.mockResolvedValue(permission('granted') as never);
+    const { onClose } = await renderHint();
+    jest.useFakeTimers();
+    await fireEvent.press(screen.getByText('Använd min plats'));
+    await act(async () => {});
+    expect(getCurrentPosition).toHaveBeenCalledTimes(1);
+    await fireEvent.press(screen.getByLabelText('Stäng'));
+    await screen.unmount();
+
+    await act(async () => {
+      if (outcome === 'ok') finish({ coords: { latitude: 55.605, longitude: 13.0038 } } as never);
+      else fail(new Error('GPS unavailable'));
+    });
+    // The answer still retires the offer, but no stale haptic or delayed second close fires.
+    const raw = await AsyncStorage.getItem('locationHintSeen:v1');
+    expect(raw && JSON.parse(raw).resolved).toBe(true);
+    expect(hapticSuccess).not.toHaveBeenCalled();
+    expect(hapticWarning).not.toHaveBeenCalled();
+    await act(async () => jest.runOnlyPendingTimers());
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

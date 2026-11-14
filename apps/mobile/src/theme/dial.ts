@@ -97,7 +97,6 @@ export function useBrassStyles(prox: SharedValue<number>, reduceMotion: boolean)
       opacity: prox.get(),
       transform: [{ scale: reduceMotion ? 1 : GLOW_REST + prox.get() * GLOW_SWELL }],
     }),
-    [reduceMotion],
   );
   return { brass, glow };
 }

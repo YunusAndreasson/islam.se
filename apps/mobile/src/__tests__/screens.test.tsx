@@ -559,7 +559,8 @@ describe('tab screens', () => {
     // Two ways forward, not a dead end: fix the permission, or read the direction off the
     // map's great-circle arc, which needs no magnetometer at all.
     expect(screen.getByRole('button', { name: /^Öppna/ })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Se qibla-riktningen på kartan' })).toBeTruthy();
+    await fireEvent.press(screen.getByRole('button', { name: 'Se qibla-riktningen på kartan' }));
+    expect(router.dismissTo).toHaveBeenCalledWith('/bonetider');
   });
 
   it(
@@ -770,6 +771,27 @@ describe('tab screens', () => {
       const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
       expect(saved.notifications.prayers.fajr).toBe(false);
     });
+  });
+
+  it('announces an expanded prayer as collapsed when its reminder is switched off', async () => {
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({
+        ...DEFAULT_SETTINGS,
+        notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true },
+      }),
+    );
+    await renderSettled(withProviders(<Notiser />));
+    const disclosure = screen.getByRole('button', { name: /^Fajr,/ });
+    await fireEvent.press(disclosure);
+    expect(screen.getByRole('button', { name: /^Fajr,/ }).props.accessibilityState.expanded).toBe(true);
+
+    await fireEvent(
+      screen.getByRole('switch', { name: 'Påminnelse för Fajr. Gryningsbönen' }),
+      'valueChange',
+      false,
+    );
+    expect(screen.getByRole('button', { name: 'Fajr' }).props.accessibilityState.expanded).toBe(false);
   });
 
   describe('getting alerts through on Android', () => {
