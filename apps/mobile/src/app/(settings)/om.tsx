@@ -82,7 +82,8 @@ export default function Om() {
               style={styles.integrityIcon}
             />
             <Text style={styles.integrityBody}>
-              Din plats lämnar aldrig enheten. Inga konton, ingen spårning, ingen reklam.
+              Din plats lämnar aldrig enheten. Inga konton, ingen reklam och ingen spårning
+              mellan appar. Appen skickar anonym användningsstatistik och felrapporter.
             </Text>
           </View>
         </SettingSection>

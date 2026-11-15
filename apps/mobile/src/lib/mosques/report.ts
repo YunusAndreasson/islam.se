@@ -195,8 +195,9 @@ interface ServerReply {
  * POST the report. Resolves with a message rather than rejecting — the form has one place
  * to show a failure and no path here should reach an error boundary.
  *
- * This is the app's only outbound request. Everything else (prayer times, qibla, the
- * mosque dataset) is computed or bundled on device.
+ * Apart from usage statistics (Mixpanel) and crash reports (Sentry), this is the app's only
+ * outbound request. Everything else (prayer times, qibla, the mosque dataset) is computed or
+ * bundled on device.
  */
 export async function submitMosqueReport(payload: ReportPayload): Promise<SubmitResult> {
   // Ask the OS before asking the network. Offline, the fetch below does not fail fast — it

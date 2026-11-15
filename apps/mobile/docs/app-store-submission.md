@@ -30,7 +30,8 @@ pushes the new title, then Submit for Review.
 - ✅ Listing copy (sv + en-US), categories, 4+ age rating, App Review contact + notes — pushed
 - ✅ **4 screenshots** (1290×2796, `APP_IPHONE_67`) uploaded for both locales
 - ✅ App Privacy → "Data Not Collected", IDFA = No (true for 1.0.2; the app has reported
-  crashes to Sentry since Sept 2026, so the next release declares Crash Data — see below)
+  crashes to Sentry since Sept 2026 and usage events to Mixpanel since Nov 2026, so the next
+  release declares the data types below)
 - ✅ Privacy policy **live** at https://islam.se/integritetspolicy/
 
 ---
@@ -59,13 +60,22 @@ eas metadata:push        # validates, then writes the listing to App Store Conne
 
 App Store Connect → your app → **App Privacy** → Edit.
 
-**Answer (since the app reports crashes to Sentry, Sept 2026):** declare one data type,
-**Diagnostics → Crash Data → App Functionality → Not linked to the user's identity → Not used
-for tracking.** "Data Not Collected" was right for 1.0.2 and stops being right with the first
-release that includes `src/lib/sentry.ts`: Apple counts data a third-party SDK sends off the
-device, and these reports go out without the user choosing to send each one, so the optional-
-disclosure exemption doesn't apply. Update the answer in App Store Connect before submitting
-that release.
+**Answer (Sentry crash reports since Sept 2026, Mixpanel usage events since Nov 2026):**
+declare these data types, each **Not linked to the user's identity** and **Not used for
+tracking**:
+
+| Data type | Purpose | Source |
+|---|---|---|
+| Diagnostics → Crash Data | App Functionality | Sentry (`src/lib/sentry.ts`) |
+| Usage Data → Product Interaction | Analytics | Mixpanel events (`src/lib/analytics/events.ts`) |
+| Identifiers → Device ID | Analytics | Mixpanel's random anonymous id |
+| Location → Coarse Location | Analytics | Mixpanel derives city/region/country from the request IP |
+
+"Data Not Collected" was right for 1.0.2 and stops being right with the first release that
+includes `src/lib/sentry.ts` or `src/lib/analytics`: Apple counts data a third-party SDK sends
+off the device, and none of it is sent by a deliberate user action, so the optional-disclosure
+exemption doesn't apply. There is no in-app opt-out. Update the answer in App Store Connect
+before submitting that release.
 
 Why nothing else needs declaring:
 
@@ -74,24 +84,30 @@ Why nothing else needs declaring:
   never leaves the device is **not "collected."** Crash reports carry no position either:
   `src/lib/sentry.ts` turns off breadcrumbs, screenshots, the view hierarchy and memory
   introspection, which is where it could leak, and `sentry.test.ts` fails on the edit that
-  turns any of them back on.
+  turns any of them back on. Mixpanel events carry no position either (`events.ts` forbids
+  it; the mosque-report event carries only the reason). The Coarse Location row above is
+  Mixpanel's own server-side IP geolocation, not the device location.
 - **Crash reports** hold the error, where in the code it happened, the app version and the
   device's model and OS: Crash Data, nothing more. No user, device name or IP address is
   attached, Sentry is set not to store the IP it sees, and sessions are off, so a healthy launch
   sends nothing.
-- **No accounts, no analytics, no advertising, no third-party tracking SDKs.**
+- **Usage events** go to Mixpanel (EU data residency, api-eu.mixpanel.com) under a random
+  anonymous id: no `identify`, no people profile, automatic events off. They are not combined
+  with other companies' data, so they are not "tracking" in Apple's sense.
+- **No accounts, no advertising, no cross-app tracking.**
 - **Settings** are stored locally (AsyncStorage) and never leave the device.
 
-This matches the in-app promise on the *Om*-screen: *"Din plats lämnar aldrig enheten. Inga konton,
-ingen spårning, ingen reklam."* and the »Felrapporter« section of
+This matches the in-app text on the *Om*-screen: *"Din plats lämnar aldrig enheten. Inga konton,
+ingen reklam och ingen spårning mellan appar. Appen skickar anonym användningsstatistik och
+felrapporter."* and the »Felrapporter« and »Användningsstatistik« sections of
 https://islam.se/integritetspolicy.
 
 **One nuance to be aware of (you do not need to declare it, but know the reasoning):** the map
 fetches tile images from MapTiler / OpenFreeMap. Like any web request, those CDNs see the
 requesting IP. We do not send the user's GPS position to them and the requests aren't used to
-identify or track the user, so they add nothing to the answer above. If a reviewer ever questions
-it, the conservative fallback is to also declare **Coarse Location → App Functionality → Not
-linked to identity → Not used for tracking**.
+identify or track the user. Coarse Location is already declared above (for Mixpanel's IP
+geolocation); if a reviewer questions the tile requests, add **App Functionality** as a second
+purpose on that row.
 
 After answering: set **"Does this app use the Advertising Identifier (IDFA)?" → No.**
 

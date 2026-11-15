@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ErrorScreen } from '@/components/ui/ErrorScreen';
+import { useScreenViews } from '@/lib/analytics/useScreenViews';
 import { useDisplayZone } from '@/lib/device-zone';
 import { IntroProvider } from '@/lib/intro-context';
 import { useLocation, LocationProvider } from '@/lib/location/context';
@@ -159,6 +160,13 @@ function NotificationRouting() {
   return null;
 }
 
+// One Screen Viewed event per route change, named by route file only (see @/lib/analytics).
+// Renders nothing.
+function ScreenViews() {
+  useScreenViews();
+  return null;
+}
+
 // Keeps the iOS home-screen widget's prayer timeline in step with the user's settings
 // and location, refreshing on every foreground. WidgetKit advances the five-day
 // timeline itself; Android receives a snapshot. Live Activities have their own
@@ -246,6 +254,7 @@ export default function RootLayout() {
               </Stack>
               <NotificationSync />
               <NotificationRouting />
+              <ScreenViews />
               <WidgetSync />
               <PrayerActivitySync />
               <AppSystemBars />

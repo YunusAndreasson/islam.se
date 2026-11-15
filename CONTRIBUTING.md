@@ -40,7 +40,8 @@ Some choices are deliberate and changes to them need a strong case:
   traced to a source is cut.
 - No accounts and no ads, on the site or in the app. The site counts visits
   anonymously with Cloudflare Web Analytics, which sets no cookies and stores no
-  personal data; the app has no analytics, and its location never leaves the phone.
+  personal data. The app sends anonymous usage events to Mixpanel (EU) and crash
+  reports to Sentry, with no user id, and its location never leaves the phone.
 - A push deploys nothing. Only `pnpm ship` puts the site live.
 
 ## Security issues

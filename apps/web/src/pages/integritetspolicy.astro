@@ -3,7 +3,7 @@ import ArticlePage from "../components/ArticlePage.astro";
 import SectionOrnament from "../components/SectionOrnament.astro";
 import { breadcrumbList, webPageJsonLd } from "../lib/jsonld";
 
-const updated = "11 november 2026";
+const updated = "15 november 2026";
 ---
 
 <ArticlePage
@@ -27,7 +27,8 @@ const updated = "11 november 2026";
 				islam.se är byggt för att samla in så lite som möjligt. Det gäller både webbplatsen
 				och appen: det finns inga konton och ingen reklam. Webbplatsen räknar besök anonymt
 				med Cloudflare Web Analytics, som inte använder kakor och inte sparar några
-				personuppgifter. Appen har inget analysverktyg alls. Den här policyn beskriver vad som
+				personuppgifter. Appen skickar anonym användningsstatistik till Mixpanel och felrapporter
+				till Sentry. Den här policyn beskriver vad som
 				hanteras, och var.
 			</p>
 
@@ -122,40 +123,75 @@ const updated = "11 november 2026";
 				USA (EU–U.S. Data Privacy Framework), som Sentry har anslutit sig till.
 			</p>
 
-			<h2>Ingen spårning, inga konton, ingen reklam</h2>
+			<h3>Användningsstatistik</h3>
 			<p>
-				Varken webbplatsen eller appen har användarkonton, inloggning, reklam eller verktyg
-				som följer dig mellan besök eller mellan webbplatser. Den anonyma besöksräkningen
-				ovan är det enda analysverktyget, och den finns bara på webbplatsen. Vi säljer inga
-				personuppgifter och delar inga uppgifter med tredje part i marknadsförings- eller spårningssyfte. Det
-				enda vi sparar om dig är det du själv skickar in via rättelseformuläret nedan.
+				Appen skickar uppgifter om hur den används till Mixpanel, en tjänst för
+				användningsstatistik. Vi använder uppgifterna för att se vilka delar av appen som används
+				och vad som behöver förbättras.
+			</p>
+			<p>
+				Det som skickas är vilka skärmar som öppnas och några enstaka händelser, till exempel att
+				introduktionen slutfördes eller att en rättelse av en moské skickades. Med varje händelse
+				följer tekniska uppgifter som appens version och enhetens modell och operativsystem.
+				Händelserna kopplas till ett slumpmässigt id som skapas i appen. Inget namn, ingen
+				e-postadress och inget konto kopplas till id:t.
+			</p>
+			<p>
+				Appen skickar inte enhetens position, kartans position eller den plats du har valt till
+				Mixpanel. Mixpanel räknar själv fram ungefärlig ort, region och land utifrån den IP-adress
+				som uppgifterna skickas från. IP-adressen sparas inte.
+			</p>
+			<p>
+				Mixpanel drivs av det amerikanska företaget Mixpanel, Inc. Uppgifterna lagras inom EU.
+				Det finns ingen inställning i appen för att stänga av statistiken. Id:t tas bort när du
+				avinstallerar appen.
 			</p>
 
-			<h2>Rättelseformuläret</h2>
+			<h2>Inga konton, ingen reklam, ingen spårning mellan appar</h2>
+			<p>
+				Varken webbplatsen eller appen har användarkonton, inloggning eller reklam. Webbplatsen
+				räknar besök med Cloudflare Web Analytics och appen skickar användningsstatistik till
+				Mixpanel, som beskrivs ovan. Inget av detta används för att följa dig mellan webbplatser
+				eller mellan appar. Vi säljer inga personuppgifter och delar inga uppgifter med tredje
+				part i marknadsförings- eller spårningssyfte.
+			</p>
+
+			<h2>Rättelseformulären</h2>
 			<p>
 				På islam.se finns ett <a href="/ratta/">formulär där du kan föreslå en rättelse</a> av en
 				text. Skickar du in
 				ett förslag sparar vi det du skrivit: vilken sida det gäller, meningen du pekat ut, vad du
-				menar är fel och den källa du eventuellt angett. Det behöver vi för att kunna rätta
-				texten och för att kunna hålla reda på vad som ändrats och varför.
+				menar är fel och den källa du eventuellt angett.
 			</p>
 			<p>
-				E-postadressen är frivillig. Lämnar du den använder vi den enbart för att svara dig om
-				något behöver redas ut, och vi raderar den när ärendet är avslutat. Den lämnas aldrig
+				I appen kan du rapportera fel i uppgifterna om en moské. Då skickas moskéns namn och id,
+				kommun och län, adressen som visas i appen, vilket fel du valt, din text och appens
+				version. Din plats skickas inte.
+			</p>
+			<p>
+				Uppgifterna behöver vi för att kunna rätta texten eller moskédatan och för att kunna hålla
+				reda på vad som ändrats och varför. Varje rättelse sparas och skickas även med e-post till
+				redaktionen.
+			</p>
+			<p>
+				E-postadressen är frivillig i båda formulären. Lämnar du den använder vi den enbart för att svara dig om
+				något behöver redas ut, och vi raderar den ur databasen när ärendet är avslutat. E-postkopian
+				av rättelsen finns kvar i redaktionens inkorg. Adressen lämnas aldrig
 				vidare och används inte till utskick.
 			</p>
 			<p>
 				Din IP-adress sparas inte. Av den räknas ett envägsvärde fram som bara går att jämföra
-				med sig självt, och som vi använder för att hindra att formuläret översvämmas. Formuläret
-				skyddas dessutom av Cloudflare Turnstile, en kontroll som skiljer människa från robot
-				utan att spåra dig mellan webbplatser. Uppgifterna lagras hos Cloudflare inom EU.
+				med sig självt, och som vi använder för att hindra att formulären översvämmas. Formuläret
+				på webbplatsen skyddas dessutom av Cloudflare Turnstile, en kontroll som skiljer människa
+				från robot utan att spåra dig mellan webbplatser. Rättelserna lagras i en databas hos
+				Cloudflare inom EU. E-posten till redaktionen hanteras av Google.
 			</p>
 
 			<h2>Barn</h2>
 			<p>
-				Både webbplatsen och appen är lämpliga för alla åldrar. Utöver en frivillig
-				e-postadress i rättelseformuläret samlas inga personuppgifter in, varken från barn
-				eller vuxna.
+				Både webbplatsen och appen är lämpliga för alla åldrar. Vi samlar inte in namn eller
+				kontaktuppgifter, varken från barn eller vuxna, utöver en frivillig e-postadress i
+				rättelseformulären. Appens användningsstatistik och felrapporter beskrivs ovan.
 			</p>
 
 			<h2>Ändringar i policyn</h2>

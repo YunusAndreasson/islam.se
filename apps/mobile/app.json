@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.3.1",
+    "version": "1.3.2",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -166,6 +166,7 @@
     },
     "extra": {
       "sentryDsn": "https://a3ad279e35fb34a58bfdf05b12bd7ca3@o1414696.ingest.us.sentry.io/4512069756977152",
+      "mixpanelToken": "23d2115fb5dabcc70bd8941991c7f222",
       "router": {},
       "eas": {
         "projectId": "ae3f5ac8-8773-4205-b590-ecb11f9a097e"

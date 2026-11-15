@@ -43,6 +43,7 @@ import { OptionGroup } from '@/components/settings/OptionGroup';
 import { Icon } from '@/components/ui/Icon';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { ModalBar } from '@/components/ui/ModalBar';
+import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { locationLabel, mosqueById } from '@/lib/mosques';
 import {
@@ -146,6 +147,8 @@ export default function MoskeRattelse() {
         // reserves a success buzz for.
         setPhase({ state: 'sent' });
         hapticSuccess();
+        // The reason only: the mosque is a place, and no place goes to Mixpanel.
+        void analytics.track(ANALYTICS_EVENTS.MOSQUE_REPORT_SENT, { reason });
         return;
       }
       // Everything typed survives: the same values are still in state, so the form

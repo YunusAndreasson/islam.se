@@ -85,7 +85,7 @@ Play Console:
 
 Reuse the copy from `store.config.json` (`apple.info.sv`):
 - **App name:** islam.se
-- **Short description** (≤80 chars): e.g. *"Sveriges bönetider, qibla och karta — utan konton, spårning eller reklam."*
+- **Short description** (≤80 chars): e.g. *"Sveriges bönetider, qibla och karta — utan konton och utan reklam."*
 - **Full description:** the Swedish description from `store.config.json`.
 - **Graphics:** app icon (512×512), **feature graphic (1024×500)** — required, needs to be made,
   and phone screenshots. The 4 iPhone screenshots at `store/apple/screenshot/sv/APP_IPHONE_67/*.png`
@@ -99,13 +99,21 @@ at **Everyone / PEGI 3** — consistent with the iOS 4+ rating.
 
 ## ☐ 6. Data safety form
 
-Mirror the iOS App Privacy answer. Since the app reports crashes to Sentry (Sept 2026), that is
-one data type: **App info and performance → Crash logs**, collected, **not shared** (Sentry
-processes the reports on our behalf, which Play doesn't count as sharing), not processed
-ephemerally (kept up to 90 days), collection required, purpose **App functionality**, encrypted
-in transit. Nothing else: location is used on-device for prayer times and never transmitted, and
-there are no accounts, no analytics and no ads. (Same reasoning as in `app-store-submission.md`.)
-If the form still says "no data collected" from before Sentry, update it with the next release.
+Mirror the iOS App Privacy answer. The app reports crashes to Sentry (Sept 2026) and usage
+events to Mixpanel (Nov 2026). Declare, each **collected**, **not shared** (Sentry and Mixpanel
+process the data on our behalf, which Play doesn't count as sharing), **not processed
+ephemerally**, **required** (there is no in-app opt-out), encrypted in transit:
+
+- **App info and performance → Crash logs** — purpose **App functionality** (Sentry, kept up
+  to 90 days).
+- **App activity → App interactions** — purpose **Analytics** (screens opened, a few actions).
+- **Device or other IDs** — purpose **Analytics** (Mixpanel's random anonymous id).
+- **Location → Approximate location** — purpose **Analytics** (Mixpanel derives city, region
+  and country from the request IP; the app never sends the device location or map position).
+
+Nothing else: location is used on-device for prayer times and never transmitted, and there are
+no accounts and no ads. (Same reasoning as in `app-store-submission.md`.) If the form still says
+"no data collected" from before Sentry and Mixpanel, update it with the next release.
 
 ## ☐ 7. Target audience, ads declaration, app category
 

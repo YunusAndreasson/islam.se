@@ -30,6 +30,7 @@ import { StepLocation } from '@/components/intro/StepLocation';
 import { StepMethod } from '@/components/intro/StepMethod';
 import { StepNotifications } from '@/components/intro/StepNotifications';
 import { StepWelcome } from '@/components/intro/StepWelcome';
+import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSelection, hapticSuccess } from '@/lib/haptics';
 import { useIntro } from '@/lib/intro-context';
 import { useSettings } from '@/lib/settings/context';
@@ -53,6 +54,12 @@ export default function Valkommen() {
     router.replace('/bonetider');
   };
 
+  // The welcome step's "Hoppa över": the one way out that is not the last step.
+  const skip = (): void => {
+    void analytics.track(ANALYTICS_EVENTS.INTRO_SKIPPED);
+    finish();
+  };
+
   // Advancing is felt, not just seen. This looks at first like the "navigation" case the
   // haptics policy excludes, and it is not: the intro's progress mark (IntroMarkProgress)
   // is a DISCRETE value the button steps through — 1 of 4 to 2 of 4 — which is the same
@@ -74,6 +81,7 @@ export default function Valkommen() {
   const next = (): void => {
     if (step >= TOTAL_STEPS - 1) {
       hapticSuccess();
+      void analytics.track(ANALYTICS_EVENTS.INTRO_COMPLETED);
       finish();
     } else {
       hapticSelection();
@@ -152,7 +160,7 @@ export default function Valkommen() {
             lead="Tre korta frågor, sedan ser du dina bönetider."
             nextLabel="Kom igång"
             onNext={next}
-            onSkip={finish}
+            onSkip={skip}
           >
             <StepWelcome />
           </IntroStep>

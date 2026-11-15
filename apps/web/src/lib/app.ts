@@ -37,8 +37,8 @@ export const APP_FEATURES = [
 	},
 	{
 		key: "integritet",
-		term: "Ingen spårning",
-		gloss: "Inget konto, inga annonser. Orten du väljer stannar i telefonen.",
+		term: "Inget konto",
+		gloss: "Inga annonser, ingen spårning mellan appar. Orten du väljer stannar i telefonen.",
 	},
 ] as const;
 
