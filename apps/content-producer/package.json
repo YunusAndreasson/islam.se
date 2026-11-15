@@ -14,12 +14,12 @@
 		"produce": "node --no-warnings dist/index.js"
 	},
 	"dependencies": {
-		"@clack/prompts": "^1.8.1",
+		"@clack/prompts": "^1.9.0",
 		"@islam-se/orchestrator": "workspace:*",
 		"@islam-se/quotes": "workspace:*",
-		"commander": "^15.0.0",
+		"commander": "^15.1.0",
 		"diff": "^9.0.0",
-		"dotenv": "^18.0.9",
+		"dotenv": "^18.0.10",
 		"yaml": "^2.9.1",
 		"zod": "^4.6.7"
 	},
