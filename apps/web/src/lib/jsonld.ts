@@ -101,7 +101,7 @@ export function figureImageObject(opts: {
 // keep: `by` reads »maker / where it is held«, so the maker is the part before the
 // slash unless the registry names one, and a host on its own is no maker at all.
 const INSTITUTION =
-	/librar|museum|museet|museer|collections|gallery|society|heritage|department|press\b|bibliot/i;
+	/librar|museum|museet|museer|collections|gallery|society|heritage|department|press\b|bibliot|riksdag/i;
 
 function imageCreator(credit: {
 	by: string;
