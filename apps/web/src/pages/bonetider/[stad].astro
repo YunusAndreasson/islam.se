@@ -441,7 +441,7 @@ if (hasScb) {
 		    PDF as inline links in a muted paragraph under a 31-row table, the app in a card
 		    below the FAQ and the facts list, ~6 000 px down on the phone that 91 % of these
 		    readers are holding. */}
-		<TitledSection class="page-section tool-section bt-stad-section bt-stad-take" id="bt-stad-ta-med" title="Ta med tiderna">
+		<TitledSection class="bt-stad-section bt-stad-take" id="bt-stad-ta-med" title="Ta med tiderna">
 			<AppPromo variant="city" />
 			<ul class="bt-take">
 				<li>
@@ -471,7 +471,7 @@ if (hasScb) {
 			</p>
 		</TitledSection>
 
-		<TitledSection class="page-section tool-section bt-stad-section" id="bt-stad-month" title={`Bönetider i ${place.name} – ${monthLabel}`}>
+		<TitledSection class="bt-stad-section" id="bt-stad-month" title={`Bönetider i ${place.name} – ${monthLabel}`}>
 			<PrayerTable location={location} labelledBy="bt-stad-month" />
 			<p class="bt-stad-note">
 				Hela månaden, dag för dag. <a href="#bt-stad-ta-med">Ta med tiderna</a> i kalendern{hasPdf ? " eller som PDF" : ""}.
@@ -479,7 +479,7 @@ if (hasScb) {
 		</TitledSection>
 
 		{featuredMosques.length > 0 && (
-			<TitledSection class="page-section tool-section bt-stad-section" id="bt-stad-moske" title={featuredMosquesTitle}>
+			<TitledSection class="bt-stad-section" id="bt-stad-moske" title={featuredMosquesTitle}>
 				<p class="bt-stad-note">
 					{hasMosquePage
 						? `Moskéer i ${place.name} enligt vår `
@@ -511,7 +511,7 @@ if (hasScb) {
 
 		{ramadan && ramadanTider && (
 			<TitledSection
-				class="page-section tool-section bt-stad-section bt-stad-ramadan"
+				class="bt-stad-section bt-stad-ramadan"
 				id="bt-stad-ramadan"
 				title={`Ramadan ${ramadan.year} i ${place.name}`}
 			>
@@ -566,7 +566,7 @@ if (hasScb) {
 			</TitledSection>
 		)}
 
-		<TitledSection class="page-section tool-section bt-stad-section bt-prose" id="bt-stad-about" title={`Om bönetiderna i ${place.name}`}>
+		<TitledSection class="bt-stad-section bt-prose" id="bt-stad-about" title={`Om bönetiderna i ${place.name}`}>
 			<p>
 				{place.name} ligger {place.county ? `i ${lanDisplay(place.county)}, ` : ""}på {lat1}° nordlig bredd.
 				Bönetiderna beräknas utifrån solens läge på orten.
@@ -579,7 +579,7 @@ if (hasScb) {
 			</p>
 		</TitledSection>
 
-		<TitledSection class="page-section tool-section bt-stad-section" id="bt-stad-faq" title="Vanliga frågor">
+		<TitledSection class="bt-stad-section" id="bt-stad-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
 			<p class="bt-faq-more">
 				<SectionLink href="/bonetider/metod/">Mer om hur bönetiderna beräknas</SectionLink>
@@ -587,7 +587,7 @@ if (hasScb) {
 		</TitledSection>
 
 		{nearby.length > 0 && (
-			<TitledSection class="page-section tool-section bt-stad-section" id="bt-stad-nearby" title="Bönetider i närliggande orter">
+			<TitledSection class="bt-stad-section" id="bt-stad-nearby" title="Bönetider i närliggande orter">
 				<LinkList variant="pills" items={nearbyLinks} />
 				{/* /bonetider/orter/ is the only real city index and had exactly one inbound
 				    link on the whole site. From here it has 2 128. */}
@@ -598,7 +598,7 @@ if (hasScb) {
 		)}
 
 		{hasScb && (
-			<TitledSection class="page-section tool-section bt-stad-section" id="bt-stad-fakta" title={`Fakta om ${place.name}`}>
+			<TitledSection class="bt-stad-section" id="bt-stad-fakta" title={`Fakta om ${place.name}`}>
 				<dl class="bt-facts">
 					{placeFactRows.map((row) => (
 						<div class="bt-fact">

@@ -1,4 +1,15 @@
 ---
+// A section with its own heading. By default it is a TOOL PAGE'S SECTION (DESIGN.md, »One
+// grammar off the front page«): a `.page-section` — a section space, its rule, one
+// group-space — headed by the sans h2 that carries a tool page's search wording
+// (layout.css, `.tool-section > h2`). Until 2026-11-20 a caller had to remember both
+// classes, and AI-barometern's four templates and the calendar's FAQ did not: their h2s
+// fell back to Literata with no rule over them, a third way of opening a section.
+//
+// `first`: the section directly under a page's opening, which draws no rule.
+// `register="bare"`: the caller draws the section itself — ArticleSection's end matter,
+// headed by a kicker, and the mosque directory's list pane, which is a panel, not a
+// section of the page.
 import type { HTMLAttributes } from "astro/types";
 
 type Props = Omit<HTMLAttributes<"section">, "id" | "title"> & {
@@ -6,12 +17,21 @@ type Props = Omit<HTMLAttributes<"section">, "id" | "title"> & {
 	title: string | number;
 	sectionId?: string;
 	titleClass?: string;
+	first?: boolean;
+	register?: "tool" | "bare";
 };
 
-const { class: className, id, title, sectionId, titleClass, ...attrs } = Astro.props;
+const { class: className, id, title, sectionId, titleClass, first = false, register = "tool", ...attrs } =
+	Astro.props;
+const tool = register === "tool";
 ---
 
-<section {...attrs} id={sectionId} class:list={[className]} aria-labelledby={id}>
+<section
+	{...attrs}
+	id={sectionId}
+	class:list={[tool && "page-section tool-section", tool && first && "page-section--first", className]}
+	aria-labelledby={id}
+>
 	<h2 class:list={[titleClass]} id={id}>{title}</h2>
 	<slot />
 </section>

@@ -274,7 +274,7 @@ const crumbs = [
 		</div>
 
 		{isSeat && siblings.length > 0 && (
-			<TitledSection class="page-section tool-section mk-section" id="mk-stad-delar" title={`Moskéer i ${genitive(city)} stadsdelar`}>
+			<TitledSection class="mk-section" id="mk-stad-delar" title={`Moskéer i ${genitive(city)} stadsdelar`}>
 				<p class="mk-stad-note">
 					Ytterligare {pluralMoske(siblingTotal, false, true)} i {kommunLabel(kommun)}, ordnade efter stadsdel.
 				</p>
@@ -294,7 +294,7 @@ const crumbs = [
 
 		{hasTimes && (
 			<TitledSection
-				class="page-section tool-section mk-section mk-times"
+				class="mk-section mk-times"
 				id="mk-stad-tider"
 				title={`Bönetider i ${city} i dag`}
 			>
@@ -323,12 +323,12 @@ const crumbs = [
 			</p>
 		</section>
 
-		<TitledSection class="page-section tool-section mk-section" id="mk-stad-faq" title="Vanliga frågor">
+		<TitledSection class="mk-section" id="mk-stad-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
 		</TitledSection>
 
 		{nearbyCities.length > 0 && (
-			<TitledSection class="page-section tool-section mk-section" id="mk-stad-nearby" title="Moskéer i närliggande orter">
+			<TitledSection class="mk-section" id="mk-stad-nearby" title="Moskéer i närliggande orter">
 				<LinkList variant="pills" items={nearbyCityLinks} />
 			</TitledSection>
 		)}
@@ -393,57 +393,6 @@ const crumbs = [
 		.mk-stad-top--foto > :global(.mk-hero) {
 			margin-top: var(--space-half);
 		}
-	}
-
-	/* The orter as a directory, in columns from 48rem (three from 72rem): read down,
-	   then across, like a printed index. One long column at the reading measure left
-	   two fifths of the 76rem canvas empty the whole way down (2026-09-26). Padding,
-	   not margin, between groups: a margin at the head of a column is dropped in one
-	   engine and kept in another. */
-	@media (width >= 48rem) {
-		.mk-city-groups {
-			columns: 2;
-			column-gap: var(--grid-gutter);
-			margin-top: var(--space-phi);
-		}
-
-		.mk-city-groups .mk-city-group {
-			margin-top: 0;
-			padding-bottom: var(--space-phi);
-			break-inside: avoid;
-		}
-	}
-
-	@media (width >= 72rem) {
-		.mk-city-groups {
-			columns: 3;
-		}
-	}
-
-	.mk-city-head {
-		font-size: var(--step-0);
-		display: flex;
-		align-items: baseline;
-		gap: 0.6rem;
-		margin: 0;
-	}
-
-	.mk-city-head a {
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.mk-city-head a:hover {
-		text-decoration: underline;
-		text-underline-offset: var(--underline-offset);
-	}
-
-	.mk-city-count {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		font-weight: 400;
-		color: var(--color-muted);
-		font-variant-numeric: lining-nums tabular-nums;
 	}
 
 </style>

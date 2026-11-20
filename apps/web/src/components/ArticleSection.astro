@@ -18,6 +18,6 @@ const classes = ["article-section", "page-section", className].filter(Boolean).j
 // two templates use this component; TitledSection keeps its h2 for the tool pages.
 ---
 
-<TitledSection {...attrs} class={classes} id={id} title={title} titleClass="label home-kicker home-kicker--head">
+<TitledSection {...attrs} register="bare" class={classes} id={id} title={title} titleClass="label home-kicker home-kicker--head">
 	<slot />
 </TitledSection>

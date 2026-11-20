@@ -1,10 +1,11 @@
 ---
 import Base from "../../layouts/Base.astro";
-import Breadcrumb from "../../components/Breadcrumb.astro";
+import PageHead from "../../components/PageHead.astro";
 import AnnualPrayerChart from "../../components/bonetider/AnnualPrayerChart.astro";
 import DaylightLatitude from "../../components/bonetider/DaylightLatitude.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import SectionLink from "../../components/SectionLink.astro";
+import TitledSection from "../../components/TitledSection.astro";
 import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
 import { breadcrumbList } from "../../lib/jsonld";
 const location = { name: DEFAULT_COORDS.name, latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
@@ -16,18 +17,18 @@ const crumbs = [
 ---
 <Base title="Bönetider under året" description="Se hur solen och årstiderna påverkar bönetiderna i Sverige." jsonLd={breadcrumbList(crumbs)}>
  <main id="main" class="home seasons">
-  <Breadcrumb items={crumbs} />
-  <h1>Bönetider under året</h1>
-  <div class="seasons-pair">
+  <PageHead title="Bönetider under året" crumbs={crumbs} />
+  <div class="seasons-pair page-section page-section--first">
    <section class="seasons-year" aria-labelledby="year-title"><h2 id="year-title">Året i Stockholm</h2><AnnualPrayerChart location={location} /></section>
    <section class="seasons-daylight" aria-label="Dagsljus på olika breddgrader"><DaylightLatitude /></section>
   </div>
-  <section aria-labelledby="map-title"><h2 id="map-title">Solens läge i Sverige i dag</h2><PrayerField location={location} variant="full" fixed caption /></section>
+  <TitledSection id="map-title" title="Solens läge i Sverige i dag"><PrayerField location={location} variant="full" fixed caption /></TitledSection>
   <p><SectionLink href="/bonetider/metod/">Så beräknas tiderna</SectionLink></p>
  </main>
 </Base>
 <style>
- section { margin-block: var(--space-phi); }
+ /* Under the chart on a phone and a tablet, a φ apart. */
+ .seasons-daylight { margin-block-start: var(--space-phi); }
 
  /* The year's chart and the daylight table side by side from 72rem, the table's top on
     the chart's: one under the other, the two held to 46 and 32rem left the right half
@@ -38,11 +39,6 @@ const crumbs = [
    grid-template-columns: minmax(0, 46rem) minmax(0, 1fr);
    grid-template-rows: auto auto;
    column-gap: var(--grid-gutter);
-   margin-block: var(--space-phi);
-  }
-
-  .seasons-pair section {
-   margin-block: 0;
   }
 
   .seasons-year {
@@ -54,6 +50,7 @@ const crumbs = [
   .seasons-daylight {
    grid-column: 2;
    grid-row: 2;
+   margin-block-start: 0;
   }
  }
 </style>

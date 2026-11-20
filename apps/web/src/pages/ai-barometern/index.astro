@@ -220,25 +220,25 @@ const reliabilityClause = reliabilityAnswer.startsWith("Alla ")
 		)
 	}
 
-	{
-		run && (
-			<MoreSection id={HUB_SECTIONS.party} title="Partivalet" hint="Vilka partier modellerna rekommenderade, och när de avstod.">
-				<p>
-					Modellerna fick välja ett riksdagsparti att rekommendera, eller avstå. Partierna listades
-					i slumpvis ordning varje gång.
-				</p>
-				<PartyGrid
-					rows={partyRows()}
-					caption="Det parti modellen rekommenderade. Den fyllda bokstaven valdes i flest av de tre svaren."
-					source={source}
-				/>
-			</MoreSection>
-		)
-	}
-
 	{/* Secondary: opened when the findings and the answers raise a question. Each keeps its heading
-	    and one line on what it holds, so the three closed sections still say what is inside. */}
+	    and one line on what it holds, so the closed sections still say what is inside. The party
+	    choices stood apart above them, the one section on the page that opened under no rule. */}
 	<div class="abm-more-group">
+		{
+			run && (
+				<MoreSection id={HUB_SECTIONS.party} title="Partivalet" hint="Vilka partier modellerna rekommenderade, och när de avstod.">
+					<p>
+						Modellerna fick välja ett riksdagsparti att rekommendera, eller avstå. Partierna listades
+						i slumpvis ordning varje gång.
+					</p>
+					<PartyGrid
+						rows={partyRows()}
+						caption="Det parti modellen rekommenderade. Den fyllda bokstaven valdes i flest av de tre svaren."
+						source={source}
+					/>
+				</MoreSection>
+			)
+		}
 		{
 			run && overviewRows.length > 0 && (
 				<MoreSection id={HUB_SECTIONS.twins} title="Samma påstående, olika svar" hint={twinsHint}>

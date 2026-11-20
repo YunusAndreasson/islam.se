@@ -352,17 +352,16 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 
 		{
 			question.classicalNote && (
-				<section class="abm-classical" aria-labelledby="klassisk-hallning">
-					<h2 id="klassisk-hallning">Den klassiska hållningen</h2>
+				<TitledSection class="abm-classical" id="klassisk-hallning" title="Den klassiska hållningen">
 					<p><WithHonorifics text={question.classicalNote} /></p>
-				</section>
+				</TitledSection>
 			)
 		}
 
 		{
 			readMore.length > 0 && (
-				<nav class="abm-siblings abm-readmore" aria-labelledby="las-mer">
-					<Kicker form="head" as="h2" class="abm-subhead" id="las-mer">Läs mer på islam.se</Kicker>
+				<nav class="page-section abm-siblings abm-readmore" aria-labelledby="las-mer">
+					<Kicker form="head" as="h2" id="las-mer">Läs mer på islam.se</Kicker>
 					<LinkList variant="diamond" items={readMore} nav />
 				</nav>
 			)
@@ -370,8 +369,8 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 
 		{
 			siblings.length > 0 && (
-				<nav class="abm-siblings" aria-labelledby="fler-fragor">
-					<Kicker form="head" as="h2" class="abm-subhead" id="fler-fragor">
+				<nav class="page-section abm-siblings" aria-labelledby="fler-fragor">
+					<Kicker form="head" as="h2" id="fler-fragor">
 						Fler frågor: {THEME_LABELS[question.theme]}
 					</Kicker>
 					<LinkList variant="hairline" items={siblings.map((q) => ({ label: q.short, href: questionPath(q) }))} />

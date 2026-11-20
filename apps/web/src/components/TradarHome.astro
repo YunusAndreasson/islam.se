@@ -62,8 +62,11 @@ const routes = await Promise.all(threads.map(async (thread) => {
 }));
 ---
 
+{/* On the front page a movement; on /essaer/ (`cards`) the index's first section, which
+    never takes `.home-movement`: its content-visibility placeholder throws the ämnen's
+    anchor jumps (DESIGN.md, »One grammar off the front page«). */}
 <section
-	class="tradar-home home-movement"
+	class:list={["tradar-home", variant === "cards" ? "page-section page-section--first" : "home-movement"]}
 	aria-labelledby="tradar-kicker"
 	data-home-tabs={variant === "cards" ? undefined : ""}
 >

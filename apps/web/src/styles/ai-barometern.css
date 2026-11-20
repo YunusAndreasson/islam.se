@@ -478,9 +478,6 @@
 	.abm-area {
 		border-block-start: var(--border-rule);
 	}
-	.abm-area:last-of-type {
-		border-block-end: var(--border-rule);
-	}
 	.abm-area > summary {
 		display: flex;
 		flex-wrap: wrap;
@@ -518,9 +515,6 @@
 		margin-block: 0;
 		border-block-start: var(--border-rule);
 	}
-	.abm-more-group > .abm-more:last-child {
-		border-block-end: var(--border-rule);
-	}
 	.abm-more > details > summary {
 		overflow-wrap: anywhere;
 		display: grid;
@@ -534,8 +528,12 @@
 		grid-column: 2;
 		grid-row: 1;
 	}
+	/* A folded section's heading is the hub's other sections' (the tool h2, layout.css
+	   `.tool-section > h2`): folded or open, a section of the hub is headed one way. */
 	.abm-more > details > summary h2 {
 		margin: 0;
+		font-family: var(--font-heading);
+		font-size: var(--step-1-sans);
 	}
 	.abm-more > details > summary:hover h2 {
 		text-decoration: underline;
@@ -965,13 +963,10 @@
 		gap: 0.4rem;
 	}
 
-	/* The other questions in the theme, between the classical note and the pager. */
-	.abm-siblings {
+	/* The other questions in the theme and the ways further in, between the classical
+	   note and the pager: page sections (layout.css), each under its rule and kicker. */
+	.abm-siblings > :not(.home-kicker) {
 		max-inline-size: var(--content-width);
-		margin-block-start: var(--space-section);
-	}
-	.abm-readmore ~ .abm-siblings {
-		margin-block-start: var(--space-phi);
 	}
 
 	/* A head kicker over a list inside a section (Kicker.astro): the space above it is the
@@ -988,14 +983,8 @@
 		max-inline-size: var(--content-width);
 	}
 
-	.abm-classical {
-		margin-block-start: var(--space-section);
-		padding-block-start: var(--space-unit);
-		border-block-start: var(--border-rule);
-	}
-	/* The rule above already opens the section; the heading's own top margin doubled it. */
-	.abm-classical h2 {
-		margin-block-start: 0;
+	.abm-classical > p {
+		max-inline-size: var(--content-width);
 	}
 
 	.abm-prompt {

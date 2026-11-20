@@ -170,7 +170,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 			<p class="mk-noscript">Den interaktiva kartan kräver JavaScript. Alla moskéer finns i länslistan.</p>
 		</noscript>
 
-		<TitledSection class="mk-results" sectionId="mk-results-pane" id="mk-find" title="Län och moskéer">
+		<TitledSection register="bare" class="mk-results" sectionId="mk-results-pane" id="mk-find" title="Län och moskéer">
 			<div class="mk-lan-groups">
 				{groups.map((g) => (
 					<details class="mk-lan disclosure" data-lan={g.lan}>
@@ -500,7 +500,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
  .mk-graves-glyph { width: 1.15rem; height: 1.15rem; fill: var(--color-brass); flex: none; }
  .mk-result-bar .mk-reset { margin-left: auto; padding: .5rem 0; border: 0; text-decoration: underline; text-underline-offset: .2em; min-height: var(--tap-target); }
  .mk-list-jump { font-family: var(--font-heading); font-size: var(--step--2); padding-block: .5rem; }
- @media (width >= 50rem) { .mk-list-jump { display: none; } }
+ @media (width >= 48rem) { .mk-list-jump { display: none; } }
  #mk-lan { min-height: 3rem; }
 
  .mk-explorer { display: grid; gap: var(--space-unit); margin-top: var(--space-half); }
@@ -514,12 +514,12 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
  .mk-lan-count { margin-left: auto; flex: none; }
  .mk-item { min-height: var(--tap-target); padding: .85rem .5rem; gap: .2rem; }
  .mk-item:hover, .mk-item.is-active { background: var(--wash-hover); }
- @media (width >= 50rem) {
+ @media (width >= 48rem) {
   .mk-explorer { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); align-items: start; }
   .mk-stage { grid-column: 2; grid-row: 1; }
   .mk-results { grid-column: 1; grid-row: 1; max-height: 540px; overflow-y: auto; padding-right: .75rem; scrollbar-gutter: stable; }
  }
- @media (width < 50rem) { .mk-map { height: 26.25rem; } }
+ @media (width < 48rem) { .mk-map { height: 26.25rem; } }
  @media (width <= 30rem) { .mk-search-wrap { flex-basis: 100%; } .mk-lan-filter { flex: 1 1 calc(50% - .5rem); } #mk-lan { width: 100%; max-width: 100%; } .mk-geo { flex: 1 1 calc(50% - .5rem); } }
 
 	@media (width <= 30rem) {
@@ -544,10 +544,14 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	}
 	.mk-view-switch { display: none; }
 	.mk-item { text-decoration: none; }
-	@media (width < 50rem) {
-		.mk-view-switch:not([hidden]) { display: flex; border: var(--border-rule); border-radius: var(--radius-sm); padding: .2rem; }
-		.mk-view-switch button { min-height: var(--tap-target); padding: .5rem 1rem; border: 0; border-radius: var(--radius-xs); background: transparent; color: var(--color-text); font: var(--step--2) var(--font-heading); cursor: pointer; }
-		.mk-view-switch button[aria-pressed="true"] { background: var(--color-text); color: var(--color-bg); }
+	/* Lista or Karta: a two-way switch, drawn as the theme picker draws its three ways
+	   (ThemePicker.astro) — one hairline capsule, the chosen segment in the accent on the
+	   selection wash. It was the one chosen state on the site filled solid ink. */
+	@media (width < 48rem) {
+		.mk-view-switch:not([hidden]) { display: inline-flex; padding: 3px; border: var(--border-row); border-radius: var(--radius-pill); }
+		.mk-view-switch button { min-height: var(--tap-target); padding-inline: 1.1rem; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-muted); font: 500 var(--step--2) var(--font-heading); cursor: pointer; }
+		.mk-view-switch button:hover { color: var(--color-accent); }
+		.mk-view-switch button[aria-pressed="true"] { color: var(--color-accent); background: var(--wash-selected); }
 		.moskeer[data-view="list"] .mk-stage,
 		.moskeer[data-view="map"] .mk-results { display: none; }
 	}

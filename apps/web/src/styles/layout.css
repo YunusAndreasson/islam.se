@@ -251,9 +251,58 @@
 		font-size: var(--step-1-sans);
 	}
 
+	/* The orter as a directory, in columns from 48rem (three from 72rem): read down,
+	   then across, like a printed index. One long column at the reading measure left
+	   two fifths of the 76rem canvas empty the whole way down (2026-09-26). Padding,
+	   not margin, between groups: a margin at the head of a column is dropped in one
+	   engine and kept in another. */
+	@media (width >= 48rem) {
+		.mk-city-groups {
+			columns: 2;
+			column-gap: var(--grid-gutter);
+			margin-top: var(--space-phi);
+		}
+
+		.mk-city-groups .mk-city-group {
+			margin-top: 0;
+			padding-bottom: var(--space-phi);
+			break-inside: avoid;
+		}
+	}
+
+	@media (width >= 72rem) {
+		.mk-city-groups {
+			columns: 3;
+		}
+	}
+
+	/* One size for a place over its mosques, on a county's page (h2) and a city's (h3):
+	   it was 24.2px on one and 19px on the other (2026-11-20). */
 	.mk-city-head {
 		font-family: var(--font-heading);
-		font-size: var(--step-1-sans);
+		font-size: var(--step-0);
+		display: flex;
+		align-items: baseline;
+		gap: 0.6rem;
+		margin: 0;
+	}
+
+	.mk-city-head a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.mk-city-head a:hover {
+		text-decoration: underline;
+		text-underline-offset: var(--underline-offset);
+	}
+
+	.mk-city-count {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		font-weight: 400;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
 	}
 
 	/* THE TOOL REGISTER (DESIGN.md, »One grammar off the front page«: the tool pages keep
@@ -715,10 +764,6 @@
 	.tradar-home {
 		/* The essays-by-ämne design since 2026-10-10: tabs and three picture cards. */
 		--civ-h: 732px;
-	}
-	.tankare-home {
-		/* The opening beside the drawing, on /essaer/. */
-		--civ-h: 337px;
 	}
 	.barometer-rail {
 		/* A room. Three findings behind tabs, one table shown. */
@@ -2428,7 +2473,8 @@
 	}
 	.filter-chip:hover,
 	.filter-chip[aria-pressed="true"],
-	.filter-chip[aria-current="true"] {
+	.filter-chip[aria-current="true"],
+	.filter-chip.is-active {
 		border-color: var(--color-text);
 		color: var(--color-text);
 	}

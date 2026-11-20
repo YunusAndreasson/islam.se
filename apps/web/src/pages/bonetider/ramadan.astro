@@ -138,7 +138,7 @@ const definitions = [
 			landet du är – välj din ort för tiderna dag för dag.
 		</PageHead>
 
-		<TitledSection class="page-section tool-section page-section--first" id="bt-ramadan-orter" title={`Iftar och fastans längd, ${first?.name} till ${last?.name}`}>
+		<TitledSection first id="bt-ramadan-orter" title={`Iftar och fastans längd, ${first?.name} till ${last?.name}`}>
 			<p>
 				Tiderna gäller ramadans första och sista dag och är beräknade efter solens läge vid varje
 				ort. Eftersom ramadan {ramadan.year} infaller på vinterhalvåret blir fastan
@@ -179,15 +179,15 @@ const definitions = [
 			</p>
 		</TitledSection>
 
-		<TitledSection class="page-section tool-section" id="bt-ramadan-ord" title="Orden">
+		<TitledSection id="bt-ramadan-ord" title="Orden">
 			<DefinitionList items={definitions} />
 		</TitledSection>
 
-		<TitledSection class="page-section tool-section" id="bt-ramadan-faq" title="Vanliga frågor">
+		<TitledSection id="bt-ramadan-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
 		</TitledSection>
 
-		<TitledSection class="page-section tool-section" id="bt-ramadan-vidare" title="Läs vidare">
+		<TitledSection id="bt-ramadan-vidare" title="Läs vidare">
 			<p>
 				Den här sidan ger klockslagen. Vad fastan är, vem som är befriad från den och vad
 				som bryter den hör hemma i texterna:

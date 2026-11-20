@@ -15,6 +15,7 @@ import DefinitionList from "../components/DefinitionList.astro";
 import Honorific from "../components/Honorific.astro";
 import MarkesdagList from "../components/MarkesdagList.astro";
 import TitledSection from "../components/TitledSection.astro";
+import { CalendarPlus, Download } from "@lucide/astro";
 import { fastRows } from "../lib/fastelangd";
 import { breadcrumbList, faqPageJsonLd } from "../lib/jsonld";
 import { SITE_URL } from "../lib/config";
@@ -151,15 +152,20 @@ const description =
 >
 		{leadSummary && <p class="lead md-answer">{leadSummary}</p>}
 
+		{/* The calendar's two ways in, as the podcast's and the book's are offered: pills. */}
 		<p class="md-subscribe">
-			<a href="webcal://islam.se/det-islamiska-aret.ics">Prenumerera på kalendern</a>
-			<span class="nav-dot" aria-hidden="true">&middot;</span>
-			<a href="/det-islamiska-aret.ics">Ladda ner (.ics)</a>
+			<a class="pill" href="webcal://islam.se/det-islamiska-aret.ics">
+				<CalendarPlus size={14} stroke-width={1.75} aria-hidden="true" />
+				Prenumerera på kalendern
+			</a>
+			<a class="pill" href="/det-islamiska-aret.ics" download>
+				<Download size={14} stroke-width={1.75} aria-hidden="true" />
+				Ladda ned (.ics)
+			</a>
 		</p>
 
 		{fastSouth && fastNorth && (
-			<section class="md-fast">
-				<h2 class="md-fast-head">Hur lång är fastan i Sverige under ramadan {ramadanYear}?</h2>
+			<TitledSection first class="md-fast" id="md-fast-head" title={`Hur lång är fastan i Sverige under ramadan ${ramadanYear}?`}>
 				<p class="md-fast-answer">
 					Den första dagen är fastan <strong>{fastSouth.first}</strong> i {fastSouth.name} och{" "}
 					<strong>{fastNorth.first}</strong> i {fastNorth.name}. När ramadan infaller på vintern är
@@ -195,11 +201,11 @@ const description =
 					kom till, och <a href="/bonetider/ramadan/">iftar och suhūr ort för ort</a> ger klockslagen
 					för fler orter än de fem här.
 				</p>
-			</section>
+			</TitledSection>
 		)}
 
 		{groups.map((g) => (
-			<section class="md-year page-section" data-year>
+			<section class="md-year page-section tool-section" data-year>
 				<h2 class="md-year-head">
 					{/* »e.H.« rides with the hijri year, outside the uppercased span: in it
 					    the abbreviation printed »E.H.«, and Swedish writes e.H. */}
@@ -234,51 +240,11 @@ const description =
 		max-width: var(--content-width);
 	}
 
-	/* Was a negative top margin, which pulled these two links up into the last
-	   line of the summary paragraph above — a real 15px text collision, not just
-	   tight spacing. Normal flow, and the links get enough padding to clear the
-	   24px target floor (they were 15px tall). */
 	.md-subscribe {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 0.15rem 0.6rem;
-		margin: var(--space-half) 0 var(--space-unit);
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
-		color: var(--color-muted);
-
-		/* Once the row wraps, the separator dangles at the end of the first line.
-		   Narrow screens get the two actions stacked instead; their own
-		   padding-block keeps them apart, so the dot has no work to do. */
-		@media (width <= 30rem) {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 0;
-
-			.nav-dot {
-				display: none;
-			}
-		}
-
-		/* A faint underline at rest, as on the correction link: set in the label's
-		   muted caps with no underline, the page's two calendar actions read as a
-		   caption — and a touch screen has no hover to reveal otherwise. */
-		a {
-			color: var(--color-muted);
-			text-decoration: underline;
-			text-underline-offset: var(--underline-offset);
-			padding-block: 0.4rem;
-
-			&:hover {
-				color: var(--color-accent);
-				text-decoration-color: currentColor;
-			}
-
-			&:focus-visible {
-				border-radius: var(--radius-xs);
-			}
-		}
+		gap: 0.5rem 0.75rem;
+		margin: var(--space-unit) 0 0;
 	}
 
 	/* The same quiet reference table as the bönetider pages' daylight gradient
@@ -286,7 +252,6 @@ const description =
 	   figures, city as the row header. Prose stays on the reading measure; only
 	   the table is allowed to be its own width. */
 	.md-fast {
-		margin: var(--space-unit) 0 var(--space-phi2);
 		max-width: var(--content-width);
 	}
 
@@ -312,13 +277,6 @@ const description =
 			grid-row: 1 / -1;
 			align-self: start;
 		}
-	}
-
-	.md-fast-head {
-		font-family: var(--font-heading);
-		font-size: var(--step-1-sans);
-		font-weight: 620;
-		margin: 0 0 var(--space-half);
 	}
 
 	.md-fast-answer {
@@ -378,14 +336,6 @@ const description =
 		display: none;
 	}
 
-	.md-year-head {
-		font-family: var(--font-heading);
-		font-size: var(--step-1-sans);
-		font-weight: 620;
-		color: var(--color-text);
-		margin: 0 0 var(--space-half);
-	}
-
 	.md-year-greg {
 		font-weight: 400;
 		font-size: var(--step--3);
@@ -409,18 +359,6 @@ const description =
 		--lead-margin: var(--space-unit) 0 0;
 	}
 
-	.md-faq {
-		max-width: var(--content-width);
-		margin-top: var(--space-section);
-		padding-top: var(--space-group);
-		border-top: var(--border-rule);
-	}
-
-	.md-faq h2 {
-		font-family: var(--font-heading);
-		font-size: var(--step-1-sans);
-		margin: 0 0 var(--space-half);
-	}
 
 </style>
 

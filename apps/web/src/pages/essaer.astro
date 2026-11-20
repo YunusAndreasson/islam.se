@@ -185,14 +185,6 @@ const lengthFilterItems = [
 	   the way on, one group-space each. The first ämne opens under its rule like the
 	   rest: the archive begins there, after the two ways in that are not its shelves. */
 
-	/* Tänkare opens under a rule, as a section that follows another on the same paper
-	   does on the front page (editorial.css, »A rule opens a section«). The section is
-	   the component's own element, so it carries no scope of this page's. */
-	:global(.essaer-page .tankare-home) {
-		border-top: var(--border-rule);
-		padding-top: var(--space-group);
-	}
-
 	/* Up to three of the most recent essays with art open each ämne as image cards —
 	   the same warm welcome as the start page — then the rest follows as the 2-col
 	   text index. Cards stay .archive-item for the read/length/sort JS; the reset of
@@ -362,8 +354,9 @@ const lengthFilterItems = [
 			chronological = chrono;
 			byYear.hidden = !chrono;
 			byAmne.hidden = chrono;
+			// The chip keeps its word and shows the state by being pressed; it also
+			// renamed itself »Efter ämne« while pressed, two signals that contradicted.
 			sortBtn?.setAttribute("aria-pressed", String(chrono));
-			if (sortBtn) sortBtn.textContent = chrono ? "Efter ämne" : "Kronologiskt";
 		}
 		sortBtn?.addEventListener("click", () => setView(!chronological), { signal });
 
@@ -410,6 +403,12 @@ const lengthFilterItems = [
 			btn.addEventListener("click", () => {
 				lengthMin = +(btn.dataset.min || 0);
 				lengthMax = +(btn.dataset.max || 999);
+				// The length in force is marked in the list and on its chip.
+				for (const b of overlay.querySelectorAll<HTMLButtonElement>(".overlay-length"))
+					b.setAttribute("aria-pressed", String(b === btn));
+				document
+					.querySelector('[data-overlay="langd"]')
+					?.classList.toggle("is-active", !(lengthMin === 0 && lengthMax === 999));
 				applyLength();
 				closeOverlay();
 			}, { signal });

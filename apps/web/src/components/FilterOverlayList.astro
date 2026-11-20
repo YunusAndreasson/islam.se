@@ -31,7 +31,15 @@ const { items } = Astro.props;
 			) : item.buttonClass === "overlay-jump" ? (
 				<button type="button" class={item.buttonClass} data-target={item.target}>{item.label}</button>
 			) : (
-				<button type="button" class={item.buttonClass} data-min={item.min} data-max={item.max}>{item.label}</button>
+				<button
+					type="button"
+					class={item.buttonClass}
+					data-min={item.min}
+					data-max={item.max}
+					aria-pressed={item.min === 0 && item.max === 999 ? "true" : "false"}
+				>
+					{item.label}
+				</button>
 			)}
 		</li>
 	))}
@@ -66,7 +74,16 @@ const { items } = Astro.props;
 			text-decoration: underline;
 			text-underline-offset: var(--underline-offset);
 		}
+	}
 
+	/* The length in force, in the site's one chosen look (ink on the selection wash), the
+	   wash reaching past the words so they do not move. */
+	.overlay-length[aria-pressed="true"] {
+		color: var(--color-text);
+		background: var(--wash-selected);
+		border-radius: var(--radius-sm);
+		padding-inline: 0.5rem;
+		margin-inline: -0.5rem;
 	}
 
 </style>
