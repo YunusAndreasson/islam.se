@@ -44,6 +44,10 @@ interface Props {
 	/** MIME type of the preloaded candidate (e.g. "image/avif"), so the preload
 	 *  matches the right `<source>` in the painted `<picture>`. */
 	preloadImageType?: string;
+	/** A third-party origin the page will fetch from as soon as it is up (the mosque
+	 *  map's tile host), warmed in the head so its DNS, TCP and TLS are done by then.
+	 *  Anonymous mode, as the map's `fetch()` requests are. */
+	preconnect?: string;
 	/** Font files to fetch before the stylesheet asks for them, in order of need.
 	 *
 	 *  A face belongs here when it sets words ABOVE the page's first picture (or the
@@ -98,6 +102,7 @@ const {
 	preloadImageSrcset,
 	preloadImageSizes,
 	preloadImageType,
+	preconnect,
 	preloadFonts = [],
 	articleMeta,
 	ogArticle: ogArticleProp,
@@ -308,6 +313,7 @@ if (articleMeta) {
 		{fontPreloads.map(({ href, media, low }) => (
 			<link rel="preload" as="font" type="font/woff2" href={href} crossorigin media={media} fetchpriority={low ? "low" : undefined} />
 		))}
+		{preconnect && <link rel="preconnect" href={preconnect} crossorigin />}
 		{/* <Font> writes each family's @font-face rules; which files to fetch early is
 		    decided above, one file at a time. */}
 		<Font cssVariable="--font-body" />

@@ -84,6 +84,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 <Base
 	title="Moskéer i Sverige – karta och adresser län för län"
 	description={description}
+	preconnect="https://tiles.openfreemap.org"
 	{...(card === undefined ? {} : { ogImage: card.src })}
 	{...(cardPhoto === undefined ? {} : { ogImageAlt: cardPhoto.alt })}
 	{...(card === undefined ? {} : { ogImageWidth: 1200, ogImageHeight: 800 })}
@@ -625,19 +626,28 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		margin-bottom: 0.4rem;
 	}
 
-	/* Keep the OSM/OpenMapTiles credit quiet: a small, muted ⓘ that expands on click. */
-	.maplibregl-ctrl-attrib {
+	/* Keep the OSM/OpenMapTiles credit quiet: a small, muted ⓘ that expands on click.
+	   Weighted a class above MapLibre's own sheet, which is linked at mount, after this one:
+	   at equal weight its white pill and black text won, and the open credit stood white on
+	   the dark map (2026-11-20). */
+	.moskeer .maplibregl-ctrl.maplibregl-ctrl-attrib {
 		font-size: var(--step--5);
 		background: var(--glass-thin);
-	}
-
-	.maplibregl-ctrl-attrib.maplibregl-compact:not(.maplibregl-compact-show) {
-		background: var(--glass-thin);
-	}
-
-	.maplibregl-ctrl-attrib a,
-	.maplibregl-ctrl-attrib {
 		color: var(--color-muted);
+	}
+
+	.moskeer .maplibregl-ctrl-attrib a {
+		color: inherit;
+	}
+
+	/* On a phone the open credit spans the map's foot and lay over the scale bar
+	   (measured 2026-11-20: at 360 and 390px, never from 768px). MapLibre opens it on load
+	   and folds it to its ⓘ at the first drag, as OpenStreetMap's attribution asks; the
+	   scale waits for that. */
+	@media (width < 48rem) {
+		.moskeer .maplibregl-map:has(.maplibregl-compact-show) .maplibregl-ctrl-scale {
+			visibility: hidden;
+		}
 	}
 
 	.maplibregl-ctrl-attrib-button {
@@ -683,6 +693,38 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 
 	:root[data-theme="dark"] .moskeer :is(.maplibregl-ctrl-icon, .maplibregl-ctrl-attrib-button) {
 		filter: invert(1) brightness(1.4);
+	}
+
+	/* One set of icons in the stack. MapLibre's zoom and fullscreen glyphs are filled
+	   black shapes, and beside the start-view button's Lucide line they read as a heavier
+	   second set (2026-11-20). They are drawn as Lucide lines in the button's ink instead,
+	   a mask over currentColor, so they follow the theme without the invert filter above.
+	   The compass keeps MapLibre's needle: its two tones say where north is. Written after
+	   the filter rules, which weigh the same. */
+	.moskeer
+		.maplibregl-ctrl
+		:is(.maplibregl-ctrl-zoom-in, .maplibregl-ctrl-zoom-out, .maplibregl-ctrl-fullscreen, .maplibregl-ctrl-shrink)
+		.maplibregl-ctrl-icon {
+		background-image: none;
+		background-color: currentColor;
+		mask: var(--mk-icon) center / 20px 20px no-repeat;
+		filter: none;
+	}
+
+	.moskeer .maplibregl-ctrl-zoom-in {
+		--mk-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round'%3E%3Cpath d='M5 12h14M12 5v14'/%3E%3C/svg%3E");
+	}
+
+	.moskeer .maplibregl-ctrl-zoom-out {
+		--mk-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+	}
+
+	.moskeer .maplibregl-ctrl-fullscreen {
+		--mk-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3'/%3E%3C/svg%3E");
+	}
+
+	.moskeer .maplibregl-ctrl-shrink {
+		--mk-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3'/%3E%3C/svg%3E");
 	}
 
 	/* The labelled »Nära mig« button is the visible geolocation trigger; hide

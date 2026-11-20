@@ -23,7 +23,7 @@ const { title, description, jsonLd, noindex = false } = Astro.props;
 	{...(jsonLd === undefined ? {} : { jsonLd })}
 	noindex={noindex}
 >
-	<main id="main" class="home home--text article-page">
+	<main id="main" class="home article-page">
 		{Astro.slots.has("lead") ? (
 			<PageHead title={title}><slot name="lead" /></PageHead>
 		) : (

@@ -170,6 +170,22 @@ const SWEDEN_BOUNDS: LngLatBoundsLike = [
    the data rather than on it. */
 const SWEDEN_FIT = { padding: 24 } as const;
 
+/** Place and water names as a Swedish atlas prints them (»Norge«, »Helsingfors«, »Nordsjön«).
+ *  The base style writes the English name with the local script under it (»Norway«,
+ *  »Moscow / Москва«). OpenFreeMap's tiles carry `name:sv`; where one is missing, the Latin
+ *  form, then the local name. Street names and shields keep the style's own fields.
+ *
+ *  Written into the style before it is committed (MapOptions.transformStyle), so the first
+ *  frame already reads Swedish. Set with setLayoutProperty after `load` (2026-11-20, first
+ *  version), the labels were laid out twice and could show in English for a moment. */
+const SWEDISH_NAME: ExpressionSpecification = [
+	"coalesce",
+	["get", "name:sv"],
+	["get", "name:latin"],
+	["get", "name"],
+];
+const SWEDISH_LABEL_LAYER = /^(label_|water_name|waterway_line_label|airport)/;
+
 // Swedish UI strings for MapLibre's built-in controls + the cooperative-gesture overlay.
 // Set once on the Map; every control reads it via `_getUIString` when added, and the
 // cooperative-gesture hint pulls from it at render — so this one option localizes the
@@ -190,10 +206,12 @@ const LOCALE: Record<string, string> = {
 	"CooperativeGesturesHandler.MobileHelpText": "Använd två fingrar för att flytta kartan",
 };
 
-// Lucide Scan icon. Astro components cannot render inside this MapLibre control,
-// so the script uses the same path data as @lucide/astro's generated icon.
+// Lucide House icon: the map's start view, as map tools draw it. It was Scan (four
+// corners) until 2026-11-20, which beside the fullscreen arrows read as a second
+// »enlarge«. Astro components cannot render inside this MapLibre control, so the
+// script uses the same path data as @lucide/astro's generated icon.
 const RESET_ICON =
-	'<svg class="lucide lucide-scan" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>';
+	'<svg class="lucide lucide-house" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>';
 
 // "Visa hela Sverige" — refit the whole country. MapLibre ships no home/reset control, so
 // this minimal IControl drops one button into the top-right control group.
@@ -346,6 +364,16 @@ async function mount() {
 			container: el,
 			globalState: { "mk-scheme": scheme },
 			style: "https://tiles.openfreemap.org/styles/positron",
+			transformStyle: (_previous, next) => ({
+				...next,
+				layers: next.layers.map((layer) =>
+					layer.type === "symbol" &&
+					SWEDISH_LABEL_LAYER.test(layer.id) &&
+					layer.layout?.["text-field"]
+						? { ...layer, layout: { ...layer.layout, "text-field": SWEDISH_NAME } }
+						: layer,
+				),
+			}),
 			bounds: SWEDEN_BOUNDS,
 			// Frame all of Sweden on load; padding keeps the far north/south off the
 			// edges and the south clear of the scale bar and attribution pill.
@@ -491,32 +519,6 @@ async function mount() {
 		if (type === "fill") return fillEdits(id);
 		if (type === "line") return lineEdits(id);
 		return [];
-	}
-
-	/** Place and water names as a Swedish atlas prints them (»Norge«, »Moskva«, »Nordsjön«).
-	 *  The base style writes the English name with the local script under it (»Norway«,
-	 *  »Moscow / Москва«), which a Swedish reader met on every zoom (2026-11-20). OpenFreeMap's
-	 *  tiles carry `name:sv`; where one is missing, the Latin form, then the local name.
-	 *  Street names and shields keep the style's own fields. */
-	const SWEDISH_NAME: ExpressionSpecification = [
-		"coalesce",
-		["get", "name:sv"],
-		["get", "name:latin"],
-		["get", "name"],
-	];
-	function swedishLabels() {
-		for (const layer of map.getStyle()?.layers ?? []) {
-			if (
-				layer.type !== "symbol" ||
-				!/^(label_|water_name|waterway_line_label|airport)/.test(layer.id)
-			)
-				continue;
-			try {
-				map.setLayoutProperty(layer.id, "text-field", SWEDISH_NAME);
-			} catch {
-				/* a layer without a text field — skip */
-			}
-		}
 	}
 
 	// Bind the external base style once. Theme flips subsequently update global state.
@@ -916,7 +918,6 @@ async function mount() {
 	map.on("load", () => {
 		map.setGlobalStateProperty("mk-scheme", scheme);
 		recolorBase();
-		swedishLabels();
 		// Reveal the canvas now that the base is recolored — scheduled one frame on (so the
 		// marker layers added below are already in) and up here rather than at the end, so the
 		// dark base still shows even if a later call throws. Until this lands the canvas is held
@@ -951,9 +952,10 @@ async function mount() {
 				source: "burials",
 				layout: {
 					"icon-image": GRAVE_IMAGE,
-					// Grows gently with zoom, like the mosque dots: small enough not to crowd the
-					// country view, comfortable to aim at once a region fills the frame.
-					"icon-size": ["interpolate", ["linear"], ["zoom"], 4, 0.6, 8, 0.8, 12, 1],
+					// Grows with zoom, like the mosque dots: at the country view a step under the
+					// mosques this page is for (at 0.6 they ringed every city's cluster), comfortable
+					// to aim at once a region fills the frame.
+					"icon-size": ["interpolate", ["linear"], ["zoom"], 4, 0.45, 8, 0.75, 12, 1],
 					"icon-allow-overlap": true,
 					"icon-ignore-placement": true,
 				},
@@ -969,10 +971,13 @@ async function mount() {
 			// Tile encoding coerces string feature ids; promote the stable slug property.
 			promoteId: "id",
 			cluster: true,
-			// Lighter clustering: a small radius only merges genuinely-overlapping dots,
-			// and a lower maxZoom lets points separate into individual dots sooner — so we
-			// show more mosques as dots and fewer shared circles.
-			clusterRadius: 16,
+			// The merge radius is a little over the drawn circle's size (mk-clusters below: at
+			// most 32px across plus its ring), so two circles never touch. At 16 it merged
+			// only dots that touched, while each cluster was drawn up to 48px across, and at
+			// the Sweden-fit zoom the circles around Stockholm, Göteborg and Malmö lay on top
+			// of one another (2026-11-20). A low maxZoom still lets the points part into
+			// single dots soon after a reader zooms in.
+			clusterRadius: 36,
 			clusterMaxZoom: 9,
 		});
 		sourceKeys.set("mosques", rowsKey(data));
@@ -986,7 +991,7 @@ async function mount() {
 				"circle-opacity": 0.9,
 				"circle-stroke-color": themeColor("brassOn"),
 				"circle-stroke-width": 1.5,
-				"circle-radius": ["step", ["get", "point_count"], 15, 10, 19, 30, 24],
+				"circle-radius": ["step", ["get", "point_count"], 10, 10, 13, 30, 16],
 			},
 		});
 		map.addLayer({
@@ -997,7 +1002,7 @@ async function mount() {
 			layout: {
 				"text-field": ["get", "point_count_abbreviated"],
 				"text-font": ["Noto Sans Regular"],
-				"text-size": 12,
+				"text-size": 11,
 			},
 			paint: { "text-color": themeColor("clusterText") },
 		});

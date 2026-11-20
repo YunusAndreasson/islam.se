@@ -412,12 +412,16 @@
 	--content-width: 42rem;
 	/* Two frames (2026-09-26). THE CANVAS is the mast's: 76rem of content plus the padding
 	   the mast carries, so the wordmark and the search button stand exactly over the
-	   content's edges. The front page, every index, directory and tool page set on it
-	   (.home). THE READING FRAME is narrower: an essay, an answer, a fördjupning and the
-	   long text pages (.reading, .home--text) hold their prose to --content-width inside
-	   it, the hero spans it, and the essay's sidenote track is derived from it
-	   (layout.css, .reading--notes). A wider frame there would only move the prose off
-	   centre or widen the empty margin; the lines themselves must not grow. */
+	   content's edges. Every page on the shell (.home) sets on it: the front page, every
+	   index, directory and tool page, and the guides and about pages, whose prose keeps
+	   the measure on the canvas's left line. THE READING FRAME is narrower: an essay, an
+	   answer and a fördjupning (.reading) hold their prose to --content-width inside it,
+	   the hero spans it, and the essay's sidenote track is derived from it (layout.css,
+	   .reading--notes). A wider frame there would only move the prose off centre or
+	   widen the empty margin; the lines themselves must not grow. Until 2026-11-20 the
+	   guides and about pages stood on the reading frame too (.home--text), their edges
+	   120px inside the mast's at 1440, which read as a page with more padding than its
+	   neighbours. */
 	--padding-inline: 1.5rem;
 	--canvas-width: calc(var(--art-width) + 2 * var(--padding-inline));
 	--reading-frame: 64rem;

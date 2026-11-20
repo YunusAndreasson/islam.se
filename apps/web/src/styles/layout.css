@@ -746,14 +746,6 @@
 		margin-top: 0;
 	}
 
-	/* A page that is mostly running text but is built on the browse shell — the method
-	   pages, the Ramadan guide, the mosque guide — keeps the reading frame: its prose is
-	   held to the measure either way, and on the canvas it only left a wider empty
-	   margin beside it. */
-	.home.home--text {
-		max-width: var(--reading-frame);
-	}
-
 	/* The about pages (ArticlePage) are documents: what stands under the opening holds
 	   the measure, as an answer's prose does; only what is many takes the frame (/om/'s
 	   two promotions, on its halves). */
@@ -2600,6 +2592,16 @@
 		margin-inline: auto;
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
+	}
+
+	/* Under 56.25rem the measure all but fills the frame, and centred it stood 19px inside
+	   the mast's line at 768px: a slip, not a centre (2026-11-20). There the column keeps
+	   the line every other page starts on, and the spare width falls to the right. From
+	   56.25rem the margin is 90px or more and reads as the centred column it is. */
+	@media (width < 56.25rem) {
+		.reading {
+			--reading-inline-start: 0;
+		}
 	}
 
 	/* Text blocks stay at the reading measure, centred in the wide frame. The
