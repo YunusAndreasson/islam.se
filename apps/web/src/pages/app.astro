@@ -152,13 +152,14 @@ const shots = [
 		text-align: center;
 	}
 
+	/* A picture lying on the page has its hairline and no drop shadow: only what stands
+	   above the page casts one (DESIGN.md, »Principle 4«). The three phones carried one. */
 	.app-shot img {
 		display: block;
 		width: 100%;
 		height: auto;
 		border-radius: 1.6rem;
 		border: var(--border-row);
-		box-shadow: 0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.35);
 	}
 
 	/* The captures are a dark map UI (rgb ~13–53) and the page behind them is
@@ -166,22 +167,18 @@ const shots = [
 	@media (prefers-color-scheme: dark) {
 		.app-shot img {
 			border-color: var(--color-warm);
-			box-shadow:
-				0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent),
-				0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.6);
+			box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent);
 		}
 	}
 
 	:root[data-theme="light"] .app-shot img {
 		border-color: var(--color-divider);
-		box-shadow: 0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.35);
+		box-shadow: none;
 	}
 
 	:root[data-theme="dark"] .app-shot img {
 		border-color: var(--color-warm);
-		box-shadow:
-			0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent),
-			0 1.5rem 3rem -1.25rem rgb(var(--hero-black) / 0.6);
+		box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent);
 	}
 
 	.app-shot figcaption {

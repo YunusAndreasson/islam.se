@@ -15,7 +15,7 @@
 	overscroll-behavior: contain;
 	opacity: 0;
 	transition:
-		opacity var(--dur-fast) ease,
+		opacity var(--dur-fast) var(--ease-standard),
 		display var(--dur-fast) allow-discrete,
 		overlay var(--dur-fast) allow-discrete;
 }

@@ -111,7 +111,7 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 
 	.tool-item dd {
 		color: var(--color-muted);
-		font-size: 0.9375em;
+		font-size: var(--step--1);
 	}
 
 	@media (width <= 30rem) {
@@ -121,7 +121,9 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 		}
 	}
 
-	/* Code — monospace for tool names and config blocks */
+	/* Code — monospace for tool names and config blocks. In em, a deliberate exception to
+	   the scale (DESIGN.md, »The Scale«): a monospace face runs wide and tall, and a
+	   fraction of whatever it sits in keeps it matched to the words beside it. */
 	.ai-prose :global(code) {
 		font-family: ui-monospace, "SF Mono", "Cascadia Code", "Segoe UI Mono", Menlo, Consolas, monospace;
 		font-size: 0.85em;

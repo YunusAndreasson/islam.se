@@ -182,7 +182,7 @@
 		text-decoration-thickness: from-font;
 		text-decoration-skip-ink: auto;
 		text-underline-offset: var(--underline-offset);
-		transition: text-decoration-color var(--dur-fast) ease;
+		transition: text-decoration-color var(--dur-fast) var(--ease-standard);
 
 		/* Full strength on hover AND on keyboard focus — the second is not decoration,
 		   it is how a keyboard user sees which link they are on. */
@@ -266,7 +266,7 @@
 		visibility: hidden;
 		pointer-events: none;
 		transition:
-			opacity var(--dur-fast) ease,
+			opacity var(--dur-fast) var(--ease-standard),
 			visibility var(--dur-fast);
 	}
 
@@ -500,8 +500,8 @@
 		pointer-events: none;
 		transform: translateY(4px);
 		transition:
-			opacity var(--dur-fast) ease,
-			transform var(--dur-fast) ease,
+			opacity var(--dur-fast) var(--ease-standard),
+			transform var(--dur-fast) var(--ease-standard),
 			visibility 0s linear var(--dur-fast);
 
 		p {
@@ -693,7 +693,7 @@
 		opacity: 0.35;
 		text-decoration: none;
 		display: inline;
-		transition: opacity var(--dur-fast) ease;
+		transition: opacity var(--dur-fast) var(--ease-standard);
 	}
 
 	.prose a[href^="http"]:hover::after {

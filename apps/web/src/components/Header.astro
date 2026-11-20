@@ -47,12 +47,12 @@ const mastIsDay =
 		<div class="site-links-wrap">
 			<ul class="site-links">
 				{MAST_SECTION_LINKS.map((l) => (
-					<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
+					<li><a href={l.href} data-label={l.label} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
 				))}
 			</ul>
 			<ul class="site-links site-links--util">
 				{MAST_UTILITY_LINKS.map((l) => (
-					<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
+					<li><a href={l.href} data-label={l.label} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
 				))}
 			</ul>
 		</div>
@@ -64,8 +64,8 @@ const mastIsDay =
 				aria-label={`Nästa bön: ${PRAYER_LABELS[mastNext.key]} ${formatTime(mastNext.at)}, ${DEFAULT_COORDS.name} – visa bönetider`}
 			>
 				<span class="bs-icon mast-prayer-icon" data-day={mastIsDay ? "true" : "false"} aria-hidden="true">
-					<Sun class="mp-sun" stroke-width={1.6} />
-					<Moon class="mp-moon" stroke-width={1.6} />
+					<Sun class="mp-sun" stroke-width={1.75} />
+					<Moon class="mp-moon" stroke-width={1.75} />
 				</span>
 				<span class="mast-prayer-label">Nästa bön</span>
 				{/* The space is the chip's text, not its layout (the flex gap draws the

@@ -4,10 +4,24 @@
 	max-width: var(--art-width);
 	margin-inline: auto;
 }
+/* Each link reserves the width of its bold self (a hidden copy in the weight the current
+   page takes), so marking the page you are on never moves the row: the mast is what holds
+   still between pages, and the bold label widened its link and nudged its neighbours by a
+   few pixels from one page to the next (2026-11-20). */
 .site-links a {
 	display: inline-flex;
-	align-items: center;
+	flex-direction: column;
+	justify-content: center;
 	min-height: var(--tap-target);
+}
+.site-links a::after {
+	content: attr(data-label);
+	block-size: 0;
+	overflow: hidden;
+	visibility: hidden;
+	font-weight: 600;
+	pointer-events: none;
+	user-select: none;
 }
 .site-links a[aria-current] {
 	font-weight: 600;
@@ -20,13 +34,10 @@
 .filter-chip {
 	min-height: var(--tap-target);
 }
-/* One state for a chosen chip: the ink border and ink label (layout.css) and the weight
-   here. It also had an inset underline, so a chosen pill wore three marks at once. */
-.filter-chip[aria-current],
-.filter-chip[aria-pressed="true"],
-.filter-chip.is-active {
-	font-weight: 600;
-}
+/* One state for a chosen chip: the ink border and ink label (layout.css). It also had an
+   inset underline, so a chosen pill wore three marks at once, and a bolder label, which
+   widened the chip, so /svar/'s sticky row shifted as the chosen category changed on
+   scroll (2026-11-20). */
 .mast-prayer-label {
 	display: none;
 }
@@ -301,7 +312,7 @@
 	font-weight: 400;
 	text-decoration: none;
 	opacity: 0;
-	transition: opacity var(--dur-fast) ease;
+	transition: opacity var(--dur-fast) var(--ease-standard);
 }
 .prose :is(h2, h3):hover > .heading-anchor,
 .prose .heading-anchor:focus-visible {
@@ -402,6 +413,13 @@
 	text-underline-offset: 0.25em;
 }
 
+/* The page you are on, told from a hovered link: it was drawn exactly as the hover. The
+   current page takes the ink as well as the rule (DESIGN.md: weight or a rule, never
+   colour alone). */
+.site-footer .footer-group a[aria-current] {
+	color: var(--color-text);
+}
+
 /* The search palette's styles live in SearchOverlay.astro, all of them. Its sheet,
    sticky bars and sizes stood here until 2026-10-17 as two-class overrides of the
    component's own rules, so half of the component's CSS never applied. */
@@ -487,7 +505,7 @@
    stay where a boundary means something — the rail's edge, a movement's opening — and
    leave the rows, where whitespace was already doing the separating. Budget: ≤ 20
    capitalised labels, ≤ 16 rules. Count again before adding one. */
-.front :is(.home-head-all, .nyhet-kategori) {
+.front .home-head-all {
 	text-transform: none;
 	letter-spacing: 0.01em;
 }

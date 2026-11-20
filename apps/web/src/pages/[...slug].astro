@@ -350,7 +350,7 @@ const figureBlocks = await figureJsonLd(
 		cursor: pointer;
 		box-shadow: 0 2px 14px rgb(var(--hero-black) / 0.14); /* the one shadow ink (tokens.css) */
 		opacity: 0;
-		transition: opacity var(--dur-base) ease, transform var(--dur-base) ease;
+		transition: opacity var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-standard);
 	}
 
 	.resume-pill:not([hidden]) { display: flex; align-items: center; gap: .5rem; max-width: min(32rem, calc(100vw - 2rem)); padding: .25rem .5rem; }
@@ -376,7 +376,7 @@ const figureBlocks = await figureJsonLd(
 	@media (prefers-reduced-motion: reduce) {
 		/* A survivor (`motion-safe`): the fade is kept, the slide goes. */
 		.resume-pill {
-			transition: opacity var(--dur-base) ease;
+			transition: opacity var(--dur-base) var(--ease-standard);
 			transform: translateX(-50%);
 		}
 		.resume-pill[data-visible] {

@@ -75,10 +75,10 @@
 	color: var(--color-muted);
 }
 
+/* A notice's category in sentence case, on /nyheter/ as on the front page (editorial.css):
+   capitals name a section or a kind, and a feed's tag is neither (2026-11-20). */
 .nyhet-kategori {
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
-	font-feature-settings: "case";
+	letter-spacing: 0.01em;
 	/* A step, not an em fraction of the clock: an off-scale literal is how the
 	   smallest type drifts off the ladder. --step--4 is the text floor (tokens.css);
 	   this stood at --step--5, 10.5px, the smallest words on the front page. */
@@ -166,7 +166,7 @@
 	text-decoration: underline;
 	text-decoration-thickness: 1px;
 	text-underline-offset: var(--underline-offset);
-	transition: color var(--dur-fast) ease;
+	transition: color var(--dur-fast) var(--ease-standard);
 	/* WCAG 2.5.8: the label sits at --step--3 and would otherwise be a ~17px
 	   target. The negative margin gives the padding back to the baseline. */
 	display: inline-flex;
@@ -337,12 +337,16 @@
 .nyhetsremsa .nyhet-titel a {
 	color: var(--text-strong);
 	text-decoration: none;
-	transition: color var(--dur-fast) ease;
+	transition: color var(--dur-fast) var(--ease-standard);
 }
 
 .nyhetsremsa .nyhet-titel a:hover,
 .nyhetsremsa .nyhet-titel a:focus-visible {
 	color: var(--color-accent);
+	/* A line as well: ink to accent alone is ΔL* 5.9 in the dark theme. */
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: var(--underline-offset-title);
 }
 
 .nyhetsremsa .nyhet-meta {

@@ -105,13 +105,13 @@ const here = (href: string) => href === currentHref;
 			/>
 			<button class="palette-clear" type="button" aria-label="Rensa sökning" hidden><X size={20} aria-hidden="true" /></button>
 		</div>
-		<p class="palette-hint label" aria-live="polite"></p>
+		<p class="palette-hint" aria-live="polite"></p>
 
 		{/* Typed results. Empty and hidden until the reader types — the listbox
 		    semantics belong here and nowhere else. */}
 		<div class="palette-results" id="palette-results" role="listbox" aria-label="Resultat" hidden></div>
-		<button class="palette-more" type="button" hidden>Visa fler</button>
-		<button class="palette-retry" type="button" hidden>Försök igen</button>
+		<button class="pill palette-more" type="button" hidden>Visa fler</button>
+		<button class="pill palette-retry" type="button" hidden>Försök igen</button>
 
 		<section class="palette-start" aria-label="Sök och hitta" hidden>
 			<p class="palette-start-help">Sök bland essäer, frågor, ämnen och sidor.</p>
@@ -265,7 +265,7 @@ const here = (href: string) => href === currentHref;
 		padding-block: var(--space-control);
 		border-bottom: var(--border-row);
 		background: var(--color-bg);
-		transition: border-color var(--dur-fast) ease;
+		transition: border-color var(--dur-fast) var(--ease-standard);
 
 		&:focus-within { border-bottom-color: var(--color-warm); }
 	}
@@ -293,15 +293,21 @@ const here = (href: string) => href === currentHref;
 
 	.palette-clear { flex-shrink: 0; min-width: var(--tap-target); min-height: var(--tap-target); display: grid; place-items: center; background: transparent; border: 0; color: var(--color-muted); cursor: pointer; }
 	.palette-clear[hidden] { display: none; }
-	.palette-more, .palette-retry { margin-block: 1rem; padding: .65rem 1rem; cursor: pointer; }
+	/* The site's pills (layout.css): the browser's own buttons until 2026-11-20. */
+	.palette-more, .palette-retry { margin-block: 1rem; }
 
 	.palette-input::-webkit-search-cancel-button { -webkit-appearance: none; }
 
 	/* Never `hidden`: a live region that is removed and restored may not announce
 	   when it comes back. It stays in the tree and collapses when empty instead. */
+	/* A status line (»Söker …«, »Inga träffar«, a failure) states a fact, so it reads in
+	   sentence case, in the meta line's face; it wore the tracked capitals of a label. */
 	.palette-hint {
 		margin: var(--space-half) 0 0;
 		min-height: 1.2em;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
 	}
 
 	.palette-hint:empty {
@@ -362,7 +368,7 @@ const here = (href: string) => href === currentHref;
 		padding: var(--space-control) 0.6rem;
 		margin-inline: -0.6rem;
 		text-decoration: none;
-		transition: background-color var(--dur-fast) ease;
+		transition: background-color var(--dur-fast) var(--ease-standard);
 	}
 
 	/* Both states declared: these rules are unlayered and would otherwise let the
@@ -371,12 +377,13 @@ const here = (href: string) => href === currentHref;
 	.palette-dest:hover { text-decoration: none; }
 
 	.palette-dest:hover,
-	.palette-dest:focus-visible,
-	.palette-dest[aria-current] {
+	.palette-dest:focus-visible {
 		background: var(--wash-hover);
 	}
 
+	/* The page you are on: the selection wash, not the hover's (one chosen look). */
 	.palette-dest[aria-current] {
+		background: var(--wash-selected);
 		box-shadow: inset 2px 0 var(--color-warm);
 	}
 
@@ -422,17 +429,22 @@ const here = (href: string) => href === currentHref;
 		color: var(--color-text);
 		border: var(--border-row);
 		border-radius: var(--radius-pill);
-		transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease, background-color var(--dur-fast) ease;
+		transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard);
 	}
 
 	.palette-chip,
 	.palette-chip:hover { text-decoration: none; }
 
-	.palette-chip:hover,
-	.palette-chip[aria-current] {
+	.palette-chip:hover {
 		color: var(--color-accent);
 		border-color: var(--color-warm);
 		background: var(--wash-hover);
+	}
+
+	.palette-chip[aria-current] {
+		color: var(--color-accent);
+		border-color: var(--color-warm);
+		background: var(--wash-selected);
 	}
 
 	/* --- The folded tail ------------------------------------------------ */
@@ -518,15 +530,19 @@ const here = (href: string) => href === currentHref;
 		margin-inline: -0.6rem;
 		border-radius: var(--radius-sm);
 		color: inherit;
-		transition: background-color var(--dur-fast) ease;
+		transition: background-color var(--dur-fast) var(--ease-standard);
 	}
 
 	.palette-row,
 	.palette-row:hover { text-decoration: none; }
 
-	.palette-row.is-active,
 	.palette-row:hover {
 		background: var(--wash-hover);
+	}
+
+	/* The result the arrow keys have chosen (aria-selected): the selection wash. */
+	.palette-row.is-active {
+		background: var(--wash-selected);
 	}
 
 	.palette-row-main { min-width: 0; }
@@ -540,11 +556,11 @@ const here = (href: string) => href === currentHref;
 		color: var(--color-accent);
 	}
 
+	/* The deck's opening sentence (leadSentences), whole, as every list of essays shows it:
+	   a one-line clamp cut it off with »…«, which reads as breakage (DESIGN.md, »Decks in
+	   lists«). The index keeps the whole deck for the search to match against. */
 	.palette-row-sub {
-		display: -webkit-box;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
+		display: block;
 		font-family: var(--font-body);
 		font-size: var(--step--2);
 		line-height: 1.4;
@@ -633,6 +649,7 @@ const here = (href: string) => href === currentHref;
 	// than re-declared so the two can never drift apart.
 	import { fold } from "../lib/search-text";
 	import { escapeXml } from "../lib/xml";
+	import { leadSentences } from "../lib/format";
 	import { createPaletteSearch, type PaletteEntry } from "../lib/palette-search";
 
 	function initPalette() {
@@ -703,7 +720,7 @@ const here = (href: string) => href === currentHref;
 		let n = 0;
 		function row(e: PaletteEntry): string {
 			const i = n++;
-			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${escapeXml(e.href)}" data-astro-prefetch="tap"><span class="palette-row-main"><span class="palette-row-label">${escapeXml(e.label)}</span><span class="palette-row-sub">${escapeXml(e.sub)}</span></span><span class="palette-row-type label">${escapeXml(e.type)}</span></a>`;
+			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${escapeXml(e.href)}" data-astro-prefetch="tap"><span class="palette-row-main"><span class="palette-row-label">${escapeXml(e.label)}</span><span class="palette-row-sub">${escapeXml(leadSentences(e.sub, 170))}</span></span><span class="palette-row-type label">${escapeXml(e.type)}</span></a>`;
 		}
 
 		function renderSearch(q: string): { html: string; count: number; total: number; loose: boolean } {

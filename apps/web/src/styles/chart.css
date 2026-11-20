@@ -503,15 +503,18 @@
 
 	/* ---- caption -------------------------------------------------------- */
 
+	/* A note to a figure, as every note to a table or a figure is set (DESIGN.md, »One
+	   grammar«): --step--2 in the quiet ink. It was a size and a shade under that, one of
+	   four pairs the site's notes came in (2026-11-20). */
 	.chart-cap {
 		display: flex;
 		flex-direction: column;
 		gap: 0.1rem;
 		margin: var(--space-half) 0 0;
 		font-family: var(--font-body);
-		font-size: var(--step--3);
+		font-size: var(--step--2);
 		line-height: 1.5;
-		color: var(--color-muted);
+		color: var(--text-quiet);
 		text-wrap: pretty;
 	}
 

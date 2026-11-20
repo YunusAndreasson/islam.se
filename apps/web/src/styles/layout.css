@@ -60,7 +60,11 @@
 	   reads in sentence case: »23 september 2026 · 21 min läsning«. In tracked caps
 	   it was twenty of the page's sixty-six shouting labels, and a month name in
 	   capitals is not Swedish typography anywhere else. Kickers keep their caps. */
-	.label.article-meta {
+	/* The same for the labels that state a fact rather than name a section or a kind:
+	   the player's episode title, »Fortsätt läsa«, a verse's reference (»Koranen ·
+	   al-Ikhlāṣ 112:1–4«), the pager's »Nyare« and »Äldre« (2026-11-20). Capitals name a
+	   section, a list or a kind and nothing else (DESIGN.md, »Principle 4«). */
+	.label:is(.article-meta, .fp-title, .resume-pill, .qv-cite, .nav-label) {
 		text-transform: none;
 		letter-spacing: 0.01em;
 	}
@@ -107,7 +111,7 @@
 		content: "→";
 		display: inline-block;
 		margin-inline-start: 0.3em;
-		transition: translate var(--dur-fast) ease;
+		transition: translate var(--dur-fast) var(--ease-standard);
 	}
 
 	.arrow-link:hover::after,
@@ -124,7 +128,7 @@
 		content: "←";
 		display: inline-block;
 		margin-inline-end: 0.3em;
-		transition: translate var(--dur-fast) ease;
+		transition: translate var(--dur-fast) var(--ease-standard);
 	}
 
 	.back-link:hover::before,
@@ -317,6 +321,27 @@
 		font-size: var(--step-1-sans);
 	}
 
+	/* THE GUIDES' RUNNING TEXT — the prayer and mosque guides (/bonetider/metod/,
+	   /bonetider/ramadan/, /moskeer/om/'s history) and a city's »Om bönetiderna«: the body's
+	   size in ink, as the about pages' prose and an answer's. Four copies set it a step under
+	   the body in the second ink, 16.9px under DESIGN.md's 18–20 (2026-11-20). Not the
+	   ingress, nor any paragraph with a class of its own (a note, a meta line, the
+	   caveat): the copies were page-scoped and so never reached a component's paragraphs,
+	   and this one is not. */
+	:is(.bt-prose, .mk-history) p:not([class]) {
+		font-family: var(--font-body);
+		font-size: var(--step-0);
+		line-height: 1.6;
+		color: var(--color-text);
+		max-width: var(--content-width);
+		margin: var(--space-half) 0;
+		text-wrap: pretty;
+	}
+
+	:is(.bt-prose, .mk-history) a {
+		color: var(--color-accent);
+	}
+
 	/* The data caveat that closes a tool page — the mosques' sources and date, the prayer
 	   times' method — in fine print under the section rule. One note: the mosque pages
 	   drew it under a row's hairline, the prayer pages under a section's. The underline
@@ -421,7 +446,7 @@
 		border-inline-end: 1.5px solid var(--color-muted);
 		border-block-end: 1.5px solid var(--color-muted);
 		transform: translateY(-0.2em) rotate(45deg);
-		transition: transform var(--dur-fast) ease;
+		transition: transform var(--dur-fast) var(--ease-standard);
 	}
 
 	.disclosure[open] > summary::after {
@@ -436,7 +461,7 @@
 		height: 0;
 		overflow: clip;
 		transition:
-			height var(--dur-base) ease,
+			height var(--dur-base) var(--ease-standard),
 			content-visibility var(--dur-base) allow-discrete;
 	}
 
@@ -910,7 +935,7 @@
 		font-size: var(--step--3);
 		color: var(--text-meta);
 		text-decoration: none;
-		transition: color var(--dur-fast) ease;
+		transition: color var(--dur-fast) var(--ease-standard);
 		/* WCAG 2.5.8 (target size ≥24px): the small-caps label is only ~22px tall. Pad the
 	   hit area past 24px; the matching negative margin reclaims the space so the
 	   baseline head-row keeps its exact height. */
@@ -1089,7 +1114,8 @@
 
 	.home-cards .essay-card a:hover .essay-card-title {
 		text-decoration: underline;
-		text-underline-offset: var(--underline-offset);
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--underline-offset-title);
 	}
 
 	/* An essay without art keeps its place in the row under a rule. */
@@ -1327,7 +1353,7 @@
 			background: linear-gradient(to bottom, var(--color-bg), transparent);
 			pointer-events: none;
 			opacity: 0;
-			transition: opacity var(--dur-fast) ease;
+			transition: opacity var(--dur-fast) var(--ease-standard);
 		}
 
 		&.is-scrolled::after {
@@ -1577,11 +1603,19 @@
 	.site-nav a {
 		color: var(--color-text);
 		text-decoration: none;
-		transition: color var(--dur-fast) ease;
+		transition: color var(--dur-fast) var(--ease-standard);
 	}
 
 	.site-nav a:hover {
 		color: var(--color-accent);
+	}
+
+	/* A colour shift alone is too faint in the dark (ink to accent is ΔL* 5.9 there): the
+	   mast's links take a line on hover as well, the current page's line in a hair. */
+	.site-links a:hover {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.55em;
 	}
 
 	.site-nav a[aria-current] {
@@ -1810,7 +1844,7 @@
 	.site-footer-nav a {
 		color: var(--color-muted);
 		text-decoration: none;
-		transition: color var(--dur-fast) ease;
+		transition: color var(--dur-fast) var(--ease-standard);
 		/* WCAG 2.5.8 (target size ≥24px): short labels — "AI" was 14px wide, "Om" 23px —
 	   fell under 24px. Pad each link past 24×24; the trimmed nav gap above keeps the
 	   footer's spacing visually identical. */
@@ -1839,17 +1873,6 @@
 	/* Deliberately smaller than the footer's top padding — unequal spacing groups. */
 	.site-footer-colophon {
 		margin-top: var(--space-unit);
-	}
-
-	/* The terminal mark — the page's full stop. 1.5rem measures 2.7× the colophon's
-	   cap height: below ~1.25rem the ring thins to a bead, above ~2rem it reads as a
-	   stamp rather than punctuation. The top margin is phi, not the unit, so the mark
-	   detaches from the colophon instead of hanging off it. */
-	.site-footer-mark {
-		display: block;
-		width: 1.5rem;
-		height: 1.5rem;
-		margin: var(--space-unit) auto 0;
 	}
 
 	/* Sentence case: a place, an address and a feed are not section names, and an
@@ -1882,7 +1905,7 @@
 	.site-footer-colophon a {
 		color: var(--color-muted);
 		text-decoration: none;
-		transition: color var(--dur-fast) ease;
+		transition: color var(--dur-fast) var(--ease-standard);
 		/* WCAG 2.5.8: these meta links sit at ~22px tall. Pad the hit area past 24px; the
 	   negative margin keeps the baseline-aligned colophon line at its original height. */
 		display: inline-block;
@@ -1985,9 +2008,9 @@
 		pointer-events: none;
 		transform: translateY(0.5rem);
 		transition:
-			opacity var(--dur-base) ease,
-			transform var(--dur-base) ease,
-			bottom var(--dur-base) ease;
+			opacity var(--dur-base) var(--ease-standard),
+			transform var(--dur-base) var(--ease-standard),
+			bottom var(--dur-base) var(--ease-standard);
 
 		&.visible {
 			opacity: 1;
@@ -2352,14 +2375,21 @@
 			text-decoration: none;
 			color: inherit;
 
+			/* A title's hover, one way on every card, row and pager (2026-11-20): a 1px
+			   line at the title's offset. Rows took the face's own thickness and offset, the
+			   pager 1px, the front page's cards the body offset. */
 			&:hover .archive-title,
 			&:focus-visible .archive-title {
 				text-decoration: underline;
+				text-decoration-thickness: 1px;
+				text-underline-offset: var(--underline-offset-title);
 			}
 		}
 
 		/* An essay title is content, not chrome — it takes the editorial face, the
 		   same one it will be set in when the reader arrives on the page. */
+		/* Balanced, as the picture card's title (CardList) already was: one card design
+		   wrapped two ways (2026-11-20). */
 		.archive-title {
 			display: block;
 			color: var(--color-text);
@@ -2368,6 +2398,7 @@
 			font-weight: 600;
 			line-height: 1.3;
 			letter-spacing: 0;
+			text-wrap: balance;
 		}
 
 		.archive-meta {
@@ -2384,13 +2415,9 @@
 			line-height: 1.45;
 			margin-top: 0.375rem;
 			overflow: hidden;
-			transition: color var(--dur-fast) ease;
+			text-wrap: pretty;
 
 			margin-bottom: 0;
-		}
-
-		a:hover .archive-description {
-			color: var(--color-text);
 		}
 	}
 
@@ -2625,7 +2652,8 @@
 		font-size: var(--step--3);
 		line-height: 1.45;
 		font-style: italic;
-		color: var(--color-muted);
+		/* The ramp's tier for captions (DESIGN.md, »The Text Ramp«), not the meta grey. */
+		color: var(--text-quiet);
 		text-wrap: pretty;
 	}
 
@@ -2655,7 +2683,8 @@
 		font-size: var(--step--3);
 		line-height: 1.45;
 		font-style: italic;
-		color: var(--color-muted);
+		/* The ramp's tier for captions (DESIGN.md, »The Text Ramp«), not the meta grey. */
+		color: var(--text-quiet);
 		text-wrap: pretty;
 	}
 
@@ -2748,6 +2777,8 @@
 			font-size: var(--step--4);
 			line-height: 1.45;
 			color: var(--color-muted);
+			/* At 38 characters a lone last word is a sixth of the line. */
+			text-wrap: pretty;
 			/* A marker can sit inside <em> or <cite>; the note must not inherit either. */
 			font-style: normal;
 			font-weight: 400;

@@ -88,10 +88,18 @@ const DATE = new Intl.DateTimeFormat("sv-SE", {
 	year: "numeric",
 	timeZone: "UTC",
 });
+const DATE_THIS_YEAR = new Intl.DateTimeFormat("sv-SE", {
+	day: "numeric",
+	month: "long",
+	timeZone: "UTC",
+});
 
-/** "2026-09-14" → "14 september 2026". */
-export function svDate(iso: string): string {
-	return DATE.format(new Date(`${iso.slice(0, 10)}T12:00:00Z`));
+/** "2026-09-14" → "14 september", and "14 september 2025" from another year: a date reads
+ *  without the current year everywhere on the site (DESIGN.md, »Dates«; formatDate in
+ *  lib/articles.ts). The barometer printed the year on every one (2026-11-20). */
+export function svDate(iso: string, now: Date = new Date()): string {
+	const date = new Date(`${iso.slice(0, 10)}T12:00:00Z`);
+	return (date.getUTCFullYear() === now.getUTCFullYear() ? DATE_THIS_YEAR : DATE).format(date);
 }
 
 /** "12 september–14 oktober 2026"; the year is written once when both ends share it. */
@@ -104,7 +112,7 @@ export function svDateRange(fromIso: string, toIso: string): string {
 /** "12 september 2026", "12 och 13 september 2026", "30 augusti 2026 och 6 september 2026". */
 export function svDateList(isos: readonly string[]): string {
 	// Two runs on one day (a full run and a --new run) are one date to a reader.
-	const dates = [...new Set(isos.map((iso) => iso.slice(0, 10)))].map(svDate);
+	const dates = [...new Set(isos.map((iso) => iso.slice(0, 10)))].map((d) => svDate(d));
 	const monthYear = (d: string) => d.replace(/^\d+\s/, "");
 	const first = dates[0] ?? "";
 	const sameMonth = dates.every((d) => monthYear(d) === monthYear(first));
