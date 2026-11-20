@@ -493,6 +493,32 @@ async function mount() {
 		return [];
 	}
 
+	/** Place and water names as a Swedish atlas prints them (»Norge«, »Moskva«, »Nordsjön«).
+	 *  The base style writes the English name with the local script under it (»Norway«,
+	 *  »Moscow / Москва«), which a Swedish reader met on every zoom (2026-11-20). OpenFreeMap's
+	 *  tiles carry `name:sv`; where one is missing, the Latin form, then the local name.
+	 *  Street names and shields keep the style's own fields. */
+	const SWEDISH_NAME: ExpressionSpecification = [
+		"coalesce",
+		["get", "name:sv"],
+		["get", "name:latin"],
+		["get", "name"],
+	];
+	function swedishLabels() {
+		for (const layer of map.getStyle()?.layers ?? []) {
+			if (
+				layer.type !== "symbol" ||
+				!/^(label_|water_name|waterway_line_label|airport)/.test(layer.id)
+			)
+				continue;
+			try {
+				map.setLayoutProperty(layer.id, "text-field", SWEDISH_NAME);
+			} catch {
+				/* a layer without a text field — skip */
+			}
+		}
+	}
+
 	// Bind the external base style once. Theme flips subsequently update global state.
 	function recolorBase() {
 		const layers = map.getStyle()?.layers;
@@ -684,9 +710,8 @@ async function mount() {
 			<p class="mk-callout-meta">${facts.map(escapeXml).join(" · ")}</p>
 			${org}
 			<div class="mk-dir">
-				<span class="label">Vägbeskrivning</span>
-				<a href="${escapeXml(mapHref(m.apple))}" class="pill">Apple Maps</a>
-				<a href="${escapeXml(mapHref(m.google))}" class="pill">Google Maps</a>
+				<a href="${escapeXml(mapHref(m.apple))}" class="pill directions directions--apple">Vägbeskrivning</a>
+				<a href="${escapeXml(mapHref(m.google))}" class="pill directions directions--google">Vägbeskrivning</a>
 			</div>`;
 		callout.hidden = false;
 		// Wrapped, not passed directly: closeCallout now takes `restoreFocus`, and handing it
@@ -714,9 +739,8 @@ async function mount() {
 			<p class="mk-callout-meta">${facts.map(escapeXml).join(" · ")}</p>
 			${source}
 			<div class="mk-dir">
-				<span class="label">Vägbeskrivning</span>
-				<a href="${escapeXml(mapHref(b.apple))}" class="pill">Apple Maps</a>
-				<a href="${escapeXml(mapHref(b.google))}" class="pill">Google Maps</a>
+				<a href="${escapeXml(mapHref(b.apple))}" class="pill directions directions--apple">Vägbeskrivning</a>
+				<a href="${escapeXml(mapHref(b.google))}" class="pill directions directions--google">Vägbeskrivning</a>
 			</div>`;
 		callout.hidden = false;
 		callout.querySelector(".mk-callout-close")?.addEventListener("click", () => closeCallout());
@@ -892,6 +916,7 @@ async function mount() {
 	map.on("load", () => {
 		map.setGlobalStateProperty("mk-scheme", scheme);
 		recolorBase();
+		swedishLabels();
 		// Reveal the canvas now that the base is recolored — scheduled one frame on (so the
 		// marker layers added below are already in) and up here rather than at the end, so the
 		// dark base still shows even if a later call throws. Until this lands the canvas is held

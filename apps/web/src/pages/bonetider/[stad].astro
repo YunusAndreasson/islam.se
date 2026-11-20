@@ -2,6 +2,7 @@
 import { Settings } from "@lucide/astro";
 import PageHead from "../../components/PageHead.astro";
 import PoddAppHome from "../../components/PoddAppHome.astro";
+import Directions from "../../components/moskeer/Directions.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import LinkList from "../../components/LinkList.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
@@ -494,8 +495,7 @@ if (hasScb) {
 								<a href={`/moskeer/${m.citySlug}/#${m.id}`} class="bt-mosque-name">{m.name}</a>
 								<span class="bt-mosque-loc">{locationLabel(m)}{m.opened ? ` · öppnad ${m.opened}` : ""}</span>
 								<span class="bt-mosque-dir">
-									<a href={dir.apple} class="pill">Apple Maps</a>
-									<a href={dir.google} class="pill">Google Maps</a>
+									<Directions apple={dir.apple} google={dir.google} />
 								</span>
 							</li>
 						);
@@ -876,6 +876,10 @@ if (hasScb) {
 		border-bottom: var(--border-row);
 	}
 
+	.bt-mosque:last-child {
+		border-bottom: none;
+	}
+
 	.bt-mosque-name {
 		font-family: var(--font-heading);
 		font-weight: 600;
@@ -895,10 +899,18 @@ if (hasScb) {
 		color: var(--color-muted);
 	}
 
+	/* The way there, as the mosque pages write it (MosqueList: Directions.astro). */
 	.bt-mosque-dir {
-		display: flex;
-		gap: var(--space-control);
 		margin-top: 0.15rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 600;
+	}
+
+	.bt-mosque-dir :global(.directions) {
+		padding-block: 0.35rem;
+		color: var(--color-accent);
+		text-underline-offset: var(--underline-offset);
 	}
 
 </style>

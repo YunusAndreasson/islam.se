@@ -1,0 +1,20 @@
+---
+// ONE WAY TO A MOSQUE: »Vägbeskrivning«, opening the reader's own maps app — Apple Maps on
+// an iPhone or iPad, Google Maps everywhere else, a desktop and a page without scripts
+// included. Both links are in the markup; layout.css shows the one for the platform
+// Base.astro stamps on <html> before paint, so nothing moves. Two pills, »Apple Maps« and
+// »Google Maps«, stood under every mosque until 2026-11-20 (forty on /moskeer/stockholm/).
+// The map's callout writes the same two links in moskeer-map.ts.
+interface Props {
+	apple: string;
+	google: string;
+	class?: string;
+}
+
+const { apple, google, class: className } = Astro.props;
+---
+
+<a href={apple} class:list={["directions", "directions--apple", className]}>Vägbeskrivning</a><a
+	href={google}
+	class:list={["directions", "directions--google", className]}>Vägbeskrivning</a
+>

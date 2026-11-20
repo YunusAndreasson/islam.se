@@ -5,6 +5,7 @@
 // page (`cityLink`); on a city page the mosque IS the content, so the name is plain text.
 import { type Mosque, directionsLinks, locationLabel, mosqueUrl, swedishAddress } from "../../lib/moskeer";
 import { encodeScreenConfig, DEFAULT_SCREEN_CONFIG } from "../../lib/bonetider/screen-config";
+import Directions from "./Directions.astro";
 
 /** A screen prefilled with this mosque — its name, its ort and its own coordinates, so
  *  the marker lands on the building rather than the town centre. The mosque still has to
@@ -46,10 +47,9 @@ const { mosques, cityLink = false } = Astro.props;
 				</p>
 				{m.organisation && <p class="mk-list-org">Huvudman: {m.organisation}</p>}
 				<p class="mk-list-dir">
-					<a href={dir.apple} class="pill">Apple Maps</a>
-					<a href={dir.google} class="pill">Google Maps</a>
-					<span class="mk-list-canon"><a href={mosqueUrl(m)}>Länk till moskén</a></span>
-					<span class="mk-list-canon"><a href={screenHref(m)}>Visa på storbild</a></span>
+					<Directions apple={dir.apple} google={dir.google} />
+					<a href={mosqueUrl(m)}>Länk till moskén</a>
+					<a href={screenHref(m)}>Visa på storbild</a>
 				</p>
 			</li>
 		);
@@ -122,22 +122,35 @@ const { mosques, cityLink = false } = Astro.props;
 		margin: 0 0 0.35rem;
 	}
 
+	/* The mosque's three ways on, in one row and one size: the way there first, in the
+	   accent, then its own page and the screen, in the meta ink. */
 	.mk-list-dir {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.5rem 0.6rem;
+		align-items: baseline;
+		gap: 0.25rem 1.1rem;
 		margin: 0.6rem 0 0;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
 	}
 
-	.mk-list-canon a {
-		font-family: var(--font-body);
-		font-size: var(--step--4);
+	/* No `display` here: these scoped rules are unlayered and would beat the layered one
+	   that shows only the reader's own maps app (layout.css, `.directions--apple`). */
+	.mk-list-dir a {
+		padding-block: 0.35rem;
 		color: var(--color-muted);
-		text-decoration: none;
+		text-decoration: underline;
+		text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+		text-underline-offset: var(--underline-offset);
 	}
 
-	.mk-list-canon a:hover {
-		text-decoration: underline;
+	.mk-list-dir :global(.directions) {
+		color: var(--color-accent);
+		font-weight: 600;
+	}
+
+	.mk-list-dir a:hover {
+		color: var(--color-accent);
+		text-decoration-color: currentColor;
 	}
 </style>

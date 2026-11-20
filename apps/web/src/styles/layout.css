@@ -600,6 +600,14 @@
 		text-decoration: none;
 	}
 
+	/* ONE WAY TO A MOSQUE (Directions.astro, the map's callout): the reader's own maps
+	   app. Apple Maps on an iPhone or iPad, Google Maps everywhere else, a desktop and a
+	   page without scripts included; Base.astro stamps the platform before paint. */
+	:root:not([data-platform="ios"]) .directions--apple,
+	:root[data-platform="ios"] .directions--google {
+		display: none;
+	}
+
 	/* A FORM'S ONE ACTION: the pill filled with ink (/ratta/'s »Skicka förslaget«, the
 	   mosque screen's »Öppna skärmen«), written once for the two copies there were. A
 	   switch is a selection and is never filled (ThemePicker, Lista/Karta). */
