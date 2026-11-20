@@ -186,7 +186,7 @@ const figureBlocks = await figureJsonLd(
 			</ArticleBody>
 		</article>
 
-		<EssayConnections slug={article.slug} />
+		<EssayConnections slug={article.slug} exclude={[prev?.slug, next?.slug].filter((s) => s !== undefined)} />
 
 		<PrevNext
 			aria-label="Nyare och äldre essä"
@@ -279,8 +279,10 @@ const figureBlocks = await figureJsonLd(
 
 
 	/* The newer and older essays stand on the canvas under the end matter, which has
-	   stepped out onto it (EssayConnections.astro), in its two halves. */
-	.reading-shell :global(.article-nav) {
+	   stepped out onto it (EssayConnections.astro), in its two halves; the correction
+	   link closes the page on the same left line. It stood on the prose's line, the one
+	   thing under the end matter that had not stepped out with it (2026-11-20). */
+	.reading-shell :global(:is(.article-nav, .rattelse)) {
 		--cover-width: min(var(--art-width), 100cqi - 2 * var(--padding-inline));
 		width: var(--cover-width);
 		max-width: none;

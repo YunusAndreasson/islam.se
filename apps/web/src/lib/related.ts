@@ -57,7 +57,14 @@ const W_VERSE = 3;
 const W_TANKARE = 2;
 const W_AMNE = 1;
 
-export async function getEssayConnections(slug: string, limit = 3): Promise<EssayConnections> {
+/** `exclude`: essays the page already offers beside »Läs vidare«, the newer and older
+ *  ones in its pager. Offered by both, the same essay stood twice in 200px: »Vem är
+ *  gravljuset till för?« as the first card and again as »Äldre« under it (2026-11-20). */
+export async function getEssayConnections(
+	slug: string,
+	limit = 3,
+	exclude: readonly string[] = [],
+): Promise<EssayConnections> {
 	const [articles, thinkers, threads, versesByEssay] = await Promise.all([
 		getArticles(),
 		getTankare(),
@@ -108,7 +115,7 @@ export async function getEssayConnections(slug: string, limit = 3): Promise<Essa
 	const myVerses = versesByEssay.get(slug) ?? new Set();
 
 	const scored = articles
-		.filter((a) => a.slug !== slug && !myThreadMates.has(a.slug))
+		.filter((a) => a.slug !== slug && !myThreadMates.has(a.slug) && !exclude.includes(a.slug))
 		.map((a) => {
 			let score = 0;
 

@@ -1,5 +1,5 @@
 import type { CollectionEntry } from "astro:content";
-import { FAKTA_SLUGS } from "./fakta";
+import { FAKTA_CLUSTERS, FAKTA_SLUGS } from "./fakta";
 
 type SvarEntry = CollectionEntry<"svar">;
 
@@ -191,7 +191,9 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		short: "Begrepp",
 		intro:
 			"Sharia, jihad och sufism är ord som ofta missförstås. Här står också vad som skiljer sunni från shia.",
-		ids: ["vad-ar-sharia", "vad-ar-jihad", "vad-ar-sufism", "sunni-och-shia"],
+		// The kadi, sharia's judge, joined from the trailing »Övriga frågor«, where it stood
+		// alone as the index's last section (2026-11-20).
+		ids: ["vad-ar-sharia", "vad-ar-en-kadi", "vad-ar-jihad", "vad-ar-sufism", "sunni-och-shia"],
 	},
 	{
 		slug: "islam-och-andra-livsaskadningar",
@@ -224,6 +226,20 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		],
 	},
 ];
+
+/** The section an answer belongs to, for the kicker over its title (Kicker.astro, as an
+ *  essay's ämne): a cornerstone answer's cluster on /vad-ar-islam/, whether it is one of
+ *  the cluster's items or its overview, else its /svar/ category. The pillars' overview
+ *  (`islams-fem-pelare`) matched neither, since the lookup checked items only, and opened
+ *  without a kicker until 2026-11-20. */
+export function answerSection(id: string): { name: string; href: string } | null {
+	const cluster = FAKTA_CLUSTERS.find(
+		(c) => c.overview === id || c.items.some((i) => i.svarSlug === id),
+	);
+	if (cluster) return { name: cluster.name, href: `/vad-ar-islam/#${cluster.slug}` };
+	const category = SVAR_CATEGORIES.find((c) => c.ids.includes(id));
+	return category ? { name: category.name, href: `/svar/#${category.slug}` } : null;
+}
 
 /** Group the FRÅGOR & SVAR corpus into the themed sections above, preserving each
  *  section's curated order. Cornerstone answers (the Five Pillars + six Articles

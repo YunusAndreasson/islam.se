@@ -9,10 +9,12 @@ import Motet from "./Motet.astro";
 
 interface Props {
 	slug: string;
+	/** The essays the page's pager already offers (newer, older): not repeated as cards. */
+	exclude?: readonly string[];
 }
 
-const { slug } = Astro.props;
-const { amne, tankare, tradar, related, svar } = await getEssayConnections(slug);
+const { slug, exclude = [] } = Astro.props;
+const { amne, tankare, tradar, related, svar } = await getEssayConnections(slug, 3, exclude);
 
 type ContextRow = {
 	label: string;
