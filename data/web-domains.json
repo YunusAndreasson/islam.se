@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 62,
-      "ok": 62,
+      "total": 63,
+      "ok": 63,
       "failed": 0,
-      "lastChecked": "2026-10-29T22:01:29.734Z",
-      "publishedIn": 46,
-      "avgScore": 8.639130434782608
+      "lastChecked": "2026-11-20T19:31:10.939Z",
+      "publishedIn": 47,
+      "avgScore": 8.638297872340425
     },
     "lifewithallah.com": {
       "total": 3,
@@ -1142,11 +1142,11 @@
       "avgScore": 8.6
     },
     "islamqa.info": {
-      "total": 14,
-      "ok": 14,
+      "total": 15,
+      "ok": 15,
       "failed": 0,
-      "lastChecked": "2026-11-04T20:48:58.212Z",
-      "publishedIn": 8,
+      "lastChecked": "2026-11-20T19:31:10.939Z",
+      "publishedIn": 9,
       "avgScore": 8.6
     },
     "www.openhorizons.org": {
@@ -3077,6 +3077,22 @@
       "ok": 2,
       "failed": 0,
       "lastChecked": "2026-11-04T20:48:58.212Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.1177.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-11-20T19:31:10.939Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "islamweb.net": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-11-20T19:31:10.939Z",
       "publishedIn": 1,
       "avgScore": 8.6
     }
