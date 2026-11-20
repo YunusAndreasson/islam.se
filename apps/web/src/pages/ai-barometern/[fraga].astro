@@ -9,6 +9,7 @@ import PrevNext from "../../components/PrevNext.astro";
 import TrendMultiples from "../../components/ai-barometern/TrendMultiples.astro";
 import TwinCompare from "../../components/ai-barometern/TwinCompare.astro";
 import PageHead from "../../components/PageHead.astro";
+import AnswerMeter from "../../components/ai-barometern/AnswerMeter.astro";
 import LinkList from "../../components/LinkList.astro";
 import WithHonorifics from "../../components/WithHonorifics.astro";
 import TitledSection from "../../components/TitledSection.astro";
@@ -143,7 +144,7 @@ const partyRuns = isScale ? [] : partyHistory(question);
 const hasHistory = isScale ? history.some((h) => h.points.length >= 2) : partyRuns.length >= 2;
 
 /** The scale value behind an answer code, for the colour swatch beside a quoted answer. */
-const scaleV = (code: string) => (/^-?[0-2]$/.test(code) ? code : undefined);
+const scaleV = (code: string) => (/^-?[0-2]$/.test(code) ? Number(code) : null);
 
 // Onward in the hub's own order, so a reader can walk every question without going back.
 const questions = activeQuestions();
@@ -232,7 +233,8 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 									</span>{" "}
 									<span class="abm-quote-meta">{q.model}</span>
 									{q.lead && (
-										<span class="abm-answer" data-v={scaleV(q.lead.code)}>
+										<span class="abm-answer">
+											<AnswerMeter v={scaleV(q.lead.code)} small />
 											{codeLabel(q.lead.code)}
 										</span>
 									)}

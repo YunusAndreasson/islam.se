@@ -1,0 +1,41 @@
+---
+// ONE ANSWER AS A METER: four blocks, as many filled in brass as the model agrees —
+// four for »instämmer helt«, three for »delvis«, two for »varken eller«, one for »tar
+// delvis avstånd«, none (four outlines) for »tar helt avstånd«. The front page's room drew
+// answers so (BarometerRail.astro) while the hub drew the same scale as »++ / + / A« chips
+// on a blue↔brass scale, the one answer drawn two ways; from 2026-11-20 every answer is
+// this meter, and the barometer's pages are ink and brass like the rest of the site.
+//
+// Where a model took no position there is no meter, so »avstår« is never read as a low
+// score: beside words its place stays empty (the word says it), and `bare` (the matrix,
+// with no words) prints the short mark instead (A, ×, ±). `own` rings the meter (a model
+// on its own maker); answers that differed across the repeats carry a dot after it. The
+// sentence for a screen reader is the caller's: this is aria-hidden.
+import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
+import { cellGlyph } from "../../lib/ai-barometern/site";
+
+interface Props {
+	cell?: ScaleCell | undefined;
+	/** A position given as its value (−2 … 2), where the caller holds no cell. */
+	v?: number | null | undefined;
+	own?: boolean | undefined;
+	small?: boolean | undefined;
+	bare?: boolean | undefined;
+}
+
+const { cell, v, own = false, small = false, bare = false } = Astro.props;
+const display = cell ? (cell.state === "position" ? cell.display : null) : (v ?? null);
+const niva = display === null || display === undefined ? null : display + 2;
+const mixed = cell?.state === "position" && !cell.consistent;
+const glyph = cell && niva === null && bare ? cellGlyph(cell) : "";
+---
+
+<span
+	class:list={["abm-meter", small && "abm-meter--small"]}
+	data-niva={niva ?? undefined}
+	data-mixed={mixed ? "" : undefined}
+	data-own={own ? "" : undefined}
+	aria-hidden="true"
+>
+	{glyph ? <span class="abm-meter-glyph">{glyph}</span> : <><i /><i /><i /><i /></>}
+</span>

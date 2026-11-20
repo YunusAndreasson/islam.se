@@ -1,28 +1,19 @@
-/* AI-barometern: the answer chips and the model logos.
+/* AI-barometern: the answer meter and the model logos.
    ============================================================================
    Split out of ai-barometern.css so a page outside the section can draw a
    finding without inlining that whole stylesheet: the front page's rail block
    (BarometerRail.astro) imports this file and nothing else. Every
    /ai-barometern/ page imports it beside ai-barometern.css, which keeps every
-   rule that is not about a chip or a logo.
+   rule that is not about an answer or a logo.
 
-
-   ── The one deliberate break from DESIGN.md ────────────────────────────────
-   The site charts in brass alone. A position on an agree↔disagree scale has two
-   directions, and one hue cannot show direction without making »Tar helt
-   avstånd« look like »Avstår«. So these charts add the site's own --mark-blue
-   as the second pole. Both hues already exist in tokens.css; nothing new enters
-   the palette, and the exception stays inside this file.
-
-   The five steps were validated with the dataviz skill's validator
-   (scripts/validate_palette.js) against both page grounds:
-     light  −2 #2a557f  −1 #7c93aa  0 #eee5d7  +1 #cea76c  +2 #b8862f
-     dark   −2 #4b739d  −1 #394d61  0 #2d2921  +1 #876935  +2 #c89a48
-   Each arm is monotone in lightness with its light end ≥ 2:1 on the ground; the
-   two »delvis« steps sit ΔE 16.4 (light) / 17.6 (dark) apart, clear of the 15
-   floor, and pass protan/deutan separation. Colour is never the only carrier:
-   every chip also prints a glyph (−−, −, 0, +, ++) whose ink clears 4.5:1 on its
-   fill, and every cell carries its label in text for screen readers. */
+   ── One scale, drawn one way (2026-11-20) ──────────────────────────────────
+   An answer is a meter of four blocks, as many filled in brass as the model agrees
+   (AnswerMeter.astro), on every page: the front page's room and the hub, the
+   question and model pages. The hub drew the same scale as »++ / + / A« chips on
+   a blue↔brass scale until then, the one place the site charted in a second hue.
+   Length, not colour, carries the answer, so the meter needs none: four full
+   beside none is the finding before a word is read, and a missing meter says
+   »no position« without looking like the low end of the scale. */
 
 /* The layer order, restated from tokens.css. Cascade layers rank by FIRST mention and the
    build inlines stylesheets in module-graph order, so whichever layered file comes first
@@ -31,18 +22,20 @@
 
 @layer components {
 	.abm {
-		--abm-n2: light-dark(#2a557f, #4b739d);
-		--abm-n1: light-dark(#7c93aa, #394d61);
-		--abm-z: light-dark(#eee5d7, #2d2921);
-		--abm-p1: light-dark(#cea76c, #876935);
+		/* The brass a meter fills with, a step lighter in the dark. */
 		--abm-p2: light-dark(#b8862f, #c89a48);
-		--abm-ink-dark: #1a1914;
-		--abm-ink-light: #ffffff;
+		/* The one chart here that is not a model's answer: how the Swedish public answered
+		   (OpinionBar), five shares side by side, which needs five fills. Brass for agreeing,
+		   the ink for disagreeing, the ground between. */
+		--abm-p1: light-dark(#d8b77d, #876935);
+		--abm-z: var(--surface-2);
+		--abm-n1: color-mix(in oklab, var(--color-text) 32%, var(--color-bg));
+		--abm-n2: color-mix(in oklab, var(--color-text) 70%, var(--color-bg));
 		--abm-chip: 2.75rem;
 	}
 
-	/* ---- chips ---------------------------------------------------------- */
-
+	/* The twin overview's marks (TwinOverview.astro) are categories, not answers: a box of
+	   the matrix's size, told apart by its outline and its glyph, in ink. */
 	.abm-chip {
 		display: inline-grid;
 		place-items: center;
@@ -58,51 +51,71 @@
 		color: var(--color-text);
 	}
 
-	.abm-chip[data-v="-2"] {
-		background: var(--abm-n2);
-		color: var(--abm-ink-light);
+	/* ---- the meter (AnswerMeter.astro) ------------------------------------ */
+
+	/* Four blocks. An unfilled block is an outline on the ground; the filled ones are brass.
+	   The sizes are the front page's (BarometerRail.astro), so a reader who has met the
+	   room meets the same mark on the hub. */
+	.abm-meter {
+		--abm-meter-block: 0.5rem;
+		--abm-meter-height: 0.8rem;
+		--abm-meter-gap: 2px;
+		position: relative;
+		flex: none;
+		display: inline-grid;
+		grid-template-columns: repeat(4, var(--abm-meter-block));
+		gap: var(--abm-meter-gap);
+		align-items: center;
+		vertical-align: middle;
 	}
-	.abm-chip[data-v="-1"] {
-		background: var(--abm-n1);
-		color: light-dark(var(--abm-ink-dark), var(--abm-ink-light));
+	.abm-meter--small {
+		--abm-meter-block: 0.35rem;
+		--abm-meter-height: 0.6rem;
+		--abm-meter-gap: 1px;
 	}
-	.abm-chip[data-v="0"] {
-		background: var(--abm-z);
-	}
-	.abm-chip[data-v="1"] {
-		background: var(--abm-p1);
-		color: light-dark(var(--abm-ink-dark), var(--abm-ink-light));
-	}
-	.abm-chip[data-v="2"] {
-		background: var(--abm-p2);
-		color: var(--abm-ink-dark);
-	}
-	/* No position: an outlined chip on the ground, so it reads as absence, never as a value. */
-	.abm-chip[data-state="abstain"],
-	.abm-chip[data-state="refused"],
-	.abm-chip[data-state="split"] {
-		background: transparent;
+	.abm-meter i {
+		block-size: var(--abm-meter-height);
+		border-radius: 1px;
 		box-shadow: inset 0 0 0 1px var(--color-rule);
+	}
+	/* No position: no meter, only its place. */
+	.abm-meter:not([data-niva]) i {
+		box-shadow: none;
+	}
+	.abm-meter[data-niva="1"] i:nth-child(-n + 1),
+	.abm-meter[data-niva="2"] i:nth-child(-n + 2),
+	.abm-meter[data-niva="3"] i:nth-child(-n + 3),
+	.abm-meter[data-niva="4"] i {
+		background: var(--abm-p2);
+		box-shadow: none;
+	}
+	/* Where there are no words beside it (the matrix): the short mark for no position. */
+	.abm-meter-glyph {
+		grid-column: 1 / -1;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 600;
+		line-height: var(--abm-meter-height);
+		text-align: center;
 		color: var(--text-quiet);
 	}
-	/* The three samples did not agree. */
-	.abm-chip[data-mixed]::after {
+	/* The repeats did not agree: a dot at the meter's shoulder. */
+	.abm-meter[data-mixed]::after {
 		content: "";
 		position: absolute;
-		inset-block-start: 3px;
-		inset-inline-end: 3px;
+		inset-block-start: -3px;
+		inset-inline-end: -6px;
 		inline-size: 4px;
 		block-size: 4px;
 		border-radius: 50%;
-		background: currentColor;
-		opacity: 0.8;
+		background: var(--color-text);
 	}
-
-	/* A model's answer about its own maker (the control questions): a ring inside the chip, so
-	   the diagonal of self-judgements reads at a glance without widening a column. It comes
-	   after the no-position rules so it also thickens an »Avstår« outline. */
-	.abm-chip[data-own] {
-		box-shadow: inset 0 0 0 2px var(--color-text);
+	/* A model's answer about its own maker (the control questions): a ring round the meter,
+	   so the diagonal of self-judgements reads at a glance without widening a column. */
+	.abm-meter[data-own] {
+		outline: 1.5px solid var(--color-text);
+		outline-offset: 3px;
+		border-radius: 1px;
 	}
 
 	/* A family's logo beside or above its name (ModelLogo.astro). */
@@ -129,11 +142,11 @@
 }
 
 @layer components {
-	/* AnswerChip.astro: the chip with its answer in words, beside or under it. */
+	/* AnswerChip.astro: the meter with its answer in words, beside or under it. */
 	.abm-answer-chip {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.45rem;
+		gap: 0.6rem;
 		vertical-align: middle;
 	}
 	.abm-answer-chip--below {
@@ -147,8 +160,8 @@
 		color: var(--text-body);
 		white-space: nowrap;
 	}
-	.abm-chip--small {
-		inline-size: 2rem;
-		block-size: 1.3rem;
+	/* No position taken: the word steps back, as the missing meter does. */
+	.abm-answer-chip:has(.abm-meter:not([data-niva])) .abm-answer-chip-words {
+		color: var(--color-muted);
 	}
 }

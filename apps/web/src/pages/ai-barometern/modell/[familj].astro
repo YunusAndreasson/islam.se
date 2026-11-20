@@ -6,6 +6,7 @@ import PrevNext from "../../../components/PrevNext.astro";
 import ScaleLegend from "../../../components/ai-barometern/ScaleLegend.astro";
 import StanceShare from "../../../components/ai-barometern/StanceShare.astro";
 import PageHead from "../../../components/PageHead.astro";
+import AnswerMeter from "../../../components/ai-barometern/AnswerMeter.astro";
 import TitledSection from "../../../components/TitledSection.astro";
 import Base from "../../../layouts/Base.astro";
 import { FAMILIES } from "../../../lib/ai-barometern/families";
@@ -191,7 +192,8 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 												<a href={questionPath(m.question)}>{m.member.label}</a>
 												{own && <span class="abm-own">Eget företag</span>}
 											</span>
-											<span class="abm-answer" data-v={cell.display ?? undefined}>
+											<span class="abm-answer">
+												<AnswerMeter cell={cell} small />
 												{cellLabel(cell)}
 											</span>
 										</li>
@@ -224,7 +226,8 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 											<li>
 												<a href={questionPath(q)}>{q.short}</a>
 												{row.measured ? (
-													<span class="abm-answer" data-v={cell.display ?? undefined}>
+													<span class="abm-answer">
+														<AnswerMeter cell={cell} small />
 														{cellLabel(cell)}
 													</span>
 												) : (

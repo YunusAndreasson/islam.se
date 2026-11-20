@@ -1,11 +1,12 @@
 ---
-// The key above a chart of answer chips. The model names come first; they show only on a phone,
+// The key above a chart of answer meters. The model names come first; they show only on a phone,
 // where the column heads keep just the logos. A no-position mark shows only when the
 // chart holds one, so the key never explains a mark the reader cannot find. The big matrix
 // always lists the five steps; a small chart (`compact`) lists only the steps it uses.
 import type { ScaleCell } from "../../lib/ai-barometern/aggregate";
 import { FAMILIES } from "../../lib/ai-barometern/families";
 import { SCALE_LEGEND } from "../../lib/ai-barometern/site";
+import AnswerMeter from "./AnswerMeter.astro";
 import ModelLogo from "./ModelLogo.astro";
 
 interface Props {
@@ -44,9 +45,13 @@ const anyMixed = cells.some((c) => c.state === "position" && !c.consistent);
 		{
 			legend.map((item) => (
 				<span class="abm-legend-item">
-					<span class="abm-chip" data-state={item.state} data-v={item.v}>
-						{item.glyph}
-					</span>
+					{item.state === "position" ? (
+						<AnswerMeter v={item.v} small />
+					) : (
+						<span class="abm-meter abm-meter--small">
+							<span class="abm-meter-glyph">{item.glyph}</span>
+						</span>
+					)}
 					{item.label}
 				</span>
 			))
@@ -54,7 +59,12 @@ const anyMixed = cells.some((c) => c.state === "position" && !c.consistent);
 		{
 			anyMixed && (
 				<span class="abm-legend-item">
-					<span class="abm-chip" data-v="0" data-mixed="" />
+					<span class="abm-meter abm-meter--small" data-niva="2" data-mixed="">
+						<i />
+						<i />
+						<i />
+						<i />
+					</span>
 					Olika svar
 				</span>
 			)
@@ -62,7 +72,12 @@ const anyMixed = cells.some((c) => c.state === "position" && !c.consistent);
 		{
 			own && (
 				<span class="abm-legend-item">
-					<span class="abm-chip" data-v="0" data-own="" />
+					<span class="abm-meter abm-meter--small" data-niva="2" data-own="">
+						<i />
+						<i />
+						<i />
+						<i />
+					</span>
 					Eget företag
 				</span>
 			)

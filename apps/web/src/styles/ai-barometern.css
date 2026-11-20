@@ -3,10 +3,8 @@
    Imported only by the /ai-barometern/ pages (like nyheter.css): every global
    stylesheet is inlined into all ~2 500 built pages, and these rules serve four.
 
-   The chip palette, its validation and the one deliberate break from DESIGN.md
-   (a second hue, --mark-blue, for the disagree pole) live with the chips
-   themselves in ai-barometern-chips.css, which every page importing this file
-   imports first. */
+   The answer meter (one scale, in brass) and the model logos live in
+   ai-barometern-chips.css, which every page importing this file imports first. */
 
 /* The layer order, restated from tokens.css. Cascade layers rank by FIRST mention and the
    build inlines stylesheets in module-graph order, so whichever layered file comes first
@@ -48,9 +46,8 @@
 		align-items: center;
 		gap: 0.3rem;
 	}
-	.abm-legend .abm-chip {
-		inline-size: 1.35rem;
-		block-size: 1.1rem;
+	.abm-legend-item .abm-meter {
+		margin-inline-end: 0.15rem;
 	}
 
 	/* ---- overview matrix --------------------------------------------------- */
@@ -413,7 +410,7 @@
 	.abm-answer {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.35rem;
+		gap: 0.45rem;
 		margin-inline-start: 0.4rem;
 		padding: 0.05rem 0.55rem;
 		border-radius: var(--radius-pill);
@@ -422,26 +419,6 @@
 		font-weight: 600;
 		color: var(--color-text);
 		white-space: nowrap;
-	}
-	.abm-answer[data-v]::before {
-		content: "";
-		inline-size: 0.6rem;
-		block-size: 0.6rem;
-		border-radius: var(--radius-xs);
-		background: var(--abm-z);
-		box-shadow: inset 0 0 0 1px color-mix(in oklab, currentColor 20%, transparent);
-	}
-	.abm-answer[data-v="-2"]::before {
-		background: var(--abm-n2);
-	}
-	.abm-answer[data-v="-1"]::before {
-		background: var(--abm-n1);
-	}
-	.abm-answer[data-v="1"]::before {
-		background: var(--abm-p1);
-	}
-	.abm-answer[data-v="2"]::before {
-		background: var(--abm-p2);
 	}
 
 	.abm-quote details {
@@ -1089,6 +1066,12 @@
 		.abm {
 			--abm-chip: 2rem;
 		}
+		/* The meter a column can hold: the small one (AnswerMeter `small`'s sizes). */
+		.abm-matrix .abm-meter {
+			--abm-meter-block: 0.35rem;
+			--abm-meter-height: 0.6rem;
+			--abm-meter-gap: 1px;
+		}
 		/* Five logos fit where five names did not: the names move to a key above the table
 		   and stay in the heads for screen readers. */
 		.abm-modelhead .abm-colname {
@@ -1143,8 +1126,12 @@
 }
 
 @layer components {
+	/* The meter's cell keeps the chip's footprint as its target, so a tap still lands. */
 	.abm-cell-detail > summary {
-		display: inline-flex;
+		display: inline-grid;
+		place-items: center;
+		min-inline-size: var(--abm-chip);
+		min-block-size: 1.75rem;
 		cursor: pointer;
 		list-style: none;
 		padding: 0.4rem;
