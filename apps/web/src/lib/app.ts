@@ -44,14 +44,3 @@ export const APP_FEATURES = [
 
 /** One line, shown under the heading everywhere the app is mentioned. No em dash. */
 export const APP_TAGLINE = "Bönetider för din ort, även utan uppkoppling.";
-
-/** What the city prayer pages lead with: the three things that page cannot do for
- *  itself. On a surface that is 91 % phones, naming them beats a bare badge pair —
- *  the page has just answered "when is the prayer", so the app has to answer
- *  something else to be worth a download. */
-const CITY_KEYS = ["paminnelse", "qibla", "karta"] as const;
-export const APP_CITY_FEATURES = CITY_KEYS.map((k) => {
-	const f = APP_FEATURES.find((x) => x.key === k);
-	if (!f) throw new Error(`APP_CITY_FEATURES: no APP_FEATURES entry keyed "${k}"`);
-	return f;
-});

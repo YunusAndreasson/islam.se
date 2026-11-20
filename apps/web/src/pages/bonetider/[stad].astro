@@ -1,7 +1,7 @@
 ---
 import { Settings } from "@lucide/astro";
-import AppPromo from "../../components/AppPromo.astro";
 import PageHead from "../../components/PageHead.astro";
+import PoddAppHome from "../../components/PoddAppHome.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import LinkList from "../../components/LinkList.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
@@ -442,7 +442,7 @@ if (hasScb) {
 		    below the FAQ and the facts list, ~6 000 px down on the phone that 91 % of these
 		    readers are holding. */}
 		<TitledSection class="bt-stad-section bt-stad-take" id="bt-stad-ta-med" title="Ta med tiderna">
-			<AppPromo variant="city" />
+			<PoddAppHome only="appen" nested />
 			<ul class="bt-take">
 				<li>
 					<a href={`webcal://islam.se/bonetider/${place.slug}/kalender.ics`}>
@@ -683,10 +683,11 @@ if (hasScb) {
 	.bt-city-settings[open] .bt-settings-summary { color: var(--color-text); }
 	.bt-settings-body { margin-block: var(--space-half); }
 
-	/* "Ta med tiderna" in two halves from 64rem: the app card on the left, the calendar,
-	   the file and the PDF on the right. Stacked on the 76rem canvas, the card ran the
-	   full width with its content in the left half, and the rows under it stopped at the
-	   measure (2026-09-26). ⚠️ :global — the <section> is TitledSection's. */
+	/* "Ta med tiderna" in two halves from 64rem: the app on the left, in the promotion
+	   form the front page closes on (Promo: its words, its drawing, the two stores), the
+	   calendar, the file and the PDF on the right. It was a bordered card with three
+	   screenshots until 2026-11-20, the one boxed panel on the site's pages; the
+	   screenshots are /app/'s. ⚠️ :global — the <section> is TitledSection's. */
 	@media (width >= 64rem) {
 		:global(.bt-stad-take) {
 			display: grid;
@@ -700,13 +701,12 @@ if (hasScb) {
 			grid-column: 1 / -1;
 		}
 
-		:global(.bt-stad-take > .apppromo) {
+		:global(.bt-stad-take > .promo) {
 			grid-column: 1;
 			grid-row: 2 / -1;
-			margin-bottom: 0;
 		}
 
-		:global(.bt-stad-take > :not(h2, .apppromo)) {
+		:global(.bt-stad-take > :not(h2, .promo)) {
 			grid-column: 2;
 		}
 	}
@@ -766,17 +766,20 @@ if (hasScb) {
 	.bt-ramadan-scroll {
 		overflow-x: auto;
 		margin: var(--space-half) 0 0;
+		/* The width every other table of figures keeps (the month table, PrayerTable's
+		   38rem): across the 76rem canvas its four columns stood 300px apart. */
+		max-width: 38rem;
 	}
 
 	.bt-ramadan-table {
 		font-size: var(--step--3);
 	}
 
-	/* The one ruled row under the Ramadan table, closed below as well as above since
-	   nothing else in the list follows it. */
+	/* The one ruled row under the Ramadan table: a rule over it, none under it, as every
+	   list's last row (the next section's rule closes it). */
 	.bt-ramadan-take {
 		margin-top: var(--space-half);
-		border-bottom: var(--border-rule);
+		max-width: 38rem;
 	}
 
 	/* And the month table's narrow-phone padding (PrayerTable.astro): at the shared table's

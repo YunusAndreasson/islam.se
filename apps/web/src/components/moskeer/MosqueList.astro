@@ -68,6 +68,11 @@ const { mosques, cityLink = false } = Astro.props;
 		border-bottom: var(--border-row);
 	}
 
+	/* A rule between rows, none under the last: the next section's rule closes the list. */
+	.mk-list-item:last-child {
+		border-bottom: none;
+	}
+
 	.mk-list-item:target {
 		border-left: 2px solid var(--color-warm);
 		padding-left: var(--space-half);

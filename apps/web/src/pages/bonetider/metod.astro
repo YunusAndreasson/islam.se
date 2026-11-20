@@ -1,10 +1,10 @@
 ---
-import AppPromo from "../../components/AppPromo.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import AsrShadow from "../../components/bonetider/AsrShadow.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
 import SunDayCurve from "../../components/bonetider/SunDayCurve.astro";
 import PageHead from "../../components/PageHead.astro";
+import PoddAppHome from "../../components/PoddAppHome.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
@@ -228,7 +228,9 @@ const prayerDefinitions = [
 
 		<OmBonen />
 
-		<AppPromo variant="compact" />
+		<div class="home-promotions">
+			<PoddAppHome only="appen" />
+		</div>
 
 		<p class="bt-back">
 			<SectionLink direction="back" href="/bonetider/">Alla bönetider i Sverige</SectionLink>

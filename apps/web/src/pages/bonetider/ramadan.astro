@@ -1,7 +1,7 @@
 ---
-import AppPromo from "../../components/AppPromo.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import PageHead from "../../components/PageHead.astro";
+import PoddAppHome from "../../components/PoddAppHome.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
@@ -198,7 +198,11 @@ const definitions = [
 			<p><SectionLink href="/bonetider/metod/">Så beräknas bönetiderna</SectionLink></p>
 		</TitledSection>
 
-		<AppPromo variant="section" />
+		{/* The app, in the form the front page closes on: the one thing here that can wake
+		    someone for suhūr. */}
+		<div class="home-promotions">
+			<PoddAppHome only="appen" />
+		</div>
 	</main>
 </Base>
 

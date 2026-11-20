@@ -1,4 +1,5 @@
 ---
+import { leadSentences } from "../lib/format";
 import CollectionIndexPage from "../components/CollectionIndexPage.astro";
 import PodcastSubscribeLinks from "../components/PodcastSubscribeLinks.astro";
 import TextRowList from "../components/TextRowList.astro";
@@ -41,7 +42,9 @@ function formatDuration(seconds?: number): string | null {
 const episodeRows = episodes.map((ep, i) => ({
 	href: `/${ep.slug}/`,
 	title: ep.title,
-	description: ep.description,
+	// The deck's opening sentences, as every list of essays shows them (EssayArchiveItem,
+	// 170 characters): the whole deck ran each row a paragraph long (2026-11-20).
+	description: leadSentences(ep.description, 170),
 	// No duration here any more — it is the play button's label, which is where a
 	// listener actually weighs it: attached to the control that spends it.
 	meta: `Avsnitt ${episodes.length - i} · ${formatDate(ep.publishedAt)}`,
@@ -149,7 +152,7 @@ const description =
 		class="podcast-list"
 		aria-label="Avsnitt"
 		items={episodeRows}
-		style="--podcast-thumb: 15rem; --text-row-list-margin: var(--space-half) 0 0; --text-row-media-separator: var(--border-rule); --text-row-media-separator-padding: var(--space-unit); --text-row-columns: var(--podcast-thumb) minmax(0, var(--content-width)); --text-row-meta-margin: var(--space-half); max-width: calc(var(--podcast-thumb) + var(--space-unit) + var(--content-width))"
+		style="--podcast-thumb: 15rem; --text-row-list-margin: var(--space-half) 0 0; --text-row-media-separator: var(--border-row); --text-row-media-separator-padding: var(--space-unit); --text-row-columns: var(--podcast-thumb) minmax(0, var(--content-width)); --text-row-meta-margin: var(--space-half); max-width: calc(var(--podcast-thumb) + var(--space-unit) + var(--content-width))"
 	/>
 
 	<p class="podcast-note">

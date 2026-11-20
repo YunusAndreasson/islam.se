@@ -25,9 +25,14 @@ interface Props {
 	markHref?: string;
 	markDownload?: boolean;
 	ritning: RitningPar;
+	/** Inside a section of its own heading (a tool page's »Ta med tiderna»): the kicker
+	 *  and title step down a level, so the page's outline stays whole. */
+	nested?: boolean;
 }
 
-const { id, kicker, titel, href, markHref = href, markDownload = false, ritning } = Astro.props;
+const { id, kicker, titel, href, markHref = href, markDownload = false, ritning, nested = false } = Astro.props;
+const KickerTag = nested ? "h3" : "h2";
+const TitelTag = nested ? "h4" : "h3";
 // The drawings' box: 7rem above the words on a phone, 10rem from 48rem. The widest of
 // the four fill its width and the upright phone its height.
 const BOX: [number, number] = [7, 10];
@@ -38,8 +43,8 @@ const BOX: [number, number] = [7, 10];
 		<Ritning {...ritning} hojd={BOX} bredd={BOX} />
 	</a>
 	<div class="promo-text">
-		<Kicker form="quiet" as="h2" class="promo-kicker" id={id}>{kicker}</Kicker>
-		<h3 class="promo-titel">{href ? <a href={href}>{titel}</a> : titel}</h3>
+		<Kicker form="quiet" as={KickerTag} class="promo-kicker" id={id}>{kicker}</Kicker>
+		<TitelTag class="promo-titel">{href ? <a href={href}>{titel}</a> : titel}</TitelTag>
 		<p class="promo-rad"><slot /></p>
 		<div class="promo-lankar"><slot name="lankar" /></div>
 	</div>

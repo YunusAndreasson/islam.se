@@ -5,13 +5,14 @@ import ArticleBody from "../../components/ArticleBody.astro";
 import ArticleMeta from "../../components/ArticleMeta.astro";
 import ArticleSection from "../../components/ArticleSection.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
+import EssayList from "../../components/EssayList.astro";
 import LinkList from "../../components/LinkList.astro";
 import EssayImage from "../../components/EssayImage.astro";
 import Kicker from "../../components/Kicker.astro";
 import Rattelse from "../../components/Rattelse.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import Base from "../../layouts/Base.astro";
-import { getArticles } from "../../lib/articles";
+import { type Article, getArticles } from "../../lib/articles";
 import { requireBySlug } from "../../lib/content-refs";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { readingMinutes } from "../../lib/format";
@@ -57,7 +58,7 @@ export async function getStaticPaths() {
 				sourceFile: `svar/${entry.id}.md`,
 				field: "essays",
 				dataDir: "data/articles/",
-			}).map((essay) => ({ slug: essay.slug, title: essay.title })),
+			}),
 		},
 	}));
 }
@@ -66,7 +67,7 @@ type SvarEntry = CollectionEntry<"svar">;
 interface Props {
 	entry: SvarEntry;
 	related: SvarEntry[];
-	essays: { slug: string; title: string }[];
+	essays: Article[];
 	pillar: { slug: string; term: string } | null;
 }
 
@@ -80,7 +81,6 @@ const sourceItems = (data.sources ?? []).map((s) => ({
 	...(s.url === undefined ? {} : { href: s.url }),
 }));
 const relatedItems = related.map((r) => ({ label: r.data.title, href: `/svar/${r.id}/` }));
-const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}/` }));
 
 // Cornerstone answers (the Five Pillars + six Articles of Faith) belong to the
 // FAKTA hub: they get a hero image so the page reads as an article, and they
@@ -248,7 +248,9 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 
 			{essays.length > 0 && (
 				<ArticleSection class="svar-essays" id="svar-essaer" title="Läs vidare">
-					<LinkList variant="diamond" items={essayItems} nav />
+					{/* Essays are listed as every list of essays is: the title, the deck's
+					    opening sentence and the meta line (EssayList), not bare titles. */}
+					<EssayList articles={essays} />
 				</ArticleSection>
 			)}
 

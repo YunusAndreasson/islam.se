@@ -596,19 +596,24 @@
 		padding-inline: 0.2rem;
 	}
 
+	/* The three tables of figures here (the shares, the shifts, the runs) are set as every
+	   table of figures on the site is (layout.css, .data-table): the text face, the heads
+	   in the meta ink over the one rule, the rows parted by the fainter line and none
+	   under the last. They were a sans of their own with a row line under every row. */
 	.abm-share-table {
 		border-collapse: separate;
 		border-spacing: 0;
-		font-family: var(--font-heading);
+		font-family: var(--font-body);
 		font-size: var(--step--2);
 	}
 	.abm-share-table thead th {
 		padding: 0 0.75rem 0.5rem 0;
 		font-size: var(--step--3);
 		font-weight: 600;
-		color: var(--text-quiet);
+		color: var(--color-muted);
 		text-align: start;
 		vertical-align: bottom;
+		border-block-end: var(--border-row);
 	}
 	.abm-share-of {
 		display: block;
@@ -620,12 +625,13 @@
 		font-weight: 400;
 		text-align: start;
 		white-space: nowrap;
-		border-block-end: var(--border-row);
 	}
 	.abm-share-table td {
 		min-inline-size: 3.5rem;
 		padding: 0.55rem 0.75rem 0.55rem 0;
-		border-block-end: var(--border-row);
+	}
+	.abm-share-table tbody tr:not(:last-child) > * {
+		border-block-end: var(--border-row-faint);
 	}
 	.abm-share-table [data-all] {
 		padding-inline-start: 0.75rem;
@@ -656,22 +662,25 @@
 	.abm-shift-table {
 		border-collapse: separate;
 		border-spacing: 0;
-		font-family: var(--font-heading);
+		font-family: var(--font-body);
 		font-size: var(--step--2);
 	}
 	.abm-shift-table thead th {
 		padding: 0 1.25rem 0.5rem 0;
 		font-size: var(--step--3);
 		font-weight: 600;
-		color: var(--text-quiet);
+		color: var(--color-muted);
 		text-align: start;
 		vertical-align: bottom;
+		border-block-end: var(--border-row);
 	}
 	.abm-shift-table tbody > tr > * {
 		padding: 0.6rem 1.25rem 0.6rem 0;
 		text-align: start;
 		vertical-align: top;
-		border-block-end: var(--border-row);
+	}
+	.abm-shift-table tbody > tr:not(:last-child) > * {
+		border-block-end: var(--border-row-faint);
 	}
 	.abm-shift-table tbody th {
 		font-weight: 400;
@@ -1014,7 +1023,7 @@
 
 	.abm-runs {
 		border-collapse: collapse;
-		font-family: var(--font-heading);
+		font-family: var(--font-body);
 		font-size: var(--step--2);
 		font-variant-numeric: lining-nums tabular-nums;
 	}
@@ -1022,12 +1031,15 @@
 	.abm-runs td {
 		padding: 0.45rem 1.5rem 0.45rem 0;
 		text-align: start;
-		border-block-end: var(--border-row);
 	}
 	.abm-runs thead th {
 		font-size: var(--step--3);
 		font-weight: 600;
-		color: var(--text-quiet);
+		color: var(--color-muted);
+		border-block-end: var(--border-row);
+	}
+	.abm-runs tbody tr:not(:last-child) > * {
+		border-block-end: var(--border-row-faint);
 	}
 	.abm-runs tbody th {
 		font-weight: 400;

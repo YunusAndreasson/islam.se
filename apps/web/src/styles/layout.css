@@ -346,22 +346,6 @@
 		gap: 0.5rem 0.75rem;
 	}
 
-	.pill-link-list a {
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
-		color: var(--color-text);
-		text-decoration: none;
-		border: var(--border-row);
-		border-radius: var(--radius-pill);
-		padding: 0.3rem 0.85rem;
-		transition: border-color var(--dur-fast) ease;
-	}
-
-	.pill-link-list a:hover {
-		border-color: var(--color-warm);
-		color: var(--color-accent);
-	}
-
 	/* Grouped directory — expandable county/län clusters used by the bönetider and
 	   mosque finders. Item rows stay local because one renders links, the other
 	   map-controlling buttons. */
@@ -504,7 +488,7 @@
 	}
 
 	.data-table tbody tr:not(:last-child) :is(th, td) {
-		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
+		border-bottom: var(--border-row-faint);
 	}
 
 	/* THE LINES. The day (PrayerHorizon) and the year (Arslinje) are one figure drawn twice:
@@ -583,7 +567,10 @@
    mosque. One class: it had two names, and the directions pair had a drifted copy of
    its own (`.map-dir-btn`) at 13px and some 36px tall, under the 44px a principal touch
    control takes (DESIGN.md). */
-	.pill {
+	/* The places nearby (LinkList `pills`) are pills too: a third shape, 30px tall and
+	   hovering the other way, until 2026-11-20. */
+	.pill,
+	.pill-link-list a {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.45em;
@@ -595,6 +582,9 @@
 		text-transform: none;
 		min-height: var(--tap-target);
 		color: var(--color-accent);
+		/* A <button> drawn as a pill keeps none of the browser's own face. */
+		background: transparent;
+		cursor: pointer;
 		border: var(--border-row);
 		border-radius: var(--radius-pill);
 		text-decoration: none;
@@ -603,10 +593,32 @@
 			color var(--dur-fast);
 	}
 
-	.pill:hover {
+	.pill:hover,
+	.pill-link-list a:hover {
 		border-color: var(--color-warm);
 		color: var(--color-text);
 		text-decoration: none;
+	}
+
+	/* A FORM'S ONE ACTION: the pill filled with ink (/ratta/'s »Skicka förslaget«, the
+	   mosque screen's »Öppna skärmen«), written once for the two copies there were. A
+	   switch is a selection and is never filled (ThemePicker, Lista/Karta). */
+	.pill--primary {
+		color: var(--color-bg);
+		background: var(--color-text);
+		border-color: var(--color-text);
+		cursor: pointer;
+	}
+
+	.pill--primary:hover {
+		color: var(--color-bg);
+		background: var(--color-muted);
+		border-color: var(--color-muted);
+	}
+
+	.pill:disabled {
+		opacity: 0.55;
+		cursor: progress;
 	}
 
 	/* The site-wide keyboard focus ring — no class needed. Push it out from a card
@@ -2309,6 +2321,12 @@
 		margin-bottom: var(--space-phi2);
 	}
 
+	/* A list of essays in a reading page's end matter (an answer's »Läs vidare»): the
+	   section's head owns the gap above and the next section's rule the one below. */
+	.article-section > .archive-list {
+		margin-block: 0;
+	}
+
 	.archive-item {
 		padding-block: var(--space-unit);
 		border-bottom: var(--border-row);
@@ -2504,10 +2522,11 @@
 		border-bottom: var(--border-row);
 	}
 
-	/* In an article's end matter the next section opens under its own rule, so the last
-	   row's rule would be the same boundary twice, 65px apart. The fördjupning dropped it
-	   in its own <style>; the answers kept both (2026-10-16). */
-	.article-section .def-item:last-child {
+	/* A rule between rows, never under the last: the next section opens under its own rule,
+	   so the last row's would be the same boundary twice, 65px apart. It held in an
+	   article's end matter only (2026-10-16); every FAQ on the tool pages drew both until
+	   2026-11-20. */
+	.def-item:last-child {
 		border-bottom: none;
 	}
 	.def-list dt {

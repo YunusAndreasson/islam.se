@@ -40,6 +40,11 @@ const { class: className, items, ...attrs } = Astro.props;
 		border-bottom: var(--border-row);
 	}
 
+	/* Between rows, not under the last: what follows opens on its own line. */
+	.ruled-facts > div:last-child {
+		border-bottom: none;
+	}
+
 	.ruled-facts dt {
 		font-family: var(--font-heading);
 		font-size: var(--step--3);

@@ -37,11 +37,14 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 import Promo from "./Promo.astro";
 
 interface Props {
-	/** /om/ offers the podcast beside the book, not the app: `podden` draws that half alone. */
-	only?: "podden";
+	/** One half alone: /om/ offers the podcast beside the book; the prayer pages offer
+	 *  the app (`appen`) where a reader has just used the times. */
+	only?: "podden" | "appen";
+	/** Inside a section with its own heading (Promo's `nested`). */
+	nested?: boolean;
 }
 
-const { only } = Astro.props;
+const { only, nested = false } = Astro.props;
 const articles = await getArticles();
 // One size for every mark in the band's five pills; 14px, the pill default, read as
 // specks beside sentence-case labels.
@@ -50,8 +53,8 @@ const narrated = articles.filter((a) => typeof a.audioFile === "string");
 ---
 
 {
-	narrated.length > 0 && (
-		<Promo id="podden-rubrik" kicker="Podd" titel="Essäerna, inlästa" href="/podcast/" ritning={RITNINGAR.podden}>
+	only !== "appen" && narrated.length > 0 && (
+		<Promo id="podden-rubrik" nested={nested} kicker="Podd" titel="Essäerna, inlästa" href="/podcast/" ritning={RITNINGAR.podden}>
 			Lyssna på essäerna i Apple Podcasts, Spotify eller en annan poddspelare.
 			<PodcastSubscribeLinks slot="lankar" actionClass="pill" iconSize={ICON} />
 		</Promo>
@@ -59,7 +62,7 @@ const narrated = articles.filter((a) => typeof a.audioFile === "string");
 }
 
 {only !== "podden" && (
-<Promo id="appen-rubrik" kicker="App" titel="Bönetiderna i mobilen" href="/app/" ritning={RITNINGAR.appen}>
+<Promo id="appen-rubrik" nested={nested} kicker="App" titel="Bönetiderna i mobilen" href="/app/" ritning={RITNINGAR.appen}>
 	En påminnelse före varje bön och en kompass mot Kaba. Gratis och utan annonser.
 	<Fragment slot="lankar">
 		<a class="pill" href={APP_STORE_URL} target="_blank" rel="noopener">

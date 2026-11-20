@@ -127,10 +127,10 @@ const crumbs = [
 				    screen, or by casting this tab. The code that IS worth printing lives on
 				    the screen itself, pointing at the app. */}
 				<div class="sk-go">
-					<a class="sk-primary" id="sk-open" href="/bonetider/skarm/visa/" target="_blank" rel="noopener">
+					<a class="pill pill--primary sk-primary" id="sk-open" href="/bonetider/skarm/visa/" target="_blank" rel="noopener">
 						Öppna skärmen
 					</a>
-					<button type="button" class="sk-secondary" id="sk-copy">Kopiera länk</button>
+					<button type="button" class="pill sk-secondary" id="sk-copy">Kopiera länk</button>
 				</div>
 				<p class="sk-url" id="sk-url"></p>
 			</aside>
@@ -505,45 +505,25 @@ const crumbs = [
 		margin-top: var(--space-unit);
 	}
 
+	/* The page's two actions are the site's pills (layout.css: `.pill`, the primary
+	   `.pill--primary`), drawn a size up because they are the page's whole point; two to
+	   one, so which of the pair is the point needs no saying. */
 	.sk-primary,
 	.sk-secondary {
-		display: flex;
-		align-items: center;
 		justify-content: center;
 		min-height: 3.25rem;
 		padding: 0 1.5rem;
-		border-radius: var(--radius-pill);
-		font-family: var(--font-heading);
 		font-size: var(--step-0);
 		font-weight: 600;
 		text-align: center;
-		text-decoration: none;
-		cursor: pointer;
 	}
 
-	/* Two to one, so which of the pair is the point needs no saying. */
 	.sk-primary {
 		flex: 2 1 12rem;
-		border: 1px solid var(--color-text);
-		background: var(--color-text);
-		color: var(--color-bg);
-		letter-spacing: 0.01em;
-	}
-
-	.sk-primary:hover {
-		background: var(--color-muted);
-		border-color: var(--color-muted);
 	}
 
 	.sk-secondary {
 		flex: 1 1 9rem;
-		border: 1px solid var(--color-warm);
-		background: transparent;
-		color: var(--color-text);
-	}
-
-	.sk-secondary:hover {
-		border-color: var(--color-text);
 	}
 
 	/* The link itself, for a television that cannot be cast to. A control's distance under

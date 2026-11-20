@@ -295,13 +295,15 @@
 	   rows only, so the eye can track across a wide row without the table becoming a grid
 	   of boxes. */
 	.chart-table thead th {
+		font-size: var(--step--3);
 		font-weight: 600;
-		color: var(--color-text);
+		/* The heads in the meta ink, as every table of figures sets them (.data-table). */
+		color: var(--color-muted);
 		border-bottom: var(--border-row);
 	}
 
 	.chart-table tbody tr + tr > * {
-		border-top: 1px solid color-mix(in srgb, var(--color-divider), transparent 55%);
+		border-top: var(--border-row-faint);
 	}
 
 	.chart-table tbody th {

@@ -91,7 +91,7 @@ const description =
 				<div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-language="sv"></div>
 
 				<div class="ratta-actions">
-					<button type="submit" class="ratta-submit">Skicka förslaget</button>
+					<button type="submit" class="pill pill--primary ratta-submit">Skicka förslaget</button>
 					<p class="ratta-status" id="ratta-status" role="status" aria-live="polite"></p>
 				</div>
 			</form>
@@ -362,29 +362,6 @@ const description =
 
 	/* The form's one action, on the pill's own numbers in solid ink. It stood at 41px and
 	   a regular weight, under the 44px a principal control takes (DESIGN.md). */
-	.ratta-submit {
-		min-height: var(--tap-target);
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
-		font-weight: 500;
-		letter-spacing: 0.01em;
-		color: var(--color-bg);
-		background: var(--color-text);
-		border: 1px solid var(--color-text);
-		border-radius: var(--radius-pill);
-		padding-inline: 1.4rem;
-		cursor: pointer;
-	}
-
-	.ratta-submit:hover {
-		background: var(--color-muted);
-		border-color: var(--color-muted);
-	}
-
-	.ratta-submit[disabled] {
-		opacity: 0.55;
-		cursor: progress;
-	}
 
 	.ratta-status {
 		font-family: var(--font-body);
