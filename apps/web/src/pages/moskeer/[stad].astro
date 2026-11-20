@@ -3,7 +3,7 @@ import { getImage } from "astro:assets";
 import DefinitionList from "../../components/DefinitionList.astro";
 import MosqueList from "../../components/moskeer/MosqueList.astro";
 import MosqueHero from "../../components/moskeer/MosqueHero.astro";
-import MosquePageHeader from "../../components/moskeer/MosquePageHeader.astro";
+import PageHead from "../../components/PageHead.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import LinkList from "../../components/LinkList.astro";
 import SectionLink from "../../components/SectionLink.astro";
@@ -262,14 +262,10 @@ const crumbs = [
 	]}
 >
 	<main id="main" class="home moskeer-stad">
-		<MosquePageHeader
-			crumbs={crumbs}
-			title={`${n === 1 ? "Moské" : "Moskéer"} i ${city}`}
-			meta={`${lanLabel} · ${pluralMoske(n)}`}
-			lead={lead}
-			updatedDate={MOSKEER_DATA_DATE}
-			updatedLabel={updated}
-		/>
+		<PageHead title={`${n === 1 ? "Moské" : "Moskéer"} i ${city}`} crumbs={crumbs}>
+			<Fragment slot="meta">{`${lanLabel} · ${pluralMoske(n)}`} · Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time></Fragment>
+			{lead}
+		</PageHead>
 
 
 		<div class:list={["mk-stad-top", photo && "mk-stad-top--foto"]}>

@@ -8,7 +8,7 @@ import OpinionBar from "../../components/ai-barometern/OpinionBar.astro";
 import PrevNext from "../../components/PrevNext.astro";
 import TrendMultiples from "../../components/ai-barometern/TrendMultiples.astro";
 import TwinCompare from "../../components/ai-barometern/TwinCompare.astro";
-import Breadcrumb from "../../components/Breadcrumb.astro";
+import PageHead from "../../components/PageHead.astro";
 import LinkList from "../../components/LinkList.astro";
 import WithHonorifics from "../../components/WithHonorifics.astro";
 import TitledSection from "../../components/TitledSection.astro";
@@ -165,23 +165,34 @@ const siblings = questions.filter((q) => q.theme === question.theme && q.id !== 
 	jsonLd={[breadcrumbList(crumbs)]}
 >
 	<main id="main" class="home home--text abm abm-question">
-		<header class="abm-head">
-			<Breadcrumb items={crumbs} />
-			<Kicker form="quiet">AI-barometern · {THEME_LABELS[question.theme]}</Kicker>
-			<h1>{heading}</h1>
-			{summary && <p class="abm-dek">{summary}</p>}
-			<p class:list={[summary ? "abm-dek-note" : "abm-dek"]}>
-				{dek}
-				{
-					question.classicalNote && (
+		{/* The answer in words leads the opening when there is one; the line on how the
+		    models were asked then steps down under it. */}
+		<PageHead title={heading} crumbs={crumbs} kicker={`AI-barometern · ${THEME_LABELS[question.theme]}`}>
+			{summary ? (
+				summary
+			) : (
+				<>
+					{dek}
+					{question.classicalNote && (
 						<>
 							{" "}
 							<a href="#klassisk-hallning">Den klassiska hållningen</a> står sist på sidan.
 						</>
-					)
-				}
-			</p>
-		</header>
+					)}
+				</>
+			)}
+			{summary && (
+				<p class="abm-dek-note" slot="efter">
+					{dek}
+					{question.classicalNote && (
+						<>
+							{" "}
+							<a href="#klassisk-hallning">Den klassiska hållningen</a> står sist på sidan.
+						</>
+					)}
+				</p>
+			)}
+		</PageHead>
 
 		{
 			run && isScale && (

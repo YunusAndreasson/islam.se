@@ -5,7 +5,7 @@ import ModelLogo from "../../../components/ai-barometern/ModelLogo.astro";
 import PrevNext from "../../../components/PrevNext.astro";
 import ScaleLegend from "../../../components/ai-barometern/ScaleLegend.astro";
 import StanceShare from "../../../components/ai-barometern/StanceShare.astro";
-import Breadcrumb from "../../../components/Breadcrumb.astro";
+import PageHead from "../../../components/PageHead.astro";
 import TitledSection from "../../../components/TitledSection.astro";
 import Base from "../../../layouts/Base.astro";
 import { FAMILIES } from "../../../lib/ai-barometern/families";
@@ -98,23 +98,19 @@ const description = `Så svarar ${family.label} (${name}) i AI-barometern: hur o
 	jsonLd={[breadcrumbList(crumbs)]}
 >
 	<main id="main" class="home abm abm-question abm-modelpage">
-		<header class="abm-head">
-			<Breadcrumb items={crumbs} />
-			<Kicker form="quiet">AI-barometern · Modell</Kicker>
-			<h1>
-				<span class="abm-rowmodel">
-					<ModelLogo family={family.key} />
-					{family.label}
-				</span>
-			</h1>
-			{summary && <p class="abm-dek">{summary}</p>}
-			<p class="abm-dek-note">
+		<PageHead crumbs={crumbs} kicker="AI-barometern · Modell">
+			<span class="abm-rowmodel" slot="title">
+				<ModelLogo family={family.key} />
+				{family.label}
+			</span>
+			{summary}
+			<p class="abm-dek-note" slot="efter">
 				{name} från {family.maker}
 				{current && `, i barometern sedan ${svDate(current.adoptedAt)}`}
 				{current?.knowledgeCutoff && `, kunskapsgräns ${svDate(current.knowledgeCutoff)}`}. Svaren är
 				modellens egna och återges som de lämnades.
 			</p>
-		</header>
+		</PageHead>
 
 		{
 			share && (

@@ -114,10 +114,8 @@ const pipelineSteps: readonly PipelineStep[] = [
 		]),
 	]}
 >
-	<Fragment slot="header">
-		<p class="lead lead--page">
-			Så väljer vi källor, granskar texterna och rättar fel på islam.se.
-		</p>
+	<Fragment slot="lead">
+		Så väljer vi källor, granskar texterna och rättar fel på islam.se.
 	</Fragment>
 
 		{/* Utgivningsruta. Facts only — nothing asserted the site can't show. */}
@@ -304,17 +302,6 @@ const pipelineSteps: readonly PipelineStep[] = [
 		content: "→";
 		position: absolute;
 		left: 0;
-	}
-
-	/* Editorial prose, not book prose — no first-line indents, even paragraph rhythm. */
-	.redaktion-prose > :global(p) {
-		text-indent: 0;
-		margin-bottom: var(--space-unit);
-	}
-
-	.redaktion-prose > :global(h2) {
-		font-size: var(--step-1);
-		margin-top: var(--space-phi);
 	}
 
 </style>

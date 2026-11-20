@@ -1,7 +1,7 @@
 ---
 import DefinitionList from "../../../components/DefinitionList.astro";
 import MosqueList from "../../../components/moskeer/MosqueList.astro";
-import MosquePageHeader from "../../../components/moskeer/MosquePageHeader.astro";
+import PageHead from "../../../components/PageHead.astro";
 import TitledSection from "../../../components/TitledSection.astro";
 import Base from "../../../layouts/Base.astro";
 import { formatDate } from "../../../lib/articles";
@@ -96,14 +96,10 @@ const crumbs = [
 	]}
 >
 	<main id="main" class="home moskeer-lan">
-		<MosquePageHeader
-			crumbs={crumbs}
-			title={`Moskéer i ${lanLabel}`}
-			meta={`${pluralMoske(total)} · ${pluralOrt(cityCount)}`}
-			lead={lead}
-			updatedDate={MOSKEER_DATA_DATE}
-			updatedLabel={updated}
-		/>
+		<PageHead title={`Moskéer i ${lanLabel}`} crumbs={crumbs}>
+			<Fragment slot="meta">{`${pluralMoske(total)} · ${pluralOrt(cityCount)}`} · Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time></Fragment>
+			{lead}
+		</PageHead>
 
 		<div class="mk-city-groups">
 			{cityGroups.map((g) => (

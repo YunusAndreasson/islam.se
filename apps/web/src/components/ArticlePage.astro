@@ -1,6 +1,11 @@
 ---
+// The about pages (/om/, /om/redaktion/, /ai/, /integritetspolicy/, /ratta/): documents
+// on the text frame, opened by PageHead like every other page on the shell. They had a
+// frame of their own until 2026-11-20 — a centred 42rem column whose title stood 49px
+// under the mast and 296px right of its line, where every other page's stands 24px under
+// it on the frame's left edge — so following the footer's »Om islam.se« moved the page.
 import Base from "../layouts/Base.astro";
-import ArticleHeader from "./ArticleHeader.astro";
+import PageHead from "./PageHead.astro";
 
 interface Props {
 	title: string;
@@ -18,10 +23,12 @@ const { title, description, jsonLd, noindex = false } = Astro.props;
 	{...(jsonLd === undefined ? {} : { jsonLd })}
 	noindex={noindex}
 >
-	<main id="main" class="content-column">
-		<ArticleHeader title={title}>
-			<slot name="header" />
-		</ArticleHeader>
+	<main id="main" class="home home--text article-page">
+		{Astro.slots.has("lead") ? (
+			<PageHead title={title}><slot name="lead" /></PageHead>
+		) : (
+			<PageHead title={title} />
+		)}
 		<slot />
 	</main>
 </Base>

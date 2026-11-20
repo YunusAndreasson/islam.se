@@ -22,22 +22,44 @@
 // Only beside an ingress: a drawing opens a section that opens with words. A tool page
 // (Bönetider, Moskéer) opens on its tool, and there the drawing floated over the tool's
 // first button and pushed the title below where every other section's stands.
+//
+// A page further in opens the same way, with two more parts the hand-built heads of the
+// prayer, mosque and AI-barometern pages each wrote for themselves (2026-11-20): the
+// breadcrumb above the title (`crumbs`, the trail the page's JSON-LD already carries)
+// and one meta line under it (the `meta` slot: place, date, count, »senast
+// uppdaterad«). Six copies set the gap between breadcrumb and title three ways.
+import type { Crumb } from "../lib/jsonld";
 import type { RitningPar } from "../lib/ritningar";
+import Breadcrumb from "./Breadcrumb.astro";
+import Kicker from "./Kicker.astro";
 import Ritning from "./Ritning.astro";
 
 interface Props {
-	title: string;
+	/** The title as text; a page whose title carries markup (a model's logo) fills the
+	 *  `title` slot instead. */
+	title?: string;
 	ritning?: RitningPar;
+	/** The trail to this page; the last crumb is the page itself. */
+	crumbs?: Crumb[];
+	/** For a script or a section that names the page by its title. */
+	titleId?: string;
+	/** The kind of page, over its title (Kicker's quiet form), as an essay's ämne. */
+	kicker?: string;
+	kickerHref?: string;
 }
 
-const { title, ritning } = Astro.props;
+const { title, ritning, crumbs, titleId, kicker, kickerHref } = Astro.props;
 const ingress = Astro.slots.has("default");
 const efter = Astro.slots.has("efter");
+const meta = Astro.slots.has("meta");
 const medRitning = ritning !== undefined && ingress;
 ---
 
 <header class:list={["page-head", medRitning && "page-head--ritning"]}>
-	<h1 class="page-head-title">{title}</h1>
+	{crumbs && <Breadcrumb items={crumbs} />}
+	{kicker && <Kicker form="quiet" href={kickerHref} class="page-head-kicker">{kicker}</Kicker>}
+	<h1 class="page-head-title" id={titleId}>{Astro.slots.has("title") ? <slot name="title" /> : title}</h1>
+	{meta && <p class="meta-line page-head-meta"><slot name="meta" /></p>}
 	{ingress && <p class="lead lead--page"><slot /></p>}
 	{efter && <div class="page-head-efter"><slot name="efter" /></div>}
 	{
@@ -66,21 +88,48 @@ const medRitning = ritning !== undefined && ingress;
 		text-wrap: balance;
 	}
 
+	/* The kicker stands a half step over the title it names, as over an essay's. */
+	.page-head :global(.page-head-kicker) {
+		margin: 0 0 var(--space-half);
+	}
+
+	/* A meta line belongs to the title above it: tabular figures, so a date or a count
+	   that a script refreshes keeps its width. */
+	.page-head-meta {
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
 	/* A phone: the drawing beside the title, the title standing on its foot line, the
-	   words across the whole width under both. */
+	   words across the whole width under both. The breadcrumb stays above it all and
+	   carries the gap to the title, so the drawing's cell starts on the title's line. */
 	.page-head--ritning {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto;
 		grid-template-areas:
+			"stig stig"
+			"kicker kicker"
 			"titel ritning"
+			"meta meta"
 			"ingress ingress"
 			"efter efter";
 		column-gap: var(--space-unit);
 		align-items: end;
 	}
 
+	.page-head--ritning > :global(.breadcrumb) {
+		grid-area: stig;
+	}
+
+	.page-head--ritning > :global(.page-head-kicker) {
+		grid-area: kicker;
+	}
+
 	.page-head--ritning .page-head-title {
 		grid-area: titel;
+	}
+
+	.page-head--ritning .page-head-meta {
+		grid-area: meta;
 	}
 
 	.page-head--ritning :global(.lead--page) {
@@ -103,10 +152,13 @@ const medRitning = ritning !== undefined && ingress;
 		.page-head--ritning {
 			grid-template-columns: minmax(0, var(--content-width)) minmax(8rem, 1fr);
 			grid-template-areas:
+				"stig stig"
+				"kicker kicker"
 				"titel ritning"
+				"meta ritning"
 				"ingress ritning"
 				"efter ritning";
-			grid-template-rows: auto auto 1fr;
+			grid-template-rows: auto auto auto auto auto 1fr;
 			column-gap: var(--grid-gutter);
 			align-items: start;
 		}

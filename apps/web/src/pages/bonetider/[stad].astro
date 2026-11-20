@@ -1,7 +1,7 @@
 ---
 import { Settings } from "@lucide/astro";
 import AppPromo from "../../components/AppPromo.astro";
-import Breadcrumb from "../../components/Breadcrumb.astro";
+import PageHead from "../../components/PageHead.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import LinkList from "../../components/LinkList.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
@@ -379,23 +379,23 @@ if (hasScb) {
 	]}
 >
 	<main id="main" class="home bonetider-stad">
-		<header class="bt-stad-header">
-			<Breadcrumb items={crumbs} />
-			{/* `titlePlace`, not `place.name`: 150 pages shared an H1 with the town that owns
-			    the bare slug (two "Bönetider i Alvik"), while their titles already differed. */}
-			{/* »i dag« in the page's own words, as Språkrådet writes it and as the FAQ answer
-			    already did; the <title> and meta description keep »idag«, the spelling the
-			    query is typed in (»bönetider stockholm idag«), where a mismatch costs the
-			    search result rather than the reader. */}
-			<h1 id="bt-city-title">Bönetider i {titlePlace} i dag</h1>
+		{/* `titlePlace`, not `place.name`: 150 pages shared an H1 with the town that owns
+		    the bare slug (two "Bönetider i Alvik"), while their titles already differed.
+		    »i dag« in the page's own words, as Språkrådet writes it and as the FAQ answer
+		    already did; the <title> and meta description keep »idag«, the spelling the
+		    query is typed in (»bönetider stockholm idag«), where a mismatch costs the
+		    search result rather than the reader. */}
+		<PageHead title={`Bönetider i ${titlePlace} i dag`} titleId="bt-city-title" crumbs={crumbs}>
 			{/* One meta line — the hub's caption device. It replaced a county line and a
 			    separate date line that between them said the same thing in three blocks. */}
-			<p class="meta-line bt-stad-when">
-				{place.county && <>{place.county}<span aria-hidden="true"> · </span></>}
-				<time datetime={todayIso} class="bt-today-date">{todayLabel}</time>
-				<span aria-hidden="true"> · </span><span class="bt-today-hijri">{hijriToday}</span>
-			</p>
-		</header>
+			<Fragment slot="meta">
+				<span class="bt-stad-when">
+					{place.county && <>{place.county}<span aria-hidden="true"> · </span></>}
+					<time datetime={todayIso} class="bt-today-date">{todayLabel}</time>
+					<span aria-hidden="true"> · </span><span class="bt-today-hijri">{hijriToday}</span>
+				</span>
+			</Fragment>
+		</PageHead>
 
 		{/* The map leads (PrayerField mapFirst) because it is what this page argues: the
 		    times come from the sun over this spot, not from a table. The six times are
@@ -633,17 +633,8 @@ if (hasScb) {
 
 	.bt-stad-idag { margin-top: 1.25rem; }
 
-	.bt-stad-header h1 {
-		margin: var(--space-half) 0 0;
-	}
-
 	/* Which place, which day, which hijri date — one line where three blocks used to
-	   stand between the H1 and the first prayer time. */
-	.bt-stad-when {
-		font-variant-numeric: lining-nums tabular-nums;
-		margin: var(--space-half) 0 0;
-	}
-
+	   stand between the H1 and the first prayer time (PageHead's meta line). */
 	/* Only the weekday takes a capital. `capitalize` here also hit the month, and
 	   Swedish months are lower case: "Mandag 7 September 2026". */
 	.bt-stad-when time { color: var(--color-text); }

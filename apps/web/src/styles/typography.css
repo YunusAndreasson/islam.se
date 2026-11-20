@@ -781,9 +781,13 @@
 			word-break: break-all;
 		}
 
-		.content-column {
+		.page-centred {
 			max-width: none;
 			padding: 0;
+		}
+
+		.article-page > * {
+			max-width: none;
 		}
 
 		.footnotes,

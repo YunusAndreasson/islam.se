@@ -615,8 +615,9 @@
 }
 
 @layer layout {
-	/* Content column — centered, constrained measure (reading + utility pages) */
-	.content-column {
+	/* THE ONE CENTRED PAGE: the 404, set on its own axis with its drawing above the words
+	   (DESIGN.md, »The Drawings«, rule 3). Every other page stands on the mast's frame. */
+	.page-centred {
 		max-width: var(--content-width);
 		margin-inline: auto;
 		padding-left: var(--safe-left);
@@ -657,6 +658,13 @@
 	   margin beside it. */
 	.home.home--text {
 		max-width: var(--reading-frame);
+	}
+
+	/* The about pages (ArticlePage) are documents: what stands under the opening holds
+	   the measure, as an answer's prose does; only what is many takes the frame (/om/'s
+	   two promotions, on its halves). */
+	.article-page > :where(:not(.page-head, .home-promotions)) {
+		max-width: var(--content-width);
 	}
 
 	/* ============================================================

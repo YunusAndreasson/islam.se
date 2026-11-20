@@ -1,5 +1,5 @@
 ---
-import Breadcrumb from "../../components/Breadcrumb.astro";
+import PageHead from "../../components/PageHead.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
@@ -150,14 +150,10 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 	]}
 >
 	<main id="main" class="home home--text abm abm-method">
-		<header class="abm-head">
-			<Breadcrumb items={crumbs} />
-			<h1>Så går mätningen till</h1>
-			<p class="abm-dek">
-				AI-barometern ställer samma frågor till fem AI-modeller, på samma sätt varje gång, och
-				sparar varje svar. Här står exakt hur det går till och vad resultatet inte kan säga.
-			</p>
-		</header>
+		<PageHead title="Så går mätningen till" crumbs={crumbs}>
+			AI-barometern ställer samma frågor till fem AI-modeller, på samma sätt varje gång, och
+			sparar varje svar. Här står exakt hur det går till och vad resultatet inte kan säga.
+		</PageHead>
 
 		<TitledSection id="fragan" title="Så ställs frågorna">
 			<p>

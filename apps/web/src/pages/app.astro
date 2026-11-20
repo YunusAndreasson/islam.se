@@ -4,6 +4,7 @@ import appKarta from "../assets/app/app-karta.png";
 import appQibla from "../assets/app/app-qibla.png";
 import appTider from "../assets/app/app-tider.png";
 import AppPromo from "../components/AppPromo.astro";
+import PageHead from "../components/PageHead.astro";
 import Base from "../layouts/Base.astro";
 import { APP_FEATURES, APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
 import { ORG_ID, breadcrumbList, webPageJsonLd } from "../lib/jsonld";
@@ -71,14 +72,11 @@ const shots = [
 	]}
 >
 	<main id="main" class="home app-page">
-		<header class="app-header">
-			<h1>islam.se i mobilen</h1>
-			<p class="app-lead">
-				Samma tider som här på webbplatsen, fast i telefonen: en påminnelse före varje bön, nästa bön
-				på hemskärmen och en kompass mot Kaba. Uträkningen sker i appen, så tiderna finns även
-				utan uppkoppling. Den kostar ingenting och visar inga annonser.
-			</p>
-		</header>
+		<PageHead title="islam.se i mobilen">
+			Samma tider som här på webbplatsen, fast i telefonen: en påminnelse före varje bön, nästa bön
+			på hemskärmen och en kompass mot Kaba. Uträkningen sker i appen, så tiderna finns även
+			utan uppkoppling. Den kostar ingenting och visar inga annonser.
+		</PageHead>
 
 		<section class="app-shots" aria-label="Skärmbilder ur appen">
 			{shots.map((s) => (
@@ -122,7 +120,7 @@ const shots = [
 			align-items: start;
 		}
 
-		.app-header,
+		.app-page > :global(.page-head),
 		.app-page > :global(.apppromo),
 		.app-note {
 			grid-column: 1;
@@ -135,14 +133,6 @@ const shots = [
 			gap: var(--space-group);
 			margin-block: var(--space-half) 0;
 		}
-	}
-
-	.app-header {
-		max-width: var(--content-width);
-	}
-
-	.app-header h1 {
-		margin: 0;
 	}
 
 	/* Screenshot preview — three phone captures, centred on wide screens and a
@@ -220,15 +210,6 @@ const shots = [
 			width: 58vw;
 			scroll-snap-align: center;
 		}
-	}
-
-	.app-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
 	}
 
 	.app-note {

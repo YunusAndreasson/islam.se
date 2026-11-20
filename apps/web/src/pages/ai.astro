@@ -88,15 +88,6 @@ const claudeCodeCommand = "claude mcp add -s user --transport http islam-se http
 </ArticlePage>
 
 <style>
-	/* Disable book-style paragraph indentation — this is technical prose */
-	.ai-prose > :global(p + p:not([class])) {
-		text-indent: 0;
-	}
-
-	.ai-prose > :global(p:has(+ p)) {
-		margin-bottom: var(--space-unit);
-	}
-
 	/* Tool list — definition list */
 	.tool-list {
 		margin-block: var(--space-unit);
