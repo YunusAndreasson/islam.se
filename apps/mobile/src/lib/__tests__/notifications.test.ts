@@ -298,6 +298,12 @@ describe('syncPrayerNotifications lead time', () => {
   });
 
   it('waits for successful siblings of a rejected batch and cancels them when superseded', async () => {
+    // ⚠️ PINNED TO A MORNING. The three requests below have to share ONE batch, and a batch is
+    // one day's alerts still ahead of `now`. On the real clock, from mid-afternoon on, today
+    // has fewer than three left: the rejected second request then ends the sync before a
+    // third exists, `started` never resolves, and the test hangs until jest's timeout. It did
+    // exactly that from about 13:00 Stockholm time on an unchanged commit (2026-11-21).
+    jest.useFakeTimers({ now: PINNED_NOW, doNotFake: [...REAL_TIMER_APIS] });
     const pending = new Set<string>();
     let nextId = 0;
     let releaseLate!: () => void;
@@ -329,6 +335,7 @@ describe('syncPrayerNotifications lead time', () => {
       expect(await AsyncStorage.getItem('prayerNotificationIds:v1')).toBeNull();
     } finally {
       cancel.mockImplementation(async () => undefined);
+      jest.useRealTimers();
     }
   });
 
