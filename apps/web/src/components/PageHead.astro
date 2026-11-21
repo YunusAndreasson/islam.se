@@ -10,7 +10,8 @@
 // A section may open with its drawing from the site's series (lib/ritningar.ts). Its
 // size is the opening's, not a box of its own: from the title's top line to the last
 // line of the opening's words (the ingress, and whatever the page adds under it in the
-// `efter` slot — /vad-ar-islam/'s verse), in the column beyond the measure, flush with
+// `efter` slot — /ai-barometern/'s measurement line — unless the page sets `efterUnder`,
+// as /vad-ar-islam/ does for its verse), in the column beyond the measure, flush with
 // the canvas's edge the content below ends on, and never under 7rem. Drawing and words
 // then share their top and bottom lines and read as one unit, a short opening gets a
 // small drawing and a long one a large one. A fixed 11rem made the drawing outweigh a
@@ -46,16 +47,21 @@ interface Props {
 	/** The kind of page, over its title (Kicker's quiet form), as an essay's ämne. */
 	kicker?: string;
 	kickerHref?: string;
+	/** The `efter` words stand under the drawing instead of beside it, so the drawing is as
+	 *  tall as the title and the ingress only. /vad-ar-islam/'s verse: counted in, the Quran
+	 *  on its stand grew to 400px, twice any other opening's drawing, beside the verse itself
+	 *  (2026-11-21). AI-barometern's measurement line stays beside its drawing. */
+	efterUnder?: boolean;
 }
 
-const { title, ritning, crumbs, titleId, kicker, kickerHref } = Astro.props;
+const { title, ritning, crumbs, titleId, kicker, kickerHref, efterUnder = false } = Astro.props;
 const ingress = Astro.slots.has("default");
 const efter = Astro.slots.has("efter");
 const meta = Astro.slots.has("meta");
 const medRitning = ritning !== undefined && ingress;
 ---
 
-<header class:list={["page-head", medRitning && "page-head--ritning"]}>
+<header class:list={["page-head", medRitning && "page-head--ritning", medRitning && efterUnder && "page-head--efter-under"]}>
 	{crumbs && <Breadcrumb items={crumbs} />}
 	{kicker && <Kicker form="quiet" href={kickerHref} class="page-head-kicker">{kicker}</Kicker>}
 	<h1 class="page-head-title" id={titleId}>{Astro.slots.has("title") ? <slot name="title" /> : title}</h1>
@@ -65,13 +71,16 @@ const medRitning = ritning !== undefined && ingress;
 	{
 		medRitning && (
 			<div class="page-head-ritning">
-				{/* `sizes`: the column, the most the drawing can be painted at. */}
+				{/* `sizes`: the column, the most the drawing can be painted at. On a phone the
+				    box is 6.5rem wide at most: the objects drawn 2026-11-21 run wider than the
+				    landscapes before them (up to 2:1), and at 7.5rem the laptop and barometer
+				    took the last 16px »AI-barometern« needed and split it at its hyphen at 390. */}
 				<Ritning
 					{...ritning}
 					fyll
 					hojd={[4.5, 18]}
-					bredd={[7.5, 28]}
-					sizes="(min-width: 79rem) 31rem, (min-width: 48rem) calc(100vw - 49rem), 7.5rem"
+					bredd={[6.5, 28]}
+					sizes="(min-width: 79rem) 31rem, (min-width: 48rem) calc(100vw - 49rem), 6.5rem"
 				/>
 			</div>
 		)
@@ -167,6 +176,20 @@ const medRitning = ritning !== undefined && ingress;
 			position: relative;
 			align-self: stretch;
 			min-block-size: 7rem;
+		}
+
+		/* The `efter` words under the drawing, in the measure, the column beside them left
+		   open: the drawing spans the title and the ingress, and the ingress row takes any
+		   height its 7rem floor adds. */
+		.page-head--efter-under {
+			grid-template-areas:
+				"stig stig"
+				"kicker kicker"
+				"titel ritning"
+				"meta ritning"
+				"ingress ritning"
+				"efter .";
+			grid-template-rows: auto auto auto auto 1fr auto;
 		}
 	}
 </style>

@@ -12,7 +12,7 @@
 // drawing's own ground equals the ground under it (a mismatch shows as a square); the
 // painted drawing's box; and the first and last line of the words in the same grid, so
 // »as tall as its words« and the line it stands on can be read straight off.
-import { mkdirSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { homedir } from "node:os";
 
 const PW = process.env.PLAYWRIGHT ?? "/home/yunus/Work/zuhd.news/node_modules/playwright/index.mjs";
@@ -26,7 +26,11 @@ if (!pages.length) {
 }
 mkdirSync(OUT, { recursive: true });
 
-const b = await chromium.launch();
+// The system Chromium when there is one: Playwright's own headless shell goes missing
+// whenever the sibling checkout updates Playwright without downloading its browsers.
+const CHROMIUM =
+	process.env.CHROMIUM ?? (existsSync("/usr/bin/chromium") ? "/usr/bin/chromium" : undefined);
+const b = await chromium.launch(CHROMIUM ? { executablePath: CHROMIUM } : {});
 for (const theme of ["light", "dark"])
 	for (const w of [1440, 390]) {
 		const ctx = await b.newContext({

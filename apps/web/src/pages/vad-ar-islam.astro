@@ -91,12 +91,14 @@ const jsonLd = [
 >
 	<main id="main" class="pillar-page home">
 		<article>
-			{/* The opening is the title, the ingress and the verse, so the verse goes in
-			    PageHead's `efter` slot: the section's drawing — the Quran on its stand, the
-			    same as its movement's on the front page (Grunden) — is then as tall as all
-			    three, beside them, where a third of the page stood empty (user review,
-			    2026-09-26). */}
-			<PageHead title="Tro och lära" ritning={RITNINGAR.grunden}>
+			{/* The opening is the title, the ingress and the verse; the verse goes in
+			    PageHead's `efter` slot, under the drawing (`efterUnder`). The drawing — the
+			    Quran on its stand, the same as its movement's on the front page (Grunden) —
+			    stands beside the title and the ingress only. Beside all three it was as tall
+			    as the room scene before it filled well (2026-09-26), but as one object it grew
+			    to 400px, twice any other opening's drawing, and a drawn mushaf outweighed the
+			    verse itself beside it (2026-11-21). */}
+			<PageHead title="Tro och lära" ritning={RITNINGAR.grunden} efterUnder>
 				Islam betyder <strong>underkastelse under Guds vilja</strong>. Religionen förkunnades på
 				600-talet genom profeten Muhammed{" "}
 				<Honorific />{" "}

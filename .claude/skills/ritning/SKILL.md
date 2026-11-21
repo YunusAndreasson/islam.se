@@ -1,30 +1,34 @@
 ---
 name: ritning
-description: Make a new drawing in islam.se's own series — an engraved vignette after Bewick's tailpieces and Swedish book xylography, in the type's own ink with one flat brass tint, drawn as a pair (ink on white for the light theme, a white-line engraving on black for the dark) — and place it on the site by the rules in DESIGN.md »The Drawings«. Covers choosing the place and whether a drawing belongs there at all, the motif and its one brass thing, generating with Codex's image tool, processing, registering in lib/ritningar.ts, placing with <Ritning>, and measuring that it stands on its lines in both themes. Use when asked for "en illustration", "en ritning", "en teckning", "en bild till sidan/sektionen", "illustrera X", "rita något till …", or to replace or redo one of the existing drawings. Not for essay, essäserie or fördjupning photographs (feature-image), and not for charts in a text (article-charts).
+description: Make a new drawing in islam.se's own series — an engraved object vignette (one thing that is its section, standing alone on a short strip of hatched ground, as the front page's closing band draws them) in the type's own ink with one flat brass tint, drawn as a pair (ink on white for the light theme, a white-line engraving on black for the dark) — and place it on the site by the rules in DESIGN.md »The Drawings«. Covers choosing the place and whether a drawing belongs there at all, the motif and its one brass thing, generating with Codex's image tool, processing, registering in lib/ritningar.ts, placing with <Ritning>, and measuring that it stands on its lines in both themes. Use when asked for "en illustration", "en ritning", "en teckning", "en bild till sidan/sektionen", "illustrera X", "rita något till …", or to replace or redo one of the existing drawings. Not for essay, essäserie or fördjupning photographs (feature-image), and not for charts in a text (article-charts).
 ---
 
 # Ritningar — the site's own drawings
 
 The essays and the fördjupningar carry photographs; the site's own sections speak through
-a series of engraved vignettes in one hand. The series began 2026-09-26 in graphite and
-was redrawn as engraving on 2026-11-07 (why: DESIGN.md »The Drawings«); the user shaped
-every rule in it by review, so the rules below are decisions, not taste:
+a series of engraved vignettes in one hand. The series began 2026-09-26 in graphite, was
+redrawn as engraved scenes on 2026-11-07, and on 2026-11-21 every opening was redrawn as
+one object, after the front page's closing band, which the user held up as the model (why:
+DESIGN.md »The Drawings«). The user shaped every rule in it by review, so the rules below
+are decisions, not taste:
 
-- **One hand:** wood engraving in the manner of Thomas Bewick's tailpieces and Swedish book
-  xylography — crisp lines of even weight, tone in fine parallel lines, clean white
-  lights, each scene dissolving into the paper in a soft oval — in the type's own ink, and
-  **one** flat brass tint under the lines for the one thing that is gold (the keystone,
-  the key, the new crescent, the lamp's flame).
-- **Drawn for its size:** shown 130–230px tall. Engraved tone covers at most half the
-  vignette; skies, walls and table tops stay white. Mean ink inside the series' band.
+- **One hand:** wood engraving in the manner of 19th-century book and catalogue xylography
+  — crisp lines of even weight, tone in fine parallel lines, clean white lights — in the
+  type's own ink, and **one** flat brass tint under the lines for the one thing that is
+  gold (the card's tab, the pencil, the new crescent, the barometer's needle).
+- **One object:** the thing that is the section, seen whole and standing alone on a short
+  strip of hatched ground with its shadow: headphones for the podcast, a card drawer for
+  the answers, a telescope turned to the new crescent for the islamic year. No scenery, no
+  room, no landscape around it, and never a metaphor that needs its caption (the farmhouse
+  door whose key was the answer is what the user turned away from).
+- **Drawn for its size:** shown 110–230px tall. Engraved tone covers at most half the
+  object; large surfaces stay white. Mean ink inside the series' band.
 - **Two papers, no frame:** each drawing exists twice, `<namn>.webp` (ink on white) and
   `<namn>-mork.webp` (the same vignette as a white-line engraving on black, made as an
   edit of the light one). `Ritning.astro` multiplies the white paper into its ground and
   screens the black one, so the drawing lies straight on the page in both themes.
-- **What may be drawn:** things, buildings, landscape, plants. **Never people, never
-  animals** — the classical position the site takes on drawn images of living beings.
-  Bewick's own tailpieces are full of figures and animals; the style is the reference,
-  never the subjects.
+- **What may be drawn:** things and buildings, as they are used today. **Never people,
+  never animals** — the classical position the site takes on drawn images of living beings.
 
 Read `DESIGN.md` »The Drawings« (the contract) and `apps/web/src/assets/ritningar/README.md`
 (how the pixels are made) before placing one. `apps/web/src/lib/ritningar.ts` lists every
@@ -43,7 +47,7 @@ motif, because the place sets the format.
 
 | Place | Rule | Format |
 |---|---|---|
-| **A section opening** — a hub's `PageHead`, a section's prose page, a front-page movement's head | Beside the ingress, in the column beyond the measure, **exactly as tall as the opening** (title's top line → the last line of its words), never under 7rem. Flush with the frame's right edge — or, in a movement built on its own grid, on that grid's line (Grunden: its third line). | **liggande** (3:2) — the space beside an opening is wider than tall |
+| **A section opening** — a hub's `PageHead`, a section's prose page, a front-page movement's head | Beside the ingress, in the column beyond the measure, **exactly as tall as the opening** (title's top line → the last line of its words), never under 7rem. Flush with the frame's right edge — or, in a movement built on its own grid, on that grid's line (Grunden: its third line). | **liggande** (3:2) — the space beside an opening is wider than tall; draw the object lying, or as a pair, where it can be. On a phone the box is 6.5rem wide at most, so a 2:1 object comes out short there |
 | **Beside words in a band** (the podcast and app band, the barometer's introduction) | A 10rem column, flush right, the words starting on x 295 at 1440. A matched pair shares one 10rem box; a drawing alone is as tall as its words. | **staende** or **kvadrat** |
 | **A centred page** (404) | On the page's axis, above the words. | **kvadrat** |
 
@@ -59,31 +63,37 @@ motif, because the place sets the format.
 
 Size is never a free choice: it follows the words (visual hierarchy, common region). A
 short opening gets a small drawing, a long one a large one. Proportion follows the place:
-an upright object at an opening leaves an empty field beside it — make a landscape
-composition instead (the hub's barometer stands beside a window; the upright one lives in
-the front page's narrow column).
+an opening's object is drawn wide where it can be (the laptop with its barometer beside it,
+the magnifying glass lying on its book); a tall one (the telescope, the sundial) comes out
+near square, which the column holds. Check a wide one on a phone: it takes room from the
+title beside it.
 
 ## The motif
 
-- Say what the section **is**, as a thing in a Swedish room or landscape: a window at
-  first light with a prayer rug (prayer times), the new crescent over a lake shore (the
-  islamic year), a writing desk with an oil lamp (thinkers), a gravel road with old
-  milestones along it, the nearest milestone tinted brass (themes), the Quran on its wooden stand (the pillars and faith).
+- Say what the section **is**, as one thing in use today: a notebook with a pencil and a
+  cup of coffee (essays), a card drawer with one card raised (answers), a magnifying glass
+  on an open book (fördjupning), volumes between bookends (essay series), reading glasses
+  on a book (thinkers), a telescope turned to the new crescent (the islamic year), a
+  laptop with a barometer (AI-barometern), a garden sundial (how the prayer times are
+  calculated), an open compass (404), the Quran on its stand (the pillars and faith).
+  Offer two or three objects per place and let the user choose on a review page that
+  shows each one swapped into the real opening.
 - **One brass thing**, named in the prompt, and it should be the point of the drawing.
   Keep it **small** and **flat, under the engraved lines**: a hub opening shows the
   drawing at ~110px, and a brass area that is large on the sheet is all the eye sees
-  there. The themes' road was ochre along its whole length and the user judged it »för
-  mycket gult« (2026-10-04); in the engraving a milestone drawn as a solid brass slab read
-  as a sticker, and was fixed as an edit of the cell (brass under the stone's lines).
+  there. A road in ochre along its whole length was »för mycket gult« (2026-10-04); a
+  milestone and then a sundial's gnomon drawn as a solid brass slab read as stickers, and
+  were fixed as edits of the cell (engraved lines laid over the brass).
 - **No text, no letters, no imitation Arabic.** A mushaf's lines are suggested by soft
-  hatching only — generated pseudo-script on a Quran page would be disrespectful.
-- **Don't repeat a motif** already in `lib/ritningar.ts` (two lake windows is one too many
-  unless there is a reason).
+  hatching only — generated pseudo-script on a Quran page would be disrespectful. Zoom on
+  plinths, labels and headpieces: a sundial's plinth came with a row of letter-like marks.
+- **Don't repeat a motif** already in `lib/ritningar.ts` (the band already has a closed
+  book and an open one under headphones; a third book needs a reason).
 
 Write the motif file — two lines:
 
 ```text
-Subject: an open Quran resting on a carved wooden folding stand (rahle) on a low wooden table, seen in a gentle three-quarter view, the edge of a small-paned window behind. The lines of the pages are only suggested by soft, even, horizontal strokes — no letters, no legible or imitation Arabic or any other script.
+Subject: an open Quran resting on a carved wooden folding stand (rahle), seen whole in a gentle three-quarter view, the stand standing on a short strip of hatched floor with its cast shadow — no table, no window, no room. The lines of the pages are only suggested by soft, even, horizontal strokes — no letters, no legible or imitation Arabic or any other script.
 The only brass: the small ornamental headpiece at the top of the right-hand page.
 ```
 
@@ -91,8 +101,8 @@ The only brass: the small ornamental headpiece at the top of the right-hand page
 
 The machine may be busy (the user runs heavy jobs): two variants in parallel is the
 default, and every other step runs one at a time. Each call attaches a sheet of the
-series (`_ref/gravyr-ark.png`, built from four of the repo's drawings) so the new one is
-cut in the same hand. **Redrawing several at once?** Draw them four to a sheet in one call
+series (`_ref/foremal-ark.png`, built from the closing band's four drawings) so the new one
+is cut in the same hand. **Redrawing several at once?** Draw them four to a sheet in one call
 instead (the README's brief, step 1): four drawn together share one hand.
 
 ```bash
@@ -109,14 +119,13 @@ exactly«. The composition holds; a new draw loses it.
 
 **Look at every image before the next step** (Read the PNG). Reject and rerun when:
 a person or animal appears; there is text or pseudo-letters; more than one thing is brass,
-or the brass is a solid block or shiny metal; a dense hatched field stands behind an
-object, or the vignette ends in a hard straight edge; it reads as vintage clip-art; the
-paper has a frame or texture. **Judge it at its size**: `kontakt.png` also shows each
+or the brass is a solid block or shiny metal; scenery stands around the object (a room, a
+landscape, plants); it reads as vintage clip-art; the paper has a frame or texture. **Judge it at its size**: `kontakt.png` also shows each
 variant 135px tall on the page's paper, which is where the old graphite failed. For the
-dark one: the lines must carry the *light* (pages bright, a doorway and a dark screen stay
+dark one: the lines must carry the *light* (pages bright, a hollow and a dark screen stay
 dark) — a photographic negative is a reject. `spara` prints the corners (255 for the
 light file, 0 for the dark one, or the paper shows as a square on the page) and the mean
-ink, which belongs inside the series' band (9.7–18.9 % in November 2026).
+ink, which belongs inside the series' band (6.6–18.7 % for the light files, 2026-11-21).
 
 `<namn>` is a short Swedish slug (`aret`, `vilse`, `barometern-bred`); the files overwrite
 an existing pair of that name.
@@ -128,8 +137,10 @@ an existing pair of that name.
 2. Place it by its rule:
    - **A hub opening:** `<PageHead title="…" ritning={RITNINGAR.<namn>}>ingress</PageHead>`,
      or `ritning={…}` on `CollectionIndexPage`. More opening text under the ingress (a
-     verse, a measurement line) goes in the `efter` slot so the drawing counts it:
-     `<div slot="efter">…</div>`. PageHead draws only beside an ingress.
+     measurement line) goes in the `efter` slot so the drawing counts it:
+     `<div slot="efter">…</div>`. A verse goes there with `efterUnder`, under the drawing:
+     counted in, /vad-ar-islam/'s Quran stand grew to twice any other opening's drawing
+     and outweighed the verse beside it. PageHead draws only beside an ingress.
    - **Another opening** (a front-page movement's head, a prose page's header): copy
      PageHead's grid — the measure, then the drawing's column; a cell spanning the
      opening's rows with `position: relative; align-self: stretch; min-block-size: 7rem`,

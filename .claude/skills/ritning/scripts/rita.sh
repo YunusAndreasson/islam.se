@@ -12,8 +12,10 @@
 # fot:       stand the drawing on a square of its own paper, on its foot — the front page's
 #            closing band, where four drawings share one 10rem box and one foot line.
 #
-# The hand is wood engraving after Bewick's tailpieces and Swedish book xylography, in the
-# type's own ink with one flat brass tint (DESIGN.md »The Drawings«). Work files live in
+# The hand is wood engraving after 19th-century book and catalogue xylography, in the type's
+# own ink with one flat brass tint, and each drawing is one object standing alone on a short
+# strip of hatched ground, as the front page's closing band drew them (DESIGN.md »The
+# Drawings«). Work files live in
 # $RITNING_WORK (default ~/.cache/islam-se-ritningar/<namn>/, on disk: /tmp is a tmpfs that
 # fills) and are never committed. Codex's image tool runs on the user's plan; each image
 # is one call. Why each step is as it is: src/assets/ritningar/README.md.
@@ -32,19 +34,20 @@ die() { echo "rita: $*" >&2; exit 1; }
 command -v codex >/dev/null || die "codex CLI saknas"
 command -v magick >/dev/null || die "ImageMagick (magick) saknas"
 
-# The reference: a sheet of the series itself, four of the repo's drawings in a 2×2 grid,
-# light and dark. Built from the files in the repo, so it follows the series if it changes
-# (delete $REF to rebuild).
+# The reference: a sheet of the series itself, the closing band's four drawings in a 2×2
+# grid, light and dark — the ones the user held up as the model on 2026-11-21. Built from
+# the files in the repo, so it follows them if they change (delete $REF to rebuild). Each is
+# trimmed first: on disk they stand on a square of paper for the band's shared box.
 refs() {
 	mkdir -p "$REF"
 	local n
 	for v in "" "-mork"; do
-		local out=$REF/gravyr-ark$v.png bg=white
+		local out=$REF/foremal-ark$v.png bg=white
 		[ -n "$v" ] && bg=black
 		[ -s "$out" ] && continue
 		local cells=()
-		for n in essaer svar aret fordjupning; do
-			magick "$ASSETS/$n$v.webp" -resize 700x460 -background "$bg" -gravity center -extent 768x512 "$REF/_cell-$n$v.png"
+		for n in podden appen boken skarmen; do
+			magick "$ASSETS/$n$v.webp" -fuzz 2% -trim +repage -resize 640x440 -background "$bg" -gravity center -extent 768x512 "$REF/_cell-$n$v.png"
 			cells+=("$REF/_cell-$n$v.png")
 		done
 		magick \( "${cells[0]}" "${cells[1]}" +append \) \( "${cells[2]}" "${cells[3]}" +append \) -append "$out"
@@ -63,9 +66,9 @@ codex_bild() { # <prompt-file> <log> <images…>
 
 komposition() {
 	case $1 in
-		liggande) echo "LANDSCAPE 3:2, one vignette with generous white margin all around." ;;
-		kvadrat) echo "square 1:1, one vignette centred with generous white margin all around." ;;
-		staende) echo "PORTRAIT 2:3, one vignette centred with generous white margin all around." ;;
+		liggande) echo "LANDSCAPE 3:2, one object vignette with generous white margin all around; compose the object wider than it is tall where it allows it." ;;
+		kvadrat) echo "square 1:1, one object vignette centred with generous white margin all around." ;;
+		staende) echo "PORTRAIT 2:3, one object vignette centred with generous white margin all around." ;;
 		*) die "format: liggande | kvadrat | staende" ;;
 	esac
 }
@@ -107,18 +110,19 @@ ljus() { # <namn> <format> <motiv-fil> [antal]
 	{
 		echo "Create exactly one image with your image generation tool, then stop and reply with one short line."
 		echo "Use case: illustration-story"
-		echo "Input images: Image 1 is a SHEET OF THIS SERIES — match its hand exactly: the same crisp wood-engraved line of even, deliberate weight, the same fine parallel-line tone, the same clean white lights, the same soft irregular oval in which each scene dissolves into the paper, the same single flat brass accent. Do not repeat its subjects."
-		echo "Asset type: one more small engraved vignette in the same series, for a calm Swedish literary website about Islam, set in a warm serif typeface — the kind of tailpiece a fine book prints at the end of a chapter, so the picture belongs to the typography. Shown between 130 and 230 pixels tall."
-		echo "Style/medium: wood engraving in the manner of Thomas Bewick's tailpiece vignettes and 19th-century Swedish book xylography. Black ink on pure white paper. Crisp engraved lines of even weight; tone by fine parallel lines and short flicks; the lightest areas left clean white; simple, clear masses that read when small."
-		echo "Restraint (important): engraved tone covers at most about half of the vignette. Skies, walls, table tops and backgrounds are left white or carry only a few widely spaced lines — never a dense hatched field behind an object. The vignette dissolves on ALL sides into the white paper in a soft irregular oval: no straight cut edge, no rectangle, no border, no drawn oval line."
+		echo "Input images: Image 1 is a SHEET OF THIS SERIES — four engraved object vignettes (headphones on an open book, a phone, a closed book on loose sheets, a television in an entrance hall). Match its hand exactly: the same crisp wood-engraved line of even, deliberate weight, the same fine parallel-line tone, the same clean white lights, the same single flat brass accent — and above all the same way each drawing is ONE clear object (or a small group that reads as one thing) standing alone on the white paper, on a short strip of hatched ground with its soft cast shadow. Do not repeat its subjects."
+		echo "Asset type: one more small engraved object vignette in the same series, for a calm Swedish literary website about Islam, set in a warm serif typeface. Shown between 110 and 230 pixels tall beside a section's title, so it must read at a glance as the thing it is."
+		echo "Style/medium: wood engraving in the manner of 19th-century book and catalogue xylography. Black ink on pure white paper. Crisp engraved lines of even weight; tone by fine parallel lines and short flicks; the lightest areas left clean white; a clean, bold silhouette that holds when small."
+		echo "The object (important): the object seen whole, in a gentle three-quarter view at eye level, with NO setting: no landscape, no room, no wall, no window, no trees, no grass or flowers, no sky, no horizon. Under it only a short strip of hatched ground or table top with its cast shadow, fading out to the sides, exactly as in Image 1. Nothing else around it."
+		echo "Restraint: engraved tone covers at most about half of the object; large surfaces stay mostly white with a few lines; never a dense hatched field."
 		echo "Accent: exactly ONE flat muted brass-ochre (#b8862f) laid as a flat tint under the engraved lines, like a hand-coloured print, on the one small thing named below — not metallic, no shine, no highlight, no glow, no light rays, never a solid block — and nowhere else."
-		echo "Everywhere: no people, no figures, hands or faces, no animals, birds or insects. No text, letters, numbers, signature, monogram or logos; anything that would carry writing is suggested by plain even strokes only, never imitation letters or script. No paper texture, no paper edge."
+		echo "Everywhere: no people, no figures, hands or faces, no animals, birds or insects. No text, letters, numbers, signature, monogram or logos; anything that would carry writing or numerals is suggested by plain even strokes or plain tick marks only, never imitation letters or script. No paper texture, no paper edge, no border."
 		echo "Composition: $(komposition "$format")"
 		cat "$motiv"
 	} >"$dir/ljus.txt"
 	local pids=()
 	for i in $(seq 1 "$antal"); do
-		( f=$(codex_bild "$dir/ljus.txt" "$dir/ljus-$i.log" "$REF/gravyr-ark.png")
+		( f=$(codex_bild "$dir/ljus.txt" "$dir/ljus-$i.log" "$REF/foremal-ark.png")
 		  [ -n "$f" ] && magick "$f" -background white -alpha remove -alpha off "$dir/ljus-$i.png" ) &
 		pids+=($!)
 	done
@@ -147,14 +151,14 @@ mork() { # <namn> <variant>
 	{
 		echo "Create exactly one image with your image generation tool, then stop and reply with one short line."
 		echo "Use case: style-transfer"
-		echo "Input images: Image 1 is the EDIT TARGET — a wood-engraved book vignette in black ink on white paper. Image 2 is a sheet of the same series already cut as white-line engravings on black — match its translation exactly."
-		echo "Primary request: redraw Image 1 as the same vignette engraved as a WHITE-LINE engraving printed in warm white ink on pure black paper, by the same hand: the same crisp, even, deliberate engraved lines, the same restraint, the same soft irregular oval in which the scene dissolves into the paper. Keep the composition, every object, its position, size and angle as in Image 1."
-		echo "How to translate: the engraved lines now carry the LIGHT, not the shadow. Lit surfaces are fine white lines laid close; shadows are left as black paper; open doorways, shaded undersides and dark screens stay black; open pages and lit faces are the brightest things; the sky is dark and quiet. This is NOT a photographic negative."
+		echo "Input images: Image 1 is the EDIT TARGET — a wood-engraved object vignette in black ink on white paper. Image 2 is a sheet of the same series already cut as white-line engravings on black — match its translation exactly."
+		echo "Primary request: redraw Image 1 as the same vignette engraved as a WHITE-LINE engraving printed in warm white ink on pure black paper, by the same hand: the same crisp, even, deliberate engraved lines, the same restraint. Keep the composition, the object, its position, size and angle as in Image 1, standing on its short strip of hatched ground."
+		echo "How to translate: the engraved lines now carry the LIGHT, not the shadow. Lit surfaces are fine white lines laid close; shadows are left as black paper; hollows, shaded undersides and dark screens stay black; open pages and paper are the brightest things; the empty paper around the object is plain black. This is NOT a photographic negative."
 		echo "Colour: the same single flat brass-ochre tint as in Image 1, on exactly the same thing, under its lines, and nowhere else."
 		echo "Paper: pure flat black (#000000), no texture, no paper edge, no border, no glow. No people, no animals. No text, letters, numbers, signature or logos."
 		echo "Composition: $(komposition "$format" | sed 's/, one vignette.*//'), exactly as Image 1."
 	} >"$dir/mork.txt"
-	local f; f=$(codex_bild "$dir/mork.txt" "$dir/mork.log" "$dir/ljus-$v.png" "$REF/gravyr-ark-mork.png")
+	local f; f=$(codex_bild "$dir/mork.txt" "$dir/mork.log" "$dir/ljus-$v.png" "$REF/foremal-ark-mork.png")
 	[ -n "$f" ] || die "ingen mörk bild — se $dir/mork.log"
 	magick "$f" -background black -alpha remove -alpha off "$dir/mork.png"
 	# The pair as the page blends it, at the size it is shown.
@@ -178,7 +182,7 @@ spara() { # <namn> [höjd] [fot]
 			"hörn $(magick "$ASSETS/$f.webp" -crop 6x6+0+0 -format '%[fx:round(mean*255)]' info:)" \
 			"bläck $(magick "$ASSETS/$f.webp" -resize 600x600 -colorspace gray -format "%[fx:round($fx*10)/10]" info:) %"
 	done
-	echo "(hörnen ska vara 255 för ljus och 0 för mörk; bläcket i seriens band, 9.7–18.9 % i november 2026)"
+	echo "(hörnen ska vara 255 för ljus och 0 för mörk; bläcket i seriens band, 6.6–18.7 % för de ljusa filerna 2026-11-21)"
 	[ "$namn" = aret ] && echo "aret: gör om aret-tryck.jpg (README)"
 	true
 }
