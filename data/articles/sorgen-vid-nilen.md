@@ -5,8 +5,8 @@ wordCount: 2723
 qualityScore: 8.6
 description: "Två dagar före valet sades det i SVT att den muslimska invandringen kunde fälla avgörandet. Valdeltagandet steg där många muslimer bor. Den klassiska rätten frågar inte efter block utan ställer sina villkor till den enskilda väljaren, och måttet är rättvisa, inte samhörighet."
 category: "Samhälle"
-imageAlt: "En ensam person i mörk jacka står med ryggen mot kameran vid en bred, stilla flod under en grå septemberhimmel; på andra stranden ligger låga hyreshus i dis, med några tända fönster."
-imageCaption: "Den här sidan av vattnet en kväll i september. Det som avgjordes låg på den andra."
+imageAlt: "I en gymnastiksal som gjorts om till vallokal står väljare i kö till valbåsen. Längst fram står en äldre man i vit kalott med käpp och ser ned på valsedeln i sina händer."
+imageCaption: "Valdag i förorten. Det han håller i handen hade flyktingarna vid Nilen inte."
 ---
 Floden låg mellan dem och striden. På andra sidan hade kungens här mött en utmanare, en man som gjorde anspråk på riket. På den här sidan fanns en liten skara främlingar från Mecka, män och kvinnor som flytt Qurayshs förföljelse och på Profetens ﷺ inrådan tagit sig över havet till ett kristet rike. Där hade de funnit det bästa hemmet hos den bästa grannen, trygga i sin religion. Ingen hade frågat dem vem som borde sitta på tronen, och ingen skulle göra det. Umm Salama var en av dem. Hon mindes vad de kände när upproret kom:
 

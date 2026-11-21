@@ -5,8 +5,8 @@ wordCount: 4487
 qualityScore: 8.6
 description: "En natt gick profeten ﷺ ut till al-Baqīʿ och bad för dem som låg där, och han lämnade ingenting efter sig på gravarna. På allhelgona lyser kyrkogårdarna för dem som går där, men det som når de döda syns inte."
 category: "Samhälle"
-imageAlt: "Morgonen efter allhelgona på en kyrkogård: en rad utbrunna gravljus i röda och vita hållare står på frostigt grus framför låga gravstenar av granit, och en av lyktorna har vält."
-imageCaption: "Morgonen efter allhelgona. Ljusen har brunnit ut."
+imageAlt: "En äldre man i lång mörk rock står ensam med lyfta händer bland enkla gravstenar i snön en klar vinternatt i månsken. Hans fotspår leder genom snön från grinden, och mörka granar står mot stjärnhimlen."
+imageCaption: "En vinternatt utan ljus på gravarna. Det som når de döda syns inte."
 ---
 På lördag eftermiddag, den 31 oktober, sätter SL in extra tåg på gröna linjen mellan Alvik och Skogskyrkogården. Omkring 70 000 besökare väntas till begravningsplatsen under allhelgonahelgen, flest från lördagens eftermiddag och framåt, när det skymmer.[^1] Hur många ljus de kommer att tända vet ingen. Inför helgen 2018 räknade stadens kyrkogårdsförvaltning med "uppemot 100 000 ljus på gravarna", men medgav att antalet var svårt att uppskatta. Samma år varnade förvaltningen för explosionsrisk när ljusen står för tätt, "speciellt vid minneslundarna" – de platser där ingen enskild grav finns att ställa dem vid. "Många söker sig ut i mörkret för att se alla ljusen", sade avdelningschefen Pär Westin.[^2]
 

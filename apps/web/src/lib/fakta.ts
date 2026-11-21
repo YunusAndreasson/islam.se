@@ -171,6 +171,9 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
  *  for the old pictures that match (2026-10-17). The photographs now stand in the
  *  texts, beside the sentences they show: the prayer answer, the Kaaba answer and
  *  the burial fördjupning. The pillars overview has no picture of its own either.
+ *  On 2026-11-21 the two essays those cards borrowed from (Kompassnålens moské,
+ *  Vad köper du när du betalar ränta?) got new pictures, so Vallfärden, Domedagen
+ *  and the pillars overview's answer page now keep the old ones as files here.
  *
  *  The subfolder is deliberate: lib/articles.ts globs `images/*` NON-recursively
  *  for essay heroes, so FAKTA art can never collide with an essay slug — which it

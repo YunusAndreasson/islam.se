@@ -5,8 +5,8 @@ wordCount: 4949
 qualityScore: 8.6
 description: "I första kapitlet av Dune rättar en gammal kvinna ett budord om tänkande maskiner: felet är förfalskningen, inte likheten. Ibn Taymiyya var strängare än så, och Koranen har ett namn för det som Herbert egentligen varnade för."
 category: "Rättvisa"
-imageAlt: "En gammal jacquardvävstol av mörkt trä i en tom textilfabrik; från vävstolens topp hänger en lång kedja av ljusa hålkort ned och lägger sig i veck på plankgolvet. Till vänster ett halvvävt grått tyg, i bakgrunden ur fokus rader av järnvävstolar under höga fabriksfönster."
-imageCaption: "Jacquardvävstolen väver efter hålkorten, och korten har någon annan stansat."
+imageAlt: "En äldre kvinna i svart hijab och grå kofta sitter vid en jacquardvävstol av mörkt trä med händerna på väven. Ovanför henne viker sig en lång kedja av hålkort ned från vävstolens topp."
+imageCaption: "Korten styr mönstret. Handen på väven är hennes."
 audioFile: "andra-manniskor-med-maskiner.mp3"
 audioDuration: 1384
 ---

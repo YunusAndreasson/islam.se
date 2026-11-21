@@ -4,8 +4,8 @@ publishedAt: "2025-09-05T12:00:00.000Z"
 wordCount: 1159
 qualityScore: 8.9
 description: "Han hade levt ett halvt sekel bland ord. Walīd ibn al-Mughīra hade dömt dikttävlingar vid Ukaz marknad, bedömt qasidor sedan ungdomen, vägde varje stavelse med en säkerhet som Quraysh-stammens övriga hövdingar saknade och därför litade på. I frågor om poetisk rang var hans omdöme slutgiltigt."
-imageAlt: "Vasspenna och bläckhorn nedlagda bredvid ett oskrivet pappersark på ett mörkt träbord."
-imageCaption: "Domaren över dikt lade ner pennan och skrev ingenting."
+imageAlt: "Några män sitter på mattor kring en liten eld en stjärnklar natt bland mörka klippor. Till höger håller en äldre man i röd- och vitrutig huvudduk en liten kaffekopp mot munnen och lyssnar."
+imageCaption: "Natt i bergen kring Taif. Kaffet kallnar medan han lyssnar."
 category: "Koranen"
 ---
 Han hade levt ett halvt sekel bland ord. Walīd ibn al-Mughīra hade dömt dikttävlingar vid Ukaz marknad, bedömt qasidor sedan ungdomen, vägde varje stavelse med en säkerhet som Quraysh-stammens övriga hövdingar saknade och därför litade på. I frågor om poetisk rang var hans omdöme slutgiltigt.

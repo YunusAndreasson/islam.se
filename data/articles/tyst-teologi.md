@@ -4,8 +4,8 @@ publishedAt: "2026-03-04T12:00:00.000Z"
 wordCount: 1234
 qualityScore: 8.7
 description: "Katedralen berättar. Helgon blickar ner från nischerna, glasmålningar upprepar frälsningshistorien scen efter scen, skulpturer gestikulerar i sina arkader. Väggarna talar – de förkunnar, förklarar, övertygar. Moskén tiger. Inga helgon. Ingen berättelse i sten. Ingen avbild av det heliga."
-imageAlt: "Kal vitkalkad vägg under ett valv, med ett mjukt ljusknippe och ingenting på väggen."
-imageCaption: "Katedralen berättar. Det andra rummet låter bli."
+imageAlt: "Sju män i vinterjackor och strumplästen står axel mot axel i en rad och ber i en källarlokal med rör i taket. Framför dem står imamen ensam vid en kal vägg. Genom ett lågt fönster syns snö mot glaset, och vid dörren står skorna på rad."
+imageCaption: "Fajr i en källare under ett hyreshus. En matta, en vägg mot Mecka och tystnaden."
 category: "Koranen"
 ---
 Katedralen berättar. Helgon blickar ner från nischerna, glasmålningar upprepar frälsningshistorien scen efter scen, skulpturer gestikulerar i sina arkader. Väggarna talar – de förkunnar, förklarar, övertygar.

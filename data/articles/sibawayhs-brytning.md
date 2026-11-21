@@ -4,8 +4,8 @@ publishedAt: "2025-11-16T12:00:00.000Z"
 wordCount: 1710
 qualityScore: 8.5
 description: "I en *ḥadīth*-diskussion i 700-talets Basra gjorde den unge persen Sībawayh ett grammatiskt fel. Skammen drev honom till språkvetenskapen, och resultatet blev *al-Kitāb* – den första systematiska arabiska grammatiken, som fjorton århundraden av arabiskfödda grammatiker aldrig har ersatt."
-imageAlt: "Liten oljelampa som lyser upp en pappersbunt och en penna i ett i övrigt mörkt rum."
-imageCaption: "Natten efter felsägningen. Ur den kom al-Kitāb."
+imageAlt: "En pojke i vit virkad kalott läser högt och följer med fingret en rad i en uppslagen bok på ett bokstöd av trä, medan en äldre lärares fårade hand pekar bredvid."
+imageCaption: "Ett ord i taget, med lärarens finger bredvid. Så har språket gått vidare i fjorton sekler."
 category: "Koranen"
 ---
 Varje språknationalism bygger på ett outtalat antagande: att ett språk tillhör dem som fötts in i det. Att modersmålet bär en hemlighet som den invandrade aldrig fullt kan nå. Det skarpaste motbeviset var en persisk yngling i 700-talets Basra. Han talade arabiska med brytning.

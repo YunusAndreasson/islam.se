@@ -6,7 +6,7 @@ qualityScore: 8.6
 description: "Ingen skulle ställa den frågan, men om svensk och muslim ställs den gång på gång, som om tron gick i blodet. Sverige lagstiftade i mer än trehundra år om tro som medborgerlig gemenskap, medan islams grundtexter avskaffade härkomst som grund för rang. Misstanken skapar till sist den grupp den varnar för."
 audioFile: "vid-samma-bord.mp3"
 audioDuration: 1194
-imageAlt: "Två män samtalar över kaffe vid ett köksbord i vinterljus, med en inramad arabisk kalligrafi på väggen och ett svenskt flerfamiljshus utanför fönstret."
+imageAlt: "Två män samtalar över kaffe vid ett köksbord i vinterljus, med ett inramat vinterfotografi på väggen och ett svenskt flerfamiljshus utanför fönstret."
 imageCaption: "Ett kök i vinterljus. Den som redan sitter vid bordet får sällan frågan om han hör hemma där."
 category: "Samhälle"
 ---

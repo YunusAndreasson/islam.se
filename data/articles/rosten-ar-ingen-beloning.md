@@ -5,8 +5,8 @@ wordCount: 2379
 qualityScore: 8.7
 description: "Abu Dharr var känd för sin fromhet, men när han bad om ett uppdrag sade Profeten ﷺ nej. Ibn Taymiyya drog slutsatsen att ett ämbete ska gå till den som är kapabel och pålitlig, inte till den frommaste. Samma regel gäller den som röstar bakom draperiet."
 category: "Samhälle"
-imageAlt: "En man i fyrtioårsåldern sitter ensam vid ett bord bakom en vit valskärm i en dunkel vallokal; han håller en penna mot munnen och valsedeln framför honom är ännu oskriven, medan tomma valbås står i skuggan bakom."
-imageCaption: "En dunkel vallokal en eftermiddag i september. Handen vilar, och ingen ser den."
+imageAlt: "Ett årsmöte i en moskés samlingssal en vinterkväll. Många räcker upp handen i en omröstning, medan en äldre man med radband i förgrunden håller handen nere och ser fram mot en ung man vid en tom skrivtavla."
+imageCaption: "Årsmötet röstar om styrelsen. Ett ämbete ska gå till den som klarar det."
 audioFile: "rosten-ar-ingen-beloning.mp3"
 audioDuration: 952
 ---

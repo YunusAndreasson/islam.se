@@ -4,8 +4,8 @@ publishedAt: "2026-03-12T12:00:00.000Z"
 wordCount: 1673
 qualityScore: 8.7
 description: "Hjalmar Söderberg visste att kärleken och drömmen om den är två olika saker, men svenskan gav honom bara ett ord. Ibn Qayyim ordnade de arabiska orden som en läkare ordnar symtom, efter vart de leder den som drabbas."
-imageAlt: "Vitkalkad spiraltrappa fotograferad uppifrån, där trappsteg och ledstång virar sig i allt tätare varv mot ett mörkt centrum."
-imageCaption: "Passionen som klängväxt – den virar sig uppåt i allt trängre varv."
+imageAlt: "En ung man i mörk rock står ensam i snöfallet på en gata och ser upp mot det enda tända fönstret i ett mörkt stenhus. Hans andedräkt syns i kylan."
+imageCaption: "En vinternatt under ett tänt fönster. Det som brinner är inte alltid det som bär."
 category: "Själen"
 ---
 Hjalmar Söderberg såg det tydligt: "Den källan heter icke kärleken, utan den heter: drömmen om kärlek."[^1] Men hans språk gav honom inte redskapet att följa insikten till botten. Vad skiljer kärleken från drömmen om den? Söderberg visste att gränsen fanns. Han hade bara ett ord, *kärlek*, som skall täcka allt: förälderns nattliga vaka, den erotiska besattheten, den tysta troheten som överlever årtionden, den gudomliga hängivenheten. Modersmålet tvingar oss att famla i mörker.

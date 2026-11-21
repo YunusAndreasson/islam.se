@@ -8,8 +8,8 @@ category: "Rättvisa"
 pullquotes:
   - "Med lagen som enda gräns räckte det med en ny rubrik."
   - "Ett godkännande är ingen frånvaro av beslut. Det är mässans beslut."
-imageAlt: "En tom trästol och ett litet bord med ett vattenglas och en stängd bok står på en låg, mattklädd läsescen i en nästan tom mässhall; längre bort lyser en skärm på stativ mellan bokhyllor och packlådor under taklampor."
-imageCaption: "En läsescen i en mässhall efter stängning. Stolen står framdragen och glaset är fyllt, men ingen kommer."
+imageAlt: "En ung kvinna i svart hijab med en svartvit palestinasjal över axlarna står stilla med en stängd bok mot bröstet i en folkfylld mässhall. Människor med tygkassar passerar suddiga förbi, och långt bort talar en man i kostym från en upplyst scen."
+imageCaption: "Mässhallen i Göteborg. Hon står stilla medan strömmen går förbi."
 ---
 Bisan Edwan skulle ha läst poesi på Bokmässan i Göteborg i september 2026. Den palestinska poeten ställde in. "Jag kan inte läsa poesi i ett rum medan det pågår militärpropaganda", sade hon till SVT.[^1]
 

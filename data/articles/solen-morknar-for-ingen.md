@@ -4,8 +4,8 @@ publishedAt: "2026-06-05T22:02:42.925Z"
 wordCount: 1106
 qualityScore: 8.8
 description: "En fogde lät hänga en bonde och slutade själv i samma galge. Linné såg Guds dom i det och samlade hundratals sådana öden. Den dag Profetens ﷺ lille son Ibrahim dog förmörkades solen, och folket sade att himlen sörjde. Profeten ﷺ rättade dem."
-imageAlt: "Ett slitet skrivbord vid ett spröjsat fönster i grått dagsljus: en uppslagen herbariepärm med en pressad växt, en bunt handskrivna blad med en gåspenna lagd över dem och två gamla böcker; på väggen till höger sitter äldre botaniska planscher."
-imageCaption: "En herbariepärm och en bunt handskrivna blad vid fönstret. Sina sista årtionden skrev Linné på något han höll för sig själv."
+imageAlt: "Människor har stannat på ett kullerstenstorg i en svensk småstad mitt på dagen och ser upp mot en solförmörkelse. En kvinna i svart hijab håller sin son i handen, en äldre man skuggar ögonen och en busschaufför lutar sig ut genom rutan."
+imageCaption: "Mitt på dagen mörknar himlen över torget. Det är ett tecken, och det sörjer ingen."
 category: "Skapelsen"
 ---
 Ingen har bringat världen i ordning så grundligt som Carl von Linné. Han gav arterna deras dubbla namn, fördelade det levande i klasser och ordningar och lärde Europa att läsa naturen som ett register. Ändå ägnade han sina sista årtionden, i det tysta, åt något som var taxonomins raka motsats. I ett efterlämnat manuskript, skrivet för sonens ögon och annars hållet för sig själv, slutade han att sortera. Där började han tyda.

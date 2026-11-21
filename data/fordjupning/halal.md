@@ -87,7 +87,7 @@ related:
 essays:
   - "kottet-och-tecknet"
   - "lagen-ingen-skrev"
-imageAlt: "Två svanar på ett vatten som delas i ljust och mörkt: den vita simmar i den mörka halvan, den svarta i den ljusa"
+imageAlt: "I kön i en skolmatsal står en pojke i mörk kalott med sin bricka och ser upp mot en kvinna i hijab bakom serveringen, som pekar på en av rätterna. Bakom honom väntar fler elever."
 ---
 
 **Halal** är den islamiska rättens beteckning på det som är tillåtet. Ordet står för en av de fem kategorier som varje mänsklig handling kan sorteras in i, och dess motsats är *haram*, det förbjudna. Termen omfattar långt mer än mat: handel, avtal, klädsel, äktenskap och underhållning bedöms med samma begreppspar. I svenskt språkbruk har ordet ändå kommit att betyda ungefär "muslimskt tillåten mat", och särskilt kött från djur slaktade på föreskrivet sätt.

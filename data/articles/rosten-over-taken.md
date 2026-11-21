@@ -4,8 +4,8 @@ publishedAt: "2026-02-20T12:00:00.000Z"
 wordCount: 1802
 qualityScore: 8.7
 description: "I en riksdagsmotion från 2024 formulerar Hans Eklind en ovanlig åtskillnad: kyrkklockor är en »oartikulerad ljudsignal«, medan böneutropet innehåller »artikulerade ord med ett religiöst budskap«. Två religiösa ljud i det offentliga rummet ska alltså behandlas olika – för att det ena bär ord."
-imageAlt: "Ensam man i svart rock går längs en regnvåt Stockholmskaj med Stadshusets torn och Riddarholmskyrkans spira i grå fjärran."
-imageCaption: "Tornen står kvar; frågan är vilken röst som får ljuda från dem."
+imageAlt: "En äldre kvinna i mörk hijab och kofta tar in tvätt på balkongen i ett hyreshus en höstkväll. Bortom björkarna lyser en moskés minaret, och längre bort står ett kyrktorn mot den sista rodnaden på himlen."
+imageCaption: "Två torn i samma skymning. Frågan är vilket av dem som får höras."
 category: "Samhälle"
 ---
 Kyrkklockor ringer från torn i varje svensk stad, varje söndag, ibland dagligen. Tungt, metalliskt, över 100 decibel.[^1] Ingen riksdagsmotion kräver deras tystnad.

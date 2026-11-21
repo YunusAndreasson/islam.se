@@ -5,8 +5,8 @@ wordCount: 1993
 qualityScore: 8.7
 description: "I sura al-Aḥzāb ställs himlarna, jorden och bergen inför ett erbjudande: att bära det moraliska ansvaret. De vägrar, inte av trots utan av insikt. Människan säger ja, trots sin benägenhet till synd och tanklöshet – och fjorton århundraden senare delegerar hon allt fler av sina beslut till maskiner som inte kan bäva inför dem."
 seoDescription: "Bergen vägrade bära det moraliska ansvaret. Människan tog det – och delegerar det nu till maskiner som inte kan bäva."
-imageAlt: "Karg gråstensfjäll under tunga stormmoln, med en mörk tjärn djupt nere i dalen."
-imageCaption: "Bergen som kunde bäva men vägrade bära förtroendet."
+imageAlt: "En pappa med tung ryggsäck bär sitt lilla barn på axlarna uppför en stenig stig i fjällen under mörka stormmoln, där ett ljusstråk faller över dalen. De är små mot de väldiga fjällen."
+imageCaption: "Bergen bävade och vägrade bära förtroendet. Människan sa ja."
 category: "Koranen"
 ---
 Scenen saknar motstycke. Himlar, jord och berg erbjuds ett förtroende. De vägrar – inte av trots utan av insikt: de förstår vad bördan innebär. Sedan träder människan fram och säger ja.

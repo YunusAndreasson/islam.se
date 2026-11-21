@@ -4,8 +4,8 @@ publishedAt: "2026-11-20T21:04:56.184Z"
 wordCount: 3318
 qualityScore: 8.6
 description: "Ibn Taymiyya skrev att ju längre norrut ett land ligger, desto längre är dess natt om vintern, och att det som fattas i sommarnatten läggs till vinternatten. I Stockholm blir då den korta decemberdagen en kort fasta och den långa natten tid att stå i bön."
-imageAlt: "Ett långt höghus en snöig vinternatt, sett över en gård med cyklar och snötäckta buskar. Alla fönster är mörka utom ett högt upp. Där inne, bakom en tunn gardin och en tänd bordslampa, står en man i bön med böjt huvud och händerna på bröstet. Till vänster en björk och en gatlykta som lyser upp den fallande snön."
-imageCaption: "Omkring klockan ett börjar nattens sista tredjedel. Det är fem timmar kvar till fajr."
+imageAlt: "En äldre man i lång mörk rock och pälsmössa går ensam genom nysnö mellan mörka hyreshus en decembermorgon. Snön faller i ljuset från en gatlykta, och framför honom lyser fönstren och den välvda dörren i en liten moské."
+imageCaption: "Klockan sex en decembermorgon, och det är fortfarande natt. Spåren i snön leder till fajr."
 category: "Skapelsen"
 ---
 Måndagen den 21 december går solen ned över Stockholm kl. 14.48. Det är maghrib enligt islam.se:s bönetider, och arbetsdagen är inte slut. Gatlyktorna tänds medan kontoren ännu är fulla. ʿIshāʾ infaller kl. 17.21, fajr först kl. 06.10 nästa morgon. Från maghrib till fajr är det drygt femton timmar, årets längsta natt.

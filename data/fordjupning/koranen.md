@@ -99,7 +99,7 @@ related:
   - "vad-ar-sunna"
   - "de-rattledda-kaliferna"
   - "vem-var-profeten-muhammed"
-imageAlt: "Uppslagen bok på ett korformat träställ vid ett fönster i grått vinterljus"
+imageAlt: "En flicka i hijab står på en stol och ställer en mushaf med grönt omslag på bokhyllans översta hylla, medan hennes mamma i svart hijab håller i stolen och ser upp mot henne."
 essays:
   - "poesins-kapitulation"
   - "sibawayhs-brytning"

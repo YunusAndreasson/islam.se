@@ -89,7 +89,7 @@ related:
   - "vad-ar-sunna"
   - "vad-ar-sharia"
   - "vad-ar-koranen"
-imageAlt: "Rad av slitna skinnbundna volymer på en trähylla, med en lucka där en volym tagits ut"
+imageAlt: "En äldre lärd med vitt skägg och vit kalott sitter på en kudde vid en uppslagen bok på ett bokstöd av trä och pekar på ett ställe i texten, medan tre unga män sitter tätt omkring honom och lyssnar. En lampa lyser över dem, och bakom står bokhyllor."
 essays:
   - "alis-princip"
   - "ater-ni-var-for-sig"

@@ -4,8 +4,8 @@ publishedAt: "2026-01-09T12:00:00.000Z"
 wordCount: 1905
 qualityScore: 8.7
 description: "Sommaren 2023 brann böcker på svenska gator, ambassader stormades och Sveriges Natoväg komplicerades. Debatten pendlade mellan yttrandefrihet och muslimsk vrede, men båda sidorna delade en outtalad förutsättning – att det som brann var en bok."
-imageAlt: "Tomt torg i regn efter en demonstration, med ett snedställt avspärrningsstaket och aska i en pöl."
-imageCaption: "Efteråt, när båda sidor gått hem."
+imageAlt: "En taxichaufför med grått skägg sitter i sin parkerade bil i gryningen med slutna ögon och lyssnar. Regnet rinner nedför vindrutan, och stadens ljus syns suddiga bakom den."
+imageCaption: "Fredagsgryning i regnet. Rösten från radion faller som regnet utanför."
 category: "Koranen"
 ---
 Sommaren 2023 brann böcker på svenska gator. Ambassader stormades, handelsrelationer frystes, Sveriges Natoväg komplicerades.[^1] Den svenska debatten pendlade mellan yttrandefrihetens försvar och förståelsen för muslimers vrede. Men båda sidorna delade en outtalad förutsättning: att det som brann var en *bok*.

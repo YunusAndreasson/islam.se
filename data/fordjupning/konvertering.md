@@ -90,7 +90,7 @@ related:
   - "tro-och-handling-i-islam"
   - "vad-ar-ghusl"
   - "aktenskap-i-islam"
-imageAlt: "Öppen dörr från en mörk hall ut mot blekt vinterljus, med en rock på kroken och skorna avställda innanför"
+imageAlt: "En ung kvinna i ljus hijab står bredvid en äldre kvinna i svart hijab i en moskés bönerum och lyfter händerna för att börja bönen som hon. Den äldre kvinnan ser på henne och ler, och vinterljus faller in genom fönstret."
 essays:
   - "strindbergs-enda-steg"
   - "det-han-letade-efter"

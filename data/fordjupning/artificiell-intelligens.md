@@ -1,8 +1,8 @@
 ---
 title: "Artificiell intelligens i islam: fatwor, ansvar och svensk rätt"
 term: "Artificiell intelligens"
-imageAlt: "Närbild av en bärbar dator med en AI-assistent på skärmen, vid ett biblioteksfönster i grått dagsljus."
-imageCaption: "En AI-assistent på en bärbar dator. Bilden är AI-genererad."
+imageAlt: "En tonårspojke i luvtröja sitter på sin säng sent en kväll och skriver på mobilen, ansiktet upplyst av skärmen. Bredvid honom ligger en hoprullad bönematta och ett radband, och genom fönstret syns tända fönster i husen mittemot."
+imageCaption: "En religiös fråga ställd till en maskin, mitt i natten. Bilden är AI-genererad."
 description: "De flesta lärda håller tekniken för tillåten. Striden gäller vem som bär ansvaret när en maskin svarar på religiösa frågor, orsakar skada eller avbildar levande varelser, och hur klassiska regler om skador som djur orsakar och om muftins behörighet möter EU:s AI-förordning och svensk förvaltning."
 seoDescription: "Vad säger islam om AI? Fatwor om AI-svar och AI-bilder, rättsskolornas ansvarsregler, EU:s AI-förordning och svenska fall."
 blurb: "AI-svar om religion, bildgenerering och ansvaret när tekniken orsakar skada"

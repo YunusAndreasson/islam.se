@@ -4,8 +4,8 @@ publishedAt: "2026-08-23T16:06:58.611Z"
 wordCount: 2831
 qualityScore: 8.8
 category: "Samhälle"
-imageAlt: "En kvinna i hijab och mörk kappa står på en regnvåt trottoar i en svensk stad. Bakom henne bär en busskur en valaffisch från Sverigedemokraterna med orden Trygghet, Gemenskap, Framtidstro."
-imageCaption: "Regnvåt trottoar, grå eftermiddag, en valaffisch vid busskuren."
+imageAlt: "En kvinna i mörk hijab sitter vid fönstret i ett pendeltåg en kväll och ser ut över vattnet. Hennes spegelbild i rutan ligger över stadens ljus och en kyrkspira på andra stranden."
+imageCaption: "Kvällståget över vattnet. I rutan syns hennes ansikte, och staden rakt igenom det."
 description: "Den 11 juni 2026 föreslog Sverigedemokraterna ett totalförbud mot hijab, med motiveringen att alla vet vad plagget betyder. Islams egen fromhetslitteratur misstror den religiösa dräkten som tecken – men den vänder misstron inåt, mot den troende själv, aldrig mot en främling."
 ---
 Det finns en gammal regel om hur man känner igen en from människa. Man ser på hennes kläder, hennes hållning, hennes sätt att gå. Det yttre skvallrar om det inre. En hycklare kan förställa sig en stund, men inte länge.

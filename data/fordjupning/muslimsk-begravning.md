@@ -86,7 +86,7 @@ related:
   - "vad-ar-domedagen"
   - "vad-ar-sharia"
   - "vad-ar-en-moske"
-imageAlt: "Enkla grå gravstenar i nysnö, med björk och tallar i dimma bakom"
+imageAlt: "En höstmorgon på en kyrkogård sänker män på knä ned en kropp svept i vitt tyg i graven med remmar, utan kista. Bakom dem står tre män med händerna lyfta i bön, och mellan björkarna syns raderna av enkla gravstenar."
 essays:
   - "somnens-lilla-dod"
   - "stillheten-fore-slutet"

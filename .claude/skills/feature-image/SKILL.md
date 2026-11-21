@@ -43,6 +43,61 @@ pictures they keep share is the brief:
   kept Kalifatet's old picture rather than take either. Prefer a living scene here and now
   to a place from history.
 
+- **The essay pictures: the topic in a second, and one visual idea.** On 2026-11-21 the
+  user named the Hijab card (a woman in hijab in profile, dark against a round wall lamp,
+  a blue-hour window) as the style for essays: »something that present the topic and also
+  looks like art«. The topic is named at a glance, one device lifts it (the lamp as a
+  halo), the light is the drama, and it is a Swedish home now. Five essays were redrawn
+  with it attached as a reference, two versions each, and the user took B in all five
+  without a note: the night train with her reflection over the city (Hijaben visar inte
+  vad hon tror), an old man before the lit museum case (Koranen mellan pergament och
+  minne), a closed fajr row in a basement mosque (Tyst teologi), a young man under one
+  lit window in the snow (Arabiskan har nästan sextio ord för kärlek), and a grandmother
+  on a suburban balcony with a minaret and a church tower at dusk (Rösten över taken).
+  Passed over: a boy reciting to his teacher, a sunbeam into a bare mihrab, an old
+  couple under an umbrella in Gamla stan, a muezzin in an invented crumbling minaret.
+  My reading, not confirmed by the user: the B scenes could have been photographed as
+  they are, in a real place; the A scenes leaned towards an arranged tableau or a
+  postcard glow. The concept still lifes and empty rooms they replaced (parchment under
+  glass, a bare wall, a spiral staircase) are the kind to redraw next.
+  Round two, the same day: fifteen more essays, briefed as »a scene a great documentary
+  photographer could have found and photographed exactly as it is, in a real place,
+  today: not an arranged tableau, not a staged still life, not a postcard glow«, with
+  Hijab as a reference. The user replaced all fifteen, and none of the old pictures was
+  kept: seven A and eight B, no notes. Taken: a cleaner at a server hall's glass wall, a
+  2 a.m. grill of bowed heads over phones, an old weaver in hijab at a Jacquard loom, an
+  inspector before a robot arm, an old man listening by a desert fire, a woman in
+  gloves reading a manuscript, a teacher's finger beside a boy's on the page, a town
+  square stopped by an eclipse, an imam with open hands between two men, a father's hand
+  on a newborn, a taxi driver listening at dawn in the rain, a woman standing still in
+  the Book Fair crowd, a pawnshop scale, an old man at the polling station, and a
+  traveller praying above Strindberg's valley. Two that I had flagged were taken anyway:
+  the robot arm (to me an industry advert) and the fair crowd where every woman wears a
+  hijab. Fixed by edit after the choice: invented handwriting faded off a manuscript, and
+  an eclipse sun made bright enough not to read as the moon.
+  Round three, the same day, the pictures seen scrolling the front page and the hubs:
+  the user kept the front page's lead (Vintern är den troendes vår, published the day
+  before), and replaced nine Fördjupning cards, three essays and the Zakat card. Taken:
+  a girl placing the mushaf on the top shelf, a woman asking a female teacher, a new
+  mosque at dusk, a boy in the school canteen queue, a convert's first prayer beside an
+  older woman (facing the camera, taken anyway), a woman on a court's steps, a burial in
+  the shroud without a coffin (I had asked whether it went too far: taken), an old
+  scholar teaching three young men, a teenager asking his phone at midnight, a mosque
+  association's vote, an Eid morning walk, a child at Gamla Uppsala's mounds, and a
+  neighbour's envelope in a stairwell for Zakat, made to match the lamplit Tro och lära
+  series. Both fixes by edit for generated pseudo-Arabic in kept pictures were applied.
+  Across the three rounds the user replaced 33 of 34 pictures and never kept a concept
+  still life or an empty room.
+  Then the user asked for a new try at five, three of them their own picks from
+  2026-11-07 (the gravel road under the Milky Way, the hiker among spruces, the spent
+  grave candles) plus Vintern and Bergen. Made three ways each, all five were replaced: a
+  father and son on a jetty under the Milky Way, a mother showing her daughter a pine
+  cone in misty forest, an old man walking through fresh snow to the lit mosque at six on
+  a December morning, a father carrying his child up a fjäll trail in a storm, and an old
+  man alone in du'a among the stones on a moonlit winter night. The lone figure from
+  behind in a landscape, which the user had once chosen, now loses to two people in a
+  relation or a figure on the way somewhere.
+
 - **On the Tro och lära cards, the family at home.** In that dark lamplit series the user
   took a grandmother and granddaughter reading the Quran at the kitchen table, and a mother
   pouring tea for her sleepy son at suhur, and kept three old cards over a convert's

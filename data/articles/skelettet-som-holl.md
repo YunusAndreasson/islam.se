@@ -4,8 +4,8 @@ publishedAt: "2025-10-23T12:00:00.000Z"
 wordCount: 1485
 qualityScore: 8.6
 description: "I juli 2015 daterade universitetet i Birmingham ett koranfragment till Profeten Muḥammads ﷺ egen livstid. Bläcket på fårskinnet formade samma arabiska konsonanter som den Koran som i dag ligger på nattduksbord i Kairo och Malmö – fjorton sekler senare, bokstav för bokstav."
-imageAlt: "Riven kant av ett gammalt pergamentblad under museiglas i svagt sidoljus."
-imageCaption: "Skinnet bar konsonanterna. Resten höll traditionen."
+imageAlt: "En äldre man med vitt skägg och vit kalott står med händerna på ryggen i en mörk museisal, framför en upplyst monter där ett gammalt pergamentblad ligger under glas."
+imageCaption: "Bladet ligger under glas. Det som står på det kan han utantill."
 category: "Koranen"
 ---
 Allt försvinner. Det är kanske det enda som antiken och moderniteten är överens om. Pergament murknar. Hårddiskar havererar. Bibliotek brinner: Alexandria, Bagdad, Sarajevo. Av de uppskattningsvis 7 000 språk som talas i dag beräknas hälften komma att tystna inom ett sekel.[^1] Texter som en gång gällde som odödliga överlever som brottstycken, återskapningar, gissningar.

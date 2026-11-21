@@ -5,8 +5,8 @@ wordCount: 4257
 qualityScore: 8.5
 category: "Livsfrågor"
 description: "På sjätte året brister miman, maskinen som tröstat passagerarna i Aniara, och dyrkan söker sig nya föremål. Som Ibrahims folk vet de att guden inte kan tala, men beviset befriar inte den som tillber: det gör bara platsen ledig."
-imageAlt: "En tv-apparat från 1950-talet i trälåda står ensam på en grå sockel i ett tomt museirum; skärmen lyser svagt. Framför den på det slitna plankgolvet står en tom fällpall, och genom ett högt fönster till vänster faller grått vinterljus."
-imageCaption: "Tv-apparaten på sin sockel, och pallen framför den."
+imageAlt: "Genom ett regnigt fönster syns en grillbar mitt i natten. Gästerna sitter vid var sitt bord med huvudet böjt över en lysande telefon, och kocken bakom disken ser ut mot gatan."
+imageCaption: "Klockan två på natten. Huvudena är böjda över det som svarar."
 ---
 Första gången *Aniara* trycktes slutade dikten med att guden dog. I *Cikada* från 1953 stod de tjugonio sånger som Harry Martinson kallade "Sången om Doris och Mima", och de slutar med att miman, rymdskeppets tröstande maskin, brister. När eposet kom ut hos Bonniers hösten 1956 hade sviten vuxit till 103 sånger.[^1] Sjuttiofyra av dem handlar om tiden efteråt: om vad människor gör sedan det som tröstade dem har gått sönder.
 

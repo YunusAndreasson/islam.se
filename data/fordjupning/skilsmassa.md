@@ -91,7 +91,7 @@ related:
   - "islams-syn-pa-kvinnan"
   - "vad-ar-en-kadi"
   - "vad-ar-sunna"
-imageAlt: "Köksbord vid ett fönster med två koppar i var sin ände och en stol utdragen från bordet"
+imageAlt: "En kvinna i svart hijab och lång grå kappa står ensam på den snöiga stentrappan utanför en tingsrätt, med ett vikt papper i den behandskade handen, och ser ut över den tomma gatan."
 essays:
   - "domaren-utan-svard"
   - "rattigheterna-utan-grund"

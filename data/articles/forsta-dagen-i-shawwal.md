@@ -8,8 +8,8 @@ pullquotes:
   - "Lagen nämner en dag som den själv inte kan räkna ut."
   - "Lagen kan nämna dagen. Månen avgör den."
 category: "Samhälle"
-imageAlt: "Två små teglas, halvfulla med mörkt te, står på en grå fönsterbänk av kalksten bredvid en pelargon i lerkruka; genom fönstret syns hustak med några tända fönster och kala träd i skymningen, och lågt över taken hänger en hårfin nymåne."
-imageCaption: "Två teglas i fönstret den tjugonionde kvällen. När två har sett skäran är det högtid nästa morgon."
+imageAlt: "En pappa i vit thobe och mörk jacka går hand i hand med sin lille son, också i vit thobe, längs en våt gångväg mellan hyreshus i lågt morgonsolsken. Pojken ser upp på honom, och framför dem går fler familjer mot en idrottshall."
+imageCaption: "Den första shawwal, en vanlig måndag i mars. Familjerna går till högtidsbönen i idrottshallen."
 ---
 Sedan söndagen den 27 september 2026 står det i Kaliforniens lagsamling en helgdag som ingen almanacka kan sätta datum på. Government Code § 6700 räknar upp delstatens helgdagar, och i punkt sju heter det från den 1 januari 2027: "the first day of the month of Shawwal in the Islamic lunar calendar". Fyra punkter längre ned kommer den andra dagen.
 

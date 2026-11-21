@@ -98,8 +98,8 @@ related:
   - "fyra-vittnen-och-valdtakt"
   - "aktenskap-i-islam"
   - "sunni-och-shia"
-imageAlt: "Smal upptrampad stig genom frostigt vintergräs ned till kanten av en stilla grå sjö"
-imageCaption: "Substantivet sharīʿa bär kvar bilden: platsen där man kommer ner till vattnet och dricker."
+imageAlt: "En ung kvinna i svart hijab ställer en fråga till en äldre lärarinna i vit hijab över ett lågt bord, där en uppslagen bok och ett anteckningshäfte ligger i skenet från en bordslampa. Genom fönstret faller snö."
+imageCaption: "Frågan ställs över ett lågt bord, och svaret söks i källorna."
 essays:
   - "lagen-ingen-skrev"
   - "domaren-utan-svard"
