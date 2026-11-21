@@ -16,6 +16,9 @@ describe("episodeShowNotes", () => {
 			`<a href="${url}">${url}</a>`,
 		);
 		expect(notes.startsWith("<p>Sömnen kallas den lilla döden.</p>")).toBe(true);
+		expect(notes, "the last line points to the rest of the show").toMatch(
+			/Fler inlästa essäer: <a href="https:\/\/islam\.se\/podcast\/">/,
+		);
 	});
 
 	it("escapes the summary so a stray character cannot break the HTML or the CDATA", () => {

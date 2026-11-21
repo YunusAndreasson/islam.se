@@ -22,8 +22,14 @@ export const SPOTIFY_SHOW_URL = "https://open.spotify.com/show/2WgLxCwy5RFu07sEg
 // literature rather than a publication (user decision). Apple's URL slug still says
 // »andliga-essäer«, which is harmless: the show is addressed by its id.
 export const PODCAST_TITLE = "islam.se: essäer, inlästa";
+// Rewritten 2026-11-22 for directory search, which matches the show's title and
+// description: Koranen, islamisk, muslim, Sverige, litteratur and historia are what a
+// listener types. Also the /podcast/ page's lead.
 export const PODCAST_DESCRIPTION =
-	"Lyssna på essäerna från islam.se om tro, samvete och samhälle. Texterna tar sin utgångspunkt i islamisk tradition och svensk litteratur.";
+	"Essäerna från islam.se, inlästa. Om tro, samvete och samhälle: vad Koranen och den islamiska traditionen har att säga om livet som muslim i Sverige i dag, i samtal med svensk litteratur och historia. Texterna, med källor, finns på islam.se.";
+/** The show's own page on the site: the feed's channel <link>, which Apple shows as
+ *  the show's website, and the last line of every episode's notes. */
+export const PODCAST_PAGE_URL = "https://islam.se/podcast/";
 /** Square cover art (3000×3000), served from public/. */
 export const PODCAST_COVER = "/podcast-cover.jpg";
 /** The RSS feed every podcast app subscribes to. */
@@ -38,7 +44,7 @@ export const PODCAST_FEED = "/podcast.xml";
 export function episodeShowNotes(summary: string, essayUrl: string): string {
 	const html = (text: string) =>
 		text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-	return `<p>${html(summary)}</p><p>Läs essän på islam.se: <a href="${html(essayUrl)}">${html(essayUrl)}</a></p>`;
+	return `<p>${html(summary)}</p><p>Läs essän på islam.se: <a href="${html(essayUrl)}">${html(essayUrl)}</a></p><p>Fler inlästa essäer: <a href="${PODCAST_PAGE_URL}">${PODCAST_PAGE_URL}</a></p>`;
 }
 
 /** Where one essay's recording sits in Apple Podcasts and Spotify. */

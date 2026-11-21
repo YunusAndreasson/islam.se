@@ -4,7 +4,12 @@ import { join } from "node:path";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
 import { SITE_URL } from "../lib/config";
-import { episodeShowNotes, PODCAST_DESCRIPTION, PODCAST_TITLE } from "../lib/podcast";
+import {
+	episodeShowNotes,
+	PODCAST_DESCRIPTION,
+	PODCAST_PAGE_URL,
+	PODCAST_TITLE,
+} from "../lib/podcast";
 import { podcastCoverPath } from "../lib/podcast-cover";
 import { escapeXml } from "../lib/xml";
 
@@ -98,7 +103,7 @@ export async function GET(_context: APIContext) {
     <atom:link href="${SITE}/podcast.xml" rel="self" type="application/rss+xml"/>
     <title>${SHOW.title}</title>
     <description><![CDATA[${SHOW.description}]]></description>
-    <link>${SITE}/</link>
+    <link>${PODCAST_PAGE_URL}</link>
     <language>${SHOW.language}</language>
     <itunes:author>${escapeXml(SHOW.author)}</itunes:author>
     <itunes:owner>
