@@ -8,6 +8,8 @@ export {
 	type PublishedArticle,
 	parseFrontmatter,
 } from "./article-publisher.js";
+// Podcast service
+export { LOUDNESS_TARGET, masterEpisode } from "./audio-master.js";
 // Corpus brief — step 0 of the /fordjupning/ pipeline
 export {
 	buildCorpusBrief,
@@ -27,7 +29,6 @@ export {
 	IdeationService,
 	type IdeationServiceOptions,
 } from "./ideation-service.js";
-// Podcast service
 export { type PodcastResult, PodcastService } from "./podcast-service.js";
 // Quote service
 export {

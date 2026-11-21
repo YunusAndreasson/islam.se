@@ -5,20 +5,13 @@
  */
 
 import { execFileSync } from "node:child_process";
-import {
-	existsSync,
-	mkdirSync,
-	readFileSync,
-	renameSync,
-	rmSync,
-	statSync,
-	writeFileSync,
-} from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ClaudeRunner } from "../claude-runner.js";
 import { getModelId } from "../utils.js";
+import { LOUDNESS_TARGET, masterEpisode } from "./audio-master.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -236,7 +229,11 @@ export class PodcastService {
 		console.log(
 			`   ✓ MP3 saved: ${audioPath} (${(audioResult.audio.length / 1024 / 1024).toFixed(1)} MB)`,
 		);
-		this.fitToDeployLimit(audioPath);
+		// One encode for loudness and the upload limit together (audio-master.ts).
+		const { before, kbps } = masterEpisode(audioPath, PODCAST_CONFIG.maxFileBytes);
+		console.log(
+			`   ✓ Mastered to ${LOUDNESS_TARGET.integrated} LUFS (was ${before.input_i}, peak ${before.input_tp} dBTP) at ${kbps} kbps`,
+		);
 
 		// Step 3: Get audio duration
 		const duration_secs = this.getAudioDuration(audioPath);
@@ -406,49 +403,6 @@ export class PodcastService {
 		} catch (err) {
 			console.log(`   ⚠ Episode cover failed: ${err instanceof Error ? err.message : String(err)}`);
 		}
-	}
-
-	/**
-	 * Re-encode the episode at a lower bitrate if it exceeds what Pages will upload.
-	 * Speech is mono, so the only lever is bitrate; 128 kbps is transparent for narration
-	 * and matches the back catalogue.
-	 */
-	private fitToDeployLimit(audioPath: string): void {
-		const bytes = statSync(audioPath).size;
-		if (bytes <= PODCAST_CONFIG.maxFileBytes) return;
-
-		const seconds = this.getAudioDuration(audioPath);
-		if (seconds === 0) {
-			console.log("   ⚠ Over the 25 MiB Pages limit but duration unknown — not re-encoding");
-			return;
-		}
-
-		// Land under the cap with headroom, then clamp to a sane spoken-word range.
-		const targetKbps = Math.min(
-			192,
-			Math.max(96, Math.floor((PODCAST_CONFIG.maxFileBytes * 8) / seconds / 1000) - 8),
-		);
-		const reduced = `${audioPath}.reduced.mp3`;
-		execFileSync("ffmpeg", [
-			"-hide_banner",
-			"-nostats",
-			"-y",
-			"-i",
-			audioPath,
-			"-codec:a",
-			"libmp3lame",
-			"-b:a",
-			`${targetKbps}k`,
-			"-ac",
-			"1",
-			"-ar",
-			"44100",
-			reduced,
-		]);
-		renameSync(reduced, audioPath);
-		console.log(
-			`   ↓ Re-encoded to ${targetKbps} kbps for the 25 MiB Pages limit: ${(bytes / 1024 / 1024).toFixed(1)} → ${(statSync(audioPath).size / 1024 / 1024).toFixed(1)} MB`,
-		);
 	}
 
 	/**
