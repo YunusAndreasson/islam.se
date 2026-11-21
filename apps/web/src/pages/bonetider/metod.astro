@@ -5,6 +5,7 @@ import OmBonen from "../../components/bonetider/OmBonen.astro";
 import SunDayCurve from "../../components/bonetider/SunDayCurve.astro";
 import PageHead from "../../components/PageHead.astro";
 import PoddAppHome from "../../components/PoddAppHome.astro";
+import { APP_CAMPAIGNS } from "../../lib/app";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
@@ -230,7 +231,7 @@ const prayerDefinitions = [
 		<OmBonen />
 
 		<div class="home-promotions">
-			<PoddAppHome only="appen" />
+			<PoddAppHome only="appen" campaign={APP_CAMPAIGNS.method} />
 		</div>
 
 		<p class="bt-back">

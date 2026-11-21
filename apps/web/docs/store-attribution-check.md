@@ -5,6 +5,8 @@ Use the signed-in store consoles to check the two website campaigns that went li
 1. **App Store Connect.** Open islam.se (App Store ID `6774383118`), go to **Analytics → Metrics**, choose **First-Time Downloads**, and filter by campaign `web-safari-banner`. Apple may hide the campaign until it has five first-time downloads and has been live for at least 24 hours.
 2. **Google Play Console.** Open islam.se (package `se.islam.mobile`), go to **Grow users → Store listing performance**, filter traffic to **Ads and referrals**, and select UTM campaign `web-android-strip`. Use the downloadable acquisition report for **store listing acquisitions** if the dashboard shows clicks.
 
+Every other store link on the site carries a campaign of its own, the same token in both stores (`APP_CAMPAIGNS` in `src/lib/app.ts`): `web-home` (the front page's closing band), `web-app-page` (/app/), `web-city` (every /bonetider/<stad>/), `web-metod` and `web-ramadan`. Check them the same way once they have been live for a day.
+
 For each store, report the count and the latest date covered. If the campaign is missing, say whether the report covers any dates on or after November 21. Record a missing or suppressed result separately from a reported zero.
 
 ## Result, November 21, 2026 (evening)

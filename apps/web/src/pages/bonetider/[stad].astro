@@ -2,6 +2,7 @@
 import { Settings } from "@lucide/astro";
 import PageHead from "../../components/PageHead.astro";
 import PoddAppHome from "../../components/PoddAppHome.astro";
+import { APP_CAMPAIGNS } from "../../lib/app";
 import Directions from "../../components/moskeer/Directions.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import LinkList from "../../components/LinkList.astro";
@@ -443,7 +444,7 @@ if (hasScb) {
 		    below the FAQ and the facts list, ~6 000 px down on the phone that 91 % of these
 		    readers are holding. */}
 		<TitledSection class="bt-stad-section bt-stad-take" id="bt-stad-ta-med" title="Ta med tiderna">
-			<PoddAppHome only="appen" nested />
+			<PoddAppHome only="appen" nested campaign={APP_CAMPAIGNS.city} />
 			<ul class="bt-take">
 				<li>
 					<a href={`webcal://islam.se/bonetider/${place.slug}/kalender.ics`}>

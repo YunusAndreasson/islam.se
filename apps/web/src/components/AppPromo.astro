@@ -5,7 +5,7 @@
 // tinted panel with its own screenshots on the 2 128 prayer pages — went on 2026-11-20.
 // The store badges render server-side (crawlable, working without scripts) and the
 // device's own store is the one shown on a phone (Base.astro stamps the platform).
-import { APP_FEATURES, APP_STORE_URL, APP_TAGLINE, PLAY_STORE_URL } from "../lib/app";
+import { APP_CAMPAIGNS, APP_FEATURES, APP_TAGLINE, appStoreUrl, playStoreUrl } from "../lib/app";
 ---
 
 <aside class="apppromo" aria-label="Ladda ned islam.se-appen">
@@ -14,10 +14,10 @@ import { APP_FEATURES, APP_STORE_URL, APP_TAGLINE, PLAY_STORE_URL } from "../lib
 	{/* The page's one action comes before the list of what the app does: after the
 	    features the two stores stood below the first screen at 1440×900 (2026-10-16). */}
 	<div class="apppromo-badges">
-		<a class="apppromo-badge apppromo-badge--ios" href={APP_STORE_URL} aria-label="Ladda ned islam.se på App Store">
+		<a class="apppromo-badge apppromo-badge--ios" href={appStoreUrl(APP_CAMPAIGNS.appPage)} aria-label="Ladda ned islam.se på App Store">
 			<img src="/badge-appstore-sv.svg" alt="" width="120" height="40" decoding="async" />
 		</a>
-		<a class="apppromo-badge apppromo-badge--android" href={PLAY_STORE_URL} aria-label="Ladda ned islam.se på Google Play">
+		<a class="apppromo-badge apppromo-badge--android" href={playStoreUrl(APP_CAMPAIGNS.appPage)} aria-label="Ladda ned islam.se på Google Play">
 			<img src="/badge-googleplay-sv.png" alt="" width="646" height="250" decoding="async" />
 		</a>
 	</div>

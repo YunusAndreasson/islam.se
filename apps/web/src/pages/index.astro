@@ -6,6 +6,7 @@ import FaktaBand from "../components/FaktaBand.astro";
 import FeatureEssay from "../components/FeatureEssay.astro";
 import FordjupningHome from "../components/FordjupningHome.astro";
 import PoddAppHome from "../components/PoddAppHome.astro";
+import { APP_CAMPAIGNS } from "../lib/app";
 import Nyheter from "../components/Nyheter.astro";
 import PraktisktHome from "../components/PraktisktHome.astro";
 import SkarmPromo from "../components/SkarmPromo.astro";
@@ -141,7 +142,7 @@ const heroPreload = feature?.heroImage
 		    one grid of two halves (editorial.css). The podcast and the app, then the book
 		    and the mosque screen. */}
 		<div class="home-promotions">
-			<PoddAppHome />
+			<PoddAppHome campaign={APP_CAMPAIGNS.home} />
 			<BookPod />
 			<SkarmPromo />
 		</div>

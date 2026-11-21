@@ -29,22 +29,23 @@
 // paper, on their foot, so the pair (and the book and the mosque screen under them)
 // share one box and one foot line. <Ritning> draws them, as it draws the series' other
 // drawings across the site.
-import { APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
+import { type AppCampaign, appStoreUrl, playStoreUrl } from "../lib/app";
 import { getArticles } from "../lib/articles";
 import { RITNINGAR } from "../lib/ritningar";
 import PodcastBrandIcon from "./PodcastBrandIcon.astro";
 import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 import Promo from "./Promo.astro";
 
-interface Props {
-	/** One half alone: /om/ offers the podcast beside the book; the prayer pages offer
-	 *  the app (`appen`) where a reader has just used the times. */
-	only?: "podden" | "appen";
-	/** Inside a section with its own heading (Promo's `nested`). */
-	nested?: boolean;
-}
+/** Inside a section with its own heading (Promo's `nested`). */
+type Nested = { nested?: boolean };
+/** One half alone: /om/ offers the podcast beside the book; the prayer pages offer the
+ *  app (`appen`) where a reader has just used the times. Wherever the app half shows, its
+ *  store links need the campaign of the page they sit on (APP_CAMPAIGNS), so the stores
+ *  can tell the front page from a city page; the type makes leaving it out an error. */
+type Props = (Nested & { only: "podden" }) | (Nested & { only?: "appen"; campaign: AppCampaign });
 
 const { only, nested = false } = Astro.props;
+const campaign = "campaign" in Astro.props ? Astro.props.campaign : undefined;
 const articles = await getArticles();
 // One size for every mark in the band's five pills; 14px, the pill default, read as
 // specks beside sentence-case labels.
@@ -61,15 +62,15 @@ const narrated = articles.filter((a) => typeof a.audioFile === "string");
 	)
 }
 
-{only !== "podden" && (
+{only !== "podden" && campaign && (
 <Promo id="appen-rubrik" nested={nested} kicker="App" titel="Bönetiderna i mobilen" href="/app/" ritning={RITNINGAR.appen}>
 	En påminnelse före varje bön och en kompass mot Kaba. Gratis och utan annonser.
 	<Fragment slot="lankar">
-		<a class="pill" href={APP_STORE_URL} target="_blank" rel="noopener">
+		<a class="pill" href={appStoreUrl(campaign)} target="_blank" rel="noopener">
 			<PodcastBrandIcon platform="appstore" size={ICON} />
 			App Store
 		</a>
-		<a class="pill" href={PLAY_STORE_URL} target="_blank" rel="noopener">
+		<a class="pill" href={playStoreUrl(campaign)} target="_blank" rel="noopener">
 			<PodcastBrandIcon platform="googleplay" size={ICON} />
 			Google Play
 		</a>
