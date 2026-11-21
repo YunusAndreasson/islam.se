@@ -8,7 +8,7 @@ import PoddAppHome from "../../components/PoddAppHome.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
-import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
+import { ORG_REF, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeBySlug } from "../../lib/bonetider/places-index";
 import { RITNINGAR } from "../../lib/ritningar";
@@ -101,8 +101,9 @@ const prayerDefinitions = [
 			inLanguage: "sv",
 			datePublished: BONETIDER_DATA_DATE,
 			dateModified: BONETIDER_DATA_DATE,
-			author: { "@id": ORG_ID },
-			publisher: { "@id": ORG_ID },
+			image: `${SITE_URL}/bonetider/og.png`,
+			author: { ...ORG_REF },
+			publisher: { ...ORG_REF },
 			about: { "@type": "Thing", name: "Islamiska bönetider" },
 			citation: sources,
 		},

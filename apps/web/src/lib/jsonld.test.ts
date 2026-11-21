@@ -5,6 +5,7 @@ import {
 	collectionPageJsonLd,
 	figureImageObject,
 	ORG_ID,
+	organization,
 	WEBSITE_ID,
 	webPageJsonLd,
 } from "./jsonld";
@@ -32,6 +33,25 @@ describe("articleJsonLd", () => {
 			author: { "@id": ORG_ID },
 			publisher: { "@id": ORG_ID },
 		});
+	});
+
+	// Regression: author and publisher were a bare `{ "@id": ORG_ID }`, pointing at the
+	// Organization in another <script> block. Google reads `author.name` and has never
+	// said it follows an @id across blocks, so 206 Articles risked a nameless author.
+	it("names its author and publisher in place, under the Organization's @id", () => {
+		const node = articleJsonLd({
+			headline: "En rubrik",
+			description: "En beskrivning",
+			url: "/svar/ett-svar",
+			publishedAt: "2026-01-02T00:00:00Z",
+		});
+		const org = organization();
+		for (const role of ["author", "publisher"] as const) {
+			expect(
+				node[role],
+				`${role} must carry the Organization's type, @id, name and url, so a reader that does not resolve @id still gets a named ${role}`,
+			).toEqual({ "@type": org["@type"], "@id": ORG_ID, name: org.name, url: org.url });
+		}
 	});
 
 	it("adds only the page-specific Article facts supplied by the caller", () => {

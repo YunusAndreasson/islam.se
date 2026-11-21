@@ -16,7 +16,7 @@ import {
 	roster,
 	svDate,
 } from "../../lib/ai-barometern/site";
-import { breadcrumbList, ORG_ID } from "../../lib/jsonld";
+import { breadcrumbList, ORG_REF } from "../../lib/jsonld";
 import "../../styles/ai-barometern-chips.css";
 import "../../styles/ai-barometern.css";
 import { SITE_URL } from "../../lib/config";
@@ -143,8 +143,9 @@ const published = AI_BAROMETERN_DATA_DATE ?? "2026-09-12";
 			inLanguage: "sv",
 			datePublished: "2026-09-12",
 			dateModified: published,
-			author: { "@id": ORG_ID },
-			publisher: { "@id": ORG_ID },
+			image: `${SITE_URL}/ai-barometern/og.png`,
+			author: { ...ORG_REF },
+			publisher: { ...ORG_REF },
 		},
 		breadcrumbList(crumbs),
 	]}

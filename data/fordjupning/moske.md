@@ -33,7 +33,7 @@ faq:
     a: "Nej, men det är tillståndspliktigt. Böneutrop prövas som en allmän sammankomst för religionsutövning enligt ordningslagen. Tre moskéer har polistillstånd för utrop varje fredag: Fittja, Kungsmarken i Karlskrona och Araby i Växjö. Tillstånden gäller tolv månader och måste förnyas."
 sources:
   - name: "islam.se: Moskéer och böneplatser i Sverige (sammanställning, 27 juni 2026)"
-    url: "https://islam.se/moskeer"
+    url: "https://islam.se/moskeer/"
   - name: "Koranen 9:18 (Bernström)"
     url: "https://quran.com/9/18?translations=48"
   - name: "Koranen 9:108 (Bernström)"
@@ -174,7 +174,7 @@ Att antalet byggda moskéer förblivit litet innebär inte att antalet böneplat
 type: bars
 caption: Moskéer och böneplatser i Sverige, länsvis.
 source: islam.se, sammanställning av moskéer och böneplatser, 27 juni 2026
-sourceUrl: https://islam.se/moskeer
+sourceUrl: https://islam.se/moskeer/
 note: Något statligt register över moskéer finns inte. Sammanställningen bygger på öppna källor – bland dem OpenStreetMap – och gör inte anspråk på att vara fullständig. Den räknar böneplatser, inte särskilt uppförda moskébyggnader, som är långt färre.
 data:
   Stockholm: 44

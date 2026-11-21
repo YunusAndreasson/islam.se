@@ -326,8 +326,8 @@ export function articleJsonLd(opts: {
 		isPartOf: { "@id": WEBSITE_ID },
 		publishingPrinciples: `${SITE}/om/redaktion/`,
 		...(opts.image === undefined ? {} : { image: opts.image }),
-		author: { "@id": ORG_ID },
-		publisher: { "@id": ORG_ID },
+		author: { ...ORG_REF },
+		publisher: { ...ORG_REF },
 		...(opts.about === undefined ? {} : { about: opts.about }),
 		...(opts.citations && opts.citations.length > 0
 			? {
@@ -351,6 +351,18 @@ export function articleJsonLd(opts: {
 export const ORG_ID = `${SITE}/#org`;
 export const WEBSITE_ID = `${SITE}/#website`;
 
+/** An Article's author and publisher. The `@id` still merges it onto the one
+ *  Organization node; the type, name and url travel with it because that node is a
+ *  separate `<script>` block, and Google reads `author.name` without ever having said
+ *  that it follows an `@id` into another block. A bare `{ "@id" }` here left 206
+ *  Articles with an author Google may see as nameless. */
+export const ORG_REF = {
+	"@type": "Organization",
+	"@id": ORG_ID,
+	name: "islam.se",
+	url: SITE,
+} as const;
+
 // Real, OWNED external profiles for islam.se — NOT the founders' personal sites
 // (those live under `founder`). These flow into Organization `sameAs`, which
 // strengthens entity grounding for AI citation and Knowledge-Panel eligibility:
@@ -364,10 +376,7 @@ const ORG_SAME_AS: string[] = [APP_STORE_URL, PLAY_STORE_URL, APPLE_PODCAST_URL,
 export function organization(): Record<string, unknown> {
 	return {
 		"@context": "https://schema.org",
-		"@type": "Organization",
-		"@id": ORG_ID,
-		name: "islam.se",
-		url: SITE,
+		...ORG_REF,
 		// Registered and online since 2003 — a real longevity/authority signal.
 		foundingDate: "2003",
 		description:
