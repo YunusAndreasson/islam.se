@@ -116,8 +116,8 @@ describe('sentryOptions — what a crash report may carry', () => {
 
     it('applies the same list to the trail a report leaves with (beforeSend)', () => {
       // A JS report also carries the native SDKs' breadcrumbs, merged in after
-      // beforeBreadcrumb ran; Android records touches on native views that no JS option
-      // switches off.
+      // beforeBreadcrumb ran; Android's touches on native views are switched off only in
+      // the manifest (plugins/withSentryAndroidBreadcrumbs), never by a JS option.
       const send = options.beforeSend;
       if (typeof send !== 'function') throw new Error('beforeSend must apply the allow-list');
       const touch = { type: 'user', category: 'ui.click', timestamp: 3, data: { 'view.id': 'maplibre_compass' } };

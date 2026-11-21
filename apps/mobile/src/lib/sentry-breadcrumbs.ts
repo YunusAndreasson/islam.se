@@ -93,8 +93,9 @@ export function allowBreadcrumb(crumb: Breadcrumb): Breadcrumb | null {
 /**
  * beforeSend: the same allow-list over the event's finished trail. A JS error report also
  * carries the breadcrumbs the NATIVE SDKs recorded (the SDK merges them in after
- * beforeBreadcrumb has run), and Android records touches on native views that no option
- * passed from JS can switch off.
+ * beforeBreadcrumb has run). Android's touches on native views are switched off in the
+ * manifest (plugins/withSentryAndroidBreadcrumbs), not by any option passed from JS; this is
+ * the second guard on them.
  */
 export function keepAllowedBreadcrumbs(event: ErrorEvent): ErrorEvent {
   if (event.breadcrumbs === undefined) return event;

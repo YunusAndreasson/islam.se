@@ -35,8 +35,9 @@ import { allowBreadcrumb, keepAllowedBreadcrumbs } from './sentry-breadcrumbs';
 //        it to the native scope.
 //     3. On the way out: beforeSend applies the same list to a JS report's whole trail,
 //        because the SDK merges the native breadcrumbs into it after beforeBreadcrumb has
-//        run — and Android records touches on native views (MapLibre's compass and
-//        attribution) under a switch the JS options cannot reach.
+//        run. Android's touch breadcrumbs on native views (MapLibre's compass and
+//        attribution) sit under a switch the JS options cannot reach; the manifest turns it
+//        off (plugins/withSentryAndroidBreadcrumbs), and this layer is the second guard.
 //   maxBreadcrumbs caps the trail on both native SDKs as well as in JS.
 // - enableMemoryIntrospection: false — on a native crash it embeds strings found in memory
 //   near the crash site, and on this app those strings can be coordinates.
