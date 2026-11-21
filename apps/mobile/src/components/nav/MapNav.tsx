@@ -46,7 +46,16 @@ export interface MapAction {
   onPress: () => void;
 }
 
-export function MapNav({ active, action }: { active: boolean; action?: MapAction }) {
+/** `gpuReady` is handed to the Moon disc, the one Skia canvas in the nav — see MoonButton. */
+export function MapNav({
+  active,
+  action,
+  gpuReady,
+}: {
+  active: boolean;
+  action?: MapAction;
+  gpuReady: boolean;
+}) {
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
   // A screen reader's focus sits on "Återställ kartan" when it is activated, and the disc is
@@ -79,7 +88,7 @@ export function MapNav({ active, action }: { active: boolean; action?: MapAction
         {/* Optional, like the map's other two layers. Hiding it leaves the row one disc
             wide; nothing else measures from the row's WIDTH, so the lane below and the
             chip in it are unaffected either way. */}
-        {settings.showMoon && <MoonButton active={active} />}
+        {settings.showMoon && <MoonButton active={active} gpuReady={gpuReady} />}
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
         {/* Only when there is an action to take (see MapAction). This disc used to live here

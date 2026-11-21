@@ -39,6 +39,13 @@ describe('BurialGroundLayer', () => {
     }
   });
 
+  // Same guard as MosqueLayer's (Sentry ISLAM-SE-D): a source that is not pressable must be
+  // handed no onPress, or Android still queries it on the main thread for every map tap.
+  it('hands the glyph source no onPress while it is not pressable', async () => {
+    await render(<BurialGroundLayer onSelect={noop} pressable={false} />);
+    expect(byId(declared().sources, 'burial-grounds').props.onPress).toBeUndefined();
+  });
+
   it('mounts the ring with the style, transparent until its native feature state selects it', async () => {
     await render(<BurialGroundLayer onSelect={noop} />);
     const ring = byId(declared().layers, 'burial-ground-selected');

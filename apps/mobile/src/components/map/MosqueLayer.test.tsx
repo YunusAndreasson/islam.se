@@ -47,6 +47,21 @@ describe('MosqueLayer sources', () => {
       expect(glyphs.props.hitbox[side]).toBeLessThan(22);
     }
   });
+
+  // THE BUG THIS GUARDS (Sentry ISLAM-SE-D): on Android every pressable source costs a
+  // queryRenderedFeatures on the main thread for every map tap, and that call waits for
+  // MapLibre's render thread. `pressable={false}` is how the map screen drops it below the
+  // glyphs' minzoom, so it has to leave the source with no onPress at all — the binding's
+  // `hasOnPress` is `!!onPress`, and a no-op handler would still be queried.
+  it('hands the glyph source no onPress while it is not pressable', async () => {
+    await render(<MosqueLayer onSelect={noop} pressable={false} />);
+    const glyphs = at(
+      sourcesAndLayers().sources.filter((s) => s.props.id === 'mosques'),
+      0,
+      'glyph source',
+    );
+    expect(glyphs.props.onPress).toBeUndefined();
+  });
 });
 
 describe('MosqueLayer selection ring', () => {

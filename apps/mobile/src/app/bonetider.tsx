@@ -96,6 +96,7 @@ import {
   paddedCentre,
 } from '@/lib/map/approach';
 import { CAMERA_MAX_BOUNDS, CAMERA_MIN_ZOOM } from '@/lib/map/camera-bounds';
+import { GLYPH_MIN_ZOOM } from '@/lib/map/dust';
 import { cameraTravelMs, TRAVEL_MAX_MS } from '@/lib/map/camera-travel';
 import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection';
 import { createTroubleBurst, watchResourceFailures } from '@/lib/map/map-diagnostics';
@@ -486,6 +487,18 @@ export default function Bonetider() {
   // off where the basemap actually rendered after fitBounds. By waiting for the first
   // settled event, the overlay never paints against a stale camera.
   const [cameraReady, setCameraReady] = useState(false);
+  // Whether a tap can land on a mosque or a burial ground: only from GLYPH_MIN_ZOOM up, where
+  // their glyph layers exist. Below it the two sources are handed no onPress at all.
+  //
+  // ⚠️ A PRESSABLE SOURCE IS A BLOCKING QUERY ON EVERY TAP. On Android the binding answers a
+  // map tap by calling queryRenderedFeatures for each pressable source on the MAIN thread
+  // (MLRNMapView.onMapClick), and MapLibre answers that by waiting for its render thread.
+  // A render thread busy for seconds makes that wait an ANR (Sentry ISLAM-SE-D, 1.0.13: the
+  // same wait, reached then through the annotation plugin, which the binding now loads only
+  // for PointAnnotation). At the national view — the home view, where most taps dismiss a
+  // card or ask about a line — the query cannot find anything, so it is not asked. City zoom
+  // still asks: there it is how a glyph is found.
+  const [poiTappable, setPoiTappable] = useState(false);
   const reduceMotion = useReducedMotion();
 
   // The basemap is fetched over the network at runtime (vector tiles + glyphs from
@@ -601,6 +614,31 @@ export default function Bonetider() {
 
   const trouble: 'style' | 'network' | 'offline' | null =
     offline && (mapTrouble != null || !mapComplete) ? 'offline' : mapTrouble;
+
+  // ⚠️ THE BASEMAP DRAWS FIRST, THEN SKIA STARTS. Until this latch is set, nothing on this
+  // screen mounts a Skia canvas: the wash and the prayer lines (with their pills, which label
+  // them) wait, and the Moon disc in the nav draws with native views.
+  //
+  // THE BUG THIS FIXES (Sentry ISLAM-SE-J and ISLAM-SE-K, 1.3.3, iPhone SE 2nd gen): the app
+  // froze two to four seconds into launch until the reader or the watchdog killed it. MapLibre
+  // on iOS renders on the MAIN thread and compiles each shader the first time a layer draws
+  // (`-[MTKView draw]` → `newLibraryWithSource:` in the report), and a compile goes through
+  // the process's one Metal compiler connection. Skia starts its GPU device the moment its
+  // first canvas gets a window, and the device starts a pipeline warmup at once
+  // (RNSkPipelineWarmup, a built-in set of pipelines on a launch without a record), next to
+  // the canvases' own first pipelines and Dawn's async ones. The same report has four Skia
+  // threads inside that connection, and the main thread queued behind them. On an A13 with
+  // 80 MB free that queue was longer than anyone waited.
+  //
+  // The cure is order, not speed: let MapLibre finish the compiles the first full view needs
+  // (`mapPainted`: the first complete render, a failed style, or the cover's safety net),
+  // then start Skia. Map trouble opens it too — offline or with failing tiles MapLibre has
+  // little left to compile, and the lines are then the part of the screen still telling the
+  // truth (see `mapTrouble`). Latched: the next pan's offline blip must not unmount the
+  // overlay. Android takes the same order so that the launch is one sequence on both
+  // platforms; no Android report is known to need it.
+  const [gpuReady, setGpuReady] = useState(false);
+  if (!gpuReady && (mapPainted || trouble != null)) setGpuReady(true);
 
   // Let MapLibre keep the basemap it has already fetched instead of re-fetching it every
   // launch (see lib/map/offline for why this is a cache cap and not an offline download).
@@ -1130,6 +1168,9 @@ export default function Bonetider() {
       // says so again (noteFullRender). Online this is irrelevant — `trouble` reads it only
       // when offline — so the ordinary pan pays one setState React bails out of.
       if (offline) setMapComplete(false);
+      // On settle only: a tap is recognised after the double-tap window, by which time the
+      // settle of a camera it stopped has landed. React bails out while the answer holds.
+      setPoiTappable(e.nativeEvent.zoom >= GLYPH_MIN_ZOOM);
 
       const { zoom, bounds } = e.nativeEvent;
       const [west, south, east, north] = bounds;
@@ -1305,7 +1346,9 @@ export default function Bonetider() {
     const camera = cam.get();
     const drawnAt = solarRenderInstant(clock.dayStart + nowFraction.get() * clock.dayLength, clock.dayStart, camera.zoom, preview);
     const lineCamera = driftedCamera(camera, solarDrift(drawnAt, fieldNow, preview));
-    for (const line of prayerLines) {
+    // Not before `gpuReady`: until then the lines are not drawn, and a tap must not explain
+    // a line the reader cannot see.
+    for (const line of gpuReady ? prayerLines : []) {
       for (const path of line.polylines) {
         const d = distanceToLine(point, path, lineCamera);
         if (d < distance) {
@@ -1440,19 +1483,26 @@ export default function Bonetider() {
             styleRevision={mapStyleRevision}
             onSelect={selectBurialGround}
             selectedId={selectedBurialGround?.id ?? null}
+            pressable={poiTappable}
           />
         )}
         {settings.showMosques && (
-          <MosqueLayer styleRevision={mapStyleRevision} onSelect={selectMosque} selectedId={selectedMosque?.id ?? null} />
+          <MosqueLayer
+            styleRevision={mapStyleRevision}
+            onSelect={selectMosque}
+            selectedId={selectedMosque?.id ?? null}
+            pressable={poiTappable}
+          />
         )}
         <LocationLayer point={userPoint} showQibla={settings.showQibla && !mapLessonPending} />
       </Map>
 
       {/* The reveal cover. Sits directly ON the basemap and its native location layer,
-          beneath the solar field: the wash, prayer lines and their labels appear against
-          calm ground, and the basemap's detail resolves beneath them. A cover over the
-          whole screen would have hidden the app's own graphics too and turned the first
-          seconds into a splash — this hides only the part that isn't ready.
+          beneath the solar field, and hides only the part that isn't ready: the dock and the
+          nav are up over calm ground while the basemap's detail resolves. The wash and the
+          prayer lines no longer come up before it goes — they wait for the same first full
+          render (see `gpuReady`), so they arrive with the map rather than ahead of it. A
+          cover over the whole screen would have turned the first seconds into a splash.
 
           Its colour is the basemap's own LAND (basemapGroundFor), not `paper` or
           `paperSunken`: the cover is standing in for the map's ground, so when it goes
@@ -1476,10 +1526,11 @@ export default function Bonetider() {
           stay glued to the map as it pans/zooms. Gated on `cameraReady` so the overlay
           never paints against the stale seed camera (lat 62.1 / zoom 4) — the basemap's
           actual fit on iOS resolves to a different camera, and that mismatch is what
-          shoved every city ~50 mil south on first paint. Also gated off while the map
-          lesson is up — its own overlay pair (below) takes over instead, so the two never
-          paint the same frame at once. */}
-      {cameraReady && !mapLessonPending && (
+          shoved every city ~50 mil south on first paint. Gated on `gpuReady` too, so Skia
+          starts only once MapLibre has compiled what the first view needs (see there). Also
+          gated off while the map lesson is up — its own overlay pair (below) takes over
+          instead, so the two never paint the same frame at once. */}
+      {cameraReady && gpuReady && !mapLessonPending && (
         <SolarSkiaOverlay
           dayStart={clock.dayStart}
           dayLength={clock.dayLength}
@@ -1500,8 +1551,9 @@ export default function Bonetider() {
 
       {/* The prayer pills, above the canvas. (The reader's dot is not here: it is native, in
           LocationLayer, and the wash leaves a hole for it — see WashClearings.) Same
-          `cameraReady` gate — no point projecting against a stale camera. */}
-      {cameraReady && !mapLessonPending && (
+          `cameraReady` gate — no point projecting against a stale camera — and the same
+          `gpuReady` one: a pill names a line, so it must not come up before its line does. */}
+      {cameraReady && gpuReady && !mapLessonPending && (
         <MapMarkersOverlay
           camera={cam}
           dayStart={clock.dayStart}
@@ -1525,8 +1577,8 @@ export default function Bonetider() {
           ever touching the live overlay's prop computation is worth the second Skia
           canvas for the few seconds this is on screen. Same `cameraReady` gate as the
           live pair above and for the same reason — `cam` still holds the stale seed
-          camera until the first settled region event lands. */}
-      {cameraReady && mapLessonPending && lessonFrame && (
+          camera until the first settled region event lands — and the same `gpuReady`. */}
+      {cameraReady && gpuReady && mapLessonPending && lessonFrame && (
         <>
           <SolarSkiaOverlay
             dayStart={lessonFrame.dayStart}
@@ -1645,6 +1697,7 @@ export default function Bonetider() {
           cannot show; otherwise nothing. See MapAction. */}
       <MapNav
         active={mapActive}
+        gpuReady={gpuReady}
         action={
           moved
             ? {

@@ -54,7 +54,13 @@ import { GlassRoundButton } from './GlassRoundButton';
  *  aiming instrument now, so it cannot run on the drawing clock's ten-minute bucket. */
 const AIM_TICK_MS = 60_000;
 
-export function MoonButton({ active }: { active: boolean }) {
+/**
+ * `gpuReady` — whether the map screen lets Skia start yet (see `gpuReady` in app/bonetider).
+ * Until it does, the disc draws the same phase and tilt with native views (MoonDisc's
+ * `staticIcon`): this canvas is on the home screen, so mounting it at launch would start
+ * Skia's GPU device and its pipeline warmup while MapLibre is still compiling its shaders.
+ */
+export function MoonButton({ active, gpuReady }: { active: boolean; gpuReady: boolean }) {
   const c = useColors();
   const glass = useSkyGlass();
   const { disc, glyph } = useNavMetrics();
@@ -122,7 +128,13 @@ export function MoonButton({ active }: { active: boolean }) {
       onPress={() => router.navigate('/manen')}
     >
       <Animated.View style={lockStyle}>
-        <MoonDisc size={glyph} illumination={sky.illumination} tilt={sky.limbAngle} {...ink} />
+        <MoonDisc
+          size={glyph}
+          illumination={sky.illumination}
+          tilt={sky.limbAngle}
+          staticIcon={!gpuReady}
+          {...ink}
+        />
       </Animated.View>
     </GlassRoundButton>
   );

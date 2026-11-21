@@ -29,7 +29,7 @@ import type { NativeSyntheticEvent } from 'react-native';
 
 import { type BurialGround, burialGroundForPress, toFeatureCollection } from '@/lib/burial-grounds';
 import { hapticLight } from '@/lib/haptics';
-import { GLYPH_PRESENCE_STOPS, zoomExpression } from '@/lib/map/dust';
+import { GLYPH_MIN_ZOOM, GLYPH_PRESENCE_STOPS, zoomExpression } from '@/lib/map/dust';
 import { slotFor } from '@/lib/map/layer-slots';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
@@ -55,9 +55,11 @@ interface Props {
   /** The burial ground whose card is open, if any — gets a ring. Null clears it. */
   selectedId?: string | null;
   styleRevision?: number;
+  /** Whether the glyph source takes taps — off below GLYPH_MIN_ZOOM, as MosqueLayer's. */
+  pressable?: boolean;
 }
 
-export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0 }: Props) {
+export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0, pressable = true }: Props) {
   const selectionSource = useFeatureSelection(selectedId, styleRevision);
   const c = useColors();
   const scheme = useActiveScheme();
@@ -94,12 +96,17 @@ export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0 }: P
           }}
         />
       </GeoJSONSource>
-      <GeoJSONSource id={SOURCE_ID} data={data} onPress={handlePress} hitbox={GLYPH_HITBOX}>
+      <GeoJSONSource
+        id={SOURCE_ID}
+        data={data}
+        onPress={pressable ? handlePress : undefined}
+        hitbox={GLYPH_HITBOX}
+      >
         <Layer
           id={LAYER_ID}
           beforeId={slotFor('burial-ground-symbols')}
           type="symbol"
-          minzoom={7}
+          minzoom={GLYPH_MIN_ZOOM}
           layout={{
             'icon-image': IMAGE_ID,
             // MosqueLayer's scale, so a grave and a mosque read at the same size.

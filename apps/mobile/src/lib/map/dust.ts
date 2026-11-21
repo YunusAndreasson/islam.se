@@ -28,10 +28,15 @@ export const DUST_PRESENCE_STOPS: ZoomStops = [
   [7.8, 0],
 ];
 
+/** The zoom the mosque and burial glyph layers start at — their `minzoom`. Below it neither
+ *  pressable source has a layer on the map, so no tap can hit one there; the map screen
+ *  reads it to stop asking MapLibre (see `poiTappable` in app/bonetider). */
+export const GLYPH_MIN_ZOOM = 7;
+
 /** The mosque and burial glyphs' opacity, rising out of nothing at their z7 minzoom while
  *  the dust above dissolves, so the town-scale tier fades in instead of popping in at 0.7. */
 export const GLYPH_PRESENCE_STOPS: ZoomStops = [
-  [7, 0],
+  [GLYPH_MIN_ZOOM, 0],
   [8, 0.7],
   [9, 0.95],
 ];

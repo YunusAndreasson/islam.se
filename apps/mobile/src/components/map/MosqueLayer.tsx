@@ -79,7 +79,13 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ImageSourcePropType, NativeSyntheticEvent } from 'react-native';
 
 import { hapticLight } from '@/lib/haptics';
-import { DUST_PRESENCE_STOPS, DUST_RADIUS_STOPS, GLYPH_PRESENCE_STOPS, zoomExpression } from '@/lib/map/dust';
+import {
+  DUST_PRESENCE_STOPS,
+  DUST_RADIUS_STOPS,
+  GLYPH_MIN_ZOOM,
+  GLYPH_PRESENCE_STOPS,
+  zoomExpression,
+} from '@/lib/map/dust';
 import { slotFor } from '@/lib/map/layer-slots';
 import { type Mosque, mosqueForPress, toFeatureCollection } from '@/lib/mosques';
 import { useActiveScheme, useColors } from '@/theme/useColors';
@@ -140,9 +146,14 @@ interface Props {
   selectedId?: string | null;
   /** Changes when the basemap style reloads and loses its native feature state. */
   styleRevision?: number;
+  /** Whether the glyph source takes taps. The map screen turns it off below GLYPH_MIN_ZOOM,
+   *  where the glyph layer is not drawn and a hit is impossible: a pressable source costs a
+   *  blocking feature query on Android's main thread for every tap (see `poiTappable` in
+   *  app/bonetider). */
+  pressable?: boolean;
 }
 
-export function MosqueLayer({ onSelect, selectedId, styleRevision = 0 }: Props) {
+export function MosqueLayer({ onSelect, selectedId, styleRevision = 0, pressable = true }: Props) {
   const selectionSource = useFeatureSelection(selectedId, styleRevision);
   const c = useColors();
   const scheme = useActiveScheme();
@@ -260,13 +271,18 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0 }: Props) 
       </GeoJSONSource>
       {/* GLYPHS — the city-view place marks, and the ONLY tappable tier. Only mount once
           the icon bitmap exists so the layer never paints a "missing image" box. */}
-      <GeoJSONSource id={SOURCE_ID} data={data} onPress={handlePress} hitbox={GLYPH_HITBOX}>
+      <GeoJSONSource
+        id={SOURCE_ID}
+        data={data}
+        onPress={pressable ? handlePress : undefined}
+        hitbox={GLYPH_HITBOX}
+      >
         {icon && (
           <Layer
             id={LAYER_ID}
             beforeId={slotFor('mosque-symbols')}
             type="symbol"
-            minzoom={7}
+            minzoom={GLYPH_MIN_ZOOM}
             layout={{
               'icon-image': 'mosque-pin',
               // Small, and grows only gently with zoom — a place mark, not a billboard.

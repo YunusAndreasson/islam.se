@@ -17,12 +17,14 @@ import * as Network from 'expo-network';
 import * as Notifications from 'expo-notifications';
 
 import Bonetider from '@/app/bonetider';
+import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
 import { resetNotificationLaunchCountForTests } from '@/lib/notification-hint';
 import { SettingsProvider } from '@/lib/settings/context';
 import { storage } from '@/lib/storage';
+import { allOfType } from '@/test-utils/rendered';
 
 // bonetider.tsx's own safety net for the reveal cover — after this it stops waiting for the
 // map and shows whatever it has. Duplicated rather than imported because what matters here
@@ -191,5 +193,42 @@ describe('the offline notice', () => {
     await reportFullRender();
 
     expect(screen.queryByText(OFFLINE_COPY)).toBeNull();
+  });
+});
+
+describe('the prayer lines while offline', () => {
+  // The map screen holds Skia back until the basemap's first full render (`gpuReady` in
+  // app/bonetider — Sentry ISLAM-SE-J/K). Offline that render may never come, and the lines
+  // are then the part of the screen still telling the truth: the notice that explains the
+  // empty land opens the latch too, rather than leaving the reader with neither for the
+  // reveal cover's eight seconds.
+  it('come up with the offline notice, without waiting for a basemap that is not coming', async () => {
+    networkState.mockReturnValue({ isConnected: false, isInternetReachable: false });
+    await launchMap();
+    await act(async () => {
+      await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+        nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
+      });
+    });
+
+    expect(screen.getByText(OFFLINE_COPY)).toBeTruthy();
+    expect(allOfType(SolarSkiaOverlay)).toHaveLength(1);
+  });
+
+  it('wait for the basemap on a working connection', async () => {
+    await launchMap();
+    await act(async () => {
+      await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
+        nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
+      });
+    });
+    expect(allOfType(SolarSkiaOverlay)).toHaveLength(0);
+
+    // The cover's safety net is the latest they can come.
+    await act(async () => {
+      jest.advanceTimersByTime(MAP_REVEAL_TIMEOUT_MS);
+    });
+    await act(async () => {});
+    expect(allOfType(SolarSkiaOverlay)).toHaveLength(1);
   });
 });

@@ -25,10 +25,13 @@ import { qiblaBearing, greatCirclePoints, KAABA } from '@/lib/qibla';
 import { project } from '@/lib/map/projection';
 import { __resetGridCache } from '@/lib/solar/grid-cache';
 import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
+import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
+import { MoonDisc } from '@/components/moon/MoonDisc';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { LogManager } from '@maplibre/maplibre-react-native';
 import { first } from '@/test-utils/at';
-import { hostsOfType, oneOfType } from '@/test-utils/rendered';
+import { allOfType, hostsOfType, oneOfType } from '@/test-utils/rendered';
+import { Canvas } from 'react-native-skia';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
 
@@ -372,6 +375,8 @@ describe('tab screens', () => {
       await fireEvent(map, 'regionDidChange', { nativeEvent: {
         zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
       } });
+      // The lines are drawn only once the basemap has (see the launch-order tests below).
+      await fireEvent(map, 'didFinishRenderingMapFully');
       const overlay = oneOfType(SolarSkiaOverlay, 'solar overlay');
       const props = overlay.props;
       const from = { longitude: props.userPoint[0], latitude: props.userPoint[1] };
@@ -391,6 +396,75 @@ describe('tab screens', () => {
       __resetGridCache();
     }
   }, MAP_RENDER_TIMEOUT);
+
+  // THE BUG THIS GUARDS (Sentry ISLAM-SE-J and ISLAM-SE-K, 1.3.3, iPhone SE 2nd gen): the app
+  // froze at launch until it was killed. MapLibre compiles its Metal shaders on the iOS main
+  // thread as its layers first draw, and a Skia canvas mounted at the same moment starts
+  // Skia's GPU device and its pipeline warmup, whose compiles queue ahead of MapLibre's on
+  // the process's one Metal compiler connection. The fix is the order: no Skia canvas on the
+  // map screen until the basemap has drawn its first full view. The camera settling is not
+  // enough — it lands long before the tiles have, which is how 1.3.3 mounted the wash.
+  it('starts no Skia canvas on the map until the basemap has drawn its first full view', async () => atQuietHour(async () => {
+    await renderSettled(withProviders(<Bonetider />));
+    const map = screen.getByTestId('sweden-map');
+    await fireEvent(map, 'regionDidChange', { nativeEvent: {
+      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+    } });
+
+    // jest.setup mocks every Skia container (Canvas, Group, Fill) as one component, so this
+    // counts all of them: none may be mounted yet.
+    expect(allOfType(Canvas)).toHaveLength(0);
+    expect(allOfType(SolarSkiaOverlay)).toHaveLength(0);
+    // A pill names a line, so the pills wait with the lines.
+    expect(allOfType(MapMarkersOverlay)).toHaveLength(0);
+    // The Moon disc is not held back, only drawn without Skia meanwhile.
+    expect(oneOfType(MoonDisc, 'nav moon').props.staticIcon).toBe(true);
+
+    await fireEvent(map, 'didFinishRenderingMapFully');
+    expect(allOfType(SolarSkiaOverlay)).toHaveLength(1);
+    expect(allOfType(MapMarkersOverlay)).toHaveLength(1);
+    expect(oneOfType(MoonDisc, 'nav moon').props.staticIcon).toBe(false);
+  }), MAP_RENDER_TIMEOUT);
+
+  // A map that never completes must not keep the lines away for good: the reveal cover's
+  // safety net (or a failed style, or the offline notice — see map-offline-notice.test)
+  // opens the same latch, and nothing closes it again.
+  it('starts Skia when the basemap fails, and keeps it once started', async () => atQuietHour(async () => {
+    await renderSettled(withProviders(<Bonetider />));
+    const map = screen.getByTestId('sweden-map');
+    await fireEvent(map, 'regionDidChange', { nativeEvent: {
+      zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+    } });
+    await fireEvent(map, 'didFailLoadingMap');
+    expect(allOfType(SolarSkiaOverlay)).toHaveLength(1);
+
+    await fireEvent(map, 'didFinishLoadingStyle');
+    await fireEvent(map, 'didFinishRenderingMapFully');
+    expect(allOfType(SolarSkiaOverlay)).toHaveLength(1);
+  }), MAP_RENDER_TIMEOUT);
+
+  // THE BUG THIS GUARDS (Sentry ISLAM-SE-D): on Android the binding answers every map tap
+  // with a queryRenderedFeatures per pressable source, on the main thread, waiting for
+  // MapLibre's render thread — an ANR when that thread is busy. Below the glyphs' minzoom
+  // neither source has a layer to hit, so at the national home view they take no onPress.
+  it('lets taps reach the mosque and burial-ground sources only at the zoom their glyphs draw at', async () => atQuietHour(async () => {
+    await renderSettled(withProviders(<Bonetider />));
+    const map = screen.getByTestId('sweden-map');
+    const poiSources = () =>
+      hostsOfType('GeoJSONSource').filter((s) => s.props.id === 'mosques' || s.props.id === 'burial-grounds');
+    const settle = (zoom: number) =>
+      fireEvent(map, 'regionDidChange', { nativeEvent: {
+        zoom, bounds: [17.6, 59.1, 18.6, 59.6], userInteraction: true,
+      } });
+
+    expect(poiSources()).toHaveLength(2);
+    await settle(4.5);
+    for (const source of poiSources()) expect(source.props.onPress).toBeUndefined();
+    await settle(8);
+    for (const source of poiSources()) expect(typeof source.props.onPress).toBe('function');
+    await settle(6.9);
+    for (const source of poiSources()) expect(source.props.onPress).toBeUndefined();
+  }), MAP_RENDER_TIMEOUT);
 
   // THE BUG THIS GUARDS: nothing stopped a fling from parking the camera in the Pacific,
   // where the Skia overlay dutifully projects Sweden's prayer lines over open ocean and

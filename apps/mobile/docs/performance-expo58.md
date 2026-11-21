@@ -208,3 +208,31 @@ Deferred until a build: the Reanimated synchronous-UI-props flags and the Pressa
 migration, the UI-thread camera handler, the bulk path build and geometry in shared
 values, `colorSpace="srgb"`, the polar dissolve without an offscreen layer, the quantised
 breath and the blur A/B.
+
+## Launch order and GPU-driver crashes — 2026-11-21 (JS only, NOT verified on a device)
+
+From the Sentry reports of 1.3.3, read through the full thread dumps.
+
+- **iOS launch hang (ISLAM-SE-J/K, iPhone SE 2nd gen, A13, ~80 MB free).** The main thread
+  was in MapLibre's first draw, compiling a Metal shader from source (`-[MTKView draw]` →
+  `newLibraryWithSource:`), queued on the process's Metal compiler connection behind four
+  Skia threads: the present thread's first pipelines, `RNSkPipelineWarmup::warmBuiltIn` and
+  two Dawn async pipeline workers. The map screen now mounts no Skia canvas until the
+  basemap's first full render, a failed style, map trouble or the cover's 8 s safety net
+  (`gpuReady` in `app/bonetider.tsx`; the nav Moon draws with native views until then).
+  Cost: the wash and the lines arrive with the map instead of ahead of it. To confirm: a
+  cold first launch after install on an A13 iPhone, with a hang trace.
+- **Android Adreno crash (ISLAM-SE-M, SM-A528B, Android 14).** SIGSEGV in
+  `vulkan.adreno.so` `vkCmdBeginRenderPass`, called from `mln::android::MapRenderer::render`:
+  MapLibre's Vulkan renderer, not Skia. Neither library chooses a backend per device. Skia 3
+  fixes Vulkan on Android at build time (`kPlatformBackendType` in `cpp/rnskia/RNDawnUtils.h`;
+  only Skia 2 renders with OpenGL ES), and MapLibre's backend is the AAR the build links
+  (`nativeVariant` in app.json, `android-sdk-vulkan` or `android-sdk-opengl`). The options,
+  all native (new version and `pnpm runtime:record`): `nativeVariant: "opengl"`, the
+  binding's default (Skia stays on Vulkan, so the transparent overlay's layering needs a
+  device check); a newer MapLibre Native once its changelog names an Adreno Vulkan fix; or
+  excluding the model in the Play Console device catalogue. One event so far.
+- **Android map taps (ISLAM-SE-D, 1.0.13).** The binding answers a tap with a
+  `queryRenderedFeatures` per pressable source on the main thread, which waits for
+  MapLibre's render thread. Below the glyphs' minzoom the two POI sources now take no
+  `onPress`, so a tap at the national view asks nothing.

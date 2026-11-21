@@ -72,7 +72,7 @@ function headingEmitter(): (heading: number, accuracy?: number) => Promise<void>
 }
 
 async function mount(): Promise<void> {
-  await render(withProviders(<MoonButton active />));
+  await render(withProviders(<MoonButton active gpuReady />));
   await act(async () => {
     await Promise.resolve();
   });
