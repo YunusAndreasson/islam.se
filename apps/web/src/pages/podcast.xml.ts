@@ -4,12 +4,8 @@ import { join } from "node:path";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
 import { SITE_URL } from "../lib/config";
-import {
-	episodeShowNotes,
-	PODCAST_COVER,
-	PODCAST_DESCRIPTION,
-	PODCAST_TITLE,
-} from "../lib/podcast";
+import { episodeShowNotes, PODCAST_DESCRIPTION, PODCAST_TITLE } from "../lib/podcast";
+import { podcastCoverPath } from "../lib/podcast-cover";
 import { escapeXml } from "../lib/xml";
 
 const SITE = SITE_URL;
@@ -20,10 +16,9 @@ const SITE = SITE_URL;
 // held in the build and reported every episode as 0 bytes in dev.
 const publicFile = (publicPath: string): string => join(process.cwd(), "public", publicPath);
 
-// Apple Podcasts caches show art by URL and never re-fetches an unchanged one: it went
-// on showing the old khatam mark for two months after podcast-cover.jpg became the
-// blue-and-gold disc. A content hash in the URL makes every regeneration of the cover
-// (scripts/generate-brand-assets.mjs) a new address the directories must fetch.
+// Directories cache art by URL and never re-fetch an unchanged one, so a regenerated
+// episode cover needs a new address. The show cover goes further and changes its file
+// name (lib/podcast-cover.ts): Apple ignored the query string on it.
 function contentVersion(publicPath: string): string {
 	return createHash("sha256")
 		.update(readFileSync(publicFile(publicPath)))
@@ -31,15 +26,13 @@ function contentVersion(publicPath: string): string {
 		.slice(0, 8);
 }
 
-const coverVersion = contentVersion(PODCAST_COVER);
-
 const SHOW = {
 	title: PODCAST_TITLE,
 	description: PODCAST_DESCRIPTION,
 	author: "Islam.se",
 	// The owner contact Apple Podcasts and Spotify display. Must stay on the islam.se domain.
 	email: "support@islam.se",
-	image: `${SITE}${PODCAST_COVER}?v=${coverVersion}`,
+	image: `${SITE}${podcastCoverPath()}`,
 	language: "sv",
 	category: "Religion &amp; Spirituality",
 	subcategory: "Islam",

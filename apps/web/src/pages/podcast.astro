@@ -9,6 +9,7 @@ import { CHIP_WIDTHS } from "../lib/hero";
 import { breadcrumbList, ORG_ID } from "../lib/jsonld";
 import {
 	APPLE_PODCAST_URL,
+	episodeLinks,
 	PODCAST_COVER,
 	PODCAST_DESCRIPTION,
 	PODCAST_TITLE,
@@ -56,6 +57,7 @@ const episodeRows = episodes.map((ep, i) => ({
 	audio: {
 		src: `/audio/${ep.audioFile}`,
 		title: ep.title,
+		episode: episodeLinks(ep.slug),
 		...(ep.heroImage ? { artwork: ep.heroImage.src } : {}),
 		// The duration IS the button. An essay with no measured audio falls back to
 		// AudioPlayer's own "Lyssna".

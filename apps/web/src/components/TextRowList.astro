@@ -1,4 +1,5 @@
 ---
+import type { EpisodeLinks } from "../lib/podcast";
 import type { HTMLAttributes } from "astro/types";
 import type { Article } from "../lib/articles";
 import AudioPlayer from "./AudioPlayer.astro";
@@ -17,6 +18,8 @@ type TextRowAudio = {
 	artwork?: string;
 	/** Overrides the button's word. A row passes its duration — see AudioPlayer. */
 	label?: string;
+	/** The recording's own episode in Apple Podcasts and Spotify, for the floating player. */
+	episode?: EpisodeLinks;
 };
 
 type TextRowItem = {
@@ -81,6 +84,7 @@ const Title = titleElement;
 						title={item.audio.title}
 						{...(item.audio.artwork === undefined ? {} : { artwork: item.audio.artwork })}
 						{...(item.audio.label === undefined ? {} : { label: item.audio.label })}
+						{...(item.audio.episode === undefined ? {} : { episode: item.audio.episode })}
 					/>
 				</span>
 			)}
