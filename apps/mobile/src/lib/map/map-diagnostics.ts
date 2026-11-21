@@ -50,14 +50,12 @@ import { LogManager } from '@maplibre/maplibre-react-native';
 
 // Which handler this module last installed into LogManager's single slot — see the
 // unsubscribe in watchResourceFailures.
-let installed: ((log: MapLogEvent) => boolean) | null = null;
+type LogHandler = Parameters<typeof LogManager.onLog>[0];
+let installed: LogHandler | null = null;
 
 /** One line of MapLibre Native's log stream, as the binding forwards it. */
-export interface MapLogEvent {
-  level: string;
-  tag: string;
-  message: string;
-}
+type MapLogEvent = Parameters<LogHandler>[0];
+type ResourceLogEvent = Omit<MapLogEvent, 'level'> & { level: MapLogEvent['level'] | 'fault' };
 
 /**
  * True when a log line reports a map resource that could not be fetched — a vector tile, a
@@ -78,7 +76,7 @@ export interface MapLogEvent {
  * tile leaves the viewport, so every ordinary pan produces a handful of them. (The binding
  * downgrades that exact message from warn to info for the same reason.)
  */
-export function isResourceFailureLog({ level, message }: MapLogEvent): boolean {
+export function isResourceFailureLog({ level, message }: ResourceLogEvent): boolean {
   if (level !== 'warn' && level !== 'error' && level !== 'fault') return false;
   const failed = /request failed/i.test(message) || /failed to load/i.test(message);
   if (!failed) return false;

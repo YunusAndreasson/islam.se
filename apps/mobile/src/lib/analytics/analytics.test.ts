@@ -96,23 +96,23 @@ describe('analytics.track', () => {
     // The SDK defaults to api.mixpanel.com (US). An EU-resident project drops those events,
     // and nothing on the device says so.
     const { analytics, ANALYTICS_EVENTS } = load();
-    await analytics.track(ANALYTICS_EVENTS.INTRO_COMPLETED);
+    await analytics.track(ANALYTICS_EVENTS.APP_OPENED, { launch: 'cold' });
     expect(mockSdk.initArgs).toEqual([[false, {}, 'https://api-eu.mixpanel.com']]);
   });
 
   it('is a silent no-op without a token: a dev run never touches the native module', async () => {
     mockToken = undefined;
     const { analytics, ANALYTICS_EVENTS } = load();
-    await expect(analytics.track(ANALYTICS_EVENTS.INTRO_COMPLETED)).resolves.toBeUndefined();
+    await expect(analytics.track(ANALYTICS_EVENTS.APP_OPENED, { launch: 'cold' })).resolves.toBeUndefined();
     expect(mockSdk.constructed).toEqual([]);
   });
 
   it('never rejects, whether init or track fails: analytics may not reach an error boundary', async () => {
     const { analytics, ANALYTICS_EVENTS } = load();
     mockSdk.failNextInit = true;
-    await expect(analytics.track(ANALYTICS_EVENTS.INTRO_SKIPPED)).resolves.toBeUndefined();
+    await expect(analytics.track(ANALYTICS_EVENTS.QIBLA_ALIGNED)).resolves.toBeUndefined();
     mockSdk.throwOnTrack = true;
-    await expect(analytics.track(ANALYTICS_EVENTS.INTRO_SKIPPED)).resolves.toBeUndefined();
+    await expect(analytics.track(ANALYTICS_EVENTS.QIBLA_ALIGNED)).resolves.toBeUndefined();
   });
 
   it('initialises once however many first events arrive together', async () => {
@@ -121,8 +121,8 @@ describe('analytics.track', () => {
     const { analytics, ANALYTICS_EVENTS } = load();
     await Promise.all([
       analytics.track(ANALYTICS_EVENTS.SCREEN_VIEWED, { screen: 'bonetider' }),
-      analytics.track(ANALYTICS_EVENTS.INTRO_COMPLETED),
-      analytics.track(ANALYTICS_EVENTS.INTRO_SKIPPED),
+      analytics.track(ANALYTICS_EVENTS.APP_OPENED, { launch: 'cold' }),
+      analytics.track(ANALYTICS_EVENTS.QIBLA_ALIGNED),
     ]);
     expect(mockSdk.constructed).toHaveLength(1);
     expect(mockSdk.inits).toBe(1);
@@ -132,8 +132,8 @@ describe('analytics.track', () => {
   it('tries a failed initialisation again on the next event', async () => {
     const { analytics, ANALYTICS_EVENTS } = load();
     mockSdk.failNextInit = true;
-    await analytics.track(ANALYTICS_EVENTS.INTRO_COMPLETED);
-    await analytics.track(ANALYTICS_EVENTS.INTRO_COMPLETED);
+    await analytics.track(ANALYTICS_EVENTS.APP_OPENED, { launch: 'cold' });
+    await analytics.track(ANALYTICS_EVENTS.APP_OPENED, { launch: 'cold' });
     expect(mockSdk.inits).toBe(2);
     expect(mockSdk.tracked).toHaveLength(1);
   });

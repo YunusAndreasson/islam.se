@@ -18,7 +18,8 @@
 // module never touches it, and it also uses a much coarser lattice than the map's own —
 // a ~0.8° × 1.0° grid, at roughly a sixth of the cost, which is still fine at the
 // whole-Sweden zoom the lesson is shown at (the map hasn't been panned/zoomed yet).
-import { computePrayerTimes, type PrayerKey } from '@/lib/prayer-times';
+import type { LngLatBounds } from '@maplibre/maplibre-react-native';
+import { computePrayerTimes } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { DEFAULT_COORDS } from '@/lib/settings/types';
 import { startOfZoneDay, zoneDayLength, zonePrayerDate } from '@/lib/zone-time';
@@ -81,7 +82,7 @@ export const MAP_LESSON_EXAMPLES: { month: number; fact: string }[] = [
 // Generously wider than Sweden so contours reach the edges of whatever's on screen
 // instead of stopping at a visible rectangular boundary — the same reasoning as
 // DEFAULT_GRID_BOUNDS in ./field.
-const DEMO_BOUNDS: [number, number, number, number] = [2.0, 52.0, 32.0, 72.0];
+const DEMO_BOUNDS: LngLatBounds = [2.0, 52.0, 32.0, 72.0];
 const DEMO_LAT_STEP = 0.8;
 const DEMO_LON_STEP = 1.0;
 
@@ -187,9 +188,8 @@ export function demoFrame(
     instant,
     fraction: (instant - dayStart) / dayLength,
     lines: solar.lines.features.map((f) => ({
-      prayer: (f.properties as { prayer: PrayerKey }).prayer,
-      polylines:
-        f.geometry.type === 'MultiLineString' ? (f.geometry.coordinates as [number, number][][]) : [],
+      prayer: f.properties.prayer,
+      polylines: f.geometry.coordinates,
     })),
     labels: solar.labels,
     polarBoundary: polarBoundaryFor(new Date(dayStart + dayLength / 2)),

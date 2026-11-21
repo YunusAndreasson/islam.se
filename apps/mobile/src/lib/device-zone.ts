@@ -20,10 +20,15 @@ function deviceZone(): string | undefined {
   return Localization.getCalendars()[0]?.timeZone ?? undefined;
 }
 
+export function refreshDisplayZone(): string {
+  setDisplayZone(deviceZone());
+  return getDisplayZone();
+}
+
 // Module scope, not an effect: `zoneParts` and friends are called during the first
 // render (the splash gate's screen choice, the solar clock's initial day anchor), so the
 // zone has to be in force before React runs, not after its first commit.
-setDisplayZone(deviceZone());
+refreshDisplayZone();
 
 /**
  * The zone in force, re-resolved on every foreground.
@@ -45,10 +50,9 @@ export function useDisplayZone(): string {
 
   useEffect(() => {
     const apply = () => {
-      setDisplayZone(deviceZone());
       // A no-op re-render when the zone is unchanged, which is every launch but the one
       // that matters.
-      setZone(getDisplayZone());
+      setZone(refreshDisplayZone());
     };
     apply();
     const sub = AppState.addEventListener('change', (state) => {

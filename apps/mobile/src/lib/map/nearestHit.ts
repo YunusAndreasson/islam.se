@@ -14,6 +14,7 @@
 // simply the right answer. Ties (two places at the same coordinates — the mosque dataset has
 // near duplicates, see the sync guard's 150 m warning) keep the first, which is source order
 // and therefore stable.
+import type { Feature } from 'geojson';
 import type { LonLat } from '@/lib/coordinates';
 import { haversineKm } from '@/lib/places/nearest';
 
@@ -23,7 +24,7 @@ import { haversineKm } from '@/lib/places/nearest';
  * @param byId The layer's records, keyed by the `id` each feature carries.
  */
 export function nearestHit<T extends { readonly lat: number; readonly lng: number }>(
-  features: readonly GeoJSON.Feature[] | undefined,
+  features: readonly Feature[] | undefined,
   at: LonLat,
   byId: ReadonlyMap<string, T>,
 ): T | undefined {

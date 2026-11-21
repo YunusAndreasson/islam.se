@@ -21,7 +21,7 @@ import {
   requestNotificationPermission,
 } from '@/lib/notifications';
 import { useSettings } from '@/lib/settings/context';
-import { systemSettingsName } from '@/lib/system-settings';
+import { notificationsBlockedMessage } from '@/lib/system-settings';
 
 // Reminders are one shared preference, even when the control moves between
 // introduction, map hint and settings. An older screen's pending OS answer must
@@ -47,7 +47,7 @@ export interface NotificationPermissionControl {
    *  surface the switch is on, for analytics. */
   setEnabled: (
     enabled: boolean,
-    source: PermissionSource,
+    source: Exclude<PermissionSource, 'qibla'>,
   ) => Promise<NotificationPermissionState | null>;
 }
 
@@ -88,7 +88,7 @@ export function useNotificationPermission(active = true): NotificationPermission
   }, [active, enabled]);
 
   const setEnabled = useCallback(
-    async (next: boolean, source: PermissionSource): Promise<NotificationPermissionState | null> => {
+    async (next: boolean, source: Exclude<PermissionSource, 'qibla'>): Promise<NotificationPermissionState | null> => {
       const isLatestIntent = beginNotificationPreferenceIntent();
       if (!next) {
         update((prev) => ({ notifications: { ...prev.notifications, enabled: false } }));
@@ -141,7 +141,7 @@ export function useNotificationPermission(active = true): NotificationPermission
   const footnote = !enabled
     ? undefined
     : blocked
-      ? `Notiser är blockerade – inga påminnelser kommer fram. Tillåt dem i ${systemSettingsName()}.`
+      ? notificationsBlockedMessage()
       : undefined;
 
   return { permission, blocked, footnote, setEnabled };

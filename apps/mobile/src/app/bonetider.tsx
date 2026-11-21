@@ -2,6 +2,7 @@ import {
   Camera,
   type CameraRef,
   Map,
+  type LngLatBounds,
   type MapRef,
   type PressEvent,
   type ViewStateChangeEvent,
@@ -45,7 +46,6 @@ import Animated, {
 import { MapLineToast } from '@/components/map/MapLineToast';
 import { distanceToLine } from '@/lib/map/line-hit';
 import { greatCirclePoints, KAABA, qiblaDistanceKm } from '@/lib/qibla';
-import { formatTime, PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
 
 import { hapticLight } from '@/lib/haptics';
 
@@ -116,7 +116,14 @@ import {
 } from '@/lib/notification-hint';
 import { getNotificationPermissionState, NOTIFY_PRAYERS } from '@/lib/notifications';
 import { lonLatOf, type LonLat } from '@/lib/coordinates';
-import { computePrayerTimes, PRAYER_ORDER, type PrayerKey, selectNextPrayer } from '@/lib/prayer-times';
+import {
+  computePrayerTimes,
+  formatTime,
+  PRAYER_LABELS,
+  PRAYER_ORDER,
+  PRAYER_SWEDISH_NAMES,
+  selectNextPrayer,
+} from '@/lib/prayer-times';
 import { computeSignature } from '@/lib/settings/compute-signature';
 import { useSettings } from '@/lib/settings/context';
 import type { LocationMode } from '@/lib/settings/types';
@@ -145,7 +152,7 @@ const WEST = 11.15;
 const SOUTH = 55.35;
 const EAST = 23.7;
 const NORTH = 69.0;
-const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
+const SWEDEN_BOUNDS: LngLatBounds = [WEST, SOUTH, EAST, NORTH];
 // Street scale, where "Visa min position" lands for a reader outside Sweden: their own
 // block, with the qibla ray leaving the dot.
 const LOCATE_ZOOM = 11;
@@ -396,7 +403,7 @@ export default function Bonetider() {
   const { settings, loaded: settingsLoaded, update } = useSettings();
   const { coords, label, source } = useLocation();
   // Keep the normal Sweden framing, but allow the position control to reach travellers.
-  const cameraBounds = useMemo<[number, number, number, number]>(() => [
+  const cameraBounds = useMemo<LngLatBounds>(() => [
     Math.max(-180, Math.min(MAX_BOUNDS[0], coords.longitude - 2)),
     Math.max(-85, Math.min(MAX_BOUNDS[1], coords.latitude - 2)),
     Math.min(180, Math.max(MAX_BOUNDS[2], coords.longitude + 2)),
@@ -743,6 +750,7 @@ export default function Bonetider() {
   // stepping during that window ABORTS before noteNotificationShown(), so no showing is spent on a card nobody
   // saw. (day-navigation.test.tsx asserts the record stays at shown: 0.)
   const armOffer =
+    mapActive &&
     cameraReady &&
     !selectedMosque &&
     !selectedBurialGround &&
@@ -939,11 +947,8 @@ export default function Bonetider() {
   const prayerLines = useMemo<PrayerLineData[]>(
     () =>
       solar.lines.features.map((f) => ({
-        prayer: (f.properties as { prayer: PrayerKey }).prayer,
-        polylines:
-          f.geometry.type === 'MultiLineString'
-            ? (f.geometry.coordinates as [number, number][][])
-            : [],
+        prayer: f.properties.prayer,
+        polylines: f.geometry.coordinates,
       })),
     [solar],
   );
@@ -994,14 +999,18 @@ export default function Bonetider() {
   // The viewed day's own next slot, or the following day's Fajr once ʿIshāʾ has passed. Both
   // rules — the inclusive `>=` that makes a tapped prayer read as current, and the range check
   // that keeps a next-day Fajr from pointing into the past — live in selectNextPrayer.
+  const previousTimes = useMemo(
+    () => computePrayerTimes(coords, zonePrayerDate(clock.dayStart, -1), settings),
+    [coords, clock.dayStart, settings],
+  );
   const next = useMemo<NextPrayer | null>(
-    () => selectNextPrayer(userTimes, nextDayFajrAt, clock.now),
-    [userTimes, clock.now, nextDayFajrAt],
+    () => selectNextPrayer(userTimes, nextDayFajrAt, clock.now, previousTimes),
+    [userTimes, clock.now, nextDayFajrAt, previousTimes],
   );
 
   // The user's next prayer drives the emphasised line/pill on the map (only when
   // it's today — tomorrow's Fajr has no line sweeping the country yet).
-  const nextKey = next && !next.nextDay ? next.key : null;
+  const nextKey = next && !next.nextDay && !next.previousDay ? next.key : null;
 
   // "About to begin": when the viewed instant is within the breathing window of the
   // next prayer, its line's halo breathes (see PrayerLine). Works in scrub too — parking
@@ -1019,7 +1028,7 @@ export default function Bonetider() {
   // bloom only matters while the map is watched.
   const [arrival, setArrival] = useState<PrayerArrival | null>(null);
   useEffect(() => {
-    if (!mapActive || clock.mode !== 'live' || !next || next.nextDay) return;
+    if (!mapActive || clock.mode !== 'live' || !next || next.nextDay || next.previousDay) return;
     const delay = next.at - Date.now();
     if (delay < 0) return;
     const key = next.key;

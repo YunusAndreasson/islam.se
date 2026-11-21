@@ -7,6 +7,7 @@
 // Every mosque is geocoded. The dataset deliberately carries NO denomination /
 // sect field (the web omits it as a speculative guess) and no phone/website — the only
 // outbound action is directions, derived from the coordinates (see ./directions.ts).
+import type { Feature, FeatureCollection, Point } from 'geojson';
 import mosquesRaw from './data.json';
 import type { LonLat } from '@/lib/coordinates';
 import { nearestHit } from '@/lib/map/nearestHit';
@@ -49,7 +50,7 @@ export function mosqueById(id: string): Mosque | undefined {
  * @param at The touch point, `[lon, lat]` — `event.nativeEvent.lngLat`.
  */
 export function mosqueForPress(
-  features: readonly GeoJSON.Feature[] | undefined,
+  features: readonly Feature[] | undefined,
   at: LonLat,
 ): Mosque | undefined {
   return nearestHit(features, at, BY_ID);
@@ -170,15 +171,7 @@ export function formatMosqueDistance(km: number): string {
   return `${Math.round(km).toLocaleString('sv-SE')} km`;
 }
 
-export interface MosqueFeatureCollection {
-  type: 'FeatureCollection';
-  features: {
-    type: 'Feature';
-    id: string;
-    geometry: { type: 'Point'; coordinates: [number, number] };
-    properties: { id: string; name: string; sort: number };
-  }[];
-}
+export type MosqueFeatureCollection = FeatureCollection<Point, { id: string; name: string; sort: number }>;
 
 /** Placement rank for mosques with no recorded opening year — sorts them behind every
  *  dated one. Past any real year in the set (1977–2026) and past any plausible future

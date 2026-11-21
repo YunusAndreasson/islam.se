@@ -3,7 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 import { formatGregorian } from '@/lib/hijri';
 import { type LatLng, PRAYER_LABELS } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
-import { startOfZoneDay } from '@/lib/zone-time';
+import { getDisplayZone, setDisplayZone, startOfZoneDay } from '@/lib/zone-time';
 import { oracleTimes } from '@/test-utils/prayer-oracle';
 import { buildTimeline, MAX_ENTRIES, SPAN_DAYS, SPAN_MS } from './timeline';
 import { at, first, last } from '@/test-utils/at';
@@ -22,6 +22,19 @@ describe('buildTimeline', () => {
   // Anchor "now" an hour before Fajr so all six of today's prayers are still upcoming.
   const now = ref.fajr.getTime() - 60 * 60 * 1000;
   const entries = buildTimeline(STOCKHOLM, settings(), 'Stockholm', now);
+
+  it('advances after a prayer from yesterday’s calculation day', () => {
+    const coords = { latitude: 67.86, longitude: 20.23 };
+    const afterMidnight = Date.parse('2026-06-02T00:01:00+02:00');
+    const timeline = buildTimeline(coords, settings(), 'Kiruna', afterMidnight);
+    const firstEntry = first(timeline, 'timeline');
+    const afterMaghrib = timeline.find(
+      (entry) => entry.date.getTime() === (firstEntry.props.nextAtMs ?? 0) + 1000,
+    );
+
+    expect(firstEntry.props.previousDayNextKey).toBe('maghrib');
+    expect(afterMaghrib?.props.previousDayNextKey).toBe('isha');
+  });
 
   it('starts at now and is sorted ascending within the span', () => {
     expect(entries.length).toBeGreaterThanOrEqual(2);
@@ -62,7 +75,7 @@ describe('buildTimeline', () => {
     // under yesterday's Gregorian/Hijri footer, and the hero still said "I MORGON"
     // about a Fajr that had become today's.
     const midnight = startOfZoneDay(now) + 24 * 60 * 60 * 1000;
-    const entry = entries.find((e) => e.date.getTime() > midnight && e.date.getTime() < midnight + 60_000);
+    const entry = entries.find((e) => e.date.getTime() === midnight);
     expect(entry).toBeDefined();
     // Its date line is the NEW day, and Fajr is today's — not tomorrow's.
     expect(entry?.props.gregorian).toBe(formatGregorian(new Date(entry!.date.getTime())));
@@ -70,6 +83,23 @@ describe('buildTimeline', () => {
     expect(entry?.props.nextArabic).toBe(PRAYER_LABELS.fajr);
     // And the schedule column is the new day's: its Fajr row matches the hero.
     expect(entry?.props.rows.find((r) => r.key === 'fajr')?.time).toBe(entry?.props.nextTime);
+  });
+
+  it('changes to Sunday when Santiago jumps from 23:59 straight to 01:00', () => {
+    const original = getDisplayZone();
+    setDisplayZone('America/Santiago');
+    try {
+      const start = Date.parse('2026-09-06T04:00:00Z');
+      const timeline = buildTimeline({ latitude: -33.45, longitude: -70.67 }, settings(), 'Santiago', start - 86_400_000);
+      const entry = timeline.find((entry) => entry.date.getTime() === start);
+      expect(entry?.props).toMatchObject({
+        gregorian: 'Söndag 6 september',
+        nextIsTomorrow: false,
+        nextTime: '06:31',
+      });
+    } finally {
+      setDisplayZone(original);
+    }
   });
 
   it('covers the full span so an unopened app cannot strand a stale widget', () => {

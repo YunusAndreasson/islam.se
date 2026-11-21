@@ -230,6 +230,31 @@ export interface NextAlert {
   fireAt: Date;
 }
 
+type AlertCandidate = NextAlert & { lead: number; sound: NotificationSoundKey };
+
+function alertsForDay(
+  times: ReturnType<typeof computePrayerTimes>,
+  settings: NotificationSettings,
+  cutoff: number,
+): AlertCandidate[] {
+  const alerts: AlertCandidate[] = [];
+  const add = (key: NextAlert['key'], at: Date, lead: number, sound: NotificationSoundKey): void => {
+    const fire = at.getTime() - lead * 60_000;
+    if (Number.isFinite(fire) && fire > cutoff) {
+      alerts.push({ key, at, fireAt: new Date(fire), lead, sound });
+    }
+  };
+
+  for (const key of PRAYER_ORDER) {
+    if (isAlertEnabled(settings, key)) add(key, times[key], Math.max(0, settings.lead[key]), settings.sound[key]);
+  }
+  if (settings.lastThird) {
+    const at = computeNightTimes(times).lastThird;
+    if (at) add('lastThird', at, 0, settings.lastThirdSound);
+  }
+  return alerts;
+}
+
 /**
  * When will the next reminder actually arrive?
  *
@@ -243,7 +268,7 @@ export interface NextAlert {
  * Derived from the scheduler's OWN rules rather than a second opinion about them, so the
  * two cannot drift: {@link isAlertEnabled} decides which slots count, the lead is
  * subtracted exactly as {@link syncPrayerNotifications} subtracts it, and the "already
- * past, or too soon to be useful" cutoff is the same one minute. Candidates from today
+ * past, or too soon to be useful" cutoff is the same one minute. Candidates from yesterday, today
  * and tomorrow are collected and the earliest wins, because a lead can pull an alert
  * across midnight and the night's last third belongs to the day whose evening began it.
  *
@@ -260,28 +285,11 @@ export function nextAlertAt(
 
   const cutoff = now + 60_000;
   let best: NextAlert | null = null;
-  const consider = (key: PrayerKey | 'lastThird', at: Date, lead: number): void => {
-    if (Number.isNaN(at.getTime())) return;
-    const fireAt = new Date(at.getTime() - lead * 60_000);
-    if (fireAt.getTime() <= cutoff) return;
-    if (best && best.fireAt.getTime() <= fireAt.getTime()) return;
-    best = { key, at, fireAt };
-  };
-
-  // Two days is enough: every slot on day 0 that is still ahead fires before any slot on
-  // day 1, and day 1 covers the case where day 0 has nothing left.
-  for (let d = 0; d < 2; d++) {
+  // The previous evening can still own an upcoming Isha or last-third alert.
+  for (let d = -1; d < 2; d++) {
     const times = computePrayerTimes(coords, zonePrayerDate(now, d), settings);
-    for (const key of PRAYER_ORDER) {
-      if (!isAlertEnabled(n, key)) continue;
-      const at = times[key];
-      if (!(at instanceof Date)) continue;
-      consider(key, at, Math.max(0, n.lead[key]));
-    }
-    if (n.lastThird) {
-      const at = computeNightTimes(times).lastThird;
-      // No lead: this one fires exactly when the last third begins.
-      if (at) consider('lastThird', at, 0);
+    for (const { key, at, fireAt } of alertsForDay(times, n, cutoff)) {
+      if (best === null || fireAt < best.fireAt) best = { key, at, fireAt };
     }
   }
   return best;
@@ -588,7 +596,7 @@ async function reconcilePrayerNotifications(
     // iteration. Resolve day 0 once and step the calendar locally — the Date constructor
     // rolls month/year boundaries exactly like the helper's own d+offset.
     const day0 = zonePrayerDate(now);
-    for (let d = 0; d < maxDays; d++) {
+    for (let d = -1; d < maxDays; d++) {
       if (scheduledIds.length + 1 > budget) break;
       if (generation !== syncGeneration) {
         await bailStale();
@@ -604,35 +612,15 @@ async function reconcilePrayerNotifications(
       // flatten the whole horizon into one Promise.all: the guard would go blind for the
       // entire run.
       const batch: Promise<string>[] = [];
-      for (const key of PRAYER_ORDER) {
-        if (!isAlertEnabled(n, key)) continue;
+      for (const { key, at, fireAt, lead, sound } of alertsForDay(times, n, now + 60_000)) {
         if (scheduledIds.length + batch.length >= budget) break;
-        const at = times[key];
-        if (!(at instanceof Date) || Number.isNaN(at.getTime())) continue;
-        const lead = Math.max(0, n.lead[key]);
-        // The alert fires `lead` minutes before the time; the body still shows the real
-        // time so the user knows when it lands.
-        const fireAt = new Date(at.getTime() - lead * 60_000);
-        // Skip anything already past (or within the next minute — too late to be useful).
-        if (fireAt.getTime() <= now + 60_000) continue;
-
-        const sound = n.sound[key];
         batch.push(
           Notifications.scheduleNotificationAsync({
             content: {
-              ...alertContent(key, at, lead),
+              ...(key === 'lastThird' ? nightAlertContent(at) : alertContent(key, at, lead)),
               sound: iosSoundFor(sound),
-              // `silent` is read back by the foreground handler, which would otherwise
-              // force sound on; `source` is what lets a later sync find this request in
-              // the OS's pending list (see pendingPrayerNotificationIds).
+              // The foreground handler reads silent and a later sync finds requests by source.
               data: { key, silent: resolveSound(sound) === 'silent', source: PRAYER_TAG },
-              // Prayer times are the textbook Time Sensitive case: the alert must break
-              // through Focus, Sleep and Do Not Disturb — a prayer reminder that a Focus
-              // mode silences has failed at the app's one job. Kept even for a SILENT
-              // choice: the user asked for quiet, not for suppressed. iOS honours this
-              // level ONLY with the matching entitlement (app.json → ios.entitlements);
-              // without it the level silently degrades to 'active'. On Android the
-              // HIGH-importance channel already carries the equivalent weight.
               interruptionLevel: 'timeSensitive',
               categoryIdentifier: CATEGORY_ID,
               ...threadFields(),
@@ -645,39 +633,6 @@ async function reconcilePrayerNotifications(
             },
           }),
         );
-      }
-
-      // The night's last third — the one alert that is not keyed by a prayer, so it rides
-      // outside the loop above rather than widening PRAYER_ORDER (see lib/night-times.ts).
-      // It belongs to the night that BEGINS on this day, so it routinely fires after
-      // midnight, on the following calendar date; that is fine, the trigger is an absolute
-      // instant. `null` means the night has no meaningful division today and there is
-      // nothing honest to alert about.
-      if (n.lastThird && scheduledIds.length + batch.length < budget) {
-        const at = computeNightTimes(times).lastThird;
-        if (at && at.getTime() > now + 60_000) {
-          const sound = n.lastThirdSound;
-          batch.push(
-            Notifications.scheduleNotificationAsync({
-              content: {
-                ...nightAlertContent(at),
-                sound: iosSoundFor(sound),
-                data: { key: 'lastThird', silent: resolveSound(sound) === 'silent', source: PRAYER_TAG },
-                // Same level as the prayers: a reminder that arrives at 01:30 is worthless
-                // if Sleep Focus eats it, and being woken is the entire point of this one.
-                interruptionLevel: 'timeSensitive',
-                categoryIdentifier: CATEGORY_ID,
-                ...threadFields(),
-              },
-              trigger: {
-                type: Notifications.SchedulableTriggerInputTypes.DATE,
-                date: at,
-                channelId: channelIdFor(sound),
-                ...deliveryFor(n),
-              },
-            }),
-          );
-        }
       }
 
       // A rejected sibling must not make us abandon successful or still-pending

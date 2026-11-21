@@ -184,13 +184,6 @@ const GENERIC = 'Något gick fel. Försök igen.';
 
 export type SubmitResult = { ok: true; id: number } | { ok: false; message: string };
 
-/** What functions/api/moske-rattelse.js answers with, on either path. */
-interface ServerReply {
-  ok?: boolean;
-  id?: number;
-  error?: string;
-}
-
 /**
  * POST the report. Resolves with a message rather than rejecting — the form has one place
  * to show a failure and no path here should reach an error boundary.
@@ -232,17 +225,24 @@ export async function submitMosqueReport(payload: ReportPayload): Promise<Submit
 
     // A 5xx from the edge can be an HTML error page, so a failed parse is not fatal here —
     // the status already tells us enough to pick a message.
-    let parsed: ServerReply | null = null;
+    let parsed: unknown = null;
     try {
-      parsed = (await res.json()) as ServerReply;
+      parsed = await res.json();
     } catch {
       parsed = null;
     }
 
-    if (res.ok && parsed?.ok) return { ok: true, id: Number(parsed.id) || 0 };
+    if (typeof parsed !== 'object' || parsed === null) return { ok: false, message: GENERIC };
+    if (
+      res.ok && 'ok' in parsed && parsed.ok === true &&
+      'id' in parsed && typeof parsed.id === 'number' && Number.isSafeInteger(parsed.id) && parsed.id > 0
+    ) {
+      return { ok: true, id: parsed.id };
+    }
 
-    const code = parsed?.error;
-    return { ok: false, message: (code && ERRORS[code]) || GENERIC };
+    const code = 'error' in parsed && typeof parsed.error === 'string' ? parsed.error : undefined;
+    const message = code && Object.prototype.hasOwnProperty.call(ERRORS, code) ? ERRORS[code] : undefined;
+    return { ok: false, message: message || GENERIC };
   } catch {
     // Thrown for a dead network, a DNS failure, or our own abort — from the user's side
     // these are one situation: it didn't go through, try again.

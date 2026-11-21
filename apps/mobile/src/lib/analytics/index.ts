@@ -20,7 +20,7 @@
 import type * as MixpanelModule from 'mixpanel-react-native';
 
 import { MIXPANEL_SERVER_URL, MIXPANEL_TOKEN } from './events';
-import type { AnalyticsEventName, SuperProperties } from './events';
+import type { SuperProperties, TrackArguments } from './events';
 
 export { ANALYTICS_EVENTS } from './events';
 export type {
@@ -32,7 +32,6 @@ export type {
   SuperProperties,
 } from './events';
 
-type AnalyticsProperties = Record<string, string | number | boolean | null | undefined>;
 type Primitive = string | number | boolean;
 
 let mixpanel: MixpanelModule.Mixpanel | null = null;
@@ -82,7 +81,7 @@ function initialize(): Promise<void> {
 }
 
 export const analytics = {
-  track: async (event: AnalyticsEventName, properties?: AnalyticsProperties): Promise<void> => {
+  track: async (...[event, properties]: TrackArguments): Promise<void> => {
     try {
       await initialize();
       mixpanel?.track(event, properties);

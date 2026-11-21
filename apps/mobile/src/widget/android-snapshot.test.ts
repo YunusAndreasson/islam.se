@@ -63,7 +63,7 @@ describe('buildAndroidSnapshot', () => {
     expect(fajrRow?.isNext).toBe(true);
   });
 
-  it('names no next prayer in the midnight sun rather than inventing one', () => {
+  it('uses tomorrow’s Ẓuhr if Fajr and sunrise cannot be resolved', () => {
     const midsummerNight = new Date(2026, 5, 21, 23, 30).getTime();
     const polar = buildAndroidSnapshot(
       KIRUNA,
@@ -71,7 +71,10 @@ describe('buildAndroidSnapshot', () => {
       'Kiruna',
       midsummerNight,
     );
-    expect(selectEntry(polar, midsummerNight)?.payload.nextAtMs).toBeNull();
+    expect(selectEntry(polar, midsummerNight)?.payload).toMatchObject({
+      nextArabic: PRAYER_LABELS.dhuhr,
+      nextIsTomorrow: true,
+    });
   });
 });
 
@@ -88,7 +91,7 @@ describe('selectEntry', () => {
     expect(selectEntry({ entries: [], validUntilMs: Number.MAX_SAFE_INTEGER }, now)).toBeNull();
   });
 
-  it('falls back to the first entry for an instant before it (a clock set back)', () => {
-    expect(selectEntry(snapshot, now - 60_000)).toBe(first(snapshot.entries, 'entries'));
+  it('ignores a future snapshot after the clock is set back', () => {
+    expect(selectEntry(snapshot, now - 60_000)).toBeNull();
   });
 });

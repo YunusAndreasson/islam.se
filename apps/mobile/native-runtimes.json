@@ -26,6 +26,22 @@
     "1.3.3": {
       "ios": "62d100df4af0859152aed171e94251ad27e7d3b4",
       "android": "22365414ec14620ad7ec66b84cd05f21fc96dbc2"
+    },
+    "1.3.4": {
+      "ios": "b599bc246033c24b9b80ba4458c640160372634a",
+      "android": "c29e6b706a9e72529e5fddaed04609b42c775c04"
+    },
+    "1.3.5": {
+      "ios": "3cf2010c9d1810a347a928f0ebf3a652e6a8bd2a",
+      "android": "c4f70194dfadabdf8928e0b015f72a6068095ffc"
+    },
+    "1.3.6": {
+      "ios": "cb8f7bc0d89033d99ad443dd724aba63241ba7b4",
+      "android": "815053ccc3482560e4b0d6c904a96f5d10f192e5"
+    },
+    "1.3.7": {
+      "ios": "ca6a76d5f919c32e62be01e5e7d617b37170c34a",
+      "android": "71d9ea6cd7a267c81d4e453f81818f081e0d524e"
     }
   }
 }

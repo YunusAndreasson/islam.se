@@ -152,6 +152,20 @@ describe('submitMosqueReport', () => {
     expect(JSON.parse(jsonBodyOf(init))).toEqual(payload);
   });
 
+  it.each([
+    ['missing case number', { ok: true }],
+    ['string case number', { ok: true, id: '42' }],
+    ['fractional case number', { ok: true, id: 1.5 }],
+    ['non-boolean success', { ok: 'true', id: 42 }],
+  ])('reports a malformed success as a failure (%s)', async (_label, body) => {
+    mockFetch(200, body);
+    const payload = buildReportPayload(MOSQUE, 'stangd', '', '');
+    await expect(submitMosqueReport(payload)).resolves.toEqual({
+      ok: false,
+      message: 'Något gick fel. Försök igen.',
+    });
+  });
+
   // The rate limit is the endpoint's only real abuse control, so its message has to be
   // legible — a user who sees the generic error will just tap Skicka again and again.
   it('explains a rate limit in the user’s own language', async () => {

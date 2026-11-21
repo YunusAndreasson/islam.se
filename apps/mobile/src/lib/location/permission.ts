@@ -8,15 +8,12 @@ import * as Location from 'expo-location';
 
 /** 'undetermined' is the only state where the soft-ask has anything to offer: a granted
  *  user needs no card, and a refused one can no longer be prompted from inside the app. */
-export type LocationPermissionState = 'granted' | 'denied' | 'undetermined';
+export type LocationPermissionState = `${Location.PermissionStatus}`;
 
 /** Maps expo-location's PermissionResponse onto our three states. Exported for tests —
  *  `granted: false` covers BOTH "not asked yet" and "refused", so the status string is
  *  what separates them, and getting that wrong is what makes an app ask twice or never. */
-export function toLocationPermissionState(perm: {
-  granted: boolean;
-  status?: string;
-}): LocationPermissionState {
+export function toLocationPermissionState(perm: Pick<Location.LocationPermissionResponse, 'granted'> & { status?: string }): LocationPermissionState {
   if (perm.granted) return 'granted';
   return perm.status === 'denied' ? 'denied' : 'undetermined';
 }

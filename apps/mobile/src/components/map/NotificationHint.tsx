@@ -28,7 +28,7 @@ import {
   openNotificationSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
-  systemSettingsName,
+  notificationsBlockedMessage,
 } from '@/lib/system-settings';
 import {
   type NotificationPermissionState,
@@ -68,7 +68,6 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
   const [busy, setBusy] = useState(false);
   const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mounted = useRef(false);
-  const settingsName = systemSettingsName();
 
   useEffect(
     () => {
@@ -187,7 +186,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
           <>
             {/* Same sentence as Inställningar → Notiser, so the two surfaces agree word for word. */}
             <Text style={styles.body}>
-              Notiser är blockerade – inga påminnelser kommer fram. Tillåt dem i {settingsName}.
+              {notificationsBlockedMessage()}
             </Text>
             <Pressable
               onPress={openNotificationSettings}

@@ -18,7 +18,7 @@ import { type Camera, unproject } from '@/lib/map/projection';
 import { washStopsFor } from '@/lib/solar/palette';
 import { solarParams, sunPositionFrom } from '@/lib/solar/sun';
 import { washColorAt } from './washColor';
-import { buildWashSksl } from './washShader';
+import { WASH_SKSL, washPaletteUniforms } from './washShader';
 
 let CK: CanvasKit;
 
@@ -42,8 +42,8 @@ const CAMERA: Camera = { lon: 17, lat: 62, zoom: 3, width: 96, height: 256 };
 const STEP = 6;
 
 /** Renders the shader for one instant and returns premultiplied RGBA bytes. */
-function render(sksl: string, cam: Camera, date: Date, utcMin: number, pixelRatio = 1): Uint8Array {
-  const effect = CK.RuntimeEffect.Make(sksl);
+function render(scheme: 'light' | 'dark', cam: Camera, date: Date, utcMin: number, pixelRatio = 1): Uint8Array {
+  const effect = CK.RuntimeEffect.Make(WASH_SKSL);
   if (!effect) throw new Error('wash SkSL did not compile');
   const { declRad, eotMin } = solarParams(date);
   const ws = 512 * 2 ** cam.zoom;
@@ -52,8 +52,10 @@ function render(sksl: string, cam: Camera, date: Date, utcMin: number, pixelRati
   const my = 0.5 - Math.log(Math.tan(Math.PI / 4 + phi / 2)) / (2 * Math.PI);
   // Declaration order in the SkSL: u_worldSize, u_viewport, u_center, u_utcMin, u_eotMin,
   // u_sinDecl, u_cosDecl, u_pixelRatio.
+  const { C_DAY, C_DUSK, C_DAWN, C_DAWN_WARM, C_NIGHT } = washPaletteUniforms(washStopsFor(scheme));
   const shader = effect.makeShader([
     ws, cam.width, cam.height, mx, my, utcMin, eotMin, Math.sin(declRad), Math.cos(declRad), pixelRatio,
+    ...C_DAY, ...C_DUSK, ...C_DAWN, ...C_DAWN_WARM, ...C_NIGHT,
   ]);
   const surface = CK.MakeSurface(cam.width, cam.height);
   if (!surface) throw new Error('no raster surface');
@@ -120,9 +122,8 @@ describe('wash shader', () => {
 
 /** Renders one instant and holds every sampled pixel to the twin's colour. */
 function expectTwin(scheme: 'light' | 'dark', date: Date, pixelRatio: number): void {
-  const sksl = buildWashSksl(washStopsFor(scheme));
   const utcMin = date.getUTCHours() * 60 + date.getUTCMinutes();
-  const pixels = render(sksl, CAMERA, date, utcMin, pixelRatio);
+  const pixels = render(scheme, CAMERA, date, utcMin, pixelRatio);
   let worst = 0;
   let worstAt = '';
   let tinted = 0;

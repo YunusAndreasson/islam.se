@@ -7,6 +7,7 @@
 // cold starts can find these still-visible banners instead of stacking duplicates.
 // Ended activities cannot be updated: content changes require replacement, in foreground
 // only. usePrayerActivitySync also reconciles at time boundaries while the app is open.
+import type { LiveActivity, LiveActivityFactory } from 'expo-widgets';
 import { Platform } from 'react-native';
 
 import { alertContent } from '@/lib/alert-copy';
@@ -44,11 +45,13 @@ export function buildPrayerActivityProps(
   following: WidgetPayload | null = null,
 ): PrayerActivityProps | null {
   if (!isWithinLiveActivityWindow(payload.nextAtMs, now)) return null;
-  // Post-Isha the next slot is tomorrow's Fajr (no row is flagged isNext then) — but
-  // that only matters if Fajr is under an hour away, i.e. shortly before it.
+  // A slot from another calculation day has no highlighted row in today's schedule.
+  const nextDayKey = payload.nextDayKey ?? 'fajr';
   const nextRow = payload.nextIsTomorrow
-    ? { key: 'fajr' as const, isMarker: false }
-    : payload.rows.find((r) => r.isNext);
+    ? { key: nextDayKey, isMarker: nextDayKey === 'sunrise' }
+    : payload.previousDayNextKey
+      ? { key: payload.previousDayNextKey, isMarker: payload.previousDayNextKey === 'sunrise' }
+      : payload.rows.find((r) => r.isNext);
   if (!nextRow || payload.nextAtMs == null) return null;
   const after = following?.nextAtMs != null ? following : null;
   return {
@@ -71,6 +74,18 @@ export function buildPrayerActivityProps(
     followingArabic: after?.nextArabic ?? '',
     followingTime: after?.nextTime ?? '',
   };
+}
+
+export function prayerActivityPropsAt(
+  coords: LatLng,
+  settings: PrayerSettings,
+  now: number,
+  location: string,
+): PrayerActivityProps | null {
+  const payload = buildPayloadAt(coords, settings, now, location);
+  if (payload.nextAtMs == null || !isWithinLiveActivityWindow(payload.nextAtMs, now)) return null;
+  const following = buildPayloadAt(coords, settings, payload.nextAtMs + 1, location);
+  return buildPrayerActivityProps(payload, now, following);
 }
 
 /** Identity of what the activity is currently SHOWING, stale view included. Two props
@@ -99,9 +114,7 @@ export function resetLiveActivityStateForTests(): void {
 }
 
 /** One running activity, as far as this module is concerned. */
-interface LiveActivityHandle {
-  end(policy: 'immediate' | { after: Date }, props?: PrayerActivityProps): Promise<void>;
-}
+type LiveActivityHandle = Pick<LiveActivity<PrayerActivityProps>, 'end'>;
 
 /**
  * The slice of expo-widgets' LiveActivityFactory this module drives. Injected rather
@@ -116,9 +129,7 @@ interface LiveActivityHandle {
  */
 export interface LiveActivityApi {
   start(
-    props: PrayerActivityProps,
-    url: string | undefined,
-    staleDate: Date,
+    ...args: Parameters<LiveActivityFactory<PrayerActivityProps>['start']>
   ): LiveActivityHandle | undefined;
   getInstances(): LiveActivityHandle[];
 }
@@ -221,14 +232,9 @@ export async function syncPrayerLiveActivity(
     // Deferred import so the ActivityKit module is never evaluated on a platform/build
     // without the widget extension.
     const { default: PrayerLiveActivity } = await import('../widgets/PrayerLiveActivity');
-    const payload = buildPayloadAt(coords, settings, now, location);
-    const following =
-      payload.nextAtMs == null
-        ? null
-        : buildPayloadAt(coords, settings, payload.nextAtMs + 1, location);
     await applyPrayerActivity(
       PrayerLiveActivity,
-      buildPrayerActivityProps(payload, now, following),
+      prayerActivityPropsAt(coords, settings, now, location),
       { canStart },
     );
   } catch {

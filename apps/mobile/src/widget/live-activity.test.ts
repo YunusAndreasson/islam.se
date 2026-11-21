@@ -9,6 +9,7 @@ import {
   buildPrayerActivityProps,
   isWithinLiveActivityWindow,
   LIVE_ACTIVITY_WINDOW_MS,
+  prayerActivityPropsAt,
 } from './live-activity';
 import { buildPayloadAt } from './payload';
 
@@ -46,6 +47,17 @@ describe('isWithinLiveActivityWindow', () => {
 
 describe('buildPrayerActivityProps', () => {
   const ref = oracleTimes(STOCKHOLM, SPRING_DAY);
+
+  it('builds the native countdown for a previous day’s slot and names the following prayer', () => {
+    const coords = { latitude: 67.86, longitude: 20.23 };
+    const now = Date.parse('2026-06-02T00:01:00+02:00');
+    expect(prayerActivityPropsAt(coords, settings(), now, 'Kiruna')).toMatchObject({
+      nextKey: 'maghrib',
+      nextTime: '00:15',
+      followingArabic: PRAYER_LABELS.isha,
+      followingTime: '00:16',
+    });
+  });
 
   it('inside the window, produces a countdown anchored at now and ending at the prayer', () => {
     const now = ref.asr.getTime() - 30 * 60 * 1000; // 30 min before ʿAṣr
@@ -162,9 +174,7 @@ describe('buildPrayerActivityProps', () => {
     });
   });
 
-  it('returns null in the polar midnight sun when no next slot resolves', () => {
-    // With the explicit unresolved polar rule, every remaining/tomorrow-Fajr candidate
-    // is absent at this hour — the activity must not fabricate a countdown.
+  it('waits until the live window for the next resolved polar prayer', () => {
     const noon = new Date(
       MIDSUMMER.getFullYear(),
       MIDSUMMER.getMonth(),
@@ -178,7 +188,8 @@ describe('buildPrayerActivityProps', () => {
       noon,
       'Kiruna',
     );
-    expect(payload.nextAtMs).toBeNull();
+    expect(payload.nextDayKey).toBe('dhuhr');
     expect(buildPrayerActivityProps(payload, noon)).toBeNull();
+    expect(buildPrayerActivityProps(payload, payload.nextAtMs! - 60_000)?.nextKey).toBe('dhuhr');
   });
 });

@@ -5,9 +5,10 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react-native';
 
 import * as reanimated from 'react-native-reanimated';
-import { Path, Skia } from 'react-native-skia';
+import { Path, Shader, Skia } from 'react-native-skia';
 import { atZoom, DUST_RADIUS_STOPS } from '@/lib/map/dust';
 import { type Camera, project } from '@/lib/map/projection';
+import * as theme from '@/theme/useColors';
 import { allOfType, allRendered } from '@/test-utils/rendered';
 import { SolarSkiaOverlay } from './SolarSkiaOverlay';
 
@@ -68,6 +69,24 @@ describe('the polar boundary line', () => {
 
 
 afterEach(() => { jest.restoreAllMocks(); });
+
+it('updates palette uniforms without recompiling the twilight effect on a theme flip', async () => {
+  const scheme = jest.spyOn(theme, 'useActiveScheme').mockReturnValue('light');
+  const effect = {} as ReturnType<typeof Skia.RuntimeEffect.Make>;
+  const compile = jest.spyOn(Skia.RuntimeEffect, 'Make').mockReturnValue(effect);
+  const view = await renderOverlay();
+  const wash = () => allOfType(Shader).find((node) => node.props.source === effect);
+  const light = wash()?.props.uniforms.value.C_DUSK;
+
+  scheme.mockReturnValue('dark');
+  await view.rerender(overlay());
+  const shader = wash();
+
+  expect(light).toBeDefined();
+  expect(shader?.props.uniforms.value.C_DUSK).not.toEqual(light);
+  expect(shader?.props.source).toBe(effect);
+  expect(compile).toHaveBeenCalledTimes(1);
+});
 
 const LINE = [{ prayer: 'dhuhr' as const, polylines: [[[18, 59], [19, 60]]] as [number, number][][] }];
 const strokes = () => allOfType(Path).filter((node) => node.props.path && node.props.strokeJoin === 'round');

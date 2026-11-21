@@ -9,8 +9,7 @@ import { getNotificationPermissionState, isAlertEnabled } from '@/lib/notificati
 import type { LatLng } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import type { PrayerActivityProps } from '@/widgets/PrayerLiveActivity';
-import { buildPrayerActivityProps } from './live-activity';
-import { buildPayloadAt } from './payload';
+import { prayerActivityPropsAt } from './live-activity';
 
 const NOTIFICATION_ID = 'prayer-upcoming';
 const CHANNEL_ID = 'prayer-upcoming-v1';
@@ -78,10 +77,7 @@ export async function syncAndroidPrayerNotification(
     const { default: api } = await import('../widgets/PrayerOngoingNotification');
     let props: PrayerActivityProps | null = null;
     if (settings.notifications.enabled && await getNotificationPermissionState() === 'granted') {
-      const payload = buildPayloadAt(coords, settings, now, location);
-      const following = payload.nextAtMs == null ? null
-        : buildPayloadAt(coords, settings, payload.nextAtMs + 1, location);
-      props = buildPrayerActivityProps(payload, now, following);
+      props = prayerActivityPropsAt(coords, settings, now, location);
       if (props && !isAlertEnabled(settings.notifications, props.nextKey)) props = null;
     }
     if (props && !channelCreated) {

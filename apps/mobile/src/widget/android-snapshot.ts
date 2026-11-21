@@ -16,6 +16,7 @@
 // timeline. Past `validUntilMs` the layout shows its placeholder rather than guess.
 import type { LatLng } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
+import { getDisplayZone } from '@/lib/zone-time';
 import type { WidgetPayload } from './payload';
 import { buildTimeline, SPAN_MS } from './timeline';
 
@@ -26,6 +27,8 @@ export interface AndroidWidgetEntry {
 }
 
 export interface AndroidWidgetSnapshot {
+  timeZone?: string;
+  theme?: PrayerSettings['theme'];
   /** In time order; the first begins at the moment the snapshot was built. */
   entries: AndroidWidgetEntry[];
   /** The end of the timeline's horizon. At or after it the snapshot can no longer vouch for
@@ -45,6 +48,8 @@ export function buildAndroidSnapshot(
   now: number = Date.now(),
 ): AndroidWidgetSnapshot {
   return {
+    timeZone: getDisplayZone(),
+    theme: settings.theme,
     entries: buildTimeline(coords, settings, location, now).map((entry) => ({
       fromMs: entry.date.getTime(),
       payload: entry.props,
@@ -62,7 +67,7 @@ export function buildAndroidSnapshot(
 export function selectEntry(snapshot: AndroidWidgetSnapshot, at: number): AndroidWidgetEntry | null {
   const { entries } = snapshot;
   if (entries.length === 0 || !(at < snapshot.validUntilMs)) return null;
-  let current = entries[0] ?? null;
+  let current: AndroidWidgetEntry | null = null;
   for (const entry of entries) {
     if (entry.fromMs <= at) current = entry;
     else break;

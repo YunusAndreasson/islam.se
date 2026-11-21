@@ -21,8 +21,8 @@
 // says "Inte nu". The welcome step keeps its skip, because there it means something
 // different — leave the introduction now, not answer this question later.
 import { router } from 'expo-router';
-import { useEffect, useEffectEvent, useState } from 'react';
-import { BackHandler, StyleSheet, View } from 'react-native';
+import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
+import { AppState, BackHandler, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { IntroStep } from '@/components/intro/IntroStep';
@@ -45,7 +45,8 @@ const TOTAL_STEPS = 4;
 /** The steps as analytics names them, in order. A step's name, not its title: the titles
  *  are copy and change, the funnel must not. */
 const STEP_NAMES = ['welcome', 'location', 'notifications', 'method'] as const;
-const stepName = (index: number): string => STEP_NAMES[index] ?? 'unknown';
+const stepName = (index: number): (typeof STEP_NAMES)[number] | 'unknown' =>
+  STEP_NAMES[index] ?? 'unknown';
 
 export default function Valkommen() {
   const c = useColors();
@@ -56,19 +57,25 @@ export default function Valkommen() {
   // update() would be silently overwritten by the load that follows it.
   const { loaded, settings } = useSettings();
   const [step, setStep] = useState(0);
+  // Claim the transition before React commits it. A second tap from the old
+  // screen must not advance the new step or replace the route a second time.
+  const pendingStep = useRef<number | null>(0);
 
   // One Onboarding Step Viewed per step shown, stepping back included (the funnel counts
   // readers per step, and a step seen twice is still one reader). `replay` is read through
   // an Effect Event so that complete() clearing it does not count the last step again.
-  const stepViewed = useEffectEvent((index: number) =>
-    afterAppOpen(() => {
+  const stepViewed = useEffectEvent((index: number) => {
+    const visible = AppState.currentState === 'active';
+    const cancel = afterAppOpen(() => {
       void analytics.track(ANALYTICS_EVENTS.ONBOARDING_STEP_VIEWED, {
         step: stepName(index),
         index,
         replay: replaying,
       });
-    }),
-  );
+    });
+    // A foreground step counts even if the reader advances while the open is pending.
+    return visible ? undefined : cancel;
+  });
   useEffect(() => {
     if (!loaded) return;
     return stepViewed(step);
@@ -76,24 +83,31 @@ export default function Valkommen() {
 
   // What the introduction produced. The values are read now, from this render: complete()
   // is about to clear `replaying`, and the screen is about to go.
-  const reportEnd = async (outcome: IntroOutcome): Promise<void> => {
+  const reportEnd = (outcome: IntroOutcome): void => {
     const properties = {
       at_step: stepName(step),
       replay: replaying,
       location_source: source,
     };
-    const reminders = remindersState(
-      settings.notifications.enabled,
-      await getNotificationPermissionState(),
-    );
-    void analytics.track(
-      outcome === 'skipped' ? ANALYTICS_EVENTS.INTRO_SKIPPED : ANALYTICS_EVENTS.INTRO_COMPLETED,
-      { ...properties, reminders },
-    );
+    const permission = getNotificationPermissionState();
+    const enabled = settings.notifications.enabled;
+    afterAppOpen(() => {
+      void permission.then((state) => {
+        const details = { ...properties, reminders: remindersState(enabled, state) };
+        if (outcome === 'skipped') {
+          void analytics.track(ANALYTICS_EVENTS.INTRO_SKIPPED, details);
+        } else {
+          void analytics.track(ANALYTICS_EVENTS.INTRO_COMPLETED, details);
+        }
+      });
+    });
   };
 
   const finish = (outcome: IntroOutcome): void => {
-    void reportEnd(outcome);
+    if (pendingStep.current !== step) return;
+    pendingStep.current = null;
+    if (outcome === 'completed') hapticSuccess();
+    reportEnd(outcome);
     complete(outcome);
     // replace, not push: the introduction is not somewhere to go back to. Anyone who
     // wants it again gets it from Inställningar → Visa introduktionen igen.
@@ -118,18 +132,20 @@ export default function Valkommen() {
   // One way back, used by both the Android hardware gesture and the chrome control the
   // steps render. Sharing it is the point: they were two different behaviours on two
   // platforms before, which is how iOS ended up with none at all.
-  const back = (): void => {
+  const back = useCallback((): void => {
+    if (step === 0 || pendingStep.current !== step) return;
+    pendingStep.current = step - 1;
     hapticSelection();
-    setStep((s) => Math.max(0, s - 1));
-  };
+    setStep(step - 1);
+  }, [step]);
 
   const next = (): void => {
     if (step >= TOTAL_STEPS - 1) {
-      hapticSuccess();
       finish('completed');
-    } else {
+    } else if (pendingStep.current === step) {
+      pendingStep.current = step + 1;
       hapticSelection();
-      setStep((s) => s + 1);
+      setStep(step + 1);
     }
   };
 
@@ -169,7 +185,7 @@ export default function Valkommen() {
       return true;
     });
     return () => sub.remove();
-  }, [step]);
+  }, [back, step]);
 
   if (!loaded) {
     // A bare themed ground for the one frame the AsyncStorage read takes. An indicator

@@ -325,7 +325,7 @@ export default function Qibla() {
           {permissionDenied ? (
             <>
               <Text style={styles.note}>
-                Platsåtkomst nekad – nålen visar qibla räknad från norr. Tillåt i {settingsName}.
+                Platsåtkomst nekad. Tillåt i {settingsName} för att använda kompassen.
               </Text>
               {/* The remedy the sentence above names, made reachable. Nothing is added to the
                   healthy screen: this exists only in the state that needs it. */}
@@ -343,7 +343,7 @@ export default function Qibla() {
           ) : noCompass ? (
             <>
               <Text style={styles.note}>
-                Ingen kompass på den här enheten – nålen visar qibla räknad från norr.
+                Kompassen är inte tillgänglig på den här enheten.
               </Text>
               {mapEscape}
             </>

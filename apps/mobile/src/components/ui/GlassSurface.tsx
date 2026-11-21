@@ -124,7 +124,7 @@ function useReduceTransparency(): boolean {
   return reduce;
 }
 
-interface Props {
+type Props = {
   children?: ReactNode;
   style?: StyleProp<ViewStyle>;
   /** Corner radius applied to the native glass layer itself, the tint layer, and the
@@ -135,17 +135,21 @@ interface Props {
   glassEffectStyle?: GlassStyle;
   /** iOS 26+: lets the glass react to touches/scrolls beneath it. */
   interactive?: boolean;
-  /**
-   * Chrome tint painted ON TOP of the native blur (absoluteFill). Pass the active OS
-   * palette's `cardGlass` so the surface's visible colour is decided by the chrome,
-   * not by what the OS sampled under the glass — the only way to keep cog and compass
-   * identical when the wash beneath them differs.
-   */
-  tint?: string;
-  /** Style the tint independently of the native material (for example, gesture-driven
-   * opacity). Ignored with Reduce Transparency so the backing stays fully visible. */
-  tintStyle?: ComponentProps<typeof Animated.View>['style'];
-}
+} & (
+  | {
+      /**
+       * Chrome tint painted ON TOP of the native blur (absoluteFill). Pass the active OS
+       * palette's `cardGlass` so the surface's visible colour is decided by the chrome,
+       * not by what the OS sampled under the glass — the only way to keep cog and compass
+       * identical when the wash beneath them differs.
+       */
+      tint: string;
+      /** Style the tint independently of the native material (for example, gesture-driven
+       * opacity). Ignored with Reduce Transparency so the backing stays fully visible. */
+      tintStyle?: ComponentProps<typeof Animated.View>['style'];
+    }
+  | { tint?: never; tintStyle?: never }
+);
 
 export function GlassSurface({
   children,

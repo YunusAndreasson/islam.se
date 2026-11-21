@@ -23,10 +23,7 @@ import {
 import { isValidLatLng } from './coordinates';
 import { getDisplayZone } from './zone-time';
 
-export interface LatLng {
-  latitude: number;
-  longitude: number;
-}
+export type LatLng = Pick<Coordinates, 'latitude' | 'longitude'>;
 
 /** Each preset key → its adhan factory. Drives both compute and the settings UI. */
 const METHOD_FACTORY: Record<CalculationMethodKey, () => CalculationParameters> = {
@@ -238,6 +235,8 @@ export interface NextPrayer {
    *  `tomorrow` because "tomorrow" is actively wrong once the user can view other days: past
    *  ʿIshāʾ on a day three ahead, this is the day FOUR ahead. */
   nextDay: boolean;
+  /** The slot was calculated for the previous calendar date. */
+  previousDay?: true;
 }
 
 /**
@@ -262,8 +261,18 @@ export function selectNextPrayer(
   times: PrayerTimes,
   nextDayFajr: number | null,
   now: number,
+  previousTimes?: PrayerTimes,
 ): NextPrayer | null {
   const key = nextPrayerKeyAt(times, now);
+  if (previousTimes) {
+    const previousKey = nextPrayerKeyAt(previousTimes, now);
+    if (previousKey) {
+      const at = previousTimes[previousKey].getTime();
+      if (!key || at <= times[key].getTime()) {
+        return { key: previousKey, at, nextDay: false, previousDay: true };
+      }
+    }
+  }
   if (key) return { key, at: times[key].getTime(), nextDay: false };
   if (nextDayFajr == null || !Number.isFinite(nextDayFajr) || nextDayFajr < now) return null;
   return { key: 'fajr', at: nextDayFajr, nextDay: true };

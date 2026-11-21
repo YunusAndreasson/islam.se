@@ -16,6 +16,7 @@
 //
 // We compute a grid of prayer times ONCE per (date, settings) — that's the only
 // expensive step — then per displayed instant it's cheap arithmetic on the cache.
+import type { LngLatBounds } from '@maplibre/maplibre-react-native';
 import type { Feature, FeatureCollection, MultiLineString } from 'geojson';
 
 import type { LonLat } from '@/lib/coordinates';
@@ -55,7 +56,7 @@ import {
 // every line over Sweden was tuned against, and the far field is coarsened mostly in the
 // direction that costs nothing — which is what makes the wider box 5740 points against the
 // old 3752 (a 51 → 72 ms build on desktop Node) instead of several times that.
-const DEFAULT_GRID_BOUNDS: [number, number, number, number] = expandBounds(
+const DEFAULT_GRID_BOUNDS: LngLatBounds = expandBounds(
   CAMERA_MAX_BOUNDS,
   6,
   5,
@@ -68,7 +69,7 @@ const DEFAULT_GRID_BOUNDS: [number, number, number, number] = expandBounds(
  * Sized generously past the camera's Sweden framing so the whole viewport is at the fine
  * step at the locked zoom-out; a tighter core left the edges visibly coarser.
  */
-const CORE_BOUNDS: [number, number, number, number] = [0.0, 50.0, 34.0, 73.0];
+const CORE_BOUNDS: LngLatBounds = [0.0, 50.0, 34.0, 73.0];
 /** Inside CORE_BOUNDS — unchanged from when the lattice WAS the core, because this is the
  *  resolution every line over Sweden was tuned against (see the smoothing note in
  *  buildLines) and the focus of this app is Sweden. Measured after the widening: every
@@ -105,7 +106,7 @@ export interface SolarGrid {
 }
 
 export interface GridOptions {
-  bounds?: [number, number, number, number];
+  bounds?: LngLatBounds;
   latStep?: number;
   lonStep?: number;
 }
@@ -213,8 +214,11 @@ export interface PrayerLineLabel {
   tangent: LonLat;
 }
 
+type PrayerLineGeometry = MultiLineString & { coordinates: LonLat[][] };
+type PrayerLineProperties = { prayer: PrayerKey };
+
 export interface SolarLines {
-  lines: FeatureCollection;
+  lines: FeatureCollection<PrayerLineGeometry, PrayerLineProperties>;
   labels: PrayerLineLabel[];
 }
 
@@ -465,7 +469,7 @@ export function buildLines(
   avoid?: LonLat,
   prayers: readonly PrayerKey[] = PRAYER_ORDER,
 ): SolarLines {
-  const features: Feature<MultiLineString, { prayer: PrayerKey }>[] = [];
+  const features: Feature<PrayerLineGeometry, PrayerLineProperties>[] = [];
   const labels: PrayerLineLabel[] = [];
   for (const prayer of prayers) {
     // The level-0 contour of nearestOccurrence(time, now), visiting only the cells that

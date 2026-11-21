@@ -9,7 +9,10 @@ import { noteLocationResolved } from '@/lib/location-hint';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
 import { StepLocation } from './StepLocation';
 
-jest.mock('@/lib/location/context', () => ({ useLocationStatus: jest.fn() }));
+jest.mock('@/lib/location/context', () => ({
+  useLocation: () => ({ source: 'default' }),
+  useLocationStatus: jest.fn(),
+}));
 jest.mock('@/lib/location-hint', () => ({ noteLocationResolved: jest.fn(async () => {}) }));
 jest.mock('@/lib/haptics', () => ({
   setHapticsEnabled: jest.fn(), hapticSelection: jest.fn(),

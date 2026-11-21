@@ -18,7 +18,7 @@ import { PlacePicker } from '@/components/settings/PlacePicker';
 import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { Icon } from '@/components/ui/Icon';
-import { useLocationStatus } from '@/lib/location/context';
+import { useLocation, useLocationStatus } from '@/lib/location/context';
 import { noteLocationResolved } from '@/lib/location-hint';
 import type { SwedishPlace } from '@/lib/places/data';
 import { useSettings } from '@/lib/settings/context';
@@ -26,20 +26,22 @@ import {
   openSystemSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
-  systemSettingsName,
+  locationDeniedMessage,
 } from '@/lib/system-settings';
 import { type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
-type Phase = 'ask' | 'granted' | 'denied' | 'error' | 'picking';
+type Phase = 'ask' | 'granted' | 'denied' | 'error';
 
 export function StepLocation() {
   const c = useColors();
   const reduceMotion = useReducedMotion();
   const styles = useMemo(() => makeStyles(c), [c]);
   const { settings, update } = useSettings();
+  const { source } = useLocation();
   const { refresh } = useLocationStatus();
   const [phase, setPhase] = useState<Phase>('ask');
+  const [picking, setPicking] = useState(false);
   // Two taps inside one frame both read the same pre-update state, so the in-flight guard
   // has to be a ref (written synchronously) — `busy` alone would let a double-tap put two
   // OS dialogs in flight. The state exists only to grey the button out.
@@ -48,7 +50,6 @@ export function StepLocation() {
   // must win over a request that finishes after the reader has moved on.
   const requestGeneration = useRef(0);
   const [busy, setBusy] = useState(false);
-  const settingsName = systemSettingsName();
 
   useEffect(() => () => { requestGeneration.current += 1; }, []);
 
@@ -98,7 +99,7 @@ export function StepLocation() {
     requestGeneration.current += 1;
     inFlight.current = false;
     setBusy(false);
-    setPhase('picking');
+    setPicking(true);
   };
 
   const onPickPlace = (p: SwedishPlace): void => {
@@ -109,20 +110,21 @@ export function StepLocation() {
     // How, and from where. Never which place.
     void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'manual', context: 'intro' });
     setPhase('granted');
+    setPicking(false);
   };
 
-  if (phase === 'picking') {
+  if (picking) {
     // Search owns the available height, including when the keyboard opens. Keeping
     // it beneath the introduction's lead can leave the virtualized list zero height.
     return (
-      <Modal animationType={reduceMotion ? 'none' : 'slide'} onRequestClose={() => setPhase('ask')}>
+      <Modal animationType={reduceMotion ? 'none' : 'slide'} onRequestClose={() => setPicking(false)}>
         <SafeAreaProvider>
           <SafeAreaView style={styles.picker}>
             <KeyboardAvoidingView style={styles.fill} behavior="padding">
               <View style={styles.pickerHeader}>
                 <Text style={styles.pickerTitle} accessibilityRole="header">Välj stad</Text>
                 <Pressable accessibilityRole="button" accessibilityLabel="Stäng stadsökning"
-                  onPress={() => setPhase('ask')} style={styles.close}>
+                  onPress={() => setPicking(false)} style={styles.close}>
                   <Icon name="close" size={24} color={c.ink} />
                 </Pressable>
               </View>
@@ -138,82 +140,82 @@ export function StepLocation() {
   // capitalised "Din plats", which is how this once read "…räknas ut för Din plats."
   const chosen =
     settings.locationMode === 'manual' ? settings.manualLocation?.name : 'din plats';
+  const hasLocation = phase === 'granted' || source !== 'default';
+  const cityAction = source === 'manual' ? 'Byt stad' : 'Välj stad i stället';
 
   return (
     <View style={styles.wrap}>
-      {phase === 'granted' ? (
+      {hasLocation ? (
         <View style={styles.done}>
           <Icon name="checkCircle" size={20} color={c.highlight} />
           <Text style={styles.doneText}>Tiderna räknas ut för {chosen ?? 'din plats'}.</Text>
         </View>
-      ) : (
-        <>
-          {phase === 'denied' ? (
-            // Word for word what Inställningar and the map's card say, so the three
-            // surfaces never disagree about what happened.
-            <Text style={styles.problem}>
-              Platsåtkomst nekad – visar standardplats. Tillåt i {settingsName}.
-            </Text>
-          ) : null}
-          {phase === 'error' ? (
-            <Text style={styles.problem}>
-              Kontrollera att platstjänster är på, eller välj en stad så räknas tiderna ut för
-              den.
-            </Text>
-          ) : null}
+      ) : null}
+      {phase === 'denied' ? (
+        // Word for word what Inställningar and the map's card say, so the three
+        // surfaces never disagree about what happened.
+        <Text style={styles.problem}>
+          {locationDeniedMessage()}
+        </Text>
+      ) : null}
+      {phase === 'error' ? (
+        <Text style={styles.problem}>
+          Kontrollera att platstjänster är på, eller välj en stad så räknas tiderna ut för
+          den.
+        </Text>
+      ) : null}
 
-          {/* `error` means services off or a timed-out fix (see GpsOutcome) — transient,
-              unlike `denied`, which the OS will not re-prompt for. So the button stays on
-              screen after an error: the message above tells the user what to check, and
-              this is what they tap once they have. Offering only "Välj stad i stället"
-              there made one indoor timeout the end of the recommended path.
+      {/* `error` means services off or a timed-out fix (see GpsOutcome) — transient,
+          unlike `denied`, which the OS will not re-prompt for. So the button stays on
+          screen after an error: the message above tells the user what to check, and
+          this is what they tap once they have. Offering only "Välj stad i stället"
+          there made one indoor timeout the end of the recommended path.
 
-              Its label never changes. The same action keeps the same name across the
-              whole flow, matching Inställningar's own "Uppdatera plats" row, which is
-              likewise stable across outcomes — the error text carries the news, not the
-              button. */}
-          {phase === 'ask' || phase === 'error' ? (
-            <Pressable
-              onPress={onUseGps}
-              disabled={busy}
-              accessibilityRole="button"
-              // A fix can take tens of seconds on a cold start, so the wait is announced
-              // as well as drawn — the same wording Inställningar uses while locating.
-              accessibilityLabel={busy ? 'Hämtar plats' : 'Använd min plats'}
-              accessibilityState={{ disabled: busy, busy }}
-              style={({ pressed }) => [styles.cta, pressed && styles.pressed]}
-            >
-              {busy ? (
-                <ActivityIndicator size="small" color={c.onAccent} />
-              ) : (
-                <Icon name="myLocation" size={18} color={c.onAccent} />
-              )}
-              <Text style={styles.ctaText}>{busy ? 'Hämtar plats…' : 'Använd min plats'}</Text>
-            </Pressable>
-          ) : null}
+          Its label never changes. The same action keeps the same name across the
+          whole flow, matching Inställningar's own "Uppdatera plats" row, which is
+          likewise stable across outcomes — the error text carries the news, not the
+          button. */}
+      {(phase === 'ask' && source !== 'gps') || phase === 'error' ||
+        (phase === 'granted' && source === 'manual') ? (
+        <Pressable
+          onPress={onUseGps}
+          disabled={busy}
+          accessibilityRole="button"
+          // A fix can take tens of seconds on a cold start, so the wait is announced
+          // as well as drawn — the same wording Inställningar uses while locating.
+          accessibilityLabel={busy ? 'Hämtar plats' : 'Använd min plats'}
+          accessibilityState={{ disabled: busy, busy }}
+          style={({ pressed }) => [styles.cta, pressed && styles.pressed]}
+        >
+          {busy ? (
+            <ActivityIndicator size="small" color={c.onAccent} />
+          ) : (
+            <Icon name="myLocation" size={18} color={c.onAccent} />
+          )}
+          <Text style={styles.ctaText}>{busy ? 'Hämtar plats…' : 'Använd min plats'}</Text>
+        </Pressable>
+      ) : null}
 
-          {phase === 'denied' ? (
-            <Pressable
-              onPress={openSystemSettings}
-              accessibilityRole="button"
-              accessibilityLabel={openSystemSettingsA11yLabel('plats')}
-              style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}
-            >
-              <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
-              <Icon name="externalLink" size={18} color={c.accent} />
-            </Pressable>
-          ) : null}
+      {phase === 'denied' ? (
+        <Pressable
+          onPress={openSystemSettings}
+          accessibilityRole="button"
+          accessibilityLabel={openSystemSettingsA11yLabel('plats')}
+          style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}
+        >
+          <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
+          <Icon name="externalLink" size={18} color={c.accent} />
+        </Pressable>
+      ) : null}
 
-          <Pressable
-            onPress={openPicker}
-            accessibilityRole="button"
-            accessibilityLabel="Välj stad i stället"
-            style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}
-          >
-            <Text style={styles.linkText}>Välj stad i stället</Text>
-          </Pressable>
-        </>
-      )}
+      <Pressable
+        onPress={openPicker}
+        accessibilityRole="button"
+        accessibilityLabel={cityAction}
+        style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}
+      >
+        <Text style={styles.linkText}>{cityAction}</Text>
+      </Pressable>
     </View>
   );
 }

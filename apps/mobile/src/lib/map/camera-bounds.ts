@@ -3,8 +3,7 @@
 // from. When they disagreed, the lattice was the smaller of the two and every line ended
 // in mid-sea at an invisible rectangle the reader could pan to but never past.
 
-/** [west, south, east, north] */
-export type Bounds = [number, number, number, number];
+import type { LngLatBounds } from '@maplibre/maplibre-react-native';
 
 /**
  * The furthest the camera may wander. The app's Sweden framing is the FIT target (see
@@ -27,7 +26,7 @@ export type Bounds = [number, number, number, number];
  * the tallest supported phone (956 pt) shows 0.233 of the world vertically; this box spans
  * 0.284. Narrowing it means raising CAMERA_MIN_ZOOM to match — check both together.
  */
-export const CAMERA_MAX_BOUNDS: Bounds = [-20.0, 35.0, 60.0, 80.0];
+export const CAMERA_MAX_BOUNDS: LngLatBounds = [-20.0, 35.0, 60.0, 80.0];
 
 /** Floor only. The ceiling stays open: the mosque layer and the qibla arc are drawn for
  *  city zoom, and the projection handles zoom exactly. */
@@ -35,7 +34,7 @@ export const CAMERA_MIN_ZOOM = 3;
 
 /** The Mercator world. Past ±85° the projection runs off to infinity and no basemap tile
  *  exists, so nothing outside this can be shown however wide a box asks for. */
-const WORLD_BOUNDS: Bounds = [-180.0, -85.0, 180.0, 85.0];
+const WORLD_BOUNDS: LngLatBounds = [-180.0, -85.0, 180.0, 85.0];
 
 /**
  * Grow a box by `lonPad`/`latPad` degrees on every side, clipped to the Mercator world.
@@ -46,7 +45,7 @@ const WORLD_BOUNDS: Bounds = [-180.0, -85.0, 180.0, 85.0];
  * cross there and would stop a hair short of the rail, which reads as the line ending for
  * a reason rather than running off the page.
  */
-export function expandBounds(b: Bounds, lonPad: number, latPad: number): Bounds {
+export function expandBounds(b: LngLatBounds, lonPad: number, latPad: number): LngLatBounds {
   return [
     Math.max(WORLD_BOUNDS[0], b[0] - lonPad),
     Math.max(WORLD_BOUNDS[1], b[1] - latPad),

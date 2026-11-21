@@ -6,23 +6,10 @@
 //     no separate geocoder needed (works offline, no API key).
 // Brute-force great-circle distance over ~2,100 places is well under 1 ms on
 // a phone, so no spatial index. Keep it that way.
-import { isValidLatLng } from '@/lib/coordinates';
+import { haversineKm, isValidLatLng } from '@/lib/coordinates';
 import { PLACES, type SwedishPlace } from './data';
 
-const EARTH_KM = 6371.0088;
-
-/** Great-circle (haversine) distance in km between two lat/lon pairs. */
-export function haversineKm(aLat: number, aLon: number, bLat: number, bLon: number): number {
-  const toRad = Math.PI / 180;
-  const dLat = (bLat - aLat) * toRad;
-  const dLon = (bLon - aLon) * toRad;
-  const lat1 = aLat * toRad;
-  const lat2 = bLat * toRad;
-  const sinDLat = Math.sin(dLat / 2);
-  const sinDLon = Math.sin(dLon / 2);
-  const h = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
-  return 2 * EARTH_KM * Math.asin(Math.min(1, Math.sqrt(h)));
-}
+export { haversineKm } from '@/lib/coordinates';
 
 export interface NearestPlaceMatch {
   readonly place: SwedishPlace;

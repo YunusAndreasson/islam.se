@@ -31,6 +31,7 @@
 import * as BackgroundTask from 'expo-background-task';
 import * as TaskManager from 'expo-task-manager';
 
+import { refreshDisplayZone } from '@/lib/device-zone';
 import { readCachedFix } from '@/lib/location/gps-cache';
 import { resolveLocation } from '@/lib/location/resolve';
 import { syncPrayerNotifications } from '@/lib/notifications';
@@ -68,6 +69,7 @@ TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
       settings.manualLocation,
       await readCachedFix(),
     );
+    refreshDisplayZone();
 
     // The alerts first: they are what this task exists for. Reminders switched off is not a
     // failure — it is this step having nothing to do. Doing it anyway would re-create the

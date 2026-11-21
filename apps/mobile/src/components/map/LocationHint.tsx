@@ -30,7 +30,7 @@ import {
   openSystemSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
-  systemSettingsName,
+  locationDeniedMessage,
 } from '@/lib/system-settings';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useSkyGlass } from '@/theme/skyChrome';
@@ -65,7 +65,6 @@ export function LocationHint({ top, onClose }: Props) {
   const [busy, setBusy] = useState(false);
   const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mounted = useRef(false);
-  const settingsName = systemSettingsName();
 
   useEffect(
     () => {
@@ -202,7 +201,7 @@ export function LocationHint({ top, onClose }: Props) {
         {state === 'denied' ? (
           // Same sentence as Inställningar → Plats, so the two surfaces agree word for word.
           <Text style={styles.body}>
-            Platsåtkomst nekad – visar standardplats. Tillåt i {settingsName}.
+            {locationDeniedMessage()}
           </Text>
         ) : null}
 

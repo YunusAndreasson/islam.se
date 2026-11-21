@@ -92,15 +92,16 @@ describe('adjacentMonth', () => {
     [day(2026, 7, 31), 8, 6],
     [day(2026, 12, 31), 1, 11],
     [day(2027, 2, 28), 3, 1],
+    [day(2028, 2, 29), 3, 1],
+    [day(2026, 10, 25), 11, 9],
   ])('steps off the end of the month, not 28 days along', (anchor, nextMo, prevMo) => {
-    const grid = monthGrid(anchor);
-    expect(zoneParts(adjacentMonth(grid, 1)).mo).toBe(nextMo);
-    expect(zoneParts(adjacentMonth(grid, -1)).mo).toBe(prevMo);
+    expect(zoneParts(adjacentMonth(anchor, 1))).toMatchObject({ mo: nextMo, d: 1 });
+    expect(zoneParts(adjacentMonth(anchor, -1)).mo).toBe(prevMo);
   });
 
   it('crosses the year in both directions', () => {
-    expect(zoneParts(adjacentMonth(monthGrid(day(2026, 12, 5)), 1)).y).toBe(2027);
-    expect(zoneParts(adjacentMonth(monthGrid(day(2026, 1, 5)), -1)).y).toBe(2025);
+    expect(zoneParts(adjacentMonth(day(2026, 12, 5), 1)).y).toBe(2027);
+    expect(zoneParts(adjacentMonth(day(2026, 1, 5), -1))).toMatchObject({ y: 2025, d: 31 });
   });
 
   it('always lands inside the adjacent month, never skipping one', () => {
@@ -110,7 +111,7 @@ describe('adjacentMonth', () => {
     const seen: number[] = [];
     for (let i = 0; i < 12; i++) {
       seen.push(zoneParts(anchor).mo);
-      anchor = adjacentMonth(monthGrid(anchor), 1);
+      anchor = adjacentMonth(anchor, 1);
     }
     expect(seen).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   });

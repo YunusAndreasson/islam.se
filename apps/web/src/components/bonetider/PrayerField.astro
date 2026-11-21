@@ -78,7 +78,7 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 	{
 		caption && (
 			<p class="bf-caption">
-				Visar <span class="bf-place">{location.name}</span> ·{" "}
+				<span class="bf-place">{location.name}</span>
 				<time class="bf-caption-date" datetime={todayIso}>
 					{todayLabel}
 				</time>
@@ -108,7 +108,7 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 				class="bf-t"
 				id={variant === "full" ? `bt-${r.key}` : undefined}
 				data-prayer={r.key}
-				class:list={{ "is-next": r.key === nextKey }}
+				class:list={{ "is-next-today": r.key === nextKey && nextTime.getTime() === times[r.key].getTime() }}
 				style={`--prayer-line: ${r.line}`}
 			>
 				<span class="bf-t-name">{r.label}{scheduleFirst && <span class="bf-next-label">Nästa bön</span>}</span>
@@ -316,7 +316,7 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 		grid-template-areas: "name time" "sv time";
 		column-gap: 1rem;
 		align-items: baseline;
-		padding: 0.5rem 0.2rem 0.5rem 0.7rem;
+		padding: 0.5rem 0.7rem;
 		border-bottom: var(--border-row);
 		/* --prayer-line is set per row from the canvas palette, so a row's rule is the
 		   same colour as that prayer's isoline on the map beside it. */
@@ -351,23 +351,38 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 	   tint of that same hue — the chrome's answer to the wider glow the canvas gives the
 	   next prayer's line. Not the border width: that would shift the row 1 px as the next
 	   prayer advances. */
-	.bf-t.is-next {
+	.bf-t.is-next-today {
 		background: color-mix(in oklab, var(--prayer-line) 8%, transparent);
 	}
 
-	.bf-t.is-next .bf-t-name,
-	.bf-t.is-next .bf-t-time {
+	.bf-t.is-next-today .bf-t-name,
+	.bf-t.is-next-today .bf-t-time {
 		color: var(--color-accent);
 	}
 
 	/* On the hub, the answer comes before the map in both desktop and phone layouts. */
 	.bf-schedule-first {
+		grid-template-columns: minmax(0, 1fr);
 		grid-template-areas: "caption" "times" "map" "under";
-		gap: 1rem;
+		gap: var(--space-half);
 	}
 	.bf-under { grid-area: under; min-width: 0; }
-	.bf-schedule-first .bf-caption { grid-area: caption; margin: 0; }
-	.bf-schedule-first .bf-caption .bf-place { font-size: var(--step-1); font-weight: 600; color: var(--color-text); }
+	.bf-schedule-first .bf-caption {
+		grid-area: caption;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 var(--space-control);
+		margin: 0;
+	}
+	.bf-schedule-first .bf-caption .bf-place {
+		margin: 0;
+		font-size: var(--step-1);
+		font-weight: 600;
+		color: var(--color-text);
+		overflow-wrap: anywhere;
+	}
+	.bf-caption-date { font: var(--step--2) var(--font-heading); }
 	.bf-schedule-first .bf-times { grid-area: times; }
 	/* The mosque map's size (moskeer.astro .mk-map): 26.25rem on a phone, 540px beside
 	   the list. At 4:3 in half the page it was 580 x 380 against the mosque map's 710 x
@@ -395,6 +410,12 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 			column-gap: var(--space-unit);
 		}
 		.bf-schedule-first .bf-stage { height: 33.75rem; }
+	}
+
+	@media (48rem <= width < 60rem) {
+		/* The screen link wraps in the narrower schedule column. Keep room for
+		   its second line while the map and schedule are side by side. */
+		.bf-schedule-first .bf-t { padding-block: 0.375rem; }
 	}
 
 	/* City pages lead with the map — it is the page's argument and the app's signature
@@ -436,7 +457,7 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 	.bf-summary .bf-next-lead,
 	.bf-summary .bf-next-sub,
 	.bf-summary .bf-countdown,
-	.bf-t.is-next .bf-t-sv { color: var(--text-meta); }
+	.bf-t.is-next-today .bf-t-sv { color: var(--text-meta); }
 
 	/* The dock hugs the bottom LEFT and stops short of half the frame. Full width, it
 	   sat over southern Sweden and hid Goteborg and Malmo behind the readout — on the

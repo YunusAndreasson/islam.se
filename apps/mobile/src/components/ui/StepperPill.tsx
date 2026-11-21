@@ -21,8 +21,9 @@ import { type Palette, radius } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { Icon } from './Icon';
 
-/** The pill's visible height. Each half is widened to a full touch target by slop. */
+/** The background is shorter than the two press targets. */
 const STEPPER_PILL_H = 36;
+const STEPPER_TARGET = 48;
 
 interface Props {
   onStep: (delta: 1 | -1) => void;
@@ -38,6 +39,7 @@ export function StepperPill({ onStep, canStepBack, canStepForward, backLabel, fo
   const styles = useMemo(() => makeStyles(c), [c]);
   return (
     <View style={styles.pill}>
+      <View pointerEvents="none" style={styles.background} />
       <Half styles={styles} direction={-1} disabled={!canStepBack} label={backLabel} onStep={onStep} />
       <View style={styles.divider} />
       <Half styles={styles} direction={1} disabled={!canStepForward} label={forwardLabel} onStep={onStep} />
@@ -63,11 +65,6 @@ function Half({
     <Pressable
       onPress={() => onStep(direction)}
       disabled={disabled}
-      // The pill is 36 tall so it sits quietly beside a two-line title; the slop makes each
-      // half a full 48 × 48 target (Android's minimum, and what PrayerDock.test holds the day
-      // buttons to) without a taller shape. Vertical only — horizontally each half's neighbour
-      // is the other half, and slop there would let one steal the other's taps.
-      hitSlop={{ top: 6, bottom: 6 }}
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ disabled }}
@@ -85,11 +82,17 @@ function makeStyles(c: Palette) {
     pill: {
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    background: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: (STEPPER_TARGET - STEPPER_PILL_H) / 2,
       height: STEPPER_PILL_H,
       borderRadius: radius.round,
       backgroundColor: c.accentSoft,
     },
-    half: { width: 48, height: STEPPER_PILL_H, alignItems: 'center', justifyContent: 'center' },
+    half: { width: STEPPER_TARGET, height: STEPPER_TARGET, alignItems: 'center', justifyContent: 'center' },
     divider: { width: StyleSheet.hairlineWidth, height: 18, backgroundColor: c.hairline },
     off: { opacity: 0.3 },
     pressed: { opacity: 0.55 },

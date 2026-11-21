@@ -13,6 +13,7 @@ import {
   getNotificationPermissionState,
   horizonDays,
   MAX_DAYS_AHEAD,
+  nextAlertAt,
   NOTIFY_PRAYERS,
   requestNotificationPermission,
   resetSyncStateForTests,
@@ -117,6 +118,29 @@ describe('syncPrayerNotifications lead time', () => {
     getAllScheduledMock.mockImplementation(async () => []);
     resetSyncStateForTests();
     await AsyncStorage.clear();
+  });
+
+  it('keeps the previous evening’s pending last-third reminder after midnight', async () => {
+    const clock = jest.spyOn(Date, 'now').mockReturnValue(Date.parse('2026-11-20T21:00:00+01:00'));
+    try {
+      const settings = withNotifications({
+        lastThird: true,
+        prayers: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false },
+      });
+      await syncPrayerNotifications(STOCKHOLM, settings);
+      const pending = scheduledTimes()[0]!;
+      const afterMidnight = Date.parse('2026-11-21T00:15:00+01:00');
+      expect(pending).toBeGreaterThan(afterMidnight);
+      expect(pending).toBeLessThan(Date.parse('2026-11-21T01:00:00+01:00'));
+
+      clock.mockReturnValue(afterMidnight);
+      scheduleMock.mockClear();
+      await syncPrayerNotifications(STOCKHOLM, settings);
+      expect(scheduledTimes()[0]).toBe(pending);
+      expect(nextAlertAt(STOCKHOLM, settings, afterMidnight)?.fireAt.getTime()).toBe(pending);
+    } finally {
+      clock.mockRestore();
+    }
   });
 
   it('fires each alert its lead time before the prayer time', async () => {

@@ -328,7 +328,7 @@ export const DOCK_COLLAPSED_BASE = dockMetrics(1).collapsed;
 // The fallback is only for the frame before the first onLayout: the six rows and the two
 // date lines at the default text size, night group included when it is on (rule 12 + 4,
 // caption 18 + 4, two compact rows of 30 — see listRowCompact).
-const SCHEDULE_FALLBACK = 260;
+const SCHEDULE_FALLBACK = 64 + 6 * 44 + space.sm;
 const NIGHT_GROUP_FALLBACK = 98;
 /** Stable identity so the `night` memo doesn't hand a fresh object down every render
  *  while the group is off. */
@@ -961,10 +961,14 @@ export function PrayerDock({
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
             needs its own internal breathing here — no system-inset clearance. */}
         <View style={[styles.content, { paddingBottom: space.sm }]} pointerEvents="box-none">
-          {/* A native viewport clips every intermediate frame above the fixed summary. */}
-          <View testID="dock-schedule-viewport" style={[styles.scheduleViewport, { bottom: COLLAPSED - DOCK_HANDLE_H }]}>
+          {/* Keep the date at the top once open. If the viewport is short while the
+              dock settles, the rows give up space first and stay scrollable. */}
+          <View
+            testID="dock-schedule-viewport"
+            style={[styles.scheduleViewport, { bottom: COLLAPSED - DOCK_HANDLE_H }, expanded && styles.scheduleViewportOpen]}
+          >
             <Animated.View
-              style={[{ maxHeight: scheduleRoom, flexShrink: 0 }, scheduleReveal]}
+              style={[{ maxHeight: scheduleRoom, flexShrink: expanded ? 1 : 0 }, scheduleReveal]}
               pointerEvents={expanded ? 'auto' : 'none'}
               accessibilityElementsHidden={!expanded}
               importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
@@ -1026,7 +1030,7 @@ export function PrayerDock({
               </View>
               <ScrollView
                 testID="dock-schedule-scroll"
-                style={{ maxHeight: Math.max(48, scheduleRoom - headerHeight), flexGrow: 0, flexShrink: 0, marginHorizontal: -space.sm }}
+                style={{ maxHeight: Math.max(0, scheduleRoom - headerHeight), flexGrow: 0, flexShrink: 1, marginHorizontal: -space.sm }}
                 contentContainerStyle={{ paddingHorizontal: space.sm }}
                 nestedScrollEnabled
                 scrollEnabled={expanded}
@@ -1058,7 +1062,7 @@ export function PrayerDock({
                           nameColor={valid ? prayerTextColorFor(key, scheme) : undefined}
                           mounted={showSchedule}
                           visible={expanded}
-                          isNext={next?.key === key && !next.nextDay}
+                          isNext={next?.key === key && !next.nextDay && !next.previousDay}
                           // The brass row is the answer to "which prayer is next" for a sighted
                           // reader; without this it was the one thing the label never carried.
                           // A row past midnight says so in words: the rule above it is silent to
@@ -1066,7 +1070,7 @@ export function PrayerDock({
                           // to remove.
                           accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? time : 'kan inte beräknas'}${
                             side === 1 ? ', efter midnatt' : side === -1 ? ', kvällen innan' : ''
-                          }${next?.key === key && !next.nextDay ? ', nästa bön' : ''}`}
+                          }${next?.key === key && !next.nextDay && !next.previousDay ? ', nästa bön' : ''}`}
                           // Only rows that land INSIDE the viewed day can be scrubbed to:
                           // clock.setInstant clamps to that day, so tapping a 00:36 Maghrib
                           // parked the thumb on the far rail at 24:00 and — where two slots sit
@@ -1863,9 +1867,10 @@ function makeStyles(c: Palette, fontScale = 1) {
       paddingHorizontal: space.sm,
       overflow: 'hidden', justifyContent: 'flex-end',
     },
+    scheduleViewportOpen: { justifyContent: 'flex-start' },
     footer: { position: 'absolute', bottom: DOCK_FOOTER_PAD, left: space.lg, right: space.lg },
 
-    dateHeader: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingBottom: space.md },
+    dateHeader: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, gap: space.md, paddingBottom: space.md },
     // Large text or a narrow phone: the stepper drops under the date instead of squeezing it.
     dateHeaderRoomy: { flexDirection: 'column', alignItems: 'flex-start', gap: space.sm },
     dateTapRoomy: { alignSelf: 'stretch', flex: 0 },

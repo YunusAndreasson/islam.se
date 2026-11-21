@@ -81,7 +81,7 @@ beforeEach(async () => {
   tracked = [];
   registered = [];
   registeredOnce = [];
-  jest.spyOn(analytics, 'track').mockImplementation(async (event, properties) => {
+  jest.spyOn(analytics, 'track').mockImplementation(async (...[event, properties]) => {
     log.push(event);
     tracked.push([event, properties]);
   });

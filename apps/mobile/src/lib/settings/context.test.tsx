@@ -26,11 +26,13 @@ describe('settings persistence recovery', () => {
     const save = jest.spyOn(storage, 'setItem').mockResolvedValue();
     const { result } = await mount();
     await waitFor(() => expect(result.current.loaded).toBe(true));
+    expect(result.current.settingsReady).toBe(false);
     expect(save).not.toHaveBeenCalled();
     await act(() => result.current.update({ theme: 'dark' }));
     expect(save).not.toHaveBeenCalled();
     await act(() => foreground?.('active'));
     await waitFor(() => expect(result.current.settings.madhab).toBe('hanafi'));
+    expect(result.current.settingsReady).toBe(true);
     expect(result.current.settings.theme).toBe('dark');
     await waitFor(() => expect(save).toHaveBeenCalledTimes(1));
     expect(JSON.parse(save.mock.calls[0]![1])).toEqual({ ...stored, theme: 'dark' });

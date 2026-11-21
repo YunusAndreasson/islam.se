@@ -22,9 +22,8 @@ import { useSettings } from '@/lib/settings/context';
 import type { LatLng } from '@/lib/prayer-times';
 import type { SwedishPlace } from '@/lib/places/data';
 import { readCachedFix, writeCachedFix } from './gps-cache';
+import { toLocationPermissionState, type LocationPermissionState } from './permission';
 import { type LocationSource, resolveLocation } from './resolve';
-
-type PermissionStatus = 'undetermined' | 'granted' | 'denied';
 
 interface LocationContextValue {
   /** The coordinate to compute prayer times for, given current settings. */
@@ -37,7 +36,7 @@ interface LocationContextValue {
   /** The Swedish tätort `coords` snaps to (nearestPlace in GPS, the picked
    *  place in manual, the fallback in default). Drives the map marker label. */
   place: SwedishPlace | null;
-  permissionStatus: PermissionStatus;
+  permissionStatus: LocationPermissionState;
 }
 
 /** Outcome of a refresh() call, so a caller can give the right feedback: `ok` = a fresh fix
@@ -78,7 +77,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   const { locationMode, manualLocation } = settings;
 
   const [gpsCoords, setGpsCoords] = useState<LatLng | null>(null);
-  const [permissionStatus, setPermissionStatus] = useState<PermissionStatus>('undetermined');
+  const [permissionStatus, setPermissionStatus] = useState<LocationPermissionState>('undetermined');
   const [locating, setLocating] = useState(false);
   // Guards against overlapping fixes (e.g. mount effect + a manual refresh).
   const inFlight = useRef(false);
@@ -170,7 +169,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       const perm = await Location.getForegroundPermissionsAsync();
       // `granted: false` covers BOTH "not asked yet" and "refused", and conflating them
       // would make the map show a denied-state card to someone who was never asked.
-      setPermissionStatus(perm.granted ? 'granted' : perm.status === 'denied' ? 'denied' : 'undetermined');
+      setPermissionStatus(toLocationPermissionState(perm));
       if (!perm.granted) return;
       await fetchFix();
     } catch {

@@ -29,11 +29,11 @@ import type { NativeSyntheticEvent } from 'react-native';
 
 import { type BurialGround, burialGroundForPress, toFeatureCollection } from '@/lib/burial-grounds';
 import { hapticLight } from '@/lib/haptics';
-import { GLYPH_MIN_ZOOM, GLYPH_PRESENCE_STOPS, zoomExpression } from '@/lib/map/dust';
+import { GLYPH_MIN_ZOOM } from '@/lib/map/dust';
 import { slotFor } from '@/lib/map/layer-slots';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
-import { GLYPH_HITBOX, PLACE_GOLD } from './MosqueLayer';
+import { GLYPH_HITBOX, PLACE_GOLD, placeGlyphLayout, placeGlyphPaint, placeRingPaint } from './place-layer-style';
 import { useFeatureSelection } from './useFeatureSelection';
 
 const SOURCE_ID = 'burial-grounds';
@@ -87,13 +87,7 @@ export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0, pre
           id={SELECTED_LAYER_ID}
           beforeId={slotFor('burial-ground-selected')}
           type="circle"
-          paint={{
-            'circle-opacity': 0,
-            'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 7, 7, 13, 13, 20],
-            'circle-stroke-color': PLACE_GOLD[scheme],
-            'circle-stroke-width': 1.5,
-            'circle-stroke-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
-          }}
+          paint={placeRingPaint(PLACE_GOLD[scheme])}
         />
       </GeoJSONSource>
       <GeoJSONSource
@@ -107,31 +101,8 @@ export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0, pre
           beforeId={slotFor('burial-ground-symbols')}
           type="symbol"
           minzoom={GLYPH_MIN_ZOOM}
-          layout={{
-            'icon-image': IMAGE_ID,
-            // MosqueLayer's scale, so a grave and a mosque read at the same size.
-            'icon-size': ['interpolate', ['linear'], ['zoom'], 7, 0.4, 13, 0.72],
-            'icon-allow-overlap': false,
-            'icon-optional': false,
-            // The name drops before the glyph does, and only appears close in — as mosques.
-            'text-optional': true,
-            'text-field': ['get', 'name'],
-            'text-font': ['Noto Sans Regular'],
-            'text-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0, 13, 11.5],
-            'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-            'text-justify': 'auto',
-            'text-offset': [0, 0.85],
-            'text-allow-overlap': false,
-            'text-padding': 6,
-            'text-max-width': 8,
-          }}
-          paint={{
-            'icon-opacity': zoomExpression(GLYPH_PRESENCE_STOPS) as never,
-            'text-color': c.ink,
-            'text-halo-color': c.paper,
-            'text-halo-width': 1.4,
-            'text-halo-blur': 0.3,
-          }}
+          layout={{ ...placeGlyphLayout, 'icon-image': IMAGE_ID }}
+          paint={placeGlyphPaint(c)}
         />
       </GeoJSONSource>
     </>

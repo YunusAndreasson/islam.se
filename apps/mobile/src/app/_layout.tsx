@@ -105,28 +105,28 @@ function AppSystemBars() {
  * so a cosmetic settings change can't trigger a cancel-and-reschedule of 180 notifications,
  * while the Effect Event always sees the latest committed settings and callback.
  */
-function useForegroundSync(key: string, sync: (settings: PrayerSettings) => void): void {
-  const { settings, loaded } = useSettings();
+function useForegroundSync(key: string, sync: (settings: PrayerSettings, resumed: boolean) => void): void {
+  const { settings, settingsReady } = useSettings();
   // Folded in for every consumer rather than left to each caller: both the notification
   // window and the widget timeline are cut into DAYS, and which instants those days start
   // at is the zone's answer. A reader who lands in another country has a stale schedule
   // for the same reason a reader who changes calculation method does.
   const zone = useDisplayZone();
-  const runSync = useEffectEvent(() => {
-    sync(settings);
+  const runSync = useEffectEvent((resumed: boolean) => {
+    sync(settings, resumed);
   });
 
   useEffect(() => {
-    if (!loaded) return;
-    runSync();
+    if (!settingsReady) return;
+    runSync(false);
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') runSync();
+      if (state === 'active') runSync(true);
     });
     return () => sub.remove();
     // `key` is not read in the body — it IS the dependency, standing in for the
     // settings and coordinates the caller folded into it. Effect Events are deliberately
     // non-reactive and must not be listed as dependencies.
-  }, [loaded, key, zone]);
+  }, [settingsReady, key, zone]);
 }
 
 /** A coordinate as a signature fragment. Full precision: any real move should re-sync,
@@ -183,8 +183,8 @@ function AppAnalytics() {
 function WidgetSync() {
   const { coords, label } = useLocation();
   const { settings } = useSettings();
-  useForegroundSync(`${widgetSignature(settings)}|${coordKey(coords)}|${label}`, (s) => {
-    void syncPrayerWidget(coords, s, label);
+  useForegroundSync(`${widgetSignature(settings)}|${coordKey(coords)}|${label}`, (s, resumed) => {
+    void syncPrayerWidget(coords, s, label, Date.now(), resumed);
   });
   // Android's widget is a static render between refreshes (see widget/android-snapshot).
   // Leaving the app is the moment the reader is most likely to look at it, so re-render it
@@ -201,8 +201,8 @@ function WidgetSync() {
 // Owns foreground entry/expiry boundaries for both native prayer surfaces.
 function PrayerActivitySync() {
   const { coords, label } = useLocation();
-  const { settings, loaded } = useSettings();
-  usePrayerActivitySync(coords, settings, label, loaded);
+  const { settings, settingsReady } = useSettings();
+  usePrayerActivitySync(coords, settings, label, settingsReady);
   return null;
 }
 

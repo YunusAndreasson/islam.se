@@ -25,7 +25,7 @@ import {
   openNotificationSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
-  systemSettingsName,
+  notificationsBlockedMessage,
 } from '@/lib/system-settings';
 import { type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
@@ -47,7 +47,6 @@ export function StepNotifications() {
     return () => { mounted.current = false; };
   }, []);
   const [busy, setBusy] = useState(false);
-  const settingsName = systemSettingsName();
 
   const onEnable = (): void => {
     if (inFlight.current) return;
@@ -109,7 +108,7 @@ export function StepNotifications() {
             block costs and what to do on the other side; the link under it does the
             going, so the sentence no longer repeats that link's "Öppna …" word for word. */}
         <Text style={styles.problem}>
-          Notiser är blockerade – inga påminnelser kommer fram. Tillåt dem i {settingsName}.
+          {notificationsBlockedMessage()}
         </Text>
         <Pressable
           onPress={openNotificationSettings}

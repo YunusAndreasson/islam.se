@@ -39,6 +39,20 @@ const SPRING_FORWARD = startOfZoneDay(Date.UTC(2026, 2, 29, 12));
 const FALL_BACK = startOfZoneDay(Date.UTC(2026, 9, 25, 12));
 const ORDINARY = startOfZoneDay(Date.UTC(2026, 6, 15, 12));
 
+it.each([
+  ['America/Santiago', '2026-09-06T04:05:00Z', '2026-09-06T04:00:00Z'],
+  ['Atlantic/Azores', '2026-03-29T01:05:00Z', '2026-03-29T01:00:00Z'],
+  ['America/Havana', '2026-11-01T05:20:00Z', '2026-11-01T04:00:00Z'],
+])('finds the first instant of the civil day in %s', (zone, observed, expected) => {
+  const original = getDisplayZone();
+  setDisplayZone(zone);
+  try {
+    expect(startOfZoneDay(Date.parse(observed))).toBe(Date.parse(expected));
+  } finally {
+    setDisplayZone(original);
+  }
+});
+
 describe('zoneDayLength', () => {
   it('reports 23, 24 and 25 hours across the two transitions', () => {
     expect(zoneDayLength(ORDINARY)).toBe(24 * HOUR);

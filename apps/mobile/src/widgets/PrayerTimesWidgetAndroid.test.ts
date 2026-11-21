@@ -22,7 +22,7 @@ jest.mock('expo-widgets', () => ({
 jest.mock('@expo/ui/jetpack-compose/modifiers', () => ({}));
 
 const COMPONENTS = ['Box', 'Column', 'Row', 'Spacer', 'Text'] as const;
-const MODIFIERS = ['background', 'cornerRadius', 'fillMaxHeight', 'fillMaxSize', 'paddingAll', 'width'];
+const MODIFIERS = ['background', 'cornerRadius', 'fillMaxSize', 'height', 'padding', 'paddingAll', 'width'];
 
 interface WidgetNode {
   type: string;
@@ -119,6 +119,34 @@ describe('the Android widget layout', () => {
     expect(texts(renderAt(snapshot.validUntilMs))[0]).toBe('Bönetider');
   });
 
+  it('asks for a refresh after travel or a backward clock change', () => {
+    expect(texts(renderAt(BUILT, snapshot, { timeZone: 'Asia/Riyadh' }))[0]).toBe('Bönetider');
+    expect(texts(renderAt(BUILT - 60_000))[0]).toBe('Bönetider');
+  });
+
+  it('preserves an explicit dark theme on the expired placeholder', () => {
+    const tree = renderAt(snapshot.validUntilMs, { ...snapshot, theme: 'dark' }, { colorScheme: 'light' });
+    expect(tree.props.modifiers).toContainEqual({ modifier: 'background', args: ['#161a26'] });
+  });
+
+  it('ignores malformed rows without giving up the valid schedule', () => {
+    const entry = snapshot.entries[0]!;
+    const rows = [null, ...entry.payload.rows] as unknown as typeof entry.payload.rows;
+    expect(texts(renderAt(BUILT, { ...snapshot, entries: [{ ...entry, payload: { ...entry.payload, rows } }] })))
+      .toContain(entry.payload.rows[0]?.time);
+  });
+
+  it('widens the time column at 150% and prioritizes the next time when space runs out', () => {
+    const large = renderAt(BUILT, snapshot, { fontScale: 1.5, widthDp: 360, heightDp: 224 });
+    expect(nodes(large).filter((node) => node.type === 'Text' &&
+      (node.props.style as { textAlign?: string })?.textAlign === 'end')).toHaveLength(6);
+    const time = nodes(large).find((node) =>
+      (node.props.style as { textAlign?: string } | undefined)?.textAlign === 'end');
+    expect(time?.props.modifiers).toContainEqual({ modifier: 'width', args: [72] });
+    const compact = renderAt(BUILT, snapshot, { fontScale: 2, widthDp: 280, heightDp: 128 });
+    expect(texts(compact)).toEqual(['Nästa bön', PRAYER_LABELS.dhuhr, snapshot.entries[0]?.payload.nextTime, 'Stockholm']);
+  });
+
   it('prioritizes location over the Hijri date without reducing it to a tiny two-line footer', () => {
     const location = 'Södra Sandby och Sularps samhälle';
     const withLocation = { ...snapshot, entries: snapshot.entries.map(entry => ({ ...entry,
@@ -142,6 +170,30 @@ describe('the Android widget layout', () => {
       (m) => m.modifier === 'background',
     );
     expect(paint?.args[0]).toBe('#161a26');
+  });
+
+  it.each([
+    ['light', '#f1e7d0'],
+    ['dark', '#332e2b'],
+  ])('groups the next prayer name and time with one highlight in %s mode', (colorScheme, highlight) => {
+    const tree = renderAt(BUILT, snapshot, { colorScheme });
+    const highlighted = nodes(tree).filter((node) => node.type === 'Row' &&
+      (node.props.modifiers as { modifier: string; args: unknown[] }[] | undefined)?.some(
+        (modifier) => modifier.modifier === 'background' && modifier.args[0] === highlight,
+      ));
+    expect(highlighted).toHaveLength(1);
+    const next = selectEntry(snapshot, BUILT)?.payload;
+    expect(texts(highlighted[0]!)).toEqual([next?.nextArabic, next?.nextTime]);
+  });
+
+  it('resets every schedule row background when the next prayer is tomorrow', () => {
+    const tree = renderAt(ref.isha.getTime() + 2_000);
+    const schedule = nodes(tree).filter((node) => node.type === 'Row' && node !== tree);
+    expect(texts(tree).slice(0, 2)).toEqual(['I morgon', PRAYER_LABELS.fajr]);
+    expect(schedule).toHaveLength(6);
+    for (const row of schedule) {
+      expect(row.props.modifiers).toContainEqual({ modifier: 'background', args: ['#f6f3ed'] });
+    }
   });
 
   it('uses only components the Android renderer can draw', () => {

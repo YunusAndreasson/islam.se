@@ -105,8 +105,11 @@ export function monthGrid(anchor: number): MonthGrid {
  *  1st of a 31-day month, +28 lands on the 29th of the SAME month and the pager does
  *  nothing. Stepping off the end of the current month is the only definition that holds
  *  for every month length, February and leap years included. */
-export function adjacentMonth(grid: MonthGrid, delta: 1 | -1): number {
-  return delta === 1 ? addZoneDays(grid.last, 1) : addZoneDays(grid.first, -1);
+export function adjacentMonth(anchor: number, delta: 1 | -1): number {
+  const { y, mo, d } = zoneParts(anchor);
+  if (delta === -1) return addZoneDays(anchor, -d);
+  const daysInMonth = new Date(Date.UTC(y, mo, 0)).getUTCDate();
+  return addZoneDays(anchor, daysInMonth - d + 1);
 }
 
 /**
@@ -193,21 +196,20 @@ function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose
 
   // Paging stops exactly where the range does: the adjacent month is reachable when the
   // day immediately outside this one still falls inside the rails.
-  const canPageBack = adjacentMonth(grid, -1) >= minDay;
-  const canPageForward = adjacentMonth(grid, 1) <= maxDay;
+  const canPageBack = adjacentMonth(anchor, -1) >= minDay;
+  const canPageForward = adjacentMonth(anchor, 1) <= maxDay;
   // Pages off the PENDING anchor, not the rendered `grid`. Both look equivalent and are
   // not: re-rendering the sheet (42 cells) over the open dock takes long enough that taps
   // arriving during it are delivered together the moment JS frees, React batches them into
   // one render, and every call in the batch would read the same committed `grid` and ask
   // for the same neighbouring month. Twelve taps on "Nästa månad" paged TWO months
   // (measured on an emulator, 2026-08-25) — and paging a year ahead to find Ramadan is
-  // exactly what this control is for. The updater stays pure: monthGrid is a plain
-  // computation over the anchor, and the rails are re-checked inside it so a burst stops
-  // where the range does instead of running past it.
+  // exactly what this control is for. Compute the next anchor directly and check the
+  // range in the updater so a burst stops at the boundary.
   const monthStep = (delta: 1 | -1): void => {
     hapticSelection();
     setAnchor((prev) => {
-      const next = adjacentMonth(monthGrid(prev), delta);
+      const next = adjacentMonth(prev, delta);
       return next < minDay || next > maxDay ? prev : next;
     });
   };

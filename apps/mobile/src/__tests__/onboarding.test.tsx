@@ -17,10 +17,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
-import { BackHandler } from 'react-native';
+import { AppState, BackHandler } from 'react-native';
 
 import Valkommen from '@/app/valkommen';
-import { analytics } from '@/lib/analytics';
+import { analytics, holdForAppOpen, releaseAppOpen } from '@/lib/analytics';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
@@ -134,6 +134,31 @@ describe('the introduction', () => {
     // dialog. Both of these are the REQUEST calls, not the read-only checks.
     expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
     expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
+  });
+
+  it('advances only once for two taps before React commits the next step', async () => {
+    await launch();
+    const welcome = screen.getByText('Kom igång');
+    await act(async () => {
+      await fireEvent.press(welcome);
+      await fireEvent.press(welcome);
+    });
+    expect(screen.getByText('Var är du?')).toBeTruthy();
+    expect(screen.queryByText('Ska vi påminna dig?')).toBeNull();
+    expect(hapticSelection).toHaveBeenCalledTimes(1);
+  });
+
+  it('finishes only once for two taps before the navigator replaces the screen', async () => {
+    await launch();
+    await press('Kom igång');
+    await press('Nästa');
+    await press('Inte nu');
+    const finish = screen.getByText('Visa bönetider');
+    await act(async () => {
+      await fireEvent.press(finish);
+      await fireEvent.press(finish);
+    });
+    expect(hapticSuccess).toHaveBeenCalledTimes(1);
   });
 
   it('walks all four steps and records itself as seen at the end', async () => {
@@ -288,7 +313,9 @@ describe('the introduction', () => {
 
   describe('the location step', () => {
     it('fires the OS prompt once, however fast the button is tapped twice', async () => {
-      answerLocation('granted');
+      jest
+        .mocked(Location.requestForegroundPermissionsAsync)
+        .mockResolvedValue(permission('granted') as never);
       jest.mocked(Location.getCurrentPositionAsync).mockResolvedValue({
         coords: { latitude: 57.7089, longitude: 11.9746 },
       } as never);
@@ -384,6 +411,11 @@ describe('the introduction', () => {
       const stored = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) as string);
       expect(stored.locationMode).toBe('manual');
       expect(stored.manualLocation.name).toBe('Göteborg');
+      await press('Nästa');
+      expect(await pressAndroidBack()).toBe(true);
+      expect(screen.getByText('Tiderna räknas ut för Göteborg.')).toBeTruthy();
+      await press('Byt stad');
+      expect(screen.getByText('Välj stad')).toBeTruthy();
     });
   });
 
@@ -501,6 +533,28 @@ describe('the introduction', () => {
       expect(tracked()).toContainEqual(['Reminders Toggled', { enabled: true, source: 'intro' }]);
       for (const [, properties] of tracked()) {
         expect(JSON.stringify(properties ?? {})).not.toMatch(/Stockholm|59\.3|18\.0/);
+      }
+    });
+
+    it('preserves the welcome view before a skip while the cold-open event is pending', async () => {
+      const previous = Object.getOwnPropertyDescriptor(AppState, 'currentState');
+      Object.defineProperty(AppState, 'currentState', { configurable: true, value: 'active' });
+      holdForAppOpen();
+      try {
+        await launch();
+        await press('Hoppa över');
+        expect(tracked()).toEqual([]);
+
+        await analytics.track('App Opened', { launch: 'cold' });
+        await act(async () => releaseAppOpen());
+        expect(tracked().map(([event]) => event)).toEqual([
+          'App Opened',
+          'Onboarding Step Viewed',
+          'Intro Skipped',
+        ]);
+      } finally {
+        releaseAppOpen();
+        if (previous) Object.defineProperty(AppState, 'currentState', previous);
       }
     });
 

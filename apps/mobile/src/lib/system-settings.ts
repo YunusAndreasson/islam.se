@@ -23,6 +23,12 @@ export const openSystemSettings = (): void => {
   void Linking.openSettings();
 };
 
+export const locationDeniedMessage = (): string =>
+  `Platsåtkomst nekad – visar standardplats. Tillåt i ${systemSettingsName()}.`;
+
+export const notificationsBlockedMessage = (): string =>
+  `Notiser är blockerade – inga påminnelser kommer fram. Tillåt dem i ${systemSettingsName()}.`;
+
 /** The visible label on every control that leads there. */
 export const openSystemSettingsLabel = (): string => `Öppna ${systemSettingsName()}`;
 

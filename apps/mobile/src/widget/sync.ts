@@ -5,6 +5,7 @@
 // layout picks the entry in force each time it renders (see ./android-snapshot.ts).
 // Called on launch, on every foreground, whenever settings, appearance or location change
 // (app/_layout.tsx → WidgetSync, keyed on widgetSignature), and from the background task.
+import type { Widget } from 'expo-widgets';
 import { Platform } from 'react-native';
 
 import type { LatLng } from '@/lib/prayer-times';
@@ -12,7 +13,8 @@ import { widgetSignature } from '@/lib/settings/compute-signature';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { getDisplayZone } from '@/lib/zone-time';
 import { buildAndroidSnapshot, selectEntry, type AndroidWidgetSnapshot } from './android-snapshot';
-import { buildTimeline, type WidgetTimelineEntry } from './timeline';
+import type { WidgetPayload } from './payload';
+import { buildTimeline } from './timeline';
 
 /**
  * Drop every `null` from a timeline before it crosses to WidgetKit.
@@ -40,8 +42,8 @@ export function toPropertyList<T>(value: T): T {
 export const WIDGET_REFRESH_INTERVAL_MS = 15 * 60 * 1000;
 
 interface WidgetLoaders {
-  ios(): Promise<{ updateTimeline(entries: WidgetTimelineEntry[]): void }>;
-  android(): Promise<{ updateSnapshot(snapshot: AndroidWidgetSnapshot): void; reload(): void }>;
+  ios(): Promise<Pick<Widget<WidgetPayload>, 'updateTimeline'>>;
+  android(): Promise<Pick<Widget<AndroidWidgetSnapshot>, 'updateSnapshot' | 'reload'>>;
 }
 
 /** Each coordinator owns session-local state; cold starts always push a fresh schedule.
@@ -60,6 +62,7 @@ export function createPrayerWidgetSync(loaders: WidgetLoaders) {
     settings: PrayerSettings,
     location: string,
     now: number = Date.now(),
+    restoreAndroidSnapshot = false,
   ): Promise<void> {
     // Serialize imports and writes as well as the cache check. Concurrent foreground,
     // settings and background syncs otherwise all see an empty cache and push at once.
@@ -76,9 +79,11 @@ export function createPrayerWidgetSync(loaders: WidgetLoaders) {
         if (applied?.key === key && age >= 0 && age < WIDGET_REFRESH_INTERVAL_MS) {
           if (platform === 'android' && applied.snapshot) {
             const entryAt = selectEntry(applied.snapshot, now)?.fromMs;
-            if (entryAt !== applied.renderedEntryAt) {
+            if (restoreAndroidSnapshot || entryAt !== applied.renderedEntryAt) {
               const widget = await loaders.android();
-              widget.reload();
+              // A native clock broadcast can clear the stored schedule while JS is idle.
+              if (restoreAndroidSnapshot) widget.updateSnapshot(toPropertyList(applied.snapshot));
+              else widget.reload();
               applied.renderedEntryAt = entryAt;
             }
           }
@@ -88,7 +93,8 @@ export function createPrayerWidgetSync(loaders: WidgetLoaders) {
         if (platform === 'android') {
           const widget = await loaders.android();
           const snapshot = buildAndroidSnapshot(coords, settings, location, now);
-          widget.updateSnapshot(snapshot);
+          // The Kotlin bridge rejects null values in nested snapshot objects.
+          widget.updateSnapshot(toPropertyList(snapshot));
           applied = { key: inputKey(), at: now, snapshot, renderedEntryAt: selectEntry(snapshot, now)?.fromMs };
         } else {
           const widget = await loaders.ios();
@@ -124,8 +130,9 @@ export async function syncPrayerWidget(
   settings: PrayerSettings,
   location: string,
   now: number = Date.now(),
+  restoreAndroidSnapshot = false,
 ): Promise<void> {
-  await syncWidget(coords, settings, location, now);
+  await syncWidget(coords, settings, location, now, restoreAndroidSnapshot);
 }
 
 /**

@@ -92,7 +92,7 @@ async function installDate(): Promise<string | undefined> {
  */
 async function claimFirstOpen(
   status: IntroStatus,
-): Promise<{ fresh: boolean; kind: SuperProperties['install_kind'] | undefined }> {
+): Promise<{ fresh: true; kind: SuperProperties['install_kind'] } | { fresh: false; kind: SuperProperties['install_kind'] | undefined }> {
   try {
     const raw = await storage.getItem(FIRST_OPEN_KEY);
     if (raw) {

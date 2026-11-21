@@ -14,19 +14,31 @@
 // for line by washColorAt() in ./washColor.ts — SkSL can't run under Jest, so that TS twin is
 // the tested spec for this shader; keep the two in sync (edit one → mirror it in the other).
 //
-// Apple Maps-inspired theming: the wash colour stops are theme-aware (see palette.ts:
-// washStopsLight / washStopsDark). The shader BODY is identical between modes — only the
-// five `half4` colour literals (DAY / DUSK / DAWN / DAWN_WARM / NIGHT) change — so the
-// factory below substitutes them at build time. Callers pick the stops via useActiveScheme.
-import { type RGBA, type WashStops } from '@/lib/solar/palette';
+// Palette uniforms let the same effect serve both themes.
+import type { RGBA, WashStops } from '@/lib/solar/palette';
 
-/** A palette RGBA (rgb 0..255, a 0..1) → an SkSL `half4` literal (rgb 0..1, a 0..1). */
-function sksl(c: RGBA): string {
-  return `half4(${(c[0] / 255).toFixed(5)}, ${(c[1] / 255).toFixed(5)}, ${(c[2] / 255).toFixed(5)}, ${c[3].toFixed(5)})`;
+function shaderColor([r, g, b, a]: RGBA): readonly [number, number, number, number] {
+  // Preserve the precision of the old shader literals.
+  return [
+    Number((r / 255).toFixed(5)),
+    Number((g / 255).toFixed(5)),
+    Number((b / 255).toFixed(5)),
+    Number(a.toFixed(5)),
+  ];
+}
+
+export function washPaletteUniforms(stops: WashStops) {
+  return {
+    C_DAY: shaderColor(stops.DAY),
+    C_DUSK: shaderColor(stops.DUSK_WARM),
+    C_DAWN: shaderColor(stops.DAWN_COOL),
+    C_DAWN_WARM: shaderColor(stops.DAWN_WARM),
+    C_NIGHT: shaderColor(stops.NIGHT),
+  };
 }
 
 /**
- * Build the wash SkSL for a given set of theme stops. Uniforms:
+ * Twilight RuntimeEffect. Uniforms:
  *  - u_worldSize  : 512 · 2^zoom (MapLibre's pixel world size at the camera zoom).
  *  - u_viewport   : canvas size in dp (matches the project()/unproject() space).
  *  - u_center     : camera centre in normalised Mercator (mx, my).
@@ -36,8 +48,7 @@ function sksl(c: RGBA): string {
  *                   the frame, so they are taken once on the CPU, not twice per pixel.
  *  - u_pixelRatio : device pixels per dp, so the dither noise varies per DEVICE pixel.
  */
-export function buildWashSksl(stops: WashStops): string {
-  return `
+export const WASH_SKSL = `
 uniform float u_worldSize;
 uniform float2 u_viewport;
 uniform float2 u_center;
@@ -50,11 +61,11 @@ uniform float u_pixelRatio;
 const float PI = 3.141592653589793;
 const float DEG = 0.017453292519943295;
 
-const half4 C_DAY        = ${sksl(stops.DAY)};
-const half4 C_DUSK       = ${sksl(stops.DUSK_WARM)};
-const half4 C_DAWN       = ${sksl(stops.DAWN_COOL)};
-const half4 C_DAWN_WARM  = ${sksl(stops.DAWN_WARM)};
-const half4 C_NIGHT      = ${sksl(stops.NIGHT)};
+uniform half4 C_DAY;
+uniform half4 C_DUSK;
+uniform half4 C_DAWN;
+uniform half4 C_DAWN_WARM;
+uniform half4 C_NIGHT;
 
 // Twilight colour from the sun's altitude (deg, <0 = below horizon) and hour angle (deg).
 half4 twilight(float altDeg, float haDeg) {
@@ -133,4 +144,3 @@ half4 main(float2 fragCoord) {
   return half4(c.rgb * c.a, c.a);
 }
 `;
-}

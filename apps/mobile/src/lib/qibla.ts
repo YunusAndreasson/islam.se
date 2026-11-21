@@ -4,13 +4,12 @@
 // and UI-free so the compass screen and its tests can both call it.
 import { Coordinates, Qibla } from 'adhan';
 
-import { isValidLatLng, lonLatOf, type LonLat } from './coordinates';
+import { haversineKm, isValidLatLng, lonLatOf, type LonLat } from './coordinates';
 import type { LatLng } from './prayer-times';
 
 /** The Kaaba, Mecca. */
 export const KAABA: LatLng = { latitude: 21.4225, longitude: 39.8262 };
 
-const EARTH_RADIUS_KM = 6371;
 const rad = (deg: number) => (deg * Math.PI) / 180;
 
 /** Bearing in degrees clockwise from true north, from `coords` toward the Kaaba. */
@@ -22,12 +21,7 @@ export function qiblaBearing(coords: LatLng): number {
 /** Great-circle distance in kilometres from `coords` to the Kaaba. */
 export function qiblaDistanceKm(coords: LatLng): number {
   if (!isValidLatLng(coords)) throw new RangeError('qiblaDistanceKm requires valid coordinates');
-  const dLat = rad(KAABA.latitude - coords.latitude);
-  const dLon = rad(KAABA.longitude - coords.longitude);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(rad(coords.latitude)) * Math.cos(rad(KAABA.latitude)) * Math.sin(dLon / 2) ** 2;
-  return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return haversineKm(coords.latitude, coords.longitude, KAABA.latitude, KAABA.longitude);
 }
 
 const deg = (r: number) => (r * 180) / Math.PI;

@@ -16,7 +16,7 @@ function platform(value: string) {
 }
 
 function setup() {
-  const ios = { updateTimeline: jest.fn<(entries: timeline.WidgetTimelineEntry[]) => void>() };
+  const ios = { updateTimeline: jest.fn<(entries: timeline.PrayerTimelineEntry[]) => void>() };
   const android = {
     updateSnapshot: jest.fn<(snapshot: import('./android-snapshot').AndroidWidgetSnapshot) => void>(),
     reload: jest.fn<() => void>(),
@@ -172,6 +172,28 @@ describe('prayer widget refresh coalescing', () => {
     expect(android.updateSnapshot).toHaveBeenCalledTimes(1);
     expect(build).toHaveBeenCalledTimes(1);
     expect(loaders.ios).not.toHaveBeenCalled();
+  });
+
+  it('omits nested nulls before sending the Android snapshot to Kotlin', async () => {
+    platform('android');
+    const { sync, android } = setup();
+    await sync(coords, DEFAULT_SETTINGS, 'Stockholm', now);
+    const snapshot = android.updateSnapshot.mock.calls[0]?.[0];
+    expect(snapshot?.entries[0]?.payload.location).toBe('Stockholm');
+    expect(snapshot?.entries.at(-1)?.payload).not.toHaveProperty('nextAtMs');
+    expect(JSON.stringify(snapshot)).not.toContain(':null');
+  });
+
+  it('restores the cached Android schedule on resume after native invalidation', async () => {
+    platform('android');
+    const build = jest.spyOn(timeline, 'buildTimeline');
+    const { sync, android } = setup();
+    await sync(coords, DEFAULT_SETTINGS, 'Stockholm', now);
+    await sync(coords, DEFAULT_SETTINGS, 'Stockholm', now + 1000, true);
+    expect(build).toHaveBeenCalledTimes(1);
+    expect(android.updateSnapshot).toHaveBeenCalledTimes(2);
+    expect(android.updateSnapshot.mock.calls[1]).toEqual(android.updateSnapshot.mock.calls[0]);
+    expect(android.reload).not.toHaveBeenCalled();
   });
 
   it('reloads Android at midnight and retries a failed boundary reload', async () => {

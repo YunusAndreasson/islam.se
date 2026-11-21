@@ -31,6 +31,17 @@ describe('buildPayloadAt — next prayer & schedule', () => {
   // never through the code under test (see prayer-oracle.ts).
   const ref = oracleTimes(STOCKHOLM, SPRING_DAY);
 
+  it('counts down to a previous day’s prayer that still lies ahead after midnight', () => {
+    const coords = { latitude: 67.86, longitude: 20.23 };
+    const now = Date.parse('2026-06-02T00:01:00+02:00');
+    const payload = buildPayloadAt(coords, settings(), now, 'Kiruna');
+
+    expect(payload.previousDayNextKey).toBe('maghrib');
+    expect(payload.nextTime).toBe('00:15');
+    expect(payload.rows.some((row) => row.isNext)).toBe(false);
+    expect(payload.nextIsTomorrow).toBe(false);
+  });
+
   it('before Fajr, counts down to Fajr and lists the whole day', () => {
     const now = ref.fajr.getTime() - 60_000;
     const p = buildPayloadAt(STOCKHOLM, settings(), now, 'Göteborg');

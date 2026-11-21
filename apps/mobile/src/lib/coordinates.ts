@@ -1,5 +1,6 @@
 // The app's coordinate vocabulary. Two shapes exist and they disagree about order,
 // which is the whole reason this module is worth having.
+import type { LngLat } from '@maplibre/maplibre-react-native';
 import type { LatLng } from './prayer-times';
 
 /**
@@ -15,7 +16,7 @@ import type { LatLng } from './prayer-times';
  * ordering ONCE, here, instead of hand-spelling `[c.longitude, c.latitude]` at each of
  * the boundaries where the two shapes meet.
  */
-export type LonLat = [lon: number, lat: number];
+export type LonLat = LngLat;
 
 /** `LatLng` → the `[lon, lat]` order MapLibre, GeoJSON and the Mercator helpers want. */
 export function lonLatOf(c: LatLng): LonLat {
@@ -39,4 +40,19 @@ export function isValidLatLng(value: unknown): value is LatLng {
     Number.isFinite(longitude) &&
     Math.abs(longitude) <= 180
   );
+}
+
+const EARTH_KM = 6371.0088;
+
+/** Great-circle (haversine) distance in km between two lat/lon pairs. */
+export function haversineKm(aLat: number, aLon: number, bLat: number, bLon: number): number {
+  const toRad = Math.PI / 180;
+  const dLat = (bLat - aLat) * toRad;
+  const dLon = (bLon - aLon) * toRad;
+  const lat1 = aLat * toRad;
+  const lat2 = bLat * toRad;
+  const sinDLat = Math.sin(dLat / 2);
+  const sinDLon = Math.sin(dLon / 2);
+  const h = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+  return 2 * EARTH_KM * Math.asin(Math.min(1, Math.sqrt(h)));
 }

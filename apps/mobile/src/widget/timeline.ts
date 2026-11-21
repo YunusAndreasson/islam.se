@@ -5,17 +5,14 @@
 // prayer, and one just after each midnight; the entry at (prayerₙ + 1 s) naturally
 // shows prayerₙ₊₁ as next. See ./payload.ts for the per-entry data model.
 import type { PrayerTimes } from 'adhan';
+import type { WidgetTimelineEntry } from 'expo-widgets';
 import type { LatLng } from '@/lib/prayer-times';
 import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { addZoneDays, startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
 import { buildPayloadAt, type WidgetPayload } from './payload';
 
-/** A WidgetKit timeline entry — matches expo-widgets' WidgetTimelineEntry shape. */
-export interface WidgetTimelineEntry {
-  date: Date;
-  props: WidgetPayload;
-}
+export type PrayerTimelineEntry = WidgetTimelineEntry<WidgetPayload>;
 
 /** How many days of boundaries to emit. The provider's reload policy is `.atEnd`
  *  (expo-widgets' WidgetsTimelineProvider), so once the LAST entry's date passes,
@@ -37,7 +34,7 @@ const BOUNDARY_EPSILON_MS = 1000;
 const MAX_ENTRIES = 48;
 
 /**
- * Build the timeline of {@link WidgetTimelineEntry} for `coords`/`settings`, starting
+ * Build the timeline of {@link PrayerTimelineEntry} for `coords`/`settings`, starting
  * at `now`. `location` is the resolved label shared by every entry. Deterministic for
  * a fixed (coords, settings, location, now) — the prayer maths and Europe/Stockholm
  * formatting carry no hidden clock — so it unit-tests cleanly.
@@ -47,9 +44,9 @@ export function buildTimeline(
   settings: PrayerSettings,
   location: string,
   now: number = Date.now(),
-): WidgetTimelineEntry[] {
+): PrayerTimelineEntry[] {
   // Memoise prayer-times by Stockholm calendar day (the prayerDate's local y/m/d).
-  // The boundary scan below touches days 0–SPAN_DAYS, and buildPayloadAt re-derives its
+  // The boundary scan below touches days -1–SPAN_DAYS, and buildPayloadAt re-derives its
   // own day (+ tomorrow on rollover) for each of the ~36 entries — without this the
   // same day's adhan computation ran once PER ENTRY. Shared across the scan and every
   // entry, so the whole build does one computation per calendar day it touches.
@@ -74,10 +71,10 @@ export function buildTimeline(
     if (boundary > now && boundary < horizon) boundaries.add(boundary);
   };
 
-  // Every calendar day the span touches. Day SPAN_DAYS is the last one that can still
+  // Include yesterday for prayers that still fall within the span. Day SPAN_DAYS is the last one that can still
   // contribute (its slots before `now`'s time-of-day fall inside the horizon), and its
   // post-Isha boundary is the rollover entry that points at the following Fajr.
-  for (let dayOffset = 0; dayOffset <= SPAN_DAYS; dayOffset++) {
+  for (let dayOffset = -1; dayOffset <= SPAN_DAYS; dayOffset++) {
     const times = resolveDay(zonePrayerDate(now, dayOffset));
     for (const key of PRAYER_ORDER) {
       const t = times[key].getTime();
@@ -95,8 +92,8 @@ export function buildTimeline(
   let dayStart = startOfZoneDay(now);
   for (let d = 0; d < SPAN_DAYS + 1; d++) {
     dayStart = addZoneDays(dayStart, 1);
-    if (dayStart > horizon) break;
-    add(dayStart);
+    if (dayStart >= horizon) break;
+    if (dayStart > now) boundaries.add(dayStart);
   }
 
   const entries = [...boundaries]

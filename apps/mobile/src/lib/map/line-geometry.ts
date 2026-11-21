@@ -5,6 +5,8 @@
 // only the Skia copy applied the sun's drift between rebuilds — so at city zoom a pill sat
 // hundreds of pixels from the line it named, and a tap on the drawn line missed. Everything
 // a consumer needs is computed here once per build, and the drift is one function.
+import type { SkPathBuilder } from 'react-native-skia';
+
 import type { LonLat } from '@/lib/coordinates';
 import { type Camera, mercX, mercY, worldSize } from './projection';
 
@@ -79,10 +81,9 @@ export function driftedCamera(cam: Camera, driftX: number): Camera {
 }
 
 /** What `appendProjected` draws into — a Skia path builder in the app, a recorder in tests. */
-export interface PathSink {
-  moveTo(x: number, y: number): unknown;
-  lineTo(x: number, y: number): unknown;
-}
+export type PathSink = {
+  [K in 'moveTo' | 'lineTo']: (...point: Parameters<SkPathBuilder[K]>) => void;
+};
 
 /**
  * Projects a line to screen points into `sink`, skipping every segment whose bounding box

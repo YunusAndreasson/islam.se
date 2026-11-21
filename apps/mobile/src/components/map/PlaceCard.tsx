@@ -83,11 +83,11 @@ export function PlaceCard({
                 written in, and the order the question is asked in: is this the place, and
                 is that the municipality I think I am in. */}
             {subtitle != null && (
-              <Text style={styles.subtitle} numberOfLines={1}>
+              <Text style={styles.subtitle}>
                 {subtitle}
               </Text>
             )}
-            <Text style={styles.location} numberOfLines={1}>
+            <Text style={styles.location}>
               {location}
               <Text style={styles.distance}>{`   ${distance}`}</Text>
             </Text>
@@ -181,7 +181,7 @@ function makeStyles(c: Palette) {
       backgroundColor: c.accent,
     },
     directionsPressed: { opacity: 0.85 },
-    directionsText: { ...type.bodyStrong, color: c.onAccent },
+    directionsText: { ...type.bodyStrong, color: c.onAccent, flexShrink: 1 },
     // Tertiary: no fill, no border, muted ink. Centred under the primary action so the
     // card still reads as one column with a single emphasised control. The negative
     // margin claws back part of the card's `gap` — the link wants to sit closer to the
@@ -194,6 +194,6 @@ function makeStyles(c: Palette) {
       marginBottom: -space.xs,
     },
     secondaryPressed: { opacity: 0.6 },
-    secondaryText: { ...type.caption, color: c.inkMuted },
+    secondaryText: { ...type.caption, color: c.inkMuted, textAlign: 'center' },
   });
 }

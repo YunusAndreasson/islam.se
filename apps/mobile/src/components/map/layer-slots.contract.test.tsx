@@ -45,6 +45,13 @@ describe('app layer slots', () => {
         beforeId: slotFor(layer.props.id),
       });
     }
+    for (const id of ['mosque-symbols', 'burial-ground-symbols']) {
+      const layout = layers.find((layer) => layer.props.id === id)?.props.layout;
+      expect(layout?.['text-variable-anchor']).toEqual(['top', 'bottom', 'left', 'right']);
+      expect(layout?.['text-radial-offset']).toBe(0.85);
+      expect(layout?.['text-variable-anchor-offset']).toBeUndefined();
+      expect(layout?.['text-offset']).toBeUndefined();
+    }
     // Mount order no longer matters, so compare sets: one layer per slot, none unslotted.
     const byName = (a: string, b: string) => a.localeCompare(b);
     expect(layers.map((layer) => layer.props.id as string).sort(byName)).toEqual([...APP_LAYER_ORDER].sort(byName));

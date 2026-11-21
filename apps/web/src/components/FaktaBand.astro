@@ -77,9 +77,10 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 			<h3 class="label grunden-group-head" id="grunden-tro">
 				{trosartiklar.overview ? <a href={`/svar/${trosartiklar.overview}/`}>{trosartiklar.name}</a> : trosartiklar.name}
 			</h3>
-			<ul class="grunden-tro">
-				{trosartiklar.items.map((item) => (
+			<ol class="grunden-tro">
+				{trosartiklar.items.map((item, i) => (
 					<li class="grunden-item">
+						<span class="grunden-num" aria-hidden="true">{i + 1}</span>
 						<p class="grunden-term">
 							<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{avstavad(item.label)}</a>
 							{" "}
@@ -88,7 +89,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 						<p class="grunden-blurb"><WithHonorifics text={item.blurb} /></p>
 					</li>
 				))}
-			</ul>
+			</ol>
 		</div>
 	)}
 </section>
@@ -229,16 +230,15 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 		gap: var(--space-group) var(--grid-gutter);
 	}
 
-	/* A pillar: the numeral beside the name, the gloss beneath. One grammar at every
-	   width. */
-	.grunden-pelare .grunden-item {
+	/* The numeral sits beside the name, with the gloss aligned under the name. */
+	.grunden-item {
 		display: grid;
 		grid-template-columns: auto minmax(0, 1fr);
 		column-gap: 0.9rem;
 		align-items: baseline;
 	}
 
-	.grunden-pelare .grunden-blurb {
+	.grunden-blurb {
 		grid-column: 2;
 	}
 
@@ -302,12 +302,21 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 
-		.grunden-tro .grunden-term {
+		.grunden-tro .grunden-term,
+		.grunden-tro .grunden-num {
 			font-size: var(--step-0);
 		}
 	}
 
 	@media (width < 48rem) {
+		.grunden-tro .grunden-item {
+			column-gap: var(--space-half);
+		}
+
+		.grunden-tro .grunden-tr {
+			white-space: normal;
+		}
+
 		.grunden-tro .grunden-blurb {
 			display: none;
 		}
@@ -379,6 +388,11 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 	}
 
 	@media (width < 23rem) {
+		/* Leave room for the numerals and long Swedish names on narrow phones. */
+		.grunden-tro {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
 		.grunden-head {
 			column-gap: var(--space-half);
 		}

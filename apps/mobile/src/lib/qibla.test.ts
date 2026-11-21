@@ -26,6 +26,11 @@ function initialBearing(p: [number, number], q: [number, number]): number {
   return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
 }
 
+it('keeps the distance finite near the Kaaba’s antipode', () => {
+  const distance = qiblaDistanceKm({ latitude: -21.422500419, longitude: -140.1738 });
+  expect(distance).toBeCloseTo(20_015.114, 2);
+});
+
 describe('qiblaBearing', () => {
   it('points south-east from Sweden (toward Mecca)', () => {
     // Stockholm → ~148° (SE). A Swedish user faces roughly south-east for the qibla;

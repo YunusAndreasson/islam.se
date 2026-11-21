@@ -2,6 +2,12 @@
 // receive.
 import Constants from 'expo-constants';
 
+import type { ReportReason } from '@/lib/mosques/report';
+import type { PrayerKey } from '@/lib/prayer-times';
+
+import type { LaunchKind } from './lifecycle';
+import type { NotificationSettingChange } from './properties';
+
 import type { IntroHistory } from '@/lib/intro';
 import type { LocationSource } from '@/lib/location/resolve';
 
@@ -126,3 +132,38 @@ export interface SuperProperties {
   /** How this install came past the introduction. */
   intro_status: IntroHistory;
 }
+
+type OnboardingStep = 'welcome' | 'location' | 'notifications' | 'method' | 'unknown';
+type IntroEndProperties = {
+  at_step: OnboardingStep;
+  replay: boolean;
+  location_source: LocationSource;
+  reminders: RemindersState;
+};
+type PermissionPromptProperties = { permission: PermissionKind; primed: boolean; source: PermissionSource };
+
+type EventPayloads = {
+  [ANALYTICS_EVENTS.APP_OPENED]: { launch: LaunchKind };
+  [ANALYTICS_EVENTS.FIRST_OPEN]: { install_kind: SuperProperties['install_kind'] };
+  [ANALYTICS_EVENTS.SCREEN_VIEWED]: { screen: string };
+  [ANALYTICS_EVENTS.ONBOARDING_STEP_VIEWED]: { step: OnboardingStep; index: number; replay: boolean };
+  [ANALYTICS_EVENTS.INTRO_COMPLETED]: IntroEndProperties;
+  [ANALYTICS_EVENTS.INTRO_SKIPPED]: IntroEndProperties;
+  [ANALYTICS_EVENTS.PERMISSION_PROMPT_SHOWN]: PermissionPromptProperties;
+  [ANALYTICS_EVENTS.PERMISSION_RESULT]: PermissionPromptProperties & { granted: boolean; prompted: boolean };
+  [ANALYTICS_EVENTS.PERMISSION_CARD_SHOWN]: { permission: PermissionKind; showing: number };
+  [ANALYTICS_EVENTS.PERMISSION_CARD_CLOSED]: { permission: PermissionKind; state: 'ask' | 'granted' | 'denied' | 'error' };
+  [ANALYTICS_EVENTS.NOTIFICATION_OPENED]: { prayer: PrayerKey | 'lastThird' | 'other'; action: 'tap' | 'button' | 'other'; cold: boolean };
+  [ANALYTICS_EVENTS.WIDGET_OPENED]: { cold: boolean };
+  [ANALYTICS_EVENTS.REMINDERS_TOGGLED]: { enabled: boolean; source: Exclude<PermissionSource, 'qibla'> };
+  [ANALYTICS_EVENTS.NOTIFICATION_SETTINGS_CHANGED]: NotificationSettingChange;
+  [ANALYTICS_EVENTS.LOCATION_SET]: { source: Exclude<LocationSource, 'default'>; context: LocationContext };
+  [ANALYTICS_EVENTS.QIBLA_ALIGNED]: never;
+  [ANALYTICS_EVENTS.MOSQUE_REPORT_SENT]: { reason: ReportReason };
+};
+
+export type TrackArguments = {
+  [Event in AnalyticsEventName]: [EventPayloads[Event]] extends [never]
+    ? [event: Event]
+    : [event: Event, properties: EventPayloads[Event]];
+}[AnalyticsEventName];

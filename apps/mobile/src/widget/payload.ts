@@ -60,8 +60,11 @@ export interface WidgetPayload {
   nextTime: string;
   /** Its epoch ms, for the widget's live relative countdown (null if unresolved). */
   nextAtMs: number | null;
-  /** True when the next prayer is tomorrow's Fajr (today's are all past). */
+  /** True when the next event belongs to tomorrow's schedule. */
   nextIsTomorrow: boolean;
+  nextDayKey?: PrayerKey;
+  /** The hero may count down to a slot outside the displayed rows. */
+  previousDayNextKey?: PrayerKey;
   /** The user's appearance preference; the widget resolves 'system' against the
    *  WidgetKit colour scheme, and honours an explicit 'light'/'dark' lock. */
   theme: ThemePreference;
@@ -70,8 +73,8 @@ export interface WidgetPayload {
 /**
  * Build the widget payload as of the instant `atMs`, for `coords`/`settings`.
  * The "next" prayer is the first slot at-or-after `atMs` (same rule the app's dock
- * uses, {@link nextPrayerKeyAt}); when every slot today has passed it rolls over to
- * tomorrow's Fajr. `location` is threaded in (resolved once by the caller) so every
+ * uses, {@link nextPrayerKeyAt}); when every slot today has passed it looks for the
+ * first computable slot in tomorrow's schedule. `location` is threaded in so every
  * entry in a timeline shares one label.
  */
 export function buildPayloadAt(
@@ -93,20 +96,14 @@ export function buildPayloadAt(
   const civilDay = zonePrayerDate(atMs);
   const times = compute(civilDay);
 
-  // The same selector the map dock uses, rather than a second copy of the rollover rule —
-  // including its range check, which this path used to be missing. "Tomorrow's Fajr" is not
-  // automatically ahead of `atMs`: under the middle-of-the-night rule far north it can fall
-  // just before midnight (at Treriksröset the Fajr belonging to 28 March is at 23:59 on the
-  // 27th), and `nextAtMs` drives a LIVE relative countdown in the widget and the Live
-  // Activity — so a past instant does not merely read oddly, it counts upwards until the next
-  // timeline entry replaces it. See selectNextPrayer for the full reasoning.
-  //
-  // The next day is computed only once the viewed day is spent: a whole adhan day is the
-  // expensive part of building a payload, and buildTimeline builds many of them. The extra
-  // nextPrayerKeyAt call is six getTime()s.
-  const spent = nextPrayerKeyAt(times, atMs) === null;
-  const tomorrowFajrAt = spent ? compute(zonePrayerDate(atMs, 1)).fajr.getTime() : null;
-  const next = selectNextPrayer(times, tomorrowFajrAt, atMs);
+  // An unresolved polar Fajr or one that fell before midnight is skipped by the
+  // same at-or-after check used for today's rows.
+  const todayNext = selectNextPrayer(times, null, atMs, compute(zonePrayerDate(atMs, -1)));
+  const tomorrow = todayNext ? null : compute(zonePrayerDate(atMs, 1));
+  const tomorrowKey = tomorrow ? nextPrayerKeyAt(tomorrow, atMs) : null;
+  const next = todayNext ?? (tomorrow && tomorrowKey
+    ? { key: tomorrowKey, at: tomorrow[tomorrowKey].getTime(), nextDay: true, previousDay: undefined }
+    : null);
 
   const nextArabic = next ? PRAYER_LABELS[next.key] : '';
   const nextSwedish = next ? PRAYER_SWEDISH_NAMES[next.key] : '';
@@ -120,7 +117,7 @@ export function buildPayloadAt(
     swedish: PRAYER_SWEDISH_NAMES[key],
     time: formatTime(times[key]),
     isMarker: key === 'sunrise',
-    isNext: next != null && !next.nextDay && key === next.key,
+    isNext: next != null && !next.nextDay && !next.previousDay && key === next.key,
   }));
 
   return {
@@ -133,6 +130,8 @@ export function buildPayloadAt(
     nextTime,
     nextAtMs,
     nextIsTomorrow,
+    ...(next?.nextDay && next.key !== 'fajr' ? { nextDayKey: next.key } : {}),
+    ...(next?.previousDay ? { previousDayNextKey: next.key } : {}),
     theme: settings.theme,
   };
 }

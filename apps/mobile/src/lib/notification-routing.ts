@@ -19,7 +19,7 @@ import { router } from 'expo-router';
 
 import { ANALYTICS_EVENTS, afterAppOpen, analytics } from '@/lib/analytics';
 import { appLaunch } from '@/lib/analytics/lifecycle';
-import { PRAYER_ORDER } from '@/lib/prayer-times';
+import { PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 
 /** The home screen — the map with the prayer dock. */
 export const PRAYER_TIMES_ROUTE = '/bonetider';
@@ -39,7 +39,7 @@ export function routeToPrayerTimes(): void {
 
 /** Which alert was tapped, as the slot key the scheduler put in its data: a prayer, the
  *  sunrise marker or the night's last third. Anything else is 'other', never echoed. */
-export function notificationPrayer(data: unknown): string {
+export function notificationPrayer(data: unknown): PrayerKey | 'lastThird' | 'other' {
   const key = typeof data === 'object' && data !== null ? (data as { key?: unknown }).key : undefined;
   if (key === 'lastThird') return key;
   return PRAYER_ORDER.find((slot) => slot === key) ?? 'other';

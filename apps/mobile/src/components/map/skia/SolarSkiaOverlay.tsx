@@ -51,7 +51,7 @@ import type { LonLat } from '@/lib/coordinates';
 import { polarBoundaryColorFor, prayerColorFor, washStopsFor } from '@/lib/solar/palette';
 import { type PolarBoundary, solarParams } from '@/lib/solar/sun';
 import { useActiveScheme } from '@/theme/useColors';
-import { buildWashSksl } from './washShader';
+import { WASH_SKSL, washPaletteUniforms } from './washShader';
 
 /** One prayer's contour for this instant: its colour key + the smoothed lon/lat lines. */
 export interface PrayerLineData {
@@ -118,15 +118,10 @@ export function SolarSkiaOverlay({
   polarBoundary,
   mosquePoints = NO_POINTS,
 }: Props) {
-  // The wash composites onto the themed basemap, so its colour stops swap with
-  // the active scheme — Apple Maps-style. `useActiveScheme()` is the user-aware
-  // resolver (settings override first, OS otherwise). Body of the SkSL is
-  // identical between modes; only the five colour literals (DAY / DUSK / DAWN /
-  // DAWN_WARM / NIGHT) change, so RuntimeEffect.Make is memoised on the SKSL string and
-  // only rebuilds on a theme flip (cheap — not per frame).
+  // Compile lazily when the overlay mounts. Theme changes only update colour uniforms.
   const scheme = useActiveScheme();
-  const washSksl = useMemo(() => buildWashSksl(washStopsFor(scheme)), [scheme]);
-  const washEffect = useMemo(() => Skia.RuntimeEffect.Make(washSksl), [washSksl]);
+  const palette = useMemo(() => washPaletteUniforms(washStopsFor(scheme)), [scheme]);
+  const washEffect = useMemo(() => Skia.RuntimeEffect.Make(WASH_SKSL), []);
 
   // Declination + equation of time for the displayed date (midday avoids a DST edge). They
   // feed the per-pixel sun-altitude calc in the shader and only change when the day changes.
@@ -156,6 +151,7 @@ export function SolarSkiaOverlay({
       u_sinDecl: solar.sinDecl,
       u_cosDecl: solar.cosDecl,
       u_pixelRatio: PIXEL_RATIO,
+      ...palette,
     };
   });
 

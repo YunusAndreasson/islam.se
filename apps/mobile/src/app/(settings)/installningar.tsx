@@ -83,7 +83,7 @@ import {
   openSystemSettings,
   openSystemSettingsA11yLabel,
   openSystemSettingsLabel,
-  systemSettingsName,
+  locationDeniedMessage,
 } from '@/lib/system-settings';
 import { radius, space, type } from '@/theme/tokens';
 
@@ -231,7 +231,6 @@ export default function Installningar() {
   const cityValue = settings.manualLocation?.name ?? 'Stockholm';
   const notificationsBlocked = notifications.blocked;
   const calcSummary = calculationSummary(settings);
-  const settingsName = systemSettingsName();
   const notificationFootnote = notifications.footnote;
 
   return (
@@ -249,7 +248,7 @@ export default function Installningar() {
               ? flash === 'fail'
                 ? 'Kunde inte hämta din plats. Kontrollera att platstjänster är på.'
                 : permissionStatus === 'denied'
-                  ? `Platsåtkomst nekad – visar standardplats. Tillåt i ${settingsName}.`
+                  ? locationDeniedMessage()
                   : source === 'gps'
                     ? undefined
                     : 'Ingen plats hämtad ännu – visar standardplats.'

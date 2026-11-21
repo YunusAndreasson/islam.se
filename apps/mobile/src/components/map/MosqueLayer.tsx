@@ -83,12 +83,12 @@ import {
   DUST_PRESENCE_STOPS,
   DUST_RADIUS_STOPS,
   GLYPH_MIN_ZOOM,
-  GLYPH_PRESENCE_STOPS,
   zoomExpression,
 } from '@/lib/map/dust';
 import { slotFor } from '@/lib/map/layer-slots';
 import { type Mosque, mosqueForPress, toFeatureCollection } from '@/lib/mosques';
 import { useActiveScheme, useColors } from '@/theme/useColors';
+import { GLYPH_HITBOX, PLACE_GOLD, placeGlyphLayout, placeGlyphPaint, placeRingPaint } from './place-layer-style';
 import { useFeatureSelection } from './useFeatureSelection';
 
 const SOURCE_ID = 'mosques';
@@ -99,18 +99,6 @@ const SELECTED_LAYER_ID = 'mosque-selected';
 // Rendered glyph size in px; scaled DOWN on the map by icon-size so the marker stays a
 // quiet ~20–26 px place mark, never a billboard.
 const GLYPH_PX = 48;
-
-// The tap target around a glyph, replacing the binding's default 22 dp in each direction
-// (a 44×44 box — MLRNPressableSource.DEFAULT_HITBOX). 44×44 is an Apple-HIG *button* size
-// and it is the wrong shape for a POI: MapLibre hit-tests every symbol whose rendered box
-// meets this one, so the effective reach is the box plus half a glyph. At z7, where the
-// glyphs first appear, 22 dp is about seven kilometres of ground — a tap meant to dismiss
-// the open card could land on a mosque in the next town instead.
-//
-// 14 dp keeps a comfortable target (the glyph is ~19 dp wide at z7 and ~35 dp at z13, so
-// tapping the glyph itself always hits) while roughly halving the phantom reach. It is the
-// second half of the fix; which of several hits WINS is settled by mosqueForPress.
-export const GLYPH_HITBOX = { top: 14, right: 14, bottom: 14, left: 14 } as const;
 
 // Each mosque is one tiny, soft warm dot — a "snow" dusting, not a glow. A per-scheme colour +
 // master opacity (`peak`) is all the circle layer needs; radius / blur / the zoom crossfade live
@@ -126,17 +114,13 @@ type DotStyle = {
 };
 // Dark: a warm pale-gold fleck glinting on the navy basemap through the twilight wash.
 // 9.87:1 on the navy land — comfortably past the 3:1 a non-text UI element needs.
-const SNOW_DARK: DotStyle = { color: '#e8c894', peak: 0.5 };
+const SNOW_DARK: DotStyle = { color: PLACE_GOLD.dark, peak: 0.5 };
 // Light: a deeper muted brass so the tiny dot still registers on warm parchment (a pale fleck
 // would vanish there), a touch lower to match the lighter ground. 4.20:1 on parchment — which
 // is what settled the "does gold work in light mode too?" question: it does, but only at THIS
 // weight. The dark mode's pale gold would be 1.4:1 there, i.e. invisible.
-const SNOW_LIGHT: DotStyle = { color: '#967038', peak: 0.42 };
+const SNOW_LIGHT: DotStyle = { color: PLACE_GOLD.light, peak: 0.42 };
 
-/** The gold every place glyph on the map wears, per scheme: this layer's dust and glyph, and
- *  BurialGroundLayer's selection ring. Its PNG pins are pre-rendered in these same two
- *  colours by scripts/build-burial-pins.mjs — change them there too. */
-export const PLACE_GOLD = { light: SNOW_LIGHT.color, dark: SNOW_DARK.color } as const;
 
 interface Props {
   /** Tapped-mosque callback — the map screen lifts this into the detail card. */
@@ -239,12 +223,12 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0, pressable
             'circle-color': snow.color,
             // Tiny — a snow fleck at national zoom, growing only slightly toward the glyph
             // handoff. Small enough that even 235 of them read as a light dusting, not clutter.
-            'circle-radius': zoomExpression(DUST_RADIUS_STOPS) as never,
+            'circle-radius': zoomExpression(DUST_RADIUS_STOPS),
             // A little blur turns each hard pixel into a soft speck (snow, not confetti).
             'circle-blur': 0.4,
             // Crossfade: in by the national view, out by ~z7.8 as the glyphs fade in — a
             // dissolve, not a pop. See DUST_PRESENCE_STOPS; the wash's holes follow it too.
-            'circle-opacity': zoomExpression(DUST_PRESENCE_STOPS, snow.peak) as never,
+            'circle-opacity': zoomExpression(DUST_PRESENCE_STOPS, snow.peak),
           }}
         />
         {/* The selection ring (see the header for why it lives on this source and not the
@@ -260,13 +244,7 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0, pressable
           id={SELECTED_LAYER_ID}
           beforeId={slotFor('mosque-selected')}
           type="circle"
-          paint={{
-            'circle-opacity': 0,
-            'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 7, 7, 13, 13, 20],
-            'circle-stroke-color': snow.color,
-            'circle-stroke-width': 1.5,
-            'circle-stroke-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
-          }}
+          paint={placeRingPaint(snow.color)}
         />
       </GeoJSONSource>
       {/* GLYPHS — the city-view place marks, and the ONLY tappable tier. Only mount once
@@ -284,47 +262,12 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0, pressable
             type="symbol"
             minzoom={GLYPH_MIN_ZOOM}
             layout={{
+              ...placeGlyphLayout,
               'icon-image': 'mosque-pin',
-              // Small, and grows only gently with zoom — a place mark, not a billboard.
-              'icon-size': ['interpolate', ['linear'], ['zoom'], 7, 0.4, 13, 0.72],
-              // Icons thin themselves out at low zoom instead of clumping (POI behaviour).
-              'icon-allow-overlap': false,
-              'icon-optional': false,
-              // WHICH mosque survives that thinning. With both allow-overlaps false, the
-              // spec's default symbol-z-order ("auto") falls back to SOURCE order — so in
-              // Malmö (twelve mosques) placement was decided by how data.json happens to be
-              // sorted, i.e. by county spelling, and the survivors reshuffled on every pan.
-              // `sort` is the opening year, undated mosques last (see toFeatureCollection):
-              // lower key = placed first, so the established ones hold the crowded views.
+              // Prioritize older mosques when symbols collide.
               'symbol-sort-key': ['get', 'sort'],
-              // The name is a bonus, not required — it drops before the icon does.
-              'text-optional': true,
-              'text-field': ['get', 'name'],
-              'text-font': ['Noto Sans Regular'],
-              // Labels appear only when zoomed in close: size interpolates up from 0.
-              'text-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0, 13, 11.5],
-              // A name that collides above its icon gets to try the other three sides
-              // before it gives up, instead of vanishing outright — which is what a fixed
-              // 'text-anchor': 'top' meant in exactly the dense city views where the names
-              // matter most. `text-anchor` is @disabledBy this and so is gone; `text-offset`
-              // stays and is read as an ABSOLUTE distance, applied per winning anchor.
-              'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-              'text-justify': 'auto',
-              'text-offset': [0, 0.85],
-              'text-allow-overlap': false,
-              'text-padding': 6,
-              'text-max-width': 8,
             }}
-            paint={{
-              // Fade the glyph in as it enters, and keep it a touch soft — quiet, not loud.
-              'icon-opacity': zoomExpression(GLYPH_PRESENCE_STOPS) as never,
-              'text-color': c.ink,
-              // Halo in the ground colour (parchment / navy) so the name reads over the
-              // solar wash — the same trick the basemap's own town labels use.
-              'text-halo-color': c.paper,
-              'text-halo-width': 1.4,
-              'text-halo-blur': 0.3,
-            }}
+            paint={placeGlyphPaint(c)}
           />
         )}
       </GeoJSONSource>

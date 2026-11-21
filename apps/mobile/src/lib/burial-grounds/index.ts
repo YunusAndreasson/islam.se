@@ -8,6 +8,7 @@
 // inside a general begravningsplats, which is how Sweden meets begravningslagen 2 kap. 2 §.
 // Every record carries the `source` page that confirms the section exists; see the web
 // module (apps/web/src/lib/begravningsplatser) for what does and does not get listed.
+import type { Feature, FeatureCollection, Point } from 'geojson';
 import burialGroundsRaw from './data.json';
 import type { LonLat } from '@/lib/coordinates';
 import { nearestHit } from '@/lib/map/nearestHit';
@@ -48,7 +49,7 @@ export function burialGroundById(id: string): BurialGround | undefined {
 
 /** Which burial ground a tap meant: the nearest hit, for the reason nearestHit documents. */
 export function burialGroundForPress(
-  features: readonly GeoJSON.Feature[] | undefined,
+  features: readonly Feature[] | undefined,
   at: LonLat,
 ): BurialGround | undefined {
   return nearestHit(features, at, BY_ID);
@@ -60,15 +61,7 @@ export function sectionLabel(b: BurialGround): string {
   return b.section ?? 'Muslimskt gravkvarter';
 }
 
-export interface BurialGroundFeatureCollection {
-  type: 'FeatureCollection';
-  features: {
-    type: 'Feature';
-    id: string;
-    geometry: { type: 'Point'; coordinates: [number, number] };
-    properties: { id: string; name: string };
-  }[];
-}
+export type BurialGroundFeatureCollection = FeatureCollection<Point, { id: string; name: string }>;
 
 /** GeoJSON for the layer source. Lean — id, and the name that doubles as the deep-zoom
  *  label; the card looks the rest up by id. No sort key, unlike the mosques: burial grounds

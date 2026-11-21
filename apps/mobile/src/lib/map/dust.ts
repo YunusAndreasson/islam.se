@@ -5,6 +5,11 @@
 // outlives the speck's fade leaves a light patch with nothing in it. So the zoom curves live
 // here once, and both read them.
 
+import type { CircleLayerSpecification } from '@maplibre/maplibre-react-native';
+
+type CircleRadius = NonNullable<CircleLayerSpecification['paint']>['circle-radius'];
+type ZoomInterpolation = Extract<CircleRadius, ['interpolate', ...unknown[]]>;
+
 /** [zoom, value] pairs, zoom ascending — the shape of a MapLibre linear interpolation. */
 export type ZoomStops = readonly (readonly [number, number])[];
 
@@ -60,6 +65,6 @@ export function atZoom(stops: ZoomStops, zoom: number): number {
 }
 
 /** The same curve as a MapLibre style expression, each value multiplied by `scale`. */
-export function zoomExpression(stops: ZoomStops, scale = 1): unknown[] {
+export function zoomExpression(stops: ZoomStops, scale = 1): ZoomInterpolation {
   return ['interpolate', ['linear'], ['zoom'], ...stops.flatMap(([z, v]) => [z, v * scale])];
 }

@@ -37,7 +37,7 @@
 // light mode where water is figure-ground) and a dark halo on labels so they
 // read against a navy continent. The hillshade is dialled down in dark mode so
 // the mountains hint but don't muddy.
-import type { StyleSpecification } from '@maplibre/maplibre-react-native';
+import type { StyleSpecification, SymbolLayerSpecification } from '@maplibre/maplibre-react-native';
 import type { ColorSchemeName } from 'react-native';
 
 import { darkPalette, lightPalette } from '@/theme/tokens';
@@ -76,7 +76,7 @@ const GLYPHS = USE_MAPTILER
 // Swedish-first label resolution. name:sv where the tiles carry it (most seas,
 // countries, large places), then a Latin transliteration, then the raw name —
 // so a label is never blank and never Cyrillic.
-const SV_LABEL: unknown = ['coalesce', ['get', 'name:sv'], ['get', 'name:latin'], ['get', 'name']];
+const SV_LABEL = ['coalesce', ['get', 'name:sv'], ['get', 'name:latin'], ['get', 'name']] satisfies NonNullable<SymbolLayerSpecification['layout']>['text-field'];
 
 // Keep the country overview Swedish-first without maintaining a second city
 // source/layer. Copenhagen sits close enough to Malmö to win the shared symbol
@@ -633,7 +633,7 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
       // so their stack no longer depends on mount order (see layer-slots.ts). Always last.
       ...slotLayers(),
     ],
-  } as unknown as StyleSpecification;
+  };
 }
 
 /** Warm parchment basemap (Nordic Calm, the original look). */

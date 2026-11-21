@@ -22,6 +22,8 @@ interface SettingsContextValue {
   settings: PrayerSettings;
   /** True once the initial read attempt finishes; unavailable storage never blocks the UI. */
   loaded: boolean;
+  /** True only after a successful read, including when storage is empty. */
+  settingsReady: boolean;
   /** Shallow-merge a patch into settings and persist the result.
    *
    *  Pass a FUNCTION whenever the patch is built from the settings it is replacing —
@@ -46,6 +48,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   'use no memo';
   const [settings, setSettings] = useState<PrayerSettings>(DEFAULT_SETTINGS);
   const [loaded, setLoaded] = useState(false);
+  const [settingsReady, setSettingsReady] = useState(false);
 
   const hydrated = useRef(false);
   const pending = useRef<((previous: PrayerSettings) => PrayerSettings)[]>([]);
@@ -70,6 +73,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         const recovered = pending.current.reduce((value, edit) => edit(value), stored);
         pending.current = [];
         setSettings(recovered);
+        setSettingsReady(true);
       } catch (error) {
         console.warn('Could not read settings; saved preferences are preserved.', error);
       } finally {
@@ -140,8 +144,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   }, [edit]);
 
   const value = useMemo<SettingsContextValue>(
-    () => ({ settings, loaded, update, reset }),
-    [settings, loaded, update, reset],
+    () => ({ settings, loaded, settingsReady, update, reset }),
+    [settings, loaded, settingsReady, update, reset],
   );
 
   return <SettingsContext value={value}>{children}</SettingsContext>;

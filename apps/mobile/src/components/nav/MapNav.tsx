@@ -27,7 +27,7 @@ import { CompassButton } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
 import { useNavMetrics, NAV_TOP_GAP } from './metrics';
 import { MoonButton } from './MoonButton';
-import { Icon } from '@/components/ui/Icon';
+import { Icon, type IconName } from '@/components/ui/Icon';
 
 // The disc diameter, the mark inside it and the lane below the row all live in
 // ./metrics — they scale with the reader's text size, and the map's floating cards
@@ -45,6 +45,29 @@ export interface MapAction {
   kind: 'reset' | 'locate';
   onPress: () => void;
 }
+
+const MAP_ACTION_APPEARANCE = {
+  reset: {
+    label: 'Återställ kartan – visa hela Sverige',
+    icon: 'settingsRestore',
+    rim: 'accent',
+    ink: 'accent',
+    handoffFocus: true,
+  },
+  locate: {
+    label: 'Visa min position',
+    icon: 'place',
+    rim: 'hairline',
+    ink: 'ink',
+    handoffFocus: false,
+  },
+} satisfies Record<MapAction['kind'], {
+  label: string;
+  icon: IconName;
+  rim: keyof ReturnType<typeof useColors>;
+  ink: keyof ReturnType<typeof useColors>;
+  handoffFocus: boolean;
+}>;
 
 /** `gpuReady` is handed to the Moon disc, the one Skia canvas in the nav — see MoonButton. */
 export function MapNav({
@@ -80,6 +103,7 @@ export function MapNav({
   const sky = useSkyGlass();
   const { settings } = useSettings();
   const { disc, glyph } = useNavMetrics();
+  const appearance = action && MAP_ACTION_APPEARANCE[action.kind];
   const top = insets.top + NAV_TOP_GAP;
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
@@ -107,7 +131,7 @@ export function MapNav({
             and a second gold control would compete with it rather than read as its own
             thing. Only the reset carries the accent rim: it undoes something the reader
             did, where locate is an ordinary way in. */}
-        {action && (
+        {action && appearance && (
           <Animated.View
             entering={reduceMotion ? undefined : FadeIn.duration(motion.base)}
             exiting={reduceMotion ? undefined : FadeOut.duration(motion.fast)}
@@ -115,20 +139,18 @@ export function MapNav({
             <GlassRoundButton
               tint={sky.surface}
               tintOpacity={0.86}
-              rim={action.kind === 'reset' ? c.accent : c.hairline}
+              rim={c[appearance.rim]}
               size={disc}
-              accessibilityLabel={
-                action.kind === 'reset' ? 'Återställ kartan – visa hela Sverige' : 'Visa min position'
-              }
+              accessibilityLabel={appearance.label}
               onPress={() => {
-                resetPressed.current = action.kind === 'reset';
+                resetPressed.current = appearance.handoffFocus;
                 action.onPress();
               }}
             >
               <Icon
-                name={action.kind === 'reset' ? 'settingsRestore' : 'place'}
+                name={appearance.icon}
                 size={glyph}
-                color={action.kind === 'reset' ? c.accent : c.ink}
+                color={c[appearance.ink]}
               />
             </GlassRoundButton>
           </Animated.View>

@@ -27,7 +27,7 @@ const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
 // What PrayerDock assumes a schedule block is worth before it has measured a real one (its
 // SCHEDULE_FALLBACK, night group off). Duplicated rather than exported: the constant is an
 // internal guess, and a test that imported it would agree with the component by construction.
-const SCHEDULE_FALLBACK_HEIGHT = 260;
+const SCHEDULE_FALLBACK_HEIGHT = 336;
 const NOW = Date.UTC(2026, 7, 1, 12, 0, 0);
 
 function dockProps(revealSchedule: boolean, clockOverrides: Partial<SolarClock> = {}) {
@@ -716,7 +716,9 @@ describe('PrayerDock accessible layout', () => {
     const scroll = oneOfType(ScrollView, 'schedule scroller');
     expect(scroll.props.scrollEnabled).toBe(true);
     expect(StyleSheet.flatten(scroll.props.style).maxHeight).toBeLessThan(900);
-    expect(StyleSheet.flatten(screen.getByRole('button', { name: 'Nästa dag' }).props.style).width).toBeGreaterThanOrEqual(48);
+    const nextDay = StyleSheet.flatten(screen.getByRole('button', { name: 'Nästa dag' }).props.style);
+    expect(nextDay.width).toBeGreaterThanOrEqual(48);
+    expect(nextDay.height).toBeGreaterThanOrEqual(48);
   });
 });
 

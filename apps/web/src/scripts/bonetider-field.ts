@@ -68,18 +68,19 @@ interface Instance {
 		nextTime: HTMLElement | null;
 		countdown: HTMLElement | null;
 		place: HTMLElement | null;
-		/** Hub only: the "Visar <ort> · <dag>" line, so a static build cannot name yesterday. */
+		/** Hub only: the displayed date, updated independently of the place name. */
 		captionDate: HTMLElement | null;
 		/** Strip only: the sun/moon icon container, toggled day vs night over the place. */
 		dayIcon: HTMLElement | null;
 		times: Map<PrayerKey, HTMLElement>;
 		rows: Map<PrayerKey, HTMLElement>;
 	};
+	resizeObserver?: ResizeObserver;
 	/** Cached prayer-time state, recomputed only when the day, settings, location, or the
 	 *  current next-prayer target changes — NOT every second. The per-second tick reads
 	 *  `target` from here and only re-renders the countdown string. */
 	state?: PrayerState;
-	/** The next-prayer key currently reflected in the DOM (is-next class + name), so a
+	/** The next-prayer key currently reflected in the DOM (highlight + name), so a
 	 *  roll-over between per-minute repaints can refresh those without a full readout rewrite. */
 	renderedNextKey?: PrayerKey;
 }
@@ -210,9 +211,10 @@ function mountOne(el: HTMLElement): void {
 	// The front page's horizon fits its labels to the line as drawn, so a resize (a phone
 	// turned, a window dragged) re-runs the fit instead of waiting for the minute tick.
 	if (el.classList.contains("bonetider-horizon")) {
-		new ResizeObserver(() => {
+		inst.resizeObserver = new ResizeObserver(() => {
 			if (el.isConnected) paint(inst, new Date());
-		}).observe(el);
+		});
+		inst.resizeObserver.observe(el);
 	}
 	paint(inst, new Date());
 }
@@ -272,8 +274,12 @@ async function loadRenderer(
 		const r = createFieldRenderer(canvas);
 		inst.render = (cfg, now) =>
 			r.render({ ...cfg, variant, ...(pageDetail ? { detail: pageDetail } : {}) }, now);
-		// The field may already have scrolled in while the chunk was loading.
-		if (inst.visible) paint(inst, new Date());
+		// The first delivery paints an already-visible field. Later deliveries keep
+		// the canvas bitmap in step with its CSS size so resizing cannot stretch it.
+		inst.resizeObserver = new ResizeObserver(() => {
+			if (inst.el.isConnected && inst.visible) paint(inst, new Date());
+		});
+		inst.resizeObserver.observe(canvas);
 		// The lakes, rivers and names come after the first paint: the coarse outline is
 		// already a whole map, and the detail is a 64 kB chunk every city page shares.
 		if ((await loadPageDetail()) && inst.el.isConnected && inst.visible) paint(inst, new Date());
@@ -358,7 +364,6 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 			?.replaceChildren(document.createTextNode(formatTime(st.today[key])));
 	}
 	for (const [key, row] of inst.readout.rows) {
-		row.classList.toggle("is-next", key === st.nextKey);
 		row.classList.toggle(
 			"is-next-today",
 			key === st.nextKey && st.target === st.today[key].getTime(),
@@ -494,6 +499,7 @@ function runTick(): void {
 			if (!inst) continue;
 			if (!inst.el.isConnected) {
 				visObserver?.unobserve(inst.el);
+				inst.resizeObserver?.disconnect();
 				instances.splice(i, 1);
 				continue;
 			}
@@ -526,7 +532,6 @@ function updateCountdownOnly(inst: Instance, now: Date): void {
 	const st = ensureState(inst, now, location, settings);
 	if (inst.renderedNextKey !== st.nextKey) {
 		for (const [key, row] of inst.readout.rows) {
-			row.classList.toggle("is-next", key === st.nextKey);
 			row.classList.toggle(
 				"is-next-today",
 				key === st.nextKey && st.target === st.today[key].getTime(),

@@ -118,8 +118,28 @@ function zoneOffsetMs(epoch: number): number {
 export function startOfZoneDay(epoch: number): number {
   const { y, mo, d } = zoneParts(epoch);
   const wallMidnightAsUTC = Date.UTC(y, mo - 1, d, 0, 0, 0);
-  const approx = wallMidnightAsUTC - zoneOffsetMs(wallMidnightAsUTC);
-  return wallMidnightAsUTC - zoneOffsetMs(approx);
+  if (!Number.isFinite(wallMidnightAsUTC)) return Number.NaN;
+  const span = 36 * 3_600_000;
+  const earlier = wallMidnightAsUTC - zoneOffsetMs(wallMidnightAsUTC - span);
+  const later = wallMidnightAsUTC - zoneOffsetMs(wallMidnightAsUTC + span);
+  if (earlier === later) return earlier;
+
+  // The offset advanced. Usually one candidate is midnight. If midnight itself
+  // was skipped, locate the transition between the last old and first new instant.
+  const dateAt = (at: number) => {
+    const p = zoneParts(at);
+    return Date.UTC(p.y, p.mo - 1, p.d);
+  };
+  if (earlier < later) return dateAt(earlier) === wallMidnightAsUTC ? earlier : later;
+  if (dateAt(later) === wallMidnightAsUTC) return later;
+  let low = later / 1000;
+  let high = earlier / 1000;
+  while (high - low > 1) {
+    const middle = Math.floor((low + high) / 2);
+    if (dateAt(middle * 1000) < wallMidnightAsUTC) low = middle;
+    else high = middle;
+  }
+  return high * 1000;
 }
 
 // Scrubbing asks for the pending state's day length on every update. Keep that

@@ -2,42 +2,26 @@
 // CalculationParameters (see ../prayer-times.ts) but stay framework-agnostic so
 // they can be JSON-serialised straight into storage (see ./store.ts).
 
-/** The 13 adhan calculation-method presets, keyed by their CalculationMethod factory name. */
-export type CalculationMethodKey =
-  | 'MuslimWorldLeague'
-  | 'Egyptian'
-  | 'Karachi'
-  | 'UmmAlQura'
-  | 'Dubai'
-  | 'Qatar'
-  | 'Kuwait'
-  | 'MoonsightingCommittee'
-  | 'Singapore'
-  | 'Turkey'
-  | 'Tehran'
-  | 'NorthAmerica'
-  | 'Other';
+import type { CalculationMethod, CalculationParameters, Coordinates, HighLatitudeRule, PolarCircleResolution } from 'adhan';
+import type { ColorSchemeName } from 'react-native';
 
-export type Madhab = 'shafi' | 'hanafi';
+/** Presets keyed by their adhan factory name. */
+export type CalculationMethodKey = keyof typeof CalculationMethod;
+export type Madhab = CalculationParameters['madhab'];
 
-/** 'auto' resolves to adhan's HighLatitudeRule.recommended(coords) at compute time. */
+/** Persisted spellings stay stable. 'auto' uses adhan's latitude-aware recommendation. */
 export type HighLatitudeRuleKey =
   | 'auto'
-  | 'middleOfTheNight'
-  | 'seventhOfTheNight'
-  | 'twilightAngle';
+  | Uncapitalize<Exclude<keyof typeof HighLatitudeRule, 'recommended'>>;
 
-export type PolarCircleResolutionKey = 'aqrabBalad' | 'aqrabYaum' | 'unresolved';
-
-/** Only meaningful for the MoonsightingCommittee method. */
-export type Shafaq = 'general' | 'ahmer' | 'abyad';
-
-export type Rounding = 'nearest' | 'up' | 'none';
+export type PolarCircleResolutionKey = Uncapitalize<keyof typeof PolarCircleResolution>;
+export type Shafaq = CalculationParameters['shafaq'];
+export type Rounding = CalculationParameters['rounding'];
 
 /** Appearance preference for the whole app (basemap, chrome, screens). `'system'`
  *  follows the OS (Settings → Display) and is the default — Apple Maps-style.
  *  `'light'` / `'dark'` lock the app to one palette regardless of the OS. */
-export type ThemePreference = 'system' | 'light' | 'dark';
+export type ThemePreference = 'system' | NonNullable<ColorSchemeName>;
 
 /**
  * The six computed time slots in chronological order — the five obligatory prayers plus
@@ -61,7 +45,7 @@ export const PRAYER_SLOT_KEYS = [
   'asr',
   'maghrib',
   'isha',
-] as const;
+] as const satisfies readonly (keyof CalculationParameters['adjustments'])[];
 
 /** One of the six computed time slots. `PrayerKey` in ../prayer-times is this type. */
 export type PrayerSlotKey = (typeof PRAYER_SLOT_KEYS)[number];
@@ -78,7 +62,7 @@ export type PerPrayerSlot<T> = Record<PrayerSlotKey, T>;
 export type ObligatoryPrayerKey = Exclude<PrayerSlotKey, 'sunrise'>;
 
 /** The six computed prayer slots plus sunrise, used as adjustment keys. */
-export type PrayerAdjustments = PerPrayerSlot<number>;
+export type PrayerAdjustments = CalculationParameters['adjustments'];
 
 /**
  * Which sound an alert plays.
@@ -99,10 +83,8 @@ export const NOTIFICATION_LEAD_MAX = 60;
 export const HIJRI_OFFSET_MIN = -2;
 export const HIJRI_OFFSET_MAX = 2;
 
-export interface NamedLocation {
+export interface NamedLocation extends Pick<Coordinates, 'latitude' | 'longitude'> {
   name: string;
-  latitude: number;
-  longitude: number;
 }
 
 export type LocationMode = 'gps' | 'manual';

@@ -24,6 +24,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import type { ReactNode } from 'react';
+import { AppState } from 'react-native';
 
 import Bonetider from '@/app/bonetider';
 import { analytics } from '@/lib/analytics';
@@ -40,6 +41,8 @@ const NOTIFICATION_HINT_KEY = 'notificationHintSeen:v1';
 // Mirrors the beat timings in bonetider.tsx. Duplicated rather than exported because the
 // test asserts the SEQUENCE, not the numbers — if a beat is retuned, this still passes.
 const HINT_DELAY_MS = 1000;
+
+const APP_STATE = Object.getOwnPropertyDescriptor(AppState, 'currentState');
 
 const MAP_RENDER_TIMEOUT = 20_000;
 
@@ -114,12 +117,26 @@ describe('the map offers at most one soft ask per launch', () => {
     jest.clearAllMocks();
     resetNotificationLaunchCountForTests();
     resetLocationLaunchCountForTests();
+    Object.defineProperty(AppState, 'currentState', { configurable: true, value: 'active' });
     jest.useFakeTimers();
   });
 
   afterEach(() => {
+    if (APP_STATE) Object.defineProperty(AppState, 'currentState', APP_STATE);
     jest.useRealTimers();
   });
+
+  it('does not spend a showing while the app is in the background', async () => {
+    Object.defineProperty(AppState, 'currentState', { configurable: true, value: 'background' });
+    setPermissions('undetermined', 'undetermined');
+    await launchMap();
+    await runOfferSequence();
+
+    expect(locationCard()).toBeNull();
+    expect(notificationCard()).toBeNull();
+    expect(await AsyncStorage.getItem(LOCATION_HINT_KEY)).toBeNull();
+    expect(await AsyncStorage.getItem(NOTIFICATION_HINT_KEY)).toBeNull();
+  }, MAP_RENDER_TIMEOUT);
 
   it(
     'asks for location first and leaves the notification hint completely untouched',
