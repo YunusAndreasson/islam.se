@@ -78,6 +78,7 @@
 			"!**/articles-data.json",
 			"!**/verses.json",
 			"!**/bonetider/map-detail.ts",
+			"!**/bonetider/map-detail-page.ts",
 			"!.markdownlint-rules",
 			"!**/.claude/settings.local.json",
 			"!**/*.md",

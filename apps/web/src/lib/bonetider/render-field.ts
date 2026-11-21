@@ -28,11 +28,17 @@ import {
 	type SolarLines,
 } from "./solar/field";
 import { buildGridOffMainThread } from "./solar/grid-client";
-import { PRAYER_COLORS, PRAYER_TEXT_COLORS, washStopsDark, washStopsLight } from "./solar/palette";
+import {
+	PRAYER_COLORS,
+	PRAYER_TEXT_COLORS,
+	washStopsDark,
+	washStopsLight,
+	washStopsPageDark,
+} from "./solar/palette";
 import { solarParams, sunPositionAt } from "./solar/sun";
 import { bakeWashRows, type WashFootprint } from "./solar/wash-kernel";
 import { washColorAt } from "./solar/washColor";
-import { SWEDEN_OUTLINE } from "./sweden-outline";
+import { SWEDEN_BBOX, SWEDEN_OUTLINE } from "./sweden-outline";
 
 function plate(
 	ctx: CanvasRenderingContext2D,
@@ -70,8 +76,9 @@ export interface FieldConfig {
 	 *  move it travels about two pixels — freezing it is invisible and it is what makes
 	 *  30 fps reachable on the Celeron-class box behind a mosque television. */
 	moving?: boolean;
-	/** The wall's own detailed map (map-detail.ts). Nothing else passes one, because
-	 *  static-importing it would put 2 MB into every city page's bundle. */
+	/** The detailed map: the wall's own (map-detail.ts, 2 MB, which must never be imported
+	 *  statically here), or on the web pages its cut at their scale (map-detail-page.ts,
+	 *  lakes, rivers and names, loaded by bonetider-field.ts after the first paint). */
 	detail?: MapDetail;
 	/** Draw the qibla from the marker. The wall only. */
 	qibla?: boolean;
@@ -138,7 +145,7 @@ export interface ReliefImage {
 // so at noon — when the wash is fully transparent and the bare land colour IS
 // daylight — Sweden rendered black. Now L* 8 → 14 → 23 on the warm axis, sea
 // kept relatively cooler so water still reads as water. See washStopsDark.NIGHT.
-const LAND = { light: "#ece6d8", dark: "#3d382e" } as const;
+const LAND = { light: "#eee8d8", dark: "#3d382e" } as const;
 const EDGE = { light: "rgba(26,23,18,0.20)", dark: "rgba(232,229,224,0.34)" } as const;
 // The sea was #dfe7ec, and it was the one surface on this page pointing the wrong
 // way. Measured in CIE Lab: the page background sits at b* +7.8 and the map's LAND
@@ -156,12 +163,20 @@ const EDGE = { light: "rgba(26,23,18,0.20)", dark: "rgba(232,229,224,0.34)" } as
 // turned it to smudge. (Dark was never affected: 16.1 and 9.5.) Now a three-step
 // ramp — Sweden 91.4, neighbours 86.5, sea 82.0 — which survives the wash while
 // keeping b* on the warm side of neutral (+1.0) so it still belongs to this page.
-const SEA = { light: "#c9cdca", dark: "#15171a" } as const;
+//
+// 2026-11-21: the light ground is now the mosque map's (moskeer-map.ts PALETTE.light):
+// its water #bcd0de, its parchment for Sweden and a beige a step down for the
+// neighbours. The user compared the two maps side by side, and once the night stopped
+// veiling this one its grey-green sea and grey neighbours read as faded next to the
+// mosque map's clear blue and beige. The cold slab of July was a pale blue at L* 91
+// beside the page; this one is at L* 82, a real sea under parchment land, and the site
+// already shows it on the mosque map.
+const SEA = { light: "#bcd0de", dark: "#15171a" } as const;
 const BRASS = { light: "#b8862f", dark: "#c89a48" } as const;
 const ON_MARK = { light: "#fffdf8", dark: "#15171a" } as const;
 // Surrounding countries — a muted tone between sea and Sweden's land, plus a barely-there
 // coast, so the neighbours read as quiet context and Sweden stays the clear subject.
-const NEIGHBOR_LAND = { light: "#ddd8cd", dark: "#26241e" } as const;
+const NEIGHBOR_LAND = { light: "#e4dcca", dark: "#26241e" } as const;
 const NEIGHBOR_EDGE = { light: "rgba(26,23,18,0.10)", dark: "rgba(232,229,224,0.12)" } as const;
 
 /* Sweden's area centroid, near Ånge. The ink decision below is about the MAP, not about
@@ -176,7 +191,8 @@ const SWEDEN_CENTRE = { lat: 62.8, lon: 16.7 } as const;
  * The wash goes on over the land and sea FILLS (drawWash, step 2) and everything
  * structural is drawn on top of it: the coastline, the Polcirkeln graticule, the city
  * anchors. Those were all inked from the page scheme, so after ʿIshāʾ in light mode the
- * parchment was washed to a near-black indigo (#282d49 at the NIGHT stop, alpha 0.88)
+ * parchment was washed to a near-black indigo (#282d49 at the NIGHT stop, alpha 0.88,
+ * until 2026-11-21: the light night is unveiled now, so this no longer flips at all)
  * while its ink stayed the near-black chosen for parchment. Dark on dark: the country
  * outline disappeared, every city name went to a smudge, and the only legible mark left
  * on the map was the Stockholm pill — which survived only because it carries its own
@@ -193,7 +209,7 @@ const SWEDEN_CENTRE = { lat: 62.8, lon: 16.7 } as const;
  * the obvious refinement if a half-lit frame ever reads wrong.)
  */
 export function inkSchemeFor(now: Date, scheme: Scheme): Scheme {
-	const stops = scheme === "dark" ? washStopsDark : washStopsLight;
+	const stops = scheme === "dark" ? washStopsPageDark : washStopsLight;
 	const { declRad, eotMin } = solarParams(now);
 	const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes() + now.getUTCSeconds() / 60;
 	const { altDeg, haDeg } = sunPositionAt(
@@ -440,22 +456,28 @@ const markerLabelSize = (variant: Variant, m: Metrics): number =>
 // Plate behind the isoline labels, in the page's own ground rather than plain white.
 const LABEL_PLATE = { light: "rgba(255,246,232,0.88)", dark: "rgba(20,17,12,0.84)" } as const;
 
-// The visible map AND the line grid both span Sweden plus a generous margin of
-// surrounding sea and neighbours, so the sweeping prayer isolines read as full lines
-// across the map (as in the app) — not stubs clipped at the coast. A prayer's line is
-// the locus where that prayer happens *right now*; for most of the day it sits out over
-// the sea east or west of Sweden, so a frame that hugged the country (the old
-// [8,54.5,25.6,69.6]) cut those lines to a short streak at the edge. The silhouette
-// still marks Sweden inside this wider frame; everything past its coast is open water
-// the lines sweep across.
-const VIEW_BBOX: [number, number, number, number] = [-8, 50, 30, 72];
+// The visible map is Sweden, framed as the mosque map frames it (moskeer-map.ts fits the
+// same SWEDEN_BBOX): the user compared the two on 2026-11-21 and found that this one
+// showed »not much of Sweden«. It had framed [-8, 50, 30, 72], Ireland to Russia, so
+// that a prayer's line out over the sea east or west of the country still showed; Sweden
+// was then a narrow figure in a sea of neighbours, the fault the wall screen had already
+// fixed for itself (bonetider-skarm.ts). The line GRID stays that wide (GRID_BOUNDS), so a
+// line that is on the map runs on to the canvas's edge instead of stopping at the coast;
+// a line still out at sea is simply not on the map yet, which is when it is not Swedish
+// prayer time anywhere either.
+const VIEW_BBOX: [number, number, number, number] = [...SWEDEN_BBOX];
+// The widest frame a page shows: Sweden fitted by its height into the full-width stage on
+// a tablet (736 x 420) reaches about 15°W–50°E, and the hub's 711 x 540 about 6°W–42°E. A
+// lattice short of that ended a line in the middle of Finland. Same window as the page's
+// detail (scripts/build-map-detail-page.mjs).
+const LINE_BBOX: [number, number, number, number] = [-16, 50, 52, 74];
 // The lattice covers the WIDEST frame a variant can show, never the current camera —
 // so zooming in costs no lattice work and a line does not stop at the old frame edge.
 const GRID_BOUNDS: Record<Variant, [number, number, number, number]> = {
-	home: VIEW_BBOX,
-	full: VIEW_BBOX,
+	home: LINE_BBOX,
+	full: LINE_BBOX,
 	// The wall's map runs to the screen edges and shows ~60° of longitude, so a lattice
-	// over VIEW_BBOX ended every prayer line at lon −8 — Maghrib stopped dead in the
+	// over LINE_BBOX ended every prayer line at lon −8 — Maghrib stopped dead in the
 	// middle of the North Sea. Matched to the detailed map's clip instead, so a line
 	// can only end where the land data ends too. About three times the samples; built
 	// asynchronously once a day on a device doing nothing else.
@@ -483,6 +505,18 @@ const GRID_STEP: Record<Variant, { latStep: number; lonStep: number }> = {
 interface Metrics {
 	u: number;
 }
+
+/** The page map's place names (home, full; the wall has APP_MAP): the mosque map's warm
+ *  label inks (moskeer-map.ts PALETTE), so the site's two maps letter their places alike,
+ *  and a scale on the wall's label sizes that sets a city at the anchors' 10 px. Added
+ *  with the page's detail (map-detail-page.ts) when the user found the map »very boring
+ *  without detail« beside the mosque map (2026-11-21). */
+const PAGE_PLACE_INK = {
+	light: { placeInk: "#6f6555", faintInk: "#8c8170", waterInk: "#5f7a8e" },
+	dark: { placeInk: "#a09890", faintInk: "#8a8279", waterInk: "#7c8aa0" },
+} as const;
+const PAGE_PLACE_HALO = { light: "rgba(255,246,232,0.85)", dark: "rgba(29,25,18,0.85)" } as const;
+const PAGE_LABEL_METRICS = { u: 1.5 } as const;
 
 function metricsFor(variant: Variant, w: number, h: number): Metrics {
 	// 360 is the reference short edge the existing literals were tuned at (the full
@@ -513,13 +547,15 @@ interface Transform {
  */
 function viewportFor(w: number, h: number, variant: Variant): Viewport {
 	const reserveBottom = variant === "home" ? Math.max(74, h * 0.14) : 0;
-	const pad = variant === "screen" ? 0.03 : 0.04;
+	// On the page at least the mosque map's 24px (SWEDEN_FIT in moskeer-map.ts): framed on
+	// Sweden, 4% of a 380px map left Skåne and the Malmö label on the bottom edge.
+	const pad = variant === "screen" ? h * 0.03 : Math.max(24, h * 0.04);
 	return {
 		w,
 		h,
 		padX: w * (variant === "screen" ? 0.03 : 0.05),
-		padTop: h * pad,
-		padBottom: h * pad + reserveBottom,
+		padTop: pad,
+		padBottom: pad + reserveBottom,
 	};
 }
 
@@ -908,7 +944,12 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		}
 		// Mid-move: re-project what we have rather than solving the sun again.
 		if (moving && washFp && offscreen.width > 0 && blitWash(t, washFp)) return;
-		const stops = scheme === "dark" ? washStopsDark : washStopsLight;
+		const stops =
+			scheme === "dark"
+				? variant === "screen"
+					? washStopsDark
+					: washStopsPageDark
+				: washStopsLight;
 		const { declRad, eotMin } = solarParams(now);
 		const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes() + now.getUTCSeconds() / 60;
 		offscreen.width = sw;
@@ -1498,7 +1539,8 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		taken: LabelBox[],
 		inset: number,
 	): PlacedPlace[] {
-		const ink = APP_MAP[cfg.scheme];
+		const wall = cfg.variant === "screen";
+		const ink = wall ? APP_MAP[cfg.scheme] : PAGE_PLACE_INK[cfg.scheme];
 		const zoom = zoomOf(t);
 		const placed: PlacedPlace[] = [];
 		const put = (labels: readonly MapLabel[], s: PlaceStyle, lead: number): void => {
@@ -1526,23 +1568,29 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 			alpha: 0.8,
 		};
 		ctx.save();
-		put(
-			ANCHORS.map((a) => ({ ...a, z: 0 })),
-			city,
-			0,
-		);
+		// The page draws its anchors itself, with their dots (drawAnchors).
+		if (wall)
+			put(
+				ANCHORS.map((a) => ({ ...a, z: 0 })),
+				city,
+				0,
+			);
 		if (detail) {
 			// Behind Natural Earth's own zoom rather than ahead of it, so across the whole
 			// country only the capitals and the neighbours' largest cities are named.
-			put(detail.cities, city, -0.4);
+			// On the page, at its own zoom (≈4.4): that is where Natural Earth puts the capitals
+			// round the Baltic and Trondheim (z4), which half a zoom behind would drop.
+			put(detail.cities, city, wall ? -0.4 : 0);
 			// Half a zoom behind Natural Earth's own tier, not LOD_LEAD ahead of it like the lakes
 			// and rivers. With the lead, the frame round the mosque (z ≈ 6.3) weighed all 347 towns
 			// and placed over forty names — a gazetteer at any size. Here it weighs the 93 largest,
 			// and the country-wide frame (z ≈ 5.3) the 32 largest.
+			// The page frames the whole country near z4.4, where half a zoom behind would
+			// name no town at all; there it takes Natural Earth's first tier, the largest.
 			put(
 				detail.towns.filter((tw) => !ANCHOR_NAMES.has(tw.name)),
 				{ weight: 500, size: 5.5, color: ink.placeInk, halo: 0.8, above: true, alpha: 0.65 },
-				-0.5,
+				wall ? -0.5 : 0.2,
 			);
 			put(
 				detail.countries,
@@ -1570,7 +1618,8 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 					italic: true,
 					spacing: 0.1,
 				},
-				LOD_LEAD,
+				// The page reaches Bottenviken and Bottenhavet (z5), Sweden's own waters.
+				wall ? LOD_LEAD : 0.7,
 			);
 		}
 		ctx.restore();
@@ -1837,7 +1886,9 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 			: null;
 		const avoid = qibla ? [...layout.avoid, qibla] : layout.avoid;
 		if (layout.inset === null) {
-			drawAnchors(t, cfg.location, ink, cfg.variant, m, avoid, null);
+			const anchors = drawAnchors(t, cfg.location, ink, cfg.variant, m, avoid, null);
+			if (detail && cfg.variant !== "screen")
+				drawPagePlaces(cfg, t, m, detail, [...avoid, ...anchors], ink);
 			return;
 		}
 		const taken = [...avoid, ...markerBoxes(t, cfg.location, cfg.variant, m)];
@@ -1851,6 +1902,24 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 				paintPlace(p, t, m, SCREEN_HALO[cfg.scheme], p.s.alpha ?? 1);
 		ctx.restore();
 		if (credited) drawCredit(t, m, cfg.scheme, layout.inset);
+	}
+
+	/** The page's own detail (map-detail-page.ts): the neighbours' cities, the larger towns,
+	 *  the countries and the seas, each giving way to the prayer labels, the anchors and
+	 *  the marker already on the map. */
+	function drawPagePlaces(
+		cfg: FieldConfig,
+		t: Transform,
+		m: Metrics,
+		detail: MapDetail,
+		avoid: readonly LabelBox[],
+		ink: Scheme,
+	): void {
+		const taken = [...avoid, ...markerBoxes(t, cfg.location, cfg.variant, m)];
+		ctx.save();
+		for (const p of layoutPlaces(cfg, t, PAGE_LABEL_METRICS, detail, taken, 0))
+			paintPlace(p, t, PAGE_LABEL_METRICS, PAGE_PLACE_HALO[ink], p.s.alpha ?? 1);
+		ctx.restore();
 	}
 
 	/**

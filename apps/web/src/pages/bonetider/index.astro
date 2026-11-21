@@ -16,7 +16,8 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
   <PageHead title="Bönetider" />
   <PlaceSearch />
   <section class="today" aria-label="Dagens bönetider">
-   <PrayerField location={stockholm} variant="full" fixed={false} caption scheduleFirst />
+   <PrayerField location={stockholm} variant="full" fixed={false} caption scheduleFirst>
+		<Fragment slot="under">
 		<div class="bh2-actions">
 			<details class="bh2-settings disclosure">
 				<summary class="bh2-settings-summary">
@@ -37,7 +38,8 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
 		<p class="bh2-screen">
 			<a href="/bonetider/skarm/">Visa tiderna på storbild</a> – en skärm för moskéns entré.
 		</p>
-
+		</Fragment>
+   </PrayerField>
   </section>
   {/* No /bonetider/skarm/ row here: .bh2-screen links the same URL a few lines
       above, with the sentence that says what the screen is for. Two links to one
@@ -50,7 +52,15 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
  </main>
 </Base>
 <style>
- .today { margin-top: var(--space-unit); }
+ /* Every line down to the map stands where Moskéer's does (moskeer.astro): the title's own
+    margin to the search row, half a step to the row under it (»Alla orter« here, the count
+    there), half a step to the map. Switching between the two pages, the map does not move
+    (2026-11-21). */
+ .today { margin-top: var(--space-half); }
+ .bonetider-hub :global(.place-search) { margin-top: 0; }
+ .bonetider-hub :global(.place-controls) { margin-bottom: var(--space-half); }
+ /* The count bar's height (min-height: --tap-target), not its own 45px of padding. */
+ .bonetider-hub :global(.place-directory) { padding-block: 0; min-height: var(--tap-target); display: flex; align-items: center; width: fit-content; }
  .bh2-actions { margin-top: .75rem; }
  /* Knobs only — matches .bt-stad-screen on the city pages so the two read as one idiom. */
  .bh2-screen { margin: var(--space-unit) 0 0; font-family: var(--font-heading); font-size: var(--step--2); color: var(--text-quiet); }

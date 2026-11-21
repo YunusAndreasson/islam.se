@@ -130,6 +130,9 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 	{mapFirst && (
 		<p class="bf-legend"><slot name="legend" /></p>
 	)}
+	{/* What belongs to the schedule and stands under it in its column, beside the map:
+	    the hub's calculation settings and its link to the wall screen. */}
+	{Astro.slots.has("under") && <div class="bf-under"><slot name="under" /></div>}
 </div>
 
 <style>
@@ -176,7 +179,7 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 	/* Shared so the stage radius and the overlay's concentric inner radius cannot drift
 	   apart — change the radius here and the corner geometry stays correct. */
 	.bonetider-field {
-		--bf-radius: 14px;
+		--bf-radius: var(--radius-lg); /* the mosque map's, so the two maps are one shape */
 		--bf-inset: 0.55rem;
 	}
 
@@ -188,7 +191,7 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 		/* The sea, before the canvas mounts. Must equal SEA in lib/bonetider/render-field.ts,
 		   which is where the reasoning for this value lives — otherwise the stage visibly
 		   changes colour the moment the renderer takes over. */
-		background: light-dark(#c9cdca, #15171a);
+		background: light-dark(#bcd0de, #15171a);
 		/* The hairline frames it; no drop shadow. The map is part of the page, not a sheet
 		   over it: only what really stands above the page casts one (the search dialog,
 		   a note's popover, the panel over this map). Until 2026-10-18 the two maps were
@@ -359,13 +362,18 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 
 	/* On the hub, the answer comes before the map in both desktop and phone layouts. */
 	.bf-schedule-first {
-		grid-template-areas: "caption" "times" "map";
+		grid-template-areas: "caption" "times" "map" "under";
 		gap: 1rem;
 	}
+	.bf-under { grid-area: under; min-width: 0; }
 	.bf-schedule-first .bf-caption { grid-area: caption; margin: 0; }
 	.bf-schedule-first .bf-caption .bf-place { font-size: var(--step-1); font-weight: 600; color: var(--color-text); }
 	.bf-schedule-first .bf-times { grid-area: times; }
-	.bf-schedule-first .bf-stage { grid-area: map; aspect-ratio: 4 / 3; }
+	/* The mosque map's size (moskeer.astro .mk-map): 26.25rem on a phone, 540px beside
+	   the list. At 4:3 in half the page it was 580 x 380 against the mosque map's 710 x
+	   540, and with Sweden framed whole the user found the mosque map's crop and size
+	   better (2026-11-21). */
+	.bf-schedule-first .bf-stage { grid-area: map; aspect-ratio: auto; height: 26.25rem; }
 	.bf-schedule-first .bf-t-time { font-family: var(--font-heading); font-size: var(--step-1); font-weight: 600; }
 	.bf-next-label { display: none; margin-inline-start: 0.7rem; font-size: var(--step--4); font-weight: 400; }
 	.is-next-today .bf-next-label { display: inline; }
@@ -373,13 +381,20 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 	   arrangement below: the schedule and the map stood in columns of 660 and 508px at
 	   1440 behind a gap of their own, the map's edge on no line of the page (2026-10-16).
 	   The orders stay as they were, each for its reason. */
-	@media (width >= 40rem) {
+	/* From 48rem exactly the mosque explorer (moskeer.astro .mk-explorer): its split, its
+	   gap, its map's 540px and its breakpoint, the caption beside the map's top as the
+	   mosque list is, so that switching between Bönetider and Moskéer the map stands still
+	   (»same size so when you switch page it looks coherent«, 2026-11-21). The settings
+	   go under the list, beside the map. */
+	@media (width >= 48rem) {
 		.bf-schedule-first {
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-			grid-template-areas: "caption caption" "times map";
-			column-gap: var(--grid-gutter);
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+			grid-template-areas: "caption map" "times map" "under map";
+			grid-template-rows: auto auto 1fr;
+			align-items: start;
+			column-gap: var(--space-unit);
 		}
-		.bf-schedule-first .bf-stage { aspect-ratio: auto; }
+		.bf-schedule-first .bf-stage { height: 33.75rem; }
 	}
 
 	/* City pages lead with the map — it is the page's argument and the app's signature
@@ -394,7 +409,7 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 	}
 	.bf-summary { grid-area: summary; padding: var(--space-control) var(--space-group); border: var(--border-rule); border-radius: var(--radius-sm); background: var(--surface-1); }
 	.bf-map-first .bf-summary .bf-next { margin: 0; display: flex; flex-direction: row; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
-	.bf-map-first .bf-stage { grid-area: map; aspect-ratio: 4 / 3; }
+	.bf-map-first .bf-stage { grid-area: map; aspect-ratio: auto; height: 26.25rem; }
 	.bf-map-first .bf-legend { grid-area: legend; margin: 0; font-size: var(--step--3); line-height: 1.5; color: var(--color-muted); text-wrap: pretty; }
 	.bf-map-first .bf-legend:empty { display: none; }
 	.bf-map-first .bf-times { grid-area: times; }
@@ -434,12 +449,15 @@ const { key: nextKey, at: nextTime } = nextPrayer(location, times, now, DEFAULT_
 	.bf-map-first .bf-next-when { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
 
 	@media (width >= 40rem) {
+		/* The hub's sizes the other way round: the map leads here, so it takes the wider
+		   column on the left. */
 		.bf-map-first {
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
 			grid-template-areas: "summary summary" "map times" "legend times";
 			align-items: start;
 			column-gap: var(--grid-gutter);
 		}
+		.bf-map-first .bf-stage { height: 33.75rem; }
 	}
 
 </style>

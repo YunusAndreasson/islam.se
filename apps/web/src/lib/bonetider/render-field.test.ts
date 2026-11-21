@@ -14,9 +14,14 @@ import { inkSchemeFor } from "./render-field";
  * smudge, and the one legible mark left was the Stockholm pill — which survived only
  * because it carries its own plate.
  *
- * So ink is chosen from the ground the wash LEAVES, not from the page. These tests pin
- * the two ends of that, and — just as important — that dark mode never moves: its ground
- * is already dark at noon, so a flip there would be a regression, not a fix.
+ * So ink is chosen from the ground the wash LEAVES, not from the page.
+ *
+ * THE SECOND REPORT (2026-11-21): with the ink flipped the map was legible, but after
+ * ʿIshāʾ it was still a dark indigo block on the light page, beside a mosque map that
+ * stays light — »strange«. The light night is unveiled now (washStopsLight.NIGHT, alpha
+ * 0): the map keeps the page's theme at every hour, as the mosque map does. So these tests
+ * pin that the light map's ground never goes dark enough to flip its ink, at any hour —
+ * a flip would mean the dark block is back — and that dark mode never moves either.
  */
 
 // Stockholm is at +2 in September, so these are 13:00, 20:00 and 23:00 local.
@@ -29,11 +34,10 @@ describe("inkSchemeFor", () => {
 		expect(inkSchemeFor(NOON, "light")).toBe("light");
 	});
 
-	it("flips the light scheme's ink once the wash has taken the ground to night", () => {
-		// The whole point: at 23:00 the map must not be inked for a parchment that is no
-		// longer there. If this ever returns "light" again, the coastline and every city
-		// name are invisible on the page.
-		expect(inkSchemeFor(NIGHT, "light")).toBe("dark");
+	it("keeps the light scheme's ink at night, because the night no longer darkens the map", () => {
+		// At 23:00 the ground is still the parchment and the sea: if this ever returns
+		// "dark" again, the light page is showing a dark map after ʿIshāʾ.
+		expect(inkSchemeFor(NIGHT, "light")).toBe("light");
 	});
 
 	it("never moves the dark scheme, whose ground is dark at every hour", () => {
@@ -43,15 +47,15 @@ describe("inkSchemeFor", () => {
 		for (const now of [NOON, DUSK, NIGHT]) expect(inkSchemeFor(now, "dark")).toBe("dark");
 	});
 
-	it("is stable across a day in light mode: day reads light, deep night reads dark", () => {
-		// Swept hourly so a change to the wash stops cannot quietly move the crossover into
-		// the middle of the afternoon.
-		const inks = Array.from({ length: 24 }, (_, h) =>
-			inkSchemeFor(new Date(Date.UTC(2026, 8, 17, h)), "light"),
-		);
-		// Midday is unambiguously light; the small hours unambiguously dark.
-		expect(inks[10]).toBe("light"); // 12:00 local
-		expect(inks[0]).toBe("dark"); // 02:00 local
-		expect(inks.every((i) => i === "light" || i === "dark")).toBe(true);
+	it("reads light at every hour of a light-mode day, summer and winter", () => {
+		// Swept hourly on a September and a November day (the long dark one the second
+		// report came from), so a darker wash stop cannot quietly bring the dark block back
+		// at some hour of the night.
+		for (const month of [8, 10]) {
+			const inks = Array.from({ length: 24 }, (_, h) =>
+				inkSchemeFor(new Date(Date.UTC(2026, month, month === 8 ? 17 : 21, h)), "light"),
+			);
+			expect(inks.every((i) => i === "light")).toBe(true);
+		}
 	});
 });

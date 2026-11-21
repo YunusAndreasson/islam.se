@@ -5,10 +5,11 @@
 // dusk/night rather than a heat-map.
 //
 // Apple Maps-inspired light/dark: the basemap also themes by OS (see nordicStyle.ts),
-// so the wash and prayer-line colours have a `{ light, dark }` pair each — the wash
-// is calibrated to drown the warm parchment in light mode (heavy NIGHT alpha) but
-// to LAYER over an already-dark navy basemap in dark mode (lower alphas, hue-only
-// veil). Prayer lines lift in dark mode so they stay readable on navy land — most
+// so the wash and prayer-line colours have a `{ light, dark }` pair each. On the web
+// page the map keeps the page's theme at every hour, as the mosque map does: night
+// never switches the map to the other theme (2026-11-21). Light leaves the night
+// unveiled; dark deepens it a little, without turning it navy. The mosque
+// screen, always dark, keeps the app's navy night (washStopsDark). Prayer lines lift in dark mode so they stay readable on navy land — most
 // keep their hue family, but Isha swaps to the periwinkle accent because its
 // light-mode Prussian indigo collapses against the navy basemap.
 import type { PrayerKey } from "../prayer-times";
@@ -42,17 +43,20 @@ export interface WashStops {
 	WHITE_NIGHT: RGBA;
 }
 
-// Light wash. Alpha encodes how much the overlay dims the warm parchment basemap.
-// NIGHT 0.88 is high ON PURPOSE: the basemap LAND is `#ece6d8` warm paper, so at a
-// gentler alpha a third of it bleeds through and muddies the night to a slate-grey
-// "dusk fog" rather than a true deep blue. At 0.88 the parchment is mostly drowned
-// and night reads as a clean deep night-blue (≈#2A2D43).
+// Light wash. Alpha encodes how much the overlay tints the warm parchment basemap.
 export const washStopsLight: WashStops = {
 	DAY: [255, 255, 255, 0],
 	DUSK_WARM: [183, 78, 52, 0.5],
-	// The deep night is a touch more saturated-blue (b 47→54) so it reads as a true
-	// indigo night, not a slate, once the 0.88 alpha drowns the warm parchment.
-	NIGHT: [13, 20, 54, 0.88],
+	// No veil at night: the light map keeps its own land and sea, as the mosque map does,
+	// and only the twilight bands carry colour. It was a deep indigo at 0.88 (≈#2A2D43):
+	// after ʿIshāʾ the whole frame became a dark block on the light page, beside a mosque
+	// map that stays light, and the user found that strange (2026-11-21; on 2026-09-17 the
+	// same night had read as »completely dark«, then fixed only by flipping the ink).
+	// Every lighter veil was tried and failed the other way: any translucent blue over
+	// parchment cancels its warmth, so 0.2–0.3 of a mid blue went grey and 0.46 of a pale
+	// one »TERRIBLE, completely outwashed«. Transparent, in the dawn blue so the band
+	// fades out without a purple fringe; the ink then never has to flip (inkSchemeFor).
+	NIGHT: [80, 110, 186, 0],
 	// Dawn was a pale, desaturated periwinkle — next to the vivid terracotta dusk it
 	// barely registered as a colour. Deepened to a richer cool cornflower and lifted
 	// a touch in alpha (0.42→0.48) so the Fajr→sunrise band glows as a real BLUE,
@@ -91,6 +95,17 @@ export const washStopsDark: WashStops = {
 	DUSK_EDGE: [205, 108, 76, 0.14],
 	DAWN_EDGE: [120, 146, 210, 0.14],
 	WHITE_NIGHT: [148, 160, 200, 0.18],
+};
+
+/** The dark page map's wash: the mosque screen's (washStopsDark) with a night that
+ *  darkens the warm ground instead of turning it navy. At 0.70 indigo the brown land
+ *  (#3d382e) and the near-black sea went to one navy, Sweden's shape held only by its
+ *  coastline, on a page whose own dark is warm brown-black (2026-11-21). A near-black
+ *  at 0.38 leaves land ≈#29261f and sea ≈#101216, close to the dark mosque map's
+ *  (#24221c / #15171a), so the two maps on the site read as one at night. */
+export const washStopsPageDark: WashStops = {
+	...washStopsDark,
+	NIGHT: [8, 9, 14, 0.38],
 };
 
 /** Per-prayer line colour, by OS theme. Same warm/cool meaning across both modes;

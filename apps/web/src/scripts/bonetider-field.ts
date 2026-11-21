@@ -18,7 +18,12 @@ import {
 // Type-only: the renderer itself is imported dynamically in mountOne. It drags in the Sweden
 // and neighbour outlines plus the marching-squares contour build, and this module is mounted by
 // the mast on EVERY page — a static import shipped ~32 kB gzip of map to essays and svar pages.
-import type { createFieldRenderer, FieldLocation, Scheme } from "../lib/bonetider/render-field";
+import type {
+	createFieldRenderer,
+	FieldLocation,
+	MapDetail,
+	Scheme,
+} from "../lib/bonetider/render-field";
 import type { PrayerSettings } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
 import {
@@ -225,6 +230,34 @@ function whenIdle(fn: () => void): void {
 	else window.setTimeout(fn, 200);
 }
 
+/** The page map's detail (lib/bonetider/map-detail-page.ts): the wall's Natural Earth lakes,
+ *  rivers and place names at the page's scale. One load shared by every field on the page;
+ *  until it arrives, and if it never does, the map is the coarse outline it always was. */
+let pageDetail: MapDetail | undefined;
+let pageDetailLoad: Promise<boolean> | null = null;
+function loadPageDetail(): Promise<boolean> {
+	pageDetailLoad ??= import("../lib/bonetider/map-detail-page")
+		.then((d) => {
+			pageDetail = {
+				sweden: d.SWEDEN_DETAIL,
+				neighbors: d.NEIGHBORS_DETAIL,
+				islands: d.ISLANDS_DETAIL,
+				lakes: d.LAKES_DETAIL,
+				rivers: d.RIVERS_DETAIL,
+				towns: d.TOWNS_DETAIL,
+				borders: d.BORDERS_DETAIL,
+				countries: d.COUNTRIES_DETAIL,
+				seas: d.SEAS_DETAIL,
+				cities: d.CITIES_DETAIL,
+				parks: d.PARKS_DETAIL,
+				relief: undefined,
+			};
+			return true;
+		})
+		.catch(() => false);
+	return pageDetailLoad;
+}
+
 /** Fetch the renderer alongside the readout paint, so it is normally in place before the
  *  field scrolls into view. Until it resolves `inst.render` is undefined and paint() just
  *  skips the canvas, exactly as it already does for an off-screen field. Never rejects. */
@@ -237,9 +270,13 @@ async function loadRenderer(
 		const { createFieldRenderer } = await import("../lib/bonetider/render-field");
 		if (!inst.el.isConnected) return;
 		const r = createFieldRenderer(canvas);
-		inst.render = (cfg, now) => r.render({ ...cfg, variant }, now);
+		inst.render = (cfg, now) =>
+			r.render({ ...cfg, variant, ...(pageDetail ? { detail: pageDetail } : {}) }, now);
 		// The field may already have scrolled in while the chunk was loading.
 		if (inst.visible) paint(inst, new Date());
+		// The lakes, rivers and names come after the first paint: the coarse outline is
+		// already a whole map, and the detail is a 64 kB chunk every city page shares.
+		if ((await loadPageDetail()) && inst.el.isConnected && inst.visible) paint(inst, new Date());
 	} catch {
 		// Chunk never arrived: the times, countdown and place stay live, and .bf-stage keeps
 		// the flat SEA colour it is painted with pre-JS, so the block reads as intended.

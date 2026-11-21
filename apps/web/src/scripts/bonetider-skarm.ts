@@ -234,7 +234,7 @@ function mount(root: HTMLElement): void {
 		const vp = { w: open, h, padX: open * 0.03, padTop: h * 0.03, padBottom: h * 0.03 };
 		const beside = (cam: Camera): Camera => ({ ...cam, cx: cam.cx - covered / 2 / cam.scale });
 		schedule = {
-			// Framed on Sweden, not on VIEW_BBOX. Height decides the fit here (the edge-to-edge
+			// Framed close to Sweden, not on the wide line frame (LINE_BBOX). Height decides the fit here (the edge-to-edge
 			// stage is wider than any of these boxes), so the latitude range IS the zoom: 50–72
 			// left Sweden a narrow figure in a sea of neighbours once the map ran to the edges.
 			// 53.5–71 keeps Denmark to the south and sea north of Kiruna for the line labels,
