@@ -42,7 +42,7 @@ describe('nextAlertAt', () => {
     const settings = withNotifications({});
     const next = nextAlertAt(STOCKHOLM, settings, MIDDAY);
     expect(next).not.toBeNull();
-    expect(next!.fireAt.getTime()).toBeGreaterThan(MIDDAY + 60_000);
+    expect(next!.fireAt.getTime()).toBeGreaterThan(MIDDAY);
 
     // Nothing enabled and unfired may sit earlier than what was chosen — the contract is
     // "the next one", not "an upcoming one".
@@ -53,7 +53,7 @@ describe('nextAlertAt', () => {
         const at = times[key];
         if (!(at instanceof Date) || Number.isNaN(at.getTime())) continue;
         const fireAt = at.getTime() - settings.notifications.lead[key] * 60_000;
-        if (fireAt <= MIDDAY + 60_000) continue;
+        if (fireAt <= MIDDAY) continue;
         expect(fireAt).toBeGreaterThanOrEqual(next!.fireAt.getTime());
       }
     }

@@ -122,20 +122,15 @@ describe('a background wake-up', () => {
     expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
   });
 
-  it('survives a notification centre that refuses, and never throws into the OS', async () => {
-    // syncPrayerNotifications already swallows scheduling failures by design — permissions
-    // revoked mid-flight, an OS quota — and saves whatever it managed to schedule. What
-    // this pins is the boundary above it: whatever happens in there, the executor RESOLVES.
-    // An executor that rejected would surface to the OS as a crashed background task, and
-    // both platforms respond to that by scheduling us less often — turning one bad wake-up
-    // into a lastingly worse one.
+  it('reports failed scheduling to the OS and still refreshes the widget', async () => {
     await storage.setItem(
       SETTINGS_STORAGE_KEY,
       JSON.stringify({ ...DEFAULT_SETTINGS, notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true } }),
     );
     scheduleMock.mockRejectedValueOnce(new Error('notification centre unavailable'));
 
-    await expect(taskExecutor()()).resolves.toBe(BackgroundTask.BackgroundTaskResult.Success);
+    await expect(taskExecutor()()).resolves.toBe(BackgroundTask.BackgroundTaskResult.Failed);
+    expect(widgetSync).toHaveBeenCalled();
   });
 });
 

@@ -23,6 +23,7 @@ import {
   Skia,
   vec,
 } from 'react-native-skia';
+import * as Sentry from '@sentry/react-native';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PixelRatio, Platform, StyleSheet } from 'react-native';
 import {
@@ -122,6 +123,11 @@ export function SolarSkiaOverlay({
   const scheme = useActiveScheme();
   const palette = useMemo(() => washPaletteUniforms(washStopsFor(scheme)), [scheme]);
   const washEffect = useMemo(() => Skia.RuntimeEffect.Make(WASH_SKSL), []);
+  useEffect(() => {
+    if (!washEffect) {
+      Sentry.captureException(new Error('Map twilight shader failed to compile'));
+    }
+  }, [washEffect]);
 
   // Declination + equation of time for the displayed date (midday avoids a DST edge). They
   // feed the per-pixel sun-altitude calc in the shader and only change when the day changes.
@@ -684,10 +690,12 @@ function PrayerLine({
   // Only inspect visibility while waiting for the current prayer to enter. Geometry
   // projection/length measurement is not driven by the reveal progress itself.
   const visibleRange = useDerivedValue(() => {
-    if (!animateEntrance || entered.get()) return null;
+    if (!entranceEnabled || !animateEntrance || entered.get() || !active) return null;
     const cam = camera.get();
     const ws = worldSize(cam.zoom);
-    const ox = cam.width / 2 - mercX(cam.lon) * ws + solarDrift(renderNow.get(), builtAt, preview) * ws;
+    // Sample drift when a camera or geometry update asks for a visibility check.
+    // Subscribing this vertex scan to renderNow would repeat it on drawing frames.
+    const ox = cam.width / 2 + (solarDrift(Date.now(), geometryNow, false) - mercX(cam.lon)) * ws;
     const oy = cam.height / 2 - mercY(cam.lat) * ws;
     const projected = merc.map((line) => {
       const points = new Array<number>(line.length);
@@ -701,10 +709,14 @@ function PrayerLine({
   });
 
   useAnimatedReaction(
-    () => ({ ready: entranceEnabled, animate: animateEntrance, preview, range: visibleRange.get() }),
-    ({ ready, animate, preview: scrubbing, range }) => {
-      if (!ready) {
+    () => ({ ready: entranceEnabled, next: isNext, animate: animateEntrance, preview, range: visibleRange.get() }),
+    ({ ready, next, animate, preview: scrubbing, range }) => {
+      if (!next && !scrubbing) {
+        // A later occurrence of this prayer can have its own entrance.
         entered.set(false);
+        reveal.set(1);
+      } else if (!ready) {
+        // Keep a completed entrance across screen blur and backgrounding.
         reveal.set(1);
       } else if (scrubbing || !animate) {
         // Direct manipulation cancels a pending or running entrance immediately.

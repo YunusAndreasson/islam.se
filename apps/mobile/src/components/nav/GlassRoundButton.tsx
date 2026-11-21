@@ -17,6 +17,7 @@ import { GlassSurface } from '@/components/ui/GlassSurface';
 interface Props {
   onPress: () => void;
   accessibilityLabel: string;
+  accessibilityValue?: string;
   children: ReactNode;
   /** Chrome tint painted over the native blur. Locks the colour against backdrop drift. */
   tint: string;
@@ -39,6 +40,7 @@ interface Props {
 export function GlassRoundButton({
   onPress,
   accessibilityLabel,
+  accessibilityValue,
   children,
   tint,
   tintOpacity,
@@ -61,6 +63,7 @@ export function GlassRoundButton({
       disabled={disabled}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
+      accessibilityValue={accessibilityValue ? { text: accessibilityValue } : undefined}
       accessibilityState={disabled ? { disabled: true } : undefined}
       hitSlop={8}
     >

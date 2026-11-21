@@ -372,6 +372,7 @@ interface Props {
   marks: DayMark[];
   next: NextPrayer | null;
   locationLabel: string;
+  previewingPlace?: boolean;
   /** True when `locationLabel` is the Stockholm FALLBACK rather than a place the user
    *  actually has — no GPS fix and no manual city (LocationSource 'default'). The dock
    *  then offers "Välj plats" instead of naming a city the user never chose, because a
@@ -420,6 +421,7 @@ export function PrayerDock({
   marks,
   next,
   locationLabel,
+  previewingPlace = false,
   locationIsFallback = false,
   settings,
   revealSchedule = false,
@@ -1145,7 +1147,7 @@ export function PrayerDock({
                       )}
                       {place}
                     </View>
-                  ) : null}
+                  ) : previewingPlace ? place : null}
                 </View>
 
               </View>

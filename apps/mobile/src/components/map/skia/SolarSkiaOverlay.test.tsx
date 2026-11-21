@@ -2,13 +2,16 @@
 // branches that only appear on certain DATES or certain SETTINGS can be exercised on any
 // day, from any state, without driving MapLibre.
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { render } from '@testing-library/react-native';
+import { act, render } from '@testing-library/react-native';
 
 import * as reanimated from 'react-native-reanimated';
+import * as Sentry from '@sentry/react-native';
 import { Path, Shader, Skia } from 'react-native-skia';
 import { atZoom, DUST_RADIUS_STOPS } from '@/lib/map/dust';
 import { type Camera, project } from '@/lib/map/projection';
 import * as theme from '@/theme/useColors';
+import * as renderClock from '@/lib/map/useSolarRenderNow';
+import * as visibility from '@/lib/map/visible-line';
 import { allOfType, allRendered } from '@/test-utils/rendered';
 import { SolarSkiaOverlay } from './SolarSkiaOverlay';
 
@@ -88,6 +91,14 @@ it('updates palette uniforms without recompiling the twilight effect on a theme 
   expect(compile).toHaveBeenCalledTimes(1);
 });
 
+it('reports a failed shader compilation while keeping the rest of the overlay usable', async () => {
+  jest.spyOn(Skia.RuntimeEffect, 'Make').mockReturnValue(null);
+  const report = jest.spyOn(Sentry, 'captureException');
+  await renderOverlay({ lines: LINE });
+  expect(report).toHaveBeenCalledWith(new Error('Map twilight shader failed to compile'));
+  expect(strokes()).toHaveLength(2);
+});
+
 const LINE = [{ prayer: 'dhuhr' as const, polylines: [[[18, 59], [19, 60]]] as [number, number][][] }];
 const strokes = () => allOfType(Path).filter((node) => node.props.path && node.props.strokeJoin === 'round');
 
@@ -150,6 +161,50 @@ describe('upcoming prayer entrance', () => {
     expect(cores).toHaveLength(2);
     expect(cores.find((node) => node.props.strokeWidth === 3.4)?.props.end.value).toBe(0);
     expect(cores.find((node) => node.props.strokeWidth === 2)?.props.end.value).toBe(1);
+  });
+
+  it('checks an offscreen contour without subscribing its vertex scan to the drawing clock', async () => {
+    const get = jest.fn(() => DAY_START + DAY_MS / 2);
+    jest.spyOn(renderClock, 'useSolarRenderNow').mockReturnValue({ get } as never);
+    const derived = jest.spyOn(reanimated, 'useDerivedValue');
+    const scan = jest.spyOn(visibility, 'visibleLineRange');
+    await renderOverlay({ lines: LINE, nextKey: 'dhuhr', camera: shared({ ...CAMERA, lon: -100 }) });
+
+    let scans = 0;
+    for (const [update] of derived.mock.calls) {
+      scan.mockClear();
+      get.mockClear();
+      update();
+      if (scan.mock.calls.length) {
+        scans++;
+        expect(scan.mock.results[0]?.value).toBeNull();
+        expect(get).not.toHaveBeenCalled();
+      }
+    }
+    expect(scans).toBe(1);
+  });
+
+  it('plays a visible entrance once across blur and refocus', async () => {
+    const reactions: (() => void)[] = [];
+    jest.spyOn(reanimated, 'useAnimatedReaction').mockImplementation((prepare, react) => {
+      reactions.push(() => react(prepare(), null));
+    });
+    const timing = jest.spyOn(reanimated, 'withTiming');
+    const props = { lines: LINE, nextKey: 'dhuhr' as const };
+    const view = await renderOverlay(props);
+    const settle = async () => {
+      const current = reactions.splice(0);
+      await act(() => { current.forEach((run) => run()); });
+      reactions.length = 0;
+    };
+    const entrances = () => timing.mock.calls.filter(([, config]) => config?.duration === 950);
+    await settle();
+    expect(entrances()).toHaveLength(1);
+    await view.rerender(overlay({ ...props, entranceEnabled: false }));
+    await settle();
+    await view.rerender(overlay(props));
+    await settle();
+    expect(entrances()).toHaveLength(1);
   });
 
   it('scrubbing interrupts a pending entrance and exposes the full current path', async () => {

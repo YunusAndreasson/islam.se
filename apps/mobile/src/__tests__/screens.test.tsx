@@ -23,7 +23,9 @@ import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
 import { qiblaBearing, greatCirclePoints, KAABA } from '@/lib/qibla';
 import { project } from '@/lib/map/projection';
+import * as prayerTimes from '@/lib/prayer-times';
 import { __resetGridCache } from '@/lib/solar/grid-cache';
+import { PrayerDock } from '@/components/map/PrayerDock';
 import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
 import { MoonDisc } from '@/components/moon/MoonDisc';
@@ -357,6 +359,73 @@ describe('tab screens', () => {
     await settle(4.5, [11.15, 55.35, 23.7, 69.0], false);
     expect(screen.queryByLabelText('Återställ kartan – visa hela Sverige')).toBeNull();
   }), MAP_RENDER_TIMEOUT);
+
+  it('temporarily looks up a held place, drags to another and restores the scrubbed view', async () => {
+    const appState = Object.getOwnPropertyDescriptor(AppState, 'currentState')!;
+    Object.defineProperty(AppState, 'currentState', { configurable: true, value: 'active' });
+    try {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+      await fireEvent(map, 'regionDidChange', { nativeEvent: {
+        zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+      } });
+      const dock = () => oneOfType(PrayerDock, 'prayer dock').props;
+      await act(() => dock().clock.setFraction(0.6));
+      const initial = dock();
+      const point = [180, 380];
+      await fireEvent(map, 'longPress', { nativeEvent: { point, lngLat: [15.2134, 59.2741] } });
+      expect(dock().locationLabel).toBe('Örebro');
+      expect(dock().times.dhuhr.getTime()).not.toBe(initial.times.dhuhr.getTime());
+      await fireEvent(map, 'touchMove', { nativeEvent: { locationX: 60, locationY: 300, touches: [{}] } });
+      await waitFor(() => expect(dock().locationLabel).not.toBe('Örebro'));
+      await fireEvent(map, 'touchEnd');
+      expect(dock().times).toBe(initial.times);
+      expect(dock().clock.now).toBe(initial.clock.now);
+      expect(dock().clock.mode).toBe('scrub');
+    } finally {
+      Object.defineProperty(AppState, 'currentState', appState);
+    }
+  });
+
+  it('searches for prayer times without changing the saved location', async () => {
+    await renderSettled(withProviders(<Bonetider />));
+    const dock = () => oneOfType(PrayerDock, 'prayer dock').props;
+    const initial = dock();
+    const stored = await AsyncStorage.getItem(SETTINGS_KEY);
+    await fireEvent.press(screen.getByLabelText('Sök bönetider på annan plats'));
+    await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
+    await fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
+    expect(dock().locationLabel).toBe('Umeå');
+    expect(await AsyncStorage.getItem(SETTINGS_KEY)).toBe(stored);
+    await fireEvent.press(screen.getByLabelText('Avsluta platsförhandsvisning'));
+    expect(dock().times).toBe(initial.times);
+  });
+
+  it('pulses at the user location for an arrival from the previous timetable', async () => {
+    const at = Date.parse('2026-06-15T00:36:00+02:00');
+    const appState = Object.getOwnPropertyDescriptor(AppState, 'currentState')!;
+    Object.defineProperty(AppState, 'currentState', { configurable: true, value: 'active' });
+    jest.useFakeTimers({ now: at - 1000 });
+    const selection = jest.spyOn(prayerTimes, 'selectNextPrayer')
+      .mockReturnValue({ key: 'isha', at, previousDay: true, nextDay: false });
+    try {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+      await fireEvent(map, 'regionDidChange', { nativeEvent: {
+        zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+      } });
+      await fireEvent(map, 'didFinishRenderingMapFully');
+      const props = () => oneOfType(SolarSkiaOverlay, 'solar overlay').props;
+      expect(props().arrival).toBeNull();
+      await act(async () => { jest.advanceTimersByTime(1000); });
+      expect(props().arrival).toEqual({ prayer: 'isha', id: at });
+      expect(props().nextKey).toBeNull();
+    } finally {
+      Object.defineProperty(AppState, 'currentState', appState);
+      selection.mockRestore();
+      jest.useRealTimers();
+    }
+  });
 
   it('explains a tapped qibla arc and a prayer contour', async () => {
     // ⚠️ THIS TEST NEEDS A PRAYER TO BE HAPPENING SOMEWHERE IN SWEDEN. A prayer line is the

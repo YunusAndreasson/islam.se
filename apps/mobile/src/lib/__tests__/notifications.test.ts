@@ -120,6 +120,31 @@ describe('syncPrayerNotifications lead time', () => {
     await AsyncStorage.clear();
   });
 
+  it('keeps exactly one pending reminder when launched 40 seconds before it fires', async () => {
+    const clock = jest.spyOn(Date, 'now').mockReturnValue(PINNED_NOW);
+    try {
+      const settings = withUniformLead(0);
+      await syncPrayerNotifications(STOCKHOLM, settings);
+      const next = first(scheduleMock.mock.calls.map(([request]) => request)
+        .sort((a, b) => a.trigger.date.getTime() - b.trigger.date.getTime()), 'next reminder');
+      const fireAt = next.trigger.date.getTime();
+      clock.mockReturnValue(fireAt - 40_000);
+      getAllScheduledMock.mockResolvedValue([
+        { ...next, identifier: 'original' }, { ...next, identifier: 'duplicate' },
+      ] as unknown as Notifications.NotificationRequest[]);
+      resetSyncStateForTests();
+      scheduleMock.mockClear();
+
+      expect(await syncPrayerNotifications(STOCKHOLM, settings)).toBe(true);
+      expect(cancelScheduledMock).not.toHaveBeenCalledWith('original');
+      expect(cancelScheduledMock).toHaveBeenCalledWith('duplicate');
+      expect(scheduledTimes()).not.toContain(fireAt);
+      expect(nextAlertAt(STOCKHOLM, settings, Date.now())?.fireAt.getTime()).toBe(fireAt);
+    } finally {
+      clock.mockRestore();
+    }
+  });
+
   it('keeps the previous evening’s pending last-third reminder after midnight', async () => {
     const clock = jest.spyOn(Date, 'now').mockReturnValue(Date.parse('2026-11-20T21:00:00+01:00'));
     try {
@@ -795,20 +820,20 @@ describe('notification horizon', () => {
       (request.trigger as { date: Date }).date.getTime()).sort((a, b) => a - b);
     expect(originalDates.length).toBeGreaterThan(0);
 
-    let releasePermission!: (value: Awaited<ReturnType<typeof Notifications.getPermissionsAsync>>) => void;
-    const permissionRequested = new Promise<void>((resolve) => {
-      getPermissionsMock.mockImplementationOnce(() => new Promise((release) => {
-        releasePermission = release;
-        resolve();
-      }));
+    let releaseCancellation!: () => void;
+    const cancellationGate = new Promise<void>((resolve) => { releaseCancellation = resolve; });
+    let signalCancellation!: () => void;
+    const cancellationStarted = new Promise<void>((resolve) => { signalCancellation = resolve; });
+    cancel.mockImplementationOnce(async (id) => {
+      pending.delete(id);
+      signalCancellation();
+      await cancellationGate;
     });
     const replacement = syncPrayerNotifications(STOCKHOLM, withUniformLead(15));
-    await permissionRequested;
-    expect(pending.size).toBe(0); // the replacement has removed the original alarms
+    await cancellationStarted;
+    expect(pending.size).toBe(0);
     const restored = syncPrayerNotifications(STOCKHOLM, original);
-    releasePermission({
-      granted: true, canAskAgain: true, status: PermissionStatus.GRANTED, expires: 'never',
-    });
+    releaseCancellation();
     await Promise.all([replacement, restored]);
 
     expect([...pending.values()].map((request) =>

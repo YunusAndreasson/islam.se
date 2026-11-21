@@ -74,12 +74,12 @@ TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
     // The alerts first: they are what this task exists for. Reminders switched off is not a
     // failure — it is this step having nothing to do. Doing it anyway would re-create the
     // very notifications the user turned off.
-    if (settings.notifications.enabled) await syncPrayerNotifications(coords, settings);
+    const alertsReady = !settings.notifications.enabled || await syncPrayerNotifications(coords, settings);
 
     await syncPrayerWidget(coords, settings, label);
     await syncPrayerLiveActivity(coords, settings, label, Date.now(), { canStart: false });
     await syncAndroidPrayerNotification(coords, settings, label);
-    return BackgroundTask.BackgroundTaskResult.Success;
+    return alertsReady ? BackgroundTask.BackgroundTaskResult.Success : BackgroundTask.BackgroundTaskResult.Failed;
   } catch {
     // Reporting Failed lets the scheduler back off rather than retry a broken task in a
     // loop. The foreground sync will put things right the next time the app is opened.

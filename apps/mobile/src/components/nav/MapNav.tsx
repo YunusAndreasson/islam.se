@@ -73,10 +73,14 @@ const MAP_ACTION_APPEARANCE = {
 export function MapNav({
   active,
   action,
+  onLookup,
+  lookupSummary,
   gpuReady,
 }: {
   active: boolean;
   action?: MapAction;
+  onLookup?: () => void;
+  lookupSummary?: string;
   gpuReady: boolean;
 }) {
   const insets = useSafeAreaInsets();
@@ -131,6 +135,18 @@ export function MapNav({
             and a second gold control would compete with it rather than read as its own
             thing. Only the reset carries the accent rim: it undoes something the reader
             did, where locate is an ordinary way in. */}
+        {onLookup && (
+          <GlassRoundButton
+            tint={sky.surface}
+            rim={c.hairline}
+            size={disc}
+            accessibilityLabel={lookupSummary ? 'Avsluta platsförhandsvisning' : 'Sök bönetider på annan plats'}
+            accessibilityValue={lookupSummary}
+            onPress={onLookup}
+          >
+            <Icon name={lookupSummary ? 'close' : 'search'} size={glyph} color={c.ink} />
+          </GlassRoundButton>
+        )}
         {action && appearance && (
           <Animated.View
             entering={reduceMotion ? undefined : FadeIn.duration(motion.base)}

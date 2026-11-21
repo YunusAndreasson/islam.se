@@ -267,8 +267,8 @@ function alertsForDay(
  *
  * Derived from the scheduler's OWN rules rather than a second opinion about them, so the
  * two cannot drift: {@link isAlertEnabled} decides which slots count, the lead is
- * subtracted exactly as {@link syncPrayerNotifications} subtracts it, and the "already
- * past, or too soon to be useful" cutoff is the same one minute. Candidates from yesterday, today
+ * subtracted exactly as {@link syncPrayerNotifications} subtracts it, and every future
+ * fire time is eligible. Candidates from yesterday, today
  * and tomorrow are collected and the earliest wins, because a lead can pull an alert
  * across midnight and the night's last third belongs to the day whose evening began it.
  *
@@ -283,12 +283,11 @@ export function nextAlertAt(
   const n = settings.notifications;
   if (!n.enabled) return null;
 
-  const cutoff = now + 60_000;
   let best: NextAlert | null = null;
   // The previous evening can still own an upcoming Isha or last-third alert.
   for (let d = -1; d < 2; d++) {
     const times = computePrayerTimes(coords, zonePrayerDate(now, d), settings);
-    for (const { key, at, fireAt } of alertsForDay(times, n, cutoff)) {
+    for (const { key, at, fireAt } of alertsForDay(times, n, now)) {
       if (best === null || fireAt < best.fireAt) best = { key, at, fireAt };
     }
   }
@@ -468,22 +467,27 @@ async function cancelByIds(ids: readonly string[]): Promise<void> {
  * schedule for some other purpose later; alerts from builds before the tag existed are
  * still covered by the stored ids, which those builds wrote under the same key.
  */
-async function pendingPrayerNotificationIds(): Promise<string[]> {
+async function reconcilePendingIds(desired: Set<string>, retained: Map<string, string>): Promise<void> {
   const ids = new Set(await loadPrayerNotificationIds());
   try {
     for (const request of await Notifications.getAllScheduledNotificationsAsync()) {
-      if (request?.content?.data?.source === PRAYER_TAG) ids.add(request.identifier);
+      const data = request?.content?.data;
+      if (data?.source !== PRAYER_TAG) continue;
+      const identity = data.alertIdentity;
+      if (typeof identity === 'string' && desired.has(identity) && !retained.has(identity)) {
+        retained.set(identity, request.identifier);
+        ids.delete(request.identifier);
+      } else {
+        ids.add(request.identifier);
+      }
     }
   } catch {
     // Enumeration unavailable (older OS surface, native error) — the stored list alone
     // still covers every normal run.
   }
-  return [...ids];
-}
-
-async function cancelPrayerNotifications(): Promise<void> {
-  await cancelByIds(await pendingPrayerNotificationIds());
-  await storage.removeItem(PRAYER_NOTIFICATION_IDS_KEY);
+  await cancelByIds([...ids]);
+  if (retained.size) await savePrayerNotificationIds([...retained.values()]);
+  else await storage.removeItem(PRAYER_NOTIFICATION_IDS_KEY);
 }
 
 /**
@@ -517,23 +521,23 @@ function syncStampFor(coords: LatLng, settings: PrayerSettings, exact: ExactAlar
 
 /**
  * Reconcile scheduled prayer notifications with the current settings + location.
- * Clears only this module's previously scheduled prayer IDs, then (if enabled and
- * permitted) schedules every selected alert for as many days ahead as the platform's
- * pending-notification budget allows. Idempotent — safe to call on any relevant change
- * or foreground.
+ * Keeps one matching pending request per alert, cancels obsolete prayer requests,
+ * and fills the remaining slots within the platform's pending-notification budget. Idempotent — safe to call on any relevant change
+ * or foreground. Returns false if the reconciliation failed.
  */
 export function syncPrayerNotifications(
   coords: LatLng,
   settings: PrayerSettings,
-): Promise<void> {
+): Promise<boolean> {
   const generation = ++syncGeneration;
   const sync = syncQueue.then(async () => {
-    if (generation !== syncGeneration) return;
+    if (generation !== syncGeneration) return true;
     await reconcilePrayerNotifications(coords, settings, generation);
+    return true;
   });
   // A failed best-effort reconciliation must never poison subsequent requests.
-  syncQueue = sync.catch(() => undefined);
-  return syncQueue;
+  syncQueue = sync.then(() => undefined, () => undefined);
+  return sync.catch(() => false);
 }
 
 async function reconcilePrayerNotifications(
@@ -541,6 +545,7 @@ async function reconcilePrayerNotifications(
   settings: PrayerSettings,
   generation: number,
 ): Promise<void> {
+  const retained = new Map<string, string>();
   const scheduledIds: string[] = [];
   // A newer sync has taken over: this run's notifications must not survive. The newer
   // run's own cancel pass can't see them (they were never saved), so cancelling them
@@ -555,7 +560,8 @@ async function reconcilePrayerNotifications(
     // 35 schedules each time; at a 30-day Android horizon it would be 180 + 180, a dozen
     // times a day — a real battery and latency cost. Skip when nothing that matters has
     // changed since the last SUCCESSFUL sync. A cold start always does the real thing.
-    const stamp = syncStampFor(coords, settings, await getExactAlarmState());
+    const exact = await getExactAlarmState();
+    const stamp = syncStampFor(coords, settings, exact);
     if (firstSyncDone) {
       const previous = await storage.getItem(SYNC_STAMP_KEY).catch(() => null);
       if (previous === stamp) return;
@@ -566,12 +572,11 @@ async function reconcilePrayerNotifications(
     // its session cache BEFORE touching them: A → B → A must rebuild A if B was
     // superseded after cancelling it, even though the saved stamp still says A.
     firstSyncDone = false;
-    await cancelPrayerNotifications();
-    if (generation !== syncGeneration) return;
-    if (!n.enabled) return;
-
     const perDay = alertsPerDay(n);
-    if (perDay === 0) return; // nothing enabled — the cancel pass above already ran
+    if (!n.enabled || perDay === 0) {
+      await reconcilePendingIds(new Set(), retained);
+      return;
+    }
 
     // CHECK, never ask. This runs on mount and on every foreground, so prompting from
     // here would fire the OS dialog with no tap behind it — and spend iOS's single
@@ -579,7 +584,10 @@ async function reconcilePrayerNotifications(
     // from requestNotificationPermission(), which is wired to explicit taps.
     const permission = await Notifications.getPermissionsAsync();
     if (generation !== syncGeneration) return;
-    if (!isAllowed(permission)) return;
+    if (!isAllowed(permission)) {
+      await reconcilePendingIds(new Set(), retained);
+      return;
+    }
     await ensureAndroidChannels();
     await ensureNotificationCategory();
     if (generation !== syncGeneration) return;
@@ -596,31 +604,39 @@ async function reconcilePrayerNotifications(
     // iteration. Resolve day 0 once and step the calendar locally — the Date constructor
     // rolls month/year boundaries exactly like the helper's own d+offset.
     const day0 = zonePrayerDate(now);
-    for (let d = -1; d < maxDays; d++) {
-      if (scheduledIds.length + 1 > budget) break;
+    const days: (AlertCandidate & { identity: string })[][] = [];
+    const desired = new Set<string>();
+    for (let d = -1; d < maxDays && desired.size < budget; d++) {
+      const date = new Date(day0.getFullYear(), day0.getMonth(), day0.getDate() + d, 12);
+      const times = computePrayerTimes(coords, date, settings);
+      const day = [];
+      for (const alert of alertsForDay(times, n, now)) {
+        const identity = JSON.stringify([alert.key, alert.fireAt.getTime(), alert.lead,
+          alert.sound, getDisplayZone(), deliveryFor(n), exact === 'denied']);
+        if (desired.has(identity)) continue;
+        day.push({ ...alert, identity });
+        desired.add(identity);
+        if (desired.size === budget) break;
+      }
+      days.push(day);
+    }
+
+    await reconcilePendingIds(desired, retained);
+    for (const day of days) {
       if (generation !== syncGeneration) {
         await bailStale();
         return;
       }
-      const dayMidday = new Date(day0.getFullYear(), day0.getMonth(), day0.getDate() + d, 12, 0, 0, 0);
-      const times = computePrayerTimes(coords, dayMidday, settings);
-
-      // One day's alerts go out as ONE batch — 30 days × 6 slots would otherwise be 180
-      // serial bridge round-trips. The batch is small and bounded (≤ 6), so the
-      // generation guard between days still bounds how far a superseded sync can
-      // over-schedule, and bailStale cancels whatever the last batch created. Do NOT
-      // flatten the whole horizon into one Promise.all: the guard would go blind for the
-      // entire run.
       const batch: Promise<string>[] = [];
-      for (const { key, at, fireAt, lead, sound } of alertsForDay(times, n, now + 60_000)) {
-        if (scheduledIds.length + batch.length >= budget) break;
+      for (const { key, at, fireAt, lead, sound, identity } of day) {
+        if (retained.has(identity) || fireAt.getTime() <= Date.now()) continue;
         batch.push(
           Notifications.scheduleNotificationAsync({
             content: {
               ...(key === 'lastThird' ? nightAlertContent(at) : alertContent(key, at, lead)),
               sound: iosSoundFor(sound),
               // The foreground handler reads silent and a later sync finds requests by source.
-              data: { key, silent: resolveSound(sound) === 'silent', source: PRAYER_TAG },
+              data: { key, silent: resolveSound(sound) === 'silent', source: PRAYER_TAG, alertIdentity: identity },
               interruptionLevel: 'timeSensitive',
               categoryIdentifier: CATEGORY_ID,
               ...threadFields(),
@@ -649,20 +665,21 @@ async function reconcilePrayerNotifications(
       await bailStale();
       return;
     }
-    await savePrayerNotificationIds(scheduledIds);
+    await savePrayerNotificationIds([...retained.values(), ...scheduledIds]);
     // Stamp only on the success path, so a failed or bailed run always re-syncs.
-    await storage.setItem(SYNC_STAMP_KEY, stamp).catch(() => undefined);
+    await storage.setItem(SYNC_STAMP_KEY, stamp);
     firstSyncDone = true;
-  } catch {
+  } catch (error) {
     // Notifications are a best-effort enhancement — never let a scheduling failure
     // (permissions revoked mid-flight, OS quota) crash the app. If this run is still
     // the current one, save whatever was scheduled so the next sync can cancel it;
     // if a newer sync has taken over, saving would CLOBBER its saved ids (orphaning
     // them), so cancel this run's notifications instead.
     if (generation === syncGeneration) {
-      if (scheduledIds.length > 0) await savePrayerNotificationIds(scheduledIds).catch(() => undefined);
+      if (scheduledIds.length > 0) await savePrayerNotificationIds([...retained.values(), ...scheduledIds]).catch(() => undefined);
     } else {
       await cancelByIds(scheduledIds);
     }
+    throw error;
   }
 }

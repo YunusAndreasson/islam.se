@@ -38,11 +38,14 @@ import Animated, {
   FadeOutUp,
   ReduceMotion,
   type SharedValue,
+  useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 
+import { PrayerPlaceSearch } from '@/components/map/PrayerPlaceSearch';
+import { nearestPlace } from '@/lib/places/nearest';
 import { MapLineToast } from '@/components/map/MapLineToast';
 import { distanceToLine } from '@/lib/map/line-hit';
 import { greatCirclePoints, KAABA, qiblaDistanceKm } from '@/lib/qibla';
@@ -98,7 +101,7 @@ import {
 import { CAMERA_MAX_BOUNDS, CAMERA_MIN_ZOOM } from '@/lib/map/camera-bounds';
 import { GLYPH_MIN_ZOOM } from '@/lib/map/dust';
 import { cameraTravelMs, TRAVEL_MAX_MS } from '@/lib/map/camera-travel';
-import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection';
+import { type Camera as MapCamera, invMercY, mercY, project, unproject } from '@/lib/map/projection';
 import { createTroubleBurst, watchResourceFailures } from '@/lib/map/map-diagnostics';
 import { ensureBasemapCache } from '@/lib/map/offline';
 import { driftedCamera, solarDrift } from '@/lib/map/line-geometry';
@@ -126,7 +129,7 @@ import {
 } from '@/lib/prayer-times';
 import { computeSignature } from '@/lib/settings/compute-signature';
 import { useSettings } from '@/lib/settings/context';
-import type { LocationMode } from '@/lib/settings/types';
+import type { LocationMode, NamedLocation } from '@/lib/settings/types';
 import { buildLines } from '@/lib/solar/field';
 import { demoFrame, MAP_LESSON_EXAMPLES } from '@/lib/solar/demo-year';
 import { gridForDay } from '@/lib/solar/grid-cache';
@@ -972,10 +975,53 @@ export default function Bonetider() {
     [coords, clock.dayStart, settings],
   );
 
+  const [lookup, setLookup] = useState<NamedLocation | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchedPlace, setSearchedPlace] = useState<NamedLocation | null>(null);
+  const previewPlace = lookup ?? searchedPlace;
+  const pin = useSharedValue<{ x: number; y: number } | null>(null);
+  const lookupTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const holding = useRef(false);
+
+  const showPoint = (lon: number, lat: number) => {
+    const { place, distanceKm } = nearestPlace(lat, lon);
+    let name = `${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
+    if (distanceKm < 2) name = place.name;
+    else if (distanceKm < 25) name = `Nära ${place.name}`;
+    setLookup({ name, latitude: lat, longitude: lon });
+  };
+  const finishLookup = useCallback(() => {
+    if (!holding.current) return;
+    holding.current = false;
+    if (lookupTimer.current !== null) clearTimeout(lookupTimer.current);
+    lookupTimer.current = null;
+    pin.set(null);
+    setLookup(null);
+  }, [pin]);
+  useEffect(() => {
+    if (!mapActive) finishLookup();
+  }, [mapActive, finishLookup]);
+  useEffect(() => () => {
+    if (lookupTimer.current !== null) clearTimeout(lookupTimer.current);
+  }, []);
+  const pinStyle = useAnimatedStyle(() => {
+    const point = pin.get() ?? (searchedPlace && project(searchedPlace.longitude, searchedPlace.latitude, cam.get()));
+    return { opacity: point ? 1 : 0, transform: [
+      { translateX: (point?.x ?? 0) - 12 }, { translateY: (point?.y ?? 0) - 24 },
+    ] };
+  });
+  const preview = useMemo(() => {
+    if (!previewPlace) return null;
+    const times = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart), settings);
+    const yesterday = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart, -1), settings);
+    const tomorrow = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart, 1), settings);
+    return { times, next: selectNextPrayer(times, tomorrow.fajr.getTime(), clock.now, yesterday) };
+  }, [previewPlace, clock.dayStart, clock.now, settings]);
+  const dockTimes = preview?.times ?? userTimes;
   const marks = useMemo<DayMark[]>(() => {
     const out: DayMark[] = [];
     for (const key of PRAYER_ORDER) {
-      const at = (userTimes[key]).getTime();
+      const at = dockTimes[key].getTime();
       if (!Number.isFinite(at)) continue;
       // Fraction of the *real* Stockholm day (23/24/25 h), so the marks stay aligned with
       // the scrubber thumb on the two DST days — a fixed 24 h would drift them by an hour.
@@ -983,7 +1029,7 @@ export default function Bonetider() {
       if (f >= 0 && f <= 1) out.push({ key, fraction: f });
     }
     return out;
-  }, [userTimes, clock.dayStart, clock.dayLength]);
+  }, [dockTimes, clock.dayStart, clock.dayLength]);
 
   // The NEXT DAY's Fajr (ms epoch, null where adhan can't resolve it) — the fallback the
   // `next` memo reaches for after the viewed day's Ishaʾ. Named for the viewed day, not
@@ -1028,7 +1074,7 @@ export default function Bonetider() {
   // bloom only matters while the map is watched.
   const [arrival, setArrival] = useState<PrayerArrival | null>(null);
   useEffect(() => {
-    if (!mapActive || clock.mode !== 'live' || !next || next.nextDay || next.previousDay) return;
+    if (!mapActive || clock.mode !== 'live' || !next) return;
     const delay = next.at - Date.now();
     if (delay < 0) return;
     const key = next.key;
@@ -1075,7 +1121,7 @@ export default function Bonetider() {
     const home = initialFrame.current;
     const camera = cameraRef.current;
     if (!home || !camera || !cameraReady || moved || resetPending.current) return;
-    if (!mapActive || clock.mode !== 'live' || mapLessonPending) return;
+    if (!mapActive || clock.mode !== 'live' || mapLessonPending || previewPlace) return;
     if (locationIsFallback || offline || mapMoving.current) return;
     if (clock.now < leanSuspendedUntil.current) return;
 
@@ -1400,7 +1446,42 @@ export default function Bonetider() {
           this target; the dock/nav/reset glass below sample it on Android (true
           behind-content blur needs an explicit render source there, unlike iOS). */}
       <GlassBackdropTarget style={StyleSheet.absoluteFill}>
+      <View
+        collapsable={false}
+        style={StyleSheet.absoluteFill}
+        onTouchMove={(e) => {
+          if (!holding.current) return;
+          const { locationX: x, locationY: y, touches } = e.nativeEvent;
+          if (touches.length !== 1) {
+            finishLookup();
+            return;
+          }
+          pin.set({ x, y });
+          // Move the pin with every event. Sample the latest point for the more
+          // expensive place and timetable lookup, including where a drag stops.
+          if (lookupTimer.current !== null) return;
+          lookupTimer.current = setTimeout(() => {
+            lookupTimer.current = null;
+            const position = pin.get();
+            if (!position) return;
+            const point = unproject(position.x, position.y, cam.get());
+            showPoint(point.lon, point.lat);
+          }, 80);
+        }}
+        onTouchStart={(e) => { if (e.nativeEvent.touches.length > 1) finishLookup(); }}
+        onTouchEnd={finishLookup}
+        onTouchCancel={finishLookup}
+      >
       <Map
+        dragPan={!lookup}
+        onLongPress={(e) => {
+          if (!mapActive || !cameraReady || mapLessonPending || holding.current) return;
+          const { point: [x, y], lngLat: [lon, lat] } = e.nativeEvent;
+          holding.current = true;
+          pin.set({ x, y });
+          hapticLight();
+          showPoint(lon, lat);
+        }}
         ref={mapRef}
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
@@ -1505,6 +1586,7 @@ export default function Bonetider() {
         )}
         <LocationLayer point={userPoint} showQibla={settings.showQibla && !mapLessonPending} />
       </Map>
+      </View>
 
       {/* The reveal cover. Sits directly ON the basemap and its native location layer,
           beneath the solar field, and hides only the part that isn't ready: the dock and the
@@ -1550,7 +1632,9 @@ export default function Bonetider() {
           camera={cam}
           lines={prayerLines}
           nextKey={nextKey}
-          imminentKey={imminentKey}
+          // Do not keep the repeating halo animation running behind another screen or
+          // while the app is backgrounded. It resumes when the map is visible again.
+          imminentKey={mapActive ? imminentKey : null}
           userPoint={userPoint}
           arrival={arrival}
           polarBoundary={polarBoundary}
@@ -1619,6 +1703,14 @@ export default function Bonetider() {
           />
         </>
       )}
+      <Animated.View
+        pointerEvents="none"
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+        style={[styles.lookupPin, pinStyle]}
+      >
+        <Icon name="place" size={24} color={colors.accent} />
+      </Animated.View>
       </GlassBackdropTarget>
 
       {/* The one bottom surface: normally next prayer + day scrubber, expandable to the
@@ -1654,11 +1746,12 @@ export default function Bonetider() {
           calendarRequested={calendar === 'open'}
           onCalendarClose={() => router.setParams({ calendar: undefined })}
           clock={clock}
-          times={userTimes}
+          times={dockTimes}
           marks={marks}
-          next={next}
-          locationLabel={placeLabel}
-          locationIsFallback={locationIsFallback}
+          next={preview ? preview.next : next}
+          locationLabel={previewPlace?.name ?? placeLabel}
+          locationIsFallback={!previewPlace && locationIsFallback}
+          previewingPlace={!!previewPlace}
           settings={settings}
           // Introduce the schedule once after onboarding; let the reader close it.
           // Ordinary launches and permission reminders leave the dock collapsed.
@@ -1704,7 +1797,20 @@ export default function Bonetider() {
       {/* The disc beside the cog: reset while the map is off home; for a reader whose
           position lies outside the Sweden view (abroad), a way to their dot, which home
           cannot show; otherwise nothing. See MapAction. */}
+      {searchOpen && (
+        <PrayerPlaceSearch onClose={() => setSearchOpen(false)} onPick={(place) => {
+          setSearchedPlace({ name: place.name, latitude: place.lat, longitude: place.lon });
+          setSearchOpen(false);
+        }} />
+      )}
       <MapNav
+        lookupSummary={searchedPlace && previewPlace && preview
+          ? `${previewPlace.name}, ${preview.next ? `${PRAYER_LABELS[preview.next.key]} ${formatTime(new Date(preview.next.at))}` : 'inga fler böner'}`
+          : undefined}
+        onLookup={mapLessonPending ? undefined : () => {
+          if (searchedPlace) setSearchedPlace(null);
+          else setSearchOpen(true);
+        }}
         active={mapActive}
         gpuReady={gpuReady}
         action={
@@ -1826,6 +1932,7 @@ export default function Bonetider() {
 }
 
 const styles = StyleSheet.create({
+  lookupPin: { position: 'absolute', top: 0, left: 0 },
   // `backgroundColor` is set inline from the OS palette's `paperSunken` so the brief flash
   // during a MapLibre style hot-swap is the same family as either basemap (warm parchment
   // sunken in light, deep navy sunken in dark) — no jarring colour pop on a theme flip.
