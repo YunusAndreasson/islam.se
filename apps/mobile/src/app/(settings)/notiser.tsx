@@ -27,6 +27,8 @@ import { type SettingsColors, useSettingsColors } from '@/components/settings/th
 import { Icon } from '@/components/ui/Icon';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { HAS_ADHAN_AUDIO, useAdhanPreview } from '@/lib/adhan-audio';
+import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
+import { notificationSettingChanges } from '@/lib/analytics/properties';
 import { useLocation } from '@/lib/location/context';
 import { alertsPerDay, nextAlertAt, NOTIFY_PRAYERS, type NotifyPrayerKey } from '@/lib/notifications';
 import { useExactAlarmPermission, useNotificationPermission } from '@/lib/notifications-permission';
@@ -63,9 +65,16 @@ export default function Notiser() {
   const n = settings.notifications;
 
   // Every control writes through this, so the nested records are never mutated in place
-  // (they are shared with DEFAULT_SETTINGS until a reset clones them).
-  const patch = (next: Partial<NotificationSettings>): void =>
-    update({ notifications: { ...n, ...next } });
+  // (they are shared with DEFAULT_SETTINGS until a reset clones them). It is also the one
+  // place every change here passes, so it is where Notification Settings Changed is sent:
+  // which setting, for which prayer, and the new on/off, minutes or sound. Nothing else.
+  const patch = (next: Partial<NotificationSettings>): void => {
+    const updated = { ...n, ...next };
+    for (const change of notificationSettingChanges(n, updated)) {
+      void analytics.track(ANALYTICS_EVENTS.NOTIFICATION_SETTINGS_CHANGED, { ...change });
+    }
+    update({ notifications: updated });
+  };
 
   const mixedLead = mixedPrayerLead(n);
   const sharedSound = commonSound(n);

@@ -3,7 +3,7 @@ import ArticlePage from "../components/ArticlePage.astro";
 import SectionOrnament from "../components/SectionOrnament.astro";
 import { breadcrumbList, webPageJsonLd } from "../lib/jsonld";
 
-const updated = "15 november 2026";
+const updated = "21 november 2026";
 ---
 
 <ArticlePage
@@ -83,8 +83,10 @@ const updated = "15 november 2026";
 			<p>
 				Dina val – som vald plats, beräkningsmetod och aviseringsinställningar –
 				sparas endast i enhetens eget lagringsutrymme så att appen minns dem
-				mellan gångerna. Inget av detta lämnar enheten, och det går att rensa
-				genom att avinstallera appen.
+				mellan gångerna. Platsen du valt och hur tiderna räknas ut lämnar aldrig
+				enheten. Användningsstatistiken nedan får bara veta några grova uppgifter
+				om inställningarna, till exempel om påminnelserna är på. Det som sparas på
+				enheten försvinner om du avinstallerar appen.
 			</p>
 
 			<h3>Aviseringar</h3>
@@ -126,20 +128,32 @@ const updated = "15 november 2026";
 			<h3>Användningsstatistik</h3>
 			<p>
 				Appen skickar uppgifter om hur den används till Mixpanel, en tjänst för
-				användningsstatistik. Vi använder uppgifterna för att se vilka delar av appen som används
-				och vad som behöver förbättras.
+				användningsstatistik. Vi använder uppgifterna för att se vilka delar av appen som används,
+				om nya användare kommer igång och kommer tillbaka, och vad som behöver förbättras.
 			</p>
 			<p>
-				Det som skickas är vilka skärmar som öppnas och några enstaka händelser, till exempel att
-				introduktionen slutfördes eller att en rättelse av en moské skickades. Med varje händelse
-				följer tekniska uppgifter som appens version och enhetens modell och operativsystem.
-				Händelserna kopplas till ett slumpmässigt id som skapas i appen. Inget namn, ingen
-				e-postadress och inget konto kopplas till id:t.
+				Det som skickas är att appen öppnas och vilka skärmar som visas, vilka steg i
+				introduktionen som visas och om den slutförs eller hoppas över, och vad du svarar när
+				appen frågar om plats och notiser. Appen skickar också när en påminnelse eller widgeten
+				öppnar appen, och några enstaka händelser till, till exempel att qiblariktningen hittades
+				eller att en rättelse av en moské skickades. Med varje händelse följer tekniska uppgifter
+				som appens version, vilken dag appen installerades och enhetens modell och
+				operativsystem. Händelserna kopplas till ett slumpmässigt id som skapas i appen. Inget
+				namn, ingen e-postadress och inget konto kopplas till id:t.
 			</p>
 			<p>
-				Appen skickar inte enhetens position, kartans position eller den plats du har valt till
-				Mixpanel. Mixpanel räknar själv fram ungefärlig ort, region och land utifrån den IP-adress
-				som uppgifterna skickas från. IP-adressen sparas inte.
+				Med händelserna följer också några grova uppgifter om hur appen är inställd: om
+				påminnelserna är på och om telefonen släpper fram dem, hur många påminnelser per dag du
+				har valt, om någon av dem spelar adhan och hur platsen är vald – med GPS, som en ort du
+				valt eller Stockholm som standard. Ändrar du en påminnelse skickas vilken bön det gäller
+				och det nya valet, till exempel hur många minuter i förväg den kommer eller att den är
+				tyst.
+			</p>
+			<p>
+				Appen skickar aldrig enhetens position, kartans position eller den plats du har valt till
+				Mixpanel, och inte heller vilken beräkningsmetod eller Asr-metod (madhhab) du använder.
+				Mixpanel räknar själv fram ungefärlig ort, region och land utifrån den IP-adress som
+				uppgifterna skickas från. IP-adressen sparas inte.
 			</p>
 			<p>
 				Mixpanel drivs av det amerikanska företaget Mixpanel, Inc. Uppgifterna lagras inom EU.

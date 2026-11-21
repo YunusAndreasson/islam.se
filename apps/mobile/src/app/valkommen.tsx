@@ -21,7 +21,7 @@
 // says "Inte nu". The welcome step keeps its skip, because there it means something
 // different — leave the introduction now, not answer this question later.
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 import { BackHandler, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
@@ -30,25 +30,71 @@ import { StepLocation } from '@/components/intro/StepLocation';
 import { StepMethod } from '@/components/intro/StepMethod';
 import { StepNotifications } from '@/components/intro/StepNotifications';
 import { StepWelcome } from '@/components/intro/StepWelcome';
-import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
+import { ANALYTICS_EVENTS, afterAppOpen, analytics } from '@/lib/analytics';
+import { remindersState } from '@/lib/analytics/properties';
 import { hapticSelection, hapticSuccess } from '@/lib/haptics';
+import type { IntroOutcome } from '@/lib/intro';
 import { useIntro } from '@/lib/intro-context';
+import { useLocation } from '@/lib/location/context';
+import { getNotificationPermissionState } from '@/lib/notifications';
 import { useSettings } from '@/lib/settings/context';
 import { useColors } from '@/theme/useColors';
 
 const TOTAL_STEPS = 4;
 
+/** The steps as analytics names them, in order. A step's name, not its title: the titles
+ *  are copy and change, the funnel must not. */
+const STEP_NAMES = ['welcome', 'location', 'notifications', 'method'] as const;
+const stepName = (index: number): string => STEP_NAMES[index] ?? 'unknown';
+
 export default function Valkommen() {
   const c = useColors();
-  const { complete } = useIntro();
+  const { complete, replaying } = useIntro();
+  const { source } = useLocation();
   // The steps write settings, so none of them may run before the persisted blob has
   // hydrated: SettingsProvider skips its persist effect until `loaded`, so an early
   // update() would be silently overwritten by the load that follows it.
   const { loaded, settings } = useSettings();
   const [step, setStep] = useState(0);
 
-  const finish = (): void => {
-    complete();
+  // One Onboarding Step Viewed per step shown, stepping back included (the funnel counts
+  // readers per step, and a step seen twice is still one reader). `replay` is read through
+  // an Effect Event so that complete() clearing it does not count the last step again.
+  const stepViewed = useEffectEvent((index: number) =>
+    afterAppOpen(() => {
+      void analytics.track(ANALYTICS_EVENTS.ONBOARDING_STEP_VIEWED, {
+        step: stepName(index),
+        index,
+        replay: replaying,
+      });
+    }),
+  );
+  useEffect(() => {
+    if (!loaded) return;
+    return stepViewed(step);
+  }, [loaded, step]);
+
+  // What the introduction produced. The values are read now, from this render: complete()
+  // is about to clear `replaying`, and the screen is about to go.
+  const reportEnd = async (outcome: IntroOutcome): Promise<void> => {
+    const properties = {
+      at_step: stepName(step),
+      replay: replaying,
+      location_source: source,
+    };
+    const reminders = remindersState(
+      settings.notifications.enabled,
+      await getNotificationPermissionState(),
+    );
+    void analytics.track(
+      outcome === 'skipped' ? ANALYTICS_EVENTS.INTRO_SKIPPED : ANALYTICS_EVENTS.INTRO_COMPLETED,
+      { ...properties, reminders },
+    );
+  };
+
+  const finish = (outcome: IntroOutcome): void => {
+    void reportEnd(outcome);
+    complete(outcome);
     // replace, not push: the introduction is not somewhere to go back to. Anyone who
     // wants it again gets it from Inställningar → Visa introduktionen igen.
     router.replace('/bonetider');
@@ -56,8 +102,7 @@ export default function Valkommen() {
 
   // The welcome step's "Hoppa över": the one way out that is not the last step.
   const skip = (): void => {
-    void analytics.track(ANALYTICS_EVENTS.INTRO_SKIPPED);
-    finish();
+    finish('skipped');
   };
 
   // Advancing is felt, not just seen. This looks at first like the "navigation" case the
@@ -81,8 +126,7 @@ export default function Valkommen() {
   const next = (): void => {
     if (step >= TOTAL_STEPS - 1) {
       hapticSuccess();
-      void analytics.track(ANALYTICS_EVENTS.INTRO_COMPLETED);
-      finish();
+      finish('completed');
     } else {
       hapticSelection();
       setStep((s) => s + 1);

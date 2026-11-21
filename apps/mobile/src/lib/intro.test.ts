@@ -8,7 +8,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { completeIntro, decideIntroStatus, loadIntroStatus } from './intro';
+import { completeIntro, decideIntroHistory, decideIntroStatus, loadIntro, loadIntroStatus } from './intro';
 import { SETTINGS_STORAGE_KEY } from './settings/store';
 
 const INTRO_KEY = 'introSeen:v1';
@@ -43,6 +43,31 @@ describe('decideIntroStatus', () => {
   });
 });
 
+describe('decideIntroHistory — how the install came past it, for analytics', () => {
+  it('is unknown (null) on a fresh install still in front of it', () => {
+    expect(decideIntroHistory(null, null)).toBeNull();
+    expect(decideIntroHistory('', null)).toBeNull();
+  });
+
+  it("is 'not_shown' for an install that predates the introduction and was let through", () => {
+    expect(decideIntroHistory(null, SETTINGS_BLOB)).toBe('not_shown');
+  });
+
+  it('reads the outcome the record keeps', () => {
+    expect(decideIntroHistory(JSON.stringify({ completed: true, outcome: 'skipped' }), SETTINGS_BLOB)).toBe('skipped');
+    expect(decideIntroHistory(JSON.stringify({ completed: true, outcome: 'completed' }), null)).toBe('completed');
+  });
+
+  it("reads a record from before the outcome was kept, or an unreadable one, as 'completed'", () => {
+    // Builds up to 1.3.3 wrote `{ completed: true }` for a finish and a skip alike. That is
+    // what the record says, so that is what is reported; nothing on the device can tell the
+    // two apart any more.
+    expect(decideIntroHistory(JSON.stringify({ completed: true }), SETTINGS_BLOB)).toBe('completed');
+    expect(decideIntroHistory('{"completed":tr', null)).toBe('completed');
+    expect(decideIntroHistory('null', null)).toBe('completed');
+  });
+});
+
 describe('the persisted record', () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
@@ -54,6 +79,17 @@ describe('the persisted record', () => {
     await completeIntro();
     expect(await AsyncStorage.getItem(INTRO_KEY)).not.toBeNull();
     expect(await loadIntroStatus()).toBe('done');
+  });
+
+  it('keeps how the pass ended, and reads it back with the gate', async () => {
+    await completeIntro('skipped');
+    // `completed: true` stays: an older build (an OTA rollback) reads only that the record
+    // exists, and must still see one.
+    expect(JSON.parse((await AsyncStorage.getItem(INTRO_KEY)) as string)).toEqual({
+      completed: true,
+      outcome: 'skipped',
+    });
+    expect(await loadIntro()).toEqual({ status: 'done', history: 'skipped' });
   });
 
   it('is done for an upgrading user, without them touching anything', async () => {
@@ -69,6 +105,8 @@ describe('the persisted record', () => {
     // rather than defaulting to 'pending' the way the hint stores do (a hint that
     // reappears is a nuisance; a wizard you cannot get past is a broken app).
     expect(await loadIntroStatus()).toBe('done');
+    jest.mocked(AsyncStorage.multiGet).mockRejectedValueOnce(new Error('storage unavailable'));
+    expect(await loadIntro()).toEqual({ status: 'done', history: null });
   });
 
   it('does not throw when the record cannot be written', async () => {

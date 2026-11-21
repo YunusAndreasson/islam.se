@@ -140,7 +140,11 @@ describe('PrayerDock location fallback', () => {
   it('routes to the city picker when the offer is tapped', async () => {
     await render(<PrayerDock {...dockProps(false)} locationIsFallback />);
     await fireEvent.press(screen.getByLabelText(PICK_LABEL));
-    expect(router.push).toHaveBeenCalledWith('/(settings)/byt-plats');
+    // `from` names the dock for byt-plats' Location Set event, and carries nothing else.
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/(settings)/byt-plats',
+      params: { from: 'dock' },
+    });
   });
 
   it('offers the pick in the expanded hero too', async () => {

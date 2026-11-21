@@ -85,17 +85,30 @@ Why nothing else needs declaring:
   `src/lib/sentry.ts` turns off breadcrumbs, screenshots, the view hierarchy and memory
   introspection, which is where it could leak, and `sentry.test.ts` fails on the edit that
   turns any of them back on. Mixpanel events carry no position either (`events.ts` forbids
-  it; the mosque-report event carries only the reason). The Coarse Location row above is
-  Mixpanel's own server-side IP geolocation, not the device location.
+  it; the mosque-report event carries only the reason, and `location_source` says only
+  gps/manual/default, never the place). The Coarse Location row above is Mixpanel's own
+  server-side IP geolocation, not the device location.
 - **Crash reports** hold the error, where in the code it happened, the app version and the
   device's model and OS: Crash Data, nothing more. No user, device name or IP address is
   attached, Sentry is set not to store the IP it sees, and sessions are off, so a healthy launch
   sends nothing.
 - **Usage events** go to Mixpanel (EU data residency, api-eu.mixpanel.com) under a random
   anonymous id: no `identify`, no people profile, automatic events off. They are not combined
-  with other companies' data, so they are not "tracking" in Apple's sense.
+  with other companies' data, so they are not "tracking" in Apple's sense. What they hold
+  (Nov 2026): app opens and screens, the introduction's steps and how it ended, the answers to
+  the location and notification permission dialogs and where they were asked, taps on a
+  reminder or the widget, and a few actions. The full list with its properties is
+  `src/lib/analytics/events.ts`.
 - **No accounts, no advertising, no cross-app tracking.**
-- **Settings** are stored locally (AsyncStorage) and never leave the device.
+- **Settings** are stored locally (Expo's SQLite key-value store). The chosen place, the
+  calculation method and the madhab never leave the device. Since Nov 2026 the usage events
+  carry a few coarse setting STATES, as super properties and event properties: whether
+  reminders are on and the OS lets them through, reminders per day, whether one plays the
+  adhan, how the location is set (gps/manual/default), the install date and how the
+  introduction ended; and on a change under Notiser, which prayer and its new on/off, lead
+  minutes or sound. All of it is enums, counts and booleans about how the app is used, so it
+  stays under Usage Data → Product Interaction, already declared above: nothing new to
+  declare. The policy's »Användningsstatistik« section lists the same.
 
 This matches the in-app text on the *Om*-screen: *"Din plats lämnar aldrig enheten. Inga konton,
 ingen reklam och ingen spårning mellan appar. Appen skickar anonym användningsstatistik och

@@ -14,6 +14,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import * as Location from 'expo-location';
 import { Text } from 'react-native';
 
+import { analytics } from '@/lib/analytics';
 import { useAim } from '@/lib/useAim';
 
 /** A minimal consumer: mounts the hook and renders whatever the band says. */
@@ -224,6 +225,42 @@ describe('useAim — one sensor, many instruments', () => {
         expect(jest.mocked(Location.requestForegroundPermissionsAsync)).toHaveBeenCalledTimes(expected),
       );
     }
+  });
+
+  // Qibla asks for location the moment it opens, with no soft ask, so it is the one
+  // instrument that reports its asks. A visit with the permission already held asked
+  // nothing anyone saw, and must not be counted as an ask.
+  it('reports Qibla\'s asks only while the permission is missing, and the dialog only when it appears', async () => {
+    const track = jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+    function Qibla() {
+      useAim({ active: true, request: true, bearing: 0, permissionSource: 'qibla' });
+      return null;
+    }
+    jest.mocked(Location.requestForegroundPermissionsAsync).mockReset();
+    jest
+      .mocked(Location.requestForegroundPermissionsAsync)
+      .mockImplementation((async () => ({ status: 'granted', granted: true, canAskAgain: true })) as never);
+
+    const granted = await render(<Qibla />);
+    await act(async () => {
+      await Promise.resolve();
+    });
+    await granted.unmount();
+    expect(track).not.toHaveBeenCalled();
+
+    jest
+      .mocked(Location.getForegroundPermissionsAsync)
+      .mockImplementation((async () => ({ status: 'undetermined', granted: false, canAskAgain: true })) as never);
+    jest
+      .mocked(Location.requestForegroundPermissionsAsync)
+      .mockImplementation((async () => ({ status: 'denied', granted: false, canAskAgain: false })) as never);
+    await render(<Qibla />);
+    await waitFor(() => expect(track).toHaveBeenCalledTimes(2));
+    expect(track.mock.calls).toEqual([
+      ['Permission Prompt Shown', { permission: 'location', primed: false, source: 'qibla' }],
+      ['Permission Result', { permission: 'location', granted: false, primed: false, prompted: true, source: 'qibla' }],
+    ]);
+    track.mockRestore();
   });
 
   it('does not open the sensor at all for an inactive instrument', async () => {

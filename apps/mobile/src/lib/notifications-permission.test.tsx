@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
+import { analytics } from '@/lib/analytics';
 import { hapticWarning } from '@/lib/haptics';
 import { getNotificationPermissionState, requestNotificationPermission, type NotificationPermissionState } from '@/lib/notifications';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
@@ -60,8 +61,8 @@ describe('notification permission intent', () => {
       jest.mocked(requestNotificationPermission).mockReturnValueOnce(pending.promise);
       const hook = await mountControl();
       let enabling!: Promise<NotificationPermissionState | null>;
-      await act(() => { enabling = hook.current().setEnabled(true); });
-      await act(async () => { await hook.current().setEnabled(false); });
+      await act(() => { enabling = hook.current().setEnabled(true, 'settings'); });
+      await act(async () => { await hook.current().setEnabled(false, 'settings'); });
       await act(async () => { pending.resolve(answer); await enabling; });
 
       expect(await enabling).toBeNull();
@@ -79,9 +80,9 @@ describe('notification permission intent', () => {
     const hook = await mountControl();
     let first!: Promise<NotificationPermissionState | null>;
     let second!: Promise<NotificationPermissionState | null>;
-    await act(() => { first = hook.current().setEnabled(true); });
-    await act(async () => { await hook.current().setEnabled(false); });
-    await act(() => { second = hook.current().setEnabled(true); });
+    await act(() => { first = hook.current().setEnabled(true, 'settings'); });
+    await act(async () => { await hook.current().setEnabled(false, 'settings'); });
+    await act(() => { second = hook.current().setEnabled(true, 'settings'); });
     await act(async () => { newer.resolve('granted'); await second; });
     await act(async () => { older.resolve('denied'); await first; });
 
@@ -97,10 +98,10 @@ describe('notification permission intent', () => {
     jest.mocked(requestNotificationPermission).mockReturnValueOnce(pending.promise);
     const hook = await mountControl();
     let enabling!: Promise<NotificationPermissionState | null>;
-    await act(() => { enabling = hook.current().setEnabled(true); });
+    await act(() => { enabling = hook.current().setEnabled(true, 'settings'); });
     await hook.leave();
     await hook.enter();
-    await act(async () => { await hook.current().setEnabled(false); });
+    await act(async () => { await hook.current().setEnabled(false, 'settings'); });
     await act(async () => { pending.resolve('granted'); await enabling; });
 
     expect(await enabling).toBeNull();
@@ -113,7 +114,7 @@ describe('notification permission intent', () => {
     jest.mocked(requestNotificationPermission).mockReturnValueOnce(pending.promise);
     const hook = await mountControl();
     let enabling!: Promise<NotificationPermissionState | null>;
-    await act(() => { enabling = hook.current().setEnabled(true); });
+    await act(() => { enabling = hook.current().setEnabled(true, 'settings'); });
     await hook.leave();
     await act(async () => { pending.resolve('denied'); await enabling; });
 
@@ -128,9 +129,61 @@ describe('notification permission intent', () => {
     jest.mocked(requestNotificationPermission).mockResolvedValueOnce('denied');
     jest.mocked(getNotificationPermissionState).mockResolvedValue('denied');
     const hook = await mountControl();
-    await act(async () => { await hook.current().setEnabled(true); });
+    await act(async () => { await hook.current().setEnabled(true, 'settings'); });
     expect(screen.getByText('enabled')).toBeTruthy();
     expect(hook.current().blocked).toBe(true);
     expect(hapticWarning).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('what the switch reports', () => {
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    await AsyncStorage.clear();
+    jest.mocked(getNotificationPermissionState).mockResolvedValue('granted');
+  });
+
+  it('asks the OS on behalf of its surface and reports the switch, both ways', async () => {
+    const track = jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+    jest.mocked(requestNotificationPermission).mockResolvedValueOnce('granted');
+    const hook = await mountControl();
+
+    await act(async () => { await hook.current().setEnabled(true, 'intro'); });
+    await act(async () => { await hook.current().setEnabled(false, 'settings'); });
+
+    expect(requestNotificationPermission).toHaveBeenCalledWith('intro');
+    expect(track.mock.calls).toEqual([
+      ['Reminders Toggled', { enabled: true, source: 'intro' }],
+      ['Reminders Toggled', { enabled: false, source: 'settings' }],
+    ]);
+    track.mockRestore();
+  });
+
+  it("retires the map's reminders card once the OS has answered here", async () => {
+    // On Android the card offers itself to anyone with reminders off when the OS granted
+    // notifications by default (lib/notification-hint's remindersOfferable). A reader who
+    // turned reminders off here must not then be offered them back on the map.
+    jest.mocked(requestNotificationPermission).mockResolvedValueOnce('granted');
+    const hook = await mountControl();
+    await act(async () => { await hook.current().setEnabled(true, 'settings'); });
+    await act(async () => {});
+    const raw = await AsyncStorage.getItem('notificationHintSeen:v1');
+    expect(raw && JSON.parse(raw).resolved).toBe(true);
+  });
+
+  it('reports nothing for a toggle superseded before the OS answered', async () => {
+    const track = jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+    const pending = deferredAnswer();
+    jest.mocked(requestNotificationPermission).mockReturnValueOnce(pending.promise);
+    const hook = await mountControl();
+    let enabling!: Promise<NotificationPermissionState | null>;
+    await act(() => { enabling = hook.current().setEnabled(true, 'settings'); });
+    await act(async () => { await hook.current().setEnabled(false, 'settings'); });
+    await act(async () => {
+      pending.resolve('granted');
+      await enabling;
+    });
+    expect(track.mock.calls).toEqual([['Reminders Toggled', { enabled: false, source: 'settings' }]]);
+    track.mockRestore();
   });
 });

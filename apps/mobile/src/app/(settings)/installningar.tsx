@@ -60,6 +60,7 @@ import { type SettingsColors, useSettingsColors } from '@/components/settings/th
 import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { APP_VERSION, OTA_LABEL, emailSupport, readStoreEnvironmentLabel } from '@/lib/about';
+import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { useIntro } from '@/lib/intro-context';
 import { useLocation, useLocationStatus } from '@/lib/location/context';
@@ -150,7 +151,7 @@ export default function Installningar() {
   // implementations of. See lib/notifications-permission.
   const notifications = useNotificationPermission(isFocused);
   const onNotificationsToggle = (enabled: boolean): void => {
-    void notifications.setEnabled(enabled);
+    void notifications.setEnabled(enabled, 'settings');
   };
 
   // "Uppdatera plats" confirmation — a brief "Uppdaterad ✓" flash after a TAP-initiated
@@ -169,10 +170,13 @@ export default function Installningar() {
     if (flashTimer.current) clearTimeout(flashTimer.current);
   }, []);
   const onRefreshTap = async (): Promise<void> => {
-    const outcome = await refresh();
+    const outcome = await refresh('settings');
     // A fix was already in flight (double-tap) — don't double-signal.
     if (outcome === 'busy') return;
     const kind = outcome === 'ok' ? 'ok' : 'fail';
+    if (kind === 'ok') {
+      void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'gps', context: 'settings' });
+    }
     // denied / error: the fix the user asked for didn't land. Warn instead of lying with a
     // success buzz + "Uppdaterad ✓" flash (the pre-branch code fired success unconditionally).
     if (kind === 'ok') hapticSuccess();

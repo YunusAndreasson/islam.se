@@ -135,7 +135,11 @@ describe('LocationHint', () => {
 
     await fireEvent.press(screen.getByText('Välj stad i stället'));
 
-    expect(router.push).toHaveBeenCalledWith('/(settings)/byt-plats');
+    // `from` names the card for byt-plats' Location Set event, and carries nothing else.
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/(settings)/byt-plats',
+      params: { from: 'map_card' },
+    });
     expect(requestPermission).not.toHaveBeenCalled();
     expect(onClose).toHaveBeenCalledTimes(1);
   });

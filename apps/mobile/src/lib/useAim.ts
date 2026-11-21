@@ -27,6 +27,8 @@ import {
   normalizeHeading,
   shortestTurn,
 } from './aim';
+import type { PermissionSource } from '@/lib/analytics';
+import { trackPermissionPrompt, trackPermissionResult } from '@/lib/analytics/permission-events';
 import { motion } from '@/theme/tokens';
 
 // ── ONE SENSOR, MANY INSTRUMENTS ────────────────────────────────────────────────
@@ -148,6 +150,11 @@ export interface AimOptions {
    *  question it did not ask. With it off, those discs reconcile only when the BAND moves —
    *  a handful of times per sweep. `turn` is then always null. */
   countTurn?: boolean;
+  /** Report this consumer's prompts as Permission Prompt Shown / Permission Result from
+   *  this surface. Only Qibla passes it: it is the one `request: true` caller, asking the
+   *  moment it opens with no soft ask in front. (Månen's sky mode asks through
+   *  `askPermission` and is not reported: it is not one of the surfaces analytics names.) */
+  permissionSource?: PermissionSource;
 }
 
 export interface Aim {
@@ -193,11 +200,36 @@ export interface Aim {
 }
 
 /** The foreground permission: asked for (a prompt) or only checked. */
-function readLocationPermission(ask: boolean): Promise<Location.LocationPermissionResponse> {
-  return ask ? Location.requestForegroundPermissionsAsync() : Location.getForegroundPermissionsAsync();
+async function readLocationPermission(
+  ask: boolean,
+  source: PermissionSource | undefined,
+): Promise<Location.LocationPermissionResponse> {
+  if (!ask) return Location.getForegroundPermissionsAsync();
+  if (!source) return Location.requestForegroundPermissionsAsync();
+  // A reporting caller asks on every visit, so the events are kept to the visits where the
+  // permission is missing: a granted one is not an ask anyone saw. The read before the
+  // request is what tells whether the OS dialog will actually appear (`prompted`).
+  let before: Location.LocationPermissionResponse | null = null;
+  try {
+    before = (await Location.getForegroundPermissionsAsync()) ?? null;
+  } catch {
+    // Not knowing is not a reason to skip the request.
+  }
+  const asking = before !== null && !before.granted;
+  const prompted = asking && before?.canAskAgain !== false;
+  if (prompted) trackPermissionPrompt('location', source);
+  const after = await Location.requestForegroundPermissionsAsync();
+  if (asking) trackPermissionResult('location', source, after.granted, prompted);
+  return after;
 }
 
-export function useAim({ active, request, bearing, countTurn = true }: AimOptions): Aim {
+export function useAim({
+  active,
+  request,
+  bearing,
+  countTurn = true,
+  permissionSource,
+}: AimOptions): Aim {
   // The coarse status and the rounded remaining turn are the ONLY heading-derived things
   // that reach React. The raw degree never does: `watchHeadingAsync` fires up to ~60×/s and
   // storing it would reconcile the whole tree on every tick. The turn arrives throttled
@@ -390,7 +422,7 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
         // Heading needs the foreground location permission on both platforms. Branch on the
         // result rather than relying on watchHeadingAsync to throw, so a denial shows the
         // north-up fallback immediately instead of waiting out the no-event timeout.
-        const perm = await readLocationPermission(askForPermission);
+        const perm = await readLocationPermission(askForPermission, permissionSource);
         if (cancelled) return;
         if (!perm.granted) {
           permissionDeniedRef.current = true;
@@ -449,7 +481,7 @@ export function useAim({ active, request, bearing, countTurn = true }: AimOption
       lastTurnPush.current = 0;
       prox.set(0);
     };
-  }, [active, request, askCount, onHeading, prox]);
+  }, [active, request, askCount, onHeading, prox, permissionSource]);
 
   return {
     status,

@@ -22,6 +22,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 
+import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { useLocationStatus } from '@/lib/location/context';
 import { noteLocationResolved } from '@/lib/location-hint';
@@ -85,7 +86,7 @@ export function LocationHint({ top, onClose }: Props) {
       // refresh() IS the prompting path (LocationProvider.acquireGps) — the card does not
       // call expo-location itself, so the fix it wins lands in the context that the map,
       // the dock and the notification scheduler all read.
-      const outcome = await refresh();
+      const outcome = await refresh('map_card');
       if (outcome === 'busy') {
         // A fix was already in flight, so nothing was asked and nothing was answered.
         // Re-arm the button rather than spending the card's one resolution on a no-op.
@@ -94,6 +95,11 @@ export function LocationHint({ top, onClose }: Props) {
         return;
       }
       await noteLocationResolved();
+      if (outcome === 'ok') {
+        // The fix landed even if the card has gone; only its feedback is skipped below.
+        // Never the place: how it was set and from where, nothing else.
+        void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'gps', context: 'map_card' });
+      }
       // The reader can close the card or choose a city while GPS is pending.
       // Keep the resolution, but never revive its feedback after it has gone.
       if (!mounted.current) return;
@@ -115,7 +121,15 @@ export function LocationHint({ top, onClose }: Props) {
   };
 
   const pickCity = (): void => {
-    router.push('/(settings)/byt-plats');
+    // `from` only tells byt-plats which surface sent the reader, for its Location Set.
+    router.push({ pathname: '/(settings)/byt-plats', params: { from: 'map_card' } });
+    onClose();
+  };
+
+  // The ✕, as distinct from the card retiring itself after a fix or handing over to the
+  // city picker: Permission Card Closed says the reader sent it away, and in which state.
+  const close = (): void => {
+    void analytics.track(ANALYTICS_EVENTS.PERMISSION_CARD_CLOSED, { permission: 'location', state });
     onClose();
   };
 
@@ -156,7 +170,7 @@ export function LocationHint({ top, onClose }: Props) {
             {title}
           </Text>
           <GlassRoundButton
-            onPress={onClose}
+            onPress={close}
             accessibilityLabel="Stäng"
             tint={sky.cardGlass}
             rim={c.hairline}

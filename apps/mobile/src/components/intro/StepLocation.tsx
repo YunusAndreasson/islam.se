@@ -15,6 +15,7 @@ import { useReducedMotion } from 'react-native-reanimated';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { PlacePicker } from '@/components/settings/PlacePicker';
+import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { Icon } from '@/components/ui/Icon';
 import { useLocationStatus } from '@/lib/location/context';
@@ -52,7 +53,7 @@ export function StepLocation() {
   useEffect(() => () => { requestGeneration.current += 1; }, []);
 
   const resolveGps = async (generation: number): Promise<void> => {
-    const outcome = await refresh();
+    const outcome = await refresh('intro');
     if (generation !== requestGeneration.current) return;
     if (outcome === 'busy') {
       // A fix was already in flight, so nothing was asked and nothing was answered.
@@ -68,6 +69,7 @@ export function StepLocation() {
       // GPS is already the default mode, but say so explicitly: a user replaying the
       // intro after having picked a city expects "Använd min plats" to mean it.
       update({ locationMode: 'gps' });
+      void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'gps', context: 'intro' });
       setPhase('granted');
       return;
     }
@@ -104,6 +106,8 @@ export function StepLocation() {
       locationMode: 'manual',
       manualLocation: { name: p.name, latitude: p.lat, longitude: p.lon },
     });
+    // How, and from where. Never which place.
+    void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'manual', context: 'intro' });
     setPhase('granted');
   };
 

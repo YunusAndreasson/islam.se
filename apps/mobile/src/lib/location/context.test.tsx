@@ -4,6 +4,7 @@ import * as Location from 'expo-location';
 import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react-native';
 import { AppState, type AppStateStatus, Pressable, Text } from 'react-native';
 
+import { analytics } from '@/lib/analytics';
 import { LocationProvider, useLocation, useLocationStatus } from './context';
 import { SettingsProvider } from '@/lib/settings/context';
 
@@ -26,7 +27,7 @@ function PermissionProbe() {
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="Uppdatera"
-        onPress={() => void refresh()}
+        onPress={() => void refresh('settings')}
       >
         <Text>Uppdatera</Text>
       </Pressable>
@@ -216,6 +217,35 @@ describe('LocationProvider never prompts unprompted', () => {
     expect(screen.getByTestId('location').props.children).toBe('default:denied');
     expect(Location.getCurrentPositionAsync).not.toHaveBeenCalled();
   });
+
+  // Permission Prompt Shown has to mean the dialog was on screen. The request is made either
+  // way (it is how an answered permission is read back), but a permission the OS will not
+  // ask about again shows nothing, and must not be counted as a prompt.
+  it('reports the dialog only when the OS will show it, and the answer every time', async () => {
+    const track = jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+    jest
+      .mocked(Location.getForegroundPermissionsAsync)
+      .mockResolvedValue(permission('undetermined') as never);
+    jest
+      .mocked(Location.requestForegroundPermissionsAsync)
+      .mockResolvedValue(permission('denied') as never);
+    await mountPermissionProbe();
+    await act(async () => {
+      await fireEvent.press(screen.getByLabelText('Uppdatera'));
+    });
+    // Refused for good: the second tap reaches the OS, which answers without a dialog.
+    jest.mocked(Location.getForegroundPermissionsAsync).mockResolvedValue(permission('denied') as never);
+    await act(async () => {
+      await fireEvent.press(screen.getByLabelText('Uppdatera'));
+    });
+
+    expect(track.mock.calls).toEqual([
+      ['Permission Prompt Shown', { permission: 'location', primed: false, source: 'settings' }],
+      ['Permission Result', { permission: 'location', granted: false, primed: false, prompted: true, source: 'settings' }],
+      ['Permission Result', { permission: 'location', granted: false, primed: false, prompted: false, source: 'settings' }],
+    ]);
+    track.mockRestore();
+  });
 });
 
 it('times out stalled GPS, permits retry, and ignores a late obsolete fix', async () => {
@@ -235,7 +265,7 @@ it('times out stalled GPS, permits retry, and ignores a late obsolete fix', asyn
     expect(result.current.locating).toBe(true);
     await act(async () => { await jest.advanceTimersByTimeAsync(20_000); });
     expect(result.current.locating).toBe(false);
-    await act(async () => { expect(await result.current.refresh()).toBe('ok'); });
+    await act(async () => { expect(await result.current.refresh('settings')).toBe('ok'); });
     const freshCoords = result.current.coords;
     await act(() => lateFix?.({ coords: { latitude: 55.605, longitude: 13.0038 } } as never));
     expect(result.current.coords).toEqual(freshCoords);

@@ -7,7 +7,7 @@
 // introduction offers the same picker inline on its location step, and one copy of the
 // 2,100-place list behaviour is the point. This route is the wiring: chrome, the write,
 // and the pop.
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PlacePicker } from '@/components/settings/PlacePicker';
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
 import { ModalBar } from '@/components/ui/ModalBar';
+import { ANALYTICS_EVENTS, analytics, type LocationContext } from '@/lib/analytics';
 import { nearestPlace } from '@/lib/places/nearest';
 import type { SwedishPlace } from '@/lib/places/data';
 import { useSettings } from '@/lib/settings/context';
@@ -33,8 +34,15 @@ const DEFAULT_PICKER_LOCATION = {
   longitude: defaultPlace.lon,
 };
 
+/** Which surface sent the reader here, for Location Set: the map's location card and the
+ *  dock's "Välj plats" say so in `?from=`, Inställningar is the default. */
+function contextFrom(from: string | undefined): LocationContext {
+  return from === 'map_card' || from === 'dock' ? from : 'settings';
+}
+
 export default function BytPlats() {
   const { settings, update } = useSettings();
+  const { from } = useLocalSearchParams<{ from?: string }>();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const selected =
@@ -46,6 +54,8 @@ export default function BytPlats() {
       locationMode: 'manual',
       manualLocation: { name: p.name, latitude: p.lat, longitude: p.lon },
     });
+    // How, and from where. Never which place.
+    void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'manual', context: contextFrom(from) });
     if (router.canGoBack()) router.back();
     else router.replace('/(settings)/installningar');
   };

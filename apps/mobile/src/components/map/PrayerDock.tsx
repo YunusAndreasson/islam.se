@@ -914,7 +914,8 @@ export function PrayerDock({
   const place = locationIsFallback ? (
     <Pressable
       // Navigation to byt-plats — no haptic (lib/haptics policy), same as PlaceHeader's link.
-      onPress={() => router.push('/(settings)/byt-plats')}
+      // `from` only tells byt-plats which surface sent the reader, for its Location Set.
+      onPress={() => router.push({ pathname: '/(settings)/byt-plats', params: { from: 'dock' } })}
       // The row is only caption-height, so widen the target without touching layout —
       // the hero shares a stable height between its two states. Kept at 10: reaching further
       // up sends this button's slop into `heroTop`, where the "Nu" chip sits, and heroSub

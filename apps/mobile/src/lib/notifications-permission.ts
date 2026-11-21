@@ -10,7 +10,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 
+import { ANALYTICS_EVENTS, analytics, type PermissionSource } from '@/lib/analytics';
 import { hapticWarning } from '@/lib/haptics';
+import { noteNotificationResolved } from '@/lib/notification-hint';
 import {
   type ExactAlarmState,
   getExactAlarmState,
@@ -41,8 +43,12 @@ export interface NotificationPermissionControl {
   /** Flip the master switch. Turning it ON fires the OS prompt under the finger and
    *  resolves before the setting is written. Returns the OS's answer so a caller that
    *  wants to react (the intro reveals its per-prayer list on a grant) can.
-   *  Returns null when switched off or superseded by a newer toggle. */
-  setEnabled: (enabled: boolean) => Promise<NotificationPermissionState | null>;
+   *  Returns null when switched off or superseded by a newer toggle. `source` is the
+   *  surface the switch is on, for analytics. */
+  setEnabled: (
+    enabled: boolean,
+    source: PermissionSource,
+  ) => Promise<NotificationPermissionState | null>;
 }
 
 /**
@@ -82,19 +88,27 @@ export function useNotificationPermission(active = true): NotificationPermission
   }, [active, enabled]);
 
   const setEnabled = useCallback(
-    async (next: boolean): Promise<NotificationPermissionState | null> => {
+    async (next: boolean, source: PermissionSource): Promise<NotificationPermissionState | null> => {
       const isLatestIntent = beginNotificationPreferenceIntent();
       if (!next) {
         update((prev) => ({ notifications: { ...prev.notifications, enabled: false } }));
+        void analytics.track(ANALYTICS_EVENTS.REMINDERS_TOGGLED, { enabled: false, source });
         return null;
       }
       // Asked right here, awaited under the finger — one of only two places in the app
       // that fires the notification prompt (the other is the map's notification hint).
       // syncPrayerNotifications deliberately never asks: it runs on every foreground, so
       // prompting from it would spend iOS's single lifetime dialog with no tap behind it.
-      const state = await requestNotificationPermission();
+      const state = await requestNotificationPermission(source);
       // An off tap must win even when the earlier OS prompt answers later.
       if (!isLatestIntent()) return null;
+      // The reader has answered the reminders question here, so the map's soft-ask card
+      // has nothing left to offer them — the same record the card and the introduction
+      // write. It matters most on Android, where an OS that grants notifications by default
+      // makes the card offer itself to anyone with reminders off (see lib/notification-hint):
+      // without this, switching reminders off in Inställningar would earn a card asking to
+      // switch them back on.
+      void noteNotificationResolved();
       if (mounted.current) setPermission(state);
       // Enable either way. On a refusal that is not a lie — it is what makes the status
       // row and the "Öppna …" recovery link appear, and it means a user who later allows
@@ -103,6 +117,7 @@ export function useNotificationPermission(active = true): NotificationPermission
       // `settings` this closure captured is from before the await. Spreading it would
       // write back whatever the notification sub-settings were then.
       update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }));
+      void analytics.track(ANALYTICS_EVENTS.REMINDERS_TOGGLED, { enabled: true, source });
       // A discrete negative outcome the user just triggered — the haptics policy's
       // warning case. ANY answer that is not a grant counts: on Android the first refusal
       // leaves canAskAgain true, so it arrives as 'undetermined' even though the user

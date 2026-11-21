@@ -54,7 +54,7 @@ export function StepNotifications() {
     inFlight.current = true;
     setBusy(true);
     void (async () => {
-      const state = await notifications.setEnabled(true);
+      const state = await notifications.setEnabled(true, 'intro');
       // The OS answered — granted or refused — so the map's soft-ask card has nothing
       // left to offer. Skipping this step records NOTHING on purpose, which is what
       // leaves the card its later, calmer chance.

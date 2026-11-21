@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { router } from 'expo-router';
 
 import { redirectSystemPath } from '@/app/+native-intent';
+import { analytics } from '@/lib/analytics';
 
 const url = 'islamse:///widget/prayer-times';
 const dismissTo = jest.mocked(router.dismissTo);
@@ -30,5 +31,19 @@ describe('prayer widget links', () => {
   it('falls back to Router handling if navigation is not ready', () => {
     dismissTo.mockImplementationOnce(() => { throw new Error('navigator not ready'); });
     expect(redirectSystemPath({ path: `${url}?source=widget`, initial: false })).toBe('/bonetider');
+  });
+});
+
+describe('Widget Opened', () => {
+  it('reports a widget tap, cold or warm, and nothing for any other link', () => {
+    const track = jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+    redirectSystemPath({ path: url, initial: true });
+    redirectSystemPath({ path: url, initial: false });
+    redirectSystemPath({ path: 'islamse:///manen', initial: false });
+    expect(track.mock.calls).toEqual([
+      ['Widget Opened', { cold: true }],
+      ['Widget Opened', { cold: false }],
+    ]);
+    track.mockRestore();
   });
 });

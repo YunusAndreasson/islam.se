@@ -190,7 +190,7 @@ describe('NotificationHint', () => {
             onEnable();
             update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }));
           }} />
-          <Text onPress={() => { void notifications.setEnabled(false); }}>Turn off</Text>
+          <Text onPress={() => { void notifications.setEnabled(false, 'settings'); }}>Turn off</Text>
           <Text>{settings.notifications.enabled ? 'enabled' : 'disabled'}</Text>
         </>
       );

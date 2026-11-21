@@ -7,7 +7,10 @@
 //     principle reach the map without passing through index.) It also reads
 //     mapLessonPending to show the map lesson in place of the dock on the one landing
 //     that earned it.
-//   • src/app/valkommen.tsx — calls complete() when the flow finishes or is skipped.
+//   • src/app/valkommen.tsx — calls complete() when the flow finishes or is skipped, and
+//     reads `replaying` for its analytics.
+//   • src/lib/analytics/useAppAnalytics.ts — reads `status` (First Open) and `history`
+//     (the intro_status super property).
 //   • src/components/map/MapLessonCard.tsx (via bonetider.tsx) — calls dismissMapLesson()
 //     once the lesson is stepped through or skipped.
 //
@@ -23,18 +26,24 @@ import {
   useState,
 } from 'react';
 
-import { completeIntro, type IntroStatus, loadIntroStatus } from './intro';
+import { completeIntro, type IntroHistory, type IntroOutcome, type IntroStatus, loadIntro } from './intro';
 
 interface IntroContextValue {
   /** 'unknown' until the storage read lands — the gate renders nothing on it. */
   status: IntroStatus;
-  /** The introduction finished or was skipped. Flips to 'done' immediately and persists
-   *  behind it, so the map is never held back by a storage write. Also arms
-   *  mapLessonPending — see that field. */
-  complete: () => void;
+  /** The introduction finished or was skipped (`outcome`, 'completed' unless said).
+   *  Flips to 'done' immediately and persists behind it, so the map is never held back by
+   *  a storage write. Also arms mapLessonPending — see that field. */
+  complete: (outcome?: IntroOutcome) => void;
   /** Show it again (Inställningar → Visa introduktionen igen). In-session only, and see
    *  ./intro for why persisting it would be a no-op dressed up as a feature. */
   replay: () => void;
+  /** True from replay() until that pass completes: the introduction on screen is a
+   *  re-read, not a first run. Analytics marks its events with it. */
+  replaying: boolean;
+  /** How this install came past the introduction (see ./intro's IntroHistory), or null
+   *  while that is not known: before the storage read, and during a first run. */
+  history: IntroHistory | null;
   /** True for exactly one landing on the map after the wizard finishes — set by
    *  complete() (a first-run finish and a replay's finish both reach it the same way),
    *  read by bonetider.tsx to show the "what the lines mean" lesson in place of the dock,
@@ -48,12 +57,16 @@ const IntroContext = createContext<IntroContextValue | null>(null);
 
 export function IntroProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<IntroStatus>('unknown');
+  const [history, setHistory] = useState<IntroHistory | null>(null);
+  const [replaying, setReplaying] = useState(false);
   const [mapLessonPending, setMapLessonPending] = useState(false);
 
   useEffect(() => {
     let active = true;
-    void loadIntroStatus().then((next) => {
-      if (active) setStatus(next);
+    void loadIntro().then((next) => {
+      if (!active) return;
+      setStatus(next.status);
+      setHistory(next.history);
     });
     return () => {
       active = false;
@@ -64,13 +77,26 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   // write trails it. loadIntroStatus already treats a failed read as 'done', so the
   // worst case of a failed WRITE is that the intro is offered once more — never a user
   // stuck behind a wizard because a disk write was slow.
-  const complete = useCallback(() => {
-    setStatus('done');
-    setMapLessonPending(true);
-    void completeIntro();
-  }, []);
+  //
+  // A replay keeps the first pass's outcome: intro_status reports how the install began,
+  // and re-reading the introduction (then leaving it through "Hoppa över") is not having
+  // skipped it. An install that predates the introduction ('not_shown') gets the outcome
+  // of the pass it finally makes.
+  const complete = useCallback(
+    (outcome: IntroOutcome = 'completed') => {
+      const recorded: IntroOutcome =
+        replaying && (history === 'completed' || history === 'skipped') ? history : outcome;
+      setStatus('done');
+      setHistory(recorded);
+      setReplaying(false);
+      setMapLessonPending(true);
+      void completeIntro(recorded);
+    },
+    [replaying, history],
+  );
 
   const replay = useCallback(() => {
+    setReplaying(true);
     setStatus('pending');
   }, []);
 
@@ -79,8 +105,8 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<IntroContextValue>(
-    () => ({ status, complete, replay, mapLessonPending, dismissMapLesson }),
-    [status, complete, replay, mapLessonPending, dismissMapLesson],
+    () => ({ status, complete, replay, replaying, history, mapLessonPending, dismissMapLesson }),
+    [status, complete, replay, replaying, history, mapLessonPending, dismissMapLesson],
   );
 
   return <IntroContext value={value}>{children}</IntroContext>;

@@ -106,7 +106,10 @@ ephemerally**, **required** (there is no in-app opt-out), encrypted in transit:
 
 - **App info and performance → Crash logs** — purpose **App functionality** (Sentry, kept up
   to 90 days).
-- **App activity → App interactions** — purpose **Analytics** (screens opened, a few actions).
+- **App activity → App interactions** — purpose **Analytics** (app opens and screens, the
+  introduction's steps, the answers to the permission dialogs, reminder and widget taps, a few
+  actions, and coarse setting states such as whether reminders are on; never the place, the
+  calculation method or the madhab — see `src/lib/analytics/events.ts`).
 - **Device or other IDs** — purpose **Analytics** (Mixpanel's random anonymous id).
 - **Location → Approximate location** — purpose **Analytics** (Mixpanel derives city, region
   and country from the request IP; the app never sends the device location or map position).

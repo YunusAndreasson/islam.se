@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ErrorScreen } from '@/components/ui/ErrorScreen';
+import { useAppAnalytics } from '@/lib/analytics/useAppAnalytics';
 import { useScreenViews } from '@/lib/analytics/useScreenViews';
 import { useDisplayZone } from '@/lib/device-zone';
 import { IntroProvider } from '@/lib/intro-context';
@@ -167,6 +168,14 @@ function ScreenViews() {
   return null;
 }
 
+// App Opened (cold/warm, only once the app is really in the foreground), First Open, and
+// the super properties every event carries (see @/lib/analytics/useAppAnalytics). Inside
+// LocationProvider because location_source is one of them. Renders nothing.
+function AppAnalytics() {
+  useAppAnalytics();
+  return null;
+}
+
 // Keeps the iOS home-screen widget's prayer timeline in step with the user's settings
 // and location, refreshing on every foreground. WidgetKit advances the five-day
 // timeline itself; Android receives a snapshot. Live Activities have their own
@@ -254,6 +263,7 @@ export default function RootLayout() {
               </Stack>
               <NotificationSync />
               <NotificationRouting />
+              <AppAnalytics />
               <ScreenViews />
               <WidgetSync />
               <PrayerActivitySync />

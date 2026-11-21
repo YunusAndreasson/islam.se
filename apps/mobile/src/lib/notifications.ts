@@ -8,6 +8,8 @@ import * as Notifications from 'expo-notifications';
 import { storage } from './storage';
 import { Platform } from 'react-native';
 
+import { trackPermissionPrompt, trackPermissionResult } from '@/lib/analytics/permission-events';
+import type { PermissionSource } from '@/lib/analytics';
 import { brand } from '@/theme/tokens';
 import { computeNightTimes } from './night-times';
 import { alertContent, nightAlertContent } from './alert-copy';
@@ -377,31 +379,43 @@ export async function getNotificationPermissionState(): Promise<NotificationPerm
  * iOS grants exactly one prompt per install, and once it is spent the only way back is
  * the system Settings app. Everything else in this module reads the permission instead
  * (see getNotificationPermissionState / syncPrayerNotifications), so the dialog has
- * exactly two entry points, both a direct tap: the map's notification hint and the
- * Inställningar toggle.
+ * exactly three entry points, each a direct tap: the introduction's notification step,
+ * the map's notification hint and the Inställningar toggle. `source` says which, for the
+ * Permission Prompt Shown / Permission Result events.
  *
  * Returns the settled state so the caller can react to the user's answer in the same
  * turn as their tap — no polling, no lag.
  */
-export async function requestNotificationPermission(): Promise<NotificationPermissionState> {
+export async function requestNotificationPermission(
+  source: PermissionSource,
+): Promise<NotificationPermissionState> {
   try {
     const current = await Notifications.getPermissionsAsync();
-    if (isAllowed(current)) return 'granted';
+    if (isAllowed(current)) {
+      trackPermissionResult('notifications', source, true, false);
+      return 'granted';
+    }
     // Already refused at the OS level: asking again is a silent no-op, so report the
     // truth and let the caller offer the system-settings route instead.
-    if (!current.canAskAgain) return 'denied';
+    if (!current.canAskAgain) {
+      trackPermissionResult('notifications', source, false, false);
+      return 'denied';
+    }
     // The channels must exist BEFORE the prompt on Android 13+ — expo's own permission
     // example creates one first, noting "a channel is needed for the permissions prompt
     // to appear". Requesting first and creating afterwards can leave the
     // POST_NOTIFICATIONS dialog unshown.
     await ensureAndroidChannels();
+    trackPermissionPrompt('notifications', source);
     const next = await Notifications.requestPermissionsAsync({
       // Alert + sound only. The handler above never sets a badge and nothing in the app
       // writes a badge count, so asking for badge authorization would claim a capability
       // we never use. Ask for exactly what we exercise.
       ios: { allowAlert: true, allowSound: true, allowBadge: false },
     });
-    return isAllowed(next) ? 'granted' : 'denied';
+    const granted = isAllowed(next);
+    trackPermissionResult('notifications', source, granted, true);
+    return granted ? 'granted' : 'denied';
   } catch {
     return 'unknown';
   }

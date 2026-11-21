@@ -22,6 +22,7 @@ import {
 import {
   AppState,
   type NativeSyntheticEvent,
+  Platform,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -78,6 +79,7 @@ import {
   GlassBackdropTarget,
   GlassSurface,
 } from '@/components/ui/GlassSurface';
+import { ANALYTICS_EVENTS, analytics, type PermissionKind } from '@/lib/analytics';
 import { useOptionalIntroStatus, useOptionalMapLesson } from '@/lib/intro-context';
 import { useLocation } from '@/lib/location/context';
 import { getLocationPermissionState } from '@/lib/location/permission';
@@ -108,6 +110,7 @@ import { basemapGroundFor, nordicMapStyleJsonFor } from '@/lib/map/nordicStyle';
 import {
   noteNotificationLaunch,
   noteNotificationShown,
+  remindersOfferable,
   shouldShowNotificationHint,
 } from '@/lib/notification-hint';
 import { getNotificationPermissionState, NOTIFY_PRAYERS } from '@/lib/notifications';
@@ -288,26 +291,32 @@ const MAP_ERROR_OFFSET = CHIP_HEIGHT + space.sm;
 
 /** The offer queue's decision, as one async function so the gate effect below reads as a
  *  sequence rather than a nest of conditionals. Returns null when this launch has nothing
- *  worth asking.
+ *  worth asking, otherwise the card and which of its two showings this is.
  *
  *  Both branches ask the same three questions in the same order: is the feature still
- *  worth offering, has the OS been asked yet, and does this hint's own frequency policy
- *  allow another showing? 'undetermined' ONLY for the permission — a granted user needs no
- *  card, and a hard-denied one can no longer be prompted (iOS spends its single dialog
- *  once), so offering a button that would silently do nothing is worse than staying quiet.
- *  Both cases keep to Inställningar, which has the system-settings door. */
+ *  worth offering, would the card's button do anything, and does this hint's own frequency
+ *  policy allow another showing? For location that means 'undetermined' ONLY — a granted
+ *  user needs no card, and a hard-denied one can no longer be prompted (iOS spends its
+ *  single dialog once), so offering a button that would silently do nothing is worse than
+ *  staying quiet; both keep to Inställningar, which has the system-settings door. For
+ *  reminders the card is about the SETTING, which ships off, so it is also offered on an
+ *  Android phone that granted notifications without asking: see remindersOfferable. */
 async function pickOffer(
   locationMode: LocationMode,
   notificationsEnabled: boolean,
-): Promise<'location' | 'notifications' | null> {
+): Promise<{ permission: PermissionKind; showing: number } | null> {
   // Location first — see the gate. Skipped entirely in manual mode: the user has already
   // named their city, and asking for GPS on top of that second-guesses them.
   if (locationMode === 'gps' && (await getLocationPermissionState()) === 'undetermined') {
-    if (shouldShowLocationHint(await noteLocationLaunch())) return 'location';
+    const record = await noteLocationLaunch();
+    if (shouldShowLocationHint(record)) return { permission: 'location', showing: record.shown + 1 };
   }
   // Reminders already on — there is nothing to offer, so nothing to introduce.
-  if (!notificationsEnabled && (await getNotificationPermissionState()) === 'undetermined') {
-    if (shouldShowNotificationHint(await noteNotificationLaunch())) return 'notifications';
+  if (!notificationsEnabled && remindersOfferable(await getNotificationPermissionState(), Platform.OS)) {
+    const record = await noteNotificationLaunch();
+    if (shouldShowNotificationHint(record)) {
+      return { permission: 'notifications', showing: record.shown + 1 };
+    }
   }
   return null;
 }
@@ -736,8 +745,13 @@ export default function Bonetider() {
         // ever gets two showings, and recording one that a teardown then cancelled would
         // spend a showing on a sequence nobody saw. Commit first, persist afterwards.
         introOfferDone.current = true;
-        setPhase(offer === 'location' ? 'hint-location' : 'hint-notifications');
-        await (offer === 'location' ? noteLocationShown() : noteNotificationShown());
+        const isLocation = offer.permission === 'location';
+        setPhase(isLocation ? 'hint-location' : 'hint-notifications');
+        void analytics.track(ANALYTICS_EVENTS.PERMISSION_CARD_SHOWN, {
+          permission: offer.permission,
+          showing: offer.showing,
+        });
+        await (isLocation ? noteLocationShown() : noteNotificationShown());
       })();
     }, HINT_DELAY_MS);
     return () => {
@@ -1687,7 +1701,10 @@ export default function Bonetider() {
       {phase === 'hint-notifications' && (
         <NotificationHint
           top={hintTop}
-          onEnable={() => update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }))}
+          onEnable={() => {
+            update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }));
+            void analytics.track(ANALYTICS_EVENTS.REMINDERS_TOGGLED, { enabled: true, source: 'map_card' });
+          }}
           onClose={() => setPhase('done')}
         />
       )}

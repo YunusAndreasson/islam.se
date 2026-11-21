@@ -55,6 +55,7 @@ import { Icon, type IconName } from '@/components/ui/Icon';
 import { PlaceHeader } from '@/components/ui/PlaceHeader';
 import { StatusPill, type PillTone } from '@/components/ui/StatusPill';
 import { TURN_CUES } from '@/components/ui/turnCues';
+import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSuccess } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
 import { useSettings } from '@/lib/settings/context';
@@ -161,9 +162,18 @@ export default function Qibla() {
     active: focused,
     request: true,
     bearing,
+    permissionSource: 'qibla',
   });
 
   const wasAligned = useRef(false);
+  // Qibla Aligned is sent once per visit, not once per lock: a reader holding the phone on
+  // the edge locks and releases many times, and the question the event answers is whether
+  // the visit found the direction at all. A visit ends when the sheet loses focus (it can
+  // stay mounted under the place picker), so that is what re-arms it.
+  const alignedThisVisit = useRef(false);
+  useEffect(() => {
+    if (!focused) alignedThisVisit.current = false;
+  }, [focused]);
   const wasCalibrating = useRef(false);
   const reduceMotion = useReducedMotion();
 
@@ -181,6 +191,10 @@ export default function Qibla() {
     if (aligned && !wasAligned.current) {
       hapticSuccess();
       AccessibilityInfo.announceForAccessibility('Du är vänd mot Mecka');
+      if (!alignedThisVisit.current) {
+        alignedThisVisit.current = true;
+        void analytics.track(ANALYTICS_EVENTS.QIBLA_ALIGNED);
+      }
     }
     wasAligned.current = aligned;
   }, [aligned]);

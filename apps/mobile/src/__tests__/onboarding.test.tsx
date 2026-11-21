@@ -20,6 +20,7 @@ import * as Notifications from 'expo-notifications';
 import { BackHandler } from 'react-native';
 
 import Valkommen from '@/app/valkommen';
+import { analytics } from '@/lib/analytics';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
@@ -462,4 +463,56 @@ describe('the introduction', () => {
     const stored = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) as string);
     expect(stored.calculationMethod).toBe('MuslimWorldLeague');
   });
+
+  // The onboarding funnel. Each step is named, not titled (titles are copy and change), and
+  // the end event says what the introduction produced: where the reader stopped, how the
+  // location ended up set, and whether reminders can reach them.
+  describe('what it reports', () => {
+    const tracked = (): [string, unknown][] =>
+      jest.mocked(analytics.track).mock.calls.map(([event, properties]) => [event, properties]);
+    beforeEach(() => {
+      jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+    });
+
+    it('one view per step shown, and how it ended when walked to the end', async () => {
+      await launch();
+      await press('Kom igång');
+      answerLocation('granted');
+      await press('Använd min plats');
+      await press('Nästa');
+      answerNotifications('granted');
+      await press('Slå på påminnelser');
+      await press('Nästa');
+      await press('Visa bönetider');
+      await act(async () => {});
+
+      const steps = tracked().filter(([event]) => event === 'Onboarding Step Viewed');
+      expect(steps).toEqual([
+        ['Onboarding Step Viewed', { step: 'welcome', index: 0, replay: false }],
+        ['Onboarding Step Viewed', { step: 'location', index: 1, replay: false }],
+        ['Onboarding Step Viewed', { step: 'notifications', index: 2, replay: false }],
+        ['Onboarding Step Viewed', { step: 'method', index: 3, replay: false }],
+      ]);
+      expect(tracked().filter(([event]) => event === 'Intro Completed')).toEqual([
+        ['Intro Completed', { at_step: 'method', replay: false, location_source: 'gps', reminders: 'on' }],
+      ]);
+      // The two answers were reported by their surfaces, never the place itself.
+      expect(tracked()).toContainEqual(['Location Set', { source: 'gps', context: 'intro' }]);
+      expect(tracked()).toContainEqual(['Reminders Toggled', { enabled: true, source: 'intro' }]);
+      for (const [, properties] of tracked()) {
+        expect(JSON.stringify(properties ?? {})).not.toMatch(/Stockholm|59\.3|18\.0/);
+      }
+    });
+
+    it('reports a skip from the welcome step with nothing set up', async () => {
+      await launch();
+      await press('Hoppa över');
+      await act(async () => {});
+      expect(tracked().filter(([event]) => event === 'Intro Skipped')).toEqual([
+        ['Intro Skipped', { at_step: 'welcome', replay: false, location_source: 'default', reminders: 'off' }],
+      ]);
+      expect(tracked().some(([event]) => event === 'Intro Completed')).toBe(false);
+    });
+  });
 });
+

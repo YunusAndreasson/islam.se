@@ -26,6 +26,7 @@ import * as Notifications from 'expo-notifications';
 import type { ReactNode } from 'react';
 
 import Bonetider from '@/app/bonetider';
+import { analytics } from '@/lib/analytics';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
@@ -175,6 +176,28 @@ describe('the map offers at most one soft ask per launch', () => {
       expect(locationCard()).toBeNull();
       // The queue drained rather than skipped: nothing was recorded against location.
       expect(await AsyncStorage.getItem(LOCATION_HINT_KEY)).toBeNull();
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // Permission Card Shown / Closed: how often each card is seen, which of its two showings
+  // it was, and whether the reader sent it away before answering.
+  it(
+    'reports the card it shows, which showing it is, and a dismissal by its state',
+    async () => {
+      const track = jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+      setPermissions('undetermined', 'undetermined');
+
+      await launchMap();
+      await runOfferSequence();
+      await fireEvent.press(screen.getByLabelText('Stäng'));
+
+      const cardEvents = track.mock.calls.filter(([event]) => String(event).startsWith('Permission Card'));
+      expect(cardEvents).toEqual([
+        ['Permission Card Shown', { permission: 'location', showing: 1 }],
+        ['Permission Card Closed', { permission: 'location', state: 'ask' }],
+      ]);
+      track.mockRestore();
     },
     MAP_RENDER_TIMEOUT,
   );

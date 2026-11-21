@@ -24,6 +24,10 @@ module.exports = {
   collectCoverageFrom: [
     'src/lib/coordinates.ts',
     'src/lib/intro.ts',
+    // What analytics may say, and when an open counts: the place where a coarse state could
+    // quietly become a precise one, and where a background launch could become a user.
+    'src/lib/analytics/properties.ts',
+    'src/lib/analytics/lifecycle.ts',
     'src/lib/prayer-times.ts',
     'src/lib/night-times.ts',
     // What every alert says, shared with the Live Activity's stale view.

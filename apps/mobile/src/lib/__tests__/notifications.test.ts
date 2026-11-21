@@ -18,6 +18,7 @@ import {
   resetSyncStateForTests,
   syncPrayerNotifications,
 } from '@/lib/notifications';
+import { analytics } from '@/lib/analytics';
 import { formatTime } from '@/lib/prayer-times';
 import { DEFAULT_ZONE, setDisplayZone, zoneParts } from '@/lib/zone-time';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
@@ -369,7 +370,7 @@ describe('notification permission', () => {
   // THE load-bearing invariant. syncPrayerNotifications runs on mount and on every
   // AppState → 'active', so if it ever asks, the OS dialog appears with no tap behind it
   // and a reflexive "Don't allow" permanently kills prayer reminders. It must only ever
-  // READ. (This used to call requestNotificationPermission() internally.)
+  // READ. (This used to call requestNotificationPermission('settings') internally.)
   it('never prompts from a background sync, even when permission is undetermined', async () => {
     getPermissionsMock.mockResolvedValue({
       granted: false,
@@ -448,7 +449,7 @@ describe('notification permission', () => {
       };
     });
 
-    await withPlatform('android', () => requestNotificationPermission());
+    await withPlatform('android', () => requestNotificationPermission('settings'));
 
     // A sound choice IS a channel (Android freezes a channel's sound at creation), so
     // there is one per available sound now — but the ORDERING contract is unchanged and
@@ -468,7 +469,7 @@ describe('notification permission', () => {
       expires: 'never',
     });
 
-    await requestNotificationPermission();
+    await requestNotificationPermission('settings');
 
     expect(requestPermissionsMock).toHaveBeenCalledWith({
       ios: { allowAlert: true, allowSound: true, allowBadge: false },
@@ -486,7 +487,7 @@ describe('notification permission', () => {
       expires: 'never',
     });
 
-    expect(await requestNotificationPermission()).toBe('denied');
+    expect(await requestNotificationPermission('settings')).toBe('denied');
     expect(requestPermissionsMock).not.toHaveBeenCalled();
   });
 
@@ -498,8 +499,79 @@ describe('notification permission', () => {
       expires: 'never',
     });
 
-    expect(await requestNotificationPermission()).toBe('granted');
+    expect(await requestNotificationPermission('settings')).toBe('granted');
     expect(requestPermissionsMock).not.toHaveBeenCalled();
+  });
+
+  // Permission Prompt Shown means the dialog was on screen. An already-answered permission
+  // shows nothing, and counting those asks as prompts would make every surface's opt-in
+  // rate look like a refusal rate.
+/** analytics.track, recorded: what each test reads back is exactly what was sent. */
+const spyOnTrack = () => jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+
+  describe('what it reports', () => {
+    let track: ReturnType<typeof spyOnTrack>;
+    beforeEach(() => {
+      track = spyOnTrack();
+    });
+    afterEach(() => {
+      track.mockRestore();
+      // Back to jest.setup's granted world: the suites below schedule, and a leftover refusal
+      // would make them schedule nothing.
+      const granted = { granted: true, canAskAgain: true, status: PermissionStatus.GRANTED, expires: 'never' as const };
+      getPermissionsMock.mockResolvedValue(granted);
+      requestPermissionsMock.mockResolvedValue(granted);
+    });
+
+    it('reports the dialog and its answer when the OS will ask', async () => {
+      getPermissionsMock.mockResolvedValue({
+        granted: false,
+        canAskAgain: true,
+        status: PermissionStatus.UNDETERMINED,
+        expires: 'never',
+      });
+      requestPermissionsMock.mockResolvedValue({
+        granted: false,
+        canAskAgain: false,
+        status: PermissionStatus.DENIED,
+        expires: 'never',
+      });
+      await requestNotificationPermission('map_card');
+      expect(track.mock.calls).toEqual([
+        ['Permission Prompt Shown', { permission: 'notifications', primed: true, source: 'map_card' }],
+        [
+          'Permission Result',
+          { permission: 'notifications', granted: false, primed: true, prompted: true, source: 'map_card' },
+        ],
+      ]);
+    });
+
+    it('reports only the answer, unprompted, when the OS has already decided', async () => {
+      getPermissionsMock.mockResolvedValue({
+        granted: true,
+        canAskAgain: true,
+        status: PermissionStatus.GRANTED,
+        expires: 'never',
+      });
+      await requestNotificationPermission('settings');
+      getPermissionsMock.mockResolvedValue({
+        granted: false,
+        canAskAgain: false,
+        status: PermissionStatus.DENIED,
+        expires: 'never',
+      });
+      await requestNotificationPermission('intro');
+      expect(track.mock.calls).toEqual([
+        [
+          'Permission Result',
+          { permission: 'notifications', granted: true, primed: false, prompted: false, source: 'settings' },
+        ],
+        [
+          'Permission Result',
+          { permission: 'notifications', granted: false, primed: true, prompted: false, source: 'intro' },
+        ],
+      ]);
+    });
   });
 });
 

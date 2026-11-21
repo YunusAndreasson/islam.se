@@ -20,6 +20,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 
+import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { noteNotificationResolved } from '@/lib/notification-hint';
 import { beginNotificationPreferenceIntent } from '@/lib/notifications-permission';
@@ -86,7 +87,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
     const isLatestIntent = beginNotificationPreferenceIntent();
     setBusy(true);
     void (async () => {
-      const result: NotificationPermissionState = await requestNotificationPermission();
+      const result: NotificationPermissionState = await requestNotificationPermission('map_card');
       await noteNotificationResolved();
       if (!isLatestIntent()) {
         inFlight.current = false;
@@ -118,6 +119,13 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
     })();
   };
 
+  // The ✕, as distinct from the card retiring itself after a grant: Permission Card Closed
+  // says the reader sent it away, and in which state.
+  const close = (): void => {
+    void analytics.track(ANALYTICS_EVENTS.PERMISSION_CARD_CLOSED, { permission: 'notifications', state });
+    onClose();
+  };
+
   return (
     <Animated.View
       // Mirror of MosqueCard's slide: it lives at the top, so it arrives from above.
@@ -147,7 +155,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
             {state === 'granted' ? 'Påminnelser är på' : 'Påminn om bönetider'}
           </Text>
           <GlassRoundButton
-            onPress={onClose}
+            onPress={close}
             accessibilityLabel="Stäng"
             tint={sky.cardGlass}
             rim={c.hairline}

@@ -70,6 +70,48 @@ describe('mapLessonPending', () => {
     expect(result.current.mapLessonPending).toBe(true);
   });
 
+  it('marks a replay as such until it completes, and keeps the first pass\'s outcome through it', async () => {
+    // intro_status says how the install BEGAN. A reader who finished the introduction and
+    // later re-reads it, leaving through "Hoppa över", has not become someone who skipped it.
+    const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
+    await act(async () => {});
+    expect(result.current.history).toBeNull();
+    expect(result.current.replaying).toBe(false);
+
+    await act(() => {
+      result.current.complete('completed');
+    });
+    expect(result.current.history).toBe('completed');
+
+    await act(() => {
+      result.current.replay();
+    });
+    expect(result.current.replaying).toBe(true);
+    await act(async () => {
+      result.current.complete('skipped');
+    });
+    expect(result.current.replaying).toBe(false);
+    expect(result.current.history).toBe('completed');
+    expect(JSON.parse((await AsyncStorage.getItem('introSeen:v1')) as string)).toMatchObject({
+      outcome: 'completed',
+    });
+  });
+
+  it('gives an install that predates the introduction the outcome of its first pass', async () => {
+    await AsyncStorage.setItem('prayerSettings:v1', JSON.stringify({ calculationMethod: 'Turkey' }));
+    const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
+    await act(async () => {});
+    expect(result.current.history).toBe('not_shown');
+
+    await act(() => {
+      result.current.replay();
+    });
+    await act(() => {
+      result.current.complete('skipped');
+    });
+    expect(result.current.history).toBe('skipped');
+  });
+
   it('is never pending with no provider — the fallback bonetider.tsx\'s own tests rely on', async () => {
     const { result } = await renderHook(() => useOptionalMapLesson());
 

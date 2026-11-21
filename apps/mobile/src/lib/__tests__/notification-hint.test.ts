@@ -7,6 +7,7 @@ import {
   noteNotificationLaunch,
   noteNotificationResolved,
   noteNotificationShown,
+  remindersOfferable,
   resetNotificationLaunchCountForTests,
   shouldShowNotificationHint,
 } from '@/lib/notification-hint';
@@ -39,6 +40,28 @@ describe('shouldShowNotificationHint', () => {
   it('never shows again once the user has answered the prompt', () => {
     expect(shouldShowNotificationHint(record({ shown: 0, resolved: true }))).toBe(false);
     expect(shouldShowNotificationHint(record({ launches: 99, shown: 1, resolved: true }))).toBe(false);
+  });
+});
+
+describe('remindersOfferable — would the card do anything for a reader with reminders off?', () => {
+  it('offers itself wherever the OS has not been asked, and never after a refusal', () => {
+    expect(remindersOfferable('undetermined', 'ios')).toBe(true);
+    expect(remindersOfferable('undetermined', 'android')).toBe(true);
+    expect(remindersOfferable('denied', 'ios')).toBe(false);
+    expect(remindersOfferable('denied', 'android')).toBe(false);
+    expect(remindersOfferable('unknown', 'android')).toBe(false);
+  });
+
+  it('offers itself on an Android phone that granted notifications without asking', () => {
+    // Regression: the card required 'undetermined', and Android below 13 (and a phone
+    // upgraded to 13) reports 'granted' for an app that never asked. Those readers, mostly
+    // installs from before the introduction, were never offered reminders at all; only
+    // Inställningar could turn them on. The card's button turns them on with no dialog.
+    expect(remindersOfferable('granted', 'android')).toBe(true);
+  });
+
+  it("stays away on iOS when granted: that is an earlier yes, and reminders off is the reader's choice", () => {
+    expect(remindersOfferable('granted', 'ios')).toBe(false);
   });
 });
 

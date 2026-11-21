@@ -27,6 +27,14 @@ const STORAGE_KEY = 'introSeen:v1';
 /** 'unknown' is the pre-hydration state the gate renders nothing for — see intro-context. */
 export type IntroStatus = 'unknown' | 'pending' | 'done';
 
+/** How a pass through the introduction ended: its last step, or the welcome step's skip. */
+export type IntroOutcome = 'completed' | 'skipped';
+
+/** How this install came past the introduction, for analytics (the `intro_status` super
+ *  property): one of the two outcomes, or 'not_shown' for an install that predates it and
+ *  was let straight through (see the upgrade rule above). */
+export type IntroHistory = IntroOutcome | 'not_shown';
+
 /** What the two persisted blobs imply, as one pure function so the upgrade rule can be
  *  tested without touching storage.
  *
@@ -47,28 +55,70 @@ export function decideIntroStatus(
 }
 
 /**
- * Read both blobs and decide. Never throws: unreadable storage falls back to 'done' so a
- * broken read can't trap the user in a wizard they can't get past — the map is the app,
- * and it must always be reachable.
+ * What the same two blobs say about HOW the introduction was passed, or null while it has
+ * not been (a fresh install still in front of it).
+ *
+ * A record without an `outcome` was written before the outcome was kept, by a build that
+ * wrote the same `{ completed: true }` for a finish and a skip. It reads as 'completed':
+ * that is what the record says, and those installs' Intro Skipped events in the analytics
+ * history are the only way to tell them apart. An unparseable record reads the same way,
+ * for the reason decideIntroStatus gives.
  */
-export async function loadIntroStatus(): Promise<'pending' | 'done'> {
+export function decideIntroHistory(
+  introRaw: string | null,
+  settingsRaw: string | null,
+): IntroHistory | null {
+  if (introRaw) {
+    try {
+      const record: unknown = JSON.parse(introRaw);
+      if (typeof record === 'object' && record !== null && 'outcome' in record && record.outcome === 'skipped') {
+        return 'skipped';
+      }
+    } catch {
+      // Falls through: see above.
+    }
+    return 'completed';
+  }
+  return settingsRaw ? 'not_shown' : null;
+}
+
+/**
+ * Read both blobs and decide the gate and the history together. Never throws: unreadable
+ * storage falls back to 'done' so a broken read can't trap the user in a wizard they can't
+ * get past — the map is the app, and it must always be reachable.
+ */
+export async function loadIntro(): Promise<{ status: 'pending' | 'done'; history: IntroHistory | null }> {
   try {
     // Indexed rather than destructured two levels deep: multiGet's result length is the
     // platform module's promise, not ours, and a short array would make the nested
     // `[, settingsRaw]` pattern throw on undefined — landing in the catch below and
     // silently reporting 'done', i.e. skipping the intro for a first-time user.
     const pairs = await storage.multiGet([STORAGE_KEY, SETTINGS_STORAGE_KEY]);
-    return decideIntroStatus(pairs[0]?.[1] ?? null, pairs[1]?.[1] ?? null);
+    const introRaw = pairs[0]?.[1] ?? null;
+    const settingsRaw = pairs[1]?.[1] ?? null;
+    return {
+      status: decideIntroStatus(introRaw, settingsRaw),
+      history: decideIntroHistory(introRaw, settingsRaw),
+    };
   } catch {
-    return 'done';
+    return { status: 'done', history: null };
   }
 }
 
-/** Mark the introduction as seen — finished OR skipped. Best-effort: a failed write only
- *  means it may be offered once more, which is survivable. */
-export async function completeIntro(): Promise<void> {
+/** The gate alone. See loadIntro. */
+export async function loadIntroStatus(): Promise<'pending' | 'done'> {
+  return (await loadIntro()).status;
+}
+
+/** Mark the introduction as seen — finished OR skipped, and which. Best-effort: a failed
+ *  write only means it may be offered once more, which is survivable.
+ *
+ *  `completed: true` stays in the record although nothing reads it any more: an older
+ *  build (an OTA rollback) reads only that the record exists, and this keeps the record
+ *  looking like the one it wrote. */
+export async function completeIntro(outcome: IntroOutcome = 'completed'): Promise<void> {
   try {
-    await storage.setItem(STORAGE_KEY, JSON.stringify({ completed: true }));
+    await storage.setItem(STORAGE_KEY, JSON.stringify({ completed: true, outcome }));
   } catch {
     // Ignored on purpose — see above.
   }

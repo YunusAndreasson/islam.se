@@ -15,6 +15,8 @@ import {
 } from 'react';
 import { AppState } from 'react-native';
 
+import type { PermissionSource } from '@/lib/analytics';
+import { trackPermissionPrompt, trackPermissionResult } from '@/lib/analytics/permission-events';
 import { isValidLatLng } from '@/lib/coordinates';
 import { useSettings } from '@/lib/settings/context';
 import type { LatLng } from '@/lib/prayer-times';
@@ -51,12 +53,22 @@ interface LocationStatusValue {
   /** True while a GPS fix is in flight. */
   locating: boolean;
   /** Re-request permission (if needed) and fetch a fresh GPS fix. Resolves to the outcome so
-   *  the caller can pick success vs warning feedback; auto-acquire callers ignore it. */
-  refresh: () => Promise<GpsOutcome>;
+   *  the caller can pick success vs warning feedback; auto-acquire callers ignore it.
+   *  `source` is the surface the tap came from, for the permission events. */
+  refresh: (source: PermissionSource) => Promise<GpsOutcome>;
 }
 
 const LocationContext = createContext<LocationContextValue | null>(null);
 const LocationStatusContext = createContext<LocationStatusValue | null>(null);
+
+/** The foreground permission, read without asking; null when it cannot be read. */
+async function readPermissionQuietly(): Promise<Location.LocationPermissionResponse | null> {
+  try {
+    return (await Location.getForegroundPermissionsAsync()) ?? null;
+  } catch {
+    return null;
+  }
+}
 
 export function LocationProvider({ children }: { children: ReactNode }) {
   // Memoised by hand (every value and callback below), and uncompilable as written: the
@@ -115,14 +127,23 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   }, []);
 
   /** Prompts. Call ONLY from an explicit gesture — Inställningar's "Uppdatera plats"
-   *  row, or the map's location soft-ask card. See acquireIfPermitted for why. */
-  const acquireGps = useCallback(async (): Promise<GpsOutcome> => {
+   *  row, the introduction's location step, or the map's location soft-ask card. See
+   *  acquireIfPermitted for why. */
+  const acquireGps = useCallback(async (source: PermissionSource): Promise<GpsOutcome> => {
     if (inFlight.current) return 'busy';
     inFlight.current = true;
     try {
+      // Read first, without asking, only to know whether the request below will put the OS
+      // dialog on screen: an answered permission (granted, or refused for good) comes back
+      // without one, and Permission Prompt Shown must mean the dialog really appeared. A
+      // failed read just means not knowing; the request still decides.
+      const before = await readPermissionQuietly();
+      const prompted = before !== null && !before.granted && before.canAskAgain !== false;
+      if (prompted) trackPermissionPrompt('location', source);
       // Await the permission first so no state is set synchronously inside the
       // effect that calls this (keeps the effect side-effect-free on entry).
       const perm = await Location.requestForegroundPermissionsAsync();
+      trackPermissionResult('location', source, perm.granted, prompted);
       setPermissionStatus(perm.granted ? 'granted' : 'denied');
       if (!perm.granted) return 'denied';
       return await fetchFix();

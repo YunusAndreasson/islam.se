@@ -563,6 +563,8 @@ jest.mock('expo-application', () => ({
   nativeApplicationVersion: '1.0.8',
   nativeBuildVersion: '20',
   getAppleStoreEnvironmentAsync: jest.fn(async () => null),
+  // The install_date super property (src/lib/analytics/useAppAnalytics).
+  getInstallationTimeAsync: jest.fn(async () => new Date(2026, 4, 28, 10, 0, 0)),
 }));
 
 jest.mock('expo-intent-launcher', () => ({
@@ -643,8 +645,11 @@ jest.mock('expo-notifications', () => ({
   // The scheduler sweeps the OS's pending list for its own tagged alerts, so a lost
   // id list can't leave orphans that double every prayer. Default: nothing pending.
   getAllScheduledNotificationsAsync: jest.fn(async () => []),
-  // Notification taps are routed to Bönetider (src/lib/notification-routing).
+  // Notification taps are routed to Bönetider (src/lib/notification-routing), and the tap
+  // that launched the app is read once at mount. Default: the app was not opened by a tap.
   addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),
+  getLastNotificationResponse: jest.fn(() => null),
+  DEFAULT_ACTION_IDENTIFIER: 'expo.modules.notifications.actions.DEFAULT',
   SchedulableTriggerInputTypes: { DATE: 'date' },
   // expo-notifications' real values (HIGH used to be mocked as 4, the real LOW).
   AndroidImportance: { HIGH: 6, DEFAULT: 5, LOW: 4 },
