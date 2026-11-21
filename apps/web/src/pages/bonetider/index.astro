@@ -1,11 +1,12 @@
 ---
-import { Settings } from "@lucide/astro";
+import { Settings, X } from "@lucide/astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PlaceSearch from "../../components/bonetider/PlaceSearch.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import RelatedLinks from "../../components/finder/RelatedLinks.astro";
 import PageHead from "../../components/PageHead.astro";
 import Base from "../../layouts/Base.astro";
+import { ANDROID_PRAYER_STRIP_URL } from "../../lib/app";
 import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
 import { breadcrumbList } from "../../lib/jsonld";
 const stockholm = { name: DEFAULT_COORDS.name, latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
@@ -18,6 +19,13 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
   <section class="today" aria-label="Dagens bönetider">
    <PrayerField location={stockholm} variant="full" fixed={false} caption scheduleFirst>
 		<Fragment slot="under">
+		<div class="bh2-android-app" hidden>
+			<p>
+				Få en påminnelse före nästa bön.
+				<a href={ANDROID_PRAYER_STRIP_URL}>Hämta på Google Play</a>
+			</p>
+			<button type="button" aria-label="Dölj tipset om appen"><X size={16} aria-hidden="true" /></button>
+		</div>
 		<details class="bh2-settings disclosure">
 			<summary class="bh2-settings-summary">
 				<Settings size={16} aria-hidden="true" />
@@ -49,6 +57,31 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
   ]} />
  </main>
 </Base>
+
+<script>
+	import { readStored, writeStored } from "../../lib/web-storage";
+	import { onPage } from "../../scripts/page";
+
+	const dismissKey = "bonetider:android-app-dismissed";
+	let dismissed = false;
+
+	onPage((signal) => {
+		if (document.documentElement.dataset.platform !== "android" || dismissed || readStored(dismissKey)) return;
+
+		const strip = document.querySelector<HTMLElement>(".bh2-android-app");
+		const close = strip?.querySelector("button");
+		if (!strip || !close) return;
+
+		close.addEventListener("click", () => {
+			dismissed = true;
+			writeStored(dismissKey, "1");
+			strip.hidden = true;
+			document.querySelector<HTMLElement>(".bh2-settings-summary")?.focus();
+		}, { signal });
+		strip.hidden = false;
+	});
+</script>
+
 <style>
  /* Every line down to the map stands where Moskéer's does (moskeer.astro): the title's own
     margin to the search row, half a step to the row under it (»Alla orter« here, the count
@@ -64,4 +97,34 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
  .bh2-settings-summary { display: flex; align-items: center; gap: .5rem; min-height: var(--tap-target); width: fit-content; cursor: pointer; font-family: var(--font-heading); font-size: var(--step--2); color: var(--color-muted); }
  .bh2-settings[open] .bh2-settings-summary { color: var(--color-text); }
  .bh2-settings-body { margin-block: var(--space-half); }
+ .bh2-android-app:not([hidden]) {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-control);
+	padding-inline-start: var(--space-control);
+	border: var(--border-row);
+	border-radius: var(--radius-sm);
+	background: var(--wash-hover);
+	font-family: var(--font-heading);
+	font-size: var(--step--2);
+ }
+ .bh2-android-app p { margin: 0; }
+ .bh2-android-app a {
+	display: inline-block;
+	padding-block: 0.25rem;
+ }
+ .bh2-android-app button {
+	display: grid;
+	place-items: center;
+	flex: none;
+	min-inline-size: var(--tap-target);
+	min-block-size: var(--tap-target);
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--color-muted);
+	cursor: pointer;
+ }
+ .bh2-android-app button:hover { color: var(--color-text); }
 </style>

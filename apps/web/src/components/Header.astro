@@ -61,7 +61,7 @@ const mastIsDay =
 				class="bonetider-mast mast-prayer"
 				href="/bonetider/"
 				{...liveMountAttrs(DEFAULT_COORDS)}
-				aria-label={`Nästa bön: ${PRAYER_LABELS[mastNext.key]} ${formatTime(mastNext.at)}, ${DEFAULT_COORDS.name} – visa bönetider`}
+				aria-label={`Nästa bön: ${PRAYER_LABELS[mastNext.key]} ${formatTime(mastNext.at)} ${DEFAULT_COORDS.name} – visa bönetider`}
 			>
 				<span class="bs-icon mast-prayer-icon" data-day={mastIsDay ? "true" : "false"} aria-hidden="true">
 					<Sun class="mp-sun" stroke-width={1.75} />
@@ -72,9 +72,12 @@ const mastIsDay =
 				    distance): without it the visible string is »Ẓuhr12:36« and the label
 				    »Ẓuhr 12:36« does not contain it, which fails WCAG 2.5.3 for a reader
 				    who speaks the name they see. */}
-				<span class="mast-prayer-text">
-					<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNext.key]}</span>{" "}
-					<span class="bf-next-time mast-prayer-time">{formatTime(mastNext.at)}</span>
+				<span class="mast-prayer-readout">
+					<span class="mast-prayer-text">
+						<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNext.key]}</span>{" "}
+						<span class="bf-next-time mast-prayer-time">{formatTime(mastNext.at)}</span>
+					</span>{" "}
+					<span class="bf-place mast-prayer-place">{DEFAULT_COORDS.name}</span>
 				</span>
 			</a>
 			{/* No aria-label: the accessible name comes from the visible label span, which

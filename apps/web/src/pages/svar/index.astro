@@ -111,6 +111,11 @@ const description =
 			<>
 
 
+				<div class="svar-search" role="search" aria-label="Frågor och svar" hidden>
+					<label class="sr-only" for="svar-search">Sök bland frågor</label>
+					<input id="svar-search" type="search" placeholder="Sök bland frågor" aria-controls="svar-results" />
+					<p class="svar-search-status" role="status"></p>
+				</div>
 				<nav class="svar-nav" aria-label="Kategorier">
 					<ul>
 						{groups.map((g) => (
@@ -178,6 +183,7 @@ const description =
 <script>
 	// Progressive enhancement: highlight the category chip whose section is in view.
 	// Plain anchors already work without this (jump + scroll-margin handle landing).
+	import { fold } from "../../lib/search-text";
 	import { onPage } from "../../scripts/page";
 
 	function bindSvarNav(): (() => void) | undefined {
@@ -212,10 +218,81 @@ const description =
 		return () => obs.disconnect();
 	}
 
-	onPage(bindSvarNav);
+	onPage((signal) => {
+		const search = document.querySelector<HTMLElement>(".svar-search");
+		const input = search?.querySelector<HTMLInputElement>("input");
+		const status = search?.querySelector<HTMLElement>("[role=status]");
+		const nav = document.querySelector<HTMLElement>(".svar-nav");
+		const sections = Array.from(document.querySelectorAll<HTMLElement>(".svar-section"), (section) => ({
+			section,
+			rows: Array.from(section.querySelectorAll<HTMLLIElement>(".svar-list > li"), (row) => ({
+				row,
+				text: fold(Array.from(row.querySelectorAll(".text-row-title, .text-row-desc"),
+					(part) => part.textContent ?? "").join(" ")),
+			})),
+		}));
+
+		if (search && input && status && nav) {
+			const filter = () => {
+				const terms = fold(input.value).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+				let matches = 0;
+				for (const { section, rows } of sections) {
+					let visible = 0;
+					for (const { row, text } of rows) {
+						const match = terms.every((term) => text.includes(term));
+						row.hidden = !match;
+						if (match) visible++;
+					}
+					section.hidden = visible === 0;
+					matches += visible;
+				}
+				nav.hidden = terms.length > 0;
+				status.textContent = terms.length === 0 ? "" :
+					matches === 0 ? "Inga frågor hittades." :
+					matches === 1 ? "1 fråga hittades." : `${matches} frågor hittades.`;
+			};
+			input.addEventListener("input", filter, { signal });
+			window.addEventListener("pageshow", filter, { signal });
+			filter();
+			search.hidden = false;
+		}
+
+		return bindSvarNav();
+	});
 </script>
 
 <style>
+	.svar-search {
+		margin-bottom: var(--space-control);
+	}
+
+	.svar-search input {
+		width: min(100%, 24rem);
+		min-height: var(--tap-target);
+		padding-inline: var(--space-control);
+		border: var(--border-row);
+		border-radius: var(--radius-sm);
+		background: var(--color-bg);
+		color: var(--color-text);
+		font: 1rem var(--font-heading);
+	}
+
+	.svar-search-status {
+		margin: var(--space-control) 0;
+		color: var(--color-muted);
+		font-size: var(--step--2);
+	}
+
+	.svar-search-status:empty {
+		margin: 0;
+	}
+
+	.svar-nav[hidden],
+	.svar-section[hidden],
+	.svar-list :global(li[hidden]) {
+		display: none;
+	}
+
 
 	.svar-index :global(.lead--page:empty) { display: none; }
 

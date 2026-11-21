@@ -106,6 +106,12 @@ const jsonLd = [
 				religionens grundläggande handlingar. <strong>Trons sex pelare</strong>, även kallade
 				de sex trosartiklarna, beskriver vad en muslim tror på. Båda har sin grund i Koranen och i profetens sunna.
 
+				<nav class="pillar-jumps" slot="efter" aria-label="På den här sidan">
+					{clusters.map((c) => (
+						<a class="filter-chip label" href={`#${c.slug}`}>{c.name}</a>
+					))}
+				</nav>
+
 				{/* Sura al-Ikhlās — the most concentrated statement of what a muslim
 				    believes, and so the shortest possible answer to the question this page
 				    asks. Paired with its Swedish exactly as the answer pages pair theirs:
@@ -165,6 +171,13 @@ const jsonLd = [
 </Base>
 
 <style>
+	.pillar-jumps {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-control);
+		margin-block: var(--space-control) var(--space-group);
+	}
+
 
 	/* The verse sits in the reading column, not the 64rem card canvas — it is prose,
 	   and prose keeps its measure. */

@@ -267,6 +267,17 @@
 .essay-card-media {
 	aspect-ratio: 3 / 2;
 }
+
+/* A faint inside edge keeps the photographs distinct from the page in either theme. */
+.front :is(.feature-media, .essay-card-media)::after,
+.essaer-page :is(.essay-card-media, .tradar-home .card-list-thumb)::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border: 1px solid light-dark(rgb(29 25 18 / 12%), rgb(255 246 232 / 14%));
+	pointer-events: none;
+}
+
 .archive-meta,
 .meta-line {
 	font-variant-numeric: tabular-nums;

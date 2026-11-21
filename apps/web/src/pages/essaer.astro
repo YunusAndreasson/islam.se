@@ -67,18 +67,22 @@ const lengthFilterItems = [
 		]),
 	]}
 >
-	<nav class="filter-row" aria-label="Filtrera och sortera">
-		<button class="filter-chip label" type="button" data-overlay="amnen" aria-haspopup="dialog" aria-expanded="false">Ämnen</button>
-		<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Essäserier</button>
-		<button class="filter-chip label" type="button" data-overlay="tankare" aria-haspopup="dialog" aria-expanded="false">Tänkare</button>
-		<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
-		<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
-		{/* How much of the archive this reader has read: a ring and a count (DESIGN.md,
-		    »The Essäer Page«), from localStorage, so written by the script below and
-		    hidden until the first essay is read. Its CSS (layout.css, .archive-stats)
-		    stood without markup from e9d511d until 2026-10-16. */}
-		<p class="label article-meta archive-stats" data-read-ring hidden></p>
-	</nav>
+	<div class="archive-controls">
+		<nav class="filter-row" aria-label="Bläddra bland essäer">
+			<button class="filter-chip label" type="button" data-overlay="amnen" aria-haspopup="dialog" aria-expanded="false">Ämnen</button>
+			<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Essäserier</button>
+			<button class="filter-chip label" type="button" data-overlay="tankare" aria-haspopup="dialog" aria-expanded="false">Tänkare</button>
+		</nav>
+		<div class="filter-row filter-row--options" role="group" aria-label="Filtrera och sortera">
+			<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
+			<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
+			{/* How much of the archive this reader has read: a ring and a count (DESIGN.md,
+			    »The Essäer Page«), from localStorage, so written by the script below and
+			    hidden until the first essay is read. Its CSS (layout.css, .archive-stats)
+			    stood without markup from e9d511d until 2026-10-16. */}
+			<p class="label article-meta archive-stats" data-read-ring hidden></p>
+		</div>
+	</div>
 	<p class="filter-status" role="status" data-length-status></p>
 
 	{/* Curated reading paths first — an inviting way in before the topical
@@ -191,12 +195,19 @@ const lengthFilterItems = [
 	   the global .archive-item border/padding lives in EssayArchiveItem.astro. */
 	/* .essay-cards and the card itself are global — see styles/layout.css. */
 
+	.archive-controls {
+		margin-bottom: var(--space-unit);
+	}
+
 	.filter-row {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: 0.5rem;
-		margin-bottom: var(--space-unit);
+		gap: var(--space-control);
+	}
+
+	.filter-row--options .filter-chip:not(:hover, [aria-pressed="true"], [aria-expanded="true"]) {
+		border-color: transparent;
 	}
 
 	/* The read ring stands after the chips, a little apart: a statement, not a control. */

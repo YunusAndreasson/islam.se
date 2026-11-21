@@ -2,14 +2,23 @@
 // promotion surface (AppPromo component, the Smart App Banner meta, the /app page).
 // Kept dependency-free so any page or layout can import it without pulling in data.
 
-/** App Store numeric id — drives the iOS Smart App Banner (apple-itunes-app meta). */
-export const APP_STORE_ID = "6774383118";
+const APP_STORE_ID = "6774383118";
 export const APP_STORE_URL = `https://apps.apple.com/se/app/islam-se/id${APP_STORE_ID}`;
+
+// Public App Store Connect campaign provider identifier from Marketer's islam-se config.
+const APP_STORE_PROVIDER_ID = "2189605";
+export const SMART_APP_BANNER_CONTENT = `app-id=${APP_STORE_ID}, affiliate-data=pt=${APP_STORE_PROVIDER_ID}&ct=web-safari-banner`;
 
 /** Google Play package name — also hand-mirrored in public/manifest.webmanifest's
  *  related_applications, which can't reference this module. */
 const PLAY_PACKAGE = "se.islam.mobile";
 export const PLAY_STORE_URL = `https://play.google.com/store/apps/details?id=${PLAY_PACKAGE}`;
+const ANDROID_PRAYER_STRIP_REFERRER = new URLSearchParams({
+	utm_source: "islam-se",
+	utm_medium: "referral",
+	utm_campaign: "web-android-strip",
+});
+export const ANDROID_PRAYER_STRIP_URL = `${PLAY_STORE_URL}&referrer=${encodeURIComponent(ANDROID_PRAYER_STRIP_REFERRER.toString())}`;
 
 /** The app's pillars — each a short term and an explanatory line. Drawn from the
  *  App Store description, trimmed to the house voice (calm, sentence case, no

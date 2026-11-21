@@ -177,7 +177,7 @@ export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.e
  *  AI-BAROMETERN LEFT THE MAST (2026-11-07): the user found it did not blend there, a
  *  measurement of AI models standing beside a prayer clock and a mosque map, and
  *  wanted it on the front page only. It keeps its room on the front page, the front
- *  page's doorways (HOME_DOORWAYS below), its footer and palette links. It had taken
+ *  page's footer and palette links. It had taken
  *  Podd's place on 2026-09-13; the podcast is still not here either — a listener finds
  *  it beside »Lyssna« on every read essay and in the front page's close.
  *
@@ -188,12 +188,6 @@ export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.e
  *  palette entry and those promos. */
 export const MAST_UTILITY_LINKS: NavLink[] = [pages.prayerTimes, pages.mosques];
 
-/** The front page's doorways (index.astro), which touch screens and narrow windows get under the
- *  lead essay in place of the mast's inline links. Built FROM the mast arrays, so the two cannot
- *  disagree: the hand-typed row this replaces still listed Podd's old neighbours after
- *  AI-barometern took Podd's place in the mast. AI-barometern is added after them: it left the
- *  mast but stays on the front page, and the doorways' grid is drawn for six (three by two, two
- *  by three on a phone), so five would leave one alone in a row. */
 const PAGE_BY_HREF = new Map<string, (typeof pages)[keyof typeof pages]>(
 	Object.values(pages).map((page) => [page.href, page]),
 );
@@ -211,9 +205,11 @@ export function destinations(hrefs: readonly string[]): PaletteNavLink[] {
 	});
 }
 
-export const HOME_DOORWAYS: PaletteNavLink[] = destinations(
-	[...MAST_SECTION_LINKS, ...MAST_UTILITY_LINKS, pages.aiBarometern].map((link) => link.href),
-);
+export const HOME_DOORWAYS: PaletteNavLink[] = destinations([
+	pages.pillars.href,
+	pages.svar.href,
+	...MAST_UTILITY_LINKS.map((link) => link.href),
+]);
 
 /** The three destinations of the front page's practical room, one to each third: the
  *  day, the year and the country (PraktisktHome). Named here so the room, the mast and

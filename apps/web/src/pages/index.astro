@@ -97,22 +97,17 @@ const heroPreload = feature?.heroImage
 		    layout of its own, "stuffed … looks good in isolation but doesn't read well as
 		    a whole"). Inside a chapter every section opens the same way: a rule, its
 		    kicker, and the way on (editorial.css, »A rule opens a section«). */}
-		{feature && <FeatureEssay article={feature} also={recent} />}
+		{feature && (
+			<FeatureEssay article={feature} also={recent}>
+				<nav class="home-pillars" aria-label="Sajtens huvudingångar">
+					{HOME_DOORWAYS.map((link) => (
+						<a class="home-pillar" href={link.href}>{link.label}</a>
+					))}
+				</nav>
+			</FeatureEssay>
+		)}
 
-		{/* The day's news, at the foot of the opening: the newest thing on the page in
-		    its smallest type, because it is not the site's own. */}
 		<Nyheter />
-
-		{/* Match the header's width-based navigation: these doorways appear only when
-		    the inline mast links are hidden, including on wide touch devices. */}
-		<nav class="home-pillars" aria-label="Sajtens huvudingångar">
-			{HOME_DOORWAYS.map((link) => (
-				<a class="home-pillar" href={link.href}>
-					<span class="home-pillar-title">{link.label}</span>
-					<span class="home-pillar-desc">{link.sub}</span>
-				</a>
-			))}
-		</nav>
 
 		{/* CHAPTER 1. The essays two ways, shelved by ämne and in reading order by
 		    essäserie, in one design: a tab, a framing line, three picture cards. The
@@ -155,82 +150,34 @@ const heroPreload = feature?.heroImage
 </Base>
 
 <style>
-	/* The doorways — the mast's five destinations and AI-barometern, which left the mast
-	   but stays on the front page; set in the site voice, whitespace-grouped rather than
-	   boxed, under one rule.
-
-	   Shown ONLY where the mast's inline links are hidden — at or below 900px, the same
-	   condition the header uses to collapse its nav into the "Meny" trigger. On a wide
-	   pointer screen those links are already visible in the mast, so this row would just
-	   echo the menu directly beneath it; there it is hidden. (The links stay in the DOM
-	   either way, so crawlers still see them, each with the line that says what it is.)
-
-	   Three to a row, two on a phone — never auto-fit: six doorways at an 11rem minimum
-	   drew five on a tablet and left the sixth alone on a row.
-
-	   ON THE PAGE'S GUTTERS, like everything round them: the page's own between the
-	   three, and one group-space between a phone's two, which is what the phone's other
-	   two-ups have (the six beliefs, the footer). They had a fluid gap of their own
-	   (3vw), and on a phone their second column stood 4px left of the two lists' under
-	   it. All of it is here: half of these rules were also written in editorial.css,
-	   where three of the declarations had been losing to these for as long as both
-	   existed (measured 2026-10-11). */
 	.home-pillars {
 		display: none;
 	}
 
 	@media (width <= 56.25rem) {
 		.home-pillars {
+			order: 5;
 			display: grid;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: var(--space-half) var(--grid-gutter);
-			border-top: var(--border-rule);
-		}
-	}
-
-	@media (width <= 37.5rem) {
-		.home-pillars {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			column-gap: var(--space-group);
+			margin-top: var(--space-group);
+			border-top: var(--border-rule);
 		}
 	}
 
 	.home-pillar {
 		display: flex;
 		align-items: center;
-		text-decoration: none;
-		/* A touch of block padding so the tap target clears WCAG 2.5.8 comfortably. */
-		padding-block: 0.2rem;
-	}
-
-	/* These six are the whole navigation on a phone (the mast drops .site-links),
-	   so they carry the full thumb target rather than the 2.5.8 floor. */
-	@media (hover: none), (pointer: coarse) {
-		.home-pillar {
-			min-height: var(--tap-target);
-		}
-	}
-
-	.home-pillar-title {
+		min-height: var(--tap-target);
 		font-family: var(--font-heading);
 		font-size: var(--step--1);
 		font-weight: 600;
-		letter-spacing: 0;
 		color: var(--color-accent);
+		text-decoration: none;
 	}
 
-	.home-pillar:hover .home-pillar-title {
+	.home-pillar:hover {
 		text-decoration: underline;
-		text-decoration-thickness: 1px;
 		text-underline-offset: var(--underline-offset);
-	}
-
-	/* Never painted: where the doorways show there is room for the names only. */
-	.home-pillar-desc {
-		display: none;
-	}
-
-	.home-pillar:focus-visible {
-		--focus-offset: 3px;
 	}
 </style>

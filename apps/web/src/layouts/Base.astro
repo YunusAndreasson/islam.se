@@ -6,7 +6,7 @@ import FloatingPlayer from "../components/FloatingPlayer.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import SearchOverlay from "../components/SearchOverlay.astro";
-import { APP_STORE_ID } from "../lib/app";
+import { SMART_APP_BANNER_CONTENT } from "../lib/app";
 import { type FontFace, locate } from "../lib/fonts";
 import { articleJsonLd, breadcrumbList, organization, webSite } from "../lib/jsonld";
 import "../styles/tokens.css";
@@ -302,7 +302,7 @@ if (articleMeta) {
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		{/* Native iOS Smart App Banner — a subtle, dismissible nudge in Safari on every
 		    page; the strong in-page promo stays on the prayer surfaces. */}
-		<meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
+		<meta name="apple-itunes-app" content={SMART_APP_BANNER_CONTENT} />
 		{/* The picture first, then the fonts: preloads of one priority are requested in
 		    document order, and the LCP image must not queue behind type. */}
 		{preloadImageSrcset ? (

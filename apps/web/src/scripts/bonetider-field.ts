@@ -381,7 +381,7 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 	if (inst.el.matches(".mast-prayer")) {
 		inst.el.setAttribute(
 			"aria-label",
-			`Nästa bön: ${PRAYER_LABELS[st.nextKey]} ${formatTime(new Date(st.target))}, ${location.name} – visa bönetider`,
+			`Nästa bön: ${PRAYER_LABELS[st.nextKey]} ${formatTime(new Date(st.target))} ${location.name} – visa bönetider`,
 		);
 	}
 	inst.el

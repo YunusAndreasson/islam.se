@@ -69,6 +69,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			/>
 		</div>
 	</a>
+	<slot />
 	{also.length > 0 && (
 		<section class="feature-also" aria-labelledby="feature-also-rubrik">
 			{/* The way on to every essay stands in the head row, as on the other
@@ -130,7 +131,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	/* The list after it, under a rule: on one column it is a second rank, and the
 	   rule says where the lead's own words end. */
 	.feature-also {
-		order: 5;
+		order: 6;
 		margin-top: var(--space-section);
 		padding-top: var(--space-phi);
 		border-top: var(--border-rule);
