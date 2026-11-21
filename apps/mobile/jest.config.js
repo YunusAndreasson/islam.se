@@ -28,6 +28,9 @@ module.exports = {
     // quietly become a precise one, and where a background launch could become a user.
     'src/lib/analytics/properties.ts',
     'src/lib/analytics/lifecycle.ts',
+    // What a crash report's trail may hold: the allow-list that keeps the reader's position
+    // (console coordinates, tile URLs, touches) out of every report sent to Sentry.
+    'src/lib/sentry-breadcrumbs.ts',
     'src/lib/prayer-times.ts',
     'src/lib/night-times.ts',
     // What every alert says, shared with the Live Activity's stale view.

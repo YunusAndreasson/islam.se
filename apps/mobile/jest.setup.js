@@ -596,7 +596,8 @@ jest.mock('expo-background-task', () => ({
 
 // @sentry/react-native is native, and src/lib/sentry calls `init` at module scope. The mock
 // keeps the real SDK and its bridge out of every suite: sentry.test.ts asserts on the options
-// object that module hands to `init`, error-boundary.test.tsx on `captureException`.
+// object that module hands to `init`, error-boundary.test.tsx on `captureException`,
+// useSentryBreadcrumbs.test.tsx on `addBreadcrumb`.
 jest.mock('@sentry/react-native', () => {
   const React = require('react');
   const captureException = jest.fn();
@@ -617,6 +618,8 @@ jest.mock('@sentry/react-native', () => {
       };
     }),
     turboModuleContextIntegration: jest.fn(() => ({ name: 'TurboModuleContext' })),
+    breadcrumbsIntegration: jest.fn(() => ({ name: 'Breadcrumbs' })),
+    addBreadcrumb: jest.fn(),
   };
 });
 
