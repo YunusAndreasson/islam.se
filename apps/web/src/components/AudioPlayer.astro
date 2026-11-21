@@ -1,5 +1,6 @@
 ---
 import { Pause, Play } from "@lucide/astro";
+import type { EpisodeLinks } from "../lib/podcast";
 
 interface Props {
 	src: string;
@@ -13,9 +14,12 @@ interface Props {
 	 *  `syncTriggers()` mirrors playing state onto both without knowing the
 	 *  difference. */
 	label?: string;
+	/** The recording's own episode in Apple Podcasts and Spotify (episodeLinks), handed to
+	 *  FloatingPlayer so its two directory links follow what is playing. */
+	episode?: EpisodeLinks;
 }
 
-const { src, title, artwork, label = "Lyssna" } = Astro.props;
+const { src, title, artwork, label = "Lyssna", episode } = Astro.props;
 ---
 
 <button
@@ -24,6 +28,8 @@ const { src, title, artwork, label = "Lyssna" } = Astro.props;
 	data-audio-src={src}
 	data-audio-title={title}
 	data-audio-artwork={artwork}
+	data-audio-apple={episode?.apple}
+	data-audio-spotify={episode?.spotify}
 	aria-label={`Lyssna på ${title || 'essän'}`}
 >
 	<Play class="audio-trigger-icon-play" size={14} fill="currentColor" stroke-width={0} />
@@ -93,6 +99,8 @@ const { src, title, artwork, label = "Lyssna" } = Astro.props;
 				src: btn.dataset.audioSrc,
 				title: btn.dataset.audioTitle,
 				artwork: btn.dataset.audioArtwork,
+				apple: btn.dataset.audioApple,
+				spotify: btn.dataset.audioSpotify,
 			},
 		}));
 	});

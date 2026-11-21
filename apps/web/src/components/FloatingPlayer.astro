@@ -329,7 +329,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 	// Listen for play requests from triggers (module scope = registered once)
 	document.addEventListener("floating-player:play", (e) => {
-		const { src, title, artwork } = e.detail;
+		const { src, title, artwork, apple, spotify } = e.detail;
 		const p = el();
 		if (!p || !src) return;
 
@@ -367,6 +367,13 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 		// Reset UI
 		titleEl.textContent = title || "";
+		// The directory links follow what is playing: that episode where the trigger knows
+		// it (episodeLinks), otherwise the show the links were rendered with.
+		for (const link of p.querySelectorAll<HTMLAnchorElement>(".fp-subscribe a[data-platform]")) {
+			link.dataset.showHref ??= link.href;
+			const own = link.dataset.platform === "apple" ? apple : link.dataset.platform === "spotify" ? spotify : undefined;
+			link.href = own || link.dataset.showHref;
+		}
 		timeEl.textContent = "0:00";
 		progress.value = "0";
 		fillBar(0);

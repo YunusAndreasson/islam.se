@@ -18,6 +18,7 @@ import { figureJsonLd } from "../lib/inline-images";
 import { imageObject } from "../lib/jsonld";
 import { COVER_HERO_SIZES, COVER_HERO_WIDTHS } from "../lib/hero";
 import { pageHeroPreload } from "../lib/hero-preload";
+import { episodeLinks } from "../lib/podcast";
 
 export async function getStaticPaths() {
 	const articles = await getArticles();
@@ -38,6 +39,7 @@ interface Props {
 }
 
 const { article, prev, next } = Astro.props;
+const episode = episodeLinks(article.slug);
 
 const heroPreload = await pageHeroPreload(article.heroImage, article.mobileHeroImage, { cover: true });
 const { Content, headings } = await render(article.entry);
@@ -175,9 +177,19 @@ const figureBlocks = await figureJsonLd(
 					<AudioPlayer
 						src={`/audio/${article.audioFile}`}
 						title={article.title}
+						episode={episode}
 						{...(article.heroImage ? { artwork: article.heroImage.src } : {})}
 					/>
-					<a class="article-listen-more" href="/podcast/">Fler upplästa essäer i podden</a>
+					{/* The same reading in the listener's own app. On a phone this row is the
+					    only way there: the floating player drops its directory links under
+					    30rem. Each opens this essay's episode, not the show (episodeLinks). */}
+					<span class="article-listen-more">
+						<a href={episode.spotify} target="_blank" rel="noopener" aria-label="Lyssna på essän i Spotify">Spotify</a>
+						<span aria-hidden="true"> · </span>
+						<a href={episode.apple} target="_blank" rel="noopener" aria-label="Lyssna på essän i Apple Podcasts">Apple Podcasts</a>
+						<span aria-hidden="true"> · </span>
+						<a href="/podcast/">Fler upplästa essäer i podden</a>
+					</span>
 				</div>
 			)}
 
@@ -322,12 +334,16 @@ const figureBlocks = await figureJsonLd(
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		color: var(--text-quiet);
+	}
+
+	.article-listen-more a {
+		color: inherit;
 		text-decoration: underline;
 		text-decoration-color: var(--color-divider);
 		text-underline-offset: var(--underline-offset);
 	}
 
-	.article-listen-more:hover {
+	.article-listen-more a:hover {
 		color: var(--color-text);
 		text-decoration-color: currentColor;
 	}

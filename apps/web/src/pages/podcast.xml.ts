@@ -4,7 +4,12 @@ import { join } from "node:path";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
 import { SITE_URL } from "../lib/config";
-import { PODCAST_COVER, PODCAST_DESCRIPTION, PODCAST_TITLE } from "../lib/podcast";
+import {
+	episodeShowNotes,
+	PODCAST_COVER,
+	PODCAST_DESCRIPTION,
+	PODCAST_TITLE,
+} from "../lib/podcast";
 import { escapeXml } from "../lib/xml";
 
 const SITE = SITE_URL;
@@ -78,7 +83,7 @@ export async function GET(_context: APIContext) {
 
 			return `    <item>
       <title>${escapeXml(ep.title)}</title>
-      <description><![CDATA[${ep.description}]]></description>
+      <description><![CDATA[${episodeShowNotes(ep.description, link)}]]></description>
       <pubDate>${toRFC2822(ep.publishedAt)}</pubDate>
       <link>${link}</link>
       <guid isPermaLink="false">${ep.slug}</guid>

@@ -1,11 +1,13 @@
 ---
 import { Rss } from "@lucide/astro";
 import type { HTMLAttributes } from "astro/types";
-import { APPLE_PODCAST_URL, PODCAST_FEED, SPOTIFY_SHOW_URL } from "../lib/podcast";
+import { APPLE_PODCAST_URL, type EpisodeLinks, PODCAST_FEED, SPOTIFY_SHOW_URL } from "../lib/podcast";
 import PodcastBrandIcon from "./PodcastBrandIcon.astro";
 
 type Props = HTMLAttributes<"div"> & {
 	actionClass: string;
+	/** One essay's episode (episodeLinks); without it the links open the show. */
+	episode?: EpisodeLinks;
 	iconSize?: number;
 	includeFeed?: boolean;
 	showLabels?: boolean;
@@ -17,16 +19,17 @@ const {
 	iconSize = 14,
 	includeFeed = false,
 	showLabels = true,
+	episode,
 	...rest
 } = Astro.props;
 ---
 
 <div {...rest} class:list={["subscribe-row", className]}>
-	<a class={actionClass} href={APPLE_PODCAST_URL} target="_blank" rel="noopener" aria-label={showLabels ? undefined : "Apple Podcasts"}>
+	<a class={actionClass} href={episode?.apple ?? APPLE_PODCAST_URL} data-platform="apple" target="_blank" rel="noopener" aria-label={showLabels ? undefined : "Apple Podcasts"}>
 		<PodcastBrandIcon platform="apple" size={iconSize} />
 		{showLabels && "Apple Podcasts"}
 	</a>
-	<a class={actionClass} href={SPOTIFY_SHOW_URL} target="_blank" rel="noopener" aria-label={showLabels ? undefined : "Spotify"}>
+	<a class={actionClass} href={episode?.spotify ?? SPOTIFY_SHOW_URL} data-platform="spotify" target="_blank" rel="noopener" aria-label={showLabels ? undefined : "Spotify"}>
 		<PodcastBrandIcon platform="spotify" size={iconSize} />
 		{showLabels && "Spotify"}
 	</a>

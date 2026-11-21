@@ -9,6 +9,9 @@ interface DocumentEventMap {
 		src: string | undefined;
 		title: string | undefined;
 		artwork: string | undefined;
+		/** The episode's own page in each directory, when the trigger knows it. */
+		apple: string | undefined;
+		spotify: string | undefined;
 	}>;
 	/** A prayer-settings form changed a value (scripts/bonetider-settings-form.ts). */
 	"bt-settings-change": CustomEvent<
