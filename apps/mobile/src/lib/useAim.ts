@@ -10,7 +10,7 @@
 // detail below is a bug that screen already paid for once. They are kept together here so
 // the Moon dial cannot re-learn them one at a time.
 import * as Location from 'expo-location';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
 import { type SharedValue, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import {
@@ -44,10 +44,14 @@ import { motion } from '@/theme/tokens';
 // So the sensor is opened once, ref-counted, and fanned out. Everything above the fan-out —
 // the permission question, the bands, the throttle — stays per-consumer, because those are
 // per-consumer decisions.
-type HeadingListener = (heading: number, accuracy: number | null) => void;
+interface HeadingListener {
+  onHeading: (heading: number, accuracy: number | null) => void;
+  onError: () => void;
+}
 const listeners = new Set<HeadingListener>();
 let watch: Location.LocationSubscription | null = null;
 let opening: Promise<void> | null = null;
+let watchFailed = false;
 /** The most recent reading, replayed to whoever joins an already-open watch.
  *
  *  ⚠️ WITHOUT THIS, THE SECOND INSTRUMENT LIES. expo-location emits a heading event only when
@@ -72,17 +76,31 @@ function fanOut(h: Location.LocationHeadingObject): void {
   const raw = h.trueHeading != null && h.trueHeading >= 0 ? h.trueHeading : h.magHeading;
   if (raw == null || Number.isNaN(raw)) return;
   const acc = typeof h.accuracy === 'number' ? h.accuracy : null;
+  watchFailed = false;
   lastReading = { heading: raw, accuracy: acc };
   // Iterate a COPY: a listener that unsubscribes during the fan-out would otherwise mutate
   // the set we are walking.
-  for (const l of [...listeners]) l(raw, acc);
+  for (const listener of [...listeners]) listener.onHeading(raw, acc);
+}
+
+function onWatchError(): void {
+  // iOS reports a stream ending through this callback after watchHeadingAsync has resolved.
+  // A replay of its last heading could tell a newly opened instrument it was already aimed.
+  watchFailed = true;
+  lastReading = null;
+  for (const listener of [...listeners]) listener.onError();
 }
 
 async function addHeadingListener(fn: HeadingListener): Promise<void> {
   listeners.add(fn);
+  if (watch && watchFailed) {
+    watch.remove();
+    watch = null;
+  }
   if (!watch) {
     if (!opening) {
-      opening = Location.watchHeadingAsync(fanOut)
+      watchFailed = false;
+      opening = Location.watchHeadingAsync(fanOut, onWatchError)
         .then((s) => {
           // Everyone may have left while we were opening.
           if (listeners.size === 0) s.remove();
@@ -105,7 +123,8 @@ async function addHeadingListener(fn: HeadingListener): Promise<void> {
     }
   }
   // Whatever we already know, said immediately — see `lastReading`.
-  if (lastReading) fn(lastReading.heading, lastReading.accuracy);
+  if (lastReading) fn.onHeading(lastReading.heading, lastReading.accuracy);
+  else if (watchFailed) fn.onError();
 }
 
 function removeHeadingListener(fn: HeadingListener): void {
@@ -275,38 +294,21 @@ export function useAim({
   // the previous lock) AND we can tell whether the band actually moved — which the turn
   // throttle needs, so the pill and the count can never be sampled a beat apart.
   const statusRef = useRef<AimStatus>(AIM_COLD);
-  // In a ref so flipping it cannot re-create `applyReading` and, through it, re-subscribe the
-  // sensor — the same reason `bearingRef` exists. Written in an effect rather than in render:
-  // a ref mutated during render is the pattern react-hooks/refs exists to stop, and this value
-  // is a constant per call site anyway.
-  const countTurnRef = useRef(countTurn);
-  useEffect(() => {
-    countTurnRef.current = countTurn;
-  }, [countTurn]);
-  // Live bearing in a ref so the heading callback reads the latest value WITHOUT listing
-  // `bearing` in its deps. In GPS mode each fresh fix moves the bearing; if that re-created
-  // `onHeading`, the subscribe effect would tear down and re-subscribe the magnetometer on
-  // every fix, resetting its calibration warm-up and dropping the lock on a moving device.
-  const bearingRef = useRef(bearing);
   // Whether we are currently reading the sensor. The bearing can move at any time, including
   // while this screen is blurred and unsubscribed; re-folding a minutes-old heading then
   // would rebuild a direction from wherever the phone WAS pointing, and could fire the lock
   // haptic at a screen nobody is looking at.
   const reading = useRef(false);
 
-  // Safe to close over directly, and safe in the deps below: reanimated's useReducedMotion
-  // returns a module constant sampled once at app start ("Changing the reduced motion system
-  // setting doesn't cause your components to rerender"), so it cannot change for the life of
-  // this hook and cannot churn the subscription.
   const reduceMotion = useReducedMotion();
 
   // Fold a reading into the coarse status and the remaining turn, bailing whenever neither
   // moved so the common case — holding roughly steady — costs zero renders. `force` skips the
   // turn throttle, for the re-fold a moved bearing triggers while the phone is not moving.
-  const applyReading = useCallback(
-    (norm: number, acc: number | null, brg: number, force: boolean) => {
+  const applyReading = useEffectEvent(
+    (norm: number, acc: number | null, force: boolean) => {
       const prev = statusRef.current;
-      const next = deriveAimStatus(norm, acc, brg, prev.aligned);
+      const next = deriveAimStatus(norm, acc, bearing, prev.aligned);
       const bandMoved =
         prev.aligned !== next.aligned || prev.near !== next.near || prev.calibrating !== next.calibrating;
       if (bandMoved) {
@@ -315,7 +317,7 @@ export function useAim({
       }
       // Lock-only consumers stop here: the band is all they read, so the throttle, the
       // rounding and the state push below are pure cost for them. See `countTurn`.
-      if (!countTurnRef.current) return;
+      if (!countTurn) return;
       // An untrusted reading has no turn to report: the same gate that hides the needle must
       // hide the number, or the readout would count down toward a bearing the dial is
       // refusing to draw.
@@ -332,14 +334,13 @@ export function useAim({
       // out of step, and the screen says "you are pointing at it" above "18° left to turn".
       if (!force && !bandMoved && now - lastTurnPush.current < TURN_PUSH_MS) return;
       lastTurnPush.current = now;
-      const t = aimTurn(norm, brg);
+      const t = aimTurn(norm, bearing);
       const deg = Math.round(t.deg);
       setTurn((p) => (p && p.deg === deg && p.dir === t.dir ? p : { deg, dir: t.dir }));
     },
-    [],
   );
 
-  const onHeading = useCallback(
+  const onHeading = useEffectEvent(
     (raw: number, rawAcc: number | null) => {
       const norm = normalizeHeading(raw);
       // performance.now(): an interval, immune to the wall clock stepping (see applyReading).
@@ -352,7 +353,7 @@ export function useAim({
       lastRaw.current = norm;
       headingRef.current = norm;
       accRef.current = acc;
-      const p = aimProximity(norm, acc, bearingRef.current);
+      const p = aimProximity(norm, acc, bearing);
       // Drive the shared values from JS, through set() — the form the React Compiler can see
       // is a deliberate write. Under Reduce Motion we jump instead of easing, the way
       // DisclosureGroup and FaqItem do — what goes is the added easing on top of the sensor,
@@ -361,7 +362,7 @@ export function useAim({
         reduceMotion ? unwrapped.current : withTiming(unwrapped.current, { duration: motion.quick }),
       );
       prox.set(reduceMotion ? p : withTiming(p, { duration: motion.quick }));
-      applyReading(norm, acc, bearingRef.current, false);
+      applyReading(norm, acc, false);
       if (!hasReadingRef.current) {
         hasReadingRef.current = true;
         setHasReading(true);
@@ -375,10 +376,9 @@ export function useAim({
         setPermissionDenied(false);
       }
     },
-    [rotation, prox, applyReading, reduceMotion],
   );
 
-  // Keep `bearingRef` current and re-fold the last reading when the bearing moves — the
+  // Re-fold the last reading when the bearing moves — the
   // magnetometer may not tick while the phone is still, so without this the status would lag
   // a fresh GPS fix (or the Moon's own climb).
   //
@@ -388,12 +388,11 @@ export function useAim({
   // the pill and the count would move to the new bearing while the dial's brass ramp went on
   // showing the warmth for the old one, which on Månen is every sixty seconds.
   useEffect(() => {
-    bearingRef.current = bearing;
     if (!reading.current || headingRef.current == null) return;
-    applyReading(headingRef.current, accRef.current, bearing, true);
+    applyReading(headingRef.current, accRef.current, true);
     const p = aimProximity(headingRef.current, accRef.current, bearing);
     prox.set(reduceMotion ? p : withTiming(p, { duration: motion.quick }));
-  }, [bearing, applyReading, prox, reduceMotion]);
+  }, [bearing, prox, reduceMotion]);
 
   useEffect(() => {
     if (!active) return;
@@ -402,14 +401,34 @@ export function useAim({
     let listening = false;
     let timer: ReturnType<typeof setTimeout> | null = null;
     reading.current = true;
-    const listener: HeadingListener = (raw, acc) => {
-      // `addHeadingListener` puts this in the shared set BEFORE it awaits, so a screen that
-      // blurs during that window is cleaned up while still subscribed — and a fan-out landing
-      // then would repopulate the status it just cleared, and could re-enter the aligned band
-      // and fire the lock haptic and announcement at a screen the reader has already left.
-      if (cancelled) return;
-      gotEvent = true;
-      onHeading(raw, acc);
+    function clearDirection() {
+      headingRef.current = null;
+      accRef.current = null;
+      calibration.current = CALIBRATION_COLD;
+      statusRef.current = AIM_COLD;
+      lastTurnPush.current = 0;
+      setStatus(AIM_COLD);
+      setTurn(null);
+      prox.set(0);
+    }
+    const listener: HeadingListener = {
+      onHeading(raw, acc) {
+        if (cancelled) return;
+        gotEvent = true;
+        onHeading(raw, acc);
+      },
+      onError() {
+        if (cancelled) return;
+        gotEvent = true;
+        clearDirection();
+        hasReadingRef.current = false;
+        noCompassRef.current = true;
+        setHasReading(false);
+        setNoCompass(true);
+        lastRaw.current = 0;
+        unwrapped.current = 0;
+        rotation.set(0);
+      },
     };
 
     // Read before the try: the React Compiler cannot lower a conditional inside a try block
@@ -466,22 +485,15 @@ export function useAim({
       // city they changed while they were away — with the phone pointing anywhere. Clearing
       // the count alone was worse than clearing nothing: it left the verdict on screen with
       // the measurement that justified it removed.
-      headingRef.current = null;
-      accRef.current = null;
-      calibration.current = CALIBRATION_COLD;
-      statusRef.current = AIM_COLD;
-      setStatus(AIM_COLD);
-      setTurn(null);
+      clearDirection();
       // `hasReading` deliberately SURVIVES. It is not a direction claim — it means "this
       // device has a compass and it spoke", which does not stop being true when a screen
       // blurs. Cleared here, the map's compass button reverted to its no-compass rose (and
       // "kompassen är inte tillgänglig") for the frames between coming back and the first new
       // event, flashing a hardware complaint on a phone that plainly has the hardware.
       // `noCompass` and `permissionDenied` survive for the same reason.
-      lastTurnPush.current = 0;
-      prox.set(0);
     };
-  }, [active, request, askCount, onHeading, prox, permissionSource]);
+  }, [active, request, askCount, prox, rotation, permissionSource]);
 
   return {
     status,

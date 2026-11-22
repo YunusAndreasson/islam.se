@@ -71,6 +71,44 @@ describe('useAim — one sensor, many instruments', () => {
     expect(view.getByText('searching')).toBeTruthy();
   });
 
+  it('updates the lock when the target moves while the phone is still', async () => {
+    // A GPS fix or the Moon's movement can change the target between sensor events.
+    // Reopening the watch here would discard calibration and the phone's last heading.
+    const view = await render(<Instrument bearing={0} />);
+    await act(async () => { emit?.({ trueHeading: 0, magHeading: 0, accuracy: 3 }); });
+    expect(view.getByText('aimed')).toBeTruthy();
+
+    await view.rerender(<Instrument bearing={90} />);
+    expect(view.getByText('searching')).toBeTruthy();
+    await act(async () => { emit?.({ trueHeading: 90, magHeading: 90, accuracy: 3 }); });
+    expect(view.getByText('aimed')).toBeTruthy();
+    expect(Location.watchHeadingAsync).toHaveBeenCalledTimes(1);
+    expect(removed).toBe(0);
+  });
+
+  it('withdraws a failed compass reading and restores both instruments on a fresh watch', async () => {
+    // Expo can end the heading stream after its setup promise has resolved. The old
+    // lock stayed on screen and was replayed to the next instrument that opened.
+    function Pair({ second = false }: { second?: boolean }) {
+      return <><Instrument bearing={0} />{second && <Instrument bearing={0} />}</>;
+    }
+    const view = await render(<Pair />);
+    await act(async () => { emit?.({ trueHeading: 0, magHeading: 0, accuracy: 3 }); });
+    expect(view.getByText('aimed')).toBeTruthy();
+    const onError = jest.mocked(Location.watchHeadingAsync).mock.calls[0]?.[1];
+    if (!onError) throw new Error('An ended heading stream must withdraw the last compass lock.');
+    await act(async () => { onError('heading stream ended'); });
+    expect(view.getByText('no compass')).toBeTruthy();
+    expect(view.queryByText('aimed')).toBeNull();
+
+    await view.rerender(<Pair second />);
+    expect(view.queryByText('aimed')).toBeNull();
+    expect(removed).toBe(1);
+    expect(Location.watchHeadingAsync).toHaveBeenCalledTimes(2);
+    await act(async () => { emit?.({ trueHeading: 0, magHeading: 0, accuracy: 3 }); });
+    expect(view.getAllByText('aimed')).toHaveLength(2);
+  });
+
   it('keeps the sensor open while any instrument is still listening', async () => {
     const view = await render(
       <>

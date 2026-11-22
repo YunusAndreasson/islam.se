@@ -24,11 +24,9 @@ import type { SuperProperties, TrackArguments } from './events';
 
 export { ANALYTICS_EVENTS } from './events';
 export type {
-  AnalyticsEventName,
   LocationContext,
   PermissionKind,
   PermissionSource,
-  RemindersState,
   SuperProperties,
 } from './events';
 

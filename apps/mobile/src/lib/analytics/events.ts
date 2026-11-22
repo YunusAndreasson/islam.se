@@ -95,7 +95,7 @@ export const ANALYTICS_EVENTS = {
  * The events `analytics.track` accepts. A hand-written string is a compile error rather
  * than a row in Mixpanel under a name no report queries.
  */
-export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
+type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
 
 /** Which OS permission an event is about. */
 export type PermissionKind = 'location' | 'notifications';
