@@ -228,19 +228,14 @@ export class SourceValidator {
 	 */
 	public async verifyUrl(url: string, timeoutMs = 10000): Promise<UrlVerification> {
 		try {
-			const controller = new AbortController();
-			const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
 			const response = await fetch(url, {
 				method: "HEAD",
-				signal: controller.signal,
+				signal: AbortSignal.timeout(timeoutMs),
 				redirect: "follow",
 				headers: {
 					"User-Agent": "Mozilla/5.0 (compatible; IslamSE/1.0; +https://islam.se)",
 				},
 			});
-
-			clearTimeout(timeoutId);
 
 			// Consider 2xx and 3xx as existing, also 403 (some sites block HEAD but exist)
 			const exists = response.ok || response.status === 403 || response.status === 405;

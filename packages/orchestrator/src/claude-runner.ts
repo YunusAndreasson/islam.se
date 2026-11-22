@@ -850,9 +850,12 @@ export class ClaudeRunner extends EventEmitter {
 		const OPEN = "```json";
 		for (let at = text.indexOf(OPEN); at !== -1; at = text.indexOf(OPEN, at + OPEN.length)) {
 			let end = at + OPEN.length;
-			while (end < text.length && /\s/.test(text[end] ?? "")) end++;
-			const lastNewline = text.lastIndexOf("\n", end - 1);
-			if (lastNewline < at + OPEN.length) continue; // no newline after the tag
+			let lastNewline = -1;
+			while (end < text.length && /\s/.test(text[end] ?? "")) {
+				if (text[end] === "\n") lastNewline = end;
+				end++;
+			}
+			if (lastNewline === -1) continue;
 			const close = text.indexOf("\n```", lastNewline + 1);
 			if (close === -1) return null;
 			const body = text.slice(lastNewline + 1, close);
