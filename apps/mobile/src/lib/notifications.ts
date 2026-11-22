@@ -41,6 +41,7 @@ export const NOTIFY_PRAYERS: readonly NotifyPrayerKey[] = PRAYER_ORDER.filter(
 export type NotificationPermissionState = 'unknown' | 'granted' | 'denied' | 'undetermined';
 
 const CATEGORY_ID = 'prayer-reminder';
+const ANDROID_PROMPT_SHOWN_KEY = 'notificationPermissionAsked:v1';
 
 /**
  * iOS: the notification-centre thread every prayer alert joins. ONE thread, not one per
@@ -336,7 +337,12 @@ export async function getNotificationPermissionState(): Promise<NotificationPerm
   try {
     const current = await Notifications.getPermissionsAsync();
     if (isAllowed(current)) return 'granted';
-    return current.canAskAgain ? 'undetermined' : 'denied';
+    if (!current.canAskAgain) return 'denied';
+    // Android 13+ reports denied/askable both before the dialog and after a
+    // first refusal. Only the former is an invitation for the map's soft ask.
+    if (Platform.OS === 'android' && current.status === 'denied' &&
+        await storage.getItem(ANDROID_PROMPT_SHOWN_KEY) !== null) return 'denied';
+    return 'undetermined';
   } catch {
     return 'unknown';
   }
@@ -382,6 +388,10 @@ export async function requestNotificationPermission(
       ios: { allowAlert: true, allowSound: true, allowBadge: false },
     });
     const granted = isAllowed(next);
+    if (Platform.OS === 'android') {
+      // Losing the marker must never turn the OS's actual answer into 'unknown'.
+      await storage.setItem(ANDROID_PROMPT_SHOWN_KEY, '1').catch(() => undefined);
+    }
     trackPermissionResult('notifications', source, granted, true);
     return granted ? 'granted' : 'denied';
   } catch {

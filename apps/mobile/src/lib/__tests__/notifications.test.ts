@@ -555,6 +555,25 @@ describe('notification permission', () => {
     expect(await getNotificationPermissionState()).toBe('undetermined');
   });
 
+  // Android 13+ returns the same denied/askable response before the first
+  // dialog and after one refusal. A passive read must remember the difference.
+  it('remembers the Android refusal while allowing a deliberate settings retry', async () => {
+    const refused = {
+      granted: false, canAskAgain: true, status: PermissionStatus.DENIED, expires: 'never' as const,
+    };
+    getPermissionsMock.mockResolvedValue(refused);
+    requestPermissionsMock.mockResolvedValueOnce(refused).mockResolvedValueOnce({
+      ...refused, granted: true, status: PermissionStatus.GRANTED,
+    });
+    await withPlatform('android', async () => {
+      expect(await getNotificationPermissionState()).toBe('undetermined');
+      expect(await requestNotificationPermission('intro')).toBe('denied');
+      expect(await getNotificationPermissionState()).toBe('denied');
+      expect(await requestNotificationPermission('settings')).toBe('granted');
+      expect(requestPermissionsMock).toHaveBeenCalledTimes(2);
+    });
+  });
+
   // Android 13+ shows the POST_NOTIFICATIONS dialog only once a channel exists — expo's
   // own permission example creates the channel first for exactly this reason. Requesting
   // before creating it (the previous order) can leave the prompt unshown, which looks

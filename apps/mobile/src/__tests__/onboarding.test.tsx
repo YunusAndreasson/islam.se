@@ -22,6 +22,7 @@ import { AppState, BackHandler } from 'react-native';
 import Valkommen from '@/app/valkommen';
 import { analytics, holdForAppOpen, releaseAppOpen } from '@/lib/analytics';
 import { IntroProvider } from '@/lib/intro-context';
+import { loadIntroStatus } from '@/lib/intro';
 import { LocationProvider } from '@/lib/location/context';
 import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
 import { hapticSelection, hapticSuccess } from '@/lib/haptics';
@@ -118,6 +119,24 @@ describe('the introduction', () => {
     jest
       .mocked(Notifications.getPermissionsAsync)
       .mockResolvedValue(permission('undetermined') as never);
+  });
+
+  // Saving a city or reminder preference mid-intro used to look like a legacy
+  // install on restart, sending the reader straight to the map.
+  it('reopens the unfinished step with the saved reminder choice after process death', async () => {
+    await launch();
+    await press('Kom igång');
+    await press('Nästa');
+    answerNotifications('denied');
+    jest.mocked(Notifications.getPermissionsAsync).mockResolvedValueOnce(permission('undetermined') as never);
+    await press('Slå på påminnelser');
+    await screen.unmount();
+
+    expect(await loadIntroStatus()).toBe('pending');
+    await launch();
+    expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
+    expect(screen.getByText(/Notiser är blockerade/)).toBeTruthy();
+    expect(Notifications.requestPermissionsAsync).toHaveBeenCalledTimes(1);
   });
 
   it('opens on the welcome step and asks the OS for nothing at all', async () => {

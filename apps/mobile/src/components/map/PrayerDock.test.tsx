@@ -653,6 +653,28 @@ describe('PrayerDock open height follows the schedule it measured', () => {
     expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 260);
   });
 
+  // An urgent layout can arrive after Back starts closing the dock and before
+  // React commits the lower-priority flag. Reporting open again traps the next Back.
+  it('keeps the host informed that the dock is closing during a late measurement', async () => {
+    const ref = createRef<PrayerDockHandle>();
+    const report = jest.fn<(open: boolean, height: number) => void>();
+    await render(<PrayerDock {...dockProps(true)} ref={ref} onExpandedChange={report} />);
+    const react = jest.requireActual<typeof import('react')>('react');
+    let commit: Parameters<typeof react.startTransition>[0] | undefined;
+    const transition = jest.spyOn(react, 'startTransition').mockImplementationOnce((update) => {
+      commit = update;
+    });
+    try {
+      await act(() => { expect(ref.current?.collapse()).toBe(true); });
+      await measure(260);
+      await act(async () => { await commit?.(); });
+      expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
+      expect(last(report.mock.calls, 'final expansion reported to the map')[0]).toBe(false);
+    } finally {
+      transition.mockRestore();
+    }
+  });
+
   it('grows with the text size instead of clipping the date crown', async () => {
     const onExpandedChange = jest.fn<(open: boolean, height: number) => void>();
     const { rerender } = await render(

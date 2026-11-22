@@ -9,7 +9,7 @@
 // Map controls use the shared sky surface with a lighter tint opacity, matching the
 // collapsed prayer dock; modal bars use the OS palette's cardGlass / hairline.
 import type { ReactNode, Ref } from 'react';
-import { Pressable, StyleSheet, type ViewInstance } from 'react-native';
+import { Platform, Pressable, StyleSheet, type ViewInstance } from 'react-native';
 
 import { shadow } from '@/theme/tokens';
 import { GlassSurface } from '@/components/ui/GlassSurface';
@@ -50,6 +50,9 @@ export function GlassRoundButton({
   ref,
 }: Props) {
   const radius = size / 2;
+  // Android builds one content description. Updating a label while removing
+  // its value can leave the previous city's timetable in that description.
+  const android = Platform.OS === 'android';
   return (
     <Pressable
       ref={ref}
@@ -62,8 +65,8 @@ export function GlassRoundButton({
       onPress={onPress}
       disabled={disabled}
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel}
-      accessibilityValue={accessibilityValue ? { text: accessibilityValue } : undefined}
+      accessibilityLabel={android && accessibilityValue ? `${accessibilityLabel}, ${accessibilityValue}` : accessibilityLabel}
+      accessibilityValue={!android && accessibilityValue ? { text: accessibilityValue } : undefined}
       accessibilityState={disabled ? { disabled: true } : undefined}
       hitSlop={8}
     >

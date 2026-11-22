@@ -402,6 +402,20 @@ describe('tab screens', () => {
     expect(dock().times).toBe(initial.times);
   });
 
+  it('updates the complete Android accessibility label when a preview ends', async () => {
+    // Android retained the last city and prayer in the native content description
+    // after the lookup button switched back to search.
+    await withPlatform('android', async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      const search = 'Sök bönetider på annan plats';
+      await fireEvent.press(screen.getByRole('button', { name: search }));
+      await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'Göteborg');
+      await fireEvent.press(screen.getByRole('button', { name: /^Göteborg,/ }));
+      await fireEvent.press(screen.getByRole('button', { name: /^Avsluta platsförhandsvisning, Göteborg,/ }));
+      expect(screen.getByRole('button', { name: search })).toBeTruthy();
+    });
+  });
+
   // Back used to leave the app with another city's timetable still showing.
   it('uses Android back to end a place preview and releases it on the live map', async () => {
     const remove = jest.fn();

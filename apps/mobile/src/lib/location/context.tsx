@@ -84,7 +84,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
 
   // The fix itself, once permission is known to be granted. Shared by both entry
   // points below so the prompting and non-prompting paths can never drift.
-  const fetchFix = useCallback(async (): Promise<GpsOutcome> => {
+  const fetchFix = useCallback(async (mayShowUserSettingsDialog: boolean): Promise<GpsOutcome> => {
     setLocating(true);
     let expired = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -109,6 +109,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
 
         const current = await Location.getCurrentPositionAsync({
           accuracy: Location.LocationAccuracy.Balanced,
+          mayShowUserSettingsDialog,
         });
         // Native one-shot requests cannot be cancelled. Never let a timed-out
         // request replace coordinates obtained by a later refresh.
@@ -149,7 +150,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       trackPermissionResult('location', source, perm.granted, prompted);
       setPermissionStatus(perm.granted ? 'granted' : 'denied');
       if (!perm.granted) return 'denied';
-      return await fetchFix();
+      return await fetchFix(true);
     } catch {
       return 'error';
     } finally {
@@ -175,7 +176,9 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       // would make the map show a denied-state card to someone who was never asked.
       setPermissionStatus(toLocationPermissionState(perm));
       if (!perm.granted) return;
-      await fetchFix();
+      // Returning from Android's accuracy settings also triggers this refresh.
+      // Only a reader-initiated lookup may open that system dialog.
+      await fetchFix(false);
     } catch {
       // An unreadable permission is not worth surfacing: the fallback already applies.
     } finally {

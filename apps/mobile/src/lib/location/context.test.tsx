@@ -167,6 +167,11 @@ describe('LocationProvider never prompts unprompted', () => {
     await act(async () => onAppStateChange?.('active'));
 
     expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(1);
+    // Declining Google's location accuracy dialog foregrounds the app again.
+    // A passive fix must never raise that dialog and restart the loop.
+    expect(Location.getCurrentPositionAsync).toHaveBeenCalledWith(
+      expect.objectContaining({ mayShowUserSettingsDialog: false }),
+    );
     expect(screen.getByTestId('location').props.children).toBe('gps:granted');
   });
 

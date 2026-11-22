@@ -33,6 +33,7 @@ import { completeIntro, type IntroHistory, type IntroOutcome, type IntroStatus, 
 export const STARTUP_STORAGE_TIMEOUT_MS = 2000;
 
 interface IntroContextValue {
+  initialStep: number;
   /** 'unknown' until the storage read lands — the gate renders nothing on it. */
   status: IntroStatus;
   /** The introduction finished or was skipped (`outcome`, 'completed' unless said).
@@ -61,6 +62,7 @@ const IntroContext = createContext<IntroContextValue | null>(null);
 
 export function IntroProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<IntroStatus>('unknown');
+  const [initialStep, setInitialStep] = useState(0);
   const [history, setHistory] = useState<IntroHistory | null>(null);
   const [replaying, setReplaying] = useState(false);
   const [mapLessonPending, setMapLessonPending] = useState(false);
@@ -81,7 +83,10 @@ export function IntroProvider({ children }: { children: ReactNode }) {
     void read.then((next) => {
       clearTimeout(timer);
       if (!active) return;
-      if (!routeDecided.current) setStatus(next.status);
+      if (!routeDecided.current) {
+        setInitialStep(next.step ?? 0);
+        setStatus(next.status);
+      }
       if (firstPass.current === storedHistory) setHistory(next.history);
     });
     return () => {
@@ -121,6 +126,7 @@ export function IntroProvider({ children }: { children: ReactNode }) {
 
   const replay = useCallback(() => {
     routeDecided.current = true;
+    setInitialStep(0);
     setReplaying(true);
     setStatus('pending');
   }, []);
@@ -130,8 +136,8 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<IntroContextValue>(
-    () => ({ status, complete, replay, replaying, history, mapLessonPending, dismissMapLesson }),
-    [status, complete, replay, replaying, history, mapLessonPending, dismissMapLesson],
+    () => ({ initialStep, status, complete, replay, replaying, history, mapLessonPending, dismissMapLesson }),
+    [initialStep, status, complete, replay, replaying, history, mapLessonPending, dismissMapLesson],
   );
 
   return <IntroContext value={value}>{children}</IntroContext>;

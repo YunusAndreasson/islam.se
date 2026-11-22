@@ -23,6 +23,8 @@ import { storage } from './storage';
 import { SETTINGS_STORAGE_KEY } from '@/lib/settings/store';
 
 const STORAGE_KEY = 'introSeen:v1';
+const PROGRESS_KEY = 'introStep:v1';
+export const INTRO_STEPS = ['welcome', 'location', 'notifications', 'method'] as const;
 
 /** 'unknown' is the pre-hydration state the gate renders nothing for — see intro-context. */
 export type IntroStatus = 'unknown' | 'pending' | 'done';
@@ -83,19 +85,23 @@ export function decideIntroHistory(
 }
 
 /**
- * Read both blobs and decide the gate and the history together. Never throws: unreadable
+ * Read the completion, settings and progress records together. Never throws: unreadable
  * storage falls back to 'done' so a broken read can't trap the user in a wizard they can't
  * get past — the map is the app, and it must always be reachable.
  */
-export async function loadIntro(): Promise<{ status: 'pending' | 'done'; history: IntroHistory | null }> {
+export async function loadIntro(): Promise<{ status: 'pending' | 'done'; history: IntroHistory | null; step?: number }> {
   try {
     // Indexed rather than destructured two levels deep: multiGet's result length is the
     // platform module's promise, not ours, and a short array would make the nested
     // `[, settingsRaw]` pattern throw on undefined — landing in the catch below and
     // silently reporting 'done', i.e. skipping the intro for a first-time user.
-    const pairs = await storage.multiGet([STORAGE_KEY, SETTINGS_STORAGE_KEY]);
+    const pairs = await storage.multiGet([STORAGE_KEY, SETTINGS_STORAGE_KEY, PROGRESS_KEY]);
     const introRaw = pairs[0]?.[1] ?? null;
     const settingsRaw = pairs[1]?.[1] ?? null;
+    // A city or permission choice can create settings halfway through a fresh run.
+    // The saved step distinguishes that install from one predating the introduction.
+    const step = INTRO_STEPS.findIndex((name) => name === pairs[2]?.[1]);
+    if (!introRaw && step >= 0) return { status: 'pending', history: null, step };
     return {
       status: decideIntroStatus(introRaw, settingsRaw),
       history: decideIntroHistory(introRaw, settingsRaw),
@@ -110,6 +116,16 @@ export async function loadIntroStatus(): Promise<'pending' | 'done'> {
   return (await loadIntro()).status;
 }
 
+// Serialize navigation taps so a slow write from an earlier step cannot undo Back.
+let progressWrite = Promise.resolve();
+export function saveIntroStep(step: number): void {
+  const name = INTRO_STEPS[step];
+  if (!name) return;
+  progressWrite = progressWrite
+    .then(() => storage.setItem(PROGRESS_KEY, name))
+    .catch(() => undefined);
+}
+
 /** Mark the introduction as seen — finished OR skipped, and which. Best-effort: a failed
  *  write only means it may be offered once more, which is survivable.
  *
@@ -119,6 +135,8 @@ export async function loadIntroStatus(): Promise<'pending' | 'done'> {
 export async function completeIntro(outcome: IntroOutcome = 'completed'): Promise<void> {
   try {
     await storage.setItem(STORAGE_KEY, JSON.stringify({ completed: true, outcome }));
+    await progressWrite;
+    await storage.removeItem(PROGRESS_KEY);
   } catch {
     // Ignored on purpose — see above.
   }

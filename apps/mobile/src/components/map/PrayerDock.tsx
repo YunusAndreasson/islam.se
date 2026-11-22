@@ -703,7 +703,9 @@ export function PrayerDock({
     // matters, leaving the card at the pre-measurement fallback — ~50 dp short, date crown
     // clipped under the grab handle. Measured on an emulator, every time.
     expandedSV.set(EXPANDED);
-    if (expanded) onExpandedChange?.(true, EXPANDED);
+    // A measurement during the close spring can still see the previous React
+    // state. The map has already been told the dock is closing.
+    if (expanded && targetOpen.get()) onExpandedChange?.(true, EXPANDED);
   });
   useEffect(() => {
     onExpandedHeightChange();

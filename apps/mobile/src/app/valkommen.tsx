@@ -34,33 +34,38 @@ import { StepWelcome } from '@/components/intro/StepWelcome';
 import { ANALYTICS_EVENTS, afterAppOpen, analytics } from '@/lib/analytics';
 import { remindersState } from '@/lib/analytics/properties';
 import { hapticSelection, hapticSuccess } from '@/lib/haptics';
-import type { IntroOutcome } from '@/lib/intro';
+import { INTRO_STEPS, type IntroOutcome, saveIntroStep } from '@/lib/intro';
 import { useIntro } from '@/lib/intro-context';
 import { useLocation } from '@/lib/location/context';
 import { getNotificationPermissionState } from '@/lib/notifications';
 import { useSettings } from '@/lib/settings/context';
 import { useColors } from '@/theme/useColors';
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = INTRO_STEPS.length;
 
 /** The steps as analytics names them, in order. A step's name, not its title: the titles
  *  are copy and change, the funnel must not. */
-const STEP_NAMES = ['welcome', 'location', 'notifications', 'method'] as const;
-const stepName = (index: number): (typeof STEP_NAMES)[number] | 'unknown' =>
-  STEP_NAMES[index] ?? 'unknown';
+const stepName = (index: number): (typeof INTRO_STEPS)[number] | 'unknown' =>
+  INTRO_STEPS[index] ?? 'unknown';
 
 export default function Valkommen() {
+  const { initialStep, status } = useIntro();
+  if (status === 'unknown') return null;
+  return <Introduction initialStep={status === 'pending' ? initialStep : 0} />;
+}
+
+function Introduction({ initialStep }: { initialStep: number }) {
   const c = useColors();
-  const { complete, replaying } = useIntro();
+  const { complete, replaying, status } = useIntro();
   const { source } = useLocation();
   // The steps write settings, so none of them may run before the persisted blob has
   // hydrated: SettingsProvider skips its persist effect until `loaded`, so an early
   // update() would be silently overwritten by the load that follows it.
   const { loaded, settings } = useSettings();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(initialStep);
   // Claim the transition before React commits it. A second tap from the old
   // screen must not advance the new step or replace the route a second time.
-  const pendingStep = useRef<number | null>(0);
+  const pendingStep = useRef<number | null>(initialStep);
 
   // One Onboarding Step Viewed per step shown, stepping back included (the funnel counts
   // readers per step, and a step seen twice is still one reader). `replay` is read through
@@ -133,20 +138,22 @@ export default function Valkommen() {
   // One way back, used by both the Android hardware gesture and the chrome control the
   // steps render. Sharing it is the point: they were two different behaviours on two
   // platforms before, which is how iOS ended up with none at all.
+  const goToStep = useCallback((index: number): void => {
+    pendingStep.current = index;
+    if (status === 'pending' && !replaying) saveIntroStep(index);
+    hapticSelection();
+    setStep(index);
+  }, [replaying, status]);
   const back = useCallback((): void => {
     if (step === 0 || pendingStep.current !== step) return;
-    pendingStep.current = step - 1;
-    hapticSelection();
-    setStep(step - 1);
-  }, [step]);
+    goToStep(step - 1);
+  }, [goToStep, step]);
 
   const next = (): void => {
     if (step >= TOTAL_STEPS - 1) {
       finish('completed');
     } else if (pendingStep.current === step) {
-      pendingStep.current = step + 1;
-      hapticSelection();
-      setStep(step + 1);
+      goToStep(step + 1);
     }
   };
 

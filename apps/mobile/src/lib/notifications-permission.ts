@@ -119,9 +119,7 @@ export function useNotificationPermission(active = true): NotificationPermission
       update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }));
       void analytics.track(ANALYTICS_EVENTS.REMINDERS_TOGGLED, { enabled: true, source });
       // A discrete negative outcome the user just triggered — the haptics policy's
-      // warning case. ANY answer that is not a grant counts: on Android the first refusal
-      // leaves canAskAgain true, so it arrives as 'undetermined' even though the user
-      // just said no.
+      // warning case, including when Android would allow a second explicit request.
       if (mounted.current && state !== 'granted') hapticWarning();
       return state;
     },
@@ -131,12 +129,8 @@ export function useNotificationPermission(active = true): NotificationPermission
     [update],
   );
 
-  // Android's FIRST refusal leaves canAskAgain true — which reads as 'undetermined' — and
-  // yet nothing will ever ask again: the toggle is already on, so the prompt's only two
-  // entry points (this switch flipping off→on, and the map's hint) are both spent.
-  // Reporting that as "Ej frågat" promised a dialog that never comes and hid the recovery
-  // link, leaving reminders silently dead. Any non-grant while the toggle is on is
-  // therefore "blocked".
+  // Older installs may lack the Android prompt marker. While the switch is on,
+  // either non-granted state needs the recovery link.
   const blocked = enabled && (permission === 'denied' || permission === 'undetermined');
   const footnote = !enabled
     ? undefined
