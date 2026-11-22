@@ -7,9 +7,9 @@ import { slugify } from "../bonetider/slug";
 import { SITE_URL } from "../config";
 import { talord } from "../format";
 import { byDistance } from "../geom";
-import { type DirectionsLinks, directionsLinks } from "./directions";
+import { directionsLinks } from "./directions";
 
-export { type DirectionsLinks, directionsLinks };
+export { directionsLinks };
 
 export interface Mosque {
 	readonly id: string;

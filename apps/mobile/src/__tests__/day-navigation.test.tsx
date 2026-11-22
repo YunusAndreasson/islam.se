@@ -50,9 +50,8 @@ function permission(status: 'granted' | 'denied' | 'undetermined') {
 }
 
 /** Renders the map and brings it to the state a user actually navigates from: camera
- *  settled and the basemap painted, which is when the day's grid is built. (There is no
- *  launch sweep to sit through any more — the map paints at the present moment from the
- *  first frame.) */
+ *  settled. (There is no launch sweep to sit through any more — the map paints at the
+ *  present moment from the first frame.) */
 async function launchMap(): Promise<void> {
   await render(withProviders(<Bonetider />));
   await act(async () => {});
@@ -61,6 +60,10 @@ async function launchMap(): Promise<void> {
       nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
     });
   });
+}
+
+/** The basemap's first full paint, which is when the day's grid is built. */
+async function paintMap(): Promise<void> {
   await act(async () => {
     await fireEvent(screen.getByTestId('sweden-map'), 'didFinishRenderingMapFully');
   });
@@ -174,6 +177,7 @@ describe('stepping days on the map', () => {
     async () => {
       const buildGrid = jest.spyOn(field, 'buildGrid');
       await launchMap();
+      await paintMap();
       const afterLaunch = buildGrid.mock.calls.length;
 
       await step('Nästa dag');
