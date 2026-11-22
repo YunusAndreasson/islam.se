@@ -54,6 +54,32 @@ describe('mapLessonPending', () => {
     }
   });
 
+  it.each([false, true])('preserves the original outcome when the startup read arrives after timeout (replay=%s)', async (replay) => {
+    // The routing deadline also discarded stored history. Skipping a replay then
+    // overwrote a returning reader's completed first pass on disk.
+    jest.useFakeTimers();
+    let finishRead!: (value: Awaited<ReturnType<typeof intro.loadIntro>>) => void;
+    const read = jest.spyOn(intro, 'loadIntro').mockImplementationOnce(() =>
+      new Promise((resolve) => { finishRead = resolve; }),
+    );
+    try {
+      await AsyncStorage.setItem('introSeen:v1', JSON.stringify({ completed: true, outcome: 'completed' }));
+      const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
+      await act(() => { jest.advanceTimersByTime(2000); });
+      if (replay) {
+        await act(() => result.current.replay());
+        await act(() => result.current.complete('skipped'));
+      }
+      await act(async () => { finishRead({ status: 'done', history: 'completed' }); });
+      expect(result.current.status).toBe('done');
+      expect(result.current.history).toBe('completed');
+      expect(JSON.parse((await AsyncStorage.getItem('introSeen:v1'))!).outcome).toBe('completed');
+    } finally {
+      read.mockRestore();
+      jest.useRealTimers();
+    }
+  });
+
   it('starts false, and complete() arms it', async () => {
     const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
     await act(async () => {});

@@ -122,7 +122,14 @@ export function SolarSkiaOverlay({
   // Compile lazily when the overlay mounts. Theme changes only update colour uniforms.
   const scheme = useActiveScheme();
   const palette = useMemo(() => washPaletteUniforms(washStopsFor(scheme)), [scheme]);
-  const washEffect = useMemo(() => Skia.RuntimeEffect.Make(WASH_SKSL), []);
+  const washEffect = useMemo(() => {
+    try {
+      return Skia.RuntimeEffect.Make(WASH_SKSL);
+    } catch {
+      // The native factory throws on a compile error. Keep the paths drawable.
+      return null;
+    }
+  }, []);
   useEffect(() => {
     if (!washEffect) {
       Sentry.captureException(new Error('Map twilight shader failed to compile'));

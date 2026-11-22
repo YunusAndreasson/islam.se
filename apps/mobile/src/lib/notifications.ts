@@ -429,8 +429,8 @@ export async function requestNotificationPermission(
 }
 
 async function loadPrayerNotificationIds(): Promise<string[]> {
+  const raw = await storage.getItem(PRAYER_NOTIFICATION_IDS_KEY);
   try {
-    const raw = await storage.getItem(PRAYER_NOTIFICATION_IDS_KEY);
     const parsed = raw ? JSON.parse(raw) : [];
     return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : [];
   } catch {
@@ -468,22 +468,27 @@ async function cancelByIds(ids: readonly string[]): Promise<void> {
  * still covered by the stored ids, which those builds wrote under the same key.
  */
 async function reconcilePendingIds(desired: Set<string>, retained: Map<string, string>): Promise<void> {
-  const ids = new Set(await loadPrayerNotificationIds());
-  try {
-    for (const request of await Notifications.getAllScheduledNotificationsAsync()) {
-      const data = request?.content?.data;
-      if (data?.source !== PRAYER_TAG) continue;
-      const identity = data.alertIdentity;
-      if (typeof identity === 'string' && desired.has(identity) && !retained.has(identity)) {
-        retained.set(identity, request.identifier);
-        ids.delete(request.identifier);
-      } else {
-        ids.add(request.identifier);
-      }
+  const [stored, pending] = await Promise.allSettled([
+    loadPrayerNotificationIds(),
+    Notifications.getAllScheduledNotificationsAsync(),
+  ]);
+  const ids = new Set(stored.status === 'fulfilled' ? stored.value : []);
+  for (const request of pending.status === 'fulfilled' ? pending.value : []) {
+    const data = request?.content?.data;
+    if (data?.source !== PRAYER_TAG) continue;
+    const identity = data.alertIdentity;
+    if (typeof identity === 'string' && desired.has(identity) && !retained.has(identity)) {
+      retained.set(identity, request.identifier);
+      ids.delete(request.identifier);
+    } else {
+      ids.add(request.identifier);
     }
-  } catch {
-    // Enumeration unavailable (older OS surface, native error) — the stored list alone
-    // still covers every normal run.
+  }
+  if (stored.status === 'rejected' || pending.status === 'rejected') {
+    // When turning reminders off, cancel what we can identify. Retry both lists
+    // before scheduling replacements or discarding the only record of legacy IDs.
+    if (desired.size === 0) await cancelByIds([...ids]);
+    throw new Error('Could not read every pending prayer notification');
   }
   await cancelByIds([...ids]);
   if (retained.size) await savePrayerNotificationIds([...retained.values()]);
@@ -622,7 +627,7 @@ async function reconcilePrayerNotifications(
         await bailStale();
         return;
       }
-      const batch: Promise<string>[] = [];
+      const batch: Promise<string | null>[] = [];
       for (const { key, at, fireAt, lead, sound, identity } of day) {
         if (retained.has(identity) || fireAt.getTime() <= Date.now()) continue;
         batch.push(
@@ -642,6 +647,11 @@ async function reconcilePrayerNotifications(
               channelId: channelIdFor(sound),
               ...deliveryFor(n),
             },
+          }).catch((error: unknown) => {
+            // The native bridge can receive this date after it has passed. That
+            // slot cannot be retried, but every subsequent day is still due.
+            if (fireAt.getTime() <= Date.now()) return null;
+            throw error;
           }),
         );
       }
@@ -650,7 +660,7 @@ async function reconcilePrayerNotifications(
       // requests. Collect every ID before cleanup/persistence or the next sync.
       const results = await Promise.allSettled(batch);
       for (const result of results) {
-        if (result.status === 'fulfilled') scheduledIds.push(result.value);
+        if (result.status === 'fulfilled' && result.value !== null) scheduledIds.push(result.value);
       }
       if (results.some((result) => result.status === 'rejected')) {
         throw new Error('Could not schedule every prayer notification');

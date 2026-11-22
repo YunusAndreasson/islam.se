@@ -65,20 +65,24 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   const [replaying, setReplaying] = useState(false);
   const [mapLessonPending, setMapLessonPending] = useState(false);
 
-  const introChanged = useRef(false);
+  const routeDecided = useRef(false);
+  const firstPass = useRef<Promise<IntroHistory | null> | null>(null);
   useEffect(() => {
     let active = true;
     const timer = setTimeout(() => {
-      if (!active || introChanged.current) return;
+      if (!active || routeDecided.current) return;
       // A late first-run result must not redirect a reader already using the map.
-      active = false;
+      routeDecided.current = true;
       setStatus('done');
     }, STARTUP_STORAGE_TIMEOUT_MS);
-    void loadIntro().then((next) => {
+    const read = loadIntro();
+    const storedHistory = read.then((next) => next.history);
+    firstPass.current = storedHistory;
+    void read.then((next) => {
       clearTimeout(timer);
-      if (!active || introChanged.current) return;
-      setStatus(next.status);
-      setHistory(next.history);
+      if (!active) return;
+      if (!routeDecided.current) setStatus(next.status);
+      if (firstPass.current === storedHistory) setHistory(next.history);
     });
     return () => {
       clearTimeout(timer);
@@ -97,20 +101,26 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   // of the pass it finally makes.
   const complete = useCallback(
     (outcome: IntroOutcome = 'completed') => {
-      introChanged.current = true;
-      const recorded: IntroOutcome =
-        replaying && (history === 'completed' || history === 'skipped') ? history : outcome;
+      routeDecided.current = true;
       setStatus('done');
-      setHistory(recorded);
       setReplaying(false);
       setMapLessonPending(true);
-      void completeIntro(recorded);
+      // A replay can finish before the original record arrives. Leave routing
+      // immediate and resolve the original outcome before writing to disk.
+      const recorded = replaying && firstPass.current
+        ? firstPass.current.then((first) => first === 'completed' || first === 'skipped' ? first : outcome)
+        : Promise.resolve(outcome);
+      firstPass.current = recorded;
+      void recorded.then((first) => {
+        setHistory(first);
+        return completeIntro(first);
+      });
     },
-    [replaying, history],
+    [replaying],
   );
 
   const replay = useCallback(() => {
-    introChanged.current = true;
+    routeDecided.current = true;
     setReplaying(true);
     setStatus('pending');
   }, []);

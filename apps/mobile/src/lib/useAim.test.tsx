@@ -10,8 +10,9 @@
 //
 // So this asserts the *call count*, which is the only observable that would have caught it.
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, renderHook, waitFor } from '@testing-library/react-native';
 import * as Location from 'expo-location';
+import { PermissionStatus } from 'expo-modules-core';
 import { Text } from 'react-native';
 
 import { analytics } from '@/lib/analytics';
@@ -107,6 +108,28 @@ describe('useAim — one sensor, many instruments', () => {
     expect(Location.watchHeadingAsync).toHaveBeenCalledTimes(2);
     await act(async () => { emit?.({ trueHeading: 0, magHeading: 0, accuracy: 3 }); });
     expect(view.getAllByText('aimed')).toHaveLength(2);
+  });
+
+  it('withdraws the map needle after permission is revoked and waits for a fresh heading on grant', async () => {
+    // The map uses hasReading to draw its arrow. Keeping it through a confirmed
+    // permission loss left the arrow pointing where the phone was facing before blur.
+    const view = await renderHook(({ active }: { active: boolean }) =>
+      useAim({ active, request: false, bearing: 90 }), { initialProps: { active: true } });
+    await act(async () => { emit?.({ trueHeading: 90, magHeading: 90, accuracy: 3 }); });
+    expect(view.result.current.hasReading).toBe(true);
+    await view.rerender({ active: false });
+    jest.mocked(Location.getForegroundPermissionsAsync).mockResolvedValueOnce({
+      granted: false, canAskAgain: false, status: PermissionStatus.DENIED, expires: 'never',
+    });
+    await view.rerender({ active: true });
+    expect(view.result.current.permissionDenied).toBe(true);
+    expect(view.result.current.hasReading).toBe(false);
+    await view.rerender({ active: false });
+    await view.rerender({ active: true });
+    expect(view.result.current.permissionDenied).toBe(false);
+    expect(view.result.current.hasReading).toBe(false);
+    await act(async () => { emit?.({ trueHeading: 180, magHeading: 180, accuracy: 3 }); });
+    expect(view.result.current.hasReading).toBe(true);
   });
 
   it('keeps the sensor open while any instrument is still listening', async () => {

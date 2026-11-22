@@ -24,6 +24,7 @@ import { formatTime } from '@/lib/prayer-times';
 import { DEFAULT_ZONE, setDisplayZone, zoneParts } from '@/lib/zone-time';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 import { first } from '@/test-utils/at';
+import { storage } from '@/lib/storage';
 
 // Stockholm — below the Arctic Circle, so all five prayers resolve to valid times
 // across the 7-day scheduling window (no polar-circle NaNs to muddy the comparison).
@@ -168,6 +169,25 @@ describe('syncPrayerNotifications lead time', () => {
     }
   });
 
+  it('fills the following days when an imminent alert expires at the native bridge', async () => {
+    // iOS rejects a date trigger that has passed by the time the native call runs.
+    // Aborting the horizon there left later days empty after legacy alarms were cleared.
+    const settings = withUniformLead(0);
+    const imminent = nextAlertAt(STOCKHOLM, settings, PINNED_NOW)!.fireAt.getTime();
+    const clock = jest.spyOn(Date, 'now').mockReturnValue(imminent - 10);
+    try {
+      jest.mocked(Notifications.scheduleNotificationAsync).mockImplementationOnce(async () => {
+        clock.mockReturnValue(imminent + 1);
+        throw new Error('Trigger date has passed');
+      });
+      expect(await syncPrayerNotifications(STOCKHOLM, settings)).toBe(true);
+      expect(scheduledTimes()).toContain(imminent);
+      expect(Math.max(...scheduledTimes())).toBeGreaterThan(imminent + 86_400_000);
+    } finally {
+      clock.mockRestore();
+    }
+  });
+
   it('fires each alert its lead time before the prayer time', async () => {
     await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
     const atPrayerTime = scheduledTimes();
@@ -268,6 +288,45 @@ describe('syncPrayerNotifications lead time', () => {
     expect(cancelled).toContain('orphan-2');
     expect(cancelled).not.toContain('not-ours');
     expect(cancelled).not.toContain('bare');
+  });
+
+  it('waits for the OS pending list before replacing reminders and retries a failed read', async () => {
+    // A crash can leave a tagged alarm without a stored ID. Treating an enumeration
+    // failure as an empty list created another horizon and stamped the duplicate as synced.
+    const settings = withUniformLead(0);
+    const orphan: Notifications.NotificationRequest = {
+      identifier: 'old-alarm',
+      trigger: null,
+      content: {
+        title: null, subtitle: null, body: null, sound: null,
+        categoryIdentifier: null, threadIdentifier: null, data: { source: 'prayer-times' },
+      },
+    };
+    getAllScheduledMock.mockRejectedValueOnce(new Error('OS list unavailable'))
+      .mockResolvedValueOnce([orphan]);
+
+    expect(await syncPrayerNotifications(STOCKHOLM, settings)).toBe(false);
+    expect(scheduleMock.mock.calls).toHaveLength(0);
+    expect(await syncPrayerNotifications(STOCKHOLM, settings)).toBe(true);
+    expect(cancelScheduledMock).toHaveBeenCalledWith('old-alarm');
+    expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+  });
+
+  it('retries an unreadable ID list before replacing untagged legacy alarms', async () => {
+    // Builds predating the source tag can be reconciled only by their persisted IDs.
+    // Treating a temporary storage failure as an empty list overwrote their only record.
+    await storage.setItem('prayerNotificationIds:v1', JSON.stringify(['legacy-alarm']));
+    const read = jest.spyOn(storage, 'getItem').mockRejectedValueOnce(new Error('Database busy'));
+    try {
+      const settings = withUniformLead(0);
+      expect(await syncPrayerNotifications(STOCKHOLM, settings)).toBe(false);
+      expect(scheduleMock.mock.calls).toHaveLength(0);
+      expect(await syncPrayerNotifications(STOCKHOLM, settings)).toBe(true);
+      expect(cancelScheduledMock).toHaveBeenCalledWith('legacy-alarm');
+      expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+    } finally {
+      read.mockRestore();
+    }
   });
 
   it('tags every scheduled alert so a later sync can find it without storage', async () => {

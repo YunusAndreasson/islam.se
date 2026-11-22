@@ -411,6 +411,14 @@ export function useAim({
       setTurn(null);
       prox.set(0);
     }
+    function withdrawReading() {
+      clearDirection();
+      hasReadingRef.current = false;
+      setHasReading(false);
+      lastRaw.current = 0;
+      unwrapped.current = 0;
+      rotation.set(0);
+    }
     const listener: HeadingListener = {
       onHeading(raw, acc) {
         if (cancelled) return;
@@ -420,14 +428,9 @@ export function useAim({
       onError() {
         if (cancelled) return;
         gotEvent = true;
-        clearDirection();
-        hasReadingRef.current = false;
+        withdrawReading();
         noCompassRef.current = true;
-        setHasReading(false);
         setNoCompass(true);
-        lastRaw.current = 0;
-        unwrapped.current = 0;
-        rotation.set(0);
       },
     };
 
@@ -444,6 +447,7 @@ export function useAim({
         const perm = await readLocationPermission(askForPermission, permissionSource);
         if (cancelled) return;
         if (!perm.granted) {
+          withdrawReading();
           permissionDeniedRef.current = true;
           setPermissionDenied(true);
           setCanAskAgain(perm.canAskAgain !== false);
@@ -457,10 +461,7 @@ export function useAim({
         setPermissionDenied(false);
         setCanAskAgain(true);
         timer = setTimeout(() => {
-          if (!gotEvent) {
-            noCompassRef.current = true;
-            setNoCompass(true);
-          }
+          if (!gotEvent) listener.onError();
         }, NO_EVENT_MS);
         await addHeadingListener(listener);
         // The cleanup may have run while we were awaiting; it could not have removed a
@@ -468,9 +469,7 @@ export function useAim({
         if (cancelled) removeHeadingListener(listener);
         else listening = true;
       } catch {
-        if (cancelled) return;
-        noCompassRef.current = true;
-        setNoCompass(true);
+        listener.onError();
       }
     })();
 

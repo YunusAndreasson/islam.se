@@ -91,8 +91,13 @@ it('updates palette uniforms without recompiling the twilight effect on a theme 
   expect(compile).toHaveBeenCalledTimes(1);
 });
 
-it('reports a failed shader compilation while keeping the rest of the overlay usable', async () => {
-  jest.spyOn(Skia.RuntimeEffect, 'Make').mockReturnValue(null);
+it.each(['null', 'exception'])('keeps the prayer lines when shader compilation fails with %s', async (failure) => {
+  // The native Skia factory throws for an invalid effect. The nullable TypeScript
+  // signature alone hid the render error that took down the whole map.
+  jest.spyOn(Skia.RuntimeEffect, 'Make').mockImplementation(() => {
+    if (failure === 'exception') throw new Error('Error in sksl');
+    return null;
+  });
   const report = jest.spyOn(Sentry, 'captureException');
   await renderOverlay({ lines: LINE });
   expect(report).toHaveBeenCalledWith(new Error('Map twilight shader failed to compile'));

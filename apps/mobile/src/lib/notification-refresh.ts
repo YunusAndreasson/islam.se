@@ -71,10 +71,9 @@ TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
     );
     refreshDisplayZone();
 
-    // The alerts first: they are what this task exists for. Reminders switched off is not a
-    // failure — it is this step having nothing to do. Doing it anyway would re-create the
-    // very notifications the user turned off.
-    const alertsReady = !settings.notifications.enabled || await syncPrayerNotifications(coords, settings);
+    // When reminders are off, reconciliation finishes any cancellation interrupted
+    // as the app backgrounded. It never asks permission or creates alerts in that case.
+    const alertsReady = await syncPrayerNotifications(coords, settings);
 
     await syncPrayerWidget(coords, settings, label);
     await syncPrayerLiveActivity(coords, settings, label, Date.now(), { canStart: false });

@@ -107,6 +107,16 @@ describe('a background wake-up', () => {
     expect(scheduleMock).not.toHaveBeenCalled();
   });
 
+  it('clears a pending reminder on a background wake after an interrupted opt-out', async () => {
+    // The preference can reach disk before foreground cancellation finishes.
+    // Skipping reconciliation on wake left that old alarm free to fire.
+    await storage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(DEFAULT_SETTINGS));
+    await storage.setItem('prayerNotificationIds:v1', JSON.stringify(['previous-release-alarm']));
+    expect(await taskExecutor()()).toBe(BackgroundTask.BackgroundTaskResult.Success);
+    expect(Notifications.cancelScheduledNotificationAsync).toHaveBeenCalledWith('previous-release-alarm');
+    expect(scheduleMock).not.toHaveBeenCalled();
+  });
+
   it('schedules for the default location when no fix was ever cached', async () => {
     // A reader who picked a city by hand, or who never granted location: the task cannot
     // start the GPS from the background, so the resolution table's fallback IS the answer.
