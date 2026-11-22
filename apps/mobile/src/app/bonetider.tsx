@@ -1015,8 +1015,8 @@ export default function Bonetider() {
     const times = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart), settings);
     const yesterday = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart, -1), settings);
     const tomorrow = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart, 1), settings);
-    return { times, next: selectNextPrayer(times, tomorrow.fajr.getTime(), clock.now, yesterday) };
-  }, [previewPlace, clock.dayStart, clock.now, settings]);
+    return { times, nextFajrAt: tomorrow.fajr.getTime(), yesterday };
+  }, [previewPlace, clock.dayStart, settings]);
   const dockTimes = preview?.times ?? userTimes;
   const marks = useMemo<DayMark[]>(() => {
     const out: DayMark[] = [];
@@ -1053,6 +1053,12 @@ export default function Bonetider() {
     () => selectNextPrayer(userTimes, nextDayFajrAt, clock.now, previousTimes),
     [userTimes, clock.now, nextDayFajrAt, previousTimes],
   );
+
+  // A tick or scrub changes which slot is next, but the three preview timetables
+  // stay valid until the place, day or calculation settings change.
+  const dockNext = preview
+    ? selectNextPrayer(preview.times, preview.nextFajrAt, clock.now, preview.yesterday)
+    : next;
 
   // The user's next prayer drives the emphasised line/pill on the map (only when
   // it's today — tomorrow's Fajr has no line sweeping the country yet).
@@ -1748,7 +1754,7 @@ export default function Bonetider() {
           clock={clock}
           times={dockTimes}
           marks={marks}
-          next={preview ? preview.next : next}
+          next={dockNext}
           locationLabel={previewPlace?.name ?? placeLabel}
           locationIsFallback={!previewPlace && locationIsFallback}
           previewingPlace={!!previewPlace}
@@ -1804,8 +1810,8 @@ export default function Bonetider() {
         }} />
       )}
       <MapNav
-        lookupSummary={searchedPlace && previewPlace && preview
-          ? `${previewPlace.name}, ${preview.next ? `${PRAYER_LABELS[preview.next.key]} ${formatTime(new Date(preview.next.at))}` : 'inga fler böner'}`
+        lookupSummary={searchedPlace && previewPlace
+          ? `${previewPlace.name}, ${dockNext ? `${PRAYER_LABELS[dockNext.key]} ${formatTime(new Date(dockNext.at))}` : 'inga fler böner'}`
           : undefined}
         onLookup={mapLessonPending ? undefined : () => {
           if (searchedPlace) setSearchedPlace(null);

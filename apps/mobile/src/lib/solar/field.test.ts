@@ -273,7 +273,7 @@ describe('buildLines across a continent', () => {
     const { lines } = buildLines(grid, now);
     let checked = 0;
     for (const f of lines.features) {
-      const prayer = (f.properties as { prayer: keyof ReturnType<typeof pointTimes> }).prayer;
+      const prayer = f.properties.prayer;
       for (const line of coordsOf(f)) {
         for (const [lon, lat] of line) {
           if (lon < 10 || lon > 25 || lat < 55 || lat > 69) continue;
