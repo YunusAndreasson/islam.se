@@ -44,11 +44,14 @@ import Constants from 'expo-constants';
 const TURBO_MODULE_CONTEXT = Sentry.turboModuleContextIntegration().name;
 
 export function sentryOptions(dsn: string | undefined): Sentry.ReactNativeOptions {
+  const enabled = Boolean(dsn) && !__DEV__;
   return {
     dsn,
     // No DSN means crash reporting was never configured; a development run already has a red
     // box in front of whoever caused the error. Neither belongs in the project's issue list.
-    enabled: Boolean(dsn) && !__DEV__,
+    enabled,
+    // Android starts ANR tracking through the native bridge independently of JS reporting.
+    enableNative: enabled,
     // Personal data: neither sendDefaultPii nor dataCollection is set, on purpose (see above).
     maxBreadcrumbs: 0,
     attachScreenshot: false,

@@ -442,6 +442,24 @@ describe('notification permission', () => {
     expect(scheduledTimes()).toHaveLength(0);
   });
 
+  // A same-day stamp used to hide a permission change in system settings. Pending
+  // reminders survived revocation and could not be restored on the next grant.
+  it('clears reminders after permission is revoked and schedules them again on grant', async () => {
+    const grant = { granted: true, canAskAgain: true, status: PermissionStatus.GRANTED, expires: 'never' as const };
+    const settings = withUniformLead(0);
+    getPermissionsMock.mockResolvedValue(grant);
+    await syncPrayerNotifications(STOCKHOLM, settings);
+    expect(scheduledTimes().length).toBeGreaterThan(0);
+
+    getPermissionsMock.mockResolvedValueOnce({ ...grant, granted: false, status: PermissionStatus.DENIED });
+    await syncPrayerNotifications(STOCKHOLM, settings);
+    expect(await AsyncStorage.getItem('prayerNotificationIds:v1')).toBeNull();
+
+    scheduleMock.mockClear();
+    await syncPrayerNotifications(STOCKHOLM, settings);
+    expect(scheduledTimes().length).toBeGreaterThan(0);
+  });
+
   // iOS provisional ("quiet") authorization delivers everything we schedule but reports
   // granted:false. Reading only `.granted` told those users their reminders were blocked
   // while the alerts were in fact arriving — and made the sync refuse to schedule at all.

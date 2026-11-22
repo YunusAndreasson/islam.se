@@ -556,6 +556,17 @@ async function reconcilePrayerNotifications(
   try {
     const n = settings.notifications;
 
+    const perDay = alertsPerDay(n);
+    // System settings can revoke or restore permission without changing the schedule stamp.
+    // Read it on foreground, but only an explicit user gesture may prompt.
+    const allowed = n.enabled && perDay > 0 && isAllowed(await Notifications.getPermissionsAsync());
+    if (generation !== syncGeneration) return;
+    if (!allowed) {
+      firstSyncDone = false;
+      await reconcilePendingIds(new Set(), retained);
+      return;
+    }
+
     // This runs on mount AND on every foreground. At the old 7×5 that was 35 cancels +
     // 35 schedules each time; at a 30-day Android horizon it would be 180 + 180, a dozen
     // times a day — a real battery and latency cost. Skip when nothing that matters has
@@ -572,22 +583,6 @@ async function reconcilePrayerNotifications(
     // its session cache BEFORE touching them: A → B → A must rebuild A if B was
     // superseded after cancelling it, even though the saved stamp still says A.
     firstSyncDone = false;
-    const perDay = alertsPerDay(n);
-    if (!n.enabled || perDay === 0) {
-      await reconcilePendingIds(new Set(), retained);
-      return;
-    }
-
-    // CHECK, never ask. This runs on mount and on every foreground, so prompting from
-    // here would fire the OS dialog with no tap behind it — and spend iOS's single
-    // lifetime prompt on a moment the user never asked for. Permission is requested only
-    // from requestNotificationPermission(), which is wired to explicit taps.
-    const permission = await Notifications.getPermissionsAsync();
-    if (generation !== syncGeneration) return;
-    if (!isAllowed(permission)) {
-      await reconcilePendingIds(new Set(), retained);
-      return;
-    }
     await ensureAndroidChannels();
     await ensureNotificationCategory();
     if (generation !== syncGeneration) return;

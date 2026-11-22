@@ -81,7 +81,7 @@ describe('sentryOptions — what a crash report may carry', () => {
 
     it('reports from a release build that has a DSN', () => {
       globals.__DEV__ = false;
-      expect(sentryOptions(DSN).enabled).toBe(true);
+      expect(sentryOptions(DSN)).toMatchObject({ enabled: true, enableNative: true });
     });
 
     // app.json ships with an empty DSN until one is pasted in; that build must not try to
@@ -91,9 +91,10 @@ describe('sentryOptions — what a crash report may carry', () => {
       expect(sentryOptions(undefined).enabled).toBe(false);
     });
 
+    // The Android bridge ignores enabled and starts native ANR reporting unless enableNative is false.
     it('stays off in development', () => {
       globals.__DEV__ = true;
-      expect(sentryOptions(DSN).enabled).toBe(false);
+      expect(sentryOptions(DSN)).toMatchObject({ enabled: false, enableNative: false });
     });
   });
 });
