@@ -1,5 +1,5 @@
 // Client mount for the /moskeer map. MapLibre GL with the keyless OpenFreeMap Positron
-// basemap, recolored on load into the site's warm editorial palette so the map reads as
+// basemap, themed before its first frame into the site's warm editorial palette so the map reads as
 // part of islam.se rather than a generic slippy map. The mosque list is server-rendered
 // (always present, the keyboard/no-JS path); this script adds the interactive map, the
 // search/län filter that drives both, and the selection callout.
@@ -35,9 +35,10 @@ import maplibreCssUrl from "maplibre-gl/dist/maplibre-gl.css?url";
 import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { BURIAL_GLYPH_GRID, BURIAL_GLYPH_PATH } from "../lib/begravningsplatser/glyph";
 import { SWEDEN_BBOX } from "../lib/bonetider/sweden-outline";
-import { LOCATING, locationFailed } from "../lib/geolocation";
+import { locationFailed, requestMapLocation } from "../lib/geolocation";
 import { nearest } from "../lib/geom";
 import { readJsonScript } from "../lib/json-script";
+import { styleBasemapLayer } from "../lib/moskeer/basemap";
 import { filterFromUrl, matchesFilter, queryTerms, urlWithFilter } from "../lib/moskeer/filter";
 import { fold } from "../lib/search-text";
 import { escapeXml } from "../lib/xml";
@@ -169,22 +170,6 @@ const SWEDEN_BOUNDS: LngLatBoundsLike = [
    sharpness. Bottom-left keeps the scale bar, which is narrow enough to sit beside
    the data rather than on it. */
 const SWEDEN_FIT = { padding: 24 } as const;
-
-/** Place and water names as a Swedish atlas prints them (»Norge«, »Helsingfors«, »Nordsjön«).
- *  The base style writes the English name with the local script under it (»Norway«,
- *  »Moscow / Москва«). OpenFreeMap's tiles carry `name:sv`; where one is missing, the Latin
- *  form, then the local name. Street names and shields keep the style's own fields.
- *
- *  Written into the style before it is committed (MapOptions.transformStyle), so the first
- *  frame already reads Swedish. Set with setLayoutProperty after `load` (2026-11-20, first
- *  version), the labels were laid out twice and could show in English for a moment. */
-const SWEDISH_NAME: ExpressionSpecification = [
-	"coalesce",
-	["get", "name:sv"],
-	["get", "name:latin"],
-	["get", "name"],
-];
-const SWEDISH_LABEL_LAYER = /^(label_|water_name|waterway_line_label|airport)/;
 
 // Swedish UI strings for MapLibre's built-in controls + the cooperative-gesture overlay.
 // Set once on the Map; every control reads it via `_getUIString` when added, and the
@@ -366,13 +351,7 @@ async function mount() {
 			style: "https://tiles.openfreemap.org/styles/positron",
 			transformStyle: (_previous, next) => ({
 				...next,
-				layers: next.layers.map((layer) =>
-					layer.type === "symbol" &&
-					SWEDISH_LABEL_LAYER.test(layer.id) &&
-					layer.layout?.["text-field"]
-						? { ...layer, layout: { ...layer.layout, "text-field": SWEDISH_NAME } }
-						: layer,
-				),
+				layers: next.layers.map((layer) => styleBasemapLayer(layer, themeColor)),
 			}),
 			bounds: SWEDEN_BOUNDS,
 			// Frame all of Sweden on load; padding keeps the far north/south off the
@@ -473,68 +452,6 @@ async function mount() {
 		geoBtn?.removeAttribute("aria-busy");
 		if (geoStatus) geoStatus.textContent = locationFailed(e.code);
 	});
-
-	// Which paint props to overwrite for a given Positron layer, keyed generically by
-	// type + id so we don't hard-code Positron's (versioned) layer list.
-	// The exact paint-property names touched below — maplibre-gl 6 tightened
-	// setPaintProperty's key to `keyof AllPaintProperties` instead of a bare string.
-	type PaintProp =
-		| "background-color"
-		| "text-color"
-		| "text-halo-color"
-		| "fill-color"
-		| "line-color"
-		| "line-opacity";
-	type Edit = [PaintProp, ExpressionSpecification | number];
-	function fillEdits(id: string): Edit[] {
-		if (/water/.test(id)) return [["fill-color", themeColor("water")]];
-		if (/building/.test(id)) return [["fill-color", themeColor("building")]];
-		if (/landcover|landuse|wood|park|grass|forest|sand|wetland/.test(id)) {
-			return [["fill-color", themeColor("land")]];
-		}
-		return [];
-	}
-	function lineEdits(id: string): Edit[] {
-		if (/water|waterway/.test(id)) return [["line-color", themeColor("water")]];
-		// Country / admin borders: a soft, low-contrast line at reduced opacity.
-		if (/boundary|admin|border/.test(id)) {
-			return [
-				["line-color", themeColor("border")],
-				["line-opacity", 0.45],
-			];
-		}
-		if (/road|street|highway|bridge|tunnel|transit|rail|path|motorway|trunk/.test(id)) {
-			return [["line-color", themeColor("road")]];
-		}
-		return [];
-	}
-	function paintEdits(type: string, id: string): Edit[] {
-		if (type === "background") return [["background-color", themeColor("land")]];
-		if (type === "symbol") {
-			return [
-				["text-color", themeColor("label")],
-				["text-halo-color", themeColor("halo")],
-			];
-		}
-		if (type === "fill") return fillEdits(id);
-		if (type === "line") return lineEdits(id);
-		return [];
-	}
-
-	// Bind the external base style once. Theme flips subsequently update global state.
-	function recolorBase() {
-		const layers = map.getStyle()?.layers;
-		if (!layers) return;
-		for (const layer of layers) {
-			for (const [prop, color] of paintEdits(layer.type, layer.id)) {
-				try {
-					map.setPaintProperty(layer.id, prop, color);
-				} catch {
-					/* layer doesn't carry this paint prop — skip */
-				}
-			}
-		}
-	}
 
 	function updateGraveImage() {
 		// The two-colour bitmap still needs a redraw; style expressions handle everything else.
@@ -917,12 +834,7 @@ async function mount() {
 
 	map.on("load", () => {
 		map.setGlobalStateProperty("mk-scheme", scheme);
-		recolorBase();
-		// Reveal the canvas now that the base is recolored — scheduled one frame on (so the
-		// marker layers added below are already in) and up here rather than at the end, so the
-		// dark base still shows even if a later call throws. Until this lands the canvas is held
-		// at opacity 0 (see moskeer.astro) over the .mk-map dark background, so dark mode fades
-		// in already-dark instead of flashing the light Positron base white.
+		// Reveal the themed basemap and the place markers together on the next frame.
 		requestAnimationFrame(() => el.classList.add("is-ready"));
 		// Graves first, so every mosque layer below draws over them: where a cemetery and a
 		// mosque meet at country scale, the mosque — what this page is for — stays in front.
@@ -1169,12 +1081,7 @@ async function mount() {
 	// or the Swedish denial message). aria-busy is cleared in those handlers.
 	geoBtn?.addEventListener(
 		"click",
-		() => {
-			if (geoBtn.getAttribute("aria-busy") === "true") return;
-			if (geoStatus) geoStatus.textContent = LOCATING;
-			geoBtn.setAttribute("aria-busy", "true");
-			geolocate.trigger();
-		},
+		() => requestMapLocation(geolocate, geoBtn, geoStatus),
 		{ signal: sig },
 	);
 
