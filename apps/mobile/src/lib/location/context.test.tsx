@@ -83,6 +83,18 @@ describe('LocationProvider startup', () => {
     expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
   });
 
+  it('continues to a fresh fix when the native preview fails', async () => {
+    jest.mocked(Location.getLastKnownPositionAsync).mockRejectedValueOnce(new Error('Unavailable'));
+    await renderHook(() => useLocation(), {
+      wrapper: ({ children }) => <SettingsProvider><LocationProvider>{children}</LocationProvider></SettingsProvider>,
+    });
+    await waitFor(() => expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(1));
+    expect(Location.getLastKnownPositionAsync).toHaveBeenCalledWith({
+      maxAge: 300_000,
+      requiredAccuracy: 1_000,
+    });
+  });
+
   it('ignores malformed fresh native fixes instead of exposing or caching them', async () => {
     jest.mocked(Location.getCurrentPositionAsync).mockResolvedValueOnce({
       coords: { latitude: Number.NaN, longitude: 18 },

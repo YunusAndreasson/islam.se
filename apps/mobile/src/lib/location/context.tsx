@@ -96,7 +96,11 @@ export function LocationProvider({ children }: { children: ReactNode }) {
         }, 20_000);
       });
       const acquire = async (): Promise<GpsOutcome> => {
-        const last = await Location.getLastKnownPositionAsync();
+        // Only show a recent, city-level preview while obtaining the fresh fix.
+        const last = await Location.getLastKnownPositionAsync({
+          maxAge: 5 * 60_000,
+          requiredAccuracy: 1_000,
+        }).catch(() => null);
         if (expired) return 'error';
         const lastCoords = last
           ? { latitude: last.coords.latitude, longitude: last.coords.longitude }
