@@ -13,6 +13,7 @@ import { space } from '@/theme/tokens';
  *  because the map measures its floating cards against this stack and must not have to
  *  guess at it. */
 const NAV_DISC = 46;
+export const NAV_SIDE_INSET = 12;
 
 /** The mark inside the disc at the default text size.
  *  26, not the 22 it used to be. A glyph inks only its own em coverage — `explore` 0.83,
@@ -50,12 +51,15 @@ export interface NavMetrics {
 
 /** The nav's geometry at the reader's text size. */
 export function useNavMetrics(): NavMetrics {
-  const { fontScale } = useWindowDimensions();
+  const { fontScale, width } = useWindowDimensions();
   const scale = Math.min(Math.max(fontScale, 1), NAV_SCALE_CAP);
-  const disc = Math.round(NAV_DISC * scale);
+  // Two instruments and three actions can share this row after a pan. Reserve
+  // their gaps up front so showing reset never moves or covers another control.
+  const available = width - 2 * NAV_SIDE_INSET - 4 * space.sm;
+  const disc = Math.min(Math.round(NAV_DISC * scale), Math.max(44, Math.floor(available / 5)));
   return {
     disc,
-    glyph: Math.round(NAV_GLYPH * scale),
+    glyph: Math.round(NAV_GLYPH * disc / NAV_DISC),
     laneTop: NAV_TOP_GAP + disc + space.sm,
   };
 }

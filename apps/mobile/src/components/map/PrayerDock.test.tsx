@@ -741,7 +741,12 @@ describe('map dismissal', () => {
     await act(() => { expect(ref.current?.collapse()).toBe(false); });
     await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityTap');
     expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
-    await act(() => { expect(ref.current?.collapse()).toBe(true); });
+    await fireEvent(screen.getByTestId('prayer-dock-toggle'), 'accessibilityAction', {
+      nativeEvent: { actionName: 'activate' },
+    });
+    expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
+    expect(props.clock.setFraction).not.toHaveBeenCalled();
+    await act(() => { expect(ref.current?.collapse()).toBe(false); });
   });
 });
 

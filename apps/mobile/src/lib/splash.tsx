@@ -31,7 +31,7 @@
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useRef } from 'react';
 
-import { useIntro } from '@/lib/intro-context';
+import { STARTUP_STORAGE_TIMEOUT_MS, useIntro } from '@/lib/intro-context';
 import { useSettings } from '@/lib/settings/context';
 import { motion } from '@/theme/tokens';
 
@@ -42,16 +42,6 @@ import { motion } from '@/theme/tokens';
 void SplashScreen.preventAutoHideAsync().catch(() => {});
 // `fade` is documented iOS-only; Android hides in one step either way.
 SplashScreen.setOptions({ fade: true, duration: motion.base });
-
-/**
- * The safety net, and the one thing here that must never be dropped. Both loaders resolve
- * on failure by design — loadSettings catches, and loadIntroStatus documents that it never
- * throws — but a native module whose promise never settles AT ALL is not something a catch
- * can see, and being stranded on a splash forever is the only failure on this path with no
- * way out. On timeout the app falls back to exactly the old behaviour (a blank frame for a
- * moment): worse than the gate, far better than a hang.
- */
-const SPLASH_TIMEOUT_MS = 2000;
 
 /** Renders nothing — it only decides when the splash may go. Mount inside SettingsProvider
  *  and IntroProvider, and outside LocationProvider (see the header). */
@@ -74,7 +64,7 @@ export function SplashGate() {
   }, [ready, hide]);
 
   useEffect(() => {
-    const timer = setTimeout(hide, SPLASH_TIMEOUT_MS);
+    const timer = setTimeout(hide, STARTUP_STORAGE_TIMEOUT_MS);
     return () => clearTimeout(timer);
   }, [hide]);
 

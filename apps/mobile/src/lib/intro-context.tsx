@@ -23,10 +23,14 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
 import { completeIntro, type IntroHistory, type IntroOutcome, type IntroStatus, loadIntro } from './intro';
+
+/** Startup routing and the native splash have the same storage deadline. */
+export const STARTUP_STORAGE_TIMEOUT_MS = 2000;
 
 interface IntroContextValue {
   /** 'unknown' until the storage read lands — the gate renders nothing on it. */
@@ -61,14 +65,23 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   const [replaying, setReplaying] = useState(false);
   const [mapLessonPending, setMapLessonPending] = useState(false);
 
+  const introChanged = useRef(false);
   useEffect(() => {
     let active = true;
+    const timer = setTimeout(() => {
+      if (!active || introChanged.current) return;
+      // A late first-run result must not redirect a reader already using the map.
+      active = false;
+      setStatus('done');
+    }, STARTUP_STORAGE_TIMEOUT_MS);
     void loadIntro().then((next) => {
-      if (!active) return;
+      clearTimeout(timer);
+      if (!active || introChanged.current) return;
       setStatus(next.status);
       setHistory(next.history);
     });
     return () => {
+      clearTimeout(timer);
       active = false;
     };
   }, []);
@@ -84,6 +97,7 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   // of the pass it finally makes.
   const complete = useCallback(
     (outcome: IntroOutcome = 'completed') => {
+      introChanged.current = true;
       const recorded: IntroOutcome =
         replaying && (history === 'completed' || history === 'skipped') ? history : outcome;
       setStatus('done');
@@ -96,6 +110,7 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   );
 
   const replay = useCallback(() => {
+    introChanged.current = true;
     setReplaying(true);
     setStatus('pending');
   }, []);

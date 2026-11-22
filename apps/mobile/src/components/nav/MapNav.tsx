@@ -25,7 +25,7 @@ import { useSkyGlass } from '@/theme/skyChrome';
 import { useColors } from '@/theme/useColors';
 import { CompassButton } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
-import { useNavMetrics, NAV_TOP_GAP } from './metrics';
+import { useNavMetrics, NAV_SIDE_INSET, NAV_TOP_GAP } from './metrics';
 import { MoonButton } from './MoonButton';
 import { Icon, type IconName } from '@/components/ui/Icon';
 
@@ -189,6 +189,6 @@ export function MapNav({
 }
 
 const styles = StyleSheet.create({
-  left: { position: 'absolute', left: 12, flexDirection: 'row', gap: space.sm },
-  right: { position: 'absolute', right: 12, flexDirection: 'row', gap: space.sm },
+  left: { position: 'absolute', left: NAV_SIDE_INSET, flexDirection: 'row', gap: space.sm },
+  right: { position: 'absolute', right: NAV_SIDE_INSET, flexDirection: 'row', gap: space.sm },
 });

@@ -781,6 +781,9 @@ function makeStyles(c: Palette) {
     // between the two bands, and pushed to the OUTSIDE of each, it comes out as air above
     // the dial and air under the last row, with an ordinary group seam between them.
     instrument: {
+      // The sky dial’s aim mark extends 13 dp above the face. Keep it clear
+      // of the place name even when large text consumes all flexible space.
+      paddingTop: space.xl,
       flexGrow: 1,
       alignItems: 'center',
       justifyContent: 'flex-end',

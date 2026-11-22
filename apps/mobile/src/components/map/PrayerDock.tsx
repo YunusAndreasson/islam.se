@@ -42,6 +42,7 @@ import {
 import {
   type ColorSchemeName,
   type LayoutChangeEvent,
+  Platform,
   Pressable,
   ScrollView,
   useWindowDimensions,
@@ -598,6 +599,13 @@ export function PrayerDock({
     },
     [expanded, settleExpanded],
   );
+
+  const toggleFromAccessibility = () => {
+    const open = !targetOpen.get();
+    targetOpen.set(open);
+    height.set(withSpring(open ? EXPANDED : COLLAPSED, SPRING));
+    applyExpanded(open);
+  };
 
   const togglePan = {
     height,
@@ -1174,10 +1182,10 @@ export function PrayerDock({
             accessibilityRole="button"
             accessibilityLabel={expanded ? 'Dölj bönetider' : 'Visa alla bönetider'}
             accessibilityState={{ expanded }}
-            onAccessibilityTap={() => {
-              targetOpen.set(!expanded);
-              height.set(withSpring(expanded ? COLLAPSED : EXPANDED, SPRING));
-              applyExpanded(!expanded);
+            onAccessibilityTap={toggleFromAccessibility}
+            accessibilityActions={Platform.OS === 'android' ? [{ name: 'activate' }] : undefined}
+            onAccessibilityAction={(event) => {
+              if (event.nativeEvent.actionName === 'activate') toggleFromAccessibility();
             }}
           >
             {/* A single grab handle — the modern bottom-sheet signifier. (The old

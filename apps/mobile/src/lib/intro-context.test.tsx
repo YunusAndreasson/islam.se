@@ -7,12 +7,51 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, renderHook } from '@testing-library/react-native';
 
+import * as intro from './intro';
 import { IntroProvider, useIntro, useOptionalMapLesson } from './intro-context';
 
 describe('mapLessonPending', () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
     jest.clearAllMocks();
+  });
+
+  it('opens the map when the introduction read stalls and ignores a late first-run result', async () => {
+    jest.useFakeTimers();
+    let finishRead!: (value: Awaited<ReturnType<typeof intro.loadIntro>>) => void;
+    const read = jest.spyOn(intro, 'loadIntro').mockImplementationOnce(() =>
+      new Promise((resolve) => { finishRead = resolve; }),
+    );
+    try {
+      const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
+      expect(result.current.status).toBe('unknown');
+      await act(() => { jest.advanceTimersByTime(2000); });
+      expect(result.current.status).toBe('done');
+      await act(async () => { finishRead({ status: 'pending', history: null }); });
+      expect(result.current.status).toBe('done');
+      expect(await AsyncStorage.getItem('introSeen:v1')).toBeNull();
+    } finally {
+      read.mockRestore();
+      jest.useRealTimers();
+    }
+  });
+
+  it('keeps an explicit replay and its outcome when startup storage answers late', async () => {
+    let finishRead!: (value: Awaited<ReturnType<typeof intro.loadIntro>>) => void;
+    const read = jest.spyOn(intro, 'loadIntro').mockImplementationOnce(() =>
+      new Promise((resolve) => { finishRead = resolve; }),
+    );
+    try {
+      const { result } = await renderHook(() => useIntro(), { wrapper: IntroProvider });
+      await act(() => result.current.replay());
+      await act(() => result.current.complete('skipped'));
+      await act(async () => { finishRead({ status: 'pending', history: null }); });
+      expect(result.current.status).toBe('done');
+      expect(result.current.history).toBe('skipped');
+      expect(result.current.mapLessonPending).toBe(true);
+    } finally {
+      read.mockRestore();
+    }
   });
 
   it('starts false, and complete() arms it', async () => {
