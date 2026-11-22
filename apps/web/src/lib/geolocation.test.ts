@@ -6,10 +6,12 @@ describe("the mosque map's location button", () => {
 		// Before its async setup finishes, MapLibre returns false without firing an event.
 		// A missing geolocation API throws. Both used to leave the button permanently busy.
 		const control = {
-			trigger: vi.fn(() => true).mockImplementationOnce(() => {
-				if (reason === "unavailable") throw new TypeError("Geolocation unavailable");
-				return false;
-			}),
+			trigger: vi
+				.fn(() => true)
+				.mockImplementationOnce(() => {
+					if (reason === "unavailable") throw new TypeError("Geolocation unavailable");
+					return false;
+				}),
 		};
 		const button = { ariaBusy: null };
 		const status = { textContent: "" };

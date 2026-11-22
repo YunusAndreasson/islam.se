@@ -50,8 +50,9 @@ function permission(status: 'granted' | 'denied' | 'undetermined') {
 }
 
 /** Renders the map and brings it to the state a user actually navigates from: camera
- *  settled. (There is no launch sweep to sit through any more — the map paints at the
- *  present moment from the first frame.) */
+ *  settled and the basemap painted, which is when the day's grid is built. (There is no
+ *  launch sweep to sit through any more — the map paints at the present moment from the
+ *  first frame.) */
 async function launchMap(): Promise<void> {
   await render(withProviders(<Bonetider />));
   await act(async () => {});
@@ -59,6 +60,9 @@ async function launchMap(): Promise<void> {
     await fireEvent(screen.getByTestId('sweden-map'), 'regionDidChange', {
       nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
     });
+  });
+  await act(async () => {
+    await fireEvent(screen.getByTestId('sweden-map'), 'didFinishRenderingMapFully');
   });
 }
 

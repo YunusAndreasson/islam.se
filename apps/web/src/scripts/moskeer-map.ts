@@ -1077,11 +1077,9 @@ async function mount() {
 	// The labelled CTA drives the native GeolocateControl; the `geolocate` / `error`
 	// handlers wired at setup do the rest (user dot + accuracy ring, nearest-mosque snap,
 	// or the Swedish denial message). aria-busy is cleared in those handlers.
-	geoBtn?.addEventListener(
-		"click",
-		() => requestMapLocation(geolocate, geoBtn, geoStatus),
-		{ signal: sig },
-	);
+	geoBtn?.addEventListener("click", () => requestMapLocation(geolocate, geoBtn, geoStatus), {
+		signal: sig,
+	});
 
 	// Esc closes the selection callout and returns focus to the row that opened it.
 	document.addEventListener(

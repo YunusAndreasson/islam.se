@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { placeBySlug } from "../bonetider/places-index";
 import { haversineKm } from "../geom";
-import { directionsLinks, getMosques, mosquesByCity, siblingCityGroups, swedishAddress } from "./index";
+import {
+	directionsLinks,
+	getMosques,
+	mosquesByCity,
+	siblingCityGroups,
+	swedishAddress,
+} from "./index";
 
 // Every mosque is filed under a bönetider place, and that slug is both its page URL and
 // the anchor in its schema.org @id. The address matcher used to scan address components
