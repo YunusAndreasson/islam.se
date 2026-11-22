@@ -296,7 +296,7 @@ export function quoteRunMatch(claimed: string, actual: string): "exact" | "scan"
 	return "no";
 }
 
-export function verifyQuotesAgainstDb(
+function verifyQuotesAgainstDb(
 	quotes: ReadonlyArray<{ id: string | number; text?: string; author?: string }>,
 ): { missing: string[]; altered: string[]; repaired: string[]; reattributed: string[] } {
 	const missing: string[] = [];

@@ -29,7 +29,7 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-export type FigureKind = "chart" | "table";
+type FigureKind = "chart" | "table";
 
 export interface GuardDataset {
 	id: string;
@@ -133,7 +133,7 @@ export function figureNumbers(spec: string): number[] {
 
 /** Every number the verified datasets contain, labels included — a dataset row label may
  *  legitimately be a value the figure charts. */
-export function numbersInDatasets(datasets: GuardDataset[]): Set<number> {
+function numbersInDatasets(datasets: GuardDataset[]): Set<number> {
 	const out = new Set<number>();
 	for (const d of datasets) {
 		for (const row of d.rows) {
@@ -220,7 +220,7 @@ export function checkAnchor(prose: string, anchorText: string): string[] {
  * the caller must treat as "could not verify" — never as "verified". The pipeline degrades
  * to no figure, not to an unchecked one.
  */
-export function runBuildGates(markdown: string, repoRoot: string): string[] | null {
+function runBuildGates(markdown: string, repoRoot: string): string[] | null {
 	const dir = mkdtempSync(join(tmpdir(), "figures-"));
 	const file = join(dir, "kandidat.md");
 	try {

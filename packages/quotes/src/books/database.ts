@@ -90,7 +90,7 @@ export const ROMANIZED_ARABIC_AUTHORS: Record<string, string> = {
 	Bukhari: "البخاري",
 };
 
-export function normalizeArabicAuthor(author: string): string {
+function normalizeArabicAuthor(author: string): string {
 	return ROMANIZED_ARABIC_AUTHORS[author] ?? author;
 }
 

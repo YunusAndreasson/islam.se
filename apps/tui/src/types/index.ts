@@ -4,9 +4,9 @@ import type {
 	PublishedArticle,
 } from "@islam-se/orchestrator";
 
-export type { EnrichedIdea, EnrichedIdeationOutput, PublishedArticle };
+export type { EnrichedIdea, PublishedArticle };
 
-export type Screen =
+type Screen =
 	| "home"
 	| "topics"
 	| "ideas"
@@ -49,7 +49,7 @@ export interface ArticleStatus {
 	};
 }
 
-export type StageStatus = "pending" | "running" | "complete" | "failed";
+type StageStatus = "pending" | "running" | "complete" | "failed";
 
 export interface StageInfo {
 	status: StageStatus;
@@ -58,7 +58,7 @@ export interface StageInfo {
 	error?: string;
 }
 
-export interface PreviewSnippet {
+interface PreviewSnippet {
 	stage:
 		| "research"
 		| "factCheck"

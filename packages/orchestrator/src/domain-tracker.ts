@@ -2,7 +2,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { UrlVerification } from "./source-validator.js";
 
-export interface DomainStats {
+interface DomainStats {
 	/** Total URLs checked from this domain */
 	total: number;
 	/** URLs that resolved successfully */
