@@ -38,13 +38,13 @@
 		"check:edge": "wrangler pages functions build functions --outdir node_modules/.cache/pages-check && wrangler deploy --dry-run --config workers/rattelse-mailer/wrangler.jsonc --outdir node_modules/.cache/mailer-check"
 	},
 	"dependencies": {
-		"@astrojs/markdown-remark": "^7.3.9",
+		"@astrojs/markdown-remark": "^7.3.10",
 		"@astrojs/rss": "^4.0.19",
-		"@astrojs/sitemap": "^3.7.5",
-		"@lucide/astro": "^1.73.0",
+		"@astrojs/sitemap": "^3.7.6",
+		"@lucide/astro": "^1.76.0",
 		"adhan": "^4.4.6",
-		"astro": "^7.4.12",
-		"maplibre-gl": "^6.18.0",
+		"astro": "^7.4.13",
+		"maplibre-gl": "^6.19.0",
 		"qrcode-generator": "^2.0.4",
 		"rehype-stringify": "^10.0.1",
 		"remark-rehype": "^11.1.2",

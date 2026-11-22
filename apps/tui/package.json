@@ -17,7 +17,7 @@
 		"@inkjs/ui": "^2.0.0",
 		"@islam-se/orchestrator": "workspace:*",
 		"ink": "^8.0.0",
-		"marked": "^18.2.0",
+		"marked": "^18.2.1",
 		"marked-terminal": "^8.0.0",
 		"react": "^19.3.1"
 	},
