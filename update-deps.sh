@@ -92,7 +92,15 @@ pnpm update -r "${!caps[@]}"
 if $dev_running; then
 	step "Restarting the web dev server"
 	pnpm --filter @islam-se/web run dev:stop
-	pnpm --filter @islam-se/web run dev:bg
+	# Astro terminates the child and removes its lock on a readiness timeout.
+	# The update has already succeeded. Keep validating, and surface other startup errors.
+	if restart=$(pnpm --filter @islam-se/web run dev:bg 2>&1); then
+		printf '%s\n' "$restart"
+	else
+		printf '%s\n' "$restart" >&2
+		[[ $restart == *"Dev server failed to start within "* ]] || exit 1
+		echo "Web dev server timed out. Restart it with pnpm --filter @islam-se/web dev:bg." >&2
+	fi
 fi
 
 if $check; then

@@ -96,7 +96,7 @@ minimumReleaseAgeExclude:
 nodeLinker: hoisted
 
 patchedDependencies:
-  expo-widgets@58.0.28: patches/expo-widgets@58.0.28.patch
+  expo-widgets@58.0.29: patches/expo-widgets@58.0.29.patch
 
 permissions:
   '@swmansion/argent':
@@ -109,3 +109,10 @@ skills:
   dirs:
     - .agents/skills
     - .claude/skills
+
+# Patched releases for transitive tools and Expo CLI certificate handling.
+overrides:
+  'qs@6.15.1': 6.17.1
+  'node-forge@<1.4.3': 1.4.3
+  'glob@>=9 <14.0.2': 14.0.2
+  'minimatch@>=7 <11.0.1': 11.0.1

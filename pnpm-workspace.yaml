@@ -19,13 +19,6 @@ allowBuilds:
   protobufjs: true
   sharp: true
   workerd: true
-# agents' decorator plugin requires Babel 8, but its optional bundler plugin also
-# accepts Babel 7 and pnpm otherwise resolves that older core for both. Supply the
-# missing core dependency only for the affected release; review on agents upgrades.
-packageExtensions:
-  "agents@0.33.0":
-    dependencies:
-      "@babel/core": "^8.0.1"
 # rolldown 1.3's wasm32 binding pins @emnapi/core and @emnapi/runtime to
 # 2.0.0-beta.2. pnpm then resolves @astrojs/check's @emnapi/runtime peer to that
 # beta while its @emnapi/core stays 1.x, and apps/web's `astro check` fails
@@ -35,3 +28,9 @@ packageExtensions:
 overrides:
   "@emnapi/core": 1.11.3
   "@emnapi/runtime": 1.11.3
+  # Patched ZIP reader used by Satori and math renderer used by markdownlint.
+  'fflate@>=0.7.0 <0.7.5': 0.7.5
+  'katex@>=0.11.0 <0.18.2': 0.18.2
+  # Only Jimp's image plugins still request Zod 3. Their terminal-image decoding and
+  # resize schemas also work on the patched Zod used by the rest of the workspace.
+  'zod@3.25.76': 4.6.7

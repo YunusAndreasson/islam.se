@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.3.7",
+    "version": "1.3.8",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -15,7 +15,7 @@
         "tinted": "./assets/images/ios-tinted.png"
       },
       "bundleIdentifier": "se.islam.mobile",
-      "buildNumber": "26",
+      "buildNumber": "27",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "sv"
@@ -27,7 +27,7 @@
     "android": {
       "package": "se.islam.mobile",
       "userInterfaceStyle": "automatic",
-      "versionCode": 15,
+      "versionCode": 16,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "monochromeImage": "./assets/images/adaptive-icon-monochrome.png",
@@ -139,9 +139,13 @@
         {
           "url": "https://sentry.io/",
           "organization": "openarabic",
-          "project": "islam-se"
+          "project": "islam-se",
+          "experimental_android": {
+            "enableAndroidGradlePlugin": true
+          }
         }
       ],
+      "./plugins/withSentryAndroidBreadcrumbs",
       [
         "expo-build-properties",
         {
@@ -150,8 +154,7 @@
           }
         }
       ],
-      "./plugins/withSkiaVulkanAndroid",
-      "@sentry/react-native"
+      "./plugins/withSkiaVulkanAndroid"
     ],
     "experiments": {
       "typedRoutes": true,

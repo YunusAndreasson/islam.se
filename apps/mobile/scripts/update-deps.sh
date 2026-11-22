@@ -25,7 +25,7 @@ done
 cd "$APP_DIR"
 
 echo "▸ [1/6] Checking Expo SDK compatibility…"
-npx expo install --check --pnpm || true
+CI=1 npx expo install --check --pnpm || true
 
 echo
 echo "▸ [2/6] Checking for outdated dependencies…"
@@ -45,9 +45,17 @@ fi
 #               context.getFilename(), removed in ESLint 10.
 #   react,      RN's renderer is compiled against the exact React the SDK
 #   react-dom   pins; react-dom must match react exactly.
-PATCH_EXCLUDES=("!expo" "!typescript" "!eslint" "!react" "!react-dom")
+PATCH_EXCLUDES=("!expo" "!typescript" "!eslint")
+# Expo owns these versions. Installing their registry latest first can pull in
+# incompatible peers and make the subsequent repair add plugins a second time.
 while IFS= read -r pkg; do
-  [ -n "$pkg" ] && PATCH_EXCLUDES+=("!$pkg")
+  PATCH_EXCLUDES+=("!$pkg")
+done < <(node -e 'for (const name of Object.keys(require("expo/bundledNativeModules.json"))) console.log(name)')
+PATCHED=()
+while IFS= read -r pkg; do
+  [ -n "$pkg" ] || continue
+  PATCHED+=("$pkg")
+  PATCH_EXCLUDES+=("!$pkg")
 done < <(awk '
   /^[^[:space:]#]/ { inblock = ($0 ~ /^patchedDependencies:/) ? 1 : 0 }
   inblock && /^[[:space:]]+[^[:space:]#]/ {
@@ -60,8 +68,17 @@ done < <(awk '
   }
 ' pnpm-workspace.yaml)
 
+# Expo's --fix invokes a separate install that ignores pnpm update's exclusions.
+# Stop before changing the tree when the SDK needs a patched dependency ported.
+if (( ${#PATCHED[@]} )); then
+  if ! CI=1 npx expo install --check --pnpm "${PATCHED[@]}"; then
+    echo "Check the Expo error above. Port affected patches and update their exact pins before retrying." >&2
+    exit 1
+  fi
+fi
+
 echo
-echo "  Preserving the installed Expo SDK and patched dependencies: ${PATCH_EXCLUDES[*]}"
+echo "  Preserving SDK-managed versions and patched dependencies: ${PATCHED[*]}"
 if [ "$LATEST" -eq 1 ]; then
   echo "▸ [3/6] Updating direct dependencies to their latest releases…"
   pnpm update --latest ${PATCH_EXCLUDES[@]+"${PATCH_EXCLUDES[@]}"}
