@@ -11,7 +11,7 @@ import RelatedLinks from "../components/finder/RelatedLinks.astro";
 import Base from "../layouts/Base.astro";
 import { formatDate } from "../lib/articles";
 import { breadcrumbList, dataset, webPageJsonLd } from "../lib/jsonld";
-import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan, swedishAddress } from "../lib/moskeer";
+import { getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan, swedishAddress } from "../lib/moskeer";
 import { MOSQUE_PHOTOS } from "../lib/moskeer/art";
 import { MOSKEER_DATA_DATE } from "../lib/moskeer/meta";
 import { burialLocationLabel, getBurialGrounds, sectionLabel } from "../lib/begravningsplatser";
@@ -35,46 +35,35 @@ const card = cardPhoto ? await getImage({ src: cardPhoto.src, width: 1200, forma
 
 // The per-mosque detail the map callout needs, looked up by id on click. Kept lean and
 // embedded once as JSON; `<` is escaped so a name can never break out of the script tag.
-const payload = mosques.map((m) => {
-	const d = directionsLinks(m);
-	return {
-		id: m.id,
-		name: m.name,
-		lng: m.lng,
-		lat: m.lat,
-		location: locationLabel(m),
-		// The address as the list beside the map writes it (»Fridhemsgatan 21, 374 41
-		// Karlshamn«), not OpenStreetMap's raw form (»21, Fridhemsgatan, Högadal, …«).
-		address: swedishAddress(m) ?? undefined,
-		opened: m.opened,
-		organisation: m.organisation,
-		google: d.google,
-		apple: d.apple,
-		geo: d.geo,
-	};
-});
+const payload = mosques.map((m) => ({
+	id: m.id,
+	name: m.name,
+	lng: m.lng,
+	lat: m.lat,
+	location: locationLabel(m),
+	// The address as the list beside the map writes it (»Fridhemsgatan 21, 374 41
+	// Karlshamn«), not OpenStreetMap's raw form (»21, Fridhemsgatan, Högadal, …«).
+	address: swedishAddress(m) ?? undefined,
+	opened: m.opened,
+	organisation: m.organisation,
+}));
 
 // The Muslim burial grounds, drawn on the same map as a second kind of place (see
 // lib/begravningsplatser). The list beside the map stays the mosques': that is the directory
 // this page is, and a cemetery filed among the mosques of its län would be a wrong answer to
 // "which mosques are in Skåne". The map is where the two meet.
-const burialPayload = getBurialGrounds().map((b) => {
-	const d = directionsLinks(b);
-	return {
-		id: b.id,
-		name: b.name,
-		section: sectionLabel(b),
-		lng: b.lng,
-		lat: b.lat,
-		lan: b.lan,
-		location: burialLocationLabel(b),
-		address: b.address,
-		opened: b.opened,
-		source: b.source,
-		google: d.google,
-		apple: d.apple,
-	};
-});
+const burialPayload = getBurialGrounds().map((b) => ({
+	id: b.id,
+	name: b.name,
+	section: sectionLabel(b),
+	lng: b.lng,
+	lat: b.lat,
+	lan: b.lan,
+	location: burialLocationLabel(b),
+	address: b.address,
+	opened: b.opened,
+	source: b.source,
+}));
 
 const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sverige. Karta, adresser och vägbeskrivningar, ordnade efter län. Uppdaterad ${updated}.`;
 

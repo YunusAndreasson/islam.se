@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { placeBySlug } from "../bonetider/places-index";
 import { haversineKm } from "../geom";
-import { getMosques, mosquesByCity, siblingCityGroups, swedishAddress } from "./index";
+import { directionsLinks, getMosques, mosquesByCity, siblingCityGroups, swedishAddress } from "./index";
 
 // Every mosque is filed under a bönetider place, and that slug is both its page URL and
 // the anchor in its schema.org @id. The address matcher used to scan address components
@@ -121,4 +121,18 @@ describe("swedishAddress", () => {
 			if (a) expect(a, m.id).not.toMatch(/^\d/);
 		}
 	});
+});
+
+// The pin now builds directions when opened. A name containing an ampersand
+// must remain one query value on both a mosque pin and a burial-ground pin.
+it("opens directions to the selected coordinate with the complete place name", () => {
+	const pin = { lat: 59.2, lng: 18.1, name: "Östra & västra" };
+	const links = directionsLinks(pin);
+	const apple = new URL(links.apple);
+	expect(apple.hostname).toBe("maps.apple.com");
+	expect(apple.searchParams.get("q")).toBe(pin.name);
+	expect(apple.searchParams.get("daddr")).toBe("59.2,18.1");
+	const google = new URL(links.google);
+	expect(google.hostname).toBe("www.google.com");
+	expect(google.searchParams.get("destination")).toBe("59.2,18.1");
 });

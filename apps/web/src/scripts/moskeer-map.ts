@@ -39,6 +39,7 @@ import { locationFailed, requestMapLocation } from "../lib/geolocation";
 import { nearest } from "../lib/geom";
 import { readJsonScript } from "../lib/json-script";
 import { styleBasemapLayer } from "../lib/moskeer/basemap";
+import { directionsLinks } from "../lib/moskeer/directions";
 import { filterFromUrl, matchesFilter, queryTerms, urlWithFilter } from "../lib/moskeer/filter";
 import { fold } from "../lib/search-text";
 import { escapeXml } from "../lib/xml";
@@ -54,9 +55,6 @@ interface MosqueDatum {
 	address?: string;
 	opened?: number;
 	organisation?: string;
-	google: string;
-	apple: string;
-	geo: string;
 }
 
 /** A Muslim burial ground — the map's second kind of place (see moskeer.astro). */
@@ -72,8 +70,6 @@ interface BurialDatum {
 	address?: string;
 	opened?: number;
 	source: string;
-	google: string;
-	apple: string;
 }
 
 // Palette matched to the Bönetider canvas so the two map surfaces feel identical.
@@ -614,6 +610,7 @@ async function mount() {
 
 	function renderCallout(m: MosqueDatum) {
 		if (!callout) return;
+		const directions = directionsLinks(m);
 		callout.setAttribute("aria-label", "Vald moské");
 		// The same words as the list row beside the map (MosqueList): »· öppnad 1995«,
 		// »Huvudman«. The callout said »Öppnad« and »Finansiering / huvudman«.
@@ -629,8 +626,8 @@ async function mount() {
 			<p class="mk-callout-meta">${facts.map(escapeXml).join(" · ")}</p>
 			${org}
 			<div class="mk-dir">
-				<a href="${escapeXml(mapHref(m.apple))}" class="pill directions directions--apple">Vägbeskrivning</a>
-				<a href="${escapeXml(mapHref(m.google))}" class="pill directions directions--google">Vägbeskrivning</a>
+				<a href="${escapeXml(directions.apple)}" class="pill directions directions--apple">Vägbeskrivning</a>
+				<a href="${escapeXml(directions.google)}" class="pill directions directions--google">Vägbeskrivning</a>
 			</div>`;
 		callout.hidden = false;
 		// Wrapped, not passed directly: closeCallout now takes `restoreFocus`, and handing it
@@ -643,6 +640,7 @@ async function mount() {
 	 *  opening hours and who to call. Only an https source becomes a link. */
 	function renderBurialCallout(b: BurialDatum) {
 		if (!callout) return;
+		const directions = directionsLinks(b);
 		callout.setAttribute("aria-label", "Valt gravkvarter");
 		const facts: string[] = [b.location];
 		if (b.opened) facts.push(`i bruk sedan ${b.opened}`);
@@ -658,8 +656,8 @@ async function mount() {
 			<p class="mk-callout-meta">${facts.map(escapeXml).join(" · ")}</p>
 			${source}
 			<div class="mk-dir">
-				<a href="${escapeXml(mapHref(b.apple))}" class="pill directions directions--apple">Vägbeskrivning</a>
-				<a href="${escapeXml(mapHref(b.google))}" class="pill directions directions--google">Vägbeskrivning</a>
+				<a href="${escapeXml(directions.apple)}" class="pill directions directions--apple">Vägbeskrivning</a>
+				<a href="${escapeXml(directions.google)}" class="pill directions directions--google">Vägbeskrivning</a>
 			</div>`;
 		callout.hidden = false;
 		callout.querySelector(".mk-callout-close")?.addEventListener("click", () => closeCallout());
@@ -1136,10 +1134,6 @@ async function mount() {
 		},
 		{ once: true },
 	);
-}
-
-function mapHref(s: string): string {
-	return /^https:\/\/(maps\.apple\.com|www\.google\.com)\//.test(s) ? s : "#";
 }
 
 // Load the map when the stage comes within a screenful, not on parse. The stage is

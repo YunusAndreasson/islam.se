@@ -7,6 +7,9 @@ import { slugify } from "../bonetider/slug";
 import { SITE_URL } from "../config";
 import { talord } from "../format";
 import { byDistance } from "../geom";
+import { directionsLinks, type DirectionsLinks } from "./directions";
+
+export { directionsLinks, type DirectionsLinks };
 
 export interface Mosque {
 	readonly id: string;
@@ -178,25 +181,6 @@ export function siblingCityGroups(kommun: string, citySlug: string): MosqueCityG
 		.map((slug) => cityBySlug(slug))
 		.filter((g): g is MosqueCityGroup => g !== undefined)
 		.sort((a, b) => a.city.localeCompare(b.city, "sv"));
-}
-
-export interface DirectionsLinks {
-	google: string;
-	apple: string;
-	geo: string;
-}
-
-/** Deep links that open the NATIVE Maps app for turn-by-turn on mobile (and the web map
- *  on desktop). Google's `dir/?api=1` and Apple's `maps.apple.com` both hand off to the
- *  installed app; `geo:` is the Android fallback. */
-export function directionsLinks(m: Pick<Mosque, "lat" | "lng" | "name">): DirectionsLinks {
-	const dest = `${m.lat},${m.lng}`;
-	const q = encodeURIComponent(m.name);
-	return {
-		google: `https://www.google.com/maps/dir/?api=1&destination=${dest}`,
-		apple: `https://maps.apple.com/?daddr=${dest}&q=${q}`,
-		geo: `geo:${dest}?q=${dest}(${q})`,
-	};
 }
 
 /** The address split the Swedish way. The scraped `address` is OpenStreetMap's reverse
