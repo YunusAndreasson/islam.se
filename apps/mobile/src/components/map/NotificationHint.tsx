@@ -16,6 +16,7 @@
 // Visually it is MosqueCard's twin — same glass material, radius, hairline, shadow and
 // filled-accent CTA — just anchored to the top instead of the bottom, so it belongs to
 // the same family as the dock and the nav discs rather than reading as an ad banner.
+import { useCardInsets } from '@/theme/window-layout';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
@@ -56,6 +57,7 @@ interface Props {
 type CardState = 'ask' | 'granted' | 'denied';
 
 export function NotificationHint({ top, onEnable, onClose }: Props) {
+  const cardInsets = useCardInsets(space.lg);
   const c = useColors();
   const sky = useSkyGlass();
   const styles = useMemo(() => makeStyles(c), [c]);
@@ -131,7 +133,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
       // Skipped entirely under Reduce Motion — the card still appears, just without travel.
       entering={reduceMotion ? undefined : FadeInUp.duration(motion.base)}
       exiting={reduceMotion ? undefined : FadeOutUp.duration(motion.fast)}
-      style={[styles.wrap, { top }]}
+      style={[styles.wrap, cardInsets, { top }]}
       // box-none so the map stays draggable everywhere except the card itself.
       pointerEvents="box-none"
       // Unlike MosqueCard — which opens because the user tapped a mosque — this card
@@ -214,8 +216,6 @@ function makeStyles(c: Palette) {
     // bar welded across it. `top` comes from the caller (it depends on the safe area).
     wrap: {
       position: 'absolute',
-      left: space.lg,
-      right: space.lg,
     },
     card: {
       borderWidth: StyleSheet.hairlineWidth,

@@ -9,7 +9,6 @@ import {
   alertsPerDay,
   AVAILABLE_SOUNDS,
   channelIdFor,
-  foregroundPresentation,
   getNotificationPermissionState,
   horizonDays,
   MAX_DAYS_AHEAD,
@@ -19,6 +18,7 @@ import {
   resetSyncStateForTests,
   syncPrayerNotifications,
 } from '@/lib/notifications';
+import { foregroundPresentation } from '@/lib/notification-handlers';
 import { analytics } from '@/lib/analytics';
 import { formatTime } from '@/lib/prayer-times';
 import { DEFAULT_ZONE, setDisplayZone, zoneParts } from '@/lib/zone-time';

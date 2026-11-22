@@ -1,6 +1,7 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useReadingColumn } from '@/theme/window-layout';
 import { PlacePicker } from '@/components/settings/PlacePicker';
 import { Icon } from '@/components/ui/Icon';
 import type { SwedishPlace } from '@/lib/places/data';
@@ -11,25 +12,29 @@ export function PrayerPlaceSearch({ onPick, onClose }: {
   onPick: (place: SwedishPlace) => void;
   onClose: () => void;
 }) {
+  const column = useReadingColumn();
   const colors = useColors();
   return (
     <Modal visible onRequestClose={onClose} presentationStyle="pageSheet">
       <SafeAreaView style={[styles.sheet, { backgroundColor: colors.paper }]}>
-        <View style={styles.header}>
-          <Text accessibilityRole="header" style={[type.title, styles.title, { color: colors.ink }]}>
-            Bönetider på annan plats
-          </Text>
-          <Pressable accessibilityRole="button" accessibilityLabel="Stäng" onPress={onClose} style={styles.close}>
-            <Icon name="close" size={22} color={colors.ink} />
-          </Pressable>
+        <View style={[styles.content, column]}>
+          <View style={styles.header}>
+            <Text accessibilityRole="header" style={[type.title, styles.title, { color: colors.ink }]}>
+              Bönetider på annan plats
+            </Text>
+            <Pressable accessibilityRole="button" accessibilityLabel="Stäng" onPress={onClose} style={styles.close}>
+              <Icon name="close" size={22} color={colors.ink} />
+            </Pressable>
+          </View>
+          <PlacePicker selected={null} onPick={onPick} />
         </View>
-        <PlacePicker selected={null} onPick={onPick} />
       </SafeAreaView>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
+  content: { flex: 1 },
   sheet: { flex: 1, paddingHorizontal: space.lg },
   header: { flexDirection: 'row', alignItems: 'center', marginVertical: space.sm },
   title: { flex: 1 },

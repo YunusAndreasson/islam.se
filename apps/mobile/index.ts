@@ -1,4 +1,4 @@
-// The app's entry point, and the single reason it is not just `expo-router/entry`.
+// The app's entry point. The OS can start this bundle without mounting a screen.
 //
 // ⚠️ A BACKGROUND TASK HAS TO BE DEFINED BEFORE ANYTHING RENDERS, AND expo-router ROUTES
 // ARE NOT. `expo-router/entry` registers the root component; it does not render it, and the
@@ -27,5 +27,9 @@
 import './src/lib/sentry';
 
 import './src/lib/notification-refresh';
+import './src/lib/notification-handlers';
+// Publish this bundle's platform layouts before native renders a widget or notification.
+// Scheduling alerts and computing timelines still wait for a refresh.
+import './src/widget/register-layouts';
 
 import 'expo-router/entry';

@@ -29,6 +29,7 @@
 // itself, to build the demoFrame that feeds the map's own overlay while this card is up)
 // and dismissal — there is no autoplay, so every example on screen is one the user tapped
 // to. This component only renders what it's handed and reports taps upward.
+import { useCardInsets } from '@/theme/window-layout';
 import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown, useReducedMotion } from 'react-native-reanimated';
@@ -74,6 +75,7 @@ export function MapLessonCard({
   onDismiss,
   bottom,
 }: Props) {
+  const cardInsets = useCardInsets(space.lg);
   const c = useColors();
   const sky = useSkyGlass();
   const styles = useMemo(() => makeStyles(c), [c]);
@@ -85,7 +87,7 @@ export function MapLessonCard({
       // as MosqueCard.
       entering={reduceMotion ? undefined : FadeInDown.duration(motion.base)}
       exiting={reduceMotion ? undefined : FadeOutDown.duration(motion.fast)}
-      style={[styles.wrap, { bottom }]}
+      style={[styles.wrap, cardInsets, { bottom }]}
       pointerEvents="box-none"
     >
       <GlassSurface style={styles.card} borderRadius={radius.xl} tint={sky.cardGlass}>
@@ -171,8 +173,6 @@ function makeStyles(c: Palette) {
     // map (the same convention MosqueCard/LocationHint use).
     wrap: {
       position: 'absolute',
-      left: space.lg,
-      right: space.lg,
     },
     card: {
       borderWidth: StyleSheet.hairlineWidth,

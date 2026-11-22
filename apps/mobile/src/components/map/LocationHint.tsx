@@ -17,6 +17,7 @@
 // stället". Location is the one permission with a real alternative — picking a city by
 // hand gives correct times without granting anything — so the card offers that door in
 // every state where the primary path has not succeeded, including a refusal.
+import { useCardInsets } from '@/theme/window-layout';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -52,6 +53,7 @@ interface Props {
 type CardState = 'ask' | 'granted' | 'denied' | 'error';
 
 export function LocationHint({ top, onClose }: Props) {
+  const cardInsets = useCardInsets(space.lg);
   const c = useColors();
   const sky = useSkyGlass();
   const styles = useMemo(() => makeStyles(c), [c]);
@@ -145,7 +147,7 @@ export function LocationHint({ top, onClose }: Props) {
       // Skipped entirely under Reduce Motion — the card still appears, just without travel.
       entering={reduceMotion ? undefined : FadeInUp.duration(motion.base)}
       exiting={reduceMotion ? undefined : FadeOutUp.duration(motion.fast)}
-      style={[styles.wrap, { top }]}
+      style={[styles.wrap, cardInsets, { top }]}
       // box-none so the map stays draggable everywhere except the card itself.
       pointerEvents="box-none"
       // The card arrives unprompted, so TalkBack would otherwise never mention it.
@@ -250,8 +252,6 @@ function makeStyles(c: Palette) {
     // a bar welded across it. `top` comes from the caller (it depends on the safe area).
     wrap: {
       position: 'absolute',
-      left: space.lg,
-      right: space.lg,
     },
     card: {
       borderWidth: StyleSheet.hairlineWidth,

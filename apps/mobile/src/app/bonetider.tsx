@@ -75,6 +75,7 @@ import {
   type PrayerLineData,
   SolarSkiaOverlay,
 } from '@/components/map/skia/SolarSkiaOverlay';
+import { usePendingBack } from '@/components/nav/usePendingBack';
 import { MapNav } from '@/components/nav/MapNav';
 import { useNavMetrics } from '@/components/nav/metrics';
 import {
@@ -131,7 +132,7 @@ import { computeSignature } from '@/lib/settings/compute-signature';
 import { useSettings } from '@/lib/settings/context';
 import type { LocationMode, NamedLocation } from '@/lib/settings/types';
 import { buildLines } from '@/lib/solar/field';
-import { demoFrame, MAP_LESSON_EXAMPLES } from '@/lib/solar/demo-year';
+import { demoDayStart, demoFrame, demoMoment, MAP_LESSON_EXAMPLES } from '@/lib/solar/demo-year';
 import { gridForDay } from '@/lib/solar/grid-cache';
 import { polarBoundaryFor } from '@/lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '@/lib/solar/useSolarClock';
@@ -167,9 +168,6 @@ const LOCATE_ZOOM = 11;
 const MAX_BOUNDS = CAMERA_MAX_BOUNDS;
 const MIN_ZOOM = CAMERA_MIN_ZOOM;
 
-// Every mosque's position, for the holes the wash leaves around their specks (see
-// WashClearings in SolarSkiaOverlay). The dataset is static, so this is built once.
-const MOSQUE_POINTS: readonly LonLat[] = getMosques().map((m) => [m.lng, m.lat]);
 const NO_MOSQUE_POINTS: readonly LonLat[] = [];
 
 // Keep Reanimated's intentionally imperative shared-value writes behind small module helpers.
@@ -343,6 +341,7 @@ export default function Bonetider() {
   // that Stockholm has moved. Compiled out of release builds; see the module's header.
   const mapRef = useRef<MapRef>(null);
   const [mapStyleRevision, setMapStyleRevision] = useState(0);
+  const [dockExpanded, setDockExpanded] = useState(false);
   const prayerDockRef = useRef<PrayerDockHandle>(null);
   // The initial framing — captured from the first settled region event after the
   // fitBounds-on-mount. Used as the comparison anchor for "has the user moved the
@@ -857,7 +856,7 @@ export default function Bonetider() {
   // impossible for the card to describe a different month than the map is drawing.
   const lesson = MAP_LESSON_EXAMPLES[lessonIndex];
   const lessonFrame =
-    mapLessonPending && lesson
+    cameraReady && gpuReady && mapLessonPending && lesson
     ? demoFrame(
         lesson.month,
         lessonToday,
@@ -866,17 +865,21 @@ export default function Bonetider() {
         lonLatOf(coords),
       )
     : null;
+  const lessonCaption = useMemo(() => {
+    if (!lesson || !mapLessonPending) return null;
+    return lessonFrame ?? demoMoment(demoDayStart(new Date(lessonToday).getFullYear(), lesson.month), settings);
+  }, [lesson, mapLessonPending, lessonFrame, lessonToday, settings]);
   // Own shared value rather than reusing `nowFraction` above — that one's effect is the
   // single owner of the live glide's timing (see its comment), and the lesson's fraction
   // is a plain snap, not a glide, so keeping them apart means neither has to know the
   // other exists.
-  const lessonFraction = useSharedValue(lessonFrame?.fraction ?? 0);
+  const lessonFraction = useSharedValue(lessonCaption?.fraction ?? 0);
   useEffect(() => {
-    if (lessonFrame) lessonFraction.set(lessonFrame.fraction);
-  }, [lessonFrame, lessonFraction]);
+    if (lessonCaption) lessonFraction.set(lessonCaption.fraction);
+  }, [lessonCaption, lessonFraction]);
 
-  // The whole-country prayer-time lattice — the one expensive step (3752 adhan
-  // computations, 200–600 ms of blocked JS on a mid-range Android). Cached per day and
+  // The whole-country prayer-time lattice is built when its overlay can draw.
+  // Its thousands of adhan computations otherwise block the first map frame. Cached per day and
   // per compute-affecting setting in lib/solar/grid-cache, which also owns the
   // unresolved/unrounded override the field is built with; see that module for why the
   // grid deliberately does NOT use the user's polar and rounding choices.
@@ -915,12 +918,16 @@ export default function Bonetider() {
     [sky.surface, sky.cardGlass],
   );
 
+  const mosquePoints = useMemo<readonly LonLat[]>(
+    () => gpuReady && settings.showMosques ? getMosques().map((m) => [m.lng, m.lat]) : NO_MOSQUE_POINTS,
+    [gpuReady, settings.showMosques],
+  );
   const grid = useMemo(
-    () => gridForDay(fieldDayStart, settings),
+    () => cameraReady && gpuReady && !mapLessonPending ? gridForDay(fieldDayStart, settings) : null,
     // A cosmetic settings change re-runs this memo, but gridForDay returns the SAME
     // cached object for an unchanged signature — so `grid`'s identity, and every memo
     // downstream of it, stays stable.
-    [fieldDayStart, settings],
+    [cameraReady, gpuReady, mapLessonPending, fieldDayStart, settings],
   );
 
   // The user's dot as [lon, lat] — anchors the Skia arrival bloom and keeps each prayer
@@ -946,13 +953,13 @@ export default function Bonetider() {
   // `avoid` keeps each line's pill clear of the user's dot (see buildLines): when a
   // prayer's line sweeps through the user's city the pill would otherwise sit right
   // on the brass dot + city name.
-  const solar = useMemo(() => buildLines(grid, fieldNow, userPoint), [grid, fieldNow, userPoint]);
+  const solar = useMemo(() => grid && buildLines(grid, fieldNow, userPoint), [grid, fieldNow, userPoint]);
   const prayerLines = useMemo<PrayerLineData[]>(
     () =>
-      solar.lines.features.map((f) => ({
+      solar?.lines.features.map((f) => ({
         prayer: f.properties.prayer,
         polylines: f.geometry.coordinates,
-      })),
+      })) ?? [],
     [solar],
   );
 
@@ -1004,6 +1011,29 @@ export default function Bonetider() {
   useEffect(() => () => {
     if (lookupTimer.current !== null) clearTimeout(lookupTimer.current);
   }, []);
+  const dismissLesson = () => {
+    introOfferDone.current = true;
+    setIntroduceDock(true);
+    dismissMapLesson();
+  };
+  const placeCardOpen = !!((settings.showMosques && selectedMosque) ||
+    (settings.showBurialGrounds && selectedBurialGround));
+  const hintOpen = phase === 'hint-location' || phase === 'hint-notifications';
+  usePendingBack(!!previewPlace || placeCardOpen || hintOpen || mapLessonPending ||
+    dockExpanded || clock.mode === 'scrub', () => {
+    if (lookup) finishLookup();
+    else if (placeCardOpen) {
+      setSelectedMosque(null);
+      setSelectedBurialGround(null);
+    } else if (hintOpen) setPhase('done');
+    else if (mapLessonPending) {
+      if (lessonIndex > 0) setLessonIndex(lessonIndex - 1);
+      else dismissLesson();
+    } else if (dockExpanded) prayerDockRef.current?.collapse();
+    else if (searchedPlace) setSearchedPlace(null);
+    else clock.reset();
+  });
+
   const pinStyle = useAnimatedStyle(() => {
     const point = pin.get() ?? (searchedPlace && project(searchedPlace.longitude, searchedPlace.latitude, cam.get()));
     return { opacity: point ? 1 : 0, transform: [
@@ -1574,7 +1604,7 @@ export default function Bonetider() {
             MosqueLayer (lib/map/layer-slots fixes the order, whatever mounts first): MapLibre
             gives the top layer first pick in the collision pass, so where a grave and a
             mosque would overlap, the mosque keeps its place. See BurialGroundLayer. */}
-        {settings.showBurialGrounds && (
+        {gpuReady && settings.showBurialGrounds && (
           <BurialGroundLayer
             styleRevision={mapStyleRevision}
             onSelect={selectBurialGround}
@@ -1582,7 +1612,7 @@ export default function Bonetider() {
             pressable={poiTappable}
           />
         )}
-        {settings.showMosques && (
+        {gpuReady && settings.showMosques && (
           <MosqueLayer
             styleRevision={mapStyleRevision}
             onSelect={selectMosque}
@@ -1627,7 +1657,7 @@ export default function Bonetider() {
           starts only once MapLibre has compiled what the first view needs (see there). Also
           gated off while the map lesson is up — its own overlay pair (below) takes over
           instead, so the two never paint the same frame at once. */}
-      {cameraReady && gpuReady && !mapLessonPending && (
+      {cameraReady && solar && (
         <SolarSkiaOverlay
           dayStart={clock.dayStart}
           dayLength={clock.dayLength}
@@ -1644,7 +1674,7 @@ export default function Bonetider() {
           userPoint={userPoint}
           arrival={arrival}
           polarBoundary={polarBoundary}
-          mosquePoints={settings.showMosques ? MOSQUE_POINTS : NO_MOSQUE_POINTS}
+          mosquePoints={mosquePoints}
         />
       )}
 
@@ -1652,7 +1682,7 @@ export default function Bonetider() {
           LocationLayer, and the wash leaves a hole for it — see WashClearings.) Same
           `cameraReady` gate — no point projecting against a stale camera — and the same
           `gpuReady` one: a pill names a line, so it must not come up before its line does. */}
-      {cameraReady && gpuReady && !mapLessonPending && (
+      {cameraReady && solar && (
         <MapMarkersOverlay
           camera={cam}
           dayStart={clock.dayStart}
@@ -1692,7 +1722,7 @@ export default function Bonetider() {
             userPoint={userPoint}
             arrival={null}
             polarBoundary={lessonFrame.polarBoundary}
-            mosquePoints={settings.showMosques ? MOSQUE_POINTS : NO_MOSQUE_POINTS}
+            mosquePoints={mosquePoints}
           />
           <MapMarkersOverlay
             camera={cam}
@@ -1723,22 +1753,18 @@ export default function Bonetider() {
           full schedule — but for the one landing right after onboarding, the map lesson
           takes this slot instead. Mutually exclusive, so there is never a moment where
           both compete for the same strip of screen. */}
-      {mapLessonPending && lesson && lessonFrame ? (
+      {mapLessonPending && lesson && lessonCaption ? (
         <MapLessonCard
           fact={lesson.fact}
-          monthLabel={lessonFrame.monthLabel}
-          timeLabel={lessonFrame.timeLabel}
+          monthLabel={lessonCaption.monthLabel}
+          timeLabel={lessonCaption.timeLabel}
           index={lessonIndex}
           total={MAP_LESSON_EXAMPLES.length}
           atStart={lessonIndex === 0}
           atEnd={lessonIndex === MAP_LESSON_EXAMPLES.length - 1}
           onPrev={() => setLessonIndex((i) => Math.max(0, i - 1))}
           onNext={() => setLessonIndex((i) => Math.min(MAP_LESSON_EXAMPLES.length - 1, i + 1))}
-          onDismiss={() => {
-            introOfferDone.current = true;
-            setIntroduceDock(true);
-            dismissMapLesson();
-          }}
+          onDismiss={dismissLesson}
           // THE BUG THIS FIXES: this used to pass collapsedDock + DOCK_MARGIN — the
           // offset things floating ABOVE the dock use (MosqueCard). MapLessonCard
           // REPLACES the dock in the same slot instead, so it needs the dock's OWN
@@ -1749,6 +1775,7 @@ export default function Bonetider() {
       ) : (
         <PrayerDock
           ref={prayerDockRef}
+          onExpandedChange={setDockExpanded}
           calendarRequested={calendar === 'open'}
           onCalendarClose={() => router.setParams({ calendar: undefined })}
           clock={clock}

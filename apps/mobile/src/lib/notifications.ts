@@ -134,45 +134,6 @@ export function resetSyncStateForTests(): void {
   categoryEnsured = false;
 }
 
-/**
- * What the OS should do with an alert that arrives while the app is foregrounded (the
- * user may be staring at the map when ʿAṣr lands). Exported so the platform split below
- * is testable without the native module.
- *
- * `shouldPlaySound` means two different things on the two platforms, and treating it as
- * one thing is what made this wrong:
- *
- *   • iOS — the returned behaviour IS the foreground presentation
- *     (UNNotificationPresentationOptions). The content's own `sound` is not consulted,
- *     so a "Tyst" choice has to be honoured right here or every silent alert becomes
- *     audible the moment the app happens to be open.
- *
- *   • Android — the CHANNEL is the sound (frozen at creation, which is why each choice
- *     gets its own channel; see channelIdFor). expo maps `shouldPlaySound: false` onto
- *     NotificationCompat.setSilent(true), which does NOT merely mute the tone: a silent
- *     notification gets no heads-up at all, so a "Tyst" alert used to slide quietly into
- *     the shade instead of appearing over the map — the one moment it had to be seen.
- *     Deferring to the channel gives the right answer for every choice: silent → no
- *     sound (its channel has none) but still a HIGH-importance banner, default → the
- *     system tone, adhan → the adhan. It also retires the old known limitation that an
- *     in-foreground adhan would be replaced by the default tone.
- */
-export function foregroundPresentation(silent: boolean): Notifications.NotificationBehavior {
-  return {
-    shouldShowBanner: true,
-    shouldShowList: true,
-    shouldPlaySound: Platform.OS === 'android' ? true : !silent,
-    shouldSetBadge: false,
-  };
-}
-
-// Set once at module load. The `silent` flag rides on the scheduled content — see the
-// `data` field in syncPrayerNotifications.
-Notifications.setNotificationHandler({
-  handleNotification: async (notification) =>
-    foregroundPresentation(notification.request.content.data?.silent === true),
-});
-
 /** A persisted choice this build cannot honour degrades to the system sound. */
 function resolveSound(key: NotificationSoundKey): NotificationSoundKey {
   return key === 'adhan' && !HAS_ADHAN_SOUND ? 'default' : key;

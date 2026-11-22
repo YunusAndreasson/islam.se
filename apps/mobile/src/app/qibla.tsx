@@ -30,6 +30,7 @@
 // is left in this file is the qibla's own drawing and its own words.
 import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useReadingColumn } from '@/theme/window-layout';
 import { router, useIsFocused } from 'expo-router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -127,6 +128,7 @@ export default function Qibla() {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const styles = useMemo(() => makeStyles(c), [c]);
+  const column = useReadingColumn();
   const focused = useIsFocused();
   const settingsName = systemSettingsName();
 
@@ -264,7 +266,7 @@ export default function Qibla() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       {/* This screen is a sheet over the map — a persistent ✕ dismisses back to it. */}
       <ModalBar variant="close" fallback="/bonetider" />
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView contentContainerStyle={[styles.content, column]}>
       <PlaceHeader title="Qibla" what="riktningen" />
 
       {/* The dial is a purely visual instrument — its rotating letters (N/O/S/V) and ticks

@@ -43,11 +43,12 @@
 // outside the white days — it says so as an observation and offers the offset. Which day the
 // month starts on stays where it belongs, with the reader's mosque.
 import { useKeepAwake } from 'expo-keep-awake';
+import { usePendingBack } from '@/components/nav/usePendingBack';
+import { useReadingColumn } from '@/theme/window-layout';
 import { router, useIsFocused } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AccessibilityInfo,
-  BackHandler,
   Platform,
   Pressable,
   ScrollView,
@@ -228,19 +229,12 @@ export default function Manen() {
   const c = useColors();
   const insets = useSafeAreaInsets();
   const styles = useMemo(() => makeStyles(c), [c]);
+  const column = useReadingColumn();
   const focused = useIsFocused();
 
   const [mode, setMode] = useState<MoonDialMode>(INITIAL_MODE);
   const [readingAlmanac, setReadingAlmanac] = useState(false);
-  useEffect(() => {
-    if (!readingAlmanac) return;
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      setReadingAlmanac(false);
-      return true;
-    });
-    return () => sub.remove();
-  }, [readingAlmanac]);
-
+  usePendingBack(readingAlmanac, () => setReadingAlmanac(false));
 
   const now = useCoarseNow(TICK_MS, focused);
   const sky = useMoonSky(coords, now);
@@ -571,7 +565,7 @@ export default function Manen() {
         importantForAccessibility={readingAlmanac ? 'no-hide-descendants' : 'auto'}
         pointerEvents={readingAlmanac ? 'none' : 'auto'}>
       <ModalBar variant="close" fallback="/bonetider" />
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView contentContainerStyle={[styles.content, column]}>
       <PlaceHeader title="Månen" what="tiderna" />
 
       {/* THE INSTRUMENT, and the switch that says what it is pointed at, as one block. The

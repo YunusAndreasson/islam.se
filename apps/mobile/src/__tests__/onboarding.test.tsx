@@ -90,13 +90,7 @@ async function press(label: string): Promise<void> {
   await act(async () => {});
 }
 
-/** Fire Android's back gesture the way the OS does — by calling the handler the screen
- *  registered, since there is no control on screen to press. Returns that handler's own
- *  answer: `true` means the introduction consumed the gesture, `false` means it handed it
- *  back to the navigator (which, on a fullScreenModal, is what leaves the flow).
- *
- *  The LAST registration is the live one: the effect re-subscribes on every step change,
- *  so an earlier call in the list belongs to a listener that has already been removed. */
+/** Invoke the screen's active Android listener on a step with a predecessor. */
 async function pressAndroidBack(): Promise<boolean> {
   const calls = jest.mocked(BackHandler).addEventListener.mock.calls;
   const handler = calls.filter(([event]) => event === 'hardwareBackPress').at(-1)?.[1];
@@ -227,7 +221,8 @@ describe('the introduction', () => {
 
     // There is no previous step, and swallowing the gesture here would make the OS back
     // do nothing at all — which reads as a frozen app rather than as a boundary.
-    expect(await pressAndroidBack()).toBe(false);
+    const calls = jest.mocked(BackHandler).addEventListener.mock.calls;
+    expect(calls.filter(([event]) => event === 'hardwareBackPress')).toHaveLength(0);
     expect(screen.getByText('Bönetider för Sverige')).toBeTruthy();
   });
 

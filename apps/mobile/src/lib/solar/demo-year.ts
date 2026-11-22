@@ -130,6 +130,32 @@ export function demoDayStart(year: number, monthIndex: number): number {
   return startOfZoneDay(Date.UTC(year, monthIndex, SAMPLE_DAY_OF_MONTH, 12, 0, 0));
 }
 
+/** The lesson caption is visible while MapLibre is still drawing its first frame. */
+export function demoMoment(dayStart: number, settings: PrayerSettings) {
+  const prayerDate = zonePrayerDate(dayStart);
+  const dayLength = zoneDayLength(dayStart);
+
+  // The event the frame is anchored on. Computed with the user's OWN settings (this is a
+  // real time, shown to the user), unlike the grid below.
+  const stockholmTimes = computePrayerTimes(DEFAULT_COORDS, prayerDate, settings);
+  const maghrib = stockholmTimes.maghrib;
+  // Maghrib is defined everywhere in Stockholm on every day of the year, but never
+  // assume: fall back to the middle of the day rather than render NaN.
+  const instant =
+    maghrib instanceof Date && !Number.isNaN(maghrib.getTime())
+      ? maghrib.getTime()
+      : dayStart + dayLength / 2;
+
+  return {
+    dayStart,
+    dayLength,
+    instant,
+    fraction: (instant - dayStart) / dayLength,
+    monthLabel: DATE_FMT.format(new Date(dayStart + dayLength / 2)),
+    timeLabel: formatDemoTime(new Date(instant)),
+  };
+}
+
 // Keyed by `${dayStart}|${signature}`, capped at one year's frames. A compute-affecting
 // settings change (a different method or madhab) invalidates every frame at once, which
 // is right: those choices are global, not per-month.
@@ -161,21 +187,9 @@ export function demoFrame(
   const hit = cache.get(key);
   if (hit) return hit;
 
-  const prayerDate = zonePrayerDate(dayStart);
-  const dayLength = zoneDayLength(dayStart);
-
-  // The event the frame is anchored on. Computed with the user's OWN settings (this is a
-  // real time, shown to the user), unlike the grid below.
-  const stockholmTimes = computePrayerTimes(DEFAULT_COORDS, prayerDate, settings);
-  const maghrib = stockholmTimes.maghrib;
-  // Maghrib is defined everywhere in Stockholm on every day of the year, but never
-  // assume: fall back to the middle of the day rather than render NaN.
-  const instant =
-    maghrib instanceof Date && !Number.isNaN(maghrib.getTime())
-      ? maghrib.getTime()
-      : dayStart + dayLength / 2;
-
-  const grid = buildGrid(prayerDate, lineGridSettings(settings), {
+  const moment = demoMoment(dayStart, settings);
+  const { dayLength, instant } = moment;
+  const grid = buildGrid(zonePrayerDate(dayStart), lineGridSettings(settings), {
     bounds: DEMO_BOUNDS,
     latStep: DEMO_LAT_STEP,
     lonStep: DEMO_LON_STEP,
@@ -183,18 +197,13 @@ export function demoFrame(
   const solar = buildLines(grid, instant, avoid);
 
   const frame: DemoFrame = {
-    dayStart,
-    dayLength,
-    instant,
-    fraction: (instant - dayStart) / dayLength,
+    ...moment,
     lines: solar.lines.features.map((f) => ({
       prayer: f.properties.prayer,
       polylines: f.geometry.coordinates,
     })),
     labels: solar.labels,
     polarBoundary: polarBoundaryFor(new Date(dayStart + dayLength / 2)),
-    monthLabel: DATE_FMT.format(new Date(dayStart + dayLength / 2)),
-    timeLabel: formatDemoTime(new Date(instant)),
   };
 
   cache.set(key, frame);

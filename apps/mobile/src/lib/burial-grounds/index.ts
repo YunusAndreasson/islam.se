@@ -9,7 +9,6 @@
 // Every record carries the `source` page that confirms the section exists; see the web
 // module (apps/web/src/lib/begravningsplatser) for what does and does not get listed.
 import type { Feature, FeatureCollection, Point } from 'geojson';
-import burialGroundsRaw from './data.json';
 import type { LonLat } from '@/lib/coordinates';
 import { nearestHit } from '@/lib/map/nearestHit';
 
@@ -35,16 +34,18 @@ export interface BurialGround {
   readonly source: string;
 }
 
-const BURIAL_GROUNDS: readonly BurialGround[] = burialGroundsRaw;
-
-const BY_ID = new Map<string, BurialGround>(BURIAL_GROUNDS.map((b) => [b.id, b]));
-
 export function getBurialGrounds(): readonly BurialGround[] {
-  return BURIAL_GROUNDS;
+  // Metro evaluates this bundled mirror on the first consumer and caches it.
+  return require('./data.json') as typeof import('./data.json');
+}
+
+let byId: ReadonlyMap<string, BurialGround> | undefined;
+function recordsById(): ReadonlyMap<string, BurialGround> {
+  return byId ??= new Map(getBurialGrounds().map((record) => [record.id, record]));
 }
 
 export function burialGroundById(id: string): BurialGround | undefined {
-  return BY_ID.get(id);
+  return recordsById().get(id);
 }
 
 /** Which burial ground a tap meant: the nearest hit, for the reason nearestHit documents. */
@@ -52,7 +53,7 @@ export function burialGroundForPress(
   features: readonly Feature[] | undefined,
   at: LonLat,
 ): BurialGround | undefined {
-  return nearestHit(features, at, BY_ID);
+  return nearestHit(features, at, recordsById());
 }
 
 /** The line under the cemetery's name. Most huvudmän give the section no name of its own,
@@ -67,7 +68,7 @@ export type BurialGroundFeatureCollection = FeatureCollection<Point, { id: strin
  *  label; the card looks the rest up by id. No sort key, unlike the mosques: burial grounds
  *  sit far enough apart that the collision pass never has to choose between two of them. */
 export function toFeatureCollection(
-  grounds: readonly BurialGround[] = BURIAL_GROUNDS,
+  grounds: readonly BurialGround[] = getBurialGrounds(),
 ): BurialGroundFeatureCollection {
   return {
     type: 'FeatureCollection',

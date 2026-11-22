@@ -20,6 +20,7 @@
 // leaves it, so unfolding four rows in the flow would have shrunk the instrument by a third
 // every time someone opened this — the very jump this pass exists to remove. An overlay
 // reflows nothing at all.
+import { useCardInsets } from '@/theme/window-layout';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
@@ -81,6 +82,7 @@ export function MoonAlmanacSheet({
   // hilāl, an eclipse and the calendar drift are all live it is five, some of them wrapping,
   // and Dynamic Type multiplies the lot. Keep content sizing with a ceiling and the rows
   // scrolling inside it once they reach it.
+  const cardInsets = useCardInsets(space.md);
   const { height } = useWindowDimensions();
   const bottom = Math.max(space.lg, insets.bottom + space.sm);
   const maxHeight = height - bottom - insets.top - space.lg;
@@ -104,7 +106,7 @@ export function MoonAlmanacSheet({
       {/* OPAQUE, for the reason the month sheet is: this covers the readout, and at any
           translucency the hero numeral and the phase line read straight through the rows. */}
       <GlassSurface
-        style={[styles.sheet, { bottom, maxHeight }]}
+        style={[styles.sheet, cardInsets, { bottom, maxHeight }]}
         borderRadius={radius.xl}
         tint={c.surface}
       >
@@ -160,8 +162,6 @@ function makeStyles(c: Palette) {
     // list it replaced.
     sheet: {
       position: 'absolute',
-      left: space.md,
-      right: space.md,
       // `bottom` is set at the call site from the safe-area inset — see the note there.
       borderRadius: radius.xl,
       borderWidth: StyleSheet.hairlineWidth,

@@ -8,7 +8,7 @@ import { router } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import type { ReactElement, ReactNode } from 'react';
-import { AccessibilityInfo, AppState, type AppStateStatus, Platform } from 'react-native';
+import { AccessibilityInfo, AppState, BackHandler, type AppStateStatus, Platform } from 'react-native';
 
 import Bonetider from '@/app/bonetider';
 import Berakning from '@/app/(settings)/berakning';
@@ -24,6 +24,7 @@ import { SettingsProvider } from '@/lib/settings/context';
 import { qiblaBearing, greatCirclePoints, KAABA } from '@/lib/qibla';
 import { project } from '@/lib/map/projection';
 import * as prayerTimes from '@/lib/prayer-times';
+import * as field from '@/lib/solar/field';
 import { __resetGridCache } from '@/lib/solar/grid-cache';
 import { PrayerDock } from '@/components/map/PrayerDock';
 import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
@@ -401,6 +402,26 @@ describe('tab screens', () => {
     expect(dock().times).toBe(initial.times);
   });
 
+  // Back used to leave the app with another city's timetable still showing.
+  it('uses Android back to end a place preview and releases it on the live map', async () => {
+    const remove = jest.fn();
+    const listen = jest.spyOn(BackHandler, 'addEventListener').mockReturnValue({ remove });
+    try {
+      await renderSettled(withProviders(<Bonetider />));
+      expect(listen).not.toHaveBeenCalled();
+      await fireEvent.press(screen.getByLabelText('Sök bönetider på annan plats'));
+      await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
+      await fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
+      const back = listen.mock.calls.at(-1)?.[1];
+      expect(back).toBeDefined();
+      await act(() => { expect(back?.({ type: 'hardwareBackPress', timeStamp: 0 })).toBe(true); });
+      expect(screen.queryByLabelText('Avsluta platsförhandsvisning')).toBeNull();
+      expect(remove).toHaveBeenCalled();
+    } finally {
+      listen.mockRestore();
+    }
+  });
+
   it('pulses at the user location for an arrival from the previous timetable', async () => {
     const at = Date.parse('2026-06-15T00:36:00+02:00');
     const appState = Object.getOwnPropertyDescriptor(AppState, 'currentState')!;
@@ -495,6 +516,26 @@ describe('tab screens', () => {
     expect(oneOfType(MoonDisc, 'nav moon').props.staticIcon).toBe(false);
   }), MAP_RENDER_TIMEOUT);
 
+  // The canvas waited for first paint, but its country-wide lattice still held
+  // up JS while MapLibre was trying to deliver that paint.
+  it('builds the prayer grid only when the basemap can show the resulting contours', async () => atQuietHour(async () => {
+    __resetGridCache();
+    const build = jest.spyOn(field, 'buildGrid');
+    try {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+      await fireEvent(map, 'regionDidChange', { nativeEvent: {
+        zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0], userInteraction: false,
+      } });
+      expect(build).not.toHaveBeenCalled();
+      await fireEvent(map, 'didFinishRenderingMapFully');
+      expect(build).toHaveBeenCalledTimes(1);
+      expect(allOfType(MapMarkersOverlay)).toHaveLength(1);
+    } finally {
+      build.mockRestore();
+    }
+  }), MAP_RENDER_TIMEOUT);
+
   // A map that never completes must not keep the lines away for good: the reveal cover's
   // safety net (or a failed style, or the offline notice — see map-offline-notice.test)
   // opens the same latch, and nothing closes it again.
@@ -526,6 +567,10 @@ describe('tab screens', () => {
         zoom, bounds: [17.6, 59.1, 18.6, 59.6], userInteraction: true,
       } });
 
+    // Parsing both offline mirrors and sending their GeoJSON to native used to
+    // compete with the basemap's first paint.
+    expect(poiSources()).toHaveLength(0);
+    await fireEvent(map, 'didFinishRenderingMapFully');
     expect(poiSources()).toHaveLength(2);
     await settle(4.5);
     for (const source of poiSources()) expect(source.props.onPress).toBeUndefined();

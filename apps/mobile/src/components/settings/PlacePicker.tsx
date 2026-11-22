@@ -25,7 +25,8 @@ import {
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
 import { Icon } from '@/components/ui/Icon';
 import { hapticSelection } from '@/lib/haptics';
-import { PLACES, type SwedishPlace } from '@/lib/places/data';
+import type { SwedishPlace } from '@/lib/places/data';
+import { getPlaces } from '@/lib/places/nearest';
 import type { NamedLocation } from '@/lib/settings/types';
 import { radius, space, type } from '@/theme/tokens';
 
@@ -35,10 +36,13 @@ function fold(s: string): string {
 }
 
 const NUMBER_FMT = new Intl.NumberFormat('sv-SE');
-const SEARCH_PLACES = PLACES.map((place) => ({
-  place,
-  searchText: `${fold(place.name)} ${fold(place.county)}`,
-}));
+let searchIndex: { place: SwedishPlace; searchText: string }[] | undefined;
+function searchablePlaces() {
+  return searchIndex ??= getPlaces().map((place) => ({
+    place,
+    searchText: `${fold(place.name)} ${fold(place.county)}`,
+  }));
+}
 
 // Fixed list-row metric — must be a constant for FlatList getItemLayout below
 // (not a spacing token). Holds the row at a comfortable two-line height.
@@ -60,6 +64,7 @@ interface Props {
 }
 
 export function PlacePicker({ selected, onPick }: Props) {
+  const places = getPlaces();
   const { width, fontScale } = useWindowDimensions();
   const flexibleRows = fontScale > 1 || width < 360;
   const colors = useSettingsColors();
@@ -84,9 +89,9 @@ export function PlacePicker({ selected, onPick }: Props) {
   // a frame even on a low-end device, no virtualised index needed.
   const results = useMemo(() => {
     const q = fold(query.trim());
-    if (!q) return PLACES;
-    return SEARCH_PLACES.filter((entry) => entry.searchText.includes(q)).map((entry) => entry.place);
-  }, [query]);
+    if (!q) return places;
+    return searchablePlaces().filter((entry) => entry.searchText.includes(q)).map((entry) => entry.place);
+  }, [query, places]);
 
   // Open on the city that is already chosen. The list is population-sorted, so anyone who
   // did not pick one of the handful of biggest places had their selection rendered — tinted
@@ -100,11 +105,11 @@ export function PlacePicker({ selected, onPick }: Props) {
   // initial render while the user is typing.
   const initialIndex = useMemo(() => {
     if (!selectedKey) return undefined;
-    const i = PLACES.findIndex(
+    const i = places.findIndex(
       (p) => keyFor({ name: p.name, latitude: p.lat, longitude: p.lon }) === selectedKey,
     );
     return i >= 0 ? i : undefined;
-  }, [selectedKey]);
+  }, [places, selectedKey]);
 
   // Wrapped text needs measured rows. Put the selected city first in this mode so
   // opening a deep selection does not require guessing hundreds of row heights.
@@ -112,9 +117,9 @@ export function PlacePicker({ selected, onPick }: Props) {
     if (!flexibleRows || query.trim() || initialIndex === undefined || initialIndex === 0) {
       return results;
     }
-    const chosen = PLACES[initialIndex]!;
-    return [chosen, ...PLACES.slice(0, initialIndex), ...PLACES.slice(initialIndex + 1)];
-  }, [flexibleRows, query, initialIndex, results]);
+    const chosen = places[initialIndex]!;
+    return [chosen, ...places.slice(0, initialIndex), ...places.slice(initialIndex + 1)];
+  }, [places, flexibleRows, query, initialIndex, results]);
 
   const renderItem = ({ item }: ListRenderItemInfo<SwedishPlace>): React.ReactElement => {
     const isSelected =
@@ -179,8 +184,8 @@ export function PlacePicker({ selected, onPick }: Props) {
         ) : null}
       </View>
       <Text style={styles.count}>
-        {results.length === PLACES.length
-          ? `${NUMBER_FMT.format(PLACES.length)} platser i Sverige`
+        {results.length === places.length
+          ? `${NUMBER_FMT.format(places.length)} platser i Sverige`
           : `${NUMBER_FMT.format(results.length)} ${results.length === 1 ? 'träff' : 'träffar'}`}
       </Text>
       <FlatList

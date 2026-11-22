@@ -71,6 +71,19 @@ beforeEach(async () => {
 });
 
 describe('the task definition', () => {
+  // Registering the task on a foreground launch used to evaluate the worker's
+  // storage, notification and widget modules before the router could render.
+  it('registers without evaluating the background worker', () => {
+    const loadWorker = jest.fn(() => jest.requireActual('@/lib/refresh-prayer-surfaces'));
+    jest.doMock('@/lib/refresh-prayer-surfaces', loadWorker);
+    try {
+      jest.isolateModules(() => { jest.requireActual('@/lib/notification-refresh'); });
+      expect(loadWorker).not.toHaveBeenCalled();
+    } finally {
+      jest.dontMock('@/lib/refresh-prayer-surfaces');
+    }
+  });
+
   it('is registered at import time, not on mount', () => {
     // The OS starts a bare JS runtime and looks the task up by name immediately. A
     // definition that waited for a component would not exist yet and the wake-up — which

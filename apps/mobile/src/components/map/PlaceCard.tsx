@@ -10,6 +10,7 @@
 // distance; a meta line only when the record has facts for one; the directions button; and
 // ONE quiet text link under it. The card keeps one primary action, and the link reads as
 // subordinate to it — a second button would split the card's attention in two.
+import { useCardInsets } from '@/theme/window-layout';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown, useReducedMotion } from 'react-native-reanimated';
@@ -56,6 +57,7 @@ export function PlaceCard({
   onDirections,
   secondary,
 }: Props) {
+  const cardInsets = useCardInsets(space.lg);
   const c = useColors();
   const sky = useSkyGlass();
   const styles = useMemo(() => makeStyles(c), [c]);
@@ -70,7 +72,7 @@ export function PlaceCard({
       // A quiet slide-up on open / down on dismiss; skipped under Reduce Motion.
       entering={reduceMotion ? undefined : FadeInDown.duration(motion.base)}
       exiting={reduceMotion ? undefined : FadeOutDown.duration(motion.fast)}
-      style={[styles.wrap, { bottom }]}
+      style={[styles.wrap, cardInsets, { bottom }]}
       pointerEvents="box-none"
     >
       <GlassSurface style={styles.card} borderRadius={radius.xl} tint={sky.cardGlass}>
@@ -143,8 +145,6 @@ function makeStyles(c: Palette) {
     // to the bottom. box-none on the wrapper so taps outside the card reach the map.
     wrap: {
       position: 'absolute',
-      left: space.lg,
-      right: space.lg,
     },
     card: {
       borderWidth: StyleSheet.hairlineWidth,

@@ -31,15 +31,6 @@
 import * as BackgroundTask from 'expo-background-task';
 import * as TaskManager from 'expo-task-manager';
 
-import { refreshDisplayZone } from '@/lib/device-zone';
-import { readCachedFix } from '@/lib/location/gps-cache';
-import { resolveLocation } from '@/lib/location/resolve';
-import { syncPrayerNotifications } from '@/lib/notifications';
-import { loadSettings } from '@/lib/settings/store';
-import { syncPrayerLiveActivity } from '@/widget/live-activity';
-import { syncPrayerWidget } from '@/widget/sync';
-import { syncAndroidPrayerNotification } from '@/widget/android-ongoing';
-
 /** Persisted by the OS across launches, so the string is effectively a migration surface:
  *  changing it orphans the previously registered task rather than renaming it. */
 export const PRAYER_REFRESH_TASK = 'prayer-notification-refresh';
@@ -58,26 +49,8 @@ const REFRESH_INTERVAL_MINUTES = 12 * 60;
 // a component to mount would not exist yet, and the wake-up would be wasted.
 TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
   try {
-    const settings = await loadSettings();
-
-    // No React, no provider, and no asking the OS for a position — a background wake-up is
-    // not a moment to start the GPS. resolveLocation is the same table the app and the
-    // widget resolve through, fed from the cached fix, so a background re-schedule lands on
-    // the same coordinate and place name the reader last saw on screen.
-    const { coords, label } = resolveLocation(
-      settings.locationMode,
-      settings.manualLocation,
-      await readCachedFix(),
-    );
-    refreshDisplayZone();
-
-    // When reminders are off, reconciliation finishes any cancellation interrupted
-    // as the app backgrounded. It never asks permission or creates alerts in that case.
-    const alertsReady = await syncPrayerNotifications(coords, settings);
-
-    await syncPrayerWidget(coords, settings, label);
-    await syncPrayerLiveActivity(coords, settings, label, Date.now(), { canStart: false });
-    await syncAndroidPrayerNotification(coords, settings, label);
+    const { refreshPrayerSurfaces } = require('./refresh-prayer-surfaces') as typeof import('./refresh-prayer-surfaces');
+    const alertsReady = await refreshPrayerSurfaces();
     return alertsReady ? BackgroundTask.BackgroundTaskResult.Success : BackgroundTask.BackgroundTaskResult.Failed;
   } catch {
     // Reporting Failed lets the scheduler back off rather than retry a broken task in a

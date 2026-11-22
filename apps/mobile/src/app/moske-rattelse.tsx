@@ -56,6 +56,8 @@ import {
   type ReportReason,
 } from '@/lib/mosques/report';
 import { type Palette, radius, space, type } from '@/theme/tokens';
+import { usePendingBack } from '@/components/nav/usePendingBack';
+import { useReadingColumn } from '@/theme/window-layout';
 import { useColors } from '@/theme/useColors';
 
 // The counter is noise until the limit is actually in reach; 4000 characters is far more
@@ -71,6 +73,7 @@ const EMAIL_DISCLOSURE =
 type Phase = { state: 'editing'; error?: string } | { state: 'sending' } | { state: 'sent' };
 
 export default function MoskeRattelse() {
+  const column = useReadingColumn();
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
   const { id } = useLocalSearchParams<{ id?: string }>();
@@ -88,6 +91,9 @@ export default function MoskeRattelse() {
   // `discarded` turns the guard off in the same render as `repeat()` lets the close through.
   const unsaved =
     !discarded && phase.state === 'editing' && (description.trim() !== '' || email.trim() !== '');
+  // A cold deep link can have no route underneath it. Replacing it goes
+  // through the same discard confirmation as the close button.
+  usePendingBack(unsaved && !router.canGoBack(), () => router.replace('/bonetider'));
   usePreventRemove(unsaved, ({ repeat }) => {
     Alert.alert('Släng rättelsen?', undefined, [
       { text: 'Fortsätt skriva', style: 'cancel' },
@@ -189,7 +195,7 @@ export default function MoskeRattelse() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="close" fallback="/bonetider" />
       <KeyboardAvoidingView
-        style={styles.flex}
+        style={[styles.flex, column]}
         // Edge-to-edge Android does not resize this sheet above the IME. Reserve
         // keyboard space on both platforms so multiline edits remain visible.
         behavior="padding"

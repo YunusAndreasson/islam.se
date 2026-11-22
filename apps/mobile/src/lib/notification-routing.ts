@@ -19,6 +19,7 @@ import { router } from 'expo-router';
 
 import { ANALYTICS_EVENTS, afterAppOpen, analytics } from '@/lib/analytics';
 import { appLaunch } from '@/lib/analytics/lifecycle';
+import { subscribeNotificationResponses } from '@/lib/notification-handlers';
 import { PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 
 /** The home screen — the map with the prayer dock. */
@@ -89,14 +90,11 @@ function reportOpened(
  * the launch response to a listener added after it landed.
  */
 export function subscribeNotificationRouting(): () => void {
-  try {
-    reportOpened(Notifications.getLastNotificationResponse(), true);
-  } catch {
-    // Not available: the listener below still sees warm taps.
-  }
-  const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
-    routeToPrayerTimes();
-    reportOpened(response, appLaunch.isLaunchMoment(Date.now()));
-  });
-  return () => subscription.remove();
+  return subscribeNotificationResponses(
+    (response) => reportOpened(response, true),
+    (response) => {
+      routeToPrayerTimes();
+      reportOpened(response, appLaunch.isLaunchMoment(Date.now()));
+    },
+  );
 }

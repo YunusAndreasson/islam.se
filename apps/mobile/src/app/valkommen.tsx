@@ -22,9 +22,10 @@
 // different — leave the introduction now, not answer this question later.
 import { router } from 'expo-router';
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
-import { AppState, BackHandler, StyleSheet, View } from 'react-native';
+import { AppState, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+import { usePendingBack } from '@/components/nav/usePendingBack';
 import { IntroStep } from '@/components/intro/IntroStep';
 import { StepLocation } from '@/components/intro/StepLocation';
 import { StepMethod } from '@/components/intro/StepMethod';
@@ -149,43 +150,7 @@ export default function Valkommen() {
     }
   };
 
-  // Android's hardware/gesture back has to mean "previous step" here. Without this it
-  // falls through to the navigator, which on a fullScreenModal means leaving the
-  // introduction entirely — a very different answer from the one the gesture implies, and
-  // the gesture is the one people use without thinking.
-  //
-  // This is the ONLY way back, on purpose. There is no "Tillbaka" control: every step
-  // writes straight to settings the moment it is answered, and every one of those answers
-  // has a permanent home in Inställningar — so a step behind you is a thing you can change
-  // later, not a thing you are sealed into. A visible back button therefore bought very
-  // little and cost a third tier of chrome in an action bar that already had too many
-  // (see IntroStep). The gesture costs nothing and is what an Android reader reaches for
-  // anyway — but it is Android's alone, and iOS presents this screen as a fullScreenModal
-  // with gestureEnabled false, so for a while there was no way back on iOS at all. The
-  // steps now render a quiet back control in their chrome row (see IntroStep), which is
-  // what makes the two platforms behave the same; this handler stays because an Android
-  // reader reaches for the gesture before they reach for anything on screen.
-  //
-  // A step the gesture returns to shows whatever was already chosen — there is no
-  // wizard-local draft to restore and nothing is re-asked. In particular it does NOT
-  // re-fire an OS permission prompt: those steps only prompt from their own button.
-  //
-  // Stepping back is the same class of moment as stepping forward — the progress mark
-  // moving through a discrete 1-of-4 — so it carries the same selection tick, and for the
-  // same reason the tick sits on the state change rather than on whatever caused it (see
-  // the note on `next`, and the policy in lib/haptics).
-  //
-  // On the first step the event is passed BACK to the system (return false) rather than
-  // swallowed: there is no previous step, and consuming it would make the OS back gesture
-  // do nothing at all, which reads as a frozen app rather than as a boundary.
-  useEffect(() => {
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (step === 0) return false;
-      back();
-      return true;
-    });
-    return () => sub.remove();
-  }, [back, step]);
+  usePendingBack(step > 0, back);
 
   if (!loaded) {
     // A bare themed ground for the one frame the AsyncStorage read takes. An indicator

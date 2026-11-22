@@ -7,9 +7,15 @@
 // Brute-force great-circle distance over ~2,100 places is well under 1 ms on
 // a phone, so no spatial index. Keep it that way.
 import { haversineKm, isValidLatLng } from '@/lib/coordinates';
-import { PLACES, type SwedishPlace } from './data';
+import type { SwedishPlace } from './data';
 
 export { haversineKm } from '@/lib/coordinates';
+
+/** The bundled gazetteer is first needed on a location match or when the picker opens. */
+export function getPlaces() {
+  const { PLACES } = require('./data') as typeof import('./data');
+  return PLACES;
+}
 
 export interface NearestPlaceMatch {
   readonly place: SwedishPlace;
@@ -26,9 +32,10 @@ export function nearestPlace(lat: number, lon: number): NearestPlaceMatch {
   // (see ./data.ts), so element 0 is known to exist and `best` is a SwedishPlace the whole
   // way through — the "always returns a match" contract holds by construction instead of
   // by a re-read the compiler has to take on faith.
-  let best: SwedishPlace = PLACES[0];
+  const places = getPlaces();
+  let best: SwedishPlace = places[0];
   let bestKm = haversineKm(lat, lon, best.lat, best.lon);
-  for (const candidate of PLACES) {
+  for (const candidate of places) {
     const km = haversineKm(lat, lon, candidate.lat, candidate.lon);
     if (km < bestKm) {
       bestKm = km;

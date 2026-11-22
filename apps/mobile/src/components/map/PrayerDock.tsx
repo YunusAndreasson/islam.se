@@ -24,6 +24,7 @@
 // half the day, which left a warm slab floating on a night sky. The tint now comes from
 // theme/skyChrome, one value shared with every other card on the map. Ink, accent and brass
 // are untouched: only the material under them changes temperature.
+import { useCardInsets } from '@/theme/window-layout';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
 import {
@@ -435,6 +436,7 @@ export function PrayerDock({
   // The card's own ground follows the sky it floats on (see theme/skyChrome); everything
   // else about the dock — ink, accent, brass — stays on the palette.
   const sky = useSkyGlass();
+  const cardInsets = useCardInsets(space.md);
   const { fontScale, width: screenWidth, height: screenHeight } = useWindowDimensions();
   const roomyDate = screenWidth < 360 || fontScale > 1.3;
   const stackedSummary = fontScale > 1.3;
@@ -950,7 +952,7 @@ export function PrayerDock({
 
   return (
     <Animated.View
-      style={[styles.shadowWrap, { bottom: insets.bottom + DOCK_FLOAT }, heightStyle]}
+      style={[styles.shadowWrap, cardInsets, { bottom: insets.bottom + DOCK_FLOAT }, heightStyle]}
       pointerEvents="box-none"
     >
       <View style={styles.clip}>
@@ -1849,8 +1851,6 @@ function makeStyles(c: Palette, fontScale = 1) {
   return StyleSheet.create({
     shadowWrap: {
       position: 'absolute',
-      left: space.md,
-      right: space.md,
       borderRadius: radius.xl,
       ...shadow.card,
     },

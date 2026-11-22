@@ -8,7 +8,6 @@
 // sect field (the web omits it as a speculative guess) and no phone/website — the only
 // outbound action is directions, derived from the coordinates (see ./directions.ts).
 import type { Feature, FeatureCollection, Point } from 'geojson';
-import mosquesRaw from './data.json';
 import type { LonLat } from '@/lib/coordinates';
 import { nearestHit } from '@/lib/map/nearestHit';
 
@@ -30,16 +29,18 @@ export interface Mosque {
   readonly postalCode?: string;
 }
 
-const MOSQUES: readonly Mosque[] = mosquesRaw;
-
 export function getMosques(): readonly Mosque[] {
-  return MOSQUES;
+  // Metro evaluates this bundled mirror on the first consumer and caches it.
+  return require('./data.json') as typeof import('./data.json');
 }
 
-const BY_ID = new Map<string, Mosque>(MOSQUES.map((m) => [m.id, m]));
+let byId: ReadonlyMap<string, Mosque> | undefined;
+function recordsById(): ReadonlyMap<string, Mosque> {
+  return byId ??= new Map(getMosques().map((record) => [record.id, record]));
+}
 
 export function mosqueById(id: string): Mosque | undefined {
-  return BY_ID.get(id);
+  return recordsById().get(id);
 }
 
 /**
@@ -53,7 +54,7 @@ export function mosqueForPress(
   features: readonly Feature[] | undefined,
   at: LonLat,
 ): Mosque | undefined {
-  return nearestHit(features, at, BY_ID);
+  return nearestHit(features, at, recordsById());
 }
 
 // Short county form (from the GeoNames spine) → the proper Swedish län name. Kept
@@ -191,7 +192,7 @@ export const UNDATED_SORT = 9999;
  *  makes an established, dated mosque outrank an undated one — and, more importantly,
  *  makes the surviving set stable instead of incidental. */
 export function toFeatureCollection(
-  mosques: readonly Mosque[] = MOSQUES,
+  mosques: readonly Mosque[] = getMosques(),
 ): MosqueFeatureCollection {
   return {
     type: 'FeatureCollection',

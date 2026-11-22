@@ -24,9 +24,10 @@ import {
   DEMO_FRAME_COUNT,
   demoDayStart,
   demoFrame,
+  demoMoment,
   MAP_LESSON_EXAMPLES,
 } from './demo-year';
-import { buildLines } from './field';
+import { buildGrid, buildLines } from './field';
 import { __resetGridCache, gridForDay, lineGridSettings } from './grid-cache';
 import { polarBoundaryFor } from './sun';
 
@@ -74,6 +75,14 @@ describe('demoFrame', () => {
       demoFrame(month, TODAY, DEFAULT_SETTINGS, SIG);
     }
     expect(gridForDay).not.toHaveBeenCalled();
+  });
+
+  // Onboarding shows this caption before the basemap is ready for a contour.
+  it('gives the lesson its final caption before constructing any grid', () => {
+    const caption = demoMoment(demoDayStart(2026, 5), DEFAULT_SETTINGS);
+    expect(buildGrid).not.toHaveBeenCalled();
+    expect(demoFrame(5, TODAY, DEFAULT_SETTINGS, SIG)).toMatchObject(caption);
+    expect(buildGrid).toHaveBeenCalledTimes(1);
   });
 
   it('returns the same frame object on a repeat visit to a month', () => {

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { router, useLocalSearchParams, usePreventRemove } from 'expo-router';
-import { Alert, type AlertButton } from 'react-native';
+import { Alert, BackHandler, type AlertButton } from 'react-native';
 
 import MoskeRattelse from '@/app/moske-rattelse';
 import { MosqueCard } from '@/components/map/MosqueCard';
@@ -201,6 +201,26 @@ describe('mosque correction form', () => {
       await fireEvent.press(screen.getByRole('radio', { name: 'Adressen stämmer inte' }));
       // A reason is one tap to redo; a dialog for it would be in the way.
       expect(closeGuard().holds).toBe(false);
+    });
+
+    // A cold link can leave no route to pop. Back must trigger the guarded
+    // fallback route before the system can move the activity to the background.
+    it('guards Android back on a dirty form opened as a cold deep link', async () => {
+      const history = jest.mocked(router.canGoBack).mockReturnValue(false);
+      const listen = jest.spyOn(BackHandler, 'addEventListener');
+      try {
+        await render(<MoskeRattelse />);
+        expect(listen).not.toHaveBeenCalled();
+        await fillValidReport();
+        const handler = listen.mock.calls.at(-1)?.[1];
+        expect(handler).toBeDefined();
+        await act(() => { expect(handler?.({ type: 'hardwareBackPress', timeStamp: 0 })).toBe(true); });
+        expect(closeGuard().holds).toBe(true);
+        expect(router.replace).toHaveBeenCalledWith('/bonetider');
+      } finally {
+        listen.mockRestore();
+        history.mockReturnValue(true);
+      }
     });
 
     it('asks before throwing typed text away, and closes only on Släng', async () => {
