@@ -15,9 +15,15 @@ export function PrayerPlaceSearch({ onPick, onClose }: {
   const column = useReadingColumn();
   const colors = useColors();
   return (
-    <Modal visible onRequestClose={onClose} presentationStyle="pageSheet">
+    <Modal
+      visible
+      testID="prayer-place-search"
+      allowSwipeDismissal
+      onRequestClose={onClose}
+      presentationStyle="pageSheet"
+    >
       <SafeAreaView style={[styles.sheet, { backgroundColor: colors.paper }]}>
-        <View style={[styles.content, column]}>
+        <View testID="prayer-place-search-content" style={[styles.content, column]} onAccessibilityEscape={onClose}>
           <View style={styles.header}>
             <Text accessibilityRole="header" style={[type.title, styles.title, { color: colors.ink }]}>
               Bönetider på annan plats

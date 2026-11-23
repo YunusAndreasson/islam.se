@@ -14,6 +14,7 @@ import { alertContent } from '@/lib/alert-copy';
 import type { LatLng } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import type { PrayerActivityProps } from '@/widgets/PrayerLiveActivity';
+import { PRAYER_COUNTDOWN_URL } from './links';
 import { buildPayloadAt, type WidgetPayload } from './payload';
 
 /** Only show the activity when the next prayer is this close. */
@@ -203,7 +204,7 @@ async function reconcileActivity(
   appliedContentKey = null;
   if (!canStart) return;
 
-  const started = api.start(props, undefined, new Date(props.nextAtMs));
+  const started = api.start(props, PRAYER_COUNTDOWN_URL, new Date(props.nextAtMs));
   if (!started) return;
   // The one-hour countdown window is within ActivityKit's four-hour dismissal limit.
   // Final content keeps its system timer; no background JS or end push is needed.

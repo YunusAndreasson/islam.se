@@ -49,19 +49,13 @@ export function Stepper({
     const base = requested.current.from === value ? requested.current.value : value;
     const next = clamp(base + delta);
     requested.current = { value: next, from: value };
-    if (next !== base) hapticSelection();
+    if (next === base) return;
+    hapticSelection();
     onChange(next);
   };
   const display = format ? format(value) : String(value);
   return (
-    // The value lives in its own Text node, so pressing "Öka Fajr" changed a number the
-    // screen reader never spoke — the buttons announce the ACTION, nothing announced the
-    // RESULT. Naming the row and exposing the formatted value gives that reading back.
-    <View
-      style={[styles.row, stacked && styles.stackedRow, divider && styles.divider]}
-      accessibilityLabel={label}
-      accessibilityValue={{ text: display }}
-    >
+    <View style={[styles.row, stacked && styles.stackedRow, divider && styles.divider]}>
       <Text style={[styles.label, stacked && styles.stackedLabel]}>{label}</Text>
       <View style={[styles.control, stacked && styles.stackedControl]}>
         <Pressable
@@ -73,7 +67,20 @@ export function Stepper({
         >
           <Icon name="remove" size={20} color={value <= min ? colors.textMuted : colors.accent} />
         </Pressable>
-        <Text style={[styles.value, stacked && styles.stackedValue]}>{display}</Text>
+        <View
+          style={[styles.valueBox, stacked && styles.stackedValue]}
+          accessible
+          accessibilityRole="adjustable"
+          accessibilityLabel={label}
+          accessibilityValue={{ min, max, now: value, text: display }}
+          accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+          onAccessibilityAction={({ nativeEvent }) => {
+            if (nativeEvent.actionName === 'increment') stepBy(step);
+            if (nativeEvent.actionName === 'decrement') stepBy(-step);
+          }}
+        >
+          <Text style={styles.value}>{display}</Text>
+        </View>
         <Pressable
           onPress={() => stepBy(step)}
           disabled={value >= max}
@@ -102,6 +109,7 @@ function makeStyles(colors: SettingsColors) {
     stackedRow: { flexDirection: 'column', alignItems: 'stretch', gap: space.xs },
     stackedLabel: { flex: 0 },
     stackedControl: { alignSelf: 'stretch' },
+    valueBox: { minWidth: 64 },
     stackedValue: { flex: 1, minWidth: 0 },
     label: { ...type.body, color: colors.text, flex: 1 },
     control: { flexDirection: 'row', alignItems: 'center' },
@@ -117,7 +125,6 @@ function makeStyles(colors: SettingsColors) {
     value: {
       ...type.body,
       color: colors.text,
-      minWidth: 64, // holds width as the digits change so the +/- buttons don't shift
       textAlign: 'center',
       fontVariant: ['tabular-nums'],
     },

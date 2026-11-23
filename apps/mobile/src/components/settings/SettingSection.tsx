@@ -24,7 +24,7 @@ export function SettingSection({
   return (
     <View style={styles.wrap}>
       <View style={styles.card}>
-        {title ? <Text style={styles.title}>{title}</Text> : null}
+        {title ? <Text accessibilityRole="header" style={styles.title}>{title}</Text> : null}
         {children}
       </View>
       {footnote ? <Text style={styles.footnote}>{footnote}</Text> : null}

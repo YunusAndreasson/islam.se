@@ -35,6 +35,22 @@ describe('prayer widget links', () => {
 });
 
 describe('Widget Opened', () => {
+  it('opens the countdown through onboarding on cold start and unwinds an open sheet on warm tap', () => {
+    // A countdown previously resumed whichever sheet was last open. Its tap is distinct
+    // from a home-screen widget tap even though both lead to the same timetable.
+    const track = jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
+    try {
+      const countdown = 'islamse:///countdown/prayer-times';
+      expect(redirectSystemPath({ path: countdown, initial: true })).toBe('/');
+      expect(dismissTo).not.toHaveBeenCalled();
+      expect(redirectSystemPath({ path: countdown, initial: false })).toBeNull();
+      expect(dismissTo).toHaveBeenCalledWith('/bonetider?calendar=closed');
+      expect(track).not.toHaveBeenCalled();
+    } finally {
+      track.mockRestore();
+    }
+  });
+
   it('reports a widget tap, cold or warm, and nothing for any other link', () => {
     const track = jest.spyOn(analytics, 'track').mockResolvedValue(undefined);
     redirectSystemPath({ path: url, initial: true });

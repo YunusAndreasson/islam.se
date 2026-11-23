@@ -64,7 +64,7 @@ export default function BytPlats() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="back" fallback="/(settings)/installningar" />
       <View style={styles.content}>
-        <Text style={styles.header}>Välj stad</Text>
+        <Text accessibilityRole="header" style={styles.header}>Välj stad</Text>
         <PlacePicker selected={selected} onPick={handlePick} />
       </View>
     </SafeAreaView>

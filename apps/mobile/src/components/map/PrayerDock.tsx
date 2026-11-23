@@ -370,6 +370,7 @@ export interface DayMark {
 export interface PrayerDockHandle {
   /** Returns true when this tap dismissed an open dock. */
   collapse: () => boolean;
+  dismissCalendar: () => void;
   isScrubbing: () => boolean;
 }
 
@@ -755,6 +756,7 @@ export function PrayerDock({
   const dragging = useSharedValue(false);
   useImperativeHandle(ref, () => ({
     isScrubbing: () => dragging.get(),
+    dismissCalendar: () => setPickingDay(false),
     collapse() {
       if (!targetOpen.get() && !expanded) return false;
       targetOpen.set(false);

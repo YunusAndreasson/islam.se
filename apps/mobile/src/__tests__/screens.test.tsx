@@ -5,10 +5,11 @@ import * as MailComposer from 'expo-mail-composer';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
+import * as Updates from 'expo-updates';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import type { ReactElement, ReactNode } from 'react';
-import { AccessibilityInfo, AppState, BackHandler, type AppStateStatus, Platform } from 'react-native';
+import { AccessibilityInfo, AppState, BackHandler, type AppStateStatus, Linking, Platform } from 'react-native';
 
 import Bonetider from '@/app/bonetider';
 import Berakning from '@/app/(settings)/berakning';
@@ -26,6 +27,7 @@ import { project } from '@/lib/map/projection';
 import * as prayerTimes from '@/lib/prayer-times';
 import * as field from '@/lib/solar/field';
 import { __resetGridCache } from '@/lib/solar/grid-cache';
+import { PlaceCard } from '@/components/map/PlaceCard';
 import { PrayerDock } from '@/components/map/PrayerDock';
 import { BurialGroundLayer } from '@/components/map/BurialGroundLayer';
 import { MosqueLayer } from '@/components/map/MosqueLayer';
@@ -440,6 +442,53 @@ describe('tab screens', () => {
     expect(dock().times).toBe(initial.times);
   });
 
+  it('returns from the iOS city sheet without selecting a city', async () => {
+    await withPlatform('ios', async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      const search = 'Sök bönetider på annan plats';
+      const button = screen.getByRole('button', { name: search });
+      expect(button.props.accessibilityShowsLargeContentViewer).toBe(true);
+      expect(button.props.accessibilityLargeContentTitle).toBe(search);
+      const moon = screen.getByRole('button', { name: /^Månen –/ });
+      expect(moon.props.accessibilityLargeContentTitle).toBe('Månen');
+      await fireEvent.press(button);
+      const sheet = screen.getByTestId('prayer-place-search');
+      expect(sheet).toHaveProp('allowSwipeDismissal', true);
+      await fireEvent(sheet, 'requestClose');
+      expect(screen.queryByText('Bönetider på annan plats')).toBeNull();
+
+      await fireEvent.press(button);
+      await fireEvent(screen.getByTestId('prayer-place-search-content'), 'accessibilityEscape');
+      expect(screen.queryByText('Bönetider på annan plats')).toBeNull();
+      expect(button).toBeEnabled();
+    });
+  });
+
+  it('restores the live local timetable when a countdown opens over a city and date preview', async () => {
+    // A live reminder can be tapped while yesterday or another town is still on screen.
+    await renderSettled(withProviders(<Bonetider />));
+    const dock = () => oneOfType(PrayerDock, 'prayer dock').props;
+    const local = dock().locationLabel;
+    await fireEvent.press(screen.getByLabelText('Sök bönetider på annan plats'));
+    await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
+    await fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
+    await fireEvent(screen.getByLabelText('Visa alla bönetider'), 'accessibilityTap');
+    await fireEvent.press(screen.getByLabelText('Föregående dag'));
+    await fireEvent.press(screen.getByTestId('prayer-dock-date'));
+    expect(dock().locationLabel).toBe('Umeå');
+    expect(dock().clock.mode).toBe('scrub');
+    expect(screen.getByTestId('calendar-header')).toBeTruthy();
+
+    const onUrl = jest.mocked(Linking).addEventListener.mock.calls.find(([type]) => type === 'url')?.[1];
+    if (!onUrl) throw new Error('The mounted map must receive warm countdown links.');
+    await act(() => { onUrl({ url: 'islamse:///manen' }); });
+    expect(dock().clock.mode).toBe('scrub');
+    await act(() => { onUrl({ url: 'islamse:///countdown/prayer-times' }); });
+    expect(dock().locationLabel).toBe(local);
+    expect(dock().clock.mode).toBe('live');
+    expect(screen.queryByTestId('calendar-header')).toBeNull();
+  });
+
   it('updates the complete Android accessibility label when a preview ends', async () => {
     // Android retained the last city and prayer in the native content description
     // after the lookup button switched back to search.
@@ -735,6 +784,16 @@ describe('tab screens', () => {
     expect(card()).toBeNull();
   }));
 
+  it('makes the place name, identifying line and address available to native text selection', async () => {
+    await render(<PlaceCard title="Kyrkogården" subtitle="Kvarter 18" meta="Parkvägen 3"
+      location="Stockholm" at={{ lat: 59.3, lng: 18.1 }} userCoords={{ latitude: 59.3, longitude: 18.1 }}
+      bottom={0} onClose={jest.fn()} onDirections={jest.fn()}
+      secondary={{ label: 'Källa', accessibilityLabel: 'Källa', onPress: jest.fn() }} />);
+    for (const text of ['Kyrkogården', 'Kvarter 18', 'Parkvägen 3']) {
+      expect(screen.getByText(text)).toHaveProp('selectable', true);
+    }
+  });
+
   // Hiding the place layer used to hide its card only temporarily. Re-enabling
   // it selected the old feature again and reopened the card without a tap.
   it.each([
@@ -960,6 +1019,28 @@ describe('tab screens', () => {
     },
     MAP_RENDER_TIMEOUT,
   );
+
+  it('exposes settings section headings and shows an update notice only after download', async () => {
+    await renderSettled(withProviders(<Installningar />));
+    for (const name of ['Inställningar', 'Plats', 'Notiser']) {
+      expect(screen.getByRole('header', { name })).toBeTruthy();
+    }
+    const notice = /En uppdatering är klar/;
+    const state = {
+      ...Updates.latestContext, isUpdateAvailable: true, isDownloading: true,
+      isUpdatePending: false, sequenceNumber: (Updates.latestContext.sequenceNumber ?? 0) + 1,
+    };
+    try {
+      await act(() => Updates.emitTestStateChangeEvent({ context: state }));
+      expect(screen.queryByText(notice)).toBeNull();
+      await act(() => Updates.emitTestStateChangeEvent({ context: {
+        ...state, isDownloading: false, isUpdatePending: true, sequenceNumber: state.sequenceNumber + 1,
+      } }));
+      expect(screen.getByText(notice)).toBeTruthy();
+    } finally {
+      Updates.resetLatestContext();
+    }
+  });
 
   it('uses platform-aware copy when GPS location permission is denied', async () => {
     // Both halves, stated here rather than inherited: the provider READS the permission on

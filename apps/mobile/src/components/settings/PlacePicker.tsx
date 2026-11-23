@@ -121,17 +121,18 @@ export function PlacePicker({ selected, onPick }: Props) {
     return [chosen, ...places.slice(0, initialIndex), ...places.slice(initialIndex + 1)];
   }, [places, flexibleRows, query, initialIndex, results]);
 
+  const pick = (place: SwedishPlace) => {
+    hapticSelection();
+    onPick(place);
+  };
+  const onlyMatch = results.length === 1 ? results[0] : undefined;
+
   const renderItem = ({ item }: ListRenderItemInfo<SwedishPlace>): React.ReactElement => {
     const isSelected =
       keyFor({ name: item.name, latitude: item.lat, longitude: item.lon }) === selectedKey;
     return (
       <Pressable
-        onPress={() => {
-          // A discrete selection change (same class as OptionGroup) — buzz on the tap,
-          // before the caller navigates or writes.
-          hapticSelection();
-          onPick(item);
-        }}
+        onPress={() => pick(item)}
         accessibilityRole="button"
         accessibilityLabel={`${item.name}, ${item.county}`}
         accessibilityState={{ selected: isSelected }}
@@ -167,7 +168,11 @@ export function PlacePicker({ selected, onPick }: Props) {
           autoCorrect={false}
           value={query}
           onChangeText={setQuery}
-          returnKeyType="search"
+          enterKeyHint={onlyMatch ? 'go' : 'search'}
+          onSubmitEditing={({ nativeEvent }) => {
+            // The IME can commit a final correction with Return, ahead of the last render.
+            if (onlyMatch && nativeEvent.text === query) pick(onlyMatch);
+          }}
           accessibilityLabel="Sök stad"
         />
         {query ? (

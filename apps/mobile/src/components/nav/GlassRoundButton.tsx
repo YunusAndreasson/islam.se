@@ -18,6 +18,7 @@ interface Props {
   onPress: () => void;
   accessibilityLabel: string;
   accessibilityValue?: string;
+  largeContentTitle?: string;
   children: ReactNode;
   /** Chrome tint painted over the native blur. Locks the colour against backdrop drift. */
   tint: string;
@@ -41,6 +42,7 @@ export function GlassRoundButton({
   onPress,
   accessibilityLabel,
   accessibilityValue,
+  largeContentTitle,
   children,
   tint,
   tintOpacity,
@@ -65,6 +67,8 @@ export function GlassRoundButton({
       onPress={onPress}
       disabled={disabled}
       accessibilityRole="button"
+      accessibilityShowsLargeContentViewer={Platform.OS === 'ios'}
+      accessibilityLargeContentTitle={largeContentTitle ?? accessibilityLabel}
       accessibilityLabel={android && accessibilityValue ? `${accessibilityLabel}, ${accessibilityValue}` : accessibilityLabel}
       accessibilityValue={!android && accessibilityValue ? { text: accessibilityValue } : undefined}
       accessibilityState={disabled ? { disabled: true } : undefined}

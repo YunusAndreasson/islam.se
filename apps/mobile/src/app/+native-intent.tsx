@@ -1,11 +1,12 @@
 import { router } from 'expo-router';
 
 import { ANALYTICS_EVENTS, afterAppOpen, analytics } from '@/lib/analytics';
+import { PRAYER_COUNTDOWN_URL } from '@/widget/links';
 
-/** Widget taps mean "show prayer times", including when another sheet is open.
+/** Widget and countdown taps open prayer times, including when another sheet is open.
  * Consume warm links so Router doesn't push a second map over the current stack.
  * Cold starts go through the existing introduction/storage gate at `/`.
- * Either way the tap is reported as Widget Opened, after this launch's App Opened. */
+ * Home-screen widget taps are reported after this launch's App Opened. */
 export function redirectSystemPath({ path, initial }: { path: string; initial: boolean }): string | null {
   let url: URL;
   try {
@@ -13,18 +14,22 @@ export function redirectSystemPath({ path, initial }: { path: string; initial: b
   } catch {
     return path;
   }
-  if (url.protocol !== 'islamse:' || url.host !== '' || url.pathname !== '/widget/prayer-times') {
+  if (url.protocol !== 'islamse:' || url.host !== '') return path;
+  if (url.pathname === '/widget/prayer-times') {
+    afterAppOpen(() => {
+      void analytics.track(ANALYTICS_EVENTS.WIDGET_OPENED, { cold: initial });
+    });
+  } else if (path !== PRAYER_COUNTDOWN_URL) {
     return path;
   }
-  afterAppOpen(() => {
-    void analytics.track(ANALYTICS_EVENTS.WIDGET_OPENED, { cold: initial });
-  });
   if (initial) return '/';
+  // A calendar opened from Månen is controlled by a route parameter. Close it on a countdown tap.
+  const destination = path === PRAYER_COUNTDOWN_URL ? '/bonetider?calendar=closed' : '/bonetider';
   try {
-    router.dismissTo('/bonetider');
+    router.dismissTo(destination);
     return null;
   } catch {
     // If navigation isn't ready yet, let Router handle the intended destination.
-    return '/bonetider';
+    return destination;
   }
 }

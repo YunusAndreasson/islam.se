@@ -36,6 +36,7 @@
 // "a setting you can watch land is a setting you can judge"). The strip is cheap enough
 // in height to simply stay open, and Beräkning now pins its own copy.
 import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
+import { useUpdates } from 'expo-updates';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -43,6 +44,7 @@ import {
   Pressable,
   ScrollView,
   type ScrollViewInstance,
+  type TextStyle,
   StyleSheet,
   Text,
   View,
@@ -86,6 +88,16 @@ import {
   locationDeniedMessage,
 } from '@/lib/system-settings';
 import { radius, space, type } from '@/theme/tokens';
+
+// A download can report progress several times. Only this line subscribes.
+function PendingUpdateNotice({ style }: { style: TextStyle }) {
+  const { isUpdatePending } = useUpdates();
+  return isUpdatePending ? (
+    <Text style={style} accessibilityLiveRegion="polite">
+      En uppdatering är klar och används nästa gång appen startar.
+    </Text>
+  ) : null;
+}
 
 export default function Installningar() {
   const { settings, loaded, update, reset } = useSettings();
@@ -237,7 +249,7 @@ export default function Installningar() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="close" fallback="/bonetider" />
       <ScrollView ref={scroller} contentContainerStyle={styles.content}>
-        <Text style={styles.header}>Inställningar</Text>
+        <Text accessibilityRole="header" style={styles.header}>Inställningar</Text>
 
         <SettingSection
           title="Plats"
@@ -569,6 +581,7 @@ export default function Installningar() {
             can see at a glance which JS bundle is actually running: an applied
             OTA (id prefix + publish date) or the binary's embedded bundle. */}
         <Text style={styles.colophon}>islam.se · Version {APP_VERSION} · © 2026</Text>
+        <PendingUpdateNotice style={styles.updateNotice} />
         <Text style={styles.colophonSub}>{[storeLabel, OTA_LABEL].filter(Boolean).join(' · ')}</Text>
       </ScrollView>
     </SafeAreaView>
@@ -617,6 +630,7 @@ function makeStyles(colors: SettingsColors) {
       textAlign: 'center',
       marginTop: space.sm,
     },
+    updateNotice: { ...type.caption, color: colors.textMuted, textAlign: 'center', marginTop: space.xs },
     // OTA line — quieter still than the colophon (one opacity step below the faint
     // tier, no bottom air until the screen end), so it reads as a subsidiary
     // debug-y imprint, not as a second sign-off.

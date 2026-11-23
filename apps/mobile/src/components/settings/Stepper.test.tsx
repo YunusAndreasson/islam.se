@@ -101,6 +101,25 @@ describe('Stepper', () => {
     expect(onChange).toHaveBeenLastCalledWith(2);
   });
 
+  it('adjusts the focused value in its configured units and stops at either limit', async () => {
+    const onChange = jest.fn<(value: number) => void>();
+    function Minutes() {
+      const [value, setValue] = useState(0);
+      return <Stepper label="Fajr" value={value} min={0} max={10} step={5}
+        format={(n) => `${n} min`} onChange={(n) => { setValue(n); onChange(n); }} />;
+    }
+    await render(<Minutes />);
+    const value = screen.getByRole('adjustable', { name: 'Fajr' });
+    const adjust = (actionName: string) => fireEvent(value, 'accessibilityAction', { nativeEvent: { actionName } });
+    await adjust('decrement');
+    await adjust('increment');
+    expect(value).toHaveAccessibilityValue({ text: '5 min', now: 5, min: 0, max: 10 });
+    await adjust('increment');
+    await adjust('increment');
+    await adjust('decrement');
+    expect(onChange.mock.calls).toEqual([[5], [10], [5]]);
+  });
+
   it('reports the value it is showing to a screen reader', async () => {
     await render(<Controlled initial={5} />);
     // The number lives in its own Text node, so the row has to carry it — pressing "Öka

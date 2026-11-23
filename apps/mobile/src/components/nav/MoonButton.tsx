@@ -119,6 +119,7 @@ export function MoonButton({ active, gpuReady }: { active: boolean; gpuReady: bo
       tint={aimed ? c.highlightSoft : glass.surface}
       tintOpacity={aimed ? undefined : 0.86}
       rim={aimed ? c.highlightText : c.hairline}
+      largeContentTitle="Månen"
       accessibilityLabel={
         aimed
           ? `Månen – du ser mot månen, ${phase}, ${formatHijri(today, settings.hijriOffset)}`

@@ -96,6 +96,7 @@ describe('applyPrayerActivity', () => {
     const { api, instances, start } = fakeApi();
     await syncAt(api, INSIDE);
     expect(start).toHaveBeenCalledTimes(1);
+    expect(start.mock.calls[0]?.[1]).toBe('islamse:///countdown/prayer-times');
     expect(instances).toHaveLength(1);
   });
 

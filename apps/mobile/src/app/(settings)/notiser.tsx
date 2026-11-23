@@ -140,7 +140,7 @@ export default function Notiser() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="back" fallback="/installningar" />
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.header}>Påminnelser</Text>
+        <Text accessibilityRole="header" style={styles.header}>Påminnelser</Text>
         {/* Quiet status under the title, not a card: it is the consequence of everything
             below, so it belongs to the screen rather than to any one section. */}
         <Text style={styles.status} accessibilityLiveRegion="polite">

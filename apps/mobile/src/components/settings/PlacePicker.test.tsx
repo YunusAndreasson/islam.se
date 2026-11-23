@@ -61,6 +61,23 @@ describe('PlacePicker', () => {
     },
   );
 
+  it('picks the sole result from the keyboard and leaves ambiguous or stale input alone', async () => {
+    const onPick = jest.fn();
+    await render(<PlacePicker onPick={onPick} selected={null} />);
+    const input = screen.getByLabelText('Sök stad');
+    for (const text of ['', 'Skåne', 'zzz123']) {
+      await fireEvent.changeText(input, text);
+      await fireEvent(input, 'submitEditing', { nativeEvent: { text } });
+    }
+    await fireEvent.changeText(input, 'Skanor');
+    // A keyboard can finalize its composition just before the submit reaches JS.
+    await fireEvent(input, 'submitEditing', { nativeEvent: { text: 'Skåne' } });
+    expect(onPick).not.toHaveBeenCalled();
+    await fireEvent(input, 'submitEditing', { nativeEvent: { text: 'Skanor' } });
+    expect(onPick).toHaveBeenCalledTimes(1);
+    expect(onPick).toHaveBeenCalledWith(expect.objectContaining({ name: 'Skanör med Falsterbo' }));
+  });
+
   it('opens on the already-chosen city instead of the top of the list', async () => {
     await render(
       <PlacePicker

@@ -78,14 +78,14 @@ export function PlaceCard({
       <GlassSurface style={styles.card} borderRadius={radius.xl} tint={sky.cardGlass}>
         <View style={styles.header}>
           <View style={styles.headerText}>
-            <Text style={styles.name} numberOfLines={2}>
+            <Text selectable style={styles.name} numberOfLines={2}>
               {title}
             </Text>
             {/* The identifying line first, then kommun — the order a Swedish address is
                 written in, and the order the question is asked in: is this the place, and
                 is that the municipality I think I am in. */}
             {subtitle != null && (
-              <Text style={styles.subtitle}>
+              <Text selectable style={styles.subtitle}>
                 {subtitle}
               </Text>
             )}
@@ -106,7 +106,7 @@ export function PlaceCard({
         </View>
 
         {meta != null && (
-          <Text style={styles.meta} numberOfLines={2}>
+          <Text selectable style={styles.meta} numberOfLines={2}>
             {meta}
           </Text>
         )}

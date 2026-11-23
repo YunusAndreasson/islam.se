@@ -9,6 +9,7 @@ import { getNotificationPermissionState, isAlertEnabled } from '@/lib/notificati
 import type { LatLng } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import type { PrayerActivityProps } from '@/widgets/PrayerLiveActivity';
+import { PRAYER_COUNTDOWN_URL } from './links';
 import { prayerActivityPropsAt } from './live-activity';
 
 const NOTIFICATION_ID = 'prayer-upcoming';
@@ -55,6 +56,7 @@ export function applyOngoingPrayerNotification(
       ongoing: true,
       alertOnlyOnce: true,
       autoCancel: false,
+      url: PRAYER_COUNTDOWN_URL,
       timeoutAfter: remaining,
       title: `${props.isMarker ? 'Nästa tid' : 'Nästa bön'}: ${props.nextArabic}`,
       text: `${props.nextTime} · ${props.nextSwedish}`,

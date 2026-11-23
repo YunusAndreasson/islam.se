@@ -30,6 +30,7 @@ describe('Android ongoing prayer notification reconciliation', () => {
     expect(api.post).toHaveBeenCalledWith(props, expect.objectContaining({
       id: 'prayer-upcoming', channelId: 'prayer-upcoming-v1', ongoing: true,
       alertOnlyOnce: true, timeoutAfter: 30 * 60_000,
+      url: 'islamse:///countdown/prayer-times',
     }));
   });
   it('does not re-post unchanged content on each foreground tick', async () => {

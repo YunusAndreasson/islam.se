@@ -22,6 +22,7 @@ import {
 } from 'react';
 import {
   AppState,
+  Linking,
   type NativeSyntheticEvent,
   Platform,
   StyleSheet,
@@ -137,6 +138,7 @@ import { gridForDay } from '@/lib/solar/grid-cache';
 import { polarBoundaryFor } from '@/lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '@/lib/solar/useSolarClock';
 import { zonePrayerDate } from '@/lib/zone-time';
+import { PRAYER_COUNTDOWN_URL } from '@/widget/links';
 import { motion, radius, space, type } from '@/theme/tokens';
 import { skyChromeAt } from '@/lib/solar/sky-chrome';
 import { SkyChromeProvider } from '@/theme/skyChrome';
@@ -993,6 +995,24 @@ export default function Bonetider() {
   useEffect(() => () => {
     if (lookupTimer.current !== null) clearTimeout(lookupTimer.current);
   }, []);
+  // The countdown belongs to the saved location and the current day. A warm link
+  // can arrive with another town, a different date or the picker still on screen.
+  const onCountdownLink = useEffectEvent(({ url }: { url: string }) => {
+    if (url !== PRAYER_COUNTDOWN_URL) return;
+    finishLookup();
+    setSearchOpen(false);
+    setSearchedPlace(null);
+    setSelectedMosque(null);
+    setSelectedBurialGround(null);
+    setLineMessage(null);
+    prayerDockRef.current?.dismissCalendar();
+    clock.reset();
+  });
+  useEffect(() => {
+    const subscription = Linking.addEventListener('url', onCountdownLink);
+    return () => subscription.remove();
+  }, []);
+
   const dismissLesson = () => {
     introOfferDone.current = true;
     setIntroduceDock(true);

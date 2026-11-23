@@ -65,7 +65,7 @@ export default function Om() {
             heading, which would only echo it. */}
         <View style={styles.masthead}>
           <Image source={ICON} style={styles.icon} accessibilityIgnoresInvertColors />
-          <Text style={styles.wordmark}>islam.se</Text>
+          <Text accessibilityRole="header" style={styles.wordmark}>islam.se</Text>
           <Text style={styles.tagline}>
             En karta över Sveriges bönetider, ritad med solens vandring över landet.
           </Text>

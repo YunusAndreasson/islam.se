@@ -22,7 +22,7 @@ export default function VanligaFragor() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="back" fallback="/installningar" />
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.header}>Vanliga frågor</Text>
+        <Text accessibilityRole="header" style={styles.header}>Vanliga frågor</Text>
         <SettingSection title="Frågor och svar">
           {FAQ.map((item, i) => (
             <FaqItem

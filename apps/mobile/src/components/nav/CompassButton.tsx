@@ -111,6 +111,7 @@ export function CompassButton({ active }: { active: boolean }) {
       tint={tint}
       tintOpacity={aligned ? undefined : 0.86}
       rim={rim}
+      largeContentTitle="Qibla"
       accessibilityLabel={
         aligned
           ? 'Qibla – du är vänd mot Mecka'

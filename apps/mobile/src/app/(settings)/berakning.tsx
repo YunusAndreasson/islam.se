@@ -77,7 +77,7 @@ export default function Berakning() {
       </View>}
       <ScrollView contentContainerStyle={styles.content}>
         {scrollPreview && <PreviewStrip preview={preview} />}
-        <Text style={styles.header}>Beräkning</Text>
+        <Text accessibilityRole="header" style={styles.header}>Beräkning</Text>
 
         <SettingSection
           title="Beräkningsmetod"
