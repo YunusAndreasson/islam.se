@@ -119,14 +119,27 @@ if ! flock -n 9; then
 fi
 
 # Pick up any newly committed code. Freshness itself needs no new commit (the build stamps
-# today's date), so a non-fast-forward or offline box must not abort the daily refresh.
+# today's date), so an offline box must not abort the daily refresh — but one that has
+# fallen behind its upstream must (see below).
 if [ "${SKIP_GIT_PULL:-0}" != "1" ]; then
 	# bash reads a script incrementally, by byte offset, WHILE running it — so a pull that
 	# rewrites this file mid-run makes the shell resume at an offset that now points into
 	# different text. Re-exec when the pull changed us, and pass a marker so the new process
 	# does not pull (and re-exec) again.
 	before="$(cksum <"${BASH_SOURCE[0]}")"
-	git pull --ff-only 2>/dev/null || log "git pull skipped (non-ff, dirty tree, or offline)"
+	# Offline is fine: yesterday's code with today's date is still a refresh. Fallen BEHIND is
+	# not. After origin/master was rewritten (Nov 2026) this box could no longer fast-forward,
+	# logged "pull skipped" and for twelve nights deployed its Nov 7 tree over every newer
+	# manual ship. If the upstream holds commits HEAD lacks, deploying HEAD replaces newer code
+	# with older, so refuse and let the failed unit say so.
+	if ! git pull --ff-only 2>/dev/null; then
+		if git fetch --quiet 2>/dev/null && ! git merge-base --is-ancestor '@{u}' HEAD; then
+			log "refusing: HEAD $(git rev-parse --short HEAD) is behind $(git rev-parse --short '@{u}') and cannot fast-forward (history rewritten, or a dirty tree)"
+			log "deploying it would put older code over newer — inspect, then: git reset --hard @{u}"
+			exit 1
+		fi
+		log "git pull skipped (offline, or local commits ahead of upstream)"
+	fi
 	if [ "$(cksum <"${BASH_SOURCE[0]}")" != "$before" ]; then
 		log "the pull updated this script — re-executing the new version"
 		SKIP_GIT_PULL=1 exec "${BASH_SOURCE[0]}" "$@"
