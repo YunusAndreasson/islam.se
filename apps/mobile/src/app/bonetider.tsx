@@ -1551,9 +1551,9 @@ export default function Bonetider() {
         onTouchCancel={finishLookup}
       >
       <Map
-        // TextureView hands resizes to the renderer without waiting for a
-        // frame on Android's UI thread, including during background layout.
-        androidView="texture"
+        // SurfaceView (the default) on purpose. ISLAM-SE-2's resize wait is fixed in
+        // MapLibre Android 13.7.1's Vulkan SurfaceView (#4705); TextureView made line
+        // taps slower in all three emulator runs (2026-11-23) for no measured gain.
         dragPan={!lookup}
         onLongPress={(e) => {
           if (!mapActive || !cameraReady || mapLessonPending || holding.current) return;

@@ -19,8 +19,11 @@ it('builds with the Android renderer mailbox lifecycle fix', () => {
   expect(semver.gte(nativeProperty('nativeVersion'), '13.7.1')).toBe(true);
 });
 
-// ISLAM-SE-M: the Adreno crash was in vkCmdBeginRenderPass on MapLibre's
-// renderer. Skia's separate Vulkan feature requirement cannot select this AAR.
-it('uses the OpenGL map renderer on Android', () => {
-  expect(nativeProperty('nativeVariant')).toBe('opengl');
+// MapLibre stays on Vulkan, like Skia (one GPU API for map and overlay, the
+// combination measured on 2026-11-22). 13.7.1 carries the Vulkan fixes behind the
+// production faults: non-blocking SurfaceView resize (ISLAM-SE-2, #4705),
+// recoverable swapchain rebuilds (#4730) and the Adreno 600-series workaround
+// extended to all texture sampling (#4666; ISLAM-SE-M was an Adreno 642L).
+it('uses the Vulkan map renderer on Android', () => {
+  expect(nativeProperty('nativeVariant')).toBe('vulkan');
 });

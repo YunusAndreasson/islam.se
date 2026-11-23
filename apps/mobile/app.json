@@ -47,7 +47,7 @@
         {
           "android": {
             "nativeVersion": "13.7.1",
-            "nativeVariant": "opengl"
+            "nativeVariant": "vulkan"
           }
         }
       ],

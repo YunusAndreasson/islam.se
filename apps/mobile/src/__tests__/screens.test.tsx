@@ -162,12 +162,13 @@ describe('tab screens', () => {
   // parallel-worker CPU contention a heavy render legitimately runs a few seconds.
   const MAP_RENDER_TIMEOUT = SCREEN_RENDER_TIMEOUT;
 
-  // ISLAM-SE-2: a SurfaceView resize waited on the render thread during a
-  // background traversal. The TextureView reports its size without that wait.
-  it('uses nonblocking texture resize for the Android basemap', async () => {
+  // ISLAM-SE-2 is fixed natively (MapLibre Android 13.7.1, Vulkan SurfaceView resize
+  // no longer waits, #4705: see maplibre-android.test.js). TextureView was measured
+  // slower on line taps, so the basemap keeps the default SurfaceView.
+  it('keeps the default SurfaceView for the Android basemap', async () => {
     await withPlatform('android', async () => {
       await renderSettled(withProviders(<Bonetider />));
-      expect(screen.getByTestId('sweden-map').props.androidView).toBe('texture');
+      expect(screen.getByTestId('sweden-map').props.androidView).toBeUndefined();
     });
   });
 

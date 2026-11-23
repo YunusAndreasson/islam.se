@@ -232,6 +232,11 @@ From the Sentry reports of 1.3.3, read through the full thread dumps.
   binding's default (Skia stays on Vulkan, so the transparent overlay's layering needs a
   device check); a newer MapLibre Native once its changelog names an Adreno Vulkan fix; or
   excluding the model in the Play Console device catalogue. One event so far.
+  2026-11-23: MapLibre Native Android 13.7.1, still Vulkan. It extends the Adreno 600-series
+  `VK_ERROR_DEVICE_LOST` workaround to all texture sampling (#4666; the SM-A528B is an
+  Adreno 642L) and makes swapchain rebuilds recoverable (#4730). OpenGL ES plus TextureView
+  was tried on the emulator and dropped: line taps slower in all three runs, no measured gain.
+  Check the crash on the next release before reconsidering OpenGL ES.
 - **Android map taps (ISLAM-SE-D, 1.0.13).** The binding answers a tap with a
   `queryRenderedFeatures` per pressable source on the main thread, which waits for
   MapLibre's render thread. Below the glyphs' minzoom the two POI sources now take no
