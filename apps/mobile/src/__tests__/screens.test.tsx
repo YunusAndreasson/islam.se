@@ -650,6 +650,58 @@ describe('tab screens', () => {
     expect(queryGlyphs).toHaveBeenCalledTimes(1);
   }), MAP_RENDER_TIMEOUT);
 
+  // Android confirms a single tap after waiting for a double tap. A finger that
+  // stops a fling can therefore produce its press after the camera has settled.
+  it('uses a touch during a fling only to stop the map', async () => onForegroundMap(async (flushFrame) => {
+    await renderSettled(withProviders(<Bonetider />));
+    const map = screen.getByTestId('sweden-map');
+    const region = { nativeEvent: { zoom: 12, bounds: [17, 59, 18, 60] } };
+    const mosque = first(getMosques(), 'mosque');
+    const down = () => fireEvent(map, 'touchStartCapture', { nativeEvent: { timestamp: 0 } });
+    const press = () => fireEvent.press(map, { nativeEvent: { point: [90, 120], lngLat: [mosque.lng, mosque.lat] } });
+    await fireEvent(map, 'didFinishRenderingMapFully');
+    await fireEvent(map, 'regionDidChange', region);
+    await fireEvent(map, 'regionWillChange', region);
+    await down();
+    await fireEvent(map, 'regionDidChange', region);
+    await press();
+    await flushFrame();
+    expect(queryGlyphs).not.toHaveBeenCalled();
+
+    queryGlyphs.mockResolvedValueOnce([{ properties: { id: mosque.id, sort: 1 } }]);
+    await down();
+    await press();
+    await flushFrame();
+    expect(queryGlyphs).toHaveBeenCalledTimes(1);
+    expect(screen.getByLabelText(`Vägbeskrivning till ${mosque.name}`)).toBeTruthy();
+  }));
+
+  // A glyph hit bypassed the background handler and left the previous tap's
+  // line explanation on screen alongside the new place card.
+  it('replaces a line explanation with the selected place card', async () => onForegroundMap(async (flushFrame) => {
+    await renderSettled(withProviders(<Bonetider />));
+    const map = screen.getByTestId('sweden-map');
+    await fireEvent(map, 'regionDidChange', { nativeEvent: { zoom: 12, bounds: [17, 59, 19, 60] } });
+    await fireEvent(map, 'didFinishRenderingMapFully');
+    const { userPoint, camera } = oneOfType(SolarSkiaOverlay, 'solar overlay').props;
+    const [lng, lat] = userPoint;
+    await fireEvent(map, 'regionDidChange', { nativeEvent: {
+      zoom: 12, bounds: [lng - 0.1, lat - 0.1, lng + 0.1, lat + 0.1],
+    } });
+    const { x, y } = project(lng, lat, camera.value);
+    queryGlyphs.mockResolvedValueOnce([]);
+    await fireEvent.press(map, { nativeEvent: { point: [x, y], lngLat: userPoint } });
+    await flushFrame();
+    expect(screen.getByText(/Linjen visar qibla/)).toBeTruthy();
+
+    const mosque = first(getMosques(), 'mosque');
+    queryGlyphs.mockResolvedValueOnce([{ properties: { id: mosque.id, sort: 1 } }]);
+    await fireEvent.press(map, { nativeEvent: { point: [90, 120], lngLat: [mosque.lng, mosque.lat] } });
+    await flushFrame();
+    expect(screen.getByLabelText(`Vägbeskrivning till ${mosque.name}`)).toBeTruthy();
+    expect(screen.queryByText(/Linjen visar qibla/)).toBeNull();
+  }));
+
   // Both layers can intersect one tap. Keep the top source, then its nearest
   // visible feature; a later miss also supersedes a still-pending hit.
   it('resolves overlapping glyph hits and ignores a superseded result', async () => onForegroundMap(async (flushFrame) => {

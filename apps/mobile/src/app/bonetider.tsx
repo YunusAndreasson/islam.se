@@ -378,6 +378,7 @@ export default function Bonetider() {
   const mapMoving = useRef(false);
   const settledZoom = useRef(0);
   const tapSequence = useRef(0);
+  const movingAtTouchStart = useRef(false);
   const isMapMoving = useCallback(() => mapMoving.current, []);
 
   const insets = useSafeAreaInsets();
@@ -1440,6 +1441,12 @@ export default function Bonetider() {
   ]);
   const handleMapPress = (event: PressEvent): void => {
     const sequence = ++tapSequence.current;
+    // Android confirms a tap after the double-tap interval. The camera can
+    // already be at rest when it delivers the tap that stopped a fling.
+    if (movingAtTouchStart.current) {
+      movingAtTouchStart.current = false;
+      return;
+    }
     const map = mapRef.current;
     const cameraSequence = publishSeq.current;
     const layers: string[] = [];
@@ -1476,6 +1483,7 @@ export default function Bonetider() {
           return;
         }
         hapticLight();
+        setLineMessage(null);
         setSelectedMosque(mosque ?? null);
         setSelectedBurialGround(ground ?? null);
       }, (error: unknown) => {
@@ -1496,7 +1504,10 @@ export default function Bonetider() {
     <SkyChromeProvider value={skyChrome}>
     <View
       style={[styles.container, { backgroundColor: colors.paperSunken }]}
-      onTouchStartCapture={() => { tapSequence.current += 1; }}
+      onTouchStartCapture={() => {
+        movingAtTouchStart.current = mapMoving.current;
+        tapSequence.current += 1;
+      }}
       // Capture the Map's true rendered viewport so the Skia overlay's projection
       // matches the basemap. On iOS the window dims (useWindowDimensions) can be
       // bigger than the Stack screen's content area — projecting against the wrong
