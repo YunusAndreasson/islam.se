@@ -29,16 +29,35 @@ export interface LineGeometry {
   builtAt: number;
 }
 
-/** Converts a prayer's lon/lat polylines once, for every consumer. */
-export function lineGeometry(polylines: readonly (readonly LonLat[])[], builtAt: number): LineGeometry {
-  const merc = polylines.map((line) => {
-    const arr = new Float64Array(line.length * 2);
-    line.forEach((p, i) => {
-      arr[i * 2] = mercX(p[0]);
-      arr[i * 2 + 1] = mercY(p[1]);
-    });
-    return arr;
+type Polyline = readonly Readonly<LonLat>[];
+type Contour = readonly Polyline[];
+const projections = new WeakMap<Contour, Float64Array[]>();
+const projectedPaths = new WeakMap<Polyline, Float64Array>();
+
+/** A tap can hit-test one path of a drawn contour at any camera position. */
+export function projectedPolyline(line: Polyline): Float64Array {
+  const cached = projectedPaths.get(line);
+  if (cached) return cached;
+  const points = new Float64Array(line.length * 2);
+  line.forEach(([lon, lat], i) => {
+    points[i * 2] = mercX(lon);
+    points[i * 2 + 1] = mercY(lat);
   });
+  projectedPaths.set(line, points);
+  return points;
+}
+
+/** The field and its pill receive the same immutable contour from buildLines. */
+export function projectedContour(polylines: Contour): Float64Array[] {
+  const cached = projections.get(polylines);
+  if (cached) return cached;
+  const merc = polylines.map(projectedPolyline);
+  projections.set(polylines, merc);
+  return merc;
+}
+
+export function lineGeometry(polylines: Contour, builtAt: number): LineGeometry {
+  const merc = projectedContour(polylines);
   const first = merc[0];
   const originX = first?.[0] ?? 0;
   const originY = first?.[1] ?? 0;

@@ -5,8 +5,10 @@ import { render, screen } from '@testing-library/react-native';
 import * as reanimated from 'react-native-reanimated';
 
 import { driftedCamera, MAX_DRIFT_MS, solarDrift } from '@/lib/map/line-geometry';
+import * as projection from '@/lib/map/projection';
 import { type Camera, project, unproject } from '@/lib/map/projection';
 import { MapMarkersOverlay } from './MapMarkersOverlay';
+import { type PrayerLineData, SolarSkiaOverlay } from './skia/SolarSkiaOverlay';
 
 const DAY_START = Date.UTC(2026, 7, 2, 22, 0, 0);
 const DAY_MS = 86_400_000;
@@ -73,6 +75,36 @@ describe('a prayer pill between live rebuilds', () => {
     expect(at.x).toBeCloseTo(exact.x, 6);
     expect(at.y).toBeCloseTo(exact.y, 6);
   });
+});
+
+it.each(['field first', 'pills first'])('projects each new scrub contour once for the field and pill (%s)', async (order) => {
+  // The field and its pill used to each project every vertex of the same immutable
+  // contour when scrubbing. Count a vertex distinct from the camera and label anchor.
+  const mercY = jest.spyOn(projection, 'mercY');
+  const firstLatitude = 59.123;
+  const nextLatitude = 59.456;
+  const camera = shared(CITY);
+  const nowFraction = shared(0.5);
+  function overlays(latitude: number, geometryNow: number) {
+    const lines: PrayerLineData[] = [{ prayer: 'maghrib', polylines: [[[18, latitude], [18.2, 59.7]]] }];
+    const common = {
+      camera, nowFraction, dayStart: DAY_START, dayLength: DAY_MS, geometryNow,
+      preview: true, lines, nextKey: null, polarBoundary: null,
+    };
+    const field = <SolarSkiaOverlay {...common} userPoint={ANCHOR} imminentKey={null} arrival={null} />;
+    const pills = (
+      <MapMarkersOverlay {...common}
+        labels={[{ prayer: 'maghrib', lngLat: ANCHOR, tangent: [0, 1] }]}
+        topInset={0} bottomInset={0}
+      />
+    );
+    return order === 'field first' ? <>{field}{pills}</> : <>{pills}{field}</>;
+  }
+  const view = await render(overlays(firstLatitude, NOW));
+  await view.rerender(overlays(nextLatitude, NOW + 30_000));
+  const contourSamples = mercY.mock.calls.map(([lat]) => lat)
+    .filter((lat) => lat === firstLatitude || lat === nextLatitude);
+  expect(contourSamples).toEqual([firstLatitude, nextLatitude]);
 });
 
 describe('a prayer pill whose line misses the label band', () => {

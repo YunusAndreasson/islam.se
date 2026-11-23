@@ -416,6 +416,9 @@ export default function Bonetider() {
   // The burial ground whose card is open, or null. The two cards share one slot above the
   // dock, so choosing either kind of place closes the other's card.
   const [selectedBurialGround, setSelectedBurialGround] = useState<BurialGround | null>(null);
+  // Hiding a layer dismisses its selection. Re-enabling it starts with all pins unselected.
+  if (!settings.showMosques && selectedMosque) setSelectedMosque(null);
+  if (!settings.showBurialGrounds && selectedBurialGround) setSelectedBurialGround(null);
   const selectMosque = (mosque: Mosque) => {
     setSelectedBurialGround(null);
     setSelectedMosque(mosque);

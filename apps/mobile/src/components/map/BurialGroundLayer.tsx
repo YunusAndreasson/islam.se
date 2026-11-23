@@ -63,7 +63,7 @@ export function BurialGroundLayer({ onSelect, selectedId, styleRevision = 0, pre
   const selectionSource = useFeatureSelection(selectedId, styleRevision);
   const c = useColors();
   const scheme = useActiveScheme();
-  const data = useMemo(() => toFeatureCollection(), []);
+  const data = useMemo(() => JSON.stringify(toFeatureCollection()), []);
 
   const handlePress = (e: NativeSyntheticEvent<PressEventWithFeatures>) => {
     // The nearest hit, not features[0] — see lib/map/nearestHit.

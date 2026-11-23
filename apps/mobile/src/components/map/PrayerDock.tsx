@@ -112,6 +112,18 @@ import { makeTimelineWarp } from '@/lib/timeline-warp';
 import { scrubGrabOffset } from '@/lib/map/scrub-grab';
 
 const DAY_MS = 86_400_000;
+
+// Moving the dock changes where Yoga rounds its edges to physical pixels. The
+// same content can then measure one pixel shorter and make the dock move again.
+// Keep the larger reading within that pixel, but follow real content changes.
+function measuredHeight(previous: number | null, height: number, scale: number): number {
+  if (previous !== null && previous > height) {
+    const lostPixels = Math.round(previous * scale) - Math.round(height * scale);
+    if (lostPixels <= 1) return previous;
+  }
+  return height;
+}
+
 /** Hours the ruler under the scrubber marks; multiples of six also have labels. Positioned by their true fraction of the
  *  viewed day (see `ticks`) rather than spaced evenly, so the ruler agrees with the
  *  prayer marks and thumb — which have always been placed off the REAL 23/24/25 h day. */
@@ -437,7 +449,7 @@ export function PrayerDock({
   // else about the dock — ink, accent, brass — stays on the palette.
   const sky = useSkyGlass();
   const cardInsets = useCardInsets(space.md);
-  const { fontScale, width: screenWidth, height: screenHeight } = useWindowDimensions();
+  const { fontScale, scale, width: screenWidth, height: screenHeight } = useWindowDimensions();
   const roomyDate = screenWidth < 360 || fontScale > 1.3;
   const stackedSummary = fontScale > 1.3;
   const metrics = dockMetrics(fontScale);
@@ -468,14 +480,13 @@ export function PrayerDock({
   // at all (assistive-tech activation of the handle, and the test renderer).
   const showSchedule = expanded || mounted;
 
-  // What the schedule block actually measures, once it has laid out. Rounded up to whole
-  // points: onLayout reports fractional heights, and letting that jitter through would
-  // re-render (and re-spring) the card for a third of a pixel.
-  const [scheduleHeight, setScheduleHeight] = useState<number | null>(null);
-  const [headerHeight, setHeaderHeight] = useState(64);
+  const [measuredSchedule, setMeasuredSchedule] = useState<number | null>(null);
+  const [measuredHeader, setMeasuredHeader] = useState(64);
+  const scheduleHeight = measuredSchedule === null ? null : Math.ceil(measuredSchedule);
+  const headerHeight = Math.ceil(measuredHeader);
   const onHeaderLayout = (e: LayoutChangeEvent) => {
-    const h = Math.ceil(e.nativeEvent.layout.height);
-    setHeaderHeight((previous) => previous === h ? previous : h);
+    const { height } = e.nativeEvent.layout;
+    setMeasuredHeader((previous) => measuredHeight(previous, height, scale));
   };
   const onScheduleLayout = useCallback(
     (e: LayoutChangeEvent) => {
@@ -487,10 +498,10 @@ export function PrayerDock({
       // come off it. Gated on the same `showSchedule` the rows render behind, so the callback
       // that receives a layout is always the one that was current for the render producing it.
       if (!showSchedule) return;
-      const h = Math.ceil(e.nativeEvent.layout.height);
-      setScheduleHeight((prev) => (prev === h ? prev : h));
+      const { height } = e.nativeEvent.layout;
+      setMeasuredSchedule((previous) => measuredHeight(previous, height, scale));
     },
-    [showSchedule],
+    [showSchedule, scale],
   );
   const EXPANDED =
     COLLAPSED + Math.min(scheduleRoom, scheduleHeight === null ? SCHEDULE_FALLBACK + (showNight ? NIGHT_GROUP_FALLBACK : 0) : headerHeight + scheduleHeight);

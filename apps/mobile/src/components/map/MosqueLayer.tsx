@@ -157,7 +157,9 @@ export function MosqueLayer({ onSelect, selectedId, styleRevision = 0, pressable
   // isn't drawn double-size), or null until it resolves / if it never does.
   const [icon, setIcon] = useState<ImageSourcePropType | null>(null);
 
-  const data = useMemo(() => toFeatureCollection(), []);
+  // Both sources accept the same GeoJSON string. Crossing the glyph threshold
+  // changes the press handler without having to serialize the points again.
+  const data = useMemo(() => JSON.stringify(toFeatureCollection()), []);
 
   useEffect(() => {
     let mounted = true;

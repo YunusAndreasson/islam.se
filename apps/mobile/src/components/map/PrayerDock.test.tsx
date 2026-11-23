@@ -630,15 +630,15 @@ describe('resolveToggle — what a finished toggle gesture means', () => {
 });
 
 describe('PrayerDock open height follows the schedule it measured', () => {
-  async function measure(height: number) {
+  async function measure(height: number, headerHeight = 64) {
     await fireEvent(screen.getByTestId('dock-calendar-header', { includeHiddenElements: true }), 'layout', {
-      nativeEvent: { layout: { x: 0, y: 0, width: 320, height: 64 } },
+      nativeEvent: { layout: { x: 0, y: 0, width: 320, height: headerHeight } },
     });
     // includeHiddenElements: the block is hidden from assistive tech while the dock is shut
     // (that is the point — nothing behind the card should be announced), but it is still in
     // the tree and still laid out.
     await fireEvent(screen.getByTestId('dock-schedule', { includeHiddenElements: true }), 'layout', {
-      nativeEvent: { layout: { x: 0, y: 0, width: 320, height: height - 64 } },
+      nativeEvent: { layout: { x: 0, y: 0, width: 320, height: height - headerHeight } },
     });
   }
 
@@ -651,6 +651,30 @@ describe('PrayerDock open height follows the schedule it measured', () => {
     await measure(260);
 
     expect(onExpandedChange).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 260);
+  });
+
+  it('keeps its open height settled through one-pixel layout feedback, and resizes for content', async () => {
+    // On Android the open calendar header measured alternately just below and
+    // just above 60 dp. Each report changed the target and triggered another layout.
+    const report = jest.fn<(open: boolean, height: number) => void>();
+    await render(<PrayerDock {...dockProps(true)} onExpandedChange={report} />);
+    const scale = Dimensions.get('window').scale;
+    const reportPixels = (header: number, rows: number) => measure((header + rows) / scale, header / scale);
+    await reportPixels(157, 708);
+    await reportPixels(158, 709);
+    const [, reserved] = last(report.mock.calls, 'height reserved for the taller measured content');
+    expect(reserved).toBeGreaterThanOrEqual(DOCK_COLLAPSED_BASE + (158 + 709) / scale);
+    report.mockClear();
+    for (let cycle = 0; cycle < 3; cycle++) {
+      await reportPixels(157, 708);
+      await reportPixels(158, 709);
+    }
+    const reportsWhileStationary = report.mock.calls.length;
+    await measure(390, 80);
+    expect(report).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 390);
+    await measure(250, 52);
+    expect(report).toHaveBeenLastCalledWith(true, DOCK_COLLAPSED_BASE + 250);
+    expect(reportsWhileStationary).toBe(0);
   });
 
   // An urgent layout can arrive after Back starts closing the dock and before

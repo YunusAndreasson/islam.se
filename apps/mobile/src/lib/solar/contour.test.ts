@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 
 import { at, first } from '@/test-utils/at';
 
@@ -8,6 +8,7 @@ import {
   marchingSquares,
   orientNorthFirst,
   representativePoint,
+  type Segment,
   smoothChain,
 } from './contour';
 
@@ -217,6 +218,25 @@ describe('representativePoint', () => {
 // segments back into a path; if chaining drops or reorders points the smoothed
 // line tears, so these guard the join and the corner-cut shape.
 describe('chainSegments', () => {
+  it('rounds each input coordinate at most once when joining a contour', () => {
+    // A scrub step used to format the same endpoints again while walking the
+    // graph. Both ends of the middle segment need a join across rounding error.
+    const segments: Segment[] = [
+      [[15, 56], [20, 57]],
+      [[25, 58], [20.0000001, 57]],
+      [[15, 56.0000001], [10, 55]],
+    ];
+    const format = jest.spyOn(Number.prototype, 'toFixed');
+    try {
+      const lines = chainSegments(segments);
+      const formattedCoordinates = format.mock.calls.length;
+      expect(lines).toEqual([[[10, 55], [15, 56], [20, 57], [25, 58]]]);
+      expect(formattedCoordinates).toBeLessThanOrEqual(segments.length * 4);
+    } finally {
+      format.mockRestore();
+    }
+  });
+
   it('joins segments sharing endpoints into one ordered polyline', () => {
     // Three segments that connect end-to-end, given out of order and flipped.
     const segs: [[number, number], [number, number]][] = [

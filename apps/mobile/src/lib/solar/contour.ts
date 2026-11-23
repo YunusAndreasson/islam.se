@@ -243,9 +243,12 @@ export function chainSegments(segments: Segment[]): LonLat[][] {
     if (arr) arr.push(i);
     else incident.set(k, [i]);
   };
-  segments.forEach(([a, b], i) => {
-    add(ptKey(a), i);
-    add(ptKey(b), i);
+  const edges = segments.map(([a, b], i) => {
+    const aKey = ptKey(a);
+    const bKey = ptKey(b);
+    add(aKey, i);
+    add(bKey, i);
+    return { a, b, aKey, bKey };
   });
 
   const used = new Array<boolean>(segments.length).fill(false);
@@ -254,31 +257,27 @@ export function chainSegments(segments: Segment[]): LonLat[][] {
     const cands = incident.get(k);
     if (!cands) return null;
     for (const i of cands) {
-      // `incident` is built from `segments` itself, so every index here is in range —
-      // destructuring the looked-up segment is what lets the compiler confirm that
-      // rather than trusting the map and the array to have stayed in step.
-      const seg = segments[i];
-      if (!seg || used[i]) continue;
-      const [a, b] = seg;
-      const next = ptKey(a) === k ? b : a;
-      return { seg: i, next, nextKey: ptKey(next) };
+      const edge = edges[i];
+      if (!edge || used[i]) continue;
+      return edge.aKey === k
+        ? { seg: i, next: edge.b, nextKey: edge.bKey }
+        : { seg: i, next: edge.a, nextKey: edge.aKey };
     }
     return null;
   };
 
   const polylines: LonLat[][] = [];
-  for (let s = 0; s < segments.length; s++) {
-    const seg = segments[s];
-    if (!seg || used[s]) continue;
+  for (let s = 0; s < edges.length; s++) {
+    const edge = edges[s];
+    if (!edge || used[s]) continue;
     used[s] = true;
-    const [a, b] = seg;
-    const line: LonLat[] = [a, b];
+    const line: LonLat[] = [edge.a, edge.b];
     // Extend forward from b, then backward from a.
-    for (let nx = step(ptKey(b)); nx; nx = step(nx.nextKey)) {
+    for (let nx = step(edge.bKey); nx; nx = step(nx.nextKey)) {
       used[nx.seg] = true;
       line.push(nx.next);
     }
-    for (let pv = step(ptKey(a)); pv; pv = step(pv.nextKey)) {
+    for (let pv = step(edge.aKey); pv; pv = step(pv.nextKey)) {
       used[pv.seg] = true;
       line.unshift(pv.next);
     }

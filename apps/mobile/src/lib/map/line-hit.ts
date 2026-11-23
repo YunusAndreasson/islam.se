@@ -1,18 +1,26 @@
-import { type Camera, project, type ScreenPoint } from './projection';
+import { projectedPolyline } from './line-geometry';
+import { type Camera, mercX, mercY, type ScreenPoint, worldSize } from './projection';
 
 /** Distance in screen points, so the touch allowance stays usable at every zoom. */
 export function distanceToLine(point: ScreenPoint, line: readonly (readonly [number, number])[], camera: Camera): number {
-  let nearest = Infinity;
-  for (let i = 1; i < line.length; i++) {
-    const a = line[i - 1]!;
-    const b = line[i]!;
-    const start = project(a[0], a[1], camera);
-    const end = project(b[0], b[1], camera);
-    const dx = end.x - start.x;
-    const dy = end.y - start.y;
+  if (line.length < 2) return Infinity;
+  // The screen is a uniform scale and translation of Mercator. Transform the tap
+  // once, then compare it to the same vertices the field and its pill already drew.
+  const scale = worldSize(camera.zoom);
+  const x = mercX(camera.lon) + (point.x - camera.width / 2) / scale;
+  const y = mercY(camera.lat) + (point.y - camera.height / 2) / scale;
+  const path = projectedPolyline(line);
+  let nearestSquared = Infinity;
+  for (let i = 2; i < path.length; i += 2) {
+    const fromX = path[i - 2]!;
+    const fromY = path[i - 1]!;
+    const dx = path[i]! - fromX;
+    const dy = path[i + 1]! - fromY;
     const length = dx * dx + dy * dy;
-    const t = length === 0 ? 0 : Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / length));
-    nearest = Math.min(nearest, Math.hypot(point.x - start.x - t * dx, point.y - start.y - t * dy));
+    const t = length === 0 ? 0 : Math.max(0, Math.min(1, ((x - fromX) * dx + (y - fromY) * dy) / length));
+    const offsetX = x - fromX - t * dx;
+    const offsetY = y - fromY - t * dy;
+    nearestSquared = Math.min(nearestSquared, offsetX * offsetX + offsetY * offsetY);
   }
-  return nearest;
+  return Math.sqrt(nearestSquared) * scale;
 }

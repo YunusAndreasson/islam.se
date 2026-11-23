@@ -3,8 +3,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, type SharedValue, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated';
 
-import { driftedCamera, solarDrift } from '@/lib/map/line-geometry';
-import { type Camera, mercX, mercY, project } from '@/lib/map/projection';
+import { driftedCamera, projectedContour, solarDrift } from '@/lib/map/line-geometry';
+import { type Camera, project } from '@/lib/map/projection';
 import { useSolarRenderNow } from '@/lib/map/useSolarRenderNow';
 import { insideLabelBand, visibleLineLabel } from '@/lib/map/visible-line-label';
 import { PRAYER_LABELS, type PrayerKey } from '@/lib/prayer-times';
@@ -165,16 +165,7 @@ function PrayerPill({
   // been fixed on the border. Emphasis should not cost a pill its identity.
   const hue = prayerColorFor(label.prayer, scheme);
   const textHue = prayerTextColorFor(label.prayer, scheme);
-  // Camera-independent projection; the compiler retains this until geometry changes.
-  // Per-frame clipping below then uses only scale/translate on the UI thread.
-  const mercLines = polylines.map((line) => {
-    const points = new Float64Array(line.length * 2);
-    line.forEach(([lon, lat], i) => {
-      points[i * 2] = mercX(lon);
-      points[i * 2 + 1] = mercY(lat);
-    });
-    return points;
-  });
+  const mercLines = projectedContour(polylines);
   // A translate, not `left`/`top` — see `anchor` in the styles for why.
   // Projected through the drifted camera, so the pill sits on the line where Skia draws it
   // (see driftedCamera) rather than where the line was 0–45 s ago — ~550 px at z11.

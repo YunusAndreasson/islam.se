@@ -8,6 +8,7 @@ import * as reanimated from 'react-native-reanimated';
 import * as Sentry from '@sentry/react-native';
 import { Path, Shader, Skia } from 'react-native-skia';
 import { atZoom, DUST_RADIUS_STOPS } from '@/lib/map/dust';
+import * as lineGeometry from '@/lib/map/line-geometry';
 import { type Camera, project } from '@/lib/map/projection';
 import * as theme from '@/theme/useColors';
 import * as renderClock from '@/lib/map/useSolarRenderNow';
@@ -108,6 +109,26 @@ const LINE = [{ prayer: 'dhuhr' as const, polylines: [[[18, 59], [19, 60]]] as [
 const strokes = () => allOfType(Path).filter((node) => node.props.path && node.props.strokeJoin === 'round');
 
 describe('direct scrubbing contours', () => {
+  it('only builds geometry for the contour that moves as the reader scrubs', async () => {
+    // Each new clock instant used to recreate five empty paths alongside the one
+    // visible line. Keep those slots idle while following the moving contour.
+    const build = jest.spyOn(lineGeometry, 'lineGeometry');
+    const props = { preview: true, camera: shared(CAMERA), nowFraction: shared(0.5) };
+    const start = DAY_START + DAY_MS / 2;
+    const view = await renderOverlay({ ...props, lines: LINE, geometryNow: start });
+    for (const step of [1, 2]) {
+      build.mockClear();
+      const polylines: [number, number][][] = [[[18 - step, 59], [19 - step, 60]]];
+      const lines = [{ prayer: 'dhuhr' as const, polylines }];
+      const geometryNow = start + step * 60_000;
+      await view.rerender(overlay({ ...props, lines, geometryNow }));
+      expect(strokes()).toHaveLength(2);
+      expect(build).toHaveBeenCalledWith(polylines, geometryNow);
+      const emptyContourBuilds = build.mock.calls.filter(([points]) => points.length === 0);
+      expect(emptyContourBuilds).toHaveLength(0);
+    }
+  });
+
   it('shows the complete new line immediately and removes it when its time passes', async () => {
     const view = await renderOverlay({ preview: true });
     await view.rerender(overlay({ preview: true, lines: LINE }));
@@ -275,6 +296,23 @@ describe('keeping the reader’s dot and the mosques clear of the wash', () => {
     const uppsala = holes.find((h) => Math.abs(h.x - at.x) < 1e-6 && Math.abs(h.y - at.y) < 1e-6);
     expect(uppsala).toBeDefined();
     expect(uppsala!.r).toBeGreaterThan(atZoom(DUST_RADIUS_STOPS, CAMERA.zoom));
+  });
+
+  it('builds mosque holes without subscribing their geometry to the moving camera’s opacity fade', async () => {
+    // A settling pan used to rebuild every visible circle on each frame of the
+    // fade, even though only the erase path's opacity was changing.
+    withWash();
+    const holes = recordHoles();
+    const derived = jest.spyOn(reanimated, 'useDerivedValue');
+    await renderOverlay({ mosquePoints: [STOCKHOLM, UPPSALA] });
+    const dot = erasers().find((node) => node.props.r != null)!;
+    const specks = erasers().find((node) => node.props.path != null)!;
+    const pathIndex = derived.mock.results.findIndex((result) => result.value === specks.props.path);
+    const readOpacity = jest.spyOn(dot.props.opacity, 'get');
+    holes.length = 0;
+    derived.mock.calls[pathIndex]![0]();
+    expect(holes).toHaveLength(2);
+    expect(readOpacity).not.toHaveBeenCalled();
   });
 
   it('stops clearing once the specks have handed over to the glyphs', async () => {

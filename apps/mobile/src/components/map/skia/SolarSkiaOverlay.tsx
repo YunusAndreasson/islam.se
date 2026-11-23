@@ -177,6 +177,8 @@ export function SolarSkiaOverlay({
 
   // Active prayers this instant, by key, so the fixed BOUNDARY/CROSSING maps can look
   // them up (hooks must be unconditional → we always render all 6 PrayerLine slots).
+  // An absent contour has no build instant. A stable zero keeps its empty native path
+  // across scrub updates. A line fading out retains its last active instant below.
   const byPrayer = useMemo(() => {
     const m = new Map<PrayerKey, [number, number][][]>();
     for (const l of lines) m.set(l.prayer, l.polylines);
@@ -320,7 +322,7 @@ export function SolarSkiaOverlay({
             polylines={byPrayer.get(prayer) ?? EMPTY}
             camera={camera}
             renderNow={renderNow}
-            geometryNow={geometryNow}
+            geometryNow={byPrayer.has(prayer) ? geometryNow : 0}
             preview={preview}
             entranceEnabled={entranceEnabled}
             isNext={prayer === nextKey}
@@ -348,7 +350,7 @@ export function SolarSkiaOverlay({
           polylines={byPrayer.get(prayer) ?? EMPTY}
           camera={camera}
           renderNow={renderNow}
-          geometryNow={geometryNow}
+          geometryNow={byPrayer.has(prayer) ? geometryNow : 0}
           preview={preview}
           entranceEnabled={entranceEnabled}
           isNext={prayer === nextKey}
@@ -472,12 +474,15 @@ function WashClearings({
   const speckPresence = useDerivedValue(
     () => atZoom(DUST_PRESENCE_STOPS, camera.get().zoom) * open.get(),
   );
+  // Opacity fades continuously. The circle geometry only changes at fully
+  // closed or when the camera moves, so reuse the path through the fade.
+  const specksOpen = useDerivedValue(() => open.get() > 0);
   const speckHoles = useDerivedValue(() => {
     const cam = camera.get();
     const b = Skia.PathBuilder.Make();
     // Closed (the map is moving) or past the speck tier: nothing to cut, so skip the
     // per-mosque loop that would otherwise run on every frame of every pan.
-    if (open.get() <= 0 || atZoom(DUST_PRESENCE_STOPS, cam.zoom) <= 0) return b.detach();
+    if (!specksOpen.get() || atZoom(DUST_PRESENCE_STOPS, cam.zoom) <= 0) return b.detach();
     const r = atZoom(DUST_RADIUS_STOPS, cam.zoom) + SPECK_CLEAR_PAD;
     const ws = worldSize(cam.zoom);
     const cx = mercX(cam.lon);

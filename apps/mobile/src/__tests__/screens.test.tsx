@@ -27,6 +27,10 @@ import * as prayerTimes from '@/lib/prayer-times';
 import * as field from '@/lib/solar/field';
 import { __resetGridCache } from '@/lib/solar/grid-cache';
 import { PrayerDock } from '@/components/map/PrayerDock';
+import { BurialGroundLayer } from '@/components/map/BurialGroundLayer';
+import { MosqueLayer } from '@/components/map/MosqueLayer';
+import { getBurialGrounds } from '@/lib/burial-grounds';
+import { getMosques } from '@/lib/mosques';
 import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
 import { MoonDisc } from '@/components/moon/MoonDisc';
@@ -593,6 +597,45 @@ describe('tab screens', () => {
     await settle(6.9);
     for (const source of poiSources()) expect(source.props.onPress).toBeUndefined();
   }), MAP_RENDER_TIMEOUT);
+
+  // Hiding the place layer used to hide its card only temporarily. Re-enabling
+  // it selected the old feature again and reopened the card without a tap.
+  it.each([
+    { source: 'mosques', layer: MosqueLayer, toggle: 'Visa moskéer',
+      place: () => first(getMosques(), 'mosque') },
+    { source: 'burial-grounds', layer: BurialGroundLayer, toggle: 'Visa gravkvarter',
+      place: () => first(getBurialGrounds(), 'burial ground') },
+  ])('dismisses the selected place when the $source layer is hidden and restored', async (poi) => {
+    await renderSettled(withProviders(<><Bonetider /><Installningar /></>));
+    const map = screen.getByTestId('sweden-map');
+    await fireEvent(map, 'didFinishRenderingMapFully');
+    await fireEvent(map, 'regionDidChange', { nativeEvent: {
+      zoom: 12, bounds: [14.7, 56.1, 14.9, 56.3], userInteraction: true,
+    } });
+
+    const place = poi.place();
+    const glyphs = () => hostsOfType('GeoJSONSource').filter((s) => s.props.id === poi.source);
+    const tapPlace = () => fireEvent.press(first(glyphs(), poi.source), {
+      nativeEvent: { features: [{ properties: { id: place.id } }], lngLat: [place.lng, place.lat] },
+      stopPropagation: () => {},
+    });
+    const directions = `Vägbeskrivning till ${place.name}`;
+    const selection = () => ({
+      cardVisible: screen.queryByLabelText(directions) !== null,
+      ringId: oneOfType(poi.layer, poi.source).props.selectedId,
+    });
+    const toggleVisibility = () => fireEvent.press(screen.getByRole('switch', { name: poi.toggle }));
+
+    await tapPlace();
+    expect(selection()).toEqual({ cardVisible: true, ringId: place.id });
+    await toggleVisibility();
+    expect(glyphs()).toHaveLength(0);
+    expect(screen.queryByLabelText(directions)).toBeNull();
+    await toggleVisibility();
+    expect(selection()).toEqual({ cardVisible: false, ringId: null });
+    await tapPlace();
+    expect(selection()).toEqual({ cardVisible: true, ringId: place.id });
+  });
 
   // THE BUG THIS GUARDS: nothing stopped a fling from parking the camera in the Pacific,
   // where the Skia overlay dutifully projects Sweden's prayer lines over open ocean and
