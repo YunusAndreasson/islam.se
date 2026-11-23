@@ -109,8 +109,8 @@ import { driftedCamera, solarDrift } from '@/lib/map/line-geometry';
 import { reportProjectionDrift } from '@/lib/map/projection-guard';
 import { solarRenderInstant } from '@/lib/map/solar-render-clock';
 import { exposeMapDevHooks } from '@/lib/map/dev-hooks';
-import type { BurialGround } from '@/lib/burial-grounds';
-import { getMosques, type Mosque } from '@/lib/mosques';
+import { burialGroundForPress, type BurialGround } from '@/lib/burial-grounds';
+import { getMosques, mosqueForPress, type Mosque } from '@/lib/mosques';
 import { basemapGroundFor, nordicMapStyleJsonFor } from '@/lib/map/nordicStyle';
 import {
   noteNotificationLaunch,
@@ -335,10 +335,6 @@ export default function Bonetider() {
   const scheme = useActiveScheme();
   const colors = useColors();
   const cameraRef = useRef<CameraRef>(null);
-  // Only the development-only projection guard uses this — it asks MapLibre where a few
-  // Swedish cities are and compares with where lib/map/projection.ts puts them, so a
-  // camera-mirror bug is caught on the first settled frame instead of by a reader noticing
-  // that Stockholm has moved. Compiled out of release builds; see the module's header.
   const mapRef = useRef<MapRef>(null);
   const [mapStyleRevision, setMapStyleRevision] = useState(0);
   const [dockExpanded, setDockExpanded] = useState(false);
@@ -380,6 +376,8 @@ export default function Bonetider() {
   // long as the rebuild takes. A ref, not state, so the gesture itself causes no render;
   // see useSolarClock's `shouldDefer` for the bound that keeps this from ever sticking.
   const mapMoving = useRef(false);
+  const settledZoom = useRef(0);
+  const tapSequence = useRef(0);
   const isMapMoving = useCallback(() => mapMoving.current, []);
 
   const insets = useSafeAreaInsets();
@@ -419,14 +417,6 @@ export default function Bonetider() {
   // Hiding a layer dismisses its selection. Re-enabling it starts with all pins unselected.
   if (!settings.showMosques && selectedMosque) setSelectedMosque(null);
   if (!settings.showBurialGrounds && selectedBurialGround) setSelectedBurialGround(null);
-  const selectMosque = (mosque: Mosque) => {
-    setSelectedBurialGround(null);
-    setSelectedMosque(mosque);
-  };
-  const selectBurialGround = (ground: BurialGround) => {
-    setSelectedMosque(null);
-    setSelectedBurialGround(ground);
-  };
   // The dock glance only needs the place — drop status qualifiers like "(standard)"
   // or "(GPS)" that matter on the Inställningar screen but are noise here.
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
@@ -499,18 +489,6 @@ export default function Bonetider() {
   // off where the basemap actually rendered after fitBounds. By waiting for the first
   // settled event, the overlay never paints against a stale camera.
   const [cameraReady, setCameraReady] = useState(false);
-  // Whether a tap can land on a mosque or a burial ground: only from GLYPH_MIN_ZOOM up, where
-  // their glyph layers exist. Below it the two sources are handed no onPress at all.
-  //
-  // ⚠️ A PRESSABLE SOURCE IS A BLOCKING QUERY ON EVERY TAP. On Android the binding answers a
-  // map tap by calling queryRenderedFeatures for each pressable source on the MAIN thread
-  // (MLRNMapView.onMapClick), and MapLibre answers that by waiting for its render thread.
-  // A render thread busy for seconds makes that wait an ANR (Sentry ISLAM-SE-D, 1.0.13: the
-  // same wait, reached then through the annotation plugin, which the binding now loads only
-  // for PointAnnotation). At the national view — the home view, where most taps dismiss a
-  // card or ask about a line — the query cannot find anything, so it is not asked. City zoom
-  // still asks: there it is how a glyph is found.
-  const [poiTappable, setPoiTappable] = useState(false);
   const reduceMotion = useReducedMotion();
 
   // The basemap is fetched over the network at runtime (vector tiles + glyphs from
@@ -1227,6 +1205,7 @@ export default function Bonetider() {
   // fitBounds animations alike, and both are moments where a field rebuild is unwelcome.
   const onRegionWillChange = useCallback(() => {
     mapMoving.current = true;
+    tapSequence.current += 1;
   }, []);
 
   const onRegionIsChanging = useCallback(
@@ -1262,11 +1241,8 @@ export default function Bonetider() {
       // says so again (noteFullRender). Online this is irrelevant — `trouble` reads it only
       // when offline — so the ordinary pan pays one setState React bails out of.
       if (offline) setMapComplete(false);
-      // On settle only: a tap is recognised after the double-tap window, by which time the
-      // settle of a camera it stopped has landed. React bails out while the answer holds.
-      setPoiTappable(e.nativeEvent.zoom >= GLYPH_MIN_ZOOM);
-
       const { zoom, bounds } = e.nativeEvent;
+      settledZoom.current = zoom;
       const [west, south, east, north] = bounds;
       const vc = viewportCentreFromBounds(west, south, east, north);
       // Feed the overlay the UNPADDED viewport centre (from bounds), not MapLibre's
@@ -1413,16 +1389,16 @@ export default function Bonetider() {
   // handler reads this render's lines and times, so it is rebuilt every render, but <Map>
   // always receives the same function: a fresh onPress on every clock tick and scrub step
   // would void the compiler's memo of the whole <Map> element and re-render every layer.
-  const handleMapPress = (event: NativeSyntheticEvent<PressEvent>): void => {
+  const handleBackgroundPress = (event: PressEvent): void => {
     setSelectedMosque(null);
     setSelectedBurialGround(null);
-    // POI taps stop propagation; a map tap dismisses the dock before line hints.
+    // A miss dismisses the dock before showing a line hint.
     if (prayerDockRef.current?.collapse()) {
       setLineMessage(null);
       return;
     }
     if (!cameraReady || mapLessonPending) return;
-    const [x, y] = event.nativeEvent.point;
+    const [x, y] = event.point;
     const point = { x, y };
     let distance = 22;
     let message: string | null = null;
@@ -1458,17 +1434,69 @@ export default function Bonetider() {
       setLineMessage({ text: message, id: Date.now() });
     } else setLineMessage(null);
   };
+  // Invalidate a deferred tap if its map or visible layers change before native replies.
+  useLayoutEffect(() => () => { tapSequence.current += 1; }, [
+    mapActive, scheme, mapStyleRevision, settings.showMosques, settings.showBurialGrounds,
+  ]);
+  const handleMapPress = (event: PressEvent): void => {
+    const sequence = ++tapSequence.current;
+    const map = mapRef.current;
+    const cameraSequence = publishSeq.current;
+    const layers: string[] = [];
+    if (gpuReady && settledZoom.current >= GLYPH_MIN_ZOOM) {
+      if (settings.showMosques) layers.push('mosque-symbols');
+      if (settings.showBurialGrounds) layers.push('burial-ground-symbols');
+    }
+    if (!map || !layers.length) {
+      handleBackgroundPress(event);
+      return;
+    }
+    const current = () =>
+      sequence === tapSequence.current && cameraSequence === publishSeq.current &&
+      mapActive && !mapMoving.current && !holding.current && !prayerDockRef.current?.isScrubbing();
+    if (!current()) return;
+
+    // A source onPress runs a synchronous renderer query per source inside the
+    // native tap recognizer. Return from input first, then query both visible
+    // glyph layers together. Querying rendered glyphs preserves label and collision hits.
+    const [x, y] = event.point;
+    requestAnimationFrame(() => {
+      if (!current()) return;
+      void map.queryRenderedFeatures([[x - 14, y - 14], [x + 14, y + 14]], { layers }).then((hits) => {
+        if (!current()) return;
+        // GeoJSON results lack a layer ID. Only the mosque source supplies a
+        // numeric symbol-sort-key. Its symbols draw above the burial grounds.
+        const mosqueHits = hits.filter((hit) => typeof hit.properties?.sort === 'number');
+        const mosque = mosqueHits.length ? mosqueForPress(mosqueHits, event.lngLat) : undefined;
+        const ground = !mosque && hits.length > mosqueHits.length
+          ? burialGroundForPress(hits.filter((hit) => typeof hit.properties?.sort !== 'number'), event.lngLat)
+          : undefined;
+        if (!mosque && !ground) {
+          handleBackgroundPress(event);
+          return;
+        }
+        hapticLight();
+        setSelectedMosque(mosque ?? null);
+        setSelectedBurialGround(ground ?? null);
+      }, (error: unknown) => {
+        if (!current()) return;
+        console.warn('[karta] Kunde inte läsa kartans platsmarkeringar', error);
+        handleBackgroundPress(event);
+      });
+    });
+  };
   const mapPress = useRef(handleMapPress);
   useLayoutEffect(() => {
     mapPress.current = handleMapPress;
   });
-  const onMapPress = useCallback((event: NativeSyntheticEvent<PressEvent>) => mapPress.current(event), []);
+  const onMapPress = useCallback((event: NativeSyntheticEvent<PressEvent>) => mapPress.current(event.nativeEvent), []);
 
   return (
     <GlassBackdropProvider>
     <SkyChromeProvider value={skyChrome}>
     <View
       style={[styles.container, { backgroundColor: colors.paperSunken }]}
+      onTouchStartCapture={() => { tapSequence.current += 1; }}
       // Capture the Map's true rendered viewport so the Skia overlay's projection
       // matches the basemap. On iOS the window dims (useWindowDimensions) can be
       // bigger than the Stack screen's content area — projecting against the wrong
@@ -1512,10 +1540,14 @@ export default function Bonetider() {
         onTouchCancel={finishLookup}
       >
       <Map
+        // TextureView hands resizes to the renderer without waiting for a
+        // frame on Android's UI thread, including during background layout.
+        androidView="texture"
         dragPan={!lookup}
         onLongPress={(e) => {
           if (!mapActive || !cameraReady || mapLessonPending || holding.current) return;
           const { point: [x, y], lngLat: [lon, lat] } = e.nativeEvent;
+          tapSequence.current += 1;
           holding.current = true;
           pin.set({ x, y });
           hapticLight();
@@ -1555,11 +1587,6 @@ export default function Bonetider() {
         // rate while the tiles beneath it step. Asking for 120 lets both keep up on
         // ProMotion and high-refresh Android; devices that can't simply cap themselves.
         preferredFramesPerSecond={120}
-        // Tap the map to put the mosque card away. Until now its own × was the only way
-        // out, which is not how a card floating over a map is expected to behave.
-        // A tap that HITS a mosque or a burial ground never gets here: both layers' source
-        // handlers call stopPropagation(), so a hit opens (or swaps) a card and a miss
-        // closes it.
         onPress={onMapPress}
         onRegionWillChange={onRegionWillChange}
         onRegionIsChanging={onRegionIsChanging}
@@ -1610,17 +1637,13 @@ export default function Bonetider() {
         {gpuReady && settings.showBurialGrounds && (
           <BurialGroundLayer
             styleRevision={mapStyleRevision}
-            onSelect={selectBurialGround}
             selectedId={selectedBurialGround?.id ?? null}
-            pressable={poiTappable}
           />
         )}
         {gpuReady && settings.showMosques && (
           <MosqueLayer
             styleRevision={mapStyleRevision}
-            onSelect={selectMosque}
             selectedId={selectedMosque?.id ?? null}
-            pressable={poiTappable}
           />
         )}
         <LocationLayer point={userPoint} showQibla={settings.showQibla && !mapLessonPending} />
@@ -1815,7 +1838,7 @@ export default function Bonetider() {
       )}
 
       {/* Burial-ground card — the mosque card's slot and rules. Never shown alongside it:
-          selectMosque / selectBurialGround each close the other. */}
+          Opening either card closes the other. */}
       {settings.showBurialGrounds && selectedBurialGround && (
         <BurialGroundCard
           key={selectedBurialGround.id}

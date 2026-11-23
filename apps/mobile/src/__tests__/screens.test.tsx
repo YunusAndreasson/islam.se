@@ -35,10 +35,17 @@ import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
 import { MoonDisc } from '@/components/moon/MoonDisc';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
-import { LogManager } from '@maplibre/maplibre-react-native';
+import { LogManager, Map as NativeMap, type PixelPointBounds } from '@maplibre/maplibre-react-native';
 import { first } from '@/test-utils/at';
 import { allOfType, hostsOfType, oneOfType } from '@/test-utils/rendered';
 import { Canvas } from 'react-native-skia';
+import { GestureDetector } from 'react-native-gesture-handler';
+
+const queryGlyphs = (NativeMap as unknown as {
+  queryRenderedFeatures: jest.Mock<
+    (bounds: PixelPointBounds, options: { layers: string[] }) => Promise<{ properties: { id: string; sort?: number } }[]>
+  >;
+}).queryRenderedFeatures;
 
 const SETTINGS_KEY = 'prayerSettings:v1';
 
@@ -120,6 +127,23 @@ async function renderSettled(node: ReactElement): Promise<void> {
   await act(async () => {});
 }
 
+async function onForegroundMap(run: (flushFrame: () => Promise<void>) => Promise<void>) {
+  const active = Object.getOwnPropertyDescriptor(AppState, 'currentState')!;
+  Object.defineProperty(AppState, 'currentState', { configurable: true, value: 'active' });
+  const frames: Parameters<typeof requestAnimationFrame>[0][] = [];
+  const frame = jest.spyOn(globalThis, 'requestAnimationFrame').mockImplementation((callback) => frames.push(callback));
+  try {
+    await run(async () => {
+      await act(async () => {
+        for (const callback of frames.splice(0)) callback(0);
+      });
+    });
+  } finally {
+    frame.mockRestore();
+    Object.defineProperty(AppState, 'currentState', active);
+  }
+}
+
 async function withPlatform<T>(os: 'ios' | 'android', run: () => Promise<T>): Promise<T> {
   const original = Platform.OS;
   Object.defineProperty(Platform, 'OS', { configurable: true, get: () => os });
@@ -137,6 +161,15 @@ describe('tab screens', () => {
   // overlay + the floating MapNav), so it gets headroom past the 5 s default — under
   // parallel-worker CPU contention a heavy render legitimately runs a few seconds.
   const MAP_RENDER_TIMEOUT = SCREEN_RENDER_TIMEOUT;
+
+  // ISLAM-SE-2: a SurfaceView resize waited on the render thread during a
+  // background traversal. The TextureView reports its size without that wait.
+  it('uses nonblocking texture resize for the Android basemap', async () => {
+    await withPlatform('android', async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      expect(screen.getByTestId('sweden-map').props.androidView).toBe('texture');
+    });
+  });
 
   beforeEach(async () => {
     await AsyncStorage.clear();
@@ -571,32 +604,83 @@ describe('tab screens', () => {
     expect(allOfType(SolarSkiaOverlay)).toHaveLength(1);
   }), MAP_RENDER_TIMEOUT);
 
-  // THE BUG THIS GUARDS (Sentry ISLAM-SE-D): on Android the binding answers every map tap
-  // with a queryRenderedFeatures per pressable source, on the main thread, waiting for
-  // MapLibre's render thread — an ANR when that thread is busy. Below the glyphs' minzoom
-  // neither source has a layer to hit, so at the national home view they take no onPress.
-  it('lets taps reach the mosque and burial-ground sources only at the zoom their glyphs draw at', async () => atQuietHour(async () => {
+  // ISLAM-SE-D/Q: source handlers make the binding query both sources synchronously
+  // inside the native recognizer, even for misses. Keep collision-aware glyph hits.
+  it('queries just the drawn glyphs after a settled city tap', async () => onForegroundMap(async (flushFrame) => {
     await renderSettled(withProviders(<Bonetider />));
     const map = screen.getByTestId('sweden-map');
-    const poiSources = () =>
-      hostsOfType('GeoJSONSource').filter((s) => s.props.id === 'mosques' || s.props.id === 'burial-grounds');
-    const settle = (zoom: number) =>
-      fireEvent(map, 'regionDidChange', { nativeEvent: {
-        zoom, bounds: [17.6, 59.1, 18.6, 59.6], userInteraction: true,
-      } });
+    const sources = () => hostsOfType('GeoJSONSource').filter((s) => ['mosques', 'burial-grounds'].includes(s.props.id));
+    const settle = (zoom: number) => fireEvent(map, 'regionDidChange', { nativeEvent: {
+      zoom, bounds: [17.6, 59.1, 18.6, 59.6], userInteraction: true,
+    } });
+    const tap = () => fireEvent.press(map, { nativeEvent: { point: [80, 100], lngLat: [18, 59] } });
 
-    // Parsing both offline mirrors and sending their GeoJSON to native used to
-    // compete with the basemap's first paint.
-    expect(poiSources()).toHaveLength(0);
+    expect(sources()).toHaveLength(0);
     await fireEvent(map, 'didFinishRenderingMapFully');
-    expect(poiSources()).toHaveLength(2);
+    expect(sources()).toHaveLength(2);
     await settle(4.5);
-    for (const source of poiSources()) expect(source.props.onPress).toBeUndefined();
+    await tap();
+    await flushFrame();
+    expect(queryGlyphs).not.toHaveBeenCalled();
     await settle(8);
-    for (const source of poiSources()) expect(typeof source.props.onPress).toBe('function');
+    for (const source of sources()) expect(source.props.onPress).toBeUndefined();
+    await tap();
+    expect(queryGlyphs).not.toHaveBeenCalled();
+    await flushFrame();
+    expect(queryGlyphs).toHaveBeenCalledTimes(1);
+    expect(queryGlyphs).toHaveBeenCalledWith([[66, 86], [94, 114]], {
+      layers: ['mosque-symbols', 'burial-ground-symbols'],
+    });
+
+    const scrubber = allOfType(GestureDetector).map((detector) => detector.props.gesture)
+      .find((gesture) => gesture.config?.hitSlop?.bottom != null).config;
+    await act(() => scrubber.onBegin({ x: 40 }));
+    await tap();
+    await flushFrame();
+    expect(queryGlyphs).toHaveBeenCalledTimes(1);
+    await act(() => scrubber.onFinalize());
+
+    await tap();
+    await fireEvent(map, 'regionWillChange', { nativeEvent: {} });
+    await tap();
+    await flushFrame();
     await settle(6.9);
-    for (const source of poiSources()) expect(source.props.onPress).toBeUndefined();
+    await tap();
+    await flushFrame();
+    expect(queryGlyphs).toHaveBeenCalledTimes(1);
   }), MAP_RENDER_TIMEOUT);
+
+  // Both layers can intersect one tap. Keep the top source, then its nearest
+  // visible feature; a later miss also supersedes a still-pending hit.
+  it('resolves overlapping glyph hits and ignores a superseded result', async () => onForegroundMap(async (flushFrame) => {
+    await renderSettled(withProviders(<Bonetider />));
+    const map = screen.getByTestId('sweden-map');
+    await fireEvent(map, 'didFinishRenderingMapFully');
+    await fireEvent(map, 'regionDidChange', { nativeEvent: { zoom: 12, bounds: [17, 59, 18, 60] } });
+    const [near, far] = getMosques();
+    if (!near || !far) throw new Error('The overlapping glyph case needs two mosque records');
+    const hits = [
+      { properties: { id: first(getBurialGrounds(), 'burial ground').id } },
+      { properties: { id: far.id, sort: 1 } },
+      { properties: { id: near.id, sort: 2 } },
+    ];
+    const tap = () => fireEvent.press(map, { nativeEvent: { point: [90, 120], lngLat: [near.lng, near.lat] } });
+    const card = () => screen.queryByLabelText(`Vägbeskrivning till ${near.name}`);
+    queryGlyphs.mockResolvedValueOnce(hits);
+    await tap();
+    await flushFrame();
+    expect(card()).toBeTruthy();
+
+    let finish!: (features: typeof hits) => void;
+    queryGlyphs.mockReturnValueOnce(new Promise((resolve) => { finish = resolve; }));
+    await tap();
+    await flushFrame();
+    await tap();
+    await flushFrame();
+    expect(card()).toBeNull();
+    await act(() => finish(hits));
+    expect(card()).toBeNull();
+  }));
 
   // Hiding the place layer used to hide its card only temporarily. Re-enabling
   // it selected the old feature again and reopened the card without a tap.
@@ -605,7 +689,7 @@ describe('tab screens', () => {
       place: () => first(getMosques(), 'mosque') },
     { source: 'burial-grounds', layer: BurialGroundLayer, toggle: 'Visa gravkvarter',
       place: () => first(getBurialGrounds(), 'burial ground') },
-  ])('dismisses the selected place when the $source layer is hidden and restored', async (poi) => {
+  ])('dismisses the selected place when the $source layer is hidden and restored', async (poi) => onForegroundMap(async (flushFrame) => {
     await renderSettled(withProviders(<><Bonetider /><Installningar /></>));
     const map = screen.getByTestId('sweden-map');
     await fireEvent(map, 'didFinishRenderingMapFully');
@@ -615,10 +699,11 @@ describe('tab screens', () => {
 
     const place = poi.place();
     const glyphs = () => hostsOfType('GeoJSONSource').filter((s) => s.props.id === poi.source);
-    const tapPlace = () => fireEvent.press(first(glyphs(), poi.source), {
-      nativeEvent: { features: [{ properties: { id: place.id } }], lngLat: [place.lng, place.lat] },
-      stopPropagation: () => {},
-    });
+    const tapPlace = async () => {
+      queryGlyphs.mockResolvedValueOnce([{ properties: { id: place.id, sort: poi.source === 'mosques' ? 1 : undefined } }]);
+      await fireEvent.press(map, { nativeEvent: { point: [50, 80], lngLat: [place.lng, place.lat] } });
+      await flushFrame();
+    };
     const directions = `Vägbeskrivning till ${place.name}`;
     const selection = () => ({
       cardVisible: screen.queryByLabelText(directions) !== null,
@@ -635,7 +720,7 @@ describe('tab screens', () => {
     expect(selection()).toEqual({ cardVisible: false, ringId: null });
     await tapPlace();
     expect(selection()).toEqual({ cardVisible: true, ringId: place.id });
-  });
+  }));
 
   // THE BUG THIS GUARDS: nothing stopped a fling from parking the camera in the Pacific,
   // where the Skia overlay dutifully projects Sweden's prayer lines over open ocean and

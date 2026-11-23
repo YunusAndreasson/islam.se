@@ -3,9 +3,6 @@ import type { CircleLayerSpecification, SymbolLayerSpecification } from '@maplib
 import { GLYPH_MIN_ZOOM, GLYPH_PRESENCE_STOPS, zoomExpression } from '@/lib/map/dust';
 import type { Palette } from '@/theme/tokens';
 
-// A tighter hitbox avoids picking distant POIs at the minimum glyph zoom.
-export const GLYPH_HITBOX = { top: 14, right: 14, bottom: 14, left: 14 } as const;
-
 /** The bundled burial pins use the same colours (scripts/build-burial-pins.mjs). */
 export const PLACE_GOLD = { light: '#967038', dark: '#e8c894' } as const;
 

@@ -1,5 +1,5 @@
 import { expect, it, jest } from '@jest/globals';
-import type { GeoJSONSourceProps as MockSourceProps } from '@maplibre/maplibre-react-native';
+import type { GeoJSONSourceProps as MockSourceProps, GeoJSONSourceRef as MockSourceRef } from '@maplibre/maplibre-react-native';
 import { render } from '@testing-library/react-native';
 
 import { toFeatureCollection as burialFeatures } from '@/lib/burial-grounds';
@@ -15,7 +15,11 @@ jest.mock('@maplibre/maplibre-react-native', () => {
   return {
     Images: 'Images',
     Layer: 'Layer',
-    GeoJSONSource: React.memo(function MockGeoJSONSource({ data, ...props }: MockSourceProps) {
+    GeoJSONSource: React.memo(function MockGeoJSONSource({ data, ref, ...props }: MockSourceProps) {
+      const selectionRef: React.Ref<Pick<MockSourceRef, 'setFeatureState' | 'removeFeatureState'>> | undefined = ref;
+      React.useImperativeHandle(selectionRef, () => ({
+        setFeatureState: async () => {}, removeFeatureState: async () => {},
+      }), []);
       return React.createElement('GeoJSONSource', {
         ...props,
         data: typeof data === 'string' ? data : JSON.stringify(data),
@@ -24,24 +28,23 @@ jest.mock('@maplibre/maplibre-react-native', () => {
   };
 });
 
-const noop = () => {};
-
-// Crossing z7 used to reserialize every point before the native press handler could
-// change. The ring and glyph still need the full, identical dataset on both sides.
+// ISLAM-SE-Q investigation: each dataset used to cross into two native
+// sources, which decoded the same collection twice at first paint.
 it.each([
   { id: 'mosques', Layer: MosqueLayer, features: mosqueFeatures },
   { id: 'burial-grounds', Layer: BurialGroundLayer, features: burialFeatures },
-])('$id crosses the glyph threshold without serializing its unchanged collection', async ({ id, Layer, features }) => {
+])('$id sends one collection to native across selection and style changes', async ({ id, Layer, features }) => {
   const expected = features();
-  const { rerender } = await render(<Layer onSelect={noop} pressable={false} />);
+  const { rerender } = await render(<Layer selectedId={null} />);
   const stringify = jest.spyOn(JSON, 'stringify');
   try {
-    for (const pressable of [true, false]) {
-      await rerender(<Layer onSelect={noop} pressable={pressable} />);
+    for (const selectedId of [expected.features[0]!.properties.id, null]) {
+      await rerender(<Layer selectedId={selectedId} styleRevision={1} />);
       const sources = hostsOfType('GeoJSONSource');
       const glyph = sources.find((source) => source.props.id === id);
-      expect(typeof glyph?.props.onPress).toBe(pressable ? 'function' : 'undefined');
-      expect(sources).toHaveLength(2);
+      expect(glyph).toBeDefined();
+      expect(glyph?.props.onPress).toBeUndefined();
+      expect(sources).toHaveLength(1);
       for (const source of sources) {
         expect(JSON.parse(source.props.data)).toEqual(expected);
       }
@@ -49,8 +52,8 @@ it.each([
     const serializedCollections = stringify.mock.calls
       .map(([data]) => data)
       .filter((data) => data?.type === 'FeatureCollection');
-    expect({ source: id, serializationsWhileCrossingZoom7: serializedCollections.length })
-      .toEqual({ source: id, serializationsWhileCrossingZoom7: 0 });
+    expect({ source: id, repeatSerializations: serializedCollections.length })
+      .toEqual({ source: id, repeatSerializations: 0 });
   } finally {
     stringify.mockRestore();
   }

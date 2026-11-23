@@ -20,34 +20,19 @@ function declared() {
   };
 }
 
-const noop = () => {};
 const byId = <T extends { props: { id?: string } }>(nodes: T[], id: string) =>
   at(nodes.filter((n) => n.props.id === id), 0, id);
 
 describe('BurialGroundLayer', () => {
-  it('makes only the glyph source tappable, with the mosque layer’s tight hitbox', async () => {
-    await render(<BurialGroundLayer onSelect={noop} />);
-    const { sources } = declared();
-
-    // A pressable source hit-tests every layer it owns: a ring on it would be a tap target
-    // that re-opens the card the reader is trying to dismiss.
-    expect(byId(sources, 'burial-grounds-ring').props.onPress).toBeUndefined();
-    const glyphs = byId(sources, 'burial-grounds');
-    expect(typeof glyphs.props.onPress).toBe('function');
-    for (const side of ['top', 'right', 'bottom', 'left'] as const) {
-      expect(glyphs.props.hitbox[side]).toBeLessThan(22);
-    }
-  });
-
-  // Same guard as MosqueLayer's (Sentry ISLAM-SE-D): a source that is not pressable must be
-  // handed no onPress, or Android still queries it on the main thread for every map tap.
-  it('hands the glyph source no onPress while it is not pressable', async () => {
-    await render(<BurialGroundLayer onSelect={noop} pressable={false} />);
+  // ISLAM-SE-Q: a native handler would query every layer, including the ring,
+  // in the tap recognizer before the screen's bounded hit test can run.
+  it('hands the native burial source no press handler', async () => {
+    await render(<BurialGroundLayer />);
     expect(byId(declared().sources, 'burial-grounds').props.onPress).toBeUndefined();
   });
 
   it('mounts the ring with the style, transparent until its native feature state selects it', async () => {
-    await render(<BurialGroundLayer onSelect={noop} />);
+    await render(<BurialGroundLayer />);
     const ring = byId(declared().layers, 'burial-ground-selected');
     expect(ring.props.filter).toBeUndefined();
     expect(ring.props.paint['circle-stroke-opacity']).toEqual(
@@ -57,7 +42,7 @@ describe('BurialGroundLayer', () => {
 
   it('rings exactly the selected burial ground, at every zoom', async () => {
     const ground = at(getBurialGrounds(), 0, 'burial grounds');
-    await render(<BurialGroundLayer onSelect={noop} selectedId={ground.id} />);
+    await render(<BurialGroundLayer selectedId={ground.id} />);
     const ring = byId(declared().layers, 'burial-ground-selected');
     expect(ring.props.filter).toBeUndefined();
     expect(ring.props.paint['circle-stroke-opacity']).toEqual(
@@ -68,7 +53,7 @@ describe('BurialGroundLayer', () => {
   });
 
   it('draws its glyphs from the town-scale zoom up, from a registered pin', async () => {
-    await render(<BurialGroundLayer onSelect={noop} />);
+    await render(<BurialGroundLayer />);
     const { layers, images } = declared();
     const glyphs = byId(layers, 'burial-ground-symbols');
     // No national-view tier: the country view stays the mosques' (see the file header).

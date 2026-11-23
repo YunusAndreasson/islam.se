@@ -36,7 +36,16 @@ jest.mock('expo-router', () => ({
 // components as host elements so the Bönetider map screen (and its solar-field
 // overlay: sources, layers, annotations) mounts in jsdom/node.
 jest.mock('@maplibre/maplibre-react-native', () => ({
-  Map: 'Map',
+  Map: (() => {
+    const React = require('react');
+    const queryRenderedFeatures = jest.fn(async () => []);
+    const Map = React.forwardRef(function MockMap(props, ref) {
+      React.useImperativeHandle(ref, () => ({ queryRenderedFeatures }), []);
+      return React.createElement('Map', props);
+    });
+    Map.queryRenderedFeatures = queryRenderedFeatures;
+    return Map;
+  })(),
   // Still a host 'Camera' element (screens.test finds it by that type), but with the
   // imperative API behind its ref, so a test can see what the screen asked the camera to
   // do. Each mounted Camera gets fresh spies; the latest is `Camera.__last`.

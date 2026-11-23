@@ -23,14 +23,12 @@ jest.mock('@expo/vector-icons', () => {
   return { MaterialCommunityIcons: Icon };
 });
 
-const noop = () => {};
-
 describe('app layer slots', () => {
   it('anchors every app layer beneath its own slot, and leaves no slot empty', async () => {
     await render(
       <>
-        <BurialGroundLayer onSelect={noop} />
-        <MosqueLayer onSelect={noop} />
+        <BurialGroundLayer />
+        <MosqueLayer />
         <LocationLayer point={[18.07, 59.33]} showQibla />
       </>,
     );

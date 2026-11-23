@@ -19,51 +19,6 @@ function sourcesAndLayers() {
   };
 }
 
-const noop = () => {};
-
-describe('MosqueLayer sources', () => {
-  it('makes only the glyph tier tappable, and with a tighter hitbox than a button', async () => {
-    await render(<MosqueLayer onSelect={noop} />);
-    const { sources } = sourcesAndLayers();
-
-    const dust = at(
-      sources.filter((s) => s.props.id === 'mosques-dust'),
-      0,
-      'dust source',
-    );
-    const glyphs = at(
-      sources.filter((s) => s.props.id === 'mosques'),
-      0,
-      'glyph source',
-    );
-
-    // A pressable source hit-tests every layer it owns, so the dust must not be one —
-    // below z7 it would be the only tap target on the whole map.
-    expect(dust.props.onPress).toBeUndefined();
-    expect(typeof glyphs.props.onPress).toBe('function');
-    // Tighter than MLRNPressableSource's 22 dp default: at z7 that default reaches about
-    // seven kilometres of ground past the glyph.
-    for (const side of ['top', 'right', 'bottom', 'left'] as const) {
-      expect(glyphs.props.hitbox[side]).toBeLessThan(22);
-    }
-  });
-
-  // THE BUG THIS GUARDS (Sentry ISLAM-SE-D): on Android every pressable source costs a
-  // queryRenderedFeatures on the main thread for every map tap, and that call waits for
-  // MapLibre's render thread. `pressable={false}` is how the map screen drops it below the
-  // glyphs' minzoom, so it has to leave the source with no onPress at all — the binding's
-  // `hasOnPress` is `!!onPress`, and a no-op handler would still be queried.
-  it('hands the glyph source no onPress while it is not pressable', async () => {
-    await render(<MosqueLayer onSelect={noop} pressable={false} />);
-    const glyphs = at(
-      sourcesAndLayers().sources.filter((s) => s.props.id === 'mosques'),
-      0,
-      'glyph source',
-    );
-    expect(glyphs.props.onPress).toBeUndefined();
-  });
-});
-
 describe('MosqueLayer selection ring', () => {
   // THE BUG THIS GUARDS: the ring used to mount only when a mosque was selected. A layer
   // added at runtime is APPENDED to the top of the style — MLRNLayer.add() calls
@@ -72,7 +27,7 @@ describe('MosqueLayer selection ring', () => {
   // contradicting the file's own header. Mounting it with the rest of the style is what makes
   // the declaration order hold at runtime, so "always present" is the invariant, not a detail.
   it('is mounted with the style even when no card is open, drawing nothing until one is', async () => {
-    await render(<MosqueLayer onSelect={noop} />);
+    await render(<MosqueLayer />);
     const { layers } = sourcesAndLayers();
 
     const ring = at(
@@ -88,7 +43,7 @@ describe('MosqueLayer selection ring', () => {
 
   it('keeps the ring paint independent of selection, controlled by native feature state', async () => {
     const mosque = at(getMosques(), 0, 'mosques');
-    await render(<MosqueLayer onSelect={noop} selectedId={mosque.id} />);
+    await render(<MosqueLayer selectedId={mosque.id} />);
     const { layers } = sourcesAndLayers();
 
     const ring = at(
@@ -109,18 +64,14 @@ describe('MosqueLayer selection ring', () => {
     expect(ring.props.minzoom).toBeUndefined();
   });
 
-  // THE BUG THIS FORBIDS: putting the ring on the pressable source would make it a tap
-  // target of its own — and below z7, where the glyph layer does not exist, the ONLY one.
-  // A tap meant to dismiss the card would re-open it.
-  it('keeps the ring on the source that cannot be tapped', async () => {
-    const mosque = at(getMosques(), 0, 'mosques');
-    await render(<MosqueLayer onSelect={noop} selectedId={mosque.id} />);
+  // A native source press would query dust and ring geometry on the UI thread.
+  // The screen's single glyph-only query is exercised in screens.test.tsx.
+  it('leaves the selection ring and dust inert even when a card is open', async () => {
+    await render(<MosqueLayer selectedId={at(getMosques(), 0, 'mosques').id} />);
     const { sources } = sourcesAndLayers();
-
-    const pressable = sources.filter((s) => typeof s.props.onPress === 'function');
-    for (const source of pressable) {
-      const owned = source.queryAll((node) => node.type === 'Layer').map((layer) => layer.props.id);
-      expect(owned).not.toContain('mosque-selected');
-    }
+    const source = at(sources, 0, 'mosque source');
+    expect(source.props.onPress).toBeUndefined();
+    expect(source.queryAll((node) => node.type === 'Layer').map((layer) => layer.props.id))
+      .toEqual(expect.arrayContaining(['mosque-selected', 'mosque-dust']));
   });
 });

@@ -370,6 +370,7 @@ export interface DayMark {
 export interface PrayerDockHandle {
   /** Returns true when this tap dismissed an open dock. */
   collapse: () => boolean;
+  isScrubbing: () => boolean;
 }
 
 interface Props {
@@ -751,7 +752,9 @@ export function PrayerDock({
   const gesture = useExclusiveGestures(handlePan, tap);
   const heroGesture = useTogglePan(togglePan);
 
+  const dragging = useSharedValue(false);
   useImperativeHandle(ref, () => ({
+    isScrubbing: () => dragging.get(),
     collapse() {
       if (!targetOpen.get() && !expanded) return false;
       targetOpen.set(false);
@@ -1177,6 +1180,7 @@ export function PrayerDock({
             </GestureDetector>
 
             <SolarTimeline
+              dragging={dragging}
               styles={styles}
               fraction={clock.fraction}
               marks={marks}
@@ -1506,6 +1510,7 @@ function NightGroup({
 // thumb flicking back to where the drag started, then forward again. `follow` mirrors
 // `fraction` from an effect and stays on the UI thread, so the handoff is seamless.
 function SolarTimeline({
+  dragging,
   styles,
   fraction,
   marks,
@@ -1514,6 +1519,7 @@ function SolarTimeline({
   viewedTime,
   scheme,
 }: {
+  dragging: SharedValue<boolean>;
   styles: DockStyles;
   fraction: number;
   marks: DayMark[];
@@ -1597,7 +1603,6 @@ function SolarTimeline({
   // Both are TRACK positions, like everything else the UI thread touches here.
   const prog = useSharedValue(trackFraction);
   const follow = useSharedValue(trackFraction);
-  const dragging = useSharedValue(false);
   const lastHaptic = useSharedValue(trackFraction);
   const lastSent = useSharedValue(trackFraction);
   const grabOffset = useSharedValue(0);
