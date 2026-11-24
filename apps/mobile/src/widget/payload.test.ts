@@ -1,8 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { getPlaces, namedPlace } from '@/lib/places/nearest';
 import { formatHijri } from '@/lib/hijri';
 import {
-  computePrayerTimes,
+  computePrayerTimes, selectNextPrayer,
   formatTime,
   type LatLng,
   PRAYER_LABELS,
@@ -70,16 +71,17 @@ describe('buildPayloadAt — next prayer & schedule', () => {
     expect(p.rows.filter((r) => r.isNext).map((r) => r.key)).toEqual(['asr']);
   });
 
-  it('after Fajr, the next event can be sunrise and remains marked as a time marker', () => {
+  // The widget used to label the end of Fajr as the next prayer.
+  it('after Fajr, highlights Ẓuhr and keeps sunrise on the timetable', () => {
     const now = ref.fajr.getTime() + 60_000;
     const p = buildPayloadAt(STOCKHOLM, settings(), now, 'Stockholm');
     const next = p.rows.find((r) => r.isNext);
 
-    expect(p.nextArabic).toBe(PRAYER_LABELS.sunrise);
-    expect(p.nextSwedish).toBe(PRAYER_SWEDISH_NAMES.sunrise);
-    expect(p.nextTime).toBe(formatTime(ref.sunrise));
-    expect(next?.key).toBe('sunrise');
-    expect(next?.isMarker).toBe(true);
+    expect(p.nextArabic).toBe(PRAYER_LABELS.dhuhr);
+    expect(p.nextSwedish).toBe(PRAYER_SWEDISH_NAMES.dhuhr);
+    expect(p.nextTime).toBe(formatTime(ref.dhuhr));
+    expect(next?.key).toBe('dhuhr');
+    expect(p.rows.find(r => r.key === 'sunrise')).toMatchObject({ isMarker: true, isNext: false });
   });
 
   it('after Isha, rolls over to tomorrow’s Fajr and stops highlighting today', () => {
@@ -150,4 +152,15 @@ describe('buildPayloadAt — polar edge (midnight sun, unresolved)', () => {
     expect(p.nextAtMs).toBeNull();
     expect(p.nextIsTomorrow).toBe(false);
   });
+});
+
+// A next-prayer search limited to today's schedule missed an adjusted Fajr before midnight.
+it('agrees with the map at Kiruna just before the next prayer date’s Fajr', () => {
+  const at = Date.parse('2026-06-12T23:57:00+02:00');
+  const city = namedPlace(getPlaces().find(p => p.name === 'Kiruna')!);
+  const prefs = settings({ adjustments: { ...DEFAULT_SETTINGS.adjustments, fajr: -60, isha: 60 } });
+  const day = (offset: number) => computePrayerTimes(city, zonePrayerDate(at, offset), prefs);
+  const next = selectNextPrayer(day(0), day(1), at, day(-1));
+  expect(next?.key).toBe('fajr');
+  expect(buildPayloadAt(city, prefs, at, 'Kiruna')).toMatchObject({ nextAtMs: next?.at, nextTime: '23:58', nextIsTomorrow: false, nextDayKey: 'fajr' });
 });

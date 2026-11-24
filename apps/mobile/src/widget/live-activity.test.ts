@@ -91,12 +91,11 @@ describe('buildPrayerActivityProps', () => {
     expect(later).toEqual(first);
   });
 
-  it('flags the sunrise marker so the UI can say "NÄSTA TID", not "NÄSTA BÖN"', () => {
-    const now = ref.sunrise.getTime() - 10 * 60 * 1000; // after Fajr, before sunrise
+  // Sunrise stays on the timetable. A countdown must wait for the next obligatory prayer.
+  it('does not start a prayer countdown before sunrise when Ẓuhr is still hours away', () => {
+    const now = ref.sunrise.getTime() - 10 * 60_000;
     const payload = buildPayloadAt(STOCKHOLM, settings(), now, 'Stockholm');
-    const props = buildPrayerActivityProps(payload, now);
-    expect(props?.nextKey).toBe('sunrise');
-    expect(props?.isMarker).toBe(true);
+    expect(buildPrayerActivityProps(payload, now)).toBeNull();
   });
 
   it('returns null outside the window — no activity hours before a prayer', () => {
@@ -146,15 +145,6 @@ describe('buildPrayerActivityProps', () => {
       const props = buildPrayerActivityProps(payload, now, following);
       expect(props?.arrivedTitle).toBe(alertContent('asr', ref.asr, 0).title);
       expect(props?.arrivedTitle).toBe(`Dags för ${PRAYER_LABELS.asr}`);
-    });
-
-    it('names the sunrise marker the way its alert does', () => {
-      const atSunrise = ref.sunrise.getTime() - 10 * 60 * 1000;
-      const props = buildPrayerActivityProps(
-        buildPayloadAt(STOCKHOLM, settings(), atSunrise, 'Stockholm'),
-        atSunrise,
-      );
-      expect(props?.arrivedTitle).toBe('Fajr-tiden är slut');
     });
 
     // This used to be pinned the other way: a previous version shipped after* props behind

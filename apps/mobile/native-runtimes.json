@@ -46,6 +46,10 @@
     "1.3.8": {
       "ios": "ee5584eb523014c198dac367cae78ec707cef897",
       "android": "62b0fca10eb40fd4fdeb72a545ac5fbf53b22c39"
+    },
+    "1.3.9": {
+      "ios": "caddbb0fcc051cc12a8e87d8337d672fa9996cc5",
+      "android": "4942971171564fe83f4373605213ced5c365b075"
     }
   }
 }

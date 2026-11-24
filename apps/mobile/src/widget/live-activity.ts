@@ -47,16 +47,12 @@ export function buildPrayerActivityProps(
 ): PrayerActivityProps | null {
   if (!isWithinLiveActivityWindow(payload.nextAtMs, now)) return null;
   // A slot from another calculation day has no highlighted row in today's schedule.
-  const nextDayKey = payload.nextDayKey ?? 'fajr';
-  const nextRow = payload.nextIsTomorrow
-    ? { key: nextDayKey, isMarker: nextDayKey === 'sunrise' }
-    : payload.previousDayNextKey
-      ? { key: payload.previousDayNextKey, isMarker: payload.previousDayNextKey === 'sunrise' }
-      : payload.rows.find((r) => r.isNext);
-  if (!nextRow || payload.nextAtMs == null) return null;
+  const nextKey = payload.nextDayKey ?? payload.previousDayNextKey ?? payload.rows.find(row => row.isNext)?.key ??
+    (payload.nextIsTomorrow ? 'fajr' : undefined); // Older payloads omitted the rollover Fajr key.
+  if (!nextKey || payload.nextAtMs == null) return null;
   const after = following?.nextAtMs != null ? following : null;
   return {
-    nextKey: nextRow.key,
+    nextKey,
     nextArabic: payload.nextArabic,
     nextSwedish: payload.nextSwedish,
     nextTime: payload.nextTime,
@@ -68,10 +64,10 @@ export function buildPrayerActivityProps(
     // the props stable across refreshes; passing `now` made every single foreground
     // look like a content change and spend an ActivityKit update on nothing.
     startedAtMs: payload.nextAtMs - LIVE_ACTIVITY_WINDOW_MS,
-    isMarker: nextRow.isMarker,
+    isMarker: nextKey === 'sunrise',
     // The stale view's headline: the very words of the lead-0 alert for this slot, so the
     // banner and a notification arriving at the same moment never disagree.
-    arrivedTitle: alertContent(nextRow.key, new Date(payload.nextAtMs), 0).title,
+    arrivedTitle: alertContent(nextKey, new Date(payload.nextAtMs), 0).title,
     followingArabic: after?.nextArabic ?? '',
     followingTime: after?.nextTime ?? '',
   };

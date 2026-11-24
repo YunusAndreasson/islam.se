@@ -61,6 +61,23 @@ function withPrayerWidgetAndroid(config) {
         );
       }
       fs.writeFileSync(file, setUpdatePeriod(fs.readFileSync(file, 'utf8'), UPDATE_PERIOD_MS));
+      const packageName = dangerousConfig.android.package;
+      const provider = path.join(dangerousConfig.modRequest.platformProjectRoot, 'app/src/main/java',
+        ...packageName.split('.'), 'PrayerTimesWidgetProvider.kt');
+      const original = fs.readFileSync(provider, 'utf8');
+      const declaration = 'class PrayerTimesWidgetProvider : ExpoWidgetsAppWidgetProvider("PrayerTimesWidget")';
+      if (!original.includes(declaration)) throw new Error('Unexpected expo-widgets prayer provider declaration');
+      fs.writeFileSync(provider, original.replace(declaration, declaration + ` {
+  override fun onReceive(context: android.content.Context, intent: android.content.Intent) {
+    super.onReceive(context, intent)
+    when (intent.action) {
+      android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE,
+      android.appwidget.AppWidgetManager.ACTION_APPWIDGET_DELETED,
+      android.appwidget.AppWidgetManager.ACTION_APPWIDGET_DISABLED ->
+        se.islam.widget.PlacementReceipts.observe(context)
+    }
+  }
+}`));
       return dangerousConfig;
     },
   ]);

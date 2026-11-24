@@ -37,11 +37,12 @@ async function main() {
       // covered by app config, plugins, patches, and native dependency identities.
       // A plugin's unit test is not native source: counted, editing one would retire a
       // runtime that no binary ever changed for.
-      ignorePaths: [...DEFAULT_IGNORE_PATHS, 'ios', 'ios/**', 'android', 'android/**', 'plugins/**/*.test.js'],
+      ignorePaths: [...DEFAULT_IGNORE_PATHS, 'ios', 'ios/**', 'android', 'android/**', 'plugins/**/*.test.js', 'modules/**/build', 'modules/**/build/**', 'modules/**/.gradle/**'],
       // Include native patches and local plugin resources, plus all production
       // dependencies as a conservative guard on newly added native modules.
       extraSources: [
         { type: 'contents', id: 'resolvedExpoModules', contents: resolvedContents, reasons: ['resolved native module versions and configuration'] },
+        { type: 'dir', filePath: 'modules', reasons: ['local native modules'] },
         { type: 'dir', filePath: 'patches', reasons: ['native patches'] },
         { type: 'dir', filePath: 'plugins', reasons: ['local native plugins'] },
         ...fs.readdirSync(path.join(root, 'src/widgets')).filter((name) => name.endsWith('.tsx') && !name.includes('.test.')).map((name) => ({ type: 'file', filePath: `src/widgets/${name}`, reasons: ['embedded widget layouts'] })),

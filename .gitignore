@@ -88,3 +88,7 @@ data/article-rankings.json
 # both stay on the owner's machine.
 data/articles-pending/
 apps/web/src/data/moskeer-sverige.full.csv
+
+# Gradle output from the mobile app's local Expo modules
+/apps/mobile/modules/*/android/build/
+/apps/mobile/modules/*/android/.gradle/

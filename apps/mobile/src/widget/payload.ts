@@ -9,7 +9,6 @@ import {
   computePrayerTimes,
   formatTime,
   type LatLng,
-  nextPrayerKeyAt,
   PRAYER_LABELS,
   PRAYER_ORDER,
   type PrayerKey,
@@ -60,7 +59,7 @@ export interface WidgetPayload {
   nextTime: string;
   /** Its epoch ms, for the widget's live relative countdown (null if unresolved). */
   nextAtMs: number | null;
-  /** True when the next event belongs to tomorrow's schedule. */
+  /** True when the event occurs on tomorrow's civil date in the display zone. */
   nextIsTomorrow: boolean;
   nextDayKey?: PrayerKey;
   /** The hero may count down to a slot outside the displayed rows. */
@@ -73,8 +72,7 @@ export interface WidgetPayload {
 /**
  * Build the widget payload as of the instant `atMs`, for `coords`/`settings`.
  * The "next" prayer is the first slot at-or-after `atMs` (same rule the app's dock
- * uses, {@link nextPrayerKeyAt}); when every slot today has passed it looks for the
- * first computable slot in tomorrow's schedule. `location` is threaded in so every
+ * uses, {@link selectNextPrayer}), including occurrences from adjacent prayer dates. `location` is threaded in so every
  * entry in a timeline shares one label.
  */
 export function buildPayloadAt(
@@ -96,20 +94,15 @@ export function buildPayloadAt(
   const civilDay = zonePrayerDate(atMs);
   const times = compute(civilDay);
 
-  // An unresolved polar Fajr or one that fell before midnight is skipped by the
-  // same at-or-after check used for today's rows.
-  const todayNext = selectNextPrayer(times, null, atMs, compute(zonePrayerDate(atMs, -1)));
-  const tomorrow = todayNext ? null : compute(zonePrayerDate(atMs, 1));
-  const tomorrowKey = tomorrow ? nextPrayerKeyAt(tomorrow, atMs) : null;
-  const next = todayNext ?? (tomorrow && tomorrowKey
-    ? { key: tomorrowKey, at: tomorrow[tomorrowKey].getTime(), nextDay: true, previousDay: undefined }
-    : null);
+  // Adjacent prayer dates can overlap today after high-latitude rules and adjustments.
+  const tomorrow = zonePrayerDate(atMs, 1);
+  const next = selectNextPrayer(times, compute(tomorrow), atMs, compute(zonePrayerDate(atMs, -1)));
 
   const nextArabic = next ? PRAYER_LABELS[next.key] : '';
   const nextSwedish = next ? PRAYER_SWEDISH_NAMES[next.key] : '';
   const nextTime = next ? formatTime(new Date(next.at)) : '–';
   const nextAtMs = next ? next.at : null;
-  const nextIsTomorrow = next?.nextDay ?? false;
+  const nextIsTomorrow = next != null && zonePrayerDate(next.at).getTime() === tomorrow.getTime();
 
   const rows: WidgetPrayerRow[] = PRAYER_ORDER.map((key) => ({
     key,
@@ -130,7 +123,7 @@ export function buildPayloadAt(
     nextTime,
     nextAtMs,
     nextIsTomorrow,
-    ...(next?.nextDay && next.key !== 'fajr' ? { nextDayKey: next.key } : {}),
+    ...(next?.nextDay ? { nextDayKey: next.key } : {}),
     ...(next?.previousDay ? { previousDayNextKey: next.key } : {}),
     theme: settings.theme,
   };

@@ -1,0 +1,9 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+group = 'se.islam.widget'
+version = '1.0.0'
+android {
+  namespace 'se.islam.widget'
+}
