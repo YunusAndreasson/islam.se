@@ -2,12 +2,14 @@
 // OS for something reports it the same way.
 //
 // `primed` is a property of the surface, not of the moment: the introduction's steps and
-// the map's soft-ask cards put a sentence in front of the OS dialog, the Inställningar rows
-// and Qibla (which asks the moment it opens, with no soft ask) do not.
+// the map cards provide a separate explanatory step. Settings and the compass
+// request access directly from the reader’s chosen control.
 import { ANALYTICS_EVENTS, analytics, type PermissionKind, type PermissionSource } from './index';
 
 const PRIMED: Record<PermissionSource, boolean> = {
   intro: true,
+  first_reading: true,
+  settings_recovery: true,
   map_card: true,
   settings: false,
   qibla: false,

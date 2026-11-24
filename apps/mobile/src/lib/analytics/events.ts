@@ -42,6 +42,13 @@ export const ANALYTICS_EVENTS = {
   /** The app came to the foreground. `launch`: 'cold' once per JS start (only once the app
    *  is actually active, so an iOS background launch never counts), 'warm' on a return
    *  after at least 30 s away. The "active user" event. */
+  FIRST_PRAYER_READING_VIEWED: 'First Prayer Reading Viewed',
+  RETURN_SETUP_CHECKPOINT: 'Return Setup Checkpoint',
+  PRAYER_WIDGET_ADDED: 'Prayer Widget Added',
+  RETURN_SETUP_OBSERVED: 'Return Setup Observed',
+  WIDGET_SETUP_REQUESTED: 'Widget Setup Requested',
+  RETURN_OFFER_VIEWED: 'Return Offer Viewed',
+  PRAYER_REMINDER_VERIFIED: 'Prayer Reminder Verified',
   APP_OPENED: 'App Opened',
   /** Once per install, on the first open of a build that has it. `install_kind`: 'new'
    *  when the introduction was still pending (a fresh install), 'existing' for an update. */
@@ -101,7 +108,7 @@ type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENT
 export type PermissionKind = 'location' | 'notifications';
 
 /** Where in the app a permission was asked for, or a setting changed. */
-export type PermissionSource = 'intro' | 'map_card' | 'settings' | 'qibla';
+export type PermissionSource = 'intro' | 'map_card' | 'settings' | 'qibla' | 'first_reading' | 'settings_recovery';
 
 /** Where a location was set from. `dock` is the dock's "Välj plats" while the app is on the
  *  Stockholm fallback. */
@@ -133,7 +140,7 @@ export interface SuperProperties {
   intro_status: IntroHistory;
 }
 
-type OnboardingStep = 'welcome' | 'location' | 'notifications' | 'method' | 'unknown';
+type OnboardingStep = 'welcome' | 'location' | 'notifications' | 'method' | 'map' | 'reading' | 'unknown';
 type IntroEndProperties = {
   at_step: OnboardingStep;
   replay: boolean;
@@ -142,9 +149,29 @@ type IntroEndProperties = {
 };
 type PermissionPromptProperties = { permission: PermissionKind; primed: boolean; source: PermissionSource };
 
-type EventPayloads = {
+export type Outcome = 'yes' | 'no' | 'unknown';
+export type SetupWindow = 'session_1' | 'through_day_7' | 'later';
+export type WidgetState = 'absent' | 'present' | 'preexisting' | 'unknown';
+export type EventPayloads = {
+  [ANALYTICS_EVENTS.RETURN_SETUP_CHECKPOINT]: {
+    cutoff: 'session_1' | 'day_7'; alert: Outcome; widget: Outcome;
+    last_alert: Outcome; last_widget: Outcome; ever_alert: Outcome; ever_widget: Outcome;
+    evidence: 'boundary' | 'bounded_interval' | 'incomplete';
+  };
+  [ANALYTICS_EVENTS.PRAYER_WIDGET_ADDED]: {
+    proof: 'ios_configuration' | 'android_provider' | 'android_pin_verified'; window: SetupWindow | 'ambiguous';
+  };
+  [ANALYTICS_EVENTS.RETURN_SETUP_OBSERVED]: {
+    sequence: number; window: 'session_1' | 'through_day_7' | 'later'; reason: 'baseline' | 'reconcile' | 'resume' | 'background' | 'native_callback';
+    auth: 'full' | 'off' | 'limited' | 'unknown'; pending: 'some' | 'none' | 'unknown'; widget: WidgetState;
+    endpoint_alert?: Outcome; endpoint_widget?: Outcome;
+  };
+  [ANALYTICS_EVENTS.WIDGET_SETUP_REQUESTED]: { route: 'ios_gallery' | 'android_gallery' | 'android_pin'; launcher_result: 'not_applicable' | 'accepted' | 'failed' | 'unsupported' };
+  [ANALYTICS_EVENTS.FIRST_PRAYER_READING_VIEWED]: { location_source: LocationSource };
+  [ANALYTICS_EVENTS.RETURN_OFFER_VIEWED]: { kind: 'reminder' | 'widget'; surface: 'dock' | 'notification_preview' | 'widget_guide' | 'settings_recovery'; occasion: 'first_session' | 'later' };
+  [ANALYTICS_EVENTS.PRAYER_REMINDER_VERIFIED]: { window: 'session_1' | 'through_day_7' | 'later'; origin: 'first_reading' | 'settings' | 'other'; exact_state: 'allowed' | 'denied' | 'unknown' | 'not_applicable' };
   [ANALYTICS_EVENTS.APP_OPENED]: { launch: LaunchKind };
-  [ANALYTICS_EVENTS.FIRST_OPEN]: { install_kind: SuperProperties['install_kind'] };
+  [ANALYTICS_EVENTS.FIRST_OPEN]: { install_kind: SuperProperties['install_kind']; flow_version?: 'map_1'; development?: boolean };
   [ANALYTICS_EVENTS.SCREEN_VIEWED]: { screen: string };
   [ANALYTICS_EVENTS.ONBOARDING_STEP_VIEWED]: { step: OnboardingStep; index: number; replay: boolean };
   [ANALYTICS_EVENTS.INTRO_COMPLETED]: IntroEndProperties;

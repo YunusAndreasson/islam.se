@@ -29,7 +29,10 @@ import {
   type SuperProperties,
 } from './index';
 import { appLaunch, type LaunchKind } from './lifecycle';
+import { FIRST_OPEN_KEY, pendingFirstOpen, publishSetupAssignment, retryFirstOpen, type PendingFirstOpen } from './first-open';
 import { isoDay, superPropertiesFor, usesAdhan } from './properties';
+
+export { FIRST_OPEN_KEY } from './first-open';
 
 // From the moment the root layout loads this module, screen views, intro steps and taps
 // wait for the cold open (see afterAppOpen in ./index).
@@ -38,13 +41,9 @@ holdForAppOpen();
 /** Test seam: a fresh JS start, not opened yet, with the hold back on. */
 export function resetAppAnalyticsForTests(): void {
   appLaunch.resetForTests();
+  publishSetupAssignment(false);
   holdForAppOpen();
 }
-
-/** Persisted once First Open has been sent: its `install_kind`, for the super property on
- *  every later launch. Its own key, like the hint records, so "Återställ appens standard"
- *  (which wipes PrayerSettings) cannot make an install new again. */
-export const FIRST_OPEN_KEY = 'analytics:firstOpen:v1';
 
 /** Long enough for the cold open's few reads; short enough that if one of them hangs, the
  *  screen views waiting behind it are late rather than lost. */
@@ -83,55 +82,63 @@ async function installDate(): Promise<string | undefined> {
   }
 }
 
-/**
- * Whether this is the install's first open of a build with analytics, and what kind of
- * install it is. 'new' exactly when the introduction is still pending at launch: lib/intro
- * lets every install that predates it through, so pending means nothing has been saved yet.
- * The record is written before First Open is sent, and First Open is sent only if the write
- * worked: a storage failure loses one First Open rather than sending one per launch.
- */
-async function claimFirstOpen(
-  status: IntroStatus,
-): Promise<{ fresh: true; kind: SuperProperties['install_kind'] } | { fresh: false; kind: SuperProperties['install_kind'] | undefined }> {
+interface FirstOpen {
+  fresh: boolean;
+  assigned?: boolean;
+  kind?: SuperProperties['install_kind'];
+  pending?: PendingFirstOpen;
+}
+
+/** Save a fresh assignment before routing. A pending denominator event survives
+ * process death or SDK initialization failure with its original identity and time. */
+async function claimFirstOpen(status: IntroStatus, openedAt: number): Promise<FirstOpen> {
   try {
     const raw = await storage.getItem(FIRST_OPEN_KEY);
     if (raw) {
-      const stored: unknown = JSON.parse(raw);
-      const kind =
-        typeof stored === 'object' && stored !== null && 'install_kind' in stored
-          ? stored.install_kind
-          : undefined;
-      return { fresh: false, kind: kind === 'new' || kind === 'existing' ? kind : undefined };
+      const saved = JSON.parse(raw);
+      const kind = saved?.install_kind;
+      const pending = pendingFirstOpen(saved);
+      return { fresh: false, assigned: kind === 'new' && Number.isFinite(saved?.setupStartedAt), kind: kind === 'new' || kind === 'existing' ? kind : undefined, pending };
     }
     const kind = status === 'pending' ? 'new' : 'existing';
-    await storage.setItem(FIRST_OPEN_KEY, JSON.stringify({ install_kind: kind }));
-    return { fresh: true, kind };
+    const pending = kind === 'new'
+      ? { id: 'first-' + Math.random().toString(36).slice(2), at: openedAt, development: __DEV__ } : undefined;
+    await storage.setItem(FIRST_OPEN_KEY, JSON.stringify({ install_kind: kind, ...(pending && {
+      setupStartedAt: openedAt, pendingFirstOpen: pending.id, development: pending.development,
+    }) }));
+    return { fresh: true, assigned: !!pending, kind, pending };
   } catch {
-    return { fresh: false, kind: undefined };
+    return { fresh: false };
   }
 }
 
 /** Send one open. A cold one first settles First Open and the once-only properties, and
  *  releases what waited for it, whatever happens. */
-async function recordOpen(kind: LaunchKind, inputs: Inputs): Promise<void> {
+async function recordOpen(kind: LaunchKind, inputs: Inputs, openedAt = Date.now()): Promise<void> {
   if (kind === 'warm') {
+    void retryFirstOpen();
     analytics.register(await currentSuperProperties(inputs));
     void analytics.track(ANALYTICS_EVENTS.APP_OPENED, { launch: 'warm' });
     return;
   }
   const safety = setTimeout(releaseAppOpen, RELEASE_AFTER_MS);
   try {
-    const [properties, day, first] = await Promise.all([
-      currentSuperProperties(inputs),
-      installDate(),
-      claimFirstOpen(inputs.status),
-    ]);
-    analytics.registerOnce({ install_date: day, install_kind: first.kind });
-    analytics.register(properties);
-    if (first.fresh) {
+    const classification = claimFirstOpen(inputs.status, openedAt);
+    // Enrichment may wait for an OS read. Neither it nor remote ingestion owns
+    // the lifecycle edge. Apply the properties as soon as they become available.
+    void Promise.all([currentSuperProperties(inputs), installDate(), classification]).then(([properties, day, first]) => {
+      analytics.registerOnce({ install_date: day, install_kind: first.kind });
+      analytics.register(properties);
+    }).catch(() => undefined);
+    const first = await classification;
+    if (first.pending) {
+      // Local lifecycle accounting and setup observation must continue during an offline send.
+      void retryFirstOpen(first.pending);
+    } else if (first.fresh && first.kind) {
       void analytics.track(ANALYTICS_EVENTS.FIRST_OPEN, { install_kind: first.kind });
     }
     void analytics.track(ANALYTICS_EVENTS.APP_OPENED, { launch: 'cold' });
+    publishSetupAssignment(first.assigned === true);
   } catch {
     // Silent by design: see ./index.
   } finally {
@@ -159,20 +166,23 @@ export function useAppAnalytics(): void {
   );
 
   // An open that arrived before `ready`: at most one is kept, and a cold one wins.
+  const firstForeground = useRef<number | undefined>(undefined);
   const waiting = useRef<LaunchKind | null>(null);
 
   const onOpen = useEffectEvent((kind: LaunchKind) => {
+    if (kind === 'cold') firstForeground.current = Date.now();
     if (!ready) {
       waiting.current = waiting.current === 'cold' ? 'cold' : kind;
       return;
     }
-    void recordOpen(kind, inputs());
+    void recordOpen(kind, inputs(), firstForeground.current);
   });
 
   // A foreground that is not an open (a return inside 30 s) still re-reads the properties:
   // the reader may have just allowed notifications in the system settings.
   const onForeground = useEffectEvent(() => {
     if (!ready) return;
+    void retryFirstOpen();
     void currentSuperProperties(inputs()).then(analytics.register);
   });
 
@@ -193,7 +203,7 @@ export function useAppAnalytics(): void {
     if (!ready || waiting.current === null) return;
     const kind = waiting.current;
     waiting.current = null;
-    void recordOpen(kind, inputs());
+    void recordOpen(kind, inputs(), firstForeground.current);
   }, [ready]);
 
   // Re-registered whenever one of the inputs moves: a reader who turns reminders on, picks

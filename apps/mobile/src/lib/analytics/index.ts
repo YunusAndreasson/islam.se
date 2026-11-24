@@ -17,6 +17,7 @@
 //   derived from one. AnalyticsProperties is kept to flat primitives so a LatLng object
 //   cannot be passed whole, and ./analytics.test.ts pins the screen property to route
 //   names. Super properties are typed (SuperProperties in ./events): coarse states only.
+import { Platform } from 'react-native';
 import type * as MixpanelModule from 'mixpanel-react-native';
 
 import { MIXPANEL_SERVER_URL, MIXPANEL_TOKEN } from './events';
@@ -76,6 +77,33 @@ function initialize(): Promise<void> {
     initialization = null;
   });
   return initialization;
+}
+
+// The native track bridge returns void. Keep setup rows on disk until the EU
+// ingestion endpoint acknowledges them, including across a lost HTTP response.
+export async function enqueueSetupEvent(args: TrackArguments, insertId: string, at: number): Promise<boolean> {
+  await initialize();
+  if (!mixpanel) return false;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 4000);
+  try {
+    if (await mixpanel.hasOptedOutTracking()) return false;
+    const distinctId = await mixpanel.getDistinctId();
+    if (!distinctId) return false;
+    const observed = Math.floor(at / 1000);
+    const properties = { ...registeredOnce, ...registered, ...args[1], token: MIXPANEL_TOKEN,
+      distinct_id: distinctId, $os: Platform.OS === 'ios' ? 'iOS' : 'Android', $insert_id: insertId,
+      setup_observed_at: observed,
+      // /track accepts event timestamps within five days. Late offline rows
+      // retain their original observation time for cutoff reporting.
+      ...(Date.now() - at < 5 * 86400_000 && { time: observed }) };
+    const response = await fetch(MIXPANEL_SERVER_URL + '/track?verbose=1&ip=1', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
+      body: JSON.stringify([{ event: args[0], properties }]),
+    });
+    return response.ok && (await response.json()).status === 1;
+  } catch { return false; }
+  finally { clearTimeout(timeout); }
 }
 
 export const analytics = {

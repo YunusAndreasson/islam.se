@@ -28,6 +28,8 @@ jest.mock('mixpanel-react-native', () => ({
         throw new Error('init failed');
       }
     }
+    async hasOptedOutTracking() { return false; }
+    async getDistinctId() { return 'anonymous'; }
     track(event: string, properties: unknown) {
       if (mockSdk.throwOnTrack) throw new Error('track failed');
       mockSdk.tracked.push({ event, properties });
@@ -258,4 +260,19 @@ describe('screenName — the only screen identity Mixpanel receives', () => {
     const { screenName } = load();
     expect(screenName([])).toBeNull();
   });
+});
+
+it('retains an event until the existing EU tracking endpoint acknowledges its insert ID', async () => {
+  const { enqueueSetupEvent, ANALYTICS_EVENTS } = load();
+  const args = [ANALYTICS_EVENTS.FIRST_OPEN, { install_kind: 'new' }] as const;
+  const transport = jest.spyOn(globalThis, 'fetch');
+  try {
+    transport.mockRejectedValueOnce(new Error('offline'));
+    expect(await enqueueSetupEvent([...args], 'one', 1000)).toBe(false);
+    transport.mockResolvedValueOnce({ ok: true, json: async () => ({ status: 0 }) } as Response);
+    expect(await enqueueSetupEvent([...args], 'one', 1000)).toBe(false);
+    transport.mockResolvedValueOnce({ ok: true, json: async () => ({ status: 1 }) } as Response);
+    expect(await enqueueSetupEvent([...args], 'one', 1000)).toBe(true);
+    expect(JSON.parse(transport.mock.calls.at(-1)?.[1]?.body as string)[0].properties).toMatchObject({ distinct_id: 'anonymous', $insert_id: 'one', setup_observed_at: 1 });
+  } finally { transport.mockRestore(); }
 });
