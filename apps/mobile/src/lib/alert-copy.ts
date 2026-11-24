@@ -4,6 +4,9 @@
 // alert that arrives at the same moment.
 import { formatTime, PRAYER_LABELS, type PrayerKey } from './prayer-times';
 
+/** Increase when the notification text contract changes, including changes to formatting. */
+export const NOTIFICATION_TEXT_VERSION: number = 1;
+
 /**
  * Title + body for one alert. Extracted as a pure function so the Swedish copy contract
  * is testable without running the scheduler. NBSP (fast mellanslag) between the numeral

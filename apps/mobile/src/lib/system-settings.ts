@@ -1,3 +1,4 @@
+import { markSetupHandoff } from './analytics/return-setup';
 import * as Application from 'expo-application';
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as Notifications from 'expo-notifications';
@@ -63,6 +64,7 @@ export const openSystemSettingsA11yLabel = (reason: string): string =>
  * reader can, on this screen.
  */
 export const openNotificationSettings = (): void => {
+  void markSetupHandoff('alert', true);
   if (Platform.OS !== 'android') {
     openSystemSettings();
     return;

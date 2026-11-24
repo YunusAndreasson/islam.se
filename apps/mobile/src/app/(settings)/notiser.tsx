@@ -21,6 +21,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
 import { OptionGroup } from '@/components/settings/OptionGroup';
+import { ReminderRecovery } from '@/components/settings/ReminderRecovery';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Toggle } from '@/components/settings/Toggle';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
@@ -54,12 +55,11 @@ import {
   openBatteryOptimizationSettings,
   openExactAlarmSettings,
   openNotificationSettings,
-  systemSettingsName,
 } from '@/lib/system-settings';
 import { space, type } from '@/theme/tokens';
 
 export default function Notiser() {
-  const { settings, update } = useSettings();
+  const { settings, update, settingsReady } = useSettings();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const n = settings.notifications;
@@ -93,7 +93,7 @@ export default function Notiser() {
   // refused the system prompt, syncPrayerNotifications bails at its permission check — and
   // the status line would go on promising a reminder that can never come, which is the
   // exact lie it exists to remove.
-  const { blocked } = useNotificationPermission(isFocused);
+  const { blocked } = useNotificationPermission(isFocused, true);
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     if (!isFocused) return;
@@ -106,10 +106,10 @@ export default function Notiser() {
     // The master switch is a different kind of silence from either an empty selection or
     // an unresolvable polar-day time. nextAlertAt correctly returns null while it is off;
     // name that state before interpreting the null as a calculation failure.
+    if (blocked) return 'Notiser är avstängda för islam.se.';
     if (!settings.notifications.enabled) {
       return 'Påminnelser är avstängda – ingenting schemaläggs.';
     }
-    if (blocked) return `Notiser är blockerade – inget schemaläggs förrän du tillåter dem i ${systemSettingsName()}.`;
     // Two different silences, told apart before they are described. Every slot switched
     // off is a choice the reader made and can see in the toggles below; no COMPUTABLE
     // time (Kiruna in June with polarCircleResolution 'unresolved', where Fajr and ʿIshāʾ
@@ -147,7 +147,8 @@ export default function Notiser() {
           {nextReminder}
         </Text>
 
-        <SettingSection title="Gäller alla fem böner">
+        {isFocused && settingsReady && <ReminderRecovery now={now} blocked={blocked} />}
+        {!blocked && <SettingSection title="Gäller alla fem böner">
           <SubGroup styles={styles} title="Påminn i förväg">
             {mixedLead ? (
               <Text style={styles.mixed}>Olika tider per bön. Välj här för att ändra alla fem.</Text>
@@ -175,12 +176,13 @@ export default function Notiser() {
                 draw. Constant, so this is not a conditional hook. */}
             {HAS_ADHAN_AUDIO ? <AdhanPreviewRow styles={styles} colors={colors} /> : null}
           </SubGroup>
-        </SettingSection>
+        </SettingSection>}
 
         <SettingSection title="Varje bön">
           {NOTIFY_PRAYERS.map((key) => (
             <PrayerAlertGroup
               key={key}
+              blocked={blocked}
               prayerKey={key}
               notifications={n}
               onPatch={patch}
@@ -204,7 +206,7 @@ export default function Notiser() {
             Kept visibly apart from the five above so neither can read as a sixth prayer.
             Note the "Gäller alla" controls deliberately do NOT reach these: they say
             "alla böner", and neither of these is one. */}
-        <SettingSection
+        {!blocked && <SettingSection
           title="Inte bönetider"
           footnote="Shurūq är soluppgången, då tiden för Fajr tar slut. Nattens sista tredjedel räknas från Maghrib till nästa Fajr – den tid de lärda framhåller för den frivilliga nattbönen. Varje påminnelse här tar en plats i notisbudgeten."
         >
@@ -216,7 +218,7 @@ export default function Notiser() {
                 : ''
             }
             toggle={{
-              value: n.fajrWindowEnd,
+              disabled: blocked, value: n.fajrWindowEnd,
               label: 'Påminnelse när Fajr-fönstret slutar. Vid soluppgången',
               onValueChange: (fajrWindowEnd) => patch({ fajrWindowEnd }),
             }}
@@ -243,7 +245,7 @@ export default function Notiser() {
             // No lead list: this one fires exactly when the time comes in. See types.ts.
             summary={n.lastThird ? soundLabel(n.lastThirdSound) : ''}
             toggle={{
-              value: n.lastThird,
+              disabled: blocked, value: n.lastThird,
               label: 'Påminnelse när nattens sista tredjedel börjar',
               onValueChange: (lastThird) => patch({ lastThird }),
             }}
@@ -256,7 +258,7 @@ export default function Notiser() {
               />
             </SubGroup>
           </DisclosureGroup>
-        </SettingSection>
+        </SettingSection>}
 
         <DeliveryTroubleshooting
           styles={styles}
@@ -401,12 +403,12 @@ function DeliveryTroubleshooting({
  *  ("Gryningsbönen") was that inner toggle's description; it now rides on the switch's own
  *  spoken label, which is the only place it was ever doing work. */
 function PrayerAlertGroup({
-  prayerKey,
+  blocked, prayerKey,
   notifications: n,
   onPatch,
   styles,
 }: {
-  prayerKey: NotifyPrayerKey;
+  blocked: boolean; prayerKey: NotifyPrayerKey;
   notifications: NotificationSettings;
   onPatch: (next: Partial<NotificationSettings>) => void;
   styles: ReturnType<typeof makeStyles>;
@@ -417,9 +419,9 @@ function PrayerAlertGroup({
       title={PRAYER_LABELS[prayerKey]}
       // Nothing to say when it is off: the switch beside it already says so, and "Av"
       // under a visibly-off switch is the same word twice.
-      summary={on ? `${leadLabel(n.lead[prayerKey])} · ${soundLabel(n.sound[prayerKey])}` : ''}
+      summary={on && !blocked ? `${leadLabel(n.lead[prayerKey])} · ${soundLabel(n.sound[prayerKey])}` : ''}
       toggle={{
-        value: on,
+        disabled: blocked, value: !blocked && on,
         label: `Påminnelse för ${PRAYER_LABELS[prayerKey]}. ${PRAYER_SWEDISH_NAMES[prayerKey]}`,
         onValueChange: (value) => onPatch({ prayers: { ...n.prayers, [prayerKey]: value } }),
       }}

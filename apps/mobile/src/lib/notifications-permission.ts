@@ -3,16 +3,20 @@
 // Lifted out of (settings)/installningar so the introduction's notification step drives
 // the identical flow. Duplicating it was not an option: iOS grants exactly ONE
 // notification prompt per install, and the rules for spending it well — ask only under a
-// finger, enable the setting on either answer, re-read the permission when the app comes
+// finger, enable the setting only on a full grant, re-read the permission when the app comes
 // back from system settings, and treat any non-grant while the toggle is on as "blocked"
 // — are the accumulated result of getting each of them wrong once. Two copies would
 // drift, and the drift would be invisible until a user's reminders silently died.
+import { uuid } from 'expo';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 
+import { clearReminderDraft } from './first-run';
+import { setReminderOrigin } from './analytics/return-setup';
 import { ANALYTICS_EVENTS, analytics, type PermissionSource } from '@/lib/analytics';
+import { storage } from '@/lib/storage';
 import { hapticWarning } from '@/lib/haptics';
-import { noteNotificationResolved } from '@/lib/notification-hint';
+import { markRemindersDisabled, noteNotificationResolved, recordReminderDenial, REMINDERS_DECLINED_KEY } from '@/lib/notification-hint';
 import {
   type ExactAlarmState,
   getExactAlarmState,
@@ -20,6 +24,7 @@ import {
   type NotificationPermissionState,
   requestNotificationPermission,
 } from '@/lib/notifications';
+import type { NotificationSettings } from '@/lib/settings/types';
 import { useSettings } from '@/lib/settings/context';
 import { notificationsBlockedMessage } from '@/lib/system-settings';
 
@@ -48,6 +53,8 @@ export interface NotificationPermissionControl {
   setEnabled: (
     enabled: boolean,
     source: Exclude<PermissionSource, 'qibla'>,
+    selection?: NotificationSettings,
+    current?: () => boolean,
   ) => Promise<NotificationPermissionState | null>;
 }
 
@@ -56,7 +63,7 @@ export interface NotificationPermissionControl {
  * when false, matching the settings screen's `useIsFocused()` gate — a backgrounded
  * sheet has no reason to poll. Defaults to true for callers that are always visible.
  */
-export function useNotificationPermission(active = true): NotificationPermissionControl {
+export function useNotificationPermission(active = true, readWhileDisabled = false, readPermission = getNotificationPermissionState): NotificationPermissionControl {
   const { settings, update } = useSettings();
   const [permission, setPermission] = useState<NotificationPermissionState>('unknown');
   const enabled = settings.notifications.enabled;
@@ -70,12 +77,14 @@ export function useNotificationPermission(active = true): NotificationPermission
   // out to system settings to allow notifications, and the status row has to catch up
   // without them having to toggle anything.
   useEffect(() => {
-    if (!active || !enabled) return;
+    if (!active) return;
     let alive = true;
     const refreshPermission = (): void => {
-      void getNotificationPermissionState().then((state) => {
+      void (async () => {
+        if (!readWhileDisabled && !enabled && !(await storage.getItem(REMINDERS_DECLINED_KEY))) return;
+        const state = await readPermission();
         if (alive) setPermission(state);
-      });
+      })().catch(() => undefined);
     };
     refreshPermission();
     const sub = AppState.addEventListener('change', (state) => {
@@ -85,13 +94,16 @@ export function useNotificationPermission(active = true): NotificationPermission
       alive = false;
       sub.remove();
     };
-  }, [active, enabled]);
+  }, [active, enabled, readWhileDisabled, readPermission]);
 
   const setEnabled = useCallback(
-    async (next: boolean, source: Exclude<PermissionSource, 'qibla'>): Promise<NotificationPermissionState | null> => {
+    async (next: boolean, source: Exclude<PermissionSource, 'qibla'>, selection?: NotificationSettings, current?: () => boolean): Promise<NotificationPermissionState | null> => {
       const isLatestIntent = beginNotificationPreferenceIntent();
       if (!next) {
-        update((prev) => ({ notifications: { ...prev.notifications, enabled: false } }));
+        void clearReminderDraft();
+        void markRemindersDisabled();
+        const reminderOptOutId = uuid.v4();
+        update((prev) => ({ reminderOptOutId, notifications: { ...prev.notifications, enabled: false } }));
         void analytics.track(ANALYTICS_EVENTS.REMINDERS_TOGGLED, { enabled: false, source });
         return null;
       }
@@ -101,26 +113,24 @@ export function useNotificationPermission(active = true): NotificationPermission
       // prompting from it would spend iOS's single lifetime dialog with no tap behind it.
       const state = await requestNotificationPermission(source);
       // An off tap must win even when the earlier OS prompt answers later.
-      if (!isLatestIntent()) return null;
+      if (!isLatestIntent() || (current && !current())) return null;
       // The reader has answered the reminders question here, so the map's soft-ask card
       // has nothing left to offer them — the same record the card and the introduction
       // write. It matters most on Android, where an OS that grants notifications by default
       // makes the card offer itself to anyone with reminders off (see lib/notification-hint):
       // without this, switching reminders off in Inställningar would earn a card asking to
       // switch them back on.
-      void noteNotificationResolved();
+      if (state === 'denied' || state === 'granted') void noteNotificationResolved();
       if (mounted.current) setPermission(state);
-      // Enable either way. On a refusal that is not a lie — it is what makes the status
-      // row and the "Öppna …" recovery link appear, and it means a user who later allows
-      // notifications in system settings starts receiving them on the next sync.
-      // Functional: the OS dialog was up while this callback was suspended, so the
-      // `settings` this closure captured is from before the await. Spreading it would
-      // write back whatever the notification sub-settings were then.
-      update((prev) => ({ notifications: { ...prev.notifications, enabled: true } }));
-      void analytics.track(ANALYTICS_EVENTS.REMINDERS_TOGGLED, { enabled: true, source });
-      // A discrete negative outcome the user just triggered — the haptics policy's
-      // warning case, including when Android would allow a second explicit request.
-      if (mounted.current && state !== 'granted') hapticWarning();
+      if (state === 'granted') {
+        void setReminderOrigin(source === 'first_reading' ? 'first_reading' : source.startsWith('settings') ? 'settings' : 'other');
+        update((prev) => ({ notifications: { ...(selection ?? prev.notifications), enabled: true } }));
+        void analytics.track(ANALYTICS_EVENTS.REMINDERS_TOGGLED, { enabled: true, source });
+      } else if (state === 'denied') {
+        update(prev => ({ notifications: { ...prev.notifications, enabled: false } }));
+        await recordReminderDenial();
+        if (mounted.current) hapticWarning();
+      }
       return state;
     },
     // `settings` is deliberately absent: both writes are functional patches that read the
@@ -131,12 +141,8 @@ export function useNotificationPermission(active = true): NotificationPermission
 
   // Older installs may lack the Android prompt marker. While the switch is on,
   // either non-granted state needs the recovery link.
-  const blocked = enabled && (permission === 'denied' || permission === 'undetermined');
-  const footnote = !enabled
-    ? undefined
-    : blocked
-      ? notificationsBlockedMessage()
-      : undefined;
+  const blocked = permission === 'denied' || (enabled && permission === 'undetermined');
+  const footnote = blocked ? notificationsBlockedMessage() : undefined;
 
   return { permission, blocked, footnote, setEnabled };
 }

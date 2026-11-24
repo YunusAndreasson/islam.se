@@ -109,7 +109,7 @@ describe('notification permission intent', () => {
     expect(hapticWarning).not.toHaveBeenCalled();
   });
 
-  it('keeps the requested preference after leaving without stale warning feedback', async () => {
+  it('records a refusal after leaving without enabling reminders or warning off-screen', async () => {
     const pending = deferredAnswer();
     jest.mocked(requestNotificationPermission).mockReturnValueOnce(pending.promise);
     const hook = await mountControl();
@@ -118,10 +118,9 @@ describe('notification permission intent', () => {
     await hook.leave();
     await act(async () => { pending.resolve('denied'); await enabling; });
 
-    // The provider survives the screen, so the reader's enable intent is preserved.
-    expect(screen.getByText('enabled')).toBeTruthy();
-    const raw = await AsyncStorage.getItem('prayerSettings:v1');
-    expect(raw && JSON.parse(raw).notifications.enabled).toBe(true);
+    // A refusal used to persist an enabled master even after its control unmounted.
+    expect(screen.getByText('disabled')).toBeTruthy();
+    expect(await AsyncStorage.getItem('remindersDeclined:v1')).toBeTruthy();
     expect(hapticWarning).not.toHaveBeenCalled();
   });
 
@@ -130,7 +129,7 @@ describe('notification permission intent', () => {
     jest.mocked(getNotificationPermissionState).mockResolvedValue('denied');
     const hook = await mountControl();
     await act(async () => { await hook.current().setEnabled(true, 'settings'); });
-    expect(screen.getByText('enabled')).toBeTruthy();
+    expect(screen.getByText('disabled')).toBeTruthy();
     expect(hook.current().blocked).toBe(true);
     expect(hapticWarning).toHaveBeenCalledTimes(1);
   });

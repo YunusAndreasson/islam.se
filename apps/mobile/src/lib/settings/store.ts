@@ -168,6 +168,7 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
   const rawManualLocation = isRecord(raw.manualLocation) ? raw.manualLocation : null;
 
   return {
+    ...(typeof raw.reminderOptOutId === 'string' && { reminderOptOutId: raw.reminderOptOutId }),
     calculationMethod: enumValue(raw.calculationMethod, CALCULATION_METHODS, DEFAULT_SETTINGS.calculationMethod),
     madhab: enumValue(raw.madhab, MADHABS, DEFAULT_SETTINGS.madhab),
     highLatitudeRule: enumValue(raw.highLatitudeRule, HIGH_LAT_RULES, DEFAULT_SETTINGS.highLatitudeRule),
@@ -214,6 +215,8 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
       validLongitude(rawManualLocation.longitude)
         ? {
             name: rawManualLocation.name,
+            ...(typeof rawManualLocation.county === 'string' && { county: rawManualLocation.county }),
+            ...(typeof rawManualLocation.population === 'number' && { population: rawManualLocation.population }),
             latitude: rawManualLocation.latitude,
             longitude: rawManualLocation.longitude,
           }

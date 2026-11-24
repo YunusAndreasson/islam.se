@@ -23,7 +23,7 @@ import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-re
 
 import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
-import { noteNotificationResolved } from '@/lib/notification-hint';
+import { noteNotificationResolved, recordReminderDenial } from '@/lib/notification-hint';
 import { beginNotificationPreferenceIntent } from '@/lib/notifications-permission';
 import {
   openNotificationSettings,
@@ -48,7 +48,7 @@ const CONFIRM_MS = 1600;
 interface Props {
   /** Distance in dp from the screen top — set by the caller to clear the nav discs. */
   top: number;
-  /** Turn reminders on in settings. Called for BOTH outcomes — see onEnable below. */
+  /** Commit the master switch after a full grant. */
   onEnable: () => void;
   /** Retire the card: dismissed, or finished after an answer. */
   onClose: () => void;
@@ -95,12 +95,8 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
         if (mounted.current) setBusy(false);
         return;
       }
-      // Turn the setting on for EITHER answer, matching the Inställningar toggle. On a
-      // refusal that's not a lie — it's what makes Inställningar → Notiser show its
-      // "Blockerat" status and the "Öppna …" recovery link, and it means a user who
-      // later allows notifications in system settings starts receiving them on the very
-      // next sync without having to find the toggle again.
-      onEnable();
+      if (result === 'granted') onEnable();
+      if (result === 'denied') await recordReminderDenial();
       // The permission answer still updates preferences after dismissal; the
       // card's haptics and delayed close belong only to its visible lifetime.
       if (!mounted.current) return;

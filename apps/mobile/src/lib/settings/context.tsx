@@ -13,7 +13,9 @@ import {
 } from 'react';
 
 import { AppState } from 'react-native';
+import { uuid } from 'expo';
 
+import { recoverReminderGrant, acknowledgeReminderGrant } from '../first-run';
 import { setHapticsEnabled } from '@/lib/haptics';
 import { loadSettings, saveSettings } from './store';
 import { DEFAULT_SETTINGS, type PrayerSettings } from './types';
@@ -67,10 +69,11 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       }
       try {
         const stored = await loadSettings();
+        const granted = await recoverReminderGrant(stored);
         if (!active || hydrated.current) return;
         saved.current = stored;
         hydrated.current = true;
-        const recovered = pending.current.reduce((value, edit) => edit(value), stored);
+        const recovered = pending.current.reduce((value, edit) => edit(value), granted);
         pending.current = [];
         setSettings(recovered);
         setSettingsReady(true);
@@ -106,6 +109,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       try {
         await saveSettings(settings);
         saved.current = settings;
+        await acknowledgeReminderGrant(settings);
       } catch (error) {
         console.warn('Could not save settings; will retry on foreground.', error);
       }
@@ -126,8 +130,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   // would otherwise mutate the default for the whole app). The persist effect writes
   // the cleared settings back to storage like any other change.
   const reset = useCallback(() => {
+    const reminderOptOutId = uuid.v4();
     edit(() => ({
       ...DEFAULT_SETTINGS,
+      reminderOptOutId,
       adjustments: { ...DEFAULT_SETTINGS.adjustments },
       notifications: {
         ...DEFAULT_SETTINGS.notifications,

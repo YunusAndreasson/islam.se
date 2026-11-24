@@ -199,6 +199,10 @@ describe('completeness — every setting is classified, and COMPUTE_KEYS matches
   it('classifies every PrayerSettings field (a new field forces a decision)', () => {
     // The strong drift guard: a new field added to the type + DEFAULT_SETTINGS but left out
     // of BOTH lists fails here, forcing the author to decide whether it affects the grid.
+    // Optional settings may be absent from the defaults. Typecheck requires those to be classified too.
+    type Classified = typeof TIME_AFFECTING_KEYS[number] | typeof COSMETIC_KEYS[number] | 'reminderOptOutId';
+    const unclassified: Record<Exclude<keyof PrayerSettings, Classified>, never> = {};
+    expect(Object.keys(unclassified)).toHaveLength(0);
     const classified = [...TIME_AFFECTING_KEYS, ...COSMETIC_KEYS].sort();
     expect(classified).toEqual(Object.keys(DEFAULT_SETTINGS).sort());
     // No key counted twice.

@@ -12,6 +12,7 @@
 // soft-ask queue, and an unprefixed `shouldShowHint` there both hid which card was
 // being decided and collided with ./hints' differently-shaped `shouldShowHint(record,
 // policy)`.
+import { storage } from './storage';
 import { createSoftAskStore } from './hints';
 import type { NotificationPermissionState } from './notifications';
 
@@ -44,4 +45,36 @@ export const shouldShowNotificationHint = store.shouldShow;
 export function remindersOfferable(permission: NotificationPermissionState, os: string): boolean {
   if (permission === 'undetermined') return true;
   return permission === 'granted' && os === 'android';
+}
+
+export const REMINDERS_DECLINED_KEY = 'remindersDeclined:v1';
+export async function recordReminderDenial() {
+  // A later read of the same blocked OS state must not restart the 24-hour clock.
+  try {
+    if (!await storage.getItem(REMINDERS_DECLINED_KEY)) {
+      await storage.setItem(REMINDERS_DECLINED_KEY, String(Date.now()));
+    }
+  } catch {
+    // A storage failure must still let the user leave the declined screen.
+  }
+}
+
+const RECOVERED = 'remindersRecoveryShown:v1';
+const DISABLED = 'remindersDeliberatelyDisabled:v1';
+export const wereRemindersDisabled = async () => (await storage.getItem(DISABLED)) !== null;
+export const markRemindersDisabled = () => storage.setItem(DISABLED, '1').catch(() => undefined);
+let recoveryClaim = Promise.resolve();
+// Persist the cap under the same queue as its eligibility check, including two
+// settings screens mounting together. A blurred screen must not spend the cap.
+export async function claimReminderRecovery(visitStart: number, eligible: () => boolean, now = Date.now()) {
+  let claimed = false;
+  recoveryClaim = recoveryClaim.then(async () => {
+    const [denial, shown, disabled] = await Promise.all([REMINDERS_DECLINED_KEY, RECOVERED, DISABLED].map(key => storage.getItem(key)));
+    if (!denial || !Number.isFinite(Number(denial)) || now - Number(denial) < 86400_000 ||
+        visitStart <= Number(denial) || shown || disabled || !eligible()) return;
+    await storage.setItem(RECOVERED, '1');
+    claimed = true;
+  }).catch(() => undefined);
+  await recoveryClaim;
+  return claimed;
 }

@@ -85,6 +85,8 @@ export const HIJRI_OFFSET_MAX = 2;
 
 export interface NamedLocation extends Pick<Coordinates, 'latitude' | 'longitude'> {
   name: string;
+  county?: string;
+  population?: number;
 }
 
 export type LocationMode = 'gps' | 'manual';
@@ -136,6 +138,8 @@ export interface NotificationSettings {
 }
 
 export interface PrayerSettings {
+  /** Rotated with a deliberate reminder opt-out. Older permission handoffs cannot replay it. */
+  reminderOptOutId?: string;
   calculationMethod: CalculationMethodKey;
   madhab: Madhab;
   highLatitudeRule: HighLatitudeRuleKey;
@@ -267,4 +271,6 @@ const sameValue = (a: unknown, b: unknown): boolean => {
  *  the strongest form of error prevention there is: the one destructive control on the
  *  screen simply isn't on the path of a user who has never changed a setting. Mirrors
  *  the `hasAdjustments` guard behind Beräkning's "Återställ alla". */
-export const isDefaultSettings = (s: PrayerSettings): boolean => sameValue(s, DEFAULT_SETTINGS);
+export function isDefaultSettings({ reminderOptOutId: _optOut, ...preferences }: PrayerSettings): boolean {
+  return sameValue(preferences, DEFAULT_SETTINGS);
+}

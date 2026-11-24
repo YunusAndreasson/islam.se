@@ -102,10 +102,35 @@ function withUniformLead(
   });
 }
 
+// Read the actual one-shot Android date or the UTC components passed to iOS.
+function triggerDate(trigger: unknown): Date {
+  const t = trigger as Notifications.CalendarTriggerInput & { date?: Date };
+  return t.date ?? new Date(Date.UTC(t.year!, t.month! - 1, t.day, t.hour, t.minute, t.second));
+}
+
+// Model the native readback, which uses different trigger fields from a scheduling input.
+function nativeRequest(identifier: string, input: Notifications.NotificationRequestInput) {
+  const t = input.trigger as Notifications.CalendarTriggerInput & { date?: Date };
+  const trigger = t.date ? { type: 'date', value: t.date.getTime(), channelId: t.channelId } :
+    { type: 'calendar', repeats: false, dateComponents: { ...t, timeZone: t.timezone } };
+  return { identifier, content: input.content, trigger } as Notifications.NotificationRequest;
+}
+
+function useNativeQueue() {
+  const pending = new Map<string, Notifications.NotificationRequest>();
+  scheduleMock.mockImplementation(async input => {
+    const id = input.identifier!;
+    pending.set(id, nativeRequest(id, input));
+    return id;
+  });
+  getAllScheduledMock.mockImplementation(async () => [...pending.values()]);
+  jest.mocked(Notifications.cancelScheduledNotificationAsync).mockImplementation(async id => { pending.delete(id); });
+}
+
 /** Sorted epoch-ms of every notification the last sync scheduled. */
 function scheduledTimes(): number[] {
   return scheduleMock.mock.calls
-    .map((call) => call[0].trigger.date.getTime())
+    .map((call) => triggerDate(call[0].trigger).getTime())
     .sort((a, b) => a - b);
 }
 
@@ -127,17 +152,19 @@ describe('syncPrayerNotifications lead time', () => {
       const settings = withUniformLead(0);
       await syncPrayerNotifications(STOCKHOLM, settings);
       const next = first(scheduleMock.mock.calls.map(([request]) => request)
-        .sort((a, b) => a.trigger.date.getTime() - b.trigger.date.getTime()), 'next reminder');
-      const fireAt = next.trigger.date.getTime();
+        .sort((a, b) => triggerDate(a.trigger).getTime() - triggerDate(b.trigger).getTime()), 'next reminder');
+      const fireAt = triggerDate(next.trigger).getTime();
       clock.mockReturnValue(fireAt - 40_000);
+      const original = (next as Notifications.NotificationRequestInput).identifier!;
       getAllScheduledMock.mockResolvedValue([
-        { ...next, identifier: 'original' }, { ...next, identifier: 'duplicate' },
-      ] as unknown as Notifications.NotificationRequest[]);
+        nativeRequest(original, next as Notifications.NotificationRequestInput),
+        nativeRequest('duplicate', next as Notifications.NotificationRequestInput),
+      ]);
       resetSyncStateForTests();
       scheduleMock.mockClear();
 
       expect(await syncPrayerNotifications(STOCKHOLM, settings)).toBe(true);
-      expect(cancelScheduledMock).not.toHaveBeenCalledWith('original');
+      expect(cancelScheduledMock).not.toHaveBeenCalledWith(original);
       expect(cancelScheduledMock).toHaveBeenCalledWith('duplicate');
       expect(scheduledTimes()).not.toContain(fireAt);
       expect(nextAlertAt(STOCKHOLM, settings, Date.now())?.fireAt.getTime()).toBe(fireAt);
@@ -163,7 +190,8 @@ describe('syncPrayerNotifications lead time', () => {
       scheduleMock.mockClear();
       await syncPrayerNotifications(STOCKHOLM, settings);
       expect(scheduledTimes()[0]).toBe(pending);
-      expect(nextAlertAt(STOCKHOLM, settings, afterMidnight)?.fireAt.getTime()).toBe(pending);
+      const computed = nextAlertAt(STOCKHOLM, settings, afterMidnight)!.fireAt.getTime();
+      expect(Math.floor(computed / 1000) * 1000).toBe(pending);
     } finally {
       clock.mockRestore();
     }
@@ -354,6 +382,7 @@ describe('syncPrayerNotifications lead time', () => {
       notifications: { ...DEFAULT_SETTINGS.notifications, enabled: false },
     });
     resolvePermission({
+      ios: { status: Notifications.IosAuthorizationStatus.AUTHORIZED } as NonNullable<Notifications.NotificationPermissionsStatus['ios']>,
       granted: true,
       canAskAgain: true,
       status: PermissionStatus.GRANTED,
@@ -594,7 +623,8 @@ describe('notification permission', () => {
     requestPermissionsMock.mockImplementation(async () => {
       order.push('request');
       return {
-        granted: true,
+        ios: { status: Notifications.IosAuthorizationStatus.AUTHORIZED } as NonNullable<Notifications.NotificationPermissionsStatus['ios']>,
+      granted: true,
         canAskAgain: true,
         status: PermissionStatus.GRANTED,
         expires: 'never',
@@ -645,6 +675,7 @@ describe('notification permission', () => {
 
   it('reports granted without prompting when permission is already held', async () => {
     getPermissionsMock.mockResolvedValue({
+      ios: { status: Notifications.IosAuthorizationStatus.AUTHORIZED } as NonNullable<Notifications.NotificationPermissionsStatus['ios']>,
       granted: true,
       canAskAgain: true,
       status: PermissionStatus.GRANTED,
@@ -700,7 +731,8 @@ const spyOnTrack = () => jest.spyOn(analytics, 'track').mockResolvedValue(undefi
 
     it('reports only the answer, unprompted, when the OS has already decided', async () => {
       getPermissionsMock.mockResolvedValue({
-        granted: true,
+        ios: { status: Notifications.IosAuthorizationStatus.AUTHORIZED } as NonNullable<Notifications.NotificationPermissionsStatus['ios']>,
+      granted: true,
         canAskAgain: true,
         status: PermissionStatus.GRANTED,
         expires: 'never',
@@ -745,7 +777,7 @@ const scheduled = (): ScheduledCall[] =>
 /** How many distinct Stockholm calendar days the last sync covered. */
 function daysSpanned(): number {
   const days = scheduled().map((c) => {
-    const { y, mo, d } = zoneParts(c.trigger.date.getTime());
+    const { y, mo, d } = zoneParts(triggerDate(c.trigger).getTime());
     return `${y}-${mo}-${d}`;
   });
   return new Set(days).size;
@@ -882,7 +914,8 @@ describe('notification horizon', () => {
 
   // syncPrayerNotifications runs on mount AND every foreground. At a 30-day Android
   // horizon an unguarded re-sync is 180 cancels + 180 schedules, a dozen times a day.
-  it('skips a redundant re-sync when nothing relevant changed', async () => {
+  it('skips redundant registrations when the native set is already correct', async () => {
+    useNativeQueue();
     const settings = withUniformLead(0);
     await syncPrayerNotifications(STOCKHOLM, settings);
     expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
@@ -904,16 +937,12 @@ describe('notification horizon', () => {
       typeof Notifications.cancelScheduledNotificationAsync
     >;
     cancel.mockImplementation(async (id) => { pending.delete(id); });
-    getAllScheduledMock.mockImplementation(async () => [...pending].map(([identifier, request]) => ({
-      identifier,
-      content: request.content,
-      trigger: request.trigger,
-    })) as Awaited<ReturnType<typeof Notifications.getAllScheduledNotificationsAsync>>);
+    getAllScheduledMock.mockImplementation(async () => [...pending].map(([id, request]) => nativeRequest(id, request)));
 
     const original = withUniformLead(0);
     await syncPrayerNotifications(STOCKHOLM, original);
     const originalDates = [...pending.values()].map((request) =>
-      (request.trigger as { date: Date }).date.getTime()).sort((a, b) => a - b);
+      triggerDate(request.trigger).getTime()).sort((a, b) => a - b);
     expect(originalDates.length).toBeGreaterThan(0);
 
     let releaseCancellation!: () => void;
@@ -927,14 +956,16 @@ describe('notification horizon', () => {
     });
     const replacement = syncPrayerNotifications(STOCKHOLM, withUniformLead(15));
     await cancellationStarted;
-    expect(pending.size).toBe(0);
+    const countAtCancellation = pending.size;
     const restored = syncPrayerNotifications(STOCKHOLM, original);
     releaseCancellation();
     await Promise.all([replacement, restored]);
+    // Swaps now keep the old or verified new request for each desired slot.
+    expect(countAtCancellation).toBeGreaterThan(0);
 
     expect([...pending.values()].map((request) =>
-      (request.trigger as { date: Date }).date.getTime()).sort((a, b) => a - b)).toEqual(originalDates);
-    expect(JSON.parse((await AsyncStorage.getItem('prayerNotificationIds:v1'))!)).toEqual([...pending.keys()]);
+      triggerDate(request.trigger).getTime()).sort((a, b) => a - b)).toEqual(originalDates);
+    expect(new Set(JSON.parse((await AsyncStorage.getItem('prayerNotificationIds:v1'))!))).toEqual(new Set(pending.keys()));
     cancel.mockImplementation(async () => undefined);
   });
 
@@ -1179,7 +1210,7 @@ describe('night’s-last-third alert', () => {
     expect(first(alerts, 'night alerts').content.body).toMatch(/^Klockan \d{2}:\d{2}$/);
     // The body names the trigger instant itself — there is no lead to reconcile, so any
     // divergence here means the alert is claiming a time it will not fire at.
-    expect(first(alerts, 'night alerts').content.body).toBe(`Klockan ${formatTime(first(alerts, 'night alerts').trigger.date)}`);
+    expect(first(alerts, 'night alerts').content.body).toBe(`Klockan ${formatTime(triggerDate(first(alerts, 'night alerts').trigger))}`);
   });
 
   it('is a formal reminder like the prayers: time-sensitive, on the chosen channel', async () => {
@@ -1308,6 +1339,7 @@ describe('how an alert is delivered and grouped', () => {
   // A read that fails (a headless wake-up, an old OS) must not count as a change, or every
   // background run would cancel and re-create the whole horizon.
   it('treats an unreadable exact-alarm state as unchanged', async () => {
+    useNativeQueue();
     const settings = withNotifications({});
     await withPlatform('android', () => syncPrayerNotifications(STOCKHOLM, settings));
     scheduleMock.mockClear();
@@ -1331,4 +1363,22 @@ describe('how an alert is delivered and grouped', () => {
     await withPlatform('android', () => syncPrayerNotifications(STOCKHOLM, withNotifications({})));
     expect(delivered().some((c) => c.content.threadIdentifier !== undefined)).toBe(false);
   });
+});
+
+// A second tap in ordinary settings used to spend Android's next permission
+// dialog immediately after the first-reading refusal.
+it('keeps an askable refusal quiet for the remainder of its first visit', async () => {
+  const now = Date.now();
+  await storage.setItem('analytics:firstOpen:v1', JSON.stringify({ install_kind: 'new', setupStartedAt: now - 1000 }));
+  await storage.setItem('remindersDeclined:v1', String(now));
+  getPermissionsMock.mockResolvedValueOnce({ canAskAgain: true, granted: false, status: 'denied' } as Notifications.NotificationPermissionsStatus);
+  try {
+    await withPlatform('android', async () => {
+      expect(await requestNotificationPermission('settings')).toBe('denied');
+      expect(requestPermissionsMock).not.toHaveBeenCalled();
+    });
+  } finally {
+    await storage.removeItem('analytics:firstOpen:v1');
+    await storage.removeItem('remindersDeclined:v1');
+  }
 });

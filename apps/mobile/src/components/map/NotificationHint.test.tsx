@@ -71,6 +71,7 @@ describe('NotificationHint', () => {
 
   it('asks the OS once and turns reminders on when the user accepts', async () => {
     requestPermissionsMock.mockResolvedValue({
+      ios: { status: Notifications.IosAuthorizationStatus.AUTHORIZED } as NonNullable<Notifications.NotificationPermissionsStatus['ios']>,
       granted: true,
       canAskAgain: true,
       status: PermissionStatus.GRANTED,
@@ -103,16 +104,15 @@ describe('NotificationHint', () => {
     });
 
     await waitFor(() => expect(screen.getByText(/Notiser är blockerade/)).toBeTruthy());
-    // Still enabled in settings: that is what makes Inställningar show its "Blockerat"
-    // status and its own recovery link, and it means a user who later allows notifications
-    // in system settings starts receiving them without hunting for the toggle again.
-    expect(onEnable).toHaveBeenCalledTimes(1);
+    // A refusal offers recovery but must leave the master off.
+    expect(onEnable).not.toHaveBeenCalled();
     // The card does NOT retire itself on a refusal — the user closes it when ready.
     expect(onClose).not.toHaveBeenCalled();
   });
 
   it('marks the hint resolved so it is never offered again', async () => {
     requestPermissionsMock.mockResolvedValue({
+      ios: { status: Notifications.IosAuthorizationStatus.AUTHORIZED } as NonNullable<Notifications.NotificationPermissionsStatus['ios']>,
       granted: true,
       canAskAgain: true,
       status: PermissionStatus.GRANTED,
@@ -133,6 +133,7 @@ describe('NotificationHint', () => {
   // Double-tapping the CTA must not put two OS dialogs in flight.
   it('ignores a second tap while the prompt is in flight', async () => {
     requestPermissionsMock.mockResolvedValue({
+      ios: { status: Notifications.IosAuthorizationStatus.AUTHORIZED } as NonNullable<Notifications.NotificationPermissionsStatus['ios']>,
       granted: true,
       canAskAgain: true,
       status: PermissionStatus.GRANTED,
@@ -162,13 +163,14 @@ describe('NotificationHint', () => {
 
     await act(async () => {
       finish({
+        ios: { status: granted ? 2 : 1 } as NonNullable<Notifications.NotificationPermissionsStatus['ios']>,
         granted,
         canAskAgain: false,
         status: granted ? PermissionStatus.GRANTED : PermissionStatus.DENIED,
         expires: 'never',
       });
     });
-    expect(onEnable).toHaveBeenCalledTimes(1);
+    expect(onEnable).toHaveBeenCalledTimes(granted ? 1 : 0);
     const raw = await AsyncStorage.getItem('notificationHintSeen:v1');
     expect(raw && JSON.parse(raw).resolved).toBe(true);
     expect(hapticSuccess).not.toHaveBeenCalled();
