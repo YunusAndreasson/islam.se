@@ -107,7 +107,7 @@ ephemerally**, **required** (there is no in-app opt-out), encrypted in transit:
 - **App info and performance → Crash logs** — purpose **App functionality** (Sentry, kept up
   to 90 days).
 - **App activity → App interactions** — purpose **Analytics** (app opens and screens, the
-  introduction's steps, the answers to the permission dialogs, reminder and widget taps, a few
+  introduction's steps, the answers to the permission dialogs, reminder and widget taps, first prayer readings and offers, verified scheduling and exact-alarm access, launcher support, verified widget placement, and first-visit foreground samples and coarse session-one and day-seven outcomes (including unknown), with the original observation time on offline retries, a few
   actions, and coarse setting states such as whether reminders are on; never the place, the
   calculation method or the madhab — see `src/lib/analytics/events.ts`).
 - **Device or other IDs** — purpose **Analytics** (Mixpanel's random anonymous id).

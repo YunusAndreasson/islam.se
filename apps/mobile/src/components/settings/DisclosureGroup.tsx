@@ -52,6 +52,7 @@ export function DisclosureGroup({
    * chevron appears with the detail behind it.
    */
   toggle?: {
+    disabled?: boolean;
     value: boolean;
     onValueChange: (value: boolean) => void;
     /** Spoken name for the switch alone, e.g. "Påminnelse för Fajr. Gryningsbönen". */
@@ -65,7 +66,7 @@ export function DisclosureGroup({
   const reduceMotion = useReducedMotion();
 
   // An alert that is off has nothing behind its fold, so it gets no fold.
-  const expandable = !toggle || toggle.value;
+  const expandable = !toggle || (!toggle.disabled && toggle.value);
   const [expanded, setExpanded] = useState(defaultExpanded);
   const isExpanded = expanded && expandable;
   const [contentHeight, setContentHeight] = useState(0);
@@ -154,6 +155,8 @@ export function DisclosureGroup({
         {toggle ? (
           <View style={styles.headerSwitch}>
             <Switch
+              disabled={toggle.disabled}
+              accessibilityState={{ checked: toggle.value, disabled: !!toggle.disabled }}
               value={toggle.value}
               onValueChange={toggle.onValueChange}
               accessibilityLabel={toggle.label}

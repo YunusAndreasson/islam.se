@@ -118,12 +118,18 @@ export async function loadIntroStatus(): Promise<'pending' | 'done'> {
 
 // Serialize navigation taps so a slow write from an earlier step cannot undo Back.
 let progressWrite = Promise.resolve();
-export function saveIntroStep(step: number): void {
+export function saveIntroStep(step: number, onlyIfMissing = false): Promise<boolean> {
   const name = INTRO_STEPS[step];
-  if (!name) return;
-  progressWrite = progressWrite
-    .then(() => storage.setItem(PROGRESS_KEY, name))
-    .catch(() => undefined);
+  if (!name) return Promise.resolve(false);
+  const saved = progressWrite.then(async () => {
+    if (onlyIfMissing) {
+      const current = await storage.getItem(PROGRESS_KEY);
+      if (INTRO_STEPS.some(stepName => stepName === current)) return;
+    }
+    await storage.setItem(PROGRESS_KEY, name);
+  });
+  progressWrite = saved.catch(() => undefined);
+  return saved.then(() => true, () => false);
 }
 
 /** Mark the introduction as seen — finished OR skipped, and which. Best-effort: a failed

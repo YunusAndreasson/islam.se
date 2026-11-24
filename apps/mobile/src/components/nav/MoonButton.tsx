@@ -30,7 +30,7 @@
 // sweep past. lib/haptics' class 1 is an outcome
 // the reader CAUSED, and an unbidden buzz from a home-screen chip is exactly the routine
 // transition the policy's NO list is about.
-import { router } from 'expo-router';
+import { useMapNavigate } from './useMapNavigate';
 import { useEffect } from 'react';
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue, withSpring } from 'react-native-reanimated';
 
@@ -61,6 +61,7 @@ const AIM_TICK_MS = 60_000;
  * Skia's GPU device and its pipeline warmup while MapLibre is still compiling its shaders.
  */
 export function MoonButton({ active, gpuReady }: { active: boolean; gpuReady: boolean }) {
+  const navigate = useMapNavigate();
   const c = useColors();
   const glass = useSkyGlass();
   const { disc, glyph } = useNavMetrics();
@@ -126,7 +127,7 @@ export function MoonButton({ active, gpuReady }: { active: boolean; gpuReady: bo
           : `Månen – ${phase}, ${formatHijri(today, settings.hijriOffset)}`
       }
       size={disc}
-      onPress={() => router.navigate('/manen')}
+      onPress={() => navigate('/manen')}
     >
       <Animated.View style={lockStyle}>
         <MoonDisc

@@ -35,6 +35,7 @@ import { router, useIsFocused } from 'expo-router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AccessibilityInfo,
+  AppState,
   type LayoutChangeEvent,
   Pressable,
   ScrollView,
@@ -68,7 +69,7 @@ import {
 } from '@/lib/system-settings';
 import type { AimStatus, AimTurn } from '@/lib/aim';
 import { formatKm, qiblaBearing, qiblaDistanceKm } from '@/lib/qibla';
-import { useAim } from '@/lib/useAim';
+import { readLocationPermission, useAim } from '@/lib/useAim';
 import { DIAL_MAX, makeDialStyles, rotate as rot, useBrassStyles } from '@/theme/dial';
 import { hexToRgba } from '@/theme/rgba';
 import { mono, type Palette, shadow, space, type } from '@/theme/tokens';
@@ -157,12 +158,30 @@ export default function Qibla() {
   // and spoken output instead of paying for it twice on every compass tick.
   const distance = useMemo(() => formatKm(distanceKm), [distanceKm]);
 
-  // The instrument. Opening Qibla is the explicit intent that justifies the permission
-  // prompt, so this is the `request: true` caller; the map's compass button is the other one
-  // and only checks. Everything heading-derived is cleared when `focused` goes false.
+  const [compassOn, setCompassOn] = useState(false);
+  const [refused, setRefused] = useState(false);
+  const permissionInFlight = useRef(false);
+  async function enableCompass() {
+    if (permissionInFlight.current) return;
+    permissionInFlight.current = true;
+    const permission = await readLocationPermission(true, 'qibla').catch(() => null);
+    setCompassOn(permission?.granted === true);
+    setRefused(permission?.granted !== true);
+    permissionInFlight.current = false;
+  }
+  useEffect(() => {
+    if (!focused || !refused) return;
+    let active = true;
+    const subscription = AppState.addEventListener('change', state => {
+      if (state === 'active') void readLocationPermission(false, 'qibla').then(permission => {
+        if (active && permission.granted) { setCompassOn(true); setRefused(false); }
+      }).catch(() => undefined);
+    });
+    return () => { active = false; subscription.remove(); };
+  }, [focused, refused]);
   const { status, turn, noCompass, permissionDenied, rotation, prox } = useAim({
-    active: focused,
-    request: true,
+    active: focused && compassOn,
+    request: false,
     bearing,
     permissionSource: 'qibla',
   });
@@ -224,7 +243,9 @@ export default function Qibla() {
     return () => clearTimeout(t);
   }, [calibrating]);
 
-  const line = statusLine(status, turn, noCompass, permissionDenied);
+  const line = !compassOn && !refused
+    ? { icon: 'compassRose' as const, text: 'Kompass av', tone: 'quiet' as const }
+    : statusLine(status, turn, noCompass, permissionDenied || refused);
   const bearingDeg = Math.round(bearing);
   // The hero numeral: the live remaining turn when we have a heading worth trusting, the
   // static qibla bearing when we don't. The caption underneath always names which, so the
@@ -324,7 +345,8 @@ export default function Qibla() {
             it goes once you are closing in, having done its job — doesn't shift the
             readout under the reader's eye. */}
         <View style={styles.noteSlot}>
-          {permissionDenied ? (
+          {!compassOn && !refused ? <><Text style={styles.note}>Med platsåtkomst kan kompassen följa med när du vänder dig.</Text><Pressable accessibilityRole="button" onPress={() => void enableCompass()} style={styles.link}>
+            <Text style={styles.linkText}>Använd kompassen</Text></Pressable></> : permissionDenied || refused ? (
             <>
               <Text style={styles.note}>
                 Platsåtkomst nekad. Tillåt i {settingsName} för att använda kompassen.

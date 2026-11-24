@@ -6,7 +6,7 @@
 // free also makes the resolution table trivially unit-testable.
 import { isValidLatLng } from '@/lib/coordinates';
 import type { SwedishPlace } from '@/lib/places/data';
-import { nearestPlace } from '@/lib/places/nearest';
+import { nearestPlace, placeTitle } from '@/lib/places/nearest';
 import type { LatLng } from '@/lib/prayer-times';
 import { DEFAULT_COORDS, type LocationMode, type NamedLocation } from '@/lib/settings/types';
 
@@ -27,7 +27,7 @@ export interface ResolvedLocation {
 // Offline GPS labels come from the bundled Swedish place list. Beyond this distance the
 // nearest entry is not a useful description (a California fix previously became
 // "Karesuando"), so keep the precise coordinate but call it simply "Din plats".
-const MAX_PLACE_LABEL_DISTANCE_KM = 100;
+export const MAX_PLACE_LABEL_DISTANCE_KM = 100;
 
 /**
  * Resolve the prayer-time coordinate from the location-relevant settings plus the
@@ -48,13 +48,16 @@ export function resolveLocation(
     const coords = { latitude: loc.latitude, longitude: loc.longitude };
     // In manual mode the chosen tätort IS the place — snap so the marker sits on the
     // canonical centre even if the stored coords drifted (older rounded picker entry).
-    const snapped = nearestPlace(coords.latitude, coords.longitude).place;
-    return { coords, label: loc.name, source: 'manual', place: snapped };
+    const snapped: SwedishPlace = loc.county !== undefined && loc.population !== undefined
+      ? { name: loc.name, county: loc.county, population: loc.population, lat: loc.latitude, lon: loc.longitude }
+      : nearestPlace(coords.latitude, coords.longitude).place;
+    const label = snapped.name === loc.name ? placeTitle(snapped) : loc.name;
+    return { coords, label, source: 'manual', place: snapped };
   }
   if (gpsCoords && isValidLatLng(gpsCoords)) {
     const nearest = nearestPlace(gpsCoords.latitude, gpsCoords.longitude);
     if (nearest.distanceKm <= MAX_PLACE_LABEL_DISTANCE_KM) {
-      return { coords: gpsCoords, label: nearest.place.name, source: 'gps', place: nearest.place };
+      return { coords: gpsCoords, label: placeTitle(nearest.place), source: 'gps', place: nearest.place };
     }
     return { coords: gpsCoords, label: 'Din plats', source: 'gps', place: null };
   }

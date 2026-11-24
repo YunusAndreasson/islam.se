@@ -24,6 +24,7 @@
 // half the day, which left a warm slab floating on a night sky. The tint now comes from
 // theme/skyChrome, one value shared with every other card on the map. Ink, accent and brass
 // are untouched: only the material under them changes temperature.
+import { FirstRunButton } from '@/components/intro/FirstRunButton';
 import { useCardInsets } from '@/theme/window-layout';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
@@ -401,6 +402,7 @@ interface Props {
    *  they do for a drag. A user gesture taken mid-reveal simply overwrites `height`, so
    *  the finger always wins. */
   revealSchedule?: boolean;
+  onWidget?: () => void;
   /** Optional host notification for analytics or layout hooks. The map does not refit
       on expansion; the dock opens over the current slice. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
@@ -441,6 +443,7 @@ export function PrayerDock({
   locationIsFallback = false,
   settings,
   revealSchedule = false,
+  onWidget,
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
@@ -1125,6 +1128,7 @@ export function PrayerDock({
                       visible={expanded}
                     />
                   ) : null}
+                  {expanded && onWidget && <FirstRunButton label="Lägg till widget ›" onPress={onWidget} />}
                 </View>
               </ScrollView>
               <View style={styles.scheduleDivider} pointerEvents="none" />
@@ -1784,6 +1788,7 @@ function SolarTimeline({
                   pointerEvents="none"
                   style={[
                     styles.mark,
+                    { transitionProperty: 'opacity', transitionDuration: motion.fast },
                     isPast && styles.markPast,
                     {
                       position: 'absolute',
@@ -2100,8 +2105,6 @@ function makeStyles(c: Palette, fontScale = 1) {
       borderRadius: PRAYER_DOT / 2,
       bottom: 12.5,
       opacity: 0.7,
-      transitionProperty: 'opacity',
-      transitionDuration: motion.fast,
     },
     markPast: { opacity: 1 },
     // The knob is the app mark in miniature: brand gold inside a brand blue ring (see

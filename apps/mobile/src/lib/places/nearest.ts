@@ -17,6 +17,16 @@ export function getPlaces() {
   return PLACES;
 }
 
+/** Preserve the catalogue identity in settings, including across process restarts. */
+export function namedPlace(p: SwedishPlace) {
+  return { name: p.name, county: p.county, population: p.population, latitude: p.lat, longitude: p.lon };
+}
+
+export function placeTitle(place: { name: string; county?: string }) {
+  return place.county && getPlaces().filter(p => p.name === place.name).length > 1
+    ? `${place.name}, ${place.county}` : place.name;
+}
+
 export interface NearestPlaceMatch {
   readonly place: SwedishPlace;
   /** Great-circle distance from the input coordinate, in km. */

@@ -1,13 +1,14 @@
 // The prayer pills ride their lines. These pin WHERE a pill lands against the camera and
 // the clock, the part a screenshot would only catch at city zoom between live rebuilds.
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import * as reanimated from 'react-native-reanimated';
 
 import { driftedCamera, MAX_DRIFT_MS, solarDrift } from '@/lib/map/line-geometry';
 import * as projection from '@/lib/map/projection';
 import { type Camera, project, unproject } from '@/lib/map/projection';
-import { MapMarkersOverlay } from './MapMarkersOverlay';
+import { FirstCityLabel, MapMarkersOverlay } from './MapMarkersOverlay';
 import { type PrayerLineData, SolarSkiaOverlay } from './skia/SolarSkiaOverlay';
 
 const DAY_START = Date.UTC(2026, 7, 2, 22, 0, 0);
@@ -126,4 +127,75 @@ describe('a prayer pill whose line misses the label band', () => {
   it('is shown when its line crosses the band', async () => {
     expect((await pillAt(NOW, true)).opacity).toBe(1);
   });
+});
+
+// Polarnatt used to sit under Android's status icons. Its two-line caption
+// grows with system text, so visibility depends on the measured text height.
+it('shows the polar caption only when its full height clears the top inset', async () => {
+  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
+  const overlay = (lineY: number) => <MapMarkersOverlay camera={shared({ ...CITY, lon: 16 })} dayStart={DAY_START}
+    dayLength={DAY_MS} nowFraction={shared(0.5)} geometryNow={NOW} labels={[]} lines={[]}
+    headerBottom={40} topInset={150} bottomInset={0} nextKey={null}
+    polarBoundary={{ kind: 'polar-night', lat: unproject(140, lineY, CITY).lat }} />;
+  const view = await render(overlay(80));
+  const wrap = () => screen.getByText('Polarnatt', { includeHiddenElements: true }).parent!;
+  await fireEvent(wrap(), 'layout', { nativeEvent: { layout: { width: 85, height: 35 } } });
+  await view.rerender(overlay(81));
+  expect(wrap().parent).toHaveStyle({ opacity: 0 });
+  await view.rerender(overlay(110));
+  expect(wrap().parent).toHaveStyle({ opacity: 1 });
+});
+
+// The old text painted a second point and a white rectangle over the native pin.
+it('places one bare, haloed city name beside the pin without needing basemap tiles', async () => {
+  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
+  await render(<FirstCityLabel camera={shared(CITY)} point={ANCHOR} name="Stockholm" />);
+  const name = screen.getByText('Stockholm', { exact: true });
+  expect(screen.queryByText(/●/)).toBeNull();
+  const style = StyleSheet.flatten(name.props.style);
+  expect(style.fontWeight).toBe('700');
+  expect(style.textShadowRadius).toBeGreaterThan(0);
+  expect(style.textShadowColor).toBeTruthy();
+  expect(style.backgroundColor).toBeUndefined();
+  expect(name.parent).toHaveStyle({ transform: [{ translateX: CITY.width / 2 + 12 }, { translateY: CITY.height / 2 }] });
+});
+
+// Android clipped the translated Text against its untranslated parent, cutting
+// away the tops of the letters. The native box must contain the entire name.
+it.each([
+  ['Stockholm', 4.5, 74, 24, 195], ['Malmö', 12, 150, 66, 365],
+] as const)('keeps the full measured %s label on screen at zoom %s', async (name, zoom, width, height, x) => {
+  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
+  const camera = { ...CITY, zoom };
+  const point = unproject(x, 330, camera);
+  const label = () => <FirstCityLabel camera={shared(camera)} point={[point.lon, point.lat]} name={name} />;
+  const view = await render(label());
+  const text = () => screen.getByText(name, { includeHiddenElements: true });
+  await fireEvent(text().parent!, 'layout', { nativeEvent: { layout: { width, height } } });
+  await view.rerender(label());
+  expect(StyleSheet.flatten(text().props.style).transform).toBeUndefined();
+  const box = StyleSheet.flatten(text().parent!.props.style);
+  const [dx, dy] = box.transform;
+  expect(dy.translateY + height / 2).toBeCloseTo(330);
+  expect(dx.translateX).toBeGreaterThanOrEqual(0);
+  expect(dx.translateX + width).toBeLessThanOrEqual(camera.width);
+  expect(box.opacity).toBe(1);
+});
+
+// During the flyover a caption could be above the status inset yet overlap the
+// title, or sit inside the reading sheet. Check the entire measured caption.
+it('hides the polar caption as either edge crosses the visible map band', async () => {
+  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
+  const cam = { ...CITY, lon: 16 };
+  const overlay = (bottom: number) => <MapMarkersOverlay camera={shared(cam)} dayStart={DAY_START}
+    dayLength={DAY_MS} nowFraction={shared(0.5)} geometryNow={NOW} labels={[]} lines={[]}
+    headerBottom={160} topInset={150} bottomInset={300} nextKey={null}
+    polarBoundary={{ kind: 'polar-night', lat: unproject(195, bottom + 18, cam).lat }} />;
+  const view = await render(overlay(260));
+  const wrap = () => screen.getByText('Polarnatt', { includeHiddenElements: true }).parent!;
+  await fireEvent(wrap(), 'layout', { nativeEvent: { layout: { width: 100, height: 50 } } });
+  for (const [bottom, opacity] of [[180, 0], [260, 1], [481, 0]] as const) {
+    await view.rerender(overlay(bottom));
+    expect(wrap().parent).toHaveStyle({ opacity });
+  }
 });

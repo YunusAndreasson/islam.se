@@ -7,6 +7,10 @@ import {
   type PressEvent,
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
+import { WidgetGuide } from '@/components/intro/WidgetGuide';
+import { FirstReading } from '@/components/intro/FirstReading';
+import { FirstRunButton } from '@/components/intro/FirstRunButton';
+import { FirstMapTitle } from '@/components/intro/FirstMapTitle';
 import { useNetworkState } from 'expo-network';
 import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -64,7 +68,7 @@ import { MapLessonCard } from '@/components/map/MapLessonCard';
 import { Icon } from '@/components/ui/Icon';
 import { dockMetrics } from '@/components/map/dock-metrics';
 import { LocationLayer } from '@/components/map/LocationLayer';
-import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
+import { FirstCityLabel, MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
 import { BurialGroundCard } from '@/components/map/BurialGroundCard';
 import { BurialGroundLayer } from '@/components/map/BurialGroundLayer';
 import { MosqueCard } from '@/components/map/MosqueCard';
@@ -100,19 +104,20 @@ import {
   approachWindowEnd,
   paddedCentre,
 } from '@/lib/map/approach';
-import { CAMERA_MAX_BOUNDS, CAMERA_MIN_ZOOM } from '@/lib/map/camera-bounds';
+import { openingSwedenCamera, CAMERA_MAX_BOUNDS, CAMERA_MIN_ZOOM } from '@/lib/map/camera-bounds';
 import { GLYPH_MIN_ZOOM } from '@/lib/map/dust';
 import { cameraTravelMs, TRAVEL_MAX_MS } from '@/lib/map/camera-travel';
 import { type Camera as MapCamera, invMercY, mercY, project, unproject } from '@/lib/map/projection';
 import { createTroubleBurst, watchResourceFailures } from '@/lib/map/map-diagnostics';
 import { ensureBasemapCache } from '@/lib/map/offline';
-import { driftedCamera, solarDrift } from '@/lib/map/line-geometry';
+import { insideLabelBand, visibleLineLabel } from '@/lib/map/visible-line-label';
+import { driftedCamera, projectedContour, solarDrift } from '@/lib/map/line-geometry';
 import { reportProjectionDrift } from '@/lib/map/projection-guard';
 import { solarRenderInstant } from '@/lib/map/solar-render-clock';
 import { exposeMapDevHooks } from '@/lib/map/dev-hooks';
 import { burialGroundForPress, type BurialGround } from '@/lib/burial-grounds';
 import { getMosques, mosqueForPress, type Mosque } from '@/lib/mosques';
-import { basemapGroundFor, nordicMapStyleJsonFor } from '@/lib/map/nordicStyle';
+import { basemapGroundFor, firstRunMapStyleJsonFor, nordicMapStyleJsonFor } from '@/lib/map/nordicStyle';
 import {
   noteNotificationLaunch,
   noteNotificationShown,
@@ -137,7 +142,7 @@ import { demoDayStart, demoFrame, demoMoment, MAP_LESSON_EXAMPLES } from '@/lib/
 import { gridForDay } from '@/lib/solar/grid-cache';
 import { polarBoundaryFor } from '@/lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '@/lib/solar/useSolarClock';
-import { zonePrayerDate } from '@/lib/zone-time';
+import { startOfZoneDay, zoneDayLength, zonePrayerDate } from '@/lib/zone-time';
 import { PRAYER_COUNTDOWN_URL } from '@/widget/links';
 import { motion, radius, space, type } from '@/theme/tokens';
 import { skyChromeAt } from '@/lib/solar/sky-chrome';
@@ -169,6 +174,26 @@ const LOCATE_ZOOM = 11;
 // the lattice was the smaller of them and every line ended in mid-sea.
 const MAX_BOUNDS = CAMERA_MAX_BOUNDS;
 const MIN_ZOOM = CAMERA_MIN_ZOOM;
+
+/** Frame the city and the nearest sampled point on its contour. A remote/polar line
+ * must never pull the camera away from the selected town. */
+function readingBounds([lon, lat]: LonLat, lines: PrayerLineData['polylines'] = []): LngLatBounds {
+  let nearestLon = lon;
+  let nearestLat = lat;
+  const longitudeScale = Math.cos(lat * Math.PI / 180);
+  let nearestDistance = 1;
+  for (const line of lines) {
+    for (const [x, y] of line) {
+      const distance = ((x - lon) * longitudeScale) ** 2 + (y - lat) ** 2;
+      if (distance >= nearestDistance) continue;
+      nearestDistance = distance;
+      nearestLon = x;
+      nearestLat = y;
+    }
+  }
+  return [Math.min(lon, nearestLon) - 0.27, Math.min(lat, nearestLat) - 0.10,
+    Math.max(lon, nearestLon) + 0.27, Math.max(lat, nearestLat) + 0.10];
+}
 
 const NO_MOSQUE_POINTS: readonly LonLat[] = [];
 
@@ -404,7 +429,7 @@ export default function Bonetider() {
   );
 
   const { settings, loaded: settingsLoaded, update } = useSettings();
-  const { coords, label, source } = useLocation();
+  const { coords, label, source, place } = useLocation();
   // Keep the normal Sweden framing, but allow the position control to reach travellers.
   const cameraBounds = useMemo<LngLatBounds>(() => [
     Math.max(-180, Math.min(MAX_BOUNDS[0], coords.longitude - 2)),
@@ -447,8 +472,20 @@ export default function Bonetider() {
   // 'done' when there is no provider (the screen tests mount this on its own), so the
   // soft-ask queue behaves exactly as it did before the introduction existed.
   const introStatus = useOptionalIntroStatus();
-  // Never pending with no provider either — same fallback, same reasoning.
-  const { pending: mapLessonPending, dismiss: dismissMapLesson } = useOptionalMapLesson();
+  const { pending: mapLessonPending, replaying, dismiss: dismissMapLesson } = useOptionalMapLesson();
+  const [finishedReading, setFinishedReading] = useState(false);
+  const [keepReading, setKeepReading] = useState(introStatus === 'pending');
+  const [widgetOpenedAt, setWidgetOpenedAt] = useState<number | null>(null);
+  const [openedSchedule, setOpenedSchedule] = useState(false);
+  const [titleBottom, setTitleBottom] = useState(0);
+  const [readingHeight, setReadingHeight] = useState(0);
+  const [mapTakenOver, setMapTakenOver] = useState(false);
+  const firstRun = !replaying && !finishedReading && (introStatus === 'pending' || keepReading);
+  const opening = firstRun && !openedSchedule && source === 'default';
+  const headerBottom = Math.max(insets.top + navLaneTop, opening ? titleBottom + space.sm : 0);
+  const introMeasured = (!opening || titleBottom > 0) && (!firstRun || readingHeight > 0);
+  const mapStyle = useMemo(() => firstRun ? firstRunMapStyleJsonFor(scheme, opening, place)
+    : nordicMapStyleJsonFor(scheme), [firstRun, scheme, opening, place]);
 
   // How much bottom clearance a floating UI element (MosqueCard) needs to sit above
   // whichever of the two mutually-exclusive bottom surfaces is actually showing —
@@ -659,7 +696,7 @@ export default function Bonetider() {
   // independent (styleFailed comes from onDidFailLoadingMap; the offer queue only waits on
   // cameraReady), so the collision is not a corner case: it is what a first launch on a
   // weak connection looks like, which is exactly when both have something to say.
-  const noticeTop = insets.top + navLaneTop + MAP_ERROR_OFFSET;
+  const noticeTop = insets.top + (opening ? Math.max(130, navLaneTop) : navLaneTop) + MAP_ERROR_OFFSET;
   const hintTop = Math.max(
     insets.top + hintTopOffset(navLaneTop),
     trouble != null && noticeHeight > 0 ? noticeTop + noticeHeight + space.sm : 0,
@@ -746,7 +783,7 @@ export default function Bonetider() {
     // showing on a card nobody can see — and, worse, could put the OS dialog on screen
     // behind the wizard. index.tsx already redirects a pending intro away from the map;
     // this is the guard for any path that doesn't go through it. See lib/intro.
-    introStatus === 'done' &&
+    introStatus === 'done' && !firstRun && !finishedReading &&
     // The map lesson gets the screen to itself first — the moment it's dismissed this
     // flips true (if the rest still holds) and the gate below fires on its own,
     // so a skipped location/notification step in the wizard still gets its later, calmer
@@ -879,7 +916,60 @@ export default function Bonetider() {
   // below (userTimes, marks, the dock's date crown and countdown) commits on the tap,
   // and the whole-country lattice catches up in the low-priority pass right behind it.
   // The map trails by a beat instead of the whole screen stopping.
-  const fieldDayStart = useDeferredValue(clock.dayStart);
+  // The user's own prayer times for today — drives the "next prayer", the day
+  // marks under the slider, and the full list in the dock. Independent of the grid.
+  const userTimes = useMemo(
+    () => computePrayerTimes(coords, zonePrayerDate(clock.dayStart), settings),
+    [coords, clock.dayStart, settings],
+  );
+
+  const tomorrowTimes = useMemo(() => computePrayerTimes(coords, zonePrayerDate(clock.dayStart, 1), settings),
+    [coords, clock.dayStart, settings]);
+  const previousTimes = useMemo(() => computePrayerTimes(coords, zonePrayerDate(clock.dayStart, -1), settings),
+    [coords, clock.dayStart, settings]);
+  const next = useMemo<NextPrayer | null>(() => selectNextPrayer(userTimes, tomorrowTimes, clock.now, previousTimes),
+    [userTimes, tomorrowTimes, clock.now, previousTimes]);
+  const { latitude: userLat, longitude: userLon } = coords;
+  const userPoint = useMemo<LonLat>(
+    () => lonLatOf({ latitude: userLat, longitude: userLon }),
+    [userLat, userLon],
+  );
+  const [settledCamera, setSettledCamera] = useState<MapCamera | null>(null);
+  const offerPreview = firstRun && !mapTakenOver && clock.mode === 'live' && clock.dayOffset === 0;
+  const liveInView = useMemo(() => {
+    if (!offerPreview || !next || !settledCamera || !cameraReady || !gpuReady) return false;
+    const live = buildLines(gridForDay(clock.dayStart, settings), clock.now, userPoint, [next.key]);
+    const line = live.lines.features[0];
+    if (!line) return false;
+    const top = insets.top + navLaneTop + 36;
+    const bottom = readingHeight + insets.bottom + 36;
+    const point = visibleLineLabel({ x: -100, y: -100 }, projectedContour(line.geometry.coordinates), settledCamera, top, bottom);
+    return insideLabelBand(point, settledCamera, top, bottom);
+  }, [offerPreview, next, settledCamera, cameraReady, gpuReady, clock.dayStart, clock.now, settings, userPoint,
+    insets.top, insets.bottom, navLaneTop, readingHeight]);
+  const appointment = offerPreview && !liveInView ? next : null;
+  const appointmentAt = appointment?.at;
+  const [playback, setPlayback] = useState(0);
+  const [frameTime, setFrameTime] = useState<{ target: number; instant: number } | null>(null);
+  const animatePass = opening && mapActive && mapPainted && gpuReady && cameraReady && !reduceMotion && !trouble;
+  useEffect(() => {
+    if (!animatePass || !appointmentAt) return;
+    const started = performance.now();
+    const timer = setInterval(() => {
+      const fraction = Math.min(1, (performance.now() - started) / 2300);
+      setFrameTime({ target: appointmentAt, instant: appointmentAt - (1 - fraction) * 8 * 60_000 });
+      if (fraction === 1) clearInterval(timer);
+    }, 80);
+    return () => clearInterval(timer);
+  }, [animatePass, appointmentAt, playback]);
+  const mapNow = (animatePass && frameTime?.target === appointmentAt ? frameTime?.instant : undefined)
+    ?? appointmentAt ?? clock.now;
+  const mapDayStart = appointment ? startOfZoneDay(mapNow) : clock.dayStart;
+  const mapDayLength = appointment ? zoneDayLength(mapDayStart) : clock.dayLength;
+  const appointmentFraction = useSharedValue(0);
+  useEffect(() => { appointmentFraction.set((mapNow - mapDayStart) / mapDayLength); },
+    [mapNow, mapDayStart, mapDayLength, appointmentFraction]);
+  const fieldDayStart = useDeferredValue(mapDayStart);
   // During that one trailing pass `fieldDayStart` is still the previous day while
   // `clock.now` has already moved to the new one — and buildLines contours (prayerTime −
   // now) per cell, so feeding it the two mismatched would paint a frame of nonsense.
@@ -887,7 +977,7 @@ export default function Bonetider() {
   // instant it is already showing, until its own day arrives. On a scrub (same day) the
   // two are always equal and this is exactly today's behaviour.
   const fieldNow =
-    fieldDayStart === clock.dayStart ? clock.now : fieldDayStart + (clock.now - clock.dayStart);
+    fieldDayStart + (mapNow - mapDayStart);
   // What the cards floating on this map are painted with. Derived from the sky at the
   // reader's OWN location for the instant being viewed, so the dock and the nav discs belong
   // to the ground under them at every hour instead of only at noon — see lib/solar/sky-chrome.
@@ -920,11 +1010,6 @@ export default function Bonetider() {
   // overlay memo downstream. It is the one conversion of the user's position into
   // MapLibre order in this file; `solar` below takes the result rather than spelling
   // `[longitude, latitude]` a second time.
-  const { latitude: userLat, longitude: userLon } = coords;
-  const userPoint = useMemo<LonLat>(
-    () => lonLatOf({ latitude: userLat, longitude: userLon }),
-    [userLat, userLon],
-  );
   // Outside the box the home view frames, so the dot is not on the map the reader opens to.
   // Only a GPS fix can land here — every city in the picker is Swedish, and the no-location
   // fallback is Stockholm. A dot just outside the box (Oslo) may still be in view past the
@@ -937,7 +1022,9 @@ export default function Bonetider() {
   // `avoid` keeps each line's pill clear of the user's dot (see buildLines): when a
   // prayer's line sweeps through the user's city the pill would otherwise sit right
   // on the brass dot + city name.
-  const solar = useMemo(() => grid && buildLines(grid, fieldNow, userPoint), [grid, fieldNow, userPoint]);
+  const focusPrayer = offerPreview ? next?.key : undefined;
+  const solar = useMemo(() => grid && buildLines(grid, fieldNow, userPoint, focusPrayer ? [focusPrayer] : undefined),
+    [grid, fieldNow, userPoint, focusPrayer]);
   const prayerLines = useMemo<PrayerLineData[]>(
     () =>
       solar?.lines.features.map((f) => ({
@@ -947,6 +1034,25 @@ export default function Bonetider() {
     [solar],
   );
 
+  const openingCamera = useMemo(() => opening && readingHeight
+    ? openingSwedenCamera(viewportSize.width, viewportSize.height, readingHeight) : null,
+    [opening, readingHeight, viewportSize]);
+  const framed = useRef('');
+  useEffect(() => {
+    if (!firstRun || !cameraReady || !readingHeight || mapTakenOver) return;
+    const contour = prayerLines.find(line => line.prayer === next?.key);
+    const key = opening ? [viewportSize.width, viewportSize.height, readingHeight].join('/') : userPoint.join(',') + (contour ? ':line' : ':city');
+    if (key === framed.current) return;
+    framed.current = key;
+    if (openingCamera) {
+      cameraRef.current?.jumpTo(openingCamera);
+      return;
+    }
+    const bounds = readingBounds(userPoint, contour?.polylines);
+    cameraRef.current?.fitBounds(bounds, { padding: { top: insets.top + navLaneTop, right: 12,
+      bottom: readingHeight + insets.bottom + 16, left: 12 }, duration: reduceMotion || trouble ? 0 : 450 });
+  }, [firstRun, opening, cameraReady, readingHeight, userPoint, prayerLines, next?.key, insets.top, insets.bottom,
+    navLaneTop, reduceMotion, trouble, mapTakenOver, viewportSize, openingCamera]);
   // The polar daylight boundary for this date: in summer the midnight-sun line (sun never
   // sets), in winter the polar-night line (sun never rises) — the latitude past which
   // sunrise/fajr/maghrib/ishaʾ have no defined time, so their sweeping lines simply stop.
@@ -957,13 +1063,6 @@ export default function Bonetider() {
   const polarBoundary = useMemo(
     () => polarBoundaryFor(new Date(fieldDayStart + clock.dayLength / 2)),
     [fieldDayStart, clock.dayLength],
-  );
-
-  // The user's own prayer times for today — drives the "next prayer", the day
-  // marks under the slider, and the full list in the dock. Independent of the grid.
-  const userTimes = useMemo(
-    () => computePrayerTimes(coords, zonePrayerDate(clock.dayStart), settings),
-    [coords, clock.dayStart, settings],
   );
 
   const [lookup, setLookup] = useState<NamedLocation | null>(null);
@@ -1047,7 +1146,7 @@ export default function Bonetider() {
     const times = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart), settings);
     const yesterday = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart, -1), settings);
     const tomorrow = computePrayerTimes(previewPlace, zonePrayerDate(clock.dayStart, 1), settings);
-    return { times, nextFajrAt: tomorrow.fajr.getTime(), yesterday };
+    return { times, tomorrow, yesterday };
   }, [previewPlace, clock.dayStart, settings]);
   const dockTimes = preview?.times ?? userTimes;
   const marks = useMemo<DayMark[]>(() => {
@@ -1063,33 +1162,10 @@ export default function Bonetider() {
     return out;
   }, [dockTimes, clock.dayStart, clock.dayLength]);
 
-  // The NEXT DAY's Fajr (ms epoch, null where adhan can't resolve it) — the fallback the
-  // `next` memo reaches for after the viewed day's Ishaʾ. Named for the viewed day, not
-  // for "tomorrow": on a day the user stepped to, this is that day's successor. Memoised
-  // per (day, place, settings), NOT per tick — `next` re-runs every 30 s, and recomputing
-  // a whole adhan day each tick all evening for a value that changes at midnight was waste.
-  const nextDayFajrAt = useMemo(() => {
-    const fajr = computePrayerTimes(coords, zonePrayerDate(clock.dayStart, 1), settings).fajr;
-    const at = fajr instanceof Date ? fajr.getTime() : Number.NaN;
-    return Number.isFinite(at) ? at : null;
-  }, [coords, clock.dayStart, settings]);
-
-  // The viewed day's own next slot, or the following day's Fajr once ʿIshāʾ has passed. Both
-  // rules — the inclusive `>=` that makes a tapped prayer read as current, and the range check
-  // that keeps a next-day Fajr from pointing into the past — live in selectNextPrayer.
-  const previousTimes = useMemo(
-    () => computePrayerTimes(coords, zonePrayerDate(clock.dayStart, -1), settings),
-    [coords, clock.dayStart, settings],
-  );
-  const next = useMemo<NextPrayer | null>(
-    () => selectNextPrayer(userTimes, nextDayFajrAt, clock.now, previousTimes),
-    [userTimes, clock.now, nextDayFajrAt, previousTimes],
-  );
-
   // A tick or scrub changes which slot is next, but the three preview timetables
   // stay valid until the place, day or calculation settings change.
   const dockNext = preview
-    ? selectNextPrayer(preview.times, preview.nextFajrAt, clock.now, preview.yesterday)
+    ? selectNextPrayer(preview.times, preview.tomorrow, clock.now, preview.yesterday)
     : next;
 
   // The user's next prayer drives the emphasised line/pill on the map (only when
@@ -1156,6 +1232,7 @@ export default function Bonetider() {
   // Reduce Motion zeroes the lean rather than freezing it: a scale animation is precisely
   // what that setting exists to stop, and a map already leaned in goes home without one.
   const reconcileLean = useEffectEvent(() => {
+    if (firstRun) return;
     const home = initialFrame.current;
     const camera = cameraRef.current;
     if (!home || !camera || !cameraReady || moved || resetPending.current) return;
@@ -1278,6 +1355,7 @@ export default function Bonetider() {
           height: viewportSize.height,
         };
         publishCamera(next);
+        if (firstRun) setSettledCamera(next);
         if (!cameraReady) setCameraReady(true);
         // Deliberately not awaited: the handler's job is to move the map's overlays, not to
         // wait on a diagnostic. The sequence check is what keeps the answer honest — a settle
@@ -1395,7 +1473,7 @@ export default function Bonetider() {
       if (drifted !== moved) setMoved(drifted);
     },
     [
-      publishCamera,
+      publishCamera, firstRun,
       viewportSize.width,
       viewportSize.height,
       cameraReady,
@@ -1548,6 +1626,7 @@ export default function Bonetider() {
         collapsable={false}
         style={StyleSheet.absoluteFill}
         onTouchMove={(e) => {
+          if (firstRun) setMapTakenOver(true);
           if (!holding.current) return;
           const { locationX: x, locationY: y, touches } = e.nativeEvent;
           if (touches.length !== 1) {
@@ -1587,7 +1666,7 @@ export default function Bonetider() {
         ref={mapRef}
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
-        mapStyle={nordicMapStyleJsonFor(scheme)}
+        mapStyle={mapStyle}
         // No on-map ornaments: the tappable attribution "i" (bottom-right) and the
         // MapLibre wordmark (bottom-left) are both hidden so nothing floats over the
         // wash. OSM/ODbL + OpenFreeMap credit belongs on the Om screen instead.
@@ -1654,7 +1733,7 @@ export default function Bonetider() {
           // stays: this bounds how far wrong things can go, it does not replace the way
           // back from a merely-drifted view.
           maxBounds={cameraBounds}
-          minZoom={MIN_ZOOM}
+          minZoom={openingCamera ? Math.min(MIN_ZOOM, openingCamera.zoom) : MIN_ZOOM}
         />
         {/* Sweden's mosques as quiet POIs on the basemap — a NATIVE source+layer (not a
             projected RN overlay), so it gets zoom-gating, collision culling and tap
@@ -1716,15 +1795,15 @@ export default function Bonetider() {
           instead, so the two never paint the same frame at once. */}
       {cameraReady && solar && (
         <SolarSkiaOverlay
-          dayStart={clock.dayStart}
-          dayLength={clock.dayLength}
-          nowFraction={nowFraction}
+          dayStart={mapDayStart}
+          dayLength={mapDayLength}
+          nowFraction={appointment ? appointmentFraction : nowFraction}
           geometryNow={fieldNow}
-          preview={clock.mode === 'scrub'}
-          entranceEnabled={mapPainted && mapActive}
+          preview={!!appointment || clock.mode === 'scrub'}
+          entranceEnabled={mapPainted && mapActive && !reduceMotion && !trouble}
           camera={cam}
           lines={prayerLines}
-          nextKey={nextKey}
+          nextKey={appointment?.key ?? nextKey}
           // Do not keep the repeating halo animation running behind another screen or
           // while the app is backgrounded. It resumes when the map is visible again.
           imminentKey={mapActive ? imminentKey : null}
@@ -1742,17 +1821,20 @@ export default function Bonetider() {
       {cameraReady && solar && (
         <MapMarkersOverlay
           camera={cam}
-          dayStart={clock.dayStart}
-          dayLength={clock.dayLength}
-          nowFraction={nowFraction}
+          dayStart={mapDayStart}
+          dayLength={mapDayLength}
+          nowFraction={appointment ? appointmentFraction : nowFraction}
           geometryNow={fieldNow}
-          preview={clock.mode === 'scrub'}
-          labels={solar.labels}
+          preview={!!appointment || clock.mode === 'scrub'}
+          cityPoint={firstRun ? userPoint : undefined}
+          caption={appointment ? `Förhandsvy · ${mapDayStart === clock.todayStart ? 'i dag' : 'i morgon'} ${formatTime(new Date(mapNow))}` : offerPreview ? 'Nu' : undefined}
+          labels={appointment ? solar.labels.filter(l => l.prayer === appointment.key) : solar.labels}
           lines={prayerLines}
+          headerBottom={headerBottom}
           topInset={insets.top + navLaneTop + 64}
-          bottomInset={collapsedDock + 24}
-          nextKey={nextKey}
-          polarBoundary={polarBoundary}
+          bottomInset={(firstRun ? readingHeight + insets.bottom : collapsedDock) + 24}
+          nextKey={appointment?.key ?? nextKey}
+          polarBoundary={introMeasured && !placeCardOpen && !dockExpanded ? polarBoundary : null}
         />
       )}
 
@@ -1789,8 +1871,9 @@ export default function Bonetider() {
             geometryNow={lessonFrame.instant}
             labels={lessonFrame.labels}
             lines={lessonFrame.lines}
+            headerBottom={headerBottom}
             topInset={insets.top + navLaneTop + 64}
-            bottomInset={collapsedDock + 24}
+            bottomInset={dockSlotBottom + 24}
             nextKey={null}
             polarBoundary={lessonFrame.polarBoundary}
           />
@@ -1805,12 +1888,21 @@ export default function Bonetider() {
         <Icon name="place" size={24} color={colors.accent} />
       </Animated.View>
       </GlassBackdropTarget>
+      {firstRun && cameraReady && <FirstCityLabel camera={cam} point={userPoint} name={placeLabel} />}
+      {opening && <FirstMapTitle top={insets.top + 8} onBottom={setTitleBottom} />}
+      {opening && appointment && animatePass && <View style={{ position: 'absolute', right: 16,
+        bottom: readingHeight + 6, backgroundColor: colors.cardGlass, paddingHorizontal: 8, borderRadius: 18 }}>
+        <FirstRunButton label="Spela upp igen ↻" onPress={() => setPlayback(n => n + 1)} /></View>}
 
       {/* The one bottom surface: normally next prayer + day scrubber, expandable to the
           full schedule — but for the one landing right after onboarding, the map lesson
           takes this slot instead. Mutually exclusive, so there is never a moment where
           both compete for the same strip of screen. */}
-      {mapLessonPending && lesson && lessonCaption ? (
+      {firstRun ? (
+        <FirstReading opening={opening} active={mapActive} clock={clock} next={next} times={userTimes} tomorrow={tomorrowTimes.fajr}
+          onHeight={setReadingHeight} onLive={() => { setMapTakenOver(true); clock.reset(); }} onRead={() => { setKeepReading(true); setOpenedSchedule(true); setMapTakenOver(false); }}
+          onDismiss={() => { setKeepReading(false); setFinishedReading(true); clock.reset(); }} />
+      ) : mapLessonPending && lesson && lessonCaption ? (
         <MapLessonCard
           fact={lesson.fact}
           monthLabel={lessonCaption.monthLabel}
@@ -1831,6 +1923,7 @@ export default function Bonetider() {
         />
       ) : (
         <PrayerDock
+          onWidget={() => setWidgetOpenedAt(Date.now())}
           ref={prayerDockRef}
           onExpandedChange={setDockExpanded}
           calendarRequested={calendar === 'open'}
@@ -1848,6 +1941,8 @@ export default function Bonetider() {
           revealSchedule={introduceDock}
         />
       )}
+
+      {widgetOpenedAt !== null && <WidgetGuide now={widgetOpenedAt} onClose={() => setWidgetOpenedAt(null)} />}
 
       {/* Mosque detail card — floats just above the collapsed dock when a mosque POI is
           tapped. Gated on showMosques too, so hiding the layer also dismisses any open
@@ -1893,11 +1988,11 @@ export default function Bonetider() {
           setSearchOpen(false);
         }} />
       )}
-      <MapNav
+      {!opening && <MapNav
         lookupSummary={searchedPlace && previewPlace
           ? `${previewPlace.name}, ${dockNext ? `${PRAYER_LABELS[dockNext.key]} ${formatTime(new Date(dockNext.at))}` : 'inga fler böner'}`
           : undefined}
-        onLookup={mapLessonPending ? undefined : () => {
+        onLookup={mapLessonPending || firstRun ? undefined : () => {
           if (searchedPlace) setSearchedPlace(null);
           else setSearchOpen(true);
         }}
@@ -1940,7 +2035,7 @@ export default function Bonetider() {
                 }
               : undefined
         }
-      />
+      />}
       {lineMessage && <MapLineToast key={lineMessage.id} message={lineMessage.text}
         top={hintTop} onDismiss={dismissLineMessage} />}
 

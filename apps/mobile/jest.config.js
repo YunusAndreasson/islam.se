@@ -29,6 +29,7 @@ module.exports = {
     'src/lib/analytics/properties.ts',
     'src/lib/analytics/lifecycle.ts',
     'src/lib/prayer-times.ts',
+    'src/lib/first-run.ts',
     'src/lib/night-times.ts',
     // What every alert says, shared with the Live Activity's stale view.
     'src/lib/alert-copy.ts',

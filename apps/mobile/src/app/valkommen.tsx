@@ -22,7 +22,7 @@
 // different — leave the introduction now, not answer this question later.
 import { router } from 'expo-router';
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
-import { AppState, StyleSheet, View } from 'react-native';
+import { AppState, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { usePendingBack } from '@/components/nav/usePendingBack';
@@ -38,6 +38,7 @@ import { INTRO_STEPS, type IntroOutcome, saveIntroStep } from '@/lib/intro';
 import { useIntro } from '@/lib/intro-context';
 import { useLocation } from '@/lib/location/context';
 import { getNotificationPermissionState } from '@/lib/notifications';
+import { type } from '@/theme/tokens';
 import { useSettings } from '@/lib/settings/context';
 import { useColors } from '@/theme/useColors';
 
@@ -62,6 +63,7 @@ function Introduction({ initialStep }: { initialStep: number }) {
   // hydrated: SettingsProvider skips its persist effect until `loaded`, so an early
   // update() would be silently overwritten by the load that follows it.
   const { loaded, settings } = useSettings();
+  const [saveFailed, setSaveFailed] = useState(false);
   const [step, setStep] = useState(initialStep);
   // Claim the transition before React commits it. A second tap from the old
   // screen must not advance the new step or replace the route a second time.
@@ -138,22 +140,27 @@ function Introduction({ initialStep }: { initialStep: number }) {
   // One way back, used by both the Android hardware gesture and the chrome control the
   // steps render. Sharing it is the point: they were two different behaviours on two
   // platforms before, which is how iOS ended up with none at all.
-  const goToStep = useCallback((index: number): void => {
+  const goToStep = useCallback(async (index: number): Promise<void> => {
     pendingStep.current = index;
-    if (status === 'pending' && !replaying) saveIntroStep(index);
+    if (status === 'pending' && !replaying && !await saveIntroStep(index)) {
+      pendingStep.current = step;
+      setSaveFailed(true);
+      return;
+    }
+    setSaveFailed(false);
     hapticSelection();
     setStep(index);
-  }, [replaying, status]);
+  }, [replaying, status, step]);
   const back = useCallback((): void => {
     if (step === 0 || pendingStep.current !== step) return;
-    goToStep(step - 1);
+    void goToStep(step - 1);
   }, [goToStep, step]);
 
   const next = (): void => {
     if (step >= TOTAL_STEPS - 1) {
       finish('completed');
     } else if (pendingStep.current === step) {
-      goToStep(step + 1);
+      void goToStep(step + 1);
     }
   };
 
@@ -175,6 +182,7 @@ function Introduction({ initialStep }: { initialStep: number }) {
     // here makes it measure fresh against this screen's own frame instead.
     <SafeAreaProvider>
       <SafeAreaView style={[styles.fill, { backgroundColor: c.paper }]} edges={['top', 'bottom']}>
+        {saveFailed && <Text accessibilityRole="alert" style={[type.body, { color: c.ink }]}>Det gick inte att spara. Försök igen.</Text>}
         {step === 0 ? (
           <IntroStep
             index={0}

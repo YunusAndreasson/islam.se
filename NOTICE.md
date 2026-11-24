@@ -22,6 +22,10 @@ reserved:
   the store graphics (`apps/web/public/*.svg`, `apps/web/public/*.png`,
   `apps/mobile/assets/`, `apps/mobile/store/`).
 
+The mobile first-run notification preview uses islam.se's Maghrib artwork,
+adapted for the approved design in `apps/mobile/assets/first-run/dusk.webp`.
+The bundled mobile Literata title uses the OFL font listed below.
+
 ## Third-party material
 
 Each keeps its owners' terms:

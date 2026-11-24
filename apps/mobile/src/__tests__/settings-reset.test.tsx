@@ -109,7 +109,7 @@ describe('settings reset() — restores every field to the app defaults', () => 
     expect(dump().theme).toBe('dark');
 
     await fireEvent.press(screen.getByTestId('probe-reset'));
-    expect(dump()).toEqual(DEFAULT_SETTINGS);
+    expect(dump()).toEqual({ ...DEFAULT_SETTINGS, reminderOptOutId: expect.any(String) });
   });
 });
 
@@ -149,7 +149,7 @@ describe('Inställningar — the "Återställ appens standard" button', () => {
     await fireEvent.press(screen.getByLabelText('Återställ alla inställningar till appens standard'));
 
     expect(alertSpy).toHaveBeenCalledTimes(1);
-    await waitFor(() => expect(dump()).toEqual(DEFAULT_SETTINGS));
+    await waitFor(() => expect(dump()).toEqual({ ...DEFAULT_SETTINGS, reminderOptOutId: expect.any(String) }));
 
     // THE BUG THIS GUARDS: reset() spreads DEFAULT_SETTINGS, so every NESTED object it
     // does not explicitly clone comes back as the very same reference as the exported

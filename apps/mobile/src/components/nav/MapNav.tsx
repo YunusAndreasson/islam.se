@@ -13,7 +13,7 @@
 // painted on: theme/skyChrome hands every card on the map one shared ground colour, so a disc
 // belongs to the sky behind it at every hour. Shared, because these four discs sampling their
 // own backdrops is exactly how the left and right ones came to disagree at dawn.
-import { router } from 'expo-router';
+import { useMapNavigate } from './useMapNavigate';
 import { useEffect, useRef } from 'react';
 import { AccessibilityInfo, StyleSheet, View, type ViewInstance } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
@@ -83,6 +83,7 @@ export function MapNav({
   lookupSummary?: string;
   gpuReady: boolean;
 }) {
+  const navigate = useMapNavigate();
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
   // A screen reader's focus sits on "Återställ kartan" when it is activated, and the disc is
@@ -178,7 +179,7 @@ export function MapNav({
           rim={c.hairline}
           size={disc}
           accessibilityLabel="Inställningar"
-          onPress={() => router.navigate('/installningar')}
+          onPress={() => navigate('/installningar')}
         >
           {/* Same disc and same mark as the compass opposite, at every text size. */}
           <Icon name="settings" size={glyph} color={c.ink} />

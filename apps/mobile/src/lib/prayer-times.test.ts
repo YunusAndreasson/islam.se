@@ -262,6 +262,12 @@ describe('formatTime', () => {
 describe('nextPrayerKeyAt', () => {
   const times = computePrayerTimes(STOCKHOLM, SPRING_DAY, DEFAULT_SETTINGS);
 
+  // At 06:30 in Malmö the six-row timetable used to offer sunrise as the next prayer.
+  it('shows Ẓuhr between Fajr and sunrise in Malmö', () => {
+    const day = computePrayerTimes({ latitude: 55.60587, longitude: 13.00073 }, new Date(2026, 10, 23), DEFAULT_SETTINGS);
+    expect(nextPrayerKeyAt(day, Date.parse('2026-11-23T06:30:00+01:00'))).toBe('dhuhr');
+  });
+
   it('picks the first prayer at-or-after a between-prayers instant', () => {
     expect(nextPrayerKeyAt(times, times.fajr.getTime() - 60_000)).toBe('fajr'); // before dawn
     expect(nextPrayerKeyAt(times, times.dhuhr.getTime() + 60_000)).toBe('asr'); // just past Ẓuhr
@@ -275,7 +281,7 @@ describe('nextPrayerKeyAt', () => {
     // Probing each prayer at its own instant must return that prayer, not the next one —
     // this is exactly what a dock row tap does (it scrubs the clock onto the prayer's time).
     for (const key of PRAYER_ORDER) {
-      expect(nextPrayerKeyAt(times, times[key].getTime())).toBe(key);
+      expect(nextPrayerKeyAt(times, times[key].getTime())).toBe(key === 'sunrise' ? 'dhuhr' : key);
     }
   });
 

@@ -22,6 +22,7 @@ import { AppState, BackHandler } from 'react-native';
 import Valkommen from '@/app/valkommen';
 import { analytics, holdForAppOpen, releaseAppOpen } from '@/lib/analytics';
 import { IntroProvider } from '@/lib/intro-context';
+import { storage } from '@/lib/storage';
 import { loadIntroStatus } from '@/lib/intro';
 import { LocationProvider } from '@/lib/location/context';
 import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
@@ -46,7 +47,7 @@ const LOCATION_HINT_KEY = 'locationHintSeen:v1';
 const NOTIFICATION_HINT_KEY = 'notificationHintSeen:v1';
 
 function permission(status: 'granted' | 'denied' | 'undetermined') {
-  return { status, granted: status === 'granted', canAskAgain: status !== 'denied', expires: 'never' };
+  return { status, ios: { status: status === 'granted' ? 2 : status === 'denied' ? 1 : 0 }, granted: status === 'granted', canAskAgain: status !== 'denied', expires: 'never' };
 }
 
 /** Answer the notification prompt with `status` — and make the read-only check agree.
@@ -433,6 +434,17 @@ describe('the introduction', () => {
     });
   });
 
+  it('keeps the fresh wizard on its current step when progress cannot be saved', async () => {
+    await launch();
+    const write = jest.spyOn(storage, 'setItem').mockRejectedValueOnce(new Error('disk unavailable'));
+    try {
+      await press('Kom igång');
+      expect(screen.getByText('Kom igång')).toBeTruthy();
+      await press('Kom igång');
+      expect(screen.getByText('Nästa')).toBeTruthy();
+    } finally { write.mockRestore(); }
+  });
+
   describe('the reminders step', () => {
     it('turns reminders on and reveals the per-prayer choice once granted', async () => {
       answerNotifications('granted');
@@ -449,7 +461,17 @@ describe('the introduction', () => {
       expect(record.resolved).toBe(true);
     });
 
-    it('enables reminders on a refusal too, and offers the way back', async () => {
+    it('offers another explicit action after an unreadable answer with the master off', async () => {
+      await launch();
+      await press('Kom igång');
+      await press('Nästa');
+      jest.mocked(Notifications.requestPermissionsAsync).mockRejectedValueOnce(new Error('bridge interrupted'));
+      await press('Slå på påminnelser');
+      expect(screen.queryByText('Påminnelserna är på.')).toBeNull();
+      expect(screen.getByText('Slå på påminnelser')).toBeTruthy();
+    });
+
+    it('records a refusal with the master off, and offers the way back', async () => {
       answerNotifications('denied');
 
       await launch();
@@ -457,13 +479,29 @@ describe('the introduction', () => {
       await press('Nästa');
       await press('Slå på påminnelser');
 
-      // Enabled-but-blocked is not a lie: it is what makes Inställningar show "Blockerat"
-      // with its recovery link, and it means a user who later allows notifications in
-      // system settings starts receiving them on the very next sync — without having to
-      // find the toggle again. Same rule as the map's NotificationHint.
-      const stored = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) as string);
-      expect(stored.notifications.enabled).toBe(true);
+      expect(await AsyncStorage.getItem('remindersDeclined:v1')).toBeTruthy();
+      const stored = await AsyncStorage.getItem(SETTINGS_KEY);
+      expect(stored && JSON.parse(stored).notifications.enabled).toBeFalsy();
       expect(screen.getByText(/Notiser är blockerade/)).toBeTruthy();
+    });
+
+    // A trip to Settings can change permission, but it cannot commit the reminder preference.
+    it('requires an explicit enable when the reader grants permission in Settings after a refusal', async () => {
+      answerNotifications('denied');
+      await launch();
+      await press('Kom igång');
+      await press('Nästa');
+      await press('Slå på påminnelser');
+      expect(screen.getByText(/Notiser är blockerade/)).toBeTruthy();
+      answerNotifications('granted');
+      await act(async () => {
+        for (const [event, listener] of jest.mocked(AppState).addEventListener.mock.calls) {
+          if (event === 'change') listener('active');
+        }
+      });
+      expect(screen.queryByText('Påminnelserna är på.')).toBeNull();
+      await press('Slå på påminnelser');
+      expect(screen.getByText('Påminnelserna är på.')).toBeTruthy();
     });
 
     it('leaves the map card its second chance when the step is walked past', async () => {

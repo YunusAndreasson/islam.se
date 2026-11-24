@@ -134,6 +134,10 @@ jest.mock('expo-localization', () => ({
 
 // expo-location is native; mock the foreground-permission + position calls the
 // LocationProvider uses. Default: permission granted, a fixed Stockholm fix.
+jest.mock('expo-location/next', () => ({
+  RequestPermissionsAccuracyOption: { REDUCED: 'reduced' },
+  Location: { requestForegroundPermissions: jest.fn(() => Promise.resolve({ granted: true })) },
+}));
 jest.mock('expo-location', () => ({
   LocationAccuracy: { Balanced: 3 },
   requestForegroundPermissionsAsync: jest.fn(async () => ({ status: 'granted', granted: true })),
@@ -638,8 +642,8 @@ jest.mock('expo-notifications', () => ({
   // is on every Android 13+ install of an app declaring USE_EXACT_ALARM.
   getExactAlarmPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted', canAskAgain: true, expires: 'never' })),
   requestExactAlarmPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted', canAskAgain: true, expires: 'never' })),
-  getPermissionsAsync: jest.fn(async () => ({ granted: true, canAskAgain: true, status: 'granted' })),
-  requestPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted' })),
+  getPermissionsAsync: jest.fn(async () => ({ granted: true, canAskAgain: true, status: 'granted', ios: { status: 2 } })),
+  requestPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted', ios: { status: 2 } })),
   setNotificationChannelAsync: jest.fn(async () => null),
   // A sound choice is an Android channel (a channel's sound is immutable), so the
   // scheduler creates one channel per available sound inside a group, and deletes the
@@ -659,9 +663,11 @@ jest.mock('expo-notifications', () => ({
   addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),
   getLastNotificationResponse: jest.fn(() => null),
   DEFAULT_ACTION_IDENTIFIER: 'expo.modules.notifications.actions.DEFAULT',
-  SchedulableTriggerInputTypes: { DATE: 'date' },
+  SchedulableTriggerInputTypes: { DATE: 'date', CALENDAR: 'calendar' },
   // expo-notifications' real values (HIGH used to be mocked as 4, the real LOW).
-  AndroidImportance: { HIGH: 6, DEFAULT: 5, LOW: 4 },
+  getNotificationChannelAsync: jest.fn(async id => ({ id, importance: 4, groupId: 'prayers' })),
+  getNotificationChannelGroupAsync: jest.fn(async id => ({ id, isBlocked: false })),
+  AndroidImportance: jest.requireActual('expo-notifications/src/NotificationChannelManager.types').AndroidImportance,
   // Mirrors expo-notifications' real enum values. src/lib/notifications treats
   // PROVISIONAL as allowed (iOS reports granted:false for the quiet tier), so this
   // must be present or that check reads a property off undefined.
@@ -700,3 +706,9 @@ jest.mock('react-native-gesture-handler', () => {
 // failure reproducible from the logged seed. Raising numRuns above the default 100 widens
 // the sweep without sacrificing that reproducibility.
 require('fast-check').configureGlobal({ seed: 0x15_1a_b5, numRuns: 200 });
+
+// The installed Expo UUID API normally delegates to the platform generator.
+require('expo').uuid.v4 = () => require('node:crypto').randomUUID();
+// Stand in for the native name-based hash, preserving its namespace and name inputs.
+require('expo').uuid.v5 = (name, namespace) =>
+  require('node:crypto').createHash('sha1').update(namespace).update(name).digest('hex');

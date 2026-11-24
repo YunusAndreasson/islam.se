@@ -4,6 +4,7 @@
 // real coordinate at the Sweden framing lands where the eye expects it.
 import { describe, expect, it } from '@jest/globals';
 
+import { openingSwedenCamera } from './camera-bounds';
 import { type Camera, project, unproject, worldSize } from './projection';
 
 // A plausible Sweden framing: centred on the country, zoomed so it fills a phone.
@@ -56,4 +57,30 @@ describe('projection', () => {
     expect(sthlm.x).toBeGreaterThan(SWEDEN_CAM.width / 2);
     expect(sthlm.y).toBeGreaterThan(SWEDEN_CAM.height / 2);
   });
+});
+
+// The country used to be fitted to the whole screen, leaving the Baltics in the
+// exposed map. The approved composition puts Kiruna and Malmö above the sheet,
+// with Stockholm just right of centre and about three quarters of the way down.
+it.each([[393, 852, 366], [412, 915, 350], [393, 852, 462]])(
+  'frames Sweden above the measured sheet at %i × %i with a %i sheet', (width, height, sheet) => {
+    const { center: [lon, lat], zoom } = openingSwedenCamera(width, height, sheet);
+    const cam = { lon, lat, zoom, width, height };
+    const exposed = height - sheet;
+    const stockholm = project(18.07, 59.33, cam);
+    expect(stockholm.x / width).toBeGreaterThan(0.5);
+    expect(stockholm.x / width).toBeLessThan(0.55);
+    expect(stockholm.y / exposed).toBeGreaterThan(0.70);
+    expect(stockholm.y / exposed).toBeLessThan(0.79);
+    expect(project(20.23, 67.86, cam).y / exposed).toBeGreaterThan(0.2);
+    expect(project(13.00, 55.61, cam).y).toBeLessThan(exposed - 12);
+  });
+
+// Large type can make the opening sheet occupy two thirds of the screen.
+it('keeps the southern city label clear even at the maximum sheet height', () => {
+  const width = 390, height = 956, sheet = 630;
+  const { center: [lon, lat], zoom } = openingSwedenCamera(width, height, sheet);
+  const cam = { lon, lat, zoom, width, height };
+  expect(project(13.00, 55.61, cam).y).toBeLessThan(height - sheet - 12);
+  expect(project(20.23, 67.86, cam).y).toBeGreaterThan(40);
 });

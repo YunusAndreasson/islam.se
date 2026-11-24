@@ -176,6 +176,8 @@ describe('tab screens', () => {
 
   beforeEach(async () => {
     await AsyncStorage.clear();
+    // These screens exercise the timetable after onboarding. Fresh-map entry has its own suite.
+    await AsyncStorage.setItem('introSeen:v1', JSON.stringify({ outcome: 'completed' }));
     jest.clearAllMocks();
     // Put expo-location back to jest.setup's defaults between tests. `mockReset` is the load
     // -bearing call and `clearAllMocks` is NOT a substitute: clearAllMocks wipes recorded
@@ -942,6 +944,8 @@ describe('tab screens', () => {
   it('counts down the turn and names the side to turn toward', async () => {
     const emit = headingEmitter();
     await renderSettled(withProviders(<Qibla />));
+    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
     // Facing 40° anticlockwise of the qibla: the short way back is clockwise — your right.
     await emit(TEST_QIBLA - 40);
 
@@ -960,6 +964,8 @@ describe('tab screens', () => {
   it('names the other side when the qibla is anticlockwise of you', async () => {
     const emit = headingEmitter();
     await renderSettled(withProviders(<Qibla />));
+    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
     await emit(TEST_QIBLA + 40);
 
     expect(screen.getByText('Vrid åt vänster')).toBeTruthy();
@@ -969,6 +975,8 @@ describe('tab screens', () => {
   it('confirms the lock rather than counting, once you are facing Mecca', async () => {
     const emit = headingEmitter();
     await renderSettled(withProviders(<Qibla />));
+    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
     await emit(TEST_QIBLA);
 
     expect(screen.getByText('Du är vänd mot Mecka')).toBeTruthy();
@@ -978,6 +986,8 @@ describe('tab screens', () => {
   it('withholds the count while the compass is still calibrating', async () => {
     const emit = headingEmitter();
     await renderSettled(withProviders(<Qibla />));
+    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
     // A reading pointing DEAD at the qibla, but with the calibration level the OS uses to say
     // "don't trust me". The same gate that hides the needle has to hide the number: a count
     // ticking toward a bearing the dial is refusing to draw would be the screen contradicting
@@ -996,6 +1006,8 @@ describe('tab screens', () => {
       .mocked(Location.requestForegroundPermissionsAsync)
       .mockResolvedValueOnce({ status: 'denied', granted: false } as never);
     await renderSettled(withProviders(<Qibla />));
+    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
 
     await waitFor(() => expect(screen.getByText(/Platsåtkomst nekad/)).toBeTruthy());
     // Two ways forward, not a dead end: fix the permission, or read the direction off the
@@ -1147,6 +1159,21 @@ describe('tab screens', () => {
       ).toBeTruthy(),
     );
     expect(screen.queryByText(/Ingen tid går att räkna ut/)).toBeNull();
+  });
+
+  it('shows the OS recovery action and the five disabled prayers after a refusal', async () => {
+    const permission = jest.mocked(Notifications.getPermissionsAsync);
+    const previous = permission.getMockImplementation();
+    permission.mockResolvedValue({ granted: false, status: 'denied', canAskAgain: false } as never);
+    try {
+      await renderSettled(withProviders(<Notiser />));
+      expect(await screen.findByText('Notiser är avstängda för islam.se.')).toBeTruthy();
+      expect(screen.getByRole('button', { name: 'Öppna appinställningar' })).toBeTruthy();
+      expect(screen.getAllByRole('switch', { checked: false, disabled: true })).toHaveLength(5);
+      expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
+    } finally {
+      if (previous) permission.mockImplementation(previous);
+    }
   });
 
   it('lets readers configure reminders without enabling delivery first', async () => {

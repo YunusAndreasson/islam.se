@@ -1,7 +1,7 @@
 // App-wide "has the introduction run?" state, hydrated once on mount.
 //
 // Four consumers, and each needs a different thing from it:
-//   • src/app/index.tsx  — the gate. Redirects to /valkommen or /bonetider.
+//   • src/app/index.tsx  — the gate. Opens /bonetider once storage resolves.
 //   • src/app/bonetider.tsx — belt-and-braces: the map's soft-ask queue must not spend
 //     one of its two showings while the intro is on top of it. (A deep link could in
 //     principle reach the map without passing through index.) It also reads
@@ -39,7 +39,7 @@ interface IntroContextValue {
   /** The introduction finished or was skipped (`outcome`, 'completed' unless said).
    *  Flips to 'done' immediately and persists behind it, so the map is never held back by
    *  a storage write. Also arms mapLessonPending — see that field. */
-  complete: (outcome?: IntroOutcome) => void;
+  complete: (outcome?: IntroOutcome, showLesson?: boolean) => void;
   /** Show it again (Inställningar → Visa introduktionen igen). In-session only, and see
    *  ./intro for why persisting it would be a no-op dressed up as a feature. */
   replay: () => void;
@@ -105,11 +105,11 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   // skipped it. An install that predates the introduction ('not_shown') gets the outcome
   // of the pass it finally makes.
   const complete = useCallback(
-    (outcome: IntroOutcome = 'completed') => {
+    (outcome: IntroOutcome = 'completed', showLesson = true) => {
       routeDecided.current = true;
       setStatus('done');
       setReplaying(false);
-      setMapLessonPending(true);
+      setMapLessonPending(showLesson);
       // A replay can finish before the original record arrives. Leave routing
       // immediate and resolve the original outcome before writing to disk.
       const recorded = replaying && firstPass.current
@@ -156,12 +156,20 @@ export function useOptionalIntroStatus(): IntroStatus {
   return useContext(IntroContext)?.status ?? 'done';
 }
 
+// A fresh map starts at the labelled default. A resumed GPS reading can obtain a
+// fresh fix silently after its reader previously chose GPS.
+export function useFirstRunGpsPolicy(): 'normal' | 'explicit' | 'fresh' {
+  const intro = useContext(IntroContext);
+  if (!intro || intro.status === 'done' || intro.replaying) return 'normal';
+  return intro.status === 'pending' && intro.initialStep === 2 ? 'fresh' : 'explicit';
+}
+
 /** Non-throwing variant of the map-lesson pair, same reasoning as useOptionalIntroStatus
  *  — a screen mounted without a provider (most of bonetider.tsx's own tests) simply never
  *  has a lesson pending. */
-export function useOptionalMapLesson(): { pending: boolean; dismiss: () => void } {
+export function useOptionalMapLesson(): { pending: boolean; replaying: boolean; dismiss: () => void } {
   const ctx = useContext(IntroContext);
   return ctx
-    ? { pending: ctx.mapLessonPending, dismiss: ctx.dismissMapLesson }
-    : { pending: false, dismiss: () => {} };
+    ? { pending: ctx.mapLessonPending, replaying: ctx.replaying, dismiss: ctx.dismissMapLesson }
+    : { pending: false, replaying: false, dismiss: () => {} };
 }

@@ -38,6 +38,8 @@
 // read against a navy continent. The hillshade is dialled down in dark mode so
 // the mountains hint but don't muddy.
 import type { StyleSpecification, SymbolLayerSpecification } from '@maplibre/maplibre-react-native';
+import { getPlaces } from '../places/nearest';
+import type { SwedishPlace } from '../places/data';
 import type { ColorSchemeName } from 'react-native';
 
 import { darkPalette, lightPalette } from '@/theme/tokens';
@@ -89,6 +91,11 @@ const PRIMARY_SWEDISH_CITIES = ['Stockholm', 'Göteborg', 'Malmö'];
 const FEATURED_SWEDISH_CITIES = ['Östersund', 'Växjö'];
 const FEATURED_SWEDISH_TOWNS = ['Kiruna', 'Borlänge'];
 const COPENHAGEN_NAMES = ['Köpenhamn', 'København', 'Copenhagen'];
+
+const CITY_FILTER = [
+  'all', ['==', ['get', 'class'], 'city'], ['!', ['in', SV_LABEL, ['literal', COPENHAGEN_NAMES]]],
+] satisfies NonNullable<SymbolLayerSpecification['filter']>;
+const TOWN_FILTER = ['in', ['get', 'class'], ['literal', ['town', 'village']]] satisfies NonNullable<SymbolLayerSpecification['filter']>;
 
 export interface BasemapPalette {
   /** Land fill (background). */
@@ -495,11 +502,7 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         type: 'symbol',
         source: 'openmaptiles',
         'source-layer': 'place',
-        filter: [
-          'all',
-          ['==', ['get', 'class'], 'city'],
-          ['!', ['in', SV_LABEL, ['literal', COPENHAGEN_NAMES]]],
-        ],
+        filter: CITY_FILTER,
         minzoom: 3,
         layout: {
           'text-field': SV_LABEL,
@@ -549,7 +552,7 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         type: 'symbol',
         source: 'openmaptiles',
         'source-layer': 'place',
-        filter: ['in', ['get', 'class'], ['literal', ['town', 'village']]],
+        filter: TOWN_FILTER,
         minzoom: 7,
         layout: {
           'text-field': SV_LABEL,
@@ -659,6 +662,40 @@ const NORDIC_DARK_JSON = JSON.stringify(NORDIC_DARK);
  *  straight through. Native receives the identical JSON either way. */
 export function nordicMapStyleJsonFor(scheme: ColorSchemeName): string {
   return scheme === 'dark' ? NORDIC_DARK_JSON : NORDIC_LIGHT_JSON;
+}
+
+/** The opening plates show four Swedish landmarks beside the reader's own pin.
+ * Kiruna is absent from country-zoom tiles. Use the bundled places for those
+ * marks, and keep the normal atlas layers intact for the map after onboarding. */
+export function firstRunMapStyleJsonFor(scheme: ColorSchemeName, opening: boolean, selected: SwedishPlace | null): string {
+  const base = nordicMapStyleFor(scheme);
+  const layers: StyleSpecification['layers'] = [];
+  const sources = { ...base.sources };
+  for (const layer of base.layers) {
+    if (opening && layer.type === 'symbol' && layer['source-layer'] === 'place') {
+      if (layer.id === 'label_city') {
+        const names = ['Kiruna', 'Luleå', 'Göteborg', 'Malmö'];
+        const landmarks = getPlaces().filter(p => names.includes(p.name) && p.name !== selected?.name);
+        sources['opening-places'] = { type: 'geojson', data: { type: 'FeatureCollection',
+          features: landmarks.map(p => ({ type: 'Feature', properties: { name: p.name },
+            geometry: { type: 'Point', coordinates: [p.lon, p.lat] } })) } };
+        const palette = scheme === 'dark' ? DARK : LIGHT;
+        layers.push({ id: 'opening-place-dots', type: 'circle', source: 'opening-places',
+          paint: { 'circle-radius': 2.4, 'circle-color': palette.PLACE_INK } },
+        { id: 'opening-place-names', type: 'symbol', source: 'opening-places',
+          layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Regular'], 'text-size': 10.5,
+            'text-anchor': 'left', 'text-offset': [0.7, 0] },
+          paint: { 'text-color': palette.PLACE_INK, 'text-halo-color': palette.HALO, 'text-halo-width': 1.4 } });
+      }
+      continue;
+    }
+    if (selected && layer.type === 'symbol' && (layer.id === 'label_city' || layer.id === 'label_town')) {
+      // Repeated town names elsewhere still belong on the map.
+      layers.push({ ...layer, filter: ['all', layer.id === 'label_city' ? CITY_FILTER : TOWN_FILTER, ['!', ['all', ['==', SV_LABEL, selected.name],
+        ['<', ['distance', { type: 'Point', coordinates: [selected.lon, selected.lat] }], 5000]]]] });
+    } else layers.push(layer);
+  }
+  return JSON.stringify({ ...base, sources, layers });
 }
 
 /** The basemap's own land colour — the flat ground every other layer is drawn over.

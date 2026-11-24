@@ -1,7 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
-import { validateStyleMin } from '@maplibre/maplibre-gl-style-spec';
+import { featureFilter, type ICanonicalTileID, validateStyleMin } from '@maplibre/maplibre-gl-style-spec';
 
-import { nordicMapStyleFor, nordicMapStyleJsonFor, NORDIC_DARK, NORDIC_LIGHT } from './nordicStyle';
+import { mercX, mercY } from './projection';
+import { getPlaces } from '../places/nearest';
+import { firstRunMapStyleJsonFor, nordicMapStyleFor, nordicMapStyleJsonFor, NORDIC_DARK, NORDIC_LIGHT } from './nordicStyle';
 
 const SV_LABEL = ['coalesce', ['get', 'name:sv'], ['get', 'name:latin'], ['get', 'name']];
 
@@ -150,4 +152,31 @@ it('hands the map the same style, serialised once', () => {
   expect(JSON.parse(nordicMapStyleJsonFor('light'))).toEqual(NORDIC_LIGHT);
   expect(JSON.parse(nordicMapStyleJsonFor('dark'))).toEqual(NORDIC_DARK);
   expect(nordicMapStyleJsonFor('dark')).toBe(nordicMapStyleJsonFor('dark'));
+});
+
+// Country-zoom tiles labelled Oslo and Helsinki and drew Stockholm under our pin.
+// The intro has its own scoped style, including Kiruna below its tile zoom.
+it.each(['light', 'dark'] as const)('isolates the Swedish opening and selected-city labels in %s', scheme => {
+  const malmo = getPlaces().find(p => p.name === 'Malmö')!;
+  const regular = nordicMapStyleJsonFor(scheme);
+  const overview = JSON.parse(firstRunMapStyleJsonFor(scheme, true, malmo));
+  expect(validateStyleMin(overview).map(e => e.message)).toEqual([]);
+  expect(overview.layers.filter((l: { 'source-layer'?: string }) => l['source-layer'] === 'place')).toHaveLength(0);
+  expect(overview.sources['opening-places'].data.features.map((f: { properties: { name: string } }) => f.properties.name).sort())
+    .toEqual(['Göteborg', 'Kiruna', 'Luleå']);
+  const reading = JSON.parse(firstRunMapStyleJsonFor(scheme, false, malmo));
+  expect(validateStyleMin(reading).map(e => e.message)).toEqual([]);
+  for (const [id, kind] of [['label_city', 'city'], ['label_town', 'town']] as const) {
+    const { filter } = featureFilter(reading.layers.find((l: { id: string }) => l.id === id).filter, id);
+    const tile = { z: 0, x: 0, y: 0 } as ICanonicalTileID;
+    function shows(name: string, lon: number, lat: number) {
+      return filter({ zoom: 8 }, { type: 'Point', properties: { name, class: kind },
+        geometry: [[{ x: mercX(lon) * 8192, y: mercY(lat) * 8192 }]] }, tile);
+    }
+    expect(shows('Malmö', malmo.lon, malmo.lat)).toBe(false);
+    expect(shows('Malmö', 18.0, 59.0)).toBe(true);
+    expect(shows('Lund', 13.19, 55.7)).toBe(true);
+  }
+  expect(nordicMapStyleJsonFor(scheme)).toBe(regular);
+  expect(JSON.stringify(nordicMapStyleFor(scheme))).toBe(regular);
 });

@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ErrorScreen } from '@/components/ui/ErrorScreen';
+import { useReturnSetup } from '@/lib/analytics/useReturnSetup';
 import { useAppAnalytics } from '@/lib/analytics/useAppAnalytics';
 import { useScreenViews } from '@/lib/analytics/useScreenViews';
 import { useDisplayZone } from '@/lib/device-zone';
@@ -173,6 +174,7 @@ function ScreenViews() {
 // LocationProvider because location_source is one of them. Renders nothing.
 function AppAnalytics() {
   useAppAnalytics();
+  useReturnSetup();
   return null;
 }
 

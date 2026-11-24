@@ -1,3 +1,4 @@
+import { namedPlace } from '@/lib/places/nearest';
 // Step 2 — where are you?
 //
 // The whole point of putting this in a wizard is that the OS dialog gets a sentence in
@@ -39,7 +40,7 @@ export function StepLocation() {
   const styles = useMemo(() => makeStyles(c), [c]);
   const { settings, update } = useSettings();
   const { source } = useLocation();
-  const { refresh } = useLocationStatus();
+  const { refresh, confirmFirstRunGps } = useLocationStatus();
   const [phase, setPhase] = useState<Phase>('ask');
   const [picking, setPicking] = useState(false);
   // Two taps inside one frame both read the same pre-update state, so the in-flight guard
@@ -54,7 +55,9 @@ export function StepLocation() {
   useEffect(() => () => { requestGeneration.current += 1; }, []);
 
   const resolveGps = async (generation: number): Promise<void> => {
-    const outcome = await refresh('intro');
+    const outcome = await refresh('intro', fix => {
+      if (generation === requestGeneration.current) confirmFirstRunGps(fix);
+    }, true);
     if (generation !== requestGeneration.current) return;
     if (outcome === 'busy') {
       // A fix was already in flight, so nothing was asked and nothing was answered.
@@ -105,7 +108,7 @@ export function StepLocation() {
   const onPickPlace = (p: SwedishPlace): void => {
     update({
       locationMode: 'manual',
-      manualLocation: { name: p.name, latitude: p.lat, longitude: p.lon },
+      manualLocation: namedPlace(p),
     });
     // How, and from where. Never which place.
     void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'manual', context: 'intro' });

@@ -9,6 +9,7 @@
 // It grew out of the Qibla screen, where all of this was written inline, and every awkward
 // detail below is a bug that screen already paid for once. They are kept together here so
 // the Moon dial cannot re-learn them one at a time.
+import { requestPrayerLocation } from '@/lib/location/request';
 import * as Location from 'expo-location';
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
 import { type SharedValue, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -219,12 +220,12 @@ export interface Aim {
 }
 
 /** The foreground permission: asked for (a prompt) or only checked. */
-async function readLocationPermission(
+export async function readLocationPermission(
   ask: boolean,
   source: PermissionSource | undefined,
 ): Promise<Location.LocationPermissionResponse> {
   if (!ask) return Location.getForegroundPermissionsAsync();
-  if (!source) return Location.requestForegroundPermissionsAsync();
+  if (!source) return requestPrayerLocation();
   // A reporting caller asks on every visit, so the events are kept to the visits where the
   // permission is missing: a granted one is not an ask anyone saw. The read before the
   // request is what tells whether the OS dialog will actually appear (`prompted`).
@@ -237,7 +238,7 @@ async function readLocationPermission(
   const asking = before !== null && !before.granted;
   const prompted = asking && before?.canAskAgain !== false;
   if (prompted) trackPermissionPrompt('location', source);
-  const after = await Location.requestForegroundPermissionsAsync();
+  const after = await requestPrayerLocation();
   if (asking) trackPermissionResult('location', source, after.granted, prompted);
   return after;
 }

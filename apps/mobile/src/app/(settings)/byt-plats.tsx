@@ -16,7 +16,7 @@ import { PlacePicker } from '@/components/settings/PlacePicker';
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { ANALYTICS_EVENTS, analytics, type LocationContext } from '@/lib/analytics';
-import { nearestPlace } from '@/lib/places/nearest';
+import { namedPlace, nearestPlace } from '@/lib/places/nearest';
 import type { SwedishPlace } from '@/lib/places/data';
 import { useSettings } from '@/lib/settings/context';
 import { DEFAULT_COORDS } from '@/lib/settings/types';
@@ -52,7 +52,7 @@ export default function BytPlats() {
   const handlePick = (p: SwedishPlace): void => {
     update({
       locationMode: 'manual',
-      manualLocation: { name: p.name, latitude: p.lat, longitude: p.lon },
+      manualLocation: namedPlace(p),
     });
     // How, and from where. Never which place.
     void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'manual', context: contextFrom(from) });

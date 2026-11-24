@@ -3,7 +3,8 @@
 // from. When they disagreed, the lattice was the smaller of the two and every line ended
 // in mid-sea at an invisible rectangle the reader could pan to but never past.
 
-import type { LngLatBounds } from '@maplibre/maplibre-react-native';
+import { invMercY, mercY, worldSize } from './projection';
+import type { LngLat, LngLatBounds } from '@maplibre/maplibre-react-native';
 
 /**
  * The furthest the camera may wander. The app's Sweden framing is the FIT target (see
@@ -52,4 +53,23 @@ export function expandBounds(b: LngLatBounds, lonPad: number, latPad: number): L
     Math.min(WORLD_BOUNDS[2], b[2] + lonPad),
     Math.min(WORLD_BOUNDS[3], b[3] + latPad),
   ];
+}
+
+// In the approved 393 × 486 map, 17.5° E, 62.6° N sits at (196.5, 290)
+// at 10.25 points per degree of longitude. Position it in the exposed map
+// above the measured sheet. MapLibre's camera spans the full screen underneath.
+export function openingSwedenCamera(width: number, height: number, sheetHeight: number) {
+  const exposed = Math.max(1, height - sheetHeight);
+  const scale = Math.min(width / 393, exposed / 486);
+  // Keep the whole viewport inside the map's latitude leash on tall screens.
+  const minWorld = height / (mercY(CAMERA_MAX_BOUNDS[1]) - mercY(CAMERA_MAX_BOUNDS[3]));
+  const world = Math.max(minWorld, 360 * 10.25 * scale);
+  const zoom = Math.log2(world / worldSize(0));
+  const referenceY = mercY(62.6);
+  // At large text sizes the sheet can occupy two thirds of the screen. Keep
+  // Malmö's mark and name clear even if the zoom floor constrains the fit.
+  const southCoastOffset = (mercY(55.35) - referenceY) * world;
+  const anchorY = Math.min(exposed / 2 + (290 - 486 / 2) * scale, exposed - 12 - southCoastOffset);
+  const center: LngLat = [17.5, invMercY(referenceY + (height / 2 - anchorY) / world)];
+  return { center, zoom, padding: { top: 0, right: 0, bottom: 0, left: 0 } };
 }

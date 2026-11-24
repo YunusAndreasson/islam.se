@@ -13,6 +13,17 @@ import type { LatLng } from '@/lib/prayer-times';
 import { storage } from '@/lib/storage';
 
 const GPS_CACHE_KEY = 'lastGpsCoords:v1';
+const FALLBACK_CHOICE = JSON.stringify('first-run-default');
+
+// A dismissed candidate and an ordinary cache miss have different semantics.
+// A later explicitly accepted GPS fix replaces the choice in the same record.
+export function keepGpsFallback() {
+  return storage.setItem(GPS_CACHE_KEY, FALLBACK_CHOICE);
+}
+
+export async function allowsAutomaticGps() {
+  return await storage.getItem(GPS_CACHE_KEY) !== FALLBACK_CHOICE;
+}
 
 /** The cached fix, or null if there is none, it is unreadable, or it is corrupt. */
 export async function readCachedFix(): Promise<LatLng | null> {

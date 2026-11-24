@@ -17,6 +17,8 @@ import * as Network from 'expo-network';
 import * as Notifications from 'expo-notifications';
 
 import Bonetider from '@/app/bonetider';
+import { FirstReading } from '@/components/intro/FirstReading';
+import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
 import { SolarSkiaOverlay } from '@/components/map/skia/SolarSkiaOverlay';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
@@ -110,6 +112,26 @@ afterEach(() => {
 });
 
 describe('the offline notice', () => {
+  it('shows a fresh reader the city choices and real Malmö time before the first tile, without asking for permission', async () => {
+    // A cold offline map must not gate the first reading on its initial region or a GPS fix.
+    await storage.removeItem('introSeen:v1');
+    await storage.removeItem('introStep:v1');
+    await storage.removeItem('prayerSettings:v1');
+    jest.setSystemTime(new Date('2026-11-23T09:41:00+01:00'));
+    jest.mocked(Location.getForegroundPermissionsAsync).mockResolvedValue(permission('undetermined') as never);
+    networkState.mockReturnValue({ isConnected: false, isInternetReachable: false });
+    await launchMap();
+    expect(screen.getByText('11:39')).toBeTruthy();
+    expect(screen.getByText(OFFLINE_COPY)).toBeTruthy();
+    await fireEvent.press(screen.getByRole('button', { name: 'Malmö' }));
+    expect(screen.getByText('11:59')).toBeTruthy();
+    expect(screen.getByText('Påminn mig vid varje bön')).toBeTruthy();
+    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
+    await storage.removeItem('prayerSettings:v1');
+    await storage.removeItem('introStep:v1');
+  });
+
   it('says nothing on a working connection', async () => {
     await launchMap();
     expect(screen.queryByText(OFFLINE_COPY)).toBeNull();
@@ -231,4 +253,32 @@ describe('the prayer lines while offline', () => {
     await act(async () => {});
     expect(allOfType(SolarSkiaOverlay)).toHaveLength(1);
   });
+});
+
+// The native map's mosque icons covered the selected name, and the camera swept
+// Polarnatt through the intro heading after both the header and sheet had laid out.
+it('places the city in front of the native map and reserves the measured intro chrome', async () => {
+  await storage.removeItem('introSeen:v1');
+  await storage.removeItem('introStep:v1');
+  await storage.removeItem('prayerSettings:v1');
+  jest.setSystemTime(new Date('2026-11-23T09:41:00+01:00'));
+  networkState.mockReturnValue({ isConnected: false, isInternetReachable: false });
+  await launchMap();
+  const map = screen.getByTestId('sweden-map');
+  await fireEvent(map, 'regionDidChange', { nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] } });
+  const title = screen.getByRole('header', { name: /Bönetider.*i Sverige/s }).parent!;
+  await fireEvent(title, 'layout', { nativeEvent: { layout: { x: 22, y: 42, width: 220, height: 189 } } });
+  const markers = () => allOfType(MapMarkersOverlay)[0]!.props;
+  expect(markers().headerBottom).toBeGreaterThanOrEqual(42 + 189);
+  expect(markers().polarBoundary).toBeNull();
+  await act(() => allOfType(FirstReading)[0]!.props.onHeight(320));
+  expect(markers().polarBoundary?.kind).toBe('polar-night');
+  expect(markers().bottomInset).toBeGreaterThanOrEqual(320);
+  // Both siblings must be in this foreground, with the city above the map and below the title.
+  const layers = title.parent!.children;
+  const city = screen.getAllByText('Stockholm', { includeHiddenElements: true })
+    .find(node => node.props.style && !node.props.accessibilityRole && node.parent?.props.pointerEvents === 'none');
+  expect(city).toBeDefined();
+  expect(layers.indexOf(city!.parent!)).toBeGreaterThan(layers.indexOf(map.parent!.parent!));
+  expect(layers.indexOf(city!.parent!)).toBeLessThan(layers.indexOf(title));
 });

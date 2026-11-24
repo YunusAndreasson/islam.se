@@ -1,7 +1,7 @@
 // Prayer labels above the Skia field. The geographic user dot and qibla ray
 // live in LocationLayer so MapLibre moves them with its own camera.
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeIn, FadeOut, type SharedValue, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut, type SharedValue, useAnimatedStyle, useDerivedValue, useSharedValue } from 'react-native-reanimated';
 
 import { driftedCamera, projectedContour, solarDrift } from '@/lib/map/line-geometry';
 import { type Camera, project } from '@/lib/map/projection';
@@ -32,13 +32,40 @@ interface Props {
   preview?: boolean;
   /** Pill anchors from buildLines: where each active prayer line wants its label. */
   labels: PrayerLineLabel[];
+  caption?: string;
+  cityPoint?: readonly [number, number];
   lines: PrayerLineData[];
   topInset: number;
   bottomInset: number;
+  /** Bottom of the occupied header band, including the status bar. */
+  headerBottom?: number;
   nextKey: PrayerKey | null;
   /** The polar daylight boundary for this date (null off-season) — labels the dashed
    *  reference line the Skia overlay draws at the same latitude. */
   polarBoundary: PolarBoundary | null;
+}
+
+// The pin is the native LocationLayer dot. Keep its name available even when
+// the basemap's glyph tiles are missing offline.
+export function FirstCityLabel({ camera, point, name }: {
+  camera: SharedValue<Camera>; point: readonly [number, number]; name: string;
+}) {
+  const c = useColors();
+  const size = useSharedValue({ width: 0, height: 0 });
+  const placement = useAnimatedStyle(() => {
+    const cam = camera.get();
+    const p = project(point[0], point[1], cam);
+    const { width, height } = size.get();
+    const right = p.x + 12;
+    const x = right + width <= cam.width ? right : Math.max(0, p.x - 12 - width);
+    const y = Math.max(0, Math.min(cam.height - height, p.y - height / 2));
+    const visible = width > 0 && height > 0 && p.x >= 0 && p.x <= cam.width && p.y >= 0 && p.y <= cam.height;
+    return { opacity: visible ? 1 : 0, transform: [{ translateX: x }, { translateY: y }] };
+  });
+  return <Animated.View pointerEvents="none" collapsable={false} style={[styles.anchor, styles.cityFrame, placement]}
+    onLayout={({ nativeEvent: { layout: { width, height } } }) => size.set({ width, height })}>
+    <Text style={[styles.cityName, { color: c.ink, textShadowColor: c.paper }]}>{name}</Text>
+  </Animated.View>;
 }
 
 export function MapMarkersOverlay({
@@ -49,9 +76,12 @@ export function MapMarkersOverlay({
   geometryNow,
   preview = false,
   labels,
+  caption,
+  cityPoint,
   lines,
   topInset,
   bottomInset,
+  headerBottom = 0,
   nextKey,
   polarBoundary,
 }: Props) {
@@ -68,6 +98,8 @@ export function MapMarkersOverlay({
       {labels.map((l) => (
         <PrayerPill
           key={`pill-${l.prayer}`}
+          caption={caption}
+          cityPoint={cityPoint}
           label={l}
           polylines={lines.find((line) => line.prayer === l.prayer)?.polylines ?? []}
           topInset={topInset}
@@ -85,7 +117,8 @@ export function MapMarkersOverlay({
       {/* Names the dashed polar boundary the Skia layer draws — turns the "why do the
           lines stop here?" gap into a labelled phenomenon. */}
       {polarBoundary != null && (
-        <PolarBoundaryLabel boundary={polarBoundary} camera={camera} scheme={scheme} />
+        <PolarBoundaryLabel boundary={polarBoundary} camera={camera} scheme={scheme}
+          headerBottom={headerBottom} bottomInset={bottomInset} />
       )}
     </View>
   );
@@ -98,11 +131,16 @@ function PolarBoundaryLabel({
   boundary,
   camera,
   scheme,
+  headerBottom,
+  bottomInset,
 }: {
+  bottomInset: number;
+  headerBottom: number;
   boundary: PolarBoundary;
   camera: SharedValue<Camera>;
   scheme: ReturnType<typeof useActiveScheme>;
 }) {
+  const size = useSharedValue({ width: 0, height: 0 });
   const midnight = boundary.kind === 'midnight-sun';
   // The line's own hue, from the one table the Skia overlay paints the dashes from.
   const tint = polarBoundaryColorFor(boundary.kind, scheme).text;
@@ -112,12 +150,19 @@ function PolarBoundaryLabel({
   // the sweeping lines further south. Sits just above the line (small upward nudge).
   // A translate, not `left`/`top` — see `anchor` in the styles for why.
   const posStyle = useAnimatedStyle(() => {
-    const p = project(16, boundary.lat, camera.get());
-    return { transform: [{ translateX: p.x }, { translateY: p.y - 18 }] };
+    const cam = camera.get();
+    const p = project(16, boundary.lat, cam);
+    const { width, height } = size.get();
+    const left = p.x - width / 2;
+    const bottom = p.y - 18;
+    const top = bottom - height;
+    const fits = width > 0 && height > 0 && top >= headerBottom && bottom <= cam.height - bottomInset
+      && left >= 0 && left + width <= cam.width;
+    return { opacity: fits ? 1 : 0, transform: [{ translateX: left }, { translateY: top }] };
   });
   return (
     <Animated.View style={[styles.anchor, posStyle]}>
-      <View style={styles.polarWrap}>
+      <View style={styles.polarWrap} onLayout={({ nativeEvent: { layout: { width, height } } }) => size.set({ width, height })}>
         <Text style={[styles.polarName, { color: tint }]}>{name}</Text>
         <Text style={[styles.polarWhy, { color: tint }]}>{why}</Text>
       </View>
@@ -129,6 +174,8 @@ function PolarBoundaryLabel({
  *  useAnimatedStyle hook (the active label set varies, so the projection can't live in
  *  a .map() in the parent body). Positioned on the UI thread against the live camera. */
 function PrayerPill({
+  caption,
+  cityPoint,
   label,
   polylines,
   topInset,
@@ -142,6 +189,8 @@ function PrayerPill({
   isNext,
 }: {
   label: PrayerLineLabel;
+  caption?: string;
+  cityPoint?: readonly [number, number];
   polylines: PrayerLineData['polylines'];
   topInset: number;
   bottomInset: number;
@@ -175,7 +224,9 @@ function PrayerPill({
   const placement = useDerivedValue(() => {
     const cam = driftedCamera(camera.get(), solarDrift(renderNow.get(), geometryNow, preview));
     const anchor = project(label.lngLat[0], label.lngLat[1], cam);
-    const p = visibleLineLabel(anchor, mercLines, cam, topInset, bottomInset);
+    const pin = cityPoint && project(cityPoint[0], cityPoint[1], cam);
+    const clearance = pin && pin.y - 46 > topInset ? Math.max(bottomInset, cam.height - pin.y + 46) : bottomInset;
+    const p = visibleLineLabel(anchor, mercLines, cam, topInset, clearance);
     return { x: p.x, y: p.y, shown: insideLabelBand(p, cam, topInset, bottomInset) };
   });
   const posStyle = useAnimatedStyle(() => {
@@ -197,6 +248,7 @@ function PrayerPill({
       <Animated.View
         style={[
           styles.pill,
+          caption ? { flexDirection: 'column', paddingHorizontal: 12, paddingVertical: 6 } : null,
           { backgroundColor: colors.pillSurface, borderColor: hue },
           isNext && styles.pillNext,
           chipStyle,
@@ -205,6 +257,7 @@ function PrayerPill({
         <Text style={[styles.pillLabel, { color: textHue }, isNext && styles.pillLabelNext]}>
           {PRAYER_LABELS[label.prayer]}
         </Text>
+        {caption && <Text style={[type.micro, { color: colors.inkMuted }]}>{caption}</Text>}
       </Animated.View>
     </Animated.View>
   );
@@ -214,15 +267,11 @@ const PILL_FADE_IN = FadeIn.duration(300);
 const PILL_FADE_OUT = FadeOut.duration(300);
 
 const styles = StyleSheet.create({
-  // Every annotation is placed by moving THIS, a zero-size point at the map's origin, with
-  // a transform — never by animating `left`/`top` on the annotation itself. The camera
-  // shared value changes on every frame of every pan, pinch and fling, and a layout
-  // property changed on the UI thread costs a layout pass per frame per view (Reanimated's
-  // performance guide: prefer transform/opacity over top/left, which "require an additional
-  // step of layout recalculation on each animation frame"), while a transform goes through
-  // the fast path with no layout at all. The annotation inside centres itself on the point
-  // with a static percent translate, so its own size never has to be measured.
+  // Camera frames move native boxes with transforms, keeping Yoga off the animation path.
   anchor: { position: 'absolute', left: 0, top: 0 },
+  cityFrame: { maxWidth: '100%', padding: 2 },
+  cityName: { fontWeight: '700', fontSize: 14, textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 2, includeFontPadding: true },
   // A quiet map annotation, not a floating UI chip: compact, medium-weight, with only
   // a whisper of shadow. The prayer field is the hero — the pill just names a line.
   pill: {
@@ -244,10 +293,7 @@ const styles = StyleSheet.create({
   // Bold only — the colour stays the prayer's, so emphasis never costs identity.
   pillLabelNext: { fontWeight: '700' },
   // Faint map caption (no chip): centred on its anchor, sitting just above the boundary.
-  polarWrap: {
-    alignItems: 'center',
-    transform: [{ translateX: '-50%' }, { translateY: '-100%' }],
-  },
+  polarWrap: { alignItems: 'center' },
   // Tiny, letter-spaced, all-quiet — a caption, not a label chip.
   polarName: { ...type.micro, fontSize: 9, fontWeight: '600', letterSpacing: 0.6 },
   polarWhy: { ...type.micro, fontSize: 8, letterSpacing: 0.2, opacity: 0.85 },

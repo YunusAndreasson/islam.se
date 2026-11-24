@@ -21,7 +21,7 @@
 // out to aim, keeps its lock haptic (app/qibla.tsx) — that one confirms what they caused.
 //
 // Theming: OS-themed via useColors (Apple Maps-style chrome; see MapNav).
-import { router } from 'expo-router';
+import { useMapNavigate } from './useMapNavigate';
 import { useEffect, useMemo } from 'react';
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue, withSpring } from 'react-native-reanimated';
 
@@ -41,6 +41,7 @@ import { useNavMetrics } from './metrics';
 export const LOCK_SPRING = { damping: 14, stiffness: 240, mass: 0.5 };
 
 export function CompassButton({ active }: { active: boolean }) {
+  const navigate = useMapNavigate();
   const c = useColors();
   const sky = useSkyGlass();
   const { disc, glyph } = useNavMetrics();
@@ -120,7 +121,7 @@ export function CompassButton({ active }: { active: boolean }) {
             : 'Qibla'
       }
       size={disc}
-      onPress={() => router.navigate('/qibla')}
+      onPress={() => navigate('/qibla')}
     >
       {!hasReading ? (
         // No sensor (emulator), or no heading yet. A compass ROSE, not the arrow: an

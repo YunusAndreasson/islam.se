@@ -57,13 +57,14 @@ const keyFor = (p: { name: string; latitude: number; longitude: number }): strin
   `${p.name}|${p.latitude}|${p.longitude}`;
 
 interface Props {
+  children?: React.ReactNode;
   /** The place currently stored as `manualLocation`, so its row shows a check. */
   selected: NamedLocation | null;
   /** A place was tapped. The selection haptic has already fired. */
   onPick: (place: SwedishPlace) => void;
 }
 
-export function PlacePicker({ selected, onPick }: Props) {
+export function PlacePicker({ selected, onPick, children }: Props) {
   const places = getPlaces();
   const { width, fontScale } = useWindowDimensions();
   const flexibleRows = fontScale > 1 || width < 360;
@@ -188,6 +189,7 @@ export function PlacePicker({ selected, onPick }: Props) {
           </Pressable>
         ) : null}
       </View>
+      {children}
       <Text style={styles.count}>
         {results.length === places.length
           ? `${NUMBER_FMT.format(places.length)} platser i Sverige`

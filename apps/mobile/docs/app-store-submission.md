@@ -97,7 +97,7 @@ Why nothing else needs declaring:
   with other companies' data, so they are not "tracking" in Apple's sense. What they hold
   (Nov 2026): app opens and screens, the introduction's steps and how it ended, the answers to
   the location and notification permission dialogs and where they were asked, taps on a
-  reminder or the widget, and a few actions. The full list with its properties is
+  reminder or the widget, the first prayer reading, reminder and widget offers, and whether a future reminder or widget placement was verified. Setup events retain their observation time across offline retries to the EU endpoint. Foreground samples establish how long the first visit stays open. Session-one and day-seven checkpoints distinguish verified, absent and unknown outcomes. The full list with its properties is
   `src/lib/analytics/events.ts`.
 - **No accounts, no advertising, no cross-app tracking.**
 - **Settings** are stored locally (Expo's SQLite key-value store). The chosen place, the

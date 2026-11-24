@@ -17,7 +17,7 @@ import { Icon } from '@/components/ui/Icon';
 import { Toggle } from '@/components/settings/Toggle';
 import { hapticSuccess } from '@/lib/haptics';
 import { noteNotificationResolved } from '@/lib/notification-hint';
-import { NOTIFY_PRAYERS } from '@/lib/notifications';
+import { NOTIFY_PRAYERS, readReminderAuthorization } from '@/lib/notifications';
 import { useNotificationPermission } from '@/lib/notifications-permission';
 import { PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
@@ -34,11 +34,7 @@ export function StepNotifications() {
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
   const { settings, update } = useSettings();
-  const notifications = useNotificationPermission();
-  // Replaying the introduction is a review of existing choices, not a fresh permission
-  // funnel. If reminders are already enabled, show their current prayer choices instead
-  // of asking the reader to "turn on" something that is visibly on in Settings.
-  const [answered, setAnswered] = useState(() => settings.notifications.enabled);
+  const notifications = useNotificationPermission(true, false, readReminderAuthorization);
   // Synchronous double-tap guard, same reasoning as NotificationHint's.
   const inFlight = useRef(false);
   const mounted = useRef(false);
@@ -57,7 +53,7 @@ export function StepNotifications() {
       // The OS answered — granted or refused — so the map's soft-ask card has nothing
       // left to offer. Skipping this step records NOTHING on purpose, which is what
       // leaves the card its later, calmer chance.
-      await noteNotificationResolved();
+      if (state === 'granted' || state === 'denied') await noteNotificationResolved();
       // Finishing the permission flow still retires the shared hint, even if the
       // reader moved on. Feedback belongs only to the step that is still visible.
       if (!mounted.current) return;
@@ -68,7 +64,6 @@ export function StepNotifications() {
       }
       if (state === 'granted') hapticSuccess();
       // The warning haptic for a refusal already fired inside setEnabled.
-      setAnswered(true);
       inFlight.current = false;
       setBusy(false);
     })();
@@ -83,7 +78,7 @@ export function StepNotifications() {
     });
   };
 
-  if (!answered) {
+  if ((!settings.notifications.enabled || notifications.permission !== 'granted') && !notifications.blocked) {
     return (
       <View style={styles.wrap}>
         <Pressable

@@ -221,6 +221,7 @@ export type PrayerKey = PrayerSlotKey;
  */
 export function nextPrayerKeyAt(times: PrayerTimes, now: number): PrayerKey | null {
   for (const key of PRAYER_ORDER) {
+    if (key === 'sunrise') continue;
     const at = times[key].getTime();
     if (Number.isFinite(at) && at >= now) return key;
   }
@@ -239,43 +240,26 @@ export interface NextPrayer {
   previousDay?: true;
 }
 
-/**
- * The prayer the dock counts down to: the first of the viewed day's slots at or after `now`,
- * falling back to the NEXT day's Fajr once the day's own ʿIshāʾ has passed. Null when neither
- * exists, which the dock renders as its empty copy ("Inga fler böner …").
- *
- * `nextDayFajr` is passed in rather than computed here because the caller memoises it per
- * (day, place, settings) — `next` re-runs on every 30 s tick, and computing a whole adhan day
- * each tick all evening for a value that only changes at midnight was waste.
- *
- * THE FALLBACK IS RANGE-CHECKED, and that is not defensive padding. "The next day's Fajr" is
- * not automatically in the future: under the middle-of-the-night rule Fajr sits at the middle
- * of the night, and far enough north around the equinox that lands just BEFORE midnight —
- * swept over 2026, the Fajr belonging to 28 March at Treriksröset falls at 23:59 on the 27th.
- * Handed onward unchecked it is a negative countdown, and the dock renders anything ≤ 0 as
- * "nu": the hero would sit on "Fajr 23:59 · nu" at an instant when nothing is due and stay
- * there. `nextPrayerKeyAt` cannot produce that — it filters on `at >= now` — so this fallback
- * was the one path into the dock that skipped the check.
- */
+/** Earliest obligatory occurrence across the viewed date and its neighbours.
+ * Previous Isha can fall after midnight and northern Fajr before it. Older callers
+ * that only have the following Fajr can still pass its epoch. */
 export function selectNextPrayer(
   times: PrayerTimes,
-  nextDayFajr: number | null,
+  nextDay: number | PrayerTimes | null,
   now: number,
   previousTimes?: PrayerTimes,
 ): NextPrayer | null {
-  const key = nextPrayerKeyAt(times, now);
-  if (previousTimes) {
-    const previousKey = nextPrayerKeyAt(previousTimes, now);
-    if (previousKey) {
-      const at = previousTimes[previousKey].getTime();
-      if (!key || at <= times[key].getTime()) {
-        return { key: previousKey, at, nextDay: false, previousDay: true };
-      }
+  let best: NextPrayer | null = null;
+  for (const [day, offset] of [[previousTimes, -1], [times, 0], [nextDay, 1]] as const) {
+    if (day == null) continue;
+    const key = typeof day === 'number' ? 'fajr' : nextPrayerKeyAt(day, now);
+    if (!key) continue;
+    const at = typeof day === 'number' ? day : day[key].getTime();
+    if (Number.isFinite(at) && at >= now && (!best || at < best.at)) {
+      best = { key, at, nextDay: offset === 1, ...(offset === -1 && { previousDay: true }) };
     }
   }
-  if (key) return { key, at: times[key].getTime(), nextDay: false };
-  if (nextDayFajr == null || !Number.isFinite(nextDayFajr) || nextDayFajr < now) return null;
-  return { key: 'fajr', at: nextDayFajr, nextDay: true };
+  return best;
 }
 
 // Prayer names in academic Arabic transliteration (DIN 31635 / ALA-LC style):

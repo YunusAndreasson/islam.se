@@ -31,7 +31,8 @@ function Contents({ visible = true }: { visible?: boolean }) {
 async function startPendingGps() {
   let finish!: (outcome: GpsOutcome) => void;
   const refresh = jest.fn(() => new Promise<GpsOutcome>((resolve) => { finish = resolve; }));
-  jest.mocked(useLocationStatus).mockReturnValue({ locating: false, refresh });
+  jest.mocked(useLocationStatus).mockReturnValue({ locating: false, refresh, confirmFirstRunGps: jest.fn(), keepFirstRunFallback: async () => {},
+    resumedCandidate: null, dismissResumedCandidate: jest.fn() });
   const view = await render(<SettingsProvider><Contents /></SettingsProvider>);
   await act(async () => {});
   await fireEvent.press(screen.getByLabelText('Använd min plats'));
