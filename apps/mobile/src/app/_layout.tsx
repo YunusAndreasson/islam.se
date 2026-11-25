@@ -185,12 +185,11 @@ function AppAnalytics() {
 function WidgetSync() {
   const { coords, label } = useLocation();
   const { settings } = useSettings();
-  useForegroundSync(`${widgetSignature(settings)}|${coordKey(coords)}|${label}`, (s, resumed) => {
-    void syncPrayerWidget(coords, s, label, Date.now(), resumed);
+  useForegroundSync(`${widgetSignature(settings)}|${coordKey(coords)}|${label}`, (s) => {
+    void syncPrayerWidget(coords, s, label);
   });
-  // Android's widget is a static render between refreshes (see widget/android-snapshot).
-  // Leaving the app is the moment the reader is most likely to look at it, so re-render it
-  // then from the snapshot it already holds. A no-op on iOS.
+  // The Android countdown ticks in the launcher. Refresh the solar position once
+  // more when the reader returns to the home screen, using the stored schedule.
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {
       if (state === 'background') void reloadPrayerWidget();

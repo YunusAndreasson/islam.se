@@ -1,0 +1,9 @@
+<resources>
+    <color name="islam_widget_ink">#1a1712</color>
+    <color name="islam_widget_muted">#6f6456</color>
+    <color name="islam_widget_brass">#805b1f</color>
+    <string name="islam_widget_preview">Nästa bön och nedräkning</string>
+    <string name="islam_widget_name">Bönetider</string>
+    <string name="islam_widget_description">Nästa bön, nedräkning och dagens bönetider</string>
+    <string name="islam_widget_loading">Läser in bönetider…</string>
+</resources>

@@ -10,9 +10,9 @@ import {
   PRAYER_SWEDISH_NAMES,
 } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
-import { zonePrayerDate } from '@/lib/zone-time';
+import { addZoneDays, startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
 import { oracleTimes } from '@/test-utils/prayer-oracle';
-import { buildPayloadAt } from './payload';
+import { buildPayloadAt, widgetSolarDay } from './payload';
 
 const STOCKHOLM: LatLng = { latitude: 59.3293, longitude: 18.0686 };
 const KIRUNA: LatLng = { latitude: 67.8558, longitude: 20.2253 };
@@ -84,6 +84,14 @@ describe('buildPayloadAt — next prayer & schedule', () => {
     expect(p.rows.find(r => r.key === 'sunrise')).toMatchObject({ isMarker: true, isNext: false });
   });
 
+  it('ends the Fajr highlight at sunrise and reserves it for obligatory prayers', () => {
+    const sunrise = ref.sunrise.getTime();
+    expect(buildPayloadAt(STOCKHOLM, settings(), sunrise - 1, 'Stockholm')
+      .rows.find(row => row.isCurrent)?.key).toBe('fajr');
+    expect(buildPayloadAt(STOCKHOLM, settings(), sunrise, 'Stockholm')
+      .rows.some(row => row.isCurrent)).toBe(false);
+  });
+
   it('after Isha, rolls over to tomorrow’s Fajr and stops highlighting today', () => {
     const now = ref.isha.getTime() + 60_000;
     const tomorrow = oracleTimes(STOCKHOLM, SPRING_DAY_NEXT);
@@ -130,6 +138,19 @@ describe('buildPayloadAt — next prayer & schedule', () => {
     // A non-zero offset must actually move the rendered Hijri date.
     expect(shifted.hijri).not.toBe(base.hijri);
   });
+});
+
+it('samples a 23-hour solar day across Swedish daylight saving time', () => {
+  const at = Date.parse('2026-03-29T10:00:00Z');
+  const start = startOfZoneDay(at);
+  const solar = widgetSolarDay(STOCKHOLM, start);
+  expect(solar.endMs).toBe(addZoneDays(start, 1));
+  expect(solar.endMs - start).toBe(23 * 3_600_000);
+  expect(solar.altitudes).toHaveLength(25);
+  expect(solar.altitudes[0]).toBeLessThan(0);
+  expect(Math.max(...solar.altitudes)).toBeGreaterThan(30);
+  expect(buildPayloadAt(STOCKHOLM, settings(), at, 'Stockholm').solar?.progress)
+    .toBeCloseTo((at - start) / (solar.endMs - start));
 });
 
 describe('buildPayloadAt — polar edge (midnight sun, unresolved)', () => {

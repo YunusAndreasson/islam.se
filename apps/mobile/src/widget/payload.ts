@@ -17,7 +17,8 @@ import {
 } from '@/lib/prayer-times';
 import type { PrayerTimes } from 'adhan';
 import type { PrayerSettings, ThemePreference } from '@/lib/settings/types';
-import { zonePrayerDate } from '@/lib/zone-time';
+import { sunAltitudeDeg } from '@/lib/solar/sun';
+import { addZoneDays, startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
 
 /** Resolve the prayer times for a given Stockholm prayer-date. A timeline build passes
  *  a per-day-memoised resolver so the same calendar day isn't recomputed for each of
@@ -39,6 +40,26 @@ export interface WidgetPrayerRow {
   isMarker: boolean;
   /** True for the prayer the widget is counting down to (today only). */
   isNext: boolean;
+  /** Latest prayer window to have opened and still shown in this schedule. */
+  isCurrent?: boolean;
+}
+
+export interface WidgetSolarDay {
+  startMs: number;
+  endMs: number;
+  /** Solar altitude in degrees at equally spaced instants, including both endpoints. */
+  altitudes: number[];
+}
+
+export function widgetSolarDay(coords: LatLng, startMs: number): WidgetSolarDay {
+  const endMs = addZoneDays(startMs, 1);
+  return {
+    startMs,
+    endMs,
+    altitudes: Array.from({ length: 25 }, (_, hour) => sunAltitudeDeg(
+      coords.latitude, coords.longitude, new Date(startMs + (endMs - startMs) * hour / 24),
+    )),
+  };
 }
 
 /** Everything the widget needs to render a single timeline entry. Plain JSON so it
@@ -64,6 +85,9 @@ export interface WidgetPayload {
   nextDayKey?: PrayerKey;
   /** The hero may count down to a slot outside the displayed rows. */
   previousDayNextKey?: PrayerKey;
+  tomorrowFajr?: string;
+  solar?: WidgetSolarDay & { progress: number; altitude: number; rising: boolean };
+  status?: 'expired';
   /** The user's appearance preference; the widget resolves 'system' against the
    *  WidgetKit colour scheme, and honours an explicit 'light'/'dark' lock. */
   theme: ThemePreference;
@@ -71,9 +95,8 @@ export interface WidgetPayload {
 
 /**
  * Build the widget payload as of the instant `atMs`, for `coords`/`settings`.
- * The "next" prayer is the first slot at-or-after `atMs` (same rule the app's dock
- * uses, {@link selectNextPrayer}), including occurrences from adjacent prayer dates. `location` is threaded in so every
- * entry in a timeline shares one label.
+ * The next prayer is the first slot strictly after `atMs`, including occurrences
+ * across adjacent prayer dates. The timeline shares one location label.
  */
 export function buildPayloadAt(
   coords: LatLng,
@@ -81,6 +104,7 @@ export function buildPayloadAt(
   atMs: number,
   location: string,
   resolveDay?: DayResolver,
+  resolveSolar?: (startMs: number) => WidgetSolarDay,
 ): WidgetPayload {
   // Default resolver computes directly; buildTimeline passes a per-day-cached one so a
   // timeline's many entries on the same calendar day share a single adhan computation.
@@ -96,7 +120,23 @@ export function buildPayloadAt(
 
   // Adjacent prayer dates can overlap today after high-latitude rules and adjustments.
   const tomorrow = zonePrayerDate(atMs, 1);
-  const next = selectNextPrayer(times, compute(tomorrow), atMs, compute(zonePrayerDate(atMs, -1)));
+  const tomorrowTimes = compute(tomorrow);
+  const previousTimes = compute(zonePrayerDate(atMs, -1));
+  // At its starting instant a prayer becomes current. The app's general
+  // next-prayer query is inclusive, so advance its instant by one millisecond here.
+  const next = selectNextPrayer(times, tomorrowTimes, atMs + 1, previousTimes);
+  let current: { key: PrayerKey; at: number; today: boolean } | undefined;
+  for (const [day, today] of [[previousTimes, false], [times, true], [tomorrowTimes, false]] as const) {
+    for (const key of PRAYER_ORDER) {
+      const at = day[key].getTime();
+      if (at <= atMs && (!current || at > current.at)) current = { key, at, today };
+    }
+  }
+
+  const dayStart = startOfZoneDay(atMs);
+  const solarDay = resolveSolar?.(dayStart) ?? widgetSolarDay(coords, dayStart);
+  const altitude = sunAltitudeDeg(coords.latitude, coords.longitude, date);
+  const rising = sunAltitudeDeg(coords.latitude, coords.longitude, new Date(atMs + 60_000)) > altitude;
 
   const nextArabic = next ? PRAYER_LABELS[next.key] : '';
   const nextSwedish = next ? PRAYER_SWEDISH_NAMES[next.key] : '';
@@ -111,6 +151,7 @@ export function buildPayloadAt(
     time: formatTime(times[key]),
     isMarker: key === 'sunrise',
     isNext: next != null && !next.nextDay && !next.previousDay && key === next.key,
+    isCurrent: current?.today === true && key === current.key && key !== 'sunrise',
   }));
 
   return {
@@ -123,6 +164,13 @@ export function buildPayloadAt(
     nextTime,
     nextAtMs,
     nextIsTomorrow,
+    tomorrowFajr: formatTime(tomorrowTimes.fajr),
+    solar: {
+      ...solarDay,
+      progress: (atMs - dayStart) / (solarDay.endMs - dayStart),
+      altitude,
+      rising,
+    },
     ...(next?.nextDay ? { nextDayKey: next.key } : {}),
     ...(next?.previousDay ? { previousDayNextKey: next.key } : {}),
     theme: settings.theme,
