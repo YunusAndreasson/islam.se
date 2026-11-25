@@ -29,7 +29,7 @@ describe('buildTimeline', () => {
     const timeline = buildTimeline(coords, settings(), 'Kiruna', afterMidnight);
     const firstEntry = first(timeline, 'timeline');
     const afterMaghrib = timeline.find(
-      (entry) => entry.date.getTime() === (firstEntry.props.nextAtMs ?? 0) + 1000,
+      (entry) => entry.date.getTime() === firstEntry.props.nextAtMs,
     );
 
     expect(firstEntry.props.previousDayNextKey).toBe('maghrib');
@@ -48,12 +48,11 @@ describe('buildTimeline', () => {
     }
   });
 
-  it('places a boundary one second after each prayer, flipping "next" forward', () => {
-    // At (Ẓuhr + 1 s) the widget should already be pointing at ʿAṣr, not Ẓuhr — this
-    // is the off-by-one the +1 s epsilon exists to prevent.
-    const atDhuhr = entries.find((e) => e.date.getTime() === ref.dhuhr.getTime() + 1000);
+  it('advances at the exact prayer boundary and marks the current prayer', () => {
+    const atDhuhr = entries.find((e) => e.date.getTime() === ref.dhuhr.getTime());
     expect(atDhuhr).toBeDefined();
     expect(atDhuhr?.props.nextArabic).toBe(PRAYER_LABELS.asr);
+    expect(atDhuhr?.props.rows.filter(row => row.isCurrent).map(row => row.key)).toEqual(['dhuhr']);
   });
 
   it('the first entry points at the imminent prayer (Fajr)', () => {
@@ -62,7 +61,7 @@ describe('buildTimeline', () => {
   });
 
   it('the post-Isha boundary rolls the widget over to tomorrow', () => {
-    const atIsha = entries.find((e) => e.date.getTime() === ref.isha.getTime() + 1000);
+    const atIsha = entries.find((e) => e.date.getTime() === ref.isha.getTime());
     expect(atIsha).toBeDefined();
     expect(atIsha?.props.nextIsTomorrow).toBe(true);
     expect(atIsha?.props.nextArabic).toBe(PRAYER_LABELS.fajr);
@@ -152,7 +151,7 @@ describe('buildTimeline', () => {
     expect(first(fromMidday, 'fromMidday entries').date.getTime()).toBe(midday);
     expect(fromMidday.every((e) => e.date.getTime() >= midday)).toBe(true);
     // No entry corresponds to a prayer that already happened this morning.
-    expect(fromMidday.some((e) => e.date.getTime() === ref.fajr.getTime() + 1000)).toBe(false);
+    expect(fromMidday.some((e) => e.date.getTime() === ref.fajr.getTime())).toBe(false);
   });
 
   it('defaults `now` to the current time when omitted', () => {

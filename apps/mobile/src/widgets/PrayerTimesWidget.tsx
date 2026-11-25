@@ -1,36 +1,31 @@
-// The iOS home-screen + lock-screen widget (WidgetKit), built with Expo UI / SwiftUI
-// components.
-//
-// ⚠️ CRITICAL ARCHITECTURE CONSTRAINT — the `'widget'` layout MUST be self-contained.
-// babel-preset-expo's widgets-plugin serialises ONLY this function's own source to a
-// string (generator.generate(fn).code). At render time the iOS extension evaluates
-// that string STANDALONE — `evaluateScript("(" + layout + ")")` in WidgetsJSRuntime.swift
-// — in a JSContext whose globalThis holds only the @expo/ui components + modifiers + the
-// jsx runtime. Nothing from THIS module's scope is in that bundle. So the layout may
-// reference ONLY: its params, @expo/ui imports (VStack/Text/font/… — provided on
-// globalThis), and identifiers it defines INSIDE its own body. Any reference to a
-// module-level helper, constant, or imported value (a palette, a shared `normalize`) is
-// undefined at render → ReferenceError → the widget renders BLACK (cf. expo/expo#46200). Keep everything inline. Because the layout string lives in the app's
-// MAIN JS bundle (written to the app group by createWidget at launch), fixes ship via EAS
-// Update (OTA) — no native rebuild. Only the @expo/ui runtime is build-time, and it's
-// already complete.
+// The widget compiler serializes only the layout function. Keep helpers and values
+// inside it so the WidgetKit extension can render the timeline in its own JS context.
 import {
   AccessoryWidgetBackground,
+  Circle,
   Divider,
   HStack,
+  Rectangle,
+  RoundedRectangle,
   Spacer,
   Text,
   VStack,
   ZStack,
 } from '@expo/ui/swift-ui';
 import {
+  accessibilityLabel,
+  background,
   containerBackground,
-  environment,
+  cornerRadius,
   font,
   foregroundStyle,
+  frame,
   lineLimit,
   minimumScaleFactor,
   monospacedDigit,
+  offset,
+  padding,
+  rotationEffect,
   truncationMode,
   widgetURL,
 } from '@expo/ui/swift-ui/modifiers';
@@ -38,245 +33,220 @@ import { createWidget, type WidgetEnvironment } from 'expo-widgets';
 
 import type { WidgetPayload } from '@/widget/payload';
 
-function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, widgetEnvironment: WidgetEnvironment) {
+function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetEnvironment) {
   'widget';
-  // Everything below is INTENTIONALLY inline — see the file header. Do not lift any of
-  // this to module scope or the widget goes black.
 
-  // Brand palette (mirrors src/theme/tokens.ts — only the tokens this widget uses).
-  const LIGHT = {
-    paper: '#f6f3ed',
-    ink: '#1a1712',
-    inkMuted: '#6f6456',
-    inkFaint: '#8c8170',
-    highlightText: '#805b1f',
-  };
-  // Kept byte-for-byte in step with darkPalette — see the APCA note there for why these
-  // three moved (a widget on a dark home screen is exactly where thin tiers show).
-  const DARK = {
-    paper: '#161a26',
-    ink: '#e8e3d8',
-    inkMuted: '#c1c6d4',
-    inkFaint: '#b1b8cd',
-    highlightText: '#fad486',
-  };
-  // iOS 18 tinted home screens ('accented') and the Lock Screen ('vibrant') desaturate
-  // the widget — the brass-vs-ink hue hierarchy collapses, so it rides on white opacity
-  // + weight instead. The system supplies/replaces the background in both modes.
-  const MONO = {
-    paper: '#00000000',
-    ink: '#ffffff',
-    inkMuted: '#ffffffbf',
-    inkFaint: '#ffffff8c',
-    highlightText: '#ffffff',
-  };
-  // Null/partial-safe: WidgetKit renders a placeholder with null props before the app
-  // pushes data; reading fields off null would throw → black.
   const p = (rawPayload ?? {}) as Partial<WidgetPayload>;
-  const mode = widgetEnvironment.widgetRenderingMode;
-  const desaturated = mode === 'accented' || mode === 'vibrant';
-  const theme =
-    p.theme === 'light' || p.theme === 'dark' ? p.theme : (widgetEnvironment.colorScheme ?? 'light');
-  const c = desaturated ? MONO : theme === 'dark' ? DARK : LIGHT;
+  const family = environment.widgetFamily;
+  const mono = environment.widgetRenderingMode === 'accented' || environment.widgetRenderingMode === 'vibrant';
+  const dark = p.theme === 'dark' || (p.theme !== 'light' && environment.colorScheme === 'dark');
+  // Paper, ink and brass mirror app tokens. The system supplies the accessory background.
+  const c = mono
+    ? { paper: '#00000000', ink: '#ffffff', muted: '#ffffffbf', brass: '#ffffff', tint: '#ffffff26' }
+    : dark
+      ? { paper: '#161a26', ink: '#e8e3d8', muted: '#c1c6d4', brass: '#fad486', tint: '#332e2b' }
+      : { paper: '#f6f3ed', ink: '#1a1712', muted: '#6f6456', brass: '#805b1f', tint: '#f1e7d0' };
 
   const rows = Array.isArray(p.rows) ? p.rows : [];
-  const location = typeof p.location === 'string' ? p.location : '';
-  const hijri = typeof p.hijri === 'string' ? p.hijri : '';
-  const nextArabic = typeof p.nextArabic === 'string' ? p.nextArabic : '';
-  const nextTime = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '–';
-  const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
-  const nextRow = rows.find((r) => r.isNext);
-  const nextKindLabel = nextRow?.isMarker ? 'Nästa tid' : 'Nästa bön';
-  // Post-Isha the hero shows tomorrow's Fajr — say so (app convention: "i morgon").
-  const tomorrow = p.nextIsTomorrow === true;
-  const eyebrowLabel = tomorrow ? 'I morgon' : nextKindLabel;
-
-  // Tabular figures for every clock/countdown — the widget twin of the app's `mono`
-  // token (tabular-nums): schedule times column-align, the countdown doesn't jitter.
+  const prayers = rows.filter(row => !row.isMarker);
+  const location = p.location || '';
+  const hijri = p.hijri || '';
+  const next = p.nextArabic || '';
+  const time = p.nextTime || '–';
+  const target = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
+  const nextLabel = p.nextIsTomorrow ? 'I morgon' : rows.some(row => row.isNext && row.isMarker) ? 'Nästa tid' : 'Nästa bön';
+  const link = widgetURL('islamse:///widget/prayer-times');
+  const root = [containerBackground(c.paper, 'widget'), link];
+  const accessory = [containerBackground('#00000000', 'widget'), link];
+  const fit = [lineLimit(1), minimumScaleFactor(0.75)];
   const tabular = monospacedDigit();
-  // Shared root chrome: the iOS-17 widget background. The system's own content margins
-  // (~16pt, adaptive per device/family) provide the inset — no manual padding on top,
-  // which would double it. +native-intent consumes this link and dismisses to the
-  // existing map on warm opens, avoiding a second copy of Bönetider in the stack.
-  const destination = widgetURL('islamse:///widget/prayer-times');
-  const root = [containerBackground(c.paper, 'widget'), destination];
 
-  // Sentence case follows the app's quiet section headings. Prayers carry no
-  // glyph anywhere in the app (see components/ui/Icon), so the name below is what says
-  // which prayer it is, and the eyebrow, name, time and countdown share one leading edge.
-  const eyebrow = (label: string) => (
-    <Text modifiers={[font({ size: 12, weight: 'medium' }), foregroundStyle(c.inkMuted), lineLimit(1)]}>
-      {label}
+  const caption = (value: string, size = 11) => (
+    <Text modifiers={[font({ size }), foregroundStyle(c.muted), lineLimit(1), truncationMode('tail')]}>
+      {value}
     </Text>
   );
-  // Keep names and clock values on one line; allow a little fitting on narrow layouts.
-  const fit = [lineLimit(1), minimumScaleFactor(0.75)];
-  // Location gives the times their context. Keep one readable line, without a
-  // competing calendar date; if location is unavailable, the Hijri date can fill it.
-  const footer = location || hijri;
-  const footerStyle = [font({ size: 12 }), foregroundStyle(c.inkMuted), lineLimit(1), truncationMode('tail')];
+  const clock = (value: string, size: number) => (
+    <Text modifiers={[font({ size, weight: 'semibold' }), tabular, foregroundStyle(c.ink), ...fit]}>{value}</Text>
+  );
+  const countdown = (size: number) => target == null ? null : (
+    <Text countsDown timerInterval={{ lower: new Date(target - 172_800_000), upper: new Date(target) }}
+      modifiers={[font({ size, weight: 'medium' }), tabular, foregroundStyle(c.brass), ...fit]} />
+  );
 
-  // ── Lock screen (vibrant): one glanceable line/card per accessory family ─────────
-  if (widgetEnvironment.widgetFamily === 'accessoryInline') {
-    // A single system-styled line next to the clock — keep it terse.
-    return (
-      <Text modifiers={[font({ size: 13, weight: 'semibold' }), tabular, destination]}>
-        {(nextArabic || 'Bönetider') + (nextTime !== '–' ? ` ${nextTime}` : '')}
-      </Text>
-    );
+  if (family === 'accessoryInline') {
+    return <Text modifiers={[tabular, link]}>{next ? `${next} ${time}` : 'Bönetider'}</Text>;
   }
-  if (widgetEnvironment.widgetFamily === 'accessoryCircular') {
-    // The time is the reason to glance here, so it takes the circle: big and bold, with the
-    // prayer's name as a small label over it (a glyph used to sit there, and a glyph could
-    // not tell Fajr from ʿIshāʾ at 14 pt anyway).
+  if (family === 'accessoryCircular') {
     return (
-      <ZStack modifiers={[containerBackground('#00000000', 'widget'), destination]}>
+      <ZStack modifiers={accessory}>
         <AccessoryWidgetBackground />
-        <VStack alignment="center" spacing={0}>
-          {nextArabic ? (
-            <Text modifiers={[font({ size: 11, weight: 'semibold' }), foregroundStyle(c.inkMuted), ...fit]}>
-              {nextArabic}
-            </Text>
-          ) : null}
-          <Text modifiers={[font({ size: 17, weight: 'bold' }), tabular, foregroundStyle(c.ink), ...fit]}>
-            {nextTime}
-          </Text>
+        <VStack spacing={1}>
+          {next ? caption(next, 11) : null}
+          {clock(time, 17)}
         </VStack>
       </ZStack>
     );
   }
-  if (widgetEnvironment.widgetFamily === 'accessoryRectangular') {
+  if (family === 'accessoryRectangular') {
     return (
-      <VStack alignment="leading" spacing={1} modifiers={[containerBackground('#00000000', 'widget'), destination]}>
-        {eyebrow(eyebrowLabel)}
-        <HStack spacing={6} alignment="firstTextBaseline">
-          <Text modifiers={[font({ size: 15, weight: 'semibold' }), foregroundStyle(c.ink), ...fit]}>
-            {nextArabic || 'Bönetider'}
-          </Text>
-          <Text modifiers={[font({ size: 15, weight: 'semibold' }), tabular, foregroundStyle(c.ink), ...fit]}>
-            {nextTime}
-          </Text>
-        </HStack>
-        {nextAtMs != null ? (
-          <Text
-            date={new Date(nextAtMs)}
-            dateStyle="relative"
-            modifiers={[environment('locale', 'sv_SE'), font({ size: 12 }), tabular, foregroundStyle(c.inkMuted), lineLimit(1)]}
-          />
-        ) : null}
+      <VStack alignment="leading" spacing={2} modifiers={accessory}>
+        {caption(next ? nextLabel : 'Bönetider')}
+        {next ? clock(`${next}  ${time}`, 16) : caption('Öppna appen')}
+        {countdown(12)}
       </VStack>
     );
   }
-
-  // No schedule yet → a branded placeholder, never a black box.
   if (rows.length === 0) {
     return (
-      <VStack alignment="leading" spacing={6} modifiers={root}>
+      <VStack alignment="leading" spacing={5} modifiers={root}>
         <Spacer />
-        <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
-          Bönetider
-        </Text>
-        <Text modifiers={[font({ size: 13 }), foregroundStyle(c.inkMuted)]}>
-          Öppna appen för att läsa in dagens bönetider.
+        <Text modifiers={[font({ size: 19, weight: 'semibold' }), foregroundStyle(c.ink)]}>Bönetider</Text>
+        <Text modifiers={[font({ size: 13 }), foregroundStyle(c.muted)]}>
+          {p.status === 'expired' ? 'Bönetiderna behöver uppdateras. Öppna appen.' : 'Öppna appen för att läsa in bönetider.'}
         </Text>
         <Spacer />
       </VStack>
     );
   }
 
-  // iOS 26 can request a distance-readable presentation. Keep the next prayer and
-  // its time, without the schedule, subtitle or small footer competing with them.
-  if (widgetEnvironment.levelOfDetail === 'simplified') {
+  const chart = (width: number, height: number) => {
+    const solar = p.solar;
+    if (!solar || !Array.isArray(solar.altitudes) || solar.altitudes.length < 2) return null;
+    const phase = solar.altitude >= 0 ? 0 : solar.altitude < -12 ? 3 : solar.rising ? 1 : 2;
+    const phases = ['Dagsljus', 'Gryning', 'Skymning', 'Natt'];
+    const sky = mono ? [c.tint, c.tint] : dark
+      ? [['#233344', '#35444e'], ['#2d3048', '#514036'], ['#31314a', '#513c40'], ['#21283e', '#2d314b']][phase]
+      : [['#dbe5e9', '#efe5cb'], ['#dce1f0', '#f3e0bc'], ['#e1dff0', '#f2d9c3'], ['#dce0ed', '#e6e4f0']][phase];
+    const horizon = height * 0.18;
+    const y = (angle: number) => angle >= 0
+      ? horizon - (height * 0.59) * Math.min(1, angle / 64)
+      : horizon + height * 0.21 * Math.min(1, -angle / 45);
+    const x = (progress: number) => (progress - 0.5) * (width - 16);
+    const samples = solar.altitudes.filter((_, i) => i % 2 === 0 || i === solar.altitudes.length - 1);
     return (
-      <VStack alignment="leading" spacing={6} modifiers={root}>
-        {eyebrow(eyebrowLabel)}
+      <ZStack modifiers={[frame({ width, height }), accessibilityLabel(`Solens läge, ${phases[phase]}`)]}>
+        <RoundedRectangle cornerRadius={8} modifiers={[frame({ width, height }), foregroundStyle({
+          type: 'linearGradient', colors: sky!, startPoint: { x: 0, y: 0 }, endPoint: { x: 0, y: 1 },
+        })]} />
+        <Rectangle modifiers={[frame({ width: width - 16, height: 0.5 }), foregroundStyle(c.muted), offset({ y: horizon })]} />
+        {samples.slice(1).map((sample, index) => {
+          const x1 = x(index / (samples.length - 1));
+          const x2 = x((index + 1) / (samples.length - 1));
+          const y1 = y(samples[index]!);
+          const y2 = y(sample);
+          return (
+            <Rectangle key={index} modifiers={[
+              frame({ width: Math.hypot(x2 - x1, y2 - y1) + 0.5, height: 1 }),
+              foregroundStyle(c.brass), rotationEffect(Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI),
+              offset({ x: (x1 + x2) / 2, y: (y1 + y2) / 2 }),
+            ]} />
+          );
+        })}
+        <Circle modifiers={[frame({ width: 8, height: 8 }), foregroundStyle(c.paper), offset({ x: x(solar.progress), y: y(solar.altitude) })]} />
+        <Circle modifiers={[frame({ width: 5, height: 5 }), foregroundStyle(c.brass), offset({ x: x(solar.progress), y: y(solar.altitude) })]} />
+      </ZStack>
+    );
+  };
+
+  if (environment.levelOfDetail === 'simplified') {
+    return (
+      <VStack alignment="leading" spacing={4} modifiers={root}>
+        {caption(nextLabel, 13)}
         <Spacer />
-        <Text modifiers={[font({ size: 26, weight: 'bold' }), foregroundStyle(c.highlightText), ...fit]}>
-          {nextArabic || 'Bönetider'}
-        </Text>
-        <Text modifiers={[font({ size: 42, weight: 'bold' }), tabular, foregroundStyle(c.ink), ...fit]}>
-          {nextTime}
-        </Text>
+        {clock(next || 'Ingen kommande tid', 26)}
+        {clock(time, 42)}
         <Spacer />
       </VStack>
     );
   }
 
-  // ── Small (2×2): one focused message — next prayer, big time, countdown ──────────
-  // Eyebrow pinned top, the name/time/countdown block centred, location pinned bottom.
-  if (widgetEnvironment.widgetFamily === 'systemSmall') {
+  if (family === 'systemSmall') {
     return (
       <VStack alignment="leading" spacing={3} modifiers={root}>
-        {eyebrow(eyebrowLabel)}
+        {caption(next ? nextLabel : 'Bönetider')}
         <Spacer />
-        <Text modifiers={[font({ size: 22, weight: 'semibold' }), foregroundStyle(c.highlightText), ...fit]}>
-          {nextArabic || 'Bönetider'}
-        </Text>
-        <Text modifiers={[font({ size: 38, weight: 'medium' }), tabular, foregroundStyle(c.ink), ...fit]}>
-          {nextTime}
-        </Text>
-        {nextAtMs != null ? (
-          <Text
-            date={new Date(nextAtMs)}
-            dateStyle="relative"
-            modifiers={[environment('locale', 'sv_SE'), font({ size: 13 }), tabular, foregroundStyle(c.inkMuted), lineLimit(1)]}
-          />
-        ) : null}
+        <HStack spacing={5} alignment="center">
+          <VStack alignment="leading" spacing={2}>
+            {clock(next || 'Ingen tid', 19)}
+            {next ? clock(time, 29) : null}
+            {countdown(13)}
+          </VStack>
+          {next ? chart(42, 43) : null}
+        </HStack>
         <Spacer />
-        {footer ? <Text modifiers={footerStyle}>{footer}</Text> : null}
+        {caption(location || hijri)}
       </VStack>
     );
   }
 
-  // ── Medium (4×2): hero column │ schedule column, centred, footer pinned bottom ───
+  const large = family === 'systemLarge';
+  const context = (
+    <HStack spacing={7}>
+      {caption(location || 'Bönetider')}
+      <Spacer />
+      {caption(hijri)}
+    </HStack>
+  );
+  const hero = (
+    <HStack spacing={8} alignment="center">
+      <VStack alignment="leading" spacing={2}>
+        {caption(next ? nextLabel : 'Bönetider')}
+        {clock(next ? `${next}  ${time}` : 'Ingen kommande tid', large ? 24 : 21)}
+        {countdown(13)}
+      </VStack>
+      <Spacer />
+      {chart(large ? 128 : 104, large ? 67 : 48)}
+    </HStack>
+  );
   return (
-    <VStack alignment="leading" spacing={0} modifiers={root}>
-      <Spacer />
-      <HStack spacing={14} alignment="center">
-        {/* Hero (left) — eyebrow, prayer name (brass), big time, live countdown */}
-        <VStack alignment="leading" spacing={4}>
-          {eyebrow(eyebrowLabel)}
-          <Text modifiers={[font({ size: 22, weight: 'semibold' }), foregroundStyle(c.highlightText), ...fit]}>
-            {nextArabic || 'Bönetider'}
-          </Text>
-          <Text modifiers={[font({ size: 36, weight: 'medium' }), tabular, foregroundStyle(c.ink), ...fit]}>
-            {nextTime}
-          </Text>
-          {nextAtMs != null ? (
-            <Text
-              date={new Date(nextAtMs)}
-              dateStyle="relative"
-              modifiers={[environment('locale', 'sv_SE'), font({ size: 13 }), tabular, foregroundStyle(c.inkMuted), lineLimit(1)]}
-            />
-          ) : null}
+    <VStack alignment="leading" spacing={large ? 10 : 5} modifiers={root}>
+      {context}
+      {hero}
+      <Divider />
+      {large ? (
+        <VStack spacing={2}>
+          {prayers.map(row => (
+            <HStack key={row.key} modifiers={[
+              padding({ horizontal: 6, vertical: 3 }), background(row.isCurrent ? c.tint : '#00000000'), cornerRadius(6),
+            ]}>
+              <Text modifiers={[font({ size: 14, weight: row.isCurrent ? 'semibold' : 'regular' }),
+                foregroundStyle(row.isCurrent ? c.brass : c.muted),
+                accessibilityLabel(row.isCurrent ? `${row.arabic}, pågående bön` : row.arabic), ...fit]}>{row.arabic}</Text>
+              <Spacer />
+              {clock(row.time, 14)}
+            </HStack>
+          ))}
         </VStack>
-        <Divider />
-        {/* Schedule (right) — names left, times right-aligned, next prayer in brass */}
-        <VStack alignment="leading" spacing={5}>
-          {rows.map((row) => {
-            const col = row.isNext ? c.highlightText : row.isMarker ? c.inkFaint : c.ink;
-            const w: 'semibold' | 'regular' = row.isNext ? 'semibold' : 'regular';
-            return (
-              <HStack key={row.key} spacing={12} alignment="firstTextBaseline">
-                <Text modifiers={[font({ size: 13, weight: w }), foregroundStyle(col), ...fit]}>
-                  {row.arabic}
-                </Text>
-                <Spacer />
-                <Text modifiers={[font({ size: 13, weight: w }), tabular, foregroundStyle(col), ...fit]}>
-                  {row.time}
-                </Text>
-              </HStack>
-            );
-          })}
-        </VStack>
-      </HStack>
-      <Spacer />
-      {footer ? <Text modifiers={footerStyle}>{footer}</Text> : null}
+      ) : (
+        <HStack spacing={2}>
+          {prayers.map(row => (
+            <VStack key={row.key} spacing={1} modifiers={[
+              frame({ maxWidth: 1000 }), padding({ vertical: 2 }),
+              background(row.isCurrent ? c.tint : '#00000000'), cornerRadius(6),
+            ]}>
+              <Text modifiers={[font({ size: 10, weight: row.isCurrent ? 'semibold' : 'regular' }),
+                foregroundStyle(row.isCurrent ? c.brass : c.muted),
+                accessibilityLabel(row.isCurrent ? `${row.arabic}, pågående bön` : row.arabic), ...fit]}>{row.arabic}</Text>
+              {clock(row.time, 13)}
+            </VStack>
+          ))}
+        </HStack>
+      )}
+      {large ? (
+        <>
+          <Spacer />
+          <Divider />
+          <HStack>
+            {caption('Fajr i morgon', 12)}
+            <Spacer />
+            {clock(p.tomorrowFajr || '–', 14)}
+          </HStack>
+        </>
+      ) : null}
     </VStack>
   );
 }
 
-// Name MUST match the `widgets[].name` in app.json's expo-widgets plugin config.
 const PrayerTimesWidget = createWidget<WidgetPayload>('PrayerTimesWidget', PrayerTimesWidgetLayout);
-
 export default PrayerTimesWidget;

@@ -18,8 +18,10 @@ jest.mock('expo-widgets', () => ({
 jest.mock('@expo/ui/swift-ui/modifiers', () => ({}));
 jest.mock('@expo/ui/jetpack-compose/modifiers', () => ({}));
 
-const components = ['Text', 'VStack', 'HStack', 'Spacer', 'Divider', 'ZStack', 'AccessoryWidgetBackground', 'Column'];
-const modifiers = ['containerBackground', 'environment', 'font', 'foregroundStyle', 'kerning',
+const components = ['Text', 'VStack', 'HStack', 'Spacer', 'Divider', 'ZStack', 'AccessoryWidgetBackground', 'Column',
+  'Circle', 'Rectangle', 'RoundedRectangle'];
+const modifiers = ['accessibilityLabel', 'background', 'cornerRadius', 'frame', 'offset', 'rotationEffect',
+  'containerBackground', 'environment', 'font', 'foregroundStyle', 'kerning',
   'lineLimit', 'minimumScaleFactor', 'monospacedDigit', 'multilineTextAlignment', 'padding', 'paddingAll',
   'truncationMode', 'widgetURL'];
 type Node = { type: string; props: Record<string, unknown> };
@@ -53,13 +55,14 @@ const activity: PrayerActivityProps = {
 };
 
 describe('serialized prayer surface layouts', () => {
-  it.each(['systemSmall', 'systemMedium', 'accessoryInline', 'accessoryCircular', 'accessoryRectangular'])(
+  it.each(['systemSmall', 'systemMedium', 'systemLarge', 'accessoryInline', 'accessoryCircular', 'accessoryRectangular'])(
     'clears expired prayer data in %s', (widgetFamily) => {
       const entries = buildTimeline({ latitude: 59.3293, longitude: 18.0686 }, DEFAULT_SETTINGS,
         'Stockholm', Date.parse('2026-10-17T10:00:00Z'));
       const expired = entries[entries.length - 1]!.props;
       const tree = render(PrayerTimesWidget, expired, { widgetFamily });
       expect(nodes(tree).some(node => 'date' in node.props)).toBe(false);
+      expect(nodes(tree).some(node => 'timerInterval' in node.props)).toBe(false);
       expect(texts(tree).join(' ')).not.toContain(payload.nextTime);
       expect(texts(tree)).toContain(widgetFamily === 'accessoryCircular' ? '–' : 'Bönetider');
     },
@@ -77,28 +80,30 @@ describe('serialized prayer surface layouts', () => {
     expect(texts(tree)).not.toContain(payload.nextSwedish);
     expect(texts(tree)).toHaveLength(3);
   });
-  it('retains the full schedule in the default medium widget', () => {
+  it('draws the solar horizon and five prayers in the medium widget', () => {
     const tree = render(PrayerTimesWidget, payload, { widgetFamily: 'systemMedium' });
-    for (const row of payload.rows) expect(texts(tree)).toContain(row.arabic);
+    for (const row of payload.rows.filter(row => !row.isMarker)) expect(texts(tree)).toContain(row.arabic);
+    expect(texts(tree)).not.toContain('Shurūq');
+    expect(nodes(tree).filter(node => node.type === 'Circle')).toHaveLength(2);
   });
-  it('keeps the medium hero focused and gives location a readable single-line footer', () => {
+  it('shows both city and Hijri date and truncates a long city label', () => {
     const location = 'Södra Sandby och Sularps samhälle';
     const tree = render(PrayerTimesWidget, { ...payload, location }, { widgetFamily: 'systemMedium' });
     expect(texts(tree)).toContain(location);
     expect(texts(tree)).not.toContain(payload.nextSwedish);
-    expect(texts(tree).join(' ')).not.toContain(payload.hijri);
+    expect(texts(tree)).toContain(payload.hijri);
     const footer = nodes(tree).find(node => node.props.children === location)!;
     expect(footer.props.modifiers).toEqual(expect.arrayContaining([
-      { modifier: 'font', args: [{ size: 12 }] },
+      { modifier: 'font', args: [{ size: 11 }] },
       { modifier: 'lineLimit', args: [1] },
       { modifier: 'truncationMode', args: ['tail'] },
     ]));
   });
   it.each(['systemSmall', 'systemMedium'])(
-    'uses the Hijri date only when location is unavailable in %s', (widgetFamily) => {
+    'shows the Hijri date even when location is unavailable in %s', (widgetFamily) => {
       const tree = render(PrayerTimesWidget, { ...payload, location: '' }, { widgetFamily });
       expect(texts(tree)).toContain(payload.hijri);
-      expect(texts(tree)).toContain(payload.nextTime);
+      expect(texts(tree).join(' ')).toContain(payload.nextTime);
     },
   );
   it('keeps tomorrow and sunrise explicit with quiet sentence-case headings', () => {
@@ -108,7 +113,14 @@ describe('serialized prayer surface layouts', () => {
       rows: payload.rows.map(row => ({ ...row, isNext: row.isMarker })) };
     expect(texts(render(PrayerTimesWidget, sunrise, { widgetFamily: 'systemSmall' }))).toContain('Nästa tid');
   });
-  it.each(['systemSmall', 'systemMedium', 'accessoryInline', 'accessoryCircular', 'accessoryRectangular'])(
+  it('gives the large widget tomorrow’s Fajr and a live countdown', () => {
+    const tree = render(PrayerTimesWidget, payload, { widgetFamily: 'systemLarge' });
+    expect(texts(tree)).toContain('Fajr i morgon');
+    expect(texts(tree)).toContain(payload.tomorrowFajr);
+    const timer = nodes(tree).find(node => node.props.countsDown === true);
+    expect(timer?.props.timerInterval).toMatchObject({ upper: new Date(payload.nextAtMs!) });
+  });
+  it.each(['systemSmall', 'systemMedium', 'systemLarge', 'accessoryInline', 'accessoryCircular', 'accessoryRectangular'])(
     'provides exactly one prayer-times tap destination for %s', (widgetFamily) => {
       const tree = render(PrayerTimesWidget, payload, { widgetFamily });
       const links = nodes(tree).flatMap(node => (node.props.modifiers ?? []) as { modifier: string; args: unknown[] }[])

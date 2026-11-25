@@ -3,7 +3,6 @@ package se.islam.widget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -12,12 +11,12 @@ import expo.modules.kotlin.modules.ModuleDefinition
 import org.json.JSONArray
 import org.json.JSONObject
 
-private fun provider(context: Context) =
-  ComponentName(context.packageName, "${context.packageName}.PrayerTimesWidgetProvider")
-
 // The generated provider and the app run in the same process. Persist receipts
 // synchronously before returning control to a launcher that can suspend us.
 object PlacementReceipts {
+  @Volatile
+  var onPinPlaced: (() -> Unit)? = null
+
   private fun prefs(c: Context) = c.getSharedPreferences("prayer-widget-placement", Context.MODE_PRIVATE)
   private fun ids(c: Context) = AppWidgetManager.getInstance(c).getAppWidgetIds(provider(c)).map { it.toString() }.toSet()
 
@@ -36,6 +35,7 @@ object PlacementReceipts {
       .put("present", current.isNotEmpty()).put("added", verifiedPin || (current - previous).isNotEmpty())
       .put("pin", verifiedPin))
     p.edit().putStringSet("ids", current).putLong("seq", sequence).putString("receipts", queue.toString()).commit()
+    if (verifiedPin) onPinPlaced?.invoke()
   }
 
   @Synchronized
@@ -76,6 +76,14 @@ class PrayerWidgetModule : Module() {
   private val context: Context get() = requireNotNull(appContext.reactContext)
   override fun definition() = ModuleDefinition {
     Name("PrayerWidgetPlacement")
+    Events("onPinPlaced")
+    OnStartObserving("onPinPlaced") {
+      PlacementReceipts.onPinPlaced = { sendEvent("onPinPlaced") }
+    }
+    OnStopObserving("onPinPlaced") { PlacementReceipts.onPinPlaced = null }
+    OnDestroy { PlacementReceipts.onPinPlaced = null }
+    AsyncFunction("saveSchedule") { json: String -> PrayerWidgetUpdates.save(context, json) }
+    AsyncFunction("refreshSchedule") { PrayerWidgetUpdates.refresh(context) }
     AsyncFunction("snapshot") { PlacementReceipts.snapshot(context) }
     AsyncFunction("acknowledge") { seq: Double -> PlacementReceipts.acknowledge(context, seq.toLong()) }
     AsyncFunction("supportsPin") { AppWidgetManager.getInstance(context).isRequestPinAppWidgetSupported }

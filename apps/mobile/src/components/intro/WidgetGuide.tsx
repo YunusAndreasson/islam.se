@@ -8,7 +8,7 @@ import { markSetupHandoff, widgetOfferOccasion } from '@/lib/analytics/return-se
 import { useLocation } from '@/lib/location/context';
 import { useSettings } from '@/lib/settings/context';
 import { buildPayloadAt } from '@/widget/payload';
-import { requestWidgetPin, supportsWidgetPin } from '@/widget/placement';
+import { observeWidgetPin, requestWidgetPin, supportsWidgetPin } from '@/widget/placement';
 import { useColors } from '@/theme/useColors';
 import { mono, type } from '@/theme/tokens';
 import { useReadingColumn } from '@/theme/window-layout';
@@ -28,6 +28,7 @@ export function WidgetGuide({ now, onClose, occasion }: { now: number; onClose: 
   const [mode, setMode] = useState<'loading' | 'pin' | 'manual'>(google ? 'loading' : 'manual');
   const [busy, setBusy] = useState(false);
   const flight = useRef(false);
+  const awaitingPlacement = useRef(false);
   const mounted = useRef(true);
   const openedAt = useRef(now);
   useEffect(() => {
@@ -47,23 +48,39 @@ export function WidgetGuide({ now, onClose, occasion }: { now: number; onClose: 
     });
     return () => { current = false; mounted.current = false; subscription.remove(); };
   }, [google, occasion]);
+  useEffect(() => {
+    const subscription = observeWidgetPin(() => {
+      if (awaitingPlacement.current) onClose();
+    });
+    return () => subscription?.remove();
+  }, [onClose]);
   function close() { void markSetupHandoff('widget', false); onClose(); }
   async function pin() {
     if (flight.current) return;
     flight.current = true;
+    awaitingPlacement.current = true;
     setBusy(true);
     const result = await requestWidgetPin();
     void analytics.track(ANALYTICS_EVENTS.WIDGET_SETUP_REQUESTED, { route: 'android_pin', launcher_result: result });
     if (!mounted.current) return;
     flight.current = false;
     setBusy(false);
-    if (result === 'accepted') onClose();
-    else setMode('manual');
+    if (result !== 'accepted') {
+      awaitingPlacement.current = false;
+      setMode('manual');
+    }
   }
   const ink = { color: c.ink };
   const muted = { color: c.inkMuted };
   const minutes = Math.max(0, Math.round(((payload.nextAtMs ?? now) - now) / 60000));
   const nextLabel = payload.nextIsTomorrow ? 'Nästa bön i morgon' : 'Nästa bön';
+  const solar = payload.solar;
+  const graphWidth = 100;
+  const graphHeight = 48;
+  const x = (progress: number) => 7 + (graphWidth - 14) * progress;
+  const y = (altitude: number) => altitude >= 0
+    ? 32 - 25 * Math.min(1, altitude / 64)
+    : 32 + 9 * Math.min(1, -altitude / 45);
   const target = google ? 48 : 44;
   return <Modal visible onRequestClose={close}>
     <SafeAreaView style={{ flex: 1, backgroundColor: c.paper }}>
@@ -79,21 +96,45 @@ export function WidgetGuide({ now, onClose, occasion }: { now: number; onClose: 
             style={[styles.backdrop, { borderColor: c.hairline }]}>
             <PreviewPhoto testID="widget-preview-photo" />
             <View style={[styles.widget, { backgroundColor: c.paper, borderColor: c.hairline }]}>
-              <View style={styles.hero}>
-                <Text style={[type.caption, { color: google ? c.highlightText : c.inkMuted }]}>{nextLabel}</Text>
-                <Text style={[type.headline, { color: google ? c.ink : c.highlightText }]}>{payload.nextArabic}</Text>
-                <Text style={[type.title, mono, styles.time, ink]}>{payload.nextTime}</Text>
-                {!google && <Text style={[type.caption, muted]}>om {minutes >= 60 ? Math.floor(minutes / 60) + ' tim ' : ''}{minutes % 60} min</Text>}
-                <Text style={[type.caption, muted]}>{label}</Text>
+              <View style={styles.context}>
+                <Text style={[type.caption, ink]}>{label}</Text>
+                <Text style={[type.caption, muted]}>{payload.hijri}</Text>
               </View>
-              <View style={[styles.table, { borderLeftWidth: google ? 0 : StyleSheet.hairlineWidth, borderColor: c.inkMuted }]}>
+              <View style={styles.context}>
+                <View style={styles.hero}>
+                  <Text style={[type.caption, muted]}>{nextLabel}</Text>
+                  <Text style={[type.headline, mono, styles.time, ink]}>{payload.nextArabic} {payload.nextTime}</Text>
+                  {payload.nextAtMs != null && <Text style={[type.caption, { color: c.highlightText }]}>
+                    om {minutes >= 60 ? Math.floor(minutes / 60) + ' tim ' : ''}{minutes % 60} min
+                  </Text>}
+                </View>
+                {solar && <View style={{ direction: 'ltr', width: graphWidth, height: graphHeight, borderRadius: 8, backgroundColor: c.surface }}>
+                  <View style={[styles.line, { left: x(0), top: y(0), width: x(1) - x(0), backgroundColor: c.hairline }]} />
+                  {solar.altitudes.slice(1).map((altitude, index) => {
+                    const x1 = x(index / (solar.altitudes.length - 1));
+                    const x2 = x((index + 1) / (solar.altitudes.length - 1));
+                    const y1 = y(solar.altitudes[index]!);
+                    const y2 = y(altitude);
+                    const width = Math.hypot(x2 - x1, y2 - y1);
+                    return <View key={index} style={[styles.line, { width: width + 0.5,
+                      left: (x1 + x2 - width) / 2, top: (y1 + y2) / 2, backgroundColor: c.highlightText,
+                      transform: [{ rotate: Math.atan2(y2 - y1, x2 - x1) + 'rad' }],
+                    }]} />;
+                  })}
+                  <View style={{ position: 'absolute', left: x(solar.progress) - 3, top: y(solar.altitude) - 3,
+                    width: 6, height: 6, borderRadius: 3, backgroundColor: c.highlightText }} />
+                </View>}
+              </View>
+              <View style={[styles.table, { borderColor: c.hairline }]}>
                 {payload.nextIsTomorrow && <Text style={[type.caption, muted]}>I dag</Text>}
-                {payload.rows.map(row => {
-                  const tint = { color: row.isNext ? c.highlightText : row.key === 'sunrise' ? c.inkMuted : c.ink };
-                  return <View key={row.key} style={styles.row}>
-                    <Text style={[type.caption, tint]}>{row.arabic}</Text><Text style={[type.caption, mono, tint]}>{row.time}</Text>
-                  </View>;
-                })}
+                <View style={styles.schedule}>
+                  {payload.rows.filter(row => !row.isMarker).map(row => {
+                    const tint = { color: row.isCurrent ? c.highlightText : c.ink };
+                    return <View key={row.key} style={[styles.cell, row.isCurrent && { backgroundColor: c.highlightSoft }]}>
+                      <Text style={[type.caption, tint]}>{row.arabic}</Text><Text style={[type.caption, mono, tint]}>{row.time}</Text>
+                    </View>;
+                  })}
+                </View>
               </View>
             </View>
           </View>
@@ -116,10 +157,13 @@ const styles = StyleSheet.create({
   content: { gap: 12, paddingTop: 16, paddingBottom: 18 },
   title: { fontSize: 30, lineHeight: 33 },
   backdrop: { overflow: 'hidden', borderWidth: 1, borderRadius: 22, minHeight: 192, justifyContent: 'center', marginVertical: 8 },
-  widget: { margin: 16, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10, borderRadius: 20, borderWidth: 1, padding: 14 },
-  hero: { flexGrow: 1, flexBasis: 90, gap: 3 },
-  time: { fontSize: 32, lineHeight: 37 },
-  table: { flexGrow: 1, flexBasis: 105, paddingLeft: 8 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', columnGap: 8 },
+  widget: { margin: 16, gap: 8, borderRadius: 20, borderWidth: 1, padding: 14 },
+  context: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 5 },
+  hero: { flexGrow: 1, flexBasis: 125, gap: 2 },
+  time: { fontSize: 22, lineHeight: 28 },
+  table: { paddingTop: 5, borderTopWidth: StyleSheet.hairlineWidth, gap: 3 },
+  schedule: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
+  cell: { alignItems: 'center', flexGrow: 1, paddingHorizontal: 4, paddingVertical: 2, borderRadius: 6 },
+  line: { position: 'absolute', height: 1 },
   step: { flexDirection: 'row', gap: 8, alignItems: 'baseline', paddingHorizontal: 4 },
 });

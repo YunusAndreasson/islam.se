@@ -1,16 +1,14 @@
 // Turns a day of prayer times into a WidgetKit timeline. The iOS widget is NOT a
 // live JS process — instead the app hands WidgetKit a list of dated entries and the
 // system renders each at its scheduled instant, advancing the "next prayer" with no
-// background execution. So we emit one entry at `now`, one just after each upcoming
-// prayer, and one just after each midnight; the entry at (prayerₙ + 1 s) naturally
-// shows prayerₙ₊₁ as next. See ./payload.ts for the per-entry data model.
+// background execution. Entries start at each prayer, midnight and solar phase change.
 import type { PrayerTimes } from 'adhan';
 import type { WidgetTimelineEntry } from 'expo-widgets';
 import type { LatLng } from '@/lib/prayer-times';
 import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import { addZoneDays, startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
-import { buildPayloadAt, type WidgetPayload } from './payload';
+import { buildPayloadAt, type WidgetPayload, widgetSolarDay } from './payload';
 
 export type PrayerTimelineEntry = WidgetTimelineEntry<WidgetPayload>;
 
@@ -26,12 +24,8 @@ export type PrayerTimelineEntry = WidgetTimelineEntry<WidgetPayload>;
  *  The next foreground re-pushes from `now`. */
 const SPAN_DAYS = 5;
 const SPAN_MS = SPAN_DAYS * 24 * 60 * 60 * 1000;
-/** Land each boundary 1 s AFTER the event so an at-or-after "next" query returns the
- *  following prayer — i.e. when Ẓuhr arrives the widget flips to ʿAṣr, not Ẓuhr. The
- *  same epsilon puts the midnight entry inside the new day rather than on its edge. */
-const BOUNDARY_EPSILON_MS = 1000;
-/** Ceiling includes headroom for DST and the terminal expiry entry. */
-const MAX_ENTRIES = 48;
+/** Enough for two-hour solar updates, prayer boundaries and DST headroom. */
+const MAX_ENTRIES = 112;
 
 /**
  * Build the timeline of {@link PrayerTimelineEntry} for `coords`/`settings`, starting
@@ -44,6 +38,7 @@ export function buildTimeline(
   settings: PrayerSettings,
   location: string,
   now: number = Date.now(),
+  includeSolarUpdates = true,
 ): PrayerTimelineEntry[] {
   // Memoise prayer-times by Stockholm calendar day (the prayerDate's local y/m/d).
   // The boundary scan below touches days -1–SPAN_DAYS, and buildPayloadAt re-derives its
@@ -61,15 +56,19 @@ export function buildTimeline(
     return times;
   };
 
-  // The current moment is always the first entry, then a boundary just after every
-  // prayer and every midnight in the window. A Set dedupes the rare collision (two
-  // slots within 1 s).
+  // Keep solar samples shared for all the day's entries.
+  const solarDays = new Map<number, ReturnType<typeof widgetSolarDay>>();
+  const resolveSolar = (startMs: number) => {
+    let solar = solarDays.get(startMs);
+    if (!solar) {
+      solar = widgetSolarDay(coords, startMs);
+      solarDays.set(startMs, solar);
+    }
+    return solar;
+  };
+
   const boundaries = new Set<number>([now]);
   const horizon = now + SPAN_MS;
-  const add = (at: number): void => {
-    const boundary = at + BOUNDARY_EPSILON_MS;
-    if (boundary > now && boundary < horizon) boundaries.add(boundary);
-  };
 
   // Include yesterday for prayers that still fall within the span. Day SPAN_DAYS is the last one that can still
   // contribute (its slots before `now`'s time-of-day fall inside the horizon), and its
@@ -79,7 +78,7 @@ export function buildTimeline(
     for (const key of PRAYER_ORDER) {
       const t = times[key].getTime();
       if (!Number.isFinite(t)) continue; // skip polar-unresolved slots
-      add(t);
+      if (t > now && t < horizon) boundaries.add(t);
     }
   }
 
@@ -90,22 +89,27 @@ export function buildTimeline(
   // boundary rebuilds the payload on the new civil day. addZoneDays is the
   // noon-anchored step — a naive +24 h lands at 23:00 on the 25-hour autumn day.
   let dayStart = startOfZoneDay(now);
-  for (let d = 0; d < SPAN_DAYS + 1; d++) {
-    dayStart = addZoneDays(dayStart, 1);
-    if (dayStart >= horizon) break;
+  while (dayStart < horizon) {
     if (dayStart > now) boundaries.add(dayStart);
+    const nextStart = addZoneDays(dayStart, 1);
+    if (includeSolarUpdates) {
+      for (let at = dayStart + 7_200_000; at < nextStart && at < horizon; at += 7_200_000) {
+        if (at > now) boundaries.add(at);
+      }
+    }
+    dayStart = nextStart;
   }
 
   const entries = [...boundaries]
     .sort((a, b) => a - b)
     .slice(0, MAX_ENTRIES - 1)
-    .map((at) => ({ date: new Date(at), props: buildPayloadAt(coords, settings, at, location, resolveDay) }));
+    .map((at) => ({ date: new Date(at), props: buildPayloadAt(coords, settings, at, location, resolveDay, resolveSolar) }));
   // WidgetKit keeps the final stored entry indefinitely. Do not leave an expired
   // prayer/countdown there: every family already supports an empty-payload state.
   entries.push({
     date: new Date(horizon),
     props: {
-      location, theme: settings.theme, gregorian: '', hijri: '', rows: [],
+      location, theme: settings.theme, gregorian: '', hijri: '', rows: [], status: 'expired',
       nextArabic: '', nextSwedish: '', nextTime: '–', nextAtMs: null, nextIsTomorrow: false,
     },
   });

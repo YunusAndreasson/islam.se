@@ -1,10 +1,7 @@
 // The Android widget's snapshot and the entry it shows at a given instant.
 //
-// REGRESSION CONTEXT: an Android widget was dropped on 2026-08-02 because expo-widgets 57's
-// Android side was a stub. Version 58's is real but has no timeline — a widget is one static
-// render until something re-renders it. So the snapshot carries the iOS timeline and the
-// layout picks the entry for the instant it renders. The invariant everything here protects:
-// a render never names a prayer that has already passed as the next one.
+// The native provider schedules a redraw at the entry boundary. The snapshot must
+// already select the following prayer at that exact instant.
 import { describe, expect, it } from '@jest/globals';
 
 import { type LatLng, PRAYER_LABELS } from '@/lib/prayer-times';
@@ -44,8 +41,9 @@ describe('buildAndroidSnapshot', () => {
 
   it('moves "next" on as each prayer passes, without the app running', () => {
     expect(nextAt(snapshot, now)).toBe(PRAYER_LABELS.dhuhr);
-    expect(nextAt(snapshot, ref.dhuhr.getTime() + 2_000)).toBe(PRAYER_LABELS.asr);
-    expect(nextAt(snapshot, ref.asr.getTime() + 2_000)).toBe(PRAYER_LABELS.maghrib);
+    expect(nextAt(snapshot, ref.dhuhr.getTime() - 1)).toBe(PRAYER_LABELS.dhuhr);
+    expect(nextAt(snapshot, ref.dhuhr.getTime())).toBe(PRAYER_LABELS.asr);
+    expect(nextAt(snapshot, ref.asr.getTime())).toBe(PRAYER_LABELS.maghrib);
   });
 
   it('turns to tomorrow\'s Fajr after ʿIshāʾ, and says so', () => {

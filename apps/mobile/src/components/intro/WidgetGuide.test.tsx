@@ -1,14 +1,16 @@
 import { afterEach, beforeEach, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import { Platform, StyleSheet } from 'react-native';
 
 import { analytics } from '@/lib/analytics';
 import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
-import { requestWidgetPin, supportsWidgetPin } from '@/widget/placement';
+import { observeWidgetPin, requestWidgetPin, supportsWidgetPin } from '@/widget/placement';
 import { WidgetGuide } from './WidgetGuide';
 
-jest.mock('@/widget/placement', () => ({ supportsWidgetPin: jest.fn(), requestWidgetPin: jest.fn() }));
+jest.mock('@/widget/placement', () => ({
+  supportsWidgetPin: jest.fn(), requestWidgetPin: jest.fn(), observeWidgetPin: jest.fn(),
+}));
 const original = Object.getOwnPropertyDescriptor(Platform, 'OS')!;
 const close = jest.fn();
 const now = Date.parse('2026-11-23T10:00:00+01:00');
@@ -39,15 +41,24 @@ it('keeps the manual instructions available when a supported launcher rejects th
 });
 // A launcher accepting the request starts a confirmation dialog. Only a bound
 // provider or configuration may emit the placement event.
-it('hands an accepted request to Android without reporting a placement', async () => {
+it('keeps the guide open after a launcher request, then closes on verified placement', async () => {
   const track = jest.spyOn(analytics, 'track');
+  let placed: (() => void) | undefined;
+  jest.mocked(observeWidgetPin).mockImplementation(listener => {
+    placed = listener;
+    return { remove: jest.fn() };
+  });
   jest.mocked(supportsWidgetPin).mockResolvedValue(true);
   jest.mocked(requestWidgetPin).mockResolvedValue('accepted');
   await show();
   await fireEvent.press(screen.getByText('Lägg till widget'));
-  expect(close).toHaveBeenCalledTimes(1);
+  expect(close).not.toHaveBeenCalled();
+  await fireEvent.press(screen.getByText('Lägg till widget'));
+  expect(requestWidgetPin).toHaveBeenCalledTimes(2);
   expect(track).toHaveBeenCalledWith('Widget Setup Requested', { route: 'android_pin', launcher_result: 'accepted' });
   expect(track.mock.calls.some(([name]) => name === 'Prayer Widget Added')).toBe(false);
+  await act(() => { placed?.(); });
+  expect(close).toHaveBeenCalledTimes(1);
   track.mockRestore();
 });
 
