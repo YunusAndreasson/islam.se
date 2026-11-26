@@ -23,7 +23,7 @@
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:includeFontPadding="false"
-        android:maxLines="2"
+        android:maxLines="1"
         android:textSize="20sp" />
 
     <TextView
