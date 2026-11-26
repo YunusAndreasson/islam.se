@@ -17,11 +17,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
-import { AppState, BackHandler } from 'react-native';
+import { router } from 'expo-router';
+import { AppState, BackHandler, Text } from 'react-native';
 
 import Valkommen from '@/app/valkommen';
 import { analytics, holdForAppOpen, releaseAppOpen } from '@/lib/analytics';
-import { IntroProvider } from '@/lib/intro-context';
+import { IntroProvider, useIntro } from '@/lib/intro-context';
 import { storage } from '@/lib/storage';
 import { loadIntroStatus } from '@/lib/intro';
 import { LocationProvider } from '@/lib/location/context';
@@ -315,6 +316,19 @@ describe('the introduction', () => {
     await press('Hoppa över');
     expect(hapticSelection).not.toHaveBeenCalled();
     expect(hapticSuccess).not.toHaveBeenCalled();
+  });
+
+  it('does not open the map lesson after skipping the introduction', async () => {
+    function LessonState() {
+      const { mapLessonPending } = useIntro();
+      return <Text testID="lesson-state">{mapLessonPending ? 'lesson' : 'live'}</Text>;
+    }
+    await render(<SettingsProvider><IntroProvider><LocationProvider>
+      <Valkommen /><LessonState />
+    </LocationProvider></IntroProvider></SettingsProvider>);
+    await press('Hoppa över');
+    expect(screen.getByTestId('lesson-state').props.children).toBe('live');
+    expect(router.dismissTo).toHaveBeenCalledWith('/bonetider');
   });
 
   it('records itself as seen when skipped outright', async () => {

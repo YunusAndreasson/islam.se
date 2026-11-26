@@ -68,7 +68,7 @@ type Module = typeof import('./index');
 function load(): Module {
   let loaded: Module | undefined;
   jest.isolateModules(() => {
-    loaded = require('./index') as Module;
+    loaded = jest.requireActual<Module>('./index');
   });
   return loaded!;
 }

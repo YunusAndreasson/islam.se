@@ -1368,7 +1368,7 @@ describe('tab screens', () => {
     });
   });
 
-  it('selecting a city persists manual location mode and returns', async () => {
+  it('persists the selected city and returns once on a rapid triple tap', async () => {
     jest.clearAllMocks();
     await renderSettled(
       <SettingsProvider>
@@ -1379,7 +1379,12 @@ describe('tab screens', () => {
     );
 
     await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
-    await fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
+    const city = screen.getByRole('button', { name: /^Umeå,/ });
+    await act(async () => {
+      await fireEvent.press(city);
+      await fireEvent.press(city);
+      await fireEvent.press(city);
+    });
 
     await waitFor(async () => {
       const raw = await AsyncStorage.getItem(SETTINGS_KEY);
@@ -1388,7 +1393,8 @@ describe('tab screens', () => {
       expect(saved.locationMode).toBe('manual');
       expect(saved.manualLocation?.name).toBe('Umeå');
     });
-    expect(router.back).toHaveBeenCalled();
+    expect(router.dismissTo).toHaveBeenCalledTimes(1);
+    expect(router.dismissTo).toHaveBeenCalledWith('/(settings)/installningar');
   });
 
   // The qibla arc's switch, now in the "Karta" section and reachable with no disclosure

@@ -1,10 +1,10 @@
 import { beforeEach, afterEach, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text } from 'react-native';
 
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider, useLocation } from '@/lib/location/context';
@@ -27,14 +27,19 @@ jest.setTimeout(20_000);
 const now = Date.parse('2026-11-23T09:41:00+01:00');
 const clock = { now, mode: 'live', dayOffset: 0, fraction: 0.4, dayStart: startOfZoneDay(now),
   todayStart: startOfZoneDay(now), dayLength: 86400_000 } as SolarClock;
-function Home({ at = now, opened = true }: { at?: number; opened?: boolean }) {
-  const { settings } = useSettings();
+function Home({ at = now, opened = true, recovery = false }: { at?: number; opened?: boolean; recovery?: boolean }) {
+  const { settings, update } = useSettings();
   const { coords } = useLocation();
   const [opening, setOpening] = useState(opened);
   const times = computePrayerTimes(coords, zonePrayerDate(at), settings);
   const tomorrow = computePrayerTimes(coords, zonePrayerDate(at, 1), settings);
-  return <FirstReading opening={opening} active clock={{ ...clock, now: at, todayStart: startOfZoneDay(at), dayStart: startOfZoneDay(at) }} next={selectNextPrayer(times, tomorrow, at)} times={times}
-    tomorrow={tomorrow.fajr} onLive={() => undefined} onRead={() => setOpening(false)} onDismiss={() => undefined} onHeight={() => undefined} />;
+  return <>
+    {recovery && <Pressable onPress={() => update({ notifications: { ...settings.notifications, enabled: true } })}>
+      <Text>Aktivera från inställningar</Text>
+    </Pressable>}
+    <FirstReading opening={opening} active clock={{ ...clock, now: at, todayStart: startOfZoneDay(at), dayStart: startOfZoneDay(at) }} next={selectNextPrayer(times, tomorrow, at)} times={times}
+    tomorrow={tomorrow.fajr} onLive={() => undefined} onRead={() => setOpening(false)} onDismiss={() => undefined} onHeight={() => undefined} />
+  </>;
 }
 
 const permission = (status: 'granted' | 'denied' | 'undetermined') => ({
@@ -83,6 +88,42 @@ it('keeps Malmö after a refusal and opens the widget guide only when the reader
   await fireEvent.press(screen.getByText('Lägg till widget'));
   expect(screen.getByText('Bönetider på hemskärmen')).toBeTruthy();
   expect(Notifications.requestPermissionsAsync).toHaveBeenCalledTimes(1);
+});
+
+it('replaces the denial offer when reminders are enabled and only offers Retry after verification', async () => {
+  jest.mocked(Notifications.requestPermissionsAsync).mockResolvedValue(permission('denied'));
+  await render(<SettingsProvider><IntroProvider><LocationProvider><Home recovery /></LocationProvider></IntroProvider></SettingsProvider>);
+  await fireEvent.press(screen.getByText('Malmö'));
+  await fireEvent.press(screen.getByText('Påminn mig vid varje bön'));
+  await fireEvent.press(screen.getByText('Fortsätt'));
+  expect(await screen.findByText(/Vill du hellre se tiderna/)).toBeTruthy();
+
+  let finish!: (requests: Notifications.NotificationRequest[]) => void;
+  jest.mocked(Notifications.getPermissionsAsync).mockResolvedValue(permission('granted'));
+  const pendingRequests = new Promise<Notifications.NotificationRequest[]>(resolve => { finish = resolve; });
+  jest.mocked(Notifications.getAllScheduledNotificationsAsync).mockReturnValue(pendingRequests);
+  await fireEvent.press(screen.getByText('Aktivera från inställningar'));
+  expect(screen.getByText('Kontrollerar påminnelserna…')).toBeTruthy();
+  expect(screen.queryByText('Försök igen')).toBeNull();
+  expect(screen.queryByText(/Vill du hellre se tiderna/)).toBeNull();
+
+  await act(() => finish([]));
+  expect(screen.getByText('Ingen framtida påminnelse är bekräftad.')).toBeTruthy();
+  expect(screen.getByText('Försök igen')).toBeTruthy();
+  expect(screen.getByText('Ändra påminnelser ›')).toBeTruthy();
+});
+
+it('offers app settings after location permission can no longer prompt', async () => {
+  jest.mocked(Location.requestForegroundPermissionsAsync).mockResolvedValueOnce({
+    status: 'denied', granted: false, canAskAgain: false, expires: 'never',
+  } as Location.PermissionResponse);
+  await render(<SettingsProvider><IntroProvider><LocationProvider><Home /></LocationProvider></IntroProvider></SettingsProvider>);
+  await fireEvent.press(screen.getByText('Sök ort'));
+  await fireEvent.press(screen.getByText('Använd min plats'));
+  await fireEvent.press(screen.getByText('Fortsätt'));
+  expect(screen.getByText('Tillåt platsåtkomst i appinställningarna eller välj stad.')).toBeTruthy();
+  expect(screen.getByText(/Öppna .*inställningar/)).toBeTruthy();
+  expect(screen.queryByText('Försök igen')).toBeNull();
 });
 
 it('commits the edited mask on a full grant and withholds success if the OS has no pending requests', async () => {

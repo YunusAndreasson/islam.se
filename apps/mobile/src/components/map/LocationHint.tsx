@@ -115,7 +115,7 @@ export function LocationHint({ top, onClose }: Props) {
       // Stay on screen for both failures: a refusal (or location services being off at
       // the OS level) with no visible way back is a dead end, so the card becomes the
       // route onward. The user closes it themselves.
-      setState(outcome === 'denied' ? 'denied' : 'error');
+      setState(outcome === 'denied' || outcome === 'blocked' ? 'denied' : 'error');
       inFlight.current = false;
       setBusy(false);
     })();

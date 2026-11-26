@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { AppState, Image, Modal, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { AppState, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { alertContent } from '@/lib/alert-copy';
 import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
@@ -95,8 +95,13 @@ export function ReminderPreview({ now, initial, placeKey, onClose, onMethod, onA
     setBusy(false);
     if (answer) onAnswer(answer === 'undetermined' ? 'unknown' : answer);
   }
-  return <Modal visible onRequestClose={back}>
-    <SafeAreaView style={{ flex: 1, backgroundColor: c.paper }}>
+  const insets = useSafeAreaInsets();
+  const android = Platform.OS === 'android';
+  return <Modal visible onRequestClose={back} statusBarTranslucent={android} navigationBarTranslucent={android}>
+    <SafeAreaView edges={android ? [] : undefined} style={{
+      flex: 1, backgroundColor: c.paper,
+      ...(android && { paddingTop: insets.top, paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right }),
+    }}>
       <View style={[{ flex: 1, paddingHorizontal: 22 }, column]} onAccessibilityEscape={back}>
         <View style={{ alignItems: 'flex-start' }}><FirstRunButton label="Tillbaka" icon="back" onPress={back} /></View>
         <ScrollView contentContainerStyle={{ gap: 12, paddingBottom: 18 }}>

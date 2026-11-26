@@ -47,6 +47,13 @@
 // So the copy here still may not promise to detect a missing tile on an offline Android.
 // Nothing can — the request is never made.
 import { LogManager } from '@maplibre/maplibre-react-native';
+import { LogBox } from 'react-native';
+
+if (__DEV__) {
+  // A simulated clock rollback can make a resource's TLS chain fail validation.
+  // Keep the native diagnostic in Metro and let the in-app map notice handle it.
+  LogBox.ignoreLogs([/^MapLibre Native \[ERROR\] \[Mbgl\].*Failed to load source .*: Chain validation failed/]);
+}
 
 // Which handler this module last installed into LogManager's single slot — see the
 // unsubscribe in watchResourceFailures.
@@ -151,7 +158,7 @@ export function createTroubleBurst(
  */
 export function watchResourceFailures(onFailure: (at: number) => void): () => void {
   const handler = (log: MapLogEvent): boolean => {
-    if (isResourceFailureLog(log)) onFailure(Date.now());
+    if (isResourceFailureLog(log)) onFailure(performance.now());
     // Never swallow the line: the binding's own console output is what makes a native
     // warning visible in development, and this watcher exists to add to it, not replace it.
     return false;

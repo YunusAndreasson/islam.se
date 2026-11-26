@@ -6,7 +6,6 @@ import {
   Divider,
   HStack,
   Rectangle,
-  RoundedRectangle,
   Spacer,
   Text,
   VStack,
@@ -115,9 +114,10 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     if (!solar || !Array.isArray(solar.altitudes) || solar.altitudes.length < 2) return null;
     const phase = solar.altitude >= 0 ? 0 : solar.altitude < -12 ? 3 : solar.rising ? 1 : 2;
     const phases = ['Dagsljus', 'Gryning', 'Skymning', 'Natt'];
-    const sky = mono ? [c.tint, c.tint] : dark
-      ? [['#233344', '#35444e'], ['#2d3048', '#514036'], ['#31314a', '#513c40'], ['#21283e', '#2d314b']][phase]
-      : [['#dbe5e9', '#efe5cb'], ['#dce1f0', '#f3e0bc'], ['#e1dff0', '#f2d9c3'], ['#dce0ed', '#e6e4f0']][phase];
+    const phaseInk = dark
+      ? [c.brass, '#a7badf', '#e4b1c0', '#adb6dd']
+      : [c.brass, '#4e658a', '#80536b', '#585d84'];
+    const curve = mono ? c.brass : phaseInk[phase]!;
     const horizon = height * 0.18;
     const y = (angle: number) => angle >= 0
       ? horizon - (height * 0.59) * Math.min(1, angle / 64)
@@ -126,9 +126,6 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     const samples = solar.altitudes.filter((_, i) => i % 2 === 0 || i === solar.altitudes.length - 1);
     return (
       <ZStack modifiers={[frame({ width, height }), accessibilityLabel(`Solens läge, ${phases[phase]}`)]}>
-        <RoundedRectangle cornerRadius={8} modifiers={[frame({ width, height }), foregroundStyle({
-          type: 'linearGradient', colors: sky!, startPoint: { x: 0, y: 0 }, endPoint: { x: 0, y: 1 },
-        })]} />
         <Rectangle modifiers={[frame({ width: width - 16, height: 0.5 }), foregroundStyle(c.muted), offset({ y: horizon })]} />
         {samples.slice(1).map((sample, index) => {
           const x1 = x(index / (samples.length - 1));
@@ -138,7 +135,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
           return (
             <Rectangle key={index} modifiers={[
               frame({ width: Math.hypot(x2 - x1, y2 - y1) + 0.5, height: 1 }),
-              foregroundStyle(c.brass), rotationEffect(Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI),
+              foregroundStyle(curve), rotationEffect(Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI),
               offset({ x: (x1 + x2) / 2, y: (y1 + y2) / 2 }),
             ]} />
           );

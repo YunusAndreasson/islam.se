@@ -13,6 +13,7 @@ export { haversineKm } from '@/lib/coordinates';
 
 /** The bundled gazetteer is first needed on a location match or when the picker opens. */
 export function getPlaces() {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- Synchronous lazy load for the bundled gazetteer.
   const { PLACES } = require('./data') as typeof import('./data');
   return PLACES;
 }

@@ -43,10 +43,11 @@ interface LocationContextValue {
 }
 
 /** Outcome of a refresh() call, so a caller can give the right feedback: `ok` = a fresh fix
- *  landed, `denied` = permission refused, `error` = services off / timeout, `busy` = a fix was
+ *  landed, `denied` = permission refused with another prompt available,
+ *  `blocked` = permission must be changed in Settings, `error` = services off / timeout, `busy` = a fix was
  *  already in flight so this call was a no-op. Lets Inställningar buzz success vs warning
  *  correctly (and stop firing a success haptic on a denied permission). */
-export type GpsOutcome = 'ok' | 'denied' | 'error' | 'busy';
+export type GpsOutcome = 'ok' | 'denied' | 'blocked' | 'error' | 'busy';
 
 /** The volatile GPS-fetch status, split out of the main value so its frequent flips
  *  (every fix sets locating true→false) don't re-render the map / nav / sync consumers
@@ -181,7 +182,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       const perm = await requestPrayerLocation();
       trackPermissionResult('location', source, perm.granted, prompted);
       setPermissionStatus(perm.granted ? 'granted' : 'denied');
-      if (!perm.granted) return 'denied';
+      if (!perm.granted) return perm.canAskAgain === false ? 'blocked' : 'denied';
       return await fetchFix(true, onFix, candidateOnly);
     } catch {
       return 'error';

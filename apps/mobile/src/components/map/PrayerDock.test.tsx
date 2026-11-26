@@ -228,14 +228,14 @@ describe('PrayerDock day navigation', () => {
     });
     const tick = (label: string) =>
       StyleSheet.flatten(screen.getByText(label, { includeHiddenElements: true }).props.style) as {
-        left?: number;
-        right?: number;
-        marginLeft?: number;
+        start?: number;
+        end?: number;
+        marginStart?: number;
         textAlign?: string;
       };
-    expect(tick('00')).toMatchObject({ left: 0, marginLeft: 0, textAlign: 'left' });
-    expect(tick('24')).toMatchObject({ right: 0, marginLeft: 0, textAlign: 'right' });
-    expect(tick('24').left).toBeUndefined();
+    expect(tick('00')).toMatchObject({ start: 0, marginStart: 0, width: 'auto' });
+    expect(tick('24')).toMatchObject({ end: 0, marginStart: 0, width: 'auto' });
+    expect(tick('24').start).toBeUndefined();
     expect(tick('12').textAlign).toBe('center');
   });
 

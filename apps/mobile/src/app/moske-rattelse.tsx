@@ -24,7 +24,7 @@
 //                     visible in-flight state and a real success screen.
 //
 // Failure never loses work: an error keeps everything typed and offers the button again.
-import { router, useLocalSearchParams, usePreventRemove } from 'expo-router';
+import { router, useCanGoBack, useLocalSearchParams, usePreventRemove } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -73,11 +73,15 @@ const EMAIL_DISCLOSURE =
 type Phase = { state: 'editing'; error?: string } | { state: 'sending' } | { state: 'sent' };
 
 export default function MoskeRattelse() {
+  const { id } = useLocalSearchParams<{ id?: string }>();
+  const mosque = typeof id === 'string' ? mosqueById(id) : undefined;
+  return <MosqueReport key={mosque?.id} mosque={mosque} />;
+}
+
+function MosqueReport({ mosque }: { mosque: ReturnType<typeof mosqueById> }) {
   const column = useReadingColumn();
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
-  const { id } = useLocalSearchParams<{ id?: string }>();
-  const mosque = typeof id === 'string' ? mosqueById(id) : undefined;
 
   const [reason, setReason] = useState<ReportReason | null>(null);
   const [description, setDescription] = useState('');
@@ -93,7 +97,8 @@ export default function MoskeRattelse() {
     !discarded && phase.state === 'editing' && (description.trim() !== '' || email.trim() !== '');
   // A cold deep link can have no route underneath it. Replacing it goes
   // through the same discard confirmation as the close button.
-  usePendingBack(unsaved && !router.canGoBack(), () => router.replace('/bonetider'));
+  const canGoBack = useCanGoBack();
+  usePendingBack(unsaved && !canGoBack, () => router.replace('/bonetider'));
   usePreventRemove(unsaved, ({ repeat }) => {
     Alert.alert('Släng rättelsen?', undefined, [
       { text: 'Fortsätt skriva', style: 'cancel' },

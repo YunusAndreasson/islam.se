@@ -8,10 +8,8 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Path
-import android.graphics.Shader
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -248,24 +246,16 @@ internal object PrayerWidgetViews {
       after >= before -> 1
       else -> 2
     }
-    val (top, bottom) = if (darkMode) when (phase) {
-      0 -> "#233344" to "#35444e"
-      1 -> "#2d3048" to "#514036"
-      2 -> "#31314a" to "#513c40"
-      else -> "#21283e" to "#2d314b"
-    } else when (phase) {
-      0 -> "#dbe5e9" to "#efe5cb"
-      1 -> "#dce1f0" to "#f3e0bc"
-      2 -> "#e1dff0" to "#f2d9c3"
-      else -> "#dce0ed" to "#e6e4f0"
+    // The tint belongs to the curve so the graph shares the widget's paper.
+    val curve = when (phase) {
+      0 -> c.brass
+      1 -> rgb(if (darkMode) "#a7badf" else "#4e658a")
+      2 -> rgb(if (darkMode) "#e4b1c0" else "#80536b")
+      else -> rgb(if (darkMode) "#adb6dd" else "#585d84")
     }
-
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    paint.shader = LinearGradient(0f, 0f, 0f, height.toFloat(), rgb(top), rgb(bottom), Shader.TileMode.CLAMP)
-    canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 16f, 16f, paint)
-    paint.shader = null
     // Squeeze deep night into the lower third so a winter arc stays legible above the horizon.
     val horizon = height * .68f
     fun y(degrees: Double): Float = if (degrees >= 0) {
@@ -284,8 +274,7 @@ internal object PrayerWidgetViews {
       val sy = y(samples?.optDouble(sample, 0.0) ?: 0.0)
       if (sample == 0) path.moveTo(sx, sy) else path.lineTo(sx, sy)
     }
-    paint.color = c.brass
-    paint.alpha = 185
+    paint.color = curve
     paint.style = Paint.Style.STROKE
     paint.strokeWidth = 2.4f
     paint.strokeJoin = Paint.Join.ROUND

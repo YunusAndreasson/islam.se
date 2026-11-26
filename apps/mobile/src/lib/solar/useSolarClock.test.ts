@@ -7,6 +7,8 @@
 // startOfZoneDay() are deterministic regardless of the machine's own timezone — that
 // device-independence is exactly the property under test.
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { getCalendars } from 'expo-localization';
+import { updateDeviceClock } from '@/lib/device-zone';
 import { act, renderHook } from '@testing-library/react-native';
 
 import { LIVE_TICK_MS, MAX_DAY_OFFSET, useSolarClock } from './useSolarClock';
@@ -485,6 +487,31 @@ describe('useSolarClock across a display-zone change', () => {
     expect(startOfZoneDay(result.current.dayStart)).toBe(result.current.dayStart);
     expect(startOfZoneDay(result.current.todayStart)).toBe(result.current.todayStart);
     expect(result.current.dayLength).toBe(24 * HOUR);
+  });
+
+  it('re-anchors an evening preview on the new civil date immediately', async () => {
+    freeze('2026-11-25T04:51:00Z');
+    const { result } = await renderHook(() => useSolarClock());
+    const fraction = (22 * 60 + 36) / (24 * 60);
+    await act(() => result.current.setFraction(fraction));
+
+    jest.mocked(getCalendars).mockReturnValueOnce([
+      { timeZone: 'America/Los_Angeles', calendar: null, uses24hourClock: true, firstWeekday: 1 },
+    ]);
+    await act(() => updateDeviceClock(true));
+
+    expect(result.current.dayStart).toBe(Date.parse('2026-11-24T08:00:00Z'));
+    expect(result.current.now).toBe(Date.parse('2026-11-25T06:36:00Z'));
+    expect(result.current.fraction).toBeCloseTo(fraction);
+    await act(() => updateDeviceClock());
+  });
+
+  it('updates a live view immediately after a wall clock rollback', async () => {
+    const { result } = await renderHook(() => useSolarClock());
+    freeze('2026-07-13T23:11:00Z');
+    await act(() => updateDeviceClock(true));
+    expect(result.current.now).toBe(Date.now());
+    expect(result.current.dayStart).toBe(startOfZoneDay(Date.now()));
   });
 
   it('survives a shift big enough to round dayOffset to the wrong day', async () => {
