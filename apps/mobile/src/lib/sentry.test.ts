@@ -43,9 +43,9 @@ describe('sentryOptions — what a crash report may carry', () => {
   });
 
   it('keeps native crash reporting on', () => {
-    // Native crashes are the reports JS can never catch. Both are on by default; this fails
-    // on the edit that switches either off to quieten the project.
-    expect(options.enableNative).not.toBe(false);
+    // Native crashes are the reports JS can never catch. The native SDK runs whenever reporting
+    // does (off only in development, see below); crash handling is never switched off.
+    expect(options.enableNative).toBe(options.enabled);
     expect(options.enableNativeCrashHandling).not.toBe(false);
   });
 
