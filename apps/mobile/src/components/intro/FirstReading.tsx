@@ -1,3 +1,4 @@
+import { useWidgetPlaced } from '@/widget/useWidgetPlaced';
 import { getForegroundPermissionsAsync } from 'expo-location';
 import { router } from 'expo-router';
 import { useEffect, useEffectEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
@@ -97,7 +98,8 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
   }
   const readingVisible = visible('reading');
   const reminderVisible = visible('reminder');
-  const widgetVisible = visible('widget');
+  const widgetPlaced = useWidgetPlaced();
+  const widgetVisible = !widgetPlaced && visible('widget');
   const context = JSON.stringify([coords, settings, clockRevision]);
   const placeKey = reminderPlace(settings, coords, label);
   const placeIdentity = reminderPlace(settings);
@@ -383,7 +385,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
           })}<View style={[styles.thumb, { start: `${clock.fraction * 100}%`, backgroundColor: c.highlightText }]} /></View></Pressable>
           <View style={styles.tomorrow}><Text style={muted}>{Number.isFinite(tomorrow.getTime()) ? dayWord(tomorrow, clock.todayStart).replace(/^./, ch => ch.toUpperCase()) : 'Nästa dag'} i {place} · </Text>
             {hasBell(tomorrow, 'fajr') && bell}<Text style={[type.label, { color: c.ink }]}>Fajr {formatTime(tomorrow)}</Text></View>
-          {!isLive ? <FirstRunButton label="Nu" onPress={onLive} /> : declined ? <View onLayout={e => measure('widget', e)} style={[styles.widget, { backgroundColor: c.paperSunken }]}>
+          {!isLive ? <FirstRunButton label="Nu" onPress={onLive} /> : declined && widgetPlaced ? null : declined ? <View onLayout={e => measure('widget', e)} style={[styles.widget, { backgroundColor: c.paperSunken }]}>
             <View style={{ flexShrink: 1 }}><Text style={muted}>Nästa bön</Text><Text style={normal}>{name}</Text><Text style={[type.headline, { color: c.ink }]}>{time}</Text></View>
             <View style={{ flex: 1 }}><Text style={[type.bodyStrong, { color: c.ink }]}>Vill du hellre se tiderna på {home}?</Text>
               <FirstRunButton filled label="Lägg till widget" onPress={openWidget} /></View></View>
@@ -399,7 +401,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
                 <FirstRunButton label="Ändra påminnelser ›" onPress={() => router.push('/notiser')} /></>
                 : <FirstRunButton filled onLayout={e => measure('reminder', e)} disabled={!settingsReady} label={personal ? 'Påminn mig vid varje bön' : 'Välj stad för påminnelser'}
                   onPress={() => { setError(''); setPanel(personal ? 'preview' : 'city'); }} />}
-              <FirstRunButton onLayout={e => measure('widget', e)} label="Lägg till widget ›" onPress={openWidget} />
+              {!widgetPlaced && <FirstRunButton onLayout={e => measure('widget', e)} label="Lägg till widget ›" onPress={openWidget} />}
             </>}
         </>}
         {!!error && !panel && <Text accessibilityLiveRegion="polite" style={muted}>{error}</Text>}
