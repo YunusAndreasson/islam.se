@@ -37,7 +37,7 @@ import { moonPhaseAt } from '@/lib/moon/ephemeris';
 // abbreviations without the trailing period a calendar header does not need.
 const WEEKDAYS = ['må', 'ti', 'on', 'to', 'fr', 'lö', 'sö'];
 const MOON_PX = 20;
-const CELL_HEIGHT = 32 + MOON_PX + 2 + 8;
+const DAY_BUBBLE = 32;
 interface Props {
   /** Stockholm midnight of the day currently on screen. */
   dayStart: number;
@@ -182,6 +182,8 @@ function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose
   const sky = useSkyGlass();
   const insets = useSafeAreaInsets();
   const { height, fontScale } = useWindowDimensions();
+  const bubbleHeight = Math.max(DAY_BUBBLE, Math.ceil(type.callout.fontSize * fontScale * 1.25 + 4));
+  const cellHeight = bubbleHeight + MOON_PX + 2 + 8;
   const compact = useCompactLayout();
   const ink = useMoonInk();
   const styles = useMemo(() => makeStyles(c), [c]);
@@ -286,7 +288,7 @@ function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose
                   // Keyed by index because they carry no identity of their own; they are pure
                   // layout — an empty cell holds the grid's height, nothing more.
                   // biome-ignore lint/suspicious/noArrayIndexKey: padding cells have no id
-                  return <View key={`pad-${i}`} style={styles.cell} />;
+                  return <View key={`pad-${i}`} style={[styles.cell, { height: cellHeight }]} />;
                 }
                 const selected = day === dayStart;
                 const isToday = day === todayStart;
@@ -311,9 +313,9 @@ function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose
                     )}`}
                     accessibilityState={{ selected, disabled: outOfRange }}
                     // Distinct cells: expanding hit slop would select neighboring days.
-                    style={({ pressed }) => [styles.cell, pressed && styles.pressed]}
+                    style={({ pressed }) => [styles.cell, { height: cellHeight }, pressed && styles.pressed]}
                   >
-                    <View style={[styles.dayBubble, selected && styles.daySelected]}>
+                    <View style={[styles.dayBubble, { width: bubbleHeight, height: bubbleHeight }, selected && styles.daySelected]}>
                       <Text
                         numberOfLines={1}
                         adjustsFontSizeToFit
@@ -387,10 +389,9 @@ function makeStyles(c: Palette) {
     // Keep the moon close to its date, with more space between calendar rows.
     // Padding alone gives empty cells a 10dp height. Entire blank weeks must take
     // exactly as much room as populated ones, otherwise the pager slides down in February.
-    cell: { width: `${100 / 7}%`, height: CELL_HEIGHT, alignItems: 'center', paddingTop: 2, paddingBottom: 8, paddingHorizontal: 2 },
+    cell: { width: `${100 / 7}%`, alignItems: 'center', paddingTop: 2, paddingBottom: 8, paddingHorizontal: 2 },
     dayBubble: {
-      width: 32,
-      height: 32,
+      maxWidth: '100%',
       borderRadius: radius.round,
       alignItems: 'center',
       justifyContent: 'center',

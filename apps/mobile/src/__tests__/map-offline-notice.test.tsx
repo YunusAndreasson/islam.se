@@ -277,8 +277,9 @@ it('places the city in front of the native map and reserves the measured intro c
   // Both siblings must be in this foreground, with the city above the map and below the title.
   const layers = title.parent!.children;
   const city = screen.getAllByText('Stockholm', { includeHiddenElements: true })
-    .find(node => node.props.style && !node.props.accessibilityRole && node.parent?.props.pointerEvents === 'none');
+    .find(node => node.props.style && !node.props.accessibilityRole && node.parent?.parent?.props.pointerEvents === 'none');
   expect(city).toBeDefined();
-  expect(layers.indexOf(city!.parent!)).toBeGreaterThan(layers.indexOf(map.parent!.parent!));
-  expect(layers.indexOf(city!.parent!)).toBeLessThan(layers.indexOf(title));
+  const cityFrame = city!.parent!.parent!;
+  expect(layers.indexOf(cityFrame)).toBeGreaterThan(layers.indexOf(map.parent!.parent!));
+  expect(layers.indexOf(cityFrame)).toBeLessThan(layers.indexOf(title));
 });

@@ -12,7 +12,7 @@ jest.mock('./live-activity', () => ({
   syncPrayerLiveActivity: jest.fn(async () => {}),
 }));
 jest.mock('./android-ongoing', () => ({ syncAndroidPrayerNotification: jest.fn(async () => {}) }));
-jest.mock('@/lib/device-zone', () => ({ useDisplayZone: () => 'Europe/Stockholm' }));
+jest.mock('@/lib/device-zone', () => ({ useDeviceClockRevision: () => 0 }));
 const coords = { latitude: 59.3293, longitude: 18.0686 };
 const times = oracleTimes(coords, new Date(2026, 2, 20));
 const at = times.asr.getTime();

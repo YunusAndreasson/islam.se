@@ -17,8 +17,8 @@
 //   derived from one. AnalyticsProperties is kept to flat primitives so a LatLng object
 //   cannot be passed whole, and ./analytics.test.ts pins the screen property to route
 //   names. Super properties are typed (SuperProperties in ./events): coarse states only.
+import type { Mixpanel } from 'mixpanel-react-native';
 import { Platform } from 'react-native';
-import type * as MixpanelModule from 'mixpanel-react-native';
 
 import { MIXPANEL_SERVER_URL, MIXPANEL_TOKEN } from './events';
 import type { SuperProperties, TrackArguments } from './events';
@@ -33,7 +33,7 @@ export type {
 
 type Primitive = string | number | boolean;
 
-let mixpanel: MixpanelModule.Mixpanel | null = null;
+let mixpanel: Mixpanel | null = null;
 let initialization: Promise<void> | null = null;
 
 // Every super property registered in this JS context, so a client constructed AFTER the
@@ -56,9 +56,8 @@ function hasKeys(record: Record<string, Primitive>): boolean {
 }
 
 async function start(token: string): Promise<void> {
-  // Required here, not imported: the native module is touched only once there is a token
-  // and an event to send.
-  const { Mixpanel } = require('mixpanel-react-native') as typeof MixpanelModule;
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- Load the native SDK only when an event has a token.
+  const { Mixpanel } = require('mixpanel-react-native') as typeof import('mixpanel-react-native');
   const trackAutomaticEvents = false;
   const instance = new Mixpanel(token.trim(), trackAutomaticEvents);
   // Opted in, no super properties at init, the EU endpoint (see ./events). What has been

@@ -45,6 +45,7 @@ import {
   type ColorSchemeName,
   type LayoutChangeEvent,
   Platform,
+  I18nManager,
   Pressable,
   ScrollView,
   useWindowDimensions,
@@ -402,7 +403,7 @@ interface Props {
    *  they do for a drag. A user gesture taken mid-reveal simply overwrites `height`, so
    *  the finger always wins. */
   revealSchedule?: boolean;
-  onWidget?: () => void;
+  onWidget?: (openedAt: number) => void;
   /** Optional host notification for analytics or layout hooks. The map does not refit
       on expansion; the dock opens over the current slice. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
@@ -1128,7 +1129,7 @@ export function PrayerDock({
                       visible={expanded}
                     />
                   ) : null}
-                  {expanded && onWidget && <FirstRunButton label="Lägg till widget ›" onPress={onWidget} />}
+                  {expanded && onWidget && <FirstRunButton label="Lägg till widget ›" onPress={() => onWidget(Date.now())} />}
                 </View>
               </ScrollView>
               <View style={styles.scheduleDivider} pointerEvents="none" />
@@ -1537,6 +1538,8 @@ function SolarTimeline({
   scheme: ColorSchemeName;
 }) {
   const [trackW, setTrackW] = useState(0);
+  const rtl = I18nManager.isRTL;
+  const direction = rtl ? -1 : 1;
   // Where each ruler hour actually falls in the viewed day. The EU switches at
   // 02:00/03:00 local, so by 03:00 a transition day has already gained or lost its whole
   // hour — every tick from 03 on carries the full delta, and 00 is the day's start by
@@ -1663,8 +1666,9 @@ function SolarTimeline({
       thumbScale.set(withSpring(THUMB_GRAB_SCALE, SPRING));
       scheduleOnRN(hapticGrab);
       if (trackW <= 0) return;
-      grabOffset.set(scrubGrabOffset(e.x, follow.get() * trackW));
-      const f = Math.max(0, Math.min(1, (e.x + grabOffset.get()) / trackW));
+      const x = rtl ? trackW - e.x : e.x;
+      grabOffset.set(scrubGrabOffset(x, follow.get() * trackW));
+      const f = Math.max(0, Math.min(1, (x + grabOffset.get()) / trackW));
       prog.set(f);
       grabbedAt.set(f);
       lastHaptic.set(f);
@@ -1674,7 +1678,8 @@ function SolarTimeline({
     },
     onUpdate: (e) => {
       if (trackW <= 0) return;
-      const f = Math.max(0, Math.min(1, (e.x + grabOffset.get()) / trackW));
+      const x = rtl ? trackW - e.x : e.x;
+      const f = Math.max(0, Math.min(1, (x + grabOffset.get()) / trackW));
       prog.set(f);
       // Selection tick when the thumb sweeps past one of the day's prayers. Compared in
       // track space: `f` is where the finger is, and a prayer's place on the track is not
@@ -1727,13 +1732,13 @@ function SolarTimeline({
   // end stays round instead of being squashed by a scaleX.
   const fillStyle = useAnimatedStyle(() => {
     const f = dragging.get() ? prog.get() : follow.get();
-    return { transform: [{ translateX: (f - 1) * trackW }] };
+    return { transform: [{ translateX: direction * (f - 1) * trackW }] };
   });
   const thumbStyle = useAnimatedStyle(() => {
     const f = dragging.get() ? prog.get() : follow.get();
     return {
       transform: [
-        { translateX: f * trackW - THUMB / 2 },
+        { translateX: direction * (f * trackW - THUMB / 2) },
         { scale: thumbScale.get() },
       ],
     };
@@ -1768,7 +1773,7 @@ function SolarTimeline({
             <Animated.View
               style={[
                 styles.trackFill,
-                { transform: [{ translateX: (trackFraction - 1) * trackW }] },
+                { transform: [{ translateX: direction * (trackFraction - 1) * trackW }] },
                 fillStyle,
               ]}
             />
@@ -1792,7 +1797,7 @@ function SolarTimeline({
                     isPast && styles.markPast,
                     {
                       position: 'absolute',
-                      left: warp.toTrack(m.fraction) * trackW - PRAYER_DOT / 2,
+                      start: warp.toTrack(m.fraction) * trackW - PRAYER_DOT / 2,
                       backgroundColor: prayerColorFor(m.key, scheme),
                     },
                   ]}
@@ -1807,7 +1812,7 @@ function SolarTimeline({
               pointerEvents="none"
               style={[
                 styles.thumb,
-                { transform: [{ translateX: trackFraction * trackW - THUMB / 2 }] },
+                { transform: [{ translateX: direction * (trackFraction * trackW - THUMB / 2) }] },
                 thumbStyle,
               ]}
             />
@@ -1818,7 +1823,7 @@ function SolarTimeline({
             ticks.map(({ hour, fraction: tickFraction }) => hour % 6 !== 0 ? (
               <View
                 key={hour}
-                style={[styles.minorTick, { left: warp.toTrack(tickFraction) * trackW }]}
+                style={[styles.minorTick, { start: warp.toTrack(tickFraction) * trackW }]}
                 accessibilityElementsHidden
                 importantForAccessibility="no"
               />
@@ -1830,7 +1835,7 @@ function SolarTimeline({
                     ? [styles.tick, styles.tickStart]
                     : hour === 24
                       ? [styles.tick, styles.tickEnd]
-                      : [styles.tick, { left: warp.toTrack(tickFraction) * trackW }]
+                      : [styles.tick, { start: warp.toTrack(tickFraction) * trackW }]
                 }
                 accessibilityElementsHidden
                 importantForAccessibility="no"
@@ -2087,7 +2092,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     },
     trackFill: {
       position: 'absolute',
-      left: 0,
+      start: 0,
       top: 0,
       bottom: 0,
       width: '100%',
@@ -2113,7 +2118,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     // Placed by transform from the track's left edge (see thumbStyle), so `left` stays 0.
     thumb: {
       position: 'absolute',
-      left: 0,
+      start: 0,
       width: THUMB,
       height: THUMB,
       borderRadius: THUMB / 2,
@@ -2135,7 +2140,7 @@ function makeStyles(c: Palette, fontScale = 1) {
       top: 4,
       width: 1,
       height: 6,
-      marginLeft: -0.5,
+      marginStart: -0.5,
       borderRadius: 0.5,
       backgroundColor: c.inkMuted,
       opacity: 0.45,
@@ -2145,7 +2150,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     tick: {
       position: 'absolute',
       width: 44,
-      marginLeft: -22,
+      marginStart: -22,
       textAlign: 'center',
       fontSize: 11,
       lineHeight: 14,
@@ -2160,8 +2165,8 @@ function makeStyles(c: Palette, fontScale = 1) {
     // rows and the hero. They still mark the right place: the track itself starts at 00 and
     // ends at 24, on every day including the two DST days (both fractions are 0 and 1 by
     // definition). The inner hours keep centring, since each marks a point along the line.
-    tickStart: { left: 0, marginLeft: 0, textAlign: 'left' },
-    tickEnd: { right: 0, marginLeft: 0, textAlign: 'right' },
+    tickStart: { start: 0, marginStart: 0, width: 'auto' },
+    tickEnd: { end: 0, marginStart: 0, width: 'auto' },
 
     handleHit: {
       position: 'absolute',

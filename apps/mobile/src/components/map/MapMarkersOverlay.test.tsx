@@ -49,6 +49,7 @@ async function pillAt(
   const pill = screen.getByText('Maghrib');
   // The anchor view is the pill's grandparent: anchor → chip → label.
   const anchor = pill.parent!.parent!;
+  expect(anchor.parent).toHaveStyle({ direction: 'ltr' });
   const style = [anchor.props.style].flat(3).find((s) => s && 'transform' in s) as {
     transform: [{ translateX: number }, { translateY: number }];
   };

@@ -86,6 +86,33 @@ describe('serialized prayer surface layouts', () => {
     expect(texts(tree)).not.toContain('Shurūq');
     expect(nodes(tree).filter(node => node.type === 'Circle')).toHaveLength(2);
   });
+  it.each(
+    ['systemSmall', 'systemMedium', 'systemLarge'].flatMap(widgetFamily =>
+      ['light', 'dark'].flatMap(colorScheme =>
+        [
+          { altitude: -7, rising: true, label: 'Gryning' },
+          { altitude: 15, rising: true, label: 'Dagsljus' },
+          { altitude: -7, rising: false, label: 'Skymning' },
+          { altitude: -20, rising: false, label: 'Natt' },
+        ].map(phase => ({ widgetFamily, colorScheme, ...phase })),
+      ),
+    ),
+  )('draws $label directly on the $colorScheme $widgetFamily surface', ({
+    widgetFamily, colorScheme, altitude, rising, label,
+  }) => {
+    const solar = { ...payload.solar, altitude, rising };
+    const tree = render(PrayerTimesWidget, { ...payload, solar }, { widgetFamily, colorScheme });
+    const chart = nodes(tree).find(node => node.type === 'ZStack');
+    expect(chart?.props.modifiers).toContainEqual({
+      modifier: 'accessibilityLabel', args: [`Solens läge, ${label}`],
+    });
+    const shapes = nodes(chart?.props.children);
+    expect(shapes.some(node => node.type === 'RoundedRectangle')).toBe(false);
+    expect(shapes.filter(node => node.type === 'Circle')).toHaveLength(2);
+    expect(tree.props.modifiers).toContainEqual({
+      modifier: 'containerBackground', args: [colorScheme === 'dark' ? '#161a26' : '#f6f3ed', 'widget'],
+    });
+  });
   it('shows both city and Hijri date and truncates a long city label', () => {
     const location = 'Södra Sandby och Sularps samhälle';
     const tree = render(PrayerTimesWidget, { ...payload, location }, { widgetFamily: 'systemMedium' });

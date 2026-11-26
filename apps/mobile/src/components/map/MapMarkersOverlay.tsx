@@ -62,10 +62,14 @@ export function FirstCityLabel({ camera, point, name }: {
     const visible = width > 0 && height > 0 && p.x >= 0 && p.x <= cam.width && p.y >= 0 && p.y <= cam.height;
     return { opacity: visible ? 1 : 0, transform: [{ translateX: x }, { translateY: y }] };
   });
-  return <Animated.View pointerEvents="none" collapsable={false} style={[styles.anchor, styles.cityFrame, placement]}
-    onLayout={({ nativeEvent: { layout: { width, height } } }) => size.set({ width, height })}>
-    <Text style={[styles.cityName, { color: c.ink, textShadowColor: c.paper }]}>{name}</Text>
-  </Animated.View>;
+  return (
+    <View pointerEvents="none" style={styles.projectionFrame}>
+      <Animated.View collapsable={false} style={[styles.anchor, styles.cityFrame, placement]}
+        onLayout={({ nativeEvent: { layout: { width, height } } }) => size.set({ width, height })}>
+        <Text style={[styles.cityName, { color: c.ink, textShadowColor: c.paper }]}>{name}</Text>
+      </Animated.View>
+    </View>
+  );
 }
 
 export function MapMarkersOverlay({
@@ -89,7 +93,7 @@ export function MapMarkersOverlay({
   const scheme = useActiveScheme();
   const renderNow = useSolarRenderNow(nowFraction, dayStart, dayLength, camera, preview);
   return (
-    <View style={StyleSheet.absoluteFill} pointerEvents="none">
+    <View style={styles.projectionFrame} pointerEvents="none">
       {/* Prayer pills — each sits ON its line (centred on the line's anchor point), so the
           line reads straight through it: no leader to trace, and each prayer's pill rides
           its own distinct line, so Maghrib and Isha separate instead of stacking where the
@@ -268,7 +272,9 @@ const PILL_FADE_OUT = FadeOut.duration(300);
 
 const styles = StyleSheet.create({
   // Camera frames move native boxes with transforms, keeping Yoga off the animation path.
-  anchor: { position: 'absolute', left: 0, top: 0 },
+  // Yoga positions absolute children in their containing view's direction.
+  projectionFrame: { ...StyleSheet.absoluteFill, direction: 'ltr' },
+  anchor: { position: 'absolute', start: 0, top: 0 },
   cityFrame: { maxWidth: '100%', padding: 2 },
   cityName: { fontWeight: '700', fontSize: 14, textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2, includeFontPadding: true },

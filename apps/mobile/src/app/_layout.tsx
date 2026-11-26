@@ -1,18 +1,19 @@
 import * as Sentry from '@sentry/react-native';
+import { useCalendars } from 'expo-localization';
 import { NavigationBar } from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
-import { useEffect, useEffectEvent } from 'react';
-import { AppState } from 'react-native';
+import { useEffect, useEffectEvent, useRef } from 'react';
+import { AppState, Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ErrorScreen } from '@/components/ui/ErrorScreen';
 import { useReturnSetup } from '@/lib/analytics/useReturnSetup';
 import { useAppAnalytics } from '@/lib/analytics/useAppAnalytics';
 import { useScreenViews } from '@/lib/analytics/useScreenViews';
-import { useDisplayZone } from '@/lib/device-zone';
+import { updateDeviceClock, useDeviceClockRevision } from '@/lib/device-zone';
 import { IntroProvider } from '@/lib/intro-context';
 import { useLocation, LocationProvider } from '@/lib/location/context';
 import { subscribeNotificationRouting } from '@/lib/notification-routing';
@@ -39,6 +40,17 @@ import { useActiveScheme, useColors } from '@/theme/useColors';
 // once per error object. Route params and the concrete path ride along only with
 // sendDefaultPii, which @/lib/sentry keeps off: a route here can carry coordinates.
 export const ErrorBoundary = Sentry.wrapExpoRouterErrorBoundary(ErrorScreen);
+export const unstable_settings = { anchor: 'bonetider' };
+
+function CalendarObserver() {
+  const calendars = useCalendars();
+  const previous = useRef(calendars);
+  useEffect(() => {
+    updateDeviceClock(previous.current !== calendars);
+    previous.current = calendars;
+  }, [calendars]);
+  return null;
+}
 
 // Both system bars, and the window behind them, follow the APP's active scheme rather than
 // the OS's. Mounted inside the SettingsProvider so the user's Utseende override
@@ -112,7 +124,7 @@ function useForegroundSync(key: string, sync: (settings: PrayerSettings, resumed
   // window and the widget timeline are cut into DAYS, and which instants those days start
   // at is the zone's answer. A reader who lands in another country has a stale schedule
   // for the same reason a reader who changes calculation method does.
-  const zone = useDisplayZone();
+  const clockRevision = useDeviceClockRevision();
   const runSync = useEffectEvent((resumed: boolean) => {
     sync(settings, resumed);
   });
@@ -127,7 +139,7 @@ function useForegroundSync(key: string, sync: (settings: PrayerSettings, resumed
     // `key` is not read in the body — it IS the dependency, standing in for the
     // settings and coordinates the caller folded into it. Effect Events are deliberately
     // non-reactive and must not be listed as dependencies.
-  }, [settingsReady, key, zone]);
+  }, [settingsReady, key, clockRevision]);
 }
 
 /** A coordinate as a signature fragment. Full precision: any real move should re-sync,
@@ -222,7 +234,7 @@ export default function RootLayout() {
   const c = useColors();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <SettingsProvider>
           <IntroProvider>
             {/* Outside LocationProvider on purpose — the splash waits for the two storage
@@ -247,7 +259,11 @@ export default function RootLayout() {
                 <Stack.Screen name="(settings)" options={{ presentation: 'modal', headerShown: false }} />
                 {/* Opened from the mosque detail card on the map, so it presents as a sheet
                     over it and dismissing returns to the map — same as Qibla and Settings. */}
-                <Stack.Screen name="moske-rattelse" options={{ presentation: 'modal' }} />
+                <Stack.Screen
+                  name="moske-rattelse"
+                  dangerouslySingular={(_name, params) => typeof params.id === 'string' ? params.id : ''}
+                  options={{ presentation: 'modal' }}
+                />
                 {/* The introduction covers the app rather than sitting beside it: it runs
                     before the map has ever been seen, so a card transition revealing the
                     map underneath would give away the thing it is about to explain. No
@@ -263,6 +279,7 @@ export default function RootLayout() {
                 />
               </Stack>
               <NotificationSync />
+              {Platform.OS === 'ios' && <CalendarObserver />}
               <NotificationRouting />
               <AppAnalytics />
               <ScreenViews />

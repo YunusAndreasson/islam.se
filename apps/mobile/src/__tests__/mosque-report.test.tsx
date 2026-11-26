@@ -60,6 +60,18 @@ describe('mosque correction form', () => {
     expect(screen.getByText('Rapportera fel')).toBeTruthy();
   });
 
+  it('cannot carry a report draft to a different mosque if route params change', async () => {
+    const view = await render(<MoskeRattelse />);
+    const draft = await fillValidReport();
+    expect(screen.getByDisplayValue(draft)).toBeTruthy();
+
+    params.mockReturnValue({ id: 'karlshamn-mosken' });
+    await view.rerender(<MoskeRattelse />);
+    expect(screen.getByText(mosqueById('karlshamn-mosken')!.name)).toBeTruthy();
+    expect(screen.queryByDisplayValue(draft)).toBeNull();
+    expect(screen.getByRole('button', { name: 'Skicka rättelse' }).props.accessibilityState.disabled).toBe(true);
+  });
+
   // A stale deep link or a mosque dropped between OTA updates must dead-end quietly.
   // Rendering `undefined.name` would take out the whole modal with a red screen.
   it('shows a quiet message instead of crashing on an unknown mosque', async () => {

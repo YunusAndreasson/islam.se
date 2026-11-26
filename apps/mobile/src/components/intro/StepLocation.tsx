@@ -78,7 +78,7 @@ export function StepLocation() {
       return;
     }
     hapticWarning();
-    setPhase(outcome === 'denied' ? 'denied' : 'error');
+    setPhase(outcome === 'denied' || outcome === 'blocked' ? 'denied' : 'error');
   };
 
   const onUseGps = (): void => {

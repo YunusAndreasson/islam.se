@@ -476,6 +476,7 @@ export default function Bonetider() {
   const [finishedReading, setFinishedReading] = useState(false);
   const [keepReading, setKeepReading] = useState(introStatus === 'pending');
   const [widgetOpenedAt, setWidgetOpenedAt] = useState<number | null>(null);
+  const [firstRunModalOpen, setFirstRunModalOpen] = useState(false);
   const [openedSchedule, setOpenedSchedule] = useState(false);
   const [titleBottom, setTitleBottom] = useState(0);
   const [readingHeight, setReadingHeight] = useState(0);
@@ -603,7 +604,7 @@ export default function Bonetider() {
     // looking at a blank map and most needs to be told why.
     setMapComplete(true);
     setMapTrouble((prev) => {
-      if (prev !== 'network' || !troubleBurst.quiet(Date.now())) return prev;
+      if (prev !== 'network' || !troubleBurst.quiet(performance.now())) return prev;
       // Hand the counter a clean slate along with the notice, or the next outage would be
       // counting from failures this one already spent.
       troubleBurst.clear();
@@ -1355,7 +1356,10 @@ export default function Bonetider() {
           height: viewportSize.height,
         };
         publishCamera(next);
-        if (firstRun) setSettledCamera(next);
+        if (firstRun && !mapTakenOver) {
+          setSettledCamera(previous => previous && sameFrame(previous, next) &&
+            previous.width === next.width && previous.height === next.height ? previous : next);
+        }
         if (!cameraReady) setCameraReady(true);
         // Deliberately not awaited: the handler's job is to move the map's overlays, not to
         // wait on a diagnostic. The sequence check is what keeps the answer honest — a settle
@@ -1457,6 +1461,7 @@ export default function Bonetider() {
           restFrame.current = frame;
           return;
         }
+        if (appliedLean.current === 0 && frameDistance(frame, initialFrame.current) <= 0.01) return;
         initialFrame.current = frame;
         restFrame.current = frame;
         appliedLean.current = 0;
@@ -1473,7 +1478,7 @@ export default function Bonetider() {
       if (drifted !== moved) setMoved(drifted);
     },
     [
-      publishCamera, firstRun,
+      publishCamera, firstRun, mapTakenOver,
       viewportSize.width,
       viewportSize.height,
       cameraReady,
@@ -1601,7 +1606,7 @@ export default function Bonetider() {
     <GlassBackdropProvider>
     <SkyChromeProvider value={skyChrome}>
     <View
-      style={[styles.container, { backgroundColor: colors.paperSunken }]}
+      style={[styles.container, { backgroundColor: basemapGroundFor(scheme) }]}
       onTouchStartCapture={() => {
         movingAtTouchStart.current = mapMoving.current;
         tapSequence.current += 1;
@@ -1879,14 +1884,15 @@ export default function Bonetider() {
           />
         </>
       )}
-      <Animated.View
-        pointerEvents="none"
-        accessibilityElementsHidden
-        importantForAccessibility="no-hide-descendants"
-        style={[styles.lookupPin, pinStyle]}
-      >
-        <Icon name="place" size={24} color={colors.accent} />
-      </Animated.View>
+      <View pointerEvents="none" style={styles.lookupPinFrame}>
+        <Animated.View
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+          style={[styles.lookupPin, pinStyle]}
+        >
+          <Icon name="place" size={24} color={colors.accent} />
+        </Animated.View>
+      </View>
       </GlassBackdropTarget>
       {firstRun && cameraReady && <FirstCityLabel camera={cam} point={userPoint} name={placeLabel} />}
       {opening && <FirstMapTitle top={insets.top + 8} onBottom={setTitleBottom} />}
@@ -1900,7 +1906,7 @@ export default function Bonetider() {
           both compete for the same strip of screen. */}
       {firstRun ? (
         <FirstReading opening={opening} active={mapActive} clock={clock} next={next} times={userTimes} tomorrow={tomorrowTimes.fajr}
-          onHeight={setReadingHeight} onLive={() => { setMapTakenOver(true); clock.reset(); }} onRead={() => { setKeepReading(true); setOpenedSchedule(true); setMapTakenOver(false); }}
+          onHeight={setReadingHeight} onModalChange={setFirstRunModalOpen} onLive={() => { setMapTakenOver(true); clock.reset(); }} onRead={() => { setKeepReading(true); setOpenedSchedule(true); setMapTakenOver(false); }}
           onDismiss={() => { setKeepReading(false); setFinishedReading(true); clock.reset(); }} />
       ) : mapLessonPending && lesson && lessonCaption ? (
         <MapLessonCard
@@ -1923,7 +1929,7 @@ export default function Bonetider() {
         />
       ) : (
         <PrayerDock
-          onWidget={() => setWidgetOpenedAt(Date.now())}
+          onWidget={setWidgetOpenedAt}
           ref={prayerDockRef}
           onExpandedChange={setDockExpanded}
           calendarRequested={calendar === 'open'}
@@ -1996,7 +2002,7 @@ export default function Bonetider() {
           if (searchedPlace) setSearchedPlace(null);
           else setSearchOpen(true);
         }}
-        active={mapActive}
+        active={mapActive && !searchOpen && widgetOpenedAt === null && !firstRunModalOpen}
         gpuReady={gpuReady}
         action={
           moved
@@ -2117,8 +2123,9 @@ export default function Bonetider() {
 }
 
 const styles = StyleSheet.create({
-  lookupPin: { position: 'absolute', top: 0, left: 0 },
-  // `backgroundColor` is set inline from the OS palette's `paperSunken` so the brief flash
+  lookupPinFrame: { ...StyleSheet.absoluteFill, direction: 'ltr' },
+  lookupPin: { position: 'absolute', top: 0, start: 0 },
+  // `backgroundColor` is set inline from the basemap palette so the first frame
   // during a MapLibre style hot-swap is the same family as either basemap (warm parchment
   // sunken in light, deep navy sunken in dark) — no jarring colour pop on a theme flip.
   container: { flex: 1 },

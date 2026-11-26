@@ -54,6 +54,10 @@
     "1.3.10": {
       "ios": "5c9220f7fb6f1ca88d2a7f6f85fa06a0de38e791",
       "android": "a5048c71aa6885fb8f6177d714b0c80dd93bece9"
+    },
+    "1.3.11": {
+      "ios": "225d48cd8216b2eab8e840b67472a3c50cfde90b",
+      "android": "e6ef30e600685b498168654800a480e6692b5883"
     }
   }
 }

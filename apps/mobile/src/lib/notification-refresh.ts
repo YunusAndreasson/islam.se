@@ -49,6 +49,7 @@ const REFRESH_INTERVAL_MINUTES = 12 * 60;
 // a component to mount would not exist yet, and the wake-up would be wasted.
 TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- Load the schedulers when the headless task runs.
     const { refreshPrayerSurfaces } = require('./refresh-prayer-surfaces') as typeof import('./refresh-prayer-surfaces');
     const alertsReady = await refreshPrayerSurfaces();
     return alertsReady ? BackgroundTask.BackgroundTaskResult.Success : BackgroundTask.BackgroundTaskResult.Failed;

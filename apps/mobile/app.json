@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.3.10",
+    "version": "1.3.11",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -15,7 +15,7 @@
         "tinted": "./assets/images/ios-tinted.png"
       },
       "bundleIdentifier": "se.islam.mobile",
-      "buildNumber": "28",
+      "buildNumber": "29",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "sv",
@@ -28,7 +28,7 @@
     "android": {
       "package": "se.islam.mobile",
       "userInterfaceStyle": "automatic",
-      "versionCode": 17,
+      "versionCode": 18,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "monochromeImage": "./assets/images/adaptive-icon-monochrome.png",
@@ -74,13 +74,12 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#f6f3ed",
+          "backgroundColor": "#ece6d8",
           "dark": {
-            "image": "./assets/images/splash-icon-dark.png",
-            "backgroundColor": "#161a26"
+            "backgroundColor": "#1d2233"
+          },
+          "android": {
+            "image": "./assets/images/launch-transparent.png"
           }
         }
       ],
@@ -151,7 +150,8 @@
           }
         }
       ],
-      "./plugins/withSkiaVulkanAndroid"
+      "./plugins/withSkiaVulkanAndroid",
+      "./plugins/withAndroidLinkIntent"
     ],
     "experiments": {
       "typedRoutes": true,

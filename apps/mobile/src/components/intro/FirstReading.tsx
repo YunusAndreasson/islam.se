@@ -1,6 +1,7 @@
+import { getForegroundPermissionsAsync } from 'expo-location';
 import { router } from 'expo-router';
-import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
-import { AppState, type LayoutChangeEvent, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { useEffect, useEffectEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { AppState, I18nManager, type LayoutChangeEvent, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { usePendingBack } from '@/components/nav/usePendingBack';
@@ -10,6 +11,7 @@ import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { notifyScheduleVerified, setReminderOrigin } from '@/lib/analytics/return-setup';
 import { acceptedGpsForResume, clearReminderDraft, firstReadingEventOnce, reminderPlace, reminderSelection, observeReadingVisit, readReminderDraft, saveReminderDraft, type PrayerMask } from '@/lib/first-run';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
+import { useDeviceClockRevision } from '@/lib/device-zone';
 import { useIntro } from '@/lib/intro-context';
 import { saveIntroStep } from '@/lib/intro';
 import { MAX_PLACE_LABEL_DISTANCE_KM } from '@/lib/location/resolve';
@@ -22,7 +24,7 @@ import { formatTime, PRAYER_LABELS, PRAYER_ORDER, type NextPrayer, type LatLng }
 import { useSettings } from '@/lib/settings/context';
 import { methodLabel } from '@/lib/settings/options';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
-import { openNotificationSettings, openExactAlarmSettings } from '@/lib/system-settings';
+import { openNotificationSettings, openExactAlarmSettings, openSystemSettings, openSystemSettingsLabel } from '@/lib/system-settings';
 import type { SolarClock } from '@/lib/solar/useSolarClock';
 import { mono, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
@@ -35,10 +37,11 @@ type MeasuredRow = 'reading' | 'reminder' | 'widget';
 type RowFrame = { y: number; height: number };
 type Panel = 'city' | 'location' | 'travel' | 'preview' | 'widget' | null;
 
-export function FirstReading({ opening, active, clock, next, times, tomorrow, onRead, onDismiss, onHeight, onLive }: {
+export function FirstReading({ opening, active, clock, next, times, tomorrow, onRead, onDismiss, onHeight, onLive, onModalChange }: {
   opening: boolean; active: boolean; clock: SolarClock; next: NextPrayer | null;
   times: Record<(typeof PRAYER_ORDER)[number], Date>; tomorrow: Date;
   onRead: () => void; onLive: () => void; onDismiss: () => void; onHeight: (height: number) => void;
+  onModalChange?: (visible: boolean) => void;
 }) {
   const c = useColors();
   const column = useReadingColumn();
@@ -52,11 +55,32 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
   const [selectedPanel, setPanel] = useState<Panel>(null);
   const pendingTravel = status === 'pending' && settings.locationMode === 'gps' ? resumedCandidate : null;
   const panel = selectedPanel ?? (pendingTravel ? 'travel' : null);
+  const modalVisible = panel !== null;
+  useLayoutEffect(() => {
+    onModalChange?.(modalVisible);
+    return () => onModalChange?.(false);
+  }, [modalVisible, onModalChange]);
   const [error, setError] = useState('');
-  const [declined, setDeclined] = useState(false);
+  const [locationBlocked, setLocationBlocked] = useState(false);
+  useEffect(() => {
+    if (!locationBlocked) return;
+    let current = true;
+    const sub = AppState.addEventListener('change', state => {
+      if (state !== 'active') return;
+      void getForegroundPermissionsAsync().then(permission => {
+        if (current && (permission.granted || permission.canAskAgain)) {
+          setLocationBlocked(false);
+          setError('');
+        }
+      }).catch(() => {});
+    });
+    return () => { current = false; sub.remove(); };
+  }, [locationBlocked]);
+  const [remindersDeclined, setDeclined] = useState(false);
   const [railWidth, setRailWidth] = useState(1);
   const [retry, setRetry] = useState(0);
   const [observedAt, setObservedAt] = useState(() => Date.now());
+  const clockRevision = useDeviceClockRevision();
   const [proof, setProof] = useState<{ context: string; alerts: NextAlert[]; channelBlocked?: boolean; exact: Awaited<ReturnType<typeof getExactAlarmState>> } | null>(null);
   const [draft, setDraft] = useState<PrayerMask>(DEFAULT_SETTINGS.notifications.prayers);
   const [window, setWindow] = useState<Awaited<ReturnType<typeof observeReadingVisit>>>(null);
@@ -74,17 +98,20 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
   const readingVisible = visible('reading');
   const reminderVisible = visible('reminder');
   const widgetVisible = visible('widget');
-  const context = JSON.stringify([coords, settings]);
+  const context = JSON.stringify([coords, settings, clockRevision]);
   const placeKey = reminderPlace(settings, coords, label);
   const placeIdentity = reminderPlace(settings);
   const personal = source !== 'default';
   const place = personal ? label : 'Stockholm';
   const enabled = settings.notifications.enabled;
+  if (enabled && remindersDeclined) setDeclined(false);
+  const declined = remindersDeclined && !enabled;
   if (proof && (!active || !enabled || proof.context !== context)) setProof(null);
   const occasion = window === 'session_1' ? 'first_session' : 'later';
   const isLive = clock.mode === 'live' && clock.dayOffset === 0;
   const now = clock.now;
   const gpsIntent = useRef(0);
+  const locatingRequest = useRef(false);
   const [requestedFix, setTravelFix] = useState<LatLng | null>(null);
   const travelFix = selectedPanel === 'travel' ? requestedFix : pendingTravel;
   const dragStart = useRef(0);
@@ -170,6 +197,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
     void Promise.all([verifyPrayerSchedule(coords, settings), getExactAlarmState()]).then(([evidence, exact]) => {
       const { alerts } = evidence;
       if (!current) return;
+      setObservedAt(Date.now());
       setProof({ context, alerts, exact, channelBlocked: evidence.channelBlocked });
       if (alerts.length) notifyScheduleVerified();
     }).catch(() => { if (current) setProof({ context, alerts: [], exact: 'unknown' }); });
@@ -261,16 +289,24 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
     showReading();
   }
   async function locate() {
+    if (locatingRequest.current) return;
+    locatingRequest.current = true;
     const intent = ++gpsIntent.current;
     let fix: LatLng | undefined;
     const result = await refresh('intro', coords => { fix = coords; }, true);
+    locatingRequest.current = false;
     if (intent !== gpsIntent.current) return;
+    if (result === 'busy') return;
+    setLocationBlocked(result === 'blocked');
     if (result === 'ok' && fix) {
       if (nearestPlace(fix.latitude, fix.longitude).distanceKm > MAX_PLACE_LABEL_DISTANCE_KM) {
         setTravelFix(fix);
         setPanel('travel');
       } else await acceptFix(fix);
-    } else { setPanel('city'); setError('Det gick inte att hämta din plats.'); }
+    } else {
+      setPanel('city');
+      setError(result === 'blocked' ? '' : 'Det gick inte att hämta din plats.');
+    }
   }
   async function openMethod() {
     if (!await persistStep(opening ? 0 : source === 'gps' ? 2 : 1)) return;
@@ -336,12 +372,15 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
           <Pressable accessibilityRole="adjustable" accessibilityLabel="Tid på kartan" accessibilityValue={{ text: formatTime(new Date(now)) }}
             accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
             onAccessibilityAction={e => clock.setFraction(Math.min(1, Math.max(0, clock.fraction + (e.nativeEvent.actionName === 'increment' ? 1 : -1) / 48)))}
-            onPress={e => clock.setFraction(Math.max(0, Math.min(1, e.nativeEvent.locationX / railWidth)))}
+            onPress={e => {
+              const x = e.nativeEvent.locationX / railWidth;
+              clock.setFraction(Math.max(0, Math.min(1, I18nManager.isRTL ? 1 - x : x)));
+            }}
             onLayout={e => setRailWidth(Math.max(1, e.nativeEvent.layout.width))} hitSlop={8} style={{ paddingVertical: 4 }}>
           <View pointerEvents="none" style={[styles.rail, { backgroundColor: c.border }]}>{PRAYER_ORDER.map(k => {
             const fraction = (times[k].getTime() - clock.dayStart) / clock.dayLength;
-            return fraction >= 0 && fraction <= 1 && <View key={k} style={[styles.dot, { left: `${fraction * 100}%`, backgroundColor: c.highlight }]} />;
-          })}<View style={[styles.thumb, { left: `${clock.fraction * 100}%`, backgroundColor: c.highlightText }]} /></View></Pressable>
+            return fraction >= 0 && fraction <= 1 && <View key={k} style={[styles.dot, { start: `${fraction * 100}%`, backgroundColor: c.highlight }]} />;
+          })}<View style={[styles.thumb, { start: `${clock.fraction * 100}%`, backgroundColor: c.highlightText }]} /></View></Pressable>
           <View style={styles.tomorrow}><Text style={muted}>{Number.isFinite(tomorrow.getTime()) ? dayWord(tomorrow, clock.todayStart).replace(/^./, ch => ch.toUpperCase()) : 'Nästa dag'} i {place} · </Text>
             {hasBell(tomorrow, 'fajr') && bell}<Text style={[type.label, { color: c.ink }]}>Fajr {formatTime(tomorrow)}</Text></View>
           {!isLive ? <FirstRunButton label="Nu" onPress={onLive} /> : declined ? <View onLayout={e => measure('widget', e)} style={[styles.widget, { backgroundColor: c.paperSunken }]}>
@@ -355,7 +394,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
                 {first && Platform.OS === 'android' && proof?.exact === 'unknown' && <FirstRunButton label="Kontrollera alarmåtkomst" onPress={() => setRetry(v => v + 1)} />}
                 {proof?.channelBlocked && <FirstRunButton label="Öppna notisinställningar" onPress={openNotificationSettings} />}
                 {first && missing && <Text style={muted}>Alla valda påminnelser kunde inte bekräftas.</Text>}
-                {(!first || missing) && <FirstRunButton label="Försök igen" onPress={() => { setProof(null); setRetry(v => v + 1); }} />}
+                {proof && (!first || missing) && <FirstRunButton label="Försök igen" onPress={() => { setProof(null); setRetry(v => v + 1); }} />}
                 {first && Platform.OS === 'android' && proof?.exact === 'denied' && <><Text style={muted}>Påminnelser kan komma senare.</Text><FirstRunButton label="Alarm och påminnelser ›" onPress={openExactAlarmSettings} /></>}
                 <FirstRunButton label="Ändra påminnelser ›" onPress={() => router.push('/notiser')} /></>
                 : <FirstRunButton filled onLayout={e => measure('reminder', e)} disabled={!settingsReady} label={personal ? 'Påminn mig vid varje bön' : 'Välj stad för påminnelser'}
@@ -374,8 +413,13 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
       <SafeAreaView style={{ flex: 1, backgroundColor: c.paper }}><View style={[{ flex: 1, paddingHorizontal: 20 }, column]}>
         <View style={styles.crown}><Text accessibilityRole="header" style={[type.title, { color: c.ink, flex: 1 }]}>{panel === 'city' ? 'Välj stad' : panel === 'location' || panel === 'travel' ? 'Bönetider där du är' : 'Bönetider på ' + home}</Text>
           <FirstRunButton label="Stäng" onPress={closePanel} /></View>
-        {panel === 'city' ? <PlacePicker selected={settings.manualLocation} onPick={p => void pick(p)}><FirstRunButton label="Använd min plats" onPress={() => setPanel('location')} />
-          {!!error && <><Text accessibilityLiveRegion="polite" style={normal}>{error}</Text><FirstRunButton label="Försök igen" disabled={locating} onPress={() => void locate()} /></>}</PlacePicker>
+        {panel === 'city' ? <PlacePicker selected={settings.manualLocation} onPick={p => void pick(p)}>
+          {locationBlocked
+            ? <><Text accessibilityLiveRegion="polite" style={normal}>Tillåt platsåtkomst i appinställningarna eller välj stad.</Text>
+              <FirstRunButton label={openSystemSettingsLabel()} onPress={openSystemSettings} /></>
+            : <FirstRunButton label="Använd min plats" onPress={() => setPanel('location')} />}
+          {!!error && <><Text accessibilityLiveRegion="polite" style={normal}>{error}</Text>
+            {!locationBlocked && <FirstRunButton label="Försök igen" disabled={locating} onPress={() => void locate()} />}</>}</PlacePicker>
           : panel === 'travel' && travelFix ? <><Text style={normal}>{nearestPlace(travelFix.latitude, travelFix.longitude).distanceKm > MAX_PLACE_LABEL_DISTANCE_KM
             ? 'Din plats ligger utanför Sverige. Använd den för bönetider?' : 'Din plats har ändrats. Använd den för bönetider?'}</Text>
             <Text style={muted}>{travelFix.latitude.toFixed(2)}°, {travelFix.longitude.toFixed(2)}°</Text>

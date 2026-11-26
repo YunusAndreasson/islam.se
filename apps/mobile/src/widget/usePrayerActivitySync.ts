@@ -4,7 +4,7 @@
 import { useEffect, useEffectEvent } from 'react';
 import { AppState, Platform } from 'react-native';
 
-import { useDisplayZone } from '@/lib/device-zone';
+import { useDeviceClockRevision } from '@/lib/device-zone';
 import type { LatLng } from '@/lib/prayer-times';
 import { notificationSignature } from '@/lib/settings/compute-signature';
 import type { PrayerSettings } from '@/lib/settings/types';
@@ -18,7 +18,7 @@ export function usePrayerActivitySync(
   location: string,
   loaded: boolean,
 ): void {
-  const zone = useDisplayZone();
+  const clockRevision = useDeviceClockRevision();
   // These surfaces show no Hijri date and use the native environment's appearance.
   // Cosmetic widget changes must not rebuild their payloads or restart their timers.
   const key = `${notificationSignature(settings)}|${coords.latitude},${coords.longitude}|${location}`;
@@ -54,5 +54,5 @@ export function usePrayerActivitySync(
       clearTimeout(timer);
       subscription.remove();
     };
-  }, [loaded, key, zone]);
+  }, [loaded, key, clockRevision]);
 }

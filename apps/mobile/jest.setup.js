@@ -22,6 +22,8 @@ jest.mock('react-native-safe-area-context', () => {
 // so its tests override the mock to name a mosque.
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
+  useCanGoBack: () => jest.requireMock('expo-router').router.canGoBack(),
+  usePathname: () => '/bonetider',
   useFocusEffect: (callback) => {
     const React = require('react');
     React.useEffect(callback, [callback]);
@@ -129,6 +131,7 @@ jest.mock('expo-sqlite/kv-store', () => {
 // and what every existing calendar assertion is written against — a suite that wants to be
 // somewhere else calls setDisplayZone directly rather than re-mocking this.
 jest.mock('expo-localization', () => ({
+  useCalendars: () => [],
   getCalendars: jest.fn(() => [{ timeZone: 'Europe/Stockholm' }]),
 }));
 
@@ -377,7 +380,7 @@ jest.mock('expo-mail-composer', () => ({
 // The native splash screen (src/lib/splash). `preventAutoHideAsync` and `setOptions` fire at
 // module scope on import — the API's own requirement, since a call from inside a component
 // arrives after the splash has already auto-hidden — so they must exist before any tree that
-// reaches SplashGate renders. `hide` is what the gate's test asserts on.
+// reaches SplashGate renders. The gate waits for a route layout before calling `hideAsync`.
 jest.mock('expo-splash-screen', () => ({
   preventAutoHideAsync: jest.fn(async () => true),
   setOptions: jest.fn(),

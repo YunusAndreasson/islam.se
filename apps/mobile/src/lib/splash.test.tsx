@@ -12,7 +12,7 @@
 // intro.test.ts owns the rule it reads.
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { act, render } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { IntroProvider } from '@/lib/intro-context';
@@ -47,7 +47,7 @@ describe('the splash gate', () => {
     expect(pinnedOnImport).toBeGreaterThanOrEqual(1);
   });
 
-  it('holds the splash until both storage reads have landed, then hides it once', async () => {
+  it('holds the splash until storage is ready and the destination lays out', async () => {
     // Both reads are held behind a gate this test opens. An awaited render drains pending
     // promises (RNTL 14 renders inside an async act), so without the gate the in-memory
     // reads would land INSIDE the mount and the state below could never be observed.
@@ -74,13 +74,16 @@ describe('the splash gate', () => {
       // neither read has resolved, so the app does not yet know whether this launch belongs
       // to the introduction or to the map — which is exactly the gap that used to be a blank
       // frame the user could see.
-      expect(SplashScreen.hide).not.toHaveBeenCalled();
+      expect(SplashScreen.hideAsync).not.toHaveBeenCalled();
 
       await act(async () => {
         open();
       });
 
-      expect(SplashScreen.hide).toHaveBeenCalledTimes(1);
+      expect(SplashScreen.hideAsync).not.toHaveBeenCalled();
+      await fireEvent(screen.getByTestId('splash-layout'), 'layout');
+      await fireEvent(screen.getByTestId('splash-layout'), 'layout');
+      expect(SplashScreen.hideAsync).toHaveBeenCalledTimes(1);
     } finally {
       getItem.mockImplementation(realGetItem);
       multiGet.mockImplementation(realMultiGet);
@@ -95,13 +98,13 @@ describe('the splash gate', () => {
     jest.useFakeTimers();
     try {
       await mount();
-      expect(SplashScreen.hide).not.toHaveBeenCalled();
+      expect(SplashScreen.hideAsync).not.toHaveBeenCalled();
 
       await act(async () => {
         jest.advanceTimersByTime(2000);
       });
 
-      expect(SplashScreen.hide).toHaveBeenCalledTimes(1);
+      expect(SplashScreen.hideAsync).toHaveBeenCalledTimes(1);
     } finally {
       jest.useRealTimers();
       jest.mocked(AsyncStorage.multiGet).mockReset();

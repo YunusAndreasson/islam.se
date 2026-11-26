@@ -6,16 +6,10 @@
 // directly — that *is* the control, so there's no separate "play" transport to
 // flood the native bridge or clutter the dock.
 //
-// The DAY this clock spans is the SWEDISH day (Europe/Stockholm), not the device's.
-// This is a Sweden prayer-times map and every displayed time is Stockholm-local, so the
-// day boundary and the slider must be too: on a phone/emulator set to another zone, a
-// device-local day would render the wrong day's prayer field for part of the day and
-// shift every scrubber mark by the zone offset. We also span the *real* day length
-// (23/24/25 h) rather than a fixed 86_400_000, so the slider stays aligned on the two
-// DST-transition days each year (otherwise the 25 h day clamps its last hour at the far
-// right and the 23 h day's "24:00" lands at 01:00 the next day).
-import { startTransition, useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
+// The slider spans the reader's civil day, including 23- and 25-hour DST days.
+import { startTransition, useCallback, useEffect, useEffectEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
+import { useDeviceClockRevision } from '@/lib/device-zone';
 import { addZoneDays, getDisplayZone, startOfZoneDay, zoneDayLength } from '@/lib/zone-time';
 
 /** Live-mode tick interval. Exported so the map can glide the displayed instant
@@ -90,6 +84,17 @@ const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
 interface View {
   now: number;
   dayStart: number;
+  dayLength: number;
+}
+
+function atInstant(now: number, dayStart = startOfZoneDay(now)): View {
+  return { now, dayStart, dayLength: zoneDayLength(dayStart) };
+}
+
+function moveView(view: View, dayStart: number): View {
+  const dayLength = zoneDayLength(dayStart);
+  const fraction = clamp01((view.now - view.dayStart) / view.dayLength);
+  return { dayStart, dayLength, now: dayStart + fraction * dayLength };
 }
 
 /**
@@ -127,35 +132,11 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
   // the new day on its own — otherwise an app left running across midnight keeps rendering
   // yesterday: slider pinned at the far right, stale times, "i morgon" mislabelling today's
   // Fajr.
-  const [view, setView] = useState<View>(() => {
-    const t = Date.now();
-    return { now: t, dayStart: startOfZoneDay(t) };
-  });
-  const { now, dayStart } = view;
-  // The REAL today, tracked separately from the day being viewed. Without it "i dag" is
-  // whatever day the app was opened on: park the view on tomorrow, leave the phone on the
-  // table past midnight, and the dock would go on calling a day that is now today
-  // "i morgon". It is also the anchor stepDay measures offsets from.
+  const [view, setView] = useState<View>(() => atInstant(Date.now()));
+  const { now, dayStart, dayLength } = view;
   const [todayStart, setTodayStart] = useState(() => startOfZoneDay(Date.now()));
-  // Which zone the two anchors above were computed in.
-  //
-  // ⚠️ THEY MUST NEVER BE MIDNIGHTS IN DIFFERENT ZONES, and without this they can be.
-  // `syncClock` re-anchors `todayStart` in EVERY mode but `dayStart` only while live, so a
-  // reader who is scrubbed to another day when the device zone changes (they land, the
-  // phone moves the clock, they reopen the app) ends up with today's midnight in Riyadh and
-  // the viewed day's midnight in Stockholm. Everything downstream is derived from the gap
-  // between them, so everything downstream breaks at once: `dayOffset` becomes round(23/24)
-  // — and for a shift of 13 h or more it rounds to zero, so the dock labels tomorrow
-  // "i dag"; `dayLength` measures 21 or 27 hours, so the scrubber's fraction clamps to a
-  // rail; and DayPicker builds its cells with `addZoneDays(todayStart, n)`, so none of them
-  // equals `dayStart` and the calendar shows no day selected at all.
   const anchorZone = useRef(getDisplayZone());
-
-  // The true length of the day starting at dayStart: probe ~26 h ahead to land firmly
-  // inside the next calendar day (even a 25 h fall-back day is only 25 h), snap to ITS
-  // midnight, and take the gap — 23 h, 24 h or 25 h. Recomputed only when the day rolls
-  // over (dayStart changes), so the Intl work is once per day, not per render.
-  const dayLength = useMemo(() => zoneDayLength(dayStart), [dayStart]);
+  const revision = useDeviceClockRevision();
 
   // Live mode follows the wall clock, re-anchoring the day when it rolls over — but
   // only while `active`. Off-screen the tick is paused (no background field rebuild);
@@ -175,7 +156,7 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
   // tick must not itself cause the render the deferral exists to avoid.
   const heldBack = useRef(false);
 
-  const syncClock = useEffectEvent(() => {
+  const syncClock = useEffectEvent((force = false) => {
     const t = Date.now();
     const today = startOfZoneDay(t);
     // The zone moved under us. Re-anchor BOTH midnights together, in every mode, keeping the
@@ -185,13 +166,12 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
     const zone = getDisplayZone();
     if (zone !== anchorZone.current) {
       anchorZone.current = zone;
-      // Effect Events see the latest committed state, so this is the current anchor.
+      heldBack.current = false;
       const wasToday = todayStart;
       setTodayStart(today);
-      setView((v) => ({
-        dayStart: addZoneDays(today, Math.round((v.dayStart - wasToday) / 86_400_000)),
-        now: mode === 'live' ? t : v.now,
-      }));
+      setView((v) => mode === 'live'
+        ? atInstant(t, today)
+        : moveView(v, addZoneDays(today, dayOffsetFrom(v.dayStart, wasToday))));
       return;
     }
     // Tracked in EVERY mode and NEVER deferred: this is the cheap half (React bails out on
@@ -203,34 +183,33 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
     // The expensive half — a new `now` rebuilds the whole-country field and re-renders the
     // map screen. One tick in a row may be held back; see the `shouldDefer` docs for why the
     // bound matters.
-    if (!heldBack.current && shouldDefer?.() === true) {
+    if (!force && !heldBack.current && shouldDefer?.() === true) {
       heldBack.current = true;
       return;
     }
     heldBack.current = false;
-    setView((v) => (v.now === t && v.dayStart === today ? v : { now: t, dayStart: today }));
+    setView((v) => (v.now === t && v.dayStart === today ? v : atInstant(t, today)));
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!active) return;
-    syncClock();
-    const id = setInterval(syncClock, LIVE_TICK_MS);
+    syncClock(true);
+    const id = setInterval(() => syncClock(), LIVE_TICK_MS);
     return () => clearInterval(id);
-  }, [active]);
+  }, [active, revision]);
 
   // All three of these read the PENDING view rather than the rendered one, so a jump and a
   // step landing in the same React batch compose instead of the second overwriting the
-  // first. `zoneDayLength` is re-derived inside the updater for the same reason: the memo
-  // below belongs to the committed day, which may not be the one being replaced.
+  // first. The duration belongs to each pending view, including across a zone change.
   const setFraction = useCallback((f: number) => {
     setMode('scrub');
-    setView((v) => ({ ...v, now: v.dayStart + clamp01(f) * zoneDayLength(v.dayStart) }));
+    setView((v) => ({ ...v, now: v.dayStart + clamp01(f) * v.dayLength }));
   }, []);
 
   const setInstant = useCallback((ms: number) => {
     setMode('scrub');
     setView((v) => {
-      const end = v.dayStart + zoneDayLength(v.dayStart);
+      const end = v.dayStart + v.dayLength;
       return { ...v, now: ms < v.dayStart ? v.dayStart : ms > end ? end : ms };
     });
   }, []);
@@ -243,7 +222,7 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
     // a day outright, so it REPLACES the view rather than deriving from it: a step queued
     // behind it in the same batch is meant to be overruled.
     const today = startOfZoneDay(t);
-    setView({ now: t, dayStart: today });
+    setView(atInstant(t, today));
     setTodayStart(today);
   }, []);
 
@@ -302,8 +281,7 @@ export function useSolarClock(active = true, shouldDefer?: () => boolean): Solar
           const clamped =
             offset < -MAX_DAY_OFFSET ? -MAX_DAY_OFFSET : offset > MAX_DAY_OFFSET ? MAX_DAY_OFFSET : offset;
           const nextStart = addZoneDays(todayStart, clamped);
-          const f = clamp01((v.now - v.dayStart) / zoneDayLength(v.dayStart));
-          return { dayStart: nextStart, now: nextStart + f * zoneDayLength(nextStart) };
+          return moveView(v, nextStart);
         });
       });
     },

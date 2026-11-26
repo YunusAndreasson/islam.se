@@ -116,10 +116,10 @@ function Introduction({ initialStep }: { initialStep: number }) {
     pendingStep.current = null;
     if (outcome === 'completed') hapticSuccess();
     reportEnd(outcome);
-    complete(outcome);
+    complete(outcome, outcome === 'completed');
     // replace, not push: the introduction is not somewhere to go back to. Anyone who
     // wants it again gets it from Inställningar → Visa introduktionen igen.
-    router.replace('/bonetider');
+    router.dismissTo('/bonetider');
   };
 
   // The welcome step's "Hoppa över": the one way out that is not the last step.

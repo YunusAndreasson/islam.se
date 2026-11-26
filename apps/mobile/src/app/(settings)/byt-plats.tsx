@@ -8,7 +8,7 @@
 // 2,100-place list behaviour is the point. This route is the wiring: chrome, the write,
 // and the pop.
 import { router, useLocalSearchParams } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -45,19 +45,21 @@ export default function BytPlats() {
   const { from } = useLocalSearchParams<{ from?: string }>();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
+  const picked = useRef(false);
   const selected =
     settings.manualLocation ??
     (settings.locationMode === 'manual' ? DEFAULT_PICKER_LOCATION : null);
 
   const handlePick = (p: SwedishPlace): void => {
+    if (picked.current) return;
+    picked.current = true;
     update({
       locationMode: 'manual',
       manualLocation: namedPlace(p),
     });
     // How, and from where. Never which place.
     void analytics.track(ANALYTICS_EVENTS.LOCATION_SET, { source: 'manual', context: contextFrom(from) });
-    if (router.canGoBack()) router.back();
-    else router.replace('/(settings)/installningar');
+    router.dismissTo(contextFrom(from) === 'settings' ? '/(settings)/installningar' : '/bonetider');
   };
 
   return (
