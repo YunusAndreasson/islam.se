@@ -950,8 +950,6 @@ describe('tab screens', () => {
   it('counts down the turn and names the side to turn toward', async () => {
     const emit = headingEmitter();
     await renderSettled(withProviders(<Qibla />));
-    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
-    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
     // Facing 40° anticlockwise of the qibla: the short way back is clockwise — your right.
     await emit(TEST_QIBLA - 40);
 
@@ -970,8 +968,6 @@ describe('tab screens', () => {
   it('names the other side when the qibla is anticlockwise of you', async () => {
     const emit = headingEmitter();
     await renderSettled(withProviders(<Qibla />));
-    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
-    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
     await emit(TEST_QIBLA + 40);
 
     expect(screen.getByText('Vrid åt vänster')).toBeTruthy();
@@ -981,8 +977,6 @@ describe('tab screens', () => {
   it('confirms the lock rather than counting, once you are facing Mecca', async () => {
     const emit = headingEmitter();
     await renderSettled(withProviders(<Qibla />));
-    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
-    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
     await emit(TEST_QIBLA);
 
     expect(screen.getByText('Du är vänd mot Mecka')).toBeTruthy();
@@ -992,8 +986,6 @@ describe('tab screens', () => {
   it('withholds the count while the compass is still calibrating', async () => {
     const emit = headingEmitter();
     await renderSettled(withProviders(<Qibla />));
-    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
-    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
     // A reading pointing DEAD at the qibla, but with the calibration level the OS uses to say
     // "don't trust me". The same gate that hides the needle has to hide the number: a count
     // ticking toward a bearing the dial is refusing to draw would be the screen contradicting
@@ -1012,8 +1004,6 @@ describe('tab screens', () => {
       .mocked(Location.requestForegroundPermissionsAsync)
       .mockResolvedValueOnce({ status: 'denied', granted: false } as never);
     await renderSettled(withProviders(<Qibla />));
-    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
-    await fireEvent.press(screen.getByRole('button', { name: 'Använd kompassen' }));
 
     await waitFor(() => expect(screen.getByText(/Platsåtkomst nekad/)).toBeTruthy());
     // Two ways forward, not a dead end: fix the permission, or read the direction off the

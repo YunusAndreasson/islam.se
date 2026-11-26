@@ -169,6 +169,12 @@ export default function Qibla() {
     setRefused(permission?.granted !== true);
     permissionInFlight.current = false;
   }
+  // The compass starts by itself: opening Qibla is the request. With permission already
+  // granted it simply runs; undetermined asks once; denied lands on the Settings guidance.
+  useEffect(() => {
+    if (focused && !compassOn && !refused) void enableCompass();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused]);
   useEffect(() => {
     if (!focused || !refused) return;
     let active = true;
@@ -244,7 +250,7 @@ export default function Qibla() {
   }, [calibrating]);
 
   const line = !compassOn && !refused
-    ? { icon: 'compassRose' as const, text: 'Kompass av', tone: 'quiet' as const }
+    ? { icon: 'compassRose' as const, text: 'Startar kompassen', tone: 'quiet' as const }
     : statusLine(status, turn, noCompass, permissionDenied || refused);
   const bearingDeg = Math.round(bearing);
   // The hero numeral: the live remaining turn when we have a heading worth trusting, the
@@ -345,8 +351,7 @@ export default function Qibla() {
             it goes once you are closing in, having done its job — doesn't shift the
             readout under the reader's eye. */}
         <View style={styles.noteSlot}>
-          {!compassOn && !refused ? <><Text style={styles.note}>Med platsåtkomst kan kompassen följa med när du vänder dig.</Text><Pressable accessibilityRole="button" onPress={() => void enableCompass()} style={styles.link}>
-            <Text style={styles.linkText}>Använd kompassen</Text></Pressable></> : permissionDenied || refused ? (
+          {!compassOn && !refused ? null : permissionDenied || refused ? (
             <>
               <Text style={styles.note}>
                 Platsåtkomst nekad. Tillåt i {settingsName} för att använda kompassen.

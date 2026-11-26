@@ -24,6 +24,7 @@
 // half the day, which left a warm slab floating on a night sky. The tint now comes from
 // theme/skyChrome, one value shared with every other card on the map. Ink, accent and brass
 // are untouched: only the material under them changes temperature.
+import { useWidgetPlaced } from '@/widget/useWidgetPlaced';
 import { FirstRunButton } from '@/components/intro/FirstRunButton';
 import { useCardInsets } from '@/theme/window-layout';
 import type { PrayerTimes } from 'adhan';
@@ -453,6 +454,7 @@ export function PrayerDock({
   onWidget,
   onExpandedChange,
 }: Props) {
+  const widgetPlaced = useWidgetPlaced();
   const insets = useSafeAreaInsets();
   // Ink, accent and brass: the OS theme's, never the sun's (see the header).
   const c = useColors();
@@ -1138,7 +1140,7 @@ export function PrayerDock({
                       visible={expanded}
                     />
                   ) : null}
-                  {expanded && onWidget && <FirstRunButton label="Lägg till widget ›" onPress={() => onWidget(Date.now())} />}
+                  {expanded && onWidget && !widgetPlaced && <FirstRunButton label="Lägg till widget ›" onPress={() => onWidget(Date.now())} />}
                 </Animated.View>
               </ScrollView>
               <View style={styles.scheduleDivider} pointerEvents="none" />
