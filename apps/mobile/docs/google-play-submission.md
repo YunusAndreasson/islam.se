@@ -105,12 +105,17 @@ process the data on our behalf, which Play doesn't count as sharing), **not proc
 ephemerally**, **required** (there is no in-app opt-out), encrypted in transit:
 
 - **App info and performance → Crash logs** — purpose **App functionality** (Sentry, kept up
-  to 90 days).
+  to 90 days; each report carries the screens visited and the foreground/background moves
+  before the error, never a position, URL or touch).
+- **App info and performance → Diagnostics** — purpose **App functionality** (Sentry
+  release-health sessions since Nov 2026: one per app open, with start, duration,
+  whether it crashed and the release; kept up to 90 days).
 - **App activity → App interactions** — purpose **Analytics** (app opens and screens, the
   introduction's steps, the answers to the permission dialogs, reminder and widget taps, first prayer readings and offers, verified scheduling and exact-alarm access, launcher support, verified widget placement, and first-visit foreground samples and coarse session-one and day-seven outcomes (including unknown), with the original observation time on offline retries, a few
   actions, and coarse setting states such as whether reminders are on; never the place, the
   calculation method or the madhab — see `src/lib/analytics/events.ts`).
-- **Device or other IDs** — purpose **Analytics** (Mixpanel's random anonymous id).
+- **Device or other IDs** — purpose **Analytics** (Mixpanel's random anonymous id) and **App
+  functionality** (the Sentry SDK's random installation id on sessions and crash reports).
 - **Location → Approximate location** — purpose **Analytics** (Mixpanel derives city, region
   and country from the request IP; the app never sends the device location or map position).
 

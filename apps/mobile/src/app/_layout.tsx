@@ -27,6 +27,7 @@ import type { PrayerSettings } from '@/lib/settings/types';
 // pinned before the first render, so this import has to land before RootLayout runs. See
 // @/lib/splash for what the gate waits for and, more importantly, what it refuses to.
 import { SplashGate } from '@/lib/splash';
+import { useSentryBreadcrumbs } from '@/lib/useSentryBreadcrumbs';
 import { usePrayerActivitySync } from '@/widget/usePrayerActivitySync';
 import { reloadPrayerWidget, syncPrayerWidget } from '@/widget/sync';
 import { useActiveScheme, useColors } from '@/theme/useColors';
@@ -181,6 +182,13 @@ function ScreenViews() {
   return null;
 }
 
+// The trail a crash report carries: screen changes and foreground/background, nothing else
+// (see @/lib/sentry-breadcrumbs). Renders nothing.
+function CrashTrail() {
+  useSentryBreadcrumbs();
+  return null;
+}
+
 // App Opened (cold/warm, only once the app is really in the foreground), First Open, and
 // the super properties every event carries (see @/lib/analytics/useAppAnalytics). Inside
 // LocationProvider because location_source is one of them. Renders nothing.
@@ -296,6 +304,7 @@ export default function RootLayout() {
               <NotificationRouting />
               <AppAnalytics />
               <ScreenViews />
+              <CrashTrail />
               <WidgetSync />
               <PrayerActivitySync />
               <AppSystemBars />

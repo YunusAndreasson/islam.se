@@ -28,7 +28,7 @@ const updated = "21 november 2026";
 				och appen: det finns inga konton och ingen reklam. Webbplatsen räknar besök anonymt
 				med Cloudflare Web Analytics, som inte använder kakor och inte sparar några
 				personuppgifter. Appen skickar anonym användningsstatistik till Mixpanel och felrapporter
-				till Sentry. Den här policyn beskriver vad som
+				och anonym stabilitetsstatistik till Sentry. Den här policyn beskriver vad som
 				hanteras, och var.
 			</p>
 
@@ -110,14 +110,27 @@ const updated = "21 november 2026";
 				Om appen kraschar eller stöter på ett oväntat fel skickar den en felrapport till
 				Sentry, en tjänst för felövervakning, så att vi kan hitta och rätta felet. Rapporten
 				innehåller tekniska uppgifter om felet och enheten, till exempel felmeddelandet, var i
-				koden felet uppstod, appens version och enhetens modell och operativsystem. Din
-				position och dina inställningar ingår aldrig.
+				koden felet uppstod, appens version och enhetens modell och operativsystem.
 			</p>
 			<p>
-				Rapporter skickas bara när något har gått fel – så länge appen fungerar hör den inte
-				av sig till Sentry. Som vilken webbtjänst som helst ser Sentry den IP-adress en rapport
-				kommer ifrån, men den sparas inte. Rapporterna raderas automatiskt efter högst 90
-				dagar.
+				Med rapporten följer också de senaste stegen före felet: vilka skärmar i appen du gick
+				mellan, till exempel från kartan till inställningarna, och när appen lades i bakgrunden
+				eller öppnades igen. Det är bara skärmarnas namn – aldrig vad som visades på dem. Din
+				position, kartans position och dina inställningar ingår aldrig, och inte heller vilka
+				adresser appen hämtat data från eller var på skärmen du tryckt.
+			</p>
+			<p>
+				Varje gång du öppnar appen skickar den dessutom en anonym session till Sentry. Den säger
+				när appen startade, hur länge den var öppen, om den avslutades av en krasch och vilken
+				version det gällde – så att vi kan se hur stor del av användningen som går utan krasch i
+				varje version och märka om en uppdatering har gjort något sämre. Sessionen innehåller
+				ingen position och inget om vad du gör i appen.
+			</p>
+			<p>
+				Rapporter och sessioner märks med ett slumpmässigt id som skapas i appen, skilt från
+				id:t i användningsstatistiken. Inget namn och inget konto kopplas till id:t. Som vilken
+				webbtjänst som helst ser Sentry den IP-adress en rapport eller session kommer ifrån,
+				men den sparas inte. Rapporter och sessioner raderas automatiskt efter högst 90 dagar.
 			</p>
 			<p>
 				Sentry drivs av det amerikanska företaget Functional Software, Inc. och lagrar

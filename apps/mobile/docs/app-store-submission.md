@@ -66,9 +66,10 @@ tracking**:
 
 | Data type | Purpose | Source |
 |---|---|---|
-| Diagnostics → Crash Data | App Functionality | Sentry (`src/lib/sentry.ts`) |
+| Diagnostics → Crash Data | App Functionality | Sentry reports (`src/lib/sentry.ts`) |
+| Diagnostics → Other Diagnostic Data | App Functionality | Sentry release-health sessions, since Nov 2026 |
 | Usage Data → Product Interaction | Analytics | Mixpanel events (`src/lib/analytics/events.ts`) |
-| Identifiers → Device ID | Analytics | Mixpanel's random anonymous id |
+| Identifiers → Device ID | Analytics, App Functionality | Mixpanel's random anonymous id (Analytics); the Sentry SDK's random installation id on sessions and reports (App Functionality) |
 | Location → Coarse Location | Analytics | Mixpanel derives city/region/country from the request IP |
 
 "Data Not Collected" was right for 1.0.2 and stops being right with the first release that
@@ -82,16 +83,25 @@ Why nothing else needs declaring:
 - **Location** is used only to compute prayer times / qibla **on the device**. It is never
   transmitted to us or to a server, never stored off-device. Under Apple's definition, data that
   never leaves the device is **not "collected."** Crash reports carry no position either:
-  `src/lib/sentry.ts` turns off breadcrumbs, screenshots, the view hierarchy and memory
-  introspection, which is where it could leak, and `sentry.test.ts` fails on the edit that
-  turns any of them back on. Mixpanel events carry no position either (`events.ts` forbids
+  `src/lib/sentry.ts` holds breadcrumbs to an allow-list of two kinds (screen changes, by
+  route file name only, and moves between foreground and background), switches every native
+  breadcrumb source off (network, touch, system events), and turns off screenshots, the view
+  hierarchy and memory introspection, which is where it could leak. `sentry.test.ts` and
+  `sentry-breadcrumbs.test.ts` fail on the edit that loosens any of them. Mixpanel events carry no position either (`events.ts` forbids
   it; the mosque-report event carries only the reason, and `location_source` says only
   gps/manual/default, never the place). The Coarse Location row above is Mixpanel's own
   server-side IP geolocation, not the device location.
 - **Crash reports** hold the error, where in the code it happened, the app version and the
-  device's model and OS: Crash Data, nothing more. No user, device name or IP address is
-  attached, Sentry is set not to store the IP it sees, and sessions are off, so a healthy launch
-  sends nothing.
+  device's model and OS, and the trail before it: which screens (route file names, never
+  params) and when the app went to the background or came back. Crash Data, nothing more.
+  No name, account, device name or IP address is attached, and Sentry is set not to store
+  the IP it sees.
+- **Sessions** (release health, since Nov 2026): each time the app is opened the
+  native SDK sends one session — when it started, how long it ran, whether it ended in a
+  crash, the release. That is Other Diagnostic Data, for the crash-free rate per release. It
+  carries no position, no breadcrumbs and no user. Sessions and reports are keyed by a random
+  installation id the Sentry SDK creates (separate from Mixpanel's), hence App Functionality
+  on the Device ID row. Not linked to identity, not tracking.
 - **Usage events** go to Mixpanel (EU data residency, api-eu.mixpanel.com) under a random
   anonymous id: no `identify`, no people profile, automatic events off. They are not combined
   with other companies' data, so they are not "tracking" in Apple's sense. What they hold
