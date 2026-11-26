@@ -61,6 +61,8 @@ import {
 } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
+  FadeIn,
+  FadeOut,
   interpolate,
   type SharedValue,
   useAnimatedReaction,
@@ -391,6 +393,8 @@ interface Props {
   next: NextPrayer | null;
   locationLabel: string;
   previewingPlace?: boolean;
+  cityTransitionKey?: string;
+  reduceCityMotion?: boolean;
   /** True when `locationLabel` is the Stockholm FALLBACK rather than a place the user
    *  actually has — no GPS fix and no manual city (LocationSource 'default'). The dock
    *  then offers "Välj plats" instead of naming a city the user never chose, because a
@@ -441,6 +445,8 @@ export function PrayerDock({
   next,
   locationLabel,
   previewingPlace = false,
+  cityTransitionKey,
+  reduceCityMotion = false,
   locationIsFallback = false,
   settings,
   revealSchedule = false,
@@ -451,6 +457,8 @@ export function PrayerDock({
   // Ink, accent and brass: the OS theme's, never the sun's (see the header).
   const c = useColors();
   const scheme = useActiveScheme();
+  const cityEntering = !reduceCityMotion && cityTransitionKey ? FadeIn.duration(motion.base) : undefined;
+  const cityExiting = reduceCityMotion ? undefined : FadeOut.duration(motion.base);
   // The card's own ground follows the sky it floats on (see theme/skyChrome); everything
   // else about the dock — ink, accent, brass — stays on the palette.
   const sky = useSkyGlass();
@@ -1069,8 +1077,9 @@ export function PrayerDock({
                 nestedScrollEnabled
                 scrollEnabled={expanded}
               >
-                <View style={styles.list} testID="dock-schedule" onLayout={onScheduleLayout}>
-                  {PRAYER_ORDER.map((key) => {
+                <Animated.View key={cityTransitionKey ?? 'home'} entering={cityEntering} exiting={cityExiting}
+                  style={styles.list} testID="dock-schedule" onLayout={onScheduleLayout}>
+                  {showSchedule && PRAYER_ORDER.map((key) => {
                     const { at, valid, side, crosses } = daySides[key];
                     // One Intl pass per row. This map runs again when the dock opens/closes,
                     // and formatting the same Date separately for the visible time and the
@@ -1121,7 +1130,7 @@ export function PrayerDock({
                   {/* The night's two voluntary landmarks, when asked for. Set apart by a rule
                       and a caption rather than merged into the list above: a reader glancing
                       at this card must be able to see where the obligations stop. */}
-                  {showNight ? (
+                  {showSchedule && showNight ? (
                     <NightGroup
                       styles={styles}
                       night={night}
@@ -1130,7 +1139,7 @@ export function PrayerDock({
                     />
                   ) : null}
                   {expanded && onWidget && <FirstRunButton label="Lägg till widget ›" onPress={() => onWidget(Date.now())} />}
-                </View>
+                </Animated.View>
               </ScrollView>
               <View style={styles.scheduleDivider} pointerEvents="none" />
             </Animated.View>
@@ -1140,7 +1149,8 @@ export function PrayerDock({
             {/* One persistent summary anchors both states and remains a drag affordance. */}
             <GestureDetector gesture={heroGesture}>
               <View style={styles.hero} testID="dock-summary">
-                <View style={styles.heroLayer} pointerEvents="auto">
+                <Animated.View key={cityTransitionKey ?? 'home'} entering={cityEntering} exiting={cityExiting}
+                  style={styles.heroLayer} pointerEvents="auto">
                   <View style={[styles.heroTop, stackedSummary && styles.heroTopStacked]}>
                     {next ? (
                       <Text style={styles.heroPrayer} numberOfLines={1}>
@@ -1181,7 +1191,7 @@ export function PrayerDock({
                       {place}
                     </View>
                   ) : previewingPlace ? place : null}
-                </View>
+                </Animated.View>
 
               </View>
             </GestureDetector>

@@ -25,6 +25,7 @@ import {
   useState,
 } from 'react';
 import {
+  AccessibilityInfo,
   AppState,
   Linking,
   type NativeSyntheticEvent,
@@ -38,6 +39,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   cancelAnimation,
   Easing,
+  FadeIn,
   FadeInUp,
   FadeOut,
   FadeOutUp,
@@ -50,6 +52,8 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { PrayerPlaceSearch } from '@/components/map/PrayerPlaceSearch';
+import { CityPreviewStatus } from '@/components/map/CityPreviewStatus';
+import { useCityPreview } from '@/components/map/useCityPreview';
 import { nearestPlace } from '@/lib/places/nearest';
 import { MapLineToast } from '@/components/map/MapLineToast';
 import { distanceToLine } from '@/lib/map/line-hit';
@@ -531,6 +535,11 @@ export default function Bonetider() {
   // settled event, the overlay never paints against a stale camera.
   const [cameraReady, setCameraReady] = useState(false);
   const reduceMotion = useReducedMotion();
+  const [reduceCityMotion, setReduceCityMotion] = useState(reduceMotion);
+  useEffect(() => {
+    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceCityMotion);
+    return () => subscription.remove();
+  }, []);
 
   // The basemap is fetched over the network at runtime (vector tiles + glyphs from
   // OpenFreeMap/MapTiler, elevation from the DEM host), so it can simply fail — offline,
@@ -1068,8 +1077,16 @@ export default function Bonetider() {
 
   const [lookup, setLookup] = useState<NamedLocation | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchedPlace, setSearchedPlace] = useState<NamedLocation | null>(null);
-  const previewPlace = lookup ?? searchedPlace;
+  const cityPreview = useCityPreview({
+    camera: cam,
+    cameraRef,
+    top: insets.top + navLaneTop + 48,
+    bottom: fitPadding.bottom,
+    reduceMotion: reduceCityMotion,
+  });
+  const previewPlace = lookup ?? cityPreview.shown;
+  const previewActive = !!cityPreview.destination || cityPreview.returning;
+  const cityPin = !cityPreview.returning && cityPreview.destination === cityPreview.shown ? cityPreview.shown : null;
   const pin = useSharedValue<{ x: number; y: number } | null>(null);
   const lookupTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const holding = useRef(false);
@@ -1101,7 +1118,7 @@ export default function Bonetider() {
     if (url !== PRAYER_COUNTDOWN_URL) return;
     finishLookup();
     setSearchOpen(false);
-    setSearchedPlace(null);
+    cityPreview.close(true);
     setSelectedMosque(null);
     setSelectedBurialGround(null);
     setLineMessage(null);
@@ -1121,9 +1138,17 @@ export default function Bonetider() {
   const placeCardOpen = !!((settings.showMosques && selectedMosque) ||
     (settings.showBurialGrounds && selectedBurialGround));
   const hintOpen = phase === 'hint-location' || phase === 'hint-notifications';
-  usePendingBack(!!previewPlace || placeCardOpen || hintOpen || mapLessonPending ||
+  function closeCityPreview() {
+    finishLookup();
+    setSelectedMosque(null);
+    setSelectedBurialGround(null);
+    setLineMessage(null);
+    cityPreview.close();
+  }
+  usePendingBack(!!lookup || previewActive || placeCardOpen || hintOpen || mapLessonPending ||
     dockExpanded || clock.mode === 'scrub', () => {
-    if (lookup) finishLookup();
+    if (previewActive) closeCityPreview();
+    else if (lookup) finishLookup();
     else if (placeCardOpen) {
       setSelectedMosque(null);
       setSelectedBurialGround(null);
@@ -1132,13 +1157,18 @@ export default function Bonetider() {
       if (lessonIndex > 0) setLessonIndex(lessonIndex - 1);
       else dismissLesson();
     } else if (dockExpanded) prayerDockRef.current?.collapse();
-    else if (searchedPlace) setSearchedPlace(null);
     else clock.reset();
   });
 
   const pinStyle = useAnimatedStyle(() => {
-    const point = pin.get() ?? (searchedPlace && project(searchedPlace.longitude, searchedPlace.latitude, cam.get()));
+    const point = pin.get();
     return { opacity: point ? 1 : 0, transform: [
+      { translateX: (point?.x ?? 0) - 12 }, { translateY: (point?.y ?? 0) - 24 },
+    ] };
+  });
+  const cityPinStyle = useAnimatedStyle(() => {
+    const point = cityPin && project(cityPin.longitude, cityPin.latitude, cam.get());
+    return { transform: [
       { translateX: (point?.x ?? 0) - 12 }, { translateY: (point?.y ?? 0) - 24 },
     ] };
   });
@@ -1237,7 +1267,7 @@ export default function Bonetider() {
     const home = initialFrame.current;
     const camera = cameraRef.current;
     if (!home || !camera || !cameraReady || moved || resetPending.current) return;
-    if (!mapActive || clock.mode !== 'live' || mapLessonPending || previewPlace) return;
+    if (!mapActive || clock.mode !== 'live' || mapLessonPending || previewPlace || previewActive || searchOpen) return;
     if (locationIsFallback || offline || mapMoving.current) return;
     if (clock.now < leanSuspendedUntil.current) return;
 
@@ -1327,6 +1357,7 @@ export default function Bonetider() {
     [publishCamera, viewportSize.width, viewportSize.height],
   );
 
+  const settleCityPreview = cityPreview.settle;
   const onRegionDidChange = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
       // At rest again. Do this before any of the early returns below: every one of them is
@@ -1376,6 +1407,7 @@ export default function Bonetider() {
       // The first qualifying settled event (zoom > 1) is the initial fit. Record it
       // as the comparison anchor for the "moved?" detector below; never enforce.
       const frame: Frame = { lon: vc.lon, lat: vc.lat, zoom };
+      if (zoom > 1 && settleCityPreview({ ...frame, width: viewportSize.width, height: viewportSize.height }, e.nativeEvent.userInteraction)) return;
       if (initialFrame.current === undefined) {
         if (zoom > 1) {
           initialFrame.current = frame;
@@ -1486,6 +1518,7 @@ export default function Bonetider() {
       flushClock,
       offline,
       approachInstants,
+      settleCityPreview,
     ],
   );
 
@@ -1607,6 +1640,9 @@ export default function Bonetider() {
     <SkyChromeProvider value={skyChrome}>
     <View
       style={[styles.container, { backgroundColor: basemapGroundFor(scheme) }]}
+      onKeyUpCapture={previewActive ? (e) => {
+        if (e.nativeEvent.key === 'Escape' || e.nativeEvent.code === 'Escape') closeCityPreview();
+      } : undefined}
       onTouchStartCapture={() => {
         movingAtTouchStart.current = mapMoving.current;
         tapSequence.current += 1;
@@ -1650,7 +1686,10 @@ export default function Bonetider() {
             showPoint(point.lon, point.lat);
           }, 80);
         }}
-        onTouchStart={(e) => { if (e.nativeEvent.touches.length > 1) finishLookup(); }}
+        onTouchStart={(e) => {
+          if (cityPreview.interrupt()) setMoved(!sameFrame(cam.get(), restFrame.current));
+          if (e.nativeEvent.touches.length > 1) finishLookup();
+        }}
         onTouchEnd={finishLookup}
         onTouchCancel={finishLookup}
       >
@@ -1892,7 +1931,30 @@ export default function Bonetider() {
         >
           <Icon name="place" size={24} color={colors.accent} />
         </Animated.View>
+        {cityPin && (
+          <Animated.View
+            entering={reduceCityMotion ? undefined : FadeIn.duration(motion.fast)}
+            exiting={reduceCityMotion ? undefined : FadeOut.duration(motion.fast)}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            style={[styles.lookupPin, cityPinStyle]}
+          >
+            <Icon name="place" size={24} color={colors.accent} />
+          </Animated.View>
+        )}
       </View>
+      {cityPin && (
+        <Animated.View
+          pointerEvents="none"
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+          entering={reduceCityMotion ? undefined : FadeIn.duration(motion.fast)}
+          exiting={reduceCityMotion ? undefined : FadeOut.duration(motion.fast)}
+          style={styles.lookupPinFrame}
+        >
+          <FirstCityLabel camera={cam} point={lonLatOf(cityPin)} name={cityPin.name} />
+        </Animated.View>
+      )}
       </GlassBackdropTarget>
       {firstRun && cameraReady && <FirstCityLabel camera={cam} point={userPoint} name={placeLabel} />}
       {opening && <FirstMapTitle top={insets.top + 8} onBottom={setTitleBottom} />}
@@ -1941,6 +2003,10 @@ export default function Bonetider() {
           locationLabel={previewPlace?.name ?? placeLabel}
           locationIsFallback={!previewPlace && locationIsFallback}
           previewingPlace={!!previewPlace}
+          cityTransitionKey={cityPreview.hasPreviewed
+            ? cityPreview.shown ? `${cityPreview.shown.longitude},${cityPreview.shown.latitude}` : 'home'
+            : undefined}
+          reduceCityMotion={reduceCityMotion}
           settings={settings}
           // Introduce the schedule once after onboarding; let the reader close it.
           // Ordinary launches and permission reminders leave the dock collapsed.
@@ -1990,22 +2056,26 @@ export default function Bonetider() {
           cannot show; otherwise nothing. See MapAction. */}
       {searchOpen && (
         <PrayerPlaceSearch onClose={() => setSearchOpen(false)} onPick={(place) => {
-          setSearchedPlace({ name: place.name, latitude: place.lat, longitude: place.lon });
           setSearchOpen(false);
+          if (!cityPreview.select({ name: place.name, latitude: place.lat, longitude: place.lon })) return;
+          prayerDockRef.current?.collapse();
+          setSelectedMosque(null);
+          setSelectedBurialGround(null);
+          setLineMessage(null);
+          resetPending.current = false;
         }} />
       )}
       {!opening && <MapNav
-        lookupSummary={searchedPlace && previewPlace
-          ? `${previewPlace.name}, ${dockNext ? `${PRAYER_LABELS[dockNext.key]} ${formatTime(new Date(dockNext.at))}` : 'inga fler böner'}`
-          : undefined}
         onLookup={mapLessonPending || firstRun ? undefined : () => {
-          if (searchedPlace) setSearchedPlace(null);
-          else setSearchOpen(true);
+          cityPreview.prepareSearch();
+          setSearchOpen(true);
         }}
         active={mapActive && !searchOpen && widgetOpenedAt === null && !firstRunModalOpen}
         gpuReady={gpuReady}
         action={
-          moved
+          previewActive || searchOpen
+            ? undefined
+            : moved
             ? {
                 kind: 'reset',
                 // No haptic on reset or locate: both fly the camera, and moving the map is
@@ -2042,7 +2112,15 @@ export default function Bonetider() {
               : undefined
         }
       />}
-      {lineMessage && <MapLineToast key={lineMessage.id} message={lineMessage.text}
+      {cityPreview.destination && <CityPreviewStatus
+        name={cityPreview.destination.name}
+        arriving={!cityPin}
+        fajr={Number.isFinite(dockTimes.fajr.getTime()) ? formatTime(dockTimes.fajr) : 'kan inte beräknas'}
+        top={hintTop}
+        reduceMotion={reduceCityMotion}
+        onClose={closeCityPreview}
+      />}
+      {!previewActive && lineMessage && <MapLineToast key={lineMessage.id} message={lineMessage.text}
         top={hintTop} onDismiss={dismissLineMessage} />}
 
       {/* The map's soft asks — at most ONE per launch, chosen by pickOffer above. Each
@@ -2053,11 +2131,11 @@ export default function Bonetider() {
           — a glass surface inside the target would sample itself instead of the map. They
           sit below the nav row and below the Återställ chip's lane, colliding with
           neither, and share one `top` so the two cards are visually interchangeable. */}
-      {phase === 'hint-location' && (
+      {!previewActive && phase === 'hint-location' && (
         <LocationHint top={hintTop} onClose={() => setPhase('done')} />
       )}
 
-      {phase === 'hint-notifications' && (
+      {!previewActive && phase === 'hint-notifications' && (
         <NotificationHint
           top={hintTop}
           onEnable={() => {

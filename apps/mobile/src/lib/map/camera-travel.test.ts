@@ -4,12 +4,16 @@ import { describe, expect, it } from '@jest/globals';
 
 import {
   cameraTravelMs,
+  cityCameraTarget,
+  cityFlightMs,
+  cityIsInView,
   MS_PER_SCREEN_WIDTH,
   MS_PER_ZOOM_LEVEL,
   TRAVEL_MAX_MS,
   TRAVEL_MIN_MS,
+  reachedCameraTarget,
 } from './camera-travel';
-import type { Camera } from './projection';
+import { type Camera, project, unproject } from './projection';
 
 // The whole-Sweden home frame on a phone, near enough, and Stockholm at street scale.
 const HOME: Camera = { lon: 17.4, lat: 62.5, zoom: 4.5, width: 393, height: 852 };
@@ -50,5 +54,44 @@ describe('cameraTravelMs', () => {
     const one = cameraTravelMs(HOME, { ...HOME, zoom: HOME.zoom + 1 });
     const two = cameraTravelMs(HOME, { ...HOME, zoom: HOME.zoom + 2 });
     expect(two - one).toBe(MS_PER_ZOOM_LEVEL);
+  });
+});
+
+describe('city preview camera', () => {
+  const malmo = { lon: 13.0038, lat: 55.605, zoom: 9.3 };
+  const lund = { lon: 13.191, lat: 55.7058, zoom: 9.3 };
+  const kiruna = { lon: 20.225, lat: 67.8557, zoom: 9.3 };
+  const top = 104;
+  const bottom = 220;
+
+  it('centres the city in the map exposed between the nav and dock', () => {
+    const target = cityCameraTarget(HOME, malmo, top, bottom);
+    const projected = project(malmo.lon, malmo.lat, target);
+    expect(projected.x).toBeCloseTo(HOME.width / 2);
+    expect(projected.y).toBeCloseTo((HOME.height - bottom + top) / 2);
+    expect(target.zoom).toBe(malmo.zoom);
+  });
+
+  it('only eases to visible cities clear of the top, side and bottom chrome', () => {
+    const from = cityCameraTarget(HOME, malmo, top, bottom);
+    expect(cityIsInView(from, lund, top, bottom)).toBe(true);
+    expect(cityIsInView(from, kiruna, top, bottom)).toBe(false);
+    for (const [x, y] of [[8, 400], [380, 400], [200, 20], [200, 820]] as const) {
+      expect(cityIsInView(from, unproject(x, y, from), top, bottom)).toBe(false);
+    }
+  });
+
+  it('scales and bounds the arc in both directions', () => {
+    expect(cityFlightMs(malmo, malmo)).toBe(800);
+    expect(cityFlightMs(malmo, lund)).toBeLessThan(900);
+    expect(cityFlightMs(malmo, kiruna)).toBe(1800);
+    expect(cityFlightMs(kiruna, malmo)).toBe(cityFlightMs(malmo, kiruna));
+  });
+
+  it('rejects an intermediate settle at the wrong zoom or location', () => {
+    const target = cityCameraTarget(HOME, malmo, top, bottom);
+    expect(reachedCameraTarget(target, target)).toBe(true);
+    expect(reachedCameraTarget({ ...target, zoom: target.zoom - 0.1 }, target)).toBe(false);
+    expect(reachedCameraTarget({ ...target, lon: target.lon + 1 }, target)).toBe(false);
   });
 });

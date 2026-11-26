@@ -74,13 +74,11 @@ export function MapNav({
   active,
   action,
   onLookup,
-  lookupSummary,
   gpuReady,
 }: {
   active: boolean;
   action?: MapAction;
   onLookup?: () => void;
-  lookupSummary?: string;
   gpuReady: boolean;
 }) {
   const navigate = useMapNavigate();
@@ -141,11 +139,10 @@ export function MapNav({
             tint={sky.surface}
             rim={c.hairline}
             size={disc}
-            accessibilityLabel={lookupSummary ? 'Avsluta platsförhandsvisning' : 'Sök bönetider på annan plats'}
-            accessibilityValue={lookupSummary}
+            accessibilityLabel="Sök bönetider på annan plats"
             onPress={onLookup}
           >
-            <Icon name={lookupSummary ? 'close' : 'search'} size={glyph} color={c.ink} />
+            <Icon name="search" size={glyph} color={c.ink} />
           </GlassRoundButton>
         )}
         {action && appearance && (

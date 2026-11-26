@@ -60,6 +60,7 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
           jumpTo: jest.fn(),
           flyTo: jest.fn(),
           fitBounds: jest.fn(),
+          setStop: jest.fn(async () => {}),
         }),
         [],
       );
