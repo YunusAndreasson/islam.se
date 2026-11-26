@@ -4,7 +4,7 @@ import { NavigationBar } from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
-import { useEffect, useEffectEvent, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import { AppState, Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -232,6 +232,7 @@ export default function RootLayout() {
   // fills the viewport, so the contentStyle ground only shows during transitions
   // into the (also-themed) Settings / Qibla sheets.
   const c = useColors();
+  const [launchScreenAppeared, setLaunchScreenAppeared] = useState(false);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
@@ -245,13 +246,25 @@ export default function RootLayout() {
               {/* Opaque paper ground so screen-to-screen transitions never flash the
                   map through an incoming page. Qibla and the Settings group present as
                   sheets over the map; everything else keeps the default card transition. */}
-              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }}>
-                {/* Home. Reached two ways — index.tsx's cold-launch redirect, and
-                    valkommen's router.replace() on finish — and both are "the app
-                    appearing", not one screen sliding over another, so no animation:
-                    the default native-stack push (slide in from the right on iOS) read
-                    as the app visibly opening a second screen on its own first frame. */}
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: c.paper },
+                  // iOS can present a cold-linked modal over the map anchor as the stack mounts.
+                  animation: launchScreenAppeared ? 'default' : 'none',
+                }}
+                screenListeners={launchScreenAppeared ? undefined : ({ navigation }) => ({
+                  transitionEnd: ({ data }) => {
+                    if (!data.closing && navigation.isFocused()) setLaunchScreenAppeared(true);
+                  },
+                })}
+              >
+                {/* Also used when dismissTo() has to replace the current route. */}
                 <Stack.Screen name="bonetider" options={{ animation: 'none' }} />
+                {/* The cold-launch redirect sits above the bonetider anchor and leaves with
+                    dismissTo(), a pop: with the default animation the map slid in from the
+                    left on every launch. A popped screen uses its own animation, so none. */}
+                <Stack.Screen name="index" options={{ animation: 'none' }} />
                 <Stack.Screen name="qibla" options={{ presentation: 'modal' }} />
                 {/* The map's other instrument. Same presentation as Qibla, from the disc
                     directly under it — the two are a pair and must behave as one. */}
@@ -274,7 +287,7 @@ export default function RootLayout() {
                   options={{
                     presentation: 'fullScreenModal',
                     gestureEnabled: false,
-                    animation: 'fade',
+                    animation: launchScreenAppeared ? 'fade' : 'none',
                   }}
                 />
               </Stack>

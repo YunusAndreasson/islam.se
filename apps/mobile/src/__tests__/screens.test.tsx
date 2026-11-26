@@ -430,7 +430,7 @@ describe('tab screens', () => {
     }
   });
 
-  it('searches for prayer times without changing the saved location', async () => {
+  it('searches for prayer times without changing the saved location', async () => withPlatform('android', async () => {
     await renderSettled(withProviders(<Bonetider />));
     const dock = () => oneOfType(PrayerDock, 'prayer dock').props;
     const initial = dock();
@@ -438,11 +438,11 @@ describe('tab screens', () => {
     await fireEvent.press(screen.getByLabelText('Sök bönetider på annan plats'));
     await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
     await fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
-    expect(dock().locationLabel).toBe('Umeå');
+    await waitFor(() => expect(dock().locationLabel).toBe('Umeå'), { timeout: 3000 });
     expect(await AsyncStorage.getItem(SETTINGS_KEY)).toBe(stored);
-    await fireEvent.press(screen.getByLabelText('Avsluta platsförhandsvisning'));
-    expect(dock().times).toBe(initial.times);
-  });
+    await fireEvent.press(screen.getByLabelText('Tillbaka till kartan'));
+    await waitFor(() => expect(dock().times).toBe(initial.times), { timeout: 3000 });
+  }));
 
   it('returns from the iOS city sheet without selecting a city', async () => {
     await withPlatform('ios', async () => {
@@ -466,7 +466,7 @@ describe('tab screens', () => {
     });
   });
 
-  it('restores the live local timetable when a countdown opens over a city and date preview', async () => {
+  it('restores the live local timetable when a countdown opens over a city and date preview', async () => withPlatform('android', async () => {
     // A live reminder can be tapped while yesterday or another town is still on screen.
     await renderSettled(withProviders(<Bonetider />));
     const dock = () => oneOfType(PrayerDock, 'prayer dock').props;
@@ -474,6 +474,7 @@ describe('tab screens', () => {
     await fireEvent.press(screen.getByLabelText('Sök bönetider på annan plats'));
     await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
     await fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
+    await waitFor(() => expect(dock().locationLabel).toBe('Umeå'), { timeout: 3000 });
     await fireEvent(screen.getByLabelText('Visa alla bönetider'), 'accessibilityTap');
     await fireEvent.press(screen.getByLabelText('Föregående dag'));
     await fireEvent.press(screen.getByTestId('prayer-dock-date'));
@@ -489,24 +490,25 @@ describe('tab screens', () => {
     expect(dock().locationLabel).toBe(local);
     expect(dock().clock.mode).toBe('live');
     expect(screen.queryByTestId('calendar-header')).toBeNull();
-  });
+  }));
 
-  it('updates the complete Android accessibility label when a preview ends', async () => {
-    // Android retained the last city and prayer in the native content description
-    // after the lookup button switched back to search.
+  it('gives the search and the city preview independent accessibility controls', async () => {
     await withPlatform('android', async () => {
       await renderSettled(withProviders(<Bonetider />));
       const search = 'Sök bönetider på annan plats';
       await fireEvent.press(screen.getByRole('button', { name: search }));
       await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'Göteborg');
       await fireEvent.press(screen.getByRole('button', { name: /^Göteborg,/ }));
-      await fireEvent.press(screen.getByRole('button', { name: /^Avsluta platsförhandsvisning, Göteborg,/ }));
+      await waitFor(() => expect(screen.getByLabelText(/^Visar Göteborg, Fajr /)).toBeTruthy(), { timeout: 3000 });
+      expect(screen.getByRole('button', { name: search })).toBeTruthy();
+      await fireEvent.press(screen.getByRole('button', { name: 'Tillbaka till kartan' }));
+      expect(screen.queryByTestId('city-preview-status')).toBeNull();
       expect(screen.getByRole('button', { name: search })).toBeTruthy();
     });
   });
 
   // Back used to leave the app with another city's timetable still showing.
-  it('uses Android back to end a place preview and releases it on the live map', async () => {
+  it('uses Android back to end a place preview and releases it on the live map', async () => withPlatform('android', async () => {
     const remove = jest.fn();
     const listen = jest.spyOn(BackHandler, 'addEventListener').mockReturnValue({ remove });
     try {
@@ -515,15 +517,19 @@ describe('tab screens', () => {
       await fireEvent.press(screen.getByLabelText('Sök bönetider på annan plats'));
       await fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
       await fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
+      await waitFor(() => expect(screen.getByTestId('city-preview-status')).toBeTruthy());
+      await fireEvent(screen.getByLabelText('Visa alla bönetider'), 'accessibilityTap');
       const back = listen.mock.calls.at(-1)?.[1];
       expect(back).toBeDefined();
       await act(() => { expect(back?.({ type: 'hardwareBackPress', timeStamp: 0 })).toBe(true); });
-      expect(screen.queryByLabelText('Avsluta platsförhandsvisning')).toBeNull();
-      expect(remove).toHaveBeenCalled();
+      expect(screen.queryByTestId('city-preview-status')).toBeNull();
+      expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
+      await fireEvent(screen.getByLabelText('Dölj bönetider'), 'accessibilityTap');
+      await waitFor(() => expect(remove).toHaveBeenCalled(), { timeout: 3000 });
     } finally {
       listen.mockRestore();
     }
-  });
+  }));
 
   it('pulses at the user location for an arrival from the previous timetable', async () => {
     const at = Date.parse('2026-06-15T00:36:00+02:00');

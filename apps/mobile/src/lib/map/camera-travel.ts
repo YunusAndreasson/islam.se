@@ -17,9 +17,10 @@
 // the pan in screen widths at the WIDER of the two zooms, the view the ground is watched
 // sliding past in. Clamped to the two ends the old constants set, so nothing got slower
 // than the flight or quicker than the reset.
+import { haversineKm } from '@/lib/coordinates';
 import { motion } from '@/theme/tokens';
 
-import { type Camera, mercX, mercY, worldSize } from './projection';
+import { type Camera, mercX, mercY, project, unproject, worldSize } from './projection';
 
 /** The shortest a camera move of its own may take — a small correction. */
 export const TRAVEL_MIN_MS = motion.slow;
@@ -46,4 +47,33 @@ export function cameraTravelMs(from: Camera, to: CameraTarget): number {
   const screens = from.width > 0 ? Math.hypot(dx, dy) / from.width : 0;
   const ms = TRAVEL_MIN_MS + zoomSpan * MS_PER_ZOOM_LEVEL + screens * MS_PER_SCREEN_WIDTH;
   return Math.round(Math.min(TRAVEL_MAX_MS, Math.max(TRAVEL_MIN_MS, ms)));
+}
+
+/** Frame a city at regional scale in the exposed map above the dock. The target is
+ * the geometric viewport centre so both native SDKs can use the same zero padding. */
+export function cityCameraTarget(from: Camera, city: CameraTarget, top: number, bottom: number): Camera {
+  const frame = { ...from, ...city };
+  const anchorY = (top + Math.max(top, from.height - bottom)) / 2;
+  const centre = unproject(from.width / 2, from.height - anchorY, frame);
+  return { ...frame, ...centre };
+}
+
+export function cityIsInView(from: Camera, city: Pick<CameraTarget, 'lon' | 'lat'>, top: number, bottom: number): boolean {
+  const { x, y } = project(city.lon, city.lat, from);
+  const edge = 20;
+  return x >= edge && x <= from.width - edge && y >= top && y <= from.height - bottom;
+}
+
+/** The arc has time to show where the reader is going on a country-length trip. */
+export function cityFlightMs(from: CameraTarget, to: CameraTarget): number {
+  const km = haversineKm(from.lat, from.lon, to.lat, to.lon);
+  return Math.round(800 + Math.min(1, km / 1400) * 1000);
+}
+
+/** Match a camera settle to the current command, including when a previous flight
+ * emits a late settle as MapLibre replaces it. Compare at the destination scale. */
+export function reachedCameraTarget(frame: Camera, target: CameraTarget): boolean {
+  const { x, y } = project(target.lon, target.lat, frame);
+  return Math.abs(frame.zoom - target.zoom) < 0.08 &&
+    Math.hypot(x - frame.width / 2, y - frame.height / 2) < 20;
 }
