@@ -123,14 +123,13 @@ const { mode = "storage" } = Astro.props;
 	.bt-field input {
 		font-family: var(--font-heading);
 		font-variant-numeric: lining-nums tabular-nums;
-		/* 16px floor, not a scale step: below 16px iOS Safari auto-zooms the page on focus. */
-		font-size: 1rem;
+		font-size: var(--input-size);
 		color: var(--color-text);
 		background: var(--color-bg);
 		border: var(--border-row);
 		border-radius: var(--radius-sm);
 		padding: 0.45rem 0.6rem;
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	.bt-field select:focus-visible,
@@ -140,9 +139,9 @@ const { mode = "storage" } = Astro.props;
 
 	/* The marker and the smooth opening are the site's (layout.css, `.disclosure`). */
 	.bt-adv {
-		margin-top: var(--space-unit);
-		border-top: var(--border-row);
-		padding-top: var(--space-half);
+		margin-block-start: var(--space-unit);
+		border-block-start: var(--border-row);
+		padding-block-start: var(--space-half);
 	}
 
 	.bt-adv summary {
@@ -155,7 +154,7 @@ const { mode = "storage" } = Astro.props;
 	@media (hover: none), (pointer: coarse) {
 		.bt-field select,
 		.bt-field input {
-			min-height: var(--tap-target);
+			min-block-size: var(--tap-target);
 		}
 
 		.bt-adv summary {
@@ -164,7 +163,7 @@ const { mode = "storage" } = Astro.props;
 	}
 
 	.bt-adv-body {
-		margin-top: var(--space-half);
+		margin-block-start: var(--space-half);
 	}
 
 	.bt-adj {

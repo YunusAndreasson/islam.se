@@ -231,7 +231,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		flex-wrap: wrap;
 		align-items: stretch;
 		gap: var(--space-half);
-		margin-bottom: var(--space-half);
+		margin-block-end: var(--space-half);
 	}
 
 	/* The label is the flex item that stretches; the select inside has to fill it, or it keeps
@@ -247,9 +247,9 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	   top of the select. */
 	.mk-lan-chevron {
 		position: absolute;
-		top: 50%;
-		right: 0.8rem;
-		transform: translateY(-50%);
+		inset-block-start: 50%;
+		inset-inline-end: 0.8rem;
+		translate: 0 -50%;
 		color: var(--color-accent);
 		pointer-events: none;
 	}
@@ -257,13 +257,13 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	#mk-lan {
 		appearance: none;
 		font-family: var(--font-heading);
-		/* 16px, the input floor (DESIGN.md): below it iOS Safari zooms the page on focus. */
-		font-size: 1rem;
+		font-size: var(--input-size);
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: var(--border-row);
 		border-radius: var(--radius-sm);
-		padding: 0.55rem 2.4rem 0.55rem 1rem;
+		padding-block: 0.55rem;
+		padding-inline: 1rem 2.4rem;
 		cursor: pointer;
 	}
 
@@ -298,7 +298,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		margin: 0;
-		margin-left: auto;
+		margin-inline-start: auto;
 		font-variant-numeric: lining-nums tabular-nums;
 	}
 
@@ -326,14 +326,14 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		/* Taller than wide-ish: Sweden is a portrait country, so give it vertical room
 		   (the dimension that bounds the fit) and it fills the frame instead of floating
 		   in sea. */
-		height: 540px;
-		min-height: 360px;
+		block-size: 540px;
+		min-block-size: 360px;
 		border-radius: var(--radius-lg);
 		overflow: hidden;
 		/* Anchors .is-error before maplibre sets it on the container itself. */
 		position: relative;
 		/* Water tone from PALETTE in scripts/moskeer-map.ts — keep in step. */
-		background: light-dark(#bcd0de, #15171a);
+		background: var(--map-water);
 		/* Framed by its hairline and laid flat on the page, as the bönetider map is
 		   (PrayerField.astro says why). */
 		border: var(--border-row);
@@ -343,14 +343,14 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	   callout must grow to fill it. FullscreenControl targets .mk-stage so the callout +
 	   controls stay inside the fullscreen subtree. */
 	.mk-stage:fullscreen {
-		width: 100%;
-		height: 100%;
+		inline-size: 100%;
+		block-size: 100%;
 		background: var(--color-bg);
 	}
 
 	.mk-stage:fullscreen .mk-map {
-		height: 100%;
-		min-height: 0;
+		block-size: 100%;
+		min-block-size: 0;
 		border: 0;
 		border-radius: 0;
 	}
@@ -359,36 +359,35 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		position: absolute;
 		/* Bottom-right: clear of the top-right control stack and of Sweden's dense
 		   south-west cluster (the attribution sits bottom-left). */
-		right: 0.75rem;
-		bottom: 0.75rem;
-		width: min(22rem, calc(100% - 1.5rem));
+		inset-inline-end: 0.75rem;
+		inset-block-end: 0.75rem;
+		inline-size: min(22rem, calc(100% - 1.5rem));
 		padding: 0.85rem 1rem 0.95rem;
 		border-radius: var(--radius-lg);
 		background: var(--glass);
 		backdrop-filter: blur(10px);
-		max-height: 60%;
+		max-block-size: 60%;
 		overflow-y: auto;
 		border: var(--border-row);
-		box-shadow: 0 1px 14px -4px rgb(var(--hero-black) / 0.45);
+		box-shadow: var(--shadow-raised);
 		z-index: 2;
 	}
 
 	/* On phones the card becomes a bottom sheet pinned to the foot of the map. */
 	@media (width <= 37.5rem) {
 		.mk-callout {
-			right: 0;
-			left: 0;
-			bottom: 0;
-			width: 100%;
+			inset-inline: 0;
+			inset-block-end: 0;
+			inline-size: 100%;
 			border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-			padding-bottom: calc(0.95rem + env(safe-area-inset-bottom, 0px));
+			padding-block-end: calc(0.95rem + env(safe-area-inset-bottom, 0px));
 		}
 	}
 
 	.mk-noscript {
 		font-family: var(--font-body);
 		color: var(--color-muted);
-		margin-top: var(--space-half);
+		margin-block-start: var(--space-half);
 	}
 
 
@@ -400,12 +399,13 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		display: flex;
 		flex-direction: column;
 		gap: 0.05rem;
-		width: 100%;
-		text-align: left;
+		inline-size: 100%;
+		text-align: start;
 		background: none;
 		border: none;
-		border-left: 2px solid transparent;
-		padding: 0.3rem 0.2rem 0.3rem 0.6rem;
+		border-inline-start: 2px solid transparent;
+		padding-block: 0.3rem;
+		padding-inline: 0.6rem 0.2rem;
 		cursor: pointer;
 	}
 
@@ -421,7 +421,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	}
 
 	.mk-item.is-active {
-		border-left-color: var(--color-warm);
+		border-inline-start-color: var(--color-warm);
 	}
 
 	.mk-item.is-active .mk-item-name {
@@ -449,7 +449,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 
 	/* Placement only — the rest is `.section-link .arrow-link`. */
 	.mk-lan-all {
-		margin-top: var(--space-half);
+		margin-block-start: var(--space-half);
 	}
 
 	/* Shown by the map script when a search/filter matches nothing. */
@@ -465,7 +465,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	}
 
 	.mk-clear {
-		min-height: var(--btn-size);
+		min-block-size: var(--btn-size);
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
 		font-weight: 600;
@@ -483,44 +483,44 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	}
 
 
- .mk-result-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; min-height: var(--tap-target); }
+ .mk-result-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; min-block-size: var(--tap-target); }
  .mk-result-bar .mk-count { margin: 0; font-family: var(--font-heading); font-size: var(--step--2); }
- .mk-graves:not([hidden]) { display: inline-flex; align-items: center; gap: .45rem; min-height: var(--tap-target); font: var(--step--2) var(--font-heading); color: var(--color-muted); cursor: pointer; }
- .mk-graves input { accent-color: var(--color-brass); width: 1rem; height: 1rem; margin: 0; }
- .mk-graves-glyph { width: 1.15rem; height: 1.15rem; fill: var(--color-brass); flex: none; }
- .mk-result-bar .mk-reset { margin-left: auto; padding: .5rem 0; border: 0; text-decoration: underline; text-underline-offset: .2em; min-height: var(--tap-target); }
+ .mk-graves:not([hidden]) { display: inline-flex; align-items: center; gap: .45rem; min-block-size: var(--tap-target); font: var(--step--2) var(--font-heading); color: var(--color-muted); cursor: pointer; }
+ .mk-graves input { accent-color: var(--color-brass); inline-size: 1rem; block-size: 1rem; margin: 0; }
+ .mk-graves-glyph { inline-size: 1.15rem; block-size: 1.15rem; fill: var(--color-brass); flex: none; }
+ .mk-result-bar .mk-reset { margin-inline-start: auto; padding: .5rem 0; border: 0; text-decoration: underline; text-underline-offset: .2em; min-block-size: var(--tap-target); }
  .mk-list-jump { font-family: var(--font-heading); font-size: var(--step--2); padding-block: .5rem; }
  @media (width >= 48rem) { .mk-list-jump { display: none; } }
- #mk-lan { min-height: 3rem; }
+ #mk-lan { min-block-size: 3rem; }
 
- .mk-explorer { display: grid; gap: var(--space-unit); margin-top: var(--space-half); }
- .mk-results { min-width: 0; padding: 1rem; border: var(--border-row); border-radius: var(--radius-lg); }
+ .mk-explorer { display: grid; gap: var(--space-unit); margin-block-start: var(--space-half); }
+ .mk-results { min-inline-size: 0; padding: 1rem; border: var(--border-row); border-radius: var(--radius-lg); }
  .mk-results :global(h2) { font-family: var(--font-heading); font-size: var(--step--2); font-weight: 500; color: var(--color-muted); margin: 0 0 .75rem; }
  .mk-lan-groups { display: block; }
- .mk-lan { margin-bottom: 0; padding-bottom: .25rem; }
- .mk-lan summary { min-height: var(--tap-target); align-items: center; font-size: var(--step--2); font-weight: 500; }
- .mk-lan-list li + li { border-top: var(--border-row); }
- .mk-lan-name { min-width: 0; overflow-wrap: anywhere; }
- .mk-lan-count { margin-left: auto; flex: none; }
- .mk-item { min-height: var(--tap-target); padding: .85rem .5rem; gap: .2rem; }
+ .mk-lan { margin-block-end: 0; padding-block-end: .25rem; }
+ .mk-lan summary { min-block-size: var(--tap-target); align-items: center; font-size: var(--step--2); font-weight: 500; }
+ .mk-lan-list li + li { border-block-start: var(--border-row); }
+ .mk-lan-name { min-inline-size: 0; overflow-wrap: anywhere; }
+ .mk-lan-count { margin-inline-start: auto; flex: none; }
+ .mk-item { min-block-size: var(--tap-target); padding: .85rem .5rem; gap: .2rem; }
  .mk-item:hover { background: var(--wash-hover); }
  /* The mosque on the map: the selection wash, not the hover's. */
  .mk-item.is-active { background: var(--wash-selected); }
  @media (width >= 48rem) {
   .mk-explorer { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); align-items: start; }
   .mk-stage { grid-column: 2; grid-row: 1; }
-  .mk-results { grid-column: 1; grid-row: 1; max-height: 540px; overflow-y: auto; padding-right: .75rem; scrollbar-gutter: stable; }
+  .mk-results { grid-column: 1; grid-row: 1; max-block-size: 540px; overflow-y: auto; padding-inline-end: .75rem; scrollbar-gutter: stable; }
  }
- @media (width < 48rem) { .mk-map { height: 26.25rem; } }
- @media (width <= 30rem) { .mk-search-wrap { flex-basis: 100%; } .mk-lan-filter { flex: 1 1 calc(50% - .5rem); } #mk-lan { width: 100%; max-width: 100%; } .mk-geo { flex: 1 1 calc(50% - .5rem); } }
+ @media (width < 48rem) { .mk-map { block-size: 26.25rem; } }
+ @media (width <= 30rem) { .mk-search-wrap { flex-basis: 100%; } .mk-lan-filter { flex: 1 1 calc(50% - .5rem); } #mk-lan { inline-size: 100%; max-inline-size: 100%; } .mk-geo { flex: 1 1 calc(50% - .5rem); } }
 
 	@media (width <= 30rem) {
 		.mk-count {
-			margin-left: 0;
+			margin-inline-start: 0;
 		}
 	}
 
-	.mk-loading { position: absolute; inset: 1rem 3rem auto 1rem; z-index: 1; margin: 0; color: var(--color-muted); font: var(--step--2) var(--font-heading); }
+	.mk-loading { position: absolute; inset-block: 1rem auto; inset-inline: 1rem 3rem; z-index: 1; margin: 0; color: var(--color-muted); font: var(--step--2) var(--font-heading); }
 	.mk-stage:has(.is-ready) .mk-loading { display: none; }
 	/* Third-party basemap: on failure `.is-ready` never arrives, so the status line says
 	   why (moskeer-map.ts writes it), where a screen reader hears it too. It was drawn by
@@ -541,7 +541,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	   selection wash. It was the one chosen state on the site filled solid ink. */
 	@media (width < 48rem) {
 		.mk-view-switch:not([hidden]) { display: inline-flex; padding: 3px; border: var(--border-row); border-radius: var(--radius-pill); }
-		.mk-view-switch button { min-height: var(--tap-target); padding-inline: 1.1rem; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-muted); font: 500 var(--step--2) var(--font-heading); cursor: pointer; }
+		.mk-view-switch button { min-block-size: var(--tap-target); padding-inline: 1.1rem; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-muted); font: 500 var(--step--2) var(--font-heading); cursor: pointer; }
 		.mk-view-switch button:hover { color: var(--color-accent); }
 		.mk-view-switch button[aria-pressed="true"] { color: var(--color-accent); background: var(--wash-selected); }
 		.moskeer[data-view="list"] .mk-stage,
@@ -557,8 +557,8 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	   target. */
 	.mk-callout-close {
 		position: absolute;
-		top: 0;
-		right: 0;
+		inset-block-start: 0;
+		inset-inline-end: 0;
 		display: grid;
 		place-items: center;
 		inline-size: var(--btn-size);
@@ -584,7 +584,8 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		font-size: var(--step--1);
 		color: var(--color-text);
 		/* Clear of the close button: its 2.75rem less the panel's 1rem padding. */
-		margin: 0 1.75rem 0.25rem 0;
+		margin-block: 0 0.25rem;
+		margin-inline: 0 1.75rem;
 		line-height: 1.25;
 	}
 
@@ -604,7 +605,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 
 	.mk-callout-org .label {
 		display: block;
-		margin-bottom: 0.1rem;
+		margin-block-end: 0.1rem;
 	}
 
 	.mk-dir {
@@ -612,7 +613,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.4rem;
-		margin-bottom: 0.4rem;
+		margin-block-end: 0.4rem;
 	}
 
 	/* Keep the OSM/OpenMapTiles credit quiet: a small, muted ⓘ that expands on click.
@@ -648,7 +649,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	.moskeer .maplibregl-ctrl-group {
 		background: var(--glass);
 		border: var(--border-row);
-		box-shadow: 0 1px 10px -4px rgb(var(--hero-black) / 0.4);
+		box-shadow: var(--shadow-raised);
 	}
 
 	.moskeer .maplibregl-ctrl-group button {
@@ -657,7 +658,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	}
 
 	.moskeer .maplibregl-ctrl-group button + button {
-		border-top: var(--border-row);
+		border-block-start: var(--border-row);
 	}
 
 	.moskeer .maplibregl-ctrl-group button:hover {
@@ -668,7 +669,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 	   `outline: none` and draws a #0096ff glow, the only blue ring on the site. */
 	.moskeer .maplibregl-ctrl-group button:focus-visible {
 		box-shadow: none;
-		outline: 2px solid var(--color-accent);
+		outline: var(--focus-ring);
 		outline-offset: 2px;
 	}
 
@@ -729,7 +730,7 @@ const description = `Hitta bland ${total} moskéer på ${cityCount} orter i Sver
 		border: var(--border-row);
 		border-radius: var(--radius-sm);
 		padding: 0.3rem 0.6rem;
-		box-shadow: 0 2px 12px -4px rgb(var(--hero-black) / 0.5);
+		box-shadow: var(--shadow-raised);
 	}
 
 	.mk-hover .maplibregl-popup-tip {

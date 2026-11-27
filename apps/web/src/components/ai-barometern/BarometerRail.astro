@@ -131,7 +131,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 							ankare="vanster"
 							hojd={[6, 11]}
 							bredd={[10, 17]}
-							sizes="(min-width: 60rem) 17rem, (min-width: 48rem) calc((100vw - 10rem) / 3), 10rem"
+							sizes="(width >= 60rem) 17rem, (width >= 48rem) calc((100vw - 10rem) / 3), 10rem"
 						/>
 					</div>
 				</div>
@@ -271,7 +271,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 		/* The drawing's own height (Ritning's box below 48rem), held before the lazy
 		   picture arrives: without it the room grew 96px under a reader's thumb. */
 		min-block-size: 6rem;
-		margin-bottom: var(--space-half);
+		margin-block-end: var(--space-half);
 	}
 
 	/* The date the answers are from, where the figure opens. As tall as the kicker beside
@@ -326,7 +326,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 	   is all `hidden` was doing. */
 	.barometer-rail-paneler {
 		display: grid;
-		margin-top: var(--space-group);
+		margin-block-start: var(--space-group);
 	}
 
 	.barometer-rail-panel {
@@ -345,7 +345,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 	   news bar). */
 	.barometer-svar {
 		inline-size: 100%;
-		margin-top: var(--space-group);
+		margin-block-start: var(--space-group);
 		border-collapse: collapse;
 		table-layout: fixed;
 		font-family: var(--font-heading);
@@ -358,7 +358,8 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 	}
 
 	.barometer-svar :is(th, td) {
-		padding: 0.4rem 0.75rem 0.4rem 0;
+		padding-block: 0.4rem;
+		padding-inline: 0 0.75rem;
 		text-align: start;
 		vertical-align: baseline;
 	}
@@ -369,7 +370,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 
 	/* On the row, not on each cell: one rule, drawn once. */
 	.barometer-svar thead tr {
-		border-bottom: var(--border-rule);
+		border-block-end: var(--border-rule);
 	}
 
 	/* A statement, as put to the models: in the regular weight, so the one subject that
@@ -382,7 +383,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 	}
 
 	.barometer-svar thead strong {
-		font-weight: 700;
+		font-weight: 600;
 	}
 
 	/* What the heads are, said once, in the meta voice: the row's own label. */
@@ -405,7 +406,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 	}
 
 	.barometer-svar tbody tr:first-child :is(th, td) {
-		padding-top: 0.8rem;
+		padding-block-start: 0.8rem;
 	}
 
 	.barometer-svar tbody th {
@@ -487,12 +488,12 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 		.barometer-rail-flikar {
 			flex-direction: column;
 			align-items: stretch;
-			padding-bottom: var(--space-control);
+			padding-block-end: var(--space-control);
 		}
 
 		.barometer-rail-flikar :global(.home-tab) {
 			padding-inline-start: 0.8rem;
-			border-bottom: 0;
+			border-block-end: 0;
 			border-inline-start: 2px solid transparent;
 			font-size: var(--step--1);
 		}
@@ -561,7 +562,7 @@ function subjects(shorts: readonly string[]): { subject: string; rest: string }[
 			flex: 1;
 			min-block-size: 7rem;
 			max-block-size: 13rem;
-			margin-top: var(--space-unit);
+			margin-block-start: var(--space-unit);
 		}
 
 		.barometer-svar {

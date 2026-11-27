@@ -108,7 +108,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 
 	.feature-kicker {
 		order: 0;
-		margin-bottom: var(--space-half);
+		margin-block-end: var(--space-half);
 	}
 
 	.feature-title {
@@ -132,9 +132,9 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	   rule says where the lead's own words end. */
 	.feature-also {
 		order: 6;
-		margin-top: var(--space-section);
-		padding-top: var(--space-phi);
-		border-top: var(--border-rule);
+		margin-block-start: var(--space-section);
+		padding-block-start: var(--space-phi);
+		border-block-start: var(--border-rule);
 	}
 
 	.feature-also-lista {
@@ -143,7 +143,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	}
 
 	.feature-also-lista > li + li {
-		margin-top: var(--space-group);
+		margin-block-start: var(--space-group);
 	}
 
 	.feature-also-titel {
@@ -171,7 +171,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 
 	/* The head row brings its own space below; the list already carries the gap. */
 	.feature-also :global(.home-head) {
-		margin-bottom: 0;
+		margin-block-end: 0;
 	}
 
 	/* The eyebrow is a link and sits outside the headline link. Its padding, underline and
@@ -192,11 +192,11 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	.feature-title {
 		font-family: var(--font-headline);
 		font-size: var(--title-cover);
-		font-weight: 560;
+		font-weight: var(--weight-display);
 		line-height: 1.04;
 		letter-spacing: -0.012em;
 		margin: 0 0 var(--space-half);
-		max-width: 18ch;
+		max-inline-size: 18ch;
 		text-wrap: balance;
 		font-feature-settings: "dlig" 1;
 	}
@@ -205,7 +205,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		.feature-title {
 			text-box-trim: trim-start;
 			text-box-edge: cap alphabetic;
-			margin-top: 0.12em;
+			margin-block-start: 0.12em;
 		}
 	}
 
@@ -247,11 +247,11 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 
 	.feature-lead {
 		margin: var(--space-unit) 0 0;
-		max-width: 38em;
+		max-inline-size: 38em;
 	}
 
 	.feature-meta-row {
-		margin-top: var(--space-half);
+		margin-block-start: var(--space-half);
 	}
 
 	.feature-meta-row :global(.feature-meta) {
@@ -312,14 +312,14 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		}
 
 		.feature-kicker {
-			margin-bottom: var(--space-half);
+			margin-block-end: var(--space-half);
 		}
 
 		/* The column is the measure here, not 18ch: a title of forty characters takes
 		   two lines of it. The longest in the archive (62 characters) still stood on four
 		   at 64px, and takes three a size down. */
 		.feature-title {
-			max-width: none;
+			max-inline-size: none;
 		}
 
 		.feature-title--long {
@@ -327,8 +327,8 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		}
 
 		.feature-lead {
-			max-width: 40rem;
-			margin-top: var(--space-half);
+			max-inline-size: 40rem;
+			margin-block-start: var(--space-half);
 		}
 
 		/* The photograph fills its row. The strut is the floor (5:2 of the column, the
@@ -338,7 +338,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			position: relative;
 			grid-column: 1 / 3;
 			grid-row: 2;
-			margin-top: var(--space-unit);
+			margin-block-start: var(--space-unit);
 		}
 
 		/* THE FLOOR IS 2:1 (2026-11-07; 5:2 before). Every hero is made 16:9, and 5:2 showed
@@ -348,7 +348,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		.feature-media-link::before {
 			content: "";
 			display: block;
-			padding-top: 50%;
+			padding-block-start: 50%;
 		}
 
 		.feature-media {
@@ -359,7 +359,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		.feature-media :global(img) {
 			position: absolute;
 			inset: 0;
-			height: 100%;
+			block-size: 100%;
 			aspect-ratio: auto;
 		}
 
@@ -370,12 +370,14 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			grid-row: 1 / 3;
 			display: flex;
 			flex-direction: column;
-			margin: 0 0 0 calc(var(--grid-gutter) / -2);
+			margin-block: 0;
+			margin-inline: calc(var(--grid-gutter) / -2) 0;
 			/* Less the hairline's own pixel, so the words stand on the page's third
 			   line (x 950 at 1440) and not one past it. */
-			padding: 0 0 0 calc(var(--grid-gutter) / 2 - 1px);
+			padding-block: 0;
+			padding-inline: calc(var(--grid-gutter) / 2 - 1px) 0;
 			border: 0;
-			border-left: var(--border-rule);
+			border-inline-start: var(--border-rule);
 		}
 
 		.feature-also-lista {
@@ -383,7 +385,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
-			margin-top: var(--space-group);
+			margin-block-start: var(--space-group);
 		}
 
 		/* A rule between the titles: seven in a column are a list, and the rules are what
@@ -396,13 +398,13 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		   an eighth would leave no slack, so a two-line title would push the photograph
 		   past the fold. */
 		.feature-also-lista > li + li {
-			margin-top: 0;
-			padding-top: var(--space-half);
-			border-top: var(--border-row);
+			margin-block-start: 0;
+			padding-block-start: var(--space-half);
+			border-block-start: var(--border-row);
 		}
 
 		.feature-also-lista > li:not(:last-child) {
-			padding-bottom: var(--space-half);
+			padding-block-end: var(--space-half);
 		}
 	}
 </style>

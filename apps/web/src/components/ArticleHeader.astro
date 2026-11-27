@@ -74,13 +74,13 @@ const {
 	   and the note track beside it), so a forty-character title takes two lines and
 	   not three. The deck keeps the measure (`.lead`), as the lead's does. */
 	.article-header--cover {
-		max-width: calc(var(--content-width) + var(--sn-track, 0rem));
+		max-inline-size: calc(var(--content-width) + var(--sn-track, 0rem));
 	}
 
 	.cover-title {
 		font-family: var(--font-headline);
 		font-size: var(--title-cover);
-		font-weight: 560;
+		font-weight: var(--weight-display);
 		line-height: 1.04;
 		letter-spacing: -0.012em;
 		text-wrap: balance;

@@ -46,7 +46,7 @@ const cityNames = cityGroups.map((g) => g.city);
 const cityList =
 	cityNames.length <= 1
 		? cityNames.join("")
-		: `${cityNames.slice(0, -1).join(", ")} och ${cityNames[cityNames.length - 1]}`;
+		: `${cityNames.slice(0, -1).join(", ")} och ${cityNames.at(-1)}`;
 
 const lead = `I ${lanLabel} finns ${pluralMoske(total, true, true)} i ${pluralOrt(cityCount, true)}. Nedan hittar du adress, öppningsår och vägbeskrivning till varje moské, ordnade efter ort.`;
 
@@ -130,7 +130,7 @@ const crumbs = [
 	}
 
 	.mk-city-group {
-		margin-top: var(--space-phi);
+		margin-block-start: var(--space-phi);
 	}
 
 </style>

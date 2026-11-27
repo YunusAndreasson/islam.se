@@ -42,16 +42,6 @@ const { location, date, dateLabel } = Astro.props;
 const curve = sunDayCurve(location.latitude, location.longitude, date);
 const times = computePrayerTimes(location, date, DEFAULT_SETTINGS);
 
-// SVG geometry, in viewBox units; CSS scales the element.
-const W = 760;
-const H = 300;
-const padL = 32; // altitude labels
-const padR = 14;
-const padT = 24; // room for the Ẓuhr label above a midsummer peak near the top
-const padB = 26; // hour labels
-const plotW = W - padL - padR;
-const plotH = H - padT - padB;
-
 // A FIXED altitude domain across both renderings — the whole comparison rests on the
 // two panels sharing a scale, so the −18° rule sits at the same height in each and the
 // midsummer curve is visibly higher. ±60° holds every Swedish place south of the polar
@@ -60,21 +50,30 @@ const plotH = H - padT - padB;
 const ALT_MAX = 60;
 const ALT_MIN = -60;
 
-// Stockholm wall-clock minutes — the clock the legend's times are printed in. See the
-// note in sun-day-curve.ts on why this is not CET like the annual chart.
-const x = (minute: number): number => padL + (minute / 1440) * plotW;
-const y = (altDeg: number): number => {
-	const clamped = Math.max(ALT_MIN, Math.min(ALT_MAX, altDeg));
-	return padT + ((ALT_MAX - clamped) / (ALT_MAX - ALT_MIN)) * plotH;
-};
-
-const path = curve.samples
-	.map((s, i) => `${i === 0 ? "M" : "L"} ${x(s.minuteOfDay).toFixed(1)} ${y(s.altDeg).toFixed(1)}`)
-	.join(" ");
-
-const yHorizon = y(HORIZON_DEG);
-const yNight = y(ASTRONOMICAL_NIGHT_DEG);
-const yBottom = y(ALT_MIN);
+// THE FIGURE IS DRAWN TWICE, in two cuts, and CSS shows the one its column can hold.
+// Text inside a viewBox is sized in user units, so it shrinks with the figure: the wide
+// cut's labels, 12 px across a desktop column, stood at 7.6 px on a phone, and no size
+// could fix that inside one geometry (its 32-unit margin holds »−18« only up to 17
+// units). The compact cut is drawn for a phone's column: one unit is about one CSS
+// pixel there, so its labels are set at the size they are read at.
+interface Cut {
+	name: "wide" | "compact";
+	W: number;
+	H: number;
+	padL: number; // altitude labels
+	padR: number;
+	padT: number; // room for the Ẓuhr label above a midsummer peak near the top
+	padB: number; // hour labels
+	/** Dot radius and its halo's. */
+	dot: number;
+	halo: number;
+	/** Baseline of the hour labels, measured up from the foot. */
+	hourBase: number;
+}
+const CUTS: Cut[] = [
+	{ name: "wide", W: 760, H: 300, padL: 34, padR: 14, padT: 24, padB: 28, dot: 3.4, halo: 5.5, hourBase: 8 },
+	{ name: "compact", W: 340, H: 220, padL: 30, padR: 8, padT: 14, padB: 26, dot: 3.2, halo: 5, hourBase: 8 },
+];
 
 // Each label goes in a quadrant the curve does not pass through. A rising curve (Fajr,
 // Shurūq) comes from the lower left and leaves to the upper right, so upper-left and
@@ -84,7 +83,7 @@ const yBottom = y(ALT_MIN);
 // squarely on the descending curve.
 type LabelSpot = { dx: number; dy: number; anchor: "start" | "middle" | "end" };
 const ABOVE = -9;
-const BELOW = 15;
+const BELOW = 16;
 const LABEL_SPOT: Record<PrayerKey, LabelSpot> = {
 	fajr: { dx: -5, dy: ABOVE, anchor: "end" },
 	sunrise: { dx: 5, dy: BELOW, anchor: "start" },
@@ -94,34 +93,63 @@ const LABEL_SPOT: Record<PrayerKey, LabelSpot> = {
 	isha: { dx: -5, dy: BELOW, anchor: "end" },
 };
 
-// A prayer adhan could not resolve is an Invalid Date (polar places, the Unresolved
-// rule). It gets no dot rather than a dot at NaN.
-const dots = PRAYER_ORDER.map((key) => {
-	const minute = minuteOnCurve(curve, times[key]);
-	if (!Number.isFinite(minute)) return null;
-	return {
-		key,
-		cx: x(minute),
-		cy: y(altAt(curve, minute)),
-		spot: LABEL_SPOT[key],
-		color: `light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`,
-	};
-}).filter((d): d is NonNullable<typeof d> => d !== null);
+function draw(cut: Cut) {
+	const { W, H, padL, padR, padT, padB } = cut;
+	const plotW = W - padL - padR;
+	const plotH = H - padT - padB;
 
-const hours = [0, 6, 12, 18, 24].map((h) => ({ label: String(h).padStart(2, "0"), at: x(h * 60) }));
-// −18 sits on the axis beside its dashed rule rather than as a label at the rule's end:
-// the right edge of the plot is where the Maghrib and ʿIshāʾ labels land at midsummer.
-// A true minus (U+2212), not the hyphen String() produces.
-// On a phone only the horizon and the 18° rule keep their numbers (`minor` hides the rest).
-const altTicks = [60, 30, 0, ASTRONOMICAL_NIGHT_DEG, -45].map((a) => ({
-	label: a < 0 ? `−${-a}` : String(a),
-	at: y(a),
-	minor: a !== 0 && a !== ASTRONOMICAL_NIGHT_DEG,
-}));
-// Band names centred at noon — the one x where the sun is above the horizon on every
-// date this figure is drawn for, so the bands there are guaranteed empty. Anywhere
-// near either end, the midsummer curve runs through the twilight band.
-const xNoon = x(12 * 60);
+	// Stockholm wall-clock minutes — the clock the legend's times are printed in. See the
+	// note in sun-day-curve.ts on why this is not CET like the annual chart.
+	const x = (minute: number): number => padL + (minute / 1440) * plotW;
+	const y = (altDeg: number): number => {
+		const clamped = Math.max(ALT_MIN, Math.min(ALT_MAX, altDeg));
+		return padT + ((ALT_MAX - clamped) / (ALT_MAX - ALT_MIN)) * plotH;
+	};
+
+	const path = curve.samples
+		.map((s, i) => `${i === 0 ? "M" : "L"} ${x(s.minuteOfDay).toFixed(1)} ${y(s.altDeg).toFixed(1)}`)
+		.join(" ");
+
+	// A prayer adhan could not resolve is an Invalid Date (polar places, the Unresolved
+	// rule). It gets no dot rather than a dot at NaN.
+	const dots = PRAYER_ORDER.map((key) => {
+		const minute = minuteOnCurve(curve, times[key]);
+		if (!Number.isFinite(minute)) return null;
+		return {
+			key,
+			cx: x(minute),
+			cy: y(altAt(curve, minute)),
+			spot: LABEL_SPOT[key],
+			color: `light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`,
+		};
+	}).filter((d): d is NonNullable<typeof d> => d !== null);
+
+	const hours = [0, 6, 12, 18, 24].map((h) => ({ label: String(h).padStart(2, "0"), at: x(h * 60) }));
+	// −18 sits on the axis beside its dashed rule rather than as a label at the rule's end:
+	// the right edge of the plot is where the Maghrib and ʿIshāʾ labels land at midsummer.
+	// A true minus (U+2212), not the hyphen String() produces. The compact cut numbers
+	// only the horizon and the 18° rule, the two lines the text is about.
+	const altTicks = (cut.name === "wide" ? [60, 30, 0, ASTRONOMICAL_NIGHT_DEG, -45] : [0, ASTRONOMICAL_NIGHT_DEG]).map(
+		(a) => ({ label: a < 0 ? `−${-a}` : String(a), at: y(a) }),
+	);
+
+	return {
+		...cut,
+		plotW,
+		path,
+		dots,
+		hours,
+		altTicks,
+		yHorizon: y(HORIZON_DEG),
+		yNight: y(ASTRONOMICAL_NIGHT_DEG),
+		yBottom: y(ALT_MIN),
+		// Band names centred at noon — the one x where the sun is above the horizon on every
+		// date this figure is drawn for, so the bands there are guaranteed empty. Anywhere
+		// near either end, the midsummer curve runs through the twilight band.
+		xNoon: x(12 * 60),
+	};
+}
+const cuts = CUTS.map(draw);
 
 // How far below the horizon the sun gets at solar midnight — a positive number of degrees.
 const depression = Math.abs(curve.minAltDeg).toFixed(1).replace(".", ",");
@@ -135,52 +163,79 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 ---
 
 <figure class="sdc">
-	<svg class="sdc-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel}>
-		<!-- Twilight (horizon down to 18°) and true night below it. -->
-		<rect
-			x={padL}
-			y={yHorizon}
-			width={plotW}
-			height={yNight - yHorizon}
-			class="sdc-band sdc-band-twilight"
-		/>
-		<rect x={padL} y={yNight} width={plotW} height={yBottom - yNight} class="sdc-band sdc-band-night" />
-		<text x={xNoon} y={(yHorizon + yNight) / 2 + 3} class="sdc-band-name">skymning</text>
-		<text x={xNoon} y={(yNight + yBottom) / 2 + 3} class="sdc-band-name">natt</text>
-
-		<!-- Altitude ticks, in degrees above (+) or below (−) the horizon. -->
-		{altTicks.map((t) => (
-			<text x={padL - 5} y={t.at + 3} class:list={["sdc-axis sdc-axis-y", { "sdc-axis-minor": t.minor }]}>
-				{t.label}
-			</text>
-		))}
-
-		<!-- The horizon, and the 18° rule the standard Fajr/ʿIshāʾ angles need. -->
-		<line x1={padL} y1={yHorizon} x2={W - padR} y2={yHorizon} class="sdc-horizon" />
-		<line x1={padL} y1={yNight} x2={W - padR} y2={yNight} class="sdc-rule-18" />
-
-		<!-- Hour labels. -->
-		{hours.map((h) => <text x={h.at} y={H - 8} class="sdc-axis sdc-axis-x">{h.label}</text>)}
-
-		<!-- The sun's altitude across the day. -->
-		<path d={path} class="sdc-curve" />
-
-		<!-- Each prayer where it actually falls on the curve. -->
-		{dots.map((d) => (
-			<g>
-				<circle cx={d.cx} cy={d.cy} r="5.5" class="sdc-dot-halo" />
-				<circle cx={d.cx} cy={d.cy} r="3.4" style={`fill:${d.color}`} />
-				<text
-					x={d.cx + d.spot.dx}
-					y={d.cy + d.spot.dy}
-					text-anchor={d.spot.anchor}
-					class="sdc-dot-name"
-				>
-					{PRAYER_LABELS[d.key]}
+	{
+		cuts.map((c) => (
+			<svg
+				class:list={["sdc-svg", `sdc-svg--${c.name}`]}
+				viewBox={`0 0 ${c.W} ${c.H}`}
+				role="img"
+				aria-label={ariaLabel}
+			>
+				{/* Twilight (horizon down to 18°) and true night below it. */}
+				<rect
+					x={c.padL}
+					y={c.yHorizon}
+					width={c.plotW}
+					height={c.yNight - c.yHorizon}
+					class="sdc-band sdc-band-twilight"
+				/>
+				<rect
+					x={c.padL}
+					y={c.yNight}
+					width={c.plotW}
+					height={c.yBottom - c.yNight}
+					class="sdc-band sdc-band-night"
+				/>
+				<text x={c.xNoon} y={(c.yHorizon + c.yNight) / 2 + 4} class="sdc-band-name">
+					skymning
 				</text>
-			</g>
-		))}
-	</svg>
+				<text x={c.xNoon} y={(c.yNight + c.yBottom) / 2 + 4} class="sdc-band-name">
+					natt
+				</text>
+
+				{/* Altitude ticks, in degrees above (+) or below (−) the horizon. */}
+				{c.altTicks.map((t) => (
+					<text x={c.padL - 5} y={t.at + 4} class="sdc-axis sdc-axis-y">
+						{t.label}
+					</text>
+				))}
+
+				{/* The horizon, and the 18° rule the standard Fajr/ʿIshāʾ angles need. */}
+				<line x1={c.padL} y1={c.yHorizon} x2={c.W - c.padR} y2={c.yHorizon} class="sdc-horizon" />
+				<line x1={c.padL} y1={c.yNight} x2={c.W - c.padR} y2={c.yNight} class="sdc-rule-18" />
+
+				{/* Hour labels. */}
+				{c.hours.map((h) => (
+					<text x={h.at} y={c.H - c.hourBase} class="sdc-axis sdc-axis-x">
+						{h.label}
+					</text>
+				))}
+
+				{/* The sun's altitude across the day. */}
+				<path d={c.path} class="sdc-curve" />
+
+				{/* Each prayer where it actually falls on the curve. The compact cut leaves the
+				    names to the legend under it, which lists them in the same order and colours:
+				    on a phone the pairs at dawn and dusk stand 12 px apart. */}
+				{c.dots.map((d) => (
+					<g>
+						<circle cx={d.cx} cy={d.cy} r={c.halo} class="sdc-dot-halo" />
+						<circle cx={d.cx} cy={d.cy} r={c.dot} style={`fill:${d.color}`} />
+						{c.name === "wide" && (
+							<text
+								x={d.cx + d.spot.dx}
+								y={d.cy + d.spot.dy}
+								text-anchor={d.spot.anchor}
+								class="sdc-dot-name"
+							>
+								{PRAYER_LABELS[d.key]}
+							</text>
+						)}
+					</g>
+				))}
+			</svg>
+		))
+	}
 
 	<ul class="sdc-legend">
 		{PRAYER_ORDER.map((key) => (
@@ -201,12 +256,13 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 <style>
 	.sdc {
 		margin: var(--space-unit) 0 0;
-		max-width: 46rem;
+		max-inline-size: 46rem;
+		container-type: inline-size;
 	}
 
 	.sdc-svg {
-		width: 100%;
-		height: auto;
+		inline-size: 100%;
+		block-size: auto;
 		display: block;
 		border: var(--border-row);
 		border-radius: var(--radius-md);
@@ -217,6 +273,27 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 		text-rendering: geometricPrecision;
 	}
 
+	/* Two cuts of one figure (see the frontmatter): the wide one where the column gives it
+	   40rem, the compact one below that, and never wider than the phone it is drawn for.
+	   The figure's own width decides, not the window's. */
+	.sdc-svg--wide {
+		display: none;
+	}
+
+	.sdc-svg--compact {
+		max-inline-size: 26rem;
+	}
+
+	@container (width >= 40rem) {
+		.sdc-svg--wide {
+			display: block;
+		}
+
+		.sdc-svg--compact {
+			display: none;
+		}
+	}
+
 	/* The same indigo the annual chart shades its nights with, so the two figures read
 	   as one family; twilight is the lighter half of the same wash. */
 	.sdc-band {
@@ -224,11 +301,11 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 	}
 
 	.sdc-band-twilight {
-		fill: color-mix(in srgb, light-dark(#33437a, #94a2dd), transparent 94%);
+		fill: color-mix(in srgb, var(--data-night) 6%, transparent);
 	}
 
 	.sdc-band-night {
-		fill: color-mix(in srgb, light-dark(#33437a, #94a2dd), transparent 86%);
+		fill: color-mix(in srgb, var(--data-night) 14%, transparent);
 	}
 
 	.sdc-horizon {
@@ -255,15 +332,18 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 		fill: var(--color-bg);
 	}
 
-	/* ⚠️ px, not a --step-- token — these live inside the viewBox, so 11px means 11 USER
+	/* ⚠️ px, not a --step-- token: these live inside the viewBox, so 14px means 14 USER
 	   UNITS and stays in proportion to padL, the band heights and the gridline spacing
 	   as the figure scales. A rem token would resolve against the reader's root font
-	   size instead and break the layout at anything but a 16px default. Same reasoning
-	   as AnnualPrayerChart.astro; do not "snap these to the scale". */
-	.sdc-axis {
+	   size instead and break the layout at anything but a 16px default. The numbers are
+	   chosen for what they render at: 14 units is 11.8–13.6 px across the widths the
+	   wide cut is shown at, and the compact cut's 12 units are 11.5–12 px on a phone,
+	   the page's --step--4 either way. */
+	.sdc-axis,
+	.sdc-band-name {
 		font-family: var(--font-body);
 		fill: var(--color-muted);
-		font-size: 11px;
+		font-size: 14px;
 	}
 
 	.sdc-axis-y {
@@ -277,9 +357,6 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 	}
 
 	.sdc-band-name {
-		font-family: var(--font-body);
-		fill: var(--color-muted);
-		font-size: 10px;
 		text-anchor: middle;
 		letter-spacing: 0.04em;
 	}
@@ -287,7 +364,15 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 	.sdc-dot-name {
 		font-family: var(--font-heading);
 		fill: var(--color-text);
-		font-size: 11px;
+		font-size: 14px;
+	}
+
+	.sdc-svg--compact :is(.sdc-axis, .sdc-band-name) {
+		font-size: 12px;
+	}
+
+	.sdc-svg--compact .sdc-curve {
+		stroke-width: 1.5;
 	}
 
 	.sdc-legend {
@@ -308,8 +393,8 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 
 	.sdc-chip {
 		align-self: center;
-		width: 0.7rem;
-		height: 0.7rem;
+		inline-size: 0.7rem;
+		block-size: 0.7rem;
 		border-radius: var(--radius-xs);
 		flex: none;
 	}
@@ -330,24 +415,7 @@ const ariaLabel = `Diagram. ${lead} ${reach} De sex bönetiderna är utsatta dä
 		line-height: 1.5;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		text-wrap: pretty;
-	}
-
-	/* On a phone the 760-unit viewBox scales to under half size, putting 11-unit labels
-	   near 5 CSS px — where Chromium visibly kerns them apart. The in-plot names go (the
-	   legend below carries every name and time, keyed by the same colours, in the same
-	   left-to-right order) and the axis is enlarged to stay legible. */
-	@media (width <= 30rem) {
-		.sdc-dot-name,
-		.sdc-band-name,
-		.sdc-axis-minor {
-			display: none;
-		}
-
-		/* 17 units: the widest label left, »−18«, just clears the 32-unit margin. */
-		.sdc-axis {
-			font-size: 17px;
-		}
 	}
 </style>

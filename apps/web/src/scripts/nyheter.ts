@@ -40,14 +40,13 @@ const GE_UPP_MS = 8000;
 
 /** One request feeds both surfaces and belongs to the current Astro page. A request that
  *  hangs is given up like one that fails, so the bar is taken out instead of being held,
- *  empty and busy, for as long as the connection does. (`AbortSignal.any` is recent
- *  enough that an older Safari falls back to the page's signal alone.) */
+ *  empty and busy, for as long as the connection does. */
 function hamta(signal: AbortSignal): Promise<Nyhet[] | null> {
 	const timeout = AbortSignal.timeout(GE_UPP_MS);
 	return (
 		fetch(FEED_URL, {
 			headers: { accept: "application/json" },
-			signal: typeof AbortSignal.any === "function" ? AbortSignal.any([signal, timeout]) : signal,
+			signal: AbortSignal.any([signal, timeout]),
 		})
 			.then((r) => (r.ok ? r.json() : null))
 			.then(parseFeed)

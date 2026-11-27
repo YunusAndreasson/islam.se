@@ -38,7 +38,7 @@
 	}
 	.abm-labelled-comparison table,
 	.abm-distribution-table {
-		width: 100%;
+		inline-size: 100%;
 		border-collapse: collapse;
 		font: var(--step--2) / 1.5 var(--font-heading);
 		text-align: start;

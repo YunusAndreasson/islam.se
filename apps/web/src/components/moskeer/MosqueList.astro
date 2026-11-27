@@ -60,23 +60,23 @@ const { mosques, cityLink = false } = Astro.props;
 	.mk-list {
 		margin: var(--space-half) 0 0;
 		padding: 0;
-		max-width: 44rem;
+		max-inline-size: 44rem;
 	}
 
 	.mk-list-item {
 		padding: var(--space-unit) 0;
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 	}
 
 	/* A rule between rows, none under the last: the next section's rule closes the list. */
 	.mk-list-item:last-child {
-		border-bottom: none;
+		border-block-end: none;
 	}
 
 	.mk-list-item:target {
-		border-left: 2px solid var(--color-warm);
-		padding-left: var(--space-half);
-		margin-left: calc(-1 * var(--space-half) - 2px);
+		border-inline-start: 2px solid var(--color-warm);
+		padding-inline-start: var(--space-half);
+		margin-inline-start: calc(-1 * var(--space-half) - 2px);
 	}
 
 	.mk-list-name {
@@ -92,7 +92,7 @@ const { mosques, cityLink = false } = Astro.props;
 		display: inline-block;
 		color: var(--color-accent);
 		text-decoration: none;
-		width: fit-content;
+		inline-size: fit-content;
 	}
 
 	.mk-list-name-link:hover {
@@ -140,7 +140,7 @@ const { mosques, cityLink = false } = Astro.props;
 		padding-block: 0.35rem;
 		color: var(--color-muted);
 		text-decoration: underline;
-		text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+		text-decoration-color: var(--underline-quiet);
 		text-underline-offset: var(--underline-offset);
 	}
 

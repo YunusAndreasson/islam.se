@@ -50,7 +50,7 @@ const {
 	headingLevel = 2,
 	compact = false,
 	prefetch,
-	sizes = "(min-width: 67rem) 29rem, (min-width: 60rem) 45vw, 100vw",
+	sizes = "(width >= 67rem) 29rem, (width >= 60rem) 45vw, 100vw",
 } = Astro.props;
 
 const Heading = `h${headingLevel}` as const;
@@ -117,12 +117,12 @@ const Heading = `h${headingLevel}` as const;
 	   thumb and the title starts it. */
 	.card-list-thumb {
 		display: block;
-		margin-bottom: var(--card-media-gap);
+		margin-block-end: var(--card-media-gap);
 	}
 
 	.card-list-thumb :global(img) {
 		display: block;
-		width: 100%;
+		inline-size: 100%;
 		aspect-ratio: 3 / 2;
 		object-fit: cover;
 	}

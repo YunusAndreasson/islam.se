@@ -28,15 +28,23 @@ const year = Number(
 	new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: TIME_ZONE }).format(new Date()),
 );
 
-// SVG geometry. viewBox units; the element scales to its container via CSS.
-const W = 760;
-const H = 380;
-const padL = 30; // hour labels
-const padR = 12;
-const padT = 12;
-const padB = 26; // month labels
-const plotW = W - padL - padR;
-const plotH = H - padT - padB;
+// THE FIGURE IS DRAWN TWICE, in two cuts, and CSS shows the one its column can hold
+// (SunDayCurve.astro has the reasoning): text inside a viewBox shrinks with the figure,
+// and the wide cut's 11-unit axis stood at 5 px on a phone. The compact cut is drawn
+// for a phone's column, one unit to about one CSS pixel.
+interface Cut {
+	name: "wide" | "compact";
+	W: number;
+	H: number;
+	padL: number; // hour labels
+	padR: number;
+	padT: number;
+	padB: number; // month labels
+}
+const CUTS: Cut[] = [
+	{ name: "wide", W: 760, H: 380, padL: 30, padR: 12, padT: 12, padB: 28 },
+	{ name: "compact", W: 340, H: 280, padL: 24, padR: 10, padT: 10, padB: 26 },
+];
 
 // Minute-of-day in *normaltid* (CET, UTC+1 year-round). Plotting standard time drops
 // the two 1-hour wall-clock steps at the DST switches, so the annual curve is smooth
@@ -48,65 +56,76 @@ const cetMinutes = (d: Date): number => {
 	return ((shifted % 1440) + 1440) % 1440;
 };
 
-const x = (dayOfYear: number): number => padL + (dayOfYear / 365) * plotW;
-const y = (min: number): number => padT + (1 - min / 1440) * plotH;
-
 const dayOfYear = (month: number, day: number): number =>
 	Math.round((Date.UTC(year, month, day) - Date.UTC(year, 0, 1)) / 86_400_000);
 
 // Sample every 6 days — ample for smooth curves, ~61 points × 6 prayers at build time.
+// The times are computed once and placed in each cut.
 const STEP = 6;
-type Pt = { x: number; y: number };
-const series: Record<PrayerKey, Pt[]> = {
-	fajr: [],
-	sunrise: [],
-	dhuhr: [],
-	asr: [],
-	maghrib: [],
-	isha: [],
-};
+const samples: { doy: number; minutes: Record<PrayerKey, number> }[] = [];
 for (let doy = 0; doy <= 365; doy += STEP) {
-	const date = dateForStockholmDay(year, 0, 1 + doy);
-	const t = computePrayerTimes(location, date, DEFAULT_SETTINGS);
-	const px = x(doy);
-	for (const key of PRAYER_ORDER) {
-		const min = cetMinutes(t[key]);
-		if (Number.isFinite(min)) series[key].push({ x: px, y: y(min) });
-	}
+	const t = computePrayerTimes(location, dateForStockholmDay(year, 0, 1 + doy), DEFAULT_SETTINGS);
+	samples.push({
+		doy,
+		minutes: Object.fromEntries(PRAYER_ORDER.map((key) => [key, cetMinutes(t[key])])) as Record<PrayerKey, number>,
+	});
 }
-
-const polyline = (pts: Pt[]): string => pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
-
-// Night = the two shaded fields: below Fajr (down to 00:00) and above ʿIshāʾ (up to
-// 24:00). Both pinch toward midsummer — the visual heart of the chart.
-const yBottom = y(0);
-const yTop = y(1440);
-const fajr = series.fajr;
-const isha = series.isha;
-const fajrFirst = fajr[0];
-const fajrLast = fajr[fajr.length - 1];
-const ishaFirst = isha[0];
-const ishaLast = isha[isha.length - 1];
-const nightBottom =
-	fajrFirst && fajrLast
-		? `M ${fajrFirst.x.toFixed(1)} ${yBottom.toFixed(1)} ` +
-			fajr.map((p) => `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ") +
-			` L ${fajrLast.x.toFixed(1)} ${yBottom.toFixed(1)} Z`
-		: "";
-const nightTop =
-	ishaFirst && ishaLast
-		? `M ${ishaFirst.x.toFixed(1)} ${yTop.toFixed(1)} ` +
-			isha.map((p) => `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ") +
-			` L ${ishaLast.x.toFixed(1)} ${yTop.toFixed(1)} Z`
-		: "";
 
 const monthShort = (m: number): string =>
 	new Intl.DateTimeFormat("sv-SE", { month: "short", timeZone: TIME_ZONE })
 		.format(new Date(Date.UTC(year, m, 1, 12)))
 		.replace(".", "");
-const months = Array.from({ length: 12 }, (_, m) => ({ label: monthShort(m), at: x(dayOfYear(m, 1)) }));
-// Hour gridlines every 4h.
-const hourLines = [0, 4, 8, 12, 16, 20, 24].map((h) => ({ label: h, at: y(h * 60) }));
+
+type Pt = { x: number; y: number };
+const polyline = (pts: Pt[]): string => pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+
+function draw(cut: Cut) {
+	const { W, H, padL, padR, padT, padB } = cut;
+	const plotW = W - padL - padR;
+	const plotH = H - padT - padB;
+	const x = (doy: number): number => padL + (doy / 365) * plotW;
+	const y = (min: number): number => padT + (1 - min / 1440) * plotH;
+
+	const series = Object.fromEntries(
+		PRAYER_ORDER.map((key) => [
+			key,
+			samples
+				.filter((s) => Number.isFinite(s.minutes[key]))
+				.map((s) => ({ x: x(s.doy), y: y(s.minutes[key]) })),
+		]),
+	) as Record<PrayerKey, Pt[]>;
+
+	// Night = the two shaded fields: below Fajr (down to 00:00) and above ʿIshāʾ (up to
+	// 24:00). Both pinch toward midsummer — the visual heart of the chart.
+	const field = (pts: Pt[], edge: number): string => {
+		const first = pts[0];
+		const last = pts.at(-1);
+		if (!first || !last) return "";
+		return (
+			`M ${first.x.toFixed(1)} ${edge.toFixed(1)} ` +
+			pts.map((p) => `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ") +
+			` L ${last.x.toFixed(1)} ${edge.toFixed(1)} Z`
+		);
+	};
+
+	return {
+		...cut,
+		series,
+		nightBottom: field(series.fajr, y(0)),
+		nightTop: field(series.isha, y(1440)),
+		// The wide cut names each month at its first day. The compact cut has 25 units a
+		// month, where »feb«, »mars« and »apr« run together: an initial at mid-month, as on
+		// a pocket calendar.
+		months: Array.from({ length: 12 }, (_, m) =>
+			cut.name === "wide"
+				? { label: monthShort(m), at: x(dayOfYear(m, 1)) }
+				: { label: monthShort(m).charAt(0).toUpperCase(), at: x(dayOfYear(m, 15)) },
+		),
+		// Hour gridlines every 4h.
+		hourLines: [0, 4, 8, 12, 16, 20, 24].map((h) => ({ label: h, at: y(h * 60) })),
+	};
+}
+const cuts = CUTS.map(draw);
 
 // Stroke colour per prayer, themed via CSS light-dark() to match the map palette.
 const stroke = (key: PrayerKey): string =>
@@ -114,34 +133,42 @@ const stroke = (key: PrayerKey): string =>
 ---
 
 <figure class="apc">
-	<svg
-		class="apc-svg"
-		viewBox={`0 0 ${W} ${H}`}
-		role="img"
-		aria-label={`Diagram över bönetiderna i ${location.name} under hela ${year} – hur Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ förskjuts med årstiderna, och hur natten mellan ʿIshāʾ och Fajr krymper mot midsommar.`}
-	>
-		<!-- Night fields: below Fajr and above ʿIshāʾ. -->
-		{nightBottom && <path d={nightBottom} class="apc-night" />}
-		{nightTop && <path d={nightTop} class="apc-night" />}
+	{
+		cuts.map((c) => (
+			<svg
+				class:list={["apc-svg", `apc-svg--${c.name}`]}
+				viewBox={`0 0 ${c.W} ${c.H}`}
+				role="img"
+				aria-label={`Diagram över bönetiderna i ${location.name} under hela ${year} – hur Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ förskjuts med årstiderna, och hur natten mellan ʿIshāʾ och Fajr krymper mot midsommar.`}
+			>
+				{/* Night fields: below Fajr and above ʿIshāʾ. */}
+				{c.nightBottom && <path d={c.nightBottom} class="apc-night" />}
+				{c.nightTop && <path d={c.nightTop} class="apc-night" />}
 
-		<!-- Hour gridlines + labels (00–24). -->
-		{hourLines.map((h) => (
-			<g>
-				<line x1={padL} y1={h.at} x2={W - padR} y2={h.at} class="apc-grid" />
-				<text x={padL - 5} y={h.at + 3} class="apc-axis apc-axis-y">{h.label}</text>
-			</g>
-		))}
+				{/* Hour gridlines + labels (00–24). */}
+				{c.hourLines.map((h) => (
+					<g>
+						<line x1={c.padL} y1={h.at} x2={c.W - c.padR} y2={h.at} class="apc-grid" />
+						<text x={c.padL - 5} y={h.at + 4} class="apc-axis apc-axis-y">
+							{h.label}
+						</text>
+					</g>
+				))}
 
-		<!-- Month labels. -->
-		{months.map((mo) => (
-			<text x={mo.at} y={H - 8} class="apc-axis apc-axis-x">{mo.label}</text>
-		))}
+				{/* Month labels. */}
+				{c.months.map((mo) => (
+					<text x={mo.at} y={c.H - 8} class="apc-axis apc-axis-x">
+						{mo.label}
+					</text>
+				))}
 
-		<!-- Prayer lines, drawn back-to-front so Maghrib (hero) and Fajr/ʿIshāʾ read clearly. -->
-		{PRAYER_ORDER.map((key) => (
-			<polyline points={polyline(series[key])} fill="none" stroke={stroke(key)} class="apc-line" />
-		))}
-	</svg>
+				{/* Prayer lines, drawn back-to-front so Maghrib (hero) and Fajr/ʿIshāʾ read clearly. */}
+				{PRAYER_ORDER.map((key) => (
+					<polyline points={polyline(c.series[key])} fill="none" stroke={stroke(key)} class="apc-line" />
+				))}
+			</svg>
+		))
+	}
 
 	<ul class="apc-legend">
 		{PRAYER_ORDER.map((key) => (
@@ -164,12 +191,13 @@ const stroke = (key: PrayerKey): string =>
 <style>
 	.apc {
 		margin: var(--space-unit) 0 0;
-		max-width: 46rem;
+		max-inline-size: 46rem;
+		container-type: inline-size;
 	}
 
 	.apc-svg {
-		width: 100%;
-		height: auto;
+		inline-size: 100%;
+		block-size: auto;
 		display: block;
 		border: var(--border-row);
 		border-radius: var(--radius-md);
@@ -177,8 +205,28 @@ const stroke = (key: PrayerKey): string =>
 		padding: 0.4rem 0.2rem;
 	}
 
+	/* Two cuts of one figure (see the frontmatter): the wide one where the column gives it
+	   40rem, the compact one below that, never wider than the phone it is drawn for. */
+	.apc-svg--wide {
+		display: none;
+	}
+
+	.apc-svg--compact {
+		max-inline-size: 26rem;
+	}
+
+	@container (width >= 40rem) {
+		.apc-svg--wide {
+			display: block;
+		}
+
+		.apc-svg--compact {
+			display: none;
+		}
+	}
+
 	.apc-night {
-		fill: color-mix(in srgb, light-dark(#33437a, #94a2dd), transparent 88%);
+		fill: color-mix(in srgb, var(--data-night) 12%, transparent);
 		stroke: none;
 	}
 
@@ -187,17 +235,26 @@ const stroke = (key: PrayerKey): string =>
 		stroke-width: 1;
 	}
 
-	/* ⚠️ px, and NOT a --step-- token — the one place on the site where that is the
-   right answer. This text lives inside the viewBox, so `11px` means 11 *user
-   units*: it scales with the chart and stays in fixed proportion to padL, H and
-   the gridline spacing, which are user units too. A rem token would resolve
-   against the reader's root font size instead, so a 20px browser default would
-   grow the labels ~35 % while the geometry around them stood still, and the hour
-   labels would run into the gridlines. Do not "snap this to the scale". */
+	/* ⚠️ px, and NOT a --step-- token. This text lives inside the viewBox, so `14px`
+	   means 14 *user units*: it scales with the chart and stays in fixed proportion to
+	   padL, H and the gridline spacing, which are user units too. A rem token would
+	   resolve against the reader's root font size instead, so a 20px browser default
+	   would grow the labels ~35 % while the geometry around them stood still, and the
+	   hour labels would run into the gridlines. Do not "snap this to the scale". The
+	   numbers are chosen for what they render at: 14 units is 11.8–13.6 px across the
+	   widths the wide cut is shown at, and the compact cut's 12 are 12 px on a phone. */
 	.apc-axis {
 		font-family: var(--font-body);
 		fill: var(--color-muted);
-		font-size: 11px;
+		font-size: 14px;
+	}
+
+	.apc-svg--compact .apc-axis {
+		font-size: 12px;
+	}
+
+	.apc-svg--compact .apc-line {
+		stroke-width: 1.6;
 	}
 
 	.apc-axis-y {
@@ -233,8 +290,8 @@ const stroke = (key: PrayerKey): string =>
 
 	.apc-chip {
 		align-self: center;
-		width: 0.7rem;
-		height: 0.7rem;
+		inline-size: 0.7rem;
+		block-size: 0.7rem;
 		border-radius: var(--radius-xs);
 		flex: none;
 	}
@@ -254,7 +311,7 @@ const stroke = (key: PrayerKey): string =>
 		line-height: 1.5;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		text-wrap: pretty;
 	}
 

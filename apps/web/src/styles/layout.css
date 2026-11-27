@@ -25,7 +25,7 @@
 		font-size: var(--lead-size, var(--step--1));
 		line-height: 1.6;
 		color: var(--lead-color, var(--text-body));
-		max-width: var(--lead-measure, var(--content-width));
+		max-inline-size: var(--lead-measure, var(--content-width));
 		margin: var(--lead-margin, var(--space-half) 0 0);
 		text-wrap: pretty;
 	}
@@ -148,23 +148,23 @@
 		line-height: 1.7;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
-		padding-left: 0;
+		padding-inline-start: 0;
 	}
 
 	.diamond-list li {
 		position: relative;
-		padding-left: 1.35rem;
+		padding-inline-start: 1.35rem;
 	}
 
 	.diamond-list li::before {
 		content: "";
 		position: absolute;
-		left: 0.15rem;
-		top: 0.63em;
-		width: 0.32em;
-		height: 0.32em;
+		inset-inline-start: 0.15rem;
+		inset-block-start: 0.63em;
+		inline-size: 0.32em;
+		block-size: 0.32em;
 		border: 1px solid var(--color-warm);
-		transform: rotate(45deg);
+		rotate: 45deg;
 	}
 
 	.diamond-list a {
@@ -208,11 +208,11 @@
 		color: var(--text-body);
 		margin: var(--hairline-link-list-margin, 0);
 		padding: 0;
-		max-width: var(--hairline-link-list-measure, var(--content-width));
+		max-inline-size: var(--hairline-link-list-measure, var(--content-width));
 	}
 
 	.hairline-link-list li + li {
-		border-top: var(--border-rule);
+		border-block-start: var(--border-rule);
 	}
 
 	.hairline-link-list a {
@@ -264,12 +264,12 @@
 		.mk-city-groups {
 			columns: 2;
 			column-gap: var(--grid-gutter);
-			margin-top: var(--space-phi);
+			margin-block-start: var(--space-phi);
 		}
 
 		.mk-city-groups .mk-city-group {
-			margin-top: 0;
-			padding-bottom: var(--space-phi);
+			margin-block-start: 0;
+			padding-block-end: var(--space-phi);
 			break-inside: avoid;
 		}
 	}
@@ -333,7 +333,7 @@
 		font-size: var(--step-0);
 		line-height: 1.6;
 		color: var(--color-text);
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		margin: var(--space-half) 0;
 		text-wrap: pretty;
 	}
@@ -352,8 +352,8 @@
 		line-height: 1.5;
 		color: var(--color-muted);
 		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: var(--border-rule);
+		padding-block-start: var(--space-half);
+		border-block-start: var(--border-rule);
 	}
 
 	:is(.mk-attrib, .bt-attrib) a {
@@ -382,9 +382,9 @@
 	}
 
 	:is(.bt-county, .mk-lan) {
-		margin-bottom: var(--space-half);
-		border-bottom: var(--border-row);
-		padding-bottom: var(--space-half);
+		margin-block-end: var(--space-half);
+		border-block-end: var(--border-row);
+		padding-block-end: var(--space-half);
 	}
 
 	:is(.bt-county, .mk-lan)[hidden] {
@@ -445,12 +445,16 @@
 		margin-inline-start: 0.6em;
 		border-inline-end: 1.5px solid var(--color-muted);
 		border-block-end: 1.5px solid var(--color-muted);
-		transform: translateY(-0.2em) rotate(45deg);
-		transition: transform var(--dur-fast) var(--ease-standard);
+		translate: 0 -0.2em;
+		rotate: 45deg;
+		transition:
+			translate var(--dur-fast) var(--ease-standard),
+			rotate var(--dur-fast) var(--ease-standard);
 	}
 
 	.disclosure[open] > summary::after {
-		transform: translateY(0.1em) rotate(-135deg);
+		translate: 0 0.1em;
+		rotate: -135deg;
 	}
 
 	.disclosure--smooth {
@@ -458,15 +462,15 @@
 	}
 
 	.disclosure--smooth::details-content {
-		height: 0;
+		block-size: 0;
 		overflow: clip;
 		transition:
-			height var(--dur-base) var(--ease-standard),
+			block-size var(--dur-base) var(--ease-standard),
 			content-visibility var(--dur-base) allow-discrete;
 	}
 
 	.disclosure--smooth[open]::details-content {
-		height: auto;
+		block-size: auto;
 	}
 
 	/* THE TABLE OF FIGURES. Prayer times by day, day lengths by latitude, fasts by place and
@@ -480,7 +484,7 @@
 	   table keeps in its own styles only what is its own: a sticky head, today's row, a
 	   denser step. */
 	.data-table {
-		width: 100%;
+		inline-size: 100%;
 		border-collapse: collapse;
 		font-family: var(--font-body);
 		font-size: var(--step--2);
@@ -501,7 +505,7 @@
 		color: var(--color-muted);
 		font-weight: 600;
 		font-size: var(--step--3);
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 	}
 
 	.data-table tbody th {
@@ -513,7 +517,7 @@
 	}
 
 	.data-table tbody tr:not(:last-child) :is(th, td) {
-		border-bottom: var(--border-row-faint);
+		border-block-end: var(--border-row-faint);
 	}
 
 	/* THE LINES. The day (PrayerHorizon) and the year (Arslinje) are one figure drawn twice:
@@ -605,7 +609,7 @@
 		font-weight: 500;
 		letter-spacing: 0.01em;
 		text-transform: none;
-		min-height: var(--tap-target);
+		min-block-size: var(--tap-target);
 		color: var(--color-accent);
 		/* A <button> drawn as a pill keeps none of the browser's own face. */
 		background: transparent;
@@ -670,7 +674,7 @@
    a box drawn round the input rather than as an affordance. */
 	:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible,
 	:where(.field:has(:focus-visible)) {
-		outline: 2px solid var(--color-accent);
+		outline: var(--focus-ring);
 		outline-offset: var(--focus-offset, 2px);
 		border-radius: var(--radius-xs);
 	}
@@ -678,8 +682,8 @@
 	/* Skip link — visible only on keyboard focus */
 	.skip-link {
 		position: absolute;
-		top: -100%;
-		left: var(--padding-inline);
+		inset-block-start: -100%;
+		inset-inline-start: var(--padding-inline);
 		z-index: 100;
 		padding: 0.5rem 1rem;
 		background: var(--color-bg);
@@ -691,7 +695,7 @@
 		border-radius: var(--radius-pill);
 
 		&:focus {
-			top: var(--padding-inline);
+			inset-block-start: var(--padding-inline);
 		}
 	}
 
@@ -712,10 +716,9 @@
 	/* THE ONE CENTRED PAGE: the 404, set on its own axis with its drawing above the words
 	   (DESIGN.md, »The Drawings«, rule 3). Every other page stands on the mast's frame. */
 	.page-centred {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		margin-inline: auto;
-		padding-left: var(--safe-left);
-		padding-right: var(--safe-right);
+		padding-inline: var(--safe-left) var(--safe-right);
 	}
 
 	/* ============================================================
@@ -724,10 +727,9 @@
    reads as one composition rather than a stack (plan §11 gestalt).
    ============================================================ */
 	.home {
-		max-width: var(--canvas-width);
+		max-inline-size: var(--canvas-width);
 		margin-inline: auto;
-		padding-left: var(--safe-left);
-		padding-right: var(--safe-right);
+		padding-inline: var(--safe-left) var(--safe-right);
 	}
 
 	/* EVERY PAGE ON THE SHELL OPENS ON ONE LINE AND CLOSES AT ONE DISTANCE: one group-space
@@ -743,14 +745,14 @@
 	}
 
 	main.home > .article-header {
-		margin-top: 0;
+		margin-block-start: 0;
 	}
 
 	/* The about pages (ArticlePage) are documents: what stands under the opening holds
 	   the measure, as an answer's prose does; only what is many takes the frame (/om/'s
 	   two promotions, on its halves). */
 	.article-page > :where(:not(.page-head, .home-promotions)) {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 	}
 
 	/* ============================================================
@@ -875,7 +877,7 @@
 	}
 
 	.home-movement:first-child {
-		margin-top: var(--space-phi);
+		margin-block-start: var(--space-phi);
 	}
 
 	/* The gap between movements is set by editorial.css (`.home .home-movement`,
@@ -902,18 +904,18 @@
 		justify-content: space-between;
 		align-items: baseline;
 		gap: var(--space-half) 1rem;
-		margin-bottom: var(--space-group);
+		margin-block-end: var(--space-group);
 	}
 
 	.home-head .home-kicker {
-		margin-bottom: 0;
+		margin-block-end: 0;
 	}
 
 	/* Tabs follow their head closely: they are its second line, and their own padding
 	   is the other half of the step. Said once here; the essays by ämne and the
 	   essäserier each said it in their own file. */
 	.home-movement:has(> .home-tabs) > :is(.home-kicker, .home-head) {
-		margin-bottom: var(--space-control);
+		margin-block-end: var(--space-control);
 	}
 
 	/* Keep the complete destination and arrow together. Flex wrapping moves the
@@ -921,7 +923,7 @@
 	.home-head-all {
 		flex-shrink: 0;
 		white-space: nowrap;
-		min-width: 0;
+		min-inline-size: 0;
 		text-align: end;
 		justify-content: flex-end;
 		font-size: var(--step--3);
@@ -955,16 +957,16 @@
 		flex-wrap: wrap;
 		align-items: flex-end;
 		gap: 0 var(--space-group);
-		border-bottom: var(--border-rule);
+		border-block-end: var(--border-rule);
 	}
 
 	.home-tab {
 		display: inline-flex;
 		align-items: baseline;
 		gap: 0.4rem;
-		min-height: var(--tap-target);
+		min-block-size: var(--tap-target);
 		padding-block: var(--space-control);
-		border-bottom: 2px solid transparent;
+		border-block-end: 2px solid transparent;
 		font-family: var(--font-heading);
 		font-size: var(--step--1);
 		font-weight: 500;
@@ -978,7 +980,7 @@
 
 	.home-tab[data-selected="true"] {
 		color: var(--color-text);
-		border-bottom-color: var(--color-accent);
+		border-block-end-color: var(--color-accent);
 	}
 
 	/* An unchosen panel is out of the layout, said once for every set (HomeTabs). The
@@ -1010,9 +1012,10 @@
 			overscroll-behavior-x: contain;
 			scrollbar-width: none;
 			margin-inline: calc(-1 * var(--safe-left)) calc(-1 * var(--safe-right));
-			padding: 0 var(--safe-right) 1px var(--safe-left);
+			padding-block: 0 1px;
+			padding-inline: var(--safe-left) var(--safe-right);
 			scroll-padding-inline: var(--safe-left) var(--safe-right);
-			border-bottom: 0;
+			border-block-end: 0;
 			background:
 				linear-gradient(var(--color-rule), var(--color-rule)) no-repeat var(--safe-left) 100% /
 				calc(100% - var(--safe-left) - var(--safe-right)) 1px;
@@ -1048,8 +1051,7 @@
 		/* margin-top/font-weight are pinned so a section kicker reads identically whether
 	   it is a <p> or a promoted <h2> (the global h2 rule would otherwise add a φ top
 	   margin and 620 weight). The kicker is the section's real heading. */
-		margin-top: 0;
-		margin-bottom: var(--space-group);
+		margin-block: 0 var(--space-group);
 		font-size: var(--step--2);
 		font-weight: 400;
 		/* The body's own leading, pinned for the same reason: a <p> kicker inherited
@@ -1085,7 +1087,7 @@
 	   went with the tabs that were NOT chosen, and the section's own sentence was the
 	   faintest prose in it (2026-10-11). */
 	.home-tab-framing {
-		max-width: 42rem;
+		max-inline-size: 42rem;
 		margin: var(--space-group) 0;
 		font-size: var(--step--1);
 		color: var(--text-quiet);
@@ -1112,8 +1114,8 @@
 
 	/* An essay without art keeps its place in the row under a rule. */
 	.home-cards .essay-card:not(:has(.essay-card-media)) {
-		border-top: var(--border-row);
-		padding-top: var(--space-half);
+		border-block-start: var(--border-row);
+		padding-block-start: var(--space-half);
 	}
 
 	.home-tab-more {
@@ -1245,7 +1247,7 @@
 		/* Warm undertone while a lazy image decodes — the frame arrives seated in
 	   the palette instead of popping from blank page background. Invisible once
 	   the opaque cover image paints. */
-		background-color: color-mix(in srgb, var(--color-warm) 18%, var(--color-bg));
+		background-color: var(--surface-2);
 	}
 
 	/* Page transitions are written here, as CSS, and not as transition:* directives.
@@ -1309,7 +1311,7 @@
    does not reach the `scale` property this rule set. */
 	.media-frame img {
 		display: block;
-		width: 100%;
+		inline-size: 100%;
 		object-fit: cover;
 	}
 
@@ -1319,19 +1321,18 @@
    ============================================================ */
 	.site-header {
 		padding: var(--padding-inline);
-		padding-left: var(--safe-left);
-		padding-right: var(--safe-right);
+		padding-inline: var(--safe-left) var(--safe-right);
 		display: grid;
 		position: sticky;
-		top: 0;
+		inset-block-start: 0;
 		z-index: 10;
 		background-color: var(--color-bg);
-		transition: transform var(--mast-motion);
+		transition: translate var(--mast-motion);
 		/* Its own transition group; see the page-transition rules above. */
 		view-transition-name: mast;
 
 		&.header-hidden {
-			transform: translateY(-100%);
+			translate: 0 -100%;
 		}
 
 		/* Under-mast fade — communicates "content passing underneath", so it only
@@ -1341,7 +1342,7 @@
 			content: "";
 			position: absolute;
 			inset: 100% 0 auto;
-			height: 1.5rem;
+			block-size: 1.5rem;
 			background: linear-gradient(to bottom, var(--color-bg), transparent);
 			pointer-events: none;
 			opacity: 0;
@@ -1370,7 +1371,7 @@
 
 	@media (hover: none), (pointer: coarse) {
 		.site-home {
-			min-height: var(--tap-target);
+			min-block-size: var(--tap-target);
 		}
 	}
 
@@ -1392,13 +1393,13 @@
 	   canvas cannot resolve the hashed @font-face name and silently measures Arial
 	   (0.716em) where Source Sans 3 is 0.660em. */
 	.wordmark-dot {
-		width: 0.82em;
-		height: 0.82em;
+		inline-size: 0.82em;
+		block-size: 0.82em;
 		display: inline-block;
 		vertical-align: baseline;
 		/* A wider disc needs more air than a period did, or it crowds the M and S. */
 		margin-inline: 0.15em;
-		transform: translateY(0.08em);
+		translate: 0 0.08em;
 	}
 
 	/* Three tracks: wordmark (left), links (centred in the room between), trigger
@@ -1419,7 +1420,7 @@
 		grid-template-columns: auto minmax(0, 1fr) auto;
 		column-gap: 1rem;
 		align-items: center;
-		width: 100%;
+		inline-size: 100%;
 		font-family: var(--font-heading);
 		font-size: var(--step--1);
 		font-weight: 500;
@@ -1475,13 +1476,13 @@
 		flex: none;
 		display: grid;
 		place-items: center;
-		width: 1.05rem;
-		height: 1.05rem;
+		inline-size: 1.05rem;
+		block-size: 1.05rem;
 	}
 
 	.mast-prayer-icon svg {
-		width: 100%;
-		height: 100%;
+		inline-size: 100%;
+		block-size: 100%;
 	}
 
 	.mast-prayer-icon .mp-sun {
@@ -1747,14 +1748,14 @@
 		}
 
 		.search-trigger {
-			min-height: var(--tap-target);
+			min-block-size: var(--tap-target);
 			padding-inline: 0.85rem;
 		}
 
 		/* The pill grows to 2.75rem here, so the chip beside it has to follow or the
 	   mast stops being one row of equal thumb targets. */
 		.mast-prayer {
-			min-height: var(--tap-target);
+			min-block-size: var(--tap-target);
 		}
 	}
 
@@ -1790,8 +1791,8 @@
 			flex: none;
 		}
 		.site-nav-end {
-			margin-left: auto;
-			max-width: 100%;
+			margin-inline-start: auto;
+			max-inline-size: 100%;
 			flex-wrap: wrap;
 			justify-content: flex-end;
 		}
@@ -1804,11 +1805,10 @@
    ============================================================ */
 	.site-footer {
 		position: relative;
-		max-width: var(--canvas-width);
+		max-inline-size: var(--canvas-width);
 		margin: var(--space-phi) auto 0;
 		padding-block: var(--space-unit) var(--space-phi);
-		padding-left: var(--safe-left);
-		padding-right: var(--safe-right);
+		padding-inline: var(--safe-left) var(--safe-right);
 		text-align: center;
 	}
 
@@ -1820,7 +1820,7 @@
 		position: absolute;
 		inset-block-start: 0;
 		inset-inline: var(--safe-left) var(--safe-right);
-		border-top: var(--border-rule);
+		border-block-start: var(--border-rule);
 	}
 
 	.site-footer-nav {
@@ -1869,7 +1869,7 @@
 		}
 
 		.site-footer-nav a {
-			min-height: var(--tap-target);
+			min-block-size: var(--tap-target);
 		}
 	}
 
@@ -1880,7 +1880,7 @@
 
 	/* Deliberately smaller than the footer's top padding — unequal spacing groups. */
 	.site-footer-colophon {
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 
 	/* Sentence case: a place, an address and a feed are not section names, and an
@@ -1948,7 +1948,7 @@
 	.fp-play:active,
 	.btn-circle:active,
 	.share-btn:active {
-		transform: scale(0.97);
+		scale: 0.97;
 	}
 
 	/* ============================================================
@@ -1958,8 +1958,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: var(--btn-size);
-		height: var(--btn-size);
+		inline-size: var(--btn-size);
+		block-size: var(--btn-size);
 		border: 1px solid;
 		border-radius: 50%;
 		background: transparent;
@@ -1975,11 +1975,11 @@
 	/* The root scroll timeline drives the bar; JS supplies the unsupported-browser fallback. */
 	.reading-progress {
 		position: fixed;
-		top: 0;
-		left: 0;
+		inset-block-start: 0;
+		inset-inline-start: 0;
 		z-index: 20;
-		width: 100%;
-		height: 2px;
+		inline-size: 100%;
+		block-size: 2px;
 		background: var(--color-warm);
 		transform: scaleX(0);
 		transform-origin: left;
@@ -2006,30 +2006,30 @@
 	/* Fixed action buttons — bottom-right corner */
 	.fixed-actions {
 		position: fixed;
-		right: var(--safe-right);
-		bottom: var(--safe-bottom);
+		inset-inline-end: var(--safe-right);
+		inset-block-end: var(--safe-bottom);
 		z-index: 10;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
 		opacity: 0;
 		pointer-events: none;
-		transform: translateY(0.5rem);
+		translate: 0 0.5rem;
 		transition:
 			opacity var(--dur-base) var(--ease-standard),
-			transform var(--dur-base) var(--ease-standard),
-			bottom var(--dur-base) var(--ease-standard);
+			translate var(--dur-base) var(--ease-standard),
+			inset-block-end var(--dur-base) var(--ease-standard);
 
 		&.visible {
 			opacity: 1;
 			pointer-events: auto;
-			transform: translateY(0);
+			translate: 0 0;
 		}
 	}
 
 	/* Shift up when floating audio player is visible */
 	html[data-player-visible] .fixed-actions {
-		bottom: calc(var(--safe-bottom) + 3.5rem);
+		inset-block-end: calc(var(--safe-bottom) + 3.5rem);
 	}
 
 	/* On a phone the essay's resume pill ([...slug].astro) stands centred at the foot of
@@ -2037,11 +2037,11 @@
 	   actions step up over it instead of under it (2026-10-16). */
 	@media (width < 48rem) {
 		html:has(.resume-pill[data-visible]) .fixed-actions {
-			bottom: calc(var(--safe-bottom) + 4.5rem);
+			inset-block-end: calc(var(--safe-bottom) + 4.5rem);
 		}
 
 		html[data-player-visible]:has(.resume-pill[data-visible]) .fixed-actions {
-			bottom: calc(var(--safe-bottom) + 8rem);
+			inset-block-end: calc(var(--safe-bottom) + 8rem);
 		}
 	}
 
@@ -2055,7 +2055,7 @@
 	/* Beside the circle, at its height and in sentence case: capitals name a section or a
 	   kind and nothing else (DESIGN.md). It stood 35px tall against the circle's 40. */
 	.share-btn {
-		min-height: 2.5rem;
+		min-block-size: 2.5rem;
 		padding: 0.25rem 0.9rem;
 		border: var(--border-row);
 		border-radius: var(--radius-pill);
@@ -2100,7 +2100,7 @@
 		}
 
 		.share-btn {
-			min-height: var(--tap-target);
+			min-block-size: var(--tap-target);
 			padding-inline: 1rem;
 		}
 	}
@@ -2114,7 +2114,7 @@
 	   <style>: the <p> is rendered by Kicker.astro and carries none of their scope, so
 	   a rule there matches nothing. */
 	:is(.collection-kicker, .article-kicker) {
-		margin-bottom: var(--space-half);
+		margin-block-end: var(--space-half);
 	}
 
 	/* The answer's header spaces its title from above (svar/[slug].astro). */
@@ -2140,26 +2140,25 @@
 	/* It closes the list over it, so it stands a group-space under it (DESIGN.md, »After an
 	   Essay«), and the list's own bottom margin is for a list that closes nothing. */
 	.collection-back {
-		margin-top: var(--space-group);
+		margin-block-start: var(--space-group);
 	}
 
 	.archive-list:has(+ .collection-back) {
-		margin-bottom: 0;
+		margin-block-end: 0;
 	}
 
 	/* ============================================================
    Article header
    ============================================================ */
 	.article-header {
-		margin-top: var(--space-phi);
-		margin-bottom: var(--space-unit);
+		margin-block: var(--space-phi) var(--space-unit);
 
 		h1 {
-			margin-bottom: var(--space-half);
+			margin-block-end: var(--space-half);
 		}
 
 		&:has(.archive-stats) h1 {
-			margin-bottom: 0.25rem;
+			margin-block-end: 0.25rem;
 		}
 	}
 
@@ -2171,14 +2170,14 @@
 	}
 
 	.article-body {
-		margin-bottom: 0;
+		margin-block-end: 0;
 	}
 
 	/* Prev/next navigation. After an essay's end matter it is a group of its own (the
 	   chronology, not the essay's neighbours by subject), so it stands a section away
 	   and »Alla essäer« stays with the list it closes (EssayConnections.astro). */
 	.essay-connections + .article-nav {
-		margin-top: var(--space-section);
+		margin-block-start: var(--space-section);
 	}
 
 	/* THE TITLES IN THE TITLE FACE (2026-11-07): the neighbour is an essay (a question, a
@@ -2192,8 +2191,7 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 		gap: var(--space-unit) var(--grid-gutter);
-		margin-top: var(--space-unit);
-		margin-bottom: var(--space-phi);
+		margin-block: var(--space-unit) var(--space-phi);
 		font-family: var(--font-display);
 		font-size: var(--step-1);
 		line-height: var(--card-title-leading);
@@ -2201,7 +2199,7 @@
 		a {
 			color: var(--color-text);
 			text-decoration: none;
-			min-width: 0;
+			min-inline-size: 0;
 			flex: 1 1 0;
 			font-weight: 600;
 			text-wrap: balance;
@@ -2229,7 +2227,7 @@
 			font-size: var(--step--3);
 			font-weight: 400;
 			color: var(--color-muted);
-			margin-bottom: 0.35rem;
+			margin-block-end: 0.35rem;
 		}
 	}
 
@@ -2245,8 +2243,8 @@
 
 		&::before {
 			content: "";
-			width: 1rem;
-			height: 1rem;
+			inline-size: 1rem;
+			block-size: 1rem;
 			border-radius: 50%;
 			flex-shrink: 0;
 			background: conic-gradient(
@@ -2284,7 +2282,7 @@
 	.part-ordinal,
 	:is(.collection-delar .archive-title, .trad-delar .essay-card-title)::before {
 		display: block;
-		margin-bottom: 0.2rem;
+		margin-block-end: 0.2rem;
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		font-weight: 400;
@@ -2323,22 +2321,22 @@
 	   the meta grey, the page's two other sections under kickers 24px under theirs:
 	   three headings for one page (2026-10-16). */
 	.page-section {
-		margin-top: var(--space-section);
-		padding-top: var(--space-group);
-		border-top: var(--border-rule);
+		margin-block-start: var(--space-section);
+		padding-block-start: var(--space-group);
+		border-block-start: var(--border-rule);
 	}
 
 	/* No rule to open under, but still a step from what stands over it: at margin 0 the first
 	   section of /bonetider/ramadan/ and /bonetider/metod/ stood flush under the ingress. */
 	.page-section--first {
-		margin-top: var(--space-group);
-		padding-top: 0;
-		border-top: 0;
+		margin-block-start: var(--space-group);
+		padding-block-start: 0;
+		border-block-start: 0;
 	}
 
 	/* A sans h2 opens without a kicker's rank above it, so it takes a φ. */
 	.page-section--first.tool-section {
-		margin-top: var(--space-phi);
+		margin-block-start: var(--space-phi);
 	}
 
 	/* Hide section entirely when its list is empty (e.g. "Lasta" with 0 read articles) */
@@ -2347,17 +2345,16 @@
 	}
 
 	.archive-section .archive-list {
-		margin-bottom: 0;
+		margin-block-end: 0;
 	}
 
 	.archive-section:last-child .archive-list {
-		margin-bottom: var(--space-phi2);
+		margin-block-end: var(--space-phi2);
 	}
 
 	/* Archive list */
 	.archive-list {
-		margin-top: var(--space-unit);
-		margin-bottom: var(--space-phi2);
+		margin-block: var(--space-unit) var(--space-phi2);
 	}
 
 	/* A list of essays in a reading page's end matter (an answer's »Läs vidare»): the
@@ -2368,14 +2365,14 @@
 
 	.archive-item {
 		padding-block: var(--space-unit);
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 
 		&:first-child {
-			padding-top: 0;
+			padding-block-start: 0;
 		}
 
 		&:last-child {
-			border-bottom: none;
+			border-block-end: none;
 		}
 
 		a {
@@ -2411,8 +2408,7 @@
 
 		.archive-meta {
 			font-size: var(--step--3);
-			margin-top: 0.25rem;
-			margin-bottom: 0;
+			margin-block: 0.25rem 0;
 		}
 
 		.archive-description {
@@ -2421,11 +2417,11 @@
 			font-weight: 400;
 			color: var(--text-quiet);
 			line-height: 1.45;
-			margin-top: 0.375rem;
+			margin-block-start: 0.375rem;
 			overflow: hidden;
 			text-wrap: pretty;
 
-			margin-bottom: 0;
+			margin-block-end: 0;
 		}
 	}
 
@@ -2462,7 +2458,7 @@
 
 	.essay-card {
 		padding-block: 0;
-		border-bottom: none;
+		border-block-end: none;
 	}
 
 	.essay-card a {
@@ -2477,7 +2473,7 @@
 	/* The <img> carries EssayImage's scope, not ours; a plain descendant never reaches it. */
 	.essay-card-media img {
 		aspect-ratio: 3 / 2;
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	/* The card-title step, the front page's (DESIGN.md: --step-1, »list and card
@@ -2496,11 +2492,11 @@
 		font-size: var(--step--2);
 		line-height: var(--card-text-leading);
 		color: var(--text-quiet);
-		margin-top: var(--card-text-gap);
+		margin-block-start: var(--card-text-gap);
 	}
 
 	.essay-card .archive-meta {
-		margin-top: 0.5rem;
+		margin-block-start: 0.5rem;
 	}
 
 	/* Filter / category chip — a small pill shared by Essäer's filter row and the
@@ -2544,7 +2540,7 @@
 		.filter-chip {
 			display: inline-flex;
 			align-items: center;
-			min-height: var(--tap-target);
+			min-block-size: var(--tap-target);
 		}
 	}
 
@@ -2558,11 +2554,11 @@
 	.def-list {
 		overflow-wrap: anywhere;
 		margin: 0;
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 	}
 	.def-item {
 		padding: var(--space-half) 0;
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 	}
 
 	/* A rule between rows, never under the last: the next section opens under its own rule,
@@ -2570,13 +2566,13 @@
 	   article's end matter only (2026-10-16); every FAQ on the tool pages drew both until
 	   2026-11-20. */
 	.def-item:last-child {
-		border-bottom: none;
+		border-block-end: none;
 	}
 	.def-list dt {
 		font-family: var(--font-heading);
 		font-weight: 600;
 		color: var(--color-text);
-		margin-bottom: 0.3rem;
+		margin-block-end: 0.3rem;
 	}
 	.def-list dd {
 		margin: 0;
@@ -2604,10 +2600,9 @@
      approved layout: full-bleed hero, centred column.
    ============================================================ */
 	.reading {
-		max-width: var(--reading-frame);
+		max-inline-size: var(--reading-frame);
 		margin-inline: auto;
-		padding-left: var(--safe-left);
-		padding-right: var(--safe-right);
+		padding-inline: var(--safe-left) var(--safe-right);
 	}
 
 	/* Under 56.25rem the measure all but fills the frame, and centred it stood 19px inside
@@ -2634,8 +2629,9 @@
 	.reading .fordjupning-back,
 	.reading .rattelse,
 	.reading .hero-caption,
+	.reading .article-listen,
 	.reading .footnotes-relocated {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		/* `auto auto` centres, which is the default every reading page wants. A page
 		   that projects its notes into the margin sets --reading-inline-start below,
 		   and the whole column shifts left as one — without this list being written
@@ -2650,8 +2646,8 @@
 	   heading as a kicker one group-space under it. They followed the newer/older links
 	   with no rule and no visible heading (2026-10-16). */
 	.article-nav ~ .footnotes-relocated {
-		padding-top: var(--space-group);
-		border-top: var(--border-rule);
+		padding-block-start: var(--space-group);
+		border-block-start: var(--border-rule);
 	}
 
 	/* A quiet editorial caption under a hero — a descriptive line only (never a
@@ -2664,9 +2660,9 @@
 	   so /fordjupning/ rendered the same figcaption.hero-caption with no type at all and its captions came out at body size. Both templates emit this
 	   class; one definition serves them. */
 	.hero-caption {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		margin-inline: auto;
-		margin-top: 0.7rem;
+		margin-block-start: 0.7rem;
 		font-size: var(--step--3);
 		line-height: 1.45;
 		font-style: italic;
@@ -2684,20 +2680,20 @@
 	   hero's, so the line under the picture aligns with the prose that follows it. */
 	.prose-figure {
 		margin: 2.4rem auto;
-		max-width: min(100%, calc(var(--content-width) + 8rem));
+		max-inline-size: min(100%, calc(var(--content-width) + 8rem));
 	}
 
 	.prose-figure img {
 		display: block;
-		width: 100%;
-		height: auto;
+		inline-size: 100%;
+		block-size: auto;
 		border-radius: var(--radius-xs);
 	}
 
 	.prose-figure-caption {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		margin-inline: auto;
-		margin-top: 0.7rem;
+		margin-block-start: 0.7rem;
 		font-size: var(--step--3);
 		line-height: 1.45;
 		font-style: italic;
@@ -2719,7 +2715,7 @@
 			grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
 			column-gap: var(--space-group);
 			align-items: end;
-			max-width: var(--content-width);
+			max-inline-size: var(--content-width);
 		}
 
 		.prose-figure--upright .prose-figure-caption {
@@ -2780,17 +2776,17 @@
 		   so the prose is not displaced at all — the note simply hangs beside the line
 		   that introduced it. Floats also begin at the current line box, which is what
 		   aligns the note to its marker for free.
-		   `clear: right` stacks two notes that fall close together instead of letting
+		   `clear: inline-end` stacks two notes that fall close together instead of letting
 		   them overlap; the second drifts a line or two below its marker, which is the
 		   one thing a JavaScript placement pass would do better and is not worth
 		   shipping a resize observer for. */
 		.reading--notes .sidenote {
 			display: block;
-			float: right;
-			clear: right;
-			width: var(--sn-width);
-			margin-right: calc(-1 * var(--sn-track));
-			margin-bottom: var(--space-half);
+			float: inline-end;
+			clear: inline-end;
+			inline-size: var(--sn-width);
+			margin-inline-end: calc(-1 * var(--sn-track));
+			margin-block-end: var(--space-half);
 			font-family: var(--font-heading);
 			font-size: var(--step--4);
 			line-height: 1.45;
@@ -2813,7 +2809,7 @@
 		}
 
 		.reading--notes .sidenote-num {
-			margin-right: 0.35em;
+			margin-inline-end: 0.35em;
 			font-variant-numeric: lining-nums;
 			/* --color-warm is the 3:1 UI/border tier (see tokens.css) and this is text:
 			   #998e7c measured 3.01:1 on the light ground at 11.9px, under AA's 4.5. The
@@ -2956,7 +2952,7 @@
 	}
 
 	.md-body {
-		min-width: 0;
+		min-inline-size: 0;
 	}
 
 	.md-name {
@@ -2973,7 +2969,7 @@
 		line-height: 1.45;
 		color: var(--color-muted);
 		margin: 0.2rem 0 0;
-		max-width: 28rem;
+		max-inline-size: 28rem;
 	}
 
 	.md-hijri {
@@ -2993,8 +2989,8 @@
 
 	.md-standing {
 		margin: var(--space-unit) 0 0;
-		padding-top: var(--space-half);
-		border-top: var(--border-rule);
+		padding-block-start: var(--space-half);
+		border-block-start: var(--border-rule);
 	}
 
 	@media (width < 48rem) {
@@ -3072,7 +3068,7 @@
    grid that misaligns the two columns. Give every cell equal top padding so the
    columns read as one index. */
 	.home .archive-list .archive-item:first-child {
-		padding-top: var(--space-unit);
+		padding-block-start: var(--space-unit);
 	}
 
 	/* A RULE BETWEEN ROWS, NEVER UNDER THE LAST. The hairline under each item separates
@@ -3084,7 +3080,7 @@
 	   76rem canvas never holds three. */
 	@container (width >= 51rem) {
 		.home .archive-list .archive-item:nth-last-child(2):nth-child(odd) {
-			border-bottom: none;
+			border-block-end: none;
 		}
 	}
 
@@ -3093,7 +3089,7 @@
    ============================================================ */
 	@media (width < 48rem) {
 		.article-header {
-			margin-top: var(--space-unit);
+			margin-block-start: var(--space-unit);
 		}
 
 		/* The titles keep the title face's phone step (--step-1); only the tap margin is
@@ -3110,7 +3106,7 @@
 
 		/* Compensate tap-target padding so logo aligns with content column */
 		.site-home {
-			margin-left: -0.25rem;
+			margin-inline-start: -0.25rem;
 		}
 	}
 }

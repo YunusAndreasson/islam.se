@@ -45,7 +45,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 					ankare="vanster"
 					hojd={[4.5, 10]}
 					bredd={[7, 14]}
-					sizes="(min-width: 60rem) 17rem, (min-width: 48rem) calc((100vw - 10rem) / 3), 7rem"
+					sizes="(width >= 60rem) 17rem, (width >= 48rem) calc((100vw - 10rem) / 3), 7rem"
 				/>
 			</div>
 		</div>
@@ -63,7 +63,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 						<p class="grunden-term">
 							<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{item.label}</a>
 							{" "}
-							<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
+							<span class="grunden-tr" lang="ar-Latn">{item.translit.split(" ").map((ord, n) => <Fragment>{n > 0 && " "}<span class="grunden-tr-ord">{ord}</span></Fragment>)}</span>
 						</p>
 						<p class="grunden-blurb"><WithHonorifics text={item.blurb} /></p>
 					</li>
@@ -84,7 +84,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 						<p class="grunden-term">
 							<a class="grunden-name" href={`/svar/${item.svarSlug}/`}>{avstavad(item.label)}</a>
 							{" "}
-							<span class="grunden-tr" lang="ar-Latn">{item.translit}</span>
+							<span class="grunden-tr" lang="ar-Latn">{item.translit.split(" ").map((ord, n) => <Fragment>{n > 0 && " "}<span class="grunden-tr-ord">{ord}</span></Fragment>)}</span>
 						</p>
 						<p class="grunden-blurb"><WithHonorifics text={item.blurb} /></p>
 					</li>
@@ -120,7 +120,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 			"lead lead"
 			"vidare vidare";
 		column-gap: var(--space-unit);
-		margin-bottom: var(--space-phi);
+		margin-block-end: var(--space-phi);
 	}
 
 	.grunden-opening {
@@ -197,11 +197,11 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 
 	.grunden-lead {
 		margin: 0;
-		max-width: 34em;
+		max-inline-size: 34em;
 	}
 
 	.grunden-group + .grunden-group {
-		margin-top: var(--space-phi);
+		margin-block-start: var(--space-phi);
 	}
 
 	.grunden-group-head {
@@ -313,8 +313,15 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 			column-gap: var(--space-half);
 		}
 
+		/* In a phone's half-width column the term may go to a line of its own, and a term of
+		   two words may part between them, but never inside a word: left to itself the
+		   line broke after the article's hyphen (»al-« over »malāʾika«). */
 		.grunden-tro .grunden-tr {
 			white-space: normal;
+		}
+
+		.grunden-tro .grunden-tr-ord {
+			white-space: nowrap;
 		}
 
 		.grunden-tro .grunden-blurb {
@@ -348,7 +355,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 		}
 
 		.grunden-group + .grunden-group {
-			margin-top: 0;
+			margin-block-start: 0;
 		}
 
 		/* Three labels on one line: the movement's kicker and the two lists' heads. */
@@ -383,7 +390,7 @@ const avstavad = (label: string) => label.replace(/^Förut(?=bestämmelse)/, "F�
 			align-self: stretch;
 			min-block-size: 7rem;
 			max-block-size: 17rem;
-			margin-top: var(--space-unit);
+			margin-block-start: var(--space-unit);
 		}
 	}
 

@@ -55,7 +55,7 @@ const { src, title, artwork, label = "Lyssna", episode } = Astro.props;
 		   that stands alone above an article, a row seated in a list needs none. A
 		   custom property because it INHERITS — the one kind of declaration that
 		   crosses an Astro scope boundary, so a caller can actually set it. */
-		margin-bottom: var(--audio-trigger-margin, var(--space-unit));
+		margin-block-end: var(--audio-trigger-margin, var(--space-unit));
 	}
 
 	/* The one place a play button outranks a link pill: while it is playing it is the

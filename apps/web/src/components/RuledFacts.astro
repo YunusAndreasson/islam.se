@@ -25,10 +25,10 @@ const { class: className, items, ...attrs } = Astro.props;
 <style>
 	/* A quiet ruled fact table: label left, fact right. */
 	.ruled-facts {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		margin: var(--ruled-facts-margin, var(--space-phi) 0 0);
 		padding: 0;
-		border-top: var(--border-rule);
+		border-block-start: var(--border-rule);
 		font-size: var(--step--2);
 	}
 
@@ -37,12 +37,12 @@ const { class: className, items, ...attrs } = Astro.props;
 		grid-template-columns: 11rem 1fr;
 		gap: 0.5rem 1.5rem;
 		padding: 0.65rem 0;
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 	}
 
 	/* Between rows, not under the last: what follows opens on its own line. */
 	.ruled-facts > div:last-child {
-		border-bottom: none;
+		border-block-end: none;
 	}
 
 	.ruled-facts dt {
@@ -50,7 +50,7 @@ const { class: className, items, ...attrs } = Astro.props;
 		font-size: var(--step--3);
 		font-weight: 500;
 		color: var(--color-muted);
-		padding-top: 0.15em;
+		padding-block-start: 0.15em;
 	}
 
 	.ruled-facts dd {

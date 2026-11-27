@@ -78,7 +78,7 @@ const routes = await Promise.all(threads.map(async (thread) => {
 			headingLevel={3}
 			compact
 			prefetch="viewport"
-			sizes="(min-width: 79rem) 24rem, (min-width: 63rem) 30vw, (min-width: 42rem) 45vw, 100vw"
+			sizes="(width >= 79rem) 24rem, (width >= 63rem) 30vw, (width >= 42rem) 45vw, 100vw"
 		/>
 	) : (
 		/* THE DESIGN OF THE ESSAYS BY ÄMNE, with a series' one difference. A tab per
@@ -118,7 +118,7 @@ const routes = await Promise.all(threads.map(async (thread) => {
 								article={article}
 								variant="card"
 								style={`counter-reset: del ${route.essays.indexOf(article) + 1}`}
-								cardSizes="(min-width: 60rem) 31vw, (min-width: 40rem) 42vw, 80vw"
+								cardSizes="(width >= 60rem) 31vw, (width >= 40rem) 42vw, 80vw"
 							/>
 						))}
 					</ul>

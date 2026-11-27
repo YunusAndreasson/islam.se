@@ -162,7 +162,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	}}
 	jsonLd={jsonLd}
 	{...heroPreload}
-	preloadFonts={["body", "sans", { face: "display", media: "(min-width: 48rem)" }]}
+	preloadFonts={["body", "sans", { face: "display", media: "(width >= 48rem)" }]}
 >
 	<main id="main" class="svar-page reading">
 		<article>
@@ -269,7 +269,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	/* An essay's header stands a unit under the mast on a phone: one line for all three. */
 	@media (width < 48rem) {
 		.svar-page {
-			margin-top: var(--space-unit);
+			margin-block-start: var(--space-unit);
 		}
 	}
 
@@ -277,7 +277,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	   and one without open with the same rhythm. Without this the h1 on a
 	   hero-less answer sat directly on the body's drop cap. */
 	.svar-header {
-		margin-bottom: var(--space-phi);
+		margin-block-end: var(--space-phi);
 	}
 
 	.svar-header h1 {
@@ -301,17 +301,17 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	/* No aspect-ratio pin — this was the worst of the three reading pages: a 16/9 band
 	   cut 25 % off the 4:3 FAKTA artworks and 15.7 % off a borrowed 3:2 essay hero. */
 	.svar-hero :global(img) {
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	/* Placement only — the link inside is a `.section-link .back-link`. */
 	.svar-back {
-		margin-top: var(--space-phi);
+		margin-block-start: var(--space-phi);
 	}
 
 	/* Sits between the answer and the FAQ, so it needs the section rhythm above it but
 	   no rule — it is a single line of navigation, not a section. */
 	.svar-fordjupning {
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 </style>

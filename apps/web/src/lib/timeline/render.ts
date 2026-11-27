@@ -81,7 +81,7 @@ export function timelineAltText(spec: TimelineSpec): string {
 	// Through yearSpans() as well, or the label a screen reader reads out would punctuate
 	// its years differently from the ones on screen.
 	const first = yearSpans(spec.entries[0]?.label ?? "");
-	const last = yearSpans(spec.entries[spec.entries.length - 1]?.label ?? "");
+	const last = yearSpans(spec.entries.at(-1)?.label ?? "");
 	const lead = spec.caption
 		? housePunctuation(spec.caption)
 		: `Tidslinje från ${first} till ${last}.`;

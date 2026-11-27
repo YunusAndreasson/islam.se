@@ -126,7 +126,7 @@ const lengthFilterItems = [
 							articles={cards}
 							class="essay-cards essay-cards--thirds"
 							itemVariant="card"
-							cardSizes="(min-width: 79rem) 24rem, (min-width: 64rem) 30vw, (min-width: 37rem) 45vw, 100vw"
+							cardSizes="(width >= 79rem) 24rem, (width >= 64rem) 30vw, (width >= 37rem) 45vw, 100vw"
 							showReadFlag
 							showMinutesAttr
 						/>
@@ -196,7 +196,7 @@ const lengthFilterItems = [
 	/* .essay-cards and the card itself are global — see styles/layout.css. */
 
 	.archive-controls {
-		margin-bottom: var(--space-unit);
+		margin-block-end: var(--space-unit);
 	}
 
 	.filter-row {
@@ -212,7 +212,8 @@ const lengthFilterItems = [
 
 	/* The read ring stands after the chips, a little apart: a statement, not a control. */
 	.filter-row .archive-stats {
-		margin: 0 0 0 var(--space-half);
+		margin-block: 0;
+		margin-inline: var(--space-half) 0;
 	}
 
 	/* The filter pills are the shared global `.filter-chip` (+ `.label`), identical to
@@ -258,8 +259,8 @@ const lengthFilterItems = [
 
 	.overlay-close {
 		position: absolute;
-		top: var(--safe-top);
-		right: var(--safe-right);
+		inset-block-start: var(--safe-top);
+		inset-inline-end: var(--safe-right);
 		z-index: 1;
 		display: flex;
 		padding: 0.75rem;
@@ -277,18 +278,18 @@ const lengthFilterItems = [
 	}
 
 	.overlay-inner {
-		max-width: var(--content-width);
-		width: 100%;
+		max-inline-size: var(--content-width);
+		inline-size: 100%;
 		/* The Tänkare panel is ~915px tall; on a 667px phone it would overflow a
 	   fixed overlay at both ends with nothing to scroll. */
-		max-height: 100%;
+		max-block-size: 100%;
 		overflow-y: auto;
 		overscroll-behavior: contain;
 		padding: var(--space-unit) var(--padding-inline);
 	}
 
 	.overlay-heading {
-		margin-bottom: var(--space-unit);
+		margin-block-end: var(--space-unit);
 		color: var(--color-muted);
 	}
 

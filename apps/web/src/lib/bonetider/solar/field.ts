@@ -83,7 +83,7 @@ function axis(min: number, max: number, step: number): number[] {
 	// The stepped loop stops at the last whole step <= max (e.g. 72.68 for [50, 73] step
 	// 0.42), leaving an uncovered strip up to the declared bound. Append the exact max so
 	// the grid actually spans the bounds it claims; the final cell is just shorter.
-	const last = out[out.length - 1];
+	const last = out.at(-1);
 	if (last === undefined || last < max - 1e-9) out.push(Number(max.toFixed(4)));
 	return out;
 }

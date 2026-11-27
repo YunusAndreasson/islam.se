@@ -28,7 +28,7 @@ const threads = await getCollection("tradar");
 		]),
 	]}
 >
-	<ThreadList threads={threads} sizes="(min-width: 79rem) 24rem, (min-width: 48rem) 45vw, 100vw" />
+	<ThreadList threads={threads} sizes="(width >= 79rem) 24rem, (width >= 48rem) 45vw, 100vw" />
 </CollectionIndexPage>
 
 <style>

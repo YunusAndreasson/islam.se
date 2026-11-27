@@ -40,30 +40,33 @@
 
 /* THE COLOUR TOKENS.
 
-   ⚠️ A subtree that sets its own `color-scheme` must declare this block again. The
-   production build lowers every light-dark() with Lightning CSS's polyfill (target
-   baseline-widely-available, astro.config.ts), which becomes
-   `var(--lightningcss-light, A) var(--lightningcss-dark, B)` and a pair of switch
-   variables set wherever `color-scheme` is declared. A custom property substitutes
-   its var()s where it is DECLARED, so a token declared only on :root is frozen in the
-   root's scheme. The front page's dark ink band (retired 2026-09-27, when it read as
-   a second site; its CSS removed 2026-10-17) said `color-scheme: dark` and rendered its names in the light palette's
-   ink on its own near-black ground (2026-09-25); it carried this block as
-   `:root, .ground-ink`. The dev server does not lower light-dark(), so it never
-   showed. Only colours belong in such a copy: redeclaring the type or spacing tokens
-   would undo their mobile overrides inside it. */
-:root {
-	/* The site's one shadow ink — channel-only for rgb() composition. It began as the
-	   hero overlay (frame vignettes, the drop shadow under a picture) and since
-	   2026-10-17 draws every shadow: the note popover, the search sheet, the map
-	   panels and the app's phones, which were pure black on warm paper. A modal's
-	   ::backdrop scrim stays a literal: it is not a shadow, and ::backdrop has
-	   inherited custom properties only since 2024. The matching warm white,
-	   245 240 232, is not a token because no stylesheet composes it; lib/og.ts carries
-	   it as the title ink on the photo share card, which is the one place text sits on
-	   a hero. */
-	--hero-black: 20 18 14;
+   Six families, and a colour at a call site is always one of them by name:
 
+     INK        --color-text, the ramp under it (--text-body, --text-quiet, --text-meta,
+                --color-muted) and --color-accent for what answers a pointer
+     GROUNDS    --color-bg; --surface-1/2 and --ground-tint (opaque steps off it);
+                --glass (the ground, translucent, over a map or the page)
+     LINES      --color-rule, --color-divider and --color-divider-faint (three ranks of
+                hairline, a section's, a row's and a table body's), --color-warm (the
+                3:1 tier: a selected border, an icon), --color-quote-mark,
+                --color-stucco, --underline-quiet
+     STATES     --wash-hover, --wash-selected, --wash-mark, --focus-ring
+     MARKS      --color-brass and --color-brass-ink (data, ordinals, the kicker's point),
+                --mark-blue and --mark-gold (the wordmark's sun), --data-night and
+                --map-water (the day's charts and the two maps)
+     ELEVATION  --shadow-ink, the three shadows cut from it, and --scrim
+
+   No stylesheet mixes a colour of its own or types a hex: `house-css.test.ts`
+   fails on one, and names the few files that draw a palette of their own (the
+   moskéskärm, a QR code, the solar map). If a role is missing, it is added here.
+
+   Every scheme-dependent value is a light-dark(), shipped as written (the build's floor
+   is astro.config.ts MODERN_BROWSERS). A subtree that sets its own `color-scheme`
+   therefore re-resolves every token below by itself; nothing is declared twice. Until
+   2026-11-27 the build lowered light-dark() to a pair of switch variables, which froze
+   a token in the scheme of the element it was declared on, and such a subtree had to
+   carry a copy of this block. */
+:root {
 	/* Colors — 4 maximum per DESIGN.md */
 	--color-text: light-dark(#1a1914, #e8e5e0);
 	/* The light background carries a Nordic earth tint — limewash and unbleached
@@ -180,9 +183,20 @@
 	--border-row: 1px solid var(--color-divider);
 	--border-rule: 1px solid var(--color-rule);
 	/* A rank under the row's, between the rows of a table of figures (.data-table): the
-	   head's line is the row rank, the body's are fainter. It was mixed by hand at three
-	   strengths in three files (2026-11-20). */
-	--border-row-faint: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
+	   head's line is the row rank, the body's are fainter. Also the empty track a bar
+	   fills. It was mixed by hand at 30, 40 and 55 % in five files. */
+	--color-divider-faint: color-mix(in srgb, var(--color-divider), transparent 40%);
+	--border-row-faint: 1px solid var(--color-divider-faint);
+	/* Stucco: the rosette and the cornice, relief in the ground's own colour a few per
+	   cent off it (DESIGN.md, »Stuckatur«). Opaque, so a moulding reads the same on paper
+	   and on a tinted room. */
+	--color-stucco: color-mix(in oklab, var(--color-text) 9%, var(--color-bg));
+	/* A link's underline at rest in running prose: the text's own colour, thinned, so
+	   the line says »link« without striping the paragraph; whole on hover. Resolved where
+	   it is used, so it follows whatever ink the link is set in. A list that is all links
+	   (sources, a table's row heads) takes --color-rule instead: there the line is only a
+	   hint. It was mixed at 35 % in srgb and 40 % in oklab in two files. */
+	--underline-quiet: color-mix(in oklab, currentColor 40%, transparent);
 
 	/* Muted body-text ramp — body text blended toward the warm muted taupe.
 
@@ -228,6 +242,13 @@
 	   3.8 / 6.7 dark. */
 	--wash-hover: color-mix(in srgb, var(--color-warm) 10%, transparent);
 	--wash-selected: color-mix(in srgb, var(--color-warm) 18%, transparent);
+	/* A third rank, for text that is marked rather than a control that is chosen: the
+	   reader's selection, and the flash on the note a link has just jumped to. Heavier
+	   than a selected row because it lies under single words, and the ink stays the
+	   ink on it (≥ 11:1 in both schemes). */
+	--wash-mark: color-mix(in srgb, var(--color-warm) 30%, transparent);
+	/* The one focus ring (layout.css draws it on everything focusable). */
+	--focus-ring: 2px solid var(--color-accent);
 
 	/* Raised surfaces — an opaque panel one step off the ground. --surface-1 is a
 	   card, an input, a book cover, a promo box, a quoted block; --surface-2 is a
@@ -262,6 +283,43 @@
 	   window edge, so a change of paper says a different kind of thing has begun
 	   (DESIGN.md, »One pair of margins — the mast's — and two rooms«). */
 	--ground-tint: var(--surface-1);
+
+	/* MAPS AND THE DAY'S CHARTS. The only cool colours on the site, and only where the
+	   thing drawn is cool: water, and the night.
+	   --map-water is the sea of both maps (mirrored as literals in scripts/moskeer-map.ts
+	   and lib/bonetider/render-field.ts, whose WebGL and canvas paint cannot read a
+	   custom property). --data-night is ʿIshāʾ's line (PRAYER_COLORS.isha,
+	   lib/bonetider/solar/palette.ts): the hours of darkness in the day's curve and the
+	   year's chart, filled at a low alpha so the grid reads through. */
+	--map-water: light-dark(#bcd0de, #15171a);
+	--data-night: light-dark(#33437a, #94a2dd);
+
+	/* ELEVATION. Only what stands above the page casts a shadow (DESIGN.md, Principle 4),
+	   and it casts one of three, all in one warm near-black: pure black on warm paper
+	   reads as a hole. A shadow against a dark ground needs about three times the alpha
+	   to show at all, hence the pairs. Nine call sites typed nine recipes, 0.08 to 0.5.
+	     --shadow-raised  a control or a panel lying on a map (the callout, the zoom
+	                      group, the hover chip, the prayer panel): tight, so the edge
+	                      separates from a busy image
+	     --shadow-float   something small over the page (a note's popover, the »fortsätt
+	                      läsa« pill)
+	     --shadow-sheet   the one dialog (search and menu)
+	   --scrim is the same ink as a veil: the page behind the dialog (its ::backdrop,
+	   which has read inherited custom properties in every engine since 2024). The ink is
+	   mirrored in lib/og.ts, where it darkens a photograph under the share card's title. */
+	--shadow-ink: #14120e;
+	--scrim: color-mix(in srgb, var(--shadow-ink) 40%, transparent);
+	--shadow-raised: 0 2px 12px -4px color-mix(in srgb, var(--shadow-ink) 42%, transparent);
+	--shadow-float: 0 4px 24px
+		light-dark(
+			color-mix(in srgb, var(--shadow-ink) 10%, transparent),
+			color-mix(in srgb, var(--shadow-ink) 30%, transparent)
+		);
+	--shadow-sheet: 0 1rem 4rem
+		light-dark(
+			color-mix(in srgb, var(--shadow-ink) 20%, transparent),
+			color-mix(in srgb, var(--shadow-ink) 45%, transparent)
+		);
 }
 
 :root {
@@ -317,6 +375,13 @@
 	/* Literata needs tightening at display sizes that it must NOT get at 19px body.
 	   Applied only at --step-3 and above; the body ladder keeps letter-spacing 0. */
 	--tracking-display: -0.018em;
+	/* The display cut's weight. Its opsz-72 drawing is finer than the text cut's, so a
+	   title set in it stands between medium and semibold: at 600 the hairlines close up,
+	   at 500 a 64px headline is lighter than the 23px card titles under it. One role
+	   (the lead, a cover, every h1 from 48rem), typed as 560 in three files. The other
+	   weights are the faces' own steps: 400 text, 500 a control or a label that must
+	   hold on a tint, 600 a heading, a head kicker and <strong>. */
+	--weight-display: 560;
 
 	/* Sub-body scale — the half of the system that was never written down.
 
@@ -348,6 +413,9 @@
 	   bottoms at 12.2). Nothing a reader is meant to read goes below this step. */
 	--step--4: 0.75rem; /* 12px — micro meta: attribution, dense map/prayer UI */
 	--step--5: 0.6591rem; /* 10.5px — marks inside artwork and maps only (book-cover brand line, map credit) */
+	/* What a reader types in: 16px, not a step on the ladder. Below it iOS Safari zooms
+	   the page on focus. Every text field and select reads this; four typed 1rem. */
+	--input-size: 1rem;
 
 	/* Spacing — golden progression from body line-height (φ ≈ 1.618) */
 	--space-unit: 1.9rem;

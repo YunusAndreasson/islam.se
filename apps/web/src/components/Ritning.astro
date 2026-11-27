@@ -62,7 +62,7 @@ const bild = (img: ImageMetadata) => ({
 	widths: [96, 160, 240, 320, 480, 640, 960].filter((x) => x <= img.width),
 	sizes:
 		sizes ??
-		`(min-width: 48rem) ${fit(img, hojd[1], bredd[1]).toFixed(2)}rem, ${fit(img, hojd[0], bredd[0]).toFixed(2)}rem`,
+		`(width >= 48rem) ${fit(img, hojd[1], bredd[1]).toFixed(2)}rem, ${fit(img, hojd[0], bredd[0]).toFixed(2)}rem`,
 });
 const box = `--ritning-h: ${hojd[0]}rem; --ritning-w: ${bredd[0]}rem; --ritning-h-bred: ${hojd[1]}rem; --ritning-w-bred: ${bredd[1]}rem`;
 ---

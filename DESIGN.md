@@ -148,10 +148,17 @@ The scale has **two halves**, both in `tokens.css`. Reach for a token; never typ
 | `--step--3` | 13.3 | labels, meta lines, chips (`.label`) |
 | `--step--4` | 12.0 | micro meta: attribution, dense map/prayer UI. **The text floor** |
 | `--step--5` | 10.5 | marks inside artwork and maps only |
+| `--input-size` | 16 | what a reader types in: every text field and select |
 
 Above body the ratio is 1.2; below it 1.1250 — finer because rank down there is also carried by caps, weight and colour. The sub-body half exists so that components never invent sizes of their own (13px, 13.12px, 13.6px and 13.79px all meaning "label").
 
-Deliberate exceptions are allowed and must say so in a comment at the call site: display type composed for one place (the feature headline, the pull-quote, the Arabic verse, the book-cover artwork) and the 16px floor on form inputs, below which iOS Safari auto-zooms on focus.
+Deliberate exceptions are allowed and must say so in a comment at the call site: display type composed for one place (the feature headline, the pull-quote, the Arabic verse, the wordmark, the book-cover artwork). The 16px floor on form inputs, below which iOS Safari auto-zooms on focus, is `--input-size`. `src/styles/house-css.test.ts` lists every exception and fails on a size that is neither a token, an em of one, nor on that list.
+
+**Four weights, by role.** 400 is text. 500 is a control, or a label that must hold on a tint. 600 is a heading, a head kicker and `<strong>`, and a table's head cell with it (the browsers' own 700 is set nowhere). `--weight-display` (560) is the display cut's: its drawing is finer than the text cut's, so a title set in it stands between medium and semibold.
+
+**Emphasis is italic, and the italic is the whole mark.** Bold is `<strong>`'s. In running prose an `<em>` takes 450 beside the roman's 400, because Literata's italic is the lighter drawing of the two; anywhere else it keeps the weight of what it stands in. It is never near `<strong>`: at 580 the two ranks read as one, and a cited title was the heaviest thing in a margin note. A title cited inside the apparatus' sans keeps the book face, at the note's own size and weight.
+
+**Text inside a figure is sized for what it renders at.** A label in a viewBox is set in the drawing's own units and shrinks with it, so a figure whose column can be a phone's is drawn in two cuts, a wide one and a compact one in which a unit is about a CSS pixel, and a container query on the figure shows the one its width can hold (`SunDayCurve`, `AsrShadow`, `AnnualPrayerChart`). Either way a label renders at 12px, `--step--4`, and never under `--step--5`. The essays' figure fences keep their own answer for the same problem: a floor width the chart scrolls to inside its own box.
 
 **Body text** must be generous: 18–20px on desktop, 17–18px on mobile. Anything smaller signals that you do not respect the reader's time.
 
@@ -237,7 +244,7 @@ Every element on the page must pass this test: **if I remove this, does the read
 - **Every photograph is shown in its own colour.** No CSS treatment lies on a picture (2026-11-07: the tonal wash, saturation 0.72 and a little sepia that eased to full colour on hover, came off every one; at rest it showed every picture faded, and the cover on an essay's own page, which is no link, always). Pictures made for the site read as one set by being made to one register (the `feature-image` skill), not by a filter. A photograph of a real place by a named photographer sets `imageDocumentary: true` and credits it in its first note (»Bilden överst: …«); its file is cut from the original with no colour change, never desaturated, never redrawn by an image model. A test holds the flag and the credit together (`lib/documentary-heroes.test.ts`).
 - **An upright photograph inside the prose stands in two thirds of the column, its caption beside it at its foot**, as a plate is labelled (`prose-figure--upright`, set by rehype-photo-figure.ts from the file's own size). Across the whole measure a portrait stood a screen tall between two sentences. A phone keeps the whole column. A landscape keeps the measure plus 8rem.
 - **No color for color's sake.** The palette is: text color, background color, one accent (for links and interactive elements), and muted tones for secondary elements. Four colors maximum. On the front page one tinted ground marks the two rooms of what is measured; no second ground, and never a dark one (see »The Startpage«). A third party's mark beside its name (the AI models' logos) is drawn in ink: the name already says whose it is. **AI-barometern draws a model's answer one way everywhere**: the meter of four blocks, as many filled in brass as the model agrees, no meter where it took no position (`AnswerMeter.astro`) — the front page's room, the hub's matrix and findings, the question and model pages. Until 2026-11-20 the hub drew the same scale as »++ / + / A« chips on a blue↔brass scale, the one second hue on the site's pages; length, not colour, carries the answer. Only the public-opinion bar, five shares side by side, keeps a fill for each step, in brass and ink.
-- **Only what stands above the page casts a shadow** (the search dialog, a note's popover, a panel over a map). A map or a picture lying on the page has its hairline or nothing.
+- **Only what stands above the page casts a shadow** (the search dialog, a note's popover, a panel over a map), and it casts one of three, all in one warm near-black (`--shadow-ink`): `--shadow-raised` for a control or panel lying on a map, `--shadow-float` for something small over the page, `--shadow-sheet` for the one dialog, whose veil over the page is `--scrim`. A map or a picture lying on the page has its hairline or nothing.
 - **No borders or dividers unless encoding meaning.** Use whitespace for separation, not lines. On the front page this is a budget, counted in the DOM: **≤ 16 hairlines and ≤ 20 labels in tracked capitals**. A hairline there is one of three things: the rule a section opens under (a room's lower line is the next section's), the rule between the rail's titles, or the rule under a table's heads. A tab bar's own line and the chosen tab's underline are the control, like a pill's outline, and are not counted. Capitals name a section or a kind — the kickers — and nothing else; meta lines, »Alla … →« links, counts and categories read in sentence case. Count again before adding one.
 - **No animations on content.** Text does not fade in, slide up, or parallax. The reader chose to be here. Present the text immediately. No page-level transitions either — prefetch-on-hover makes navigation near-instant without injecting transition JS.
 - **No dark patterns.** No newsletter popups. No cookie banners beyond legal minimum. No "read more" truncation on the article page.
@@ -380,10 +387,26 @@ Two more families in `tokens.css`, and no percentages at call sites:
 |---|---|
 | `--wash-hover` | the translucent warm tint under a hovered row or result |
 | `--wash-selected` | the same, under a selected control or the marked row |
+| `--wash-mark` | a third rank, under text that is marked: the reader's selection, the note a link has just jumped to |
 | `--surface-1` | an opaque panel one step off the ground: a card, an input, a book cover, a quoted block |
 | `--surface-2` | a control or a marked table row sitting on such a panel |
 
 Hand-mixed recipes for the same hover or panel differ invisibly on one screen and visibly across two. `src/styles/tokens.test.ts` measures the palette in both schemes and fails if any text tier, wash or surface drops under its floor.
+
+### The Palette Is Closed
+
+A colour at a call site is a token, by name, from one of six families in `tokens.css`:
+
+| family | tokens |
+|---|---|
+| ink | `--color-text`, the ramp under it (`--text-body`, `--text-quiet`, `--text-meta`, `--color-muted`), `--color-accent` |
+| grounds | `--color-bg`; `--surface-1`, `--surface-2`, `--ground-tint`; `--glass`, `--glass-thin`; `--shape-land` |
+| lines | `--color-rule`, `--color-divider`, `--color-divider-faint` (three ranks of hairline, as `--border-rule`, `--border-row`, `--border-row-faint`); `--color-warm` (the 3:1 tier: a selected border, an icon); `--color-quote-mark`; `--color-stucco`; `--underline-quiet` |
+| states | `--wash-hover`, `--wash-selected`, `--wash-mark`; `--focus-ring` |
+| marks | `--color-brass`, `--color-brass-ink`; `--mark-blue`, `--mark-gold` (the wordmark's sun); `--data-night`, `--map-water` (the only cool colours, and only where the thing drawn is cool: the night in the day's charts, the sea of the two maps) |
+| elevation | `--shadow-ink`, `--shadow-raised`, `--shadow-float`, `--shadow-sheet`, `--scrim` |
+
+No stylesheet types a hex or mixes a tint of its own; `src/styles/house-css.test.ts` fails on one. The exceptions are named there: the moskéskärm, which is its own always-dark room, and the charts that cut their fills from tokens (the night's two depths, the public-opinion bar's five shares, a prayer's line as its row's wash). A role that is missing is added to `tokens.css`, never mixed where it is needed. A link's underline at rest is `--underline-quiet` in running prose and `--color-rule` in a list that is all links, where the line is only a hint.
 
 ### More Contrast
 
@@ -398,6 +421,12 @@ Dark mode is implemented and is not an inversion. Dark mode is a separate palett
 ## Principle 8: Responsive as Reflow, Not Redesign
 
 The essay is the same on every device. What changes is the container, not the content.
+
+### The browser floor
+
+The site is written for each engine's release from mid-2024 on: Chrome and Edge 125, Firefox 128, Safari 17.5 (`MODERN_BROWSERS`, astro.config.ts). At that floor `light-dark()`, nesting, range queries, `color-mix()`, `@property`, `:has()` and container queries ship as written, so the page a browser gets is the page the dev server shows, and nothing is polyfilled for an older one. Anything newer than the floor (`text-wrap: pretty`, `field-sizing`, scroll-driven animation, view transitions) is an enhancement the page reads correctly without. The floor is raised by date, not feature by feature.
+
+The CSS is written in one dialect, held by `src/styles/house-css.test.ts`: media and container queries as ranges in rem; every side and size logical (`margin-block-start`, `inset-inline-end`, `inline-size`), which is right in the Arabic's right-to-left runs as well; a single translate, rotate or scale as its own property; no vendor prefix where the standard property runs. One trap: `text-align: start` goes on a table's cells, never the table, because a `<th>` centres itself when what it inherits is `start`.
 
 ### Breakpoints — one scale, in rem
 
@@ -577,5 +606,9 @@ Check 390px, 768px, and 1440px, both themes, long titles, absent images, Arabic,
 | Layout shift | ≤ 0.01 on the front page, essay, essay index and answer index, on a phone |
 | Fonts | Cut into core and ext by coverage; preloaded per file, only above the first picture; every fallback width-matched |
 | Scorecard | `pnpm bench` against the dated ft.com baseline; `assert-page-budgets.mjs` after every build |
+| Browser floor | Chrome and Edge 125, Firefox 128, Safari 17.5; nothing polyfilled below it, newer features only as enhancements |
+| CSS dialect | Range queries in rem, logical sides and sizes, individual transforms, no hand-written prefixes; a closed palette and a closed type scale (`house-css.test.ts`) |
+| Weights | 400 text, 500 controls, 600 headings and `<strong>`, 560 the display cut; emphasis is italic at 450 in prose, never bold |
+| Shadows | Three (`--shadow-raised`, `--shadow-float`, `--shadow-sheet`), only on what stands above the page |
 
 Performance and weight budgets are Principle 9 and the Scorecard above; `assert-page-budgets.mjs` enforces them.

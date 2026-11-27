@@ -25,13 +25,13 @@ const { code, copyLabel } = Astro.props;
 
 	.copy-code {
 		position: absolute;
-		top: 0.5rem;
-		right: 0.5rem;
+		inset-block-start: 0.5rem;
+		inset-inline-end: 0.5rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 2rem;
-		height: 2rem;
+		inline-size: 2rem;
+		block-size: 2rem;
 		padding: 0;
 		color: var(--color-muted);
 		background: var(--surface-2);
@@ -74,8 +74,8 @@ const { code, copyLabel } = Astro.props;
 	   corner button that stays out of the code. */
 	@media (pointer: coarse) {
 		.copy-code {
-			width: var(--tap-target);
-			height: var(--tap-target);
+			inline-size: var(--tap-target);
+			block-size: var(--tap-target);
 		}
 	}
 </style>

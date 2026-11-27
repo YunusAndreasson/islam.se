@@ -26,12 +26,12 @@
 
 .nyhet {
 	padding-block: var(--space-unit);
-	border-top: var(--border-row);
+	border-block-start: var(--border-row);
 }
 
 .nyhet:first-child {
-	border-top: 0;
-	padding-top: 0;
+	border-block-start: 0;
+	padding-block-start: 0;
 }
 
 /* Meta line — clock and category, on the sidolinje only.
@@ -223,7 +223,7 @@
 	   had one section that opened without a rule of its own. Now what stands under a
 	   rule belongs to that rule's label, down to the next rule, everywhere. */
 	padding-block: var(--space-half) 0;
-	border-top: var(--border-rule);
+	border-block-start: var(--border-rule);
 	font-family: var(--font-heading);
 }
 
@@ -232,7 +232,7 @@
    has under the bar's. */
 @media (width <= 56.25rem) {
 	.nyhetsremsa {
-		padding-bottom: var(--space-half);
+		padding-block-end: var(--space-half);
 	}
 }
 
@@ -286,7 +286,7 @@
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: var(--remsa-gap) var(--grid-gutter);
-	margin-top: 0.5rem;
+	margin-block-start: 0.5rem;
 	/* The rows, held before they arrive. */
 	min-block-size: calc(
 		var(--remsa-rader) *
@@ -451,7 +451,7 @@
 	align-items: baseline;
 	justify-content: space-between;
 	gap: 0.4rem var(--space-unit);
-	margin-bottom: var(--space-phi);
+	margin-block-end: var(--space-phi);
 	max-inline-size: var(--nyhet-block);
 }
 
@@ -487,7 +487,7 @@
 /* ── The day ──────────────────────────────────────────────────────────────── */
 
 .nyheter-dag + .nyheter-dag {
-	margin-top: var(--space-phi2);
+	margin-block-start: var(--space-phi2);
 }
 
 /* The only rule on the page, and the only place caps and weight are spent. It spans the
@@ -500,8 +500,8 @@
 	align-items: baseline;
 	gap: 0.7rem;
 	margin: 0 0 var(--space-unit);
-	padding-top: var(--space-group);
-	border-top: var(--border-rule);
+	padding-block-start: var(--space-group);
+	border-block-start: var(--border-rule);
 	max-inline-size: var(--nyhet-block);
 	font-family: var(--font-heading);
 	font-size: var(--step--2);
@@ -533,11 +533,11 @@
 	   and it is φ — larger than the space inside a notice by enough that the
 	   grouping is unambiguous without a line to help. */
 	padding-block: 0;
-	border-top: 0;
+	border-block-start: 0;
 }
 
 .nyheter-index .nyhet + .nyhet {
-	margin-top: var(--space-phi);
+	margin-block-start: var(--space-phi);
 }
 
 .nyhet-tid {
@@ -549,7 +549,7 @@
 	   their baselines 6px apart. This lands the time ON the headline's first
 	   baseline, which is what makes the column read as a stamp beside the words
 	   rather than as a label floating above them. */
-	padding-top: 0.575rem;
+	padding-block-start: 0.575rem;
 }
 
 .nyheter-index .nyhet-klocka {
@@ -584,7 +584,7 @@
 }
 
 .nyheter-index .nyhet-titel {
-	margin-bottom: var(--space-half);
+	margin-block-end: var(--space-half);
 }
 
 /* ── Provenance and the way onward ────────────────────────────────────────── */
@@ -604,8 +604,8 @@
 }
 
 .nyheter-passerad {
-	border-left: 2px solid var(--color-warm);
-	padding-left: var(--space-half);
+	border-inline-start: 2px solid var(--color-warm);
+	padding-inline-start: var(--space-half);
 }
 
 /* A deep-linked notice, marked so the reader's eye lands where the link
@@ -625,7 +625,7 @@
 }
 
 .nyheter-kolofon {
-	margin-top: var(--space-phi);
+	margin-block-start: var(--space-phi);
 	max-inline-size: var(--nyhet-block);
 }
 
@@ -651,8 +651,8 @@
 		flex-direction: row;
 		align-items: baseline;
 		gap: 0.7ch;
-		padding-top: 0;
-		margin-bottom: 0.35rem;
+		padding-block-start: 0;
+		margin-block-end: 0.35rem;
 	}
 
 	.nyheter-dagdatum {

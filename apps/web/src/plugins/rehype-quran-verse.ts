@@ -232,7 +232,7 @@ function citeRange(key: string): string {
 function attributedVerse(block: HastNode): string | null {
 	if (!isElement(block) || block.tagName !== "blockquote") return null;
 	const paras = childrenOf(block).filter((c) => isElement(c) && c.tagName === "p");
-	const last = paras[paras.length - 1];
+	const last = paras.at(-1);
 	if (!last) return null;
 	const m = SVAR_ATTRIBUTION.exec(textOf(last).trim());
 	if (!m) return null;

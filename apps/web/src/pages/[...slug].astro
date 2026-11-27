@@ -123,7 +123,7 @@ const figureBlocks = await figureJsonLd(
 	preloadFonts={[
 		"body",
 		...(article.heroImage ? [] : (["sans"] as const)),
-		{ face: "display", media: "(min-width: 48rem)" },
+		{ face: "display", media: "(width >= 48rem)" },
 		{ face: "arabic", low: true },
 	]}
 >
@@ -251,7 +251,7 @@ const figureBlocks = await figureJsonLd(
 
 	@media (width < 48rem) {
 		.article-hero {
-			margin-bottom: var(--space-unit);
+			margin-block-end: var(--space-unit);
 		}
 	}
 
@@ -280,7 +280,7 @@ const figureBlocks = await figureJsonLd(
 	@media (width >= 48rem) {
 		.article-hero--cover {
 			--cover-width: min(var(--art-width), 100cqi - 2 * var(--padding-inline));
-			width: var(--cover-width);
+			inline-size: var(--cover-width);
 			margin-inline: calc((100% - var(--cover-width)) / 2);
 		}
 
@@ -296,8 +296,8 @@ const figureBlocks = await figureJsonLd(
 	   thing under the end matter that had not stepped out with it (2026-11-20). */
 	.reading-shell :global(:is(.article-nav, .rattelse)) {
 		--cover-width: min(var(--art-width), 100cqi - 2 * var(--padding-inline));
-		width: var(--cover-width);
-		max-width: none;
+		inline-size: var(--cover-width);
+		max-inline-size: none;
 		margin-inline: calc((100% - var(--cover-width)) / 2);
 	}
 
@@ -354,9 +354,9 @@ const figureBlocks = await figureJsonLd(
 	   bottom-right fixed actions (share / back-to-top). */
 	.resume-pill {
 		position: fixed;
-		left: 50%;
-		bottom: calc(var(--safe-bottom) + 1.25rem);
-		transform: translateX(-50%) translateY(0.5rem);
+		inset-inline-start: 50%;
+		inset-block-end: calc(var(--safe-bottom) + 1.25rem);
+		translate: -50% 0.5rem;
 		z-index: 50;
 		padding: 0.6rem 1.1rem;
 		border: var(--border-row);
@@ -364,24 +364,24 @@ const figureBlocks = await figureJsonLd(
 		background: var(--color-bg);
 		color: var(--color-accent);
 		cursor: pointer;
-		box-shadow: 0 2px 14px rgb(var(--hero-black) / 0.14); /* the one shadow ink (tokens.css) */
+		box-shadow: var(--shadow-float);
 		opacity: 0;
-		transition: opacity var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-standard);
+		transition: opacity var(--dur-base) var(--ease-standard), translate var(--dur-base) var(--ease-standard);
 	}
 
-	.resume-pill:not([hidden]) { display: flex; align-items: center; gap: .5rem; max-width: min(32rem, calc(100vw - 2rem)); padding: .25rem .5rem; }
-	.resume-pill button { min-height: var(--tap-target); border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
-	.resume-go { min-width: 0; text-align: left; padding-inline: .5rem; }
+	.resume-pill:not([hidden]) { display: flex; align-items: center; gap: .5rem; max-inline-size: min(32rem, calc(100vw - 2rem)); padding: .25rem .5rem; }
+	.resume-pill button { min-block-size: var(--tap-target); border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+	.resume-go { min-inline-size: 0; text-align: start; padding-inline: .5rem; }
 	.resume-title { display: block; font-size: var(--step--3); text-transform: none; letter-spacing: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	.resume-dismiss { min-width: var(--tap-target); }
+	.resume-dismiss { min-inline-size: var(--tap-target); }
 	.resume-pill[data-visible] {
 		opacity: 1;
-		transform: translateX(-50%) translateY(0);
+		translate: -50% 0;
 	}
 
 	/* Same lift as .fixed-actions: the player owns the bottom edge and shares this z-index. */
 	html[data-player-visible] .resume-pill {
-		bottom: calc(var(--safe-bottom) + 1.25rem + 3.5rem);
+		inset-block-end: calc(var(--safe-bottom) + 1.25rem + 3.5rem);
 	}
 
 	.resume-pill:hover {
@@ -393,10 +393,10 @@ const figureBlocks = await figureJsonLd(
 		/* A survivor (`motion-safe`): the fade is kept, the slide goes. */
 		.resume-pill {
 			transition: opacity var(--dur-base) var(--ease-standard);
-			transform: translateX(-50%);
+			translate: -50% 0;
 		}
 		.resume-pill[data-visible] {
-			transform: translateX(-50%);
+			translate: -50% 0;
 		}
 	}
 </style>

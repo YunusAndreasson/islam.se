@@ -30,14 +30,15 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		inset: auto 0 0;
 		z-index: 50;
 		background: var(--color-bg);
-		border-top: var(--border-row);
-		padding: 0.5rem var(--safe-right) calc(0.5rem + env(safe-area-inset-bottom, 0px)) var(--safe-left);
-		transform: translateY(100%);
-		transition: transform var(--dur-base) var(--ease-standard);
+		border-block-start: var(--border-row);
+		padding-block: 0.5rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+		padding-inline: var(--safe-left) var(--safe-right);
+		translate: 0 100%;
+		transition: translate var(--dur-base) var(--ease-standard);
 	}
 
 	.fp[data-visible] {
-		transform: translateY(0);
+		translate: 0 0;
 	}
 
 	.fp:not([hidden]) {
@@ -48,7 +49,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		display: flex;
 		align-items: center;
 		gap: var(--space-control);
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		margin-inline: auto;
 	}
 
@@ -56,8 +57,8 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: var(--btn-size);
-		height: var(--btn-size);
+		inline-size: var(--btn-size);
+		block-size: var(--btn-size);
 		border: var(--border-row);
 		border-radius: 50%;
 		background: transparent;
@@ -91,7 +92,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 	.fp-title {
 		flex-shrink: 1;
-		min-width: 0;
+		min-inline-size: 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -102,8 +103,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 	   property write per tick instead of recomputing a gradient string. */
 	.fp-progress {
 		flex: 1;
-		height: 0.1875rem;
-		-webkit-appearance: none;
+		block-size: 0.1875rem;
 		appearance: none;
 		background: linear-gradient(
 			to right,
@@ -112,11 +112,11 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		);
 		border-radius: 0.09375rem;
 		cursor: pointer;
-		min-width: 3rem;
+		min-inline-size: 3rem;
 	}
 
 	.fp-progress::-webkit-slider-thumb {
-		-webkit-appearance: none;
+		appearance: none;
 		width: 0.875rem;
 		height: 0.875rem;
 		border-radius: 50%;
@@ -141,7 +141,7 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 	.fp-time {
 		color: var(--color-muted);
-		min-width: 3em;
+		min-inline-size: 3em;
 		text-align: end;
 		flex-shrink: 0;
 	}

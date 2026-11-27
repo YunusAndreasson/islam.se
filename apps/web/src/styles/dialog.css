@@ -3,10 +3,10 @@
 .fullscreen-dialog {
 	position: fixed;
 	inset: 0;
-	width: 100%;
-	max-width: none;
-	height: 100%;
-	max-height: none;
+	inline-size: 100%;
+	max-inline-size: none;
+	block-size: 100%;
+	max-block-size: none;
 	margin: 0;
 	padding: 0;
 	border: none;

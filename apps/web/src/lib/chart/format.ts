@@ -95,7 +95,7 @@ export function formatShare(part: number, total: number): string {
 export function joinSwedish(parts: string[]): string {
 	if (parts.length === 0) return "";
 	if (parts.length === 1) return parts[0] ?? "";
-	return `${parts.slice(0, -1).join(", ")} och ${parts[parts.length - 1]}`;
+	return `${parts.slice(0, -1).join(", ")} och ${parts.at(-1)}`;
 }
 
 /**

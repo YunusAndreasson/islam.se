@@ -613,7 +613,7 @@ function pathFor(rings: readonly Ring[], t: Transform, closed = true): Path2D {
 		// repaints (CPU profile, 1920x1080) across the ~4 000 rings of parks, lakes and
 		// islands; a fill closes each subpath by itself.
 		const first = ring[0];
-		const last = ring[ring.length - 1];
+		const last = ring.at(-1);
 		if (closed && !(first && last && first[0] === last[0] && first[1] === last[1])) p.closePath();
 	}
 	return p;

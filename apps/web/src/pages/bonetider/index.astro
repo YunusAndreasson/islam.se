@@ -87,14 +87,14 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
     margin to the search row, half a step to the row under it (»Alla orter« here, the count
     there), half a step to the map. Switching between the two pages, the map does not move
     (2026-11-21). */
- .today { margin-top: var(--space-half); }
- .bonetider-hub :global(.place-search) { margin-top: 0; }
- .bonetider-hub :global(.place-controls) { margin-bottom: var(--space-half); }
+ .today { margin-block-start: var(--space-half); }
+ .bonetider-hub :global(.place-search) { margin-block-start: 0; }
+ .bonetider-hub :global(.place-controls) { margin-block-end: var(--space-half); }
  /* The count bar's height (min-height: --tap-target), not its own 45px of padding. */
- .bonetider-hub :global(.place-directory) { padding-block: 0; min-height: var(--tap-target); display: flex; align-items: center; width: fit-content; }
+ .bonetider-hub :global(.place-directory) { padding-block: 0; min-block-size: var(--tap-target); display: flex; align-items: center; inline-size: fit-content; }
  /* Knobs only — matches .bt-stad-screen on the city pages so the two read as one idiom. */
  .bh2-screen { margin: var(--space-half) 0 0; font-family: var(--font-heading); font-size: var(--step--2); color: var(--text-quiet); }
- .bh2-settings-summary { display: flex; align-items: center; gap: .5rem; min-height: var(--tap-target); width: fit-content; cursor: pointer; font-family: var(--font-heading); font-size: var(--step--2); color: var(--color-muted); }
+ .bh2-settings-summary { display: flex; align-items: center; gap: .5rem; min-block-size: var(--tap-target); inline-size: fit-content; cursor: pointer; font-family: var(--font-heading); font-size: var(--step--2); color: var(--color-muted); }
  .bh2-settings[open] .bh2-settings-summary { color: var(--color-text); }
  .bh2-settings-body { margin-block: var(--space-half); }
  .bh2-android-app:not([hidden]) {

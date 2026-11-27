@@ -18,8 +18,8 @@ const BG = "#fff6e8";
 const TEXT = "#1a1914";
 const MUTED = "#6c6357";
 const ACCENT = "#3a3830";
-// Over a photo the card composes in the hero's own channels (tokens.css --hero-black
-// and its warm white), never pure black and white: the site has no #fff anywhere,
+// Over a photo the card composes in the site's shadow ink (tokens.css --shadow-ink, here
+// as channels) and its warm white, never pure black and white: the site has no #fff anywhere,
 // and a share card is the site's face on someone else's page.
 const HERO_WHITE = "245,240,232";
 const HERO_BLACK = "20,18,14";

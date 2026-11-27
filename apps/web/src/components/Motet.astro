@@ -82,7 +82,7 @@ const columns = [
 
 <style>
 	.motet {
-		margin-bottom: var(--space-unit);
+		margin-block-end: var(--space-unit);
 	}
 
 	/* The heading is a kicker in the head form, as the end matter's others are
@@ -116,7 +116,7 @@ const columns = [
 		content: "";
 		position: absolute;
 		inset-block: 0;
-		left: 50%;
+		inset-inline-start: 50%;
 		border-inline-start: var(--border-rule);
 	}
 
@@ -126,11 +126,11 @@ const columns = [
 	   scope, so the rule is scoped like any other.) */
 	.motet-mark {
 		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 0.7rem;
-		height: 0.7rem;
-		transform: translate(-50%, -50%);
+		inset-block-start: 50%;
+		inset-inline-start: 50%;
+		inline-size: 0.7rem;
+		block-size: 0.7rem;
+		translate: -50% -50%;
 		box-sizing: content-box;
 		padding-block: 0.4rem;
 		background: var(--color-bg);

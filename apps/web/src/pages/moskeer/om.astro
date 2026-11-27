@@ -262,7 +262,7 @@ const crumbs = [
 	/* Editorial background section (Wikipedia-derived, fact-checked, neutral); its prose
 	   is the guides' (layout.css, »The guides' running text«). */
 	.mk-history p.mk-history-lead {
-		margin-bottom: var(--space-unit);
+		margin-block-end: var(--space-unit);
 	}
 
 	/* This page runs the compact register (.mk-section h2 is step-1), so its h3 sits
@@ -278,14 +278,14 @@ const crumbs = [
 	   map markers; bar heights are inlined % of the tallest decade. */
 	.mk-growth {
 		margin: var(--space-half) 0 0;
-		max-width: 40rem;
+		max-inline-size: 40rem;
 	}
 
 	.mk-growth-chart {
 		display: flex;
 		align-items: stretch;
 		gap: 0.5rem;
-		height: 200px;
+		block-size: 200px;
 		margin: var(--space-half) 0;
 	}
 
@@ -295,7 +295,7 @@ const crumbs = [
 		flex-direction: column;
 		align-items: center;
 		gap: 0.4rem;
-		min-width: 0;
+		min-inline-size: 0;
 	}
 
 	.mk-growth-track {
@@ -303,7 +303,7 @@ const crumbs = [
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: center;
-		width: 100%;
+		inline-size: 100%;
 		flex: 1;
 	}
 
@@ -312,13 +312,13 @@ const crumbs = [
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		font-variant-numeric: lining-nums tabular-nums;
-		margin-bottom: 0.25rem;
+		margin-block-end: 0.25rem;
 	}
 
 	.mk-growth-bar {
-		width: 62%;
-		max-width: 2.6rem;
-		min-height: 3px;
+		inline-size: 62%;
+		max-inline-size: 2.6rem;
+		min-block-size: 3px;
 		background: var(--color-brass);
 		border-radius: 3px 3px 0 0;
 	}
@@ -336,7 +336,7 @@ const crumbs = [
 		font-size: var(--step--3);
 		line-height: 1.5;
 		color: var(--color-muted);
-		max-width: 40rem;
+		max-inline-size: 40rem;
 	}
 
 	@media (width <= 30rem) {
@@ -372,7 +372,7 @@ const crumbs = [
 	.mk-stat dd {
 		margin: 0;
 		font-family: var(--font-heading);
-		font-weight: 620;
+		font-weight: 600;
 		font-size: var(--step-2-sans);
 		line-height: 1;
 		color: var(--color-text);
@@ -383,13 +383,13 @@ const crumbs = [
 		font-family: var(--font-body);
 		font-size: var(--step--3);
 		color: var(--color-muted);
-		margin-top: 0.25rem;
+		margin-block-start: 0.25rem;
 	}
 
 	/* Ranked county-distribution bars */
 	.mk-lanbars {
 		margin: var(--space-half) 0 0;
-		max-width: 40rem;
+		max-inline-size: 40rem;
 	}
 
 	.mk-lanbars-chart {
@@ -416,7 +416,7 @@ const crumbs = [
 	}
 
 	.mk-lanbar-track {
-		height: 0.7rem;
+		block-size: 0.7rem;
 		background: var(--color-divider);
 		border-radius: var(--radius-pill);
 		overflow: hidden;
@@ -424,7 +424,7 @@ const crumbs = [
 
 	.mk-lanbar-fill {
 		display: block;
-		height: 100%;
+		block-size: 100%;
 		background: var(--color-brass);
 		border-radius: var(--radius-pill);
 	}
@@ -434,7 +434,7 @@ const crumbs = [
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		font-variant-numeric: lining-nums tabular-nums;
-		text-align: right;
+		text-align: end;
 	}
 
 </style>

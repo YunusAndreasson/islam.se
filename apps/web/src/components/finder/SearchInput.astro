@@ -14,11 +14,11 @@ const { id, placeholder, controls, class: className } = Astro.props;
  <input id={id} type="search" placeholder={placeholder} autocomplete="off" spellcheck="false" aria-controls={controls} />
 </div>
 <style>
- .finder-input { display: flex; flex: 1 1 20rem; align-items: center; gap: .65rem; min-width: 0; padding-inline: 1rem; border: var(--border-row); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-muted); }
+ .finder-input { display: flex; flex: 1 1 20rem; align-items: center; gap: .65rem; min-inline-size: 0; padding-inline: 1rem; border: var(--border-row); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-muted); }
  /* The ring is the site's, on the wrapper (`.field`, layout.css), and on keyboard focus only:
     `:focus-within` drew it on a click too. The border answers every focus. */
  .finder-input:focus-within { border-color: var(--color-accent); }
  svg { flex: none; }
- input { width: 100%; min-width: 0; min-height: 3rem; padding-block: .75rem; border: 0; background: transparent; color: var(--color-text); font-family: var(--font-heading); font-size: 1rem; }
+ input { inline-size: 100%; min-inline-size: 0; min-block-size: 3rem; padding-block: .75rem; border: 0; background: transparent; color: var(--color-text); font-family: var(--font-heading); font-size: var(--input-size); }
  input:focus-visible { outline: none; }
 </style>

@@ -13,7 +13,6 @@
 	}
 
 	html {
-		-webkit-text-size-adjust: 100%;
 		text-size-adjust: 100%;
 		/* The page's scripts scroll it with the default behaviour and leave the easing to
 		   this, which typography.css turns off for reduced motion. An explicit
@@ -24,14 +23,21 @@
 	   its position affordance and drag handle; stable gutter stops the layout
 	   jump when the command palette locks the page (overflow: hidden). */
 		scrollbar-width: thin;
-		scrollbar-color: color-mix(in srgb, var(--color-warm) 65%, transparent) transparent;
+		scrollbar-color: var(--color-warm) transparent;
 		scrollbar-gutter: stable;
 	}
 
 	img {
 		display: block;
-		max-width: 100%;
-		height: auto;
+		max-inline-size: 100%;
+		block-size: auto;
+	}
+
+	/* A head cell is bold as the site is bold: 600, <strong>'s weight, not the browsers'
+	   700, which no other text on the site is set at. A table that wants a quieter head
+	   says so (.data-table, the figure tables). */
+	th {
+		font-weight: 600;
 	}
 
 	/* Markerless lists that are STILL lists.

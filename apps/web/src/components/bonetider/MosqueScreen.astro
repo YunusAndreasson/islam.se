@@ -222,8 +222,8 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 			"base  stage";
 		column-gap: 5cqw;
 		row-gap: 0;
-		width: 100%;
-		height: 100%;
+		inline-size: 100%;
+		block-size: 100%;
 		padding: 4cqh 4cqw;
 		background: var(--screen-bg);
 		color: var(--screen-ink);
@@ -319,7 +319,7 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 		/* No rule under the date. A hairline here read as a stray line above Fajr: the
 		   rows already carry their own coloured edge, and the gap alone separates the
 		   mosque and its date from the times. */
-		padding-bottom: 3.6cqh;
+		padding-block-end: 3.6cqh;
 		font-family: var(--font-heading);
 		font-size: var(--ms-meta);
 		font-variant-numeric: lining-nums tabular-nums;
@@ -382,7 +382,7 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 		/* minmax(0,1fr) above lets the track shrink; this lets the flex column shrink
 		   inside it. Without both, six rows — one of them 11.5cqh tall — push the notice
 		   and the islam.se mark off the bottom of the wall. */
-		min-height: 0;
+		min-block-size: 0;
 		margin: 0;
 		padding: 0;
 	}
@@ -403,10 +403,11 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 		   the text keeps one edge from the top of the wall to the bottom, and the colours
 		   stand beside it as markers. */
 		margin-inline-start: calc(-1 * (var(--ms-rule) + var(--ms-rule-gap)));
-		padding: 0.4cqh 0 0.4cqh var(--ms-rule-gap);
+		padding-block: 0.4cqh;
+		padding-inline: var(--ms-rule-gap) 0;
 		/* The row's own prayer colour, the same stroke the canvas draws for it. This is
 		   the whole link between the two halves of the screen. */
-		border-left: var(--ms-rule) solid var(--prayer-line);
+		border-inline-start: var(--ms-rule) solid var(--prayer-line);
 		/* The one reflow on the screen, once per prayer: the rank re-proportions as the
 		   emphasis travels down it. It is not decoration — it IS the status change. */
 		transition: padding 800ms ease;
@@ -423,12 +424,12 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 
 	.ms-what {
 		display: block;
-		min-width: 0;
+		min-inline-size: 0;
 	}
 
 	.ms-at {
 		display: block;
-		text-align: right;
+		text-align: end;
 		font-variant-numeric: lining-nums tabular-nums;
 	}
 
@@ -467,7 +468,7 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 		/* Shurūq is never prayed in congregation, so its iqāma is empty — but collapsing the
 		   slot made its row 67 px among rows of 105 and broke the one thing the rank needs:
 		   an even ladder the eye can run down. The slot is reserved and simply left blank. */
-		min-height: 1lh;
+		min-block-size: 1lh;
 		font-family: var(--font-heading);
 		/* Up from 2.1cqh, footnote size for the number the room actually gathers by. The
 		   line height is set rather than inherited: the body's 1.6 made each of these lines
@@ -491,7 +492,7 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 
 	.ms-row[data-next="1"] .ms-sv {
 		display: block;
-		margin-top: 0.8cqh;
+		margin-block-start: 0.8cqh;
 		font-family: var(--font-heading);
 		font-size: var(--ms-meta);
 		line-height: 1.2;
@@ -506,14 +507,14 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 	}
 
 	.ms-row[data-next="1"] .ms-iqama {
-		margin-top: 0.4cqh;
+		margin-block-start: 0.4cqh;
 		font-size: var(--ms-row);
 		line-height: 1.1;
 	}
 
 	.ms-row[data-next="1"] .ms-count {
 		display: block;
-		margin-top: 0.6cqh;
+		margin-block-start: 0.6cqh;
 		font-family: var(--font-heading);
 		font-size: var(--ms-meta);
 		line-height: 1.2;
@@ -562,7 +563,7 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 	   wall at once for most of it. */
 	:global(::view-transition-old(*)),
 	:global(::view-transition-new(*)) {
-		height: 100%;
+		block-size: 100%;
 		object-fit: none;
 		object-position: top;
 		animation-duration: 400ms;
@@ -586,8 +587,8 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 		grid-row: 1 / -1;
 		position: relative;
 		z-index: 0;
-		min-width: 0;
-		min-height: 0;
+		min-inline-size: 0;
+		min-block-size: 0;
 		margin-block: calc(-4cqh - 24px);
 		margin-inline: calc(-4cqw - 24px);
 	}
@@ -603,7 +604,7 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 		z-index: 1;
 		inset-block: -24px;
 		inset-inline-start: -24px;
-		width: calc(39cqw + 24px);
+		inline-size: calc(39cqw + 24px);
 		background: color-mix(in srgb, var(--screen-bg) 94%, transparent);
 		pointer-events: none;
 	}
@@ -621,8 +622,8 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 	   type, it reads as the second half of the composition. */
 	.ms-canvas {
 		display: block;
-		width: 100%;
-		height: 100%;
+		inline-size: 100%;
+		block-size: 100%;
 	}
 
 	/* --- the foot ------------------------------------------------------------ */
@@ -662,10 +663,11 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 		-webkit-line-clamp: 2;
 		line-clamp: 2;
 		overflow: hidden;
-		margin: 0 0 0 auto;
-		min-width: 0;
+		margin-block: 0;
+		margin-inline: auto 0;
+		min-inline-size: 0;
 		color: var(--screen-ink);
-		text-align: right;
+		text-align: end;
 		text-wrap: pretty;
 	}
 
@@ -684,8 +686,8 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 	/* Small enough to stay an offer rather than an advert — about 4 cm on a 55-inch
 	   panel, which a phone reads from across the farstun. */
 	.ms-qr {
-		width: 8cqh;
-		height: 8cqh;
+		inline-size: 8cqh;
+		block-size: 8cqh;
 		flex: none;
 		/* 25 modules across ~86 px: without this the module edges land on fractions of
 		   a pixel, the code greys at its own scale and a phone hunts for it. */
@@ -712,8 +714,8 @@ const lights = getMosques().map((m) => [Number(m.lng.toFixed(3)), Number(m.lat.t
 	}
 
 	.ms-dot {
-		width: 0.82em;
-		height: 0.82em;
+		inline-size: 0.82em;
+		block-size: 0.82em;
 		margin-inline: 0.15em;
 		/* Derived from Source Sans 3's 0.660em cap height — recompute if the size moves
 		   (the same note layout.css keeps on .wordmark-dot). */

@@ -215,7 +215,7 @@ const crumbs = [
 	   at full width a 16:9 preview is 474px tall and pushes the one action below the
 	   fold, which is the opposite of what the page is for. */
 	.sk-wall {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 	}
 
 	@media (width >= 62rem) {
@@ -239,10 +239,10 @@ const crumbs = [
 		}
 
 		.sk-wall {
-			max-width: none;
+			max-inline-size: none;
 			grid-area: 1 / 2 / span 2;
 			position: sticky;
-			top: calc(var(--mast-height) + 1rem);
+			inset-block-start: calc(var(--mast-height) + 1rem);
 		}
 	}
 
@@ -260,8 +260,8 @@ const crumbs = [
 	}
 
 	.sk-q-input {
-		width: 100%;
-		margin-top: var(--space-control);
+		inline-size: 100%;
+		margin-block-start: var(--space-control);
 		padding: 0.75rem 0.9rem;
 		border: 1px solid var(--color-warm);
 		border-radius: var(--radius-md);
@@ -269,7 +269,7 @@ const crumbs = [
 		color: var(--color-text);
 		font-family: var(--font-heading);
 		/* 16px floor: below it iOS Safari zooms the page on focus. */
-		font-size: max(16px, var(--step-0));
+		font-size: var(--step-0);
 	}
 
 	/* ── Disclosures ──────────────────────────────────────────────────────
@@ -278,7 +278,7 @@ const crumbs = [
 	   nothing on the page admitting it. Hence the value beside every label. */
 	/* The marker and the smooth opening are the site's (layout.css, `.disclosure`). */
 	.sk-fold {
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 	}
 
 	.sk-fold summary {
@@ -292,7 +292,7 @@ const crumbs = [
 	/* The auto margin, not the chevron's, so the values line up in a column against
 	   the right edge and can be scanned down without reading the labels. */
 	.sk-fold-label {
-		margin-right: auto;
+		margin-inline-end: auto;
 		font-family: var(--font-heading);
 		font-size: var(--step--1);
 		font-weight: 600;
@@ -307,14 +307,14 @@ const crumbs = [
 	}
 
 	.sk-fold-body {
-		padding-bottom: var(--space-unit);
+		padding-block-end: var(--space-unit);
 	}
 
 	/* The escape hatch under the one question reads as an aside, not as a peer of
 	   the refinement rows, so it carries no rule and no value column. */
 	.sk-fold--manual {
-		margin-top: var(--space-control);
-		border-bottom: 0;
+		margin-block-start: var(--space-control);
+		border-block-end: 0;
 	}
 
 	.sk-fold--manual summary {
@@ -325,13 +325,13 @@ const crumbs = [
 	   nothing to hold apart here; open, it only pushed »Finjustera« further from the
 	   question it follows. */
 	.sk-fold--manual .sk-fold-body {
-		padding-bottom: 0;
+		padding-block-end: 0;
 	}
 
 	/* No value column here, so the chevron belongs beside the sentence rather than
 	   out at the right edge on its own. */
 	.sk-fold--manual .sk-fold-label {
-		margin-right: 0;
+		margin-inline-end: 0;
 		font-size: var(--step--2);
 		font-weight: 400;
 		color: var(--color-accent);
@@ -344,7 +344,6 @@ const crumbs = [
 		width: 0.75rem;
 		height: 0.75rem;
 		background: var(--color-muted);
-		-webkit-mask: var(--sk-cross) center / contain no-repeat;
 		mask: var(--sk-cross) center / contain no-repeat;
 		cursor: pointer;
 	}
@@ -392,11 +391,11 @@ const crumbs = [
 		display: flex;
 		flex-direction: column;
 		gap: 0.3rem;
-		min-width: 0;
+		min-inline-size: 0;
 	}
 
 	.sk-field {
-		margin-top: var(--space-control);
+		margin-block-start: var(--space-control);
 	}
 
 	.sk-field > span,
@@ -410,22 +409,21 @@ const crumbs = [
 
 	.sk-field input,
 	.sk-iq input {
-		width: 100%;
+		inline-size: 100%;
 		padding: 0.45rem 0.6rem;
 		border: var(--border-row);
 		border-radius: var(--radius-sm);
 		background: var(--color-bg);
 		color: var(--color-text);
 		font-family: var(--font-heading);
-		/* 16px floor, not a scale step: below it iOS Safari zooms the page on focus. */
-		font-size: 1rem;
+		font-size: var(--input-size);
 		font-variant-numeric: lining-nums tabular-nums;
 	}
 
 	/* A box as wide as its answer. A full-width field for »13:00« or »10« reads as a
 	   request for a sentence; the width is the first thing that says what is wanted. */
 	.sk-field--short input {
-		max-width: 7rem;
+		max-inline-size: 7rem;
 	}
 
 	.sk-hint {
@@ -441,7 +439,7 @@ const crumbs = [
 		display: grid;
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 		gap: 0.5rem;
-		margin-top: var(--space-control);
+		margin-block-start: var(--space-control);
 	}
 
 	.sk-iq input {
@@ -462,13 +460,13 @@ const crumbs = [
 	   from above as the rows' own rules close it below. Written out rather than added as a
 	   class so that this one scoped rule holds the heading's whole look. */
 	.sk-tune {
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 
 	.sk-tune h2 {
 		margin: 0;
-		padding-bottom: var(--space-control);
-		border-bottom: var(--border-row);
+		padding-block-end: var(--space-control);
+		border-block-end: var(--border-row);
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		font-weight: 600;
@@ -490,8 +488,8 @@ const crumbs = [
 	}
 
 	.sk-preview iframe {
-		width: 100%;
-		height: 100%;
+		inline-size: 100%;
+		block-size: 100%;
 		border: 0;
 	}
 
@@ -502,7 +500,7 @@ const crumbs = [
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-control);
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 
 	/* The page's two actions are the site's pills (layout.css: `.pill`, the primary
@@ -511,7 +509,7 @@ const crumbs = [
 	.sk-primary,
 	.sk-secondary {
 		justify-content: center;
-		min-height: 3.25rem;
+		min-block-size: 3.25rem;
 		padding: 0 1.5rem;
 		font-size: var(--step-0);
 		font-weight: 600;

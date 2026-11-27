@@ -632,7 +632,7 @@ if (hasScb) {
 		overflow-x: clip;
 	}
 
-	.bt-stad-idag { margin-top: 1.25rem; }
+	.bt-stad-idag { margin-block-start: 1.25rem; }
 
 	/* Which place, which day, which hijri date — one line where three blocks used to
 	   stand between the H1 and the first prayer time (PageHead's meta line). */
@@ -644,7 +644,7 @@ if (hasScb) {
 	/* The map keeps a full step of air above it: proximity was grouping it with the
 	   header text instead of letting it open its own movement. */
 	.bt-stad-idag :global(.bonetider-field) {
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 
 	/* Wrong town. Two controls, not the hub's full search: that one inlines all 2 128
@@ -675,8 +675,8 @@ if (hasScb) {
 		display: flex;
 		align-items: center;
 		gap: .5rem;
-		width: fit-content;
-		min-height: var(--tap-target);
+		inline-size: fit-content;
+		min-block-size: var(--tap-target);
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
 		color: var(--color-muted);
@@ -717,10 +717,10 @@ if (hasScb) {
 	.bt-take {
 		margin: 0;
 		padding: 0;
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 	}
-	.bt-take { border-top: var(--border-rule); }
-	.bt-take li + li { border-top: var(--border-rule); }
+	.bt-take { border-block-start: var(--border-rule); }
+	.bt-take li + li { border-block-start: var(--border-rule); }
 	.bt-take a {
 		display: block;
 		padding-block: .85rem;
@@ -753,7 +753,7 @@ if (hasScb) {
 		font-size: var(--step--2);
 		line-height: 1.5;
 		color: var(--text-quiet);
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		margin: var(--space-half) 0 var(--space-unit);
 		text-wrap: pretty;
 	}
@@ -769,7 +769,7 @@ if (hasScb) {
 		margin: var(--space-half) 0 0;
 		/* The width every other table of figures keeps (the month table, PrayerTable's
 		   38rem): across the 76rem canvas its four columns stood 300px apart. */
-		max-width: 38rem;
+		max-inline-size: 38rem;
 	}
 
 	.bt-ramadan-table {
@@ -779,8 +779,8 @@ if (hasScb) {
 	/* The one ruled row under the Ramadan table: a rule over it, none under it, as every
 	   list's last row (the next section's rule closes it). */
 	.bt-ramadan-take {
-		margin-top: var(--space-half);
-		max-width: 38rem;
+		margin-block-start: var(--space-half);
+		max-inline-size: 38rem;
 	}
 
 	/* And the month table's narrow-phone padding (PrayerTable.astro): at the shared table's
@@ -799,7 +799,7 @@ if (hasScb) {
 		display: grid;
 		gap: var(--space-half) clamp(1rem, 4vw, 2.5rem);
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
-		max-width: 46rem;
+		max-inline-size: 46rem;
 	}
 
 	/* On the page's thirds, under the sections' full-width rules: held to 46rem the block
@@ -808,14 +808,14 @@ if (hasScb) {
 		.bt-facts {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 			column-gap: var(--grid-gutter);
-			max-width: none;
+			max-inline-size: none;
 		}
 	}
 
 	.bt-fact {
 		margin: 0;
 		padding: 0.4rem 0;
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 	}
 
 	.bt-fact dt {
@@ -854,18 +854,18 @@ if (hasScb) {
 	.bt-mosques {
 		margin: var(--space-half) 0 0;
 		padding: 0;
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 	}
 
 	.bt-mosque {
 		display: grid;
 		gap: 0.1rem 0.75rem;
 		padding: var(--space-half) 0;
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 	}
 
 	.bt-mosque:last-child {
-		border-bottom: none;
+		border-block-end: none;
 	}
 
 	.bt-mosque-name {
@@ -873,7 +873,7 @@ if (hasScb) {
 		font-weight: 600;
 		color: var(--color-accent);
 		text-decoration: none;
-		width: fit-content;
+		inline-size: fit-content;
 	}
 
 	.bt-mosque-name:hover {
@@ -889,7 +889,7 @@ if (hasScb) {
 
 	/* The way there, as the mosque pages write it (MosqueList: Directions.astro). */
 	.bt-mosque-dir {
-		margin-top: 0.15rem;
+		margin-block-start: 0.15rem;
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		font-weight: 600;

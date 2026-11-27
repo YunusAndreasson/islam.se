@@ -14,8 +14,8 @@
 
 	.quran-verse {
 		margin: var(--space-unit) 0;
-		padding-right: var(--space-unit);
-		border-right: 2px solid var(--color-divider);
+		padding-inline-end: var(--space-unit);
+		border-inline-end: 2px solid var(--color-divider);
 	}
 
 	/* The recited line. Amiri Quran reads large for its point size, so a value just
@@ -23,7 +23,8 @@
    the column — not the homepage's commanding clamp. Right-aligned: Arabic is a
    right-to-left script, so the verse must begin at the right edge and the play
    control / reference settle beneath it. The `dir="rtl"` on the element already
-   sets this; we state `text-align: right` so no inherited rule can left-align it. */
+   sets this; we state `text-align: start`, which is the right edge in a right-to-left
+   line, so no inherited rule can left-align it. */
 	.qv-arabic {
 		font-family: var(--font-arabic);
 		font-weight: 400;
@@ -36,7 +37,7 @@
 		line-height: 1.95;
 		margin: 0;
 		text-indent: 0;
-		text-align: right;
+		text-align: start;
 		text-wrap: pretty;
 		color: var(--color-text);
 	}
@@ -52,7 +53,7 @@
 
 	.qv-arabic[data-active] .qv-w,
 	.qv-arabic[data-active] .qv-waqf {
-		color: color-mix(in srgb, var(--color-text) 34%, var(--color-bg));
+		color: var(--color-warm);
 	}
 
 	.qv-arabic[data-active] .qv-w.is-active {
@@ -67,7 +68,7 @@
 		align-items: center;
 		justify-content: flex-end;
 		gap: 0.55rem;
-		margin-top: 0.7rem;
+		margin-block-start: 0.7rem;
 	}
 
 	.qv-cite {
@@ -78,8 +79,8 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 2rem;
-		height: 2rem;
+		inline-size: 2rem;
+		block-size: 2rem;
 		flex-shrink: 0;
 		padding: 0;
 		border: var(--border-row);
@@ -116,7 +117,7 @@
 
 	@media (width < 48rem) {
 		.quran-verse {
-			padding-right: var(--space-half);
+			padding-inline-end: var(--space-half);
 		}
 
 		.qv-arabic {
@@ -130,8 +131,8 @@
    reliably tappable; pointer devices keep the quieter ring. */
 	@media (hover: none), (pointer: coarse) {
 		.qv-play {
-			width: var(--tap-target);
-			height: var(--tap-target);
+			inline-size: var(--tap-target);
+			block-size: var(--tap-target);
 		}
 	}
 }

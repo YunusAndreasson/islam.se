@@ -334,6 +334,59 @@ describe.each(schemes)("$scheme scheme — marks, washes and surfaces", ({ schem
 	});
 });
 
+describe.each(schemes)(
+	"$scheme scheme — marked text, stucco and the scrim",
+	({ scheme, bg, on }) => {
+		it("the ink keeps AAA on a selection", () => {
+			// --wash-mark lies under the reader's selection and the note a link jumped to: it is
+			// the heaviest of the three washes because it marks single words, and the words on
+			// it are still the essay.
+			const g = on("--wash-mark");
+			const r = ratio(on("--color-text", g), g);
+			expect(
+				r,
+				`--color-text is ${fmt(r)}:1 on --wash-mark (${rgbToHex(g)}) in ${scheme}`,
+			).toBeGreaterThanOrEqual(7);
+			const step = (t: string) => Math.abs(lstar(bg) - lstar(on(t)));
+			expect(
+				step("--wash-mark"),
+				"marked text must read heavier than a selected control, or a selection inside a chosen row disappears",
+			).toBeGreaterThan(step("--wash-selected"));
+		});
+
+		it("stucco is relief, not a line", () => {
+			// DESIGN.md, »Stuckatur«: the ground's own colour a few per cent off it, read when
+			// looked for and not before. Under 4 L* it is not there; over 12 it is a drawn rule.
+			const d = Math.abs(lstar(bg) - lstar(on("--color-stucco")));
+			expect(
+				d,
+				`--color-stucco is ΔL* ${d.toFixed(1)} off the ${scheme} ground`,
+			).toBeGreaterThanOrEqual(4);
+			expect(
+				d,
+				`--color-stucco is ΔL* ${d.toFixed(1)} off the ${scheme} ground`,
+			).toBeLessThanOrEqual(12);
+		});
+
+		it("the faint line stays under the row's", () => {
+			const step = (t: string) => Math.abs(lstar(bg) - lstar(on(t)));
+			expect(step("--color-divider-faint")).toBeLessThan(step("--color-divider"));
+			expect(
+				step("--color-divider-faint"),
+				"a line nobody can see is not a line",
+			).toBeGreaterThanOrEqual(3);
+		});
+
+		it("the scrim dims the page without blacking it out", () => {
+			const veiled = on("--scrim");
+			const d = Math.abs(lstar(bg) - lstar(veiled));
+			if (scheme === "light")
+				expect(d, `the scrim moves the light page ΔL* ${d.toFixed(1)}`).toBeGreaterThan(20);
+			expect(resolve("var(--scrim)", scheme, decls).a).toBeLessThan(0.6);
+		});
+	},
+);
+
 it("the two hairline ranks weigh the same in both schemes", () => {
 	// tokens.css: matched by ΔL* against each scheme's own ground, not by sharing an
 	// alpha — L* is compressed near black, so one alpha travels 1.5× further off dark.
@@ -375,8 +428,11 @@ describe("literal mirrors of the light palette", () => {
 			code,
 			"the photo card composes in the hero channels, never #fff or pure black",
 		).not.toMatch(/#ffffff|#fff\b|255,255,255|rgba\(0,0,0/);
-		const heroBlack = decls.get("--hero-black");
-		expect(og).toContain(`HERO_BLACK = "${heroBlack?.split(/\s+/).join(",")}"`);
+		// The shadow ink is what darkens a photograph under the card's title.
+		const shadowInk = hexToRgb(decls.get("--shadow-ink") ?? "");
+		expect(og, "og.ts HERO_BLACK must be --shadow-ink's channels").toContain(
+			`HERO_BLACK = "${shadowInk.join(",")}"`,
+		);
 	});
 
 	it("chart/render.ts PRINT resolves the light tokens, hairlines included", () => {
@@ -436,6 +492,18 @@ describe("literal mirrors of the light palette", () => {
 		expect(favicon).toContain(`.core { fill: ${hex("--mark-gold")} }`);
 		expect(favicon).toContain(`.ring { fill: ${dhex("--mark-blue")} }`);
 		expect(favicon).toContain(`.core { fill: ${dhex("--mark-gold")} }`);
+
+		// The two maps' sea, and the night of the day's charts (ʿIshāʾ's line).
+		expect(map, "the mosque map's sea is --map-water").toContain(`water: "${hex("--map-water")}"`);
+		expect(map).toContain(`water: "${dhex("--map-water")}"`);
+		expect(
+			read("src/lib/bonetider/render-field.ts"),
+			"the prayer map's sea is --map-water",
+		).toContain(`const SEA = { light: "${hex("--map-water")}", dark: "${dhex("--map-water")}" }`);
+		expect(
+			read("src/lib/bonetider/solar/palette.ts"),
+			"--data-night is ʿIshāʾ's line colour, so the charts' night and the map's line are one indigo",
+		).toContain(`isha: { light: "${hex("--data-night")}", dark: "${dhex("--data-night")}" }`);
 
 		const screen = read("src/components/bonetider/MosqueScreen.astro");
 		expect(screen, "the moskéskärm's brass is the site's dark brass").toContain(

@@ -123,7 +123,7 @@ const Title = titleElement;
 		font-family: var(--font-body);
 		line-height: 1.55;
 		color: var(--text-quiet);
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		text-wrap: pretty;
 	}
 
@@ -135,7 +135,7 @@ const Title = titleElement;
 		text-transform: none;
 		letter-spacing: 0.01em;
 		display: block;
-		margin-top: var(--text-row-meta-margin, 0.35rem);
+		margin-block-start: var(--text-row-meta-margin, 0.35rem);
 		color: var(--color-muted);
 		font-variant-numeric: lining-nums tabular-nums;
 	}
@@ -150,9 +150,9 @@ const Title = titleElement;
 	   to zero it and use row-gap instead — this rule is scoped to the component and
 	   outranks anything the page can write, including :global(). */
 	.text-row-list--media li + li {
-		margin-top: var(--text-row-row-gap, var(--space-unit));
-		padding-top: var(--text-row-media-separator-padding, 0);
-		border-top: var(--text-row-media-separator, 0);
+		margin-block-start: var(--text-row-row-gap, var(--space-unit));
+		padding-block-start: var(--text-row-media-separator-padding, 0);
+		border-block-start: var(--text-row-media-separator, 0);
 	}
 
 	/* Thumb beside text by default. A caller that wants the picture stacked above the
@@ -199,7 +199,7 @@ const Title = titleElement;
 	.text-row-list--media .text-row-action {
 		display: block;
 		grid-column: 2;
-		margin-top: var(--space-half);
+		margin-block-start: var(--space-half);
 	}
 
 	/* 3:2, everywhere, no knob. The podcast index briefly cut its art 1:1 on the
@@ -225,7 +225,7 @@ const Title = titleElement;
 
 	.text-row-list--media .text-row-thumb :global(img) {
 		aspect-ratio: 3 / 2;
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	/* ⚠️ The weight must be stated. Without it the title inherits from whatever
@@ -246,12 +246,12 @@ const Title = titleElement;
 	}
 
 	.text-row-list--media .text-row-desc {
-		margin-top: var(--text-row-desc-margin, var(--space-half));
+		margin-block-start: var(--text-row-desc-margin, var(--space-half));
 		font-size: var(--text-row-desc-size, var(--step--1));
 	}
 
 	.text-row-list--question li {
-		border-bottom: var(--text-row-question-separator, var(--border-row));
+		border-block-end: var(--text-row-question-separator, var(--border-row));
 	}
 
 	/* A caller whose rows are a single line tightens the padding — at --space-unit a
@@ -264,11 +264,11 @@ const Title = titleElement;
 	.text-row-list--question .text-row-title {
 		font-weight: 600;
 		font-size: var(--step--1);
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 	}
 
 	.text-row-list--question .text-row-desc {
-		margin-top: 0.25rem;
+		margin-block-start: 0.25rem;
 		font-size: var(--step--2);
 	}
 

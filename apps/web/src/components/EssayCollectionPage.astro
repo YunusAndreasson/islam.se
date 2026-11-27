@@ -84,7 +84,7 @@ const delar = numbered ? " collection-delar" : "";
 	description={description}
 	{...(ogImage === undefined ? {} : { ogImage })}
 	jsonLd={jsonLd}
-	preloadFonts={["body", "sans", { face: "display", media: "(min-width: 48rem)" }]}
+	preloadFonts={["body", "sans", { face: "display", media: "(width >= 48rem)" }]}
 >
 	<main id="main" class="home collection-page">
 		<div class:list={["collection-opening", { "collection-opening--cover": cover }]}>
@@ -97,7 +97,7 @@ const delar = numbered ? " collection-delar" : "";
 						src={cover.src}
 						alt={cover.alt}
 						widths={[640, 960, 1216, 1600]}
-						sizes="(min-width: 79rem) 49.67rem, (min-width: 64rem) 66vw, 100vw"
+						sizes="(width >= 79rem) 49.67rem, (width >= 64rem) 66vw, 100vw"
 						loading="eager"
 						fetchpriority="high"
 					/>
@@ -110,7 +110,7 @@ const delar = numbered ? " collection-delar" : "";
 				articles={cards}
 				itemVariant="card"
 				class={`essay-cards essay-cards--thirds${delar}`}
-				cardSizes="(min-width: 79rem) 24rem, (min-width: 64rem) 30vw, (min-width: 37rem) 45vw, 100vw"
+				cardSizes="(width >= 79rem) 24rem, (width >= 64rem) 30vw, (width >= 37rem) 45vw, 100vw"
 				showReadFlag
 			/>
 		)}
@@ -128,11 +128,11 @@ const delar = numbered ? " collection-delar" : "";
 	   `main.home > .article-header`); inside the opening's wrapper that rule no longer
 	   reaches it. */
 	.collection-opening :global(.article-header) {
-		margin-top: 0;
+		margin-block-start: 0;
 	}
 
 	.collection-cover {
-		margin-bottom: var(--space-unit);
+		margin-block-end: var(--space-unit);
 	}
 
 	.collection-cover :global(img) {
@@ -155,7 +155,7 @@ const delar = numbered ? " collection-delar" : "";
 			display: grid;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 			column-gap: var(--grid-gutter);
-			margin-bottom: var(--space-section);
+			margin-block-end: var(--space-section);
 		}
 
 		.collection-opening--cover :global(.article-header) {
@@ -165,26 +165,26 @@ const delar = numbered ? " collection-delar" : "";
 		}
 
 		.collection-opening--cover .collection-count {
-			margin-top: auto;
-			padding-top: var(--space-half);
+			margin-block-start: auto;
+			padding-block-start: var(--space-half);
 		}
 
 		.collection-cover {
 			position: relative;
 			grid-column: 2 / 4;
-			margin-bottom: 0;
+			margin-block-end: 0;
 		}
 
 		.collection-cover::before {
 			content: "";
 			display: block;
-			padding-top: 50%;
+			padding-block-start: 50%;
 		}
 
 		.collection-cover :global(img) {
 			position: absolute;
 			inset: 0;
-			height: 100%;
+			block-size: 100%;
 			aspect-ratio: auto;
 		}
 	}

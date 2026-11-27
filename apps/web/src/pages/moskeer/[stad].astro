@@ -349,7 +349,7 @@ const crumbs = [
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.4rem 1.5rem;
-		margin-top: var(--space-group);
+		margin-block-start: var(--space-group);
 	}
 
 	.mk-cross p {
@@ -360,7 +360,7 @@ const crumbs = [
 		font-size: var(--step--1);
 		color: var(--color-muted);
 		margin: 0;
-		max-width: 44rem;
+		max-inline-size: 44rem;
 	}
 
 	/* The note to the table over it, as on a prayer-time page, and clear of it: set in the
@@ -371,12 +371,12 @@ const crumbs = [
 		line-height: 1.5;
 		color: var(--text-quiet);
 		margin: var(--space-group) 0 0;
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		text-wrap: pretty;
 	}
 
 	.mk-city-group {
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 
 	/* The town's own mosques and its photograph side by side, from 64rem: under the list
@@ -391,7 +391,7 @@ const crumbs = [
 		}
 
 		.mk-stad-top--foto > :global(.mk-hero) {
-			margin-top: var(--space-half);
+			margin-block-start: var(--space-half);
 		}
 	}
 

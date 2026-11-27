@@ -52,12 +52,12 @@ const crumbs = [
 	.bt-county summary {
 		align-items: center;
 		gap: var(--space-control);
-		min-height: var(--tap-target);
+		min-block-size: var(--tap-target);
 	}
 
 	/* The count's face and tone come from the shared county-list rule in layout.css. */
 	.bt-county-count {
-		margin-left: auto;
+		margin-inline-start: auto;
 		flex: none;
 	}
 
@@ -70,7 +70,7 @@ const crumbs = [
 	.bt-county-list a {
 		display: flex;
 		align-items: center;
-		min-height: var(--tap-target);
+		min-block-size: var(--tap-target);
 		font-size: var(--step--2);
 	}
 </style>

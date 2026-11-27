@@ -251,7 +251,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: var(--grid-gutter);
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 		position: relative;
 	}
 
@@ -259,10 +259,9 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		.tankare-groups::before {
 			content: "";
 			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 50%;
-			width: 1px;
+			inset-block: 0;
+			inset-inline-start: 50%;
+			inline-size: 1px;
 			/* --color-rule, not --color-divider: this is the boundary between two
 			   traditions, which is a movement, not a row. */
 			background: var(--color-rule);
@@ -272,11 +271,11 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	.tankare-mark {
 		display: none;
 		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 0.85rem;
-		height: 0.85rem;
-		transform: translate(-50%, -50%);
+		inset-block-start: 50%;
+		inset-inline-start: 50%;
+		inline-size: 0.85rem;
+		block-size: 0.85rem;
+		translate: -50% -50%;
 		box-sizing: content-box;
 		padding-block: 0.5rem;
 		background: var(--color-bg);
@@ -331,11 +330,11 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	.tankare-meet {
 		grid-column: 2;
 		justify-self: center;
-		width: 0.85rem;
-		height: 0.85rem;
+		inline-size: 0.85rem;
+		block-size: 0.85rem;
 		/* On the labels' line, with their bottom margin, so the bead sits level with
 		   the column heads rather than on top of the first line. */
-		margin-bottom: calc(var(--space-half) + 0.2rem);
+		margin-block-end: calc(var(--space-half) + 0.2rem);
 	}
 
 	.tankare-col-a,
@@ -361,7 +360,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	   against the name (row-reverse puts the classical count on the name's outer side),
 	   each pair reads as one thing, and neither count ever crosses a line. */
 	.tankare-dialog .tankare-row a {
-		height: var(--row);
+		block-size: var(--row);
 		padding-block: 0;
 		align-items: center;
 		justify-content: flex-start;
@@ -394,8 +393,8 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		grid-column: 2 / 3;
 		grid-row: 2 / 3;
 		inset: 0;
-		width: 100%;
-		height: 100%;
+		inline-size: 100%;
+		block-size: 100%;
 		overflow: visible;
 	}
 
@@ -460,7 +459,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	   first line. One column below 60rem: words, drawing, link. */
 	.tankare-lead {
 		margin: 0;
-		max-width: 34em;
+		max-inline-size: 34em;
 		font-size: var(--step-0);
 		line-height: 1.55;
 		color: var(--text-body);
@@ -474,7 +473,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 	}
 
 	.tankare-med-oppning > .tankare-kicker {
-		margin-bottom: var(--space-half);
+		margin-block-end: var(--space-half);
 	}
 
 	@media (width >= 60rem) {
@@ -517,7 +516,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		.tankare-med-oppning .tankare-group-label,
 		.tankare-med-oppning .tankare-meet {
 			align-self: center;
-			margin-bottom: 0;
+			margin-block-end: 0;
 		}
 
 		.tankare-med-oppning :is(.tankare-col-a, .tankare-col-b) {
@@ -530,7 +529,7 @@ const STROKE = { 1: 1, 2: 1.75, 3: 2.75 } as const;
 		.tankare-med-oppning .tankare-lines {
 			grid-row: 2 / 4;
 			inset: 0 0 auto;
-			height: calc(var(--rows) * var(--row));
+			block-size: calc(var(--rows) * var(--row));
 		}
 	}
 

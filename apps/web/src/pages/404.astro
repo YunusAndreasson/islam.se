@@ -42,7 +42,7 @@ const onward = [{ href: "/", label: "Startsidan" }, ...MAST_SECTION_LINKS, MAST_
 
 <style>
 	.notfound {
-		min-height: 56vh;
+		min-block-size: 56vh;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -54,7 +54,7 @@ const onward = [{ href: "/", label: "Startsidan" }, ...MAST_SECTION_LINKS, MAST_
 	   4.5:1 tier. --color-warm is the 3:1 UI/border tier (3.01:1) and fails it. */
 	.notfound-ritning {
 		align-self: center;
-		margin-bottom: var(--space-unit);
+		margin-block-end: var(--space-unit);
 	}
 
 	.notfound-code {
@@ -71,14 +71,14 @@ const onward = [{ href: "/", label: "Startsidan" }, ...MAST_SECTION_LINKS, MAST_
 		font-size: var(--step--1);
 		line-height: 1.55;
 		color: var(--text-body);
-		max-width: 30rem;
+		max-inline-size: 30rem;
 		margin: var(--space-unit) auto 0;
 	}
 
 	/* The site's pill (layout.css), centred on the page's axis. */
 	.notfound-search {
 		align-self: center;
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 
 	/* Padded so each doorway is a real target (2.75rem tall), not a bare word. */
@@ -88,7 +88,7 @@ const onward = [{ href: "/", label: "Startsidan" }, ...MAST_SECTION_LINKS, MAST_
 		align-items: center;
 		justify-content: center;
 		column-gap: 1.25rem;
-		margin-top: var(--space-half);
+		margin-block-start: var(--space-half);
 		font-family: var(--font-heading);
 		font-size: var(--step--1);
 		font-weight: 500;
@@ -97,7 +97,7 @@ const onward = [{ href: "/", label: "Startsidan" }, ...MAST_SECTION_LINKS, MAST_
 	.notfound-links a {
 		display: inline-flex;
 		align-items: center;
-		min-height: var(--tap-target);
+		min-block-size: var(--tap-target);
 		color: var(--color-accent);
 		text-decoration: none;
 
@@ -109,6 +109,6 @@ const onward = [{ href: "/", label: "Startsidan" }, ...MAST_SECTION_LINKS, MAST_
 	}
 
 	.notfound .section-ornament {
-		margin-top: var(--space-phi);
+		margin-block-start: var(--space-phi);
 	}
 </style>

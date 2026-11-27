@@ -256,7 +256,7 @@ export function chainSegments(segments: Segment[]): [number, number][][] {
 /** A chain closes on itself when chainSegments looped back to its own start point. */
 function isClosedLine(line: readonly [number, number][]): boolean {
 	const first = line[0];
-	const last = line[line.length - 1];
+	const last = line.at(-1);
 	return !!first && !!last && first[0] === last[0] && first[1] === last[1];
 }
 

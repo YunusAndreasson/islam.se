@@ -34,11 +34,11 @@ import { type HastElement, type HastNode, isElement, isText } from "./hast";
 /** The reading column is 42rem (672 px). 720 and 1400 are that column at 1× and 2×;
  *  480 and 960 are a phone's. Astro drops any width the source file cannot fill. */
 const FIGURE_WIDTHS = [480, 720, 960, 1400];
-const FIGURE_SIZES = "(min-width: 45rem) 42rem, calc(100vw - 2.5rem)";
+const FIGURE_SIZES = "(width >= 45rem) 42rem, calc(100vw - 2.5rem)";
 
 /** An upright stands in two thirds of the column from 48rem (layout.css,
  *  `.prose-figure--upright`): 28rem, and the whole phone column under it. */
-const UPRIGHT_SIZES = "(min-width: 48rem) 28rem, calc(100vw - 2.5rem)";
+const UPRIGHT_SIZES = "(width >= 48rem) 28rem, calc(100vw - 2.5rem)";
 
 /** A picture's size in pixels. */
 interface Dimensions {

@@ -61,7 +61,7 @@ const here = (href: string) => href === currentHref;
 	   wordmark is the mast's (Wordmark.astro, its dot set in layout.css) a size larger:
 	   the page ends on the name it began with. */
 	.site-footer-masthead {
-		margin-bottom: var(--space-phi);
+		margin-block-end: var(--space-phi);
 		text-align: start;
 	}
 
@@ -81,7 +81,7 @@ const here = (href: string) => href === currentHref;
 	}
 
 	.site-footer-about {
-		max-width: 30rem;
+		max-inline-size: 30rem;
 		margin: var(--space-group) 0 0;
 		font-family: var(--font-body);
 		font-size: var(--step-0);
@@ -97,7 +97,7 @@ const here = (href: string) => href === currentHref;
 		justify-content: space-between;
 		align-items: flex-end;
 		gap: var(--space-group) var(--space-unit);
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 		text-align: start;
 	}
 

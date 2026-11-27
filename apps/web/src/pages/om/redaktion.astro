@@ -217,17 +217,18 @@ const pipelineSteps: readonly PipelineStep[] = [
 		--tl-rail: 2px;
 		--tl-rail-color: var(--color-divider);
 		margin: var(--space-unit) 0 var(--space-phi);
-		padding: 0 0 0 var(--rail);
-		max-width: var(--content-width);
+		padding-block: 0;
+		padding-inline: var(--rail) 0;
+		max-inline-size: var(--content-width);
 	}
 
 	.pipeline-step {
 		position: relative;
-		padding-bottom: var(--space-unit);
+		padding-block-end: var(--space-unit);
 	}
 
 	.pipeline-step:last-child {
-		padding-bottom: 0;
+		padding-block-end: 0;
 	}
 
 	/* Node. Geometry borrowed from the shared timeline vocabulary in styles/chart.css
@@ -239,14 +240,14 @@ const pipelineSteps: readonly PipelineStep[] = [
 		content: "";
 		position: absolute;
 		box-sizing: border-box;
-		left: calc(var(--rail) * -1);
-		top: 0.72em;
-		width: var(--tl-dot, 12px);
-		height: var(--tl-dot, 12px);
+		inset-inline-start: calc(var(--rail) * -1);
+		inset-block-start: 0.72em;
+		inline-size: var(--tl-dot, 12px);
+		block-size: var(--tl-dot, 12px);
 		border-radius: 50%;
 		background: var(--color-bg);
 		border: 2px solid var(--color-muted);
-		transform: translateY(-50%);
+		translate: 0 -50%;
 		z-index: 1;
 	}
 
@@ -254,10 +255,9 @@ const pipelineSteps: readonly PipelineStep[] = [
 	.pipeline-step::after {
 		content: "";
 		position: absolute;
-		left: calc(var(--rail) * -1 + (var(--tl-dot, 12px) - var(--tl-rail, 2px)) / 2);
-		top: 0.72em;
-		bottom: -0.72em;
-		width: var(--tl-rail, 2px);
+		inset-inline-start: calc(var(--rail) * -1 + (var(--tl-dot, 12px) - var(--tl-rail, 2px)) / 2);
+		inset-block: 0.72em -0.72em;
+		inline-size: var(--tl-rail, 2px);
 		background: var(--tl-rail-color, var(--color-divider));
 	}
 
@@ -278,7 +278,7 @@ const pipelineSteps: readonly PipelineStep[] = [
 		font-family: var(--font-heading);
 		font-weight: 600;
 		color: var(--color-text);
-		margin-bottom: 0.25rem;
+		margin-block-end: 0.25rem;
 	}
 
 	.pipeline-step > :global(p) {
@@ -291,8 +291,8 @@ const pipelineSteps: readonly PipelineStep[] = [
 
 	.pipeline-step > :global(p.pipeline-exit) {
 		position: relative;
-		margin-top: 0.35rem;
-		padding-left: 1.3rem;
+		margin-block-start: 0.35rem;
+		padding-inline-start: 1.3rem;
 		font-size: var(--step--2);
 		color: var(--color-muted);
 	}
@@ -301,7 +301,7 @@ const pipelineSteps: readonly PipelineStep[] = [
 	.pipeline-step > :global(p.pipeline-exit)::before {
 		content: "→";
 		position: absolute;
-		left: 0;
+		inset-inline-start: 0;
 	}
 
 </style>

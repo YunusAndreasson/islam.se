@@ -155,7 +155,7 @@ function markSpanningMarkup(last: HastElement): boolean {
 /** Split the closing attribution out of a blockquote's last paragraph. */
 function markAttribution(block: HastElement): void {
 	const paras = childrenOf(block).filter((c) => isElement(c) && c.tagName === "p") as HastElement[];
-	const last = paras[paras.length - 1];
+	const last = paras.at(-1);
 	if (!last) return;
 	// Idempotent — the pipeline may run twice in dev.
 	if (last.children.some((c) => isElement(c) && c.tagName === "cite")) return;

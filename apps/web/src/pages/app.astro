@@ -85,7 +85,7 @@ const shots = [
 						src={s.src}
 						alt={s.alt}
 						widths={CARD_WIDTHS}
-						sizes="(max-width: 640px) 58vw, (min-width: 72rem) 16rem, 14rem"
+						sizes="(width <= 640px) 58vw, (width >= 72rem) 16rem, 14rem"
 						loading="lazy"
 					/>
 					<figcaption class="label">{s.caption}</figcaption>
@@ -148,41 +148,26 @@ const shots = [
 
 	.app-shot {
 		margin: 0;
-		min-width: 0;
+		min-inline-size: 0;
 		text-align: center;
 	}
 
 	/* A picture lying on the page has its hairline and no drop shadow: only what stands
-	   above the page casts one (DESIGN.md, »Principle 4«). The three phones carried one. */
+	   above the page casts one (DESIGN.md, »Principle 4«). The three phones carried one.
+	   The captures are a dark map UI (rgb ~13–53) and the dark page behind them is
+	   #1d1912: without an edge of their own they read as empty slots, not phones. So in
+	   the dark the hairline steps up to the 3:1 tier and a wash rings it. */
 	.app-shot img {
 		display: block;
-		width: 100%;
-		height: auto;
+		inline-size: 100%;
+		block-size: auto;
 		border-radius: 1.6rem;
-		border: var(--border-row);
-	}
-
-	/* The captures are a dark map UI (rgb ~13–53) and the page behind them is
-	   #1d1912 — without their own edge they read as empty slots, not phones. */
-	@media (prefers-color-scheme: dark) {
-		.app-shot img {
-			border-color: var(--color-warm);
-			box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent);
-		}
-	}
-
-	:root[data-theme="light"] .app-shot img {
-		border-color: var(--color-divider);
-		box-shadow: none;
-	}
-
-	:root[data-theme="dark"] .app-shot img {
-		border-color: var(--color-warm);
-		box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent);
+		border: 1px solid light-dark(var(--color-divider), var(--color-warm));
+		box-shadow: 0 0 0 0.4rem light-dark(transparent, var(--wash-hover));
 	}
 
 	.app-shot figcaption {
-		margin-top: 0.85rem;
+		margin-block-start: 0.85rem;
 		color: var(--color-muted);
 		letter-spacing: 0.01em;
 		text-transform: none;
@@ -199,12 +184,12 @@ const shots = [
 			justify-content: flex-start;
 			margin-inline: calc(-1 * var(--padding-inline));
 			padding-inline: var(--padding-inline);
-			padding-bottom: 0.5rem;
+			padding-block-end: 0.5rem;
 		}
 
 		.app-shot {
 			flex: 0 0 auto;
-			width: 58vw;
+			inline-size: 58vw;
 			scroll-snap-align: center;
 		}
 	}
@@ -213,10 +198,10 @@ const shots = [
 		font-family: var(--font-body);
 		font-size: var(--step--2);
 		color: var(--color-muted);
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: var(--border-rule);
+		padding-block-start: var(--space-half);
+		border-block-start: var(--border-rule);
 	}
 
 	.app-note a {

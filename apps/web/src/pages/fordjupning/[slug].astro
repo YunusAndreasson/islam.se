@@ -130,7 +130,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	preloadFonts={[
 		"body",
 		...(heroSource ? [] : (["sans"] as const)),
-		{ face: "display", media: "(min-width: 48rem)" },
+		{ face: "display", media: "(width >= 48rem)" },
 		{ face: "arabic", low: true },
 	]}
 >
@@ -266,7 +266,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	/* An essay's header stands a unit under the mast on a phone: one line for all three. */
 	@media (width < 48rem) {
 		.fordjupning-page {
-			margin-top: var(--space-unit);
+			margin-block-start: var(--space-unit);
 		}
 	}
 
@@ -288,7 +288,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	   opening, so each one keeps the shape it was composed in; intrinsic width/height on
 	   the <img> reserves the box, so nothing shifts. */
 	.fordjupning-hero :global(img) {
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	/* Reference apparatus — notes and sources, quieter than the content above it: the
@@ -304,7 +304,7 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	.fordjupning-vidare-grid {
 		display: grid;
 		gap: var(--space-unit) var(--space-phi);
-		margin-top: var(--space-half);
+		margin-block-start: var(--space-half);
 	}
 
 	@media (width >= 40rem) {
@@ -327,12 +327,11 @@ jsonLd.push(...(await figureJsonLd(entry.body, url, Astro.site)));
 	   whose bottom margin is sized for a page end — reclaim it here, the section is
 	   followed by two more. */
 	.fordjupning-noter :global(.footnotes-relocated) {
-		margin-top: var(--space-half);
-		margin-bottom: 0;
+		margin-block: var(--space-half) 0;
 	}
 
 	.fordjupning-back {
-		margin-top: var(--space-phi);
+		margin-block-start: var(--space-phi);
 	}
 
 	/* .heading-anchor is styled once, with .prose, in editorial.css. */

@@ -57,7 +57,7 @@ const rows = CITY_NAMES.map((name) => {
 }).filter((r): r is NonNullable<typeof r> => r !== null);
 
 const first = rows[0];
-const last = rows[rows.length - 1];
+const last = rows.at(-1);
 
 const description = `Ramadan ${ramadan.year} infaller ${span}. Iftar och suhūr för din ort, dag för dag – och hur lång fastan blir från Malmö till Kiruna, beräknat efter solens läge.`;
 
@@ -222,8 +222,8 @@ const definitions = [
 	   scroll. It was the one table on the site with its heads in tracked capitals and a
 	   full rule under every row. */
 	.bt-ramadan-table {
-		max-width: var(--content-width);
-		min-width: 34rem;
+		max-inline-size: var(--content-width);
+		min-inline-size: 34rem;
 	}
 
 	/* A note to a table: --step--2 in the quiet ink, never larger than the table. */

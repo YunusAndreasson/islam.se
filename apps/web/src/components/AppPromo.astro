@@ -49,7 +49,7 @@ import { APP_CAMPAIGNS, APP_FEATURES, APP_TAGLINE, appStoreUrl, playStoreUrl } f
 		line-height: 1.55;
 		color: var(--text-body);
 		margin: var(--space-half) 0 0;
-		max-width: 38rem;
+		max-inline-size: 38rem;
 		text-wrap: pretty;
 	}
 
@@ -59,7 +59,7 @@ import { APP_CAMPAIGNS, APP_FEATURES, APP_TAGLINE, appStoreUrl, playStoreUrl } f
 		display: grid;
 		gap: 1rem 2rem;
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-		max-width: 40rem;
+		max-inline-size: 40rem;
 	}
 
 	/* Two columns: a brass-tick gutter and the text. The term and gloss both sit in
@@ -80,7 +80,7 @@ import { APP_CAMPAIGNS, APP_FEATURES, APP_TAGLINE, appStoreUrl, playStoreUrl } f
 	.apppromo-feature-gloss {
 		grid-column: 2;
 		grid-row: 2;
-		margin-top: 0.15rem;
+		margin-block-start: 0.15rem;
 		font-size: var(--step--2);
 		line-height: 1.45;
 		/* --text-meta, not --color-muted: the card's 3 % tint takes muted to 4.44:1,
@@ -95,8 +95,8 @@ import { APP_CAMPAIGNS, APP_FEATURES, APP_TAGLINE, appStoreUrl, playStoreUrl } f
 		grid-column: 1;
 		grid-row: 1;
 		align-self: center;
-		width: 0.7rem;
-		height: 2px;
+		inline-size: 0.7rem;
+		block-size: 2px;
 		background: var(--color-warm);
 	}
 
@@ -105,29 +105,29 @@ import { APP_CAMPAIGNS, APP_FEATURES, APP_TAGLINE, appStoreUrl, playStoreUrl } f
 		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.75rem 1rem;
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 
 	.apppromo-badge {
 		display: inline-flex;
 		border-radius: 9px;
-		transition: transform var(--dur-fast) var(--ease-standard), opacity var(--dur-fast) var(--ease-standard);
+		transition: scale var(--dur-fast) var(--ease-standard), opacity var(--dur-fast) var(--ease-standard);
 	}
 
 	.apppromo-badge img {
 		display: block;
-		width: auto;
+		inline-size: auto;
 	}
 
 	/* Equalise optical pill height: Apple's art is tight (pill ≈ 0.92 of the image),
 	   Google's generic badge bakes in clear space (pill ≈ 0.77), so Google needs a
 	   taller box for the two pills to line up. */
 	.apppromo-badge--ios img {
-		height: 2.6rem;
+		block-size: 2.6rem;
 	}
 
 	.apppromo-badge--android img {
-		height: 3.1rem;
+		block-size: 3.1rem;
 	}
 
 	.apppromo-badge:hover {
@@ -135,7 +135,7 @@ import { APP_CAMPAIGNS, APP_FEATURES, APP_TAGLINE, appStoreUrl, playStoreUrl } f
 	}
 
 	.apppromo-badge:active {
-		transform: scale(0.97);
+		scale: 0.97;
 	}
 
 	.apppromo-badge:focus-visible {
@@ -151,7 +151,7 @@ import { APP_CAMPAIGNS, APP_FEATURES, APP_TAGLINE, appStoreUrl, playStoreUrl } f
 
 	/* Under the lead, then what the app does. */
 	.apppromo {
-		margin-top: var(--space-unit);
+		margin-block-start: var(--space-unit);
 	}
 
 	.apppromo-badges {

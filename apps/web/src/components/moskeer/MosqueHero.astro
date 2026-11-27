@@ -45,15 +45,15 @@ const { photo, eager = false } = Astro.props;
 
 	.mk-hero :global(img) {
 		aspect-ratio: 3 / 2;
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	.mk-hero figcaption {
 		font-family: var(--font-body);
 		font-size: var(--step--3);
 		color: var(--color-muted);
-		margin-top: var(--space-half);
-		max-width: var(--content-width);
+		margin-block-start: var(--space-half);
+		max-inline-size: var(--content-width);
 		text-wrap: pretty;
 	}
 

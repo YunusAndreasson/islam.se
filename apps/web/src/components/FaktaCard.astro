@@ -31,7 +31,7 @@ const imageSource = art ? { src: art } : image ? { article: image } : {};
 				{...imageSource}
 				alt=""
 				widths={CARD_WIDTHS}
-				sizes="(max-width: 768px) 50vw, 24rem"
+				sizes="(width <= 768px) 50vw, 24rem"
 			/>
 		</div>
 	)}
@@ -55,12 +55,12 @@ const imageSource = art ? { src: art } : image ? { article: image } : {};
 	   sans in the accent, so a pillar was set one way here and another in Grunden on the
 	   front page, where the same names stand in Literata. */
 	.fakta-card-media {
-		margin-bottom: var(--card-media-gap);
+		margin-block-end: var(--card-media-gap);
 	}
 
 	.fakta-card-media :global(img) {
 		aspect-ratio: 3 / 2;
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	.fakta-card-label {

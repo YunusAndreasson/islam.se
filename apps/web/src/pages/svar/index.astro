@@ -168,7 +168,7 @@ const description =
 						<FordjupningCards
 							entries={pelarKort}
 							headingLevel={3}
-							sizes="(max-width: 42rem) 6rem, (min-width: 79rem) 24rem, (min-width: 63rem) 30vw, (min-width: 42rem) 45vw, 100vw"
+							sizes="(width <= 42rem) 6rem, (width >= 79rem) 24rem, (width >= 63rem) 30vw, (width >= 42rem) 45vw, 100vw"
 						/>
 					</section>
 				)}
@@ -263,12 +263,12 @@ const description =
 
 <style>
 	.svar-search {
-		margin-bottom: var(--space-control);
+		margin-block-end: var(--space-control);
 	}
 
 	.svar-search input {
-		width: min(100%, 24rem);
-		min-height: var(--tap-target);
+		inline-size: min(100%, 24rem);
+		min-block-size: var(--tap-target);
 		padding-inline: var(--space-control);
 		border: var(--border-row);
 		border-radius: var(--radius-sm);
@@ -308,7 +308,7 @@ const description =
 		/* Published by Header.astro; the fallback is one line of mast plus padding. */
 		--top: var(--mast-height);
 		position: sticky;
-		top: var(--top);
+		inset-block-start: var(--top);
 		/* Under the mast (z-index 10), over the rows. */
 		z-index: 9;
 		background: var(--color-bg);
@@ -325,7 +325,7 @@ const description =
 			content: "";
 			position: absolute;
 			inset: 100% 0 auto;
-			height: 1.25rem;
+			block-size: 1.25rem;
 			background: linear-gradient(to bottom, var(--color-bg), transparent);
 			pointer-events: none;
 			opacity: 0;
@@ -365,7 +365,7 @@ const description =
 			margin: 0;
 		}
 		.svar-pelare :global(.card-list) {
-			margin-bottom: 0;
+			margin-block-end: 0;
 		}
 
 	}
@@ -394,7 +394,7 @@ const description =
 	   row, so a jump doesn't drop the kicker underneath either. A margin or a heading
 	   size here would outrank the shared `.page-section` (this block is unlayered). */
 	.svar-section {
-		scroll-margin-top: 3.5rem;
+		scroll-margin-block-start: 3.5rem;
 	}
 
 	.svar-list {
@@ -437,7 +437,7 @@ const description =
 
 	.svar-list :global(.text-row-desc) {
 		display: block;
-		margin-top: var(--card-text-gap);
+		margin-block-start: var(--card-text-gap);
 		font-family: var(--font-body);
 		font-size: var(--step--2);
 		line-height: var(--card-text-leading);

@@ -6,7 +6,7 @@
  *  lead's words: 49.67rem (795px) once the window passes 79rem and the canvas is its
  *  full 76rem, two thirds of the window below that. In one column, under 64rem, it
  *  runs the window's width. */
-export const FEATURE_HERO_SIZES = "(min-width: 79rem) 49.67rem, (min-width: 64rem) 66vw, 100vw";
+export const FEATURE_HERO_SIZES = "(width >= 79rem) 49.67rem, (width >= 64rem) 66vw, 100vw";
 
 /** Candidates for the ladder above: the painted widths at the common windows, plus
  *  the 2× retina steps. 800 is the desktop column at 1×, 1600 the same at 2×. Astro
@@ -29,7 +29,7 @@ export const FEATURE_HERO_WIDTHS = [480, 640, 800, 976, 1216, 1600, 2048];
  *  61rem, the 64rem canvas minus its padding.
  *  ⚠️ `64rem` here is a LIE and was in all three routes: it declares 1024 for a
  *  box that never exceeds 976, so tablets over-select a candidate. */
-export const PAGE_HERO_SIZES = "(min-width: 67rem) 61rem, 100vw";
+export const PAGE_HERO_SIZES = "(width >= 67rem) 61rem, 100vw";
 
 /** 1× and retina steps of the widths above, capped at the source's own 1672. */
 export const PAGE_HERO_WIDTHS = [768, 1024, 1456, 1672];
@@ -39,7 +39,7 @@ export const PAGE_HERO_WIDTHS = [768, 1024, 1456, 1672];
  *  window less the canvas padding from 48rem, as wide as the frame on a phone. Under
  *  48rem it is the frame's, as PAGE_HERO_SIZES says. */
 export const COVER_HERO_SIZES =
-	"(min-width: 79rem) 76rem, (min-width: 48rem) calc(100vw - 3rem), 100vw";
+	"(width >= 79rem) 76rem, (width >= 48rem) calc(100vw - 3rem), 100vw";
 
 /** The cover's painted widths at 1× (768 tablet, 1216 canvas) and the steps above them,
  *  capped at the sources' 1672. */

@@ -164,7 +164,7 @@ export function chartAltText(spec: ChartSpec): string {
 
 	if (spec.type === "line") {
 		const first = spec.data[0];
-		const last = spec.data[spec.data.length - 1];
+		const last = spec.data.at(-1);
 		const named = spec.series.filter((s) => s !== "");
 		const which = named.length > 0 ? ` för ${joinSwedish(named)}` : "";
 		const span = first && last && first !== last ? ` från ${first.label} till ${last.label}` : "";
@@ -185,7 +185,7 @@ export function chartAltText(spec: ChartSpec): string {
 function describeExtremes(spec: ChartSpec): string {
 	const dp = seriesDecimals(allValues(spec));
 	const first = spec.data[0];
-	const last = spec.data[spec.data.length - 1];
+	const last = spec.data.at(-1);
 	if (!(first && last)) return "";
 	const a = first.values[0];
 	const b = last.values[0];
@@ -213,7 +213,7 @@ function describeExtremes(spec: ChartSpec): string {
 			(m, p) => (p.v < m.v ? p : m),
 			points[0] as { label: string; v: number },
 		);
-		const ends = [points[0]?.label, points[points.length - 1]?.label];
+		const ends = [points[0]?.label, points.at(-1)?.label];
 		if (!ends.includes(peak.label)) {
 			sentence += ` Högst är ${peak.label} med ${formatValue(peak.v, spec.unit, dp)}.`;
 		}

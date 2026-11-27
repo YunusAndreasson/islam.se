@@ -112,7 +112,7 @@ export function minuteOnCurve(curve: SunDayCurve, instant: Date): number {
 export function altAt(curve: SunDayCurve, minuteOfDay: number): number {
 	const { samples } = curve;
 	const first = samples[0];
-	const last = samples[samples.length - 1];
+	const last = samples.at(-1);
 	if (!(first && last && Number.isFinite(minuteOfDay))) return Number.NaN;
 	if (minuteOfDay <= first.minuteOfDay) return first.altDeg;
 	if (minuteOfDay >= last.minuteOfDay) return last.altDeg;

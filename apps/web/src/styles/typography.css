@@ -29,7 +29,7 @@
 
 		@keyframes target-flash {
 			from {
-				background-color: color-mix(in srgb, var(--color-warm), transparent 55%);
+				background-color: var(--wash-mark);
 			}
 			to {
 				background-color: transparent;
@@ -38,7 +38,7 @@
 	}
 
 	::selection {
-		background: color-mix(in srgb, var(--color-warm), transparent 70%);
+		background: var(--wash-mark);
 		color: var(--color-text);
 	}
 
@@ -123,8 +123,7 @@
 		   fit is correct. */
 		letter-spacing: 0;
 		line-height: 1.25;
-		margin-top: var(--space-phi);
-		margin-bottom: var(--space-half);
+		margin-block: var(--space-phi) var(--space-half);
 	}
 
 	/* h3 — the rank the system never defined. Essays are h2-only by design
@@ -148,13 +147,12 @@
 		font-weight: 600;
 		letter-spacing: 0;
 		line-height: 1.3;
-		margin-top: var(--space-unit);
-		margin-bottom: var(--space-half);
+		margin-block: var(--space-unit) var(--space-half);
 	}
 
 	/* Prose */
 	p {
-		margin-bottom: var(--space-unit);
+		margin-block-end: var(--space-unit);
 	}
 
 	/* Links.
@@ -178,7 +176,7 @@
 	a {
 		color: var(--color-accent);
 		text-decoration-line: underline;
-		text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+		text-decoration-color: var(--underline-quiet);
 		text-decoration-thickness: from-font;
 		text-decoration-skip-ink: auto;
 		text-underline-offset: var(--underline-offset);
@@ -243,12 +241,12 @@
 		   measured 427px inside a 380px viewport). */
 		content: none;
 		position: absolute;
-		bottom: calc(100% + 0.4em);
-		left: 50%;
+		inset-block-end: calc(100% + 0.4em);
+		inset-inline-start: 50%;
 		translate: -50% 0;
 		z-index: 20;
-		width: max-content;
-		max-width: min(20rem, 60vw);
+		inline-size: max-content;
+		max-inline-size: min(20rem, 60vw);
 		padding: 0.4em 0.6em;
 		border-radius: 0.2rem;
 		background: var(--color-text);
@@ -299,9 +297,9 @@
 		.honorific[data-tip]::after {
 			position: fixed;
 			inset-inline: 1rem;
-			bottom: 1rem;
-			width: auto;
-			max-width: none;
+			inset-block-end: 1rem;
+			inline-size: auto;
+			max-inline-size: none;
 			translate: none;
 		}
 	}
@@ -314,7 +312,7 @@
 		margin-block: var(--space-phi);
 
 		p:last-child {
-			margin-bottom: 0;
+			margin-block-end: 0;
 		}
 	}
 
@@ -327,7 +325,7 @@
 	.q-attr,
 	.q-attr-p {
 		display: block;
-		margin-top: calc(var(--space-unit) * 0.5);
+		margin-block-start: calc(var(--space-unit) * 0.5);
 		font-size: var(--step--2);
 		font-style: normal;
 		color: var(--color-muted);
@@ -345,7 +343,7 @@
 			display: block;
 			inline-size: 2.5rem;
 			block-size: 2px;
-			margin-bottom: var(--space-half);
+			margin-block-end: var(--space-half);
 			background: var(--color-quote-mark);
 		}
 
@@ -371,9 +369,14 @@
 		font-weight: 600;
 	}
 
-	/* Emphasis — subtle weight boost so italic is easier to spot in Literata */
-	em {
-		font-weight: 580;
+	/* Emphasis is italic, and the italic is the whole mark: bold is `strong`'s. Literata's
+	   italic is the lighter drawing of the two at text sizes, so in running prose it takes
+	   a little weight (450 beside the roman's 400) to keep the line's colour even. It was
+	   580 on every <em>, a step under strong's 600: emphasis read as bold italic, the two
+	   ranks as one, and a cited title was the heaviest thing in a margin note. Anywhere
+	   else an <em> keeps the weight of what it stands in (a heading, a label, a note). */
+	.prose :where(p, li, blockquote, dd) > em {
+		font-weight: 450;
 	}
 
 	/* Abbreviations — small caps via Literata's smcp/c2sc glyphs, classical convention */
@@ -385,7 +388,7 @@
 	/* Horizontal rule */
 	hr {
 		border: none;
-		border-top: var(--border-rule);
+		border-block-start: var(--border-rule);
 		margin-block: var(--space-phi);
 	}
 
@@ -409,7 +412,7 @@
 		line-height: 0;
 		position: relative;
 		vertical-align: super;
-		top: 0;
+		inset-block-start: 0;
 
 		a {
 			color: var(--color-accent);
@@ -430,8 +433,8 @@
 	/* Screen reader only (remark-gfm footnote heading) */
 	.sr-only {
 		position: absolute;
-		width: 1px;
-		height: 1px;
+		inline-size: 1px;
+		block-size: 1px;
 		padding: 0;
 		margin: -1px;
 		overflow: hidden;
@@ -444,10 +447,10 @@
 	   closing vignette, rosette between pärlstav since 2026-09-27 (»Stuckatur« below). */
 	.prose > hr:last-of-type {
 		border: none;
-		width: min(10rem, 100%);
-		height: 1.5rem;
+		inline-size: min(10rem, 100%);
+		block-size: 1.5rem;
 		margin: var(--space-phi) auto;
-		background: var(--color-divider);
+		background: var(--color-stucco);
 		mask: url("/ornament.svg?v=5") center / 100% 100% no-repeat;
 	}
 
@@ -476,15 +479,15 @@
 	.fn-popover {
 		position: absolute;
 		z-index: 100;
-		max-width: min(28rem, calc(100vw - 24px));
-		max-height: calc(100dvh - 24px);
+		max-inline-size: min(28rem, calc(100vw - 24px));
+		max-block-size: calc(100dvh - 24px);
 		overflow-y: auto;
 		overscroll-behavior: contain;
 		padding: 0.75rem 1.214rem;
 		background: var(--color-bg);
 		border: var(--border-row);
 		border-radius: var(--radius-lg);
-		box-shadow: 0 4px 24px rgb(var(--hero-black) / 0.08);
+		box-shadow: var(--shadow-float);
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		line-height: 1.55;
@@ -498,16 +501,18 @@
 		opacity: 0;
 		visibility: hidden;
 		pointer-events: none;
-		transform: translateY(4px);
+		translate: 0 4px;
 		transition:
 			opacity var(--dur-fast) var(--ease-standard),
-			transform var(--dur-fast) var(--ease-standard),
+			translate var(--dur-fast) var(--ease-standard),
 			visibility 0s linear var(--dur-fast);
 
 		p {
-			margin-bottom: 0;
+			margin-block-end: 0;
 		}
 
+		/* A cited title keeps the book face inside the apparatus' sans, at the note's own
+		   size and weight: the italic is the mark. (It was 580, with every other <em>.) */
 		em {
 			font-family: var(--font-body);
 		}
@@ -517,20 +522,8 @@
 		opacity: 1;
 		visibility: visible;
 		pointer-events: auto;
-		transform: translateY(0);
+		translate: 0 0;
 		transition-delay: 0s;
-	}
-
-	/* Same resolved-theme keying as the body weight below: a shadow tuned for the
-	   dark palette has to follow the toggle, not the OS. */
-	@media (prefers-color-scheme: dark) {
-		:root:not([data-theme="light"]) .fn-popover {
-			box-shadow: 0 4px 24px rgb(var(--hero-black) / 0.3);
-		}
-	}
-
-	:root[data-theme="dark"] .fn-popover {
-		box-shadow: 0 4px 24px rgb(var(--hero-black) / 0.3);
 	}
 
 	/* ============================================================
@@ -554,7 +547,7 @@
 	   paragraphs (Bringhurst: no added space between indented paragraphs;
 	   DESIGN.md: spacing or indentation, never both). */
 		> p:has(+ p) {
-			margin-bottom: 0;
+			margin-block-end: 0;
 		}
 
 		> p + p:not([class]) {
@@ -573,11 +566,11 @@
 		ol:not([class]) {
 			list-style: revert;
 			padding-inline-start: 1.5em;
-			margin-bottom: var(--space-unit);
+			margin-block-end: var(--space-unit);
 		}
 
 		li {
-			margin-bottom: calc(var(--space-unit) * 0.25);
+			margin-block-end: calc(var(--space-unit) * 0.25);
 		}
 	}
 
@@ -585,9 +578,9 @@
 	/* Keep the same note scale before and after client-side relocation. */
 	.footnotes,
 	.footnotes-relocated {
-		margin-top: 0;
-		padding-top: 0;
-		margin-bottom: calc(var(--space-phi2) + env(safe-area-inset-bottom, 0px));
+		margin-block-start: 0;
+		padding-block-start: 0;
+		margin-block-end: calc(var(--space-phi2) + env(safe-area-inset-bottom, 0px));
 		font-size: var(--step--3);
 		line-height: 1.5;
 		color: var(--color-text);
@@ -599,10 +592,10 @@
 		}
 
 		li {
-			margin-bottom: var(--space-half);
+			margin-block-end: var(--space-half);
 
 			p {
-				margin-bottom: 0;
+				margin-block-end: 0;
 			}
 		}
 
@@ -626,10 +619,10 @@
 	   ring between two plain rules, in the same 10rem box. */
 	.section-ornament {
 		display: block;
-		width: min(10rem, 100%);
-		height: 1.5rem;
+		inline-size: min(10rem, 100%);
+		block-size: 1.5rem;
 		margin: var(--space-phi) auto;
-		background: var(--color-divider);
+		background: var(--color-stucco);
 		mask: url("/ornament.svg?v=5") center / 100% 100% no-repeat;
 	}
 
@@ -656,9 +649,9 @@
 			-webkit-initial-letter: 3;
 			initial-letter: 3;
 			color: var(--color-accent);
-			margin-right: 0.08em;
+			margin-inline-end: 0.08em;
 			/* Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
-			margin-top: -0.08em;
+			margin-block-start: -0.08em;
 		}
 	}
 
@@ -782,12 +775,12 @@
 		}
 
 		.page-centred {
-			max-width: none;
+			max-inline-size: none;
 			padding: 0;
 		}
 
 		.article-page > * {
-			max-width: none;
+			max-inline-size: none;
 		}
 
 		.footnotes,

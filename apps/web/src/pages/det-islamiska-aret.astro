@@ -237,7 +237,7 @@ const description =
 	   frames«). Prose is held to the reading measure separately — the wide canvas
 	   is for the date list and the fast table, not for paragraphs. */
 	.md-page :is(.md-standing, .md-also) {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 	}
 
 	.md-subscribe {
@@ -252,7 +252,7 @@ const description =
 	   figures, city as the row header. Prose stays on the reading measure; only
 	   the table is allowed to be its own width. */
 	.md-fast {
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 	}
 
 	/* From 72rem the table stands beside the question and its answer, not under them:
@@ -265,7 +265,7 @@ const description =
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			grid-template-rows: auto auto 1fr;
 			column-gap: var(--grid-gutter);
-			max-width: none;
+			max-inline-size: none;
 		}
 
 		.md-fast > :not(.md-fast-table) {
@@ -287,7 +287,7 @@ const description =
 	   stacks the city over its latitude, as on /bonetider/aret/. */
 	@media (width < 72rem) {
 		.md-fast-table {
-			max-width: 32rem;
+			max-inline-size: 32rem;
 		}
 	}
 

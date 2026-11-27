@@ -740,6 +740,14 @@ function inlineScriptHash(file: string): `sha256-${string}` {
 
 const prerenderWorkers = Number(process.env.ASTRO_PRERENDER_WORKERS) || 1;
 
+// The oldest browsers the site is written for: each engine's release of mid-2024, the
+// first in which light-dark(), CSS nesting, @starting-style, relative colours and
+// @property all run as written (Chrome and Edge 125, Firefox 128, Safari 17.5). Older
+// ones are not polyfilled for. Anything newer than this floor (text-wrap: pretty,
+// field-sizing, scroll-driven animation, view transitions) is used only as an
+// enhancement the page reads correctly without. Raise it by date, not feature by feature.
+const MODERN_BROWSERS = ["chrome125", "edge125", "firefox128", "safari17.5", "ios17.5"];
+
 export default defineConfig({
 	site: SITE_URL,
 	output: "static",
@@ -839,16 +847,17 @@ export default defineConfig({
 		clientPrerender: true,
 	},
 	vite: {
-		// Vite's own Baseline target (chrome111 / edge111 / firefox114 / safari16.4 /
-		// ios16.4) rather than a hand-picked `es2022`, and it advances with Baseline instead
-		// of being re-guessed here. ⚠️ What it governs is the CSS: the stylesheets inlined into
-		// every page are processed in the build's prerender environment, which inherits this,
-		// and Lightning CSS lowers them to it — light-dark() polyfilled, -webkit-hyphens
-		// added. Remove it and dark mode breaks on Safari before 17.5. It does NOT reach the
-		// browser's JavaScript: Astro 7 pins its client environment to "esnext"
-		// (core/build/vite-build-config.js). That code keeps to syntax Baseline already runs,
-		// and an API Baseline lacks is guarded where it is used (AbortSignal.any, nyheter.ts).
-		build: { target: "baseline-widely-available" },
+		// THE BROWSER FLOOR: every engine's release from mid-2024 on (MODERN_BROWSERS, above).
+		// ⚠️ What this governs is the CSS: the stylesheets inlined into every page are
+		// processed in the build's prerender environment, which inherits this, and Lightning
+		// CSS lowers them to it. At this floor it lowers nothing the site is built on:
+		// light-dark(), nesting, range queries and color-mix() ship as written, so the page a
+		// browser gets is the page the dev server shows. Until 2026-11-27 this was Vite's
+		// "baseline-widely-available" (chrome111 / firefox114 / safari16.4), which rewrote
+		// every light-dark() into a pair of switch variables and froze each token in the
+		// root's scheme. It does NOT reach the browser's JavaScript: Astro 7 pins its client
+		// environment to "esnext" (core/build/vite-build-config.js).
+		build: { target: MODERN_BROWSERS },
 		// dist-check is where a verification build goes while `dev:bg` is up (a build into
 		// dist/ fights the dev server over dist/.prerender). Unwatched, every such build had
 		// the dev server process each of its ~2 500 pages and assets as a source change.

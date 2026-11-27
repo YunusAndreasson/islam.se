@@ -258,8 +258,8 @@ const description =
 
 <style>
 	.ratta-body {
-		max-width: var(--content-width);
-		margin-top: var(--space-phi);
+		max-inline-size: var(--content-width);
+		margin-block-start: var(--space-phi);
 	}
 
 	.ratta-notice {
@@ -269,7 +269,7 @@ const description =
 		color: var(--text-body);
 		border-inline-start: 2px solid var(--color-rule);
 		padding-inline-start: var(--space-half);
-		margin-bottom: var(--space-unit);
+		margin-block-end: var(--space-unit);
 	}
 
 	.ratta-form {
@@ -312,7 +312,7 @@ const description =
 		border: var(--border-rule);
 		border-radius: var(--radius-sm);
 		padding: 0.6rem 0.7rem;
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	/* Grows with what is written where the browser can (not yet Gecko), and the handle
@@ -346,8 +346,8 @@ const description =
 
 	.ratta-hp {
 		position: absolute;
-		width: 1px;
-		height: 1px;
+		inline-size: 1px;
+		block-size: 1px;
 		overflow: hidden;
 		clip-path: inset(50%);
 		white-space: nowrap;
@@ -392,7 +392,7 @@ const description =
 		font-size: var(--step--2);
 		line-height: 1.6;
 		color: var(--text-quiet);
-		margin-top: var(--space-phi);
+		margin-block-start: var(--space-phi);
 		text-wrap: pretty;
 	}
 </style>

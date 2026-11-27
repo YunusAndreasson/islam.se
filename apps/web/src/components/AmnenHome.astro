@@ -33,7 +33,7 @@ const groups = amnenWithEssays(await getArticles()).filter(({ amne }) => amne.sl
 	{groups.map(({ amne, shown }, i) => (
 		<div class="amnen-panel" id={`subject-panel-${amne.slug}`} data-tab-panel hidden={i !== 0}>
 			<p class="home-tab-framing">{amne.framing}</p>
-			<EssayList articles={shown} itemVariant="card" class="home-cards" cardSizes="(min-width: 60rem) 31vw, (min-width: 40rem) 45vw, 100vw" />
+			<EssayList articles={shown} itemVariant="card" class="home-cards" cardSizes="(width >= 60rem) 31vw, (width >= 40rem) 45vw, 100vw" />
 			<p class="home-tab-more"><SectionLink href={`/amnen/${amne.slug}/`}>Alla essäer om {amne.omForm}</SectionLink></p>
 		</div>
 	))}

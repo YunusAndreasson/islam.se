@@ -32,47 +32,76 @@ const shadow = asrShadow(location.latitude, date);
 const shafi = computePrayerTimes(location, date, { ...DEFAULT_SETTINGS, madhab: "shafi" });
 const hanafi = computePrayerTimes(location, date, { ...DEFAULT_SETTINGS, madhab: "hanafi" });
 
-// SVG geometry, in viewBox units; CSS scales the element.
-const W = 520;
-const H = 232;
-const OX = 60; // the object's foot
-const GROUND = 150;
-// The Ḥanafī shadow tip must land at or before this x, whatever the date and place.
-const SPAN = 372;
-// Object height: as tall as fits, capped so a short midsummer shadow doesn't blow the
-// object up past the top of the frame. At the equinox in Stockholm it is exactly 100.
-const OH = Math.min(100, SPAN / shadow.hanafiRatio);
-const TOP = GROUND - OH;
-
-const tipNoon = OX + shadow.noonRatio * OH;
-const tipShafi = OX + shadow.shafiRatio * OH;
-const tipHanafi = OX + shadow.hanafiRatio * OH;
-
-// Each ray enters from the upper left, grazes the object's tip, and lands on the
-// shadow's tip. Extended back past the tip by a fixed length so it reads as incoming
-// light rather than a line drawn from the object.
-const BACK = 40;
-const ray = (tipX: number): string => {
-	const dx = tipX - OX;
-	const dy = GROUND - TOP;
-	const len = Math.hypot(dx, dy);
-	const sx = OX - (dx / len) * BACK;
-	const sy = TOP - (dy / len) * BACK;
-	return `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${tipX.toFixed(1)} ${GROUND}`;
-};
-
-// A 2-unit gap either side of each tick lets the segments read as separate lengths.
-const GAP = 2;
-const segment = (from: number, to: number) => ({ x1: from + GAP, x2: to - GAP, mid: (from + to) / 2 });
-const noonSeg = { x1: OX, x2: tipNoon - GAP, mid: (OX + tipNoon) / 2 };
-const plusOne = segment(tipNoon, tipShafi);
-const plusTwo = segment(tipShafi, tipHanafi);
-
-const ticks = [
-	{ at: tipNoon, time: `Ẓuhr ${formatTime(shafi.dhuhr)}`, who: "", asr: false },
-	{ at: tipShafi, time: `ʿAṣr ${formatTime(shafi.asr)}`, who: "Shāfiʿī, Mālikī, Ḥanbalī", asr: true },
-	{ at: tipHanafi, time: `ʿAṣr ${formatTime(hanafi.asr)}`, who: "Ḥanafī", asr: true },
+// THE FIGURE IS DRAWN TWICE, in two cuts, and CSS shows the one its column can hold
+// (SunDayCurve.astro has the reasoning). Text inside a viewBox shrinks with the figure:
+// the wide cut's labels stood at 8–10 px on a phone. The compact cut is drawn for a
+// phone's column, one unit to about one CSS pixel, with the labels that cannot fit
+// there set another way: the object's name runs up its side, the growth is »+ en
+// längd«, and the three schools' names end on their tick instead of centring on it,
+// where they would reach »Ḥanafī«.
+interface Cut {
+	name: "wide" | "compact";
+	W: number;
+	H: number;
+	/** The object's foot. */
+	OX: number;
+	GROUND: number;
+	/** The Ḥanafī shadow tip must land at or before OX + SPAN, whatever the date and place. */
+	SPAN: number;
+	/** The object is as tall as fits, capped so a short midsummer shadow does not blow
+	 *  it up past the top of the frame. */
+	maxObject: number;
+	/** How far a ray is drawn back past the object's tip, so it reads as incoming light. */
+	back: number;
+}
+const CUTS: Cut[] = [
+	// At the equinox in Stockholm the wide cut's object is exactly 100 units tall.
+	{ name: "wide", W: 520, H: 232, OX: 60, GROUND: 150, SPAN: 372, maxObject: 100, back: 40 },
+	{ name: "compact", W: 340, H: 214, OX: 40, GROUND: 128, SPAN: 264, maxObject: 76, back: 32 },
 ];
+
+function draw(cut: Cut) {
+	const { W, OX, GROUND } = cut;
+	const OH = Math.min(cut.maxObject, cut.SPAN / shadow.hanafiRatio);
+	const TOP = GROUND - OH;
+
+	const tipNoon = OX + shadow.noonRatio * OH;
+	const tipShafi = OX + shadow.shafiRatio * OH;
+	const tipHanafi = OX + shadow.hanafiRatio * OH;
+
+	// Each ray enters from the upper left, grazes the object's tip, and lands on the
+	// shadow's tip. Extended back past the tip by a fixed length so it reads as incoming
+	// light rather than a line drawn from the object.
+	const ray = (tipX: number): string => {
+		const dx = tipX - OX;
+		const dy = GROUND - TOP;
+		const len = Math.hypot(dx, dy);
+		const sx = OX - (dx / len) * cut.back;
+		const sy = TOP - (dy / len) * cut.back;
+		return `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${tipX.toFixed(1)} ${GROUND}`;
+	};
+
+	// A 2-unit gap either side of each tick lets the segments read as separate lengths.
+	const GAP = 2;
+	const segment = (from: number, to: number) => ({ x1: from + GAP, x2: to - GAP, mid: (from + to) / 2 });
+
+	return {
+		...cut,
+		TOP,
+		rays: [tipNoon, tipShafi, tipHanafi].map(ray),
+		groundFrom: OX - (cut.name === "wide" ? 30 : 22),
+		groundTo: W - (cut.name === "wide" ? 14 : 8),
+		noonSeg: { x1: OX, x2: tipNoon - GAP, mid: (OX + tipNoon) / 2 },
+		plusOne: segment(tipNoon, tipShafi),
+		plusTwo: segment(tipShafi, tipHanafi),
+		ticks: [
+			{ at: tipNoon, time: `Ẓuhr ${formatTime(shafi.dhuhr)}`, who: "", asr: false },
+			{ at: tipShafi, time: `ʿAṣr ${formatTime(shafi.asr)}`, who: "Shāfiʿī, Mālikī, Ḥanbalī", asr: true },
+			{ at: tipHanafi, time: `ʿAṣr ${formatTime(hanafi.asr)}`, who: "Ḥanafī", asr: true },
+		],
+	};
+}
+const cuts = CUTS.map(draw);
 
 const noonText = shadow.noonRatio.toFixed(1).replace(".", ",");
 const gapMin = Math.round((hanafi.asr.getTime() - shafi.asr.getTime()) / 60_000);
@@ -83,40 +112,84 @@ const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabe
 ---
 
 <figure class="asd">
-	<svg class="asd-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel}>
-		<!-- Sunlight: noon, then the two ʿAṣr moments, each grazing the object's tip. -->
-		<path d={ray(tipNoon)} class="asd-ray" />
-		<path d={ray(tipShafi)} class="asd-ray" />
-		<path d={ray(tipHanafi)} class="asd-ray" />
+	{
+		cuts.map((c) => {
+			const compact = c.name === "compact";
+			const objectMid = (c.GROUND + c.TOP) / 2;
+			return (
+				<svg
+					class:list={["asd-svg", `asd-svg--${c.name}`]}
+					viewBox={`0 0 ${c.W} ${c.H}`}
+					role="img"
+					aria-label={ariaLabel}
+				>
+					{/* Sunlight: noon, then the two ʿAṣr moments, each grazing the object's tip. */}
+					{c.rays.map((d) => (
+						<path d={d} class="asd-ray" />
+					))}
 
-		<!-- Ground, and the object. -->
-		<line x1={OX - 30} y1={GROUND} x2={W - 14} y2={GROUND} class="asd-ground" />
-		<line x1={OX} y1={GROUND} x2={OX} y2={TOP} class="asd-object" />
-		<text x={OX - 9} y={(GROUND + TOP) / 2 + 4} class="asd-object-name">föremål</text>
+					{/* Ground, and the object. */}
+					<line x1={c.groundFrom} y1={c.GROUND} x2={c.groundTo} y2={c.GROUND} class="asd-ground" />
+					<line x1={c.OX} y1={c.GROUND} x2={c.OX} y2={c.TOP} class="asd-object" />
+					{compact ? (
+						<text
+							x={c.OX - 9}
+							y={objectMid}
+							transform={`rotate(-90 ${c.OX - 9} ${objectMid})`}
+							class="asd-object-name asd-object-name--side"
+						>
+							föremål
+						</text>
+					) : (
+						<text x={c.OX - 9} y={objectMid + 4} class="asd-object-name">
+							föremål
+						</text>
+					)}
 
-		<!-- The shadow at noon, then the two object-lengths it grows by before ʿAṣr. -->
-		<line x1={noonSeg.x1} y1={GROUND} x2={noonSeg.x2} y2={GROUND} class="asd-shadow" />
-		<line x1={plusOne.x1} y1={GROUND} x2={plusOne.x2} y2={GROUND} class="asd-growth" />
-		<line x1={plusTwo.x1} y1={GROUND} x2={plusTwo.x2} y2={GROUND} class="asd-growth" />
+					{/* The shadow at noon, then the two object-lengths it grows by before ʿAṣr. */}
+					<line x1={c.noonSeg.x1} y1={c.GROUND} x2={c.noonSeg.x2} y2={c.GROUND} class="asd-shadow" />
+					<line x1={c.plusOne.x1} y1={c.GROUND} x2={c.plusOne.x2} y2={c.GROUND} class="asd-growth" />
+					<line x1={c.plusTwo.x1} y1={c.GROUND} x2={c.plusTwo.x2} y2={c.GROUND} class="asd-growth" />
 
-		<text x={noonSeg.mid} y={GROUND + 20} class="asd-seg-name">middagsskugga</text>
-		<!-- Two wordings: at phone sizes the long one outgrows its segment and runs
-		     through the ʿAṣr leader line. CSS shows exactly one. -->
-		<text x={plusOne.mid} y={GROUND + 20} class="asd-seg-name asd-wide">+ en föremålslängd</text>
-		<text x={plusOne.mid} y={GROUND + 20} class="asd-seg-name asd-narrow">+ en längd</text>
-		<text x={plusTwo.mid} y={GROUND + 20} class="asd-seg-name">+ en till</text>
+					<text x={c.noonSeg.mid} y={c.GROUND + 20} class="asd-seg-name">
+						middagsskugga
+					</text>
+					<text x={c.plusOne.mid} y={c.GROUND + 20} class="asd-seg-name">
+						{compact ? "+ en längd" : "+ en föremålslängd"}
+					</text>
+					<text x={c.plusTwo.mid} y={c.GROUND + 20} class="asd-seg-name">
+						+ en till
+					</text>
 
-		<!-- Leaders down to the clock time each point corresponds to. -->
-		{ticks.map((t) => (
-			<g>
-				<line x1={t.at} y1={GROUND - 5} x2={t.at} y2={GROUND + 32} class={t.asr ? "asd-tick asd-tick-asr" : "asd-tick"} />
-				<text x={t.at} y={GROUND + 48} class="asd-time">{t.time}</text>
-				{/* 20 units below the time, not 15: at the phone sizes the two rows' line
-				    boxes otherwise touch. */}
-				{t.who && <text x={t.at} y={GROUND + 68} class="asd-who">{t.who}</text>}
-			</g>
-		))}
-	</svg>
+					{/* Leaders down to the clock time each point corresponds to. The schools' row is
+					    20 units below the time, not 15: closer, the two rows' line boxes touch. */}
+					{c.ticks.map((t, i) => (
+						<g>
+							<line
+								x1={t.at}
+								y1={c.GROUND - 5}
+								x2={t.at}
+								y2={c.GROUND + 32}
+								class={t.asr ? "asd-tick asd-tick-asr" : "asd-tick"}
+							/>
+							<text x={t.at} y={c.GROUND + 48} class="asd-time">
+								{t.time}
+							</text>
+							{t.who && (
+								<text
+									x={compact && i === 1 ? t.at + 28 : t.at}
+									y={c.GROUND + 68}
+									class:list={["asd-who", { "asd-who--end": compact && i === 1 }]}
+								>
+									{t.who}
+								</text>
+							)}
+						</g>
+					))}
+				</svg>
+			);
+		})
+	}
 
 	<figcaption class="asd-cap">{caption} <slot /></figcaption>
 </figure>
@@ -124,12 +197,13 @@ const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabe
 <style>
 	.asd {
 		margin: var(--space-unit) 0 0;
-		max-width: 38rem;
+		max-inline-size: 38rem;
+		container-type: inline-size;
 	}
 
 	.asd-svg {
-		width: 100%;
-		height: auto;
+		inline-size: 100%;
+		block-size: auto;
 		display: block;
 		border: var(--border-row);
 		border-radius: var(--radius-md);
@@ -140,8 +214,24 @@ const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabe
 		text-rendering: geometricPrecision;
 	}
 
-	.asd-narrow {
+	/* Two cuts of one figure (see the frontmatter): the wide one where the column gives it
+	   34rem, the compact one below that, never wider than the phone it is drawn for. */
+	.asd-svg--wide {
 		display: none;
+	}
+
+	.asd-svg--compact {
+		max-inline-size: 26rem;
+	}
+
+	@container (width >= 34rem) {
+		.asd-svg--wide {
+			display: block;
+		}
+
+		.asd-svg--compact {
+			display: none;
+		}
 	}
 
 	.asd-ray {
@@ -165,7 +255,7 @@ const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabe
 
 	/* A shadow is dark: the text colour, softened so it reads as shade, not as ink. */
 	.asd-shadow {
-		stroke: color-mix(in oklab, var(--color-text) 45%, transparent);
+		stroke: var(--color-warm);
 		stroke-width: 5;
 	}
 
@@ -184,14 +274,22 @@ const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabe
 		stroke: var(--color-brass);
 	}
 
-	/* ⚠️ px, not a --step-- token — text inside the viewBox is sized in user units so
-	   it stays in proportion to the geometry as the figure scales. See the longer note
-	   in AnnualPrayerChart.astro; do not "snap these to the scale". */
+	/* ⚠️ px, not a --step-- token: text inside the viewBox is sized in user units so
+	   it stays in proportion to the geometry as the figure scales (the longer note is in
+	   SunDayCurve.astro). The numbers are chosen for what they render at: the wide cut's
+	   11 units are 11.5–12.9 px across the widths it is shown at, and the compact cut's
+	   12 are 12 px on a phone. The wide cut's lengths stop at 10 (10.5–11.7 px, the floor
+	   for a mark inside artwork): at 11 »+ en föremålslängd« outgrows the 100-unit
+	   segment it names and touches the tick on either side. */
 	.asd-object-name,
 	.asd-seg-name,
 	.asd-who {
 		font-family: var(--font-body);
 		fill: var(--color-muted);
+		font-size: 11px;
+	}
+
+	.asd-svg--wide .asd-seg-name {
 		font-size: 10px;
 	}
 
@@ -200,16 +298,25 @@ const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabe
 	}
 
 	.asd-seg-name,
-	.asd-who {
+	.asd-who,
+	.asd-object-name--side {
 		text-anchor: middle;
+	}
+
+	.asd-who--end {
+		text-anchor: end;
 	}
 
 	.asd-time {
 		font-family: var(--font-heading);
 		fill: var(--color-text);
-		font-size: 12px;
+		font-size: 13px;
 		text-anchor: middle;
 		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.asd-svg--compact :is(.asd-object-name, .asd-seg-name, .asd-who) {
+		font-size: 12px;
 	}
 
 	.asd-cap {
@@ -218,33 +325,7 @@ const ariaLabel =`Diagram över ʿAṣr-regeln i ${location.name} vid ${dateLabe
 		line-height: 1.5;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
-		max-width: var(--content-width);
+		max-inline-size: var(--content-width);
 		text-wrap: pretty;
-	}
-
-	/* On a phone the viewBox scales to about two-thirds, so the text grows to stay
-	   legible. The madhhab row stops at 12: any larger and »Shāfiʿī, Mālikī, Ḥanbalī«,
-	   centred on its tick, reaches »Ḥanafī« on the next one. */
-	@media (width <= 30rem) {
-		.asd-object-name,
-		.asd-seg-name {
-			font-size: 13px;
-		}
-
-		.asd-wide {
-			display: none;
-		}
-
-		.asd-narrow {
-			display: inline;
-		}
-
-		.asd-who {
-			font-size: 12px;
-		}
-
-		.asd-time {
-			font-size: 15px;
-		}
 	}
 </style>

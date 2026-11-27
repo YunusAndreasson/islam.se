@@ -53,7 +53,7 @@
 	/* ---- overview matrix --------------------------------------------------- */
 
 	.abm-figure {
-		max-width: min(var(--canvas-width), 100%);
+		max-inline-size: min(var(--canvas-width), 100%);
 	}
 
 	/* The page shells lay sections out as grid/flex items, whose min-width is their content:
@@ -229,7 +229,8 @@
 	}
 
 	.abm-party-table td {
-		padding: 0.35rem var(--space-unit) 0.35rem 0;
+		padding-block: 0.35rem;
+		padding-inline: 0 var(--space-unit);
 		vertical-align: top;
 	}
 
@@ -362,7 +363,7 @@
 		font-family: var(--font-heading);
 		/* User units in the chart's own viewBox, scaled with it: a mark inside artwork
 		   (DESIGN.md, »The Scale«), not a size on the page's ladder. */
-		font-size: 9px;
+		font-size: 11px;
 		fill: var(--color-muted);
 	}
 
@@ -584,7 +585,8 @@
 		font-size: var(--step--2);
 	}
 	.abm-share-table thead th {
-		padding: 0 0.75rem 0.5rem 0;
+		padding-block: 0 0.5rem;
+		padding-inline: 0 0.75rem;
 		font-size: var(--step--3);
 		font-weight: 600;
 		color: var(--color-muted);
@@ -598,14 +600,16 @@
 		color: var(--color-muted);
 	}
 	.abm-share-table tbody th {
-		padding: 0.55rem 1rem 0.55rem 0;
+		padding-block: 0.55rem;
+		padding-inline: 0 1rem;
 		font-weight: 400;
 		text-align: start;
 		white-space: nowrap;
 	}
 	.abm-share-table td {
 		min-inline-size: 3.5rem;
-		padding: 0.55rem 0.75rem 0.55rem 0;
+		padding-block: 0.55rem;
+		padding-inline: 0 0.75rem;
 	}
 	.abm-share-table tbody tr:not(:last-child) > * {
 		border-block-end: var(--border-row-faint);
@@ -643,7 +647,8 @@
 		font-size: var(--step--2);
 	}
 	.abm-shift-table thead th {
-		padding: 0 1.25rem 0.5rem 0;
+		padding-block: 0 0.5rem;
+		padding-inline: 0 1.25rem;
 		font-size: var(--step--3);
 		font-weight: 600;
 		color: var(--color-muted);
@@ -652,7 +657,8 @@
 		border-block-end: var(--border-row);
 	}
 	.abm-shift-table tbody > tr > * {
-		padding: 0.6rem 1.25rem 0.6rem 0;
+		padding-block: 0.6rem;
+		padding-inline: 0 1.25rem;
 		text-align: start;
 		vertical-align: top;
 	}
@@ -1006,7 +1012,8 @@
 	}
 	.abm-runs th,
 	.abm-runs td {
-		padding: 0.45rem 1.5rem 0.45rem 0;
+		padding-block: 0.45rem;
+		padding-inline: 0 1.5rem;
 		text-align: start;
 	}
 	.abm-runs thead th {
@@ -1041,7 +1048,7 @@
 			inline-size: 6.5rem;
 		}
 		.abm-figure--matrix .abm-matrix tbody tr:not(.abm-group) > * {
-			border-block-end: 1px solid color-mix(in oklab, var(--color-divider) 70%, transparent);
+			border-block-end: var(--border-row-faint);
 		}
 		.abm-figure--matrix .abm-matrix tbody tr:not(.abm-group):hover > * {
 			background: var(--surface-2);
@@ -1092,7 +1099,7 @@
 		.abm-colhead {
 			display: inline-block;
 			writing-mode: vertical-rl;
-			transform: rotate(180deg);
+			rotate: 180deg;
 			white-space: nowrap;
 		}
 		.abm-matrix thead th:not(:first-child) {

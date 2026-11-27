@@ -1,7 +1,7 @@
 /* Shared presentation contracts. Unlayered so Astro's scoped page styles and
    shared styles have the same cascade rank; page-specific refinements stay local. */
 .site-header .site-nav {
-	max-width: var(--art-width);
+	max-inline-size: var(--art-width);
 	margin-inline: auto;
 }
 /* Each link reserves the width of its bold self (a hidden copy in the weight the current
@@ -12,7 +12,7 @@
 	display: inline-flex;
 	flex-direction: column;
 	justify-content: center;
-	min-height: var(--tap-target);
+	min-block-size: var(--tap-target);
 }
 .site-links a::after {
 	content: attr(data-label);
@@ -32,7 +32,7 @@
 .search-trigger,
 .mast-prayer,
 .filter-chip {
-	min-height: var(--tap-target);
+	min-block-size: var(--tap-target);
 }
 /* One state for a chosen chip: the ink border and ink label (layout.css). It also had an
    inset underline, so a chosen pill wore three marks at once, and a bolder label, which
@@ -89,12 +89,12 @@
 .front .home :is(.barometer-rail, .praktiskt-home) {
 	margin-block: var(--space-section) 0;
 	padding-block: calc(0.5rem + var(--space-group)) var(--space-section);
-	border-bottom: var(--border-rule);
+	border-block-end: var(--border-rule);
 }
 
 .front .home :is(.barometer-rail, .praktiskt-home) ~ .home-chapter > :first-child,
 .front .home .praktiskt-home ~ .home-promotions {
-	margin-top: var(--space-group);
+	margin-block-start: var(--space-group);
 }
 
 /* THE CORNICE (taklist): along the top edge of each tinted room, the moulding where a
@@ -114,7 +114,7 @@
 	inset-inline: 0;
 	inset-block-start: 0;
 	block-size: 0.5rem;
-	background: color-mix(in oklab, var(--color-text) 9%, var(--color-bg));
+	background: var(--color-stucco);
 	mask: url("/taklist.svg") 0 0 / auto 100% round no-repeat;
 	pointer-events: none;
 }
@@ -140,8 +140,8 @@
    together", user review the same evening). */
 .front .home .home-chapter > .home-movement ~ .home-movement,
 .front .home .amnen {
-	border-top: var(--border-rule);
-	padding-top: var(--space-group);
+	border-block-start: var(--border-rule);
+	padding-block-start: var(--space-group);
 }
 
 /* A ROW OF CARDS THAT SCROLLS SIDEWAYS, below the width where three stand abreast: the
@@ -181,7 +181,7 @@
 		margin-inline: calc(-1 * var(--safe-left)) calc(-1 * var(--safe-right));
 		padding-inline: var(--safe-left) var(--safe-right);
 		/* Room for the scrollbar where the platform draws one; it is left as drawn. */
-		padding-bottom: var(--space-half);
+		padding-block-end: var(--space-half);
 	}
 
 	:is(
@@ -274,7 +274,7 @@
 	content: "";
 	position: absolute;
 	inset: 0;
-	border: 1px solid light-dark(rgb(29 25 18 / 12%), rgb(255 246 232 / 14%));
+	border: var(--border-row);
 	pointer-events: none;
 }
 
@@ -297,14 +297,14 @@
 @media (width >= 48rem) {
 	h1 {
 		font-family: var(--font-headline);
-		font-weight: 560;
+		font-weight: var(--weight-display);
 		letter-spacing: -0.012em;
 	}
 }
 
 .prose :is(h2, h3),
 .svar-section {
-	scroll-margin-top: 1rem;
+	scroll-margin-block-start: 1rem;
 }
 /* Section permalink (src/plugins/rehype-heading-anchor.ts). The mark hangs in the left
    margin and is drawn only on hover: a standing column of hashes down the page would
@@ -317,7 +317,7 @@
 .prose .heading-anchor {
 	position: absolute;
 	inset-inline-end: 100%;
-	top: 0;
+	inset-block-start: 0;
 	padding-inline-end: 0.25em;
 	color: var(--color-muted);
 	font-weight: 400;
@@ -356,7 +356,7 @@
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: var(--space-group);
-	text-align: left;
+	text-align: start;
 	text-transform: none;
 	letter-spacing: 0;
 }
@@ -414,7 +414,7 @@
 	padding: 0;
 }
 .site-footer .footer-group a {
-	min-height: var(--tap-target);
+	min-block-size: var(--tap-target);
 	padding: 0;
 	font-size: var(--step--2);
 }
@@ -473,9 +473,8 @@
 		);
 		display: grid;
 		grid-template-columns: 0 minmax(0, 1fr);
-		max-width: var(--content-width);
-		margin-inline-start: var(--reading-inline-start, auto);
-		margin-inline-end: auto;
+		max-inline-size: var(--content-width);
+		margin-inline: var(--reading-inline-start, auto) auto;
 	}
 	.reading--notes .reading-section {
 		--rail-reach: calc(
@@ -486,15 +485,16 @@
 	}
 	.reading-section .innehall {
 		position: sticky;
-		top: calc(var(--mast-height) + 1rem);
+		inset-block-start: calc(var(--mast-height) + 1rem);
 		align-self: start;
 		grid-column: 1;
 		grid-row: 1;
 		/* 11rem where there is room for it and a 1.5rem gap; 10rem beside an essay. */
-		width: min(11rem, var(--rail-reach) - 1.5rem);
-		max-height: calc(100dvh - var(--mast-height) - 2rem);
+		inline-size: min(11rem, var(--rail-reach) - 1.5rem);
+		max-block-size: calc(100dvh - var(--mast-height) - 2rem);
 		overflow-y: auto;
-		margin: 0 0 0 calc(-1 * var(--rail-reach));
+		margin-block: 0;
+		margin-inline: calc(-1 * var(--rail-reach)) 0;
 		padding-block: var(--space-control);
 	}
 	.reading-section .innehall ol {
@@ -505,7 +505,7 @@
 		grid-column: 2;
 		grid-row: 1;
 		margin-inline: 0;
-		width: 100%;
+		inline-size: 100%;
 	}
 }
 
@@ -521,7 +521,7 @@
 	letter-spacing: 0.01em;
 }
 .front .nyhet--rail {
-	border-top: 0;
+	border-block-start: 0;
 }
 /* The smallest phones (under 360px) cannot carry wordmark + »Maghrib 18:33« + Meny on
    one row: they needed 312px of 270 and the mast broke onto two lines, 130px tall,

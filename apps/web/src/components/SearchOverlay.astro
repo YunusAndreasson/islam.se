@@ -203,20 +203,20 @@ const here = (href: string) => href === currentHref;
 
 	.palette-topbar {
 		position: sticky;
-		top: 0;
+		inset-block-start: 0;
 		z-index: 4;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		min-height: 4.5rem;
+		min-block-size: 4.5rem;
 		padding: 0.75rem var(--padding-inline);
 		background: var(--color-bg);
 	}
 
 	.palette-close {
 		display: flex;
-		min-width: var(--tap-target);
-		min-height: var(--tap-target);
+		min-inline-size: var(--tap-target);
+		min-block-size: var(--tap-target);
 		align-items: center;
 		justify-content: center;
 		padding: 0.75rem;
@@ -233,7 +233,7 @@ const here = (href: string) => href === currentHref;
 		display: inline-flex;
 		align-items: center;
 		gap: 0.25em;
-		min-height: var(--tap-target);
+		min-block-size: var(--tap-target);
 		padding-block: 0.5rem;
 		font-family: var(--font-heading);
 		font-size: var(--step--1);
@@ -257,17 +257,17 @@ const here = (href: string) => href === currentHref;
 	/* Search field — magnifier + the large editorial input, on a single rule. */
 	.palette-field {
 		position: sticky;
-		top: 4.5rem;
+		inset-block-start: 4.5rem;
 		z-index: 3;
 		display: flex;
 		align-items: center;
 		gap: 0.6rem;
 		padding-block: var(--space-control);
-		border-bottom: var(--border-row);
+		border-block-end: var(--border-row);
 		background: var(--color-bg);
 		transition: border-color var(--dur-fast) var(--ease-standard);
 
-		&:focus-within { border-bottom-color: var(--color-warm); }
+		&:focus-within { border-block-end-color: var(--color-warm); }
 	}
 
 	.palette-field-icon {
@@ -277,7 +277,7 @@ const here = (href: string) => href === currentHref;
 
 	.palette-input {
 		flex: 1;
-		min-width: 0;
+		min-inline-size: 0;
 		font-family: var(--font-heading);
 		font-size: var(--step-2);
 		font-weight: 400;
@@ -291,12 +291,12 @@ const here = (href: string) => href === currentHref;
 		&::placeholder { color: var(--color-muted); }
 	}
 
-	.palette-clear { flex-shrink: 0; min-width: var(--tap-target); min-height: var(--tap-target); display: grid; place-items: center; background: transparent; border: 0; color: var(--color-muted); cursor: pointer; }
+	.palette-clear { flex-shrink: 0; min-inline-size: var(--tap-target); min-block-size: var(--tap-target); display: grid; place-items: center; background: transparent; border: 0; color: var(--color-muted); cursor: pointer; }
 	.palette-clear[hidden] { display: none; }
 	/* The site's pills (layout.css): the browser's own buttons until 2026-11-20. */
 	.palette-more, .palette-retry { margin-block: 1rem; }
 
-	.palette-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+	.palette-input::-webkit-search-cancel-button { appearance: none; }
 
 	/* Never `hidden`: a live region that is removed and restored may not announce
 	   when it comes back. It stays in the tree and collapses when empty instead. */
@@ -304,7 +304,7 @@ const here = (href: string) => href === currentHref;
 	   sentence case, in the meta line's face; it wore the tracked capitals of a label. */
 	.palette-hint {
 		margin: var(--space-half) 0 0;
-		min-height: 1.2em;
+		min-block-size: 1.2em;
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		color: var(--color-muted);
@@ -312,14 +312,14 @@ const here = (href: string) => href === currentHref;
 
 	.palette-hint:empty {
 		margin: 0;
-		min-height: 0;
+		min-block-size: 0;
 	}
 
 	.palette-results[hidden],
 	.palette-start[hidden],
 	.palette-browse[hidden] { display: none; }
 
-	.palette-start { margin-top: var(--space-group); }
+	.palette-start { margin-block-start: var(--space-group); }
 	.palette-start-help {
 		margin: 0 0 var(--space-group);
 		font-size: var(--step--1);
@@ -327,8 +327,8 @@ const here = (href: string) => href === currentHref;
 	}
 	.palette-browse-toggle {
 		display: block;
-		min-height: var(--tap-target);
-		margin-top: var(--space-group);
+		min-block-size: var(--tap-target);
+		margin-block-start: var(--space-group);
 		padding: 0;
 		border: none;
 		background: transparent;
@@ -340,10 +340,10 @@ const here = (href: string) => href === currentHref;
 		cursor: pointer;
 	}
 
-	.palette-results { margin-top: var(--space-unit); }
-	.palette-browse { margin-top: var(--space-group); }
+	.palette-results { margin-block-start: var(--space-unit); }
+	.palette-browse { margin-block-start: var(--space-group); }
 
-	.palette-group { margin-bottom: var(--space-unit); }
+	.palette-group { margin-block-end: var(--space-unit); }
 
 	.palette-group-head {
 		margin: 0 0 0.7rem;
@@ -358,10 +358,10 @@ const here = (href: string) => href === currentHref;
 	.palette-dests {
 		margin: 0;
 		padding: 0;
-		border-top: var(--border-row);
+		border-block-start: var(--border-row);
 	}
 
-	.palette-dests > li { border-bottom: var(--border-row); }
+	.palette-dests > li { border-block-end: var(--border-row); }
 
 	.palette-dest {
 		display: block;
@@ -403,7 +403,7 @@ const here = (href: string) => href === currentHref;
 
 	.palette-dest-sub {
 		display: block;
-		margin-top: 0.15rem;
+		margin-block-start: 0.15rem;
 		font-family: var(--font-body);
 		font-size: var(--step--2);
 		line-height: 1.4;
@@ -420,7 +420,7 @@ const here = (href: string) => href === currentHref;
 	.palette-chip {
 		display: inline-flex;
 		align-items: center;
-		min-height: var(--tap-target);
+		min-block-size: var(--tap-target);
 		padding: 0.4rem 0.8rem;
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
@@ -451,8 +451,8 @@ const here = (href: string) => href === currentHref;
 	/* Top rule only: the utility rail below closes the region with its own, and two
 	   hairlines a gap apart read as a mistake rather than a boundary. */
 	.palette-fold {
-		margin-bottom: 0;
-		border-top: var(--border-row);
+		margin-block-end: 0;
+		border-block-start: var(--border-row);
 	}
 
 	.palette-fold-summary {
@@ -478,11 +478,11 @@ const here = (href: string) => href === currentHref;
 		margin-inline-start: auto;
 	}
 
-	.palette-fold-body { padding-bottom: var(--space-half); }
+	.palette-fold-body { padding-block-end: var(--space-half); }
 
-	.palette-fold-body .palette-group-head { margin-top: var(--space-half); }
+	.palette-fold-body .palette-group-head { margin-block-start: var(--space-half); }
 
-	.palette-fold-all { display: inline-block; margin-top: var(--space-half); }
+	.palette-fold-all { display: inline-block; margin-block-start: var(--space-half); }
 
 	/* --- Utility rail --------------------------------------------------- */
 	.palette-foot {
@@ -491,9 +491,9 @@ const here = (href: string) => href === currentHref;
 		align-items: end;
 		justify-content: space-between;
 		gap: var(--space-half) var(--space-unit);
-		margin-top: 0;
-		padding-top: var(--space-half);
-		border-top: var(--border-rule);
+		margin-block-start: 0;
+		padding-block-start: var(--space-half);
+		border-block-start: var(--border-rule);
 	}
 
 	.palette-minor {
@@ -545,7 +545,7 @@ const here = (href: string) => href === currentHref;
 		background: var(--wash-selected);
 	}
 
-	.palette-row-main { min-width: 0; }
+	.palette-row-main { min-inline-size: 0; }
 
 	.palette-row-label {
 		display: block;
@@ -565,7 +565,7 @@ const here = (href: string) => href === currentHref;
 		font-size: var(--step--2);
 		line-height: 1.4;
 		color: var(--color-muted);
-		margin-top: 0.15rem;
+		margin-block-start: 0.15rem;
 	}
 
 	.palette-row-type {
@@ -589,16 +589,16 @@ const here = (href: string) => href === currentHref;
 
 		.palette.fullscreen-dialog {
 			inset: 2rem 0;
-			width: min(56rem, calc(100% - 4rem));
-			height: fit-content;
-			max-height: calc(100dvh - 4rem);
+			inline-size: min(56rem, calc(100% - 4rem));
+			block-size: fit-content;
+			max-block-size: calc(100dvh - 4rem);
 			margin-inline: auto;
 			border: var(--border-rule);
 			border-radius: var(--radius-lg);
-			box-shadow: 0 1rem 4rem rgb(var(--hero-black) / 0.2);
+			box-shadow: var(--shadow-sheet);
 		}
 
-		.palette.fullscreen-dialog::backdrop { background: rgb(0 0 0 / 0.35); }
+		.palette.fullscreen-dialog::backdrop { background: var(--scrim); }
 
 		.palette-browse {
 			display: grid;
