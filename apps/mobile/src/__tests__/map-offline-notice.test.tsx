@@ -274,6 +274,14 @@ it('places the city in front of the native map and reserves the measured intro c
   await act(() => allOfType(FirstReading)[0]!.props.onHeight(320));
   expect(markers().polarBoundary?.kind).toBe('polar-night');
   expect(markers().bottomInset).toBeGreaterThanOrEqual(320);
+  // The caption steps aside for the heading; the dashed line it captions must too, or the
+  // weeks the boundary falls that far north rule it straight through »Bönetider i Sverige«.
+  // Both get the same band: the measured bottom of the title.
+  const canvases = allOfType(SolarSkiaOverlay);
+  expect(canvases.length).toBeGreaterThan(0);
+  for (const canvas of canvases) {
+    expect(canvas.props.boundaryClearAbove).toBeGreaterThanOrEqual(42 + 189);
+  }
   // Both siblings must be in this foreground, with the city above the map and below the title.
   const layers = title.parent!.children;
   const city = screen.getAllByText('Stockholm', { includeHiddenElements: true })

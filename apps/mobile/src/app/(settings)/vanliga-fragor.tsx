@@ -42,7 +42,8 @@ export default function VanligaFragor() {
 function makeStyles(c: Palette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.paper },
-    content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
+    // No top padding — see the note on `content` in installningar.tsx: one title line for every sheet.
+    content: { paddingHorizontal: space.lg, paddingBottom: space.xxxl + space.lg },
     header: { ...type.title, color: c.ink, marginBottom: space.xl, marginTop: space.xs },
   });
 }

@@ -11,7 +11,7 @@ import { PRAYER_LABELS, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerLineLabel } from '@/lib/solar/field';
 import { polarBoundaryColorFor, prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
 import type { PolarBoundary } from '@/lib/solar/sun';
-import { type Palette, radius, shadow, type } from '@/theme/tokens';
+import { type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 import type { PrayerLineData } from './skia/SolarSkiaOverlay';
 
@@ -252,7 +252,7 @@ function PrayerPill({
       <Animated.View
         style={[
           styles.pill,
-          caption ? { flexDirection: 'column', paddingHorizontal: 12, paddingVertical: 6 } : null,
+          caption ? { flexDirection: 'column', paddingHorizontal: space.md, paddingVertical: 6 } : null,
           { backgroundColor: colors.pillSurface, borderColor: hue },
           isNext && styles.pillNext,
           chipStyle,
@@ -300,7 +300,11 @@ const styles = StyleSheet.create({
   pillLabelNext: { fontWeight: '700' },
   // Faint map caption (no chip): centred on its anchor, sitting just above the boundary.
   polarWrap: { alignItems: 'center' },
-  // Tiny, letter-spaced, all-quiet — a caption, not a label chip.
-  polarName: { ...type.micro, fontSize: 9, fontWeight: '600', letterSpacing: 0.6 },
-  polarWhy: { ...type.micro, fontSize: 8, letterSpacing: 0.2, opacity: 0.85 },
+  // Letter-spaced and all-quiet — a caption, not a label chip. Quiet through its ink, NOT
+  // through its size: it was 9 pt over 8, smaller than any name the basemap itself prints
+  // (10.5 at its least) and under every platform's floor for text, while its colour was
+  // being tuned by APCA to be "a whisper that can be made out". A whisper nobody can read is
+  // not one. The name is the `micro` tier now, the reason one point under it.
+  polarName: { ...type.micro, fontWeight: '600', letterSpacing: 0.6 },
+  polarWhy: { ...type.micro, fontSize: 10, letterSpacing: 0.2, opacity: 0.85 },
 });

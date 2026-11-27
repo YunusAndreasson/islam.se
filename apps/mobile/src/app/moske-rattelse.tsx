@@ -24,7 +24,7 @@
 //                     visible in-flight state and a real success screen.
 //
 // Failure never loses work: an error keeps everything typed and offers the button again.
-import { router, useCanGoBack, useLocalSearchParams, usePreventRemove } from 'expo-router';
+import { useCanGoBack, useLocalSearchParams, usePreventRemove, useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -79,6 +79,7 @@ export default function MoskeRattelse() {
 }
 
 function MosqueReport({ mosque }: { mosque: ReturnType<typeof mosqueById> }) {
+  const router = useRouter();
   const column = useReadingColumn();
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
@@ -351,7 +352,8 @@ function makeStyles(c: Palette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.paper },
     flex: { flex: 1 },
-    content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
+    // No top padding — see the note on `content` in installningar.tsx: one title line for every sheet.
+    content: { paddingHorizontal: space.lg, paddingBottom: space.xxxl + space.lg },
     header: { ...type.title, color: c.ink, marginBottom: space.xl, marginTop: space.xs },
 
     missing: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl },

@@ -28,7 +28,7 @@ import { useWidgetPlaced } from '@/widget/useWidgetPlaced';
 import { FirstRunButton } from '@/components/intro/FirstRunButton';
 import { useCardInsets } from '@/theme/window-layout';
 import type { PrayerTimes } from 'adhan';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import {
   type Ref,
   useImperativeHandle,
@@ -454,6 +454,7 @@ export function PrayerDock({
   onWidget,
   onExpandedChange,
 }: Props) {
+  const router = useRouter();
   const widgetPlaced = useWidgetPlaced();
   const insets = useSafeAreaInsets();
   // Ink, accent and brass: the OS theme's, never the sun's (see the header).
@@ -944,7 +945,7 @@ export function PrayerDock({
           accessibilityRole="button"
           accessibilityLabel={onToday ? 'Återgå till nu' : 'Återgå till i dag'}
         >
-          <Icon name={onToday ? 'restore' : 'today'} size={13} color={c.accent} />
+          <Icon name={onToday ? 'restore' : 'today'} size={13} color={c.onAccentSoft} />
           <Text style={styles.previewBadgeText}>{onToday ? 'Nu' : 'I dag'}</Text>
         </Pressable>
       </View>
@@ -1933,8 +1934,8 @@ function makeStyles(c: Palette, fontScale = 1) {
     // Date crown. 18/700 — a step under the hero's 20 so the two bold lines on the open card
     // don't compete, and a clear step over the 15 pt rows it heads. The Hijri line under it is
     // one size up from `caption`: it is still read, not skimmed past.
-    dateGreg: { fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: 0.1, color: c.ink, flexShrink: 1 },
-    dateHijri: { fontSize: 14, lineHeight: 20, color: c.inkMuted, marginTop: 1 }, // optical nudge
+    dateGreg: { ...type.subhead, color: c.ink, flexShrink: 1 },
+    dateHijri: { ...type.footnote, color: c.inkMuted, marginTop: 1 }, // optical nudge
 
     list: { paddingBottom: space.sm },
     // Rows carry a symmetric bleed (padding in, margin out) so a row background can
@@ -2009,7 +2010,7 @@ function makeStyles(c: Palette, fontScale = 1) {
     // One step under `headline` (20/26): the collapsed card's lead line, sized so the whole
     // summary fits the 42 dp hero with the same proportions it had at 48. The open card's
     // date crown is also 18/700, so the two bold lines on the open card match.
-    heroPrayer: { fontSize: 18, lineHeight: 23, fontWeight: '700', color: c.ink, flexShrink: 1 },
+    heroPrayer: { ...type.subhead, lineHeight: 23, color: c.ink, flexShrink: 1 },
     // Expanded hero name: a touch smaller than collapsed (the date header crowns the
     heroNone: { ...type.callout, color: c.inkMuted },
     // ── Dock countdown numerals — intentionally bespoke, NOT on the type scale: a big

@@ -3,7 +3,7 @@ import type { CircleLayerSpecification, SymbolLayerSpecification } from '@maplib
 import { GLYPH_MIN_ZOOM, GLYPH_PRESENCE_STOPS, zoomExpression } from '@/lib/map/dust';
 import type { Palette } from '@/theme/tokens';
 
-/** The bundled burial pins use the same colours (scripts/build-burial-pins.mjs). */
+/** The bundled mosque and burial pins are drawn in these (scripts/build-map-pins.mjs). */
 export const PLACE_GOLD = { light: '#967038', dark: '#e8c894' } as const;
 
 export const placeGlyphLayout: NonNullable<SymbolLayerSpecification['layout']> = {

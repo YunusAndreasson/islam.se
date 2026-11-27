@@ -7,7 +7,7 @@
 // introduction offers the same picker inline on its location step, and one copy of the
 // 2,100-place list behaviour is the point. This route is the wiring: chrome, the write,
 // and the pop.
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useMemo, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -41,6 +41,7 @@ function contextFrom(from: string | undefined): LocationContext {
 }
 
 export default function BytPlats() {
+  const router = useRouter();
   const { settings, update } = useSettings();
   const { from } = useLocalSearchParams<{ from?: string }>();
   const colors = useSettingsColors();

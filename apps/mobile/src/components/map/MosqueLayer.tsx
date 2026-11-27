@@ -45,14 +45,14 @@
 // losing to town names in the dense city views, `beforeId` on these layers is the knob; do
 // not turn it blind, because guessing the direction wrong drops mosque glyphs instead.
 //
-// The glyph isn't a bundled asset: we render MaterialCommunityIcons' `mosque` to a
-// bitmap at the current theme's muted-ink colour (getImageSource) and register it via
-// <Images>. That keeps a real mosque silhouette without shipping an SDF, and it re-tints
-// itself when the OS light/dark theme flips.
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+// THE GLYPH IS A BUNDLED IMAGE, one per theme, like the burial ground's beside it. It used
+// to be drawn on the device: @expo/vector-icons rasterised Material Design Icons' `mosque`
+// from its font at runtime, in an effect, and the symbol layer waited on a piece of state
+// for the result — so the glyph tier mounted a beat after the map, and a whole icon font
+// shipped to draw one shape. scripts/build-map-pins.mjs now renders that same outline to
+// PNGs in PLACE_GOLD; the theme flip picks the other file.
 import { GeoJSONSource, Images, Layer } from '@maplibre/maplibre-react-native';
-import { useEffect, useMemo, useState } from 'react';
-import type { ImageSourcePropType } from 'react-native';
+import { useMemo } from 'react';
 
 import {
   DUST_PRESENCE_STOPS,
@@ -70,9 +70,12 @@ const SOURCE_ID = 'mosques';
 const LAYER_ID = 'mosque-symbols';
 const DUST_LAYER_ID = 'mosque-dust';
 const SELECTED_LAYER_ID = 'mosque-selected';
-// Rendered glyph size in px; scaled DOWN on the map by icon-size so the marker stays a
-// quiet ~20–26 px place mark, never a billboard.
-const GLYPH_PX = 48;
+// 48 px logical in PLACE_GOLD (the script's BASE_PX), scaled DOWN on the map by icon-size
+// so the marker stays a quiet ~20–26 px place mark, never a billboard.
+const PINS = {
+  light: require('../../../assets/map/mosque-pin-light.png'),
+  dark: require('../../../assets/map/mosque-pin-dark.png'),
+} as const;
 
 // Each mosque is one tiny, soft warm dot — a "snow" dusting, not a glow. A per-scheme colour +
 // master opacity (`peak`) is all the circle layer needs; radius / blur / the zoom crossfade live
@@ -80,8 +83,8 @@ const GLYPH_PX = 48;
 // hint "zoom in here", never a field that competes with the prayer lines.
 type DotStyle = {
   /** Opaque hex — the dot's alpha comes from circle-opacity (`peak`), not the colour.
-   *  ALSO the colour the zoomed-in glyph is rasterised in, so the dot literally becomes
-   *  the mosque as you zoom (see glyphColor). */
+   *  ALSO the colour the zoomed-in glyph is drawn in (the bundled pins are PLACE_GOLD), so
+   *  the dot literally becomes the mosque as you zoom. */
   color: string;
   /** Dot opacity at the national view; tapers to 0 by the glyph handoff. */
   peak: number;
@@ -118,45 +121,13 @@ export function MosqueLayer({ selectedId, styleRevision = 0 }: Props) {
   //
   // The reservation still holds where it matters: the "live now" brass is the palette's
   // c.highlight family and it moves, pulses or counts down. Mosques are static ground.
-  // Changing this back is one line — glyphColor = c.inkMuted.
-  const glyphColor = snow.color;
-  // The rendered glyph as a full RN image source (keeps `scale` so the retina bitmap
-  // isn't drawn double-size), or null until it resolves / if it never does.
-  const [icon, setIcon] = useState<ImageSourcePropType | null>(null);
+  // (The gold is in the bundled pins now: a different colour means re-running the script.)
 
   const data = useMemo(() => JSON.stringify(toFeatureCollection()), []);
 
-  useEffect(() => {
-    let mounted = true;
-    // Rasterises the vector glyph to a bitmap. try/catch guards environments where the
-    // native rasteriser is absent (jsdom under test); .catch handles async rejection.
-    // Either way a missing glyph leaves the layer un-rendered, never crashing the map.
-    try {
-      void MaterialCommunityIcons.getImageSource('mosque', GLYPH_PX, glyphColor)
-        .then((src) => {
-          // getImageSource resolves to { uri, scale, width, height } — pass the whole
-          // thing so MapLibre honours the device pixel ratio.
-          if (mounted && src && typeof src === 'object' && 'uri' in src) {
-            setIcon(src);
-          }
-        })
-        .catch(() => {});
-    } catch {
-      // no-op
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [glyphColor]);
-
   return (
     <>
-      {/* Register the glyph bitmap only once it has rasterised — the symbol layer below
-          is gated on the same icon, so the source never references a missing image. The
-          dust tier does NOT wait on it: at the national view (where the dust lives) the
-          few-ms raster is long done, and gating the country-scale view on a city-scale
-          glyph would be backwards. */}
-      {icon && <Images images={{ 'mosque-pin': { source: icon, sdf: false } }} />}
+      <Images images={{ 'mosque-pin': { source: PINS[scheme], sdf: false } }} />
       <GeoJSONSource ref={selectionSource} id={SOURCE_ID} data={data}>
         {/* The national-view "snow": one tiny soft dot per mosque. maxzoom caps native
             work once the crossfade has handed off to the glyphs (opacity already 0 by then). */}
@@ -184,21 +155,19 @@ export function MosqueLayer({ selectedId, styleRevision = 0 }: Props) {
           type="circle"
           paint={placeRingPaint(snow.color)}
         />
-        {icon && (
-          <Layer
-            id={LAYER_ID}
-            beforeId={slotFor('mosque-symbols')}
-            type="symbol"
-            minzoom={GLYPH_MIN_ZOOM}
-            layout={{
-              ...placeGlyphLayout,
-              'icon-image': 'mosque-pin',
-              // Prioritize older mosques when symbols collide.
-              'symbol-sort-key': ['get', 'sort'],
-            }}
-            paint={placeGlyphPaint(c)}
-          />
-        )}
+        <Layer
+          id={LAYER_ID}
+          beforeId={slotFor('mosque-symbols')}
+          type="symbol"
+          minzoom={GLYPH_MIN_ZOOM}
+          layout={{
+            ...placeGlyphLayout,
+            'icon-image': 'mosque-pin',
+            // Prioritize older mosques when symbols collide.
+            'symbol-sort-key': ['get', 'sort'],
+          }}
+          paint={placeGlyphPaint(c)}
+        />
       </GeoJSONSource>
     </>
   );

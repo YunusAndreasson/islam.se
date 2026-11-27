@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AppState, Platform, Text, View } from 'react-native';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import { FirstRunButton } from '@/components/intro/FirstRunButton';
 import { ReminderPreview } from '@/components/intro/ReminderPreview';
@@ -11,11 +11,12 @@ import { claimReminderRecovery } from '@/lib/notification-hint';
 import { useSettings } from '@/lib/settings/context';
 import { openNotificationSettings } from '@/lib/system-settings';
 import { useColors } from '@/theme/useColors';
-import { type } from '@/theme/tokens';
+import { radius, space, type } from '@/theme/tokens';
 import { widgetSnapshot } from '@/widget/placement';
 
 // Mounted only for a deliberate, focused visit to Påminnelser, after hydration.
 export function ReminderRecovery({ blocked, now }: { blocked: boolean; now: number }) {
+  const router = useRouter();
   const { settings } = useSettings();
   const { source } = useLocation();
   const [offer, setOffer] = useState(false);
@@ -47,7 +48,7 @@ export function ReminderRecovery({ blocked, now }: { blocked: boolean; now: numb
   }, [enabled, source]);
   if (!offer && !blocked) return null;
   return <>
-    <View style={{ backgroundColor: c.surface, borderRadius: 14, padding: 16, gap: 8, alignItems: 'flex-start' }}>
+    <View style={{ backgroundColor: c.surface, borderRadius: radius.md, padding: space.lg, gap: space.sm, alignItems: 'flex-start' }}>
       {offer && <Text accessibilityRole="header" style={[type.headline, { color: c.ink }]}>Påminnelser vid bönetiderna</Text>}
       {offer && <Text style={[type.body, { color: c.inkMuted }]}>Vill du ha påminnelser vid dina valda böner?{!askable && ' Tillåt notiser i Inställningar.'}</Text>}
       {offer && askable && <FirstRunButton label="Välj påminnelser" onPress={() => setPreview(true)} />}

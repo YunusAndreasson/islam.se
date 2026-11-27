@@ -96,6 +96,8 @@ const CITY_FILTER = [
   'all', ['==', ['get', 'class'], 'city'], ['!', ['in', SV_LABEL, ['literal', COPENHAGEN_NAMES]]],
 ] satisfies NonNullable<SymbolLayerSpecification['filter']>;
 const TOWN_FILTER = ['in', ['get', 'class'], ['literal', ['town', 'village']]] satisfies NonNullable<SymbolLayerSpecification['filter']>;
+// Sea and lake names are the POINT features of their source layer (the lines are rivers).
+const WATER_NAME_FILTER = ['==', ['geometry-type'], 'Point'] satisfies NonNullable<SymbolLayerSpecification['filter']>;
 
 export interface BasemapPalette {
   /** Land fill (background). */
@@ -456,7 +458,7 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         type: 'symbol',
         source: 'openmaptiles',
         'source-layer': 'water_name',
-        filter: ['==', ['geometry-type'], 'Point'],
+        filter: WATER_NAME_FILTER,
         layout: {
           'text-field': SV_LABEL,
           'text-font': ['Noto Sans Italic'],
@@ -656,6 +658,9 @@ export function nordicMapStyleFor(scheme: ColorSchemeName): StyleSpecification {
 const NORDIC_LIGHT_JSON = JSON.stringify(NORDIC_LIGHT);
 const NORDIC_DARK_JSON = JSON.stringify(NORDIC_DARK);
 
+/** The sea under the opening title — see {@link firstRunMapStyleJsonFor}. */
+const OPENING_TITLE_SEA = 'Norska havet';
+
 /** The same style, serialised once at module load. `<Map>` stringifies an object
  *  `mapStyle` on EVERY render (Map.tsx's nativeProps memo depends on the whole props
  *  object), and this screen renders on every clock tick and scrub step; a string passes
@@ -666,12 +671,22 @@ export function nordicMapStyleJsonFor(scheme: ColorSchemeName): string {
 
 /** The opening plates show four Swedish landmarks beside the reader's own pin.
  * Kiruna is absent from country-zoom tiles. Use the bundled places for those
- * marks, and keep the normal atlas layers intact for the map after onboarding. */
+ * marks, and keep the normal atlas layers intact for the map after onboarding.
+ *
+ * The opening plate also drops ONE sea name. Its title (FirstMapTitle, »Bönetider i
+ * Sverige«) is set straight on the map's top-left corner with nothing behind it, and at the
+ * Sweden frame that corner is the Norwegian Sea — so the basemap printed »Norska havet«
+ * through the middle of the first words a new reader ever sees. The seas that frame the
+ * country from the other sides stay: they are in open water, clear of the title. */
 export function firstRunMapStyleJsonFor(scheme: ColorSchemeName, opening: boolean, selected: SwedishPlace | null): string {
   const base = nordicMapStyleFor(scheme);
   const layers: StyleSpecification['layers'] = [];
   const sources = { ...base.sources };
   for (const layer of base.layers) {
+    if (opening && layer.id === 'water_name' && layer.type === 'symbol') {
+      layers.push({ ...layer, filter: ['all', WATER_NAME_FILTER, ['!=', SV_LABEL, OPENING_TITLE_SEA]] });
+      continue;
+    }
     if (opening && layer.type === 'symbol' && layer['source-layer'] === 'place') {
       if (layer.id === 'label_city') {
         const names = ['Kiruna', 'Luleå', 'Göteborg', 'Malmö'];

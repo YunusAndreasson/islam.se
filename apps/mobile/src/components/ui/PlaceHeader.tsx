@@ -7,7 +7,7 @@
 // quietly stripped the qualifier would print a precise bearing, or a moonrise, under a city
 // name it has no right to. The dock already refuses to tell that lie (PrayerDock's "Välj
 // plats"); this is the same refusal, in the same words, with the same route out.
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -25,6 +25,7 @@ interface Props {
 }
 
 export function PlaceHeader({ title, what }: Props) {
+  const router = useRouter();
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
   const { label, source } = useLocation();

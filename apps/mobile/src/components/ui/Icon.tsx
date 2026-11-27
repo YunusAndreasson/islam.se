@@ -44,13 +44,12 @@
 //    To re-derive a number, measure the glyph, do not guess:
 //      fontTools → BoundsPen over MaterialIcons.ttf, max(width, height) / unitsPerEm.
 //
-// 3. What is deliberately NOT here: the mosque map pin (components/map/MosqueLayer). It
-//    rasterises a glyph to a bitmap for MapLibre via getImageSource; expo-symbols'
-//    equivalent (unstable_getMaterialSymbolSourceAsync) is a literal `return null` on iOS,
-//    and SF Symbols has no mosque glyph at all — only moon phases. It cannot move until the
-//    pin becomes a bundled asset, and it is the whole remaining reason @expo/vector-icons is
-//    a dependency. Nothing else in the app should reach for it: if a new icon is needed, it
-//    belongs in ICONS.
+// 3. What is deliberately NOT here: the mosque map pin (components/map/MosqueLayer). MapLibre
+//    needs a bitmap, expo-symbols' rasteriser (unstable_getMaterialSymbolSourceAsync) is a
+//    literal `return null` on iOS, and SF Symbols has no mosque glyph at all — only moon
+//    phases. So the pin is a bundled image (scripts/build-map-pins.mjs), which is also what
+//    let @expo/vector-icons go: that pin was the last thing importing it. If a new icon is
+//    needed, it belongs in ICONS.
 //
 //    Prayers deliberately have NO glyph anywhere — not in the dock, the widget or the Live
 //    Activity. They were MaterialCommunityIcons sun-cycle glyphs once; they went because a

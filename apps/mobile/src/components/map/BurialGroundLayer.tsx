@@ -15,7 +15,7 @@
 // would collide, the mosque — what this app is for — keeps its place and the grave yields.
 //
 // The glyph is a bundled PNG pair (assets/map/burial-pin-{light,dark}.png) rendered by
-// scripts/build-burial-pins.mjs from the one path both maps share,
+// scripts/build-map-pins.mjs from the one path both maps share,
 // apps/web/src/lib/begravningsplatser/glyph.ts — see it for what the glyph draws and why it
 // is not a crescent.
 import { GeoJSONSource, Images, Layer } from '@maplibre/maplibre-react-native';
@@ -34,8 +34,8 @@ const LAYER_ID = 'burial-ground-symbols';
 const SELECTED_LAYER_ID = 'burial-ground-selected';
 const IMAGE_ID = 'burial-pin';
 
-// 48 px logical, MosqueLayer's GLYPH_PX, in PLACE_GOLD — so icon-size below scales a grave
-// exactly as it scales a mosque.
+// 48 px logical in PLACE_GOLD, the size MosqueLayer's pins are rendered at too — so
+// icon-size below scales a grave exactly as it scales a mosque.
 const PINS = {
   light: require('../../../assets/map/burial-pin-light.png'),
   dark: require('../../../assets/map/burial-pin-dark.png'),

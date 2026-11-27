@@ -10,7 +10,7 @@ import { useSettings } from '@/lib/settings/context';
 import { buildPayloadAt } from '@/widget/payload';
 import { observeWidgetPin, requestWidgetPin, supportsWidgetPin } from '@/widget/placement';
 import { useColors } from '@/theme/useColors';
-import { mono, type } from '@/theme/tokens';
+import { mono, radius, space, type } from '@/theme/tokens';
 import { useReadingColumn } from '@/theme/window-layout';
 import { PreviewPhoto } from './PreviewPhoto';
 import { FirstRunButton } from './FirstRunButton';
@@ -90,7 +90,7 @@ export function WidgetGuide({ now, onClose, occasion }: { now: number; onClose: 
           <Icon name="close" size={22} color={c.ink} />
         </Pressable>
         <ScrollView contentContainerStyle={styles.content}>
-          <Text accessibilityRole="header" style={[type.title, styles.title, ink]}>Bönetider på{'\n'}{google ? 'startskärmen' : 'hemskärmen'}</Text>
+          <Text accessibilityRole="header" style={[type.title, ink]}>Bönetider på{'\n'}{google ? 'startskärmen' : 'hemskärmen'}</Text>
           <Text style={[type.lead, muted]}>Se nästa bön i {label} utan att öppna appen.</Text>
           <View accessible accessibilityLabel={`Bönetider för ${label}, ${nextLabel.toLowerCase()} ${payload.nextArabic} ${payload.nextTime}${payload.nextIsTomorrow ? '. Bönetider för i dag.' : ''}`}
             style={[styles.backdrop, { borderColor: c.hairline }]}>
@@ -108,7 +108,7 @@ export function WidgetGuide({ now, onClose, occasion }: { now: number; onClose: 
                     om {minutes >= 60 ? Math.floor(minutes / 60) + ' tim ' : ''}{minutes % 60} min
                   </Text>}
                 </View>
-                {solar && <View style={{ direction: 'ltr', width: graphWidth, height: graphHeight, borderRadius: 8, backgroundColor: c.surface }}>
+                {solar && <View style={{ direction: 'ltr', width: graphWidth, height: graphHeight, borderRadius: radius.sm, backgroundColor: c.surface }}>
                   <View style={[styles.line, { left: x(0), top: y(0), width: x(1) - x(0), backgroundColor: c.hairline }]} />
                   {solar.altitudes.slice(1).map((altitude, index) => {
                     const x1 = x(index / (solar.altitudes.length - 1));
@@ -152,18 +152,21 @@ export function WidgetGuide({ now, onClose, occasion }: { now: number; onClose: 
 }
 
 const styles = StyleSheet.create({
-  page: { flex: 1, paddingHorizontal: 23, paddingVertical: 8 },
-  close: { alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: 24 },
-  content: { gap: 12, paddingTop: 16, paddingBottom: 18 },
-  title: { fontSize: 30, lineHeight: 33 },
-  backdrop: { overflow: 'hidden', borderWidth: 1, borderRadius: 22, minHeight: 192, justifyContent: 'center', marginVertical: 8 },
-  widget: { margin: 16, gap: 8, borderRadius: 20, borderWidth: 1, padding: 14 },
-  context: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 5 },
+  // The three first-run panels (this, the reminder preview, the city picker) are one flow and
+  // share one gutter. They had three: 20, 22 and 23.
+  page: { flex: 1, paddingHorizontal: space.xl, paddingVertical: space.sm },
+  close: { alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: radius.round },
+  content: { gap: space.md, paddingTop: space.lg, paddingBottom: space.xl },
+  backdrop: { overflow: 'hidden', borderWidth: 1, borderRadius: radius.xl, minHeight: 192, justifyContent: 'center', marginVertical: space.sm },
+  widget: { margin: space.lg, gap: space.sm, borderRadius: radius.lg, borderWidth: 1, padding: space.lg },
+  context: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: space.xs },
   hero: { flexGrow: 1, flexBasis: 125, gap: 2 },
+  // The widget's own numeral, drawn the way the real widget draws it — a mock of another
+  // surface, so it is not a tier of this app's scale.
   time: { fontSize: 22, lineHeight: 28 },
-  table: { paddingTop: 5, borderTopWidth: StyleSheet.hairlineWidth, gap: 3 },
+  table: { paddingTop: space.xs, borderTopWidth: StyleSheet.hairlineWidth, gap: space.xs },
   schedule: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
-  cell: { alignItems: 'center', flexGrow: 1, paddingHorizontal: 4, paddingVertical: 2, borderRadius: 6 },
+  cell: { alignItems: 'center', flexGrow: 1, paddingHorizontal: space.xs, paddingVertical: 2, borderRadius: radius.sm },
   line: { position: 'absolute', height: 1 },
-  step: { flexDirection: 'row', gap: 8, alignItems: 'baseline', paddingHorizontal: 4 },
+  step: { flexDirection: 'row', gap: space.sm, alignItems: 'baseline', paddingHorizontal: space.xs },
 });

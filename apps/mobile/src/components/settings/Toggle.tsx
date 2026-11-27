@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { AppSwitch } from '@/components/ui/AppSwitch';
 import { hapticToggle } from '@/lib/haptics';
 import { space, type } from '@/theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
@@ -77,15 +78,12 @@ export function Toggle({
         <Text style={styles.label}>{label}</Text>
         {description ? <Text style={styles.description}>{description}</Text> : null}
       </View>
-      <Switch
+      <AppSwitch
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
-        trackColor={{ true: colors.accent, false: colors.track }}
-        thumbColor={colors.thumb}
-        ios_backgroundColor={colors.track}
       />
     </Pressable>
   );

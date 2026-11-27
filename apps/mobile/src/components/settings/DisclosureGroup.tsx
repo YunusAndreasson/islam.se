@@ -1,14 +1,12 @@
-import { type ReactNode, useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useReducedMotion,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { type ReactNode, useContext, useMemo, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
-import { motion, radius, space, type } from '@/theme/tokens';
+import { radius, space, type } from '@/theme/tokens';
+import { AppSwitch } from '@/components/ui/AppSwitch';
 import { Icon } from '@/components/ui/Icon';
+import { useReveal } from '@/components/ui/useReveal';
+import { InsideCard } from './SettingSection';
 import { type SettingsColors, useSettingsColors } from './theme';
 import { useCompactLayout } from './useCompactLayout';
 
@@ -18,22 +16,33 @@ import { useCompactLayout } from './useCompactLayout';
 // progressive-disclosure primitive that keeps the settings screen welcoming:
 // essentials stay visible above, everything technical folds away in here.
 //
-// The reveal mirrors the dock's shared-value technique (PrayerDock), but height is
-// MEASURED from the children rather than a fixed constant: the body content is laid
-// out absolutely so it never forces the card open, reports its natural height via
-// onLayout, and the visible body height is animated `open * measuredHeight`. Keeping
-// children mounted (just clipped) means a collapsed group is still hidden from the
-// screen reader but its rows exist — no re-measure flash on first open.
+// The reveal is state-driven, so it runs on CSS transitions (ui/useReveal, which also says
+// why the first measurement must not animate). Height is MEASURED from the children rather
+// than a fixed constant: the body content is laid out absolutely so it never forces the
+// card open, reports its natural height via onLayout, and the visible body transitions
+// between 0 and that height. Keeping children mounted (just clipped) means a collapsed
+// group is still hidden from the screen reader but its rows exist — no re-measure flash on
+// first open.
+//
+// ⚠️ INSIDE A SettingSection IT IS A ROW, NOT A CARD. Every group on Påminnelser sits in a
+// section's card ("Varje bön", "Inte bönetider"), and each used to draw its own bordered,
+// rounded card in there too, with a section's worth of margin under it: five cards in a
+// card, their edges doubling the outer one's a pixel apart, and 24 dp stripes of the outer
+// card showing between them. In a card it now drops its own chrome and separates from the
+// group above by the same hairline every other row in the app uses (`divider`).
 export function DisclosureGroup({
   title,
   summary,
   defaultExpanded = false,
+  divider = false,
   toggle,
   children,
 }: {
   title: string;
   summary: string;
   defaultExpanded?: boolean;
+  /** A hairline above — for every group but the first in a card, as on Toggle and NavRow. */
+  divider?: boolean;
   /**
    * Puts the thing's ON/OFF on the HEADER, beside the reveal.
    *
@@ -63,49 +72,46 @@ export function DisclosureGroup({
   const compact = useCompactLayout();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
-  const reduceMotion = useReducedMotion();
+  const inCard = useContext(InsideCard);
 
-  // An alert that is off has nothing behind its fold, so it gets no fold.
+  // An alert that is off has nothing behind its fold, so it gets no fold — and switching
+  // one off takes its detail away with it: `isExpanded` goes false, so the body closes
+  // rather than being left open over nothing.
   const expandable = !toggle || (!toggle.disabled && toggle.value);
   const [expanded, setExpanded] = useState(defaultExpanded);
   const isExpanded = expanded && expandable;
-  const [contentHeight, setContentHeight] = useState(0);
+  const reveal = useReveal(isExpanded);
   // Seed with a one-line estimate (paddingTop 3 + callout lineHeight 21) so the value
   // shows immediately on mount; onLayout then snaps it to the true height (e.g. two lines).
   const [summaryHeight, setSummaryHeight] = useState(24);
 
-  // 0 = collapsed, 1 = expanded. Drives body height, chevron rotation, summary fade.
-  const open = useSharedValue(isExpanded ? 1 : 0);
-
-  useEffect(() => {
-    // Switching the alert off takes its detail away with it, so the body closes rather
-    // than being left open over nothing.
-    const target = isExpanded ? 1 : 0;
-    open.set(reduceMotion ? target : withTiming(target, { duration: motion.base }));
-  }, [isExpanded, reduceMotion, open]);
-
-  // contentHeight is captured by these worklets at render; a layout change re-renders
-  // and reanimated re-evaluates the style with the new height (snaps to fit).
-  const bodyStyle = useAnimatedStyle(() => ({
-    height: open.get() * contentHeight,
-    opacity: open.get(),
-  }));
-  const chevronStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${open.get() * 180}deg` }],
-  }));
+  const chevronStyle = {
+    transform: [{ rotate: isExpanded ? '180deg' : '0deg' }],
+    transitionProperty: 'transform',
+    ...reveal.timing,
+  } as const;
   // The collapsed value sits BELOW the title (a subtitle), so it has the full card
   // width and never truncates to "…" the way a right-aligned same-row value did when
   // the title and a long value (e.g. "Söndag 31 maj · Karesuando") competed for one
   // line. On open it cross-fades AND collapses its height (so it never duplicates the
   // controls below and leaves no gap under the title once expanded).
-  const summaryStyle = useAnimatedStyle(() => ({
-    height: (1 - open.get()) * summaryHeight,
-    opacity: 1 - open.get(),
-  }));
+  //
+  // With NOTHING to say — an alert that is switched off passes an empty summary — it takes
+  // no room either. It used to keep its line: the measured height of an empty Text is still
+  // a line, so an off row stood its label at the top with a blank line under it, and read
+  // as a heading with something missing rather than as a row. Now the label centres in the
+  // row, and the value grows in beneath it when the alert is switched on.
+  const showSummary = !isExpanded && summary !== '';
+  const summaryStyle = {
+    height: showSummary ? summaryHeight : 0,
+    opacity: showSummary ? 1 : 0,
+    transitionProperty: ['height', 'opacity'],
+    ...reveal.timing,
+  };
 
   return (
-    <View style={styles.wrap}>
-      <View style={styles.card}>
+    <View style={inCard ? null : styles.wrap}>
+      <View style={[inCard ? styles.rowGroup : styles.card, inCard && divider && styles.divider]}>
         <View style={styles.headerRow}>
         <Pressable
           // No haptic: expanding a section is a content reveal, treated like navigation —
@@ -154,29 +160,26 @@ export function DisclosureGroup({
         </Pressable>
         {toggle ? (
           <View style={styles.headerSwitch}>
-            <Switch
+            <AppSwitch
               disabled={toggle.disabled}
               accessibilityState={{ checked: toggle.value, disabled: !!toggle.disabled }}
               value={toggle.value}
               onValueChange={toggle.onValueChange}
               accessibilityLabel={toggle.label}
-              trackColor={{ true: colors.accent, false: colors.track }}
-              thumbColor={colors.thumb}
-              ios_backgroundColor={colors.track}
             />
           </View>
         ) : null}
         </View>
 
         <Animated.View
-          style={[styles.body, bodyStyle]}
+          style={[styles.body, reveal.body]}
           accessibilityElementsHidden={!isExpanded}
           importantForAccessibility={isExpanded ? 'auto' : 'no-hide-descendants'}
           pointerEvents={isExpanded ? 'auto' : 'none'}
         >
           <View
             style={styles.measure}
-            onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
+            onLayout={reveal.onLayout}
           >
             {children}
           </View>
@@ -196,6 +199,9 @@ function makeStyles(colors: SettingsColors) {
       borderColor: colors.border,
       overflow: 'hidden',
     },
+    // In a card: no chrome of its own, only the clip the reveal needs.
+    rowGroup: { overflow: 'hidden' },
+    divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     headerRow: { flexDirection: 'row', alignItems: 'center' },
     headerGrow: { flex: 1 },
     // Holds the switch off the card's right edge by the same inset the header uses, and
@@ -227,7 +233,7 @@ function makeStyles(colors: SettingsColors) {
     summary: { ...type.callout, position: 'absolute', left: 0, right: 0, top: 0, paddingTop: 3, color: colors.text },
     body: { overflow: 'hidden' },
     // Absolute so the children's natural height is reported via onLayout without
-    // forcing the (animated) body open. A hairline divides header from content.
+    // forcing the (transitioning) body open. A hairline divides header from content.
     measure: {
       position: 'absolute',
       left: 0,

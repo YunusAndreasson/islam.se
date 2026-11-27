@@ -13,6 +13,18 @@
 // native surface defaulting to the OS while the app is somewhere else — and it will happen
 // to every @expo/ui control added to this app. Pass `colorScheme`.
 //
+// ⚠️ AND, ON ANDROID, WHICH COLOURS. `colorScheme` only picks between Material's own light
+// and dark baselines; it does not make them the app's. Left at the defaults the selected
+// segment was Material's secondary-container — a grey-violet that is nowhere in this
+// palette — inside Material's outline, which in the dark theme was a near-white hairline
+// and the loudest stroke on the card. Two "selected" controls a row apart, the switch in
+// the app's indigo and this in someone else's. The selected segment is now the accent
+// fill every other chosen thing wears, and the outline is `handle` — the tier for the quiet
+// edge of a control that must still be found, the same one a switch's off track wears. Not
+// the card's hairline (a segment's edge says where to press, and 1.3:1 does not), and not
+// an ink tier (in dark those are near-white, which is the stroke this replaced).
+// iOS keeps the system segmented picker untouched — it is neutral.
+//
 // A DESCRIPTION, IF AN OPTION CARRIES ONE, is rendered below the control and follows the
 // selection — the segmented-control-plus-footnote pattern — because a segment fits a word
 // and nothing else. No option set passed here has one today (Utseende's three labels say
@@ -35,7 +47,7 @@ import { space, type } from '@/theme/tokens';
 import { useActiveScheme } from '@/theme/useColors';
 import { OptionGroup, type Option } from './OptionGroup';
 import { useCompactLayout } from './useCompactLayout';
-import { type SettingsColors, useSettingsColors } from './theme';
+import { cardHeaderStyle, type SettingsColors, useSettingsColors } from './theme';
 
 /** Native Host needs an explicit height. Large-text layouts use OptionGroup instead. */
 const CONTROL_HEIGHT = 44;
@@ -61,6 +73,17 @@ export function SegmentedChoice<T extends string>({
   const scheme = useActiveScheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const description = options.find((o) => o.value === value)?.description;
+  const segmentColors = useMemo(
+    () => ({
+      activeContainerColor: colors.accent,
+      activeContentColor: colors.onAccent,
+      activeBorderColor: colors.accent,
+      inactiveContainerColor: colors.card,
+      inactiveContentColor: colors.text,
+      inactiveBorderColor: colors.handle,
+    }),
+    [colors],
+  );
 
   // NO haptic here, deliberately — see lib/haptics' policy block. OptionGroup ticks because
   // it is a control this app drew and must therefore feed back itself; a SwiftUI segmented
@@ -120,6 +143,7 @@ export function SegmentedChoice<T extends string>({
                 key={option.value}
                 selected={option.value === value}
                 onClick={() => select(option.value)}
+                colors={segmentColors}
               >
                 {/* The Label slot is a Compose SLOT, not a React text node: a bare string
                     child renders nothing and trips React Native's "Text strings must be
@@ -147,13 +171,7 @@ function makeStyles(colors: SettingsColors) {
     // Mirrors SettingSection's own card header (type.label) and the in-card SubGroup
     // titles on Påminnelser, so a labelled control inside a shared card sits at the same
     // rhythm as a titled one.
-    label: {
-      ...type.label,
-      color: colors.textMuted,
-      paddingHorizontal: space.lg,
-      paddingTop: 14,
-      paddingBottom: space.xs,
-    },
+    label: cardHeaderStyle(colors),
     host: { height: CONTROL_HEIGHT },
     description: { ...type.caption, color: colors.textMuted, marginTop: space.xs },
   });

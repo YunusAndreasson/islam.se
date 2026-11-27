@@ -45,7 +45,7 @@
 import { useKeepAwake } from 'expo-keep-awake';
 import { usePendingBack } from '@/components/nav/usePendingBack';
 import { useReadingColumn } from '@/theme/window-layout';
-import { router, useIsFocused } from 'expo-router';
+import { useIsFocused, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AccessibilityInfo,
@@ -219,6 +219,7 @@ function compactHilalText(text: string): string {
 }
 
 export default function Manen() {
+  const router = useRouter();
   // Finding the Moon is done by holding the phone up and standing still, which the
   // display-sleep timer reads as "nobody is here" — the same betrayal Qibla refuses. It is
   // held for the whole screen rather than for `sky` alone: the month ring is also a surface
@@ -396,7 +397,7 @@ export default function Manen() {
     // Hijri control was several sections below the fold — a door that named its room and
     // then opened onto the hallway.
     router.push('/(settings)/installningar?fokus=appen');
-  }, []);
+  }, [router]);
   const openAlmanac = useCallback(() => {
     setReadingAlmanac(true);
   }, []);

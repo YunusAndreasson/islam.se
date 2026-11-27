@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.3.11",
+    "version": "1.3.12",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -110,7 +110,29 @@
         }
       ],
       "expo-status-bar",
-      "expo-font",
+      [
+        "expo-font",
+        {
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Literata",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/first-run/Literata-Regular.ttf",
+                    "weight": 400
+                  }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": [
+              "./assets/first-run/Literata-Regular.ttf"
+            ]
+          }
+        }
+      ],
       [
         "expo-navigation-bar",
         {

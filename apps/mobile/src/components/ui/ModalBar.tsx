@@ -16,7 +16,7 @@
 // router.back() fails silently when there is no entry to pop (cold-start / deep link
 // straight into a sheet); `fallback` is the route to fall back to so the control
 // never dead-ends.
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import type { Href } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
@@ -33,6 +33,7 @@ interface Props {
 }
 
 export function ModalBar({ variant, fallback }: Props) {
+  const router = useRouter();
   const c = useColors();
   const isClose = variant === 'close';
   return (

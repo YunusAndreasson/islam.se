@@ -1,4 +1,4 @@
-import { router, type Href } from 'expo-router';
+import { type Href, useRouter } from 'expo-router';
 import { Alert } from 'react-native';
 
 import { saveIntroStep } from '@/lib/intro';
@@ -7,6 +7,7 @@ import { useOptionalIntroStatus, useOptionalMapLesson } from '@/lib/intro-contex
 // All three map instruments can leave the timetable before onboarding finishes.
 // Keep a fresh install identifiable before a destination gets to write settings.
 export function useMapNavigate() {
+  const router = useRouter();
   const status = useOptionalIntroStatus();
   const { replaying } = useOptionalMapLesson();
   return (route: Href) => {

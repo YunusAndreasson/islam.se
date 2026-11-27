@@ -29,10 +29,9 @@
 // Moon's `På himlen` dial became the second instrument that needed all of it. What
 // is left in this file is the qibla's own drawing and its own words.
 import { useKeepAwake } from 'expo-keep-awake';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useReadingColumn } from '@/theme/window-layout';
-import { router, useIsFocused } from 'expo-router';
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useIsFocused, useRouter } from 'expo-router';
+import { memo, useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import {
   AccessibilityInfo,
   AppState,
@@ -118,6 +117,7 @@ function statusLine(
 }
 
 export default function Qibla() {
+  const router = useRouter();
   // Aligning with the qibla is the one thing in this app you do by holding the phone
   // perfectly still and looking at it — which is exactly what the display-sleep timer reads
   // as "nobody is here". Being dimmed out mid-turn, on the screen whose entire job is to be
@@ -161,19 +161,23 @@ export default function Qibla() {
   const [compassOn, setCompassOn] = useState(false);
   const [refused, setRefused] = useState(false);
   const permissionInFlight = useRef(false);
-  async function enableCompass() {
-    if (permissionInFlight.current) return;
+  // An effect event, not a plain function called from an effect with a trimmed dependency
+  // list. That version needed an exhaustive-deps suppression, and one suppression is all it
+  // takes for the React Compiler to skip the whole component — on the screen `turn` pushes
+  // through React at up to 10 Hz. The event reads the latest flags without making the effect
+  // re-run on them, which is what the trimmed list was reaching for.
+  const enableCompass = useEffectEvent(async () => {
+    if (compassOn || refused || permissionInFlight.current) return;
     permissionInFlight.current = true;
     const permission = await readLocationPermission(true, 'qibla').catch(() => null);
     setCompassOn(permission?.granted === true);
     setRefused(permission?.granted !== true);
     permissionInFlight.current = false;
-  }
+  });
   // The compass starts by itself: opening Qibla is the request. With permission already
   // granted it simply runs; undetermined asks once; denied lands on the Settings guidance.
   useEffect(() => {
-    if (focused && !compassOn && !refused) void enableCompass();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (focused) void enableCompass();
   }, [focused]);
   useEffect(() => {
     if (!focused || !refused) return;
@@ -429,7 +433,7 @@ const Dial = memo(function Dial({ size, bearing, calibrating, c, styles, rotatio
     <View style={[styles.dialWrap, { width: size, height: size }]}>
       {/* Fixed warm face — a gentle top-down sheen gives the instrument depth.
           It does NOT rotate, so the "light" always falls from the top. */}
-      <LinearGradient colors={[c.surface, c.paperSunken]} style={[styles.face, { borderRadius: r }]} />
+      <View style={[styles.face, { borderRadius: r }]} />
       <View style={[styles.innerRing, { width: size * 0.66, height: size * 0.66, borderRadius: size * 0.33 }]} pointerEvents="none" />
       {/* Fixed sight line from the aim index down to the hub — shows the axis the
           Kaaba must travel up to meet (the conceptual model, made visible). */}

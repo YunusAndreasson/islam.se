@@ -1,6 +1,6 @@
 import { useWidgetPlaced } from '@/widget/useWidgetPlaced';
 import { getForegroundPermissionsAsync } from 'expo-location';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useEffect, useEffectEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AppState, I18nManager, type LayoutChangeEvent, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -27,7 +27,7 @@ import { methodLabel } from '@/lib/settings/options';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { openNotificationSettings, openExactAlarmSettings, openSystemSettings, openSystemSettingsLabel } from '@/lib/system-settings';
 import type { SolarClock } from '@/lib/solar/useSolarClock';
-import { mono, type } from '@/theme/tokens';
+import { mono, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { useCardInsets, useReadingColumn } from '@/theme/window-layout';
 import { WidgetGuide } from './WidgetGuide';
@@ -44,6 +44,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
   onRead: () => void; onLive: () => void; onDismiss: () => void; onHeight: (height: number) => void;
   onModalChange?: (visible: boolean) => void;
 }) {
+  const router = useRouter();
   const c = useColors();
   const column = useReadingColumn();
   const inset = useSafeAreaInsets();
@@ -336,7 +337,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
         paddingBottom: opening ? Math.max(12, inset.bottom) : 8, backgroundColor: opening ? c.paper : c.surface, borderColor: c.border }]}>
       <ScrollView onLayout={e => setViewport(e.nativeEvent.layout.height)}
         scrollEventThrottle={32} onScroll={e => setScrollY(e.nativeEvent.contentOffset.y)}
-        contentContainerStyle={{ paddingHorizontal: opening ? 20 : 16 }} keyboardShouldPersistTaps="handled">
+        contentContainerStyle={{ paddingHorizontal: opening ? space.xl : space.lg }} keyboardShouldPersistTaps="handled">
         {opening ? <>
           <Pressable accessibilityRole="button" accessibilityLabel="Visa bönetiderna" onPress={() => read()} onTouchStart={e => { dragStart.current = e.nativeEvent.pageY; }}
             onTouchEnd={e => { if (e.nativeEvent.pageY - dragStart.current > 48) read(); }} style={styles.crown}>
@@ -353,7 +354,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
           <View style={styles.cities}>{places.map(p => <FirstRunButton key={p.lon} outline label={p.name} onPress={() => void pick(p)} />)}</View>
         </> : <>
           <Pressable accessibilityRole="button" accessibilityLabel="Stäng tidtabellen" hitSlop={8} onPress={dismiss} style={styles.gripArea}>
-            <View style={[styles.grip, { backgroundColor: c.inkFaint }]} /></Pressable>
+            <View style={[styles.grip, { backgroundColor: c.handle }]} /></Pressable>
           <View style={styles.crown}><View style={{ flexShrink: 1 }}>
             <Text style={[type.bodyStrong, { color: c.ink }]}>{formatGregorian(new Date(now))}</Text>
             <Text style={muted}>{formatHijri(new Date(now), settings.hijriOffset)}</Text></View>
@@ -378,7 +379,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
               const x = e.nativeEvent.locationX / railWidth;
               clock.setFraction(Math.max(0, Math.min(1, I18nManager.isRTL ? 1 - x : x)));
             }}
-            onLayout={e => setRailWidth(Math.max(1, e.nativeEvent.layout.width))} hitSlop={8} style={{ paddingVertical: 4 }}>
+            onLayout={e => setRailWidth(Math.max(1, e.nativeEvent.layout.width))} hitSlop={8} style={{ paddingVertical: space.xs }}>
           <View pointerEvents="none" style={[styles.rail, { backgroundColor: c.border }]}>{PRAYER_ORDER.map(k => {
             const fraction = (times[k].getTime() - clock.dayStart) / clock.dayLength;
             return fraction >= 0 && fraction <= 1 && <View key={k} style={[styles.dot, { start: `${fraction * 100}%`, backgroundColor: c.highlight }]} />;
@@ -412,7 +413,7 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
         else finish('completed', answer === 'granted'); }} />}
     {panel === 'widget' && <WidgetGuide now={now} onClose={closePanel} occasion={occasion} />}
     {panel !== null && panel !== 'widget' && panel !== 'preview' && <Modal visible onRequestClose={closePanel} presentationStyle="pageSheet">
-      <SafeAreaView style={{ flex: 1, backgroundColor: c.paper }}><View style={[{ flex: 1, paddingHorizontal: 20 }, column]}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: c.paper }}><View style={[{ flex: 1, paddingHorizontal: space.xl }, column]}>
         <View style={styles.crown}><Text accessibilityRole="header" style={[type.title, { color: c.ink, flex: 1 }]}>{panel === 'city' ? 'Välj stad' : panel === 'location' || panel === 'travel' ? 'Bönetider där du är' : 'Bönetider på ' + home}</Text>
           <FirstRunButton label="Stäng" onPress={closePanel} /></View>
         {panel === 'city' ? <PlacePicker selected={settings.manualLocation} onPick={p => void pick(p)}>
@@ -435,22 +436,29 @@ export function FirstReading({ opening, active, clock, next, times, tomorrow, on
   </>;
 }
 
+// This sheet stands where the dock will stand, and becomes it. So it is cut from the dock's
+// cloth: the floating-card radius, the dock's own grab handle (same size, same `handle`
+// ink), and the spacing scale every other card on the map uses. It used to carry its own
+// near-misses of all three — an 18 radius against 22, a 3 dp grip in a text ink against the
+// dock's 5 dp handle — so the card changed shape slightly at the moment it handed over.
 const styles = StyleSheet.create({
-  sheet: { position: 'absolute', borderWidth: StyleSheet.hairlineWidth, borderRadius: 18, overflow: 'hidden' },
-  crown: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 4, gap: 4 },
-  reading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, paddingTop: 12, marginTop: 8 },
+  sheet: { position: 'absolute', borderWidth: StyleSheet.hairlineWidth, borderRadius: radius.xl, overflow: 'hidden' },
+  crown: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', paddingVertical: space.xs, gap: space.xs },
+  reading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, paddingTop: space.md, marginTop: space.sm },
+  // The one display numeral on the opening plate. Off the type scale on purpose, like the
+  // qibla's bearing: a size used once is a drawing, not a tier.
   hero: { fontSize: 46, fontWeight: '600', letterSpacing: -2 },
-  cities: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 4, paddingBottom: 8 },
+  cities: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: space.xs, paddingBottom: space.sm },
   method: { minHeight: 44, justifyContent: 'center', alignSelf: 'flex-start' },
   gripArea: { minHeight: 22, alignItems: 'center', justifyContent: 'center' },
-  grip: { width: 38, height: 3, borderRadius: 2 },
-  controls: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  grip: { width: 38, height: 5, borderRadius: 3 },
+  controls: { flexDirection: 'row', alignItems: 'center', gap: space.xs },
   arrow: { width: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
-  timeRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: 5, paddingVertical: 2, paddingHorizontal: 8 },
-  rail: { height: 2, marginHorizontal: 10, marginVertical: 8 },
+  timeRow: { flexDirection: 'row', justifyContent: 'space-between', borderRadius: radius.sm, paddingVertical: 2, paddingHorizontal: space.sm },
+  rail: { height: 2, marginHorizontal: 10, marginVertical: space.sm },
   dot: { position: 'absolute', width: 5, height: 5, borderRadius: 3, top: -2 },
   thumb: { position: 'absolute', width: 8, height: 8, borderRadius: 4, top: -3 },
-  tomorrow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', marginVertical: 8 },
-  widget: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 14, padding: 10 },
+  tomorrow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', marginVertical: space.sm },
+  widget: { flexDirection: 'row', alignItems: 'center', gap: space.md, borderRadius: radius.lg, padding: space.md },
 
 });
