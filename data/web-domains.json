@@ -1210,11 +1210,11 @@
       "avgScore": 8.7
     },
     "regeringen.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-02-14T19:10:21.433Z",
-      "publishedIn": 1,
+      "lastChecked": "2026-11-27T14:22:10.341Z",
+      "publishedIn": 2,
       "avgScore": 8.7
     },
     "stories.tamu.edu": {
@@ -1966,10 +1966,10 @@
       "avgScore": 8.649999999999999
     },
     "dorar.net": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-10-18T16:58:05.260Z",
+      "lastChecked": "2026-11-27T13:59:23.352Z",
       "publishedIn": 1,
       "avgScore": 8.6
     },
@@ -2204,12 +2204,12 @@
       "avgScore": 8.6
     },
     "www.scb.se": {
-      "total": 5,
-      "ok": 5,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-09-30T18:36:35.427Z",
-      "publishedIn": 4,
-      "avgScore": 8.649999999999999
+      "lastChecked": "2026-11-27T14:22:10.341Z",
+      "publishedIn": 5,
+      "avgScore": 8.66
     },
     "kvartal.se": {
       "total": 3,
@@ -3095,6 +3095,60 @@
       "lastChecked": "2026-11-20T19:31:10.939Z",
       "publishedIn": 1,
       "avgScore": 8.6
+    },
+    "www.svenskhandel.se": {
+      "total": 1,
+      "ok": 0,
+      "failed": 1,
+      "lastChecked": "2026-11-27T13:59:23.352Z"
+    },
+    "efn.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-27T14:22:10.341Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.naturvardsverket.se": {
+      "total": 10,
+      "ok": 10,
+      "failed": 0,
+      "lastChecked": "2026-11-27T14:22:10.341Z",
+      "publishedIn": 4,
+      "avgScore": 8.7
+    },
+    "lup.lub.lu.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-27T14:22:10.341Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.history.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-27T14:22:10.341Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.snopes.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-27T14:22:10.341Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "inquirer.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-11-27T14:22:10.341Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
     }
   }
 }
