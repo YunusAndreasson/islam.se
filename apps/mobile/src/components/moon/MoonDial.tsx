@@ -41,7 +41,6 @@
 //
 // The face, the ticks, the cardinal letters, the index and the hub all come from theme/dial,
 // so this and Qibla cannot drift apart. What is written here is only what is the Moon's.
-import { LinearGradient } from 'expo-linear-gradient';
 import { memo, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
@@ -59,7 +58,7 @@ import type { RingDay } from '@/lib/moon/month';
 import { skyReach } from '@/lib/moon/shape';
 import { makeDialStyles, rotate as rot, useBrassStyles } from '@/theme/dial';
 import { hexToRgba } from '@/theme/rgba';
-import { mono, motion, type Palette, type } from '@/theme/tokens';
+import { mono, motion, type Palette, space, type } from '@/theme/tokens';
 
 export type MoonDialMode = 'month' | 'sky';
 
@@ -179,7 +178,7 @@ export const MoonDial = memo(function MoonDial({
 
   return (
     <View style={[styles.dialWrap, { width: size, height: size }]}>
-      <LinearGradient colors={[c.surface, c.paperSunken]} style={[styles.face, { borderRadius: r }]} />
+      <View style={[styles.face, { borderRadius: r }]} />
       <View
         style={[styles.innerRing, { width: size * 0.66, height: size * 0.66, borderRadius: size * 0.33 }]}
         pointerEvents="none"
@@ -370,7 +369,7 @@ function makeStyles(c: Palette) {
     // mode, making them look deleted rather than completed.
     notchPast: { backgroundColor: c.inkMuted, opacity: 0.48 },
     notchToday: { width: 5, height: 20, backgroundColor: c.highlight },
-    notchLabel: { ...type.caption, ...mono, color: c.inkFaint, marginTop: 4 },
+    notchLabel: { ...type.caption, ...mono, color: c.inkFaint, marginTop: space.xs },
     // Today's number, on today's mark. It is the answer to the question the ring is for, so
     // it is the one thing on the rim set larger than a caption and the only thing on it that
     // is not grey.

@@ -23,7 +23,8 @@ import { hexToRgba } from '@/theme/rgba';
  *  `quiet`   a statement of fact — the Moon's phase, where it stands. No instruction in it.
  *  `neutral` an instruction, or a state the reader can act on. Accent border, accent ink.
  *  `near`    closing in: a warm brass tint, the "getting warmer" band made discrete.
- *  `on`      you are pointing at it. Solid brass. */
+ *  `on`      you are pointing at it. Solid brass — the readable one (`highlightText`), since
+ *            this fill carries a sentence. See `onHighlight` in theme/tokens. */
 export type PillTone = 'quiet' | 'neutral' | 'near' | 'on';
 
 interface Props {
@@ -104,7 +105,7 @@ function makeStyles(c: Palette) {
     // on. The Moon's phase line sits here for all but three nights a month.
     pillQuiet: { borderColor: c.hairline },
     pillNear: { backgroundColor: c.highlightSoft, borderColor: 'transparent' },
-    pillOn: { backgroundColor: c.highlight, borderColor: 'transparent' },
+    pillOn: { backgroundColor: c.highlightText, borderColor: 'transparent' },
     text: { ...type.callout, fontWeight: '600', flexShrink: 1 },
   });
 }

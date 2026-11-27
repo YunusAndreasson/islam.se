@@ -13,8 +13,34 @@ import { type Camera, project } from '@/lib/map/projection';
 import * as theme from '@/theme/useColors';
 import * as renderClock from '@/lib/map/useSolarRenderNow';
 import * as visibility from '@/lib/map/visible-line';
+import { nextFrame } from '@/test-utils/animated';
 import { allOfType, allRendered } from '@/test-utils/rendered';
 import { SolarSkiaOverlay } from './SolarSkiaOverlay';
+
+// Reanimated is REAL in this suite, as everywhere (jest.resolver.js). Four of its exports
+// are wrapped so a test can see how the overlay used them — which worklets it derived, which
+// animations it started — or stand in for one (Reduce Motion, a reaction's trigger). Each
+// wrapper calls straight through to the library unless a test says otherwise; the module's
+// own exports are sealed, so they cannot be spied on in place.
+jest.mock('react-native-reanimated', () => {
+  const actual = jest.requireActual<typeof import('react-native-reanimated')>('react-native-reanimated');
+  return {
+    ...actual,
+    __esModule: true,
+    default: actual.default,
+    useDerivedValue: jest.fn(actual.useDerivedValue),
+    useAnimatedReaction: jest.fn(actual.useAnimatedReaction),
+    useReducedMotion: jest.fn(actual.useReducedMotion),
+    withTiming: jest.fn(actual.withTiming),
+  };
+});
+const library = jest.requireActual<typeof import('react-native-reanimated')>('react-native-reanimated');
+const wrapped = {
+  useDerivedValue: jest.mocked(reanimated.useDerivedValue),
+  useAnimatedReaction: jest.mocked(reanimated.useAnimatedReaction),
+  useReducedMotion: jest.mocked(reanimated.useReducedMotion),
+  withTiming: jest.mocked(reanimated.withTiming),
+};
 
 const CAMERA = { lon: 17.4, lat: 62.1, zoom: 4.5, width: 390, height: 780 } satisfies Camera;
 const STOCKHOLM: [number, number] = [18.0686, 59.3293];
@@ -72,9 +98,18 @@ describe('the polar boundary line', () => {
 });
 
 
-afterEach(() => { jest.restoreAllMocks(); });
+afterEach(() => {
+  jest.restoreAllMocks();
+  jest.useRealTimers();
+  // Back to the library itself, with the call records cleared.
+  wrapped.useDerivedValue.mockReset().mockImplementation(library.useDerivedValue);
+  wrapped.useAnimatedReaction.mockReset().mockImplementation(library.useAnimatedReaction);
+  wrapped.useReducedMotion.mockReset().mockImplementation(library.useReducedMotion);
+  wrapped.withTiming.mockReset().mockImplementation(library.withTiming);
+});
 
 it('updates palette uniforms without recompiling the twilight effect on a theme flip', async () => {
+  jest.useFakeTimers();
   const scheme = jest.spyOn(theme, 'useActiveScheme').mockReturnValue('light');
   const effect = {} as ReturnType<typeof Skia.RuntimeEffect.Make>;
   const compile = jest.spyOn(Skia.RuntimeEffect, 'Make').mockReturnValue(effect);
@@ -84,6 +119,8 @@ it('updates palette uniforms without recompiling the twilight effect on a theme 
 
   scheme.mockReturnValue('dark');
   await view.rerender(overlay());
+  // The uniforms are a derived value: the new palette reaches them on the next frame.
+  await nextFrame();
   const shader = wash();
 
   expect(light).toBeDefined();
@@ -182,6 +219,8 @@ describe('direct scrubbing contours', () => {
 describe('upcoming prayer entrance', () => {
   const twoLines = [...LINE, { ...LINE[0]!, prayer: 'asr' as const }];
   it('arms only the upcoming prayer; other lines are complete on their first frame', async () => {
+    // The clock is held, so this reads the FIRST frame and not one a few milliseconds in.
+    jest.useFakeTimers();
     await renderOverlay({ lines: twoLines, nextKey: 'dhuhr' });
     const cores = strokes().filter((node) => node.props.strokeWidth === 2 || node.props.strokeWidth === 3.4);
     expect(cores).toHaveLength(2);
@@ -192,7 +231,7 @@ describe('upcoming prayer entrance', () => {
   it('checks an offscreen contour without subscribing its vertex scan to the drawing clock', async () => {
     const get = jest.fn(() => DAY_START + DAY_MS / 2);
     jest.spyOn(renderClock, 'useSolarRenderNow').mockReturnValue({ get } as never);
-    const derived = jest.spyOn(reanimated, 'useDerivedValue');
+    const derived = wrapped.useDerivedValue;
     const scan = jest.spyOn(visibility, 'visibleLineRange');
     await renderOverlay({ lines: LINE, nextKey: 'dhuhr', camera: shared({ ...CAMERA, lon: -100 }) });
 
@@ -212,10 +251,10 @@ describe('upcoming prayer entrance', () => {
 
   it('plays a visible entrance once across blur and refocus', async () => {
     const reactions: (() => void)[] = [];
-    jest.spyOn(reanimated, 'useAnimatedReaction').mockImplementation((prepare, react) => {
+    wrapped.useAnimatedReaction.mockImplementation((prepare, react) => {
       reactions.push(() => react(prepare(), null));
     });
-    const timing = jest.spyOn(reanimated, 'withTiming');
+    const timing = wrapped.withTiming;
     const props = { lines: LINE, nextKey: 'dhuhr' as const };
     const view = await renderOverlay(props);
     const settle = async () => {
@@ -241,7 +280,7 @@ describe('upcoming prayer entrance', () => {
   });
 
   it('shows the full path immediately when reduced motion is enabled', async () => {
-    jest.spyOn(reanimated, 'useReducedMotion').mockReturnValue(true);
+    wrapped.useReducedMotion.mockReturnValue(true);
     await renderOverlay({ lines: LINE, nextKey: 'dhuhr' });
     expect(strokes()).toHaveLength(2);
     for (const node of strokes()) expect(node.props.end.value).toBe(1);
@@ -258,18 +297,26 @@ describe('keeping the reader’s dot and the mosques clear of the wash', () => {
   const UPPSALA: [number, number] = [17.6389, 59.8586];
   const LONDON: [number, number] = [-0.1276, 51.5072];
 
-  function recordHoles(): { x: number; y: number; r: number }[] {
-    const circles: { x: number; y: number; r: number }[] = [];
+  /** The holes of the most recent path that cut any. One list per BUILD, because a derived
+   *  path is built once when the overlay mounts and again each time Reanimated re-runs it:
+   *  the question is what one build cuts, not how many builds there were. */
+  function recordHoles(): () => { x: number; y: number; r: number }[] {
+    const builds: { x: number; y: number; r: number }[][] = [];
     jest.spyOn(Skia.PathBuilder, 'Make').mockImplementation(() => {
+      const circles: { x: number; y: number; r: number }[] = [];
       const builder = {
         moveTo: () => builder,
         lineTo: () => builder,
-        addCircle: (x: number, y: number, r: number) => { circles.push({ x, y, r }); return builder; },
+        addCircle: (x: number, y: number, r: number) => {
+          if (circles.length === 0) builds.push(circles);
+          circles.push({ x, y, r });
+          return builder;
+        },
         detach: () => ({}),
       };
       return builder as never;
     });
-    return circles;
+    return () => builds.at(-1) ?? [];
   }
 
   const withWash = () => jest.spyOn(Skia.RuntimeEffect, 'Make').mockReturnValue({} as never);
@@ -291,9 +338,9 @@ describe('keeping the reader’s dot and the mosques clear of the wash', () => {
     const holes = recordHoles();
     await renderOverlay({ mosquePoints: [STOCKHOLM, UPPSALA, LONDON] });
     // London is off-frame: no hole is cut for a speck nobody can see.
-    expect(holes).toHaveLength(2);
+    expect(holes()).toHaveLength(2);
     const at = project(UPPSALA[0], UPPSALA[1], CAMERA);
-    const uppsala = holes.find((h) => Math.abs(h.x - at.x) < 1e-6 && Math.abs(h.y - at.y) < 1e-6);
+    const uppsala = holes().find((h) => Math.abs(h.x - at.x) < 1e-6 && Math.abs(h.y - at.y) < 1e-6);
     expect(uppsala).toBeDefined();
     expect(uppsala!.r).toBeGreaterThan(atZoom(DUST_RADIUS_STOPS, CAMERA.zoom));
   });
@@ -303,16 +350,24 @@ describe('keeping the reader’s dot and the mosques clear of the wash', () => {
     // fade, even though only the erase path's opacity was changing.
     withWash();
     const holes = recordHoles();
-    const derived = jest.spyOn(reanimated, 'useDerivedValue');
+    const derived = wrapped.useDerivedValue;
     await renderOverlay({ mosquePoints: [STOCKHOLM, UPPSALA] });
     const dot = erasers().find((node) => node.props.r != null)!;
     const specks = erasers().find((node) => node.props.path != null)!;
     const pathIndex = derived.mock.results.findIndex((result) => result.value === specks.props.path);
-    const readOpacity = jest.spyOn(dot.props.opacity, 'get');
-    holes.length = 0;
-    derived.mock.calls[pathIndex]![0]();
-    expect(holes).toHaveLength(2);
-    expect(readOpacity).not.toHaveBeenCalled();
+    const build = derived.mock.calls[pathIndex]![0] as (() => unknown) & { __closure?: Record<string, unknown> };
+    const before = holes();
+    build();
+    // A fresh build, cutting the same two holes…
+    expect(holes()).not.toBe(before);
+    expect(holes()).toHaveLength(2);
+    // …by a worklet that does not hold the fade at all. Reanimated re-runs a derived value
+    // when a shared value in its closure changes, so what the closure holds IS what the
+    // path is subscribed to. (The fade itself is a real shared value: it must exist, and be
+    // something the closure could have captured, for its absence to mean anything.)
+    expect(build.__closure).toBeDefined();
+    expect(dot.props.opacity).toEqual(expect.objectContaining({ get: expect.any(Function) }));
+    expect(Object.values(build.__closure!)).not.toContain(dot.props.opacity);
   });
 
   it('stops clearing once the specks have handed over to the glyphs', async () => {
@@ -323,7 +378,7 @@ describe('keeping the reader’s dot and the mosques clear of the wash', () => {
     // Centred on Stockholm, so its speck WOULD be on screen — the zoom alone must stop it.
     const cityView = { ...CAMERA, lon: STOCKHOLM[0], lat: STOCKHOLM[1], zoom: 9 };
     await renderOverlay({ mosquePoints: [STOCKHOLM, UPPSALA], camera: shared(cityView) });
-    expect(holes).toHaveLength(0);
+    expect(holes()).toHaveLength(0);
   });
 
   it('cuts no mosque holes when the reader has hidden the mosques', async () => {
@@ -336,7 +391,7 @@ describe('keeping the reader’s dot and the mosques clear of the wash', () => {
     const holes = recordHoles();
     await renderOverlay({ mosquePoints: [STOCKHOLM] });
     expect(erasers()).toHaveLength(0);
-    expect(holes).toHaveLength(0);
+    expect(holes()).toHaveLength(0);
   });
 });
 
@@ -374,7 +429,7 @@ describe('the arrival bloom', () => {
   // THE BUG THIS PINS: the bloom replayed whenever the overlay remounted (the map lesson,
   // a reset), so one arrival could bloom again minutes later.
   it('plays once per arrival, however often the overlay mounts', async () => {
-    const timing = jest.spyOn(reanimated, 'withTiming');
+    const timing = wrapped.withTiming;
     const blooms = () => timing.mock.calls.filter(([, config]) => config?.duration === 2400).length;
     const arrival = { prayer: 'maghrib' as const, id: DAY_START + 71_000_000 };
     const first = await renderOverlay({ arrival });

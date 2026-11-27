@@ -24,7 +24,7 @@ import { OptionGroup } from '@/components/settings/OptionGroup';
 import { ReminderRecovery } from '@/components/settings/ReminderRecovery';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Toggle } from '@/components/settings/Toggle';
-import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
+import { cardHeaderStyle, type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Icon } from '@/components/ui/Icon';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { HAS_ADHAN_AUDIO, useAdhanPreview } from '@/lib/adhan-audio';
@@ -179,8 +179,9 @@ export default function Notiser() {
         </SettingSection>}
 
         <SettingSection title="Varje bön">
-          {NOTIFY_PRAYERS.map((key) => (
+          {NOTIFY_PRAYERS.map((key, index) => (
             <PrayerAlertGroup
+              divider={index > 0}
               key={key}
               blocked={blocked}
               prayerKey={key}
@@ -241,6 +242,7 @@ export default function Notiser() {
             </SubGroup>
           </DisclosureGroup>
           <DisclosureGroup
+            divider
             title="Nattens sista tredjedel"
             // No lead list: this one fires exactly when the time comes in. See types.ts.
             summary={n.lastThird ? soundLabel(n.lastThirdSound) : ''}
@@ -403,12 +405,12 @@ function DeliveryTroubleshooting({
  *  ("Gryningsbönen") was that inner toggle's description; it now rides on the switch's own
  *  spoken label, which is the only place it was ever doing work. */
 function PrayerAlertGroup({
-  blocked, prayerKey,
+  blocked, divider, prayerKey,
   notifications: n,
   onPatch,
   styles,
 }: {
-  blocked: boolean; prayerKey: NotifyPrayerKey;
+  blocked: boolean; divider: boolean; prayerKey: NotifyPrayerKey;
   notifications: NotificationSettings;
   onPatch: (next: Partial<NotificationSettings>) => void;
   styles: ReturnType<typeof makeStyles>;
@@ -416,6 +418,7 @@ function PrayerAlertGroup({
   const on = n.prayers[prayerKey];
   return (
     <DisclosureGroup
+      divider={divider}
       title={PRAYER_LABELS[prayerKey]}
       // Nothing to say when it is off: the switch beside it already says so, and "Av"
       // under a visibly-off switch is the same word twice.
@@ -472,19 +475,14 @@ function SubGroup({
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.bg },
-    content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
+    // No top padding — see the note on `content` in installningar.tsx: one title line for every sheet.
+    content: { paddingHorizontal: space.lg, paddingBottom: space.xxxl + space.lg },
     // The title gives up its bottom margin to the status line below it — the two read as
     // one block, and the section cards keep the same distance from the top as before.
     header: { ...type.title, color: colors.text, marginTop: space.xs },
     status: { ...type.callout, color: colors.textMuted, marginTop: space.xs, marginBottom: space.xl },
     mixed: { ...type.callout, color: colors.textMuted, paddingHorizontal: space.lg, paddingBottom: space.sm },
-    subTitle: {
-      ...type.label,
-      color: colors.textMuted,
-      paddingHorizontal: space.lg,
-      paddingTop: 14,
-      paddingBottom: space.xs,
-    },
+    subTitle: cardHeaderStyle(colors),
     subDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     // Same metrics as the action rows on Inställningar — these lead out of the app in
     // exactly the same way, and should not look like a different kind of control.

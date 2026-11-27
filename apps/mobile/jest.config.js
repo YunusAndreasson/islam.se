@@ -7,6 +7,10 @@ module.exports = {
   // Every run in Europe/Stockholm, whatever the machine's zone (see the file).
   globalSetup: '<rootDir>/jest.global-setup.js',
   setupFiles: ['<rootDir>/jest.setup.js'],
+  // Reanimated's own Jest support (its resolver + setUpTests), in place of a hand-written
+  // mock of the library. See jest.resolver.js and jest.setup-after-env.js.
+  resolver: '<rootDir>/jest.resolver.js',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.js'],
   // Half the cores, not all but one. The whole-map suites (screens, day-navigation, the soft-ask
   // and lesson tests) each mount the full map and run 15–20 s alone. With a worker per core they
   // compete with each other as well as with whatever else the machine is doing, and run past

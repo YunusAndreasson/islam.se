@@ -98,6 +98,10 @@ interface Props {
   /** The polar daylight boundary for this date (null off-season) — a static dashed
    *  reference line marking where sunrise/fajr/maghrib/ishaʾ cease to exist. */
   polarBoundary: PolarBoundary | null;
+  /** Screen y above which the boundary line is not drawn: the band a heading set directly on
+   *  the map occupies (the opening plate's title). The line is a full-width rule, so inside
+   *  that band it strikes through the heading. 0, the default, draws it wherever it falls. */
+  boundaryClearAbove?: number;
   /** The mosques ([lon, lat]) whose national-view specks the wash must leave clear — see
    *  WashClearings. Empty when the reader has hidden the mosque layer. */
   mosquePoints?: readonly LonLat[];
@@ -117,6 +121,7 @@ export function SolarSkiaOverlay({
   userPoint,
   arrival,
   polarBoundary,
+  boundaryClearAbove = 0,
   mosquePoints = NO_POINTS,
 }: Props) {
   // Compile lazily when the overlay mounts. Theme changes only update colour uniforms.
@@ -215,6 +220,7 @@ export function SolarSkiaOverlay({
     if (shownBoundaryLat == null) return b.detach();
     const cam = camera.get();
     const y = project(0, shownBoundaryLat, cam).y;
+    if (y < boundaryClearAbove) return b.detach();
     b.moveTo(0, y);
     b.lineTo(cam.width, y);
     return b.detach();

@@ -81,6 +81,80 @@ describe.each(SCHEMES)('$name palette — text tiers on their real grounds', ({ 
     expect(lc(p.onAccent, p.accent)).toBeGreaterThanOrEqual(62);
     expect(wcagContrast(p.onAccent, p.accent)).toBeGreaterThanOrEqual(4.5);
   });
+
+  // The lock pill — "Du är vänd mot Mecka", the one sentence the qibla screen exists to
+  // say, on the app's only solid brass surface. It used to be dark ink on the GRAPHIC
+  // brass (`highlight`), which WCAG scored 5.5:1 and APCA scored Lc 43: a mid-tone fill is
+  // where WCAG 2 over-rates dark text, the mirror image of the light-on-dark flattery that
+  // thinned the dark palette. Both measures now, so neither can be satisfied alone again.
+  it('the solid brass pill carries its sentence by both measures', () => {
+    expect(lc(p.onHighlight, p.highlightText)).toBeGreaterThanOrEqual(75);
+    expect(wcagContrast(p.onHighlight, p.highlightText)).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
+describe('the highlight tile and the dock handle', () => {
+  const composite = (fg: string, bg: string): string => {
+    if (fg.startsWith('#')) return fg;
+    const [r = 0, g = 0, b = 0, a = 1] = fg.slice(fg.indexOf('(') + 1, -1).split(',').map(Number);
+    const base = [1, 3, 5].map((i) => Number.parseInt(bg.slice(i, i + 2), 16));
+    return `#${[r, g, b].map((v, i) => Math.round(v * a + (base[i] ?? 0) * (1 - a)).toString(16).padStart(2, '0')).join('')}`;
+  };
+
+  // `highlightSoft` is a ground TEXT sits on — the next prayer's row, the selected place,
+  // the "getting warmer" pill — so it answers to the same floors as the card it tints.
+  it.each(SCHEMES)('$name highlightSoft still carries ink and brass', ({ p }) => {
+    for (const ground of [p.paper, p.surface]) {
+      const tile = composite(p.highlightSoft, ground);
+      expect(wcagContrast(p.ink, tile)).toBeGreaterThanOrEqual(7);
+      expect(wcagContrast(p.highlightText, tile)).toBeGreaterThanOrEqual(4.5);
+      expect(lc(p.highlightText, tile)).toBeGreaterThanOrEqual(70);
+    }
+  });
+
+  // A row under the finger wears `accentSoft`, the next prayer's and the chosen place's wear
+  // `highlightSoft` — and the row's own text stays on it the whole time. The ink tiers were
+  // only ever measured on the plain grounds; this measures them on every tile a row can be.
+  it.each(SCHEMES)('$name ink and muted ink survive every tinted row', ({ p }) => {
+    for (const ground of [p.paper, p.surface]) {
+      for (const tint of [p.accentSoft, p.highlightSoft]) {
+        const tile = composite(tint, ground);
+        expect(lc(p.ink, tile)).toBeGreaterThanOrEqual(80);
+        expect(wcagContrast(p.ink, tile)).toBeGreaterThanOrEqual(7);
+        expect(lc(p.inkMuted, tile)).toBeGreaterThanOrEqual(62);
+        expect(wcagContrast(p.inkMuted, tile)).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  });
+
+  // Links and "verbs" are accent TEXT, and most of them sit on cards, not on the page.
+  it.each(SCHEMES)('$name accent is legible as text on a card as well as on the page', ({ p }) => {
+    expect(lc(p.accent, p.surface)).toBeGreaterThanOrEqual(62);
+    expect(wcagContrast(p.accent, p.surface)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  // The chip — "Nu", "I dag", "Standard" — is the smallest text in the app (11 pt bold) and it
+  // sits on the accent's own tint. `accent` itself measured Lc 58 there in dark, against 78
+  // in light, which is why the pair has its own ink.
+  it.each(SCHEMES)('$name onAccentSoft reads on the accent tint', ({ p }) => {
+    for (const ground of [p.paper, p.surface]) {
+      const tile = composite(p.accentSoft, ground);
+      expect(lc(p.onAccentSoft, tile)).toBeGreaterThanOrEqual(70);
+      expect(wcagContrast(p.onAccentSoft, tile)).toBeGreaterThanOrEqual(4.5);
+      // ...and stays the accent, a tier under plain ink on the same tile.
+      expect(lc(p.onAccentSoft, tile)).toBeLessThan(lc(p.ink, tile));
+    }
+  });
+
+  // The grab handle is the only thing that says the dock opens. It may be quiet; it may
+  // not be quiet in one theme and plain in the other, which is what 0.20 light against
+  // 0.32 dark was (1.5:1 against 2.6:1).
+  it('the dock handle stands off its card about as far in both schemes', () => {
+    const off = (p: Palette) => wcagContrast(composite(p.handle, p.surface), p.surface);
+    expect(off(lightPalette)).toBeGreaterThanOrEqual(1.9);
+    expect(off(darkPalette)).toBeGreaterThanOrEqual(1.9);
+    expect(Math.abs(off(lightPalette) - off(darkPalette))).toBeLessThanOrEqual(0.7);
+  });
 });
 
 describe('graphic tiers — the Lc 45 / 3:1 non-text bar', () => {

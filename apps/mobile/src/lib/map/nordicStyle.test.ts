@@ -164,7 +164,16 @@ it.each(['light', 'dark'] as const)('isolates the Swedish opening and selected-c
   expect(overview.layers.filter((l: { 'source-layer'?: string }) => l['source-layer'] === 'place')).toHaveLength(0);
   expect(overview.sources['opening-places'].data.features.map((f: { properties: { name: string } }) => f.properties.name).sort())
     .toEqual(['Göteborg', 'Kiruna', 'Luleå']);
+  // The opening title is set straight on the map's top-left corner, which at the Sweden
+  // frame is the Norwegian Sea: its name used to print through the title's own words. The
+  // other seas are clear of it and stay; after the opening every sea is back.
+  const seaShown = (style: { layers: { id: string; filter: unknown }[] }, name: string) =>
+    featureFilter(style.layers.find(l => l.id === 'water_name')!.filter as never, 'water_name').filter(
+      { zoom: 4 }, { type: 'Point', properties: { 'name:sv': name }, geometry: [[{ x: 0, y: 0 }]] }, { z: 0, x: 0, y: 0 } as ICanonicalTileID);
+  expect(seaShown(overview, 'Norska havet')).toBe(false);
+  expect(seaShown(overview, 'Östersjön')).toBe(true);
   const reading = JSON.parse(firstRunMapStyleJsonFor(scheme, false, malmo));
+  expect(seaShown(reading, 'Norska havet')).toBe(true);
   expect(validateStyleMin(reading).map(e => e.message)).toEqual([]);
   for (const [id, kind] of [['label_city', 'city'], ['label_town', 'town']] as const) {
     const { filter } = featureFilter(reading.layers.find((l: { id: string }) => l.id === id).filter, id);

@@ -16,6 +16,7 @@ import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { startOfZoneDay, zonePrayerDate } from '@/lib/zone-time';
 import { DOCK_COLLAPSED_BASE, type DayMark, type PrayerDockHandle, PrayerDock, resolveToggle } from './PrayerDock';
 import { PRAYER_COLORS, PRAYER_TEXT_COLORS } from '@/lib/solar/palette';
+import { crossToJs, nextFrame } from '@/test-utils/animated';
 import { first, last } from '@/test-utils/at';
 import { oneOfType } from '@/test-utils/rendered';
 
@@ -800,7 +801,7 @@ describe('map dismissal', () => {
 // that owns the track is the one reaching down past the card (hitSlop.bottom); the dock's
 // toggle pan has none.
 describe('the scrubber gesture', () => {
-  afterEach(() => { jest.restoreAllMocks(); });
+  afterEach(() => { jest.restoreAllMocks(); jest.useRealTimers(); });
 
   type PanConfig = {
     hitSlop?: { bottom?: number };
@@ -833,16 +834,25 @@ describe('the scrubber gesture', () => {
   it('hands JS only the newest position while it is busy', async () => {
     const worklets = jest.requireMock<{ scheduleOnUI: (fn: () => void) => void }>('react-native-worklets');
     const acks: (() => void)[] = [];
-    jest.spyOn(worklets, 'scheduleOnUI').mockImplementation((fn: () => void) => { acks.push(fn); });
+    // Hold back ONLY the scrubber's own acknowledgement. Reanimated schedules its own work
+    // through this same function, and swallowing that would stall the library under test.
+    const deliver = worklets.scheduleOnUI;
+    jest.spyOn(worklets, 'scheduleOnUI').mockImplementation((fn: () => void) => {
+      if (fn.name === 'ackScrubStep') acks.push(fn);
+      else deliver(fn);
+    });
     const { pan, setFraction } = await scrubber();
     setFraction.mockClear();
     pan.onBegin({ x: 0 });
     for (const x of [40, 80, 120, 160]) pan.onUpdate({ x });
+    await crossToJs();
     expect(setFraction).toHaveBeenCalledTimes(1);
     acks.shift()!();
+    await crossToJs();
     expect(setFraction).toHaveBeenCalledTimes(2);
     pan.onUpdate({ x: 160 + 1e-9 }); // under the send step: noise, not a position
     acks.shift()!();
+    await crossToJs();
     expect(setFraction).toHaveBeenCalledTimes(2);
     const [[first], [newest]] = setFraction.mock.calls as [[number], [number]];
     expect(newest).toBeGreaterThan(first);
@@ -852,14 +862,22 @@ describe('the scrubber gesture', () => {
   // mailbox still remembered sending that value — with the clock moved by Nu in between,
   // the map stayed on now while the thumb sat at the end of the day.
   it('sends every drag, even one landing where the last one ended', async () => {
+    // Frames are stepped by hand below; the worklet→JS hop is a microtask and stays real,
+    // or Jest's fake clock would hold it back as well.
+    jest.useFakeTimers({ doNotFake: ['queueMicrotask'] });
     const { pan, setFraction } = await scrubber();
     setFraction.mockClear();
     pan.onBegin({ x: 300 });
     pan.onFinalize();
+    await crossToJs();
     const afterFirst = setFraction.mock.calls.length;
     expect(afterFirst).toBeGreaterThan(0);
+    // JS's acknowledgement reaches the UI thread on the next frame. The second drag starts
+    // after it, so what it finds is a mailbox at rest that still remembers the last send.
+    await nextFrame();
     pan.onBegin({ x: 300 });
     pan.onFinalize();
+    await crossToJs();
     expect(setFraction.mock.calls.length).toBeGreaterThan(afterFirst);
   });
 
@@ -869,10 +887,12 @@ describe('the scrubber gesture', () => {
     const { pan } = await scrubber();
     pan.onBegin({ x: 20 });
     pan.onFinalize();
+    await crossToJs();
     expect(release).not.toHaveBeenCalled();
     pan.onBegin({ x: 20 });
     pan.onUpdate({ x: 120 });
     pan.onFinalize();
+    await crossToJs();
     expect(release).toHaveBeenCalledTimes(1);
   });
 });

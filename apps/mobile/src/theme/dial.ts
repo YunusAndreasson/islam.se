@@ -30,12 +30,20 @@ export function makeDialStyles(c: Palette) {
   return StyleSheet.create({
     // Fixed face — warm gradient, a real (not hairline) border, lifted off the paper. It
     // does NOT rotate, so the "light" always falls from the top.
+    // The sheen is React Native's own `backgroundImage` — a core style since the gradient
+    // support landed, so the face is a plain View and no gradient module is linked for it.
+    // `backgroundColor` sits under it as the face's honest fallback: the gradient's own top
+    // stop, so a renderer that drew no gradient would still draw a card.
     face: {
       position: 'absolute',
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
+      backgroundColor: c.surface,
+      backgroundImage: [
+        { type: 'linear-gradient', direction: 'to bottom', colorStops: [{ color: c.surface }, { color: c.paperSunken }] },
+      ],
       borderWidth: 1.5,
       borderColor: c.border,
       overflow: 'hidden',

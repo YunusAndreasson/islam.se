@@ -13,7 +13,7 @@
 // The quiet link under the directions button is "Rapportera fel". The dataset is a snapshot
 // and the person reading this card is standing near the place, so this is where a
 // correction is worth asking for.
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 import { type Mosque, formatMosqueAddress, locationLabel } from '@/lib/mosques';
 import { openDirections } from '@/lib/mosques/directions';
@@ -31,6 +31,7 @@ interface Props {
 }
 
 export function MosqueCard({ mosque, userCoords, bottom, onClose }: Props) {
+  const router = useRouter();
   // "Öppnad 2007" and "Huvudman: …" only when the dataset actually has them.
   const meta: string[] = [];
   if (mosque.opened) meta.push(`Öppnad ${mosque.opened}`);

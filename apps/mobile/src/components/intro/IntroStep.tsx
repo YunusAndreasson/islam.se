@@ -234,7 +234,7 @@ function makeStyles(c: Palette) {
     // scrubber knob's ring makes in theme/tokens.ts), and it holds on both grounds.
     nextQuiet: { backgroundColor: c.accentSoft, borderWidth: 1, borderColor: c.accent },
     nextLabel: { ...type.bodyStrong, color: c.onAccent },
-    nextLabelQuiet: { color: c.accent },
+    nextLabelQuiet: { color: c.onAccentSoft },
     // A fixed 44 pt whether or not it holds anything, so the primary above it never moves
     // between steps; when it does hold the skip, 44 pt is that control's own touch minimum.
     secondary: { height: 44, alignItems: 'center', justifyContent: 'center' },

@@ -35,7 +35,7 @@
 // introduction had already diagnosed and fixed for itself (components/intro/StepMethod:
 // "a setting you can watch land is a setting you can judge"). The strip is cheap enough
 // in height to simply stay open, and Beräkning now pins its own copy.
-import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
+import { useIsFocused, useLocalSearchParams, useRouter } from 'expo-router';
 import { useUpdates } from 'expo-updates';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -100,6 +100,7 @@ function PendingUpdateNotice({ style }: { style: TextStyle }) {
 }
 
 export default function Installningar() {
+  const router = useRouter();
   const { settings, loaded, update, reset } = useSettings();
   const { coords, label, source, permissionStatus } = useLocation();
   const { locating, refresh } = useLocationStatus();
@@ -592,7 +593,11 @@ function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.bg },
     loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
+    // No top padding: the title stands directly under the bar, where the instrument sheets'
+    // PlaceHeader and »Välj stad« put theirs. With the 16 it had, every scrolling screen
+    // set its title one step lower than its siblings, so the heading jumped as a row pushed
+    // from one to the other.
+    content: { paddingHorizontal: space.lg, paddingBottom: space.xxxl + space.lg },
 
     // Editorial screen title — same token as Qibla's title so the sibling sheets share rhythm.
     header: { ...type.title, color: colors.text, marginBottom: space.xl, marginTop: space.xs },

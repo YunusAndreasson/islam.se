@@ -1,8 +1,13 @@
-import { type ReactNode, useMemo } from 'react';
+import { createContext, type ReactNode, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { space, type } from '@/theme/tokens';
-import { type SettingsColors, useSettingsColors } from './theme';
+import { radius, space, type } from '@/theme/tokens';
+import { cardHeaderStyle, type SettingsColors, useSettingsColors } from './theme';
+
+/** True for anything rendered inside a SettingSection's card. A component that would
+ *  otherwise draw a card of its own (DisclosureGroup) reads it and draws rows instead —
+ *  a card inside a card doubles every edge and leaves stripes of the outer one between. */
+export const InsideCard = createContext(false);
 
 // A card grouping related setting rows. The title (optional) sits INSIDE the card
 // as a muted sentence-case header above the children — matching DisclosureGroup's
@@ -25,7 +30,7 @@ export function SettingSection({
     <View style={styles.wrap}>
       <View style={styles.card}>
         {title ? <Text accessibilityRole="header" style={styles.title}>{title}</Text> : null}
-        {children}
+        <InsideCard value>{children}</InsideCard>
       </View>
       {footnote ? <Text style={styles.footnote}>{footnote}</Text> : null}
     </View>
@@ -35,19 +40,12 @@ export function SettingSection({
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     wrap: { marginBottom: space.xxl },
-    // type.label is the design-token section-header rhythm (sentence-case 13/600, near-
-    // zero tracking). Single source of truth for every card header; DisclosureGroup and
-    // the in-card SubGroup titles mirror this style so all settings headers read alike.
-    title: {
-      ...type.label,
-      color: colors.textMuted,
-      paddingTop: 14,
-      paddingHorizontal: space.lg,
-      paddingBottom: space.xs + 2,
-    },
+    // The shared card header (settings/theme), with two more dp under it: this one heads a
+    // whole card, so it stands a little further off its first row than a sub-group's does.
+    title: { ...cardHeaderStyle(colors), paddingBottom: space.xs + 2 },
     card: {
       backgroundColor: colors.card,
-      borderRadius: 12,
+      borderRadius: radius.md,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
       overflow: 'hidden',

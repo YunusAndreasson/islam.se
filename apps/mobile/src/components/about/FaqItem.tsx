@@ -1,14 +1,10 @@
-import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useReducedMotion,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import { Icon } from '@/components/ui/Icon';
-import { motion, type Palette, space, type } from '@/theme/tokens';
+import { useReveal } from '@/components/ui/useReveal';
+import { type Palette, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
 // A single FAQ row: a readable question that expands to reveal its answer. It's the
@@ -19,11 +15,11 @@ import { useColors } from '@/theme/useColors';
 // Several of these stack inside one card (a SettingSection), so an item draws a top
 // hairline when `divider` is set — exactly how the settings rows separate.
 //
-// Body reveal mirrors DisclosureGroup: the answer is laid out absolutely so it never
-// forces the row open, reports its natural height via onLayout, and the visible body
-// height animates `open * measuredHeight`. Children stay mounted (just clipped), so
-// there's no re-measure flash on first open and the collapsed answer is hidden from
-// the screen reader.
+// Body reveal mirrors DisclosureGroup, through the same hook (ui/useReveal): the answer is
+// laid out absolutely so it never forces the row open, reports its natural height via
+// onLayout, and the visible body transitions between 0 and that height. Children stay
+// mounted (just clipped), so there's no re-measure flash on first open and the collapsed
+// answer is hidden from the screen reader.
 export function FaqItem({
   question,
   answer,
@@ -43,26 +39,14 @@ export function FaqItem({
 }) {
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
-  const reduceMotion = useReducedMotion();
 
   const [expanded, setExpanded] = useState(defaultExpanded);
-  const [contentHeight, setContentHeight] = useState(0);
-
-  // 0 = collapsed, 1 = expanded. Drives body height, chevron rotation.
-  const open = useSharedValue(defaultExpanded ? 1 : 0);
-
-  useEffect(() => {
-    const target = expanded ? 1 : 0;
-    open.set(reduceMotion ? target : withTiming(target, { duration: motion.base }));
-  }, [expanded, reduceMotion, open]);
-
-  const bodyStyle = useAnimatedStyle(() => ({
-    height: open.get() * contentHeight,
-    opacity: open.get(),
-  }));
-  const chevronStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${open.get() * 90}deg` }],
-  }));
+  const reveal = useReveal(expanded);
+  const chevronStyle = {
+    transform: [{ rotate: expanded ? '90deg' : '0deg' }],
+    transitionProperty: 'transform',
+    ...reveal.timing,
+  } as const;
 
   return (
     <View style={[styles.wrap, divider && styles.divider]}>
@@ -82,14 +66,14 @@ export function FaqItem({
       </Pressable>
 
       <Animated.View
-        style={[styles.body, bodyStyle]}
+        style={[styles.body, reveal.body]}
         accessibilityElementsHidden={!expanded}
         importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
         pointerEvents={expanded ? 'auto' : 'none'}
       >
         <View
           style={styles.measure}
-          onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
+          onLayout={reveal.onLayout}
         >
           <Text style={[styles.answer, extra ? styles.answerWithExtra : null]}>{answer}</Text>
           {extra ? <View style={styles.extra}>{extra}</View> : null}
@@ -117,7 +101,7 @@ function makeStyles(c: Palette) {
     question: { ...type.bodyStrong, flex: 1, color: c.ink },
     body: { overflow: 'hidden' },
     // Absolute so the answer's natural height is reported via onLayout without forcing
-    // the (animated) body open.
+    // the (transitioning) body open.
     measure: { position: 'absolute', left: 0, right: 0, top: 0 },
     answer: {
       ...type.callout,

@@ -7,7 +7,6 @@
 // It starts BELOW the cardinal band (the index wedge and the 0° tick already carry the axis
 // up there) so it never strikes through the "N", and it fades in rather than beginning on a
 // chopped end.
-import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, View } from 'react-native';
 
 import { hexToRgba } from '@/theme/rgba';
@@ -20,10 +19,26 @@ const SIGHT_TOP = 48;
 export function DialSight({ radius, c }: { radius: number; c: Palette }) {
   return (
     <View style={[styles.wrap, { top: SIGHT_TOP, height: Math.max(0, radius - SIGHT_TOP) }]} pointerEvents="none">
-      <LinearGradient
-        colors={[hexToRgba(c.ink, 0), hexToRgba(c.ink, 0.16), hexToRgba(c.ink, 0)]}
-        locations={[0, 0.2, 1]}
-        style={styles.line}
+      {/* The fade is core React Native's `backgroundImage`: in over the first fifth, out
+          over the rest. Every stop is the ink's own rgb at a different alpha, so the
+          transparent ends cannot fringe grey whichever way the platform interpolates. */}
+      <View
+        style={[
+          styles.line,
+          {
+            backgroundImage: [
+              {
+                type: 'linear-gradient',
+                direction: 'to bottom',
+                colorStops: [
+                  { color: hexToRgba(c.ink, 0) },
+                  { color: hexToRgba(c.ink, 0.16), positions: ['20%'] },
+                  { color: hexToRgba(c.ink, 0) },
+                ],
+              },
+            ],
+          },
+        ]}
       />
     </View>
   );

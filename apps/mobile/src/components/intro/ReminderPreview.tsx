@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { AppState, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { AppState, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AppSwitch } from '@/components/ui/AppSwitch';
 import { alertContent } from '@/lib/alert-copy';
 import { ANALYTICS_EVENTS, analytics } from '@/lib/analytics';
 import { clearReminderDraft, reminderSelection, saveReminderDraft, type PrayerMask } from '@/lib/first-run';
@@ -16,7 +17,7 @@ import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { relativeDayLabel } from '@/lib/relative-day';
 import { openNotificationSettings } from '@/lib/system-settings';
 import { startOfZoneDay } from '@/lib/zone-time';
-import { mono, type } from '@/theme/tokens';
+import { mono, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { useReadingColumn } from '@/theme/window-layout';
 import { PreviewPhoto } from './PreviewPhoto';
@@ -102,16 +103,16 @@ export function ReminderPreview({ now, initial, placeKey, onClose, onMethod, onA
       flex: 1, backgroundColor: c.paper,
       ...(android && { paddingTop: insets.top, paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right }),
     }}>
-      <View style={[{ flex: 1, paddingHorizontal: 22 }, column]} onAccessibilityEscape={back}>
+      <View style={[{ flex: 1, paddingHorizontal: space.xl }, column]} onAccessibilityEscape={back}>
         <View style={{ alignItems: 'flex-start' }}><FirstRunButton label="Tillbaka" icon="back" onPress={back} /></View>
-        <ScrollView contentContainerStyle={{ gap: 12, paddingBottom: 18 }}>
+        <ScrollView contentContainerStyle={{ gap: space.md, paddingBottom: space.xl }}>
           <Text accessibilityRole="header" style={[type.title, { color: c.ink }]}>Påminnelser vid bönetiderna</Text>
           <Text style={[type.lead, { color: c.inkMuted }]}>{!count ? 'Välj minst en bön för att få påminnelser.'
             : (count === 5 ? 'En påminnelse när varje bön börjar i ' : 'En påminnelse vid de böner du väljer i ') + label + '.'}</Text>
           {first && sample && <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.sample}>
             <PreviewPhoto testID="reminder-preview-photo" />
             <View style={styles.sampleContent}>
-              <Text style={[type.caption, styles.white]}>Första påminnelsen · {dayWord(first.fireAt, now)}</Text>
+              <Text style={[type.caption, styles.white, styles.overPhoto]}>Första påminnelsen · {dayWord(first.fireAt, now)}</Text>
               <View style={styles.banner}><Image source={require('../../../assets/images/icon.png')} style={styles.icon} />
                 <View style={{ flex: 1 }}><Text style={[type.micro, styles.white]}>islam.se</Text>
                   <Text style={[type.bodyStrong, styles.white]}>{sample.title}</Text>
@@ -120,19 +121,19 @@ export function ReminderPreview({ now, initial, placeKey, onClose, onMethod, onA
           </View>}
           <View style={styles.between}><Text style={[type.bodyStrong, { color: c.ink }]}>Dina påminnelser</Text>
             <Text style={[type.caption, { color: c.inkMuted }]}>Nästa tid</Text></View>
-          <View style={{ backgroundColor: c.surface, borderRadius: 12 }}>
-            {NOTIFY_PRAYERS.map(key => {
+          <View style={{ backgroundColor: c.surface, borderRadius: radius.md }}>
+            {NOTIFY_PRAYERS.map((key, index) => {
               const slot = choices.find(a => a.key === key);
               const day = slot && dayWord(slot.at, now);
               const time = slot ? formatTime(slot.at) : 'Ingen beräknad tid';
               return <Pressable key={key} accessibilityRole="switch" accessibilityState={{ checked: mask[key], disabled: busy }}
                 accessibilityLabel={[PRAYER_LABELS[key], PRAYER_SWEDISH_NAMES[key], day, time].filter(Boolean).join(', ')}
                 disabled={busy} onPress={() => setMask(old => ({ ...old, [key]: !old[key] }))}
-                style={[styles.row, { borderBottomColor: c.hairline }]}>
+                style={[styles.row, { borderBottomColor: c.hairline }, index === NOTIFY_PRAYERS.length - 1 && styles.rowLast]}>
                 <Text style={[type.body, { color: c.ink, flexGrow: 1 }]}>{PRAYER_LABELS[key]}</Text>
                 <Text style={[type.callout, mono, { color: c.inkMuted, flexShrink: 1 }]}>{day === 'i morgon' && 'i morgon '}{time}</Text>
                 <View pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-                  <Switch value={mask[key]} trackColor={{ true: c.accent }} /></View>
+                  <AppSwitch value={mask[key]} /></View>
               </Pressable>;
             })}
           </View>
@@ -147,12 +148,24 @@ export function ReminderPreview({ now, initial, placeKey, onClose, onMethod, onA
 }
 
 const styles = StyleSheet.create({
-  between: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 6 },
-  sample: { overflow: 'hidden', borderRadius: 18 },
-  sampleContent: { minHeight: 129, justifyContent: 'space-between', padding: 12, gap: 14 },
+  between: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', marginTop: space.sm },
+  sample: { overflow: 'hidden', borderRadius: radius.lg },
+  sampleContent: { minHeight: 129, justifyContent: 'space-between', padding: space.md, gap: space.md },
+  // The sample is a mock of the SYSTEM's notification over a photograph, so its colours are
+  // the lock screen's and deliberately not the palette's: white type, a dark material.
   white: { color: '#fff' },
-  banner: { flexDirection: 'row', gap: 10, alignItems: 'center', padding: 10, backgroundColor: 'rgba(24,28,43,0.88)', borderRadius: 14 },
-  icon: { width: 30, height: 30, borderRadius: 8 },
-  row: { minHeight: 46, borderBottomWidth: StyleSheet.hairlineWidth, paddingHorizontal: 12, paddingVertical: 5,
-    flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 8 },
+  // The caption sits on the photo's sky — the brightest part of it, a pale dusk pink — where
+  // bare white type measured about 2.5:1 and all but dissolved. A soft dark halo is the
+  // lock screen's own answer to text over a wallpaper, and leaves the photograph untouched
+  // where a scrim would have dimmed the one part of it worth looking at.
+  overPhoto: { textShadowColor: 'rgba(12,14,22,0.75)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6 },
+  banner: { flexDirection: 'row', gap: space.md, alignItems: 'center', padding: space.md, backgroundColor: 'rgba(24,28,43,0.88)', borderRadius: radius.md },
+  icon: { width: 30, height: 30, borderRadius: radius.sm },
+  // 48 and a 16 dp inset: the settings rows' own pitch and edge (Toggle, OptionGroup), since
+  // this is the same list of switches the reader will meet again under Påminnelser.
+  row: { minHeight: 48, borderBottomWidth: StyleSheet.hairlineWidth, paddingHorizontal: space.lg, paddingVertical: space.xs,
+    flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: space.sm },
+  // A divider separates two rows; under the last one it was a stray rule along the card's
+  // bottom edge.
+  rowLast: { borderBottomWidth: 0 },
 });

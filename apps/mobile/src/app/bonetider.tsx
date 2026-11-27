@@ -12,7 +12,7 @@ import { FirstReading } from '@/components/intro/FirstReading';
 import { FirstRunButton } from '@/components/intro/FirstRunButton';
 import { FirstMapTitle } from '@/components/intro/FirstMapTitle';
 import { useNetworkState } from 'expo-network';
-import { router, useIsFocused, useLocalSearchParams } from 'expo-router';
+import { useIsFocused, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import {
   useCallback,
@@ -362,6 +362,7 @@ async function pickOffer(
 }
 
 export default function Bonetider() {
+  const router = useRouter();
   const { calendar } = useLocalSearchParams<{ calendar?: string }>();
   const scheme = useActiveScheme();
   const colors = useColors();
@@ -1854,6 +1855,12 @@ export default function Bonetider() {
           userPoint={userPoint}
           arrival={arrival}
           polarBoundary={polarBoundary}
+          // The opening plate's title is set on the map's top-left corner, and the boundary is
+          // a line of latitude across the whole width. Its CAPTION already steps aside for
+          // the title (MapMarkersOverlay hides it above `headerBottom`); the line did not, so
+          // on the weeks it falls that far north it was ruled straight through »Bönetider i
+          // Sverige« with nothing left on screen to say what it was. Same band, same rule.
+          boundaryClearAbove={opening ? titleBottom + space.sm : 0}
           mosquePoints={mosquePoints}
         />
       )}
@@ -1958,8 +1965,8 @@ export default function Bonetider() {
       </GlassBackdropTarget>
       {firstRun && cameraReady && <FirstCityLabel camera={cam} point={userPoint} name={placeLabel} />}
       {opening && <FirstMapTitle top={insets.top + 8} onBottom={setTitleBottom} />}
-      {opening && appointment && animatePass && <View style={{ position: 'absolute', right: 16,
-        bottom: readingHeight + 6, backgroundColor: colors.cardGlass, paddingHorizontal: 8, borderRadius: 18 }}>
+      {opening && appointment && animatePass && <View style={{ position: 'absolute', right: space.lg,
+        bottom: readingHeight + 6, backgroundColor: colors.cardGlass, paddingHorizontal: space.sm, borderRadius: radius.round }}>
         <FirstRunButton label="Spela upp igen ↻" onPress={() => setPlayback(n => n + 1)} /></View>}
 
       {/* The one bottom surface: normally next prayer + day scrubber, expandable to the

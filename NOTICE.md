@@ -51,6 +51,10 @@ Each keeps its owners' terms:
   Amiri, including Amiri Quran and the two honorific glyphs cut from Amiri
   (`apps/web/src/assets/fonts/`, which holds the license texts,
   `apps/web/scripts/fonts/` and `fonts/`).
+- The mosque glyph on the mobile map, from Material Design Icons
+  (Pictogrammers and contributors), under the Apache License 2.0: its outline
+  in `apps/mobile/scripts/build-map-pins.mjs` and the pins rendered from it,
+  `apps/mobile/assets/map/mosque-pin-*.png`.
 - The Swedish Hunspell dictionary from the `dictionary-sv` package, under the
   LGPL-3.0 (`data/hunspell/sv.aff`, `data/hunspell/sv.dic`).
 - Map and place data: land, water and the outlines of Sweden and its

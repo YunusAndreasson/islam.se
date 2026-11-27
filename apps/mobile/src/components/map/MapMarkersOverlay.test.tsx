@@ -3,11 +3,11 @@
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
-import * as reanimated from 'react-native-reanimated';
 
 import { driftedCamera, MAX_DRIFT_MS, solarDrift } from '@/lib/map/line-geometry';
 import * as projection from '@/lib/map/projection';
 import { type Camera, project, unproject } from '@/lib/map/projection';
+import { animatedStyle, nextFrame } from '@/test-utils/animated';
 import { FirstCityLabel, MapMarkersOverlay } from './MapMarkersOverlay';
 import { type PrayerLineData, SolarSkiaOverlay } from './skia/SolarSkiaOverlay';
 
@@ -20,16 +20,15 @@ const ANCHOR: [number, number] = [18.07, 59.33];
 
 const shared = <T,>(value: T) => ({ value, get: () => value, set: () => {} }) as never;
 
-afterEach(() => { jest.restoreAllMocks(); });
+afterEach(() => { jest.restoreAllMocks(); jest.useRealTimers(); });
 
-/** Runs the pill's UI-thread style once, as Reanimated would, and returns its translate. */
+/** Renders the overlay and returns where Reanimated placed the pill, and how visible. */
 async function pillAt(
   geometryNow: number,
   preview: boolean,
   polylines: [number, number][][] = [[[18.07, 59.0], [18.07, 59.7]]],
   labelAt: [number, number] = ANCHOR,
 ) {
-  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
   await render(
     <MapMarkersOverlay
       camera={shared(CITY)}
@@ -50,10 +49,8 @@ async function pillAt(
   // The anchor view is the pill's grandparent: anchor → chip → label.
   const anchor = pill.parent!.parent!;
   expect(anchor.parent).toHaveStyle({ direction: 'ltr' });
-  const style = [anchor.props.style].flat(3).find((s) => s && 'transform' in s) as {
-    transform: [{ translateX: number }, { translateY: number }];
-  };
-  const chip = [pill.parent!.props.style].flat(3).find((s) => s && 'opacity' in s) as { opacity: number };
+  const style = animatedStyle(anchor) as { transform: [{ translateX: number }, { translateY: number }] };
+  const chip = animatedStyle(pill.parent!) as { opacity: number };
   return { x: style.transform[0].translateX, y: style.transform[1].translateY, opacity: chip.opacity };
 }
 
@@ -133,7 +130,7 @@ describe('a prayer pill whose line misses the label band', () => {
 // Polarnatt used to sit under Android's status icons. Its two-line caption
 // grows with system text, so visibility depends on the measured text height.
 it('shows the polar caption only when its full height clears the top inset', async () => {
-  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
+  jest.useFakeTimers();
   const overlay = (lineY: number) => <MapMarkersOverlay camera={shared({ ...CITY, lon: 16 })} dayStart={DAY_START}
     dayLength={DAY_MS} nowFraction={shared(0.5)} geometryNow={NOW} labels={[]} lines={[]}
     headerBottom={40} topInset={150} bottomInset={0} nextKey={null}
@@ -142,14 +139,15 @@ it('shows the polar caption only when its full height clears the top inset', asy
   const wrap = () => screen.getByText('Polarnatt', { includeHiddenElements: true }).parent!;
   await fireEvent(wrap(), 'layout', { nativeEvent: { layout: { width: 85, height: 35 } } });
   await view.rerender(overlay(81));
-  expect(wrap().parent).toHaveStyle({ opacity: 0 });
+  await nextFrame();
+  expect(animatedStyle(wrap().parent!).opacity).toBe(0);
   await view.rerender(overlay(110));
-  expect(wrap().parent).toHaveStyle({ opacity: 1 });
+  await nextFrame();
+  expect(animatedStyle(wrap().parent!).opacity).toBe(1);
 });
 
 // The old text painted a second point and a white rectangle over the native pin.
 it('places one bare, haloed city name beside the pin without needing basemap tiles', async () => {
-  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
   await render(<FirstCityLabel camera={shared(CITY)} point={ANCHOR} name="Stockholm" />);
   const name = screen.getByText('Stockholm', { exact: true });
   expect(screen.queryByText(/●/)).toBeNull();
@@ -158,7 +156,7 @@ it('places one bare, haloed city name beside the pin without needing basemap til
   expect(style.textShadowRadius).toBeGreaterThan(0);
   expect(style.textShadowColor).toBeTruthy();
   expect(style.backgroundColor).toBeUndefined();
-  expect(name.parent).toHaveStyle({ transform: [{ translateX: CITY.width / 2 + 12 }, { translateY: CITY.height / 2 }] });
+  expect(animatedStyle(name.parent!).transform).toEqual([{ translateX: CITY.width / 2 + 12 }, { translateY: CITY.height / 2 }]);
 });
 
 // Android clipped the translated Text against its untranslated parent, cutting
@@ -166,7 +164,6 @@ it('places one bare, haloed city name beside the pin without needing basemap til
 it.each([
   ['Stockholm', 4.5, 74, 24, 195], ['Malmö', 12, 150, 66, 365],
 ] as const)('keeps the full measured %s label on screen at zoom %s', async (name, zoom, width, height, x) => {
-  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
   const camera = { ...CITY, zoom };
   const point = unproject(x, 330, camera);
   const label = () => <FirstCityLabel camera={shared(camera)} point={[point.lon, point.lat]} name={name} />;
@@ -175,7 +172,7 @@ it.each([
   await fireEvent(text().parent!, 'layout', { nativeEvent: { layout: { width, height } } });
   await view.rerender(label());
   expect(StyleSheet.flatten(text().props.style).transform).toBeUndefined();
-  const box = StyleSheet.flatten(text().parent!.props.style);
+  const box = animatedStyle(text().parent!);
   const [dx, dy] = box.transform;
   expect(dy.translateY + height / 2).toBeCloseTo(330);
   expect(dx.translateX).toBeGreaterThanOrEqual(0);
@@ -186,7 +183,7 @@ it.each([
 // During the flyover a caption could be above the status inset yet overlap the
 // title, or sit inside the reading sheet. Check the entire measured caption.
 it('hides the polar caption as either edge crosses the visible map band', async () => {
-  jest.spyOn(reanimated, 'useAnimatedStyle').mockImplementation(((fn: () => object) => fn()) as never);
+  jest.useFakeTimers();
   const cam = { ...CITY, lon: 16 };
   const overlay = (bottom: number) => <MapMarkersOverlay camera={shared(cam)} dayStart={DAY_START}
     dayLength={DAY_MS} nowFraction={shared(0.5)} geometryNow={NOW} labels={[]} lines={[]}
@@ -197,6 +194,7 @@ it('hides the polar caption as either edge crosses the visible map band', async 
   await fireEvent(wrap(), 'layout', { nativeEvent: { layout: { width: 100, height: 50 } } });
   for (const [bottom, opacity] of [[180, 0], [260, 1], [481, 0]] as const) {
     await view.rerender(overlay(bottom));
-    expect(wrap().parent).toHaveStyle({ opacity });
+    await nextFrame();
+    expect(animatedStyle(wrap().parent!).opacity).toBe(opacity);
   }
 });

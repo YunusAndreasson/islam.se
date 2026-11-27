@@ -10,7 +10,7 @@ import type { TextStyle, ViewStyle } from 'react-native';
 
 import { radius, space } from '@/theme/tokens';
 
-export function chipStyles(colors: { accent: string; accentSoft: string }) {
+export function chipStyles(colors: { onAccentSoft: string; accentSoft: string }) {
   return {
     box: {
       borderRadius: radius.sm,
@@ -19,6 +19,8 @@ export function chipStyles(colors: { accent: string; accentSoft: string }) {
       backgroundColor: colors.accentSoft,
     } satisfies ViewStyle,
     // 11/700: a deliberate compact chip label, below the type scale on purpose.
-    text: { fontSize: 11, fontWeight: '700', color: colors.accent } satisfies TextStyle,
+    // `onAccentSoft`, not `accent`: on the dark tint the accent itself is under the text
+    // floor (see the token).
+    text: { fontSize: 11, fontWeight: '700', color: colors.onAccentSoft } satisfies TextStyle,
   };
 }

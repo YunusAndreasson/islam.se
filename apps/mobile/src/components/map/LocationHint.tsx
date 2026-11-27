@@ -18,7 +18,7 @@
 // hand gives correct times without granting anything — so the card offers that door in
 // every state where the primary path has not succeeded, including a refusal.
 import { useCardInsets } from '@/theme/window-layout';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
@@ -53,6 +53,7 @@ interface Props {
 type CardState = 'ask' | 'granted' | 'denied' | 'error';
 
 export function LocationHint({ top, onClose }: Props) {
+  const router = useRouter();
   const cardInsets = useCardInsets(space.lg);
   const c = useColors();
   const sky = useSkyGlass();

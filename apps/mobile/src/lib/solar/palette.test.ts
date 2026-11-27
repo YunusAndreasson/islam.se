@@ -291,6 +291,25 @@ describe('PRAYER_TEXT_COLORS — legible on the dock card at every hour', () => 
     expect(worst(PRAYER_TEXT_COLORS[prayer].dark, DARK)).toBeGreaterThanOrEqual(62);
   });
 
+  // The NEXT prayer's row is the one the reader looks at first, and it is not the plain card:
+  // it sits on a `highlightSoft` tile. The two tests above never looked there, and on the old
+  // tile (`#f1e7d0`, a step darker than the card) five of the six light names measured
+  // 4.20–4.40:1 — under the bar this table exists to hold, on its most-read row.
+  it.each(PRAYER_ORDER)('%s clears 4.5:1 on the next-prayer tile, on every dock surface', (prayer: PrayerKey) => {
+    const tileOn = (tint: string, bg: string): string => {
+      if (tint.startsWith('#')) return tint;
+      const [r = 0, g = 0, b = 0, a = 1] = tint.slice(tint.indexOf('(') + 1, -1).split(',').map(Number);
+      const base = [1, 3, 5].map((i) => parseInt(bg.slice(i, i + 2), 16));
+      return `#${[r, g, b].map((v, i) => Math.round(v * a + (base[i] ?? 0) * (1 - a)).toString(16).padStart(2, '0')).join('')}`;
+    };
+    const worst = (fg: string, tint: string, list: string[]) =>
+      list.reduce((min, bg) => Math.min(min, wcagContrast(fg, tileOn(tint, bg))), Infinity);
+    expect({
+      light: Number(worst(PRAYER_TEXT_COLORS[prayer].light, lightPalette.highlightSoft, LIGHT).toFixed(2)) >= 4.5,
+      dark: Number(worst(PRAYER_TEXT_COLORS[prayer].dark, darkPalette.highlightSoft, DARK).toFixed(2)) >= 4.5,
+    }).toEqual({ light: true, dark: true });
+  });
+
   // The names must stay a tier BELOW the plain ink they sit among: ink is the schedule's
   // voice, colour is identity. If a future lift made a coloured name the loudest thing in the
   // row, the list would read as six competing labels rather than one column with a key.

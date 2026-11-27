@@ -20,7 +20,7 @@
 // the neutral location step says "Nästa", while declining the explicit notification ask
 // says "Inte nu". The welcome step keeps its skip, because there it means something
 // different — leave the introduction now, not answer this question later.
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
 import { AppState, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -56,6 +56,7 @@ export default function Valkommen() {
 }
 
 function Introduction({ initialStep }: { initialStep: number }) {
+  const router = useRouter();
   const c = useColors();
   const { complete, replaying, status } = useIntro();
   const { source } = useLocation();

@@ -88,20 +88,52 @@ export const lightPalette = {
   accent: '#33437a',
   accentDeep: '#26315e',
   accentSoft: '#e7e8f1',
+  // Accent ink ON its own tint — the "Nu" / "Standard" chip, the quiet intro button. In
+  // light that is simply `accent` (Lc 78 on the tint). It is a token of its own because in
+  // dark it cannot be: see the dark value.
+  onAccentSoft: '#33437a',
 
   // Highlight — warm brass-gold. The "live right now" emphasis (next prayer, qibla
-  // lock). `highlightText` is the legible brass foreground on light surfaces; `onHighlight`
-  // is the legible text/icon colour on a brass fill.
+  // lock). Three jobs, three values:
+  //   • `highlight` is the GRAPHIC brass (needle, location dot). It never carries text.
+  //   • `highlightText` is the brass that can be READ — as ink on a light surface, and as
+  //     the FILL of the one solid brass surface, the lock pill, with `onHighlight` on it.
+  //   • `highlightSoft` is the tile under "this one, now" (the next prayer's row).
+  //
+  // `highlightSoft` is a LUMINOUS gold wash, not a darker inset, and the next-prayer row is
+  // why. Prayer names sit on it in their own hue (PRAYER_TEXT_COLORS), tuned to clear
+  // 4.5:1 on the dock card with almost nothing to spare — so the old `#f1e7d0`, a step
+  // darker than the card, put five of the six under it at 4.20–4.40:1 on the single row
+  // the reader looks at first. Lifting L 0.930 → 0.957 buys that back (4.58:1 worst), and
+  // raising chroma 0.032 → 0.048 on the same hue (H 87) keeps the tile as distinct from
+  // the card as it was: it now separates by warmth instead of by darkness, which also
+  // holds over the night dock's cool card where a darker tile only read as a smudge.
+  // lib/solar/palette.test.ts measures the names on it across every dock surface.
+  //
+  // ⚠️ THE HOME-SCREEN WIDGETS CARRY THEIR OWN COPY of this value, and both copies are
+  // NATIVE source: `tint` in src/widgets/PrayerTimesWidget.tsx (hashed into the runtime
+  // fingerprint) and modules/prayer-widget's islam_widget_current_light.xml. Change this
+  // and they must change with it, together, under a new runtime version.
   highlight: '#b8862f',
-  highlightSoft: '#f1e7d0',
+  highlightSoft: '#fff0cd',
   highlightText: '#805b1f',
   onAccent: '#ffffff', //     text/icon on an indigo fill
-  onHighlight: '#1a1712', //  text/icon on a brass fill
+  // Text/icon on a `highlightText` fill. Warm white on the deep brass, not dark ink on the
+  // graphic brass: dark-on-`highlight` passed WCAG (5.5:1) and measured APCA Lc 43 — a
+  // mid-tone fill is exactly where WCAG 2 over-rates dark text — on the one sentence the
+  // qibla screen exists to say. This pair measures Lc 84 / 6.0:1.
+  onHighlight: '#fffdf8',
 
-  // Slider / track, the switch knob and the dock's grab handle.
+  // `track` is a base line that should recede: the timeline's rail, the lesson dots.
   track: 'rgba(26,23,18,0.14)',
   thumb: '#fffdf8', //        switch knob (warm white)
-  handle: 'rgba(26,23,18,0.20)', // dock grab handle
+  // `handle` is the quiet BODY OF A CONTROL that must still be found: the dock's grab
+  // handle and a switch's off track (components/ui/AppSwitch). 0.30, not the 0.20 it was:
+  // at 0.20 it stood 1.5:1 off the card while the dark one stands 2.6:1 off its own, so
+  // the one affordance that says "this card opens" was plain in one theme and a whisper
+  // in the other. 0.30 is the same OKLab lightness step from the card (0.21) as dark's
+  // (0.24).
+  handle: 'rgba(26,23,18,0.30)',
 
   // The day scrubber IS the mark: a gold disc inside a blue ring, sliding along a
   // blue trail. This is the one place in the chrome that draws the logo rather than
@@ -187,6 +219,12 @@ export const darkPalette: Palette = {
   accent: '#adbcf8',
   accentDeep: '#90a1e5',
   accentSoft: 'rgba(173,188,248,0.16)',
+  // `accent` on its own tint measured Lc 58 here against light's 78: the tint lifts the
+  // ground toward the very colour the text is, and no alpha fixes it (Lc 61.5 at 0.08, by
+  // which point the tile is gone). So the ink is lifted instead — same hue (H 273), L 0.805
+  // → 0.88 — to Lc 72 on the tint, on 11 pt bold chip labels that are the smallest text in
+  // the app. Still plainly the accent, still a tier under `ink` (Lc 80 on the same tile).
+  onAccentSoft: '#cbd6fd',
 
   // `highlight` is the GRAPHIC brass — the qibla needle, the location dot, the widget
   // glyphs. It stays at the 2026 "Cloud Dancer calm" value: as a graphic it needs Lc 45
@@ -200,7 +238,7 @@ export const darkPalette: Palette = {
   highlightSoft: 'rgba(200,154,72,0.16)',
   highlightText: brand.gold.dark,
   onAccent: '#161a26',
-  onHighlight: '#161a26',
+  onHighlight: '#161a26', //    on a `highlightText` fill, as in light: Lc 82 on the brand gold
 
   track: 'rgba(225,232,255,0.16)',
   thumb: '#e8e3d8',
@@ -231,6 +269,11 @@ export const darkPalette: Palette = {
 export const type = {
   title: { fontSize: 28, fontWeight: '700', letterSpacing: 0, lineHeight: 34 },
   headline: { fontSize: 20, fontWeight: '700', letterSpacing: 0, lineHeight: 26 },
+  // The crown of a card: the line that heads a list without being a screen's title — the
+  // dock's date, the day picker's month, the collapsed dock's prayer name. One step under
+  // `headline`, so a card's crown never competes with the headline of the screen it floats
+  // on, and a clear step over the 15 pt rows it heads. `footnote` below is its second line.
+  subhead: { fontSize: 18, fontWeight: '700', letterSpacing: 0.1, lineHeight: 24 },
   // The one paragraph that sits under a hero title (the introduction's `lead`). A tier of
   // its own rather than `body`, because `body` is also what the CONTROLS underneath it are
   // set in — a lead at the same size and weight as the option labels it introduces reads
@@ -244,6 +287,10 @@ export const type = {
   // header that whispers the group name rather than shouting it. Paired with a muted ink
   // colour at the call-site; the near-zero tracking keeps it quiet next to 16pt body rows.
   label: { fontSize: 13, fontWeight: '600', letterSpacing: 0.1 },
+  // The second line of a crown (the Hijri date under the Gregorian one). Between `callout`
+  // and `caption` on purpose: it is still read, not skimmed past, but it must not be
+  // mistaken for one of the 15 pt rows underneath.
+  footnote: { fontSize: 14, fontWeight: '400', lineHeight: 20 },
   caption: { fontSize: 13, fontWeight: '400', lineHeight: 18 },
   micro: { fontSize: 11, fontWeight: '500', letterSpacing: 0.3 },
 } as const;

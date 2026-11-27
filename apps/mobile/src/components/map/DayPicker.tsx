@@ -244,9 +244,15 @@ function DayPickerSheet({ dayStart, todayStart, hijriOffset = 0, onPick, onClose
                 <Text testID="calendar-month-title" style={styles.title} accessibilityRole="header">
                   {heading(grid.title)}
                 </Text>
+                {/* Two lines are reserved, and when the span needs both it is broken EVENLY.
+                    Greedy wrapping filled the first line and left the year alone on the
+                    second — »Jumādā al-ūlā – Jumādā al-ākhira / 1448« — a widow under the
+                    month title, on a line the header had already paid for. */}
                 <Text
                   testID="calendar-hijri-caption"
-                  style={[styles.hijri, !compact && { minHeight: 2 * 20 * fontScale }]}
+                  style={[styles.hijri, !compact && { minHeight: 2 * type.footnote.lineHeight * fontScale }]}
+                  textBreakStrategy="balanced"
+                  lineBreakStrategyIOS="push-out"
                 >
                   {hijriSpan(grid, hijriOffset)}
                 </Text>
@@ -365,14 +371,18 @@ function makeStyles(c: Palette) {
     },
     // Align controls to the grid below, not to the caption's centre: a longer
     // Hijri span may grow upward without moving the next-month button mid-tap.
-    head: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm, marginBottom: space.xs },
+    // Inset one step past the grid's own 12, to 16: the crown and its controls then stand
+    // exactly where the dock's date crown and stepper stood a moment ago (the sheet opens
+    // over the dock, on the same card footprint), instead of 4 dp to the left of them. The
+    // grid keeps the full 12 dp inset — its seven columns need the width for their targets.
+    head: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm, marginBottom: space.xs, paddingHorizontal: space.xs },
     headStacked: { flexDirection: 'column', alignItems: 'stretch' },
     titleBlock: { flex: 1, minWidth: 0 },
     titleBlockStacked: { flex: 0 },
     controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: space.sm },
     // The same pair the dock's date crown uses: 18/700 Swedish, 14 muted Hijri under it.
-    title: { fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: 0.1, color: c.ink },
-    hijri: { fontSize: 14, lineHeight: 20, color: c.inkMuted, marginTop: 1 },
+    title: { ...type.subhead, color: c.ink },
+    hijri: { ...type.footnote, color: c.inkMuted, marginTop: 1 },
     close: {
       width: 36,
       height: 36,
@@ -389,7 +399,7 @@ function makeStyles(c: Palette) {
     // Keep the moon close to its date, with more space between calendar rows.
     // Padding alone gives empty cells a 10dp height. Entire blank weeks must take
     // exactly as much room as populated ones, otherwise the pager slides down in February.
-    cell: { width: `${100 / 7}%`, alignItems: 'center', paddingTop: 2, paddingBottom: 8, paddingHorizontal: 2 },
+    cell: { width: `${100 / 7}%`, alignItems: 'center', paddingTop: 2, paddingBottom: space.sm, paddingHorizontal: 2 },
     dayBubble: {
       maxWidth: '100%',
       borderRadius: radius.round,

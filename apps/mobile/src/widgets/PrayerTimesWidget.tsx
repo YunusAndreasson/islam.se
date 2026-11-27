@@ -44,7 +44,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     ? { paper: '#00000000', ink: '#ffffff', muted: '#ffffffbf', brass: '#ffffff', tint: '#ffffff26' }
     : dark
       ? { paper: '#161a26', ink: '#e8e3d8', muted: '#c1c6d4', brass: '#fad486', tint: '#332e2b' }
-      : { paper: '#f6f3ed', ink: '#1a1712', muted: '#6f6456', brass: '#805b1f', tint: '#f1e7d0' };
+      : { paper: '#f6f3ed', ink: '#1a1712', muted: '#6f6456', brass: '#805b1f', tint: '#fff0cd' };
 
   const rows = Array.isArray(p.rows) ? p.rows : [];
   const prayers = rows.filter(row => !row.isMarker);

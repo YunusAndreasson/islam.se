@@ -5,8 +5,8 @@
 // Inställningar landed above everything, and after a theme flip Android re-added the sources
 // in HashMap order, which put the dot under every mosque layer. A new <Layer> without a slot
 // brings exactly that back for itself, so it fails here.
-import { describe, expect, it, jest } from '@jest/globals';
-import { render, waitFor } from '@testing-library/react-native';
+import { describe, expect, it } from '@jest/globals';
+import { render } from '@testing-library/react-native';
 
 import { APP_LAYER_ORDER, slotFor } from '@/lib/map/layer-slots';
 import { NORDIC_DARK, NORDIC_LIGHT } from '@/lib/map/nordicStyle';
@@ -14,14 +14,6 @@ import { hostsOfType } from '@/test-utils/rendered';
 import { BurialGroundLayer } from './BurialGroundLayer';
 import { LocationLayer } from './LocationLayer';
 import { MosqueLayer } from './MosqueLayer';
-
-// The mosque glyph layer mounts only once its bitmap exists; give it one so the test sees
-// every layer the app can add, not just the ones that mount synchronously.
-jest.mock('@expo/vector-icons', () => {
-  const Icon = () => null;
-  Icon.getImageSource = async () => ({ uri: 'file:///mosque.png', scale: 1, width: 48, height: 48 });
-  return { MaterialCommunityIcons: Icon };
-});
 
 describe('app layer slots', () => {
   it('anchors every app layer beneath its own slot, and leaves no slot empty', async () => {
@@ -32,9 +24,10 @@ describe('app layer slots', () => {
         <LocationLayer point={[18.07, 59.33]} showQibla />
       </>,
     );
-    await waitFor(() =>
-      expect(hostsOfType('Layer').some((layer) => layer.props.id === 'mosque-symbols')).toBe(true),
-    );
+    // No waiting: the mosque glyph layer used to mount a beat late, once its bitmap had been
+    // rasterised on the device. Its pin is bundled now, so every layer is there at once —
+    // and a layer that arrives late is appended ABOVE its slot's intended neighbours.
+    expect(hostsOfType('Layer').some((layer) => layer.props.id === 'mosque-symbols')).toBe(true);
 
     const layers = hostsOfType('Layer');
     for (const layer of layers) {

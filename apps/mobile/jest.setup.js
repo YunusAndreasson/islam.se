@@ -32,6 +32,9 @@ jest.mock('expo-router', () => ({
   // Returns the disablePrevention function, as the real hook does.
   usePreventRemove: jest.fn(() => jest.fn()),
   router: { dismissTo: jest.fn(), setParams: jest.fn(), navigate: jest.fn(), push: jest.fn(), back: jest.fn(), replace: jest.fn(), canGoBack: jest.fn(() => true) },
+  // Components take their router from the hook (the SDK 58 guidance); it returns the very
+  // object above, so a test still asserts on `router.push` and friends.
+  useRouter: () => jest.requireMock('expo-router').router,
 }));
 
 // MapLibre is a native module with no JS implementation under test. Render its
@@ -41,7 +44,7 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
   Map: (() => {
     const React = require('react');
     const queryRenderedFeatures = jest.fn(async () => []);
-    const Map = React.forwardRef(function MockMap(props, ref) {
+    const Map = (function MockMap({ ref, ...props }) {
       React.useImperativeHandle(ref, () => ({ queryRenderedFeatures }), []);
       return React.createElement('Map', props);
     });
@@ -53,7 +56,7 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
   // do. Each mounted Camera gets fresh spies; the latest is `Camera.__last`.
   Camera: (() => {
     const React = require('react');
-    const Camera = React.forwardRef(function MockCamera(props, ref) {
+    const Camera = (function MockCamera({ ref, ...props }) {
       const api = React.useMemo(
         () => ({
           easeTo: jest.fn(),
@@ -72,7 +75,7 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
   })(),
   GeoJSONSource: (() => {
     const React = require('react');
-    return React.forwardRef(function MockGeoJSONSource(props, ref) {
+    return (function MockGeoJSONSource({ ref, ...props }) {
       const api = React.useMemo(() => ({
         setFeatureState: jest.fn(async () => {}),
         removeFeatureState: jest.fn(async () => {}),
@@ -175,121 +178,11 @@ jest.mock('expo-blur', () => {
   return { BlurView: View, BlurTargetView: View };
 });
 
-// react-native-reanimated has no JS-thread implementation under test. Provide a
-// minimal shim covering what the dock/menu/disclosure-group + Skia overlay use
-// (Animated.View & Animated.Text, shared/derived values, animated styles, the with*
-// helpers, useReducedMotion) so they render as host views. useDerivedValue runs its
-// worklet once so the Skia overlay's projected paths/uniforms compute. The worklet→JS
-// bridge (scheduleOnRN) is mocked separately below, from react-native-worklets.
-jest.mock('react-native-reanimated', () => {
-  const { View, Text } = require('react-native');
-  return {
-    __esModule: true,
-    default: { View, Text, createAnimatedComponent: (Component) => Component },
-    // Stable across renders, the way a real shared value is. It used to return a fresh
-    // object every render, which quietly broke every hook that lists one in its deps: the
-    // Qibla screen's heading callback was recreated on each render, so its focus effect
-    // tore down and re-subscribed the magnetometer three times per mount under test, and a
-    // state update landed by one subscription was wiped by the next one's cleanup.
-    useSharedValue: (value) => {
-      const React = require('react');
-      const ref = React.useRef(null);
-      if (ref.current === null) ref.current = {
-        value,
-        get() { return this.value; },
-        set(next) { this.value = typeof next === 'function' ? next(this.value) : next; },
-      };
-      return ref.current;
-    },
-    // get() as well as .value: the app reads every shared value through get() (the React
-    // Compiler-safe accessor), and a derived value without it would throw on first read.
-    useDerivedValue: (fn) => {
-      const value = fn();
-      return { value, get: () => value };
-    },
-    useAnimatedStyle: () => ({}),
-    // No UI thread under test, so the reaction never fires — matches reanimated's own
-    // jest mock (NOOP). The daybreak line-replay it drives is exercised on-device.
-    useAnimatedReaction: () => {},
-    useReducedMotion: () => false,
-    // The per-animation reduce-motion switch (the map's clock glide and the wash's holes
-    // opt OUT of the system setting with it). Values as reanimated spells them.
-    ReduceMotion: { System: 'system', Always: 'always', Never: 'never' },
-    withSpring: (value) => value,
-    withTiming: (value) => value,
-    cancelAnimation: () => {},
-    withRepeat: (value) => value,
-    withDelay: (_delay, value) => value,
-    withSequence: (...values) => values[values.length - 1],
-    // Easing combinators only need to be callables returning callables under test —
-    // the with* shims above ignore easing entirely.
-    Easing: (() => {
-      const id = (t) => t;
-      const wrap = (f) => f ?? id;
-      return {
-        linear: id,
-        ease: id,
-        quad: id,
-        cubic: id,
-        sin: id,
-        exp: id,
-        in: wrap,
-        out: wrap,
-        inOut: wrap,
-        bezier: () => id,
-      };
-    })(),
-    // The dock drives its reveals through interpolate()/Extrapolation; provide a real
-    // piecewise-linear implementation so module eval + render don't throw under test.
-    interpolate: (x, input, output) => {
-      if (x <= input[0]) return output[0];
-      const last = input.length - 1;
-      if (x >= input[last]) return output[last];
-      for (let i = 1; i <= last; i++) {
-        if (x <= input[i]) {
-          const t = (x - input[i - 1]) / (input[i] - input[i - 1]);
-          return output[i - 1] + t * (output[i] - output[i - 1]);
-        }
-      }
-      return output[last];
-    },
-    Extrapolation: { CLAMP: 'clamp', EXTEND: 'extend', IDENTITY: 'identity' },
-    // Layout-animation builders (MosqueCard's FadeIn/OutDown, NotificationHint's
-    // FadeIn/OutUp). Reanimated's real builders are chainable classes; under test the
-    // Animated.View shim ignores entering/exiting entirely, so all these need to do is
-    // survive the chained .duration()/.delay()/.springify() calls without throwing.
-    ...(() => {
-      const chainable = () => {
-        const builder = {};
-        for (const m of ['duration', 'delay', 'springify', 'easing', 'withInitialValues']) {
-          builder[m] = () => builder;
-        }
-        return builder;
-      };
-      const builders = {};
-      for (const dir of ['Up', 'Down', 'Left', 'Right']) {
-        builders[`FadeIn${dir}`] = chainable();
-        builders[`FadeOut${dir}`] = chainable();
-        builders[`SlideIn${dir}`] = chainable();
-        builders[`SlideOut${dir}`] = chainable();
-      }
-      builders.FadeIn = chainable();
-      builders.FadeOut = chainable();
-      return builders;
-    })(),
-  };
-});
-
-// Reanimated 4 moved the worklet→JS bridge into react-native-worklets: `scheduleOnRN`
-// replaces the deprecated `runOnJS`. Under test there's one JS thread, so scheduling
-// on "RN" just means invoking the function with its args synchronously — the same shim
-// the old `runOnJS: (fn) => fn` provided, updated for the new (fn, ...args) signature.
-jest.mock('react-native-worklets', () => ({
-  __esModule: true,
-  scheduleOnRN: (fn, ...args) => fn(...args),
-  // The other direction, for the scrubber's acknowledgement (lib/map/scrub-pipeline).
-  scheduleOnUI: (fn, ...args) => fn(...args),
-}));
+// Reanimated itself is NOT mocked: it runs its own JS implementation under test (see
+// jest.resolver.js and jest.setup-after-env.js). Worklets takes the mock the library ships,
+// which is the route its testing guide recommends — one JS thread, so "schedule on the
+// other thread" simply calls the function.
+jest.mock('react-native-worklets', () => require('react-native-worklets/lib/module/mock'));
 
 // react-native-skia is a native graphics module with no JS-thread renderer
 // under test. Render the Canvas + container nodes as host views (so the Bönetider
@@ -339,33 +232,6 @@ jest.mock('react-native-skia', () => {
       XYWHRect: (x, y, width, height) => ({ x, y, width, height }),
     },
   };
-});
-
-// expo-linear-gradient is a native module; render it as a plain host View so screens
-// that use it for a gradient hero/face (Om, Qibla) mount in jsdom/node.
-jest.mock('expo-linear-gradient', () => {
-  const { View } = require('react-native');
-  return { LinearGradient: View };
-});
-
-// @expo/vector-icons loads its glyph font asynchronously and flips an internal "font
-// loaded" state after mount. Under test that fires as an update outside act(...) (Om uses
-// MaterialIcons), which clutters output and would fail a CI that treats console.error as
-// an error. Render every icon set as a static host element so there is no async font load.
-jest.mock('@expo/vector-icons', () => {
-  const { Text } = require('react-native');
-  return new Proxy(
-    {},
-    { get: () => (props) => require('react').createElement(Text, props, props.name) },
-  );
-});
-jest.mock('@expo/vector-icons/MaterialIcons', () => {
-  const { Text } = require('react-native');
-  return (props) => require('react').createElement(Text, props, props.name);
-});
-jest.mock('@expo/vector-icons/MaterialCommunityIcons', () => {
-  const { Text } = require('react-native');
-  return (props) => require('react').createElement(Text, props, props.name);
 });
 
 // expo-web-browser + expo-mail-composer are native (Om's Kontakt actions). Mock the
